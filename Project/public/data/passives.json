@@ -1,0 +1,454 @@
+{
+  "/Lotus/Powersuits/Ninja/Ninja": {
+    "name": "Ash Passive",
+    "description": "<DT_SLASH_COLOR>Slash Status Effects inflicted on enemies do |DAMAGE|% increased damage and last |DURATION|% longer."
+  },
+  "/Lotus/Powersuits/Ninja/AshPrime": {
+    "name": "Ash Prime Passive",
+    "description": "<DT_SLASH>Slash Status Effects inflicted on enemies do |DAMAGE|% increased damage and last |DURATION|% longer."
+  },
+  "/Lotus/Powersuits/Brawler/Brawler": {
+    "name": "Atlas Passive",
+    "description": "Becomes immune to Knockdown effects while on the ground."
+  },
+  "/Lotus/Powersuits/Brawler/AtlasPrime": {
+    "name": "Atlas Prime Passive",
+    "description": "Becomes immune to Knockdown effects while on the ground."
+  },
+  "/Lotus/Powersuits/Banshee/Banshee": {
+    "name": "Banshee Passive",
+    "description": "Weapon noises are hushed so that enemies cannot hear them."
+  },
+  "/Lotus/Powersuits/Banshee/BansheePrime": {
+    "name": "Banshee Prime Passive",
+    "description": "Weapon noises are hushed so that enemies cannot hear them."
+  },
+  "/Lotus/Powersuits/Pacifist/Pacifist": {
+    "name": "Baruuk Passive",
+    "description": "Each projectile dodged, each enemy lulled or disarmed, erodes Baruuk's restraint and fuels the storm within. As Baruuk's restraint is diminished he becomes up to |PERCENT|% more resistant to damage."
+  },
+  "/Lotus/Powersuits/Pacifist/BaruukPrime": {
+    "name": "Baruuk Prime Passive",
+    "description": "Each projectile dodged, each enemy lulled or disarmed, erodes Baruuk's restraint and fuels the storm within. As Baruuk's restraint is diminished he becomes up to |PERCENT|% more resistant to damage."
+  },
+  "/Lotus/Powersuits/Sentient/Sentient": {
+    "name": "Caliban Passive",
+    "description": "Allies within Affinity range gain up to |PCT|% resistance to the types of damage they are currently taking."
+  },
+  "/Lotus/Powersuits/Sentient/CalibanPrime": {
+    "name": "Caliban Prime Passive",
+    "description": "Allies within Affinity range gain up to |PCT|% resistance to the types of damage they are currently taking."
+  },
+  "/Lotus/Powersuits/Dragon/Dragon": {
+    "name": "Chroma Passive",
+    "description": "Wings sprout for an additional jump and bullet jump."
+  },
+  "/Lotus/Powersuits/Dragon/ChromaPrime": {
+    "name": "Chroma Prime Passive",
+    "description": "Wings sprout for an additional jump and bullet jump."
+  },
+  "/Lotus/Powersuits/Geode/Geode": {
+    "name": "Citrine Passive",
+    "description": "Citrine grants nearby allies |BASE| health regeneration per second. Pick up a Health Orb to increase regeneration by |HPS|, up to a maximum of |MAX|."
+  },
+  "/Lotus/Powersuits/Frumentarius/Frumentarius": {
+    "name": "Cyte-09 Passive",
+    "description": "Weak Point Kills increase Cyte-09's Weak Point Critical Chance by |INCREASE|% up to |CAP|% for the duration of the current mission."
+  },
+  "/Lotus/Powersuits/Dagath/Dagath": {
+    "name": "Dagath Passive",
+    "description": "There is a |PERCENT|% chance that Energy and Health Orbs will be |ENERGY|% more effective on Dagath."
+  },
+  "/Lotus/Powersuits/Pagemaster/Pagemaster": {
+    "name": "Dante Passive",
+    "description": "Noctua scans targets, recording information for your Codex. Status Chance increases by |CHANCE|% on fully scanned targets."
+  },
+  "/Lotus/Powersuits/Ember/Ember": {
+    "name": "Ember Passive",
+    "description": "Receive |STRENGTH|% Ability Strength for every enemy within <AFFINITY_SHARE>Affinity Range affected by <DT_FIRE_COLOR>Heat."
+  },
+  "/Lotus/Powersuits/Ember/EmberPrime": {
+    "name": "Ember Prime Passive",
+    "description": "Receive |STRENGTH|% Ability Strength for every enemy within <AFFINITY_SHARE>Affinity Range affected by <DT_FIRE_COLOR>Heat."
+  },
+  "/Lotus/Powersuits/YinYang/YinYang": {
+    "name": "Equinox Passive",
+    "description": "|PERCENT|% of Health Orbs are converted into Energy, and |PERCENT|% of Energy Orbs are converted into Health."
+  },
+  "/Lotus/Powersuits/YinYang/EquinoxPrime": {
+    "name": "Equinox Prime Passive",
+    "description": "|PERCENT|% of Health Orbs are converted into Energy, and |PERCENT|% of Energy Orbs are converted into Health."
+  },
+  "/Lotus/Powersuits/Excalibur/Excalibur": {
+    "name": "Excalibur Passive",
+    "description": "Excalibur deals |DAMAGE|% increased damage and attacks |SPEED|% faster when wielding swords."
+  },
+  "/Lotus/Powersuits/Excalibur/ExcaliburPrime": {
+    "name": "Excalibur Prime Passive",
+    "description": "Excalibur Prime deals |DAMAGE|% increased damage and attacks |SPEED|% faster when wielding swords."
+  },
+  "/Lotus/Powersuits/Excalibur/ExcaliburUmbra": {
+    "name": "Excalibur Umbra Passive",
+    "description": "Umbra exhibits sentience in combat without Transference control. Attacks |SPEED|% faster and deals |DAMAGE|% more damage while wielding swords."
+  },
+  "/Lotus/Powersuits/Frost/Frost": {
+    "name": "Frost Passive",
+    "description": "Cold Status Effects from Frost's Abilities last |DURATION|% longer. Frost gains |ARMOR| Armor for each enemy afflicted with <DT_FREEZE_COLOR>Cold within <AFFINITY_SHARE>Affinity Range."
+  },
+  "/Lotus/Powersuits/Frost/FrostPrime": {
+    "name": "Frost Prime Passive",
+    "description": "Cold Status Effects from Frost's Abilities last |DURATION|% longer. Frost gains |ARMOR| Armor for each enemy afflicted with <DT_FREEZE_COLOR>Cold within <AFFINITY_SHARE>Affinity Range."
+  },
+  "/Lotus/Powersuits/Glass/Glass": {
+    "name": "Gara Passive",
+    "description": "A chance to create a radial blind lasting |DURATION|s when Gara casts Abilities."
+  },
+  "/Lotus/Powersuits/Glass/GaraPrime": {
+    "name": "Gara Prime Passive",
+    "description": "A chance to create a radial blind lasting |DURATION|s when Gara casts Abilities."
+  },
+  "/Lotus/Powersuits/Garuda/Garuda": {
+    "name": "Garuda Passive",
+    "description": "Garuda's damage temporarily increases with each enemy she kills, to a maximum of |DAMAGE|%. \nSlashes with her talons if no melee weapon is equipped."
+  },
+  "/Lotus/Powersuits/Garuda/GarudaPrime": {
+    "name": "Garuda Prime Passive",
+    "description": "Garuda's damage temporarily increases with each enemy she kills, to a maximum of |DAMAGE|%. \nSlashes with her talons if no melee weapon is equipped."
+  },
+  "/Lotus/Powersuits/Runner/Runner": {
+    "name": "Gauss Passive",
+    "description": "Moving generates an electrical current that fills Gauss' battery. Shields recharge up to |SPEED|% faster while the Recharge Delay is up to |DELAY|% shorter, based on the battery level."
+  },
+  "/Lotus/Powersuits/Runner/GaussPrime": {
+    "name": "Gauss Prime Passive",
+    "description": "Moving generates an electrical current that fills Gauss' battery. Shields recharge up to |SPEED|% faster while the Recharge Delay is up to |DELAY|% shorter, based on the battery level."
+  },
+  "/Lotus/Powersuits/Devourer/Devourer": {
+    "name": "Grendel Passive",
+    "description": "Each enemy consumed grants |ARMOUR| bonus armor."
+  },
+  "/Lotus/Powersuits/Devourer/GrendelPrime": {
+    "name": "Grendel Prime Passive",
+    "description": "Each enemy consumed grants |ARMOUR| bonus armor."
+  },
+  "/Lotus/Powersuits/Gyre/Gyre": {
+    "name": "Gyre Passive",
+    "description": "Gyre's abilities have a 10% chance to deal critical damage for each Electrical status that affects the enemy."
+  },
+  "/Lotus/Powersuits/Gyre/GyrePrime": {
+    "name": "Gyre Prime Passive",
+    "description": "Gyre's abilities have a 10% chance to deal critical damage for each Electrical status that affects the enemy."
+  },
+  "/Lotus/Powersuits/Priest/Priest": {
+    "name": "Harrow Passive",
+    "description": "Overshield capacity doubled.\nStart missions at maximum energy."
+  },
+  "/Lotus/Powersuits/Priest/HarrowPrime": {
+    "name": "Harrow Prime Passive",
+    "description": "Overshield capacity doubled.\nStart missions at maximum energy."
+  },
+  "/Lotus/Powersuits/IronFrame/IronFrame": {
+    "name": "Hildryn Passive",
+    "description": "Hildryn's full Shield Gate is high. After her Shields are depleted, she is invulnerable to damage up to 3.5s."
+  },
+  "/Lotus/Powersuits/IronFrame/IronFramePrime": {
+    "name": "Hildryn Prime Passive",
+    "description": "Hildryn's full Shield Gate is high. After her Shields are depleted, she is invulnerable to damage up to 3.5s."
+  },
+  "/Lotus/Powersuits/Pirate/Pirate": {
+    "name": "Hydroid Passive",
+    "description": "Enemies damaged by Hydroid are more vulnerable to <DT_CORROSIVE_COLOR>Corrosive Status, with initial Status reducing Armor by |PCT|%."
+  },
+  "/Lotus/Powersuits/Pirate/HydroidPrime": {
+    "name": "Hydroid Prime Passive",
+    "description": "Enemies damaged by Hydroid are more vulnerable to <DT_CORROSIVE_COLOR>Corrosive Status, with initial Status reducing Armor by |PCT|%."
+  },
+  "/Lotus/Powersuits/Sandman/Sandman": {
+    "name": "Inaros Passive",
+    "description": "When Inaros takes lethal damage, he entombs himself in a sarcophagus and incarnates as sand to attack enemies, draining their lifeforce to revive himself."
+  },
+  "/Lotus/Powersuits/Sandman/InarosPrime": {
+    "name": "Inaros Prime Passive",
+    "description": "When Inaros takes lethal damage, he entombs himself in a sarcophagus and incarnates as sand to attack enemies, draining their lifeforce to revive himself."
+  },
+  "/Lotus/Powersuits/Ranger/Ranger": {
+    "name": "Ivara Passive",
+    "description": "Senses nearby enemies within |RADIUS|m."
+  },
+  "/Lotus/Powersuits/Ranger/IvaraPrime": {
+    "name": "Ivara Prime Passive",
+    "description": "Senses nearby enemies within |RADIUS|m."
+  },
+  "/Lotus/Powersuits/Choir/Choir": {
+    "name": "Jade Passive",
+    "description": "Jade's profound understanding of the relationship between life and death grants her two Aura Mod Slots. Some of her Abilities apply Judgments, increasing enemy damage vulnerability by |CHANCE|% for |DURATION|s."
+  },
+  "/Lotus/Powersuits/Khora/Khora": {
+    "name": "Khora Passive",
+    "description": "The ferocious kavat, Venari, fights by Khora's side and provides her with a |SPEED|% speed boost while active. If killed, Venari will reappear after |RESPAWN|s."
+  },
+  "/Lotus/Powersuits/Khora/KhoraPrime": {
+    "name": "Khora Prime Passive",
+    "description": "The ferocious kavat, Venari, fights by Khora's side and provides her with a |SPEED|% speed boost while active. If killed, Venari will reappear after |RESPAWN|s."
+  },
+  "/Lotus/Powersuits/Koumei/Koumei": {
+    "name": "Koumei Passive",
+    "description": "Every |DURATION| seconds, one of Koumei's weapons will inflict random Status Effects for |DURATION| seconds."
+  },
+  "/Lotus/Powersuits/PaxDuviricus/PaxDuviricus": {
+    "name": "Kullervo Passive",
+    "description": "Kullervo boasts +|EFFICIENCY|% Heavy Attack Efficiency and +|WINDUP|% Heavy Attack Wind Up Speed on all melee weapons."
+  },
+  "/Lotus/Powersuits/Alchemist/Alchemist": {
+    "name": "Lavos Passive",
+    "description": "Energy and Universal Orbs give Lavos status immunity for |DURATION|s.\n\nHold any ability to imbue the next cast with additional Elemental Damage and Status."
+  },
+  "/Lotus/Powersuits/Alchemist/LavosPrime": {
+    "name": "Lavos Prime Passive",
+    "description": "Energy and Universal Orbs give Lavos status immunity for |DURATION|s.\n\nHold any ability to imbue the next cast with additional Elemental Damage and Status."
+  },
+  "/Lotus/Powersuits/Magician/Magician": {
+    "name": "Limbo Passive",
+    "description": "Dodge to enter and exit the Rift. Entering leaves behind a small Rift portal lasting |DURATION|s. Energy slowly recharges in the Rift, and each enemy killed in there also gives |ENERGY| Energy."
+  },
+  "/Lotus/Powersuits/Magician/LimboPrime": {
+    "name": "Limbo Prime Passive",
+    "description": "Dodge to enter and exit the Rift. Entering leaves behind a small Rift portal lasting |DURATION|s. Energy slowly recharges in the Rift, and each enemy killed in there also gives |ENERGY| Energy."
+  },
+  "/Lotus/Powersuits/Loki/Loki": {
+    "name": "Loki Passive",
+    "description": "Able to hang from walls |MULT|x longer than normal."
+  },
+  "/Lotus/Powersuits/Loki/LokiPrime": {
+    "name": "Loki Prime Passive",
+    "description": "Able to hang from walls |MULT|x longer than normal."
+  },
+  "/Lotus/Powersuits/Mag/Mag": {
+    "name": "Mag Passive",
+    "description": "Nearby items gravitate toward Mag for easy collection."
+  },
+  "/Lotus/Powersuits/Mag/MagPrime": {
+    "name": "Mag Prime Passive",
+    "description": "Nearby items gravitate toward Mag for easy collection."
+  },
+  "/Lotus/Powersuits/Cowgirl/Cowgirl": {
+    "name": "Mesa Passive",
+    "description": "Shoot dual-wielded sidearms |SPEED|% faster and reload single-handed sidearms |RELOAD|% more rapidly. Gain |HEALTH| Bonus Health when not using Melee Weapons."
+  },
+  "/Lotus/Powersuits/Cowgirl/MesaPrime": {
+    "name": "Mesa Prime Passive",
+    "description": "Shoot dual-wielded sidearms |SPEED|% faster and reload single-handed sidearms |RELOAD|% more rapidly. Gain |HEALTH| Bonus Health when not using Melee Weapons."
+  },
+  "/Lotus/Powersuits/Harlequin/Harlequin": {
+    "name": "Mirage Passive",
+    "description": "Sliding lasts |DURATION|% longer and acrobatic maneuvers are |SPEED|% faster."
+  },
+  "/Lotus/Powersuits/Harlequin/MiragePrime": {
+    "name": "Mirage Prime Passive",
+    "description": "Sliding lasts |DURATION|% longer and acrobatic maneuvers are |SPEED|% faster."
+  },
+  "/Lotus/Powersuits/Necro/Necro": {
+    "name": "Nekros Passive",
+    "description": "Restore |HEALTH| Health with every enemy death within |RADIUS|m."
+  },
+  "/Lotus/Powersuits/Necro/NekrosPrime": {
+    "name": "Nekros Prime Passive",
+    "description": "Restore |HEALTH| Health with every enemy death within |RADIUS|m."
+  },
+  "/Lotus/Powersuits/Nezha/Nezha": {
+    "name": "Nezha Passive",
+    "description": "Slide |SPEED|% faster and go |RANGE|% farther."
+  },
+  "/Lotus/Powersuits/Nezha/NezhaPrime": {
+    "name": "Nezha Prime Passive",
+    "description": "Slide |SPEED|% faster and go |RANGE|% farther."
+  },
+  "/Lotus/Powersuits/Infestation/Infestation": {
+    "name": "Nidus Passive",
+    "description": "If Nidus is killed with at least |STACKS| stacks of Mutation, those |STACKS| stacks are consumed; this grants |DURATION|s of invulnerability and restores Health to |HEAL|%."
+  },
+  "/Lotus/Powersuits/Infestation/InfestationPrime": {
+    "name": "Nidus Prime Passive",
+    "description": "If Nidus is killed with at least |STACKS| stacks of Mutation, those |STACKS| stacks are consumed; this grants |DURATION|s of invulnerability and restores Health to |HEAL|%."
+  },
+  "/Lotus/Powersuits/Nokko/Nokko": {
+    "name": "Nokko Passive",
+    "description": "Upon receiving fatal damage, Nokko reverts to his Sprodling form and his active mushrooms will glow, reviving Nokko when touched. Orbs spawned will grant a speed boost but not healing. If a glowing mushroom is not reached in time, Nokko will automatically use a self-revive."
+  },
+  "/Lotus/Powersuits/AntiMatter/Anti": {
+    "name": "Nova Passive",
+    "description": "Enemies killed while slowed down have |CHANCE|% to drop health orbs. Enemies killed while sped up have |CHANCE|% to drop energy orbs."
+  },
+  "/Lotus/Powersuits/AntiMatter/NovaPrime": {
+    "name": "Nova Prime Passive",
+    "description": "Enemies killed while slowed down have |CHANCE|% to drop health orbs. Enemies killed while sped up have |CHANCE|% to drop energy orbs."
+  },
+  "/Lotus/Powersuits/Jade/Jade": {
+    "name": "Nyx Passive",
+    "description": "Nyx gains +|CRITICAL|% Critical Chance on Primary and Secondary weapons per Confused enemy within <AFFINITY_SHARE>Affinity Range, up to +|MAX|%."
+  },
+  "/Lotus/Powersuits/Jade/NyxPrime": {
+    "name": "Nyx Prime Passive",
+    "description": "Nyx gains +|CRITICAL|% Critical Chance on Primary and Secondary weapons per Confused enemy within <AFFINITY_SHARE>Affinity Range, up to +|MAX|%."
+  },
+  "/Lotus/Powersuits/Paladin/Paladin": {
+    "name": "Oberon Passive",
+    "description": "Oberon grants Righteous Negation to himself and his allies in <AFFINITY_SHARE>Affinity Range when he collects <HEALTH>Health Orbs, protecting players against the next instance of damage. Stacks up to |STACKS| times."
+  },
+  "/Lotus/Powersuits/Paladin/PaladinPrime": {
+    "name": "Oberon Prime Passive",
+    "description": "Oberon grants Righteous Negation to himself and his allies in <AFFINITY_SHARE>Affinity Range when he collects <HEALTH>Health Orbs, protecting players against the next instance of damage. Stacks up to |STACKS| times."
+  },
+  "/Lotus/Powersuits/Bard/Bard": {
+    "name": "Octavia Passive",
+    "description": "Replenish |ENERGY| energy over |DURATION|s for Octavia and allies within |RANGE|m when abilities are activated."
+  },
+  "/Lotus/Powersuits/Bard/OctaviaPrime": {
+    "name": "Octavia Prime Passive",
+    "description": "Replenish |ENERGY| energy over |DURATION|s for Octavia and allies within |RANGE|m when abilities are activated."
+  },
+  "/Lotus/Powersuits/Oraxia/Oraxia": {
+    "name": "Oraxia Passive",
+    "description": "Wall Latching grants Predator's Lurk, rendering Oraxia invisible for |DURATION|s. "
+  },
+  "/Lotus/Powersuits/Odalisk/Odalisk": {
+    "name": "Protea Passive",
+    "description": "Every |CASTS|th Power Cast is granted +|STRENGTH|% Ability Strength."
+  },
+  "/Lotus/Powersuits/Odalisk/ProteaPrime": {
+    "name": "Protea Prime Passive",
+    "description": "Every |CASTS|th Power Cast is granted +|STRENGTH|% Ability Strength."
+  },
+  "/Lotus/Powersuits/ConcreteFrame/ConcreteFrame": {
+    "name": "Qorvex Passive",
+    "description": "Weapons wielded by Qorvex have an additional +|PUNCH_THROUGH| Punch Through."
+  },
+  "/Lotus/Powersuits/Revenant/Revenant": {
+    "name": "Revenant Passive",
+    "description": "Shield depletion smashes enemies within |RADIUS|m with a |DAMAGE| Damage knockdown shockwave."
+  },
+  "/Lotus/Powersuits/Revenant/RevenantPrime": {
+    "name": "Revenant Prime Passive",
+    "description": "Shield depletion smashes enemies within |RADIUS|m with a |DAMAGE| Damage knockdown shockwave."
+  },
+  "/Lotus/Powersuits/Rhino/Rhino": {
+    "name": "Rhino Passive",
+    "description": "Emit a shockwave dealing |DAMAGE| damage after landing from a great height."
+  },
+  "/Lotus/Powersuits/Rhino/RhinoPrime": {
+    "name": "Rhino Prime Passive",
+    "description": "Emit a shockwave dealing |DAMAGE| damage after landing from a great height."
+  },
+  "/Lotus/Powersuits/Saryn/Saryn": {
+    "name": "Saryn Passive",
+    "description": "Status Effects inflicted upon enemies last |DURATION|% longer."
+  },
+  "/Lotus/Powersuits/Saryn/SarynPrime": {
+    "name": "Saryn Prime Passive",
+    "description": "Status Effects inflicted upon enemies last |DURATION|% longer."
+  },
+  "/Lotus/Powersuits/Wraith/Wraith": {
+    "name": "Sevagoth Passive",
+    "description": "On death, become Sevagoth's Shadow and fight to resurrect him by collecting the souls needed to rebuild his tombstone. "
+  },
+  "/Lotus/Powersuits/Wraith/SevagothPrime": {
+    "name": "Sevagoth Prime Passive",
+    "description": "On death, become Sevagoth's Shadow and fight to resurrect him by collecting the souls needed to rebuild his tombstone. "
+  },
+  "/Lotus/Powersuits/Hoplite/Hoplite": {
+    "name": "Styanax Passive",
+    "description": "Styanax's critical chance increases with his shields and doubles for spearguns."
+  },
+  "/Lotus/Powersuits/Temple/Temple": {
+    "name": "Temple Passive",
+    "description": "Play abilities in sync with the Backbeat metronome to invigorate ability effects while increasing Ability Efficiency by |COST|%."
+  },
+  "/Lotus/Powersuits/Fairy/Fairy": {
+    "name": "Titania Passive",
+    "description": "Titania generates Health for herself and nearby allies every time she casts an Ability."
+  },
+  "/Lotus/Powersuits/Fairy/TitaniaPrime": {
+    "name": "Titania Prime Passive",
+    "description": "Titania generates Health for herself and nearby allies every time she casts an Ability."
+  },
+  "/Lotus/Powersuits/Trinity/Trinity": {
+    "name": "Trinity Passive",
+    "description": "Allies in <AFFINITY_SHARE>Affinity Range gain |BUFF|% of Trinity's Max Energy as Health."
+  },
+  "/Lotus/Powersuits/Trinity/TrinityPrime": {
+    "name": "Trinity Prime Passive",
+    "description": "Allies in <AFFINITY_SHARE>Affinity Range gain |BUFF|% of Trinity's Max Energy as Health."
+  },
+  "/Lotus/Powersuits/DemonFrame/DemonFrame": {
+    "name": "Uriel Passive",
+    "description": "Uriel commands, empowers, and protects three unique demons.\n\nCATENACH: Snares and slows enemies chaining them together. Damage dealt to any target in the chain is inflicted on all snared enemies. (Unlocks with Infernalis)\n\nGULPHAGOR : Latches onto foes dealing damage over time. If killed, a circle of pain is spawned. (Unlocks with Remedium)\n\nVYTHELAS: Inscribes demonic runes upon fallen foes that add Fire Rate and <DT_FIRE_COLOR>Heat Damage when collected. (Unlocks with Demonium)"
+  },
+  "/Lotus/Powersuits/Berserker/Berserker": {
+    "name": "Valkyr Passive",
+    "description": "Valkyr accumulates Rage when hitting or killing enemies with melee weapons, increasing her Melee Damage up to |PERCENT|%. Taking fatal damage when the Rage meter is above |CONSUME|% consumes the meter, preventing death and granting |DURATION|s of invulnerability."
+  },
+  "/Lotus/Powersuits/Berserker/ValkyrPrime": {
+    "name": "Valkyr Prime Passive",
+    "description": "Valkyr accumulates Rage when hitting or killing enemies with melee weapons, increasing her Melee Damage up to |PERCENT|%. Taking fatal damage when the Rage meter is above |CONSUME|% consumes the meter, preventing death and granting |DURATION|s of invulnerability."
+  },
+  "/Lotus/Powersuits/Trapper/Trapper": {
+    "name": "Vauban Passive",
+    "description": "Deal x|DAMAGE| Damage to incapacitated enemies."
+  },
+  "/Lotus/Powersuits/Trapper/TrapperPrime": {
+    "name": "Vauban Prime Passive",
+    "description": "Deal x|DAMAGE| Damage to incapacitated enemies."
+  },
+  "/Lotus/Powersuits/Volt/Volt": {
+    "name": "Volt Passive",
+    "description": "Grounded movement generates an electrical charge building up |DAMAGE| Damage per meter that is unleashed with the next attack."
+  },
+  "/Lotus/Powersuits/Volt/VoltPrime": {
+    "name": "Volt Prime Passive",
+    "description": "Grounded movement generates an electrical charge building up |DAMAGE| Damage per meter that is unleashed with the next attack."
+  },
+  "/Lotus/Powersuits/Werewolf/Werewolf": {
+    "name": "Voruna Passive",
+    "description": "Voruna never fights alone. In mission, hold Abilities to call upon each wolf’s unique Passive power."
+  },
+  "/Lotus/Powersuits/Wisp/Wisp": {
+    "name": "Wisp Passive",
+    "description": "Flowing between dimensions, Wisp becomes invisible to enemies while in the air. "
+  },
+  "/Lotus/Powersuits/Wisp/WispPrime": {
+    "name": "Wisp Prime Passive",
+    "description": "Flowing between dimensions, Wisp becomes invisible to enemies while in the air. "
+  },
+  "/Lotus/Powersuits/MonkeyKing/MonkeyKing": {
+    "name": "Wukong Passive",
+    "description": "After taking fatal damage Wukong automatically uses one of his mastered survival techniques. These techniques can only be invoked three times per mission."
+  },
+  "/Lotus/Powersuits/MonkeyKing/WukongPrime": {
+    "name": "Wukong Prime Passive",
+    "description": "After taking fatal damage Wukong automatically uses one of his mastered survival techniques. These techniques can only be invoked three times per mission."
+  },
+  "/Lotus/Powersuits/BrokenFrame/BrokenFrame": {
+    "name": "Xaku Passive",
+    "description": "|CHANCE|% Damage Reduction on AOE attacks and chance to avoid incoming weapon damage."
+  },
+  "/Lotus/Powersuits/BrokenFrame/XakuPrime": {
+    "name": "Xaku Prime Passive",
+    "description": "|CHANCE|% Damage Reduction on AOE attacks and chance to avoid incoming weapon damage."
+  },
+  "/Lotus/Powersuits/Yareli/Yareli": {
+    "name": "Yareli Passive",
+    "description": "Yareli gains +|CHANCE|% Critical Chance for Secondary weapons when she has been moving for at least |TIME|s."
+  },
+  "/Lotus/Powersuits/Yareli/YareliPrime": {
+    "name": "Yareli Prime Passive",
+    "description": "Yareli gains +|CHANCE|% Critical Chance for Secondary weapons when she has been moving for at least |TIME|s."
+  },
+  "/Lotus/Powersuits/Tengu/Tengu": {
+    "name": "Zephyr Passive",
+    "description": "Zephyr moves faster and falls slower while airborne. Also gain |CRIT|% Critical Hit chance with weapons while airborne."
+  },
+  "/Lotus/Powersuits/Tengu/ZephyrPrime": {
+    "name": "Zephyr Prime Passive",
+    "description": "Zephyr moves faster and falls slower while airborne. Also gain |CRIT|% Critical Hit chance with weapons while airborne."
+  }
+}

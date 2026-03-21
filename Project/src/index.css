@@ -1,0 +1,339 @@
+@import "tailwindcss";
+@import "../src/styles/palettes/orokin.css";
+@import "../src/styles/palettes/corpus.css";
+@import "../src/styles/palettes/grineer.css";
+@import "../src/styles/palettes/infested.css";
+@import "../src/styles/palettes/narmer.css";
+@import "./styles/damage-types.css";
+
+/* 
+  Warframe Theme System
+  We define semantic variables that change based on the faction class.
+*/
+
+/**
+ * Styles for migrated legacy components and new testing components:
+ * - ItemsGrid
+ * - items-view
+ * - item-details-panel
+ * - inventory-toolbar
+ * - UIShowcase components
+ */
+
+/* Faction Overrides - Replicating Legacy logic with exact colors from theme-colors.ts */
+html.theme-corpus,
+.theme-corpus * {
+  --ui-bg: var(--color-corpus-4);
+  --ui-primary: var(--color-corpus-51);
+  --ui-secondary: var(--color-corpus-50);
+  --ui-accent: var(--color-corpus-77);
+}
+
+html.theme-grineer,
+.theme-grineer * {
+  --ui-bg: var(--color-grineer-39);
+  --ui-primary: var(--color-grineer-8);
+  --ui-secondary: var(--color-grineer-21);
+  --ui-accent: var(--color-grineer-45);
+}
+
+html.theme-infested,
+.theme-infested * {
+  --ui-bg: #1a0b2e;
+  --ui-primary: #9333ea;
+  --ui-secondary: #4c1d95;
+  --ui-accent: #22c55e;
+}
+
+html.theme-narmer,
+.theme-narmer * {
+  --ui-bg: #2e1a05;
+  --ui-primary: #f59e0b;
+  --ui-secondary: #78350f;
+  --ui-accent: #ef4444;
+}
+
+html.theme-scaldra,
+.theme-scaldra * {
+  --ui-bg: #1c1917;
+  --ui-primary: #8b5cf6;
+  --ui-secondary: #44403c;
+  --ui-accent: #a855f7;
+}
+
+html.theme-sentient,
+.theme-sentient * {
+  --ui-bg: #0f172a;
+  --ui-primary: #f8fafc;
+  --ui-secondary: #334155;
+  --ui-accent: #0ea5e9;
+}
+
+html.theme-techrot,
+.theme-techrot * {
+  --ui-bg: #0c0a09;
+  --ui-primary: #15803d;
+  --ui-secondary: #44403c;
+  --ui-accent: #bef264;
+}
+
+html.theme-orokin,
+.theme-orokin * {
+  --ui-bg: var(--color-orokin-1);
+  --ui-primary: var(--color-orokin-36);
+  --ui-secondary: var(--color-orokin-50);
+  --ui-accent: var(--color-orokin-77);
+}
+
+@theme {
+  /* Dynamic/themeable tokens - these respond to theme changes */
+  --color-ui-bg: var(--ui-bg);
+  --color-ui-primary: var(--ui-primary);
+  --color-ui-secondary: var(--ui-secondary);
+  --color-ui-accent: var(--ui-accent);
+
+    /* Physical */
+  --color-dt-impact: #80c4c4;
+  --color-dt-puncture: #c6b098;
+  --color-dt-slash: #e69ca0;
+
+  /* Elemental */
+  --color-dt-heat: #fb9733;
+  --color-dt-cold: #5bbcec;
+  --color-dt-electricity: #b37fe7;
+  --color-dt-toxin: #00cc22;
+
+  /* Combined */
+  --color-dt-blast: #dd704e;
+  --color-dt-corrosive: #93c203;
+  --color-dt-gas: #00cc66;
+  --color-dt-magnetic: #9797e6;
+  --color-dt-radiation: #ceac49;
+  --color-dt-viral: #f093b9;
+
+  /* Others */
+  --color-dt-void: #15c8ab;
+  --color-dt-tau: #f06666;
+  --color-dt-true: #dda700;
+  --color-dt-none: #ffffff;
+
+  /* Drop shadows por damage type — color del tipo al 50% opacidad */
+  --drop-shadow-dt-impact:      0 0 6px color-mix(in srgb, #80c4c4 50%, transparent);
+  --drop-shadow-dt-puncture:    0 0 6px color-mix(in srgb, #c6b098 50%, transparent);
+  --drop-shadow-dt-slash:       0 0 6px color-mix(in srgb, #e69ca0 50%, transparent);
+  --drop-shadow-dt-heat:        0 0 6px color-mix(in srgb, #fb9733 50%, transparent);
+  --drop-shadow-dt-cold:        0 0 6px color-mix(in srgb, #5bbcec 50%, transparent);
+  --drop-shadow-dt-electricity: 0 0 6px color-mix(in srgb, #b37fe7 50%, transparent);
+  --drop-shadow-dt-toxin:       0 0 6px color-mix(in srgb, #00cc22 50%, transparent);
+  --drop-shadow-dt-blast:       0 0 6px color-mix(in srgb, #dd704e 50%, transparent);
+  --drop-shadow-dt-corrosive:   0 0 6px color-mix(in srgb, #93c203 50%, transparent);
+  --drop-shadow-dt-gas:         0 0 6px color-mix(in srgb, #00cc66 50%, transparent);
+  --drop-shadow-dt-magnetic:    0 0 6px color-mix(in srgb, #9797e6 50%, transparent);
+  --drop-shadow-dt-radiation:   0 0 6px color-mix(in srgb, #ceac49 50%, transparent);
+  --drop-shadow-dt-viral:       0 0 6px color-mix(in srgb, #f093b9 50%, transparent);
+  --drop-shadow-dt-void:        0 0 6px color-mix(in srgb, #15c8ab 50%, transparent);
+  --drop-shadow-dt-tau:         0 0 6px color-mix(in srgb, #f06666 50%, transparent);
+  --drop-shadow-dt-true:        0 0 6px color-mix(in srgb, #dda700 50%, transparent);
+}
+
+html,
+body {
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+    background-color: var(--ui-bg);
+  }
+}
+
+/* --- Tipografías --- */
+@utility animate-200 {
+  @apply transition-all duration-200 ease-in-out;
+}
+/* Typography density scale 1..10
+   A mayor número, mayor densidad (más compacto).
+   Sin usar text-3xl para mantener coherencia con la escala visual actual.
+*/
+@utility typography-1 {
+  /* xs — aireado */
+  @apply text-xs leading-relaxed tracking-wide font-normal;
+}
+
+@utility typography-2 {
+  /* xs — normal */
+  @apply text-xs leading-normal tracking-normal font-medium;
+}
+
+@utility typography-3 {
+  /* xs — compacto */
+  @apply text-xs leading-snug tracking-tight font-semibold;
+}
+
+@utility typography-4 {
+  /* sm — normal */
+  @apply text-sm leading-normal tracking-normal font-medium;
+}
+
+@utility typography-5 {
+  /* base — equilibrado */
+  @apply text-base leading-normal tracking-normal font-normal;
+}
+
+@utility typography-6 {
+  /* lg — compacto moderado */
+  @apply text-lg leading-snug tracking-normal font-medium;
+}
+
+@utility typography-7 {
+  /* xl — compacto */
+  @apply text-xl leading-snug tracking-tight font-semibold;
+}
+
+@utility typography-8 {
+  /* 2xl — equilibrado */
+  @apply text-2xl leading-snug tracking-tight font-semibold;
+}
+
+@utility typography-9 {
+  /* 2xl — denso */
+  @apply text-2xl leading-tight tracking-tight font-bold;
+}
+
+@utility typography-10 {
+  /* 2xl — muy denso */
+  @apply text-2xl leading-tight tracking-tighter font-bold;
+}
+
+/* --- Efectos de Interfaz --- */
+@utility glass-warframe {
+  @apply bg-black/40 backdrop-blur-lg border border-white/10;
+}
+
+@utility glow-hover {
+  @apply transition-all duration-300 ease-in-out hover:shadow-[0_0_20px_var(--color-ui-accent)] hover:border-ui-accent;
+}
+
+/* --- Cortes y Formas --- */
+@utility angular-cut {
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - 10px) 0%,
+    100% 10px,
+    100% 100%,
+    8px 100%,
+    0% calc(100% - 8px)
+  );
+}
+
+@utility wf-panel-cut {
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0% 100%
+  );
+}
+
+@utility mod-cut {
+  clip-path: polygon(
+    0% 10%,
+    10% 0%,
+    90% 0%,
+    100% 10%,
+    100% 90%,
+    90% 100%,
+    10% 100%,
+    0% 90%
+  );
+}
+
+/* --- Elementos UI --- */
+@utility dot-rotated {
+  @apply w-1.5 h-1.5 rotate-45 border-[1.5px] border-ui-accent;
+}
+
+@utility wf-label-skew {
+  @apply bg-ui-accent text-black px-2 py-0.5 -skew-x-15 font-black text-[10px];
+}
+
+@utility stat-bar-container {
+  @apply h-1 bg-white/5 rounded-[1px] overflow-hidden;
+}
+
+@utility stat-bar-fill {
+  @apply h-full transition-[width] duration-500 ease-out;
+}
+
+/* --- Scanlines & Noise --- */
+@utility grain-overlay {
+  @apply fixed inset-0 z-9999 pointer-events-none opacity-[0.12];
+  background-image: url("https://www.transparenttextures.com/patterns/pinstriped-suit.png");
+};
+
+/* --- Glows & Gradients --- */
+@utility header-glow {
+  @apply opacity-[0.08] border-l-2 border-ui-accent;
+  background: linear-gradient(
+    90deg,
+    var(--color-ui-accent) 0%,
+    transparent 100%
+  );
+}
+
+@utility bg-glow {
+  @apply absolute inset-0 z-0 opacity-0 group-hover:opacity-50 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_bottom,var(--color-ui-accent)_0%,transparent_70%)] pointer-events-none;
+}
+
+@utility border-square {
+  @apply border-r border-l border-t border-b-3 data-active:border-ui-accent/40 data-active:border-b-ui-accent/90 hover:border-b-ui-accent/90 border-ui-primary/40 border-b-ui-primary/90;
+}
+
+/* Base  */
+
+.button-bordeless {
+  @apply w-7 h-7 flex items-center justify-center text-xs cursor-pointer font-semibold border-square;
+}
+
+@layer components {
+  /* Physical */
+  .dt-impact     { @apply text-dt-impact;     filter: drop-shadow(var(--drop-shadow-dt-impact)); }
+  .dt-puncture   { @apply text-dt-puncture;   filter: drop-shadow(var(--drop-shadow-dt-puncture)); }
+  .dt-slash      { @apply text-dt-slash;      filter: drop-shadow(var(--drop-shadow-dt-slash)); }
+
+  /* Elemental */
+  .dt-heat        { @apply text-dt-heat;        filter: drop-shadow(var(--drop-shadow-dt-heat)); }
+  .dt-cold        { @apply text-dt-cold;        filter: drop-shadow(var(--drop-shadow-dt-cold)); }
+  .dt-electricity { @apply text-dt-electricity; filter: drop-shadow(var(--drop-shadow-dt-electricity)); }
+  .dt-toxin       { @apply text-dt-toxin;       filter: drop-shadow(var(--drop-shadow-dt-toxin)); }
+
+  /* Combined */
+  .dt-blast     { @apply text-dt-blast;     filter: drop-shadow(var(--drop-shadow-dt-blast)); }
+  .dt-corrosive { @apply text-dt-corrosive; filter: drop-shadow(var(--drop-shadow-dt-corrosive)); }
+  .dt-gas       { @apply text-dt-gas;       filter: drop-shadow(var(--drop-shadow-dt-gas)); }
+  .dt-magnetic  { @apply text-dt-magnetic;  filter: drop-shadow(var(--drop-shadow-dt-magnetic)); }
+  .dt-radiation { @apply text-dt-radiation; filter: drop-shadow(var(--drop-shadow-dt-radiation)); }
+  .dt-viral     { @apply text-dt-viral;     filter: drop-shadow(var(--drop-shadow-dt-viral)); }
+
+  /* Others */
+  .dt-void { @apply text-dt-void; filter: drop-shadow(var(--drop-shadow-dt-void)); }
+  .dt-tau  { @apply text-dt-tau;  filter: drop-shadow(var(--drop-shadow-dt-tau)); }
+  .dt-true { @apply text-dt-true; filter: drop-shadow(var(--drop-shadow-dt-true)); }
+  .dt-none { @apply text-white/40; }
+
+  /* Tooltip backgrounds (Glassmorphism + Subtle Glow) */
+  .dt-bg-impact { @apply bg-dt-impact/10 border-dt-impact/30 shadow-[0_0_15px_rgba(128,196,196,0.1)]; }
+  .dt-bg-puncture { @apply bg-dt-puncture/10 border-dt-puncture/30 shadow-[0_0_15px_rgba(198,176,152,0.1)]; }
+  .dt-bg-slash { @apply bg-dt-slash/10 border-dt-slash/30 shadow-[0_0_15px_rgba(230,156,160,0.1)]; }
+  .dt-bg-heat { @apply bg-dt-heat/10 border-dt-heat/30 shadow-[0_0_15px_rgba(251,151,51,0.1)]; }
+  .dt-bg-cold { @apply bg-dt-cold/10 border-dt-cold/30 shadow-[0_0_15px_rgba(91,188,236,0.1)]; }
+  .dt-bg-electricity { @apply bg-dt-electricity/10 border-dt-electricity/30 shadow-[0_0_15px_rgba(179,127,231,0.1)]; }
+  .dt-bg-toxin { @apply bg-dt-toxin/10 border-dt-toxin/30 shadow-[0_0_15px_rgba(0,204,34,0.1)]; }
+  .dt-bg-blast { @apply bg-dt-blast/10 border-dt-blast/30 shadow-[0_0_15px_rgba(221,112,78,0.1)]; }
+  .dt-bg-corrosive { @apply bg-dt-corrosive/10 border-dt-corrosive/30 shadow-[0_0_15px_rgba(147,194,3,0.1)]; }
+  .dt-bg-gas { @apply bg-dt-gas/10 border-dt-gas/30 shadow-[0_0_15px_rgba(0,204,102,0.1)]; }
+  .dt-bg-magnetic { @apply bg-dt-magnetic/10 border-dt-magnetic/30 shadow-[0_0_15px_rgba(151,151,230,0.1)]; }
+  .dt-bg-radiation { @apply bg-dt-radiation/10 border-dt-radiation/30 shadow-[0_0_15px_rgba(206,172,73,0.1)]; }
+  .dt-bg-viral { @apply bg-dt-viral/10 border-dt-viral/30 shadow-[0_0_15px_rgba(240,147,185,0.1)]; }
+  .dt-bg-void { @apply bg-dt-void/10 border-dt-void/30 shadow-[0_0_15px_rgba(21,200,171,0.1)]; }
+  .dt-bg-tau { @apply bg-dt-tau/10 border-dt-tau/30 shadow-[0_0_15px_rgba(240,102,102,0.1)]; }
+  .dt-bg-true { @apply bg-dt-true/10 border-dt-true/30 shadow-[0_0_15px_rgba(221,167,0,0.1)]; }
+}

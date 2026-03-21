@@ -1,0 +1,72 @@
+import { Dialog, DialogPanel } from "@headlessui/react";
+import { useMenu } from "@providers/Menu/menu-context";
+import { Link, useLocation } from "react-router";
+import { routes, type AppRoute } from "../../../App";
+
+export default function DialogAppMenu() {
+    const { isOpen, close } = useMenu();
+
+    // Headless UI intercepta ESC con capture:true cuando este dialog esta abierto,
+    // llamando onClose. El listener del MenuProvider solo corre cuando no hay
+    // ningun dialog de Headless UI activo, por lo que open() se llama correctamente.
+
+    const SHAPE = "polygon(0 5%, 100% 15%, 100% 75%, 0 99%)";
+    const SHAPEGLOW = "polygon(0 4%, 100% 14%, 100% 76%, 0 100%)";
+
+    const links = routes.filter((r): r is AppRoute & { label: string } => Boolean(r.label));
+
+    function MenuLink({
+        to,
+        label,
+    }: {
+        to: string;
+        label: string;
+    }) {
+        const { pathname } = useLocation();
+        const active = pathname === to;
+
+        return (
+            <Link to={to} aria-current={active ? "page" : undefined}
+                data-active={active ? true : false} className={`font-black italic tracking-tighter uppercase transition-all group ${active ? 'text-ui-accent text-4xl' : 'text-ui-secondary text-3xl hover:text-ui-primary'}`}>
+                <span className="inline-block transition-transform duration-200 group-hover:translate-x-3">
+                    {label}
+                </span>
+            </Link>)
+    };
+
+    return (
+        <Dialog open={isOpen} onClose={close} className="relative z-50">
+            {/* Fondo oscuro general */}
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-md pointer-events-none" aria-hidden="true" />
+
+            <div className="fixed inset-0 overflow-hidden">
+                <DialogPanel className="relative h-full w-full">
+
+                    {/* Capa de borde brillante (Glow) */}
+                    <div
+                        className="absolute inset-0 bg-black/20 blur-3xl"
+                        style={{ clipPath: SHAPEGLOW }}
+                    />
+
+                    {/* Fondo Principal del Menú */}
+                    <div
+                        className="absolute inset-0 bg-black/40 blur-md"
+                        style={{ clipPath: SHAPE }}
+                    >
+                    </div>
+
+                    {/* Contenedor de items */}
+                    <div className="relative h-full flex flex-col justify-center pl-16 md:pl-28">
+                        <div className="flex flex-col space-y-4 items-start">
+                            {links.map((item) => (
+                                <div key={item.path}>
+                                    <MenuLink to={item.path} label={item.label!} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </DialogPanel>
+            </div>
+        </Dialog>
+    );
+}

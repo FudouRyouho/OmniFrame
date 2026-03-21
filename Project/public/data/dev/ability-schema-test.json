@@ -1,0 +1,382 @@
+{
+  "rhino": [
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoChargeAbility",
+      "name": "Rhino Charge",
+      "description": "Rhino charges towards a target, clobbering any in his path and goring his victim.",
+      "icon": "RhinoCharge130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",    "values": [{ "baseValue": 25,  "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Damage: |val1|",          "values": [{ "baseValue": 650, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Charge Range: |val1|m",   "values": [{ "baseValue": 12,  "upgradeBy": "AVATAR_ABILITY_RANGE" }] },
+            { "label": "Impact Radius: |val1|m",  "values": [{ "baseValue": 2,   "upgradeBy": "AVATAR_ABILITY_RANGE" }] },
+            { "label": "Combo Window: |val1|s",   "values": [{ "baseValue": 1,   "upgradeBy": "AVATAR_ABILITY_DURATION" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/IronSkinAbility",
+      "name": "Iron Skin",
+      "description": "Rhino hardens his skin, insulating himself from all damage and gaining Overguard.",
+      "icon": "IronSkin130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",              "values": [{ "baseValue": 50,   "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Base Health: |val1|",              "values": [{ "baseValue": 1200, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Invulnerability Duration: |val1|s","values": [{ "baseValue": 3,    "upgradeBy": "NONE" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoRoarAbility",
+      "name": "Roar",
+      "description": "Grants all nearby Warframes increased damage for a short duration.",
+      "icon": "Roar130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",   "values": [{ "baseValue": 75, "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Bonus Damage: |val1|%", "values": [{ "baseValue": 50, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "WEAPON_DAMAGE_AMOUNT", "helminthBase": 30 }] },
+            { "label": "Range: |val1|m",        "values": [{ "baseValue": 25, "upgradeBy": "AVATAR_ABILITY_RANGE" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoStompAbility",
+      "name": "Rhino Stomp",
+      "description": "Rhino stomps with force sufficient to disrupt time, tumbling enemies around him in stasis.",
+      "icon": "RhinoStomp130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",    "values": [{ "baseValue": 100,  "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Damage: |val1|",          "values": [{ "baseValue": 800,  "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Range: |val1|m",          "values": [{ "baseValue": 25,   "upgradeBy": "AVATAR_ABILITY_RANGE" }] },
+            { "label": "Duration: |val1|s",       "values": [{ "baseValue": 8,    "upgradeBy": "AVATAR_ABILITY_DURATION" }] },
+            { "label": "Speed Decrease: |val1|%", "values": [{ "baseValue": 97.5, "upgradeBy": "NONE" }] }
+          ]
+        }
+      ]
+    }
+  ],
+  "chroma": [
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonBreathAbility",
+      "name": "Spectral Scream",
+      "description": "Exhale a deep breath of elemental destruction. Tap to cycle through elements, hold to cast.",
+      "icon": "SpectralScream130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",       "values": [{ "baseValue": 10,  "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Energy Drain: |val1|/s",    "values": [{ "baseValue": 3,   "upgradeBy": "ENERGY_DRAIN" }] },
+            { "label": "Damage per Second: |val1|", "values": [{ "baseValue": 200, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Range: |val1|m",            "values": [{ "baseValue": 10,  "upgradeBy": "AVATAR_ABILITY_RANGE" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonLuckAbility",
+      "name": "Elemental Ward",
+      "description": "Depending on Chroma's elemental alignment, an offensive area-of-effect is created.",
+      "icon": "ElementalWard130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|", "values": [{ "baseValue": 50, "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Duration: |val1|s",   "values": [{ "baseValue": 40, "upgradeBy": "AVATAR_ABILITY_DURATION" }] },
+            { "label": "Aura Range: |val1|m", "values": [{ "baseValue": 15, "upgradeBy": "AVATAR_ABILITY_RANGE" }] }
+          ]
+        },
+        {
+          "id": "Heat",
+          "label": "Heat",
+          "defaultActive": true,
+          "exclusive": true,
+          "stats": [
+            { "label": "Damage per Second: |val1|", "values": [{ "baseValue": 100, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Health Bonus: |val1|%",     "values": [{ "baseValue": 200, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "HEALTH_BONUS" }] }
+          ]
+        },
+        {
+          "id": "Electric",
+          "label": "Electric",
+          "defaultActive": false,
+          "exclusive": true,
+          "stats": [
+            { "label": "Reflection Multiplier: |val1|x", "values": [{ "baseValue": 10,  "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Shield Bonus: |val1|%",          "values": [{ "baseValue": 100, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "SHIELD_CAPACITY" }] },
+            { "label": "Status Chance: |val1|%",         "values": [{ "baseValue": 25,  "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Minimum Arc Damage: |val1|",     "values": [{ "baseValue": 200, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Discharge Range: |val1|m",       "values": [{ "baseValue": 15,  "upgradeBy": "AVATAR_ABILITY_RANGE" }] }
+          ]
+        },
+        {
+          "id": "Cold",
+          "label": "Cold",
+          "defaultActive": false,
+          "exclusive": true,
+          "stats": [
+            { "label": "Reflection Multiplier: |val1|x", "values": [{ "baseValue": 3,   "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Armor Bonus: |val1|%",           "values": [{ "baseValue": 150, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "ARMOR_BONUS" }] },
+            { "label": "Status Chance: |val1|%",         "values": [{ "baseValue": 25,  "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] }
+          ]
+        },
+        {
+          "id": "Toxin",
+          "label": "Toxin",
+          "defaultActive": false,
+          "exclusive": true,
+          "stats": [
+            { "label": "Holster/Reload Bonus: |val1|%", "values": [{ "baseValue": 35, "upgradeBy": "AVATAR_ABILITY_DURATION" }] },
+            { "label": "Damage Chance: |val1|%",        "values": [{ "baseValue": 50, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonScalesAbility",
+      "name": "Vex Armor",
+      "description": "Chroma fortifies squad Armor when his Shields are damaged.",
+      "icon": "VexArmor130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",           "values": [{ "baseValue": 75,  "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Maximum Armor Bonus: |val1|%",  "values": [{ "baseValue": 350, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "ARMOR_BONUS" }] },
+            { "label": "Maximum Damage Bonus: |val1|%", "values": [{ "baseValue": 275, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "WEAPON_DAMAGE_AMOUNT" }] },
+            { "label": "Duration: |val1|s",             "values": [{ "baseValue": 25,  "upgradeBy": "AVATAR_ABILITY_DURATION" }] },
+            { "label": "Range: |val1|m",                "values": [{ "baseValue": 18,  "upgradeBy": "AVATAR_ABILITY_RANGE" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonPeltAbility",
+      "name": "Effigy",
+      "description": "Chroma turns his pelt into a massive sentry that strengthens nearby allies.",
+      "icon": "Effigy130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",       "values": [{ "baseValue": 10,   "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Energy Drain: |val1|/s",    "values": [{ "baseValue": 10,   "upgradeBy": "ENERGY_DRAIN" }] },
+            { "label": "Damage per Second: |val1|", "values": [{ "baseValue": 2000, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Health: |val1|",            "values": [{ "baseValue": 8000, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] }
+          ]
+        }
+      ]
+    }
+  ],
+  "equinox": [
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/EquinoxMetamorphosisAbility",
+      "name": "Metamorphosis",
+      "description": "Shift between Night and Day forms, each granting different bonuses to Equinox and nearby allies.",
+      "icon": "Metamorphosis130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|", "values": [{ "baseValue": 25, "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Duration: |val1|s",   "values": [{ "baseValue": 30, "upgradeBy": "AVATAR_ABILITY_DURATION" }] }
+          ]
+        },
+        {
+          "id": "Night",
+          "label": "Night Form",
+          "defaultActive": true,
+          "exclusive": true,
+          "stats": [
+            { "label": "Armor Bonus: |val1|",  "values": [{ "baseValue": 250, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "ARMOR_BONUS" }] },
+            { "label": "Shield Bonus: |val1|", "values": [{ "baseValue": 150, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "SHIELD_CAPACITY" }] }
+          ]
+        },
+        {
+          "id": "Day",
+          "label": "Day Form",
+          "defaultActive": false,
+          "exclusive": true,
+          "stats": [
+            { "label": "Damage Bonus: |val1|%", "values": [{ "baseValue": 25, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "WEAPON_DAMAGE_AMOUNT" }] },
+            { "label": "Speed Bonus: |val1|%",  "values": [{ "baseValue": 15, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "AVATAR_SPRINT_SPEED" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/EquinoxRestRageAbility",
+      "name": "Rest & Rage",
+      "description": "Night: lull enemies to sleep. Day: send enemies into a frenzy.",
+      "icon": "RestandRage130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|", "values": [{ "baseValue": 25, "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Cast Range: |val1|m", "values": [{ "baseValue": 5,  "upgradeBy": "AVATAR_ABILITY_RANGE" }] },
+            { "label": "Area Range: |val1|m", "values": [{ "baseValue": 50, "upgradeBy": "AVATAR_ABILITY_RANGE" }] }
+          ]
+        },
+        {
+          "id": "Night",
+          "label": "Night — Rest",
+          "defaultActive": true,
+          "exclusive": true,
+          "stats": [
+            { "label": "Sleep Duration: |val1|s", "values": [{ "baseValue": 22, "upgradeBy": "AVATAR_ABILITY_DURATION" }] }
+          ]
+        },
+        {
+          "id": "Day",
+          "label": "Day — Rage",
+          "defaultActive": false,
+          "exclusive": true,
+          "stats": [
+            { "label": "Speed Boost: |val1|%",   "values": [{ "baseValue": 50,  "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Frenzy Duration: |val1|s","values": [{ "baseValue": 22,  "upgradeBy": "AVATAR_ABILITY_DURATION" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/EquinoxPacifyProvoke",
+      "name": "Pacify & Provoke",
+      "description": "Night: reduce enemy damage in an aura. Day: gain Ability Strength from nearby enemies.",
+      "icon": "PacifyandProvoke130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",  "values": [{ "baseValue": 10, "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Range: |val1|m",        "values": [{ "baseValue": 16, "upgradeBy": "AVATAR_ABILITY_RANGE" }] }
+          ]
+        },
+        {
+          "id": "Night",
+          "label": "Night — Pacify",
+          "defaultActive": true,
+          "exclusive": true,
+          "stats": [
+            { "label": "Enemy Damage Reduction: |val1|%", "values": [{ "baseValue": 50,  "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Energy Drain per Enemy: |val1|/s","values": [{ "baseValue": 0.5, "upgradeBy": "ENERGY_DRAIN" }] }
+          ]
+        },
+        {
+          "id": "Day",
+          "label": "Day — Provoke",
+          "defaultActive": false,
+          "exclusive": true,
+          "stats": [
+            { "label": "Ability Strength Bonus: |val1|%", "values": [{ "baseValue": 20,  "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Energy Drain per Ability: |val1|/s","values": [{ "baseValue": 3, "upgradeBy": "ENERGY_DRAIN" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/EquinoxMendMaimAbility",
+      "name": "Mend & Maim",
+      "description": "Night: heal allies on kill. Day: deal slash damage in an aura.",
+      "icon": "MendandMaim130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",      "values": [{ "baseValue": 50,  "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Energy Drain: |val1|/s",   "values": [{ "baseValue": 3.5, "upgradeBy": "ENERGY_DRAIN" }] },
+            { "label": "Range: |val1|m",            "values": [{ "baseValue": 18,  "upgradeBy": "AVATAR_ABILITY_RANGE" }] }
+          ]
+        },
+        {
+          "id": "Night",
+          "label": "Night — Mend",
+          "defaultActive": true,
+          "exclusive": true,
+          "stats": [
+            { "label": "Shields per Kill: |val1|", "values": [{ "baseValue": 25, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] }
+          ]
+        },
+        {
+          "id": "Day",
+          "label": "Day — Maim",
+          "defaultActive": false,
+          "exclusive": true,
+          "stats": [
+            { "label": "Aura Damage: |val1|", "values": [{ "baseValue": 150, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] }
+          ]
+        }
+      ]
+    }
+  ],
+  "wisp": [
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/WispReservoirAbility",
+      "name": "Reservoirs",
+      "description": "Choose and summon a Reservoir filled with Motes that attach to and aid Wisp and her allies.",
+      "icon": "Reservoirs130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",          "values": [{ "baseValue": 25, "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Mote Lifespan: |val1|s",       "values": [{ "baseValue": 30, "upgradeBy": "AVATAR_ABILITY_DURATION" }] },
+            { "label": "Reservoir Range: |val1|m",     "values": [{ "baseValue": 5,  "upgradeBy": "AVATAR_ABILITY_RANGE" }] },
+            { "label": "Max Reservoirs Active: |val1|","values": [{ "baseValue": 6,  "upgradeBy": "NONE" }] }
+          ]
+        },
+        {
+          "id": "Vitality",
+          "label": "Vitality Mote",
+          "defaultActive": true,
+          "exclusive": false,
+          "stats": [
+            { "label": "Max Health: |val1|",      "values": [{ "baseValue": 300, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "HEALTH_MAX" }] },
+            { "label": "Health Regen: |val1|/s",  "values": [{ "baseValue": 30,  "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] }
+          ]
+        },
+        {
+          "id": "Haste",
+          "label": "Haste Mote",
+          "defaultActive": true,
+          "exclusive": false,
+          "stats": [
+            { "label": "Movement Speed: |val1|%", "values": [{ "baseValue": 20, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "AVATAR_SPRINT_SPEED" }] },
+            { "label": "Attack Speed: |val1|%",   "values": [{ "baseValue": 30, "upgradeBy": "AVATAR_ABILITY_STRENGTH", "upgradeType": "WEAPON_ATTACK_SPEED" }] }
+          ]
+        },
+        {
+          "id": "Shock",
+          "label": "Shock Mote",
+          "defaultActive": true,
+          "exclusive": false,
+          "stats": [
+            { "label": "Shock Damage: |val1|",    "values": [{ "baseValue": 5,  "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Shock Range: |val1|m",    "values": [{ "baseValue": 15, "upgradeBy": "AVATAR_ABILITY_RANGE" }] },
+            { "label": "Shock Cooldown: |val1|s", "values": [{ "baseValue": 3,  "upgradeBy": "NONE" }] },
+            { "label": "Targets: |val1|",         "values": [{ "baseValue": 5,  "upgradeBy": "NONE" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/PowersuitAbilities/WispSunAbility",
+      "name": "Sol Gate",
+      "description": "Open a portal to the sun to irradiate enemies. Hold to double damage at increased energy cost.",
+      "icon": "SolGate130xWhite.png",
+      "groups": [
+        {
+          "stats": [
+            { "label": "Energy Cost: |val1|",            "values": [{ "baseValue": 25,   "upgradeBy": "ENERGY_COST" }] },
+            { "label": "Energy Drain: |val1|/s",         "values": [{ "baseValue": 12,   "upgradeBy": "ENERGY_DRAIN" }] },
+            { "label": "Beam Length: |val1|m",           "values": [{ "baseValue": 40,   "upgradeBy": "AVATAR_ABILITY_RANGE" }] },
+            { "label": "Damage per Half Second: |val1|", "values": [{ "baseValue": 1500, "upgradeBy": "AVATAR_ABILITY_STRENGTH" }] },
+            { "label": "Max Damage Ramp-Up: |val1|%",   "values": [{ "baseValue": 500,  "upgradeBy": "NONE" }] }
+          ]
+        }
+      ]
+    }
+  ]
+}
