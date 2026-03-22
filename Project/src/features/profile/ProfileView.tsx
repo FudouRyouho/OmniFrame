@@ -9,7 +9,7 @@
  * Diferencia con ArsenalView: aquí se navega entre builds guardadas,
  * no se construye activamente.
  *
- * @see DT-12 en Docs/architecture-audit.md
+ * @see DT-12 en Docs-legacy/architecture/architecture-audit.md
  * @todo Implementación pendiente — depende del Builder (DT-11)
  */
 export default function ProfileView() {

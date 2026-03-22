@@ -8,7 +8,7 @@
  *   - Vistas técnicas adicionales (dev tools, etc.)
  *   - Otras configuraciones futuras
  *
- * @see DT-9, DT-2 en Docs/architecture-audit.md
+ * @see DT-9, DT-2 en Docs-legacy/architecture/architecture-audit.md
  * @todo Implementación pendiente — requiere diseño visual y locale switching
  */
 export default function OptionsView() {

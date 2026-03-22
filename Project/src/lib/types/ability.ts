@@ -1,5 +1,5 @@
 // ── Ability Schema (nuevo — groups[]) ────────────────────────────────────────
-// Ver Docs/analysis/ability-schema-examples.md para la especificación completa.
+// Ver Docs-legacy/analysis/ability-schema-examples.md para la especificación completa.
 
 /**
  * Variable del engine que escala el valor base de un stat de habilidad.

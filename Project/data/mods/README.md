@@ -46,6 +46,6 @@ Campos válidos:
 
 ## Referencias
 
-- `Docs/architecture/mod-stats-gap.md` — gaps documentados y schema completo
-- `Docs/decisions/open-questions.md` §D1 — decisión sobre el override
-- `Docs/decisions/mods-builder-analysis.md` §5 — rol del override en su nuevo contexto
+- `Docs-legacy/architecture/mod-stats-gap.md` — gaps documentados y schema completo
+- `Docs-legacy/decisions/open-questions.md` §D1 — decisión sobre el override
+- `Docs-legacy/decisions/mods-builder-analysis.md` §5 — rol del override en su nuevo contexto

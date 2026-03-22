@@ -1,0 +1,105 @@
+﻿{{ResourceInfobox}}
+'''Dual Ichor Incarnon Genesis''' is an item that is used to add [[Incarnon]] upgrades to the {{Weapon|Dual Ichor}}.
+
+==Acquisition==
+*Upon completion of [[The Duviri Paradox]] and [[Angels of the Zariman]], and unlocking [[The Steel Path]], players can earn {{Resource|Dual Ichor Incarnon Genesis}} from [[The Circuit]]'s Steel Path to place on their Dual Ichor with the help of [[Cavalero]] in the [[Chrysalith]]. This [[Incarnon Genesis]] form grants it evolutions to a transformation and newfound strength.
+*Purchased from Cavalero for {{pc|120}}, complete with the resources used in its installation. This purchase can only be made '''once'''.
+
+==Incarnon Genesis==
+===Evolutions===
+*Installing the Dual Ichor Incarnon Genesis requires '''20''' {{Resource|Pathos Clamp|Pathos Clamps}}, '''60''' {{Resource|Rune Marrow}} and '''80''' {{Resource|Kovnik}}.
+*When installed, the first Evolution tier is unlocked. The following Evolution tiers, their requirements for unlocking them, and their related perks, are shown below;
+**Each challenge additionally grants '''5,000''' [[affinity]] to the weapon, affected by [[Affinity Booster]]s.
+
+====Evolution I====
+*Reach '''6x''' Combo and then [[Melee#Heavy Attack|Heavy Attack]] to activate Incarnon Form.
+*Incarnon Form creates a {{D|Toxin}} Damage field after a kill.
+**Fields do '''350''' {{D|Toxin}} damage and last for '''7''' seconds.
+***Fields have '''0%''' Critical Chance, '''1x''' Critical Damage, '''4m''' range and '''50%''' Status Chance.
+****Status Chance is <u>not</u> affected by the '''Absolute Valor''' evolution or mods.
+***Damage is affected by melee damage buffs such as {{M|Pressure Point}} and Incarnon form's innate '''+100%''' Melee Damage.
+****Clouds are <u>not</u> affected by {{M|Condition Overload}}.
+***Damage is affected by elemental damage buffs such as {{M|Fever Strike}}.
+***Damage can be affected by '''Stealth Damage Bonus''' (700%).
+***Clouds inherit elements procced by Dual Ichor.
+**'''+100%''' Melee Damage
+**'''+20%''' Sprint Speed
+**'''+20%''' to Bullet Jump
+*Incarnon Form lasts for '''180''' seconds and persists until [[death]].
+
+====Evolution II====
+''Unlock Challenge:'' Complete a solo mission with this weapon equipped.
+*Perk 1: '''Alchemist's Wrath''':
+**Increase Damage by '''+90'''
+**'''5''' additional Combos on targets affected by {{D|Toxin}}.
+***{{D|Toxin}} fields will award the 5 bonus combo when they damage enemies.
+***{{A|Toxic Lash}}/{{A|Xata's Whisper}} also work, and can award bonus combo independently for a total of 15 bonus combo when both are active.
+*Perk 2: '''Ronin's Rush''':
+**Increase Damage by '''+90'''.
+**On striking target with final move of Neutral Combo: '''+30%''' Attack Speed for '''33s'''.
+
+====Evolution III====
+''Unlock Challenge:'' Activate this weapon's Incarnon Form '''6''' times in a mission.
+*Perk 1: '''Orokin Reach''':
+**'''+0.6''' Range.
+*Perk 2: '''Resolute Force''':
+**'''+7s''' Combo Duration.
+*Perk 3: '''Swift Break''':
+**'''+100%''' Heavy Attack Windup Speed.
+
+====Evolution IV====
+''Unlock Challenge:'' Kill '''29''' enemies with Heavy Attacks.
+*Perk 1: '''Absolute Valor''':
+**Increase Status Chance by '''+34%'''.
+*Perk 2: '''Poison Parasite''':
+**On killing an enemy with '''3+''' {{D|Toxin}} Stacks: '''+33''' Heal Rate/s for '''9s'''.
+*Perk 3: '''Universal Readiness''':
+**Collecting ammo grants '''5''' Melee Combo counter.
+
+==Notes==
+*Clouds do '''not''' force toxin procs, nor will they proc toxin if the toxin damage is changed to something else. 
+*Clouds cannot proc physical status effects like {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}}.
+*Status effects procced by the clouds can heal with {{M|Healing Return}}.
+*Enemies killed by clouds can spawn another cloud, and repeat the process of chaining clouds. 
+
+==Tips==
+*While {{M|Lasting Sting}} does '''not''' increase the cloud duration, it can still increase DoT status effects dealt by the clouds, potentially causing tougher targets to take more damage overall and die, creating another cloud.
+*Clouds can trigger {{Arcane|Melee Vortex}} and become self sustaining when modded with {{D|Magnetic}}.
+**Pairs well with {{M|Furious Javelin}} and {{A|Roar}}.
+*Using {{WF|Titania}}'s {{A|Razorwing}} deactivates the incarnon form of melee weapons, helping you unlock Evolution III quicker.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39}}
+*Incarnon Adapters available in the current Steel Path Circuit rotation are now available for Platinum Purchase in Cavalero’s store in the Chrysalith.
+**Purchasing these Incarnons for Platinum will reward players with both the Adapter and the required resources to install it.
+
+{{ver|37}}
+*Fixed Incarnon Geneses of the Dual Ichor missing the custom Melee Incarnon reticle.
+
+{{ver|35.1}}
+*Fixed Melee Influence being triggered by Dual Ichor Incarnon’s Toxin fields.  
+**''Melee Influence is intended to trigger “On Melee Electricity Status” and not from secondary effects (as they are not considered direct Melee hits). Since the Toxin fields deal damage independently of Melee attacks, it does not meet the Arcane’s criteria of triggering only if the Electricity Status originates from the weapon in hand.''
+
+{{ver|33.5.3}} 
+*Fixed challenge descriptions appearing as a file path for the following Incarnon Geneses weapons:
+**Dual Ichor’s Evolution IV
+
+{{ver|33.5}}
+*Fixed Melee Incarnon weapons (original and Genesis) missing their Incarnon Form stats in the Arsenal.
+
+{{ver|33.0.5}}
+*Fixed Melee Incarnon Weapons using the incorrect HUD indicator to state that Incarnon Mode was ready. 
+
+{{ver|33.0.11}}
+*Fixed Dual Ichor’s Incarnon Form not having its intended function of creating Toxin clouds after killing enemies when wielded by Client.
+
+{{ver|33}}
+*Introduced.}}
+
+{{IncarnonNav}}
+
+[[Category:Duviri]]
+[[Category:Incarnon]]
+[[Category:Incarnon Geneses]]
+[[Category:Update 33]]

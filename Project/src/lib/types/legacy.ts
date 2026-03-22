@@ -2,8 +2,6 @@
 // Mantenidos solo para compatibilidad durante la migración.
 // No usar en código nuevo.
 
-import type { AbilityUpgradeBy } from './ability'
-
 /** @deprecated Usar AbilityUpgradeBy. */
 export type AbilityScaling =
   | 'STRENGTH' | 'RANGE' | 'DURATION' | 'EFFICIENCY' | 'ENERGY_DRAIN' | 'NONE';
@@ -30,7 +28,7 @@ export type ModModifier =
 /** @deprecated Usar AbilityStatValue */
 export interface Stat {
   value: number;
-  modifier: AbilityUpgradeBy;
+  modifier: AbilityScaling;
   maxCap?: number;
   minCap?: number;
   helminthValues?: number[];

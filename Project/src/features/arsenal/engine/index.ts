@@ -7,7 +7,7 @@
  * Sin dependencias de React ni de UI. Testeable de forma aislada.
  * Consumido por: ArsenalView.tsx
  *
- * @see DT-11 en Docs/architecture-audit.md
+ * @see DT-11 en Docs-legacy/architecture/architecture-audit.md
  * @todo Implementación pendiente — requiere diseño de arquitectura de cálculo
  */
 export {}

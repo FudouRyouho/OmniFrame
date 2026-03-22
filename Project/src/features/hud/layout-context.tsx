@@ -10,7 +10,7 @@
  *
  * Consumido por: HudHeader.tsx, ArsenalView.tsx (Builder)
  *
- * @see DT-8, DT-11 en Docs/architecture-audit.md
+ * @see DT-8, DT-11 en Docs-legacy/architecture/architecture-audit.md
  * @todo Implementación pendiente — depende del diseño del Builder
  */
 export {}

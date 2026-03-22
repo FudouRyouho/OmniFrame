@@ -18,7 +18,7 @@ export type ModClass = 'Primed' | 'Galvanized' | 'Archon' | 'Amalgam' | 'Riven';
 /**
  * Identificador canónico del stat que modifica un mod.
  * Fuente: Module:Mods/data en la wiki de Warframe.
- * Ver Docs/decisions/mods-builder-analysis.md §2 para la semántica completa.
+ * Ver Docs-legacy/decisions/mods-builder-analysis.md §2 para la semántica completa.
  *
  * Prefijos:
  * - WEAPON_   → efectos sobre armas

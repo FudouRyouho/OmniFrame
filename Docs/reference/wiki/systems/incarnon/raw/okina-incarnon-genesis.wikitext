@@ -1,0 +1,88 @@
+﻿{{ResourceInfobox}}
+'''Okina Incarnon Genesis''' is an item that is used to add [[Incarnon]] upgrades to the {{Weapon|Okina}} or {{Weapon|Okina Prime}}.
+
+==Acquisition==
+*Upon completion of [[The Duviri Paradox]] and [[Angels of the Zariman]], and unlocking [[The Steel Path]], players can earn {{Resource|Okina Incarnon Genesis}} from [[The Circuit]]'s Steel Path to place on their Okina with the help of [[Cavalero]] in the [[Chrysalith]]. This [[Incarnon Genesis]] form grants it evolutions to a transformation and newfound strength.
+*Purchased from Cavalero for {{pc|120}}, complete with the resources used in its installation. This purchase can only be made '''once'''.
+
+==Incarnon Genesis==
+===Evolutions===
+*Installing the Okina Incarnon Genesis requires 20 {{Resource|Pathos Clamp|Pathos Clamps}}, 20 {{Resource|Maw Fang}}, and 80 {{Resource|Lamentus}}.
+*When installed, the first Evolution tier is unlocked. The following Evolution tiers, their requirements for unlocking them, and their related perks, are shown below;
+**Each challenge additionally grants 5,000 [[affinity]] to the weapon, affected by [[Affinity Booster]]s.
+
+====Evolution I====
+*Reach '''6x''' Combo and then [[Melee#Heavy Attack|Heavy Attack]] to activate Incarnon Form.
+*Kills generate spectral daggers that target enemies, applying max {{D|Cold}} Status stacks.
+**Kills create a dagger that orbits the player, then seek an enemy within '''15''' meters, applying 10 {{D|Cold}} stacks to the target, then exploding in a '''4m''' radius and applying 1 {{D|Cold}} stack to nearby enemies.
+***Up to '''6''' daggers can be active at once.
+***Spectral dagger hits do '''not''' add to the melee combo counter.
+***Direct hits of spectral daggers and explosions are affected by [[Universal Weapon Bonuses#Damage|universal base damage]] sources.
+***Direct hits of spectral daggers are affected by {{M|Condition Overload}}, while the explosions are not.
+****Condition Overload effects are multiplicative to sources of universal base damage.
+***Direct hits of spectral daggers and explosions are <u>'''not'''</u> affected by melee damage bonuses like Incarnon form's innate +100% melee damage, {{M|Pressure Point}}, and {{Arcane|Arcane Fury}}.
+***Spectral Daggers can activate {{Arcane|Melee Influence}}'s buff, but do not benefit from it.
+***Kills from the spectral daggers do not generate new daggers, but kills from Melee Influence do.
+**'''+100%''' Melee Damage
+**'''+20%''' Sprint Speed
+**'''+20%''' to Parkour Velocity
+*Incarnon Form lasts for '''180''' seconds and persists until [[death]].
+
+====Evolution II====
+*''Unlock Challenge:'' Complete a solo mission with this weapon equipped.
+*Perk 1: '''Seeing Red:'''
+**Increase Base Damage by '''+60''' (Okina) / '''+20''' (Prime)
+**'''5''' additional Combos on targets affected by {{D|Slash}} Status
+*Perk 2: '''Synergist Surety:'''
+**Increase Base Damage by '''+60''' (Okina) / '''+20''' (Prime)
+**On [[Critical Hit]]: '''+8%''' (Okina) / '''+6%''' (Prime) [[Status Damage]] for '''10s'''. Stacks up to '''5x'''.
+
+====Evolution III====
+*''Unlock Challenge:'' Activate this weapon's Incarnon Form '''6''' times in a mission.
+*Perk 1: '''Orokin Reach:'''
+**'''+1''' [[Range]]
+*Perk 2: '''Standoff:'''
+**Combo Timer pauses when weapon is [[holster]]ed
+*Perk 3: '''Swordsman's Celerity:'''
+**'''+30%''' [[Movement Speed]] (Permanently active)
+
+====Evolution IV====
+*''Unlock Challenge:'' Reach '''10x''' Combo Multiplier 10 times.
+*Perk 1: '''Commodore's Fortune:'''
+**Increase Base [[Critical Chance]] by '''+12%''' (Okina) / '''+6%''' (Prime)
+*Perk 2: '''Alchemy of War:'''
+**Increase Base [[Status Chance]] by '''+16%''' (Okina) / '''+12%''' (Prime)
+**'''+25%''' Status Duration
+*Perk 3: '''Survivor's Edge:'''
+**Increase Base [[Critical Chance]] by '''+6%''' (Okina) / '''+2%''' (Prime)
+**Increase Base [[Status Chance]] by '''+10%''' (Okina) / '''+8%''' (Prime)
+
+==Notes==
+
+==Tips==
+*Using {{WF|Titania}}'s {{A|Razorwing}} deactivates the incarnon form of melee weapons, helping you unlock Evolution III quicker.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39.1}}
+*Fixed the spectral daggers spawned by the Okina's Incarnon Form not using player colors.
+
+{{ver|37.0.7}}
+*Fixed Okina’s Incarnon Form duration being 90 seconds instead of 180 seconds.
+
+{{ver|37.0.6}}
+*Fixed the Okina Evolution 3 Incarnon Challenge not progressing. 
+
+{{ver|37.0.4}}
+*Tweaked Okina Prime’s Incarnon dagger projectile VFX.
+*Fixed activating any Incarnon weapons counting towards Okina’s Incarnon Evolution III challenge (activate this weapon’s Incarnon Form 0/6 times in a mission). 
+*Fixed the Okina daggers in the Incarnon evolution screen being super close together. They are now spaced out so that there’s no sibling squabbles.
+
+{{ver|37}}
+*Introduced.}}
+
+{{IncarnonNav}}
+
+[[Category:Duviri]]
+[[Category:Incarnon]]
+[[Category:Incarnon Geneses]]

@@ -16,7 +16,7 @@ import { useDataState } from "@providers/DataState/data-state-context";
  *
  * Consume: layout-context.tsx (layout activo), MenuProvider (estado ESC)
  *
- * @see DT-8 en Docs/architecture-audit.md
+ * @see DT-8 en Docs-legacy/architecture/architecture-audit.md
  * @todo Implementación pendiente — diseño visual a cargo del usuario
  */
 

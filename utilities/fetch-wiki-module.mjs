@@ -1,5 +1,5 @@
 /**
- * Descarga un módulo Lua de wiki.warframe.com y lo guarda en Docs/wiki-modules/
+ * Descarga un módulo Lua de wiki.warframe.com y lo guarda en Docs/reference/wiki/modules/raw/
  *
  * Uso:
  *   node utilities/fetch-wiki-module.mjs <nombre-modulo> <nombre-archivo>
@@ -18,7 +18,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const BASE_URL = 'https://wiki.warframe.com/w/';
-const OUT_DIR = path.resolve('Docs/wiki-modules');
+const OUT_DIR = path.resolve('Docs/reference/wiki/modules/raw');
 
 async function fetchModuleLua(moduleName) {
   const url = `${BASE_URL}${encodeURIComponent(moduleName)}?action=edit`;

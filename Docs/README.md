@@ -1,132 +1,83 @@
-# OmniFrame — Documentación
+# OmniFrame - Docs
 
-> Builder de Warframe. Datos: fork de `warframe-items` + base de datos local enriquecida.
-> Spec de migración de datos: `.kiro/specs/warframe-data-migration/`
+> Estado: activo
+> Rol: puerta de entrada de la documentacion activa del proyecto
+> Fuente de verdad de: taxonomia, orden de lectura y politica de migracion
+> No usar para: detalles de schema o backlog operativo de una feature
+> Ultima actualizacion: 2026-03-21
 
----
+`Docs/` es el arbol activo de documentacion del proyecto.
 
-## Flujo de datos del sistema
+Durante la migracion:
+- `Docs/` es la ruta principal para documentacion nueva o reescrita
+- `Docs-legacy/` queda como legado y referencia de apoyo hasta revision manual
+- no mover ni borrar archivos de `Docs-legacy/` sin que exista reemplazo claro en `Docs/`
 
+## Estructura
+
+```text
+Docs/
+  README.md
+  overview/
+  domains/
+  features/
+  decisions/
+  reference/
 ```
-Canónico (@wfcd/items, wiki.warframe.com)
-    ↓
-generate-data.mjs          ← normalización de formato (build time)
-    ↓
-Override (ability-stats.json, futuros gaps)
-    ↓
-JSON estático limpio       ← weapons.json, warframes.json, mods.json
-    ↓
-types/                     ← módulos de tipado por dominio (ver §2.3.1 en architecture.md)
-  index.ts                 ← re-exporta todo — cero breaking changes
-  base.ts / ability.ts / damage.ts / weapon.ts / warframe.ts / mod.ts / legacy.ts
-    ↓
-Lógica (Builder, cálculo, filtrado)   ←→   Traducción (i18n, iconos)
-    ↓
-UI (solo renderiza, no procesa ni convierte)
-```
 
----
+## Como leer esta documentacion
 
-## Cómo leer esta documentación
+1. `overview/current-state.md`
+2. `overview/goals-roadmap.md`
+3. `overview/reading-guides.md`
+4. `overview/migration-status.md`
+5. `features/<track>/status.md`
+6. `domains/<area>/...`
+7. `decisions/open-questions.md`
+8. `reference/...` solo si hace falta evidencia o contexto historico
 
-Orden de lectura recomendado para un desarrollador nuevo:
+## Que va en cada carpeta
 
-1. `architecture/architecture.md` — diseño de capas y principios
-2. `architecture/architecture-audit.md` — estado actual de implementación
-3. `architecture/data-audit.md` — estado de datos y SSoT
-4. `decisions/open-questions.md` — qué está pendiente de decidir
-
-Para trabajar en habilidades específicamente:
-
-5. `canonical/ability-engine-variables.md` — variables del engine y fórmulas
-6. `canonical/ability-stat-schema.md` — schema de datos definitivo
-7. `canonical/semantic-md-format.md` — formato del pipeline semántico
-
----
-
-## Propósito de cada carpeta
-
-| Carpeta | Propósito |
+| Carpeta | Pregunta que responde |
 |---|---|
-| `canonical/` | Datos ya extraídos de fuentes externas (wiki, Public Export). No requieren fetch. Son la referencia directa para el agente. |
-| `analysis/` | Análisis de fuentes de datos, gaps, auditorías. Algunos son históricos (referencia), otros activos. |
-| `architecture/` | Diseño del sistema, estado de implementación, deuda técnica. |
-| `decisions/` | Decisiones tomadas y preguntas abiertas. Registro canónico de por qué las cosas son como son. |
+| `overview/` | Que estado tiene hoy el proyecto y hacia donde va |
+| `domains/` | Como se divide el sistema por responsabilidad |
+| `features/` | Que track esta activo, que falta y que lo bloquea |
+| `decisions/` | Que decisiones cross-cutting siguen abiertas o ya fueron fijadas |
+| `reference/` | Que evidencia, auditorias o mecanicas del juego sirven como apoyo |
 
----
+## Tracks Activos
 
-## Documentos activos
-
-### canonical/ — Datos extraídos de fuentes externas
-
-Datos canónicos ya extraídos y contextualizados para evitar fetch repetido a la wiki.
-Son la referencia directa para el agente — no requieren consultar fuentes externas.
-
-| Documento | Contenido |
-|---|---|
-| `canonical/ability-engine-variables.md` | Variables del engine (STR/DUR/RNG/EFF), fórmulas de energía, coherencia con upgradeTypes de mods |
-| `canonical/ability-stat-schema.md` | Schema definitivo de AbilityStatValue y AbilityGroup con ejemplos |
-| `canonical/semantic-md-format.md` | Formato de los .md semánticos, reglas de labels/valores, output del parser |
-
-### analysis/ — Fuentes de datos y gaps
-
-| Documento | Estado | Descripción |
+| Track | Estado | Documento principal |
 |---|---|---|
-| `analysis/ability-stats-gap.md` | ✅ activo | Checklist de Warframes pendientes de carga manual en ability-stats.json |
-| `analysis/ability-stats-data-source.md` | 📚 referencia | Fuentes y metodología para stats de habilidades — ya implementada |
-| `analysis/wiki-modules-reference.md` | 📚 referencia | Lista de módulos Lua disponibles en wiki.warframe.com |
-| `analysis/weapon-data-analysis.md` | 📚 referencia | Análisis exhaustivo de estructura de weapons en @wfcd/items — APLICADO ✓ |
+| Data Foundation | activo | `features/data-foundation/status.md` |
+| Semantic Pipeline | activo | `features/semantic-pipeline/status.md` |
+| Builder Engine | activo | `features/builder-engine/status.md` |
+| Navigation Shell | activo | `features/navigation-shell/status.md` |
 
-### architecture/ — Diseño del sistema
+## Referencias de juego
 
-| Documento | Estado | Descripción |
-|---|---|---|
-| `architecture/architecture.md` | ✅ activo | Diseño de capas, flujo de datos, principios del proyecto |
-| `architecture/architecture-audit.md` | ✅ activo | Estado actual de implementación y deuda técnica DT-1 a DT-13 |
-| `architecture/data-audit.md` | ✅ activo | Estado de datos y SSoT por entidad |
-| `architecture/mods-analysis.md` | ✅ activo | Análisis de implementación de mods y motor de cálculo |
-| `architecture/mod-stats-gap.md` | ✅ activo | Schema del override mod-stats.json y gaps de levelStats |
-| `architecture/warframe-items-changes.md` | ✅ activo | Registro de cambios en el fork de warframe-items |
-| `architecture/warframe-items-pipeline.md` | 📚 referencia | Pipeline del fork: cómo se generan los JSON desde la wiki |
-| `architecture/modifier-taxonomy.md` | 📚 referencia | Diseño de tipos AbilityScaling y ModModifier — implementado ✓ |
+La referencia de mecanicas de la wiki vive en `reference/wiki/`.
 
-### decisions/ — Decisiones y preguntas abiertas
+Ese espacio existe para documentar mecanicas del juego que el engine necesita
+modelar con precision matematica, por ejemplo:
+- status effects
+- damage types
+- condition overload
+- armor scaling
+- crit/status formulas
 
-| Documento | Estado | Descripción |
-|---|---|---|
-| `decisions/open-questions.md` | ✅ activo | Registro canónico de preguntas abiertas y gaps de documentación |
-| `decisions/mods-builder-analysis.md` | ✅ activo | Análisis canónico de upgradeTypes + Q1-Q5 del builder de mods |
+Ver `reference/wiki/README.md`.
 
----
+## Politica minima de migracion
 
-## Documentos de referencia
+- toda documentacion nueva va a `Docs/`
+- un archivo de `Docs-legacy/` solo pasa a historico o eliminacion cuando su reemplazo en `Docs/` existe
+- si un documento mezcla varias preguntas, se divide antes de migrarlo
+- cada cambio de arquitectura, schema o workflow debe actualizar `Docs/`
 
-Los documentos de referencia capturan análisis o decisiones históricas ya implementadas.
-Se conservan para contexto pero no se actualizan.
-
-| Documento | Descripción |
-|---|---|
-| `analysis/ability-stats-data-source.md` | Fuentes y metodología para stats de habilidades |
-| `analysis/wiki-modules-reference.md` | Lista de módulos Lua disponibles en wiki.warframe.com |
-| `analysis/weapon-data-analysis.md` | Análisis exhaustivo de estructura de weapons — APLICADO ✓ |
-| `architecture/warframe-items-pipeline.md` | Pipeline del fork: cómo se generan los JSON desde la wiki |
-| `architecture/modifier-taxonomy.md` | Diseño de tipos AbilityScaling y ModModifier — implementado ✓ |
-
----
-
-## Cómo contribuir
-
-### Añadir un documento nuevo
-1. Determinar el área: ¿análisis de datos? → `analysis/`. ¿Diseño del sistema? → `architecture/`. ¿Decisión o pregunta? → `decisions/`.
-2. Crear el archivo con encabezado de estado: `> Estado: activo | referencia | temporal`
-3. Añadir entrada en este README.md antes de considerar el documento oficial.
-4. Si el documento responde a una pregunta en `decisions/open-questions.md`, actualizar esa entrada.
-
-### Actualizar un documento existente
-1. Actualizar la fecha de última actualización en el encabezado.
-2. Si el estado cambia (activo → referencia), actualizar el README.md.
-
-### Archivar un documento
-1. Mover a `decisions/open-questions.md` una nota de qué fue archivado y por qué.
-2. Eliminar el archivo y su entrada en README.md.
-3. No usar `Docs/temp/` — crear directamente en el área destino con estado `temporal`.
+Ver:
+- `overview/documentation-policy.md`
+- `overview/reading-guides.md`
+- `overview/migration-status.md`
+- `overview/docs-cutover-plan.md`
