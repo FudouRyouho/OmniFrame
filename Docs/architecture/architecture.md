@@ -19,7 +19,7 @@ Override (ability-stats.json, futuros gaps)
     ↓
 JSON estático limpio       ← weapons.json, warframes.json, mods.json
     ↓
-types.ts                   ← solo tipos de datos, sin conveniencias de UI
+types/                     ← módulos de tipado por dominio (base, ability, damage, weapon, warframe, mod, legacy)
     ↓
 Lógica (Builder, cálculo, filtrado)   ←→   Traducción (i18n, iconos)
     ↓
@@ -69,7 +69,9 @@ No hace:
 - Inventar campos que no existen en la fuente
 - Decisiones de presentación
 
-### 2.3 `types.ts` — tipado
+### 2.3 `types/` — tipado
+
+> Estado actual: separado en módulos por dominio (implementado 2026-03-21). Ver §2.3.1.
 
 Orden de prioridad del tipado:
 1. **Lógica** (Builder, cálculo, filtrado) — tipos que el motor de cálculo necesita
@@ -79,6 +81,27 @@ Orden de prioridad del tipado:
 No incluye:
 - Conveniencias de UI (campos desnormalizados del padre)
 - Campos inventados que no existen en la fuente
+
+#### 2.3.1 Separación de `types/` (implementada)
+
+`types.ts` fue separado en módulos por dominio. La estructura final:
+
+```
+src/lib/types/
+  index.ts      ← re-exporta todo — cero breaking changes en imports existentes
+  base.ts       ← Kind, BaseItem, type guards (isWeapon, isWarframe, isMod)
+  ability.ts    ← AbilityUpgradeBy, UPGRADE_BY_OPTIONS (con metadata para editor),
+                   AbilityStatValue, AbilityGroup, AbilityStatsData, Ability
+  damage.ts     ← DamageType, DAMAGE_TYPES, DamageMap, WeaponAttack
+  weapon.ts     ← WeaponCategory, Weapon
+  warframe.ts   ← Warframe
+  mod.ts        ← ModCategory, ModClass, UpgradeType, Mod
+  legacy.ts     ← @deprecated: AbilityScaling, ModModifier, Stat, Misc, AbilityStat
+```
+
+**Motivación**: el editor de habilidades necesita listar `AbilityUpgradeBy` como opciones seleccionables con metadata (label, descripción). `UPGRADE_BY_OPTIONS` en `ability.ts` provee esto directamente. Mismo patrón disponible para `UpgradeType` cuando el editor de mods lo necesite.
+
+**Compatibilidad**: `index.ts` re-exporta todo con `export * from './base'` etc. Los 20+ archivos que importan de `@lib/types` no necesitan cambios — el alias `@lib/types` resuelve a `src/lib/types/index.ts`.
 
 ### 2.4 Lógica — runtime
 
@@ -175,7 +198,15 @@ Project/
 │       └── passives.json            ← generado
 ├── src/
 │   ├── lib/
-│   │   ├── types.ts             ← tipos canónicos (Kind, ModCategory, Weapon, Mod, Warframe…)
+│   │   ├── types/               ← módulos de tipado por dominio
+│   │   │   ├── index.ts         ← re-exporta todo (alias @lib/types)
+│   │   │   ├── base.ts          ← Kind, BaseItem, type guards
+│   │   │   ├── ability.ts       ← AbilityUpgradeBy, UPGRADE_BY_OPTIONS, Ability, AbilityStatsData
+│   │   │   ├── damage.ts        ← DamageType, DAMAGE_TYPES, DamageMap, WeaponAttack
+│   │   │   ├── weapon.ts        ← WeaponCategory, Weapon
+│   │   │   ├── warframe.ts      ← Warframe
+│   │   │   ├── mod.ts           ← ModCategory, ModClass, UpgradeType, Mod
+│   │   │   └── legacy.ts        ← @deprecated: AbilityScaling, ModModifier, Stat, Misc
 │   │   ├── item-details.ts      ← capa de Mapeo (getAttackStats, getModStats)
 │   │   ├── FormattedText.tsx    ← renderiza tags legacy de ability-stats.json
 │   │   ├── weaponData.ts        ← fetch + cache

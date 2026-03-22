@@ -16,7 +16,9 @@ Override (ability-stats.json, futuros gaps)
     ↓
 JSON estático limpio       ← weapons.json, warframes.json, mods.json
     ↓
-types.ts                   ← solo tipos de datos, sin conveniencias de UI
+types/                     ← módulos de tipado por dominio (ver §2.3.1 en architecture.md)
+  index.ts                 ← re-exporta todo — cero breaking changes
+  base.ts / ability.ts / damage.ts / weapon.ts / warframe.ts / mod.ts / legacy.ts
     ↓
 Lógica (Builder, cálculo, filtrado)   ←→   Traducción (i18n, iconos)
     ↓
