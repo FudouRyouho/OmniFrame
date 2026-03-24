@@ -4,7 +4,7 @@
 > Rol: describir como se conectan datos, engine, provider y UI
 > Fuente de verdad de: limites de la capa de integracion
 > No usar para: formulas del engine o backlog visual
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## Responsabilidad de esta capa
 
@@ -30,6 +30,10 @@ Modelo deseado:
 ```text
 data loaders -> provider/layout state -> engine -> view models -> UI
 ```
+
+Para el **primer corte horizontal** (S6), la vision operativa — rutas `/dev/*`, engine
+minimo, catalogo filtrado, flujo de estado a traves de la capa intermedia sin que la UI
+llame al motor directamente — esta en `../../features/builder-engine/s6-horizontal-minimum.md`.
 
 ## Casos que viven aqui
 

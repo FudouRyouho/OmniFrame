@@ -5,7 +5,7 @@
 > Fuente de verdad de: checklist operativo previo del track semantic pipeline
 > No usar para: estado general del proyecto
 > Depende de: `workflow.md`, `questions.md`
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## Antes de correr el parser
 
@@ -19,11 +19,13 @@
 2. Revisar si `exclusive` en augments sigue siendo valido para el caso actual.
 3. Confirmar que ninguna habilidad desaparecio por encabezados mal formados.
 
-## Antes de mergear a `ability-stats.json`
+## Antes de mergear a `ability-stats.override.json`
 
-1. Decidir si el merge sera manual o asistido.
-2. Preservar `name`, `description` e `icon`.
-3. Confirmar que el reemplazo solo afecta `groups` cuando ese es el objetivo.
+1. Para merge mecanico de `groups`: usar `npm run merge:semantic-groups` (desde `Project/`) o
+   edicion manual equivalente.
+2. Preservar `name`, `description` e `icon` (el script de merge solo toca `groups`).
+3. Confirmar que cada `uniqueName` del parsed ya existe en el override (si no, generar entradas
+   con `generate-data` o entrada manual antes).
 4. Revisar `upgradeBy` porque el parser deja placeholders.
 
 ## Antes de cerrar la tarea

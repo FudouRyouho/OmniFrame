@@ -29,12 +29,13 @@ Docs/
 
 1. `overview/current-state.md`
 2. `overview/goals-roadmap.md`
-3. `overview/reading-guides.md`
-4. `overview/migration-status.md`
-5. `features/<track>/status.md`
-6. `domains/<area>/...`
-7. `decisions/open-questions.md`
-8. `reference/...` solo si hace falta evidencia o contexto historico
+3. `overview/stabilization-backlog.md`
+4. `overview/reading-guides.md`
+5. `overview/migration-status.md`
+6. `features/<track>/status.md`
+7. `domains/<area>/...`
+8. `decisions/open-questions.md`
+9. `reference/...` solo si hace falta evidencia o contexto historico
 
 ## Que va en cada carpeta
 
@@ -78,6 +79,7 @@ Ver `reference/wiki/README.md`.
 
 Ver:
 - `overview/documentation-policy.md`
+- `overview/stabilization-backlog.md`
 - `overview/reading-guides.md`
 - `overview/migration-status.md`
 - `overview/docs-cutover-plan.md`

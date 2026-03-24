@@ -1,0 +1,143 @@
+---
+trigger: always_on
+---
+
+# OmniFrame - Agent Context
+
+Responder siempre en espanol.
+No crear documentos markdown fuera de `Docs/` salvo que el usuario lo pida.
+No anadir tests salvo que el usuario lo pida.
+
+El proyecto entra en una fase de migracion documental:
+
+- `Docs/` es la documentacion principal para trabajo nuevo
+- `Docs-legacy/` es legacy y se consulta solo como apoyo o evidencia
+- `.kiro/specs/` sirve para ejecucion acotada, no como mapa global del proyecto
+
+---
+
+## Regla principal de trabajo
+
+El workflow obligatorio es:
+
+```text
+analysis -> discussion -> implementation -> doc-update
+```
+
+Reglas derivadas:
+
+- no cambiar schema, arquitectura o workflow sin actualizar `Docs/`
+- no ampliar un documento legacy si ya existe un reemplazo en `Docs/`
+- si una pregunta afecta a un solo track, documentarla en `Docs/features/<track>/questions.md`
+- si afecta a varias areas, documentarla en `Docs/decisions/open-questions.md`
+
+---
+
+## Jerarquia documental
+
+Leer en este orden:
+
+1. `Docs/overview/current-state.md`
+2. `Docs/overview/goals-roadmap.md`
+3. `Docs/overview/stabilization-backlog.md`
+4. `Docs/overview/reading-guides.md`
+5. `Docs/overview/migration-status.md`
+6. `Docs/overview/docs-cutover-plan.md`
+7. `Docs/features/<track>/status.md`
+8. `Docs/domains/<area>/...`
+9. `Docs/decisions/open-questions.md`
+10. `Docs/reference/...` cuando haga falta evidencia o mecanicas del juego
+
+No usar `Docs-legacy/` como fuente primaria cuando ya exista equivalente en `Docs/`.
+
+---
+
+## Matriz de lectura por area
+
+| Area de trabajo                     | Leer primero                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------- |
+| Abilities / semantic pipeline       | `Docs/features/semantic-pipeline/status.md`, `Docs/domains/data/abilities/`           |
+| Builder engine                      | `Docs/features/builder-engine/status.md`, `Docs/domains/engine/builder-v1.md`         |
+| UI / shell / navegacion             | `Docs/features/navigation-shell/status.md`, `Docs/domains/ui/shell-and-navigation.md` |
+| Providers / hooks / hidratacion     | `Docs/domains/integration/runtime-composition.md`                                     |
+| Mecanicas del juego para simulacion | `Docs/reference/wiki/README.md`                                                       |
+
+Si la informacion aun no esta migrada, consultar `Docs-legacy/` como legacy y dejar nota en
+`Docs/` cuando el trabajo cierre una brecha documental.
+
+---
+
+## Estado alto nivel del proyecto
+
+- Semantic pipeline: parcial, parser existente, cobertura y merge aun inestables
+- Builder engine: documentado, no implementado
+- Navigation shell: base funcional, layout activo e integracion pendientes
+- El foco inmediato no es abrir frentes nuevos, sino reducir caos y cerrar piezas
+  transicionales
+
+El detalle operativo vive en:
+
+- `Docs/features/semantic-pipeline/status.md`
+- `Docs/features/builder-engine/status.md`
+- `Docs/features/navigation-shell/status.md`
+- `Docs/overview/stabilization-backlog.md`
+
+---
+
+## Prioridad actual del proyecto
+
+Durante esta fase, la prioridad es:
+
+```text
+reducir caos -> cerrar drift -> dejar trazabilidad -> luego implementar
+```
+
+Reglas:
+
+- no empujar engine profundo si el contexto cercano sigue inestable
+- los placeholders son validos si documentan que necesitan para volverse reales
+- antes de crear una pieza nueva, aclarar si reduce caos o solo abre otro frente
+- si una tarea nueva no reduce caos ni avanza una dependencia inmediata, primero debe
+  quedar documentada
+
+Focos inmediatos:
+
+- claridad de fuentes y overrides
+- cierre del drift de tipos
+- unificacion del pipeline real de abilities
+- placeholders minimos utiles por track
+
+---
+
+## Reglas documentales para agentes
+
+- cada documento debe responder una sola pregunta
+- preferir documentos pequenos y enlazados antes que documentos contenedor
+- usar `reference/wiki/` para mecanicas del juego, no para backlog del proyecto
+- cuando una implementacion cambie el estado de un track, actualizar su `status.md`
+- cuando una implementacion cierre una duda local, actualizar `questions.md`
+- cuando una implementacion cree una decision transversal, registrarla en `decisions/`
+
+Encabezado recomendado para nuevos docs activos:
+
+```md
+> Estado: activo | referencia | temporal
+> Rol: ...
+> Fuente de verdad de: ...
+> No usar para: ...
+> Depende de: ...
+> Ultima actualizacion: YYYY-MM-DD
+```
+
+---
+
+## Canonico vs legacy
+
+- `Docs/domains/` y `Docs/features/` describen el estado deseado y el estado vivo
+- `Docs/reference/` guarda evidencia y mecanicas
+- `Docs-legacy/` conserva analisis, auditorias y contexto previo hasta revision manual
+
+Si hay conflicto entre ambos arboles:
+
+- para trabajo nuevo, gana `Docs/`
+- para evidencia historica, consultar `Docs-legacy/`

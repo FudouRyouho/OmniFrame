@@ -1,5 +1,9 @@
 // ── BaseItem Type System ──────────────────────────────────────────────────────
 
+import type { Mod } from './mod';
+import type { Warframe } from './warframe';
+import type { Weapon } from './weapon';
+
 export type Kind = 'warframe' | 'primary' | 'secondary' | 'melee' | 'mod';
 
 export interface BaseItem {
@@ -14,15 +18,14 @@ export interface BaseItem {
   tags?: string[];
 }
 
-// Type guards — usan BaseItem para evitar dependencias circulares.
-// Los tipos concretos (Weapon, Warframe, Mod) extienden BaseItem,
-// por lo que el narrowing es correcto en runtime.
+// Type guards: siguen basados en `kind`, pero exponen el tipo concreto
+// para que los consumers no tengan que reconstruir el shape manualmente.
 
-export const isWeapon = (item: BaseItem): item is BaseItem & { kind: 'primary' | 'secondary' | 'melee' } =>
+export const isWeapon = (item: BaseItem): item is Weapon =>
   item.kind === 'primary' || item.kind === 'secondary' || item.kind === 'melee';
 
-export const isWarframe = (item: BaseItem): item is BaseItem & { kind: 'warframe' } =>
+export const isWarframe = (item: BaseItem): item is Warframe =>
   item.kind === 'warframe';
 
-export const isMod = (item: BaseItem): item is BaseItem & { kind: 'mod' } =>
+export const isMod = (item: BaseItem): item is Mod =>
   item.kind === 'mod';

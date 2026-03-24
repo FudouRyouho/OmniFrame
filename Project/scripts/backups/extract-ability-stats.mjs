@@ -1,8 +1,15 @@
 /**
+ * @deprecated
+ * Este script extrae stats de abilities en schema legacy (stats[]) desde warframes.json.
+ * El schema actual de ability-stats.override.json usa groups[], por lo que este script
+ * produce salida incompatible con el override activo.
+ * Conservado como referencia histórica en scripts/backups/.
+ * Si se necesita re-extracción, actualizar para emitir groups[].
+ *
  * Dev script: Extract ability stats.
  * Lee el warframes.json actual y extrae un JSON con:
  * { "ability_uniqueName": [...] }
- * Lo guarda en Project/data/ability-stats.json
+ * Lo guarda en Project/data/overrides/ability-stats.override.json
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -10,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const inputPath = path.resolve(__dirname, '../public/data/warframes.json');
-const outPath = path.resolve(__dirname, '../data/ability-stats.json');
+const outPath = path.resolve(__dirname, '../data/overrides/ability-stats.override.json');
 
 async function extract() {
   try {

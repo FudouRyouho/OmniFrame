@@ -3,7 +3,7 @@
  * Genera un JSON de trabajo que muestra, por cada habilidad cubierta en Semantic,
  * qué stats tienen upgradeBy=NONE (pendientes de asignar).
  *
- * Output: Project/data/upgradeby-audit.json
+ * Output: Project/data/audits/upgradeby-audit.json
  * Formato por entrada:
  * {
  *   uniqueName: string,
@@ -26,7 +26,7 @@ import { createRequire } from 'node:module'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const require = createRequire(import.meta.url)
 
-const statsDb = require('../data/ability-stats.json')
+const statsDb = require('../data/overrides/ability-stats.override.json')
 const warframes = require('../public/data/warframes.json')
 
 // Build map: uniqueName -> warframe name
@@ -114,7 +114,7 @@ for (const uniqueName of [...semanticCoverage].sort()) {
   })
 }
 
-const outPath = path.resolve(__dirname, '../data/upgradeby-audit.json')
+const outPath = path.resolve(__dirname, '../data/audits/upgradeby-audit.json')
 await fs.writeFile(outPath, JSON.stringify(audit, null, 2))
 
 // Summary

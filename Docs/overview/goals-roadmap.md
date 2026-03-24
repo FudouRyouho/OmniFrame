@@ -13,7 +13,7 @@ Objetivo:
 - fijar un flujo claro entre fuente canonica, markdown semantico, parser, merge y override
 
 Incluye:
-- schema de `ability-stats.json`
+- schema de `ability-stats.override.json`
 - pipeline semantico
 - reglas de `upgradeBy`, `upgradeType`, grupos y augments
 

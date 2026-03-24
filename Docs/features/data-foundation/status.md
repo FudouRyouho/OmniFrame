@@ -5,7 +5,7 @@
 > Fuente de verdad de: gaps activos del dataset y proximos focos de datos
 > No usar para: formulas del builder o backlog de UI
 > Depende de: `../../domains/data/ssot.md`
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## Objetivo
 
@@ -15,9 +15,11 @@ abiertos antes de que el builder dependa de ellos.
 ## Estado actual
 
 - metadata principal de warframes, armas y mods ya existe
-- `ability-stats.json` sigue siendo la base activa de habilidades
-- `passives.json` existe como fuente local
+- `ability-stats.override.json` sigue siendo la capa activa de override para habilidades
+- `passives.json` existe hoy como artefacto generado local publicado a runtime
 - la semantica de categorias de mods ya esta normalizada
+- para datos distintos de `ability-stats` puede seguir habiendo ambiguedad operativa entre
+  `Project/data/` y `Project/public/data/` hasta alinear cada artefacto al patron documentado
 
 ## Gaps activos
 
@@ -42,8 +44,18 @@ abiertos antes de que el builder dependa de ellos.
 - `compatName` ya esta preservado en datos
 - falta formalizar su uso en filtrado jerarquico
 
+### DF-G5 - Roles de archivos de datos
+
+- la taxonomia y el patron de `ability-stats` ya estan documentados (`data-layer-roles.md`,
+  `override-pattern.md`, estabilizacion S1)
+- puede seguir habiendo convivencia transicional entre `Project/data/` y `Project/public/data/`
+  en otros archivos hasta migrarlos al mismo patron
+
 ## Desbloquea
 
 - `../builder-engine/status.md`
 - `../navigation-shell/status.md`
 
+## Documento complementario
+
+- `../../domains/data/data-layer-roles.md`

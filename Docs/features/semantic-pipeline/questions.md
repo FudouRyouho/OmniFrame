@@ -3,7 +3,7 @@
 > Estado: activo
 > Rol: registrar preguntas abiertas locales del track semantic pipeline
 > Fuente de verdad de: dudas pendientes de este track
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## SP-Q1 - Augments y `exclusive`
 
@@ -16,12 +16,13 @@ Impacto:
 
 ## SP-Q2 - Merge reproducible
 
-Pregunta:
-- el merge `parsed-output -> ability-stats.json` debe seguir siendo manual, o hace falta
-  un script dedicado que preserve metadata y reemplace solo `groups`
+Resuelto (2026-03-22):
+- el merge **mecanico** de `groups` esta cubierto por `Project/scripts/merge-semantic-groups.mjs`
+  (preserva el resto del entry en `Project/data/overrides/ability-stats.override.json`)
+- la revision de `upgradeBy` y metadata sigue siendo manual-asistido; no es un pipeline de un solo comando
 
 Impacto:
-- cambia el flujo de mantenimiento y la seguridad de la migracion
+- el flujo de mantenimiento ya no depende de una unica interpretacion oral del merge
 
 ## SP-Q3 - Asignacion de `upgradeBy`
 
@@ -39,4 +40,3 @@ Pregunta:
 
 Impacto:
 - evita planificar sobre un inventario falso
-

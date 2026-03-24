@@ -5,7 +5,7 @@
 > Fuente de verdad de: deudas locales del track navigation shell
 > No usar para: contrato del engine o formulas
 > Depende de: `status.md`
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## Deudas activas
 
@@ -21,8 +21,8 @@
 
 ### NS-DT-4 - Mods y Arcanos
 
-- `ModsView` existe pero no esta en rutas
-- falta vista de arcanos
+- `ModsView` esta enrutada como `/equipament/mods` (ver `App.tsx`)
+- `ArcanesView` existe como stub (`return null`) y sin ruta; falta wiring y datos consumidos en UI
 
 ### NS-DT-5 - Arquitectura de rutas
 
@@ -39,7 +39,7 @@
 
 ### NS-DT-9 - Menu incompleto
 
-- faltan rutas y wiring de `Options`
+- faltan rutas y wiring de `Options`, `Profile`, `Arcanes`, `Arsenal` (stubs en `features/` sin `Route`)
 
 ### NS-DT-10 - CSS
 

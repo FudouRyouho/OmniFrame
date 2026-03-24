@@ -4,11 +4,9 @@ import { routes, type AppRoute } from "../../../App";
 function NavItem({
   to,
   label,
-  icon,
 }: {
   to: string;
   label: string;
-  icon?: React.ReactNode;
 }) {
   const { pathname } = useLocation();
   const active = pathname === to;

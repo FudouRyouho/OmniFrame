@@ -19,6 +19,5 @@
 
 ## Riesgos de acoplamiento
 
-- si cambia el schema de `ability-stats.json`, hay que actualizar parser, docs y editor
+- si cambia el schema de `ability-stats.override.json`, hay que actualizar parser, docs y editor
 - si cambia la semantica de groups, tambien cambia el futuro engine
-

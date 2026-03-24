@@ -15,7 +15,7 @@ const outDir = path.resolve(__dirname, '../public/data')
 await fs.mkdir(outDir, { recursive: true })
 
 const require = createRequire(import.meta.url)
-let abilityStatsDb = require('../data/ability-stats.json')
+let abilityStatsDb = require('../data/overrides/ability-stats.override.json')
 const passivesDb = {}
 
 const instance = new Items()
@@ -139,7 +139,7 @@ for (const [uniqueName, entry] of Object.entries(abilityStatsDb)) {
 
 // Save everything
 await fs.writeFile(path.join(outDir, 'warframes.json'), JSON.stringify(warframes))
-await fs.writeFile(path.join(outDir, 'ability-stats.json'), JSON.stringify(abilityStatsDb, null, 2))
+await fs.writeFile(path.join(outDir, 'ability-stats.override.json'), JSON.stringify(abilityStatsDb, null, 2))
 await fs.writeFile(path.join(outDir, 'passives.json'), JSON.stringify(passivesDb, null, 2))
 
 console.log(`✓ warframes.json — ${warframes.length} warframes`)

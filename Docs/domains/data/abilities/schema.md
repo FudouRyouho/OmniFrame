@@ -1,7 +1,7 @@
-# Ability Stats Schema
+# Ability Stats Override Schema
 
 > Estado: activo
-> Rol: documentar el schema aceptado hoy para `ability-stats.json`
+> Rol: documentar el schema aceptado hoy para `ability-stats.override.json`
 > Fuente de verdad de: contrato actual del override de habilidades
 > No usar para: cobertura por warframe o estado del parser
 > Depende de: `source-model.md`
@@ -9,7 +9,8 @@
 
 ## Entrada de habilidad
 
-Cada habilidad en `Project/public/data/ability-stats.json` esta indexada por
+Cada habilidad en la copia runtime del override hoy publicada en
+`Project/public/data/ability-stats.override.json` esta indexada por
 `uniqueName` y usa esta estructura conceptual:
 
 ```ts
@@ -22,6 +23,12 @@ interface AbilityStatsData {
 ```
 
 `AbilityStatsData` es la unidad completa consumida por runtime para una habilidad.
+
+Importante:
+- este documento describe el schema del override de abilities
+- no describe una capa generated
+- la ubicacion final del archivo puede cambiar, pero el rol del dato sigue siendo
+  `override`
 
 ## Grupo
 
@@ -104,9 +111,11 @@ La ubicacion exacta del tag forma parte del contenido esperado del schema, no de
 - cobertura real por warframe
 - flujo de migracion desde semantic markdown
 - semantica final de ciertos augments o grupos especiales
+- ubicacion final de la fuente editable vs la copia runtime
 
 Esos temas viven en:
 - `pipeline.md`
+- `../data-layer-roles.md`
 - `engine-variables.md`
 - `formula-patterns.md`
 - `group-model.md`

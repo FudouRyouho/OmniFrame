@@ -67,6 +67,14 @@ node utilities/parse-semantic.mjs --file Ash.md
 node utilities/parse-semantic.mjs --out custom.json
 ```
 
+Desde `Project/` tras revisar `references/Semantic/parsed-output.json`:
+
+```bash
+npm run merge:semantic-groups
+npm run generate:data
+node scripts/verify-ability-stats.mjs
+```
+
 ## Lo que no debe vivir aqui
 
 - decisiones de schema del engine

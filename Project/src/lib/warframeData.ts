@@ -4,12 +4,12 @@
  * Responsabilidades de esta capa:
  *   - Fetch de los JSON estáticos generados por generate-data.mjs
  *   - Cache en memoria para evitar peticiones redundantes
- *   - Hidratación runtime: merge de ability-stats.json + passives.json
+ *   - Hidratación runtime: merge de ability-stats.override.json + passives.json
  *     sobre los punteros que genera el pipeline de build
  *
  * @note La hidratación de abilities y passives ocurre aquí (runtime) porque
- * ability-stats.json es editable desde el Editor UI sin pasar por el pipeline
- * de build. Cuando el pipeline absorba completamente ability-stats.json,
+ * ability-stats.override.json es editable desde el Editor UI sin pasar por el pipeline
+ * de build. Cuando el pipeline absorba completamente el override de abilities,
  * esta hidratación deberá moverse a generate-data.mjs (DT-1).
  *
  * No hace:
@@ -26,7 +26,7 @@ let cache: Warframe[] | null = null
 // ── Transformación de abilities ───────────────────────────────────────────────
 
 /**
- * Hidrata una ability con los datos de ability-stats.json.
+ * Hidrata una ability con los datos de ability-stats.override.json.
  * Maneja la transición de estructura legacy (array) a nueva (objeto).
  *
  * @note Estructura legacy: array de rows con { name, description, icon, ...stats }
@@ -80,7 +80,7 @@ export const fetchWarframes = async (): Promise<Warframe[]> => {
 
   const [wfRes, statsRes, passivesRes] = await Promise.all([
     fetch('/data/warframes.json'),
-    fetch('/data/ability-stats.json').catch(() => null),
+    fetch('/data/ability-stats.override.json').catch(() => null),
     fetch('/data/passives.json').catch(() => null),
   ])
 

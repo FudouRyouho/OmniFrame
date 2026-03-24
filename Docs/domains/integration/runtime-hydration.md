@@ -9,7 +9,7 @@
 
 ## Estado actual
 
-La hidratacion de abilities sigue ocurriendo en runtime porque `ability-stats.json`
+La hidratacion de abilities sigue ocurriendo en runtime porque `ability-stats.override.json`
 sigue siendo editable sin pasar por todo el pipeline de build.
 
 ## Punto principal
@@ -28,6 +28,5 @@ Cuando el pipeline absorba por completo el estado editable de abilities:
 ## Relacion con semantic pipeline
 
 Esta migracion depende de:
-- estabilidad del schema de `ability-stats.json`
+- estabilidad del schema de `ability-stats.override.json`
 - flujo confiable del semantic pipeline
-

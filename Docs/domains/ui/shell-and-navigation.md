@@ -4,7 +4,7 @@
 > Rol: definir el rol de la UI shell y sus responsabilidades
 > Fuente de verdad de: limites de la capa UI
 > No usar para: calculo del builder o SSoT de datos
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## Principios
 
@@ -23,12 +23,12 @@
 ## Pendientes estructurales
 
 - caja de layout activo
-- rutas faltantes
-- vista de arcanos
+- rutas y componentes para Arcanes, Options, Profile, Arsenal (contrato en `../../overview/placeholder-minimums.md`)
 - wiring definitivo hacia el builder
 
 ## Dependencias
 
 - `../integration/runtime-composition.md`
 - `../../features/navigation-shell/status.md`
+- `../../overview/placeholder-minimums.md`
 

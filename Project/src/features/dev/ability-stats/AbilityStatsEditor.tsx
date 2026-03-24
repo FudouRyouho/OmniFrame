@@ -508,7 +508,7 @@ export default function AbilityStatsEditor() {
   useEffect(() => {
     Promise.all([
       fetch("/data/warframes.json").then((r) => r.json()),
-      fetch("/data/ability-stats.json").then((r) => r.json()),
+      fetch("/data/ability-stats.override.json").then((r) => r.json()),
     ]).then(([wfData, statsData]: [Warframe[], AbilityStatsDB]) => {
       setWarframes(wfData);
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -554,7 +554,7 @@ export default function AbilityStatsEditor() {
     if (!confirm("¿Eliminar cambios locales y volver al JSON del servidor?")) return;
     localStorage.removeItem(STORAGE_KEY);
     setHasLocalChanges(false);
-    fetch("/data/ability-stats.json").then((r) => r.json()).then((data: AbilityStatsDB) => setDb(data)).catch(console.error);
+    fetch("/data/ability-stats.override.json").then((r) => r.json()).then((data: AbilityStatsDB) => setDb(data)).catch(console.error);
   };
 
   const handleExportStatuses = () => {

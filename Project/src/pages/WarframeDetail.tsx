@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
 import { fetchWarframe } from "../lib/warframeData";
 import { useTheme } from "../providers/Theme/theme-context";
-import type { Warframe, AbilityStat } from "../lib/types";
+import type { Warframe, AbilityStatEntry, AbilityStatValue, AbilityUpgradeBy } from "../lib/types";
 import { FormattedText } from "../lib/FormattedText";
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 const MODIFIER_LABEL: Record<string, string> = {
-  STRENGTH: "STR",
-  RANGE: "RNG",
-  DURATION: "DUR",
-  EFFICIENCY: "EFF",
+  AVATAR_ABILITY_STRENGTH: "STR",
+  AVATAR_ABILITY_RANGE: "RNG",
+  AVATAR_ABILITY_DURATION: "DUR",
+  AVATAR_ABILITY_EFFICIENCY: "EFF",
+  ENERGY_COST: "COST",
   ENERGY_DRAIN: "DRAIN",
   NONE: "—",
 };
@@ -65,9 +66,22 @@ function StatRow({ label, value }: { label: string; value: string | number | nul
   );
 }
 
-function AbilityStatLine({ stat }: { stat: AbilityStat }) {
+function getDisplayValue(value: AbilityStatValue): number {
+  return value.helminthBase ?? value.baseValue;
+}
+
+function getVisibleAbilityStats(warframe: Warframe) {
+  return warframe.abilities.map((ability) => ({
+    ability,
+    stats: (ability.stats?.groups ?? [])
+      .flatMap((group) => group.stats)
+      .slice(0, 6),
+  }));
+}
+
+function AbilityStatLine({ stat }: { stat: AbilityStatEntry }) {
   const activeModifiers = Array.from(
-    new Set((stat.stats || []).map((s) => s.modifier)),
+    new Set((stat.values || []).map((value) => value.upgradeBy)),
   ).filter((m) => m !== "NONE");
 
   return (
@@ -77,26 +91,23 @@ function AbilityStatLine({ stat }: { stat: AbilityStat }) {
           {stat.label && (
             <FormattedText
               className="typography-2 text-ui-primary/80"
-              text={interpolate(stat.label, undefined, undefined, stat.stats)}
+              text={interpolate(
+                stat.label,
+                undefined,
+                undefined,
+                stat.values.map((value) => ({ value: getDisplayValue(value) })),
+              )}
             />
           )}
           <div className="flex gap-1 ml-4 shrink-0">
             {activeModifiers.map((mod) => (
               <span key={mod} className="typography-1 text-ui-accent opacity-60">
-                {MODIFIER_LABEL[mod] ?? mod}
+                {MODIFIER_LABEL[mod as AbilityUpgradeBy] ?? mod}
               </span>
             ))}
           </div>
         </div>
       )}
-
-      {stat.misc?.map((m, i) => (
-        <FormattedText
-          key={i}
-          className="typography-1 text-ui-secondary italic mt-0.5 block"
-          text={m.label ? interpolate(m.label, m.value, m.modifier) : `${m.value} ${m.modifier}`}
-        />
-      ))}
     </div>
   );
 }
@@ -129,6 +140,7 @@ export default function WarframeDetail() {
 
   // Force Orokin theme for Primes, otherwise use global
   const activeTheme = warframe.isPrime ? "theme-orokin" : `theme-${themeColor}`;
+  const abilityStats = getVisibleAbilityStats(warframe);
 
   return (
     <div className={`${activeTheme} min-h-screen bg-ui-bg/20 text-white p-8`}>
@@ -199,7 +211,7 @@ export default function WarframeDetail() {
                   ABILITIES_OVERVIEW
                </h2>
                <div className="grid gap-4">
-                  {warframe.abilities.map((a, idx) => (
+                  {abilityStats.map(({ ability: a, stats }, idx) => (
                     <Panel key={a.uniqueName} className="group hover:bg-white/2 transition-colors">
                        <div className="flex gap-4">
                           <div className="w-12 h-12 shrink-0 bg-black/40 angular-cut p-2 border border-ui-accent/20 group-hover:border-ui-accent/50 transition-colors flex items-center justify-center">
@@ -219,9 +231,9 @@ export default function WarframeDetail() {
                              </div>
                              <p className="typography-2 text-ui-secondary italic mb-2 line-clamp-2">{a.description}</p>
                              
-                             {a.stats?.stats && a.stats.stats.length > 0 && (
+                             {stats.length > 0 && (
                                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 border-t border-white/5 pt-2">
-                                  {a.stats.stats.slice(0, 6).map((s, i) => (
+                                  {stats.map((s, i) => (
                                     <AbilityStatLine key={i} stat={s} />
                                   ))}
                                </div>

@@ -4,7 +4,7 @@
 > Rol: describir que exponen las fuentes de habilidades y que no exponen
 > Fuente de verdad de: limites y cobertura de las fuentes de abilities
 > No usar para: estado de migracion del pipeline
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## Fuentes actuales
 
@@ -36,18 +36,23 @@ No expone por si solo:
 - `upgradeType`
 - metadata completa de runtime (`name`, `description`, `icon`)
 
-### 3. `Project/public/data/ability-stats.json`
+### 3. `Project/public/data/ability-stats.override.json`
 
-Es la fuente activa en runtime para:
+Es la copia activa consumida en runtime para:
 - metadata de habilidad
 - grupos consumidos por UI y futuro engine
 - override de casos no cubiertos directamente por la fuente primaria
+
+Importante:
+- esta ruta representa runtime, no necesariamente la fuente editable canonica
+- hoy convive con `Project/data/overrides/ability-stats.override.json` como copia transicional
+- el rol logico correcto de este dato es `override`, no `generated`
 
 ## Regla de interpretacion
 
 - la wiki define la semantica base y muchos valores reales
 - semantic markdown define la estructura editorial y agrupacion
-- `ability-stats.json` define el payload final consumible por la app
+- `ability-stats` define el payload final de override consumible por la app
 
 ## Limites conocidos
 
@@ -58,5 +63,5 @@ Es la fuente activa en runtime para:
 Ver:
 - `schema.md`
 - `pipeline.md`
+- `../data-layer-roles.md`
 - `../../../features/semantic-pipeline/questions.md`
-

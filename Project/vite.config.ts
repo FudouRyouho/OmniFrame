@@ -1,7 +1,6 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [
@@ -10,11 +9,11 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@lib':       resolve(__dirname, 'src/lib'),
-      '@features':  resolve(__dirname, 'src/features'),
-      '@shared':    resolve(__dirname, 'src/shared'),
-      '@assets':    resolve(__dirname, 'src/assets'),
-      '@providers': resolve(__dirname, 'src/providers'),
+      '@lib':       '/src/lib',
+      '@features':  '/src/features',
+      '@shared':    '/src/shared',
+      '@assets':    '/src/assets',
+      '@providers': '/src/providers',
     },
   },
   test: {

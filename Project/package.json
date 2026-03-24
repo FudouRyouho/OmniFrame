@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:data": "node scripts/generate-data.mjs",
+    "merge:semantic-groups": "node scripts/merge-semantic-groups.mjs",
     "test": "vitest --run"
   },
   "dependencies": {

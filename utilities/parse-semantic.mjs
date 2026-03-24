@@ -1,12 +1,12 @@
 /**
  * parse-semantic.mjs
  * Parsea los archivos references/Semantic/*.md y genera un JSON
- * compatible con ability-stats.json (keyed por uniqueName de Lotus).
+ * compatible con ability-stats.override.json (keyed por uniqueName de Lotus).
  *
  * Formato del md:
  *   # WARFRAME — /Lotus/...  (comentario, ignorado por el parser)
  *   ## /Lotus/Powersuits/PowersuitAbilities/GlaiveAbility   ← clave del output
- *   ##! /Lotus/...   ← skip: ya procesado/listo en ability-stats.json
+ *   ##! /Lotus/...   ← skip: ya procesado/listo en ability-stats.override.json
  *   ### Subgrupo     ← grupo exclusivo (forma, elemento, mote)
  *   #### AUGMENT     ← grupo no-exclusivo (augment)
  *   Label: valor     ← stat

@@ -12,10 +12,15 @@
 1. Obtener los `uniqueName` del warframe y de sus habilidades.
 2. Editar el `.md` en `references/Semantic/`.
 3. Ejecutar el parser sobre el archivo del warframe.
-4. Revisar el output generado.
-5. Mover `groups` a `ability-stats.json`.
-6. Asignar `upgradeBy` correctamente.
-7. Validar que el estado del track siga documentado en `Docs/`.
+4. Revisar `references/Semantic/parsed-output.json`.
+5. Integrar `groups` en `Project/data/overrides/ability-stats.override.json`:
+   - opcion A: `npm run merge:semantic-groups` (desde `Project/`) o
+     `node scripts/merge-semantic-groups.mjs` — solo reemplaza `groups` por clave existente
+   - opcion B: edicion manual del mismo campo
+6. Asignar o revisar `upgradeBy` (el parser deja `NONE`).
+7. `npm run generate:data` para publicar a `Project/public/data/`.
+8. `node scripts/verify-ability-stats.mjs` para validar el runtime.
+9. Validar que el estado del track siga documentado en `Docs/` si aplica.
 
 ## Obtener `uniqueName`
 
@@ -39,10 +44,11 @@ Revisar luego:
 
 ## Merge actual
 
-Estado actual:
-- el merge sigue siendo manual o asistido
-- la metadata (`name`, `description`, `icon`) sigue viniendo de `ability-stats.json`
-- el parser solo genera `groups`
+- la metadata (`name`, `description`, `icon`) vive en el override; el parser solo aporta `groups`
+- merge mecanico: `merge-semantic-groups.mjs` desde `parsed-output.json` hacia
+  `Project/data/overrides/ability-stats.override.json` (no crea claves nuevas: las habilidades
+  deben existir ya en el override, p. ej. tras `generate-data`)
+- merge semantico: revision de `upgradeBy` y labels sigue siendo manual
 
 ## Asignacion de `upgradeBy`
 

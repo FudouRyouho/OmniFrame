@@ -1,7 +1,14 @@
 /**
+ * @deprecated
+ * Este script ya cumplió su propósito: migrar ability-stats.override.json
+ * del schema legacy (stats[]) al schema actual (groups[]).
+ * La migración fue aplicada en la fase S2/S3 del stabilization-backlog.
+ * Conservado como evidencia histórica en scripts/backups/.
+ * No ejecutar sobre datos actuales — el schema ya es groups[].
+ *
  * migrate-ability-stats.mjs
  *
- * Migra ability-stats.json del schema legacy al nuevo schema con groups[].
+ * Migra ability-stats.override.json del schema legacy al nuevo schema con groups[].
  *
  * Schema legacy:
  *   { name, description, icon, stats: AbilityStat[] }
@@ -115,10 +122,10 @@ function migrateEntry(legacy) {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
-const inputPath  = join(ROOT, "public/data/ability-stats.json");
-const outputPath = join(ROOT, "public/data/ability-stats.json");
+const inputPath  = join(ROOT, "public/data/ability-stats.override.json");
+const outputPath = join(ROOT, "public/data/ability-stats.override.json");
 
-console.log("Reading ability-stats.json...");
+console.log("Reading ability-stats.override.json...");
 const raw = JSON.parse(readFileSync(inputPath, "utf-8"));
 
 let migrated = 0;

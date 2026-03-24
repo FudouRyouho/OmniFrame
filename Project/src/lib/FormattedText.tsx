@@ -5,7 +5,7 @@ import { IconDamageType } from "@assets/IconDamageType";
  * Mapa de normalización: tag interno del juego → key canónica de IconDamageType.
  *
  * Cubre tres formatos que aparecen en los datos:
- *   - ability-stats.json:  |DT_SLASH|, |DT_EXPLOSION|  (sin sufijo)
+ *   - ability-stats.override.json: |DT_SLASH|, |DT_EXPLOSION| (sin sufijo)
  *   - mods levelStats:     <DT_SLASH_COLOR>, <DT_RADIATION_COLOR>  (sufijo _COLOR)
  *   - mods levelStats:     <DT_SLASH_OUTLINE>  (sufijo _OUTLINE → variant outline)
  *

@@ -27,7 +27,7 @@
 - no genera `description`
 - no genera `icon`
 - no resuelve `upgradeBy` real
-- no decide por si solo el merge final a `ability-stats.json`
+- no aplica el merge a `ability-stats.override.json`; ese paso es `merge-semantic-groups.mjs` o edicion manual
 
 ## Limites conocidos
 

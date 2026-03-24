@@ -31,11 +31,18 @@ No incluye:
 - esta documentada la necesidad de una capa de integracion separada
 - existe base documental para integrar `Archon Shards` por fases
 
+## Implementado (acotado, no es el engine completo)
+
+- `Project/src/lib/abilityCalc.ts`: calculo de valores de stats de habilidad a partir de
+  `upgradeBy` + variables de motor (`EngineVars`), resolucion de labels `|valN|` para UI.
+  Es util para vistas y herramientas dev; **no** implementa `calculate(layout, context)` ni
+  un layout de equipo completo.
+
 ## No implementado aun
 
 - `features/arsenal/engine/` real
-- `calculate(layout, context)` funcional
-- `EngineOutput` real usado por la app
+- `calculate(layout, context)` funcional segun `builder-v1.md`
+- `EngineOutput` real usado por la app de forma transversal
 - provider de build conectado al motor
 
 ## Bloqueantes
@@ -64,8 +71,14 @@ No incluye:
 - `../../reference/audits/repo-structure-snapshot.md`
 - `../../reference/audits/component-usage-audit.md`
 
+## S6 — minimo horizontal
+
+Vision y limites del corte actual (dev, engine acotado, capa intermedia, UI texto):
+- `s6-horizontal-minimum.md`
+
 ## Lectura operativa del track
 
+- `../../overview/placeholder-minimums.md` para entrada, salida y consumer esperado antes de implementacion completa
 - `file-structure.md` para ubicacion del motor
 - `mod-value-source.md` para fuente numerica de mods
 - `gaps.md` para bloqueantes y deudas locales

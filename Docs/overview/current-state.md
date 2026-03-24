@@ -5,13 +5,15 @@
 > Fuente de verdad de: estado operativo general
 > No usar para: detalle de schema, formulas o decisiones historicas
 > Depende de: `../features/`
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## Resumen
 
 OmniFrame esta en una fase temprana de consolidacion.
 La base de datos y la estructura general existen, pero el proyecto todavia no tiene
-un motor de builder implementado ni una taxonomia documental lo bastante clara.
+un motor de builder completo segun `builder-v1.md`. La documentacion de estabilizacion
+(`stabilization-backlog.md`) describe el cierre progresivo de S1–S4 y el trabajo pendiente
+de S5–S6.
 
 El objetivo inmediato de `Docs/` es separar:
 - conocimiento estable
@@ -22,11 +24,13 @@ El objetivo inmediato de `Docs/` es separar:
 ## Lo que ya funciona
 
 - pipeline de datos principal via `generate-data.mjs`
-- `weapons.json`, `warframes.json`, `mods.json`
-- `ability-stats.json` como override activo en runtime
-- vista de equipment y shell basico de UI
-- parser semantico inicial `utilities/parse-semantic.mjs`
+- `weapons.json`, `warframes.json`, `mods.json` (artefactos esperados del pipeline cuando se publican)
+- `ability-stats.override.json` como override activo en runtime
+- vista de equipment y shell basico de UI; vista de mods enrutada
+- parser semantico `utilities/parse-semantic.mjs` y merge mecanico documentado hacia el override
 - split de tipos en `Project/src/lib/types/`
+- `npm run build` en verde (TypeScript + Vite) tras el saneamiento minimo de tipos
+- `abilityCalc.ts`: calculo acotado de valores de stats de habilidad y labels para UI (no es el engine de builds)
 
 ## Lo que esta en progreso
 
@@ -34,8 +38,9 @@ El objetivo inmediato de `Docs/` es separar:
 
 - hay parser funcional
 - la cobertura de los `.md` semanticos sigue siendo parcial
-- el merge hacia `ability-stats.json` aun no es reproducible de punta a punta
-- `upgradeBy` sigue requiriendo asignacion manual
+- el merge mecanico de `groups` (parsed -> override editable) esta cubierto por
+  `merge-semantic-groups.mjs`; la revision de `upgradeBy` sigue siendo manual
+- `upgradeBy` sigue requiriendo asignacion manual tras el merge de `groups`
 
 Documento principal:
 - `../features/semantic-pipeline/status.md`
@@ -52,7 +57,8 @@ Documento principal:
 ### 3. Builder Engine
 
 - existe arquitectura documental base
-- no existe implementacion real del motor
+- no existe implementacion del contrato `calculate(layout, context)` del motor
+- existe `abilityCalc.ts` solo para stats de habilidad en contexto de UI
 - los datos de mods siguen necesitando una fuente numerica clara para el builder
 
 Documento principal:
@@ -60,18 +66,17 @@ Documento principal:
 
 ### 4. Navigation Shell
 
-- hay shell y menu basico
-- falta contexto de layout activo
-- faltan rutas y wiring definitivo entre UI y builder
+- hay shell, HUD y menu basico; equipment y mods usables por ruta
+- falta contexto de layout activo y vistas stub (Arcanes, Options, Profile, Arsenal) sin enrutar aun
 
 Documento principal:
 - `../features/navigation-shell/status.md`
 
 ## Bloqueos estructurales actuales
 
-- `ability-stats.json` y el pipeline semantico aun no tienen flujo estable de migracion
-- el builder engine no tiene contrato implementado ni provider asociado
-- la documentacion vieja mezcla estado, arquitectura, auditoria y backlog
+- cobertura y calidad editorial del markdown semantico siguen siendo el cuello de botella operativo
+- el builder engine no tiene el pipeline `calculate(layout, context)` ni provider de layout asociado
+- parte del material en `Docs/reference/` y legacy puede desalinearse hasta revision puntual
 
 ## Siguiente lectura recomendada
 

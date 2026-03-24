@@ -3,7 +3,7 @@
 > Estado: activo
 > Rol: mapear dependencias de entrada y salida del builder engine
 > Fuente de verdad de: relaciones del track con el resto del proyecto
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-22
 
 ## Depende de
 
@@ -21,6 +21,6 @@
 ## Deudas tecnicas relacionadas
 
 - hidratacion runtime actual de abilities
-- ausencia de `arcanes.json`
+- `arcanes.json` se genera con `generate-data` pero `ArcanesView` aun no consume datos en UI
 - falta de documentacion de companions para v2
 
