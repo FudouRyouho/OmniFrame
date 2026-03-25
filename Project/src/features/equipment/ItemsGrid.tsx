@@ -1,6 +1,14 @@
+import { useEffect, useRef } from "react";
 import classNames from "classnames";
 import type { BaseItem } from "@lib/types";
 import CustomPopover from "@shared/components/CustomPopover";
+import VirtualizedItemsGrid from "./VirtualizedItemsGrid";
+/**
+ * @deprecated ItemDetailsPopover ya no se usa en el runtime.
+ * Todas las vistas usan cards especializadas con popovers por tipo.
+ * Este import se mantiene temporalmente para revisión manual de dependencias.
+ * Eliminar tras verificar que no hay consumers activos.
+ */
 import ItemDetailsPopover from "./details/item-details-popover";
 
 /**
@@ -8,14 +16,35 @@ import ItemDetailsPopover from "./details/item-details-popover";
  * 
  * BaseItem compatibility: This component is generic over BaseItem,
  * allowing it to work with any item type (Weapon, Warframe, Mod).
- * The component uses BaseItem fields (id, name, kind, image, tags)
- * for rendering and interaction, providing a unified UI for all item types.
+ * 
+ * Refactored to support composition pattern via renderItem prop.
+ * When renderItem is provided, delegates rendering to specialized cards.
+ * Falls back to legacy behavior for backward compatibility (deprecated path).
+ * 
+ * Virtualización automática: listas >100 items usan VirtualizedItemsGrid por defecto
+ * para evitar renderizado masivo. Threshold y parámetros son configurables.
  */
+const VIRTUALIZATION_THRESHOLD = 100;
+
+type VirtualizationOptions = {
+  enabled?: boolean;
+  threshold?: number;
+  itemSize?: number;
+  overscan?: number;
+  computeColumnCount?: (containerWidth: number) => number;
+  rowGap?: number;
+  columnGap?: number;
+  containerClassName?: string;
+  rowClassName?: string;
+};
+
 type ItemsGridProps<TItem extends BaseItem = BaseItem> = {
   items: TItem[];
   selectedId?: string | null;
   onSelect: (item: TItem) => void;
   isLoading: boolean;
+  renderItem?: (item: TItem) => React.ReactNode;
+  virtualization?: VirtualizationOptions;
 };
 
 const ItemsGrid = <TItem extends BaseItem = BaseItem>({
@@ -23,31 +52,87 @@ const ItemsGrid = <TItem extends BaseItem = BaseItem>({
   selectedId,
   onSelect,
   isLoading,
+  renderItem,
+  virtualization,
 }: ItemsGridProps<TItem>) => {
-  return (
-    <div className="h-full grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] auto-rows-max gap-2 pr-1">
-      {isLoading
-        ? Array.from({ length: 20 }).map((_, i) => (
-            <div
-              key={i}
-              className="w-full aspect-square border border-ui-primary/10 bg-black/20 animate-pulse relative flex flex-col justify-end p-2 gap-2"
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-1/2 h-1/2 bg-ui-primary/5 rounded-full blur-3xl" />
-              </div>
-              <div className="mt-auto relative z-10 w-full p-2 pt-4 text-left flex flex-row justify-between">
-                <div className="h-3 w-3/4 bg-ui-accent/20 relative z-10" />
-                <div className="h-2 w-1/2 bg-ui-primary/10 relative z-10" />
-              </div>
+  const renderStartTime = useRef<number>(0);
+  const prevItemsLength = useRef<number>(0);
+
+  // Medir tiempo de renderizado cuando cambia la cantidad de items
+  useEffect(() => {
+    if (items.length !== prevItemsLength.current) {
+      if (renderStartTime.current === 0) {
+        renderStartTime.current = performance.now();
+      } else {
+        const renderTime = performance.now() - renderStartTime.current;
+        console.log(
+          `%c[PERF] ItemsGrid render: ${renderTime.toFixed(2)}ms (${items.length} items)`,
+          'color: #a29bfe; font-weight: bold'
+        );
+        renderStartTime.current = 0;
+      }
+      prevItemsLength.current = items.length;
+    }
+  }, [items.length]);
+
+  // Marcar inicio de renderizado
+  if (items.length > 0 && renderStartTime.current === 0) {
+    renderStartTime.current = performance.now();
+  }
+
+  // Skeleton loader — compartido entre ambos modos
+  if (isLoading) {
+    return (
+      <div className="h-full grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] auto-rows-max gap-2 pr-1 overflow-y-scroll">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="w-full aspect-square border border-ui-primary/10 bg-black/20 animate-pulse relative flex flex-col justify-end p-2 gap-2"
+          >
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-1/2 h-1/2 bg-ui-primary/5 rounded-full blur-3xl" />
             </div>
-          ))
+            <div className="mt-auto relative z-10 w-full p-2 pt-4 text-left flex flex-row justify-between">
+              <div className="h-3 w-3/4 bg-ui-accent/20 relative z-10" />
+              <div className="h-2 w-1/2 bg-ui-primary/10 relative z-10" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const virtualizationEnabled = virtualization?.enabled ?? true;
+  const virtualizationThreshold = virtualization?.threshold ?? VIRTUALIZATION_THRESHOLD;
+
+  // Virtualización automática para listas grandes con renderItem
+  if (renderItem && virtualizationEnabled && items.length > virtualizationThreshold) {
+    return (
+      <VirtualizedItemsGrid
+        items={items}
+        renderItem={renderItem}
+        itemSize={virtualization?.itemSize}
+        overscan={virtualization?.overscan}
+        computeColumnCount={virtualization?.computeColumnCount}
+        rowGap={virtualization?.rowGap}
+        columnGap={virtualization?.columnGap}
+        containerClassName={virtualization?.containerClassName}
+        rowClassName={virtualization?.rowClassName}
+      />
+    );
+  }
+
+  return (
+    <div className="h-full grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] auto-rows-max gap-2 pr-1 overflow-y-scroll">
+      {renderItem
+        ? items.map(renderItem)
         : items.map((item) => {
+            // @deprecated Legacy fallback path - todas las vistas deben usar renderItem con cards especializadas
             const isSelected = selectedId != null && selectedId === item.id;
             return (
               <CustomPopover
                 key={item.id}
                 popover={<ItemDetailsPopover item={item} />}
-                
               >
                 <button
                   className={classNames(
@@ -58,13 +143,8 @@ const ItemsGrid = <TItem extends BaseItem = BaseItem>({
                   onClick={() => onSelect(item)}
                 >
                   <div className="flex flex-col w-full aspect-square overflow-hidden">
-                    {/* Fondo Base (Oscuro) */}
                     <div className="absolute inset-0 z-0 bg-linear-to-b from-black/20 via-black/40 to-black/80" />
-
-                    {/* Glow de Hover (Estilo Warframe) */}
                     <div className="bg-glow" />
-
-                    {/* Contenedor de Imagen con Zoom */}
                     <div className="absolute inset-0 z-0 overflow-hidden">
                       {item.image ? (
                         <img
@@ -79,8 +159,6 @@ const ItemsGrid = <TItem extends BaseItem = BaseItem>({
                         </div>
                       )}
                     </div>
-
-                    {/* Texto inferior (comparte el fondo) */}
                     <div className="mt-auto relative z-10 w-full p-2 pt-4 text-left flex flex-row justify-between">
                       <div className="text-ui-accent text-[11px] font-bold tracking-wide uppercase truncate drop-shadow-md">
                         {item.name}

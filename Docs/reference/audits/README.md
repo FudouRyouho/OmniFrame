@@ -8,7 +8,7 @@
 
 ## Referencias historicas conservadas
 
-Tras la limpieza de `Docs-legacy/`, el material wiki descargado ya fue movido a
+Tras la limpieza documental, el material wiki descargado ya fue movido a
 `reference/wiki/modules/` y `reference/wiki/modules/raw/`.
 - `semantic-pipeline-pre-audit.md`
 - `ability-stats-source-audit.md`

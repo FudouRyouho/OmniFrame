@@ -23,6 +23,8 @@ Cambios ya aplicados:
 - se definio la taxonomia `generated / override / backup / deprecated / runtime`
 - se documento el contrato de `generate-data` como capa de normalizacion, no de
   conocimiento manual
+- se implemento virtualización configurable (`ItemsGrid` + `VirtualizedItemsGrid`) y threshold por vista
+- se agrego cache de datasource en IndexedDB (`lib/db.ts`) con fallback JSON
 - se reorganizo `Project/data/` en:
   - `overrides/`
   - `backups/`
@@ -35,6 +37,8 @@ Cambios ya aplicados:
   - `Project/data/backups/ability-stats.backup.json`
 - se movio el artefacto de auditoria a:
   - `Project/data/audits/upgradeby-audit.json`
+- se implemento virtualización configurable de grids de equipment (`ItemsGrid` + `VirtualizedItemsGrid`)
+- se implemento cache persistente en IndexedDB usando `lib/db.ts` y `fetchWithCache`
 
 Documentos clave de este cierre:
 

@@ -22,9 +22,16 @@ const instance = new Items()
 
 
 
+// Necramechs viven en category 'Warframes' en warframe-items — se identifican por uniqueName.
+// MANTENIMIENTO: si se añaden nuevos Necramechs en la fuente, actualizar este Set.
+const NECRAMECH_UNIQUE = new Set([
+  '/Lotus/Powersuits/EntratiMech/ThanoTech',  // Bonewidow
+  '/Lotus/Powersuits/EntratiMech/NechroTech', // Voidrig
+])
+
 // --- Warframes ---
 const warframes = instance
-  .filter(i => i.category === 'Warframes')
+  .filter(i => i.category === 'Warframes' && !NECRAMECH_UNIQUE.has(i.uniqueName) && i.uniqueName !== '/Lotus/Powersuits/Infestation/Helminth')
   .map(raw => ({
     // BaseItem compatibility fields (wiki canonical format)
     id: raw.uniqueName ?? raw.name,
@@ -372,4 +379,120 @@ await fs.writeFile(
 )
 
 console.log(`✓ arcanes.json — ${arcanes.length} arcanos`)
+
+// --- Companions (Pets + Sentinels) ---
+const COMPANION_CATS = ['Pets', 'Sentinels']
+
+const mapCompanion = (raw) => ({
+  id:          raw.uniqueName ?? raw.name,
+  kind:        'companion',
+  image:       raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
+  uniqueName:  raw.uniqueName ?? '',
+  name:        raw.name ?? '',
+  description: raw.description ?? '',
+  imageName:   raw.imageName ?? '',
+  category:    raw.category,   // 'Pets' | 'Sentinels'
+  masteryReq:  raw.masteryReq ?? 0,
+  health:      raw.health ?? null,
+  shield:      raw.shield ?? null,
+  armor:       raw.armor ?? null,
+  isPrime:     raw.isPrime ?? false,
+  tradable:    raw.tradable ?? false,
+  polarities:  raw.polarities ?? [],
+  introduced:  raw.introduced?.name ?? raw.introduced ?? null,
+  wikiaThumbnail: raw.wikiaThumbnail ?? null,
+  wikiaUrl:    raw.wikiaUrl ?? null,
+  tags:        raw.tags ?? [],
+})
+
+const companions = instance
+  .filter(i => COMPANION_CATS.includes(i.category))
+  .map(mapCompanion)
+
+await fs.writeFile(
+  path.join(outDir, 'companions.json'),
+  JSON.stringify(companions)
+)
+
+console.log(`✓ companions.json — ${companions.length} companions`)
+
+// --- Archwing Weapons (Arch-Gun + Arch-Melee) ---
+const ARCHWEAPON_CATS = ['Arch-Gun', 'Arch-Melee']
+
+const mapArchWeapon = (raw) => ({
+  id:          raw.uniqueName ?? raw.name,
+  kind:        raw.category === 'Arch-Gun' ? 'archgun' : 'archmelee',
+  image:       raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
+  uniqueName:  raw.uniqueName ?? '',
+  name:        raw.name ?? '',
+  description: raw.description ?? '',
+  imageName:   raw.imageName ?? '',
+  category:    raw.category,
+  masteryReq:  raw.masteryReq ?? 0,
+  isPrime:     raw.isPrime ?? false,
+  tradable:    raw.tradable ?? false,
+  polarities:  raw.polarities ?? [],
+  introduced:  raw.introduced?.name ?? raw.introduced ?? null,
+  wikiaThumbnail: raw.wikiaThumbnail ?? null,
+  wikiaUrl:    raw.wikiaUrl ?? null,
+  tags:        raw.tags ?? [],
+  damage:      mapDamage(raw.damage),
+  totalDamage: raw.totalDamage ?? 0,
+  criticalChance:     raw.criticalChance ?? 0,
+  criticalMultiplier: raw.criticalMultiplier ?? 0,
+  procChance:         raw.procChance ?? 0,
+  attacks:     (raw.attacks ?? []).map(a => mapAttack(a)),
+})
+
+const archwingWeapons = instance
+  .filter(i => ARCHWEAPON_CATS.includes(i.category))
+  .map(mapArchWeapon)
+
+await fs.writeFile(
+  path.join(outDir, 'archwing-weapons.json'),
+  JSON.stringify(archwingWeapons)
+)
+
+console.log(`✓ archwing-weapons.json — ${archwingWeapons.length} archwing weapons`)
+
+// --- Vehicles (Necramechs + Archwings) ---
+const mapVehicle = (raw, kind) => ({
+  id:          raw.uniqueName ?? raw.name,
+  kind,
+  image:       raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
+  uniqueName:  raw.uniqueName ?? '',
+  name:        raw.name ?? '',
+  description: raw.description ?? '',
+  imageName:   raw.imageName ?? '',
+  category:    raw.category,
+  masteryReq:  raw.masteryReq ?? 0,
+  health:      raw.health ?? null,
+  shield:      raw.shield ?? null,
+  armor:       raw.armor ?? null,
+  isPrime:     raw.isPrime ?? false,
+  tradable:    raw.tradable ?? false,
+  polarities:  raw.polarities ?? [],
+  introduced:  raw.introduced?.name ?? raw.introduced ?? null,
+  wikiaThumbnail: raw.wikiaThumbnail ?? null,
+  wikiaUrl:    raw.wikiaUrl ?? null,
+  tags:        raw.tags ?? [],
+  abilities:   (raw.abilities ?? []).map(a => a.uniqueName ? { uniqueName: a.uniqueName } : { uniqueName: '' }),
+})
+
+const necramechs = instance
+  .filter(i => NECRAMECH_UNIQUE.has(i.uniqueName))
+  .map(raw => mapVehicle(raw, 'necramech'))
+
+const archwings = instance
+  .filter(i => i.category === 'Archwing')
+  .map(raw => mapVehicle(raw, 'archwing'))
+
+const vehicles = [...necramechs, ...archwings]
+
+await fs.writeFile(
+  path.join(outDir, 'vehicles.json'),
+  JSON.stringify(vehicles)
+)
+
+console.log(`✓ vehicles.json — ${vehicles.length} vehicles (${necramechs.length} necramechs, ${archwings.length} archwings)`)
 console.log('Done.')

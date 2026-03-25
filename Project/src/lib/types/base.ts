@@ -4,7 +4,7 @@ import type { Mod } from './mod';
 import type { Warframe } from './warframe';
 import type { Weapon } from './weapon';
 
-export type Kind = 'warframe' | 'primary' | 'secondary' | 'melee' | 'mod';
+export type Kind = 'warframe' | 'primary' | 'secondary' | 'melee' | 'mod' | 'arcane' | 'companion' | 'archgun' | 'archmelee' | 'necramech' | 'archwing';
 
 export interface BaseItem {
   id: string;              // uniqueName ?? name

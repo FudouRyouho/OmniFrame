@@ -63,11 +63,11 @@ Depende de:
 ## Goal transversal - Preparar el cutover documental
 
 Objetivo:
-- completar el cleanup posterior al renombre y dejar estable la convivencia con `Docs-legacy/`
+- completar el cleanup posterior al renombre y dejar estable el arbol documental activo
 
 Incluye:
 - ledger de migracion
-- validacion manual de legacy
+- cierre de referencias heredadas en docs activos
 - plan de corte controlado
 
 Documento principal:

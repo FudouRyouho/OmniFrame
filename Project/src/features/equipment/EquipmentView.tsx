@@ -41,7 +41,7 @@ const ItemsView: React.FC = () => {
       />
 
       <div className="flex-1 flex gap-3 h-0">
-        <div className="flex-1 min-w-0 h-full overflow-x-hidden overflow-y-auto relative">
+        <div className="flex-1 min-w-0 h-full overflow-hidden relative">
           <ItemsGrid
             items={filteredItems}
             selectedId={selected?.id ?? null}

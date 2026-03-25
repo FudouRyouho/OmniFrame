@@ -3,7 +3,7 @@ import HudHeader from "./HudHeader"
 
 const Hud = ({ children }: { children: ReactNode }) => {
     return (
-        <div className="h-screen text-ui-secondary flex flex-col">
+        <div className="h-screen overflow-hidden text-ui-secondary flex flex-col">
             <HudHeader/>
             <main className="flex-1 overflow-hidden">{children}</main>
         </div>

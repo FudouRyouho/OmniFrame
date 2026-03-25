@@ -4,14 +4,13 @@
 > Rol: puerta de entrada de la documentacion activa del proyecto
 > Fuente de verdad de: taxonomia, orden de lectura y politica de migracion
 > No usar para: detalles de schema o backlog operativo de una feature
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-25
 
 `Docs/` es el arbol activo de documentacion del proyecto.
 
-Durante la migracion:
+Estado actual:
 - `Docs/` es la ruta principal para documentacion nueva o reescrita
-- `Docs-legacy/` queda como legado y referencia de apoyo hasta revision manual
-- no mover ni borrar archivos de `Docs-legacy/` sin que exista reemplazo claro en `Docs/`
+- no mantener referencias operativas a arboles documentales retirados
 
 ## Estructura
 
@@ -73,7 +72,6 @@ Ver `reference/wiki/README.md`.
 ## Politica minima de migracion
 
 - toda documentacion nueva va a `Docs/`
-- un archivo de `Docs-legacy/` solo pasa a historico o eliminacion cuando su reemplazo en `Docs/` existe
 - si un documento mezcla varias preguntas, se divide antes de migrarlo
 - cada cambio de arquitectura, schema o workflow debe actualizar `Docs/`
 

@@ -10,14 +10,17 @@
     "preview": "vite preview",
     "generate:data": "node scripts/generate-data.mjs",
     "merge:semantic-groups": "node scripts/merge-semantic-groups.mjs",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "check": "tsc -b --noEmit && eslint ."
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/vite": "^4.2.1",
+    "@tanstack/react-virtual": "^3.13.23",
     "@tippyjs/react": "^4.2.6",
     "classnames": "^2.5.1",
+    "dexie": "^4.3.0",
     "lucide-react": "^0.577.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

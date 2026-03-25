@@ -4,7 +4,7 @@
 > Rol: definir el patron editorial y el ciclo de mantenimiento de la documentacion
 > Fuente de verdad de: reglas de escritura, ubicacion y actualizacion
 > No usar para: contenido tecnico de una feature concreta
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-25
 
 ## Principio rector
 
@@ -47,22 +47,21 @@ Todo documento activo debe incluir:
 El ciclo de trabajo del proyecto es:
 
 ```text
-analysis -> discussion -> implementation -> doc-update
+Analisis -> Pre-documentacion -> Debate -> Implementacion/Decision -> Documentacion Real
 ```
 
 Reglas:
 - no cerrar una tarea de arquitectura o schema sin actualizar `Docs/`
 - no crear markdown improvisados fuera de esta taxonomia
-- no usar `Docs-legacy/` para documentacion nueva
 - si una pregunta cambia el rumbo de varias areas, moverla a `decisions/`
+- no saltar fases: cada fase es checkpoint explicito antes de avanzar
 
-## Reglas de migracion desde `Docs-legacy/`
+## Reglas posteriores al corte documental
 
-- migrar reescribiendo, no copiando ciegamente
-- dividir documentos grandes en piezas pequenas y trazables
-- dejar `Docs-legacy/` como legacy hasta revision manual
-- mover solo cuando el reemplazo en `Docs/` ya exista
-- registrar el reemplazo en `overview/migration-status.md`
+- `Docs/` es la unica ruta activa de documentacion del proyecto
+- mantener documentos pequenos, trazables y con una sola pregunta por archivo
+- registrar cambios de estado por track en su `status.md` al cerrar implementaciones
+- registrar decisiones transversales en `decisions/open-questions.md` o `decisions/`
 
 ## Regla para referencias de la wiki
 

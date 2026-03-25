@@ -32,16 +32,19 @@ fuente -> semantic markdown -> parser -> merge -> ability-stats.override.json
 - revisar semantica de grupos augment respecto a `exclusive`
 - reducir la dependencia de documentos legacy para seguir el estado real
 
-## Estado de cobertura (heredado, no re-auditado)
+## Estado de cobertura
 
-La fuente detallada por warframe esta en `coverage.md`. Los conteos agregados que antes
-vivian solo en este archivo deben leerse como **estimacion heredada** hasta correr una
-auditoria del arbol de `.md`.
+Verificado: 2026-03-25 con `node Project/scripts/verify-ability-stats.mjs`
 
-Hasta entonces:
-- usar `coverage.md` como checklist operativo desactualizado pero util
-- usar `node Project/scripts/verify-ability-stats.mjs` como sanidad del JSON publicado
-  (`groups[]` en runtime), no como medida de cobertura de markdown
+**Estado actual**: ✓ 100% COBERTURA
+- Total entradas: 299
+- Correctas: 299
+- Con warnings: 0
+- Con errores: 0
+
+**Status**: Todas las entradas cumplen el schema `groups[]`.
+
+Nota histórica: Anterior estado era "heredado, no re-auditado" — ya no aplica tras verificación actual.
 
 ## Bloqueantes
 

@@ -3,7 +3,7 @@
 > Estado: activo
 > Rol: registrar preguntas abiertas locales del track builder engine
 > Fuente de verdad de: dudas pendientes del motor
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-25
 
 ## Base ya decidida
 
@@ -47,3 +47,10 @@ Pregunta:
 Pregunta:
 - cuando conviene modelar augmentos de habilidad o efectos sin `upgradeTypes[]`
   como parte real del engine, y cuando quedan como metadata o referencia
+
+## BE-Q6 - Integración con Tipado Nuevo
+
+Pregunta:
+- Cómo integrar los nuevos tipos (Arcane, Companion, etc.) en el engine una vez implementado.
+
+Referencia: [Docs/decisions/implementaciones-temporales.md](../../decisions/implementaciones-temporales.md)

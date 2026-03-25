@@ -18,6 +18,7 @@
  *   - Transformaciones de formato (eso es generate-data.mjs)
  */
 import type { Warframe, Ability, AbilityStatsData } from './types'
+import { db, fetchWithCache } from './db'
 
 // ── Cache ─────────────────────────────────────────────────────────────────────
 
@@ -75,9 +76,11 @@ const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Abi
 
 // ── Fetch ─────────────────────────────────────────────────────────────────────
 
-export const fetchWarframes = async (): Promise<Warframe[]> => {
-  if (cache) return cache
-
+/**
+ * Fetch interno que carga el JSON y hace la hidratación.
+ * Usado por fetchWithCache como fallback cuando IndexedDB está vacío.
+ */
+const fetchWarframesFromJSON = async (): Promise<Warframe[]> => {
   const [wfRes, statsRes, passivesRes] = await Promise.all([
     fetch('/data/warframes.json'),
     fetch('/data/ability-stats.override.json').catch(() => null),
@@ -103,7 +106,7 @@ export const fetchWarframes = async (): Promise<Warframe[]> => {
     }
   }
 
-  cache = warframes.map(wf => ({
+  return warframes.map(wf => ({
     ...wf,
     passive: wf.passive && typeof wf.passive === 'string'
       ? passivesDb[wf.passive]
@@ -114,7 +117,13 @@ export const fetchWarframes = async (): Promise<Warframe[]> => {
         : undefined) ?? wf.passiveDescription,
     abilities: wf.abilities.map(a => hydrateAbility(a, statsDb)),
   }))
+}
 
+export const fetchWarframes = async (): Promise<Warframe[]> => {
+  if (cache) return cache
+
+  // Usar IndexedDB con fallback a JSON
+  cache = await fetchWithCache(db.warframes, fetchWarframesFromJSON, 'warframes')
   return cache
 }
 

@@ -1,13 +1,18 @@
 import type { Mod } from './types'
+import { db, fetchWithCache } from './db'
 
 let cache: Mod[] | null = null
 
-export const fetchMods = async (): Promise<Mod[]> => {
-  if (cache) return cache
+const fetchModsFromJSON = async (): Promise<Mod[]> => {
   const res = await fetch('/data/mods.json')
   if (!res.ok) throw new Error('Failed to load mods.json')
-  cache = await res.json()
-  return cache!
+  return res.json()
+}
+
+export const fetchMods = async (): Promise<Mod[]> => {
+  if (cache) return cache
+  cache = await fetchWithCache(db.mods, fetchModsFromJSON, 'mods')
+  return cache
 }
 
 export const fetchMod = async (name: string): Promise<Mod | undefined> => {
