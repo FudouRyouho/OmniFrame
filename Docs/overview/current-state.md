@@ -5,7 +5,7 @@
 > Fuente de verdad de: estado operativo general
 > No usar para: detalle de schema, formulas o decisiones historicas
 > Depende de: `../features/`
-> Ultima actualizacion: 2026-03-25
+> Ultima actualizacion: 2026-03-26
 
 ## Resumen
 
@@ -41,11 +41,12 @@ El objetivo inmediato de `Docs/` es separar:
 - `EquipmentContext` con `hovered`, `search`, `order` compartidos entre toolbar y vistas
 - `useViewFilter` hook con soporte de categorias y subcategorias configurables por vista
 - toolbar de equipment con tres filas: hover label / tabs de navegacion + orden + busqueda / filtros dinamicos por vista
-- sistema de virtualización configurable por vista (`ItemsGrid` + `VirtualizedItemsGrid`) para límites de tamaño de lista altos
-  - **WarframesView**: virtualización deshabilitada (threshold: 250, lista pequeña 114 items)
-  - **WeaponsView**: virtualización activa (threshold: 100, itemSize: 175px, overscan: 4)
-  - **ModsView**: virtualización activa (threshold: 80, itemSize: 180px, overscan: 5)
-  - **CompanionsView, VehiclesView, ArcanesView, ArchwingWeaponsView**: virtualización activa (threshold: 100, defaults)
+- virtualización localizada por vista para listas grandes (`VirtualizedItemsGrid` usado explícitamente por `WeaponsView` y `ModsView`)
+  - **ItemsGrid**: grilla simple compartida, sin política de virtualización integrada
+  - **WarframesView**: grilla simple (lista pequeña, sin virtualización)
+  - **WeaponsView**: virtualización local activa (threshold: 250, minColumnWidth: 180px, overscan: 4)
+  - **ModsView**: virtualización local activa (threshold: 80, minColumnWidth: 190px, overscan: 5)
+  - **CompanionsView, VehiclesView, ArcanesView, ArchwingWeaponsView**: grilla simple
 - cache de datos persistente en IndexedDB (`lib/db.ts`, Dexie v1+) con fallback a JSON para soporte offline y carga rápida
   - Versionado automático: `DB_VERSION = 1` con invalidación si cambia
 
@@ -66,7 +67,7 @@ El objetivo inmediato de `Docs/` es separar:
 ### 1. Semantic Pipeline
 
 - hay parser funcional
-- la cobertura de los `.md` semanticos sigue siendo parcial
+- cobertura verificada de los `.md` semanticos: 100% (299/299) segun auditoria del 2026-03-25
 - el merge mecanico de `groups` (parsed -> override editable) esta cubierto por
   `merge-semantic-groups.mjs`; la revision de `upgradeBy` sigue siendo manual
 - `upgradeBy` sigue requiriendo asignacion manual tras el merge de `groups`
@@ -105,6 +106,7 @@ Documento principal:
 - migracion de `dev/example` a `features/equipment/` completada (NS-DT-15 cerrada)
 - vistas con datos operativas: Warframes, Weapons, Mods, Arcanes, Companions, ArchwingWeapons, Vehicles (necramechs+archwings)
 - todas las 7 vistas de equipment operativas con datos reales
+- `/arsenal` renderiza un stub mínimo y el footer contextual de shell ya contempla un placeholder funcional para esa zona
 - rutas de detalle placeholder bajo `/equipment/{warframes,weapons,companions,vehicles,archwing-weapons}/:uniqueName`
 - `fetchSingle` añadido a los 4 loaders nuevos para resolver items por uniqueName
 - pendiente: conectar filtros (bloqueado por discusion de arquitectura D-4), deprecar `arcanes/` y `mods/`
@@ -114,7 +116,7 @@ Documento principal:
 
 ## Bloqueos estructurales actuales
 
-- cobertura y calidad editorial del markdown semantico siguen siendo el cuello de botella operativo
+- el cuello operativo ya no es cobertura base, sino cierre semantico de `upgradeBy` y coherencia editorial entre documentos
 - el builder engine no tiene el pipeline `calculate(layout, context)` ni provider de layout asociado
 - parte del material en `Docs/reference/` puede desalinearse hasta revision puntual
 
