@@ -4,8 +4,8 @@
 > Rol: resumir la taxonomia operativa de `upgradeTypes[]` para el builder
 > Fuente de verdad de: clasificacion funcional de upgrade types
 > No usar para: tabla exhaustiva de todos los casos edge del juego
-> Depende de: `source-model.md`, `override-strategy.md`
-> Ultima actualizacion: 2026-03-22
+> Depende de: PA-2/3/4 (schema de mods cerrado 2026-03-27)
+> Última actualización: 2026-03-27
 
 ## Grupos principales
 
@@ -28,13 +28,17 @@ se resuelven con fuente adicional u override controlado.
 
 ## Donde aparecen los gaps
 
+**Nota sobre evolución:** La taxonomía de `upgradeType` es parcialmente conocida y crece bajo la misma semántica del juego. Cada nuevo dominio (warframes, abilities, archon shards) puede introducir nuevos `upgradeType`. La lista no es cerrada.
+
+**Gaps documentados:**
+
 - tipo de dano elemental
 - condiciones de activacion
 - progresion por rango no lineal
 - mods `UNIQUE` sin `upgradeTypes[]`
 
-Esos casos viven en:
-- `override-strategy.md`
-- `../../../features/builder-engine/mod-value-source.md`
-- `../../../features/builder-engine/gaps.md`
+**Referencia:** Decisiones y resoluciones en:
+
+- [Docs/temp/pre-v1-architecture-2026-03-26.md](../../../temp/pre-v1-architecture-2026-03-26.md) — decisiones PA-2/3/4
+
 

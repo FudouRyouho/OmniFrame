@@ -5,7 +5,7 @@
 > Fuente de verdad de: deudas locales del track navigation shell
 > No usar para: contrato del engine o formulas
 > Depende de: `status.md`
-> Ultima actualizacion: 2026-03-25
+> Ultima actualizacion: 2026-03-28
 
 ## Deudas activas
 
@@ -28,7 +28,7 @@
 
 - `features/equipment/detail/` contiene placeholders minimos para Warframe, Weapon, Companion, Vehicle, ArchwingWeapon
 - cada vista resuelve el item por `uniqueName` via `fetchSingle` del loader correspondiente
-- el contenido real (panel de stats, builder integration) se implementa cuando el builder exista
+- el contenido real (panel de stats, wiring con loadout activo) se implementa cuando el vertical slice actual cubra seleccion real, B4 y persistencia
 - `pages/WarframeDetail.tsx` y `pages/WeaponDetail.tsx` siguen activas bajo `/warframes/:name` y `/weapons/:name` (legacy)
 - las rutas legacy se mantienen hasta que las vistas de detalle nuevas sean funcionales
 
@@ -38,12 +38,13 @@
 
 ### NS-DT-8 - Layout activo en HUD
 
-- falta la caja de layout activo
-- depende de `layout-context.tsx` y del builder
+- `HudHeader` ya consume un resumen real del loadout activo
+- falta endurecer su presentacion final y conectarlo con seleccion real desde equipment y persistencia de Profile
 
 ### NS-DT-9 - Menu incompleto
 
-- faltan rutas y wiring de `Options`, `Profile`, `Arsenal` (stubs en `features/` sin `Route`)
+- `Options` y `Profile` siguen sin wiring real
+- `Arsenal` ya existe como ruta activa, pero sigue en consumer minimo del builder
 - `DialogMenu` consume `routes` plano de `App.tsx`; en el futuro debe entender jerarquia de rutas para poder navegar a sub-rutas de equipment
 
 ### NS-DT-10 - CSS
@@ -107,7 +108,7 @@
 ### NS-DT-20 - Virtualización Temporal
 
 - Implementación en fase de pruebas; sujeta a cambios estructurales.
-- Posible absorción de ItemsGrid en vistas particulares.
+- la virtualización ya quedó localizada en `WeaponsView` y `ModsView`; resta validar si `VirtualizedItemsGrid` sigue valiendo como primitiva compartida o si termina absorbido por cada vista
 - Referencia: [Docs/decisions/implementaciones-temporales.md](../../decisions/implementaciones-temporales.md)
 
 ### NS-DT-21 - Tipado Nuevo Pendiente
@@ -115,3 +116,9 @@
 - Nuevos tipos (Arcane, Companion, etc.) requieren documentación de overrides.
 - Semántica cambiada de warframe-items; documentar cambios.
 - Referencia: [Docs/decisions/implementaciones-temporales.md](../../decisions/implementaciones-temporales.md)
+
+### NS-DT-22 - ShellProvider transicional
+
+- `ShellProvider` centraliza header/footer/zone desde routing y convive con `LoadoutProvider` como frontera de integracion actual
+- actualmente deriva estado desde `pathname` y usa `footerKind` para resolver placeholders de shell (`item-details`, `arsenal`)
+- pendiente: mover la resolucion de shell hacia metadata de rutas o una frontera mas estable sin reabrir OQ-2

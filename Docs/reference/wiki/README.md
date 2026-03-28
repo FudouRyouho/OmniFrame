@@ -4,7 +4,7 @@
 > Rol: alojar referencia profunda de mecanicas del juego necesarias para el engine
 > Fuente de verdad de: taxonomia de documentacion tecnica basada en la wiki
 > No usar para: estado del proyecto o backlog de implementacion
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-28
 
 ## Objetivo
 
@@ -46,5 +46,5 @@ La referencia wiki informa al engine, pero no decide por si sola el contrato del
 proyecto. Cuando una mecanica impacta el builder:
 
 1. se documenta en `reference/wiki/`
-2. se evalua en `features/builder-engine/questions.md`
+2. se evalua en `features/builder-engine/status.md` y en la documentacion local vigente del track
 3. si cambia arquitectura o policy, se registra en `decisions/`

@@ -5,7 +5,7 @@
 > Fuente de verdad de: implementado, pendiente, bloqueantes y proximos pasos del pipeline
 > No usar para: contrato final del schema
 > Depende de: `../../domains/data/abilities/`
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
 
 ## Objetivo
 
@@ -18,48 +18,52 @@ fuente -> semantic markdown -> parser -> merge -> ability-stats.override.json
 ## Implementado
 
 - `utilities/parse-semantic.mjs` existe y parsea markdown semantico
-- el output ya usa `groups`
+- el output parsed usa `groups[]`
 - `Project/scripts/merge-semantic-groups.mjs` aplica `groups` del parsed al override editable
-- `ability-stats.override.json` usa el schema nuevo basado en grupos
+- existe base de merge para convivir con el override actual, pero `ability-stats.override.json` todavia no esta migrado por completo al schema `groups[]`
 - hay base documental para `upgradeBy`, `upgradeType` y formulas
 - `Ash` fue el primer caso llevado al formato nuevo
 
 ## Pendiente
 
-- re-auditar cobertura real de `references/Semantic/` y actualizar `coverage.md` (el inventario
-  numerico resumido abajo es heredado, no verificado contra disco)
+- migrar el override runtime/publicado a una estructura valida con `groups[]`; el verificador actual marca errores estructurales en todo el archivo
+- reemplazar el inventario heredado de `coverage.md` por un corte verificado despues de la migracion real del runtime
 - asignar `upgradeBy` de forma consistente habilidad por habilidad (manual tras merge de `groups`)
 - revisar semantica de grupos augment respecto a `exclusive`
-- reducir la dependencia de documentos legacy para seguir el estado real
+- reducir el drift entre parser/merge/documentacion y el runtime publicado
 
 ## Estado de cobertura
 
-Verificado: 2026-03-25 con `node Project/scripts/verify-ability-stats.mjs`
+Verificado: 2026-03-28 con `node scripts/verify-ability-stats.mjs` desde `Project/`
 
-**Estado actual**: ✓ 100% COBERTURA
-- Total entradas: 299
-- Correctas: 299
+**Estado actual**: runtime no alineado con el schema objetivo
+- Total entradas: 559
+- Correctas: 0
 - Con warnings: 0
-- Con errores: 0
+- Con errores: 559
+- Schema legacy: 260
 
-**Status**: Todas las entradas cumplen el schema `groups[]`.
+**Status**: el pipeline semantico existe, pero `Project/public/data/ability-stats.override.json`
+todavia no pasa la verificacion estructural y no puede describirse como 100% migrado a `groups[]`.
 
-Nota histórica: Anterior estado era "heredado, no re-auditado" — ya no aplica tras verificación actual.
+Nota historica: la lectura previa de `299/299` y "100% cobertura" ya no debe usarse como
+estado operativo del track.
 
 ## Bloqueantes
 
+- migracion reproducible del override runtime a `groups[]`
 - dudas de semantica de groups y augments
 - cobertura parcial de las fuentes para warframes recientes
 
 ## Desbloquea
 
-- soporte real de habilidades dentro del builder engine
+- soporte trazable de habilidades dentro del builder engine
 - migracion futura de hidratacion a build time
 - menor acoplamiento entre UI de abilities y datos legacy
 
 ## Lectura operativa del track
 
-- `coverage.md` para inventario de warframes y cobertura
+- `coverage.md` para corte verificado del runtime y estado actual de migracion
 - `workflow.md` para agregar o migrar un warframe
 - `parser-behavior.md` para limites y comportamiento observado del parser
 - `semantic-markdown-format.md` para el formato esperado de los `.md`

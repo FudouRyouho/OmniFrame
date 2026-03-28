@@ -21,14 +21,13 @@
 - `EquipmentToolbar` con tres filas: hover label / tabs de navegacion + orden + busqueda / filtros dinamicos por vista
 - `EquipmentContext` con `hovered`, `search`, `order`
 - toolbars dedicadas por vista con `FilterIcon` y `useDataState`
-- 7 vistas stub bajo `features/equipment/view/` (datos pendientes de conectar)
+- 7 vistas de equipment operativas con datos reales bajo `features/equipment/view/`
 - `EquipmentView` — deprecated (NS-DT-13), reemplazada por `view/*`
 - `features/arcanes/` y `features/mods/` — deprecated (NS-DT-14)
 
 ## Pendientes estructurales
 
-- implementar vistas de datos en `features/equipment/view/`
-- conectar `search` y `order` del contexto a los hooks de filtrado
+- conectar `search` y `order` del contexto a los hooks de filtrado (bloqueado por D-4)
 - caja de layout activo en HUD
 - rutas y componentes para Options, Profile, Arsenal (contrato en `../../overview/placeholder-minimums.md`)
 - wiring definitivo hacia el builder

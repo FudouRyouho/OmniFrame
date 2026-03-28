@@ -5,11 +5,16 @@
 > Fuente de verdad de: semantica de `groups[]`
 > No usar para: formulas numericas o flujo del parser
 > Depende de: `schema.md`
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
+
+> **[GAP-4 — pre-v1-architecture-2026-03-26.md]** Las pasivas de warframe no tienen modelo
+> estable en `groups[]`. Las pasivas son fuente de condiciones transversales (ejemplo: Frost).
+> Hasta que las pasivas tengan schema, el diseño del vocabulario canónico de condiciones
+> está incompleto.
 
 ## Regla base
 
-Toda habilidad se representa con `groups[]`.
+Toda habilidad migrada al contrato objetivo se representa con `groups[]`.
 
 - sin `id`: grupo base, siempre activo, sin header obligatorio
 - con `id`: grupo seleccionable o activable

@@ -5,7 +5,7 @@
 > Fuente de verdad de: pipeline actual de habilidades
 > No usar para: detalle matematico del engine
 > Depende de: `source-model.md`, `schema.md`
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
 
 ## Flujo actual (lectura unica)
 
@@ -43,6 +43,8 @@ wiki/module + captura manual
 - `ability-stats` pertenece a la capa de override, no a la capa generated
 - `Project/public/data/ability-stats.override.json` es la copia de runtime, no la definicion
   conceptual del rol del dato
+- en el corte 2026-03-28, la copia runtime publicada todavia no pasa `verify-ability-stats.mjs`;
+  no asumir que todo el archivo ya cumple el contrato `groups[]`
 
 ## Objetivo de este pipeline
 
@@ -59,6 +61,7 @@ Separar:
 
 ## Temas aun abiertos (no bloquean el flujo base)
 
+- migracion estructural del runtime a `groups[]`
 - validacion sistematica de cobertura de todos los `.md`
 - semantica de `exclusive` para augments
 - criterio consistente documentado para asignar `upgradeBy` en casos limite

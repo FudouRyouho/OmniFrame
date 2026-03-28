@@ -5,7 +5,7 @@
 > Fuente de verdad de: requisitos de modelado y límites por fase del builder
 > No usar para: tabla canónica de bonuses o acquisition
 > Depende de: `../../domains/data/warframes/archon-shards.md`
-> Última actualización: 2026-03-22
+> Última actualización: 2026-03-28
 
 ## Objetivo
 
@@ -182,6 +182,6 @@ Eso permite:
 ## Donde seguir
 
 - `status.md`
-- `gaps.md`
-- `questions.md`
+- `dependencies.md`
+- `../../domains/engine/architecture.md`
 - `../../domains/data/warframes/archon-shards.md`

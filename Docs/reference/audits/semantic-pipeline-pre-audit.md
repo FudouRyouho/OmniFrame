@@ -4,7 +4,11 @@
 > Rol: conservar hallazgos historicos del pre-audit previo a ejecutar el parser semantico
 > Fuente de verdad de: contexto historico de correcciones y discrepancias detectadas el 2026-03-21
 > No usar para: estado operativo actual del track semantic pipeline
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-28
+
+> **Nota 2026-03-28**: este pre-audit queda como evidencia historica previa al corte post-Paso 18.
+> La lectura operativa actual del track vive en `Docs/features/semantic-pipeline/` y
+> `Docs/domains/data/abilities/`.
 
 ## Correcciones ya aplicadas en ese momento
 
@@ -48,7 +52,7 @@ El pre-audit dejo explicito que los tipos del motor no pertenecen a `src/lib/typ
 porque el motor es feature-specific y debe vivir en `features/arsenal/engine/`.
 
 Esta frontera ya esta reflejada en:
-- `Docs/domains/engine/builder-v1.md`
+- `Docs/domains/engine/architecture.md` (`builder-v1.md` fue eliminado)
 
 ### `UpgradeType` como string abierto
 
@@ -64,6 +68,6 @@ Lo operativo del pre-audit fue dividido en:
 - `Docs/features/semantic-pipeline/parser-behavior.md`
 - `Docs/features/semantic-pipeline/preflight-checklist.md`
 - `Docs/features/semantic-pipeline/questions.md`
-- `Docs/features/semantic-pipeline/coverage.md`
+- `Docs/features/semantic-pipeline/coverage.md` (hoy usado como corte verificado del runtime, no como inventario heredado por warframe)
 
 Por eso este archivo debe leerse solo como referencia historica.

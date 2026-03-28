@@ -1,17 +1,16 @@
 # Ability Stats Override Schema
 
 > Estado: activo
-> Rol: documentar el schema aceptado hoy para `ability-stats.override.json`
-> Fuente de verdad de: contrato actual del override de habilidades
+> Rol: documentar el schema objetivo aceptado para `ability-stats.override.json`
+> Fuente de verdad de: contrato objetivo del override de habilidades cuando una entrada ya esta migrada
 > No usar para: cobertura por warframe o estado del parser
 > Depende de: `source-model.md`
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
 
 ## Entrada de habilidad
 
-Cada habilidad en la copia runtime del override hoy publicada en
-`Project/public/data/ability-stats.override.json` esta indexada por
-`uniqueName` y usa esta estructura conceptual:
+Cuando una entrada de `ability-stats.override.json` ya esta migrada al contrato `groups[]`,
+queda indexada por `uniqueName` y usa esta estructura conceptual:
 
 ```ts
 interface AbilityStatsData {
@@ -29,6 +28,8 @@ Importante:
 - no describe una capa generated
 - la ubicacion final del archivo puede cambiar, pero el rol del dato sigue siendo
   `override`
+- en el corte 2026-03-28, el runtime publicado todavia no cumple este contrato de forma completa;
+  ver `../../../features/semantic-pipeline/status.md` para el estado real de migracion
 
 ## Grupo
 

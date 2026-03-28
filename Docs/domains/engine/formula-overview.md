@@ -1,15 +1,29 @@
-# Builder Formula Overview
+# Engine Formula Overview
 
 > Estado: activo
-> Rol: resumir los patrones de fórmula que el builder engine v1 necesita soportar
+> Rol: resumir los patrones de fórmula que el Engine v1 necesita soportar
 > Fuente de verdad de: panorama de fórmulas del motor
 > No usar para: catálogo exhaustivo de mecánicas avanzadas del juego
-> Depende de: `builder-v1.md`
-> Última actualización: 2026-03-21
+> Depende de: C1→C32/C33 (capas Loadout/Resolver/Engine)
+> Última actualización: 2026-03-27 (recontextualizado: supuesto v1 declarado)
+
+> **[GAP-6 — CERRADO 2026-03-27]** La fórmula dominante
+> `stat_final = base * (1 + suma de mods del mismo upgradeType)` trata todos los mods
+> como equivalentes. Los mods con condición deberían sumarse solo si la condición está
+> activa. **El supuesto v1 está ahora declarado explícitamente en la sección siguiente.**
+
+## Supuesto fundamental de v1
+
+**v1 asume máximo rendimiento**: todas las condiciones aplicables están activas. Por lo tanto:
+- Todos los mods actúan. Los mods con condición se asumen cumplida (ej: hit garantizado).
+- No hay simulación de tiempo ni rotación de estados; se calcula como estático.
+- Esto es una simplificación intencional para permitir cálculo puro sin estado runtime.
+
+En futuras versiones, el Resolver agregará `ConditionState` para modelar variabilidad.
 
 ## Regla de lectura
 
-Este documento cubre fórmulas de cálculo estático para v1.
+Este documento cubre fórmulas de cálculo estático para v1, aplicables por el Engine tras recibir el `CalculationContext` del Resolver.
 
 No cubre:
 
@@ -72,3 +86,4 @@ Base documental:
 - dots y ticks
 - ramp temporal de Heat
 - corrosive, viral o magnetic como simulación real sobre enemigo
+

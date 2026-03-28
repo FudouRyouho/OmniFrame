@@ -44,7 +44,7 @@ Revisar luego:
 
 ## Merge actual
 
-- la metadata (`name`, `description`, `icon`) vive en el override; el parser solo aporta `groups`
+- la metadata (`name`, `description`, `imageName`) vive en el override; el parser solo aporta `groups`
 - merge mecanico: `merge-semantic-groups.mjs` desde `parsed-output.json` hacia
   `Project/data/overrides/ability-stats.override.json` (no crea claves nuevas: las habilidades
   deben existir ya en el override, p. ej. tras `generate-data`)

@@ -1,11 +1,16 @@
 # Project State Reality Check — 2026-03-22
 
-> Estado: activo
-> Rol: contrastar la documentacion activa con el estado real del codigo y los datos
-> Fuente de verdad de: observaciones verificadas en `Project/`, `utilities/` y `references/`
-> No usar para: decisiones cerradas de arquitectura
+> Estado: referencia
+> Rol: snapshot de contraste entre documentacion y repo en la fecha 2026-03-22
+> Fuente de verdad de: observaciones verificadas en `Project/`, `utilities/` y `references/` en ese corte
+> No usar para: estado operativo actual ni decisiones cerradas de arquitectura
 > Depende de: `../../overview/current-state.md`, `../../features/`
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
+
+> **Nota 2026-03-28**: este reality check fue superado por la implementacion post-Paso 18
+> y por la resincronizacion documental posterior. Para lectura actual usar primero
+> `Docs/overview/current-state.md`, `Docs/features/*/status.md` y, en abilities,
+> `Docs/features/semantic-pipeline/status.md`.
 
 ## Objetivo
 
@@ -61,7 +66,7 @@ La conclusion practica es esta:
   - `parse-semantic.mjs` trabaja con `groups`
   - `generate-data.mjs` consume `Project/data/ability-stats.json`
   - `migrate-ability-stats.mjs` opera sobre `Project/public/data/ability-stats.json`
-  - `verify-ability-stats.mjs` todavia valida el schema viejo con `stats[]`
+  - en ese corte `verify-ability-stats.mjs` todavia validaba el schema viejo con `stats[]`
   - `extract-ability-stats.mjs` tambien sigue leyendo/escribiendo bajo supuestos viejos
 
 ### Interpretacion
@@ -109,10 +114,10 @@ no esta cerrada.
 
 ### Confirmado
 
-- No existe motor real de builder.
-- `Project/src/features/arsenal/engine/index.ts` es placeholder.
-- `Project/src/features/arsenal/ArsenalView.tsx` devuelve `null`.
-- `Project/src/features/hud/layout-context.tsx` devuelve `export {}`.
+- En ese corte no existia motor real de builder.
+- `Project/src/features/arsenal/engine/index.ts` era placeholder.
+- `Project/src/features/arsenal/ArsenalView.tsx` devolvia `null`.
+- `Project/src/features/hud/layout-context.tsx` devolvia `export {}`.
 
 ### Implementacion parcial relacionada
 
@@ -231,7 +236,7 @@ Orden recomendado para seguir sin aumentar deuda:
 2. Cerrar la migracion de abilities en UI y scripts.
 3. Elegir una sola fuente canonica para `ability-stats.json`.
 4. Actualizar los `status.md` con conteos y estado real.
-5. Recién despues avanzar con provider/layout y engine v1.
+5. Recién despues, en ese contexto, avanzar con provider/layout y engine v1.
 
 ## Propuesta concreta de foco inmediato
 

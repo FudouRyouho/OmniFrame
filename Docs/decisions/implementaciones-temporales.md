@@ -1,11 +1,11 @@
 # Implementaciones Temporales
 
-> Estado: temporal
+> Estado: activo
 > Rol: registrar implementaciones no cerradas y sujetas a cambios estructurales
 > Fuente de verdad de: estado de implementaciones temporales y cuestiones abiertas
 > No usar para: decisiones cerradas o implementaciones completas
 > Depende de: 
-> Ultima actualizacion: 2026-03-25
+> Ultima actualizacion: 2026-03-28
 
 Este documento registra implementaciones que aún no están cerradas y están sujetas a posibles cambios estructurales. Se utiliza para mantener claridad en el estado del proyecto y facilitar referencias cruzadas con la documentación principal.
 
@@ -18,8 +18,8 @@ Este documento registra implementaciones que aún no están cerradas y están su
 
 ## Tipado Nuevo (Arcanos, Vehicles, etc.)
 
-- **Estado**: Implementaciones abiertas a cambios. Se cambió la semántica de warframe-items para mejor organización y categorización, pero se debe documentar qué se hizo para referenciar correctamente dónde está el override/cambio.
-- **Detalles**: Nuevos tipos en lib/types/ (Arcane, Companion, ArchwingWeapon, Vehicle). Posibles ajustes en semántica.
-- **Referencias**: [Data foundation status](../features/data-foundation/status.md), [Estado actual](../overview/current-state.md)
+- **Estado**: Implementaciones abiertas a cambios de semántica y trazabilidad. La base ya existe, pero la documentación transversal del override/cambio sigue abierta.
+- **Detalles**: Nuevos tipos en lib/types/ (Arcane, Companion, ArchwingWeapon, Vehicle). El estado operativo vive en data-foundation; la decisión transversal pendiente sigue en OQ-8.
+- **Referencias**: [Data foundation status](../features/data-foundation/status.md), [Open Questions](open-questions.md), [Estado actual](../overview/current-state.md)
 
 Este documento se actualizará conforme se cierren o avancen estas implementaciones.

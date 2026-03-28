@@ -124,14 +124,17 @@ por comportamiento:
 | `dot_conditional` | Emerald toxin status damage, toxin heal |
 | `status_cap_modifier` | Emerald corrosive max stacks |
 
-## Shape sugerido para JSON
+## Shape del schema
+
+> Decisiones de respaldo: C29, C30, C31 en `Docs/temp/pre-v1-architecture-2026-03-26.md`
+
+### Definición del efecto (en el schema)
 
 ```ts
-interface ArchonShardBonus {
+interface ArchonShardEffect {
   shardType: "crimson" | "amber" | "azure" | "topaz" | "violet" | "emerald"
-  variant: "normal" | "tauforged"
-  effectId: string
-  category:
+  effectId: string           // identificador único del efecto dentro del tipo de shard
+  category:                  // comportamiento para el engine
     | "warframe_direct_flat"
     | "warframe_direct_percent"
     | "weapon_direct_percent"
@@ -142,17 +145,35 @@ interface ArchonShardBonus {
     | "on_kill_conditional"
     | "dot_conditional"
     | "status_cap_modifier"
-  statKey: string
-  value: number
-  condition?: {
-    type: string
-    value?: number
-    damageType?: string
-    statusType?: string
-  }
-  notes?: string[]
+  upgradeType: string        // vocabulario de upgrade-taxonomy.md
+  baseValue: number          // valor normal; tauforged = baseValue * 1.5 (engine, via slot)
+  condition: string | null   // vocabulario compartido (C31). null = siempre activo
 }
 ```
+
+### Slot en el layout (en el Builder)
+
+```ts
+interface EquippedShard {
+  shardType: "crimson" | "amber" | "azure" | "topaz" | "violet" | "emerald"
+  effectId: string
+  isTauforged: boolean       // engine calcula baseValue * 1.5 cuando true
+}
+```
+
+### Casos complejos como condicionales (C30)
+
+Los tres efectos con mecánica especial se expresan con el mismo patrón:
+
+| Efecto | Expresión en schema |
+|---|---|
+| Violet electricity +30% base | `baseValue: 30, condition: null` |
+| Violet electricity +10% por shard crimson/azure/violet | entrada separada: `baseValue: 10, condition: "per_shard_crimson_azure_violet"` |
+| Violet melee crit, doble si `maxEnergy > 500` | `baseValue: 25, condition: "max_energy_over_500"` — engine aplica x2 cuando condición activa |
+| Topaz secondary crit +1% por kill con Heat status | `baseValue: 1, condition: "on_kill_heat_status"` — acumulación y cap son lógica del engine |
+
+> Las entradas del vocabulario (`per_shard_crimson_azure_violet`, `max_energy_over_500`,
+> `on_kill_heat_status`) se añaden al catálogo incremental compartido cuando este se formalice.
 
 ## Relevancia para v1
 

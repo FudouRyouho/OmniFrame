@@ -5,12 +5,13 @@
 > Fuente de verdad de: gaps activos del dataset y proximos focos de datos
 > No usar para: formulas del builder o backlog de UI
 > Depende de: `../../domains/data/ssot.md`
-> Ultima actualizacion: 2026-03-24
+> Ultima actualizacion: 2026-03-28
 
 ## Objetivo
 
 Consolidar las fuentes de verdad y exponer claramente que gaps del dataset siguen
-abiertos antes de que el builder dependa de ellos.
+abiertos antes de ampliar el vertical slice actual del builder y del shell a tipos,
+persistencia o metadata que hoy siguen incompletos.
 
 ## Estado actual
 
@@ -25,6 +26,11 @@ abiertos antes de que el builder dependa de ellos.
 - `arcanes.json` ya existia; tipo `Arcane` formalizado en `lib/types/arcane.ts`
 - tipos nuevos: `Arcane`, `Companion`, `ArchwingWeapon`, `Vehicle` en `Project/src/lib/types/`
 - `Kind` en `base.ts` extendido: `arcane | companion | archgun | archmelee | necramech | archwing`
+- pipeline de imagenes de items separado en CLI: `scripts/get-img.mjs`
+- `generate:data` ahora ejecuta `generate-data.mjs`, `generate-mod-overrides.mjs` y luego `get-img.mjs --clean`
+- `npm run generate:data` sigue verde en el corte 2026-03-28
+- imagenes en runtime apuntan a ruta local flat `/imagenes/<imageName>` (local-first/local-only en componentes principales)
+- `warframes.json` ya no publica campos `*Rank30`; los valores por nivel quedan en la capa de formulas/engine
 - para datos distintos de `ability-stats` puede seguir habiendo ambiguedad operativa entre
   `Project/data/` y `Project/public/data/` hasta alinear cada artefacto al patron documentado
 
@@ -43,8 +49,12 @@ abiertos antes de que el builder dependa de ellos.
 
 ### DF-G3 - Valores numericos de mods
 
-- `levelStats` sigue siendo texto
-- el builder necesita una fuente estructurada
+- `levelStats` sigue siendo texto en la fuente
+- existe ya un segundo corte de `mod-stats.override.json` generado desde parser controlado
+- el pipeline excluye 94 mods `Flawed` desde `generate-data.mjs`
+- cobertura actual: 639 mods aceptados sobre 739 candidatos (86.47%)
+- el segundo corte reduce rechazos de 150 a 100 mediante fragmentacion de lineas compuestas y descarte de duraciones/cooldowns del conteo numerico
+- pendiente: cerrar edge cases restantes del reporte (`stat-count-mismatch`, `multiple-numbers-in-stat`)
 
 ### DF-G4 - Companion compatibility
 
@@ -100,11 +110,23 @@ abiertos antes de que el builder dependa de ellos.
 - buscan por `uniqueName` con fallback a `name` (case-insensitive), igual que `fetchWarframe`
 - resuelto: 2026-03-24
 
+### DF-G12 - Cobertura incompleta de imageName en fuente
+
+- `get-img` reporta ~263 `imageName` referenciados en JSON que no existen en `warframe-items/data/img`
+- impacto: no bloquea build; en runtime pueden verse placeholders locales en esas entradas
+- pendiente: decidir si se ignoran explicitamente en CLI o si se corrigen en la fuente
+
 ## Desbloquea
 
-- `../builder-engine/status.md`
-- `../navigation-shell/status.md`
+- siguientes extensiones de `../builder-engine/status.md`
+- siguientes extensiones de `../navigation-shell/status.md`
+
+## Piloto de mods (Paso 11)
+
+Criterios de selección, éxito y falla documentados en `pilot-criteria.md`.
+Estado: pendiente — el usuario redacta los casos manualmente cuando llegue el momento.
 
 ## Documento complementario
 
 - `../../domains/data/data-layer-roles.md`
+- `questions.md`

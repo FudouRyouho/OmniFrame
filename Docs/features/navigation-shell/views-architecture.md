@@ -5,7 +5,7 @@
 > Fuente de verdad de: arquitectura de vistas, hooks y flujo de datos
 > No usar para: decisiones de diseño futuras o backlog
 > Depende de: `status.md`, `../../domains/data/ssot.md`
-> Ultima actualizacion: 2026-03-24
+> Ultima actualizacion: 2026-03-28
 
 ## Objetivo
 
@@ -16,12 +16,12 @@ la discusión de cambios arquitectónicos (D-4, D-5) y la integración con el bu
 
 ## Estructura general
 
-Todas las vistas siguen el mismo patrón minimalista:
+Todas las vistas siguen el mismo patrón minimalista, con una excepción explícita para virtualización localizada:
 
 ```tsx
 const XView = () => {
-    const { data, isLoading } = useItems(source);
-    return <ItemsGrid items={data} isLoading={isLoading} onSelect={() => {}} />;
+  const { data, isLoading } = useItems(source);
+  return <ItemsGrid items={data} isLoading={isLoading} onSelect={() => {}} />;
 };
 ```
 
@@ -85,7 +85,7 @@ Cada source mapea a un loader que filtra desde el JSON correspondiente:
 
 **Ubicación:** `features/equipment/ItemsGrid.tsx`
 
-**Responsabilidad:** renderizar grid de items con loading state, hover popover y selección.
+**Responsabilidad:** renderizar grid simple de items con loading state, hover popover y selección.
 
 ### Props
 
@@ -95,6 +95,8 @@ type ItemsGridProps<TItem extends BaseItem> = {
   selectedId?: string | null;
   onSelect: (item: TItem) => void;
   isLoading: boolean;
+  renderItem?: (item: TItem) => React.ReactNode;
+  layout?: { minColumnWidth?: number; gap?: number; containerClassName?: string };
 };
 ```
 
@@ -102,10 +104,36 @@ type ItemsGridProps<TItem extends BaseItem> = {
 
 - genérico sobre `BaseItem` — funciona con cualquier tipo de item
 - muestra skeleton loaders mientras `isLoading === true` (20 placeholders)
+- no decide virtualización; las vistas que la necesiten la montan explícitamente
 - cada item es un botón con hover popover (`ItemDetailsPopover`)
 - el popover muestra metadata básica del item (nombre, descripción, stats mínimos)
 - `onSelect` se invoca al hacer click en un item
 - actualmente todas las vistas pasan `onSelect={() => {}}` — no hay selección activa
+
+## Componente: `VirtualizedItemsGrid`
+
+**Ubicación:** `features/equipment/VirtualizedItemsGrid.tsx`
+
+**Responsabilidad:** virtualizar filas de cards cuadradas solo en vistas con listas grandes y layout todavía transicional.
+
+### Props
+
+```ts
+type VirtualizedItemsGridProps<TItem extends BaseItem> = {
+  items: TItem[];
+  renderItem: (item: TItem) => React.ReactNode;
+  minColumnWidth?: number;
+  gap?: number;
+  overscan?: number;
+};
+```
+
+### Estado actual
+
+- `WeaponsView` decide localmente cuándo virtualizar (`threshold` local)
+- `ModsView` decide localmente cuándo virtualizar (`threshold` local)
+- `ItemsGrid` queda como fallback no virtual para el resto y para listas pequeñas
+- el cálculo de altura virtual asume cards `aspect-square`, consistente con `BaseItemCard`
 
 ### Estado de selección
 
@@ -119,6 +147,9 @@ Ninguna vista lo usa actualmente — preparado para integración con el builder.
 **Ubicación:** `features/equipment/hooks/use-items-filters.ts`
 
 **Responsabilidad:** filtrado, búsqueda y ordenamiento de items.
+
+Nota de dominio:
+- este hook pertenece al borde UI + integration; el shell consume resultados pero no define la semantica de filtrado
 
 ### Estado actual
 
@@ -141,8 +172,8 @@ no tienen lógica de filtrado implementada.
 
 ### Decisión pendiente (D-4)
 
-Desacoplar en una clase con funciones dedicadas por kind, reutilizando funciones base comunes
-(ej: `filterByName`, `filterByMasteryReq`, `filterByPolarity`).
+Desacoplar la logica de filtrado por kind en la capa de integration, reutilizando funciones base comunes
+(ej: `filterByName`, `filterByMasteryReq`, `filterByPolarity`) sin cargar responsabilidad adicional al shell.
 
 Esta decisión bloquea D-5 (conexión de `search` y `order` del contexto a las vistas).
 
@@ -174,6 +205,9 @@ Esta decisión bloquea D-5 (conexión de `search` y `order` del contexto a las v
 
 Cuando se resuelva D-4, `search` y `order` del contexto se conectarán a las vistas
 via `use-items-filters` o su reemplazo arquitectónico.
+
+Nota de dominio:
+- `EquipmentContext` expone estado de UI (`hovered`, `search`, `order`); la logica de aplicacion de filtros vive en integration.
 
 ---
 
@@ -238,21 +272,22 @@ Ver NS-DT-18 en `debt.md`.
 ## Flujo de datos actual
 
 ```
-Usuario navega a /equipment/warframes
+Usuario navega a /equipment/weapons
   ↓
-WarframesView monta
+WeaponsView monta
   ↓
-useItems("warframe") ejecuta
+useItems(["primary", "secondary", "melee"]) ejecuta
   ↓
-fetchWarframes() carga /data/warframes.json
+fetchWeapons() carga /data/weapons.json
   ↓
-items se cachean en itemsCache["warframe"]
+items se cachean en itemsCache["primary|secondary|melee"] por source individual
   ↓
-ItemsGrid renderiza con items + isLoading
+si la lista supera el threshold local, `WeaponsView` monta `VirtualizedItemsGrid`
+si no, usa `ItemsGrid`
   ↓
 Usuario hace click en un item
   ↓
-onSelect(() => {}) se invoca (no hace nada actualmente)
+navigate(`/equipment/weapons/:slug`, { state: { uniqueName } })
 ```
 
 ---
@@ -276,12 +311,13 @@ Decisión de diseño afecta a D-4 y al builder.
 
 ### Selección de items
 
-`onSelect` está preparado pero no implementado. Necesario para integración con el builder.
+`onSelect` está preparado pero no implementado. Necesario para integración real con el loadout activo.
 
 ### ItemDetailsPanel por tipo
 
-El popover actual muestra metadata genérica. Cuando el builder exista, cada tipo
-necesitará un panel de detalle específico (stats de warframe, damage de weapon, etc.).
+El popover actual muestra metadata genérica. Con el builder ya presente como vertical slice
+minimo, cada tipo necesitará un panel de detalle específico cuando se conecte la seleccion
+real y el consumo de stats (stats de warframe, damage de weapon, etc.).
 
 ---
 
@@ -291,7 +327,7 @@ necesitará un panel de detalle específico (stats de warframe, damage de weapon
 2. Implementación de D-5 (conexión de search/order del contexto)
 3. Evaluación de variantes de `ItemsGrid` por kind (mods, vehicles)
 4. Decisión de contexto de selección (¿en `EquipmentContext` o contexto dedicado?)
-5. Implementación de `ItemDetailsPanel` por tipo cuando el builder exista
+5. Implementación de `ItemDetailsPanel` por tipo sobre el vertical slice actual del builder
 
 ---
 

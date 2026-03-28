@@ -5,7 +5,7 @@
 > Fuente de verdad de: implementado, pendiente y bloqueantes del track de UI shell
 > No usar para: contratos del engine o schema de datos
 > Depende de: `../../domains/ui/shell-and-navigation.md`
-> Ultima actualizacion: 2026-03-26
+> Ultima actualizacion: 2026-03-28 (LoadoutProvider integrado en HUD + Arsenal)
 
 ## Objetivo
 
@@ -49,29 +49,29 @@ sin mezclar navegacion con calculo.
 - `HubFooter` reorganizado bajo `features/hud/footer/` como footer principal de shell; muestra `Back` en toda zona distinta de `home` y delega acciones contextuales a sub-footers por `footerKind`
 - `ItemsDetailsFooter` agregado para rutas de detalle (`Build`, `Similar`, `Wiki`) y `ArsenalFooter` activado como placeholder funcional para la ruta `/arsenal`
 - `ContextualActionsProvider` reemplazado por `ShellProvider` — centraliza toda resolución de `useLocation()` con contrato tipado: `zone`, `view`, `isDetail`, `entityId`, `footerKind`, `pageTitle`. La lógica de `resolvePageTitle` movida desde `HudHeader` a función pura `resolveShell()` en `providers/Shell/shell-context.tsx`. El archivo residual de `providers/ContextualActions/` ya fue eliminado.
-- Jerarquía de providers: `DataState → Menu → Shell → Theme → App`
-- `ArsenalView` deja de retornar `null` y renderiza un stub mínimo con `h1` para mantener coherencia entre navegación, shell y runtime
+- `LoadoutProvider` integrado en runtime con jerarquía `DataState → Loadout → Menu → Shell → Theme → App`
+- `HudHeader` consume el loadout activo real desde el provider y reemplaza el texto hardcodeado del layout
+- `ArsenalFooter` consume el estado del provider (cargando / error / canales activos)
+- `ArsenalView` deja de ser stub vacío y actúa como consumer mínimo de verificación del builder
 
 ## Pendiente
 
-- conectar `search` y `order` del contexto a los hooks de filtrado de cada vista (bloqueado por D-4)
-- discusion de arquitectura de `use-items-filters` — desacoplamiento en clase con funciones base por kind
-- caja de layout activo en HUD
-- wiring real de vistas stub (Options, Profile, Arsenal)
-- wiring real con el futuro builder
-- provider de layout visible para la UI
+- [integration] conectar `search` y `order` del contexto a los hooks de filtrado de cada vista (bloqueado por D-4)
+- [integration] discusion de arquitectura de `use-items-filters` — desacoplamiento por kind sin mezclar responsabilidades con shell
+- wiring real de `Options` y `Profile`; extender `Arsenal` desde consumer minimo a UI operativa
+- extender el vertical slice actual del builder con seleccion real desde equipment y persistencia
 - deprecar `features/arcanes/` y `features/mods/` — su logica util se migra a `features/equipment/`
 - conectar handlers reales de acciones contextuales del `HubFooter` (actualmente placeholder visual)
 
 ## Bloqueantes
 
-- el builder engine aun no existe
-- `layout-context.tsx` sigue como placeholder
-- la arquitectura de integracion todavia no esta consolidada
+- [externo/integration] el builder sigue siendo un vertical slice mínimo; faltan selección real desde equipment, persistencia y wiring de Profile/Options
+- [externo/engine] Backward Resolver (B4) pendiente de contratos de UI
 
 ## Lectura operativa del track
 
 - `views-architecture.md` para arquitectura técnica de las vistas y hooks
+- `questions.md` para decisiones locales de filtros y frontera con integration
 - `../../overview/placeholder-minimums.md` para vistas stub y HUD
 - `debt.md` para deuda tecnica local del shell y de las rutas
 - `../../reference/audits/runtime-layer-map.md`

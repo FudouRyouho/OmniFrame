@@ -4,7 +4,7 @@
 > Rol: definir el modelo mínimo de datos de Warframe que el proyecto debe consumir
 > Fuente de verdad de: requerimientos de datos base para `warframes.json` y capas derivadas
 > No usar para: fórmulas finales del engine o detalles de UI
-> Última actualización: 2026-03-22
+> Última actualización: 2026-03-28
 
 ## Objetivo
 
@@ -90,6 +90,7 @@ Eso pertenece a otras capas del engine.
 ## Donde seguir
 
 - `../weapons/source-model.md`
-- `../../engine/builder-v1.md`
+- `../../engine/architecture.md`
+- `../../../features/builder-engine/status.md`
 - `../../engine/formula-overview.md`
 - `archon-shards.md`

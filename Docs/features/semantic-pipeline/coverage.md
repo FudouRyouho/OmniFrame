@@ -5,42 +5,31 @@
 > Fuente de verdad de: inventario operativo de cobertura del track semantic pipeline
 > No usar para: contrato del schema o reglas del parser
 > Depende de: `status.md`
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
 
-## Estado conocido heredado
+## Estado verificado actual
 
-Base heredada desde auditorias previas del track y pendiente de revalidacion.
+Verificado: 2026-03-28 con `node scripts/verify-ability-stats.mjs` desde `Project/`.
 
-Este inventario debe tratarse como:
-- util para planificacion inicial
-- no completamente verificado contra el estado real actual de `references/Semantic/`
+- Total entradas: 559
+- Correctas: 0
+- Con warnings: 0
+- Con errores: 559
+- Schema legacy: 260
 
-## Formato nuevo listo para parser
+## Lectura correcta del archivo
 
-| Warframe | Estado |
-|---|---|
-| Ash | completo |
+- este archivo deja de usar el inventario heredado por warframe como lectura operativa
+- el parser y el formato semantico existen, pero el runtime publicado en `Project/public/data/ability-stats.override.json` no esta migrado por completo a `groups[]`
+- 260 entradas fueron marcadas explicitamente como `schema legacy`; el resto del archivo sigue fallando la verificacion estructural actual
 
-## Formato antiguo o migracion parcial
+## Inventario heredado retirado
 
-Atlas, Banshee, Baruuk, Chroma, Ember, Equinox, Excalibur Umbra, Frost, Gara,
-Garuda, Gauss, Harrow, Hildryn, Hydroid, Inaros, Ivara, Khora, Limbo, Loki,
-Mag, Mesa, Oberon, Rhino, Vauban, Wisp, Zephyr
-
-## Placeholders sin stats reales
-
-Caliban, Citrine, Cyte-09, Dagath, Grendel, Gyre, Jade, Koumei, Kullervo, Lavos,
-Mirage, Nekros, Nezha, Nidus, Nokko, Nova, Nyx, Octavia, Oraxia, Protea, Qorvex,
-Revenant, Saryn, Sevagoth, Styanax, Temple, Titania, Trinity, Uriel, Valkyr, Volt,
-Voruna, Wukong, Xaku, Yareli
-
-## Advertencias
-
-- el usuario indico que ya actualizo mas `.md` con `uniqueName` en `##`
-- el estado de este inventario puede estar atrasado respecto del filesystem real
-- no usar este archivo como verdad final sin re-auditar `references/Semantic/`
+El listado previo por warframe se retira de este documento porque no estaba verificado
+contra el runtime ni contra el estado real de `references/Semantic/`.
 
 ## Proximo paso operativo
 
-Hacer una auditoria real del arbol `references/Semantic/` y reemplazar este inventario
-heredado por uno verificado automaticamente o semiautomaticamente.
+1. migrar el override runtime para que `verify-ability-stats.mjs` deje de fallar estructuralmente
+2. re-auditar `references/Semantic/` y reconstruir un inventario por warframe ya verificado
+3. volver a usar este archivo como corte operativo solo despues de esa revalidacion

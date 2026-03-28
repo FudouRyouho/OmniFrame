@@ -25,7 +25,7 @@
 
 - no genera `name`
 - no genera `description`
-- no genera `icon`
+- no genera `imageName`
 - no resuelve `upgradeBy` real
 - no aplica el merge a `ability-stats.override.json`; ese paso es `merge-semantic-groups.mjs` o edicion manual
 

@@ -23,7 +23,7 @@
 
 1. Para merge mecanico de `groups`: usar `npm run merge:semantic-groups` (desde `Project/`) o
    edicion manual equivalente.
-2. Preservar `name`, `description` e `icon` (el script de merge solo toca `groups`).
+2. Preservar `name`, `description` e `imageName` (el script de merge solo toca `groups`).
 3. Confirmar que cada `uniqueName` del parsed ya existe en el override (si no, generar entradas
    con `generate-data` o entrada manual antes).
 4. Revisar `upgradeBy` porque el parser deja placeholders.

@@ -3,7 +3,7 @@
 > Estado: activo
 > Rol: indice del track de migracion y consolidacion de abilities
 > Fuente de verdad de: navegacion del track
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-28
 
 ## Documentos
 

@@ -1,10 +1,10 @@
 # Mods Source Model
 
-> Estado: activo
+> Estado: activo (revisado tras cierre de PA-2/3/4 — 2026-03-27)
 > Rol: describir que exponen las fuentes de mods y cuales son sus limites para el builder
 > Fuente de verdad de: modelo de fuentes para datos de mods
 > No usar para: backlog del builder o decisiones transversales
-> Ultima actualizacion: 2026-03-22
+> Última actualización: 2026-03-27
 
 ## Fuente principal
 

@@ -5,7 +5,7 @@
 > Fuente de verdad de: backlog de estabilizacion y criterios de prioridad del proyecto
 > No usar para: detalle de implementacion de una feature especifica
 > Depende de: `current-state.md`, `goals-roadmap.md`, `../reference/audits/project-state-reality-check-2026-03-22.md`
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
 
 ## Estado de la iteracion actual
 
@@ -15,8 +15,8 @@ Resultado al cierre de esta iteracion:
 - `S2` quedo cerrado como saneamiento minimo de build
 - `S3` quedo cerrado a nivel de flujo documentado y merge mecanico reproducible
 - `S4` quedo cerrado — contratos de placeholder por track en `placeholder-minimums.md`
-- `S5` quedo cerrado — `status.md` operativos y `current-state.md` alineados con el repo
-- `S6` en curso — vision del minimo horizontal fijada en `../features/builder-engine/s6-horizontal-minimum.md`
+- `S5` quedo cerrado para el corte 2026-03-27, pero reabierto parcialmente por drift posterior a los Pasos 15-18
+- `S6` ya no es una vision vacia: el vertical slice minimo tecnico esta implementado; queda sincronizacion documental y endurecimiento posterior
 
 Cambios ya aplicados:
 
@@ -156,27 +156,30 @@ Foco actual:
 
 Estado interpretado para esta fase:
 
-- documentado, no implementado
-- todavia no debe empujarse como feature aislada
+- vertical slice minimo implementado (`Engine`, `Resolver` forward, `Loadout`, `LoadoutProvider`)
+- el foco ya no es arrancar el motor, sino consolidar documentacion y cerrar las fronteras siguientes
 
 Foco actual:
 
-- mantener el contrato documental
-- placeholders del engine descritos en `placeholder-minimums.md`
-- preparar consumidor intermedio simple antes de motor real (S6)
+- sincronizar `overview/` y `domains/` con los Pasos 15-18
+- cerrar B4, persistencia y wiring real sin mezclar UI final de producto
+- mantener trazabilidad de decisiones desde `temp/pre-v1-architecture-2026-03-26.md`
+- preparar el cierre global con un plan canonico de worktree verde (`green-checkpoint-plan.md`)
 
 ## 4. Navigation Shell
 
 Estado interpretado para esta fase:
 
-- HUD y shell actuales son conceptuales
-- UI final aun no esta definida
-- `EquipmentView` es la referencia mas cercana a una UI real
+- shell basico y 7 vistas de equipment operativas con datos reales
+- `EquipmentView` deprecated; estructura migrada a `features/equipment/view/`
+- `LoadoutProvider` ya conecta layout activo entre HUD y Arsenal
+- pendiente: filtros desacoplados (D-4), wiring real de Options/Profile/Arsenal y handlers contextuales
 
 Foco actual:
 
-- rutas y wiring de vistas stub sobre la base de `placeholder-minimums.md`
-- no confundir prueba visual con diseño cerrado
+- cerrar deuda tecnica activa en `debt.md`
+- conectar filtros de kind cuando se resuelva D-4
+- no confundir progreso de browsing con wiring del builder
 
 ## Tareas pendientes de estabilizacion
 
@@ -252,7 +255,7 @@ Objetivo:
 - dejar una sola lectura razonable del flujo de `ability-stats`
 
 Estado:
-- cerrado — flujo canonico en `domains/data/abilities/pipeline.md` y workflow actualizado
+- reabierto — el flujo canonico sigue documentado, pero el runtime publicado no pasa la verificacion estructural actual
 
 Avance obtenido:
 
@@ -260,7 +263,7 @@ Avance obtenido:
   - `generate-data.mjs`: vigente — pipeline principal de generacion de datos
   - `migrate-ability-stats.mjs`: deprecado y movido a `scripts/backups/`
   - `extract-ability-stats.mjs`: deprecado y movido a `scripts/backups/`
-  - `verify-ability-stats.mjs`: actualizado al schema `groups[]` — 299/299 entradas correctas
+  - `verify-ability-stats.mjs`: usado como verificacion real del runtime; corte 2026-03-28 = 559 errores estructurales, 260 entradas `schema legacy`
 - `verify-ability-stats.mjs` puede correr como sanidad rapida del override
 - `merge-semantic-groups.mjs`: aplica solo `groups` desde `references/Semantic/parsed-output.json`
   hacia `Project/data/overrides/ability-stats.override.json`; expuesto como `npm run merge:semantic-groups`
@@ -268,7 +271,7 @@ Avance obtenido:
   publicacion formal con `npm run generate:data`
 
 Resultado esperado:
-- cumplido — el track ya no depende de una unica interpretacion oral del pipeline
+- parcial — la lectura del flujo ya no depende de una unica interpretacion oral, pero el runtime sigue sin alinearse al schema objetivo
 
 
 ## S4. Definir placeholders minimos por track
@@ -288,7 +291,7 @@ Tareas:
 
 Resultado obtenido:
 - tabla por vista stub y seccion HUD en `placeholder-minimums.md`
-- builder: entrada/salida/consumer enlazados a `builder-v1.md` y status del track
+- builder: entrada/salida/consumer enlazados a `placeholder-minimums.md` y status del track (`builder-v1.md` eliminado — C11)
 - `navigation-shell/debt.md` alineado con rutas reales de Mods
 
 Resultado esperado:
@@ -323,24 +326,8 @@ Resultado esperado:
 
 ## S6. Preparar consumer intermedio del engine
 
-Objetivo:
-- no construir el engine totalmente en vacio
-- establecer fundamento claro (sin arquitectura final) para logica < consumidor > UI
-
-Tareas:
-- trabajar inicialmente bajo `/dev/*` sin acoplar el shell de producto como consumidor principal
-- engine minimo: calculos sencillos warframe/arma; instancias/clases permitidas para contexto reusable
-- capa intermedia (provider/hooks evolutivos): orquesta engine hacia UI; flujo de estado
-  bidireccional sin que la UI invoque formulas ni el motor directamente
-- UI minima en texto; catalogo filtrado (no todo el JSON) para validar cuentas contra mecanica v1
-- dejar documentado que layout completo, rutas de build y vistas de stats de producto quedan fuera de este corte
-
-Documento de vision:
-- `../features/builder-engine/s6-horizontal-minimum.md`
-
-Resultado esperado:
-- cuando el motor crezca, ya existe una ruta dev y un contrato de capas para inspeccionarlo
-- cierre de S6 cuando esa ruta dev y el minimo codigo/documentado esten alineados con este documento
+> Vision original eliminada (CAT 3 — 2026-03-27). Contenido migrado a `../temp/pre-v1-architecture-2026-03-26.md` (RV-4).
+> S6 queda re-abierto como objetivo sin vision documentada. Requiere debate antes de re-implementar.
 
 ## Lo que no es prioridad inmediata
 

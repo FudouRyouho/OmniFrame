@@ -9,26 +9,31 @@
 
 ## Decisión
 
-Se implementa virtualización granular por vista (WarframesView, ModsView, WeaponsView), utilizando VirtualizedItemsGrid con props configurables (itemSize, overscan, computeColumnCount) en lugar de una solución global.
+Se mantiene virtualización por vista, pero deja de vivir dentro de `ItemsGrid`.
+`ItemsGrid` pasa a ser una grilla simple y la virtualización queda montada explícitamente solo en `WeaponsView` y `ModsView` mediante `VirtualizedItemsGrid`.
+
+El contrato del virtualizer se reduce a props de layout transicional (`minColumnWidth`, `gap`, `overscan`) porque el diseño visual todavía no es final y no conviene fijar una abstracción más rígida.
 
 ## Razones
 
-- **Flexibilidad**: Permite ajustes específicos por vista según densidad de datos y UX.
-- **Rendimiento**: Solo renderiza items visibles, mejorando DX en desarrollo y potencial producción.
-- **Temporal**: Implementación en fase de pruebas; no cerrada, sujeta a cambios estructurales.
+- **Claridad**: la vista declara explícitamente si virtualiza o no; no hay política implícita en `ItemsGrid`.
+- **Simplicidad**: se elimina una API sobredimensionada (`itemSize`, `computeColumnCount`, `rowGap`, `columnGap`) para un layout todavía transicional.
+- **Rendimiento**: Weapons y Mods siguen evitando render masivo sin arrastrar complejidad al resto de vistas.
+- **Temporal**: el layout no es final; por eso la solución se mantiene deliberadamente acotada y fácil de reemplazar.
 
 ## Alternativas Consideradas
 
-- Virtualización global en ItemsGrid: Rechazada por falta de granularidad.
-- Sin virtualización: Rechazada por rendimiento en listas grandes.
+- Virtualización global en `ItemsGrid`: rechazada por mezclar política de rendimiento con layout compartido.
+- Virtualización específica por vista con API amplia: rechazada por exceso de knobs para un diseño aún no final.
+- Sin virtualización: rechazada por rendimiento en listas grandes.
 
 ## Consecuencias
 
-- Código más mantenible con props configurables.
-- Posible refactor futuro si ItemsGrid se absorbe en vistas particulares.
-- Documentar en [implementaciones-temporales.md](implementaciones-temporales.md).
+- `ItemsGrid` queda más predecible y fácil de ajustar visualmente.
+- `WeaponsView` y `ModsView` controlan directamente threshold, dimensiones y overscan.
+- Si el layout final cambia, el reemplazo queda acotado a las vistas virtualizadas y no a toda la grilla compartida.
 
 ## Referencias
 
-- [Docs/overview/current-state.md](current-state.md)
-- [Docs/features/navigation-shell/status.md](navigation-shell/status.md)
+- [Docs/overview/current-state.md](../overview/current-state.md)
+- [Docs/features/navigation-shell/status.md](../features/navigation-shell/status.md)

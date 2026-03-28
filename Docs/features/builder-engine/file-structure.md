@@ -27,7 +27,7 @@ features/arsenal/
 
 ## Desarrollo inicial (S6)
 
-- la **vista** de inspeccion y prueba vive bajo rutas `/dev/*` (ver `s6-horizontal-minimum.md`)
+- la **vista** de inspeccion y prueba bajo rutas `/dev/*` fue eliminada (CAT 3)
 - el **codigo** del motor puede seguir esta estructura desde el primer merge; si hiciera falta un
   prototipo temporal, no debe desviar el destino objetivo de `engine/` bajo arsenal
 

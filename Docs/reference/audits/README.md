@@ -4,7 +4,7 @@
 > Rol: registrar auditorias y documentos heredados utiles durante la migracion
 > Fuente de verdad de: donde buscar evidencia historica del proyecto
 > No usar para: source of truth actual de una feature
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
 
 ## Referencias historicas conservadas
 
@@ -19,3 +19,4 @@ Tras la limpieza documental, el material wiki descargado ya fue movido a
 Regla:
 - usar estas auditorias como evidencia o contexto
 - no usarlas como backlog vivo si ya existe un `status.md` equivalente en `Docs/`
+- no promover metricas o comandos historicos desde aqui sin revalidarlos contra el track activo

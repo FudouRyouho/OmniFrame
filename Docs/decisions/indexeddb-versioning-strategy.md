@@ -30,5 +30,5 @@ Se utiliza IndexedDB con Dexie para versionado de cache, con fallback a JSON. La
 
 ## Referencias
 
-- [Docs/overview/current-state.md](current-state.md)
-- [Docs/domains/integration/](integration/)
+- [Docs/overview/current-state.md](../overview/current-state.md)
+- [Docs/domains/integration/](../domains/integration/)

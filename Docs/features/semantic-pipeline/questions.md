@@ -3,7 +3,7 @@
 > Estado: activo
 > Rol: registrar preguntas abiertas locales del track semantic pipeline
 > Fuente de verdad de: dudas pendientes de este track
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
 
 ## SP-Q1 - Augments y `exclusive`
 
@@ -34,9 +34,11 @@ Impacto:
 
 ## SP-Q4 - Cobertura real
 
-Pregunta:
-- el estado heredado de `ability-stats-gap.md` sigue representando la cobertura real de
-  los `.md` o ya esta desactualizado
+Resuelto (2026-03-28):
+- no; el inventario heredado ya no representa el estado operativo del track
+- `node scripts/verify-ability-stats.mjs` sobre `Project/public/data/ability-stats.override.json`
+  reporta 559 errores estructurales y 260 entradas marcadas explicitamente como `schema legacy`
+- `coverage.md` pasa a reflejar este corte verificado en lugar del inventario heredado previo
 
 Impacto:
 - evita planificar sobre un inventario falso

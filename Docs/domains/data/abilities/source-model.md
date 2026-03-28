@@ -4,7 +4,7 @@
 > Rol: describir que exponen las fuentes de habilidades y que no exponen
 > Fuente de verdad de: limites y cobertura de las fuentes de abilities
 > No usar para: estado de migracion del pipeline
-> Ultima actualizacion: 2026-03-22
+> Ultima actualizacion: 2026-03-28
 
 ## Fuentes actuales
 
@@ -40,13 +40,14 @@ No expone por si solo:
 
 Es la copia activa consumida en runtime para:
 - metadata de habilidad
-- grupos consumidos por UI y futuro engine
+- grupos consumidos por UI y engine cuando una entrada ya esta migrada al contrato objetivo
 - override de casos no cubiertos directamente por la fuente primaria
 
 Importante:
 - esta ruta representa runtime, no necesariamente la fuente editable canonica
 - hoy convive con `Project/data/overrides/ability-stats.override.json` como copia transicional
 - el rol logico correcto de este dato es `override`, no `generated`
+- en el corte 2026-03-28, el runtime todavia mezcla estructuras legacy y entradas orientadas a `groups[]`; no tratarlo como schema plenamente migrado
 
 ## Regla de interpretacion
 
@@ -58,6 +59,7 @@ Importante:
 
 - hay habilidades y warframes recientes con cobertura parcial o manual
 - los `.md` semanticos no siempre estan sincronizados con la cobertura real
+- el runtime publicado todavia no pasa la verificacion estructural completa del schema objetivo
 - parte de la semantica de augments y grupos aun requiere validacion
 
 Ver:

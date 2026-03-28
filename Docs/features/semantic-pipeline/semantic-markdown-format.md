@@ -37,7 +37,7 @@ Armor Reduction: 70%
 - el separador es `Label: valor`
 - el parser genera `groups[]`
 - el parser deja `upgradeBy: "NONE"` como placeholder
-- `name`, `description` e `icon` no salen de estos `.md`
+- `name`, `description` e `imageName` no salen de estos `.md`
 
 ## Reglas de labels y valores
 

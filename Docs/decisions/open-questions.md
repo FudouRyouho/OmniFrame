@@ -4,37 +4,44 @@
 > Rol: registrar preguntas abiertas cross-cutting del proyecto
 > Fuente de verdad de: dudas que atraviesan varios tracks o dominios
 > No usar para: preguntas locales de una sola feature
-> Ultima actualizacion: 2026-03-25
+> Ultima actualizacion: 2026-03-28 (OQ-2 cerrada con provider dominante; OQ-3 sigue bloqueada por stage 0)
 
-## OQ-1 - Retiro del arbol documental legacy (resuelta)
+## OQ-2 - Provider vs hooks como frontera de integracion ✓ CERRADO (2026-03-28)
 
-Pregunta:
-- en que momento el arbol documental legacy deja de ser necesario para el trabajo cotidiano y
-  puede pasar a revision final o archivo
-
-Impacto:
-- afecta mantenimiento documental, onboarding y limpieza final del repositorio
-
-Resolucion:
-- cerrada el 2026-03-25
-- la carpeta legacy documental fue migrada y eliminada del repositorio
-- `Docs/` queda como unica fuente de verdad para documentacion activa
-
-## OQ-2 - Provider vs hooks como frontera de integracion
+Dominio:
+- integracion
 
 Pregunta:
 - el layout activo y el estado del builder deben vivir en un provider central con hooks
   auxiliares, o en hooks compuestos sin un provider dominante
 
 Impacto:
-- afecta engine, shell y wiring de runtime
+- afecta engine y shell como consumidores
+- afecta wiring de runtime en integracion
 
-Nota de avance (2026-03-25):
+Opciones:
+1. punto -> opcion A: `BuildProvider` dedicado en integracion para layout activo y estado del builder; shell solo consume estado derivado de rutas
+2. punto -> opcion B: hooks compuestos sin provider global de builder; cada vista consume su slice de estado
+3. punto -> opcion C: hook raiz `useLayoutState()` con `useReducer`, sin exponer context global
+
+Decision:
+- opcion A — `LoadoutProvider` dedicado con `useReducer` + hooks pequeños alrededor
+
+Implementacion aplicada:
+- provider montado en `main.tsx` con jerarquía `DataState → Loadout → Menu → Shell → Theme → App`
+- el provider expone `LoadoutState`, acciones puras (`equipEntity`, `setMod`, `setActiveConfig`, etc.) y outputs derivados (`LoadoutInput`, `ResolvedLayout`, `EngineOutput`)
+- HUD consume el resumen del loadout activo; `ArsenalView` actúa como consumer mínimo de verificación
+- persistencia de builds de Profile queda como capa aparte; no cambia la frontera del provider activo
+
+Nota historica:
 - `ContextualActionsProvider` fue reemplazado por `ShellProvider` como capa transicional para resolver header/footer/zone desde routing
 - `ArsenalFooter` y `ArsenalView` quedaron habilitados como placeholders funcionales de shell, pero no resuelven la frontera final de integración
-- no resuelve OQ-2: la decisión de frontera final entre provider dominante vs hooks compuestos sigue abierta
+- OQ-2 ya no está abierta: el provider dominante queda cerrado como contrato de integración actual
 
 ## OQ-3 - Fuente numerica de mods para el builder
+
+Dominio:
+- data
 
 Pregunta:
 - cual es la fuente aceptada para valores numericos y condiciones:
@@ -43,41 +50,20 @@ Pregunta:
 Impacto:
 - afecta data, engine y mantenimiento del builder
 
-Nota de avance (2026-03-26):
-- `mods.json` hoy contiene solo `levelStats: ["string", "string", ...]` sin estructura numerica
-- el builder engine v1 requiere numeros estructurados para `calculate(layout, context)`
-- sin decision clara, el builder quedaria acoplado a parsing de texto fragil
+Decision de track (2026-03-26):
+- enfoque mixto: parseo automatico como base + override para edge cases
+- detalle en `../features/builder-engine/status.md`
 
-Opciones identificadas:
-
-**Opción A - Parsing en Runtime**
-- Leer `levelStats[rank]` como string (+20% Critical Damage)
-- Parser global extrae valores: regex `(\+|-)?(\d+(?:\.\d+)?)%?` 
-- Builder obtiene valores parseados on-demand
-- Pros: sin duplicacion de datos en JSON
-- Contras: fragil a cambios de formato en warframe-items; regexes complejas para condiciones
-
-**Opción B - Override Estructurado (como ability-stats)**
-- Crear `Project/data/overrides/mods-stats.override.json`
-- Estructura tipada: `{modId: {levelStats: [{fireRate: 15, accur: -10}, ...]}, ...}`
-- Pipeline: generar-si-falta, usuario edita manualmente gaps
-- Pros: estructura clara, tipada, auditable
-- Contras: duplicacion; mantener dos fuentes en sync; trabajo editorial inicial
-
-**Opción C - Enfoque Hibrido (Recomendado para eval)**
-- Mantener `levelStats` como string en `mods.json` (origen warframe-items)
-- Agregar campo `_numericStats` opcional durante pipeline si parser puede validar
-- Parser intenta extraer numeros; si falla, deja null (trigger para override manual)
-- Builder siempre consume `_numericStats` (estructura validada, no strings)
-- Pros: compatibilidad origen; transicion gradual; claro donde hay gaps editorial
-- Contras: un campo extra; parser aun necesita mantenimiento
-
-Bloqueante para:
-- `features/builder-engine/status.md`: `calculate(layout, context)` requiere numeros tipados
-- formula base de armas/warframes con mods integrados
-- validacion y audita de valores de mods
+> **[STAGE-0 BLOQUEANTE — 2026-03-26]** Esta decisión asumía el schema actual de
+> `mod-stats.override.json` como base. Ese schema está en stage 0 (debate PA-2/3/4 activo
+> en `temp/pre-v1-architecture-2026-03-26.md`). OQ-3 no puede cerrarse hasta que el nuevo
+> schema de mods quede definido. La fuente numérica y la estrategia de override dependen
+> de esa definición.
 
 ## OQ-4 - Taxonomia de referencia wiki
+
+Dominio:
+- reference
 
 Pregunta:
 - como se clasifica la referencia profunda de mecanicas del juego:
@@ -88,6 +74,9 @@ Impacto:
 
 ## OQ-5 - Punto de migracion de hidratacion a build time
 
+Dominio:
+- integracion
+
 Pregunta:
 - cuando deja de vivir la hidratacion de abilities en runtime y pasa al pipeline de build
 
@@ -96,27 +85,19 @@ Impacto:
 
 ## OQ-6 - Diseño y Reutilización de Popover
 
+Dominio:
+- ui
+
 Pregunta:
 - ¿Reutilizar popover existente o componentizar vía 'ui' compartida (static data vs dynamic data)?
 
 Impacto:
 - Afecta diseño de UI, reutilización en vistas y separación de responsabilidades.
 
-## OQ-7 - Arquitectura de ItemsGrid (resuelta)
-
-Pregunta:
-- ¿ItemsGrid debe ser absorbido por el componente padre o implementación derivada en cada vista particular con reutilización de lógica?
-
-Impacto:
-- Afecta estructura de componentes, mantenibilidad y flexibilidad de vistas.
-
-Resolucion:
-- cerrada el 2026-03-25
-- `ItemsGrid` queda como grilla simple compartida
-- la virtualización no se absorbe globalmente en `ItemsGrid`; se monta explícitamente en `WeaponsView` y `ModsView`
-- `VirtualizedItemsGrid` mantiene una API mínima orientada a layouts transicionales no finales
-
 ## OQ-8 - Overrides en Tipado Nuevo
+
+Dominio:
+- integracion
 
 Pregunta:
 - ¿Cómo documentar los cambios/overrides en semántica de warframe-items para arcanos, vehicles, etc.?

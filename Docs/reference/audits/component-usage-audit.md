@@ -4,7 +4,7 @@
 > Rol: snapshot de componentes activos, muertos o pendientes en la implementacion actual
 > Fuente de verdad de: inventario historico de uso de componentes
 > No usar para: backlog de producto o arquitectura final
-> Ultima actualizacion: 2026-03-21
+> Ultima actualizacion: 2026-03-28
 
 ## Activos destacados
 
@@ -20,7 +20,7 @@
 - `Nav.tsx`
 - `MenuBar.tsx`
 - `ThemeSelector.tsx` sin montar
-- `layout-context.tsx` placeholder
+- `layout-context.tsx` placeholder en ese corte (luego eliminado y reemplazado por la integracion con `LoadoutProvider`)
 
 ## Uso de esta auditoria
 
