@@ -3,7 +3,7 @@
 > Estado: referencia — verificar contra dataset antes de usar en implementación
 > Rol: tabla empírica de slots por tipo de entidad equipable para el diseño del Builder
 > Fuente de verdad de: conteo base de slots por tipo de entidad
-> Migrado desde: `Docs/temp/pre-v1-architecture-2026-03-26.md` (RV-1) — 2026-03-27
+> Migrado desde: `../../../reference/historical/pre-v1-architecture-2026-03-26.md` (RV-1) — 2026-03-27
 
 ## Tabla
 

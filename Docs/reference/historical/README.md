@@ -14,6 +14,8 @@
 | `image-strategy-investigation-2026-03-25.md` | `temp/` | Investigación implementada |
 | `consolidation-plan-execution-2026-03-25.md` | `temp/` | Plan de consolidación ejecutado |
 | `engine-v1-formulas-plan-2026-03-26.md` | `temp/` | Plan de fórmulas v1 ejecutado — trazabilidad de decisiones y referencias canónicas usadas |
+| `pre-v1-architecture-2026-03-26.md` | `temp/` | Registro original del debate stage 0 ya reemplazado por el índice canónico C1-C41 |
+| `architecture-walkthrough-2026-03-28.ts` | `temp/` | Walkthrough técnico archivado tras cerrar los contratos B1-B4 en documentación canónica |
 
 ## Regla de uso
 

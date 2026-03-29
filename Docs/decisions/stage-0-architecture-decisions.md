@@ -9,8 +9,9 @@
 
 ## Proposito
 
-Este documento reemplaza al antiguo registro `Docs/temp/pre-v1-architecture-2026-03-26.md`
-como indice operativo de decisiones stage 0.
+Este documento reemplaza al antiguo registro ahora archivado en
+`../reference/historical/pre-v1-architecture-2026-03-26.md` como indice operativo de
+decisiones stage 0.
 
 Si hace falta entender una decision cerrada, la lectura normal empieza aqui y sigue en el
 documento canonico correspondiente.
@@ -45,6 +46,5 @@ canonicos de trabajo:
 
 ## Estado del registro temporal original
 
-`Docs/temp/pre-v1-architecture-2026-03-26.md` deja de ser lectura operativa normal.
-Mientras siga existiendo en `temp/`, debe tratarse solo como respaldo de sesion o insumo
-historico pendiente de reclasificacion final.
+`../reference/historical/pre-v1-architecture-2026-03-26.md` queda solo como respaldo
+historico del debate original. No es lectura operativa normal del arbol activo.
