@@ -5,8 +5,8 @@
 > Fuente de verdad de: shape del override de mods
 > No usar para: cobertura de mods, backlog de piloto o decisiones transversales
 > Depende de: `source-model.md`, `upgrade-taxonomy.md`
-> Decisiones de respaldo: C12–C14, C24–C28 en `Docs/temp/pre-v1-architecture-2026-03-26.md`
-> Última actualización: 2026-03-27
+> Decisiones de respaldo: `../../../decisions/stage-0-architecture-decisions.md` (C12–C14, C24–C28)
+> Última actualización: 2026-03-28
 
 ## Estructura raíz
 

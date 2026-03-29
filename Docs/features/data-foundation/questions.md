@@ -3,7 +3,7 @@
 > Estado: activo
 > Rol: registrar preguntas abiertas locales del track data foundation
 > Fuente de verdad de: decisiones pendientes sobre tipado, filtros de pipeline y overrides de datos
-> Ultima actualizacion: 2026-03-26
+> Ultima actualizacion: 2026-03-28
 
 ## DF-Q1 - Type guards para kinds nuevos
 
@@ -62,3 +62,43 @@ Impacto:
 - afecta trazabilidad de cambios en overrides de mods
 - afecta pipeline source -> runtime de data foundation
 - afecta la frontera entre semantica editable y contrato operativo del builder
+
+## DF-Q5 - Schema para augmentos y efectos `UNIQUE`
+
+Pregunta:
+- cuando modelar augmentos de habilidad y efectos sin `upgradeTypes[]` como schema propio,
+	en vez de forzarlos dentro del schema de mods normal
+
+Opciones de debate:
+1. punto -> opcion A: extender `mod-stats.override.json` con excepciones puntuales
+2. punto -> opcion B: crear schema propio para augmentos y efectos `UNIQUE`
+3. punto -> opcion C: postergarlo hasta despues del cierre de mods + barrido wiki de casos reales
+
+Lectura actual:
+- B es la direccion mas consistente: estos casos mezclan comportamiento de habilidad,
+	arma y condiciones que no encajan limpio en el contrato de mods base
+
+Impacto:
+- afecta data foundation y builder engine
+- afecta cobertura futura de augments y efectos especiales
+- afecta la frontera entre schema base de mods y schemas especializados
+
+## DF-Q6 - Edge cases de `deliveryType` en `generate-data`
+
+Pregunta:
+- como cerrar `shot_type: null`, `Active` y typos tipo `Hitscan` / `Hit-Scan` sin introducir
+	heuristicas opacas en la normalizacion de `deliveryType`
+
+Opciones de debate:
+1. punto -> opcion A: resolver todos los casos en `generate-data`
+2. punto -> opcion B: resolver el baseline en `generate-data` y mantener `unknown` explicito para casos no confirmados
+3. punto -> opcion C: mover parte del mapeo al Resolver
+
+Lectura actual:
+- B es la direccion vigente por C39; el gap pendiente es de cobertura documental y dataset,
+	no de contrato entre capas
+
+Impacto:
+- afecta data foundation y builder engine
+- afecta trazabilidad de `generate-data`
+- afecta la completitud del vocabulario `deliveryType` en runtime

@@ -10,6 +10,10 @@
 
 Cada documento debe responder una sola pregunta.
 
+La documentacion activa es la fuente de verdad primaria del proyecto.
+Schemas JSON, tipos TS y artefactos generados son derivados evolutivos mientras el dominio
+siga cambiando.
+
 Si un archivo mezcla:
 - arquitectura
 - analisis de fuente
@@ -55,6 +59,7 @@ Reglas:
 - no crear markdown improvisados fuera de esta taxonomia
 - si una pregunta cambia el rumbo de varias areas, moverla a `decisions/`
 - no saltar fases: cada fase es checkpoint explicito antes de avanzar
+- no usar placeholders vacios para simular avance: un archivo inexistente comunica mejor que un placeholder sin decision
 
 ## Reglas posteriores al corte documental
 

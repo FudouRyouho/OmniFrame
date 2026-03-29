@@ -7,7 +7,7 @@
 > Depende de: `schema.md`
 > Ultima actualizacion: 2026-03-28
 
-> **[GAP-4 — pre-v1-architecture-2026-03-26.md]** Las pasivas de warframe no tienen modelo
+> **[GAP-4]** Las pasivas de warframe no tienen modelo
 > estable en `groups[]`. Las pasivas son fuente de condiciones transversales (ejemplo: Frost).
 > Hasta que las pasivas tengan schema, el diseño del vocabulario canónico de condiciones
 > está incompleto.

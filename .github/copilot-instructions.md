@@ -38,10 +38,10 @@ No saltar fases. Cada fase es un checkpoint explícito.
 
 ## Registro de decisiones activas
 
-El archivo `Docs/temp/pre-v1-architecture-2026-03-26.md` es el registro de sesión activo.
-Contiene las decisiones C1-C28, los debates PA-N cerrados y el orden de trabajo de stage 0.
-Cuando el contexto de sesión sea insuficiente o haya duda sobre una decisión anterior,
-leer ese archivo antes de formular preguntas o abrir debate.
+El archivo `Docs/decisions/stage-0-architecture-decisions.md` es el indice canónico de las
+decisiones C1-C41 promovidas desde el antiguo registro pre-v1.
+Cuando haya duda sobre una decisión de stage 0 o sobre contratos B1-B4,
+leer primero ese archivo y luego ir al documento canónico que indique.
 
 ## Reglas duras
 

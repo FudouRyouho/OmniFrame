@@ -163,7 +163,7 @@ Foco actual:
 
 - sincronizar `overview/` y `domains/` con los Pasos 15-18
 - cerrar B4, persistencia y wiring real sin mezclar UI final de producto
-- mantener trazabilidad de decisiones desde `temp/pre-v1-architecture-2026-03-26.md`
+- mantener trazabilidad de decisiones desde `decisions/stage-0-architecture-decisions.md`
 - preparar el cierre global con un plan canonico de worktree verde (`green-checkpoint-plan.md`)
 
 ## 4. Navigation Shell
@@ -326,7 +326,7 @@ Resultado esperado:
 
 ## S6. Preparar consumer intermedio del engine
 
-> Vision original eliminada (CAT 3 — 2026-03-27). Contenido migrado a `../temp/pre-v1-architecture-2026-03-26.md` (RV-4).
+> Vision original eliminada (CAT 3 — 2026-03-27). Criterio operativo absorbido por `../domains/engine/architecture.md` y `../decisions/stage-0-architecture-decisions.md`.
 > S6 queda re-abierto como objetivo sin vision documentada. Requiere debate antes de re-implementar.
 
 ## Lo que no es prioridad inmediata

@@ -4,13 +4,13 @@
 > Rol: estado operativo del track del motor de calculo
 > Fuente de verdad de: implementado, pendiente y bloqueantes del engine
 > No usar para: reglas de UI o detalle del pipeline semantico
-> Depende de: `../../temp/pre-v1-architecture-2026-03-26.md` (C1, decisiones)
+> Depende de: `../../domains/engine/architecture.md`, `../../decisions/stage-0-architecture-decisions.md`
 > Última actualización: 2026-03-28 (Tramos 1-4 mínimos completados; OQ-2 cerrada)
 
-> **Nota arquitectural (2026-03-26)**: debate sobre separar "builder" (BuildState, selección UI,
-> whitelist) de "engine" (cálculo puro) capturado en `../../temp/pre-v1-architecture-2026-03-26.md`
-> (C1-C18). `domains/engine/builder-v1.md` eliminado (C11). Pendiente: debate sobre crear
-> dominio `builder/` separado.
+> **Nota arquitectural (2026-03-28)**: las decisiones stage 0 que separan `Loadout`, `Resolver`,
+> `Engine` y la frontera React ya quedaron absorbidas por `../../domains/engine/architecture.md`
+> y `../../decisions/stage-0-architecture-decisions.md`. El track ya no depende del registro
+> temporal para su lectura operativa.
 
 ## Objetivo
 
@@ -53,7 +53,7 @@ No incluye:
 
 ## No implementado aun
 
-- Backward Resolver (B4) — pendiente de contratos de UI (Paso 14 del temporal)
+- Backward Resolver (B4) — pendiente de contratos de UI y consumer final
 - Persistencia de builds y layouts guardados (Profile / IndexedDB)
 - `EngineOutput` consumido de forma transversal por la app más allá del vertical slice actual
 
@@ -170,7 +170,7 @@ Queda fuera de este objetivo medio:
 
 ## S6 — minimo horizontal
 
-Vision del corte (dev, engine acotado, capa intermedia, UI texto): eliminada (CAT 3 — contenido en `../../temp/pre-v1-architecture-2026-03-26.md` RV-4).
+Vision del corte (dev, engine acotado, capa intermedia, UI texto): eliminada como doc activa. El criterio util sobreviviente ya esta absorbido por `../../domains/engine/architecture.md` y `../../decisions/stage-0-architecture-decisions.md`.
 
 ## Lectura operativa del track
 

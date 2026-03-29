@@ -4,7 +4,7 @@
 > Rol: resumir la tabla canónica de Archon Shards con foco en datos y futura serialización
 > Fuente de verdad de: tipos, bonuses y categorías de shard que el proyecto podría pasar a JSON
 > No usar para: acquisition, lore o flujo de Helminth
-> Última actualización: 2026-03-22
+> Última actualización: 2026-03-28
 
 ## Que es
 
@@ -126,7 +126,7 @@ por comportamiento:
 
 ## Shape del schema
 
-> Decisiones de respaldo: C29, C30, C31 en `Docs/temp/pre-v1-architecture-2026-03-26.md`
+> Decisiones de respaldo: `../../../decisions/stage-0-architecture-decisions.md` (C29, C30, C31)
 
 ### Definición del efecto (en el schema)
 

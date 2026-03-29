@@ -4,8 +4,8 @@
 > Rol: contrato conceptual del vocabulario de condiciones para el sistema de cálculo
 > Fuente de verdad de: familias, shape de `ConditionDefinition`/`ConditionState`, seed catalog (PA-1b)
 > No usar para: implementación directa — este es el vocabulario canónico, sin código de producción aún
-> Decisiones de respaldo: C15–C18, C31 en `Docs/temp/pre-v1-architecture-2026-03-26.md`
-> Actualizado: 2026-03-27
+> Decisiones de respaldo: `../../decisions/stage-0-architecture-decisions.md` (C15–C18, C31)
+> Actualizado: 2026-03-28
 
 ## Shape
 

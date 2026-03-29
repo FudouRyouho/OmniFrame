@@ -33,7 +33,8 @@ data loaders -> provider/layout state -> engine -> view models -> UI
 
 Para el **primer corte horizontal** (S6), la vision operativa — rutas `/dev/*`, engine
 minimo, catalogo filtrado, flujo de estado a traves de la capa intermedia sin que la UI
-llame al motor directamente — fue capturada en `../../temp/pre-v1-architecture-2026-03-26.md` (RV-4, eliminado segun C11).
+llame al motor directamente — ya quedo absorbida por `../engine/architecture.md`,
+`../../features/builder-engine/status.md` y `../../decisions/stage-0-architecture-decisions.md`.
 
 Lectura operativa actual:
 - OQ-2 ya quedo cerrada (2026-03-28) con `LoadoutProvider` como frontera activa de integracion

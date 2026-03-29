@@ -24,6 +24,7 @@ La documentacion opera sobre un unico arbol activo: `Docs/`.
 - remate cosmetico aplicado en indices raiz (`Docs/README.md`, `Docs/features/README.md`) para reflejar la estructura real del arbol, el rol de `temp/` y la variacion legitima entre tracks
 - el arbol activo ya no depende de documentos retirados del builder para lectura operativa; las referencias residuales quedan en `temp/` y `reference/` como trazabilidad historica esperada
 - plan canonico agregado en `overview/green-checkpoint-plan.md` para separar el checkpoint documental del futuro commit global en verde
+- indice canonico agregado en `decisions/stage-0-architecture-decisions.md` para absorber C1-C41 sin depender de `temp/` como lectura operativa normal
 
 ## Barrido sistematico 2026-03-27
 
@@ -32,7 +33,7 @@ Revision carpeta por carpeta de los 70 archivos activos (excluidos `temp/`, `ref
 - 0 referencias rotas a archivos eliminados en docs activos para ese corte
 - Drift corregido en: `overview/` (5 archivos), `decisions/` (3 archivos), `domains/ui/shell-and-navigation.md`, `domains/data/mods/upgrade-taxonomy.md`, `features/builder-engine/` (4 archivos + README)
 - Links relativos incorrectos en `decisions/` corregidos
-- 16 archivos eliminados en sesion previa; todas las referencias a ellos quedan solo en `temp/pre-v1-architecture-2026-03-26.md` (registro historico esperado)
+- 16 archivos eliminados en sesion previa; sus decisiones y referencias utiles ya quedaron absorbidas por el arbol canonico o preservadas como contexto historico explicito
 
 Nota:
 - los cambios de 2026-03-28 en builder/integration reabrieron trabajo de sincronizacion en `overview/` y `domains/`
@@ -61,4 +62,4 @@ Al cerrar cambios estructurales de documentacion:
 - actualizar este estado
 - actualizar `docs-cutover-plan.md` si cambia la estrategia
 - dejar trazabilidad de decisiones en `decisions/open-questions.md` solo cuando aplique
-- usar `features/*/status.md` + `temp/pre-v1-architecture-2026-03-26.md` como referencia cruzada antes de afirmar que el arbol ya quedo alineado
+- usar `features/*/status.md` + `decisions/stage-0-architecture-decisions.md` como referencia cruzada antes de afirmar que el arbol ya quedo alineado

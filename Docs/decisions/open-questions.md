@@ -38,7 +38,7 @@ Nota historica:
 - `ArsenalFooter` y `ArsenalView` quedaron habilitados como placeholders funcionales de shell, pero no resuelven la frontera final de integración
 - OQ-2 ya no está abierta: el provider dominante queda cerrado como contrato de integración actual
 
-## OQ-3 - Fuente numerica de mods para el builder
+## OQ-3 - Fuente numerica de mods para el builder ✓ CERRADO (2026-03-28)
 
 Dominio:
 - data
@@ -50,15 +50,15 @@ Pregunta:
 Impacto:
 - afecta data, engine y mantenimiento del builder
 
-Decision de track (2026-03-26):
+Decision de track (2026-03-28):
 - enfoque mixto: parseo automatico como base + override para edge cases
-- detalle en `../features/builder-engine/status.md`
+- contrato canonico en `../domains/data/mods/schema.md`
+- piloto y criterio de ejecucion en `../features/data-foundation/pilot-criteria.md`
+- estado operativo del builder en `../features/builder-engine/status.md`
 
-> **[STAGE-0 BLOQUEANTE — 2026-03-26]** Esta decisión asumía el schema actual de
-> `mod-stats.override.json` como base. Ese schema está en stage 0 (debate PA-2/3/4 activo
-> en `temp/pre-v1-architecture-2026-03-26.md`). OQ-3 no puede cerrarse hasta que el nuevo
-> schema de mods quede definido. La fuente numérica y la estrategia de override dependen
-> de esa definición.
+Estado actual:
+- el bloqueo por schema ya no aplica: `mod-stats.override.json` tiene contrato canonico en `../domains/data/mods/schema.md`
+- lo pendiente ya no es decidir la fuente, sino mejorar cobertura, edge cases y trazabilidad del pipeline mixto
 
 ## OQ-4 - Taxonomia de referencia wiki
 

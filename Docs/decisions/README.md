@@ -13,3 +13,9 @@ Si una pregunta solo afecta a un track, vive en los documentos locales de ese tr
 
 Si una pregunta cambia arquitectura, policy o varias features a la vez, vive aqui.
 
+## Documentos activos
+
+- `open-questions.md` — dudas transversales vigentes y cierres recientes
+- `stage-0-architecture-decisions.md` — indice canonico de decisiones C1-C41 ya promovidas al arbol activo
+- `implementaciones-temporales.md` — ideas o soluciones transicionales que no deben confundirse con estado canonico
+

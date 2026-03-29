@@ -3,7 +3,7 @@
 > Estado: archivado
 > Propósito: referencia histórica - insights ya migrados a plan de reorganización
 > Archivado el: 2026-03-25 (Post-análisis y alineación)
-> Referencia: Ver `Docs/temp/consolidation-plan-execution-2026-03-25.md` para decisiones derivadas
+> Referencia: Ver `Docs/reference/historical/consolidation-plan-execution-2026-03-25.md` para decisiones derivadas
 
 ---
 

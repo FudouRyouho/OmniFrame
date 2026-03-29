@@ -34,7 +34,7 @@ Leer en este orden:
 Leer en este orden:
 1. `../features/builder-engine/status.md`
 2. `../domains/engine/architecture.md`
-3. `../temp/pre-v1-architecture-2026-03-26.md` si la tarea toca decisiones C1-C41, pasos del stage 0 o contratos B1-B4
+3. `../decisions/stage-0-architecture-decisions.md` si la tarea toca decisiones C1-C41, cierres de stage 0 o contratos B1-B4
 4. `../features/builder-engine/dependencies.md`
 5. `../reference/wiki/README.md` si la tarea requiere mecanicas del juego
 
@@ -54,7 +54,7 @@ Leer en este orden:
 2. `../features/builder-engine/status.md`
 3. `../decisions/open-questions.md`
 4. `../domains/integration/runtime-composition.md`
-5. `../temp/pre-v1-architecture-2026-03-26.md` si la tarea toca OQ-2/C41 o contratos del builder
+5. `../decisions/stage-0-architecture-decisions.md` si la tarea toca OQ-2/C41 o contratos del builder
 
 ## Si no sabes donde empezar
 
@@ -65,4 +65,4 @@ Leer:
 4. `migration-status.md`
 5. `docs-cutover-plan.md`
 6. el `status.md` del track mas cercano a la tarea
-7. `../temp/pre-v1-architecture-2026-03-26.md` si el trabajo depende del flujo arquitectural reciente
+7. `../decisions/stage-0-architecture-decisions.md` si el trabajo depende del cierre stage 0 o del flujo arquitectural reciente

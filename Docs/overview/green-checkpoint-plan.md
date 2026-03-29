@@ -37,8 +37,8 @@ Checkpoint al 2026-03-28:
 - `npm run build` ya esta en verde.
 - el vertical slice minimo post-Paso 18 ya existe en codigo (`Engine`, `Resolver` forward, `Loadout`, `LoadoutProvider`).
 - la documentacion activa ya recibio una resincronizacion amplia y puede cerrarse en un commit separado.
-- `npx vitest run` sigue en rojo.
-- `Docs/temp/pre-v1-architecture-2026-03-26.md` sigue siendo registro activo de decisiones C1-C41 que todavia deben promoverse al arbol canonico.
+- `npx vitest run --reporter=verbose` ya pasa en limpio (4 archivos, 93 tests).
+- las decisiones C1-C41 ya quedaron indexadas en `../decisions/stage-0-architecture-decisions.md`; el temporal deja de ser lectura operativa normal.
 - el worktree sigue mezclando cambios de codigo, datos generados, capturas y documentacion.
 
 ## Secuencia canonica de cierre
@@ -57,7 +57,7 @@ Resultado esperado:
 ### 2. Promocion de decisiones desde `temp/` a canonico
 
 Objetivo:
-- absorber en `overview/`, `domains/`, `features/` y `decisions/` todo lo que siga siendo lectura operativa real dentro de `pre-v1-architecture-2026-03-26.md`.
+- absorber en `overview/`, `domains/`, `features/` y `decisions/` toda lectura operativa real heredada del antiguo registro pre-v1.
 
 Incluye:
 - decisiones C1-C41 que aun solo viven o se explican mejor en `temp/`
@@ -71,13 +71,16 @@ No incluye:
 Resultado esperado:
 - `temp/` deja de ser dependencia normal para interpretar el estado del proyecto.
 
+Estado 2026-03-28:
+- cierre documental completado a nivel operativo; lo pendiente posterior ya es historizacion final o eliminacion de residuos, no promocion de decisiones activas.
+
 ### 3. Cierre tecnico minimo del repo
 
 Objetivo:
 - recuperar un estado de ejecucion y verificacion coherente para el cierre global.
 
 Pendientes minimos:
-- investigar y corregir el rojo actual de `npx vitest run`
+- confirmar que build y tests sigan alineados con el corte real que se quiere commitear
 - confirmar que los nuevos cambios de engine/integration no rompan el slice minimo documentado
 - verificar que datos generados y overrides formen parte del estado deseado y no de una corrida parcial
 
@@ -133,7 +136,7 @@ No deben entrar al commit global por inercia:
 
 El plan se considera cumplido cuando:
 
-- `Docs/temp/pre-v1-architecture-2026-03-26.md` ya no sea lectura necesaria para el estado operativo normal
+- el antiguo registro pre-v1 ya no sea lectura necesaria para el estado operativo normal
 - `Project` tenga build y tests en verde
 - el worktree este clasificado sin residuos temporales
 - exista un commit global posterior al checkpoint documental que represente un estado coherente del repo

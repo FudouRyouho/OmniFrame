@@ -39,6 +39,6 @@ se resuelven con fuente adicional u override controlado.
 
 **Referencia:** Decisiones y resoluciones en:
 
-- [Docs/temp/pre-v1-architecture-2026-03-26.md](../../../temp/pre-v1-architecture-2026-03-26.md) — decisiones PA-2/3/4
+- [Docs/decisions/stage-0-architecture-decisions.md](../../../decisions/stage-0-architecture-decisions.md) — mapa canonico de decisiones stage 0
 
 

@@ -4,7 +4,7 @@
 > Rol: contrato conceptual del sistema de 3+1 capas (Loadout / Resolver / Engine + Observer)
 > Fuente de verdad de: responsabilidades y límites de Loadout, Resolver, Engine y Observer
 > No usar para: implementación (ver features/builder-engine/status.md), fórmulas concretas (ver formula-overview.md)
-> Depende de: `../../temp/pre-v1-architecture-2026-03-26.md` (C1–C41)
+> Depende de: `../data/conditions-baseline.md`, `../../reference/wiki/README.md`
 > Ultima actualizacion: 2026-03-28
 
 ## Modelo de 3 capas + Observer
@@ -311,4 +311,4 @@ Prerequisito del Paso 12.
 | `Docs/domains/data/conditions-baseline.md` | Shape de `ConditionDefinition` y `ConditionState` |
 | `Docs/domains/data/mods/schema.md` | Contrato del input de mods al Resolver |
 | `Docs/features/builder-engine/status.md` | Estado operativo: implementado, pendiente, bloqueantes |
-| `Docs/temp/pre-v1-architecture-2026-03-26.md` | Historial de decisiones C1–C41 y orden de trabajo |
+| `Docs/decisions/stage-0-architecture-decisions.md` | Indice canonico de decisiones C1–C41 ya promovidas |
