@@ -1,26 +1,25 @@
+import { useNavigate } from "react-router";
 import { useItems } from "../hooks/use-items";
 import ItemsGrid from "../ItemsGrid";
 import WarframeCard from "./cards/WarframeCard";
 import type { Warframe } from "@lib/types";
+import { toRouteSlug } from "@lib/route-id";
 
 const WarframesView = () => {
     const { data, isLoading } = useItems("warframe");
+    const navigate = useNavigate();
 
     return (
         <div className="h-full overflow-hidden">
         <ItemsGrid
             items={data}
             isLoading={isLoading}
-            onSelect={() => {}}
-            virtualization={{
-                enabled: false,
-                threshold: 250,
-            }}
+            onSelect={(item) => navigate(`/equipment/warframes/${toRouteSlug(item.name)}`, { state: { uniqueName: item.uniqueName } })}
             renderItem={(item) => (
                 <WarframeCard 
                     key={item.id} 
                     item={item as Warframe}
-                    onSelect={() => {}}
+                    onSelect={(w) => navigate(`/equipment/warframes/${toRouteSlug(w.name)}`, { state: { uniqueName: w.uniqueName } })}
                 />
             )}
         />

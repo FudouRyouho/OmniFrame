@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useLocation } from "react-router";
 import { fetchCompanion } from "@lib/companionData";
 import type { Companion } from "@lib/types";
 
@@ -8,15 +8,18 @@ import type { Companion } from "@lib/types";
  */
 const CompanionDetailView = () => {
     const { uniqueName } = useParams<{ uniqueName: string }>();
+    const location = useLocation();
     const [item, setItem] = useState<Companion | null>(null);
     const [loading, setLoading] = useState(true);
+    const routeState = location.state as { uniqueName?: string } | null;
 
     useEffect(() => {
-        fetchCompanion(decodeURIComponent(uniqueName ?? "")).then(c => {
+        const identifier = routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
+        fetchCompanion(identifier).then(c => {
             setItem(c ?? null);
             setLoading(false);
         });
-    }, [uniqueName]);
+    }, [routeState?.uniqueName, uniqueName]);
 
     if (loading) return <p className="p-4">Loading...</p>;
     if (!item) return (

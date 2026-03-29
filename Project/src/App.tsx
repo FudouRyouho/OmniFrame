@@ -7,7 +7,6 @@ import TextFormatView from "./features/dev/text-format/TextFormatView";
 import UIShowcase from "./features/dev/ui-showcase/UIShowcase";
 import AbilitySchemaView from "./features/dev/ability-schema/AbilitySchemaView";
 import DialogAppMenu from "./shared/components/navigation/DialogMenu";
-// EquipmentView.tsx existe en disco pero no se importa aquí — se mantiene para extracción manual de código útil (@deprecated)
 import Hud from "@features/hud/Hud";
 import EquipmentLayout from "@features/equipment/EquipmentLayout";
 import WarframesView from "@features/equipment/view/WarframesView";
@@ -22,7 +21,11 @@ import WeaponDetailView from "@features/equipment/detail/WeaponDetailView";
 import CompanionDetailView from "@features/equipment/detail/CompanionDetailView";
 import VehicleDetailView from "@features/equipment/detail/VehicleDetailView";
 import ArchwingWeaponDetailView from "@features/equipment/detail/ArchwingWeaponDetailView";
+import ModDetailView from "@features/equipment/detail/ModDetailView";
+import ArcaneDetailView from "@features/equipment/detail/ArcaneDetailView";
 import OptionsView from "@features/options/OptionsView";
+import ArsenalView from "@features/arsenal/ArsenalView";
+import ProfileView from "@features/profile/ProfileView";
 
 export type AppRoute = {
   readonly path: string;
@@ -32,6 +35,7 @@ export type AppRoute = {
 
 // Solo rutas top-level — las rutas hijas de equipment se definen como nested routes
 // La ruta "/" redirige a equipment hasta que se cree una landing apropiada
+// eslint-disable-next-line react-refresh/only-export-components
 export const routes: readonly AppRoute[] = [
   { path: "/warframes/:name", element: <WarframeDetail /> },
   { path: "/weapons/:name", element: <WeaponDetail /> },
@@ -51,6 +55,9 @@ export default function App() {
         {routes.map((route) => (
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
+
+        <Route path="/arsenal" element={<ArsenalView />} />
+        <Route path="/profile" element={<ProfileView />} />
 
         {/* Ruta raíz redirige a equipment hasta que exista una landing propia */}
         <Route path="/" element={<Navigate to="/equipment/warframes" replace />} />
@@ -74,6 +81,8 @@ export default function App() {
           <Route path="companions/:uniqueName" element={<CompanionDetailView />} />
           <Route path="vehicles/:uniqueName" element={<VehicleDetailView />} />
           <Route path="archwing-weapons/:uniqueName" element={<ArchwingWeaponDetailView />} />
+          <Route path="mods/:uniqueName" element={<ModDetailView />} />
+          <Route path="arcanes/:uniqueName" element={<ArcaneDetailView />} />
         </Route>
       </Routes>
     </Hud>

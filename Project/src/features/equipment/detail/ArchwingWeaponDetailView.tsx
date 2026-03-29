@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useLocation } from "react-router";
 import { fetchArchwingWeapon } from "@lib/archwingWeaponData";
 import type { ArchwingWeapon } from "@lib/types";
 
@@ -8,15 +8,18 @@ import type { ArchwingWeapon } from "@lib/types";
  */
 const ArchwingWeaponDetailView = () => {
     const { uniqueName } = useParams<{ uniqueName: string }>();
+    const location = useLocation();
     const [item, setItem] = useState<ArchwingWeapon | null>(null);
     const [loading, setLoading] = useState(true);
+    const routeState = location.state as { uniqueName?: string } | null;
 
     useEffect(() => {
-        fetchArchwingWeapon(decodeURIComponent(uniqueName ?? "")).then(w => {
+        const identifier = routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
+        fetchArchwingWeapon(identifier).then(w => {
             setItem(w ?? null);
             setLoading(false);
         });
-    }, [uniqueName]);
+    }, [routeState?.uniqueName, uniqueName]);
 
     if (loading) return <p className="p-4">Loading...</p>;
     if (!item) return (

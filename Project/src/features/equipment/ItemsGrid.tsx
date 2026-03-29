@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import classNames from "classnames";
 import type { BaseItem } from "@lib/types";
 import CustomPopover from "@shared/components/CustomPopover";
-import VirtualizedItemsGrid from "./VirtualizedItemsGrid";
 /**
  * @deprecated ItemDetailsPopover ya no se usa en el runtime.
  * Todas las vistas usan cards especializadas con popovers por tipo.
@@ -20,22 +19,14 @@ import ItemDetailsPopover from "./details/item-details-popover";
  * Refactored to support composition pattern via renderItem prop.
  * When renderItem is provided, delegates rendering to specialized cards.
  * Falls back to legacy behavior for backward compatibility (deprecated path).
- * 
- * Virtualización automática: listas >100 items usan VirtualizedItemsGrid por defecto
- * para evitar renderizado masivo. Threshold y parámetros son configurables.
+ *
+ * Este componente ya no decide virtualización. Las vistas que la necesiten
+ * la montan explícitamente para mantener el layout transicional bajo control local.
  */
-const VIRTUALIZATION_THRESHOLD = 100;
-
-type VirtualizationOptions = {
-  enabled?: boolean;
-  threshold?: number;
-  itemSize?: number;
-  overscan?: number;
-  computeColumnCount?: (containerWidth: number) => number;
-  rowGap?: number;
-  columnGap?: number;
+type GridLayoutOptions = {
+  minColumnWidth?: number;
+  gap?: number;
   containerClassName?: string;
-  rowClassName?: string;
 };
 
 type ItemsGridProps<TItem extends BaseItem = BaseItem> = {
@@ -44,7 +35,7 @@ type ItemsGridProps<TItem extends BaseItem = BaseItem> = {
   onSelect: (item: TItem) => void;
   isLoading: boolean;
   renderItem?: (item: TItem) => React.ReactNode;
-  virtualization?: VirtualizationOptions;
+  layout?: GridLayoutOptions;
 };
 
 const ItemsGrid = <TItem extends BaseItem = BaseItem>({
@@ -53,10 +44,13 @@ const ItemsGrid = <TItem extends BaseItem = BaseItem>({
   onSelect,
   isLoading,
   renderItem,
-  virtualization,
+  layout,
 }: ItemsGridProps<TItem>) => {
   const renderStartTime = useRef<number>(0);
   const prevItemsLength = useRef<number>(0);
+  const minColumnWidth = layout?.minColumnWidth ?? 160;
+  const gap = layout?.gap ?? 8;
+  const containerClassName = layout?.containerClassName ?? "";
 
   // Medir tiempo de renderizado cuando cambia la cantidad de items
   useEffect(() => {
@@ -83,7 +77,13 @@ const ItemsGrid = <TItem extends BaseItem = BaseItem>({
   // Skeleton loader — compartido entre ambos modos
   if (isLoading) {
     return (
-      <div className="h-full grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] auto-rows-max gap-2 pr-1 overflow-y-scroll">
+      <div
+        className={`h-full grid auto-rows-max pr-1 overflow-y-scroll ${containerClassName}`}
+        style={{
+          gridTemplateColumns: `repeat(auto-fill, minmax(${minColumnWidth}px, 1fr))`,
+          gap: `${gap}px`,
+        }}
+      >
         {Array.from({ length: 20 }).map((_, i) => (
           <div
             key={i}
@@ -102,28 +102,14 @@ const ItemsGrid = <TItem extends BaseItem = BaseItem>({
     );
   }
 
-  const virtualizationEnabled = virtualization?.enabled ?? true;
-  const virtualizationThreshold = virtualization?.threshold ?? VIRTUALIZATION_THRESHOLD;
-
-  // Virtualización automática para listas grandes con renderItem
-  if (renderItem && virtualizationEnabled && items.length > virtualizationThreshold) {
-    return (
-      <VirtualizedItemsGrid
-        items={items}
-        renderItem={renderItem}
-        itemSize={virtualization?.itemSize}
-        overscan={virtualization?.overscan}
-        computeColumnCount={virtualization?.computeColumnCount}
-        rowGap={virtualization?.rowGap}
-        columnGap={virtualization?.columnGap}
-        containerClassName={virtualization?.containerClassName}
-        rowClassName={virtualization?.rowClassName}
-      />
-    );
-  }
-
   return (
-    <div className="h-full grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] auto-rows-max gap-2 pr-1 overflow-y-scroll">
+    <div
+      className={`h-full grid auto-rows-max pr-1 overflow-y-scroll ${containerClassName}`}
+      style={{
+        gridTemplateColumns: `repeat(auto-fill, minmax(${minColumnWidth}px, 1fr))`,
+        gap: `${gap}px`,
+      }}
+    >
       {renderItem
         ? items.map(renderItem)
         : items.map((item) => {

@@ -36,7 +36,6 @@ const warframes = instance
     // BaseItem compatibility fields (wiki canonical format)
     id: raw.uniqueName ?? raw.name,
     kind: 'warframe', // BaseItem Kind — singular, matches types.ts
-    image: raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
     
     uniqueName: raw.uniqueName ?? '',
     name: raw.name ?? '',
@@ -64,7 +63,7 @@ const warframes = instance
             abilityStatsDb[uniqueName] = {
               name: a.name,
               description: a.description,
-              icon: a.imageName,
+              imageName: a.imageName,
               stats: [{
                 label: "", 
                 stats: [],
@@ -79,10 +78,12 @@ const warframes = instance
               abilityStatsDb[uniqueName] = {
                 name: first.name || a.name,
                 description: first.description || a.description,
-                icon: first.icon || a.imageName,
+                imageName: first.imageName || first.icon || a.imageName,
                 stats: oldRows.map(row => {
-                  // eslint-disable-next-line no-unused-vars
                   const { name, description, icon, ...rest } = row;
+                  void name
+                  void description
+                  void icon
                   return rest;
                 })
               };
@@ -92,7 +93,8 @@ const warframes = instance
             const entry = abilityStatsDb[uniqueName];
             if (!entry.name) entry.name = a.name;
             if (!entry.description) entry.description = a.description;
-            if (!entry.icon) entry.icon = a.imageName;
+            if (!entry.imageName && !entry.icon) entry.imageName = a.imageName;
+            else if (!entry.imageName && entry.icon) entry.imageName = entry.icon;
           }
           return { uniqueName };
         }
@@ -111,10 +113,6 @@ const warframes = instance
     // Stats from Module:Warframes/data
     energy: raw.energy ?? raw.power ?? 0,
     initialEnergy: raw.initialEnergy ?? null,
-    healthRank30: raw.healthRank30 ?? null,
-    shieldRank30: raw.shieldRank30 ?? null,
-    armorRank30: raw.armorRank30 ?? null,
-    energyRank30: raw.energyRank30 ?? null,
     maxRank: raw.maxRank ?? 30,
     category: raw.category ?? 'Warframes',
     playstyle: raw.playstyle ?? [],
@@ -134,13 +132,21 @@ for (const [uniqueName, entry] of Object.entries(abilityStatsDb)) {
     abilityStatsDb[uniqueName] = {
       name: first.name || uniqueName.split('/').pop() || 'Unknown',
       description: first.description || '',
-      icon: first.icon || '',
+      imageName: first.imageName || first.icon || '',
       stats: oldRows.map(row => {
-        // eslint-disable-next-line no-unused-vars
         const { name, description, icon, ...rest } = row;
+        void name
+        void description
+        void icon
         return rest;
       })
     };
+  } else if (entry && typeof entry === 'object') {
+    const normalized = entry;
+    if (!normalized.imageName && normalized.icon) {
+      normalized.imageName = normalized.icon;
+    }
+    delete normalized.icon;
   }
 }
 
@@ -223,7 +229,6 @@ const mapMod = (raw) => ({
   id:          raw.uniqueName ?? raw.name,
   name:        raw.name ?? '',
   kind:        'mod',
-  image:       raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
   uniqueName:  raw.uniqueName ?? null,
   categoryRaw: raw.category  ?? null,
   type:        raw.type       ?? null,
@@ -257,7 +262,6 @@ const weapons = instance
       // BaseItem compatibility fields (wiki canonical format)
       id: raw.uniqueName ?? raw.name,
       kind: raw.category.toLowerCase(), // "Primary" → "primary"
-      image: raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
       
       uniqueName:          raw.uniqueName ?? '',
       name:                raw.name ?? '',
@@ -322,7 +326,7 @@ console.log(`✓ weapons.json — ${weapons.length} weapons`)
 
 // --- Mods ---
 const mods = instance
-  .filter(i => i.category === 'Mods')
+  .filter(i => i.category === 'Mods' && !i.isFlawed)
   .map(mapMod)
 
 await fs.writeFile(
@@ -330,7 +334,7 @@ await fs.writeFile(
   JSON.stringify(mods)
 )
 
-console.log(`✓ mods.json — ${mods.length} mods`)
+console.log(`✓ mods.json — ${mods.length} mods (Flawed excluidos)`)
 
 // --- Arcanes ---
 // Mapeo canónico de arcane.type → entidad a la que aplica en el Layout
@@ -351,7 +355,6 @@ const ARCANE_TYPE_TO_ENTITY = {
 const mapArcane = (raw) => ({
   id:          raw.uniqueName,
   kind:        'arcane',
-  image:       raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
   uniqueName:  raw.uniqueName,
   name:        raw.name ?? '',
   type:        raw.type ?? null,
@@ -386,7 +389,6 @@ const COMPANION_CATS = ['Pets', 'Sentinels']
 const mapCompanion = (raw) => ({
   id:          raw.uniqueName ?? raw.name,
   kind:        'companion',
-  image:       raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
   uniqueName:  raw.uniqueName ?? '',
   name:        raw.name ?? '',
   description: raw.description ?? '',
@@ -422,7 +424,6 @@ const ARCHWEAPON_CATS = ['Arch-Gun', 'Arch-Melee']
 const mapArchWeapon = (raw) => ({
   id:          raw.uniqueName ?? raw.name,
   kind:        raw.category === 'Arch-Gun' ? 'archgun' : 'archmelee',
-  image:       raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
   uniqueName:  raw.uniqueName ?? '',
   name:        raw.name ?? '',
   description: raw.description ?? '',
@@ -459,7 +460,6 @@ console.log(`✓ archwing-weapons.json — ${archwingWeapons.length} archwing we
 const mapVehicle = (raw, kind) => ({
   id:          raw.uniqueName ?? raw.name,
   kind,
-  image:       raw.imageName ? `https://cdn.warframestat.us/img/${raw.imageName}` : null,
   uniqueName:  raw.uniqueName ?? '',
   name:        raw.name ?? '',
   description: raw.description ?? '',

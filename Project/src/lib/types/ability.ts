@@ -97,7 +97,7 @@ export interface AbilityGroup {
 export interface AbilityStatsData {
   name: string;
   description: string;
-  icon: string;
+  imageName: string;
   groups: AbilityGroup[];
 }
 
@@ -115,7 +115,6 @@ export interface Ability {
   augments?: string[];
   weapon?: string;
   cardImage?: string;
-  icon?: string;
   preview?: string;
   previewFallback?: string;
   /** Numeric gameplay stats from Module:Ability/data/stats */

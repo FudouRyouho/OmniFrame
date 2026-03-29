@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { calcStatValue, fmtStatValue, resolveLabel, DEFAULT_ENGINE_VARS } from "@lib/abilityCalc";
 import type { EngineVars } from "@lib/abilityCalc";
 import type { AbilityStatEntry, AbilityGroup, AbilityStatsData } from "@lib/types";
+import { resolveLocalImageUrl } from "@lib/image-url";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -178,7 +179,7 @@ function AbilityCard({ ability, vars, globalForm }: {
       {/* Header */}
       <div className="flex items-center gap-3 p-4 border-b border-white/10">
         <img
-          src={`https://wiki.warframe.com/images/${ability.icon}`}
+          src={resolveLocalImageUrl(ability.imageName)}
           alt=""
           className="w-10 h-10 rounded bg-black/40 border border-white/10 object-contain"
           onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}

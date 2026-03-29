@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useLocation } from "react-router";
 import { fetchVehicle } from "@lib/vehicleData";
 import type { Vehicle } from "@lib/types";
 
@@ -8,15 +8,18 @@ import type { Vehicle } from "@lib/types";
  */
 const VehicleDetailView = () => {
     const { uniqueName } = useParams<{ uniqueName: string }>();
+    const location = useLocation();
     const [item, setItem] = useState<Vehicle | null>(null);
     const [loading, setLoading] = useState(true);
+    const routeState = location.state as { uniqueName?: string } | null;
 
     useEffect(() => {
-        fetchVehicle(decodeURIComponent(uniqueName ?? "")).then(v => {
+        const identifier = routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
+        fetchVehicle(identifier).then(v => {
             setItem(v ?? null);
             setLoading(false);
         });
-    }, [uniqueName]);
+    }, [routeState?.uniqueName, uniqueName]);
 
     if (loading) return <p className="p-4">Loading...</p>;
     if (!item) return (

@@ -24,10 +24,6 @@ export interface Warframe extends BaseItem {
   // Stats from Module:Warframes/data
   energy?: number;
   initialEnergy?: number;
-  healthRank30?: number;
-  shieldRank30?: number;
-  armorRank30?: number;
-  energyRank30?: number;
   maxRank?: number;
   category?: 'Warframes' | 'Archwings' | 'Necramechs' | 'Operators';
   playstyle?: string[];

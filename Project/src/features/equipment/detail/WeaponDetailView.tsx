@@ -1,23 +1,29 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useLocation } from "react-router";
 import { fetchWeapon } from "@lib/weaponData";
 import type { Weapon } from "@lib/types";
 
-/**
- * Placeholder — vista de detalle de Weapon bajo /equipment/weapons/:uniqueName.
- * Reemplazará a pages/WeaponDetail.tsx cuando el builder esté integrado.
- */
+const StatBadge = ({ label, value }: { label: string; value: string | number }) => (
+    <div className="flex flex-col items-center gap-0.5 px-3 py-2 bg-white/5 rounded">
+        <span className="text-xs opacity-40 uppercase tracking-wide">{label}</span>
+        <span className="text-sm font-semibold">{value}</span>
+    </div>
+);
+
 const WeaponDetailView = () => {
     const { uniqueName } = useParams<{ uniqueName: string }>();
+    const location = useLocation();
     const [item, setItem] = useState<Weapon | null>(null);
     const [loading, setLoading] = useState(true);
+    const routeState = location.state as { uniqueName?: string } | null;
 
     useEffect(() => {
-        fetchWeapon(decodeURIComponent(uniqueName ?? "")).then(w => {
+        const identifier = routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
+        fetchWeapon(identifier).then(w => {
             setItem(w ?? null);
             setLoading(false);
         });
-    }, [uniqueName]);
+    }, [routeState?.uniqueName, uniqueName]);
 
     if (loading) return <p className="p-4">Loading...</p>;
     if (!item) return (
@@ -28,11 +34,32 @@ const WeaponDetailView = () => {
     );
 
     return (
-        <div className="p-4">
-            <Link to="/equipment/weapons" className="text-sm opacity-40 hover:opacity-100 block mb-4">← Back</Link>
-            <h1 className="text-2xl font-bold mb-2">{item.name}</h1>
-            <p className="text-sm opacity-60">{item.description}</p>
-            {/* TODO: panel de detalle completo — placeholder hasta integración con builder */}
+        <div className="p-6 max-w-3xl mx-auto">
+            <Link to="/equipment/weapons" className="text-sm opacity-40 hover:opacity-100 block mb-6">← Back</Link>
+
+            <div className="flex gap-6 mb-6">
+                {item.image && (
+                    <img src={item.image} alt={item.name} className="w-32 h-32 object-contain shrink-0" />
+                )}
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-2xl font-bold">{item.name}</h1>
+                    <p className="text-sm opacity-40">{item.category} · MR{item.masteryReq}</p>
+                    <p className="text-sm opacity-60">{item.description}</p>
+                </div>
+            </div>
+
+            <div className="flex gap-3 flex-wrap">
+                <StatBadge label="Damage" value={item.totalDamage} />
+                <StatBadge label="Crit Chance" value={`${(item.criticalChance * 100).toFixed(0)}%`} />
+                <StatBadge label="Crit Mult" value={`${item.criticalMultiplier.toFixed(1)}x`} />
+                <StatBadge label="Status" value={`${(item.procChance * 100).toFixed(0)}%`} />
+                {item.fireRate !== undefined && (
+                    <StatBadge label="Fire Rate" value={item.fireRate.toFixed(2)} />
+                )}
+                {item.magazineSize !== undefined && (
+                    <StatBadge label="Magazine" value={item.magazineSize} />
+                )}
+            </div>
         </div>
     );
 };

@@ -126,7 +126,7 @@ Documento principal:
 
 | Módulo | Ruta | Estado |
 |---|---|---|
-| Herramientas dev | `features/dev/` — 6 vistas bajo `/dev/*`: `ability-stats`, `mod-stats`, `text-format`, `ui-showcase`, `ability-schema`, `engine-v1` | Desfasado respecto a schemas actuales. No es código muerto — evoluciona con los schemas. Retomar cuando schemas piloto sean estables (pre-builder o validación piloto). |
+| Herramientas dev | `features/dev/` — 5 vistas bajo `/dev/*`: `ability-stats`, `mod-stats`, `text-format`, `ui-showcase`, `ability-schema` | Desfasado respecto a schemas actuales. No es código muerto — evoluciona con los schemas. `engine-v1` fue retirado del runtime 2026-03-28 al quedar obsoleto frente al vertical slice real del builder. |
 | Options | `features/options/OptionsView.tsx` — ruta `/options` | En pausa. Placeholder funcional. No llevar a producción antes de builder v1. |
 | Profile | `features/profile/ProfileView.tsx` — ruta `/profile` | En pausa. Placeholder funcional. No llevar a producción antes de builder v1. |
 | i18n / category-icons | `lib/i18n/` — importado por hooks de equipment | Necesita reestructuración cuando se establezca naming-space semántico. Evolucionar en pre-builder o pilotos de schemas. |
@@ -138,7 +138,7 @@ Documento principal:
 
 | Archivo | Estado |
 |---|---|
-| `features/equipment/toolbar/inventory-toolbar.tsx` | `@deprecated` — sin importadores activos. Posible código muerto. Pendiente revisión manual antes de eliminar. |
+| ~~`features/equipment/toolbar/inventory-toolbar.tsx`~~ | Eliminado 2026-03-28 — toolbar legacy sin importadores activos. |
 | ~~`features/hud/layout-context.tsx`~~ | Eliminado 2026-03-28 — stub vacío (`export {}`), sin consumidores, sin valor como placeholder. |
 
 > `features/mods/ModsView.tsx` y `features/arcanes/ArcanesView.tsx` son work-in-progress válidos — no son huérfanos.

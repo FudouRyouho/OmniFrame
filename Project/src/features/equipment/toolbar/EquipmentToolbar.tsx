@@ -68,6 +68,13 @@ const EquipmentToolbar = () => {
   const { hovered, search, setSearch, order, setOrder, setHovered } =
     useEquipment();
 
+  const normalizedPathname = pathname.replace(/\/+$/, "") || "/";
+  const isListRoute = tabs.some((tab) => normalizedPathname === tab.path);
+
+  if (!isListRoute) {
+    return null;
+  }
+
   const activeKey =
     Object.keys(toolbarMap).find((key) => pathname.startsWith(key)) ?? null;
 

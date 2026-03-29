@@ -91,6 +91,10 @@
     "name": "Excalibur Umbra Passive",
     "description": "Umbra exhibits sentience in combat without Transference control. Attacks |SPEED|% faster and deals |DAMAGE|% more damage while wielding swords."
   },
+  "/Lotus/Powersuits/Inkblot/Inkblot": {
+    "name": "Follie Passive",
+    "description": "INKBLOT: Follie's abilities coat enemies in ink that slows their movement by |SLOW|% for a few seconds. Afflicted enemies have a |CHANCE|% chance to drop Health and Energy Orbs."
+  },
   "/Lotus/Powersuits/Frost/Frost": {
     "name": "Frost Passive",
     "description": "Cold Status Effects from Frost's Abilities last |DURATION|% longer. Frost gains |ARMOR| Armor for each enemy afflicted with <DT_FREEZE_COLOR>Cold within <AFFINITY_SHARE>Affinity Range."

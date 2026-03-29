@@ -30,7 +30,7 @@ const BaseItemCard = forwardRef<HTMLButtonElement, BaseItemCardProps>(
       <button
         ref={ref}
         className={classNames(
-          "group relative border outline-none transition-all duration-200",
+          "group relative cursor-pointer border outline-none transition-all duration-200",
           isSelected 
             ? "border-ui-accent shadow-[0_0_10px_rgba(var(--color-ui-accent),0.3)]" 
             : "border-ui-primary hover:border-b-ui-accent",
@@ -52,7 +52,7 @@ const BaseItemCard = forwardRef<HTMLButtonElement, BaseItemCardProps>(
                 src={item.image}
                 alt={item.name}
                 loading="lazy"
-                className="w-full h-full p-8 object-contain scale-125 transition-transform duration-500 group-hover:scale-[1.35]"
+                className="object-contain transition-transform duration-500 group-hover:scale-[1.25]"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-ui-primary/20 text-[10px] uppercase tracking-widest">

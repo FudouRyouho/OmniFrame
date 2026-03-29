@@ -2,56 +2,64 @@ import { useRef, useState, useEffect } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import type { BaseItem } from "@lib/types";
 
-const DEFAULT_ITEM_SIZE = 190;
+const DEFAULT_MIN_COLUMN_WIDTH = 190;
+const DEFAULT_GAP = 8;
 const DEFAULT_OVERSCAN = 3;
 
 type VirtualizedItemsGridProps<TItem extends BaseItem = BaseItem> = {
   items: TItem[];
   renderItem: (item: TItem) => React.ReactNode;
-  itemSize?: number;
+  minColumnWidth?: number;
+  gap?: number;
   overscan?: number;
-  computeColumnCount?: (containerWidth: number) => number;
-  rowGap?: number;
-  columnGap?: number;
-  containerClassName?: string;
-  rowClassName?: string;
+  className?: string;
 };
 
 /**
  * VirtualizedItemsGrid — renderiza solo los items visibles en el viewport.
  *
- * Usa @tanstack/react-virtual para virtualización por filas, con capacidad de
- * personalizar itemSize, overscan y lógica de columnas por vista.
+ * Usa @tanstack/react-virtual para virtualización por filas de cards cuadradas.
+ * El layout es deliberadamente mínimo porque esta capa solo vive en vistas
+ * transicionales donde el diseño final todavía no está cerrado.
  */
 const VirtualizedItemsGrid = <TItem extends BaseItem = BaseItem>({
   items,
   renderItem,
-  itemSize = DEFAULT_ITEM_SIZE,
+  minColumnWidth = DEFAULT_MIN_COLUMN_WIDTH,
+  gap = DEFAULT_GAP,
   overscan = DEFAULT_OVERSCAN,
-  computeColumnCount,
-  rowGap = 8,
-  columnGap = 8,
-  containerClassName = "",
-  rowClassName = "",
+  className = "",
 }: VirtualizedItemsGridProps<TItem>) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const [columnCount, setColumnCount] = useState(1);
+  const [containerWidth, setContainerWidth] = useState(0);
 
-  // Calcular columnas según ancho del contenedor y lógica por vista
+  const computedCellWidth =
+    columnCount > 0
+      ? Math.max(
+          0,
+          (containerWidth - gap * (columnCount - 1)) / columnCount,
+        )
+      : minColumnWidth;
+
+  // Los cards son aspect-square, así que la altura real sigue el ancho de celda.
+  const effectiveItemSize = computedCellWidth > 0 ? computedCellWidth : minColumnWidth;
+  const rowSize = effectiveItemSize + gap;
+
+  // Calcular columnas según ancho del contenedor y el ancho mínimo deseado.
   useEffect(() => {
     if (!parentRef.current) return;
 
     const observer = new ResizeObserver((entries) => {
       const width = entries[0].contentRect.width;
-      const cols = computeColumnCount
-        ? computeColumnCount(width)
-        : Math.max(1, Math.floor(width / itemSize));
+      setContainerWidth(width);
+      const cols = Math.max(1, Math.floor((width + gap) / (minColumnWidth + gap)));
       setColumnCount(cols);
     });
 
     observer.observe(parentRef.current);
     return () => observer.disconnect();
-  }, [computeColumnCount, itemSize]);
+  }, [gap, minColumnWidth]);
 
   // Agrupar items en filas según columnCount
   const rows: TItem[][] = [];
@@ -62,12 +70,12 @@ const VirtualizedItemsGrid = <TItem extends BaseItem = BaseItem>({
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => itemSize,
+    estimateSize: () => rowSize,
     overscan,
   });
 
   return (
-    <div ref={parentRef} className={`h-full overflow-y-scroll pr-1 ${containerClassName}`}>
+    <div ref={parentRef} className={`h-full overflow-y-scroll pr-1 ${className}`}>
       <div
         style={{
           height: `${rowVirtualizer.getTotalSize()}px`,
@@ -80,7 +88,7 @@ const VirtualizedItemsGrid = <TItem extends BaseItem = BaseItem>({
           return (
             <div
               key={virtualRow.key}
-              className={`grid ${rowClassName}`}
+              className="grid"
               style={{
                 position: "absolute",
                 top: 0,
@@ -90,8 +98,10 @@ const VirtualizedItemsGrid = <TItem extends BaseItem = BaseItem>({
                 transform: `translateY(${virtualRow.start}px)`,
                 display: "grid",
                 gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-                gap: `${rowGap}px ${columnGap}px`,
-                paddingBottom: "0.5rem",
+                gap: `0px ${gap}px`,
+                paddingBottom: `${gap}px`,
+                boxSizing: "border-box",
+                alignItems: "start",
               }}
             >
               {rowItems.map((item) => renderItem(item))}

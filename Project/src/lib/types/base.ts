@@ -10,7 +10,8 @@ export interface BaseItem {
   id: string;              // uniqueName ?? name
   name: string;
   kind: Kind;              // Lowercase category
-  image: string | null;    // Full CDN URL
+  image: string | null;    // Ruta runtime (local o remota)
+  imageName?: string | null;
   uniqueName: string;
   type?: string | null;
   masteryReq: number;

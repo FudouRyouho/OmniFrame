@@ -1,12 +1,15 @@
 import type { Arcane } from './types';
 import { db, fetchWithCache } from './db';
+import { hydrateImageFromImageName } from './image-url';
+import { matchesRouteIdentifier } from './route-id';
 
 let cache: Arcane[] | null = null;
 
 const fetchArcanesFromJSON = async (): Promise<Arcane[]> => {
   const res = await fetch('/data/arcanes.json');
   if (!res.ok) throw new Error('Failed to load arcanes.json');
-  return res.json();
+  const data: Arcane[] = await res.json();
+  return data.map(hydrateImageFromImageName);
 };
 
 export const fetchArcanes = async (): Promise<Arcane[]> => {
@@ -15,7 +18,7 @@ export const fetchArcanes = async (): Promise<Arcane[]> => {
   return cache;
 };
 
-export const fetchArcane = async (name: string): Promise<Arcane | undefined> => {
+export const fetchArcane = async (identifier: string): Promise<Arcane | undefined> => {
   const arcanes = await fetchArcanes();
-  return arcanes.find(a => a.uniqueName === name || a.name.toLowerCase() === name.toLowerCase());
+  return arcanes.find(a => matchesRouteIdentifier(a, identifier));
 };

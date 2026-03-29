@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import type { Warframe, AbilityStatsData, AbilityGroup, AbilityStatEntry, AbilityStatValue, AbilityUpgradeBy } from "@lib/types";
 import { resolveLabel, DEFAULT_ENGINE_VARS } from "@lib/abilityCalc";
 import type { EngineVars } from "@lib/abilityCalc";
+import { resolveLocalImageUrl } from "@lib/image-url";
 import { FormattedText } from "@lib/FormattedText";
 import { StatusSelector } from "../shared/StatusSelector";
 import type { EditorStatus } from "../shared/editor-types";
@@ -48,6 +49,21 @@ const KNOWN_UPGRADE_TYPES = [
 
 type AbilityStatsDB = Record<string, AbilityStatsData>;
 interface AbilityWithKey { uniqueName: string; name: string; }
+
+const normalizeAbilityStatsDb = (input: Record<string, unknown>): AbilityStatsDB => {
+  const normalized: AbilityStatsDB = {};
+  for (const [key, raw] of Object.entries(input)) {
+    if (!raw || typeof raw !== "object") continue;
+    const row = raw as Record<string, unknown>;
+    normalized[key] = {
+      name: String(row.name ?? ""),
+      description: String(row.description ?? ""),
+      imageName: String(row.imageName ?? row.icon ?? ""),
+      groups: Array.isArray(row.groups) ? (row.groups as AbilityStatsData["groups"]) : [],
+    };
+  }
+  return normalized;
+};
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -382,8 +398,8 @@ function AbilityEditor({ abilityKey, data, onChange, status, onStatusChange, var
       <div className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-white/3 transition-colors"
         onClick={() => setCollapsed(!collapsed)}>
         <span className="text-white/20 text-xs w-4">{collapsed ? "▶" : "▼"}</span>
-        {data.icon ? (
-          <img src={`https://wiki.warframe.com/images/${data.icon}`} alt=""
+        {data.imageName ? (
+          <img src={resolveLocalImageUrl(data.imageName)} alt=""
             className="w-8 h-8 rounded bg-black/40 border border-white/10 object-contain shrink-0"
             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
         ) : (
@@ -408,8 +424,8 @@ function AbilityEditor({ abilityKey, data, onChange, status, onStatusChange, var
               placeholder="Ability name"
               className="w-full bg-black/30 border border-white/10 rounded px-2 py-1 text-sm text-white/80 outline-none focus:border-white/30 placeholder:text-white/15" />
           </FieldRow>
-          <FieldRow label="icon">
-            <input type="text" value={data.icon} onChange={(e) => setField("icon", e.target.value)}
+          <FieldRow label="imageName">
+            <input type="text" value={data.imageName} onChange={(e) => setField("imageName", e.target.value)}
               placeholder="Icon_Name.png"
               className="w-full bg-black/30 border border-white/10 rounded px-2 py-1 text-sm text-white/80 font-mono outline-none focus:border-white/30 placeholder:text-white/15" />
           </FieldRow>
@@ -509,13 +525,17 @@ export default function AbilityStatsEditor() {
     Promise.all([
       fetch("/data/warframes.json").then((r) => r.json()),
       fetch("/data/ability-stats.override.json").then((r) => r.json()),
-    ]).then(([wfData, statsData]: [Warframe[], AbilityStatsDB]) => {
+    ]).then(([wfData, statsData]: [Warframe[], Record<string, unknown>]) => {
       setWarframes(wfData);
+      const normalizedStats = normalizeAbilityStatsDb(statsData);
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        try { setDb({ ...statsData, ...JSON.parse(saved) }); setHasLocalChanges(true); }
-        catch { setDb(statsData); }
-      } else { setDb(statsData); }
+        try {
+          setDb({ ...normalizedStats, ...normalizeAbilityStatsDb(JSON.parse(saved) as Record<string, unknown>) });
+          setHasLocalChanges(true);
+        }
+        catch { setDb(normalizedStats); }
+      } else { setDb(normalizedStats); }
       const savedStatuses = localStorage.getItem(STORAGE_STATUS_KEY);
       if (savedStatuses) { try { setStatuses(JSON.parse(savedStatuses)); } catch { /* ignore */ } }
       if (wfData.length > 0) setSelectedWf(wfData[0].uniqueName);
@@ -554,7 +574,10 @@ export default function AbilityStatsEditor() {
     if (!confirm("¿Eliminar cambios locales y volver al JSON del servidor?")) return;
     localStorage.removeItem(STORAGE_KEY);
     setHasLocalChanges(false);
-    fetch("/data/ability-stats.override.json").then((r) => r.json()).then((data: AbilityStatsDB) => setDb(data)).catch(console.error);
+    fetch("/data/ability-stats.override.json")
+      .then((r) => r.json())
+      .then((data: Record<string, unknown>) => setDb(normalizeAbilityStatsDb(data)))
+      .catch(console.error);
   };
 
   const handleExportStatuses = () => {

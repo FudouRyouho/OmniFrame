@@ -19,6 +19,8 @@
  */
 import type { Warframe, Ability, AbilityStatsData } from './types'
 import { db, fetchWithCache } from './db'
+import { hydrateImageFromImageName } from './image-url'
+import { matchesRouteIdentifier } from './route-id'
 
 // ── Cache ─────────────────────────────────────────────────────────────────────
 
@@ -31,7 +33,7 @@ let cache: Warframe[] | null = null
  * Maneja la transición de estructura legacy (array) a nueva (objeto).
  *
  * @note Estructura legacy: array de rows con { name, description, icon, ...stats }
- * @note Estructura nueva: { name, description, icon, stats: AbilityStat[] }
+ * @note Estructura nueva: { name, description, imageName, stats: AbilityStat[] }
  */
 const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Ability => {
   const dbEntry = statsDb[ability.uniqueName]
@@ -41,11 +43,11 @@ const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Abi
       ...ability,
       name: ability.uniqueName.split('/').pop() ?? 'Unknown',
       description: '',
-      icon: '',
+      imageName: '',
       stats: {
         name: ability.uniqueName.split('/').pop() ?? 'Unknown',
         description: '',
-        icon: '',
+        imageName: '',
         groups: [],
       },
     }
@@ -61,7 +63,7 @@ const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Abi
   const statsData: AbilityStatsData = {
     name:        String(metadata.name        ?? ability.uniqueName.split('/').pop() ?? 'Unknown'),
     description: String(metadata.description ?? ''),
-    icon:        String(metadata.icon        ?? ''),
+    imageName:   String(metadata.imageName   ?? metadata.icon ?? ''),
     groups:      Array.isArray(groupsArray) ? groupsArray as AbilityStatsData['groups'] : [],
   }
 
@@ -69,7 +71,7 @@ const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Abi
     ...ability,
     name:        statsData.name,
     description: statsData.description,
-    icon:        statsData.icon,
+    imageName:   statsData.imageName || ability.imageName,
     stats:       statsData,
   }
 }
@@ -107,7 +109,7 @@ const fetchWarframesFromJSON = async (): Promise<Warframe[]> => {
   }
 
   return warframes.map(wf => ({
-    ...wf,
+    ...hydrateImageFromImageName(wf),
     passive: wf.passive && typeof wf.passive === 'string'
       ? passivesDb[wf.passive]
       : wf.passive,
@@ -127,9 +129,9 @@ export const fetchWarframes = async (): Promise<Warframe[]> => {
   return cache
 }
 
-export const fetchWarframe = async (name: string): Promise<Warframe | undefined> => {
+export const fetchWarframe = async (identifier: string): Promise<Warframe | undefined> => {
   const warframes = await fetchWarframes()
-  return warframes.find(w => w.name.toLowerCase() === name.toLowerCase())
+  return warframes.find(w => matchesRouteIdentifier(w, identifier))
 }
 
 export type { Warframe }

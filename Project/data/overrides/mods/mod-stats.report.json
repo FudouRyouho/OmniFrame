@@ -1,0 +1,1247 @@
+{
+  "totalMods": 1801,
+  "filteredFlawed": 94,
+  "candidateMods": 739,
+  "acceptedMods": 639,
+  "rejectedMods": 100,
+  "acceptanceRate": 86.47,
+  "rejectionReasons": {
+    "stat-count-mismatch": 81,
+    "multiple-numbers-in-stat": 19
+  },
+  "rejectedSamples": [
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/SentinelShieldRechargeRateMod",
+      "name": "Accelerated Deflection",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_SHIELD_RECHARGE_RATE"
+      ],
+      "sampleStats": [
+        "+15% Shield Recharge",
+        "-7.5% Shield Recharge Delay"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/Event/ProjectNightwatch/SobekNightwatchMod",
+      "name": "Acid Shells",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CORPSE_EXPLODE_DAMAGE",
+        "WEAPON_CORPSE_EXPLODE_DAMAGE_ENEMY_HEALTH_PCT",
+        "WEAPON_CORPSE_EXPLODE_RADIUS"
+      ],
+      "sampleStats": [
+        "Enemies explode on death, dealing 75 <DT_CORROSIVE_COLOR>Corrosive Damage (+8% Enemy Max Health) in a 2.5m radius."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/MoreBulletJumpLessHealthMod",
+      "name": "Adept Surge",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION",
+        "AVATAR_HEALTH_MAX"
+      ],
+      "sampleStats": [
+        "+2.5% Mobility",
+        "-6.2 Health"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Aura/WarframeAuraVerticalityMod",
+      "name": "Aerodynamic",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_DAMAGE_TAKEN",
+        "AVATAR_PARKOUR_GLIDE"
+      ],
+      "sampleStats": [
+        "Squad takes 4% reduced damage while airborne, gains +1s Aim Glide and +2s Wall Latch"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/DualSource/Pistol/MultishotDodgeMod",
+      "name": "Amalgam Barrel Diffusion",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_FIRE_ITERATIONS",
+        "AVATAR_ACROBATIC_SPEED",
+        "AVATAR_DODGE_SPEED"
+      ],
+      "sampleStats": [
+        "+18% Multishot",
+        "+10% Dodge Speed"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/DualSource/Rifle/DaikyuKatanaMod",
+      "name": "Amalgam Daikyu Target Acquired",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_HEADSHOT_MULTIPLIER",
+        "WEAPON_LIFE_STEAL"
+      ],
+      "sampleStats": [
+        "+12.5% to Headshot Multiplier",
+        "+0.5% Life Steal on Nikanas",
+        "<LINE_SEPARATOR>\\n10% chance to pickup used arrows."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/DualSource/Melee/FuraxLauncherMod",
+      "name": "Amalgam Furax Body Count",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_MELEE_COMBO_DURATION_BONUS",
+        "WEAPON_FIRE_RATE",
+        "WEAPON_CORPSE_EXPLODE_PROC_CHANCE",
+        "WEAPON_CORPSE_EXPLODE_RADIUS",
+        "WEAPON_CORPSE_EXPLODE_PROC_CHANCE"
+      ],
+      "sampleStats": [
+        "+2.5s Combo Duration\\n+8% Fire Rate for Secondary Weapons\\n<LINE_SEPARATOR>\\nMelee kills <DT_EXPLOSION_COLOR>Blast and stagger enemies in 2.5m"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/Tengu/TenguDisablePassiveMod",
+      "name": "Anchored Glide",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_ABILITY_STRENGTH",
+        "AVATAR_ABILITY_AUGMENT"
+      ],
+      "sampleStats": [
+        "Disable Zephyr's reduced airborne gravity. Increase Ability Strength by 3%."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/BlastResist",
+      "name": "Anti-Flak Plating",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_DAMAGE_TAKEN",
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION"
+      ],
+      "sampleStats": [
+        "+5 <DT_EXPLOSION_COLOR>Blast Resistance",
+        "-2.5% Mobility"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/StaggerImmunityMod",
+      "name": "Anticipation",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PROC_IMMUNITY_DURATION"
+      ],
+      "sampleStats": [
+        "Immune to Knockdown for an additional +1s after being knocked down.",
+        "Immune to Stagger for an additional +1s after being Staggered."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Rifle/MarkTargetRifleMod",
+      "name": "Apex Predator",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_MARK_TARGET"
+      ],
+      "sampleStats": [
+        "Reveals target on Minimap for +1s."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Archwing/Rifle/ArchwingHeadshotKillAmmoEfficiencyMod",
+      "name": "Archgun Ace",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_FIRE_RATE",
+        "WEAPON_CHARGE_RATE",
+        "WEAPON_RELOAD_SPEED"
+      ],
+      "sampleStats": [
+        "On Headshot Kill:\\n+8% Fire/Charge Rate\\n+17% Reload Speed for 2s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Warframe/Kahl/KahlAvatarAbilityDurationMod",
+      "name": "Archon Continuity",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_ABILITY_DURATION",
+        "AVATAR_PROC_ABILITY_STACK"
+      ],
+      "sampleStats": [
+        "+5% Ability Duration",
+        "Abilities that inflict a <DT_POISON_COLOR>Toxin status effect will also apply a <DT_CORROSIVE_COLOR>Corrosive status effect."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Warframe/Kahl/KahlAvatarPowerMaxMod",
+      "name": "Archon Flow",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_POWER_MAX"
+      ],
+      "sampleStats": [
+        "+17% Energy Max",
+        "Enemies killed by <DT_FREEZE_COLOR>Cold Abilities have 10% chance to drop an Energy Orb. Cooldown: 10s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Warframe/Kahl/KahlAvatarAbilityStrengthMod",
+      "name": "Archon Intensify",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_ABILITY_STRENGTH"
+      ],
+      "sampleStats": [
+        "+2.7% Ability Strength",
+        "Restoring health with abilities grants +30% Ability Strength for 10s."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Warframe/Kahl/KahlAvatarHealthMaxMod",
+      "name": "Archon Vitality",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_HEALTH_MAX",
+        "AVATAR_PROC_ABILITY_STACK"
+      ],
+      "sampleStats": [
+        "+9% Health",
+        "Status Effects from abilities that deal <DT_FIRE_COLOR>Heat Damage will be applied twice."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/DamageResistanceLessMobility",
+      "name": "Armored Acrobatics",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_DAMAGE_TAKEN",
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION"
+      ],
+      "sampleStats": [
+        "+5% Damage Resistance during Bullet Jump",
+        "-2.5% Mobility"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/DamageResistanceLessSlide",
+      "name": "Armored Evade",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_DAMAGE_TAKEN",
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION"
+      ],
+      "sampleStats": [
+        "+10% Damage Resistance while Dodging",
+        "-2.5% Mobility"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/RagdollImmunityMod",
+      "name": "Armored Recovery",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_DAMAGE_TAKEN",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION"
+      ],
+      "sampleStats": [
+        "+12.5% Damage Resistance when knocked down",
+        "-5% Slide"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Syndicate/SilvaAegisMod",
+      "name": "Avenging Truth",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_SYNDICATE_POWER"
+      ],
+      "sampleStats": [
+        "Blocking absorbs 20% of incoming damage, stored as Extra Damage for the next charge attack.",
+        "+0.3 'Truth'"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/ParisHealOnStatusMod",
+      "name": "Bhisaj-Bal",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PROC_CHANCE"
+      ],
+      "sampleStats": [
+        "Restore 50 Health for every 3 Status effects.",
+        "+15% Status Chance"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Shotgun/MarkTargetShotgunMod",
+      "name": "Bounty Hunter",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_MARK_TARGET"
+      ],
+      "sampleStats": [
+        "Reveals target on Minimap for +1s."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/MoreHealthLessBulletJumpMod",
+      "name": "Calculated Spring",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION",
+        "AVATAR_HEALTH_MAX"
+      ],
+      "sampleStats": [
+        "-2.5% Mobility",
+        "+6.3% Health"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/Nightwave/NightwaveTigrisAugmentMod",
+      "name": "Combat Reload",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "WEAPON_RELOAD_SPEED"
+      ],
+      "sampleStats": [
+        "If 5 pellets are headshots, increase reload speed by +20% for 3s."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/WeaponBeamExplodeOnDeath",
+      "name": "Combustion Beam",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CORPSE_EXPLODE_DAMAGE",
+        "WEAPON_CORPSE_EXPLODE_RADIUS"
+      ],
+      "sampleStats": [
+        "Enemies killed explode, dealing 100 Damage shortly after death."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/Nezha/NezhaDisablePassiveMod",
+      "name": "Controlled Slide",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_ABILITY_STRENGTH",
+        "AVATAR_ABILITY_AUGMENT"
+      ],
+      "sampleStats": [
+        "Disable Nezha's passive ability. Increase Ability Strength by 3%."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Archwing/Rifle/ArchwingRifleCritChanceDamageAimingMod",
+      "name": "Critical Focus",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CRIT_CHANCE",
+        "WEAPON_CRIT_DAMAGE"
+      ],
+      "sampleStats": [
+        "+10% Critical Chance and Damage when Aiming"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Event/Nightwave/NightwaveCatabolystAugmentMod",
+      "name": "Critical Mutation",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "SKILL_ABILITY_TACTICAL_EFFICIENCY"
+      ],
+      "sampleStats": [
+        "Each kill increases Critical Chance and Critical Damage by 5% up to 300%. Reduce by 5% when fewer than 3 enemies are struck by the grenade explosion."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Syndicate/PantheraMod",
+      "name": "Disarming Purity",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_SYNDICATE_POWER"
+      ],
+      "sampleStats": [
+        "Secondary Fire mode has a 10% chance to disarm enemies.",
+        "+0.3 'Purity'"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Nightwave/BroncoNightwaveMod",
+      "name": "Dizzying Rounds",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PROC_CHANCE"
+      ],
+      "sampleStats": [
+        "Shots from less than 2m stun enemies and open them to finishers.\\n+50% Status Chance"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Aura/PlayerEnergyHealthRegenAuraMod",
+      "name": "Dreamer's Bond",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_POWER_RATE",
+        "AVATAR_HEAL_RATE"
+      ],
+      "sampleStats": [
+        "Squad receives +0.05 Energy Regen/s and +0.25 Health Regen/s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/EmpoweredHeavyMelee/FocusedAttack",
+      "name": "Dreamer's Wrath",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_MELEE_HEAVY_EMPOWERED_CHANCE",
+        "WEAPON_CRIT_DAMAGE"
+      ],
+      "sampleStats": [
+        "Enables Tennokai. Increases opportunity chance by 12.5% and critical damage by 8% for Tennokai attacks."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Melee/WeaponPowerDamageMod",
+      "name": "Energy Channel",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_POWER_DAMAGE_MULTIPLIER",
+        "WEAPON_POWER_DAMAGE_MAX"
+      ],
+      "sampleStats": [
+        "Converts 50% of Energy used to up to 50 Bonus Damage on next Melee Attack."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Warframe/AvatarPickupBonusMod",
+      "name": "Equilibrium",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_PICKUP_BONUS_AMOUNT"
+      ],
+      "sampleStats": [
+        "Health pickups give +10% Energy. Energy pickups give +10% Health."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/Nightwave/NightwaveZylokAugmentMod",
+      "name": "Eximus Advantage",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "WEAPON_DAMAGE_AMOUNT"
+      ],
+      "sampleStats": [
+        "Headshots on Eximus enemies increase Secondary Damage by +100% for 10 secs."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Melee/ExplodeOnMeleeDeath",
+      "name": "Explosive Demise",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CORPSE_EXPLODE_DAMAGE",
+        "WEAPON_CORPSE_EXPLODE_RADIUS"
+      ],
+      "sampleStats": [
+        "Enemies killed explode, dealing 50 Damage shortly after death."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Grimoire/FassAuraMod",
+      "name": "Fass Canticle",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_FIRE_RATE",
+        "AVATAR_SHIELD_RECHARGE_RATE",
+        "AVATAR_SHIELD_RECHARGE_DELAY"
+      ],
+      "sampleStats": [
+        "Killing enemies grants Allies in Affinity Range 25% Shield Recharge Rate and <LOWER_IS_BETTER>-7% Shield Recharge Delay for 15s."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Warframe/AvatarShieldRechargeRateMod",
+      "name": "Fast Deflection",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_SHIELD_RECHARGE_RATE"
+      ],
+      "sampleStats": [
+        "+15% Shield Recharge",
+        "-7.5% Shield Recharge Delay"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/Kubrow/KubrowFinisherMod",
+      "name": "Ferocity",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_SENTINEL_FINISHER_DAMAGE"
+      ],
+      "sampleStats": [
+        "Kubrow attacks an enemy open to finishers with +50% crit chance. If the enemy dies during the attack, enemies within 1m have a 30% chance to be knocked down and opened to finishers."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Rifle/HindDamageonFifthHit",
+      "name": "Final Tap",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_DAMAGE_AMOUNT"
+      ],
+      "sampleStats": [
+        "On 4 Hits within 0.05s:\\n+25% Damage for 0.05s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/SentinelOverheatDamageMod",
+      "name": "Fired Up",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "WEAPON_OVERHEAT_DAMAGE"
+      ],
+      "sampleStats": [
+        "0.8% <DT_FIRE_COLOR>Heat Damage on weapon per hit. Stacks up to 16%. Resets after 5s with no hits."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/Event/ProjectNightwatch/DrakgoonNightwatchMod",
+      "name": "Fomorian Accelerant",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PROJECTILE_BOUNCES",
+        "WEAPON_PROJECTILE_SPEED",
+        "WEAPON_PROJECTILE_ELASTICITY"
+      ],
+      "sampleStats": [
+        "Flak now bounces up to 1x and travels 15% faster."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponProjectileSpeedSPMod",
+      "name": "Galvanized Acceleration",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "WEAPON_PROJECTILE_SPEED",
+        "WEAPON_RANGE"
+      ],
+      "sampleStats": [
+        "+2.7% Projectile Speed and +2.7% Beam Range",
+        "On Kill:\\n+2.7% Projectile Speed and +2.7% Beam Range for 10s. Stacks up to 2x."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/WeaponFireIterationsSPMod",
+      "name": "Galvanized Chamber",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_FIRE_ITERATIONS"
+      ],
+      "sampleStats": [
+        "+7.3% Multishot",
+        "On Kill:\\n+2.7% Multishot for 20s. Stacks up to 5x."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/Event/CritChanceWhileAimingPistolSPMod",
+      "name": "Galvanized Crosshairs",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CRIT_CHANCE"
+      ],
+      "sampleStats": [
+        "On Headshot:\\n+10.9% Critical Chance when Aiming for 12s\\nOn Headshot Kill:\\n+3.6% Critical Chance when Aiming for 12s. Stacks up to 5x."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Pistol/WeaponFireIterationsSPMod",
+      "name": "Galvanized Diffusion",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_FIRE_ITERATIONS"
+      ],
+      "sampleStats": [
+        "+10% Multishot",
+        "On Kill:\\n+2.7% Multishot for 20s. Stacks up to 4x."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Shotgun/WeaponFireIterationsSPMod",
+      "name": "Galvanized Hell",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_FIRE_ITERATIONS"
+      ],
+      "sampleStats": [
+        "+10% Multishot",
+        "On Kill:\\n+2.7% Multishot for 20s. Stacks up to 4x."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/CritChanceWhileAimingRifleSPMod",
+      "name": "Galvanized Scope",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CRIT_CHANCE"
+      ],
+      "sampleStats": [
+        "On Headshot:\\n+10.9% Critical Chance when Aiming for 12s\\nOn Headshot Kill:\\n+3.6% Critical Chance when Aiming for 12s. Stacks up to 5x."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/Kubrow/KubrowShieldRechargeRateMod",
+      "name": "Hastened Deflection",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_SHIELD_RECHARGE_RATE"
+      ],
+      "sampleStats": [
+        "+15% Shield Recharge",
+        "-7.5% Shield Recharge Delay"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Melee/DaggerMeleeAutoTargetBonus",
+      "name": "Heartseeker",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_MELEE_AUTOTARGET_RANGE_BONUS",
+        "WEAPON_MELEE_AUTOTARGET_SPEED_BONUS",
+        "WEAPON_MELEE_AUTOTARGET_MAXIMUM_ANGLE",
+        "WEAPON_PARRY_EFFECTIVENESS"
+      ],
+      "sampleStats": [
+        "Lock onto targets within 0.25m, but reduces blocking effectiveness.",
+        "-12.5% Damage Block"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Warframe/AvatarFallingImpactMod",
+      "name": "Heavy Impact",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_FALL_IMPACT_RADIUS",
+        "AVATAR_FALL_IMPACT_AMOUNT"
+      ],
+      "sampleStats": [
+        "Create 1m seismic shockwaves from heavy landings, dealing 50 Damage and knocking foes off their feet."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Melee/Event/ProjectNightwatch/RipkasNightwatchMod",
+      "name": "Hunter's Bonesaw",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_MELEE_DAMAGE",
+        "WEAPON_PROC_AMOUNT"
+      ],
+      "sampleStats": [
+        "Increase Finisher Damage by 20% against prone enemies."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Powersuits/Fairy/FairyDisablePassiveMod",
+      "name": "Ironclad Flight",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_DAMAGE_TAKEN",
+        "AVATAR_ABILITY_AUGMENT"
+      ],
+      "sampleStats": [
+        "Disable vacuum in Razorwing. Reduced Damage by 10% while Airborne."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Grimoire/JahuAuraMod",
+      "name": "Jahu Canticle",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_FIRE_RATE",
+        "AVATAR_ARMOUR",
+        "AVATAR_SHIELD_MAX"
+      ],
+      "sampleStats": [
+        "Killing enemies reduces the Armor and Shields of other enemies within Affinity Range by 2%."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/CorpusArena/TetraCorpusArenaMod",
+      "name": "Kinetic Ricochet",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PROJECTILE_BOUNCES",
+        "WEAPON_RANGE"
+      ],
+      "sampleStats": [
+        "Shots now bounce up to 1x and travel 5% further."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/Kubrow/KubrowMasterBleedoutMod",
+      "name": "Loyal Companion",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_SENTINEL_MASTER_BLEEDOUT_MODIFIER"
+      ],
+      "sampleStats": [
+        "When your Health falls below 35%, gain 12% Damage Reduction for 10s while your Companion becomes invincible and draws fire to itself for 10s. 60s cooldown."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Melee/WeaponGlaiveOnSixKillsBuffSecondary",
+      "name": "Mark Of The Beast",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "WEAPON_PROC_CHANCE",
+        "WEAPON_CRIT_CHANCE"
+      ],
+      "sampleStats": [
+        "On 6 Melee Kills within 6s:\\n\\n+20% Status and Critical Chance for Secondary Weapon for 4s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/Nightwave/NightwaveGorgonAugmentMod",
+      "name": "Metamorphic Magazine",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CLIP_MAX",
+        "WEAPON_AMMO_MAX"
+      ],
+      "sampleStats": [
+        "+15% Magazine Capacity",
+        "+15% Ammo Maximum",
+        "Inflicting 20 cumulative attacks on an enemy will petrify them for 5s."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Melee/ChannelingEfficiencyOnLowHealth",
+      "name": "Mortal Conduct",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PARRY_DAMAGE_REFLECTED"
+      ],
+      "sampleStats": [
+        "At Less than 50 Health:\\n+15% Damage taken is reflected when Blocking attacks while Channeling for 2s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sets/Raptor/RaptorModB",
+      "name": "Motus Setup",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CRIT_CHANCE",
+        "WEAPON_PROC_CHANCE"
+      ],
+      "sampleStats": [
+        "25% Critical and Status Chance for 1s after landing from a Double or Bullet Jump."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Necromech/NecromechAvatarShieldRechargeRateMod",
+      "name": "Necramech Deflection",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_SHIELD_RECHARGE_RATE"
+      ],
+      "sampleStats": [
+        "+15% Shield Recharge",
+        "-7.5% Shield Recharge Delay"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Grimoire/NetraStrikeMod",
+      "name": "Netra Invocation",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_ABILITY_EFFICIENCY"
+      ],
+      "sampleStats": [
+        "Alternate Fire increases Ability Efficiency by 1% for 20s for each enemy hit. Stacks up to 15 times."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Pistol/MarkTargetPistolMod",
+      "name": "Night Stalker",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_MARK_TARGET"
+      ],
+      "sampleStats": [
+        "Reveals target on Minimap for +1s."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/ProjectNightwatch/OgrisNightwatchMod",
+      "name": "Nightwatch Napalm",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PROJECTILE_LINGERING_AOE_DAMAGE",
+        "WEAPON_PROJECTILE_LINGERING_AOE_DURATION",
+        "WEAPON_PROJECTILE_LINGERING_AOE_RADIUS"
+      ],
+      "sampleStats": [
+        "Rockets disperse napalm, inflicting 5% damage over 1s across 15% of the explosion area."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/MoreBulletJumpLessEnergy",
+      "name": "No Current Leap",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION",
+        "AVATAR_POWER_RATE"
+      ],
+      "sampleStats": [
+        "+2.5% Mobility",
+        "0 Energy Rate"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/EmpoweredHeavyMelee/PerfectReach",
+      "name": "Opportunity's Reach",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "WEAPON_RANGE"
+      ],
+      "sampleStats": [
+        "Enables Tennokai. Increases opportunity window to 2.8s and melee range by 0.75m for Tennokai attacks."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/EnergyToOvershieldsOnSpawnMod",
+      "name": "Overcharged",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_ENERGY_TO_OVERSHIELDS_ON_SPAWN"
+      ],
+      "sampleStats": [
+        "Converts up to 50 Energy to Overshields at a rate of 0%."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/Kubrow/KubrowPackLeaderMod",
+      "name": "Pack Leader",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_SENTINEL_PACK_LEADER"
+      ],
+      "sampleStats": [
+        "+17 Health per hit",
+        "+200 Overguard Max"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Melee/WeaponGlaivePowerthrowMod",
+      "name": "Power Throw",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PUNCTURE_DEPTH",
+        "WEAPON_DAMAGE_AMOUNT"
+      ],
+      "sampleStats": [
+        "+0.3 Punch Through",
+        "On Consecutive throw (Max stacks 3):\\n+16.7% Throw Damage"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Warframe/AvatarAbilityFourStrengthMod",
+      "name": "Precision Intensify",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_ABILITY_STRENGTH"
+      ],
+      "sampleStats": [
+        "+15% Ability Strength for your 4th Ability"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/Kubrow/Expert/KubrowPackLeaderExpertMod",
+      "name": "Primed Pack Leader",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_SENTINEL_PACK_LEADER"
+      ],
+      "sampleStats": [
+        "+17 Health per hit",
+        "+200 Overguard Max"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sets/Spider/SpiderModB",
+      "name": "Proton Jet",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PROC_CHANCE",
+        "WEAPON_CRIT_CHANCE"
+      ],
+      "sampleStats": [
+        "During a Wall Latch gain +30% Status Chance and Critical Chance."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Types/Friendly/Pets/CatbrowPetPrecepts/CatbrowReflectPrecept",
+      "name": "Reflect",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PROC_REFLECT_CHANCE",
+        "AVATAR_PROC_REFLECT_AMPLIFICATION"
+      ],
+      "sampleStats": [
+        "Adarza Kavat has a 10% chance to reflect damage back to an enemy, amplifying it by 15%."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Melee/DualStat/RendingStrikeMod",
+      "name": "Rending Strike",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PERCENT_BASE_DAMAGE_ADDED"
+      ],
+      "sampleStats": [
+        "+15% <DT_SLASH_COLOR>Slash",
+        "+20% <DT_PUNCTURE_COLOR>Puncture"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Grimoire/RisStrikeMod",
+      "name": "Ris Invocation",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_ABILITY_DURATION"
+      ],
+      "sampleStats": [
+        "Alternate Fire increases Ability Duration by 1% for 20s for each enemy hit. Stacks up to 15 times."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/MoreBulletJumpLessShieldMod",
+      "name": "Rising Skill",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION",
+        "AVATAR_SHIELD_MAX"
+      ],
+      "sampleStats": [
+        "+2.5% Mobility",
+        "-7.5 Shield Capacity"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Types/Sentinels/SentinelPrecepts/RevivePlayer",
+      "name": "Sacrifice",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_REVIVE_ASSIST"
+      ],
+      "sampleStats": [
+        "Sentinel incapacitates itself to revive its downed owner to 25% health and shields in <LOWER_IS_BETTER>7s. Sentinel Recovery timer increases by 15s.",
+        "+15s Companion Recovery Time"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/Kubrow/KubrowClonedFinisherMod",
+      "name": "Savagery",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_SENTINEL_FINISHER_DAMAGE"
+      ],
+      "sampleStats": [
+        "The Kubrow rushes at 3 enemies within 5m, dealing damage and knocking them over."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sentinel/SentinelExplosionMod",
+      "name": "Self Destruct",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_EXPLOSION_DAMAGE",
+        "AVATAR_EXPLOSION_RADIUS"
+      ],
+      "sampleStats": [
+        "Explodes when incapacitated, dealing 100 <DT_EXPLOSION_COLOR>Blast Damage in a 3m radius and knocking down nearby enemies."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Aura/WarframeAuraLoyalHerdMod",
+      "name": "Shepherd",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_HEALTH_MAX",
+        "AVATAR_ARMOUR"
+      ],
+      "sampleStats": [
+        "Squad's Companions receive +50 Health and +30 Armor"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Syndicate/MeleeRangeOnProcMod",
+      "name": "Spring-Loaded Blade",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "WEAPON_RANGE"
+      ],
+      "sampleStats": [
+        "On Status Effect: +0.2 Range for 4s. Stacks up to 2 times."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Rifle/DaikyuMoreDamageOverDistanceMod",
+      "name": "Spring-Loaded Broadhead",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_DAMAGE_OVER_DISTANCE"
+      ],
+      "sampleStats": [
+        "Increase damage by +40%",
+        "if the target is over 45m away."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Rifle/SybarisIncreaseRoFonHit",
+      "name": "Sudden Justice",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_FIRE_RATE"
+      ],
+      "sampleStats": [
+        "On 2 Hits within 0.2s:\\n+7.5% Fire Rate for 0.5s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Archwing/Suit/ArchwingSuitShieldRechargeRateMod",
+      "name": "Superior Defenses",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_SHIELD_RECHARGE_RATE"
+      ],
+      "sampleStats": [
+        "+25% Shield Recharge",
+        "-12.5% Shield Recharge Delay"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Aura/WarframeAuraWickedStrikesMod",
+      "name": "Swift Momentum",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_MELEE_HEAVY_CHARGE_SPEED",
+        "WEAPON_MELEE_COMBO_DURATION_BONUS"
+      ],
+      "sampleStats": [
+        "Squad receives +5% Heavy Attack Wind Up Speed and +1s Melee Combo Duration"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Types/Friendly/Pets/CatbrowPetPrecepts/CatbrowSwipePrecept",
+      "name": "Swipe",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_TARGET_AMOUNT",
+        "WEAPON_RANGE"
+      ],
+      "sampleStats": [
+        "Strikes 1 additional enemies and increases Attack Range by 0.5m."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Melee/IncreasedMobilityEquipped",
+      "name": "Sword Alone",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION",
+        "AVATAR_SPRINT_SPEED"
+      ],
+      "sampleStats": [
+        "+2.5% Mobility",
+        "+7.5% Sprint Speed"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sets/Synth/PistolSynthChargeMod",
+      "name": "Synth Charge",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "WEAPON_LAST_DAMAGE_MOD"
+      ],
+      "sampleStats": [
+        "+50% Bonus Damage on final shot. Requires Magazine 6 or higher."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/IncreasedMobilityOnLowHealth",
+      "name": "Tactical Retreat",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION"
+      ],
+      "sampleStats": [
+        "On Low Health:\\n+2.5% Mobility for 1s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Warframe/MoreShieldLessBulletJumpMod",
+      "name": "Tempered Bound",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_PARKOUR_BOOST",
+        "AVATAR_SLIDE_BOOST",
+        "AVATAR_SLIDE_FRICTION",
+        "AVATAR_SHIELD_MAX"
+      ],
+      "sampleStats": [
+        "-2.5% Mobility",
+        "+7.5 Shield Capacity"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Rifle/Event/CorpusArena/SupraCorpusArenaMod",
+      "name": "Thermagnetic Shells",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CORPSE_EXPLODE_DAMAGE",
+        "WEAPON_CORPSE_EXPLODE_DAMAGE_ENEMY_HEALTH_PCT",
+        "WEAPON_CORPSE_EXPLODE_RADIUS"
+      ],
+      "sampleStats": [
+        "Enemies explode on death, dealing 20 <DT_MAGNETIC_COLOR>Magnetic Damage (+10% Enemy Max Health) in a 1.5m radius."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Rifle/ExplodingMiterBlades",
+      "name": "Thundermiter",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_PROJECTILE_EXPLOSION_CHANCE",
+        "WEAPON_CLIP_MAX",
+        "WEAPON_AMMO_MAX"
+      ],
+      "sampleStats": [
+        "+25% chance charged Projectiles explode",
+        "-15% Magazine Capacity"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/PvPMods/Rifle/MoreDamageonMultiHitRifleMod",
+      "name": "Triple Tap",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_DAMAGE_AMOUNT"
+      ],
+      "sampleStats": [
+        "On 2 Hits within 0.02s:\\n+10% Damage for 0.05s"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Sets/Vigilante/WarframeVigilanteVigorMod",
+      "name": "Vigilante Vigor",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "AVATAR_SHIELD_RECHARGE_RATE"
+      ],
+      "sampleStats": [
+        "+10% Shield Recharge",
+        "-5% Shield Recharge Delay"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Melee/WeaponGlaiveExplodingReflectionDecreaseMod",
+      "name": "Volatile Quick Return",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_REFLECTION_MODIFIER",
+        "WEAPON_EXPLOSION_RADIUS",
+        "WEAPON_REFLECTION_EXPLOSION_CHANCE",
+        "WEAPON_PUNCTURE_DEPTH"
+      ],
+      "sampleStats": [
+        "-1 Bounce",
+        "+0.8 Blast Radius",
+        "+25% Chance to explode on Bounce (Disables Punch Through)"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Melee/WeaponGlaiveExplodingReflectionIncreaseMod",
+      "name": "Volatile Rebound",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_REFLECTION_EXPLOSION_CHANCE",
+        "WEAPON_PUNCTURE_DEPTH"
+      ],
+      "sampleStats": [
+        "+25% Chance to explode on Bounce (Disables Punch Through)"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Syndicate/LankaMod",
+      "name": "Voltage Sequence",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_SYNDICATE_POWER"
+      ],
+      "sampleStats": [
+        "Killing a flying enemy creates a lightning trap from their remains, lasting 2s",
+        "+0.3 'Sequence'"
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Grimoire/VomeStrikeMod",
+      "name": "Vome Invocation",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_ABILITY_STRENGTH"
+      ],
+      "sampleStats": [
+        "Alternate Fire increases Ability Strength by 1% for 20s for each enemy hit. Stacks up to 15 times."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Mods/Melee/Event/ProjectNightwatch/JatKittagNightwatchMod",
+      "name": "Vulcan Blitz",
+      "reason": "stat-count-mismatch",
+      "upgradeTypes": [
+        "WEAPON_CORPSE_EXPLODE_DAMAGE",
+        "WEAPON_CORPSE_EXPLODE_DAMAGE_ENEMY_HEALTH_PCT",
+        "WEAPON_CORPSE_EXPLODE_RADIUS"
+      ],
+      "sampleStats": [
+        "Enemies explode on death, dealing 50 <DT_EXPLOSION_COLOR>Blast Damage (+10% Enemy Max Health) in a 1m radius."
+      ]
+    },
+    {
+      "uniqueName": "/Lotus/Upgrades/Grimoire/XataStrikeMod",
+      "name": "Xata Invocation",
+      "reason": "multiple-numbers-in-stat",
+      "upgradeTypes": [
+        "AVATAR_POWER_RATE"
+      ],
+      "sampleStats": [
+        "Alternate Fire grants 0.25 Energy Regen/s for 20s for each enemy hit. Stacks up to 10 times."
+      ]
+    }
+  ]
+}

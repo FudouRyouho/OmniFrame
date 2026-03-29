@@ -3,8 +3,12 @@ import classNames from "classnames";
 
 interface StatRowProps {
   label: string;
-  value: string | undefined;
+  value: string | number | undefined;
   isOdd?: boolean;
+  striped?: boolean;
+  valueTone?: "default" | "accent";
+  labelClassName?: string;
+  valueClassName?: string;
   className?: string;
 }
 
@@ -12,18 +16,39 @@ export const StatRow: React.FC<StatRowProps> = ({
   label,
   value,
   isOdd,
+  striped = true,
+  valueTone = "default",
+  labelClassName,
+  valueClassName,
   className,
 }) => {
+  const displayValue = value ?? "N/A";
+
   return (
     <div
       className={classNames(
         "flex justify-between items-center py-1.5 px-2 text-[11px]",
-        isOdd ? "bg-white/3" : "bg-transparent",
+        striped && isOdd ? "bg-white/3" : "bg-transparent",
         className,
       )}
     >
-      <span className="text-white/40 uppercase tracking-wider">{label}</span>
-      <span className="text-ui-primary font-mono">{value || "N/A"}</span>
+      <span
+        className={classNames(
+          "text-white/40 uppercase tracking-wider",
+          labelClassName,
+        )}
+      >
+        {label}
+      </span>
+      <span
+        className={classNames(
+          "font-mono",
+          valueTone === "accent" ? "text-ui-accent" : "text-ui-primary",
+          valueClassName,
+        )}
+      >
+        {displayValue}
+      </span>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { fetchWarframe } from "../lib/warframeData";
 import { useTheme } from "../providers/Theme/theme-context";
 import type { Warframe, AbilityStatEntry, AbilityStatValue, AbilityUpgradeBy } from "../lib/types";
 import { FormattedText } from "../lib/FormattedText";
+import { resolveLocalImageUrl } from "../lib/image-url";
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -187,15 +188,15 @@ export default function WarframeDetail() {
                </div>
                <div className="p-2 border border-white/5 rounded">
                   <span className="typography-1 block opacity-30-label">Health</span>
-                  <span className="typography-4 text-ui-accent font-bold-value">{warframe.healthRank30 || warframe.health}</span>
+                <span className="typography-4 text-ui-accent font-bold-value">{warframe.health}</span>
                </div>
                <div className="p-2 border border-white/5 rounded">
                   <span className="typography-1 block opacity-30-label">Shield</span>
-                  <span className="typography-4 text-ui-accent font-bold-value">{warframe.shieldRank30 || warframe.shield}</span>
+                <span className="typography-4 text-ui-accent font-bold-value">{warframe.shield}</span>
                </div>
                <div className="p-2 border border-white/5 rounded">
                   <span className="typography-1 block opacity-30-label">Energy</span>
-                  <span className="typography-4 text-ui-accent font-bold-value">{warframe.energyRank30 || warframe.energy || warframe.power}</span>
+                <span className="typography-4 text-ui-accent font-bold-value">{warframe.energy || warframe.power}</span>
                </div>
             </div>
           </div>
@@ -215,12 +216,14 @@ export default function WarframeDetail() {
                     <Panel key={a.uniqueName} className="group hover:bg-white/2 transition-colors">
                        <div className="flex gap-4">
                           <div className="w-12 h-12 shrink-0 bg-black/40 angular-cut p-2 border border-ui-accent/20 group-hover:border-ui-accent/50 transition-colors flex items-center justify-center">
-                             {a.icon ? (
+                             {a.imageName ? (
                                <img 
-                                src={a.icon.startsWith('/') ? `https://content.warframe.com/MobileExport${a.icon}` : `https://wiki.warframe.com/images/${a.icon}`} 
+                                src={resolveLocalImageUrl(a.imageName)}
                                 alt={a.name} 
                                 className="w-full h-full object-contain filter brightness-125"
-                                onError={(e) => { (e.target as HTMLImageElement).src = 'https://wiki.warframe.com/images/AbilityPlaceholder.png' }}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = "none";
+                                }}
                                />
                              ) : <div className="dot-rotated w-2! h-2! border-ui-accent" />}
                           </div>
