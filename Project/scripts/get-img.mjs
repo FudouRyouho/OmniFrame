@@ -3,7 +3,7 @@
  *
  * Sincroniza en local las imagenes REFERENCIADAS por los JSON generados en public/data.
  * Flujo esperado:
- *   1) node scripts/generate-data.mjs
+ *   1) npm run generate:data:base
  *   2) node scripts/get-img.mjs --clean
  *
  * Copia desde:
