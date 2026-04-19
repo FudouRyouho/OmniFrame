@@ -5,7 +5,7 @@ import {
 } from "@shared/components/items/specs/item-details-header";
 import { AttackProfilePanel } from "@shared/components/items/specs/attack-profile-panel";
 import { useEffect } from "react";
-import { useItemDetails } from "src/domains/equipment/hooks/use-item-details";
+import { useItemDetails } from "@domains/equipment/hooks/use-item-details";
 
 /**
  * WeaponDetailsPopover - Popover especializado para weapons.

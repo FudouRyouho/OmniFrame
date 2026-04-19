@@ -1,5 +1,5 @@
 import { useDataState } from "@providers/DataState/data-state-context";
-import type { FilterCategory } from "src/domains/equipment/hooks/use-view-filter";
+import type { FilterCategory } from "./types";
 
 interface FilterIconProps {
   cat: FilterCategory;

@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { ChevronsUpDown, Hexagon, PanelRight, Sparkles } from "lucide-react";
 import { useLoadout } from "@providers/Loadout/loadout-context";
-import { useArsenalUiState } from "src/domains/arsenal/state/use-arsenal-stub-state";
 import { Button } from "@headlessui/react";
 import PreviewPanel from "@shared/components/PreviewPanel";
+import { useArsenalUiState } from "./state/use-arsenal-stub-state";
 
 // =============================================================================
 // TIPOS LOCALES — stub, sin dependencia de contratos de engine/resolver

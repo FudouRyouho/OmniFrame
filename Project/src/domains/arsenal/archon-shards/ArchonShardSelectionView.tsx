@@ -3,8 +3,8 @@ import {
   ARCHON_SHARD_BONUS_CATALOG,
   ARCHON_SHARD_CATALOG,
   type ArchonShardType,
-} from "src/domains/arsenal/arsenal-state";
-import { useArsenalUiState } from "src/domains/arsenal/state/use-arsenal-stub-state";
+} from "@domains/arsenal/arsenal-state";
+import { useArsenalUiState } from "@domains/arsenal/state/use-arsenal-stub-state";
 import classNames from "classnames";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 

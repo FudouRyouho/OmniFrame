@@ -1,24 +1,26 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import type { FilterState, OrderDirection } from "@shared/components/filters/types";
 
-const EquipmentContext = createContext<FilterState | null>(null);
+const ArsenalSwapContext = createContext<FilterState | null>(null);
 
-export const EquipmentProvider = ({ children }: { children: ReactNode }) => {
+export const ArsenalSwapProvider = ({ children }: { children: ReactNode }) => {
   const [hovered, setHovered] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState<OrderDirection>("A-Z");
 
   return (
-    <EquipmentContext.Provider
+    <ArsenalSwapContext.Provider
       value={{ hovered, setHovered, search, setSearch, order, setOrder }}
     >
       {children}
-    </EquipmentContext.Provider>
+    </ArsenalSwapContext.Provider>
   );
 };
 
-export const useEquipment = () => {
-    const ctx = useContext(EquipmentContext);
-    if (!ctx) throw new Error("useEquipment must be used within EquipmentProvider");
-    return ctx;
+export const useArsenalSwap = () => {
+  const ctx = useContext(ArsenalSwapContext);
+  if (!ctx) {
+    throw new Error("useArsenalSwap must be used within a ArsenalSwapProvider");
+  }
+  return ctx;
 };

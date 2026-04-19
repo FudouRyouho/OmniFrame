@@ -1,8 +1,6 @@
-import { useEquipment } from "src/domains/equipment/context/EquipmentContext";
-import {
-  useViewFilter,
-  type ViewFilterConfig,
-} from "src/domains/equipment/hooks/use-view-filter";
+import { useFilterContext } from "../context";
+import { useFilterLogic } from "../hooks/use-filter-logic";
+import type { ViewFilterConfig } from "../types";
 import FilterIcon from "../FilterIcon";
 
 const config: ViewFilterConfig = {
@@ -143,7 +141,7 @@ const config: ViewFilterConfig = {
 };
 
 const WeaponsToolbar = () => {
-  const { setHovered } = useEquipment();
+  const { setHovered } = useFilterContext();
   const {
     categories,
     selected,
@@ -152,7 +150,7 @@ const WeaponsToolbar = () => {
     activeSubcategory,
     setActiveSubcategory,
     hasSubcategories,
-  } = useViewFilter(config);
+  } = useFilterLogic(config);
 
   return (
     <div className="flex items-center gap-2">

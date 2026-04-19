@@ -29,7 +29,7 @@ import {
 	type ArsenalUiState,
 	type IncarnonMetadata,
 	type WeaponMetadataChannel,
-} from "src/domains/arsenal/arsenal-state";
+} from "@domains/arsenal/arsenal-state";
 
 type ArsenalUiSnapshot = {
 	arsenalMetadata: ArsenalMetadataState;

@@ -4,7 +4,7 @@ import { isMod, isWeapon } from "@lib/types";
 import { AttackProfilePanel } from "./attack-profile-panel";
 import { ModDetailsView } from "./mod-details-view";
 import { ItemDetailsHeader, ItemDetailsFooter } from "./item-details-header";
-import { useItemDetails } from "src/domains/equipment/hooks/use-item-details";
+import { useItemDetails } from "@domains/equipment/hooks/use-item-details";
 
 interface ItemDetailsPopoverProps {
   item: BaseItem;

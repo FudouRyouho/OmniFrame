@@ -54,7 +54,7 @@ Aloja las vistas de detalle completas (`WarframeDetailView.tsx`, `WeaponDetailVi
 
 ### Navigation & Filters (`shared/components/filters/`)
 
-La `EquipmentToolbar.tsx` centraliza la lógica visual de filtrado, búsqueda y ordenamiento.
+La `OmniToolbar.tsx` centraliza la lógica visual de filtrado, búsqueda y ordenamiento.
 
 ## Hooks de Dominio (`domains/equipment/hooks/`)
 

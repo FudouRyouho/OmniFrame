@@ -24,7 +24,7 @@ Fecha_de_actualizacion: "2026-04-19"
 - HUD basico
 - menu/dialogo principal
 - `EquipmentLayout` con rutas anidadas bajo `/equipment/*` (7 sub-rutas)
-- `EquipmentToolbar` con tres filas: hover label / tabs de navegacion + orden + busqueda / filtros dinamicos por vista
+- `OmniToolbar` con tres filas: hover label / tabs de navegacion + orden + busqueda / filtros dinamicos por vista
 - `EquipmentContext` con `hovered`, `search`, `order`
 - toolbars dedicadas por vista con `FilterIcon`, `useDataState` y estado visual local via `use-view-filter`
 - 7 vistas de equipment operativas con datos reales bajo `domains/equipment/view/`

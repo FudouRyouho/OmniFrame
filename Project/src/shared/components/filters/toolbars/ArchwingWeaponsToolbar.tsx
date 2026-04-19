@@ -1,8 +1,6 @@
-import { useEquipment } from "src/domains/equipment/context/EquipmentContext";
-import {
-  useViewFilter,
-  type ViewFilterConfig,
-} from "src/domains/equipment/hooks/use-view-filter";
+import { useFilterContext } from "../context";
+import { useFilterLogic } from "../hooks/use-filter-logic";
+import type { ViewFilterConfig } from "../types";
 import FilterIcon from "../FilterIcon";
 
 const config: ViewFilterConfig = {
@@ -22,8 +20,8 @@ const config: ViewFilterConfig = {
 };
 
 const ArchwingWeaponsToolbar = () => {
-  const { setHovered } = useEquipment();
-  const { categories, selected, selectCategory } = useViewFilter(config);
+  const { setHovered } = useFilterContext();
+  const { categories, selected, selectCategory } = useFilterLogic(config);
 
   return (
     <div className="flex items-center gap-2">

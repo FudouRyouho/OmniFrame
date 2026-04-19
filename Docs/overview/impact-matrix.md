@@ -11,7 +11,7 @@ Fecha_de_actualizacion: "2026-04-19"
 # Matriz de Impacto y Dependencias (SSoT)
 
 
-> **ESTADO:** Activo — **v0.0.2 (Estandardización Documental + Refactor Filtros)**
+> **ESTADO:** Activo — **v0.0.2 (Estandardización Documental y Filtros Cerrada)**
 > **OBJETIVO:** Este documento es la fuente de verdad del backlog técnico. Define qué se puede trabajar hoy basado en dependencias físicas reales.
 > **REGLAS:**
 >
@@ -44,9 +44,9 @@ _Refactorizaciones nucleares y establecimiento de leyes SSoT._
    - **Bloquea a:** Todos los dominios de UI con datos reales, Consistencia del cálculo.
    - **Depende de:** `[MAYOR] Desacoplar LoadoutProvider`, `[MAYOR] Taxonomía SSoT de Daño`.
 
-3. **Generalización del Sistema de Toolbars (D-4) — [EN EJECUCIÓN]**
-   - **Descripción:** Implementar el enfoque "Horizontal" para filtros. Extraer la lógica de `use-view-filter` y el estado de `EquipmentContext` hacia un sistema genérico en `shared/components/filters/`. Habilitar el uso de toolbars en `ArsenalSwapView` sin acoplamiento de dominios.
-   - **Bloquea a:** Búsqueda y Ordenamiento Global, Selección de items en el Arsenal.
+3. **Generalización del Sistema de Toolbars (D-4) — [COMPLETADO]**
+   - **Descripción:** Implementación del enfoque "Horizontal" para filtros. Extracción de lógica a `shared/components/filters/` y habilitación de toolbars genéricas route-agnostic. Adoptación del alias `@domains` para toda la arquitectura del proyecto.
+   - **Bloquea a:** N/A.
    - **Depende de:** `N/A`.
 
 ### Dominio: `semantic / data`
