@@ -1,89 +1,51 @@
-# OmniFrame - Docs
+---
+Estado: "activo"
+Rol: "Punto de entrada y resumen global del SSoT de OmniFrame"
+Version: "v0.0.2"
+Impacto_ID: "N/A"
+Fidelidad_Fisica: "docs/"
+Fecha_de_creacion: "2026-04-15"
+Fecha_de_actualizacion: "2026-04-19"
+---
 
-> Estado: activo
-> Rol: puerta de entrada de la documentacion activa del proyecto
-> Fuente de verdad de: taxonomia, orden de lectura y politica de migracion
-> No usar para: detalles de schema o backlog operativo de una feature
-> Ultima actualizacion: 2026-03-28
+# OmniFrame Documentation Suite
 
-`Docs/` es el arbol activo de documentacion del proyecto.
 
-Estado actual:
-- `Docs/` es la ruta principal para documentacion nueva o reescrita
-- no mantener referencias operativas a arboles documentales retirados
+Bienvenido al SSoT (Source of Truth) de OmniFrame. Esta documentación se rige por el concepto de **Runtime**: refleja la realidad física y operativa del proyecto.
 
-## Estructura
+---
 
-```text
-Docs/
-  README.md
-  overview/
-  domains/
-  features/
-  decisions/
-  reference/
-  temp/
-```
+## 🚀 Navegación Rápida
 
-## Como leer esta documentacion
+1. **¿Qué estamos haciendo hoy?** → [Matriz de Impacto y Dependencias](overview/impact-matrix.md)
+2. **¿Cuál es el estado real del código?** → [Estado Actual (Current State)](governance/current-state.md)
+3. **¿Cuáles son las reglas de datos?** → [Capas Semánticas (Semantic Layers)](governance/semantic-layers.md)
+4. **¿Cómo se gobierna el proyecto?** → [Gobernanza de Documentación](governance/documentation-governance.md)
 
-1. `overview/current-state.md`
-2. `overview/goals-roadmap.md`
-3. `overview/stabilization-backlog.md`
-4. `overview/reading-guides.md`
-5. `overview/migration-status.md`
-6. `overview/green-checkpoint-plan.md` si la tarea apunta al cierre global del repo
-7. `features/<track>/status.md`
-8. `domains/<area>/...`
-9. `decisions/open-questions.md`
-10. `reference/...` solo si hace falta evidencia o contexto historico
-11. `temp/...` solo si la tarea depende del flujo arquitectural reciente o de decisiones de sesion aun no promovidas
+---
 
-## Que va en cada carpeta
+## 📚 Estructura de Trabajo
 
-| Carpeta | Pregunta que responde |
-|---|---|
-| `overview/` | Que estado tiene hoy el proyecto y hacia donde va |
-| `domains/` | Como se divide el sistema por responsabilidad |
-| `features/` | Que track esta activo, que falta y que lo bloquea |
-| `decisions/` | Que decisiones cross-cutting siguen abiertas o ya fueron fijadas |
-| `reference/` | Que evidencia, auditorias o mecanicas del juego sirven como apoyo |
-| `temp/` | Que registro de sesion o decision reciente aun no fue absorbido por el arbol activo |
+### 1. [Governance](governance/) - El "Cerebro"
+Contiene las reglas, políticas y la auditoría de estado. Aquí es donde se definen los contratos y se verifica la verdad del repositorio.
 
-## Tracks Activos
+### 2. [Overview](overview/) - El "Mapa"
+Contiene la visión global, el backlog real basado en dependencias físicas y los roadmaps de versiones.
 
-| Track | Estado | Documento principal |
-|---|---|---|
-| Data Foundation | activo | `features/data-foundation/status.md` |
-| Semantic Pipeline | activo | `features/semantic-pipeline/status.md` |
-| Builder Engine | activo | `features/builder-engine/status.md` |
-| Navigation Shell | activo | `features/navigation-shell/status.md` |
+### 3. [Domains](domains/) - El "Cuerpo"
+Contiene el conocimiento técnico profundo segmentado por responsabilidad:
+- **[Engine](domains/engine/)**: Motor matemático y fórmulas.
+- **[Integration](domains/integration/)**: Cómo se conectan las piezas.
+- **[Data](domains/data/)**: Ciclo de vida de la información y pipelines.
+- **[Semantic](domains/semantic/)**: Capas de significado y taxonomías.
+- **[UI-UX](domains/ui-ux/)**: Interfaz, arquitectura de vistas y HUD.
 
-## Referencias de juego
+---
 
-La referencia de mecanicas de la wiki vive en `reference/wiki/`.
+## 🚫 Reglas para Agentes
 
-Ese espacio existe para documentar mecanicas del juego que el engine necesita
-modelar con precision matematica, por ejemplo:
-- status effects
-- damage types
-- condition overload
-- armor scaling
-- crit/status formulas
+- **No crear carpetas raíz**: Solo se permiten `governance`, `overview` y `domains`.
+- **Anclaje de Dependencias**: Antes de proponer un cambio en un dominio, verifica su estado en la `impact-matrix.md`.
+- **Game vs Project**: La documentación del juego (Warframe) vive en `docs-references/`, NO aquí.
 
-Ver `reference/wiki/README.md`.
-
-## Politica minima de migracion
-
-- toda documentacion nueva va a `Docs/`
-- si un documento mezcla varias preguntas, se divide antes de migrarlo
-- cada cambio de arquitectura, schema o workflow debe actualizar `Docs/`
-- `temp/` no reemplaza al arbol activo: sirve como registro transicional mientras se promueven decisiones o lotes recientes
-
-Ver:
-- `overview/documentation-policy.md`
-- `overview/stabilization-backlog.md`
-- `overview/reading-guides.md`
-- `overview/migration-status.md`
-- `overview/green-checkpoint-plan.md`
-- `overview/docs-cutover-plan.md`
+---

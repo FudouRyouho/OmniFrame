@@ -1,10 +1,14 @@
-# Canonical Sources
+---
+Estado: "activo"
+Rol: "Listar las fuentes canónicas y su rol dentro del proyecto"
+Version: "v0.0.2"
+Impacto_ID: "D-Sources"
+Fidelidad_Fisica: "."
+Fecha_de_creacion: "2026-04-18"
+Fecha_de_actualizacion: "2026-04-19"
+---
 
-> Estado: activo
-> Rol: listar las fuentes canonicas y su rol dentro del proyecto
-> Fuente de verdad de: jerarquia de fuentes de datos
-> No usar para: estado de cobertura de una entidad puntual
-> Ultima actualizacion: 2026-03-21
+# Canonical Sources
 
 ## Fuentes
 
@@ -22,7 +26,5 @@ sea posible. Los overrides existen solo para gaps reales con objetivo claro.
 
 ## Donde seguir
 
-- `warframe-items-build.md`
-- `abilities/source-model.md`
-- `mods/source-model.md`
-- `weapons/source-model.md`
+- `./pipeline/warframe-items-build.md`
+- `./source-model.md`

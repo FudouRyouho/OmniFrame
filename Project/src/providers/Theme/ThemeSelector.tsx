@@ -23,7 +23,7 @@ const ThemeSelector = () => {
         title="Personalizar Interfaz"
       >
         <Palette className="w-4 h-4 text-ui-primary" />
-        <span className="typography-4 text-white/70 group-hover:text-white">
+        <span className="text-sm leading-normal tracking-normal font-medium text-white/70 group-hover:text-white">
           Apariencia
         </span>
       </button>

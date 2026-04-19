@@ -10,8 +10,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@lib':       '/src/lib',
-      '@features':  '/src/features',
+      '@domains':  '/src/domains',
       '@shared':    '/src/shared',
+      '@core':      '/src/core',
       '@assets':    '/src/assets',
       '@providers': '/src/providers',
     },

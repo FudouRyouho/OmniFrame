@@ -13,6 +13,7 @@
     "generate:mod-overrides": "node scripts/generate-mod-overrides.mjs",
     "get:img": "node scripts/get-img.mjs --clean",
     "merge:semantic-groups": "node scripts/merge-semantic-groups.mjs",
+    "verify:polarity": "node scripts/verify-polarity-normalization.mjs",
     "test": "vitest --run",
     "check": "tsc -b --noEmit && eslint ."
   },

@@ -48,4 +48,10 @@ export const colorMap: Record<string, { bg: string; primary: string; secondary: 
       secondary: "#44403c", 
       accent: "#bef264" 
     },
+    fortuna: {
+        bg: "#03060f",
+        primary: "#3969c0",
+        secondary: "#66aacc",
+        accent: "#ff73e6"
+    }
   };

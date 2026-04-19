@@ -1,124 +1,80 @@
+---
+Estado: "activo"
+Rol: "Documentar el esquema operativo de ability-stats.override.json"
+Version: "v0.0.2"
+Impacto_ID: "D-Abilities-Schema"
+Fidelidad_Fisica: "Project/public/data/ability-stats.override.json"
+Fecha_de_creacion: "2026-04-18"
+Fecha_de_actualizacion: "2026-04-19"
+---
+
 # Ability Stats Override Schema
 
-> Estado: activo
-> Rol: documentar el schema objetivo aceptado para `ability-stats.override.json`
-> Fuente de verdad de: contrato objetivo del override de habilidades cuando una entrada ya esta migrada
-> No usar para: cobertura por warframe o estado del parser
-> Depende de: `source-model.md`
-> Ultima actualizacion: 2026-03-28
+## Ubicación del Archivo
 
-## Entrada de habilidad
+- **Ruta Operativa**: `Project/public/data/ability-stats.override.json`
+- **Contrato de Tipos**: `Project/src/lib/types/ability.ts`
 
-Cuando una entrada de `ability-stats.override.json` ya esta migrada al contrato `groups[]`,
-queda indexada por `uniqueName` y usa esta estructura conceptual:
+## Estructura de Habilidad (`AbilityStatsData`)
 
 ```ts
 interface AbilityStatsData {
-  name: string
-  description: string
-  icon: string
-  groups: AbilityGroup[]
+  name: string;        // Nombre público (manual)
+  description: string; // Descripción con tags semánticos e indicadores |val1|
+  imageName: string;   // Nombre del activo del icono
+  groups: AbilityGroup[];
 }
 ```
 
-`AbilityStatsData` es la unidad completa consumida por runtime para una habilidad.
+### Grupos de Habilidad (`AbilityGroup`)
 
-Importante:
-- este documento describe el schema del override de abilities
-- no describe una capa generated
-- la ubicacion final del archivo puede cambiar, pero el rol del dato sigue siendo
-  `override`
-- en el corte 2026-03-28, el runtime publicado todavia no cumple este contrato de forma completa;
-  ver `../../../features/semantic-pipeline/status.md` para el estado real de migracion
-
-## Grupo
-
+Agrupan estadísticas por modo de disparo, aumentos o variantes de la habilidad.
 ```ts
 interface AbilityGroup {
-  id?: string
-  label?: string
-  defaultActive?: boolean
-  exclusive?: boolean
-  stats: AbilityStatEntry[]
+  id?: string;            // Opcional. Marca grupos toggleables (Augment/Modo).
+  label?: string;         // Nombre del modo o augment.
+  defaultActive?: boolean;
+  exclusive?: boolean;    // true: Exclusivo (ej: Formas de Equinox/Chroma). false: Coexistente (ej: Buffs de Wisp/Titania).
+  stats: AbilityStatEntry[];
 }
 ```
 
-Regla:
-- sin `id`: grupo base siempre activo
-- con `id`: grupo toggleable
+### Entradas de Estadística (`AbilityStatEntry`)
 
-Patrones comunes:
-- habilidad simple: solo grupo base
-- formas exclusivas: grupos con `exclusive: true`
-- motes o secciones acumulables: grupos con `exclusive: false`
+Nido de valores asociados a una etiqueta.
+```ts
+interface AbilityStatEntry {
+  label: string;          // Ejem: "Damage: |val1|", "Drain: |val1|"
+  values: AbilityStatValue[];
+}
+```
 
-## Valor
+### Valores de Estadística (`AbilityStatValue`)
 
+Contrato atómico del valor y su escalado.
 ```ts
 interface AbilityStatValue {
-  baseValue: number
-  upgradeBy: string
-  upgradeType?: string
-  cap?: number
-  capMin?: number
-  helminthBase?: number
-  helminthCap?: number
-  inverse?: boolean
+  baseValue: number;
+  upgradeBy: AbilityUpgradeBy; // Token del Diccionario Semántico (STR, DUR, RNG, etc.)
+  upgradeType?: string;        // Para stats externos (ej: WEAPON_DAMAGE_AMOUNT)
+  cap?: number;
+  capMin?: number;
+  inverse?: boolean;           // true si el valor disminuye con el escalado
 }
 ```
 
-## Valores validos de `upgradeBy`
+## Vocabulario de `upgradeBy` (`AbilityUpgradeBy`)
 
+Los tokens válidos para el motor de cálculo son:
 - `AVATAR_ABILITY_STRENGTH`
 - `AVATAR_ABILITY_RANGE`
 - `AVATAR_ABILITY_DURATION`
 - `AVATAR_ABILITY_EFFICIENCY`
-- `ENERGY_COST`
-- `ENERGY_DRAIN`
-- `NONE`
+- `ENERGY_COST` | `ENERGY_DRAIN`
+- `NONE` (Valor fijo)
 
-## Convenciones activas
+---
 
-- `upgradeBy` usa vocabulario del engine
-- `upgradeType` solo existe cuando la habilidad modifica stats externos
-- `NONE` representa valor fijo
-- `ENERGY_COST` y `ENERGY_DRAIN` son tipos especiales de energia
-
-## Regla de `upgradeType`
-
-`upgradeType` solo aparece cuando una habilidad modifica algo externo al stat propio,
-por ejemplo buffs como Roar, Warcry o Volt Speed. Debe usar el mismo vocabulario que
-`upgradeTypes[]` en mods.
-
-## Tags de texto
-
-`label` y `description` pueden contener tags como:
-
-- `<DT_*>`
-- `<ENERGY>`
-- `<SHIELD>`
-- `<HEALTH>`
-
-La ubicacion exacta del tag forma parte del contenido esperado del schema, no de la UI.
-
-## Documentos complementarios
-
-- `engine-variables.md` fija el vocabulario canonico
-- `formula-patterns.md` resume como interpreta eso el builder
-- `group-model.md` separa el problema de grupos y modos
-
-## Lo que este documento no decide
-
-- cobertura real por warframe
-- flujo de migracion desde semantic markdown
-- semantica final de ciertos augments o grupos especiales
-- ubicacion final de la fuente editable vs la copia runtime
-
-Esos temas viven en:
-- `pipeline.md`
-- `../data-layer-roles.md`
-- `engine-variables.md`
-- `formula-patterns.md`
-- `group-model.md`
-- `../../../features/semantic-pipeline/status.md`
-- `../../../features/semantic-pipeline/questions.md`
+### Notas de Integridad
+- Este documento es el contrato SSoT. Cualquier discrepancia en el JSON físico es considerada deuda técnica de migración.
+- El motor utiliza los indicadores `|val1|`, `|val2|` en la descripción para inyectar los valores resueltos de `values[]` en orden.

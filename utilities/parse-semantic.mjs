@@ -1,12 +1,15 @@
 /**
  * parse-semantic.mjs
- * Parsea los archivos references/Semantic/*.md y genera un JSON
- * compatible con ability-stats.override.json (keyed por uniqueName de Lotus).
+ * Parsea los archivos docs-references/semantic-ui-rips/*.md y genera un JSON
+ * base para alimentar el archivo ability-stats.override.json.
+ *
+ * NOTA: Esta es una UTILIDAD MANUAL. No es parte del pipeline automatizado.
+ * El output generado sirve como semilla para la edición manual del desarrollador.
  *
  * Formato del md:
  *   # WARFRAME — /Lotus/...  (comentario, ignorado por el parser)
  *   ## /Lotus/Powersuits/PowersuitAbilities/GlaiveAbility   ← clave del output
- *   ##! /Lotus/...   ← skip: ya procesado/listo en ability-stats.override.json
+ *   ##! /Lotus/...   ← skip: ya procesado/listo en el override
  *   ### Subgrupo     ← grupo exclusivo (forma, elemento, mote)
  *   #### AUGMENT     ← grupo no-exclusivo (augment)
  *   Label: valor     ← stat
@@ -23,8 +26,8 @@
 import { readFileSync, writeFileSync, readdirSync } from "fs";
 import { join, basename } from "path";
 
-const SEMANTIC_DIR = "references/Semantic";
-const DEFAULT_OUT  = "references/Semantic/parsed-output.json";
+const SEMANTIC_DIR = "docs-references/semantic-ui-rips";
+const DEFAULT_OUT  = "docs-references/semantic-ui-rips/parsed-output.json";
 
 // ── CLI args ──────────────────────────────────────────────────────────────────
 
@@ -88,11 +91,6 @@ function buildStatEntry(labelName, rawValue) {
 
 // ── Parser principal ──────────────────────────────────────────────────────────
 
-/**
- * Parsea un .md y devuelve un objeto { [uniqueName]: { groups } }
- * Solo incluye entradas con ## (uniqueName completo).
- * Ignora líneas ##! (marcadas como ya procesadas).
- */
 function parseFile(filePath) {
   const content = readFileSync(filePath, "utf-8");
   const lines   = content.split(/\r?\n/);
@@ -122,7 +120,6 @@ function parseFile(filePath) {
     const clean = line.replace(/\s*\/\/.*$/, "").trim();
     if (!clean) continue;
 
-    // ##! uniqueName → skip
     if (clean.match(/^##!\s+\//)) {
       pushGroup();
       currentKey  = null;
@@ -130,20 +127,15 @@ function parseFile(filePath) {
       continue;
     }
 
-    // ## /Lotus/... → nueva habilidad
     const abilityMatch = clean.match(/^##\s+(\/Lotus\/[^\s]+)/);
     if (abilityMatch) {
       startAbility(abilityMatch[1]);
       continue;
     }
 
-    // # ... → comentario de warframe, ignorar
     if (clean.match(/^#\s/)) continue;
-
-    // Si no hay clave activa, ignorar
     if (!currentKey || skipCurrent) continue;
 
-    // ### Subgrupo → grupo exclusivo
     const subgroupMatch = clean.match(/^###\s+(.+)$/);
     if (subgroupMatch) {
       pushGroup();
@@ -158,7 +150,6 @@ function parseFile(filePath) {
       continue;
     }
 
-    // #### AUGMENT → grupo exclusivo (solo uno por habilidad)
     const augmentMatch = clean.match(/^####\s+(.+)$/);
     if (augmentMatch) {
       pushGroup();
@@ -166,14 +157,13 @@ function parseFile(filePath) {
       currentGroup = {
         id: label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
         label,
-        exclusive: true,
+        exclusive: false, // Arreglado: Augments suelen ser coexistentes en el nido de groups si no se marca lo contrario, pero aqui lo dejamos como false por defecto tras el debate anterior.
         defaultActive: false,
         stats: [],
       };
       continue;
     }
 
-    // Label: valor → stat
     const statMatch = clean.match(/^([^:]+):\s*(.+)$/);
     if (statMatch && currentGroup) {
       currentGroup.stats.push(buildStatEntry(statMatch[1].trim(), statMatch[2].trim()));

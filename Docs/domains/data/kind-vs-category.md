@@ -1,18 +1,23 @@
-# Kind vs Category
+---
+Estado: "activo"
+Rol: "Documentar la frontera top-level entre kind canónico y category raw"
+Version: "v0.0.2"
+Impacto_ID: "D-Taxonomy"
+Fidelidad_Fisica: "Project/src/lib/types/base.ts"
+Fecha_de_creacion: "2026-04-17"
+Fecha_de_actualizacion: "2026-04-19"
+---
 
-> Estado: activo
-> Rol: documentar la convencion de normalizacion de categorias en el sistema de tipos
-> Fuente de verdad de: diferencia entre `kind` (normalizado) y `category` (raw de la fuente)
-> No usar para: backlog de gaps o decisiones de UI
-> Depende de: `ssot.md`
-> Ultima actualizacion: 2026-03-24
+# Kind vs Category — Taxonomía
 
 ## Regla
 
+- `category` pertenece a la capa de raw source semantics: preserva el valor que llega de `warframe-items`
+- `kind` pertenece a la capa de canonical internal semantics: nace de una normalizacion determinista sobre la fuente
 - `kind` (campo de `BaseItem`) es la categoria normalizada, lowercase, sin guiones
 - `kind` es el discriminante del union type — se usa para filtrado, type guards y logica
-- `category` (campo de tipos especificos) preserva el valor raw de `warframe-items`
 - `category` existe para trazabilidad y debugging, no para logica de negocio
+- este documento cubre solo el top-level; la taxonomia inferior (`family`, `variant`, compatibilidades) se resuelve aparte
 
 ## Tabla de normalizacion
 
@@ -34,6 +39,6 @@
 ## Casos especiales
 
 - Necramechs tienen `category: 'Warframes'` en la fuente pero `kind: 'necramech'` en el sistema
-  — se identifican por `uniqueName` via `NECRAMECH_UNIQUE` en `generate-data.mjs`
-- Pets y Sentinels comparten `kind: 'companion'` — se distinguen por `category` si hace falta
+  — se identifican por `uniqueName` via `NECRAMECH_UNIQUE` en `generate-data.ts`
+- Pets y Sentinels comparten `kind: 'companion'` — se distinguen por `category` raw o por la taxonomia inferior que se derive despues, no por buckets de UI
 - Arch-Gun y Arch-Melee comparten el loader `fetchArchwingWeapons()` — se separan por `kind` en `use-items.ts`

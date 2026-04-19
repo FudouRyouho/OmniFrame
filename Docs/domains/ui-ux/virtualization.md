@@ -1,0 +1,41 @@
+---
+Estado: "activo"
+Rol: "Documentar el comportamiento de la virtualización de listas en la interfaz"
+Version: "v0.0.2"
+Impacto_ID: "UI-UX-Performance"
+Fidelidad_Fisica: "Project/src/domains/equipment/VirtualizedItemsGrid.tsx"
+Fecha_de_creacion: "2026-04-18"
+Fecha_de_actualizacion: "2026-04-19"
+---
+
+# UI Virtualization
+
+## Estrategia: Virtualización Localizada
+
+El proyecto utiliza una estrategia de virtualización **por vista**, en lugar de una abstracción global rígida en el grid. Esto permite adaptar el threshold de rendimiento a la complejidad de las cards de cada dominio.
+
+### Componente: `VirtualizedItemsGrid`
+
+- **Ubicación**: `domains/equipment/VirtualizedItemsGrid.tsx`
+- **Uso**: Se activa manualmente en vistas con alta densidad de datos (ej: `WeaponsView`, `ModsView`).
+- **Contrato**: Recibe `items` y un `renderItem` para composición, delegando la lógica de interacción a la card específica.
+
+## Thresholds de Activación
+
+| Vista         | Comportamiento | Criterio                                                |
+| :------------ | :------------- | :------------------------------------------------------ |
+| **Weapons**   | Virtualizado   | +200 items (Primary, Secondary, Melee combinados).      |
+| **Mods**      | Virtualizado   | Por defecto (Dataset extenso > 1000 items).             |
+| **Warframes** | Grilla Simple  | Cantidad reducida (< 100). Prioriza simplicidad de DOM. |
+| **Resto**     | Grilla Simple  | Layouts transicionales o datasets pequeños.             |
+
+## Limitaciones Técnicas
+
+1.  **Dimensiones Fijas**: El cálculo de la altura virtual asume cards de aspecto cuadrado (`aspect-square`), consistente con el componente `BaseItemCard`.
+2.  **Estado de Selección**: La virtualización no gestiona la posición del scroll tras una navegación. El estado de selección visual debe resolverse en la capa de la Vista o el Contexto.
+
+---
+
+### Notas de Mantenimiento
+
+Cualquier cambio en el aspecto de las cards (`aspect-ratio`) requiere coordinar el ajuste en el cálculo de filas de `VirtualizedItemsGrid` para evitar saltos visuales en el scroll.

@@ -18,7 +18,6 @@ export type ModClass = 'Primed' | 'Galvanized' | 'Archon' | 'Amalgam' | 'Riven';
 /**
  * Identificador canónico del stat que modifica un mod.
  * Fuente: Module:Mods/data en la wiki de Warframe.
- * Ver Docs-legacy/decisions/mods-builder-analysis.md §2 para la semántica completa.
  *
  * Prefijos:
  * - WEAPON_   → efectos sobre armas
@@ -27,6 +26,12 @@ export type ModClass = 'Primed' | 'Galvanized' | 'Archon' | 'Amalgam' | 'Riven';
  * - GAMEPLAY_ → efectos de facción y gameplay general
  */
 export type UpgradeType = string; // string abierto — lista completa en mods-builder-analysis.md §2
+
+/**
+ * @deprecated Alias transicional del editor dev.
+ * Usar UpgradeType en código nuevo; este nombre se conserva hasta auditar el catálogo completo.
+ */
+export type ModModifier = UpgradeType;
 
 export interface Mod extends BaseItem {
   kind: 'mod';
@@ -38,7 +43,7 @@ export interface Mod extends BaseItem {
   /** Stats por rango como texto plano del juego. */
   levelStats: Array<{ stats: string[] }> | null;
   categoryRaw: string | null;
-  /** Categoría normalizada — colapsada desde mod.type en generate-data.mjs */
+  /** Categoría normalizada — colapsada desde mod.type en generate-data.ts */
   category: ModCategory;
   /**
    * Compatibilidad canónica del mod — campo `compatName` de @wfcd/items.

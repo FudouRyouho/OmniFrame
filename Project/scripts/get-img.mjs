@@ -11,7 +11,7 @@
  *   - node_modules/@wfcd/items/data/img (fallback)
  *
  * Hacia:
- *   - public/imagenes (flat)
+ *   - public/images (flat)
  */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(__dirname, '..')
 const dataDir = path.resolve(projectRoot, 'public/data')
-const targetDir = path.resolve(projectRoot, 'public/imagenes')
+const targetDir = path.resolve(projectRoot, 'public/images')
 
 const args = new Set(process.argv.slice(2))
 const shouldClean = args.has('--clean')

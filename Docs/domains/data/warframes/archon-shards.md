@@ -1,10 +1,14 @@
-# Archon Shards
+---
+Estado: "activo"
+Rol: "Consolidar la tabla canónica de Archon Shards con foco en datos y serialización"
+Version: "v0.0.2"
+Impacto_ID: "E-Shards-Data"
+Fidelidad_Fisica: "Project/src/core/engine/"
+Fecha_de_creacion: "2026-04-02"
+Fecha_de_actualizacion: "2026-04-19"
+---
 
-> Estado: activo
-> Rol: resumir la tabla canónica de Archon Shards con foco en datos y futura serialización
-> Fuente de verdad de: tipos, bonuses y categorías de shard que el proyecto podría pasar a JSON
-> No usar para: acquisition, lore o flujo de Helminth
-> Última actualización: 2026-03-28
+# Archon Shards
 
 ## Que es
 
@@ -47,64 +51,68 @@ La serialización futura debería poder expresar:
 - condición si existe
 - notas de stacking o exclusiones
 
-## Tabla resumida de bonuses
+## Tabla literal de bonuses (wiki)
+
+Fuente de referencia literal: `Docs/reference/wiki/systems/archon-shards/archon-shards-table.md`.
 
 ### Crimson
 
-| Bonus | Normal | Tauforged | Categoria |
+| Bonus | Normal | Tauforged | Notas |
 |---|---|---|---|
-| Melee Critical Damage | `+25%` | `+37.5%` | weapon direct |
-| Primary Status Chance | `+25%` | `+37.5%` | weapon direct |
-| Secondary Critical Chance | `+25%` | `+37.5%` | weapon direct |
-| Ability Strength | `+10%` | `+15%` | warframe direct |
-| Ability Duration | `+10%` | `+15%` | warframe direct |
+| Melee Critical Damage | `+25%` | `+37.5%` | Aditivo con buffs similares. Afecta Exalted del tipo correspondiente. |
+| Primary Status Chance | `+25%` | `+37.5%` | Aditivo con buffs similares. Afecta Exalted del tipo correspondiente. |
+| Secondary Critical Chance | `+25%` | `+37.5%` | Aditivo con buffs similares. Afecta Exalted del tipo correspondiente. |
+| Ability Strength | `+10%` | `+15%` | Aditivo con buffs similares. |
+| Ability Duration | `+10%` | `+15%` | Aditivo con buffs similares. |
 
 ### Amber
 
-| Bonus | Normal | Tauforged | Categoria |
+| Bonus | Normal | Tauforged | Notas |
 |---|---|---|---|
-| Energy filled on spawn | `+30%` | `+45%` | utility runtime |
-| Health Orb effectiveness | `+100%` | `+150%` | pickups |
-| Energy Orb effectiveness | `+50%` | `+75%` | pickups |
-| Casting Speed | `+25%` | `+37.5%` | warframe direct |
-| Parkour Velocity | `+15%` | `+22.5%` | movement utility |
+| Maximum Energy filled on Spawn | `+30%` | `+45%` | Aditivo con buffs similares (ej. Preparation). |
+| Effectiveness on Health Orbs | `+100%` | `+150%` | Impacta Universal Orbs. No afecta conversión de Equilibrium. |
+| Effectiveness on Energy Orbs | `+50%` | `+75%` | Impacta Universal Orbs. |
+| Casting Speed | `+25%` | `+37.5%` | Aditivo con buffs similares. |
+| Parkour Velocity | `+15%` | `+22.5%` | Aditivo con buffs similares. |
 
 ### Azure
 
-| Bonus | Normal | Tauforged | Categoria |
+| Bonus | Normal | Tauforged | Notas |
 |---|---|---|---|
-| Health | `+150` | `+225` | warframe direct |
-| Shield Capacity | `+150` | `+225` | warframe direct |
-| Energy Max | `+50` | `+75` | warframe direct |
-| Armor | `+150` | `+225` | warframe direct |
-| Health Regenerated | `+5/s` | `+7.5/s` | regen runtime |
+| Health | `+150` | `+225` | Incremento flat post-bonuses. |
+| Shield Capacity | `+150` | `+225` | No aplica a Inaros, Kullervo, Nidus. |
+| Energy Max | `+50` | `+75` | No aplica a Hildryn, Lavos. |
+| Armor | `+150` | `+225` | Incremento flat post-bonuses. |
+| Health/s Regenerated | `+5` | `+7.5` | Regeneración flat por segundo. |
 
 ### Emerald
 
-| Bonus | Normal | Tauforged | Categoria |
+| Bonus | Normal | Tauforged | Notas |
 |---|---|---|---|
-| Toxin Status deals more damage | `+30%` | `+45%` | DoT conditional |
-| Recover health on Toxin status damage | `+2` | `+3` | DoT conditional |
-| Ability Damage on Corrosion target | `+10%` | `+15%` | enemy-state conditional |
-| Increase max Corrosive stacks | `+2` | `+3` | status-cap modifier |
+| Toxin Status Effects deal more damage | `+30%` | `+45%` | Aditivo con otras fuentes de Status Damage. |
+| Recover Health each time enemies are damaged by Toxin Status | `+2` | `+3` | Trigger por tick de daño de estado Toxin. |
+| Ability Damage on enemies affected by Corrosion Status | `+10%` | `+15%` | Modificador único; multiplica con Ability Strength. |
+| Increase max stacks of Corrosion Status | `+2` | `+3` | Permite superar 10 stacks para corrosión aplicada por arma/habilidad. |
 
 ### Topaz
 
-| Bonus | Normal | Tauforged | Categoria |
+| Bonus | Normal | Tauforged | Notas |
 |---|---|---|---|
-| Health per enemy killed with Blast | `+1` | `+2` | on-kill conditional |
-| Shields on Blast kill | `+5` | `+7.5` | on-kill conditional |
-| Secondary Crit on Heat-status kill | `+1%` | `+1.5%` | on-kill stacking |
-| Ability Damage on Radiation target | `+10%` | `+15%` | enemy-state conditional |
+| Health per enemy killed with Blast Damage | `+1` | `+2` | Máx. `300` / `450`; se resetea al revivir. |
+| Regenerate Shields on Blast kill | `+5` | `+7.5` | No genera overshields. |
+| Secondary Critical Chance per kill on Heat-status enemy | `+1%` | `+1.5%` | Máx. `50%` / `75%`; se resetea al revivir. |
+| Ability Damage on enemies affected by Radiation Status | `+10%` | `+15%` | Modificador único; multiplica con Ability Strength. |
 
 ### Violet
 
-| Bonus | Normal | Tauforged | Categoria |
+| Bonus | Normal | Tauforged | Notas |
 |---|---|---|---|
-| Ability Damage on Electricity target | `+10%` | `+15%` | enemy-state conditional |
-| Primary Electricity Damage | `+30%` | `+45%` | weapon direct conditional-scale |
-| Melee Critical Damage, double si `maxEnergy > 500` | `+25%` | `+37.5%` | weapon threshold |
-| Health pickups give energy / energy pickups give health | `+20%` | `+30%` | pickups conversion |
+| Ability Damage on enemies affected by Electricity Status | `+10%` | `+15%` | Modificador único; multiplica con Ability Strength. |
+| Primary Electricity Damage | `+30%` | `+45%` | Bonus adicional de `+10%`/`+15%` por cada shard Crimson/Azure/Violet equipado. |
+| Melee Critical Damage | `+25%` | `+37.5%` | Se duplica si `maxEnergy > 500` (no activa en 500 exacto). |
+| Health pickups ↔ Energy pickups conversion | `+20%` | `+30%` | Aditivo con Equilibrium. |
+
+## Tabla resumida por categorías (engine)
 
 ## Categorías útiles para engine
 

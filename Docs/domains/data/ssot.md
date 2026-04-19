@@ -1,42 +1,44 @@
+---
+Estado: "activo"
+Rol: "Definir las fuentes de verdad por entidad y su sistema de origen"
+Version: "v0.0.2"
+Impacto_ID: "D-SSoT"
+Fidelidad_Fisica: "Project/public/data/"
+Fecha_de_creacion: "2026-04-17"
+Fecha_de_actualizacion: "2026-04-19"
+Dependencias:
+  - "docs/domains/data/roles.md"
+  - "docs/domains/data/overrides.md"
+---
+
 # Data SSoT
 
-> Estado: activo
-> Rol: definir las fuentes de verdad por entidad y su sistema de origen
-> Fuente de verdad de: mapa estable de SSoT del proyecto
-> No usar para: backlog de gaps activos
-> Ultima actualizacion: 2026-03-24
+## Fuentes por entidad (Manualidad 100%)
 
-## Fuentes por entidad
+Debido a la desincronización y falta de fidelidad de las fuentes externas (Wiki, Scrapers), OmniFrame ha pasado a un modelo de **mantenimiento manual absoluto** para sus capas de inteligencia.
 
-| Dato | Sistema | Fuente primaria |
-|---|---|---|
-| metadata de warframe | scraper | API DE + wiki via `warframe-items` |
-| stats de habilidades | override local + runtime | fuente manual local, publicada hoy en `Project/public/data/ability-stats.override.json` |
-| pasivas | generated local + runtime | generadas hoy hacia `Project/public/data/passives.json` |
-| mods | scraper | wiki via `warframe-items` |
-| arcanes | scraper | wiki via `warframe-items` — JSON existente desde sesion anterior; tipo `Arcane` formalizado en `lib/types/arcane.ts` |
-| companions (Pets + Sentinels) | scraper | wiki via `warframe-items`, generado hacia `Project/public/data/companions.json` |
-| archwing weapons (Arch-Gun + Arch-Melee) | scraper | wiki via `warframe-items`, generado hacia `Project/public/data/archwing-weapons.json` |
-| vehicles (Necramechs + Archwings) | scraper | `warframe-items` — Necramechs filtrados de `Warframes`, Archwings de `Archwing`; generado hacia `Project/public/data/vehicles.json` |
-| vehicles (K-Drives) | sin fuente | no disponible en `warframe-items` — fuera de scope |
+| Dato                 | Sistema           | Fuente primaria (**Reality**)                     |
+| -------------------- | ----------------- | ------------------------------------------------- |
+| metadata de warframe | scraper           | `Project/public/data/warframes.json`              |
+| stats de habilidades | **Manual (100%)** | `Project/public/data/ability-stats.override.json` |
+| stats de mods        | **Manual (100%)** | `Project/public/data/mod-stats.override.json`     |
+| pasivas              | generated/manual  | `Project/public/data/passives.json`               |
+| arcanos              | scraper/manual    | `Project/public/data/arcanes.json`                |
 
-## Regla
+## ❗ Alerta de Desviación (Drift)
 
-Una fuente se considera SSoT cuando:
-- define el contenido que el runtime debe consumir
-- tiene un flujo de actualizacion conocido
-- cualquier override o migracion termina convergiendo ahi
+El plan original de migrar a `Project/data/` (fuera de `public/`) **no ha sido ejecutado aún**. La documentación previa mencionaba esta ruta como activa, pero físicamente no existe. La Matriz de Impacto tiene esta tarea pendiente como nivel 🔴 [D-13].
 
-## Aclaracion importante
+## Regla de Oro: El fin de `public/data`
 
-En este proyecto no todo lo que vive en `Project/public/data/` es automaticamente SSoT.
+1.  **Entorno de Trabajo**: Se trabaja temporalmente en `Project/public/data/` hasta completar la tarea [D-13].
+2.  **Advertencia**: No intentar crear ni buscar archivos en `Project/data/` hasta que la tarea de migración sea oficialmente marcada como finalizada en la Matriz de Impacto.
 
-`Project/public/data/` representa runtime publicado.
+## Verificación
 
-La fuente real puede ser:
-- generated
-- override
-- o mezcla controlada de ambas capas
+Los tests del engine DEBEN importar sus dependencias desde `Project/data/` para garantizar que validan la fuente de verdad antes de cualquier proceso de publicación.
 
 Ver:
+
 - `data-layer-roles.md`
+- `overrides.md`

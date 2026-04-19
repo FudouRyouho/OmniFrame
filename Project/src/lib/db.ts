@@ -16,7 +16,7 @@ import Dexie, { type EntityTable } from 'dexie';
 import type { Warframe, Weapon, Mod, Arcane, Companion, Vehicle, ArchwingWeapon } from './types';
 
 // Incrementar cuando los datos cambien (invalida cache)
-const DB_VERSION = 2;
+const DB_VERSION = 4;
 const DB_NAME = 'OmniFrameDB';
 const VERSION_KEY = 'db_version';
 

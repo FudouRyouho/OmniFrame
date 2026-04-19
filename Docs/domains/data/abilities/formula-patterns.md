@@ -1,43 +1,33 @@
+---
+Estado: "activo"
+Rol: "Documentar patrones de fórmulas para habilidades"
+Version: "v0.0.2"
+Impacto_ID: "D-Abilities-Formulas"
+Fidelidad_Fisica: "Project/src/core/engine/"
+Fecha_de_creacion: "2026-04-18"
+Fecha_de_actualizacion: "2026-04-19"
+---
+
 # Ability Formula Patterns
 
-> Estado: activo
-> Rol: resumir los patrones de formula que el proyecto reconoce hoy para habilidades
-> Fuente de verdad de: catalogo operativo de formulas para el builder v1
-> No usar para: mecanicas avanzadas aun fuera de alcance
-> Depende de: `engine-variables.md`, `schema.md`
-> Ultima actualizacion: 2026-03-22
+## Patrones Soportados
 
-## Patrones cubiertos
+| Patrón | Fórmula | Descripción |
+| :--- | :--- | :--- |
+| **Lineal** | `variable * baseValue` | Escalado directo (ej: Strength). |
+| **Caps** | `clamp(val, min, max)` | Aplicación de límites definidos en el schema. |
+| **Inverse** | `baseValue / variable` | Escalado inverso (ej: coste reducido por eficiencia). |
+| **Fijo** | `baseValue` | Valor constante sin escalado. |
+| **Energía (Uso)** | `(2 - EFF) * baseValue` | Coste de activación de habilidades. |
+| **Energía (Drain)** | `(2 - EFF) * baseValue / DUR` | Consumo por segundo de habilidades activas. |
 
-| Patron | Formula | Soporte esperado |
-|---|---|---|
-| lineal | `variable * baseValue` | si |
-| cap maximo | `min(variable * baseValue, cap)` | si |
-| cap minimo | `max(variable * baseValue, capMin)` | si |
-| ambos caps | `clamp(variable * baseValue, capMin, cap)` | si |
-| inverse | `baseValue / variable` | si |
-| fijo | `baseValue` | si |
-| energia por uso | `(2 - EFF) * baseValue` | si |
-| energia por segundo | `(2 - EFF) * baseValue / DUR` | si |
-| helminth alternativo | mismo patron con base/cap alternativos | parcial |
+## Reglas de Interpretación
 
-## Patrones documentados pero fuera del primer soporte
+1.  **Declaración**: El schema de datos declara el `baseValue`, el `upgradeBy` (variable) y los posibles `caps`.
+2.  **Resolución**: La interpretación exacta de la fórmula y el orden de operaciones es responsabilidad exclusiva del motor (`core/engine`).
+3.  **Fuentes**: Las fórmulas se basan en la lógica unificada de la comunidad documentada en `docs-references/`.
 
-- multiplicadores por `TARGET`
-- costes o escalados por `COMBO`
-- formulas que usan armor base o bonus de armor del warframe
-- drains por enemigo o por estado de combate
+---
 
-## Regla
-
-El schema de datos declara `baseValue`, `upgradeBy`, caps y flags. La interpretacion
-exacta de la formula vive en el engine.
-
-## Relacion con la referencia wiki
-
-Cuando aparezcan mecanicas mas complejas:
-
-1. se documentan en `reference/wiki/`
-2. se baja su impacto al track `features/builder-engine/`
-3. solo entonces se amplian las formulas soportadas
-
+### Mantenimiento
+Para patrones complejos (basados en targets, combos o armadura dinámica), se requiere un análisis previo en el dominio de **Gobernanza** antes de ampliar el diccionario de fórmulas del motor.

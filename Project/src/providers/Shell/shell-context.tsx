@@ -44,6 +44,9 @@ function getPageTitle(
       if (view) return view.replace(/-/g, " ").toUpperCase();
       return "EQUIPMENT";
     case "arsenal":
+      if (view === "archon-shards") return "ARCHON SHARDS";
+      if (view === "swap" && entityId) return `SWAP / ${entityId.replace(/-/g, " ").toUpperCase()}`;
+      if (view === "swap") return "SWAP";
       return "ARSENAL";
     case "profile":
       return "PROFILE";
@@ -76,6 +79,8 @@ export function resolveShell(pathname: string): ShellContextValue {
     footerKind = isDetail ? "item-details" : "none";
   } else if (first === "arsenal") {
     zone = "arsenal";
+    view = second ?? null;
+    entityId = third ? decodeURIComponent(third) : null;
     footerKind = "arsenal";
   } else if (first === "profile") {
     zone = "profile";

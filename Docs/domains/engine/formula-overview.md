@@ -1,89 +1,56 @@
+---
+Estado: "activo"
+Rol: "Especificar las fórmulas matemáticas que el motor ejecuta"
+Version: "v0.0.2"
+Impacto_ID: "E-Formulas"
+Fidelidad_Fisica: "Project/src/core/engine/"
+Fecha_de_creacion: "2026-04-18"
+Fecha_de_actualizacion: "2026-04-19"
+---
+
 # Engine Formula Overview
 
-> Estado: activo
-> Rol: resumir los patrones de fórmula que el Engine v1 necesita soportar
-> Fuente de verdad de: panorama de fórmulas del motor
-> No usar para: catálogo exhaustivo de mecánicas avanzadas del juego
-> Depende de: C1→C32/C33 (capas Loadout/Resolver/Engine)
-> Última actualización: 2026-03-27 (recontextualizado: supuesto v1 declarado)
+## 1. Supuesto Matemático (Estado Estático)
 
-> **[GAP-6 — CERRADO 2026-03-27]** La fórmula dominante
-> `stat_final = base * (1 + suma de mods del mismo upgradeType)` trata todos los mods
-> como equivalentes. Los mods con condición deberían sumarse solo si la condición está
-> activa. **El supuesto v1 está ahora declarado explícitamente en la sección siguiente.**
+El motor asume un estado determinista para el cálculo de estadísticas:
+- El cálculo sigue el patrón: `input -> engine -> output`.
+- Se asume la suma de bonos aditivos antes de aplicar multiplicadores finales.
 
-## Supuesto fundamental de v1
+---
 
-**v1 asume máximo rendimiento**: todas las condiciones aplicables están activas. Por lo tanto:
-- Todos los mods actúan. Los mods con condición se asumen cumplida (ej: hit garantizado).
-- No hay simulación de tiempo ni rotación de estados; se calcula como estático.
-- Esto es una simplificación intencional para permitir cálculo puro sin estado runtime.
+## 2. Primitivas Matemáticas
 
-En futuras versiones, el Resolver agregará `ConditionState` para modelar variabilidad.
-
-## Regla de lectura
-
-Este documento cubre fórmulas de cálculo estático para v1, aplicables por el Engine tras recibir el `CalculationContext` del Resolver.
-
-No cubre:
-
-- dots
-- simulación por tiempo
-- resistencias por facción
-- rotacion real de estados sobre el enemigo
-- condicionales complejas dependientes de kills, aim o ticks
-
-## Mods de arma
-
-Fórmula dominante:
-
+### Bonus Aditivos (Mods estándar)
+Se agrupan por `upgradeType` y se suman antes de aplicar a la base.
 ```text
-stat_final = base * (1 + suma de mods del mismo upgradeType)
+stat_final = base * (1 + suma_de_bonus / 100)
 ```
+*Ejemplo: Serration (+165%) y Heavy Caliber (+165%) -> base * (1 + 1.65 + 1.65)*
 
-Excepciones conocidas:
-- segundos
-- metros
-- combo inicial
+### Críticos (Chance y Nivel)
+1. **Critical Chance Decimal**: `base * (1 + sum(relative_bonus)) + sum(absolute_bonus)`
+2. **Critical Tier**: `floor(total_decimal)`
+3. **Multiplicador Promedio**: `1 + CritChance * (CritMultiplier - 1)`
 
-## Mods de warframe
+### Multishot (Proyectiles Esperados)
+1. **Projectile Count**: `base_multishot * (1 + sum(multishot_bonus))`
+2. **Beam/Continuous**: El multishot actúa como un multiplicador directo del daño por tick.
 
-Misma fórmula general, distinto pool:
-- health
-- shield
-- armor
-- energy
+---
 
-Variables de habilidad derivadas:
-- STR
-- DUR
-- RNG
-- EFF con clamp
+## 3. Especificaciones por Dominio
 
-## Habilidades
+### Mods de Arma
+- **Damage Total**: `baseDamage * (1 + sum(additive_base_mods)) * (multiplicadores_finales)`
+- **Status Weight**: La probabilidad de un proc depende de su peso relativo en el daño total.
 
-Patrones principales:
-- lineal
-- cap máximo
-- cap mínimo
-- clamp entre mínimo y máximo
-- inverse modifier
-- valor fijo
-- `ENERGY_COST`
-- `ENERGY_DRAIN`
+### Warframes y Habilidades
+- **Stats Base**: Health, Shield, Armor y Energy escalan sobre la base del warframe.
+- **Habilidades**:
+    - `SCALING`: `base * (1 + abilityStrength / 100)`
+    - `INVERSE`: `base / (1 + abilityModifier / 100)`
 
-Base documental:
-- `../data/abilities/engine-variables.md`
-- `../data/abilities/formula-patterns.md`
+---
 
-## Casos fuera de v1 inicial
-
-- TARGET
-- COMBO
-- Hildryn shields
-- Equinox por enemigo
-- mecanicas avanzadas documentadas luego en `reference/wiki/`
-- dots y ticks
-- ramp temporal de Heat
-- corrosive, viral o magnetic como simulación real sobre enemigo
-
+### Notas Operativas
+Estas fórmulas representan el núcleo estable del cálculo matemático. La lógica de **cuándo** se activan estas fórmulas (condiciones, triggers) es responsabilidad del **Resolver** y la configuración del contexto de entrada.

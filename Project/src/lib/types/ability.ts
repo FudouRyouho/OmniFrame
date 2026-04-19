@@ -1,5 +1,4 @@
-// ── Ability Schema (nuevo — groups[]) ────────────────────────────────────────
-// Ver Docs-legacy/analysis/ability-schema-examples.md para la especificación completa.
+// ── Ability Schema (groups[]) ────────────────────────────────────────────────
 
 /**
  * Variable del engine que escala el valor base de un stat de habilidad.
@@ -89,7 +88,7 @@ export interface AbilityGroup {
   id?: string;
   label?: string;
   defaultActive?: boolean;
-  /** true = radio (solo uno activo a la vez) | false = checkbox (varios simultáneos) */
+  /** true: Exclusivo (ej: Equinox/Chroma). false: Coexistente (ej: Wisp/Titania). */
   exclusive?: boolean;
   stats: AbilityStatEntry[];
 }

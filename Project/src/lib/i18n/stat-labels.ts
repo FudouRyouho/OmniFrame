@@ -3,8 +3,7 @@
  * Labels de presentación para stats de armas y mods.
  * Capa de Traducción — nunca importar desde lógica de cálculo.
  *
- * Para añadir un locale nuevo: añadir una entrada en WEAPON_STAT_LABELS y MOD_STAT_LABELS
- * con las mismas keys. El selector de locale se implementará más adelante.
+ * Scope actual: inglés exclusivo. No existe soporte multi-locale en runtime.
  */
 
 // ── Weapon stat labels ────────────────────────────────────────────────────────
@@ -41,61 +40,32 @@ type WeaponStatLabels = {
   totalDamage:       string
 }
 
-export const WEAPON_STAT_LABELS: Record<string, WeaponStatLabels> = {
-  en: {
-    speed:             'FIRE RATE',
-    charge_time:       'CHARGE TIME',
-    crit_chance:       'CRIT CHANCE',
-    crit_mult:         'CRIT MULTIPLIER',
-    status_chance:     'STATUS CHANCE',
-    flight:            'FLIGHT SPEED',
-    slide:             'SLIDE ATTACK',
-    shot_type:         'SHOT TYPE',
-    magazineSize:      'MAGAZINE',
-    reloadTime:        'RELOAD',
-    multishot:         'MULTISHOT',
-    accuracy:          'ACCURACY',
-    noise:             'NOISE',
-    trigger:           'TRIGGER',
-    range:             'RANGE',
-    attackSpeed:       'ATTACK SPEED',
-    comboDuration:     'COMBO DURATION',
-    followThrough:     'FOLLOW THROUGH',
-    blockingAngle:     'BLOCKING ANGLE',
-    windUp:            'WIND UP',
-    stancePolarity:    'STANCE POLARITY',
-    slideAttack:       'SLIDE ATTACK',
-    heavyAttackDamage: 'HEAVY ATTACK',
-    damage:            'DAMAGE',
-    totalDamage:       'TOTAL',
-  },
-  es: {
-    speed:             'CADENCIA',
-    charge_time:       'T. CARGA',
-    crit_chance:       'PROB. CRÍTICA',
-    crit_mult:         'MULT. CRÍTICO',
-    status_chance:     'PROB. ESTADO',
-    flight:            'VEL. PROYECTIL',
-    slide:             'DESLIZAMIENTO',
-    shot_type:         'TIPO DISPARO',
-    magazineSize:      'CARGADOR',
-    reloadTime:        'RECARGA',
-    multishot:         'MULTISHOT',
-    accuracy:          'PRECISIÓN',
-    noise:             'RUIDO',
-    trigger:           'DISPARO',
-    range:             'ALCANCE',
-    attackSpeed:       'VEL. ATAQUE',
-    comboDuration:     'DUR. COMBO',
-    followThrough:     'SEGUIMIENTO',
-    blockingAngle:     'ÁNGULO BLOQUEO',
-    windUp:            'PREPARACIÓN',
-    stancePolarity:    'POL. POSTURA',
-    slideAttack:       'ATAQUE DESLIZ.',
-    heavyAttackDamage: 'ATAQUE PESADO',
-    damage:            'DAÑO',
-    totalDamage:       'TOTAL',
-  },
+export const WEAPON_STAT_LABELS: WeaponStatLabels = {
+  speed:             'FIRE RATE',
+  charge_time:       'CHARGE TIME',
+  crit_chance:       'CRIT CHANCE',
+  crit_mult:         'CRIT MULTIPLIER',
+  status_chance:     'STATUS CHANCE',
+  flight:            'FLIGHT SPEED',
+  slide:             'SLIDE ATTACK',
+  shot_type:         'SHOT TYPE',
+  magazineSize:      'MAGAZINE',
+  reloadTime:        'RELOAD',
+  multishot:         'MULTISHOT',
+  accuracy:          'ACCURACY',
+  noise:             'NOISE',
+  trigger:           'TRIGGER',
+  range:             'RANGE',
+  attackSpeed:       'ATTACK SPEED',
+  comboDuration:     'COMBO DURATION',
+  followThrough:     'FOLLOW THROUGH',
+  blockingAngle:     'BLOCKING ANGLE',
+  windUp:            'WIND UP',
+  stancePolarity:    'STANCE POLARITY',
+  slideAttack:       'SLIDE ATTACK',
+  heavyAttackDamage: 'HEAVY ATTACK',
+  damage:            'DAMAGE',
+  totalDamage:       'TOTAL',
 }
 
 // ── Mod stat labels ───────────────────────────────────────────────────────────
@@ -109,32 +79,17 @@ type ModStatLabels = {
   effects:   string
 }
 
-export const MOD_STAT_LABELS: Record<string, ModStatLabels> = {
-  en: {
-    type:      'TYPE',
-    rarity:    'RARITY',
-    polarity:  'POLARITY',
-    baseDrain: 'BASE DRAIN',
-    rank:      'MAX RANK',
-    effects:   'EFFECTS (MAX RANK)',
-  },
-  es: {
-    type:      'TIPO',
-    rarity:    'RAREZA',
-    polarity:  'POLARIDAD',
-    baseDrain: 'COSTE BASE',
-    rank:      'RANGO MÁX.',
-    effects:   'EFECTOS (RANGO MÁX.)',
-  },
+export const MOD_STAT_LABELS: ModStatLabels = {
+  type:      'TYPE',
+  rarity:    'RARITY',
+  polarity:  'POLARITY',
+  baseDrain: 'BASE DRAIN',
+  rank:      'MAX RANK',
+  effects:   'EFFECTS (MAX RANK)',
 }
 
-// ── Locale helpers ────────────────────────────────────────────────────────────
+// ── Lookup helpers ────────────────────────────────────────────────────────────
 
-/** Default locale — change this when locale switching is implemented */
-export const DEFAULT_LOCALE = 'en'
+export const getWeaponStatLabels = (): WeaponStatLabels => WEAPON_STAT_LABELS
 
-export const getWeaponStatLabels = (locale = DEFAULT_LOCALE): WeaponStatLabels =>
-  WEAPON_STAT_LABELS[locale] ?? WEAPON_STAT_LABELS[DEFAULT_LOCALE]
-
-export const getModStatLabels = (locale = DEFAULT_LOCALE): ModStatLabels =>
-  MOD_STAT_LABELS[locale] ?? MOD_STAT_LABELS[DEFAULT_LOCALE]
+export const getModStatLabels = (): ModStatLabels => MOD_STAT_LABELS

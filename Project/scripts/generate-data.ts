@@ -17,6 +17,10 @@ import {
   reportWeaponNormalizationState,
 } from './normalization/weapons.ts'
 import {
+  createPolarityNormalizationState,
+  reportPolarityNormalizationState,
+} from './normalization/polarity.ts'
+import {
   buildAuditEntries,
   createSourceChangeAuditReport,
   writeSourceChangeAuditReport,
@@ -44,6 +48,7 @@ const sourceItems = Array.from(new Items()) as SourceItem[]
 
 const arcaneNormalizationState = createArcaneNormalizationState()
 const weaponNormalizationState = createWeaponNormalizationState()
+const polarityNormalizationState = createPolarityNormalizationState()
 
 async function writeJson(fileName: string, data: unknown, pretty = false): Promise<void> {
   const output = pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data)
@@ -56,6 +61,7 @@ async function persistRuntimeDataArtifacts(artifacts: RuntimeDataArtifacts): Pro
   await writeJson('passives.json', artifacts.passivesDb)
 
   console.log(`✓ warframes.json — ${artifacts.warframes.length} warframes`)
+  reportPolarityNormalizationState(polarityNormalizationState)
 
   await writeJson('weapons.json', artifacts.weapons)
   console.log(`✓ weapons.json — ${artifacts.weapons.length} weapons`)
@@ -118,6 +124,7 @@ async function main(): Promise<void> {
     abilityStatsDb,
     arcaneNormalizationState,
     weaponNormalizationState,
+    polarityNormalizationState,
   })
 
   await persistRuntimeDataArtifacts(artifacts)

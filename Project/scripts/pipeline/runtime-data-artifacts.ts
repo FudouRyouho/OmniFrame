@@ -6,6 +6,10 @@ import {
   normalizeWeaponShotType,
   type WeaponNormalizationState,
 } from '../normalization/weapons.ts'
+import {
+  normalizePolarityValue,
+  type PolarityNormalizationState,
+} from '../normalization/polarity.ts'
 
 import type {
   ArcaneCategory,
@@ -16,6 +20,7 @@ import type {
   Kind,
   ModCategory,
   ModClass,
+  PolarityType,
   VehicleKind,
   WeaponAttack,
   WeaponCategory,
@@ -164,7 +169,7 @@ interface GeneratedBaseFields<K extends Kind> {
   name: string
   imageName: string
   masteryReq: number
-  polarities: string[]
+  polarities: PolarityType[]
   tags: string[]
 }
 
@@ -181,7 +186,7 @@ interface GeneratedWarframe extends GeneratedBaseFields<'warframe'> {
   sprintSpeed: number
   passiveDescription: string | null
   isPrime: boolean
-  aura: string | string[] | null
+  aura: PolarityType | null
   sex: string | null
   introduced: string | null
   wikiaThumbnail: string | null
@@ -238,7 +243,7 @@ interface GeneratedWeapon extends GeneratedBaseFields<'primary' | 'secondary' | 
   heavySlamRadius?: number | null
   slideAttack?: number | null
   windUp?: number | null
-  stancePolarity?: string | null
+  stancePolarity?: PolarityType | null
 }
 
 interface GeneratedMod extends GeneratedBaseFields<'mod'> {
@@ -248,7 +253,7 @@ interface GeneratedMod extends GeneratedBaseFields<'mod'> {
   category: ModCategory
   compatName: string | null
   baseDrain: number | null
-  polarity: string | null
+  polarity: PolarityType | null
   rarity: string | null
   rank: number | null
   levelStats: Array<{ stats?: string[] | null }> | null
@@ -407,7 +412,11 @@ function resolveIntroduced(raw: SourceIntroduced): string | null {
   return null
 }
 
-function buildBaseFields<K extends Kind>(raw: SourceItem, kind: K): GeneratedBaseFields<K> {
+function buildBaseFields<K extends Kind>(
+  raw: SourceItem,
+  kind: K,
+  polarityState: PolarityNormalizationState,
+): GeneratedBaseFields<K> {
   return {
     id: resolveId(raw),
     kind,
@@ -415,7 +424,9 @@ function buildBaseFields<K extends Kind>(raw: SourceItem, kind: K): GeneratedBas
     name: resolveName(raw),
     imageName: resolveImageName(raw),
     masteryReq: raw.masteryReq ?? 0,
-    polarities: raw.polarities ?? [],
+    polarities: (raw.polarities ?? [])
+      .map(p => normalizePolarityValue(p, polarityState))
+      .filter((p): p is PolarityType => p !== null),
     tags: raw.tags ?? [],
   }
 }
@@ -560,9 +571,15 @@ function mapAttack(raw: SourceAttack, weaponNormalizationState: WeaponNormalizat
   }
 }
 
-function mapWarframe(raw: SourceItem, abilityStatsDb: AbilityStatsDb): GeneratedWarframe {
+function mapWarframe(
+  raw: SourceItem,
+  abilityStatsDb: AbilityStatsDb,
+  polarityState: PolarityNormalizationState,
+): GeneratedWarframe {
+  const auraRaw = Array.isArray(raw.aura) ? raw.aura[0] : raw.aura
+  
   return {
-    ...buildBaseFields(raw, 'warframe'),
+    ...buildBaseFields(raw, 'warframe', polarityState),
     description: raw.description ?? '',
     health: raw.health ?? 0,
     shield: raw.shield ?? 0,
@@ -571,7 +588,7 @@ function mapWarframe(raw: SourceItem, abilityStatsDb: AbilityStatsDb): Generated
     sprintSpeed: raw.sprintSpeed ?? 0,
     passiveDescription: raw.passiveDescription ?? null,
     isPrime: raw.isPrime ?? false,
-    aura: raw.aura ?? null,
+    aura: normalizePolarityValue(auraRaw, polarityState),
     sex: raw.sex ?? null,
     introduced: resolveIntroduced(raw.introduced),
     wikiaThumbnail: raw.wikiaThumbnail ?? null,
@@ -601,9 +618,13 @@ function isIncludedWarframe(item: SourceItem): boolean {
     && name !== 'Helminth'
 }
 
-function mapWeapon(raw: SourceItem, weaponNormalizationState: WeaponNormalizationState): GeneratedWeapon {
+function mapWeapon(
+  raw: SourceItem,
+  weaponNormalizationState: WeaponNormalizationState,
+  polarityState: PolarityNormalizationState,
+): GeneratedWeapon {
   const base: GeneratedWeapon = {
-    ...buildBaseFields(raw, (raw.category?.toLowerCase() ?? 'primary') as GeneratedWeapon['kind']),
+    ...buildBaseFields(raw, (raw.category?.toLowerCase() ?? 'primary') as GeneratedWeapon['kind'], polarityState),
     description: raw.description ?? '',
     category: (raw.category ?? 'Primary') as WeaponCategory,
     productCategory: raw.productCategory ?? null,
@@ -645,22 +666,22 @@ function mapWeapon(raw: SourceItem, weaponNormalizationState: WeaponNormalizatio
     base.heavySlamRadius = raw.heavySlamRadius ?? null
     base.slideAttack = raw.slideAttack ?? null
     base.windUp = raw.windUp ?? null
-    base.stancePolarity = raw.stancePolarity ?? null
+    base.stancePolarity = normalizePolarityValue(raw.stancePolarity, polarityState)
   }
 
   return base
 }
 
-function mapMod(raw: SourceItem): GeneratedMod {
+function mapMod(raw: SourceItem, polarityState: PolarityNormalizationState): GeneratedMod {
   return {
-    ...buildBaseFields(raw, 'mod'),
+    ...buildBaseFields(raw, 'mod', polarityState),
     description: raw.description ?? '',
     categoryRaw: raw.category ?? null,
     type: raw.type ?? null,
     category: resolveModCategory(raw.type),
     compatName: raw.compatName ?? null,
     baseDrain: raw.baseDrain ?? null,
-    polarity: raw.polarity ?? null,
+    polarity: normalizePolarityValue(raw.polarity, polarityState),
     rarity: raw.rarity ?? null,
     rank: raw.maxRank ?? raw.fusionLimit ?? null,
     levelStats: raw.levelStats ?? null,
@@ -674,11 +695,15 @@ function mapMod(raw: SourceItem): GeneratedMod {
   }
 }
 
-function mapArcane(raw: SourceItem, arcaneNormalizationState: ArcaneNormalizationState): GeneratedArcane {
+function mapArcane(
+  raw: SourceItem,
+  arcaneNormalizationState: ArcaneNormalizationState,
+  polarityState: PolarityNormalizationState,
+): GeneratedArcane {
   const semantics = normalizeArcaneSemantics(raw.type, arcaneNormalizationState)
 
   return {
-    ...buildBaseFields(raw, 'arcane'),
+    ...buildBaseFields(raw, 'arcane', polarityState),
     type: raw.type ?? null,
     category: semantics.category,
     compatName: semantics.compatName,
@@ -689,9 +714,9 @@ function mapArcane(raw: SourceItem, arcaneNormalizationState: ArcaneNormalizatio
   }
 }
 
-function mapCompanion(raw: SourceItem): GeneratedCompanion {
+function mapCompanion(raw: SourceItem, polarityState: PolarityNormalizationState): GeneratedCompanion {
   return {
-    ...buildBaseFields(raw, 'companion'),
+    ...buildBaseFields(raw, 'companion', polarityState),
     description: raw.description ?? '',
     category: (raw.category ?? 'Pets') as CompanionCategory,
     health: raw.health ?? null,
@@ -705,9 +730,13 @@ function mapCompanion(raw: SourceItem): GeneratedCompanion {
   }
 }
 
-function mapArchwingWeapon(raw: SourceItem, weaponNormalizationState: WeaponNormalizationState): GeneratedArchwingWeapon {
+function mapArchwingWeapon(
+  raw: SourceItem,
+  weaponNormalizationState: WeaponNormalizationState,
+  polarityState: PolarityNormalizationState,
+): GeneratedArchwingWeapon {
   return {
-    ...buildBaseFields(raw, raw.category === 'Arch-Gun' ? 'archgun' : 'archmelee'),
+    ...buildBaseFields(raw, raw.category === 'Arch-Gun' ? 'archgun' : 'archmelee', polarityState),
     description: raw.description ?? '',
     category: (raw.category ?? 'Arch-Gun') as ArchwingWeaponCategory,
     isPrime: raw.isPrime ?? false,
@@ -724,9 +753,9 @@ function mapArchwingWeapon(raw: SourceItem, weaponNormalizationState: WeaponNorm
   }
 }
 
-function mapVehicle(raw: SourceItem, kind: VehicleKind): GeneratedVehicle {
+function mapVehicle(raw: SourceItem, kind: VehicleKind, polarityState: PolarityNormalizationState): GeneratedVehicle {
   return {
-    ...buildBaseFields(raw, kind),
+    ...buildBaseFields(raw, kind, polarityState),
     description: raw.description ?? '',
     category: raw.category ?? '',
     health: raw.health ?? null,
@@ -741,14 +770,18 @@ function mapVehicle(raw: SourceItem, kind: VehicleKind): GeneratedVehicle {
   }
 }
 
-function buildWarframesArtifacts(sourceItems: SourceItem[], abilityStatsDb: AbilityStatsDb): {
+function buildWarframesArtifacts(
+  sourceItems: SourceItem[],
+  abilityStatsDb: AbilityStatsDb,
+  polarityState: PolarityNormalizationState,
+): {
   warframes: GeneratedWarframe[]
   abilityStatsDb: AbilityStatsDb
   passivesDb: PassivesDb
 } {
   const warframes = sourceItems
     .filter((item) => isIncludedWarframe(item))
-    .map((item) => mapWarframe(item, abilityStatsDb))
+    .map((item) => mapWarframe(item, abilityStatsDb, polarityState))
 
   const passivesDb: PassivesDb = {}
 
@@ -768,57 +801,69 @@ function buildWarframesArtifacts(sourceItems: SourceItem[], abilityStatsDb: Abil
   }
 }
 
-function buildWeaponsArtifacts(sourceItems: SourceItem[], weaponNormalizationState: WeaponNormalizationState): GeneratedWeapon[] {
+function buildWeaponsArtifacts(
+  sourceItems: SourceItem[],
+  weaponNormalizationState: WeaponNormalizationState,
+  polarityState: PolarityNormalizationState,
+): GeneratedWeapon[] {
   return sourceItems
     .filter((item) => {
       const category = item.category
       return typeof category === 'string' && WEAPON_CATEGORIES.includes(category as WeaponCategory)
     })
-    .map((item) => mapWeapon(item, weaponNormalizationState))
+    .map((item) => mapWeapon(item, weaponNormalizationState, polarityState))
 }
 
-function buildModsArtifacts(sourceItems: SourceItem[]): GeneratedMod[] {
+function buildModsArtifacts(sourceItems: SourceItem[], polarityState: PolarityNormalizationState): GeneratedMod[] {
   return sourceItems
     .filter((item) => item.category === 'Mods' && !item.isFlawed)
-    .map((item) => mapMod(item))
+    .map((item) => mapMod(item, polarityState))
 }
 
-function buildArcanesArtifacts(sourceItems: SourceItem[], arcaneNormalizationState: ArcaneNormalizationState): GeneratedArcane[] {
+function buildArcanesArtifacts(
+  sourceItems: SourceItem[],
+  arcaneNormalizationState: ArcaneNormalizationState,
+  polarityState: PolarityNormalizationState,
+): GeneratedArcane[] {
   return sourceItems
     .filter((item) => item.category === 'Arcanes' && (item.levelStats?.length ?? 0) > 0)
-    .map((item) => mapArcane(item, arcaneNormalizationState))
+    .map((item) => mapArcane(item, arcaneNormalizationState, polarityState))
 }
 
-function buildCompanionsArtifacts(sourceItems: SourceItem[]): GeneratedCompanion[] {
+function buildCompanionsArtifacts(sourceItems: SourceItem[], polarityState: PolarityNormalizationState): GeneratedCompanion[] {
   return sourceItems
     .filter((item) => {
       const category = item.category
       return typeof category === 'string' && COMPANION_CATEGORIES.includes(category as CompanionCategory)
     })
-    .map((item) => mapCompanion(item))
+    .map((item) => mapCompanion(item, polarityState))
 }
 
-function buildArchwingWeaponsArtifacts(sourceItems: SourceItem[], weaponNormalizationState: WeaponNormalizationState): GeneratedArchwingWeapon[] {
+function buildArchwingWeaponsArtifacts(
+  sourceItems: SourceItem[],
+  weaponNormalizationState: WeaponNormalizationState,
+  polarityState: PolarityNormalizationState,
+): GeneratedArchwingWeapon[] {
   return sourceItems
     .filter((item) => {
       const category = item.category
       return typeof category === 'string' && ARCHWING_WEAPON_CATEGORIES.includes(category as ArchwingWeaponCategory)
     })
-    .map((item) => mapArchwingWeapon(item, weaponNormalizationState))
+    .map((item) => mapArchwingWeapon(item, weaponNormalizationState, polarityState))
 }
 
-function buildVehiclesArtifacts(sourceItems: SourceItem[]): {
+function buildVehiclesArtifacts(sourceItems: SourceItem[], polarityState: PolarityNormalizationState): {
   vehicles: GeneratedVehicle[]
   necramechCount: number
   archwingCount: number
 } {
   const necramechs = sourceItems
     .filter((item) => NECRAMECH_UNIQUE.has(item.uniqueName ?? ''))
-    .map((item) => mapVehicle(item, 'necramech'))
+    .map((item) => mapVehicle(item, 'necramech', polarityState))
 
   const archwings = sourceItems
     .filter((item) => item.category === 'Archwing')
-    .map((item) => mapVehicle(item, 'archwing'))
+    .map((item) => mapVehicle(item, 'archwing', polarityState))
 
   return {
     vehicles: [...necramechs, ...archwings],
@@ -832,14 +877,31 @@ export function buildRuntimeDataArtifacts(params: {
   abilityStatsDb: AbilityStatsDb
   arcaneNormalizationState: ArcaneNormalizationState
   weaponNormalizationState: WeaponNormalizationState
+  polarityNormalizationState: PolarityNormalizationState
 }): RuntimeDataArtifacts {
-  const warframesArtifacts = buildWarframesArtifacts(params.sourceItems, params.abilityStatsDb)
-  const weapons = buildWeaponsArtifacts(params.sourceItems, params.weaponNormalizationState)
-  const mods = buildModsArtifacts(params.sourceItems)
-  const arcanes = buildArcanesArtifacts(params.sourceItems, params.arcaneNormalizationState)
-  const companions = buildCompanionsArtifacts(params.sourceItems)
-  const archwingWeapons = buildArchwingWeaponsArtifacts(params.sourceItems, params.weaponNormalizationState)
-  const vehiclesArtifacts = buildVehiclesArtifacts(params.sourceItems)
+  const warframesArtifacts = buildWarframesArtifacts(
+    params.sourceItems,
+    params.abilityStatsDb,
+    params.polarityNormalizationState,
+  )
+  const weapons = buildWeaponsArtifacts(
+    params.sourceItems,
+    params.weaponNormalizationState,
+    params.polarityNormalizationState,
+  )
+  const mods = buildModsArtifacts(params.sourceItems, params.polarityNormalizationState)
+  const arcanes = buildArcanesArtifacts(
+    params.sourceItems,
+    params.arcaneNormalizationState,
+    params.polarityNormalizationState,
+  )
+  const companions = buildCompanionsArtifacts(params.sourceItems, params.polarityNormalizationState)
+  const archwingWeapons = buildArchwingWeaponsArtifacts(
+    params.sourceItems,
+    params.weaponNormalizationState,
+    params.polarityNormalizationState,
+  )
+  const vehiclesArtifacts = buildVehiclesArtifacts(params.sourceItems, params.polarityNormalizationState)
 
   return {
     warframes: warframesArtifacts.warframes,

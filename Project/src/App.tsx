@@ -1,31 +1,28 @@
 import { Routes, Route, Navigate } from "react-router";
-import WarframeDetail from "./pages/WarframeDetail";
-import WeaponDetail from "./pages/WeaponDetail";
-import AbilityStatsEditor from "./features/dev/ability-stats/AbilityStatsEditor";
-import ModStatsEditor from "./features/dev/mod-stats/ModStatsEditor";
-import TextFormatView from "./features/dev/text-format/TextFormatView";
-import UIShowcase from "./features/dev/ui-showcase/UIShowcase";
-import AbilitySchemaView from "./features/dev/ability-schema/AbilitySchemaView";
+
 import DialogAppMenu from "./shared/components/navigation/DialogMenu";
-import Hud from "@features/hud/Hud";
-import EquipmentLayout from "@features/equipment/EquipmentLayout";
-import WarframesView from "@features/equipment/view/WarframesView";
-import WeaponsView from "@features/equipment/view/WeaponsView";
-import CompanionsView from "@features/equipment/view/CompanionsView";
-import ModsView from "@features/equipment/view/ModsView";
-import ArcanesView from "@features/equipment/view/ArcanesView";
-import VehiclesView from "@features/equipment/view/VehiclesView";
-import ArchwingWeaponsView from "@features/equipment/view/ArchwingWeaponsView";
-import WarframeDetailView from "@features/equipment/detail/WarframeDetailView";
-import WeaponDetailView from "@features/equipment/detail/WeaponDetailView";
-import CompanionDetailView from "@features/equipment/detail/CompanionDetailView";
-import VehicleDetailView from "@features/equipment/detail/VehicleDetailView";
-import ArchwingWeaponDetailView from "@features/equipment/detail/ArchwingWeaponDetailView";
-import ModDetailView from "@features/equipment/detail/ModDetailView";
-import ArcaneDetailView from "@features/equipment/detail/ArcaneDetailView";
-import OptionsView from "@features/options/OptionsView";
-import ArsenalView from "@features/arsenal/ArsenalView";
-import ProfileView from "@features/profile/ProfileView";
+import Hud from "src/domains/hud/Hud";
+import EquipmentLayout from "src/domains/equipment/EquipmentLayout";
+import WarframesView from "src/domains/equipment/view/WarframesView";
+import WeaponsView from "src/domains/equipment/view/WeaponsView";
+import CompanionsView from "src/domains/equipment/view/CompanionsView";
+import ModsView from "src/domains/equipment/view/ModsView";
+import ArcanesView from "src/domains/equipment/view/ArcanesView";
+import VehiclesView from "src/domains/equipment/view/VehiclesView";
+import ArchwingWeaponsView from "src/domains/equipment/view/ArchwingWeaponsView";
+import OptionsView from "src/domains/options/OptionsView";
+import ArsenalLayout from "src/domains/arsenal/ArsenalLayout";
+import ArsenalView from "src/domains/arsenal/ArsenalView";
+import ArsenalSwapView from "src/domains/arsenal/swap/ArsenalSwapView";
+import ArchonShardSelectionView from "src/domains/arsenal/archon-shards/ArchonShardSelectionView";
+import ProfileView from "src/domains/profile/ProfileView";
+import WarframeDetailView from "@shared/components/items/specs/WarframeDetailView";
+import WeaponDetailView from "@shared/components/items/specs/WeaponDetailView";
+import CompanionDetailView from "@shared/components/items/specs/CompanionDetailView";
+import ArchwingWeaponDetailView from "@shared/components/items/specs/ArchwingWeaponDetailView";
+import ModDetailView from "@shared/components/items/specs/ModDetailView";
+import ArcaneDetailView from "@shared/components/items/specs/ArcaneDetailView";
+import VehicleDetailView from "@shared/components/items/specs/VehicleDetailView";
 
 export type AppRoute = {
   readonly path: string;
@@ -36,15 +33,7 @@ export type AppRoute = {
 // Solo rutas top-level — las rutas hijas de equipment se definen como nested routes
 // La ruta "/" redirige a equipment hasta que se cree una landing apropiada
 // eslint-disable-next-line react-refresh/only-export-components
-export const routes: readonly AppRoute[] = [
-  { path: "/warframes/:name", element: <WarframeDetail /> },
-  { path: "/weapons/:name", element: <WeaponDetail /> },
-  { path: "/dev/ui-showcase", element: <UIShowcase />, label: "UI Showcase" },
-  { path: "/dev/ability-stats", element: <AbilityStatsEditor />, label: "Editor" },
-  { path: "/dev/mod-stats", element: <ModStatsEditor />, label: "Mod Editor" },
-  { path: "/dev/text-format", element: <TextFormatView />, label: "Text Format" },
-  { path: "/dev/ability-schema", element: <AbilitySchemaView />, label: "Ability Schema" },
-] as const;
+export const routes: readonly AppRoute[] = [] as const;
 
 export default function App() {
   return (
@@ -56,11 +45,18 @@ export default function App() {
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
 
-        <Route path="/arsenal" element={<ArsenalView />} />
+        <Route path="/arsenal" element={<ArsenalLayout />}>
+          <Route index element={<ArsenalView />} />
+          <Route path="swap/:category" element={<ArsenalSwapView />} />
+          <Route path="archon-shards" element={<ArchonShardSelectionView />} />
+        </Route>
         <Route path="/profile" element={<ProfileView />} />
 
         {/* Ruta raíz redirige a equipment hasta que exista una landing propia */}
-        <Route path="/" element={<Navigate to="/equipment/warframes" replace />} />
+        <Route
+          path="/"
+          element={<Navigate to="/equipment/warframes" replace />}
+        />
 
         {/* Options — configuración de la aplicación */}
         <Route path="/options" element={<OptionsView />} />
@@ -76,11 +72,20 @@ export default function App() {
           <Route path="vehicles" element={<VehiclesView />} />
           <Route path="archwing-weapons" element={<ArchwingWeaponsView />} />
           {/* Rutas de detalle — placeholder hasta integración con builder */}
-          <Route path="warframes/:uniqueName" element={<WarframeDetailView />} />
+          <Route
+            path="warframes/:uniqueName"
+            element={<WarframeDetailView />}
+          />
           <Route path="weapons/:uniqueName" element={<WeaponDetailView />} />
-          <Route path="companions/:uniqueName" element={<CompanionDetailView />} />
+          <Route
+            path="companions/:uniqueName"
+            element={<CompanionDetailView />}
+          />
           <Route path="vehicles/:uniqueName" element={<VehicleDetailView />} />
-          <Route path="archwing-weapons/:uniqueName" element={<ArchwingWeaponDetailView />} />
+          <Route
+            path="archwing-weapons/:uniqueName"
+            element={<ArchwingWeaponDetailView />}
+          />
           <Route path="mods/:uniqueName" element={<ModDetailView />} />
           <Route path="arcanes/:uniqueName" element={<ArcaneDetailView />} />
         </Route>

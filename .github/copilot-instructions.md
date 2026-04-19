@@ -51,6 +51,23 @@ leer primero ese archivo y luego ir al documento canónico que indique.
 - Prioridad: `reducir caos → cerrar drift → dejar trazabilidad → implementar`
 - La documentacion es de uso principalmente para consumo de agentes, no para humanos, así que debe ser clara, concisa y estructurada para ese fin. No es necesario explicar cada detalle, solo lo relevante para la toma de decisiones y la implementación.
 
+## Naming conventions transversales
+
+Seguir `Docs/domains/integration/naming-conventions.md` como contrato activo.
+
+- `PascalCase` → tipos nominales, componentes React y archivos React nominales
+- `camelCase` → funciones, hooks como símbolo, variables y helpers
+- `kebab-case` → módulos técnicos, hooks/helpers/scripts/docs y folders nuevos
+- `snake_case` → contratos raw/persistidos/publicados y catálogos compartidos
+- `UPPER_SNAKE_CASE` → tags/IDs externos del juego y constantes heredadas
+
+Guardrails para agentes:
+
+- no introducir filenames nuevos en `camelCase` para módulos técnicos (`*-data.ts`, `use-*.ts`, helpers, fórmulas, scripts)
+- preservar `snake_case` cuando el archivo modela datos raw o runtime publicado
+- no reutilizar tokens técnicos/raw como labels visibles sin mapping de presentación
+- distinguir siempre entre hook como símbolo (`useViewFilter`) y hook como archivo físico (`use-view-filter.ts`)
+
 ## Documentación de resultados
 
 - Decisión local → `Docs/features/<track>/questions.md`

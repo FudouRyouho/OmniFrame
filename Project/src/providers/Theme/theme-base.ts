@@ -19,5 +19,6 @@ export const themeColors = [
   "sentient",
   "narmer",
   "scaldra",
-  "techrot"
+  "techrot",
+  "fortuna"
 ];

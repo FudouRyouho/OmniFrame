@@ -1,44 +1,33 @@
+---
+Estado: "en revision"
+Rol: "Documentar la taxonomía de UpgradeType del proyecto"
+Version: "v0.0.2"
+Impacto_ID: "S-Upgrade-Taxonomy"
+Fidelidad_Fisica: "Project/src/lib/types/mod.ts"
+Fecha_de_creacion: "2026-04-18"
+Fecha_de_actualizacion: "2026-04-19"
+---
+
 # Mods Upgrade Taxonomy
 
-> Estado: activo
-> Rol: resumir la taxonomia operativa de `upgradeTypes[]` para el builder
-> Fuente de verdad de: clasificacion funcional de upgrade types
-> No usar para: tabla exhaustiva de todos los casos edge del juego
-> Depende de: PA-2/3/4 (schema de mods cerrado 2026-03-27)
-> Última actualización: 2026-03-27
+## Estado de la Taxonomía
 
-## Grupos principales
+La taxonomía está actualmente en fase de **Análisis Semántico**. No se deben añadir nuevos tipos sin contrastar con el análisis de los JSON fuente normalizados (`@wfcd/items` + `Module:Mods/data`).
 
-| Grupo | Ejemplos |
-|---|---|
-| dano base | `WEAPON_DAMAGE_AMOUNT`, `WEAPON_MELEE_DAMAGE` |
-| dano agregado o conversion | `WEAPON_PERCENT_BASE_DAMAGE_ADDED`, `WEAPON_DAMAGE_TYPE_BIAS` |
-| criticos | `WEAPON_CRIT_CHANCE`, `WEAPON_CRIT_DAMAGE` |
-| estado | `WEAPON_PROC_CHANCE`, `WEAPON_PROC_TIME` |
-| cadencia y multishot | `WEAPON_FIRE_RATE`, `WEAPON_FIRE_ITERATIONS` |
-| cargador y recarga | `WEAPON_CLIP_MAX`, `WEAPON_RELOAD_SPEED` |
-| proyectil, radio y fisica | `WEAPON_PROJECTILE_SPEED`, `WEAPON_EXPLOSION_RADIUS`, `WEAPON_PUNCTURE_DEPTH` |
-| melee especial | `WEAPON_MELEE_COMBO_DURATION_BONUS`, `WEAPON_RANGE` |
-| warframe | `AVATAR_ABILITY_STRENGTH`, `AVATAR_HEALTH_MAX`, `AVATAR_ARMOUR` |
+### Familias Identificadas (Prefijos)
 
-## Regla de uso
+| Prefijo | Dominio de Aplicación | Ejemplo |
+| :--- | :--- | :--- |
+| `WEAPON_` | Efectos directos sobre el arma y sus ataques. | `WEAPON_CRIT_CHANCE` |
+| `AVATAR_` | Efectos sobre el Warframe (Base stats y habilidades). | `AVATAR_ABILITY_STRENGTH` |
+| `VEHICLE_` | Efectos sobre K-Drive y otros vehículos. | `VEHICLE_BOOST_MAX` |
+| `GAMEPLAY_` | Efectos de facción, utilidades y reglas generales. | `GAMEPLAY_FACTION_DAMAGE` |
 
-`upgradeTypes[]` define que modifica el mod. El valor numerico y los casos especiales
-se resuelven con fuente adicional u override controlado.
+## Regla de Oro Operativa
 
-## Donde aparecen los gaps
+El código (`lib/types/mod.ts`) mantiene `UpgradeType` como un string abierto hasta que la auditoría del catálogo sea definitiva. El documento de referencia para el análisis detallado es `mods-builder-analysis.md` (Capa de Auditoría).
 
-**Nota sobre evolución:** La taxonomía de `upgradeType` es parcialmente conocida y crece bajo la misma semántica del juego. Cada nuevo dominio (warframes, abilities, archon shards) puede introducir nuevos `upgradeType`. La lista no es cerrada.
+---
 
-**Gaps documentados:**
-
-- tipo de dano elemental
-- condiciones de activacion
-- progresion por rango no lineal
-- mods `UNIQUE` sin `upgradeTypes[]`
-
-**Referencia:** Decisiones y resoluciones en:
-
-- [Docs/decisions/stage-0-architecture-decisions.md](../../../decisions/stage-0-architecture-decisions.md) — mapa canonico de decisiones stage 0
-
-
+### Referencias de Integridad
+- [Mod Types (Code)](../../../Project/src/lib/types/mod.ts)

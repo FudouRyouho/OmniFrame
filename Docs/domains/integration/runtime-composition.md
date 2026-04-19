@@ -1,62 +1,52 @@
+---
+Estado: "activo"
+Rol: "Describir la jerarquía y conexión entre datos, engine, providers y UI"
+Version: "v0.0.2"
+Impacto_ID: "I-Composition"
+Fidelidad_Fisica: "Project/src/providers/"
+Fecha_de_creacion: "2026-04-18"
+Fecha_de_actualizacion: "2026-04-19"
+---
+
 # Runtime Composition
 
-> Estado: activo
-> Rol: describir como se conectan datos, engine, provider y UI
-> Fuente de verdad de: limites de la capa de integracion
-> No usar para: formulas del engine o backlog visual
-> Ultima actualizacion: 2026-03-28
+La capa de integracion conecta los loaders de datos con el estado de la UI y el motor de calculo.
 
-## Responsabilidad de esta capa
+## Jerarquia de Providers (`main.tsx`)
 
-La capa de integracion existe para conectar:
-- fetch/cache de datos
-- hidratacion runtime mientras siga existiendo
-- estado del layout activo
-- provider del builder
-- consumo por UI
+OmniFrame utiliza una jerarquia estricta para asegurar que el motor tenga acceso a los datos antes de que la UI intente renderizar.
 
-No debe:
-- redefinir schemas
-- contener formulas del engine
-- mezclar decisiones visuales con reglas de calculo
+1. `DataStateProvider`: Carga inicial de JSONs y cache.
+2. `LoadoutProvider`: Gestiona el equipamiento activo (`providers/Loadout/`).
+3. `MenuProvider`: Estado de los sub-menus y navegacion contextual.
+4. `ShellProvider`: Resuelve la zona y el layout desde la ruta (`providers/Shell/`).
+5. `ThemeProvider`: Aplicacion de estilos CSS.
 
-## Direccion recomendada
-
-La direccion actual del proyecto favorece un provider como punto central de estado,
-con hooks pequenos de lectura y escritura alrededor de ese provider.
-
-Modelo deseado:
-
-```text
-data loaders -> provider/layout state -> engine -> view models -> UI
+### Contrato del ShellProvider
+```ts
+type ShellContextValue = {
+  zone: "equipment" | "arsenal" | "profile" | "options" | "dev" | "home";
+  view: string | null;       // "warframes" | "primary" | "secondary" | "melee"
+  isDetail: boolean;          // true en vista profunda de entidad
+  entityId: string | null;    // uniqueName de la entidad activa
+  footerKind: "none" | "item-details" | "arsenal";
+  pageTitle: string;          // Título dinámico de la zona
+};
 ```
 
-Para el **primer corte horizontal** (S6), la vision operativa — rutas `/dev/*`, engine
-minimo, catalogo filtrado, flujo de estado a traves de la capa intermedia sin que la UI
-llame al motor directamente — ya quedo absorbida por `../engine/architecture.md`,
-`../../features/builder-engine/status.md` y `../../decisions/stage-0-architecture-decisions.md`.
+## Modelo de flujo
 
-Lectura operativa actual:
-- OQ-2 ya quedo cerrada (2026-03-28) con `LoadoutProvider` como frontera activa de integracion
-- esto no autoriza a mezclar shell con builder state: `ShellProvider` sigue resolviendo solo estado derivado de rutas
+```text
+Data Loaders -> LoadoutProvider -> Engine (core/engine) -> View Models -> UI
+```
 
-## Casos que viven aqui
+## Fronteras de responsabilidad
 
-- `warframeData.ts` y su hidratacion runtime actual
-- `LoadoutProvider` y sus hooks de lectura/escritura
-- transformaciones de wiring entre entities y el engine
-- carga runtime de datasets para el Resolver (`engine/runtime-deps.ts`)
+- **LoadoutProvider**: Es un gestor de estado puro. No debe contener formulas del motor; delega el calculo al `Resolver`.
+- **ShellProvider**: Resuelve solo estado derivado de la ruta (titulo, zona). No se mezcla con el estado del builder.
+- **Engine**: Vive en `core/engine/` y es independiente de React. Recibe el estado del loadout y devuelve resultados calculados.
 
-Estado real hoy:
-- `LoadoutProvider` ya existe en `Project/src/providers/Loadout/loadout-context.tsx`
-- el provider se monta en `main.tsx` con jerarquia `DataState -> Loadout -> Menu -> Shell -> Theme -> App`
-- HUD y `ArsenalView` ya consumen el estado real del loadout y los outputs derivados del engine
-- el principal pendiente de esta capa ya no es crear el provider, sino cerrar B4, persistencia y wiring real desde equipment/Profile
+## Casos de uso
 
-## Dependencias
-
-- `../../features/builder-engine/status.md`
-- `../../decisions/open-questions.md`
-- `../data/abilities/pipeline.md`
-- `runtime-hydration.md`
-- `../../features/navigation-shell/dependencies.md`
+- `LoadoutProvider` expone hooks de lectura (`useLoadout`) y escritura (`useLoadoutDispatch`).
+- HUD y `ArsenalView` consumen el output del engine a traves de selectores reactivos sobre el provider.
