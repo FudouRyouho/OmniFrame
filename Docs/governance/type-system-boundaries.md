@@ -1,7 +1,7 @@
 ---
 Estado: "activo"
 Rol: "Documentar el rol de src/shared/types/ y sus límites"
-Version: "v0.0.2"
+Version: "v0.0.3"
 Impacto_ID: "G-Types"
 Fidelidad_Fisica: "Project/src/shared/types/"
 Fecha_de_creacion: "2026-04-17"
@@ -45,7 +45,7 @@ El tipado compartido prioriza:
 - `index.ts`
 
 El vocabulario semántico canónico que respalda estos tipos vive en `../semantic/damage-types.md` y similares. 
-Antes de añadir un tipo nuevo a `lib/types/`, verificar si ya existe o está pendiente en el diccionario semántico.
+Antes de añadir un tipo nuevo a `shared/types/`, verificar si ya existe o está pendiente en el diccionario semántico.
 
 ## Decision operativa actual
 
@@ -73,8 +73,8 @@ Eso significa:
 
 - la semantica canonica de `upgradeType`, condiciones y contratos de combate mas amplios
   no se promueve todavia como shape productivo compartido
-- el conocimiento adquirido si debe quedar asentado desde ahora en JSDoc, comentarios
-  o documentacion de frontera, para evitar volver a abrir el mismo debate desde cero
+- el conocimiento adquirido si debe quedar asentado desde ahora en la documentación
+  de frontera (`docs/`), evitando narrativa interna en el código.
 - cuando el backlog de estabilizacion lo permita, la raiz canonica de damage types podra
   crecer hacia una taxonomia de combate mas amplia sin rehacer la base conceptual
 
@@ -134,7 +134,7 @@ Intencion:
 Cuando esta taxonomia se formalice:
 
 - los tipos deben dejar claro si son canonicos, inferidos o conceptuales
-- esa aclaracion debe vivir en JSDoc y en la documentacion de fronteras
+- esa aclaracion debe vivir exclusivamente en la documentacion de fronteras (`docs/`)
 - no todos los tipos necesitan la misma rigidez
 - los tipos conceptuales no deben venderse como contratos estables del dominio
 - la evolucion de B hacia C debe quedar trazable como ampliacion de frontera, no como
@@ -142,9 +142,7 @@ Cuando esta taxonomia se formalice:
 
 ## Lo que esta seccion no autoriza ahora
 
-- no obliga a renombrar archivos en `S2`
-- formaliza la migración de `src/lib/types/` a `src/shared/types/`
+- formaliza la arquitectura total de `src/shared/types/`
 - define el sistema de tipos compartidos como el lenguaje común del dominio
 
-Por ahora solo fija el contexto para que `S2 minimo` no cierre en falso una
-discusion mas profunda que se resolvera despues del backlog.
+Por ahora solo fija el contexto para evitar que se cierre en falso una discusion mas profunda que se resolvera despues del backlog.

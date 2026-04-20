@@ -8,17 +8,17 @@ Fecha_de_creacion: "2026-04-18"
 Fecha_de_actualizacion: "2026-04-19"
 ---
 
-# Builder Engine Status
+# Builder Engine Status — [CRISIS DE INTEGRIDAD]
 
-## Situación Actual: Reapertura de Boundaries
+## Situación Actual: Fallo de Arquitectura B1-B4
 
-Debido a la ambigüedad detectada en la cimentación del **Loadout** y los contratos del **Resolver**, se ha decidido reabrir el debate sobre los boundaries **B1-B4**. Esto invalida la declaración de "entrega final v1" en favor de una fase de estabilización arquitectónica.
+Se declara un **Fallo de Integridad** en los contratos del Builder. Lo que antes se entendía como una implementación referencial no cumple con el agnosticismo requerido. Se inicia la fase de **Deprecación y Re-diseño Total** del flujo de integración.
 
 ### Componentes en el Codebase
 
-- **Engine Core**: Implementado en `Project/src/core/engine/`. Fórmulas matemáticas puras y deterministas.
-- **Resolver**: Implementado en `Project/src/core/engine/resolver.ts`. Actualmente en fase de re-diseño para el flujo backward (B4).
-- **Loadout**: Implementado en `Project/src/core/engine/loadout.ts`. SSSoT del estado mutable del jugador.
+- **Engine Core**: Implementado en `Project/src/core/engine/`. **Única pieza estable**. Fórmulas matemáticas puras.
+- **Resolver**: `Project/src/core/engine/resolver.ts`. **ESTADO: ROTO**. No cumple su rol de mediación. Marcado para deprecación/re-diseño.
+- **Loadout**: `Project/src/core/engine/loadout.ts`. **ESTADO: LEGACY**. Implementación referencial acoplada a la UI. Marcado para deprecación.
 
 ## Estado de Implementación (Track de Desarrollo)
 

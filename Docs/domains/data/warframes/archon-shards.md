@@ -134,7 +134,7 @@ por comportamiento:
 
 ## Shape del schema
 
-> Decisiones de respaldo: `../../../decisions/stage-0-architecture-decisions.md` (C29, C30, C31)
+> **Nota de respaldo**: Decisiones de arquitectura indexadas en `docs/governance/closed-decisions.md` (C29-C31).
 
 ### Definición del efecto (en el schema)
 
@@ -183,7 +183,7 @@ Los tres efectos con mecánica especial se expresan con el mismo patrón:
 > Las entradas del vocabulario (`per_shard_crimson_azure_violet`, `max_energy_over_500`,
 > `on_kill_heat_status`) se añaden al catálogo incremental compartido cuando este se formalice.
 
-## Relevancia para v1
+## Relevancia para la Integración Inicial
 
 El punto de esta tabla no es soportar todas las variantes ya. Es dejar claro cuáles
 son:

@@ -9,7 +9,7 @@
  * Diferencia con ArsenalView: aquí se navega entre builds guardadas,
  * no se construye activamente.
  *
- * @todo Implementación pendiente — depende del Builder (DT-11)
+ * @todo Implementación pendiente — depende de la materialización del Builder/Arsenal
  */
 export default function ProfileView() {
   return null

@@ -12,7 +12,7 @@ Fecha_de_actualizacion: "2026-04-19"
 
 ## Flujo de Trabajo
 
-Para migrar una habilidad del estado "Raw/Legacy" al estado "Semántico (v1)", se sigue este proceso:
+Para migrar una habilidad del estado "Raw/Legacy" al estado "Semántico", se sigue este proceso:
 
 1.  **Auditoría de Fuente**: Consultar los RIPS en `docs-references/semantic-ui-rips/` para obtener la gramática base capturada.
 2.  **Identificación de Grupos**: Determinar si los efectos son base, coexistentes (Titania/Wisp) o excluyentes (Equinox/Chroma) vía `exclusive`.

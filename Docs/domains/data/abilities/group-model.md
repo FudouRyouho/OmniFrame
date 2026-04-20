@@ -3,17 +3,15 @@ Estado: "activo"
 Rol: "Documentar cómo se modelan grupos, modos y secciones dentro de una habilidad"
 Version: "v0.0.2"
 Impacto_ID: "D-Abilities-Groups"
-Fidelidad_Fisica: "Project/src/lib/types/ability.ts"
+Fidelidad_Fisica: "Project/src/shared/types/ability.ts"
 Fecha_de_creacion: "2026-04-18"
 Fecha_de_actualizacion: "2026-04-19"
 ---
 
 # Ability Group Model
 
-> **[GAP-4]** Las pasivas de warframe no tienen modelo
-> estable en `groups[]`. Las pasivas son fuente de condiciones transversales (ejemplo: Frost).
-> Hasta que las pasivas tengan schema, el diseño del vocabulario canónico de condiciones
-> está incompleto.
+> [!WARNING]
+> **Deficiencia de Diseño**: Las pasivas de warframe no tienen modelo estable en `groups[]`. Las pasivas son fuente de condiciones transversales (ejemplo: Frost). Hasta que las pasivas tengan schema, el diseño del vocabulario canónico de condiciones está incompleto.
 
 ## Regla base
 

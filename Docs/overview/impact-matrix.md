@@ -18,6 +18,18 @@ Fecha_de_actualizacion: "2026-04-20"
 > - 🔴 MAYOR: Rompe arquitectura, cambia contratos core o SSoT.
 > - 🟡 MENOR: Añade lógica de dominio o features sin romper el núcleo.
 > - 🟢 PATCH: Limpieza, perfiles IA, alineación de nombres.
+>
+> ### 🗝️ Glosario de Identificadores
+>
+> | Prefijo | Significado | Ubicación de referencia |
+> | :--- | :--- | :--- |
+> | **🔴/🟡/🟢** | Nivel de Impacto | Esta matriz |
+> | **D-x** | Decisiones (Design) | `docs/decisions/` |
+> | **E-x** | Engine (Cálculo) | `docs/domains/engine/` |
+> | **R-x** | Refactor / UI | Dominio correspondiente |
+> | **P-x** | Patch / Fix | Historial de commits / Matriz |
+> | **OQ-x** | Open Question | `docs/governance/open-questions.md` |
+> | **DC-x** | Decision Cerrada | `docs/governance/closed-decisions.md` |
 
 ---
 
@@ -33,14 +45,14 @@ _Refactorizaciones nucleares y establecimiento de leyes SSoT._
 
 ### Dominio: `integration`
 
-1. **Desacoplar LoadoutProvider (Agnosticismo Real)**
-   - **Descripción:** Actualmente `loadout-context.tsx` importa y ejecuta el `Resolver` en cada `dispatch`. Debe transformarse en un gestor de estado puro que no "sepa" calcular. La lógica de resolución debe ser externa y reactiva.
+1. **Desacoplar LoadoutProvider (Agnosticismo Real) — [CRÍTICO]**
+   - **Descripción:** El `loadout-context.tsx` es una pieza "rota" que actúa como contexto referencial. Debe ser deprecado y sustituido por un gestor de estado puro. La lógica actual acopla la UI de forma "horrible".
    - **Evidencia:** [loadout-context.tsx](../../Project/src/providers/Loadout/loadout-context.tsx).
-   - **Bloquea a:** Rendimiento del shell, Portabilidad del Engine, **B1-B4**.
+   - **Bloquea a:** Todo el proyecto. Es la prioridad #1.
    - **Depende de:** `N/A`
 
-2. **Re-arquitectura del Resolver (B1-B4) — [RE-ABIERTO]**
-   - **Descripción:** El anterior cierre (A+/E1) se declara ambiguo. Se requiere definir un contrato de payload robusto para B4 y un flujo de inyección de datos que no dependa de asunciones estáticas ("v1").
+2. **Re-arquitectura del Resolver (B1-B4) — [ESTADO: ROTO]**
+   - **Descripción:** La arquitectura actual ha fallado. Se requiere una re-definición total de los contratos de payload y la eliminación de la lógica de integración fallida. Solo se conservan las fórmulas del Engine.
    - **Bloquea a:** Todos los dominios de UI con datos reales, Consistencia del cálculo.
    - **Depende de:** `[MAYOR] Desacoplar LoadoutProvider`, `[MAYOR] Taxonomía SSoT de Daño`.
 
@@ -85,6 +97,7 @@ _Refactorizaciones nucleares y establecimiento de leyes SSoT._
 _Lógica de dominio y expansión de capacidades._
 
 | 🟡 | **Desacoplamiento de Engine** | Mover el cálculo del hilo de UI (`useMemo`) a un WebWorker o Servicio. | [E-4] |
+| 🟡 | **Estabilización de Engine** | Resolver Gaps de daño elemental y melee documentados en `engine-integrity-gaps.md`. | [E-02] |
 
 ### Dominio: `engine`
 

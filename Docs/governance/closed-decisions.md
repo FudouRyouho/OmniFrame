@@ -38,3 +38,18 @@ El proyecto tuvo una maqueta inicial para soportar inglés, español y portugué
 Solo si se formula un sistema que permita generar overrides de idioma sin mantenimiento manual por idioma. No existe ese sistema ni existe propuesta concreta para crearlo. No es una discusión activa.
 
 **No reabrir este debate** hasta que los contratos de datos estén completamente cerrados y exista una propuesta técnica concreta para los overrides multi-idioma.
+
+---
+
+## Historial de Decisiones Derivadas (OQ-Archive)
+
+| ID | Título | Decisión / Resultado |
+|---|---|---|
+| **DC-OQ-3** | Fuente de Mods | Enfoque mixto: parseo automático + overrides manuales (Project/public/data/). |
+| **DC-OQ-4** | Taxonomía Wiki | Taxonomía documental mínima sin acople prematuro al runtime de simulación. |
+| **DC-OQ-6** | Sistema de Popovers | `CustomPopover` (@tippyjs/react) como base única compartida. |
+| **DC-OQ-8** | Overrides de Tipado | Contratos explícitos por dominio ejecutados en la iteración de dataset. |
+| **DC-OQ-9** | Damage Taxonomy | Taxonomía canónica única para damage types (estabilizada). |
+| **DC-OQ-10** | Naming Conventions | Naming semántico por capa: PascalCase (Tipos), camelCase (Funciones), snake_case (Raw). |
+| **DC-OQ-11** | TextFormatter | Pertenencia a Presentation, consume semántica resuelta sin inferirla. |
+

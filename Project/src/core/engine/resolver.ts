@@ -1,6 +1,8 @@
 /**
  * @domain Engine / Resolver
  * @SSoT docs/domains/engine/status.md
+ * @deprecated ARQUITECTURA FALLIDA. El Resolver no cumple su rol de mediador agnóstico.
+ * Marcado para re-diseño total. No extender.
  */
 
 import {

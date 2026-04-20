@@ -41,7 +41,7 @@ const ArchwingWeaponDetailView = () => {
       </Link>
       <h1 className="text-2xl font-bold mb-2">{item.name}</h1>
       <p className="text-sm opacity-60">{item.description}</p>
-      {/* TODO: panel de detalle completo — placeholder hasta integración con builder */}
+      {/* Panel de detalle completo — Pendiente de integración con [R-02] */}
     </div>
   );
 };

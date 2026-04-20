@@ -19,7 +19,7 @@ El sistema de cálculo reconoce cuatro familias principales de condiciones:
 - `combat_context`: Contexto acumulativo (ej: `galvanized_stacks`, `combo_multiplier`).
 - `attack_behavior`: Comportamiento intrínseco del ataque (ej: `is_direct_hit`, `has_radial_component`).
 
-## Catálogo de Semillas (v1 Baseline)
+## Catálogo de Semillas (Baseline de Integración)
 
 Estas variables están respaldadas por la lógica de la wiki (referencia en `docs-references/wiki-data/`) y son las aceptadas por el Engine para la resolución de stats condicionados.
 
@@ -43,5 +43,5 @@ Para mantener la coherencia en los refactors batch:
 ---
 
 ### Notas de Implementación
-- El Engine v1 trata actualmente las condiciones como stubs activos.
+- El Engine trata actualmente las condiciones como stubs activos.
 - La expansión de este catálogo se realiza mediante el descubrimiento de nuevos modificadores en el pipeline de datos, tras validación contra la fuente de verdad en `docs-references/`.

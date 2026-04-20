@@ -53,7 +53,7 @@ const ArcaneDetailView = () => {
           )}
         </div>
       </div>
-      {/* TODO: stats de arcane, niveles */}
+      {/* Stats de arcane y niveles — Pendiente de integración con [R-02] */}
     </div>
   );
 };

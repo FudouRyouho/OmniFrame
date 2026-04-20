@@ -18,7 +18,7 @@ La documentación opera sobre un único árbol activo: `docs/`. Se ha completado
 | Fecha | Bloque/Decisión | Cambios clave |
 |---|---|---|
 | 2026-03-27 | Barrido General | Auditoría de 70 archivos; 16 eliminados; corrección de drift en `overview` y `domains`. |
-| 2026-03-28 | Builder & Core | OQ-2 cerrada (`LoadoutProvider`); C1-C41 indexadas en decisiones de arquitectura. |
+| 2026-03-28 | Builder & Core | OQ-2 RE-ABIERTA por desacoplamiento; C1-C41 bajo revisión estructural. |
 | 2026-04-01 | Capas Semánticas | T1 y OQ-11 cerradas; incorporación de `decision-frontier.md` y `semantic-layers.md`. |
 | 2026-04-13 | Purga Estratégica | OQ-4/OQ-8 cerradas; Opción B aprobada; centralización documental aplicada. |
 | 2026-04-17 | Governance & Shell | Centralización en `docs/governance/`, neutralización de deuda shell y eliminación de falsos positivos i18n. |

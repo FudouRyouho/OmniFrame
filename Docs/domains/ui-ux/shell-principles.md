@@ -28,13 +28,13 @@ Fecha_de_actualizacion: "2026-04-20"
 - `EquipmentContext` con `hovered`, `search`, `order`
 - toolbars dedicadas por vista con `FilterIcon`, `useDataState` y estado visual local via `use-view-filter`
 - 7 vistas de equipment operativas con datos reales bajo `domains/equipment/view/`
-- `EquipmentView` — deprecated (NS-DT-13), reemplazada por `view/*`
+- `EquipmentView` — reemplazada por arquitectura de vistas en `view/*` (Completado)
 - `domains/arcanes/` — eliminada (2026-04-14)
 
 ## Pendientes estructurales
 
-- conectar `search` y `order` del contexto a los hooks de filtrado (bloqueado por D-4)
-- mantener D-4 como debate de estructura final en integration, no como reapertura de la frontera semantica del shell
+- conectar `search` y `order` del contexto a los hooks de filtrado (Generalización de Toolbars — D-4 Completado)
+- mantener la estructura genérica de toolbars como estándar de integración
 - no confundir estado visual local de toolbar con filtrado real de dataset: hoy `use-view-filter`, `use-items-filters` y `EquipmentContext` siguen separados
 - caja de layout activo en HUD
 - rutas y componentes para Options, Profile, Arsenal (lectura vigente en `./shell-status.md`)

@@ -1,6 +1,8 @@
 /**
  * @domain Engine / Loadout
  * @SSoT docs/domains/engine/status.md
+ * @deprecated Esta implementación forma parte del modelo B1-B4 declarado ROTO. 
+ * Se mantiene por compatibilidad de runtime hasta su sustitución por un modelo de Observer puro.
  */
 
 import type { EquippedEntity, LoadoutInput } from "./resolver";

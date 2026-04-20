@@ -21,7 +21,7 @@ Fecha_de_actualizacion: "2026-04-19"
 ## Alcance de las Vistas
 
 - `/equipment/*`: Browsing de ítems e inspección de metadata (Consumidor de `shared/components/items/cards`).
-- `/arsenal`: Flujo de configuración del Loadout (implementación basada en stubs UX).
+- `/arsenal`: **ESTADO: ROTO**. Flujo basado en stubs UX con implementación altamente acoplada. Marcado para deprecación total y re-diseño.
 - `/profile` | `/options`: Rutas para gestión de caché y persistencia.
 
 ---

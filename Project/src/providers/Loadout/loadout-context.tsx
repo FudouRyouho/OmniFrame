@@ -1,7 +1,11 @@
 /**
  * @domain Integration / Providers / Loadout
  * @SSoT docs/domains/integration/runtime-composition.md
- * @status activo
+ * @status DEPRECADO
+ * 
+ * @deprecated ARQUITECTURA FALLIDA. Este proveedor actúa como un "Contexto Referencial"
+ * que acopla la UI a funciones de ejecución directa en lugar de un flujo Observer puro.
+ * Marcado para sustitución total.
  */
 import {
   createContext,
