@@ -5,7 +5,7 @@ Version: "v0.0.2"
 Impacto_ID: "SSoT-Backlog"
 Fidelidad_Fisica: "."
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-04-19"
+Fecha_de_actualizacion: "2026-04-20"
 ---
 
 # Matriz de Impacto y Dependencias (SSoT)
@@ -25,8 +25,8 @@ Fecha_de_actualizacion: "2026-04-19"
 
 _Refactorizaciones nucleares y establecimiento de leyes SSoT._
 
-| 🔴 | **Sincronización de Tests** | Los tests deben validar `Project/data/` (fuente) y no el artefacto `public/`. | [D-12] |
-| 🔴 | **Consolidación de Overrides** | Absorción de `mod-stats` y `passives` en `Project/data/overrides/` y purga de `public/`. | [D-13] |
+| 🔴 | **Sincronización de Tests** | Los tests deben validar la fuente y no el artefacto derivado de pipeline. | [D-12] |
+| 🔴 | **Consolidación de Overrides** | Saneamiento de `mod-stats` y `passives` en `Project/public/data/` (SSoT Manual). | [D-13] |
 | 🔴 | **Formalización de Facciones** | Extraer facciones de `tags[]` y cerrar el contrato de `FactionType`. | [D-14] |
 | 🔴 | **Unificación de UI (@shared)** | Migrar Cards, Specs, Popovers y Toolbars a `@shared` bajo un sistema de diseño único. | [R-01] |
 | 🔴 | **Re-definición B1-B4 (Resolver)** | Re-abrir y fijar el contrato core de comunicación entre Loadout, Resolver y Engine. | [E-01] |
@@ -35,7 +35,7 @@ _Refactorizaciones nucleares y establecimiento de leyes SSoT._
 
 1. **Desacoplar LoadoutProvider (Agnosticismo Real)**
    - **Descripción:** Actualmente `loadout-context.tsx` importa y ejecuta el `Resolver` en cada `dispatch`. Debe transformarse en un gestor de estado puro que no "sepa" calcular. La lógica de resolución debe ser externa y reactiva.
-   - **Evidencia:** [loadout-context.tsx:L123](file:///d:/Development/Warframe/OmniFrame/Project/src/providers/Loadout/loadout-context.tsx).
+   - **Evidencia:** [loadout-context.tsx](../../Project/src/providers/Loadout/loadout-context.tsx).
    - **Bloquea a:** Rendimiento del shell, Portabilidad del Engine, **B1-B4**.
    - **Depende de:** `N/A`
 
@@ -57,7 +57,7 @@ _Refactorizaciones nucleares y establecimiento de leyes SSoT._
    - **Depende de:** `N/A`.
 
 5. **Restaurar SSoT de Overrides y Eliminar Edición Runtime**
-   - **Descripción:** El archivo maestro de habilidades ha quedado en el archive o en public. Se debe restaurar en `Project/data/overrides/` y eliminar la capacidad de edición desde las rutas `/dev/*` (depreca el guardado en runtime).
+   - **Descripción:** El archivo maestro de habilidades reside en `Project/public/data/`. Se debe consolidar su mantenimiento y eliminar la capacidad de edición desde las rutas `/dev/*`.
    - **Bloquea a:** Integridad del Pipeline.
    - **Depende de:** `[MAYOR] Cierre Semántico de Habilidades`.
 
@@ -67,7 +67,7 @@ _Refactorizaciones nucleares y establecimiento de leyes SSoT._
    - **Depende de:** `docs-references/`.
 
 7. **Gaps de Normalización de Tipos (Arcane, Companion, Vehicles)**
-   - **Descripción:** El pipeline de normalización tiene gaps reales en tipos específicos (Arcane, Companion, Vehicles) que rompen el esquema de normalización del pipeline. Faltan overrides y reglas de derivación para estos dominios en `Project/data/overrides/`.
+   - **Descripción:** El pipeline de normalización tiene gaps reales en tipos específicos que rompen el esquema. Faltan overrides y reglas de derivación en `Project/public/data/`.
    - **Bloquea a:** Pipeline de datos completo, filtrado veraz por tipo, cobertura real de `generate-data.ts`.
    - **Depende de:** Contraste de Bloque 11 (auditoría Data Technical — pendiente de ejecución).
 
@@ -90,7 +90,7 @@ _Lógica de dominio y expansión de capacidades._
 
 1. **Fórmulas de Escalado de Rango (Fórmula Corregida)**
    - **Descripción:** Aplicar `(Base + RankBonus) * (1 + Mod)`. El `RankBonus` (0-30) debe inyectarse en el Pipeline (Capa Generated) para que el Engine trabaje con una base ya escalada antes de los multiplicadores.
-   - **Evidencia:** [warframe-core.ts](file:///d:/Development/Warframe/OmniFrame/Project/src/core/engine/formulas/warframe/warframe-core.ts).
+   - **Evidencia:** [warframe-core.ts](../../Project/src/core/engine/formulas/warframe/warframe-core.ts).
    - **Depende de:** `N/A`.
 
 ### Dominio: `integration`
@@ -141,6 +141,27 @@ _Lógica de dominio y expansión de capacidades._
     - **Descripción:** Conectar la alteración de la grilla de items con el estado del loadout y el recálculo reactivo del motor.
     - **Bloquea a:** Funcionalidad real del Arsenal.
     - **Depende de:** `[MAYOR] Desacoplar LoadoutProvider`, `[MENOR] Materializar Payload B4`.
+
+---
+
+## 🟡 Nivel MENOR
+
+### Dominio: `ui / shell (v0.0.3 Prep)`
+
+12. **Materialización de Shells y Stubs de Dominio**
+    - **Descripción:** Crear la estructura visual completa (sin lógica de cálculo) para `Arsenal` (Upgrade/Swap), `Profile` y `Options`.
+    - **Physical Check:** Asegurar que `ArsenalSwapView` y otros utilicen la `OmniToolbar` consolidada.
+
+13. **Derivación de Hooks de Dominio a @shared**
+    - **Descripción:** Migrar hooks agnósticos como `use-item-details.ts` fuera del dominio `equipment` hacia un espacio compartido.
+    - **Physical Evidence:** [use-item-details.ts](../../Project/src/domains/equipment/hooks/use-item-details.ts).
+
+14. **Desacoplamiento de App.tsx (Shell Cleaner)**
+    - **Descripción:** Limpiar `App.tsx` de la dependencia directa de `LoadoutProvider` y la definición monolítica de rutas. Migrar a una arquitectura de navegación dinámica.
+    - **Physical Evidence:** [App.tsx](../../Project/src/App.tsx).
+
+15. **Auditoría de Componentes de Dominio (Footer/Views)**
+    - **Descripción:** Revisar la utilidad del `ArsenalFooter` y la reutilización de vistas de `Equipment` (WarframesView, etc.) para los flujos de Swap del Arsenal.
 
 ---
 

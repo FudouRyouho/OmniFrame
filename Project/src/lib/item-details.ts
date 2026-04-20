@@ -12,7 +12,7 @@
  *   - Decisiones de layout o estilo (eso es la UI)
  */
 
-import type { Weapon, WeaponAttack, Mod } from './types'
+import type { Weapon, WeaponAttack, Mod } from '../shared/types'
 import { getWeaponStatLabels, getModStatLabels } from './i18n/stat-labels'
 import { getDamageLabels } from './i18n/damage-labels'
 

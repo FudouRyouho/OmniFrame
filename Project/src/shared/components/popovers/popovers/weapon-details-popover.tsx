@@ -1,4 +1,4 @@
-import type { Weapon } from "@lib/types";
+import type { Weapon } from "@shared/types";
 import {
   ItemDetailsFooter,
   ItemDetailsHeader,

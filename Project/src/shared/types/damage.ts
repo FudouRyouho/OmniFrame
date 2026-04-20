@@ -1,12 +1,8 @@
 // ── Damage Types ──────────────────────────────────────────────────────────────
 
 /**
- * Taxonomia canonica compartida de damage types.
- *
- * Alcance actual (opcion B): unifica key, familia semantica minima, aliases raw,
- * iconografia y copy base en una sola raiz compartida.
- *
- * No modela todavia semantica amplia de `upgradeType` ni condiciones de combate.
+ * @domain Shared / Types / Damage
+ * @SSoT docs/domains/semantic/damage-types.md
  */
 export type DamageType =
   | 'impact' | 'puncture' | 'slash'
@@ -249,18 +245,12 @@ export interface WeaponAttack {
   name: string
   damage?: DamageMap
   totalDamage?: number
-  /** Decimal format (0.32 = 32%), normalized from @wfcd/items integer format */
-  crit_chance?: number | null
+  crit_chance?: number | null;
   crit_mult?: number | null
-  /** Decimal format (0.18 = 18%), normalized from @wfcd/items integer format */
-  status_chance?: number | null
+  status_chance?: number | null;
   /** Fire rate (ranged) or attack speed (melee). */
   speed?: number | null
-  /**
-   * Semantic attack type derivado por el pipeline.
-   * - `null` cuando la fuente no trae `shot_type`
-   * - `'unknown'` cuando la fuente trae un valor fuera del vocabulario canonico actual
-   */
+  /** Semantic attack type. */
   shot_type?: WeaponShotType | null
   /** Projectile speed in m/s. null when not applicable or instantaneous. */
   flight?: number | null
@@ -269,9 +259,5 @@ export interface WeaponAttack {
   slide?: string | null
   /** Charge time in seconds. */
   charge_time?: number | null
-  /**
-   * @gap punchThrough
-   * Some attacks have base punch through but @wfcd/items does NOT include it.
-   * Pending: determine if an override file is needed.
-   */
+  punchThrough?: number | null;
 }

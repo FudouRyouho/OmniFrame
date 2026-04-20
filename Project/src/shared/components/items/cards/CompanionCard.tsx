@@ -1,4 +1,4 @@
-import type { Companion } from "@lib/types";
+import type { Companion } from "@shared/types";
 import CustomPopover from "@shared/components/CustomPopover";
 import BaseItemCard from "./BaseItemCard";
 import CompanionDetailsPopover from "@shared/components/popovers/popovers/companion-details-popover";

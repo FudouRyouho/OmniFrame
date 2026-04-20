@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
-Rol: "Documentar el rol de src/lib/types/ y sus límites"
+Rol: "Documentar el rol de src/shared/types/ y sus límites"
 Version: "v0.0.2"
 Impacto_ID: "G-Types"
-Fidelidad_Fisica: "Project/src/lib/types/"
+Fidelidad_Fisica: "Project/src/shared/types/"
 Fecha_de_creacion: "2026-04-17"
-Fecha_de_actualizacion: "2026-04-19"
+Fecha_de_actualizacion: "2026-04-20"
 ---
 
 # Type System Boundaries
@@ -37,7 +37,11 @@ El tipado compartido prioriza:
 - `weapon.ts`
 - `warframe.ts`
 - `mod.ts`
-- `legacy.ts`
+- `arcane.ts`
+- `companion.ts`
+- `archwing-weapon.ts`
+- `vehicle.ts`
+- `polarity.ts`
 - `index.ts`
 
 El vocabulario semántico canónico que respalda estos tipos vive en `../semantic/damage-types.md` y similares. 
@@ -48,7 +52,7 @@ Antes de añadir un tipo nuevo a `lib/types/`, verificar si ya existe o está pe
 Cierre vigente para este corte:
 
 - opcion B — consolidar una taxonomia canonica unica para damage types dentro de la
-  frontera compartida de `src/lib/types/`
+  frontera compartida de `src/shared/types/`
 - esta raiz debe servir para eliminar drift entre tipo base, aliases raw, labels,
   iconografia y familias semanticas minimas usadas por consumidores actuales
 - la decision no autoriza todavia a promover una taxonomia de combate mas amplia al
@@ -57,7 +61,7 @@ Cierre vigente para este corte:
 Este checkpoint se considera suficiente para estabilizacion: hasta aca esta bien.
 
 Implementacion base aplicada:
-- `Project/src/lib/types/damage.ts` concentra ahora la raiz canonica minima
+- `Project/src/shared/types/damage.ts` concentra ahora la raiz canonica minima
 - labels, aliases raw y iconografia consumen esa raiz en vez de mantener tablas paralelas
 - este corte cierra drift de damage types sin promover todavia semantica amplia de combate
 
@@ -139,8 +143,8 @@ Cuando esta taxonomia se formalice:
 ## Lo que esta seccion no autoriza ahora
 
 - no obliga a renombrar archivos en `S2`
-- no obliga a refactorizar hoy `src/lib/types/`
-- no redefine todavia el sistema de tipos compartidos
+- formaliza la migración de `src/lib/types/` a `src/shared/types/`
+- define el sistema de tipos compartidos como el lenguaje común del dominio
 
 Por ahora solo fija el contexto para que `S2 minimo` no cierre en falso una
 discusion mas profunda que se resolvera despues del backlog.

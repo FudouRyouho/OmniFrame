@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import type { BaseItem } from "@lib/types";
-import { isMod, isWeapon } from "@lib/types";
+import type { BaseItem } from "@shared/types";
+import { isMod, isWeapon } from "@shared/types";
 import { AttackProfilePanel } from "./attack-profile-panel";
 import { ModDetailsView } from "./mod-details-view";
 import { ItemDetailsHeader, ItemDetailsFooter } from "./item-details-header";

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { useItems } from "../hooks/use-items";
 import ItemsGrid from "../ItemsGrid";
 import VehicleCard from "@shared/components/items/cards/VehicleCard";
-import type { Vehicle } from "@lib/types";
+import type { Vehicle } from "@shared/types";
 import { toRouteSlug } from "@lib/route-id";
 
 const VehiclesView = () => {

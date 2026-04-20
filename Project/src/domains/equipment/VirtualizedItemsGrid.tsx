@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import type { BaseItem } from "@lib/types";
+import type { BaseItem } from "@shared/types";
 
 const DEFAULT_MIN_COLUMN_WIDTH = 190;
 const DEFAULT_GAP = 8;
@@ -36,14 +36,12 @@ const VirtualizedItemsGrid = <TItem extends BaseItem = BaseItem>({
 
   const computedCellWidth =
     columnCount > 0
-      ? Math.max(
-          0,
-          (containerWidth - gap * (columnCount - 1)) / columnCount,
-        )
+      ? Math.max(0, (containerWidth - gap * (columnCount - 1)) / columnCount)
       : minColumnWidth;
 
   // Los cards son aspect-square, así que la altura real sigue el ancho de celda.
-  const effectiveItemSize = computedCellWidth > 0 ? computedCellWidth : minColumnWidth;
+  const effectiveItemSize =
+    computedCellWidth > 0 ? computedCellWidth : minColumnWidth;
   const rowSize = effectiveItemSize + gap;
 
   // Calcular columnas según ancho del contenedor y el ancho mínimo deseado.
@@ -53,7 +51,10 @@ const VirtualizedItemsGrid = <TItem extends BaseItem = BaseItem>({
     const observer = new ResizeObserver((entries) => {
       const width = entries[0].contentRect.width;
       setContainerWidth(width);
-      const cols = Math.max(1, Math.floor((width + gap) / (minColumnWidth + gap)));
+      const cols = Math.max(
+        1,
+        Math.floor((width + gap) / (minColumnWidth + gap)),
+      );
       setColumnCount(cols);
     });
 
@@ -75,7 +76,10 @@ const VirtualizedItemsGrid = <TItem extends BaseItem = BaseItem>({
   });
 
   return (
-    <div ref={parentRef} className={`h-full overflow-y-scroll pr-1 ${className}`}>
+    <div
+      ref={parentRef}
+      className={`h-full overflow-y-scroll pr-1 ${className}`}
+    >
       <div
         style={{
           height: `${rowVirtualizer.getTotalSize()}px`,

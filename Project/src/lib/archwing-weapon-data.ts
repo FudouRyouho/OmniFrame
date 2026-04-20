@@ -1,4 +1,4 @@
-import type { ArchwingWeapon } from './types';
+import type { ArchwingWeapon } from '../shared/types';
 import { db, fetchWithCache } from './db';
 import { hydrateImageFromImageName } from './image-url';
 import { matchesRouteIdentifier } from './route-id';

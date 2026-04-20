@@ -1,4 +1,4 @@
-import type { Weapon } from "@lib/types";
+import type { Weapon } from "@shared/types";
 import CustomPopover from "@shared/components/CustomPopover";
 import BaseItemCard from "./BaseItemCard";
 import WeaponDetailsPopover from "@shared/components/popovers/popovers/weapon-details-popover";

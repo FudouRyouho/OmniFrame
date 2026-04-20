@@ -1,15 +1,7 @@
 /**
- * @stub Store singleton del carril UX paralelo de Arsenal (R4).
- *
- * Usa useSyncExternalStore con estado de módulo para persistir entre navegaciones
- * sin necesidad de un provider React. Este patrón es intencional para el stub:
- * simple, sin reset, sin SSR safety.
- *
- * En runtime se reemplaza por un provider/contexto siguiendo el patrón de
- * LoadoutProvider (useReducer + contexto React). No extender este patrón
- * a otros dominios.
- *
- * Referencia: Docs/domains/builder-engine/status.md (Tramo 4, carril R4)
+ * @domain Features / Arsenal / State
+ * @SSoT docs/domains/ui-ux/shell-status.md
+ * @status stub / persistencia temporal
  */
 import { useMemo, useSyncExternalStore } from "react";
 import {

@@ -1,4 +1,4 @@
-import type { Mod } from './types'
+import type { Mod } from '../shared/types'
 import { db, fetchWithCache } from './db'
 import { hydrateImageFromImageName } from './image-url'
 import { matchesRouteIdentifier } from './route-id'

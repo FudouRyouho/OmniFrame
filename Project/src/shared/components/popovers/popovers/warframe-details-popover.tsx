@@ -1,4 +1,4 @@
-import type { Warframe } from "@lib/types";
+import type { Warframe } from "@shared/types";
 import {
   ItemDetailsHeader,
   ItemDetailsFooter,

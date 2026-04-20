@@ -1,4 +1,4 @@
-import type { Arcane } from "@lib/types";
+import type { Arcane } from "@shared/types";
 import CustomPopover from "@shared/components/CustomPopover";
 import BaseItemCard from "./BaseItemCard";
 import ArcaneDetailsPopover from "@shared/components/popovers/popovers/arcane-details-popover";

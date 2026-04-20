@@ -5,7 +5,7 @@ Version: "v0.0.2"
 Impacto_ID: "UI-UX-Shell"
 Fidelidad_Fisica: "Project/src/providers/Shell/"
 Fecha_de_creacion: "2026-04-01"
-Fecha_de_actualizacion: "2026-04-19"
+Fecha_de_actualizacion: "2026-04-20"
 ---
 
 # Shell And Navigation
@@ -37,11 +37,11 @@ Fecha_de_actualizacion: "2026-04-19"
 - mantener D-4 como debate de estructura final en integration, no como reapertura de la frontera semantica del shell
 - no confundir estado visual local de toolbar con filtrado real de dataset: hoy `use-view-filter`, `use-items-filters` y `EquipmentContext` siguen separados
 - caja de layout activo en HUD
-- rutas y componentes para Options, Profile, Arsenal (lectura vigente en `../../domains/navigation-shell/status.md`)
+- rutas y componentes para Options, Profile, Arsenal (lectura vigente en `./shell-status.md`)
 - wiring definitivo hacia el builder
 
 ## Dependencias
 
 - `../integration/runtime-composition.md`
-- `../../domains/navigation-shell/status.md`
-- `../../domains/builder-engine/status.md`
+- `./shell-status.md`
+- `../engine/status.md`

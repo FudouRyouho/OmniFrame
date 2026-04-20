@@ -1,3 +1,8 @@
+/**
+ * @domain Engine / Runtime / Dependencies
+ * @SSoT docs/domains/integration/runtime-hydration.md
+ * @status activo
+ */
 import { fetchWarframes } from "@lib/warframe-data";
 import { fetchWeapons } from "@lib/weapon-data";
 import {

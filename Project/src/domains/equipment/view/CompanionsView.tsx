@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { useItems } from "../hooks/use-items";
 import ItemsGrid from "../ItemsGrid";
 import CompanionCard from "@shared/components/items/cards/CompanionCard";
-import type { Companion } from "@lib/types";
+import type { Companion } from "@shared/types";
 import { toRouteSlug } from "@lib/route-id";
 
 const CompanionsView = () => {

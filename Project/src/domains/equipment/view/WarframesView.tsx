@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { useItems } from "../hooks/use-items";
 import ItemsGrid from "../ItemsGrid";
 import WarframeCard from "@shared/components/items/cards/WarframeCard";
-import type { Warframe } from "@lib/types";
+import type { Warframe } from "@shared/types";
 import { toRouteSlug } from "@lib/route-id";
 
 const WarframesView = () => {

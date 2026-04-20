@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { BaseItem, Kind, Mod, ModCategory } from "@lib/types";
+import type { BaseItem, Kind, Mod, ModCategory } from "@shared/types";
 
 /**
  * Tipos de ordenamiento soportados.

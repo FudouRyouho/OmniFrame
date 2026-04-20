@@ -5,7 +5,7 @@ Version: "v0.0.2"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-04-19"
+Fecha_de_actualizacion: "2026-04-20"
 ---
 
 # Open Questions
@@ -61,13 +61,13 @@ Lectura operativa: `DamageType` canónico con aliases raw, labels e iconografía
 
 Decision: naming semántico por capa, no convención única global.
 Lectura operativa: `PascalCase` tipos/componentes; `camelCase` funciones/hooks símbolo; `kebab-case` módulos técnicos/docs; `snake_case` contratos raw/persistidos; `UPPER_SNAKE_CASE` IDs externos del juego.
-Referencia canónica: `../domains/integration/naming-conventions.md`.
+Referencia canónica: `../governance/naming-conventions.md`.
 
 ## OQ-11 - Frontera canonica de `TextFormatter` ✓ CERRADO (2026-04-01)
 
 Decision: clase padre + estrategias/adaptadores mínimos por categoría; pertenece a presentation, no data ni integration; consume semántica ya resuelta sin inventarla.
 Lectura operativa: implementación productiva diferida hasta que existan categorías semánticas observables (`FACTION` y equivalentes). `TextFormatView` sigue como harness visual/experimental.
-Referencia canónica: `../domains/ui/presentation-layer.md`.
+Referencia canónica: `../domains/ui-ux/presentation-layer.md`.
 
 ## OQ-12 - Definicion del contrato Backward Resolver (B4) — **RE-ABIERTO (2026-04-18)**
 

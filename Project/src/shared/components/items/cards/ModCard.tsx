@@ -1,4 +1,4 @@
-import type { Mod } from "@lib/types";
+import type { Mod } from "@shared/types";
 import CustomPopover from "@shared/components/CustomPopover";
 import BaseItemCard from "./BaseItemCard";
 import ModDetailsPopover from "@shared/components/popovers/popovers/mod-details-popover";

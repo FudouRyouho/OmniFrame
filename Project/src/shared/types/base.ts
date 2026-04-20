@@ -1,4 +1,7 @@
-// ── BaseItem Type System ──────────────────────────────────────────────────────
+/**
+ * @domain Shared / Types / Base
+ * @SSoT docs/domains/semantic/damage-types.md
+ */
 
 import type { Mod } from './mod';
 import type { Warframe } from './warframe';
@@ -7,10 +10,10 @@ import type { Weapon } from './weapon';
 export type Kind = 'warframe' | 'primary' | 'secondary' | 'melee' | 'mod' | 'arcane' | 'companion' | 'archgun' | 'archmelee' | 'necramech' | 'archwing';
 
 export interface BaseItem {
-  id: string;              // uniqueName ?? name
+  id: string;
   name: string;
-  kind: Kind;              // Lowercase category
-  image: string | null;    // Ruta runtime (local o remota)
+  kind: Kind;
+  image: string | null;
   imageName?: string | null;
   uniqueName: string;
   type?: string | null;
@@ -19,8 +22,7 @@ export interface BaseItem {
   tags?: string[];
 }
 
-// Type guards: siguen basados en `kind`, pero exponen el tipo concreto
-// para que los consumers no tengan que reconstruir el shape manualmente.
+// Type guards
 
 export const isWeapon = (item: BaseItem): item is Weapon =>
   item.kind === 'primary' || item.kind === 'secondary' || item.kind === 'melee';

@@ -2,13 +2,8 @@ import type { ReactNode } from "react";
 import { Orbit } from "lucide-react";
 
 /**
- * Panel de preview lateral reutilizable.
- *
- * Usado en ArsenalView (preview del slot activo) y ArsenalSwapView (preview
- * del item seleccionado en el catálogo). Acepta children para slots opcionales
- * como ability nodes, archon shards, etc.
- *
- * Candidato a revisión de nombre/jerarquía en la componentización general de UI.
+ * @domain Shared / Components
+ * @SSoT docs/domains/ui-ux/shell-principles.md
  */
 export type PreviewPanelProps = {
   name: string;

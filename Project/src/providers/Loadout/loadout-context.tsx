@@ -1,3 +1,8 @@
+/**
+ * @domain Integration / Providers / Loadout
+ * @SSoT docs/domains/integration/runtime-composition.md
+ * @status activo
+ */
 import {
   createContext,
   startTransition,

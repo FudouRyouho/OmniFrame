@@ -6,8 +6,8 @@
 >
 > **La autoridad actual reside en**:
 >
-> 1. [workflow.md](file:///d:/Development/Warframe/OmniFrame/.agents/workflows/workflow.md): Leyes de **Arquitectura y Operación Global**.
-> 2. [docs-workflow.md](file:///d:/Development/Warframe/OmniFrame/.agents/workflows/docs-workflow.md): Gobenanza y **Gestión de la Biblioteca Documental**.
+> 1. [workflow.md](../../.agents/workflows/workflow.md): Leyes de **Arquitectura y Operación Global**.
+> 2. [docs-workflow.md](../../.agents/workflows/docs-workflow.md): Gobenanza y **Gestión de la Biblioteca Documental**.
 >
 > No realice ediciones en este archivo; cualquier cambio debe ser aplicado en los workflows mencionados según corresponda.
 
@@ -16,7 +16,7 @@
 > Estado: histórico/deprecado — **Mantenido para referencia hasta validación final**
 > Rol: antiguo manual de reglas de documentación.
 > Fuente de verdad original: como se documentaba en OmniFrame
-> Ultima actualizacion: 2026-04-18
+> Ultima actualizacion: 2026-04-20
 
 ## Jerarquia del arbol (`docs/`)
 

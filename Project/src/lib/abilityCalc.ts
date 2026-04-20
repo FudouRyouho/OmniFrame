@@ -4,7 +4,7 @@
  * Consume AbilityStatValue + EngineVars y devuelve el valor calculado.
  */
 
-import type { AbilityStatValue } from "./types";
+import type { AbilityStatValue } from "../shared/types";
 
 export interface EngineVars {
   STR: number; // porcentaje, ej. 100 = 100%

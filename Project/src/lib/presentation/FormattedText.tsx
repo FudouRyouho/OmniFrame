@@ -1,6 +1,6 @@
 import React from "react";
 import { IconDamageType } from "@lib/presentation/icons/IconDamageType";
-import { resolveDamageTypeTag } from "@lib/types";
+import { resolveDamageTypeTag } from "@shared/types";
 
 /**
  * FormattedText — parsea texto con tags DT_* y los reemplaza por IconDamageType.
@@ -17,7 +17,10 @@ interface FormattedTextProps {
   className?: string;
 }
 
-export const FormattedText: React.FC<FormattedTextProps> = ({ text, className }) => {
+export const FormattedText: React.FC<FormattedTextProps> = ({
+  text,
+  className,
+}) => {
   if (!text) return null;
 
   const regex = /([|<])(DT_[A-Z0-9_]+)([|>])/gi;
@@ -31,7 +34,9 @@ export const FormattedText: React.FC<FormattedTextProps> = ({ text, className })
     }
 
     const rawTag = match[2].toUpperCase();
-    const variant: "colored" | "outline" = rawTag.endsWith("_OUTLINE") ? "outline" : "colored";
+    const variant: "colored" | "outline" = rawTag.endsWith("_OUTLINE")
+      ? "outline"
+      : "colored";
     const iconKey = resolveDamageTypeTag(rawTag);
 
     if (iconKey) {
@@ -41,7 +46,7 @@ export const FormattedText: React.FC<FormattedTextProps> = ({ text, className })
           value={iconKey}
           variant={variant}
           showLabel={true}
-        />
+        />,
       );
     } else {
       parts.push(match[0]);

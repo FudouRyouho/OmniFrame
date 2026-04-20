@@ -1,21 +1,6 @@
 /**
- * @module engine/index
- * @description Engine v1 — orquestador de cálculo puro.
- *
- * Implementa: calculate(resolved: ResolvedLayout, context: CalculationContext): EngineOutput
- *
- * El Engine recibe ResolvedLayout (B2) — base stats + lista plana de ResolvedStat[] por canal,
- * ya resuelta por el Resolver — y devuelve EngineOutput (B3) con los stats calculados.
- *
- * El Engine:
- *   - NO accede a ningún JSON ni dataset
- *   - NO tiene estado interno
- *   - Agrega ResolvedStat[] por upgradeType (suma) y delega fórmulas a los módulos de formulas/
- *   - Para armas: agrega mods weapon-level y aplica a cada ataque por separado (C38)
- *   - Ruteado de AVATAR_ABILITY_STRENGTH: no va a los stats base — va a abilityStrength (C35/NOTA-A)
- *
- * Contratos cerrados: C35, C36, C37, C38 — Docs/decisions/stage-0-architecture-decisions.md
- * Fórmulas: Docs/domains/engine/formula-overview.md
+ * @domain Engine / Orquestador
+ * @SSoT docs/domains/engine/status.md
  */
 
 import { round2 } from "./formulas/common/scaling-base";
@@ -27,10 +12,6 @@ import {
 	calculateWeaponStats,
 	type WeaponModBonuses,
 } from "./formulas/weapon/weapon-core";
-
-// =============================================================================
-// BOUNDARY B2 — ResolvedLayout (Resolver → Engine)
-// =============================================================================
 
 export type AttackDeliveryType =
 	| "hitscan-single"
@@ -92,13 +73,7 @@ export interface ResolvedLayout {
 }
 
 export interface CalculationContext {
-	// v1: vacío — todas las condiciones tratadas como activas
-	// v1+: ConditionState[] con las condiciones activas del jugador
 }
-
-// =============================================================================
-// BOUNDARY B3 — EngineOutput (Engine → Resolver)
-// =============================================================================
 
 export interface WarframeStatOutput {
 	health: number;
@@ -106,12 +81,7 @@ export interface WarframeStatOutput {
 	armor: number;
 	power: number;
 	sprintSpeed: number;
-	/**
-	 * Multiplicador de Ability Strength derivado de AVATAR_ABILITY_STRENGTH.
-	 * Canal separado — no afecta los stats base del Warframe (NOTA-A).
-	 * Solo presente si hay mods de Ability Strength equipados.
-	 * Ejemplo: Intensify rank 5 (30%) → abilityStrength = 1.30
-	 */
+	/** Multiplicador de Ability Strength derivado de AVATAR_ABILITY_STRENGTH. */
 	abilityStrength?: number;
 }
 
@@ -130,7 +100,7 @@ export interface WeaponAttackOutput {
 export interface WeaponStatOutput {
 	magazineSize: number;
 	reloadTime: number;
-	/** Mismo orden y largo que WeaponBase.attacks[] (C38). */
+	/** Mismo orden y largo que WeaponBase.attacks[]. */
 	attacks: WeaponAttackOutput[];
 }
 
@@ -141,11 +111,6 @@ export interface EngineOutput {
 	meleeWeapon?: WeaponStatOutput;
 }
 
-// =============================================================================
-// IMPLEMENTACIÓN
-// =============================================================================
-
-/** Agrega ResolvedStat[] en un mapa upgradeType → suma de valores. */
 function aggregateStats(stats: ResolvedStat[]): Record<string, number> {
 	const agg: Record<string, number> = {};
 	for (const stat of stats) {
@@ -200,12 +165,6 @@ function calculateWeaponChannel(channel: ResolvedChannel<WeaponBase>): WeaponSta
 	return calculateWeaponStats(channel.base, modBonuses);
 }
 
-/**
- * Calcula los stats finales para todas las entidades del layout.
- *
- * @param resolved Layout con base stats + ResolvedStat[] ya resueltos por el Resolver.
- * @param _context v1: vacío — todas las condiciones activas.
- */
 export function calculate(
 	resolved: ResolvedLayout,
 	_context: CalculationContext,

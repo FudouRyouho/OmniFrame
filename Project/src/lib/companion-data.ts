@@ -1,4 +1,4 @@
-import type { Companion } from './types';
+import type { Companion } from '../shared/types';
 import { db, fetchWithCache } from './db';
 import { hydrateImageFromImageName } from './image-url';
 import { matchesRouteIdentifier } from './route-id';

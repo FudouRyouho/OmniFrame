@@ -1,4 +1,4 @@
-import type { Vehicle } from "@lib/types";
+import type { Vehicle } from "@shared/types";
 import {
   ItemDetailsHeader,
   ItemDetailsFooter,

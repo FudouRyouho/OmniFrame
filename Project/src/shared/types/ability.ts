@@ -1,8 +1,8 @@
 // ── Ability Schema (groups[]) ────────────────────────────────────────────────
 
 /**
- * Variable del engine que escala el valor base de un stat de habilidad.
- * Usa los identificadores canónicos del engine (mismos que upgradeTypes[] en mods).
+ * @domain Shared / Types / Ability
+ * @SSoT docs/domains/data/abilities/formula-patterns.md
  */
 export type AbilityUpgradeBy =
   | 'AVATAR_ABILITY_STRENGTH'    // escala con Ability Strength

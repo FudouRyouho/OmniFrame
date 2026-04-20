@@ -1,5 +1,7 @@
-// ── Weapon ────────────────────────────────────────────────────────────────────
-
+/**
+ * @domain Shared / Types / Weapon
+ * @SSoT docs/domains/semantic/damage-types.md
+ */
 import type { BaseItem } from './base'
 import type { DamageMap, WeaponAttack } from './damage'
 

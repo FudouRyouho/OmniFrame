@@ -5,7 +5,7 @@ Version: "v0.0.2"
 Impacto_ID: "I-Hydration"
 Fidelidad_Fisica: "Project/src/lib/warframeData.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-04-19"
+Fecha_de_actualizacion: "2026-04-20"
 ---
 
 # Runtime Hydration
@@ -14,7 +14,7 @@ OmniFrame realiza hidratacion de datos en runtime para permitir la inyeccion de 
 
 ## Flujo de hidratacion
 
-1. El `DataStateProvider` dispara la carga de los JSON base.
+1. El sistema de hidratación runtime (warframe-data.ts) dispara la carga de los JSON base.
 2. `warframeData.ts` (en `lib/`) resuelve el fetch y aplica el cache inicial.
 3. Se inyectan los overrides locales de `Project/data/overrides/` (SSoT Manual).
 4. El engine recibe el payload hidratado para sus operaciones.

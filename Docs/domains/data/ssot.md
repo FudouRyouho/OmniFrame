@@ -25,18 +25,14 @@ Debido a la desincronización y falta de fidelidad de las fuentes externas (Wiki
 | pasivas              | generated/manual  | `Project/public/data/passives.json`               |
 | arcanos              | scraper/manual    | `Project/public/data/arcanes.json`                |
 
-## ❗ Alerta de Desviación (Drift)
+## Regla de Oro: SSoT en `public/data`
 
-El plan original de migrar a `Project/data/` (fuera de `public/`) **no ha sido ejecutado aún**. La documentación previa mencionaba esta ruta como activa, pero físicamente no existe. La Matriz de Impacto tiene esta tarea pendiente como nivel 🔴 [D-13].
-
-## Regla de Oro: El fin de `public/data`
-
-1.  **Entorno de Trabajo**: Se trabaja temporalmente en `Project/public/data/` hasta completar la tarea [D-13].
-2.  **Advertencia**: No intentar crear ni buscar archivos en `Project/data/` hasta que la tarea de migración sea oficialmente marcada como finalizada en la Matriz de Impacto.
+1.  **Entorno de Trabajo**: El mantenimiento manual se realiza directamente en `Project/public/data/`.
+2.  **Advertencia**: No utilizar rutas teóricas fuera de `public/` para evitar desincronización con el sistema de carga (hydration).
 
 ## Verificación
 
-Los tests del engine DEBEN importar sus dependencias desde `Project/data/` para garantizar que validan la fuente de verdad antes de cualquier proceso de publicación.
+Los tests del engine DEBEN importar sus dependencias desde `Project/public/data/` para garantizar que validan la fuente de verdad activa.
 
 Ver:
 

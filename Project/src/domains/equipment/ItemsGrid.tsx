@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
-import type { BaseItem } from "@lib/types";
+import type { BaseItem } from "@shared/types";
 
 /**
  * ItemsGrid - Migrated from App-legacy
- * 
+ *
  * BaseItem compatibility: This component is generic over BaseItem,
  * allowing it to work with any item type (Weapon, Warframe, Mod).
- * 
+ *
  * Usa composition pattern vía renderItem.
  * El fallback legacy quedó archivado en items-grid-fallback.tsx.
  *
@@ -49,7 +49,7 @@ const ItemsGrid = <TItem extends BaseItem = BaseItem>({
         const renderTime = performance.now() - renderStartTime.current;
         console.log(
           `%c[PERF] ItemsGrid render: ${renderTime.toFixed(2)}ms (${items.length} items)`,
-          'color: #a29bfe; font-weight: bold'
+          "color: #a29bfe; font-weight: bold",
         );
         renderStartTime.current = 0;
       }

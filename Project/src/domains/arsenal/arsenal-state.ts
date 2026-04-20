@@ -1,29 +1,10 @@
 /**
- * @stub Arsenal state — infraestructura del carril UX paralelo (R4).
- *
- * Este archivo tiene tres capas con naturalezas distintas:
- *
- * 1. TIPOS / CONTRATOS POTENCIALMENTE CANÓNICOS
- *    Tipos que probablemente sobreviven al stub y forman parte del contrato
- *    real de Arsenal en runtime: ArsenalMetadataSource, ArsenalMetadataPresence,
- *    ArchonShardType, ArsenalMetadataState y sus interfaces hijas.
- *
- * 2. CATÁLOGO MOCK DE DOMINIO (ARCHON_SHARD_CATALOG)
- *    Datos reales del juego hardcodeados como mock. Se reemplaza por JSON
- *    cuando archon-shards tenga pipeline de datos propio.
- *    Referencia: Docs/domains/builder-engine/archon-shards-integration.md
- *
- * 3. MUTACIONES PURAS + FACTORIES DE DEFAULTS MOCK
- *    Funciones de transformación de estado (potencialmente canónicas) y
- *    factories de estado inicial vacío/mock (transicionales).
- *
- * No leer este archivo como implementación final de producto.
- * Referencia: Docs/domains/builder-engine/status.md (Tramo 4, carril R4)
+ * @domain Features / Arsenal
+ * @SSoT docs/domains/ui-ux/shell-status.md
+ * @status stub / en desarrollo
  */
 
-// =============================================================================
-// SECCIÓN 1 — TIPOS / CONTRATOS POTENCIALMENTE CANÓNICOS
-// =============================================================================
+// --- Tipos de Dominio ---
 
 export type ArsenalMetadataSource =
   | "core"
@@ -164,10 +145,7 @@ export interface ArsenalUiState {
   selectedArchonShardSlotIndex: number | null;
 }
 
-// =============================================================================
-// SECCIÓN 2 — CATÁLOGO MOCK DE DOMINIO (transicional)
-// Se reemplaza por JSON cuando archon-shards tenga pipeline de datos propio.
-// =============================================================================
+// --- Catálogo Mock (Transicional) ---
 
 export const ARCHON_SHARD_CATALOG: readonly ArchonShardCatalogEntry[] = [
   {
@@ -394,11 +372,7 @@ export const ARCHON_SHARD_BONUS_CATALOG: readonly ArchonShardBonusCatalogEntry[]
     })),
   );
 
-// =============================================================================
-// SECCIÓN 3 — MUTACIONES PURAS + FACTORIES DE DEFAULTS MOCK
-// Las mutaciones (replace*, equip*, clear*, select*) son potencialmente canónicas.
-// Las factories createDefault* son transicionales — generan estado mock inicial.
-// =============================================================================
+// --- Mutaciones y Factories ---
 
 function createMetadataEntity(
   label: string,

@@ -1,4 +1,4 @@
-import type { ArchwingWeapon } from "@lib/types";
+import type { ArchwingWeapon } from "@shared/types";
 import {
   ItemDetailsHeader,
   ItemDetailsFooter,

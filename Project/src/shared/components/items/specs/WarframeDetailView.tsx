@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router";
 import { fetchWarframe } from "@lib/warframe-data";
-import type { Warframe } from "@lib/types";
-import type { Ability } from "@lib/types/ability";
+import type { Warframe } from "@shared/types";
+import type { Ability } from "@shared/types/ability";
 import { resolveLocalImageUrl } from "@lib/image-url";
 import { FormattedText } from "@lib/presentation/FormattedText";
 import { StatRow } from "./stat-row";

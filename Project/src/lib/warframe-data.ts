@@ -1,23 +1,8 @@
 /**
- * warframe-data — fetch y cache de datos estáticos de Warframes.
- *
- * Responsabilidades de esta capa:
- *   - Fetch de los JSON estáticos generados por generate-data.ts
- *   - Cache en memoria para evitar peticiones redundantes
- *   - Hidratación runtime: merge de ability-stats.override.json + passives.json
- *     sobre los punteros que genera el pipeline de build
- *
- * @note La hidratación de abilities y passives ocurre aquí (runtime) porque
- * ability-stats.override.json es editable desde el Editor UI sin pasar por el pipeline
- * de build. Cuando el pipeline absorba completamente el override de abilities,
- * esta hidratación deberá moverse a generate-data.ts (DT-1).
- *
- * No hace:
- *   - Lógica de cálculo
- *   - Decisiones de presentación
- *   - Transformaciones de formato (eso es generate-data.ts)
+ * @domain Shared / Data / Warframe
+ * @SSoT docs/domains/integration/runtime-hydration.md
  */
-import type { Warframe, Ability, AbilityStatsData } from './types'
+import type { Warframe, Ability, AbilityStatsData } from '../shared/types'
 import { db, fetchWithCache } from './db'
 import { hydrateImageFromImageName } from './image-url'
 import { matchesRouteIdentifier } from './route-id'
@@ -26,15 +11,7 @@ import { matchesRouteIdentifier } from './route-id'
 
 let cache: Warframe[] | null = null
 
-// ── Transformación de abilities ───────────────────────────────────────────────
-
-/**
- * Hidrata una ability con los datos de ability-stats.override.json.
- * Maneja la transición de estructura legacy (array) a nueva (objeto).
- *
- * @note Estructura legacy: array de rows con { name, description, icon, ...stats }
- * @note Estructura nueva: { name, description, imageName, stats: AbilityStat[] }
- */
+/** Hidrata abilities con overrides runtime. */
 const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Ability => {
   const dbEntry = statsDb[ability.uniqueName]
 
@@ -96,15 +73,6 @@ const fetchWarframesFromJSON = async (): Promise<Warframe[]> => {
   const passivesDb: Record<string, { name: string; description: string }> =
     passivesRes?.ok ? await passivesRes.json() : {}
 
-  // Dev: merge localStorage backup si existe (Editor UI sin guardar al disco)
-  if (typeof window !== 'undefined') {
-    const backup = localStorage.getItem('ability-stats-backup')
-    if (backup) {
-      try {
-        statsDb = { ...statsDb, ...JSON.parse(backup) }
-      } catch {
-        console.error('warframe-data: failed to parse ability-stats-backup from localStorage')
-      }
     }
   }
 

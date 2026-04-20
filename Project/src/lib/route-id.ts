@@ -1,3 +1,7 @@
+/**
+ * @domain Shared / Infrastructure / Navigation
+ * @SSoT docs/domains/ui-ux/shell-principles.md
+ */
 const normalize = (value: string): string =>
   value
     .normalize("NFD")

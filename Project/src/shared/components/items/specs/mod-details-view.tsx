@@ -1,5 +1,5 @@
 import React from "react";
-import type { Mod } from "@lib/types";
+import type { Mod } from "@shared/types";
 import { getModStats } from "@lib/item-details";
 import { StatRow } from "./stat-row";
 
@@ -25,11 +25,11 @@ export const ModDetailsView: React.FC<ModDetailsViewProps> = ({ item }) => {
         }
 
         // Efectos de mods — texto libre, sin value
-        if (entry.value === '') {
+        if (entry.value === "") {
           return (
             <div
               key={entry.key}
-              className={`px-3 py-1.5 text-[11px] text-ui-primary ${index % 2 !== 0 ? 'bg-white/3' : ''}`}
+              className={`px-3 py-1.5 text-[11px] text-ui-primary ${index % 2 !== 0 ? "bg-white/3" : ""}`}
             >
               {entry.label}
             </div>

@@ -1,4 +1,4 @@
-import type { Arcane } from "@lib/types";
+import type { Arcane } from "@shared/types";
 import {
   ItemDetailsFooter,
   ItemDetailsHeader,

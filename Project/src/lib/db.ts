@@ -1,19 +1,9 @@
 /**
- * IndexedDB layer — cache persistente para datos estáticos.
- *
- * Flujo:
- *   1. Intentar leer de IndexedDB
- *   2. Si no existe → fetch JSON + guardar en IndexedDB
- *   3. Próximas cargas usan IndexedDB (instantáneo)
- *
- * Versionado:
- *   - DB_VERSION se incrementa cuando los datos cambian
- *   - Al detectar versión diferente, se limpia y recarga
- *
- * @note Sin config UI por ahora — siempre activo si el navegador soporta IndexedDB
+ * @domain Shared / Infrastructure / Storage
+ * @SSoT docs/domains/integration/runtime-hydration.md
  */
 import Dexie, { type EntityTable } from 'dexie';
-import type { Warframe, Weapon, Mod, Arcane, Companion, Vehicle, ArchwingWeapon } from './types';
+import type { Warframe, Weapon, Mod, Arcane, Companion, Vehicle, ArchwingWeapon } from '../shared/types';
 
 // Incrementar cuando los datos cambien (invalida cache)
 const DB_VERSION = 4;
@@ -52,10 +42,6 @@ class OmniFrameDB extends Dexie {
 
 export const db = new OmniFrameDB();
 
-/**
- * Verifica si la versión de la DB es actual.
- * Si no coincide, limpia todas las tablas.
- */
 export const checkDBVersion = async (): Promise<boolean> => {
   try {
     const meta = await db.metadata.get(VERSION_KEY);
@@ -78,13 +64,6 @@ export const checkDBVersion = async (): Promise<boolean> => {
   }
 };
 
-/**
- * Helper genérico para fetch con cache en IndexedDB.
- *
- * @param table - Tabla de IndexedDB
- * @param fetchFn - Función que hace fetch del JSON
- * @returns Datos desde IndexedDB o JSON (y los guarda en IndexedDB)
- */
 export const fetchWithCache = async <T extends { uniqueName: string }>(
   table: EntityTable<T, 'uniqueName'>,
   fetchFn: () => Promise<T[]>,
@@ -94,18 +73,16 @@ export const fetchWithCache = async <T extends { uniqueName: string }>(
     // Verificar versión de DB
     await checkDBVersion();
 
-    // Intentar leer de IndexedDB
     const cached = await table.toArray();
     if (cached.length > 0) {
       console.log(`[IndexedDB] ⚡ Cache hit: ${label} (${cached.length} items)`);
       return cached;
     }
 
-    // No hay cache → fetch JSON
+    // Fallback direct JSON
     console.log(`[IndexedDB] Fetching ${label} from JSON...`);
     const data = await fetchFn();
 
-    // Guardar en IndexedDB para próximas cargas
     await table.bulkPut(data);
     console.log(`[IndexedDB] ✓ Cached ${label} (${data.length} items)`);
 

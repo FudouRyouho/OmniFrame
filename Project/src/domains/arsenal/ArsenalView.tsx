@@ -1,3 +1,8 @@
+/**
+ * @domain Features / Arsenal
+ * @SSoT docs/domains/ui-ux/shell-status.md
+ * @status stub / en desarrollo
+ */
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { ChevronsUpDown, Hexagon, PanelRight, Sparkles } from "lucide-react";
@@ -6,9 +11,7 @@ import { Button } from "@headlessui/react";
 import PreviewPanel from "@shared/components/PreviewPanel";
 import { useArsenalUiState } from "./state/use-arsenal-stub-state";
 
-// =============================================================================
-// TIPOS LOCALES — stub, sin dependencia de contratos de engine/resolver
-// =============================================================================
+// --- Tipos Locales ---
 
 export type ArsenalSurfaceId = "loadout" | "companion" | "vehicles";
 
@@ -23,13 +26,7 @@ type ArsenalSlotDefinition = {
   showAbilityNodes?: boolean;
 };
 
-// =============================================================================
-// SLOT DEFINITIONS — estructura del stub UX
-// Define qué slots existen y su metadata de UI (label, icono, acciones).
-// Es la estructura fija del Arsenal para el stub; el contrato de slots del
-// loadout en runtime está abierto y se definirá al cerrar el flujo UX.
-// Referencia: Docs/domains/builder-engine/status.md (Dirección de UI de Arsenal)
-// =============================================================================
+// --- Slot Definitions ---
 
 const SURFACE_TABS = [
   { id: "loadout", label: "Loadout", icon: "/assets/ui/Category/Warframe.png" },
@@ -161,9 +158,7 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
   },
 ] as const;
 
-// =============================================================================
-// COMPONENTES
-// =============================================================================
+// --- Componentes ---
 
 function LoadoutSelectorBar({
   activeChannelCount,
@@ -367,9 +362,7 @@ function ArsenalPreviewPanel({
   );
 }
 
-// =============================================================================
-// VISTA PRINCIPAL
-// =============================================================================
+// --- Vista Principal ---
 
 export default function ArsenalView() {
   const { isLoading, isReady, activeChannelCount } = useLoadout();

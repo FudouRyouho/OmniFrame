@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useItems } from "../hooks/use-items";
 import ItemsGrid from "../ItemsGrid";
-import type { Arcane } from "@lib/types";
+import type { Arcane } from "@shared/types";
 import { toRouteSlug } from "@lib/route-id";
 import ArcaneCard from "@shared/components/items/cards/ArcaneCard";
 

@@ -3,7 +3,7 @@ import { useItems } from "../hooks/use-items";
 import ItemsGrid from "../ItemsGrid";
 import VirtualizedItemsGrid from "../VirtualizedItemsGrid";
 import ModCard from "@shared/components/items/cards/ModCard";
-import type { Mod } from "@lib/types";
+import type { Mod } from "@shared/types";
 import { toRouteSlug } from "@lib/route-id";
 
 const MODS_VIRTUALIZATION_THRESHOLD = 80;

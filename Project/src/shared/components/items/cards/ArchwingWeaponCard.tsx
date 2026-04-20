@@ -1,4 +1,4 @@
-import type { ArchwingWeapon } from "@lib/types";
+import type { ArchwingWeapon } from "@shared/types";
 import CustomPopover from "@shared/components/CustomPopover";
 import BaseItemCard from "./BaseItemCard";
 import ArchwingWeaponDetailsPopover from "@shared/components/popovers/popovers/archwing-weapon-details-popover";

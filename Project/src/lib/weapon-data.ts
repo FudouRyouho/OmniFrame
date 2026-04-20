@@ -1,4 +1,8 @@
-import type { Weapon } from './types'
+/**
+ * @domain Shared / Data / Weapon
+ * @SSoT docs/domains/integration/runtime-hydration.md
+ */
+import type { Weapon } from '../shared/types'
 import { db, fetchWithCache } from './db'
 import { hydrateImageFromImageName } from './image-url'
 import { matchesRouteIdentifier } from './route-id'

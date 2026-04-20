@@ -1,4 +1,4 @@
-import type { Arcane } from './types';
+import type { Arcane } from '../shared/types';
 import { db, fetchWithCache } from './db';
 import { hydrateImageFromImageName } from './image-url';
 import { matchesRouteIdentifier } from './route-id';

@@ -1,6 +1,11 @@
+/**
+ * @domain Features / Equipment / Hooks
+ * @SSoT docs/domains/ui-ux/shell-principles.md
+ * @status activo
+ */
 import { useState, useMemo, useCallback } from "react";
-import type { BaseItem, WeaponAttack } from "@lib/types";
-import { isWeapon } from "@lib/types";
+import type { BaseItem, WeaponAttack } from "@shared/types";
+import { isWeapon } from "@shared/types";
 
 interface UseItemDetailsProps {
   item: BaseItem;

@@ -1,4 +1,4 @@
-import type { Warframe } from "@lib/types";
+import type { Warframe } from "@shared/types";
 import CustomPopover from "@shared/components/CustomPopover";
 import BaseItemCard from "./BaseItemCard";
 import WarframeDetailsPopover from "@shared/components/popovers/popovers/warframe-details-popover";

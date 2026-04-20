@@ -1,16 +1,16 @@
-import type { Ability } from "@lib/types";
+import type { Ability } from "@shared/types";
 
 /**
  * AbilityPopover - Componente compartido para mostrar abilities.
- * 
+ *
  * Usado por:
  * - Warframes (4 abilities)
  * - Necramechs (abilities)
  * - Archwings (abilities)
- * 
+ *
  * Placeholder: Solo muestra descripción de la habilidad.
  * UI completa (stats, upgradeBy, etc.) se implementará posteriormente.
- * 
+ *
  * No se integra en ningún popover aún — componente standalone para desarrollo futuro.
  */
 
@@ -34,10 +34,10 @@ const AbilityPopover = ({ abilities }: AbilityPopoverProps) => {
           {/* Nombre de la habilidad */}
           <div className="flex items-center gap-2">
             <span className="text-ui-accent text-[11px] font-bold uppercase tracking-wide">
-              {ability.name || 'Unknown Ability'}
+              {ability.name || "Unknown Ability"}
             </span>
             <span className="text-ui-primary/30 text-[9px]">
-              {String(index + 1).padStart(2, '0')}
+              {String(index + 1).padStart(2, "0")}
             </span>
           </div>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import type { Weapon, WeaponAttack } from "@lib/types";
+import type { Weapon, WeaponAttack } from "@shared/types";
 import { getAttackStats } from "@lib/item-details";
 import { StatRow } from "./stat-row";
 
@@ -37,11 +37,11 @@ export const AttackProfilePanel: React.FC<AttackProfilePanelProps> = ({
         }
 
         // Efectos de mods — solo label, sin value (texto libre)
-        if (entry.value === '') {
+        if (entry.value === "") {
           return (
             <div
               key={entry.key}
-              className={`px-3 py-1.5 text-[11px] text-ui-primary ${index % 2 !== 0 ? 'bg-white/3' : ''}`}
+              className={`px-3 py-1.5 text-[11px] text-ui-primary ${index % 2 !== 0 ? "bg-white/3" : ""}`}
             >
               {entry.label}
             </div>

@@ -1,3 +1,8 @@
+/**
+ * @domain Integration / Providers / Theme
+ * @SSoT docs/domains/integration/runtime-composition.md
+ * @status activo
+ */
 import React, { type ReactNode, useState, useEffect, useContext } from "react";
 import { ThemeContext, themeColors } from "./theme-base";
 

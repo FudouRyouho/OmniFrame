@@ -4,7 +4,7 @@ import {
   getDamageTypeIconPath,
   type DamageIconVariant,
   type DamageType,
-} from "@lib/types";
+} from "@shared/types";
 import {
   getDamageLabels,
   getStatusEffectLabels,
@@ -70,7 +70,9 @@ export const IconDamageType = ({
         />
       )}
       {showLabel && (
-        <span className="whitespace-nowrap font-medium leading-none pr-1">{label}</span>
+        <span className="whitespace-nowrap font-medium leading-none pr-1">
+          {label}
+        </span>
       )}
       {showStatus && (
         <span className="text-[0.9em] opacity-60 italic whitespace-nowrap leading-none">
@@ -81,29 +83,33 @@ export const IconDamageType = ({
   );
 
   const popoverContent = (
-    <div className={`px-4 py-3 border backdrop-blur-xl min-w-60 shadow-2xl ${bgClass}`}>
-      <div className={`flex items-center gap-2 font-bold text-sm border-b border-white/10 pb-2 mb-2 ${colorClass}`}>
+    <div
+      className={`px-4 py-3 border backdrop-blur-xl min-w-60 shadow-2xl ${bgClass}`}
+    >
+      <div
+        className={`flex items-center gap-2 font-bold text-sm border-b border-white/10 pb-2 mb-2 ${colorClass}`}
+      >
         {icon && <img src={icon} width={16} height={16} alt="" />}
         <span className="uppercase tracking-widest">{label}</span>
       </div>
       <div className="space-y-2">
-        <p className="text-[11px] leading-relaxed text-white/70">{description}</p>
+        <p className="text-[11px] leading-relaxed text-white/70">
+          {description}
+        </p>
         <div className="flex items-center justify-between pt-1 opacity-90 border-t border-white/5 mt-1">
           <span className="text-[9px] uppercase tracking-tighter text-white/40 font-bold">
             Status Effect
           </span>
-          <span className={`text-[10px] font-bold ${colorClass}`}>{statusLabel}</span>
+          <span className={`text-[10px] font-bold ${colorClass}`}>
+            {statusLabel}
+          </span>
         </div>
       </div>
     </div>
   );
 
   return (
-    <CustomPopover
-      popover={popoverContent}
-      placement="top"
-      renderInJsx
-    >
+    <CustomPopover popover={popoverContent} placement="top" renderInJsx>
       {trigger}
     </CustomPopover>
   );

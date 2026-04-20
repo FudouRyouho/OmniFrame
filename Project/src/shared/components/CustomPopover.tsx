@@ -1,3 +1,7 @@
+/**
+ * @domain Shared / Components
+ * @SSoT docs/domains/ui-ux/shell-principles.md
+ */
 import React, { useState, forwardRef, useEffect } from "react";
 import Tippy, { type TippyProps } from "@tippyjs/react";
 import HeadlessTippy from "@tippyjs/react/headless";

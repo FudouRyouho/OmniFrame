@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { BaseItem } from "@lib/types";
+import type { BaseItem } from "@shared/types";
 import CustomPopover from "@shared/components/CustomPopover";
 import ItemDetailsPopover from "@shared/components/items/specs/item-details-popover";
 

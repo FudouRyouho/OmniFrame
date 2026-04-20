@@ -1,3 +1,8 @@
+/**
+ * @domain Integration / Providers / Shell
+ * @SSoT docs/domains/integration/runtime-composition.md
+ * @status activo
+ */
 import { createContext, useContext, useMemo } from "react";
 import { useLocation } from "react-router";
 

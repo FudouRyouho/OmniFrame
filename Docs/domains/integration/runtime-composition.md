@@ -5,7 +5,7 @@ Version: "v0.0.2"
 Impacto_ID: "I-Composition"
 Fidelidad_Fisica: "Project/src/providers/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-04-19"
+Fecha_de_actualizacion: "2026-04-20"
 ---
 
 # Runtime Composition
@@ -16,9 +16,9 @@ La capa de integracion conecta los loaders de datos con el estado de la UI y el 
 
 OmniFrame utiliza una jerarquia estricta para asegurar que el motor tenga acceso a los datos antes de que la UI intente renderizar.
 
-1. `DataStateProvider`: Carga inicial de JSONs y cache.
+1. `DataStateProvider`: Manejo de estado dinámico de UI (hover, active, etc.).
 2. `LoadoutProvider`: Gestiona el equipamiento activo (`providers/Loadout/`).
-3. `MenuProvider`: Estado de los sub-menus y navegacion contextual.
+3. `MenuProvider`: Gestión del menú principal (ESC) y registro de diálogos activos.
 4. `ShellProvider`: Resuelve la zona y el layout desde la ruta (`providers/Shell/`).
 5. `ThemeProvider`: Aplicacion de estilos CSS.
 

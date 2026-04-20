@@ -1,3 +1,7 @@
+/**
+ * @domain Engine / Shell
+ * @SSoT docs/domains/ui-ux/shell-principles.md
+ */
 import { Routes, Route, Navigate } from "react-router";
 
 import DialogAppMenu from "./shared/components/navigation/DialogMenu";
@@ -30,8 +34,7 @@ export type AppRoute = {
   readonly label?: string;
 };
 
-// Solo rutas top-level — las rutas hijas de equipment se definen como nested routes
-// La ruta "/" redirige a equipment hasta que se cree una landing apropiada
+// Rutas top-level y redirecciones.
 // eslint-disable-next-line react-refresh/only-export-components
 export const routes: readonly AppRoute[] = [] as const;
 
@@ -58,10 +61,9 @@ export default function App() {
           element={<Navigate to="/equipment/warframes" replace />}
         />
 
-        {/* Options — configuración de la aplicación */}
+        {/* Options */}
         <Route path="/options" element={<OptionsView />} />
-
-        {/* Equipment — layout route con rutas hijas */}
+        {/* Equipment */}
         <Route path="/equipment" element={<EquipmentLayout />}>
           <Route index element={<Navigate to="warframes" replace />} />
           <Route path="warframes" element={<WarframesView />} />
@@ -71,7 +73,7 @@ export default function App() {
           <Route path="arcanes" element={<ArcanesView />} />
           <Route path="vehicles" element={<VehiclesView />} />
           <Route path="archwing-weapons" element={<ArchwingWeaponsView />} />
-          {/* Rutas de detalle — placeholder hasta integración con builder */}
+          {/* Rutas de detalle */}
           <Route
             path="warframes/:uniqueName"
             element={<WarframeDetailView />}

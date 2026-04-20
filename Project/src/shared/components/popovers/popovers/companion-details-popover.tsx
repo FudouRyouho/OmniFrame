@@ -1,4 +1,4 @@
-import type { Companion } from "@lib/types";
+import type { Companion } from "@shared/types";
 import {
   ItemDetailsHeader,
   ItemDetailsFooter,

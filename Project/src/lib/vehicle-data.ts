@@ -1,4 +1,4 @@
-import type { Vehicle } from './types';
+import type { Vehicle } from '../shared/types';
 import { db, fetchWithCache } from './db';
 import { hydrateImageFromImageName } from './image-url';
 import { matchesRouteIdentifier } from './route-id';

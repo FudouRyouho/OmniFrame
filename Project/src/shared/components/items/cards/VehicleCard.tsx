@@ -1,4 +1,4 @@
-import type { Vehicle } from "@lib/types";
+import type { Vehicle } from "@shared/types";
 import CustomPopover from "@shared/components/CustomPopover";
 import BaseItemCard from "./BaseItemCard";
 import VehicleDetailsPopover from "@shared/components/popovers/popovers/vehicle-details-popover";

@@ -1,5 +1,7 @@
-// ── Warframe ──────────────────────────────────────────────────────────────────
-
+/**
+ * @domain Shared / Types / Warframe
+ * @SSoT docs/domains/semantic/damage-types.md
+ */
 import type { BaseItem } from './base'
 import type { Ability } from './ability'
 

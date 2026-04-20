@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { BaseItem } from "@lib/types";
+import type { BaseItem } from "@shared/types";
 import type { ReactNode } from "react";
 import { forwardRef } from "react";
 

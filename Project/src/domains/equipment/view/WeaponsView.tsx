@@ -3,7 +3,7 @@ import { useItems } from "../hooks/use-items";
 import ItemsGrid from "../ItemsGrid";
 import VirtualizedItemsGrid from "../VirtualizedItemsGrid";
 import WeaponCard from "@shared/components/items/cards/WeaponCard";
-import type { Weapon } from "@lib/types";
+import type { Weapon } from "@shared/types";
 import { toRouteSlug } from "@lib/route-id";
 
 const WEAPONS_VIRTUALIZATION_THRESHOLD = 250;

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { useItems } from "../hooks/use-items";
 import ItemsGrid from "../ItemsGrid";
 import ArchwingWeaponCard from "@shared/components/items/cards/ArchwingWeaponCard";
-import type { ArchwingWeapon } from "@lib/types";
+import type { ArchwingWeapon } from "@shared/types";
 import { toRouteSlug } from "@lib/route-id";
 
 const ArchwingWeaponsView = () => {

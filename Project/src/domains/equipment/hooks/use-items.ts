@@ -6,7 +6,7 @@ import { fetchArcanes } from "@lib/arcane-data";
 import { fetchCompanions } from "@lib/companion-data";
 import { fetchArchwingWeapons } from "@lib/archwing-weapon-data";
 import { fetchVehicles } from "@lib/vehicle-data";
-import type { BaseItem, Weapon } from "@lib/types";
+import type { BaseItem, Weapon } from "@shared/types";
 import { usePerformanceDebug } from "./use-performance-debug";
 
 // Cache de datos cargados para evitar peticiones redundantes

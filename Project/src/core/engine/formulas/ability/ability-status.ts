@@ -35,7 +35,7 @@
  *   https://wiki.warframe.com/w/Damage
  */
 
-import type { DamageType } from "@lib/types";
+import type { DamageType } from "@shared/types";
 import { resolveElementalCombination } from "../common/status-base";
 
 /**

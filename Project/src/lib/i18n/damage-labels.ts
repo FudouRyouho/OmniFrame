@@ -2,7 +2,7 @@ import {
   DAMAGE_TYPES,
   DAMAGE_TYPE_DEFINITIONS,
   type DamageType,
-} from '../types'
+} from '../../shared/types'
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 

@@ -1,4 +1,4 @@
-import type { Mod } from "@lib/types";
+import type { Mod } from "@shared/types";
 import {
   ItemDetailsFooter,
   ItemDetailsHeader,
