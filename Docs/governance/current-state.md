@@ -21,8 +21,10 @@ Fecha_de_actualizacion: "2026-04-20"
   - **`shared/components/`**: **SISTEMA DE DISEÑO ACTIVO**. Centraliza Cards, Specs, Popovers y Filtros.
 - **`providers/`**: Gestores de estado global y contexto.
   - **`Shell/`**: Resuelve navegación, zona, título y footer derivando desde `pathname`.
-  - **`Loadout/`**: Gestiona la integración con el motor matemático y el estado del equipamiento activo.
-- **`core/engine/`**: Motor matemático de cálculo, fórmulas y resolver.
+  - **`Loadout/` (DEPRECADO)**: Implementación legacy acoplada. Pendiente de sustitución total por el nuevo flujo de simulación.
+- **`core/engine/`**: Directorio contenedor.
+  - **`core/engine/sim-v2` (FUTURO)**: Nueva ubicación del motor ratificado.
+  - **`core/engine/legacy` (ACTUAL/ROTO)**: Motores v1 en proceso de eliminación.
 
 ### Features (Dominios de producto)
 
@@ -36,10 +38,11 @@ Fecha_de_actualizacion: "2026-04-20"
 - **Overrides**: Establecidos en `Project/public/data/` como SSoT Manual definitivo.
 - **Base de Datos**: IndexedDB vía Dexie (`lib/db.ts`). Versión actual: `DB_VERSION = 4`.
 
-## 3. Deuda y Bloqueos Técnicos Reales (Drift Sanity)
+## 3. Hoja de Ruta de Integridad (Sim-v2)
 
-- **Resolver (🔴 MAYOR)**: Rediseño del contrato B1-B4. El desacoplamiento total del Resolver fuera del provider de UI es el bloqueo principal.
-- **Persistencia**: Contratos de persistencia en fase de definición funcional.
+- **Ratificación Arquitectónica (🟢 COMPLETADO)**: El nuevo diseño basado en grafos y mutadores está cerrado en `docs/design/sim-v2/`.
+- **Integración Legacy (🔴 ROTO)**: El `LoadoutProvider` y el `Resolver` v1 están declarados como piezas disfuncionales. Se prohíbe su expansión.
+- **Fase de Prototipado**: Iniciando construcción del núcleo agnóstico (Headless Engine).
 
 ---
 

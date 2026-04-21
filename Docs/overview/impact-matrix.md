@@ -41,20 +41,18 @@ _Refactorizaciones nucleares y establecimiento de leyes SSoT._
 | 🔴 | **Consolidación de Overrides** | Saneamiento de `mod-stats` y `passives` en `Project/public/data/` (SSoT Manual). | [D-13] |
 | 🔴 | **Formalización de Facciones** | Extraer facciones de `tags[]` y cerrar el contrato de `FactionType`. | [D-14] |
 | 🔴 | **Unificación de UI (@shared)** | Migrar Cards, Specs, Popovers y Toolbars a `@shared` bajo un sistema de diseño único. | [R-01] |
-| 🔴 | **Re-definición B1-B4 (Resolver)** | Re-abrir y fijar el contrato core de comunicación entre Loadout, Resolver y Engine. | [E-01] |
+| 🔴 | **Implementación Sim-v2 Engine** | Construcción del motor baso en grafos, mutadores y proyecciones serializables. | [E-01] |
 
-### Dominio: `integration`
+### Dominio: `simulation-v2` (Core)
 
-1. **Desacoplar LoadoutProvider (Agnosticismo Real) — [CRÍTICO]**
-   - **Descripción:** El `loadout-context.tsx` es una pieza "rota" que actúa como contexto referencial. Debe ser deprecado y sustituido por un gestor de estado puro. La lógica actual acopla la UI de forma "horrible".
-   - **Evidencia:** [loadout-context.tsx](../../Project/src/providers/Loadout/loadout-context.tsx).
-   - **Bloquea a:** Todo el proyecto. Es la prioridad #1.
-   - **Depende de:** `N/A`
+1. **Construcción del Headless Engine (Capa C) — [Fase 2 Roadmap]**
+   - **Descripción:** Implementación del reactor funcional de atributos y resolución de grafos. Elimina la dependencia del `loadout-context.tsx`.
+   - **Referencia:** [Architecture](../../docs/design/sim-v2/OMNIFRAME_SIMULATION_ARCHITECTURE.md).
+   - **Bloquea a:** Todo el proyecto. Prioridad Máxima.
 
-2. **Re-arquitectura del Resolver (B1-B4) — [ESTADO: ROTO]**
-   - **Descripción:** La arquitectura actual ha fallado. Se requiere una re-definición total de los contratos de payload y la eliminación de la lógica de integración fallida. Solo se conservan las fórmulas del Engine.
-   - **Bloquea a:** Todos los dominios de UI con datos reales, Consistencia del cálculo.
-   - **Depende de:** `[MAYOR] Desacoplar LoadoutProvider`, `[MAYOR] Taxonomía SSoT de Daño`.
+2. **Materialización del Mutator Bridge (Capa B)**
+   - **Descripción:** Lógica de hidratación y mutación de ADN (Invasiones, Shards, Helminth) antes de la simulación.
+   - **Depende de:** `[MAYOR] Consolidación de Overrides`.
 
 3. **Generalización del Sistema de Toolbars (D-4) — [COMPLETADO]**
    - **Descripción:** Implementación del enfoque "Horizontal" para filtros. Extracción de lógica a `shared/components/filters/` y habilitación de toolbars genéricas route-agnostic. Adoptación del alias `@domains` para toda la arquitectura del proyecto.
@@ -150,10 +148,10 @@ _Lógica de dominio y expansión de capacidades._
     - **Descripción:** Asegurar flujo fluido entre HUD, Equipo y Arsenal mediante una gestión de rutas centralizada.
     - **Depende de:** `[MENOR] Evaluación de ShellProvider`.
 
-11. **Bidireccionalidad Engine <> Layout**
-    - **Descripción:** Conectar la alteración de la grilla de items con el estado del loadout y el recálculo reactivo del motor.
+11. **Bidireccionalidad Engine <> Ensemble Store**
+    - **Descripción:** Conectar la alteración de la grilla de items con el estado de la Ensemble Store y el recálculo reactivo vía Selective Bridge.
     - **Bloquea a:** Funcionalidad real del Arsenal.
-    - **Depende de:** `[MAYOR] Desacoplar LoadoutProvider`, `[MENOR] Materializar Payload B4`.
+    - **Depende de:** `[MAYOR] Implementación Sim-v2 Engine`.
 
 ---
 

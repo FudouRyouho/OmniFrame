@@ -8,32 +8,28 @@ Fecha_de_creacion: "2026-04-18"
 Fecha_de_actualizacion: "2026-04-19"
 ---
 
-# Builder Engine Status — [CRISIS DE INTEGRIDAD]
+# Builder Engine Status — [EVOLUCIÓN SIM-V2]
 
-## Situación Actual: Fallo de Arquitectura B1-B4
-
-Se declara un **Fallo de Integridad** en los contratos del Builder. Lo que antes se entendía como una implementación referencial no cumple con el agnosticismo requerido. Se inicia la fase de **Deprecación y Re-diseño Total** del flujo de integración.
+## Situación Actual: Transición a Motor Sistémico
+La **Crisis de Integridad** del modelo lineal B1-B4 ha sido resuelta mediante la ratificación de la arquitectura **Sim-v2** (Basada en Grafos y Mutadores). El proyecto ha salido de la parálisis de diseño y entra en fase de prototipado headless.
 
 ### Componentes en el Codebase
+- **Engine Core (v1)**: `Project/src/core/engine/`. Sigue siendo la única pieza que genera números, pero está marcada como **Legacy**.
+- **Resolver/Loadout (v1)**: `Project/src/core/engine/resolver.ts`. Declarados como **Obsoletos**. No recibirán nuevas funcionalidades.
+- **Engine (v2)**: Diseño cerrado en `docs/design/sim-v2/`. Implementación pendiente.
 
-- **Engine Core**: Implementado en `Project/src/core/engine/`. **Única pieza estable**. Fórmulas matemáticas puras.
-- **Resolver**: `Project/src/core/engine/resolver.ts`. **ESTADO: ROTO**. No cumple su rol de mediación. Marcado para deprecación/re-diseño.
-- **Loadout**: `Project/src/core/engine/loadout.ts`. **ESTADO: LEGACY**. Implementación referencial acoplada a la UI. Marcado para deprecación.
-
-## Estado de Implementación (Track de Desarrollo)
-
-- **Cálculo Base**: Operativo para Armas y Warframes (Stats estáticos).
-- **Habilidades**: Integración parcial vía `abilityCalc.ts` (transicional).
-- **Consumo en UI**: El **ArsenalView** actúa como un stub de flujo UX, desacoplado del cierre funcional de la integración para permitir iteración en paralelo.
+## Estado de Desarrollo (Sim-v2)
+- **Diseño**: 🟢 RATIFICADO.
+- **Contratos**: 🟢 CERRADOS.
+- **Implementación**: 🔴 PENDIENTE (Fase 2 del Roadmap).
 
 ---
 
-### Bloqueos Críticos
-1.  **Re-definición de B4**: Materializar el payload reactivo entre el Resolver y la Interfaz.
-2.  **Consolidación de Overrides**: Migración de `public/data/` a la carpeta de overrides interna del proyecto.
-3.  **Persistencia**: Definición de contratos para el guardado de builds.
+### Bloqueos Operativos
+1. **Validación de Datasets**: Confirmar que los JSONs actuales pueden alimentar al `Mutator Bridge` de sim-v2.
+2. **Headless Prototype**: Construcción del núcleo sin dependencias de UI.
 
 ---
 
 ### Notas Operativas
-Este documento ya no sigue la estructura de "Tramos" de la fase anterior. El foco actual es la **Sincronización de Contratos** y la eliminación de deuda arquitectónica en el bloque Resolver/Loadout.
+El foco ha pasado de "arreglar el Resolver" a "construir el nuevo Motor". Toda la discusión técnica debe realizarse bajo el nuevo SSoT en `docs/design/sim-v2/`.

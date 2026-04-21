@@ -14,15 +14,18 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 
 ## Fronteras de la Fase Actual
 
-### 1. Engine y Estructura de Loadout
+### 1. Motor de Simulación (Sim-v2)
 **Decidido**:
-- `LoadoutProvider` es la frontera activa de integración y estado.
-- El cálculo se delega al `Resolver` (Engine); el provider es un gestor de estado puro.
-- El flujo bidireccional (Grilla de ítems <-> Cómputo) es el modelo operativo.
+- **Cierre del Modelo Lineal (B1-B4)**: Se abandona el modelo manual de 3 capas en favor de un **Motor de Simulación Sistémica** (Sim-v2).
+- **Agnosticismo Total**: El motor es una pieza funcional, determinista y serializable (apto para Web Workers), completamente desacoplada de React.
+- **Flujo A->B->C**: La jerarquía es **Intención (Ensemble) → Hidratación (Mutator Bridge) → Simulación (Engine)**.
+- **Salida Única**: El motor emite solo **Projection Snapshots** inmutables.
+- **Deprecación de `LoadoutProvider`**: Se decide su eliminación total. El estado del loadout pasará a ser una **Ensemble Store** ligera que alimenta al Mutator Bridge.
 
 **Abierto**:
-- Implementación física del desacoplamiento total del Resolver (WebWorkers vs Service).
-- Integración final del payload reactivo (B4).
+- Umbrales de conmutación para el **Modo Probabilístico** (Energy Threshold).
+- Implementación física del **Selective UI Reactive Bridge**.
+- Estándar de esquemas JSON para **Behaviors Declarativos**.
 
 ### 2. Capas de Datos y SSoT
 **Decidido**:
