@@ -13,6 +13,8 @@ import {
 import { round2 } from "../common/scaling-base";
 
 export type WeaponCritResult = {
+	moddedCritChance: number;
+	moddedCritDamage: number;
 	tierResult: CritTierResult;
 	averageMultiplier: number;
 };

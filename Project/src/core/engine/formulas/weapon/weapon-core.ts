@@ -7,35 +7,35 @@ import { applyAdditiveBonus, round2 } from "../common/scaling-base";
 
 interface WeaponAttackInput {
 	name: string;
-	totalDamage: number;
-	critChance: number;
-	critMult: number;
-	statusChance: number;
-	fireRate: number;
+	total_damage: number;
+	crit_chance: number;
+	crit_mult: number;
+	status_chance: number;
+	fire_rate: number;
 }
 
 interface WeaponBaseInput {
-	magazineSize: number;
-	reloadTime: number;
+	magazine_size: number;
+	reload_time: number;
 	multishot: number;
 	attacks: WeaponAttackInput[];
 }
 
 export type WeaponAttackResult = {
 	name: string;
-	totalDamage: number;
-	critChance: number;
-	critMult: number;
-	statusChance: number;
-	fireRate: number;
+	total_damage: number;
+	crit_chance: number;
+	crit_mult: number;
+	status_chance: number;
+	fire_rate: number;
 	multishot: number;
-	/** 1 + critChance * (critMult - 1) */
-	averageCritMultiplier: number;
+	/** 1 + crit_chance * (crit_mult - 1) */
+	average_crit_multiplier: number;
 };
 
 export type WeaponStatResult = {
-	magazineSize: number;
-	reloadTime: number;
+	magazine_size: number;
+	reload_time: number;
 	attacks: WeaponAttackResult[];
 };
 
@@ -53,19 +53,19 @@ export type WeaponModBonuses = {
 function calculateAttack(
 	attack: WeaponAttackInput,
 	bonuses: WeaponModBonuses,
-	multishotCalc: number,
+	multishot_calc: number,
 ): WeaponAttackResult {
-	const critChance = round2(applyAdditiveBonus(attack.critChance, bonuses.WEAPON_CRIT_CHANCE ?? 0));
-	const critMult   = round2(applyAdditiveBonus(attack.critMult,   bonuses.WEAPON_CRIT_DAMAGE ?? 0));
+	const crit_chance = round2(applyAdditiveBonus(attack.crit_chance, bonuses.WEAPON_CRIT_CHANCE ?? 0));
+	const crit_mult   = round2(applyAdditiveBonus(attack.crit_mult,   bonuses.WEAPON_CRIT_DAMAGE ?? 0));
 	return {
-		name:                  attack.name,
-		totalDamage:           round2(applyAdditiveBonus(attack.totalDamage,   bonuses.WEAPON_DAMAGE_AMOUNT ?? 0)),
-		critChance,
-		critMult,
-		statusChance:          round2(applyAdditiveBonus(attack.statusChance,  bonuses.WEAPON_PROC_CHANCE ?? 0)),
-		fireRate:              round2(applyAdditiveBonus(attack.fireRate,       bonuses.WEAPON_FIRE_RATE ?? 0)),
-		multishot:             multishotCalc,
-		averageCritMultiplier: round2(1 + critChance * (critMult - 1)),
+		name:                    attack.name,
+		total_damage:            round2(applyAdditiveBonus(attack.total_damage,   bonuses.WEAPON_DAMAGE_AMOUNT ?? 0)),
+		crit_chance,
+		crit_mult,
+		status_chance:           round2(applyAdditiveBonus(attack.status_chance,  bonuses.WEAPON_PROC_CHANCE ?? 0)),
+		fire_rate:               round2(applyAdditiveBonus(attack.fire_rate,       bonuses.WEAPON_FIRE_RATE ?? 0)),
+		multishot:               multishot_calc,
+		average_crit_multiplier: round2(1 + crit_chance * (crit_mult - 1)),
 	};
 }
 
@@ -73,12 +73,12 @@ export function calculateWeaponStats(
 	weapon: WeaponBaseInput,
 	bonuses: WeaponModBonuses,
 ): WeaponStatResult {
-	const reloadDivisor = Math.max(0.01, 1 + (bonuses.WEAPON_RELOAD_SPEED ?? 0) / 100);
-	const multishotCalc = round2(applyAdditiveBonus(weapon.multishot, bonuses.WEAPON_FIRE_ITERATIONS ?? 0));
+	const reload_divisor = Math.max(0.01, 1 + (bonuses.WEAPON_RELOAD_SPEED ?? 0) / 100);
+	const multishot_calc = round2(applyAdditiveBonus(weapon.multishot, bonuses.WEAPON_FIRE_ITERATIONS ?? 0));
 
 	return {
-		magazineSize: round2(applyAdditiveBonus(weapon.magazineSize, bonuses.WEAPON_CLIP_MAX ?? 0)),
-		reloadTime:   round2(weapon.reloadTime / reloadDivisor),
-		attacks:      weapon.attacks.map(a => calculateAttack(a, bonuses, multishotCalc)),
+		magazine_size: round2(applyAdditiveBonus(weapon.magazine_size, bonuses.WEAPON_CLIP_MAX ?? 0)),
+		reload_time:   round2(weapon.reload_time / reload_divisor),
+		attacks:       weapon.attacks.map(a => calculateAttack(a, bonuses, multishot_calc)),
 	};
 }

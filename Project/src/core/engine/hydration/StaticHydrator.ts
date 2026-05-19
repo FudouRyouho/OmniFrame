@@ -1,0 +1,147 @@
+/**
+ * @domain Simulation-v2 / Logic / Hydration
+ * @status en-desarrollo
+ */
+
+import type { Ensemble, MutatedDNA, SimulationEntity, AttributeNode, Modifier } from "../contracts";
+import { ModRepository } from "./ModRepository";
+
+import { PHYSICAL_TYPES } from "../combat/DamageCombiner";
+import { DamageCombiner, type ElementalMod } from "../combat/DamageCombiner";
+import { PRIMARY_ELEMENTS } from "../contracts/damage-logic";
+import { getAttributeMetadata } from "../../../lib/presentation/attribute-registry";
+
+export class StaticHydrator {
+  /**
+   * Convierte un Ensemble y sus ADN Mutados en entidades listas para el motor.
+   */
+  public static hydrate(ensemble: Ensemble, dnas: Record<string, MutatedDNA>): { 
+    entities: SimulationEntity[], 
+    modifiers: Modifier[] 
+  } {
+    const entities: SimulationEntity[] = [];
+    const modifiers: Modifier[] = [];
+
+    const intents: { entity_id: string, slots: Record<number, { mod_id?: string; level?: number }>, profile_id: string }[] = [];
+    
+    intents.push({ 
+      entity_id: ensemble.warframe.id, 
+      slots: ensemble.warframe.slots, 
+      profile_id: "base" 
+    });
+    if (ensemble.weapons.primary) intents.push({ entity_id: ensemble.weapons.primary.id, slots: ensemble.weapons.primary.slots, profile_id: ensemble.weapons.primary.active_profile_id });
+    if (ensemble.weapons.secondary) intents.push({ entity_id: ensemble.weapons.secondary.id, slots: ensemble.weapons.secondary.slots, profile_id: ensemble.weapons.secondary.active_profile_id });
+    if (ensemble.weapons.melee) intents.push({ entity_id: ensemble.weapons.melee.id, slots: ensemble.weapons.melee.slots, profile_id: ensemble.weapons.melee.active_profile_id });
+
+    // 2. Hydrate Entities and Modifiers
+    intents.forEach(intent => {
+      const dna = dnas[intent.entity_id];
+      if (!dna) return;
+
+      const entity = this.createBaseEntity(dna, intent.profile_id);
+      const combination_mods: ElementalMod[] = [];
+      
+      Object.entries(intent.slots).forEach(([index_str, slot]) => {
+        if (!slot.mod_id) return;
+        const index = parseInt(index_str);
+        const mod_modifiers = ModRepository.getModifiers(slot.mod_id, dna.entity_id, slot.level || 0);
+        
+        mod_modifiers.forEach(m => {
+          // Add source info for Audit Trace
+          const enriched_mod = { ...m, source_id: `Mod:${slot.mod_id}` };
+
+          const isCombat = PRIMARY_ELEMENTS.includes(m.target_attribute) || 
+                           PHYSICAL_TYPES.includes(m.target_attribute);
+
+          if (isCombat) {
+            combination_mods.push({
+               type: m.target_attribute,
+               percentage: m.value,
+               index: index
+            });
+          } else {
+            modifiers.push(enriched_mod);
+          }
+        });
+      });
+
+      // 3. Integrar DamageCombiner
+      const base_attributes = dna.profiles ? (dna.profiles[intent.profile_id] || dna.profiles["base"] || {}) : {};
+      const innate_damage: Record<string, number> = {};
+      Object.entries(base_attributes).forEach(([attr, val]) => {
+         if (attr.startsWith('damage_')) innate_damage[attr] = val;
+      });
+
+      const combined_damage = DamageCombiner.combine(innate_damage, combination_mods);
+
+      // 4. Actualizar atributos de la entidad con el daño combinado
+      // Limpiar daños previos que podrían haber sido combinados
+      Object.keys(entity.attributes).forEach(attr => {
+         if (attr.startsWith('damage_')) delete entity.attributes[attr];
+      });
+
+      // Injectar nuevos nodos de daño
+      Object.entries(combined_damage).forEach(([type, value]) => {
+         // Ley: Cada tipo de daño se inicializa con su valor base combinado
+         const meta = getAttributeMetadata(type);
+         entity.attributes[type] = {
+           base: value,
+           base_flat: 0,
+           base_add_pct: 0,
+           mods_add_pct: 0,
+           total_flat: 0,
+           multiplicative: 1.0,
+           final: value,
+           ...meta
+         };
+      });
+      
+      entities.push(entity);
+    });
+
+    return { entities, modifiers };
+  }
+
+
+  private static createBaseEntity(dna: MutatedDNA, profile_id: string = "base"): SimulationEntity {
+    const attributes: Record<string, AttributeNode> = {};
+    const base_attributes = dna.profiles ? (dna.profiles[profile_id] || dna.profiles["base"] || {}) : {};
+    
+    Object.entries(base_attributes).forEach(([id, value]) => {
+      const meta = getAttributeMetadata(id);
+      attributes[id] = {
+        base: value,
+        base_flat: 0,
+        base_add_pct: 0,
+        mods_add_pct: 0,
+        total_flat: 0,
+        multiplicative: 1.0,
+        final: value,
+        ...meta
+      };
+    });
+
+    // Inyectar atributo de multiplicador global si no existe (Capa B inyección)
+    if (!attributes["WEAPON_DAMAGE"]) {
+       const meta = getAttributeMetadata("WEAPON_DAMAGE");
+       attributes["WEAPON_DAMAGE"] = {
+          base: 100, // 100% baseline
+          base_flat: 0, base_add_pct: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
+          ...meta
+       };
+    }
+
+    return {
+      id: dna.entity_id,
+      unique_name: dna.entity_id,
+      domain: dna.domain,
+      kind: dna.kind,
+      family: dna.family,
+      persistence: dna.tags.includes('weapon') ? 'PE' : 'TE',
+      tags: dna.tags,
+      attributes,
+      behaviors: dna.behaviors,
+      innate_dna: dna
+    };
+  }
+}

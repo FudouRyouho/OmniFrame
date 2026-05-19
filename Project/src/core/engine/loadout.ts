@@ -1,147 +1,74 @@
 /**
- * @domain Engine / Loadout
- * @SSoT docs/domains/engine/status.md
- * @deprecated Esta implementación forma parte del modelo B1-B4 declarado ROTO. 
- * Se mantiene por compatibilidad de runtime hasta su sustitución por un modelo de Observer puro.
+ * @domain Engine / Loadout / Metadata
+ * @SSoT docs/design/sim-v2/simulation-roadmap.md
+ * @status en-desarrollo
  */
 
-import type { EquippedEntity, LoadoutInput } from "./resolver";
-
-export interface ModSlot {
-	uniqueName: string;
-	rank: number;
+export interface LoadoutIntent {
+  unique_name: string;
+  rank?: number;
 }
 
-export interface ArcaneSlot {
-	uniqueName: string;
-	rank: number;
-}
-
-export interface EntityConfig {
-	mods: (ModSlot | null)[];
-	arcanes?: (ArcaneSlot | null)[];
-}
-
-export interface EntitySlot {
-	uniqueName: string;
-	activeConfigIndex: number;
-	configs: EntityConfig[];
-}
-
-export interface LoadoutState {
-	warframe?:       EntitySlot;
-	primaryWeapon?:  EntitySlot;
-	secondaryWeapon?: EntitySlot;
-	meleeWeapon?:    EntitySlot;
-}
-
-export function emptyConfig(modSlots = 10): EntityConfig {
-	return {
-		mods: Array<ModSlot | null>(modSlots).fill(null),
-	};
-}
-
-export function createSlot(uniqueName: string): EntitySlot {
-	return {
-		uniqueName,
-		activeConfigIndex: 0,
-		configs: [emptyConfig()],
-	};
-}
-
-/** @internal */
-function getActiveEquippedEntity(slot: EntitySlot): EquippedEntity {
-	const config = slot.configs[slot.activeConfigIndex] ?? slot.configs[0];
-	const mods = (config.mods ?? [])
-		.filter((s): s is ModSlot => s !== null);
-	const arcanes = (config.arcanes ?? [])
-		.filter((s): s is ArcaneSlot => s !== null);
-
-	return {
-		uniqueName: slot.uniqueName,
-		mods,
-		...(arcanes.length > 0 ? { arcanes } : {}),
-	};
-}
-
-export function toResolverInput(state: LoadoutState): LoadoutInput {
-	const input: LoadoutInput = {};
-
-	if (state.warframe) {
-		input.warframe = getActiveEquippedEntity(state.warframe);
-	}
-	if (state.primaryWeapon) {
-		input.primaryWeapon = getActiveEquippedEntity(state.primaryWeapon);
-	}
-	if (state.secondaryWeapon) {
-		input.secondaryWeapon = getActiveEquippedEntity(state.secondaryWeapon);
-	}
-	if (state.meleeWeapon) {
-		input.meleeWeapon = getActiveEquippedEntity(state.meleeWeapon);
-	}
-
-	return input;
-}
+/**
+ * Flat Intent Record Architecture.
+ * Keys are semantic Uids like:
+ * - 'slot:warframe' -> The equipped entity unique_name
+ * - 'slot:warframe:active_config' -> The current active configuration index
+ * - 'slot:warframe:config:0:mod:0' -> The mod equipped in a specific slot
+ */
+export type LoadoutState = Record<string, any>;
 
 export function equipEntity(
-	state: LoadoutState,
-	channel: keyof LoadoutState,
-	uniqueName: string,
+  state: LoadoutState,
+  channel: string,
+  unique_name: string,
 ): LoadoutState {
-	return {
-		...state,
-		[channel]: createSlot(uniqueName),
-	};
-}
-
-export function setActiveConfig(
-	state: LoadoutState,
-	channel: keyof LoadoutState,
-	configIndex: number,
-): LoadoutState {
-	const slot = state[channel];
-	if (!slot) return state;
-
-	const safeIndex = Math.max(0, Math.min(configIndex, slot.configs.length - 1));
-	if (safeIndex === slot.activeConfigIndex) return state;
-
-	return {
-		...state,
-		[channel]: { ...slot, activeConfigIndex: safeIndex },
-	};
-}
-
-export function setMod(
-	state: LoadoutState,
-	channel: keyof LoadoutState,
-	slotIndex: number,
-	mod: ModSlot | null,
-): LoadoutState {
-	const entitySlot = state[channel];
-	if (!entitySlot) return state;
-
-	const configIdx = entitySlot.activeConfigIndex;
-	const config = entitySlot.configs[configIdx];
-	if (!config) return state;
-
-	const newMods = [...config.mods];
-	newMods[slotIndex] = mod;
-
-	const newConfigs = [...entitySlot.configs];
-	newConfigs[configIdx] = { ...config, mods: newMods };
-
-	return {
-		...state,
-		[channel]: { ...entitySlot, configs: newConfigs },
-	};
+  return {
+    ...state,
+    [`slot:${channel}`]: unique_name,
+    [`slot:${channel}:active_config`]: 0,
+  };
 }
 
 export function unequipEntity(
-	state: LoadoutState,
-	channel: keyof LoadoutState,
+  state: LoadoutState,
+  channel: string,
 ): LoadoutState {
-	if (!state[channel]) return state;
-	const next = { ...state };
-	delete next[channel];
-	return next;
+  const next = { ...state };
+  // Limpiar todas las claves relacionadas con este canal
+  const prefix = `slot:${channel}`;
+  Object.keys(next).forEach(key => {
+    if (key.startsWith(prefix)) {
+      delete next[key];
+    }
+  });
+  return next;
+}
+
+export function setActiveConfig(
+  state: LoadoutState,
+  channel: string,
+  config_index: number,
+): LoadoutState {
+  return {
+    ...state,
+    [`slot:${channel}:active_config`]: config_index,
+  };
+}
+
+export function setMod(
+  state: LoadoutState,
+  channel: string,
+  slot_index: number,
+  mod: LoadoutIntent | null,
+  config_index: number = 0,
+): LoadoutState {
+  const key = `slot:${channel}:config:${config_index}:mod:${slot_index}`;
+  const next = { ...state };
+  if (mod === null) {
+    delete next[key];
+  } else {
+    next[key] = mod;
+  }
+  return next;
 }

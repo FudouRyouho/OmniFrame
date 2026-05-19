@@ -1,7 +1,7 @@
 /**
  * @domain Engine / Formulas / Arcane
  * @SSoT docs/domains/engine/status.md
- * @status BLOQUEADO - Pendiente 'arcane-stats.override.json'
+ * @status bloqueado — Pendiente arcane-stats.override.json
  */
 
 export type ArcaneOverrideStat = {

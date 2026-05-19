@@ -1,0 +1,105 @@
+/**
+ * @domain Simulation-v2 / Logic / Projector
+ * @status en-desarrollo
+ */
+import { StatusEngine, type StatusEffectProjection } from "./StatusEngine";
+import { AtomicSimulator } from "./AtomicSimulator";
+import type { SimulationEntity, SimulationContext } from "../contracts";
+
+export interface CombatMetrics {
+  average_crit_multiplier: number;
+  burst_dps: number;
+  sustained_dps: number;
+  status_map: Record<string, number>; 
+  status_projections: StatusEffectProjection[];
+  crit_distribution: Record<number, number>;
+  pellet_count: number;
+  falloff_multiplier: number;
+}
+
+export class CombatCalculator {
+  public static project(entity: SimulationEntity, context: SimulationContext): CombatMetrics {
+    const attrs = entity.attributes;
+    
+    // 0. Cálculo de Falloff (Distancia)
+    const dist = context.variables["distance"] || 0;
+    const fStart = attrs["falloff_start"]?.final || 1000; // Por defecto sin falloff
+    const fEnd = attrs["falloff_end"]?.final || 1000;
+    const fMinPct = attrs["falloff_min_pct"]?.final || 100;
+    
+    let falloffMult = 1.0;
+    if (dist > fStart) {
+      const range = Math.max(0.1, fEnd - fStart);
+      const ratio = Math.min(1.0, (dist - fStart) / range);
+      const minMult = fMinPct / 100;
+      falloffMult = 1.0 - (ratio * (1.0 - minMult));
+    }
+
+    // 1. Resolver Daño Total Base (Afectado por Falloff)
+    const total_base_damage = Object.entries(attrs)
+      .filter(([id]) => id.startsWith('damage_'))
+      .reduce((acc, [_, node]) => acc + node.final, 0) * falloffMult;
+
+    // 2. Lógica de Críticos Atómica (Distribución de Tiers)
+    const crit_chance = (attrs["critical_chance"]?.final || 0);
+    const crit_mult = attrs["critical_multiplier"]?.final || 1.0;
+    
+    const crit_distribution = AtomicSimulator.calculateCritDistribution(crit_chance);
+    const avg_crit_mult = AtomicSimulator.calculateAverageMultiplier(crit_chance, crit_mult);
+
+    // 3. Proyección de Estados Proactivos (Capa C+)
+    const projections: StatusEffectProjection[] = [];
+    if (attrs["damage_slash"]) {
+      projections.push(StatusEngine.projectSlashTick(entity, avg_crit_mult));
+    }
+    if (attrs["damage_heat"]) {
+      projections.push(StatusEngine.projectHeatTick(entity, avg_crit_mult));
+    }
+    if (attrs["damage_toxin"]) {
+      projections.push(StatusEngine.projectToxinTick(entity, avg_crit_mult));
+    }
+
+    // 4. Lógica de Estado (Probability Weighting)
+    const status_chance = (attrs["status_chance"]?.final || 0) / 100;
+    const status_map: Record<string, number> = {};
+    
+    if (total_base_damage > 0) {
+      Object.entries(attrs)
+        .filter(([id]) => id.startsWith('damage_'))
+        .forEach(([id, node]) => {
+          // Probabilidad = StatusChance * (Weight del elemento / Daño Total)
+          const weight = node.final / total_base_damage;
+          status_map[id] = status_chance * weight;
+        });
+    }
+
+    // 5. Lógica de DPS y Multishot
+    const fire_rate = attrs["fire_rate"]?.final || 1.0;
+    const multishot = attrs["multishot"]?.final || 1.0;
+    const mag_size = attrs["magazine_size"]?.final || 1.0;
+    
+    // Ley de Recarga: TiempoFinal = TiempoBase / (ReloadSpeed / 100)
+    const base_reload = attrs["reload_time"]?.base || 1.0;
+    const reload_speed = (attrs["reload_speed"]?.final || 100) / 100;
+    const final_reload_time = base_reload / reload_speed;
+
+    const damage_per_shot = total_base_damage * avg_crit_mult * multishot;
+    const burst_dps = damage_per_shot * fire_rate;
+
+    // Sustained = TotalMagDamage / (Time_to_empty + Reload)
+    const shots_in_mag = mag_size / multishot;
+    const time_to_empty = shots_in_mag / fire_rate;
+    const sustained_dps = (damage_per_shot * shots_in_mag) / (time_to_empty + final_reload_time);
+
+    return {
+      average_crit_multiplier: avg_crit_mult,
+      burst_dps,
+      sustained_dps,
+      status_map,
+      crit_distribution,
+      pellet_count: multishot,
+      status_projections: projections,
+      falloff_multiplier: falloffMult
+    };
+  }
+}

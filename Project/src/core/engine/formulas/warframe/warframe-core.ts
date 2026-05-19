@@ -10,7 +10,7 @@ interface WarframeBaseStats {
 	shield: number;
 	armor: number;
 	power: number;
-	sprintSpeed: number;
+	sprint_speed: number;
 }
 
 export type StatResult = {
@@ -19,13 +19,12 @@ export type StatResult = {
 };
 
 export type WarframeStatResult = {
-
 	stats: {
 		health: StatResult;
 		shield: StatResult;
 		armor: StatResult;
 		energy: StatResult;
-		sprintSpeed: StatResult;
+		sprint_speed: StatResult;
 	};
 };
 
@@ -42,7 +41,6 @@ export function calculateWarframeStats(
 	bonuses: WarframeModBonuses,
 ): WarframeStatResult {
 	return {
-
 		stats: {
 			health: {
 				base: warframe.health,
@@ -60,9 +58,9 @@ export function calculateWarframeStats(
 				base: warframe.power,
 				calculated: round2(applyAdditiveBonus(warframe.power, bonuses.AVATAR_POWER_MAX ?? 0)),
 			},
-			sprintSpeed: {
-				base: warframe.sprintSpeed,
-				calculated: round2(applyAdditiveBonus(warframe.sprintSpeed, bonuses.AVATAR_SPRINT_SPEED ?? 0)),
+			sprint_speed: {
+				base: warframe.sprint_speed,
+				calculated: round2(applyAdditiveBonus(warframe.sprint_speed, bonuses.AVATAR_SPRINT_SPEED ?? 0)),
 			},
 		},
 	};
