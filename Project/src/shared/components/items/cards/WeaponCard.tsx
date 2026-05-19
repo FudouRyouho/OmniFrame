@@ -10,14 +10,10 @@ import WeaponDetailsPopover from "@shared/components/popovers/popovers/weapon-de
 type WeaponCardProps = {
   item: Weapon;
   isSelected?: boolean;
-  onSelect?: (item: Weapon) => void;
+  onClick?: (item: Weapon) => void;
 };
 
-const WeaponCard = ({
-  item,
-  isSelected = false,
-  onSelect,
-}: WeaponCardProps) => {
+const WeaponCard = ({ item, isSelected = false, onClick }: WeaponCardProps) => {
   return (
     <CustomPopover
       popover={<WeaponDetailsPopover item={item} />}
@@ -26,7 +22,7 @@ const WeaponCard = ({
       <BaseItemCard
         item={item}
         isSelected={isSelected}
-        onClick={() => onSelect?.(item)}
+        onClick={() => onClick?.(item)}
       />
     </CustomPopover>
   );

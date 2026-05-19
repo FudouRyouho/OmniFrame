@@ -1,5 +1,4 @@
 import type { ArchwingWeapon } from '../shared/types';
-import { db, fetchWithCache } from './db';
 import { hydrateImageFromImageName } from './image-url';
 import { matchesRouteIdentifier } from './route-id';
 
@@ -14,8 +13,9 @@ const fetchArchwingWeaponsFromJSON = async (): Promise<ArchwingWeapon[]> => {
 
 export const fetchArchwingWeapons = async (): Promise<ArchwingWeapon[]> => {
   if (cache) return cache;
-  cache = await fetchWithCache(db.archwingWeapons, fetchArchwingWeaponsFromJSON, 'archwing-weapons');
-  return cache;
+  const data = await fetchArchwingWeaponsFromJSON();
+  cache = data;
+  return data;
 };
 
 export const fetchArchwingWeapon = async (identifier: string): Promise<ArchwingWeapon | undefined> => {

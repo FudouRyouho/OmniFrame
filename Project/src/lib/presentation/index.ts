@@ -1,6 +1,5 @@
 /**
  * @domain Shared / Presentation
- * @SSoT docs/domains/integration/runtime-composition.md
  * @status activo
  */
 export { FormattedText } from "./FormattedText";

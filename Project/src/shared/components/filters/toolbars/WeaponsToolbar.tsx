@@ -5,143 +5,47 @@ import FilterIcon from "../FilterIcon";
 
 const config: ViewFilterConfig = {
   categories: [
-    { key: "All", label: "All", icon: "/assets/ui/Category/All.png" },
+    { key: "all", label: "All", icon: "/assets/ui/Category/All.png" },
     {
-      key: "Primary",
+      key: "primary",
       label: "Primary",
       icon: "/assets/ui/Category/Primary.png",
       subcategories: [
-        {
-          key: "Rifle",
-          label: "Rifle",
-          icon: "/assets/ui/Category/Primary/Rifle.png",
-        },
-        {
-          key: "Machine Gun",
-          label: "Machine Gun",
-          icon: "/assets/ui/Category/Primary/MachineGun.png",
-        },
-        {
-          key: "Precision Rifle",
-          label: "Precision Rifle",
-          icon: "/assets/ui/Category/Primary/Sniper.png",
-        },
-        {
-          key: "Shotgun",
-          label: "Shotgun",
-          icon: "/assets/ui/Category/Primary/Shotgun.png",
-        },
-        {
-          key: "Beam",
-          label: "Beam",
-          icon: "/assets/ui/Category/Primary/Beam.png",
-        },
-        {
-          key: "Bow",
-          label: "Bow / Crossbow",
-          icon: "/assets/ui/Category/Primary/Bow.png",
-        },
-        {
-          key: "Launcher",
-          label: "Launcher",
-          icon: "/assets/ui/Category/Primary/Launcher.png",
-        },
-        {
-          key: "Misc",
-          label: "Miscellaneous",
-          icon: "/assets/ui/Category/Misc.png",
-        },
+        { key: "rifle", label: "Rifle", icon: "/assets/ui/Category/Primary/Rifle.png" },
+        { key: "shotgun", label: "Shotgun", icon: "/assets/ui/Category/Primary/Shotgun.png" },
+        { key: "bow", label: "Bow", icon: "/assets/ui/Category/Primary/Bow.png" },
+        { key: "launcher", label: "Launcher", icon: "/assets/ui/Category/Primary/Launcher.png" },
+        { key: "sniper", label: "Sniper", icon: "/assets/ui/Category/Primary/Sniper.png" },
       ],
     },
     {
-      key: "Secondary",
+      key: "secondary",
       label: "Secondary",
       icon: "/assets/ui/Category/Secondary.png",
       subcategories: [
-        {
-          key: "Pistol",
-          label: "Pistol",
-          icon: "/assets/ui/Category/Secondary/Pistol.png",
-        },
-        {
-          key: "SMG",
-          label: "SMG",
-          icon: "/assets/ui/Category/Secondary/SMG.png",
-        },
-        {
-          key: "Shotgun",
-          label: "Shotgun",
-          icon: "/assets/ui/Category/Secondary/Shotgun.png",
-        },
-        {
-          key: "Beam",
-          label: "Beam",
-          icon: "/assets/ui/Category/Secondary/Beam.png",
-        },
-        {
-          key: "Throwable",
-          label: "Throwable",
-          icon: "/assets/ui/Category/Secondary/Throwable.png",
-        },
-        {
-          key: "Misc",
-          label: "Miscellaneous",
-          icon: "/assets/ui/Category/Misc.png",
-        },
+        { key: "pistol", label: "Pistol", icon: "/assets/ui/Category/Secondary/Pistol.png" },
+        { key: "dual pistols", label: "Dual Pistols", icon: "/assets/ui/Category/Secondary/SMG.png" },
+        { key: "thrown", label: "Thrown", icon: "/assets/ui/Category/Secondary/Throwable.png" },
       ],
     },
     {
-      key: "Melee",
+      key: "melee",
       label: "Melee",
       icon: "/assets/ui/Category/Melee.png",
       subcategories: [
-        {
-          key: "Light Blade",
-          label: "Light Blade",
-          icon: "/assets/ui/Category/Melee/LightBlade.png",
-        },
-        {
-          key: "Fist",
-          label: "Fist / Fans",
-          icon: "/assets/ui/Category/Melee/FistFans.png",
-        },
-        {
-          key: "2H Blade",
-          label: "Two Handed Blades",
-          icon: "/assets/ui/Category/Melee/2HBlade.png",
-        },
-        {
-          key: "Scythe",
-          label: "Scythe",
-          icon: "/assets/ui/Category/Melee/Scythe.png",
-        },
-        {
-          key: "Polearm",
-          label: "Staff / Polearm",
-          icon: "/assets/ui/Category/Melee/Polearm.png",
-        },
-        {
-          key: "Hammer",
-          label: "Hammer",
-          icon: "/assets/ui/Category/Melee/Hammer.png",
-        },
-        {
-          key: "Ranged",
-          label: "Range Melee",
-          icon: "/assets/ui/Category/Melee/Ranged.png",
-        },
-        {
-          key: "Misc",
-          label: "Miscellaneous",
-          icon: "/assets/ui/Category/Misc.png",
-        },
+        { key: "sword", label: "Sword", icon: "/assets/ui/Category/Melee/LightBlade.png" },
+        { key: "polearm", label: "Polearm", icon: "/assets/ui/Category/Melee/Polearm.png" },
+        { key: "hammer", label: "Hammer", icon: "/assets/ui/Category/Melee/Hammer.png" },
+        { key: "dagger", label: "Dagger", icon: "/assets/ui/Category/Melee/LightBlade.png" },
       ],
     },
   ],
 };
 
 const WeaponsToolbar = () => {
-  const { setHovered } = useFilterContext();
+  const filterState = useFilterContext();
+  const { setHovered } = filterState;
+
   const {
     categories,
     selected,
@@ -150,11 +54,10 @@ const WeaponsToolbar = () => {
     activeSubcategory,
     setActiveSubcategory,
     hasSubcategories,
-  } = useFilterLogic(config);
+  } = useFilterLogic(config, filterState);
 
   return (
     <div className="flex items-center gap-2">
-      {/* Subcategorías dinámicas */}
       {hasSubcategories && (
         <>
           <FilterIcon
@@ -181,7 +84,6 @@ const WeaponsToolbar = () => {
         </>
       )}
 
-      {/* Categorías principales */}
       {categories.map((cat) => (
         <FilterIcon
           key={cat.key}

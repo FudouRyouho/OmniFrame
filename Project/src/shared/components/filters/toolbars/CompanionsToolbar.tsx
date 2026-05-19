@@ -5,51 +5,51 @@ import FilterIcon from "../FilterIcon";
 
 const config: ViewFilterConfig = {
   categories: [
-    { key: "All", label: "All", icon: "/assets/ui/Category/All.png" },
+    { key: "all", label: "All", icon: "/assets/ui/Category/All.png" },
     {
-      key: "Robotic",
+      key: "robotic",
       label: "Robotic",
       icon: "/assets/ui/Category/Companion/Robotic.png",
       subcategories: [
         {
-          key: "Sentinel",
+          key: "sentinel",
           label: "Sentinel",
           icon: "/assets/ui/Category/Sentinel.png",
         },
         {
-          key: "MOA",
+          key: "moa",
           label: "MOA",
           icon: "/assets/ui/Category/Companion/MOA.png",
         },
         {
-          key: "Hound",
+          key: "hound",
           label: "Hound",
           icon: "/assets/ui/Category/Companion/Hound.png",
         },
       ],
     },
     {
-      key: "Beast",
+      key: "beast",
       label: "Beast",
       icon: "/assets/ui/Category/Companion/Beast.png",
       subcategories: [
         {
-          key: "Kubrow",
+          key: "kubrow",
           label: "Kubrow",
           icon: "/assets/ui/Category/Companion/Kubrow.png",
         },
         {
-          key: "Predasite",
+          key: "predasite",
           label: "Predasite",
           icon: "/assets/ui/Category/Companion/Predasite.png",
         },
         {
-          key: "Kavat",
+          key: "kavat",
           label: "Kavat",
           icon: "/assets/ui/Category/Companion/Kavat.png",
         },
         {
-          key: "Vulpaphyla",
+          key: "vulpaphyla",
           label: "Vulpaphyla",
           icon: "/assets/ui/Category/Companion/Vulpaphyla.png",
         },
@@ -59,7 +59,11 @@ const config: ViewFilterConfig = {
 };
 
 const CompanionsToolbar = () => {
-  const { setHovered } = useFilterContext();
+  const filterState = useFilterContext();
+  const { setHovered } = filterState;
+  
+  // En este dominio, 'selected' mapea a Family y 'activeSubcategory' a Kind
+  // Redefinimos los setters para que coincidan con la taxonomía de Compañeros
   const {
     categories,
     selected,
@@ -68,7 +72,22 @@ const CompanionsToolbar = () => {
     activeSubcategory,
     setActiveSubcategory,
     hasSubcategories,
-  } = useFilterLogic(config);
+  } = useFilterLogic(config, {
+    ...filterState,
+    setCategory: (kind) => filterState.setCategory(kind),
+    setFamily: (family) => filterState.setFamily(family)
+  });
+
+  const handleCategorySelect = (key: string) => {
+    selectCategory(key);
+    filterState.setFamily(key); // El nivel superior es Familia (Robotic/Beast)
+    filterState.setCategory("all"); // Reset Kind
+  };
+
+  const handleSubSelect = (key: string | null) => {
+    setActiveSubcategory(key);
+    filterState.setCategory(key ?? "all"); // El nivel inferior es Kind (Sentinel/etc)
+  };
 
   return (
     <div className="flex items-center gap-2">
@@ -81,7 +100,7 @@ const CompanionsToolbar = () => {
               icon: "/assets/ui/Category/All.png",
             }}
             active={activeSubcategory === null}
-            onClick={() => setActiveSubcategory(null)}
+            onClick={() => handleSubSelect(null)}
             onHover={() => setHovered("All")}
             onLeave={() => setHovered(null)}
           />
@@ -90,7 +109,7 @@ const CompanionsToolbar = () => {
               key={sub.key}
               cat={sub}
               active={activeSubcategory === sub.key}
-              onClick={() => setActiveSubcategory(sub.key)}
+              onClick={() => handleSubSelect(sub.key)}
               onHover={() => setHovered(sub.label)}
               onLeave={() => setHovered(null)}
             />
@@ -103,7 +122,7 @@ const CompanionsToolbar = () => {
           key={cat.key}
           cat={cat}
           active={selected === cat.key}
-          onClick={() => selectCategory(cat.key)}
+          onClick={() => handleCategorySelect(cat.key)}
           onHover={() => setHovered(cat.label)}
           onLeave={() => setHovered(null)}
         />
@@ -113,3 +132,4 @@ const CompanionsToolbar = () => {
 };
 
 export default CompanionsToolbar;
+

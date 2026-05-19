@@ -1,5 +1,4 @@
 import type { Mod } from '../shared/types'
-import { db, fetchWithCache } from './db'
 import { hydrateImageFromImageName } from './image-url'
 import { matchesRouteIdentifier } from './route-id'
 
@@ -14,8 +13,9 @@ const fetchModsFromJSON = async (): Promise<Mod[]> => {
 
 export const fetchMods = async (): Promise<Mod[]> => {
   if (cache) return cache
-  cache = await fetchWithCache(db.mods, fetchModsFromJSON, 'mods')
-  return cache
+  const data = await fetchModsFromJSON()
+  cache = data
+  return data
 }
 
 export const fetchMod = async (identifier: string): Promise<Mod | undefined> => {

@@ -1,6 +1,5 @@
 /**
  * @domain Integration / Providers / Menu
- * @SSoT docs/domains/integration/runtime-composition.md
  * @status activo
  */
 import React, { type ReactNode, useState, useEffect, useContext, createContext, useCallback, useRef } from "react";

@@ -1,20 +1,20 @@
-// ── Vehicle ───────────────────────────────────────────────────────────────────
-// Agrupa Necramechs (category: 'Warframes' en la fuente) y Archwings (category: 'Archwing')
-// Ambos se separan de warframes.json en el pipeline de generacion.
-
 import type { BaseItem } from './base';
+
+import type { LivingStats } from './stats';
 
 export type VehicleKind = 'necramech' | 'archwing';
 
 export interface Vehicle extends BaseItem {
+  domain: 'vehicle';
   kind: VehicleKind;
+  
   description: string;
-  imageName: string;
-  category: string;
-  health: number | null;
-  shield: number | null;
-  armor: number | null;
-  isPrime: boolean;
+  
+  // Módulo de estadísticas normalizado (Supervivencia)
+  stats: LivingStats;
+
+  is_prime: boolean;
   tradable: boolean;
-  abilities: { uniqueName: string }[];
+  abilities: { unique_name: string }[];
 }
+

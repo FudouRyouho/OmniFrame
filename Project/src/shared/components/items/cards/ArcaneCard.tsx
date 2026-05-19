@@ -10,14 +10,10 @@ import ArcaneDetailsPopover from "@shared/components/popovers/popovers/arcane-de
 type ArcaneCardProps = {
   item: Arcane;
   isSelected?: boolean;
-  onSelect?: (item: Arcane) => void;
+  onClick?: (item: Arcane) => void;
 };
 
-const ArcaneCard = ({
-  item,
-  isSelected = false,
-  onSelect,
-}: ArcaneCardProps) => {
+const ArcaneCard = ({ item, isSelected = false, onClick }: ArcaneCardProps) => {
   return (
     <CustomPopover
       popover={<ArcaneDetailsPopover item={item} />}
@@ -26,7 +22,7 @@ const ArcaneCard = ({
       <BaseItemCard
         item={item}
         isSelected={isSelected}
-        onClick={() => onSelect?.(item)}
+        onClick={() => onClick?.(item)}
       />
     </CustomPopover>
   );

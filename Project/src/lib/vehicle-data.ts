@@ -1,5 +1,4 @@
 import type { Vehicle } from '../shared/types';
-import { db, fetchWithCache } from './db';
 import { hydrateImageFromImageName } from './image-url';
 import { matchesRouteIdentifier } from './route-id';
 
@@ -14,8 +13,9 @@ const fetchVehiclesFromJSON = async (): Promise<Vehicle[]> => {
 
 export const fetchVehicles = async (): Promise<Vehicle[]> => {
   if (cache) return cache;
-  cache = await fetchWithCache(db.vehicles, fetchVehiclesFromJSON, 'vehicles');
-  return cache;
+  const data = await fetchVehiclesFromJSON();
+  cache = data;
+  return data;
 };
 
 export const fetchVehicle = async (identifier: string): Promise<Vehicle | undefined> => {

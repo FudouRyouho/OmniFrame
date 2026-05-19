@@ -15,11 +15,13 @@ import { resolveDamageTypeTag } from "@shared/types";
 interface FormattedTextProps {
   text: string;
   className?: string;
+  showLabel?: boolean;
 }
 
 export const FormattedText: React.FC<FormattedTextProps> = ({
   text,
   className,
+  showLabel = true,
 }) => {
   if (!text) return null;
 
@@ -45,7 +47,7 @@ export const FormattedText: React.FC<FormattedTextProps> = ({
           key={match.index}
           value={iconKey}
           variant={variant}
-          showLabel={true}
+          showLabel={showLabel}
         />,
       );
     } else {

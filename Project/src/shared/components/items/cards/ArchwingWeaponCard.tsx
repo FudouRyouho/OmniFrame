@@ -10,13 +10,13 @@ import ArchwingWeaponDetailsPopover from "@shared/components/popovers/popovers/a
 type ArchwingWeaponCardProps = {
   item: ArchwingWeapon;
   isSelected?: boolean;
-  onSelect?: (item: ArchwingWeapon) => void;
+  onClick?: (item: ArchwingWeapon) => void;
 };
 
 const ArchwingWeaponCard = ({
   item,
   isSelected = false,
-  onSelect,
+  onClick,
 }: ArchwingWeaponCardProps) => {
   return (
     <CustomPopover
@@ -26,7 +26,7 @@ const ArchwingWeaponCard = ({
       <BaseItemCard
         item={item}
         isSelected={isSelected}
-        onClick={() => onSelect?.(item)}
+        onClick={() => onClick?.(item)}
       />
     </CustomPopover>
   );

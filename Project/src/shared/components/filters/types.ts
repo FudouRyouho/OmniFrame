@@ -1,12 +1,12 @@
-export interface FilterCategory {
-  key: string;
+export interface FilterCategory<K extends string = string, S extends string = string> {
+  key: K;
   label: string;
   icon: string;
-  subcategories?: FilterCategory[];
+  subcategories?: FilterCategory<S, S>[];
 }
 
-export interface ViewFilterConfig {
-  categories: FilterCategory[];
+export interface ViewFilterConfig<K extends string = string, S extends string = string> {
+  categories: FilterCategory<K, S>[];
 }
 
 export type OrderDirection = "A-Z" | "Z-A";
@@ -19,9 +19,15 @@ export interface FilterState {
   setSearch: (s: string) => void;
   order: OrderDirection;
   setOrder: (o: OrderDirection) => void;
+  category: string;
+  setCategory: (c: string) => void;
+  family: string;
+  setFamily: (f: string) => void;
   hovered: string | null;
   setHovered: (label: string | null) => void;
+  resetFilters: () => void;
 }
+
 
 /**
  * Configuración para una pestaña de navegación en la Toolbar.

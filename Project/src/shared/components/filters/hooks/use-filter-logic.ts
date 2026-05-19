@@ -1,16 +1,16 @@
 import { useState } from "react";
-import type { ViewFilterConfig } from "../types";
+import type { ViewFilterConfig, FilterState } from "../types";
 
 /**
  * Hook que encapsula la lógica de selección de categorías y subcategorías
- * dentro de una Toolbar específica.
+ * dentro de una Toolbar específica y sincroniza con el estado global.
  */
-export const useFilterLogic = (config: ViewFilterConfig) => {
+export const useFilterLogic = (config: ViewFilterConfig, filterState: FilterState) => {
   const [selected, setSelected] = useState<string>(
-    config.categories[0]?.key ?? "All"
+    filterState.category !== "all" ? filterState.category : (config.categories[0]?.key ?? "All")
   );
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(
-    null
+    filterState.family !== "all" ? filterState.family : null
   );
 
   const selectedCategory =
@@ -19,7 +19,14 @@ export const useFilterLogic = (config: ViewFilterConfig) => {
 
   const selectCategory = (key: string) => {
     setSelected(key);
-    setActiveSubcategory(null); // reset subcategoría al cambiar categoría principal
+    setActiveSubcategory(null);
+    filterState.setCategory(key);
+    filterState.setFamily("all");
+  };
+
+  const setSubCategory = (key: string | null) => {
+    setActiveSubcategory(key);
+    filterState.setFamily(key ?? "all");
   };
 
   return {
@@ -27,8 +34,9 @@ export const useFilterLogic = (config: ViewFilterConfig) => {
     selected,
     selectCategory,
     activeSubcategory,
-    setActiveSubcategory,
+    setActiveSubcategory: setSubCategory,
     selectedCategory,
     hasSubcategories,
   };
 };
+

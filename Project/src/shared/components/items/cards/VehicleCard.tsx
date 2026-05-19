@@ -10,13 +10,13 @@ import VehicleDetailsPopover from "@shared/components/popovers/popovers/vehicle-
 type VehicleCardProps = {
   item: Vehicle;
   isSelected?: boolean;
-  onSelect?: (item: Vehicle) => void;
+  onClick?: (item: Vehicle) => void;
 };
 
 const VehicleCard = ({
   item,
   isSelected = false,
-  onSelect,
+  onClick,
 }: VehicleCardProps) => {
   return (
     <CustomPopover
@@ -26,7 +26,7 @@ const VehicleCard = ({
       <BaseItemCard
         item={item}
         isSelected={isSelected}
-        onClick={() => onSelect?.(item)}
+        onClick={() => onClick?.(item)}
       />
     </CustomPopover>
   );

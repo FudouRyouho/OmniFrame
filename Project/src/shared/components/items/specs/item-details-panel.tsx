@@ -13,7 +13,7 @@ const ItemDetailsPanel = ({ item }: { item: BaseItem }) => {
         {isMod(item) ? (
           <ModDetailsView item={item} />
         ) : isWeapon(item) ? (
-          item.attacks?.map((attack, index) => (
+          item.stats.attacks?.map((attack: any, index: number) => (
             <AttackProfilePanel
               key={`${attack.name}-${index}`}
               weapon={item}
@@ -22,6 +22,7 @@ const ItemDetailsPanel = ({ item }: { item: BaseItem }) => {
             />
           ))
         ) : null}
+
       </div>
 
       <ItemDetailsFooter tags={item.tags} />

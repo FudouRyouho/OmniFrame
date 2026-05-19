@@ -6,10 +6,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { ChevronsUpDown, Hexagon, PanelRight, Sparkles } from "lucide-react";
-import { useLoadout } from "@providers/Loadout/loadout-context";
 import { Button } from "@headlessui/react";
 import PreviewPanel from "@shared/components/PreviewPanel";
 import { useArsenalUiState } from "./state/use-arsenal-stub-state";
+import { ARCHON_SHARD_CATALOG } from "./arsenal-state";
+import { useEnsemble } from "@providers/Ensemble/EnsembleProvider";
+import { Registry } from "@shared/data/DataRegistry";
+import type { BaseItem } from "@shared/types";
+import type { EnsembleChannel } from "@providers/Ensemble/ensemble.types";
 
 // --- Tipos Locales ---
 
@@ -58,7 +62,7 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
     showAbilityNodes: true,
   },
   {
-    id: "primaryWeapon",
+    id: "primary_weapon",
     surface: "loadout",
     slotLabel: "Primary",
     defaultName: "Primary",
@@ -67,7 +71,7 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
     actions: ["Swap", "Upgrade"],
   },
   {
-    id: "secondaryWeapon",
+    id: "secondary_weapon",
     surface: "loadout",
     slotLabel: "Secondary",
     defaultName: "Secondary",
@@ -76,7 +80,7 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
     actions: ["Swap", "Upgrade"],
   },
   {
-    id: "meleeWeapon",
+    id: "melee_weapon",
     surface: "loadout",
     slotLabel: "Melee",
     defaultName: "Melee",
@@ -158,14 +162,26 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
   },
 ] as const;
 
+// --- Helper de Hidratación ---
+// Mapeo entre los IDs de slot del Arsenal y los canales del EnsembleStore
+const SLOT_TO_ENSEMBLE_CHANNEL: Record<string, { channel: EnsembleChannel, domain: string }> = {
+  warframe: { channel: "warframe", domain: "warframe" },
+  primary_weapon: { channel: "primary", domain: "weapon" },
+  secondary_weapon: { channel: "secondary", domain: "weapon" },
+  melee_weapon: { channel: "melee", domain: "weapon" },
+  companion: { channel: "companion", domain: "companion" },
+  companionWeapon: { channel: "companion_weapon", domain: "weapon" }, // o companion-weapon según el data registry
+  archwing: { channel: "archwing", domain: "vehicle" },
+  archgun: { channel: "archgun", domain: "archwing-weapon" },
+  necramech: { channel: "necramech", domain: "vehicle" },
+};
+
 // --- Componentes ---
 
 function LoadoutSelectorBar({
-  activeChannelCount,
-  isLoading,
+  active_channel_count,
 }: {
-  activeChannelCount: number;
-  isLoading: boolean;
+  active_channel_count: number;
 }) {
   return (
     <header className="border-square flex items-center justify-between gap-3 px-3 py-2">
@@ -182,9 +198,7 @@ function LoadoutSelectorBar({
             Default Loadout
           </div>
           <div className="text-[9px] uppercase tracking-[0.2em] text-ui-primary/55">
-            {isLoading
-              ? "Cargando datasets del builder"
-              : `${activeChannelCount} / 4 canales activos`}
+            {active_channel_count} / 4 canales activos
           </div>
         </div>
       </div>
@@ -226,14 +240,19 @@ function ArsenalSurfaceTabs({
 function ArsenalSlotCard({
   slot,
   selected,
+  hydratedItem,
   onHoverStart,
   onHoverEnd,
 }: {
   slot: ArsenalSlotDefinition;
   selected: boolean;
+  hydratedItem?: BaseItem | null;
   onHoverStart: () => void;
   onHoverEnd: () => void;
 }) {
+  const displayName = hydratedItem ? hydratedItem.name : slot.defaultName;
+  const displayIcon = hydratedItem?.image || slot.icon;
+
   return (
     <Button
       data-active={selected ? "" : undefined}
@@ -245,9 +264,9 @@ function ArsenalSlotCard({
       className="group border-square flex w-full items-center justify-between gap-2.5 px-3 py-2 text-left transition-all"
     >
       <div className="flex min-w-0 items-center gap-2.5">
-        <img src={slot.icon} alt="" className="h-5 w-5 object-contain" />
+        <img src={displayIcon} alt="" className="h-5 w-5 object-contain" />
         <div className="min-w-0">
-          <div className="text-heading">{slot.defaultName}</div>
+          <div className="text-heading truncate">{displayName}</div>
           <div className="text-subheading">{slot.slotLabel}</div>
         </div>
       </div>
@@ -257,8 +276,10 @@ function ArsenalSlotCard({
 
 function ArsenalActionRail({
   slot,
+  hydratedItem,
 }: {
   slot: ArsenalSlotDefinition | undefined;
+  hydratedItem?: BaseItem | null;
 }) {
   const navigate = useNavigate();
 
@@ -270,29 +291,38 @@ function ArsenalActionRail({
       // Navega a la vista de selección filtrada por la categoría del slot
       void navigate(`/arsenal/swap/${slot.id}`);
     }
-    // Upgrade y otros: pendiente de implementación
+    if (action === "Upgrade") {
+      void navigate(`/arsenal/upgrade/${slot.id}`);
+    }
   }
 
   return (
     <aside className="place-self-start justify-self-start flex w-full max-w-37.5 flex-col gap-1.5 pt-27">
-      {slot.actions.map((action) => (
-        <Button
-          key={action}
-          onClick={() => handleAction(action)}
-          className="group relative border-square-b px-3 py-2 text-left transition-colors text-heading"
-        >
-          <div className="bg-glow" />
-          {action}
-        </Button>
-      ))}
+      {slot.actions.map((action) => {
+        const isFilled = !!hydratedItem;
+        const isDisabled = (action === "Upgrade" || action === "Abilities") && !isFilled;
+
+        return (
+          <Button
+            key={action}
+            disabled={isDisabled}
+            onClick={() => handleAction(action)}
+            className="group relative border-square-b px-3 py-2 text-left transition-colors text-heading disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <div className="bg-glow" />
+            {action}
+          </Button>
+        );
+      })}
     </aside>
   );
 }
 
 function ArchonShardsPreviewSection() {
-  const { arsenalMetadata, selectArchonShardSlot } = useArsenalUiState();
+  const { selectArchonShardSlot } = useArsenalUiState();
+  const intention = useEnsemble();
   const navigate = useNavigate();
-  const shards = arsenalMetadata.warframe.archonShards;
+  const shards = intention.items.warframe.shards || [];
 
   function handleSlotClick(slotIndex: number) {
     selectArchonShardSlot(slotIndex);
@@ -302,23 +332,29 @@ function ArchonShardsPreviewSection() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 py-2">
       {shards.map((shard, index) => {
-        const isActive = shard.state === "filled";
+        const isFilled = !!shard.effectId;
+        const catalogEntry = isFilled
+          ? ARCHON_SHARD_CATALOG.find(e => e.shardType === shard.shardType)
+          : null;
+        const iconPath = catalogEntry
+          ? (shard.isTauforged ? catalogEntry.tauforgedIconPath : catalogEntry.iconPath)
+          : null;
         return (
           <Button
             key={index}
-            data-active={isActive ? "" : undefined}
+            data-active={isFilled ? "" : undefined}
             onClick={() => handleSlotClick(index)}
             className="group relative flex h-12 w-12 items-center justify-center transition-colors"
-            aria-label={`Shard slot ${index + 1}${isActive ? `: ${shard.label}` : " (vacío)"}`}
+            aria-label={`Shard slot ${index + 1}${isFilled && catalogEntry ? `: ${catalogEntry.shardName}` : " (vacío)"}`}
           >
             <Hexagon
               strokeWidth={0.5}
               className="pointer-events-none absolute inset-0 h-full w-full rotate-90 text-heading"
             />
-            {isActive && shard.iconPath && (
+            {isFilled && iconPath && (
               <img
-                src={shard.iconPath}
-                alt={shard.label}
+                src={iconPath}
+                alt={catalogEntry?.shardName}
                 className="relative z-10 object-contain"
                 style={{ width: "70%", height: "70%" }}
               />
@@ -332,18 +368,20 @@ function ArchonShardsPreviewSection() {
 
 function ArsenalPreviewPanel({
   slot,
-  isReady,
+  hydratedItem,
 }: {
   slot: ArsenalSlotDefinition | undefined;
-  isReady: boolean;
+  hydratedItem?: BaseItem | null;
 }) {
   if (!slot) return null;
 
+  const displayName = hydratedItem ? hydratedItem.name : slot.defaultName;
+
   return (
     <PreviewPanel
-      name={slot.defaultName}
+      name={displayName}
       description={slot.description}
-      isReady={isReady}
+      isReady={true}
     >
       {slot.showAbilityNodes && (
         <div className="flex items-center justify-end gap-2">
@@ -365,11 +403,47 @@ function ArsenalPreviewPanel({
 // --- Vista Principal ---
 
 export default function ArsenalView() {
-  const { isLoading, isReady, activeChannelCount } = useLoadout();
-  const [activeSurface, setActiveSurface] =
-    useState<ArsenalSurfaceId>("loadout");
+  const intention = useEnsemble();
+  const [hydratedData, setHydratedData] = useState<Record<string, BaseItem>>({});
+  
+  const active_channel_count = Object.values(intention.items).filter(i => i.itemId).length;
+  const [activeSurface, setActiveSurface] = useState<ArsenalSurfaceId>("loadout");
   const [previewSlotId, setPreviewSlotId] = useState("warframe");
   const [hoveredSlotId, setHoveredSlotId] = useState<string | null>(null);
+
+  // Hydration Effect
+  useEffect(() => {
+    let mounted = true;
+    
+    const loadItems = async () => {
+      const newHydration: Record<string, BaseItem> = {};
+      
+      const promises = Object.entries(SLOT_TO_ENSEMBLE_CHANNEL).map(async ([slotId, config]) => {
+        const itemIntention = intention.items[config.channel];
+        if (itemIntention?.itemId) {
+          try {
+             console.log(`[ArsenalView] Hydrating slot ${slotId} with ${itemIntention.itemId}...`);
+             const item = await Registry.getItemById(config.domain, itemIntention.itemId);
+             if (item) {
+               newHydration[slotId] = item;
+             } else {
+               console.warn(`[ArsenalView] ⚠️ Item not found in registry: ${itemIntention.itemId} (Domain: ${config.domain})`);
+             }
+          } catch (e) {
+             console.error(`[ArsenalView] ❌ Error hydrating ${itemIntention.itemId}`, e);
+          }
+        }
+      });
+
+      await Promise.all(promises);
+      if (mounted) {
+        setHydratedData(newHydration);
+      }
+    };
+
+    loadItems();
+    return () => { mounted = false; };
+  }, [intention.items]);
 
   const visibleSlots = useMemo(
     () => SLOT_DEFINITIONS.filter((slot) => slot.surface === activeSurface),
@@ -401,8 +475,7 @@ export default function ArsenalView() {
       <div className="w-full h-full grid grid-cols-3 items-start gap-4">
         <div className="flex flex-col gap-3">
           <LoadoutSelectorBar
-            activeChannelCount={activeChannelCount}
-            isLoading={isLoading}
+            active_channel_count={active_channel_count}
           />
           <ArsenalSurfaceTabs
             activeSurface={activeSurface}
@@ -413,6 +486,7 @@ export default function ArsenalView() {
               <ArsenalSlotCard
                 key={slot.id}
                 slot={slot}
+                hydratedItem={hydratedData[slot.id]}
                 selected={slot.id === selectedSlot?.id}
                 onHoverStart={() => handleSlotHoverStart(slot.id)}
                 onHoverEnd={() => setHoveredSlotId(null)}
@@ -421,8 +495,11 @@ export default function ArsenalView() {
           </div>
         </div>
 
-        <ArsenalActionRail slot={selectedSlot} />
-        <ArsenalPreviewPanel slot={selectedSlot} isReady={isReady} />
+        <ArsenalActionRail 
+          slot={selectedSlot} 
+          hydratedItem={selectedSlot ? hydratedData[selectedSlot.id] : null} 
+        />
+        <ArsenalPreviewPanel slot={selectedSlot} hydratedItem={selectedSlot ? hydratedData[selectedSlot.id] : null} />
       </div>
     </section>
   );

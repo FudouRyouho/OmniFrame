@@ -46,19 +46,19 @@ const WarframeDetailsPopover = ({ item }: WarframeDetailsPopoverProps) => {
             <div className="mt-4 space-y-1 text-[10px]">
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Health</span>
-                <span className="text-ui-accent">{item.health}</span>
+                <span className="text-ui-accent">{item.stats.health}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Shield</span>
-                <span className="text-ui-accent">{item.shield}</span>
+                <span className="text-ui-accent">{item.stats.shield}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Armor</span>
-                <span className="text-ui-accent">{item.armor}</span>
+                <span className="text-ui-accent">{item.stats.armor}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Energy</span>
-                <span className="text-ui-accent">{item.energy}</span>
+                <span className="text-ui-accent">{item.stats.energy}</span>
               </div>
             </div>
           </div>

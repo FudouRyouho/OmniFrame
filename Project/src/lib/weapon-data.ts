@@ -3,7 +3,6 @@
  * @SSoT docs/domains/integration/runtime-hydration.md
  */
 import type { Weapon } from '../shared/types'
-import { db, fetchWithCache } from './db'
 import { hydrateImageFromImageName } from './image-url'
 import { matchesRouteIdentifier } from './route-id'
 
@@ -18,8 +17,9 @@ const fetchWeaponsFromJSON = async (): Promise<Weapon[]> => {
 
 export const fetchWeapons = async (): Promise<Weapon[]> => {
   if (cache) return cache
-  cache = await fetchWithCache(db.weapons, fetchWeaponsFromJSON, 'weapons')
-  return cache
+  const data = await fetchWeaponsFromJSON()
+  cache = data
+  return data
 }
 
 export const fetchWeapon = async (identifier: string): Promise<Weapon | undefined> => {

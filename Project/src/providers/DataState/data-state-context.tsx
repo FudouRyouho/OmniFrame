@@ -1,6 +1,5 @@
 /**
  * @domain Integration / Providers / DataState
- * @SSoT docs/domains/integration/runtime-composition.md
  * @status activo
  */
 import { 

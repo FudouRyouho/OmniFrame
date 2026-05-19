@@ -20,7 +20,7 @@ const lastPathToken = (value: string): string => {
 };
 
 export const matchesRouteIdentifier = (
-  item: { name: string; uniqueName: string },
+  item: { name: string; unique_name: string },
   identifier: string
 ): boolean => {
   const raw = identifier.trim();
@@ -28,8 +28,8 @@ export const matchesRouteIdentifier = (
   const lastRaw = lastPathToken(raw);
   const lastNorm = normalize(lastRaw);
 
-  const uniqueNorm = normalize(item.uniqueName);
-  const uniqueTailNorm = normalize(lastPathToken(item.uniqueName));
+  const uniqueNorm = normalize(item.unique_name);
+  const uniqueTailNorm = normalize(lastPathToken(item.unique_name));
   const nameNorm = normalize(item.name);
   const nameSlug = toRouteSlug(item.name);
 

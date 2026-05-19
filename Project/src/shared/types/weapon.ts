@@ -1,55 +1,23 @@
-/**
- * @domain Shared / Types / Weapon
- * @SSoT docs/domains/semantic/damage-types.md
- */
-import type { BaseItem } from './base'
-import type { DamageMap, WeaponAttack } from './damage'
+import type { BaseItem, ItemKind } from './base'
+import type { CombatStats } from './stats'
 
-export type WeaponCategory = 'Primary' | 'Secondary' | 'Melee'
+export type WeaponCategory = 'primary' | 'secondary' | 'melee'
 
 export interface Weapon extends BaseItem {
-  kind: 'primary' | 'secondary' | 'melee';
-  description: string
-  imageName: string
-  category: WeaponCategory
-  productCategory?: string
-  masteryReq: number
-  isPrime: boolean
-  tradable: boolean
-  slot?: number
-  // Combat stats
-  damage: DamageMap
-  totalDamage: number
-  criticalChance: number
-  criticalMultiplier: number
-  procChance: number
-  fireRate?: number
-  magazineSize?: number
-  reloadTime?: number
-  multishot?: number
-  accuracy?: number
-  noise?: string
-  trigger?: string
-  disposition?: number
-  // Melee-specific
-  range?: number
-  attackSpeed?: number
-  comboDuration?: number
-  followThrough?: number
-  blockingAngle?: number
-  slamAttack?: number
-  slamRadialDamage?: number
-  slamRadius?: number
-  heavyAttackDamage?: number
-  heavySlamAttack?: number
-  heavySlamRadialDamage?: number
-  heavySlamRadius?: number
-  slideAttack?: number
-  windUp?: number
-  stancePolarity?: string
-  // Meta
-  introduced?: string
-  wikiaThumbnail?: string
-  wikiaUrl?: string
-  attacks?: WeaponAttack[]
+  domain: 'weapon';
+  kind: ItemKind; // Generalizado para soportar archguns, sentinel weapons, etc.
+  
+  description: string;
+  product_category?: string;
+  is_prime: boolean;
+  tradable: boolean;
+  
+  // Módulo de estadísticas normalizado
+  stats: CombatStats;
+
+  // Metadata adicional
+  introduced?: string;
+  wikia_thumbnail?: string;
+  wikia_url?: string;
 }
+

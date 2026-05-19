@@ -1,5 +1,4 @@
 import type { Arcane } from '../shared/types';
-import { db, fetchWithCache } from './db';
 import { hydrateImageFromImageName } from './image-url';
 import { matchesRouteIdentifier } from './route-id';
 
@@ -14,8 +13,9 @@ const fetchArcanesFromJSON = async (): Promise<Arcane[]> => {
 
 export const fetchArcanes = async (): Promise<Arcane[]> => {
   if (cache) return cache;
-  cache = await fetchWithCache(db.arcanes, fetchArcanesFromJSON, 'arcanes');
-  return cache;
+  const data = await fetchArcanesFromJSON();
+  cache = data;
+  return data;
 };
 
 export const fetchArcane = async (identifier: string): Promise<Arcane | undefined> => {

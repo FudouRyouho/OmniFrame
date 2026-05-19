@@ -9,12 +9,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:data:base": "tsx scripts/generate-data.ts",
-    "generate:data": "npm run generate:data:base && node scripts/generate-mod-overrides.mjs && node scripts/get-img.mjs --clean",
-    "generate:mod-overrides": "node scripts/generate-mod-overrides.mjs",
+    "generate:data": "npm run generate:data:base && node scripts/get-img.mjs --clean",
     "get:img": "node scripts/get-img.mjs --clean",
     "merge:semantic-groups": "node scripts/merge-semantic-groups.mjs",
     "verify:polarity": "node scripts/verify-polarity-normalization.mjs",
     "test": "vitest --run",
+    "validate:sim": "tsx scripts/validate-sim-v2.ts",
     "check": "tsc -b --noEmit && eslint ."
   },
   "dependencies": {

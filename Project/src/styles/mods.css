@@ -1,0 +1,402 @@
+/* En index.css o mods.css */
+.wfic {
+  font-family: var(--font-wf-icons) !important;
+  font-style: normal;
+  speak: none;
+}
+
+.omni-mod-container {
+  width: var(--mod-w);
+  height: var(--mod-h);
+  position: relative; /* Lienzo base */
+  /* ELIMINAR: padding, display: flex, box-sizing */
+}
+
+.omni-mod {
+  position: absolute; /* Para poder usar coordenadas exactas */
+  top: 21px; /* Y: 21 */
+  left: 20px; /* X: 20 */
+  right: 20px;
+  bottom: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Para tu lógica Bottom-Up */
+}
+
+/* --- Mod Card Pseudo-elements (Frames, Borders, Effects) --- */
+/* Cada elemento es una capa exacta sobre el lienzo de 333x439 */
+.omni-mod-container:after,
+.omni-mod-container:before {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: auto;
+  z-index: 12;
+}
+.omni-mod-container:before {
+  top: 0;
+  aspect-ratio: 333 / 175;
+  background-position: center top;
+}
+.omni-mod-container:after {
+  bottom: 0;
+  aspect-ratio: 333 / 159;
+  background-position: center bottom;
+}
+
+/* Mod Side Borders (Glows) */
+.omni-mod__border:after,
+.omni-mod__border:before {
+  background-size: 100% 100%;
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transform: scaleY(0);
+  visibility: hidden;
+  transition: visibility 0s linear 0.06s;
+  width: 100%;
+  z-index: 13;
+}
+
+.omni-mod__border:before {
+  transform: scale(-1, 0);
+  /* X:44px (44/333 = 13.2%) */
+  left: 13.2%;
+}
+.omni-mod__border:after {
+  /* X:290px (o simétrico a 44px del borde derecho) */
+  right: 13.2%;
+}
+
+/* Hover: reveal side borders */
+[data-hover] .omni-mod__border:before {
+  visibility: visible;
+  transform: scaleX(-1);
+}
+[data-hover] .omni-mod__border:after {
+  visibility: visible;
+  transform: scale(1);
+}
+
+/* Mod Image Overlay/Glow */
+.omni-mod__image:after {
+  content: "";
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  position: absolute;
+  opacity: 1;
+  transition-duration: 0.12s;
+  transition-timing-function: ease;
+  transition-property: opacity;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.omni-mod-container[data-hover] .omni-mod .omni-mod__image:after {
+  opacity: 0.4;
+  transition: box-shadow 0.12s ease;
+}
+
+/* Mod Drain & Polarity background */
+.omni-mod__drain:after,
+.omni-mod__drain:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.6);
+  border-top: 1px solid;
+  z-index: -2;
+  position: absolute;
+}
+.omni-mod__drain:before {
+  border-left: 1px solid;
+  height: 1.1rem;
+  left: -0.6rem;
+  right: -1rem;
+  top: 0.2rem;
+  transform: rotate(-45deg);
+  width: 1.1rem;
+}
+.omni-mod__drain:after {
+  border-bottom: 1px solid;
+  height: 1.5rem;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+/* Compatibility Tab (Lower) */
+.compatibility:after {
+  content: "";
+  position: absolute;
+  /* Llenamos todo el ancho que nos da el wrapper (de slider a slider) */
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-size: 100% 100%;
+  z-index: -1; /* Para que el texto ("RIFLE", etc.) quede por encima */
+}
+
+/* Fusion Stars Glow/Line (Max Rank) */
+.omni-mod__fusion--max:after {
+  content: "";
+  background: #a6e6ff;
+  filter: drop-shadow(0 0 0.2rem #a6e6ff);
+  height: 1px;
+  left: 0;
+  opacity: 0.8;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+/* --- Rarity Specific Pseudo-elements --- */
+
+/* common */
+.omni-mod-container[data-hover][data-common] .omni-mod__image:after {
+  box-shadow: inset 1px 1px 100px var(--color-mod-common);
+}
+[data-common].omni-mod-container:before {
+  background-image: url(/mod-frames/test/BronzeFrameTop.png);
+}
+[data-common].omni-mod-container:after {
+  background-image: url(/mod-frames/test/BronzeFrameBottom.png);
+}
+[data-common] .omni-mod__drain:after,
+[data-common] .omni-mod__drain:before {
+  border-color: var(--color-mod-common);
+}
+[data-common] .omni-mod__image:after {
+  background: radial-gradient(
+    transparent 0,
+    rgba(139, 59, 42, 0.1) 64%,
+    rgba(255, 40, 5, 0.09) 100%
+  );
+}
+[data-common] .omni-mod__border:after,
+[data-common] .omni-mod__border:before {
+  background-image: url(/mod-frames/test/BronzeSideLight.png);
+}
+[data-common] .compatibility:after {
+  background-image: url(/mod-frames/test/BronzeLowerTab.png);
+}
+
+/* uncommon */
+.omni-mod-container[data-hover][data-uncommon] .omni-mod__image:after {
+  box-shadow: inset 1px 1px 100px #466afd;
+}
+[data-uncommon].omni-mod-container:before {
+  background-image: url(/mod-frames/test/SilverFrameTop.png);
+}
+[data-uncommon].omni-mod-container:after {
+  background-image: url(/mod-frames/test/SilverFrameBottom.png);
+}
+[data-uncommon] .omni-mod__drain:after,
+[data-uncommon] .omni-mod__drain:before {
+  border-color: var(--color-mod-uncommon);
+}
+[data-uncommon] .omni-mod__image:after {
+  background: radial-gradient(
+    transparent 0,
+    rgba(39, 88, 177, 0.22) 64%,
+    rgba(5, 70, 255, 0.17) 100%
+  );
+}
+[data-uncommon] .omni-mod__border:after,
+[data-uncommon] .omni-mod__border:before {
+  background-image: url(/mod-frames/test/SilverSideLight.png);
+}
+[data-uncommon] .compatibility:after {
+  background-image: url(/mod-frames/test/SilverLowerTab.png);
+}
+
+/* rare */
+.omni-mod-container[data-hover][data-rare] .omni-mod__image:after {
+  box-shadow: inset 1px 1px 100px #ffca3e;
+}
+[data-rare].omni-mod-container:before {
+  background-image: url(/mod-frames/test/GoldFrameTop.png);
+}
+[data-rare].omni-mod-container:after {
+  background-image: url(/mod-frames/test/GoldFrameBottom.png);
+}
+[data-rare] .omni-mod__drain:after,
+[data-rare] .omni-mod__drain:before {
+  border-color: var(--color-mod-rare);
+}
+[data-rare] .omni-mod__image:after {
+  background: radial-gradient(
+    transparent 0,
+    rgba(177, 141, 39, 0.18) 64%,
+    rgba(255, 213, 5, 0.09) 100%
+  );
+}
+[data-rare] .omni-mod__border:after,
+[data-rare] .omni-mod__border:before {
+  background-image: url(/mod-frames/test/GoldSideLight.png);
+}
+[data-rare] .compatibility:after {
+  background-image: url(/mod-frames/test/GoldLowerTab.png);
+}
+
+/* legendary */
+.omni-mod-container[data-hover][data-legendary] .omni-mod__image:after {
+  box-shadow: inset 1px 1px 100px #5bf4ff;
+}
+[data-legendary].omni-mod-container:before {
+  background-image: url(/mod-frames/test/LegendaryFrameTop.png);
+}
+[data-legendary].omni-mod-container:after {
+  background-image: url(/mod-frames/test/LegendaryFrameBottom.png);
+}
+[data-legendary] .omni-mod__drain:after,
+[data-legendary] .omni-mod__drain:before {
+  border-color: var(--color-mod-legendary);
+}
+[data-legendary] .omni-mod__image:after {
+  background: radial-gradient(
+    transparent 0,
+    rgba(143, 193, 255, 0.32) 64%,
+    rgba(95, 122, 199, 0.27) 100%
+  );
+}
+[data-legendary] .omni-mod__border:after,
+[data-legendary] .omni-mod__border:before {
+  background-image: url(/mod-frames/test/LegendarySideLight.png);
+}
+[data-legendary] .compatibility:after {
+  background-image: url(/mod-frames/test/LegendaryLowerTab.png);
+}
+
+/* amalgam */
+/* special types */
+[data-amalgam].omni-mod-container:before {
+  background-image: url(/mod-frames/test/AmalgamFrameTop.png);
+}
+[data-amalgam].omni-mod-container:after {
+  background-image: url(/mod-frames/test/AmalgamFrameBottom.png);
+}
+
+[data-galvanized].omni-mod-container:before {
+  background-image: url(/mod-frames/test/GalvanizedFrameTop.png);
+}
+[data-galvanized].omni-mod-container:after {
+  background-image: url(/mod-frames/test/GalvanizedFrameBottom.png);
+}
+
+[data-riven].omni-mod-container:before {
+  background-image: url(/mod-frames/test/RivenFrameTop.png);
+}
+[data-riven].omni-mod-container:after {
+  background-image: url(/mod-frames/test/RivenFrameBottom.png);
+}
+
+[data-archon].omni-mod-container:before {
+  background-image: url(/mod-frames/test/ArchonFrameTop.png);
+}
+[data-archon].omni-mod-container:after {
+  background-image: url(/mod-frames/test/ArchonFrameBottom.png);
+}
+
+/* Mod content container (Visual layers) */
+.omni-mod__content {
+  z-index: 10;
+  /* El hitbox ahora vive en un elemento superpuesto independiente, esto es puramente visual */
+  pointer-events: none;
+  background-size: 100% auto;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+[data-common] .omni-mod__content {
+  background-image: url(/mod-frames/test/BronzeBackground.png);
+  color: var(--color-mod-common);
+}
+
+[data-uncommon] .omni-mod__content {
+  background-image: url(/mod-frames/test/SilverBackground.png);
+  color: var(--color-mod-uncommon);
+}
+
+[data-rare] .omni-mod__content {
+  background-image: url(/mod-frames/test/GoldBackground.png);
+  color: var(--color-mod-rare);
+}
+
+[data-legendary] .omni-mod__content {
+  background-image: url(/mod-frames/test/LegendaryBackground.png);
+  color: var(--color-mod-legendary);
+}
+
+/* ... specific tweaks ... */
+[data-amalgam] .omni-mod__content {
+  background-image: url(/mod-frames/test/AmalgamBackground.png);
+  color: var(--color-mod-amalgam);
+}
+[data-galvanized] .omni-mod__content {
+  background-image: url(/mod-frames/test/LegendaryBackground.png);
+  color: var(--color-mod-galvanized);
+}
+
+/* --- Polarity & Match State --- */
+
+.omni-mod__drain--match {
+  color: #68ce5f;
+}
+.omni-mod__drain--mismatch {
+  color: #f73533;
+}
+.omni-mod__polarity-icon {
+  align-items: center;
+  display: flex;
+  font-weight: 400;
+  height: 100%;
+  padding: 0 0.2rem;
+}
+
+/* --- Fusion Stars & Ranking --- */
+.omni-mod__fusion[data-rank="1"] i:first-of-type,
+.omni-mod__fusion[data-rank="10"] i:nth-of-type(-n + 10),
+.omni-mod__fusion[data-rank="2"] i:nth-of-type(-n + 2),
+.omni-mod__fusion[data-rank="3"] i:nth-of-type(-n + 3),
+.omni-mod__fusion[data-rank="4"] i:nth-of-type(-n + 4),
+.omni-mod__fusion[data-rank="5"] i:nth-of-type(-n + 5),
+.omni-mod__fusion[data-rank="6"] i:nth-of-type(-n + 6),
+.omni-mod__fusion[data-rank="7"] i:nth-of-type(-n + 7),
+.omni-mod__fusion[data-rank="8"] i:nth-of-type(-n + 8),
+.omni-mod__fusion[data-rank="9"] i:nth-of-type(-n + 9) {
+  color: #a6e6ff;
+  filter: drop-shadow(0 0 0.1rem #a6e6ff);
+}
+
+/* Focus Schools / Tektolyst Artifacts */
+[data-focus] .omni-mod__content {
+  background-image: url(/mod-frames/test/BronzeBackground.png);
+}
+
+[data-focus].omni-mod-container:before {
+  /* Using Archon/Tech frame as it fits the Perita Sequence aesthetic */
+  background-image: url(/mod-frames/test/LegendaryFrameTop.png);
+}
+
+[data-focus].omni-mod-container:after {
+  background-image: url(/mod-frames/test/LegendaryFrameBottom.png);
+}
+
+[data-focus][data-common] .omni-mod__content {
+  color: var(--color-mod-focus-common);
+}
+
+[data-focus][data-uncommon] .omni-mod__content {
+  color: var(--color-mod-focus-uncommon);
+}
+
+[data-focus][data-rare] .omni-mod__content {
+  color: var(--color-mod-focus-rare);
+}

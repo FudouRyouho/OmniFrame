@@ -5,6 +5,8 @@
 
 import type { BaseItem } from './base'
 
+import type { ModStats } from './stats'
+
 export type ModCategory =
   | 'warframe' | 'primary' | 'secondary' | 'melee' | 'companion'
   | 'archgun' | 'archmelee' | 'archwing'
@@ -14,32 +16,27 @@ export type ModCategory =
 
 export type ModClass = 'Primed' | 'Galvanized' | 'Archon' | 'Amalgam' | 'Riven';
 
-export type UpgradeType = string;
-
-export type ModModifier = UpgradeType;
-
 export interface Mod extends BaseItem {
+  domain: 'mod';
   kind: 'mod';
+  
   description: string;
-  imageName: string;
-  baseDrain: number | null;
-  rank: number | null;
-  levelStats: Array<{ stats: string[] }> | null;
-  categoryRaw: string | null;
-  category: ModCategory;
-  compatName?: string | null;
+  
+  // Módulo de estadísticas normalizado
+  stats: ModStats;
+
+  category_raw: string | null;
+  compat_name?: string | null;
   polarity?: string | null;
   rarity?: string | null;
-  type?: string | null;
   introduced?: string | null;
-  wikiaThumbnail?: string | null;
-  wikiaUrl?: string | null;
-  upgradeTypes: UpgradeType[];
-  isExilus?: boolean;
-  isFlawed?: boolean;
-  modClass?: ModClass;
-  isWeaponAugment?: boolean;
+  wikia_thumbnail?: string | null;
+  wikia_url?: string | null;
+  is_exilus?: boolean;
+  is_flawed?: boolean;
+  mod_class?: ModClass;
+  is_weapon_augment?: boolean;
   incompatible?: string[];
-  incompatibilityTags?: string[];
-  misc?: unknown[];
+  incompatibility_tags?: string[];
 }
+

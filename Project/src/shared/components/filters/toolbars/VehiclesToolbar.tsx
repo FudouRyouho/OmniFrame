@@ -2,32 +2,28 @@ import { useFilterContext } from "../context";
 import { useFilterLogic } from "../hooks/use-filter-logic";
 import type { ViewFilterConfig } from "../types";
 import FilterIcon from "../FilterIcon";
+import type { VehicleKind } from "@shared/types";
 
-const config: ViewFilterConfig = {
+const config: ViewFilterConfig<VehicleKind | "all"> = {
   categories: [
-    { key: "All", label: "All", icon: "/assets/ui/Category/All.png" },
+    { key: "all", label: "All", icon: "/assets/ui/Category/All.png" },
     {
-      key: "Archwing",
+      key: "archwing",
       label: "Archwing",
       icon: "/assets/ui/Category/Archwing.png",
     },
     {
-      key: "K-Drive",
-      label: "K-Drive",
-      icon: "/assets/ui/Category/KDrive.png",
-    },
-    {
-      key: "Necramech",
+      key: "necramech",
       label: "Necramech",
       icon: "/assets/ui/Category/Necramech.png",
     },
-    { key: "Plexus", label: "Plexus", icon: "/assets/ui/Category/Plexus.png" },
   ],
 };
 
 const VehiclesToolbar = () => {
-  const { setHovered } = useFilterContext();
-  const { categories, selected, selectCategory } = useFilterLogic(config);
+  const filterState = useFilterContext();
+  const { setHovered } = filterState;
+  const { categories, selected, selectCategory } = useFilterLogic(config, filterState);
 
   return (
     <div className="flex items-center gap-2">

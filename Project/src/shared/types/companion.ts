@@ -1,17 +1,30 @@
-// ── Companion ─────────────────────────────────────────────────────────────────
-
 import type { BaseItem } from './base';
 
-export type CompanionCategory = 'Pets' | 'Sentinels';
+import type { LivingStats } from './stats';
+import type { Weapon } from './weapon';
+
+export type CompanionCategory = 'sentinel' | 'pet' | 'hound' | 'moa';
 
 export interface Companion extends BaseItem {
-  kind: 'companion';
+  domain: 'companion';
+  kind: CompanionCategory;
+  
   description: string;
-  imageName: string;
-  category: CompanionCategory;
-  health: number | null;
-  shield: number | null;
-  armor: number | null;
-  isPrime: boolean;
+  
+  // Módulo de estadísticas normalizado (Supervivencia)
+  stats: LivingStats;
+
+  is_prime: boolean;
   tradable: boolean;
+  introduced?: string;
+  wikia_thumbnail?: string;
+  wikia_url?: string;
 }
+
+/**
+ * Interfaz para armas de Compañero (Sentinels, Hounds, etc.)
+ */
+export interface CompanionWeapon extends Weapon {
+  kind: 'sentinel' | 'hound' | 'moa'; // Especialización funcional
+}
+

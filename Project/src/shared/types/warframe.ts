@@ -5,32 +5,33 @@
 import type { BaseItem } from './base'
 import type { Ability } from './ability'
 
+export type WarframeCategory = 'warframe' | 'archwing' | 'necramech' | 'operator';
+
+import type { LivingStats } from './stats'
+
 export interface Warframe extends BaseItem {
+  domain: 'warframe';
   kind: 'warframe';
+  
   description: string;
-  imageName: string;
-  health: number;
-  shield: number;
-  armor: number;
-  power: number;
-  sprintSpeed: number;
-  passiveDescription?: string;
-  passive?: string | { name: string, description: string }; // Pointer to passives.json or hydrated object
+  
+  // Módulo de estadísticas normalizado (Supervivencia)
+  stats: LivingStats;
+
+  passive_description?: string;
+  passive?: string | { name: string, description: string };
   abilities: Ability[];
   aura?: string;
   sex?: string;
   introduced?: string;
-  wikiaThumbnail?: string;
-  wikiaUrl?: string;
-  isPrime: boolean;
-  // Stats from Module:Warframes/data
-  energy?: number;
-  initialEnergy?: number;
-  maxRank?: number;
-  category?: 'Warframes' | 'Archwings' | 'Necramechs' | 'Operators';
+  wikia_thumbnail?: string;
+  wikia_url?: string;
+  is_prime: boolean;
+  max_rank?: number;
   playstyle?: string[];
   progenitor?: string;
   subsumed?: string;
   themes?: string;
   tactical?: string;
 }
+

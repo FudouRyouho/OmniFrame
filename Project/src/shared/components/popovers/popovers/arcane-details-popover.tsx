@@ -41,12 +41,12 @@ const ArcaneDetailsPopover = ({ item }: ArcaneDetailsPopoverProps) => {
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Compatibility</span>
                 <span className="text-ui-accent">
-                  {item.compatName ?? "unknown"}
+                  {item.compat_name ?? "unknown"}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Max Rank</span>
-                <span className="text-ui-accent">{item.maxRank}</span>
+                <span className="text-ui-accent">{item.max_rank}</span>
               </div>
               {item.rarity && (
                 <div className="flex justify-between">

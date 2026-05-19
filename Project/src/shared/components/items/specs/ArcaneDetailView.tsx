@@ -46,9 +46,9 @@ const ArcaneDetailView = () => {
         )}
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold">{item.name}</h1>
-          {item.levelStats.length > 0 && (
+          {item.level_stats.length > 0 && (
             <p className="text-sm opacity-60">
-              {item.levelStats[item.levelStats.length - 1].stats.join(" / ")}
+              {item.level_stats[item.level_stats.length - 1].stats.join(" / ")}
             </p>
           )}
         </div>

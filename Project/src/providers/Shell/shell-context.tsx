@@ -1,6 +1,6 @@
 /**
  * @domain Integration / Providers / Shell
- * @SSoT docs/domains/integration/runtime-composition.md
+ * @SSoT docs/domains/ui-ux/shell-status.md
  * @status activo
  */
 import { createContext, useContext, useMemo } from "react";

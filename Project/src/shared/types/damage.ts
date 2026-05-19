@@ -1,5 +1,3 @@
-// ── Damage Types ──────────────────────────────────────────────────────────────
-
 /**
  * @domain Shared / Types / Damage
  * @SSoT docs/domains/semantic/damage-types.md
@@ -244,20 +242,15 @@ export type WeaponShotType = 'AoE' | 'Projectile' | 'Hit-Scan' | 'Thrown' | 'DoT
 export interface WeaponAttack {
   name: string
   damage?: DamageMap
-  totalDamage?: number
-  crit_chance?: number | null;
+  total_damage?: number
+  crit_chance?: number | null
   crit_mult?: number | null
-  status_chance?: number | null;
-  /** Fire rate (ranged) or attack speed (melee). */
+  status_chance?: number | null
   speed?: number | null
-  /** Semantic attack type. */
   shot_type?: WeaponShotType | null
-  /** Projectile speed in m/s. null when not applicable or instantaneous. */
   flight?: number | null
   falloff?: { start: number; end: number; reduction: number } | null
-  /** Slide attack damage value (melee Normal Attack only). */
   slide?: string | null
-  /** Charge time in seconds. */
   charge_time?: number | null
-  punchThrough?: number | null;
+  punch_through?: number | null
 }

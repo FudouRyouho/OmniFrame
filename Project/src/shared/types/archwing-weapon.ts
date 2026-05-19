@@ -1,22 +1,20 @@
-// ── ArchwingWeapon ────────────────────────────────────────────────────────────
-
 import type { BaseItem } from './base';
-import type { DamageMap, WeaponAttack } from './damage';
 
-export type ArchwingWeaponCategory = 'Arch-Gun' | 'Arch-Melee';
+
+import type { CombatStats } from './stats';
+
+export type ArchwingWeaponKind = 'archgun' | 'archmelee';
 
 export interface ArchwingWeapon extends BaseItem {
-  kind: 'archgun' | 'archmelee';
+  domain: 'weapon'; // El dominio sigue siendo arma
+  kind: ArchwingWeaponKind;
+  
   description: string;
-  imageName: string;
-  category: ArchwingWeaponCategory;
-  masteryReq: number;
-  isPrime: boolean;
+  
+  // Módulo de estadísticas normalizado (Combate)
+  stats: CombatStats;
+
+  is_prime: boolean;
   tradable: boolean;
-  damage: DamageMap;
-  totalDamage: number;
-  criticalChance: number;
-  criticalMultiplier: number;
-  procChance: number;
-  attacks: WeaponAttack[];
 }
+

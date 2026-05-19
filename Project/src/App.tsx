@@ -7,18 +7,12 @@ import { Routes, Route, Navigate } from "react-router";
 import DialogAppMenu from "./shared/components/navigation/DialogMenu";
 import Hud from "@domains/hud/Hud";
 import EquipmentLayout from "@domains/equipment/EquipmentLayout";
-import WarframesView from "@domains/equipment/view/WarframesView";
-import WeaponsView from "@domains/equipment/view/WeaponsView";
-import CompanionsView from "@domains/equipment/view/CompanionsView";
-import ModsView from "@domains/equipment/view/ModsView";
-import ArcanesView from "@domains/equipment/view/ArcanesView";
-import VehiclesView from "@domains/equipment/view/VehiclesView";
-import ArchwingWeaponsView from "@domains/equipment/view/ArchwingWeaponsView";
 import OptionsView from "@domains/options/OptionsView";
 import ArsenalLayout from "@domains/arsenal/ArsenalLayout";
 import ArsenalView from "@domains/arsenal/ArsenalView";
 import ArsenalSwapView from "@domains/arsenal/swap/ArsenalSwapView";
 import ArchonShardSelectionView from "@domains/arsenal/archon-shards/ArchonShardSelectionView";
+import UpgradeView from "@domains/arsenal/view/UpgradeView";
 import ProfileView from "@domains/profile/ProfileView";
 import WarframeDetailView from "@shared/components/items/specs/WarframeDetailView";
 import WeaponDetailView from "@shared/components/items/specs/WeaponDetailView";
@@ -27,6 +21,10 @@ import ArchwingWeaponDetailView from "@shared/components/items/specs/ArchwingWea
 import ModDetailView from "@shared/components/items/specs/ModDetailView";
 import ArcaneDetailView from "@shared/components/items/specs/ArcaneDetailView";
 import VehicleDetailView from "@shared/components/items/specs/VehicleDetailView";
+import OmniView from "@shared/components/items/views/OmniView";
+import { toRouteSlug } from "@lib/route-id";
+import SimulationLab from "./dev/SimulationLab";
+import ModTestPage from "./dev/ModTestPage";
 
 export type AppRoute = {
   readonly path: string;
@@ -38,6 +36,24 @@ export type AppRoute = {
 // eslint-disable-next-line react-refresh/only-export-components
 export const routes: readonly AppRoute[] = [] as const;
 
+import { useNavigate, useParams } from "react-router";
+
+const EquipmentBrowser = () => {
+  const navigate = useNavigate();
+  const { category } = useParams();
+
+  return (
+    <OmniView
+      basePath="/equipment"
+      onSelect={(item) => {
+        navigate(`/equipment/${category}/${toRouteSlug(item.name)}`, {
+          state: { uniqueName: item.unique_name },
+        });
+      }}
+    />
+  );
+};
+
 export default function App() {
   return (
     <Hud>
@@ -48,9 +64,13 @@ export default function App() {
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
 
+        <Route path="/dev/lab" element={<SimulationLab />} />
+        <Route path="/dev/mod-test" element={<ModTestPage />} />
+
         <Route path="/arsenal" element={<ArsenalLayout />}>
           <Route index element={<ArsenalView />} />
           <Route path="swap/:category" element={<ArsenalSwapView />} />
+          <Route path="upgrade/:category" element={<UpgradeView />} />
           <Route path="archon-shards" element={<ArchonShardSelectionView />} />
         </Route>
         <Route path="/profile" element={<ProfileView />} />
@@ -66,13 +86,8 @@ export default function App() {
         {/* Equipment */}
         <Route path="/equipment" element={<EquipmentLayout />}>
           <Route index element={<Navigate to="warframes" replace />} />
-          <Route path="warframes" element={<WarframesView />} />
-          <Route path="weapons" element={<WeaponsView />} />
-          <Route path="companions" element={<CompanionsView />} />
-          <Route path="mods" element={<ModsView />} />
-          <Route path="arcanes" element={<ArcanesView />} />
-          <Route path="vehicles" element={<VehiclesView />} />
-          <Route path="archwing-weapons" element={<ArchwingWeaponsView />} />
+          <Route path=":category" element={<EquipmentBrowser />} />
+          {/* Rutas de detalle... */}
           {/* Rutas de detalle */}
           <Route
             path="warframes/:uniqueName"

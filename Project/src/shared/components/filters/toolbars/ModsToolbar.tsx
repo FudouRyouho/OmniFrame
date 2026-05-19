@@ -2,56 +2,59 @@ import { useFilterContext } from "../context";
 import { useFilterLogic } from "../hooks/use-filter-logic";
 import type { ViewFilterConfig } from "../types";
 import FilterIcon from "../FilterIcon";
+import type { ModCategory } from "@shared/types";
 
-const config: ViewFilterConfig = {
+type ModsToolbarKey = ModCategory | "all" | "aura" | "augment" | "stance" | "exilus" | "vehicle";
+
+const config: ViewFilterConfig<ModsToolbarKey> = {
   categories: [
-    { key: "All", label: "All", icon: "/assets/ui/Category/All.png" },
+    { key: "all", label: "All", icon: "/assets/ui/Category/All.png" },
     {
-      key: "Warframe",
+      key: "warframe",
       label: "Warframe",
       icon: "/assets/ui/Category/Warframe.png",
     },
-    { key: "Aura", label: "Aura", icon: "/assets/ui/Category/Aura.png" },
+    { key: "aura", label: "Aura", icon: "/assets/ui/Category/Aura.png" },
     {
-      key: "Augment",
+      key: "augment",
       label: "Augment",
       icon: "/assets/ui/Category/Augment.png",
     },
     {
-      key: "Primary",
+      key: "primary",
       label: "Primary",
       icon: "/assets/ui/Category/Primary.png",
     },
     {
-      key: "Secondary",
+      key: "secondary",
       label: "Secondary",
       icon: "/assets/ui/Category/Secondary.png",
     },
-    { key: "Melee", label: "Melee", icon: "/assets/ui/Category/Melee.png" },
-    { key: "Stance", label: "Stance", icon: "/assets/ui/Category/Stance.png" },
-    { key: "Exilus", label: "Exilus", icon: "/assets/ui/Category/Exilus.png" },
+    { key: "melee", label: "Melee", icon: "/assets/ui/Category/Melee.png" },
+    { key: "stance", label: "Stance", icon: "/assets/ui/Category/Stance.png" },
+    { key: "exilus", label: "Exilus", icon: "/assets/ui/Category/Exilus.png" },
     {
-      key: "Vehicles",
+      key: "vehicle",
       label: "Vehicles",
       icon: "/assets/ui/Category/Archwing.png",
     },
     {
-      key: "Archgun",
+      key: "archgun",
       label: "Archgun",
       icon: "/assets/ui/Category/Archgun.png",
     },
     {
-      key: "Archmelee",
+      key: "archmelee",
       label: "Archmelee",
       icon: "/assets/ui/Category/Archmelee.png",
     },
     {
-      key: "Robotic",
+      key: "companion",
       label: "Robotic",
       icon: "/assets/ui/Category/Sentinel.png",
     },
     {
-      key: "Beast",
+      key: "companion",
       label: "Beast",
       icon: "/assets/ui/Category/Companion/Beast.png",
     },
@@ -59,8 +62,10 @@ const config: ViewFilterConfig = {
 };
 
 const ModsToolbar = () => {
-  const { setHovered } = useFilterContext();
-  const { categories, selected, selectCategory } = useFilterLogic(config);
+  const filterState = useFilterContext();
+  const { setHovered } = filterState;
+  const { categories, selected, selectCategory } = useFilterLogic(config, filterState);
+
 
   return (
     <div className="flex items-center gap-2">

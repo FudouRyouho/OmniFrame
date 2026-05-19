@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router";
 import { fetchWarframe } from "@lib/warframe-data";
-import type { Warframe } from "@shared/types";
-import type { Ability } from "@shared/types/ability";
+import type { Warframe, Ability } from "@shared/types";
 import { resolveLocalImageUrl } from "@lib/image-url";
 import { FormattedText } from "@lib/presentation/FormattedText";
 import { StatRow } from "./stat-row";
 
 const AbilityCard = ({ ability }: { ability: Ability }) => (
   <div className="flex flex-col gap-2 p-3 bg-white/5 rounded">
-    {resolveLocalImageUrl(ability.imageName) ? (
+    {resolveLocalImageUrl(ability.image_name) ? (
       <img
-        src={resolveLocalImageUrl(ability.imageName)}
+        src={resolveLocalImageUrl(ability.image_name)}
         alt={ability.name}
         onError={(event) => {
           event.currentTarget.style.display = "none";
@@ -55,12 +54,13 @@ const WarframeDetailView = () => {
     );
 
   const basicStats = [
-    { label: "Health", value: item.health },
-    { label: "Shield", value: item.shield },
-    { label: "Armor", value: item.armor },
-    { label: "Energy", value: item.power },
-    { label: "Sprint", value: item.sprintSpeed },
+    { label: "Health", value: item.stats.health },
+    { label: "Shield", value: item.stats.shield },
+    { label: "Armor", value: item.stats.armor },
+    { label: "Energy", value: item.stats.energy },
+    { label: "Sprint", value: item.stats.sprint_speed },
   ];
+
   const numberFormatter = new Intl.NumberFormat("es-ES", {
     maximumFractionDigits: 2,
   });
@@ -68,9 +68,9 @@ const WarframeDetailView = () => {
   return (
     <div className="h-full overflow-hidden p-6 overflow-y-auto">
       <div className="flex gap-6 mb-6">
-        {resolveLocalImageUrl(item.imageName) && (
+        {resolveLocalImageUrl(item.image_name) && (
           <img
-            src={resolveLocalImageUrl(item.imageName)}
+            src={resolveLocalImageUrl(item.image_name)}
             alt={item.name}
             className="w-32 h-32 object-contain shrink-0"
           />
@@ -86,9 +86,10 @@ const WarframeDetailView = () => {
           <StatRow
             key={stat.label}
             label={stat.label}
-            value={numberFormatter.format(stat.value)}
+            value={numberFormatter.format(stat.value ?? 0)}
             isOdd={index % 2 === 1}
             valueTone="accent"
+
           />
         ))}
       </div>
@@ -98,7 +99,7 @@ const WarframeDetailView = () => {
           <h2 className="text-lg font-semibold mb-3">Abilities</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {item.abilities.map((ability) => (
-              <AbilityCard key={ability.uniqueName} ability={ability} />
+              <AbilityCard key={ability.unique_name} ability={ability} />
             ))}
           </div>
         </>

@@ -3,7 +3,6 @@
  * @SSoT docs/domains/integration/runtime-hydration.md
  */
 import type { Warframe, Ability, AbilityStatsData } from '../shared/types'
-import { db, fetchWithCache } from './db'
 import { hydrateImageFromImageName } from './image-url'
 import { matchesRouteIdentifier } from './route-id'
 
@@ -13,18 +12,18 @@ let cache: Warframe[] | null = null
 
 /** Hidrata abilities con overrides runtime. */
 const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Ability => {
-  const dbEntry = statsDb[ability.uniqueName]
+  const dbEntry = statsDb[ability.unique_name]
 
   if (!dbEntry) {
     return {
       ...ability,
-      name: ability.uniqueName.split('/').pop() ?? 'Unknown',
+      name: ability.unique_name.split('/').pop() ?? 'Unknown',
       description: '',
-      imageName: '',
+      image_name: '',
       stats: {
-        name: ability.uniqueName.split('/').pop() ?? 'Unknown',
+        name: ability.unique_name.split('/').pop() ?? 'Unknown',
         description: '',
-        imageName: '',
+        image_name: '',
         groups: [],
       },
     }
@@ -38,9 +37,9 @@ const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Abi
     : []
 
   const statsData: AbilityStatsData = {
-    name:        String(metadata.name        ?? ability.uniqueName.split('/').pop() ?? 'Unknown'),
+    name:        String(metadata.name        ?? ability.unique_name.split('/').pop() ?? 'Unknown'),
     description: String(metadata.description ?? ''),
-    imageName:   String(metadata.imageName   ?? metadata.icon ?? ''),
+    image_name:   String(metadata.image_name   ?? metadata.icon ?? ''),
     groups:      Array.isArray(groupsArray) ? groupsArray as AbilityStatsData['groups'] : [],
   }
 
@@ -48,17 +47,13 @@ const hydrateAbility = (ability: Ability, statsDb: Record<string, unknown>): Abi
     ...ability,
     name:        statsData.name,
     description: statsData.description,
-    imageName:   statsData.imageName || ability.imageName,
+    image_name:   statsData.image_name || ability.image_name,
     stats:       statsData,
   }
 }
 
 // ── Fetch ─────────────────────────────────────────────────────────────────────
 
-/**
- * Fetch interno que carga el JSON y hace la hidratación.
- * Usado por fetchWithCache como fallback cuando IndexedDB está vacío.
- */
 const fetchWarframesFromJSON = async (): Promise<Warframe[]> => {
   const [wfRes, statsRes, passivesRes] = await Promise.all([
     fetch('/data/warframes.json'),
@@ -69,37 +64,33 @@ const fetchWarframesFromJSON = async (): Promise<Warframe[]> => {
   if (!wfRes.ok) throw new Error('Failed to load warframes.json')
 
   const warframes: Warframe[] = await wfRes.json()
-  let statsDb: Record<string, unknown> = statsRes?.ok ? await statsRes.json() : {}
+  const statsDb: Record<string, unknown> = statsRes?.ok ? await statsRes.json() : {}
   const passivesDb: Record<string, { name: string; description: string }> =
     passivesRes?.ok ? await passivesRes.json() : {}
-
-    }
-  }
 
   return warframes.map(wf => ({
     ...hydrateImageFromImageName(wf),
     passive: wf.passive && typeof wf.passive === 'string'
       ? passivesDb[wf.passive]
       : wf.passive,
-    passiveDescription:
+    passive_description:
       (wf.passive && typeof wf.passive === 'string'
         ? passivesDb[wf.passive]?.description
-        : undefined) ?? wf.passiveDescription,
+        : undefined) ?? wf.passive_description,
     abilities: wf.abilities.map(a => hydrateAbility(a, statsDb)),
   }))
 }
 
 export const fetchWarframes = async (): Promise<Warframe[]> => {
   if (cache) return cache
-
-  // Usar IndexedDB con fallback a JSON
-  cache = await fetchWithCache(db.warframes, fetchWarframesFromJSON, 'warframes')
-  return cache
+  const data = await fetchWarframesFromJSON()
+  cache = data
+  return data
 }
 
 export const fetchWarframe = async (identifier: string): Promise<Warframe | undefined> => {
-  const warframes = await fetchWarframes()
-  return warframes.find(w => matchesRouteIdentifier(w, identifier))
+  const items = await fetchWarframes()
+  return items.find(w => matchesRouteIdentifier(w, identifier))
 }
 
 export type { Warframe }

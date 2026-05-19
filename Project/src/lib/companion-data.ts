@@ -1,5 +1,4 @@
 import type { Companion } from '../shared/types';
-import { db, fetchWithCache } from './db';
 import { hydrateImageFromImageName } from './image-url';
 import { matchesRouteIdentifier } from './route-id';
 
@@ -14,8 +13,9 @@ const fetchCompanionsFromJSON = async (): Promise<Companion[]> => {
 
 export const fetchCompanions = async (): Promise<Companion[]> => {
   if (cache) return cache;
-  cache = await fetchWithCache(db.companions, fetchCompanionsFromJSON, 'companions');
-  return cache;
+  const data = await fetchCompanionsFromJSON();
+  cache = data;
+  return data;
 };
 
 export const fetchCompanion = async (identifier: string): Promise<Companion | undefined> => {

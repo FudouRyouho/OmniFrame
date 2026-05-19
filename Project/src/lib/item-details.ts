@@ -46,12 +46,6 @@ export const getAttackStats = (weapon: Weapon, attack: WeaponAttack): StatEntry[
 
   // ── Stats del ataque ──────────────────────────────────────────────────────
 
-  if (attack.speed != null)
-    entries.push({ key: 'speed', label: L.speed, value: fmt(attack.speed) })
-
-  if (attack.charge_time != null)
-    entries.push({ key: 'charge_time', label: L.charge_time, value: `${fmt(attack.charge_time)}s` })
-
   if (attack.crit_chance != null)
     entries.push({ key: 'crit_chance', label: L.crit_chance, value: pct(attack.crit_chance) })
 
@@ -61,35 +55,28 @@ export const getAttackStats = (weapon: Weapon, attack: WeaponAttack): StatEntry[
   if (attack.status_chance != null)
     entries.push({ key: 'status_chance', label: L.status_chance, value: pct(attack.status_chance) })
 
-  if (attack.flight != null)
-    entries.push({ key: 'flight', label: L.flight, value: `${fmt(attack.flight)}m/s` })
+  // ── Stats del arma (bloque stats) ──────────────────────────────────────────
 
-  if (attack.slide != null) {
-    const slideNum = parseFloat(attack.slide)
-    if (!isNaN(slideNum))
-      entries.push({ key: 'slide', label: L.slide, value: fmt(slideNum) })
-  }
-
-  // ── Stats del arma (top-level) ────────────────────────────────────────────
+  const stats = weapon.stats;
 
   if (!isMelee) {
-    if (weapon.magazineSize != null)
-      entries.push({ key: 'magazineSize', label: L.magazineSize, value: fmt(weapon.magazineSize) })
+    if (stats.magazine_size != null)
+      entries.push({ key: 'magazine_size', label: L.magazineSize, value: fmt(stats.magazine_size) })
 
-    if (weapon.reloadTime != null)
-      entries.push({ key: 'reloadTime', label: L.reloadTime, value: `${fmt(weapon.reloadTime)}s` })
+    if (stats.reload_time != null)
+      entries.push({ key: 'reload_time', label: L.reloadTime, value: `${fmt(stats.reload_time)}s` })
 
-    if (weapon.multishot != null)
-      entries.push({ key: 'multishot', label: L.multishot, value: fmt(weapon.multishot) })
+    if (stats.multishot != null)
+      entries.push({ key: 'multishot', label: L.multishot, value: fmt(stats.multishot) })
 
-    if (weapon.accuracy != null)
-      entries.push({ key: 'accuracy', label: L.accuracy, value: fmt(weapon.accuracy) })
+    if (stats.accuracy != null)
+      entries.push({ key: 'accuracy', label: L.accuracy, value: fmt(stats.accuracy) })
 
-    if (weapon.noise != null)
-      entries.push({ key: 'noise', label: L.noise, value: weapon.noise })
+    if (stats.noise != null)
+      entries.push({ key: 'noise', label: L.noise, value: stats.noise })
 
-    if (weapon.trigger != null)
-      entries.push({ key: 'trigger', label: L.trigger, value: weapon.trigger })
+    if (stats.trigger != null)
+      entries.push({ key: 'trigger', label: L.trigger, value: stats.trigger })
   }
 
   // ── Daño ──────────────────────────────────────────────────────────────────
@@ -105,12 +92,13 @@ export const getAttackStats = (weapon: Weapon, attack: WeaponAttack): StatEntry[
       entries.push({ key: `damage_${type}`, label: label.toUpperCase(), value: fmt(value) })
     }
 
-    if (attack.totalDamage != null)
-      entries.push({ key: 'totalDamage', label: L.totalDamage, value: fmt(attack.totalDamage) })
+    if (attack.total_damage != null)
+      entries.push({ key: 'total_damage', label: L.totalDamage, value: fmt(attack.total_damage) })
   }
 
   return entries
 }
+
 
 // ── Mod stats ─────────────────────────────────────────────────────────────────
 
@@ -121,6 +109,8 @@ export const getModStats = (mod: Mod): StatEntry[] => {
   const entries: StatEntry[] = []
   const L = getModStatLabels()
 
+  const stats = mod.stats;
+
   if (mod.type)
     entries.push({ key: 'type', label: L.type, value: mod.type })
 
@@ -130,13 +120,14 @@ export const getModStats = (mod: Mod): StatEntry[] => {
   if (mod.polarity)
     entries.push({ key: 'polarity', label: L.polarity, value: mod.polarity })
 
-  if (mod.baseDrain != null)
-    entries.push({ key: 'baseDrain', label: L.baseDrain, value: String(mod.baseDrain) })
+  if (stats.base_drain != null)
+    entries.push({ key: 'base_drain', label: L.baseDrain, value: String(stats.base_drain) })
 
-  if (mod.rank != null)
-    entries.push({ key: 'rank', label: L.rank, value: String(mod.rank) })
+  if (stats.rank != null)
+    entries.push({ key: 'rank', label: L.rank, value: String(stats.rank) })
 
-  const maxRankStats = mod.levelStats?.[mod.levelStats.length - 1]?.stats ?? []
+  const statsArray = stats.level_stats ?? []
+  const maxRankStats = statsArray[statsArray.length - 1]?.stats ?? []
   if (maxRankStats.length > 0) {
     entries.push({ key: 'effects_header', label: L.effects, value: '', isSectionHeader: true })
     for (const [i, stat] of maxRankStats.entries()) {
@@ -146,3 +137,4 @@ export const getModStats = (mod: Mod): StatEntry[] => {
 
   return entries
 }
+

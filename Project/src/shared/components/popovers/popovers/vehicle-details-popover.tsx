@@ -39,15 +39,15 @@ const VehicleDetailsPopover = ({ item }: VehicleDetailsPopoverProps) => {
             <div className="mt-4 space-y-1 text-[10px]">
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Health</span>
-                <span className="text-ui-accent">{item.health ?? "N/A"}</span>
+                <span className="text-ui-accent">{item.stats.health}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Shield</span>
-                <span className="text-ui-accent">{item.shield ?? "N/A"}</span>
+                <span className="text-ui-accent">{item.stats.shield}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Armor</span>
-                <span className="text-ui-accent">{item.armor ?? "N/A"}</span>
+                <span className="text-ui-accent">{item.stats.armor}</span>
               </div>
               {item.abilities && item.abilities.length > 0 && (
                 <div className="mt-2 text-ui-primary/50">

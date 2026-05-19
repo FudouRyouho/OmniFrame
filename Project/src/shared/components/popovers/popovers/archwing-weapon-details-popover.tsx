@@ -41,26 +41,22 @@ const ArchwingWeaponDetailsPopover = ({
             <div className="mt-4 space-y-1 text-[10px]">
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Total Damage</span>
-                <span className="text-ui-accent">
-                  {item.totalDamage.toFixed(1)}
-                </span>
+                <span className="text-ui-accent">{item.stats.total_damage}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-ui-primary/50">Crit Chance</span>
                 <span className="text-ui-accent">
-                  {(item.criticalChance * 100).toFixed(1)}%
+                  {(item.stats.crit_chance * 100).toFixed(1)}%
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-ui-primary/50">Crit Mult</span>
-                <span className="text-ui-accent">
-                  {item.criticalMultiplier.toFixed(1)}x
-                </span>
+                <span className="text-ui-primary/50">Crit Multiplier</span>
+                <span className="text-ui-accent">{item.stats.crit_mult}x</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-ui-primary/50">Status</span>
+                <span className="text-ui-primary/50">Status Chance</span>
                 <span className="text-ui-accent">
-                  {(item.procChance * 100).toFixed(1)}%
+                  {(item.stats.status_chance * 100).toFixed(1)}%
                 </span>
               </div>
             </div>

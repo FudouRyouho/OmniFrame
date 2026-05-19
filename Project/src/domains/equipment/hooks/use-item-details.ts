@@ -13,7 +13,7 @@ interface UseItemDetailsProps {
 
 export const useItemDetails = ({ item }: UseItemDetailsProps) => {
   const attacks: WeaponAttack[] = useMemo(
-    () => (isWeapon(item) ? item.attacks ?? [] : []),
+    () => (isWeapon(item) ? item.stats.attacks ?? [] : []),
     [item]
   );
   const [selectedIndex, setSelectedIndex] = useState(0);

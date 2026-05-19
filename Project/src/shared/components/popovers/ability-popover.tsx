@@ -30,7 +30,7 @@ const AbilityPopover = ({ abilities }: AbilityPopoverProps) => {
   return (
     <div className="space-y-3 p-4">
       {abilities.map((ability, index) => (
-        <div key={ability.uniqueName || index} className="space-y-1">
+        <div key={ability.unique_name || index} className="space-y-1">
           {/* Nombre de la habilidad */}
           <div className="flex items-center gap-2">
             <span className="text-ui-accent text-[11px] font-bold uppercase tracking-wide">

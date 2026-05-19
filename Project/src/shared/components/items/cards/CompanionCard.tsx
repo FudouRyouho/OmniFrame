@@ -10,13 +10,13 @@ import CompanionDetailsPopover from "@shared/components/popovers/popovers/compan
 type CompanionCardProps = {
   item: Companion;
   isSelected?: boolean;
-  onSelect?: (item: Companion) => void;
+  onClick?: (item: Companion) => void;
 };
 
 const CompanionCard = ({
   item,
   isSelected = false,
-  onSelect,
+  onClick,
 }: CompanionCardProps) => {
   return (
     <CustomPopover
@@ -26,7 +26,7 @@ const CompanionCard = ({
       <BaseItemCard
         item={item}
         isSelected={isSelected}
-        onClick={() => onSelect?.(item)}
+        onClick={() => onClick?.(item)}
       />
     </CustomPopover>
   );

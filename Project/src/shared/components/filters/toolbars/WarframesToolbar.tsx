@@ -3,31 +3,31 @@ import { useFilterLogic } from "../hooks/use-filter-logic";
 import type { ViewFilterConfig } from "../types";
 import FilterIcon from "../FilterIcon";
 
-const config: ViewFilterConfig = {
+const config: ViewFilterConfig<string> = {
   categories: [
-    { key: "All", label: "All", icon: "/assets/ui/Category/All.png" },
+    { key: "all", label: "All", icon: "/assets/ui/Category/All.png" },
     {
-      key: "Damage",
+      key: "damage",
       label: "Damage",
       icon: "/assets/ui/Category/Warframe/Damage.png",
     },
     {
-      key: "Crowd Control",
+      key: "crowd control",
       label: "Crowd Control",
       icon: "/assets/ui/Category/Warframe/CrowdControl.png",
     },
     {
-      key: "Support",
+      key: "support",
       label: "Support",
       icon: "/assets/ui/Category/Warframe/Support.png",
     },
     {
-      key: "Survival",
+      key: "survival",
       label: "Survival",
       icon: "/assets/ui/Category/Warframe/Survival.png",
     },
     {
-      key: "Stealth",
+      key: "stealth",
       label: "Stealth",
       icon: "/assets/ui/Category/Warframe/Stealth.png",
     },
@@ -35,8 +35,10 @@ const config: ViewFilterConfig = {
 };
 
 const WarframesToolbar = () => {
-  const { setHovered } = useFilterContext();
-  const { categories, selected, selectCategory } = useFilterLogic(config);
+  const filterState = useFilterContext();
+  const { setHovered } = filterState;
+  const { categories, selected, selectCategory } = useFilterLogic(config, filterState);
+
 
   return (
     <div className="flex items-center gap-2">

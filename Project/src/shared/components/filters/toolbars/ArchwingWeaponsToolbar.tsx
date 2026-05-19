@@ -3,16 +3,16 @@ import { useFilterLogic } from "../hooks/use-filter-logic";
 import type { ViewFilterConfig } from "../types";
 import FilterIcon from "../FilterIcon";
 
-const config: ViewFilterConfig = {
+const config: ViewFilterConfig<string> = {
   categories: [
-    { key: "All", label: "All", icon: "/assets/ui/Category/All.png" },
+    { key: "all", label: "All", icon: "/assets/ui/Category/All.png" },
     {
-      key: "Arch-Gun",
+      key: "archgun",
       label: "Arch-Gun",
       icon: "/assets/ui/Category/Archgun.png",
     },
     {
-      key: "Arch-Melee",
+      key: "archmelee",
       label: "Arch-Melee",
       icon: "/assets/ui/Category/Archmelee.png",
     },
@@ -20,8 +20,10 @@ const config: ViewFilterConfig = {
 };
 
 const ArchwingWeaponsToolbar = () => {
-  const { setHovered } = useFilterContext();
-  const { categories, selected, selectCategory } = useFilterLogic(config);
+  const filterState = useFilterContext();
+  const { setHovered } = filterState;
+  const { categories, selected, selectCategory } = useFilterLogic(config, filterState);
+
 
   return (
     <div className="flex items-center gap-2">

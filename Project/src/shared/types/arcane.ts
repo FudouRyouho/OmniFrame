@@ -9,12 +9,12 @@ export type ArcaneCompatName = 'warframe' | 'primary' | 'shotgun' | 'bow' | 'sec
 
 export interface Arcane extends BaseItem {
   kind: 'arcane';
-  type: string | null;   // valor raw de warframe-items
+  type: string | null;
   category: ArcaneCategory;
-  compatName: ArcaneCompatName | null;
+  compat_name: ArcaneCompatName | null;
   rarity: string | null;
   tradable: boolean;
-  imageName: string;
-  maxRank: number;       // garantizado por el filtro levelStats.length > 0 del pipeline
-  levelStats: { stats: string[] }[];
+  image_name: string;
+  max_rank: number;
+  level_stats: { stats: string[] }[];
 }

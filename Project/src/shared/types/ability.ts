@@ -1,24 +1,17 @@
-// ── Ability Schema (groups[]) ────────────────────────────────────────────────
-
 /**
  * @domain Shared / Types / Ability
  * @SSoT docs/domains/data/abilities/formula-patterns.md
  */
-export type AbilityUpgradeBy =
-  | 'AVATAR_ABILITY_STRENGTH'    // escala con Ability Strength
-  | 'AVATAR_ABILITY_RANGE'       // escala con Ability Range
-  | 'AVATAR_ABILITY_DURATION'    // escala con Ability Duration
-  | 'AVATAR_ABILITY_EFFICIENCY'  // escala con Ability Efficiency (raro — usar ENERGY_COST)
-  | 'ENERGY_COST'                // coste de activación (Drain en UI): (2-EFF)*base
-  | 'ENERGY_DRAIN'               // drain por segundo (Energy/s en UI): (2-EFF)*base/DUR
-  | 'NONE';                      // valor fijo, no escala
-  // Nota: patrones con TARGET (Oberon Renewal) y COMBO (Atlas Landslide) usan
-  // ENERGY_DRAIN como upgradeBy — el multiplicador dinámico es responsabilidad del motor.
 
-/**
- * Opciones canónicas de AbilityUpgradeBy para el editor.
- * Cada entrada incluye label legible y descripción para dropdowns.
- */
+export type AbilityUpgradeBy =
+  | 'AVATAR_ABILITY_STRENGTH'
+  | 'AVATAR_ABILITY_RANGE'
+  | 'AVATAR_ABILITY_DURATION'
+  | 'AVATAR_ABILITY_EFFICIENCY'
+  | 'ENERGY_COST'
+  | 'ENERGY_DRAIN'
+  | 'NONE';
+
 export const UPGRADE_BY_OPTIONS: Array<{
   value: AbilityUpgradeBy;
   label: string;
@@ -62,15 +55,13 @@ export const UPGRADE_BY_OPTIONS: Array<{
 ];
 
 export interface AbilityStatValue {
-  baseValue: number;
-  upgradeBy: AbilityUpgradeBy;
-  /** Solo para buff abilities: qué stat externo modifica (WEAPON_DAMAGE_AMOUNT, ARMOR_BONUS, etc.) */
-  upgradeType?: string;
-  /** Cap máximo tras escalar — (STR * 80), 95 en el módulo */
+  base_value: number;
+  upgrade_by: AbilityUpgradeBy;
+  upgrade_type?: string;
   cap?: number;
-  capMin?: number;
-  helminthBase?: number;
-  helminthCap?: number;
+  cap_min?: number;
+  helminth_base?: number;
+  helminth_cap?: number;
   inverse?: boolean;
 }
 
@@ -79,16 +70,10 @@ export interface AbilityStatEntry {
   values: AbilityStatValue[];
 }
 
-/**
- * Grupo de stats de una habilidad.
- * Sin `id` = grupo base, siempre activo, sin header.
- * Con `id` = sección con toggle (elemento, forma, mote, etc.)
- */
 export interface AbilityGroup {
   id?: string;
   label?: string;
-  defaultActive?: boolean;
-  /** true: Exclusivo (ej: Equinox/Chroma). false: Coexistente (ej: Wisp/Titania). */
+  default_active?: boolean;
   exclusive?: boolean;
   stats: AbilityStatEntry[];
 }
@@ -96,26 +81,25 @@ export interface AbilityGroup {
 export interface AbilityStatsData {
   name: string;
   description: string;
-  imageName: string;
+  image_name: string;
   groups: AbilityGroup[];
 }
 
 export interface Ability {
-  uniqueName: string;
+  unique_name: string;
   name: string;
   description: string;
-  imageName: string;
+  image_name: string;
   key?: number;
   cost?: number;
-  costType?: 'energy' | 'shield' | 'time';
+  cost_type?: 'energy' | 'shield' | 'time';
   powersuit?: string;
   introduced?: string;
   subsumable?: boolean;
   augments?: string[];
   weapon?: string;
-  cardImage?: string;
+  card_image?: string;
   preview?: string;
-  previewFallback?: string;
-  /** Numeric gameplay stats from Module:Ability/data/stats */
+  preview_fallback?: string;
   stats?: AbilityStatsData;
 }

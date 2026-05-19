@@ -6,29 +6,64 @@
 import type { Mod } from './mod';
 import type { Warframe } from './warframe';
 import type { Weapon } from './weapon';
+import type { PolarityType } from './polarity';
 
-export type Kind = 'warframe' | 'primary' | 'secondary' | 'melee' | 'mod' | 'arcane' | 'companion' | 'archgun' | 'archmelee' | 'necramech' | 'archwing';
+export type ItemDomain = 'warframe' | 'weapon' | 'companion' | 'mod' | 'arcane' | 'vehicle';
 
+export type ItemKind = 
+  | 'warframe' 
+  | 'primary' | 'secondary' | 'melee' 
+  | 'mod' | 'arcane' 
+  | 'sentinel' | 'pet' | 'hound' | 'moa' 
+  | 'archgun' | 'archmelee' 
+  | 'necramech' | 'archwing';
+
+export type ItemFamily = 
+  | 'warframe' | 'prime' | 'kuva' | 'tenet' | 'prisma' | 'wraith' | 'vandal' 
+  | 'robotic' | 'beast' | 'infested'
+  | 'companion' | 'companion weapon'
+  | 'mod' | 'augment' | 'exilus' | 'stance'
+  | 'arcane' | 'vehicle' | 'unknown'
+  // Weapon Types
+  | 'rifle' | 'shotgun' | 'pistol' | 'dual_pistols' | 'melee' | 'polearm' | 'sword' | 'dagger' | 'hammer' | 'bow' | 'launcher' | 'sniper_rifle' | 'thrown'
+  | string; // Fallback para tipos dinámicos de warframe-items
+
+export type ItemSource = ItemKind | 'all' | 'companion';
+
+
+/**
+ * Interfaz Base para todas las entidades de OmniFrame.
+ * Los campos domain, kind y family son inyectados determinísticamente por el pipeline.
+ */
 export interface BaseItem {
   id: string;
   name: string;
-  kind: Kind;
   image: string | null;
-  imageName?: string | null;
-  uniqueName: string;
+  image_name: string;
+  unique_name: string;
+  
+  // Taxonomía (4 Pilares)
+  domain: ItemDomain;
+  kind: ItemKind;
+  family?: ItemFamily;
+  
+  // Trazabilidad y Metadata Raw
+  category: string; // Valor crudo del data-source (ex-Kind/Category contaminado)
   type?: string | null;
-  masteryReq: number;
-  polarities?: string[];
+  
+  mastery_req: number;
+  polarities?: PolarityType[];
   tags?: string[];
 }
 
-// Type guards
+// Type guards actualizados por Domain
 
 export const isWeapon = (item: BaseItem): item is Weapon =>
-  item.kind === 'primary' || item.kind === 'secondary' || item.kind === 'melee';
+  item.domain === 'weapon' || item.domain === 'vehicle'; // Incluimos vehículos por herencia de combate
 
 export const isWarframe = (item: BaseItem): item is Warframe =>
-  item.kind === 'warframe';
+  item.domain === 'warframe';
 
 export const isMod = (item: BaseItem): item is Mod =>
-  item.kind === 'mod';
+  item.domain === 'mod';
+

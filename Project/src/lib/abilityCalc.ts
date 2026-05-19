@@ -18,18 +18,18 @@ export const DEFAULT_ENGINE_VARS: EngineVars = { STR: 100, RNG: 100, DUR: 100, E
 export function calcStatValue(v: AbilityStatValue, vars: EngineVars): number {
   const str = vars.STR / 100, rng = vars.RNG / 100, dur = vars.DUR / 100, eff = vars.EFF / 100;
   let result: number;
-  switch (v.upgradeBy) {
-    case "AVATAR_ABILITY_STRENGTH":   result = v.baseValue * str; break;
-    case "AVATAR_ABILITY_RANGE":      result = v.baseValue * rng; break;
-    case "AVATAR_ABILITY_DURATION":   result = v.baseValue * dur; break;
-    case "AVATAR_ABILITY_EFFICIENCY": result = v.baseValue * eff; break;
-    case "ENERGY_COST":               result = (2 - eff) * v.baseValue; break;
-    case "ENERGY_DRAIN":              result = ((2 - eff) * v.baseValue) / dur; break;
-    default:                          result = v.baseValue; break;
+  switch (v.upgrade_by) {
+    case "AVATAR_ABILITY_STRENGTH":   result = v.base_value * str; break;
+    case "AVATAR_ABILITY_RANGE":      result = v.base_value * rng; break;
+    case "AVATAR_ABILITY_DURATION":   result = v.base_value * dur; break;
+    case "AVATAR_ABILITY_EFFICIENCY": result = v.base_value * eff; break;
+    case "ENERGY_COST":               result = (2 - eff) * v.base_value; break;
+    case "ENERGY_DRAIN":              result = ((2 - eff) * v.base_value) / dur; break;
+    default:                          result = v.base_value; break;
   }
-  if (v.inverse) result = v.baseValue / (result / v.baseValue);
+  if (v.inverse) result = v.base_value / (result / v.base_value);
   if (v.cap    !== undefined) result = Math.min(result, v.cap);
-  if (v.capMin !== undefined) result = Math.max(result, v.capMin);
+  if (v.cap_min !== undefined) result = Math.max(result, v.cap_min);
   return result;
 }
 

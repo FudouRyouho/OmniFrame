@@ -6,6 +6,17 @@
 @import "../src/styles/palettes/narmer.css";
 @import "./styles/damage-types.css";
 
+@font-face {
+  font-family: "WarframeIcons";
+  src: url("/fonts/WarframeIcons.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer components {
+  @import "./styles/mods.css";
+}
 /* 
   Warframe Theme System
   We define semantic variables that change based on the faction class.
@@ -89,16 +100,36 @@ html.theme-fortuna,
   --ui-bg: #03060f;
   --ui-primary: #3969c0;
   --ui-secondary: #66aacc;
-  --ui-accent: #ff73e6;}
+  --ui-accent: #ff73e6;
+}
+
+:root {
+  /* Default Theme (Orokin) */
+  --ui-bg: #0c0d10; /* Fallback si var(--color-orokin-1) falla */
+  --ui-bg: var(--color-orokin-1);
+  --ui-primary: var(--color-orokin-36);
+  --ui-secondary: var(--color-orokin-50);
+  --ui-accent: var(--color-orokin-77);
+
+  /* Mod Card Master Dimensions (Fluid Proportions - Official Ratios) */
+  --mod-w: 333px;
+  --mod-h: 170px;
+  --mod-h-expanded: 439px;
+  --mod-z-top: 10;
+  --mod-z-bottom: 9;
+}
 
 @theme {
+  --font-roboto: "Roboto", sans-serif;
+  --font-wf-icons: "WarframeIcons", "Roboto", sans-serif;
+
   /* Dynamic/themeable tokens - these respond to theme changes */
   --color-ui-bg: var(--ui-bg);
   --color-ui-primary: var(--ui-primary);
   --color-ui-secondary: var(--ui-secondary);
   --color-ui-accent: var(--ui-accent);
 
-    /* Physical */
+  /* Physical */
   --color-dt-impact: #80c4c4;
   --color-dt-puncture: #c6b098;
   --color-dt-slash: #e69ca0;
@@ -124,30 +155,47 @@ html.theme-fortuna,
   --color-dt-none: #ffffff;
 
   /* Drop shadows por damage type — color del tipo al 50% opacidad */
-  --drop-shadow-dt-impact:      0 0 6px color-mix(in srgb, #80c4c4 50%, transparent);
-  --drop-shadow-dt-puncture:    0 0 6px color-mix(in srgb, #c6b098 50%, transparent);
-  --drop-shadow-dt-slash:       0 0 6px color-mix(in srgb, #e69ca0 50%, transparent);
-  --drop-shadow-dt-heat:        0 0 6px color-mix(in srgb, #fb9733 50%, transparent);
-  --drop-shadow-dt-cold:        0 0 6px color-mix(in srgb, #5bbcec 50%, transparent);
-  --drop-shadow-dt-electricity: 0 0 6px color-mix(in srgb, #b37fe7 50%, transparent);
-  --drop-shadow-dt-toxin:       0 0 6px color-mix(in srgb, #00cc22 50%, transparent);
-  --drop-shadow-dt-blast:       0 0 6px color-mix(in srgb, #dd704e 50%, transparent);
-  --drop-shadow-dt-corrosive:   0 0 6px color-mix(in srgb, #93c203 50%, transparent);
-  --drop-shadow-dt-gas:         0 0 6px color-mix(in srgb, #00cc66 50%, transparent);
-  --drop-shadow-dt-magnetic:    0 0 6px color-mix(in srgb, #9797e6 50%, transparent);
-  --drop-shadow-dt-radiation:   0 0 6px color-mix(in srgb, #ceac49 50%, transparent);
-  --drop-shadow-dt-viral:       0 0 6px color-mix(in srgb, #f093b9 50%, transparent);
-  --drop-shadow-dt-void:        0 0 6px color-mix(in srgb, #15c8ab 50%, transparent);
-  --drop-shadow-dt-tau:         0 0 6px color-mix(in srgb, #f06666 50%, transparent);
-  --drop-shadow-dt-true:        0 0 6px color-mix(in srgb, #dda700 50%, transparent);
+  --drop-shadow-dt-impact: 0 0 6px color-mix(in srgb, #80c4c4 50%, transparent);
+  --drop-shadow-dt-puncture: 0 0 6px
+    color-mix(in srgb, #c6b098 50%, transparent);
+  --drop-shadow-dt-slash: 0 0 6px color-mix(in srgb, #e69ca0 50%, transparent);
+  --drop-shadow-dt-heat: 0 0 6px color-mix(in srgb, #fb9733 50%, transparent);
+  --drop-shadow-dt-cold: 0 0 6px color-mix(in srgb, #5bbcec 50%, transparent);
+  --drop-shadow-dt-electricity: 0 0 6px
+    color-mix(in srgb, #b37fe7 50%, transparent);
+  --drop-shadow-dt-toxin: 0 0 6px color-mix(in srgb, #00cc22 50%, transparent);
+  --drop-shadow-dt-blast: 0 0 6px color-mix(in srgb, #dd704e 50%, transparent);
+  --drop-shadow-dt-corrosive: 0 0 6px
+    color-mix(in srgb, #93c203 50%, transparent);
+  --drop-shadow-dt-gas: 0 0 6px color-mix(in srgb, #00cc66 50%, transparent);
+  --drop-shadow-dt-magnetic: 0 0 6px
+    color-mix(in srgb, #9797e6 50%, transparent);
+  --drop-shadow-dt-radiation: 0 0 6px
+    color-mix(in srgb, #ceac49 50%, transparent);
+  --drop-shadow-dt-viral: 0 0 6px color-mix(in srgb, #f093b9 50%, transparent);
+  --drop-shadow-dt-void: 0 0 6px color-mix(in srgb, #15c8ab 50%, transparent);
+  --drop-shadow-dt-tau: 0 0 6px color-mix(in srgb, #f06666 50%, transparent);
+  --drop-shadow-dt-true: 0 0 6px color-mix(in srgb, #dda700 50%, transparent);
+
+  --color-mod-common: #c79989;
+  --color-mod-uncommon: #bec0c2;
+  --color-mod-rare: #fbecc4;
+  --color-mod-legendary: #dfdfdf;
+  --color-mod-amalgam: #2596be;
+  --color-mod-galvanized: #dfdfdf;
+  --color-mod-riven: #a783c8;
+  --color-mod-archon: #ed644d;
+  --color-mod-focus-common: #f0f0f0;
+  --color-mod-focus-uncommon: #ff4d4d;
+  --color-mod-focus-rare: #4db8ff;
 }
 
 html,
 body {
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-    background-color: var(--ui-bg);
-  }
+  color-scheme: dark;
+  background-color: var(--ui-bg);
+  color: var(--ui-primary);
+  min-height: 100vh;
 }
 
 button {
@@ -165,24 +213,7 @@ button {
   @apply transition-all duration-300 ease-in-out hover:shadow-[0_0_20px_var(--color-ui-accent)] hover:border-ui-accent;
 }
 
-/* --- Cortes y Formas --- */
-@utility angular-cut {
-  clip-path: polygon(
-    0% 0%,
-    calc(100% - 10px) 0%,
-    100% 10px,
-    100% 100%,
-    8px 100%,
-    0% calc(100% - 8px)
-  );
-}
-
-
 /* --- Elementos UI --- */
-@utility dot-rotated {
-  @apply w-1.5 h-1.5 rotate-45 border-[1.5px] border-ui-accent;
-}
-
 @utility wf-label-skew {
   @apply bg-ui-accent text-black px-2 py-0.5 -skew-x-15 font-black text-[10px];
 }
@@ -199,7 +230,7 @@ button {
 @utility grain-overlay {
   @apply fixed inset-0 z-9999 pointer-events-none opacity-[0.12];
   background-image: url("https://www.transparenttextures.com/patterns/pinstriped-suit.png");
-};
+}
 
 /* --- Glows & Gradients --- */
 @utility header-glow {
@@ -216,18 +247,16 @@ button {
 }
 
 @utility text-heading {
-@apply truncate text-xs font-semibold uppercase tracking-[0.10rem] text-primary-interactive}
+  @apply truncate text-xs font-semibold uppercase tracking-[0.10rem] text-primary-interactive;
+}
 
 @utility text-subheading {
   @apply truncate text-[10px] text-ui-primary/70;
 }
 
-
 @utility bg-glow {
   @apply absolute inset-0 z-0 opacity-0 group-hover:opacity-50 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_bottom,var(--color-ui-accent)_0%,transparent_70%)] pointer-events-none;
 }
-
-
 
 @utility border-square {
   @apply border border-ui-primary/40 hover:border-ui-accent/90 data-active:border-ui-accent/90;
@@ -243,45 +272,127 @@ button {
 
 @layer components {
   /* Physical */
-  .dt-impact     { @apply text-dt-impact;     filter: drop-shadow(var(--drop-shadow-dt-impact)); }
-  .dt-puncture   { @apply text-dt-puncture;   filter: drop-shadow(var(--drop-shadow-dt-puncture)); }
-  .dt-slash      { @apply text-dt-slash;      filter: drop-shadow(var(--drop-shadow-dt-slash)); }
+  .dt-impact {
+    @apply text-dt-impact;
+    filter: drop-shadow(var(--drop-shadow-dt-impact));
+  }
+  .dt-puncture {
+    @apply text-dt-puncture;
+    filter: drop-shadow(var(--drop-shadow-dt-puncture));
+  }
+  .dt-slash {
+    @apply text-dt-slash;
+    filter: drop-shadow(var(--drop-shadow-dt-slash));
+  }
 
   /* Elemental */
-  .dt-heat        { @apply text-dt-heat;        filter: drop-shadow(var(--drop-shadow-dt-heat)); }
-  .dt-cold        { @apply text-dt-cold;        filter: drop-shadow(var(--drop-shadow-dt-cold)); }
-  .dt-electricity { @apply text-dt-electricity; filter: drop-shadow(var(--drop-shadow-dt-electricity)); }
-  .dt-toxin       { @apply text-dt-toxin;       filter: drop-shadow(var(--drop-shadow-dt-toxin)); }
+  .dt-heat {
+    @apply text-dt-heat;
+    filter: drop-shadow(var(--drop-shadow-dt-heat));
+  }
+  .dt-cold {
+    @apply text-dt-cold;
+    filter: drop-shadow(var(--drop-shadow-dt-cold));
+  }
+  .dt-electricity {
+    @apply text-dt-electricity;
+    filter: drop-shadow(var(--drop-shadow-dt-electricity));
+  }
+  .dt-toxin {
+    @apply text-dt-toxin;
+    filter: drop-shadow(var(--drop-shadow-dt-toxin));
+  }
 
   /* Combined */
-  .dt-blast     { @apply text-dt-blast;     filter: drop-shadow(var(--drop-shadow-dt-blast)); }
-  .dt-corrosive { @apply text-dt-corrosive; filter: drop-shadow(var(--drop-shadow-dt-corrosive)); }
-  .dt-gas       { @apply text-dt-gas;       filter: drop-shadow(var(--drop-shadow-dt-gas)); }
-  .dt-magnetic  { @apply text-dt-magnetic;  filter: drop-shadow(var(--drop-shadow-dt-magnetic)); }
-  .dt-radiation { @apply text-dt-radiation; filter: drop-shadow(var(--drop-shadow-dt-radiation)); }
-  .dt-viral     { @apply text-dt-viral;     filter: drop-shadow(var(--drop-shadow-dt-viral)); }
+  .dt-blast {
+    @apply text-dt-blast;
+    filter: drop-shadow(var(--drop-shadow-dt-blast));
+  }
+  .dt-corrosive {
+    @apply text-dt-corrosive;
+    filter: drop-shadow(var(--drop-shadow-dt-corrosive));
+  }
+  .dt-gas {
+    @apply text-dt-gas;
+    filter: drop-shadow(var(--drop-shadow-dt-gas));
+  }
+  .dt-magnetic {
+    @apply text-dt-magnetic;
+    filter: drop-shadow(var(--drop-shadow-dt-magnetic));
+  }
+  .dt-radiation {
+    @apply text-dt-radiation;
+    filter: drop-shadow(var(--drop-shadow-dt-radiation));
+  }
+  .dt-viral {
+    @apply text-dt-viral;
+    filter: drop-shadow(var(--drop-shadow-dt-viral));
+  }
 
   /* Others */
-  .dt-void { @apply text-dt-void; filter: drop-shadow(var(--drop-shadow-dt-void)); }
-  .dt-tau  { @apply text-dt-tau;  filter: drop-shadow(var(--drop-shadow-dt-tau)); }
-  .dt-true { @apply text-dt-true; filter: drop-shadow(var(--drop-shadow-dt-true)); }
-  .dt-none { @apply text-white/40; }
+  .dt-void {
+    @apply text-dt-void;
+    filter: drop-shadow(var(--drop-shadow-dt-void));
+  }
+  .dt-tau {
+    @apply text-dt-tau;
+    filter: drop-shadow(var(--drop-shadow-dt-tau));
+  }
+  .dt-true {
+    @apply text-dt-true;
+    filter: drop-shadow(var(--drop-shadow-dt-true));
+  }
+  .dt-none {
+    @apply text-white/40;
+  }
 
   /* Tooltip backgrounds (Glassmorphism + Subtle Glow) */
-  .dt-bg-impact { @apply bg-dt-impact/10 border-dt-impact/30 shadow-[0_0_15px_rgba(128,196,196,0.1)]; }
-  .dt-bg-puncture { @apply bg-dt-puncture/10 border-dt-puncture/30 shadow-[0_0_15px_rgba(198,176,152,0.1)]; }
-  .dt-bg-slash { @apply bg-dt-slash/10 border-dt-slash/30 shadow-[0_0_15px_rgba(230,156,160,0.1)]; }
-  .dt-bg-heat { @apply bg-dt-heat/10 border-dt-heat/30 shadow-[0_0_15px_rgba(251,151,51,0.1)]; }
-  .dt-bg-cold { @apply bg-dt-cold/10 border-dt-cold/30 shadow-[0_0_15px_rgba(91,188,236,0.1)]; }
-  .dt-bg-electricity { @apply bg-dt-electricity/10 border-dt-electricity/30 shadow-[0_0_15px_rgba(179,127,231,0.1)]; }
-  .dt-bg-toxin { @apply bg-dt-toxin/10 border-dt-toxin/30 shadow-[0_0_15px_rgba(0,204,34,0.1)]; }
-  .dt-bg-blast { @apply bg-dt-blast/10 border-dt-blast/30 shadow-[0_0_15px_rgba(221,112,78,0.1)]; }
-  .dt-bg-corrosive { @apply bg-dt-corrosive/10 border-dt-corrosive/30 shadow-[0_0_15px_rgba(147,194,3,0.1)]; }
-  .dt-bg-gas { @apply bg-dt-gas/10 border-dt-gas/30 shadow-[0_0_15px_rgba(0,204,102,0.1)]; }
-  .dt-bg-magnetic { @apply bg-dt-magnetic/10 border-dt-magnetic/30 shadow-[0_0_15px_rgba(151,151,230,0.1)]; }
-  .dt-bg-radiation { @apply bg-dt-radiation/10 border-dt-radiation/30 shadow-[0_0_15px_rgba(206,172,73,0.1)]; }
-  .dt-bg-viral { @apply bg-dt-viral/10 border-dt-viral/30 shadow-[0_0_15px_rgba(240,147,185,0.1)]; }
-  .dt-bg-void { @apply bg-dt-void/10 border-dt-void/30 shadow-[0_0_15px_rgba(21,200,171,0.1)]; }
-  .dt-bg-tau { @apply bg-dt-tau/10 border-dt-tau/30 shadow-[0_0_15px_rgba(240,102,102,0.1)]; }
-  .dt-bg-true { @apply bg-dt-true/10 border-dt-true/30 shadow-[0_0_15px_rgba(221,167,0,0.1)]; }
+  .dt-bg-impact {
+    @apply bg-dt-impact/10 border-dt-impact/30 shadow-[0_0_15px_rgba(128,196,196,0.1)];
+  }
+  .dt-bg-puncture {
+    @apply bg-dt-puncture/10 border-dt-puncture/30 shadow-[0_0_15px_rgba(198,176,152,0.1)];
+  }
+  .dt-bg-slash {
+    @apply bg-dt-slash/10 border-dt-slash/30 shadow-[0_0_15px_rgba(230,156,160,0.1)];
+  }
+  .dt-bg-heat {
+    @apply bg-dt-heat/10 border-dt-heat/30 shadow-[0_0_15px_rgba(251,151,51,0.1)];
+  }
+  .dt-bg-cold {
+    @apply bg-dt-cold/10 border-dt-cold/30 shadow-[0_0_15px_rgba(91,188,236,0.1)];
+  }
+  .dt-bg-electricity {
+    @apply bg-dt-electricity/10 border-dt-electricity/30 shadow-[0_0_15px_rgba(179,127,231,0.1)];
+  }
+  .dt-bg-toxin {
+    @apply bg-dt-toxin/10 border-dt-toxin/30 shadow-[0_0_15px_rgba(0,204,34,0.1)];
+  }
+  .dt-bg-blast {
+    @apply bg-dt-blast/10 border-dt-blast/30 shadow-[0_0_15px_rgba(221,112,78,0.1)];
+  }
+  .dt-bg-corrosive {
+    @apply bg-dt-corrosive/10 border-dt-corrosive/30 shadow-[0_0_15px_rgba(147,194,3,0.1)];
+  }
+  .dt-bg-gas {
+    @apply bg-dt-gas/10 border-dt-gas/30 shadow-[0_0_15px_rgba(0,204,102,0.1)];
+  }
+  .dt-bg-magnetic {
+    @apply bg-dt-magnetic/10 border-dt-magnetic/30 shadow-[0_0_15px_rgba(151,151,230,0.1)];
+  }
+  .dt-bg-radiation {
+    @apply bg-dt-radiation/10 border-dt-radiation/30 shadow-[0_0_15px_rgba(206,172,73,0.1)];
+  }
+  .dt-bg-viral {
+    @apply bg-dt-viral/10 border-dt-viral/30 shadow-[0_0_15px_rgba(240,147,185,0.1)];
+  }
+  .dt-bg-void {
+    @apply bg-dt-void/10 border-dt-void/30 shadow-[0_0_15px_rgba(21,200,171,0.1)];
+  }
+  .dt-bg-tau {
+    @apply bg-dt-tau/10 border-dt-tau/30 shadow-[0_0_15px_rgba(240,102,102,0.1)];
+  }
+  .dt-bg-true {
+    @apply bg-dt-true/10 border-dt-true/30 shadow-[0_0_15px_rgba(221,167,0,0.1)];
+  }
 }

@@ -15,13 +15,13 @@ import WarframeDetailsPopover from "@shared/components/popovers/popovers/warfram
 type WarframeCardProps = {
   item: Warframe;
   isSelected?: boolean;
-  onSelect?: (item: Warframe) => void;
+  onClick?: (item: Warframe) => void;
 };
 
 const WarframeCard = ({
   item,
   isSelected = false,
-  onSelect,
+  onClick,
 }: WarframeCardProps) => {
   return (
     <CustomPopover
@@ -31,7 +31,7 @@ const WarframeCard = ({
       <BaseItemCard
         item={item}
         isSelected={isSelected}
-        onClick={() => onSelect?.(item)}
+        onClick={() => onClick?.(item)}
       />
     </CustomPopover>
   );

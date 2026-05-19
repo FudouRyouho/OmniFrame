@@ -1,103 +1,104 @@
 import { useState, useMemo } from "react";
-import type { BaseItem, Kind, Mod, ModCategory } from "@shared/types";
+import type { BaseItem, ItemKind, ItemFamily } from "@shared/types";
 
-/**
- * Tipos de ordenamiento soportados.
- * Se mantienen alineados con lo que espera InventoryToolbar.
- */
 export type SortOrder = "A-Z" | "Z-A" | "Newest" | "Oldest";
 
-type Category = Kind | "all";
-type SubCategory = ModCategory | "robotic" | "beast" | "all";
-
-/**
- * Filtros de compañero que operan sobre compatName en lugar de category.
- * 'robotic' → compatName incluye ROBOTIC, Sentinel, Moa, Hound (y específicos)
- * 'beast'   → compatName incluye BEAST, Kavat, Kubrow, PREDASITE, VULPAPHYLA (y específicos)
- */
-const ROBOTIC_COMPAT = new Set(['ROBOTIC', 'Sentinel', 'Moa', 'Hound']);
-const BEAST_COMPAT   = new Set(['BEAST', 'Kavat', 'Kubrow', 'PREDASITE', 'VULPAPHYLA',
-  'Helminth Charger',
-  'Adarza Kavat', 'Smeeta Kavat', 'Vasca Kavat',
-  'Chesa Kubrow', 'Huras Kubrow', 'Raksa Kubrow', 'Sahasa Kubrow', 'Sunika Kubrow',
-  'Medjay Predasite', 'Pharaoh Predasite', 'Vizier Predasite',
-  'Crescent Vulpaphyla', 'Panzer Vulpaphyla', 'Sly Vulpaphyla',
-]);
+type CategoryFilter = ItemKind | string;
+type FamilyFilter = ItemFamily | string;
 
 interface UseItemsFiltersProps {
   items: BaseItem[];
-  initialCategory?: Category;
-  initialSubCategory?: SubCategory;
-  /** Kinds to exclude from results regardless of category filter (e.g. ['mod']) */
-  excludeKinds?: Kind[];
-  /** ModCategories to exclude (e.g. ['riven', 'focus']) */
-  excludeSubCategories?: ModCategory[];
+  initial_category?: CategoryFilter;
+  initial_family?: FamilyFilter;
+  search?: string;
+  order?: SortOrder;
+  exclude_kinds?: ItemKind[];
+  exclude_families?: ItemFamily[];
   limit?: number;
 }
 
-/**
- * Hook para gestionar el filtrado, búsqueda y ordenamiento de items.
- * Soporta filtrado por kind (equipment) y por category (mods).
- *
- * SubCategory especiales para compañeros:
- * - 'robotic' → filtra por compatName dentro del grupo robótico
- * - 'beast'   → filtra por compatName dentro del grupo bestia
- * Ambos operan sobre mods con category === 'companion'.
- */
+
 export const useItemsFilters = ({
   items,
-  initialCategory = "all",
-  initialSubCategory = "all",
-  excludeKinds = [],
-  excludeSubCategories = [],
+  initial_category = "all",
+  initial_family = "all",
+  search: externalSearch = "",
+  order: externalOrder = "A-Z",
+  exclude_kinds = [],
+  exclude_families = [],
   limit = 400,
 }: UseItemsFiltersProps) => {
-  const [category, setCategory] = useState<Category>(initialCategory);
-  const [subCategory, setSubCategory] = useState<SubCategory>(initialSubCategory);
-  const [search, setSearch] = useState("");
-  const [order, setOrder] = useState<SortOrder>("A-Z");
   const [selected, setSelected] = useState<BaseItem | null>(null);
 
   const filteredItems = useMemo(() => {
-    const query = search.trim().toLowerCase();
+    const query = externalSearch.trim().toLowerCase();
+
+    // Función de coincidencia semántica
+    const matchSemantic = (filter: string, item: any) => {
+      if (!filter || filter === "all") return true;
+      
+      const filterStr = filter.toLowerCase();
+
+      // 1. Match estricto (Pilares Taxonómicos)
+      if (item.kind && item.kind.toLowerCase() === filterStr) return true;
+      if (item.family && item.family.toLowerCase() === filterStr) return true;
+      if (item.domain && item.domain.toLowerCase() === filterStr) return true;
+
+      // 2. Match con Playstyle (Warframes)
+      if (item.playstyle && Array.isArray(item.playstyle)) {
+        if (item.playstyle.some((p: string) => p.toLowerCase() === filterStr)) return true;
+      }
+
+      // 3. Match con Compatibilidad (Mods/Arcanos)
+      if (item.compat_name) {
+        const compat = item.compat_name.toLowerCase();
+        if (compat === filterStr) return true;
+        
+        // Agrupaciones para Arcanos
+        if (filterStr === "primary" && (compat === "shotgun" || compat === "bow")) return true;
+        if (filterStr === "melee" && compat === "zaw") return true;
+        if (filterStr === "operator" && compat === "amp") return true;
+      }
+      if (item.mod_class && item.mod_class.toLowerCase() === filterStr) return true;
+
+      // 4. Match con Tags
+      if (item.tags && Array.isArray(item.tags)) {
+        if (item.tags.some((t: string) => t.toLowerCase() === filterStr || t.toLowerCase().includes(filterStr))) return true;
+      }
+
+      // 5. Hardcodes / Edge cases semánticos
+      if (filterStr === "vehicle" && (item.tags?.includes("archwing") || item.tags?.includes("necramech"))) return true;
+      if (filterStr === "beast" && (item.tags?.includes("kavat") || item.tags?.includes("kubrow") || item.tags?.includes("predasite") || item.tags?.includes("vulpaphyla"))) return true;
+      if (filterStr === "robotic" && (item.tags?.includes("sentinel") || item.tags?.includes("hound") || item.tags?.includes("moa"))) return true;
+
+      if (filterStr === "light blade" && (item.tags?.includes("sword") || item.tags?.includes("dagger"))) return true;
+      if (filterStr === "2h blade" && item.tags?.includes("sword")) return true;
+      if (filterStr === "scythe" && item.tags?.includes("polearm")) return true;
+      if (filterStr === "polearm" && item.tags?.includes("polearm")) return true;
+      if (filterStr === "hammer" && item.tags?.includes("hammer")) return true;
+
+      return false;
+    };
 
     const base = items.filter((item) => {
-      const matchCategory = category === "all" || item.kind === category;
+      // Búsqueda de texto
       const matchSearch = !query || item.name.toLowerCase().includes(query);
-      const matchExclude = excludeKinds.length === 0 || !excludeKinds.includes(item.kind);
+      
+      // Exclusiones Taxonómicas (Estas se mantienen estrictas)
+      const matchExcludeKind = exclude_kinds.length === 0 || !exclude_kinds.includes(item.kind);
+      const matchExcludeFamily = exclude_families.length === 0 
+        || (item.family && !exclude_families.includes(item.family)) 
+        || !item.family;
 
-      // SubCategory filter — aplica solo a mods
-      if (item.kind !== 'mod') {
-        return matchCategory && matchSearch && matchExclude;
-      }
+      // Coincidencias Semánticas
+      const matchCategory = matchSemantic(initial_category, item);
+      const matchFamily = matchSemantic(initial_family, item);
 
-      const mod = item as Mod;
-      const modCategory = mod.category;
-
-      const matchExcludeSub = excludeSubCategories.length === 0
-        || !excludeSubCategories.includes(modCategory);
-
-      // Filtros de grupo de compañero — operan sobre compatName
-      if (subCategory === 'robotic') {
-        const compat = mod.compatName ?? '';
-        const matchRobotic = modCategory === 'companion'
-          && (ROBOTIC_COMPAT.has(compat) || compat === 'COMPANION');
-        return matchCategory && matchSearch && matchExclude && matchExcludeSub && matchRobotic;
-      }
-
-      if (subCategory === 'beast') {
-        const compat = mod.compatName ?? '';
-        const matchBeast = modCategory === 'companion'
-          && (BEAST_COMPAT.has(compat) || compat === 'COMPANION');
-        return matchCategory && matchSearch && matchExclude && matchExcludeSub && matchBeast;
-      }
-
-      const matchSubCategory = subCategory === "all" || modCategory === subCategory;
-      return matchCategory && matchSearch && matchExclude && matchSubCategory && matchExcludeSub;
+      return matchCategory && matchFamily && matchSearch && matchExcludeKind && matchExcludeFamily;
     });
 
     const sorted = [...base].sort((a, b) => {
-      switch (order) {
+      switch (externalOrder) {
         case "A-Z": return a.name.localeCompare(b.name);
         case "Z-A": return b.name.localeCompare(a.name);
         case "Newest": return b.id.localeCompare(a.id);
@@ -107,25 +108,15 @@ export const useItemsFilters = ({
     });
 
     return sorted.slice(0, limit);
-  }, [items, category, subCategory, search, order, excludeKinds, excludeSubCategories, limit]);
+  }, [items, initial_category, initial_family, externalSearch, externalOrder, exclude_kinds, exclude_families, limit]);
 
   return {
-    category,
-    subCategory,
-    search,
-    order,
+    category: initial_category,
+    family: initial_family,
+    search: externalSearch,
+    order: externalOrder,
     selected,
     filteredItems,
-    setCategory,
-    setSubCategory,
-    setSearch,
-    setOrder,
     setSelected,
-    resetFilters: () => {
-      setCategory("all");
-      setSubCategory("all");
-      setSearch("");
-      setOrder("A-Z");
-    },
   };
 };

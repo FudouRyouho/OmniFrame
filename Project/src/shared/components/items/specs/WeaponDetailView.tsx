@@ -61,33 +61,34 @@ const WeaponDetailView = () => {
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold">{item.name}</h1>
           <p className="text-sm opacity-40">
-            {item.category} · MR{item.masteryReq}
+            {item.category} · MR{item.mastery_req}
           </p>
           <p className="text-sm opacity-60">{item.description}</p>
         </div>
       </div>
 
       <div className="flex gap-3 flex-wrap">
-        <StatBadge label="Damage" value={item.totalDamage} />
+        <StatBadge label="Damage" value={item.stats.total_damage} />
         <StatBadge
           label="Crit Chance"
-          value={`${(item.criticalChance * 100).toFixed(0)}%`}
+          value={`${((item.stats.crit_chance || 0) * 100).toFixed(0)}%`}
         />
         <StatBadge
           label="Crit Mult"
-          value={`${item.criticalMultiplier.toFixed(1)}x`}
+          value={`${(item.stats.crit_mult || 0).toFixed(1)}x`}
         />
         <StatBadge
           label="Status"
-          value={`${(item.procChance * 100).toFixed(0)}%`}
+          value={`${((item.stats.status_chance || 0) * 100).toFixed(0)}%`}
         />
-        {item.fireRate !== undefined && (
-          <StatBadge label="Fire Rate" value={item.fireRate.toFixed(2)} />
+        {item.stats.fire_rate !== undefined && (
+          <StatBadge label="Fire Rate" value={item.stats.fire_rate.toFixed(2)} />
         )}
-        {item.magazineSize !== undefined && (
-          <StatBadge label="Magazine" value={item.magazineSize} />
+        {item.stats.magazine_size !== undefined && (
+          <StatBadge label="Magazine" value={item.stats.magazine_size} />
         )}
       </div>
+
     </div>
   );
 };

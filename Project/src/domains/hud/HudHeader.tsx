@@ -1,8 +1,9 @@
-import { useState } from "react";
 import { useMenu } from "@providers/Menu/menu-context";
 import { useDataState } from "@providers/DataState/data-state-context";
-import { useLoadout } from "@providers/Loadout/loadout-context";
+import { useEnsemble } from "@providers/Ensemble/EnsembleProvider";
+import { Registry } from "@shared/data/DataRegistry";
 import { useShell } from "@providers/Shell/shell-context";
+import { useEffect, useState } from "react";
 
 /**
  * HudHeader — HUD permanente de la aplicación.
@@ -16,35 +17,48 @@ import { useShell } from "@providers/Shell/shell-context";
  *     secundaria, melee y compañero del layout que se está buildeando.
  *     Se expande/destaca visualmente cuando el menú ESC está abierto.
  *
- * Consume: LoadoutProvider (layout activo), ShellProvider (título/zona), MenuProvider (estado ESC)
+ * Consume: EnsembleStore (layout activo), ShellProvider (título/zona), MenuProvider (estado ESC)
  *
  * @todo Implementación pendiente — diseño visual a cargo del usuario
  */
 
-// El wiring real del layout vive en LoadoutProvider; este header ya no depende del contexto legacy.
-
 const CHANNELS = [
-  { key: "warframe", label: "Warframe" },
-  { key: "primaryWeapon", label: "Primary" },
-  { key: "secondaryWeapon", label: "Secondary" },
-  { key: "meleeWeapon", label: "Melee" },
+  { key: "warframe", label: "Warframe", domain: "warframe" },
+  { key: "primary", label: "Primary", domain: "weapon" },
+  { key: "secondary", label: "Secondary", domain: "weapon" },
+  { key: "melee", label: "Melee", domain: "weapon" },
 ] as const;
 
-function formatEntityLabel(uniqueName?: string): string {
-  if (!uniqueName) {
-    return "Vacío";
-  }
-
-  const tail = uniqueName.split("/").filter(Boolean).pop() ?? uniqueName;
-  return tail.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
-}
 
 const HudHeader = () => {
   const { toggle, isOpen } = useMenu();
   const { pageTitle } = useShell();
-  const { loadout, activeChannelCount } = useLoadout();
+  const intention = useEnsemble();
+  
+  const [hydratedNames, setHydratedNames] = useState<Record<string, string>>({});
   const [isOver, setIsOver] = useState(false);
   const ref = useDataState({ hover: isOver, active: isOpen ?? false });
+
+  const active_channel_count = Object.values(intention.items).filter(i => i.itemId).length;
+
+  // Efecto de hidratación para el HUD
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      const names: Record<string, string> = {};
+      const promises = CHANNELS.map(async (ch) => {
+        const id = intention.items[ch.key]?.itemId;
+        if (id) {
+          const item = await Registry.getItemById(ch.domain, id);
+          if (item) names[ch.key] = item.name;
+        }
+      });
+      await Promise.all(promises);
+      if (mounted) setHydratedNames(names);
+    };
+    load();
+    return () => { mounted = false; };
+  }, [intention.items]);
 
   const showUserOverlay = isOpen || isOver;
 
@@ -80,7 +94,7 @@ const HudHeader = () => {
               <div className="pl-2 leading-tight">
                 <span className="block text-[11px] text-ui-primary/95 truncate">User</span>
                 <span className="block text-[11px] text-ui-accent/90 truncate">
-							{activeChannelCount > 0 ? `Loadout activo (${activeChannelCount}/4)` : "Sin loadout activo"}
+							{active_channel_count > 0 ? `Loadout activo (${active_channel_count}/4)` : "Sin loadout activo"}
 						</span>
               </div>
             </div>
@@ -89,7 +103,7 @@ const HudHeader = () => {
               <div className="px-2 py-1 text-[13px] leading-tight text-ui-primary/95 flex flex-col gap-0.5">
 						{CHANNELS.map((channel) => (
 							<span key={channel.key} className="truncate">
-								{channel.label}: {formatEntityLabel(loadout[channel.key]?.uniqueName)}
+								{channel.label}: {hydratedNames[channel.key] || "Vacío"}
 							</span>
 						))}
               </div>

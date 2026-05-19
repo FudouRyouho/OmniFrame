@@ -68,22 +68,6 @@ export interface ArsenalMetadataEntity {
   uniqueName?: string;
 }
 
-export interface ArchonShardSelection {
-  slotIndex: number;
-  label: string;
-  effectLabel: string;
-  valueLabel: string;
-  description: string;
-  source: ArsenalMetadataSource;
-  state: ArsenalMetadataPresence;
-  shardType: ArchonShardType | null;
-  effectId: string | null;
-  selectedBonusId: string | null;
-  availableBonuses: readonly ArchonShardBonusOption[];
-  isTauforged: boolean;
-  iconPath: string | null;
-}
-
 export interface IncarnonEvolutionOption {
   optionId: string;
   label: string;
@@ -108,7 +92,6 @@ export interface IncarnonMetadata {
 }
 
 export interface ArsenalWarframeMetadata {
-  archonShards: ArchonShardSelection[];
   extensions: ArsenalMetadataEntity[];
   focus: ArsenalMetadataEntity;
   parazon: ArsenalMetadataEntity;
@@ -372,7 +355,7 @@ export const ARCHON_SHARD_BONUS_CATALOG: readonly ArchonShardBonusCatalogEntry[]
     })),
   );
 
-// --- Mutaciones y Factories ---
+// --- Factories de Metadata Visual ---
 
 function createMetadataEntity(
   label: string,
@@ -385,69 +368,6 @@ function createMetadataEntity(
     description,
     source,
     state,
-  };
-}
-
-function createArchonShardSelection(slotIndex: number): ArchonShardSelection {
-  return {
-    slotIndex,
-    label: `Shard Slot ${slotIndex + 1}`,
-    effectLabel: "Empty Slot",
-    valueLabel: "Empty",
-    description: "Sin Archon Shard equipado todavía.",
-    source: "mock",
-    state: "empty",
-    shardType: null,
-    effectId: null,
-    selectedBonusId: null,
-    availableBonuses: [],
-    isTauforged: false,
-    iconPath: null,
-  };
-}
-
-function findArchonShardBonus(effectId: string): {
-  shard: ArchonShardCatalogEntry;
-  bonus: ArchonShardBonusOption;
-} | null {
-  for (const shard of ARCHON_SHARD_CATALOG) {
-    const bonus = shard.bonusOptions.find((entry) => entry.effectId === effectId);
-    if (bonus) {
-      return { shard, bonus };
-    }
-  }
-
-  return null;
-}
-
-export function createEquippedArchonShardSelection(
-  slotIndex: number,
-  shard: ArchonShardCatalogEntry,
-  bonus: ArchonShardBonusOption,
-  isTauforged = false,
-  source: ArsenalMetadataSource = "mock",
-): ArchonShardSelection {
-  return {
-    slotIndex,
-    label: isTauforged
-      ? `Tauforged ${shard.shardName}`
-      : shard.shardName,
-    effectLabel: bonus.effectLabel,
-    valueLabel: isTauforged
-      ? bonus.tauforgedValueLabel ?? bonus.valueLabel.replace(/\+(\d+(?:\.\d+)?)/, (_m, value) => {
-          const scaled = Number(value) * 1.5;
-          return `+${Number.isInteger(scaled) ? scaled.toFixed(0) : scaled.toFixed(1)}`;
-        })
-      : bonus.valueLabel,
-    description: bonus.description,
-    source,
-    state: "filled",
-    shardType: shard.shardType,
-    effectId: bonus.effectId,
-    selectedBonusId: bonus.effectId,
-    availableBonuses: shard.bonusOptions,
-    isTauforged,
-    iconPath: isTauforged ? shard.tauforgedIconPath : shard.iconPath,
   };
 }
 
@@ -482,9 +402,6 @@ function createDefaultWeaponMetadata(
 export function createDefaultArsenalMetadataState(): ArsenalMetadataState {
   return {
     warframe: {
-      archonShards: Array.from({ length: 5 }, (_, index) =>
-        createArchonShardSelection(index),
-      ),
       extensions: [],
       focus: createMetadataEntity(
         "Focus School",
@@ -531,52 +448,6 @@ export function createDefaultArsenalUiState(): ArsenalUiState {
   return {
     selectedArchonShardSlotIndex: 0,
   };
-}
-
-export function replaceWarframeArchonShard(
-  metadata: ArsenalMetadataState,
-  slotIndex: number,
-  shard: ArchonShardSelection | null,
-): ArsenalMetadataState {
-  return {
-    ...metadata,
-    warframe: {
-      ...metadata.warframe,
-      archonShards: metadata.warframe.archonShards.map((entry, index) => {
-        if (index !== slotIndex) {
-          return entry;
-        }
-
-        return shard ?? createArchonShardSelection(slotIndex);
-      }),
-    },
-  };
-}
-
-export function equipWarframeArchonShard(
-  metadata: ArsenalMetadataState,
-  slotIndex: number,
-  effectId: string,
-  isTauforged = false,
-): ArsenalMetadataState {
-  const match = findArchonShardBonus(effectId);
-
-  if (!match) {
-    return metadata;
-  }
-
-  return replaceWarframeArchonShard(
-    metadata,
-    slotIndex,
-    createEquippedArchonShardSelection(slotIndex, match.shard, match.bonus, isTauforged),
-  );
-}
-
-export function clearWarframeArchonShard(
-  metadata: ArsenalMetadataState,
-  slotIndex: number,
-): ArsenalMetadataState {
-  return replaceWarframeArchonShard(metadata, slotIndex, null);
 }
 
 export function selectArchonShardSlot(

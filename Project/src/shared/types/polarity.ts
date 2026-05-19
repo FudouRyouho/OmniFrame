@@ -1,5 +1,3 @@
-// ── Polarity Types ───────────────────────────────────────────────────────────
-
 /**
  * Taxonomia canonica de polarity types.
  *
@@ -19,9 +17,9 @@ export type PolarityFamily = 'focus' | 'companion' | 'special' | 'universal'
 
 export interface PolarityTypeDefinition {
   family: PolarityFamily
-  iconAsset: string | null
+  icon_asset: string | null
   aliases?: readonly string[]
-  rawTokens?: readonly string[]
+  raw_tokens?: readonly string[]
   label: string
   description: string
 }
@@ -40,58 +38,58 @@ export const POLARITY_TYPES: PolarityType[] = [
 export const POLARITY_TYPE_DEFINITIONS: Record<PolarityType, PolarityTypeDefinition> = {
   madurai: {
     family: 'focus',
-    iconAsset: 'madurai',
-    rawTokens: ['AP_ATTACK'],
+    icon_asset: 'madurai',
+    raw_tokens: ['AP_ATTACK'],
     label: 'Madurai',
     description: 'Focus school — offensive',
   },
   vazarin: {
     family: 'focus',
-    iconAsset: 'vazarin',
-    rawTokens: ['AP_DEFENSE'],
+    icon_asset: 'vazarin',
+    raw_tokens: ['AP_DEFENSE'],
     label: 'Vazarin',
     description: 'Focus school — defensive',
   },
   naramon: {
     family: 'focus',
-    iconAsset: 'naramon',
-    rawTokens: ['AP_TACTIC'],
+    icon_asset: 'naramon',
+    raw_tokens: ['AP_TACTIC'],
     label: 'Naramon',
     description: 'Focus school — tactical',
   },
   zenurik: {
     family: 'focus',
-    iconAsset: 'zenurik',
-    rawTokens: ['AP_POWER'],
+    icon_asset: 'zenurik',
+    raw_tokens: ['AP_POWER'],
     label: 'Zenurik',
     description: 'Focus school — energy',
   },
   unairu: {
     family: 'focus',
-    iconAsset: 'unairu',
-    rawTokens: ['AP_WARD'],
+    icon_asset: 'unairu',
+    raw_tokens: ['AP_WARD'],
     label: 'Unairu',
     description: 'Focus school — resistance',
   },
   penjaga: {
     family: 'companion',
-    iconAsset: 'penjaga',
-    rawTokens: ['AP_PRECEPT'],
+    icon_asset: 'penjaga',
+    raw_tokens: ['AP_PRECEPT'],
     label: 'Penjaga',
     description: 'Companion polarity',
   },
   umbra: {
     family: 'special',
-    iconAsset: 'umbra',
-    rawTokens: ['AP_UMBRA'],
+    icon_asset: 'umbra',
+    raw_tokens: ['AP_UMBRA'],
     label: 'Umbra',
     description: 'Umbra polarity — for Umbra mods',
   },
   omni: {
     family: 'universal',
-    iconAsset: 'omni',
+    icon_asset: 'omni',
     aliases: ['universal', 'aura'],
-    rawTokens: ['AP_ANY', 'AP_UNIVERSAL'],
+    raw_tokens: ['AP_ANY', 'AP_UNIVERSAL'],
     label: 'Omni',
     description: 'Universal polarity — accepts any mod except Umbra',
   },
@@ -108,8 +106,6 @@ const POLARITY_TYPE_ALIAS_MAP = POLARITY_TYPES.reduce((map, type) => {
 
   return map
 }, {} as Record<string, PolarityType>)
-
-// ── Helpers ──────────────────────────────────────────────────────────────────
 
 export function isPolarityType(value: string): value is PolarityType {
   return POLARITY_TYPE_SET.has(value as PolarityType)
@@ -136,9 +132,9 @@ export function getPolarityTypeDefinition(value: string | PolarityType) {
 export function getPolarityTypeIconPath(value: string | PolarityType): string | null {
   const definition = getPolarityTypeDefinition(value)
 
-  if (!definition?.iconAsset) {
+  if (!definition?.icon_asset) {
     return null
   }
 
-  return `/assets/polarity/${definition.iconAsset}.png`
+  return `/assets/polarity/${definition.icon_asset}.png`
 }
