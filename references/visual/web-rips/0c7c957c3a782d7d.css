@@ -1,0 +1,751 @@
+.omni-mod {
+  display: flex;
+  width: 18.4rem;
+  height: 9rem;
+  transform: scale(1);
+  transition: 0.12s ease;
+  transition-property: transform height;
+  justify-content: center;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.omni-mod .omni-mod__content {
+  overflow: hidden;
+}
+.omni-mod:after,
+.omni-mod:before {
+  background-repeat: no-repeat;
+  background-size: 18.4rem auto;
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 18.4rem;
+  background-position: top;
+  z-index: 10;
+}
+.omni-mod:before {
+  top: -1rem;
+  height: 5rem;
+}
+.omni-mod:after {
+  bottom: 0;
+  height: 8rem;
+}
+.omni-mod__border {
+  z-index: 10;
+}
+.omni-mod__border:after,
+.omni-mod__border:before {
+  background-size: 100% 100%;
+  content: "";
+  height: 18.2rem;
+  position: absolute;
+  top: 2.4rem;
+  transform: scaleY(0);
+  visibility: hidden;
+  transition: visibility 0s linear 0.06s;
+  width: 0.8rem;
+}
+.omni-mod__border:before {
+  transform: scale(-1, 0);
+  left: 0.2rem;
+}
+.omni-mod__border:after {
+  right: 0.2rem;
+}
+
+.Mod_uncommon__E6gtf:before {
+  background-image: url(/static/images/mod/SilverFrameTop.png);
+}
+.Mod_uncommon__E6gtf:after {
+  background-image: url(/static/images/mod/SilverFrameBottom.png);
+}
+.Mod_uncommon__E6gtf .omni-mod__content {
+  background-image: url(/static/images/mod/SilverBackground.png);
+  color: #bec0c2;
+}
+.Mod_uncommon__E6gtf .omni-mod__border:after,
+.Mod_uncommon__E6gtf .omni-mod__border:before {
+  background-image: url(/static/images/mod/SilverSideLight.png);
+}
+.Mod_uncommon__E6gtf .omni-mod__drain:after,
+.Mod_uncommon__E6gtf .omni-mod__drain:before {
+  border-color: #bec0c2;
+}
+.Mod_uncommon__E6gtf .omni-mod__compatibility:after {
+  background-image: url(/static/images/mod/SilverLowerTab.png);
+}
+.Mod_uncommon__E6gtf .omni-mod__image:after {
+  background: radial-gradient(
+    transparent 0,
+    rgba(39, 88, 177, 0.22) 64%,
+    rgba(5, 70, 255, 0.17) 100%
+  );
+}
+.Mod_rare__McUwv:before {
+  background-image: url(/static/images/mod/GoldFrameTop.png);
+}
+.Mod_rare__McUwv:after {
+  background-image: url(/static/images/mod/GoldFrameBottom.png);
+}
+.Mod_rare__McUwv .omni-mod__content {
+  background-image: url(/static/images/mod/GoldBackground.png);
+  color: #fbecc4;
+}
+.Mod_rare__McUwv .omni-mod__border:after,
+.Mod_rare__McUwv .omni-mod__border:before {
+  background-image: url(/static/images/mod/GoldSideLight.png);
+}
+.Mod_rare__McUwv .omni-mod__drain:after,
+.Mod_rare__McUwv .omni-mod__drain:before {
+  border-color: #fbecc4;
+}
+.Mod_rare__McUwv .omni-mod__compatibility:after {
+  background-image: url(/static/images/mod/GoldLowerTab.png);
+}
+.Mod_rare__McUwv .omni-mod__image:after {
+  background: radial-gradient(
+    transparent 0,
+    rgba(177, 141, 39, 0.18) 64%,
+    rgba(255, 213, 5, 0.09) 100%
+  );
+}
+.Mod_legendary__WV6_u:before {
+  background-image: url(/static/images/mod/LegendaryFrameTop.png);
+}
+.Mod_legendary__WV6_u:after {
+  background-image: url(/static/images/mod/LegendaryFrameBottom.png);
+}
+.Mod_legendary__WV6_u .omni-mod__content {
+  background-image: url(/static/images/mod/LegendaryBackground.png);
+  color: #dfdfdf;
+  height: calc(100% - 1.5rem);
+}
+.Mod_legendary__WV6_u .omni-mod__description {
+  padding-bottom: 4.3rem;
+}
+.Mod_legendary__WV6_u .omni-mod__border:after,
+.Mod_legendary__WV6_u .omni-mod__border:before {
+  top: 1.1rem;
+  background-image: url(/static/images/mod/LegendarySideLight.png);
+}
+.Mod_legendary__WV6_u .omni-mod__border:before {
+  left: 0.3rem;
+}
+.Mod_legendary__WV6_u .omni-mod__border:after {
+  right: 0.3rem;
+}
+.Mod_legendary__WV6_u .omni-mod__drain:after,
+.Mod_legendary__WV6_u .omni-mod__drain:before {
+  border-color: #dfdfdf;
+}
+.Mod_legendary__WV6_u .omni-mod__compatibility {
+  bottom: 3.5rem;
+}
+.Mod_legendary__WV6_u .omni-mod__compatibility:after {
+  background-image: url(/static/images/mod/LegendaryLowerTab.png);
+}
+.Mod_legendary__WV6_u .omni-mod__image {
+  min-height: 7.3rem;
+}
+.Mod_legendary__WV6_u .omni-mod__image:after {
+  background: radial-gradient(
+    transparent 0,
+    rgba(143, 193, 255, 0.32) 64%,
+    rgba(95, 122, 199, 0.27) 100%
+  );
+}
+.Mod_riven__5Ew8f .omni-mod__description .omni-mod__name {
+  width: 16rem;
+}
+.Mod_riven__5Ew8f:before {
+  background-image: url(/static/images/mod/OmegaFrameTop.png);
+  height: 100%;
+}
+.Mod_riven__5Ew8f:after {
+  background-image: url(/static/images/mod/OmegaFrameBottom.png);
+  background-size: 20rem auto;
+  height: 8.5rem;
+  bottom: -0.5rem;
+}
+.Mod_riven__5Ew8f .omni-mod__border:before {
+  left: 0.7rem;
+}
+.Mod_riven__5Ew8f .omni-mod__border:after {
+  right: 0.7rem;
+}
+.Mod_riven__5Ew8f .omni-mod__border:after,
+.Mod_riven__5Ew8f .omni-mod__border:before {
+  background-image: url(/static/images/mod/OmegaSideLight.png);
+}
+.Mod_riven__5Ew8f .omni-mod__drain {
+  right: 1.5rem;
+}
+.Mod_riven__5Ew8f .omni-mod__compatibility {
+  bottom: 4rem;
+}
+.Mod_riven__5Ew8f .omni-mod__compatibility:after {
+  background-image: url(/static/images/mod/RivenLowerTab.png);
+}
+.Mod_riven__5Ew8f .omni-mod__content {
+  background-image: url(/static/images/mod/SilverBackground.png);
+  color: #a783c8;
+  width: calc(100% - 1rem);
+}
+.Mod_riven__5Ew8f .omni-mod__fusion {
+  bottom: 0.3rem;
+  width: 10.6rem;
+}
+.Mod_amalgam__XHtTW .omni-mod__description .omni-mod__name {
+  width: 16rem;
+}
+.Mod_amalgam__XHtTW:before {
+  background-image: url(/static/images/mod/AmalgamFrameTop.png);
+  height: 100%;
+}
+.Mod_amalgam__XHtTW:after {
+  background-image: url(/static/images/mod/AmalgamFrameBottom.png);
+  background-size: 20rem auto;
+  height: 8.5rem;
+  bottom: -0.5rem;
+}
+.Mod_amalgam__XHtTW .omni-mod__border:before {
+  left: 0.7rem;
+}
+.Mod_amalgam__XHtTW .omni-mod__border:after {
+  right: 0.7rem;
+}
+.Mod_amalgam__XHtTW .omni-mod__border:after,
+.Mod_amalgam__XHtTW .omni-mod__border:before {
+  top: 2.1rem;
+  background-image: url(/static/images/mod/LegendarySideLight.png);
+}
+.Mod_amalgam__XHtTW .omni-mod__drain {
+  right: 1rem;
+}
+.Mod_amalgam__XHtTW .omni-mod__compatibility {
+  bottom: 4rem;
+}
+.Mod_amalgam__XHtTW .omni-mod__compatibility:after {
+  background-image: url(/static/images/mod/LegendaryLowerTab.png);
+}
+.Mod_amalgam__XHtTW .omni-mod__content {
+  background-image: url(/static/images/mod/AmalgamBackground.png);
+  color: #dfdfdf;
+  width: calc(100% - 1rem);
+}
+.Mod_amalgam__XHtTW .omni-mod__fusion {
+  bottom: 0;
+  width: 10.6rem;
+}
+.Mod_galvanized__yFFI_ .omni-mod__description .omni-mod__name {
+  width: 15rem;
+}
+.Mod_galvanized__yFFI_:before {
+  background-image: url(/static/images/mod/GalvanizedFrameTop.png);
+  background-size: 20rem auto;
+  height: 100%;
+  z-index: 11;
+}
+.Mod_galvanized__yFFI_:after {
+  background-image: url(/static/images/mod/GalvanizedFrameBottom.png);
+  background-size: 20rem auto;
+  height: 8.5rem;
+  bottom: -0.5rem;
+}
+.Mod_galvanized__yFFI_ .Mod_damageContainer__RCc9t {
+  top: 1.1rem;
+}
+.Mod_galvanized__yFFI_ .omni-mod__border:before {
+  left: 0.7rem;
+}
+.Mod_galvanized__yFFI_ .omni-mod__border:after {
+  right: 0.7rem;
+}
+.Mod_galvanized__yFFI_ .omni-mod__border:after,
+.Mod_galvanized__yFFI_ .omni-mod__border:before {
+  top: 2.1rem;
+  background-image: url(/static/images/mod/LegendarySideLight.png);
+}
+.Mod_galvanized__yFFI_ .omni-mod__drain {
+  right: 1.3rem;
+  top: 1.1rem;
+}
+.Mod_galvanized__yFFI_ .omni-mod__compatibility {
+  bottom: 4rem;
+}
+.Mod_galvanized__yFFI_ .omni-mod__compatibility:after {
+  background-image: url(/static/images/mod/LegendaryLowerTab.png);
+}
+.Mod_galvanized__yFFI_ .omni-mod__content {
+  background-image: url(/static/images/mod/LegendaryBackground.png);
+  color: #dfdfdf;
+  width: calc(100% - 1rem);
+}
+.Mod_galvanized__yFFI_ .omni-mod__fusion {
+  bottom: 0;
+  width: 10.6rem;
+}
+.omni-mod-container {
+  align-items: center;
+  display: flex;
+  height: 9rem;
+  justify-content: center;
+  margin: 0 1rem 2rem;
+  position: relative;
+  width: 18.4rem;
+  z-index: 1;
+  transition: z-index 80ms step-end;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover,
+.omni-mod-container.Mod_expanded__0eDMB {
+  z-index: 9999;
+  transition: z-index 80ms step-start;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_common__Esf1H
+  .omni-mod__image:after,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_common__Esf1H
+  .omni-mod__image:after {
+  box-shadow: inset 1px 1px 100px #c79989;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_uncommon__E6gtf
+  .omni-mod__image:after,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_uncommon__E6gtf
+  .omni-mod__image:after {
+  box-shadow: inset 1px 1px 100px #466afd;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_rare__McUwv
+  .omni-mod__image:after,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_rare__McUwv
+  .omni-mod__image:after {
+  box-shadow: inset 1px 1px 100px #ffca3e;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_legendary__WV6_u
+  .omni-mod__image:after,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_legendary__WV6_u
+  .omni-mod__image:after {
+  box-shadow: inset 1px 1px 100px #5bf4ff;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_amalgam__XHtTW
+  .omni-mod__image:after,
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_galvanized__yFFI_
+  .omni-mod__image:after,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_amalgam__XHtTW
+  .omni-mod__image:after,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_galvanized__yFFI_
+  .omni-mod__image:after {
+  box-shadow: inset 0 0 15px 15px #c79989;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_amalgam__XHtTW
+  .omni-mod__description,
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_galvanized__yFFI_
+  .omni-mod__description,
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .Mod_riven__5Ew8f
+  .omni-mod__description,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_amalgam__XHtTW
+  .omni-mod__description,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_galvanized__yFFI_
+  .omni-mod__description,
+.omni-mod-container.Mod_expanded__0eDMB
+  .Mod_riven__5Ew8f
+  .omni-mod__description {
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover .omni-mod,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod {
+  height: 26rem;
+  transform: scale(1.1);
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod.Mod_amalgam__XHtTW:after,
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod.Mod_galvanized__yFFI_:after,
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod.Mod_riven__5Ew8f:after,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod.Mod_amalgam__XHtTW:after,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod.Mod_galvanized__yFFI_:after,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod.Mod_riven__5Ew8f:after {
+  bottom: 0;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod.Mod_riven__5Ew8f
+  .omni-mod__fusion,
+.omni-mod-container.Mod_expanded__0eDMB
+  .omni-mod.Mod_riven__5Ew8f
+  .omni-mod__fusion {
+  bottom: 0.8rem;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod.Mod_amalgam__XHtTW
+  .omni-mod__fusion,
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod.Mod_galvanized__yFFI_
+  .omni-mod__fusion,
+.omni-mod-container.Mod_expanded__0eDMB
+  .omni-mod.Mod_amalgam__XHtTW
+  .omni-mod__fusion,
+.omni-mod-container.Mod_expanded__0eDMB
+  .omni-mod.Mod_galvanized__yFFI_
+  .omni-mod__fusion {
+  bottom: 0.5rem;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover .omni-mod .omni-mod__content,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__content {
+  height: calc(100% - 1.8rem);
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod
+  .omni-mod__compatibility,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__compatibility {
+  opacity: 1;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover .omni-mod .omni-mod__name,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__name {
+  top: 0;
+  height: unset;
+  margin-top: 0;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod
+  .omni-mod__border:before,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__border:before {
+  visibility: visible;
+  transform: scaleX(-1);
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod
+  .omni-mod__border:after,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__border:after {
+  visibility: visible;
+  transform: scale(1);
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover .omni-mod .omni-mod__image,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__image {
+  min-height: 2rem;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod
+  .omni-mod__image:after,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__image:after {
+  opacity: 0.4;
+  transition: box-shadow 0.12s ease;
+}
+.omni-mod-container.Mod_expandOnHover__tIFJs:hover
+  .omni-mod
+  .omni-mod__image
+  img,
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__image img {
+  filter: grayscale(0) brightness(1);
+}
+.omni-mod-container.Mod_expanded__0eDMB {
+  height: 26rem;
+  margin: 1rem 1rem 2rem;
+  z-index: 1;
+  transform: scale(0.95);
+}
+@media screen and (max-width: 407px) {
+  .omni-mod-container {
+    margin: 0 0 2.5rem;
+  }
+}
+.omni-mod-container.Mod_expanded__0eDMB .omni-mod .omni-mod__image img {
+  transition: transform 0.12s ease;
+}
+.omni-mod-container.Mod_expanded__0eDMB.Mod_expandOnHover__tIFJs:hover
+  .omni-mod
+  .omni-mod__image
+  img {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+.omni-mod__image {
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  flex: 1 1 auto;
+  width: calc(100% - 1rem);
+  margin: 0 0.5rem;
+  top: 3px;
+  position: relative;
+  min-height: 7rem;
+  z-index: 0;
+}
+.omni-mod__image:after {
+  content: "";
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  position: absolute;
+  opacity: 1;
+  transition-duration: 0.12s;
+  transition-timing-function: ease;
+  transition-property: opacity;
+}
+.omni-mod__image img {
+  width: 100%;
+  filter: grayscale(0.8) brightness(0.4);
+  transition-duration: 0.12s;
+  transition-timing-function: ease;
+  transition-property: filter;
+  max-height: 174px;
+}
+.omni-mod__description {
+  flex: 1 0 auto;
+  line-height: 1.1;
+  padding: 0.5rem 0 3.3rem;
+  position: relative;
+  text-align: center;
+  text-shadow: #000 1px 1px 0;
+  width: 15.9rem !important;
+  word-break: break-word;
+}
+.omni-mod__description p {
+  font-family: WarframeIcons, Roboto, sans-serif !important;
+  font-size: 1.3rem;
+  margin: 0;
+}
+.omni-mod__description .omni-mod__name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+  height: 6.2rem;
+  width: 100%;
+  top: -6rem;
+  font-size: 1.7rem;
+  transition: top 0.08s ease;
+  margin: 0 auto 0.25rem;
+}
+.omni-mod__content {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  height: calc(100% - 2rem);
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+.omni-mod__drain {
+  display: flex;
+  flex-wrap: nowrap;
+  font-size: 1.2rem;
+  padding: 0.2rem 0.5rem 0 0.1rem;
+  position: absolute;
+  right: 0.4rem;
+  top: 0.8rem;
+  z-index: 1;
+}
+.omni-mod__drain:after,
+.omni-mod__drain:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.6);
+  border-top: 1px solid;
+  z-index: -1;
+  position: absolute;
+}
+.omni-mod__drain:before {
+  border-left: 1px solid;
+  height: 1.1rem;
+  left: -0.6rem;
+  right: -1rem;
+  top: 0.2rem;
+  transform: rotate(-45deg);
+  width: 1.1rem;
+}
+.omni-mod__drain:after {
+  border-bottom: 1px solid;
+  height: 1.5rem;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+.omni-mod__drain.Mod_polarityMatch__WEHw7 {
+  color: #68ce5f;
+}
+.omni-mod__drain.Mod_polarityMismatch__4OwyP {
+  color: #f73533;
+}
+.Mod_polarity__Kx8qc {
+  align-items: center;
+  display: flex;
+  font-weight: 400;
+  height: 100%;
+  padding: 0 0.2rem;
+}
+.omni-mod__compatibility {
+  bottom: 3.5rem;
+  display: flex;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  text-transform: uppercase;
+  transition: opacity 0.12s ease;
+  justify-content: center;
+  width: 100%;
+}
+.omni-mod__compatibility:after {
+  background-size: 15.4rem 2rem;
+  content: "";
+  height: 2rem;
+  left: 1.5rem;
+  position: absolute;
+  top: 0;
+  width: 15.4rem;
+  z-index: 20;
+}
+.omni-mod__compatibility p {
+  font-family: WarframeIcons, Roboto, sans-serif !important;
+  font-size: 1.2rem;
+  font-weight: 700;
+  position: relative;
+  top: 0.2rem;
+  z-index: 30;
+}
+.omni-mod__compatibility.Mod_twoColumns__tjQ5i {
+  justify-content: normal;
+}
+.omni-mod__compatibility.Mod_twoColumns__tjQ5i p:first-child {
+  flex-grow: 2;
+  text-align: left;
+  padding-left: 2.8rem;
+}
+.omni-mod__compatibility.Mod_twoColumns__tjQ5i p:last-child {
+  flex-grow: 1;
+  text-align: right;
+  padding-right: 2.8rem;
+}
+.omni-mod__fusion {
+  bottom: 0.2rem;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: calc(100% - 6.7rem);
+  min-height: 1rem;
+  z-index: 20;
+}
+.omni-mod__fusion.Mod_fusionMax__el41D:after {
+  content: "";
+  background: #a6e6ff;
+  filter: drop-shadow(0 0 0.2rem #a6e6ff);
+  height: 1px;
+  left: 0;
+  opacity: 0.8;
+  position: absolute;
+  top: 0.35rem;
+  width: 100%;
+}
+.omni-mod__fusion i {
+  color: #525252;
+  font-size: 0.8rem;
+  font-style: normal;
+}
+.omni-mod__fusion[data-rank="1"] i:first-of-type,
+.omni-mod__fusion[data-rank="10"] i:nth-of-type(-n + 10),
+.omni-mod__fusion[data-rank="2"] i:nth-of-type(-n + 2),
+.omni-mod__fusion[data-rank="3"] i:nth-of-type(-n + 3),
+.omni-mod__fusion[data-rank="4"] i:nth-of-type(-n + 4),
+.omni-mod__fusion[data-rank="5"] i:nth-of-type(-n + 5),
+.omni-mod__fusion[data-rank="6"] i:nth-of-type(-n + 6),
+.omni-mod__fusion[data-rank="7"] i:nth-of-type(-n + 7),
+.omni-mod__fusion[data-rank="8"] i:nth-of-type(-n + 8),
+.omni-mod__fusion[data-rank="9"] i:nth-of-type(-n + 9) {
+  color: #a6e6ff;
+  filter: drop-shadow(0 0 0.1rem #a6e6ff);
+}
+.Mod_damageContainer__RCc9t {
+  font-size: 1.4rem;
+  position: absolute;
+  left: 1rem;
+  top: 0.8rem;
+  z-index: 1;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.Mod_damageContainer__RCc9t.Mod_damagePositive__HuDFa {
+  color: #68ce5f;
+  border-color: #68ce5f;
+}
+.Mod_damageContainer__RCc9t.Mod_damageNegative__vsjj2 {
+  color: #f73533;
+  border-color: #f73533;
+}
+.Mod_damageContainer__RCc9t:after {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid;
+  border-radius: 0.75rem;
+  content: "";
+  height: 1.5rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+.Mod_damageText__mIu2C {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  font-size: 1.2rem;
+  font-weight: 700;
+  position: relative;
+  top: 0.2rem;
+}
+.Mod_topIcon__fqpCS {
+  z-index: 10;
+  position: absolute;
+  top: 0.5rem;
+  height: 2rem;
+  width: 2rem;
+  background-size: contain;
+  background-position: top;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+}
+.Mod_topIcon__fqpCS.Mod_auraIcon__IfF95 {
+  background-image: url(/static/images/icon-aura.png);
+}
+.Mod_topIcon__fqpCS.Mod_exilusIcon__CqCC8 {
+  background-image: url(/static/images/icon-exilus.png);
+  background-position-y: 5px;
+}
+.Mod_topIcon__fqpCS.Mod_stanceIcon__Xce3X {
+  background-image: url(/static/images/mod/StanceIcon.png);
+}
+.Filters_filterLabel__m5IJW {
+  font-size: 1rem;
+  line-height: 1.2rem;
+  color: #54668a;
+  font-weight: 600;
+}
+@media screen and (max-width: 1530px) {
+  .Filters_filterLabel__m5IJW {
+    width: 4.7rem;
+    min-width: 4.7rem;
+    margin-right: 1rem;
+    text-align: end;
+  }
+}

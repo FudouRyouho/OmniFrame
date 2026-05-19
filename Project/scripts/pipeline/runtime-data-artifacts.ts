@@ -1,30 +1,35 @@
-import {
-  normalizeArcaneSemantics,
-  type ArcaneNormalizationState,
+import { 
+  normalizeArcaneSemantics, 
+  type ArcaneNormalizationState 
 } from '../normalization/arcanes.ts'
-import {
-  normalizeWeaponShotType,
-  type WeaponNormalizationState,
+import { 
+  normalizeWeaponShotType, 
+  type WeaponNormalizationState 
 } from '../normalization/weapons.ts'
-import {
-  normalizePolarityValue,
-  type PolarityNormalizationState,
+import { 
+  normalizePolarityValue, 
+  type PolarityNormalizationState 
 } from '../normalization/polarity.ts'
+import { normalizeEntityTaxonomy } from '../normalization/entities.ts'
 
 import type {
-  ArcaneCategory,
   ArcaneCompatName,
-  ArchwingWeaponCategory,
-  CompanionCategory,
   DamageMap,
-  Kind,
-  ModCategory,
   ModClass,
   PolarityType,
-  VehicleKind,
   WeaponAttack,
-  WeaponCategory,
-} from '../../src/lib/types/index.ts'
+} from '../../src/shared/types/index.ts'
+import type { 
+  ItemDomain, 
+  ItemKind, 
+  ItemFamily 
+} from '../../src/shared/types/base.ts'
+import type { 
+  CombatStats, 
+  LivingStats, 
+  ModStats 
+} from '../../src/shared/types/stats.ts'
+
 import type { SourcePatchlogLike } from './source-change-audit.ts'
 
 type UnknownRecord = Record<string, unknown>
@@ -37,14 +42,14 @@ type AbilityStatsRow = Record<string, unknown>
 interface AbilityStatsLegacyRow extends AbilityStatsRow {
   name?: string
   description?: string
-  imageName?: string
+  image_name?: string
   icon?: string
 }
 
 interface AbilityStatsObjectEntry {
   name?: string
   description?: string
-  imageName?: string
+  image_name?: string
   icon?: string
   stats?: AbilityStatsRow[]
 }
@@ -83,6 +88,7 @@ interface SourceAttack {
 
 export interface SourceItem {
   category?: string | null
+  productCategory?: string | null
   uniqueName?: string | null
   name?: string | null
   description?: string | null
@@ -114,7 +120,6 @@ export interface SourceItem {
   subsumed?: string | null
   themes?: string | null
   tactical?: string | null
-  productCategory?: string | null
   slot?: number | null
   totalDamage?: number | null
   criticalChance?: number | null
@@ -162,41 +167,41 @@ export interface SourceItem {
   damage?: UnknownRecord | null
 }
 
-interface GeneratedBaseFields<K extends Kind> {
+interface GeneratedBaseFields {
   id: string
-  kind: K
-  uniqueName: string
   name: string
-  imageName: string
-  masteryReq: number
+  image: string | null
+  image_name: string
+  unique_name: string
+  domain: ItemDomain
+  kind: ItemKind
+  family?: ItemFamily
+  category: string // Raw Category
+  type: string | null
+  mastery_req: number
   polarities: PolarityType[]
   tags: string[]
 }
 
 interface GeneratedAbilityPointer {
-  uniqueName: string
+  unique_name: string
 }
 
-interface GeneratedWarframe extends GeneratedBaseFields<'warframe'> {
+interface GeneratedWarframe extends GeneratedBaseFields {
+  domain: 'warframe'
+  kind: 'warframe'
   description: string
-  health: number
-  shield: number
-  armor: number
-  power: number
-  sprintSpeed: number
-  passiveDescription: string | null
-  isPrime: boolean
+  stats: LivingStats
+  passive_description: string | null
+  is_prime: boolean
   aura: PolarityType | null
   sex: string | null
   introduced: string | null
-  wikiaThumbnail: string | null
-  wikiaUrl: string | null
+  wikia_thumbnail: string | null
+  wikia_url: string | null
   abilities: GeneratedAbilityPointer[]
   passive: string | null
-  energy: number
-  initialEnergy: number | null
-  maxRank: number
-  category: string
+  max_rank: number
   playstyle: string[]
   progenitor: string | null
   subsumed: string | null
@@ -204,121 +209,68 @@ interface GeneratedWarframe extends GeneratedBaseFields<'warframe'> {
   tactical: string | null
 }
 
-interface GeneratedWeapon extends GeneratedBaseFields<'primary' | 'secondary' | 'melee'> {
+interface GeneratedWeapon extends GeneratedBaseFields {
+  domain: 'weapon'
+  kind: 'primary' | 'secondary' | 'melee' | 'archgun' | 'archmelee'
   description: string
-  category: WeaponCategory
-  productCategory: string | null
-  type: string | null
-  isPrime: boolean
+  product_category: string | null
+  is_prime: boolean
   tradable: boolean
-  slot: number | null
-  damage: DamageMap
-  totalDamage: number
-  criticalChance: number
-  criticalMultiplier: number
-  procChance: number
-  fireRate: number | null
-  magazineSize: number | null
-  reloadTime: number | null
-  multishot: number | null
-  accuracy: number | null
-  noise: string | null
-  trigger: string | null
-  disposition: number | null
+  stats: CombatStats
   introduced: string | null
-  wikiaThumbnail: string | null
-  wikiaUrl: string | null
-  attacks: WeaponAttack[]
-  range?: number | null
-  attackSpeed?: number | null
-  comboDuration?: number | null
-  followThrough?: number | null
-  blockingAngle?: number | null
-  slamAttack?: number | null
-  slamRadialDamage?: number | null
-  slamRadius?: number | null
-  heavyAttackDamage?: number | null
-  heavySlamAttack?: number | null
-  heavySlamRadialDamage?: number | null
-  heavySlamRadius?: number | null
-  slideAttack?: number | null
-  windUp?: number | null
-  stancePolarity?: PolarityType | null
+  wikia_thumbnail: string | null
+  wikia_url: string | null
 }
 
-interface GeneratedMod extends GeneratedBaseFields<'mod'> {
+interface GeneratedMod extends GeneratedBaseFields {
+  domain: 'mod'
+  kind: 'mod'
   description: string
-  categoryRaw: string | null
-  type: string | null
-  category: ModCategory
-  compatName: string | null
-  baseDrain: number | null
+  category_raw: string | null
+  stats: ModStats
+  compat_name: string | null
   polarity: PolarityType | null
   rarity: string | null
-  rank: number | null
-  levelStats: Array<{ stats?: string[] | null }> | null
-  upgradeTypes: string[]
-  isExilus?: boolean
-  isFlawed?: boolean
-  modClass?: ModClass
-  isWeaponAugment?: boolean
-  incompatible?: string[]
-  incompatibilityTags?: string[]
+  is_exilus: boolean
+  is_flawed: boolean
+  mod_class: ModClass | null
+  is_weapon_augment: boolean
+  incompatible: string[]
+  incompatibility_tags: string[]
 }
 
-interface GeneratedArcane extends GeneratedBaseFields<'arcane'> {
-  type: string | null
-  category: ArcaneCategory
-  compatName: ArcaneCompatName | null
+interface GeneratedArcane extends GeneratedBaseFields {
+  domain: 'arcane'
+  kind: 'arcane'
+  compat_name: ArcaneCompatName | null
   rarity: string | null
   tradable: boolean
-  imageName: string
-  maxRank: number
-  levelStats: Array<{ stats?: string[] | null }>
+  max_rank: number
+  level_stats: Array<{ stats?: string[] | null }>
 }
 
-interface GeneratedCompanion extends GeneratedBaseFields<'companion'> {
+interface GeneratedCompanion extends GeneratedBaseFields {
+  domain: 'companion'
+  kind: 'sentinel' | 'pet' | 'hound' | 'moa'
   description: string
-  category: CompanionCategory
-  health: number | null
-  shield: number | null
-  armor: number | null
-  isPrime: boolean
+  stats: LivingStats
+  is_prime: boolean
   tradable: boolean
   introduced: string | null
-  wikiaThumbnail: string | null
-  wikiaUrl: string | null
+  wikia_thumbnail: string | null
+  wikia_url: string | null
 }
 
-interface GeneratedArchwingWeapon extends GeneratedBaseFields<'archgun' | 'archmelee'> {
+interface GeneratedVehicle extends GeneratedBaseFields {
+  domain: 'vehicle'
+  kind: 'necramech' | 'archwing'
   description: string
-  category: ArchwingWeaponCategory
-  isPrime: boolean
+  stats: LivingStats
+  is_prime: boolean
   tradable: boolean
-  introduced: string | null
-  wikiaThumbnail: string | null
-  wikiaUrl: string | null
-  damage: DamageMap
-  totalDamage: number
-  criticalChance: number
-  criticalMultiplier: number
-  procChance: number
-  attacks: WeaponAttack[]
-}
-
-interface GeneratedVehicle extends GeneratedBaseFields<VehicleKind> {
-  description: string
-  category: string
-  health: number | null
-  shield: number | null
-  armor: number | null
-  isPrime: boolean
-  tradable: boolean
-  introduced: string | null
-  wikiaThumbnail: string | null
-  wikiaUrl: string | null
   abilities: GeneratedAbilityPointer[]
 }
+
 
 export interface RuntimeDataArtifacts {
   warframes: GeneratedWarframe[]
@@ -328,15 +280,17 @@ export interface RuntimeDataArtifacts {
   mods: GeneratedMod[]
   arcanes: GeneratedArcane[]
   companions: GeneratedCompanion[]
-  archwingWeapons: GeneratedArchwingWeapon[]
+  archwingWeapons: GeneratedWeapon[]
   vehicles: GeneratedVehicle[]
   necramechCount: number
   archwingCount: number
 }
 
-const WEAPON_CATEGORIES = ['Primary', 'Secondary', 'Melee'] as const satisfies readonly WeaponCategory[]
-const COMPANION_CATEGORIES = ['Pets', 'Sentinels'] as const satisfies readonly CompanionCategory[]
-const ARCHWING_WEAPON_CATEGORIES = ['Arch-Gun', 'Arch-Melee'] as const satisfies readonly ArchwingWeaponCategory[]
+
+const WEAPON_PRODUCT_CATEGORIES = ['LongGuns', 'Pistols', 'Melee', 'SentinelWeapons']
+const COMPANION_PRODUCT_CATEGORIES = ['Pets', 'Sentinels', 'KubrowPets']
+const ARCHWING_WEAPON_PRODUCT_CATEGORIES = ['SpaceGuns', 'SpaceMelee']
+const VEHICLE_PRODUCT_CATEGORIES = ['Archwing', 'Necramech', 'MechSuits', 'SpaceSuits', 'CrewShipWeapons']
 
 const NECRAMECH_UNIQUE = new Set<string>([
   '/Lotus/Powersuits/EntratiMech/ThanoTech',
@@ -347,38 +301,6 @@ const EXCLUDED_WARFRAME_UNIQUE = new Set<string>([
   '/Lotus/Powersuits/Infestation/Helminth',
   '/Lotus/Powersuits/PowersuitAbilities/Helminth',
 ])
-
-const MOD_TYPE_TO_CATEGORY = {
-  'Warframe Mod': 'warframe',
-  'Primary Mod': 'primary',
-  'Shotgun Mod': 'primary',
-  'Secondary Mod': 'secondary',
-  'Melee Mod': 'melee',
-  'Stance Mod': 'melee',
-  'Companion Mod': 'companion',
-  'Posture Mod': 'companion',
-  'Arch-Gun Mod': 'archgun',
-  'Arch-Melee Mod': 'archmelee',
-  'Archwing Mod': 'archwing',
-  'Focus Way': 'focus',
-  'Plexus Mod': 'railjack',
-  'Railjack Mod': 'railjack',
-  'Necramech Mod': 'necramech',
-  'K-Drive Mod': 'kdrive',
-  'Parazon Mod': 'parazon',
-  'Tektolyst Artifact Mod': 'tektolyst',
-  'Mod Set Mod': 'modset',
-  'Transmutation Mod': 'transmutation',
-  'Peculiar Mod': 'peculiar',
-  'Rifle Riven Mod': 'riven',
-  'Shotgun Riven Mod': 'riven',
-  'Pistol Riven Mod': 'riven',
-  'Melee Riven Mod': 'riven',
-  'Kitgun Riven Mod': 'riven',
-  'Zaw Riven Mod': 'riven',
-  'Arch-Gun Riven Mod': 'riven',
-  'Companion Weapon Riven Mod': 'riven',
-} as const satisfies Record<string, ModCategory>
 
 function isRecord(value: unknown): value is UnknownRecord {
   return typeof value === 'object' && value !== null
@@ -412,30 +334,11 @@ function resolveIntroduced(raw: SourceIntroduced): string | null {
   return null
 }
 
-function buildBaseFields<K extends Kind>(
-  raw: SourceItem,
-  kind: K,
-  polarityState: PolarityNormalizationState,
-): GeneratedBaseFields<K> {
-  return {
-    id: resolveId(raw),
-    kind,
-    uniqueName: resolveUniqueName(raw),
-    name: resolveName(raw),
-    imageName: resolveImageName(raw),
-    masteryReq: raw.masteryReq ?? 0,
-    polarities: (raw.polarities ?? [])
-      .map(p => normalizePolarityValue(p, polarityState))
-      .filter((p): p is PolarityType => p !== null),
-    tags: raw.tags ?? [],
-  }
-}
-
 function createAbilityStatsEntry(ability: SourceAbilityRef): AbilityStatsObjectEntry {
   return {
     name: ability.name ?? '',
     description: ability.description ?? '',
-    imageName: ability.imageName ?? '',
+    image_name: ability.imageName ?? '',
     stats: [{
       label: '',
       stats: [],
@@ -451,14 +354,14 @@ function ensureAbilityPointer(
   const uniqueName = ability.uniqueName ?? ''
 
   if (!uniqueName) {
-    return { uniqueName: '' }
+    return { unique_name: '' }
   }
 
   const currentEntry = abilityStatsDb[uniqueName]
 
   if (!currentEntry) {
     abilityStatsDb[uniqueName] = createAbilityStatsEntry(ability)
-    return { uniqueName }
+    return { unique_name: uniqueName }
   }
 
   if (Array.isArray(currentEntry)) {
@@ -466,8 +369,8 @@ function ensureAbilityPointer(
     abilityStatsDb[uniqueName] = {
       name: typeof first.name === 'string' && first.name !== '' ? first.name : (ability.name ?? ''),
       description: typeof first.description === 'string' ? first.description : (ability.description ?? ''),
-      imageName: typeof first.imageName === 'string' && first.imageName !== ''
-        ? first.imageName
+      image_name: typeof first.image_name === 'string' && first.image_name !== ''
+        ? first.image_name
         : (typeof first.icon === 'string' && first.icon !== '' ? first.icon : (ability.imageName ?? '')),
       stats: currentEntry.map((row) => {
         const { name, description, icon, ...rest } = row
@@ -477,15 +380,15 @@ function ensureAbilityPointer(
         return rest
       }),
     }
-    return { uniqueName }
+    return { unique_name: uniqueName }
   }
 
   if (!currentEntry.name) currentEntry.name = ability.name ?? ''
   if (!currentEntry.description) currentEntry.description = ability.description ?? ''
-  if (!currentEntry.imageName && !currentEntry.icon) currentEntry.imageName = ability.imageName ?? ''
-  else if (!currentEntry.imageName && currentEntry.icon) currentEntry.imageName = currentEntry.icon
+  if (!currentEntry.image_name && !currentEntry.icon) currentEntry.image_name = ability.imageName ?? ''
+  else if (!currentEntry.image_name && currentEntry.icon) currentEntry.image_name = currentEntry.icon
 
-  return { uniqueName }
+  return { unique_name: uniqueName }
 }
 
 function normalizeAbilityStatsDb(db: AbilityStatsDb): AbilityStatsDb {
@@ -497,8 +400,8 @@ function normalizeAbilityStatsDb(db: AbilityStatsDb): AbilityStatsDb {
           ? first.name
           : (uniqueName.split('/').pop() ?? 'Unknown'),
         description: typeof first.description === 'string' ? first.description : '',
-        imageName: typeof first.imageName === 'string' && first.imageName !== ''
-          ? first.imageName
+        image_name: typeof first.image_name === 'string' && first.image_name !== ''
+          ? first.image_name
           : (typeof first.icon === 'string' ? first.icon : ''),
         stats: entry.map((row) => {
           const { name, description, icon, ...rest } = row
@@ -511,8 +414,8 @@ function normalizeAbilityStatsDb(db: AbilityStatsDb): AbilityStatsDb {
       continue
     }
 
-    if (entry.imageName == null && entry.icon) {
-      entry.imageName = entry.icon
+    if (entry.image_name == null && entry.icon) {
+      entry.image_name = entry.icon
     }
     delete entry.icon
   }
@@ -541,14 +444,6 @@ function sumDamage(damage: DamageMap): number {
   )
 }
 
-function resolveModCategory(rawType: string | null | undefined): ModCategory {
-  if (!rawType) return 'unknown'
-
-  return rawType in MOD_TYPE_TO_CATEGORY
-    ? MOD_TYPE_TO_CATEGORY[rawType as keyof typeof MOD_TYPE_TO_CATEGORY]
-    : 'unknown'
-}
-
 function mapAttack(raw: SourceAttack, weaponNormalizationState: WeaponNormalizationState): WeaponAttack {
   const damage = mapDamage(raw.damage)
   const total = isRecord(raw.damage) && typeof raw.damage.total === 'number'
@@ -558,7 +453,7 @@ function mapAttack(raw: SourceAttack, weaponNormalizationState: WeaponNormalizat
   return {
     name: raw.name ?? 'Attack',
     damage,
-    totalDamage: total,
+    total_damage: total,
     crit_chance: raw.crit_chance != null ? raw.crit_chance / 100 : null,
     crit_mult: raw.crit_mult ?? null,
     status_chance: raw.status_chance != null ? raw.status_chance / 100 : null,
@@ -568,6 +463,40 @@ function mapAttack(raw: SourceAttack, weaponNormalizationState: WeaponNormalizat
     falloff: raw.falloff ?? null,
     slide: raw.slide ?? null,
     charge_time: raw.charge_time ?? null,
+    punch_through: 0, // Placeholder if needed, or source data
+  }
+}
+
+function buildBaseFields(
+  raw: SourceItem,
+  polarityState: PolarityNormalizationState,
+): GeneratedBaseFields {
+  const taxonomy = normalizeEntityTaxonomy({
+    name: resolveName(raw),
+    uniqueName: resolveUniqueName(raw),
+    productCategory: raw.productCategory,
+    category: raw.category,
+    type: raw.type,
+    weaponClass: (raw as any).weaponClass,
+    tags: raw.tags
+  })
+
+  return {
+    id: resolveId(raw),
+    name: resolveName(raw),
+    image: raw.imageName ? `/assets/items/${raw.imageName}.png` : null,
+    image_name: resolveImageName(raw),
+    unique_name: resolveUniqueName(raw),
+    domain: taxonomy.domain,
+    kind: taxonomy.kind,
+    family: taxonomy.family,
+    category: raw.category ?? 'unknown',
+    type: raw.type ?? null,
+    mastery_req: raw.masteryReq ?? 0,
+    polarities: (raw.polarities ?? [])
+      .map((p) => normalizePolarityValue(p, polarityState))
+      .filter((p): p is PolarityType => p !== null),
+    tags: taxonomy.tags ?? [],
   }
 }
 
@@ -579,27 +508,28 @@ function mapWarframe(
   const auraRaw = Array.isArray(raw.aura) ? raw.aura[0] : raw.aura
   
   return {
-    ...buildBaseFields(raw, 'warframe', polarityState),
+    ...buildBaseFields(raw, polarityState),
+    domain: 'warframe',
+    kind: 'warframe',
     description: raw.description ?? '',
-    health: raw.health ?? 0,
-    shield: raw.shield ?? 0,
-    armor: raw.armor ?? 0,
-    power: raw.power ?? 0,
-    sprintSpeed: raw.sprintSpeed ?? 0,
-    passiveDescription: raw.passiveDescription ?? null,
-    isPrime: raw.isPrime ?? false,
+    stats: {
+      health: raw.health ?? 0,
+      shield: raw.shield ?? 0,
+      armor: raw.armor ?? 0,
+      energy: raw.energy ?? raw.power ?? 0,
+      sprint_speed: raw.sprintSpeed ?? 0,
+    },
+    passive_description: raw.passiveDescription ?? null,
+    is_prime: raw.isPrime ?? false,
     aura: normalizePolarityValue(auraRaw, polarityState),
     sex: raw.sex ?? null,
     introduced: resolveIntroduced(raw.introduced),
-    wikiaThumbnail: raw.wikiaThumbnail ?? null,
-    wikiaUrl: raw.wikiaUrl ?? null,
+    wikia_thumbnail: raw.wikiaThumbnail ?? null,
+    wikia_url: raw.wikiaUrl ?? null,
     abilities: (raw.abilities ?? []).map((ability) => ensureAbilityPointer(ability, abilityStatsDb)),
     passive: raw.passiveDescription ? resolveUniqueName(raw) : null,
-    energy: raw.energy ?? raw.power ?? 0,
-    initialEnergy: raw.initialEnergy ?? null,
-    maxRank: raw.maxRank ?? 30,
-    category: raw.category ?? 'Warframes',
-    playstyle: raw.playstyle ?? [],
+    max_rank: raw.maxRank ?? 30,
+    playstyle: (raw.playstyle ?? []).map((p: string) => p.toLowerCase()),
     progenitor: raw.progenitor ?? null,
     subsumed: raw.subsumed ?? null,
     themes: raw.themes ?? null,
@@ -607,8 +537,9 @@ function mapWarframe(
   }
 }
 
+
 function isIncludedWarframe(item: SourceItem): boolean {
-  if (item.category !== 'Warframes') return false
+  if (item.category?.toLowerCase() !== 'warframes') return false
 
   const uniqueName = item.uniqueName ?? ''
   const name = item.name ?? ''
@@ -623,75 +554,71 @@ function mapWeapon(
   weaponNormalizationState: WeaponNormalizationState,
   polarityState: PolarityNormalizationState,
 ): GeneratedWeapon {
+  const baseFields = buildBaseFields(raw, polarityState);
+  
   const base: GeneratedWeapon = {
-    ...buildBaseFields(raw, (raw.category?.toLowerCase() ?? 'primary') as GeneratedWeapon['kind'], polarityState),
+    ...baseFields,
+    domain: 'weapon',
+    kind: baseFields.kind as GeneratedWeapon['kind'],
     description: raw.description ?? '',
-    category: (raw.category ?? 'Primary') as WeaponCategory,
-    productCategory: raw.productCategory ?? null,
-    type: raw.type ?? null,
-    isPrime: raw.isPrime ?? false,
+    product_category: raw.productCategory ?? null,
+    is_prime: raw.isPrime ?? false,
     tradable: raw.tradable ?? false,
-    slot: raw.slot ?? null,
-    damage: mapDamage(raw.damage),
-    totalDamage: raw.totalDamage ?? 0,
-    criticalChance: raw.criticalChance ?? 0,
-    criticalMultiplier: raw.criticalMultiplier ?? 0,
-    procChance: raw.procChance ?? 0,
-    fireRate: raw.fireRate ?? null,
-    magazineSize: raw.magazineSize ?? null,
-    reloadTime: raw.reloadTime ?? null,
-    multishot: raw.multishot ?? null,
-    accuracy: raw.accuracy ?? null,
-    noise: raw.noise ?? null,
-    trigger: raw.trigger ?? null,
-    disposition: raw.disposition ?? null,
+    stats: {
+      damage: mapDamage(raw.damage),
+      total_damage: raw.totalDamage ?? 0,
+      crit_chance: raw.criticalChance ?? 0,
+      crit_mult: raw.criticalMultiplier ?? 0,
+      status_chance: raw.procChance ?? 0,
+      fire_rate: raw.fireRate ?? undefined,
+      magazine_size: raw.magazineSize ?? undefined,
+      reload_time: raw.reloadTime ?? undefined,
+      multishot: raw.multishot ?? undefined,
+      accuracy: raw.accuracy ?? undefined,
+      noise: raw.noise ?? undefined,
+      trigger: raw.trigger ?? undefined,
+      disposition: raw.disposition ?? undefined,
+      attacks: (raw.attacks ?? []).map((attack) => mapAttack(attack, weaponNormalizationState)),
+    },
     introduced: resolveIntroduced(raw.introduced),
-    wikiaThumbnail: raw.wikiaThumbnail ?? null,
-    wikiaUrl: raw.wikiaUrl ?? null,
-    attacks: (raw.attacks ?? []).map((attack) => mapAttack(attack, weaponNormalizationState)),
+    wikia_thumbnail: raw.wikiaThumbnail ?? null,
+    wikia_url: raw.wikiaUrl ?? null,
   }
 
   if (raw.category === 'Melee') {
-    base.range = raw.range ?? null
-    base.attackSpeed = raw.attackSpeed ?? null
-    base.comboDuration = raw.comboDuration ?? null
-    base.followThrough = raw.followThrough ?? null
-    base.blockingAngle = raw.blockingAngle ?? null
-    base.slamAttack = raw.slamAttack ?? null
-    base.slamRadialDamage = raw.slamRadialDamage ?? null
-    base.slamRadius = raw.slamRadius ?? null
-    base.heavyAttackDamage = raw.heavyAttackDamage ?? null
-    base.heavySlamAttack = raw.heavySlamAttack ?? null
-    base.heavySlamRadialDamage = raw.heavySlamRadialDamage ?? null
-    base.heavySlamRadius = raw.heavySlamRadius ?? null
-    base.slideAttack = raw.slideAttack ?? null
-    base.windUp = raw.windUp ?? null
-    base.stancePolarity = normalizePolarityValue(raw.stancePolarity, polarityState)
+    base.stats.range = raw.range ?? undefined
+    base.stats.attack_speed = raw.attackSpeed ?? undefined
+    base.stats.combo_duration = raw.comboDuration ?? undefined
+    base.stats.follow_through = raw.followThrough ?? undefined
+    base.stats.blocking_angle = raw.blockingAngle ?? undefined
   }
 
   return base
 }
 
+
 function mapMod(raw: SourceItem, polarityState: PolarityNormalizationState): GeneratedMod {
   return {
-    ...buildBaseFields(raw, 'mod', polarityState),
+    ...buildBaseFields(raw, polarityState),
+    domain: 'mod',
+    kind: 'mod',
     description: raw.description ?? '',
-    categoryRaw: raw.category ?? null,
-    type: raw.type ?? null,
-    category: resolveModCategory(raw.type),
-    compatName: raw.compatName ?? null,
-    baseDrain: raw.baseDrain ?? null,
+    category_raw: raw.category ?? null,
+    stats: {
+      base_drain: raw.baseDrain ?? 0,
+      rank: raw.maxRank ?? raw.fusionLimit ?? 0,
+      upgrade_types: raw.upgradeTypes ?? [],
+      level_stats: raw.levelStats ?? undefined,
+    },
+    compat_name: raw.compatName ?? null,
     polarity: normalizePolarityValue(raw.polarity, polarityState),
     rarity: raw.rarity ?? null,
-    rank: raw.maxRank ?? raw.fusionLimit ?? null,
-    levelStats: raw.levelStats ?? null,
-    upgradeTypes: raw.upgradeTypes ?? [],
-    isExilus: raw.isExilus ?? undefined,
-    isFlawed: raw.isFlawed ?? undefined,
-    modClass: raw.modClass ?? undefined,
-    isWeaponAugment: raw.isWeaponAugment ?? undefined,
-    incompatible: raw.incompatible ?? undefined,
-    incompatibilityTags: raw.incompatibilityTags ?? undefined,
+    is_exilus: raw.isExilus ?? false,
+    is_flawed: raw.isFlawed ?? false,
+    mod_class: raw.modClass ?? null,
+    is_weapon_augment: raw.isWeaponAugment ?? false,
+    incompatible: raw.incompatible ?? [],
+    incompatibility_tags: raw.incompatibilityTags ?? [],
   }
 }
 
@@ -703,30 +630,34 @@ function mapArcane(
   const semantics = normalizeArcaneSemantics(raw.type, arcaneNormalizationState)
 
   return {
-    ...buildBaseFields(raw, 'arcane', polarityState),
-    type: raw.type ?? null,
-    category: semantics.category,
-    compatName: semantics.compatName,
+    ...buildBaseFields(raw, polarityState),
+    domain: 'arcane',
+    kind: 'arcane',
+    compat_name: semantics.compatName,
     rarity: raw.rarity ?? null,
     tradable: raw.tradable ?? false,
-    maxRank: raw.levelStats?.length ? raw.levelStats.length - 1 : 0,
-    levelStats: raw.levelStats ?? [],
+    max_rank: raw.levelStats?.length ? raw.levelStats.length - 1 : 0,
+    level_stats: raw.levelStats ?? [],
   }
 }
 
 function mapCompanion(raw: SourceItem, polarityState: PolarityNormalizationState): GeneratedCompanion {
+  const baseFields = buildBaseFields(raw, polarityState);
   return {
-    ...buildBaseFields(raw, 'companion', polarityState),
+    ...baseFields,
+    domain: 'companion',
+    kind: baseFields.kind as GeneratedCompanion['kind'],
     description: raw.description ?? '',
-    category: (raw.category ?? 'Pets') as CompanionCategory,
-    health: raw.health ?? null,
-    shield: raw.shield ?? null,
-    armor: raw.armor ?? null,
-    isPrime: raw.isPrime ?? false,
+    stats: {
+      health: raw.health ?? 0,
+      shield: raw.shield ?? 0,
+      armor: raw.armor ?? 0,
+    },
+    is_prime: raw.isPrime ?? false,
     tradable: raw.tradable ?? false,
     introduced: resolveIntroduced(raw.introduced),
-    wikiaThumbnail: raw.wikiaThumbnail ?? null,
-    wikiaUrl: raw.wikiaUrl ?? null,
+    wikia_thumbnail: raw.wikiaThumbnail ?? null,
+    wikia_url: raw.wikiaUrl ?? null,
   }
 }
 
@@ -734,41 +665,48 @@ function mapArchwingWeapon(
   raw: SourceItem,
   weaponNormalizationState: WeaponNormalizationState,
   polarityState: PolarityNormalizationState,
-): GeneratedArchwingWeapon {
+): GeneratedWeapon {
+  const baseFields = buildBaseFields(raw, polarityState);
   return {
-    ...buildBaseFields(raw, raw.category === 'Arch-Gun' ? 'archgun' : 'archmelee', polarityState),
+    ...baseFields,
+    domain: 'weapon',
+    kind: baseFields.kind as GeneratedWeapon['kind'],
     description: raw.description ?? '',
-    category: (raw.category ?? 'Arch-Gun') as ArchwingWeaponCategory,
-    isPrime: raw.isPrime ?? false,
+    product_category: raw.productCategory ?? null,
+    is_prime: raw.isPrime ?? false,
     tradable: raw.tradable ?? false,
+    stats: {
+      damage: mapDamage(raw.damage),
+      total_damage: raw.totalDamage ?? 0,
+      crit_chance: raw.criticalChance ?? 0,
+      crit_mult: raw.criticalMultiplier ?? 0,
+      status_chance: raw.procChance ?? 0,
+      attacks: (raw.attacks ?? []).map((attack) => mapAttack(attack, weaponNormalizationState)),
+    },
     introduced: resolveIntroduced(raw.introduced),
-    wikiaThumbnail: raw.wikiaThumbnail ?? null,
-    wikiaUrl: raw.wikiaUrl ?? null,
-    damage: mapDamage(raw.damage),
-    totalDamage: raw.totalDamage ?? 0,
-    criticalChance: raw.criticalChance ?? 0,
-    criticalMultiplier: raw.criticalMultiplier ?? 0,
-    procChance: raw.procChance ?? 0,
-    attacks: (raw.attacks ?? []).map((attack) => mapAttack(attack, weaponNormalizationState)),
+    wikia_thumbnail: raw.wikiaThumbnail ?? null,
+    wikia_url: raw.wikiaUrl ?? null,
   }
 }
 
-function mapVehicle(raw: SourceItem, kind: VehicleKind, polarityState: PolarityNormalizationState): GeneratedVehicle {
+function mapVehicle(raw: SourceItem, polarityState: PolarityNormalizationState): GeneratedVehicle {
+  const baseFields = buildBaseFields(raw, polarityState);
   return {
-    ...buildBaseFields(raw, kind, polarityState),
+    ...baseFields,
+    domain: 'vehicle',
+    kind: baseFields.kind as GeneratedVehicle['kind'],
     description: raw.description ?? '',
-    category: raw.category ?? '',
-    health: raw.health ?? null,
-    shield: raw.shield ?? null,
-    armor: raw.armor ?? null,
-    isPrime: raw.isPrime ?? false,
+    stats: {
+      health: raw.health ?? 0,
+      shield: raw.shield ?? 0,
+      armor: raw.armor ?? 0,
+    },
+    is_prime: raw.isPrime ?? false,
     tradable: raw.tradable ?? false,
-    introduced: resolveIntroduced(raw.introduced),
-    wikiaThumbnail: raw.wikiaThumbnail ?? null,
-    wikiaUrl: raw.wikiaUrl ?? null,
-    abilities: (raw.abilities ?? []).map((ability) => ({ uniqueName: ability.uniqueName ?? '' })),
+    abilities: (raw.abilities ?? []).map((ability) => ({ unique_name: ability.uniqueName ?? '' })),
   }
 }
+
 
 function buildWarframesArtifacts(
   sourceItems: SourceItem[],
@@ -790,7 +728,7 @@ function buildWarframesArtifacts(
 
     passivesDb[warframe.passive] = {
       name: `${warframe.name} Passive`,
-      description: warframe.passiveDescription ?? '',
+      description: warframe.passive_description ?? '',
     }
   }
 
@@ -808,15 +746,27 @@ function buildWeaponsArtifacts(
 ): GeneratedWeapon[] {
   return sourceItems
     .filter((item) => {
-      const category = item.category
-      return typeof category === 'string' && WEAPON_CATEGORIES.includes(category as WeaponCategory)
+      const cat = item.category || ''
+      const pCat = item.productCategory || ''
+      if (cat === 'Pets' || cat === 'Sentinels' || pCat === 'Pets' || pCat === 'Sentinels') return false
+      return WEAPON_PRODUCT_CATEGORIES.includes(pCat) || WEAPON_PRODUCT_CATEGORIES.includes(cat)
     })
     .map((item) => mapWeapon(item, weaponNormalizationState, polarityState))
 }
 
+function buildCompanionsArtifacts(sourceItems: SourceItem[], polarityState: PolarityNormalizationState): GeneratedCompanion[] {
+  return sourceItems
+    .filter((item) => {
+      const pCat = item.productCategory || ''
+      const cat = item.category || ''
+      return COMPANION_PRODUCT_CATEGORIES.includes(pCat) || COMPANION_PRODUCT_CATEGORIES.includes(cat)
+    })
+    .map((item) => mapCompanion(item, polarityState))
+}
+
 function buildModsArtifacts(sourceItems: SourceItem[], polarityState: PolarityNormalizationState): GeneratedMod[] {
   return sourceItems
-    .filter((item) => item.category === 'Mods' && !item.isFlawed)
+    .filter((item) => item.category === 'Mods')
     .map((item) => mapMod(item, polarityState))
 }
 
@@ -826,28 +776,19 @@ function buildArcanesArtifacts(
   polarityState: PolarityNormalizationState,
 ): GeneratedArcane[] {
   return sourceItems
-    .filter((item) => item.category === 'Arcanes' && (item.levelStats?.length ?? 0) > 0)
+    .filter((item) => item.category === 'Arcanes')
     .map((item) => mapArcane(item, arcaneNormalizationState, polarityState))
-}
-
-function buildCompanionsArtifacts(sourceItems: SourceItem[], polarityState: PolarityNormalizationState): GeneratedCompanion[] {
-  return sourceItems
-    .filter((item) => {
-      const category = item.category
-      return typeof category === 'string' && COMPANION_CATEGORIES.includes(category as CompanionCategory)
-    })
-    .map((item) => mapCompanion(item, polarityState))
 }
 
 function buildArchwingWeaponsArtifacts(
   sourceItems: SourceItem[],
   weaponNormalizationState: WeaponNormalizationState,
   polarityState: PolarityNormalizationState,
-): GeneratedArchwingWeapon[] {
+): GeneratedWeapon[] {
   return sourceItems
     .filter((item) => {
-      const category = item.category
-      return typeof category === 'string' && ARCHWING_WEAPON_CATEGORIES.includes(category as ArchwingWeaponCategory)
+      const pCat = item.productCategory || item.category || ''
+      return ARCHWING_WEAPON_PRODUCT_CATEGORIES.includes(pCat)
     })
     .map((item) => mapArchwingWeapon(item, weaponNormalizationState, polarityState))
 }
@@ -857,20 +798,23 @@ function buildVehiclesArtifacts(sourceItems: SourceItem[], polarityState: Polari
   necramechCount: number
   archwingCount: number
 } {
-  const necramechs = sourceItems
-    .filter((item) => NECRAMECH_UNIQUE.has(item.uniqueName ?? ''))
-    .map((item) => mapVehicle(item, 'necramech', polarityState))
+  const allVehicles = sourceItems
+    .filter((item) => { 
+      const pCat = item.productCategory || item.category || ''
+      return VEHICLE_PRODUCT_CATEGORIES.includes(pCat) || NECRAMECH_UNIQUE.has(item.uniqueName ?? '')
+    })
+    .map((item) => mapVehicle(item, polarityState))
 
-  const archwings = sourceItems
-    .filter((item) => item.category === 'Archwing')
-    .map((item) => mapVehicle(item, 'archwing', polarityState))
+  const necramechs = allVehicles.filter(v => v.kind === 'necramech')
+  const archwings = allVehicles.filter(v => v.kind === 'archwing')
 
   return {
-    vehicles: [...necramechs, ...archwings],
+    vehicles: allVehicles,
     necramechCount: necramechs.length,
     archwingCount: archwings.length,
   }
 }
+
 
 export function buildRuntimeDataArtifacts(params: {
   sourceItems: SourceItem[]

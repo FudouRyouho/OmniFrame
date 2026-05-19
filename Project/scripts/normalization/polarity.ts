@@ -1,4 +1,4 @@
-import type { PolarityType } from '../../src/lib/types/polarity.ts'
+import type { PolarityType } from '../../src/shared/types/index.ts'
 
 // ── Normalization State ──────────────────────────────────────────────────────
 

@@ -137,13 +137,13 @@ export function createStableFingerprint(value: unknown): string {
 }
 
 export function buildAuditEntries<
-  TItem extends { uniqueName: string; name: string; kind: TKind; category?: string | null },
+  TItem extends { unique_name: string; name: string; kind: TKind; category?: string | null },
   TKind extends string,
 >(items: TItem[]): GeneratedAuditEntryForAudit<TItem, TKind>[] {
   return items
-    .filter((item) => item.uniqueName !== '')
+    .filter((item) => item.unique_name !== '')
     .map((item) => ({
-      uniqueName: item.uniqueName,
+      uniqueName: item.unique_name,
       name: item.name,
       kind: item.kind,
       category: item.category ?? 'unknown',

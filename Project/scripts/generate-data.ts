@@ -43,7 +43,7 @@ await fs.mkdir(outDir, { recursive: true })
 await fs.mkdir(auditDir, { recursive: true })
 
 const require = createRequire(import.meta.url)
-const abilityStatsDb = require('../data/overrides/ability-stats.override.json') as AbilityStatsDb
+const abilityStatsDb = require('../public/data/ability-stats.override.json') as AbilityStatsDb
 const sourceItems = Array.from(new Items()) as SourceItem[]
 
 const arcaneNormalizationState = createArcaneNormalizationState()

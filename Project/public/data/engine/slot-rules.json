@@ -1,0 +1,32 @@
+{
+  "categories": {
+    "WARFRAME": {
+      "normal": 8,
+      "aura": 1,
+      "exilus": 1,
+      "arcanes": 2
+    },
+    "PRIMARY": {
+      "normal": 8,
+      "exilus": 1,
+      "arcanes": 1
+    },
+    "SECONDARY": {
+      "normal": 8,
+      "exilus": 1,
+      "arcanes": 1
+    },
+    "MELEE": {
+      "normal": 8,
+      "stance": 1,
+      "exilus": 1,
+      "arcanes": 1
+    }
+  },
+  "overrides": {
+    "/Lotus/Powersuits/Jade/Jade": {
+      "aura": 2,
+      "exilus": 0
+    }
+  }
+}

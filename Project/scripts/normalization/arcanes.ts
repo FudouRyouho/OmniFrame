@@ -1,4 +1,4 @@
-import type { ArcaneCategory, ArcaneCompatName } from '../../src/lib/types/arcane.ts'
+import type { ArcaneCategory, ArcaneCompatName } from '../../src/shared/types/index.ts'
 
 type KnownArcaneCompatName = Exclude<ArcaneCompatName, 'unknown'>
 

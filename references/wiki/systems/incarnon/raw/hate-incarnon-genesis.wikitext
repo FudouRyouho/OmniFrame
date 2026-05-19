@@ -1,0 +1,98 @@
+﻿{{ResourceInfobox}}
+'''Hate Incarnon Genesis''' is an item that is used to add [[Incarnon]] upgrades to the {{Weapon|Hate}}.
+
+==Acquisition==
+*Upon completion of [[The Duviri Paradox]] and [[Angels of the Zariman]], and unlocking [[The Steel Path]], players can earn {{Resource|Hate Incarnon Genesis}} from [[The Circuit]]'s Steel Path to place on their Hate with the help of [[Cavalero]] in the [[Chrysalith]]. This [[Incarnon Genesis]] form grants it evolutions to a transformation and newfound strength.
+*Purchased from Cavalero for {{pc|120}}, complete with the resources used in its installation. This purchase can only be made '''once'''.
+
+==Incarnon Genesis==
+
+===Evolutions===
+*Installing the Hate Incarnon Genesis requires '''20''' {{Resource|Pathos Clamp}}, '''70''' {{Resource|Dracroot}} and '''20''' {{Resource|Maw Fang}}.
+*When installed, the first Evolution tier is unlocked. The following Evolution tiers, their requirements for unlocking them, and their related perks, are shown below:
+**Each challenge additionally grants '''5,000''' [[affinity]] to the weapon, affected by [[Affinity Booster]]s.
+
+====Evolution I====
+*Reach '''6x''' Combo and then [[Melee#Heavy Attack|Heavy Attack]] to activate Incarnon Form.
+*Incarnon Form launches blades that embed and explode with {{D|Heat}} damage during Forward and Neutral Combos.
+**Forward and Neutral Combos in Incarnon Form will launch '''1''' spectral blade towards the crosshair that explode '''0.4''' seconds after impact.
+***All hits are affected by the stance multiplier of the attack that launched the blade.
+***Direct hits can headshot.
+***Projectiles and explosions are silent.
+***Explosions do not self stagger.
+***Direct hits of spectral blades and explosions are affected by universal base damage sources like {{M|Vigorous Swap}}, {{M|Holster Amp}}, {{Arcane|Arcane Arachne}}, {{A|Vex Armor}} and {{A|Amp}}.
+****Direct hit damage is affected by {{M|Condition Overload}}, but not the explosions.
+***Damage is <u>'''not'''</u> affected by the damage increase on Evolution 2, Incarnon form's innate +100% melee damage, or melee damage bonuses like {{M|Pressure Point}}.
+**'''+100%''' Melee Damage
+**'''+20%''' Sprint Speed
+**'''+20%''' Bullet Jump
+*Incarnon Form lasts for '''180''' seconds and persists until [[death]].
+
+====Evolution II====
+''Unlock Challenge:'' Complete a solo mission with this weapon equipped.
+*Perk 1: '''Swordsman's Flourish:'''
+**Increase Damage by '''+30'''.
+**With Melee Weapon Equipped: '''+100%''' Combo Count Chance
+***Does '''not''' apply to quickswap melee. Requires manually equipping the melee, either by holding the weapon swap key (default {{Keybind|F}}) or going into a mission with only the melee weapon equipped.
+*Perk 2: '''Stalker's Legacy:'''
+**Increase Damage by '''+30'''.
+**With {{Weapon|Dread}} and {{Weapon|Despair}} equipped: '''+30''' Initial Combo.
+
+====Evolution III====
+''Unlock Challenge:'' Activate this weapon's Incarnon Form '''6''' times in a mission.
+*Perk 1: '''Orokin Reach:'''
+**'''+0.8''' Range.
+*Perk 2: '''Swift Break:'''
+**'''+60%''' Heavy Attack Wind Up Speed.
+*Perk 3: '''Resolute Force:'''
+**'''+10s''' Combo Duration.
+
+====Evolution IV====
+''Unlock Challenge:'' Perform '''20''' Finisher Attacks with only a Melee Weapon equipped.
+*Perk 1: '''Absolute Valor:'''
+**Increase Critical Chance by '''+10%'''.
+*Perk 2: '''Absolute Dominion:'''
+**Increase Status Chance by '''+20%'''.
+*Perk 3: '''Subtle Force:'''
+**Increase Critical Chance by '''+6%'''.
+**Increase Status Chance by '''+10%'''.
+
+==Notes==
+*Evolution IV's unlock challenge requires manually equipping the melee, either by holding the weapon swap key (default {{Keybind|F}}) or going into a mission with only the melee weapon equipped.
+
+==Tips==
+*Using {{WF|Titania}}'s {{A|Razorwing}} deactivates the incarnon form of melee weapons, helping you unlock Evolution III quicker.
+*Using certain Warframe abilities such as [[Valkyr]]'s [[Paralysis]] staggers many enemies allowing you to to use finishers, making unlocking Evolution IV easier.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|41.1}}
+*Fixed alternative Holster Styles for the following Incarnons missing offsets: 
+**Hate Incarnon
+
+{{ver|39}}
+*Incarnon Adapters available in the current Steel Path Circuit rotation are now available for Platinum Purchase in Cavalero’s store in the Chrysalith.
+**Purchasing these Incarnons for Platinum will reward players with both the Adapter and the required resources to install it.
+
+{{ver|37}}
+*Fixed Incarnon Geneses of the Hate missing the custom Melee Incarnon reticle.
+
+{{ver|33.5}}
+*Fixed the explosions from Hate’s Incarnon Form causing players to be self-staggered or knocked down.
+*Fixed Melee Incarnon weapons (original and Genesis) missing their Incarnon Form stats in the Arsenal.
+
+{{ver|33.0.5}}
+*Fixed Melee Incarnon Weapons using the incorrect HUD indicator to state that Incarnon Mode was ready. 
+
+{{ver|33.0.4}}
+*Updated the Hate’s Incarnon Mode VFX.
+
+{{ver|33}}
+*Introduced}}
+
+{{IncarnonNav}}
+
+[[Category:Duviri]]
+[[Category:Incarnon]]
+[[Category:Incarnon Geneses]]
+[[Category:Update 33]]

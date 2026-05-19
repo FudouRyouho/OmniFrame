@@ -1,0 +1,110 @@
+﻿{{ResourceInfobox}}
+'''Magistar Incarnon Genesis''' is an item that is used to add [[Incarnon]] upgrades to the {{Weapon|Magistar}} or {{Weapon|Sancti Magistar}}.
+
+==Acquisition==
+*Upon completion of [[The Duviri Paradox]] and [[Angels of the Zariman]], and unlocking [[The Steel Path]], players can earn '''Magistar Incarnon Genesis''' from [[The Circuit]]'s Steel Path to place on their Magistar with the help of [[Cavalero]] in the [[Chrysalith]]. This [[Incarnon Genesis]] form grants it evolutions to a transformation and newfound strength.
+*Purchased from Cavalero for {{pc|120}}, complete with the resources used in its installation. This purchase can only be made '''once'''.
+
+==Incarnon Genesis==
+
+===Evolutions===
+*Installing the Magistar Incarnon Genesis requires 20 {{Resource|Pathos Clamp|Pathos Clamps}}, 70 {{Resource|Dracroot}}, and 150 {{Resource|Aggristone}}.
+*When installed, the first Evolution tier is unlocked. The following Evolution tiers, their requirements for unlocking them, and their related perks, are shown below;
+**Each challenge additionally grants '''5,000''' [[affinity]] to the weapon, affected by [[Affinity Booster]]s.
+
+====Evolution I====
+*Reach '''6x''' Combo and then [[Melee#Heavy Attack|Heavy Attack]] to activate Incarnon Form.
+*Incarnon Form increases Initial Combo and Wind Up Speed
+**'''+100%''' Melee Damage
+**'''+30''' Initial Combo
+**'''+50%''' Heavy Attack Wind Up Speed
+**'''+10%''' Sprint Speed
+**'''+10%''' to Bullet Jump.
+*Incarnon Form lasts for '''180''' seconds and persists until [[death]].
+
+====Evolution II====
+''Unlock Challenge:'' Complete a solo mission with this weapon equipped.
+*Perk 1: '''Crushing Verdict:'''
+**Increase Damage by '''+100''' (Magistar) / '''+20''' (Sancti).
+**With [[Channeled Abilities|Channeled Ability]] active: Increase Follow Through by '''+40%'''.
+*Perk 2: '''Edge Of Justice:'''
+**Increase Damage by '''+100''' (Magistar) / '''+20''' (Sancti).
+**With Melee Weapon Equipped: '''+40%''' attack speed.
+
+====Evolution III====
+''Unlock Challenge:'' Activate this weapon's Incarnon form '''6''' times in a mission.
+*Perk 1: '''Seismic Slam:'''
+**'''+100%''' Slam Radius.
+*Perk 2: '''Orokin Reach:'''
+**'''+1.4''' Range.
+*Perk 3: '''Swift Break:'''
+**'''+30%''' Heavy Attack Wind Up Speed.
+
+====Evolution IV====
+''Unlock Challenge:'' Perform '''20''' downed Finisher attacks.
+*Perk 1: '''Flashing Bleed:'''
+**'''+50%''' Chance of {{D|Slash|Bleed}} on {{D|Impact}} Status Effect.
+*Perk 2: '''Subtle Force:'''
+**Increase Critical Chance by '''+8%'''.
+**Increase Status Chance by '''+8%'''.
+*Perk 3: '''Critical Parallel:'''
+**Increase Critical Chance by '''+16%''' (Magistar) / '''+12%''' (Sancti).
+**Increase Critical Damage Multiplier by '''+1x''' (Magistar) / '''+0.2''' (Sancti).
+
+==Tips==
+*Crushing Verdict's channeling requirement can only be met by a handful of channeled abilities that still permit melee actions:
+**{{WF|Baruuk}}'s {{A|Elude}}.
+**{{WF|Chroma}}'s {{A|Spectral Scream}} or {{A|Effigy}}.
+**{{WF|Cyte-09}}'s {{A|Neutralize}}.
+**{{WF|Ember}}'s {{A|Immolation}} when fully heated.
+**{{WF|Equinox}}'s {{A|Mend & Maim|Mend}} or {{A|Mend & Maim|Maim}}.
+**{{WF|Ivara}}'s {{A|Prowl}}.
+**{{WF|Nyx}}'s {{A|Absorb}} with {{M|Assimilate}}.
+**{{WF|Oberon}}'s {{A|Renewal}}.
+**{{WF|Sevagoth}}'s {{A|Gloom}} when draining within enemy range. This is also the only ability on this list that can be transferred via the [[Helminth]]. 
+*The Incarnon-form's lifesteal exclusive to {{Weapon|Sancti Magistar}} counts direct melee hits and slam radial damage (improved by Evolution III: Seismic Slam), but not status damage. High attack speed is advised to have regular healing. 
+**All lifesteal on the weapon heals allies.
+**Lifesteal is counted on the final damage inflicted upon a target, and is therefore reduced by enemy damage reduction, armor and resistances.
+**Lifesteal does not work on object health, but will work when transferred through {{A|Tornado}}.
+*Using {{WF|Titania}}'s {{A|Razorwing}} deactivates the incarnon form of melee weapons, helping you unlock Evolution III quicker.
+
+==Known Bugs==
+*Evolution IV: Flashing Bleed can proc once for every hit, and only if there is no other {{D|Slash}} proc on the hit. This makes it only 30% to 20% effective instead of the perceived 50%. 
+**More than one {{D|Impact}} proc will only roll the chance once.
+**A multi-proc hit with both a natural (or provided by {{A|Seeking Talons}}) {{D|Slash}} proc and an {{D|Impact}} proc will '''not''' roll Flashing Bleed at all.
+
+* {{M|Condition Overload}} ignores damage bonuses of Crushing Verdict and Edge Of Justice as well as [[Stance]] multipliers.
+
+* Evolution I: '''+100%''' Melee Damage as well as Evolution IV: Subtle Force and Critical Parallel affect pseudo-exalted weapons such as {{A|Landslide}}, {{A|Slash Dash}}, {{A|Shattered Lash}} and {{A|Whipclaw}}.
+** {{A|Blade Storm}} is unaffected.
+
+==Trivia==
+*The Magistar's Seismic Slam evolution is only the third  bonus in the game that increases melee slam radius, the first being {{Weapon|Arca Titron|Arca Titron's}} Slam Capacitor and the second being the {{Weapon|Praedos}}'s Seismic Slam evolution. It is tied for the largest slam radius in the game with {{Weapon|Arca Titron|Arca Titron's}} heavy slam attack with 5 Slam Capacitor stacks.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39}}
+*Incarnon Adapters available in the current Steel Path Circuit rotation are now available for Platinum Purchase in Cavalero’s store in the Chrysalith.
+**Purchasing these Incarnons for Platinum will reward players with both the Adapter and the required resources to install it.
+
+{{ver|36}}
+*The Magistar Incarnon’s Evolution II Perk ‘Crushing Verdict’ has been changed from multiplicative follow-through to base follow-through. **This means that the value also changed from +100% to +40% to maintain the same effect. Players should not notice a functional change.
+
+{{ver|34.0.5}}
+*Fixed the Magistar Incarnon’s Crushing Verdict buff HUD icon appearing as a black square.
+
+{{ver|33.5}}
+*Fixed Melee Incarnon weapons (original and Genesis) missing their Incarnon Form stats in the Arsenal.
+
+{{ver|33.0.5}}
+*Fixed Melee Incarnon Weapons using the incorrect HUD indicator to state that Incarnon Mode was ready. 
+
+{{ver|33}}
+*Introduced.}}
+
+{{IncarnonNav}}
+
+[[Category:Duviri]]
+[[Category:Incarnon]]
+[[Category:Incarnon Geneses]]
+[[Category:Update 33]]
