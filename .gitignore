@@ -1,0 +1,22 @@
+# ─── Assets binarios ─────────────────────────────────────────────────────────
+Project/public/images/*
+Project/public/imagenes/*
+Project/public/mod-frames/*
+
+# ─── IDEs y herramientas locales ─────────────────────────────────────────────
+.vscode/
+.editorconfig
+
+# ─── Herramientas IA / agentes ───────────────────────────────────────────────
+.github/
+.claude/settings.local.json
+
+# ─── Archivos de trabajo archivados ──────────────────────────────────────────
+docs-archive/
+
+# ─── Dependencias ────────────────────────────────────────────────────────────
+node_modules/*
+
+# ─── Datos y temporales del proyecto ─────────────────────────────────────────
+Project/data/
+Project/scratch/
