@@ -3,7 +3,7 @@ Estado: "activo"
 Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en la fórmula de Warframe y la operación de modificador que lo alimenta"
 Version: "v0.1.0"
 Impacto_ID: "E-AttributeNode"
-Fidelidad_Fisica: "Project/src/core/engine/sim-v2/contracts/index.ts"
+Fidelidad_Fisica: "Project/src/core/engine/contracts/index.ts"
 Fecha_de_creacion: "2026-05-19"
 Fecha_de_actualizacion: "2026-05-19"
 Dependencias:

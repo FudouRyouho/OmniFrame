@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Documentar el rol de src/shared/types/ y sus límites"
 Version: "v0.0.3"
 Impacto_ID: "G-Types"

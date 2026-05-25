@@ -1,13 +1,13 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Inventario de residuos de transición en Project/src/ — base para purga y refactor"
 Version: "v0.1.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-05-18"
-Fecha_de_actualizacion: "2026-05-19"
+Fecha_de_actualizacion: "2026-05-21"
 Dependencias:
-  - "docs/domains/engine/sim-v2-audit.md"
+  - "docs/domains/engine/engine-audit.md"
 ---
 
 # Inventario de Residuos de Transición
@@ -46,7 +46,7 @@ Tres archivos forman un sistema cohesivo de transición que NO se puede purgar i
 | :--- | :--- | :--- |
 | `domains/arsenal/arsenal-state.ts` | `@status stub / en desarrollo`. Contiene factories mock, metadata visual para slots vacíos ("Metadata visual del slot de X para cerrar el Arsenal aunque no exista wiring real"). | ¿Se integra con EnsembleStore o se refactoriza como capa de presentación permanente? |
 | `domains/arsenal/ArsenalView.tsx` | `@status stub / en desarrollo`. Vista principal del Arsenal. Consume `useArsenalUiState()` que es el stub de arriba. | Bloqueada por la decisión sobre `arsenal-state.ts`. |
-| `providers/Loadout/loadout-context.tsx` | **PURGADO (2026-05-19)** — OQ-STATE-1 cerrado. `LoadoutState` (tipo + helpers en `loadout.ts`) se conserva como formato interno del Adapter. | ✅ |
+| `providers/Loadout/loadout-context.tsx` | **PURGADO (2026-05-19)** — OQ-STATE-1 cerrado. `LoadoutState` y `loadout.ts` también eliminados (2026-05-21). Sin remanentes. | ✅ |
 
 **Vínculo con OQ-STATE**: OQ-STATE-1 cerrado (2026-05-19). `EnsembleIntention` es el SSoT canónico.
 
@@ -73,7 +73,7 @@ Dos referencias a "Snapshot B4" (nomenclatura de fases B1-B4 deprecada):
 
 | Archivo | Línea | Texto | Acción |
 | :--- | :--- | :--- | :--- |
-| `core/engine/sim-v2/hooks/useSimulation.ts` | 15 | `"Proporciona el Snapshot B4 (resultados del motor)"` | Reemplazar por `"ProjectionSnapshot del motor"` |
+| `core/engine/hooks/useSimulation.ts` | 15 | `"Proporciona el Snapshot B4 (resultados del motor)"` | Reemplazar por `"ProjectionSnapshot del motor"` |
 | `domains/arsenal/view/UpgradeView.tsx` | 22 | `"Simulación reactiva desde el EnsembleStore (Snapshot B4)"` | Reemplazar por `"Simulación reactiva desde EnsembleStore"` |
 
 ### 3.2 `any` types por archivo (engine)
@@ -82,11 +82,11 @@ Todos son KEEP — el código es funcional, pero los `any` esconden problemas de
 
 | Archivo | Ocurrencias | Problema raíz |
 | :--- | :--- | :--- |
-| `core/engine/sim-v2/logic/ModRepository.ts` | 2 (`stat: any`, `val: any`) | El override JSON no tiene interfaz TypeScript. Necesita `ModStatRaw` interface. |
-| `core/engine/sim-v2/logic/ItemRepository.ts` | 4+ (`data: any[]`, `attack: any`, `mapDamage(damage: any)`, retornos `any\|null`) | El dataset warframe-items no tiene contratos TS. Necesita `RawWeaponData` etc. |
-| `core/engine/sim-v2/logic/MutatorBridge.ts` | 1 (`mapCalculatedStats(): any`) | Retorno debería ser `Record<AttributeId, AttributeNode>`. |
-| `core/engine/sim-v2/logic/EnsembleAdapter.ts` | 1 (`mapEntity(): any`) | Retorno debería ser el bloque de warframe de `Ensemble`. |
-| `core/engine/sim-v2/logic/CombatSimulator.ts` | 1 (`entity: any`) | Parámetro debería ser `SimulationEntity`. |
+| `core/engine/hydration/ModRepository.ts` | 2 (`stat: any`, `val: any`) | El override JSON no tiene interfaz TypeScript. Necesita `ModStatRaw` interface. |
+| `core/engine/hydration/ItemRepository.ts` | 4+ (`data: any[]`, `attack: any`, `mapDamage(damage: any)`, retornos `any\|null`) | El dataset warframe-items no tiene contratos TS. Necesita `RawWeaponData` etc. |
+| `core/engine/bridge/MutatorBridge.ts` | 1 (`mapCalculatedStats(): any`) | Retorno debería ser `Record<AttributeId, AttributeNode>`. |
+| `core/engine/bridge/EnsembleAdapter.ts` | 1 (`mapEntity(): any`) | Retorno debería ser el bloque de warframe de `Ensemble`. |
+| `core/engine/combat/CombatSimulator.ts` | 1 (`entity: any`) | Parámetro debería ser `SimulationEntity`. |
 
 ### 3.3 `any` types en DataRegistry (shared)
 
@@ -106,14 +106,14 @@ Estos archivos son stubs legítimos y deben quedar marcados como tal, no purgars
 
 | Archivo | Rol real |
 | :--- | :--- |
-| `core/engine/sim-v2/logic/DatasetSeeder.ts` | `@domain Simulation-v2 / Dataset / Stub`. Fixtures de test para registrar armas/mods hardcodeados. |
-| `dev/SimulationLab.tsx` | Laboratorio visual del motor. Código de desarrollo, nunca producción. |
+| `core/engine/dev/DatasetSeeder.ts` | **ELIMINADO** — purgado en sesión anterior. |
+| `dev/SimulationLab.tsx` | **ELIMINADO (2026-05-21)** — dev tool roto, reemplazable por tests de Vitest. |
 | `dev/ModTestPage.tsx` | Mock de Riven para tests CSS. Solo dev. |
-| `core/engine/sim-v2/dev/verify-diff.ts` | Herramienta de diff de simulación. Solo dev. |
+| `core/engine/dev/verify-diff.ts` | **ELIMINADO** — purgado en sesión anterior. |
 
 ### 3.6 JSDoc con `@SSoT` — falsa alarma
 
-El agente marcó los `@SSoT` de los archivos engine como "paths rotos". Verificación: los paths referenciados (`docs/design/sim-v2/simulation-architecture.md`, `docs/design/sim-v2/simulation-roadmap.md`, etc.) **sí existen** en el repo — el agente buscó desde `Project/src/` sin contexto de la raíz. Los `@SSoT` están correctos.
+El agente marcó los `@SSoT` de los archivos engine como "paths rotos". Verificación: los paths referenciados (`docs/domains/engine/design/simulation-architecture.md`, `docs/domains/engine/design/simulation-roadmap.md`, etc.) **sí existen** en el repo — el agente buscó desde `Project/src/` sin contexto de la raíz. Los `@SSoT` están correctos.
 
 **Excepción real** — `providers/Loadout/loadout-context.tsx` línea 3: ✅ **Corregido (2026-05-18)**
 ```

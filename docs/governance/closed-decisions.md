@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
 Version: "v0.0.2"
 Impacto_ID: "G-ADL-Closed"

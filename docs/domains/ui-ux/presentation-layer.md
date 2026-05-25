@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Documentar la capa de traducción, mapeo y renderizado de la UI"
 Version: "v0.0.2"
 Impacto_ID: "UI-UX-Presentation"

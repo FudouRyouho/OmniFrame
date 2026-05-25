@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Enforcement de estilo por boundary arquitectónico"
 Version: "v0.0.2"
 Impacto_ID: "G-Naming"

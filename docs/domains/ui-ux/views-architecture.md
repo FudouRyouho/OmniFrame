@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Manual técnico de la arquitectura de vistas y centralización de componentes"
 Version: "v0.0.2"
 Impacto_ID: "UI-UX-Views"

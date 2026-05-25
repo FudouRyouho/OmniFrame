@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Registrar riesgos técnicos conocidos de dependencias externas con decisión de 'no actuar ahora'"
 Version: "v0.0.2"
 Impacto_ID: "G-Risks"

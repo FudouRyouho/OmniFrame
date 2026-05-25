@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Definir el rol de la UI shell y sus responsabilidades"
 Version: "v0.0.2"
 Impacto_ID: "UI-UX-Shell"

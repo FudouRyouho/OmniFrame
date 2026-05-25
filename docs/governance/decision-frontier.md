@@ -1,11 +1,11 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
 Version: "v0.0.2"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-04-20"
+Fecha_de_actualizacion: "2026-05-24"
 ---
 
 # Decision Frontier
@@ -48,11 +48,31 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 
 ---
 
+## Decisiones de Dominio (D-series)
+
+Las secciones anteriores definen fronteras **arquitectónicas** — son invariantes que requieren
+debate y autorización explícita para cambiar (equivalente a RED).
+
+Las decisiones D-series que viven en `docs/domains/<dominio>/decisions.md` son un nivel distinto:
+decisiones correctas hoy que pueden evolucionar con nueva evidencia sin fricción formal.
+
+| Estado | Descripción | Protocolo de cambio |
+|---|---|---|
+| **VIGENTE** | Correcta hoy, evolucionable bajo nueva evidencia | Actualizar `decisions.md` + documentar motivo. Impacto GREEN (sube si toca TypeScript o arquitectura). |
+| **DEFINITIVA** | Invariante del sistema, declarada explícitamente | Halt + debate + autorización. Mismo protocolo que las fronteras arquitectónicas de arriba. |
+
+Por defecto, las D-series son **VIGENTES**. Solo se declara DEFINITIVA cuando la decisión
+es un invariante real del sistema (ej: "los overrides viven en `Project/public/data/`").
+
+Ref: `docs/CLAUDE.md` § "Regla de evolución de decisiones de dominio (D-series)"
+
+---
+
 ## Decisiones Históricas (B1-B5)
 > [!NOTE]
-> Los debates pertenecientes a las fases de auditoría y cimentación inicial (B1 a B5) se consideran **CERRADOS**. Cualquier duda operativa sobre estas fases debe consultarse en `docs/governance/closed-decisions.md` o en el historial del `migration-status.md`.
+> Los debates pertenecientes a las fases de auditoría y cimentación inicial (B1 a B5) se consideran **CERRADOS**. Cualquier duda operativa sobre estas fases debe consultarse en `docs/governance/closed-decisions.md`.
 
 ## Uso de este documento
 1. Identificar el área de trabajo.
 2. Separar lo que ya no es negociable de lo que requiere diseño activo.
-3. Si un punto Decidido genera bloqueo, registrar el gap técnico en `impact-matrix.md`.
+3. Si un punto Decidido genera bloqueo, registrar el gap técnico en `../overview/impact-matrix.md`.

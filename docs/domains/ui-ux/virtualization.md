@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Documentar el comportamiento de la virtualización de listas en la interfaz"
 Version: "v0.0.2"
 Impacto_ID: "UI-UX-Performance"

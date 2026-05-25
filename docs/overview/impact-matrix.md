@@ -42,7 +42,7 @@ _Sistemas transversales construidos como prerrequisito para la estabilidad._
 - **Logro**: Migración masiva de Grillas, Vistas, Cards y Toolbars a `@shared`.
 - **Impacto**: El Arsenal y el Equipment ahora consumen el mismo motor de renderizado agnóstico.
 
-### 3. Esqueleto Headless sim-v2 (Capa C) — [🔴 MAYOR]
+### 3. Esqueleto Headless del Engine de Simulación (Capa C) — [🔴 MAYOR]
 - **Logro**: Estructura de Grafo de Atributos, Mutadores y Fórmulas Maestras.
 - **Impacto**: Motor preparado para recibir intenciones y emitir proyecciones B4.
 
@@ -54,7 +54,7 @@ _Sistemas transversales construidos como prerrequisito para la estabilidad._
 
 ### 5. Materialización del Arsenal (Chasis) — [🟡 MENOR]
 - **Logro**: Hidratación real en `ArsenalView`, migración reactiva de `ModSlot`, y blindaje de errores en interacciones de slots vacíos.
-- **Impacto**: El Arsenal ya no es un "mockup", es un cliente real del motor `sim-v2` y del `DataRegistry`.
+- **Impacto**: El Arsenal ya no es un "mockup", es un cliente real del motor de simulación y del `DataRegistry`.
 
 ### 6. Formalización Arquitectónica del Motor — [🔴 MAYOR] (2026-05-19)
 - **Logro**: Modelo de 5 capas (A / B / C1 / C2 / D) definido, debatido y documentado. `simulation-architecture.md` reescrito a v0.2.0. Resolución de `OQ-STATE-1/2/3/4`.

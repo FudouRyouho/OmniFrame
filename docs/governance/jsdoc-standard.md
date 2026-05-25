@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Vocabulario canónico de anotaciones JSDoc en Project/src/"
 Version: "v0.1.0"
 Impacto_ID: "G-Naming"
@@ -31,7 +31,7 @@ Ejemplo correcto:
 /**
  * @domain Simulation-v2 / Logic / Bridge
  * @status en-desarrollo
- * @SSoT docs/design/sim-v2/simulation-architecture.md
+ * @SSoT docs/domains/engine/design/simulation-architecture.md
  */
 ```
 
@@ -76,8 +76,8 @@ Exactamente 5 valores permitidos. Sin variantes libres, sin compuestos con `/`.
 
 ```typescript
 // ✅ Correcto
-@SSoT docs/design/sim-v2/simulation-architecture.md
-@SSoT docs/domains/engine/sim-v2-audit.md
+@SSoT docs/domains/engine/design/simulation-architecture.md
+@SSoT docs/domains/engine/engine-audit.md
 
 // ❌ Incorrecto
 @SSoT docs/domains/integration/runtime-composition.md  // si el doc fue archivado
@@ -105,7 +105,7 @@ Los nombres de dominio válidos son los definidos en `docs/domains/`:
 @domain Shared / Data / Registry
 
 // ❌ Incorrecto
-@domain sim-v2/logic/hydration    // No usar kebab-case aquí
+@domain simulation/logic/hydration    // No usar kebab-case aquí
 @domain Engine                    // Demasiado vago — al menos 2 niveles
 ```
 

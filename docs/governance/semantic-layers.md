@@ -1,5 +1,5 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Frontera obligatoria para la interpretación y transformación de datos"
 Version: "v0.0.3"
 Impacto_ID: "G-Semantic"

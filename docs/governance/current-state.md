@@ -1,11 +1,11 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Describir el pulso real de la estructura física y funcional del repositorio"
-Version: "v0.1.1"
+Version: "v0.1.2"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-19"
+Fecha_de_actualizacion: "2026-05-24"
 ---
 
 # OmniFrame — Estado Actual
@@ -13,7 +13,7 @@ Fecha_de_actualizacion: "2026-05-19"
 > **Audit fecha:** 2026-05-18 | **Actualización parcial:** 2026-05-19 (correcciones EnsembleAdapter, modelo de capas)
 > **Metodología:** Lectura directa del código físico. Este documento reemplaza la versión anterior (v0.0.3) que tenía drift significativo con el estado real.
 
-> **Modelo arquitectónico:** Ver `docs/design/sim-v2/simulation-architecture.md` para el modelo de 5 capas (A / B / C1 / C2 / D) acordado en 2026-05-19. Este documento describe la estructura física; la arquitectura conceptual y los principios de comunicación entre capas están allí.
+> **Modelo arquitectónico:** Ver `docs/domains/engine/design/simulation-architecture.md` para el modelo de 5 capas (A / B / C1 / C2 / D) acordado en 2026-05-19. Este documento describe la estructura física; la arquitectura conceptual y los principios de comunicación entre capas están allí.
 
 ---
 
@@ -23,12 +23,12 @@ Fecha_de_actualizacion: "2026-05-19"
 
 | Ruta | Estado | Descripción |
 |---|---|---|
-| `core/engine/loadout.ts` | **Activo** | Define `LoadoutState` (flat record `slot:*`) y `LoadoutIntent`. Modelo de datos del sistema legacy. |
+| `core/engine/loadout.ts` | **ELIMINADO (2026-05-21)** | `LoadoutState` y `LoadoutIntent` eliminados junto con la vía legacy de `MutatorBridge`. |
 | `core/engine/formulas/` | **Activo** | Fórmulas matemáticas por categoría: ability, arcane, weapon, warframe, common. |
-| `core/engine/sim-v2/contracts/` | **Activo** | Contratos del motor: `attributes.ts`, `damage-logic.ts`, `damage-multipliers.ts`. |
-| `core/engine/sim-v2/logic/` | **Activo** | Implementación del motor: `SimulationEngine`, `MutatorBridge`, `CombatCalculator`, `DamageCombiner`, `StatusEngine`, `TimelineSimulator`, `StaticHydrator`, `ModRepository`, y más. `EnsembleAdapter` eliminado (2026-05-19). |
-| `core/engine/sim-v2/hooks/useSimulation.ts` | **Activo** | Hook React que conecta `EnsembleStore` al motor vía `MutatorBridge`. |
-| `core/engine/sim-v2/__tests__/` | **Activo** | 12 suites de test (engine-core, damage-combiner, elemental, timeline, etc.). |
+| `core/engine/contracts/` | **Activo** | Contratos del motor: `damage-logic.ts`, `damage-multipliers.ts`, `mod-overrides.ts`. (`attributes.ts` eliminado en refactor 2026-05-21.) |
+| `core/engine/bridge/` + `combat/` + `hydration/` + `resolution/` | **Activo** | Implementación del motor: `SimulationEngine`, `MutatorBridge`, `CombatCalculator`, `DamageCombiner`, `StatusEngine`, `TimelineSimulator`, `StaticHydrator`, `ModRepository`, y más. `EnsembleAdapter` eliminado (2026-05-19). |
+| `core/engine/hooks/useSimulation.ts` | **Activo** | Hook React que conecta `EnsembleStore` al motor vía `MutatorBridge`. |
+| `core/engine/__tests__-legacy/` | **ELIMINADO** | 12 suites de test purgadas en sesión anterior. |
 
 ### Providers — Estado de transición
 
@@ -37,7 +37,7 @@ Fecha_de_actualizacion: "2026-05-19"
 | Provider | Estado | Descripción |
 |---|---|---|
 | `providers/Ensemble/` | **Activo — sistema nuevo** | `EnsembleStore`: observable agnóstico al framework. Gestiona `EnsembleIntention` (items por canal + mods + environment). Es el SSoT de intención del usuario en la arquitectura nueva. |
-| `providers/Loadout/` | **ELIMINADO (2026-05-19)** | `LoadoutContext` y `LoadoutProvider` purgados. `LoadoutState` (tipo + helpers) conservado en `core/engine/loadout.ts` como formato interno del `EnsembleAdapter`. Decisión: OQ-STATE-1. |
+| `providers/Loadout/` | **ELIMINADO (2026-05-19)** | `LoadoutContext` y `LoadoutProvider` purgados. `LoadoutState` y `loadout.ts` también eliminados (2026-05-21). Sin remanentes del sistema legacy. Decisión: OQ-STATE-1/3/4. |
 | `providers/DataState/` | **Activo** | Context headless de estado de UI (concepto `data-*` HTML). No relacionado con el engine. |
 | `providers/Shell/` | **Activo** | Navegación, zona, título y footer del shell. |
 | `providers/Menu/` | **Activo** | Estado del menú de navegación. |
@@ -47,7 +47,7 @@ Fecha_de_actualizacion: "2026-05-19"
 
 > ⚠️ **Histórico corregido:** `EnsembleAdapter` fue eliminado en 2026-05-19 (OQ-STATE-4). La descripción anterior era drift.
 
-`MutatorBridge` (`sim-v2/logic/`) es la capa B del modelo de 5 capas — orquesta la simulación completa desde `EnsembleIntention`:
+`MutatorBridge` (`engine/bridge/`) es la capa B del modelo de 5 capas — orquesta la simulación completa desde `EnsembleIntention`:
 
 - Absorbe la lógica que `EnsembleAdapter` tenía como stub (`fromIntention`)
 - Traduce intención → contratos del engine (C1) sin conocer la UI
@@ -81,10 +81,13 @@ Fecha_de_actualizacion: "2026-05-19"
 | Docs decían | Realidad física | Estado |
 |---|---|---|
 | `LoadoutProvider` eliminado absolutamente | Existía. `EnsembleAdapter.toEnsemble()` lo consumía. | ✅ Resuelto — `LoadoutProvider` y `LoadoutContext` eliminados físicamente (OQ-STATE-1/3, 2026-05-19) |
-| Arsenal es cliente real de sim-v2 | Arsenal es un stub. `use-arsenal-stub-state.ts`. | ⚠️ Pendiente — UpgradeView sin diseño definido |
+| Arsenal es cliente real del engine | Arsenal es un stub. `use-arsenal-stub-state.ts`. | ⚠️ Pendiente — UpgradeView sin diseño definido |
 | EnsembleStore es el único SSoT reactivo | Coexistía con `LoadoutContext` sin reemplazarlo. | ✅ Resuelto — `LoadoutContext` eliminado. `EnsembleStore` es el único SSoT. |
 | `docs/domains/integration/` sin contenido | El concepto existía: `EnsembleAdapter` era la capa de integración. Los docs no se escribieron. | ✅ Resuelto — `integration/README.md` escrito; `MutatorBridge` documentado como Capa B. |
 | `DataRegistry` sin mención | Es la capa de datos en runtime más importante de la UI. | ✅ Documentado en §1 Shared. |
+| `upgrade_by: "NONE"` como sentinel de valor fijo | 468 instancias en el override. El campo debe ser opcional. | ✅ Resuelto — D-11 (2026-05-22): `"NONE"` purgado, campo opcional. |
+| `AbilityStatEntry` con `values[]` anidado | Sobre-ingeniería — game UI nunca tiene multi-rank en pantalla. | ✅ Resuelto — D-12 (2026-05-22): `AbilityStatValue` eliminado, `base_value: number \| [number, number]` flat. |
+| Ability stats editados a mano en el JSON | Pipeline maduro: `.md` semánticos + `apply-ability-md.ts`. | ✅ Resuelto — 28 warframes procesados vía pipeline. SSoT activo. |
 
 ---
 
@@ -93,7 +96,7 @@ Fecha_de_actualizacion: "2026-05-19"
 Estos puntos NO tienen respuesta en el código ni en los docs actuales. Requieren decisión antes de continuar desarrollo:
 
 **OQ-STATE-1: ¿Cuál es el contrato de estado del usuario? — CERRADO (2026-05-19)**
-`EnsembleIntention` es el SSoT canónico de la UI. `LoadoutState` es formato interno del Adapter. `LoadoutContext` eliminado.
+`EnsembleIntention` es el SSoT canónico de la UI. `LoadoutState`, `loadout.ts` y `SimulationLab` eliminados (2026-05-21). `MutatorBridge` tiene una única ruta: `simulateFromIntention`. `LoadoutContext` eliminado (2026-05-19).
 
 **OQ-STATE-2: ¿Cómo se conecta Arsenal al motor? — CERRADO (2026-05-19)**
 Write: `setItem()` / `setMod()` / `setShard()` → EnsembleStore. Read: `useSimulation()` con `entity.channel` como clave estable.
@@ -109,8 +112,8 @@ Eliminado físicamente. Ver OQ-STATE-1.
 ## 4. Lo que está estable y no debe tocarse
 
 - `core/engine/formulas/` — fórmulas matemáticas probadas
-- `core/engine/sim-v2/contracts/` — contratos del motor ratificados
-- `core/engine/sim-v2/__tests__/` — suite de tests activa
+- `core/engine/contracts/` — contratos del motor ratificados
+- ~~`core/engine/__tests__-legacy/`~~ — **ELIMINADO** (12 suites purgadas, ver §1)
 - `shared/types/` — contratos TypeScript del dominio
 - `shared/components/` — sistema de vistas unificado
 - `shared/data/DataRegistry.ts` — carga de datos en runtime
