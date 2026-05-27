@@ -1,11 +1,12 @@
 /**
  * @domain Shared / Types / Mod
- * @SSoT docs/domains/semantic/damage-types.md
+ * @SSoT docs/data/schemas/mods/mods-schema.md
  */
 
 import type { BaseItem } from './base'
-
 import type { ModStats } from './stats'
+
+// ─── ModCategory / ModClass / Mod ────────────────────────────────────────────
 
 export type ModCategory =
   | 'warframe' | 'primary' | 'secondary' | 'melee' | 'companion'
@@ -19,10 +20,9 @@ export type ModClass = 'Primed' | 'Galvanized' | 'Archon' | 'Amalgam' | 'Riven';
 export interface Mod extends BaseItem {
   domain: 'mod';
   kind: 'mod';
-  
+
   description: string;
-  
-  // Módulo de estadísticas normalizado
+
   stats: ModStats;
 
   category_raw: string | null;
@@ -39,4 +39,3 @@ export interface Mod extends BaseItem {
   incompatible?: string[];
   incompatibility_tags?: string[];
 }
-

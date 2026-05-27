@@ -1,6 +1,6 @@
 /**
  * @domain Shared / Types / Damage
- * @SSoT docs/domains/semantic/damage-types.md
+ * @SSoT docs/semantic/damage-types.md
  */
 export type DamageType =
   | 'impact' | 'puncture' | 'slash'

@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "S-Upgrade-Taxonomy"
 Fidelidad_Fisica: "Project/src/shared/types/mod.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-19"
+Fecha_de_actualizacion: "2026-05-26"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -110,6 +110,7 @@ confirmar un mod o mecánica que lo requiera.
 | `WEAPON_ADD_STATUS_CHANCE` | `status_chance` | ADD | Infected Clip (60/60), High Voltage |
 | `WEAPON_ADD_MAGAZINE_MAX` | `magazine_size` | ADD | Ammo Stock, Trick Mag |
 | `WEAPON_ADD_RELOAD_SPEED` | `reload_speed` | ADD | Fast Hands, Tactical Reload |
+| `WEAPON_ADD_STATUS_DAMAGE` | `status_damage` | ADD | Rifle/Shotgun/Pistol/Melee Elementalist (+90%) |
 
 ### AVATAR — habilidades
 
@@ -127,12 +128,32 @@ confirmar un mod o mecánica que lo requiera.
 | `AVATAR_ADD_HEALTH_MAX` | `health_max` | ADD | Vitality, Primed Vigor |
 | `AVATAR_ADD_SHIELD_MAX` | `shield_max` | ADD | Redirection, Primed Vigor |
 | `AVATAR_ADD_ARMOUR` | `armor` | ADD | Steel Fiber, Warcry (habilidad) |
-| `AVATAR_BASE_ARMOUR` | `armor` | BASE_FLAT | Archon Shard (plano — amplificado por ADD) |
 | `AVATAR_ADD_ENERGY_MAX` | `energy_max` | ADD | Flow, Primed Flow |
 | `AVATAR_ADD_MOVEMENT_SPEED` | `movement_speed` | ADD | Rush |
 | `AVATAR_ADD_SPRINT_SPEED` | `sprint_speed` | ADD | Rush |
 | `AVATAR_ADD_CASTING_SPEED` | `casting_speed` | ADD | Natural Talent |
 | `AVATAR_ADD_SHIELD_RECHARGE_RATE` | `shield_recharge_rate` | ADD | Fast Deflection |
+| `AVATAR_ADD_PARKOUR_VELOCITY` | `parkour_velocity` | ADD | Mobilize (aura), Amber Archon Shard |
+| `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | `health_orb_efficiency` | ADD | Amber Archon Shard (+100/+150%) |
+| `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | `energy_orb_efficiency` | ADD | Amber Archon Shard (+50/+75%) |
+
+### AVATAR — planos post-escala (ADD_FLAT)
+
+Fórmula verificada (wiki + test en juego 2026-05-26):
+```
+Total = Base × (1 + Mods%) + FLAT
+```
+Los valores FLAT se suman **después** del pool de mods porcentuales. No se amplifican por Steel Fiber, Vitality, ni ningún otro mod.
+
+| Tipo OmniFrame D-6 | Engine attr | Op | Fuentes confirmadas |
+| :--- | :--- | :--- | :--- |
+| `AVATAR_FLAT_HEALTH_MAX` | `health_max` | ADD_FLAT | Azure Archon Shard (+150/+225) |
+| `AVATAR_FLAT_SHIELD_MAX` | `shield_max` | ADD_FLAT | Azure Archon Shard (+150/+225) |
+| `AVATAR_FLAT_ENERGY_MAX` | `energy_max` | ADD_FLAT | Azure Archon Shard (+50/+75) |
+| `AVATAR_FLAT_ARMOUR` | `armor` | ADD_FLAT | Azure Archon Shard (+150/+225), Stone Skin (Focus), Arcanos de armor |
+| `AVATAR_FLAT_HEALTH_REGEN` | `health_regen` | ADD_FLAT | Azure Archon Shard (+5/+7.5 Health/s), Rejuvenation (aura) |
+
+> `AVATAR_BASE_ARMOUR` (BASE_FLAT) eliminado — no existe ninguna mecánica de armor pre-escala amplificada por mods. El token fue modelado incorrectamente; corregido 2026-05-26.
 
 ### GAMEPLAY
 

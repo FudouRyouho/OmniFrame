@@ -1,6 +1,6 @@
 /**
  * @domain Shared / Types / Arcane
- * @SSoT docs/domains/semantic/damage-types.md
+ * @SSoT docs/semantic/damage-types.md
  */
 import type { BaseItem } from './base';
 

@@ -23,8 +23,8 @@ import ArcaneDetailView from "@shared/components/items/specs/ArcaneDetailView";
 import VehicleDetailView from "@shared/components/items/specs/VehicleDetailView";
 import OmniView from "@shared/components/items/views/OmniView";
 import { toRouteSlug } from "@lib/route-id";
-import SimulationLab from "./dev/SimulationLab";
 import ModTestPage from "./dev/ModTestPage";
+import AbilityStatsViewer from "./dev/AbilityStatsViewer";
 
 export type AppRoute = {
   readonly path: string;
@@ -64,8 +64,8 @@ export default function App() {
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
 
-        <Route path="/dev/lab" element={<SimulationLab />} />
         <Route path="/dev/mod-test" element={<ModTestPage />} />
+        <Route path="/dev/ability-stats" element={<AbilityStatsViewer />} />
 
         <Route path="/arsenal" element={<ArsenalLayout />}>
           <Route index element={<ArsenalView />} />

@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AbilityStatsOverride",
+  "description": "Override de estadísticas por habilidad. Clave = uniqueName DE (/Lotus/...).",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/definitions/AbilityStatsData"
+  },
+  "definitions": {
+    "AbilityUpgradeBy": {
+      "type": "string",
+      "description": "Con qué stat del warframe escala este valor. Vocabulario activo/extensible.",
+      "enum": [
+        "AVATAR_ABILITY_STRENGTH",
+        "AVATAR_ABILITY_RANGE",
+        "AVATAR_ABILITY_DURATION",
+        "AVATAR_ABILITY_EFFICIENCY",
+        "ENERGY_COST",
+        "ENERGY_DRAIN"
+      ]
+    },
+    "AbilityStatEntry": {
+      "type": "object",
+      "required": ["label", "base_value"],
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Etiqueta con placeholders |val1|, |val2|, etc."
+        },
+        "base_value": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+          ],
+          "description": "Valor base escalar o rango [min, max]."
+        },
+        "upgrade_by": {
+          "oneOf": [
+            { "$ref": "#/definitions/AbilityUpgradeBy" },
+            { "type": "array", "items": { "$ref": "#/definitions/AbilityUpgradeBy" }, "minItems": 2 }
+          ],
+          "description": "Con qué stat(s) escala este valor. Array = multi-scaling; el engine usa [0] con cálculo aditivo hasta que existan fórmulas por habilidad."
+        },
+        "upgrade_type": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" }, "minItems": 2 }
+          ],
+          "description": "Token(s) D-6 del atributo que esta habilidad modifica externamente. Vocabulario activo/extensible."
+        },
+        "cap": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+          ],
+          "description": "Techo: valor máximo alcanzable. Escalar o [cap_val1, cap_val2] para rangos con techos distintos."
+        },
+        "floor": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+          ],
+          "description": "Piso: umbral mínimo permitido independientemente de modificadores negativos. Escalar o [floor_val1, floor_val2]."
+        },
+        "helminth_base": {
+          "type": "number",
+          "description": "Valor base alternativo cuando la habilidad es subsumida por Helminth."
+        },
+        "helminth_cap": {
+          "type": "number",
+          "description": "Cap alternativo para la versión Helminth."
+        },
+        "inverse": {
+          "type": "boolean",
+          "description": "true si el valor disminuye cuando el stat sube (ej: efficiency reduce drain)."
+        }
+      }
+    },
+    "AbilityGroup": {
+      "type": "object",
+      "required": ["stats"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Ausente = grupo base (siempre activo, sin header). Presente = grupo nombrado con toggle."
+        },
+        "label": {
+          "type": "string",
+          "description": "Nombre visible del grupo (ej: nombre del augment)."
+        },
+        "default_active": {
+          "type": "boolean",
+          "description": "Si el grupo named está activo por defecto."
+        },
+        "exclusive": {
+          "type": "boolean",
+          "description": "true = mutuamente exclusivo con otros grupos del mismo tipo (ej: Equinox Day/Night)."
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AbilityStatEntry"
+          }
+        }
+      }
+    },
+    "AbilityStatsData": {
+      "type": "object",
+      "required": ["name", "description", "image_name", "groups"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image_name": {
+          "type": "string"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AbilityGroup"
+          }
+        }
+      }
+    }
+  }
+}

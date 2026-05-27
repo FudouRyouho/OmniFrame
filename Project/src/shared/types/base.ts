@@ -1,6 +1,6 @@
 /**
  * @domain Shared / Types / Base
- * @SSoT docs/domains/semantic/damage-types.md
+ * @SSoT docs/semantic/damage-types.md
  */
 
 import type { Mod } from './mod';

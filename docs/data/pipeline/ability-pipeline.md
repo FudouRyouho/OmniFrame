@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Abilities-Pipeline"
 Fidelidad_Fisica: "Project/scripts/apply-ability-md.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-22"
+Fecha_de_actualizacion: "2026-05-26"
 ---
 
 # Ability Stats Pipeline
@@ -34,6 +34,20 @@ ability-stats.override.json             ← groups/stats actualizados; name/desc
 | `Project/scripts/parse-ability-md.ts` | Solo parser (stdout JSON). Para inspección sin modificar el override. |
 | `Project/public/data/ability-stats.override.json` | **Runtime SSoT**. No se edita a mano para `groups`/`stats`. |
 | `Project/src/core/engine/hydration/StaticHydrator.ts` | Consumidor final en el engine. |
+
+## Referencias wiki (`references/wiki/modules/raw/`)
+
+Los módulos Lua de la wiki son referencia pasiva — nunca fuente primaria del pipeline. No se editan sin autorización.
+
+| Módulo | Utilidad | Notas |
+|---|---|---|
+| `maximization-data.lua` | **Alta** — contiene estructuras de fórmulas por stat (`{'STR * 800', 'Mirror damage'}`, `{'(2 - EFF) * 75', 'Energy'}`). Fuente para verificar multi-scaling y fórmulas no convencionales. | Algunas entradas están vacías (ej: Mass Vitrify, línea ~519). Puede estar desactualizado. |
+| `ability-data-stats.lua` | **Baja** — es esencialmente una versión oficial más antigua de nuestro override (mismas keys `/Lotus/...`, mismo vocabulario `AVATAR_ABILITY_*`). Nuestro schema ya lo supera. | 7288 líneas. Útil como fallback para warframes sin `.md`. No modela exaltadas antiguas. |
+| `damage-types-data.lua` | Referencia de tipos de daño — `DT_*` tokens. | Ver `docs/semantic/` para el vocabulario operativo. |
+| `mods-data.lua` | Referencia de mods. | Pipeline independiente. |
+| `text-icons-data.lua` / `text-icons.lua` | Mapeo de iconos de texto del juego. | Usados para `<DT_*>` en labels. |
+
+**Workflow de consulta de fórmulas:** si un stat tiene `upgrade_by` con múltiples tokens o lógica no convencional, buscar en `maximization-data.lua` la entrada correspondiente. Si está vacía o ausente → registrar en OQ-W-7.
 
 ## Reglas de operación
 

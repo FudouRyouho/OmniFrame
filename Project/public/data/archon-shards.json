@@ -1,0 +1,227 @@
+{
+  "/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalAmar": {
+    "name": "Crimson Archon Shard",
+    "image_name": "CrimsonArchonShard.png",
+    "stats": [
+      {
+        "id": "crimson-ability-strength",
+        "label": "+|val1|% Ability Strength",
+        "value": [10, 15],
+        "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH",
+        "condition": null
+      },
+      {
+        "id": "crimson-ability-duration",
+        "label": "+|val1|% Ability Duration",
+        "value": [10, 15],
+        "upgrade_type": "AVATAR_ADD_ABILITY_DURATION",
+        "condition": null
+      },
+      {
+        "id": "crimson-melee-critical-damage",
+        "label": "+|val1|% Melee Critical Damage",
+        "value": [25, 37.5],
+        "upgrade_type": "WEAPON_MELEE_ADD_CRIT_MULT",
+        "condition": null
+      },
+      {
+        "id": "crimson-primary-status-chance",
+        "label": "+|val1|% Primary Status Chance",
+        "value": [25, 37.5],
+        "upgrade_type": "WEAPON_PRIMARY_ADD_STATUS_CHANCE",
+        "condition": null
+      },
+      {
+        "id": "crimson-secondary-critical-chance",
+        "label": "+|val1|% Secondary Critical Chance",
+        "value": [25, 37.5],
+        "upgrade_type": "WEAPON_SECONDARY_ADD_CRIT_CHANCE",
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalNira": {
+    "name": "Amber Archon Shard",
+    "image_name": "AmberArchonShard.png",
+    "stats": [
+      {
+        "id": "amber-energy-filled-on-spawn",
+        "label": "+|val1|% Maximum Energy filled on Spawn",
+        "value": [30, 45],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "amber-health-orb-effectiveness",
+        "label": "+|val1|% Health Orb Effectiveness",
+        "value": [100, 150],
+        "upgrade_type": "AVATAR_ADD_HEALTH_ORB_EFFICIENCY",
+        "condition": null
+      },
+      {
+        "id": "amber-casting-speed",
+        "label": "+|val1|% Casting Speed",
+        "value": [25, 37.5],
+        "upgrade_type": "AVATAR_ADD_CASTING_SPEED",
+        "condition": null
+      },
+      {
+        "id": "amber-energy-orb-effectiveness",
+        "label": "+|val1|% Energy Orb Effectiveness",
+        "value": [50, 75],
+        "upgrade_type": "AVATAR_ADD_ENERGY_ORB_EFFICIENCY",
+        "condition": null
+      },
+      {
+        "id": "amber-parkour-velocity",
+        "label": "+|val1|% Parkour Velocity",
+        "value": [15, 22.5],
+        "upgrade_type": "AVATAR_ADD_PARKOUR_VELOCITY",
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalBoreal": {
+    "name": "Azure Archon Shard",
+    "image_name": "AzureArchonShard.png",
+    "stats": [
+      {
+        "id": "azure-energy-max",
+        "label": "+|val1| Energy Max",
+        "value": [50, 75],
+        "upgrade_type": "AVATAR_FLAT_ENERGY_MAX",
+        "condition": null
+      },
+      {
+        "id": "azure-health-max",
+        "label": "+|val1| Health",
+        "value": [150, 225],
+        "upgrade_type": "AVATAR_FLAT_HEALTH_MAX",
+        "condition": null
+      },
+      {
+        "id": "azure-shield-capacity",
+        "label": "+|val1| Shield Capacity",
+        "value": [150, 225],
+        "upgrade_type": "AVATAR_FLAT_SHIELD_MAX",
+        "condition": null
+      },
+      {
+        "id": "azure-armor",
+        "label": "+|val1| Armor",
+        "value": [150, 225],
+        "upgrade_type": "AVATAR_FLAT_ARMOUR",
+        "condition": null
+      },
+      {
+        "id": "azure-health-regeneration",
+        "label": "+|val1| Health/s Regenerated",
+        "value": [5, 7.5],
+        "upgrade_type": "AVATAR_FLAT_HEALTH_REGEN",
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalOrange": {
+    "name": "Topaz Archon Shard",
+    "image_name": "TopazArchonShard.png",
+    "stats": [
+      {
+        "id": "topaz-radiation-ability-damage",
+        "label": "+|val1|% Ability Damage on enemies affected by Radiation",
+        "value": [10, 15],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "topaz-health-on-blast-kill",
+        "label": "+|val1| Health per enemy killed with Blast",
+        "value": [1, 2],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "topaz-shields-on-blast-kill",
+        "label": "+|val1| Shields on Blast kill",
+        "value": [5, 7.5],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "topaz-secondary-crit-on-heat-kill",
+        "label": "+|val1|% Secondary Critical Chance on Heat-status kill",
+        "value": [1, 1.5],
+        "upgrade_type": null,
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalViolet": {
+    "name": "Violet Archon Shard",
+    "image_name": "VioletArchonShard.png",
+    "stats": [
+      {
+        "id": "violet-electricity-ability-damage",
+        "label": "+|val1|% Ability Damage on enemies affected by Electricity",
+        "value": [10, 15],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "violet-primary-electricity-damage",
+        "label": "+|val1|% Primary Electricity Damage",
+        "value": [30, 45],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "violet-melee-critical-damage-on-energy",
+        "label": "+|val1|% Melee Critical Damage while high energy",
+        "value": [25, 37.5],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "violet-pickup-health-energy-conversion",
+        "label": "+|val1|% Health/Energy Pickup Conversion",
+        "value": [20, 30],
+        "upgrade_type": null,
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalGreen": {
+    "name": "Emerald Archon Shard",
+    "image_name": "EmeraldArchonShard.png",
+    "stats": [
+      {
+        "id": "emerald-corrosive-stacks",
+        "label": "+|val1| max Corrosive stacks",
+        "value": [2, 3],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "emerald-ability-damage-on-corrosive",
+        "label": "+|val1|% Ability Damage on enemies affected by Corrosive",
+        "value": [10, 15],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "emerald-toxin-status-damage",
+        "label": "+|val1|% Toxin Status Damage",
+        "value": [30, 45],
+        "upgrade_type": null,
+        "condition": null
+      },
+      {
+        "id": "emerald-health-on-toxin-status-damage",
+        "label": "+|val1| Health on Toxin status damage",
+        "value": [2, 3],
+        "upgrade_type": null,
+        "condition": null
+      }
+    ]
+  }
+}

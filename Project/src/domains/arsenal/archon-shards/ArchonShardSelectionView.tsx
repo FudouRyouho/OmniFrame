@@ -1,236 +1,181 @@
-import { useMemo, useState } from "react";
-import {
-  ARCHON_SHARD_BONUS_CATALOG,
-  ARCHON_SHARD_CATALOG,
-  type ArchonShardType,
-} from "@domains/arsenal/arsenal-state";
+/**
+ * @domain Features / Arsenal / Archon Shards
+ * @SSoT docs/data/schemas/archon-shards/schema.md
+ *
+ * Vista de selección de Archon Shard para un slot del warframe.
+ * El slot activo viene de arsenalUi.selectedArchonShardSlotIndex.
+ * Al seleccionar una stat aplica inmediatamente al EnsembleStore y navega de vuelta.
+ */
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { ChevronLeft } from "lucide-react";
+import { Button } from "@headlessui/react";
 import { useArsenalUiState } from "@domains/arsenal/state/use-arsenal-stub-state";
 import { useEnsemble, useEnsembleActions } from "@providers/Ensemble/EnsembleProvider";
-import type { ArchonShardIntent } from "@providers/Ensemble/ensemble.types";
-import classNames from "classnames";
-import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { resolveLocalImageUrl } from "@lib/image-url";
+import { useArchonShardCatalog } from "./use-archon-shard-catalog";
 
-type ModalStep = "shard" | "bonus" | null;
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function resolveStatLabel(label: string, value: [number, number], tauforged: boolean): string {
+  return label.replace("|val1|", String(tauforged ? value[1] : value[0]));
+}
+
+function shardTypeFromName(name: string): string {
+  return name.split(" ")[0].toLowerCase();
+}
+
+// ── Vista principal ───────────────────────────────────────────────────────────
 
 export default function ArchonShardSelectionView() {
-  const { arsenalUi, selectArchonShardSlot } = useArsenalUiState();
+  const { arsenalUi } = useArsenalUiState();
   const intention = useEnsemble();
   const { setShard } = useEnsembleActions();
+  const navigate = useNavigate();
+  const catalog = useArchonShardCatalog();
 
-  const [modalStep, setModalStep] = useState<ModalStep>(null);
-  const [isTauforgedSelection, setIsTauforgedSelection] = useState(false);
-  const [pendingShardType, setPendingShardType] = useState<ArchonShardType | null>(null);
+  const slotIndex = arsenalUi.selectedArchonShardSlotIndex ?? 0;
+  const currentShard = intention.items.warframe.shards?.[slotIndex] ?? {
+    shardType: null,
+    effectId: null,
+    isTauforged: false,
+  };
 
-  const shards: ArchonShardIntent[] = intention.items.warframe.shards || [];
-  const selectedIndex = arsenalUi.selectedArchonShardSlotIndex;
-  const selectedShardIntent = selectedIndex !== null ? shards[selectedIndex] : null;
+  const [selectedType, setSelectedType] = useState<string | null>(currentShard.shardType);
+  const [isTauforged, setIsTauforged] = useState(currentShard.isTauforged);
 
-  const pendingShardEntry = useMemo(() => {
-    if (!pendingShardType) return null;
-    return ARCHON_SHARD_CATALOG.find((e) => e.shardType === pendingShardType) ?? null;
-  }, [pendingShardType]);
-
-  function getShardDisplay(shard: ArchonShardIntent) {
-    const catalogEntry = ARCHON_SHARD_CATALOG.find(e => e.shardType === shard.shardType);
-    const bonus = catalogEntry?.bonusOptions.find(b => b.effectId === shard.effectId);
-    const isFilled = !!shard.effectId;
-    const iconPath = isFilled && catalogEntry
-      ? (shard.isTauforged ? catalogEntry.tauforgedIconPath : catalogEntry.iconPath)
-      : null;
-    const valueLabel = bonus
-      ? (shard.isTauforged ? (bonus.tauforgedValueLabel ?? bonus.valueLabel) : bonus.valueLabel)
-      : "";
-    return { isFilled, iconPath, valueLabel, label: catalogEntry?.shardName ?? "" };
+  if (!catalog) {
+    return <div className="p-8 text-ui-primary/30 text-sm">Cargando...</div>;
   }
 
-  function handleSlotClick(slotIndex: number) {
-    selectArchonShardSlot(slotIndex);
-    setPendingShardType(null);
-    setIsTauforgedSelection(false);
-    setModalStep("shard");
-  }
+  const shardEntries = Object.values(catalog).map((entry) => ({
+    type: shardTypeFromName(entry.name),
+    entry,
+  }));
 
-  function handleShardTypeSelect(shardType: ArchonShardType, isTauforged: boolean) {
-    setPendingShardType(shardType);
-    setIsTauforgedSelection(isTauforged);
-    setModalStep("bonus");
-  }
+  const activeEntry = selectedType
+    ? shardEntries.find((s) => s.type === selectedType)?.entry ?? null
+    : null;
 
-  function handleBonusSelect(effectId: string) {
-    if (selectedIndex === null) return;
-    setShard(selectedIndex, {
-      shardType: pendingShardType,
-      effectId,
-      isTauforged: isTauforgedSelection,
-    });
-    setModalStep(null);
-    setPendingShardType(null);
+  function handleSelectStat(effectId: string) {
+    if (!selectedType) return;
+    setShard(slotIndex, { shardType: selectedType, effectId, isTauforged });
+    void navigate("/arsenal");
   }
 
   function handleClear() {
-    if (selectedIndex === null) return;
-    setShard(selectedIndex, null);
-    setModalStep(null);
+    setShard(slotIndex, null);
+    void navigate("/arsenal");
   }
 
-  function handleCloseModal() {
-    setModalStep(null);
-    setPendingShardType(null);
+  function handleTypeSelect(type: string) {
+    setSelectedType(type);
   }
 
   return (
-    <div className="relative h-full overflow-y-auto px-4 py-6">
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-        <div className="space-y-4">
-          <div className="flex flex-wrap items-start justify-center gap-x-4 gap-y-8 py-4">
-            {shards.map((shard, index) => {
-              const { isFilled, iconPath, valueLabel, label } = getShardDisplay(shard);
-              const isSelected = selectedIndex === index;
+    <div className="flex h-full flex-col overflow-hidden">
+      {/* Header */}
+      <header className="flex items-center gap-3 border-b border-ui-primary/10 px-4 py-3">
+        <Button
+          onClick={() => void navigate("/arsenal")}
+          className="flex items-center gap-1 text-xs text-ui-primary/40 hover:text-ui-primary/70 transition-colors"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Arsenal
+        </Button>
+        <div className="flex-1 min-w-0">
+          <div className="text-sm font-semibold text-ui-primary/90">Archon Shard</div>
+          <div className="text-[10px] text-ui-primary/30 font-mono">
+            Slot {slotIndex + 1} / 5
+            {currentShard.effectId && (
+              <span className="ml-2 text-ui-accent/60">equipado</span>
+            )}
+          </div>
+        </div>
+        {currentShard.effectId && (
+          <Button
+            onClick={handleClear}
+            className="text-xs text-ui-primary/30 hover:text-red-400/70 transition-colors px-2 py-1 rounded hover:bg-red-400/5"
+          >
+            Limpiar slot
+          </Button>
+        )}
+      </header>
+
+      {/* Shard type selector */}
+      <div className="flex items-center gap-2 border-b border-ui-primary/10 px-4 py-3">
+        {shardEntries.map(({ type, entry }) => {
+          const isActive = type === selectedType;
+          return (
+            <Button
+              key={type}
+              data-active={isActive ? "" : undefined}
+              onClick={() => handleTypeSelect(type)}
+              title={entry.name}
+              className="relative flex h-10 w-10 items-center justify-center rounded border border-ui-primary/10 bg-ui-primary/3 transition-all hover:border-ui-primary/30 data-[active]:border-ui-accent/50 data-[active]:bg-ui-accent/5"
+            >
+              <img
+                src={resolveLocalImageUrl(entry.image_name)}
+                alt={entry.name}
+                className="h-6 w-6 object-contain"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+            </Button>
+          );
+        })}
+      </div>
+
+      {/* Tauforged toggle */}
+      <div className="flex items-center gap-2 border-b border-ui-primary/10 px-4 py-2">
+        <label className="flex items-center gap-2 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={isTauforged}
+            onChange={(e) => setIsTauforged(e.target.checked)}
+            className="accent-ui-accent"
+          />
+          <span className="text-xs text-ui-primary/50">Tauforged</span>
+        </label>
+        {isTauforged && (
+          <span className="text-[10px] font-mono text-ui-accent/60">×1.5</span>
+        )}
+      </div>
+
+      {/* Stat list */}
+      <div className="flex-1 overflow-y-auto px-4 py-2">
+        {!activeEntry ? (
+          <p className="py-6 text-center text-xs text-ui-primary/25 italic">
+            Selecciona un tipo de shard
+          </p>
+        ) : (
+          <div className="flex flex-col gap-1">
+            {activeEntry.stats.map((stat) => {
+              const isSelected =
+                currentShard.effectId === stat.id &&
+                currentShard.shardType === selectedType;
               return (
-                <div key={index} className="flex w-40 flex-col items-center">
-                  <Button
-                    type="button"
-                    data-active={isSelected ? "" : undefined}
-                    onClick={() => handleSlotClick(index)}
-                    className={classNames(
-                      "flex h-28 w-full items-center justify-center border border-ui-primary/28 bg-black/28 transition-all hover:border-ui-accent/45 data-active:border-ui-accent/75 data-active:bg-ui-accent/12 data-active:shadow-[0_0_14px_rgba(var(--color-ui-accent),0.18)]",
-                      isSelected && "z-10",
-                    )}
-                    aria-label={`Slot ${index + 1}${isFilled ? `: ${label}` : " (vacío)"}`}
-                  >
-                    {isFilled && iconPath ? (
-                      <img
-                        src={iconPath}
-                        alt={label}
-                        className="h-16 w-16 object-contain drop-shadow-[0_0_10px_rgba(var(--color-ui-accent),0.2)]"
-                      />
-                    ) : (
-                      <span className="h-4 w-4 rounded-full border border-ui-primary/45" />
-                    )}
-                  </Button>
-                  <span className="mt-1 text-center text-[10px] text-ui-primary/45">
-                    {valueLabel}
+                <Button
+                  key={stat.id}
+                  data-active={isSelected ? "" : undefined}
+                  onClick={() => handleSelectStat(stat.id)}
+                  className="group flex w-full items-center justify-between gap-3 rounded border border-transparent px-3 py-2.5 text-left transition-all hover:border-ui-primary/15 hover:bg-ui-primary/4 data-[active]:border-ui-accent/30 data-[active]:bg-ui-accent/5"
+                >
+                  <span className="text-sm text-ui-primary/80 group-data-[active]:text-ui-primary">
+                    {resolveStatLabel(stat.label, stat.value, isTauforged)}
                   </span>
-                </div>
+                  {isSelected && (
+                    <span className="shrink-0 text-[10px] font-mono text-ui-accent/70">
+                      activo
+                    </span>
+                  )}
+                </Button>
               );
             })}
           </div>
-        </div>
-
-        <aside className="space-y-3">
-          <div className="rounded border border-ui-primary/25 bg-black/28 p-3">
-            <div className="grid grid-cols-6 gap-2">
-              {ARCHON_SHARD_CATALOG.map((entry) => (
-                <div key={`${entry.shardType}-visual-normal`} className="space-y-1 text-center">
-                  <div className="mx-auto flex h-11 w-11 items-center justify-center border border-ui-primary/28 bg-black/30">
-                    <img src={entry.iconPath} alt={entry.shardName} className="h-7 w-7 object-contain" />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 grid grid-cols-6 gap-2">
-              {ARCHON_SHARD_CATALOG.map((entry) => (
-                <div key={`${entry.shardType}-visual-tau`} className="space-y-1 text-center">
-                  <div className="mx-auto flex h-11 w-11 items-center justify-center border border-ui-accent/45 bg-ui-accent/8">
-                    <img src={entry.tauforgedIconPath} alt={`Tauforged ${entry.shardName}`} className="h-7 w-7 object-contain" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <Dialog open={modalStep !== null} onClose={handleCloseModal} className="relative z-40">
-        <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <DialogPanel className="w-full max-w-3xl border border-ui-primary/30 bg-black/85 p-4 shadow-[0_0_24px_rgba(0,0,0,0.45)]">
-            <div className="mb-3 flex items-center justify-between">
-              <DialogTitle className="text-sm font-semibold tracking-wider text-ui-primary/92 uppercase">
-                {modalStep === "shard"
-                  ? `Slot ${(selectedIndex ?? 0) + 1} · Seleccionar fragmento`
-                  : `Slot ${(selectedIndex ?? 0) + 1} · Seleccionar bonificación`}
-              </DialogTitle>
-              <button type="button" onClick={handleCloseModal} className="text-xs text-ui-primary/60 hover:text-ui-accent">
-                Cerrar
-              </button>
-              <button type="button" onClick={handleClear} className="text-xs text-ui-primary/60 hover:text-ui-accent">
-                Limpiar
-              </button>
-            </div>
-
-            {modalStep === "shard" && (
-              <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-                  {ARCHON_SHARD_CATALOG.map((entry) => (
-                    <button
-                      key={`${entry.shardType}-normal`}
-                      type="button"
-                      onClick={() => handleShardTypeSelect(entry.shardType, false)}
-                      className="flex flex-col items-center gap-2 border border-ui-primary/28 bg-black/35 p-2 text-center transition-colors hover:border-ui-accent/45"
-                    >
-                      <img src={entry.iconPath} alt={entry.shardName} className="h-10 w-10 object-contain" />
-                    </button>
-                  ))}
-                </div>
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-                  {ARCHON_SHARD_CATALOG.map((entry) => (
-                    <button
-                      key={`${entry.shardType}-tau`}
-                      type="button"
-                      onClick={() => handleShardTypeSelect(entry.shardType, true)}
-                      className="flex flex-col items-center gap-2 border border-ui-accent/45 bg-ui-accent/9 p-2 text-center transition-colors hover:border-ui-accent/70"
-                    >
-                      <img src={entry.tauforgedIconPath} alt={`Tauforged ${entry.shardName}`} className="h-10 w-10 object-contain" />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {modalStep === "bonus" && pendingShardEntry && (
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs text-ui-primary/60">
-                  <span>{pendingShardEntry.shardName}</span>
-                  <span>·</span>
-                  <span>{isTauforgedSelection ? "Tauforged" : "Normal"}</span>
-                </div>
-                <div className="grid gap-2">
-                  {ARCHON_SHARD_BONUS_CATALOG.filter((e) => e.shardType === pendingShardEntry.shardType).map((entry) => {
-                    const isEquipped =
-                      selectedShardIntent?.effectId === entry.effectId &&
-                      selectedShardIntent?.isTauforged === isTauforgedSelection;
-                    return (
-                      <Button
-                        key={entry.effectId}
-                        type="button"
-                        data-active={isEquipped ? "" : undefined}
-                        onClick={() => handleBonusSelect(entry.effectId)}
-                        className="flex items-center gap-3 border border-ui-primary/28 bg-black/35 px-3 py-2 text-left transition-colors hover:border-ui-accent/45 data-active:border-ui-accent/70 data-active:bg-ui-accent/12"
-                      >
-                        <img
-                          src={isTauforgedSelection ? entry.tauforgedIconPath : entry.iconPath}
-                          alt={`${entry.shardName} - ${entry.effectLabel}`}
-                          className="h-8 w-8 shrink-0 object-contain"
-                        />
-                        <div className="min-w-0">
-                          <p className="truncate text-xs font-semibold text-ui-primary/92">{entry.effectLabel}</p>
-                          <p className="truncate text-[11px] text-ui-primary/58">
-                            {isTauforgedSelection ? (entry.tauforgedValueLabel ?? entry.valueLabel) : entry.valueLabel}
-                          </p>
-                        </div>
-                      </Button>
-                    );
-                  })}
-                </div>
-                <button type="button" onClick={() => setModalStep("shard")} className="text-xs text-ui-primary/60 hover:text-ui-accent">
-                  ← Cambiar shard/tauforged
-                </button>
-              </div>
-            )}
-          </DialogPanel>
-        </div>
-      </Dialog>
+        )}
+      </div>
     </div>
   );
 }

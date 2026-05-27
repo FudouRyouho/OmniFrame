@@ -9,9 +9,10 @@ import { ChevronsUpDown, Hexagon, PanelRight, Sparkles } from "lucide-react";
 import { Button } from "@headlessui/react";
 import PreviewPanel from "@shared/components/PreviewPanel";
 import { useArsenalUiState } from "./state/use-arsenal-stub-state";
-import { ARCHON_SHARD_CATALOG } from "./arsenal-state";
 import { useEnsemble } from "@providers/Ensemble/EnsembleProvider";
 import { Registry } from "@shared/data/DataRegistry";
+import { resolveLocalImageUrl } from "@lib/image-url";
+import { useArchonShardCatalog } from "./archon-shards/use-archon-shard-catalog";
 import type { BaseItem } from "@shared/types";
 import type { EnsembleChannel } from "@providers/Ensemble/ensemble.types";
 
@@ -322,7 +323,15 @@ function ArchonShardsPreviewSection() {
   const { selectArchonShardSlot } = useArsenalUiState();
   const intention = useEnsemble();
   const navigate = useNavigate();
+  const catalog = useArchonShardCatalog();
   const shards = intention.items.warframe.shards || [];
+
+  function findEntry(shardType: string | null) {
+    if (!catalog || !shardType) return null;
+    return Object.values(catalog).find(e =>
+      e.name.toLowerCase().startsWith(shardType.toLowerCase())
+    ) ?? null;
+  }
 
   function handleSlotClick(slotIndex: number) {
     selectArchonShardSlot(slotIndex);
@@ -333,19 +342,15 @@ function ArchonShardsPreviewSection() {
     <div className="flex flex-wrap items-center justify-center gap-2 py-2">
       {shards.map((shard, index) => {
         const isFilled = !!shard.effectId;
-        const catalogEntry = isFilled
-          ? ARCHON_SHARD_CATALOG.find(e => e.shardType === shard.shardType)
-          : null;
-        const iconPath = catalogEntry
-          ? (shard.isTauforged ? catalogEntry.tauforgedIconPath : catalogEntry.iconPath)
-          : null;
+        const entry = findEntry(shard.shardType);
+        const iconPath = entry ? resolveLocalImageUrl(entry.image_name) : null;
         return (
           <Button
             key={index}
             data-active={isFilled ? "" : undefined}
             onClick={() => handleSlotClick(index)}
             className="group relative flex h-12 w-12 items-center justify-center transition-colors"
-            aria-label={`Shard slot ${index + 1}${isFilled && catalogEntry ? `: ${catalogEntry.shardName}` : " (vacío)"}`}
+            aria-label={`Shard slot ${index + 1}${isFilled ? " (equipado)" : " (vacío)"}`}
           >
             <Hexagon
               strokeWidth={0.5}
@@ -354,7 +359,7 @@ function ArchonShardsPreviewSection() {
             {isFilled && iconPath && (
               <img
                 src={iconPath}
-                alt={catalogEntry?.shardName}
+                alt={entry?.name ?? ""}
                 className="relative z-10 object-contain"
                 style={{ width: "70%", height: "70%" }}
               />

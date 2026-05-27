@@ -68,18 +68,29 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 ---
 
-## D-6 — Convención `{FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`
+## D-6 — Convención `{FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}` (extensible con SUB_FAMILY)
 
-**Estado:** VIGENTE (extensible a `{FAMILY}_{SUB_FAMILY}_...` si OQ-W-4 se resuelve)
-**Fecha:** 2026-04-19
-**Decisión:** Tokens de `upgrade_type` siguen la convención:
-- `FAMILY`: dominio del atributo (AVATAR, WEAPON, GAMEPLAY, ...)
-- `OPERATION`: tipo de modificación (ADD, BASE, FLAT, MULT)
-- `PREFIX_SUFFIX`: atributo específico (ABILITY_STRENGTH, CRIT_CHANCE, ...)
+**Estado:** VIGENTE
+**Fecha:** 2026-04-19 | **Actualizado:** 2026-05-26 (sub-familia formalizada — OQ-W-4 cerrado)
+**Decisión:** Tokens de `upgrade_type` siguen la convención canónica:
+- `FAMILY`: dominio del atributo (`AVATAR`, `WEAPON`, `GAMEPLAY`, …)
+- `OPERATION`: tipo de modificación (`ADD`, `BASE`, `FLAT`, `MULT`)
+- `PREFIX_SUFFIX`: atributo específico (`ABILITY_STRENGTH`, `CRIT_CHANCE`, …)
 
-Ejemplos: `AVATAR_ADD_ABILITY_STRENGTH`, `WEAPON_BASE_DAMAGE`, `WEAPON_MULT_CRIT_CHANCE`
+**Extensión de sub-familia** (activa desde 2026-05-26): cuando un stat es clase-específico dentro de una familia, se inserta `SUB_FAMILY` entre `FAMILY` y `OPERATION`:
 
-**Evolución conocida:** Los archon shards expusieron la necesidad de sub-familia (OQ-W-4). La convención puede extenderse a `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}` cuando haya ≥3 casos que lo justifiquen.
+```
+{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
+```
+
+- `WEAPON` → sub-familias válidas: `PRIMARY`, `SECONDARY`, `MELEE`
+- Tokens sin `SUB_FAMILY` siguen siendo válidos y se aplican universalmente
+- Un token clase-específico coexiste con su equivalente global: `WEAPON_MELEE_ADD_CRIT_MULT` + `WEAPON_ADD_CRIT_MULT` son ortogonales
+
+**Condición que activó la extensión:** ≥3 casos en overrides reales — Crimson Archon Shards: `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`.
+
+**Nota D-7:** Los tokens D-6 (incluida la sub-familia) son los futuros IDs de atributo del engine. `UPGRADE_MAP` es un puente temporal — no se extiende con lógica de filtrado por clase; eso corresponde al engine post-D-7.
+
 **Ref:** `shared/types/modifier.ts`, `docs/data/schemas/mods/upgrade-taxonomy.md`
 
 ---
@@ -87,8 +98,28 @@ Ejemplos: `AVATAR_ADD_ABILITY_STRENGTH`, `WEAPON_BASE_DAMAGE`, `WEAPON_MULT_CRIT
 ## D-7 — Token D-6 como ID de atributo del engine (dirección futura)
 
 **Estado:** VIGENTE
-**Fecha:** 2026-04-19
-**Decisión:** `UPGRADE_MAP` es un puente temporal entre el vocabulario D-6 y los attr IDs internos del engine (`critical_chance`, `critical_multiplier`, etc.). La estandarización a D-6 como ID canónico era la refactorización pendiente — estuvo bloqueada por OQ-W-3 (cerrado 2026-05-21). Sigue como deuda activa sin fecha.
+**Fecha:** 2026-04-19 | **Actualizado:** 2026-05-26 (arquitectura definida, scope faseado; sub-pregunta proc resuelta)
+**Decisión:** El token D-6 es el ID de atributo canónico del engine. `UPGRADE_MAP` desaparece. Los attr IDs internos (`critical_chance`, `critical_multiplier`, etc.) se renombran a tokens D-6.
+
+**Arquitectura de resolución (sin UPGRADE_MAP):**
+```
+token → attr: sub-familia removida si existe → WEAPON_MELEE_ADD_CRIT_MULT → WEAPON_ADD_CRIT_MULT
+       op:   derivado del segmento OPERATION → ADD | FLAT | BASE | MULT → 4 entradas
+       target_channel: del segmento SUB_FAMILY → 'melee' | 'primary' | 'secondary' | undefined
+```
+Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel` como filtro — no crean AttributeNodes separados.
+
+**Scope faseado:**
+- **Fase 1** (attrs no-daño): ✅ COMPLETADA 2026-05-26. Renombrados `critical_chance/multiplier`, `status_chance`, `fire_rate`, `magazine_size`, `reload_speed` + `resolveToken()` en `ModRepository`. `reload_time` tratado como dato puro en `innate_dna.profiles`, nunca como `AttributeNode`.
+- **Fase 2** (attrs de daño): renombrar `damage_*` → `WEAPON_ADD_*_DAMAGE`. Afecta `DamageCombiner`, `StaticHydrator` (filtro `startsWith('damage_')` → `isUpgrade()`), `PRIMARY_ELEMENTS`, `PHYSICAL_TYPES`, `DAMAGE_EFFICIENCY`, `StatusEngine`, `ELEMENTAL_COMBINATIONS`, `ItemRepository.mapDamage()`. UPGRADE_MAP: 17 entradas de daño se vuelven redundantes tras la Fase 2 (`resolveToken()` las cubre) — purgar en la misma Fase.
+
+**Sub-pregunta resuelta — vocabulario de proc vs attr de daño:** Los identificadores de proc/estado del enemigo (`damage_slash_proc`, `damage_corrosive`, etc. en `EnemyState`) son vocabulario de runtime independiente — NO son tokens D-6 ni se renombran en Fase 2. Un tipo de daño (`heat`) y su proc (`Ignite`) son conceptos distintos modelados en `damage.ts` via `statusLabel`. Ver `references/wiki/mechanics/status-effects.md`.
+
+**Deuda documentada:** Las claves de `EnemyState.stacks` y `dot_pools` usan la convención `damage_*` heredada. Su renombre a identificadores de proc semánticamente correctos es scope de una Fase 3 independiente — no bloquea Fase 2.
+
+**Sub-pregunta abierta — `reload_time`:** RESUELTA en Fase 1. Es dato puro fuera del sistema de modificadores — vive en `innate_dna.profiles`, la fórmula en `CombatCalculator` lo lee directamente. No necesita token D-6.
+
+**Refs:** `Project/src/core/engine/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/data/schemas/mods/upgrade-taxonomy.md`, `references/wiki/mechanics/status-effects.md`
 
 ---
 

@@ -1,6 +1,6 @@
 /**
  * @domain Shared / Types / Ability
- * @SSoT docs/domains/data/abilities/formula-patterns.md
+ * @SSoT docs/data/schemas/abilities/formula-patterns.md
  */
 
 export type AbilityUpgradeBy =
@@ -9,8 +9,7 @@ export type AbilityUpgradeBy =
   | 'AVATAR_ABILITY_DURATION'
   | 'AVATAR_ABILITY_EFFICIENCY'
   | 'ENERGY_COST'
-  | 'ENERGY_DRAIN'
-  | 'NONE';
+  | 'ENERGY_DRAIN';
 
 export const UPGRADE_BY_OPTIONS: Array<{
   value: AbilityUpgradeBy;
@@ -47,27 +46,18 @@ export const UPGRADE_BY_OPTIONS: Array<{
     label: 'Energy Drain',
     description: 'Drain por segundo. Fórmula: (2 − EFF) × base / DUR.',
   },
-  {
-    value: 'NONE',
-    label: 'Fixed',
-    description: 'Valor fijo — no escala con ningún modificador.',
-  },
 ];
-
-export interface AbilityStatValue {
-  base_value: number;
-  upgrade_by: AbilityUpgradeBy;
-  upgrade_type?: string;
-  cap?: number;
-  cap_min?: number;
-  helminth_base?: number;
-  helminth_cap?: number;
-  inverse?: boolean;
-}
 
 export interface AbilityStatEntry {
   label: string;
-  values: AbilityStatValue[];
+  base_value: number | [number, number];
+  upgrade_by?: AbilityUpgradeBy | AbilityUpgradeBy[];
+  upgrade_type?: string | string[];
+  cap?: number | [number, number];
+  floor?: number | [number, number];
+  helminth_base?: number;
+  helminth_cap?: number;
+  inverse?: boolean;
 }
 
 export interface AbilityGroup {

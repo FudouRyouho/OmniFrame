@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Abilities-Schema"
 Fidelidad_Fisica: "Project/public/data/ability-stats.override.json"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-24"
+Fecha_de_actualizacion: "2026-05-26"
 ---
 
 # Ability Stats Override Schema
@@ -77,12 +77,12 @@ El schema declara solo qué grupos existen. La decisión de si el estado es loca
 
 ```ts
 interface AbilityStatEntry {
-  label: string;                          // Template: "Damage: <DT_HEAT> |val1|", "Range: |val1| - |val2|m"
-  base_value: number | [number, number];  // Escalar o rango [min, max]
-  upgrade_by?: AbilityUpgradeBy;          // Ausente = valor fijo, no escala
-  upgrade_type?: string;                  // Token D-6 del atributo externo que modifica ($$TOKEN en .md)
-  cap?: number;
-  cap_min?: number;
+  label: string;                                            // Template: "Damage: <DT_HEAT> |val1|", "Range: |val1| - |val2|m"
+  base_value: number | [number, number];                    // Escalar o rango [min, max]
+  upgrade_by?: AbilityUpgradeBy | AbilityUpgradeBy[];       // Ausente = valor fijo. Array = multi-scaling (ver nota)
+  upgrade_type?: string | string[];                         // Token(s) D-6 del atributo externo modificado
+  cap?: number | [number, number];                          // Techo: valor máximo alcanzable
+  floor?: number | [number, number];                        // Piso: umbral mínimo independiente de modificadores negativos
   helminth_base?: number;
   helminth_cap?: number;
   inverse?: boolean;
@@ -91,6 +91,8 @@ interface AbilityStatEntry {
 
 `|val1|` resuelve `base_value` (escalar) o `base_value[0]` (rango).
 `|val2|` resuelve `base_value[1]` — solo válido si `base_value` es rango.
+
+**`cap` y `floor`:** campos planos opcionales e independientes. Aceptan escalar o `[val1, val2]` cuando el rango tiene techos o pisos distintos para cada extremo.
 
 ---
 
@@ -132,7 +134,7 @@ El campo `upgrade_by` se omite. Su ausencia es el contrato para "valor fijo" —
 En el override. Se usan tags semánticos (`<DT_SLASH>`, etc.) para que la UI pueda inyectar iconos y colores dinámicamente.
 
 ### ¿Se permiten múltiples `upgrade_by` por stat?
-No. El contrato es 1 stat = 1 `upgrade_by`. Efectos con múltiples ejes se desglosán en entradas separadas.
+Sí, desde el schema. `upgrade_by` acepta `AbilityUpgradeBy | AbilityUpgradeBy[]`. El engine actualmente usa solo `[0]` con cálculo convencional; los índices adicionales se ignorarán hasta que exista la capa `formulas/ability/` con fórmulas por habilidad (ver OQ-W-7). Anotar el array en el schema no bloquea nada hoy y evita un cambio de contrato posterior.
 
 ### ¿Puede un stat tener dos valores numéricos (rango)?
 Sí. `base_value` acepta `number | [number, number]`. El rango cubre casos como Gara (Vitality Shield: 150–300). Se resuelve con `|val1|` y `|val2|` en el label. Introducido en D-12 (2026-05-22).
