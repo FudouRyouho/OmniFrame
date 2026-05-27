@@ -6,7 +6,7 @@
 import type { Ensemble, MutatedDNA, SimulationEntity, AttributeNode, Modifier } from "../contracts";
 import { ModRepository } from "./ModRepository";
 import { ShardRepository } from "./ShardRepository";
-import { IncarnationRepository } from "./IncarnationRepository";
+import { IncarnonRepository } from "./IncarnonRepository";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, type ElementalMod } from "./DamageCombiner";
@@ -99,7 +99,7 @@ export class StaticHydrator {
       
       // Incarnon evolution perks
       if (intent.evolution_perks) {
-        const perk_mods = IncarnationRepository.getModifiers(intent.entity_id, intent.evolution_perks, dna.entity_id);
+        const perk_mods = IncarnonRepository.getModifiers(intent.entity_id, intent.evolution_perks, dna.entity_id);
         modifiers.push(...perk_mods);
       }
 

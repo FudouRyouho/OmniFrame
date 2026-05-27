@@ -68,7 +68,7 @@ Datos de perks de evolución Incarnon. Indexado por `unique_name` del arma.
 
 ## Consumer
 
-`IncarnationRepository.getModifiers(uniqueName, evolutionPerks, targetId)` resuelve
+`IncarnonRepository.getModifiers(uniqueName, evolutionPerks, targetId)` resuelve
 `evolution_perks: Record<number, string>` → `Modifier[]` via UPGRADE_MAP.
 
 El repository se carga en el `beforeAll` de los tests y debe cargarse en el

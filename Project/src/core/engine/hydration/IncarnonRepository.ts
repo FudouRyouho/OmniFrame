@@ -8,18 +8,17 @@ import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
 type PerkModifierRaw = {
   upgrade_type: string | null;
   value?: number;
-  condition?: string;
   note?: string;
 };
 
-type IncarnationData = Record<string, {
+type IncarnonData = Record<string, {
   evolutions: Record<string, Record<string, PerkModifierRaw[]>>;
 }>;
 
-export class IncarnationRepository {
-  private static data: IncarnationData = {};
+export class IncarnonRepository {
+  private static data: IncarnonData = {};
 
-  public static load(data: IncarnationData): void {
+  public static load(data: IncarnonData): void {
     this.data = data;
   }
 
@@ -54,17 +53,13 @@ export class IncarnationRepository {
           return;
         }
 
-        const mod: Modifier = {
+        modifiers.push({
           id: `incarnon:${uniqueName}:t${tierStr}:${perkId}:${entry.attr}`,
           target_entity: targetId,
           target_attribute: entry.attr,
           operation: entry.op,
           value: rawMod.value ?? 0,
-        };
-
-        if (rawMod.condition) mod.condition = rawMod.condition;
-
-        modifiers.push(mod);
+        });
       });
     });
 

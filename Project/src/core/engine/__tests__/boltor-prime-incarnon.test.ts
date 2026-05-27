@@ -17,7 +17,7 @@ import weaponsData from '../../../../public/data/weapons.json';
 import modOverrides from '../../../../public/data/mod-stats.override.json';
 import incarnonData from '../../../../public/data/incarnon-evolutions.override.json';
 import { ItemRepository } from '../hydration/ItemRepository';
-import { IncarnationRepository } from '../hydration/IncarnationRepository';
+import { IncarnonRepository } from '../hydration/IncarnonRepository';
 import { MutatorBridge } from '../bridge/MutatorBridge';
 import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
 
@@ -75,7 +75,7 @@ function simulate(intention: EnsembleIntention) {
 beforeAll(() => {
   ItemRepository.load(weaponsData as any[]);
   ItemRepository.loadOverrides(modOverrides as Record<string, any>);
-  IncarnationRepository.load(incarnonData as any);
+  IncarnonRepository.load(incarnonData as any);
 });
 
 // ─── Tests ────────────────────────────────────────────────────────────────────

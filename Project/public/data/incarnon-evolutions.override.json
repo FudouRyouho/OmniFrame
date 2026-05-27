@@ -4,11 +4,11 @@
       "2": {
         "hunters_mantra": [
           { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 18 },
-          { "upgrade_type": null, "condition": "channeled_ability_active", "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
+          { "upgrade_type": null, "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
         ],
         "crimson_overture": [
           { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 12 },
-          { "upgrade_type": null, "condition": "on_kill_stacking", "note": "WEAPON_BASE_DAMAGE +2 per kill, max 4 stacks — dynamic buff, no modelable en snapshot estático" }
+          { "upgrade_type": null, "note": "WEAPON_BASE_DAMAGE +2 per kill, max 4 stacks — dynamic buff, no modelable en snapshot estático" }
         ]
       },
       "3": {
@@ -41,11 +41,11 @@
       "2": {
         "hunters_mantra": [
           { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 4 },
-          { "upgrade_type": null, "condition": "channeled_ability_active", "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
+          { "upgrade_type": null, "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
         ],
         "crimson_overture": [
           { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 2 },
-          { "upgrade_type": null, "condition": "on_kill_stacking", "note": "WEAPON_BASE_DAMAGE +2 per kill, max 3 stacks — dynamic buff, no modelable en snapshot estático" }
+          { "upgrade_type": null, "note": "WEAPON_BASE_DAMAGE +2 per kill, max 3 stacks — dynamic buff, no modelable en snapshot estático" }
         ]
       },
       "3": {
@@ -78,11 +78,11 @@
       "2": {
         "hunters_mantra": [
           { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 4 },
-          { "upgrade_type": null, "condition": "channeled_ability_active", "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
+          { "upgrade_type": null, "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
         ],
         "crimson_overture": [
           { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 2 },
-          { "upgrade_type": null, "condition": "on_kill_stacking", "note": "WEAPON_BASE_DAMAGE +2 per kill, max 3 stacks — dynamic buff, no modelable en snapshot estático" }
+          { "upgrade_type": null, "note": "WEAPON_BASE_DAMAGE +2 per kill, max 3 stacks — dynamic buff, no modelable en snapshot estático" }
         ]
       },
       "3": {
