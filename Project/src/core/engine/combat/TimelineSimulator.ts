@@ -7,6 +7,7 @@ import { CombatCalculator } from "./CombatCalculator";
 import { CombatSimulator } from "./CombatSimulator";
 import { EnemyState } from "../enemies/EnemyState";
 import type { ScaledEnemy } from "../enemies/EnemyRepository";
+import { isWeaponDamageToken, DAMAGE_ATTR_TO_PROC_KEY } from "../contracts/damage-logic";
 
 export interface TimelineEvent {
   time: number;
@@ -48,7 +49,7 @@ export class TimelineSimulator {
     const state = new EnemyState(target, fullContext.laws);
     const events: TimelineEvent[] = [];
     
-    const fireRate = weapon.attributes["fire_rate"]?.final || 1;
+    const fireRate = weapon.attributes["WEAPON_ADD_FIRE_RATE"]?.final || 1;
     const timeStep = 1 / fireRate;
     let currentTime = 0;
     let totalDamage = 0;
@@ -56,7 +57,7 @@ export class TimelineSimulator {
 
     const damageMap: Record<string, number> = {};
     Object.entries(weapon.attributes).forEach(([id, node]) => {
-      if (id.startsWith('damage_')) damageMap[id] = node.final;
+      if (isWeaponDamageToken(id)) damageMap[id] = node.final;
     });
 
     // Bucle Temporal
@@ -93,11 +94,13 @@ export class TimelineSimulator {
         totalDamage += (hitShieldDamage + hitHealthDamage);
 
         // Aplicar Stacks y Potencia DoT
-        Object.entries(metrics.status_map).forEach(([type, prob]) => {
+        Object.entries(metrics.status_map).forEach(([attrType, prob]) => {
+          const procType = DAMAGE_ATTR_TO_PROC_KEY[attrType];
+          if (!procType) return;
           const amount = prob * pellets;
-          const projection = metrics.status_projections.find(p => p.type === `${type}_proc`);
+          const projection = metrics.status_projections.find(p => p.type === procType);
           const dotPower = projection ? projection.damage_per_tick : 0;
-          state.addStacks(`${type}_proc`, amount, currentTime, dotPower);
+          state.addStacks(procType, amount, currentTime, dotPower);
         });
       }
 

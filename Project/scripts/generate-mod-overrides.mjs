@@ -69,15 +69,19 @@ function parseRankStats(mod) {
     const fragments = rankStats.stats.flatMap((statText) => splitStatFragments(statText))
     const numericFragments = fragments.filter((fragment) => extractNumbers(fragment).length > 0)
 
-    if (numericFragments.length !== statCount) {
+    // Menos fragmentos que tipos → datos incompletos, rechazar.
+    // Más fragmentos que tipos → el mod tiene stats condicionales (On Kill, On Hit, etc.)
+    // que @wfcd/items no separa en upgradeTypes propios. Tomamos los primeros N (base)
+    // e ignoramos el resto. El engine no los modela todavía — deuda conocida.
+    if (numericFragments.length < statCount) {
       return { ok: false, reason: 'stat-count-mismatch' }
     }
 
     if (rankIndex === 0) {
-      sourceLabels = numericFragments
+      sourceLabels = numericFragments.slice(0, statCount)
     }
 
-    for (const [index, statText] of numericFragments.entries()) {
+    for (const [index, statText] of numericFragments.slice(0, statCount).entries()) {
       const numbers = extractNumbers(statText)
 
       if (numbers.length === 0) {
@@ -105,7 +109,7 @@ function parseRankStats(mod) {
       const label = rawLabel.replace(/\d*\.?\d+/, '|val1|')
       return {
         label,
-        values: [{ baseValue: valuesByStat[index], upgradeType }],
+        values: [{ base_value: valuesByStat[index], upgrade_type: upgradeType }],
         condition: null,
       }
     }),

@@ -1,9 +1,8 @@
 /**
  * @domain Simulation-v2 / Logic / Bridge
- * @SSoT docs/design/sim-v2/simulation-architecture.md
+ * @SSoT docs/domains/engine/design/simulation-architecture.md
  * @status en-desarrollo
  */
-import type { LoadoutState } from "../loadout";
 import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode } from "../contracts";
 import type { EnsembleIntention, EnsembleChannel } from "@providers/Ensemble/ensemble.types";
 import { BASELINE_GAME_LAWS } from "../contracts";
@@ -17,12 +16,6 @@ export interface SimulationResult {
 }
 
 export class MutatorBridge {
-
-  /** Vía legacy — acepta LoadoutState plano. Para herramientas de desarrollo y tests. */
-  public simulate(loadout: LoadoutState, context?: Partial<SimulationContext>): SimulationResult {
-    const ensemble = this.ensembleFromLoadout(loadout);
-    return this.runSimulation(ensemble, context);
-  }
 
   /** Vía canónica — acepta EnsembleIntention tipada desde EnsembleStore. */
   public simulateFromIntention(intention: EnsembleIntention, context?: Partial<SimulationContext>): SimulationResult {
@@ -124,56 +117,6 @@ export class MutatorBridge {
     Object.entries(channelMods).forEach(([index, mod]) => {
       if (mod?.itemId) {
         result[parseInt(index)] = { mod_id: mod.itemId, level: mod.level };
-      }
-    });
-    return result;
-  }
-
-  // ---------------------------------------------------------------------------
-  // Traducción: LoadoutState → Ensemble (vía legacy — dev/test)
-  // ---------------------------------------------------------------------------
-
-  private ensembleFromLoadout(state: LoadoutState): Ensemble {
-    return {
-      warframe: this.loadoutEntity(state, "warframe"),
-      weapons: {
-        primary:   this.loadoutWeapon(state, "primary_weapon"),
-        secondary: this.loadoutWeapon(state, "secondary_weapon"),
-        melee:     this.loadoutWeapon(state, "melee_weapon")
-      },
-      focus: { school_id: "zenurik", nodes: [] }
-    };
-  }
-
-  private loadoutEntity(state: LoadoutState, channel: string) {
-    const id = state[`slot:${channel}`];
-    const configIndex = state[`slot:${channel}:active_config`] || 0;
-    return {
-      id: id || "warframe/excalibur",
-      rank: 30,
-      slots: this.loadoutSlots(state, channel, configIndex),
-      shards: [] as { type: string; stat: string; is_tau?: boolean }[],
-      helminth: undefined
-    };
-  }
-
-  private loadoutWeapon(state: LoadoutState, channel: string): WeaponIntent | undefined {
-    const id = state[`slot:${channel}`];
-    if (!id) return undefined;
-    const configIndex = state[`slot:${channel}:active_config`] || 0;
-    return { id, slots: this.loadoutSlots(state, channel, configIndex), active_profile_id: "base" };
-  }
-
-  private loadoutSlots(state: LoadoutState, channel: string, configIndex: number): Record<number, { mod_id?: string; level?: number }> {
-    const result: Record<number, { mod_id?: string; level?: number }> = {};
-    const prefix = `slot:${channel}:config:${configIndex}:mod:`;
-    Object.keys(state).forEach(key => {
-      if (key.startsWith(prefix)) {
-        const index = parseInt(key.replace(prefix, ""));
-        const intent = state[key];
-        if (intent?.unique_name) {
-          result[index] = { mod_id: intent.unique_name, level: intent.rank || 0 };
-        }
       }
     });
     return result;

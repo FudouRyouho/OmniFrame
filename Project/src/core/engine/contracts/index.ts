@@ -1,8 +1,9 @@
 /**
- * @domain Simulation-v2 / Contracts
+ * @domain Engine / Contracts
  */
 
-import type { ItemDomain, ItemKind, ItemFamily } from '../../../../shared/types/base';
+import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
+import type { ModifierOperation } from '@shared/types/modifier';
 
 export type EntityId = string;
 export type AttributeId = string;
@@ -63,9 +64,10 @@ export interface Modifier {
   id: string;
   source_id?: string;
   target_entity: EntityId;
+  target_channel?: string; // Overrides target_entity resolution — engine busca la entidad con este channel
   target_attribute: AttributeId;
   source_attribute?: AttributeId; // For cross-attribute scaling
-  operation: "ADD" | "SET" | "ADD_FLAT" | "BASE_FLAT" | "BASE_ADD_PCT" | "CONTEXT_SCALE" | "MULTIPLICATIVE";
+  operation: ModifierOperation;
   value: number;
   condition?: string;
   context_variable?: string;

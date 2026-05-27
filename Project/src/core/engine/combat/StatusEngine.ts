@@ -37,7 +37,7 @@ export class StatusEngine {
   public static projectHeatTick(weapon: SimulationEntity, avg_crit_mult: number): StatusEffectProjection {
     const attrs = weapon.attributes;
     const faction_node = attrs["FACTION_DAMAGE"];
-    const element_node = attrs["damage_heat"];
+    const element_node = attrs["WEAPON_ADD_HEAT_DAMAGE"];
     
     const innate_total = this.calculateInnateTotal(weapon);
     const faction_mult = faction_node ? (faction_node.final / 100) : 1.0;
@@ -54,7 +54,7 @@ export class StatusEngine {
   public static projectToxinTick(weapon: SimulationEntity, avg_crit_mult: number): StatusEffectProjection {
     const attrs = weapon.attributes;
     const faction_node = attrs["FACTION_DAMAGE"];
-    const element_node = attrs["damage_toxin"];
+    const element_node = attrs["WEAPON_ADD_TOXIN_DAMAGE"];
     
     const innate_total = this.calculateInnateTotal(weapon);
     const faction_mult = faction_node ? (faction_node.final / 100) : 1.0;
@@ -73,7 +73,7 @@ export class StatusEngine {
     const base_attributes = entity.innate_dna.profiles.base || {};
     
     return Object.entries(base_attributes)
-      .filter(([id]) => id === 'damage_impact' || id === 'damage_puncture' || id === 'damage_slash')
+      .filter(([id]) => id === 'WEAPON_ADD_IMPACT_DAMAGE' || id === 'WEAPON_ADD_PUNCTURE_DAMAGE' || id === 'WEAPON_ADD_SLASH_DAMAGE')
       .reduce((acc, [_, val]) => acc + (val ?? 0), 0);
   }
 }

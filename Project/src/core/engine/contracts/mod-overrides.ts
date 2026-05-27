@@ -1,6 +1,6 @@
 /**
  * @domain Simulation-v2 / Contracts / Data
- * @SSoT docs/domains/data/mods/mods-schema.md
+ * @SSoT docs/data/schemas/mods/mods-schema.md
  * @status activo
  */
 

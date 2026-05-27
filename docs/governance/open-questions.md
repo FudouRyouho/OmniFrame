@@ -5,7 +5,7 @@ Version: "v0.4.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-05-24"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -62,8 +62,9 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 ## OQ-ENGINE-4 — DNA Mutation (Archon Shards, Helminth) — ¿Cuándo? — **ABIERTO (2026-05-18)**
 **Dominio:** engine / layer-B
 **Contexto:** El diseño pone la mutación de ADN en la Capa B (MutatorBridge): antes de emitir el ensemble hidratado, se aplican Archon Shards y Helminth directamente sobre los valores base. La implementación tiene `shards: []` y `helminth: undefined` hardcodeados en `EnsembleAdapter`. No está cubierto en las fases del roadmap (Fase 6 tampoco lo menciona explícitamente).
+**Hallazgo (2026-05-26):** `MutatorBridge.ensembleFromIntention()` sí extrae los shards de la `EnsembleIntention` y los pasa al `Ensemble`. El gap real está en `StaticHydrator.hydrate()` — el campo `ensemble.warframe.shards` nunca se consume. Los modificadores de Archon Shard no se emiten en ningún paso de la simulación. El vocabulario D-6 de tokens de shard (`AVATAR_FLAT_HEALTH_MAX`, `WEAPON_MELEE_ADD_CRIT_MULT`, etc.) está completo y correcto — solo falta el consumer en `StaticHydrator`.
 **Pregunta:** ¿En qué Fase del roadmap se implementa? ¿Bloquea algo antes de Fase 8?
-**Fuente:** `docs/domains/engine/engine-audit.md §3`
+**Refs:** `Project/src/core/engine/hydration/StaticHydrator.ts`, `Project/src/core/engine/bridge/MutatorBridge.ts`, `docs/domains/engine/engine-audit.md §3`
 
 ---
 
@@ -87,14 +88,10 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 
 ---
 
-## OQ-W-4 — Sub-familia en la taxonomía D-6 — **ABIERTO (2026-05-21)**
+## OQ-W-4 — Sub-familia en la taxonomía D-6 — **RESUELTO (2026-05-26)**
 **Dominio:** data / upgrade-taxonomy
-**Contexto:** La convención `{FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}` no codifica sub-familias. Los archon shards expusieron el primer caso: stats slot-específicos (Primary Status Chance, Secondary Crit Chance, Melee Crit Damage) no tienen `upgrade_type` válido porque `WEAPON_*` no distingue el slot de arma.
-**Propuesta en discusión:** extender a `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`.
-**Ejes de sub-familia identificados:** `WEAPON` → `PRIMARY`, `SECONDARY`, `MELEE`; `AVATAR` → `WARFRAME` (y posiblemente `NECRAMECH`).
-**Condición para resolver:** al menos 3 casos distintos en overrides (arcanos, passives, helminth) que justifiquen la extensión. No definir antes.
-**Casos bloqueados:** `docs/data/status.md` → sección Archon Shards.
-**Refs:** `docs/data/schemas/mods/upgrade-taxonomy.md`, `shared/types/modifier.ts`
+**Resolución:** La convención se extiende a `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`. Condición cumplida: 3 casos en Crimson Archon Shards → `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`. Sub-familias `WEAPON` activas: `PRIMARY`, `SECONDARY`, `MELEE`. `UPGRADE_MAP` no se extiende con lógica de filtrado — eso es territorio D-7.
+**Refs:** `docs/data/decisions.md` §D-6, `shared/types/modifier.ts`, `docs/data/schemas/mods/upgrade-taxonomy.md`
 
 ## OQ-W-5 — Semántica derivada de ENERGY_COST / ENERGY_DRAIN — **ABIERTO (2026-05-22)**
 **Dominio:** data / ability-stats → engine
@@ -121,6 +118,21 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 
 ---
 
+## OQ-ENGINE-5 — Fórmulas legacy desconectadas del path canónico — **CERRADO (2026-05-27)**
+**Dominio:** engine / formulas
+**Resolución:** `weapon-core.ts` y `warframe-core.ts` purgados físicamente (2026-05-27). Verificado que ningún archivo fuera del directorio los importaba. Fase 1 del plan `formulas-integration.md` completada. Adicionalmente, Fase 2 conectó `formulas/common/crit-base.ts` a `AtomicSimulator` y `formulas/common/scaling-base.ts` a `SimulationEngine`, convirtiendo `formulas/` de código muerto a SSoT activo.
+**Refs:** `docs/domains/engine/design/formulas-integration.md §Fase 1, Fase 2`
+
+## OQ-ENGINE-6 — WEAPON_FIRE_ITERATIONS no mapeado en UPGRADE_MAP — **CERRADO (2026-05-27)**
+**Dominio:** engine / data-pipeline
+**Contexto:** 11+ mods de multishot usaban el token `WEAPON_FIRE_ITERATIONS` en `mod-stats.override.json`. Ese token no existía en `UPGRADES` ni en `UPGRADE_MAP`.
+**Resolución (Opción A):** Token añadido a `UPGRADES[]` y como alias en `UPGRADE_MAP` → `{ attr: 'WEAPON_ADD_MULTISHOT', op: 'ADD' }` en `shared/types/modifier.ts`. Mods Galvanized Hell, Chamber y Diffusion añadidos manualmente al override (estaban ausentes por bug del pipeline — ver deuda D-PIPELINE-1 abajo).
+**Tests que lo cierran:** `__tests__/aklex-prime.test.ts` (Barrel Diffusion 2.2, Lethal Torrent 1.6) y `__tests__/cedo-prime.test.ts` (Galvanized Hell 14.7) — 23/23 passing (2026-05-27).
+**Deuda residual D-PIPELINE-1:** El pipeline `generate-mod-overrides.mjs` genera tokens raw de `@wfcd/items` (ej. `WEAPON_CRIT_CHANCE`) en lugar de tokens D-6 (ej. `WEAPON_ADD_CRIT_CHANCE`). El override actual es el backup pre-pipeline más los 3 parches manuales Galvanized. Al regenerar el override con el pipeline se pierden los tokens D-6. Fix pendiente: añadir tabla de traducción `WFCD_TOKEN → D6_TOKEN` en el pipeline antes de escribir el JSON. No es bloqueante mientras no se necesite regenerar el override.
+**Refs:** `Project/src/shared/types/modifier.ts`, `Project/public/data/mod-stats.override.json`, `Project/public/data/bk/mod-stats.override.20260527.json`
+
+---
+
 ## OQ-ENGINE-FUTURE — Features de evolución del motor consideradas pero NO implementadas — **ABIERTO (2026-05-25)**
 **Dominio:** engine / simulation-v2
 **Contexto:** Durante la fase pre-implementación (abril 2026) se consideraron varias features de evolución que **no entraron al motor inicial** y siguen sin implementarse. Originalmente documentadas en `simulation-pre-implementation.md` §6 (purgado 2026-05-25). Se consolidan aquí para que la pregunta arquitectónica quede visible.
@@ -131,7 +143,7 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 |---|---|---|
 | **Web Worker compatibility** | Mantener API serializable del motor para mover carga pesada de simulación a un Web Worker sin afectar fluidez de la UI | Performance bajo simulaciones extensas |
 | **Rewind / Time Travel** | Historial de cambios para deshacer/rehacer acciones del usuario; aprovecha que el motor es puramente funcional y determinista | UX de comparación de builds, debugging |
-| **Testing con Gold Standard** | Snapshots de simulación comparados contra resultados esperados de la wiki oficial como tests de integración | Validación de fidelidad matemática |
+| **Testing con Gold Standard** | Snapshots de simulación comparados contra resultados esperados de la wiki oficial como tests de integración | Validación de fidelidad matemática — **ACTIVO (2026-05-27)**: `__tests__/aklex-prime.test.ts` (Aklex Prime, 23 tests) y `__tests__/cedo-prime.test.ts` (Cedo Prime Normal Attack, 8 tests). 31 tests passing contra valores reales del juego, incluyendo multishot (OQ-ENGINE-6 cerrado). |
 
 **Pregunta:** ¿En qué fase del roadmap se priorizan estas features? ¿O son backlog indefinido? Hoy ninguna está implementada ni en el código (`Project/src/core/engine/`) ni en `simulation-roadmap.md`.
 
@@ -161,3 +173,35 @@ Otros candidatos al mismo patrón: `semantic/damage-types.md`, `semantic/faction
 **Bloquea:** Coherencia del grafo documental con el grafo de código real. Comprensión por agentes IA de que `semantic/` no es info aislada sino consumida masivamente.
 
 **Fuente:** `docs/semantic/polarity.md` (huérfano detectado en auditoría 2026-05-25).
+
+---
+
+## OQ-W-6 — Vocabulary gap: upgrade_by para stats base del warframe — **ABIERTO (2026-05-26)**
+**Dominio:** data / ability-stats → taxonomía
+**Contexto:** El vocabulario `AbilityUpgradeBy` cubre los 4 stats de habilidad (`AVATAR_ABILITY_STRENGTH/RANGE/DURATION/EFFICIENCY`) y los dos ejes de energía (`ENERGY_COST/DRAIN`). Inaros Scarab Swarm tiene un stat (`Damage: 241`) que escala con Max Health del warframe — un eje de base stat sin token. El `//!` en `Inaros.md` lo registra: `"scale with health, literaly 'vitality' maxed (100% health) affected this number 483"`.
+**Pregunta:** ¿Cómo se extiende `upgrade_by` para cubrir stats base del warframe (health, shield, armor)?
+- La taxonomía D-6 ya define `AVATAR_ADD_HEALTH_MAX` como token de mod. El principio que se busca es **globalizar la semántica**: el mismo vocabulario `AVATAR_*` debería aplicar.
+- Opciones: token completo idéntico al mod (`AVATAR_ADD_HEALTH_MAX`), o forma sin OPERATION (`AVATAR_HEALTH_MAX`) para separar el eje "con qué escala" del eje "qué modifica".
+**Condición para resolver:** al resolver la taxonomía general de `upgrade_by` — cuando haya ≥2 casos distintos de base-stat scaling en abilities que justifiquen el patrón. Hoy solo Inaros es caso confirmado.
+**Bloquea:** Anotar correctamente Inaros Scarab Swarm. Extensión del vocabulario `AbilityUpgradeBy` en `shared/types/ability.ts`.
+**Fuente:** `references/game-ui/Inaros.md` línea `//!`
+
+---
+
+## OQ-W-7 — Double-scaling y semántica especial de upgrade_by — **ABIERTO (2026-05-26)**
+**Dominio:** data / ability-stats → engine / formulas
+**Contexto:** Dos categorías de edge-cases detectadas en la auditoría del diccionario (2026-05-26):
+
+**A — Double-scaling:** dos abilities tienen un stat que escala simultáneamente con dos modificadores distintos:
+- `Gara Mass Vitrify` → `Max Radius: 11m $DURATION $RANGE`
+- `Harrow Covenant` → `Energy Conversion: 15% $EFFICIENCY $STRENGTH`
+El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`. ~~El schema no soporta `upgrade_by[]` (array)~~ — **resuelto 2026-05-26**: `AbilityStatEntry.upgrade_by` ahora acepta `AbilityUpgradeBy | AbilityUpgradeBy[]`; el engine usa `[0]` hasta que exista `formulas/ability/`. Límite activo: engine + fórmula, no schema.
+
+**B — Tokens válidos en contexto no-estándar:**
+- `Lavos`: `$EFFICIENCY` → `ENERGY_COST` pero Lavos no tiene pool de energía — `EFFICIENCY` reduce cooldown, no energy cost.
+- `Grendel Feast`: `$EFFICIENCY` → `ENERGY_COST` pero el drain es de salud (`<HEAL>`), no de energía.
+- `Nidus Virulence`: `$EFFICIENCY` → `ENERGY_COST` con efecto *negativo* — Efficiency reduce el Energy Refund, no el coste. El campo `inverse: true` existe en el schema pero no está anotado.
+
+**Condición para resolver:** cuando se empiece a trabajar con `upgrade_type` (que abre más edge-cases) o al generar tests masivos del engine con datos reales. Estos casos dependen de fórmulas dedicadas por habilidad.
+**No bloquea** el pipeline de datos ni el schema actual.
+**Fuente:** `references/game-ui/Gara.md`, `references/game-ui/Harrow.md`, `references/game-ui/Lavos.md`, `references/game-ui/Grendel.md`, `references/game-ui/Nidus.md`

@@ -8,17 +8,17 @@
  * Basado en las leyes de Warframe.
  */
 export const DAMAGE_EFFICIENCY: Record<string, Record<string, number>> = {
-  "damage_impact": {
+  "WEAPON_ADD_IMPACT_DAMAGE": {
     "Shields": 0.50,
     "ProtoShield": 0.15,
     "Machinery": 0.25
   },
-  "damage_puncture": {
+  "WEAPON_ADD_PUNCTURE_DAMAGE": {
     "FerriteArmor": 0.50,
     "AlloyArmor": 0.15,
     "Robotic": 0.25
   },
-  "damage_slash": {
+  "WEAPON_ADD_SLASH_DAMAGE": {
     "ClonedFlesh": 0.25,
     "Infested": 0.25,
     "Flesh": 0.25,
@@ -26,57 +26,57 @@ export const DAMAGE_EFFICIENCY: Record<string, Record<string, number>> = {
     "AlloyArmor": -0.50,
     "Robotic": -0.25
   },
-  "damage_heat": {
+  "WEAPON_ADD_HEAT_DAMAGE": {
     "ClonedFlesh": 0.25,
     "Flesh": 0.25,
     "InfestedFlesh": 0.50,
     "ProtoShield": -0.50
   },
-  "damage_cold": {
+  "WEAPON_ADD_COLD_DAMAGE": {
     "AlloyArmor": 0.25,
     "Shields": 0.50,
     "ProtoShield": 0.15,
     "Fossilized": -0.50
   },
-  "damage_electricity": {
+  "WEAPON_ADD_ELECTRICITY_DAMAGE": {
     "Robotic": 0.50,
     "Shields": 0.50,
     "AlloyArmor": -0.50
   },
-  "damage_toxin": {
+  "WEAPON_ADD_TOXIN_DAMAGE": {
     "Flesh": 0.50,
     "ProtoShield": -0.25,
     "Robotic": -0.25
     // Nota: Toxin ignora Shields en el combate real
   },
-  "damage_corrosive": {
+  "WEAPON_ADD_CORROSIVE_DAMAGE": {
     "FerriteArmor": 0.75,
     "Fossilized": 0.75,
     "ProtoShield": -0.50
   },
-  "damage_viral": {
+  "WEAPON_ADD_VIRAL_DAMAGE": {
     "ClonedFlesh": 0.75,
     "Flesh": 0.50,
     "Machinery": -0.25
   },
-  "damage_magnetic": {
+  "WEAPON_ADD_MAGNETIC_DAMAGE": {
     "Shields": 0.75,
     "ProtoShield": 0.75,
     "AlloyArmor": -0.50
   },
-  "damage_radiation": {
+  "WEAPON_ADD_RADIATION_DAMAGE": {
     "AlloyArmor": 0.75,
     "Robotic": 0.25,
     "InfestedSinew": 0.50,
     "Shields": -0.25,
     "Fossilized": -0.75
   },
-  "damage_blast": {
+  "WEAPON_ADD_BLAST_DAMAGE": {
     "Fossilized": 0.50,
     "Machinery": 0.75,
     "FerriteArmor": -0.25
   },
-  "damage_gas": {
+  "WEAPON_ADD_GAS_DAMAGE": {
     "Infested": 0.75,
     "InfestedFlesh": 0.50,
     "ClonedFlesh": -0.50,

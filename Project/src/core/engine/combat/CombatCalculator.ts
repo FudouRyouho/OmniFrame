@@ -5,6 +5,7 @@
 import { StatusEngine, type StatusEffectProjection } from "./StatusEngine";
 import { AtomicSimulator } from "./AtomicSimulator";
 import type { SimulationEntity, SimulationContext } from "../contracts";
+import { isWeaponDamageToken } from "../contracts/damage-logic";
 
 export interface CombatMetrics {
   average_crit_multiplier: number;
@@ -37,35 +38,35 @@ export class CombatCalculator {
 
     // 1. Resolver Daño Total Base (Afectado por Falloff)
     const total_base_damage = Object.entries(attrs)
-      .filter(([id]) => id.startsWith('damage_'))
+      .filter(([id]) => isWeaponDamageToken(id))
       .reduce((acc, [_, node]) => acc + node.final, 0) * falloffMult;
 
     // 2. Lógica de Críticos Atómica (Distribución de Tiers)
-    const crit_chance = (attrs["critical_chance"]?.final || 0);
-    const crit_mult = attrs["critical_multiplier"]?.final || 1.0;
+    const crit_chance = (attrs["WEAPON_ADD_CRIT_CHANCE"]?.final || 0);
+    const crit_mult = attrs["WEAPON_ADD_CRIT_MULT"]?.final || 1.0;
     
     const crit_distribution = AtomicSimulator.calculateCritDistribution(crit_chance);
     const avg_crit_mult = AtomicSimulator.calculateAverageMultiplier(crit_chance, crit_mult);
 
     // 3. Proyección de Estados Proactivos (Capa C+)
     const projections: StatusEffectProjection[] = [];
-    if (attrs["damage_slash"]) {
+    if (attrs["WEAPON_ADD_SLASH_DAMAGE"]) {
       projections.push(StatusEngine.projectSlashTick(entity, avg_crit_mult));
     }
-    if (attrs["damage_heat"]) {
+    if (attrs["WEAPON_ADD_HEAT_DAMAGE"]) {
       projections.push(StatusEngine.projectHeatTick(entity, avg_crit_mult));
     }
-    if (attrs["damage_toxin"]) {
+    if (attrs["WEAPON_ADD_TOXIN_DAMAGE"]) {
       projections.push(StatusEngine.projectToxinTick(entity, avg_crit_mult));
     }
 
     // 4. Lógica de Estado (Probability Weighting)
-    const status_chance = (attrs["status_chance"]?.final || 0) / 100;
+    const status_chance = (attrs["WEAPON_ADD_STATUS_CHANCE"]?.final || 0) / 100;
     const status_map: Record<string, number> = {};
     
     if (total_base_damage > 0) {
       Object.entries(attrs)
-        .filter(([id]) => id.startsWith('damage_'))
+        .filter(([id]) => isWeaponDamageToken(id))
         .forEach(([id, node]) => {
           // Probabilidad = StatusChance * (Weight del elemento / Daño Total)
           const weight = node.final / total_base_damage;
@@ -74,14 +75,17 @@ export class CombatCalculator {
     }
 
     // 5. Lógica de DPS y Multishot
-    const fire_rate = attrs["fire_rate"]?.final || 1.0;
-    const multishot = attrs["multishot"]?.final || 1.0;
-    const mag_size = attrs["magazine_size"]?.final || 1.0;
-    
-    // Ley de Recarga: TiempoFinal = TiempoBase / (ReloadSpeed / 100)
-    const base_reload = attrs["reload_time"]?.base || 1.0;
-    const reload_speed = (attrs["reload_speed"]?.final || 100) / 100;
-    const final_reload_time = base_reload / reload_speed;
+    const fire_rate = attrs["WEAPON_ADD_FIRE_RATE"]?.final || 1.0;
+    const multishot = attrs["WEAPON_ADD_MULTISHOT"]?.final || 1.0;
+    const mag_size  = attrs["WEAPON_ADD_MAGAZINE_MAX"]?.final || 1.0;
+
+    // Ley de Recarga: TiempoFinal = Base / (1 + ReloadSpeedBonus / 100)
+    // reload_time es dato puro del arma — vive en innate_dna, no en AttributeNode.
+    const base_reload = entity.innate_dna?.profiles?.[context.active_profile_id]?.['reload_time']
+      ?? entity.innate_dna?.profiles?.['base']?.['reload_time']
+      ?? 1.0;
+    const reload_bonus = attrs["WEAPON_ADD_RELOAD_SPEED"]?.final ?? 100;
+    const final_reload_time = base_reload / (reload_bonus / 100);
 
     const damage_per_shot = total_base_damage * avg_crit_mult * multishot;
     const burst_dps = damage_per_shot * fire_rate;

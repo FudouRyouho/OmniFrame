@@ -1,13 +1,15 @@
-import type { 
-  SimulationEntity, 
-  Modifier, 
-  EntityId, 
+import type {
+  SimulationEntity,
+  Modifier,
+  EntityId,
   AttributeId,
   SimulationContext,
   ProjectionSnapshot,
   AuditResponse,
   AuditStep
 } from "../contracts";
+import { isWeaponDamageToken } from "../contracts/damage-logic";
+import { applyAdditiveBonus } from "../formulas/common/scaling-base";
 
 export class SimulationEngine {
   private entities: Map<EntityId, SimulationEntity> = new Map();
@@ -104,7 +106,7 @@ export class SimulationEngine {
       }
 
       // Implicit global dependency: damage scales with WEAPON_DAMAGE
-      if (mod.target_attribute.startsWith('damage_') && mod.target_attribute !== 'WEAPON_DAMAGE') {
+      if (isWeaponDamageToken(mod.target_attribute)) {
         const sourceKey = `${mod.target_entity}:WEAPON_DAMAGE`;
         if (in_degree.has(sourceKey)) {
           adj.get(sourceKey)!.push(targetKey);
@@ -197,11 +199,11 @@ export class SimulationEngine {
     const weaponDamageNode = entity.attributes["WEAPON_DAMAGE"];
     const globalDmgMult = weaponDamageNode ? (weaponDamageNode.final / 100) : 1.0;
 
-    const scaledBase = (node.base + node.base_flat) * (1 + node.base_add_pct / 100);
-    const withMods = scaledBase * (1 + node.mods_add_pct / 100);
+    const scaledBase = applyAdditiveBonus(node.base + node.base_flat, node.base_add_pct);
+    const withMods = applyAdditiveBonus(scaledBase, node.mods_add_pct);
     let val = (withMods + node.total_flat) * node.multiplicative;
 
-    if (attributeId.startsWith('damage_') && attributeId !== 'WEAPON_DAMAGE') {
+    if (isWeaponDamageToken(attributeId)) {
       val *= globalDmgMult;
     }
 

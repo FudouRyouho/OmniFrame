@@ -28,6 +28,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 - **Decisiones Arquitectónicas**: [arch-decisions.md](./arch-decisions.md)
 - **Roadmap**: [simulation-roadmap.md](./simulation-roadmap.md)
 - **Auditoría Diseño vs Código**: [../engine-audit.md](../engine-audit.md)
+- **Integración formulas/ como SSoT**: [formulas-integration.md](./formulas-integration.md)
 
 ---
 

@@ -4,23 +4,62 @@
  */
 
 export const ELEMENTAL_COMBINATIONS: Record<string, string> = {
-  "damage_cold+damage_toxin": "damage_viral",
-  "damage_toxin+damage_cold": "damage_viral",
-  "damage_heat+damage_toxin": "damage_gas",
-  "damage_toxin+damage_heat": "damage_gas",
-  "damage_electricity+damage_toxin": "damage_corrosive",
-  "damage_toxin+damage_electricity": "damage_corrosive",
-  "damage_heat+damage_cold": "damage_blast",
-  "damage_cold+damage_heat": "damage_blast",
-  "damage_electricity+damage_cold": "damage_magnetic",
-  "damage_cold+damage_electricity": "damage_magnetic",
-  "damage_heat+damage_electricity": "damage_radiation",
-  "damage_electricity+damage_heat": "damage_radiation",
+  'WEAPON_ADD_COLD_DAMAGE+WEAPON_ADD_TOXIN_DAMAGE':        'WEAPON_ADD_VIRAL_DAMAGE',
+  'WEAPON_ADD_TOXIN_DAMAGE+WEAPON_ADD_COLD_DAMAGE':        'WEAPON_ADD_VIRAL_DAMAGE',
+  'WEAPON_ADD_HEAT_DAMAGE+WEAPON_ADD_TOXIN_DAMAGE':        'WEAPON_ADD_GAS_DAMAGE',
+  'WEAPON_ADD_TOXIN_DAMAGE+WEAPON_ADD_HEAT_DAMAGE':        'WEAPON_ADD_GAS_DAMAGE',
+  'WEAPON_ADD_ELECTRICITY_DAMAGE+WEAPON_ADD_TOXIN_DAMAGE': 'WEAPON_ADD_CORROSIVE_DAMAGE',
+  'WEAPON_ADD_TOXIN_DAMAGE+WEAPON_ADD_ELECTRICITY_DAMAGE': 'WEAPON_ADD_CORROSIVE_DAMAGE',
+  'WEAPON_ADD_HEAT_DAMAGE+WEAPON_ADD_COLD_DAMAGE':         'WEAPON_ADD_BLAST_DAMAGE',
+  'WEAPON_ADD_COLD_DAMAGE+WEAPON_ADD_HEAT_DAMAGE':         'WEAPON_ADD_BLAST_DAMAGE',
+  'WEAPON_ADD_ELECTRICITY_DAMAGE+WEAPON_ADD_COLD_DAMAGE':  'WEAPON_ADD_MAGNETIC_DAMAGE',
+  'WEAPON_ADD_COLD_DAMAGE+WEAPON_ADD_ELECTRICITY_DAMAGE':  'WEAPON_ADD_MAGNETIC_DAMAGE',
+  'WEAPON_ADD_HEAT_DAMAGE+WEAPON_ADD_ELECTRICITY_DAMAGE':  'WEAPON_ADD_RADIATION_DAMAGE',
+  'WEAPON_ADD_ELECTRICITY_DAMAGE+WEAPON_ADD_HEAT_DAMAGE':  'WEAPON_ADD_RADIATION_DAMAGE',
 };
 
 export const PRIMARY_ELEMENTS: string[] = [
-  "damage_heat", 
-  "damage_cold", 
-  "damage_electricity", 
-  "damage_toxin"
+  'WEAPON_ADD_HEAT_DAMAGE',
+  'WEAPON_ADD_COLD_DAMAGE',
+  'WEAPON_ADD_ELECTRICITY_DAMAGE',
+  'WEAPON_ADD_TOXIN_DAMAGE',
 ];
+
+// Todos los tokens D-6 de tipos de daño. Fuente de filtrado en el engine.
+export const WEAPON_DAMAGE_TOKENS: readonly string[] = [
+  'WEAPON_ADD_IMPACT_DAMAGE',
+  'WEAPON_ADD_PUNCTURE_DAMAGE',
+  'WEAPON_ADD_SLASH_DAMAGE',
+  'WEAPON_ADD_HEAT_DAMAGE',
+  'WEAPON_ADD_COLD_DAMAGE',
+  'WEAPON_ADD_ELECTRICITY_DAMAGE',
+  'WEAPON_ADD_TOXIN_DAMAGE',
+  'WEAPON_ADD_BLAST_DAMAGE',
+  'WEAPON_ADD_CORROSIVE_DAMAGE',
+  'WEAPON_ADD_GAS_DAMAGE',
+  'WEAPON_ADD_MAGNETIC_DAMAGE',
+  'WEAPON_ADD_RADIATION_DAMAGE',
+  'WEAPON_ADD_VIRAL_DAMAGE',
+  'WEAPON_ADD_VOID_DAMAGE',
+  'WEAPON_ADD_TAU_DAMAGE',
+  'WEAPON_ADD_TRUE_DAMAGE',
+  'WEAPON_ADD_NONE_DAMAGE',
+];
+
+const _DAMAGE_TOKEN_SET = new Set(WEAPON_DAMAGE_TOKENS);
+
+export function isWeaponDamageToken(value: string): boolean {
+  return _DAMAGE_TOKEN_SET.has(value);
+}
+
+// Bridge: D-6 damage attr → runtime proc key usado por EnemyState.
+// EnemyState usa identificadores legacy (damage_*_proc) — vocabulario de runtime independiente.
+// Deuda Fase 3: renombrar claves de EnemyState.stacks / dot_pools.
+export const DAMAGE_ATTR_TO_PROC_KEY: Record<string, string> = {
+  'WEAPON_ADD_SLASH_DAMAGE':     'damage_slash_proc',
+  'WEAPON_ADD_HEAT_DAMAGE':      'damage_heat_proc',
+  'WEAPON_ADD_TOXIN_DAMAGE':     'damage_toxin_proc',
+  'WEAPON_ADD_CORROSIVE_DAMAGE': 'damage_corrosive_proc',
+  'WEAPON_ADD_VIRAL_DAMAGE':     'damage_viral_proc',
+  'WEAPON_ADD_MAGNETIC_DAMAGE':  'damage_magnetic_proc',
+};

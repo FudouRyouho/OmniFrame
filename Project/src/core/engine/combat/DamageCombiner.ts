@@ -11,7 +11,7 @@ export interface ElementalMod {
   index: number;
 }
 
-export const PHYSICAL_TYPES = ["damage_impact", "damage_puncture", "damage_slash"];
+export const PHYSICAL_TYPES = ["WEAPON_ADD_IMPACT_DAMAGE", "WEAPON_ADD_PUNCTURE_DAMAGE", "WEAPON_ADD_SLASH_DAMAGE"];
 
 export class DamageCombiner {
   /**

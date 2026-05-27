@@ -1,4 +1,5 @@
 import { RngProvider } from "./RngProvider";
+import { resolveCritTier, averageCritMultiplier } from "../formulas/common/crit-base";
 
 export interface AtomicRoll {
   tier: number;
@@ -15,35 +16,24 @@ export class AtomicSimulator {
    * Basado en la ley de Warframe v3.0.
    */
   public static calculateCritDistribution(critChance: number): Record<number, number> {
-    const cc = critChance / 100;
-    const base_tier = Math.floor(cc);
-    const extra_prob = cc - base_tier;
-    
+    const { guaranteedTier, chanceToNextTier } = resolveCritTier(critChance / 100);
     const distribution: Record<number, number> = {};
-    
-    if (extra_prob > 0) {
-      distribution[base_tier] = 1 - extra_prob;
-      distribution[base_tier + 1] = extra_prob;
+
+    if (chanceToNextTier > 0) {
+      distribution[guaranteedTier] = 1 - chanceToNextTier;
+      distribution[guaranteedTier + 1] = chanceToNextTier;
     } else {
-      distribution[base_tier] = 1.0;
+      distribution[guaranteedTier] = 1.0;
     }
-    
+
     return distribution;
   }
 
   /**
-   * Calcula el multiplicador de daño promedio para un disparo basado en su distribución.
+   * Calcula el multiplicador de daño promedio para un disparo.
    */
   public static calculateAverageMultiplier(critChance: number, critMult: number): number {
-    const dist = this.calculateCritDistribution(critChance);
-    let avg = 0;
-    
-    Object.entries(dist).forEach(([tier, prob]) => {
-      // Ley: Damage = Base * (1 + Tier * (CD - 1))
-      avg += prob * (1 + Number(tier) * (critMult - 1));
-    });
-    
-    return avg;
+    return averageCritMultiplier(critChance / 100, critMult);
   }
 
   public static readonly HYBRID_THRESHOLD = 20;
@@ -56,11 +46,11 @@ export class AtomicSimulator {
     const totalPellets = base + (rng.roll(extra_prob) ? 1 : 0);
     
     const rolls: AtomicRoll[] = [];
-    const cc = critChance / 100;
+    const { guaranteedTier, chanceToNextTier } = resolveCritTier(critChance / 100);
 
     for (let i = 0; i < totalPellets; i++) {
-      const tier = Math.floor(cc) + (rng.roll(cc % 1) ? 1 : 0);
-      rolls.push({ tier, multiplier: 0 }); // Multiplier resolved during combat
+      const tier = guaranteedTier + (rng.roll(chanceToNextTier) ? 1 : 0);
+      rolls.push({ tier, multiplier: 0 });
     }
 
     return rolls;

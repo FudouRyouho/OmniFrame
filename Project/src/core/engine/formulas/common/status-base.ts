@@ -1,6 +1,6 @@
 /**
  * @domain Engine / Formulas / Common / Status
- * @SSoT docs/domains/semantic/damage-types.md
+ * @SSoT docs/semantic/damage-types.md
  */
 
 import type { DamageType } from "@shared/types";

@@ -5,10 +5,11 @@
 
 import type { Ensemble, MutatedDNA, SimulationEntity, AttributeNode, Modifier } from "../contracts";
 import { ModRepository } from "./ModRepository";
+import { ShardRepository } from "./ShardRepository";
+import { isUpgrade } from "@shared/types/modifier";
 
-import { PHYSICAL_TYPES } from "../combat/DamageCombiner";
 import { DamageCombiner, type ElementalMod } from "../combat/DamageCombiner";
-import { PRIMARY_ELEMENTS } from "../contracts/damage-logic";
+import { isWeaponDamageToken } from "../contracts/damage-logic";
 import { getAttributeMetadata } from "../../../lib/presentation/attribute-registry";
 
 export class StaticHydrator {
@@ -50,8 +51,7 @@ export class StaticHydrator {
           // Add source info for Audit Trace
           const enriched_mod = { ...m, source_id: `Mod:${slot.mod_id}` };
 
-          const isCombat = PRIMARY_ELEMENTS.includes(m.target_attribute) || 
-                           PHYSICAL_TYPES.includes(m.target_attribute);
+          const isCombat = isWeaponDamageToken(m.target_attribute);
 
           if (isCombat) {
             combination_mods.push({
@@ -69,7 +69,7 @@ export class StaticHydrator {
       const base_attributes = dna.profiles ? (dna.profiles[intent.profile_id] || dna.profiles["base"] || {}) : {};
       const innate_damage: Record<string, number> = {};
       Object.entries(base_attributes).forEach(([attr, val]) => {
-         if (attr.startsWith('damage_')) innate_damage[attr] = val;
+         if (isWeaponDamageToken(attr)) innate_damage[attr] = val;
       });
 
       const combined_damage = DamageCombiner.combine(innate_damage, combination_mods);
@@ -77,7 +77,7 @@ export class StaticHydrator {
       // 4. Actualizar atributos de la entidad con el daño combinado
       // Limpiar daños previos que podrían haber sido combinados
       Object.keys(entity.attributes).forEach(attr => {
-         if (attr.startsWith('damage_')) delete entity.attributes[attr];
+         if (isWeaponDamageToken(attr)) delete entity.attributes[attr];
       });
 
       // Injectar nuevos nodos de daño
@@ -99,6 +99,33 @@ export class StaticHydrator {
       entities.push(entity);
     });
 
+    // OQ-ENGINE-4: Consumer loop de Archon Shards
+    const channelToEntityId: Record<string, string | undefined> = {
+      primary:   ensemble.weapons.primary?.id,
+      secondary: ensemble.weapons.secondary?.id,
+      melee:     ensemble.weapons.melee?.id,
+    };
+
+    ensemble.warframe.shards.forEach(shard => {
+      const resolved = ShardRepository.resolve(shard.type, shard.stat, shard.is_tau ?? false);
+      if (!resolved) return;
+
+      const targetId = resolved.target_channel
+        ? channelToEntityId[resolved.target_channel]
+        : ensemble.warframe.id;
+
+      if (!targetId) return;
+
+      modifiers.push({
+        id: `shard:${shard.type}:${shard.stat}`,
+        source_id: `Shard:${shard.type}`,
+        target_entity: targetId,
+        target_attribute: resolved.attr,
+        operation: resolved.op,
+        value: resolved.value,
+      });
+    });
+
     return { entities, modifiers };
   }
 
@@ -108,6 +135,9 @@ export class StaticHydrator {
     const base_attributes = dna.profiles ? (dna.profiles[profile_id] || dna.profiles["base"] || {}) : {};
     
     Object.entries(base_attributes).forEach(([id, value]) => {
+      // Solo crean AttributeNode los tokens D-6 válidos y los attrs de daño (Fase 2 pendiente).
+      // Datos puros como reload_time quedan en innate_dna.profiles — no acumulan modificadores.
+      if (!isUpgrade(id) && id !== 'WEAPON_DAMAGE') return;
       const meta = getAttributeMetadata(id);
       attributes[id] = {
         base: value,

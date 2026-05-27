@@ -35,15 +35,15 @@ export class ItemRepository {
         const profile_name = (attack.name || 'default').toLowerCase().replace(/ /g, '_');
         
         profiles[profile_name] = {
-          critical_chance: (attack.crit_chance ?? raw.stats.crit_chance ?? 0) * 100,
-          critical_multiplier: attack.crit_mult ?? raw.stats.crit_mult ?? 0,
-          status_chance: (attack.status_chance ?? raw.stats.status_chance ?? 0) * 100,
-          fire_rate: raw.stats.fire_rate ?? 0,
-          multishot: raw.stats.multishot ?? 1,
-          magazine_size: raw.stats.magazine_size ?? 0,
-          reload_time: raw.stats.reload_time ?? 0,
-          reload_speed: 100,
-          WEAPON_DAMAGE: 100,
+          WEAPON_ADD_CRIT_CHANCE:  (attack.crit_chance ?? raw.stats.crit_chance ?? 0) * 100,
+          WEAPON_ADD_CRIT_MULT:    attack.crit_mult ?? raw.stats.crit_mult ?? 0,
+          WEAPON_ADD_STATUS_CHANCE:(attack.status_chance ?? raw.stats.status_chance ?? 0) * 100,
+          WEAPON_ADD_FIRE_RATE:    raw.stats.fire_rate ?? 0,
+          WEAPON_ADD_MULTISHOT:    raw.stats.multishot ?? 1,
+          WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
+          reload_time:             raw.stats.reload_time ?? 0,
+          WEAPON_ADD_RELOAD_SPEED: 100,
+          WEAPON_DAMAGE:           100,
           ...this.mapDamage(attack.damage)
         };
       });
@@ -54,15 +54,15 @@ export class ItemRepository {
     } else if (raw.stats) {
       // Fallback a nivel superior si no hay ataques detallados
       profiles['base'] = {
-        critical_chance: (raw.stats.crit_chance ?? 0) * 100,
-        critical_multiplier: raw.stats.crit_mult ?? 0,
-        status_chance: (raw.stats.status_chance ?? 0) * 100,
-        fire_rate: raw.stats.fire_rate ?? 0,
-        multishot: raw.stats.multishot ?? 1,
-        magazine_size: raw.stats.magazine_size ?? 0,
-        reload_time: raw.stats.reload_time ?? 0,
-        reload_speed: 100,
-        WEAPON_DAMAGE: 100,
+        WEAPON_ADD_CRIT_CHANCE:  (raw.stats.crit_chance ?? 0) * 100,
+        WEAPON_ADD_CRIT_MULT:    raw.stats.crit_mult ?? 0,
+        WEAPON_ADD_STATUS_CHANCE:(raw.stats.status_chance ?? 0) * 100,
+        WEAPON_ADD_FIRE_RATE:    raw.stats.fire_rate ?? 0,
+        WEAPON_ADD_MULTISHOT:    raw.stats.multishot ?? 1,
+        WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
+        reload_time:             raw.stats.reload_time ?? 0,
+        WEAPON_ADD_RELOAD_SPEED: 100,
+        WEAPON_DAMAGE:           100,
         ...this.mapDamage(raw.stats.damage)
       };
     }
@@ -86,7 +86,7 @@ export class ItemRepository {
     Object.entries(damage).forEach(([key, val]) => {
       if (typeof val === 'number' && val > 0 && key !== 'total') {
         // Mapeo de tipos de daño (ej: "impact" -> "damage_impact")
-        result[`damage_${key.toLowerCase()}`] = val;
+        result[`WEAPON_ADD_${key.toUpperCase()}_DAMAGE`] = val;
       }
     });
     return result;

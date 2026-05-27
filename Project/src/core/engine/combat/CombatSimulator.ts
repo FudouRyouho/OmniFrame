@@ -7,6 +7,7 @@ import type { EnemyState } from "../enemies/EnemyState";
 import { DAMAGE_EFFICIENCY } from "../contracts/damage-multipliers";
 import { AtomicSimulator, type AtomicRoll } from "./AtomicSimulator";
 import { RngProvider } from "./RngProvider";
+import { isWeaponDamageToken } from "../contracts/damage-logic";
 
 export interface HitResolution {
   total_damage: number;
@@ -25,14 +26,14 @@ export class CombatSimulator {
    */
   public static simulateAttack(entity: SimulationEntity, targetState: EnemyState, currentTime: number = 0, rng: RngProvider = new RngProvider()): HitResolution {
     const attrs = entity.attributes;
-    const multishot = attrs["multishot"]?.final || 1.0;
-    const critChance = attrs["critical_chance"]?.final || 0;
-    const critMult = attrs["critical_multiplier"]?.final || 1.0;
+    const multishot  = attrs["WEAPON_ADD_MULTISHOT"]?.final || 1.0;
+    const critChance = attrs["WEAPON_ADD_CRIT_CHANCE"]?.final || 0;
+    const critMult   = attrs["WEAPON_ADD_CRIT_MULT"]?.final || 1.0;
 
     // 1. Obtener Mapa de Daño Base (por proyectil)
     const baseDamageMap: Record<string, number> = {};
     Object.entries(attrs)
-      .filter(([id]) => id.startsWith('damage_'))
+      .filter(([id]) => isWeaponDamageToken(id))
       .forEach(([id, node]: [string, any]) => {
         baseDamageMap[id] = node.final;
       });
@@ -92,7 +93,7 @@ export class CombatSimulator {
       const stateMultiplier = targetState.getDamageMultiplier(type);
       
       // 1. ¿A qué capa golpea este tipo de daño?
-      const isBypassingShields = type === 'damage_toxin';
+      const isBypassingShields = type === 'WEAPON_ADD_TOXIN_DAMAGE';
       const hitsShields = hasShields && !isBypassingShields;
 
       // 2. Obtener Eficiencias según la capa
