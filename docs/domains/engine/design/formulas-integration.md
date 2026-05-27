@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "E-OQ-FORMULAS"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-05-27"  <!-- v0.2.0: Fase 1 y Fase 2 completadas -->
+Fecha_de_actualizacion: "2026-05-27"  <!-- v0.3.0: Fase 3 redefinida — estabilización C1; DamageCombiner movido a hydration/ -->
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -124,15 +124,23 @@ Eliminar los únicos dos archivos con tokens pre-D-6:
 - `crit-base.ts` ← `AtomicSimulator` (combat/)
 - `scaling-base.ts` ← `AtomicSimulator` (vía weapon-crit imports), `SimulationEngine` (resolution/)
 
-### Fase 3 — Reconectar combat/ al pipeline de producción (YELLOW, requiere debate)
+### Fase 3 — Estabilización C1 antes de avanzar a combat/ (DECISIÓN 2026-05-27)
 
-El diseño dice que C2 emite `ProjectionSnapshot` con `ttk`, `effective_dps`, `status_weights` — hoy eso no ocurre. Opciones:
+**Decisión:** No avanzar a C2/C3/C4 hasta que C1 esté estable y con cobertura de datos suficiente. Razón: cada capa depende de los atributos resueltos por C1 — sin formulas, overrides y mods correctos, las capas superiores propagan errores silenciosamente.
 
-- **A**: `MutatorBridge` llama a `CombatCalculator` después de `SimulationEngine` → `ProjectionSnapshot` completo
-- **B**: Nuevo hook `useSimulationMetrics()` que corre `CombatCalculator` separado, bajo demanda (lazy)
-- **C**: `CombatCalculator` como paso adicional dentro del resolver de `SimulationEngine`
+**Estado actual de C2:**
+- `CombatCalculator.project()` ya tiene consumidor: `useSimulationMetrics` hook (Opción B implementada)
+- `TimelineSimulator` bloqueado: requiere `ScaledEnemy` con health/armor/faction escalados — datos no disponibles en pipeline
+- No hay urgencia de wiring adicional
 
-*Esta fase requiere decisión explícita antes de implementar. Abrir debate cuando Fase 1 y 2 estén cerradas.*
+**Pre-condiciones para avanzar a C2/C3 activamente:**
+- Arcanos modelados en override JSON (`arcane-stats.override.json` — Fase 5)
+- Evoluciones Incarnon mapeadas en `EnsembleIntention` + pipeline de hydration
+- Cobertura de mods al ≥70-80% en override
+- Tests C1 cubriendo los casos de la capa de formulas (status, multishot, elemental combine)
+
+**Tareas completadas en esta fase:**
+- [x] `DamageCombiner` movido de `combat/` a `hydration/` — layer boundary cerrada (2026-05-27)
 
 ### Fase 4 — Migrar vocabulario de status-base (YELLOW, medio riesgo)
 
@@ -152,6 +160,7 @@ A largo plazo hay una sola SSoT. Opciones:
 Bloqueado por:
 - `arcane-stats.override.json` no existe todavía
 - Diseño del Ability System no está implementado
+- Evoluciones Incarnon no mapeadas en EnsembleIntention
 
 *Defer hasta que los datos estén disponibles. No tocar.*
 
@@ -160,7 +169,7 @@ Bloqueado por:
 ## 5. Lo que NO se toca en este plan
 
 - `EnemyState`, `EnemyRepository` — correctos, fuera de scope
-- `DamageCombiner` — correcto pero mal ubicado; mover a `hydration/` es Fase 3+, no ahora
+- ~~`DamageCombiner` — correcto pero mal ubicado~~ → movido a `hydration/` (2026-05-27) ✅
 - `SimulationEngine` — correcto; `calculateCurrentValue()` se refina en Fase 2 cuando haya SSoT estable
 - Vocabulary de `EnemyState` proc identifiers (`damage_slash_proc`, etc.) — es D-7 Fase 3
 
@@ -168,8 +177,8 @@ Bloqueado por:
 
 ## 6. Open Questions generadas
 
-| ID | Pregunta | Bloquea |
-|---|---|---|
-| OQ-ENGINE-5 | Purgar `weapon-core.ts` y `warframe-core.ts` — ¿hay alguna razón para no hacerlo? | Fase 1 |
-| OQ-ENGINE-6 | ¿Cómo se reconecta `CombatCalculator` al pipeline de producción? (Opciones A/B/C) | Fase 3 |
-| OQ-ENGINE-7 | ¿`status-base.ts` migra a D-6 o mantiene `DamageType` para las ability formulas? | Fase 4 |
+| ID | Pregunta | Bloquea | Estado |
+|---|---|---|---|
+| OQ-ENGINE-5 | Purgar `weapon-core.ts` y `warframe-core.ts` | Fase 1 | ✅ CERRADO |
+| OQ-ENGINE-6 | WEAPON_FIRE_ITERATIONS no mapeado | Fase 1 | ✅ CERRADO |
+| OQ-ENGINE-7 | `status-base.ts` migra a D-6 o mantiene DamageType | Fase 4 | ABIERTO |

@@ -8,7 +8,7 @@ import { ModRepository } from "./ModRepository";
 import { ShardRepository } from "./ShardRepository";
 import { isUpgrade } from "@shared/types/modifier";
 
-import { DamageCombiner, type ElementalMod } from "../combat/DamageCombiner";
+import { DamageCombiner, type ElementalMod } from "./DamageCombiner";
 import { isWeaponDamageToken } from "../contracts/damage-logic";
 import { getAttributeMetadata } from "../../../lib/presentation/attribute-registry";
 
