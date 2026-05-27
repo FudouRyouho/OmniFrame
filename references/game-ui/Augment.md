@@ -1,6 +1,6 @@
 # Augment Tracking
 
-Marcar con `x` cuando el augment tiene stats documentados en `references/Semantic/`.
+Marcar con `x` cuando el augment tiene stats documentados en `references/*/*.md`.
 
 | Warframe        | Augment                 | ✓ |
 |-----------------|-------------------------|---|
@@ -42,7 +42,7 @@ Marcar con `x` cuando el augment tiene stats documentados en `references/Semanti
 |                 | Chromatic Blade         | x |
 | Excalibur Umbra | Warrior's Rest          |   |
 | Frost           | Biting Frost            |   |
-|                 | Freeze Force            |   |
+|                 | Freeze Force            | x |
 |                 | Ice Wave Impedance      | x |
 |                 | Chilling Globe          | x |
 |                 | Icy Avalanche           | x |
@@ -54,21 +54,21 @@ Marcar con `x` cuando el augment tiene stats documentados en `references/Semanti
 |                 | Blending Talons         | x |
 | Gauss           | Mach Crash              | x |
 |                 | Thermal Transfer        | x |
-| Grendel         | Gourmand                |   |
-|                 | Hearty Nourishment      |   |
+| Grendel         | Gourmand                | x |
+|                 | Hearty Nourishment      | x |
 |                 | Catapult                | x |
 |                 | Gastro                  | x |
-| Gyre            | Coil Recharge           |   |
-|                 | Cathode Current         |   |
-|                 | Conductive Sphere       |   |
-|                 | Reverse Rotorswell      |   |
+| Gyre            | Coil Recharge           | x |
+|                 | Cathode Current         | x |
+|                 | Conductive Sphere       | x |
+|                 | Reverse Rotorswell      | x |
 | Harrow          | Tribunal                | x |
 |                 | Warding Thurible        | x |
 |                 | Lasting Covenant        | x |
 | Hildryn         | Balefire Surge          | x |
 |                 | Blazing Pillage         | x |
 |                 | Aegis Gale              | x |
-| Hydroid         | Viral Tempest           |   |
+| Hydroid         | Viral Tempest           | x |
 |                 | Tidal Impunity          |   |
 |                 | Rousing Plunder         | x |
 |                 | Pilfering Swarm         | x |

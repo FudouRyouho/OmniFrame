@@ -1,3 +1,5 @@
+//! UPDATE NEEDED
+
 # JADE — /Lotus/Powersuits/Choir/Choir
 
 ## /Lotus/Powersuits/PowersuitAbilities/ChoirPoolAbility
@@ -46,5 +48,3 @@ Alternate Fire Radius: 4m
 Empowered Range Multiplier: 1,5x
 Judgment Chance: 10%
 Damage Reduction: 20%
-
-//ACTUALIZAR

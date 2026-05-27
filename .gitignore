@@ -16,8 +16,17 @@ docs-archive/
 
 # ─── Dependencias ────────────────────────────────────────────────────────────
 node_modules/*
+.venv/
+**/__pycache__/
+**/*.pyc
 
 # ─── Datos y temporales del proyecto ─────────────────────────────────────────
 Project/data/
 Project/scratch/
 docs/domains/data/pipeline/audits/
+
+# ─── Sesiones de trabajo (scratchpad de análisis, no SSoT) ───────────────────
+.working/
+
+# ─── Backups de datos ────────────────────────────────────────────────────────
+Project/public/data/bk/*

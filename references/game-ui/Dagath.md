@@ -1,37 +1,40 @@
+//! UPDATE NEEDED
+
 # DAGATH — /Lotus/Powersuits/Dagath/Dagath
+
+##P There is a 35% chance that Energy and Health Orbs will be 300% more effective on Dagath.
 
 ## /Lotus/Powersuits/PowersuitAbilities/DagathVolleyAbility
 // 1 - WYRD SCYTHES
-Drain <ENERGY> 25
-Slow Duration 2s
-Slow 20%
-Spread Range 10m
-Spin Damage <DT_VIRAL> 350
-Throw Damage <DT_VIRAL> 700
+Drain: <ENERGY> 25 $EFFICIENCY
+Slow Duration: 5s $DURATION
+Slow: 35% $STRENGTH
+Spread Range: 15m $RANGE
+Spin Damage: <DT_VIRAL> 500 $STRENGTH
+Throw Damage: <DT_VIRAL> 1000 $STRENGTH
 #### SPECTRAL SPIRIT
 
 ## /Lotus/Powersuits/PowersuitAbilities/DagathCurseAbility
 // 2 - DOOM
-Drain <ENERGY> 50
-Duration 7s
-Range 10m
-Angle 40°
-Damage <DT_VIRA:> 350
-Damage Redirection 35%
+Drain: <ENERGY> 50 $EFFICIENCY
+Duration: 15s $DURATION
+Range: 15m $RANGE
+Angle: 40°
+Damage: <DT_VIRA:> 500 $STRENGTH
+Damage Redirection: 35% $STRENGTH
 
 ## /Lotus/Powersuits/PowersuitAbilities/DagathApparitionAbility
 // 3 - GRAVE SPIRIT
-Drain <ENERGY> 75
-Cooldown <TIMER> 25
-Critical Damage 35%
-Doom Critical Damage 70%
-Time Invulnerable 7s
-Dodge Chance 100%
+Drain: <ENERGY> 75 $EFFICIENCY
+Cooldown: <TIMER> 25
+Critical Damage: 50% $STRENGTH
+Doom Critical Damage: 100% $STRENGTH
+Time Invulnerable: 10s $DURATION
+Dodge Chance: 100%
+
 ## /Lotus/Powersuits/PowersuitAbilities/DagathHorseAbility
 // 4 - RAKHALI'S CAVALRY
-Drain <ENERGY> 100
-Duration: 2s
-Damage <DT_VIRAL> 15.000
-Defense Reduction: 20%
-
-//ACTUALIZAR
+Drain: <ENERGY> 100 $EFFICIENCY
+Duration: 3s $DURATION
+Damage: <DT_VIRAL> 30.000 $STRENGTH
+Defense Reduction: 35% $STRENGTH

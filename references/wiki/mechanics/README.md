@@ -63,6 +63,18 @@ conviene crear documentos separados por familia:
 
 ## Documentos activos
 
+### Defensas y hit-points
+- [armor.md](./armor.md) — fórmula de armor, fuentes ADD vs ADD_FLAT, DR de armor
+- [health.md](./health.md) — fórmula de health, escalado por rank, regen sources
+- [shield.md](./shield.md) — fórmula de shields, Shield Gate, recharge, Overshields
+- [overguard.md](./overguard.md) — capa pre-shield, CC immunity, Magnetic stacking
+- [damage-reduction.md](./damage-reduction.md) — DR total, stacking multiplicativo, caps
+- [hit-points.md](./hit-points.md) — modelo unificado de capas, EHP, bleedout
+
+### Armas — mecánicas de disparo
+- [reload.md](./reload.md) — fórmula de recarga, reload_time vs reload_speed, fuentes ADD
+
+### Daño ofensivo
 - [damage-types.md](./damage-types.md)
 - [critical-hits.md](./critical-hits.md)
 - [multishot.md](./multishot.md)

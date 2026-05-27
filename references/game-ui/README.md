@@ -1,164 +1,137 @@
-# Semantic Reference Format
+# Semantic Reference Format — game-ui/
 
-Fuente de verdad de texto plano para las habilidades de Warframe.
-El objetivo es capturar exactamente lo que muestra el juego en la UI, sin interpretacion.
+Fuente de datos de habilidades por warframe. Cada `.md` captura exactamente lo que muestra el juego en la UI más anotaciones semánticas para el pipeline.
 
----
-
-## Estructura de niveles
-
-```
-# NOMBRE — /Lotus/Powersuits/...  <- comentario de warframe, ignorado por el parser
-
-## /Lotus/Powersuits/PowersuitAbilities/GlaiveAbility   <- clave del output (uniqueName)
-// 1 - SHURIKEN                   <- comentario opcional para legibilidad humana
-Label: valor
-Label: valor
-
-### Subgrupo                      <- grupo exclusivo (forma, elemento, mote) Title Case
-Label: valor
-
-#### NOMBRE AUGMENT               <- grupo no-exclusivo (augment) UPPER CASE
-Label: valor
-
-##! /Lotus/...                    <- skip: habilidad ya procesada en ability-stats.json
-```
-
-El output del parser es un objeto `{ [uniqueName]: { groups } }` directamente
-compatible con `ability-stats.json`. Los `upgradeBy` se asignan manualmente
-en `ability-stats.json` después de importar el output.
+**Rol en el pipeline:** estos archivos son la fuente primaria de `groups`/`stats`/`upgrade_by`/`upgrade_type` para `ability-stats.override.json`. El parser los consume; `generate-data.ts` los integra al merge con los datos DE (`name`, `description`, `image_name` vienen de `@wfcd/items`, no de aquí).
 
 ---
 
-## Reglas de formato
+## Jerarquía de headers
 
-### Headers
-- Warframe: `# NOMBRE — /Lotus/...` — solo como referencia, el parser lo ignora
-- Habilidad: `## /Lotus/Powersuits/PowersuitAbilities/NombreAbility` — uniqueName completo
-- Habilidad procesada: `##! /Lotus/...` — el parser la omite completamente
-- Subgrupo (forma/elemento/mote): `### Nombre` — Title Case
-- Augment: `#### NOMBRE` — UPPER CASE
+```
+# NOMBRE — /Lotus/Powersuits/...     warframe, ignorado por el parser
+## /Lotus/Powersuits/PowersuitAbilities/NombreAbility   → clave del output (uniqueName)
+// comentario humano, ignorado por el parser
+Label: valor $UPGRADE_BY $$UPGRADE_TYPE
+### Subgrupo                         grupo exclusivo (forma, elemento, modo)
+#### AUGMENT                         grupo no-exclusivo, UPPER CASE
+##! /Lotus/...                       skip: habilidad ya procesada
+```
 
-### Labels de stats
-- Title Case exacto como lo muestra el juego: `Drain`, `Damage / Second`, `Energy / Mark`
-- Separador de partes del label: ` / ` (con espacios)
-- Separador label/valor: `: `
+---
 
-### Valores numericos
-- Miles: `.` como separador (1.500, 8.000, 10.000)
-- Decimales: `,` como separador (1,5s, 0,5x, 67,5)
-- Rango min-max: `400 - 800` (con espacios alrededor del guion)
-- Unidades pegadas al numero: `10m`, `12s`, `50%`, `1,25x`
+## Anotaciones semánticas
 
-### Comentarios (el parser los ignora)
-- Linea que empieza con `//`
-- Ejemplo: `// Solo puede equiparse un aumento a la vez`
+Las anotaciones van inline al final de cada línea de stat, después del valor.
+
+| Símbolo | Campo | Ejemplo |
+|---|---|---|
+| `$TOKEN` | `upgrade_by` | `Damage: 750 $AVATAR_ABILITY_STRENGTH` |
+| `$$TOKEN` | `upgrade_type` | `Reload Speed: 35% $$WEAPON_RELOAD_SPEED` |
+
+**Reglas:**
+- Si una línea no tiene `$` → valor fijo (`upgrade_by` ausente en el output, no `NONE`).
+- `$$` solo cuando la habilidad modifica un atributo externo (arma, otro warframe, etc.).
+- `$` y `$$` pueden coexistir en la misma línea: `Label: val $UPGRADE_BY $$UPGRADE_TYPE`.
+- `//` al final de una línea o en línea propia → comentario, ignorado. Usar para incertidumbre.
+
+```
+Drain: <ENERGY> 50 $ENERGY_COST
+Radius: 12m $AVATAR_ABILITY_RANGE
+Duration: 23s $AVATAR_ABILITY_DURATION
+Reload Speed: 35% $AVATAR_ABILITY_DURATION $$WEAPON_RELOAD_SPEED
+Status Chance: 10%                          // sin $ → valor fijo, no escala
+```
+
+**Vocabulario `upgrade_by` activo** (extensible — agregar con `//` si hay duda):
+`AVATAR_ABILITY_STRENGTH` · `AVATAR_ABILITY_RANGE` · `AVATAR_ABILITY_DURATION` · `AVATAR_ABILITY_EFFICIENCY` · `ENERGY_COST` · `ENERGY_DRAIN`
+
+---
+
+## Formato de valores
+
+| Caso | Formato | Ejemplo |
+|---|---|---|
+| Miles | `.` como separador | `1.500`, `8.000` |
+| Decimales | `,` como separador | `1,5s`, `67,5%` |
+| Rango min-max | `val1 - val2` con espacios | `40 - 85%` |
+| Unidades | pegadas al número | `10m`, `12s`, `50%`, `1,25x` |
+
+**Min-max:** una sola anotación `$` cubre ambos valores (comparten `upgrade_by`). El parser produce dos `AbilityStatValue`.
+```
+Damage Reduction: 40 - 85% $AVATAR_ABILITY_STRENGTH
+```
+
+---
+
+## Etiquetas de tipo de daño e icono
+
+Cuando el juego muestra un icono de elemento, va pegado al valor en el label:
+```
+Damage: <DT_SLASH_COLOR> 750
+Damage: <DT_SLASH_COLOR> <DT_IMPACT_COLOR> 1.500
+Drain: <ENERGY> 25 $ENERGY_COST
+```
+
+Tags disponibles: `<DT_COLD_COLOR>` `<DT_HEAT_COLOR>` `<DT_ELECTRICITY_COLOR>` `<DT_TOXIN_COLOR>` `<DT_BLAST_COLOR>` `<DT_RADIATION_COLOR>` `<DT_SLASH_COLOR>` `<DT_IMPACT_COLOR>` `<DT_PUNCTURE_COLOR>` `<DT_VIRAL_COLOR>` `<DT_CORROSIVE_COLOR>` `<DT_GAS_COLOR>` `<DT_MAGNETIC_COLOR>` `<DT_VOID_COLOR>` `<ENERGY>` `<HEALTH>` `<SHIELD>`
 
 ---
 
 ## Casos especiales
 
-### Habilidades con subgrupos exclusivos (Chroma, Equinox)
-Los subgrupos van en `###`. Son mutuamente excluyentes entre si.
-El augment va siempre en `####`, despues de todos los subgrupos.
-
+**Subgrupos exclusivos (Chroma, Equinox):** los variantes van en `###`, son mutuamente excluyentes. El augment siempre en `####` después de todos los subgrupos.
 ```
-## 2 - ELEMENTAL WARD
-Drain: 50
-Duration: 23s
+## /Lotus/.../DragonLuckAbility
+Drain: <ENERGY> 50 $ENERGY_COST
+Duration: 23s $AVATAR_ABILITY_DURATION
 ### Heat
-Health: 55%
+Health: 55% $AVATAR_ABILITY_STRENGTH
 ### Cold
-Armor: 145%
+Armor: 145% $AVATAR_ABILITY_STRENGTH
 #### EVERLASTING WARD
 Duration: 100%
 ```
 
-### Habilidades con dos augments (Chroma Vex Armor)
-Cada augment en su propio `####`. Son mutuamente excluyentes entre si.
-Documentar con `//` si aplica.
-
+**Augments múltiples mutuamente excluyentes:** documentar con `//`.
 ```
 #### VEXING RETALIATION
-// Solo puede equiparse un aumento a la vez
-Explosion Damage: 100
+// exclusivo con GUARDIAN ARMOR
+Explosion Damage: 100 $AVATAR_ABILITY_STRENGTH
 #### GUARDIAN ARMOR
-// Solo puede equiparse un aumento a la vez
+// exclusivo con VEXING RETALIATION
 Damage Reduction: 75%
 ```
 
-### Stats con rango min-max (Ember)
-Dos valores bajo el mismo label, separados con ` - `.
-Ambos escalan con el mismo upgradeBy.
+---
 
-```
-Damage Reduction: 40 - 85%
-Drain: 75 - 25
-```
+## Anotaciones diseñadas — parser pendiente
 
-### Stats con valor base y modificado por augment
-No anotar el valor del augment en el grupo base.
-El valor del augment va en el grupo `####` como stat propio.
+Los siguientes campos tienen **sintaxis `<key:value/>` acordada** pero el parser aún no los procesa. Anotarlos en `.md` hoy produce `console.warn` y el campo se ignora. Se implementan cuando haya casos reales suficientes.
+
+| Anotación | Campo output | Ejemplo |
+|---|---|---|
+| `<cap:N/>` | `cap: N` | `Damage: 750 $STRENGTH <cap:1500/>` |
+| `<cap:N-M/>` | `cap: [N, M]` | `Range: 5 - 18m $RANGE <cap:12-30/>` |
+| `<floor:N/>` | `floor: N` | `Energy Cost: 25 $ENERGY_COST <floor:6.25/>` |
+| `<floor:N-M/>` | `floor: [N, M]` | `Range: 5 - 18m $RANGE <floor:2-5/>` |
+| `<inv/>` | `inverse: true` | `Cooldown: 10s <inv/>` |
+
+**Distinción de tags:** `<key:value/>` es parseable (minúsculas + colon + self-closing). `<DT_HEAT>` y similares son pass-through de la UI — el parser los ignora, van al label tal cual.
+
+**Multi-scaling** (`upgrade_by` como array): cuando un stat escala con dos modificadores, el parser toma el primero; el segundo se ignora hasta que exista `formulas/ability/`. Para verificar la fórmula real, consultar `references/wiki/modules/raw/maximization-data.lua`.
+
+---
+
+## Fuera de scope
+
+`helminth_base`, `helminth_cap` — sin anotación por ahora. Sin suficientes casos.
+
+La sintaxis de **passives** (`##P` u equivalente) está en diseño — se define después de las primeras pruebas de concepto con habilidades normales.
 
 ---
 
 ## Lo que NO va en estos archivos
-- Descripciones de habilidades (las provee el JSON generado)
-- upgradeBy / upgradeType (se resuelven en el parser o manualmente en el JSON)
-- Valores de rangos intermedios (solo rango maximo)
-- Stats de armas exaltadas (crit, status — pertenecen al arma, no a la habilidad)
 
-## Labels con icono de tipo de daño
-Cuando el juego muestra un icono de elemento antes del valor, se incluye el tag en el label.
-El icono va pegado al placeholder del valor, reflejando la posicion exacta en la UI.
-
-```
-Damage: <DT_COLD_COLOR> |val1|
-Extra Damage: <DT_COLD_COLOR> |val1|%
-```
-
-Cuando hay multiples tipos de daño en el mismo valor, se listan en secuencia:
-
-```
-Damage: <DT_SLASH_COLOR> <DT_IMPACT_COLOR> <DT_PUNCTURE_COLOR> |val1|
-```
-
-Tags disponibles (mismos que usa FormattedText.tsx):
-`<DT_COLD_COLOR>`, `<DT_HEAT_COLOR>`, `<DT_ELECTRICITY_COLOR>`, `<DT_TOXIN_COLOR>`,
-`<DT_BLAST_COLOR>`, `<DT_RADIATION_COLOR>`, `<DT_SLASH_COLOR>`, `<DT_IMPACT_COLOR>`,
-`<DT_PUNCTURE_COLOR>`, `<DT_VIRAL_COLOR>`, `<DT_CORROSIVE_COLOR>`, `<DT_GAS_COLOR>`,
-`<DT_MAGNETIC_COLOR>`, `<DT_VOID_COLOR>`
-
-
-Actualizacion
-
-- Se deja de añadir 'passive' como campo, ya que esta la provee la api practicamente de la misma manera, se 'revisara' en mas adelante junto a las descripciones de las habilidades.
-
-- Uso de la siguiente semantica:
-# LABEL
-## ABILITY
-### HEADER
-#### AUGMENT
-
-// <> aun no soportados por el formateo, pero son canonicos y utilizados en la UI de warframe `wiki.warframe.com/w/Text_Icons`
-
-<DT_IMPACT>
-<DT_PUNCTURE>
-<DT_SLASH>
-<DT_HEAT>
-<DT_COLD>
-<DT_ELECTRICITY>
-<DT_TOXIN>
-<DT_BLAST>
-<DT_RADIATION>
-<DT_GAS>
-<DT_MAGNETIC>
-<DT_VIRAL>
-<DT_CORROSIVE>
-<DT_VOID>
-<DT_TAU>
-<DT_TRUE>
-
-<ENERGY> // No siempre representa el consumo de energia o regeneracion
-<HEALTH> // No siempre representa el consumo de vida
-<SHIELD> // No siempre representa el consumo de escudo (caso hildryn) o la recuperacion del mismo
+- `name`, `description`, `image_name` de la habilidad → vienen de `@wfcd/items` vía pipeline
+- Stats de armas exaltadas (crit, status) → pertenecen al arma, no a la habilidad
+- Valores de rangos intermedios → solo rango máximo
