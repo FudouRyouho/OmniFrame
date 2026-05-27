@@ -41,11 +41,11 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 
 ---
 
-## OQ-ENGINE-1 — Patrón WEAPON_DAMAGE como multiplicador global — **ABIERTO (2026-05-18)**
+## OQ-ENGINE-1 — Patrón WEAPON_DAMAGE como multiplicador global — **CERRADO (2026-05-27)**
 **Dominio:** engine / architecture
-**Contexto:** `StaticHydrator` inyecta un nodo `WEAPON_DAMAGE` (base 100) en toda entidad. `calculateCurrentValue()` aplica `WEAPON_DAMAGE.final / 100` como multiplicador implícito a todos los `damage_*` nodos. Mods como Serration hacen `ADD` a `WEAPON_DAMAGE`, no a cada tipo de daño individualmente. Este patrón no está documentado en `simulation-architecture.md`.
-**Pregunta:** ¿Es la arquitectura definitiva o un hack temporal? Si es definitiva, documentar. Si no, ¿cuál es el modelo correcto (Serration aplica como `MULTIPLICATIVE` en cada `damage_*`)?
-**Fuente:** `docs/domains/engine/engine-audit.md §4.1`
+**Decisión:** El patrón es la arquitectura definitiva. `StaticHydrator` inyecta `WEAPON_DAMAGE` (base 100) en toda entidad arma. Mods como Serration hacen `ADD` al pool aditivo de `WEAPON_DAMAGE`. `calculateCurrentValue()` aplica `WEAPON_DAMAGE.final / 100` como multiplicador global a todos los nodos `WEAPON_ADD_*_DAMAGE`. Esto implementa correctamente el stacking aditivo de Warframe: `Base × (1 + ΣSerration + ΣHeavyCal + ...)`, validado en `references/wiki/mechanics/calculating-bonuses.md §Stacking ADITIVO`. No es un hack — es el modelo canónico del juego.
+**Validación:** 31 tests gold standard contra valores reales del juego passing (2026-05-27): Aklex Prime + Cedo Prime, incluyendo Hornet Strike (+220%), multishot y crít.
+**Fuente:** `docs/domains/engine/engine-audit.md §4.1`, `references/wiki/mechanics/calculating-bonuses.md`
 
 ## OQ-ENGINE-2 — Profile switching en runtime (Incarnon/Alt-fire) — **ABIERTO (2026-05-18)**
 **Dominio:** engine / simulation-context
@@ -53,18 +53,16 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 **Pregunta:** ¿El motor debe re-hidratar al cambiar perfil (path simple), o debe conmutar atributos durante `resolve()` (path diseñado)? El diseño original requería el segundo.
 **Fuente:** `docs/domains/engine/engine-audit.md §2.4`
 
-## OQ-ENGINE-3 — Label parsing para tipo elemental en ModRepository — **ABIERTO (2026-05-18)**
+## OQ-ENGINE-3 — Label parsing para tipo elemental en ModRepository — **CERRADO (2026-05-27)**
 **Dominio:** engine / data-pipeline
-**Contexto:** `ModRepository.getModifiers()` detecta el tipo elemental de un mod buscando el nombre del elemento en `stat.label` (campo de texto libre). Un cambio en el texto del override JSON rompería la resolución silenciosamente.
-**Pregunta:** ¿Se agrega un campo explícito `element_type` al schema `ModStat` en el override JSON? Ver `docs/data/schemas/mods/mods-schema.md`.
-**Fuente:** `docs/domains/engine/engine-audit.md §4.3`
+**Decisión:** No aplica. La implementación v2 de `ModRepository.getModifiers()` no hace label parsing. Consume `val.upgrade_type` directamente vía `isUpgrade()` + `UPGRADE_MAP` / `resolveToken()`. El tipo elemental ya está declarado en el token D-6 (ej. `WEAPON_ADD_TOXIN_DAMAGE`). El campo `stat.label` existe en el override como texto descriptivo pero no se parsea ni se procesa. El problema documentado en `engine-audit.md §4.3` nunca llegó a producción en la implementación v2.
+**Fuente:** `Project/src/core/engine/hydration/ModRepository.ts` línea 43
 
-## OQ-ENGINE-4 — DNA Mutation (Archon Shards, Helminth) — ¿Cuándo? — **ABIERTO (2026-05-18)**
+## OQ-ENGINE-4 — DNA Mutation (Archon Shards, Helminth) — **CERRADO (2026-05-27)**
 **Dominio:** engine / layer-B
-**Contexto:** El diseño pone la mutación de ADN en la Capa B (MutatorBridge): antes de emitir el ensemble hidratado, se aplican Archon Shards y Helminth directamente sobre los valores base. La implementación tiene `shards: []` y `helminth: undefined` hardcodeados en `EnsembleAdapter`. No está cubierto en las fases del roadmap (Fase 6 tampoco lo menciona explícitamente).
-**Hallazgo (2026-05-26):** `MutatorBridge.ensembleFromIntention()` sí extrae los shards de la `EnsembleIntention` y los pasa al `Ensemble`. El gap real está en `StaticHydrator.hydrate()` — el campo `ensemble.warframe.shards` nunca se consume. Los modificadores de Archon Shard no se emiten en ningún paso de la simulación. El vocabulario D-6 de tokens de shard (`AVATAR_FLAT_HEALTH_MAX`, `WEAPON_MELEE_ADD_CRIT_MULT`, etc.) está completo y correcto — solo falta el consumer en `StaticHydrator`.
-**Pregunta:** ¿En qué Fase del roadmap se implementa? ¿Bloquea algo antes de Fase 8?
-**Refs:** `Project/src/core/engine/hydration/StaticHydrator.ts`, `Project/src/core/engine/bridge/MutatorBridge.ts`, `docs/domains/engine/engine-audit.md §3`
+**Decisión:** Archon Shards implementados en `StaticHydrator.hydrate()` (2026-05-27). El consumer loop lee `ensemble.warframe.shards`, resuelve cada shard vía `ShardRepository.resolve(type, stat, isTau)`, y emite `Modifier` objects con `target_entity` correcta (warframe ID o weapon ID según `resolved.target_channel`). Los Archon Shards siguen el mismo flujo que los mods — son `Modifier` objects, no mutaciones de ADN. Helminth permanece sin implementar (no hay datos de overrides para habilidades de Helminth).
+**Arquitectura decidida:** Shards = mods en slots especiales. No requieren schema separado — se procesan en el mismo paso de hidratación que los mods de arma/warframe.
+**Refs:** `Project/src/core/engine/hydration/StaticHydrator.ts` líneas 103-127, `Project/src/core/engine/hydration/ShardRepository.ts`
 
 ---
 
@@ -73,11 +71,10 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 **Referencia:** `docs/domains/engine/design/simulation-architecture.md`
 **⚠️ Drift (2026-05-18):** La decisión fue documentada pero no implementada. `LoadoutProvider` existe físicamente con referencias activas. Ver OQ-STATE-3.
 
-## OQ-5 - Punto de migracion de hidratacion a build time
-**Estado:** **ABIERTO**
+## OQ-5 - Punto de migracion de hidratacion a build time — **CERRADO (2026-05-27)**
 **Dominio:** integración / data
-**Pregunta:** ¿Cuándo deja de vivir la hidratación de habilidades en runtime y pasa al pipeline de build?
-**Impacto:** Afecta performance del engine y fidelidad de los datos.
+**Decisión:** No aplica a la arquitectura actual. El engine v2 no tiene "hidratación de habilidades en runtime" como problema. `StaticHydrator` opera con `override JSON` (cargados una sola vez al inicio) + `*Repository` classes — el patrón ya es funcionalmente equivalente a build-time. Los overrides son SSoT estático. No hay nada que migrar. Si en el futuro las habilidades requieren cálculo dinámico de stats (ej. formulas que dependen del nivel del jugador en tiempo real), se abre un nuevo OQ con ese scope concreto.
+**Refs:** `Project/src/core/engine/hydration/StaticHydrator.ts`, `Project/src/core/engine/hydration/ItemRepository.ts`
 
 ## OQ-12 - Definicion del contrato de Proyección (B4) — **CERRADO (2026-04-21)**
 **Solución:** El contrato de salida es un **Projection Snapshot** inmutable y serializable. La reactividad se maneja mediante un **Selective UI Reactive Bridge** externo al motor.
