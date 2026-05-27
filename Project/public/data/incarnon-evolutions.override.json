@@ -1,0 +1,113 @@
+{
+  "/Lotus/Weapons/Tenno/Rifle/BoltoRifle": {
+    "evolutions": {
+      "2": {
+        "hunters_mantra": [
+          { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 18 },
+          { "upgrade_type": null, "condition": "channeled_ability_active", "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
+        ],
+        "crimson_overture": [
+          { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 12 },
+          { "upgrade_type": null, "condition": "on_kill_stacking", "note": "WEAPON_BASE_DAMAGE +2 per kill, max 4 stacks — dynamic buff, no modelable en snapshot estático" }
+        ]
+      },
+      "3": {
+        "swift_deliverance": [
+          { "upgrade_type": null, "note": "WEAPON_ADD_PROJECTILE_SPEED +60% — token pending" }
+        ],
+        "extended_volley": [
+          { "upgrade_type": "WEAPON_BASE_MAGAZINE_MAX", "value": 20 }
+        ],
+        "rapid_reinforcement": [
+          { "upgrade_type": "WEAPON_ADD_RELOAD_SPEED", "value": 60 }
+        ]
+      },
+      "4": {
+        "elemental_balance": [
+          { "upgrade_type": "WEAPON_BASE_STATUS_CHANCE", "value": 20 }
+        ],
+        "survivors_edge": [
+          { "upgrade_type": "WEAPON_BASE_CRIT_CHANCE", "value": 8 },
+          { "upgrade_type": "WEAPON_BASE_STATUS_CHANCE", "value": 8 }
+        ],
+        "commodores_fortune": [
+          { "upgrade_type": "WEAPON_BASE_CRIT_CHANCE", "value": 12 }
+        ]
+      }
+    }
+  },
+  "/Lotus/Weapons/Syndicates/ArbitersOfHexis/LongGuns/AHBoltor": {
+    "evolutions": {
+      "2": {
+        "hunters_mantra": [
+          { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 4 },
+          { "upgrade_type": null, "condition": "channeled_ability_active", "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
+        ],
+        "crimson_overture": [
+          { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 2 },
+          { "upgrade_type": null, "condition": "on_kill_stacking", "note": "WEAPON_BASE_DAMAGE +2 per kill, max 3 stacks — dynamic buff, no modelable en snapshot estático" }
+        ]
+      },
+      "3": {
+        "swift_deliverance": [
+          { "upgrade_type": null, "note": "WEAPON_ADD_PROJECTILE_SPEED +60% — token pending" }
+        ],
+        "extended_volley": [
+          { "upgrade_type": "WEAPON_BASE_MAGAZINE_MAX", "value": 20 }
+        ],
+        "rapid_reinforcement": [
+          { "upgrade_type": "WEAPON_ADD_RELOAD_SPEED", "value": 60 }
+        ]
+      },
+      "4": {
+        "elemental_balance": [
+          { "upgrade_type": "WEAPON_BASE_STATUS_CHANCE", "value": 20 }
+        ],
+        "survivors_edge": [
+          { "upgrade_type": "WEAPON_BASE_CRIT_CHANCE", "value": 4 },
+          { "upgrade_type": "WEAPON_BASE_STATUS_CHANCE", "value": 4 }
+        ],
+        "commodores_fortune": [
+          { "upgrade_type": "WEAPON_BASE_CRIT_CHANCE", "value": 6 }
+        ]
+      }
+    }
+  },
+  "/Lotus/Weapons/Tenno/LongGuns/PrimeBoltor/PrimeBoltor": {
+    "evolutions": {
+      "2": {
+        "hunters_mantra": [
+          { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 4 },
+          { "upgrade_type": null, "condition": "channeled_ability_active", "note": "WEAPON_ADD_PUNCH_THROUGH +4, WEAPON_ADD_ACCURACY +40% — tokens pending" }
+        ],
+        "crimson_overture": [
+          { "upgrade_type": "WEAPON_BASE_DAMAGE", "value": 2 },
+          { "upgrade_type": null, "condition": "on_kill_stacking", "note": "WEAPON_BASE_DAMAGE +2 per kill, max 3 stacks — dynamic buff, no modelable en snapshot estático" }
+        ]
+      },
+      "3": {
+        "swift_deliverance": [
+          { "upgrade_type": null, "note": "WEAPON_ADD_PROJECTILE_SPEED +60% — token pending" }
+        ],
+        "extended_volley": [
+          { "upgrade_type": "WEAPON_BASE_MAGAZINE_MAX", "value": 20 }
+        ],
+        "rapid_reinforcement": [
+          { "upgrade_type": "WEAPON_ADD_RELOAD_SPEED", "value": 60 }
+        ]
+      },
+      "4": {
+        "elemental_balance": [
+          { "upgrade_type": "WEAPON_BASE_STATUS_CHANCE", "value": 18 }
+        ],
+        "survivors_edge": [
+          { "upgrade_type": "WEAPON_BASE_CRIT_CHANCE", "value": 10 },
+          { "upgrade_type": "WEAPON_BASE_STATUS_CHANCE", "value": 10 }
+        ],
+        "commodores_fortune": [
+          { "upgrade_type": "WEAPON_BASE_CRIT_CHANCE", "value": 14 }
+        ]
+      }
+    }
+  }
+}

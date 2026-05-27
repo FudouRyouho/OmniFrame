@@ -6,6 +6,7 @@
 import type { Ensemble, MutatedDNA, SimulationEntity, AttributeNode, Modifier } from "../contracts";
 import { ModRepository } from "./ModRepository";
 import { ShardRepository } from "./ShardRepository";
+import { IncarnationRepository } from "./IncarnationRepository";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, type ElementalMod } from "./DamageCombiner";
@@ -23,16 +24,16 @@ export class StaticHydrator {
     const entities: SimulationEntity[] = [];
     const modifiers: Modifier[] = [];
 
-    const intents: { entity_id: string, slots: Record<number, { mod_id?: string; level?: number }>, profile_id: string }[] = [];
-    
-    intents.push({ 
-      entity_id: ensemble.warframe.id, 
-      slots: ensemble.warframe.slots, 
-      profile_id: "base" 
+    const intents: { entity_id: string, slots: Record<number, { mod_id?: string; level?: number }>, profile_id: string, evolution_perks?: Record<number, string> }[] = [];
+
+    intents.push({
+      entity_id: ensemble.warframe.id,
+      slots: ensemble.warframe.slots,
+      profile_id: "base"
     });
-    if (ensemble.weapons.primary) intents.push({ entity_id: ensemble.weapons.primary.id, slots: ensemble.weapons.primary.slots, profile_id: ensemble.weapons.primary.active_profile_id });
-    if (ensemble.weapons.secondary) intents.push({ entity_id: ensemble.weapons.secondary.id, slots: ensemble.weapons.secondary.slots, profile_id: ensemble.weapons.secondary.active_profile_id });
-    if (ensemble.weapons.melee) intents.push({ entity_id: ensemble.weapons.melee.id, slots: ensemble.weapons.melee.slots, profile_id: ensemble.weapons.melee.active_profile_id });
+    if (ensemble.weapons.primary) intents.push({ entity_id: ensemble.weapons.primary.id, slots: ensemble.weapons.primary.slots, profile_id: ensemble.weapons.primary.active_profile_id, evolution_perks: ensemble.weapons.primary.evolution_perks });
+    if (ensemble.weapons.secondary) intents.push({ entity_id: ensemble.weapons.secondary.id, slots: ensemble.weapons.secondary.slots, profile_id: ensemble.weapons.secondary.active_profile_id, evolution_perks: ensemble.weapons.secondary.evolution_perks });
+    if (ensemble.weapons.melee) intents.push({ entity_id: ensemble.weapons.melee.id, slots: ensemble.weapons.melee.slots, profile_id: ensemble.weapons.melee.active_profile_id, evolution_perks: ensemble.weapons.melee.evolution_perks });
 
     // 2. Hydrate Entities and Modifiers
     intents.forEach(intent => {
@@ -96,6 +97,12 @@ export class StaticHydrator {
          };
       });
       
+      // Incarnon evolution perks
+      if (intent.evolution_perks) {
+        const perk_mods = IncarnationRepository.getModifiers(intent.entity_id, intent.evolution_perks, dna.entity_id);
+        modifiers.push(...perk_mods);
+      }
+
       entities.push(entity);
     });
 

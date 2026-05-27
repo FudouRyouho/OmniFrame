@@ -149,4 +149,5 @@ export interface WeaponIntent {
   id: string;
   slots: Record<number, { mod_id?: string; level?: number }>;
   active_profile_id: string;
+  evolution_perks?: Record<number, string>;
 }

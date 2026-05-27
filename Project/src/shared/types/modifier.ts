@@ -68,6 +68,11 @@ export const UPGRADES = [
   'WEAPON_ADD_MAGAZINE_MAX',
   'WEAPON_ADD_RELOAD_SPEED',
   'WEAPON_ADD_STATUS_DAMAGE',
+  // ── WEAPON — perks base incarnon (BASE_FLAT — se amplifican con mods ADD) ─
+  'WEAPON_BASE_CRIT_CHANCE',
+  'WEAPON_BASE_STATUS_CHANCE',
+  'WEAPON_BASE_DAMAGE',
+  'WEAPON_BASE_MAGAZINE_MAX',
   // ── WEAPON — sub-familia clase (D-6 extensión, activa 2026-05-26) ────────
   // Patrón: {FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
   // Sin entrada en UPGRADE_MAP — pipeline deuda D-7. Engine los consumirá directamente.
@@ -185,6 +190,12 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
   WEAPON_ADD_MAGAZINE_MAX:          { attr: 'WEAPON_ADD_MAGAZINE_MAX',          op: 'ADD' },
   WEAPON_ADD_RELOAD_SPEED:          { attr: 'WEAPON_ADD_RELOAD_SPEED',          op: 'ADD' },
   WEAPON_ADD_STATUS_DAMAGE:         { attr: 'WEAPON_ADD_STATUS_DAMAGE',         op: 'ADD' },
+
+  // ── WEAPON — perks base incarnon (BASE_FLAT — se amplifican con mods ADD) ─
+  WEAPON_BASE_CRIT_CHANCE:          { attr: 'WEAPON_ADD_CRIT_CHANCE',           op: 'BASE_FLAT' },
+  WEAPON_BASE_STATUS_CHANCE:        { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'BASE_FLAT' },
+  WEAPON_BASE_DAMAGE:               { attr: 'WEAPON_DAMAGE',                    op: 'BASE_FLAT' },
+  WEAPON_BASE_MAGAZINE_MAX:         { attr: 'WEAPON_ADD_MAGAZINE_MAX',          op: 'BASE_FLAT' },
 
   // ── GAMEPLAY — facción ────────────────────────────────────────────────────
   // toPercent: JSON almacena 1.30 = +30% → convierte a 30 para mods_add_pct.

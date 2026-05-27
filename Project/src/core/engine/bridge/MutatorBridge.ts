@@ -107,7 +107,8 @@ export class MutatorBridge {
     return {
       id: item.itemId,
       slots: this.intentionSlots(intention, channel),
-      active_profile_id: item.active_profile || "base"
+      active_profile_id: item.active_profile || "base",
+      ...(item.evolution_perks ? { evolution_perks: item.evolution_perks } : {})
     };
   }
 

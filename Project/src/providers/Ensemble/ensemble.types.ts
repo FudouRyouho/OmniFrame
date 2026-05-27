@@ -13,8 +13,9 @@ export interface ArchonShardIntent {
 export interface SlotIntention {
   itemId: string | null;
   rank: number;
-  shards?: ArchonShardIntent[];  // warframe only — 5 slots
-  active_profile?: string;        // weapon only — 'base' | 'incarnon'
+  shards?: ArchonShardIntent[];           // warframe only — 5 slots
+  active_profile?: string;                // weapon only — 'base' | 'incarnon_form'
+  evolution_perks?: Record<number, string>; // weapon incarnon only — tier → perk id
 }
 
 // Deuda de tipo: ModIntention hereda 'rank' de SlotIntention pero el campo
