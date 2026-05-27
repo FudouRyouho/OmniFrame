@@ -5,7 +5,7 @@ Version: "v0.1.2"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-05-27 (actualización #2)"
 ---
 
 # OmniFrame — Estado Actual
@@ -26,7 +26,7 @@ Fecha_de_actualizacion: "2026-05-27"
 | `core/engine/loadout.ts` | **ELIMINADO (2026-05-21)** | `LoadoutState` y `LoadoutIntent` eliminados junto con la vía legacy de `MutatorBridge`. |
 | `core/engine/formulas/` | **Activo — SSoT real** | Fórmulas matemáticas por categoría: ability, arcane, weapon, warframe, common. `crit-base.ts` ← `AtomicSimulator`; `scaling-base.ts` ← `SimulationEngine`. Código vivo desde Fase 2 de `formulas-integration.md` (2026-05-27). `weapon-core.ts` y `warframe-core.ts` purgados (Fase 1). |
 | `core/engine/contracts/` | **Activo** | Contratos del motor: `damage-logic.ts`, `damage-multipliers.ts`, `mod-overrides.ts`. (`attributes.ts` eliminado en refactor 2026-05-21.) |
-| `core/engine/bridge/` + `combat/` + `hydration/` + `resolution/` | **Activo** | Implementación del motor: `SimulationEngine`, `MutatorBridge`, `CombatCalculator`, `StatusEngine`, `TimelineSimulator`, `StaticHydrator`, `ModRepository`, y más. `EnsembleAdapter` eliminado (2026-05-19). `DamageCombiner` movido de `combat/` a `hydration/` (2026-05-27 — layer boundary). |
+| `core/engine/bridge/` + `combat/` + `hydration/` + `resolution/` | **Activo** | Implementación del motor: `SimulationEngine`, `MutatorBridge`, `CombatCalculator`, `StatusEngine`, `TimelineSimulator`, `StaticHydrator`, `ModRepository`, `IncarnationRepository` (2026-05-27), y más. `EnsembleAdapter` eliminado (2026-05-19). `DamageCombiner` movido de `combat/` a `hydration/` (2026-05-27 — layer boundary). |
 | `core/engine/hooks/useSimulation.ts` | **Activo** | Hook React que conecta `EnsembleStore` al motor vía `MutatorBridge`. |
 | `core/engine/__tests__-legacy/` | **ELIMINADO** | 12 suites de test purgadas en sesión anterior. |
 
@@ -91,6 +91,8 @@ Fecha_de_actualizacion: "2026-05-27"
 | `formulas/` era código muerto — nadie lo consumía | Conectado a `AtomicSimulator` (crit-base) y `SimulationEngine` (scaling-base). | ✅ Resuelto — Fase 1+2 de `formulas-integration.md` (2026-05-27) |
 | `DamageCombiner` en `combat/` — violación de layer boundary | Solo consumido desde `StaticHydrator` (hydration/). | ✅ Resuelto — movido a `hydration/` (2026-05-27) |
 | Archon Shards no emitían `Modifier` objects | `StaticHydrator` nunca consumía `ensemble.warframe.shards`. | ✅ Resuelto — consumer loop implementado (2026-05-27) |
+| `WEAPON_DAMAGE.base` hardcodeado a 100 (abstracción porcentual) | Base debería ser la suma real de daños del perfil — `globalMult = final/100` era semánticamente incorrecto. | ✅ Resuelto — `ItemRepository` calcula `damage_sum`; `SimulationEngine` usa `final/base` (2026-05-27) |
+| Incarnon Genesis perks sin pipeline de datos | No había schema, repositorio ni tokens `WEAPON_BASE_*` para modelar los perks de evolución. | ✅ Resuelto — `IncarnationRepository`, `incarnon-evolutions.override.json`, tokens `WEAPON_BASE_*` en UPGRADE_MAP, `evolution_perks` en `SlotIntention`/`WeaponIntent` (2026-05-27) |
 
 ---
 
