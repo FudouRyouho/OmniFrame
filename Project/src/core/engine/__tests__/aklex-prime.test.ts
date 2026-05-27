@@ -96,22 +96,22 @@ describe('Aklex Prime — sin mods (stats base)', () => {
     expect(attrs.WEAPON_ADD_STATUS_CHANCE?.final).toBeCloseTo(25, 1);
   });
 
-  it('WEAPON_DAMAGE global permanece en 100 (sin mods de daño)', () => {
+  it('WEAPON_DAMAGE.base = suma de daños del perfil (Impact 15 + Slash 15 + Puncture 120 = 150)', () => {
     const attrs = simulate(emptyIntention());
-    expect(attrs.WEAPON_DAMAGE?.final).toBeCloseTo(100, 0);
+    expect(attrs.WEAPON_DAMAGE?.final).toBeCloseTo(150, 0);
   });
 });
 
 describe('Aklex Prime — Hornet Strike rango máximo (+220% daño)', () => {
   // Hornet Strike max (rank 10): +220%
-  // WEAPON_DAMAGE: 100 × (1 + 220/100) = 320 → globalDmgMult = 3.2
+  // WEAPON_DAMAGE: 150 × (1 + 220/100) = 480 → globalDmgMult = 480/150 = 3.2
   // Cada daño base × 3.2
   const attrs = () => simulate(withMods({ 0: { id: MOD.HORNET_STRIKE, rank: 10 } }));
 
   it('Impact: 15 × 3.2 = 48', () => expect(attrs().WEAPON_ADD_IMPACT_DAMAGE?.final).toBeCloseTo(48, 0));
   it('Slash: 15 × 3.2 = 48',  () => expect(attrs().WEAPON_ADD_SLASH_DAMAGE?.final).toBeCloseTo(48, 0));
   it('Puncture: 120 × 3.2 = 384', () => expect(attrs().WEAPON_ADD_PUNCTURE_DAMAGE?.final).toBeCloseTo(384, 0));
-  it('WEAPON_DAMAGE: 320', () => expect(attrs().WEAPON_DAMAGE?.final).toBeCloseTo(320, 0));
+  it('WEAPON_DAMAGE.final con Hornet Strike +220%: 150 × 3.2 = 480', () => expect(attrs().WEAPON_DAMAGE?.final).toBeCloseTo(480, 0));
 });
 
 describe('Aklex Prime — crit mods al máximo', () => {

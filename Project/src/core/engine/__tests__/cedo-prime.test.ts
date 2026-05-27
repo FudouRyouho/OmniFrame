@@ -91,7 +91,7 @@ beforeAll(() => {
 // ─── Tests (Normal Attack / perfil 'base') ────────────────────────────────────
 
 describe('Cedo Prime — daño físico y elemental', () => {
-  // Base: Puncture 32. globalMult = 265/100 = 2.65
+  // Base: Puncture 32. globalMult = 84.8/32 = 2.65
   // Viral: (32 × 60/100 + 32 × 165/100) × 2.65 = 72 × 2.65 = 190.8
   it('Puncture: 32 × 2.65 = 84.8', () => {
     expect(simulate().WEAPON_ADD_PUNCTURE_DAMAGE?.final).toBeCloseTo(84.8, 1);
@@ -101,8 +101,8 @@ describe('Cedo Prime — daño físico y elemental', () => {
     expect(simulate().WEAPON_ADD_VIRAL_DAMAGE?.final).toBeCloseTo(190.8, 1);
   });
 
-  it('WEAPON_DAMAGE con Primed Point Blank max (+165%): 265', () => {
-    expect(simulate().WEAPON_DAMAGE?.final).toBeCloseTo(265, 0);
+  it('WEAPON_DAMAGE.final con Primed Point Blank +165%: 32 × 2.65 = 84.8', () => {
+    expect(simulate().WEAPON_DAMAGE?.final).toBeCloseTo(84.8, 1);
   });
 });
 

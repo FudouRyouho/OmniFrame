@@ -33,7 +33,9 @@ export class ItemRepository {
     if (raw.stats?.attacks && raw.stats.attacks.length > 0) {
       raw.stats.attacks.forEach((attack: any) => {
         const profile_name = (attack.name || 'default').toLowerCase().replace(/ /g, '_');
-        
+        const damage_map = this.mapDamage(attack.damage);
+        const damage_sum = Object.values(damage_map).reduce((s, v) => s + v, 0);
+
         profiles[profile_name] = {
           WEAPON_ADD_CRIT_CHANCE:  (attack.crit_chance ?? raw.stats.crit_chance ?? 0) * 100,
           WEAPON_ADD_CRIT_MULT:    attack.crit_mult ?? raw.stats.crit_mult ?? 0,
@@ -43,8 +45,8 @@ export class ItemRepository {
           WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
           reload_time:             raw.stats.reload_time ?? 0,
           WEAPON_ADD_RELOAD_SPEED: 100,
-          WEAPON_DAMAGE:           100,
-          ...this.mapDamage(attack.damage)
+          WEAPON_DAMAGE:           damage_sum || 100,
+          ...damage_map
         };
       });
       
@@ -53,6 +55,8 @@ export class ItemRepository {
       }
     } else if (raw.stats) {
       // Fallback a nivel superior si no hay ataques detallados
+      const damage_map_fallback = this.mapDamage(raw.stats.damage);
+      const damage_sum_fallback = Object.values(damage_map_fallback).reduce((s, v) => s + v, 0);
       profiles['base'] = {
         WEAPON_ADD_CRIT_CHANCE:  (raw.stats.crit_chance ?? 0) * 100,
         WEAPON_ADD_CRIT_MULT:    raw.stats.crit_mult ?? 0,
@@ -62,8 +66,8 @@ export class ItemRepository {
         WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
         reload_time:             raw.stats.reload_time ?? 0,
         WEAPON_ADD_RELOAD_SPEED: 100,
-        WEAPON_DAMAGE:           100,
-        ...this.mapDamage(raw.stats.damage)
+        WEAPON_DAMAGE:           damage_sum_fallback || 100,
+        ...damage_map_fallback
       };
     }
 

@@ -197,7 +197,9 @@ export class SimulationEngine {
     if (!node) return 0;
 
     const weaponDamageNode = entity.attributes["WEAPON_DAMAGE"];
-    const globalDmgMult = weaponDamageNode ? (weaponDamageNode.final / 100) : 1.0;
+    const globalDmgMult = weaponDamageNode
+      ? (weaponDamageNode.final / (weaponDamageNode.base || 100))
+      : 1.0;
 
     const scaledBase = applyAdditiveBonus(node.base + node.base_flat, node.base_add_pct);
     const withMods = applyAdditiveBonus(scaledBase, node.mods_add_pct);
