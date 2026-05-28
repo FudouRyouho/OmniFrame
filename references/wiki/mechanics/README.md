@@ -74,6 +74,9 @@ conviene crear documentos separados por familia:
 ### Armas — mecánicas de disparo
 - [reload.md](./reload.md) — fórmula de recarga, reload_time vs reload_speed, fuentes ADD
 
+### Melee
+- [melee-combo.md](./melee-combo.md) — HAE (pool plano BASE_FLAT, cap 90%), combo counter, duración, heavy attack multiplier, wind-up speed
+
 ### Daño ofensivo
 - [damage-types.md](./damage-types.md)
 - [critical-hits.md](./critical-hits.md)
