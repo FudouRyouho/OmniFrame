@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-05-28"
 ---
 
 # Data Domain — Estado Operativo
@@ -102,16 +102,27 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 
 ---
 
-## Arcanos (`arcanes.json`)
+## Arcanos (`arcane-stats.override.json`)
 
-**Schema:** ❌ Sin definir para override
-**Estado actual:** `level_stats` = plain text por rango — sin estructura semántica
+**Schema:** `docs/data/schemas/arcane/schema.md` ✅ (2026-05-28)
+**Override:** `Project/public/data/arcane-stats.override.json` ✅
+**Generador:** `Project/scripts/generate-arcane-override.py`
 
-**Hipótesis de schema:** Similar a mods (slot distinto, misma lógica de modificador).
-Casos con condición (Arcano Energize → on-pickup):
-- Requiere campo `condition` igual que mods con stacks
+| Estado | Cantidad |
+|---|---|
+| Entradas totales | 164 |
+| Stats con `upgrade_type` mapeado | 60 (34%) |
+| Stats con `upgrade_type: null` | 122 (66%) |
+| Stats con `condition` capturado | 121 / 175 total |
+| Tokens activos cubiertos | 14 |
 
-**Deuda:** Definir schema, crear 2-3 entradas verificadas antes de generalizar.
+**Schema:** idéntico a `mod-stats.override.json` — `base_value` siempre array de 6 ranks, `condition` capturado de triggers "On X:" / "While X:".
+
+**Breakdown de null:** ver `docs/data/schemas/arcane/schema.md §3`. Categorías principales: status resistances (~11), buffs on-event de HP/Armor/Shield (~10), economía de HP/Energía (~8), fórmulas per-stat (~7), arcanes de Operador/Kitgun (~18), Primary/Secondary mecánicas de stacking (~14).
+
+**Repository:** `ArcaneRepository` — pendiente (análogo a `IncarnonRepository`).
+
+**Deuda:** Ver schema §6 para prioridades. P1 inmediato: arcanes con `condition: null` + `upgrade_type` mapeado (~15 entries — efectos siempre activos, los más simples).
 
 ---
 

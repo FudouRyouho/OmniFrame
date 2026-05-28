@@ -223,7 +223,7 @@
               5,
               6
             ],
-            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+            "upgrade_type": null
           },
           {
             "base_value": [
@@ -234,7 +234,7 @@
               60,
               72
             ],
-            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+            "upgrade_type": null
           }
         ],
         "condition": null
@@ -568,7 +568,7 @@
               10,
               12
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_mercy_kill"
@@ -590,7 +590,7 @@
               90,
               100
             ],
-            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+            "upgrade_type": null
           }
         ],
         "condition": null
@@ -744,7 +744,7 @@
               18,
               20
             ],
-            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+            "upgrade_type": null
           }
         ],
         "condition": "on_enemy_frozen"
@@ -887,7 +887,7 @@
               550,
               500
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": null
@@ -1276,7 +1276,7 @@
               -75,
               -90
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": null
@@ -1489,7 +1489,7 @@
               650,
               750
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_status_effect"
@@ -1643,7 +1643,7 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_lethal_damage"
@@ -1779,7 +1779,7 @@
               150,
               200
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_status_effect"
@@ -1925,7 +1925,7 @@
               60,
               65
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_void_sling"
@@ -2035,7 +2035,7 @@
               60,
               65
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_void_sling"
@@ -2101,7 +2101,7 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_void_mode"
@@ -2189,7 +2189,7 @@
               6,
               7
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_void_sling"
@@ -2233,7 +2233,7 @@
               75,
               80
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_void_sling"
@@ -2453,7 +2453,7 @@
               0.9,
               1
             ],
-            "upgrade_type": "WEAPON_ADD_CRIT_MULT"
+            "upgrade_type": null
           }
         ],
         "condition": null
@@ -2863,7 +2863,7 @@
               450,
               500
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": null
@@ -3152,7 +3152,7 @@
               9,
               12
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_kitgun_kill"
@@ -3172,7 +3172,7 @@
               9,
               12
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_kitgun_kill"
@@ -3192,7 +3192,7 @@
               9,
               12
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_kitgun_kill"
@@ -3212,7 +3212,7 @@
               9,
               12
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_kitgun_kill"
@@ -3322,7 +3322,7 @@
               5,
               6
             ],
-            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_hit"
@@ -3559,7 +3559,7 @@
               150,
               200
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": null
@@ -3603,7 +3603,7 @@
               20,
               24
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": null

@@ -145,16 +145,26 @@ def map_upgrade_type(effect_text: str) -> str | None:
         if re.search(pattern, lower):
             return token
 
-    # Damage: solo si es un patrón limpio "+N% [scope] Damage" sin fórmula
+    # Damage: solo si es un patrón limpio "+N% [scope] Damage" sin fórmula ni proc
     if re.search(r'\bdamage\b', lower):
-        # Excluir fórmulas de cálculo: per-X, for every, based on, converts
-        # NO excluir: "stacks up to Nx" (anotación de runtime, el valor per-stack sigue siendo estático)
         formula_patterns = [
-            r'\bper\s+\w+',        # "per kill", "per armor point"
-            r'\bfor\s+every\b',    # "for every 200 shields"
-            r'\bbased\s+on\b',     # "based on max magazine"
-            r'\bconverts?\b',      # "converts X% to Y"
-            r'\blife\s*steal\b',   # porcentaje de daño como curación
+            r'\bper\s+\w+',            # "per kill", "per armor point"
+            r'\bfor\s+every\b',        # "for every 200 shields"
+            r'\bfor\s+each\b',         # "for each unit of armor"
+            r'\bbased\s+on\b',         # "based on max magazine"
+            r'\bconverts?\b',          # "converts X% to Y"
+            r'\blife\s*steal\b',       # porcentaje de daño como curación
+            r'\bdamage\s+taken\b',     # "% Damage Taken" — stat defensivo, no ofensivo
+            r'\bdamage\s+resist',      # "Resistance to X Damage" — debuff de enemigo
+            r'\benemy\s+resist',       # "Enemy Resistance to..."
+            r'\blethal\b',             # "On Lethal Damage" — trigger defensivo, efecto ≠ daño
+            r'\bdeals?\s+[+-]?\d+',    # "deals 40 Cold Damage/s", "Deals +750 Damage" — proc/valor hardcodeado
+            r'\bdealing\s+[+-]?\d+',   # "dealing 80 Heat Damage/hit", "dealing 80% of..." — proc
+            r'\bcannot\s+be\s+hit\b',  # "Cannot be hit for more than N Damage/s" — cap
+            r'\bdamage\s+reduction\b', # "Damage Reduction" — stat defensivo, no ofensivo
+            r'\bfatal\b',              # "fatal damage" — trigger de supervivencia, efecto ≠ daño
+            r'\boperator\s+mode\b',    # daño en modo Operator — fuera de scope weapon sim
+            r'\bcompanion',            # "companions and summoned allies" — no weapon stat
         ]
         if not any(re.search(p, lower) for p in formula_patterns):
             return 'WEAPON_ADD_DAMAGE'
