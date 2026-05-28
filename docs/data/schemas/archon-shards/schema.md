@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-ArchonShards-Schema"
 Fidelidad_Fisica: "Project/public/data/archon-shards.json"
 Fecha_de_creacion: "2026-05-20"
-Fecha_de_actualizacion: "2026-05-20"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Archon Shards — Schema
@@ -70,7 +70,7 @@ Si el efecto no tiene mapping en `UPGRADE_MAP` todavía → `null` con `console.
 | Deuda | Descripción |
 |---|---|
 | `id` naming convention | Kebab-case descriptivo por ahora (`"crimson-ability-strength"`). Pendiente formalizar como vocab semántico. |
-| Slot-awareness en upgrade_type | La taxonomía D-6 actual no codifica el slot de arma objetivo. `WEAPON_ADD_CRIT_CHANCE` no distingue si aplica a primaria, secundaria o melee. Los stats slot-específicos (crimson melee crit, crimson primary status, etc.) tienen `upgrade_type: null` hasta que se defina: (a) campo `target_slot` en el stat, o (b) tokens slot-aware (`SECONDARY_ADD_CRIT_CHANCE`, `MELEE_ADD_CRIT_MULT`, etc.). En mods, esto no era problema porque el mod declara `compatible_tags` — en shards, la especificidad vive en el stat individual. |
+| ~~Slot-awareness en upgrade_type~~ | **Resuelto (2026-05-26, OQ-W-4):** Tokens sub-familia `WEAPON_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}` formalizados. Los tres crimson slot-específicos ya tienen `upgrade_type` en el JSON: `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`. `target_channel` se emite vía `resolveToken()`. Deuda residual: `WEAPON_PRIMARY_ADD_ELECTRICITY_DAMAGE` (violet) aún no en UPGRADES[]. |
 | Violet stacking bonus | `violet-primary-electricity-damage` tiene un bonus adicional que escala con cantidad de shards de familia equipados (`n * value`). No es `condition` booleano ni `upgrade_type` estándar — requiere `context_variable` en el contrato de `Modifier`. Pendiente hasta que se defina semántica de context scaling. |
 | Efectos condicionales sin vocabulario | On-kill, on-status, on-high-energy — tienen `condition: null` como placeholder. Requieren vocabulario canónico de condiciones aún no definido. |
 | Valores tauforged sin verificar | La mayoría usa estimación 1.5x. `topaz-health-on-blast-kill: [1, 2]` es el único confirmado. Resto pendiente verificación contra el juego. |

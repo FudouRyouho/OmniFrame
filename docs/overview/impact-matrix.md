@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Fuente de verdad del backlog técnico y matriz de dependencias físicas"
-Version: "v0.0.4"
+Version: "v0.0.5"
 Impacto_ID: "SSoT-Backlog"
 Fidelidad_Fisica: "."
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-19"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Matriz de Impacto y Dependencias (SSoT)
@@ -71,6 +71,30 @@ _Sistemas transversales construidos como prerrequisito para la estabilidad._
   - `faction_damage_bonus` documentado como nodo sintético (patrón análogo a `WEAPON_DAMAGE`, base 100, stack aditivo).
 - **Impacto**: `ModRepository` ya no produce `ADD` hardcodeado para todo — operaciones derivadas del mapa tipado. La corrección de `GAMEPLAY_FACTION_DAMAGE` elimina el bug silencioso de conversión de formato multiplicador→porcentaje.
 
+### 8. Purga Legacy Completa — [🔴 MAYOR] (2026-05-21)
+- **Logro**: D-10: `SimulationLab.tsx`, `LoadoutState`, `loadout.ts`, `__tests__-legacy/` (12 suites) purgados.
+- **Impacto**: `MutatorBridge` tiene única ruta canónica `simulateFromIntention()`. Tests via pipeline real (D-9).
+
+### 9. Limpieza Schema de Habilidades — [🟡 MENOR] (2026-05-22)
+- **Logro**: D-11 (`upgrade_by: "NONE"` → campo opcional, 468 instancias) + D-12 (`AbilityStatValue` eliminado, `base_value: number | [number, number]`, 1564 stats migrados).
+- **Impacto**: Schema de habilidades limpio y alineado con la UI del juego.
+
+### 10. Vocabulario D-6 — ModRepository v2 — [🔴 MAYOR] (2026-05-27)
+- **Logro**: OQ-ENGINE-3 cerrado. `resolveToken()` en `modifier.ts`. D-7 Fase 1: attrs renombrados a tokens D-6. Label parsing eliminado. 55 tokens en UPGRADES[]; 35 UPGRADE_MAP + 20 `resolveToken()`.
+- **Impacto**: Engine resuelve `upgrade_type` directamente. SSoT matemático en `modifier.ts`.
+
+### 11. WEAPON_DAMAGE base = damage_sum — [🔴 MAYOR] (2026-05-27)
+- **Logro**: OQ-ENGINE-1 cerrado. Base = `damage_sum` del perfil activo (`ItemRepository`). Multiplicador global = `final/base`. 33 tests gold standard.
+- **Impacto**: Matemática correcta de Serration/Heavy Caliber stacking. Arquitectura validada.
+
+### 12. Archon Shards consumer + Incarnon Genesis pipeline — [🔴 MAYOR] (2026-05-27)
+- **Logro**: OQ-ENGINE-4 cerrado. `StaticHydrator` consume `ensemble.warframe.shards` → `ShardRepository` → `Modifier[]`. `IncarnonRepository` + `incarnon-evolutions.override.json` (85 armas, tokens `WEAPON_BASE_*`).
+- **Impacto**: Shards como modificadores en runtime. Perks de evolución Incarnon accesibles al engine.
+
+### 13. formulas/ SSoT activo + layer boundary — [🟡 MENOR] (2026-05-27)
+- **Logro**: Fases 1+2 de `formulas-integration.md`. `crit-base.ts` ← `AtomicSimulator`. `scaling-base.ts` ← `SimulationEngine`. `DamageCombiner` movido de `combat/` → `hydration/`.
+- **Impacto**: Cero duplicación de fórmulas crit/scaling. Layer boundary engine/combat → hydration cerrada.
+
 ---
 
 ## 🚧 ESTADO DE TRANSICIÓN: `arsenal/upgrade`
@@ -83,7 +107,7 @@ _Bloqueantes críticos para la funcionalidad real._
 
 | ID | Tarea | Descripción | Referencia |
 | :--- | :--- | :--- | :--- |
-| **🔴** | **Sincronización de Tests** | Los tests deben validar la fuente y no el artefacto derivado de pipeline. | [D-12] |
+| ✅ | ~~Sincronización de Tests~~ | D-9 (2026-05-21) + 33 tests gold standard con pipeline real. | [D-9] |
 | **🔴** | **Materializar Capa D (Proyección)** | Definir `ViewModelContract` e implementar el puente reactivo que transforma `ProjectionSnapshot` → estructura consumible por la UI. | [E-01] |
 | **🔴** | **Inicializar `faction_damage_bonus` en StaticHydrator** | Inyectar nodo sintético `{ base: 100 }` para entidades `domain: weapon`, análogo a `WEAPON_DAMAGE`. | [E-AttributeNode] |
 | **🔴** | **Wiring de faction damage en CombatCalculator** | Aplicar `faction_damage_bonus.final / 100` como multiplicador de combate cuando `target.faction` coincide. | [E-AttributeNode] |
@@ -137,4 +161,4 @@ _Mantenimiento y Refine._
 
 ---
 
-**Nota de Integridad**: El proyecto ha alcanzado el hito **v0.0.4**. El modelo de 5 capas (A/B/C1/C2/D) está definido y documentado. El chasis del engine tiene contratos cerrados. Las próximas fases se centran en implementar la Capa D (Proyección) y completar el wiring de faction damage.
+**Nota de Integridad**: El proyecto ha alcanzado el hito **v0.0.5**. 13 hitos completados. WEAPON_DAMAGE base corregida, 33 tests gold standard, Archon Shards y Incarnon Genesis con pipeline activo, formulas/ como SSoT matemático activo. Deuda activa: Capa D (Proyección), faction damage wiring, OQ-ENGINE-2 (profile switching).

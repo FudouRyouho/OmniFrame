@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Documentar el rol de src/shared/types/ y sus límites"
-Version: "v0.0.3"
+Version: "v0.0.4"
 Impacto_ID: "G-Types"
 Fidelidad_Fisica: "Project/src/shared/types/"
 Fecha_de_creacion: "2026-04-17"
-Fecha_de_actualizacion: "2026-04-20"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Type System Boundaries
@@ -17,7 +17,7 @@ El tipado compartido prioriza:
 2. mapeo
 3. UI
 
-## Lo que si incluye
+## Lo que sí incluye
 
 - tipos compartidos por dominio
 - constantes y opciones necesarias para editores y consumidores
@@ -42,6 +42,8 @@ El tipado compartido prioriza:
 - `archwing-weapon.ts`
 - `vehicle.ts`
 - `polarity.ts`
+- `stats.ts`
+- `modifier.ts`
 - `index.ts`
 
 El vocabulario semántico canónico que respalda estos tipos vive en `../semantic/damage-types.md` y similares. 
@@ -71,7 +73,7 @@ La direccion futura sigue siendo opcion C, pero solo como pre-definicion documen
 
 Eso significa:
 
-- la semantica canonica de `upgradeType`, condiciones y contratos de combate mas amplios
+- la semantica canonica de `upgrade_type`, condiciones y contratos de combate mas amplios
   no se promueve todavia como shape productivo compartido
 - el conocimiento adquirido si debe quedar asentado desde ahora en la documentación
   de frontera (`docs/`), evitando narrativa interna en el código.

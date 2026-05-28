@@ -5,7 +5,7 @@ Version: "v0.0.2"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-24"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Decision Frontier
@@ -20,7 +20,7 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **Agnosticismo Total**: El motor es una pieza funcional, determinista y serializable (apto para Web Workers), completamente desacoplada de React.
 - **Flujo A->B->C**: La jerarquía es **Intención (Ensemble) → Hidratación (Mutator Bridge) → Simulación (Engine)**.
 - **Salida Única**: El motor emite solo **Projection Snapshots** inmutables.
-- **Deprecación de `LoadoutProvider`**: Se decide su eliminación total. El estado del loadout pasará a ser una **Ensemble Store** ligera que alimenta al Mutator Bridge.
+- **Eliminación de `LoadoutProvider`**: Eliminado físicamente (2026-05-19). `LoadoutState` y `loadout.ts` eliminados (2026-05-21). `EnsembleStore` es el único SSoT de estado del usuario. Ver DC-OQ-STATE-1..4 en `closed-decisions.md`.
 
 **Abierto**:
 - Umbrales de conmutación para el **Modo Probabilístico** (Energy Threshold).
@@ -41,9 +41,9 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 **Decidido**:
 - La frontera de traducción y formateo reside en el `Presentation Layer` (Formatter).
 - Se prohíbe la invención de taxonomías desde la UI.
+- **Unificación de componentes visuales en `@shared`**: `shared/components/` activo (cards, specs/detail views, views por entidad, filters/toolbars, navigation, popovers, slots). Ver `docs/decisions/ui-unification.md`.
 
 **Abierto**:
-- Unificación de componentes visuales (Cards, Specs) en `@shared`.
 - Arquitectura final de CSS y design tokens.
 
 ---

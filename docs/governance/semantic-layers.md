@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Frontera obligatoria para la interpretación y transformación de datos"
-Version: "v0.0.3"
+Version: "v0.0.4"
 Impacto_ID: "G-Semantic"
 Fidelidad_Fisica: "Project/src/shared/types/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-04-22"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Semantic Layers
@@ -50,7 +50,7 @@ Una inferencia no debería vivir solo en runtime si cumple estas condiciones:
 - Su costo de re-inferencia local es alto o repetitivo.
 - Existe conocimiento suficiente para expresarla de forma determinista.
 
-**Direccion preferida**:
+**Dirección preferida**:
 `inferencia repetida en runtime -> semántica derivada explícita -> normalización en pipeline o contrato compartido`
 
 ---

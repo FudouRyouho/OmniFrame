@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-05-24"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -61,7 +61,7 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 **Estado:** VIGENTE
 **Fecha:** 2026-04-18
 **Decisión:** Cuatro categorías de deuda:
-- **A (intencionada):** helminth, focus, incarnon — fuera de scope actual, sin modelar
+- **A (intencionada):** helminth, focus — fuera de scope actual, sin modelar. Incarnon Genesis: pipeline de datos implementado (IncarnonRepository, override JSON, WEAPON_BASE_* tokens); features dinámicas (context.flags, on-kill stacking) siguen en categoría A.
 - **B (legacy a purgar):** residuos de LoadoutState, rutas eliminadas — purgar cuando bloqueen
 - **C1/C2 (resolutiva):** deuda que bloquea features pero tiene solución definida
 - **Pipeline (vocabulario):** tokens sin mapping en UPGRADE_MAP — resolver por demanda
@@ -163,3 +163,12 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 **Fecha:** 2026-05-22
 **Decisión:** `values: AbilityStatValue[]` fue diseñado contra la wiki (tablas multi-rank) en lugar de contra la UI del juego. La UI siempre muestra: 1 stat = 1 línea = 1 eje de scaling. `base_value: number | [number, number]` cubre todos los casos incluido min-max. 1564 stats migrados, 26 entradas min-max convertidas correctamente.
 **Ref:** `shared/types/ability.ts`, `docs/data/schemas/abilities/schema.md`
+
+---
+
+## D-13 — Incarnon Genesis: SSoT manual + patrón repository (2026-05-27)
+
+**Estado:** VIGENTE
+**Fecha:** 2026-05-27
+**Decisión:** El override `incarnon-evolutions.override.json` es SSoT manual — mismo patrón que `archon-shards.json`. 85 armas extraídas de wikitext con script archivado; nuevas armas se añaden a mano. El schema indexa por `unique_name`; variantes (Boltor / Telos / Prime) tienen entradas separadas — no existe campo `variant`. Los perks dinámicos (condicionales, on-kill, stacking) se documentan como `null + note` hasta que exista soporte en C1. Tokens `WEAPON_BASE_*` (BASE_FLAT) añadidos a `UPGRADE_MAP` para los 4 perks estáticos implementables: `WEAPON_BASE_DAMAGE`, `WEAPON_BASE_CRIT_CHANCE`, `WEAPON_BASE_STATUS_CHANCE`, `WEAPON_BASE_MAGAZINE_MAX`.
+**Ref:** `docs/data/schemas/incarnon/schema.md`, `docs/data/schemas/incarnon/gaps.md`, `IncarnonRepository`, `Project/public/data/incarnon-evolutions.override.json`

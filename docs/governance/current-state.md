@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Describir el pulso real de la estructura física y funcional del repositorio"
-Version: "v0.1.2"
+Version: "v0.1.3"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-27 (actualización #2)"
+Fecha_de_actualizacion: "2026-05-27 (actualización #3)"
 ---
 
 # OmniFrame — Estado Actual
@@ -26,9 +26,10 @@ Fecha_de_actualizacion: "2026-05-27 (actualización #2)"
 | `core/engine/loadout.ts` | **ELIMINADO (2026-05-21)** | `LoadoutState` y `LoadoutIntent` eliminados junto con la vía legacy de `MutatorBridge`. |
 | `core/engine/formulas/` | **Activo — SSoT real** | Fórmulas matemáticas por categoría: ability, arcane, weapon, warframe, common. `crit-base.ts` ← `AtomicSimulator`; `scaling-base.ts` ← `SimulationEngine`. Código vivo desde Fase 2 de `formulas-integration.md` (2026-05-27). `weapon-core.ts` y `warframe-core.ts` purgados (Fase 1). |
 | `core/engine/contracts/` | **Activo** | Contratos del motor: `damage-logic.ts`, `damage-multipliers.ts`, `mod-overrides.ts`. (`attributes.ts` eliminado en refactor 2026-05-21.) |
-| `core/engine/bridge/` + `combat/` + `hydration/` + `resolution/` | **Activo** | Implementación del motor: `SimulationEngine`, `MutatorBridge`, `CombatCalculator`, `StatusEngine`, `TimelineSimulator`, `StaticHydrator`, `ModRepository`, `IncarnationRepository` (2026-05-27), y más. `EnsembleAdapter` eliminado (2026-05-19). `DamageCombiner` movido de `combat/` a `hydration/` (2026-05-27 — layer boundary). |
+| `core/engine/bridge/` + `combat/` + `hydration/` + `resolution/` | **Activo** | Implementación del motor: `SimulationEngine`, `MutatorBridge`, `CombatCalculator`, `StatusEngine`, `TimelineSimulator`, `StaticHydrator`, `ModRepository`, `IncarnonRepository` (2026-05-27), y más. `EnsembleAdapter` eliminado (2026-05-19). `DamageCombiner` movido de `combat/` a `hydration/` (2026-05-27 — layer boundary). |
 | `core/engine/hooks/useSimulation.ts` | **Activo** | Hook React que conecta `EnsembleStore` al motor vía `MutatorBridge`. |
 | `core/engine/__tests__-legacy/` | **ELIMINADO** | 12 suites de test purgadas en sesión anterior. |
+| `core/engine/__tests__/` | **Activo** | 3 suites, 33 tests gold standard (Vitest). Cobertura: weapon stats, multiplicador WEAPON_DAMAGE, evoluciones Incarnon. |
 
 ### Providers — Estado de transición
 
@@ -92,13 +93,18 @@ Fecha_de_actualizacion: "2026-05-27 (actualización #2)"
 | `DamageCombiner` en `combat/` — violación de layer boundary | Solo consumido desde `StaticHydrator` (hydration/). | ✅ Resuelto — movido a `hydration/` (2026-05-27) |
 | Archon Shards no emitían `Modifier` objects | `StaticHydrator` nunca consumía `ensemble.warframe.shards`. | ✅ Resuelto — consumer loop implementado (2026-05-27) |
 | `WEAPON_DAMAGE.base` hardcodeado a 100 (abstracción porcentual) | Base debería ser la suma real de daños del perfil — `globalMult = final/100` era semánticamente incorrecto. | ✅ Resuelto — `ItemRepository` calcula `damage_sum`; `SimulationEngine` usa `final/base` (2026-05-27) |
-| Incarnon Genesis perks sin pipeline de datos | No había schema, repositorio ni tokens `WEAPON_BASE_*` para modelar los perks de evolución. | ✅ Resuelto — `IncarnationRepository`, `incarnon-evolutions.override.json`, tokens `WEAPON_BASE_*` en UPGRADE_MAP, `evolution_perks` en `SlotIntention`/`WeaponIntent` (2026-05-27) |
+| Incarnon Genesis perks sin pipeline de datos | No había schema, repositorio ni tokens `WEAPON_BASE_*` para modelar los perks de evolución. | ✅ Resuelto — `IncarnonRepository`, `incarnon-evolutions.override.json`, tokens `WEAPON_BASE_*` en UPGRADE_MAP, `evolution_perks` en `SlotIntention`/`WeaponIntent` (2026-05-27) |
 
 ---
 
 ## 3. Preguntas abiertas críticas — pendientes de redefinición
 
-Estos puntos NO tienen respuesta en el código ni en los docs actuales. Requieren decisión antes de continuar desarrollo:
+**OQ-ENGINE-2: Profile switching (Incarnon/Alt-fire) — ABIERTO**
+Re-hidratar todo el ensemble vs. conmutar `active_profile_id` en `resolve()` en runtime. Ver `docs/governance/open-questions.md`.
+
+---
+
+*OQs cerradas — registro en `docs/governance/closed-decisions.md`:*
 
 **OQ-STATE-1: ¿Cuál es el contrato de estado del usuario? — CERRADO (2026-05-19)**
 `EnsembleIntention` es el SSoT canónico de la UI. `LoadoutState`, `loadout.ts` y `SimulationLab` eliminados (2026-05-21). `MutatorBridge` tiene una única ruta: `simulateFromIntention`. `LoadoutContext` eliminado (2026-05-19).
@@ -113,7 +119,7 @@ Eliminado físicamente. Ver OQ-STATE-1.
 `EnsembleAdapter` eliminado. Lógica absorbida por `MutatorBridge` como métodos privados.
 
 **OQ-ENGINE-1: Patrón WEAPON_DAMAGE como multiplicador global — CERRADO (2026-05-27)**
-Arquitectura definitiva. `WEAPON_DAMAGE` (base 100) acumula mods aditivos (Serration, Hornet Strike). `final/100` es el multiplicador global. Validado en 31 tests gold standard.
+Arquitectura definitiva. `WEAPON_DAMAGE` (base = `damage_sum` del perfil activo) acumula mods aditivos (Serration, Hornet Strike). `final/base` es el multiplicador global. Validado en 33 tests gold standard.
 
 **OQ-ENGINE-3: Label parsing en ModRepository — CERRADO (2026-05-27)**
 Nunca existió en v2. `ModRepository` consume `upgrade_type` directamente. El parsing de labels es código muerto de la auditoría, no de producción.

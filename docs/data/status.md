@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-05-24"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Data Domain — Estado Operativo
@@ -25,7 +25,10 @@ Fecha_de_actualizacion: "2026-05-24"
 | Entradas totales en override | 853 |
 | Revisadas y verificadas (usuario) | 119 |
 | Pendientes de revisión | 734 |
-| Tipos D-6 con UPGRADE_MAP | 39 |
+| Tokens en UPGRADES[] | 55 |
+| Con entrada en UPGRADE_MAP (explícito) | 35 |
+
+Ver `docs/data/schemas/mods/upgrade-taxonomy.md` para el breakdown completo (inc. resolveToken implícito y sub-familia).
 
 **Revisión en curso:** Las primeras 119 entradas están correctas en upgrade_type D-6.
 El campo `condition` está ausente en todos los casos — requiere semántica nueva, **fuera de scope actual**.
@@ -112,6 +115,23 @@ Casos con condición (Arcano Energize → on-pickup):
 
 ---
 
+## Incarnon Evolutions (`incarnon-evolutions.override.json`)
+
+**Schema:** `docs/data/schemas/incarnon/schema.md` ✅
+**Gaps:** `docs/data/schemas/incarnon/gaps.md` ✅
+
+| Estado | Cantidad |
+|---|---|
+| Armas con datos | 85 |
+| Efectos mapeados (tokens D-6) | ~444 (~35%) |
+| Gaps documentados (null + note) | ~801 (~65%) |
+
+**Mantenimiento:** SSoT manual — patrón archon. Nuevas armas se añaden a mano siguiendo el schema.
+**Repository:** `IncarnonRepository` — resuelve `evolution_perks: Record<number, string>` → `Modifier[]` vía `UPGRADE_MAP`. Cargado en `StaticHydrator.hydrate()` (2026-05-27).
+**Cobertura:** Tokens P1 (`gaps.md §2`) — 9 tokens simples sin diseño nuevo; cubren ~60 efectos adicionales cuando se implementen. P2+ requieren `context.flags` o sistema de eventos.
+
+---
+
 ## Archon Shards (`archon-shards.json`)
 
 **Schema:** `docs/data/schemas/archon-shards/schema.md` ✅
@@ -124,5 +144,6 @@ Casos con condición (Arcano Energize → on-pickup):
 ## Orden de trabajo sugerido
 
 1. Completar `.md` restantes (~10 warframes) + revisar los 5 con `//! UPDATE NEEDED`
-2. Arcanos — schema a definir, posponer hasta tener ability stats más completos
-3. Passives — schema pendiente de definir
+2. Incarnon — ampliar token coverage (P1 de `gaps.md §2`: ~9 tokens simples, +60 efectos adicionales)
+3. Arcanos — schema a definir, posponer hasta tener ability stats más completos
+4. Passives — schema pendiente de definir
