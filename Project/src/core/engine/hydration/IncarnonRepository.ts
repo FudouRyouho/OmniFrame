@@ -7,19 +7,37 @@ import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
 
 type PerkModifierRaw = {
   upgrade_type: string | null;
-  value?: number;
+  value?: number | Record<string, number>;
   note?: string;
 };
 
-type IncarnonData = Record<string, {
+type GenesisEntry = {
+  weapons: string | Record<string, string>;
   evolutions: Record<string, Record<string, PerkModifierRaw[]>>;
-}>;
+};
+
+type IncarnonRawData = Record<string, GenesisEntry>;
+
+type WeaponEntry = {
+  alias: string | null;
+  evolutions: Record<string, Record<string, PerkModifierRaw[]>>;
+};
 
 export class IncarnonRepository {
-  private static data: IncarnonData = {};
+  private static index: Map<string, WeaponEntry> = new Map();
 
-  public static load(data: IncarnonData): void {
-    this.data = data;
+  public static load(data: IncarnonRawData): void {
+    this.index.clear();
+    for (const entry of Object.values(data)) {
+      const { weapons, evolutions } = entry;
+      if (typeof weapons === "string") {
+        this.index.set(weapons, { alias: null, evolutions });
+      } else {
+        for (const [alias, uid] of Object.entries(weapons)) {
+          this.index.set(uid, { alias, evolutions });
+        }
+      }
+    }
   }
 
   /**
@@ -31,34 +49,40 @@ export class IncarnonRepository {
     evolutionPerks: Record<number, string>,
     targetId: EntityId
   ): Modifier[] {
-    const weaponData = this.data[uniqueName];
-    if (!weaponData?.evolutions) return [];
+    const entry = this.index.get(uniqueName);
+    if (!entry) return [];
 
     const modifiers: Modifier[] = [];
 
     Object.entries(evolutionPerks).forEach(([tierStr, perkId]) => {
-      const rawMods = weaponData.evolutions[tierStr]?.[perkId];
+      const rawMods = entry.evolutions[tierStr]?.[perkId];
       if (!Array.isArray(rawMods)) return;
 
       rawMods.forEach((rawMod) => {
         if (!rawMod.upgrade_type) return;
 
         const token = rawMod.upgrade_type;
-        const entry = isUpgrade(token)
+        const upgradeEntry = isUpgrade(token)
           ? (UPGRADE_MAP[token] ?? resolveToken(token))
           : undefined;
 
-        if (!entry) {
+        if (!upgradeEntry) {
           console.warn(`[Incarnon] upgrade_type sin mapeo: ${token} (${uniqueName})`);
           return;
         }
 
+        const raw = rawMod.value ?? 0;
+        const value =
+          typeof raw === "object"
+            ? (entry.alias !== null ? (raw[entry.alias] ?? 0) : 0)
+            : raw;
+
         modifiers.push({
-          id: `incarnon:${uniqueName}:t${tierStr}:${perkId}:${entry.attr}`,
+          id: `incarnon:${uniqueName}:t${tierStr}:${perkId}:${upgradeEntry.attr}`,
           target_entity: targetId,
-          target_attribute: entry.attr,
-          operation: entry.op,
-          value: rawMod.value ?? 0,
+          target_attribute: upgradeEntry.attr,
+          operation: upgradeEntry.op,
+          value,
         });
       });
     });
