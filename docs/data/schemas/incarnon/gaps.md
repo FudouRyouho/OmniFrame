@@ -3,7 +3,7 @@ Estado: "referencia"
 Rol: "Catálogo de gaps semánticos — 85 armas Incarnon, ~1245 efectos"
 Impacto_ID: "SSoT-Data-Incarnon"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-05-28"
 ---
 
 # Gaps semánticos — Incarnon Genesis / Incarnon nativo
@@ -26,28 +26,37 @@ Objetivo: mapear qué se puede implementar ahora vs qué requiere trabajo en C1.
 | `WEAPON_ADD_MULTISHOT` | `ADD` | "+N% Multishot" (incondicional) | munitions_grit: +20% |
 | `WEAPON_ADD_CRIT_MULT` | `ADD` | "+Nx Critical Damage Multiplier" (sin "Base") | Gammacor EVO IV: +0.2x |
 | `WEAPON_BASE_CRIT_MULT` | `BASE_FLAT` | "Increase **Base** Critical Damage Multiplier by +Nx" | Boar EVO IV: +0.5x, CorpusMinigun EVO IV: +2x |
+| `WEAPON_ADD_PROJECTILE_SPEED` | `ADD` | "+N% Projectile Speed" | Boltor EVO III: +60% |
+| `WEAPON_ADD_ACCURACY` | `ADD` | "+N% Accuracy" | Braton EVO III: +60% |
+| `WEAPON_ADD_RECOIL` | `ADD` | "-N% Recoil (valor negativo)" | Braton EVO III: -60% |
+| `WEAPON_ADD_STATUS_DURATION` | `ADD` | "+N% Status Duration" | Okina EVO IV: +25% |
+| `WEAPON_ADD_HEAVY_CHARGE_SPEED` | `ADD` | "+N% Heavy Attack Wind Up Speed" | HATE EVO III: +60% |
+| `WEAPON_BASE_HEAVY_EFFICIENCY` | `BASE_FLAT` | "+N% Heavy Attack Efficiency (base=0, cap 90%)" | Furax EVO III: +20% |
 
-> `WEAPON_BASE_CRIT_MULT` usado en datos (2026-05-27) — token pendiente de añadir a `shared/types/modifier.ts` y `UPGRADE_MAP`. Engine lo silencia hasta entonces.  
-> `WEAPON_ADD_FIRE_RATE` y `WEAPON_ADD_MULTISHOT` y `WEAPON_ADD_CRIT_MULT` ya estaban en `UPGRADES` — gaps.md §2 original estaba desactualizado en esos tres.
+> Tokens confirmados en juego (2026-05-28): `WEAPON_BASE_CRIT_MULT` (BASE_FLAT, Soma Prime + Vital Sense), `WEAPON_ADD_HEAVY_CHARGE_SPEED` (ADD aditivo, HATE + Amalgam), `WEAPON_BASE_HEAVY_EFFICIENCY` (pool plano BASE_FLAT, Furax + Galvanized Reflex).  
+> Todos pendientes de añadir a `shared/types/modifier.ts` y `UPGRADE_MAP` — engine los silencia hasta entonces.
 
-Cobertura estimada post-sesión: ~465 efectos (~37%).
+Cobertura estimada post-sesión (2026-05-28): ~595 efectos (~48%).
 
 ---
 
-## 2. Tokens faltantes (vocabulario a extender, sin complejidad semántica nueva)
+## 2. Tokens faltantes mapeados (vocabulario a extender — en override, pendiente UPGRADES)
 
-Estos perks tienen mecánica simple (flat o percent add) pero el token no existe en `UPGRADES`.
+Tokens con mecánica simple mapeados en el override (2026-05-28). Pendiente añadir a `modifier.ts` + `UPGRADE_MAP`.
 
-| Token propuesto | Semántica | Afecta (N efectos) | Ejemplo |
-|---|---|---|---|
-| `WEAPON_ADD_PROJECTILE_SPEED` | "+N% Projectile Speed" | ~16 | Boltor EVO III: +60% |
-| `WEAPON_ADD_PUNCH_THROUGH` | "+N Punch Through" | ~13 | Boltor EVO II: +4 PT |
-| `WEAPON_ADD_ACCURACY` / `WEAPON_ADD_RECOIL` | "+N% Accuracy / -N% Recoil (valor negativo)" | ~12 | Braton EVO III: +60% Accuracy, -60% Recoil |
-| `WEAPON_ADD_HEAVY_CHARGE_SPEED` | "+N% Heavy Attack Wind Up Speed" | ~9 | Ack & Brunt EVO III: +70% |
-| `WEAPON_ADD_STATUS_DURATION` | "+N% Status Duration" | ~1–2 | Okina EVO III: +25% |
-| `WEAPON_BASE_HEAVY_EFFICIENCY` | "+N% Heavy Attack Efficiency (base=0, BASE_FLAT)" | ~5 | Furax EVO III / Bo staff: +20% |
+| Token | Op | Mapeados | Condicionales (null) | Ejemplo |
+|---|---|---|---|---|
+| `WEAPON_ADD_PROJECTILE_SPEED` | ADD | 20 | 3 | Boltor EVO III: +60% |
+| `WEAPON_ADD_ACCURACY` | ADD | 17 | 7 | Braton EVO III: +60% |
+| `WEAPON_ADD_RECOIL` | ADD (negativo) | 31 | 4 | Braton EVO III: -60% |
+| `WEAPON_ADD_STATUS_DURATION` | ADD | 2 | 0 | Okina EVO IV: +25% |
+| `WEAPON_ADD_HEAVY_CHARGE_SPEED` | ADD | 11 | 0 | HATE EVO III: +60% |
+| `WEAPON_BASE_HEAVY_EFFICIENCY` | BASE_FLAT | 8+3 | 0 | Furax EVO III: +20% |
+| `WEAPON_ADD_PUNCH_THROUGH` | ADD | 0 | 13 | — (todo condicional) |
 
-> Nota sobre `WEAPON_BASE_HEAVY_EFFICIENCY`: el perk dice "set to 20%" pero la wiki confirma que es **aditivo** con otras fuentes ("not an override"). La base del stat es 0%, sumarle 20% resulta en 20% — el lenguaje "set" describe el resultado, no la operación. No requiere `BASE_SET`. Usa `BASE_FLAT` igual que `WEAPON_BASE_CRIT_CHANCE`.
+> `WEAPON_ADD_RECOIL`: valores negativos = reducción de recoil. Consistente con convención de mods en `mod-stats.override.json`.  
+> `WEAPON_BASE_HEAVY_EFFICIENCY`: pool plano base=0, cap 90%, verificado en juego — mismo token para mods e Incarnon.  
+> `WEAPON_ADD_PUNCH_THROUGH`: 0 limpios — todos los efectos son condicionales (P2).
 
 ---
 
