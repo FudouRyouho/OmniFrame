@@ -421,7 +421,10 @@
     }
   },
   "boar-incarnon-genesis": {
-    "weapons": "/Lotus/Weapons/Tenno/Shotgun/FullAutoShotgun",
+    "weapons": {
+      "base": "/Lotus/Weapons/Tenno/Shotgun/FullAutoShotgun",
+      "prime": "/Lotus/Weapons/Tenno/Shotgun/PrimeBoar"
+    },
     "evolutions": {
       "2": {
         "reified_bane": [
@@ -3916,7 +3919,10 @@
     }
   },
   "soma-incarnon-genesis": {
-    "weapons": "/Lotus/Weapons/Tenno/Rifle/TennoAR",
+    "weapons": {
+      "base": "/Lotus/Weapons/Tenno/Rifle/TennoAR",
+      "prime": "/Lotus/Weapons/Tenno/LongGuns/PrimeSoma/PrimeSomaRifle"
+    },
     "evolutions": {
       "2": {
         "fortress_salvo": [
