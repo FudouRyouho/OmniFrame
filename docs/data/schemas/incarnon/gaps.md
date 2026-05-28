@@ -1,7 +1,9 @@
 ---
 Estado: "referencia"
-Rol: "Catálogo de gaps semánticos — 85 armas Incarnon, ~1258 efectos"
+Rol: "Catálogo de gaps semánticos — 87 armas Incarnon (48 genesis), 727 efectos"
 Impacto_ID: "SSoT-Data-Incarnon"
+Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
+Version: "1.2"
 Fecha_de_creacion: "2026-05-27"
 Fecha_de_actualizacion: "2026-05-28"
 ---
@@ -9,11 +11,15 @@ Fecha_de_actualizacion: "2026-05-28"
 # Gaps semánticos — Incarnon Genesis / Incarnon nativo
 
 Inventario derivado de `Project/scratch/incarnon-raw-extract.json` (extracción automática sobre 48 archivos wikitext).  
+Estructura actual: genesis-first — `genesis_slug → { weapons, evolutions }`. Ver [schema.md](schema.md).
+
 Objetivo: mapear qué se puede implementar ahora vs qué requiere trabajo en C1.
 
 ---
 
-## 1. Implementable ahora (tokens existentes)
+## 1. Tokens activos en el engine
+
+Todos estos tokens están en `Project/src/shared/types/modifier.ts` (UPGRADES + UPGRADE_MAP) y son reconocidos por el engine. Los perks correspondientes están mapeados en el override.
 
 | Token | Op | Semántica de perk | Ejemplo |
 |---|---|---|---|
@@ -21,11 +27,11 @@ Objetivo: mapear qué se puede implementar ahora vs qué requiere trabajo en C1.
 | `WEAPON_BASE_CRIT_CHANCE` | `BASE_FLAT` | "Increase Critical Chance by +N%" | Sibear EVO IV: +25% |
 | `WEAPON_BASE_STATUS_CHANCE` | `BASE_FLAT` | "Increase Status Chance by +N%" | Boltor EVO IV: +20% |
 | `WEAPON_BASE_MAGAZINE_MAX` | `BASE_FLAT` | "Increase [magazine/ammo] capacity by +N" | Boltor EVO III: +20 |
+| `WEAPON_BASE_CRIT_MULT` | `BASE_FLAT` | "Increase **Base** Critical Damage Multiplier by +Nx" | Boar EVO IV: +0.5x |
 | `WEAPON_ADD_RELOAD_SPEED` | `ADD` | "+N% Reload Speed" | Boltor EVO III: +60% |
 | `WEAPON_ADD_FIRE_RATE` | `ADD` | "+N% Fire Rate / Attack Speed" (incondicional) | Zariman weapons EVO II: +20–25% |
 | `WEAPON_ADD_MULTISHOT` | `ADD` | "+N% Multishot" (incondicional) | munitions_grit: +20% |
 | `WEAPON_ADD_CRIT_MULT` | `ADD` | "+Nx Critical Damage Multiplier" (sin "Base") | Gammacor EVO IV: +0.2x |
-| `WEAPON_BASE_CRIT_MULT` | `BASE_FLAT` | "Increase **Base** Critical Damage Multiplier by +Nx" | Boar EVO IV: +0.5x, CorpusMinigun EVO IV: +2x |
 | `WEAPON_ADD_PROJECTILE_SPEED` | `ADD` | "+N% Projectile Speed" | Boltor EVO III: +60% |
 | `WEAPON_ADD_ACCURACY` | `ADD` | "+N% Accuracy" | Braton EVO III: +60% |
 | `WEAPON_ADD_RECOIL` | `ADD` | "-N% Recoil (valor negativo)" | Braton EVO III: -60% |
@@ -37,49 +43,19 @@ Objetivo: mapear qué se puede implementar ahora vs qué requiere trabajo en C1.
 | `WEAPON_ADD_RANGE` | `ADD` | "Increase Range by +N" | Skana/Bo EVO III: +0.4–1 |
 | `WEAPON_ADD_MAGAZINE_MAX` | `ADD` | "+N% Magazine Capacity (porcentaje)" | ZarimanSemiAutoRifle: +50% |
 | `WEAPON_BASE_COMBO_DURATION` | `BASE_FLAT` | "+Ns Combo Duration (segundos planos)" | Varios: +4–8s |
+| `WEAPON_ADD_COMBO_DURATION` | `ADD` | "±N% Combo Duration" | Split de WEAPON_MELEE_COMBO_DURATION_BONUS |
 | `WEAPON_BASE_COMBO_INITIAL` | `BASE_FLAT` | "+N Initial Combo" | Varios: +20 |
 | `WEAPON_ADD_FINISHER_DAMAGE` | `ADD` | "+N% Finisher Damage" | Varios |
 
-> Tokens confirmados en juego (2026-05-28): `WEAPON_BASE_CRIT_MULT` (BASE_FLAT, Soma Prime + Vital Sense), `WEAPON_ADD_HEAVY_CHARGE_SPEED` (ADD aditivo, HATE + Amalgam), `WEAPON_BASE_HEAVY_EFFICIENCY` (pool plano BASE_FLAT, Furax + Galvanized Reflex).  
-> Todos pendientes de añadir a `shared/types/modifier.ts` y `UPGRADE_MAP` — engine los silencia hasta entonces.
-
-Cobertura (2026-05-28, post-sesión): **606/1258 bruta (48.2%)**. Excluyendo condicionales P2+ y notas de anotación: **≥73%**.
+> Verificados en juego (2026-05-28): `WEAPON_BASE_CRIT_MULT` (Soma Prime + Vital Sense → ×2.2 sobre base ampliada), `WEAPON_ADD_HEAVY_CHARGE_SPEED` (HATE + Amalgam Ripkas → 0.91s), `WEAPON_BASE_HEAVY_EFFICIENCY` (Furax MK1 + Galvanized Reflex → 60.9%).
 
 ---
 
-## 2. Tokens mapeados en override (pendiente UPGRADES)
+## 2. Gaps semánticos (diseño requerido en C1)
 
-Todos estos tokens tienen efectos en `incarnon-evolutions.override.json` (2026-05-28). Pendiente añadir a `modifier.ts` + `UPGRADE_MAP` para que el engine los reconozca.
+Estas categorías no pueden modelarse en el snapshot estático actual sin trabajo de diseño previo. Los perks están anotados en el override con `upgrade_type: null` + `note`.
 
-| Token | Op | Efectos mapeados | Ejemplo |
-|---|---|---|---|
-| `WEAPON_ADD_PROJECTILE_SPEED` | ADD | ~24 | Boltor EVO III: +60% |
-| `WEAPON_ADD_ACCURACY` | ADD | ~17 | Braton EVO III: +60% |
-| `WEAPON_ADD_RECOIL` | ADD (negativo) | ~31 | Braton EVO III: -60% |
-| `WEAPON_ADD_STATUS_DURATION` | ADD | ~2 | Okina EVO IV: +25% |
-| `WEAPON_ADD_HEAVY_CHARGE_SPEED` | ADD | ~12 | HATE EVO III: +60% |
-| `WEAPON_BASE_HEAVY_EFFICIENCY` | BASE_FLAT | ~14 | Furax EVO III: +20% |
-| `WEAPON_BASE_CRIT_MULT` | BASE_FLAT | ~10 | Boar EVO IV: +0.5x |
-| `WEAPON_ADD_ZOOM` | ADD (negativo) | ~8 | Varios: -30% |
-| `WEAPON_ADD_SLAM_RADIUS` | ADD | ~4 | Varios: +50% |
-| `WEAPON_ADD_RANGE` | ADD | ~4 | Skana EVO III: +0.4 |
-| `WEAPON_BASE_COMBO_DURATION` | BASE_FLAT | ~7 | Varios: +4–8s |
-| `WEAPON_BASE_COMBO_INITIAL` | BASE_FLAT | ~4 | Varios: +20 |
-| `WEAPON_ADD_MAGAZINE_MAX` | ADD | ~1 | ZarimanSemiAutoRifle: +50% |
-| `WEAPON_ADD_FINISHER_DAMAGE` | ADD | ~1 | Varios |
-| `WEAPON_ADD_PUNCH_THROUGH` | ADD | 0 (todo condicional) | — (P2) |
-
-> `WEAPON_ADD_RECOIL` / `WEAPON_ADD_ZOOM`: valores negativos = reducción. Consistente con convención de `mod-stats.override.json`.  
-> `WEAPON_BASE_HEAVY_EFFICIENCY`: pool plano base=0, cap 90%, verificado en juego — mismo token para mods e Incarnon.  
-> `WEAPON_BASE_COMBO_DURATION` (BASE_FLAT, +Xs) ≠ `WEAPON_ADD_COMBO_DURATION` (ADD, ±X%) — discriminado por label en override.
-
----
-
-## 3. Gaps semánticos (diseño requerido en C1)
-
-Estas categorías no pueden modelarse en el snapshot estático actual sin trabajo de diseño previo.
-
-### 3.1 Condiciones de combate (`context.flags`)
+### 2.1 Condiciones de combate (`context.flags`)
 
 Perks con trigger condicional activo:
 
@@ -90,11 +66,11 @@ Perks con trigger condicional activo:
 | `with_melee_equipped` | ~10 | Furax: "With Melee Weapon Equipped: +100% Combo Count Chance" |
 | `with_sprint_speed_above_N` | ~3 | Latron: "With Sprint Speed 1.2 or Higher: +30% Direct Damage" |
 | `on_first_attack` | ~3 | Sibear: "On First Attack With Primary Equipped: +2x Crit Mult" |
-| `with_primary_equipped` | ~3 | Sibear: "On First Attack With Primary Equipped..." |
+| `with_crit_chance_below_N` | ~1 | Furis: "With Critical Chance below 40%: +3x Base Crit Mult" |
 
-Todas comparten el mismo patrón: un `Modifier` con flag de condición que solo se aplica cuando `context.flags[flag] === true`. Requiere definir el vocabulario de `context.flags` en C1.
+Patrón compartido: `Modifier` con flag de condición, activo solo cuando `context.flags[flag] === true`. Requiere definir el vocabulario de `context.flags` en C1.
 
-### 3.2 Perks on-event (triggers de runtime)
+### 2.2 Perks on-event (triggers de runtime)
 
 No modelables en snapshot estático — requieren sistema de eventos:
 
@@ -102,22 +78,22 @@ No modelables en snapshot estático — requieren sistema de eventos:
 |---|---|---|
 | `on_kill` | ~25 | Boltor: "On Kill: Increase Damage by +2 for 5s. Stacks up to 4x" |
 | `on_reload_from_empty` | ~8 | Boar: "On Reload From Empty: +100% Reload Speed" |
-| `on_hit` | ~5 | Dera: "On Status Effect: +5% Fire Rate for 5s" |
+| `on_hit_status` | ~5 | Dera: "On Status Effect: +5% Fire Rate for 5s" |
 | `on_shield_break` | ~3 | Cestra: "On Shield/Overguard break: x3 Critical Damage for 6s" |
+| `on_headshot` | ~4 | Furis: "On Headshot: +5% Fire Rate for 2s, stacks 10x" |
 
-### 3.3 Buffs dinámicos / stacking
+### 2.3 Buffs dinámicos / stacking
 
 Modificadores que dependen de un contador de runtime:
 
 | Patrón | Afecta (~N perks) | Ejemplo |
 |---|---|---|
-| Stacking damage (n kills → +damage) | ~15 | Boltor Crimson Overture: "+2 per kill, max 4 stacks" |
+| Stacking damage (n kills → +damage) | ~15 | Boltor: "+2 per kill, max 4 stacks" |
+| Condition Overload style | ~3 | Soma: "+40% Damage per Status affecting target" |
 | Energy-gated stacking | ~3 | Gammacor: "On 50 Energy Spent: +5 Damage for 10s, stacks 4x" |
 | Combo-counter based | ~8 | Sibear: "+15 Initial Combo for 10s, stacks 4x" |
 
-### 3.4 Atributos de jugador (fuera de scope weapon)
-
-Modificadores que afectan al Warframe, no al arma:
+### 2.4 Atributos de jugador (fuera de scope weapon sim)
 
 | Atributo | Ejemplo |
 |---|---|
@@ -129,43 +105,90 @@ Modificadores que afectan al Warframe, no al arma:
 
 ---
 
-## 4. Multishot especial (Munitions Grit)
+## 3. Multishot especial (Munitions Grit)
 
 `braton-incarnon-genesis / munitions_grit`: "Multishot consumes ammo from Capacity and increases Damage by +Y. +20% Multishot."
 
-El multishot consume ammo del pool en lugar del cargador. Esto no es un simple +N al stat — requiere modelado de ammo economy. Gap de diseño, no de token.
+El multishot consume ammo del pool en lugar del cargador — requiere modelado de ammo economy. Gap de diseño, no de token.
 
 ---
 
-## 5. Perks con valor "ammo capacity TO N" (SET en lugar de ADD)
+## 4. Perks con valor "capacity TO N" (operación SET)
 
-`atomos-incarnon-genesis / mercenary_chamber`: "Increase ammo capacity to 560" — establece el valor absoluto, no suma.  
-Distintos de `WEAPON_BASE_MAGAZINE_MAX` (que suma). Necesita operación `BASE_SET` o manejo especial.
+Casos conocidos que establecen valor absoluto en lugar de sumar:
 
----
-
-## 6. Variantes per-unique_name (resuelto)
-
-Para perks como Boltor Hunter's Mantra (+18 Boltor / +4 Telos / +4 Prime), cada variante tiene su propia entrada en `incarnon-evolutions.override.json`. No hay campo "variant" — la key del objeto ES el `unique_name`.
-
-Ver [`schema.md`](schema.md) — "Convención de variantes per-arma".
-
----
-
-## Resumen de prioridades para C1
-
-| Prioridad | Trabajo | Valor |
+| Genesis | Perk | Efecto |
 |---|---|---|
-| P1 | Añadir tokens de §2 a `modifier.ts` + `UPGRADE_MAP` | Engine reconoce ~100 efectos adicionales sin diseño nuevo |
-| P2 | Diseñar `context.flags` vocabulary para condiciones de §3.1 | Desbloquea ~40 perks condicionales simples |
-| P3 | Sistema de eventos on-kill / on-event | Desbloquea buffs temporales, requiere runtime state |
-| — | Atributos de jugador | Fuera de scope weapon sim |
+| `atomos-incarnon-genesis` | `mercenary_chamber` | "Increase ammo capacity to 560" |
+| `boar-incarnon-genesis` | `mercenary_chamber` | "Increase ammo capacity to 195" |
+
+Distintos de `WEAPON_BASE_MAGAZINE_MAX` (que suma). Necesitan operación `BASE_SET` o manejo especial — anotados en override con `note: "WEAPON_SET_MAGAZINE_MAX N"`.
+
+---
+
+## 5. Cobertura y deuda de datos
+
+### Estado actual (2026-05-28 post-sesión)
+
+- **48 genesis** mapeados, **87 unique weapons** cubiertos
+- **727 efectos** en override (post-migración genesis-first)
+- **P1 completo** — 23 tokens activos en el engine (§1)
+- **P2+ pendiente** — ~120 perks condicionales/on-event anotados con `upgrade_type: null`
+
+### Perk data incompleta (5 weapons — fingerprint inconsistente)
+
+Weapons con perk set diferente al resto de su genesis. Causa probable: datos parciales en el override previo a la migración.
+
+| Weapon | Genesis | Perks faltantes probables |
+|---|---|---|
+| Burston Prime | `burston-incarnon-genesis` | `reavers_rapture` (presente en BurstRifle, ausente en Prime) |
+| MK1-Braton | `braton-incarnon-genesis` | 7 perks distintos vs base Braton |
+| Gorgon Wraith | `gorgon-incarnon-genesis` | Perk set diferente a HeavyRifle/Prisma |
+| Dex Sybaris | `sybaris-incarnon-genesis` | Perks distintos vs base Sybaris |
+| Latron Wraith | `latron-incarnon-genesis` | `extended_volley`/`flensing_spikes`/`deadhead` (ausentes) |
+
+Acción: completar manualmente con wiki antes de usar estos genesis en tests.
 
 ### Deuda de valores manuales
 
-Algunos efectos tienen placeholders `+X`/`+Y` del extractor — valor real no disponible sin wiki manual:
+Efectos con placeholder `+X`/`+Y` del extractor — valor real requiere verificación en wiki:
+
 - `WEAPON_BASE_DAMAGE` ×4 (Braton Incarnon Form: "+X Damage")
 - `WEAPON_BASE_STATUS_CHANCE` ×10 ("Increase Status Chance by +Y")
 - `WEAPON_BASE_MAGAZINE_MAX` ×9 ("Increase Base Magazine Capacity by +X")
 - `WEAPON_BASE_CRIT_MULT` ×3 ("Increase Base Critical Damage Multiplier by +Yx")
 - `WEAPON_ADD_CRIT_MULT` ×4 ("Increase Critical Damage Multiplier by +Y") — sin "Base"
+
+### Falsos positivos en detección de weapons faltantes
+
+`find_missing_weapons()` en `migrate-incarnon-override.py` extrae `{{Weapon|Name}}` de todo el wikitext, incluyendo secciones de Trivia y comparaciones. Dos casos identificados:
+
+- **Klamora Prism** aparece en `furis-incarnon-genesis.wikitext` como comparación de Incarnon Form ("fires a wide Klamora Prism-like beam") — no pertenece al genesis.
+- **Arca Titron** aparece en `magistar-incarnon-genesis.wikitext` en Trivia como referencia de slam radius — no pertenece al genesis.
+
+---
+
+## 6. Schema — variantes por alias (genesis-first, 2026-05-28)
+
+La estructura genesis-first resuelve el problema de variantes. Ver [schema.md](schema.md) para el contrato completo.
+
+Resumen del patrón:
+- **`weapons: string`** — genesis de un solo arma (e.g., Zariman nativos: `felarx`, `laetum`)
+- **`weapons: { alias: unique_name }`** — genesis multi-weapon con aliases (`base`, `prime`, `wraith`, `mk1`, `vandal`, `prisma`, `dex`, `telos`, `sancti_<name>`)
+- **`value: number`** — escalar cuando todas las variantes comparten el mismo valor
+- **`value: { alias: number }`** — dict cuando los valores difieren por variante (e.g., Boltor `hunters_mantra`: `{ base: 18, prime: 4, telos: 4 }`)
+
+---
+
+## Resumen de prioridades
+
+| Prioridad | Trabajo | Estado |
+|---|---|---|
+| P1 | Tokens §1 en `modifier.ts` + `UPGRADE_MAP` | ✅ Completado 2026-05-28 |
+| P1 | Boar Prime + Soma Prime en override | ✅ Completado 2026-05-28 |
+| P2 | Completar perk data de 5 weapons incompletas | Pendiente (wiki manual) |
+| P2 | Valores placeholder `+X`/`+Y` (~30 efectos) | Pendiente (wiki manual) |
+| C1-A | Diseñar `context.flags` vocabulary (§2.1) | Requiere debate — ~40 perks simples |
+| C1-B | Sistema on-event / stacking (§2.2–2.3) | Requiere runtime state — fuera de snapshot estático |
+| C1-C | Arcanes — sin override aún | Scope nuevo, trabajo similar al Incarnon |
+| — | Atributos de jugador (§2.4) | Fuera de scope weapon sim |
