@@ -8,8 +8,8 @@
             "value": 150
           },
           {
-            "upgrade_type": null,
-            "note": "With Armor Over 450: +70% Heavy Attack Efficiency."
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
+            "value": 70
           }
         ],
         "shieldmaidens_rush": [
@@ -240,8 +240,8 @@
             "value": 50
           },
           {
-            "upgrade_type": null,
-            "note": "With Overshields: +80% Heavy Attack Efficiency."
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
+            "value": 80
           }
         ]
       },
@@ -3076,8 +3076,8 @@
       "5": {
         "blood_anointed": [
           {
-            "upgrade_type": null,
-            "note": "On Finisher: +40% Heavy Attack Efficiency for 40s"
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
+            "value": 40
           }
         ],
         "stunning_brutality": [
@@ -5198,8 +5198,8 @@
       "5": {
         "transfigured_momentum": [
           {
-            "upgrade_type": null,
-            "note": "On Slide Kill: +50% Heavy Attack Efficiency for 30s"
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
+            "value": 50
           }
         ],
         "kinetic_harmony": [
@@ -5286,8 +5286,8 @@
       "5": {
         "brutal_efficiency": [
           {
-            "upgrade_type": null,
-            "note": "Gain +40% Heavy Attack Efficiency for 20s when impaling 5 or more enemies"
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
+            "value": 40
           }
         ],
         "vulnerability_serum": [
@@ -5600,8 +5600,8 @@
             "value": 100
           },
           {
-            "upgrade_type": null,
-            "note": "With Overshields: +80% Heavy Attack Efficiency."
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
+            "value": 80
           }
         ],
         "wartime_nerve": [
@@ -5678,8 +5678,8 @@
             "value": 100
           },
           {
-            "upgrade_type": null,
-            "note": "With Overshields: +80% Heavy Attack Efficiency."
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
+            "value": 80
           }
         ],
         "wartime_nerve": [
@@ -5756,8 +5756,8 @@
             "value": 10
           },
           {
-            "upgrade_type": null,
-            "note": "With Overshields: +80% Heavy Attack Efficiency."
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
+            "value": 80
           }
         ],
         "wartime_nerve": [

@@ -5325,7 +5325,7 @@
               30,
               40
             ],
-            "upgrade_type": "WEAPON_ADD_HEAVY_EFFICIENCY"
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY"
           }
         ],
         "condition": null
@@ -5375,7 +5375,7 @@
               30,
               40
             ],
-            "upgrade_type": "WEAPON_ADD_HEAVY_EFFICIENCY"
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY"
           }
         ],
         "condition": null
@@ -13295,7 +13295,7 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_ADD_HEAVY_EFFICIENCY"
+            "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY"
           }
         ],
         "condition": null
