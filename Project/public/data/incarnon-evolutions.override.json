@@ -96,8 +96,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+30% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 30.0
           }
         ],
         "rapid_reinforcement": [
@@ -170,8 +170,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+30% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 30.0
           }
         ],
         "rapid_reinforcement": [
@@ -680,8 +680,8 @@
         ],
         "practiced_grip": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy by +50%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 50.0
           }
         ]
       },
@@ -754,8 +754,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+60% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 60.0
           }
         ],
         "extended_volley": [
@@ -828,8 +828,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+60% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 60.0
           }
         ],
         "extended_volley": [
@@ -902,8 +902,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+60% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 60.0
           }
         ],
         "extended_volley": [
@@ -982,8 +982,12 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and reduce Recoil by 60%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 60.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ]
       },
@@ -1054,8 +1058,12 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and reduce Recoil by 60%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 60.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ],
         "gunsmoke_pick_up": [
@@ -1132,8 +1140,12 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and reduce Recoil by 60%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 60.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ]
       },
@@ -1204,8 +1216,12 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and reduce Recoil by 60%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 60.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ]
       },
@@ -1270,14 +1286,14 @@
       "3": {
         "kinetic_battle": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "practised_grip": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy by +30%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 30.0
           }
         ],
         "extended_volley": [
@@ -1340,14 +1356,14 @@
       "3": {
         "kinetic_battle": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "practised_grip": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy by +30%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 30.0
           }
         ],
         "extended_volley": [
@@ -1418,8 +1434,8 @@
         ],
         "kinetic_battle": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ]
       },
@@ -1478,8 +1494,8 @@
         ],
         "kinetic_battle": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ]
       },
@@ -1622,8 +1638,8 @@
         ],
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ]
       },
@@ -1676,8 +1692,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ],
         "extended_volley": [
@@ -1754,8 +1770,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ],
         "extended_volley": [
@@ -1850,8 +1866,8 @@
         ],
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ],
         "rapid_reinforcement": [
@@ -1926,8 +1942,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+30% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 30.0
           }
         ],
         "marksmans_focus": [
@@ -2098,8 +2114,8 @@
         ],
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ]
       },
@@ -2140,14 +2156,14 @@
         ],
         "kinetic_baffle": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil"
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "frictionless_flight": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ]
       },
@@ -2458,8 +2474,8 @@
       "3": {
         "practiced_grip": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy by +50%"
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 50.0
           }
         ],
         "extended_volley": [
@@ -2528,8 +2544,8 @@
       "3": {
         "practiced_grip": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy by +50%"
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 50.0
           }
         ],
         "extended_volley": [
@@ -2760,8 +2776,8 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ]
       },
@@ -2830,8 +2846,8 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ]
       },
@@ -2894,8 +2910,8 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ]
       },
@@ -3130,8 +3146,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ],
         "extended_volley": [
@@ -3236,8 +3252,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ],
         "extended_volley": [
@@ -3312,8 +3328,8 @@
       "2": {
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-40% Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -40.0
           },
           {
             "upgrade_type": null,
@@ -3498,8 +3514,12 @@
       "3": {
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and Reduce Recoil by +50%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 50.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "marksmans_gain": [
@@ -3588,8 +3608,12 @@
       "3": {
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and Reduce Recoil by +50%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 50.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "marksmans_gain": [
@@ -3678,8 +3702,12 @@
       "3": {
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and Reduce Recoil by +50%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 50.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "marksmans_gain": [
@@ -3768,8 +3796,8 @@
       "3": {
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-60% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ],
         "marksmans_focus": [
@@ -3820,8 +3848,8 @@
       "3": {
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-60% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ],
         "extended_volley": [
@@ -3890,8 +3918,8 @@
       "3": {
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-60% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ],
         "marksmans_focus": [
@@ -4250,8 +4278,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ],
         "ready_retaliation": [
@@ -4464,8 +4492,8 @@
             "value": 12
           },
           {
-            "upgrade_type": null,
-            "note": "+25% Status Duration"
+            "upgrade_type": "WEAPON_ADD_STATUS_DURATION",
+            "value": 25.0
           }
         ],
         "survivors_edge": [
@@ -4538,8 +4566,8 @@
             "value": 16
           },
           {
-            "upgrade_type": null,
-            "note": "+25% Status Duration"
+            "upgrade_type": "WEAPON_ADD_STATUS_DURATION",
+            "value": 25.0
           }
         ],
         "survivors_edge": [
@@ -4560,8 +4588,8 @@
       "2": {
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-30% Recoil"
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -30.0
           },
           {
             "upgrade_type": null,
@@ -4580,8 +4608,8 @@
         ],
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           },
           {
             "upgrade_type": null,
@@ -4774,8 +4802,8 @@
         ],
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+60% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 60.0
           }
         ]
       },
@@ -4884,8 +4912,8 @@
         ],
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+60% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 60.0
           }
         ]
       },
@@ -4994,8 +5022,8 @@
         ],
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+60% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 60.0
           }
         ]
       },
@@ -5054,8 +5082,8 @@
         ],
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+80% Projectile Speed"
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 80.0
           }
         ]
       },
@@ -5422,12 +5450,12 @@
       "3": {
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "+40% Accuracy"
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 40.0
           },
           {
-            "upgrade_type": null,
-            "note": "-40% Weapon Recoil"
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -40.0
           }
         ],
         "rapid_reinforcement": [
@@ -5528,12 +5556,12 @@
       "3": {
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "+40% Accuracy"
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 40.0
           },
           {
-            "upgrade_type": null,
-            "note": "-40% Weapon Recoil"
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -40.0
           }
         ],
         "rapid_reinforcement": [
@@ -5864,14 +5892,14 @@
       "3": {
         "kinetic_battle": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "practiced_grip": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy by +50%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 50.0
           }
         ],
         "rapid_reinforcement": [
@@ -6442,8 +6470,8 @@
         ],
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-60% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ]
       },
@@ -6506,8 +6534,8 @@
         ],
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-60% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ]
       },
@@ -6576,8 +6604,8 @@
         ],
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-60% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ]
       },
@@ -6796,8 +6824,8 @@
       "3": {
         "swift_deliverance": [
           {
-            "upgrade_type": null,
-            "note": "+50% Projectile Speed."
+            "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED",
+            "value": 50.0
           }
         ],
         "renewed_horror": [
@@ -6904,8 +6932,8 @@
         ],
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "awakened_readiness": [
@@ -7018,8 +7046,8 @@
         ],
         "marksmans_hand": [
           {
-            "upgrade_type": null,
-            "note": "-50% Weapon Recoil."
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -50.0
           }
         ],
         "awakened_readiness": [
@@ -7126,8 +7154,12 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and reduce Recoil by +60%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 60.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ]
       },
@@ -7216,8 +7248,12 @@
         ],
         "voids_guidance": [
           {
-            "upgrade_type": null,
-            "note": "Increase Accuracy and reduce Recoil by +60%."
+            "upgrade_type": "WEAPON_ADD_ACCURACY",
+            "value": 60.0
+          },
+          {
+            "upgrade_type": "WEAPON_ADD_RECOIL",
+            "value": -60.0
           }
         ]
       },
