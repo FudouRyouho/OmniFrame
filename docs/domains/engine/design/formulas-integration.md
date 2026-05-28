@@ -42,7 +42,7 @@ El código en `formulas/` materializa exactamente este principio. El problema: d
 
 ## 2. Hallazgos de la auditoría (2026-05-27)
 
-### 2.1 formulas/ — Cero consumidores externos
+### 2.1 formulas/ — Cero consumidores externos *(estado al momento de la auditoría)*
 
 ```
 grep -rn "from.*engine/formulas" Project/src → (sin resultados)
@@ -50,7 +50,9 @@ grep -rn "from.*engine/formulas" Project/src → (sin resultados)
 
 Los 13 archivos de `formulas/` exportan funciones que nadie llama fuera del propio directorio. Son código muerto.
 
-### 2.2 combat/ — Desconectado del pipeline de producción
+> **⚠️ Resuelto en Fase 2 (2026-05-27):** `crit-base.ts` ← `AtomicSimulator`; `scaling-base.ts` ← `SimulationEngine`. Dos archivos activamente consumidos.
+
+### 2.2 combat/ — Desconectado del pipeline de producción *(estado al momento de la auditoría)*
 
 ```
 grep -rn "import.*CombatCalculator|TimelineSimulator|CombatSimulator" Project/src
@@ -65,6 +67,8 @@ useSimulation → MutatorBridge → StaticHydrator + SimulationEngine → { enti
 
 `MutatorBridge` nunca llama a `CombatCalculator` ni a `TimelineSimulator`. El engine de producción solo resuelve atributos — no calcula DPS, TTK ni proyecciones de estado.
 
+> **⚠️ Parcialmente resuelto (Fase 3):** `CombatCalculator.project()` ahora tiene consumidor: hook `useSimulationMetrics`. `TimelineSimulator` sigue bloqueado por falta de `ScaledEnemy` con datos escalados.
+
 ### 2.3 Duplicación matemática confirmada
 
 | Fórmula | SSoT en formulas/ (sin consumidores) | Copia inline en combat/ |
@@ -76,9 +80,11 @@ useSimulation → MutatorBridge → StaticHydrator + SimulationEngine → { enti
 
 El gap no es de corrección — la matemática en `combat/` es mayormente correcta. El gap es de trazabilidad: si una fórmula cambia, hay que actualizar N lugares. Con `formulas/` como SSoT, se actualiza 1.
 
-### 2.4 DamageCombiner — violación de layer boundary
+### 2.4 ~~DamageCombiner — violación de layer boundary~~ — RESUELTO (Fase 3)
 
-`DamageCombiner` vive en `combat/` pero es llamado exclusivamente desde `StaticHydrator` (hydration/). Pertenece a `hydration/` o al nivel de `contracts/`.
+~~`DamageCombiner` vive en `combat/` pero es llamado exclusivamente desde `StaticHydrator` (hydration/). Pertenece a `hydration/` o al nivel de `contracts/`.~~
+
+> **Resuelto en Fase 3 (2026-05-27):** `DamageCombiner` movido a `engine/hydration/`. Layer boundary cerrada.
 
 ---
 
@@ -86,11 +92,11 @@ El gap no es de corrección — la matemática en `combat/` es mayormente correc
 
 | Archivo | Contenido | Estado | Vocabulario | Acción |
 |---|---|---|---|---|
-| `common/crit-base.ts` | Crit chance, tier, avg multiplier | ✅ Correcto, SSoT real | Agnóstico | Conectar a AtomicSimulator |
-| `common/scaling-base.ts` | applyAdditiveBonus, round2, clamp | ✅ Correcto, SSoT real | Agnóstico | Conectar a SimulationEngine |
+| `common/crit-base.ts` | Crit chance, tier, avg multiplier | ✅ Correcto, SSoT real | Agnóstico | ✅ **Conectado (Fase 2)** ← `AtomicSimulator` |
+| `common/scaling-base.ts` | applyAdditiveBonus, round2, clamp | ✅ Correcto, SSoT real | Agnóstico | ✅ **Conectado (Fase 2)** ← `SimulationEngine` |
 | `common/status-base.ts` | PRIMARY_ELEMENTS, ELEMENT_COMBINATIONS, procWeightByType | ✅ Correcto | DamageType (vocab antiguo: "heat", "cold") | Migrar a D-6 en Fase 4 |
-| `weapon/weapon-core.ts` | calculateWeaponStats | ⚠️ Tokens D-3 legacy | D-3 (WEAPON_DAMAGE_AMOUNT, etc.) | **PURGE** |
-| `warframe/warframe-core.ts` | calculateWarframeStats | ⚠️ Tokens D-3 legacy | D-3 (AVATAR_HEALTH_MAX, etc.) | **PURGE** |
+| ~~`weapon/weapon-core.ts`~~ | ~~calculateWeaponStats~~ | ~~⚠️ D-3 legacy~~ | ~~D-3~~ | ✅ **PURGADO (Fase 1)** |
+| ~~`warframe/warframe-core.ts`~~ | ~~calculateWarframeStats~~ | ~~⚠️ D-3 legacy~~ | ~~D-3~~ | ✅ **PURGADO (Fase 1)** — directorio eliminado |
 | `weapon/weapon-crit.ts` | calculateWeaponCrit delegando a crit-base | ✅ Correcto | Agnóstico | Evaluar en Fase 3 |
 | `weapon/weapon-status.ts` | calculateWeaponStatus | ✅ Correcto | DamageType (antiguo) | Migrar en Fase 4 |
 | `weapon/weapon-multishot.ts` | calculateMultishot, beamTickScaleFactor | ✅ Correcto | Agnóstico | Conectar en Fase 3 |
@@ -135,7 +141,7 @@ Eliminar los únicos dos archivos con tokens pre-D-6:
 
 **Pre-condiciones para avanzar a C2/C3 activamente:**
 - Arcanos modelados en override JSON (`arcane-stats.override.json` — Fase 5)
-- Evoluciones Incarnon mapeadas en `EnsembleIntention` + pipeline de hydration
+- ~~Evoluciones Incarnon mapeadas en `EnsembleIntention` + pipeline de hydration~~ → **Completado (2026-05-27):** `IncarnonRepository` + `incarnon-evolutions.override.json` (85 armas, tokens `WEAPON_BASE_*`)
 - Cobertura de mods al ≥70-80% en override
 - Tests C1 cubriendo los casos de la capa de formulas (status, multishot, elemental combine)
 

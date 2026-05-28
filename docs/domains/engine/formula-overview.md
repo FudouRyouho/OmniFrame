@@ -1,14 +1,16 @@
 ---
-Estado: "activo"
-Rol: "Especificar las fórmulas matemáticas que el motor ejecuta"
-Version: "v0.0.2"
+Estado: "referencia"
+Rol: "Referencia conceptual de las fórmulas matemáticas del motor"
+Version: "v0.0.3"
 Impacto_ID: "E-Formulas"
-Fidelidad_Fisica: "Project/src/core/engine/"
+Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-04-19"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # Engine Formula Overview
+
+> **Ver también**: Para el estado operativo actualizado — plan de integración de `formulas/`, fases completadas y consumidores activos — ver `docs/domains/engine/design/formulas-integration.md`.
 
 ## 1. Supuesto Matemático (Estado Estático)
 
@@ -21,7 +23,7 @@ El motor asume un estado determinista para el cálculo de estadísticas:
 ## 2. Primitivas Matemáticas
 
 ### Bonus Aditivos (Mods estándar)
-Se agrupan por `upgradeType` y se suman antes de aplicar a la base.
+Se agrupan por `upgrade_type` y se suman antes de aplicar a la base.
 ```text
 stat_final = base * (1 + suma_de_bonus / 100)
 ```

@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.1.0"
+Version: "v0.1.1"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-05-25"
+Fecha_de_actualizacion: "2026-05-27"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -79,7 +79,7 @@ Las exaltadas son el ejemplo más claro de por qué `Ability` no puede reducirse
 
 Las 6 decisiones que blindan el motor contra colapso por composición de modificadores.
 
-> **Estado de implementación:** consultar [`../engine-audit.md`](../engine-audit.md) §1-3. Resumen rápido: 1-4 implementadas ✅, 5-6 diseñadas pero NO implementadas ❌.
+> **Estado de implementación:** consultar [`../engine-audit.md`](../engine-audit.md) §1-3. Resumen rápido: §4.1 ✅ §4.2 ✅ §4.4 ✅ implementadas; §4.3 (Delta Stream — array plano en su lugar) ❌ §4.5 (Decorator Layers) ❌ §4.6 (Casting Snapshot) ❌ diseñadas pero no implementadas.
 
 ### 4.1 Stat Accumulator v3
 

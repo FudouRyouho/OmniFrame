@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
-Version: "v0.2.0"
+Version: "v0.2.1"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-05-19"
+Fecha_de_actualizacion: "2026-05-27"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -65,7 +65,7 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 - **Naturaleza**: Capa de traducción unidireccional. Solo baja (intención → engine). No sube.
 - **Responsabilidad**:
   - Escucha el snapshot de `EnsembleIntention`.
-  - **DNA Mutation Step**: Aplica mutaciones fijas (Archon Shards, Helminth) sobre los valores base del dataset. Entrega `MutatedDNA` al engine. *(Parcialmente implementado — shards mapeados, lógica de mutación pendiente. Ver OQ-ENGINE-4.)*
+  - **DNA Mutation Step**: Aplica mutaciones fijas (Archon Shards, Helminth) sobre los valores base del dataset. Entrega `MutatedDNA` al engine. *(Archon Shards implementados — OQ-ENGINE-4 cerrado (2026-05-27): `StaticHydrator.hydrate()` consume `ensemble.warframe.shards` vía `ShardRepository`. Helminth sigue sin implementar.)*
   - **Positional Mapping**: Preserva el orden de slots de mods para el Elemental System de C1.
 - **No conoce**: React, UI, cómo las fórmulas funcionan internamente.
 - **Físico**: `Project/src/core/engine/bridge/MutatorBridge.ts`
@@ -82,7 +82,7 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
   - Emite entidades con atributos completamente resueltos.
 - **No conoce**: tiempo, enemigos, entorno de combate, UI.
 - **Contrato de AttributeNode**: ver `docs/domains/engine/attribute-node-contract.md`
-- **Físico**: `SimulationEngine.ts`, `StaticHydrator.ts`, `ModRepository.ts`, `DnaRepository.ts`, `ItemRepository.ts`
+- **Físico**: `SimulationEngine.ts`, `StaticHydrator.ts`, `ModRepository.ts`, `DnaRepository.ts`, `ItemRepository.ts`, `ShardRepository.ts`, `IncarnonRepository.ts` (añadidos 2026-05-27)
 
 ---
 

@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Inventario de residuos de transición en Project/src/ — base para purga y refactor"
-Version: "v0.1.0"
+Version: "v0.2.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-05-18"
-Fecha_de_actualizacion: "2026-05-21"
+Fecha_de_actualizacion: "2026-05-27"
 Dependencias:
   - "docs/domains/engine/engine-audit.md"
 ---
@@ -32,7 +32,7 @@ Solo 2 archivos son purga clara e inmediata:
 | `domains/arsenal/state/use-arsenal-stub-state.ts` | Stub con nombre explícito. `useSyncExternalStore` con snapshot local sin persistencia real. `@status stub / persistencia temporal`. | Cuando Arsenal se conecte a EnsembleStore real. |
 | `domains/hud/footer/ArsenalFooter.tsx` | `const active_channel_count = 0; // Stub` — constante hardcodeada marcada explícitamente como stub sin integración pendiente. | Cuando el footer de Arsenal consuma datos reales. |
 
-> **Nota**: Ambos dependen de OQ-STATE-2 (conexión Arsenal → Motor). No purgar antes de resolverlo.
+> **Nota**: OQ-STATE-2 cerrado (2026-05-19). `use-arsenal-stub-state.ts` sigue activo pero reducido a metadata visual (incarnon, focus, companion, vehicles). Purga final bloqueada por OQ-ENGINE-2 (conexión completa Arsenal → EnsembleStore).
 
 ---
 
@@ -78,15 +78,15 @@ Dos referencias a "Snapshot B4" (nomenclatura de fases B1-B4 deprecada):
 
 ### 3.2 `any` types por archivo (engine)
 
-Todos son KEEP — el código es funcional, pero los `any` esconden problemas de tipo que se manifestarán al escalar:
+Estado actualizado — mayoría resueltos en Bloques A/B. Pendiente solo `ItemRepository`:
 
-| Archivo | Ocurrencias | Problema raíz |
+| Archivo | Estado | Nota |
 | :--- | :--- | :--- |
-| `core/engine/hydration/ModRepository.ts` | 2 (`stat: any`, `val: any`) | El override JSON no tiene interfaz TypeScript. Necesita `ModStatRaw` interface. |
-| `core/engine/hydration/ItemRepository.ts` | 4+ (`data: any[]`, `attack: any`, `mapDamage(damage: any)`, retornos `any\|null`) | El dataset warframe-items no tiene contratos TS. Necesita `RawWeaponData` etc. |
-| `core/engine/bridge/MutatorBridge.ts` | 1 (`mapCalculatedStats(): any`) | Retorno debería ser `Record<AttributeId, AttributeNode>`. |
-| `core/engine/bridge/EnsembleAdapter.ts` | 1 (`mapEntity(): any`) | Retorno debería ser el bloque de warframe de `Ensemble`. |
-| `core/engine/combat/CombatSimulator.ts` | 1 (`entity: any`) | Parámetro debería ser `SimulationEntity`. |
+| `core/engine/hydration/ModRepository.ts` | ✅ Resuelto (Bloque B) | `ModStatRaw` + `ModOverrideEntry` en `contracts/mod-overrides.ts`. |
+| `core/engine/hydration/ItemRepository.ts` | KEEP — Bloque D | 4+ `any` (`data: any[]`, `attack: any`, `mapDamage`, retornos `any\|null`). Necesita `RawWeaponData`. |
+| `core/engine/bridge/MutatorBridge.ts` | ✅ Resuelto (Bloque A) | `mapCalculatedStats()` tipado → `Record<AttributeId, AttributeNode>`. |
+| ~~`core/engine/bridge/EnsembleAdapter.ts`~~ | **ELIMINADO** (OQ-STATE-4) | Absorbido por `MutatorBridge`. |
+| `core/engine/combat/CombatSimulator.ts` | ✅ Resuelto (Bloque A) | `simulateAttack()` tipado → `SimulationEntity` + `AtomicRoll`. |
 
 ### 3.3 `any` types en DataRegistry (shared)
 
@@ -151,7 +151,7 @@ El agente marcó los `@SSoT` de los archivos engine como "paths rotos". Verifica
 9. ✅ `loadout-context.tsx` purgado — OQ-STATE-1.
 10. ✅ `EnsembleAdapter.ts` eliminado — lógica absorbida por `MutatorBridge` — OQ-STATE-4.
 11. ✅ `ArchonShardSelection` y factories de estado eliminadas de `arsenal-state.ts` — archon shards migrados a `EnsembleIntention` — OQ-STATE-2.
-12. `use-arsenal-stub-state.ts` — reducido a metadata visual (incarnon, focus, companion, vehicles). Purga final cuando OQ-ENGINE-2/4 sean implementados.
+12. `use-arsenal-stub-state.ts` — reducido a metadata visual (incarnon, focus, companion, vehicles). Purga final cuando OQ-ENGINE-2 sea implementado. (OQ-ENGINE-4 cerrado 2026-05-27)
 13. `ArsenalFooter.tsx` — stub hardcodeado. Purgar cuando Arsenal Footer consuma datos reales.
 
 ### Bloque D — Deuda técnica baja urgencia
@@ -163,5 +163,11 @@ El agente marcó los `@SSoT` de los archivos engine como "paths rotos". Verifica
 
 ## 6. Open Questions vinculadas
 
-- OQ-STATE-1, OQ-STATE-2 (de `docs/governance/open-questions.md`) — desbloquean el Bloque C.
-- OQ-ENGINE-3 (label parsing en ModRepository) — desbloquea el Bloque B (necesita `element_type` explícito en el override).
+Todas las OQs originales cerradas. Ver `docs/governance/closed-decisions.md`.
+
+- OQ-STATE-1 → cerrado (2026-05-19) — `LoadoutProvider` eliminado.
+- OQ-STATE-2 → cerrado (2026-05-19) — Arsenal factories + Archon Shards migrados a `EnsembleIntention`.
+- OQ-ENGINE-3 → cerrado (2026-05-27) — label parsing eliminado; `upgrade_type` D-6 en override.
+- OQ-ENGINE-4 → cerrado (2026-05-27) — Archon Shards implementados en `StaticHydrator`.
+
+**Bloqueador activo**: OQ-ENGINE-2 (profile switching Incarnon/Alt-fire). Ver `docs/governance/open-questions.md`.

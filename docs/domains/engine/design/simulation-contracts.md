@@ -1,11 +1,11 @@
 ---
 Estado: "ratificado"
 Rol: "Contratos técnicos base del motor de simulación v2"
-Version: "v0.1.0"
+Version: "v0.1.1"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-04-21"
+Fecha_de_actualizacion: "2026-05-27"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
 Dependidos:
@@ -191,7 +191,7 @@ interface AuditResponse {
 ```
 
 ### 6.3 La Trinidad del Arsenal (Contextos de Uso)
-El motor debe ser agnóstico a la UI, pero el `EnsembleAdapter` debe garantizar la compatibilidad con estos tres flujos:
+El motor debe ser agnóstico a la UI. `EnsembleAdapter` eliminado (OQ-STATE-4, 2026-05-19) — lógica absorbida por `MutatorBridge`. Los tres flujos que debe garantizar `MutatorBridge`:
 1. **Arsenal (Equipado)**: Sincronización bidireccional con el estado persistente del usuario.
 2. **Swap (Intercambio)**: Proyección efímera comparativa (Ensemble Actual vs Ensemble con Cambio).
 3. **Upgrade (Builder/Overframe)**: Manipulación total de slots y variables de contexto para optimización.

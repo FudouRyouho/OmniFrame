@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-05-18"
-Fecha_de_actualizacion: "2026-05-21"
+Fecha_de_actualizacion: "2026-05-27"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/design/simulation-contracts.md"
@@ -30,7 +30,7 @@ Dependencias:
 | Elemental System — Factor Order | `DamageCombiner.combine()` | Ordenamiento por índice de slot, consolidación de duplicados, combinación por pares. Fiel al diseño. |
 | MutatorBridge — ruta única | `simulateFromIntention(EnsembleIntention)` | Ruta legacy `simulate(LoadoutState)` eliminada (2026-05-21). Una sola entrada canónica. |
 | GameLaws centralizadas | `BASELINE_GAME_LAWS` en `contracts/index.ts` | SSoT para corrosive, viral, status stacks. |
-| SimulationAuditor (AI-Ready) | `SimulationAuditor.explain()`, `diff()`, `summarizeEntity()` | Excede la especificación — `diff()` y `summarizeEntity()` no estaban en el diseño. Buen aporte. |
+| ~~SimulationAuditor (AI-Ready)~~ | ~~`audit/SimulationAuditor.ts`~~ | **ELIMINADO** — directorio `engine/audit/` purgado junto con `TraceObserver.ts`. Funcionalidad no migrada. |
 | Hybrid Simulation (Atómico vs Bulk) | `CombatSimulator.simulateAttack()` | `HYBRID_THRESHOLD = 20` perdigones. Modo atómico bajo ≤20, EV bulk sobre 20. Alineado. |
 | SimulationContext (flags, variables, active_profile_id, laws, target) | `contracts/index.ts` | Contrato materializado correctamente. |
 | Falloff por distancia (Distance Bucket) | `CombatCalculator.project()` | `falloff_start`, `falloff_end`, `falloff_min_pct` operativos. |
@@ -118,7 +118,7 @@ No conectado a ningún dato real.
 
 | Concepto | Archivo diseñado | Estado |
 | :--- | :--- | :--- |
-| DNA Mutation Step (Archon Shards, Helminth) | `simulation-architecture.md §Capa B` | `shards: []` y `helminth: undefined` hardcodeados en `MutatorBridge.ensembleFromIntention()`. La mutación de ADN nunca ocurre. |
+| ~~DNA Mutation Step~~ — **Archon Shards** | `simulation-architecture.md §Capa B` | **Implementado (2026-05-27)** — `StaticHydrator.hydrate()` consume `ensemble.warframe.shards` vía `ShardRepository`. Emite `Modifier` objects con `target_entity` correcta. OQ-ENGINE-4 cerrado. Helminth sigue sin implementar. |
 | Casting Snapshot (ADN Dinámico) | `simulation-architecture.md §2.7` | No existe. El behavior `CAST` → snapshot parcial del padre → InjectedDNA en TE no está implementado. |
 | Transient Entity Queue (Anti-recursión) | `simulation-architecture.md §Capa C` | Los procs (Slash, Heat, Toxin) son proyecciones matemáticas de `StatusEngine`, no TEs reales en una cola. No hay límite de profundidad ni energía de tick. |
 | Logic Decorator Layers (6 capas) | `simulation-architecture.md §2.6` | No existen. El engine resuelve todos los modificadores en un solo bloque sin capas ordenadas (`INITIAL_OVERRIDE` → `FINAL_CLIP`). |
@@ -135,39 +135,38 @@ Piezas que existen en el código pero que no tienen contraparte en `docs/domains
 
 ### 4.1 WEAPON_DAMAGE como multiplicador global
 
-`StaticHydrator` inyecta un nodo `WEAPON_DAMAGE` (base 100) en toda entidad que no lo tenga. En `calculateCurrentValue()`:
+> **⚠️ Actualizado 2026-05-27:** Arquitectura declarada DEFINITIVA en OQ-ENGINE-1. Base corregida de 100 a `damage_sum`. Ver notas inline.
+
+`StaticHydrator` inyecta un nodo `WEAPON_DAMAGE` (base = `damage_sum` del perfil activo, calculado por `ItemRepository`) en toda entidad arma. En `calculateCurrentValue()`:
 
 ```typescript
-const globalDmgMult = weaponDamageNode ? (weaponDamageNode.final / 100) : 1.0;
+const globalDmgMult = weaponDamageNode ? (weaponDamageNode.final / base) : 1.0;
 // ...
 if (attributeId.startsWith('damage_') && attributeId !== 'WEAPON_DAMAGE') {
   val *= globalDmgMult;
 }
 ```
 
-Esto significa que Serration (y similares) aplican como `ADD` al atributo `WEAPON_DAMAGE`, que luego escala todos los tipos de daño como multiplicador implícito. Es una forma funcional de modelar el "daño base total" de Warframe, pero **no está documentada en el diseño** y crea una dependencia implícita no trazada en el grafo.
+Serration (y similares) aplican como `ADD` al pool aditivo de `WEAPON_DAMAGE`, que escala todos los tipos de daño como multiplicador global. Implementa correctamente el stacking aditivo de Warframe: `Base × (1 + ΣSerration + ΣHeavyCal + ...)`. **Es la arquitectura canónica del juego — no un hack.** Documentada en `references/wiki/mechanics/calculating-bonuses.md §Stacking ADITIVO`. Validada en 33 tests gold standard (2026-05-27).
 
 ### 4.2 Infraestructura de datos no especificada
 
 | Archivo | Rol real |
 | :--- | :--- |
-| `ItemRepository.ts` | Carga JSONs desde `public/data/` (warframes, weapons, mods, overrides). In-memory Map. |
-| `ModRepository.ts` | Traduce `upgrade_type` strings del JSON a `AttributeId` del engine via `UPGRADE_MAP`. Incluye resolución de elementos por label parsing. |
+| `ItemRepository.ts` | Carga JSONs desde `public/data/` (warframes, weapons, mods, overrides). In-memory Map. Calcula `damage_sum` del perfil activo. |
+| `ModRepository.ts` | Resuelve `upgrade_type` strings del JSON a `{ attr, op }` del engine vía `UPGRADE_MAP` / `resolveToken()`. Label parsing eliminado — OQ-ENGINE-3 cerrado (2026-05-27). |
+| `ShardRepository.ts` | Resuelve Archon Shards: tipo + stat + isTau → `Modifier` con `target_entity`. |
+| `IncarnonRepository.ts` | Resuelve perks Incarnon Genesis: `evolution_perks` → `Modifier[]` vía `UPGRADE_MAP`. Añadido 2026-05-27. |
+| `DnaRepository.ts` | DNA base de items. |
 | `EnemyRepository.ts` | Repositorio de perfiles de enemigos escalados por nivel. |
 | `EnemyState.ts` | Máquina de estado del enemigo: escudos, salud, armadura, stacks de DoT, lógica de corrosión. |
-| `DatasetSeeder.ts` | Cargador inicial que inicializa todos los repositorios. |
 | `RngProvider.ts` | Abstracción de RNG inyectable para testabilidad. |
-| `TraceObserver.ts` | (No auditado en detalle) — aparentemente para observar trazas en dev. |
+| ~~`DatasetSeeder.ts`~~ | **ELIMINADO** — D-9 (2026-05-19). Datos de prueba = pipeline real. |
+| ~~`TraceObserver.ts`~~ | **ELIMINADO** — directorio `audit/` purgado. |
 
-### 4.3 Elemental damage via label parsing
+### 4.3 ~~Elemental damage via label parsing~~ — RESUELTO (2026-05-27)
 
-En `ModRepository.getModifiers()`, el tipo de daño elemental se resuelve buscando el nombre del elemento en el campo `label` del mod:
-
-```typescript
-const element = Object.keys(ELEMENT_MAP).find(el => stat.label.includes(el));
-```
-
-Patrón frágil — un cambio de texto en el override JSON rompería la resolución silenciosamente.
+> **OQ-ENGINE-3 CERRADO.** `ModRepository` v2 consume `upgrade_type` directamente vía `isUpgrade()` + `UPGRADE_MAP` / `resolveToken()`. No hay label parsing. El tipo elemental ya está declarado en el token D-6 (ej. `WEAPON_ADD_TOXIN_DAMAGE`). El campo `stat.label` existe en el override como texto descriptivo pero no se procesa.
 
 ### 4.4 All-operations siempre ADD
 
@@ -179,10 +178,10 @@ Patrón frágil — un cambio de texto en el override JSON rompería la resoluci
 
 | ID | Pregunta | Impacto |
 | :--- | :--- | :--- |
-| **OQ-ENGINE-1** | ¿El patrón `WEAPON_DAMAGE` como multiplicador global es la arquitectura definitiva o un hack temporal? Debe documentarse o reemplazarse. | Alto — afecta toda fórmula de daño. |
-| **OQ-ENGINE-2** | Profile switching (Incarnon/Alt-fire) necesita ocurrir en `resolve()`, no solo en hidratación. ¿Cuál es el mecanismo correcto? | Medio — bloquea la feature de Incarnon toggle. |
-| **OQ-ENGINE-3** | ¿El label-parsing para tipo elemental en `ModRepository` es aceptable? ¿O se migra a un campo explícito `element_type` en el override JSON? | Medio — fragilidad del pipeline. |
-| **OQ-ENGINE-4** | ¿En qué Fase se implementa la DNA Mutation (Archon Shards, Helminth)? El diseño lo pone en Capa B pero la Fase 6 del roadmap no lo menciona explícitamente. | Alto — Capa B está incompleta. |
+| **OQ-ENGINE-1** | ¿El patrón `WEAPON_DAMAGE` como multiplicador global es la arquitectura definitiva? | Alto | ✅ **CERRADO (2026-05-27)** — Arquitectura definitiva. Base = `damage_sum`. 33 tests gold standard. |
+| **OQ-ENGINE-2** | Profile switching (Incarnon/Alt-fire): re-hidratar vs. conmutar en `resolve()`. | Medio | **ABIERTO** |
+| **OQ-ENGINE-3** | ¿El label-parsing en `ModRepository` es aceptable o se migra a token explícito? | Medio | ✅ **CERRADO (2026-05-27)** — Token D-6 explícito en override. Label parsing eliminado. |
+| **OQ-ENGINE-4** | ¿En qué Fase se implementa la DNA Mutation (Archon Shards, Helminth)? | Alto | ✅ **CERRADO (2026-05-27)** — Archon Shards implementados en `StaticHydrator`. Helminth defer. |
 
 Estas preguntas se registran en `docs/governance/open-questions.md`.
 

@@ -1,11 +1,11 @@
 ---
-Estado: "en ejecucion"
+Estado: "en ejecución"
 Rol: "Hoja de ruta para la implementación del motor v2"
-Version: "v0.2.0"
+Version: "v0.2.1"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-05-21"
+Fecha_de_actualizacion: "2026-05-27"
 ---
 
 # 🗺️ Roadmap: Reconstrucción del Motor de Simulación (Sim-v2)
@@ -30,13 +30,13 @@ Este documento define la ruta crítica para sustituir el sistema de Loadout/Reso
 - [x] **Reactive Attribute Graph**: Implementación de Kahn's Algorithm.
 
 ## Fase 4: Observabilidad Orientada a Agentes ✅
-- [x] **SimulationAuditor aislado**: Trazas de auditoría sin contaminación.
+- [x] **SimulationAuditor aislado**: Trazas de auditoría sin contaminación. *(ELIMINADO 2026-05-27 — directorio `engine/audit/` purgado junto con `TraceObserver.ts`.)*
 - [x] **Rastreo de Causalidad**: Evaluación de condiciones operativa.
 - [x] **Diff Diagnostics**: Sistema de comparación diferencial.
 
 ## Fase 5: Integración en Laboratorio ✅
 - [x] **Lab Bridge Development**: Hook `useSimulation` integrado.
-- [x] **Visualizador de Auditoría**: `SimulationAuditor` con `explain()`, `diff()`, `summarizeEntity()`. `SimulationLab` eliminado (2026-05-21) — reemplazado por tests de Vitest.
+- [x] **Visualizador de Auditoría**: `SimulationLab` eliminado (2026-05-21) — reemplazado por tests de Vitest. `SimulationAuditor` también eliminado (2026-05-27) — ver Fase 4.
 
 ---
 
@@ -44,8 +44,8 @@ Este documento define la ruta crítica para sustituir el sistema de Loadout/Reso
 *Prioridad actual: Estabilizar la conexión de datos y la reactividad de la UI.*
 
 - [x] **Arquitectura de Manifiesto Plano**: Adopción de `Record<Uid, Intent>` con Uids Semánticos.
-- [ ] **MutatorBridge Refactor**: Actualizar el `EnsembleAdapter` para reconstruir la jerarquía desde el Record plano.
-- [ ] **Data Hydration Engine**: Motor de carga de JSONs para convertir `Intents` en `Entities`.
+- [x] **MutatorBridge Refactor**: `EnsembleAdapter` eliminado (OQ-STATE-4, 2026-05-19) — lógica absorbida por `MutatorBridge`.
+- [x] **Data Hydration Engine**: `StaticHydrator` + `ModRepository` + `ShardRepository` + `IncarnonRepository` + `ItemRepository` (2026-05-27).
 - [ ] **Gobernanza de Datos (Engine-Only)**: Centralizar `slot-rules.json` y `attribute-registry.json` en `public/data/engine/`.
 - [ ] **Reactive Selection Selectors**: Hooks de suscripción granular para optimizar re-renders en el Arsenal.
 - [ ] **Validation UI Feedback**: Predicados de compatibilidad (`isExilus`, `compatName`) integrados en la UI.
