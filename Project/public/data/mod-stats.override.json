@@ -334,7 +334,7 @@
               5,
               6
             ],
-            "upgrade_type": "WEAPON_MELEE_ARMOR_REDUCTION"
+            "upgrade_type": "WEAPON_ADD_ARMOR_REDUCTION"
           }
         ],
         "condition": null
@@ -373,7 +373,7 @@
               83.3,
               100
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_GAIN_EXTRA_CHANCE"
+            "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE"
           }
         ],
         "condition": null
@@ -412,7 +412,7 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_MELEE_HEAVY_CHARGE_SPEED"
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED"
           }
         ],
         "condition": null
@@ -1880,7 +1880,7 @@
               10,
               12
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_DURATION_BONUS"
+            "upgrade_type": "WEAPON_BASE_COMBO_DURATION"
           }
         ],
         "condition": null
@@ -2815,7 +2815,7 @@
               4.2,
               5
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_DURATION_BONUS"
+            "upgrade_type": "WEAPON_BASE_COMBO_DURATION"
           }
         ],
         "condition": null
@@ -3218,7 +3218,7 @@
               22.5,
               30
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_INITIAL_BONUS"
+            "upgrade_type": "WEAPON_BASE_COMBO_INITIAL"
           }
         ],
         "condition": null
@@ -3233,7 +3233,7 @@
               -37.5,
               -50
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_DURATION_BONUS"
+            "upgrade_type": "WEAPON_ADD_COMBO_DURATION"
           }
         ],
         "condition": null
@@ -3293,7 +3293,7 @@
               12,
               16
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_INITIAL_BONUS"
+            "upgrade_type": "WEAPON_BASE_COMBO_INITIAL"
           }
         ],
         "condition": null
@@ -3308,7 +3308,7 @@
               75,
               100
             ],
-            "upgrade_type": "WEAPON_MELEE_FINISHER_DAMAGE"
+            "upgrade_type": "WEAPON_ADD_FINISHER_DAMAGE"
           }
         ],
         "condition": null
@@ -4037,7 +4037,7 @@
               7.5,
               10
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_DURATION_BONUS"
+            "upgrade_type": "WEAPON_BASE_COMBO_DURATION"
           }
         ],
         "condition": null
@@ -4844,7 +4844,7 @@
               75,
               100
             ],
-            "upgrade_type": "WEAPON_MELEE_AUTOTARGET_RANGE_BONUS"
+            "upgrade_type": "WEAPON_ADD_ATTRACTION_RANGE"
           }
         ],
         "condition": null
@@ -5074,7 +5074,7 @@
               45,
               60
             ],
-            "upgrade_type": "WEAPON_MELEE_FINISHER_DAMAGE"
+            "upgrade_type": "WEAPON_ADD_FINISHER_DAMAGE"
           }
         ],
         "condition": null
@@ -5325,7 +5325,7 @@
               30,
               40
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_USAGE_EFFICIENCY"
+            "upgrade_type": "WEAPON_ADD_HEAVY_EFFICIENCY"
           }
         ],
         "condition": null
@@ -5375,7 +5375,7 @@
               30,
               40
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_USAGE_EFFICIENCY"
+            "upgrade_type": "WEAPON_ADD_HEAVY_EFFICIENCY"
           }
         ],
         "condition": null
@@ -6051,7 +6051,7 @@
               5,
               6
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_DURATION_BONUS"
+            "upgrade_type": "WEAPON_BASE_COMBO_DURATION"
           }
         ],
         "condition": null
@@ -7657,7 +7657,7 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_MELEE_HEAVY_CHARGE_SPEED"
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED"
           }
         ],
         "condition": null
@@ -9830,7 +9830,7 @@
               37.5,
               45
             ],
-            "upgrade_type": "WEAPON_MELEE_SLAM_DAMAGE_BONUS"
+            "upgrade_type": "WEAPON_ADD_SLAM_DAMAGE"
           }
         ],
         "condition": null
@@ -12912,7 +12912,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_GAIN_EXTRA_CHANCE"
+            "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE"
           }
         ],
         "condition": null
@@ -13117,7 +13117,7 @@
               20,
               24
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_INITIAL_BONUS"
+            "upgrade_type": "WEAPON_BASE_COMBO_INITIAL"
           }
         ],
         "condition": null
@@ -13295,7 +13295,7 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_USAGE_EFFICIENCY"
+            "upgrade_type": "WEAPON_ADD_HEAVY_EFFICIENCY"
           }
         ],
         "condition": null
@@ -13322,7 +13322,7 @@
               90.9,
               100
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_GAIN_EXTRA_CHANCE"
+            "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE"
           }
         ],
         "condition": null
@@ -13384,7 +13384,7 @@
               75,
               100
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_CHANCE_FROM_DOT"
+            "upgrade_type": "WEAPON_ADD_COMBO_CHANCE_FROM_DOT"
           }
         ],
         "condition": null
@@ -14365,7 +14365,7 @@
               150,
               200
             ],
-            "upgrade_type": "WEAPON_MELEE_SLAM_DAMAGE_BONUS"
+            "upgrade_type": "WEAPON_ADD_SLAM_DAMAGE"
           }
         ],
         "condition": null
@@ -14531,7 +14531,7 @@
               5,
               6
             ],
-            "upgrade_type": "WEAPON_MELEE_ARMOR_REDUCTION"
+            "upgrade_type": "WEAPON_ADD_ARMOR_REDUCTION"
           }
         ],
         "condition": null
@@ -16740,7 +16740,7 @@
               75,
               100
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_GAIN_EXTRA_CHANCE"
+            "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE"
           }
         ],
         "condition": null
@@ -16755,7 +16755,7 @@
               -37.5,
               -50
             ],
-            "upgrade_type": "WEAPON_MELEE_COMBO_DURATION_BONUS"
+            "upgrade_type": "WEAPON_ADD_COMBO_DURATION"
           }
         ],
         "condition": null
