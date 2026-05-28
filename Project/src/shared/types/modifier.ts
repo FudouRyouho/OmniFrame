@@ -68,11 +68,26 @@ export const UPGRADES = [
   'WEAPON_ADD_MAGAZINE_MAX',
   'WEAPON_ADD_RELOAD_SPEED',
   'WEAPON_ADD_STATUS_DAMAGE',
+  'WEAPON_ADD_PROJECTILE_SPEED',
+  'WEAPON_ADD_ACCURACY',
+  'WEAPON_ADD_RECOIL',
+  'WEAPON_ADD_STATUS_DURATION',
+  'WEAPON_ADD_ZOOM',
+  'WEAPON_ADD_FINISHER_DAMAGE',
   // ── WEAPON — perks base incarnon (BASE_FLAT — se amplifican con mods ADD) ─
   'WEAPON_BASE_CRIT_CHANCE',
   'WEAPON_BASE_STATUS_CHANCE',
   'WEAPON_BASE_DAMAGE',
   'WEAPON_BASE_MAGAZINE_MAX',
+  'WEAPON_BASE_CRIT_MULT',
+  // ── WEAPON — melee ────────────────────────────────────────────────────────
+  'WEAPON_ADD_HEAVY_CHARGE_SPEED',
+  'WEAPON_BASE_HEAVY_EFFICIENCY',
+  'WEAPON_ADD_SLAM_RADIUS',
+  'WEAPON_ADD_RANGE',
+  'WEAPON_BASE_COMBO_DURATION',
+  'WEAPON_ADD_COMBO_DURATION',
+  'WEAPON_BASE_COMBO_INITIAL',
   // ── WEAPON — sub-familia clase (D-6 extensión, activa 2026-05-26) ────────
   // Patrón: {FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
   // Sin entrada en UPGRADE_MAP — pipeline deuda D-7. Engine los consumirá directamente.
@@ -196,6 +211,11 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
   WEAPON_BASE_STATUS_CHANCE:        { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'BASE_FLAT' },
   WEAPON_BASE_DAMAGE:               { attr: 'WEAPON_DAMAGE',                    op: 'BASE_FLAT' },
   WEAPON_BASE_MAGAZINE_MAX:         { attr: 'WEAPON_ADD_MAGAZINE_MAX',          op: 'BASE_FLAT' },
+  WEAPON_BASE_CRIT_MULT:            { attr: 'WEAPON_ADD_CRIT_MULT',             op: 'BASE_FLAT' },
+  // ── WEAPON — melee BASE_FLAT (los ADD se resuelven vía resolveToken) ──────
+  WEAPON_BASE_HEAVY_EFFICIENCY:     { attr: 'WEAPON_ADD_HEAVY_EFFICIENCY',      op: 'BASE_FLAT' },
+  WEAPON_BASE_COMBO_DURATION:       { attr: 'WEAPON_ADD_COMBO_DURATION',        op: 'BASE_FLAT' },
+  WEAPON_BASE_COMBO_INITIAL:        { attr: 'WEAPON_ADD_COMBO_INITIAL',         op: 'BASE_FLAT' },
 
   // ── GAMEPLAY — facción ────────────────────────────────────────────────────
   // toPercent: JSON almacena 1.30 = +30% → convierte a 30 para mods_add_pct.
