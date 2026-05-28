@@ -1,0 +1,3813 @@
+{
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AmmoEfficiencyOnSliding": {
+    "name": "Akimbo Slip Shot",
+    "stats": [
+      {
+        "label": "While sliding or aim gliding: Gain |val1|% ammo efficiency with Dual Pistols.",
+        "values": [
+          {
+            "base_value": [
+              15,
+              25,
+              35,
+              45,
+              55,
+              65
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "while_sliding_or_aim_gliding"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunSpeedOnCrit": {
+    "name": "Arcane Acceleration",
+    "stats": [
+      {
+        "label": "On Critical Hit: 30% chance for |val1|% Fire Rate to Primary Weapons (Excludes Shotguns) for 9s",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60,
+              75,
+              90
+            ],
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+          }
+        ],
+        "condition": "on_critical_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/GolemArcaneShieldRegenOnDamage": {
+    "name": "Arcane Aegis",
+    "stats": [
+      {
+        "label": "On Shield Damaged: 3% chance for |val1|% Shield Recharge for 12s",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_shield_damaged"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SpeedOnDamage": {
+    "name": "Arcane Agility",
+    "stats": [
+      {
+        "label": "On Damaged: 60% chance for |val1|% Parkour Velocity for 18s",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": "AVATAR_ADD_PARKOUR_VELOCITY"
+          }
+        ],
+        "condition": "on_damaged"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneBonusDamageOnWallLatch": {
+    "name": "Arcane Arachne",
+    "stats": [
+      {
+        "label": "On Wall Latch: |val1|% Damage to Primary and Secondary weapons for 30s",
+        "values": [
+          {
+            "base_value": [
+              25,
+              50,
+              75,
+              100,
+              125,
+              150
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_wall_latch"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/CritChanceOnDamage": {
+    "name": "Arcane Avenger",
+    "stats": [
+      {
+        "label": "On Damaged: 21% chance for |val1|% Critical Chance for 12s",
+        "values": [
+          {
+            "base_value": [
+              7.5,
+              15,
+              22.5,
+              30,
+              37.5,
+              45
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": "on_damaged"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/PistolDamageOnReload": {
+    "name": "Arcane Awakening",
+    "stats": [
+      {
+        "label": "On Reload: 60% chance for |val1|% Damage to Pistols for 24s",
+        "values": [
+          {
+            "base_value": [
+              25,
+              50,
+              75,
+              100,
+              125,
+              150
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_reload"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/InstantShieldOnDamage": {
+    "name": "Arcane Barrier",
+    "stats": [
+      {
+        "label": "On Shield Damaged: |val1|% chance to instantly restore all Shields |val2|s cooldown",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": null
+          },
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_shield_damaged"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MaxEnergyForArmor": {
+    "name": "Arcane Battery",
+    "stats": [
+      {
+        "label": "Gain |val1| maximum Energy per Armor point, up to 1000 Energy.",
+        "values": [
+          {
+            "base_value": [
+              0.05,
+              0.1,
+              0.15,
+              0.2,
+              0.25,
+              0.3
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthForMaxHealth": {
+    "name": "Arcane Bellicose",
+    "stats": [
+      {
+        "label": "Gain |val1|% Ability Strength for every 250 Max Health up to |val2|%.",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          },
+          {
+            "base_value": [
+              12,
+              24,
+              36,
+              48,
+              60,
+              72
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeDmgOnRifleKill": {
+    "name": "Arcane Blade Charger",
+    "stats": [
+      {
+        "label": "On Primary Weapon Kill: 30% chance for |val1|% Melee Damage for 12s",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_primary_weapon_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/IncreaseMaxHealthOnHealthPickup": {
+    "name": "Arcane Blessing",
+    "stats": [
+      {
+        "label": "On Health Pickup: |val1| Max Health. Stacks up to 50x.",
+        "values": [
+          {
+            "base_value": [
+              4,
+              8,
+              12,
+              16,
+              20,
+              24
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_health_pickup"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HealCompanionOnSixMeleeKills": {
+    "name": "Arcane Bodyguard",
+    "stats": [
+      {
+        "label": "On 6 Melee Kills within 30s: Heal Companion for |val1|",
+        "values": [
+          {
+            "base_value": [
+              150,
+              300,
+              450,
+              600,
+              750,
+              900
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_6_melee_kills_within_30s"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthOnSummonAttack": {
+    "name": "Arcane Camisado",
+    "stats": [
+      {
+        "label": "Attacks from summoned minions increase Ability Strength by 1% up to 10% on the next Ability Cast.",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/StealDefensiveStatsOnRoll": {
+    "name": "Arcane Circumvent",
+    "stats": [
+      {
+        "label": "Roll through enemies to steal |val1|% of their defenses for yourself. Stolen Armor lasts 15s.",
+        "values": [
+          {
+            "base_value": [
+              25,
+              30,
+              35,
+              40,
+              45,
+              50
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityDurationOnCast": {
+    "name": "Arcane Concentration",
+    "stats": [
+      {
+        "label": "On Ability Cast: |val1|% Ability Duration for 3s",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_DURATION"
+          }
+        ],
+        "condition": "on_ability_cast"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneAimGlideOnHeadshot": {
+    "name": "Arcane Consequence",
+    "stats": [
+      {
+        "label": "On Headshot: |val1|% Parkour Velocity for 18s",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": "AVATAR_ADD_PARKOUR_VELOCITY"
+          }
+        ],
+        "condition": "on_headshot"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityStrengthAndCritDamageWhenInvisible": {
+    "name": "Arcane Crepuscular",
+    "stats": [
+      {
+        "label": "While invisible, gain |val1|% Ability Strength and |val2|x Final Critical Damage.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          },
+          {
+            "base_value": [
+              1,
+              1,
+              2,
+              2,
+              3,
+              3
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/PunctureProcResist": {
+    "name": "Arcane Defense",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Puncture Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SlashProcResist": {
+    "name": "Arcane Deflection",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Slash Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/PoisonProcResist": {
+    "name": "Arcane Detoxifier",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Toxin Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/DamageResistanceStacksOverTime": {
+    "name": "Arcane Double Back",
+    "stats": [
+      {
+        "label": "Gain |val1|% damage resistance for 4s per Dodge, Double Jump and Bullet Jump. Stacks up to 3x.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              9,
+              13,
+              17,
+              21,
+              25
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneRadialEnergyOnEnergyPickup": {
+    "name": "Arcane Energize",
+    "stats": [
+      {
+        "label": "On Energy Pickup: 60% chance to replenish |val1| Energy to self and allies within 15m 15s cooldown",
+        "values": [
+          {
+            "base_value": [
+              25,
+              50,
+              75,
+              100,
+              125,
+              150
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_energy_pickup"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/RadialKnockdownOnEnergyPickup": {
+    "name": "Arcane Eruption",
+    "stats": [
+      {
+        "label": "On Energy Pickup: |val1|% chance to Knockdown nearby enemies",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              100
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_energy_pickup"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/InvulnerabilityOnDeathOnMercyKill": {
+    "name": "Arcane Escapist",
+    "stats": [
+      {
+        "label": "On Mercy Kill: Gain a stack of Escapist, up to 9x. On taking fatal damage, consume 3 stacks to avoid death and become invulnerable for |val1|s.",
+        "values": [
+          {
+            "base_value": [
+              2,
+              4,
+              6,
+              8,
+              10,
+              12
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_mercy_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ShieldMaxForAbilityStrength": {
+    "name": "Arcane Expertise",
+    "stats": [
+      {
+        "label": "|val1|% of Ability Strength modifiers are also applied to Max Shields.",
+        "values": [
+          {
+            "base_value": [
+              50,
+              60,
+              70,
+              80,
+              90,
+              100
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneMeleeDamageOnCrit": {
+    "name": "Arcane Fury",
+    "stats": [
+      {
+        "label": "On Critical Hit: 60% chance for |val1|% Melee Damage to Melee Weapons for 18s",
+        "values": [
+          {
+            "base_value": [
+              30,
+              60,
+              90,
+              120,
+              150,
+              180
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_critical_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/HealthRegenOnDamage": {
+    "name": "Arcane Grace",
+    "stats": [
+      {
+        "label": "On Health Damaged: 9% chance for |val1|% Health Regeneration/s for 9s",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_health_damaged"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ArmourOnDamage": {
+    "name": "Arcane Guardian",
+    "stats": [
+      {
+        "label": "On Damaged: 15% chance for |val1| Armor for 20s",
+        "values": [
+          {
+            "base_value": [
+              150,
+              300,
+              450,
+              600,
+              750,
+              900
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_damaged"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/RadiationProcResist": {
+    "name": "Arcane Healing",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Radiation Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityHeatProcsGiveCritChance": {
+    "name": "Arcane Hot Shot",
+    "stats": [
+      {
+        "label": "Gain |val1|% weapon Critical Chance for 10s, when using abilities to inflict Heat Status effect on enemies. Maximum 50x stacks.",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/FireProcResist": {
+    "name": "Arcane Ice",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Heat Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityPowerOnFreeze": {
+    "name": "Arcane Ice Storm",
+    "stats": [
+      {
+        "label": "On Enemy Frozen: Gain +2% Ability Strength and +2% Ability Duration for 15s. Stacks up to |val1|x.",
+        "values": [
+          {
+            "base_value": [
+              10,
+              12,
+              14,
+              16,
+              18,
+              20
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          }
+        ],
+        "condition": "on_enemy_frozen"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityStatusProcsGiveAbilityStrengthAndEfficiency": {
+    "name": "Arcane Impetus",
+    "stats": [
+      {
+        "label": "Unique Status Effects from Abilities grant |val1|% Ability Strength and |val2|% Ability Efficiency for 20s.",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          },
+          {
+            "base_value": [
+              0.5,
+              1,
+              1.5,
+              2,
+              2.5,
+              3
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_EFFICIENCY"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/HealthWhileUsingChanneledAbilities": {
+    "name": "Arcane Intention",
+    "stats": [
+      {
+        "label": "Gain |val1| Max Health per active channeled ability.",
+        "values": [
+          {
+            "base_value": [
+              40,
+              80,
+              120,
+              160,
+              200,
+              250
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/GasProcResist": {
+    "name": "Arcane Liquid",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Gas Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneSniperSpeedOnCrit": {
+    "name": "Arcane Momentum",
+    "stats": [
+      {
+        "label": "On Critical Hit: 60% chance for |val1|% Reload Speed to Sniper Rifles for 12s",
+        "values": [
+          {
+            "base_value": [
+              25,
+              50,
+              75,
+              100,
+              125,
+              150
+            ],
+            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
+          }
+        ],
+        "condition": "on_critical_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/MagneticProcResist": {
+    "name": "Arcane Nullifier",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Magnetic Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/MaxDPSTakenForArmour": {
+    "name": "Arcane Persistence",
+    "stats": [
+      {
+        "label": "Remove all Shields. If Armor is above 700: Cannot be hit for more than |val1| Damage/s. Magnetic Status and Ability Nullifying Effects disable this protection.",
+        "values": [
+          {
+            "base_value": [
+              750,
+              700,
+              650,
+              600,
+              550,
+              500
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SpeedOnParry": {
+    "name": "Arcane Phantasm",
+    "stats": [
+      {
+        "label": "On Block: 45% chance for |val1|% Speed for 18s",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_block"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AmmoEfficiencyOnPistolHeadshot": {
+    "name": "Arcane Pistoleer",
+    "stats": [
+      {
+        "label": "On Pistol Headshot Kill: 60% chance for |val1|% Ammo Efficiency for 12s",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_pistol_headshot_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthOnCast": {
+    "name": "Arcane Power Ramp",
+    "stats": [
+      {
+        "label": "On Ability Cast: Next Ability cast gains |val1|% Ability Strength, stacking up to 4x. Resets when the same ability is recast consecutively.",
+        "values": [
+          {
+            "base_value": [
+              2,
+              3,
+              4.5,
+              6,
+              7.5,
+              9
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          }
+        ],
+        "condition": "on_ability_cast"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcanePistolDamageOnHeadshot": {
+    "name": "Arcane Precision",
+    "stats": [
+      {
+        "label": "On Headshot: |val1|% Damage for 18s on Secondary Weapon",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_headshot"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDmgOnMeleeKill": {
+    "name": "Arcane Primary Charger",
+    "stats": [
+      {
+        "label": "On Melee Kill: 30% chance for |val1|% Primary Weapon Damage for 12s",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_melee_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/CorrosiveProcResist": {
+    "name": "Arcane Protection",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Corrosive Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/RadialHealOnHealthPickup": {
+    "name": "Arcane Pulse",
+    "stats": [
+      {
+        "label": "On Health Pickup: 60% chance to restore |val1| Health to allies within 25m 15s cooldown",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_health_pickup"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunDamageOnHeadshot": {
+    "name": "Arcane Rage",
+    "stats": [
+      {
+        "label": "On Headshot: 15% chance for |val1|% Damage to Primary Weapons for 24s",
+        "values": [
+          {
+            "base_value": [
+              30,
+              60,
+              90,
+              120,
+              150,
+              180
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_headshot"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealthRegenAndArmorOnMeleeKill": {
+    "name": "Arcane Reaper",
+    "stats": [
+      {
+        "label": "On Melee Kill: |val1| Health Regen/s and |val2| Armor for 10s.",
+        "values": [
+          {
+            "base_value": [
+              4,
+              8,
+              12,
+              16,
+              20,
+              24
+            ],
+            "upgrade_type": null
+          },
+          {
+            "base_value": [
+              110,
+              220,
+              330,
+              440,
+              550,
+              660
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_melee_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ElectricityProcResist": {
+    "name": "Arcane Resistance",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Toxin Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/LongGunDamageOnReload": {
+    "name": "Arcane Rise",
+    "stats": [
+      {
+        "label": "On Reload: 60% chance for |val1|% Damage to Primary Weapons for 24s",
+        "values": [
+          {
+            "base_value": [
+              25,
+              50,
+              75,
+              100,
+              125,
+              150
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_reload"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ImpactProcResist": {
+    "name": "Arcane Shield",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist an Impact Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceOnCast": {
+    "name": "Arcane Steadfast",
+    "stats": [
+      {
+        "label": "On Ability Cast: |val1|% chance that the next three Abilities will not cost Energy.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              8,
+              11,
+              14,
+              17,
+              20
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_ability_cast"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeSpeedOnHit": {
+    "name": "Arcane Strike",
+    "stats": [
+      {
+        "label": "On Hit: 15% chance for |val1|% Attack Speed to Melee Weapons for 18s",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+          }
+        ],
+        "condition": "on_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/SlowerBleedOutOnPredeath": {
+    "name": "Arcane Survival",
+    "stats": [
+      {
+        "label": "On Predeath: |val1|% chance for |val2|% Bleedout Rate",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": null
+          },
+          {
+            "base_value": [
+              -25,
+              -50,
+              -75,
+              -100,
+              -100,
+              -100
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_predeath"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ArmorOnHeavyGunEquipped": {
+    "name": "Arcane Tanker",
+    "stats": [
+      {
+        "label": "On Archgun Equipped: +200 Armor for 60s",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_archgun_equipped"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/DamageReductionDuringRevive": {
+    "name": "Arcane Temperance",
+    "stats": [
+      {
+        "label": "|val1|% Damage Taken During Revive",
+        "values": [
+          {
+            "base_value": [
+              -15,
+              -30,
+              -45,
+              -60,
+              -75,
+              -90
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneShotgunSpeedOnCrit": {
+    "name": "Arcane Tempo",
+    "stats": [
+      {
+        "label": "On Critical Hit: 15% chance for |val1|% Fire Rate to Shotguns for 12s",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60,
+              75,
+              90
+            ],
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+          }
+        ],
+        "condition": "on_critical_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/InvisibilityOnFinisher": {
+    "name": "Arcane Trickery",
+    "stats": [
+      {
+        "label": "On Finisher Kill: 15% chance to become invisible for |val1|s",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_finisher_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/RadialViralAttackOnOverguardGain": {
+    "name": "Arcane Truculence",
+    "stats": [
+      {
+        "label": "When gaining 3,000 or more Overguard threshold, release a |val1|m Radial Attack that applies max Viral Status stacks.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneArmorOnFinisher": {
+    "name": "Arcane Ultimatum",
+    "stats": [
+      {
+        "label": "On Finisher Kill: +200 Armor for 45s",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_finisher_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityRadiationProcsCreateUniversalOrbsOnKill": {
+    "name": "Arcane Universal Fallout",
+    "stats": [
+      {
+        "label": "Each Radiation Status Effect inflicted on enemies by Abilities gives a |val1|% chance to drop a Universal Orb on enemy death.",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcanePistolSpeedOnCrit": {
+    "name": "Arcane Velocity",
+    "stats": [
+      {
+        "label": "On Critical Hit: 90% chance for |val1|% Fire Rate to Pistols for 9s",
+        "values": [
+          {
+            "base_value": [
+              20,
+              40,
+              60,
+              80,
+              100,
+              120
+            ],
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+          }
+        ],
+        "condition": "on_critical_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HealthRegenOnHeadshot": {
+    "name": "Arcane Victory",
+    "stats": [
+      {
+        "label": "On Headshot Kill: 75% chance for |val1|% Health Regeneration/s for 9s",
+        "values": [
+          {
+            "base_value": [
+              0.5,
+              1,
+              1.5,
+              2,
+              2.5,
+              3
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_headshot_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Defensive/FreezeProcResist": {
+    "name": "Arcane Warmth",
+    "stats": [
+      {
+        "label": "|val1|% chance to resist a Cold Status effect.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnRollCritChanceOnHeadshot": {
+    "name": "Cascadia Accuracy",
+    "stats": [
+      {
+        "label": "On Roll: |val1|% Critical Chance on Weakpoint Hits for 4s",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": "on_roll"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnStatusProcBonusDamage": {
+    "name": "Cascadia Empowered",
+    "stats": [
+      {
+        "label": "On Status Effect: Deals |val1| Damage matching the Damage Type of the Status Effect",
+        "values": [
+          {
+            "base_value": [
+              250,
+              350,
+              450,
+              550,
+              650,
+              750
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnHeatProc": {
+    "name": "Cascadia Flare",
+    "stats": [
+      {
+        "label": "On Heat Status Effect: |val1|% Damage for 10s. Stacks up to |val2|%.",
+        "values": [
+          {
+            "base_value": [
+              2,
+              4,
+              6,
+              8,
+              10,
+              12
+            ],
+            "upgrade_type": null
+          },
+          {
+            "base_value": [
+              80,
+              160,
+              240,
+              320,
+              400,
+              480
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_heat_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnOvershieldCritChance": {
+    "name": "Cascadia Overcharge",
+    "stats": [
+      {
+        "label": "While Overshields Active: |val1|% Critical Chance",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": "while_overshields_active"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryReloadSpeedAndMultishotOnElectricProc": {
+    "name": "Conjunction Voltage",
+    "stats": [
+      {
+        "label": "On Electricity Status Effect: |val1|% Reload Speed and |val2|% Multishot for 12s. Stacks up to 40x.",
+        "values": [
+          {
+            "base_value": [
+              0.25,
+              0.5,
+              0.75,
+              1,
+              1.25,
+              1.5
+            ],
+            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
+          },
+          {
+            "base_value": [
+              0.5,
+              1,
+              1.5,
+              2,
+              2.5,
+              3
+            ],
+            "upgrade_type": "WEAPON_ADD_MULTISHOT"
+          }
+        ],
+        "condition": "on_electricity_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/EnergyOnGhostDissipate": {
+    "name": "Emergence Dissipate",
+    "stats": [
+      {
+        "label": "WHILE IN VOID SLING: Press to dissipate the endpoint in a 10m radius. Enemies hit create a short lived Void Mote that replenishes |val1| Energy on pick up.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "while_in_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnEnergyDepletedRegenEnergy": {
+    "name": "Emergence Renewed",
+    "stats": [
+      {
+        "label": "On Energy Depleted: Increase Energy Regeneration by |val1|% over 5s. Cooldown: 30s",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_energy_depleted"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnDeathInvulnerability": {
+    "name": "Emergence Savior",
+    "stats": [
+      {
+        "label": "On Lethal Damage: Become invulnerable for 5s and recover |val1|% Health. Cooldown: 90s",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_lethal_damage"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnOperatorAbilityIncreaseDamage": {
+    "name": "Eternal Eradicate",
+    "stats": [
+      {
+        "label": "On Operator Ability: |val1|% Damage to Amps for 8s",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_operator_ability"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/AmpOnVoidSlingAmpAmmoEfficiency": {
+    "name": "Eternal Logistics",
+    "stats": [
+      {
+        "label": "On Void Sling: |val1|% Amp Ammo Efficiency for 8s",
+        "values": [
+          {
+            "base_value": [
+              12,
+              24,
+              36,
+              48,
+              60,
+              72
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/AmpOnEnergyDepletedCritChance": {
+    "name": "Eternal Onslaught",
+    "stats": [
+      {
+        "label": "On Energy Depleted: |val1|% Critical Chance for 8s",
+        "values": [
+          {
+            "base_value": [
+              30,
+              60,
+              90,
+              120,
+              150,
+              180
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": "on_energy_depleted"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ChannelKillEnergyRate": {
+    "name": "Exodia Brave",
+    "stats": [
+      {
+        "label": "On Heavy Attack Kill: |val1| Energy Rate for 4s. Stacks up to 3x.",
+        "values": [
+          {
+            "base_value": [
+              1.3,
+              2.5,
+              3.8,
+              5
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_heavy_attack_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeArcaneProjectileOnJump": {
+    "name": "Exodia Contagion",
+    "stats": [
+      {
+        "label": "After a Bullet Jump or Double Jump: Melee while Aim Gliding launches a projectile that explodes on impact",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "after_a_bullet_jump_or_double_jump"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeArcaneShockwaveOnJump": {
+    "name": "Exodia Epidemic",
+    "stats": [
+      {
+        "label": "After a Bullet Jump or Double Jump: Slam emits a shockwave forwards that suspends enemies in the air for a short period",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "after_a_bullet_jump_or_double_jump"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusTriggerRadialDamage": {
+    "name": "Exodia Force",
+    "stats": [
+      {
+        "label": "On Status Effect: 50% chance to deal |val1|% Weapon Damage to enemies within 6m.",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GroundSlamPull": {
+    "name": "Exodia Hunt",
+    "stats": [
+      {
+        "label": "On Ground Slam: 50% chance to pull enemies within |val1|m into melee range.",
+        "values": [
+          {
+            "base_value": [
+              6,
+              8,
+              10,
+              12
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_ground_slam"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/FinisherLifesteal": {
+    "name": "Exodia Might",
+    "stats": [
+      {
+        "label": "On Finisher Kill: 50% chance for |val1|% Life Steal for 8s",
+        "values": [
+          {
+            "base_value": [
+              7.5,
+              15,
+              22.5,
+              30
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_finisher_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusChannelingDamage": {
+    "name": "Exodia Triumph",
+    "stats": [
+      {
+        "label": "|val1|% Additional Combo Count Chance",
+        "values": [
+          {
+            "base_value": [
+              12.5,
+              25,
+              37.5,
+              50
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CritChannelingDamage": {
+    "name": "Exodia Valor",
+    "stats": [
+      {
+        "label": "|val1|% Additional Combo Count Chance on Lifted enemies",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/PrimaryOnAbilityReloadSpeed": {
+    "name": "Fractalized Reset",
+    "stats": [
+      {
+        "label": "On Ability Cast: |val1|% Reload Speed for 5s",
+        "values": [
+          {
+            "base_value": [
+              40,
+              80,
+              120,
+              160,
+              200,
+              240
+            ],
+            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
+          }
+        ],
+        "condition": "on_ability_cast"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongbowDamageOnHeadshot": {
+    "name": "Longbow Sharpshot",
+    "stats": [
+      {
+        "label": "On Headshot: Gain |val1|% damage on your next shot.",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_headshot"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HeatResistOnBlast": {
+    "name": "Magus Accelerant",
+    "stats": [
+      {
+        "label": "On Void Sling: Reduce Enemy Resistance to Heat Damage by |val1|%.",
+        "values": [
+          {
+            "base_value": [
+              12,
+              25,
+              37,
+              50,
+              60,
+              65
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OperatorHeavyMeleeDamageOnTransference": {
+    "name": "Magus Aggress",
+    "stats": [
+      {
+        "label": "On Warframe Melee Transference: Heavy Blades deal |val1|% Critical Damage for 4 consecutive attacks. Cooldown 20s.",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT"
+          }
+        ],
+        "condition": "on_warframe_melee_transference"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/PullOnTransferenceIn": {
+    "name": "Magus Anomaly",
+    "stats": [
+      {
+        "label": "On Transference In: Enemies within |val1|m are pulled towards Warframe.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_transference_in"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/SpeedOnVoidDash": {
+    "name": "Magus Cadence",
+    "stats": [
+      {
+        "label": "On Void Sling: |val1|% Sprint Speed for 12s",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60,
+              75,
+              90
+            ],
+            "upgrade_type": "AVATAR_ADD_SPRINT_SPEED"
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ImmunityFallDamageOnVoidDash": {
+    "name": "Magus Cloud",
+    "stats": [
+      {
+        "label": "On Void Mode: |val1|% Void Sling Radius for 6s",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_void_mode"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ProcResistOnBlast": {
+    "name": "Magus Destruct",
+    "stats": [
+      {
+        "label": "On Void Sling: Reduce Enemy Resistance to Puncture Damage by |val1|%.",
+        "values": [
+          {
+            "base_value": [
+              12,
+              25,
+              37,
+              50,
+              60,
+              65
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HoverboardSpeedOnTransferenceIn": {
+    "name": "Magus Drive",
+    "stats": [
+      {
+        "label": "On Transference In: Increase K-Drive Speed by |val1|% for 30s.",
+        "values": [
+          {
+            "base_value": [
+              25,
+              50,
+              75,
+              100,
+              125,
+              150
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_transference_in"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnTransferenceIn": {
+    "name": "Magus Elevate",
+    "stats": [
+      {
+        "label": "On Transference In: 95% chance to restore |val1| Health to Warframe",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_transference_in"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/DamageReductionOnVoidMode": {
+    "name": "Magus Firewall",
+    "stats": [
+      {
+        "label": "On Void Mode: Generate Void Particles every 1s up to 6 particles, each granting 12.5% Damage Reduction for |val1|s. Taking damage consumes a particle.",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_void_mode"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/NoPenaltyOnDeath": {
+    "name": "Magus Glitch",
+    "stats": [
+      {
+        "label": "On Transference Static: |val1|% chance to negate Transference Static.",
+        "values": [
+          {
+            "base_value": [
+              17,
+              34,
+              51,
+              68,
+              85,
+              102
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_transference_static"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ArmourOnOperatorMode": {
+    "name": "Magus Husk",
+    "stats": [
+      {
+        "label": "On Transference Out: |val1| Armor",
+        "values": [
+          {
+            "base_value": [
+              50,
+              100,
+              150,
+              200,
+              250,
+              300
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_transference_out"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/TetherMineOnDash": {
+    "name": "Magus Lockdown",
+    "stats": [
+      {
+        "label": "On Void Sling: Drop a mine that tethers up to 10 enemies in |val1|m for 4s.",
+        "values": [
+          {
+            "base_value": [
+              3,
+              6,
+              9,
+              12,
+              13,
+              15
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HeatDamageOnDash": {
+    "name": "Magus Melt",
+    "stats": [
+      {
+        "label": "On Void Sling: Increase Heat Damage in Operator Mode by 30% for 15s, stacking up to |val1|x.",
+        "values": [
+          {
+            "base_value": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnTransferenceOut": {
+    "name": "Magus Nourish",
+    "stats": [
+      {
+        "label": "While An Operator: Restores |val1| Health/s to Warframe.",
+        "values": [
+          {
+            "base_value": [
+              10,
+              15,
+              20,
+              25,
+              30,
+              35
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "while_an_operator"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/RobotStunOnBlast": {
+    "name": "Magus Overload",
+    "stats": [
+      {
+        "label": "On Void Sling: Stun robotic enemies for 3s, which then discharge Electricity Damage dealing |val1|% of their Max Health to anyone within 25m.",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60,
+              75,
+              80
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnVoidMode": {
+    "name": "Magus Repair",
+    "stats": [
+      {
+        "label": "On Void Mode: Heal Warframes within 30m by |val1|% Health/s.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              22,
+              25
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_void_mode"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnVoidDash": {
+    "name": "Magus Replenish",
+    "stats": [
+      {
+        "label": "On Void Sling: Heal |val1|% Health",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ReverseOnDash": {
+    "name": "Magus Revert",
+    "stats": [
+      {
+        "label": "On Void Sling: Use again within 3s, to return the Operator to their original position at no energy cost. Restores |val1| Health. 3s cooldown.",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_void_sling"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealthOnOperatorMode": {
+    "name": "Magus Vigor",
+    "stats": [
+      {
+        "label": "On Transference Out: |val1| Health",
+        "values": [
+          {
+            "base_value": [
+              100,
+              200,
+              300,
+              400,
+              500,
+              600
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_transference_out"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/DuplicateStatusOnKnock": {
+    "name": "Melee Afflictions",
+    "stats": [
+      {
+        "label": "Enemies affected by Status Effects gain |val1| additional stacks when they're knocked down or flung by melee attacks.",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HeavyCritOnRegularMelee": {
+    "name": "Melee Animosity",
+    "stats": [
+      {
+        "label": "On Melee Hit: Gain |val1|% Critical Chance on your next Heavy Attack, up to |val2|%",
+        "values": [
+          {
+            "base_value": [
+              7,
+              14,
+              21,
+              28,
+              35,
+              42
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          },
+          {
+            "base_value": [
+              70,
+              140,
+              210,
+              280,
+              350,
+              420
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": "on_melee_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/FreezeEnemiesOnRoll": {
+    "name": "Melee Careen",
+    "stats": [
+      {
+        "label": "x|val1| Melee Damage against Frozen enemies. On Roll: Freeze enemies in a |val2|m radius with a 2s Cooldown.",
+        "values": [
+          {
+            "base_value": [
+              1.25,
+              1.5,
+              1.75,
+              2,
+              2.25,
+              2.5
+            ],
+            "upgrade_type": null
+          },
+          {
+            "base_value": [
+              3,
+              3.5,
+              4,
+              4.5,
+              5,
+              5.5
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PermaComboOnFinisher": {
+    "name": "Melee Crescendo",
+    "stats": [
+      {
+        "label": "On Finisher Kill: Gain |val1| Initial Combo for the rest of your mission",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": "WEAPON_BASE_COMBO_INITIAL"
+          }
+        ],
+        "condition": "on_finisher_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CritDamageForPunctureStatus": {
+    "name": "Melee Doughty",
+    "stats": [
+      {
+        "label": "Gain |val1|x Critical Damage for every 10% Puncture Status chance on your Melee Weapon.",
+        "values": [
+          {
+            "base_value": [
+              0.5,
+              0.6,
+              0.7,
+              0.8,
+              0.9,
+              1
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ReplayLightCritHits": {
+    "name": "Melee Duplicate",
+    "stats": [
+      {
+        "label": "On Base Critical Hits: |val1|% chance for your attack to strike a second time",
+        "values": [
+          {
+            "base_value": [
+              25,
+              40,
+              55,
+              70,
+              85,
+              100
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_base_critical_hits"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CorrosiveMeleePerAbilityCast": {
+    "name": "Melee Exposure",
+    "stats": [
+      {
+        "label": "On Ability Cast: Gain |val1|% Corrosive Damage on Melee strikes for 25s. Stacks up to 240%.",
+        "values": [
+          {
+            "base_value": [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_ability_cast"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ArmorOnMeleeKill": {
+    "name": "Melee Fortification",
+    "stats": [
+      {
+        "label": "On Melee Kill: |val1| Armor for 10s",
+        "values": [
+          {
+            "base_value": [
+              35,
+              70,
+              105,
+              140,
+              175,
+              210
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_melee_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeProcsSpread": {
+    "name": "Melee Influence",
+    "stats": [
+      {
+        "label": "On Melee Electricity Status: 20% chance for elemental Melee Status Effects to apply to enemies within |val1|m for |val2|s. Cannot refresh while active.",
+        "values": [
+          {
+            "base_value": [
+              10,
+              12,
+              14,
+              16,
+              18,
+              20
+            ],
+            "upgrade_type": null
+          },
+          {
+            "base_value": [
+              3,
+              6,
+              9,
+              12,
+              15,
+              18
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_melee_electricity_status"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeDamageForActiveShields": {
+    "name": "Melee Retaliation",
+    "stats": [
+      {
+        "label": "Gain |val1|% Melee Damage for every 200 current Shields, up to 420%. Bonus halved for Overshields.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PullEnemiesOnMeleeKill": {
+    "name": "Melee Vortex",
+    "stats": [
+      {
+        "label": "Kill an enemy affected by Magnetic Status for a |val1|% chance to pull in enemies within 18m radius",
+        "values": [
+          {
+            "base_value": [
+              20,
+              25,
+              30,
+              35,
+              40,
+              45
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PowerStrengthOnKill": {
+    "name": "Molt Augmented",
+    "stats": [
+      {
+        "label": "On Kill: |val1|% Ability Strength. Stacks up to 250x.",
+        "values": [
+          {
+            "base_value": [
+              0.04,
+              0.08,
+              0.12,
+              0.16,
+              0.2,
+              0.24
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          }
+        ],
+        "condition": "on_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/WarframeOnShieldUptimePowerDuration": {
+    "name": "Molt Efficiency",
+    "stats": [
+      {
+        "label": "While Shields are Active: Gain |val1|% Ability Duration per second, up to a maximum of |val2|%",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_DURATION"
+          },
+          {
+            "base_value": [
+              6,
+              12,
+              18,
+              24,
+              30,
+              36
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_DURATION"
+          }
+        ],
+        "condition": "while_shields_are_active"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/HealAlliesOnEnergySpent": {
+    "name": "Molt Reconstruct",
+    "stats": [
+      {
+        "label": "Heal yourself and allies within Affinity Range |val1| Health for each Energy point spent on the initial casting cost of abilities.",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Zariman/WarframeOnOperatorAbilityPowerStrength": {
+    "name": "Molt Vigor",
+    "stats": [
+      {
+        "label": "On Operator Ability: |val1|% Ability Strength on next Warframe Ability Cast",
+        "values": [
+          {
+            "base_value": [
+              15,
+              21,
+              27,
+              33,
+              39,
+              45
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          }
+        ],
+        "condition": "on_operator_ability"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/EnergyEfficiencyOnHeadshot": {
+    "name": "Pax Bolt",
+    "stats": [
+      {
+        "label": "On Headshot Kill: |val1|% Ability Efficiency and |val2|% Ability Strength on the next Ability used within 4s.",
+        "values": [
+          {
+            "base_value": [
+              7.5,
+              15,
+              22.5,
+              30
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_EFFICIENCY"
+          },
+          {
+            "base_value": [
+              7.5,
+              15,
+              22.5,
+              30
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          }
+        ],
+        "condition": "on_headshot_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/BulletToBattery": {
+    "name": "Pax Charge",
+    "stats": [
+      {
+        "label": "Battery Recharge Delay is reduced by |val1|%",
+        "values": [
+          {
+            "base_value": [
+              12.5,
+              25,
+              37.5,
+              50
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SeekerProjOnHeadshotKill": {
+    "name": "Pax Seeker",
+    "stats": [
+      {
+        "label": "On Headshot Kill: |val1| projectiles burst from the target and seek the heads of nearby enemies.",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_headshot_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/EyeInTheSky": {
+    "name": "Pax Soar",
+    "stats": [
+      {
+        "label": "|val1|% Accuracy while Airborne",
+        "values": [
+          {
+            "base_value": [
+              12.5,
+              25,
+              37.5,
+              50
+            ],
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
+          }
+        ],
+        "condition": null
+      },
+      {
+        "label": "-50% Weapon Recoil while Airborne",
+        "values": [
+          {
+            "base_value": [
+              -50.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      },
+      {
+        "label": "+5s Aim Glide/Wall Latch Duration",
+        "values": [
+          {
+            "base_value": [
+              5.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryHeadshotCritMultOnHeadshot": {
+    "name": "Primary Blight",
+    "stats": [
+      {
+        "label": "On Toxin Status Effect: |val1|% Critical Damage and |val2|% Multishot for 12s. Stacks up to 40x.",
+        "values": [
+          {
+            "base_value": [
+              0.6,
+              1.2,
+              1.8,
+              2.4,
+              3,
+              3.6
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT"
+          },
+          {
+            "base_value": [
+              0.3,
+              0.6,
+              0.9,
+              1.2,
+              1.5,
+              1.8
+            ],
+            "upgrade_type": "WEAPON_ADD_MULTISHOT"
+          }
+        ],
+        "condition": "on_toxin_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/DamageForBonusArmour": {
+    "name": "Primary Bulwark",
+    "stats": [
+      {
+        "label": "Gain +1% damage for each unit of armor past 1,000, up to a max of |val1|%.",
+        "values": [
+          {
+            "base_value": [
+              250,
+              300,
+              350,
+              400,
+              450,
+              500
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusAndAmmoEfficiencyOnWeakpointHit": {
+    "name": "Primary Crux",
+    "stats": [
+      {
+        "label": "On Weak Point Hit: Gain |val1|% Status Chance and |val2|% Ammo Efficiency for 10s. Stacks up to 10x.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30
+            ],
+            "upgrade_type": "WEAPON_ADD_STATUS_CHANCE"
+          },
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_weak_point_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnNoMelee": {
+    "name": "Primary Deadhead",
+    "stats": [
+      {
+        "label": "On Headshot Kill: +20% Damage for 24s. Stacks up to 3x.",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_headshot_kill"
+      },
+      {
+        "label": "+30% to Headshot Multiplier",
+        "values": [
+          {
+            "base_value": [
+              30.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      },
+      {
+        "label": "-50% Weapon Recoil",
+        "values": [
+          {
+            "base_value": [
+              -50.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SplitStatusProcsOnStackedStatusHit": {
+    "name": "Primary Debilitate",
+    "stats": [
+      {
+        "label": "If an enemy has 10 stacks of a combined Status Effect, inflicting the same Status Effect again has a |val1|% chance to inflict one of the base Status Effects it is composed of.",
+        "values": [
+          {
+            "base_value": [
+              50,
+              60,
+              70,
+              80,
+              90,
+              100
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnMeleeKill": {
+    "name": "Primary Dexterity",
+    "stats": [
+      {
+        "label": "On Melee Kill: +10% Damage for 20s. Stacks up to 6x.",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_melee_kill"
+      },
+      {
+        "label": "+7.5s Combo Duration",
+        "values": [
+          {
+            "base_value": [
+              7.5
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryEnergyRegenOnImpactProc": {
+    "name": "Primary Exhilarate",
+    "stats": [
+      {
+        "label": "On Weapon Impact Status Effect: |val1| Energy Regen/s for 10s. Stacks up to 3x.",
+        "values": [
+          {
+            "base_value": [
+              0.2,
+              0.4,
+              0.6,
+              0.8,
+              1,
+              1.2
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_weapon_impact_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryCritDmgAndMultishotOnColdProc": {
+    "name": "Primary Frostbite",
+    "stats": [
+      {
+        "label": "On Cold Status Effect: |val1|% Critical Damage and |val2|% Multishot for 12s. Stacks up to 40x.",
+        "values": [
+          {
+            "base_value": [
+              0.5,
+              1,
+              1.5,
+              2,
+              2.5,
+              3
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT"
+          },
+          {
+            "base_value": [
+              0.38,
+              0.75,
+              1.12,
+              1.5,
+              1.88,
+              2.25
+            ],
+            "upgrade_type": "WEAPON_ADD_MULTISHOT"
+          }
+        ],
+        "condition": "on_cold_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnKill": {
+    "name": "Primary Merciless",
+    "stats": [
+      {
+        "label": "On Kill: +5% Damage for 4s. Stacks up to 12x.",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_kill"
+      },
+      {
+        "label": "+30% Reload Speed",
+        "values": [
+          {
+            "base_value": [
+              30.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryJamEnemyWeaponsOnMagneticProc": {
+    "name": "Primary Obstruct",
+    "stats": [
+      {
+        "label": "On Weapon Magnetic Status Effect: Enemy weapons jam within 15m of target. Cooldown |val1|s.",
+        "values": [
+          {
+            "base_value": [
+              60,
+              50,
+              40,
+              30,
+              20,
+              10
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_weapon_magnetic_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MultishotForMaxEnergy": {
+    "name": "Primary Overcharge",
+    "stats": [
+      {
+        "label": "While at or above 90% Energy: Gain 35% of Max Energy as Multishot, capped at |val1|%.",
+        "values": [
+          {
+            "base_value": [
+              100,
+              150,
+              200,
+              250,
+              300,
+              350
+            ],
+            "upgrade_type": "WEAPON_ADD_MULTISHOT"
+          }
+        ],
+        "condition": "while_at_or_above_90_energy"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamagePerAmmoOnReload": {
+    "name": "Primary Plated Round",
+    "stats": [
+      {
+        "label": "On Reload: Deal increased damage per round loaded based on max magazine size. Lasts for |val1|s.",
+        "values": [
+          {
+            "base_value": [
+              3,
+              4,
+              5,
+              6,
+              8,
+              10
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_reload"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/BurningCystOnKill": {
+    "name": "Residual Boils",
+    "stats": [
+      {
+        "label": "On Kitgun Kill: 20% chance to spawn volatile hives for |val1|s that explode when enemies approach for 80 Heat Damage in 10m. Standing in the area applies Heat Damage type to Theorem Arcanes.",
+        "values": [
+          {
+            "base_value": [
+              3,
+              6,
+              9,
+              12
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_kitgun_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/IceMistOnKill": {
+    "name": "Residual Malodor",
+    "stats": [
+      {
+        "label": "On Kitgun Kill: 20% chance to create a frigid mist for |val1|s, dealing 40 Cold Damage/s. Standing in the area applies Cold Damage to Theorem Arcanes.",
+        "values": [
+          {
+            "base_value": [
+              3,
+              6,
+              9,
+              12
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_kitgun_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/LightningStrikeOnKill": {
+    "name": "Residual Shock",
+    "stats": [
+      {
+        "label": "On Kitgun Kill: 20% chance to spawn an electrified spike for |val1|s, dealing 200 Electricity Damage to enemies within 10m. Standing in the area applies Electricity Damage to Theorem Arcanes.",
+        "values": [
+          {
+            "base_value": [
+              3,
+              6,
+              9,
+              12
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_kitgun_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/ToxicBloodOnKill": {
+    "name": "Residual Viremia",
+    "stats": [
+      {
+        "label": "On Kitgun Kill: 20% chance to create pool of toxic blood for |val1|s, dealing 40 Toxin Damage/s. Standing in the area applies the Toxin Damage to Theorem Arcanes.",
+        "values": [
+          {
+            "base_value": [
+              3,
+              6,
+              9,
+              12
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_kitgun_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnNoMelee": {
+    "name": "Secondary Deadhead",
+    "stats": [
+      {
+        "label": "On Precision Headshot Kill: +20% Damage for 24s. Stacks up to 3x.",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_precision_headshot_kill"
+      },
+      {
+        "label": "+30% to Headshot Multiplier",
+        "values": [
+          {
+            "base_value": [
+              30.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      },
+      {
+        "label": "-50% Weapon Recoil",
+        "values": [
+          {
+            "base_value": [
+              -50.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnMeleeKill": {
+    "name": "Secondary Dexterity",
+    "stats": [
+      {
+        "label": "On Melee Kill: +10% Damage for 20s. Stacks up to 6x.",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_melee_kill"
+      },
+      {
+        "label": "+7.5s Combo Duration",
+        "values": [
+          {
+            "base_value": [
+              7.5
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Utility/ExtraProcOnProc": {
+    "name": "Secondary Encumber",
+    "stats": [
+      {
+        "label": "On Status Effect: |val1|% chance to trigger a second random Status Effect.",
+        "values": [
+          {
+            "base_value": [
+              4,
+              8,
+              12,
+              16,
+              20,
+              24
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryCritOnHit": {
+    "name": "Secondary Enervate",
+    "stats": [
+      {
+        "label": "On Hit: Increase Critical Chance by 10%. Resets after |val1| Big Critical Hit.",
+        "values": [
+          {
+            "base_value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": "on_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OverguardSteal": {
+    "name": "Secondary Fortifier",
+    "stats": [
+      {
+        "label": "Gain 1 Overguard for every 100 Damage dealt to an enemy's Overguard. Deals x|val1| Extra Damage to Overguard.",
+        "values": [
+          {
+            "base_value": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      },
+      {
+        "label": "Deals x8 Extra Damage to Overguard.",
+        "values": [
+          {
+            "base_value": [
+              8.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/RadialDamageOnMaxRadiationStackHit": {
+    "name": "Secondary Irradiate",
+    "stats": [
+      {
+        "label": "On hitting enemies afflicted by 10 stacks of Radiation: Deal |val1|% of the hit damage to enemies within |val2|m.",
+        "values": [
+          {
+            "base_value": [
+              80,
+              100,
+              120,
+              140,
+              160,
+              180
+            ],
+            "upgrade_type": null
+          },
+          {
+            "base_value": [
+              4.5,
+              5,
+              5.5,
+              6,
+              6.5,
+              7
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_hitting_enemies_afflicted_by_10_stacks_of_radiation"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryCritChancePerBuff": {
+    "name": "Secondary Kinship",
+    "stats": [
+      {
+        "label": "While Buffing Ally Warframes: |val1|% Critical Chance per buff",
+        "values": [
+          {
+            "base_value": [
+              3,
+              6,
+              10,
+              13,
+              17,
+              20
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": "while_buffing_ally_warframes"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnKill": {
+    "name": "Secondary Merciless",
+    "stats": [
+      {
+        "label": "On Kill: +5% Damage for 4s. Stacks up to 12x.",
+        "values": [
+          {
+            "base_value": null,
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_kill"
+      },
+      {
+        "label": "+30% Reload Speed",
+        "values": [
+          {
+            "base_value": [
+              30.0
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MultishotForCombo": {
+    "name": "Secondary Outburst",
+    "stats": [
+      {
+        "label": "On swapping to Secondary Weapon, consume all Combo Multipliers to increase Secondary Weapon Critical Chance and Critical Damage by |val1|% per Combo consumed for 30s.",
+        "values": [
+          {
+            "base_value": [
+              5,
+              7,
+              9,
+              12,
+              16,
+              20
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryExtraDamagePerFreezeStack": {
+    "name": "Secondary Shiver",
+    "stats": [
+      {
+        "label": "Enemies take |val1|% damage per Cold Status",
+        "values": [
+          {
+            "base_value": [
+              7.5,
+              15,
+              22.5,
+              30,
+              37.5,
+              45
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/BonusDamageNextShotForCurEnergy": {
+    "name": "Secondary Surge",
+    "stats": [
+      {
+        "label": "On Ability Cast: Next shot gains a Damage Multiplier for every 200 current Energy, up to x|val1|.",
+        "values": [
+          {
+            "base_value": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_ability_cast"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ShotgunMultishotAndReloadSpeedOnCloseKill": {
+    "name": "Shotgun Vendetta",
+    "stats": [
+      {
+        "label": "On shotgun kill within 5m of target: |val1|% Multishot and |val2|% Reload Speed for 15s.",
+        "values": [
+          {
+            "base_value": [
+              30,
+              60,
+              90,
+              120,
+              150,
+              180
+            ],
+            "upgrade_type": "WEAPON_ADD_MULTISHOT"
+          },
+          {
+            "base_value": [
+              12.5,
+              25,
+              37.5,
+              50,
+              62.5,
+              75
+            ],
+            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
+          }
+        ],
+        "condition": "on_shotgun_kill_within_5m_of_target"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OrbsOnResidualContact": {
+    "name": "Theorem Contagion",
+    "stats": [
+      {
+        "label": "Standing in a zone created by a Residual Arcane creates a globe that orbits the player every 2s. The globes will strike the nearest enemy within 15m dealing 150 damage increasing their vulnerability to the globe's damage type by |val1|% for 6s. Globes will persist for 30s upon leaving the zone.",
+        "values": [
+          {
+            "base_value": [
+              25,
+              50,
+              75,
+              100,
+              150,
+              200
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/WeaponDamageOnResidualContact": {
+    "name": "Theorem Demulcent",
+    "stats": [
+      {
+        "label": "Standing in a zone created by a Residual Arcane increases weapon damage by |val1|%/s stacking up to 15x. Effect persists for 20s upon leaving the zone.",
+        "values": [
+          {
+            "base_value": [
+              2,
+              4,
+              6,
+              8,
+              10,
+              12
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CompanionDamageOnResidualContact": {
+    "name": "Theorem Infection",
+    "stats": [
+      {
+        "label": "Standing in a zone created by a Residual Arcane increases damage of companions and summoned allies within 90m by |val1|%/s stacking up to 15x. Effect persists for 20s upon leaving the zone.",
+        "values": [
+          {
+            "base_value": [
+              4,
+              8,
+              12,
+              16,
+              20,
+              24
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": null
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToHeatDamage": {
+    "name": "Virtuos Forge",
+    "stats": [
+      {
+        "label": "On Hit: Converts |val1|% Void Damage to Heat Damage.",
+        "values": [
+          {
+            "base_value": [
+              24,
+              48,
+              72,
+              98
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/IncreasedDamageOnStatusProc": {
+    "name": "Virtuos Fury",
+    "stats": [
+      {
+        "label": "On Status Effect: 20% chance for |val1|% Damage for 4s",
+        "values": [
+          {
+            "base_value": [
+              7.5,
+              15,
+              22.5,
+              30
+            ],
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
+          }
+        ],
+        "condition": "on_status_effect"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/StatusChanceOnHeadshot": {
+    "name": "Virtuos Ghost",
+    "stats": [
+      {
+        "label": "On Headshot: 40% chance for |val1|% Status Chance for 12s",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60
+            ],
+            "upgrade_type": "WEAPON_ADD_STATUS_CHANCE"
+          }
+        ],
+        "condition": "on_headshot"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/OperatorAmmoRegenOnKill": {
+    "name": "Virtuos Null",
+    "stats": [
+      {
+        "label": "On Kill: |val1|% Amp Energy Regeneration for 4s",
+        "values": [
+          {
+            "base_value": [
+              5,
+              10,
+              15,
+              20
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/CriticalChanceOnHeadshot": {
+    "name": "Virtuos Shadow",
+    "stats": [
+      {
+        "label": "On Headshot: 40% chance for |val1|% Critical Chance for 12s",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          }
+        ],
+        "condition": "on_headshot"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToPunctureDamage": {
+    "name": "Virtuos Spike",
+    "stats": [
+      {
+        "label": "On Hit: Converts |val1|% Void Damage to Puncture Damage.",
+        "values": [
+          {
+            "base_value": [
+              24,
+              48,
+              72,
+              98
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/IncreasedCriticalDamageOnCriticalStrike": {
+    "name": "Virtuos Strike",
+    "stats": [
+      {
+        "label": "On Critical Hit: 20% chance for |val1|% Critical Damage for 4s",
+        "values": [
+          {
+            "base_value": [
+              20,
+              40,
+              60,
+              80
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT"
+          }
+        ],
+        "condition": "on_critical_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToElectricDamage": {
+    "name": "Virtuos Surge",
+    "stats": [
+      {
+        "label": "On Hit: Converts |val1|% Void Damage to Electricity Damage.",
+        "values": [
+          {
+            "base_value": [
+              24,
+              48,
+              72,
+              98
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_hit"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/AttackSpeedOnKill": {
+    "name": "Virtuos Tempo",
+    "stats": [
+      {
+        "label": "On Kill: 60% chance for |val1|% Fire Rate for 8s",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60
+            ],
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+          }
+        ],
+        "condition": "on_kill"
+      }
+    ]
+  },
+  "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToViralDamage": {
+    "name": "Virtuos Trojan",
+    "stats": [
+      {
+        "label": "On Hit: Converts |val1|% Void Damage to Viral Damage.",
+        "values": [
+          {
+            "base_value": [
+              24,
+              48,
+              72,
+              98
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_hit"
+      }
+    ]
+  }
+}
