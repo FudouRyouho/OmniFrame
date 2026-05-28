@@ -1,6 +1,6 @@
 ---
 Estado: "referencia"
-Rol: "Catálogo de gaps semánticos — 85 armas Incarnon, ~1245 efectos"
+Rol: "Catálogo de gaps semánticos — 85 armas Incarnon, ~1258 efectos"
 Impacto_ID: "SSoT-Data-Incarnon"
 Fecha_de_creacion: "2026-05-27"
 Fecha_de_actualizacion: "2026-05-28"
@@ -32,31 +32,46 @@ Objetivo: mapear qué se puede implementar ahora vs qué requiere trabajo en C1.
 | `WEAPON_ADD_STATUS_DURATION` | `ADD` | "+N% Status Duration" | Okina EVO IV: +25% |
 | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | `ADD` | "+N% Heavy Attack Wind Up Speed" | HATE EVO III: +60% |
 | `WEAPON_BASE_HEAVY_EFFICIENCY` | `BASE_FLAT` | "+N% Heavy Attack Efficiency (base=0, cap 90%)" | Furax EVO III: +20% |
+| `WEAPON_ADD_ZOOM` | `ADD` | "-N% Zoom (valor negativo = reducción)" | Varios EVO III: -30% |
+| `WEAPON_ADD_SLAM_RADIUS` | `ADD` | "+N% Slam Attack Radius" | Varios EVO IV: +50% |
+| `WEAPON_ADD_RANGE` | `ADD` | "Increase Range by +N" | Skana/Bo EVO III: +0.4–1 |
+| `WEAPON_ADD_MAGAZINE_MAX` | `ADD` | "+N% Magazine Capacity (porcentaje)" | ZarimanSemiAutoRifle: +50% |
+| `WEAPON_BASE_COMBO_DURATION` | `BASE_FLAT` | "+Ns Combo Duration (segundos planos)" | Varios: +4–8s |
+| `WEAPON_BASE_COMBO_INITIAL` | `BASE_FLAT` | "+N Initial Combo" | Varios: +20 |
+| `WEAPON_ADD_FINISHER_DAMAGE` | `ADD` | "+N% Finisher Damage" | Varios |
 
 > Tokens confirmados en juego (2026-05-28): `WEAPON_BASE_CRIT_MULT` (BASE_FLAT, Soma Prime + Vital Sense), `WEAPON_ADD_HEAVY_CHARGE_SPEED` (ADD aditivo, HATE + Amalgam), `WEAPON_BASE_HEAVY_EFFICIENCY` (pool plano BASE_FLAT, Furax + Galvanized Reflex).  
 > Todos pendientes de añadir a `shared/types/modifier.ts` y `UPGRADE_MAP` — engine los silencia hasta entonces.
 
-Cobertura estimada post-sesión (2026-05-28): ~595 efectos (~48%).
+Cobertura (2026-05-28, post-sesión): **606/1258 bruta (48.2%)**. Excluyendo condicionales P2+ y notas de anotación: **≥73%**.
 
 ---
 
-## 2. Tokens faltantes mapeados (vocabulario a extender — en override, pendiente UPGRADES)
+## 2. Tokens mapeados en override (pendiente UPGRADES)
 
-Tokens con mecánica simple mapeados en el override (2026-05-28). Pendiente añadir a `modifier.ts` + `UPGRADE_MAP`.
+Todos estos tokens tienen efectos en `incarnon-evolutions.override.json` (2026-05-28). Pendiente añadir a `modifier.ts` + `UPGRADE_MAP` para que el engine los reconozca.
 
-| Token | Op | Mapeados | Condicionales (null) | Ejemplo |
-|---|---|---|---|---|
-| `WEAPON_ADD_PROJECTILE_SPEED` | ADD | 20 | 3 | Boltor EVO III: +60% |
-| `WEAPON_ADD_ACCURACY` | ADD | 17 | 7 | Braton EVO III: +60% |
-| `WEAPON_ADD_RECOIL` | ADD (negativo) | 31 | 4 | Braton EVO III: -60% |
-| `WEAPON_ADD_STATUS_DURATION` | ADD | 2 | 0 | Okina EVO IV: +25% |
-| `WEAPON_ADD_HEAVY_CHARGE_SPEED` | ADD | 11 | 0 | HATE EVO III: +60% |
-| `WEAPON_BASE_HEAVY_EFFICIENCY` | BASE_FLAT | 8+3 | 0 | Furax EVO III: +20% |
-| `WEAPON_ADD_PUNCH_THROUGH` | ADD | 0 | 13 | — (todo condicional) |
+| Token | Op | Efectos mapeados | Ejemplo |
+|---|---|---|---|
+| `WEAPON_ADD_PROJECTILE_SPEED` | ADD | ~24 | Boltor EVO III: +60% |
+| `WEAPON_ADD_ACCURACY` | ADD | ~17 | Braton EVO III: +60% |
+| `WEAPON_ADD_RECOIL` | ADD (negativo) | ~31 | Braton EVO III: -60% |
+| `WEAPON_ADD_STATUS_DURATION` | ADD | ~2 | Okina EVO IV: +25% |
+| `WEAPON_ADD_HEAVY_CHARGE_SPEED` | ADD | ~12 | HATE EVO III: +60% |
+| `WEAPON_BASE_HEAVY_EFFICIENCY` | BASE_FLAT | ~14 | Furax EVO III: +20% |
+| `WEAPON_BASE_CRIT_MULT` | BASE_FLAT | ~10 | Boar EVO IV: +0.5x |
+| `WEAPON_ADD_ZOOM` | ADD (negativo) | ~8 | Varios: -30% |
+| `WEAPON_ADD_SLAM_RADIUS` | ADD | ~4 | Varios: +50% |
+| `WEAPON_ADD_RANGE` | ADD | ~4 | Skana EVO III: +0.4 |
+| `WEAPON_BASE_COMBO_DURATION` | BASE_FLAT | ~7 | Varios: +4–8s |
+| `WEAPON_BASE_COMBO_INITIAL` | BASE_FLAT | ~4 | Varios: +20 |
+| `WEAPON_ADD_MAGAZINE_MAX` | ADD | ~1 | ZarimanSemiAutoRifle: +50% |
+| `WEAPON_ADD_FINISHER_DAMAGE` | ADD | ~1 | Varios |
+| `WEAPON_ADD_PUNCH_THROUGH` | ADD | 0 (todo condicional) | — (P2) |
 
-> `WEAPON_ADD_RECOIL`: valores negativos = reducción de recoil. Consistente con convención de mods en `mod-stats.override.json`.  
+> `WEAPON_ADD_RECOIL` / `WEAPON_ADD_ZOOM`: valores negativos = reducción. Consistente con convención de `mod-stats.override.json`.  
 > `WEAPON_BASE_HEAVY_EFFICIENCY`: pool plano base=0, cap 90%, verificado en juego — mismo token para mods e Incarnon.  
-> `WEAPON_ADD_PUNCH_THROUGH`: 0 limpios — todos los efectos son condicionales (P2).
+> `WEAPON_BASE_COMBO_DURATION` (BASE_FLAT, +Xs) ≠ `WEAPON_ADD_COMBO_DURATION` (ADD, ±X%) — discriminado por label en override.
 
 ---
 
@@ -141,7 +156,16 @@ Ver [`schema.md`](schema.md) — "Convención de variantes per-arma".
 
 | Prioridad | Trabajo | Valor |
 |---|---|---|
-| P1 | Extender `UPGRADES` con tokens de la sección 2 (flat/percent sin condición) | Cubre ~60 efectos adicionales sin diseño nuevo |
-| P2 | Diseñar `context.flags` vocabulary para condiciones de sección 3.1 | Desbloquea ~40 perks condicionales simples |
-| P3 | Sistema de eventos on-kill / on-event | Desbloquea buffs temporales pero requiere runtime state |
+| P1 | Añadir tokens de §2 a `modifier.ts` + `UPGRADE_MAP` | Engine reconoce ~100 efectos adicionales sin diseño nuevo |
+| P2 | Diseñar `context.flags` vocabulary para condiciones de §3.1 | Desbloquea ~40 perks condicionales simples |
+| P3 | Sistema de eventos on-kill / on-event | Desbloquea buffs temporales, requiere runtime state |
 | — | Atributos de jugador | Fuera de scope weapon sim |
+
+### Deuda de valores manuales
+
+Algunos efectos tienen placeholders `+X`/`+Y` del extractor — valor real no disponible sin wiki manual:
+- `WEAPON_BASE_DAMAGE` ×4 (Braton Incarnon Form: "+X Damage")
+- `WEAPON_BASE_STATUS_CHANCE` ×10 ("Increase Status Chance by +Y")
+- `WEAPON_BASE_MAGAZINE_MAX` ×9 ("Increase Base Magazine Capacity by +X")
+- `WEAPON_BASE_CRIT_MULT` ×3 ("Increase Base Critical Damage Multiplier by +Yx")
+- `WEAPON_ADD_CRIT_MULT` ×4 ("Increase Critical Damage Multiplier by +Y") — sin "Base"
