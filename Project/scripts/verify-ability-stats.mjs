@@ -6,33 +6,31 @@
  *   Record<uniqueName, {
  *     name: string
  *     description: string
- *     icon: string
+ *     image_name: string
  *     groups: Array<{
  *       id?: string
  *       label?: string
- *       defaultActive?: boolean
+ *       default_active?: boolean
  *       exclusive?: boolean
  *       stats: Array<{
  *         label: string
- *         values: Array<{
- *           baseValue: number
- *           upgradeBy: string
- *           upgradeType?: string
- *           cap?: number
- *           capMin?: number
- *           helminthBase?: number
- *           helminthCap?: number
- *           inverse?: boolean
- *         }>
+ *         base_value: number | [number, number]
+ *         upgrade_by?: string | string[]
+ *         upgrade_type?: string | string[]
+ *         cap?: number | [number, number]
+ *         floor?: number | [number, number]
+ *         helminth_base?: number
+ *         helminth_cap?: number
+ *         inverse?: boolean
  *       }>
  *     }>
  *   }>
  *
- * upgradeBy válidos: AVATAR_ABILITY_STRENGTH | AVATAR_ABILITY_RANGE |
+ * upgrade_by válidos: AVATAR_ABILITY_STRENGTH | AVATAR_ABILITY_RANGE |
  *   AVATAR_ABILITY_DURATION | AVATAR_ABILITY_EFFICIENCY |
- *   ENERGY_COST | ENERGY_DRAIN | NONE
+ *   ENERGY_COST | ENERGY_DRAIN
  *
- * Fuente de verdad: Docs/domains/data/abilities/schema.md
+ * Fuente de verdad: docs/data/schemas/abilities/schema.md
  */
 
 import fs from 'node:fs/promises'
@@ -49,53 +47,94 @@ const VALID_UPGRADE_BY = new Set([
   'AVATAR_ABILITY_EFFICIENCY',
   'ENERGY_COST',
   'ENERGY_DRAIN',
-  'NONE',
 ])
 
 // ── Validadores ───────────────────────────────────────────────────────────────
-
-function validateValue(val, context) {
-  const issues = []
-  if (typeof val.baseValue !== 'number') {
-    issues.push(`${context}: baseValue no es number (${JSON.stringify(val.baseValue)})`)
-  }
-  if (typeof val.upgradeBy !== 'string') {
-    issues.push(`${context}: upgradeBy no es string`)
-  } else if (!VALID_UPGRADE_BY.has(val.upgradeBy)) {
-    issues.push(`${context}: upgradeBy desconocido "${val.upgradeBy}"`)
-  }
-  if ('cap' in val && typeof val.cap !== 'number') {
-    issues.push(`${context}: cap no es number`)
-  }
-  if ('capMin' in val && typeof val.capMin !== 'number') {
-    issues.push(`${context}: capMin no es number`)
-  }
-  if ('helminthBase' in val && typeof val.helminthBase !== 'number') {
-    issues.push(`${context}: helminthBase no es number`)
-  }
-  if ('helminthCap' in val && typeof val.helminthCap !== 'number') {
-    issues.push(`${context}: helminthCap no es number`)
-  }
-  if ('inverse' in val && typeof val.inverse !== 'boolean') {
-    issues.push(`${context}: inverse no es boolean`)
-  }
-  return issues
-}
 
 function validateStat(stat, context) {
   const issues = []
   if (typeof stat.label !== 'string') {
     issues.push(`${context}: label no es string`)
   }
-  if (!Array.isArray(stat.values)) {
-    issues.push(`${context}: values no es array`)
-  } else if (stat.values.length === 0) {
-    issues.push(`${context}: values está vacío`)
+
+  // base_value es obligatorio y puede ser number o [number, number]
+  if (typeof stat.base_value === 'undefined') {
+    issues.push(`${context}: base_value es obligatorio`)
   } else {
-    stat.values.forEach((val, vi) => {
-      issues.push(...validateValue(val, `${context}.values[${vi}]`))
-    })
+    if (typeof stat.base_value !== 'number' && !Array.isArray(stat.base_value)) {
+      issues.push(`${context}: base_value debe ser número o un rango [min, max]`)
+    } else if (Array.isArray(stat.base_value)) {
+      if (stat.base_value.length !== 2 || typeof stat.base_value[0] !== 'number' || typeof stat.base_value[1] !== 'number') {
+        issues.push(`${context}: base_value rango debe ser [number, number]`)
+      }
+    }
   }
+
+  // upgrade_by?: AbilityUpgradeBy | AbilityUpgradeBy[]
+  if ('upgrade_by' in stat && stat.upgrade_by !== undefined) {
+    const ub = stat.upgrade_by
+    if (Array.isArray(ub)) {
+      ub.forEach((item, idx) => {
+        if (typeof item !== 'string' || !VALID_UPGRADE_BY.has(item)) {
+          issues.push(`${context}: upgrade_by[${idx}] desconocido o legacy "${item}"`)
+        }
+      })
+    } else if (typeof ub !== 'string' || !VALID_UPGRADE_BY.has(ub)) {
+      issues.push(`${context}: upgrade_by desconocido o legacy "${ub}"`)
+    }
+  }
+
+  // upgrade_type?: string | string[]
+  if ('upgrade_type' in stat && stat.upgrade_type !== undefined) {
+    const ut = stat.upgrade_type
+    if (Array.isArray(ut)) {
+      ut.forEach((item, idx) => {
+        if (typeof item !== 'string') {
+          issues.push(`${context}: upgrade_type[${idx}] debe ser string`)
+        }
+      })
+    } else if (typeof ut !== 'string') {
+      issues.push(`${context}: upgrade_type debe ser string`)
+    }
+  }
+
+  // cap?: number | [number, number]
+  if ('cap' in stat && stat.cap !== undefined) {
+    if (typeof stat.cap !== 'number' && !Array.isArray(stat.cap)) {
+      issues.push(`${context}: cap debe ser número o un rango [min, max]`)
+    } else if (Array.isArray(stat.cap)) {
+      if (stat.cap.length !== 2 || typeof stat.cap[0] !== 'number' || typeof stat.cap[1] !== 'number') {
+        issues.push(`${context}: cap rango debe ser [number, number]`)
+      }
+    }
+  }
+
+  // floor?: number | [number, number]
+  if ('floor' in stat && stat.floor !== undefined) {
+    if (typeof stat.floor !== 'number' && !Array.isArray(stat.floor)) {
+      issues.push(`${context}: floor debe ser número o un rango [min, max]`)
+    } else if (Array.isArray(stat.floor)) {
+      if (stat.floor.length !== 2 || typeof stat.floor[0] !== 'number' || typeof stat.floor[1] !== 'number') {
+        issues.push(`${context}: floor rango debe ser [number, number]`)
+      }
+    }
+  }
+
+  // helminth_base?: number
+  if ('helminth_base' in stat && stat.helminth_base !== undefined && typeof stat.helminth_base !== 'number') {
+    issues.push(`${context}: helminth_base no es number`)
+  }
+
+  // helminth_cap?: number
+  if ('helminth_cap' in stat && stat.helminth_cap !== undefined && typeof stat.helminth_cap !== 'number') {
+    issues.push(`${context}: helminth_cap no es number`)
+  }
+
+  // inverse?: boolean
+  if ('inverse' in stat && stat.inverse !== undefined && typeof stat.inverse !== 'boolean') {
+    issues.push(`${context}: inverse no es boolean`)
+  }
+
   return issues
 }
 
@@ -106,6 +145,12 @@ function validateGroup(group, context) {
   }
   if ('label' in group && typeof group.label !== 'string') {
     issues.push(`${context}: label no es string`)
+  }
+  if ('default_active' in group && group.default_active !== undefined && typeof group.default_active !== 'boolean') {
+    issues.push(`${context}: default_active no es boolean`)
+  }
+  if ('exclusive' in group && group.exclusive !== undefined && typeof group.exclusive !== 'boolean') {
+    issues.push(`${context}: exclusive no es boolean`)
   }
   if (!Array.isArray(group.stats)) {
     issues.push(`${context}: stats no es array`)
@@ -121,7 +166,6 @@ function validateEntry(entry, uniqueName) {
   const issues = []
   const ctx = uniqueName
 
-  // Detectar schema legacy — la entrada es un Array directamente (pre-migración)
   if (Array.isArray(entry)) {
     return [`${ctx}: entrada en formato legacy (Array). Requiere migración.`]
   }
@@ -130,9 +174,9 @@ function validateEntry(entry, uniqueName) {
     return [`${ctx}: entrada no es un objeto`]
   }
 
-  // Detectar schema legacy — tiene stats[] en lugar de groups[]
+  // Detectar schema legacy con stats[] a nivel raíz
   if ('stats' in entry && !('groups' in entry)) {
-    return [`${ctx}: schema legacy detectado (stats[] sin groups[]). Requiere migración.`]
+    return [`${ctx}: schema legacy detectado (stats[] sin groups[]).`]
   }
 
   if (typeof entry.name !== 'string' || entry.name === '') {
@@ -141,8 +185,8 @@ function validateEntry(entry, uniqueName) {
   if (typeof entry.description !== 'string') {
     issues.push(`${ctx}: description ausente`)
   }
-  if (typeof entry.icon !== 'string') {
-    issues.push(`${ctx}: icon ausente`)
+  if (typeof entry.image_name !== 'string') {
+    issues.push(`${ctx}: image_name ausente`)
   }
   if (!Array.isArray(entry.groups)) {
     issues.push(`${ctx}: groups no es array`)
@@ -170,7 +214,7 @@ async function verify() {
     process.exit(1)
   }
 
-  const keys = Object.keys(data)
+  const keys = Object.keys(data).filter((k) => k !== '$schema')
   let ok = 0
   let withWarnings = 0
   let withErrors = 0
@@ -186,8 +230,6 @@ async function verify() {
       ok++
     } else {
       if (isLegacy) legacyCount++
-      // Distinguir warnings (upgradeBy desconocido = podría ser nuevo tipo)
-      // de errores estructurales reales
       const isStructural = issues.some(i =>
         i.includes('no es') || i.includes('ausente') || i.includes('vacío') || i.includes('legacy')
       )
@@ -217,7 +259,7 @@ async function verify() {
   console.log(`Con warnings:      ${withWarnings}`)
   console.log(`Con errores:       ${withErrors}`)
   if (legacyCount > 0) {
-    console.log(`Schema legacy:     ${legacyCount}  ← ejecutar migrate-ability-stats (ver backups/)`)
+    console.log(`Schema legacy:     ${legacyCount}`)
   }
 
   if (withErrors === 0 && withWarnings === 0) {

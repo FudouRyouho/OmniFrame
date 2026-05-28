@@ -63,7 +63,7 @@ function toKebab(s: string): string {
 
 // ── Stat line parser ──────────────────────────────────────────────────────────
 
-function parseStat(line: string, src: string): AbilityStatEntry | null {
+function parseStat(line: string): AbilityStatEntry | null {
   const importantMatch = line.match(/\/\/!\s*(.*)$/)
   if (importantMatch) {
     console.warn(`  [!] ${importantMatch[1].trim()}`)
@@ -124,7 +124,7 @@ function parseStat(line: string, src: string): AbilityStatEntry | null {
 
 // ── State machine ─────────────────────────────────────────────────────────────
 
-function parseMd(content: string, src: string): ParsedOutput {
+function parseMd(content: string): ParsedOutput {
   const output: ParsedOutput = {}
   let abilityKey: string | null = null
   let groups: AbilityGroup[]    = []
@@ -181,7 +181,7 @@ function parseMd(content: string, src: string): ParsedOutput {
     }
 
     if (!group) continue
-    const stat = parseStat(line, src)
+    const stat = parseStat(line)
     if (stat) group.stats.push(stat)
   }
 
@@ -218,7 +218,7 @@ for (const inputPath of inputs) {
   console.log(`\n── ${src}`)
 
   const content = fs.readFileSync(resolved, 'utf-8')
-  const parsed  = parseMd(content, src)
+  const parsed  = parseMd(content)
 
   for (const [key, { groups }] of Object.entries(parsed)) {
     const tail     = key.split('/').pop()!
