@@ -26,8 +26,8 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 | `conditions/L3` — eventos (`on_*`) | ~50% (~60/120 est.) | ⚠️ | exilus → galvanizados → resto |
 | `arcanes/condition` | ~69% (121/175) | ⚠️ | normalizar tokens inconsistentes |
 | `arcanes/upgrade_type` | ~33% (60/182) | ❌ | L3 nulls → tokens faltantes |
-| `mods/condition` | ~0% | ❌ | exilus (ROI alto) → galvanizados |
-| `mods/upgrade_type` | ~14% (119/853) | ❌ | segunda revisión post-exilus |
+| `mods/condition` | ~3% (19/669 con token real) | ❌ | exilus ✅ → galvanizados |
+| `mods/upgrade_type` | ~18% (119/669) | ❌ | segunda revisión post-exilus |
 | `incarnon/condition` | ~8% (notes sin tokenizar) | ❌ | normalizar notes → tokens |
 | `incarnon/upgrade_type` | ~35% est. | ❌ | tokens con note semántica → completar |
 | `archon/upgrade_type` | ~22% | ❌ | — |
@@ -42,23 +42,29 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 
 **Schema:** `docs/data/schemas/mods/mods-schema.md` ✅
 **Vocabulario:** D-6 aplicado — `shared/types/modifier.ts` → `UPGRADES` + `UPGRADE_MAP`
+**Condition vocab:** `docs/data/schemas/conditions/vocabulary.md` ✅ (L1/L2/L3/L4, 13+6+63+9 tokens)
 
 | Estado | Cantidad |
 |---|---|
-| Entradas totales en override | 853 |
+| Entradas totales en override | 669 |
 | Revisadas y verificadas (usuario) | 119 |
-| Pendientes de revisión | 734 |
+| Pendientes de revisión (upgrade_type) | ~550 |
 | Tokens en UPGRADES[] | 55 |
 | Con entrada en UPGRADE_MAP (explícito) | 35 |
+| Weapon exilus cubiertos | 80/80 (100%) |
+| Con condition token asignado | ~19 (exilus) |
 
-Ver `docs/data/schemas/mods/upgrade-taxonomy.md` para el breakdown completo (inc. resolveToken implícito y sub-familia).
+Ver `docs/data/schemas/mods/upgrade-taxonomy.md` para el breakdown completo.
 
-**Revisión en curso:** Las primeras 119 entradas están correctas en upgrade_type D-6.
-El campo `condition` está ausente en todos los casos — requiere semántica nueva, **fuera de scope actual**.
+**Cobertura exilus completada (2026-05-28):**
+Scripts: `patch-exilus-conditions.py` (conditions en 53 en override) + `add-exilus-missing.py` (27 entradas faltantes).
+Tokens nuevos activos: `while_aiming`, `while_aim_gliding`, `while_sliding`, `while_holstered`, `while_blocking`, `on_equip`, `on_tennokai_attack`.
 
 **Deuda conocida:**
-- `condition` — semántica de modificadores condicionales (galvanizados, arcanos con trigger, etc.) no definida aún
-- Tipos sin UPGRADE_MAP entry → se mapean por demanda conforme se revisan
+- `condition` — galvanizados, galvanizados exilus (Galvanized Acceleration mapeado), arcanos pendientes de integración engine
+- `WEAPON_ADD_AMMO_MAX` — token no definido; Ammo Drum / Shell Compression / Trick Mag marcados con note
+- `WEAPON_ADD_COMBO_COUNT_CHANCE` — token no definido; Guardian Derision marcado con note
+- ~550 entradas restantes sin revision de upgrade_type
 
 ---
 
