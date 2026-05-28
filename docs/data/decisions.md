@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-05-28"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -183,3 +183,117 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 **Fecha:** 2026-05-27
 **Decisión:** El override `incarnon-evolutions.override.json` es SSoT manual — mismo patrón que `archon-shards.json`. 85 armas extraídas de wikitext con script archivado; nuevas armas se añaden a mano. El schema indexa por `unique_name`; variantes (Boltor / Telos / Prime) tienen entradas separadas — no existe campo `variant`. Los perks dinámicos (condicionales, on-kill, stacking) se documentan como `null + note` hasta que exista soporte en C1. Tokens `WEAPON_BASE_*` (BASE_FLAT) añadidos a `UPGRADE_MAP` para los 4 perks estáticos implementables: `WEAPON_BASE_DAMAGE`, `WEAPON_BASE_CRIT_CHANCE`, `WEAPON_BASE_STATUS_CHANCE`, `WEAPON_BASE_MAGAZINE_MAX`.
 **Ref:** `docs/data/schemas/incarnon/schema.md`, `docs/data/schemas/incarnon/gaps.md`, `IncarnonRepository`, `Project/public/data/incarnon-evolutions.override.json`
+
+---
+
+## D-14 — `condition?:` y `note?:` como campos de seguimiento de diseño en todos los schemas
+
+**Estado:** VIGENTE
+**Fecha:** 2026-05-28
+**Decisión:** Todos los schemas de override de stats (mods, arcanes, incarnon) exponen dos campos opcionales a nivel de stat entry:
+
+```ts
+condition?: string | null  // token canónico del vocabulario de conditions
+note?:      string | null  // descripción semántica de lo que el token no puede expresar aún
+```
+
+Estos campos son **mecanismos de seguimiento de diseño**, no ruido de desarrollo.
+Su contenido debe ser útil para una futura sesión de implementación — no para el autor de la sesión actual.
+
+### Semántica de los tres estados de una stat entry
+
+| Estado | `upgrade_type` | `condition` | `note` | Significado |
+|---|---|---|---|---|
+| Sin analizar | `null` | ausente | ausente | Entry no revisada todavía |
+| Analizada, sin modelo | `null` | token o `null` | presente | Semántica conocida, vocabulario insuficiente |
+| Mapeada, con matiz | token | token o `null` | presente | Mapeada pero hay contexto que el token solo no captura |
+| Mapeada, completa | token | token o `null` | ausente | Entrada correcta y completa |
+
+### Regla de contenido para `note?:`
+
+El contenido debe ser conciso y orientado a implementación. Formatos válidos:
+- Semántica no tokenizable: `"stacks 6x; per_stack: 110%; decay on timer"`
+- Scope específico: `"primary weapons only"`
+- Fórmula: `"formula: per 10% Puncture Status chance"`
+- Acción futura: `"needs WEAPON_ADD_AMMO_EFFICIENCY token"`
+- Condición compleja: `"With Armor Over 450 — threshold condition L2"`
+
+Lo que NO va en `note`: referencias a la sesión actual, nombres de scripts, números de ticket.
+
+**Alcance:** mods-schema.md, arcane/schema.md, incarnon/schema.md — los tres actualizados en la misma sesión que esta decisión.
+**Ref:** `docs/data/schemas/conditions/vocabulary.md`
+
+---
+
+## D-15 — Modelo de condiciones Fase 0: tracking-only, default siempre activo
+
+**Estado:** VIGENTE
+**Fecha:** 2026-05-28
+**Decisión:** Durante la fase de mapeo de datos (hasta alcanzar ≥70% de cobertura por sector, D-16), las conditions se modelan como campos de datos, no como lógica de evaluación.
+
+### Tres principios del modelo Fase 0
+
+**1. Default activo.** El engine aplica TODOS los modificadores sin evaluar `condition`. Un modificador con `condition: "on_kill"` tiene el mismo efecto que uno con `condition: null`. El campo `condition` existe para tracking y preparación de C1, no para branching de runtime.
+
+**2. Stacking = valor máximo total.** Los mods con mecánica de stacking no tienen un campo `stacks` en el schema. El valor almacenado en `base_value` es el **total a máximo de stacks**. El `note` documenta el desglose:
+```json
+{
+  "base_value": [0, 0, 0, 0, 0, 660],
+  "upgrade_type": "WEAPON_ADD_DAMAGE",
+  "note": "stacks 6x; per_stack: 110%"
+}
+```
+El `note` no es parte del modelo de cálculo — es documentación para cuando se implemente stacking en C1-B.
+
+**3. Duración = irrelevante por ahora.** Los buffs temporales (on_kill: +X% for Ys) no tienen campo `duration`. El `note` puede documentarla si es relevante para implementación futura. El engine aplica el valor como si fuera permanente.
+
+### Qué NO cambia con esta decisión
+- La estructura del JSON de los overrides
+- El vocabulario de tokens `upgrade_type`
+- La semántica de `condition` como campo de datos
+
+### Condición de evolución (cuándo cambia esta decisión)
+Cuando el vocabulario de conditions alcance ≥70% de cobertura (D-16) Y el engine tenga `SimContext` con `context.flags`, esta decisión evoluciona a **Fase 1**: el engine evalúa `condition` para L1 (estado) y L2 (umbral).
+
+**Ref:** `docs/data/schemas/conditions/vocabulary.md`
+
+---
+
+## D-16 — Target de cobertura 70-80% por sector (datos antes que integración)
+
+**Estado:** VIGENTE
+**Fecha:** 2026-05-28
+**Decisión:** La integración de cualquier fuente de datos al engine requiere ≥70% de cobertura en su sector. La cobertura se mide por sector, no en el total acumulado.
+
+### Definición de sector
+
+Un sector es un eje semántico de una fuente de datos. Cada fuente tiene múltiples sectores independientes.
+
+### Qué significa "cubierto" en cada sector
+
+| Sector | Fuente | Cubierto cuando | Estado actual |
+|---|---|---|---|
+| `mods/upgrade_type` | mod-stats.override.json | stat tiene `upgrade_type` mapeado y semánticamente correcto | ~14% (119/853) |
+| `mods/condition` | mod-stats.override.json | stat condicional tiene `condition` con token canónico | ~0% (no mapeado) |
+| `arcanes/upgrade_type` | arcane-stats.override.json | stat tiene `upgrade_type` verificado | ~33% (60/182) |
+| `arcanes/condition` | arcane-stats.override.json | stat tiene `condition` con token canónico | ~69% (121/175) |
+| `incarnon/upgrade_type` | incarnon-evolutions.override.json | perk tiene `upgrade_type` o `note` con semántica clara | ~35% estimado |
+| `incarnon/condition` | incarnon-evolutions.override.json | perk con trigger tiene `condition` con token canónico | ~8% (notes estructuradas) |
+| `archon/upgrade_type` | archon-shards.json | stat tiene `upgrade_type` mapeado | ~22% |
+| `conditions/L1` | vocabulary.md | token de estado definido con semántica y fuente | ~100% (10/10) |
+| `conditions/L2` | vocabulary.md | token de umbral definido con N y stat requerido | ~90% (6/6+ pendientes) |
+| `conditions/L3` | vocabulary.md | token de evento definido con fuentes cruzadas | ~50% (60/~120 estimado) |
+
+### Prioridad de sectores (orden de trabajo)
+
+1. `conditions/L3` — completar el vocabulario es prerequisito de todo lo demás
+2. `mods/condition` — exilus primero (ROI alto, condiciones simples), galvanizados después
+3. `mods/upgrade_type` — segunda revisión: 734 entradas sin revisar
+4. `incarnon/condition` — normalizar notes a tokens canónicos
+5. `arcanes/upgrade_type` — actualmente 33%, 87 nulls con semántica catalogada en schema §3
+
+### Lo que NO determina cobertura
+- Integración al engine: los overrides son SSoT de datos independientemente del engine
+- Cobertura total acumulada: 60% global con un sector al 0% no cumple el target
+
+**Ref:** `docs/data/schemas/conditions/vocabulary.md`, `docs/data/status.md`

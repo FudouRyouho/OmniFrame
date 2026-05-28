@@ -33,10 +33,13 @@ Datos de perks de evolución Incarnon. Indexado por `unique_name` del arma.
 |---|---|---|
 | `tier` | string (número) | EVO tier: "2", "3", "4". EVO I es la transformación base — no tiene perks elegibles. |
 | `perk_id` | string (snake_case) | ID único del perk. Coincide con `evolution_perks[tier]` en `SlotIntention`. |
-| `upgrade_type` | string \| null | Token D-6 del vocabulario `UPGRADES`. Si es `null` → perk con gap conocido, se omite. |
-| `value` | number | Valor absoluto del modificador (porcentaje para CHANCE, unidades para DAMAGE). |
-| `condition` | string? | Flag de condición del motor. Presente solo en perks condicionales. |
-| `note` | string? | Documentación del gap. Solo aparece cuando `upgrade_type` es null. |
+| `upgrade_type` | `Upgrade \| null` | Token D-6 del vocabulario `UPGRADES`. `null` = gap conocido o sin analizar (ver D-14). |
+| `value` | `number \| Record<alias, number>` | Valor del modificador. Polimórfico: escalar si es compartido entre variantes, dict si difiere por variante. |
+| `condition?` | `string \| null` | Token canónico del vocabulario de conditions (D-14). Presente en perks condicionales. Texto libre en `note` para condiciones no tokenizadas aún. |
+| `note?` | `string \| null` | Semántica no tokenizable (D-14). Presente cuando `upgrade_type` es null o el token no captura todo el matiz. Ausente = entrada completa. |
+
+Ver [D-14](../../decisions.md) y [D-15](../../decisions.md): `note` es seguimiento de diseño, no ruido; `condition` es tracking-only en Fase 0.  
+Vocabulario canónico: `docs/data/schemas/conditions/vocabulary.md`.
 
 ## Tokens usados (nuevos, 2026-05-27)
 

@@ -25,15 +25,19 @@ interface ArcaneOverrideEntry {
   stats: ArcaneStat[];
 }
 interface ArcaneStat {
-  label:     string;          // texto del efecto con |val1|, |val2| como placeholders
-  values:    ArcaneValue[];   // uno por valor escalable en el label
-  condition: string | null;   // token snake_case del trigger ("on_critical_hit", "while_shields_active", etc.)
+  label:      string;          // texto del efecto con |val1|, |val2| como placeholders
+  values:     ArcaneValue[];   // uno por valor escalable en el label
+  condition?: string | null;   // token canónico del vocabulario (D-14)
+  note?:      string | null;   // semántica no tokenizable (D-14); ausente = entrada completa
 }
 interface ArcaneValue {
   base_value:   number[] | null;  // serie [rank0, rank1, …, rankMAX] — 6 valores para arcanes rank 5
   upgrade_type: Upgrade | null;   // token del vocabulario de modifier.ts, null si no mapeado
 }
 ```
+
+Ver [D-14](../../decisions.md) y [D-15](../../decisions.md) para la semántica completa de `condition?:` y `note?:`, modelo de runtime Fase 0, y regla de stacking.  
+Vocabulario canónico: `docs/data/schemas/conditions/vocabulary.md`.
 
 ### Diferencias vs mod-stats.override.json
 

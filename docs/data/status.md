@@ -15,6 +15,29 @@ Fecha_de_actualizacion: "2026-05-28"
 
 ---
 
+## Cobertura por sector — target ≥70% (D-16)
+
+Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integración de una fuente al engine requiere ≥70% en su sector antes de proceder.
+
+| Sector | Estado actual | Target | Prioridad |
+|---|---|---|---|
+| `conditions/L1` — estado (`while_*`) | ~100% (10/10) | ✅ | — |
+| `conditions/L2` — umbral (`with_*`) | ~90% (6 definidos) | ✅ | completar con galvanizados/exilus |
+| `conditions/L3` — eventos (`on_*`) | ~50% (~60/120 est.) | ⚠️ | exilus → galvanizados → resto |
+| `arcanes/condition` | ~69% (121/175) | ⚠️ | normalizar tokens inconsistentes |
+| `arcanes/upgrade_type` | ~33% (60/182) | ❌ | L3 nulls → tokens faltantes |
+| `mods/condition` | ~0% | ❌ | exilus (ROI alto) → galvanizados |
+| `mods/upgrade_type` | ~14% (119/853) | ❌ | segunda revisión post-exilus |
+| `incarnon/condition` | ~8% (notes sin tokenizar) | ❌ | normalizar notes → tokens |
+| `incarnon/upgrade_type` | ~35% est. | ❌ | tokens con note semántica → completar |
+| `archon/upgrade_type` | ~22% | ❌ | — |
+
+**Próximo trabajo de datos:** completar `conditions/L3` (exilus → galvanizados) + normalizar tokens de arcanes.
+
+---
+
+---
+
 ## Mods (`mod-stats.override.json`)
 
 **Schema:** `docs/data/schemas/mods/mods-schema.md` ✅

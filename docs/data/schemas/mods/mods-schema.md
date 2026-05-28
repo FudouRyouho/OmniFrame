@@ -25,11 +25,16 @@ interface ModOverrideEntry {
 
 ```ts
 interface ModStat {
-  label: string;       // Texto descriptivo con placeholders |val1|, |val2|
-  values: ModStatValue[];
-  condition: string | null; // null si es pasivo; token canónico si es condicional
+  label:      string;          // Texto descriptivo con placeholders |val1|, |val2|
+  values:     ModStatValue[];
+  condition?: string | null;   // token canónico del vocabulario (D-14); null = siempre activo o sin analizar
+  note?:      string | null;   // semántica no tokenizable aún (D-14); ausente = entrada completa
 }
 ```
+
+Ver D-14 para la semántica completa de los tres estados (`sin analizar` / `analizada sin modelo` / `mapeada con matiz`).  
+Ver D-15 para el modelo de runtime: durante Fase 0, `condition` no se evalúa — todos los modificadores se aplican siempre.  
+Vocabulario canónico de `condition`: `docs/data/schemas/conditions/vocabulary.md`.
 
 ## Valores por Rango (`ModStatValue`)
 
@@ -55,4 +60,6 @@ El array `baseValue` debe contener exactamente `fusionLimit + 1` entradas para c
 ### Notas de Integridad
 - Este esquema es el contrato consumido por el **Resolver**.
 - Si un mod requiere múltiples efectos simultáneos (ej: +Damage y +Multishot en el mismo texto), estos se modelan como múltiples entradas en el array `values[]` del mismo `ModStat`.
-- Las condiciones (`condition`) deben pertenecer al vocabulario canónico definido en el dominio de semántica.
+- Las condiciones (`condition`) deben pertenecer al vocabulario canónico de `docs/data/schemas/conditions/vocabulary.md`.
+- `note` no es documentación de sesión — es semántica de diseño pendiente de implementación. Ver D-14.
+- Mods con stacking: `baseValue` almacena el **total a máximo de stacks**. El desglose va en `note`. Ver D-15.
