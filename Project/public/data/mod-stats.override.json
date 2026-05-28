@@ -142,7 +142,7 @@
             "upgrade_type": "WEAPON_ZOOM"
           }
         ],
-        "condition": null
+        "condition": "while_aim_gliding"
       }
     ]
   },
@@ -182,7 +182,7 @@
             "upgrade_type": "AVATAR_ADD_MOVEMENT_SPEED"
           }
         ],
-        "condition": null
+        "condition": "while_aiming"
       }
     ]
   },
@@ -243,7 +243,7 @@
             "upgrade_type": "WEAPON_ZOOM"
           }
         ],
-        "condition": null
+        "condition": "while_aim_gliding"
       }
     ]
   },
@@ -2143,7 +2143,7 @@
             "upgrade_type": "WEAPON_ZOOM"
           }
         ],
-        "condition": null
+        "condition": "while_aim_gliding"
       }
     ]
   },
@@ -2966,7 +2966,7 @@
             "upgrade_type": "WEAPON_ADD_STATUS_CHANCE"
           }
         ],
-        "condition": null
+        "condition": "on_tennokai_attack"
       }
     ]
   },
@@ -3891,7 +3891,7 @@
             "upgrade_type": "WEAPON_SPREAD"
           }
         ],
-        "condition": null
+        "condition": "while_aiming"
       }
     ]
   },
@@ -3970,7 +3970,7 @@
             "upgrade_type": "WEAPON_SPREAD"
           }
         ],
-        "condition": null
+        "condition": "while_sliding"
       }
     ]
   },
@@ -4159,7 +4159,8 @@
             "upgrade_type": "WEAPON_AUTO_RELOAD_RATE"
           }
         ],
-        "condition": null
+        "condition": "while_holstered",
+        "note": "L1/L3 ambiguo — depende de si el sim tiene nocion de arma activa; ver vocabulary.md"
       }
     ]
   },
@@ -6173,7 +6174,8 @@
             "upgrade_type": "WEAPON_SPREAD"
           }
         ],
-        "condition": null
+        "condition": "on_hit",
+        "note": "buff applies while_aiming; label override missing On Hit: prefix (mods.json: On Hit: +X% Accuracy when Aiming for Ns); duracion escala r0→rMax — D-15 siempre activo"
       }
     ]
   },
@@ -6208,7 +6210,7 @@
             "upgrade_type": "WEAPON_SPREAD"
           }
         ],
-        "condition": null
+        "condition": "while_sliding"
       }
     ]
   },
@@ -8133,7 +8135,8 @@
             "upgrade_type": "WEAPON_AUTO_RELOAD_RATE"
           }
         ],
-        "condition": null
+        "condition": "while_holstered",
+        "note": "L1/L3 ambiguo — depende de si el sim tiene nocion de arma activa; ver vocabulary.md"
       }
     ]
   },
@@ -8153,7 +8156,8 @@
             "upgrade_type": "WEAPON_ADD_FIRE_RATE"
           }
         ],
-        "condition": null
+        "condition": null,
+        "note": "ally aura effect — on kill grants ally fire rate; out of weapon sim scope"
       }
     ]
   },
@@ -9353,7 +9357,8 @@
             "upgrade_type": "WEAPON_SPREAD"
           }
         ],
-        "condition": null
+        "condition": "on_hit",
+        "note": "buff applies while_aiming; label override missing On Hit: prefix (mods.json: On Hit: +X% Accuracy when Aiming for Ns); duracion escala r0→rMax — D-15 siempre activo"
       }
     ]
   },
@@ -10286,7 +10291,7 @@
             "upgrade_type": "WEAPON_ZOOM"
           }
         ],
-        "condition": null
+        "condition": "while_aim_gliding"
       }
     ]
   },
@@ -15137,7 +15142,7 @@
             "upgrade_type": "AVATAR_ADD_MOVEMENT_SPEED"
           }
         ],
-        "condition": null
+        "condition": "while_aiming"
       }
     ]
   },
@@ -15422,7 +15427,7 @@
             "upgrade_type": "AVATAR_ADD_MOVEMENT_SPEED"
           }
         ],
-        "condition": null
+        "condition": "while_aiming"
       }
     ]
   },
@@ -15716,7 +15721,7 @@
             "upgrade_type": "WEAPON_SPREAD"
           }
         ],
-        "condition": null
+        "condition": "while_sliding"
       }
     ]
   },
@@ -16090,7 +16095,8 @@
             "upgrade_type": "WEAPON_AUTO_RELOAD_RATE"
           }
         ],
-        "condition": null
+        "condition": "while_holstered",
+        "note": "L1/L3 ambiguo — depende de si el sim tiene nocion de arma activa; ver vocabulary.md"
       }
     ]
   },
@@ -16293,7 +16299,8 @@
             "upgrade_type": "WEAPON_SPREAD"
           }
         ],
-        "condition": null
+        "condition": "on_hit",
+        "note": "buff applies while_aiming; label override missing On Hit: prefix (mods.json: On Hit: +X% Accuracy when Aiming for Ns); duracion escala r0→rMax — D-15 siempre activo"
       }
     ]
   },
