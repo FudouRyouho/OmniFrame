@@ -120,8 +120,8 @@
             "value": 10
           },
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +0.2x."
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT",
+            "value": 0.2
           }
         ],
         "survivors_edge": [
@@ -194,8 +194,8 @@
             "value": 14
           },
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +0.2x."
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT",
+            "value": 0.2
           }
         ],
         "survivors_edge": [
@@ -702,8 +702,8 @@
             "value": 20
           },
           {
-            "upgrade_type": null,
-            "note": "Increase Base Critical Damage Multiplier by +0.5x."
+            "upgrade_type": "WEAPON_BASE_CRIT_MULT",
+            "value": 0.5
           }
         ],
         "survivors_edge": [
@@ -964,8 +964,12 @@
             "value": 14
           },
           {
+            "upgrade_type": "WEAPON_ADD_MULTISHOT",
+            "value": 20
+          },
+          {
             "upgrade_type": null,
-            "note": "Multishot consumes ammo directly from Capacity and increases Damage by +Y. +20% Multishot."
+            "note": "Multishot consumes ammo directly from Capacity. +Y% Damage on multishot shots (unique multiplicative modifier — not additive). Requires ammo economy modeling. [P3 gap]"
           }
         ]
       },
@@ -1032,8 +1036,12 @@
             "value": 20
           },
           {
+            "upgrade_type": "WEAPON_ADD_MULTISHOT",
+            "value": 20
+          },
+          {
             "upgrade_type": null,
-            "note": "Multishot consumes ammo directly from Capacity and increases Damage by +Y. +20% Multishot."
+            "note": "Multishot consumes ammo directly from Capacity. +Y% Damage on multishot shots (unique multiplicative modifier — not additive). Requires ammo economy modeling. [P3 gap]"
           }
         ]
       },
@@ -1106,8 +1114,12 @@
             "value": 8
           },
           {
+            "upgrade_type": "WEAPON_ADD_MULTISHOT",
+            "value": 20
+          },
+          {
             "upgrade_type": null,
-            "note": "Multishot consumes ammo directly from Capacity and increases Damage by +Y. +20% Multishot."
+            "note": "Multishot consumes ammo directly from Capacity. +Y% Damage on multishot shots (unique multiplicative modifier — not additive). Requires ammo economy modeling. [P3 gap]"
           }
         ]
       },
@@ -1174,8 +1186,12 @@
             "value": 2
           },
           {
+            "upgrade_type": "WEAPON_ADD_MULTISHOT",
+            "value": 20
+          },
+          {
             "upgrade_type": null,
-            "note": "Multishot consumes ammo directly from Capacity and increases Damage by +Y. +20% Multishot."
+            "note": "Multishot consumes ammo directly from Capacity. +Y% Damage on multishot shots (unique multiplicative modifier — not additive). Requires ammo economy modeling. [P3 gap]"
           }
         ]
       },
@@ -1620,8 +1636,8 @@
         ],
         "deathtrap_trigger": [
           {
-            "upgrade_type": null,
-            "note": "Increase Base Critical Damage Multiplier by +2x"
+            "upgrade_type": "WEAPON_BASE_CRIT_MULT",
+            "value": 2.0
           }
         ],
         "wisemans_regard": [
@@ -1868,8 +1884,8 @@
             "value": 18
           },
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +0.4x."
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT",
+            "value": 0.4
           }
         ]
       }
@@ -1950,8 +1966,8 @@
         ],
         "zeroed_in": [
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +1x"
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT",
+            "value": 1.0
           }
         ]
       }
@@ -2610,8 +2626,8 @@
             "value": 10
           },
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +0.2x."
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT",
+            "value": 0.2
           }
         ],
         "survivors_edge": [
@@ -2688,8 +2704,8 @@
             "value": 20
           },
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +0.2x."
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT",
+            "value": 0.2
           }
         ],
         "survivors_edge": [
@@ -2994,8 +3010,8 @@
         ],
         "bladed_harmony": [
           {
-            "upgrade_type": null,
-            "note": "+25% Attack Speed"
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE",
+            "value": 25
           }
         ],
         "striking_swiftness": [
@@ -3306,8 +3322,8 @@
         ],
         "rapid_wrath": [
           {
-            "upgrade_type": null,
-            "note": "+20% Fire Rate."
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE",
+            "value": 20
           },
           {
             "upgrade_type": null,
@@ -3966,8 +3982,8 @@
             "value": 20
           },
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +0.4x."
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT",
+            "value": 0.4
           }
         ]
       }
@@ -4040,8 +4056,8 @@
             "value": 19
           },
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +0.4x."
+            "upgrade_type": "WEAPON_ADD_CRIT_MULT",
+            "value": 0.4
           }
         ]
       }
@@ -4554,8 +4570,8 @@
         ],
         "rapid_wrath": [
           {
-            "upgrade_type": null,
-            "note": "+25% Fire Rate"
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE",
+            "value": 25
           },
           {
             "upgrade_type": null,
@@ -5032,8 +5048,8 @@
         ],
         "rapid_wrath": [
           {
-            "upgrade_type": null,
-            "note": "+20% Fire Rate"
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE",
+            "value": 20
           }
         ],
         "swift_deliverance": [
@@ -5124,8 +5140,8 @@
         ],
         "whirling_flurry": [
           {
-            "upgrade_type": null,
-            "note": "+20% Attack Speed"
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE",
+            "value": 20
           }
         ],
         "drifting_grace": [
@@ -5892,8 +5908,8 @@
         ],
         "zeroed_in": [
           {
-            "upgrade_type": null,
-            "note": "Increase Critical Damage Multiplier by +0.6x."
+            "upgrade_type": "WEAPON_BASE_CRIT_MULT",
+            "value": 0.6
           },
           {
             "upgrade_type": null,
@@ -6600,8 +6616,8 @@
         ],
         "whirling_flurry": [
           {
-            "upgrade_type": null,
-            "note": "+20% Attack Speed"
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE",
+            "value": 20
           }
         ],
         "raging_drift": [

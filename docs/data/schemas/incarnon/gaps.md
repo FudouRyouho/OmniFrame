@@ -1,6 +1,6 @@
 ---
 Estado: "referencia"
-Rol: "Catálogo de gaps semánticos — 48 armas Incarnon, 723 efectos"
+Rol: "Catálogo de gaps semánticos — 85 armas Incarnon, ~1245 efectos"
 Impacto_ID: "SSoT-Data-Incarnon"
 Fecha_de_creacion: "2026-05-27"
 Fecha_de_actualizacion: "2026-05-27"
@@ -15,16 +15,22 @@ Objetivo: mapear qué se puede implementar ahora vs qué requiere trabajo en C1.
 
 ## 1. Implementable ahora (tokens existentes)
 
-| Token | Semántica de perk | Ejemplo |
-|---|---|---|
-| `WEAPON_BASE_DAMAGE` | "Increase [Base] Damage by +N" | Boltor EVO II: +18 / +4 |
-| `WEAPON_BASE_CRIT_CHANCE` | "Increase Critical Chance by +N%" | Sibear EVO IV: +25% |
-| `WEAPON_BASE_STATUS_CHANCE` | "Increase Status Chance by +N%" | Boltor EVO IV: +20% |
-| `WEAPON_BASE_MAGAZINE_MAX` | "Increase [magazine/ammo] capacity by +N" | Boltor EVO III: +20 |
-| `WEAPON_ADD_RELOAD_SPEED` | "+N% Reload Speed" | Boltor EVO III: +60% |
+| Token | Op | Semántica de perk | Ejemplo |
+|---|---|---|---|
+| `WEAPON_BASE_DAMAGE` | `BASE_FLAT` | "Increase [Base] Damage by +N" | Boltor EVO II: +18 / +4 |
+| `WEAPON_BASE_CRIT_CHANCE` | `BASE_FLAT` | "Increase Critical Chance by +N%" | Sibear EVO IV: +25% |
+| `WEAPON_BASE_STATUS_CHANCE` | `BASE_FLAT` | "Increase Status Chance by +N%" | Boltor EVO IV: +20% |
+| `WEAPON_BASE_MAGAZINE_MAX` | `BASE_FLAT` | "Increase [magazine/ammo] capacity by +N" | Boltor EVO III: +20 |
+| `WEAPON_ADD_RELOAD_SPEED` | `ADD` | "+N% Reload Speed" | Boltor EVO III: +60% |
+| `WEAPON_ADD_FIRE_RATE` | `ADD` | "+N% Fire Rate / Attack Speed" (incondicional) | Zariman weapons EVO II: +20–25% |
+| `WEAPON_ADD_MULTISHOT` | `ADD` | "+N% Multishot" (incondicional) | munitions_grit: +20% |
+| `WEAPON_ADD_CRIT_MULT` | `ADD` | "+Nx Critical Damage Multiplier" (sin "Base") | Gammacor EVO IV: +0.2x |
+| `WEAPON_BASE_CRIT_MULT` | `BASE_FLAT` | "Increase **Base** Critical Damage Multiplier by +Nx" | Boar EVO IV: +0.5x, CorpusMinigun EVO IV: +2x |
 
-Todos operan como `BASE_FLAT`: se suman al `base` antes de mods multiplicativos (amplificados por Serration / Hornet Strike).  
-Cobertura estimada: ~220–240 efectos de 723 (~32%).
+> `WEAPON_BASE_CRIT_MULT` usado en datos (2026-05-27) — token pendiente de añadir a `shared/types/modifier.ts` y `UPGRADE_MAP`. Engine lo silencia hasta entonces.  
+> `WEAPON_ADD_FIRE_RATE` y `WEAPON_ADD_MULTISHOT` y `WEAPON_ADD_CRIT_MULT` ya estaban en `UPGRADES` — gaps.md §2 original estaba desactualizado en esos tres.
+
+Cobertura estimada post-sesión: ~465 efectos (~37%).
 
 ---
 
@@ -34,14 +40,11 @@ Estos perks tienen mecánica simple (flat o percent add) pero el token no existe
 
 | Token propuesto | Semántica | Afecta (N efectos) | Ejemplo |
 |---|---|---|---|
-| `WEAPON_ADD_MULTISHOT` | "+N Multishot" | ~21 | Bronco EVO II: +2 Multishot |
-| `WEAPON_ADD_FIRE_RATE` / `WEAPON_ADD_ATTACK_SPEED` | "+N% Fire Rate / Attack Speed" | ~21 | Dera EVO III: +5% Fire Rate stacking |
-| `WEAPON_ADD_PROJECTILE_SPEED` | "+N% Projectile Speed" | ~16 | Boltor EVO III: +60% (gap conocido) |
-| `WEAPON_ADD_PUNCH_THROUGH` | "+N Punch Through" | ~13 | Boltor EVO II: +4 PT condicional |
+| `WEAPON_ADD_PROJECTILE_SPEED` | "+N% Projectile Speed" | ~16 | Boltor EVO III: +60% |
+| `WEAPON_ADD_PUNCH_THROUGH` | "+N Punch Through" | ~13 | Boltor EVO II: +4 PT |
 | `WEAPON_ADD_ACCURACY` / `WEAPON_REDUCE_RECOIL` | "+N% Accuracy / -N% Recoil" | ~12 | Braton EVO III: +60% Accuracy |
 | `WEAPON_ADD_HEAVY_WINDUP_SPEED` | "+N% Heavy Attack Wind Up Speed" | ~9 | Ack & Brunt EVO III: +70% |
 | `WEAPON_ADD_STATUS_DURATION` | "+N% Status Duration" | ~1–2 | Okina EVO III: +25% |
-| `WEAPON_ADD_CRIT_MULT` | "+Nx Critical Damage Multiplier" | ~18 | Braton EVO IV: +0.4x |
 | `WEAPON_SET_HEAVY_EFFICIENCY` | "Heavy Attack Efficiency SET TO N%" | ~2 | Furax EVO III: set to 20% |
 
 > `WEAPON_SET_*` requiere operación `BASE_SET` — diferente a `BASE_FLAT`. Añadir si se decide modelar SET operations en el engine.
