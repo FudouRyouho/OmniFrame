@@ -5913,7 +5913,7 @@
           },
           {
             "upgrade_type": null,
-            "note": "The bonus increases base Critical Damage Multiplier and is therefore added before mods are applied."
+            "note": "The bonus increases base Critical Damage Multiplier and is therefore added before mods are applied. //! Verificar en juego: si Point Strike/Vital Sense amplifican este bonus → BASE_FLAT correcto. Si se suma flat → cambiar a WEAPON_ADD_CRIT_MULT."
           }
         ]
       }

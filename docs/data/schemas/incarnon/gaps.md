@@ -42,12 +42,12 @@ Estos perks tienen mecánica simple (flat o percent add) pero el token no existe
 |---|---|---|---|
 | `WEAPON_ADD_PROJECTILE_SPEED` | "+N% Projectile Speed" | ~16 | Boltor EVO III: +60% |
 | `WEAPON_ADD_PUNCH_THROUGH` | "+N Punch Through" | ~13 | Boltor EVO II: +4 PT |
-| `WEAPON_ADD_ACCURACY` / `WEAPON_REDUCE_RECOIL` | "+N% Accuracy / -N% Recoil" | ~12 | Braton EVO III: +60% Accuracy |
+| `WEAPON_ADD_ACCURACY` / `WEAPON_ADD_RECOIL` | "+N% Accuracy / -N% Recoil (valor negativo)" | ~12 | Braton EVO III: +60% Accuracy, -60% Recoil |
 | `WEAPON_ADD_HEAVY_WINDUP_SPEED` | "+N% Heavy Attack Wind Up Speed" | ~9 | Ack & Brunt EVO III: +70% |
 | `WEAPON_ADD_STATUS_DURATION` | "+N% Status Duration" | ~1–2 | Okina EVO III: +25% |
-| `WEAPON_SET_HEAVY_EFFICIENCY` | "Heavy Attack Efficiency SET TO N%" | ~2 | Furax EVO III: set to 20% |
+| `WEAPON_BASE_HEAVY_EFFICIENCY` | "+N% Heavy Attack Efficiency (base=0, BASE_FLAT)" | ~5 | Furax EVO III / Bo staff: +20% |
 
-> `WEAPON_SET_*` requiere operación `BASE_SET` — diferente a `BASE_FLAT`. Añadir si se decide modelar SET operations en el engine.
+> Nota sobre `WEAPON_BASE_HEAVY_EFFICIENCY`: el perk dice "set to 20%" pero la wiki confirma que es **aditivo** con otras fuentes ("not an override"). La base del stat es 0%, sumarle 20% resulta en 20% — el lenguaje "set" describe el resultado, no la operación. No requiere `BASE_SET`. Usa `BASE_FLAT` igual que `WEAPON_BASE_CRIT_CHANCE`.
 
 ---
 
