@@ -6,6 +6,7 @@ Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
 Version: "1.0"
 Fecha_de_creacion: "2026-05-28"
 Fecha_de_actualizacion: "2026-05-28"
+Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus)"
 ---
 
 # Condition Vocabulary — Diccionario Canónico
@@ -13,7 +14,7 @@ Fecha_de_actualizacion: "2026-05-28"
 Vocabulario de tokens de condición derivado de las fuentes de datos activas:
 - `arcane-stats.override.json` — 121 stats con `condition` estructurado (snake_case)
 - `incarnon-evolutions.override.json` — 383 notes con triggers en texto libre (~35 triggers únicos)
-- `mod-stats.override.json` — sin conditions mapeadas aún
+- `mod-stats.override.json` — exilus weapon mods en mapeo activo (galvanizados pendientes)
 
 Los tokens de este documento son el **vocabulario canónico** al que deben normalizarse
 todas las fuentes. Las variantes de texto libre del incarnon (mayúsculas inconsistentes,
@@ -49,13 +50,18 @@ Flags booleanos evaluados antes de iniciar la simulación. El `SimContext` debe 
 | `while_channeled_ability_active` | incarnon | "With Channeled Ability active", "With Channeled Ability Active" |
 | `while_invisible` | arcanes | "While invisible" (parte de Arcane Crepuscular) |
 | `while_airborne` | arcanes | "while Airborne" (parte de Pax Soar) |
-| `while_sliding` | arcanes | "While sliding" |
-| `while_aim_gliding` | arcanes | "aim gliding" (combinado con sliding) |
+| `while_aiming` | mods exilus | "when Aiming", "while Aiming" — ADS activo (suelo o aire) |
+| `while_sliding` | arcanes, mods exilus | "While sliding", "when Sliding" |
+| `while_aim_gliding` | arcanes, mods exilus | "while Aim Gliding" — mecánica nombrada de Warframe: ADS sostenido en el aire que frena la caída. Distinto de `while_aiming` (no aplica en suelo) y de `while_airborne` (no requiere ADS). Ver wiki: Maneuvers. |
+| `while_holstered` | mods exilus | "when Holstered", "+X%/s when Holstered" — estado continuo de arma guardada. **Nota L1/L3:** depende de si el sim tiene noción de "arma activa"; si no la tiene, este flag no es evaluable. Posponer evaluación hasta diseño de contexto multi-arma. |
+| `while_blocking` | mods exilus | "while Blocking" — estado continuo de bloqueo sostenido. Distinto de `on_block` (L3 evento de parry/bloqueo puntual). |
 | `while_no_primary_equipped` | incarnon | "With No Primary Equipped" |
 | `while_buffing_ally_warframes` | arcanes | "while Buffing Ally Warframes" |
 
-> `while_sliding_or_aim_gliding` (token arcane actual) debe normalizarse a dos flags independientes
-> o a un alias `while_evasion_active`. Decisión pendiente.
+> **`while_sliding_or_aim_gliding`** (token en arcane override actual) es una condición OR: el efecto
+> aplica con CUALQUIERA de los dos estados. Esto es distinto de AND compuesto. El schema actual
+> (`condition: string`) no puede expresar OR — requiere representación futura (e.g. `string[]` con
+> semántica OR). Por ahora: mantener el token literal en el override + nota pendiente de normalización.
 
 ---
 
@@ -109,6 +115,7 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 |---|---|---|
 | `on_hit` | "On Hit" | arcanes, incarnon |
 | `on_melee_hit` | "On Melee Hit" | arcanes |
+| `on_heavy_attack_hit` | "On Heavy Attack Hit" — sub-evento de melee, distinto de `on_heavy_attack_kill` | mods exilus |
 | `on_critical_hit` | "On Critical Hit" | arcanes, incarnon |
 | `on_base_critical_hit` | "On Base Critical Hits" | arcanes |
 | `on_headshot` | "On Headshot" | arcanes, incarnon |
@@ -165,6 +172,7 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_archgun_equipped` | "On Archgun Equipped" | arcanes |
 | `on_50_energy_spent` | "On 50 Energy Spent" | incarnon |
 | `on_firing` | "On Firing" (disparando sostenido) | incarnon |
+| `on_tennokai_attack` | "on Tennokai attacks" — mecánica de Whispers in the Walls; la ventana de Tennokai es un evento puntual, no un estado continuo | mods exilus |
 
 ---
 
@@ -212,7 +220,9 @@ Fuentes donde conditions existen pero no están mapeadas en los overrides:
 
 | Fuente | Condiciones conocidas | Estado |
 |---|---|---|
-| `mod-stats.override.json` | Galvanized mods (on kill/headshot/status), Hunter mods (on Bleed), Vigilante (on crit) | sin `condition` en el override |
+| `mod-stats.override.json` — exilus weapon | `while_aiming`, `while_aim_gliding`, `while_sliding`, `while_holstered`, `on_equip`, `on_hit`, `on_kill`, `on_heavy_attack_hit`, `on_tennokai_attack` | tokens definidos — mapeo en curso |
+| `mod-stats.override.json` — galvanizados | `on_kill`, `on_headshot`, `on_status_effect` + stacking | pendiente |
+| `mod-stats.override.json` — Hunter / Vigilante | `on_bleed_proc`, `on_crit` (variantes) | pendiente |
 | `archon-shards.json` | Sin condiciones evidentes (efectos estáticos) | n/a |
 | `ability-stats.override.json` | Sin condiciones (habilidades calculan su propio scaling) | fuera de scope |
 
@@ -222,10 +232,13 @@ Fuentes donde conditions existen pero no están mapeadas en los overrides:
 
 | Capa | Tokens definidos | En arcanes | En incarnon | En mods |
 |---|---|---|---|---|
-| L1 — Estado | 10 | 6 mapeados | 4 en notes | 0 |
+| L1 — Estado | 13 | 6 mapeados | 4 en notes | 3 nuevos (exilus) |
 | L2 — Umbral | 6 | 1 | 5 en notes | 0 |
-| L3 — Evento | ~60 | 43 mapeados | ~30 en notes | 0 (galvanizados pendientes) |
+| L3 — Evento | ~63 | 43 mapeados | ~30 en notes | 2 nuevos (exilus) |
 | L4 — Operador | 9 | 9 mapeados | 0 | 0 |
 
-Los **~16 tokens L1+L2** son los candidatos inmediatos para C1-A porque no requieren
+Los **~19 tokens L1+L2** son los candidatos inmediatos para C1-A porque no requieren
 sistema de eventos — solo `context.flags` y `context.stats` en `SimContext`.
+
+> **Pendiente de schema:** `while_sliding_or_aim_gliding` (OR compuesto) no es expresable con
+> `condition: string`. Cuando haya más casos OR documentados, abrir debate sobre `string[]`.
