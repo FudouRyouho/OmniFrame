@@ -43,7 +43,7 @@ Estos perks tienen mecánica simple (flat o percent add) pero el token no existe
 | `WEAPON_ADD_PROJECTILE_SPEED` | "+N% Projectile Speed" | ~16 | Boltor EVO III: +60% |
 | `WEAPON_ADD_PUNCH_THROUGH` | "+N Punch Through" | ~13 | Boltor EVO II: +4 PT |
 | `WEAPON_ADD_ACCURACY` / `WEAPON_ADD_RECOIL` | "+N% Accuracy / -N% Recoil (valor negativo)" | ~12 | Braton EVO III: +60% Accuracy, -60% Recoil |
-| `WEAPON_ADD_HEAVY_WINDUP_SPEED` | "+N% Heavy Attack Wind Up Speed" | ~9 | Ack & Brunt EVO III: +70% |
+| `WEAPON_ADD_HEAVY_CHARGE_SPEED` | "+N% Heavy Attack Wind Up Speed" | ~9 | Ack & Brunt EVO III: +70% |
 | `WEAPON_ADD_STATUS_DURATION` | "+N% Status Duration" | ~1–2 | Okina EVO III: +25% |
 | `WEAPON_BASE_HEAVY_EFFICIENCY` | "+N% Heavy Attack Efficiency (base=0, BASE_FLAT)" | ~5 | Furax EVO III / Bo staff: +20% |
 

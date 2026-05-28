@@ -71,23 +71,34 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 ## D-6 — Convención `{FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}` (extensible con SUB_FAMILY)
 
 **Estado:** VIGENTE
-**Fecha:** 2026-04-19 | **Actualizado:** 2026-05-26 (sub-familia formalizada — OQ-W-4 cerrado)
+**Fecha:** 2026-04-19 | **Actualizado:** 2026-05-28 (criterio de uso de sub-familia precisado)
 **Decisión:** Tokens de `upgrade_type` siguen la convención canónica:
 - `FAMILY`: dominio del atributo (`AVATAR`, `WEAPON`, `GAMEPLAY`, …)
 - `OPERATION`: tipo de modificación (`ADD`, `BASE`, `FLAT`, `MULT`)
 - `PREFIX_SUFFIX`: atributo específico (`ABILITY_STRENGTH`, `CRIT_CHANCE`, …)
 
-**Extensión de sub-familia** (activa desde 2026-05-26): cuando un stat es clase-específico dentro de una familia, se inserta `SUB_FAMILY` entre `FAMILY` y `OPERATION`:
+**Extensión de sub-familia** (activa desde 2026-05-26): cuando es necesario especificar el target de un modificador que **no reside en el mismo nodo que su destino** (modificador cross-entity):
 
 ```
 {FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
 ```
 
 - `WEAPON` → sub-familias válidas: `PRIMARY`, `SECONDARY`, `MELEE`
-- Tokens sin `SUB_FAMILY` siguen siendo válidos y se aplican universalmente
-- Un token clase-específico coexiste con su equivalente global: `WEAPON_MELEE_ADD_CRIT_MULT` + `WEAPON_ADD_CRIT_MULT` son ortogonales
+- Tokens sin `SUB_FAMILY` se aplican universalmente — son la norma por defecto
 
-**Condición que activó la extensión:** ≥3 casos en overrides reales — Crimson Archon Shards: `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`.
+**Criterio de uso de sub-familia (2026-05-28):** La sub-familia solo se añade cuando el modificador **no reside en el mismo nodo que su target**. Si el modificador ya está en el nodo del arma (mod en melee, perk en melee), el target es implícito por contexto — no se añade sub-familia aunque el stat sea melee-exclusivo.
+
+| Caso | Token correcto | Por qué |
+|---|---|---|
+| Archon Shard (en warframe) → Melee Crit Mult | `WEAPON_MELEE_ADD_CRIT_MULT` | Cross-entity: shard en warframe apunta a melee |
+| Mod en arma melee → Combo Duration | `WEAPON_ADD_COMBO_DURATION` | Intra-entity: mod en el mismo nodo |
+| Perk Incarnon en melee → Heavy Windup Speed | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | Intra-entity: perk en el mismo nodo |
+
+**Condición que activó la extensión:** ≥3 casos en overrides reales — Crimson Archon Shards: `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`. Estos tres son los únicos casos cross-entity confirmados.
+
+**Deuda conocida en `mod-stats.override.json`:** ~26 entradas con tokens `WEAPON_MELEE_*` incorrectos (mods intra-entity con sub-familia indebida: `WEAPON_MELEE_COMBO_DURATION_BONUS`, `WEAPON_MELEE_HEAVY_CHARGE_SPEED`, etc.). Son tokens inválidos — no están en `UPGRADES`, engine los silencia. Cleanup pendiente.
+
+**Nota sobre `WEAPON_MELEE_HEAVY_CHARGE_SPEED`:** confirmado = mismo stat que "Heavy Attack Wind Up Speed" en Incarnon perks. Token canónico: `WEAPON_ADD_HEAVY_CHARGE_SPEED`. Cleanup: `WEAPON_MELEE_HEAVY_CHARGE_SPEED` → `WEAPON_ADD_HEAVY_CHARGE_SPEED` (quitar sub-familia).
 
 **Nota D-7:** Los tokens D-6 (incluida la sub-familia) son los futuros IDs de atributo del engine. `UPGRADE_MAP` es un puente temporal — no se extiende con lógica de filtrado por clase; eso corresponde al engine post-D-7.
 
