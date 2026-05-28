@@ -38,8 +38,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+70% Heavy Attack Wind Up Speed."
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 70
           }
         ]
       },
@@ -260,8 +260,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+60% Heavy Attack Wind Up Speed"
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 60
           }
         ]
       },
@@ -2962,8 +2962,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+60% Heavy Attack Wind Up Speed."
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 60
           }
         ],
         "resolute_force": [
@@ -4102,8 +4102,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+30% Heavy Attack Wind Up Speed."
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 30
           }
         ]
       },
@@ -4176,8 +4176,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+30% Heavy Attack Wind Up Speed."
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 30
           }
         ]
       },
@@ -4370,8 +4370,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+50% Heavy Attack Wind Up Speed"
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 50
           }
         ],
         "resolute_force": [
@@ -5204,8 +5204,8 @@
         ],
         "kinetic_harmony": [
           {
-            "upgrade_type": null,
-            "note": "+100% Heavy Attack Wind Up Speed"
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 100
           }
         ],
         "universal_readiness": [
@@ -5346,8 +5346,8 @@
         ],
         "kinetic_harmony": [
           {
-            "upgrade_type": null,
-            "note": "+60% Heavy Attack Wind Up Speed"
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 60
           }
         ],
         "resolute_force": [
@@ -5638,8 +5638,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+50% Heavy Attack Wind Up Speed."
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 50
           }
         ]
       },
@@ -5716,8 +5716,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+50% Heavy Attack Wind Up Speed."
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 50
           }
         ]
       },
@@ -5794,8 +5794,8 @@
         ],
         "swift_break": [
           {
-            "upgrade_type": null,
-            "note": "+50% Heavy Attack Wind Up Speed."
+            "upgrade_type": "WEAPON_ADD_HEAVY_CHARGE_SPEED",
+            "value": 50
           }
         ]
       },
