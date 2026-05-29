@@ -2478,7 +2478,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_base_critical_hits"
+        "condition": "on_base_critical_hit"
       }
     ]
   },

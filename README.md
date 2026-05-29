@@ -11,6 +11,8 @@
 - **Semantic**: Vocabulario canónico de conditions (~104 tokens, 4 capas L1–L4) y upgrade tokens (taxonomía D-6).
 - **Tests**: Gold standard contra valores reales del juego — 33 tests passing (Aklex Prime, Cedo Prime).
 
+**Meta de cierre:** Cedo Prime con mods galvanizados (stacks máximos) + un arma Incarnon simple — ambos verificados contra valores reales del juego.
+
 ---
 
 ### v0.0.3 — Reorganización Estructural

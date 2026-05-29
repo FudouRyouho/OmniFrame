@@ -122,7 +122,7 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_melee_hit` | "On Melee Hit" | arcanes |
 | `on_heavy_attack_hit` | "On Heavy Attack Hit" — sub-evento de melee, distinto de `on_heavy_attack_kill` | mods exilus |
 | `on_critical_hit` | "On Critical Hit" | arcanes, incarnon |
-| `on_base_critical_hit` | "On Base Critical Hits" | arcanes |
+| `on_base_critical_hit` | "On Base Critical Hits" — normalizado desde `on_base_critical_hits` (plural); forma canónica: singular | arcanes |
 | `on_headshot` | "On Headshot" | arcanes, incarnon |
 | `on_weak_point_hit` | "On Weak Point Hit" | arcanes |
 | `on_punch_through_hit` | "On Punch Through Hit" | incarnon |
