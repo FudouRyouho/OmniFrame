@@ -4,12 +4,19 @@
 
 ---
 
+### v0.0.4 — Engine Core + Data Pipeline *(en desarrollo)*
+
+- **Engine**: Motor de simulación funcional en capas (hidratación, resolución, combate). `ModRepository` e `IncarnonRepository` operativos con perks Incarnon Genesis.
+- **Data**: Pipeline de overrides completo — armas, arcanes, mods exilus, incarnon, archon shards.
+- **Semantic**: Vocabulario canónico de conditions (~104 tokens, 4 capas L1–L4) y upgrade tokens (taxonomía D-6).
+- **Tests**: Gold standard contra valores reales del juego — 33 tests passing (Aklex Prime, Cedo Prime).
+
+---
+
 ### v0.0.3 — Reorganización Estructural
 
-> Nota: esta versión está en desarrollo.
-
-- **Engine**: Eliminado `sim-v2/` como directorio. El motor ahora vive en capas explícitas: `hydration/`, `resolution/`, `combat/`, `enemies/`, `bridge/`, `audit/`, `hooks/`.
-- **Docs**: Renombrado `Docs/` → `docs/`. Limpieza de arquitectura y contratos.
+- **Engine**: Capas explícitas: `hydration/`, `resolution/`, `combat/`, `enemies/`, `bridge/`.
+- **Docs**: Renombrado `Docs/` → `docs/`. Arquitectura de gobernanza, contratos y sistema de decisiones.
 - **Git**: `.gitignore` reescrito. Eliminadas herramientas de Copilot, ignorados artefactos generados.
 
 ---
