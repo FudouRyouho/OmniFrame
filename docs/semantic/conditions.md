@@ -1,8 +1,8 @@
 ---
 Estado: "referencia"
-Rol: "Diccionario canónico de condition tokens — semántica y capa de evaluación"
-Impacto_ID: "SSoT-Data-Conditions"
-Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
+Rol: "Vocabulario canónico de condition tokens — semántica y capa de evaluación"
+Impacto_ID: "SSoT-Semantic-Conditions"
+Fidelidad_Fisica: "Project/public/data/"
 Version: "1.0"
 Fecha_de_creacion: "2026-05-28"
 Fecha_de_actualizacion: "2026-05-28"
@@ -50,6 +50,7 @@ Flags booleanos evaluados antes de iniciar la simulación. El `SimContext` debe 
 | `while_channeled_ability_active` | incarnon | "With Channeled Ability active", "With Channeled Ability Active" |
 | `while_invisible` | arcanes | "While invisible" (parte de Arcane Crepuscular) |
 | `while_airborne` | arcanes | "while Airborne" (parte de Pax Soar) |
+| `while_grounded` | incarnon | "while grounded" — opuesto de `while_airborne`; el jugador está en contacto con el suelo |
 | `while_aiming` | mods exilus | "when Aiming", "while Aiming" — ADS activo (suelo o aire) |
 | `while_sliding` | arcanes, mods exilus | "While sliding", "when Sliding" |
 | `while_aim_gliding` | arcanes, mods exilus | "while Aim Gliding" — mecánica nombrada de Warframe: ADS sostenido en el aire que frena la caída. Distinto de `while_aiming` (no aplica en suelo) y de `while_airborne` (no requiere ADS). Ver wiki: Maneuvers. |
@@ -57,6 +58,8 @@ Flags booleanos evaluados antes de iniciar la simulación. El `SimContext` debe 
 | `while_blocking` | mods exilus | "while Blocking" — estado continuo de bloqueo sostenido. Distinto de `on_block` (L3 evento de parry/bloqueo puntual). |
 | `while_no_primary_equipped` | incarnon | "With No Primary Equipped" |
 | `while_buffing_ally_warframes` | arcanes | "while Buffing Ally Warframes" |
+| `while_magazine_empty` | incarnon | "while the magazine is empty" — estado del arma; booleano sobre el cargador actual |
+| `while_incarnon_form` | incarnon | "On the Incarnon form", "on Incarnon mode" — estado activo del modo Incarnon del arma. Distinto de `on_equip_from_primary` (evento de cambio) — este es el estado continuo mientras se está en forma Incarnon |
 
 > **`while_sliding_or_aim_gliding`** (token en arcane override actual) es una condición OR: el efecto
 > aplica con CUALQUIERA de los dos estados. Esto es distinto de AND compuesto. El schema actual
@@ -74,10 +77,12 @@ Requieren comparar un stat de runtime contra un threshold. El valor N es parte d
 |---|---|---|---|
 | `with_armor_over_450` | 450 | Armor actual | incarnon (Boltor, Sibear, varios) |
 | `with_armor_over_700` | 700 | Armor actual | incarnon (Arcane Persistence) |
-| `with_energy_max_over_700` | 700 | Energy Max | incarnon ("With Energy Max Over 700") |
+| `with_energy_max_over_200` | 200 | Energy Max | incarnon (Dual Toxocyst — requisito "unlisted", no aparece en UI del juego; descubierto por la comunidad) |
+| `with_energy_max_over_700` | 700 | Energy Max | incarnon (Angstrum, Atomos) |
 | `with_energy_at_or_above_90pct` | 90% | Energy % actual | arcanes (Primary Overcharge) |
 | `with_sprint_speed_above_1_2` | 1.2 | Sprint Speed | incarnon |
 | `with_crit_chance_below_40` | 40% | Crit Chance | incarnon (Furis) |
+| `with_crit_chance_below_50` | 50% | Crit Chance | incarnon (Braton Incarnon Genesis) |
 
 > Los valores N no son parametrizables en el schema actual. Un perk "With Armor Over 450"
 > y un perk "With Armor Over 700" son dos tokens distintos. Alternativa futura: `condition_params`
@@ -142,10 +147,17 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_weapon_impact_status_effect` | "On Weapon Impact Status Effect" | arcanes |
 | `on_weapon_magnetic_status_effect` | "On Weapon Magnetic Status Effect" | arcanes |
 | `on_melee_electricity_status` | "On Melee Electricity Status" | arcanes |
-| `on_hitting_enemies_afflicted_by_radiation_10` | "On hitting enemies afflicted by 10 stacks of Radiation" | arcanes |
+| `on_hitting_enemies_affected_by_radiation_10` | "On hitting enemies afflicted by 10 stacks of Radiation" — normalizado a `affected_by` (forma canónica); el texto del juego usa "afflicted" pero es sinónimo | arcanes |
 | `on_hitting_enemies_affected_by_electricity` | "On hitting enemies affected by Electricity Status" | incarnon |
+| `on_hitting_enemies_affected_by_cold` | "on targets affected by Cold Status" — el estado ya existe en el target independientemente de la fuente | incarnon |
+| `on_hitting_enemies_affected_by_slash` | "on targets affected by Slash Status" | incarnon |
+| `on_hitting_enemies_affected_by_toxin` | "on targets affected by Toxin" | incarnon |
+| `on_killing_enemies_with_3_cold_stacks` | "On Killing Enemy With 3+ Cold Stacks" — kill con mínimo 3 stacks de Cold activos en el target. Número en el token por precedente de `radiation_10`. Fuente: Sibear Incarnon Genesis | incarnon |
+| `on_killing_enemies_with_3_toxin_stacks` | "On killing an enemy with 3+ Toxin Stacks" — ídem, Toxin. Fuente: Dual Ichor Incarnon Genesis | incarnon |
 | `on_enemy_frozen` | "On Enemy Frozen" | arcanes |
 | `on_shield_break` | "On Shield Break" | incarnon |
+| `on_shield_or_overguard_break` | "On Shield/Overguard break" — OR: aplica en break de Shield personal O de Overguard. Segundo caso OR documentado (ver `while_sliding_or_aim_gliding`). `condition: string` no expresa OR — pendiente `string[]` cuando acumulen más casos | incarnon |
+| `on_bleed_proc` | "On Bleed proc" — DoT de Slash *tickea* sobre un target. Semánticamente distinto de `on_slash_status_effect` (que es la *aplicación* del proc al hit). Patrón extensible: `on_heat_proc`, `on_toxin_proc`, etc., solo se registran con evidencia en fuentes | mods Hunter/Vigilante |
 
 ### L3-D — Acciones del jugador
 
@@ -172,6 +184,7 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_archgun_equipped` | "On Archgun Equipped" | arcanes |
 | `on_50_energy_spent` | "On 50 Energy Spent" | incarnon |
 | `on_firing` | "On Firing" (disparando sostenido) | incarnon |
+| `on_slide_attack` | "on Slide Attacks" — ataque melee ejecutado durante un slide; evento puntual | incarnon |
 | `on_tennokai_attack` | "on Tennokai attacks" — mecánica de Whispers in the Walls; la ventana de Tennokai es un evento puntual, no un estado continuo | mods exilus |
 
 ---
@@ -200,12 +213,7 @@ Los siguientes tokens en el override actual necesitan ser renombrados a la forma
 
 | Token actual (override) | Token canónico | Archivo |
 |---|---|---|
-| `while_shields_are_active` | `while_shields_active` | arcane-stats.override.json |
 | `while_sliding_or_aim_gliding` | decisión pendiente (ver §L1) | arcane-stats.override.json |
-| `on_shotgun_kill_within_5m_of_target` | `on_shotgun_kill_within_5m` | arcane-stats.override.json |
-| `on_hitting_enemies_afflicted_by_10_stacks_of_radiation` | `on_radiation_10_stacks` | arcane-stats.override.json |
-| `while_at_or_above_90_energy` | `with_energy_at_or_above_90pct` | arcane-stats.override.json |
-| `after_a_bullet_jump_or_double_jump` | `on_bullet_jump_or_double_jump` | arcane-stats.override.json |
 | Incarnon notes: texto libre | token canónico de este doc | incarnon-evolutions.override.json |
 
 > La normalización es trabajo de datos (scripts/patch), no de engine. Los overrides son SSoT —
@@ -222,7 +230,7 @@ Fuentes donde conditions existen pero no están mapeadas en los overrides:
 |---|---|---|
 | `mod-stats.override.json` — exilus weapon | `while_aiming`, `while_aim_gliding`, `while_sliding`, `while_holstered`, `on_equip`, `on_hit`, `on_kill`, `on_heavy_attack_hit`, `on_tennokai_attack` | tokens definidos — mapeo en curso |
 | `mod-stats.override.json` — galvanizados | `on_kill`, `on_headshot`, `on_status_effect` + stacking | pendiente |
-| `mod-stats.override.json` — Hunter / Vigilante | `on_bleed_proc`, `on_crit` (variantes) | pendiente |
+| `mod-stats.override.json` — Hunter / Vigilante | `on_bleed_proc` → definido; `on_crit` → mapea a `on_critical_hit` existente | parcialmente cubierto |
 | `archon-shards.json` | Sin condiciones evidentes (efectos estáticos) | n/a |
 | `ability-stats.override.json` | Sin condiciones (habilidades calculan su propio scaling) | fuera de scope |
 
@@ -232,9 +240,9 @@ Fuentes donde conditions existen pero no están mapeadas en los overrides:
 
 | Capa | Tokens definidos | En arcanes | En incarnon | En mods |
 |---|---|---|---|---|
-| L1 — Estado | 13 | 6 mapeados | 4 en notes | 3 nuevos (exilus) |
-| L2 — Umbral | 6 | 1 | 5 en notes | 0 |
-| L3 — Evento | ~63 | 43 mapeados | ~30 en notes | 2 nuevos (exilus) |
+| L1 — Estado | 15 | 6 mapeados | 4 en notes + 2 nuevos (incarnon) | 3 nuevos (exilus) |
+| L2 — Umbral | 8 | 1 | 5 en notes | 0 |
+| L3 — Evento | ~71 | 43 mapeados | ~37 en notes | 2 nuevos (exilus) + 8 nuevos (incarnon) |
 | L4 — Operador | 9 | 9 mapeados | 0 | 0 |
 
 Los **~19 tokens L1+L2** son los candidatos inmediatos para C1-A porque no requieren

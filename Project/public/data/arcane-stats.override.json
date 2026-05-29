@@ -1747,7 +1747,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": "after_a_bullet_jump_or_double_jump"
+        "condition": "on_bullet_jump_or_double_jump"
       }
     ]
   },
@@ -1762,7 +1762,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": "after_a_bullet_jump_or_double_jump"
+        "condition": "on_bullet_jump_or_double_jump"
       }
     ]
   },
@@ -2654,7 +2654,7 @@
             "upgrade_type": "AVATAR_ADD_ABILITY_DURATION"
           }
         ],
-        "condition": "while_shields_are_active"
+        "condition": "while_shields_active"
       }
     ]
   },
@@ -3113,7 +3113,7 @@
             "upgrade_type": "WEAPON_ADD_MULTISHOT"
           }
         ],
-        "condition": "while_at_or_above_90_energy"
+        "condition": "with_energy_at_or_above_90pct"
       }
     ]
   },
@@ -3392,7 +3392,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_hitting_enemies_afflicted_by_10_stacks_of_radiation"
+        "condition": "on_hitting_enemies_affected_by_radiation_10"
       }
     ]
   },
@@ -3540,7 +3540,7 @@
             "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
           }
         ],
-        "condition": "on_shotgun_kill_within_5m_of_target"
+        "condition": "on_shotgun_kill_within_5m"
       }
     ]
   },

@@ -39,7 +39,7 @@ Datos de perks de evolución Incarnon. Indexado por `unique_name` del arma.
 | `note?` | `string \| null` | Semántica no tokenizable (D-14). Presente cuando `upgrade_type` es null o el token no captura todo el matiz. Ausente = entrada completa. |
 
 Ver [D-14](../../decisions.md) y [D-15](../../decisions.md): `note` es seguimiento de diseño, no ruido; `condition` es tracking-only en Fase 0.  
-Vocabulario canónico: `docs/data/schemas/conditions/vocabulary.md`.
+Vocabulario canónico: `docs/semantic/conditions.md`.
 
 ## Tokens usados (nuevos, 2026-05-27)
 

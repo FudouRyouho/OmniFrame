@@ -5,7 +5,7 @@ Version: "v0.5.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-05-28"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -99,6 +99,16 @@ Otros candidatos al mismo patrón: `semantic/damage-types.md`, `semantic/faction
 **Condición para resolver:** al resolver la taxonomía general de `upgrade_by` — cuando haya ≥2 casos distintos de base-stat scaling en abilities que justifiquen el patrón. Hoy solo Inaros es caso confirmado.
 **Bloquea:** Anotar correctamente Inaros Scarab Swarm. Extensión del vocabulario `AbilityUpgradeBy` en `shared/types/ability.ts`.
 **Fuente:** `references/game-ui/Inaros.md` línea `//!`
+
+---
+
+## OQ-SEM-1 — Conditions de abilities y augments — **ABIERTO (2026-05-28)**
+**Dominio:** data / semantic / ability-stats
+**Contexto:** El vocabulario canónico de `conditions.md` cubre weapons, arcanes, incarnon y mods. Las abilities de Warframe tienen condiciones situacionales (e.g., "target tiene X stacks", "cristal del 4 de Citrine golpeado") que en su mayoría mapean a tokens existentes. Los augments son el caso complejo real — pueden tener condiciones propias no cubiertas por el vocabulario actual.
+El field `condition` estuvo en el schema de `ability-stats.override.json` y fue removido por desuso; la infraestructura conceptual existe.
+**Pregunta:** ¿Cuándo y cómo se reintroduce `condition` en ability-stats? ¿Los augments requieren tokens nuevos o extienden el vocabulario existente?
+**Pendiente de:** revisar los `.md` de referencia de Warframes para identificar casos reales de conditions en abilities y augments. Hoy no hay evidencia sistematizada.
+**No bloquea** el vocabulario de weapons/mods/arcanes ni el engine actual.
 
 ---
 

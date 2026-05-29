@@ -10,6 +10,8 @@ Esta es la **frontera de interpretación**: una vez fijado un token aquí, todos
 | [`damage-types.md`](damage-types.md) | Taxonomía canónica de tipos de daño |
 | [`factions.md`](factions.md) | Vocabulario de facciones |
 | [`polarity.md`](polarity.md) | Polaridades de mods y warframes |
+| [`conditions.md`](conditions.md) | Vocabulario canónico de condition tokens (L1/L2/L3/L4) |
+| [`upgrade-tokens.md`](upgrade-tokens.md) | Taxonomía D-6 de UpgradeType tokens — convención y vocabulario completo |
 
 ## Principio
 

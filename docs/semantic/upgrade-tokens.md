@@ -1,18 +1,18 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
 Version: "v0.3.0"
-Impacto_ID: "S-Upgrade-Taxonomy"
+Impacto_ID: "SSoT-Semantic-UpgradeTokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-05-28"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
   - "docs/semantic/damage-types.md"
 ---
 
-# Mods Upgrade Taxonomy
+# Upgrade Token Taxonomy
 
 ## Principio de derivación
 

@@ -1,5 +1,5 @@
 ---
-Estado: "en ejecución"
+Estado: "activo"
 Rol: "Hoja de ruta para la implementación del motor v2"
 Version: "v0.2.1"
 Impacto_ID: "E-01"

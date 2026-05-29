@@ -31,19 +31,19 @@ interface ArcaneStat {
   note?:      string | null;   // semántica no tokenizable (D-14); ausente = entrada completa
 }
 interface ArcaneValue {
-  base_value:   number[] | null;  // serie [rank0, rank1, …, rankMAX] — 6 valores para arcanes rank 5
+  base_value:   number[] | null;  // serie [rank0, rank1, …, rankMAX] — length = max_rank + 1 (ej: 6 para rank 5, 4 para rank 3)
   upgrade_type: Upgrade | null;   // token del vocabulario de modifier.ts, null si no mapeado
 }
 ```
 
 Ver [D-14](../../decisions.md) y [D-15](../../decisions.md) para la semántica completa de `condition?:` y `note?:`, modelo de runtime Fase 0, y regla de stacking.  
-Vocabulario canónico: `docs/data/schemas/conditions/vocabulary.md`.
+Vocabulario canónico: `docs/semantic/conditions.md`.
 
 ### Diferencias vs mod-stats.override.json
 
 | Aspecto | Mods | Arcanes |
 |---|---|---|
-| `base_value` | escalar `number` o array | siempre array de 6 (ranks 0–5) |
+| `base_value` | escalar `number` o array | array de length = max_rank + 1 (6 si rank 5, 4 si rank 3) |
 | Fuente de `upgrade_type` | `upgradeTypes[]` en @wfcd/items | texto libre → keyword matching |
 | `condition` | no aplica | capturado de prefijos "On X:", "While X:", etc. |
 | Ranks | variable (0–5 típico) | fijo 6 ranks (0–5) |

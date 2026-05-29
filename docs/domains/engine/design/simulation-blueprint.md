@@ -1,5 +1,5 @@
 ---
-Estado: "ratificado"
+Estado: "referencia"
 Rol: "Índice maestro de la reconstrucción del motor de simulación v2"
 Version: "v0.1.0"
 Impacto_ID: "SSoT-Blueprint"

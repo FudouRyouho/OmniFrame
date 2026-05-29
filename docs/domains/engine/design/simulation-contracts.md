@@ -1,5 +1,5 @@
 ---
-Estado: "ratificado"
+Estado: "referencia"
 Rol: "Contratos técnicos base del motor de simulación v2"
 Version: "v0.1.1"
 Impacto_ID: "E-01"

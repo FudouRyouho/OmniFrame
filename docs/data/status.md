@@ -42,7 +42,7 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 
 **Schema:** `docs/data/schemas/mods/mods-schema.md` ✅
 **Vocabulario:** D-6 aplicado — `shared/types/modifier.ts` → `UPGRADES` + `UPGRADE_MAP`
-**Condition vocab:** `docs/data/schemas/conditions/vocabulary.md` ✅ (L1/L2/L3/L4, 13+6+63+9 tokens)
+**Condition vocab:** `docs/semantic/conditions.md` ✅ (L1/L2/L3/L4, 13+6+63+9 tokens)
 
 | Estado | Cantidad |
 |---|---|
@@ -54,7 +54,7 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 | Weapon exilus cubiertos | 80/80 (100%) |
 | Con condition token asignado | ~19 (exilus) |
 
-Ver `docs/data/schemas/mods/upgrade-taxonomy.md` para el breakdown completo.
+Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 
 **Cobertura exilus completada (2026-05-28):**
 Scripts: `patch-exilus-conditions.py` (conditions en 53 en override) + `add-exilus-missing.py` (27 entradas faltantes).

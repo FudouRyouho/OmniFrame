@@ -46,7 +46,7 @@ El piloto **falla y requiere re-abrir debate** (no solo corregir datos) cuando:
 
 - Un dato cuya fuente (wiki / `warframe-items`) tiene el valor incorrecto.
 - Un edge case especial fuera del scope explícito del piloto.
-- Un token de vocabulario que no existe todavía en el catálogo correspondiente (ej. [`../schemas/mods/upgrade-taxonomy.md`](../schemas/mods/upgrade-taxonomy.md)).
+- Un token de vocabulario que no existe todavía en el catálogo correspondiente (ej. [`../../semantic/upgrade-tokens.md`](../../semantic/upgrade-tokens.md)).
 
 ## Aplicación a schemas pendientes
 

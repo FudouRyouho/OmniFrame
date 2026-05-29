@@ -102,7 +102,7 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 **Nota D-7:** Los tokens D-6 (incluida la sub-familia) son los futuros IDs de atributo del engine. `UPGRADE_MAP` es un puente temporal — no se extiende con lógica de filtrado por clase; eso corresponde al engine post-D-7.
 
-**Ref:** `shared/types/modifier.ts`, `docs/data/schemas/mods/upgrade-taxonomy.md`
+**Ref:** `shared/types/modifier.ts`, `docs/semantic/upgrade-tokens.md`
 
 ---
 
@@ -130,7 +130,7 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 
 **Sub-pregunta abierta — `reload_time`:** RESUELTA en Fase 1. Es dato puro fuera del sistema de modificadores — vive en `innate_dna.profiles`, la fórmula en `CombatCalculator` lo lee directamente. No necesita token D-6.
 
-**Refs:** `Project/src/core/engine/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/data/schemas/mods/upgrade-taxonomy.md`, `references/wiki/mechanics/status-effects.md`
+**Refs:** `Project/src/core/engine/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/semantic/upgrade-tokens.md`, `references/wiki/mechanics/status-effects.md`
 
 ---
 
@@ -221,7 +221,7 @@ El contenido debe ser conciso y orientado a implementación. Formatos válidos:
 Lo que NO va en `note`: referencias a la sesión actual, nombres de scripts, números de ticket.
 
 **Alcance:** mods-schema.md, arcane/schema.md, incarnon/schema.md — los tres actualizados en la misma sesión que esta decisión.
-**Ref:** `docs/data/schemas/conditions/vocabulary.md`
+**Ref:** `docs/semantic/conditions.md`
 
 ---
 
@@ -255,7 +255,7 @@ El `note` no es parte del modelo de cálculo — es documentación para cuando s
 ### Condición de evolución (cuándo cambia esta decisión)
 Cuando el vocabulario de conditions alcance ≥70% de cobertura (D-16) Y el engine tenga `SimContext` con `context.flags`, esta decisión evoluciona a **Fase 1**: el engine evalúa `condition` para L1 (estado) y L2 (umbral).
 
-**Ref:** `docs/data/schemas/conditions/vocabulary.md`
+**Ref:** `docs/semantic/conditions.md`
 
 ---
 
@@ -296,4 +296,4 @@ Un sector es un eje semántico de una fuente de datos. Cada fuente tiene múltip
 - Integración al engine: los overrides son SSoT de datos independientemente del engine
 - Cobertura total acumulada: 60% global con un sector al 0% no cumple el target
 
-**Ref:** `docs/data/schemas/conditions/vocabulary.md`, `docs/data/status.md`
+**Ref:** `docs/semantic/conditions.md`, `docs/data/status.md`

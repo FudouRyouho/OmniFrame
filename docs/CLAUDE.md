@@ -24,7 +24,7 @@ Aplica a todo trabajo en `docs/`. Estas reglas son bloqueantes.
 
 - **Fundación SSoT transversal** — consumida por todos los dominios funcionales:
   - `docs/data/` — SSoT de datos (status, decisions, rules/, schemas/, pipeline/, references/)
-  - `docs/semantic/` — vocabulario canónico (damage-types, factions, polarity)
+  - `docs/semantic/` — vocabulario canónico (damage-types, factions, polarity, conditions, upgrade-tokens)
 - **Dominios funcionales** — comportamiento por capa:
   - `docs/domains/engine/` (incluye `engine/design/` con el blueprint del motor)
   - `docs/domains/integration/`
@@ -69,6 +69,13 @@ por defecto, o uno de los existentes baja a referencia.
 
 `data/` y `semantic/` NO son dominios funcionales. Sus subdirectorios (`schemas/`, `rules/`, etc.)
 NO son sub-dominios: son **contratos bajo un mismo flujo**, organización por tipo de dato.
+
+**Regla de enrutamiento semantic vs data:**
+- `docs/semantic/` — vocabulario y taxonomía: qué SIGNIFICA un token o concepto del juego. Consumido por todos los dominios por igual. Ejemplos: tipos de daño, facciones, condition tokens, upgrade tokens.
+- `docs/data/schemas/` — contratos de formato JSON: cómo se ESTRUCTURA el dato en los overrides. El schema describe el shape del archivo; la semántica de sus valores vive en `semantic/`.
+
+Si un documento define qué significa algo → `docs/semantic/`.
+Si un documento define cómo escribirlo en un JSON → `docs/data/schemas/`.
 
 Convenio:
 - `data/status.md` — único status global del flujo de datos

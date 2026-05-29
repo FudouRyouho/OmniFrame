@@ -1,5 +1,5 @@
 ---
-Estado: "en revision"
+Estado: "referencia"
 Rol: "Documentar el estado de las facciones en el proyecto"
 Version: "v0.0.2"
 Impacto_ID: "S-Factions"
