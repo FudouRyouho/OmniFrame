@@ -14,7 +14,7 @@
               55,
               65
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_AMMO_EFFICIENCY"
           }
         ],
         "condition": "while_sliding_or_aim_gliding"
@@ -36,10 +36,14 @@
               75,
               90
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "WEAPON_PRIMARY_ADD_FIRE_RATE"
           }
         ],
-        "condition": "on_critical_hit"
+        "condition": "on_critical_hit",
+        "notes": [
+          "engine:note — Restricción: Primary Weapons excepto Shotguns (exclusión inversa no expresable en target_channel; canal=primary). Deuda D-7 (filtrado por canal) pendiente.",
+          "engine:note — proc:30% duration:9s"
+        ]
       }
     ]
   },
@@ -58,10 +62,13 @@
               25,
               30
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_ADD_SHIELD_RECHARGE_RATE"
           }
         ],
-        "condition": "on_shield_damaged"
+        "condition": "on_shield_damaged",
+        "notes": [
+          "engine:note — proc:3% duration:12s"
+        ]
       }
     ]
   },
@@ -83,7 +90,10 @@
             "upgrade_type": "AVATAR_ADD_PARKOUR_VELOCITY"
           }
         ],
-        "condition": "on_damaged"
+        "condition": "on_damaged",
+        "notes": [
+          "engine:note — proc:60% duration:18s"
+        ]
       }
     ]
   },
@@ -105,7 +115,11 @@
             "upgrade_type": "WEAPON_ADD_DAMAGE"
           }
         ],
-        "condition": "on_wall_latch"
+        "condition": "on_wall_latch",
+        "notes": [
+          "engine:note — Aplica a Primary Y Secondary (no Melee): dos canales simultáneos no expresables con un solo target_channel. Se mantiene WEAPON_ADD_DAMAGE genérico; restricción dual registrada (análogo al problema OR de condition).",
+          "engine:note — duration:30s"
+        ]
       }
     ]
   },
@@ -127,7 +141,10 @@
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
-        "condition": "on_damaged"
+        "condition": "on_damaged",
+        "notes": [
+          "engine:note — proc:21% duration:12s"
+        ]
       }
     ]
   },
@@ -146,10 +163,13 @@
               125,
               150
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_SECONDARY_ADD_DAMAGE"
           }
         ],
-        "condition": "on_reload"
+        "condition": "on_reload",
+        "notes": [
+          "engine:note — proc:60% duration:24s"
+        ]
       }
     ]
   },
@@ -182,7 +202,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_shield_damaged"
+        "condition": "on_shield_damaged",
+        "notes": [
+          "engine:note — proc:|val1| cooldown:|val2|",
+          "engine:note — chance (|val1|) y cooldown (|val2|) escalan 1-6% / 1-6s por rank: valores REALES en values[] (verificado vs arcanes.json), NO placeholder. Efecto \"restore all Shields\" sin magnitud → upgrade_type null correcto."
+        ]
       }
     ]
   },
@@ -203,8 +227,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -236,8 +259,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -256,10 +278,13 @@
               250,
               300
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_MELEE_ADD_DAMAGE"
           }
         ],
-        "condition": "on_primary_weapon_kill"
+        "condition": "on_primary_weapon_kill",
+        "notes": [
+          "engine:note — proc:30% duration:12s"
+        ]
       }
     ]
   },
@@ -318,7 +343,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": null,
+        "notes": [
+          "engine:note — condición compuesta (sin tokenizar): ataques de minions invocados acumulan Ability Strength aplicado en el próximo Ability Cast (on_summon_attack + on_ability_cast). Merece revisión manual."
+        ]
       }
     ]
   },
@@ -339,8 +367,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -362,7 +389,10 @@
             "upgrade_type": "AVATAR_ADD_ABILITY_DURATION"
           }
         ],
-        "condition": "on_ability_cast"
+        "condition": "on_ability_cast",
+        "notes": [
+          "engine:note — duration:3s"
+        ]
       }
     ]
   },
@@ -384,7 +414,10 @@
             "upgrade_type": "AVATAR_ADD_PARKOUR_VELOCITY"
           }
         ],
-        "condition": "on_headshot"
+        "condition": "on_headshot",
+        "notes": [
+          "engine:note — duration:18s"
+        ]
       }
     ]
   },
@@ -417,7 +450,7 @@
             "upgrade_type": "WEAPON_ADD_CRIT_MULT"
           }
         ],
-        "condition": null
+        "condition": "while_invisible"
       }
     ]
   },
@@ -436,10 +469,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_PUNCTURE"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -458,10 +493,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_SLASH"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -480,10 +517,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_TOXIN"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -505,7 +544,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — duration:4s",
+          "engine:note — on_parkour_maneuver = OR de Dodge / Double Jump / Bullet Jump (token paraguas; composición OR no expresable en condition:string, deuda conocida)."
+        ],
+        "condition": "on_parkour_maneuver"
       }
     ]
   },
@@ -527,7 +570,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_energy_pickup"
+        "condition": "on_energy_pickup",
+        "notes": [
+          "engine:note — proc:60% cooldown:15s"
+        ]
       }
     ]
   },
@@ -549,7 +595,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_energy_pickup"
+        "condition": "on_energy_pickup",
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -592,8 +641,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -615,7 +663,10 @@
             "upgrade_type": "WEAPON_ADD_DAMAGE"
           }
         ],
-        "condition": "on_critical_hit"
+        "condition": "on_critical_hit",
+        "notes": [
+          "engine:note — proc:60% duration:18s"
+        ]
       }
     ]
   },
@@ -634,10 +685,13 @@
               5,
               6
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_ADD_HEALTH_REGEN"
           }
         ],
-        "condition": "on_health_damaged"
+        "condition": "on_health_damaged",
+        "notes": [
+          "engine:note — proc:9% duration:9s"
+        ]
       }
     ]
   },
@@ -656,10 +710,13 @@
               750,
               900
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_ARMOUR"
           }
         ],
-        "condition": "on_damaged"
+        "condition": "on_damaged",
+        "notes": [
+          "engine:note — proc:15% duration:20s"
+        ]
       }
     ]
   },
@@ -678,10 +735,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_RADIATION"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -703,7 +762,11 @@
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
-        "condition": null
+        "condition": "on_ability_inflicts_heat_status",
+        "notes": [
+          "engine:note — stacking: base_value = per-stack increment (max 50×, cap = 300% at rank 5)",
+          "engine:note — duration:10s"
+        ]
       }
     ]
   },
@@ -722,10 +785,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_HEAT"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -747,7 +812,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_enemy_frozen"
+        "condition": "on_enemy_frozen",
+        "notes": [
+          "engine:note — duration:15s"
+        ]
       }
     ]
   },
@@ -780,7 +848,9 @@
             "upgrade_type": "AVATAR_ADD_ABILITY_EFFICIENCY"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — duration:20s"
+        ]
       }
     ]
   },
@@ -802,7 +872,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": "while_channeled_ability_active",
+        "notes": [
+          "engine:note — escala por número de channeled abilities activas (per active channeled ability)."
+        ]
       }
     ]
   },
@@ -821,10 +894,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_GAS"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -843,10 +918,14 @@
               125,
               150
             ],
-            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
+            "upgrade_type": "WEAPON_PRIMARY_ADD_RELOAD_SPEED"
           }
         ],
-        "condition": "on_critical_hit"
+        "condition": "on_critical_hit",
+        "notes": [
+          "engine:note — Restricción a Sniper Rifles (subtipo de Primary); canal=primary pierde la granularidad de tipo de arma (no hay canal sniper). Deuda D-7 pendiente.",
+          "engine:note — proc:60% duration:12s"
+        ]
       }
     ]
   },
@@ -865,10 +944,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_MAGNETIC"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -890,7 +971,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": "with_armor_over_700"
       }
     ]
   },
@@ -909,10 +990,13 @@
               50,
               60
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_ADD_SPRINT_SPEED"
           }
         ],
-        "condition": "on_block"
+        "condition": "on_block",
+        "notes": [
+          "engine:note — proc:45% duration:18s"
+        ]
       }
     ]
   },
@@ -931,10 +1015,13 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_AMMO_EFFICIENCY"
           }
         ],
-        "condition": "on_pistol_headshot_kill"
+        "condition": "on_pistol_headshot_kill",
+        "notes": [
+          "engine:note — proc:60% duration:12s"
+        ]
       }
     ]
   },
@@ -956,7 +1043,10 @@
             "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
           }
         ],
-        "condition": "on_ability_cast"
+        "condition": "on_ability_cast",
+        "notes": [
+          "engine:note — stacking: base_value = per-cast increment (max 4×, reset on consecutive same ability); cap = 36% at rank 5"
+        ]
       }
     ]
   },
@@ -975,10 +1065,13 @@
               250,
               300
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_SECONDARY_ADD_DAMAGE"
           }
         ],
-        "condition": "on_headshot"
+        "condition": "on_headshot",
+        "notes": [
+          "engine:note — duration:18s"
+        ]
       }
     ]
   },
@@ -997,10 +1090,13 @@
               250,
               300
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_PRIMARY_ADD_DAMAGE"
           }
         ],
-        "condition": "on_melee_kill"
+        "condition": "on_melee_kill",
+        "notes": [
+          "engine:note — proc:30% duration:12s"
+        ]
       }
     ]
   },
@@ -1019,10 +1115,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_CORROSIVE"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -1044,7 +1142,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_health_pickup"
+        "condition": "on_health_pickup",
+        "notes": [
+          "engine:note — proc:60% cooldown:15s"
+        ]
       }
     ]
   },
@@ -1063,10 +1164,13 @@
               150,
               180
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_PRIMARY_ADD_DAMAGE"
           }
         ],
-        "condition": "on_headshot"
+        "condition": "on_headshot",
+        "notes": [
+          "engine:note — proc:15% duration:24s"
+        ]
       }
     ]
   },
@@ -1085,7 +1189,7 @@
               20,
               24
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_HEALTH_REGEN"
           },
           {
             "base_value": [
@@ -1096,10 +1200,13 @@
               550,
               660
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_ARMOUR"
           }
         ],
-        "condition": "on_melee_kill"
+        "condition": "on_melee_kill",
+        "notes": [
+          "engine:note — duration:10s"
+        ]
       }
     ]
   },
@@ -1118,10 +1225,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_TOXIN"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -1140,10 +1249,13 @@
               125,
               150
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_PRIMARY_ADD_DAMAGE"
           }
         ],
-        "condition": "on_reload"
+        "condition": "on_reload",
+        "notes": [
+          "engine:note — proc:60% duration:24s"
+        ]
       }
     ]
   },
@@ -1162,10 +1274,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_IMPACT"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -1187,7 +1301,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_ability_cast"
+        "condition": "on_ability_cast",
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -1209,7 +1326,10 @@
             "upgrade_type": "WEAPON_ADD_FIRE_RATE"
           }
         ],
-        "condition": "on_hit"
+        "condition": "on_hit",
+        "notes": [
+          "engine:note — proc:15% duration:18s"
+        ]
       }
     ]
   },
@@ -1242,7 +1362,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_predeath"
+        "condition": "on_predeath",
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -1254,10 +1377,13 @@
         "values": [
           {
             "base_value": null,
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_ARMOUR"
           }
         ],
-        "condition": "on_archgun_equipped"
+        "condition": "on_archgun_equipped",
+        "notes": [
+          "engine:note — duration:60s"
+        ]
       }
     ]
   },
@@ -1279,7 +1405,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": "while_reviving"
       }
     ]
   },
@@ -1298,10 +1424,14 @@
               75,
               90
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "WEAPON_PRIMARY_ADD_FIRE_RATE"
           }
         ],
-        "condition": "on_critical_hit"
+        "condition": "on_critical_hit",
+        "notes": [
+          "engine:note — Restricción a Shotguns (subtipo de Primary); canal=primary pierde la granularidad de tipo de arma (no hay canal shotgun). Deuda D-7 pendiente.",
+          "engine:note — proc:15% duration:12s"
+        ]
       }
     ]
   },
@@ -1323,7 +1453,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_finisher_kill"
+        "condition": "on_finisher_kill",
+        "notes": [
+          "engine:note — proc:15%"
+        ]
       }
     ]
   },
@@ -1345,7 +1478,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": "on_overguard_threshold_3000"
       }
     ]
   },
@@ -1357,10 +1490,13 @@
         "values": [
           {
             "base_value": null,
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_ARMOUR"
           }
         ],
-        "condition": "on_finisher_kill"
+        "condition": "on_finisher_kill",
+        "notes": [
+          "engine:note — duration:45s"
+        ]
       }
     ]
   },
@@ -1382,6 +1518,10 @@
             "upgrade_type": null
           }
         ],
+        "notes": [
+          "engine:note — proc:|val1|",
+          "engine:note — condición compuesta (sin tokenizar): cada Radiation Status infligido por Habilidades da chance de soltar Universal Orb al morir el enemigo (ability-radiation + on_death). Merece revisión manual."
+        ],
         "condition": null
       }
     ]
@@ -1401,10 +1541,13 @@
               100,
               120
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "WEAPON_SECONDARY_ADD_FIRE_RATE"
           }
         ],
-        "condition": "on_critical_hit"
+        "condition": "on_critical_hit",
+        "notes": [
+          "engine:note — proc:90% duration:9s"
+        ]
       }
     ]
   },
@@ -1423,10 +1566,13 @@
               2.5,
               3
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_ADD_HEALTH_REGEN"
           }
         ],
-        "condition": "on_headshot_kill"
+        "condition": "on_headshot_kill",
+        "notes": [
+          "engine:note — proc:75% duration:9s"
+        ]
       }
     ]
   },
@@ -1445,10 +1591,12 @@
               85,
               102
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_CHANCE_RESIST_COLD"
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -1470,7 +1618,10 @@
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
-        "condition": "on_roll"
+        "condition": "on_roll",
+        "notes": [
+          "engine:note — duration:4s"
+        ]
       }
     ]
   },
@@ -1525,7 +1676,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_heat_status_effect"
+        "condition": "on_heat_status_effect",
+        "notes": [
+          "engine:note — duration:10s"
+        ]
       }
     ]
   },
@@ -1580,7 +1734,10 @@
             "upgrade_type": "WEAPON_ADD_MULTISHOT"
           }
         ],
-        "condition": "on_electricity_status_effect"
+        "condition": "on_electricity_status_effect",
+        "notes": [
+          "engine:note — duration:12s"
+        ]
       }
     ]
   },
@@ -1646,7 +1803,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_lethal_damage"
+        "condition": "on_lethal_damage",
+        "notes": [
+          "engine:note — duration:5s"
+        ]
       }
     ]
   },
@@ -1668,7 +1828,10 @@
             "upgrade_type": "WEAPON_ADD_DAMAGE"
           }
         ],
-        "condition": "on_operator_ability"
+        "condition": "on_operator_ability",
+        "notes": [
+          "engine:note — duration:8s"
+        ]
       }
     ]
   },
@@ -1687,10 +1850,13 @@
               60,
               72
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_AMMO_EFFICIENCY"
           }
         ],
-        "condition": "on_void_sling"
+        "condition": "on_void_sling",
+        "notes": [
+          "engine:note — duration:8s"
+        ]
       }
     ]
   },
@@ -1712,7 +1878,10 @@
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
-        "condition": "on_energy_depleted"
+        "condition": "on_energy_depleted",
+        "notes": [
+          "engine:note — duration:8s"
+        ]
       }
     ]
   },
@@ -1732,7 +1901,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_heavy_attack_kill"
+        "condition": "on_heavy_attack_kill",
+        "notes": [
+          "engine:note — duration:4s"
+        ]
       }
     ]
   },
@@ -1782,7 +1954,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_status_effect"
+        "condition": "on_status_effect",
+        "notes": [
+          "engine:note — proc:50%"
+        ]
       }
     ]
   },
@@ -1802,7 +1977,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_ground_slam"
+        "condition": "on_ground_slam",
+        "notes": [
+          "engine:note — proc:50%"
+        ]
       }
     ]
   },
@@ -1822,7 +2000,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_finisher_kill"
+        "condition": "on_finisher_kill",
+        "notes": [
+          "engine:note — proc:50% duration:8s"
+        ]
       }
     ]
   },
@@ -1839,10 +2020,9 @@
               37.5,
               50
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE"
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -1859,10 +2039,10 @@
               150,
               200
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE"
           }
         ],
-        "condition": null
+        "condition": "while_enemy_lifted"
       }
     ]
   },
@@ -1884,7 +2064,10 @@
             "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
           }
         ],
-        "condition": "on_ability_cast"
+        "condition": "on_ability_cast",
+        "notes": [
+          "engine:note — duration:5s"
+        ]
       }
     ]
   },
@@ -1994,7 +2177,10 @@
             "upgrade_type": "AVATAR_ADD_SPRINT_SPEED"
           }
         ],
-        "condition": "on_void_sling"
+        "condition": "on_void_sling",
+        "notes": [
+          "engine:note — duration:12s"
+        ]
       }
     ]
   },
@@ -2016,7 +2202,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_void_mode"
+        "condition": "on_void_mode",
+        "notes": [
+          "engine:note — duration:6s"
+        ]
       }
     ]
   },
@@ -2060,7 +2249,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_transference_in"
+        "condition": "on_transference_in",
+        "notes": [
+          "engine:note — duration:30s"
+        ]
       }
     ]
   },
@@ -2082,7 +2274,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_transference_in"
+        "condition": "on_transference_in",
+        "notes": [
+          "engine:note — proc:95%"
+        ]
       }
     ]
   },
@@ -2126,7 +2321,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_transference_static"
+        "condition": "on_transference_static",
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -2145,7 +2343,7 @@
               250,
               300
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_ARMOUR"
           }
         ],
         "condition": "on_transference_out"
@@ -2170,7 +2368,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_void_sling"
+        "condition": "on_void_sling",
+        "notes": [
+          "engine:note — duration:4s"
+        ]
       }
     ]
   },
@@ -2192,7 +2393,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_void_sling"
+        "condition": "on_void_sling",
+        "notes": [
+          "engine:note — duration:15s"
+        ]
       }
     ]
   },
@@ -2211,7 +2415,7 @@
               30,
               35
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_HEALTH_REGEN"
           }
         ],
         "condition": "while_an_operator"
@@ -2236,7 +2440,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_void_sling"
+        "condition": "on_void_sling",
+        "notes": [
+          "engine:note — duration:3s"
+        ]
       }
     ]
   },
@@ -2302,7 +2509,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_void_sling"
+        "condition": "on_void_sling",
+        "notes": [
+          "engine:note — cooldown:3s"
+        ]
       }
     ]
   },
@@ -2321,7 +2531,7 @@
               500,
               600
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_HEALTH_MAX"
           }
         ],
         "condition": "on_transference_out"
@@ -2346,7 +2556,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": null,
+        "notes": [
+          "engine:note — condición compuesta (sin tokenizar): enemigos con Status reciben stacks adicionales al ser knocked down/flung por melee (estado del target + acción melee). Merece revisión manual."
+        ]
       }
     ]
   },
@@ -2379,7 +2592,10 @@
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
-        "condition": "on_melee_hit"
+        "condition": "on_melee_hit",
+        "notes": [
+          "engine:note — stacking: val0 = per-hit increment for next heavy attack; val1 = max cap. Engine should use val1 as the achievable max when stacking is modeled"
+        ]
       }
     ]
   },
@@ -2411,6 +2627,10 @@
             ],
             "upgrade_type": null
           }
+        ],
+        "notes": [
+          "engine:note — cooldown:2s",
+          "engine:note — condición compuesta (sin tokenizar): x Damage contra enemigos Frozen (while_enemy_frozen) + 'On Roll' congela enemigos en radio (on_roll, cooldown:2s). Multi-efecto → split pendiente. Merece revisión manual."
         ],
         "condition": null
       }
@@ -2455,8 +2675,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -2478,7 +2697,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_base_critical_hit"
+        "condition": "on_base_critical_hit",
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -2497,10 +2719,14 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_ADD_CORROSIVE_DAMAGE"
           }
         ],
-        "condition": "on_ability_cast"
+        "condition": "on_ability_cast",
+        "notes": [
+          "engine:note — stacking: base_value = per-stack increment (max 4×, cap = 240% at rank 5)",
+          "engine:note — duration:25s"
+        ]
       }
     ]
   },
@@ -2519,10 +2745,13 @@
               175,
               210
             ],
-            "upgrade_type": null
+            "upgrade_type": "AVATAR_FLAT_ARMOUR"
           }
         ],
-        "condition": "on_melee_kill"
+        "condition": "on_melee_kill",
+        "notes": [
+          "engine:note — duration:10s"
+        ]
       }
     ]
   },
@@ -2555,7 +2784,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_melee_electricity_status"
+        "condition": "on_melee_electricity_status",
+        "notes": [
+          "engine:note — proc:20%"
+        ]
       }
     ]
   },
@@ -2576,8 +2808,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -2599,7 +2830,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — proc:|val1|"
+        ],
+        "condition": "on_magnetic_status_kill"
       }
     ]
   },
@@ -2621,7 +2855,10 @@
             "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
           }
         ],
-        "condition": "on_kill"
+        "condition": "on_kill",
+        "notes": [
+          "engine:note — stacking: base_value = per-kill increment (max 250×); full value at max stacks = base_value × 250 (60% at rank 5)"
+        ]
       }
     ]
   },
@@ -2654,7 +2891,10 @@
             "upgrade_type": "AVATAR_ADD_ABILITY_DURATION"
           }
         ],
-        "condition": "while_shields_active"
+        "condition": "while_shields_active",
+        "notes": [
+          "engine:note — stacking: val0 = per-second increment; val1 = max cap. Engine should use val1 as achievable max when stacking is modeled"
+        ]
       }
     ]
   },
@@ -2675,8 +2915,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -2746,8 +2985,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -2787,7 +3025,7 @@
             "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
-        "condition": null
+        "condition": "while_airborne"
       },
       {
         "label": "-50% Weapon Recoil while Airborne",
@@ -2799,7 +3037,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": "while_airborne"
       },
       {
         "label": "+5s Aim Glide/Wall Latch Duration",
@@ -2810,8 +3048,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -2844,7 +3081,10 @@
             "upgrade_type": "WEAPON_ADD_MULTISHOT"
           }
         ],
-        "condition": "on_toxin_status_effect"
+        "condition": "on_toxin_status_effect",
+        "notes": [
+          "engine:note — duration:12s"
+        ]
       }
     ]
   },
@@ -2865,8 +3105,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -2896,10 +3135,13 @@
               5,
               6
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_AMMO_EFFICIENCY"
           }
         ],
-        "condition": "on_weak_point_hit"
+        "condition": "on_weakpoint_hit",
+        "notes": [
+          "engine:note — duration:10s"
+        ]
       }
     ]
   },
@@ -2914,7 +3156,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_headshot_kill"
+        "condition": "on_headshot_kill",
+        "notes": [
+          "engine:note — duration:24s"
+        ]
       },
       {
         "label": "+30% to Headshot Multiplier",
@@ -2923,10 +3168,9 @@
             "base_value": [
               30.0
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_HEADSHOT_MULT"
           }
-        ],
-        "condition": null
+        ]
       },
       {
         "label": "-50% Weapon Recoil",
@@ -2935,10 +3179,9 @@
             "base_value": [
               -50.0
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_RECOIL"
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -2960,7 +3203,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": null,
+        "notes": [
+          "engine:note — proc:|val1|",
+          "engine:note — condición compuesta (sin tokenizar): enemigo con 10 stacks de un Status combinado + reinfligir el mismo → chance de aplicar uno de los Status base que lo componen. Merece revisión manual."
+        ]
       }
     ]
   },
@@ -2975,7 +3222,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_melee_kill"
+        "condition": "on_melee_kill",
+        "notes": [
+          "engine:note — duration:20s"
+        ]
       },
       {
         "label": "+7.5s Combo Duration",
@@ -2984,10 +3234,9 @@
             "base_value": [
               7.5
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_COMBO_DURATION"
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -3009,7 +3258,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_weapon_impact_status_effect"
+        "condition": "on_weapon_impact_status_effect",
+        "notes": [
+          "engine:note — duration:10s"
+        ]
       }
     ]
   },
@@ -3042,7 +3294,10 @@
             "upgrade_type": "WEAPON_ADD_MULTISHOT"
           }
         ],
-        "condition": "on_cold_status_effect"
+        "condition": "on_cold_status_effect",
+        "notes": [
+          "engine:note — duration:12s"
+        ]
       }
     ]
   },
@@ -3057,7 +3312,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_kill"
+        "condition": "on_kill",
+        "notes": [
+          "engine:note — duration:4s"
+        ]
       },
       {
         "label": "+30% Reload Speed",
@@ -3066,10 +3324,9 @@
             "base_value": [
               30.0
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -3113,7 +3370,10 @@
             "upgrade_type": "WEAPON_ADD_MULTISHOT"
           }
         ],
-        "condition": "with_energy_at_or_above_90pct"
+        "condition": "with_energy_at_or_above_90pct",
+        "notes": [
+          "engine:note — formula: base_value = cap; actual multishot = 35% × Max Energy, capped at base_value. Requires runtime Max Energy"
+        ]
       }
     ]
   },
@@ -3155,7 +3415,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_kitgun_kill"
+        "condition": "on_kitgun_kill",
+        "notes": [
+          "engine:note — proc:20%"
+        ]
       }
     ]
   },
@@ -3175,7 +3438,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_kitgun_kill"
+        "condition": "on_kitgun_kill",
+        "notes": [
+          "engine:note — proc:20%"
+        ]
       }
     ]
   },
@@ -3195,7 +3461,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_kitgun_kill"
+        "condition": "on_kitgun_kill",
+        "notes": [
+          "engine:note — proc:20%"
+        ]
       }
     ]
   },
@@ -3215,7 +3484,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_kitgun_kill"
+        "condition": "on_kitgun_kill",
+        "notes": [
+          "engine:note — proc:20%"
+        ]
       }
     ]
   },
@@ -3230,7 +3502,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_precision_headshot_kill"
+        "condition": "on_precision_headshot_kill",
+        "notes": [
+          "engine:note — duration:24s"
+        ]
       },
       {
         "label": "+30% to Headshot Multiplier",
@@ -3239,10 +3514,9 @@
             "base_value": [
               30.0
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_HEADSHOT_MULT"
           }
-        ],
-        "condition": null
+        ]
       },
       {
         "label": "-50% Weapon Recoil",
@@ -3251,10 +3525,9 @@
             "base_value": [
               -50.0
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_RECOIL"
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -3269,7 +3542,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_melee_kill"
+        "condition": "on_melee_kill",
+        "notes": [
+          "engine:note — duration:20s"
+        ]
       },
       {
         "label": "+7.5s Combo Duration",
@@ -3278,10 +3554,9 @@
             "base_value": [
               7.5
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_COMBO_DURATION"
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -3303,7 +3578,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_status_effect"
+        "condition": "on_status_effect",
+        "notes": [
+          "engine:note — proc:|val1|"
+        ]
       }
     ]
   },
@@ -3346,8 +3624,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       },
       {
         "label": "Deals x8 Extra Damage to Overguard.",
@@ -3358,8 +3635,7 @@
             ],
             "upgrade_type": null
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -3414,7 +3690,10 @@
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
-        "condition": "while_buffing_ally_warframes"
+        "condition": "while_buffing_ally_warframes",
+        "notes": [
+          "engine:note — formula: base_value = crit chance per active ally buff; actual value = base_value × n_active_buffs (runtime ally buff count)"
+        ]
       }
     ]
   },
@@ -3429,7 +3708,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_kill"
+        "condition": "on_kill",
+        "notes": [
+          "engine:note — duration:4s"
+        ]
       },
       {
         "label": "+30% Reload Speed",
@@ -3438,10 +3720,9 @@
             "base_value": [
               30.0
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
           }
-        ],
-        "condition": null
+        ]
       }
     ]
   },
@@ -3463,7 +3744,11 @@
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
-        "condition": null
+        "condition": "on_swap_to_secondary",
+        "notes": [
+          "engine:note — formula: base_value = crit chance/crit_mult per Combo point consumed on weapon swap; actual value = base_value × Combo_count_at_swap (runtime Combo counter).",
+          "engine:note — duration:30s"
+        ]
       }
     ]
   },
@@ -3485,7 +3770,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "condition": "while_target_affected_by_cold",
+        "notes": [
+          "engine:note — escala por cada stack de Cold Status en el target (per Cold Status)."
+        ]
       }
     ]
   },
@@ -3540,7 +3828,10 @@
             "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
           }
         ],
-        "condition": "on_shotgun_kill_within_5m"
+        "condition": "on_shotgun_kill_within_5m",
+        "notes": [
+          "engine:note — duration:15s"
+        ]
       }
     ]
   },
@@ -3562,7 +3853,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — duration:6s"
+        ],
+        "condition": "while_in_residual_zone"
       }
     ]
   },
@@ -3584,7 +3878,11 @@
             "upgrade_type": "WEAPON_ADD_DAMAGE"
           }
         ],
-        "condition": null
+        "condition": "while_in_residual_zone",
+        "notes": [
+          "engine:note — stacking: base_value = per-second/stack increment (max 15×); cap = 180% at rank 5.",
+          "engine:note — duration:20s"
+        ]
       }
     ]
   },
@@ -3606,7 +3904,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": null
+        "notes": [
+          "engine:note — duration:20s"
+        ],
+        "condition": "while_in_residual_zone"
       }
     ]
   },
@@ -3646,7 +3947,10 @@
             "upgrade_type": "WEAPON_ADD_DAMAGE"
           }
         ],
-        "condition": "on_status_effect"
+        "condition": "on_status_effect",
+        "notes": [
+          "engine:note — proc:20% duration:4s"
+        ]
       }
     ]
   },
@@ -3666,7 +3970,10 @@
             "upgrade_type": "WEAPON_ADD_STATUS_CHANCE"
           }
         ],
-        "condition": "on_headshot"
+        "condition": "on_headshot",
+        "notes": [
+          "engine:note — proc:40% duration:12s"
+        ]
       }
     ]
   },
@@ -3686,7 +3993,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_kill"
+        "condition": "on_kill",
+        "notes": [
+          "engine:note — duration:4s"
+        ]
       }
     ]
   },
@@ -3706,7 +4016,10 @@
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
-        "condition": "on_headshot"
+        "condition": "on_headshot",
+        "notes": [
+          "engine:note — proc:40% duration:12s"
+        ]
       }
     ]
   },
@@ -3746,7 +4059,10 @@
             "upgrade_type": "WEAPON_ADD_CRIT_MULT"
           }
         ],
-        "condition": "on_critical_hit"
+        "condition": "on_critical_hit",
+        "notes": [
+          "engine:note — proc:20% duration:4s"
+        ]
       }
     ]
   },
@@ -3786,7 +4102,10 @@
             "upgrade_type": "WEAPON_ADD_FIRE_RATE"
           }
         ],
-        "condition": "on_kill"
+        "condition": "on_kill",
+        "notes": [
+          "engine:note — proc:60% duration:8s"
+        ]
       }
     ]
   },

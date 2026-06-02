@@ -1,0 +1,38 @@
+{
+  "/Lotus/Weapons/Sentients/SentRifleNewWar/SentRifleNewWarGun": {
+    "_name": "Basmu",
+    "attacks": {
+      "Held": { "multishot": 2 }
+    }
+  },
+  "/Lotus/Weapons/Lasria/LasGooAK/LasGooAKPlayerWeapon": {
+    "_name": "Efv-5 Jupiter",
+    "attacks": {
+      "Buckshot": { "multishot": 11 }
+    }
+  },
+  "/Lotus/Weapons/Grineer/KuvaLich/LongGuns/Zarr/KuvaZarr": {
+    "_name": "Kuva Zarr",
+    "attacks": {
+      "Barrage Mode": { "multishot": 10 }
+    }
+  },
+  "/Lotus/Weapons/Grineer/KuvaLich/LongGuns/Hek/KuvaHekWeapon": {
+    "_name": "Kuva Hek",
+    "attacks": {
+      "Alt-Fire": { "multishot": 28 }
+    }
+  },
+  "/Lotus/Weapons/Tenno/Pistols/AllNew1hSG/AllNew1hSG": {
+    "_name": "Euphona Prime",
+    "attacks": {
+      "Buckshot": { "multishot": 10 }
+    }
+  },
+  "_PENDIENTE_Fusilai": {
+    "_note": "unique_name no verificado. /GlassKunai pertenece a Kunai Incarnon, no a Fusilai. Buscar ID correcto antes de activar.",
+    "attacks": {
+      "Semi-Auto Mode": { "multishot": 3 }
+    }
+  }
+}

@@ -7,36 +7,31 @@
         "id": "crimson-ability-strength",
         "label": "+|val1|% Ability Strength",
         "value": [10, 15],
-        "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH",
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
       },
       {
         "id": "crimson-ability-duration",
         "label": "+|val1|% Ability Duration",
         "value": [10, 15],
-        "upgrade_type": "AVATAR_ADD_ABILITY_DURATION",
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_ABILITY_DURATION"
       },
       {
         "id": "crimson-melee-critical-damage",
         "label": "+|val1|% Melee Critical Damage",
         "value": [25, 37.5],
-        "upgrade_type": "WEAPON_MELEE_ADD_CRIT_MULT",
-        "condition": null
+        "upgrade_type": "WEAPON_MELEE_ADD_CRIT_MULT"
       },
       {
         "id": "crimson-primary-status-chance",
         "label": "+|val1|% Primary Status Chance",
         "value": [25, 37.5],
-        "upgrade_type": "WEAPON_PRIMARY_ADD_STATUS_CHANCE",
-        "condition": null
+        "upgrade_type": "WEAPON_PRIMARY_ADD_STATUS_CHANCE"
       },
       {
         "id": "crimson-secondary-critical-chance",
         "label": "+|val1|% Secondary Critical Chance",
         "value": [25, 37.5],
-        "upgrade_type": "WEAPON_SECONDARY_ADD_CRIT_CHANCE",
-        "condition": null
+        "upgrade_type": "WEAPON_SECONDARY_ADD_CRIT_CHANCE"
       }
     ]
   },
@@ -49,35 +44,34 @@
         "label": "+|val1|% Maximum Energy filled on Spawn",
         "value": [30, 45],
         "upgrade_type": null,
-        "condition": null
+        "condition": "on_spawn",
+        "notes": [
+          "engine:note — Efecto de inicialización (relleno de energía al aparecer), fuera del loop de combate. Captura literal del trigger; modelabilidad diferida (¿setup vs condition simulable?)."
+        ]
       },
       {
         "id": "amber-health-orb-effectiveness",
         "label": "+|val1|% Health Orb Effectiveness",
         "value": [100, 150],
-        "upgrade_type": "AVATAR_ADD_HEALTH_ORB_EFFICIENCY",
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_HEALTH_ORB_EFFICIENCY"
       },
       {
         "id": "amber-casting-speed",
         "label": "+|val1|% Casting Speed",
         "value": [25, 37.5],
-        "upgrade_type": "AVATAR_ADD_CASTING_SPEED",
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_CASTING_SPEED"
       },
       {
         "id": "amber-energy-orb-effectiveness",
         "label": "+|val1|% Energy Orb Effectiveness",
         "value": [50, 75],
-        "upgrade_type": "AVATAR_ADD_ENERGY_ORB_EFFICIENCY",
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_ENERGY_ORB_EFFICIENCY"
       },
       {
         "id": "amber-parkour-velocity",
         "label": "+|val1|% Parkour Velocity",
         "value": [15, 22.5],
-        "upgrade_type": "AVATAR_ADD_PARKOUR_VELOCITY",
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_PARKOUR_VELOCITY"
       }
     ]
   },
@@ -89,36 +83,31 @@
         "id": "azure-energy-max",
         "label": "+|val1| Energy Max",
         "value": [50, 75],
-        "upgrade_type": "AVATAR_FLAT_ENERGY_MAX",
-        "condition": null
+        "upgrade_type": "AVATAR_FLAT_ENERGY_MAX"
       },
       {
         "id": "azure-health-max",
         "label": "+|val1| Health",
         "value": [150, 225],
-        "upgrade_type": "AVATAR_FLAT_HEALTH_MAX",
-        "condition": null
+        "upgrade_type": "AVATAR_FLAT_HEALTH_MAX"
       },
       {
         "id": "azure-shield-capacity",
         "label": "+|val1| Shield Capacity",
         "value": [150, 225],
-        "upgrade_type": "AVATAR_FLAT_SHIELD_MAX",
-        "condition": null
+        "upgrade_type": "AVATAR_FLAT_SHIELD_MAX"
       },
       {
         "id": "azure-armor",
         "label": "+|val1| Armor",
         "value": [150, 225],
-        "upgrade_type": "AVATAR_FLAT_ARMOUR",
-        "condition": null
+        "upgrade_type": "AVATAR_FLAT_ARMOUR"
       },
       {
         "id": "azure-health-regeneration",
         "label": "+|val1| Health/s Regenerated",
         "value": [5, 7.5],
-        "upgrade_type": "AVATAR_FLAT_HEALTH_REGEN",
-        "condition": null
+        "upgrade_type": "AVATAR_FLAT_HEALTH_REGEN"
       }
     ]
   },
@@ -130,29 +119,29 @@
         "id": "topaz-radiation-ability-damage",
         "label": "+|val1|% Ability Damage on enemies affected by Radiation",
         "value": [10, 15],
-        "upgrade_type": null,
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_ABILITY_DAMAGE",
+        "condition": "on_hitting_enemies_affected_by_radiation"
       },
       {
         "id": "topaz-health-on-blast-kill",
         "label": "+|val1| Health per enemy killed with Blast",
         "value": [1, 2],
         "upgrade_type": null,
-        "condition": null
+        "condition": "on_blast_kill"
       },
       {
         "id": "topaz-shields-on-blast-kill",
         "label": "+|val1| Shields on Blast kill",
         "value": [5, 7.5],
         "upgrade_type": null,
-        "condition": null
+        "condition": "on_blast_kill"
       },
       {
         "id": "topaz-secondary-crit-on-heat-kill",
         "label": "+|val1|% Secondary Critical Chance on Heat-status kill",
         "value": [1, 1.5],
-        "upgrade_type": null,
-        "condition": null
+        "upgrade_type": "WEAPON_SECONDARY_ADD_CRIT_CHANCE",
+        "condition": "on_heat_status_kill"
       }
     ]
   },
@@ -164,29 +153,32 @@
         "id": "violet-electricity-ability-damage",
         "label": "+|val1|% Ability Damage on enemies affected by Electricity",
         "value": [10, 15],
-        "upgrade_type": null,
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_ABILITY_DAMAGE",
+        "condition": "on_hitting_enemies_affected_by_electricity"
       },
       {
         "id": "violet-primary-electricity-damage",
         "label": "+|val1|% Primary Electricity Damage",
         "value": [30, 45],
-        "upgrade_type": null,
-        "condition": null
+        "upgrade_type": null
       },
       {
         "id": "violet-melee-critical-damage-on-energy",
         "label": "+|val1|% Melee Critical Damage while high energy",
         "value": [25, 37.5],
-        "upgrade_type": null,
-        "condition": null
+        "upgrade_type": "WEAPON_MELEE_ADD_CRIT_MULT",
+        "condition": "with_energy_max_over_500"
       },
       {
         "id": "violet-pickup-health-energy-conversion",
         "label": "+|val1|% Health/Energy Pickup Conversion",
         "value": [20, 30],
         "upgrade_type": null,
-        "condition": null
+        "condition": null,
+        "notes": [
+          "engine:note — Mecánica Equilibrium: conversión bidireccional simétrica de recursos — Health pickup → +|val1|% Energy y Energy pickup → +|val1|% Health (aditivo con el mod Equilibrium). Ref: https://wiki.warframe.com/w/Equilibrium",
+          "engine:note — No se modela como 2 buffs condicionales separados (on_health_pickup / on_energy_pickup): es conversión de recursos, naturaleza propia pendiente de diseño. condition:null = hueco real (D-18)."
+        ]
       }
     ]
   },
@@ -198,29 +190,30 @@
         "id": "emerald-corrosive-stacks",
         "label": "+|val1| max Corrosive stacks",
         "value": [2, 3],
-        "upgrade_type": null,
-        "condition": null
+        "upgrade_type": null
       },
       {
         "id": "emerald-ability-damage-on-corrosive",
         "label": "+|val1|% Ability Damage on enemies affected by Corrosive",
         "value": [10, 15],
-        "upgrade_type": null,
-        "condition": null
+        "upgrade_type": "AVATAR_ADD_ABILITY_DAMAGE",
+        "condition": "on_hitting_enemies_affected_by_corrosive"
       },
       {
         "id": "emerald-toxin-status-damage",
         "label": "+|val1|% Toxin Status Damage",
         "value": [30, 45],
-        "upgrade_type": null,
-        "condition": null
+        "upgrade_type": "GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE"
       },
       {
         "id": "emerald-health-on-toxin-status-damage",
         "label": "+|val1| Health on Toxin status damage",
         "value": [2, 3],
         "upgrade_type": null,
-        "condition": null
+        "condition": "on_toxin_status_damage",
+        "notes": [
+          "engine:note — Trigger sobre el DAÑO de status de Toxin (Toxin status damage), no sobre el DoT/Poison (el efecto del status). 'Daño de estado' ≠ 'daño de efecto de estado' — NO es análogo a un on_*_proc; no consolidar con on_bleed_proc ni con on_toxin_status_effect (que es la aplicación del proc)."
+        ]
       }
     ]
   }
