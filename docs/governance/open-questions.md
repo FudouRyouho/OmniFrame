@@ -5,7 +5,7 @@ Version: "v0.7.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-05-29"
+Fecha_de_actualizacion: "2026-06-02"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -80,6 +80,8 @@ Otros candidatos al mismo patrón: `semantic/damage-types.md`, `semantic/faction
 **Implicación:** La decisión afecta a los 3 docs actuales de `semantic/` (`damage-types`, `factions`, `polarity`) y la convención para vocabularios futuros (status conditions, faction damage types, etc.).
 
 **Bloquea:** Coherencia del grafo documental con el grafo de código real. Comprensión por agentes IA de que `semantic/` no es info aislada sino consumida masivamente.
+
+**Vínculo (2026-06-02):** la ubicación del **puente de patrones estructurales** (stacking/duration, ver `OQ-DATA-4`) depende de esta decisión — mismo eje semantic-vs-data. No se crea ese puente hasta resolver esta OQ; captura provisional en `audit-*.md` + `status.md`.
 
 **Fuente:** `docs/semantic/polarity.md` (huérfano detectado en auditoría 2026-05-25).
 
@@ -156,3 +158,45 @@ DataLoader.getIncarnonData()  → incarnon-evolutions.override.json           (d
 
 **Bloquea:** diseño de la interfaz pública del DataLoader singleton.
 **Ref:** `docs/data/rules/overrides.md` (D-1), `docs/data/decisions.md` (D-1)
+
+---
+
+## OQ-DATA-4 — Patrones estructurales transversales (stacking / duration / composición de condition) — **ABIERTO (2026-06-02)**
+**Dominio:** data / schema (mods + arcanes + incarnon + archon)
+**Contexto:** stacking, duration y la composición OR/AND de `condition` son conceptos **análogos** en los 4 schemas, hoy resueltos de forma divergente (mods: stacking=total, D-15 §2; arcanes familia Merciless: `base_value: null` + nota). La divergencia nació de resolver cada schema por separado — aislar produce drift. El criterio de **cuándo** acuñar estructura está fijado en `decisions.md#D-20` (≥2 casos misma forma + gate de consumidor + escape hatch como hipótesis con contador). Passives queda **fuera**: no existe como schema y su heterogeneidad (ley de juego / daño / mod-like / casi-habilidad) indica que no es un schema único — sus casos se reparten en las puertas de D-20.
+
+**Preguntas abiertas:**
+- **Ubicación del puente** (definición canónica cross-schema de stacking/duration): es una instancia de **OQ-DATA-2** (semantic vs data para conceptos que son ambos). **No se crea puente hasta resolver OQ-DATA-2** — captura provisional en `audit-*.md` + `status.md` (decisión del usuario, 2026-06-02).
+- **Composición de `condition` (OR/AND):** `condition: string | null` no expresa `A AND B` ni `A OR B`. Evidencia actual en arcanes: **1 sola composición real** (Melee Afflictions, fuera de scope) sobre dataset incompleto. No se diseña lenguaje de expresiones hasta masa crítica (≥2, D-20) **Y** cobertura ≥70% (D-16) — antes sería adivinar la forma. Un array plano de tokens tampoco sirve (no distingue AND de OR). Contador vivo en `audit-*.md`.
+- **Scope-grupo de `condition`** (varios stats, una condición): hoy se resuelve **repitiendo** el token (precedente: Pax Soar, dos stats `while_airborne`). Scope-grupo es optimización anti-repetición, no expresividad — salvo semántica compartida no-replicable (p. ej. pool de stacks común entre efectos). Latente.
+
+**Nivel resuelto (2026-06-02):** stacking/duration/condition viven a nivel **stat**, no entry — confirmado empíricamente: entradas multi-efecto (Merciless, Deadhead, Pax Soar) mezclan stats con y sin condición bajo el mismo arcano. El split `1 label = 1 stat` hace del stat el nivel natural.
+
+**Bloquea:** unificación del modelado de stacking/duration entre los 4 schemas; diseño de composición de condition.
+**No bloquea:** captura de datos actual (escape hatch clasificado, D-20) ni el engine Fase 0 (D-15).
+**Fuente:** debate 2026-06-02 sobre la familia stacking on-event de arcanes; `docs/data/schemas/arcane/schema.md §3`, `docs/data/reports/audit-arcane.md`.
+
+---
+
+## OQ-DATA-5 — Weapon-type gate en arcanes: campo ausente en schema — **ABIERTO (2026-06-02)**
+**Dominio:** data / schema (arcane) → UI / filter
+**Contexto:** Varios arcanos tienen restricciones de tipo de arma que el schema actual no captura como campo estructurado. Casos identificados en auditoría 2026-06-02:
+
+| Arcano | Restricción |
+|---|---|
+| Arcane Pistoleer / Ammunition Case | Dual Pistols (ambas manos) |
+| Arcane Shotgunner / Primary Shotgunner / ShotgunVendetta | Shotguns |
+| Longbow Sharpshot | Bows |
+| Arcane Merciless / Deadhead / Dexterity | Primaria / Secundaria / Melee respectivamente (familia tripartita) |
+| Residual Arcanes (Boils, Malodor, Viremia, Shock) | Kitguns exclusivamente |
+
+Hoy esta restricción vive únicamente en el campo `label` como texto libre y en `notes[]` como anotación de trazabilidad. No hay campo `weapon_type` ni equivalente en el schema.
+
+**Preguntas abiertas:**
+- ¿Se agrega un campo `weapon_type: string | null` al schema de arcano? ¿Array para casos multi-restricción?
+- ¿El filtro de UI consume este campo o deduce la restricción del label?
+- ¿Afecta solo arcanos o también mods, incarnon perks? (Mods ya tienen sistema de tags — revisar si aplica el mismo patrón antes de diseñar separado.)
+
+**Condición para resolver:** cuando exista un consumidor real (UI de filtro de arcanos, o engine que valide compatibilidad de equipamiento). Hoy es información display-only.
+**No bloquea:** captura de datos, engine Fase 0, ni el schema actual.
+**Fuente:** auditoría `docs/data/reports/audit-arcane.md`; arcanos ShotgunVendetta, AmmoEfficiencyOnSliding, LongbowSharpshot, familia Residual.

@@ -17,7 +17,12 @@
             "upgrade_type": "WEAPON_ADD_AMMO_EFFICIENCY"
           }
         ],
-        "condition": "while_sliding_or_aim_gliding"
+        "condition": "while_sliding_or_aim_gliding",
+        "notes": [
+          "engine:note — arcano de Warframe con weapon-type gate: WEAPON_ADD_AMMO_EFFICIENCY sólo activa cuando el arma equipada es un Dual Pistol. Restricción no modelable en el schema actual (no existe campo weapon_type_gate). Candidato a OQ cross-domain cuando el engine consuma arcanes de Warframe.",
+          "engine:note — condition OR: sliding y aim gliding son disparadores independientes del mismo efecto. Token compuesto; cuando el schema soporte arrays de condition → [\"while_sliding\", \"while_aim_gliding\"]. Ver OQ-DATA-4.",
+          "engine:note — sinergia conocida con Zazvat-Kar (mod exclusivo Akstilleto): juntos alcanzan 100% ammo efficiency. Dato relevante para tests de stacking cuando se modele."
+        ]
       }
     ]
   },
@@ -225,7 +230,12 @@
               0.25,
               0.3
             ],
-            "upgrade_type": null
+            "upgrade_type": null,
+            "notes": [
+              "engine:note — fórmula cross-stat (Armor → Energy): AddEnergy = Armor × |val1|, cap 1000. En rank 5 se necesitan ~3334 de Armor para alcanzar el cap. Sin token; familia de conversiones cross-stat; ver OQ-W-6.",
+              "engine:note — efecto dinámico: el bonus de energía cambia en tiempo real si el Armor varía (ej. procs de Corrosive/Heat que strippean Armor reducen la energía disponible inmediatamente).",
+              "engine:note — bug conocido (Violet Archon Shard): si se inicia misión con <500 Energy, no otorga el doble bonus de Melee Critical Damage del shard. Si el Armor es suficiente para elevar Energy a ≥500 antes de entrar, el bonus aplica correctamente. Threshold de 500 Energy es la condición de activación del bonus del shard."
+            ]
           }
         ]
       }
@@ -259,6 +269,10 @@
             ],
             "upgrade_type": null
           }
+        ],
+        "notes": [
+          "engine:note — fórmula cross-stat (MaxHealth → AbilityStrength): el label dice 'per every 250 Max Health' pero el cálculo real es continuo: round(MaxHealth ÷ 250 × |val1|%). El cap es |val2|%. Sin token; familia de conversiones cross-stat; ver OQ-W-6.",
+          "engine:note — ambos upgrade_type: null. val1 = incremento de fuerza por cada 250 HP (escala continua); val2 = cap máximo de Ability Strength acumulable. El engine necesita MaxHealth total en runtime para calcular el bonus."
         ]
       }
     ]
@@ -306,7 +320,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_health_pickup"
+        "condition": "on_health_pickup",
+        "notes": [
+          "engine:note — stacking acumulativo: cada health pickup añade |val1| Max HP, cap 50×. Total máximo en rank 5: 24 × 50 = 1200 HP. Sin token para 'add HP por stack'; patrón per_stack+cap sin consumidor hoy (D-20, stacking estructural gateado). Ver familia stacking on-event.",
+          "engine:note — sin notas adicionales en wiki (efecto determinista directo)."
+        ]
       }
     ]
   },
@@ -328,7 +346,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_6_melee_kills_within_30s"
+        "condition": null,
+        "notes": [
+          "engine:note — trigger es contador+ventana: 6 melee kills dentro de 30s → heal instantáneo de |val1| HP al companion activo. Sin token engine para companion heal. Trigger parametrizado fuera del vocabulario de condition actual (puerta 3, D-20).",
+          "engine:note — no revive companions incapacitados. Compatible con todos los tipos: Sentinels, MOAs, Venari. Sin mecánica de stacking. Ciclo de trigger reinicia tras cada activación."
+        ]
       }
     ]
   },
@@ -367,6 +389,12 @@
             ],
             "upgrade_type": null
           }
+        ],
+        "condition": "on_roll_through_enemy",
+        "notes": [
+          "engine:note — ability-like (puerta 2, D-20): robo de stats de enemigo = mecánica de entorno, sin token engine. Roba 3 stats simultáneamente: Armor, Shields y Overguard (el label sólo menciona 'defenses' en genérico).",
+          "engine:note — mecánica de robo: radio de activación ~4m. Se toma el % del stat del enemigo con mayor Armor en el área (no suma entre múltiples enemigos). Caps: Armor 1000, Overguard 10000, Shields sin cap (exceso → Overshields). Duration 15s, renovable con re-roll.",
+          "engine:note — label incompleto: 'Stolen Armor lasts 15s' aplica a los 3 stats robados, no solo Armor."
         ]
       }
     ]
@@ -597,7 +625,9 @@
         ],
         "condition": "on_energy_pickup",
         "notes": [
-          "engine:note — proc:|val1|"
+          "engine:note — proc chance = |val1|% (la propia base_value, escala 17→100%). En rank 5 activa siempre.",
+          "engine:note — ability-like (puerta 2, D-20): Knockdown = CC que derriba al suelo, vulnerando a Ground Finishers. Sin token engine para aplicar knockdown. Radio de efecto: 'nearby' (dato exacto pendiente de verificación en juego). Inmunidades al knockdown: Overguard, mods (Primed Sure Footed), habilidades con inmunidad de estado.",
+          "engine:note — ref mecánica Knockdown: docs/data/references/wiki/mechanics/knockdown.md (pendiente creación)."
         ]
       }
     ]
@@ -620,7 +650,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_mercy_kill"
+        "condition": "on_mercy_kill",
+        "notes": [
+          "engine:note — dos fases distintas: (1) acumulación: cada mercy kill → +1 stack Escapist, cap 9×; (2) consumo: daño fatal → consume 3 stacks → evita muerte + invulnerabilidad durante |val1|s. Los stacks son recurso consumible (no buff amplificador como familia Merciless/Deadhead).",
+          "engine:note — ability-like (puerta 2, D-20): invulnerabilidad y evasión de muerte son mecánicas de estado, sin token engine. base_value captura duración de invulnerabilidad (2→12s). Stacking as resource: patrón distinto a per_stack+cap de buffs de daño."
+        ]
       }
     ]
   },
@@ -641,6 +675,10 @@
             ],
             "upgrade_type": null
           }
+        ],
+        "notes": [
+          "engine:note — fórmula de conversión cross-stat (§3.6): Max Shields += (modificadores de Ability Strength del build) x |val1|%. Requiere Ability Strength en runtime. Sin token — familia heterogénea de conversiones cross-stat; ver OQ-W-6.",
+          "engine:note — efecto secundario no mapeado: +1 Arcane Revive en ranks 3-5 (mecánica de supervivencia, fuera del modelo de stats). Resolución diferida."
         ]
       }
     ]
@@ -764,8 +802,9 @@
         ],
         "condition": "on_ability_inflicts_heat_status",
         "notes": [
-          "engine:note — stacking: base_value = per-stack increment (max 50×, cap = 300% at rank 5)",
-          "engine:note — duration:10s"
+          "engine:note — stacking: base_value = per-stack increment (max 50×, cap = 300% en rank 5). duration:10s. Todos los stacks expiran simultáneamente; aplicar un nuevo stack refresca la duración de TODOS.",
+          "engine:note — stack por INFLICCIÓN de Heat status, no por proc: aplicar 2+ procs de Heat a un mismo enemigo en un solo instante = 1 solo stack (no acumula por número de procs simultáneos).",
+          "engine:note — Universal Weapon Bonus (aplica a todas las armas). Exalted Weapons moddadas con Heat pueden generar stacks. Funciona con Minelayer Flechette; NO con Breach Surge (Wisp ability). Archon Vitality no otorga beneficio adicional."
         ]
       }
     ]
@@ -802,6 +841,18 @@
         "values": [
           {
             "base_value": [
+              2
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_STRENGTH"
+          },
+          {
+            "base_value": [
+              2
+            ],
+            "upgrade_type": "AVATAR_ADD_ABILITY_DURATION"
+          },
+          {
+            "base_value": [
               10,
               12,
               14,
@@ -814,7 +865,8 @@
         ],
         "condition": "on_enemy_frozen",
         "notes": [
-          "engine:note — duration:15s"
+          "engine:note — valores constantes por stack: +2% AS y +2% AD (base_value: [2]); cap escala por rank (10→20). Valor constante no capturado por el generator — mismo patrón que SecondaryCritOnHit. Tokens añadidos: AVATAR_ADD_ABILITY_STRENGTH, AVATAR_ADD_ABILITY_DURATION; null en tercer entry es el cap.",
+          "engine:note — stacking: todos los stacks expiran simultáneamente al terminar la duración (15s). Freezing ANY enemy refresca TODOS los stacks activos. Companion weapons NO activan el arcano."
         ]
       }
     ]
@@ -848,8 +900,10 @@
             "upgrade_type": "AVATAR_ADD_ABILITY_EFFICIENCY"
           }
         ],
+        "condition": "on_ability_inflicts_unique_status_type",
         "notes": [
-          "engine:note — duration:20s"
+          "engine:note — stacking: 1 stack por TIPO ÚNICO de status effect infligido por habilidades. Cap realista: 13 stacks (sin Helminth) = +78% AS y +39% AE en rank 5. Cada tipo de status da 1 stack independientemente de cuántas veces se aplique.",
+          "engine:note — duration: 20s fijos. Se refresca con CUALQUIER daño de habilidad (no requiere nueva aplicación de status). Sickening Pulse sólo refresca timer (no genera stacks). Efectos ocultos como Knockdown no generan stacks. Secondary Encumber (exaltada secundaria) sí cuenta."
         ]
       }
     ]
@@ -1144,7 +1198,8 @@
         ],
         "condition": "on_health_pickup",
         "notes": [
-          "engine:note — proc:60% cooldown:15s"
+          "engine:note — proc:60% constante (no escala por rank). cooldown:15s entre activaciones. Sin token — no existe token estándar para heal de aliados AoE; upgrade_type: null correcto.",
+          "engine:note — efecto: heal de |val1| HP a aliados dentro de 25m (NO es self-heal). Radio 25m constante. Incluye companions dentro del rango."
         ]
       }
     ]
@@ -1303,7 +1358,8 @@
         ],
         "condition": "on_ability_cast",
         "notes": [
-          "engine:note — proc:|val1|"
+          "engine:note — ability-like (puerta 2, D-20): mechanic de charges de energía cero, sin token engine. proc chance = |val1|% (base_value). Otorga 3 charges: las próximas 3 habilidades no consumen energía.",
+          "engine:note — las habilidades con costo negado por este arcano NO pueden re-procarlo (anti-loop). Las habilidades sin costo de energía intrínseco (costo < 3 energy/s en canalización) tampoco activan ni consumen charges. Solo el cast inicial es gratuito en canalizadas (el drenaje continuo funciona normalmente). Visual: 3 orbs orbitan al Warframe, uno cae por charge consumido."
         ]
       }
     ]
@@ -1405,7 +1461,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "while_reviving"
+        "condition": "while_reviving",
+        "notes": [
+          "engine:note — reducción de daño recibido durante la acción de revivir aliados. Valores negativos = reducción (|val1|% → -90% en rank 5). Sin token confirmado; candidato a AVATAR_ADD_DAMAGE_REDUCTION gateado por condition while_reviving. Efecto pasivo simple, sin mecánica adicional conocida."
+        ]
       }
     ]
   },
@@ -1455,7 +1514,9 @@
         ],
         "condition": "on_finisher_kill",
         "notes": [
-          "engine:note — proc:15%"
+          "engine:note — ability-like (puerta 2, D-20): invisibilidad es mecánica de estado del warframe, sin token engine. El engine futuro requiere sistema de mecánicas de estado para consumir este efecto.",
+          "engine:note — 15% proc chance constante en todos los ranks (tasa de activación del trigger, no stat upgradeable). base_value captura sólo la duración escalable (5→30s).",
+          "engine:note — finisher triggers válidos: ground finishers, stealth finishers, Parazon mercy kills, finishers de habilidades (Ash Blade Storm, Banshee Savage Silence, otros ability-finishers). Sin interacción con mods de duración de habilidades."
         ]
       }
     ]
@@ -1478,7 +1539,12 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_overguard_threshold_3000"
+        "condition": "on_overguard_threshold_3000",
+        "notes": [
+          "engine:note — ability-like (puerta 2, D-20): radial attack = mecánica de daño + status AoE, sin token engine. base_value captura el radio escalable (5→30m).",
+          "engine:note — 'max Viral Status stacks' = 10 stacks (máximo del sistema de status en WF). Escala con múltiplos del threshold: 3,000 → 10 stacks, 6,000 → 20, 9,000 → 30.",
+          "engine:note — la onda respeta line-of-sight (no traversa paredes). Sin cooldown. Contador visual en pantalla muestra progreso hacia el próximo threshold."
+        ]
       }
     ]
   },
@@ -1643,7 +1709,12 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_status_effect"
+        "condition": "on_status_effect",
+        "notes": [
+          "engine:note — daño tipo DINÁMICO: adopta el tipo del status que lo activó (mismo patrón cross-arcane que Theorem Arcanes). Sin token engine — requiere tipo de daño resuelto en runtime.",
+          "engine:note — NO afectado por: damage mods estándar, crit, element/physical mods, Galvanized Shot, Synth Charge, Eclipse, Garuda passive, weakspot bonus, falloff. SÍ afectado por: faction mods (una vez), damage vulnerability (Sentient Wrath, Mass Vitrify), enemy DR.",
+          "engine:note — no genera crits propios ni aplica status adicionales. Sin cooldown. Excepciones: Void (Xata's Whisper) y Cold Maggots (Dual Coda Torxica) NO activan; Toxin (Toxic Lash) SÍ."
+        ]
       }
     ]
   },
@@ -1903,7 +1974,8 @@
         ],
         "condition": "on_heavy_attack_kill",
         "notes": [
-          "engine:note — duration:4s"
+          "engine:note — stacking: base_value = Energy Rate por stack (max 3×). duration:4s por stack. Total en rank 3, 3 stacks: 5 × 3 = 15 energy/s máximo.",
+          "engine:note — upgrade_type: null; candidato a token de energy regeneration (ej. AVATAR_ADD_ENERGY_RATE) — token exacto no confirmado en vocabulary actual. Arcano de Zaw (4 ranks, no 6)."
         ]
       }
     ]
@@ -1912,14 +1984,22 @@
     "name": "Exodia Contagion",
     "stats": [
       {
-        "label": "After a Bullet Jump or Double Jump: Melee while Aim Gliding launches a projectile that explodes on impact",
+        "label": "After a Bullet Jump or Double Jump: Melee while Aim Gliding launches a projectile that explodes on impact. After traveling 30m, projectile damage increased by |val1|% (+ (combo level - 1) / 4).",
         "values": [
           {
-            "base_value": null,
+            "base_value": [
+              0,
+              100,
+              200,
+              300
+            ],
             "upgrade_type": null
           }
         ],
-        "condition": "on_bullet_jump_or_double_jump"
+        "condition": "on_bullet_jump_or_double_jump",
+        "notes": [
+          "engine:note — ability-like (puerta 2): proyectil de melee en Aim Glide; el bonus de daño se activa tras 30m de viaje; término extra escala con combo: (combo_level - 1) / 4. Valores de wiki — false null de @wfcd. [ref: https://wiki.warframe.com/w/Exodia_Contagion]"
+        ]
       }
     ]
   },
@@ -1927,14 +2007,22 @@
     "name": "Exodia Epidemic",
     "stats": [
       {
-        "label": "After a Bullet Jump or Double Jump: Slam emits a shockwave forwards that suspends enemies in the air for a short period",
+        "label": "After a Bullet Jump or Double Jump: Slam emits a shockwave forwards that suspends enemies in the air for |val1|s.",
         "values": [
           {
-            "base_value": null,
+            "base_value": [
+              1,
+              2,
+              3,
+              4
+            ],
             "upgrade_type": null
           }
         ],
-        "condition": "on_bullet_jump_or_double_jump"
+        "condition": "on_bullet_jump_or_double_jump",
+        "notes": [
+          "engine:note — ability-like (puerta 2): shockwave ~31m largo x ~5m ancho; wave inicial 10 Blast; explosión final Viral en ~7m radio (~30% del daño del Zaw); suspend (mirror Rhino Stomp) |val1|s. Valores de wiki — false null de @wfcd. [ref: https://wiki.warframe.com/w/Exodia_Epidemic]"
+        ]
       }
     ]
   },
@@ -1979,7 +2067,7 @@
         ],
         "condition": "on_ground_slam",
         "notes": [
-          "engine:note — proc:50%"
+          "engine:note — ability-like (puerta 2, D-20): pull = mecánica de desplazamiento de enemigos hacia rango melee, sin token engine. proc:50% constante (no escala). base_value = radio de pull (6→12m). Arcano Zaw (4 ranks)."
         ]
       }
     ]
@@ -2002,7 +2090,7 @@
         ],
         "condition": "on_finisher_kill",
         "notes": [
-          "engine:note — proc:50% duration:8s"
+          "engine:note — Life Steal: |val1|% del daño infligido se convierte en HP para el jugador. Sin token confirmado; candidato a WEAPON_ADD_LIFESTEAL. proc:50% constante. duration:8s. Arcano Zaw (4 ranks)."
         ]
       }
     ]
@@ -2089,7 +2177,11 @@
             "upgrade_type": "WEAPON_ADD_DAMAGE"
           }
         ],
-        "condition": "on_headshot"
+        "condition": "on_headshot",
+        "notes": [
+          "engine:note — 1-charge buff: el bonus aplica al SIGUIENTE disparo individual tras el headshot y se consume. Si cada disparo consecutivo es headshot, el buff se reaplica inmediatamente (se mantiene activo indefinidamente con headshots consecutivos). Sin cooldown.",
+          "engine:note — weapon-type gate: exclusivo de bows. NO aplica a crossbows (Attica, Nagantaka Prime, Zhuge Prime). WEAPON_ADD_DAMAGE correcto como token pero el engine necesita modelar el patrón '1-charge' (buff de un solo disparo, no de duración temporal)."
+        ]
       }
     ]
   },
@@ -2603,7 +2695,7 @@
     "name": "Melee Careen",
     "stats": [
       {
-        "label": "x|val1| Melee Damage against Frozen enemies. On Roll: Freeze enemies in a |val2|m radius with a 2s Cooldown.",
+        "label": "x|val1| Melee Damage against Frozen enemies.",
         "values": [
           {
             "base_value": [
@@ -2615,7 +2707,16 @@
               2.5
             ],
             "upgrade_type": null
-          },
+          }
+        ],
+        "condition": "while_enemy_frozen",
+        "notes": [
+          "engine:note — multiplicador de daño condicional (x|val1|) contra enemigos en estado Frozen. No es un % aditivo sino un multiplicador. Sin token para conditional damage multiplier por enemy-state. Split de label multi-efecto (D-18, regla 1 label = 1 stat)."
+        ]
+      },
+      {
+        "label": "On Roll: Freeze enemies in a |val1|m radius with a 2s Cooldown.",
+        "values": [
           {
             "base_value": [
               3,
@@ -2628,11 +2729,10 @@
             "upgrade_type": null
           }
         ],
+        "condition": "on_roll",
         "notes": [
-          "engine:note — cooldown:2s",
-          "engine:note — condición compuesta (sin tokenizar): x Damage contra enemigos Frozen (while_enemy_frozen) + 'On Roll' congela enemigos en radio (on_roll, cooldown:2s). Multi-efecto → split pendiente. Merece revisión manual."
-        ],
-        "condition": null
+          "engine:note — ability-like (puerta 2, D-20): Freeze AoE en radio |val1|m al rodar. Sin token engine para freeze CC. cooldown:2s constante (no en base_value)."
+        ]
       }
     ]
   },
@@ -2673,7 +2773,11 @@
               0.9,
               1
             ],
-            "upgrade_type": null
+            "upgrade_type": null,
+            "notes": [
+              "engine:note — fórmula cross-stat (Puncture Status Chance → Crit Damage): round(PunctureStatusChance × 0.1 × |val1|x). Cap: +50x Critical Multiplier. Se aplica como Critical Multiplier enhancement (no final crit multiplicador separado). Passive, sin condition.",
+              "engine:note — ejemplo rank 5: con 100% Puncture Status Chance → +10x crit multiplier. Para alcanzar el cap de +50x se necesita ≥500% Puncture Status Chance. Sin token — familia de conversiones cross-stat; ver OQ-W-6."
+            ]
           }
         ]
       }
@@ -2699,7 +2803,8 @@
         ],
         "condition": "on_base_critical_hit",
         "notes": [
-          "engine:note — proc:|val1|"
+          "engine:note — ability-like (puerta 2): 'strike a second time' = instancia de daño INDEPENDIENTE (no copia idéntica). El segundo golpe re-rolllea: status chance, tier de crit (puede ser no-crit, yellow, o orange), y aplica fuerzas de status del arma. proc:|val1|%.",
+          "engine:note — 'Base Critical Hit' = yellow crits únicamente (tier 1). NO activa en orange (tier 2) ni red crits (tier 3). Funciona con AoE attacks (slam, Exodia Contagion). Bugs conocidos con Toxic Lash y Xata's Whisper (duplica esas habilidades en vez del golpe original)."
         ]
       }
     ]
@@ -2786,7 +2891,9 @@
         ],
         "condition": "on_melee_electricity_status",
         "notes": [
-          "engine:note — proc:20%"
+          "engine:note — ability-like (puerta 2, D-20): spread de status effects = mecánica de AoE de estado, sin token engine. proc:20% constante. base_value val1 = radio (10→20m), val2 = duración (3→18s). 'Cannot refresh while active': el buff debe expirar completamente antes de poder reactivarse.",
+          "engine:note — spread elegibles: TODOS los elementales primarios y secundarios (Cold, Electricity, Heat, Toxin, Blast, Corrosive, Gas, Magnetic, Radiation, Viral). NO se propagan: físicos (Impact, Puncture, Slash), Void, Tau, ni CC (Knockdown, Stagger, Ragdoll, Lifted, Microwave). El proc de Electricity que disparó el trigger SÍ se propaga.",
+          "engine:note — solo activa desde melee directo (no weapon passives ni ability-granted elementals como trigger inicial; pero esos elementos sí se propagan una vez activo el buff). Faction bonuses: ×2 al spread damage, ×3 a los status ticks resultantes. Optimal: build de un solo elemento (múltiples tipos diluyen la consistencia del proc dominante)."
         ]
       }
     ]
@@ -2806,7 +2913,11 @@
               25,
               30
             ],
-            "upgrade_type": null
+            "upgrade_type": null,
+            "notes": [
+              "engine:note — fórmula cross-stat (Current Shields → Melee Damage): MeleeDmg += (CurrentShields / 200) × |val1|%, cap 420%. Sin token — familia de conversiones cross-stat; ver OQ-W-6. Efecto dinámico: bonus cambia en tiempo real con el shield actual.",
+              "engine:note — Overshields cuentan al 50% del valor (mitad de la eficiencia por cada 200 Overshields). Passive, sin condition. Nota: la fórmula puede ser continua (como Bellicose) o discreta; pendiente verificación en juego."
+            ]
           }
         ]
       }
@@ -2831,7 +2942,7 @@
           }
         ],
         "notes": [
-          "engine:note — proc:|val1|"
+          "engine:note — ability-like (puerta 2): pull = mecánica de desplazamiento, sin token engine. proc:|val1|% (base_value, 20→45%). Radio 18m constante (en label, no en base_value). Misma mecánica pull que GroundSlamPull (Exodia Hunt), con condición de Magnetic Status en el objetivo."
         ],
         "condition": "on_magnetic_status_kill"
       }
@@ -2913,7 +3024,11 @@
               5,
               6
             ],
-            "upgrade_type": null
+            "upgrade_type": null,
+            "notes": [
+              "engine:note — fórmula: HealAmount = EnergyCost_initial × |val1| HP. Solo cuenta el costo inicial del cast (no el drain continuo de habilidades canalizadas). Sin token para heal ally proporcional a energy. Ver también Arcane Pulse (heal fijo por pickup).",
+              "engine:note — Affinity Range ≈ 50m (rango estándar de affinidad en WF). Afecta self + aliados dentro del rango. Sin condition (activa en todo cast que consuma energía con costo inicial)."
+            ]
           }
         ]
       }
@@ -3083,7 +3198,8 @@
         ],
         "condition": "on_toxin_status_effect",
         "notes": [
-          "engine:note — duration:12s"
+          "engine:note — stacking: base_value = per-stack increment, cap 40×. duration:12s. Total en rank 5: 3.6% × 40 = 144% Crit Dmg; 1.8% × 40 = 72% Multishot.",
+          "engine:note — ⚠ uniqueName 'PrimaryHeadshotCritMultOnHeadshot' no coincide con el efecto real (Toxin status, no headshot). Posible rename en un parche sin actualizar el uniqueName interno. El name 'Primary Blight' y el label son los datos correctos."
         ]
       }
     ]
@@ -3103,7 +3219,11 @@
               450,
               500
             ],
-            "upgrade_type": null
+            "upgrade_type": null,
+            "notes": [
+              "engine:note — fórmula cross-stat (Armor > 1000 → Primary Damage): PrimaryDmg += min(Armor - 1000, |val1|) × 1%. El +1% por unidad de Armor es constante (no en base_value); base_value = cap escalable (250→500%). Para alcanzar el cap en rank 5 se necesitan 1500 de Armor total (500 unidades sobre el threshold de 1000). Sin token; ver OQ-W-6.",
+              "engine:note — dinámico: bonus cambia con el Armor actual. Efecto passive, sin condition."
+            ]
           }
         ]
       }
@@ -3140,7 +3260,8 @@
         ],
         "condition": "on_weakpoint_hit",
         "notes": [
-          "engine:note — duration:10s"
+          "engine:note — stacking: base_value = per-stack increment, cap 10×. duration:10s. Total en rank 5: 30% × 10 = 300% Status Chance; 6% × 10 = 60% Ammo Efficiency.",
+          "engine:note — 'Weak Point Hit': incluye headshots y puntos débiles marcados en el cuerpo del enemigo (zonas resaltadas en amarillo/naranja). Distinción de condition relevante para el engine: on_headshot vs on_weakpoint_hit son triggers distintos."
         ]
       }
     ]
@@ -3158,7 +3279,7 @@
         ],
         "condition": "on_headshot_kill",
         "notes": [
-          "engine:note — duration:24s"
+          "engine:note — base_value: null (Patrón: @wfcd no captura el valor constante de stacking). Valor real: +20% Damage por stack, cap 3×, duration:24s. Total max: 60% Damage. Stacking structure gateada por consumidor (D-20). Ver familia Deadhead/Dexterity/Merciless en audit-arcane.md."
         ]
       },
       {
@@ -3224,7 +3345,7 @@
         ],
         "condition": "on_melee_kill",
         "notes": [
-          "engine:note — duration:20s"
+          "engine:note — base_value: null (Patrón: @wfcd no captura el valor constante de stacking). Valor real: +10% Damage por stack, cap 6×, duration:20s. Total max: 60% Damage. Stacking gateado por consumidor (D-20). Ver familia Deadhead/Dexterity/Merciless."
         ]
       },
       {
@@ -3260,7 +3381,7 @@
         ],
         "condition": "on_weapon_impact_status_effect",
         "notes": [
-          "engine:note — duration:10s"
+          "engine:note — stacking: base_value = Energy Regen/s por stack, cap 3×. duration:10s. Total en rank 5, 3 stacks: 1.2 × 3 = 3.6 energy/s. Token candidato: AVATAR_ADD_ENERGY_RATE (misma familia que ChannelKillEnergyRate/Exodia Brave)."
         ]
       }
     ]
@@ -3296,7 +3417,7 @@
         ],
         "condition": "on_cold_status_effect",
         "notes": [
-          "engine:note — duration:12s"
+          "engine:note — stacking: base_value = per-stack increment, cap 40×. duration:12s. Total en rank 5: 3% × 40 = 120% Crit Dmg; 2.25% × 40 = 90% Multishot. Misma estructura que Primary Blight (Toxin, stacking 40×)."
         ]
       }
     ]
@@ -3314,7 +3435,7 @@
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — duration:4s"
+          "engine:note — base_value: null (Patrón: @wfcd no captura el valor constante de stacking). Valor real: +5% Damage por stack, cap 12×, duration:4s. Total max: 60% Damage. Stacking gateado por consumidor (D-20). Ver familia Deadhead/Dexterity/Merciless."
         ]
       },
       {
@@ -3348,7 +3469,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_weapon_magnetic_status_effect"
+        "condition": "on_weapon_magnetic_status_effect",
+        "notes": [
+          "engine:note — ability-like (puerta 2, D-20): 'jam' = animación de bloqueo de arma ~4s (similar a Shooting Gallery de Mesa); los enemigos no pueden disparar. Sin token engine para weapon-jam CC.",
+          "engine:note — base_value = cooldown descendente (60→10s en rank 5). Radio: 15m desde EL TARGET (no del jugador), área de ~30m de diámetro. NO afecta a enemigos sin armas (melee-only). Debate audit: jam ≠ pull — jam es deshabilitación de arma de rango, pull es desplazamiento físico."
+        ]
       }
     ]
   },
@@ -3395,7 +3520,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_reload"
+        "condition": "on_reload",
+        "notes": [
+          "engine:note — fórmula no-lineal: DamageBonus escala con el tamaño máximo del magazine (no es lineal). Ejemplos: mag 1 → 33.5%, mag 5 → 75%, mag 80 → 300%, mag 300 → 580.9%. base_value = duración del buff (3→10s). Bonus aditivo (tipo Serration). Sin token — fórmula requiere MaxMagazineSize en runtime.",
+          "engine:note — recarga parcial → bonus proporcional a los rounds recargados. Mods de holster-reload (Tactical Reload, Synth Mods) reducen drásticamente el bonus al recargar en porciones pequeñas. Alta efectividad en armas de magazine grande con alta cadencia."
+        ]
       }
     ]
   },
@@ -3417,7 +3546,10 @@
         ],
         "condition": "on_kitgun_kill",
         "notes": [
-          "engine:note — proc:20%"
+          "engine:note — ability-like (puerta 2, D-20): zona elemental temporal (Heat) = mecánica de entorno, sin token engine. weapon-type gate: Kitgun exclusivo.",
+          "engine:note — 20% proc chance constante (no escala). Solo la duración (base_value) escala por rank. Parámetros de la zona son constantes: explosión 80 Heat dmg en 10m, falloff radial ~90%, 20% chance de proc Heat status por explosión.",
+          "engine:note — límite de 2 puddles activos simultáneos, compartido entre todos los Residual arcanes (incluyendo entre arma primaria/secundaria).",
+          "engine:note — Theorem Arcane interaction: standing en el área activa flag de tipo de daño Heat en Theorem Arcanes activos. Sistema de synergy inter-arcane; Theorem Arcanes son familia separada que consume este flag."
         ]
       }
     ]
@@ -3440,7 +3572,9 @@
         ],
         "condition": "on_kitgun_kill",
         "notes": [
-          "engine:note — proc:20%"
+          "engine:note — ability-like (puerta 2, D-20): zona elemental temporal (Cold) = mecánica de entorno, sin token engine. weapon-type gate: Kitgun exclusivo.",
+          "engine:note — 20% proc chance constante (no escala). Solo la duración (base_value) escala por rank. Parámetros de la zona son constantes: mist persistente 40 Cold dmg/s.",
+          "engine:note — límite de 2 puddles activos simultáneos, compartido entre todos los Residual arcanes. Theorem interaction: standing en área aplica flag Cold a Theorem Arcanes activos."
         ]
       }
     ]
@@ -3463,7 +3597,9 @@
         ],
         "condition": "on_kitgun_kill",
         "notes": [
-          "engine:note — proc:20%"
+          "engine:note — ability-like (puerta 2, D-20): zona elemental temporal (Electricity) = mecánica de entorno, sin token engine. weapon-type gate: Kitgun exclusivo.",
+          "engine:note — 20% proc chance constante (no escala). Solo la duración (base_value) escala por rank. Parámetros de la zona son constantes: spike electrificado 200 Electricity dmg en 10m.",
+          "engine:note — límite de 2 puddles activos simultáneos, compartido entre todos los Residual arcanes. Theorem interaction: standing en área aplica flag Electricity a Theorem Arcanes activos."
         ]
       }
     ]
@@ -3486,7 +3622,9 @@
         ],
         "condition": "on_kitgun_kill",
         "notes": [
-          "engine:note — proc:20%"
+          "engine:note — ability-like (puerta 2, D-20): zona elemental temporal (Toxin) = mecánica de entorno, sin token engine. weapon-type gate: Kitgun exclusivo.",
+          "engine:note — 20% proc chance constante (no escala). Solo la duración (base_value) escala por rank. Parámetros de la zona son constantes: pool tóxico 40 Toxin dmg/s.",
+          "engine:note — límite de 2 puddles activos simultáneos, compartido entre todos los Residual arcanes. Theorem interaction: standing en área aplica flag Toxin a Theorem Arcanes activos."
         ]
       }
     ]
@@ -3504,7 +3642,7 @@
         ],
         "condition": "on_precision_headshot_kill",
         "notes": [
-          "engine:note — duration:24s"
+          "engine:note — base_value: null (Patrón: @wfcd no captura valor constante de stacking). Valor real: +20% Damage por stack, cap 3×, duration:24s. Total max: 60% Damage. Mirror de Primary Deadhead; diferencia: trigger es 'Precision Headshot Kill' (headshot con scope/zoom) vs 'Headshot Kill' (cualquier headshot). Stacking gateado (D-20)."
         ]
       },
       {
@@ -3544,7 +3682,7 @@
         ],
         "condition": "on_melee_kill",
         "notes": [
-          "engine:note — duration:20s"
+          "engine:note — base_value: null (Patrón: @wfcd no captura valor constante de stacking). Valor real: +10% Damage por stack, cap 6×, duration:20s. Total max: 60% Damage. Mirror de Primary Dexterity. Stacking gateado (D-20)."
         ]
       },
       {
@@ -3580,7 +3718,8 @@
         ],
         "condition": "on_status_effect",
         "notes": [
-          "engine:note — proc:|val1|"
+          "engine:note — proc:|val1|% (base_value). El segundo status effect es ALEATORIO del pool de status disponibles del arma. Sin token — 'random proc' no es modelable como stat fijo.",
+          "engine:note — los procs secundarios generados por este arcano cuentan como stacks para Arcane Impetus (unique status type). Sin chain: el segundo proc no puede volver a disparar este arcano (previene loop infinito)."
         ]
       }
     ]
@@ -3589,8 +3728,14 @@
     "name": "Secondary Enervate",
     "stats": [
       {
-        "label": "On Hit: Increase Critical Chance by 10%. Resets after |val1| Big Critical Hit.",
+        "label": "On Hit: Increase Critical Chance by |val1|%. Resets after |val2| Big Critical Hit.",
         "values": [
+          {
+            "base_value": [
+              10
+            ],
+            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+          },
           {
             "base_value": [
               1,
@@ -3603,7 +3748,10 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_hit"
+        "condition": "on_hit",
+        "notes": [
+          "engine:note — el +10% es constante; |val2| (contador de reset) escala por rank, mecánica de reset sin token"
+        ]
       }
     ]
   },
@@ -3622,18 +3770,11 @@
               7,
               8
             ],
-            "upgrade_type": null
-          }
-        ]
-      },
-      {
-        "label": "Deals x8 Extra Damage to Overguard.",
-        "values": [
-          {
-            "base_value": [
-              8.0
-            ],
-            "upgrade_type": null
+            "upgrade_type": null,
+            "notes": [
+              "engine:note — dos efectos en un label: (1) 'steal' = 1 Overguard propio por cada 100 daño infligido al OG del enemigo (razón del mecánica de nombre 'steal'); (2) multiplicador de daño extra a Overguard = x|val1| (3→8 por rank). Sin token para ninguno de los dos efectos.",
+              "engine:note — segundo stat entry ('Deals x8 Extra Damage to Overguard', base_value:[8.0]) era artefacto del generator (parseó 'x8' del label como stat separado). Eliminado 2026-06-02 — valor ya cubierto por rank 5 de este entry."
+            ]
           }
         ]
       }
@@ -3668,7 +3809,11 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_hitting_enemies_affected_by_radiation_10"
+        "condition": "on_hitting_enemies_affected_by_radiation_10",
+        "notes": [
+          "engine:note — AoE proporcional: daño = |val1|% del daño del hit que disparó el trigger (no flat). Tipo de daño = el del hit original (dinámico). Sin token — requiere hit damage en runtime. Threshold: target debe tener exactamente 10 stacks de Radiation status.",
+          "engine:note — val1 = % del hit daño (80→180%), val2 = radio en metros (4.5→7m). Ambos escalan por rank. Mechanic de splash basado en porcentaje del golpe original."
+        ]
       }
     ]
   },
@@ -3710,7 +3855,7 @@
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — duration:4s"
+          "engine:note — base_value: null (Patrón: @wfcd no captura valor constante de stacking). Valor real: +5% Damage por stack, cap 12×, duration:4s. Total max: 60% Damage. Mirror de Primary Merciless. Stacking gateado (D-20)."
         ]
       },
       {
@@ -3830,7 +3975,9 @@
         ],
         "condition": "on_shotgun_kill_within_5m",
         "notes": [
-          "engine:note — duration:15s"
+          "engine:note — duration: 15s fijo en todos los ranks. Buff refresca con cada trigger (no stacks adicionales).",
+          "engine:note — threshold espacial: distancia player→target en momento del kill (no post-mortem). Condición de proximidad directa; token on_shotgun_kill_within_5m válido como condition (contraste con HealCompanionOnSixMeleeKills cuyo trigger era contador+ventana temporal).",
+          "engine:note — weapon-type gate: exclusivo de shotguns primarios. Extendido a Archguns Corvas Prime y Mandonel (Hotfix 40.0.3). No modelable como campo en schema actual; mismo patrón que AmmoEfficiencyOnSliding."
         ]
       }
     ]
@@ -3854,7 +4001,9 @@
           }
         ],
         "notes": [
-          "engine:note — duration:6s"
+          "engine:note — ability-like (puerta 2, D-20): globes orbitantes = mecánica, sin token engine. base_value captura % de vulnerabilidad (componente upgradeable).",
+          "engine:note — mecánica de globes: 1 globe cada 2s, ataca enemigo más cercano en 15m, 150 daño base constante (no en base_value), vulnerability de |val1|% al tipo de daño del globe durante 6s. Persisten 30s al salir de la zona.",
+          "engine:note — tipo de daño del globe = DINÁMICO desde la Residual zone activa (no modelable estáticamente). Cross-arcane runtime dependency: el engine debe consultar qué Residual zone está activa para determinar el elemento del globe."
         ],
         "condition": "while_in_residual_zone"
       }
@@ -3880,8 +4029,8 @@
         ],
         "condition": "while_in_residual_zone",
         "notes": [
-          "engine:note — stacking: base_value = per-second/stack increment (max 15×); cap = 180% at rank 5.",
-          "engine:note — duration:20s"
+          "engine:note — stacking: base_value = incremento por segundo/stack (max 15×); cap = 180% en rank 5. duration:20s al salir de zona.",
+          "engine:note — tipo del damage bonus = DINÁMICO desde la Residual zone activa. WEAPON_ADD_DAMAGE aplica el % de daño; el elemento que potencia ese daño lo determina el tipo de la Residual zone en runtime."
         ]
       }
     ]
@@ -3905,7 +4054,8 @@
           }
         ],
         "notes": [
-          "engine:note — duration:20s"
+          "engine:note — sin token engine para companion damage. base_value = incremento por segundo/stack (max 15×). duration:20s al salir de zona. Radio de efecto: 90m para companions y aliados summonados.",
+          "engine:note — tipo del damage bonus = DINÁMICO desde la Residual zone activa. Cross-arcane runtime dependency idéntica a Theorem Demulcent. Stacking pattern: mismo modelo (per_stack+cap+duration) que familia Merciless/Deadhead/Dexterity."
         ],
         "condition": "while_in_residual_zone"
       }

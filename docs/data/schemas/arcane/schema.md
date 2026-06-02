@@ -5,7 +5,7 @@ Impacto_ID: "data-arcane"
 Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
 Version: "v1.2.0"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-06-02"
 ---
 
 # Arcane Stats Override — Schema y mapa semántico
@@ -114,7 +114,7 @@ probabilidad, no una magnitud). Pendiente: estructurar como campos cuando se dis
 | `AVATAR_FLAT_HEALTH_REGEN` | 2 | Arcane Reaper val0, Magus Nourish | ✅ |
 | `AVATAR_FLAT_HEALTH_MAX` | 1 | Magus Vigor | ✅ |
 
-> **`condition` (2026-06-01, post-Patrón 4):** 137 stats con token, 5 con `null` (condición compuesta sin tokenizar), 33 ausente = siempre activo (D-18). Patrón 4 acuñó 8 tokens nuevos (ver `conditions.md` §Ingesta arcanes) y reutilizó 4 existentes (while_airborne, with_armor_over_700, while_channeled_ability_active, while_target_affected_by_cold). Los 5 `null` restantes son condiciones **compuestas** (Debilitate, Careen, Camisado, Afflictions, Universal Fallout) → merecen revisión manual.
+> **`condition` (2026-06-01, post-Patrón 4):** 137 stats con token, 5 con `null` (condición compuesta sin tokenizar), 33 ausente = siempre activo (D-18). Patrón 4 acuñó 8 tokens nuevos (ver `conditions.md` §Ingesta arcanes) y reutilizó 4 existentes (while_airborne, with_armor_over_700, while_channeled_ability_active, while_target_affected_by_cold). Los 5 `null` restantes **no son todos compuestos** (reclasificados 2026-06-02 — ver `../../reports/audit-arcane.md` y `decisions.md#D-20`): **1** composición real (Afflictions: `status AND (knockdown OR fling)`), **1** multi-efecto sin split (Careen → split pendiente, GREEN), **3** ability-like (Camisado, Universal Fallout, Debilitate → escape hatch, categoría formula-driven futura). La caracterización previa "5 compuestas" era imprecisa.
 
 ---
 
@@ -206,6 +206,7 @@ El keyword matcher del script es conservador pero imperfecto. Estado de cada pat
 | Valor = cap o increment/s en stacking arcanes **mapeados** | token correcto del stat | Arcane Hot Shot, Molt Augmented, etc. | ✅ `notes[]` añadidas — ver §2 ⚠ |
 | Canal de arma mapeado a token **genérico** | `WEAPON_ADD_DAMAGE`/`FIRE_RATE`/`RELOAD_SPEED` | Arcane Precision (Secondary), Rage/Primary Charger/Rise (Primary), Velocity/Awakening (Pistol→Secondary), Blade Charger (Melee) | ✅ corregido → sub-family `WEAPON_{PRIMARY,SECONDARY,MELEE}_*` (2026-06-01, Patrón 2). Sniper/Shotgun (Momentum/Tempo)→`primary`+nota; "Excludes Shotguns" (Acceleration)→`primary`+nota; multi-canal Primary+Secondary (Arachne)→genérico+nota. Deuda alias-DAMAGE y D-7 en `upgrade-tokens.md` |
 | `base_value: [1,2,3,4,5,6]` interpretado como **placeholder** | — | Arcane Barrier, Bellicose, Grace, Universal Fallout, Melee Crescendo, Primary Crux (ammo), Hot Shot, Molt Efficiency, etc. | ✅ **FALSO POSITIVO (Patrón 5, 2026-06-01):** son **valores reales** que escalan 1→6 por rank (verificado vs `arcanes.json`). El generate-script parseó bien. No hay estructura rota ni datos placeholder. Aplica también a `[1,2,3,4]` (Pax Seeker). |
+| `base_value: null` por **parseo @wfcd** (efecto sin valores numéricos en `levelStats`) | — | Exodia Contagion (daño proyectil 0/100/200/300%), Exodia Epidemic (suspend 1/2/3/4s) | ⚠️ **FALSE NULL (Patrón 6, 2026-06-02):** el efecto **sí tiene valores escalables por rank**, pero `@wfcd/items` solo trae el texto descriptivo en `levelStats` (el juego no muestra el escalado en su UI). NO es ausencia real → **verificar wiki antes de asumir null**. Frecuente en efectos ability-like / de mecánica (puerta 2 D-20). Los valores recuperados van a `base_value` aunque `upgrade_type` sea null; mecánica a `notes[]`. |
 
 ---
 

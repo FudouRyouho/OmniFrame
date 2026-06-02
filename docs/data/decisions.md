@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-05-28"
+Fecha_de_actualizacion: "2026-06-02"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -413,3 +413,37 @@ fijó el *formato* de `note`; esta decisión fija su *naturaleza*.
 **Evoluciona:** D-14 (formato de `note` → + naturaleza), D-15 (Fase 0 tracking → marco SSoT explícito).
 **Contrasta con:** D-6 / `upgrade-tokens.md` (vocabulario exógeno-normativo).
 **Ref:** `docs/semantic/conditions.md`, `docs/data/rules/overrides.md`.
+
+---
+
+## D-20 — Criterio de entrada al schema: regla ≥2-de-misma-forma + gate de consumidor (2026-06-02)
+
+**Estado:** VIGENTE
+**Fecha:** 2026-06-02
+**Decisión:** Define **cuándo** un patrón estructural recurrente (stacking, duration, scope de condición, composición OR/AND) se acuña como estructura del schema vs se mantiene como anotación. Surge del debate sobre la familia stacking on-event de arcanes (Merciless/Deadhead/Dexterity).
+
+### Tres puertas de clasificación
+
+Para cada efecto que el vocabulario actual no captura limpio:
+
+1. **Dato determinista, forma conocida (≥2 casos iguales)** → candidato a **estructura nativa**. Ej: stacking lineal (`per_stack`+`cap`), duration fija. La madurez del engine NO condiciona esto: el schema modela **fidelidad del juego**, no lo que el engine consume hoy (verificado 2026-06-02: el engine solo lee `upgrade_type`+valor por rank; `condition` se trackea sin evaluar; `notes`/stacking/duration: cero consumo).
+2. **Ability-like** (trigger de mecánica, threshold, cadena de eventos) → **fuera del schema de stats**; pertenece a la categoría formula-driven futura. Hoy: escape hatch (`condition: null` / `notes[]`) + nota "ability-like".
+3. **Determinista pero forma incierta** (<2 casos o dataset incompleto) → **escape hatch clasificado**: `null`/`notes[]` con la hipótesis y un contador. NO se descarta — se vigila y re-evalúa al crecer cobertura.
+
+### Gate de consumidor
+
+Aun cuando un caso califique para estructura (puerta 1), **no se implementa la estructura hasta que exista un consumidor/test mínimo que la ejercite**. Estructura sin consumidor = diseño sin feedback loop = donde se esconden errores de modelado. "Aprobado conceptualmente ≠ implementado."
+
+### Escape hatch ≠ descarte
+
+`condition: null` y `notes[]` no son un cajón de descarte: son hipótesis con **contador vivo**. La regla ≥2 no afirma ausencia desde muestra parcial — el dataset está incompleto (D-16), así que "1 caso hoy" no es "1 caso que existe". Un `null` clasificado registra *qué* no sabemos y *por qué*: materia prima para decidir cuándo cruzar el umbral.
+
+### Relación con decisiones previas
+- **D-15** define el estado Fase 0 (stacking=total+note, duration=irrelevante). D-20 establece el criterio de *promoción* de ese estado a estructura — **no lo deroga**. Hoy stacking sigue en notes; se promueve cuando ≥2 casos misma forma + consumidor.
+- **D-19** (notes[] = anotación no-SSoT): el escape hatch de puertas 2/3 usa notes[] coherente con su naturaleza.
+- Extiende a **estructura** la regla "≥N casos antes de acuñar" que D-6 ya aplicó a **vocabulario** (sub-familia con ≥3 casos) y OQ-W-6 a tokens.
+
+### Deuda detectada (captura-only, no resuelta aquí)
+Drift entre D-15 §2 (stacking → total en `base_value`) y la práctica de arcanes (familia Merciless: `base_value: null` + nota duration). El mismo concepto modelado de dos formas. Inventario en `audit-arcane.md`; unificación diferida (depende del puente, OQ-DATA-2 / OQ-DATA-4).
+
+**Ref:** `docs/governance/open-questions.md` (OQ-DATA-2, OQ-DATA-4), `docs/data/schemas/arcane/schema.md`, `docs/data/status.md`, `docs/data/reports/audit-arcane.md`

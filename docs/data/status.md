@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-06-02"
 ---
 
 # Data Domain — Estado Operativo
@@ -158,6 +158,7 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 **Deuda:**
 - `engine:debt` `ArcaneRepository` no implementado — análogo a `IncarnonRepository`. Blocker para conectar arcanes al engine. `[ref: docs/data/schemas/arcane/schema.md]`
 - `data:debt` P1: ~15 arcanes con `condition: null` + `upgrade_type` mapeado (efectos siempre activos, los más simples de integrar). Sin blocker de vocabulario.
+- `[SEM data:debt:schema` Patrones estructurales transversales (stacking / duration / composición de condition) — criterio de entrada fijado en `decisions.md#D-20`; **captura-only** en `audit-arcane.md`; puente cross-schema diferido a `OQ-DATA-2`/`OQ-DATA-4`. Familia stacking on-event (Merciless/Deadhead/Dexterity, 6 entradas): drift con D-15 §2 (`base_value: null` vs total). Composición OR/AND de condition: contador = 1 (Afflictions), sub-umbral. `[empirical]`
 
 ---
 
