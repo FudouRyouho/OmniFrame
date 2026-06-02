@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
-Version: "v0.3.0"
-Impacto_ID: "SSoT-Semantic-UpgradeTokens"
+Version: "v0.5.3"
+Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-28"
+Fecha_de_actualizacion: "2026-06-02"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -80,35 +80,50 @@ Regla de derivación elemental: `{PREFIX}` = `DamageType` en mayúsculas (`heat`
 
 ## Vocabulario completo (UPGRADES[])
 
+**Evidencia** (eje [EVD]: `docs/governance/deuda-taxonomy.md` · gramática de tags: `docs/governance/nomenclature-grammar.md`): cada sección declara su nivel por defecto.
+Los `[ref: X]` apuntan a `references/wiki/mechanics/X`. Tokens con `⚠` requieren verificación — ver §Gate 1.
+
+**Columna `Modelo`** — clasificación de modelado por capa de engine:
+
+| Tag | Significado |
+| :--- | :--- |
+| `C1` | Atributo estándar — bucket ADD / FLAT / BASE / MULT según `Op`. El engine lo resuelve con la fórmula general. |
+| `C1·F` | C1 con fórmula específica — no es un bucket estándar; requiere lógica propia en C1. |
+| `C2·F` | Requiere SimulationContext o fórmula de C2 — la aplicación depende de estado de simulación (faction, combo, ability output). |
+| `—` | No modelado — stat de manejo, economía o scope fuera del output de simulación (DPS / HP efectivo). Se muestra en UI como dato informativo. |
+
 ### WEAPON — daño global
 
-| Tipo OmniFrame D-6 | Engine attr | Op | Ejemplo de mod |
-| :--- | :--- | :--- | :--- |
-| `WEAPON_ADD_DAMAGE` | `WEAPON_DAMAGE` | ADD | Serration, Hornet Strike, Pressure Point |
+> Evidencia por defecto: `[empirical]` — daño global es la mecánica más probada del juego.
+
+| Tipo OmniFrame D-6 | Engine attr | Op | Modelo | Ejemplo de mod |
+| :--- | :--- | :--- | :--- | :--- |
+| `WEAPON_ADD_DAMAGE` | `WEAPON_DAMAGE` | ADD | `C1` | Serration, Hornet Strike, Pressure Point |
 
 ### WEAPON — derivados elementales y físicos
 
 `resolveToken()` auto-deriva: **attr = token**, op = `ADD`. Sin entrada en UPGRADE_MAP (D-7b Fase 2).
+> Evidencia por defecto: `[ref: damage-types.md]` para el tipo; `[empirical]` para la operación ADD.
 
-| Tipo OmniFrame D-6 | Familia | Ejemplo de mod |
-| :--- | :--- | :--- |
-| `WEAPON_ADD_IMPACT_DAMAGE` | physical | Heavy Trauma, Comet Blast, Rupture |
-| `WEAPON_ADD_PUNCTURE_DAMAGE` | physical | Piercing Hit, Bore, Flechette |
-| `WEAPON_ADD_SLASH_DAMAGE` | physical | Buzz Kill, Maim, Jagged Edge |
-| `WEAPON_ADD_HEAT_DAMAGE` | elemental | Hellfire, Molten Impact, Thermite Rounds |
-| `WEAPON_ADD_COLD_DAMAGE` | elemental | Cryo Rounds, Deep Freeze, North Wind |
-| `WEAPON_ADD_ELECTRICITY_DAMAGE` | elemental | Stormbringer, Convulsion, High Voltage |
-| `WEAPON_ADD_TOXIN_DAMAGE` | elemental | Infected Clip, Malignant Force, Fever Strike |
-| `WEAPON_ADD_BLAST_DAMAGE` | combined | Sin mods de adición directa conocidos — definido por completitud |
-| `WEAPON_ADD_CORROSIVE_DAMAGE` | combined | Sin mods de adición directa conocidos — definido por completitud |
-| `WEAPON_ADD_GAS_DAMAGE` | combined | Sin mods de adición directa conocidos — definido por completitud |
-| `WEAPON_ADD_MAGNETIC_DAMAGE` | combined | Magnetic Might |
-| `WEAPON_ADD_RADIATION_DAMAGE` | combined | Containment Breach, Atomic Fallout, Radiated Reload |
-| `WEAPON_ADD_VIRAL_DAMAGE` | combined | Damzav-Vati |
-| `WEAPON_ADD_VOID_DAMAGE` | special | Xaku (añade Void a armas vía habilidad — override de arma) |
-| `WEAPON_ADD_TAU_DAMAGE` | special | Venato unique trait |
-| `WEAPON_ADD_TRUE_DAMAGE` | special | Mecánicas de ejecución (Innodem y similares) |
-| `WEAPON_ADD_NONE_DAMAGE` | special | Sentinel — no debe aparecer en overrides de producción |
+| Tipo OmniFrame D-6 | Familia | Modelo | Ejemplo de mod |
+| :--- | :--- | :--- | :--- |
+| `WEAPON_ADD_IMPACT_DAMAGE` | physical | `C1` | Heavy Trauma, Comet Blast, Rupture |
+| `WEAPON_ADD_PUNCTURE_DAMAGE` | physical | `C1` | Piercing Hit, Bore, Flechette |
+| `WEAPON_ADD_SLASH_DAMAGE` | physical | `C1` | Buzz Kill, Maim, Jagged Edge |
+| `WEAPON_ADD_HEAT_DAMAGE` | elemental | `C1` | Hellfire, Molten Impact, Thermite Rounds |
+| `WEAPON_ADD_COLD_DAMAGE` | elemental | `C1` | Cryo Rounds, Deep Freeze, North Wind |
+| `WEAPON_ADD_ELECTRICITY_DAMAGE` | elemental | `C1` | Stormbringer, Convulsion, High Voltage |
+| `WEAPON_ADD_TOXIN_DAMAGE` | elemental | `C1` | Infected Clip, Malignant Force, Fever Strike |
+| `WEAPON_ADD_BLAST_DAMAGE` | combined | `C1` | Sin mods de adición directa conocidos — definido por completitud |
+| `WEAPON_ADD_CORROSIVE_DAMAGE` | combined | `C1` | Sin mods de adición directa conocidos — definido por completitud |
+| `WEAPON_ADD_GAS_DAMAGE` | combined | `C1` | Sin mods de adición directa conocidos — definido por completitud |
+| `WEAPON_ADD_MAGNETIC_DAMAGE` | combined | `C1` | Magnetic Might |
+| `WEAPON_ADD_RADIATION_DAMAGE` | combined | `C1` | Containment Breach, Atomic Fallout, Radiated Reload |
+| `WEAPON_ADD_VIRAL_DAMAGE` | combined | `C1` | Damzav-Vati |
+| `WEAPON_ADD_VOID_DAMAGE` | special | `C1` | Xaku (añade Void a armas vía habilidad — override de arma) |
+| `WEAPON_ADD_TAU_DAMAGE` | special | `C1` | Venato unique trait |
+| `WEAPON_ADD_TRUE_DAMAGE` | special | `C1` | Mecánicas de ejecución (Innodem y similares) |
+| `WEAPON_ADD_NONE_DAMAGE` | special | `C1` | Sentinel — no debe aparecer en overrides de producción |
 
 > Los tipos `combined` sin mods directos (blast, corrosive, gas) se incluyen porque la misma
 > semántica se reutilizará en habilidades y augments.
@@ -119,30 +134,72 @@ confirmar un mod o mecánica que lo requiera.
 ### WEAPON — stats de disparo y crítico
 
 `attr = token` (auto-derivado) para todos, excepto `WEAPON_FIRE_ITERATIONS` (alias).
+> Evidencia por defecto: `[ref]` a la mecánica indicada por token; `[empirical]` donde no hay doc dedicado.
 
-| Tipo OmniFrame D-6 | Engine attr | Op | Ejemplo de mod |
-| :--- | :--- | :--- | :--- |
-| `WEAPON_ADD_FIRE_RATE` | `WEAPON_ADD_FIRE_RATE` | ADD | Speed Trigger, Shred |
-| `WEAPON_ADD_MULTISHOT` | `WEAPON_ADD_MULTISHOT` | ADD | Split Chamber, Galvanized Chamber |
-| `WEAPON_FIRE_ITERATIONS` | `WEAPON_ADD_MULTISHOT` | ADD | Hell's Chamber, Galvanized Hell, Barrel Diffusion — alias pipeline |
-| `WEAPON_ADD_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | ADD | Point Strike, True Steel |
-| `WEAPON_ADD_CRIT_MULT` | `WEAPON_ADD_CRIT_MULT` | ADD | Vital Sense, True Steel |
-| `WEAPON_ADD_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | ADD | Infected Clip (60/60), High Voltage |
-| `WEAPON_ADD_MAGAZINE_MAX` | `WEAPON_ADD_MAGAZINE_MAX` | ADD | Ammo Stock, Trick Mag |
-| `WEAPON_ADD_RELOAD_SPEED` | `WEAPON_ADD_RELOAD_SPEED` | ADD | Fast Hands, Tactical Reload |
-| `WEAPON_ADD_STATUS_DAMAGE` | `WEAPON_ADD_STATUS_DAMAGE` | ADD | Rifle/Shotgun/Pistol/Melee Elementalist (+90%) |
+| Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `WEAPON_ADD_FIRE_RATE` | `WEAPON_ADD_FIRE_RATE` | ADD | `[empirical]` | `C1` | Speed Trigger, Shred |
+| `WEAPON_ADD_MULTISHOT` | `WEAPON_ADD_MULTISHOT` | ADD | `[ref: multishot.md]` | `C1` | Split Chamber, Galvanized Chamber |
+| `WEAPON_FIRE_ITERATIONS` | `WEAPON_ADD_MULTISHOT` | ADD | `[ref: multishot.md]` | `C1` | Hell's Chamber, Galvanized Hell, Barrel Diffusion — alias pipeline `@wfcd/items`; resolución formal en OQ-ENGINE-6 |
+| `WEAPON_ADD_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | ADD | `[ref: critical-hits.md]` | `C1` | Point Strike, True Steel |
+| `WEAPON_ADD_CRIT_MULT` | `WEAPON_ADD_CRIT_MULT` | ADD | `[ref: critical-hits.md]` | `C1` | Vital Sense, True Steel |
+| `WEAPON_ADD_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | ADD | `[ref: status-effects.md]` | `C1` | Infected Clip (60/60), High Voltage |
+| `WEAPON_ADD_STATUS_DURATION` | `WEAPON_ADD_STATUS_DURATION` | ADD | `[ref: status-effects.md]` | `C1` | Lasting Sting, Continuous Misery (DE: `proc_time`) |
+| `WEAPON_ADD_MAGAZINE_MAX` | `WEAPON_ADD_MAGAZINE_MAX` | ADD | `[empirical]` | `C1` | Ammo Stock, Trick Mag |
+| `WEAPON_ADD_AMMO_MAX` | `WEAPON_ADD_AMMO_MAX` | ADD | `[empirical]` | `—` | Ammo Drum, Ammo Chain, Shell Compression — pool total, distinto de MAGAZINE_MAX (cargador). `[ref: ammo.md]` |
+| `WEAPON_ADD_RELOAD_SPEED` | `WEAPON_ADD_RELOAD_SPEED` | ADD | `[ref: reload.md]` | `C1` | Fast Hands, Tactical Reload |
+| `WEAPON_ADD_STATUS_DAMAGE` | `WEAPON_ADD_STATUS_DAMAGE` | ADD | `[empirical]` | `C1` | Rifle/Shotgun/Pistol/Melee Elementalist (+90%) |
+| `WEAPON_ADD_FINISHER_DAMAGE` | `WEAPON_ADD_FINISHER_DAMAGE` | ADD | `[empirical]` | `C1` | Finishing Touch, Covert Lethality |
+| `WEAPON_ADD_SLAM_DAMAGE` | `WEAPON_ADD_SLAM_DAMAGE` | ADD | `[empirical]` | `C1` | Seismic Wave, Necramech Seismic Wave — daño de slam attack. Distinto de `WEAPON_ADD_SLAM_RADIUS` (radio de AoE del slam) |
+| `WEAPON_ADD_HEADSHOT_MULT` | `WEAPON_ADD_HEADSHOT_MULT` | ADD ⚠ | `[needs-verification]` | `C1` | Primary/Secondary Deadhead "+30% to Headshot Multiplier". Op ADD confirmada por usuario. ⚠ Semántica: "headshot" en DE es legacy — hoy aplica a **cualquier weak point** del enemigo, no solo cabeza. Requiere doc `references/wiki/mechanics/weak-points.md` (fuente: wiki.warframe.com/w/Enemy_Body_Parts) antes de implementar en engine |
+| `WEAPON_FLAT_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | ADD_FLAT ⚠ | `[empirical]` ⚠ | `C1·F` | Perk Incarnon (Felarx). ⚠ valor pre-dividido por base_multishot del perfil — modelado complejo, ver comentario en `modifier.ts` |
+| `WEAPON_ADD_AMMO_EFFICIENCY` | `WEAPON_ADD_AMMO_EFFICIENCY` | ADD | `[empirical]` | `C1` | Brain Storm, Zazvat-Kar (mods); Arcane Pistoleer, Akimbo Slip Shot, Eternal Logistics, Primary Crux (arcanes). D-6 compliant; `resolveToken()` lo cubre. Reduce la tasa de consumo de munición por disparo. |
+
+### WEAPON — puntería y movimiento de proyectil
+
+`attr = token` (auto-derivado), op = ADD.
+> Evidencia por defecto: `[empirical]` — stats de manejo conocidos; sin doc de mecánica dedicado.
+> ⚠ Estos provienen de tokens crudos de DE absorbidos por el pipeline. Verificar nomenclatura DE vs D-6 en auditoría de mods.
+
+| Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `WEAPON_ADD_ACCURACY` | `WEAPON_ADD_ACCURACY` | ADD ⚠ | `[needs-verification]` | `—` | Pax Soar (arcane); exilus On-Equip. ⚠ ¿`WEAPON_SPREAD` (DE legacy) es el mismo stat? Ver deuda en `data/status.md`. Sim asume aim perfecto — stat informativo. |
+| `WEAPON_ADD_RECOIL` | `WEAPON_ADD_RECOIL` | ADD | `[empirical]` | `—` | Stabilizer, Steady Hands (valores negativos = reducción) |
+| `WEAPON_ADD_PROJECTILE_SPEED` | `WEAPON_ADD_PROJECTILE_SPEED` | ADD | `[empirical]` | `—` | Terminal Velocity, Lightning Dash |
+| `WEAPON_ADD_ZOOM` | `WEAPON_ADD_ZOOM` | ADD | `[empirical]` | `—` | Eagle Eye (DE: `zoom`) |
+
+### WEAPON — melee
+
+`attr = token` (auto-derivado). Combo y heavy attack.
+> Evidencia por defecto: `[ref: melee-combo.md]` para combo; `[empirical]` para el resto.
+
+| Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Fuente |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `WEAPON_ADD_RANGE` | `WEAPON_ADD_RANGE` | ADD | `[empirical]` | `—` | Reach, Primed Reach (alcance melee) |
+| `WEAPON_ADD_SLAM_RADIUS` | `WEAPON_ADD_SLAM_RADIUS` | ADD | `[empirical]` | `—` | Mods de slam attack radius |
+| `WEAPON_ADD_HEAVY_CHARGE_SPEED` | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | ADD | `[empirical]` | `C1` | Corrupt Charge y similares |
+| `WEAPON_ADD_COMBO_DURATION` | `WEAPON_ADD_COMBO_DURATION` | ADD | `[ref: melee-combo.md]` | `C1` | Body Count, Drifting Contact |
+| `WEAPON_ADD_COMBO_COUNT_CHANCE` | `WEAPON_ADD_COMBO_COUNT_CHANCE` | ADD | `[empirical]` | `C1` | Exodia Triumph/Valor (arcanes), Guardian Derision (mod) — cross-schema |
 
 ### WEAPON — perks base Incarnon (BASE_FLAT)
 
 Tokens `BASE` — planos pre-escala que se suman al `base` del atributo y se amplifican
 por mods `ADD` (Serration, Hornet Strike, etc.). Fuente: `incarnon-evolutions.override.json`.
+> Evidencia por defecto: `[empirical]` para la operación BASE_FLAT (modelado OmniFrame, verificado contra valores de wiki Incarnon).
 
-| Tipo OmniFrame D-6 | Engine attr | Op | Ejemplo de perk |
-| :--- | :--- | :--- | :--- |
-| `WEAPON_BASE_DAMAGE` | `WEAPON_DAMAGE` | BASE_FLAT | Boltor EVO II: +18 daño |
-| `WEAPON_BASE_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | BASE_FLAT | Sibear EVO IV: +25% CC |
-| `WEAPON_BASE_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | BASE_FLAT | Boltor EVO IV: +20% SC |
-| `WEAPON_BASE_MAGAZINE_MAX` | `WEAPON_ADD_MAGAZINE_MAX` | BASE_FLAT | Boltor EVO III: +20 magazine |
+| Tipo OmniFrame D-6 | Engine attr | Op | Modelo | Ejemplo de perk |
+| :--- | :--- | :--- | :--- | :--- |
+| `WEAPON_BASE_DAMAGE` | `WEAPON_DAMAGE` | BASE_FLAT | `C1` | Boltor EVO II: +18 daño |
+| `WEAPON_BASE_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | BASE_FLAT | `C1` | Sibear EVO IV: +25% CC |
+| `WEAPON_BASE_CRIT_MULT` | `WEAPON_ADD_CRIT_MULT` | BASE_FLAT | `C1` | Perk Incarnon: BASE_FLAT de crit damage |
+| `WEAPON_BASE_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | BASE_FLAT | `C1` | Boltor EVO IV: +20% SC |
+| `WEAPON_BASE_MAGAZINE_MAX` | `WEAPON_ADD_MAGAZINE_MAX` | BASE_FLAT | `C1` | Boltor EVO III: +20 magazine |
+| `WEAPON_BASE_COMBO_DURATION` | `WEAPON_ADD_COMBO_DURATION` | BASE_FLAT | `C1` | Perk melee: combo duration base |
+| `WEAPON_BASE_COMBO_INITIAL` | `WEAPON_ADD_COMBO_INITIAL` | BASE_FLAT | `C1` | Melee Crescendo (arcane), perks melee |
+| `WEAPON_BASE_HEAVY_EFFICIENCY` | `WEAPON_ADD_HEAVY_EFFICIENCY` | BASE_FLAT | `C1` | Perks de heavy attack efficiency |
+
+> `WEAPON_ADD_COMBO_INITIAL` y `WEAPON_ADD_HEAVY_EFFICIENCY` son engine attrs (target de los tokens BASE),
+> no tokens del vocabulario. No instanciar como `upgrade_type` sin mod/perk confirmado.
 
 ### WEAPON — sub-familia clase (D-6 extensión, activa 2026-05-26)
 
@@ -150,40 +207,54 @@ Patrón extendido: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`.
 Sin entrada en UPGRADE_MAP — `resolveToken()` los deriva automáticamente, emitiendo `target_channel`.
 Deuda D-7: el pipeline de filtrado por canal no está implementado.
 
-| Tipo OmniFrame D-6 | Engine attr derivado | Op | target_channel | Fuente |
-| :--- | :--- | :--- | :--- | :--- |
-| `WEAPON_PRIMARY_ADD_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | ADD | `primary` | Crimson Archon Shard |
-| `WEAPON_SECONDARY_ADD_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | ADD | `secondary` | Crimson Archon Shard |
-| `WEAPON_MELEE_ADD_CRIT_MULT` | `WEAPON_ADD_CRIT_MULT` | ADD | `melee` | Crimson Archon Shard |
+> ⚠ **Deuda alias-en-cadena (2026-06-01):** los sub-family de daño (`WEAPON_{PRIMARY,SECONDARY,MELEE}_ADD_DAMAGE`)
+> derivan `attr = WEAPON_ADD_DAMAGE` (resolveToken línea ~210), que a su vez es **alias** de `WEAPON_DAMAGE`
+> en UPGRADE_MAP. `resolveToken()` no encadena la segunda resolución → el attr final queda en `WEAPON_ADD_DAMAGE`
+> en vez de `WEAPON_DAMAGE`. Los sub-family de fire_rate/reload/status/crit (auto-referenciales) no tienen este
+> problema. Detectado al mapear arcanes sub-family (Arcane Precision/Rage/Primary Charger/Awakening/Rise/Blade
+> Charger). **No bloquea captura de datos** (token correcto en el override); requiere fix de engine —re-resolver
+> el alias o registrar UPGRADE_MAP entries— antes de implementar D-7. Canales válidos: solo `PRIMARY/SECONDARY/MELEE`
+> (no hay `SNIPER`/`SHOTGUN` — son subtipos de primary, mapeados a `primary` + nota de restricción).
+> Evidencia por defecto: `[empirical]` — fuente Archon Shards, verificada en juego.
+
+| Tipo OmniFrame D-6 | Engine attr derivado | Op | target_channel | Modelo | Fuente |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `WEAPON_PRIMARY_ADD_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | ADD | `primary` | `C1` | Crimson Archon Shard |
+| `WEAPON_SECONDARY_ADD_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | ADD | `secondary` | `C1` | Crimson Archon Shard |
+| `WEAPON_MELEE_ADD_CRIT_MULT` | `WEAPON_ADD_CRIT_MULT` | ADD | `melee` | `C1` | Crimson Archon Shard |
 
 ### AVATAR — habilidades
 
 `attr = token` (auto-derivado).
+> Evidencia por defecto: `[empirical]` — los 4 stats de habilidad son mecánica core conocida.
 
-| Tipo OmniFrame D-6 | Engine attr | Op | Ejemplo de mod |
-| :--- | :--- | :--- | :--- |
-| `AVATAR_ADD_ABILITY_STRENGTH` | `AVATAR_ADD_ABILITY_STRENGTH` | ADD | Intensify, Blind Rage |
-| `AVATAR_ADD_ABILITY_RANGE` | `AVATAR_ADD_ABILITY_RANGE` | ADD | Stretch, Overextended |
-| `AVATAR_ADD_ABILITY_DURATION` | `AVATAR_ADD_ABILITY_DURATION` | ADD | Continuity, Narrow Minded |
-| `AVATAR_ADD_ABILITY_EFFICIENCY` | `AVATAR_ADD_ABILITY_EFFICIENCY` | ADD | Streamline, Fleeting Expertise |
+| Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `AVATAR_ADD_ABILITY_STRENGTH` | `AVATAR_ADD_ABILITY_STRENGTH` | ADD | `[empirical]` | `C1` | Intensify, Blind Rage |
+| `AVATAR_ADD_ABILITY_RANGE` | `AVATAR_ADD_ABILITY_RANGE` | ADD | `[empirical]` | `C1` | Stretch, Overextended |
+| `AVATAR_ADD_ABILITY_DURATION` | `AVATAR_ADD_ABILITY_DURATION` | ADD | `[empirical]` | `C1` | Continuity, Narrow Minded |
+| `AVATAR_ADD_ABILITY_EFFICIENCY` | `AVATAR_ADD_ABILITY_EFFICIENCY` | ADD | `[empirical]` | `C1` | Streamline, Fleeting Expertise |
+| `AVATAR_ADD_ABILITY_DAMAGE` | `AVATAR_ADD_ABILITY_DAMAGE` | ADD ⚠ | `[empirical]` ⚠ | `C2·F` | Archon Shards Topaz/Violet/Emerald — multiplicador directo sobre output de daño, condicional por status. ⚠ interacción con ABILITY_STRENGTH en engine sin definir |
 
 ### AVATAR — stats base
 
 `attr = token` (auto-derivado).
+> Evidencia por defecto: `[empirical]` — stats base del Warframe, ampliamente conocidos.
 
-| Tipo OmniFrame D-6 | Engine attr | Op | Ejemplo de mod |
-| :--- | :--- | :--- | :--- |
-| `AVATAR_ADD_HEALTH_MAX` | `AVATAR_ADD_HEALTH_MAX` | ADD | Vitality, Primed Vigor |
-| `AVATAR_ADD_SHIELD_MAX` | `AVATAR_ADD_SHIELD_MAX` | ADD | Redirection, Primed Vigor |
-| `AVATAR_ADD_ARMOUR` | `AVATAR_ADD_ARMOUR` | ADD | Steel Fiber, Warcry (habilidad) |
-| `AVATAR_ADD_ENERGY_MAX` | `AVATAR_ADD_ENERGY_MAX` | ADD | Flow, Primed Flow |
-| `AVATAR_ADD_MOVEMENT_SPEED` | `AVATAR_ADD_MOVEMENT_SPEED` | ADD | Rush |
-| `AVATAR_ADD_SPRINT_SPEED` | `AVATAR_ADD_SPRINT_SPEED` | ADD | Rush |
-| `AVATAR_ADD_CASTING_SPEED` | `AVATAR_ADD_CASTING_SPEED` | ADD | Natural Talent |
-| `AVATAR_ADD_SHIELD_RECHARGE_RATE` | `AVATAR_ADD_SHIELD_RECHARGE_RATE` | ADD | Fast Deflection |
-| `AVATAR_ADD_PARKOUR_VELOCITY` | `AVATAR_ADD_PARKOUR_VELOCITY` | ADD | Mobilize (aura), Amber Archon Shard |
-| `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | ADD | Amber Archon Shard (+100/+150%) |
-| `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | ADD | Amber Archon Shard (+50/+75%) |
+| Tipo OmniFrame D-6 | Engine attr | Op | Modelo | Ejemplo de mod |
+| :--- | :--- | :--- | :--- | :--- |
+| `AVATAR_ADD_HEALTH_MAX` | `AVATAR_ADD_HEALTH_MAX` | ADD | `C1` | Vitality, Primed Vigor |
+| `AVATAR_ADD_SHIELD_MAX` | `AVATAR_ADD_SHIELD_MAX` | ADD | `C1` | Redirection, Primed Vigor |
+| `AVATAR_ADD_ARMOUR` | `AVATAR_ADD_ARMOUR` | ADD | `C1` | Steel Fiber, Warcry (habilidad) |
+| `AVATAR_ADD_ENERGY_MAX` | `AVATAR_ADD_ENERGY_MAX` | ADD | `C1` | Flow, Primed Flow |
+| `AVATAR_ADD_MOVEMENT_SPEED` | `AVATAR_ADD_MOVEMENT_SPEED` | ADD | `—` | Rush |
+| `AVATAR_ADD_SPRINT_SPEED` | `AVATAR_ADD_SPRINT_SPEED` | ADD | `—` | Rush |
+| `AVATAR_ADD_CASTING_SPEED` | `AVATAR_ADD_CASTING_SPEED` | ADD | `—` | Natural Talent. Velocidad de animación de cast; no afecta output del simulador simplificado. |
+| `AVATAR_ADD_SHIELD_RECHARGE_RATE` | `AVATAR_ADD_SHIELD_RECHARGE_RATE` | ADD | `C1` | Fast Deflection |
+| `AVATAR_ADD_PARKOUR_VELOCITY` | `AVATAR_ADD_PARKOUR_VELOCITY` | ADD | `—` | Mobilize (aura), Amber Archon Shard |
+| `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | ADD | `C1` | Amber Archon Shard (+100/+150%). Multiplicador estático sobre valor del orb; C2 lo usa al modelar economía de recursos. |
+| `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | ADD | `C1` | Amber Archon Shard (+50/+75%). Ídem. Equilibrium añade complejidad de conversión — fórmula a definir en C2. |
+| `AVATAR_ADD_HEALTH_REGEN` | `AVATAR_ADD_HEALTH_REGEN` | ADD_FLAT ⚠ | `C1` | Arcane Grace, Arcane Victory. ⚠ **Hipótesis usuario**: toda regen de salud en Warframe es plana (HP/s), no porcentual — si fuera %, solo Nidus (con regen nata) tendría base relevante. Si se confirma: este token es duplicado de `AVATAR_FLAT_HEALTH_REGEN` y debe colapsarse. Requiere verificación de valor real de Arcane Grace rank 5 en juego |
 
 ### AVATAR — planos post-escala (ADD_FLAT)
 
@@ -192,22 +263,47 @@ Fórmula verificada (wiki + test en juego 2026-05-26):
 Total = Base × (1 + Mods%) + FLAT
 ```
 Los valores FLAT se suman **después** del pool de mods porcentuales. No se amplifican por Steel Fiber, Vitality, ni ningún otro mod.
+> Evidencia por defecto: `[ref: armor.md / health.md / shield.md]` + `[empirical]` (test en juego 2026-05-26).
 
-| Tipo OmniFrame D-6 | Engine attr | Op | Fuentes confirmadas |
-| :--- | :--- | :--- | :--- |
-| `AVATAR_FLAT_HEALTH_MAX` | `AVATAR_FLAT_HEALTH_MAX` | ADD_FLAT | Azure Archon Shard (+150/+225) |
-| `AVATAR_FLAT_SHIELD_MAX` | `AVATAR_FLAT_SHIELD_MAX` | ADD_FLAT | Azure Archon Shard (+150/+225) |
-| `AVATAR_FLAT_ENERGY_MAX` | `AVATAR_FLAT_ENERGY_MAX` | ADD_FLAT | Azure Archon Shard (+50/+75) |
-| `AVATAR_FLAT_ARMOUR` | `AVATAR_FLAT_ARMOUR` | ADD_FLAT | Azure Archon Shard (+150/+225), Stone Skin (Focus), Arcanos de armor |
-| `AVATAR_FLAT_HEALTH_REGEN` | `AVATAR_FLAT_HEALTH_REGEN` | ADD_FLAT | Azure Archon Shard (+5/+7.5 Health/s), Rejuvenation (aura) |
+| Tipo OmniFrame D-6 | Engine attr | Op | Modelo | Fuentes confirmadas |
+| :--- | :--- | :--- | :--- | :--- |
+| `AVATAR_FLAT_HEALTH_MAX` | `AVATAR_FLAT_HEALTH_MAX` | ADD_FLAT | `C1` | Azure Archon Shard (+150/+225) |
+| `AVATAR_FLAT_SHIELD_MAX` | `AVATAR_FLAT_SHIELD_MAX` | ADD_FLAT | `C1` | Azure Archon Shard (+150/+225) |
+| `AVATAR_FLAT_ENERGY_MAX` | `AVATAR_FLAT_ENERGY_MAX` | ADD_FLAT | `C1` | Azure Archon Shard (+50/+75) |
+| `AVATAR_FLAT_ARMOUR` | `AVATAR_FLAT_ARMOUR` | ADD_FLAT | `C1` | Azure Archon Shard (+150/+225), Stone Skin (Focus), Arcanos de armor |
+| `AVATAR_FLAT_HEALTH_REGEN` | `AVATAR_FLAT_HEALTH_REGEN` | ADD_FLAT | `C1` | Azure Archon Shard (+5/+7.5 Health/s), Rejuvenation (aura) |
+| `AVATAR_FLAT_ENERGY_REGEN` | `AVATAR_FLAT_ENERGY_REGEN` | ADD_FLAT ⚠ | `C1` | Energy Nexus, Energy Siphon (aura), Relentless Assault. ⚠ ¿la regen de energía es ADD_FLAT (E/s plano) o tiene mecánica de ramp-up (Energy Nexus sube con el tiempo)? |
 
 > `AVATAR_BASE_ARMOUR` (BASE_FLAT) eliminado — no existe ninguna mecánica de armor pre-escala amplificada por mods. El token fue modelado incorrectamente; corregido 2026-05-26.
 
+### AVATAR — chance de resistir proc (CHANCE-family, desviación D-6)
+
+Tokens de familia `AVATAR_CHANCE_RESIST_*` no siguen D-6 estrictamente (CHANCE no es una OPERATION de la convención). `resolveToken()` no los cubre → sin entrada en UPGRADE_MAP por ahora. Modelado C2 diferido (Fase 0 los trata como `—`).
+
+> Distinto de `AVATAR_INJURY_BLOCK_CHANCE` (resist knockdown/stagger/falls — de-facto pipeline, no D-6, no en UPGRADES aún).
+
+| Tipo OmniFrame | Resistencia | Arcane fuente | Modelo |
+| :--- | :--- | :--- | :--- |
+| `AVATAR_CHANCE_RESIST_SLASH` | Slash Status | Arcane Deflection | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_PUNCTURE` | Puncture Status | Arcane Defense | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_IMPACT` | Impact Status | Arcane Shield | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_HEAT` | Heat Status | Arcane Ice | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_COLD` | Cold Status | Arcane Warmth | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_ELECTRICITY` | Electricity Status | — (no arcane existente) | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_TOXIN` | Toxin Status | Arcane Detoxifier, Arcane Resistance | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_RADIATION` | Radiation Status | Arcane Healing | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_CORROSIVE` | Corrosive Status | Arcane Protection | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_GAS` | Gas Status | Arcane Liquid | `—` (C2 futuro) |
+| `AVATAR_CHANCE_RESIST_MAGNETIC` | Magnetic Status | Arcane Nullifier | `—` (C2 futuro) |
+
 ### GAMEPLAY
 
-| Tipo OmniFrame D-6 | Engine attr | Op | Ejemplo de mod |
-| :--- | :--- | :--- | :--- |
-| `GAMEPLAY_MULT_FACTION_DAMAGE` | `GAMEPLAY_MULT_FACTION_DAMAGE` | ADD | Bane of Grineer y familia |
+> Evidencia por defecto: ver por token.
+
+| Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `GAMEPLAY_MULT_FACTION_DAMAGE` | `GAMEPLAY_MULT_FACTION_DAMAGE` | ADD | `[empirical]` | `C2·F` | Bane of Grineer y familia. Requiere faction tag del target en SimulationContext. |
+| `GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE` | `GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE` | ADD ⚠ | `[needs-verification]` | `C2·F` | Archon Shard Emerald. Instancias aditivas. ⚠ Scope real sin confirmar. Afecta proc de Toxin en C2. |
 
 > `toPercent: true` en UPGRADE_MAP — el JSON almacena el valor como `1.30` (+30%); el engine lo convierte a `30` para `mods_add_pct`.
 
@@ -253,10 +349,33 @@ fallo silencioso detectable inspeccionando el output de `ModRepository`.
 
 | Estado | Descripción |
 | :--- | :--- |
-| En UPGRADES[] | 55 tokens D-6 (inc. alias `WEAPON_FIRE_ITERATIONS` y 3 tokens sub-familia) |
+| En UPGRADES[] | **78 tokens D-6** (inc. alias `WEAPON_FIRE_ITERATIONS` y 3 tokens sub-familia) — sincronizado con `modifier.ts` 2026-05-31 |
+| Documentados aquí | 100% — delta code-vs-doc = 0 (verificado 2026-05-31) |
 | En UPGRADE_MAP (explícito) | 35 entradas — excepciones al patrón self-referencial |
-| Via resolveToken() (implícito) | 20 tokens — elementales (17) + sub-familia (3) |
-| Sin mapear (pipeline deuda) | ~114 tipos DE detectados en `mod-stats.override.json` — ver `.working/semantic-inventory.md` |
-| Deprecated a migrar | 21 tipos DE + 17 D-3 listados en §Deprecated |
+| Via resolveToken() (implícito) | elementales + sub-familia |
+| Sin mapear (pipeline deuda) | tipos DE legacy en `mod-stats.override.json` — auditoría de aplicaciones en curso (Fase 2c) |
+| Deprecated a migrar | listados en §Deprecated |
 
 **Ubicación de UPGRADE_MAP**: `Project/src/shared/types/modifier.ts`
+
+---
+
+## Gate 1 — Definiciones que requieren verificación
+
+Tokens marcados `⚠` en las tablas: definición plausible pero con evidencia floja
+(`[needs-verification]`) o decisión de operación/modelado sin confirmar. **No usar en engine
+hasta resolver** (regla anti "trust-me-bro", `docs/governance/deuda-taxonomy.md`).
+
+| Token | Estado post-Gate 1 | Acción pendiente |
+| :--- | :--- | :--- |
+| `WEAPON_ADD_HEADSHOT_MULT` | Op ADD confirmada. ⚠ semántica: "headshot" = weak point en DE moderno, no solo cabeza | Crear `references/wiki/mechanics/weak-points.md` (fuente: wiki.warframe.com/w/Enemy_Body_Parts) |
+| `WEAPON_FLAT_STATUS_CHANCE` | Sin resolver — modelado multi-pellet complejo | Investigación propia |
+| `WEAPON_ADD_ACCURACY` | Sin resolver — ¿mismo stat que `WEAPON_SPREAD` (DE legacy)? | Investigación propia, auditoría mods Fase 2c |
+| `AVATAR_ADD_ABILITY_DAMAGE` | Pending — engine de habilidades no diseñado aún | Defer hasta diseño de engine de habilidades |
+| `AVATAR_ADD_HEALTH_REGEN` | Hipótesis usuario: toda regen en WF es plana (HP/s); si confirma → duplicado de `AVATAR_FLAT_HEALTH_REGEN` | Verificar valor real Arcane Grace rank 5 en juego; si confirma: colapsar token |
+| `AVATAR_FLAT_ENERGY_REGEN` | Sin resolver — Energy Nexus puede tener ramp-up temporal | Investigación propia |
+| `GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE` | Sin sujeto de prueba (no hay companion/habilidad con Toxin conocida) | Pendiente más pruebas; no bloquea schema ni datos |
+| `WEAPON_FIRE_ITERATIONS` | ✅ **Cerrado** — alias conocido con UPGRADE_MAP entry; OQ-ENGINE-6 trackea la resolución formal | — |
+
+> Los ⚠ que quedan **no bloquean el mapeo de datos** (Fases 2a–2c) pero sí bloquean implementación en engine.
+> Cada investigación pendiente es su propio volumen; no resolver aquí sin evidencia.

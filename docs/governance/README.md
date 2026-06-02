@@ -16,3 +16,5 @@ Contratos, convenciones, estado del proyecto y registro de decisiones.
 | [`semantic-layers.md`](semantic-layers.md) | Frontera de transformación e interpretación de datos | Al trabajar con tipos, display o engine |
 | [`type-system-boundaries.md`](type-system-boundaries.md) | Rol de `src/shared/types/` y sus límites | Al agregar o modificar tipos |
 | [`known-risks.md`](known-risks.md) | Riesgos técnicos conocidos con decisión de "no actuar ahora" | Al evaluar dependencias externas |
+| [`nomenclature-grammar.md`](nomenclature-grammar.md) | Gramática canónica `DOMINIO:ROL[:ESQUEMA/ID]` — SSoT de todas las nomenclaturas internas | Antes de escribir cualquier tag inline en JSON, doc o código |
+| [`deuda-taxonomy.md`](deuda-taxonomy.md) | Eje de evidencia `[EVD]` (`[ref]`, `[empirical]`, `[inferred]`, `[needs-verification]`) + cadena de dependencia de deuda | Antes de anotar cualquier ítem de deuda en cualquier doc |

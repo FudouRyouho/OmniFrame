@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.5.0"
+Version: "v0.7.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-05-28"
+Fecha_de_actualizacion: "2026-05-29"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -47,19 +47,14 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 
 ---
 
-## OQ-ENGINE-FUTURE — Features de evolución del motor consideradas pero NO implementadas — **ABIERTO (2026-05-25)**
+## OQ-ENGINE-FUTURE — Features de evolución del motor en backlog — **ABIERTO (2026-05-25)**
 **Dominio:** engine / simulation-v2
-**Contexto:** Durante la fase pre-implementación (abril 2026) se consideraron varias features de evolución que **no entraron al motor inicial** y siguen sin implementarse. Originalmente documentadas en `simulation-pre-implementation.md` §6 (purgado 2026-05-25). Se consolidan aquí para que la pregunta arquitectónica quede visible.
-
-### Features pendientes
+**Contexto:** Features consideradas en pre-implementación (abril 2026) que no entraron al motor inicial. Sin prioridad asignada.
 
 | Feature | Descripción | Implicación |
 |---|---|---|
-| **Web Worker compatibility** | Mantener API serializable del motor para mover carga pesada de simulación a un Web Worker sin afectar fluidez de la UI | Performance bajo simulaciones extensas |
-| **Rewind / Time Travel** | Historial de cambios para deshacer/rehacer acciones del usuario; aprovecha que el motor es puramente funcional y determinista | UX de comparación de builds, debugging |
-| **Testing con Gold Standard** | Snapshots de simulación comparados contra resultados esperados de la wiki oficial como tests de integración | Validación de fidelidad matemática — **ACTIVO (2026-05-27)**: `__tests__/aklex-prime.test.ts` (Aklex Prime, 23 tests) y `__tests__/cedo-prime.test.ts` (Cedo Prime Normal Attack, 10 tests). 33 tests passing contra valores reales del juego. |
-
-**Pregunta:** ¿En qué fase del roadmap se priorizan estas features? ¿O son backlog indefinido? Hoy ninguna está implementada ni en el código (`Project/src/core/engine/`) ni en `simulation-roadmap.md`.
+| **Web Worker compatibility** | API serializable del motor para mover carga de simulación a un Worker | Performance bajo simulaciones extensas |
+| **Rewind / Time Travel** | Historial de cambios para deshacer/rehacer; aprovecha que el motor es determinista | UX de comparación de builds |
 
 **Condición:** cuando la Capa D (Proyección) se materialice y haya un cliente real consumiendo el motor (Arsenal UpgradeView definido).
 
@@ -129,3 +124,35 @@ El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`
 **Condición para resolver:** cuando se empiece a trabajar con `upgrade_type` (que abre más edge-cases) o al generar tests masivos del engine con datos reales. Estos casos dependen de fórmulas dedicadas por habilidad.
 **No bloquea** el pipeline de datos ni el schema actual.
 **Fuente:** `references/game-ui/Gara.md`, `references/game-ui/Harrow.md`, `references/game-ui/Lavos.md`, `references/game-ui/Grendel.md`, `references/game-ui/Nidus.md`
+
+---
+
+## OQ-DATA-3 — Contrato de consumo de overrides: DataLoader singleton — **DIRECCIÓN ELEGIDA (2026-05-29)**
+**Dominio:** data / pipeline / engine / UI
+**Contexto original:** `ability-stats.override.json` era bidireccional (el pipeline lo leía Y lo escribía). Los demás overrides eran runtime-directos con loaders fragmentados por repositorio (ItemRepository, ModRepository, IncarnonRepository). No había capa unificada.
+
+**Corrección aplicada (2026-05-29):**
+- `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`.
+- El pipeline produce únicamente datos de fuente externa (`@wfcd/items`).
+- La gestión de `ability-stats.override.json` es responsabilidad de `apply-ability-md.ts` (script de ejecución manual/agente).
+- Todos los overrides son SSoT manuales, sin distinción de "tipo" por fuente de creación.
+
+**Dirección elegida: Runtime-universal con DataLoader singleton**
+Todos los overrides se cargan en runtime por un DataLoader singleton que expone cada par `JSON base + override` ya mergeado. El pipeline no toca los overrides. Cada repositorio (ItemRepository, ModRepository, etc.) pasa a delegar al DataLoader en vez de implementar su propio loader.
+
+**Estado:** implementación de DataLoader pendiente. La corrección de `generate-data.ts` es el primer corte limpio.
+
+**Patrón objetivo:**
+```
+generate-data.ts → JSONs base (warframes, weapons, mods, ...)
+apply-ability-md.ts → ability-stats.override.json  (script manual)
+[otros scripts]    → otros overrides                (manual/agente)
+
+DataLoader.getWeapons()       → weapons.json + weapon-stats.override.json  (mergeado)
+DataLoader.getMods()          → mods.json + mod-stats.override.json         (mergeado)
+DataLoader.getWarframes()     → warframes.json + ability-stats.override.json (mergeado)
+DataLoader.getIncarnonData()  → incarnon-evolutions.override.json           (directo)
+```
+
+**Bloquea:** diseño de la interfaz pública del DataLoader singleton.
+**Ref:** `docs/data/rules/overrides.md` (D-1), `docs/data/decisions.md` (D-1)

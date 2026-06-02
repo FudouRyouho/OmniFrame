@@ -7,7 +7,7 @@ Documentos de alcance global que no pertenecen a un dominio funcional específic
 | Archivo | Rol | Estado |
 |---|---|---|
 | [`impact-matrix.md`](impact-matrix.md) | Backlog técnico y matriz de dependencias físicas — **lectura obligatoria antes de cambios de arquitectura** | activo |
-| [`audit-context-reduction-2026-05-25.md`](audit-context-reduction-2026-05-25.md) | Registro histórico de la reorganización documental de 2026-05-25 (50% reducción de operativos, separación SSoT/dominios) | referencia |
+| [`doc-map.md`](doc-map.md) | Inventario y mapa de navegación del corpus documental — construido iterativamente | activo |
 
 ## Principio
 

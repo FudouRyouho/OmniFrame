@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Catálogo de gaps semánticos — 87 armas Incarnon (48 genesis), 727 efectos"
-Impacto_ID: "SSoT-Data-Incarnon"
+Impacto_ID: "data-incarnon-gaps"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
-Version: "1.2"
+Version: "v1.3.0"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-05-28"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Gaps semánticos — Incarnon Genesis / Incarnon nativo
@@ -177,6 +177,67 @@ Resumen del patrón:
 - **`weapons: { alias: unique_name }`** — genesis multi-weapon con aliases (`base`, `prime`, `wraith`, `mk1`, `vandal`, `prisma`, `dex`, `telos`, `sancti_<name>`)
 - **`value: number`** — escalar cuando todas las variantes comparten el mismo valor
 - **`value: { alias: number }`** — dict cuando los valores difieren por variante (e.g., Boltor `hunters_mantra`: `{ base: 18, prime: 4, telos: 4 }`)
+
+---
+
+## 7. Cola de consolidación de condition tokens (2026-06-01)
+
+Inventario de tokens `condition` presentes en el override que **aún no se consolidaron** en
+`docs/semantic/conditions.md`. Por [D-19](../../decisions.md), el JSON es el SSoT del token; este
+listado es cola de consolidación, **no** una lista de errores ni de drift. Reglas al leerlo:
+
+- **No se asume equivalencia por parecido de label.** Cada token se preserva literal hasta que su
+  naturaleza mecánica se analice. Labels similares pueden esconder mecánicas distintas (Dual Ichor
+  reactiva su nube de gas; Furax no).
+- **No se asigna clasificación de naturaleza aquí** (modelo `c2/*`). Eso es análisis posterior.
+- Los prefijos (`on_` / `while_`) se conservan como señal temprana de naturaleza.
+
+### 7.1 Tokens con variante de forma respecto a un token ya consolidado
+
+Coinciden parcialmente con un token existente; la forma a unificar se decide **al consolidar**, no antes.
+
+| Token en override | Token consolidado cercano | Observación (sin juicio de equivalencia) |
+|---|---|---|
+| `on_weakpoint_hit` | `on_weak_point_hit` / `on_consecutive_weakpoint_hits` | El propio doc ya usa ambas formas (`weak_point` vs `weakpoint`); forma canónica = deuda pendiente conocida |
+| `on_hit_while_target_affected_by_electricity` | `on_hitting_enemies_affected_by_electricity` | Misma área conceptual; naturaleza real sin confirmar |
+| `while_aim_gliding_or_sliding` | `while_sliding_or_aim_gliding` (arcanes) | OR — bloqueado por schema (§Gate 1 conditions.md); orden a unificar al resolver OR |
+
+### 7.2 Tokens sin entrada en conditions.md — prefijo `while_`
+
+Naturaleza sin analizar. No asumir relación con la familia `on_hitting_enemies_affected_by_*`.
+
+| Token | Fuente | Label (referencia) |
+|---|---|---|
+| `while_target_affected_by_cold` | sibear | +combo en targets con Cold |
+| `while_target_affected_by_electricity` | furis | +multishot en targets con Electricity |
+| `while_target_affected_by_puncture` | latron | +multishot en targets con Puncture |
+| `while_target_affected_by_slash` | okina | +combo en targets con Slash |
+| `while_target_affected_by_toxin` | dual-ichor | +combo en targets con Toxin |
+| `while_enemy_undamaged` | paris | +CC/CD a enemigos sin dañar |
+| `while_enemy_impaled` | ruvox | vulnerabilidad de impaled enemies |
+| `while_enemy_below_half_health` | dread, kunai | +% damage <50% HP |
+| `while_enemy_status_count_below_3` | phenmor | efecto al tener <3 status |
+| `while_enemies_within_6m` | furax | +attack speed por enemigo cercano (stacks 5x) |
+| `while_impaling_5_or_more_enemies` | ruvox | +heavy efficiency al impalar 5+ |
+
+### 7.3 Tokens sin entrada en conditions.md — prefijo `on_`
+
+Naturaleza sin analizar.
+
+| Token | Fuente | Label (referencia) |
+|---|---|---|
+| `on_hit_incarnon_form` | onos | stacks de CC/CD en forma incarnon |
+| `on_multishot` | miter, torid | +damage en multishot pellets |
+| `on_non_critical_hit` | felarx, laetum | +damage en hits no críticos (distinto de `on_non_crit_non_status_hit`) |
+| `on_slam_hit` | praedos, ruvox | +combo por enemigo en radio de slam |
+| `on_slide_attack_hit` | thalys | +combo por enemigo en slide attack |
+| `on_shard_damage` | thalys | +combo en shard damage |
+
+### 7.4 Token sin prefijo de los patrones conocidos
+
+| Token | Fuente | Label (referencia) |
+|---|---|---|
+| `per_melee_combo_multiplier` | ruvox | +X% movement speed por combo multiplier — escalar proporcional continuo |
 
 ---
 

@@ -14,29 +14,9 @@ Este documento define la ruta crítica para sustituir el sistema de Loadout/Reso
 
 ---
 
-## Fase 1: Limpieza y Oficialización ✅
-- [x] **Deprecación de Documentación Antigua**: Marcado de documentos obsoletos en `docs/domains/engine/`.
-- [x] **Migración de Contratos**: Movimiento de `docs-temp/` a `docs/domains/engine/design/`.
-- [x] **Cierre de Debate**: Congelación de contratos de `Ensemble`, `Entity` y `Attribute`.
+## Fases 1–5 ✅ (completadas al 2026-05-27)
 
-## Fase 2: Cierre de Contratos Bloqueantes ✅
-- [x] **Separar salidas oficiales**: Snapshot, Timeline y Audit Artifact.
-- [x] **Cerrar ontología canónica**: Definición de `Weapon`, `AttackProfile`, etc.
-- [x] **Congelar Game Laws SSoT**: Centralización en `BASELINE_GAME_LAWS`.
-
-## Fase 3: Implementación Núcleo Headless ✅
-- [x] **Alinear contratos físicos**: `contracts/index.ts` materializado.
-- [x] **EnsembleAdapter (Bridge de Compatibilidad)**: Traductor inicial operativo.
-- [x] **Reactive Attribute Graph**: Implementación de Kahn's Algorithm.
-
-## Fase 4: Observabilidad Orientada a Agentes ✅
-- [x] **SimulationAuditor aislado**: Trazas de auditoría sin contaminación. *(ELIMINADO 2026-05-27 — directorio `engine/audit/` purgado junto con `TraceObserver.ts`.)*
-- [x] **Rastreo de Causalidad**: Evaluación de condiciones operativa.
-- [x] **Diff Diagnostics**: Sistema de comparación diferencial.
-
-## Fase 5: Integración en Laboratorio ✅
-- [x] **Lab Bridge Development**: Hook `useSimulation` integrado.
-- [x] **Visualizador de Auditoría**: `SimulationLab` eliminado (2026-05-21) — reemplazado por tests de Vitest. `SimulationAuditor` también eliminado (2026-05-27) — ver Fase 4.
+Contratos cerrados, grafo reactivo implementado (`SimulationEngine` + Kahn's), pipeline de hidratación completo (`StaticHydrator`, `ModRepository`, repositorios). Path legacy (`LoadoutProvider`, `SimulationLab`, `EnsembleAdapter`) purgado.
 
 ---
 

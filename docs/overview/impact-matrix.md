@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Fuente de verdad del backlog técnico y matriz de dependencias físicas"
-Version: "v0.0.5"
+Version: "v0.0.6"
 Impacto_ID: "SSoT-Backlog"
 Fidelidad_Fisica: "."
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-05-29"
 ---
 
 # Matriz de Impacto y Dependencias (SSoT)
@@ -31,70 +31,6 @@ Fecha_de_actualizacion: "2026-05-27"
 > | **OQ-x** | Open Question | `docs/governance/open-questions.md` |
 > | **DC-x** | Decision Cerrada | `docs/go---
 
-## ✅ HITOS COMPLETADOS (v0.0.3 Rabbit Hole)
-_Sistemas transversales construidos como prerrequisito para la estabilidad._
-
-### 1. Estabilización Taxonómica (4 Pilares) — [🔴 MAYOR]
-- **Logro**: Implementación de `domain`, `kind`, `family` y `stats` en el pipeline determinista (`entities.ts`).
-- **Impacto**: Eliminación de ambigüedades en Compañeros, Necramechs y Armas. Datos 100% tipados.
-
-### 2. Unificación de UI (@shared) — [🔴 MAYOR]
-- **Logro**: Migración masiva de Grillas, Vistas, Cards y Toolbars a `@shared`.
-- **Impacto**: El Arsenal y el Equipment ahora consumen el mismo motor de renderizado agnóstico.
-
-### 3. Esqueleto Headless del Engine de Simulación (Capa C) — [🔴 MAYOR]
-- **Logro**: Estructura de Grafo de Atributos, Mutadores y Fórmulas Maestras.
-- **Impacto**: Motor preparado para recibir intenciones y emitir proyecciones B4.
-
----
-
-### 4. EnsembleStore y Eutanasia del Legacy Loadout — [🔴 MAYOR]
-- **Logro**: Implementación de la Capa A (`useEnsemble`), conexión del `MutatorBridge` (B4), y eliminación absoluta del `LoadoutProvider` v1 en todo el proyecto (`HudHeader`, `main.tsx`).
-- **Impacto**: OmniFrame ahora posee Una Sola Fuente de Verdad reactiva. Cero "zombies" arquitectónicos.
-
-### 5. Materialización del Arsenal (Chasis) — [🟡 MENOR]
-- **Logro**: Hidratación real en `ArsenalView`, migración reactiva de `ModSlot`, y blindaje de errores en interacciones de slots vacíos.
-- **Impacto**: El Arsenal ya no es un "mockup", es un cliente real del motor de simulación y del `DataRegistry`.
-
-### 6. Formalización Arquitectónica del Motor — [🔴 MAYOR] (2026-05-19)
-- **Logro**: Modelo de 5 capas (A / B / C1 / C2 / D) definido, debatido y documentado. `simulation-architecture.md` reescrito a v0.2.0. Resolución de `OQ-STATE-1/2/3/4`.
-  - OQ-STATE-1/3: Purga completa de `LoadoutProvider` y `LoadoutContext` — eliminados del árbol.
-  - OQ-STATE-4: `EnsembleAdapter` eliminado — su lógica absorbida por `MutatorBridge`.
-  - OQ-STATE-2: Migración de Archon Shards a `EnsembleIntention` (Capa A pasiva).
-  - **Nuevo**: Capa D (Proyección) definida formalmente como puente reactivo entre engine y UI — contrato `ViewModelContract` pendiente de implementación.
-- **Impacto**: Nomenclatura B4/Loadout Store deprecada. Toda la capa de presentación ahora tiene una identidad arquitectónica clara.
-
-### 7. Contratos de Motor y Corrección de ModRepository — [🔴 MAYOR] (2026-05-19)
-- **Logro**: `attribute-node-contract.md` creado — mapeo formal de campos `AttributeNode` a capas de la fórmula de Warframe y operaciones de modificador. `ModRepository.ts` corregido.
-  - `UPGRADE_MAP` refactorizado de `Record<string, string>` a `Record<string, UpgradeEntry>` — operations tipadas.
-  - Agregadas 13 entradas: warframe stats, `WEAPON_MELEE_DAMAGE`, `GAMEPLAY_FACTION_DAMAGE` (con conversión `toPercent`).
-  - `faction_damage_bonus` documentado como nodo sintético (patrón análogo a `WEAPON_DAMAGE`, base 100, stack aditivo).
-- **Impacto**: `ModRepository` ya no produce `ADD` hardcodeado para todo — operaciones derivadas del mapa tipado. La corrección de `GAMEPLAY_FACTION_DAMAGE` elimina el bug silencioso de conversión de formato multiplicador→porcentaje.
-
-### 8. Purga Legacy Completa — [🔴 MAYOR] (2026-05-21)
-- **Logro**: D-10: `SimulationLab.tsx`, `LoadoutState`, `loadout.ts`, `__tests__-legacy/` (12 suites) purgados.
-- **Impacto**: `MutatorBridge` tiene única ruta canónica `simulateFromIntention()`. Tests via pipeline real (D-9).
-
-### 9. Limpieza Schema de Habilidades — [🟡 MENOR] (2026-05-22)
-- **Logro**: D-11 (`upgrade_by: "NONE"` → campo opcional, 468 instancias) + D-12 (`AbilityStatValue` eliminado, `base_value: number | [number, number]`, 1564 stats migrados).
-- **Impacto**: Schema de habilidades limpio y alineado con la UI del juego.
-
-### 10. Vocabulario D-6 — ModRepository v2 — [🔴 MAYOR] (2026-05-27)
-- **Logro**: OQ-ENGINE-3 cerrado. `resolveToken()` en `modifier.ts`. D-7 Fase 1: attrs renombrados a tokens D-6. Label parsing eliminado. 55 tokens en UPGRADES[]; 35 UPGRADE_MAP + 20 `resolveToken()`.
-- **Impacto**: Engine resuelve `upgrade_type` directamente. SSoT matemático en `modifier.ts`.
-
-### 11. WEAPON_DAMAGE base = damage_sum — [🔴 MAYOR] (2026-05-27)
-- **Logro**: OQ-ENGINE-1 cerrado. Base = `damage_sum` del perfil activo (`ItemRepository`). Multiplicador global = `final/base`. 33 tests gold standard.
-- **Impacto**: Matemática correcta de Serration/Heavy Caliber stacking. Arquitectura validada.
-
-### 12. Archon Shards consumer + Incarnon Genesis pipeline — [🔴 MAYOR] (2026-05-27)
-- **Logro**: OQ-ENGINE-4 cerrado. `StaticHydrator` consume `ensemble.warframe.shards` → `ShardRepository` → `Modifier[]`. `IncarnonRepository` + `incarnon-evolutions.override.json` (85 armas, tokens `WEAPON_BASE_*`).
-- **Impacto**: Shards como modificadores en runtime. Perks de evolución Incarnon accesibles al engine.
-
-### 13. formulas/ SSoT activo + layer boundary — [🟡 MENOR] (2026-05-27)
-- **Logro**: Fases 1+2 de `formulas-integration.md`. `crit-base.ts` ← `AtomicSimulator`. `scaling-base.ts` ← `SimulationEngine`. `DamageCombiner` movido de `combat/` → `hydration/`.
-- **Impacto**: Cero duplicación de fórmulas crit/scaling. Layer boundary engine/combat → hydration cerrada.
-
 ---
 
 ## 🚧 ESTADO DE TRANSICIÓN: `arsenal/upgrade`
@@ -107,7 +43,6 @@ _Bloqueantes críticos para la funcionalidad real._
 
 | ID | Tarea | Descripción | Referencia |
 | :--- | :--- | :--- | :--- |
-| ✅ | ~~Sincronización de Tests~~ | D-9 (2026-05-21) + 33 tests gold standard con pipeline real. | [D-9] |
 | **🔴** | **Materializar Capa D (Proyección)** | Definir `ViewModelContract` e implementar el puente reactivo que transforma `ProjectionSnapshot` → estructura consumible por la UI. | [E-01] |
 | **🔴** | **Inicializar `faction_damage_bonus` en StaticHydrator** | Inyectar nodo sintético `{ base: 100 }` para entidades `domain: weapon`, análogo a `WEAPON_DAMAGE`. | [E-AttributeNode] |
 | **🔴** | **Wiring de faction damage en CombatCalculator** | Aplicar `faction_damage_bonus.final / 100` como multiplicador de combate cuando `target.faction` coincide. | [E-AttributeNode] |
@@ -145,12 +80,32 @@ _Lógica de dominio y expansión de capacidades._
    - **Descripción**: Poblar `routes[]` y permitir navegación real basada en el esquema de dominios actual.
    - **Depende de**: N/A.
 
+### Dominio: `data / incarnon`
+
+4. **Cola de consolidación de `condition` en incarnon override** `data:debt`
+   - **Descripción**: Inventario completado (2026-06-01). Detalle en `docs/data/schemas/incarnon/gaps.md §7`. 25 `upgrade_type` (exógenos D-6, ya en vocabulario); 70 `condition` tokens, de los cuales ~18 aún sin consolidar en `conditions.md`. Por [D-19] esto es cola de consolidación, no deuda de mapeo: el JSON es el SSoT del token.
+   - **Pending consolidación** (análisis de naturaleza, sin asumir equivalencias): 11 tokens `while_*` + 6 `on_*` sin entrada · 3 con variante de forma a unificar al consolidar · 1 sin prefijo conocido (`per_melee_combo_multiplier`) · OR blocker (`while_aim_gliding_or_sliding`) en Gate 1.
+   - **Pending verificación**: forma `WEAPON_ADD_CRIT_MULT` vs `WEAPON_BASE_CRIT_MULT` por perk — los `notes[]` son la fuente; no todos los casos verificados.
+   - **Depende de**: Análisis de naturaleza por token + verificación manual de notas.
+
 ---
 
 ## 🟢 Nivel PATCH
 _Mantenimiento y Refine._
 
-1. **Limpieza de "Retoques" @shared**
+0. **Gramática de nomenclaturas — Migración completada (2026-06-01)**
+   - **Descripción**: Establecida gramática facetada `DOMINIO:ROL[:ESQUEMA/ID]` como SSoT de todas las nomenclaturas internas. Migrados ~750+ tags en 6 docs principales, 1 JSON de producción, y 1 doc de auditoría. Colisión crítica `[engine]`/`[ENGINE]` resuelta. SSoT: `docs/governance/nomenclature-grammar.md`.
+   - **Nota de deuda activa:** `B1-B4` deprecado en JSDoc — 2 referencias pendientes de eliminación (`useSimulation.ts:15`, `UpgradeView.tsx:22`). No migrar, eliminar.
+   - **Estado**: ✅ Completado.
+
+0b. **D-19 — Naturaleza de `condition` y `notes[]` + poda de L1-L4 (2026-06-01)**
+   - **Descripción**: `condition` redefinido como vocabulario endógeno; el SSoT del token es el override JSON y `conditions.md` es consolidador posterior (no portero previo). `notes[]` = anotación no-SSoT. Reescrito el framing de `conditions.md` + propagación a `mods-schema.md`, `doc-map.md`, `incarnon/gaps.md §7`. Ver `docs/data/decisions.md` D-19.
+   - **Poda L1-L4 (2026-06-01)**: eliminadas las "4 capas de evaluación" (`engine:class:layer/N`) de conditions — eran redundantes con el prefijo del token y solapaban con el Modelo `c2/*`. Esquema `layer` retirado de la gramática (`nomenclature-grammar.md` v1.1.0). Conditions ahora se organiza por prefijo (`while_`/`with_`/`on_`); la única clasificación con contenido mecánico es `engine:class:c2/*`.
+   - **Estado**: ✅ Completado.
+
+1. **DataLoader singleton** — Implementar capa unificada de carga `JSON base + override` en runtime. Reemplaza los loaders fragmentados de `ItemRepository`, `ModRepository`, `IncarnonRepository`. Dirección registrada en `OQ-DATA-3`.
+
+2. **Limpieza de "Retoques" @shared**
    - **Descripción**: Ajustar bugs menores de layout y filtrado detectados tras la migración masiva.
 2. **Purga Física de Docs-Archive**
    - **Descripción**: Eliminar archivos marcados para borrar tras verificar integridad.
@@ -161,4 +116,3 @@ _Mantenimiento y Refine._
 
 ---
 
-**Nota de Integridad**: El proyecto ha alcanzado el hito **v0.0.5**. 13 hitos completados. WEAPON_DAMAGE base corregida, 33 tests gold standard, Archon Shards y Incarnon Genesis con pipeline activo, formulas/ como SSoT matemático activo. Deuda activa: Capa D (Proyección), faction damage wiring, OQ-ENGINE-2 (profile switching).

@@ -28,6 +28,7 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 **Estado:** VIGENTE
 **Fecha:** 2026-04-18
 **Decisión:** Los overrides en `Project/public/data/` son una capa de inteligencia manual, no deuda técnica. `generate-data.ts` produce la base desde `@wfcd/items`; los overrides añaden semántica que las fuentes externas no proveen.
+**Evolución (2026-05-29):** El modelo original asumía consumo runtime-directo para todos los overrides. La implementación real tenía patrones mixtos: `ability-stats.override.json` era bidireccional (pipeline lo leía y escribía), los demás eran runtime-directos. Ese patrón fue corregido: `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`. El pipeline produce solo datos de fuente externa; la gestión de overrides es responsabilidad de `apply-ability-md.ts` (manual/agente). Dirección unificada: todos los overrides se gestionan manualmente y se consumen en runtime mediante un DataLoader singleton (ver `OQ-DATA-3`).
 **Ref:** `docs/data/rules/overrides.md`
 
 ---
@@ -44,7 +45,7 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 **Estado:** VIGENTE
 **Fecha:** 2026-04-18
-**Decisión:** DE da strings como `WEAPON_PERCENT_BASE_DAMAGE_ADDED`; OmniFrame los normaliza a su propio vocabulario en el override. La convención activa es D-6 — D-3 es el antecedente histórico que justifica la necesidad de normalización.
+**Decisión:** Los strings raw de DE (`WEAPON_PERCENT_BASE_DAMAGE_ADDED`, etc.) se normalizan al vocabulario propio en el override. Antecedente histórico de D-6 — la convención activa es D-6.
 
 ---
 
@@ -124,12 +125,6 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 - **Fase 1** (attrs no-daño): ✅ COMPLETADA 2026-05-26. Renombrados `critical_chance/multiplier`, `status_chance`, `fire_rate`, `magazine_size`, `reload_speed` + `resolveToken()` en `ModRepository`. `reload_time` tratado como dato puro en `innate_dna.profiles`, nunca como `AttributeNode`.
 - **Fase 2** (attrs de daño): renombrar `damage_*` → `WEAPON_ADD_*_DAMAGE`. Afecta `DamageCombiner`, `StaticHydrator` (filtro `startsWith('damage_')` → `isUpgrade()`), `PRIMARY_ELEMENTS`, `PHYSICAL_TYPES`, `DAMAGE_EFFICIENCY`, `StatusEngine`, `ELEMENTAL_COMBINATIONS`, `ItemRepository.mapDamage()`. UPGRADE_MAP: 17 entradas de daño se vuelven redundantes tras la Fase 2 (`resolveToken()` las cubre) — purgar en la misma Fase.
 
-**Sub-pregunta resuelta — vocabulario de proc vs attr de daño:** Los identificadores de proc/estado del enemigo (`damage_slash_proc`, `damage_corrosive`, etc. en `EnemyState`) son vocabulario de runtime independiente — NO son tokens D-6 ni se renombran en Fase 2. Un tipo de daño (`heat`) y su proc (`Ignite`) son conceptos distintos modelados en `damage.ts` via `statusLabel`. Ver `references/wiki/mechanics/status-effects.md`.
-
-**Deuda documentada:** Las claves de `EnemyState.stacks` y `dot_pools` usan la convención `damage_*` heredada. Su renombre a identificadores de proc semánticamente correctos es scope de una Fase 3 independiente — no bloquea Fase 2.
-
-**Sub-pregunta abierta — `reload_time`:** RESUELTA en Fase 1. Es dato puro fuera del sistema de modificadores — vive en `innate_dna.profiles`, la fórmula en `CombatCalculator` lo lee directamente. No necesita token D-6.
-
 **Refs:** `Project/src/core/engine/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/semantic/upgrade-tokens.md`, `references/wiki/mechanics/status-effects.md`
 
 ---
@@ -143,19 +138,19 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 
 ---
 
-## D-9 — DatasetSeeder eliminado; datos de prueba = pipeline real
+## D-9 — Datos de prueba = pipeline real (sin fixtures sintéticos)
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-19
-**Decisión:** El engine es agnóstico a los datos. Los datos de prueba vienen del pipeline real (overrides), no de fixtures sintéticos. Si un Upgrade no tiene entrada en el override → `console.warn` → el mod no aplica. Eso es comportamiento correcto.
+**Decisión:** El engine es agnóstico a los datos. Los tests usan los overrides reales — no fixtures sintéticos. Si un token no tiene entrada en el override → `console.warn` → el modificador no aplica. Comportamiento correcto.
 
 ---
 
-## D-10 — Purge completo del path legacy (2026-05-21)
+## D-10 — Única ruta canónica: `simulateFromIntention` (path legacy eliminado)
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-21
-**Decisión:** `simulate(LoadoutState)` y sus 4 métodos privados eliminados de `MutatorBridge`. `loadout.ts`, `LoadoutState`, `SimulationLab.tsx` y `__tests__-legacy/` eliminados. `MutatorBridge` tiene una única ruta canónica: `simulateFromIntention(EnsembleIntention)`.
+**Decisión:** `MutatorBridge` expone una única ruta: `simulateFromIntention(EnsembleIntention)`. El path `simulate(LoadoutState)` y sus dependencias fueron eliminados.
 
 ---
 
@@ -163,7 +158,7 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-22
-**Decisión:** `"NONE"` era un sentinel para "este stat no escala". La semántica correcta es ausencia del campo (`upgrade_by` opcional). 468 instancias purgadas de `ability-stats.override.json`. `calcStatValue()` ya manejaba `undefined` — sin cambios en lógica de cálculo.
+**Decisión:** `"NONE"` era un sentinel para "este stat no escala". La semántica correcta es ausencia del campo (`upgrade_by` opcional). `calcStatValue()` ya manejaba `undefined` — sin cambios en lógica de cálculo.
 **Ref:** `shared/types/ability.ts`, `Project/public/data/ability-stats.override.json`
 
 ---
@@ -172,7 +167,7 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-22
-**Decisión:** `values: AbilityStatValue[]` fue diseñado contra la wiki (tablas multi-rank) en lugar de contra la UI del juego. La UI siempre muestra: 1 stat = 1 línea = 1 eje de scaling. `base_value: number | [number, number]` cubre todos los casos incluido min-max. 1564 stats migrados, 26 entradas min-max convertidas correctamente.
+**Decisión:** `values: AbilityStatValue[]` fue diseñado contra la wiki (tablas multi-rank) en lugar de contra la UI del juego. La UI siempre muestra: 1 stat = 1 línea = 1 eje de scaling. `base_value: number | [number, number]` cubre todos los casos incluido min-max.
 **Ref:** `shared/types/ability.ts`, `docs/data/schemas/abilities/schema.md`
 
 ---
@@ -183,6 +178,7 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 **Fecha:** 2026-05-27
 **Decisión:** El override `incarnon-evolutions.override.json` es SSoT manual — mismo patrón que `archon-shards.json`. 85 armas extraídas de wikitext con script archivado; nuevas armas se añaden a mano. El schema indexa por `unique_name`; variantes (Boltor / Telos / Prime) tienen entradas separadas — no existe campo `variant`. Los perks dinámicos (condicionales, on-kill, stacking) se documentan como `null + note` hasta que exista soporte en C1. Tokens `WEAPON_BASE_*` (BASE_FLAT) añadidos a `UPGRADE_MAP` para los 4 perks estáticos implementables: `WEAPON_BASE_DAMAGE`, `WEAPON_BASE_CRIT_CHANCE`, `WEAPON_BASE_STATUS_CHANCE`, `WEAPON_BASE_MAGAZINE_MAX`.
 **Ref:** `docs/data/schemas/incarnon/schema.md`, `docs/data/schemas/incarnon/gaps.md`, `IncarnonRepository`, `Project/public/data/incarnon-evolutions.override.json`
+**Evolución:** el shape del schema (array `[{upgrade_type, value}]`) fue reemplazado por `stats[]` en [D-18](#d-18--incarnon-schema-stats-con-condition-migración-desde-array-2026-05-30) (2026-05-30). El resto de D-13 (SSoT manual, indexado por `unique_name`, variantes sin campo `variant`) sigue vigente.
 
 ---
 
@@ -200,14 +196,22 @@ note?:      string | null  // descripción semántica de lo que el token no pued
 Estos campos son **mecanismos de seguimiento de diseño**, no ruido de desarrollo.
 Su contenido debe ser útil para una futura sesión de implementación — no para el autor de la sesión actual.
 
-### Semántica de los tres estados de una stat entry
+> **Evolución (D-18, 2026-05-30):** la semántica de `condition` se redefinió como **monosemántica**
+> — el campo habla solo de la condición, no del estado de análisis. La tabla de abajo (que ataba
+> `condition` al progreso de revisión) queda **superada**. Ver D-18 para la taxonomía vigente:
+> ausente = sin condición · `null` = condición no mapeada · token = condicional. El estado "analizado"
+> se infiere de `upgrade_type`/`note`, dimensión ortogonal a `condition`.
 
-| Estado | `upgrade_type` | `condition` | `note` | Significado |
-|---|---|---|---|---|
-| Sin analizar | `null` | ausente | ausente | Entry no revisada todavía |
-| Analizada, sin modelo | `null` | token o `null` | presente | Semántica conocida, vocabulario insuficiente |
-| Mapeada, con matiz | token | token o `null` | presente | Mapeada pero hay contexto que el token solo no captura |
-| Mapeada, completa | token | token o `null` | ausente | Entrada correcta y completa |
+### Semántica de `condition` (vigente, D-18)
+
+| `condition` | Significado |
+|---|---|
+| *(ausente)* | No hay condición que aplicar — default, caso mayoritario |
+| `null` | Hay condición real, sin token mapeado todavía (hueco de datos) |
+| `"<token>"` | Condicional, mapeada al vocabulario de `conditions.md` |
+
+`upgrade_type` (presente = mapeado) y `note` (presente = matiz documentado) cubren la dimensión de
+"estado de análisis", separada de `condition`.
 
 ### Regla de contenido para `note?:`
 
@@ -297,3 +301,115 @@ Un sector es un eje semántico de una fuente de datos. Cada fuente tiene múltip
 - Cobertura total acumulada: 60% global con un sector al 0% no cumple el target
 
 **Ref:** `docs/semantic/conditions.md`, `docs/data/status.md`
+
+---
+
+## D-17 — Tokens D-6 pendientes: galvanizados (2026-05-29)
+
+**Estado:** VIGENTE
+**Fecha:** 2026-05-29
+**Decisión:** Tres tokens usados en `mod-stats.override.json` para mods galvanizados tienen semántica D-6 no cerrada. Se documentan como deuda explícita. Los overrides usan el token actual hasta que cada uno sea resuelto.
+
+### Tokens pendientes
+
+| Token actual | Problema | Resolución futura |
+|---|---|---|
+| `WEAPON_FIRE_ITERATIONS` | Alias del pipeline @wfcd/items. Viola D-6 (falta segmento `ADD`). Renombrar a `WEAPON_ADD_MULTISHOT`. | Rename global en override + actualizar UPGRADE_MAP. Un `sed` sobre todo el JSON. |
+| `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` | Sin equivalente D-6. Semántica: `+X% daño global por cada tipo de estado único activo en el target`. Requiere token nuevo o `CONTEXT_SCALE` con `unique_status_count` del `SimContext`. | Debate de diseño: ¿token fijo o operación CONTEXT_SCALE? Decidir en C1-A. |
+| `WEAPON_ADD_BEAM_RANGE` (inexistente) | El mod Galvanized Acceleration afecta Beam Range. No existe token D-6 para este atributo. Los stats de Acceleration guardan solo `WEAPON_ADD_PROJECTILE_SPEED` con `note: "beam_range: no D-6 token — pending"`. | Investigar mods análogos (Sinister Reach, Thermagnetic Shells). Crear token si hay evidencia de impacto en sim. |
+
+### Impacto actual (Fase 0)
+- `WEAPON_FIRE_ITERATIONS` → resuelto por `UPGRADE_MAP` (mapea a `WEAPON_ADD_MULTISHOT`). Funciona.
+- `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` → no está en `UPGRADES[]` → silently dropped por `ModRepository`. No funcional hasta resolución.
+- Beam range → no está en `UPGRADES[]` → silently dropped. No funcional hasta resolución.
+
+**Ref:** `docs/semantic/upgrade-tokens.md`, `Project/src/shared/types/modifier.ts`
+
+---
+
+## D-18 — Incarnon `stats[]` + taxonomía monosemántica de `condition` (global) (2026-05-30)
+
+**Estado:** VIGENTE
+**Fecha:** 2026-05-30
+**Decisión (dos partes):**
+
+**(1) Incarnon migra a `stats[]`.** Del array `[{upgrade_type, value}]` (D-13) a un objeto perk con
+`stats[]`, convergente con abilities (entry plano: `label` + `base_value` + `upgrade_type`) más
+`condition`. Cada bullet de la wiki es un `StatEntry`.
+
+```ts
+{ label: string;                          // display, con |val1| y condición textual si aplica
+  base_value?: number | Record<alias,number>;
+  upgrade_type?: string;                   // ausente = no modelable (gap)
+  condition?: string }                     // ausente | null | token — taxonomía (2)
+```
+
+**(2) Taxonomía monosemántica de `condition` (global: mods + arcanes + incarnon).** `condition`
+habla **solo de la condición**, no del estado de análisis (eso lo cubren `upgrade_type`/`note`).
+Evoluciona D-14, que lo había sobrecargado con dos dimensiones.
+
+| `condition` | Significado |
+|---|---|
+| *(ausente)* | No hay condición — default, caso mayoritario |
+| `null` | Condición real, sin token mapeado todavía |
+| `"<token>"` | Condicional, mapeada a `conditions.md` |
+
+Cobertura aplicada 2026-05-30:
+
+| Schema | token | null (no mapeado) | null incondicional eliminado |
+|---|---|---|---|
+| incarnon | 120 | 0 | 315 → ausente |
+| mods | 14 | 2 | 879 → ausente |
+| arcanes | 121 | 4 | 50 → ausente |
+
+Scripts: `add-incarnon-conditions.py` (mapeo trigger→token de incarnon, aprobado manualmente),
+`normalize-condition-taxonomy.py` (limpieza de `null` incondicional, genérico). 5 tokens nuevos
+añadidos a `conditions.md`.
+
+### Por qué
+- **stats[]:** la condición estaba atrapada en el texto del label, forzando display-only y bloqueando `|val1|`.
+- **taxonomía:** `condition: null` en ~1244 incondicionales era ruido; `null` debe reservarse para huecos
+  reales de datos. El caso mayoritario (sin condición) es ausencia, no `null` explícito.
+
+### Deuda asociada
+`IncarnonRepository.getModifiers` aún lee `perk.upgrades[]` (formato viejo) → devuelve `[]` en runtime.
+Actualizar a `stats[]` + respetar `condition` (default-activo, D-15) es fase posterior (engine↔UI).
+Backup pre-migración: `incarnon-evolutions.override.backup-2026-05-30.json` (referencia read-only).
+
+**Evoluciona:** D-13 (schema array → stats[]). **Ref:** `docs/data/schemas/incarnon/schema.md`,
+`docs/semantic/conditions.md`, `Project/src/domains/arsenal/incarnon/use-incarnon-catalog.ts`
+
+---
+
+## D-19 — `condition` es vocabulario endógeno (consolidador posterior); `notes[]` es anotación no-SSoT (2026-06-01)
+
+**Estado:** VIGENTE
+**Fecha:** 2026-06-01
+**Decisión (dos partes):**
+
+**(1) Naturaleza de `condition` — endógeno, consolidador posterior.**
+A diferencia de `upgrade_*` —que entra desde tipos DE de `@wfcd/items` y se normaliza a la
+taxonomía D-6 (exógeno, con familias pre-dadas)— `condition` **no existe en ninguna fuente
+externa**. Se construye leyendo/auditando/confirmando el label. Verificado (2026-06-01):
+`ability-stats` no tiene `condition` (ni dato ni schema); `condition` vive solo en los overrides
+de inteligencia manual (mods, arcanes, incarnon).
+
+Consecuencias:
+- El **SSoT de los tokens es el override JSON**, no `conditions.md`. El JSON es el frente de captura.
+- `conditions.md` es un **consolidador posterior**: elige forma canónica entre variantes, agrupa y
+  documenta semántica a medida que madura. NO es portero previo.
+- Un token en un override ausente de `conditions.md` = **cola de consolidación**, no drift/deuda.
+- No se asume equivalencia entre tokens por parecido de label (labels similares, mecánicas
+  distintas). Colapsar = análisis de naturaleza, no redacción. La organización por prefijo
+  (`while_`/`with_`/`on_`) es emergente, no taxonomía cerrada con reglas de derivación.
+
+**(2) Naturaleza de `notes[]` — anotación, no SSoT.**
+`notes[]` (y los campos `note?:` de stat entry) son una **capa de anotación/auditoría**, nunca
+SSoT. Acompañan al dato sin definirlo. Contenido: edge-cases, fórmulas que derivan del override
+(insumo para modelar el engine), scope / "dónde y cómo aplica X", deuda relevante al futuro del
+override. Lo que el token no captura todavía vive aquí como nota, no como verdad canónica. D-14
+fijó el *formato* de `note`; esta decisión fija su *naturaleza*.
+
+**Evoluciona:** D-14 (formato de `note` → + naturaleza), D-15 (Fase 0 tracking → marco SSoT explícito).
+**Contrasta con:** D-6 / `upgrade-tokens.md` (vocabulario exógeno-normativo).
+**Ref:** `docs/semantic/conditions.md`, `docs/data/rules/overrides.md`.

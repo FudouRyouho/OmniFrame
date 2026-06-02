@@ -24,13 +24,6 @@ Ver `docs/domains/engine/design/simulation-architecture.md` para la definición 
 
 ## Estado de la documentación
 
-Las preguntas abiertas de arquitectura de estado fueron resueltas:
+OQs STATE-1/2/3/4 cerradas: ver `docs/governance/closed-decisions.md`.
 
-- **OQ-STATE-1** ✅ — Contrato canónico: `EnsembleIntention` en `EnsembleStore`.
-- **OQ-STATE-2** ✅ — Archon Shards migrados a `EnsembleIntention`.
-- **OQ-STATE-3** ✅ — `LoadoutContext` eliminado.
-- **OQ-STATE-4** ✅ — `EnsembleAdapter` eliminado. `MutatorBridge` absorbe la traducción.
-
-**Pendiente:** Capa D (Proyección) — contrato `ViewModelContract` no definido formalmente. Ver `docs/governance/open-questions.md` y `impact-matrix.md §MAYOR`.
-
-Ver `docs/governance/open-questions.md`.
+**Pendiente:** Capa D (Proyección) — contrato `ViewModelContract` no definido formalmente. Ver `impact-matrix.md §MAYOR`.

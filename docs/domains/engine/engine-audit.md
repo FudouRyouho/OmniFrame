@@ -118,7 +118,6 @@ No conectado a ningún dato real.
 
 | Concepto | Archivo diseñado | Estado |
 | :--- | :--- | :--- |
-| ~~DNA Mutation Step~~ — **Archon Shards** | `simulation-architecture.md §Capa B` | **Implementado (2026-05-27)** — `StaticHydrator.hydrate()` consume `ensemble.warframe.shards` vía `ShardRepository`. Emite `Modifier` objects con `target_entity` correcta. OQ-ENGINE-4 cerrado. Helminth sigue sin implementar. |
 | Casting Snapshot (ADN Dinámico) | `simulation-architecture.md §2.7` | No existe. El behavior `CAST` → snapshot parcial del padre → InjectedDNA en TE no está implementado. |
 | Transient Entity Queue (Anti-recursión) | `simulation-architecture.md §Capa C` | Los procs (Slash, Heat, Toxin) son proyecciones matemáticas de `StatusEngine`, no TEs reales en una cola. No hay límite de profundidad ni energía de tick. |
 | Logic Decorator Layers (6 capas) | `simulation-architecture.md §2.6` | No existen. El engine resuelve todos los modificadores en un solo bloque sin capas ordenadas (`INITIAL_OVERRIDE` → `FINAL_CLIP`). |
@@ -164,26 +163,15 @@ Serration (y similares) aplican como `ADD` al pool aditivo de `WEAPON_DAMAGE`, q
 | ~~`DatasetSeeder.ts`~~ | **ELIMINADO** — D-9 (2026-05-19). Datos de prueba = pipeline real. |
 | ~~`TraceObserver.ts`~~ | **ELIMINADO** — directorio `audit/` purgado. |
 
-### 4.3 ~~Elemental damage via label parsing~~ — RESUELTO (2026-05-27)
-
-> **OQ-ENGINE-3 CERRADO.** `ModRepository` v2 consume `upgrade_type` directamente vía `isUpgrade()` + `UPGRADE_MAP` / `resolveToken()`. No hay label parsing. El tipo elemental ya está declarado en el token D-6 (ej. `WEAPON_ADD_TOXIN_DAMAGE`). El campo `stat.label` existe en el override como texto descriptivo pero no se procesa.
-
-### 4.4 All-operations siempre ADD
+### 4.3 All-operations siempre ADD
 
 `ModRepository` produce todos los modificadores con `operation: "ADD"` por defecto, independientemente del tipo de stat. Mods multiplicativos (como Faction damage) requieren `operation: "MULTIPLICATIVE"` pero reciben `"ADD"` si no hay un registro manual explícito.
 
 ---
 
-## 5. Open Questions generadas por esta auditoría
+## 5. Open Questions
 
-| ID | Pregunta | Impacto |
-| :--- | :--- | :--- |
-| **OQ-ENGINE-1** | ¿El patrón `WEAPON_DAMAGE` como multiplicador global es la arquitectura definitiva? | Alto | ✅ **CERRADO (2026-05-27)** — Arquitectura definitiva. Base = `damage_sum`. 33 tests gold standard. |
-| **OQ-ENGINE-2** | Profile switching (Incarnon/Alt-fire): re-hidratar vs. conmutar en `resolve()`. | Medio | **ABIERTO** |
-| **OQ-ENGINE-3** | ¿El label-parsing en `ModRepository` es aceptable o se migra a token explícito? | Medio | ✅ **CERRADO (2026-05-27)** — Token D-6 explícito en override. Label parsing eliminado. |
-| **OQ-ENGINE-4** | ¿En qué Fase se implementa la DNA Mutation (Archon Shards, Helminth)? | Alto | ✅ **CERRADO (2026-05-27)** — Archon Shards implementados en `StaticHydrator`. Helminth defer. |
-
-Estas preguntas se registran en `docs/governance/open-questions.md`.
+OQ-ENGINE-1/3/4 cerradas. OQ-ENGINE-2 (profile switching) abierta. Ver `docs/governance/open-questions.md` y `closed-decisions.md`.
 
 ---
 

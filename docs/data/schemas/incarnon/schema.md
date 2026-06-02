@@ -1,28 +1,36 @@
 ---
-Estado: "referencia"
+Estado: "activo"
 Rol: "Contrato del override JSON de Incarnon Genesis / Incarnon nativo"
-Version: "v1.0.0"
-Impacto_ID: "SSoT-Data-Incarnon"
+Version: "v2.0.0"
+Impacto_ID: "data-incarnon"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Schema: incarnon-evolutions.override.json
 
 Datos de perks de evolución Incarnon. Indexado por `unique_name` del arma.
 
+> **v2.0.0 (2026-05-30):** el schema migró de array de modificadores `[{upgrade_type, value}]`
+> a `stats[]` con `label`/`base_value`/`upgrade_type`/`condition` — convergente con el patrón
+> de abilities (plano) + `condition` de mods. Ver [D-18](../../decisions.md).
+
 ## Estructura
 
 ```json
 {
   "<unique_name>": {
+    "_challenges": { "<tier>": "challenge text" },
+    "weapons": "<unique_name>"  // o  { "<alias>": "<unique_name>", ... } para variantes
     "evolutions": {
       "<tier>": {
-        "<perk_id>": [
-          { "upgrade_type": "<token>", "value": <number> },
-          { "upgrade_type": null, "condition": "<cond>", "note": "<gap>" }
-        ]
+        "<perk_id>": {
+          "name":       "Display Name",
+          "image_name": "WikiFile.png",
+          "stats":      [ /* StatEntry[] */ ],
+          "notes":      ["aclaración para la UI", "[engine] detalle de cálculo"]
+        }
       }
     }
   }
@@ -31,17 +39,42 @@ Datos de perks de evolución Incarnon. Indexado por `unique_name` del arma.
 
 | Campo | Tipo | Descripción |
 |---|---|---|
-| `tier` | string (número) | EVO tier: "2", "3", "4". EVO I es la transformación base — no tiene perks elegibles. |
-| `perk_id` | string (snake_case) | ID único del perk. Coincide con `evolution_perks[tier]` en `SlotIntention`. |
-| `upgrade_type` | `Upgrade \| null` | Token D-6 del vocabulario `UPGRADES`. `null` = gap conocido o sin analizar (ver D-14). |
-| `value` | `number \| Record<alias, number>` | Valor del modificador. Polimórfico: escalar si es compartido entre variantes, dict si difiere por variante. |
-| `condition?` | `string \| null` | Token canónico del vocabulario de conditions (D-14). Presente en perks condicionales. Texto libre en `note` para condiciones no tokenizadas aún. |
-| `note?` | `string \| null` | Semántica no tokenizable (D-14). Presente cuando `upgrade_type` es null o el token no captura todo el matiz. Ausente = entrada completa. |
+| `_challenges` | `Record<tier, string>` | Texto del challenge por tier. Top-level del weapon entry. |
+| `weapons` | `string \| Record<alias, unique_name>` | `unique_name` único, o dict alias→unique_name si hay variantes (Boltor/Telos/Prime). |
+| `tier` | string (número) | EVO tier: "1"–"5". EVO 1 es la transformación base (`incarnon_form`), perks display-only. |
+| `perk_id` | string (snake_case) | ID del perk. Coincide con `evolution_perks[tier]` en `SlotIntention`. |
+| `name` | string | Nombre de display del perk (de la wiki). |
+| `image_name` | string | Filename del icono del perk (sin ruta). |
+| `stats` | `StatEntry[]` | Efectos del perk. Cada bullet de la wiki es un stat. |
+| `notes` | `string[]?` | Aclaraciones de la wiki. Prefijo `[engine]` para detalles de cálculo (D-15). |
 
-Ver [D-14](../../decisions.md) y [D-15](../../decisions.md): `note` es seguimiento de diseño, no ruido; `condition` es tracking-only en Fase 0.  
-Vocabulario canónico: `docs/semantic/conditions.md`.
+### StatEntry (entrada de stats)
 
-## Tokens usados (nuevos, 2026-05-27)
+```ts
+interface StatEntry {
+  label:         string;                       // Template display: "Increase Damage by |val1|.", "With Overshields: ..."
+  base_value?:   number | Record<alias, number>; // Escalar, o dict por variante. Ausente = display-only.
+  upgrade_type?: string;                        // Token D-6 del atributo. Ausente = no modelable (gap).
+  condition?:    string | null;                 // Token canónico | null | ausente — ver tabla
+}
+```
+
+`|val1|` resuelve `base_value` (escalar) o `base_value[<alias>]` (dict por variante).
+La condición se conserva **también** en el texto del `label` para display (precedente mods), además
+del token en `condition` para el engine.
+
+### Estados de `condition` (taxonomía monosemántica, [D-18](../../decisions.md))
+
+| `condition` | Significado | Detección |
+|---|---|---|
+| `"<token>"` | Condicional, mapeada. Token canónico de `docs/semantic/conditions.md`. | label arranca con marcador (`With`/`On`/`While`/...) y mapea |
+| `null` | Condición real sin token todavía (hueco de mapeo). | label condicional + sin token (en incarnon: 0 casos) |
+| *(ausente)* | No hay condición. | label no condicional |
+
+`condition` habla solo de la condición. El estado "analizado" se infiere de `upgrade_type`/`note`.
+Cobertura (2026-06-01): **175** token · **0** null · **539** ausente (714 stats). 69 tokens únicos; 21 en cola de clasificación — ver `docs/semantic/conditions.md` §Ingesta incarnon (2026-06-01).
+
+## Tokens `upgrade_type` usados
 
 | Token | Mapea a | Operación |
 |---|---|---|
@@ -49,41 +82,32 @@ Vocabulario canónico: `docs/semantic/conditions.md`.
 | `WEAPON_BASE_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | `BASE_FLAT` |
 | `WEAPON_BASE_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | `BASE_FLAT` |
 | `WEAPON_BASE_MAGAZINE_MAX` | `WEAPON_ADD_MAGAZINE_MAX` | `BASE_FLAT` |
+| (otros `WEAPON_ADD_*`, `WEAPON_BASE_HEAVY_EFFICIENCY`, …) | vocabulario D-6 | según token |
 
-`BASE_FLAT` se suma al `base` del atributo antes de aplicar mods porcentuales — se amplifica por Serration/Hornet Strike/etc.
+`BASE_FLAT` se suma al `base` del atributo antes de mods porcentuales — se amplifica por Serration/Hornet Strike/etc.
 
 ## Semántica de valores
 
-- `WEAPON_BASE_DAMAGE`: unidades absolutas de daño (ej. +4 = cuatro puntos de daño total)
-- `WEAPON_BASE_CRIT_CHANCE`: puntos porcentuales (ej. +14 = 14 puntos sobre la CC base)
-- `WEAPON_BASE_STATUS_CHANCE`: puntos porcentuales
-- `WEAPON_ADD_RELOAD_SPEED`: porcentaje (ej. +60 = +60%)
+- `WEAPON_BASE_DAMAGE`: unidades absolutas de daño.
+- `WEAPON_BASE_CRIT_CHANCE` / `WEAPON_BASE_STATUS_CHANCE`: puntos porcentuales.
+- `WEAPON_ADD_RELOAD_SPEED` / `WEAPON_ADD_PROJECTILE_SPEED`: porcentaje.
 
 ## Gaps conocidos
 
-| Perk | Token pendiente | Motivo |
-|---|---|---|
-| Hunter's Mantra — Punch Through (condicional) | `WEAPON_ADD_PUNCH_THROUGH` | Token no en vocabulario D-6 |
-| Hunter's Mantra — Accuracy (condicional) | `WEAPON_ADD_ACCURACY` | Token no en vocabulario D-6 |
-| Crimson Overture — on-kill stacking | N/A | Buffer dinámico, no modelable en snapshot estático |
-| Swift Deliverance — Projectile Speed | `WEAPON_ADD_PROJECTILE_SPEED` | Token no en vocabulario D-6 |
-| Condiciones en general | — | `context.flags` no implementado para flags de combate |
+- Stats con `condition` token pero **sin** `upgrade_type`: efecto condicional con atributo no tokenizado
+  (ej. "+300% Combo Count Chance", Punch Through, Accuracy). Display-only legítimo.
+- Tokens L3 (eventos): presentes como dato; el engine no los aplica hasta tener sistema de eventos (D-15 Fase 0).
+- Multi-valor por label (X / Y): se modela como stats separados; no hay `|val2|` en incarnon todavía.
 
 ## Consumer
 
-`IncarnonRepository.getModifiers(uniqueName, evolutionPerks, targetId)` resuelve
-`evolution_perks: Record<number, string>` → `Modifier[]` via UPGRADE_MAP.
+`IncarnonRepository.getModifiers(uniqueName, evolutionPerks, targetId)` → `Modifier[]`.
 
-El repository se carga en el `beforeAll` de los tests y debe cargarse en el
-bootstrap de la app (pendiente: integrar con `DataRegistry` o `useSimulation`).
+> **Deuda (2026-05-30):** el repository todavía lee el formato viejo `perk.upgrades[]`. Tras la migración
+> a `stats[]`, devuelve `[]` en runtime. La actualización para consumir `stats` + respetar `condition`
+> (default-activo, D-15) es fase posterior, al conectar engine↔UI. Fuera de scope del trabajo de datos.
 
 ## Convención de variantes per-arma
 
-Si Boltor / Telos Boltor / Boltor Prime tienen valores distintos para el mismo perk
-(ej. Hunter's Mantra +18 vs +4), cada arma tiene su propia entrada en el JSON.
-No existe un campo de "variante": la key del objeto ES el `unique_name`.
-
-## Referencia implementada
-
-Boltor Genesis (3 variantes): EVO II–IV, todos los perks de la wiki excepto los gaps listados.
-Fuente: `references/wiki/systems/incarnon/raw/boltor-incarnon-genesis.wikitext`
+`weapons` como dict mapea alias→`unique_name`. `base_value` puede ser dict por alias cuando el valor
+difiere entre variantes (ej. `{"base": 14, "prime": 10}`). No existe un campo `variant` separado.

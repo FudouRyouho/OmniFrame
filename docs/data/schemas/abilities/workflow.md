@@ -2,10 +2,10 @@
 Estado: "activo"
 Rol: "Guía de proceso para agregar o actualizar habilidades vía pipeline semántico"
 Version: "v0.1.0"
-Impacto_ID: "D-Abilities-Workflow"
+Impacto_ID: "data-abilities-workflow"
 Fidelidad_Fisica: "references/game-ui/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-24"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Ability Migration Workflow

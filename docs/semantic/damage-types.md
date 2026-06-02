@@ -2,10 +2,10 @@
 Estado: "activo"
 Rol: "Contrato semántico de tipos de daño y sus mapeos"
 Version: "v0.0.2"
-Impacto_ID: "S-Damage"
+Impacto_ID: "semantic-damage"
 Fidelidad_Fisica: "Project/src/shared/types/damage.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-04-19"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # DamageType — Semántica Canónica

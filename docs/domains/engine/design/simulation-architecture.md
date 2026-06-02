@@ -46,6 +46,29 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 
 ---
 
+### Las dos intenciones del usuario
+
+El sistema recibe dos tipos de intención del usuario, con ciclos de vida independientes:
+
+| Intención | Contrato | Quién la produce | Destino |
+|---|---|---|---|
+| **Equipamiento** | `EnsembleIntention` | `EnsembleStore` (Capa A) | B → C1/C2 |
+| **Contexto de simulación** | `SimulationContext` | Arsenal State (UI) | B → C1/C2, D |
+
+**`EnsembleIntention`** responde "¿qué tengo equipado?". No cambia si el usuario activa o desactiva una condición.
+
+**`SimulationContext`** responde "¿cómo quiero ver el resultado?". Arsenal State lo construye derivando las condiciones disponibles del propio `EnsembleIntention`: si Galvanized Savvy está equipada, Arsenal State sabe que existe la condición asociada y la incluye en `flags`. El engine no infiere condiciones — las recibe ya construidas.
+
+**Estado inicial (simplificación estática):** `flags` = todas las condiciones derivadas del equipamiento en `true`, `variables` = todos los stacks al máximo. A medida que el modelo evolucione, el usuario podrá controlar condiciones individuales y cantidad de stacks desde la UI.
+
+**`SimulationContext` como punto de variabilidad de C2:** C2 no tiene sub-modos. Lo que varía es la riqueza del contexto:
+- Mínimo (flags derivadas del equipo, sin enemigo) → resolución "todo activo al máximo"
+- Completo (enemigo + timeline) → simulación con DoT y TTK
+
+La capa, el contrato y el flujo son idénticos en ambos casos.
+
+---
+
 ### Capa A: Intención (EnsembleStore)
 
 - **Naturaleza**: Dos preocupaciones horizontales bajo el mismo concepto:
@@ -63,11 +86,12 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 ### Capa B: Comunicación (MutatorBridge)
 
 - **Naturaleza**: Capa de traducción unidireccional. Solo baja (intención → engine). No sube.
+- **Dos entradas:** recibe `EnsembleIntention` desde Capa A **y** `SimulationContext` desde Arsenal State (UI). No construye el contexto — lo recibe ya formado y lo reenvía al engine junto con el Ensemble traducido.
 - **Responsabilidad**:
   - Escucha el snapshot de `EnsembleIntention`.
   - **DNA Mutation Step**: Aplica mutaciones fijas (Archon Shards, Helminth) sobre los valores base del dataset. Entrega `MutatedDNA` al engine. *(Archon Shards implementados — OQ-ENGINE-4 cerrado (2026-05-27): `StaticHydrator.hydrate()` consume `ensemble.warframe.shards` vía `ShardRepository`. Helminth sigue sin implementar.)*
   - **Positional Mapping**: Preserva el orden de slots de mods para el Elemental System de C1.
-- **No conoce**: React, UI, cómo las fórmulas funcionan internamente.
+- **No conoce**: React, UI, cómo las fórmulas funcionan internamente. No decide qué condiciones están activas.
 - **Físico**: `Project/src/core/engine/bridge/MutatorBridge.ts`
 
 ---
@@ -90,8 +114,8 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 
 - **Naturaleza**: Aplica el resultado de C1 en un escenario reproducible con contexto. Usa C1 internamente.
 - **Responsabilidad**:
-  - Recibe las entidades resueltas de C1 + `SimulationContext` (target, distancia, flags de entorno).
-  - Resuelve daño final contra enemigos, procs de estado, líneas de tiempo.
+  - Recibe las entidades resueltas de C1 + `SimulationContext` (flags de condiciones, variables de stacks, target opcional, distancia).
+  - Resuelve daño final, procs de estado, líneas de tiempo. El nivel de detalle depende de la riqueza del `SimulationContext` recibido — no de sub-modos internos de C2.
   - Emite `ProjectionSnapshot` con métricas de combate (DPS, TTK, status weights).
 - **No conoce**: UI, intención del usuario, cómo se presentan los resultados.
 - **Distinción clave con C1**: C1 resuelve *qué vale cada atributo*. C2 resuelve *qué pasa en el juego con esos valores*.
@@ -109,6 +133,7 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
   - Expone los buckets de `AttributeNode` estructurados para la vista de "sheets" (contribución de mods por capa de fórmula).
 - **No es el Observer de v1**: el Observer era externo y para debug. La Capa D es parte del flujo de presentación.
 - **No conoce**: fórmulas del engine, lógica de simulación.
+- **`view_mode`**: recibe el `view_mode` del `SimulationContext` y serializa el `ProjectionSnapshot` según la profundidad solicitada: `"classic"` expone solo `AttributeNode.final`; `"advanced"` expone buckets completos con atribución por fuente (qué mod contribuyó qué a cada bucket). Mismo cálculo de C1 — distinta profundidad de exposición.
 - **Estado actual**: implementación mínima (`useSimulation` hook expone el snapshot crudo). El contrato de `ViewModelContract` está **pendiente de definición**.
 - **Físico actual**: `Project/src/core/engine/hooks/useSimulation.ts`
 - **Físico pendiente**: ViewModelContract, diff tracker, granular reactive emitters.

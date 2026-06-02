@@ -80,12 +80,6 @@ useSimulation → MutatorBridge → StaticHydrator + SimulationEngine → { enti
 
 El gap no es de corrección — la matemática en `combat/` es mayormente correcta. El gap es de trazabilidad: si una fórmula cambia, hay que actualizar N lugares. Con `formulas/` como SSoT, se actualiza 1.
 
-### 2.4 ~~DamageCombiner — violación de layer boundary~~ — RESUELTO (Fase 3)
-
-~~`DamageCombiner` vive en `combat/` pero es llamado exclusivamente desde `StaticHydrator` (hydration/). Pertenece a `hydration/` o al nivel de `contracts/`.~~
-
-> **Resuelto en Fase 3 (2026-05-27):** `DamageCombiner` movido a `engine/hydration/`. Layer boundary cerrada.
-
 ---
 
 ## 3. Inventario de formulas/ — Estado y clasificación
@@ -111,24 +105,9 @@ El gap no es de corrección — la matemática en `combat/` es mayormente correc
 
 **Principio**: no reescribir, conectar. El código de `formulas/` es correcto — el trabajo es reemplazar las copias inline por llamadas a `formulas/`.
 
-### Fase 1 — Purga D-3 (GREEN, cero riesgo) ✅ 2026-05-27
+### Fase 1 + 2 ✅ 2026-05-27
 
-Eliminar los únicos dos archivos con tokens pre-D-6:
-
-- [x] Purgar `formulas/weapon/weapon-core.ts`
-- [x] Purgar `formulas/warframe/warframe-core.ts`
-
-### Fase 2 — Conectar formulas/common a combat/ y resolution/ (GREEN) ✅ 2026-05-27
-
-- [x] `AtomicSimulator.calculateAverageMultiplier()` → `crit-base::averageCritMultiplier()`
-- [x] `AtomicSimulator.calculateCritDistribution()` → `crit-base::resolveCritTier()`
-- [x] `AtomicSimulator.rollPellets()` → eliminada la duplicación inline de tier logic
-- [x] `SimulationEngine.calculateCurrentValue()` → `scaling-base::applyAdditiveBonus()`
-- [x] `tsc --noEmit` limpio en todos los pasos
-
-**Consumidores activos de formulas/ tras Fase 2:**
-- `crit-base.ts` ← `AtomicSimulator` (combat/)
-- `scaling-base.ts` ← `AtomicSimulator` (vía weapon-crit imports), `SimulationEngine` (resolution/)
+`weapon-core.ts` / `warframe-core.ts` purgados. `crit-base.ts` ← `AtomicSimulator`; `scaling-base.ts` ← `SimulationEngine`. `DamageCombiner` movido a `hydration/`.
 
 ### Fase 3 — Estabilización C1 antes de avanzar a combat/ (DECISIÓN 2026-05-27)
 
@@ -144,9 +123,6 @@ Eliminar los únicos dos archivos con tokens pre-D-6:
 - ~~Evoluciones Incarnon mapeadas en `EnsembleIntention` + pipeline de hydration~~ → **Completado (2026-05-27):** `IncarnonRepository` + `incarnon-evolutions.override.json` (85 armas, tokens `WEAPON_BASE_*`)
 - Cobertura de mods al ≥70-80% en override
 - Tests C1 cubriendo los casos de la capa de formulas (status, multishot, elemental combine)
-
-**Tareas completadas en esta fase:**
-- [x] `DamageCombiner` movido de `combat/` a `hydration/` — layer boundary cerrada (2026-05-27)
 
 ### Fase 4 — Migrar vocabulario de status-base (YELLOW, medio riesgo)
 
@@ -175,16 +151,11 @@ Bloqueado por:
 ## 5. Lo que NO se toca en este plan
 
 - `EnemyState`, `EnemyRepository` — correctos, fuera de scope
-- ~~`DamageCombiner` — correcto pero mal ubicado~~ → movido a `hydration/` (2026-05-27) ✅
 - `SimulationEngine` — correcto; `calculateCurrentValue()` se refina en Fase 2 cuando haya SSoT estable
 - Vocabulary de `EnemyState` proc identifiers (`damage_slash_proc`, etc.) — es D-7 Fase 3
 
 ---
 
-## 6. Open Questions generadas
+## 6. Open Questions
 
-| ID | Pregunta | Bloquea | Estado |
-|---|---|---|---|
-| OQ-ENGINE-5 | Purgar `weapon-core.ts` y `warframe-core.ts` | Fase 1 | ✅ CERRADO |
-| OQ-ENGINE-6 | WEAPON_FIRE_ITERATIONS no mapeado | Fase 1 | ✅ CERRADO |
-| OQ-ENGINE-7 | `status-base.ts` migra a D-6 o mantiene DamageType | Fase 4 | ABIERTO |
+OQ-ENGINE-5/6 cerradas. **OQ-ENGINE-7** (`status-base.ts` migra a D-6 o mantiene DamageType) — ABIERTO, bloquea Fase 4.

@@ -34,7 +34,7 @@ Fecha_de_actualizacion: "2026-05-27"
 | `DnaRepository` | `engine/hydration/DnaRepository.ts` | **Activo** |
 | `DamageCombiner` | `engine/hydration/DamageCombiner.ts` | **Activo** — movido de `combat/` (2026-05-27, layer boundary) |
 
-### Capa C2 — Resolución
+### Capa C1 — Resolución
 
 | Componente | Ruta | Estado |
 |---|---|---|
@@ -99,21 +99,6 @@ Fecha_de_actualizacion: "2026-05-27"
 | ~~`formulas/warframe/`~~ | **ELIMINADO (2026-05-27)** — `warframe-core` purgado, directorio vacío |
 
 Ver [`formula-overview.md`](formula-overview.md) para la especificación matemática.
-
----
-
-## Lo que NO existe (eliminado)
-
-| Artefacto | Fecha | Motivo |
-|---|---|---|
-| `resolver.ts` | anterior | Absorbido por `MutatorBridge` + `SimulationEngine` |
-| `EnsembleAdapter` | 2026-05-19 | Eliminado como clase pública; lógica en `MutatorBridge` |
-| `loadout.ts` / `LoadoutState` | 2026-05-21 | Vía legacy eliminada con `SimulationLab` |
-| `attributes.ts` (contracts) | 2026-05-21 | Refactor — contratos reestructurados |
-| `__tests__-legacy/` | 2026-05-21 | 12 suites purgadas; reemplazadas por gold standard tests |
-| `weapon-core.ts` | 2026-05-27 | Código muerto — OQ-ENGINE-5 |
-| `warframe-core.ts` | 2026-05-27 | Código muerto — OQ-ENGINE-5 |
-| `DamageCombiner` en `combat/` | 2026-05-27 | Movido a `hydration/` (layer boundary fix) |
 
 ---
 

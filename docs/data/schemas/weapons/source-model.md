@@ -2,10 +2,10 @@
 Estado: "referencia"
 Rol: "Describir la estructura canónica de datos de armas consumida por el proyecto"
 Version: "v0.0.3"
-Impacto_ID: "D-Weapons-Schema"
+Impacto_ID: "data-weapons-schema"
 Fidelidad_Fisica: "Project/src/shared/types/weapon.ts"
 Fecha_de_creacion: "2026-04-17"
-Fecha_de_actualizacion: "2026-05-25"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Weapons Source Model

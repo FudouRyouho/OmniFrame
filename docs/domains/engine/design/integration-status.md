@@ -31,11 +31,9 @@ Este documento registra el estado técnico y las brechas detectadas durante la f
 - **Hover vs Acción**: El sistema de Popover compartido (`CustomPopover.tsx`) está infrautilizado en el Lab.
 - **Dinamismo**: El Arsenal utiliza `useSyncExternalStore` con un snapshot global. Inyectar `useSimulation` aquí requiere asegurar que no existan bucles de renderizado infinito al recalcular estadísticas en cada cambio de estado de UI.
 
-## 3. Plan de Acción Iterativo (Estado Actualizado — 2026-05-19)
+## 3. Estado
 
-1. ~~**Fortalecimiento del Puente**: Actualizar `EnsembleAdapter.ts`...~~ ✅ **Completado** — `EnsembleAdapter` eliminado. `MutatorBridge` absorbe la traducción de intención → contratos del engine. Ver `simulation-architecture.md §Capa B`.
-2. ~~**Refactorización de Interfaz**~~: `SimulationAuditor` eliminado (2026-05-27) — directorio `engine/audit/` purgado junto con `TraceObserver.ts`. Item sin efecto.
-3. ✅ **Migración Determinista**: El Arsenal consume `useSimulation` como hook de proyección. Implementación parcial activa. Contrato formal de Capa D (Proyección) pendiente — ver `simulation-architecture.md §Capa D`.
+Arsenal consume `useSimulation` como hook de proyección (implementación parcial activa). Contrato formal de Capa D (`ViewModelContract`) pendiente — ver `simulation-architecture.md §Capa D`.
 
 ---
 *Documento generado para soporte de toma de decisiones en la Fase de Integración.*

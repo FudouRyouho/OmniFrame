@@ -2,10 +2,10 @@
 Estado: "referencia"
 Rol: "Concepto canónico de Archon Shards — tipos, valores de wiki y categorización semántica"
 Version: "v0.2.0"
-Impacto_ID: "D-ArchonShards-Concept"
+Impacto_ID: "data-archon-concept"
 Fidelidad_Fisica: "Project/public/data/archon-shards.json"
 Fecha_de_creacion: "2026-04-02"
-Fecha_de_actualizacion: "2026-05-25"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Archon Shards — Concepto

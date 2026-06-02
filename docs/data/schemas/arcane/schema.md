@@ -1,11 +1,11 @@
 ---
-Estado: "referencia"
-Rol: "Contrato + mapa semántico de arcane-stats.override.json (164 arcanes, 60 stats mapeados)"
-Impacto_ID: "SSoT-Data-Arcane"
+Estado: "activo"
+Rol: "Contrato + catálogo de cobertura de arcane-stats.override.json — definiciones de token en docs/semantic/upgrade-tokens.md"
+Impacto_ID: "data-arcane"
 Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
-Version: "1.0"
+Version: "v1.2.0"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-05-28"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Arcane Stats Override — Schema y mapa semántico
@@ -17,7 +17,8 @@ Generado con `Project/scripts/generate-arcane-override.py` sobre `arcanes.json` 
 
 ## 1. Contrato del schema
 
-Idéntico a `mod-stats.override.json`. Ver [mods-schema.md](../mods/mods-schema.md) para el contrato completo.
+Base idéntica a `mod-stats.override.json` (ver [mods-schema.md](../mods/mods-schema.md)), **excepto** el campo de
+notas: tanto arcanes como mods migraron a `notes[]` (plural, modus operandi incarnon) el 2026-06-01.
 
 ```ts
 interface ArcaneOverrideEntry {
@@ -27,8 +28,8 @@ interface ArcaneOverrideEntry {
 interface ArcaneStat {
   label:      string;          // texto del efecto con |val1|, |val2| como placeholders
   values:     ArcaneValue[];   // uno por valor escalable en el label
-  condition?: string | null;   // token canónico del vocabulario (D-14)
-  note?:      string | null;   // semántica no tokenizable (D-14); ausente = entrada completa
+  condition?: string | null;   // ausente = sin condición · null = condición sin token · token = condicional (D-18)
+  notes?:     string[];        // semántica no tokenizable (D-14/D-15); prefijo "engine:note" (modus operandi incarnon). Migrado de `note` singular el 2026-06-01
 }
 interface ArcaneValue {
   base_value:   number[] | null;  // serie [rank0, rank1, …, rankMAX] — length = max_rank + 1 (ej: 6 para rank 5, 4 para rank 3)
@@ -48,44 +49,76 @@ Vocabulario canónico: `docs/semantic/conditions.md`.
 | `condition` | no aplica | capturado de prefijos "On X:", "While X:", etc. |
 | Ranks | variable (0–5 típico) | fijo 6 ranks (0–5) |
 
----
+### Convención de notas de parámetros (Patrón 3, 2026-06-01)
 
-## 2. Tokens activos — mapa confirmado (60 stats)
+Parámetros que viven en el **texto** del label (no en datos estructurados) — probabilidad de activación,
+duración del buff, cooldown — se capturan en `notes[]` con un formato semi-estructurado, parseable por el
+futuro engine C2 (sistema de buffs temporales / eventos). Modelado estructural diferido (notas-primero).
 
-Los `upgrade_type` asignados a continuación están verificados semánticamente.  
-El valor escalado **sí** representa el atributo indicado por el token.
+```
+engine:note — proc:<N>% duration:<N>s cooldown:<N>s
+```
 
-### WEAPON — stats de disparo
+| Clave | Significado | Constante | Escalable (el stat ES el parámetro) |
+|---|---|---|---|
+| `proc:` | probabilidad de activación | `proc:60%` | `proc:\|val1\|` (ej. proc resist, knockdown) |
+| `duration:` | duración del buff temporal | `duration:24s` | — |
+| `cooldown:` | tiempo de reutilización | `cooldown:15s` | `cooldown:\|val2\|` (ej. Arcane Barrier) |
 
-| Token | N | Arcanes representativos |
-|---|---|---|
-| `WEAPON_ADD_DAMAGE` | 13 | Arcane Fury, Arcane Awakening, Arcane Precision, Arcane Rage, Arcane Rise, Arcane Blade Charger, Arcane Primary Charger, Arcane Arachne, Longbow Sharpshot, Melee Exposure, Virtuos Fury, Theorem Demulcent, Eternal Eradicate |
-| `WEAPON_ADD_CRIT_CHANCE` | 10 | Arcane Avenger, Arcane Hot Shot, Cascadia Accuracy, Cascadia Overcharge, Eternal Onslaught, Melee Animosity (×2), Secondary Kinship, Secondary Outburst, Virtuos Shadow |
-| `WEAPON_ADD_CRIT_MULT` | 5 | Arcane Crepuscular, Magus Aggress, Primary Blight, Primary Frostbite, Virtuos Strike |
-| `WEAPON_ADD_FIRE_RATE` | 5 | Arcane Acceleration, Arcane Strike, Arcane Tempo, Arcane Velocity, Virtuos Tempo |
-| `WEAPON_ADD_MULTISHOT` | 5 | Conjunction Voltage, Primary Blight, Primary Frostbite, Primary Overcharge, Shotgun Vendetta |
-| `WEAPON_ADD_RELOAD_SPEED` | 4 | Arcane Momentum, Conjunction Voltage, Fractalized Reset, Shotgun Vendetta |
-| `WEAPON_ADD_STATUS_CHANCE` | 2 | Primary Crux, Virtuos Ghost |
-| `WEAPON_ADD_ACCURACY` | 1 | Pax Soar |
-| `WEAPON_BASE_COMBO_INITIAL` | 1 | Melee Crescendo |
-
-### AVATAR — stats del Warframe
-
-| Token | N | Arcanes representativos |
-|---|---|---|
-| `AVATAR_ADD_ABILITY_STRENGTH` | 6 | Arcane Crepuscular, Arcane Impetus, Arcane Power Ramp, Molt Augmented, Molt Vigor, Pax Bolt |
-| `AVATAR_ADD_ABILITY_DURATION` | 3 | Arcane Concentration, Molt Efficiency (×2 — increment + cap) |
-| `AVATAR_ADD_ABILITY_EFFICIENCY` | 2 | Arcane Impetus, Pax Bolt |
-| `AVATAR_ADD_PARKOUR_VELOCITY` | 2 | Arcane Agility, Arcane Consequence |
-| `AVATAR_ADD_SPRINT_SPEED` | 1 | Magus Cadence |
-
-> **Nota sobre `condition`**: 121 de 175 stats tienen `condition` capturado. El engine puede leer el
-> campo ahora aunque no lo evalúe; los arcanes sin condición son efectos siempre activos o cuyo
-> trigger no siguió el patrón "On X:" / "While X:".
+Solo se incluyen las claves presentes en el label. Aplicado en lote a 103 stats (append donde ya había
+`notes[]`). El `proc:\|valN\|` marca la **naturaleza probabilística** del valor para el engine (es una
+probabilidad, no una magnitud). Pendiente: estructurar como campos cuando se diseñe C2.
 
 ---
 
-## 3. Categorías de null (122 stats)
+## 2. Cobertura de mapeo — catálogo (83 stats auditados, 2026-05-31)
+
+> Definiciones de token: `docs/semantic/upgrade-tokens.md`  
+> Auditoría Gate 2a completada: Melee Exposure corregido (→ `WEAPON_ADD_CORROSIVE_DAMAGE`);  
+> 9 stacking/formula arcanes con `notes[]` añadidas; 2 condiciones faltantes detectadas y corregidas.
+
+**Estado de cobertura actual:** 83 mapeados / 193 totales (~43%)
+
+### WEAPON
+
+| Token | N | Arcanes representativos | Estado |
+|---|---|---|---|
+| `WEAPON_ADD_DAMAGE` | 12 | Arcane Fury, Arcane Awakening, Arcane Precision, Arcane Rage, Arcane Rise, Arcane Blade Charger, Arcane Primary Charger, Arcane Arachne, Longbow Sharpshot, Virtuos Fury, Theorem Demulcent, Eternal Eradicate | ✅ válidos; scope weapon-type es limitación del modelo |
+| `WEAPON_ADD_CORROSIVE_DAMAGE` | 1 | Melee Exposure | ✅ corregido en Gate 2a |
+| `WEAPON_ADD_CRIT_CHANCE` | 10 | Arcane Avenger, Arcane Hot Shot⚠, Cascadia Accuracy, Cascadia Overcharge, Eternal Onslaught, Melee Animosity⚠, Secondary Kinship⚠, Secondary Outburst⚠, Virtuos Shadow | ⚠ stacking en Hot Shot, Animosity, Kinship, Outburst — ver `notes[]` |
+| `WEAPON_ADD_CRIT_MULT` | 5 | Arcane Crepuscular val1⚠, Magus Aggress, Primary Blight, Primary Frostbite, Virtuos Strike | ⚠ Crepuscular val1 = Final Critical Damage (bucket multiplicativo separado) — ver semantic gap |
+| `WEAPON_ADD_FIRE_RATE` | 5 | Arcane Acceleration, Arcane Strike, Arcane Tempo, Arcane Velocity, Virtuos Tempo | ✅ |
+| `WEAPON_ADD_MULTISHOT` | 5 | Conjunction Voltage, Primary Blight, Primary Frostbite, Primary Overcharge⚠, Shotgun Vendetta | ⚠ Overcharge = val es cap, no multishot directo — ver `notes[]` |
+| `WEAPON_ADD_RELOAD_SPEED` | 4 | Arcane Momentum, Conjunction Voltage, Fractalized Reset, Shotgun Vendetta | ✅ |
+| `WEAPON_ADD_STATUS_CHANCE` | 2 | Primary Crux, Virtuos Ghost | ✅ |
+| `WEAPON_ADD_ACCURACY` | 1 | Pax Soar | ⚠ vocab gap — ver `docs/semantic/upgrade-tokens.md` |
+| `WEAPON_ADD_COMBO_COUNT_CHANCE` | 2 | Exodia Triumph, Exodia Valor | ✅ |
+| `WEAPON_ADD_COMBO_DURATION` | 2 | Primary Dexterity, Secondary Dexterity | ✅ valores fijos |
+| `WEAPON_ADD_RECOIL` | 3 | Primary Deadhead, Secondary Deadhead, Pax Soar | ✅ valores negativos = reducción |
+| `WEAPON_ADD_RELOAD_SPEED` | 2 | Primary Merciless, Secondary Merciless | ✅ valores fijos |
+| `WEAPON_ADD_HEADSHOT_MULT` | 2 | Primary Deadhead, Secondary Deadhead | ⚠ vocab gap — ver `docs/semantic/upgrade-tokens.md` |
+| `WEAPON_BASE_COMBO_INITIAL` | 1 | Melee Crescendo | ✅ |
+
+### AVATAR
+
+| Token | N | Arcanes representativos | Estado |
+|---|---|---|---|
+| `AVATAR_ADD_ABILITY_STRENGTH` | 7 | Arcane Crepuscular val0, Arcane Impetus, Arcane Power Ramp⚠, Molt Augmented⚠, Molt Vigor, Pax Bolt | ⚠ Power Ramp y Molt Augmented = stacking — ver `notes[]` |
+| `AVATAR_ADD_ABILITY_DURATION` | 4 | Arcane Concentration, Molt Efficiency val0⚠, Molt Efficiency val1⚠ | ⚠ Efficiency = increment + cap — ver `notes[]` |
+| `AVATAR_ADD_ABILITY_EFFICIENCY` | 2 | Arcane Impetus, Pax Bolt | ✅ |
+| `AVATAR_ADD_PARKOUR_VELOCITY` | 2 | Arcane Agility, Arcane Consequence | ✅ |
+| `AVATAR_ADD_SPRINT_SPEED` | 2 | Arcane Phantasm, Magus Cadence | ✅ |
+| `AVATAR_ADD_SHIELD_RECHARGE_RATE` | 1 | Arcane Aegis | ✅ |
+| `AVATAR_ADD_HEALTH_REGEN` | 2 | Arcane Grace, Arcane Victory | ⚠ vocab gap — ver `docs/semantic/upgrade-tokens.md` |
+| `AVATAR_FLAT_ARMOUR` | 6 | Arcane Guardian, Arcane Reaper val1, Arcane Tanker, Arcane Ultimatum, Magus Husk, Melee Fortification | ✅ |
+| `AVATAR_FLAT_HEALTH_REGEN` | 2 | Arcane Reaper val0, Magus Nourish | ✅ |
+| `AVATAR_FLAT_HEALTH_MAX` | 1 | Magus Vigor | ✅ |
+
+> **`condition` (2026-06-01, post-Patrón 4):** 137 stats con token, 5 con `null` (condición compuesta sin tokenizar), 33 ausente = siempre activo (D-18). Patrón 4 acuñó 8 tokens nuevos (ver `conditions.md` §Ingesta arcanes) y reutilizó 4 existentes (while_airborne, with_armor_over_700, while_channeled_ability_active, while_target_affected_by_cold). Los 5 `null` restantes son condiciones **compuestas** (Debilitate, Careen, Camisado, Afflictions, Universal Fallout) → merecen revisión manual.
+
+---
+
+## 3. Categorías de null (110 stats)
 
 Stats con `base_value` poblado pero `upgrade_type: null` — ordenados por razón semántica.
 
@@ -113,11 +146,13 @@ Restauran HP o Energy dinámicamente. Los valores escalan pero el efecto es de m
 
 `"|val1|% Ammo Efficiency"` — sin token `WEAPON_ADD_AMMO_EFFICIENCY` en el vocabulario. La adición es sencilla cuando se necesite.
 
-### 3.5 Combo Count Chance (~3 arcanes)
+### 3.5 Combo Count Chance ~~(3 arcanes)~~
 
-`Exodia Triumph, Exodia Valor, Melee Vortex`
+~~`Exodia Triumph, Exodia Valor, Melee Vortex`~~
 
-`"|val1|% Combo Count Chance"` — sin token `WEAPON_ADD_COMBO_COUNT_CHANCE`. El KEYWORD_MAP lo refleja como explícitamente `null`.
+~~`"|val1|% Combo Count Chance"` — sin token `WEAPON_ADD_COMBO_COUNT_CHANCE`.~~
+
+**✅ Resuelto (2026-05-31):** `WEAPON_ADD_COMBO_COUNT_CHANCE` definido en `modifier.ts`. Exodia Triumph y Exodia Valor mapeados. Melee Vortex permanece null (mecánica de pull diferente al combo count).
 
 ### 3.6 Fórmulas por stat (~7 entries)
 
@@ -155,19 +190,22 @@ On-kill stacking, threshold effects, proccer chains — requieren runtime state.
 
 ---
 
-## 4. Patrones de falso positivo conocidos
+## 4. Patrones de falso positivo — estado post-auditoría Gate 2a
 
-El keyword matcher del script es conservador pero imperfecto. Estos patrones disparan
-`WEAPON_ADD_DAMAGE` o `AVATAR_ADD_ABILITY_STRENGTH` incorrectamente y deben verificarse manualmente:
+El keyword matcher del script es conservador pero imperfecto. Estado de cada patrón conocido:
 
-| Patrón | Token erróneo | Ejemplo |
-|---|---|---|
-| "damage" en contexto de mecánica defensiva | `WEAPON_ADD_DAMAGE` | Arcane Temperance ("Damage Taken") |
-| "ability strength" como INPUT de fórmula | `AVATAR_ADD_ABILITY_STRENGTH` | Arcane Expertise ("applied to Max Shields") |
-| "ability strength" como parte del trigger "on enemy frozen + stacks" | `AVATAR_ADD_ABILITY_STRENGTH` | Arcane Ice Storm (valor = stack count, no %) |
-| "critical damage" con "for every X%" | `WEAPON_ADD_CRIT_MULT` | Melee Doughty (per-puncture formula) |
-| Keyword en zona/proc, valor escalado = duración | `WEAPON_ADD_DAMAGE` | Residual Boils (valor = segundos de zona) |
-| Stacking counter como único valor escalable | cualquier token | Secondary Enervate (valor = resets, no crit %) |
+| Patrón | Token erróneo original | Ejemplo | Estado |
+|---|---|---|---|
+| "damage" en contexto de mecánica defensiva | `WEAPON_ADD_DAMAGE` | Arcane Temperance ("Damage Taken") | ✅ upgrade_type null |
+| "ability strength" como INPUT de fórmula | `AVATAR_ADD_ABILITY_STRENGTH` | Arcane Expertise ("applied to Max Shields") | ✅ upgrade_type null |
+| "ability strength" + stacks (valor = stack count) | `AVATAR_ADD_ABILITY_STRENGTH` | Arcane Ice Storm | ✅ upgrade_type null |
+| "critical damage" con "for every X%" (per-stat fórmula) | `WEAPON_ADD_CRIT_MULT` | Melee Doughty | ✅ upgrade_type null |
+| Keyword en zona/proc, valor = duración de zona | `WEAPON_ADD_DAMAGE` | Residual Boils | ✅ upgrade_type null |
+| Stacking counter como único valor escalable | cualquier token | Secondary Enervate | ✅ upgrade_type null |
+| "Corrosive Damage" mapeado como `WEAPON_ADD_DAMAGE` | `WEAPON_ADD_DAMAGE` | Melee Exposure | ✅ corregido → `WEAPON_ADD_CORROSIVE_DAMAGE` (Gate 2a) |
+| Valor = cap o increment/s en stacking arcanes **mapeados** | token correcto del stat | Arcane Hot Shot, Molt Augmented, etc. | ✅ `notes[]` añadidas — ver §2 ⚠ |
+| Canal de arma mapeado a token **genérico** | `WEAPON_ADD_DAMAGE`/`FIRE_RATE`/`RELOAD_SPEED` | Arcane Precision (Secondary), Rage/Primary Charger/Rise (Primary), Velocity/Awakening (Pistol→Secondary), Blade Charger (Melee) | ✅ corregido → sub-family `WEAPON_{PRIMARY,SECONDARY,MELEE}_*` (2026-06-01, Patrón 2). Sniper/Shotgun (Momentum/Tempo)→`primary`+nota; "Excludes Shotguns" (Acceleration)→`primary`+nota; multi-canal Primary+Secondary (Arachne)→genérico+nota. Deuda alias-DAMAGE y D-7 en `upgrade-tokens.md` |
+| `base_value: [1,2,3,4,5,6]` interpretado como **placeholder** | — | Arcane Barrier, Bellicose, Grace, Universal Fallout, Melee Crescendo, Primary Crux (ammo), Hot Shot, Molt Efficiency, etc. | ✅ **FALSO POSITIVO (Patrón 5, 2026-06-01):** son **valores reales** que escalan 1→6 por rank (verificado vs `arcanes.json`). El generate-script parseó bien. No hay estructura rota ni datos placeholder. Aplica también a `[1,2,3,4]` (Pax Seeker). |
 
 ---
 
@@ -181,9 +219,9 @@ arcane-stats.override.json  ← SSoT semántico de este schema
 ModifierPipeline
 ```
 
-Los arcanes con `condition != null` y `upgrade_type != null` son candidatos directos
-para la taxonomía `context.flags` (C1-A) cuando se diseñe. Los de `condition: null`
-con upgrade_type son efectos siempre activos — los más simples de implementar en C1.
+Los arcanes con `condition` (token) y `upgrade_type` son candidatos directos para la taxonomía
+`context.flags` (C1-A) cuando se diseñe. Los **sin** `condition` (ausente) con upgrade_type son
+efectos siempre activos — los más simples de implementar en C1.
 
 ---
 
@@ -192,7 +230,7 @@ con upgrade_type son efectos siempre activos — los más simples de implementar
 | Prioridad | Trabajo | N entries |
 |---|---|---|
 | P1 | Implementar `ArcaneRepository` (análogo a `IncarnonRepository`) | — |
-| P1 | Arcanes siempre activos (condition: null, upgrade_type: mapeado) | ~15 |
+| P1 | Arcanes siempre activos (sin `condition`, upgrade_type: mapeado) | ~15 |
 | P2 | Tokens faltantes simples: `WEAPON_ADD_AMMO_EFFICIENCY`, `WEAPON_ADD_COMBO_COUNT_CHANCE` | ~7 |
 | C1-A | Arcanes con `condition` + `upgrade_type` (on-event, upgrade conocido) | ~45 |
 | C1-B | Fórmulas per-stat (§3.6) | ~7 |

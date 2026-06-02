@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline y deuda activa"
-Version: "v0.1.0"
+Version: "v0.2.0"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-05-28"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Data Domain — Estado Operativo
@@ -23,18 +23,16 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 |---|---|---|---|
 | `conditions/L1` — estado (`while_*`) | ~100% (10/10) | ✅ | — |
 | `conditions/L2` — umbral (`with_*`) | ~90% (6 definidos) | ✅ | completar con galvanizados/exilus |
-| `conditions/L3` — eventos (`on_*`) | ~50% (~60/120 est.) | ⚠️ | exilus → galvanizados → resto |
-| `arcanes/condition` | ~69% (121/175) | ⚠️ | normalizar tokens inconsistentes |
-| `arcanes/upgrade_type` | ~33% (60/182) | ❌ | L3 nulls → tokens faltantes |
-| `mods/condition` | ~3% (19/669 con token real) | ❌ | exilus ✅ → galvanizados |
-| `mods/upgrade_type` | ~18% (119/669) | ❌ | segunda revisión post-exilus |
-| `incarnon/condition` | ~8% (notes sin tokenizar) | ❌ | normalizar notes → tokens |
-| `incarnon/upgrade_type` | ~35% est. | ❌ | tokens con note semántica → completar |
-| `archon/upgrade_type` | ~22% | ❌ | — |
+| `conditions/L3` — eventos (`on_*`) | ~52% (~62/120 est.) | ⚠️ | galvanizados ✅ → resto |
+| `arcanes/condition` | ~70% (122/175) | ⚠️ | normalizar tokens inconsistentes |
+| `arcanes/upgrade_type` | ~43% (83/193) | ❌ | Gate 2a auditado: 1 token corregido (Melee Exposure), 9 stacking/formula con `note`, 2 condiciones faltantes corregidas; data:class:cat/d fuera del modelo actual |
+| `mods/condition` | ~5% (43/669 con token real) | ❌ | exilus ✅ → galvanizados ✅ → resto |
+| `mods/upgrade_type` | ~18% (119/669 verificadas usuario) | ❌ | Gate 2c.i+ii auditados: 14 correcciones D-6 + 6 renames non-D6 + notas Condition Overload family (cross-schema con incarnon); ~255 non-D6 restantes clasificados como out-of-model/deuda-documentada |
+| `incarnon/condition` | ~17.9% (125 tokens / 699 stats) | ⚠️ | 4 conditions pendientes (G3/tokens nuevos) |
+| `incarnon/upgrade_type` | ~49.8% (348/699 engine-ready) | ⚠️ | G3 debate + trabajo manual usuario |
+| `archon/upgrade_type` | ~74% (20/27) | ⚠️ | Gate 2b auditado: sin issues nuevos; 4 entradas ⚠ heredadas de Gate 1 (AVATAR_ADD_ABILITY_DAMAGE / GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE); 7 nulos (3 out-of-model, 1 token deuda, 3 recovery events) |
 
-**Próximo trabajo de datos:** completar `conditions/L3` (exilus → galvanizados) + normalizar tokens de arcanes.
-
----
+**Próximo trabajo de datos:** normalizar tokens de arcanes + completar `conditions/L3` restante.
 
 ---
 
@@ -42,29 +40,35 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 
 **Schema:** `docs/data/schemas/mods/mods-schema.md` ✅
 **Vocabulario:** D-6 aplicado — `shared/types/modifier.ts` → `UPGRADES` + `UPGRADE_MAP`
-**Condition vocab:** `docs/semantic/conditions.md` ✅ (L1/L2/L3/L4, 13+6+63+9 tokens)
+**Condition vocab:** `docs/semantic/conditions.md` ✅ (agrupado por prefijo `while_`/`with_`/`on_`)
 
 | Estado | Cantidad |
 |---|---|
 | Entradas totales en override | 669 |
 | Revisadas y verificadas (usuario) | 119 |
 | Pendientes de revisión (upgrade_type) | ~550 |
-| Tokens en UPGRADES[] | 55 |
+| Tokens en UPGRADES[] | 78 |
 | Con entrada en UPGRADE_MAP (explícito) | 35 |
 | Weapon exilus cubiertos | 80/80 (100%) |
-| Con condition token asignado | ~19 (exilus) |
+| Galvanizados cubiertos | 12/12 (100%) |
+| Con condition token asignado | ~43 (exilus + galvanizados) |
 
 Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 
-**Cobertura exilus completada (2026-05-28):**
-Scripts: `patch-exilus-conditions.py` (conditions en 53 en override) + `add-exilus-missing.py` (27 entradas faltantes).
-Tokens nuevos activos: `while_aiming`, `while_aim_gliding`, `while_sliding`, `while_holstered`, `while_blocking`, `on_equip`, `on_tennokai_attack`.
-
-**Deuda conocida:**
-- `condition` — galvanizados, galvanizados exilus (Galvanized Acceleration mapeado), arcanos pendientes de integración engine
-- `WEAPON_ADD_AMMO_MAX` — token no definido; Ammo Drum / Shell Compression / Trick Mag marcados con note
-- `WEAPON_ADD_COMBO_COUNT_CHANCE` — token no definido; Guardian Derision marcado con note
-- ~550 entradas restantes sin revision de upgrade_type
+**Deuda conocida:** (gramática de tags: `docs/governance/nomenclature-grammar.md` · evidencia: `docs/governance/deuda-taxonomy.md`)
+- `engine:debt` `condition` — vocabulario consolidado en `conditions.md`; integración en SimContext pendiente. Candidatos C1-A (`while_*`/`with_*`) listos cuando ≥70% cobertura. `[ref: docs/semantic/conditions.md]`
+- `[SEM data:debt` D-17 — 3 tokens galvanizados con semántica pendiente: ver `docs/data/decisions.md#D-17` `[empirical]`
+- `data:debt` `WEAPON_ADD_AMMO_MAX` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
+- `data:debt` `WEAPON_ADD_COMBO_COUNT_CHANCE` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
+- `[PIPE semantic:debt` `WEAPON_SPREAD` — token crudo de `@wfcd/items` (DE legacy) vs `WEAPON_ADD_ACCURACY` (mapeado manual en exilus). ¿Misma mecánica? Verificar Narrow Barrel / Tainted Shell en wiki antes de unificar `[needs-verification]`
+- `[SEM data:debt` `AVATAR_DAMAGE_POWER_MULTIPLIER` — dos sub-mecánicas: (a) daño a salud→energía (Rage, Hunter Adrenaline), (b) daño a escudos→energía (Kinetic Diversion). Candidatos: `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY` / `AVATAR_ADD_SHIELD_DAMAGE_TO_ENERGY`. Verificar si el engine los trata en el mismo bucket `[empirical]`
+- `[SEM data:debt` `AVATAR_DAMAGE_TAKEN` — resistencia a daño (elemental-específica y genérica). Bucket multiplicativo. Candidato: taxonomía por elemento vs genérica. Verificar con `references/wiki/mechanics/damage-reduction.md` `[ref: references/wiki/mechanics/damage-reduction.md]`
+- `semantic:debt` `AVATAR_PARKOUR_GLIDE` — duración de aim glide/wall latch. Candidato: `AVATAR_ADD_AIM_GLIDE_DURATION`. Mix de mods legítimos (Patagium, Mobilize) y conclave `[empirical]`
+- `[SEM data:debt` `AVATAR_HEAL_RATE` — mezcla de companion scope y warframe scope (Rejuvenation, Recuperate). Requiere revisión de auras y separación de contextos antes de definir token `[empirical]`
+- `[SEM data:debt` `WEAPON_PUNCTURE_DEPTH` — punch-through. Mods: Metal Auger, Seeking Force, Vigilante Offense. Candidato: `WEAPON_ADD_PUNCH_THROUGH`. Leer wiki cuando se aborde `[needs-verification]`
+- `pipeline:debt` `conclave?: boolean` — campo no preservado en `GeneratedMod`. Sin este campo no es posible filtrar mods PVP desde la data base. Fix: `GeneratedMod` + `generate-data.ts` `[ref: @wfcd/items API]`
+- `data:debt` ~255 entradas con token no-D-6 clasificadas: deuda documentada (WEAPON_SPREAD, AVATAR_DAMAGE_TAKEN, AVATAR_PARKOUR_GLIDE, WEAPON_PUNCTURE_DEPTH, etc.) o out-of-model (sindicatos, vehículos, compañero, stamina removida). 6 renames aplicados.
+- `[ENGINE data:debt` Condition Overload family (`WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`) — fórmula `damage × (1 + n_status_types × val%)`. Notas añadidas en 4 mods. Cross-schema con incarnon evolutions: verificar si la fórmula es idéntica antes de implementar `[empirical]`
 
 ---
 
@@ -111,10 +115,10 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 
 ### Deuda conocida
 
-- Double-scaling (`$DURATION $RANGE` en Gara, `$EFFICIENCY $STRENGTH` en Harrow) — deuda de engine, no de datos. `//!` registra los casos.
-- `AVATAR_HEALTH` scaling (Inaros 4) — nuevo eje de scaling sin token. `//!` registrado.
-- Lavos — semántica de cooldown distinta a energía. Datos capturados con mejor token disponible + `//!`.
-- OQ-W-5 — semántica derivada de `ENERGY_COST`/`ENERGY_DRAIN` en el engine.
+- `[ENGINE semantic:debt` Double-scaling (`$DURATION $RANGE` en Gara, `$EFFICIENCY $STRENGTH` en Harrow) — schema resuelto (upgrade_by acepta array); engine usa [0] hasta que existan fórmulas dedicadas. `//!` registra los casos. `[empirical]`
+- `semantic:debt` `AVATAR_HEALTH` scaling (Inaros 4) — scaling con Max Health, sin token canónico. `//!` registrado. Candidato: `AVATAR_ADD_HEALTH_MAX` como eje de upgrade_by `[empirical]`
+- `semantic:debt` Lavos — `$EFFICIENCY` mapea a cooldown (no a energy cost). Datos con mejor token disponible + `//!`. `[empirical]`
+- `engine:debt` OQ-W-5 — fórmulas de `ENERGY_COST`/`ENERGY_DRAIN` no implementadas en engine. Ver `docs/governance/open-questions.md#OQ-W-5` `[ref: docs/governance/open-questions.md]`
 
 ---
 
@@ -127,7 +131,7 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 - Ash (pasiva "mod global"): `upgrade_type` → daño de sigilo → mismo patrón que mod
 - Hydroid (pasiva "cambia reglas"): lógica de ley, NO es un modificador de atributo
 
-**Deuda:** Definir schema, crear primer override con 2-3 casos (uno "mod global", uno "ley").
+**Deuda:** `data:debt:schema data:debt` Definir schema y crear primer override con 2-3 casos (uno "mod global" como Ash, uno "ley" como Hydroid). Sin blocker de vocabulario — los tokens necesarios ya existen. `[empirical]`
 
 ---
 
@@ -140,10 +144,10 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 | Estado | Cantidad |
 |---|---|
 | Entradas totales | 164 |
-| Stats con `upgrade_type` mapeado | 60 (34%) |
-| Stats con `upgrade_type: null` | 122 (66%) |
-| Stats con `condition` capturado | 121 / 175 total |
-| Tokens activos cubiertos | 14 |
+| Stats con `upgrade_type` mapeado | 83 (43%) |
+| Stats con `upgrade_type: null` | 110 (57%) |
+| Stats con `condition` capturado | 122 / 175 total |
+| Tokens activos cubiertos | 24 |
 
 **Schema:** idéntico a `mod-stats.override.json` — `base_value` siempre array de 6 ranks, `condition` capturado de triggers "On X:" / "While X:".
 
@@ -151,24 +155,40 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 
 **Repository:** `ArcaneRepository` — pendiente (análogo a `IncarnonRepository`).
 
-**Deuda:** Ver schema §6 para prioridades. P1 inmediato: arcanes con `condition: null` + `upgrade_type` mapeado (~15 entries — efectos siempre activos, los más simples).
+**Deuda:**
+- `engine:debt` `ArcaneRepository` no implementado — análogo a `IncarnonRepository`. Blocker para conectar arcanes al engine. `[ref: docs/data/schemas/arcane/schema.md]`
+- `data:debt` P1: ~15 arcanes con `condition: null` + `upgrade_type` mapeado (efectos siempre activos, los más simples de integrar). Sin blocker de vocabulario.
 
 ---
 
 ## Incarnon Evolutions (`incarnon-evolutions.override.json`)
 
 **Schema:** `docs/data/schemas/incarnon/schema.md` ✅
-**Gaps:** `docs/data/schemas/incarnon/gaps.md` ✅
 
 | Estado | Cantidad |
 |---|---|
-| Armas con datos | 85 |
-| Efectos mapeados (tokens D-6) | ~444 (~35%) |
-| Gaps documentados (null + note) | ~801 (~65%) |
+| Armas con datos | 48 |
+| Stats totales | 699 |
+| Engine-ready — data:class:cat/a (mapped, sin condición) | 333 (47.6%) |
+| Engine-ready — data:class:cat/b (mapped, condición token) | 15 (2.1%) |
+| **Engine-ready total** | **348 (49.8%)** |
+| Display-only data:class:cat/d (sin upgrade_type, sin condition) | 240 (34.3%) |
+| Display-only data:class:cat/e (sin upgrade_type, con condition) | 110 (15.7%) |
+| data:class:cat/f (variante null en base_value) | 1 — gorgon/prisma confirmado correcto |
+| Condition tokens activos | 125 |
+| Condition null (condición real sin token) | 2 — paris/vicious_promise ×2 |
 
-**Mantenimiento:** SSoT manual — patrón archon. Nuevas armas se añaden a mano siguiendo el schema.
-**Repository:** `IncarnonRepository` — resuelve `evolution_perks: Record<number, string>` → `Modifier[]` vía `UPGRADE_MAP`. Cargado en `StaticHydrator.hydrate()` (2026-05-27).
-**Cobertura:** Tokens P1 (`gaps.md §2`) — 9 tokens simples sin diseño nuevo; cubren ~60 efectos adicionales cuando se implementen. P2+ requieren `context.flags` o sistema de eventos.
+**Deuda conocida (activa):**
+- `[ENGINE data:debt` `IncarnonRepository` lee `upgrades[]` (formato viejo) → devuelve `[]` en runtime. Actualizar a `stats[]` al conectar engine↔UI. `[ref: docs/data/schemas/incarnon/schema.md]`
+- `[SEM data:debt` G3 abiertos: duration buffs mapeados como estáticos (7 stats) `[inferred]`, SET vs ADD (12 stats) `[needs-verification]`, multi-value labels (3 stats) `[needs-verification]`
+- `data:debt` data:class:cat/d ~101 no-EVO1 restantes: ~82 genuinamente display-only + ~19 pendientes (G3 o tokens nuevos)
+- `[SEM data:debt` 4 condition tokens pendientes: `while_blocking`, `while_enemy_below_half_health`, y otros — trabajo manual usuario `[empirical]`
+- `data:debt:schema data:debt` Condición de grupo — perks con múltiples stats bajo una sola condición (ej: Stalwart Oak, Bo). Schema soporta un token de condition por stat. Patrón actual: cabecera display + repetir condition en cada stat hijo. Deuda: diseñar soporte nativo para bloques condicionales (análogo a stacking, duration). Cross-schema: posiblemente aplica en mods y arcanes `[empirical]`
+- `data:debt:schema data:debt` Familia proc-on-proc (Flashing Bleed, Internal Bleeding, Hunter Munitions family) — sin upgrade_type ni token hasta definir la familia. Pendiente de debate transversal mods↔incarnon `[empirical]`
+- `data:debt:schema data:debt` Regla 1 label = 1 stat — labels con 2+ efectos distintos deben hacer split en stats separados bajo la misma condition. Aplicado en Hunter's Mantra (Boltor). Audit en progreso: aplicar a casos similares encontrados `[empirical]`
+- `[SEM data:debt` Ammo Efficiency stacking on-kill (Crimson Overture, Boltor) — multi-efecto + engine:class:c2/stack + duration 5s + stack cap variant-specific. Sin token WEAPON_ADD_AMMO_EFFICIENCY. data:class:cat/e hasta definir familia `[empirical]`
+
+**Mantenimiento:** SSoT manual — verificación de labels contra juego/wiki a cargo del usuario.
 
 ---
 

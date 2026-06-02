@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Contrato del archivo archon-shards.json — catálogo de tipos de shard y sus bonus options"
-Version: "v0.1.0"
-Impacto_ID: "D-ArchonShards-Schema"
+Version: "v0.2.0"
+Impacto_ID: "data-archon-schema"
 Fidelidad_Fisica: "Project/public/data/archon-shards.json"
 Fecha_de_creacion: "2026-05-20"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Archon Shards — Schema
@@ -35,7 +35,8 @@ interface ArchonShardStat {
   label: string;          // Texto con placeholder |val1|
   value: [number, number]; // [normal, tauforged]
   upgrade_type: string | null; // Token D-6. null si el efecto no tiene mapping aún
-  condition: string | null;    // null = pasivo. Token canónico si es condicional
+  condition?: string | null;   // Taxonomía D-18 — ver tabla. Ausente = pasivo · null = hueco · token canónico
+  notes?: string[];            // Aclaraciones; prefijo "engine:note" para naturaleza/cálculo (precedente incarnon)
 }
 ```
 
@@ -63,6 +64,27 @@ Convención verificada en el catálogo existente (ej: `CrimsonArchonShard.png` �
 Token D-6 del vocabulario `Upgrade` en `shared/types/modifier.ts`.
 Si el efecto no tiene mapping en `UPGRADE_MAP` todavía → `null` con `console.warn` en hydration.
 
+### `condition` (taxonomía D-18, adoptada 2026-06-01)
+
+Archon adopta el mismo modus operandi que `incarnon-evolutions.override.json`: campo monosemántico
+de tres estados, alineado con [D-18](../../decisions.md). Migrado el 2026-06-01 (antes todo era `null`).
+
+| `condition` | Significado | Detección |
+|---|---|---|
+| *(ausente)* | Efecto pasivo, sin condición. Caso mayoritario. | label no condicional |
+| `null` | Condición real sin token canónico todavía (hueco de mapeo). | label condicional + sin token |
+| `"<token>"` | Condicional, mapeada. Token de `docs/semantic/conditions.md`. | label con trigger + token |
+
+Cobertura (2026-06-01): **9** token · **1** null (Violet Equilibrium) · **17** ausente (27 stats).
+Tokens condition usados: `on_hitting_enemies_affected_by_{radiation,electricity,corrosive}`,
+`on_heat_status_kill`, `with_energy_max_over_500`, `on_blast_kill`, `on_spawn`, `on_toxin_status_damage`.
+
+### `notes` (precedente incarnon)
+
+`string[]` opcional. Prefijo `engine:note` para naturaleza/cálculo. Se usa para anclar mecánicas
+no obvias del label (ej. Violet = Equilibrium, conversión de recursos; Emerald = daño de status de
+Toxin ≠ DoT). No es lectura obligatoria de UI.
+
 ---
 
 ## Deudas conocidas
@@ -70,7 +92,7 @@ Si el efecto no tiene mapping en `UPGRADE_MAP` todavía → `null` con `console.
 | Deuda | Descripción |
 |---|---|
 | `id` naming convention | Kebab-case descriptivo por ahora (`"crimson-ability-strength"`). Pendiente formalizar como vocab semántico. |
-| ~~Slot-awareness en upgrade_type~~ | **Resuelto (2026-05-26, OQ-W-4):** Tokens sub-familia `WEAPON_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}` formalizados. Los tres crimson slot-específicos ya tienen `upgrade_type` en el JSON: `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`. `target_channel` se emite vía `resolveToken()`. Deuda residual: `WEAPON_PRIMARY_ADD_ELECTRICITY_DAMAGE` (violet) aún no en UPGRADES[]. |
+| `WEAPON_PRIMARY_ADD_ELECTRICITY_DAMAGE` | Deuda residual del slot-awareness: violet shard aún no en `UPGRADES[]`. Sub-familia D-6 ya definida (ver D-6 §extensión). |
 | Violet stacking bonus | `violet-primary-electricity-damage` tiene un bonus adicional que escala con cantidad de shards de familia equipados (`n * value`). No es `condition` booleano ni `upgrade_type` estándar — requiere `context_variable` en el contrato de `Modifier`. Pendiente hasta que se defina semántica de context scaling. |
-| Efectos condicionales sin vocabulario | On-kill, on-status, on-high-energy — tienen `condition: null` como placeholder. Requieren vocabulario canónico de condiciones aún no definido. |
+| ~~Efectos condicionales sin vocabulario~~ | **Resuelto (2026-06-01):** mapeados a tokens canónicos de `docs/semantic/conditions.md` vía taxonomía D-18. Único hueco restante (`null`): Violet Equilibrium (conversión de recursos, naturaleza propia pendiente de diseño). |
 | Valores tauforged sin verificar | La mayoría usa estimación 1.5x. `topaz-health-on-blast-kill: [1, 2]` es el único confirmado. Resto pendiente verificación contra el juego. |

@@ -2,10 +2,10 @@
 Estado: "referencia"
 Rol: "Documentar gaps reales entre la fuente canónica de habilidades y el payload actual"
 Version: "v0.0.2"
-Impacto_ID: "D-Abilities-Gaps"
+Impacto_ID: "data-abilities-gaps"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-22"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Ability Source Gaps

@@ -2,10 +2,10 @@
 Estado: "referencia"
 Rol: "Detalle de cobertura por warframe del pipeline de anotación .md → ability-stats.override.json"
 Version: "v0.1.0"
-Impacto_ID: "D-Abilities-Annotation"
+Impacto_ID: "data-abilities-annotation"
 Fidelidad_Fisica: "references/game-ui/"
 Fecha_de_creacion: "2026-05-25"
-Fecha_de_actualizacion: "2026-05-25"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Abilities — Estado de anotación por warframe

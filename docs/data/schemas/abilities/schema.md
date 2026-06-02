@@ -2,10 +2,10 @@
 Estado: "activo"
 Rol: "Documentar el esquema operativo de ability-stats.override.json"
 Version: "v0.1.0"
-Impacto_ID: "D-Abilities-Schema"
+Impacto_ID: "data-abilities-schema"
 Fidelidad_Fisica: "Project/public/data/ability-stats.override.json"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-26"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Ability Stats Override Schema
@@ -19,7 +19,7 @@ Fecha_de_actualizacion: "2026-05-26"
 | `Project/public/data/ability-stats.override.json` | Runtime SSoT — nunca editar `groups`/`stats` a mano |
 | `Project/src/shared/types/ability.ts` | Contrato TypeScript |
 
-`name`, `description`, `image_name` vienen de `@wfcd/items` vía `generate-data.ts`.
+`name`, `description`, `image_name` provienen de `@wfcd/items` y son preservados por `apply-ability-md.ts` al hacer merge — `generate-data.ts` ya no lee ni escribe este archivo.
 
 ---
 

@@ -46,7 +46,6 @@ Tres archivos forman un sistema cohesivo de transición que NO se puede purgar i
 | :--- | :--- | :--- |
 | `domains/arsenal/arsenal-state.ts` | `@status stub / en desarrollo`. Contiene factories mock, metadata visual para slots vacíos ("Metadata visual del slot de X para cerrar el Arsenal aunque no exista wiring real"). | ¿Se integra con EnsembleStore o se refactoriza como capa de presentación permanente? |
 | `domains/arsenal/ArsenalView.tsx` | `@status stub / en desarrollo`. Vista principal del Arsenal. Consume `useArsenalUiState()` que es el stub de arriba. | Bloqueada por la decisión sobre `arsenal-state.ts`. |
-| `providers/Loadout/loadout-context.tsx` | **PURGADO (2026-05-19)** — OQ-STATE-1 cerrado. `LoadoutState` y `loadout.ts` también eliminados (2026-05-21). Sin remanentes. | ✅ |
 
 **Vínculo con OQ-STATE**: OQ-STATE-1 cerrado (2026-05-19). `EnsembleIntention` es el SSoT canónico.
 
@@ -100,18 +99,7 @@ No es urgente (funciona), pero es la deuda técnica más alta del área de datos
 
 En 6+ archivos de test: `laws: {} as any` para mockear `SimulationContext`. No es un problema de tests — es una señal de que `SimulationContext` debería tener `laws` como campo opcional o con un `Partial<GameLaws>` helper.
 
-### 3.5 Stubs funcionales de desarrollo
-
-Estos archivos son stubs legítimos y deben quedar marcados como tal, no purgarse:
-
-| Archivo | Rol real |
-| :--- | :--- |
-| `core/engine/dev/DatasetSeeder.ts` | **ELIMINADO** — purgado en sesión anterior. |
-| `dev/SimulationLab.tsx` | **ELIMINADO (2026-05-21)** — dev tool roto, reemplazable por tests de Vitest. |
-| `dev/ModTestPage.tsx` | Mock de Riven para tests CSS. Solo dev. |
-| `core/engine/dev/verify-diff.ts` | **ELIMINADO** — purgado en sesión anterior. |
-
-### 3.6 JSDoc con `@SSoT` — falsa alarma
+### 3.5 JSDoc con `@SSoT` — falsa alarma
 
 El agente marcó los `@SSoT` de los archivos engine como "paths rotos". Verificación: los paths referenciados (`docs/domains/engine/design/simulation-architecture.md`, `docs/domains/engine/design/simulation-roadmap.md`, etc.) **sí existen** en el repo — el agente buscó desde `Project/src/` sin contexto de la raíz. Los `@SSoT` están correctos.
 
@@ -128,46 +116,15 @@ El agente marcó los `@SSoT` de los archivos engine como "paths rotos". Verifica
 
 ---
 
-## 5. Plan de acción ordenado
-
-### Bloque A — ✅ Completado (2026-05-18)
-
-1. ✅ Limpiar referencias a "Snapshot B4" — `useSimulation.ts`, `UpgradeView.tsx` y 4 providers adicionales.
-2. ✅ Corregir `@SSoT` rotos — `loadout-context.tsx` y 5 providers corregidos o saneados.
-3. ✅ Vocabulario canónico de `@status` — `docs/governance/jsdoc-standard.md` creado.
-4. ✅ Tipar `CombatSimulator.simulateAttack()` → `SimulationEntity` + `AtomicRoll`.
-5. ✅ Tipar `MutatorBridge.mapCalculatedStats()` → `Record<AttributeId, AttributeNode>`.
-6. ✅ Normalizar todos los `@status en desarrollo` → `en-desarrollo` (11 archivos).
-7. ✅ Estandarizar valores no canónicos (`BLOQUEADO`, `Parche Inicial`, `SSoT para...`).
-
-### Bloque B — ✅ Completado (2026-05-18)
-
-6. ✅ `ModStatRaw` + `ModStatValueRaw` + `ModOverrideEntry` — `contracts/mod-overrides.ts` creado.
-7. ✅ `ModRepository` tipado con las interfaces (eliminados los 2 `any` de stat/val).
-8. `EnsembleAdapter.mapEntity()` — pendiente de OQ-STATE-1.
-
-### Bloque C — Completado (2026-05-19)
-
-9. ✅ `loadout-context.tsx` purgado — OQ-STATE-1.
-10. ✅ `EnsembleAdapter.ts` eliminado — lógica absorbida por `MutatorBridge` — OQ-STATE-4.
-11. ✅ `ArchonShardSelection` y factories de estado eliminadas de `arsenal-state.ts` — archon shards migrados a `EnsembleIntention` — OQ-STATE-2.
-12. `use-arsenal-stub-state.ts` — reducido a metadata visual (incarnon, focus, companion, vehicles). Purga final cuando OQ-ENGINE-2 sea implementado. (OQ-ENGINE-4 cerrado 2026-05-27)
-13. `ArsenalFooter.tsx` — stub hardcodeado. Purgar cuando Arsenal Footer consuma datos reales.
-
-### Bloque D — Deuda técnica baja urgencia
+## 5. Deuda técnica pendiente
 
 11. Refactorizar `DataRegistry.ts` (cadenas `as unknown as T[]`).
 12. Tipar `ItemRepository` (requiere mapear shape del dataset warframe-items).
 
 ---
 
-## 6. Open Questions vinculadas
+## 6. Open Questions
 
-Todas las OQs originales cerradas. Ver `docs/governance/closed-decisions.md`.
+OQs cerradas: ver `docs/governance/closed-decisions.md`.
 
-- OQ-STATE-1 → cerrado (2026-05-19) — `LoadoutProvider` eliminado.
-- OQ-STATE-2 → cerrado (2026-05-19) — Arsenal factories + Archon Shards migrados a `EnsembleIntention`.
-- OQ-ENGINE-3 → cerrado (2026-05-27) — label parsing eliminado; `upgrade_type` D-6 en override.
-- OQ-ENGINE-4 → cerrado (2026-05-27) — Archon Shards implementados en `StaticHydrator`.
-
-**Bloqueador activo**: OQ-ENGINE-2 (profile switching Incarnon/Alt-fire). Ver `docs/governance/open-questions.md`.
+**Bloqueador activo**: OQ-ENGINE-2 (profile switching Incarnon/Alt-fire).
