@@ -15,6 +15,7 @@ export interface ModStatRaw {
   label: string;
   values: ModStatValueRaw[];
   condition: string | null;
+  note?: string | null;
 }
 
 /** Shape de una entrada completa en mod-stats.override.json, indexada por uniqueName. */

@@ -12,12 +12,8 @@
  *   Impact 2.4, Slash 14.4, Puncture 7.2 → total 24
  *   CC 24%, CM 3×, SC 20%
  */
-import { describe, it, expect, beforeAll } from 'vitest';
-import weaponsData from '../../../../public/data/weapons.json';
-import modOverrides from '../../../../public/data/mod-stats.override.json';
-import incarnonData from '../../../../public/data/incarnon-evolutions.override.json';
-import { ItemRepository } from '../hydration/ItemRepository';
-import { IncarnonRepository } from '../hydration/IncarnonRepository';
+import './helpers/engine-data-setup';
+import { describe, it, expect } from 'vitest';
 import { MutatorBridge } from '../bridge/MutatorBridge';
 import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
 
@@ -70,13 +66,7 @@ function simulate(intention: EnsembleIntention) {
   return weapon.attributes;
 }
 
-// ─── Setup ────────────────────────────────────────────────────────────────────
-
-beforeAll(() => {
-  ItemRepository.load(weaponsData as any[]);
-  ItemRepository.loadOverrides(modOverrides as Record<string, any>);
-  IncarnonRepository.load(incarnonData as any);
-});
+;
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 

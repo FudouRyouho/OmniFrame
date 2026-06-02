@@ -3,7 +3,7 @@
  * @SSoT docs/domains/engine/design/simulation-architecture.md
  * @status en-desarrollo
  */
-import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode } from "../contracts";
+import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../contracts";
 import type { EnsembleIntention, EnsembleChannel } from "@providers/Ensemble/ensemble.types";
 import { BASELINE_GAME_LAWS } from "../contracts";
 import { DnaRepository } from "../hydration/DnaRepository";
@@ -45,7 +45,7 @@ export class MutatorBridge {
 
     const fullContext: SimulationContext = {
       active_profile_id: context?.active_profile_id || "base",
-      flags: context?.flags || {},
+      flags: context?.flags !== undefined ? context.flags : this.deriveStaticFlags(modifiers),
       variables: context?.variables || {},
       laws: { ...laws, ...context?.laws }
     };
@@ -154,6 +154,15 @@ export class MutatorBridge {
       if (dna) dnas[id] = dna;
     });
     return dnas;
+  }
+
+  /** Modo estático: activa todas las condiciones presentes en el equipamiento. */
+  private deriveStaticFlags(modifiers: Modifier[]): Record<string, boolean> {
+    const flags: Record<string, boolean> = {};
+    for (const mod of modifiers) {
+      if (mod.condition) flags[mod.condition] = true;
+    }
+    return flags;
   }
 
   private mapCalculatedStats(entity: SimulationEntity, engine: SimulationEngine): Record<AttributeId, AttributeNode> {

@@ -133,6 +133,46 @@ class EnsembleStore {
   }
 
   /**
+   * Selecciona o deselecciona un perk de evolución incarnon en un tier específico.
+   */
+  setEvolutionPerk(channel: EnsembleChannel, tier: number, perkId: string | null) {
+    const current = this.state.items[channel];
+    const currentPerks = { ...(current.evolution_perks ?? {}) };
+
+    if (perkId === null) {
+      delete currentPerks[tier];
+    } else {
+      currentPerks[tier] = perkId;
+    }
+
+    this.state = {
+      ...this.state,
+      items: {
+        ...this.state.items,
+        [channel]: { ...current, evolution_perks: currentPerks }
+      }
+    };
+    this.notify();
+  }
+
+  /**
+   * Cambia el perfil activo de un canal (ej: 'base' | 'incarnon_form').
+   */
+  setActiveProfile(channel: EnsembleChannel, profileId: string) {
+    const current = this.state.items[channel];
+    if (current.active_profile === profileId) return;
+
+    this.state = {
+      ...this.state,
+      items: {
+        ...this.state.items,
+        [channel]: { ...current, active_profile: profileId }
+      }
+    };
+    this.notify();
+  }
+
+  /**
    * Resetear toda la intención.
    */
   clear() {

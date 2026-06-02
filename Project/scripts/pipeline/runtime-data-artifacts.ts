@@ -37,26 +37,6 @@ type UnknownRecord = Record<string, unknown>
 type SourceIntroduced = string | { name?: string | null } | null | undefined
 type SourceAura = string | string[] | null | undefined
 
-type AbilityStatsRow = Record<string, unknown>
-
-interface AbilityStatsLegacyRow extends AbilityStatsRow {
-  name?: string
-  description?: string
-  image_name?: string
-  icon?: string
-}
-
-interface AbilityStatsObjectEntry {
-  name?: string
-  description?: string
-  image_name?: string
-  icon?: string
-  stats?: AbilityStatsRow[]
-}
-
-export type AbilityStatsDbEntry = AbilityStatsObjectEntry | AbilityStatsLegacyRow[]
-export type AbilityStatsDb = Record<string, AbilityStatsDbEntry>
-
 interface PassiveEntry {
   name: string
   description: string
@@ -274,7 +254,6 @@ interface GeneratedVehicle extends GeneratedBaseFields {
 
 export interface RuntimeDataArtifacts {
   warframes: GeneratedWarframe[]
-  abilityStatsDb: AbilityStatsDb
   passivesDb: PassivesDb
   weapons: GeneratedWeapon[]
   mods: GeneratedMod[]
@@ -332,95 +311,6 @@ function resolveIntroduced(raw: SourceIntroduced): string | null {
   }
 
   return null
-}
-
-function createAbilityStatsEntry(ability: SourceAbilityRef): AbilityStatsObjectEntry {
-  return {
-    name: ability.name ?? '',
-    description: ability.description ?? '',
-    image_name: ability.imageName ?? '',
-    stats: [{
-      label: '',
-      stats: [],
-      misc: [],
-    }],
-  }
-}
-
-function ensureAbilityPointer(
-  ability: SourceAbilityRef,
-  abilityStatsDb: AbilityStatsDb,
-): GeneratedAbilityPointer {
-  const uniqueName = ability.uniqueName ?? ''
-
-  if (!uniqueName) {
-    return { unique_name: '' }
-  }
-
-  const currentEntry = abilityStatsDb[uniqueName]
-
-  if (!currentEntry) {
-    abilityStatsDb[uniqueName] = createAbilityStatsEntry(ability)
-    return { unique_name: uniqueName }
-  }
-
-  if (Array.isArray(currentEntry)) {
-    const first = currentEntry[0] ?? {}
-    abilityStatsDb[uniqueName] = {
-      name: typeof first.name === 'string' && first.name !== '' ? first.name : (ability.name ?? ''),
-      description: typeof first.description === 'string' ? first.description : (ability.description ?? ''),
-      image_name: typeof first.image_name === 'string' && first.image_name !== ''
-        ? first.image_name
-        : (typeof first.icon === 'string' && first.icon !== '' ? first.icon : (ability.imageName ?? '')),
-      stats: currentEntry.map((row) => {
-        const { name, description, icon, ...rest } = row
-        void name
-        void description
-        void icon
-        return rest
-      }),
-    }
-    return { unique_name: uniqueName }
-  }
-
-  if (!currentEntry.name) currentEntry.name = ability.name ?? ''
-  if (!currentEntry.description) currentEntry.description = ability.description ?? ''
-  if (!currentEntry.image_name && !currentEntry.icon) currentEntry.image_name = ability.imageName ?? ''
-  else if (!currentEntry.image_name && currentEntry.icon) currentEntry.image_name = currentEntry.icon
-
-  return { unique_name: uniqueName }
-}
-
-function normalizeAbilityStatsDb(db: AbilityStatsDb): AbilityStatsDb {
-  for (const [uniqueName, entry] of Object.entries(db)) {
-    if (Array.isArray(entry)) {
-      const first = entry[0] ?? {}
-      db[uniqueName] = {
-        name: typeof first.name === 'string' && first.name !== ''
-          ? first.name
-          : (uniqueName.split('/').pop() ?? 'Unknown'),
-        description: typeof first.description === 'string' ? first.description : '',
-        image_name: typeof first.image_name === 'string' && first.image_name !== ''
-          ? first.image_name
-          : (typeof first.icon === 'string' ? first.icon : ''),
-        stats: entry.map((row) => {
-          const { name, description, icon, ...rest } = row
-          void name
-          void description
-          void icon
-          return rest
-        }),
-      }
-      continue
-    }
-
-    if (entry.image_name == null && entry.icon) {
-      entry.image_name = entry.icon
-    }
-    delete entry.icon
-  }
-
-  return db
 }
 
 function mapDamage(raw: UnknownRecord | null | undefined): DamageMap {
@@ -502,7 +392,6 @@ function buildBaseFields(
 
 function mapWarframe(
   raw: SourceItem,
-  abilityStatsDb: AbilityStatsDb,
   polarityState: PolarityNormalizationState,
 ): GeneratedWarframe {
   const auraRaw = Array.isArray(raw.aura) ? raw.aura[0] : raw.aura
@@ -526,7 +415,7 @@ function mapWarframe(
     introduced: resolveIntroduced(raw.introduced),
     wikia_thumbnail: raw.wikiaThumbnail ?? null,
     wikia_url: raw.wikiaUrl ?? null,
-    abilities: (raw.abilities ?? []).map((ability) => ensureAbilityPointer(ability, abilityStatsDb)),
+    abilities: (raw.abilities ?? []).map((ability) => ({ unique_name: ability.uniqueName ?? '' })),
     passive: raw.passiveDescription ? resolveUniqueName(raw) : null,
     max_rank: raw.maxRank ?? 30,
     playstyle: (raw.playstyle ?? []).map((p: string) => p.toLowerCase()),
@@ -710,16 +599,14 @@ function mapVehicle(raw: SourceItem, polarityState: PolarityNormalizationState):
 
 function buildWarframesArtifacts(
   sourceItems: SourceItem[],
-  abilityStatsDb: AbilityStatsDb,
   polarityState: PolarityNormalizationState,
 ): {
   warframes: GeneratedWarframe[]
-  abilityStatsDb: AbilityStatsDb
   passivesDb: PassivesDb
 } {
   const warframes = sourceItems
     .filter((item) => isIncludedWarframe(item))
-    .map((item) => mapWarframe(item, abilityStatsDb, polarityState))
+    .map((item) => mapWarframe(item, polarityState))
 
   const passivesDb: PassivesDb = {}
 
@@ -734,7 +621,6 @@ function buildWarframesArtifacts(
 
   return {
     warframes,
-    abilityStatsDb: normalizeAbilityStatsDb(abilityStatsDb),
     passivesDb,
   }
 }
@@ -818,14 +704,12 @@ function buildVehiclesArtifacts(sourceItems: SourceItem[], polarityState: Polari
 
 export function buildRuntimeDataArtifacts(params: {
   sourceItems: SourceItem[]
-  abilityStatsDb: AbilityStatsDb
   arcaneNormalizationState: ArcaneNormalizationState
   weaponNormalizationState: WeaponNormalizationState
   polarityNormalizationState: PolarityNormalizationState
 }): RuntimeDataArtifacts {
   const warframesArtifacts = buildWarframesArtifacts(
     params.sourceItems,
-    params.abilityStatsDb,
     params.polarityNormalizationState,
   )
   const weapons = buildWeaponsArtifacts(
@@ -849,7 +733,6 @@ export function buildRuntimeDataArtifacts(params: {
 
   return {
     warframes: warframesArtifacts.warframes,
-    abilityStatsDb: warframesArtifacts.abilityStatsDb,
     passivesDb: warframesArtifacts.passivesDb,
     weapons,
     mods,

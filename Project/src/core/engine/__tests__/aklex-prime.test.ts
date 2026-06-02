@@ -10,10 +10,8 @@
  * Cómo verificar: equipar en el juego sin catalizador adicional y comparar
  * los valores en la pantalla de stats del Arsenal (sin modificar, con cada mod).
  */
-import { describe, it, expect, beforeAll } from 'vitest';
-import weaponsData from '../../../../public/data/weapons.json';
-import modOverrides from '../../../../public/data/mod-stats.override.json';
-import { ItemRepository } from '../hydration/ItemRepository';
+import './helpers/engine-data-setup';
+import { describe, it, expect } from 'vitest';
 import { MutatorBridge } from '../bridge/MutatorBridge';
 import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
 
@@ -71,13 +69,6 @@ function simulate(intention: EnsembleIntention) {
   if (!weapon) throw new Error(`Entidad ${AKLEX_PRIME} no encontrada en el resultado`);
   return weapon.attributes;
 }
-
-// ─── Setup ────────────────────────────────────────────────────────────────────
-
-beforeAll(() => {
-  ItemRepository.load(weaponsData as any[]);
-  ItemRepository.loadOverrides(modOverrides as Record<string, any>);
-});
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 

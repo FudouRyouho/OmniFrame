@@ -11,16 +11,25 @@ type PerkModifierRaw = {
   note?: string;
 };
 
+type PerkObject = {
+  image_name?:  string;
+  description?: string;
+  notes?:       string[];
+  upgrades:     PerkModifierRaw[];
+};
+
+type PerkData = PerkModifierRaw[] | PerkObject;
+
 type GenesisEntry = {
   weapons: string | Record<string, string>;
-  evolutions: Record<string, Record<string, PerkModifierRaw[]>>;
+  evolutions: Record<string, Record<string, PerkData>>;
 };
 
 type IncarnonRawData = Record<string, GenesisEntry>;
 
 type WeaponEntry = {
   alias: string | null;
-  evolutions: Record<string, Record<string, PerkModifierRaw[]>>;
+  evolutions: Record<string, Record<string, PerkData>>;
 };
 
 export class IncarnonRepository {
@@ -55,8 +64,11 @@ export class IncarnonRepository {
     const modifiers: Modifier[] = [];
 
     Object.entries(evolutionPerks).forEach(([tierStr, perkId]) => {
-      const rawMods = entry.evolutions[tierStr]?.[perkId];
-      if (!Array.isArray(rawMods)) return;
+      const perkData = entry.evolutions[tierStr]?.[perkId];
+      const rawMods: PerkModifierRaw[] = Array.isArray(perkData)
+        ? perkData
+        : (perkData as PerkObject | undefined)?.upgrades ?? [];
+      if (rawMods.length === 0) return;
 
       rawMods.forEach((rawMod) => {
         if (!rawMod.upgrade_type) return;

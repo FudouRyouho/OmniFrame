@@ -58,7 +58,8 @@ export class ModRepository {
               target_channel: entry?.target_channel,
               target_attribute: attrId,
               operation,
-              value
+              value,
+              ...(stat.condition ? { condition: stat.condition } : {})
             });
           } else {
             console.warn(`[Hydration] No se pudo mapear upgrade_type: ${val.upgrade_type} para el mod: ${unique_name}`);

@@ -31,7 +31,7 @@ export class ItemRepository {
     
     // Mapear ataques a perfiles
     if (raw.stats?.attacks && raw.stats.attacks.length > 0) {
-      raw.stats.attacks.forEach((attack: any) => {
+      raw.stats.attacks.forEach((attack: any, index: number) => {
         const profile_name = (attack.name || 'default').toLowerCase().replace(/ /g, '_');
         const damage_map = this.mapDamage(attack.damage);
         const damage_sum = Object.values(damage_map).reduce((s, v) => s + v, 0);
@@ -40,8 +40,8 @@ export class ItemRepository {
           WEAPON_ADD_CRIT_CHANCE:  (attack.crit_chance ?? raw.stats.crit_chance ?? 0) * 100,
           WEAPON_ADD_CRIT_MULT:    attack.crit_mult ?? raw.stats.crit_mult ?? 0,
           WEAPON_ADD_STATUS_CHANCE:(attack.status_chance ?? raw.stats.status_chance ?? 0) * 100,
-          WEAPON_ADD_FIRE_RATE:    raw.stats.fire_rate ?? 0,
-          WEAPON_ADD_MULTISHOT:    raw.stats.multishot ?? 1,
+          WEAPON_ADD_FIRE_RATE:    attack.speed ?? raw.stats.fire_rate ?? 0,
+          WEAPON_ADD_MULTISHOT:    this.resolveMultishot(raw, attack.name ?? '', index),
           WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
           reload_time:             raw.stats.reload_time ?? 0,
           WEAPON_ADD_RELOAD_SPEED: 100,
@@ -97,14 +97,27 @@ export class ItemRepository {
   }
 
   private static overrides: Map<string, any> = new Map();
+  private static weaponAttackOverrides: Map<string, any> = new Map();
 
-  /**
-   * Carga un bloque de overrides en el repositorio.
-   */
   public static loadOverrides(data: Record<string, any>) {
     Object.entries(data).forEach(([key, val]) => {
       this.overrides.set(key, val);
     });
+  }
+
+  // Claves que empiezan con "_" son entradas pendientes/comentario — se ignoran.
+  public static loadWeaponAttackOverrides(data: Record<string, any>) {
+    Object.entries(data).forEach(([key, val]) => {
+      if (!key.startsWith('_')) this.weaponAttackOverrides.set(key, val);
+    });
+  }
+
+  private static resolveMultishot(raw: any, attackName: string, index: number): number {
+    const override = this.weaponAttackOverrides.get(raw.unique_name);
+    if (override?.attacks?.[attackName]?.multishot !== undefined) {
+      return override.attacks[attackName].multishot;
+    }
+    return index === 0 ? (raw.stats.multishot ?? 1) : 1;
   }
 
   /**

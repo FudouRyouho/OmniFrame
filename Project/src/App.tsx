@@ -12,6 +12,7 @@ import ArsenalLayout from "@domains/arsenal/ArsenalLayout";
 import ArsenalView from "@domains/arsenal/ArsenalView";
 import ArsenalSwapView from "@domains/arsenal/swap/ArsenalSwapView";
 import ArchonShardSelectionView from "@domains/arsenal/archon-shards/ArchonShardSelectionView";
+import IncarnorEvolutionSelector from "@domains/arsenal/incarnon/IncarnorEvolutionSelector";
 import UpgradeView from "@domains/arsenal/view/UpgradeView";
 import ProfileView from "@domains/profile/ProfileView";
 import WarframeDetailView from "@shared/components/items/specs/WarframeDetailView";
@@ -72,6 +73,7 @@ export default function App() {
           <Route path="swap/:category" element={<ArsenalSwapView />} />
           <Route path="upgrade/:category" element={<UpgradeView />} />
           <Route path="archon-shards" element={<ArchonShardSelectionView />} />
+          <Route path="incarnon/:category" element={<IncarnorEvolutionSelector />} />
         </Route>
         <Route path="/profile" element={<ProfileView />} />
 

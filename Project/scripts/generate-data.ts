@@ -4,7 +4,6 @@
  */
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import Items from '@wfcd/items'
 
@@ -28,7 +27,6 @@ import {
 } from './pipeline/source-change-audit.ts'
 import {
   buildRuntimeDataArtifacts,
-  type AbilityStatsDb,
   type RuntimeDataArtifacts,
   type SourceItem,
 } from './pipeline/runtime-data-artifacts.ts'
@@ -42,8 +40,6 @@ const sourceChangeAuditReportPath = path.join(auditDir, 'source-change-report.js
 await fs.mkdir(outDir, { recursive: true })
 await fs.mkdir(auditDir, { recursive: true })
 
-const require = createRequire(import.meta.url)
-const abilityStatsDb = require('../public/data/ability-stats.override.json') as AbilityStatsDb
 const sourceItems = Array.from(new Items()) as SourceItem[]
 
 const arcaneNormalizationState = createArcaneNormalizationState()
@@ -57,7 +53,6 @@ async function writeJson(fileName: string, data: unknown, pretty = false): Promi
 
 async function persistRuntimeDataArtifacts(artifacts: RuntimeDataArtifacts): Promise<void> {
   await writeJson('warframes.json', artifacts.warframes)
-  await writeJson('ability-stats.override.json', artifacts.abilityStatsDb, true)
   await writeJson('passives.json', artifacts.passivesDb)
 
   console.log(`✓ warframes.json — ${artifacts.warframes.length} warframes`)
@@ -121,7 +116,6 @@ async function persistSourceChangeAuditReport(params: {
 async function main(): Promise<void> {
   const artifacts = buildRuntimeDataArtifacts({
     sourceItems,
-    abilityStatsDb,
     arcaneNormalizationState,
     weaponNormalizationState,
     polarityNormalizationState,

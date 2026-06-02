@@ -66,6 +66,13 @@ export const UPGRADES = [
   'WEAPON_ADD_CRIT_MULT',
   'WEAPON_ADD_STATUS_CHANCE',
   'WEAPON_ADD_MAGAZINE_MAX',
+  // Munición total del arma (pool). Distinto de WEAPON_ADD_MAGAZINE_MAX (capacidad del cargador).
+  // Fuente: Ammo Drum, Ammo Chain, Trick Mag, Shell Compression.
+  'WEAPON_ADD_AMMO_MAX',
+  // Eficiencia de munición — reduce la tasa de consumo de munición por disparo (% aditivo).
+  // D-6 compliant; resuelto por resolveToken() sin entrada en UPGRADE_MAP.
+  // Fuente: Brain Storm, Zazvat-Kar (mods); Arcane Pistoleer, Akimbo Slip Shot, Eternal Logistics, Primary Crux (arcanes).
+  'WEAPON_ADD_AMMO_EFFICIENCY',
   'WEAPON_ADD_RELOAD_SPEED',
   'WEAPON_ADD_STATUS_DAMAGE',
   'WEAPON_ADD_PROJECTILE_SPEED',
@@ -74,6 +81,11 @@ export const UPGRADES = [
   'WEAPON_ADD_STATUS_DURATION',
   'WEAPON_ADD_ZOOM',
   'WEAPON_ADD_FINISHER_DAMAGE',
+  // Multiplicador de headshot — se aplica sobre el multiplicador base del juego (no es % aditivo al daño).
+  // Fuente: Primary/Secondary Deadhead "+30% to Headshot Multiplier".
+  'WEAPON_ADD_HEADSHOT_MULT',
+  // ── WEAPON — perks flat incarnon (ADD_FLAT — post-escala, no amplificados) ─
+  'WEAPON_FLAT_STATUS_CHANCE',
   // ── WEAPON — perks base incarnon (BASE_FLAT — se amplifican con mods ADD) ─
   'WEAPON_BASE_CRIT_CHANCE',
   'WEAPON_BASE_STATUS_CHANCE',
@@ -84,10 +96,16 @@ export const UPGRADES = [
   'WEAPON_ADD_HEAVY_CHARGE_SPEED',
   'WEAPON_BASE_HEAVY_EFFICIENCY',
   'WEAPON_ADD_SLAM_RADIUS',
+  // Daño de slam attack. Distinto de WEAPON_ADD_SLAM_RADIUS (radio de AoE).
+  // Fuente: Seismic Wave, Necramech Seismic Wave.
+  'WEAPON_ADD_SLAM_DAMAGE',
   'WEAPON_ADD_RANGE',
   'WEAPON_BASE_COMBO_DURATION',
   'WEAPON_ADD_COMBO_DURATION',
   'WEAPON_BASE_COMBO_INITIAL',
+  // Chance de incrementar el combo counter por golpe. Fuente: Exodia Triumph/Valor (arcanes),
+  // Guardian Derision (mod). Token cross-schema — aparece en mods y arcanes.
+  'WEAPON_ADD_COMBO_COUNT_CHANCE',
   // ── WEAPON — sub-familia clase (D-6 extensión, activa 2026-05-26) ────────
   // Patrón: {FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
   // Sin entrada en UPGRADE_MAP — pipeline deuda D-7. Engine los consumirá directamente.
@@ -99,6 +117,9 @@ export const UPGRADES = [
   'AVATAR_ADD_ABILITY_RANGE',
   'AVATAR_ADD_ABILITY_DURATION',
   'AVATAR_ADD_ABILITY_EFFICIENCY',
+  // Multiplicador directo sobre output de daño de habilidades. Distinto de ABILITY_STRENGTH
+  // (que escala stats base). Fuente: Archon Shards Topaz/Violet/Emerald (condicional por status).
+  'AVATAR_ADD_ABILITY_DAMAGE',
   // ── AVATAR — stats base ──────────────────────────────────────────────────
   'AVATAR_ADD_HEALTH_MAX',
   'AVATAR_ADD_SHIELD_MAX',
@@ -111,6 +132,9 @@ export const UPGRADES = [
   'AVATAR_ADD_PARKOUR_VELOCITY',
   'AVATAR_ADD_HEALTH_ORB_EFFICIENCY',
   'AVATAR_ADD_ENERGY_ORB_EFFICIENCY',
+  // Regeneración de salud porcentual (%HP/s). Distinto de AVATAR_FLAT_HEALTH_REGEN (HP/s plano).
+  // Fuente: Arcane Grace, Arcane Victory.
+  'AVATAR_ADD_HEALTH_REGEN',
   // ── AVATAR — planos post-escala (ADD_FLAT) ───────────────────────────────
   // Fórmula: Base × (1 + Mods%) + FLAT. Fuentes: Archon Shards Azure, Stone Skin, Arcanos de armor.
   // No se amplifican por mods — se suman después del pool multiplicativo.
@@ -119,8 +143,28 @@ export const UPGRADES = [
   'AVATAR_FLAT_ENERGY_MAX',
   'AVATAR_FLAT_ARMOUR',
   'AVATAR_FLAT_HEALTH_REGEN',
+  // Regeneración de energía plana (E/s). Análogo de AVATAR_FLAT_HEALTH_REGEN para energía.
+  // Fuente: Energy Nexus (+0.6 E/s), Energy Siphon (aura), Relentless Assault.
+  'AVATAR_FLAT_ENERGY_REGEN',
+  // ── AVATAR — chance de resistir proc (D-6 desviación: CHANCE-family, resolveToken() no aplica)
+  // Modelado C2 diferido — engine no los consume aún. Fuente: arcanes proc resist.
+  // Nota: AVATAR_INJURY_BLOCK_CHANCE (resist knockdown/stagger) es un token distinto, no D-6.
+  'AVATAR_CHANCE_RESIST_SLASH',
+  'AVATAR_CHANCE_RESIST_PUNCTURE',
+  'AVATAR_CHANCE_RESIST_IMPACT',
+  'AVATAR_CHANCE_RESIST_HEAT',
+  'AVATAR_CHANCE_RESIST_COLD',
+  'AVATAR_CHANCE_RESIST_ELECTRICITY',
+  'AVATAR_CHANCE_RESIST_TOXIN',
+  'AVATAR_CHANCE_RESIST_RADIATION',
+  'AVATAR_CHANCE_RESIST_CORROSIVE',
+  'AVATAR_CHANCE_RESIST_GAS',
+  'AVATAR_CHANCE_RESIST_MAGNETIC',
   // ── GAMEPLAY ─────────────────────────────────────────────────────────────
   'GAMEPLAY_MULT_FACTION_DAMAGE',
+  // Daño de status de Toxina +N% (global: armas y habilidades, no compañeros).
+  // Instancias apiladas aditivamente. Fuente: Archon Shard Emerald.
+  'GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE',
 ] as const
 
 export type Upgrade = (typeof UPGRADES)[number]
@@ -206,6 +250,11 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
   WEAPON_ADD_RELOAD_SPEED:          { attr: 'WEAPON_ADD_RELOAD_SPEED',          op: 'ADD' },
   WEAPON_ADD_STATUS_DAMAGE:         { attr: 'WEAPON_ADD_STATUS_DAMAGE',         op: 'ADD' },
 
+  // ── WEAPON — perks flat incarnon (ADD_FLAT — post-escala, no amplificados) ─
+  // El valor debe pre-dividirse por base_multishot del perfil (ver wiki Felarx / Status Chance).
+  // Para perfiles multi-pellet: valor = bonus_total / base_multishot.
+  // Incarnon (base_multishot=1): valor sin dividir. Requiere OQ-ENGINE-2 para diferenciación.
+  WEAPON_FLAT_STATUS_CHANCE:        { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'ADD_FLAT' },
   // ── WEAPON — perks base incarnon (BASE_FLAT — se amplifican con mods ADD) ─
   WEAPON_BASE_CRIT_CHANCE:          { attr: 'WEAPON_ADD_CRIT_CHANCE',           op: 'BASE_FLAT' },
   WEAPON_BASE_STATUS_CHANCE:        { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'BASE_FLAT' },
