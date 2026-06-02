@@ -180,6 +180,7 @@ confirmar un mod o mecánica que lo requiera.
 | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | ADD | `[empirical]` | `C1` | Corrupt Charge y similares |
 | `WEAPON_ADD_COMBO_DURATION` | `WEAPON_ADD_COMBO_DURATION` | ADD | `[ref: melee-combo.md]` | `C1` | Body Count, Drifting Contact |
 | `WEAPON_ADD_COMBO_COUNT_CHANCE` | `WEAPON_ADD_COMBO_COUNT_CHANCE` | ADD | `[empirical]` | `C1` | Exodia Triumph/Valor (arcanes), Guardian Derision (mod) — cross-schema |
+| `WEAPON_ADD_LIFESTEAL` | `WEAPON_ADD_LIFESTEAL` | ADD | `[ref: life-steal.md]` | `—` | Life Strike (melee); Amalgam Daikyu Target Acquired, Winds of Purity (ranged); Exodia Might (arcano Zaw). No es melee-exclusivo — prefijo WEAPON correcto. Restricción de slot va por OQ-DATA-5. |
 
 ### WEAPON — perks base Incarnon (BASE_FLAT)
 

@@ -2085,12 +2085,12 @@
               22.5,
               30
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_LIFESTEAL"
           }
         ],
         "condition": "on_finisher_kill",
         "notes": [
-          "engine:note — Life Steal: |val1|% del daño infligido se convierte en HP para el jugador. Sin token confirmado; candidato a WEAPON_ADD_LIFESTEAL. proc:50% constante. duration:8s. Arcano Zaw (4 ranks)."
+          "engine:note — Life Steal: |val1|% del daño infligido → HP para el jugador (después de DR del enemigo). proc:50% constante. duration:8s. Arcano Zaw (4 ranks). Token WEAPON_ (no MELEE_) confirmado: mecánica es weapon-agnostic. Restricción a Zaws va por OQ-DATA-5."
         ]
       }
     ]
