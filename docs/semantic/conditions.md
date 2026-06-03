@@ -3,9 +3,9 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.9.0"
+Version: "v1.10.0"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-06-03"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
 ---
 
@@ -47,11 +47,23 @@ derivación como la de `upgrade_*`. La única clasificación con contenido mecá
 > por defecto: `[empirical]`. Las definiciones con incertidumbre real (composición OR no expresable,
 > umbrales no listados en UI, dependencia de contexto sin diseñar) se listan en §Gate 1 abajo.
 
+### Altitud de los debates (estado de madurez)
+
+Esta taxonomía **no está consolidada**: no tiene capas reales ni una estructura de derivación
+como `upgrade_*` (que sí entra normalizado desde tipos DE). Sus únicos agrupadores hoy son los
+**prefijos dominantes** (`on_`/`while_`/`with_`/`per_`), organización emergente — no una jerarquía
+cerrada. Mientras esto siga así, los debates de ingesta se resuelven al nivel de **coherencia mínima**
+(¿el token nombra la condición del label sin colapsar mecánicas distintas?), **no de rigor semántico**
+(naturaleza, modelo `c2/*`, capa). La clasificación fina se difiere hasta que exista una capa de semántica
+derivada con estructura propia. Acuñar un token nuevo con `modelo: diferido` es la norma, no la excepción.
+
 ---
 
 ## Modelo de evaluación (`engine:class:c2/*`)
 
 La única clasificación con contenido mecánico: **qué necesita el SimulationContext para evaluar cada condition**. Usa la [gramática canónica](../governance/nomenclature-grammar.md):
+
+> ⚠ **Eje bajo revisión ([OQ-SEM-2](../governance/open-questions.md)):** esta clasificación está anclada al modelo de un engine que aún no existe. Está abierto si el eje primario debería ser la **mecánica real del juego** (estado/evento/umbral/maniobra) y dejar `engine:class:c2/*` como proyección derivada.
 
 | Tag (gramática) | Significado |
 | :--- | :--- |
@@ -74,7 +86,7 @@ Flags booleanos evaluados antes de iniciar la simulación. El `SimContext` debe 
 | `while_melee_equipped` | incarnon | `engine:class:c2/binary` | "With Melee Weapon Equipped" |
 | `while_channeled_ability_active` | incarnon | `engine:class:c2/binary` | "With Channeled Ability active", "With Channeled Ability Active" |
 | `while_invisible` | arcanes | `engine:class:c2/binary` | "While invisible" (parte de Arcane Crepuscular) |
-| `while_airborne` | arcanes | `engine:class:c2/binary` | "while Airborne" (parte de Pax Soar) |
+| `while_airborne` | arcanes, mods exilus | `engine:class:c2/binary` | "while Airborne" (Pax Soar), "when Airborne" (Soaring Strike, Air Thrusters) |
 | `while_grounded` | incarnon | `engine:class:c2/binary` | "while grounded" — opuesto de `while_airborne`; el jugador está en contacto con el suelo |
 | `while_aiming` | mods exilus | `engine:class:c2/binary` | "when Aiming", "while Aiming" — ADS activo (suelo o aire) |
 | `while_sliding` | arcanes, mods exilus | `engine:class:c2/binary` | "While sliding", "when Sliding" |
@@ -152,7 +164,7 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_hit` | "On Hit" | `engine:class:c2/event` | arcanes, incarnon |
 | `on_melee_hit` | "On Melee Hit" | `engine:class:c2/event` | arcanes |
 | `on_heavy_attack_hit` | "On Heavy Attack Hit" — sub-evento de melee, distinto de `on_heavy_attack_kill` | `engine:class:c2/event` | mods exilus |
-| `on_critical_hit` | "On Critical Hit" | `engine:class:c2/event` | arcanes, incarnon |
+| `on_critical_hit` | "On Critical Hit", "apply on Critical" | `engine:class:c2/event` | arcanes, incarnon, mods (Hunter Munitions) |
 | `on_base_critical_hit` | "On Base Critical Hits" — normalizado desde `on_base_critical_hits` (plural); forma canónica: singular | `engine:class:c2/event` | arcanes |
 | `on_headshot` | "On Headshot" | `engine:class:c2/event` | arcanes, incarnon |
 | `on_weakpoint_hit` | "On Weakpoint Hits", "On Weak Point Hit" | `engine:class:c2/event` | arcanes, incarnon |
@@ -252,7 +264,7 @@ drift (D-19) — es cola de consolidación; se resuelve al definir, no como requ
 | ~~Incarnon notes: texto libre~~ | **mapeado (2026-05-30)** — `condition` token en `stats[]` | incarnon-evolutions.override.json |
 
 > **Incarnon completado (2026-05-30):** los 120 stats condicionales del override usan `condition`
-> con token canónico. El mapeo trigger→token está en `Project/scripts/add-incarnon-conditions.py`.
+> con token canónico. El mapeo trigger→token se aplicó vía patch one-off (purgado tras uso; ver git history).
 > 5 tokens nuevos añadidos a este vocabulario (`on_slide_kill`, `on_non_crit_non_status_hit`,
 > 3× `while_*_equipped` de stalker pairs).
 
@@ -375,6 +387,35 @@ Token **pre-existente** en el override que faltaba documentar (detectado en el c
 > ability cast), Melee Afflictions (status + knockdown), Arcane Universal Fallout (radiation por habilidad
 > + death). Condición real compuesta, no tokenizable limpio; `condition:null` + `notes[]` descriptiva.
 
+## Ingesta mods exilus/general (2026-06-03) — cola de clasificación
+
+Grupo A del triage `Project/scripts/triage-mod-conditions.py` (read-only) sobre
+`mod-stats.override.json`. Tokens IN-SCOPE weapon-sim (`upgrade_type WEAPON_*`), acuñados tras
+ratificación vía patch one-off (purgado tras uso; procedencia en git history). **Naturaleza/modelo
+diferidos** (ver §Altitud de los debates): entran a nivel captura, derivados del label.
+
+| Token | Fuente (mods) | Label / nota de naturaleza |
+|---|---|---|
+| `while_crouching` (nuevo) | Lie In Wait | "+Fire Rate when Crouching" — flag binario del jugador, familia de `while_aiming`/`while_sliding`. |
+| `on_first_shot_in_magazine` (nuevo) | Charged Chamber, Primed Chamber | "+Damage on first shot in Magazine" (`WEAPON_INIT_DAMAGE_MOD`). Tensión evento (primer disparo) vs derivado (posición en cargador) — diferida hasta diseñar el contador de munición del SimContext. |
+| `per_status_type_on_target` (nuevo) | Condition Overload, Healing Return | "per Status Type affecting the target" — escala proporcional al nº de status distintos en el target. Amplía la familia `per_` (G4). ⚠ `upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` es binario (legacy DE); gana el label (fidelidad). **Cross-schema:** misma fórmula en incarnon y en Galvanized Aptitude/Savvy/Shot — pero allí el token primario es `on_kill` (el "per status type" es escala, no condición; `condition:string` guarda una sola). |
+| `per_melee_combo_multiplier` (existente, G4) | Weeping Wounds, Blood Rush | Son los "más casos" que G4 anticipaba. Token stat-agnóstico (Status Chance / Crit Chance). Blood Rush: label "stacks with Combo Multiplier" pero su nota de fórmula confirma mecánica idéntica (`val × combo_mult`). |
+
+> **Fuera de scope (Grupo B, no acuñado):** mods con `upgrade_type AVATAR_*`/`VEHICLE_*` —
+> `on_bullet_jump` (parkour elemental), `while_falling` (Air Time/Mad Stack), `on_spawn` (Preparation).
+> Condición real pero efecto de Warframe/vehículo, no del arma. Trabajo separado.
+
+**SUGGEST limpio (14 stats, mismo día):** mapeo de tokens **ya consolidados** (no acuña vocab) a mods
+cuyo label matchea frase canónica — `while_aim_gliding` ×6, `while_airborne` ×2, `while_holstered` ×3,
+`while_sliding` ×3. Los AVATAR_* (Aero Vantage, Boreal's Anguish, Air Thrusters) llevan nota de scope
+(efecto de movimiento WF fuera del weapon-sim; condición válida igual). Patch one-off purgado tras uso.
+
+**Dudosos resueltos (gate manual + contraste @wfcd/items type/compat):** `Hunter Munitions` (Primary Mod)
+→ `on_critical_hit` (valor = chance de proc Slash). `Hunter Synergy` (Companion Mod) → ausente: el
+"on Critical" del label era match espurio de "Weap**on Crit**ical" (regex del triage endurecido a `\bon`).
+`Gale Kick` (Warframe Mod, Jump Kick + knockdown) → ausente, fuera de scope (CC diferido a D-20). Con esto
+el balde SUGGEST quedó en 0; los `ausente`+`notes[]` (revisados) van al balde REVIEWED del triage, no reaparecen.
+
 ## Taxonomía del campo `condition` (D-18)
 
 `condition` es **monosemántico** — habla solo de la condición, no del estado de análisis:
@@ -386,7 +427,7 @@ Token **pre-existente** en el override que faltaba documentar (detectado en el c
 | `"<token>"` | Condicional, mapeada a un token de aquí |
 
 Aplica a los tres schemas (mods, arcanes, incarnon). El `null` incondicional anterior (D-14) fue
-eliminado el 2026-05-30 vía `Project/scripts/normalize-condition-taxonomy.py`. Ver [D-18](../data/decisions.md).
+eliminado el 2026-05-30 vía patch one-off (purgado tras uso; ver git history). Ver [D-18](../data/decisions.md).
 
 > La normalización es trabajo de datos (scripts/patch), no de engine. Los overrides son SSoT —
 > el engine leerá el token que esté en el JSON. Normalizar evita que el engine tenga que conocer
@@ -437,7 +478,7 @@ Agrupado por prefijo (organización emergente, no taxonomía):
 | Evento (`on_*`) | ~76 | 43 mapeados | mapeado en `condition` (incl. `on_slide_kill`, `on_non_crit_non_status_hit`) | 2 nuevos (exilus) |
 | Operador | 9 | 9 mapeados | 0 | 0 |
 
-> Mapeo en `condition` (2026-06-01): incarnon 175 token / 0 null (69 únicos · 21 en cola de clasificación, ver §Ingesta incarnon) · mods 14 token / 2 null · arcanes 137 token / 5 null (33 ausente) · archon 9 token / 1 null (17 ausente). Incondicionales = ausente (D-18).
+> Mapeo en `condition` (2026-06-01): incarnon 175 token / 0 null (69 únicos · 21 en cola de clasificación, ver §Ingesta incarnon) · mods 80 token / 2 null / 813 ausente (22 únicos; actualizado 2026-06-03, ver §Ingesta mods) · arcanes 137 token / 5 null (33 ausente) · archon 9 token / 1 null (17 ausente). Incondicionales = ausente (D-18).
 > Nota: arcanes — Crepuscular corregido (null → `while_invisible`); Exodia Valor añadido `condition: null` (conditional-without-token, "on Lifted enemies").
 
 Los tokens `while_*` y `with_*` (≈28) son los candidatos inmediatos para C1-A porque no requieren

@@ -155,7 +155,9 @@
             ],
             "upgrade_type": "WEAPON_ADD_ZOOM"
           }
-        ]
+        ],
+        "condition": "while_aim_gliding",
+        "notes": []
       }
     ]
   },
@@ -174,6 +176,10 @@
             ],
             "upgrade_type": "AVATAR_PARKOUR_GRAVITY"
           }
+        ],
+        "condition": "while_aim_gliding",
+        "notes": [
+          "engine:note · scope warframe (AVATAR_*): efecto de parkour/movimiento fuera del weapon-sim; la condición es válida (D-18), modelo diferido"
         ]
       }
     ]
@@ -253,7 +259,9 @@
             ],
             "upgrade_type": "WEAPON_ADD_ZOOM"
           }
-        ]
+        ],
+        "condition": "while_aim_gliding",
+        "notes": []
       }
     ]
   },
@@ -272,6 +280,10 @@
             ],
             "upgrade_type": "AVATAR_SLIDE_BOOST"
           }
+        ],
+        "condition": "while_airborne",
+        "notes": [
+          "engine:note · scope warframe (AVATAR_*): efecto de parkour/movimiento fuera del weapon-sim; la condición es válida (D-18), modelo diferido"
         ]
       },
       {
@@ -1914,8 +1926,10 @@
           }
         ],
         "notes": [
-          "engine:note — formula: base_value × Combo Multiplier tier; actual crit chance = val × combo_mult (requires runtime Combo Multiplier)"
-        ]
+          "engine:note — formula: base_value × Combo Multiplier tier; actual crit chance = val × combo_mult (requires runtime Combo Multiplier)",
+          "engine:note · label dice 'stacks with' pero la nota de fórmula confirma mecánica idéntica a Weeping Wounds (val × combo_mult) — mismo token per_melee_combo_multiplier"
+        ],
+        "condition": "per_melee_combo_multiplier"
       }
     ]
   },
@@ -1999,6 +2013,10 @@
             ],
             "upgrade_type": "AVATAR_PARKOUR_GRAVITY"
           }
+        ],
+        "condition": "while_aim_gliding",
+        "notes": [
+          "engine:note · scope warframe (AVATAR_*): efecto de parkour/movimiento fuera del weapon-sim; la condición es válida (D-18), modelo diferido"
         ]
       },
       {
@@ -2204,7 +2222,9 @@
             ],
             "upgrade_type": "WEAPON_ADD_ZOOM"
           }
-        ]
+        ],
+        "condition": "while_aim_gliding",
+        "notes": []
       }
     ]
   },
@@ -2554,6 +2574,10 @@
             ],
             "upgrade_type": "WEAPON_INIT_DAMAGE_MOD"
           }
+        ],
+        "condition": "on_first_shot_in_magazine",
+        "notes": [
+          "engine:note · naturaleza diferida: evento (primer disparo del cargador) vs derivado (posición en cargador) — resolver al diseñar contador de munición del SimContext"
         ]
       }
     ]
@@ -2979,8 +3003,10 @@
           }
         ],
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica"
-        ]
+          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica",
+          "engine:note · upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE es binario (legacy DE); el label/condition refleja la mecánica real (escala per tipo) — fidelidad al label"
+        ],
+        "condition": "per_status_type_on_target"
       }
     ]
   },
@@ -3992,7 +4018,9 @@
             ],
             "upgrade_type": "WEAPON_SPREAD"
           }
-        ]
+        ],
+        "condition": "while_sliding",
+        "notes": []
       }
     ]
   },
@@ -4171,7 +4199,9 @@
             ],
             "upgrade_type": "WEAPON_AUTO_RELOAD_RATE"
           }
-        ]
+        ],
+        "condition": "while_holstered",
+        "notes": []
       }
     ]
   },
@@ -5698,6 +5728,9 @@
             ],
             "upgrade_type": "AVATAR_MELEE_DAMAGE_TO_JUMP_KICK"
           }
+        ],
+        "notes": [
+          "engine:note · mod de Warframe (Jump Kick, parkour): convierte daño melee a Impact + knockdown on kill; fuera de scope weapon-sim — CC diferido a D-20"
         ]
       }
     ]
@@ -6424,7 +6457,9 @@
             ],
             "upgrade_type": "WEAPON_SPREAD"
           }
-        ]
+        ],
+        "condition": "while_sliding",
+        "notes": []
       }
     ]
   },
@@ -6598,6 +6633,10 @@
             ],
             "upgrade_type": "WEAPON_HEALTH_ON_HIT_ENEMY_WITH_PROC"
           }
+        ],
+        "condition": "per_status_type_on_target",
+        "notes": [
+          "engine:note · efecto = curación (survivability), no DPS; la condición se comparte con Condition Overload"
         ]
       }
     ]
@@ -6952,6 +6991,10 @@
             ],
             "upgrade_type": "WEAPON_SLASH_PROC_ON_CRIT_CHANCE"
           }
+        ],
+        "condition": "on_critical_hit",
+        "notes": [
+          "engine:note · valor = probabilidad de aplicar proc de Slash en crítico (WEAPON_SLASH_PROC_ON_CRIT_CHANCE); no es magnitud de stat"
         ]
       }
     ]
@@ -6994,6 +7037,9 @@
             ],
             "upgrade_type": "AVATAR_SENTINEL_CRIT_LINK"
           }
+        ],
+        "notes": [
+          "engine:note · +X% Primary Weapon Critical Chance añadido al Companion — scope companion, sin condición weapon-sim; 'on Critical' del label fue match espurio de 'Weapon Critical'"
         ]
       }
     ]
@@ -8009,7 +8055,9 @@
             ],
             "upgrade_type": "WEAPON_ADD_FIRE_RATE"
           }
-        ]
+        ],
+        "condition": "while_crouching",
+        "notes": []
       },
       {
         "label": "+|val1|% Weapon Recoil",
@@ -8287,7 +8335,9 @@
             ],
             "upgrade_type": "WEAPON_AUTO_RELOAD_RATE"
           }
-        ]
+        ],
+        "condition": "while_holstered",
+        "notes": []
       }
     ]
   },
@@ -10429,7 +10479,9 @@
             ],
             "upgrade_type": "WEAPON_ADD_ZOOM"
           }
-        ]
+        ],
+        "condition": "while_aim_gliding",
+        "notes": []
       }
     ]
   },
@@ -11400,6 +11452,10 @@
             ],
             "upgrade_type": "WEAPON_INIT_DAMAGE_MOD"
           }
+        ],
+        "condition": "on_first_shot_in_magazine",
+        "notes": [
+          "engine:note · naturaleza diferida: evento (primer disparo del cargador) vs derivado (posición en cargador) — resolver al diseñar contador de munición del SimContext"
         ]
       }
     ]
@@ -15255,7 +15311,9 @@
             ],
             "upgrade_type": "WEAPON_ADD_FIRE_RATE"
           }
-        ]
+        ],
+        "condition": "while_airborne",
+        "notes": []
       }
     ]
   },
@@ -15773,7 +15831,9 @@
             ],
             "upgrade_type": "WEAPON_SPREAD"
           }
-        ]
+        ],
+        "condition": "while_sliding",
+        "notes": []
       }
     ]
   },
@@ -16151,7 +16211,9 @@
             ],
             "upgrade_type": "WEAPON_AUTO_RELOAD_RATE"
           }
-        ]
+        ],
+        "condition": "while_holstered",
+        "notes": []
       }
     ]
   },
@@ -17612,7 +17674,8 @@
         ],
         "notes": [
           "engine:note — formula: base_value × Combo Multiplier tier; actual status chance = val × combo_mult (requires runtime Combo Multiplier)"
-        ]
+        ],
+        "condition": "per_melee_combo_multiplier"
       }
     ]
   },

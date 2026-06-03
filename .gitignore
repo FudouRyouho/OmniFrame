@@ -28,5 +28,9 @@ docs/domains/data/pipeline/audits/
 # ─── Sesiones de trabajo (scratchpad de análisis, no SSoT) ───────────────────
 .working/
 
+# ─── Scripts one-off de sesión (patches de un solo uso) ──────────────────────
+# (ya cubierto por Project/.gitignore *.local; explícito acá por claridad)
+Project/scripts/.local/
+
 # ─── Backups de datos ────────────────────────────────────────────────────────
 Project/public/data/bk/*

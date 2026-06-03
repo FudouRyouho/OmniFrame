@@ -362,8 +362,8 @@ Cobertura aplicada 2026-05-30:
 | mods | 14 | 2 | 879 → ausente |
 | arcanes | 121 | 4 | 50 → ausente |
 
-Scripts: `add-incarnon-conditions.py` (mapeo trigger→token de incarnon, aprobado manualmente),
-`normalize-condition-taxonomy.py` (limpieza de `null` incondicional, genérico). 5 tokens nuevos
+Patches one-off (purgados tras uso, procedencia en git history): mapeo trigger→token de incarnon
+(aprobado manualmente) y limpieza de `null` incondicional (genérico). 5 tokens nuevos
 añadidos a `conditions.md`.
 
 ### Por qué

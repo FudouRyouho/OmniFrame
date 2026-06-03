@@ -448,7 +448,7 @@ entry
 |---|---|---|---|
 | `base_value` | escalar o array | array length = max_rank+1 (6 para rank5) | escalar o dict por alias |
 | Fuente de `upgrade_type` | `upgradeTypes[]` de @wfcd/items | keyword matching en texto libre | auditoría manual |
-| `condition` | capturado manual/script | capturado de prefijos "On X:" / "While X:" | D-18: `add-incarnon-conditions.py` |
+| `condition` | capturado manual/script | capturado de prefijos "On X:" / "While X:" | D-18 (patch purgado; git history) |
 | Repository | `ModRepository` ✅ | `ArcaneRepository` ❌ pendiente | `IncarnonRepository` ⚠️ lee formato viejo |
 
 ---

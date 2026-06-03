@@ -161,7 +161,7 @@ Efectos con placeholder `+X`/`+Y` del extractor — valor real requiere verifica
 
 ### Falsos positivos en detección de weapons faltantes
 
-`find_missing_weapons()` en `migrate-incarnon-override.py` extrae `{{Weapon|Name}}` de todo el wikitext, incluyendo secciones de Trivia y comparaciones. Dos casos identificados:
+El script de migración (purgado tras uso; ver git history) extraía `{{Weapon|Name}}` de todo el wikitext vía `find_missing_weapons()`, incluyendo secciones de Trivia y comparaciones. Dos casos identificados:
 
 - **Klamora Prism** aparece en `furis-incarnon-genesis.wikitext` como comparación de Incarnon Form ("fires a wide Klamora Prism-like beam") — no pertenece al genesis.
 - **Arca Titron** aparece en `magistar-incarnon-genesis.wikitext` en Trivia como referencia de slam radius — no pertenece al genesis.
