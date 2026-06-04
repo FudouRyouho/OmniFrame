@@ -13914,7 +13914,7 @@
               6,
               8
             ],
-            "upgrade_type": "WEAPON_ADD_RANGE"
+            "upgrade_type": "WEAPON_ADD_BEAM_RANGE"
           }
         ]
       }
@@ -14524,7 +14524,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_ADD_RANGE"
+            "upgrade_type": "WEAPON_ADD_BEAM_RANGE"
           }
         ]
       },
@@ -15102,7 +15102,7 @@
               9,
               12
             ],
-            "upgrade_type": "WEAPON_ADD_RANGE"
+            "upgrade_type": "WEAPON_ADD_BEAM_RANGE"
           }
         ]
       }
@@ -17813,7 +17813,7 @@
     "name": "Galvanized Acceleration",
     "stats": [
       {
-        "label": "+|val1|% Projectile Speed and +|val1|% Beam Range",
+        "label": "+|val1|% Projectile Speed",
         "values": [
           {
             "base_value": [
@@ -17831,13 +17831,31 @@
             ],
             "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED"
           }
-        ],
-        "notes": [
-          "engine:note — beam_range: no D-6 token — pending"
         ]
       },
       {
-        "label": "On Kill: +|val1|% Projectile Speed and +|val1|% Beam Range for 10s",
+        "label": "+|val1|% Beam Range",
+        "values": [
+          {
+            "base_value": [
+              2.7,
+              5.5,
+              8.2,
+              10.9,
+              13.6,
+              16.4,
+              19.1,
+              21.8,
+              24.5,
+              27.3,
+              30.0
+            ],
+            "upgrade_type": "WEAPON_ADD_BEAM_RANGE"
+          }
+        ]
+      },
+      {
+        "label": "On Kill: +|val1|% Projectile Speed for 10s",
         "values": [
           {
             "base_value": [
@@ -17858,7 +17876,32 @@
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — stacks 2x; per_stack: 30% at rank 10; duration: 10s; beam_range: no D-6 token — pending"
+          "engine:note — stacks 2x; per_stack: 30% at rank 10; duration: 10s"
+        ]
+      },
+      {
+        "label": "On Kill: +|val1|% Beam Range for 10s",
+        "values": [
+          {
+            "base_value": [
+              5.4,
+              11.0,
+              16.4,
+              21.8,
+              27.2,
+              32.8,
+              38.2,
+              43.6,
+              49.0,
+              54.6,
+              60.0
+            ],
+            "upgrade_type": "WEAPON_ADD_BEAM_RANGE"
+          }
+        ],
+        "condition": "on_kill",
+        "notes": [
+          "engine:note — stacks 2x; per_stack: 30% at rank 10; duration: 10s"
         ]
       }
     ]

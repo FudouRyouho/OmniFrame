@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-06-02"
+Fecha_de_actualizacion: "2026-06-03"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -316,12 +316,12 @@ Un sector es un eje semántico de una fuente de datos. Cada fuente tiene múltip
 |---|---|---|
 | `WEAPON_FIRE_ITERATIONS` | Alias del pipeline @wfcd/items. Viola D-6 (falta segmento `ADD`). Renombrar a `WEAPON_ADD_MULTISHOT`. | Rename global en override + actualizar UPGRADE_MAP. Un `sed` sobre todo el JSON. |
 | `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` | Sin equivalente D-6. Semántica: `+X% daño global por cada tipo de estado único activo en el target`. Requiere token nuevo o `CONTEXT_SCALE` con `unique_status_count` del `SimContext`. | Debate de diseño: ¿token fijo o operación CONTEXT_SCALE? Decidir en C1-A. |
-| `WEAPON_ADD_BEAM_RANGE` (inexistente) | El mod Galvanized Acceleration afecta Beam Range. No existe token D-6 para este atributo. Los stats de Acceleration guardan solo `WEAPON_ADD_PROJECTILE_SPEED` con `note: "beam_range: no D-6 token — pending"`. | Investigar mods análogos (Sinister Reach, Thermagnetic Shells). Crear token si hay evidencia de impacto en sim. |
+| `WEAPON_ADD_BEAM_RANGE` | ✅ **RESUELTO 2026-06-03.** Token acuñado en `UPGRADES[]` (data-first, gate D-20: 4 mods misma forma). Re-map: Sinister Reach, Ruinous Extension, Sequence Burn (`WEAPON_ADD_RANGE` → `WEAPON_ADD_BEAM_RANGE`); Galvanized Acceleration split 1-label-1-stat (Projectile Speed + Beam Range), note "pending" removida. Thermagnetic Shells verificado: NO es beam range (Detron, sin stat de beam). | — |
 
 ### Impacto actual (Fase 0)
 - `WEAPON_FIRE_ITERATIONS` → resuelto por `UPGRADE_MAP` (mapea a `WEAPON_ADD_MULTISHOT`). Funciona.
 - `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` → no está en `UPGRADES[]` → silently dropped por `ModRepository`. No funcional hasta resolución.
-- Beam range → no está en `UPGRADES[]` → silently dropped. No funcional hasta resolución.
+- Beam range → ✅ `WEAPON_ADD_BEAM_RANGE` en `UPGRADES[]` (2026-06-03). Ya no se dropea. Modelo de engine `—` (capture-only) hasta que exista consumidor.
 
 **Ref:** `docs/semantic/upgrade-tokens.md`, `Project/src/shared/types/modifier.ts`
 

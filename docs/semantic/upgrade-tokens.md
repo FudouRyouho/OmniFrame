@@ -5,7 +5,7 @@ Version: "v0.5.3"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-02"
+Fecha_de_actualizacion: "2026-06-03"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -175,7 +175,8 @@ confirmar un mod o mecánica que lo requiera.
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Fuente |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `WEAPON_ADD_RANGE` | `WEAPON_ADD_RANGE` | ADD | `[empirical]` | `—` | Reach, Primed Reach (alcance melee) |
+| `WEAPON_ADD_RANGE` | `WEAPON_ADD_RANGE` | ADD | `[empirical]` | `—` | Reach, Primed Reach (alcance **melee**). Beam range movido a `WEAPON_ADD_BEAM_RANGE` (D-17, 2026-06-03); archgun `+% Range` (Ballista Measure) sigue aquí → OQ-DATA-7 |
+| `WEAPON_ADD_BEAM_RANGE` | `WEAPON_ADD_BEAM_RANGE` | ADD | `[empirical]` | `—` | Alcance del rayo de armas continuas. Sinister Reach, Ruinous Extension, Sequence Burn, Galvanized Acceleration (split). Flat `+Xm` y `+%` conviven; unidad en label → OQ-DATA-8 |
 | `WEAPON_ADD_SLAM_RADIUS` | `WEAPON_ADD_SLAM_RADIUS` | ADD | `[empirical]` | `—` | Mods de slam attack radius |
 | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | ADD | `[empirical]` | `C1` | Corrupt Charge y similares |
 | `WEAPON_ADD_COMBO_DURATION` | `WEAPON_ADD_COMBO_DURATION` | ADD | `[ref: melee-combo.md]` | `C1` | Body Count, Drifting Contact |
@@ -350,8 +351,8 @@ fallo silencioso detectable inspeccionando el output de `ModRepository`.
 
 | Estado | Descripción |
 | :--- | :--- |
-| En UPGRADES[] | **78 tokens D-6** (inc. alias `WEAPON_FIRE_ITERATIONS` y 3 tokens sub-familia) — sincronizado con `modifier.ts` 2026-05-31 |
-| Documentados aquí | 100% — delta code-vs-doc = 0 (verificado 2026-05-31) |
+| En UPGRADES[] | **79 tokens D-6** (inc. alias `WEAPON_FIRE_ITERATIONS` y 3 tokens sub-familia; `WEAPON_ADD_BEAM_RANGE` añadido 2026-06-03) — sincronizado con `modifier.ts` 2026-06-03 |
+| Documentados aquí | 100% — delta code-vs-doc = 0 (verificado 2026-06-03) |
 | En UPGRADE_MAP (explícito) | 35 entradas — excepciones al patrón self-referencial |
 | Via resolveToken() (implícito) | elementales + sub-familia |
 | Sin mapear (pipeline deuda) | tipos DE legacy en `mod-stats.override.json` — auditoría de aplicaciones en curso (Fase 2c) |

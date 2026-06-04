@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-06-02"
+Fecha_de_actualizacion: "2026-06-03"
 ---
 
 # Data Domain — Estado Operativo
@@ -57,7 +57,7 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 
 **Deuda conocida:** (gramática de tags: `docs/governance/nomenclature-grammar.md` · evidencia: `docs/governance/deuda-taxonomy.md`)
 - `engine:debt` `condition` — vocabulario consolidado en `conditions.md`; integración en SimContext pendiente. Candidatos C1-A (`while_*`/`with_*`) listos cuando ≥70% cobertura. `[ref: docs/semantic/conditions.md]`
-- `[SEM data:debt` D-17 — 3 tokens galvanizados con semántica pendiente: ver `docs/data/decisions.md#D-17` `[empirical]`
+- `[SEM data:debt` D-17 — 2 tokens galvanizados con semántica pendiente (beam range ✅ resuelto 2026-06-03 → `WEAPON_ADD_BEAM_RANGE`): ver `docs/data/decisions.md#D-17` `[empirical]`
 - `data:debt` `WEAPON_ADD_AMMO_MAX` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
 - `data:debt` `WEAPON_ADD_COMBO_COUNT_CHANCE` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
 - `[PIPE semantic:debt` `WEAPON_SPREAD` — token crudo de `@wfcd/items` (DE legacy) vs `WEAPON_ADD_ACCURACY` (mapeado manual en exilus). ¿Misma mecánica? Verificar Narrow Barrel / Tainted Shell en wiki antes de unificar `[needs-verification]`
@@ -69,6 +69,9 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 - `pipeline:debt` `conclave?: boolean` — campo no preservado en `GeneratedMod`. Sin este campo no es posible filtrar mods PVP desde la data base. Fix: `GeneratedMod` + `generate-data.ts` `[ref: @wfcd/items API]`
 - `data:debt` ~255 entradas con token no-D-6 clasificadas: deuda documentada (WEAPON_SPREAD, AVATAR_DAMAGE_TAKEN, AVATAR_PARKOUR_GLIDE, WEAPON_PUNCTURE_DEPTH, etc.) o out-of-model (sindicatos, vehículos, compañero, stamina removida). 6 renames aplicados.
 - `[ENGINE data:debt` Condition Overload family (`WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`) — fórmula `damage × (1 + n_status_types × val%)`. Notas añadidas en 4 mods. Cross-schema con incarnon evolutions: verificar si la fórmula es idéntica antes de implementar `[empirical]`
+- `[SEM data:debt` Faction damage target (`GAMEPLAY_MULT_FACTION_DAMAGE`, 42 mods Bane/Expel/Cleanse/Smite × facción) — la facción objetivo vive solo en el `label`, sin estructura. Dirección registrada: expresar como token de `condition` (`damage_<faccion>`, spelling diferido), sin campo nuevo. Latente, gateado por madurez de taxonomía condition (`conditions.md §Altitud`). Engine: el modelo "un nodo aditivo `faction_damage_bonus`" (`attribute-node-contract.md §5`) es lossy en multi-facción → anotado para debate de engine. Ver `audit-mods.md §F.5` `[empirical]`
+- `pipeline:debt` Set Mods Gap A — pertenencia al set no materializada como campo, **derivable** de `unique_name` (`/Mods/Sets/<Set>/`, 19 sets / 72 miembros + 19 portadores `type: "Mod Set Mod"`). Discriminador limpio: `type === "Mod Set Mod"`. Candidato: campo derivado o tag. Análogo a `conclave?: boolean` `[empirical]`
+- `[SEM data:debt:schema data:debt` Set Mods Gap B — valores del bonus de conjunto ausentes del dataset (el portador `Mod Set Mod` existe pero vacío); entidad nueva (`set → {bonus, piece-count, condition}`), no cabe en override per-mod. Valores investigados (wiki) en `references/set-mods.md`. Modelado gateado por `OQ-DATA-6` (vínculo OQ-DATA-4/1, eje condition `requires_*` ↔ OQ-SEM-2) `[ref: docs/governance/open-questions.md#OQ-DATA-6]`
 
 ---
 

@@ -100,6 +100,9 @@ export const UPGRADES = [
   // Fuente: Seismic Wave, Necramech Seismic Wave.
   'WEAPON_ADD_SLAM_DAMAGE',
   'WEAPON_ADD_RANGE',
+  // Beam range (alcance del rayo de armas continuas). Distinto de WEAPON_ADD_RANGE (reach melee).
+  // Acuñado 2026-06-03 (D-17): Sinister Reach, Ruinous Extension, Sequence Burn, Galvanized Acceleration.
+  'WEAPON_ADD_BEAM_RANGE',
   'WEAPON_BASE_COMBO_DURATION',
   'WEAPON_ADD_COMBO_DURATION',
   'WEAPON_BASE_COMBO_INITIAL',
