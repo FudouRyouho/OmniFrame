@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "D-18"
 Fidelidad_Fisica: "Project/public/data/mod-stats.override.json"
 Fecha_de_creacion: "2026-06-02"
-Fecha_de_actualizacion: "2026-06-03"
+Fecha_de_actualizacion: "2026-06-04"
 ---
 
 # Auditoría manual — mod-stats.override.json
@@ -34,23 +34,15 @@ Fecha_de_actualizacion: "2026-06-03"
 
 > [!NOTE]
 > AVATAR_DAMAGE_TAKEN: practicamente la gran mayoria merecen revision por contesxto de "+n% {damage_type} Resistence", el propio token no lo mapea, posiblemente ¿condition entre mejor que un token dedicado hacia el bucket? posiblemente no ahora que lo pienso mejor... merece debate.
-> — **Hogar:** `status.md §Mods` deuda `AVATAR_DAMAGE_TAKEN` + `references/wiki/mechanics/damage-reduction.md`.
+> — **Hogar:** `status.md §Mods` deuda `AVATAR_DAMAGE_TAKEN`. Ref creada `references/wiki/mechanics/damage-reduction.md` (DR multiplicativa, 3 sub-formas, **Adaptation** → OQ-DATA-4). Coinage diferido hasta consumidor de engine.
 
 > [!NOTE]
 > Discusion ya establecida sobre "WEAPON_SPREAD" vs "WEAPON_ADD_ACURACY", token herado de DE, no modelado, debemos debatir y contrastar documentos para tener mas certezas de como "modelar" esto correctamente, ya que el token "WEAPON_SPREAD" no entra dentro de nuestra taxonomia.
-> — **Hogar:** `status.md §Mods` deuda `[PIPE semantic:debt` `WEAPON_SPREAD` (verificar Narrow Barrel / Tainted Shell).
+> — **Hogar:** `status.md §Mods` deuda `WEAPON_SPREAD`. ✅ Confirmado = `WEAPON_ADD_ACCURACY` (ref `references/wiki/mechanics/accuracy.md`); dirección = unificar. Mecanismo de unión gateado (sin mods spread en overrides curados).
 
-> [!NOTE]
-> WEAPON_PUNCTURE_DEPTH: Token ya discutido con anterioridad, posiblemente tengamos suficiente informacion y documentacion para cerrar si renombrar a Punch Through es mas acertado que puncture depth.
-> — **Hogar:** `status.md §Mods` deuda `WEAPON_PUNCTURE_DEPTH` (candidato `WEAPON_ADD_PUNCH_THROUGH`).
-
-> [!NOTE]
-> AVATAR_DAMAGE_POWER_MULTIPLIER: token que merece revision, se debatira con contraste documental.
-> — **Hogar:** `status.md §Mods` deuda `AVATAR_DAMAGE_POWER_MULTIPLIER` (sub-mecánicas Rage/Hunter Adrenaline vs Kinetic Diversion).
-
-> [!NOTE]
-> WEAPON_FIRE_ITERATIONS: Debate ya abierto sobre el token heredado por parte de DE ¿Multishot es mas sincero en nuestra semantica? esto debe de debatirse con certeza, contrastando con la mecanica de pallets, ya documentada y posiblemente contrastar o investar mas con la wiki
-> — **✅ CERRADO (2026-06-03):** `closed-decisions.md` **DC-OQ-ENGINE-6**. Token crudo conservado como alias → `WEAPON_ADD_MULTISHOT` (`op: ADD`) vía `UPGRADE_MAP`; 17 stats "+% Multishot". Evidencia `[ref: multishot.md]`, modelo `C1`. Rename = regex si alguna vez se decide. No re-debatir.
+> _Resueltos 2026-06-04 (sacados de triage, historial en git):_
+> - `WEAPON_PUNCTURE_DEPTH` → **renombrado `WEAPON_ADD_PUNCH_THROUGH`**, registrado en `UPGRADES[]`; 10 mods + 7 stats incarnon tokenizados.
+> - `AVATAR_DAMAGE_POWER_MULTIPLIER` → **renombrado `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY`**, registrado en `UPGRADES[]`; 4 mods (premisa escudos→energía desmentida vs raw).
 
 ---
 
@@ -95,9 +87,7 @@ Fecha_de_actualizacion: "2026-06-03"
 
 > Corrección contra el raw, no debate de modelo.
 
-# /Lotus/Upgrades/Mods/Melee/WeaponGlaiveOnKillBuffSecondary
-
-> ¿Mal mapeado? ¿Error de parseo? en teoria el token correcto es "on_kill", no slide, merece revision del mod.json raw, en teoria el texto es "On Melee Kill"
+> _Sin entradas pendientes. (Combo Fury `WeaponGlaiveOnKillBuffSecondary`: `on_slide_kill` → `on_melee_kill`, corregido 2026-06-04 — historial en git.)_
 
 ---
 
@@ -155,7 +145,7 @@ Fecha_de_actualizacion: "2026-06-03"
 
 > **Barrido "¿ya tiene hogar?" (2026-06-03).** Cruce de todos los tokens F contra `modifier.ts`
 > (`UPGRADES[]`), `upgrade-tokens.md`, `closed-decisions.md` y deuda de `status.md`. Resultado:
-> a diferencia de F.4 (cerrado) y F.5 (modelado en engine), **el resto de F es orphan / out-of-model**
+> a diferencia de F.5 (modelado en engine), **el resto de F es orphan / out-of-model**
 > — ya cubierto colectivamente por la deuda "~255 entradas non-D6" de `status.md §Mods`, sin debate
 > activo hasta que haya consumidor (gate D-20). **No se debaten ahora.**
 >
@@ -175,19 +165,8 @@ Fecha_de_actualizacion: "2026-06-03"
 
 > "WEAPON_ADD_ATTRACTION_RANGE", merece revision propia, debate y discusion, con contraste de datos en la wiki.
 
-> **Investigación cerrada (2026-06-03) — duda resuelta: `WEAPON_ADD_RANGE` SÍ está sobrecargado.**
-> Los 8 stats cubren **3 mecánicas físicamente distintas**:
-> - **Melee reach** (canónico, `upgrade-tokens.md:178` = "alcance melee"): Reach, Primed Reach, Extend (archmelee), Necramech Reach.
-> - **Beam range** (alcance del rayo): Sinister Reach, Ruinous Extension, Sequence Burn — labels "+m Beam Range".
-> - **Archgun range** (falloff en el espacio): Ballista Measure.
-> - Aparte: `WEAPON_ADD_ATTRACTION_RANGE` (Extend "In Space") = vacuum/atracción, ya token propio.
->
-> **No hay colisión de cómputo** (modelo `—`, sin engine; mods class-locked → nunca coexisten en una entidad). Es **sobrecarga semántica**, no bug runtime — la intuición de bucket contextual-por-arma se sostiene.
->
-> **Drift detectado:** `decisions.md:319` ya registra `WEAPON_ADD_BEAM_RANGE` (inexistente) y **nombra a Sinister Reach** como mod a investigar; pero Galvanized Acceleration parquea beam range bajo `WEAPON_ADD_PROJECTILE_SPEED + note`, mientras estos 3 beam mods están bajo `WEAPON_ADD_RANGE`. **Dos estrategias de parking divergentes** para el mismo concepto faltante.
->
-> **✅ Beam range RESUELTO (2026-06-03):** acuñado `WEAPON_ADD_BEAM_RANGE` en `UPGRADES[]` (data-first, gate D-20 cumplido con 4 mods). Re-map de Sinister Reach / Ruinous Extension / Sequence Burn; Galvanized Acceleration split 1-label-1-stat. D-17 y `upgrade-tokens.md` actualizados. Thermagnetic Shells verificado: no es beam range.
-> **Diferido como OQ:**
+> **Beam range:** ✅ resuelto 2026-06-03 → `WEAPON_ADD_BEAM_RANGE` (D-17). Historial en git + `upgrade-tokens.md`.
+> **Diferido como OQ (pendiente):**
 > - **Archgun range** (Ballista Measure `+% Range`, sigue bajo `WEAPON_ADD_RANGE`) → **OQ-DATA-7** (requiere investigación; posible D-* propio o captura en D-17).
 > - **Unidad flat (`+Xm`) vs porcentaje (`+%`)** conviviendo bajo el mismo token de range/beam → **OQ-DATA-8** (choca entre tipos de mod; etapa muy temprana para diferenciar).
 
@@ -216,10 +195,6 @@ Fecha_de_actualizacion: "2026-06-03"
 
 > [!NOTE]
 > WEAPON_PICKUP_SHOOT_BONUS: Mecanica propia de "pickup", merece revision, debate, contraste con /references y wiki.
-
-### F.4 — Multishot / pellets → ✅ RESUELTO (movido a Grupo A)
-
-> Cerrado en `closed-decisions.md` DC-OQ-ENGINE-6. `WEAPON_FIRE_ITERATIONS` = alias de `WEAPON_ADD_MULTISHOT`. Ver Grupo A.
 
 ### F.5 — Faction damage
 

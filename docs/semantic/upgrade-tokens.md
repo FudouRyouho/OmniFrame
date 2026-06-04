@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
-Version: "v0.5.3"
+Version: "v0.5.4"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-03"
+Fecha_de_actualizacion: "2026-06-04"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -163,9 +163,10 @@ confirmar un mod o mecánica que lo requiera.
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `WEAPON_ADD_ACCURACY` | `WEAPON_ADD_ACCURACY` | ADD ⚠ | `[needs-verification]` | `—` | Pax Soar (arcane); exilus On-Equip. ⚠ ¿`WEAPON_SPREAD` (DE legacy) es el mismo stat? Ver deuda en `data/status.md`. Sim asume aim perfecto — stat informativo. |
+| `WEAPON_ADD_ACCURACY` | `WEAPON_ADD_ACCURACY` | ADD | `[ref: accuracy.md]` | `—` | Pax Soar (arcane); exilus On-Equip. `WEAPON_SPREAD` (DE legacy) confirmado = **mismo stat** (spread = inverso de accuracy; Narrow Barrel / Tainted Shell llevan token spread con label "+% Accuracy") → unificar bajo este token. Sim asume aim perfecto — stat informativo. |
 | `WEAPON_ADD_RECOIL` | `WEAPON_ADD_RECOIL` | ADD | `[empirical]` | `—` | Stabilizer, Steady Hands (valores negativos = reducción) |
 | `WEAPON_ADD_PROJECTILE_SPEED` | `WEAPON_ADD_PROJECTILE_SPEED` | ADD | `[empirical]` | `—` | Terminal Velocity, Lightning Dash |
+| `WEAPON_ADD_PUNCH_THROUGH` | `WEAPON_ADD_PUNCH_THROUGH` | ADD | `[empirical]` | `—` | Penetración (metros flat). Metal Auger, Seeking Force, Vigilante Offense + stats Incarnon. Renombrado del misnomer DE-legacy `WEAPON_PUNCTURE_DEPTH` (2026-06-04). Sin consumidor de engine aún. |
 | `WEAPON_ADD_ZOOM` | `WEAPON_ADD_ZOOM` | ADD | `[empirical]` | `—` | Eagle Eye (DE: `zoom`) |
 
 ### WEAPON — melee
@@ -257,6 +258,7 @@ Deuda D-7: el pipeline de filtrado por canal no está implementado.
 | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | ADD | `C1` | Amber Archon Shard (+100/+150%). Multiplicador estático sobre valor del orb; C2 lo usa al modelar economía de recursos. |
 | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | ADD | `C1` | Amber Archon Shard (+50/+75%). Ídem. Equilibrium añade complejidad de conversión — fórmula a definir en C2. |
 | `AVATAR_ADD_HEALTH_REGEN` | `AVATAR_ADD_HEALTH_REGEN` | ADD_FLAT ⚠ | `C1` | Arcane Grace, Arcane Victory. ⚠ **Hipótesis usuario**: toda regen de salud en Warframe es plana (HP/s), no porcentual — si fuera %, solo Nidus (con regen nata) tendría base relevante. Si se confirma: este token es duplicado de `AVATAR_FLAT_HEALTH_REGEN` y debe colapsarse. Requiere verificación de valor real de Arcane Grace rank 5 en juego |
+| `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY` | `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY` | ADD | `—` | Rage, Hunter Adrenaline, Kinetic Diversion, Necramech Rage. Convierte % del daño recibido en salud → energía. Renombrado del misnomer DE-legacy `AVATAR_DAMAGE_POWER_MULTIPLIER` (2026-06-04); premisa "escudos→energía (Kinetic Diversion)" desmentida vs raw — los 4 mods son salud→energía. Sin consumidor de engine aún. |
 
 ### AVATAR — planos post-escala (ADD_FLAT)
 

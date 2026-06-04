@@ -78,6 +78,9 @@ export const UPGRADES = [
   'WEAPON_ADD_PROJECTILE_SPEED',
   'WEAPON_ADD_ACCURACY',
   'WEAPON_ADD_RECOIL',
+  // Punch Through (penetración, metros flat). Renombrado del misnomer DE-legacy WEAPON_PUNCTURE_DEPTH
+  // (2026-06-04, data-first: 10 mods "+Xm Punch Through" + stats incarnon). Sin consumidor de engine aún.
+  'WEAPON_ADD_PUNCH_THROUGH',
   'WEAPON_ADD_STATUS_DURATION',
   'WEAPON_ADD_ZOOM',
   'WEAPON_ADD_FINISHER_DAMAGE',
@@ -138,6 +141,10 @@ export const UPGRADES = [
   // Regeneración de salud porcentual (%HP/s). Distinto de AVATAR_FLAT_HEALTH_REGEN (HP/s plano).
   // Fuente: Arcane Grace, Arcane Victory.
   'AVATAR_ADD_HEALTH_REGEN',
+  // Conversión de daño-recibido-en-salud a energía (% del daño a salud → energía).
+  // Renombrado del misnomer DE-legacy AVATAR_DAMAGE_POWER_MULTIPLIER (2026-06-04).
+  // Fuente: Rage, Hunter Adrenaline, Kinetic Diversion, Necramech Rage. Sin variante de escudos. Sin consumidor aún.
+  'AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY',
   // ── AVATAR — planos post-escala (ADD_FLAT) ───────────────────────────────
   // Fórmula: Base × (1 + Mods%) + FLAT. Fuentes: Archon Shards Azure, Stone Skin, Arcanos de armor.
   // No se amplifican por mods — se suman después del pool multiplicativo.

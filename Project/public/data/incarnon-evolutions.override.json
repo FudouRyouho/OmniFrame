@@ -839,11 +839,9 @@
             {
               "label": "With Armor Over 450: +|val1| Punch Through",
               "base_value": 4,
+              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
               "condition": "with_armor_over_450"
             }
-          ],
-          "notes": [
-            "engine:note — Stat 2: Punch Through sin upgrade_type — token WEAPON_ADD_PUNCH_THROUGH candidato pero no verificado. Ver deuda WEAPON_PUNCTURE_DEPTH en status.md. data:class:cat/e hasta verificación."
           ]
         }
       },
@@ -1576,11 +1574,9 @@
             {
               "label": "With Armor Over 450: +|val1| Punch Through.",
               "base_value": 2,
+              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
               "condition": "with_armor_over_450"
             }
-          ],
-          "notes": [
-            "engine:note — Stat 2: Punch Through sin upgrade_type — token WEAPON_ADD_PUNCH_THROUGH candidato pero no verificado. Ver deuda WEAPON_PUNCTURE_DEPTH en status.md. data:class:cat/e hasta verificación."
           ]
         }
       },
@@ -2760,11 +2756,12 @@
             {
               "label": "On Kill: +|val1| Punch Through for 7s.",
               "base_value": 3,
+              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
               "condition": "on_kill"
             }
           ],
           "notes": [
-            "engine:note — Punch Through sin upgrade_type — deuda WEAPON_PUNCTURE_DEPTH. Duration 7s no modelada. data:class:cat/e."
+            "engine:note — Duration 7s no modelada (Fase 0)."
           ]
         }
       }
@@ -3531,6 +3528,7 @@
             {
               "label": "With Channeled Ability Active: +|val1| Punch Through.",
               "base_value": 3,
+              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
               "condition": "while_channeled_ability_active"
             },
             {
@@ -3541,8 +3539,7 @@
             }
           ],
           "notes": [
-            "engine:note — while_channeled_ability_active = ability activamente drenando energía — abilities sin drain (Desecrate, Haven, Gloom sin enemigos cercanos) no cuentan. Deuda vocabulario condition.",
-            "engine:note — Stat 2 split: Punch Through sin upgrade_type — deuda WEAPON_PUNCTURE_DEPTH. data:class:cat/e. Accuracy → data:class:cat/b."
+            "engine:note — while_channeled_ability_active = ability activamente drenando energía — abilities sin drain (Desecrate, Haven, Gloom sin enemigos cercanos) no cuentan. Deuda vocabulario condition."
           ]
         },
         "hoplites_virtue": {
@@ -5787,9 +5784,10 @@
             {
               "label": "On Kill: +|val1| Punch Through for 20s.",
               "base_value": 2.5,
+              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
               "condition": "on_kill",
               "notes": [
-                "engine:note — Punch Through sin token — deuda WEAPON_PUNCTURE_DEPTH. Duration (20s) no modelado en Fase 0. data:class:cat/e."
+                "engine:note — Duration (20s) no modelada en Fase 0."
               ]
             }
           ],
@@ -7269,10 +7267,8 @@
             {
               "label": "With Armor Over 450: +|val1| Punch Through.",
               "base_value": 4,
-              "condition": "with_armor_over_450",
-              "notes": [
-                "engine:note — Punch Through sin token — deuda WEAPON_PUNCTURE_DEPTH. data:class:cat/e."
-              ]
+              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "condition": "with_armor_over_450"
             }
           ]
         },
@@ -7428,10 +7424,8 @@
             {
               "label": "With Channeled Ability Active: +|val1| Punch Through.",
               "base_value": 4,
-              "condition": "while_channeled_ability_active",
-              "notes": [
-                "engine:note — Punch Through sin token — deuda WEAPON_PUNCTURE_DEPTH. data:class:cat/e."
-              ]
+              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "condition": "while_channeled_ability_active"
             }
           ],
           "notes": [
