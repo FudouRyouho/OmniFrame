@@ -5,7 +5,7 @@ Version: "v2.0.0"
 Impacto_ID: "data-incarnon"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-06-04"
 ---
 
 # Schema: incarnon-evolutions.override.json
@@ -46,7 +46,7 @@ Datos de perks de evolución Incarnon. Indexado por `unique_name` del arma.
 | `name` | string | Nombre de display del perk (de la wiki). |
 | `image_name` | string | Filename del icono del perk (sin ruta). |
 | `stats` | `StatEntry[]` | Efectos del perk. Cada bullet de la wiki es un stat. |
-| `notes` | `string[]?` | Aclaraciones de la wiki. Prefijo `[engine]` para detalles de cálculo (D-15). |
+| `notes` | `string[]?` | Contrato (SSoT): [`overrides.md` §notes[]](../../rules/overrides.md) |
 
 ### StatEntry (entrada de stats)
 

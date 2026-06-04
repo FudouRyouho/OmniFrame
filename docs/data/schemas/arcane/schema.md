@@ -5,7 +5,7 @@ Impacto_ID: "data-arcane"
 Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
 Version: "v1.2.0"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-02"
+Fecha_de_actualizacion: "2026-06-04"
 ---
 
 # Arcane Stats Override — Schema y mapa semántico
@@ -29,7 +29,7 @@ interface ArcaneStat {
   label:      string;          // texto del efecto con |val1|, |val2| como placeholders
   values:     ArcaneValue[];   // uno por valor escalable en el label
   condition?: string | null;   // ausente = sin condición · null = condición sin token · token = condicional (D-18)
-  notes?:     string[];        // semántica no tokenizable (D-14/D-15); prefijo "engine:note" (modus operandi incarnon). Migrado de `note` singular el 2026-06-01
+  notes?:     string[];        // contrato (SSoT): docs/data/rules/overrides.md §Contrato de notes[]
 }
 interface ArcaneValue {
   base_value:   number[] | null;  // serie [rank0, rank1, …, rankMAX] — length = max_rank + 1 (ej: 6 para rank 5, 4 para rank 3)
@@ -54,6 +54,7 @@ Vocabulario canónico: `docs/semantic/conditions.md`.
 Parámetros que viven en el **texto** del label (no en datos estructurados) — probabilidad de activación,
 duración del buff, cooldown — se capturan en `notes[]` con un formato semi-estructurado, parseable por el
 futuro engine C2 (sistema de buffs temporales / eventos). Modelado estructural diferido (notas-primero).
+Es la **forma semi-estructurada interina** del contrato (`docs/data/rules/overrides.md` §notes[]): captura transitoria — al estructurarse en C2, la nota muere.
 
 ```
 engine:note — proc:<N>% duration:<N>s cooldown:<N>s

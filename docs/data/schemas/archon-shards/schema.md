@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "data-archon-schema"
 Fidelidad_Fisica: "Project/public/data/archon-shards.json"
 Fecha_de_creacion: "2026-05-20"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-06-04"
 ---
 
 # Archon Shards — Schema
@@ -36,7 +36,7 @@ interface ArchonShardStat {
   value: [number, number]; // [normal, tauforged]
   upgrade_type: string | null; // Token D-6. null si el efecto no tiene mapping aún
   condition?: string | null;   // Taxonomía D-18 — ver tabla. Ausente = pasivo · null = hueco · token canónico
-  notes?: string[];            // Aclaraciones; prefijo "engine:note" para naturaleza/cálculo (precedente incarnon)
+  notes?: string[];            // contrato (SSoT): docs/data/rules/overrides.md §Contrato de notes[]
 }
 ```
 
@@ -79,11 +79,10 @@ Cobertura (2026-06-01): **9** token · **1** null (Violet Equilibrium) · **17**
 Tokens condition usados: `on_hitting_enemies_affected_by_{radiation,electricity,corrosive}`,
 `on_heat_status_kill`, `with_energy_max_over_500`, `on_blast_kill`, `on_spawn`, `on_toxin_status_damage`.
 
-### `notes` (precedente incarnon)
+### `notes` (ejemplos archon)
 
-`string[]` opcional. Prefijo `engine:note` para naturaleza/cálculo. Se usa para anclar mecánicas
-no obvias del label (ej. Violet = Equilibrium, conversión de recursos; Emerald = daño de status de
-Toxin ≠ DoT). No es lectura obligatoria de UI.
+Contrato (SSoT): [`overrides.md` §notes[]](../../rules/overrides.md). Ejemplos archon: Violet = Equilibrium
+(conversión de recursos); Emerald = daño de status de Toxin ≠ DoT.
 
 ---
 

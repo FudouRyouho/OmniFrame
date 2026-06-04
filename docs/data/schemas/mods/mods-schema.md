@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "data-mods-schema"
 Fidelidad_Fisica: "Project/public/data/mod-stats.override.json"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-06-04"
 ---
 
 # Mod Stats Override Schema
@@ -28,7 +28,7 @@ interface ModStat {
   label:      string;          // Texto descriptivo con placeholders |val1|, |val2|
   values:     ModStatValue[];
   condition?: string | null;   // ausente = sin condición · null = condición sin token · token = condicional (D-18)
-  notes?:     string[];        // semántica no tokenizable (D-14/D-15); prefijo "engine:note" (modus operandi incarnon). Migrado de `note` singular el 2026-06-01
+  notes?:     string[];        // contrato (SSoT): docs/data/rules/overrides.md §Contrato de notes[]
 }
 ```
 
@@ -61,5 +61,4 @@ El array `baseValue` debe contener exactamente `fusionLimit + 1` entradas para c
 - Este esquema es el contrato consumido por el **Resolver**.
 - Si un mod requiere múltiples efectos simultáneos (ej: +Damage y +Multishot en el mismo texto), estos se modelan como múltiples entradas en el array `values[]` del mismo `ModStat`.
 - Las condiciones (`condition`) se capturan desde el label; el JSON es el SSoT del token y `docs/semantic/conditions.md` las consolida (D-19) — no es portero previo.
-- `notes[]` no es documentación de sesión — es semántica de diseño pendiente de implementación. Ver D-14.
 - Mods con stacking: `baseValue` almacena el **total a máximo de stacks**. El desglose va en `notes[]`. Ver D-15.
