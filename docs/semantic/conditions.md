@@ -3,9 +3,9 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.10.0"
+Version: "v1.11.0"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-04"
+Fecha_de_actualizacion: "2026-06-05"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
 ---
 
@@ -64,6 +64,8 @@ derivada con estructura propia. Acuñar un token nuevo con `modelo: diferido` es
 La única clasificación con contenido mecánico: **qué necesita el SimulationContext para evaluar cada condition**. Usa la [gramática canónica](../governance/nomenclature-grammar.md):
 
 > ⚠ **Eje bajo revisión ([OQ-SEM-2](../governance/open-questions.md)):** esta clasificación está anclada al modelo de un engine que aún no existe. Está abierto si el eje primario debería ser la **mecánica real del juego** (estado/evento/umbral/maniobra) y dejar `engine:class:c2/*` como proyección derivada.
+>
+> La taxonomía de naturaleza (eje mecánico) se formaliza —a título de análisis— en [`condition-nature.md`](condition-nature.md): allí `engine:class:c2/*` aparece como **columna derivada** de la naturaleza. Este `§Modelo` es esa misma información vista desde el engine; `condition-nature.md` la ve desde el juego.
 
 | Tag (gramática) | Significado |
 | :--- | :--- |
@@ -485,4 +487,6 @@ Los tokens `while_*` y `with_*` (≈28) son los candidatos inmediatos para C1-A 
 sistema de eventos — solo `context.flags` y `context.stats` en `SimContext`.
 
 > **Pendiente de schema:** `while_sliding_or_aim_gliding` (OR compuesto) no es expresable con
-> `condition: string`. Cuando haya más casos OR documentados, abrir debate sobre `string[]`.
+> `condition: string`. Prototipo de shape en evaluación (2026-06-05, no cerrado): `string | {any:[…]} | {all:[…]}`
+> con `any`/`all` como intención explícita — ver [`overrides.md` §Prototipo de condition](../data/rules/overrides.md)
+> y `OQ-DATA-4`. Próximo paso: razonar los ~9 casos paraguas mapeados bajo obj-key antes de acuñar.

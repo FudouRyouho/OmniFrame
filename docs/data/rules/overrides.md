@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Definir la gobernanza de los datos mantenidos manualmente"
-Version: "v0.0.5"
+Version: "v0.0.6"
 Impacto_ID: "D-Overrides"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"
-Fecha_de_actualizacion: "2026-06-04 (v0.0.5)"
+Fecha_de_actualizacion: "2026-06-05 (v0.0.6)"
 Dependencias:
   - "docs/data/rules/ssot.md"
 ---
@@ -101,6 +101,54 @@ El conocimiento extenso y la pertenencia **cross-schema** viven en un **hub** (u
 
 - **Migración de tags `data:class:cat/x`** hoy presentes en `notes[]`: son estado computado (viven en `status.md`). Sacarlos es coherente con el contrato, pero el volumen y el enfoque se deciden aparte.
 - **Referenciar este contrato** desde los 4 schemas (`mods`, `incarnon`, `arcane`, `archon-shards`), bajando su guía local de `notes` a un solo *ejemplo* + link aquí. Resuelve el drift de prefijo (`[engine]` en incarnon-schema vs `engine:note` real).
+
+## Prototipo de `condition` (composición OR/AND) — **HIPÓTESIS ABIERTA, no contrato**
+
+> **Transversal, como `notes[]`.** `condition` aparece en `mod-stats`, `arcane-stats`,
+> `incarnon-evolutions` y `archon-shards`. El **vocabulario** de tokens vive en
+> [`docs/semantic/conditions.md`](../../semantic/conditions.md); aquí se prototipa solo el **shape de
+> composición** para cuando una condición no es un único token. **Esto NO está cerrado** — se documenta
+> el prototipo para razonar sobre él con casos reales, no para acuñarlo. Gate de acuñación: `OQ-DATA-4`
+> + D-20 (≥2 casos misma forma) + D-16 (cobertura). El engine no lo evalúa aún, pero eso es **irrelevante**
+> para el flujo de datos: los datos van adelante; el engine alcanza después.
+
+### Shape prototipado
+
+```jsonc
+condition: "on_reload"                               // simple — un token (forma actual)
+condition: { any: ["on_hit", "while_aim"] }          // OR — aplica con cualquiera
+condition: { all: ["while_aim", "while_airborne"] }  // AND — requiere ambas
+```
+
+- `any` = OR, `all` = AND. El operador es **intención explícita del autor**: no se deriva de la
+  naturaleza de los tokens (un `any` puede mezclar evento + estado) ni de la forma del array. El shape
+  separa la **intención** (`any`/`all`) del **condicionamiento** (los tokens). Que el operador no sea
+  derivable de la sintaxis es deliberado — intentarlo colapsa casos que la mecánica distingue
+  (`["while_aim","while_airborne"]` puede ser AND co-ocurrente u OR de alternativas; solo el autor sabe).
+- **Un nivel, sin anidar.** El array contiene tokens, no sub-objetos.
+- *(Encoding exacto —objeto `{any:[…]}` vs array + campo hermano— es cosmético; se fija al escribir el schema real.)*
+
+### Frontera — lo que NO entra (va a fórmula dedicada)
+
+Derivada del contraste contra los casos compuestos reales (los 5 huecos `null` de arcanes):
+
+| Naturaleza | Ejemplo real | Destino |
+|---|---|---|
+| Anidada (`A ∧ (B∨C)`) | — | fórmula dedicada |
+| Secuencial / acumulativa (A marca → B cobra) | Arcane Camisado, Arcane Universal Fallout | eje `duration` / stacking, **no** condition |
+| Relacional (variable ligada) | Primary Debilitate ("el mismo Status combinado" liga guard + trigger + efecto) | fórmula dedicada |
+| Multi-efecto (parece compuesto, son 2 efectos) | Melee Careen | se disuelve antes por split D-18 (`1 label = 1 stat`) |
+
+> `duration` es un **eje separado** del stat; **no** se entrelaza dentro de `condition`. La secuencia
+> temporal no se modela descomponiéndola en condition — sería mezclar dos ejes.
+
+### Estado y próximo paso
+
+**Hoy** los casos compuestos viven como **token-paraguas `string`** (`while_sliding_or_aim_gliding`,
+`on_parkour_maneuver`, `on_shield_or_overguard_break`, `on_bullet_jump_or_double_jump`,
+`on_hit_while_target_affected_by_electricity`, …) + `notes[]` que narran la composición. El prototipo
+propone migrarlos a obj-key — **pendiente de leer los casos mapeados** de `condition` compuesta y razonar
+su comportamiento antes de decidir. No tocar schema ni overrides hasta entonces. Hilo en `OQ-DATA-4`.
 
 Ver:
 - `ssot.md`
