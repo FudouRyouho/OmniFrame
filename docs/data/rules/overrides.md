@@ -47,7 +47,7 @@ Para los archivos generados por pipeline:
 | `weapon-stats.override.json` | Multishot por perfil de ataque | Runtime directo (ItemRepository) |
 | `passives.json` | Definiciones de pasivas (no existen en la API) | Runtime directo |
 
-⚠️ El modelo de consumo tiene dirección elegida: todos los overrides serán consumidos por un DataLoader singleton en runtime. Implementación pendiente. Ver `OQ-DATA-3` en `docs/governance/open-questions.md`.
+⚠️ El modelo de consumo tiene dirección elegida: todos los overrides serán consumidos por un DataLoader singleton en runtime. Implementación pendiente. Ver `DC-OQ-DATA-3` en `docs/governance/closed-decisions.md`.
 
 ## Contrato de `notes[]` — conocimiento local y auditoría
 

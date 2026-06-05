@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.2.0"
+Version: "v0.3.0"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-06-04"
 ---
 
 # Engine Status
@@ -99,6 +99,19 @@ Fecha_de_actualizacion: "2026-05-27"
 | ~~`formulas/warframe/`~~ | **ELIMINADO (2026-05-27)** — `warframe-core` purgado, directorio vacío |
 
 Ver [`formula-overview.md`](formula-overview.md) para la especificación matemática.
+
+---
+
+## Deudas de implementación
+
+### `faction_damage_bonus` — wiring incompleto
+
+`ModRepository` ya mapea `GAMEPLAY_FACTION_DAMAGE` → `faction_damage_bonus` con `op: "ADD"`. Faltan dos pasos:
+
+1. **`StaticHydrator`** — inyectar nodo sintético `{ base: 100 }` para entidades `domain: weapon`, análogo al nodo `WEAPON_DAMAGE`.
+2. **`CombatCalculator`** — consumir `faction_damage_bonus.final / 100` como multiplicador cuando `target.faction` coincide.
+
+Nota: `target.faction` requiere que el campo `faction` esté estructurado en los mods (hoy solo en el `label`). Mismo patrón que OQ-DATA-5; vocabulario destino: `semantic/factions.md`.
 
 ---
 

@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
-Version: "v0.0.2"
+Version: "v0.0.4"
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-06-05"
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -67,3 +67,47 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 | **DC-OQ-ENGINE-6** | WEAPON_FIRE_ITERATIONS sin mapear | Alias añadido en UPGRADE_MAP → `WEAPON_ADD_MULTISHOT`. 3 mods Galvanized añadidos manualmente al override. |
 | **DC-OQ-W-4** | Sub-familia en D-6 | Patrón: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`. Sub-familias activas: PRIMARY, SECONDARY, MELEE. Deuda D-7 en pipeline de filtrado. |
 
+---
+
+## DC-OQ-DATA-3 — DataLoader singleton: contrato de consumo de overrides — **DIRECCIÓN ELEGIDA (2026-05-29)**
+
+**Dominio:** data / pipeline / engine / UI
+
+**Dirección elegida:** Runtime-universal con DataLoader singleton. Todos los overrides se cargan en runtime por un DataLoader singleton que expone cada par `JSON base + override` ya mergeado. El pipeline (`generate-data.ts`) no toca los overrides. Cada repositorio delega al DataLoader en vez de implementar su propio loader.
+
+**Corrección ya aplicada (2026-05-29):** `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`. El pipeline produce solo datos de fuente externa. Gestión de overrides = responsabilidad de scripts manuales/agente.
+
+**Patrón objetivo:**
+```
+DataLoader.getWeapons()      → weapons.json + weapon-stats.override.json   (mergeado)
+DataLoader.getMods()         → mods.json + mod-stats.override.json          (mergeado)
+DataLoader.getWarframes()    → warframes.json + ability-stats.override.json (mergeado)
+DataLoader.getIncarnonData() → incarnon-evolutions.override.json            (directo)
+```
+
+**Implementación pendiente.** `DataRegistry.ts` (UI) es el candidato natural a evolucionar hacia este patrón.
+**Condición de cierre total:** cuando el DataLoader singleton esté implementado y los repositorios deleguen en él.
+**Ref:** `docs/data/rules/overrides.md` (D-1), `docs/data/decisions.md` (D-1)
+
+---
+
+## DC-OQ-DATA-2 — Ubicación de vocabularios que son simultáneamente semantic + data — **DIRECCIÓN ELEGIDA (2026-06-05)**
+
+**Dominio:** data / semantic
+
+**Contexto:** vocabularios como polaridad, tipos de daño y facciones son a la vez **significado canónico** (token del juego) y **estructura de datos materializada** (campos en `mods.json`, `warframes.json`, etc.). La auditoría 2026-05-25 los reportó como huérfanos documentales (0 links entrantes), planteando si debían moverse fuera de `semantic/`.
+
+**Dirección elegida: opción (a) — vocabulario en `semantic/`, visibilidad del grafo por link al consumidor.**
+El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.md`: *"si un documento define qué SIGNIFICA algo → `semantic/`; si define cómo se ESTRUCTURA en JSON → `data/schemas/`."* Un vocabulario que es significado canónico vive en `semantic/` aunque se materialice en datos.
+
+**Evidencia (el corpus ya la adoptó de facto, verificado 2026-06-05):** `damage-types.md` (6 links entrantes, incl. engine y governance) y `factions.md` (links desde consumidores reales: `audit-mods.md`, `engine/status.md`) ya viven en `semantic/` con links entrantes desde quien los consume. El patrón existe sin haberse nombrado.
+
+**Convención de visibilidad del grafo de consumo:**
+- Consumidor **documental** (un doc de `data/` usa el vocabulario) → link entrante obligatorio hacia el doc de `semantic/`.
+- Consumidor de **código** sin doc-consumidor → basta `Fidelidad_Fisica` + declaración del consumidor en el cuerpo del doc.
+
+**Falso positivo resuelto:** `polarity.md` no era huérfano problemático — su consumidor es código (`shared/types/polarity.ts`, `scripts/normalization/polarity.ts`), ya declarado vía `Fidelidad_Fisica` y §Manifestación. La auditoría contó solo links `.md` entrantes e ignoró el consumo por código. No requirió mover ni re-linkear nada.
+
+**Corolario para OQ-DATA-4 (ubicación del puente):** el "puente de patrones estructurales" (stacking / duration cross-schema) **no es vocabulario de significado sino estructura de schema** → su ubicación es `data/` (`rules/` o `schemas/`), **no** `semantic/`. Esto resuelve la *ubicación* del puente; su *creación* sigue gateada por `D-20` (≥2 casos misma forma) + `D-16` (cobertura ≥70%), independiente de esta decisión.
+
+**Ref:** `docs/semantic/polarity.md`, `docs/semantic/damage-types.md`, `docs/semantic/factions.md`, `docs/governance/open-questions.md` (OQ-DATA-4), `docs/CLAUDE.md` (regla de enrutamiento semantic vs data).

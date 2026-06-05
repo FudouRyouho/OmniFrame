@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.10.0"
+Version: "v0.12.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-06-03"
+Fecha_de_actualizacion: "2026-06-05"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -60,33 +60,6 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 
 ---
 
-## OQ-DATA-2 — Ubicación de vocabularios que son simultáneamente semantic + data — **ABIERTO (2026-05-25)**
-**Dominio:** data / semantic
-**Contexto:** Vocabularios como **polaridad** (`semantic/polarity.md`) son simultáneamente:
-- **Vocabulario canónico semántico** — 8 tokens (`madurai`, `vazarin`, ..., `omni`) definidos en `Project/src/shared/types/polarity.ts`
-- **Estructura de datos** — campos `polarities[]` en `warframes.json`, `polarity` y `polarities[]` en `mods.json`
-- **Normalización de pipeline** — `Project/scripts/normalization/polarity.ts` traduce tokens raw del fork (`AP_ATTACK`, `AP_ANY`, etc.) a los canónicos
-
-El doc actualmente vive solo en `docs/semantic/` y **aparece como huérfano** (0 referencias entrantes desde otros .md), aunque el código lo consume vía `shared/types/polarity.ts` + `scripts/normalization/polarity.ts`. Esto es **drift de cobertura documental**: el grafo docs no refleja el grafo de consumo del código.
-
-Otros candidatos al mismo patrón: `semantic/damage-types.md`, `semantic/factions.md`.
-
-**Pregunta:** ¿Cómo se modelan los vocabularios que son a la vez semántica canónica + estructura de datos materializada? Opciones:
-- (a) **Solo en `semantic/`** con docs de `data/` linkeando explícitamente cuando lo consumen — convención de link entrante obligatorio
-- (b) **Movido a `data/rules/`** porque su contrato de aparición en datasets es la propiedad dominante; `semantic/` queda solo para vocabulario que NO se materializa (si existe tal caso)
-- (c) **Duplicación intencional** — entrada corta en `data/rules/` + entrada extensa en `semantic/` con links recíprocos
-- (d) **Reescribir `semantic/`** como **índice cruzado** de vocabularios materializados en datos, con cada doc apuntando a su consumidor real en `data/`
-
-**Implicación:** La decisión afecta a los 3 docs actuales de `semantic/` (`damage-types`, `factions`, `polarity`) y la convención para vocabularios futuros (status conditions, faction damage types, etc.).
-
-**Bloquea:** Coherencia del grafo documental con el grafo de código real. Comprensión por agentes IA de que `semantic/` no es info aislada sino consumida masivamente.
-
-**Vínculo (2026-06-02):** la ubicación del **puente de patrones estructurales** (stacking/duration, ver `OQ-DATA-4`) depende de esta decisión — mismo eje semantic-vs-data. No se crea ese puente hasta resolver esta OQ; captura provisional en `audit-*.md` + `status.md`.
-
-**Fuente:** `docs/semantic/polarity.md` (huérfano detectado en auditoría 2026-05-25).
-
----
-
 ## OQ-W-6 — Vocabulary gap: upgrade_by para stats base del warframe — **ABIERTO (2026-05-26)**
 **Dominio:** data / ability-stats → taxonomía
 **Contexto:** El vocabulario `AbilityUpgradeBy` cubre los 4 stats de habilidad (`AVATAR_ABILITY_STRENGTH/RANGE/DURATION/EFFICIENCY`) y los dos ejes de energía (`ENERGY_COST/DRAIN`). Inaros Scarab Swarm tiene un stat (`Damage: 241`) que escala con Max Health del warframe — un eje de base stat sin token. El `//!` en `Inaros.md` lo registra: `"scale with health, literaly 'vitality' maxed (100% health) affected this number 483"`.
@@ -129,44 +102,12 @@ El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`
 
 ---
 
-## OQ-DATA-3 — Contrato de consumo de overrides: DataLoader singleton — **DIRECCIÓN ELEGIDA (2026-05-29)**
-**Dominio:** data / pipeline / engine / UI
-**Contexto original:** `ability-stats.override.json` era bidireccional (el pipeline lo leía Y lo escribía). Los demás overrides eran runtime-directos con loaders fragmentados por repositorio (ItemRepository, ModRepository, IncarnonRepository). No había capa unificada.
-
-**Corrección aplicada (2026-05-29):**
-- `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`.
-- El pipeline produce únicamente datos de fuente externa (`@wfcd/items`).
-- La gestión de `ability-stats.override.json` es responsabilidad de `apply-ability-md.ts` (script de ejecución manual/agente).
-- Todos los overrides son SSoT manuales, sin distinción de "tipo" por fuente de creación.
-
-**Dirección elegida: Runtime-universal con DataLoader singleton**
-Todos los overrides se cargan en runtime por un DataLoader singleton que expone cada par `JSON base + override` ya mergeado. El pipeline no toca los overrides. Cada repositorio (ItemRepository, ModRepository, etc.) pasa a delegar al DataLoader en vez de implementar su propio loader.
-
-**Estado:** implementación de DataLoader pendiente. La corrección de `generate-data.ts` es el primer corte limpio.
-
-**Patrón objetivo:**
-```
-generate-data.ts → JSONs base (warframes, weapons, mods, ...)
-apply-ability-md.ts → ability-stats.override.json  (script manual)
-[otros scripts]    → otros overrides                (manual/agente)
-
-DataLoader.getWeapons()       → weapons.json + weapon-stats.override.json  (mergeado)
-DataLoader.getMods()          → mods.json + mod-stats.override.json         (mergeado)
-DataLoader.getWarframes()     → warframes.json + ability-stats.override.json (mergeado)
-DataLoader.getIncarnonData()  → incarnon-evolutions.override.json           (directo)
-```
-
-**Bloquea:** diseño de la interfaz pública del DataLoader singleton.
-**Ref:** `docs/data/rules/overrides.md` (D-1), `docs/data/decisions.md` (D-1)
-
----
-
 ## OQ-DATA-4 — Patrones estructurales transversales (stacking / duration / composición de condition) — **ABIERTO (2026-06-02)**
 **Dominio:** data / schema (mods + arcanes + incarnon + archon)
 **Contexto:** stacking, duration y la composición OR/AND de `condition` son conceptos **análogos** en los 4 schemas, hoy resueltos de forma divergente (mods: stacking=total, D-15 §2; arcanes familia Merciless: `base_value: null` + nota). La divergencia nació de resolver cada schema por separado — aislar produce drift. El criterio de **cuándo** acuñar estructura está fijado en `decisions.md#D-20` (≥2 casos misma forma + gate de consumidor + escape hatch como hipótesis con contador). Passives queda **fuera**: no existe como schema y su heterogeneidad (ley de juego / daño / mod-like / casi-habilidad) indica que no es un schema único — sus casos se reparten en las puertas de D-20.
 
 **Preguntas abiertas:**
-- **Ubicación del puente** (definición canónica cross-schema de stacking/duration): es una instancia de **OQ-DATA-2** (semantic vs data para conceptos que son ambos). **No se crea puente hasta resolver OQ-DATA-2** — captura provisional en `audit-*.md` + `status.md` (decisión del usuario, 2026-06-02).
+- **Ubicación del puente** (definición canónica cross-schema de stacking/duration): **resuelta en `DC-OQ-DATA-2` (2026-06-05)** — el puente es estructura de schema, no vocabulario de significado → vive en `data/` (`rules/` o `schemas/`), no en `semantic/`. Su **creación** sigue gateada por D-20 (≥2 casos) + D-16 (cobertura ≥70%); captura provisional en `audit-*.md` + `status.md` hasta entonces.
 - **Composición de `condition` (OR/AND):** `condition: string | null` no expresa `A AND B` ni `A OR B`. Evidencia actual en arcanes: **1 sola composición real** (Melee Afflictions, fuera de scope) sobre dataset incompleto. No se diseña lenguaje de expresiones hasta masa crítica (≥2, D-20) **Y** cobertura ≥70% (D-16) — antes sería adivinar la forma. Un array plano de tokens tampoco sirve (no distingue AND de OR). Contador vivo en `audit-*.md`.
   - **Afinado (2026-06-03):** el eje a decidir no es solo "string vs lenguaje de expresiones" sino **`string → array → objeto`**, con el criterio del usuario: que OR/AND sea **derivado de la estructura del dato** (validable mecánicamente por la *forma*), no lógica aplicada por encima — objetivo de schema *"legible y funcional, derivado de la estructura"*. Trade-off asumido: más denso y menos flexible estructuralmente, a cambio de precisión a nivel engine. **Orden:** se teoriza OR/AND **antes** de cualquier prototipo de gramática (separador `:` / reglas de derivación tipo `nomenclature-grammar.md`); la gramática es *posterior* a fijar el shape. Teorización abierta — exprimir/expandir/romper el modelo, **sin objetivo de cierre**; sigue gateada por D-16 (≥70%) + D-20 (≥2 casos). Cobertura actual (2026-06-03): 404 token / 8 null cross-source (`conditions.md §Resumen`).
 - **Scope-grupo de `condition`** (varios stats, una condición): hoy se resuelve **repitiendo** el token (precedente: Pax Soar, dos stats `while_airborne`). Scope-grupo es optimización anti-repetición, no expresividad — salvo semántica compartida no-replicable (p. ej. pool de stacks común entre efectos). Latente.

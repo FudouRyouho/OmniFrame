@@ -456,6 +456,6 @@ Aun cuando un caso califique para estructura (puerta 1), **no se implementa la e
 - Extiende a **estructura** la regla "≥N casos antes de acuñar" que D-6 ya aplicó a **vocabulario** (sub-familia con ≥3 casos) y OQ-W-6 a tokens.
 
 ### Deuda detectada (captura-only, no resuelta aquí)
-Drift entre D-15 §2 (stacking → total en `base_value`) y la práctica de arcanes (familia Merciless: `base_value: null` + nota duration). El mismo concepto modelado de dos formas. Inventario en `audit-arcane.md`; unificación diferida (depende del puente, OQ-DATA-2 / OQ-DATA-4).
+Drift entre D-15 §2 (stacking → total en `base_value`) y la práctica de arcanes (familia Merciless: `base_value: null` + nota duration). El mismo concepto modelado de dos formas. Inventario en `audit-arcane.md`; unificación diferida (el puente vive en `data/` por `DC-OQ-DATA-2`; su creación sigue gateada — ver OQ-DATA-4).
 
-**Ref:** `docs/governance/open-questions.md` (OQ-DATA-2, OQ-DATA-4), `docs/data/schemas/arcane/schema.md`, `docs/data/status.md`, `docs/data/reports/audit-arcane.md`
+**Ref:** `docs/governance/closed-decisions.md` (DC-OQ-DATA-2), `docs/governance/open-questions.md` (OQ-DATA-4), `docs/data/schemas/arcane/schema.md`, `docs/data/status.md`, `docs/data/reports/audit-arcane.md`
