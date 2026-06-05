@@ -5,7 +5,7 @@ Version: "v0.1.0"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-06-03"
+Fecha_de_actualizacion: "2026-06-04"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -257,7 +257,7 @@ El `note` no es parte del modelo de cálculo — es documentación para cuando s
 - La semántica de `condition` como campo de datos
 
 ### Condición de evolución (cuándo cambia esta decisión)
-Cuando el vocabulario de conditions alcance ≥70% de cobertura (D-16) Y el engine tenga `SimContext` con `context.flags`, esta decisión evoluciona a **Fase 1**: el engine evalúa `condition` para L1 (estado) y L2 (umbral).
+Cuando el vocabulario de conditions alcance ≥70% de cobertura (D-16) Y el engine tenga `SimContext` con `context.flags`, esta decisión evoluciona a **Fase 1**: el engine evalúa `condition` de estado (`while_*`) y umbral (`with_*`).
 
 **Ref:** `docs/semantic/conditions.md`
 
@@ -275,26 +275,38 @@ Un sector es un eje semántico de una fuente de datos. Cada fuente tiene múltip
 
 ### Qué significa "cubierto" en cada sector
 
-| Sector | Fuente | Cubierto cuando | Estado actual |
-|---|---|---|---|
-| `mods/upgrade_type` | mod-stats.override.json | stat tiene `upgrade_type` mapeado y semánticamente correcto | ~14% (119/853) |
-| `mods/condition` | mod-stats.override.json | stat condicional tiene `condition` con token canónico | ~0% (no mapeado) |
-| `arcanes/upgrade_type` | arcane-stats.override.json | stat tiene `upgrade_type` verificado | ~33% (60/182) |
-| `arcanes/condition` | arcane-stats.override.json | stat tiene `condition` con token canónico | ~69% (121/175) |
-| `incarnon/upgrade_type` | incarnon-evolutions.override.json | perk tiene `upgrade_type` o `note` con semántica clara | ~35% estimado |
-| `incarnon/condition` | incarnon-evolutions.override.json | perk con trigger tiene `condition` con token canónico | ~8% (notes estructuradas) |
-| `archon/upgrade_type` | archon-shards.json | stat tiene `upgrade_type` mapeado | ~22% |
-| `conditions/L1` | vocabulary.md | token de estado definido con semántica y fuente | ~100% (10/10) |
-| `conditions/L2` | vocabulary.md | token de umbral definido con N y stat requerido | ~90% (6/6+ pendientes) |
-| `conditions/L3` | vocabulary.md | token de evento definido con fuentes cruzadas | ~50% (60/~120 estimado) |
+| Sector | Fuente | Cubierto cuando |
+|---|---|---|
+| `mods/upgrade_type` | mod-stats.override.json | stat tiene `upgrade_type` mapeado y semánticamente correcto |
+| `mods/condition` | mod-stats.override.json | stat condicional tiene `condition` con token canónico |
+| `arcanes/upgrade_type` | arcane-stats.override.json | stat tiene `upgrade_type` verificado |
+| `arcanes/condition` | arcane-stats.override.json | stat tiene `condition` con token canónico |
+| `incarnon/upgrade_type` | incarnon-evolutions.override.json | perk tiene `upgrade_type` o `note` con semántica clara |
+| `incarnon/condition` | incarnon-evolutions.override.json | perk con trigger tiene `condition` con token canónico |
+| `archon/upgrade_type` | archon-shards.json | stat tiene `upgrade_type` mapeado |
+
+> **Estado actual por sector (cifras): SSoT único en [`status.md §Cobertura por sector`](status.md).**
+> D-16 define la *regla* (≥70%/sector), no el *estado*. No se duplican números aquí — driftan. (Esta
+> tabla tenía una columna "Estado actual" que se desincronizó respecto a `status.md`; eliminada 2026-06-04.)
+
+> **Eliminado (2026-06-04): los sectores `conditions/L1/L2/L3`.** La escalera estado/umbral/evento
+> (`while_*`/`with_*`/`on_*`) no era una métrica de cobertura ni un gate válido: confundía tres ejes
+> ortogonales (superficie léxica del prefijo · naturaleza de juego · modelo de engine `c2/*`) en una
+> sola categoría, y ~24% de los tokens reales (145) la desmienten (`while_target_*` no son flags del
+> jugador; `on_*_stack` no son eventos; `per_*` queda fuera). `condition` se mantiene **sin taxonomía
+> cerrada** (vocabulario emergente); su eje organizador es justamente lo que decide **OQ-SEM-2**.
+> La cobertura de `condition` se mide **por fuente** (filas `*/condition`), no por nivel. Verificado:
+> L\* no existía en código, solo en docs. Ver `semantic/conditions.md §Altitud de los debates`.
 
 ### Prioridad de sectores (orden de trabajo)
 
-1. `conditions/L3` — completar el vocabulario es prerequisito de todo lo demás
-2. `mods/condition` — exilus primero (ROI alto, condiciones simples), galvanizados después
-3. `mods/upgrade_type` — segunda revisión: 734 entradas sin revisar
-4. `incarnon/condition` — normalizar notes a tokens canónicos
-5. `arcanes/upgrade_type` — actualmente 33%, 87 nulls con semántica catalogada en schema §3
+> Las colas de clasificación de `condition` (G2 `while_target_*`, G3 `while_enemy_*`, G4 `per_*`)
+> no son cobertura: alimentan **OQ-SEM-2 / OQ-DATA-4** (eje y shape). No bloquean los sectores de abajo.
+
+1. `mods/condition` — exilus primero (ROI alto, condiciones simples), galvanizados después
+2. `mods/upgrade_type` — segunda revisión: 734 entradas sin revisar
+3. `incarnon/condition` — normalizar notes a tokens canónicos
+4. `arcanes/upgrade_type` — nulls con semántica catalogada en schema §3 (cifras en `status.md`)
 
 ### Lo que NO determina cobertura
 - Integración al engine: los overrides son SSoT de datos independientemente del engine

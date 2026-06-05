@@ -30,7 +30,7 @@ Aplica a todo trabajo en `docs/`. Estas reglas son bloqueantes.
   - `docs/domains/integration/`
   - `docs/domains/ui-ux/`
 - **Meta** — reglas, estado, decisiones, debates:
-  - `docs/governance/`, `docs/decisions/`, `docs/overview/`
+  - `docs/governance/`, `docs/decisions/`
 
 ## Jerarquía de lectura antes de formular preguntas o abrir debate
 
@@ -98,7 +98,6 @@ Las decisiones D-N en `docs/data/decisions.md` tienen dos estados:
 ## Post-flight: después de cambios de arquitectura o contratos
 
 Si el cambio afecta arquitectura o contratos, en la misma sesión:
-- Actualizar `docs/overview/impact-matrix.md`
 - Actualizar `docs/governance/current-state.md`
 
 No postergarlo.

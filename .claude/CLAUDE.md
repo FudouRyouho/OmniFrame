@@ -28,7 +28,7 @@ Antes de actuar, declarar: `[FASE: X | IMPACTO: RED/YELLOW/GREEN | ACCIÓN: halt
 
 **`README.md` (raíz)** es el README público de GitHub — changelog simple, una entrada por versión, sin detalle técnico profundo. `Project/README.md` es solo un orientador interno.
 
-**SSoT global:** `docs/overview/impact-matrix.md` — consultar ante cualquier cambio de arquitectura.
+**SSoT de decisiones abiertas:** `docs/governance/open-questions.md` — consultar ante cualquier cambio de arquitectura.
 Toda sesión debe cerrar con una fase de trazabilidad.
 
 ## Cuando hay drift (doc vs código)

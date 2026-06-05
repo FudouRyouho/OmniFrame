@@ -56,7 +56,6 @@ Si el cierre es acotado por iteración: `✓ CERRADO PARCIAL (YYYY-MM-DD, direcc
 
 - `docs/governance/open-questions.md` — sección OQ-N
 - `docs/governance/current-state.md` — si afecta arquitectura
-- `docs/overview/impact-matrix.md` — si afecta contratos
 
 ---
 

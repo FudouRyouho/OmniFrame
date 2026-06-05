@@ -26,4 +26,4 @@ Ver `docs/domains/engine/design/simulation-architecture.md` para la definición 
 
 OQs STATE-1/2/3/4 cerradas: ver `docs/governance/closed-decisions.md`.
 
-**Pendiente:** Capa D (Proyección) — contrato `ViewModelContract` no definido formalmente. Ver `impact-matrix.md §MAYOR`.
+**Pendiente:** Capa D (Proyección) — contrato `ViewModelContract` no definido formalmente. Ver `OQ-ENGINE-FUTURE` en `docs/governance/open-questions.md`.

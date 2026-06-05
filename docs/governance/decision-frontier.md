@@ -75,4 +75,4 @@ Ref: `docs/CLAUDE.md` § "Regla de evolución de decisiones de dominio (D-series
 ## Uso de este documento
 1. Identificar el área de trabajo.
 2. Separar lo que ya no es negociable de lo que requiere diseño activo.
-3. Si un punto Decidido genera bloqueo, registrar el gap técnico en `../overview/impact-matrix.md`.
+3. Si un punto Decidido genera bloqueo, registrar el gap técnico como nueva OQ en `open-questions.md` o como deuda en el `status.md` del dominio correspondiente.

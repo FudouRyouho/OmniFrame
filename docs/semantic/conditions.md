@@ -5,7 +5,7 @@ Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
 Version: "v1.10.0"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-03"
+Fecha_de_actualizacion: "2026-06-04"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
 ---
 
@@ -91,7 +91,7 @@ Flags booleanos evaluados antes de iniciar la simulación. El `SimContext` debe 
 | `while_aiming` | mods exilus | `engine:class:c2/binary` | "when Aiming", "while Aiming" — ADS activo (suelo o aire) |
 | `while_sliding` | arcanes, mods exilus | `engine:class:c2/binary` | "While sliding", "when Sliding" |
 | `while_aim_gliding` | arcanes, mods exilus | `engine:class:c2/binary` | "while Aim Gliding" — mecánica nombrada de Warframe: ADS sostenido en el aire que frena la caída. Distinto de `while_aiming` (no aplica en suelo) y de `while_airborne` (no requiere ADS). Ver wiki: Maneuvers. |
-| `while_holstered` | mods exilus | `—` | "when Holstered", "+X%/s when Holstered" — estado continuo de arma guardada. **Nota L1/L3:** depende de si el sim tiene noción de "arma activa"; si no la tiene, este flag no es evaluable. Posponer evaluación hasta diseño de contexto multi-arma. |
+| `while_holstered` | mods exilus | `—` | "when Holstered", "+X%/s when Holstered" — estado continuo de arma guardada. **Nota:** depende de si el sim tiene noción de "arma activa"; si no la tiene, este flag no es evaluable. Posponer evaluación hasta diseño de contexto multi-arma. |
 | `while_blocking` | mods exilus | `engine:class:c2/binary` | "while Blocking" — estado continuo de bloqueo sostenido. Distinto de `on_block` (L3 evento de parry/bloqueo puntual). |
 | `while_no_primary_equipped` | incarnon | `engine:class:c2/binary` | "With No Primary Equipped" |
 | `while_buffing_ally_warframes` | arcanes | `—` | "while Buffing Ally Warframes" — requiere contexto multiplayer; fuera del scope del sim personal. |

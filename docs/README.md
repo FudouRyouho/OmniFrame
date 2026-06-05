@@ -18,7 +18,7 @@ Documentación orientada a consumo de agentes IA. Refleja la realidad física y 
 
 | Intención | Leer primero |
 |---|---|
-| ¿Qué hay que hacer hoy? | [`overview/impact-matrix.md`](overview/impact-matrix.md) |
+| ¿Qué hay que hacer hoy? | [`governance/open-questions.md`](governance/open-questions.md) |
 | ¿Cuál es el estado real del código? | [`governance/current-state.md`](governance/current-state.md) |
 | ¿Qué preguntas están abiertas sin respuesta? | [`governance/open-questions.md`](governance/open-questions.md) |
 | ¿Qué decisiones ya están cerradas y no se reabren? | [`governance/closed-decisions.md`](governance/closed-decisions.md) |
@@ -42,7 +42,6 @@ docs/
 │   ├── engine/         — motor matemático + design/ (blueprint del motor de simulación)
 │   ├── integration/    — capa entre estado del usuario y motor
 │   └── ui-ux/          — presentación, vistas, shell, componentes
-├── overview/     — visión global, backlog técnico, cierres de auditoría
 ├── governance/   — reglas, convenciones, estado actual, OQ, decisiones cerradas
 └── decisions/    — debates técnicos activos y plantillas
 ```

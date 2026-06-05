@@ -7,7 +7,6 @@ Contratos, convenciones, estado del proyecto y registro de decisiones.
 | Archivo | Rol | Cuándo leerlo |
 |---|---|---|
 | [`current-state.md`](current-state.md) | Estado físico real del repositorio (código, no intención) | Antes de cualquier sesión de trabajo |
-| [`../overview/impact-matrix.md`](../overview/impact-matrix.md) | Backlog técnico y dependencias físicas | Para saber qué se puede trabajar hoy |
 | [`open-questions.md`](open-questions.md) | Preguntas abiertas sin respuesta — NO actuar sobre estas áreas | Antes de tocar integration/, state, arsenal |
 | [`closed-decisions.md`](closed-decisions.md) | Decisiones cerradas — no reabrir sin evidencia nueva | Si surge un debate que parece ya resuelto |
 | [`decision-frontier.md`](decision-frontier.md) | Frontera entre lo decidido y lo que sigue en debate | Para orientar debates nuevos |

@@ -21,7 +21,7 @@ Fecha_de_actualizacion: "2026-06-04"
 | **B** | Fuera de scope | PvP/conclave, augments de sindicato, mecánicas removidas → park |
 | **C** | Bug de dato | Mapeo/parseo incorrecto → corregir contra raw, no debatir modelo |
 | **D** | Gap de schema | No es problema del override → discusión de schema aparte |
-| **E** | Condition faltante | Alimenta cobertura `conditions/L3` |
+| **E** | Condition faltante | Alimenta el vocabulario de `condition` (colas G2/G3, ver `conditions.md`) |
 | **F** | Debate real sin OQ | Token/mecánica nueva → backlog clusterizado por familia |
 
 ---
@@ -129,7 +129,7 @@ Fecha_de_actualizacion: "2026-06-04"
 
 ---
 
-## Grupo E — Condition faltante (alimenta `conditions/L3`)
+## Grupo E — Condition faltante (alimenta el vocabulario de `condition`)
 
 # /Lotus/Upgrades/Mods/Warframe/Kahl/KahlAvatarAbilityRangeMod
 
@@ -207,7 +207,7 @@ Fecha_de_actualizacion: "2026-06-04"
 >   × facción) aditivo en un nodo sintético `faction_damage_bonus` (base 100) y `CombatCalculator`
 >   lo aplica como multiplicador **cuando `target.faction` coincide** (`attribute-node-contract.md §5`).
 >   → Tu intuición "condition target" **es la dirección elegida**, resuelta a nivel combate, no como
->   token en el mod. Wiring pendiente en engine: `impact-matrix.md` items 🔴. Drift menor ya
+>   token en el mod. Wiring pendiente en engine: ver deuda `faction_damage_bonus` en `docs/domains/engine/status.md`. Drift menor ya
 >   registrado: `faction_damage_bonus` → `FACTION_DAMAGE_BONUS` (casing).
 > - **Hueco genuino OPEN:** la **facción objetivo no está estructurada**. `tags: []`, sin campo
 >   `faction` en `mods.json` ni en el override; vive solo en el label (`"x Damage to Grineer"`).

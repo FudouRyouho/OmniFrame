@@ -21,18 +21,17 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 
 | Sector | Estado actual | Target | Prioridad |
 |---|---|---|---|
-| `conditions/L1` — estado (`while_*`) | ~100% (10/10) | ✅ | — |
-| `conditions/L2` — umbral (`with_*`) | ~90% (6 definidos) | ✅ | completar con galvanizados/exilus |
-| `conditions/L3` — eventos (`on_*`) | ~52% (~62/120 est.) | ⚠️ | galvanizados ✅ → resto |
-| `arcanes/condition` | ~70% (122/175) | ⚠️ | normalizar tokens inconsistentes |
+| `arcanes/condition` | ~80% (140/175) | ⚠️ | normalizar tokens inconsistentes |
 | `arcanes/upgrade_type` | ~43% (83/193) | ❌ | Gate 2a auditado: 1 token corregido (Melee Exposure), 9 stacking/formula con `note`, 2 condiciones faltantes corregidas; data:class:cat/d fuera del modelo actual |
 | `mods/condition` | ~5% (43/669 con token real) | ❌ | exilus ✅ → galvanizados ✅ → resto |
 | `mods/upgrade_type` | ~18% (119/669 verificadas usuario) | ❌ | Gate 2c.i+ii auditados: 14 correcciones D-6 + 6 renames non-D6 + notas Condition Overload family (cross-schema con incarnon); ~255 non-D6 restantes clasificados como out-of-model/deuda-documentada |
-| `incarnon/condition` | ~17.9% (125 tokens / 699 stats) | ⚠️ | 4 conditions pendientes (G3/tokens nuevos) |
+| `incarnon/condition` | ~24.5% (175 tokens / 714 stats) | ⚠️ | 4 conditions pendientes (G3/tokens nuevos) |
 | `incarnon/upgrade_type` | ~49.8% (348/699 engine-ready) | ⚠️ | G3 debate + trabajo manual usuario |
 | `archon/upgrade_type` | ~74% (20/27) | ⚠️ | Gate 2b auditado: sin issues nuevos; 4 entradas ⚠ heredadas de Gate 1 (AVATAR_ADD_ABILITY_DAMAGE / GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE); 7 nulos (3 out-of-model, 1 token deuda, 3 recovery events) |
 
-**Próximo trabajo de datos:** normalizar tokens de arcanes + completar `conditions/L3` restante.
+> **L\* no es un sector de cobertura.** El eje estado/umbral/evento (`while_*`/`with_*`/`on_*` ≈ `engine:class:c2/*`) fue planteado como escalera de % pero quedó **consolidado como duda real** — es un eje de *clasificación* no consolidado, bajo revisión en [OQ-SEM-2](../governance/open-questions.md). No se reporta como % a cerrar ni habilita ningún gate D-16 por sí mismo. La cobertura real de `condition` se mide **por fuente** (filas `*/condition` arriba), no por nivel L\*. Ver `conditions.md §Altitud de los debates`.
+
+**Próximo trabajo de datos:** normalizar tokens de arcanes + vaciar las colas de clasificación de `condition` (G2 `while_target_*`, G3 `while_enemy_*`, G4 `per_*`) como insumo de OQ-SEM-2 / OQ-DATA-4 — no como cobertura.
 
 ---
 
@@ -56,7 +55,7 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 
 **Deuda conocida:** (gramática de tags: `docs/governance/nomenclature-grammar.md` · evidencia: `docs/governance/deuda-taxonomy.md`)
-- `engine:debt` `condition` — vocabulario consolidado en `conditions.md`; integración en SimContext pendiente. Candidatos C1-A (`while_*`/`with_*`) listos cuando ≥70% cobertura. `[ref: docs/semantic/conditions.md]`
+- `engine:debt` `condition` — vocabulario consolidado en `conditions.md`; integración en SimContext pendiente. Bloqueada antes que por cobertura por el eje de clasificación (OQ-SEM-2) y el shape OR/AND (OQ-DATA-4), no por un % L\*. `[ref: docs/semantic/conditions.md]`
 - `[SEM data:debt` D-17 — 2 tokens galvanizados con semántica pendiente (beam range ✅ resuelto 2026-06-03 → `WEAPON_ADD_BEAM_RANGE`): ver `docs/data/decisions.md#D-17` `[empirical]`
 - `data:debt` `WEAPON_ADD_AMMO_MAX` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
 - `data:debt` `WEAPON_ADD_COMBO_COUNT_CHANCE` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
