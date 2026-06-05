@@ -1,6 +1,6 @@
 /**
  * @domain Shared / Types / Modifier
- * @SSoT docs/data/schemas/mods/upgrade-taxonomy.md
+ * @SSoT docs/semantic/upgrade-tokens.md
  *
  * Vocabulario del sistema de modificadores. Aplica a cualquier fuente que
  * modifique atributos del engine: mods, pasivas, habilidades, arcanos, etc.

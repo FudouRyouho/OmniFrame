@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
-Version: "v0.5.4"
+Version: "v0.5.5"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
@@ -353,9 +353,9 @@ fallo silencioso detectable inspeccionando el output de `ModRepository`.
 
 | Estado | Descripción |
 | :--- | :--- |
-| En UPGRADES[] | **79 tokens D-6** (inc. alias `WEAPON_FIRE_ITERATIONS` y 3 tokens sub-familia; `WEAPON_ADD_BEAM_RANGE` añadido 2026-06-03) — sincronizado con `modifier.ts` 2026-06-03 |
-| Documentados aquí | 100% — delta code-vs-doc = 0 (verificado 2026-06-03) |
-| En UPGRADE_MAP (explícito) | 35 entradas — excepciones al patrón self-referencial |
+| En UPGRADES[] | **93 tokens** = 82 D-6 (inc. alias `WEAPON_FIRE_ITERATIONS` y 3 tokens sub-familia) + 11 `AVATAR_CHANCE_RESIST_*` (desviación D-6, sin `UPGRADE_MAP`) — sincronizado con `modifier.ts` 2026-06-04 |
+| Documentados aquí | 100% — delta code-vs-doc = 0 (verificado 2026-06-04) |
+| En UPGRADE_MAP (explícito) | 40 entradas — excepciones al patrón self-referencial |
 | Via resolveToken() (implícito) | elementales + sub-familia |
 | Sin mapear (pipeline deuda) | tipos DE legacy en `mod-stats.override.json` — auditoría de aplicaciones en curso (Fase 2c) |
 | Deprecated a migrar | listados en §Deprecated |
