@@ -10,6 +10,7 @@ import type {
 } from "../contracts";
 import { isWeaponDamageToken } from "../contracts/damage-logic";
 import { applyAdditiveBonus } from "../formulas/common/scaling-base";
+import { evalCondition } from "@shared/types/condition";
 
 export class SimulationEngine {
   private entities: Map<EntityId, SimulationEntity> = new Map();
@@ -144,7 +145,7 @@ export class SimulationEngine {
     const relevantMods = this.modifiers.filter(m => m.target_entity === entityId && m.target_attribute === attributeId);
     
     relevantMods.forEach(mod => {
-      const conditionMet = !mod.condition || !!context.flags[mod.condition];
+      const conditionMet = evalCondition(mod.condition, context.flags);
       let modValue = 0;
       let context_value: number | undefined;
 
