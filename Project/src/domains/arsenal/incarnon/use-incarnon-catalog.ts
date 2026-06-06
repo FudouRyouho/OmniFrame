@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import type { ConditionInput } from '@shared/types/condition';
 
 export type IncarnorStat = {
   label:         string;
   base_value?:   number | Record<string, number>;
   upgrade_type?: string;
-  condition?:    string | null;  // token | null (condición sin token) | ausente (sin condición) — D-18
+  condition?:    ConditionInput | null;  // token | {any|all} | null (sin token) | ausente — D-18
 };
 
 export type IncarnorPerk = {

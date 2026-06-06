@@ -30,6 +30,15 @@ export const CONDITIONS = [
   'on_critical_hit',
   'on_weakpoint_hit',
   'on_melee_hit',
+  // ── Estado — movimiento / postura del jugador (while_) ───────────────────
+  // Familia de maniobra. Exclusiones mutuas en condition-nature.md (airborne↔grounded,
+  // aim_gliding↔sliding) — base del futuro linter de `all` imposible.
+  'while_aiming',
+  'while_aim_gliding',
+  'while_airborne',
+  'while_sliding',
+  'while_crouching',
+  'while_blocking',
 ] as const
 
 export type ConditionToken = (typeof CONDITIONS)[number]

@@ -3,7 +3,7 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.11.0"
+Version: "v1.12.0"
 Fecha_de_creacion: "2026-05-28"
 Fecha_de_actualizacion: "2026-06-05"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
@@ -103,10 +103,10 @@ Flags booleanos evaluados antes de iniciar la simulación. El `SimContext` debe 
 | `while_hate_and_despair_equipped` | incarnon | `engine:class:c2/binary` | "With Hate and Despair Equipped" — ídem, par Hate+Despair |
 | `while_dread_and_despair_equipped` | incarnon | `engine:class:c2/binary` | "With Dread and Despair equipped" — ídem, par Dread+Despair |
 
-> **`while_sliding_or_aim_gliding`** (token en arcane override actual) es una condición OR: el efecto
-> aplica con CUALQUIERA de los dos estados. Esto es distinto de AND compuesto. El schema actual
-> (`condition: string`) no puede expresar OR — requiere representación futura (e.g. `string[]` con
-> semántica OR). Por ahora: mantener el token literal en el override + nota pendiente de normalización.
+> **OR de movimiento (`while_sliding` ∨ `while_aim_gliding`)** — **resuelto (Fase 3b, 2026-06-05):**
+> migrado del token-paraguas `while_sliding_or_aim_gliding` a `condition: {any:["while_sliding","while_aim_gliding"]}`
+> en arcane (Akimbo Slip Shot) e incarnon (Agile Executor, Feather of Justice). El shape obj-key
+> (prototipo, `../data/rules/overrides.md §Prototipo`) lo expresa; `evalCondition` lo evalúa.
 
 ---
 
@@ -204,7 +204,7 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_killing_enemies_with_3_toxin_stacks` | "On killing an enemy with 3+ Toxin Stacks" — ídem, Toxin. Fuente: Dual Ichor Incarnon Genesis | `engine:class:c2/stack` | incarnon |
 | `on_enemy_frozen` | "On Enemy Frozen" | `engine:class:c2/event` | arcanes |
 | `on_shield_break` | "On Shield Break" | `engine:class:c2/event` | incarnon |
-| `on_shield_or_overguard_break` | "On Shield/Overguard break" — OR: aplica en break de Shield personal O de Overguard. Segundo caso OR documentado (ver `while_sliding_or_aim_gliding`). `condition: string` no expresa OR — pendiente `string[]` cuando acumulen más casos | `—` | incarnon. Schema blocker: OR no expresable hasta `string[]`. |
+| `on_shield_or_overguard_break` | "On Shield/Overguard break" — OR: aplica en break de Shield personal O de Overguard. El shape obj-key ya existe (Fase 3a); **pendiente de migrar** este caso a `{any:["on_shield_break","on_overguard_break"]}` (eventos aún sin catalogar). | `—` | incarnon |
 | `on_bleed_proc` | "On Bleed proc" — DoT de Slash *tickea* sobre un target. Semánticamente distinto de `on_slash_status_effect` (que es la *aplicación* del proc al hit). Patrón extensible: `on_heat_proc`, `on_toxin_proc`, etc., solo se registran con evidencia en fuentes | `engine:class:c2/event` | mods Hunter/Vigilante |
 
 ### Acciones del jugador
@@ -262,7 +262,7 @@ drift (D-19) — es cola de consolidación; se resuelve al definir, no como requ
 
 | Token actual (override) | Token canónico | Archivo |
 |---|---|---|
-| `while_sliding_or_aim_gliding` | decisión pendiente (ver §L1) | arcane-stats.override.json |
+| ~~`while_sliding_or_aim_gliding`~~ | **resuelto (Fase 3b, 2026-06-05)** — migrado a `{any:["while_sliding","while_aim_gliding"]}` | arcane-stats.override.json |
 | ~~Incarnon notes: texto libre~~ | **mapeado (2026-05-30)** — `condition` token en `stats[]` | incarnon-evolutions.override.json |
 
 > **Incarnon completado (2026-05-30):** los 120 stats condicionales del override usan `condition`
@@ -282,11 +282,10 @@ fuerza aquí para no pre-juzgar. El token vive literal; la consolidación ocurre
 - **`on_weakpoint_hit`** confirmado como forma canónica (2026-06-01). Misma mecánica de weak point;
   pura diferencia de redacción. Drift cerrado: arcanes migró su única instancia `on_weak_point_hit`
   → `on_weakpoint_hit` en `arcane-stats.override.json`.
-- `while_aim_gliding_or_sliding` — **no colapsado**. Convive con `while_sliding_or_aim_gliding`
-  (arcanes) y, además, en incarnon el mismo token cubre dos labels: *"Aim Gliding **and** Sliding"*
-  (AND) y *"...**or** Sliding"* (OR). El colapso a un token correcto se hará en una revisión
-  dedicada que **mantiene la deuda conocida del modelo OR/AND** (schema `condition: string` no la
-  expresa — ver §Gate 1 y `while_sliding_or_aim_gliding`).
+- ~~`while_aim_gliding_or_sliding`~~ — **resuelto (Fase 3b, 2026-06-05):** los dos labels que cubría
+  (el "and" coloquial de Agile Executor y el "or" de Feather of Justice) son mecánicamente **OR**
+  (aim-gliding y sliding se excluyen). Migrados a `{any:["while_aim_gliding","while_sliding"]}` — el
+  "and" del label **no** derivó el operador; lo fijó la mecánica de co-ocurrencia. Mismo destino que el paraguas de arcanes.
 
 ### G2 — `while_target_affected_by_*` (requieren análisis propio)
 
@@ -444,7 +443,7 @@ se audita en Fase 2.
 
 | Token | Duda concreta | Tipo |
 | :--- | :--- | :--- |
-| `while_sliding_or_aim_gliding` | Composición OR — `condition: string` no la expresa. Pendiente `string[]` con semántica OR cuando acumulen casos. | schema |
+| ~~`while_sliding_or_aim_gliding`~~ | **resuelto (Fase 3b)** — migrado a `{any:[…]}`; `evalCondition` lo evalúa. | schema |
 | `on_shield_or_overguard_break` | Composición OR — segundo caso. Mismo bloqueo de schema. | schema |
 | `with_energy_max_over_200` | Umbral "unlisted" — no aparece en UI del juego; descubierto por la comunidad (Dual Toxocyst). | evidencia |
 | `while_holstered` | Depende de que el sim tenga noción de "arma activa". Si no la tiene, no es evaluable. Posponer hasta diseño de contexto multi-arma. | engine |
@@ -486,7 +485,7 @@ Agrupado por prefijo (organización emergente, no taxonomía):
 Los tokens `while_*` y `with_*` (≈28) son los candidatos inmediatos para C1-A porque no requieren
 sistema de eventos — solo `context.flags` y `context.stats` en `SimContext`.
 
-> **Pendiente de schema:** `while_sliding_or_aim_gliding` (OR compuesto) no es expresable con
-> `condition: string`. Prototipo de shape en evaluación (2026-06-05, no cerrado): `string | {any:[…]} | {all:[…]}`
-> con `any`/`all` como intención explícita — ver [`overrides.md` §Prototipo de condition](../data/rules/overrides.md)
-> y `OQ-DATA-4`. Próximo paso: razonar los ~9 casos paraguas mapeados bajo obj-key antes de acuñar.
+> **Shape obj-key en uso (Fase 3a/3b):** `condition: string | {any:[…]} | {all:[…]}` — `any`/`all` como
+> intención explícita; `evalCondition` lo evalúa en el engine. Ver [`overrides.md` §Prototipo de condition](../data/rules/overrides.md)
+> y `OQ-DATA-4` (prototipo **no cerrado**). Migrados: los OR de movimiento (Fase 3b). **Pendientes de migrar:**
+> el resto de paraguas OR (`on_shield_or_overguard_break`, `on_parkour_maneuver`, `on_bullet_jump_or_double_jump`) y los AND evento∧estado.

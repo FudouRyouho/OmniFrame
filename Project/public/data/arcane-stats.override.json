@@ -17,10 +17,9 @@
             "upgrade_type": "WEAPON_ADD_AMMO_EFFICIENCY"
           }
         ],
-        "condition": "while_sliding_or_aim_gliding",
+        "condition": { "any": ["while_sliding", "while_aim_gliding"] },
         "notes": [
           "engine:note — arcano de Warframe con weapon-type gate: WEAPON_ADD_AMMO_EFFICIENCY sólo activa cuando el arma equipada es un Dual Pistol. Restricción no modelable en el schema actual (no existe campo weapon_type_gate). Candidato a OQ cross-domain cuando el engine consuma arcanes de Warframe.",
-          "engine:note — condition OR: sliding y aim gliding son disparadores independientes del mismo efecto. Token compuesto; cuando el schema soporte arrays de condition → [\"while_sliding\", \"while_aim_gliding\"]. Ver OQ-DATA-4.",
           "engine:note — sinergia conocida con Zazvat-Kar (mod exclusivo Akstilleto): juntos alcanzan 100% ammo efficiency. Dato relevante para tests de stacking cuando se modele."
         ]
       }

@@ -2970,7 +2970,7 @@
             {
               "label": "+|val1|% Ammo Efficiency while Aim Gliding and Sliding.",
               "base_value": 50,
-              "condition": "while_aim_gliding_or_sliding"
+              "condition": { "any": ["while_aim_gliding", "while_sliding"] }
             }
           ],
           "notes": [
@@ -4309,7 +4309,7 @@
             {
               "label": "Gain |val1|% Ammo Efficiency while Aim Gliding or Sliding.",
               "base_value": 60,
-              "condition": "while_aim_gliding_or_sliding"
+              "condition": { "any": ["while_aim_gliding", "while_sliding"] }
             }
           ],
           "notes": [
