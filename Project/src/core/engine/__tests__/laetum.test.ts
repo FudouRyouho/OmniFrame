@@ -208,6 +208,24 @@ describe('Laetum — Normal Attack, modo estático (on_kill activo)', () => {
   });
 });
 
+// ─── Suite 2b: condition de perks de Incarnon ─────────────────────────────────
+// Verifica que el engine RESPETA la condition de los perks (no solo de los mods).
+// lethal_rearmament (tier 3): on_headshot → +30% Reload Speed (WEAPON_ADD_RELOAD_SPEED, ADD).
+// Perk condicional aislado: ningún mod de la build toca reload, así que el efecto es nítido.
+// Regresión: el IncarnonRepository no propagaba `condition` → el perk aplicaba siempre.
+
+describe('Laetum — condition de perks de Incarnon', () => {
+  it('Reload 100 — lethal_rearmament (on_headshot) NO aplica en modo base', () => {
+    // flags {} → on_headshot inactivo → reload speed base, sin el +30%
+    expect(simulateBase().WEAPON_ADD_RELOAD_SPEED?.final).toBeCloseTo(100, 1);
+  });
+
+  it('Reload 130 — lethal_rearmament aplica en modo estático (on_headshot activo)', () => {
+    // conditionTokens activa on_headshot → +30% ADD → 100 × 1.30
+    expect(simulateStatic().WEAPON_ADD_RELOAD_SPEED?.final).toBeCloseTo(130, 1);
+  });
+});
+
 // ─── Suite 3: Incarnon Form — modo base ───────────────────────────────────────
 
 describe('Laetum — Incarnon Form, modo base', () => {

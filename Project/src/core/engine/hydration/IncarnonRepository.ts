@@ -3,11 +3,13 @@
  * @status en-desarrollo
  */
 import type { Modifier, EntityId } from "../contracts";
+import type { ConditionInput } from "@shared/types/condition";
 import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
 
 type PerkModifierRaw = {
   upgrade_type: string | null;
   base_value?: number | Record<string, number>;
+  condition?: ConditionInput;
   note?: string;
 };
 
@@ -95,6 +97,7 @@ export class IncarnonRepository {
           target_attribute: upgradeEntry.attr,
           operation: upgradeEntry.op,
           value,
+          ...(rawMod.condition ? { condition: rawMod.condition } : {}),
         });
       });
     });
