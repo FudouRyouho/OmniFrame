@@ -39,6 +39,13 @@ export const CONDITIONS = [
   'while_sliding',
   'while_crouching',
   'while_blocking',
+  // ── Estado — status del target (while_target_affected_by_*) ──────────────
+  // Scope target (ortogonal a la naturaleza estado — ver condition-nature.md).
+  'while_target_affected_by_cold',
+  'while_target_affected_by_electricity',
+  'while_target_affected_by_puncture',
+  'while_target_affected_by_slash',
+  'while_target_affected_by_toxin',
 ] as const
 
 export type ConditionToken = (typeof CONDITIONS)[number]

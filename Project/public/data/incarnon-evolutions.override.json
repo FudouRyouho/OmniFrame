@@ -7484,9 +7484,9 @@
             {
               "label": "On hitting a target affected by an <DT_ELECTRICITY> status, 40% chance to restore |val1| round in the magazine from ammo pool.",
               "base_value": 1,
-              "condition": "on_hit_while_target_affected_by_electricity",
+              "condition": { "all": ["on_hit", "while_target_affected_by_electricity"] },
               "notes": [
-                "engine:note — Condition compuesta AND: on_hit + while_target_affected_by_electricity — pendiente de modelado de operador AND. Mecánica probabilística (40% chance). data:class:cat/e."
+                "engine:note — Mecánica probabilística (40% chance restore round). data:class:cat/e."
               ]
             }
           ],

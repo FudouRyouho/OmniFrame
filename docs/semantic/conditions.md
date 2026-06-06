@@ -3,7 +3,7 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.12.0"
+Version: "v1.13.0"
 Fecha_de_creacion: "2026-05-28"
 Fecha_de_actualizacion: "2026-06-05"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
@@ -327,7 +327,7 @@ Eventos nuevos:
 | `on_slam_hit` | "per enemy hit by Slam radius, gain Combo" | per-enemy; ¿variante de `on_ground_slam`? — diferido |
 | `on_slide_attack_hit` | "per enemy hit by Slide Attack, gain Combo" | per-enemy; ¿variante de `on_slide_attack`? — diferido |
 | `on_hit_incarnon_form` | "On Hit (Incarnon Form): +CC/CD... Stacks 50x" | compuesto evento+estado |
-| `on_hit_while_target_affected_by_electricity` | "On hitting target affected by Electricity, 40% chance restore round" | compuesto AND; distinto de `while_target_affected_by_electricity` |
+| ~~`on_hit_while_target_affected_by_electricity`~~ | "On hitting target affected by Electricity, 40% chance restore round" | **migrado (Fase 4)** → `{all:["on_hit","while_target_affected_by_electricity"]}` |
 
 ### G4 — prefijo `per_` (naturaleza nueva)
 
