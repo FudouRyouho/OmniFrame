@@ -839,7 +839,7 @@
             {
               "label": "With Armor Over 450: +|val1| Punch Through",
               "base_value": 4,
-              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "upgrade_type": "WEAPON_FLAT_PUNCH_THROUGH",
               "condition": "with_armor_over_450"
             }
           ]
@@ -1574,7 +1574,7 @@
             {
               "label": "With Armor Over 450: +|val1| Punch Through.",
               "base_value": 2,
-              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "upgrade_type": "WEAPON_FLAT_PUNCH_THROUGH",
               "condition": "with_armor_over_450"
             }
           ]
@@ -2756,7 +2756,7 @@
             {
               "label": "On Kill: +|val1| Punch Through for 7s.",
               "base_value": 3,
-              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "upgrade_type": "WEAPON_FLAT_PUNCH_THROUGH",
               "condition": "on_kill"
             }
           ],
@@ -3528,7 +3528,7 @@
             {
               "label": "With Channeled Ability Active: +|val1| Punch Through.",
               "base_value": 3,
-              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "upgrade_type": "WEAPON_FLAT_PUNCH_THROUGH",
               "condition": "while_channeled_ability_active"
             },
             {
@@ -5784,7 +5784,7 @@
             {
               "label": "On Kill: +|val1| Punch Through for 20s.",
               "base_value": 2.5,
-              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "upgrade_type": "WEAPON_FLAT_PUNCH_THROUGH",
               "condition": "on_kill",
               "notes": [
                 "engine:note — Duration (20s) no modelada en Fase 0."
@@ -7267,7 +7267,7 @@
             {
               "label": "With Armor Over 450: +|val1| Punch Through.",
               "base_value": 4,
-              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "upgrade_type": "WEAPON_FLAT_PUNCH_THROUGH",
               "condition": "with_armor_over_450"
             }
           ]
@@ -7424,7 +7424,7 @@
             {
               "label": "With Channeled Ability Active: +|val1| Punch Through.",
               "base_value": 4,
-              "upgrade_type": "WEAPON_ADD_PUNCH_THROUGH",
+              "upgrade_type": "WEAPON_FLAT_PUNCH_THROUGH",
               "condition": "while_channeled_ability_active"
             }
           ],

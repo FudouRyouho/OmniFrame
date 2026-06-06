@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
-Version: "v0.5.5"
+Version: "v0.5.6"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-04"
+Fecha_de_actualizacion: "2026-06-06"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -166,7 +166,7 @@ confirmar un mod o mecánica que lo requiera.
 | `WEAPON_ADD_ACCURACY` | `WEAPON_ADD_ACCURACY` | ADD | `[ref: accuracy.md]` | `—` | Pax Soar (arcane); exilus On-Equip. `WEAPON_SPREAD` (DE legacy) confirmado = **mismo stat** (spread = inverso de accuracy; Narrow Barrel / Tainted Shell llevan token spread con label "+% Accuracy") → unificar bajo este token. Sim asume aim perfecto — stat informativo. |
 | `WEAPON_ADD_RECOIL` | `WEAPON_ADD_RECOIL` | ADD | `[empirical]` | `—` | Stabilizer, Steady Hands (valores negativos = reducción) |
 | `WEAPON_ADD_PROJECTILE_SPEED` | `WEAPON_ADD_PROJECTILE_SPEED` | ADD | `[empirical]` | `—` | Terminal Velocity, Lightning Dash |
-| `WEAPON_ADD_PUNCH_THROUGH` | `WEAPON_ADD_PUNCH_THROUGH` | ADD | `[empirical]` | `—` | Penetración (metros flat). Metal Auger, Seeking Force, Vigilante Offense + stats Incarnon. Renombrado del misnomer DE-legacy `WEAPON_PUNCTURE_DEPTH` (2026-06-04). Sin consumidor de engine aún. |
+| `WEAPON_FLAT_PUNCH_THROUGH` | `WEAPON_FLAT_PUNCH_THROUGH` | ADD_FLAT | `[ref: punch-through.md]` | `—` | Penetración **flat en metros** (post-escala, nunca se amplifica). Metal Auger, Seeking Force, Vigilante Offense + stats Incarnon. Cadena de rename: `WEAPON_PUNCTURE_DEPTH` (misnomer DE-legacy) → `WEAPON_ADD_PUNCH_THROUGH` (2026-06-04, intermedio) → `WEAPON_FLAT_PUNCH_THROUGH` (2026-06-06; segmento D-6 `FLAT` → op `ADD_FLAT` vía `resolveToken`). 10 mods + 7 stats incarnon. Sin consumidor de engine aún: el modifier se produce, pero el nodo de arma `PUNCH_THROUGH` no existe (Capa 4 → OQ-ENGINE-3). |
 | `WEAPON_ADD_ZOOM` | `WEAPON_ADD_ZOOM` | ADD | `[empirical]` | `—` | Eagle Eye (DE: `zoom`) |
 
 ### WEAPON — melee

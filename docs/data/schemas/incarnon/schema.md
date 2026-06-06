@@ -5,7 +5,7 @@ Version: "v2.0.0"
 Impacto_ID: "data-incarnon"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-06-04"
+Fecha_de_actualizacion: "2026-06-06"
 ---
 
 # Schema: incarnon-evolutions.override.json
@@ -94,8 +94,6 @@ Cobertura (2026-06-01): **175** token · **0** null · **539** ausente (714 stat
 
 ## Gaps conocidos
 
-- Stats con `condition` token pero **sin** `upgrade_type`: efecto condicional con atributo no tokenizado
-  (ej. "+300% Combo Count Chance", Punch Through, Accuracy). Display-only legítimo.
 - Tokens L3 (eventos): presentes como dato; el engine no los aplica hasta tener sistema de eventos (D-15 Fase 0).
 - Multi-valor por label (X / Y): se modela como stats separados; no hay `|val2|` en incarnon todavía.
 

@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "D-18"
 Fidelidad_Fisica: "Project/public/data/mod-stats.override.json"
 Fecha_de_creacion: "2026-06-02"
-Fecha_de_actualizacion: "2026-06-04"
+Fecha_de_actualizacion: "2026-06-06"
 ---
 
 # Auditoría manual — mod-stats.override.json
@@ -41,7 +41,6 @@ Fecha_de_actualizacion: "2026-06-04"
 > — **Hogar:** `status.md §Mods` deuda `WEAPON_SPREAD`. ✅ Confirmado = `WEAPON_ADD_ACCURACY` (ref `references/wiki/mechanics/accuracy.md`); dirección = unificar. Mecanismo de unión gateado (sin mods spread en overrides curados).
 
 > _Resueltos 2026-06-04 (sacados de triage, historial en git):_
-> - `WEAPON_PUNCTURE_DEPTH` → **renombrado `WEAPON_ADD_PUNCH_THROUGH`**, registrado en `UPGRADES[]`; 10 mods + 7 stats incarnon tokenizados.
 > - `AVATAR_DAMAGE_POWER_MULTIPLIER` → **renombrado `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY`**, registrado en `UPGRADES[]`; 4 mods (premisa escudos→energía desmentida vs raw).
 
 ---

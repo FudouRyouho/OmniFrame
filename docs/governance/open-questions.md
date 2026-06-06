@@ -5,7 +5,7 @@ Version: "v0.18.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-06-05"
+Fecha_de_actualizacion: "2026-06-06"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -202,3 +202,16 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 **Condición para resolver:** etapa de conciliación muy temprana — diferir hasta tener más datos y un modelo de engine que consuma estos valores. No acuñar distinción de unidad prematuramente.
 **No bloquea:** captura de datos ni el vocabulario actual.
 **Fuente:** investigación F.1, `docs/data/reports/audit-mods.md §F.1`; `docs/semantic/upgrade-tokens.md` (filas range/beam).
+
+---
+
+## OQ-ENGINE-3 — Materialización de nodos de atributo de arma faltantes (Capa 4) — **ABIERTO (2026-06-06)**
+**Dominio:** engine / hydration
+**Contexto:** ~18 tokens `WEAPON_*` catalogados y mapeados producen un `Modifier` correcto, pero **ningún nodo lo recibe**: `ItemRepository.getDNA()` / `createBaseEntity()` solo materializa ~8 nodos de arma (crit chance/mult, status chance, fire rate, multishot, magazine, reload, daño). El resto (`punch_through`, `recoil`, `zoom`, `projectile_speed`, `ammo_max`, `headshot_mult`, familia `combo_*`/`heavy_*`, etc.) se evapora silenciosamente. **Caso disparador:** `WEAPON_FLAT_PUNCH_THROUGH` (rename cerrado 2026-06-06; op `ADD_FLAT` correcta vía `resolveToken`; 10 mods + 7 stats incarnon) — el token está bien resuelto pero no hay nodo `PUNCH_THROUGH`.
+**Pregunta:** ¿cómo y cuándo el engine materializa estos nodos? Separar los **tres ejes** (no conflacionar):
+- **(a) Operación del upgrade** — ya resuelta para punch through (`ADD_FLAT`, flat post-escala).
+- **(b) Dato base faltante** — ¿de dónde sale el valor nato del arma? (la mayoría = 0m; innatos como Lanka 5.0m / charged-shot only / forma incarnon — ver `references/wiki/mechanics/punch-through.md`). ¿Lo expone `@wfcd/items` en el raw, o requiere override por-arma?
+- **(c) Resolución del ataque** — ¿el stat computa o es display-only? Punch through no modifica daño directo; cambia geometría de penetración (cuántos blancos atraviesa) — depende de un modelo de impacto que aún no existe.
+**Condición para resolver:** cuando el foco *weapons* llegue a Capa 4 (prioridad 2 del inventario, tras Capa 3 ya cerrada). Probable que se resuelva por familias de nodo, no token a token.
+**No bloquea:** captura de datos ni el vocabulario (token ya correcto y aplicado).
+**Fuente:** `.working/engine-ignorance-inventory.md §Capa 4`; `docs/data/references/wiki/mechanics/punch-through.md`; `docs/semantic/upgrade-tokens.md` (fila `WEAPON_FLAT_PUNCH_THROUGH`).

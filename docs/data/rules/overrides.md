@@ -63,7 +63,7 @@ No es fuente de verdad y **el proyecto no lo consume en runtime** (la verdad est
 
 De ahí, tres invariantes **sin excepción**:
 
-1. **Verdad resuelta → estructura; la nota muere.** Cuando el concepto se absorbe en token/campo/fórmula, la nota desaparece. (Ej.: al acuñar `WEAPON_ADD_PUNCH_THROUGH`, las notas "sin token" se eliminaron.)
+1. **Verdad resuelta → estructura; la nota muere.** Cuando el concepto se absorbe en token/campo/fórmula, la nota desaparece. (Ej.: al acuñar `WEAPON_FLAT_PUNCH_THROUGH`, las notas "sin token" se eliminaron.)
 2. **Nota que sobrevive a la estructuración de su concepto = drift.** No es "el por qué": es señal de que la estructura no captura lo que la nota dice. Se corrige, no se conserva.
 3. **`notes: []` vacío está prohibido.** Su presencia afirma "hay algo"; vacío es contradicción. Sin nada que decir → **clave ausente**, nunca `[]` (misma lógica que una OQ sin justificación: colapsa).
 

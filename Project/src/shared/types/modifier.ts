@@ -78,9 +78,11 @@ export const UPGRADES = [
   'WEAPON_ADD_PROJECTILE_SPEED',
   'WEAPON_ADD_ACCURACY',
   'WEAPON_ADD_RECOIL',
-  // Punch Through (penetración, metros flat). Renombrado del misnomer DE-legacy WEAPON_PUNCTURE_DEPTH
-  // (2026-06-04, data-first: 10 mods "+Xm Punch Through" + stats incarnon). Sin consumidor de engine aún.
-  'WEAPON_ADD_PUNCH_THROUGH',
+  // Punch Through (penetración, metros flat → op ADD_FLAT vía resolveToken). Cadena de rename:
+  // WEAPON_PUNCTURE_DEPTH (misnomer DE-legacy) → WEAPON_ADD_PUNCH_THROUGH (2026-06-04, intermedio)
+  // → WEAPON_FLAT_PUNCH_THROUGH (2026-06-06, segmento D-6 FLAT correcto). 10 mods + 7 stats incarnon.
+  // Sin consumidor de engine aún: nodo PUNCH_THROUGH ausente (Capa 4 → OQ-ENGINE-3).
+  'WEAPON_FLAT_PUNCH_THROUGH',
   'WEAPON_ADD_STATUS_DURATION',
   'WEAPON_ADD_ZOOM',
   'WEAPON_ADD_FINISHER_DAMAGE',

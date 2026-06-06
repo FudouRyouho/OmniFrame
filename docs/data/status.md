@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-06-04"
+Fecha_de_actualizacion: "2026-06-06"
 ---
 
 # Data Domain — Estado Operativo
@@ -64,9 +64,8 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 - `[SEM data:debt` `AVATAR_DAMAGE_TAKEN` — DR **multiplicativa** (op MULT). Bucket sobrecargado, 3 sub-formas: (a) resistencia estática por tipo, (b) DR genérica condicional (`while_airborne`), (c) DR adaptativa/stacking (**Adaptation** → OQ-DATA-4). Taxonomía sin cerrar (per-elemento, precedente `AVATAR_CHANCE_RESIST_*`, vs genérico+condition); coinage diferido hasta consumidor de engine. Drift cerrado: `references/wiki/mechanics/damage-reduction.md` creado. `[ref: references/wiki/mechanics/damage-reduction.md]`
 - `semantic:debt` `AVATAR_PARKOUR_GLIDE` — duración de aim glide/wall latch. Candidato: `AVATAR_ADD_AIM_GLIDE_DURATION`. Mix de mods legítimos (Patagium, Mobilize) y conclave `[empirical]`
 - `[SEM data:debt` `AVATAR_HEAL_RATE` — mezcla de companion scope y warframe scope (Rejuvenation, Recuperate). Requiere revisión de auras y separación de contextos antes de definir token `[empirical]`
-- `[SEM data:debt` `WEAPON_PUNCTURE_DEPTH` ✅ resuelto 2026-06-04 → **renombrado `WEAPON_ADD_PUNCH_THROUGH`** (mod-stats.override, 10 mods; todos "+X Punch Through", flat metros, op ADD). Misnomer DE-legacy verificado vs raw. **Registrado en `UPGRADES[]`** (data-first) + **7 stats Punch Through tokenizados** en `incarnon-evolutions.override` (notes de deuda limpiadas). `[empirical]`
 - `pipeline:debt` `conclave?: boolean` — campo no preservado en `GeneratedMod`. Sin este campo no es posible filtrar mods PVP desde la data base. Fix: `GeneratedMod` + `generate-data.ts` `[ref: @wfcd/items API]`
-- `data:debt` ~255 entradas con token no-D-6 clasificadas: deuda documentada (WEAPON_SPREAD, AVATAR_DAMAGE_TAKEN, AVATAR_PARKOUR_GLIDE, AVATAR_HEAL_RATE, etc.) o out-of-model (sindicatos, vehículos, compañero, stamina removida). 8 renames aplicados (2026-06-04: WEAPON_ADD_PUNCH_THROUGH, AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY).
+- `data:debt` ~255 entradas con token no-D-6 clasificadas: deuda documentada (WEAPON_SPREAD, AVATAR_DAMAGE_TAKEN, AVATAR_PARKOUR_GLIDE, AVATAR_HEAL_RATE, etc.) o out-of-model (sindicatos, vehículos, compañero, stamina removida). 8 renames aplicados (2026-06-04; detalle por token en `upgrade-tokens.md` + git history).
 - `[ENGINE data:debt` Condition Overload family (`WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`) — fórmula `damage × (1 + n_status_types × val%)`. Notas añadidas en 4 mods. Cross-schema con incarnon evolutions: verificar si la fórmula es idéntica antes de implementar `[empirical]`
 - `[SEM data:debt` Faction damage target (`GAMEPLAY_MULT_FACTION_DAMAGE`, 42 mods Bane/Expel/Cleanse/Smite × facción) — la facción objetivo vive solo en el `label`, sin estructura. Dirección registrada: expresar como token de `condition` (`damage_<faccion>`, spelling diferido), sin campo nuevo. Latente, gateado por madurez de taxonomía condition (`conditions.md §Altitud`). Engine: el modelo "un nodo aditivo `faction_damage_bonus`" (`attribute-node-contract.md §5`) es lossy en multi-facción → anotado para debate de engine. Ver `audit-mods.md §F.5` `[empirical]`
 - `pipeline:debt` Set Mods Gap A — pertenencia al set no materializada como campo, **derivable** de `unique_name` (`/Mods/Sets/<Set>/`, 19 sets / 72 miembros + 19 portadores `type: "Mod Set Mod"`). Discriminador limpio: `type === "Mod Set Mod"`. Candidato: campo derivado o tag. Análogo a `conclave?: boolean` `[empirical]`
