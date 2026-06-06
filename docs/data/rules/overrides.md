@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Definir la gobernanza de los datos mantenidos manualmente"
-Version: "v0.0.9"
+Version: "v0.0.10"
 Impacto_ID: "D-Overrides"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"
-Fecha_de_actualizacion: "2026-06-06 (v0.0.9)"
+Fecha_de_actualizacion: "2026-06-06 (v0.0.10)"
 Dependencias:
   - "docs/data/rules/ssot.md"
 ---
@@ -147,9 +147,9 @@ Derivada del contraste contra los casos compuestos reales (los 5 huecos `null` d
 **En migración incremental (Fases 3b–4).** El shape obj-key está implementado y el engine lo evalúa
 (`evalCondition`). **Migrados:** los OR de movimiento (`while_sliding`∨`while_aim_gliding`, Fase 3b) y el
 primer AND evento∧estado (`on_hit_while_target_affected_by_electricity` → `{all:[…]}`, Fase 4).
-**Pendiente** (sigue como token-paraguas `string`): solo `on_hit_incarnon_form` (ambigüedad de granularidad —
-`on_hit` vs `on_charged_blast_hit`, requiere criterio de juego). Todos los OR planos migrados (movimiento, break,
-maniobra). El prototipo sigue **no cerrado**. Hilo en `OQ-DATA-4`.
+**`on_hit_incarnon_form` queda como stub catalogado** (flag-paraguas, NO descompuesto) — su composición depende
+de la granularidad del evento de hit (¿`on_headshot` ≡ `on_weakpoint_hit`? ¿"charged blast" = scope u `on_charged_blast_hit`?),
+deuda de verificación en juego (`weak-points.md` pendiente). Todos los OR planos migrados. El prototipo sigue **no cerrado**. Hilo en `OQ-DATA-4`.
 
 Ver:
 - `ssot.md`

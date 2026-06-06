@@ -26,7 +26,7 @@
 export const CONDITIONS = [
   // ── Evento — hits (on_) ─────────────────────────────────────────────────
   'on_hit',
-  'on_headshot',
+  'on_headshot', // ⚠ posible colapso con on_weakpoint_hit (deuda granularidad de hit) — ver stub on_hit_incarnon_form
   'on_critical_hit',
   'on_weakpoint_hit',
   'on_melee_hit',
@@ -53,6 +53,15 @@ export const CONDITIONS = [
   'on_dodge',
   'on_double_jump',
   'on_bullet_jump',
+  // ── STUB — compuesto no descompuesto (semántica diferida, NO migrar el dato) ──
+  // on_hit_incarnon_form (Devastation Cascade): sería {all:[<hit>, while_incarnon_form]} pero <hit>
+  // es incierto por la granularidad del evento de golpe: ¿on_headshot y on_weakpoint_hit son una
+  // mecánica o dos? DE legacy decía "headshot"; hoy ≈ weak point (cualquier punto débil, no solo cabeza)
+  // — sin confirmar si colapsan; más diferenciado en arcos/snipers. Y "fully charged blast" podría ser
+  // scope del efecto o un on_charged_blast_hit propio. Deuda: upgrade-tokens.md §Gate 1 (WEAPON_ADD_HEADSHOT_MULT)
+  // + references/wiki/mechanics/weak-points.md (pendiente). Catalogado como flag-paraguas (evalCondition lo
+  // trata como token único) hasta verificar en juego.
+  'on_hit_incarnon_form',
 ] as const
 
 export type ConditionToken = (typeof CONDITIONS)[number]
