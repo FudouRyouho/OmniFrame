@@ -7,7 +7,7 @@ import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
 
 type PerkModifierRaw = {
   upgrade_type: string | null;
-  value?: number | Record<string, number>;
+  base_value?: number | Record<string, number>;
   note?: string;
 };
 
@@ -15,7 +15,7 @@ type PerkObject = {
   image_name?:  string;
   description?: string;
   notes?:       string[];
-  upgrades:     PerkModifierRaw[];
+  stats:        PerkModifierRaw[];
 };
 
 type PerkData = PerkModifierRaw[] | PerkObject;
@@ -67,7 +67,7 @@ export class IncarnonRepository {
       const perkData = entry.evolutions[tierStr]?.[perkId];
       const rawMods: PerkModifierRaw[] = Array.isArray(perkData)
         ? perkData
-        : (perkData as PerkObject | undefined)?.upgrades ?? [];
+        : (perkData as PerkObject | undefined)?.stats ?? [];
       if (rawMods.length === 0) return;
 
       rawMods.forEach((rawMod) => {
@@ -83,7 +83,7 @@ export class IncarnonRepository {
           return;
         }
 
-        const raw = rawMod.value ?? 0;
+        const raw = rawMod.base_value ?? 0;
         const value =
           typeof raw === "object"
             ? (entry.alias !== null ? (raw[entry.alias] ?? 0) : 0)
