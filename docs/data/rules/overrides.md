@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Definir la gobernanza de los datos mantenidos manualmente"
-Version: "v0.0.8"
+Version: "v0.0.9"
 Impacto_ID: "D-Overrides"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"
-Fecha_de_actualizacion: "2026-06-06 (v0.0.8)"
+Fecha_de_actualizacion: "2026-06-06 (v0.0.9)"
 Dependencias:
   - "docs/data/rules/ssot.md"
 ---
@@ -147,9 +147,9 @@ Derivada del contraste contra los casos compuestos reales (los 5 huecos `null` d
 **En migración incremental (Fases 3b–4).** El shape obj-key está implementado y el engine lo evalúa
 (`evalCondition`). **Migrados:** los OR de movimiento (`while_sliding`∨`while_aim_gliding`, Fase 3b) y el
 primer AND evento∧estado (`on_hit_while_target_affected_by_electricity` → `{all:[…]}`, Fase 4).
-**Pendientes** (siguen como token-paraguas `string`): `on_parkour_maneuver`, `on_bullet_jump_or_double_jump`
-(eventos OR de maniobra, requieren acuñar átomos), y `on_hit_incarnon_form` (ambigüedad de granularidad —
-`on_hit` vs `on_charged_blast_hit`). El prototipo sigue **no cerrado**. Hilo en `OQ-DATA-4`.
+**Pendiente** (sigue como token-paraguas `string`): solo `on_hit_incarnon_form` (ambigüedad de granularidad —
+`on_hit` vs `on_charged_blast_hit`, requiere criterio de juego). Todos los OR planos migrados (movimiento, break,
+maniobra). El prototipo sigue **no cerrado**. Hilo en `OQ-DATA-4`.
 
 Ver:
 - `ssot.md`

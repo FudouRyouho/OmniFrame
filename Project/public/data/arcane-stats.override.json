@@ -572,10 +572,9 @@
           }
         ],
         "notes": [
-          "engine:note — duration:4s",
-          "engine:note — on_parkour_maneuver = OR de Dodge / Double Jump / Bullet Jump (token paraguas; composición OR no expresable en condition:string, deuda conocida)."
+          "engine:note — duration:4s"
         ],
-        "condition": "on_parkour_maneuver"
+        "condition": { "any": ["on_dodge", "on_double_jump", "on_bullet_jump"] }
       }
     ]
   },
@@ -1995,7 +1994,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_bullet_jump_or_double_jump",
+        "condition": { "any": ["on_bullet_jump", "on_double_jump"] },
         "notes": [
           "engine:note — ability-like (puerta 2): proyectil de melee en Aim Glide; el bonus de daño se activa tras 30m de viaje; término extra escala con combo: (combo_level - 1) / 4. Valores de wiki — false null de @wfcd. [ref: https://wiki.warframe.com/w/Exodia_Contagion]"
         ]
@@ -2018,7 +2017,7 @@
             "upgrade_type": null
           }
         ],
-        "condition": "on_bullet_jump_or_double_jump",
+        "condition": { "any": ["on_bullet_jump", "on_double_jump"] },
         "notes": [
           "engine:note — ability-like (puerta 2): shockwave ~31m largo x ~5m ancho; wave inicial 10 Blast; explosión final Viral en ~7m radio (~30% del daño del Zaw); suspend (mirror Rhino Stomp) |val1|s. Valores de wiki — false null de @wfcd. [ref: https://wiki.warframe.com/w/Exodia_Epidemic]"
         ]

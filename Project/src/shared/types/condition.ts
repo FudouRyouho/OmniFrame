@@ -49,6 +49,10 @@ export const CONDITIONS = [
   // ── Evento — break defensivo del target (on_*_break) ─────────────────────
   'on_shield_break',
   'on_overguard_break',
+  // ── Evento — maniobra de parkour del jugador (on_*) ──────────────────────
+  'on_dodge',
+  'on_double_jump',
+  'on_bullet_jump',
 ] as const
 
 export type ConditionToken = (typeof CONDITIONS)[number]

@@ -3,7 +3,7 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.14.0"
+Version: "v1.15.0"
 Fecha_de_creacion: "2026-05-28"
 Fecha_de_actualizacion: "2026-06-05"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
@@ -372,7 +372,7 @@ condición latente. Tokens **nuevos** acuñados (captura literal, naturaleza dif
 | `on_ability_inflicts_heat_status` | "when using abilities to inflict Heat Status" (Arcane Hot Shot) | evento: una habilidad aplica Heat status. Distinto de `on_heat_status_effect` (fuente = arma). |
 | `while_reviving` | "Damage Taken During Revive" (Arcane Temperance) | estado: jugador en animación de revive. |
 | `on_magnetic_status_kill` | "Kill an enemy affected by Magnetic Status" (Melee Vortex) | kill de enemigo con Magnetic status activo. Familia de `on_*_status_kill` (cf. `on_heat_status_kill`). |
-| `on_parkour_maneuver` | "per Dodge, Double Jump and Bullet Jump" (Arcane Double Back) | **OR** de tres maniobras (token paraguas). Composición OR no expresable en `condition:string` — deuda conocida. |
+| ~~`on_parkour_maneuver`~~ | "per Dodge, Double Jump and Bullet Jump" (Arcane Double Back) | **migrado (Fase 4)** → `{any:["on_dodge","on_double_jump","on_bullet_jump"]}`. |
 
 Tokens existentes reutilizados (eran huecos): `while_airborne` (Pax Soar ×2), `with_armor_over_700`
 (Arcane Persistence), `while_channeled_ability_active` (Arcane Intention), `while_target_affected_by_cold`
@@ -381,7 +381,7 @@ Tokens existentes reutilizados (eran huecos): `while_airborne` (Pax Soar ×2), `
 Token **pre-existente** en el override que faltaba documentar (detectado en el contraste 2026-06-01):
 | Token | Label / fuente | Nota |
 |---|---|---|
-| `on_bullet_jump_or_double_jump` | "After a Bullet Jump or Double Jump" (Exodia Contagion/Epidemic) | **OR** de 2 maniobras (deuda OR, igual que `on_parkour_maneuver`). ⚠ se solapa con `on_parkour_maneuver` (dodge/double-jump/bullet-jump) — candidato a consolidación futura; **no colapsar ahora** (captura literal). |
+| ~~`on_bullet_jump_or_double_jump`~~ | "After a Bullet Jump or Double Jump" (Exodia Contagion/Epidemic) | **migrado (Fase 4)** → `{any:["on_bullet_jump","on_double_jump"]}` (subconjunto de los átomos de `on_parkour_maneuver`; ya no hay paraguas que consolidar). Exodia sigue ability-like — solo el gatillo se estructura. |
 
 > **Huecos `null` compuestos (5, merecen revisión manual):** Primary Debilitate (combined status 10
 > stacks + reinflict), Melee Careen (frozen + on_roll, multi-efecto → split), Arcane Camisado (summon +
@@ -488,4 +488,4 @@ sistema de eventos — solo `context.flags` y `context.stats` en `SimContext`.
 > **Shape obj-key en uso (Fase 3a/3b):** `condition: string | {any:[…]} | {all:[…]}` — `any`/`all` como
 > intención explícita; `evalCondition` lo evalúa en el engine. Ver [`overrides.md` §Prototipo de condition](../data/rules/overrides.md)
 > y `OQ-DATA-4` (prototipo **no cerrado**). Migrados: los OR de movimiento (Fase 3b). **Pendientes de migrar:**
-> los paraguas OR de maniobra (`on_parkour_maneuver`, `on_bullet_jump_or_double_jump`) y el AND `on_hit_incarnon_form`.
+> solo `on_hit_incarnon_form` (AND con ambigüedad de granularidad). Todos los OR planos migrados.
