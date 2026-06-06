@@ -4,6 +4,8 @@
  * @status activo
  */
 
+import type { ConditionInput } from '@shared/types/condition';
+
 /** Shape de cada valor por rango dentro de un stat de mod, tal como aparece en mod-stats.override.json. */
 export interface ModStatValueRaw {
   base_value: number[];
@@ -14,7 +16,7 @@ export interface ModStatValueRaw {
 export interface ModStatRaw {
   label: string;
   values: ModStatValueRaw[];
-  condition: string | null;
+  condition: ConditionInput | null;
   note?: string | null;
 }
 

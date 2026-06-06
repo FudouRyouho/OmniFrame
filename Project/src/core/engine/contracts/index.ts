@@ -4,6 +4,7 @@
 
 import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
 import type { ModifierOperation } from '@shared/types/modifier';
+import type { ConditionInput } from '@shared/types/condition';
 
 export type EntityId = string;
 export type AttributeId = string;
@@ -69,7 +70,7 @@ export interface Modifier {
   source_attribute?: AttributeId; // For cross-attribute scaling
   operation: ModifierOperation;
   value: number;
-  condition?: string;
+  condition?: ConditionInput;
   context_variable?: string;
 }
 

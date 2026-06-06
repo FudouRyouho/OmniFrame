@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { evalCondition } from './condition'
+import { evalCondition, conditionTokens } from './condition'
 
 /**
  * Fase 2 — validación del evaluador del shape de condition.
@@ -46,5 +46,34 @@ describe('evalCondition', () => {
   it('un solo flag falso colapsa el AND; un solo flag verdadero satisface el OR', () => {
     expect(evalCondition({ all: ['a', 'b', 'c'] }, { a: true, b: true, c: false })).toBe(false)
     expect(evalCondition({ any: ['a', 'b', 'c'] }, { a: false, b: false, c: true })).toBe(true)
+  })
+})
+
+describe('conditionTokens', () => {
+  it('null/undefined → []', () => {
+    expect(conditionTokens(undefined)).toEqual([])
+    expect(conditionTokens(null)).toEqual([])
+  })
+
+  it('string → [token]', () => {
+    expect(conditionTokens('on_hit')).toEqual(['on_hit'])
+  })
+
+  it('{any|all} → la lista de átomos', () => {
+    expect(conditionTokens({ any: ['while_sliding', 'while_aim_gliding'] })).toEqual([
+      'while_sliding',
+      'while_aim_gliding',
+    ])
+    expect(conditionTokens({ all: ['on_hit', 'while_incarnon_form'] })).toEqual([
+      'on_hit',
+      'while_incarnon_form',
+    ])
+  })
+
+  it('integración modo estático: setear cada átomo → {all} y {any} cumplen', () => {
+    const cond = { all: ['while_dread_equipped', 'while_hate_equipped'] }
+    const flags: Record<string, boolean> = {}
+    for (const t of conditionTokens(cond)) flags[t] = true
+    expect(evalCondition(cond, flags)).toBe(true)
   })
 })

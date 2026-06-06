@@ -9,6 +9,7 @@ import { BASELINE_GAME_LAWS } from "../contracts";
 import { DnaRepository } from "../hydration/DnaRepository";
 import { SimulationEngine } from "../resolution/SimulationEngine";
 import { StaticHydrator } from "../hydration/StaticHydrator";
+import { conditionTokens } from "@shared/types/condition";
 
 export interface SimulationResult {
   entities: SimulationEntity[];
@@ -160,7 +161,7 @@ export class MutatorBridge {
   private deriveStaticFlags(modifiers: Modifier[]): Record<string, boolean> {
     const flags: Record<string, boolean> = {};
     for (const mod of modifiers) {
-      if (mod.condition) flags[mod.condition] = true;
+      for (const token of conditionTokens(mod.condition)) flags[token] = true;
     }
     return flags;
   }

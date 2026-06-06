@@ -68,26 +68,46 @@ export type ConditionExpr =
   | { any: ConditionToken[] }
   | { all: ConditionToken[] }
 
+// ─── ConditionInput ──────────────────────────────────────────────────────────
+// Shape runtime / dato: el evaluador y el contrato del override operan sobre strings.
+// Los flags son string-keyed, el diccionario es incremental, y los casos "falopa" viven
+// como string opaco no-catalogado. `ConditionExpr` (ConditionToken catalogado) es el
+// subtipo de AUTORÍA: todo `ConditionExpr` es `ConditionInput` válido; lo inverso no se
+// exige. Precedente: `upgrade_type: string` en el raw — `UPGRADES` cataloga aparte.
+
+export type ConditionInput =
+  | string
+  | { any: string[] }
+  | { all: string[] }
+
 // ─── evalCondition ───────────────────────────────────────────────────────────
 // Semántica de evaluación del shape: función pura (cond, flags) → bool. No conoce
 // el engine, solo el mapa de flags del SimContext.
-//
-// El parámetro es runtime-genérico (strings), no `ConditionExpr`: en runtime los
-// flags son string-keyed, el diccionario es incremental, y los casos "falopa" viven
-// como string opaco no-catalogado. `ConditionExpr` (ConditionToken) es el subtipo de
-// AUTORÍA — todo `ConditionExpr` es entrada válida; lo inverso no se exige.
-//
 //   null/undefined → true        (sin condición; activo — D-15)
 //   string         → flags[token]  (lookup; ausente → false — D-15; retrocompat bit-idéntico)
 //   { any: [...] } → OR  (algún token activo)
 //   { all: [...] } → AND (todos los tokens activos)
 
 export function evalCondition(
-  cond: string | { any: string[] } | { all: string[] } | null | undefined,
+  cond: ConditionInput | null | undefined,
   flags: Record<string, boolean>,
 ): boolean {
   if (!cond) return true
   if (typeof cond === 'string') return !!flags[cond]
   if ('any' in cond) return cond.any.some((t) => !!flags[t])
   return cond.all.every((t) => !!flags[t])
+}
+
+// ─── conditionTokens ─────────────────────────────────────────────────────────
+// Extrae los tokens atómicos de un ConditionInput. Lo usa el flag-setting del
+// MutatorBridge (modo estático): activa cada átomo, no la expresión completa
+// (`flags[{any:[…]}]` rompería). Con todos los átomos en true, {any} y {all}
+// evalúan true — "todas las condiciones cumplidas", coherente con el modo estático.
+//   null/undefined → []   ·   string → [token]   ·   {any|all} → la lista
+
+export function conditionTokens(cond: ConditionInput | null | undefined): string[] {
+  if (!cond) return []
+  if (typeof cond === 'string') return [cond]
+  if ('any' in cond) return cond.any
+  return cond.all
 }
