@@ -3,7 +3,7 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.13.0"
+Version: "v1.14.0"
 Fecha_de_creacion: "2026-05-28"
 Fecha_de_actualizacion: "2026-06-05"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
@@ -204,7 +204,7 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_killing_enemies_with_3_toxin_stacks` | "On killing an enemy with 3+ Toxin Stacks" — ídem, Toxin. Fuente: Dual Ichor Incarnon Genesis | `engine:class:c2/stack` | incarnon |
 | `on_enemy_frozen` | "On Enemy Frozen" | `engine:class:c2/event` | arcanes |
 | `on_shield_break` | "On Shield Break" | `engine:class:c2/event` | incarnon |
-| `on_shield_or_overguard_break` | "On Shield/Overguard break" — OR: aplica en break de Shield personal O de Overguard. El shape obj-key ya existe (Fase 3a); **pendiente de migrar** este caso a `{any:["on_shield_break","on_overguard_break"]}` (eventos aún sin catalogar). | `—` | incarnon |
+| ~~`on_shield_or_overguard_break`~~ | "On Shield/Overguard break" — OR de break de Shield O de Overguard. **migrado (Fase 4)** → `{any:["on_shield_break","on_overguard_break"]}`. | `—` | incarnon |
 | `on_bleed_proc` | "On Bleed proc" — DoT de Slash *tickea* sobre un target. Semánticamente distinto de `on_slash_status_effect` (que es la *aplicación* del proc al hit). Patrón extensible: `on_heat_proc`, `on_toxin_proc`, etc., solo se registran con evidencia en fuentes | `engine:class:c2/event` | mods Hunter/Vigilante |
 
 ### Acciones del jugador
@@ -444,7 +444,7 @@ se audita en Fase 2.
 | Token | Duda concreta | Tipo |
 | :--- | :--- | :--- |
 | ~~`while_sliding_or_aim_gliding`~~ | **resuelto (Fase 3b)** — migrado a `{any:[…]}`; `evalCondition` lo evalúa. | schema |
-| `on_shield_or_overguard_break` | Composición OR — segundo caso. Mismo bloqueo de schema. | schema |
+| ~~`on_shield_or_overguard_break`~~ | **resuelto (Fase 4)** — migrado a `{any:["on_shield_break","on_overguard_break"]}`. | schema |
 | `with_energy_max_over_200` | Umbral "unlisted" — no aparece en UI del juego; descubierto por la comunidad (Dual Toxocyst). | evidencia |
 | `while_holstered` | Depende de que el sim tenga noción de "arma activa". Si no la tiene, no es evaluable. Posponer hasta diseño de contexto multi-arma. | engine |
 | `while_dread_and_hate_equipped` (+2 pares stalker) | Modelados como tokens por-par por precedente de especificidad. ¿Generalizar a un patrón `while_pair_equipped(A,B)` en el futuro? | taxonomía |
@@ -488,4 +488,4 @@ sistema de eventos — solo `context.flags` y `context.stats` en `SimContext`.
 > **Shape obj-key en uso (Fase 3a/3b):** `condition: string | {any:[…]} | {all:[…]}` — `any`/`all` como
 > intención explícita; `evalCondition` lo evalúa en el engine. Ver [`overrides.md` §Prototipo de condition](../data/rules/overrides.md)
 > y `OQ-DATA-4` (prototipo **no cerrado**). Migrados: los OR de movimiento (Fase 3b). **Pendientes de migrar:**
-> el resto de paraguas OR (`on_shield_or_overguard_break`, `on_parkour_maneuver`, `on_bullet_jump_or_double_jump`) y los AND evento∧estado.
+> los paraguas OR de maniobra (`on_parkour_maneuver`, `on_bullet_jump_or_double_jump`) y el AND `on_hit_incarnon_form`.

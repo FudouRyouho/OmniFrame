@@ -46,6 +46,9 @@ export const CONDITIONS = [
   'while_target_affected_by_puncture',
   'while_target_affected_by_slash',
   'while_target_affected_by_toxin',
+  // ── Evento — break defensivo del target (on_*_break) ─────────────────────
+  'on_shield_break',
+  'on_overguard_break',
 ] as const
 
 export type ConditionToken = (typeof CONDITIONS)[number]

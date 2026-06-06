@@ -1863,11 +1863,11 @@
               "label": "On Shield/Overguard break: x|val1| Critical Damage for 6s.",
               "base_value": 3,
               "upgrade_type": "WEAPON_ADD_CRIT_MULT",
-              "condition": "on_shield_or_overguard_break"
+              "condition": { "any": ["on_shield_break", "on_overguard_break"] }
             }
           ],
           "notes": [
-            "engine:note — on_shield_or_overguard_break = escudo/Overguard del jugador, no del enemigo — naming ambiguo, deuda de vocabulario pendiente.",
+            "engine:note — on_shield_break/on_overguard_break aquí = escudo/Overguard del JUGADOR rompiéndose, no del enemigo. El token no distingue scope jugador/enemigo — deuda de vocabulario.",
             "engine:note — Stat 2: duration buff (6s) no modelado en Fase 0."
           ]
         },
