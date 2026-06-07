@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
-Version: "v0.0.2"
+Version: "v0.0.3"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-06-07"
 ---
 
 # Decision Frontier
@@ -41,7 +41,7 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 **Decidido**:
 - La frontera de traducción y formateo reside en el `Presentation Layer` (Formatter).
 - Se prohíbe la invención de taxonomías desde la UI.
-- **Unificación de componentes visuales en `@shared`**: `shared/components/` activo (cards, specs/detail views, views por entidad, filters/toolbars, navigation, popovers, slots). Ver `docs/decisions/ui-unification.md`.
+- **Unificación de componentes visuales en `@shared`**: `shared/components/` activo (cards, specs/detail views, views por entidad, filters/toolbars, navigation, popovers, slots). Ver `docs/governance/closed-decisions.md` (DC-OQ-UI-1).
 
 **Abierto**:
 - Arquitectura final de CSS y design tokens.

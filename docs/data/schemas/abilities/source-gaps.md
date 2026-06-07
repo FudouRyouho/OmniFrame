@@ -1,21 +1,16 @@
 ---
 Estado: "referencia"
 Rol: "Documentar gaps reales entre la fuente canónica de habilidades y el payload actual"
-Version: "v0.0.2"
+Version: "v0.0.3"
 Impacto_ID: "data-abilities-gaps"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-06-07"
 ---
 
 # Ability Source Gaps
 
 ## Gaps principales
-
-### ~~Multi-value~~ — RESUELTO (D-12, 2026-05-22)
-
-`base_value: number | [number, number]` en `AbilityStatEntry` soporta rangos min-max.
-`|val1|` y `|val2|` resuelven `base_value[0]` y `base_value[1]` respectivamente.
 
 ### `HelminthMax`
 

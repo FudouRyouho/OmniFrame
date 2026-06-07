@@ -1,11 +1,11 @@
 ---
-Estado: "activo"
-Rol: "Debate técnico y decisión sobre la unificación de infraestructura UI"
-Version: "v0.0.3"
-Impacto_ID: "D-16"
+Estado: "histórico"
+Rol: "Debate técnico y decisión sobre la unificación de infraestructura UI — PROMOVIDO a closed-decisions (DC-OQ-UI-1)"
+Version: "v0.0.4"
+Impacto_ID: "DC-OQ-UI-1"
 Fidelidad_Fisica: "Project/src/shared/components/items/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-04-23"
+Fecha_de_actualizacion: "2026-06-07"
 ---
 
 # Debate Técnico: Unificación de Infraestructura UI (@shared)

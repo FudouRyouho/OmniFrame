@@ -3,9 +3,9 @@ Estado: "activo"
 Rol: "Contrato + catálogo de cobertura de arcane-stats.override.json — definiciones de token en docs/semantic/upgrade-tokens.md"
 Impacto_ID: "data-arcane"
 Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
-Version: "v1.2.0"
+Version: "v1.2.1"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-04"
+Fecha_de_actualizacion: "2026-06-07"
 ---
 
 # Arcane Stats Override — Schema y mapa semántico
@@ -147,13 +147,9 @@ Restauran HP o Energy dinámicamente. Los valores escalan pero el efecto es de m
 
 `"|val1|% Ammo Efficiency"` — sin token `WEAPON_ADD_AMMO_EFFICIENCY` en el vocabulario. La adición es sencilla cuando se necesite.
 
-### 3.5 Combo Count Chance ~~(3 arcanes)~~
+### 3.5 Combo Count Chance (1 arcane)
 
-~~`Exodia Triumph, Exodia Valor, Melee Vortex`~~
-
-~~`"|val1|% Combo Count Chance"` — sin token `WEAPON_ADD_COMBO_COUNT_CHANCE`.~~
-
-**✅ Resuelto (2026-05-31):** `WEAPON_ADD_COMBO_COUNT_CHANCE` definido en `modifier.ts`. Exodia Triumph y Exodia Valor mapeados. Melee Vortex permanece null (mecánica de pull diferente al combo count).
+`Melee Vortex` — mecánica de pull; permanece null (distinto de combo count). Token `WEAPON_ADD_COMBO_COUNT_CHANCE` definido; Exodia Triumph / Exodia Valor mapeados (2026-05-31).
 
 ### 3.6 Fórmulas por stat (~7 entries)
 

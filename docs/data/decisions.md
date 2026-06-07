@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Registro de decisiones D-series del dominio data/ con estado de evolución"
-Version: "v0.1.0"
+Version: "v0.1.1"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-06-04"
+Fecha_de_actualizacion: "2026-06-07"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -37,7 +37,8 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 **Estado:** VIGENTE
 **Fecha:** 2026-04-18
-**Decisión:** En ability-stats, `upgrade_by` = "con qué stat escala la habilidad". En mods, ya existe `upgrade_type` = "a qué atributo del engine afecta". Añadir `upgrade_by` a mods crearía colisión semántica entre los dos ejes.
+**Decisión:** En ability-stats, `upgrade_by` = "con qué stat escala la habilidad". En mods ya existe `upgrade_type` — los dos son ejes del mismo vocabulario (ver D-8). Los mods no llevan `upgrade_by` porque el eje de scaling no les aplica, no por colisión semántica entre campos.
+**Ref:** D-8 (`upgrade_type` y `upgrade_by` como ejes del mismo vocabulario Upgrade)
 
 ---
 
@@ -45,7 +46,7 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 **Estado:** VIGENTE
 **Fecha:** 2026-04-18
-**Decisión:** Los strings raw de DE (`WEAPON_PERCENT_BASE_DAMAGE_ADDED`, etc.) se normalizan al vocabulario propio en el override. Antecedente histórico de D-6 — la convención activa es D-6.
+**Decisión:** Antecedente histórico de D-6. Los strings raw de DE se normalizan al vocabulario propio en el override. La convención activa y completa es D-6.
 
 ---
 

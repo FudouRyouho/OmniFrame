@@ -3,9 +3,9 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.16.0"
+Version: "v1.16.1"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-05"
+Fecha_de_actualizacion: "2026-06-07"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
 ---
 
@@ -260,15 +260,10 @@ Fuera del scope del weapon simulator. Se documentan para completitud.
 Tokens capturados en los overrides cuya forma canónica aún no se consolidó aquí. No es deuda ni
 drift (D-19) — es cola de consolidación; se resuelve al definir, no como requisito previo:
 
-| Token actual (override) | Token canónico | Archivo |
-|---|---|---|
-| ~~`while_sliding_or_aim_gliding`~~ | **resuelto (Fase 3b, 2026-06-05)** — migrado a `{any:["while_sliding","while_aim_gliding"]}` | arcane-stats.override.json |
-| ~~Incarnon notes: texto libre~~ | **mapeado (2026-05-30)** — `condition` token en `stats[]` | incarnon-evolutions.override.json |
+✅ Sin pendientes activos (2026-06-07).
 
-> **Incarnon completado (2026-05-30):** los 120 stats condicionales del override usan `condition`
-> con token canónico. El mapeo trigger→token se aplicó vía patch one-off (purgado tras uso; ver git history).
-> 5 tokens nuevos añadidos a este vocabulario (`on_slide_kill`, `on_non_crit_non_status_hit`,
-> 3× `while_*_equipped` de stalker pairs).
+> **Incarnon completado (2026-05-30):** 120 stats condicionales mapeados. 5 tokens añadidos (`on_slide_kill`, `on_non_crit_non_status_hit`, 3× `while_*_equipped` stalker pairs). Patch one-off purgado; ver git history.
+> **Fase 3b completada (2026-06-05):** `while_sliding_or_aim_gliding` migrado a `{any:[…]}`.
 
 ## Ingesta incarnon (2026-06-01) — cola de clasificación
 
@@ -443,8 +438,6 @@ se audita en Fase 2.
 
 | Token | Duda concreta | Tipo |
 | :--- | :--- | :--- |
-| ~~`while_sliding_or_aim_gliding`~~ | **resuelto (Fase 3b)** — migrado a `{any:[…]}`; `evalCondition` lo evalúa. | schema |
-| ~~`on_shield_or_overguard_break`~~ | **resuelto (Fase 4)** — migrado a `{any:["on_shield_break","on_overguard_break"]}`. | schema |
 | `with_energy_max_over_200` | Umbral "unlisted" — no aparece en UI del juego; descubierto por la comunidad (Dual Toxocyst). | evidencia |
 | `while_holstered` | Depende de que el sim tenga noción de "arma activa". Si no la tiene, no es evaluable. Posponer hasta diseño de contexto multi-arma. | engine |
 | `while_dread_and_hate_equipped` (+2 pares stalker) | Modelados como tokens por-par por precedente de especificidad. ¿Generalizar a un patrón `while_pair_equipped(A,B)` en el futuro? | taxonomía |

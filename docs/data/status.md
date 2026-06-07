@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline y deuda activa"
-Version: "v0.2.0"
+Version: "v0.2.2"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-06-06"
+Fecha_de_actualizacion: "2026-06-07"
 ---
 
 # Data Domain — Estado Operativo
@@ -38,6 +38,7 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 ## Mods (`mod-stats.override.json`)
 
 **Schema:** `docs/data/schemas/mods/mods-schema.md` ✅
+**Categorización:** `docs/data/schemas/mods/mod-category-normalization.md` ✅ (`mod.type → ModCategory`, 14 categorías)
 **Vocabulario:** D-6 aplicado — `shared/types/modifier.ts` → `UPGRADES` + `UPGRADE_MAP`
 **Condition vocab:** `docs/semantic/conditions.md` ✅ (agrupado por prefijo `while_`/`with_`/`on_`)
 
@@ -56,11 +57,9 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 
 **Deuda conocida:** (gramática de tags: `docs/governance/nomenclature-grammar.md` · evidencia: `docs/governance/deuda-taxonomy.md`)
 - `engine:debt` `condition` — vocabulario consolidado en `conditions.md`; integración en SimContext pendiente. Bloqueada antes que por cobertura por el eje de clasificación (OQ-SEM-2) y el shape OR/AND (OQ-DATA-4), no por un % L\*. `[ref: docs/semantic/conditions.md]`
-- `[SEM data:debt` D-17 — 2 tokens galvanizados con semántica pendiente (beam range ✅ resuelto 2026-06-03 → `WEAPON_ADD_BEAM_RANGE`): ver `docs/data/decisions.md#D-17` `[empirical]`
 - `data:debt` `WEAPON_ADD_AMMO_MAX` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
 - `data:debt` `WEAPON_ADD_COMBO_COUNT_CHANCE` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
 - `[PIPE semantic:debt` `WEAPON_SPREAD` — confirmado **misma mecánica que `WEAPON_ADD_ACCURACY`** (spread = nombre interno DE, accuracy = stat visible, inversos; Narrow Barrel / Tainted Shell llevan token `WEAPON_SPREAD` pero label "+% Accuracy"). Dirección: unificar bajo `WEAPON_ADD_ACCURACY`; spread de shotgun = contexto de arma. Pendiente: mecanismo (alias en `UPGRADE_MAP` vs mapeo en pipeline); sin mods `WEAPON_SPREAD` en overrides curados aún. `[ref: references/wiki/mechanics/accuracy.md]`
-- `[SEM data:debt` `AVATAR_DAMAGE_POWER_MULTIPLIER` ✅ resuelto 2026-06-04 → **renombrado `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY`** (mod-stats.override, 4 mods). La premisa "(b) escudos→energía (Kinetic Diversion)" era **stale**: raw + override confirman que los 4 mods (Rage, Hunter Adrenaline, Kinetic Diversion, Necramech Rage) = salud→energía. Mecánica única, sin variante de escudos (Hildryn es mecánica distinta). **Registrado en `UPGRADES[]`** (data-first, 2026-06-04; op ADD vía resolveToken). `[empirical]`
 - `[SEM data:debt` `AVATAR_DAMAGE_TAKEN` — DR **multiplicativa** (op MULT). Bucket sobrecargado, 3 sub-formas: (a) resistencia estática por tipo, (b) DR genérica condicional (`while_airborne`), (c) DR adaptativa/stacking (**Adaptation** → OQ-DATA-4). Taxonomía sin cerrar (per-elemento, precedente `AVATAR_CHANCE_RESIST_*`, vs genérico+condition); coinage diferido hasta consumidor de engine. Drift cerrado: `references/wiki/mechanics/damage-reduction.md` creado. `[ref: references/wiki/mechanics/damage-reduction.md]`
 - `semantic:debt` `AVATAR_PARKOUR_GLIDE` — duración de aim glide/wall latch. Candidato: `AVATAR_ADD_AIM_GLIDE_DURATION`. Mix de mods legítimos (Patagium, Mobilize) y conclave `[empirical]`
 - `[SEM data:debt` `AVATAR_HEAL_RATE` — mezcla de companion scope y warframe scope (Rejuvenation, Recuperate). Requiere revisión de auras y separación de contextos antes de definir token `[empirical]`
@@ -95,12 +94,9 @@ El override **no se edita a mano** para groups/stats. Fuente de verdad: el `.md`
 **Shorthands activos:** `$STRENGTH` · `$RANGE` · `$DURATION` · `$EFFICIENCY` · `$DRAIN` (mapeados en el parser a tokens completos).
 **`//!`** en `.md` → `console.warn` en output del script. Registra edge-cases sin bloquear el pipeline.
 
-### Schema — cambios relevantes (2026-05-22)
+### Schema — cambios relevantes
 
-| Decisión | Estado |
-|---|---|
-| D-11 — `upgrade_by` opcional, `"NONE"` eliminado | ✅ CERRADO |
-| D-12 — `AbilityStatValue` eliminado, `AbilityStatEntry` plano (`base_value: number \| [number,number]`) | ✅ CERRADO — ver `shared/types/ability.ts` |
+Schema estabilizado (D-11 `upgrade_by` opcional, D-12 `AbilityStatEntry` plano). Detalle e historial: `docs/data/decisions.md` (D-11, D-12).
 
 ### Estado de los .md
 
@@ -126,7 +122,7 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 ## Passives
 
 **Schema:** ❌ Sin definir (posiblemente similar a ability-stats — groups + upgrade_by/type)
-**Override:** ❌ Sin archivo
+**Override:** ❌ Sin override operativo; existe `passives-stats.override.json` (scaffold stale, schema pre-D-12, tokens raw sin normalizar). Purgar antes de crear override real.
 
 **Casos de referencia para schema:**
 - Ash (pasiva "mod global"): `upgrade_type` → daño de sigilo → mismo patrón que mod
@@ -200,6 +196,22 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 **Mapeo upgrade_type detallado:** `docs/data/schemas/archon-shards/upgrade-mapping.md` (referencia)
 **Estado:** ⚠️ Parcial — 6 entradas / 27 stats. Mapeado solo donde existe token D-6 sin ambigüedad. Bloqueos y deuda en mapping.
 **UI:** ✅ `useArchonShardCatalog`, `ArchonShardSelectionView`, iconos en Arsenal (2026-05-21).
+
+---
+
+## Weapons override (`weapon-stats.override.json`)
+
+**Override:** `Project/public/data/weapon-stats.override.json` ✅
+**Rationale / spec:** `docs/data/schemas/weapons/weapons-known-gaps.md` §Gap multishot
+
+Corrige el **multishot por perfil de ataque**: `@wfcd/items` expone un único `stats.multishot` global por arma, pero varios perfiles de ataque tienen multishot innato distinto. Regla de resolución del engine: override `(unique_name, attack.name)` → si es `attacks[0]` hereda `stats.multishot` → resto = 1.
+
+| Estado | Cantidad |
+|---|---|
+| Armas activas (primary/secondary) | 5 (Basmu, Efv-5 Jupiter, Kuva Zarr, Kuva Hek, Euphona Prime) |
+| Pendiente | 1 (Fusilai — `unique_name` no verificado) |
+
+Fuera de scope del override actual (gateado por modelado de dominio): Incarnon Form (Boltor/Soma/Kunai), melee con proyectil (Redeemer, gunblades, chakrams), archwing/companion/operador. Detalle en `weapons-known-gaps.md`.
 
 ---
 

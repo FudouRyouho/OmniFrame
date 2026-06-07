@@ -1,16 +1,25 @@
 ---
 Estado: "referencia"
 Rol: "Definir la gobernanza de los datos mantenidos manualmente"
-Version: "v0.0.10"
+Version: "v0.0.11"
 Impacto_ID: "D-Overrides"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"
-Fecha_de_actualizacion: "2026-06-06 (v0.0.10)"
+Fecha_de_actualizacion: "2026-06-07"
 Dependencias:
   - "docs/data/rules/ssot.md"
 ---
 
 # Override Pattern (Manual Intel)
+
+## Contexto: dos capas de datos
+
+Los datos de OmniFrame tienen dos orígenes:
+
+- **base-generated** — producidos por `generate-data.ts` desde `@wfcd/items` (`warframes.json`, `weapons.json`, `mods.json`, etc.). Datos masivos; baja fidelidad semántica.
+- **manual-intel** (overrides) — este documento. Inteligencia auditada que corrige y amplía la base generada con semántica que las fuentes externas no proveen.
+
+En runtime el override tiene prioridad. El pipeline no toca los overrides.
 
 ## El Modelo de Inteligencia Manual
 
@@ -153,4 +162,3 @@ deuda de verificación en juego (`weak-points.md` pendiente). Todos los OR plano
 
 Ver:
 - `ssot.md`
-- `roles.md`

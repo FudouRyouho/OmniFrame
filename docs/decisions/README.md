@@ -6,7 +6,6 @@ Decisiones activas que aún no han sido cerradas o promovidas a `governance/clos
 
 | Archivo | Rol |
 |---|---|
-| [`ui-unification.md`](ui-unification.md) | Debate y decisión sobre unificación de infraestructura UI (D-16) |
 | [`oq-iterative-closure-template.md`](oq-iterative-closure-template.md) | Plantilla para cerrar Open Questions de forma iterativa |
 
 ## Ciclo de vida de una decisión

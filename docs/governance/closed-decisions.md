@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
-Version: "v0.0.4"
+Version: "v0.0.6"
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-05"
+Fecha_de_actualizacion: "2026-06-07"
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -66,6 +66,7 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 | **DC-OQ-ENGINE-5** | Fórmulas legacy desconectadas | `weapon-core.ts` y `warframe-core.ts` purgados (2026-05-27). `formulas/` conectado a `AtomicSimulator` + `SimulationEngine`. |
 | **DC-OQ-ENGINE-6** | WEAPON_FIRE_ITERATIONS sin mapear | Alias añadido en UPGRADE_MAP → `WEAPON_ADD_MULTISHOT`. 3 mods Galvanized añadidos manualmente al override. |
 | **DC-OQ-W-4** | Sub-familia en D-6 | Patrón: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`. Sub-familias activas: PRIMARY, SECONDARY, MELEE. Deuda D-7 en pipeline de filtrado. |
+| **DC-OQ-UI-1** | Unificación de infraestructura UI en @shared | `shared/components/items/` activo: views por entidad (WarframesView/WeaponsView/etc.), cards, specs/detail-views, ItemsGrid. `shared/hooks/data/use-items.ts` + `use-performance-debug.ts`. Dominios actúan como smart wrappers. Implementado (2026-04-23). Ref: `docs/decisions/ui-unification.md` (histórico). |
 
 ---
 
@@ -111,3 +112,17 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 **Corolario para OQ-DATA-4 (ubicación del puente):** el "puente de patrones estructurales" (stacking / duration cross-schema) **no es vocabulario de significado sino estructura de schema** → su ubicación es `data/` (`rules/` o `schemas/`), **no** `semantic/`. Esto resuelve la *ubicación* del puente; su *creación* sigue gateada por `D-20` (≥2 casos misma forma) + `D-16` (cobertura ≥70%), independiente de esta decisión.
 
 **Ref:** `docs/semantic/polarity.md`, `docs/semantic/damage-types.md`, `docs/semantic/factions.md`, `docs/governance/open-questions.md` (OQ-DATA-4), `docs/CLAUDE.md` (regla de enrutamiento semantic vs data).
+
+---
+
+## DC-OQ-TYPES-1 — Type System: taxonomía canónica de damage types — **CIERRE PARCIAL (implementado)**
+
+**Dominio:** types / damage / shared
+
+**Decisión aplicada (Opción B):** Consolidar una taxonomía canónica única para damage types dentro de `src/shared/types/`. `damage.ts` concentra la raíz canónica mínima. Labels, aliases raw e iconografía consumen esa raíz en vez de mantener tablas paralelas. Cierra drift de damage types sin promover semántica amplia de combate.
+
+**Alcance del cierre:** No autoriza promover semántica de `upgrade_type`, conditions ni contratos de combate más amplios al runtime productivo. La taxonomía de combate amplia queda como pre-definición documental (Opción C), sin fecha ni propuesta activa.
+
+**Condición para reabrirse:** Cuando el backlog de estabilización lo permita y exista una propuesta concreta para promover semántica amplia de combate al runtime. No es una discusión activa.
+
+**Ref:** `docs/governance/type-system-boundaries.md` (reglas de frontera vigentes), `docs/semantic/damage-types.md`.
