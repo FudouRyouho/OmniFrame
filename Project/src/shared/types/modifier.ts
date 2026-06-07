@@ -81,7 +81,7 @@ export const UPGRADES = [
   // Punch Through (penetración, metros flat → op ADD_FLAT vía resolveToken). Cadena de rename:
   // WEAPON_PUNCTURE_DEPTH (misnomer DE-legacy) → WEAPON_ADD_PUNCH_THROUGH (2026-06-04, intermedio)
   // → WEAPON_FLAT_PUNCH_THROUGH (2026-06-06, segmento D-6 FLAT correcto). 10 mods + 7 stats incarnon.
-  // Sin consumidor de engine aún: nodo PUNCH_THROUGH ausente (Capa 4 → OQ-ENGINE-3).
+  // Sin consumidor de engine aún: nodo PUNCH_THROUGH ausente (Capa 4 → OQ-ENGINE-7).
   'WEAPON_FLAT_PUNCH_THROUGH',
   'WEAPON_ADD_STATUS_DURATION',
   'WEAPON_ADD_ZOOM',

@@ -91,7 +91,7 @@ through porcentual.** El valor del arma y los mods **stackean aditivamente**.
 - El "no-punch de AoE" es **contexto de arma**, no justifica token aparte.
 - **Sin consumidor de engine aún:** el modifier se produce pero ningún nodo de arma lo recibe
   (nodo `PUNCH_THROUGH` ausente, Capa 4). Cómo el engine resolverá la mecánica vive fuera de este
-  reference → **OQ-ENGINE-3** (`docs/governance/open-questions.md`). Ver también
+  reference → **OQ-ENGINE-7** (`docs/governance/open-questions.md`). Ver también
   [`docs/semantic/upgrade-tokens.md`](../../../../semantic/upgrade-tokens.md)
   (fila `WEAPON_FLAT_PUNCH_THROUGH`).
 </content>
