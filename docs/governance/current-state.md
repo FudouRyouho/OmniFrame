@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Describir el pulso real de la estructura física y funcional del repositorio"
-Version: "v0.1.5"
+Version: "v0.1.6"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-01 (actualización #5)"
+Fecha_de_actualizacion: "2026-06-08 (actualización #6)"
 ---
 
 # OmniFrame — Estado Actual
@@ -16,6 +16,10 @@ Fecha_de_actualizacion: "2026-06-01 (actualización #5)"
 > **[2026-06-01] Gobernanza:** Nueva SSoT de nomenclaturas establecida. Ver [`docs/governance/nomenclature-grammar.md`](nomenclature-grammar.md). Todos los tags inline en JSONs y docs han sido migrados a la gramática `DOMINIO:ROL[:ESQUEMA/ID]`. La colisión `[engine]`/`[ENGINE]` queda resuelta.
 
 > **[2026-06-01] Gobernanza (D-19):** Redefinida la naturaleza de `condition`. Es vocabulario **endógeno** (no proviene de `@wfcd/items`, a diferencia de `upgrade_*`): el SSoT del token es el override JSON; `docs/semantic/conditions.md` es **consolidador posterior**, no portero previo. Un token capturado y aún no consolidado en el doc = cola de consolidación, no drift. `notes[]` queda definido como capa de anotación/auditoría, nunca SSoT. Ver [`docs/data/decisions.md`](../data/decisions.md) D-19.
+
+> **[2026-06-08] Engine — metodología de validación (prototipo VIGENTE):** Graduada a [`attribute-node-contract.md`](../domains/engine/attribute-node-contract.md) la metodología de test progresivo + derivación: los buckets del `AttributeNode` (`base_add_pct`, `mods_add_pct`, `multiplicative`, …) son la **superficie de aserción** del test (test de lógica vs. test de estabilidad), el fixture es una `EnsembleIntention` + cadena de derivación esperada por nodo, y la base del linaje debe ser incondicional. Es prototipo con base documentada. La build de referencia (Rhino), su estratificación y el lineaje de decisión (D12–D16) están en [`engine/test/`](../domains/engine/test/) (ver entrada 2026-06-09); la validación con ≥2 warframes adicionales sigue abierta.
+
+> **[2026-06-09] Engine — testing derivado ejercido + sub-área `engine/test/`:** La metodología pasó de prototipo a ejercida sobre **4 consumidores de arma** (Boltor, Cedo, Felarx, Laetum) vía el "clic" (`__tests__/helpers/consume.ts`): un `consume()` por intención, estabilidad (`.final`) + lógica (buckets) en la misma fuente. Se acuñó la **gramática ✓/fails/todo** (el `it.todo` mapea el borde C1↔C2). `validation-builds.md` se eliminó y su contenido se repartió en **`docs/domains/engine/test/`**: `test-workflow.md` (CÓMO + registro de decisión), `catalog-current.md` (índice de consumidores), `catalog-future.md` (Rhino, standard-set, frontera C2). **Decisión durable** en `test-workflow.md`: la observabilidad por buckets es intención de diseño original (orientada a D, diferida); la sonda de construcción es la función emergente; el agnosticismo de capas es el invariante a proteger. Disparadores de graduación: abilities → dominio docs (Futuro 2); D existe → capa observabilidad ≈ `observer/` (Futuro 3). C2 no gradúa (crece dentro de engine).
 
 > **Modelo arquitectónico:** Ver `docs/domains/engine/design/simulation-architecture.md` para el modelo de 5 capas (A / B / C1 / C2 / D) acordado en 2026-05-19. Este documento describe la estructura física; la arquitectura conceptual y los principios de comunicación entre capas están allí.
 

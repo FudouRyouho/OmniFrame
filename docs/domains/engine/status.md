@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.3.0"
+Version: "v0.3.2"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-04"
+Fecha_de_actualizacion: "2026-06-08"
 ---
 
 # Engine Status
@@ -78,11 +78,15 @@ Fecha_de_actualizacion: "2026-06-04"
 
 ### Tests (`engine/__tests__/`)
 
-| Suite | Descripción |
+Suite de **consumidores derivados** vía el "clic" (`helpers/consume.ts`). Índice de qué resuelve cada uno:
+[`test/catalog-current.md`](test/catalog-current.md). Workflow + gramática ✓/fails/todo:
+[`test/test-workflow.md`](test/test-workflow.md).
+
+| Suite | Rol |
 |---|---|
-| `aklex-prime.test.ts` | Aklex Prime — 23 tests gold standard |
-| `cedo-prime.test.ts` | Cedo Prime Normal Attack — 10 tests gold standard |
-| `boltor-prime-incarnon.test.ts` | Boltor Prime — Incarnon Genesis perks |
+| `boltor` / `cedo` / `felarx` / `laetum` `.test.ts` | consumidores migrados al clic (estabilidad `.final` + lógica por buckets + `it.todo` de borde C1↔C2) |
+| `weapon-multishot-resolution.test.ts` | test de datos/regla (integridad override + resolución DNA) |
+| ~~`aklex-prime.test.ts`~~ | **ELIMINADO (2026-06-09)** — baseline sin acople; OQ-ENGINE-6 cerrado |
 | ~~`__tests__-legacy/`~~ | **ELIMINADO (2026-05-21)** — 12 suites purgadas |
 
 ---
@@ -112,6 +116,14 @@ Ver [`formula-overview.md`](formula-overview.md) para la especificación matemá
 2. **`CombatCalculator`** — consumir `faction_damage_bonus.final / 100` como multiplicador cuando `target.faction` coincide.
 
 Nota: `target.faction` requiere que el campo `faction` esté estructurado en los mods (hoy solo en el `label`). Mismo patrón que OQ-DATA-5; vocabulario destino: `semantic/factions.md`.
+
+### Procedencia de perks de Incarnon — `source_id` ausente
+
+`IncarnonRepository` emite los `Modifier` de los perks **sin** `source_id`, mientras `ModRepository` los emite con `Mod:<id>`. En el audit trace (`SimulationEngine.getAuditResponse`) el aporte de un perk aparece como `source=unknown` — el paso es inatribuible. La mecánica es correcta (el valor aterriza en el bucket correcto); el gap es de **observabilidad**, no de cálculo.
+
+- `engine:debt` — emitir `source_id` en `IncarnonRepository` (p. ej. `Perk:<nombre>`), espejando `ModRepository`. [empirical: `__tests__/boltor-consume.test.ts` — paso `[debug ii]` del audit trace]
+
+Bloquea: aserción de procedencia en la suite de consumo (el trace no puede atribuir perks a su evolución de origen).
 
 ---
 

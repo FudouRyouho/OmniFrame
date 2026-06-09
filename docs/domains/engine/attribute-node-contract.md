@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en la fórmula de Warframe y la operación de modificador que lo alimenta"
-Version: "v0.1.0"
+Version: "v0.2.0"
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/index.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-05-19"
+Fecha_de_actualizacion: "2026-06-08"
 Dependencias:
   - "references/wiki/mechanics/damage-types.md"
   - "references/wiki/mechanics/critical-hits.md"
@@ -155,6 +155,33 @@ El contrato actual de `ModRepository` produce **todos** los modificadores con `o
 | Crit chance relativo | `ADD` sobre `critical_chance` | ⚠️ Correcto por casualidad (solo hay un bucket de crit hoy) |
 
 La corrección de estas operaciones es el paso siguiente después de definir este contrato.
+
+---
+
+## Validación: el nodo como superficie de aserción (prototipo VIGENTE)
+
+> **Estado de esta sección:** prototipo en desarrollo con base documentada. Evolvable (VIGENTE) — se ajusta
+> con el primer uso real. El workflow de testing derivado y el lineaje de decisión (D12–D16) viven en
+> [`test/test-workflow.md`](test/test-workflow.md); las builds de referencia (Rhino, standard-set) en
+> [`test/catalog-future.md`](test/catalog-future.md). Ya ejercido sobre 4 consumidores de arma (ver
+> [`test/catalog-current.md`](test/catalog-current.md)); la validación con warframes sigue abierta.
+
+Las capas nombradas de `AttributeNode` (`base`, `base_add_pct`, `mods_add_pct`, `multiplicative`,
+`total_flat`, `final`) **son la superficie de aserción de los tests**, no solo el insumo de `final`.
+
+- **Test de estabilidad** — asierta solo `final`. Dice *que* un resultado cambió; no localiza la causa.
+- **Test de lógica** — asierta los **buckets intermedios**. Dice *dónde*: si cambió el `n` de una
+  dependencia (mismo bucket, otro valor) o si el grafo ganó/perdió una dependencia (bucket nuevo o vacío).
+  Ejemplo directo de §Semántica: Roar entra en `multiplicative`, Serration en `mods_add_pct` —
+  distinguibles a nivel nodo, no a nivel `final`.
+
+**Forma del fixture:** una `EnsembleIntention` escrita a mano + la **cadena de derivación esperada por
+nodo** (bucket → valor + fuente del juego: wiki / `references/`), nunca un valor terminal suelto.
+
+**Progresión:** un solo consumidor cuyo fixture crece en intenciones en orden de dependencia
+(base → +ability → cross-entity); cada peldaño es una aserción separada, para que el fallo se localice.
+**La base del linaje debe ser incondicional** — lo condicional/stacking (auras condicionales, arcanos con
+stacks) entra como peldaño posterior con su supuesto explícito, nunca en la base reproducible.
 
 ---
 

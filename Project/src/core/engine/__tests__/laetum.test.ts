@@ -1,75 +1,26 @@
 /**
- * Test de integración: Laetum — Normal Attack, Incarnon Form, Radial Attack.
+ * Laetum — Normal / Incarnon Form / Radial, migrado al "clic" (helpers/consume).
+ *
+ * Modelo del que es consumidor: pistola single + radial, con dos ejes propios que
+ * ningún otro de los 4 cubre:
+ *   1. Propagación de `condition` en un PERK (no en un mod): lethal_rearmament
+ *      (on_headshot → +30% reload). Base inactivo, estático activo. El bucket lo muestra.
+ *   2. Flat de status post-mods SIN dividir: Elemental Excess +20 ADD_FLAT cae entero en
+ *      total_flat (single projectile) — contraste con Felarx, donde el flat se divide por pellet.
+ *   3. Tercera geometría: auto_radial_attack (AoE Radiation), no un proyectil.
  *
  * Build verificada en partida:
- *   Slot 0: Pistol Pestilence    (r3 max)  — Toxin +60%, Status +60%
- *   Slot 1: Ice Storm            (r5 max)  — Cold +40%, Magazine +40%
- *   Slot 2: Galvanized Shot      (r10 max) — Status +80% base, +120% cond (on_kill, unmapeado)
- *   Slot 3: Galvanized Diffusion (r10 max) — Multishot +110% base, +120% cond (on_kill)
- *   Slot 4: Lethal Torrent       (r5 max)  — Fire Rate +60%, Multishot +60%
- *   Slot 5: Hornet Strike        (r10 max) — Damage +220%
- *   Slot 6: Gunslinger           (r5 max)  — Fire Rate +72%
- *   Slot 7: Primed Heated Charge (r10 max) — Heat +165%
- *   Exilus: Steady Hands (recoil — sin efecto en stats de daño, omitido)
+ *   Pistol Pestilence (0), Ice Storm (1), Galvanized Shot (2), Galvanized Diffusion (3),
+ *   Lethal Torrent (4), Hornet Strike (5), Gunslinger (6), Primed Heated Charge (7).
+ *   Evolutions: Rapid Wrath (FR +20 ADD), Lethal Rearmament (reload +30 on_headshot),
+ *   Elemental Excess (status +20 ADD_FLAT, CC −10 BASE_FLAT); resto sin efecto.
  *
- * Evolutions: Rapid Wrath, Lethal Rearmament, Elemental Excess, Devouring Attrition
- *   — Rapid Wrath:       WEAPON_ADD_FIRE_RATE +20  (ADD, aplica a ambos modos)
- *   — Elemental Excess:  WEAPON_FLAT_STATUS_CHANCE +20 (ADD_FLAT post-mods, "added last")
- *                        WEAPON_BASE_CRIT_CHANCE   -10 (BASE_FLAT, amplificado por CC mods)
- *   — Lethal Rearmament: upgrade_type null (recarga condicional, sin efecto en engine)
- *   — Devouring Attrition: upgrade_type null (sin efecto en engine)
- *
- * ─── Laetum base stats ────────────────────────────────────────────────────────
- * Normal Attack:     Impact 64, Slash 96          | CC 22% | CD 2.2x | SC 22% | FR 2.5 | Multi 1
- * Incarnon Form:     Impact 100                   | CC 22% | CD 2.2x | SC 22% | FR 6.67
- * Auto Radial Attack: Radiation 300               | CC 22% | CD 2.2x | SC 22% | FR 6.67
- * (CC y SC incluyen ya Elemental Excess: CC=12%, SC con evo=42% sin mods)
- *
- * ─── Verificación de fórmulas ─────────────────────────────────────────────────
- *
- * Status (ADD_FLAT confirmado):
- *   22 × (1 + 0.6 + 0.8) + 20 = 22 × 2.4 + 20 = 52.8 + 20 = 72.8%  ✓
- *           PP    GS_base
- *   Si fuera BASE_FLAT: (22+20) × 2.4 = 100.8%  ✗
- *
- * Multishot base mode:   1 × (1 + 1.10 + 0.60) = 2.7  ✓
- *                                  GD     LT
- * Multishot static mode: 1 × (1 + 1.10 + 0.60 + 1.20) = 3.9  (GD on_kill activo)
- *
- * Fire Rate:  2.5 × (1 + 0.20 + 0.60 + 0.72) = 2.5 × 2.52 = 6.3  Normal ✓
- *                          RW    LT   Gunslinger
- *             6.67 × 2.52 = 16.8  Incarnon ✓
- *
- * Daño Normal (WEAPON_DAMAGE mult = 1 + 2.20 = 3.2):
- *   Impact:    64 × 3.2 = 204.8                                                    ✓
- *   Slash:     96 × 3.2 = 307.2                                                    ✓
- *   Viral:     (160×0.4 + 160×0.6) × 3.2 = 160 × 3.2 = 512  (slot0 Toxin + slot1 Cold)  ✓
- *   Heat:      160 × 1.65 × 3.2 = 844.8                                            ✓
- *
- * Daño Incarnon (base 100):
- *   Impact: 100 × 3.2 = 320 | Viral: 100 × 3.2 = 320 | Heat: 100×1.65×3.2 = 528   ✓
- *
- * Daño Radial (base Radiation 300):
- *   Radiation: 300 × 3.2 = 960 | Viral: 300×3.2 = 960 | Heat: 300×1.65×3.2 = 1584 ✓
- *
- * ─── Engine vs juego ──────────────────────────────────────────────────────────
- * | Stat              | Juego   | Engine       | Estado                            |
- * |---|---|---|---|
- * | Status (Normal)   | 72.8%   | 72.8%        | ✅ WEAPON_FLAT_STATUS_CHANCE fix  |
- * | CC                | 12%     | 12%          | ✅ BASE_FLAT -10 correcto          |
- * | Multishot (base)  | 2.7     | 2.7          | ✅                                |
- * | Multishot (GD x2) | —       | 3.9          | ✅ static mode, on_kill activo    |
- * | Fire Rate Normal  | 6.3     | 6.3          | ✅                                |
- * | Fire Rate Incarnon| 16.8    | 16.8         | ✅ Incarnon FR 6.67 × 2.52        |
- * | Incarnon Multi    | 2.7     | 2.7          | ✅ base_multi=1 × 2.7             |
- * | GD conditional    | —       | +120% on_kill| ✅ condición mapeada              |
+ * Fórmula status:  22 × (1 + 0.60 PP + 0.80 GS) + 20 = 22×2.4 + 20 = 72.8
  */
 import './helpers/engine-data-setup';
 import { describe, it, expect } from 'vitest';
-import { MutatorBridge }      from '../bridge/MutatorBridge';
+import { consume } from './helpers/consume';
 import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
-
-// ─── IDs ─────────────────────────────────────────────────────────────────────
 
 const LAETUM = '/Lotus/Weapons/Tenno/Zariman/Pistols/HeavyPistol/ZarimanHeavyPistol';
 
@@ -83,17 +34,9 @@ const MOD = {
   GUNSLINGER:           '/Lotus/Upgrades/Mods/Pistol/WeaponFireRateMod',
   PRIMED_HEATED_CHARGE: '/Lotus/Upgrades/Mods/Pistol/Expert/WeaponFireDamageModExpert',
 };
+const PERKS = { 2: 'rapid_wrath', 3: 'lethal_rearmament', 4: 'elemental_excess', 5: 'devouring_attrition' };
 
-const PERKS = {
-  2: 'rapid_wrath',
-  3: 'lethal_rearmament',
-  4: 'elemental_excess',
-  5: 'devouring_attrition',
-};
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function buildIntention(profile: string = 'base'): EnsembleIntention {
+function laetum(profile = 'base'): EnsembleIntention {
   return {
     items: {
       warframe:         { itemId: null, rank: 30, shards: [] },
@@ -109,7 +52,6 @@ function buildIntention(profile: string = 'base'): EnsembleIntention {
     },
     mods: {
       secondary: {
-        // Slot 0+1: Toxin + Cold → Viral. Heat (slot 7) → standalone.
         0: { itemId: MOD.PISTOL_PESTILENCE,    rank: 30, level: 10 },
         1: { itemId: MOD.ICE_STORM,            rank: 30, level: 10 },
         2: { itemId: MOD.GALVANIZED_SHOT,      rank: 30, level: 10 },
@@ -118,171 +60,133 @@ function buildIntention(profile: string = 'base'): EnsembleIntention {
         5: { itemId: MOD.HORNET_STRIKE,        rank: 30, level: 10 },
         6: { itemId: MOD.GUNSLINGER,           rank: 30, level: 10 },
         7: { itemId: MOD.PRIMED_HEATED_CHARGE, rank: 30, level: 10 },
-      }
+      },
     },
     environment: { targetLevel: 1, targetFaction: null, isSteelPath: false },
   };
 }
 
-function simulateBase(profile: string = 'base') {
-  const bridge = new MutatorBridge();
-  const result = bridge.simulateFromIntention(buildIntention(profile), { flags: {} });
-  const weapon = result.entities.find(e => e.id === LAETUM);
-  if (!weapon) throw new Error(`Entidad ${LAETUM} no encontrada`);
-  return weapon.attributes;
-}
+const base = (profile = 'base') => consume(laetum(profile), { flags: {} }).weapon(LAETUM);
+const stat = (profile = 'base') => consume(laetum(profile)).weapon(LAETUM);
 
-function simulateStatic(profile: string = 'base') {
-  const bridge = new MutatorBridge();
-  const result = bridge.simulateFromIntention(buildIntention(profile));
-  const weapon = result.entities.find(e => e.id === LAETUM);
-  if (!weapon) throw new Error(`Entidad ${LAETUM} no encontrada`);
-  return weapon.attributes;
-}
+// ─── Estabilidad: Normal Attack base ─────────────────────────────────────────────
 
-// ─── Suite 1: Normal Attack — modo base (flags: {}) ───────────────────────────
-
-describe('Laetum — Normal Attack, modo base', () => {
-  it('Impact: 204.8 — base 64 × PPB 3.2', () => {
-    expect(simulateBase().WEAPON_ADD_IMPACT_DAMAGE?.final).toBeCloseTo(204.8, 1);
+describe('Laetum — Normal Attack base (estabilidad)', () => {
+  it('físico: Impact 204.8, Slash 307.2 (× PPB 3.2)', () => {
+    const w = base();
+    expect(w.node('WEAPON_ADD_IMPACT_DAMAGE').final).toBeCloseTo(204.8, 1);
+    expect(w.node('WEAPON_ADD_SLASH_DAMAGE').final).toBeCloseTo(307.2, 1);
   });
-
-  it('Slash: 307.2 — base 96 × 3.2', () => {
-    expect(simulateBase().WEAPON_ADD_SLASH_DAMAGE?.final).toBeCloseTo(307.2, 1);
+  it('Viral 512 (Toxin+Cold), Heat 844.8 (standalone)', () => {
+    const w = base();
+    expect(w.node('WEAPON_ADD_VIRAL_DAMAGE').final).toBeCloseTo(512, 1);
+    expect(w.node('WEAPON_ADD_HEAT_DAMAGE').final).toBeCloseTo(844.8, 1);
   });
-
-  it('Viral 512 — Toxin 60% + Cold 40% combinan (slot 0+1), × 3.2', () => {
-    // Toxin: 160×0.6=96 | Cold: 160×0.4=64 | Viral: 160 × 3.2 = 512
-    expect(simulateBase().WEAPON_ADD_VIRAL_DAMAGE?.final).toBeCloseTo(512, 1);
-  });
-
-  it('Heat 844.8 — PHC 165% × 3.2 (slot 7, standalone)', () => {
-    // 160 × 1.65 × 3.2 = 844.8
-    expect(simulateBase().WEAPON_ADD_HEAT_DAMAGE?.final).toBeCloseTo(844.8, 1);
-  });
-
-  it('CC 12% — base 22% + Elemental Excess BASE_FLAT -10%', () => {
-    // (22 + (-10)) × 1.0 = 12%
-    expect(simulateBase().WEAPON_ADD_CRIT_CHANCE?.final).toBeCloseTo(12, 1);
-  });
-
-  it('Status 72.8% — Elemental Excess ADD_FLAT +20 (post-mods)', () => {
-    // 22 × (1 + 0.6 + 0.8) + 20 = 22 × 2.4 + 20 = 72.8%
-    // PP +60% status | GS base +80% status | Elemental Excess +20 ADD_FLAT
-    expect(simulateBase().WEAPON_ADD_STATUS_CHANCE?.final).toBeCloseTo(72.8, 1);
-  });
-
-  it('Multishot 2.7 — GD base +110% + LT +60%', () => {
-    // 1 × (1 + 1.10 + 0.60) = 2.7
-    expect(simulateBase().WEAPON_ADD_MULTISHOT?.final).toBeCloseTo(2.7, 1);
-  });
-
-  it('Fire Rate 6.3 — Rapid Wrath +20% + LT +60% + Gunslinger +72%', () => {
-    // 2.5 × (1 + 0.20 + 0.60 + 0.72) = 2.5 × 2.52 = 6.3
-    expect(simulateBase().WEAPON_ADD_FIRE_RATE?.final).toBeCloseTo(6.3, 1);
-  });
-
-  it('Magazine 16.8 (≈17) — base 12 × (1 + Ice Storm 40%)', () => {
-    // 12 × 1.4 = 16.8. El juego redondea a 17.
-    expect(simulateBase().WEAPON_ADD_MAGAZINE_MAX?.final).toBeCloseTo(16.8, 0);
+  it('Multishot 2.7, Fire Rate 6.3, Magazine ~16.8', () => {
+    const w = base();
+    expect(w.node('WEAPON_ADD_MULTISHOT').final).toBeCloseTo(2.7, 1);
+    expect(w.node('WEAPON_ADD_FIRE_RATE').final).toBeCloseTo(6.3, 1);
+    expect(w.node('WEAPON_ADD_MAGAZINE_MAX').final).toBeCloseTo(16.8, 0);
   });
 });
 
-// ─── Suite 2: Normal Attack — modo estático ────────────────────────────────────
+// ─── Lógica: status — flat post-mods SIN dividir (contraste con Felarx) ──────────
 
-describe('Laetum — Normal Attack, modo estático (on_kill activo)', () => {
-  it('Multishot 3.9 — GD base +110% + on_kill +120% + LT +60%', () => {
-    // 1 × (1 + 1.10 + 1.20 + 0.60) = 3.9
-    // Juego sin matar muestra 2.7 (Arsenal sin on_kill).
-    expect(simulateStatic().WEAPON_ADD_MULTISHOT?.final).toBeCloseTo(3.9, 1);
-  });
-
-  it('Status 72.8% — GS condicional WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE sin mapear', () => {
-    // on_kill activo, pero el bonus de GS (WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE) está unmapeado.
-    // Status igual que modo base. Sin cambio.
-    expect(simulateStatic().WEAPON_ADD_STATUS_CHANCE?.final).toBeCloseTo(72.8, 1);
-  });
-
-  it('Viral 512 — elementales no son condicionales', () => {
-    expect(simulateStatic().WEAPON_ADD_VIRAL_DAMAGE?.final).toBeCloseTo(512, 1);
+describe('Laetum — status: flat post-mods sin dividir (lógica)', () => {
+  it('base 22, mods_add_pct 140 (PP+GS), total_flat 20 (entero) → 72.8', () => {
+    const n = base().node('WEAPON_ADD_STATUS_CHANCE');
+    expect(n.base).toBeCloseTo(22, 0);
+    expect(n.mods_add_pct).toBeCloseTo(140, 0);  // Pistol Pestilence 60 + Galvanized Shot 80
+    expect(n.total_flat).toBeCloseTo(20, 0);     // Elemental Excess +20, NO dividido (single projectile)
+    expect(n.final).toBeCloseTo(72.8, 1);
   });
 });
 
-// ─── Suite 2b: condition de perks de Incarnon ─────────────────────────────────
-// Verifica que el engine RESPETA la condition de los perks (no solo de los mods).
-// lethal_rearmament (tier 3): on_headshot → +30% Reload Speed (WEAPON_ADD_RELOAD_SPEED, ADD).
-// Perk condicional aislado: ningún mod de la build toca reload, así que el efecto es nítido.
-// Regresión: el IncarnonRepository no propagaba `condition` → el perk aplicaba siempre.
+// ─── Lógica: CC — Elemental Excess BASE_FLAT ─────────────────────────────────────
 
-describe('Laetum — condition de perks de Incarnon', () => {
-  it('Reload 100 — lethal_rearmament (on_headshot) NO aplica en modo base', () => {
-    // flags {} → on_headshot inactivo → reload speed base, sin el +30%
-    expect(simulateBase().WEAPON_ADD_RELOAD_SPEED?.final).toBeCloseTo(100, 1);
-  });
-
-  it('Reload 130 — lethal_rearmament aplica en modo estático (on_headshot activo)', () => {
-    // conditionTokens activa on_headshot → +30% ADD → 100 × 1.30
-    expect(simulateStatic().WEAPON_ADD_RELOAD_SPEED?.final).toBeCloseTo(130, 1);
+describe('Laetum — CC: Elemental Excess BASE_FLAT (lógica)', () => {
+  it('base 22, base_flat −10 → 12', () => {
+    const n = base().node('WEAPON_ADD_CRIT_CHANCE');
+    expect(n.base).toBeCloseTo(22, 0);
+    expect(n.base_flat).toBeCloseTo(-10, 0);
+    expect(n.final).toBeCloseTo(12, 1);
   });
 });
 
-// ─── Suite 3: Incarnon Form — modo base ───────────────────────────────────────
+// ─── Lógica: el modelo estrella — condition en un PERK (on_headshot) ─────────────
+//
+// lethal_rearmament: on_headshot → +30% reload (ADD). Ningún mod toca reload, así que el
+// efecto del perk es nítido. El engine RESPETA la condition del perk (regresión histórica:
+// antes el IncarnonRepository no propagaba `condition` → el perk aplicaba siempre).
 
-describe('Laetum — Incarnon Form, modo base', () => {
-  it('Impact 320 — base 100 × 3.2', () => {
-    expect(simulateBase('incarnon_form').WEAPON_ADD_IMPACT_DAMAGE?.final).toBeCloseTo(320, 1);
+describe('Laetum — perk condicional: on_headshot → reload (lógica)', () => {
+  it('base: on_headshot inactivo → mods_add_pct 0, reload 100', () => {
+    const n = base().node('WEAPON_ADD_RELOAD_SPEED');
+    expect(n.mods_add_pct).toBeCloseTo(0, 1);
+    expect(n.final).toBeCloseTo(100, 1);
   });
-
-  it('Viral 320 — (Cold + Toxin) sobre base 100 × 3.2', () => {
-    // 100×0.4 (Cold) + 100×0.6 (Toxin) = 100 × 3.2 = 320
-    expect(simulateBase('incarnon_form').WEAPON_ADD_VIRAL_DAMAGE?.final).toBeCloseTo(320, 1);
-  });
-
-  it('Heat 528 — PHC 165% sobre base 100 × 3.2', () => {
-    // 100 × 1.65 × 3.2 = 528
-    expect(simulateBase('incarnon_form').WEAPON_ADD_HEAT_DAMAGE?.final).toBeCloseTo(528, 1);
-  });
-
-  it('Status 72.8% — misma fórmula, mismo base, ambos modos', () => {
-    expect(simulateBase('incarnon_form').WEAPON_ADD_STATUS_CHANCE?.final).toBeCloseTo(72.8, 1);
-  });
-
-  it('CC 12% — Elemental Excess BASE_FLAT -10% aplica a ambos modos', () => {
-    expect(simulateBase('incarnon_form').WEAPON_ADD_CRIT_CHANCE?.final).toBeCloseTo(12, 1);
-  });
-
-  it('Fire Rate 16.8 — base Incarnon 6.67 (attack.speed) × 2.52', () => {
-    // 6.67 × (1 + 0.20 + 0.60 + 0.72) = 16.8
-    expect(simulateBase('incarnon_form').WEAPON_ADD_FIRE_RATE?.final).toBeCloseTo(16.8, 1);
-  });
-
-  it('Multishot 2.7 — base Incarnon = 1, misma fórmula que Normal', () => {
-    expect(simulateBase('incarnon_form').WEAPON_ADD_MULTISHOT?.final).toBeCloseTo(2.7, 1);
+  it('estático: on_headshot activo → mods_add_pct 30, reload 130', () => {
+    const n = stat().node('WEAPON_ADD_RELOAD_SPEED');
+    expect(n.mods_add_pct).toBeCloseTo(30, 1);
+    expect(n.final).toBeCloseTo(130, 1);
   });
 });
 
-// ─── Suite 4: Radial Attack — modo base ───────────────────────────────────────
+// ─── Lógica: multishot on_kill (Galvanized Diffusion) ────────────────────────────
 
-describe('Laetum — Auto Radial Attack, modo base', () => {
-  it('Radiation 960 — base Radiation 300 × 3.2', () => {
-    expect(simulateBase('auto_radial_attack').WEAPON_ADD_RADIATION_DAMAGE?.final).toBeCloseTo(960, 1);
+describe('Laetum — multishot on_kill (lógica)', () => {
+  it('base: mods_add_pct 170 (GD 110 + LT 60) → 2.7', () => {
+    const n = base().node('WEAPON_ADD_MULTISHOT');
+    expect(n.base).toBeCloseTo(1, 0);
+    expect(n.mods_add_pct).toBeCloseTo(170, 0);
+    expect(n.final).toBeCloseTo(2.7, 1);
   });
+  it('estático: mods_add_pct 290 (+120 on_kill) → 3.9', () => {
+    const n = stat().node('WEAPON_ADD_MULTISHOT');
+    expect(n.mods_add_pct).toBeCloseTo(290, 0);
+    expect(n.final).toBeCloseTo(3.9, 1);
+  });
+});
 
-  it('Viral 960 — (Cold + Toxin) sobre base Radiation 300 × 3.2', () => {
-    // 300×0.4 (Cold) + 300×0.6 (Toxin) = 300 × 3.2 = 960
-    expect(simulateBase('auto_radial_attack').WEAPON_ADD_VIRAL_DAMAGE?.final).toBeCloseTo(960, 1);
-  });
+// ─── Estabilidad: Incarnon Form base ─────────────────────────────────────────────
 
-  it('Heat 1584 — PHC 165% sobre base 300 × 3.2', () => {
-    // 300 × 1.65 × 3.2 = 1584
-    expect(simulateBase('auto_radial_attack').WEAPON_ADD_HEAT_DAMAGE?.final).toBeCloseTo(1584, 1);
+describe('Laetum — Incarnon Form base (estabilidad)', () => {
+  it('Impact 320, Viral 320, Heat 528 (base 100 × 3.2)', () => {
+    const w = base('incarnon_form');
+    expect(w.node('WEAPON_ADD_IMPACT_DAMAGE').final).toBeCloseTo(320, 1);
+    expect(w.node('WEAPON_ADD_VIRAL_DAMAGE').final).toBeCloseTo(320, 1);
+    expect(w.node('WEAPON_ADD_HEAT_DAMAGE').final).toBeCloseTo(528, 1);
   });
+  it('Status 72.8 (misma fórmula), CC 12, Fire Rate 16.8, Multishot 2.7', () => {
+    const w = base('incarnon_form');
+    expect(w.node('WEAPON_ADD_STATUS_CHANCE').final).toBeCloseTo(72.8, 1);
+    expect(w.node('WEAPON_ADD_CRIT_CHANCE').final).toBeCloseTo(12, 1);
+    expect(w.node('WEAPON_ADD_FIRE_RATE').final).toBeCloseTo(16.8, 1);
+    expect(w.node('WEAPON_ADD_MULTISHOT').final).toBeCloseTo(2.7, 1);
+  });
+});
 
-  it('Status 72.8% — misma fórmula en los tres perfiles', () => {
-    expect(simulateBase('auto_radial_attack').WEAPON_ADD_STATUS_CHANCE?.final).toBeCloseTo(72.8, 1);
-  });
+// ─── Estabilidad: Auto Radial Attack (3ra geometría) ─────────────────────────────
 
-  it('CC 12% — misma fórmula en los tres perfiles', () => {
-    expect(simulateBase('auto_radial_attack').WEAPON_ADD_CRIT_CHANCE?.final).toBeCloseTo(12, 1);
+describe('Laetum — Auto Radial Attack base (estabilidad)', () => {
+  it('Radiation 960, Viral 960, Heat 1584 (base Radiation 300 × 3.2)', () => {
+    const w = base('auto_radial_attack');
+    expect(w.node('WEAPON_ADD_RADIATION_DAMAGE').final).toBeCloseTo(960, 1);
+    expect(w.node('WEAPON_ADD_VIRAL_DAMAGE').final).toBeCloseTo(960, 1);
+    expect(w.node('WEAPON_ADD_HEAT_DAMAGE').final).toBeCloseTo(1584, 1);
   });
+  it('Status 72.8 y CC 12 (misma fórmula en los tres perfiles)', () => {
+    const w = base('auto_radial_attack');
+    expect(w.node('WEAPON_ADD_STATUS_CHANCE').final).toBeCloseTo(72.8, 1);
+    expect(w.node('WEAPON_ADD_CRIT_CHANCE').final).toBeCloseTo(12, 1);
+  });
+});
+
+// ─── Borde de C1 — preguntas abiertas (it.todo) ──────────────────────────────────
+// Laetum = single + radial (3 geometrías). El radial es el eje C2 distintivo.
+
+describe('Laetum — borde de C1 (preguntas abiertas)', () => {
+  it.todo('C2: aplicación de status/daño en ataque radial AoE (geometría distinta) — hit-mechanic.md §AoE');
+  it.todo('C2: roll de crit tier por hit en las 3 geometrías — AtomicSimulator [hit-mechanic.md:110]');
+  it.todo('C1-gap: source_id ausente en perks → audit trace inatribuible [engine/status.md §Deudas]');
 });
