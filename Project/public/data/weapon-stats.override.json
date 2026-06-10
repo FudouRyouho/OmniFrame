@@ -34,5 +34,65 @@
     "attacks": {
       "Semi-Auto Mode": { "multishot": 3 }
     }
+  },
+  "/Lotus/Weapons/Tenno/LongGuns/LoginPrimary/SundialRifle": {
+    "_name": "Zenith",
+    "_note": "punch_through 99999 = ~infinito (wiki). Fuente: docs/data/references/wiki/mechanics/punch-through.md",
+    "attacks": {
+      "Semi-Auto Mode": { "punch_through": 99999 }
+    }
+  },
+  "/Lotus/Weapons/ClanTech/Energy/Railgun": {
+    "_name": "Lanka",
+    "_note": "punch nato solo a carga completa; Partially Charged Shot = 0m (sin override).",
+    "attacks": {
+      "Charged Shot": { "punch_through": 5.0 }
+    }
+  },
+  "/Lotus/Weapons/Tenno/Bows/AsymetricalBow/AsymetricalBow": {
+    "_name": "Daikyu",
+    "attacks": {
+      "Charged Shot": { "punch_through": 3.0 }
+    }
+  },
+  "/Lotus/Weapons/Tenno/Rifle/VandalSniperRifle": {
+    "_name": "Snipetron Vandal",
+    "attacks": {
+      "Normal Attack": { "punch_through": 3.0 }
+    }
+  },
+  "/Lotus/Weapons/Tenno/Zariman/LongGuns/SemiAutoRifle/ZarimanSemiAutoRifle": {
+    "_name": "Phenmor",
+    "_note": "punch nato solo en forma incarnon (wiki).",
+    "attacks": {
+      "Incarnon Form": { "punch_through": 3.0 }
+    }
+  },
+  "/Lotus/Weapons/Tenno/Bows/PrimeHuntingBow": {
+    "_name": "Paris Prime",
+    "_note": "Incarnon Form Charged Shot sin verificar en wiki — no anotado (gate dudosos).",
+    "attacks": {
+      "Charged Shot": { "punch_through": 3.0 }
+    }
+  },
+  "/Lotus/Weapons/Tenno/Bows/StalkerBow": {
+    "_name": "Dread",
+    "_note": "Incarnon Form Charged Shot sin verificar en wiki — no anotado (gate dudosos).",
+    "attacks": {
+      "Charged Shot": { "punch_through": 2.5 }
+    }
+  },
+  "/Lotus/Weapons/Grineer/LongGuns/GrineerSawbladeGun/SawBladeGun": {
+    "_name": "Miter",
+    "_note": "Incarnon Form sin verificar en wiki — no anotado (gate dudosos).",
+    "attacks": {
+      "Charged Shot": { "punch_through": 2.5 }
+    }
+  },
+  "/Lotus/Weapons/Tenno/Rifle/SniperRifle": {
+    "_name": "Snipetron",
+    "attacks": {
+      "Normal Attack": { "punch_through": 2.5 }
+    }
   }
 }

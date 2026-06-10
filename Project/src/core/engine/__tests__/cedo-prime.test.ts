@@ -140,6 +140,19 @@ describe('Cedo — modo estático (estabilidad)', () => {
   });
 });
 
+// ─── Gate hitscan: el nodo projectile speed está AUSENTE (ausencia ≠ 0) ───────────
+//
+// Cedo Normal Attack es Hit-Scan (flight=null en el raw) → el nodo WEAPON_ADD_PROJECTILE_SPEED
+// NO se materializa. Esta aserción negativa blinda el gate del ItemRepository: un disparo
+// instantáneo no tiene velocidad, y un base 0 + mod % daría una velocidad espuria.
+// Ref: references/wiki/mechanics/projectile-speed.md §Gate hitscan.
+
+describe('Cedo — gate hitscan: projectile speed ausente', () => {
+  it('el nodo WEAPON_ADD_PROJECTILE_SPEED NO existe en una hitscan', () => {
+    expect(() => base().node('WEAPON_ADD_PROJECTILE_SPEED')).toThrow(/ausente/);
+  });
+});
+
 // ─── Combine elemental: Viral ya funciona ────────────────────────────────────────
 
 describe('Cedo — Viral combine (funciona)', () => {
@@ -162,4 +175,5 @@ describe('Cedo — borde de C1 (preguntas abiertas)', () => {
   it.todo('C2: procs/disparo = multishot × status_per_pellet — StatusEngine (parcial) [status-chance-mechanics.md:27]');
   it.todo('C1-gap: WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (GS on_kill) sin mapear — damage no sube en estático [D-6]');
   it.todo('C1? falloff de daño por distancia (shotgun) — verificar si C1 lo expone o es C2');
+  it.todo('C2: damage falloff — daño(distancia) lineal entre start 26/end 52, reduction 0.9667; projectile-speed escala start/end (gate hitscan: el % no tiene nodo dónde aterrizar) [damage-falloff.md]');
 });

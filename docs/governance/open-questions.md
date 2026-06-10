@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.18.0"
+Version: "v0.19.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-06-06"
+Fecha_de_actualizacion: "2026-06-10"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -205,7 +205,7 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 
 ---
 
-## OQ-ENGINE-7 — Materialización de nodos de atributo de arma faltantes (Capa 4) — **ABIERTO (2026-06-06)**
+## OQ-ENGINE-7 — Materialización de nodos de atributo de arma faltantes (Capa 4) — **ABIERTO (2026-06-06) — avance 2026-06-10**
 **Dominio:** engine / hydration
 **Contexto:** ~18 tokens `WEAPON_*` catalogados y mapeados producen un `Modifier` correcto, pero **ningún nodo lo recibe**: `ItemRepository.getDNA()` / `createBaseEntity()` solo materializa ~8 nodos de arma (crit chance/mult, status chance, fire rate, multishot, magazine, reload, daño). El resto (`punch_through`, `recoil`, `zoom`, `projectile_speed`, `ammo_max`, `headshot_mult`, familia `combo_*`/`heavy_*`, etc.) se evapora silenciosamente. **Caso disparador:** `WEAPON_FLAT_PUNCH_THROUGH` (rename cerrado 2026-06-06; op `ADD_FLAT` correcta vía `resolveToken`; 10 mods + 7 stats incarnon) — el token está bien resuelto pero no hay nodo `PUNCH_THROUGH`.
 **Pregunta:** ¿cómo y cuándo el engine materializa estos nodos? Separar los **tres ejes** (no conflacionar):
@@ -214,4 +214,26 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 - **(c) Resolución del ataque** — ¿el stat computa o es display-only? Punch through no modifica daño directo; cambia geometría de penetración (cuántos blancos atraviesa) — depende de un modelo de impacto que aún no existe.
 **Condición para resolver:** cuando el foco *weapons* llegue a Capa 4 (prioridad 2 del inventario, tras Capa 3 ya cerrada). Probable que se resuelva por familias de nodo, no token a token.
 **No bloquea:** captura de datos ni el vocabulario (token ya correcto y aplicado).
-**Fuente:** `.working/engine-ignorance-inventory.md §Capa 4`; `docs/data/references/wiki/mechanics/punch-through.md`; `docs/semantic/upgrade-tokens.md` (fila `WEAPON_FLAT_PUNCH_THROUGH`).
+**Avance (2026-06-10) — punch through materializado, ejes (a)+(b) resueltos para el caso disparador:**
+- **(a)** ya estaba: `ADD_FLAT` vía `resolveToken`.
+- **(b)** resuelto: el raw de `@wfcd/items` **sí expone** `punch_through` per-ataque (611/715 armas) pero vale **0 en el 100% del dataset** — incluso innatos (Lanka, Zenith). Mecanismo: `ItemRepository.getDNA()` escribe `WEAPON_FLAT_PUNCH_THROUGH` en el profile (`override per-ataque ?? raw ?? 0`); los innatos de la tabla wiki viven en `weapon-stats.override.json` (mismo patrón que multishot; formas Incarnon de Paris/Dread/Miter sin verificar → no anotadas). `createBaseEntity` materializa el nodo sin cambios (ya acepta todo token `isUpgrade()`).
+- **(c)** sigue abierto: el valor computa en C1 (metros); la geometría de penetración es C2 — acuñado como `it.todo` en el consumidor.
+- **Patrón validado para el resto de la Capa 4:** una clave en `getDNA()` por stat + override per-ataque para innatos. Consumidor: `__tests__/lanka.test.ts` (ver `test/catalog-current.md`).
+
+**Avance (2026-06-10 bis) — `projectile_speed` materializado, segundo nodo Capa 4:**
+- **Dos diferencias respecto a punch:** base = `flight` del raw **sin override** (el raw trae m/s reales, a diferencia de punch que era 0 en todo el dataset); op `ADD` (% aditivo) en vez de `ADD_FLAT`.
+- **Patrón nuevo — gate `flight != null` (ausencia ≠ 0):** hitscan = `flight` null en 274/274 (instantáneo, sin proyectil que acelerar) → nodo **ausente**, no `base: 0`. Tratar la ausencia como 0 envenenaría hitscan (un mod % daría velocidad espuria). Primera stat Capa 4 donde la ausencia del dato es semánticamente significativa. Aserción negativa en `cedo-prime.test.ts`.
+- **Edge-case wiki → reencuadrado como C2 (2026-06-10):** hitscan-**con**-falloff (67 ataques) — los mods de projectile speed escalan su rango de falloff. **No es un nodo Capa 4 faltante**: falloff es una **mecánica C2 entera** (`daño(distancia)`, interpolación lineal entre `start`/`end`), que requiere una variable de distancia inexistente en C1, tiene shape de 3 campos `{start,end,reduction}` (no escalar), y nada lo modifica salvo projectile_speed derivadamente. **Tensión abierta (diseño C2):** en hitscan-con-falloff el `%` de projectile speed no tiene nodo dónde aterrizar (gate `flight=null`) — C2 deberá leerlo de los modifiers o de nodos `FALLOFF_*` derivados. Prematuro decidir sin consumidor C2. El gate del nodo de *velocidad* sigue correcto. Spec: `references/wiki/mechanics/damage-falloff.md`. `it.todo` en `cedo-prime.test.ts`.
+- Mecánicas documentadas en `references/wiki/mechanics/{projectile-speed,damage-falloff}.md`. Accuracy/spread (insumo C2 de pellets) ya estaba en `accuracy.md` — no se duplicó.
+
+**Avance (2026-06-10 ter) — `recoil` materializado, tercer molde de base (SINTÉTICA) + sub-pregunta abierta:**
+- **Tercer molde:** ni override (punch) ni raw (projectile). **No existe dato absoluto público** de recoil — es stat interno de DE (`/Lotus/Types/Game/WeaponProperties/Recoil/`), oculto; ni el raw ni la UI ni la wiki lo exponen numéricamente. Única semántica disponible = **relativa** ("% sobre el nato"), validada por el juego (*"−100% recoil negates all recoil"*). → base **sintética `100`** incondicional en `getDNA()` (mismo patrón que `WEAPON_ADD_RELOAD_SPEED: 100`), op `ADD` (% bidireccional). Consumidor `lanka.test.ts` (Vile Precision −90% → final 10).
+- **Sub-pregunta abierta (queda como OQ — el nodo es inerte hasta resolverla):** recoil es **camera feel**, no input de daño — ni C1 ni C2 del simulador lo computan. El nodo produce un número relativo correcto pero **"muerto"** hasta decidir (a) **cómo se modela/usa** y (b) **cómo se representa en UI** (comparación de builds). Sin esa definición, materializarlo más allá del valor sería especulativo. Casos satélite: **clamp de sobre-reducción** (`final < 0` cuando dos reductores apilan > −100%; el juego clampea a 0 — ¿ley de C1 o presentación de D?); **aim vs hip recoil** (`AIMED_/HIP_CAMERA_RECOIL` internos, sin dato público); **fire-rate ↑ recoil** (interacción no parametrizada). `it.todo` en `lanka.test.ts`.
+- ⚠️ **Deuda de datos:** Stabilizer / Steady Hands (mods clásicos de recoil rifle/pistola) no curados en `mod-stats.override.json`; los 13 presentes son corrupted/duales/shotgun. No bloquea.
+- Mecánica documentada en `references/wiki/mechanics/recoil.md`.
+
+**Avance (2026-06-10 quater) — `ammo_max` y `ammo_efficiency`: NO materializados, dos razones distintas (frente Capa 4 PAUSADO aquí):**
+- **`ammo_max` = deuda de FUENTE, no de pipeline.** Verificado: `@wfcd/items` **no expone ammo max** (0/340 armas primary+secondary tienen el campo; `runtime-data-artifacts.ts:463` lee `magazineSize` pero no hay ammo que leer). El valor real existe (Laetum 12 mag / **210** reserva, visible en wiki/UI) pero la API de DE no lo da — solo la wiki. → **No se materializa con base sintética** (eso descartaría el dato real, anti-patrón ya evitado en projectile_speed). El modelado correcto (base = ammo max real) espera capturar el dato base: scrape dedicado de wiki, o que DE lo exponga. Capturar 340 valores a mano por override es inviable como lote. Pariente de eje (b) de esta OQ.
+- **`ammo_efficiency` = no encaja en los moldes, modelado pendiente.** No es stat de arma con base (acumulador de bonos, base 0); el op del token `ADD` (`mods_add_pct`, multiplica) no compone sobre base 0; su efecto es `disparos/ammo = 1/(1−efficiency)` (C2); los únicos 2 mods son condicionales (Brain Storm 0.125s, Zazvat-Kar `while_airborne`). Requiere decidir shape con un caso real (pendiente: estudiar Laetum) antes de modelar. **No bloquea.**
+- **Estado del frente Capa 4:** 3 nodos materializados (punch_through, projectile_speed, recoil); ammo pausado por lo de arriba. Próximos candidatos sin tocar: `zoom`, `headshot_mult`, familias `combo_*`/`heavy_*`, `slam_*`. Retomar tras la campaña de saneamiento de `references/wiki/` (ver `doc-map.md §5`).
+**Fuente:** `.working/engine-ignorance-inventory.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,accuracy}.md`; `docs/semantic/upgrade-tokens.md` (filas `WEAPON_FLAT_PUNCH_THROUGH`, `WEAPON_ADD_PROJECTILE_SPEED`).

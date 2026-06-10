@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
-Version: "v0.5.6"
+Version: "v0.5.8"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-06"
+Fecha_de_actualizacion: "2026-06-10"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -164,9 +164,9 @@ confirmar un mod o mecánica que lo requiera.
 | Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `WEAPON_ADD_ACCURACY` | `WEAPON_ADD_ACCURACY` | ADD | `[ref: accuracy.md]` | `—` | Pax Soar (arcane); exilus On-Equip. `WEAPON_SPREAD` (DE legacy) confirmado = **mismo stat** (spread = inverso de accuracy; Narrow Barrel / Tainted Shell llevan token spread con label "+% Accuracy") → unificar bajo este token. Sim asume aim perfecto — stat informativo. |
-| `WEAPON_ADD_RECOIL` | `WEAPON_ADD_RECOIL` | ADD | `[empirical]` | `—` | Stabilizer, Steady Hands (valores negativos = reducción) |
-| `WEAPON_ADD_PROJECTILE_SPEED` | `WEAPON_ADD_PROJECTILE_SPEED` | ADD | `[empirical]` | `—` | Terminal Velocity, Lightning Dash |
-| `WEAPON_FLAT_PUNCH_THROUGH` | `WEAPON_FLAT_PUNCH_THROUGH` | ADD_FLAT | `[ref: punch-through.md]` | `—` | Penetración **flat en metros** (post-escala, nunca se amplifica). Metal Auger, Seeking Force, Vigilante Offense + stats Incarnon. Cadena de rename: `WEAPON_PUNCTURE_DEPTH` (misnomer DE-legacy) → `WEAPON_ADD_PUNCH_THROUGH` (2026-06-04, intermedio) → `WEAPON_FLAT_PUNCH_THROUGH` (2026-06-06; segmento D-6 `FLAT` → op `ADD_FLAT` vía `resolveToken`). 10 mods + 7 stats incarnon. Sin consumidor de engine aún: el modifier se produce, pero el nodo de arma `PUNCH_THROUGH` no existe (Capa 4 → OQ-ENGINE-7). |
+| `WEAPON_ADD_RECOIL` | `WEAPON_ADD_RECOIL` | ADD | `[ref: recoil.md]` | `C1·inerte` | Camera kick post-disparo (% bidireccional: −90% a +100%). **Sin dato absoluto público** (interno de DE) → base **sintética `100`** en `getDNA()` (recoil relativo; mismo patrón que `WEAPON_ADD_RELOAD_SPEED`). Nodo **inerte** (no input de daño — camera feel) hasta definir modelado/UI → OQ-ENGINE-7 (clamp sobre-reducción, aim-vs-hip abiertos). Consumidor `lanka.test.ts` (Vile Precision). ⚠️ Stabilizer/Steady Hands no curados; los 13 mods son corrupted/duales/shotgun |
+| `WEAPON_ADD_PROJECTILE_SPEED` | `WEAPON_ADD_PROJECTILE_SPEED` | ADD | `[ref: projectile-speed.md]` | `C1` | Velocidad de proyectil **m/s** (% aditivo). Base = `flight` del raw, sin override. **Gate `flight != null` (ausencia ≠ 0):** nodo ausente en hitscan (instantáneo, sin proyectil); un base 0 + mod % daría velocidad espuria. Consumidor `lanka.test.ts` (2026-06-10). Edge-case diferido: hitscan-con-falloff escala falloff-range (nodo inexistente). Terminal Velocity, Fatal Acceleration, Whirlwind |
+| `WEAPON_FLAT_PUNCH_THROUGH` | `WEAPON_FLAT_PUNCH_THROUGH` | ADD_FLAT | `[ref: punch-through.md]` | `—` | Penetración **flat en metros** (post-escala, nunca se amplifica). Metal Auger, Seeking Force, Vigilante Offense + stats Incarnon. Cadena de rename: `WEAPON_PUNCTURE_DEPTH` (misnomer DE-legacy) → `WEAPON_ADD_PUNCH_THROUGH` (2026-06-04, intermedio) → `WEAPON_FLAT_PUNCH_THROUGH` (2026-06-06; segmento D-6 `FLAT` → op `ADD_FLAT` vía `resolveToken`). 10 mods + 7 stats incarnon. **Consumidor de engine `lanka.test.ts` (2026-06-10):** nodo materializado en `getDNA()` (`override per-ataque ?? raw ?? 0`); innatos en `weapon-stats.override.json`. El valor computa en C1 (metros); la geometría de penetración es C2 (OQ-ENGINE-7 eje c, abierto). |
 | `WEAPON_ADD_ZOOM` | `WEAPON_ADD_ZOOM` | ADD | `[empirical]` | `—` | Eagle Eye (DE: `zoom`) |
 
 ### WEAPON — melee

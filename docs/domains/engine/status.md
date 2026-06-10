@@ -1,7 +1,7 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.3.2"
+Version: "v0.3.3"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
@@ -85,6 +85,7 @@ Suite de **consumidores derivados** vía el "clic" (`helpers/consume.ts`). Índi
 | Suite | Rol |
 |---|---|
 | `boltor` / `cedo` / `felarx` / `laetum` `.test.ts` | consumidores migrados al clic (estabilidad `.final` + lógica por buckets + `it.todo` de borde C1↔C2) |
+| `lanka.test.ts` | consumidor del primer nodo Capa 4 (`WEAPON_FLAT_PUNCH_THROUGH`): innato per-ataque vía `weapon-stats.override.json` + `ADD_FLAT` (OQ-ENGINE-7 ejes a+b) |
 | `weapon-multishot-resolution.test.ts` | test de datos/regla (integridad override + resolución DNA) |
 | ~~`aklex-prime.test.ts`~~ | **ELIMINADO (2026-06-09)** — baseline sin acople; OQ-ENGINE-6 cerrado |
 | ~~`__tests__-legacy/`~~ | **ELIMINADO (2026-05-21)** — 12 suites purgadas |

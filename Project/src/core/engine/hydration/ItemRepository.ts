@@ -42,12 +42,25 @@ export class ItemRepository {
           WEAPON_ADD_STATUS_CHANCE:(attack.status_chance ?? raw.stats.status_chance ?? 0) * 100,
           WEAPON_ADD_FIRE_RATE:    attack.speed ?? raw.stats.fire_rate ?? 0,
           WEAPON_ADD_MULTISHOT:    this.resolveMultishot(raw, attack.name ?? '', index),
+          WEAPON_FLAT_PUNCH_THROUGH: this.resolvePunchThrough(raw, attack.name ?? '', attack.punch_through),
           WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
           reload_time:             raw.stats.reload_time ?? 0,
           WEAPON_ADD_RELOAD_SPEED: 100,
+          // Recoil: base sintética 100 (recoil relativo, % sobre el nato). No hay dato absoluto
+          // público (interno de DE); incondicional, todas las armas tienen recoil. Nodo inerte
+          // hasta definir modelado/UI — OQ-ENGINE-7. Ver references/wiki/mechanics/recoil.md.
+          WEAPON_ADD_RECOIL:       100,
           WEAPON_DAMAGE:           damage_sum || 100,
           ...damage_map
         };
+
+        // Projectile speed (m/s): gate por ausencia ≠ 0. El raw expone `flight` solo en armas
+        // no-hitscan; hitscan = null (instantáneo, sin proyectil que acelerar). Solo se materializa
+        // el nodo cuando hay valor real — un base 0 + mod % daría velocidad espuria en hitscan.
+        // Ver references/wiki/mechanics/projectile-speed.md §Gate hitscan.
+        if (attack.flight != null) {
+          profiles[profile_name].WEAPON_ADD_PROJECTILE_SPEED = attack.flight;
+        }
       });
       
       if (!profiles['base'] && Object.keys(profiles).length > 0) {
@@ -63,9 +76,11 @@ export class ItemRepository {
         WEAPON_ADD_STATUS_CHANCE:(raw.stats.status_chance ?? 0) * 100,
         WEAPON_ADD_FIRE_RATE:    raw.stats.fire_rate ?? 0,
         WEAPON_ADD_MULTISHOT:    raw.stats.multishot ?? 1,
+        WEAPON_FLAT_PUNCH_THROUGH: 0,
         WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
         reload_time:             raw.stats.reload_time ?? 0,
         WEAPON_ADD_RELOAD_SPEED: 100,
+        WEAPON_ADD_RECOIL:       100,  // base sintética — ver branch principal y recoil.md
         WEAPON_DAMAGE:           damage_sum_fallback || 100,
         ...damage_map_fallback
       };
@@ -118,6 +133,17 @@ export class ItemRepository {
       return override.attacks[attackName].multishot;
     }
     return index === 0 ? (raw.stats.multishot ?? 1) : 1;
+  }
+
+  // El raw expone punch_through por ataque pero vale 0 en TODO el dataset (verificado 2026-06-10),
+  // incluso para innatos (Lanka 5.0m charged, Zenith ~infinito). Los innatos viven en
+  // weapon-stats.override.json per-ataque; el raw queda de fallback por si aguas arriba se puebla.
+  private static resolvePunchThrough(raw: any, attackName: string, rawValue?: number): number {
+    const override = this.weaponAttackOverrides.get(raw.unique_name);
+    if (override?.attacks?.[attackName]?.punch_through !== undefined) {
+      return override.attacks[attackName].punch_through;
+    }
+    return rawValue ?? 0;
   }
 
   /**
