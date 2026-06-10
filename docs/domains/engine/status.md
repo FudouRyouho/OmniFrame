@@ -5,7 +5,7 @@ Version: "v0.3.2"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-08"
+Fecha_de_actualizacion: "2026-06-10"
 ---
 
 # Engine Status
@@ -80,7 +80,7 @@ Fecha_de_actualizacion: "2026-06-08"
 
 Suite de **consumidores derivados** vía el "clic" (`helpers/consume.ts`). Índice de qué resuelve cada uno:
 [`test/catalog-current.md`](test/catalog-current.md). Workflow + gramática ✓/fails/todo:
-[`test/test-workflow.md`](test/test-workflow.md).
+[`test/test-workflow.md`](test/test-workflow.md). Territorio de gaps por construir: [`test/gap-map.md`](test/gap-map.md).
 
 | Suite | Rol |
 |---|---|
