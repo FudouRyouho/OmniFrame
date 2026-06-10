@@ -1,10 +1,10 @@
 # Hit Points
 
 > Estado: activo
-> Rol: modelo unificado de capas de HP y fórmulas de EHP para el engine v1
+> Rol: modelo unificado de capas de HP y fórmulas de EHP
 > Fuente de verdad de: jerarquía de daño (Overguard → Shield → Health), cálculo de EHP, bleedout
 > No usar para: escalado de HP de enemigos o mecánicas de revivir detalladas
-> Última actualización: 2026-05-26
+> Última actualización: 2026-06-10
 
 ## Orden de capas
 
@@ -82,24 +82,10 @@ Al llegar a 0 Health el warframe entra en **bleedout**:
 | **Overguard gate** | 0.5s de invulnerabilidad al agotar Overguard |
 | **Overshield cap** | 1200 independientemente del max shield del warframe |
 
-## Referencia de atributos del engine
-
-| Stat | Token D-6 relevante |
-|---|---|
-| Max Health | `AVATAR_ADD_HEALTH_MAX` (%), `AVATAR_FLAT_HEALTH_MAX` (plano) |
-| Max Shield | `AVATAR_ADD_SHIELD_MAX` (%), `AVATAR_FLAT_SHIELD_MAX` (plano) |
-| Health Regen | `AVATAR_FLAT_HEALTH_REGEN` (HP/s plano) |
-| Shield Recharge | `AVATAR_ADD_SHIELD_RECHARGE_RATE` (%) |
-| Armor (afecta EHP) | `AVATAR_ADD_ARMOUR` (%), `AVATAR_FLAT_ARMOUR` (plano) |
-
 ## Fuentes
 
 - https://wiki.warframe.com/w/Hit_Points
 - https://wiki.warframe.com/w/Health
 - https://wiki.warframe.com/w/Shield
 - https://wiki.warframe.com/w/Overguard
-- `references/wiki/mechanics/health.md`
-- `references/wiki/mechanics/shield.md`
-- `references/wiki/mechanics/overguard.md`
-- `references/wiki/mechanics/armor.md`
-- `references/wiki/mechanics/damage-reduction.md`
+- [`health.md`](health.md) · [`shield.md`](shield.md) · [`overguard.md`](overguard.md) · [`armor.md`](armor.md) · [`damage-reduction.md`](damage-reduction.md)

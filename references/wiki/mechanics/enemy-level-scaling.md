@@ -1,10 +1,10 @@
 # Enemy Level Scaling
 
 > Estado: activo
-> Rol: fórmulas de escalado de stats de enemigos por nivel — referencia para EnemyRepository y ScaledEnemy
+> Rol: fórmulas de escalado de stats de enemigos por nivel
 > Fuente de verdad de: curva S post-Update 27.2, coeficientes por facción, EHP derivado
 > No usar para: drops, afinidad de jugador o mecánicas de spawn
-> Última actualización: 2026-05-27
+> Última actualización: 2026-06-10
 > Fuente: https://wiki.warframe.com/w/Enemy_Level_Scaling
 
 ## Fórmula base universal
@@ -97,16 +97,5 @@ Durante Supervivencia y Defensa el nivel de spawn aumenta exponencialmente hasta
 ```
 Nivel = Nivel_Inicial + Σ 2.59 × e^(0.139 × Número_Ronda)
 ```
-
-## Mapeo al engine
-
-| Stat | Módulo | Estado |
-|---|---|---|
-| Health escalada | `EnemyRepository.scale()` | ⚠️ Parcial — sin curva S |
-| Shield escalada | `EnemyRepository.scale()` | ⚠️ Parcial |
-| Armor escalada | `EnemyRepository.scale()` + `EnemyState.getEffectiveArmor()` | ⚠️ Parcial |
-| Damage enemigo | No modelado en C1 | ⏸ Fuera de scope C1 |
-| Curva S (interpolación) | No implementado | ⏸ Deuda conocida |
-| Steel Path | No implementado | ⏸ Deuda conocida |
 
 > Nota: las fórmulas documentadas provienen de testing in-game, no de fuentes oficiales de DE.

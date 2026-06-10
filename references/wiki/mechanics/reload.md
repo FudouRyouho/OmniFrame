@@ -1,10 +1,10 @@
 # Reload
 
 > Estado: activo
-> Rol: fórmula de recarga y fuentes de Reload Speed para el engine v1
-> Fuente de verdad de: cálculo de Total Reload Time, distinción reload_time (base) vs reload_speed (mod), fuentes ADD
+> Rol: fórmula de recarga y fuentes de Reload Speed
+> Fuente de verdad de: cálculo de Total Reload Time, distinción Base Reload Time vs Reload Speed bonus, escalado inverso
 > No usar para: mecánicas de recarga automática por habilidad (Trinity, Carrier, etc.) o reload parcial (escopetas)
-> Última actualización: 2026-05-26
+> Última actualización: 2026-06-10
 
 ## Fórmula base
 
@@ -40,16 +40,7 @@ Total Reload Time = (Start Delay + Shells × Shell_Time + End Delay) / (1 + Relo
 
 El divisor de velocidad aplica a todo el ciclo — incluyendo los delays de inicio y fin.
 
-## Mapeo a tokens D-6
-
-| Stat | Token D-6 | Op | Notas |
-|---|---|---|---|
-| Reload Speed (mods %) | `WEAPON_ADD_RELOAD_SPEED` | ADD | Fast Hands, Primed Fast Hands, Tactical Reload, etc. |
-| Base Reload Time | `reload_time` (deuda D-7) | — | Dato puro del arma — no es un token de modificador. Naming pendiente en D-7 Fase 1. |
-
-> Ver `docs/data/decisions.md §D-7` — sub-pregunta abierta: si `reload_time` toma token `WEAPON_STAT_RELOAD_TIME` o se trata fuera del sistema de atributos.
-
-## Fuentes de Reload Speed (ADD)
+## Fuentes de Reload Speed
 
 ### Mods
 
@@ -72,7 +63,7 @@ El divisor de velocidad aplica a todo el ciclo — incluyendo los delays de inic
 | Speed | Volt | +10–25% |
 | Pasiva (pistolas single-hand) | Mesa | +25% |
 
-> Todas las habilidades dan Reload Speed porcentual — mismo token `WEAPON_ADD_RELOAD_SPEED`, operación ADD.
+> Todas las habilidades dan Reload Speed porcentual (se suman aditivamente entre sí).
 
 ## Interacciones relevantes
 
@@ -86,5 +77,3 @@ El divisor de velocidad aplica a todo el ciclo — incluyendo los delays de inic
 ## Fuentes
 
 - https://wiki.warframe.com/w/Reload
-- `references/wiki/mechanics/hit-points.md`
-- `docs/data/decisions.md §D-7` (sub-pregunta `reload_time`)

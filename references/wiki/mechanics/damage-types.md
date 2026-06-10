@@ -12,9 +12,8 @@ Un **tipo de daño** (ej. `heat`) describe el componente de daño de un arma o h
 
 Un **efecto de estado** (proc) es la consecuencia secundaria aplicada al enemigo al acumular suficiente status chance (ej. `Ignite`).
 
-Son vocabularios independientes. El tipo de daño `heat` y el proc `Ignite` comparten origen pero el engine los modela por separado. Ver `status-effects.md` para fórmulas de proc.
-
-Fuente canónica en código: `Project/src/shared/types/damage.ts` — campo `statusLabel`.
+Son vocabularios independientes: el tipo de daño `heat` y el proc `Ignite` comparten origen pero
+son cosas distintas. Ver [`status-effects.md`](status-effects.md) para fórmulas de proc.
 
 ---
 

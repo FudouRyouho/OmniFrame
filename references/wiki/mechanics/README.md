@@ -85,19 +85,8 @@ conviene crear documentos separados por familia:
 
 ## Estado editorial
 
-Este índice ya tiene un primer bloque útil para engine v1:
-
-- `damage-types.md`
-- `critical-hits.md`
-- `multishot.md`
-- `condition-overload.md`
-
-El resto puede seguir entrando como extracción progresiva desde la wiki cuando el
-engine realmente necesite esa matemática o esa mecánica.
-
-`Status Effect` sigue siendo una referencia fuerte para crecer después, pero hoy no
-hace falta convertir toda la página en documentación local si el objetivo todavía es
-cerrar la capa base del engine.
+Las páginas se extraen de la wiki de forma progresiva, a medida que se necesita verificar una
+mecánica o fórmula concreta.
 
 ## Plantilla sugerida
 
@@ -105,6 +94,4 @@ Cada documento debería incluir:
 - definición de la mecánica
 - fórmula o reglas verificadas
 - excepciones y edge cases
-- implicación para el builder
-- campos o estructuras que el engine necesitaría
 - fuentes wiki exactas

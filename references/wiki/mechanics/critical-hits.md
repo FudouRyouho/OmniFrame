@@ -1,10 +1,11 @@
 # Critical Hits
 
 > Estado: activo
-> Rol: resumen mínimo del sistema de crit para el engine v1
-> Fuente de verdad de: fórmulas de critical chance, tiers y damage multiplier promedio
+> Rol: sistema de crit — chance, tiers y damage multiplier promedio
+> Fuente de verdad de: fórmulas de critical chance, tiers, multiplicador por tier y daño promedio
 > No usar para: edge cases de quantization o parity perfecta de cada arma
-> Última actualización: 2026-03-22
+> Última actualización: 2026-06-10
+> Fuente: https://wiki.warframe.com/w/Critical_Hit
 
 ## Que es
 
@@ -13,8 +14,6 @@ El sistema de crit define:
 - si un hit hace crit o no
 - en que tier cae ese crit
 - que multiplicador final aplica sobre el hit
-
-Para v1, esto es de las piezas más rentables de modelar porque afecta DPS promedio de forma directa.
 
 ## Fórmula base de critical chance
 
@@ -79,7 +78,7 @@ Esto ya contempla crit chance >100% si `totalCritChanceDecimal` vale, por ejempl
 
 ## Headcrit
 
-Si el engine v1 quiere soportar weak points/headshots, la fórmula útil es:
+Para weak points / headshots, la fórmula es:
 
 ```text
 headshotCritTierMultiplier = headshotMultiplier * (1 + tier * (2 * totalCritDamage - 1))
@@ -99,35 +98,13 @@ Esto importa mucho para:
 - armas con innate multishot
 - cualquier cosa que combine crit con multishot alto
 
-## Que puede esperar v1 y que no
-
-Modelar ya:
-
-- crit chance relativa
-- crit chance absoluta
-- crit damage relativo
-- crit tiers
-- average DPS con crit
-- crit por pellet
-
-Dejar para más adelante:
+## Edge cases conocidos
 
 - quantization exacta del base critical damage
-- casos raros de buffs que alteran base antes de quantization
-- todos los edge cases de headshot por enemigo
-
-## Datos que el engine debería guardar
-
-- `baseCritChance`
-- `baseCritDamage`
-- `relativeCritChanceBonus`
-- `absoluteCritChanceBonus`
-- `relativeCritDamageBonus`
-- `absoluteCritDamageBonus`
-- `headshotMultiplier`
-- `critPerProjectile`
+- buffs que alteran la base antes de la quantization
+- multiplicadores de headshot por tipo de enemigo
 
 ## Fuentes
 
-- `https://wiki.warframe.com/w/Critical_Hit`
-- `https://wiki.warframe.com/w/Damage`
+- https://wiki.warframe.com/w/Critical_Hit
+- https://wiki.warframe.com/w/Damage

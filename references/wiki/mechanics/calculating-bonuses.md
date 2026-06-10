@@ -1,10 +1,10 @@
 # Calculating Bonuses
 
 > Estado: activo
-> Rol: referencia canónica de stacking aditivo vs multiplicativo — valida la implementación de SimulationEngine
-> Fuente de verdad de: orden de operaciones de mods, pools de stacking, fórmulas de DPS del Arsenal
+> Rol: stacking aditivo vs multiplicativo, orden de operaciones y fórmulas de DPS del Arsenal
+> Fuente de verdad de: pools de stacking, orden de operaciones de mods, fórmulas de DPS/EHP
 > No usar para: escalado de nivel de enemigos (ver `enemy-level-scaling.md`) o DR de armor (ver `damage-reduction.md`)
-> Última actualización: 2026-05-27
+> Última actualización: 2026-06-10
 > Fuente: https://wiki.warframe.com/w/Calculating_Bonuses
 
 ## Concepto base: Percent Bonus → Multiplicador
@@ -17,16 +17,16 @@ Un bonus de +165% se aplica como `× 1.65` sobre el valor base.
 
 ## Cuatro tipos de operación
 
-| Tipo | Operación en engine | Stacking | Ejemplo |
-|---|---|---|---|
-| Flat Value | `ADD_FLAT` | Aditivo entre sí | ±X Energy Rate, ±X Health |
-| Percent Bonus | `ADD` | Aditivo entre sí | ±X% Damage, ±X% Ability Strength |
-| Conditional Percent | `MULTIPLICATIVE` | Multiplicativo entre sí | Faction bonuses, procs de estado |
-| Override | `SET` | Reemplaza — no apila | SET (valor fijo) |
+| Tipo | Stacking | Ejemplo |
+|---|---|---|
+| Flat Value | Aditivo entre sí | ±X Energy Rate, ±X Health |
+| Percent Bonus | Aditivo entre sí | ±X% Damage, ±X% Ability Strength |
+| Conditional Percent | Multiplicativo entre sí | Faction bonuses, procs de estado |
+| Override | Reemplaza — no apila | valor fijo |
 
 ---
 
-## Stacking ADITIVO (`ADD`)
+## Stacking aditivo (porcentaje)
 
 Todos los bonuses del mismo pool se suman **antes** de multiplicar el valor base.
 
@@ -50,7 +50,7 @@ aporta menos valor *relativo* (aunque el valor absoluto siempre aumenta).
 
 ---
 
-## Stacking MULTIPLICATIVO (`MULTIPLICATIVE`)
+## Stacking multiplicativo
 
 Bonuses de **pools distintos** (condiciones diferentes) se multiplican entre sí.
 
@@ -101,19 +101,19 @@ Stat = [Base × ∏(1 + ΣAdditive_por_pool)] + ΣFlat
 
 ## Orden de aplicación para daño de armas
 
-### Step 1 — Base Damage bonus (`ADD`)
+### Step 1 — Base Damage bonus (porcentaje aditivo)
 ```
 Modified_Base = Base × (1 + BaseDamageBonus%)
 ```
 *Pool: Serration, Hornet Strike, Primed Point Blank, etc.*
 
-### Step 2 — Elemental y Physical damage (`ADD` sobre la base modificada)
+### Step 2 — Elemental y Physical damage (porcentaje sobre la base modificada)
 ```
 Elemental_Damage = Modified_Base × ElementalBonus%
 Physical_Specific = Modified_Base × PhysicalTypeBonus% (solo si el arma tiene ese tipo)
 ```
 
-### Step 3 — Faction bonus (`MULTIPLICATIVE` sobre el total)
+### Step 3 — Faction bonus (multiplicativo sobre el total)
 ```
 Total_vs_Faction = (Modified_Base + Elemental + Physical) × (1 + FactionBonus%)
 ```
@@ -186,18 +186,3 @@ Los mods de Health/Shield/Energy/Armor ahora aplican al stat **en rango actual**
 Vitality (+100%) sobre Excalibur R30 = 370 health → +370 = 740 total
 (igual resultado final que antes del update, pero la fórmula mental es más intuitiva)
 ```
-
----
-
-## Validación contra el engine (SimulationEngine)
-
-| Mecánica | Token / operación en engine | Estado |
-|---|---|---|
-| Percent bonus aditivo | `ADD` → `mods_add_pct` | ✅ `applyAdditiveBonus()` |
-| Global damage mult (Serration etc) | `WEAPON_DAMAGE` node → `globalDmgMult` | ✅ Implementado |
-| Multiplicativo (faction/procs) | `MULTIPLICATIVE` → `node.multiplicative` | ✅ `*= (1 + value/100)` |
-| Flat post-escala | `ADD_FLAT` → `total_flat` | ✅ Implementado |
-| Base flat pre-escala | `BASE_FLAT` → `base_flat` | ✅ Implementado |
-| Elemental damage (% de base) | `ADD` sobre token `WEAPON_ADD_*_DAMAGE` | ✅ Vía DamageCombiner |
-| Faction bonus (multiplicativo) | `GAMEPLAY_MULT_FACTION_DAMAGE` → `MULTIPLICATIVE` | ✅ En UPGRADE_MAP |
-| Physical-specific damage | `ADD` sobre `WEAPON_ADD_SLASH/IMPACT/PUNCTURE_DAMAGE` | ✅ Tokens específicos |

@@ -1,10 +1,10 @@
 # Overguard
 
 > Estado: activo
-> Rol: mecánica de Overguard — capa pre-shield independiente para el engine v1
+> Rol: mecánica de Overguard — capa pre-shield independiente
 > Fuente de verdad de: comportamiento de Overguard (daño, CC, tipos efectivos), orden de capas
 > No usar para: simulación de generación de Overguard por habilidad o escalado de Eximus en alta dificultad
-> Última actualización: 2026-05-26
+> Última actualización: 2026-06-10
 
 ## Qué es Overguard
 
@@ -71,20 +71,16 @@ Los Eximus tienen Overguard que escala con el nivel del enemigo:
 OG_enemy = OG_base × (1 + (Level - Level_base) × factor)
 ```
 
-Los valores exactos de escalado de Eximus están fuera del scope del engine v1 — pertenecen al sistema de enemigos, no al de warframes.
+Los valores exactos de escalado de Eximus pertenecen al sistema de enemigos, fuera del alcance de
+esta página.
 
-## Mapeo a tokens D-6
+## Modificación de Overguard
 
-El Overguard no tiene tokens de modificación estáticos en el vocabulario actual — todas sus fuentes son habilidades o mecánicas de trigger. No hay equivalente a `AVATAR_ADD_SHIELD_MAX` para Overguard en v1.
-
-| Stat | Estado |
-|---|---|
-| Max Overguard | No modelado — generado por habilidades (fuera de scope v1) |
-| Overguard Void bonus | No modelado — interacción elemental contra layer |
-| Magnetic stacking vs OG | No modelado — pertenece a `GameLaws` |
+El Overguard **no tiene mods de modificación estáticos** — todas sus fuentes son habilidades o
+mecánicas que lo generan dinámicamente. No existe un equivalente a los mods de max shield para
+Overguard.
 
 ## Fuentes
 
 - https://wiki.warframe.com/w/Overguard
-- `references/wiki/mechanics/shield.md`
-- `references/wiki/mechanics/hit-points.md`
+- [`shield.md`](shield.md) · [`hit-points.md`](hit-points.md)

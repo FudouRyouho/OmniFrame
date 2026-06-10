@@ -58,9 +58,9 @@ Para armas con multishot:
 - Cada proyectil = un `DmgSrc` dentro del `HitPtr`
 - **Armas continuas**: multishot actúa como multiplicador de daño, no como instancias adicionales
 
-> Distinción crítica para el engine: `WEAPON_ADD_MULTISHOT` divide el daño por pellet en
-> `CombatSimulator`, pero el daño total resultante es el mismo que si fuera un solo hit.
-> La diferencia importa para la distribución de status (más chances de proc por disparo).
+> Distinción crítica: el multishot **divide** el daño por pellet, pero el daño total resultante es
+> el mismo que si fuera un solo hit. La diferencia importa para la distribución de status (más
+> chances de proc por disparo).
 
 ## Fórmulas de conteo de hits
 
@@ -102,13 +102,3 @@ Blast:              cada stack = un HitPtr independiente
 | Hall of Mirrors | Clone | 0-6 MainPtr clonados (sin Extra Hits) |
 | Blast proc | StatusPtr | stacks = HitPtrs independientes |
 
-## Relevancia para el engine
-
-| Mecánica | Módulo afectado | Estado |
-|---|---|---|
-| Multishot → pellets | `AtomicSimulator.rollPellets()` | ✅ Implementado |
-| Crit tier por pellet | `AtomicSimulator.calculateCritDistribution()` | ✅ Implementado |
-| Extra Hits (abilities) | `HitPtr` — no modelado en C1 | ⏸ Scope: Ability System |
-| Distribution Hits | `HitPtr` — no modelado | ⏸ Scope: Ability System |
-| DoT hit counts | `StatusEngine` | ⚠️ Parcial |
-| Blast proc HitPtrs | No modelado | ⏸ Deuda conocida |

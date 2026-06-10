@@ -1,10 +1,10 @@
 # Shield
 
 > Estado: activo
-> Rol: fórmula de Shields y mecánicas de Shield Gate / recarga para el engine v1
-> Fuente de verdad de: cálculo de Total Shields, DR inherente, recharge rate, fuentes ADD vs ADD_FLAT
+> Rol: fórmula de Shields y mecánicas de Shield Gate / recarga
+> Fuente de verdad de: cálculo de Total Shields, DR inherente del 50%, recharge rate
 > No usar para: mecánicas de Overshield detalladas o simulación de Shield Gate frame-by-frame
-> Última actualización: 2026-05-26
+> Última actualización: 2026-06-10
 
 ## Fórmula base
 
@@ -16,15 +16,15 @@ Fuente: https://wiki.warframe.com/w/Shield
 
 - `Base Shields` — valor del warframe en Rank 0 (+ Rank Bonus sumado antes del multiplicador, igual que Health)
 - `Mods%` — suma aditiva de mods porcentuales (Redirection, Primed Vigor, etc.)
-- `Abilities%` — habilidades que dan % de shields (Limbo Rift shield, etc.) — mismo pool ADD que mods
+- `Abilities%` — habilidades que dan % de shields (Limbo Rift shield, etc.) — mismo pool aditivo que mods
 
-## Mapeo a tokens D-6
+## Fuentes de Shields
 
-| Capa | Token | Op | Fuentes |
-|---|---|---|---|
-| % aditivo de mods | `AVATAR_ADD_SHIELD_MAX` | ADD | Redirection, Primed Vigor, Physique (aura) |
-| Plano post-escala | `AVATAR_FLAT_SHIELD_MAX` | ADD_FLAT | Azure Archon Shard (+150/+225) |
-| Tasa de recarga | `AVATAR_ADD_SHIELD_RECHARGE_RATE` | ADD | Fast Deflection |
+| Capa | Fuentes |
+|---|---|
+| % aditivo de mods | Redirection, Primed Vigor, Physique (aura) |
+| Plano post-escala | Azure Archon Shard (+150/+225) |
+| Tasa de recarga | Fast Deflection |
 
 ## Reducción de daño inherente (50%)
 

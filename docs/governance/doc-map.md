@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Mapa de durabilidad del corpus docs/ + criterio de archivado + registro de la campaña de saneamiento"
-Version: "v0.1.0"
+Version: "v0.2.0"
 Impacto_ID: "G-DocMap"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-06-06"
-Fecha_de_actualizacion: "2026-06-06"
+Fecha_de_actualizacion: "2026-06-10"
 ---
 
 # Doc Map — durabilidad del corpus y saneamiento
@@ -81,3 +81,44 @@ Pendientes de la campaña (no ejecutados esta sesión):
 - Refrescar `engine-audit.md` y `engine/status.md` contra el código actual.
 - Bloat cualitativo intra-doc (sobre-responsabilidad/acreción histórica): requiere auditoría de
   contenido doc-completo, fuera del alcance mecánico de esta sesión.
+
+---
+
+## 5. Foco D — saneamiento de `references/wiki/` (2026-06-10, EN CURSO)
+
+Es el "`docs/data/references/*` se revisa aparte" que la campaña de 2026-06-06 dejó fuera de scope.
+
+**Hallazgo (regla establecida con el usuario):** `references/` es la **wiki local pura** — su propósito
+es ser fuente de consulta estable para no re-fetchear la wiki. Por eso **no debe contener vocablo del
+proyecto** (tokens `WEAPON_*`/`AVATAR_*`, ops `ADD`/`ADD_FLAT`, "engine vN", `D-N`, `OQ-*`, refs a
+`Project/src/*.ts`): si lo tiene, queda stale cuando `docs/` cambia. Excepción única: `game-ui/` (por
+composición del pipeline). `docs/` **sí** puede citar `references/` (no es regla excluyente). El subdir
+`docs/data/references/wiki/` **no debe existir** (los híbridos de mecánica van limpios a `references/wiki/`;
+el modelado vive en `docs/`: `upgrade-tokens.md`, `gap-map.md`, OQ).
+
+**Alcance del problema (escaneo 2026-06-10):** contaminación **sistémica** —
+- **18/18 docs de `references/wiki/mechanics/` (raíz)** tienen vocablo del proyecto (secciones "Mapeo a
+  tokens D-6", "engine v1", refs a `.ts`). Solo `projectile-speed.md` ya saneado.
+- **8 docs en `docs/data/references/wiki/mechanics/`** (híbridos mal ubicados): accuracy, damage-falloff,
+  damage-reduction, knockdown, life-steal, projectile-speed, punch-through, recoil. 3 los creó esta serie
+  de sesiones (projectile-speed, recoil, damage-falloff).
+- **Conflicto:** `damage-reduction.md` en ambos árboles (fusionar). `status-chance-mechanics.md` (en
+  `docs/data/references/`) es híbrido análogo.
+
+**Decisión de alcance:** campaña completa (opción 2) — los ~26 docs a wiki pura, contrastando con la wiki
+para no perder precisión. Las secciones "Mapeo a tokens D-6" se **borran** de `references/` (su hogar es
+`upgrade-tokens.md`). Enfoque (A): el modelado no se preserva en derivados — ya vive en `docs/`.
+
+**Progreso — COMPLETADO 2026-06-10:**
+| Paso | Estado |
+|---|---|
+| 18 docs raíz `references/wiki/mechanics/` → wiki pura (0 vocablo proyecto) | ✅ |
+| 8 híbridos de `docs/data/references/wiki/` → wiki pura en raíz | ✅ |
+| Conflicto `damage-reduction` → fusionado en raíz (incorporó Adaptation, Type Modifiers, Energy-as-Health del de docs/data) | ✅ |
+| Eliminado `docs/data/references/wiki/` (subárbol entero) | ✅ |
+| Punteros actualizados (`ItemRepository.ts`, `cedo`/`lanka.test.ts`, OQ, gap-map) → `references/wiki/mechanics/` | ✅ |
+| Suite engine verde tras los cambios (75 passed) | ✅ |
+
+**Follow-up menor (no parte del mandato del subdir `wiki/`):** `docs/data/references/status-chance-mechanics.md` está en ubicación válida (derivado con vocablo, **no** bajo `wiki/`), pero su parte de mecánica per-pellet (status chance per-pellet, procs/disparo) es wiki pura que podría extraerse a `references/wiki/mechanics/status-chance.md`. No se tocó hoy. `docs/data/references/` queda con 4 derivados legítimos: `canonical-sources`, `set-mods`, `status-chance-mechanics`, `warframe-items-source`.
+
+**Regla establecida (durable):** todo `.md` nuevo en `references/wiki/` debe ser wiki pura — si se escribe con vocablo del proyecto (tokens, ops, `engine vN`, `D-N`, `OQ-*`, refs `.ts`), es un **flag a notificar y corregir**.

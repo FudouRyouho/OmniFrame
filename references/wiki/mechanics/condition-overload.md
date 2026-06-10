@@ -1,10 +1,11 @@
 # Condition Overload
 
 > Estado: activo
-> Rol: resumen mínimo de CO y GunCO para el engine v1
-> Fuente de verdad de: fórmulas base de CO-style bonuses y clasificación mínima de behavior types
+> Rol: mecánica de CO y GunCO — bonus de daño por status activos
+> Fuente de verdad de: fórmulas de CO-style bonuses y clasificación de behavior types (Adding/Multiplying/None)
 > No usar para: catálogo exhaustivo de todas las armas y todos los edge cases de la wiki
-> Última actualización: 2026-03-22
+> Última actualización: 2026-06-10
+> Fuente: https://wiki.warframe.com/w/Condition_Overload_(Mechanic)
 
 ## Que es
 
@@ -15,7 +16,7 @@ Para el builder hay dos capas distintas:
 - `CO` melee clásico
 - `GunCO`, nombre de comunidad para el mismo patrón aplicado a armas de fuego
 
-## Fuentes relevantes para v1
+## Fuentes principales
 
 | Fuente | Clase | Bonus base |
 |---|---|---|
@@ -74,9 +75,9 @@ pellet2 ya puede recibir bonus por status A
 pellet3 puede recibir bonus por status A + status B
 ```
 
-## Behavior types que el engine v1 debe distinguir
+## Behavior types (clasificación de la wiki comunitaria)
 
-La wiki comunitaria de `Condition Overload (Mechanic)` separa 3 familias útiles para builder:
+La wiki de `Condition Overload (Mechanic)` separa 3 familias:
 
 ### 1. Adding
 
@@ -122,34 +123,15 @@ Esta tabla no pretende cubrir todo. Solo fija el shape de la referencia futura y
 | `Paris` | `Charged Shot` | `Projectile` | `Adding` | usa base del disparo no cargado |
 | `Ogris` | `Explosion Radius` | `AoE` | `Does not apply` | ejemplo clásico de exclusión |
 
-## Lo que sí conviene modelar ya
-
-- conteo de `uniqueStatusCount`
-- stacks activos de `Galvanized` mods
-- flag de comportamiento por ataque: `adding`, `multiplying`, `none`
-- separacion entre `direct hit` y `radial`
-
-## Lo que puede esperar
-
-Dejar para después:
+## Edge cases conocidos
 
 - catálogo completo por arma/attack
 - stance edge cases de melee
-- interacciones raras con perks Incarnon o child projectiles exoticos
-
-## Datos que el engine debería guardar
-
-- `coStyleBonusPerStatus`
-- `coStyleStacks`
-- `uniqueStatusCount`
-- `attackBehaviorType`
-- `isDirectHit`
-- `hasRadialComponent`
-- `attackId`
+- interacciones con perks Incarnon o child projectiles exóticos
 
 ## Fuentes
 
-- `https://wiki.warframe.com/w/Condition_Overload_(Mechanic)`
-- `https://wiki.warframe.com/w/Condition_Overload`
-- `https://wiki.warframe.com/w/Galvanized_Aptitude`
-- `https://wiki.warframe.com/w/Galvanized_Shot`
+- https://wiki.warframe.com/w/Condition_Overload_(Mechanic)
+- https://wiki.warframe.com/w/Condition_Overload
+- https://wiki.warframe.com/w/Galvanized_Aptitude
+- https://wiki.warframe.com/w/Galvanized_Shot

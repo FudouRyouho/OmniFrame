@@ -1,10 +1,10 @@
 # Multishot
 
 > Estado: activo
-> Rol: fórmula de multishot, fuentes ADD y casos especiales para el engine v1
+> Rol: fórmula de multishot, fuentes y casos especiales
 > Fuente de verdad de: cálculo de projectile count, fracción probabilística, interacción con crit/status
 > No usar para: catálogo completo de armas con multishot innato o mecánicas de spread/accuracy
-> Última actualización: 2026-05-26
+> Última actualización: 2026-06-10
 
 ## Fórmula base
 
@@ -21,13 +21,8 @@ Ejemplos:
 - `2.8` → 2 garantizados + 80% de chance de un tercero
 - `7.0` → 7 pellets siempre
 
-## Mapeo a tokens D-6
-
-| Stat | Token D-6 | Op | Notas |
-|---|---|---|---|
-| Multishot (mods %) | `WEAPON_ADD_MULTISHOT` | ADD | Split Chamber, Hell's Chamber, Barrel Diffusion, etc. |
-
-> `WEAPON_ADD_MULTISHOT` es un attr modificable — cada proyectil adicional es resultado de acumulación de mods ADD. El base projectile count del arma es un dato del DNA (no un AttributeNode).
+Los mods de multishot dan **porcentaje aditivo** sobre el base projectile count del arma (Split
+Chamber, Hell's Chamber, Barrel Diffusion, etc.).
 
 ## Interacción con críticos y status
 
@@ -52,7 +47,7 @@ Las habilidades de estado que escalan por tick (Slash, Heat, Toxin, Electricity,
 
 > **Hunter Munitions** en beams: aplica Slash forzado *después* del merge de instancias — evita el doble conteo de multishot en la aplicación de Slash.
 
-## Fuentes de Multishot (ADD)
+## Fuentes de Multishot
 
 ### Mods por categoría de arma
 
@@ -81,7 +76,7 @@ Las habilidades de estado que escalan por tick (Slash, Heat, Toxin, Electricity,
 | **Acuity mods** (Update 38.0+) | Bloquean modificaciones de multishot — valor fijo mientras el mod está activo; compensan con bonus de daño y crit en weak points |
 | **Armas con mechanic de recarga especial** (Bubonico, Dex Pixia) | El conteo de proyectiles funciona igual pero la lógica de recarga es propia del arma — no afecta multishot |
 
-## Implicación para status (builder)
+## Implicación para status
 
 Para proyectiles/pellets:
 ```text
@@ -93,16 +88,8 @@ Para beams — la cantidad de ticks no cambia, cambia su peso:
 effectiveStatusChance = baseStatusChance × rolledMultishotInstances
 ```
 
-## Lo que el engine modela en v1
-
-- Count esperado de proyectiles (con fracción probabilística)
-- Tirada independiente de crit/status por instancia
-- Comportamiento especial de beams (merge de instancias)
-
-Fuera de scope v1: accuracy y spread real, spearguns en modo thrown, Acuity lock.
-
 ## Fuentes
 
 - https://wiki.warframe.com/w/Multishot
-- `references/wiki/mechanics/critical-hits.md`
-- `references/wiki/mechanics/damage-types.md`
+- [`critical-hits.md`](critical-hits.md)
+- [`damage-types.md`](damage-types.md)

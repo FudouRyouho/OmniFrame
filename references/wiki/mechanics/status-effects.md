@@ -2,9 +2,9 @@
 
 > Estado: activo
 > Rol: mecánicas de efectos de estado — fórmulas de DoT, stacks de debuff, CC
-> Fuente de verdad de: comportamiento de procs en el engine de simulación temporal
+> Fuente de verdad de: comportamiento de procs — DoT, stacks de debuff, CC
 > No usar para: probabilidad de activación de proc — ver `damage-types.md` §Regla de elección de proc
-> Última actualización: 2026-05-26
+> Última actualización: 2026-06-10
 
 ## Distinción fundamental
 
@@ -13,13 +13,11 @@ Un **efecto de estado** (proc) es independiente del tipo de daño que lo activa.
 - `heat` → tipo de daño (componente de la distribución de daño del arma)
 - `Ignite` → efecto de estado aplicado al enemigo al triggerear un proc de calor
 
-Fuente canónica de nombres en código: `Project/src/shared/types/damage.ts`, campo `statusLabel`.
-
 ---
 
 ## Tabla de tipos → procs
 
-| Tipo de daño | Proc (statusLabel) | Categoría |
+| Tipo de daño | Proc | Categoría |
 |---|---|---|
 | `impact` | Stagger | CC |
 | `puncture` | Weakened | Debuff |
@@ -149,12 +147,6 @@ Límite absoluto: 50% — independientemente del número de stacks de Heat activ
 | Confusion | Radiation | Causa que el enemigo ataque a aliados temporalmente |
 | Bullet Attraction | Void | Atrae proyectiles entrantes hacia el objetivo |
 | Tau | Tau | Aumenta la status chance recibida por el enemigo (~+10% por stack) |
-
----
-
-## Nota de implementación
-
-El engine modela procs de DoT en `EnemyState.dot_pools` y stacks de debuff en `EnemyState.stacks`. Las claves actuales (`damage_slash_proc`, `damage_corrosive`, etc.) son identificadores de runtime independientes de los tokens D-6 de daño — **no son el mismo vocabulario**. Su renombre es deuda separada de D-7b Fase 2 (que solo afecta los attr IDs de daño del arma, no los estados del enemigo).
 
 ---
 
