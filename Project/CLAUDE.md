@@ -23,6 +23,14 @@ Los filtros de UI dependen del array `tags` — nunca de sets de compatibilidad 
 
 - No hardcodear lógica de compatibilidad en componentes UI.
 
+## Convención: scripts de patch one-off
+
+Los scripts que mutan un override una sola vez (patches one-off) van en `Project/scripts/.local/` — carpeta gitignored. Git no los trackea: no generan ruido ni hace falta purgarlos a mano.
+
+- Herramientas read-only o reusables (triage, generadores reproducibles) → `Project/scripts/` normal (trackeadas).
+- SSoT del dato = el JSON resultante. La procedencia de un cambio de datos vive en git history, no en el script.
+- Citas de scripts purgados en `docs/` → reemplazar por "patch one-off (purgado tras uso; ver git history)".
+
 ## Triggers de fricción
 
 Si cualquier cambio rompe la Restricción 1 o 2:
