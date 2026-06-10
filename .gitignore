@@ -21,6 +21,7 @@ node_modules/*
 **/*.pyc
 
 # ─── Datos y temporales del proyecto ─────────────────────────────────────────
+warframe-items/
 Project/data/
 Project/scratch/
 docs/domains/data/pipeline/audits/
