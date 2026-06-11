@@ -16,7 +16,17 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "types": ["node"]
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@lib/*":      ["src/lib/*"],
+      "@domains/*":  ["src/domains/*"],
+      "@shared/*":   ["src/shared/*"],
+      "@core/*":     ["src/core/*"],
+      "@assets/*":   ["src/assets/*"],
+      "@providers/*":["src/providers/*"]
+    }
   },
   "include": ["scripts/**/*.ts"]
 }

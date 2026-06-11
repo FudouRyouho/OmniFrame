@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Workflow de testing derivado del engine: el CÓMO (clic + gramática ✓/fails/todo) y el registro de dirección (provenance, invariante, disparadores de graduación)"
-Version: "v0.1.0"
+Version: "v0.2.0"
 Impacto_ID: "E-TestWorkflow"
-Fidelidad_Fisica: "Project/src/core/engine/__tests__/helpers/consume.ts"
+Fidelidad_Fisica: "Project/src/core/engine/output/consume.ts"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-06-09"
+Fecha_de_actualizacion: "2026-06-11"
 ---
 
 # Test workflow — testing derivado del engine
@@ -18,7 +18,7 @@ acompañan: [`catalog-current.md`](catalog-current.md) (índice de los consumido
 
 ## El "clic" — punto único de consumo
 
-El harness vive en `Project/src/core/engine/__tests__/helpers/consume.ts`. Un test impersona **A** (datos,
+El harness vive en `Project/src/core/engine/output/consume.ts` (módulo de salida de C, fuera de `__tests__/`). Un test impersona **A** (datos,
 ya cargados), **B** (hidratación, vía el bridge) y **D** (mete la intención, lee la proyección). **C** (el
 motor) es lo único bajo prueba. Como el motor es auto-auditable por construcción (cada nodo carga sus 6
 buckets + audit trace), el clic es genérico: una implementación sirve a todos los consumidores.
@@ -30,6 +30,18 @@ consume(intention).weapon(id).audit('WEAPON_DAMAGE') // (ii) trace de procedenci
 
 Un `consume()` = un `resolve`. Desde ese único consumo se sondean N nodos: estabilidad (`.final`) y lógica
 (buckets) salen de la misma fuente.
+
+### Entrada compartida — el catálogo de fixtures y el oráculo
+
+La **intención** que entra al clic vive en un catálogo de fixtures compartido (`@core/engine/fixtures/builds.ts`):
+builds verificadas en partida (`lanka`, `cedo`, `felarx`, `laetum`, `boltor`) + registro `BUILDS`, más el
+bootstrap de data `loadEngineData()` (`fixtures/engine-data.ts`). El test importa la intención y le adosa sus `expect`.
+
+El mismo catálogo lo consume el **oráculo CLI** (`scripts/oracle/`, `npm run oracle -- <build>` | `all`), que
+**inspecciona** en vez de asertar: imprime el snapshot crudo (nodos + buckets) de la build vía `consume().snapshot()`.
+Son dos adaptadores hermanos sobre el MISMO input — **test = asertar** (regresión, máquina), **oráculo = inspeccionar**
+(exploración, humano). Es el workflow "verificar contra el motor *antes de* asertar": el oráculo verifica, el test
+aserta, en serie. El oráculo **no** ejecuta aserciones (eso reinventaría el runner); cada uno hace un acto distinto.
 
 ---
 

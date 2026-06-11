@@ -9,11 +9,13 @@
  * Tests de datos: verifica que weapon-stats.override.json contiene los valores
  * correctos para las armas con multishot innato en perfiles alternativos.
  */
-import './helpers/engine-data-setup';
+import { loadEngineData } from '../fixtures/engine-data';
 import weaponsData        from '../../../../public/data/weapons.json';
 import weaponStatsOverride from '../../../../public/data/weapon-stats.override.json';
 import { describe, it, expect } from 'vitest';
 import { ItemRepository }  from '../hydration/ItemRepository';
+
+loadEngineData();
 
 const IDS = {
   FELARX:       '/Lotus/Weapons/Tenno/Zariman/LongGuns/PumpShotgun/ZarimanPumpShotgun',

@@ -1,5 +1,5 @@
 /**
- * Laetum — Normal / Incarnon Form / Radial, migrado al "clic" (helpers/consume).
+ * Laetum — Normal / Incarnon Form / Radial, migrado al "clic" (output/consume; build en fixtures/builds).
  *
  * Modelo del que es consumidor: pistola single + radial, con dos ejes propios que
  * ningún otro de los 4 cubre:
@@ -17,54 +17,12 @@
  *
  * Fórmula status:  22 × (1 + 0.60 PP + 0.80 GS) + 20 = 22×2.4 + 20 = 72.8
  */
-import './helpers/engine-data-setup';
+import { loadEngineData } from '../fixtures/engine-data';
 import { describe, it, expect } from 'vitest';
-import { consume } from './helpers/consume';
-import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
+import { consume } from '../output/consume';
+import { laetum, LAETUM } from '../fixtures/builds';
 
-const LAETUM = '/Lotus/Weapons/Tenno/Zariman/Pistols/HeavyPistol/ZarimanHeavyPistol';
-
-const MOD = {
-  PISTOL_PESTILENCE:    '/Lotus/Upgrades/Mods/Pistol/DualStat/PoisonEventPistolMod',
-  ICE_STORM:            '/Lotus/Upgrades/Mods/Pistol/DualStat/IceStormMod',
-  GALVANIZED_SHOT:      '/Lotus/Upgrades/Mods/Pistol/WeaponStatusChanceSPMod',
-  GALVANIZED_DIFFUSION: '/Lotus/Upgrades/Mods/Pistol/WeaponFireIterationsSPMod',
-  LETHAL_TORRENT:       '/Lotus/Upgrades/Mods/Pistol/DualStat/GrinderMod',
-  HORNET_STRIKE:        '/Lotus/Upgrades/Mods/Pistol/WeaponDamageAmountMod',
-  GUNSLINGER:           '/Lotus/Upgrades/Mods/Pistol/WeaponFireRateMod',
-  PRIMED_HEATED_CHARGE: '/Lotus/Upgrades/Mods/Pistol/Expert/WeaponFireDamageModExpert',
-};
-const PERKS = { 2: 'rapid_wrath', 3: 'lethal_rearmament', 4: 'elemental_excess', 5: 'devouring_attrition' };
-
-function laetum(profile = 'base'): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      secondary:        { itemId: LAETUM, rank: 30, active_profile: profile, evolution_perks: PERKS },
-      primary:          { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: {
-      secondary: {
-        0: { itemId: MOD.PISTOL_PESTILENCE,    rank: 30, level: 10 },
-        1: { itemId: MOD.ICE_STORM,            rank: 30, level: 10 },
-        2: { itemId: MOD.GALVANIZED_SHOT,      rank: 30, level: 10 },
-        3: { itemId: MOD.GALVANIZED_DIFFUSION, rank: 30, level: 10 },
-        4: { itemId: MOD.LETHAL_TORRENT,       rank: 30, level: 10 },
-        5: { itemId: MOD.HORNET_STRIKE,        rank: 30, level: 10 },
-        6: { itemId: MOD.GUNSLINGER,           rank: 30, level: 10 },
-        7: { itemId: MOD.PRIMED_HEATED_CHARGE, rank: 30, level: 10 },
-      },
-    },
-    environment: { targetLevel: 1, targetFaction: null, isSteelPath: false },
-  };
-}
+loadEngineData();
 
 const base = (profile = 'base') => consume(laetum(profile), { flags: {} }).weapon(LAETUM);
 const stat = (profile = 'base') => consume(laetum(profile)).weapon(LAETUM);

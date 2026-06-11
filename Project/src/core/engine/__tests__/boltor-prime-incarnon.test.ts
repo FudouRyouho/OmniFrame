@@ -1,5 +1,5 @@
 /**
- * Boltor Prime — Incarnon Genesis, migrado al "clic" (helpers/consume).
+ * Boltor Prime — Incarnon Genesis, migrado al "clic" (output/consume; build en fixtures/builds).
  *
  * Demuestra estabilidad y lógica conviviendo sobre la MISMA fuente:
  *   - estabilidad → se lee `.final` (¿el número es correcto?)
@@ -9,35 +9,12 @@
  * Boltor Prime Normal Attack base:  Impact 4.6, Puncture 41.4 → 46 | CC 12%, CM 2×, SC 34%
  * Boltor Prime Incarnon Form base:  Impact 2.4, Slash 14.4, Puncture 7.2 → 24 | CC 24%, CM 3×, SC 20%
  */
-import './helpers/engine-data-setup';
+import { loadEngineData } from '../fixtures/engine-data';
 import { describe, it, expect } from 'vitest';
-import { consume } from './helpers/consume';
-import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
+import { consume } from '../output/consume';
+import { boltor, BOLTOR_PRIME, SERRATION } from '../fixtures/builds';
 
-const BOLTOR_PRIME = '/Lotus/Weapons/Tenno/LongGuns/PrimeBoltor/PrimeBoltor';
-const SERRATION    = '/Lotus/Upgrades/Mods/Rifle/WeaponDamageAmountMod';
-
-/** Intención de Boltor con perks/mods/perfil variables. Perfil por defecto: base. */
-function boltor(opts: { perks?: Record<number, string>; mods?: Record<number, string>; profile?: string } = {}): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: BOLTOR_PRIME, rank: 30, active_profile: opts.profile ?? 'base', evolution_perks: opts.perks },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: opts.mods
-      ? { primary: Object.fromEntries(Object.entries(opts.mods).map(([s, id]) => [s, { itemId: id, rank: 30, level: 10 }])) }
-      : {},
-    environment: { targetLevel: 1, targetFaction: null, isSteelPath: false },
-  };
-}
+loadEngineData();
 
 /** Atajo: resuelve una intención y devuelve la sonda del arma. */
 const probe = (opts: Parameters<typeof boltor>[0] = {}) =>

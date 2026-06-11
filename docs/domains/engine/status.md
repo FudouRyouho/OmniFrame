@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.3.3"
+Version: "v0.3.4"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-10"
+Fecha_de_actualizacion: "2026-06-11"
 ---
 
 # Engine Status
@@ -78,9 +78,14 @@ Fecha_de_actualizacion: "2026-06-10"
 
 ### Tests (`engine/__tests__/`)
 
-Suite de **consumidores derivados** vía el "clic" (`helpers/consume.ts`). Índice de qué resuelve cada uno:
+Suite de **consumidores derivados** vía el "clic" (`output/consume.ts`, salida de C). Índice de qué resuelve cada uno:
 [`test/catalog-current.md`](test/catalog-current.md). Workflow + gramática ✓/fails/todo:
 [`test/test-workflow.md`](test/test-workflow.md). Territorio de gaps por construir: [`test/gap-map.md`](test/gap-map.md).
+
+Las **intenciones** (builds) viven en `engine/fixtures/builds.ts` (catálogo compartido) + el bootstrap
+`loadEngineData()` (`fixtures/engine-data.ts`). Las consume tanto la suite (asertar) como el **oráculo CLI**
+(`scripts/oracle/`, `npm run oracle -- <build>` | `all`), que inspecciona el snapshot crudo (`output/consume.ts` →
+`snapshot()`) en vez de asertar. Ver [`test/test-workflow.md`](test/test-workflow.md) §Entrada compartida.
 
 | Suite | Rol |
 |---|---|

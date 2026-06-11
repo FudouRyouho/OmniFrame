@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Describir el pulso real de la estructura física y funcional del repositorio"
-Version: "v0.1.6"
+Version: "v0.1.8"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-08 (actualización #6)"
+Fecha_de_actualizacion: "2026-06-11 (actualización #8)"
 ---
 
 # OmniFrame — Estado Actual
@@ -20,6 +20,15 @@ Fecha_de_actualizacion: "2026-06-08 (actualización #6)"
 > **[2026-06-08] Engine — metodología de validación (prototipo VIGENTE):** Graduada a [`attribute-node-contract.md`](../domains/engine/attribute-node-contract.md) la metodología de test progresivo + derivación: los buckets del `AttributeNode` (`base_add_pct`, `mods_add_pct`, `multiplicative`, …) son la **superficie de aserción** del test (test de lógica vs. test de estabilidad), el fixture es una `EnsembleIntention` + cadena de derivación esperada por nodo, y la base del linaje debe ser incondicional. Es prototipo con base documentada. La build de referencia (Rhino), su estratificación y el lineaje de decisión (D12–D16) están en [`engine/test/`](../domains/engine/test/) (ver entrada 2026-06-09); la validación con ≥2 warframes adicionales sigue abierta.
 
 > **[2026-06-09] Engine — testing derivado ejercido + sub-área `engine/test/`:** La metodología pasó de prototipo a ejercida sobre **4 consumidores de arma** (Boltor, Cedo, Felarx, Laetum) vía el "clic" (`__tests__/helpers/consume.ts`): un `consume()` por intención, estabilidad (`.final`) + lógica (buckets) en la misma fuente. Se acuñó la **gramática ✓/fails/todo** (el `it.todo` mapea el borde C1↔C2). `validation-builds.md` se eliminó y su contenido se repartió en **`docs/domains/engine/test/`**: `test-workflow.md` (CÓMO + registro de decisión), `catalog-current.md` (índice de consumidores), `catalog-future.md` (Rhino, standard-set, frontera C2). **Decisión durable** en `test-workflow.md`: la observabilidad por buckets es intención de diseño original (orientada a D, diferida); la sonda de construcción es la función emergente; el agnosticismo de capas es el invariante a proteger. Disparadores de graduación: abilities → dominio docs (Futuro 2); D existe → capa observabilidad ≈ `observer/` (Futuro 3). C2 no gradúa (crece dentro de engine).
+
+> **[2026-06-10] Engine — frontera C→D + oráculo CLI (decisiones + prototipo):** Sesión de diseño materializada. Decisiones (ver [`engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7): (1) oráculo del motor = **CLI, no MCP** (MCP diferido); (2) `consume()` = **salida de C**, promovido a módulo en `@core/engine/output/` (fuera de `__tests__/`, 2026-06-10) — superficie del dominio engine, consumida por scripts/tests (no-dominios); **no es Capa D**; (3) **frontera de dominios**: los dominios no importan `@core` (reafirma Restricción 1) — la UI y la Capa D (consumo derivado, `ViewModelContract`) cruzan por `@shared`. `C→D→UI` = **prototipo en revisión**. Diseño activo de `ViewModelContract` (consumer-shaped) + simetría de entrada en `OQ-ENGINE-FUTURE` ([`open-questions.md`](open-questions.md)).
+> **Deuda registrada (sesión 2026-06-10):**
+> - `domains/arsenal/view/UpgradeView.tsx` importa `@core/engine/hooks/useSimulation` directo → **violación de la frontera de dominios** (stub conectado antes de existir D); corregir vía `@shared` al materializar D.
+> - `useSimulation` en `@core/engine/hooks` = D reactiva parcial co-ubicada en `@core` → drift a reubicar fuera de `@core` cuando D se materialice.
+
+> **[2026-06-11] Engine — oráculo CLI v0 + derivación de tests (contrato + módulos):** `consume()` extendido con `snapshot(): SimulationEntity[]` (salida cruda de C, forma-de-productor; **cambio de contrato del puerto**), promovido a `@core/engine/output/consume.ts`. **Harness de entrada** en `@core/engine/fixtures/`: `loadEngineData()` (bootstrap, ex-`__tests__/helpers/engine-data-setup`) + `builds.ts` (catálogo de las 5 builds verificadas + registro `BUILDS`). **Oráculo CLI** (`scripts/oracle/`, `npm run oracle -- <build>` | `all`): adaptador no-reactivo que inspecciona el snapshot crudo — primer cliente real consumiendo el motor (no-UI). Test (asertar) y oráculo (inspeccionar) = adaptadores hermanos sobre el mismo input; el oráculo NO reinventa el runner. `ViewModelContract`/Capa D siguen **diferidos** (sin UI). Nuevas OQ: **OQ-ENGINE-8** (sobrecarga "Proyección"/`ProjectionSnapshot`), **OQ-ENGINE-9** (estructura interna de `@core` + `fixtures/` mixto). Ver [`engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7 y [`open-questions.md`](open-questions.md).
+> - La doc de capas atribuye el "DNA Mutation Step" (shards/helminth) a la Capa B, pero el código lo ejecuta en C1 (`StaticHydrator`); B solo mapea shards en `ensembleFromIntention` → drift de clasificación menor.
+> - Puntero archivado a `docs/design/sim-v2/OMNIFRAME_SIMULATION_ARCHITECTURE.md` (en `docs-archive/legacy/engine/architecture.md` y pre-v1) está **colgado** — la verdad viva es `docs/domains/engine/design/simulation-architecture.md`.
 
 > **Modelo arquitectónico:** Ver `docs/domains/engine/design/simulation-architecture.md` para el modelo de 5 capas (A / B / C1 / C2 / D) acordado en 2026-05-19. Este documento describe la estructura física; la arquitectura conceptual y los principios de comunicación entre capas están allí.
 
@@ -90,6 +99,8 @@ Fecha_de_actualizacion: "2026-06-08 (actualización #6)"
 | Gap | Estado |
 |---|---|
 | Arsenal es cliente real del engine | ⚠️ Pendiente — `use-arsenal-stub-state.ts` activo, UpgradeView sin diseño definido |
+| Capa D materializada (`C→D→UI`) | ⚠️ Prototipo en revisión — `consume()` promovible a `@core`; `ViewModelContract` (consumer-shaped) por definir. Ver `OQ-ENGINE-FUTURE` |
+| `UpgradeView` importa `@core` directo | ⚠️ Violación de frontera de dominios — drift del stub; corregir vía `@shared` al materializar D |
 
 ---
 

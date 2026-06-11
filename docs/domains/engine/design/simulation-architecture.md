@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
-Version: "v0.2.1"
+Version: "v0.2.2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-06-10"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -137,6 +137,12 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 - **Estado actual**: implementación mínima (`useSimulation` hook expone el snapshot crudo). El contrato de `ViewModelContract` está **pendiente de definición**.
 - **Físico actual**: `Project/src/core/engine/hooks/useSimulation.ts`
 - **Físico pendiente**: ViewModelContract, diff tracker, granular reactive emitters.
+
+> **Salida de C ≠ Capa D (frontera de dominios, 2026-06-10):** `consume()` (promovido fuera de `__tests__/` a `@core/engine`) es el **punto de salida de C** — superficie del dominio engine, consumida directo por **scripts y tests (no-dominios)**. **No es la Capa D.** La Capa D (consumo derivado: `ViewModelContract` + mapping) vive **fuera** de `@core` y cruza por `@shared`; los dominios no importan `@core` (Restricción 1). `useSimulation` aquí es D reactiva *parcial* co-ubicada en `@core` — drift a reubicar al materializar D. Ver [`arch-decisions.md`](arch-decisions.md) §6-7.
+>
+> **Primer cliente real (no-UI):** el CLI oráculo (`scripts/oracle/`, prototipo) consume `consume()` y serializa el snapshot — es el cliente que `OQ-ENGINE-FUTURE` pone como condición para materializar D. Su shape de salida es **material crudo** del que se derivará `ViewModelContract` (consumer-shaped, alimentado por `lib/*`), no el contrato mismo.
+>
+> **Estado:** `C→D→UI` = **prototipo en revisión**; `A→B→C` coherente.
 
 > **Regla clave:** el engine no expone signals ni objetos reactivos propios. La reactividad vive exclusivamente en Capa D, no en C1 ni C2.
 

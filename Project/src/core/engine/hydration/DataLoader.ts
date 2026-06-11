@@ -5,7 +5,7 @@
  * Punto de inicialización único para todos los datos del engine.
  * Reemplaza los beforeAll dispersos en los tests y será el punto de bootstrap en runtime.
  *
- * Uso en tests: importar engine-data-setup.ts (que llama a DataLoader.init()).
+ * Uso en tests/CLI: llamar `loadEngineData()` de `@core/engine/fixtures/engine-data` (envuelve init()).
  * Uso en runtime: llamar a DataLoader.init() en el bootstrap de la aplicación.
  */
 import { ItemRepository } from './ItemRepository';

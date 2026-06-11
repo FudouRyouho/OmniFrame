@@ -1,5 +1,5 @@
 /**
- * Lanka (sniper de carga, proyectil) — consumidor del clic (helpers/consume).
+ * Lanka (sniper de carga, proyectil) — consumidor del clic (output/consume; build en fixtures/builds).
  *
  * Modelo del que es consumidor: nodo Capa 4 (`WEAPON_FLAT_PUNCH_THROUGH`) — primer stat
  * materializado fuera de los ~8 originales (OQ-ENGINE-7, ejes a+b):
@@ -18,41 +18,12 @@
  * Por eso el dual-stat se aserta por bucket (lógica), no por final.
  * Ref: references/wiki/mechanics/punch-through.md
  */
-import './helpers/engine-data-setup';
+import { loadEngineData } from '../fixtures/engine-data';
 import { describe, it, expect } from 'vitest';
-import { consume } from './helpers/consume';
-import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
+import { consume } from '../output/consume';
+import { lanka, LANKA } from '../fixtures/builds';
 
-const LANKA = '/Lotus/Weapons/ClanTech/Energy/Railgun';
-
-const MOD = {
-  SHRED:             '/Lotus/Upgrades/Mods/Rifle/DualStat/ShredMod',
-  TERMINAL_VELOCITY: '/Lotus/Upgrades/Mods/Rifle/WeaponProjectileSpeedMod',          // +60% projectile speed (level 3)
-  VILE_PRECISION:    '/Lotus/Upgrades/Mods/Rifle/DualStat/CorruptedRecoilFireRateRifle', // −90% recoil / −36% fire rate (level 5)
-};
-
-function lanka(profile: string): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: LANKA, rank: 30, active_profile: profile },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { primary: {
-      0: { itemId: MOD.SHRED,             rank: 30, level: 5 },
-      1: { itemId: MOD.TERMINAL_VELOCITY, rank: 30, level: 3 },
-      2: { itemId: MOD.VILE_PRECISION,    rank: 30, level: 5 },
-    } },
-    environment: { targetLevel: 1, targetFaction: null, isSteelPath: false },
-  };
-}
+loadEngineData();
 
 const charged   = () => consume(lanka('charged_shot'), { flags: {} }).weapon(LANKA);
 const partially = () => consume(lanka('partially_charged_shot'), { flags: {} }).weapon(LANKA);

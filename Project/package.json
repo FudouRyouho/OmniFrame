@@ -17,6 +17,7 @@
     "validate:sim": "tsx scripts/validate-sim-v2.ts",
     "parse:ability": "tsx scripts/parse-ability-md.ts",
     "apply:ability": "tsx scripts/apply-ability-md.ts",
+    "oracle": "tsx --tsconfig ./tsconfig.scripts.json scripts/oracle/oracle.ts",
     "check": "tsc -b --noEmit && eslint ."
   },
   "dependencies": {

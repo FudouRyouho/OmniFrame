@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
-Version: "v0.0.3"
+Version: "v0.0.4"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-07"
+Fecha_de_actualizacion: "2026-06-10"
 ---
 
 # Decision Frontier
@@ -21,10 +21,12 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **Flujo A->B->C**: La jerarquía es **Intención (Ensemble) → Hidratación (Mutator Bridge) → Simulación (Engine)**.
 - **Salida Única**: El motor emite solo **Projection Snapshots** inmutables.
 - **Eliminación de `LoadoutProvider`**: Eliminado físicamente (2026-05-19). `LoadoutState` y `loadout.ts` eliminados (2026-05-21). `EnsembleStore` es el único SSoT de estado del usuario. Ver DC-OQ-STATE-1..4 en `closed-decisions.md`.
+- **Frontera de dominios (2026-06-10)**: los dominios (`domains/*`) **no importan `@core`** (reafirma Restricción 1 de `Project/CLAUDE.md`). `@core` = dominio de lógica A/B/C; la UI y la Capa D (consumo derivado, `ViewModelContract`) cruzan por `@shared`. `consume()` = **salida de C** en `@core`, consumida por scripts/tests (no-dominios); **no es Capa D**. Oráculo de verificación = **CLI, no MCP** (MCP diferido). Ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7.
 
 **Abierto**:
 - Umbrales de conmutación para el **Modo Probabilístico** (Energy Threshold).
-- Implementación física del **Selective UI Reactive Bridge**.
+- Implementación física del **Selective UI Reactive Bridge** (Capa D).
+- Definición de `ViewModelContract` (consumer-shaped) + **simetría de entrada** (intención vía `@shared`). Ver `OQ-ENGINE-FUTURE`. `C→D→UI` = prototipo en revisión.
 - Estándar de esquemas JSON para **Behaviors Declarativos**.
 
 ### 2. Capas de Datos y SSoT

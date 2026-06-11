@@ -1,5 +1,5 @@
 /**
- * Cedo Prime (Normal Attack) — migrado al "clic" (helpers/consume).
+ * Cedo Prime (Normal Attack) — migrado al "clic" (output/consume; build en fixtures/builds).
  *
  * Modelo del que es consumidor: escopeta multi-pellet + flag `on_kill`.
  * El eje distintivo se ve por bucket: el multishot pasa de 14.7 (base) a 23.1 (estático)
@@ -25,52 +25,12 @@
  * Deuda viva: Galvanized Savvy stat 1 (`WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`, on_kill)
  * sin mapear (pendiente D-6) → el status NO sube en modo estático. Ver el test de status.
  */
-import './helpers/engine-data-setup';
+import { loadEngineData } from '../fixtures/engine-data';
 import { describe, it, expect } from 'vitest';
-import { consume } from './helpers/consume';
-import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
+import { consume } from '../output/consume';
+import { cedo, CEDO_PRIME } from '../fixtures/builds';
 
-const CEDO_PRIME = '/Lotus/Weapons/Tenno/LongGuns/PrimeCedo/PrimeCedoWeapon';
-
-const MOD = {
-  TOXIC_BARRAGE:      '/Lotus/Upgrades/Mods/Shotgun/DualStat/PoisonEventShotgunMod',
-  SHOTGUN_BARRAGE:    '/Lotus/Upgrades/Mods/Shotgun/WeaponFireRateMod',
-  CRITICAL_DECEL:     '/Lotus/Upgrades/Mods/Shotgun/DualStat/CorruptedCritChanceFireRateShotgun',
-  PRIMED_CHILLING:    '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponFreezeDamageModExpert',
-  PRIMED_POINT_BLANK: '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponDamageAmountModExpert',
-  GALVANIZED_SAVVY:   '/Lotus/Upgrades/Mods/Shotgun/WeaponStatusChanceSPMod',
-  GALVANIZED_HELL:    '/Lotus/Upgrades/Mods/Shotgun/WeaponFireIterationsSPMod',
-  PRIMED_RAVAGE:      '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponCritDamageModExpert',
-};
-
-function cedo(withGH = false): EnsembleIntention {
-  const mods: Record<number, { itemId: string; rank: number; level: number }> = {
-    0: { itemId: MOD.TOXIC_BARRAGE,      rank: 30, level: 3  },
-    1: { itemId: MOD.SHOTGUN_BARRAGE,    rank: 30, level: 5  },
-    2: { itemId: MOD.CRITICAL_DECEL,     rank: 30, level: 5  },
-    3: { itemId: MOD.PRIMED_CHILLING,    rank: 30, level: 10 },
-    4: { itemId: MOD.PRIMED_POINT_BLANK, rank: 30, level: 10 },
-    5: { itemId: MOD.GALVANIZED_SAVVY,   rank: 30, level: 10 },
-    7: { itemId: MOD.PRIMED_RAVAGE,      rank: 30, level: 10 },
-  };
-  if (withGH) mods[6] = { itemId: MOD.GALVANIZED_HELL, rank: 30, level: 10 };
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: CEDO_PRIME, rank: 30, active_profile: 'base' },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { primary: mods },
-    environment: { targetLevel: 1, targetFaction: null, isSteelPath: false },
-  };
-}
+loadEngineData();
 
 /** Modo base: flags vacías, ninguna condición activa. */
 const base = (withGH = false) => consume(cedo(withGH), { flags: {} }).weapon(CEDO_PRIME);

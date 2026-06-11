@@ -1,5 +1,5 @@
 /**
- * Felarx — Normal Attack + Incarnon Form, migrado al "clic" (helpers/consume).
+ * Felarx — Normal Attack + Incarnon Form, migrado al "clic" (output/consume; build en fixtures/builds).
  *
  * Modelo del que es consumidor: escopeta multi-pellet con **flat ÷ multishot acoplado al perfil**.
  * Racking Wrath aporta status como ADD_FLAT, pero el valor está pre-dividido por el base_multishot
@@ -18,67 +18,23 @@
  * Fórmula status per-pellet:  base × (1 + Σ mods_add_pct) + flat_per_pellet
  *   Ref: https://wiki.warframe.com/w/Felarx — "divided by the base multishot of 4"
  */
-import './helpers/engine-data-setup';
+import { loadEngineData } from '../fixtures/engine-data';
 import { describe, it, expect } from 'vitest';
-import { consume } from './helpers/consume';
+import { consume } from '../output/consume';
 import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
+import { felarx, felarxItems, FELARX, GALVANIZED_SAVVY, TOXIC_BARRAGE, BASE_ENV } from '../fixtures/builds';
 
-const FELARX = '/Lotus/Weapons/Tenno/Zariman/LongGuns/PumpShotgun/ZarimanPumpShotgun';
-
-const MOD = {
-  PRIMED_CHILLING:    '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponFreezeDamageModExpert',
-  CONTAGIOUS_SPREAD:  '/Lotus/Upgrades/Mods/Shotgun/WeaponToxinDamageMod',
-  GALVANIZED_HELL:    '/Lotus/Upgrades/Mods/Shotgun/WeaponFireIterationsSPMod',
-  GALVANIZED_SAVVY:   '/Lotus/Upgrades/Mods/Shotgun/WeaponStatusChanceSPMod',
-  PRIMED_CHARGED:     '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponElectricityDamageModExpert',
-  PRIMED_CLEANSE:     '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponShotgunFactionDamageCorruptedExpert',
-  PRIMED_AMMO_STOCK:  '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponClipMaxModExpert',
-  PRIMED_POINT_BLANK: '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponDamageAmountModExpert',
-};
-const TOXIC_BARRAGE = '/Lotus/Upgrades/Mods/Shotgun/DualStat/PoisonEventShotgunMod';
-
-const PERKS = { 2: 'attuned_accuracy', 3: 'evolved_autoloader', 4: 'racking_wrath', 5: 'devastating_attrition' };
+loadEngineData();
 
 type Slots = Record<number, { itemId: string; rank: number; level: number }>;
 
-function items(profile: string) {
-  return {
-    warframe:         { itemId: null, rank: 30, shards: [] },
-    primary:          { itemId: FELARX, rank: 30, active_profile: profile, evolution_perks: PERKS },
-    secondary:        { itemId: null, rank: 30 },
-    melee:            { itemId: null, rank: 30 },
-    companion:        { itemId: null, rank: 30 },
-    companion_weapon: { itemId: null, rank: 30 },
-    archwing:         { itemId: null, rank: 30 },
-    archgun:          { itemId: null, rank: 30 },
-    archmelee:        { itemId: null, rank: 30 },
-    necramech:        { itemId: null, rank: 30 },
-  };
-}
-const env = { targetLevel: 1, targetFaction: null, isSteelPath: false };
-
-/** Build completa verificada. */
-function felarxFull(profile = 'base'): EnsembleIntention {
-  const mods: Slots = {
-    0: { itemId: MOD.PRIMED_CHILLING,    rank: 30, level: 10 },
-    1: { itemId: MOD.CONTAGIOUS_SPREAD,  rank: 30, level: 5  },
-    2: { itemId: MOD.GALVANIZED_HELL,    rank: 30, level: 10 },
-    3: { itemId: MOD.GALVANIZED_SAVVY,   rank: 30, level: 10 },
-    4: { itemId: MOD.PRIMED_CHARGED,     rank: 30, level: 10 },
-    5: { itemId: MOD.PRIMED_CLEANSE,     rank: 30, level: 10 },
-    6: { itemId: MOD.PRIMED_AMMO_STOCK,  rank: 30, level: 10 },
-    7: { itemId: MOD.PRIMED_POINT_BLANK, rank: 30, level: 10 },
-  };
-  return { items: items(profile), mods: { primary: mods }, environment: env };
-}
-
-/** Solo perks + los status mods dados — aísla la fórmula per-pellet. */
+/** Solo perks + los status mods dados — aísla la fórmula per-pellet (micro-fixture del test). */
 function felarxStatus(statusMods: Slots): EnsembleIntention {
-  return { items: items('base'), mods: { primary: statusMods }, environment: env };
+  return { items: felarxItems('base'), mods: { primary: statusMods }, environment: BASE_ENV };
 }
 
-const fullBase   = (profile = 'base') => consume(felarxFull(profile), { flags: {} }).weapon(FELARX);
-const fullStatic = (profile = 'base') => consume(felarxFull(profile)).weapon(FELARX);
+const fullBase   = (profile = 'base') => consume(felarx(profile), { flags: {} }).weapon(FELARX);
+const fullStatic = (profile = 'base') => consume(felarx(profile)).weapon(FELARX);
 const statusOnly = (mods: Slots)      => consume(felarxStatus(mods), { flags: {} }).weapon(FELARX);
 
 // ─── Estabilidad: Normal Attack base (.final) ────────────────────────────────────
@@ -141,7 +97,7 @@ describe('Felarx — status per-pellet (flat ÷ multishot en total_flat)', () =>
     expect(n.final).toBeCloseTo(13.8, 1);
   });
   it('+Galvanized Savvy +80%: mods_add_pct 80, total_flat 5 → 14.9 (coincide con Arsenal)', () => {
-    const n = statusOnly({ 0: { itemId: MOD.GALVANIZED_SAVVY, rank: 30, level: 10 } }).node('WEAPON_ADD_STATUS_CHANCE');
+    const n = statusOnly({ 0: { itemId: GALVANIZED_SAVVY, rank: 30, level: 10 } }).node('WEAPON_ADD_STATUS_CHANCE');
     expect(n.mods_add_pct).toBeCloseTo(80, 1);
     expect(n.total_flat).toBeCloseTo(5, 1);
     expect(n.final).toBeCloseTo(14.9, 1);

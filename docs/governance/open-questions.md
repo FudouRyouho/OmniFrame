@@ -1,7 +1,7 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.19.0"
+Version: "v0.22.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
@@ -57,6 +57,14 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 | **Rewind / Time Travel** | Historial de cambios para deshacer/rehacer; aprovecha que el motor es determinista | UX de comparación de builds |
 
 **Condición:** cuando la Capa D (Proyección) se materialice y haya un cliente real consumiendo el motor (Arsenal UpgradeView definido).
+
+**Capa D / `ViewModelContract` — diseño activado (2026-06-10):** El **CLI oráculo** (ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5) se vuelve el primer cliente real (no-UI), lo que **activa** el diseño de la Capa D. `consume()` (salida de C, en `@core`) es el puerto; el CLI lo consume como script. Su output crudo es **material** del que se deriva el contrato, no el contrato.
+
+Principio decidido: `ViewModelContract` debe ser **consumer-shaped** (ViewModel de MVVM, `lib/*` como ingredientes), **no** producer-laundered (snapshot crudo re-exportado por `@shared` solo para legalizar el import). Sub-preguntas abiertas:
+- **Forma del contrato:** ¿invariantes estructurados (`token + value + unit`, neutral a presentación, formateados por `lib/*` en el borde) o strings ya formateados? Inclinación: **estructurado**, para que CLI y UI compartan el mismo contrato. Se decide con material del CLI en mano, no en abstracto (derivar un consumidor a la vez).
+- **Simetría de entrada:** si los dominios no importan `@core` (decidido — ver abajo), la intención (`EnsembleStore` = A, en `@core`) también debe cruzar por `@shared`. ¿Contrato de intención en `@shared` ↔ store en `@core`? Es el gemelo de entrada de `ViewModelContract`; consolida la deuda "ubicación de Capa A respecto a `@core`/`providers/`".
+
+**No es OQ:** "¿pueden los dominios importar `@core`?" → **decidido NO** (reafirma Restricción 1; ver `arch-decisions.md` §7 y `decision-frontier.md` §1). `UpgradeView → @core` es drift a corregir, no zona gris.
 
 ---
 
@@ -237,3 +245,30 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 - **`ammo_efficiency` = no encaja en los moldes, modelado pendiente.** No es stat de arma con base (acumulador de bonos, base 0); el op del token `ADD` (`mods_add_pct`, multiplica) no compone sobre base 0; su efecto es `disparos/ammo = 1/(1−efficiency)` (C2); los únicos 2 mods son condicionales (Brain Storm 0.125s, Zazvat-Kar `while_airborne`). Requiere decidir shape con un caso real (pendiente: estudiar Laetum) antes de modelar. **No bloquea.**
 - **Estado del frente Capa 4:** 3 nodos materializados (punch_through, projectile_speed, recoil); ammo pausado por lo de arriba. Próximos candidatos sin tocar: `zoom`, `headshot_mult`, familias `combo_*`/`heavy_*`, `slam_*`. Retomar tras la campaña de saneamiento de `references/wiki/` (ver `doc-map.md §5`).
 **Fuente:** `.working/engine-ignorance-inventory.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,accuracy}.md`; `docs/semantic/upgrade-tokens.md` (filas `WEAPON_FLAT_PUNCH_THROUGH`, `WEAPON_ADD_PROJECTILE_SPEED`).
+
+---
+
+## OQ-ENGINE-8 — "Proyección" sobrecargado: nombre de Capa D vs payload de salida de C — **ABIERTO (2026-06-10)**
+**Dominio:** engine / vocabulario de capas
+**Contexto:** Al nombrar el módulo de salida de C (PASO 1 del oráculo CLI), surgió que la palabra **`Proyección`/`projection` se usa en dos sentidos en conflicto**:
+- **Nombre de la Capa D** — `### Capa D: Proyección (Reactive View Bridge)` (`simulation-architecture.md §Capa D`). El consumo derivado/reactivo (`ViewModelContract` + mapping), fuera de `@core`.
+- **Nombre del payload que emite C2** — `ProjectionSnapshot` (`contracts/index.ts:107`, comentado `// UI Projection Layers`), que **C2 emite** y D **recibe** (`simulation-architecture.md §C2/§D`).
+
+O sea: la palabra que titula la Capa D también bautiza el payload del lado-productor (C). La conflación está cristalizada en el comentario `// UI Projection Layers` sobre un tipo que es salida de C, no de la UI. Esto debilita la cuña **"salida de C ≠ Capa D"** que `arch-decisions.md §6-7` acaba de clavar: por eso `projection/` quedó **vetado** como nombre del módulo de salida de C (se eligió `output/`), aunque por el *nombre del payload* (`ProjectionSnapshot`) habría sido herencia directa.
+
+**Pregunta:** ¿se renombra el payload de C para sacarle la palabra de D (p. ej. `EngineSnapshot` / `ResolvedSnapshot` / `CSnapshot`), reservando `Proyección/projection` exclusivamente para la Capa D? ¿O se acepta la sobrecarga y se desambigua por contexto?
+**Inclinación:** rename del *tipo* (no del directorio, ya resuelto `output/`) cuando se materialice la Capa D y haya que tocar el contrato de todas formas — evita un rename especulativo hoy. El comentario `// UI Projection Layers` es el primer candidato a corregir (el payload no es de la UI).
+**No bloquea:** PASO 1 (extracción de `consume()` a `output/`), ni el engine actual. Es deuda de vocabulario.
+**Vínculo:** `OQ-ENGINE-FUTURE` (diseño de `ViewModelContract` / materialización de Capa D — momento natural para el rename).
+**Fuente:** debate 2026-06-10 sobre el nombre del módulo de salida de C; `arch-decisions.md §6-7`; `simulation-architecture.md §Capa C2/§Capa D`; `contracts/index.ts:106-115`.
+
+---
+
+## OQ-ENGINE-9 — Estructura interna de `@core/engine` y ubicación del harness de consumidores — **ABIERTO (2026-06-11)**
+**Dominio:** engine / arquitectura de `@core`
+**Contexto:** Al extraer el harness compartido tests↔CLI (bootstrap de data + intenciones-fixture) no había ubicación clara en `@core/engine/` para scaffolding de **consumidores no-dominio**. Se resolvió pragmáticamente en `@core/engine/fixtures/` (provisional), que además **mezcla** dos cosas distintas: el bootstrap (carga de data real del juego — lado A) y las intenciones-fixture (builds predefinidas — input de prueba). Se suma al olor ya acumulado: nombres solapados (OQ-ENGINE-8), Capa A co-ubicada en `providers/`, `useSimulation` (D parcial) dentro de `@core`, `output/` (salida de C). `@core` creció sin una estructura interna deliberada.
+**Pregunta:** ¿Cómo se reestructura internamente `@core/engine`? Ejes: (a) separar bootstrap de fixtures; (b) dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`); (c) Capa A fuera de `providers/`; (d) extraer la D-parcial (`useSimulation`).
+**Gate:** la organización correcta se **deriva** de cómo consume la Capa D real — reestructurar antes es especulativo. Hasta entonces: ubicaciones pragmáticas + esta OQ como registro vivo del olor.
+**No bloquea:** el harness compartido ni el CLI; las ubicaciones son provisionales y mecánicas.
+**Vínculo:** OQ-ENGINE-8 (sobrecarga de naming), OQ-ENGINE-FUTURE (simetría de entrada / Capa A respecto a `@core`/`providers`).
+**Fuente:** debate 2026-06-11 sobre extracción del harness tests↔CLI; `arch-decisions.md §6-7`.

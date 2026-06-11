@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.1.1"
+Version: "v0.2.0"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-06-10"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -116,3 +116,41 @@ Se establecen **6 capas de ejecución fijas** (desde `INITIAL_OVERRIDE` hasta `F
 Las habilidades "capturan" el estado del padre al momento del casteo. Este snapshot se inyecta como ADN a la nueva entidad.
 
 **Propósito:** mantiene la inmutabilidad y la unidireccionalidad de datos.
+
+---
+
+## 5. Oráculo del motor = CLI, no MCP
+
+**Decisión:** El consumidor del motor para asistencia de agente (verificar outputs on-demand) es un **CLI** (node, vía Docker/tsx), no un servidor MCP. MCP queda **diferido, no descartado**: cuando llegue será transporte fino sobre la misma lógica, por lo que construir el CLI ahora lo de-riesga.
+
+**Justificación:**
+- El dataset (>12 MB) no entra en el contexto del agente, y el motor TS no se puede "leer" para simular outputs a mano de forma fiable.
+- CLI gana a MCP por portabilidad dual-boot: el spawn diverge por OS y el CLI absorbe esa divergencia en runtime.
+- Cierra el loop "verificar contra el motor antes de asertar" (ver [`../test/test-workflow.md`](../test/test-workflow.md)).
+
+**Consecuencia:** El CLI es el primer **cliente real consumiendo el motor** que `OQ-ENGINE-FUTURE` pone como condición para materializar la Capa D — aunque no-UI.
+
+---
+
+## 6. `consume()` = salida de C, no Capa D
+
+**Decisión:** `consume()` se promovió a un módulo real dentro de `@core/engine` (fuera de `__tests__/`): vive en `@core/engine/output/consume.ts` (2026-06-10). Es el **punto de salida de C** — la superficie de consumo del dominio engine. **No es la Capa D.** El directorio se nombra `output/` (salida-de-C); se vetó `projection/` porque "Proyección" es el nombre propio de la Capa D — ver `OQ-ENGINE-8` (sobrecarga del término).
+
+**Distinción:**
+- `consume()` = acceso a la salida resuelta de C (`ProjectionSnapshot`). Vive en `@core`. Lo consumen **scripts y tests (no-dominios)** directamente.
+- **Capa D** = consumo derivado (`ViewModelContract` + su mapping). Vive **fuera** de `@core` y cruza por `@shared`. (`useSimulation` en `@core/engine/hooks` es D reactiva *parcial* co-ubicada en `@core` — drift a reubicar cuando D se materialice.)
+
+**Consecuencia:** el CLI y la futura UI son **adaptadores hermanos** (Ports & Adapters) sobre el mismo puerto `consume()`: el CLI es la instancia **no-reactiva** (lee la salida de C directo, por ser script), la UI la **reactiva** (cruza por `@shared`). El módulo **no** se nombra `api/` (arrastra la connotación del diseño WebSocket muerto) ni `projection/` (projection = D, fuera de `@core`).
+
+---
+
+## 7. Frontera de dominios: `@core` no importable por dominios
+
+**Decisión:** Los dominios (`domains/*`) **no importan `@core`**. Reafirma la Restricción 1 de `Project/CLAUDE.md` (lista permitida: `@shared`, `@lib`, `./internal` — `@core` excluido). `@core` es el dominio de lógica fuera de UI/consumo-derivado (capas **A, B, C**); el alias es solo empaquetado (podría ser `engine`).
+
+**Consecuencia:**
+- La UI cruza al motor **solo por `@shared`** (inversión de dependencias): la salida vía `ViewModelContract`, y por **simetría** la entrada (intención) también debe cruzar por `@shared` ↔ `EnsembleStore` (A) en `@core`.
+- `domains/arsenal/view/UpgradeView.tsx` importando `@core/engine/hooks/useSimulation` es una **violación/drift** (stub conectado antes de existir D y antes de los tests), no un patrón válido.
+- `ViewModelContract` debe ser **consumer-shaped** (un ViewModel de MVVM, alimentado por `lib/*` como ingredientes), nunca *producer-laundered* (la salida cruda re-exportada por `@shared` solo para legalizar el import).
+
+**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. Ver `OQ-ENGINE-FUTURE` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).
