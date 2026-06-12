@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Describir el pulso real de la estructura física y funcional del repositorio"
-Version: "v0.1.8"
+Version: "v0.1.9"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-11 (actualización #8)"
+Fecha_de_actualizacion: "2026-06-12 (actualización #9)"
 ---
 
 # OmniFrame — Estado Actual
@@ -30,6 +30,8 @@ Fecha_de_actualizacion: "2026-06-11 (actualización #8)"
 > - La doc de capas atribuye el "DNA Mutation Step" (shards/helminth) a la Capa B, pero el código lo ejecuta en C1 (`StaticHydrator`); B solo mapea shards en `ensembleFromIntention` → drift de clasificación menor.
 > - Puntero archivado a `docs/design/sim-v2/OMNIFRAME_SIMULATION_ARCHITECTURE.md` (en `docs-archive/legacy/engine/architecture.md` y pre-v1) está **colgado** — la verdad viva es `docs/domains/engine/design/simulation-architecture.md`.
 
+> **[2026-06-12] Engine — reestructura de `@core` (Stage 0+1) ejecutada:** Rama `refactor/core-stage0-restructure`, commit por slice, `tsc -b` CLEAN + 95 tests verde en cada uno. **Stage 0** (reorg interno de `engine/`, blast externo 0): `contracts/index.ts` → `contracts.ts` (cortes/DTOs) + `primitives.ts` (barrel preserva superficie); `combat`+`enemies` → `engine/simulate/` (C2); `resolution`+`hydration` → `engine/resolve/` (C1); `bridge/` → `@core/bridge/` (B, fuera de engine). **Stage 1** (split de A): `ensemble.types` → `@shared/types/ensemble.ts` (gemelo-de-entrada; cierra smell Restricción 1 — 4 dominios importaban `@providers`), `ensemble-store` → `@core/intention/` (A1); `EnsembleProvider` se queda en `@providers`. **Ruling `@providers → @core` PERMITIDO** (capa de composición ≠ dominio de feature). Resuelve mayormente OQ-ENGINE-9 (residuales **gated por D**: extraer `hooks/`, construir A2, split de `fixtures/`). Ver `closed-decisions.md` DC-OQ-ENGINE-9 y `decision-frontier.md` §1.
+>
 > **Modelo arquitectónico:** Ver `docs/domains/engine/design/simulation-architecture.md` para el modelo de 5 capas (A / B / C1 / C2 / D) acordado en 2026-05-19. Este documento describe la estructura física; la arquitectura conceptual y los principios de comunicación entre capas están allí.
 
 ---
@@ -42,9 +44,10 @@ Fecha_de_actualizacion: "2026-06-11 (actualización #8)"
 |---|---|---|
 | `core/engine/loadout.ts` | **ELIMINADO (2026-05-21)** | `LoadoutState` y `LoadoutIntent` eliminados junto con la vía legacy de `MutatorBridge`. |
 | `core/engine/formulas/` | **Casi vacío (reservado)** | Subdirs por categoría (ability, arcane, weapon, warframe, common) en su mayoría vacíos a propósito — reservados para fórmulas dedicadas futuras (ability-like / composición no derivable del snapshot). `arcane/arcane-core.ts` purgado (2026-06-11, shape stale). `crit-base.ts` / `scaling-base.ts` siguen activos. |
-| `core/engine/contracts/` | **Activo** | Contratos del motor: `damage-logic.ts`, `damage-multipliers.ts`, `mod-overrides.ts`. (`attributes.ts` eliminado en refactor 2026-05-21.) |
-| `core/engine/bridge/` + `combat/` + `hydration/` + `resolution/` | **Activo** | Implementación del motor: `SimulationEngine`, `MutatorBridge`, `CombatCalculator`, `StatusEngine`, `TimelineSimulator`, `StaticHydrator`, `ModRepository`, `IncarnonRepository` (2026-05-27), `ArcaneRepository` (2026-06-11 — arcanos v0, modifier directo sin `DamageCombiner`), y más. `EnsembleAdapter` eliminado (2026-05-19). `DamageCombiner` movido de `combat/` a `hydration/` (2026-05-27 — layer boundary). Contrato de intención: `EnsembleIntention.arcanes` + `Ensemble.{warframe,WeaponIntent}.arcanes` (slot dedicado, hermano de `mods`). |
-| `core/engine/hooks/useSimulation.ts` | **Activo** | Hook React que conecta `EnsembleStore` al motor vía `MutatorBridge`. |
+| `core/engine/contracts/` | **Activo** | Contratos del motor. Split 2026-06-12: `contracts.ts` (cortes/DTOs) + `primitives.ts` (`AttributeNode`, `Modifier`, `GameLaws`, ids) + barrel `index.ts`; más `damage-logic.ts`, `damage-multipliers.ts`, `mod-overrides.ts`. (`attributes.ts` eliminado en refactor 2026-05-21.) |
+| `core/bridge/` (B) + `core/engine/resolve/` (C1) + `core/engine/simulate/` (C2) | **Activo** | Implementación del motor, reorganizada 2026-06-12 (DC-OQ-ENGINE-9): `bridge/MutatorBridge` (B, fuera de engine); `resolve/SimulationEngine` + `resolve/hydration/{StaticHydrator,ModRepository,IncarnonRepository,ArcaneRepository,DnaRepository,DataLoader,DamageCombiner,…}` (C1); `simulate/combat/{CombatCalculator,StatusEngine,TimelineSimulator,AtomicSimulator,…}` + `simulate/enemies/` (C2). `EnsembleAdapter` eliminado (2026-05-19). Contrato de intención: `EnsembleIntention.arcanes` + `Ensemble.{warframe,WeaponIntent}.arcanes` (slot dedicado, hermano de `mods`). |
+| `core/intention/ensemble-store.ts` (A1) | **Activo** | `ensembleStore` movido aquí desde `providers/Ensemble/` (2026-06-12). SSoT de intención del usuario; observable agnóstico a React. |
+| `core/engine/hooks/useSimulation.ts` | **Activo** | Hook React (D-parcial) que conecta `ensembleStore` al motor vía `MutatorBridge`. Drift a reubicar fuera de `@core` cuando D se materialice (Stage 2 gated). |
 | `core/engine/__tests__-legacy/` | **ELIMINADO** | 12 suites de test purgadas en sesión anterior. |
 | `core/engine/__tests__/` | **Activo** | Suites gold standard (Vitest), consumidores derivados del clic. Cobertura: 6 archivos (Boltor/Cedo/Felarx/Laetum/Lanka + arcano v0), ~63 tests. La deuda `IncarnonRepository` (lectura `upgrades[]` vs `stats[]` D-18) **resuelta** (Capa 3 cerrada 2026-06-06; el repo lee `stats[]`). Índice vivo: [`engine/test/catalog-current.md`](../domains/engine/test/catalog-current.md). |
 
@@ -54,7 +57,7 @@ Fecha_de_actualizacion: "2026-06-11 (actualización #8)"
 
 | Provider | Estado | Descripción |
 |---|---|---|
-| `providers/Ensemble/` | **Activo — sistema nuevo** | `EnsembleStore`: observable agnóstico al framework. Gestiona `EnsembleIntention` (items por canal + mods + environment). Es el SSoT de intención del usuario en la arquitectura nueva. |
+| `providers/Ensemble/` | **Activo — sistema nuevo** | `EnsembleProvider.tsx`: binding React (capa de composición). Importa `@core/intention/ensemble-store` (ruling `@providers→@core` permitido, 2026-06-12). El store en sí (`ensembleStore`, A1) vive ahora en `@core/intention/`; el contrato de intención (`ensemble.types`) en `@shared/types/ensemble.ts`. |
 | `providers/Loadout/` | **ELIMINADO (2026-05-19)** | `LoadoutContext` y `LoadoutProvider` purgados. `LoadoutState` y `loadout.ts` también eliminados (2026-05-21). Sin remanentes del sistema legacy. Decisión: OQ-STATE-1/3/4. |
 | `providers/DataState/` | **Activo** | Context headless de estado de UI (concepto `data-*` HTML). No relacionado con el engine. |
 | `providers/Shell/` | **Activo** | Navegación, zona, título y footer del shell. |
@@ -88,7 +91,7 @@ Fecha_de_actualizacion: "2026-06-11 (actualización #8)"
 | Ruta | Estado | Descripción |
 |---|---|---|
 | `shared/data/DataRegistry.ts` | **Activo (UI)** | SSoT de acceso a datos en runtime para la UI. Carga y cachea datasets por tipo con hidratación de imágenes. Candidato a evolucionar hacia el DataLoader singleton (ver `OQ-DATA-3`). |
-| `shared/types/` | **Activo** | 12 módulos de contrato TypeScript: `ability`, `arcane`, `archwing-weapon`, `base`, `companion`, `damage`, `mod`, `polarity`, `stats`, `vehicle`, `warframe`, `weapon`. |
+| `shared/types/` | **Activo** | 13 módulos de contrato TypeScript: `ability`, `arcane`, `archwing-weapon`, `base`, `companion`, `damage`, `ensemble` (gemelo-de-entrada / cut A, movido desde `providers/Ensemble` 2026-06-12), `mod`, `polarity`, `stats`, `vehicle`, `warframe`, `weapon`. |
 | `shared/components/` | **Activo** | Sistema de vistas unificado: cards, specs/detail views, views por entidad, filters/toolbars, navigation, popovers, slots. |
 | `shared/hooks/` | **Activo** | `use-items.ts` (data), `use-performance-debug.ts` (debug). |
 

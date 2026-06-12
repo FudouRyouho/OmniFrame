@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
-Version: "v0.0.4"
+Version: "v0.0.5"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-10"
+Fecha_de_actualizacion: "2026-06-12"
 ---
 
 # Decision Frontier
@@ -22,11 +22,13 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **Salida Única**: El motor emite solo **Projection Snapshots** inmutables.
 - **Eliminación de `LoadoutProvider`**: Eliminado físicamente (2026-05-19). `LoadoutState` y `loadout.ts` eliminados (2026-05-21). `EnsembleStore` es el único SSoT de estado del usuario. Ver DC-OQ-STATE-1..4 en `closed-decisions.md`.
 - **Frontera de dominios (2026-06-10)**: los dominios (`domains/*`) **no importan `@core`** (reafirma Restricción 1 de `Project/CLAUDE.md`). `@core` = dominio de lógica A/B/C; la UI y la Capa D (consumo derivado, `ViewModelContract`) cruzan por `@shared`. `consume()` = **salida de C** en `@core`, consumida por scripts/tests (no-dominios); **no es Capa D**. Oráculo de verificación = **CLI, no MCP** (MCP diferido). Ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7.
+- **`@providers → @core` PERMITIDO (2026-06-12)**: la capa de composición (`@providers`, adapter) **sí** importa `@core` — `EnsembleProvider` → `@core/intention/ensemble-store`. Adapter→core = dirección correcta de Ports&Adapters; la Restricción 1 protege a los dominios de feature, **no** a la capa de composición. **No contradice** la frontera anterior (`@providers` no es un dominio de feature). Ver `closed-decisions.md` (DC-OQ-ENGINE-9).
+- **Estructura interna de `@core` reorganizada (2026-06-12)**: `@core/{bridge (B), intention (A1), engine/{resolve (C1), simulate (C2), formulas, output, contracts}}`; gemelo-de-entrada en `@shared/types/ensemble.ts`. Ejecutado en rama `refactor/core-stage0-restructure` (Stage 0+1). Residuales gated por D (hooks, A2, fixtures-split). Ver `closed-decisions.md` (DC-OQ-ENGINE-9) y `open-questions.md` (OQ-ENGINE-9).
 
 **Abierto**:
 - Umbrales de conmutación para el **Modo Probabilístico** (Energy Threshold).
 - Implementación física del **Selective UI Reactive Bridge** (Capa D).
-- Definición de `ViewModelContract` (consumer-shaped) + **simetría de entrada** (intención vía `@shared`). Ver `OQ-ENGINE-FUTURE`. `C→D→UI` = prototipo en revisión.
+- Definición de `ViewModelContract` (consumer-shaped). Ver `OQ-ENGINE-FUTURE`. `C→D→UI` = prototipo en revisión. (La **simetría de entrada** — intención vía `@shared` ↔ store en `@core` — quedó **resuelta** el 2026-06-12; ver DC-OQ-ENGINE-9.)
 - Estándar de esquemas JSON para **Behaviors Declarativos**.
 
 ### 2. Capas de Datos y SSoT

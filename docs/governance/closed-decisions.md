@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
-Version: "v0.0.6"
+Version: "v0.0.7"
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-07"
+Fecha_de_actualizacion: "2026-06-12"
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -67,6 +67,30 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 | **DC-OQ-ENGINE-6** | WEAPON_FIRE_ITERATIONS sin mapear | Alias añadido en UPGRADE_MAP → `WEAPON_ADD_MULTISHOT`. 3 mods Galvanized añadidos manualmente al override. |
 | **DC-OQ-W-4** | Sub-familia en D-6 | Patrón: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`. Sub-familias activas: PRIMARY, SECONDARY, MELEE. Deuda D-7 en pipeline de filtrado. |
 | **DC-OQ-UI-1** | Unificación de infraestructura UI en @shared | `shared/components/items/` activo: views por entidad (WarframesView/WeaponsView/etc.), cards, specs/detail-views, ItemsGrid. `shared/hooks/data/use-items.ts` + `use-performance-debug.ts`. Dominios actúan como smart wrappers. Implementado (2026-04-23). Ref: `docs/decisions/ui-unification.md` (histórico). |
+
+---
+
+## DC-OQ-ENGINE-9 — Reestructura interna de `@core` (capas/cortes) + ruling `@providers → @core` — **EJECUTADO (2026-06-12)**
+
+**Dominio:** engine / arquitectura de `@core`
+
+**Contexto:** `@core` creció sin estructura interna deliberada (ver `OQ-ENGINE-9`): Capa A co-ubicada en `providers/`, `bridge/`+`combat/`+`resolution/`+`hydration/` planos bajo `engine/`, contratos y primitivos mezclados en un `contracts/index.ts`. Plan validado y blast-radius medido (2026-06-11/12); ejecutado desde Linux en la rama `refactor/core-stage0-restructure`, commit por slice, gate `tsc -b` CLEAN + 95 tests verde en cada uno.
+
+**Ejecutado (Stage 0 — reorg interno de `engine/`, blast externo 0):**
+- `contracts/index.ts` → split en `contracts.ts` (cortes de frontera / DTOs) + `primitives.ts` (vocabulario no-corte: `AttributeNode`, `Modifier`, `GameLaws`, ids); `index.ts` queda como barrel.
+- `combat/` + `enemies/` → `engine/simulate/` (C2, anidado).
+- `resolution/` + `hydration/` → `engine/resolve/` (C1, `SimulationEngine` a la raíz + `hydration/` anidado).
+- `bridge/` (MutatorBridge, Capa B) sale de `engine/` → `@core/bridge/` (hermano de engine).
+
+**Ejecutado (Stage 1 — split de Capa A):**
+- `ensemble.types.ts` (gemelo-de-entrada: `EnsembleChannel`/`EnsembleIntention`/`INITIAL_INTENTION`) → `@shared/types/ensemble.ts` (único corte domain-visible). De paso cerró un smell de Restricción 1: 4 dominios importaban `@providers/Ensemble/ensemble.types` (no permitido).
+- `ensemble-store.ts` (A1, `ensembleStore`) → `@core/intention/`. `EnsembleProvider.tsx` (binding React) se queda en `@providers/Ensemble/`.
+
+**Ruling `@providers → @core` = PERMITIDO (2026-06-12):** `EnsembleProvider` (capa de composición / adapter) importa `@core/intention/ensemble-store`. Adapter→core es la dirección correcta de Ports&Adapters; la Restricción 1 protege a los **dominios de feature** entre sí y de `@core`, **no** a la capa de composición. **No contradice** "los dominios no importan `@core`" (sigue NO; `domains/* → @core` es drift): `@providers` no es un dominio de feature. Esto resuelve la **simetría de entrada** de `OQ-ENGINE-FUTURE` (contrato de intención en `@shared` ↔ store en `@core`).
+
+**Pendiente (gated por consumidor D real — Stage 2, NO ejecutar en abstracto):** extraer `engine/hooks/` (D-parcial) fuera de `@core`; separar bootstrap de `fixtures/`; construir A2 (`SimulationContext` aún mezcla intención+dato+leyes); `ProjectionSnapshot` → `ViewModelContract`. También diferido: lift de `contracts/`/`primitives/` a nivel `@core` (ubicación de `damage-logic`/`damage-multipliers`/`mod-overrides` = decisión nueva).
+
+**Condición para reabrir el ruling:** ninguna prevista. Reabrir solo si `@providers` deja de ser capa de composición pura.
 
 ---
 

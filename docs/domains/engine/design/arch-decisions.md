@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.2.0"
+Version: "v0.2.1"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-06-10"
+Fecha_de_actualizacion: "2026-06-12"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -151,6 +151,7 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 **Consecuencia:**
 - La UI cruza al motor **solo por `@shared`** (inversión de dependencias): la salida vía `ViewModelContract`, y por **simetría** la entrada (intención) también debe cruzar por `@shared` ↔ `EnsembleStore` (A) en `@core`.
 - `domains/arsenal/view/UpgradeView.tsx` importando `@core/engine/hooks/useSimulation` es una **violación/drift** (stub conectado antes de existir D y antes de los tests), no un patrón válido.
+- **`@providers` (capa de composición / adapter) SÍ importa `@core`** — ruling 2026-06-12. `@providers` **no es un dominio de feature**; esta frontera y la Restricción 1 aplican a `domains/*`, no a la capa que compone adapters. `EnsembleProvider → @core/intention/ensemble-store` es válido (adapter→core, dirección correcta de Ports&Adapters). Ver `closed-decisions.md` DC-OQ-ENGINE-9.
 - `ViewModelContract` debe ser **consumer-shaped** (un ViewModel de MVVM, alimentado por `lib/*` como ingredientes), nunca *producer-laundered* (la salida cruda re-exportada por `@shared` solo para legalizar el import).
 
-**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. Ver `OQ-ENGINE-FUTURE` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).
+**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. La **simetría de entrada quedó realizada (2026-06-12)**: `ensemble.types` → `@shared/types/ensemble.ts`, `ensembleStore` (A1) → `@core/intention/`; `@core` reestructurado (Stage 0+1, DC-OQ-ENGINE-9). Ver `OQ-ENGINE-FUTURE`/`OQ-ENGINE-9` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).

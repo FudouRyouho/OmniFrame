@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.22.0"
+Version: "v0.23.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-06-10"
+Fecha_de_actualizacion: "2026-06-12"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -62,9 +62,9 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 
 Principio decidido: `ViewModelContract` debe ser **consumer-shaped** (ViewModel de MVVM, `lib/*` como ingredientes), **no** producer-laundered (snapshot crudo re-exportado por `@shared` solo para legalizar el import). Sub-preguntas abiertas:
 - **Forma del contrato:** ¿invariantes estructurados (`token + value + unit`, neutral a presentación, formateados por `lib/*` en el borde) o strings ya formateados? Inclinación: **estructurado**, para que CLI y UI compartan el mismo contrato. Se decide con material del CLI en mano, no en abstracto (derivar un consumidor a la vez).
-- **Simetría de entrada:** si los dominios no importan `@core` (decidido — ver abajo), la intención (`EnsembleStore` = A, en `@core`) también debe cruzar por `@shared`. ¿Contrato de intención en `@shared` ↔ store en `@core`? Es el gemelo de entrada de `ViewModelContract`; consolida la deuda "ubicación de Capa A respecto a `@core`/`providers/`".
+- **Simetría de entrada — RESUELTA (2026-06-12):** el contrato de intención (`ensemble.types`) cruza por `@shared/types/ensemble.ts`; el store (A1) vive en `@core/intention`; `EnsembleProvider` (`@providers`, composición) los conecta vía el ruling `@providers→@core`. Consolidó la deuda "ubicación de Capa A respecto a `@core`/`providers/`". Ver `closed-decisions.md` DC-OQ-ENGINE-9. (El gemelo de salida `ViewModelContract` sigue abierto.)
 
-**No es OQ:** "¿pueden los dominios importar `@core`?" → **decidido NO** (reafirma Restricción 1; ver `arch-decisions.md` §7 y `decision-frontier.md` §1). `UpgradeView → @core` es drift a corregir, no zona gris.
+**No es OQ:** "¿pueden los dominios importar `@core`?" → **decidido NO** (reafirma Restricción 1; ver `arch-decisions.md` §7 y `decision-frontier.md` §1). `UpgradeView → @core` es drift a corregir, no zona gris. **Distinto de `@providers → @core`, que SÍ está permitido** (2026-06-12): `@providers` es capa de composición/adapter, no dominio de feature. Ver `closed-decisions.md` DC-OQ-ENGINE-9.
 
 ---
 
@@ -264,7 +264,7 @@ O sea: la palabra que titula la Capa D también bautiza el payload del lado-prod
 
 ---
 
-## OQ-ENGINE-9 — Estructura interna de `@core/engine` y ubicación del harness de consumidores — **ABIERTO (2026-06-11)**
+## OQ-ENGINE-9 — Estructura interna de `@core/engine` y ubicación del harness de consumidores — **PARCIALMENTE RESUELTO (2026-06-12)**
 **Dominio:** engine / arquitectura de `@core`
 **Contexto:** Al extraer el harness compartido tests↔CLI (bootstrap de data + intenciones-fixture) no había ubicación clara en `@core/engine/` para scaffolding de **consumidores no-dominio**. Se resolvió pragmáticamente en `@core/engine/fixtures/` (provisional), que además **mezcla** dos cosas distintas: el bootstrap (carga de data real del juego — lado A) y las intenciones-fixture (builds predefinidas — input de prueba). Se suma al olor ya acumulado: nombres solapados (OQ-ENGINE-8), Capa A co-ubicada en `providers/`, `useSimulation` (D parcial) dentro de `@core`, `output/` (salida de C). `@core` creció sin una estructura interna deliberada.
 **Pregunta:** ¿Cómo se reestructura internamente `@core/engine`? Ejes: (a) separar bootstrap de fixtures; (b) dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`); (c) Capa A fuera de `providers/`; (d) extraer la D-parcial (`useSimulation`).
@@ -272,3 +272,4 @@ O sea: la palabra que titula la Capa D también bautiza el payload del lado-prod
 **No bloquea:** el harness compartido ni el CLI; las ubicaciones son provisionales y mecánicas.
 **Vínculo:** OQ-ENGINE-8 (sobrecarga de naming), OQ-ENGINE-FUTURE (simetría de entrada / Capa A respecto a `@core`/`providers`).
 **Fuente:** debate 2026-06-11 sobre extracción del harness tests↔CLI; `arch-decisions.md §6-7`.
+**Resuelto parcialmente (2026-06-12, rama `refactor/core-stage0-restructure`):** reestructura ejecutada (Stage 0+1, commit por slice, `tsc -b` CLEAN + 95 tests). Eje **(c)** Capa A fuera de `providers/` ✓ — `ensemble-store`→`@core/intention`, `ensemble.types`→`@shared/types/ensemble`; más reorg `engine/{resolve (C1), simulate (C2)}`, `bridge`→`@core/bridge` (B), split `contracts.ts`/`primitives.ts`. **Siguen gated por D (Stage 2):** eje **(a)** separar bootstrap de `fixtures/`, eje **(d)** extraer `hooks/` (D-parcial) fuera de `@core`. El ruling `@providers→@core` quedó **PERMITIDO** (resuelve la simetría de entrada de OQ-ENGINE-FUTURE). Detalle: `closed-decisions.md` DC-OQ-ENGINE-9.
