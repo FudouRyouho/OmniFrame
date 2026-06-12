@@ -7,19 +7,35 @@
  *
  * Comparte con los tests el harness de entrada (`@core/engine/fixtures`): el bootstrap de data
  * (`loadEngineData`) y las intenciones-fixture (`builds` / `BUILDS`). El test le adosa
- * expectativas y aserta; el oráculo INSPECCIONA (imprime el crudo). Mismo input, distinto acto.
+ * expectativas y aserta; el oráculo INSPECCIONA. Mismo input, distinto acto.
  *
- * Uso: `npm run oracle -- <build>` (un build del catálogo) o `npm run oracle -- all` (todos).
- * Sin argumento → `lanka`. Imprime el snapshot CRUDO (nodos + 6 buckets) — material de PASO 3.
+ * Dos actos de D2:
+ *   - CRUDO (default): `npm run oracle -- <build>` | `all`. Snapshot crudo (nodos + 6 buckets),
+ *     material de debug del motor (PASO 3).
+ *   - VIEW (display):  `npm run oracle -- view <build>` | `view all`. El ViewModelContract
+ *     (cut C→D, display-only/C1) vía `project()`, formateado al borde del CLI. Primer consumidor
+ *     real del contrato; hermano de display del adaptador UI (D1). Label = token por ahora
+ *     (la resolución i18n es un ingrediente `lib/*` aparte).
+ *
+ * Sin argumento → `lanka` (crudo).
  */
 import { loadEngineData } from '@core/engine/fixtures/engine-data';
 import { BUILDS } from '@core/engine/fixtures/builds';
 import { consume } from '@core/engine/output/consume';
+import { project, type StatViewModel } from '@shared/view-model';
 
 loadEngineData();
 
-const arg = process.argv[2] ?? 'lanka';
+const isView = process.argv[2] === 'view';
+const arg = (isView ? process.argv[3] : process.argv[2]) ?? 'lanka';
 const names = arg === 'all' ? Object.keys(BUILDS) : [arg];
+
+/** Formateo de display al borde del CLI: value + unit. Label = token (i18n = ingrediente aparte). */
+function formatStat(s: StatViewModel): string {
+  const value = Number.isInteger(s.value) ? String(s.value) : s.value.toFixed(2);
+  const cat = s.category ? `[${s.category}] ` : '';
+  return `${cat}${s.id}: ${value}${s.unit}`;
+}
 
 for (const name of names) {
   const factory = BUILDS[name];
@@ -29,12 +45,25 @@ for (const name of names) {
     continue;
   }
 
-  // Consumo del puerto: salida CRUDA de C (forma-de-productor, sin shaping).
-  const entities = consume(factory(), { flags: {} }).snapshot();
+  const consumption = consume(factory(), { flags: {} });
 
-  console.log(`\n######## BUILD: ${name} — ${entities.length} entidad(es) resuelta(s) ########`);
-  for (const e of entities) {
-    console.log(`\n=== [${e.channel ?? '—'}] ${e.id}  (${e.domain}/${e.kind}) ===`);
-    console.dir(e.attributes, { depth: null, maxArrayLength: null });
+  if (isView) {
+    // Capa D (display): el ViewModelContract proyectado, formateado al borde.
+    const vm = project(consumption.snapshot());
+    console.log(`\n######## VIEW: ${name} — ${vm.entities.length} entidad(es) ########`);
+    for (const e of vm.entities) {
+      console.log(`\n=== [${e.channel ?? '—'}] ${e.unique_name}  (${e.domain}/${e.kind}) ===`);
+      for (const s of e.stats) {
+        console.log(`  ${formatStat(s)}`);
+      }
+    }
+  } else {
+    // Crudo: salida nativa de C (forma-de-productor, sin shaping) — inspección de buckets.
+    const entities = consumption.snapshot();
+    console.log(`\n######## BUILD: ${name} — ${entities.length} entidad(es) resuelta(s) ########`);
+    for (const e of entities) {
+      console.log(`\n=== [${e.channel ?? '—'}] ${e.id}  (${e.domain}/${e.kind}) ===`);
+      console.dir(e.attributes, { depth: null, maxArrayLength: null });
+    }
   }
 }
