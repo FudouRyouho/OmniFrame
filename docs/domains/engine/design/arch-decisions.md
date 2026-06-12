@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.2.1"
+Version: "v0.2.2"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
@@ -150,7 +150,7 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 
 **Consecuencia:**
 - La UI cruza al motor **solo por `@shared`** (inversión de dependencias): la salida vía `ViewModelContract`, y por **simetría** la entrada (intención) también debe cruzar por `@shared` ↔ `EnsembleStore` (A) en `@core`.
-- `domains/arsenal/view/UpgradeView.tsx` importando `@core/engine/hooks/useSimulation` es una **violación/drift** (stub conectado antes de existir D y antes de los tests), no un patrón válido.
+- `domains/arsenal/view/UpgradeView.tsx` importando `@core/engine/hooks/useSimulation` fue una **violación/drift** (stub conectado antes de existir D). **RESUELTO 2026-06-12:** consume el `ViewModelContract` vía `useViewModel` (`@providers/Ensemble`, binding z3); ningún dominio importa `@core`.
 - **`@providers` (capa de composición / adapter) SÍ importa `@core`** — ruling 2026-06-12. `@providers` **no es un dominio de feature**; esta frontera y la Restricción 1 aplican a `domains/*`, no a la capa que compone adapters. `EnsembleProvider → @core/intention/ensemble-store` es válido (adapter→core, dirección correcta de Ports&Adapters). Ver `closed-decisions.md` DC-OQ-ENGINE-9.
 - `ViewModelContract` debe ser **consumer-shaped** (un ViewModel de MVVM, alimentado por `lib/*` como ingredientes), nunca *producer-laundered* (la salida cruda re-exportada por `@shared` solo para legalizar el import).
 

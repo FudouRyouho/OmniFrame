@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Describir el pulso real de la estructura física y funcional del repositorio"
-Version: "v0.1.9"
+Version: "v0.2.0"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
@@ -23,7 +23,7 @@ Fecha_de_actualizacion: "2026-06-12 (actualización #9)"
 
 > **[2026-06-10] Engine — frontera C→D + oráculo CLI (decisiones + prototipo):** Sesión de diseño materializada. Decisiones (ver [`engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7): (1) oráculo del motor = **CLI, no MCP** (MCP diferido); (2) `consume()` = **salida de C**, promovido a módulo en `@core/engine/output/` (fuera de `__tests__/`, 2026-06-10) — superficie del dominio engine, consumida por scripts/tests (no-dominios); **no es Capa D**; (3) **frontera de dominios**: los dominios no importan `@core` (reafirma Restricción 1) — la UI y la Capa D (consumo derivado, `ViewModelContract`) cruzan por `@shared`. `C→D→UI` = **prototipo en revisión**. Diseño activo de `ViewModelContract` (consumer-shaped) + simetría de entrada en `OQ-ENGINE-FUTURE` ([`open-questions.md`](open-questions.md)).
 > **Deuda registrada (sesión 2026-06-10):**
-> - `domains/arsenal/view/UpgradeView.tsx` importa `@core/engine/hooks/useSimulation` directo → **violación de la frontera de dominios** (stub conectado antes de existir D); corregir vía `@shared` al materializar D.
+> - `domains/arsenal/view/UpgradeView.tsx` importa `@core/engine/hooks/useSimulation` directo → **violación de la frontera de dominios** (stub conectado antes de existir D); corregir vía `@shared` al materializar D. **[RESUELTO 2026-06-12]** consume el `ViewModelContract` vía `useViewModel` (`@providers`); ya no importa `@core`.
 > - `useSimulation` en `@core/engine/hooks` = D reactiva parcial co-ubicada en `@core` → drift a reubicar fuera de `@core` cuando D se materialice.
 
 > **[2026-06-11] Engine — oráculo CLI v0 + derivación de tests (contrato + módulos):** `consume()` extendido con `snapshot(): SimulationEntity[]` (salida cruda de C, forma-de-productor; **cambio de contrato del puerto**), promovido a `@core/engine/output/consume.ts`. **Harness de entrada** en `@core/engine/fixtures/`: `loadEngineData()` (bootstrap, ex-`__tests__/helpers/engine-data-setup`) + `builds.ts` (catálogo de las 5 builds verificadas + registro `BUILDS`). **Oráculo CLI** (`scripts/oracle/`, `npm run oracle -- <build>` | `all`): adaptador no-reactivo que inspecciona el snapshot crudo — primer cliente real consumiendo el motor (no-UI). Test (asertar) y oráculo (inspeccionar) = adaptadores hermanos sobre el mismo input; el oráculo NO reinventa el runner. `ViewModelContract`/Capa D siguen **diferidos** (sin UI). Nuevas OQ: **OQ-ENGINE-8** (sobrecarga "Proyección"/`ProjectionSnapshot`), **OQ-ENGINE-9** (estructura interna de `@core` + `fixtures/` mixto). Ver [`engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7 y [`open-questions.md`](open-questions.md).
@@ -31,6 +31,8 @@ Fecha_de_actualizacion: "2026-06-12 (actualización #9)"
 > - Puntero archivado a `docs/design/sim-v2/OMNIFRAME_SIMULATION_ARCHITECTURE.md` (en `docs-archive/legacy/engine/architecture.md` y pre-v1) está **colgado** — la verdad viva es `docs/domains/engine/design/simulation-architecture.md`.
 
 > **[2026-06-12] Engine — reestructura de `@core` (Stage 0+1) ejecutada:** Rama `refactor/core-stage0-restructure`, commit por slice, `tsc -b` CLEAN + 95 tests verde en cada uno. **Stage 0** (reorg interno de `engine/`, blast externo 0): `contracts/index.ts` → `contracts.ts` (cortes/DTOs) + `primitives.ts` (barrel preserva superficie); `combat`+`enemies` → `engine/simulate/` (C2); `resolution`+`hydration` → `engine/resolve/` (C1); `bridge/` → `@core/bridge/` (B, fuera de engine). **Stage 1** (split de A): `ensemble.types` → `@shared/types/ensemble.ts` (gemelo-de-entrada; cierra smell Restricción 1 — 4 dominios importaban `@providers`), `ensemble-store` → `@core/intention/` (A1); `EnsembleProvider` se queda en `@providers`. **Ruling `@providers → @core` PERMITIDO** (capa de composición ≠ dominio de feature). Resuelve mayormente OQ-ENGINE-9 (residuales **gated por D**: extraer `hooks/`, construir A2, split de `fixtures/`). Ver `closed-decisions.md` DC-OQ-ENGINE-9 y `decision-frontier.md` §1.
+>
+> **[2026-06-12] Engine — `ViewModelContract` v0 (display-only/C1) + Capa D cableada:** Definido `@shared/view-model` (`StatViewModel`/`EntityViewModel`/`ViewModelContract` + `project()`, z2 puro: snapshot crudo → cut C→D; tira los 6 buckets, lleva `value`+`unit`+`category`; label se compone vía i18n en el borde). Test de fidelidad contra snapshot real (Laetum). **D2:** el oráculo gana modo `view` (`npm run oracle -- view <build>`) — primer consumidor. **D1:** `UpgradeView` consume vía `useViewModel` (binding z3 nuevo en `@providers/Ensemble`, liga EnsembleStore→`consume()`→`project()`) y **deja de importar `@core` → ningún dominio importa `@core`** (la frontera 'domains ↛ @core' pasa de aspiracional a cierta). Diferido: i18n/formatter (`lib/*`), `metrics`/A2 (C2), extracción de `hooks/` de `@core`. Rama `refactor/core-stage0-restructure`.
 >
 > **Modelo arquitectónico:** Ver `docs/domains/engine/design/simulation-architecture.md` para el modelo de 5 capas (A / B / C1 / C2 / D) acordado en 2026-05-19. Este documento describe la estructura física; la arquitectura conceptual y los principios de comunicación entre capas están allí.
 
@@ -102,8 +104,8 @@ Fecha_de_actualizacion: "2026-06-12 (actualización #9)"
 | Gap | Estado |
 |---|---|
 | Arsenal es cliente real del engine | ⚠️ Pendiente — `use-arsenal-stub-state.ts` activo, UpgradeView sin diseño definido |
-| Capa D materializada (`C→D→UI`) | ⚠️ Prototipo en revisión — `consume()` promovible a `@core`; `ViewModelContract` (consumer-shaped) por definir. Ver `OQ-ENGINE-FUTURE` |
-| `UpgradeView` importa `@core` directo | ⚠️ Violación de frontera de dominios — drift del stub; corregir vía `@shared` al materializar D |
+| Capa D materializada (`C→D→UI`) | 🟡 v0 display-only (C1): `ViewModelContract` + `project()` en `@shared/view-model`, consumido por D2 (oráculo `view`) y D1 (`UpgradeView` vía `useViewModel`). Falta i18n/formatter, `metrics`/A2 (C2) |
+| `UpgradeView` importa `@core` directo | ✅ **RESUELTO (2026-06-12)** — consume `ViewModelContract` vía `useViewModel` (`@providers`); ningún dominio importa `@core` |
 
 ---
 
