@@ -1,5 +1,5 @@
 import { RngProvider } from "./RngProvider";
-import { resolveCritTier, averageCritMultiplier } from "../formulas/common/crit-base";
+import { resolveCritTier, averageCritMultiplier } from "../../formulas/common/crit-base";
 
 export interface AtomicRoll {
   tier: number;

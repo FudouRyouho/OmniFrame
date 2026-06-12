@@ -3,10 +3,10 @@
  * @status en-desarrollo
  */
 import { useMemo } from 'react';
-import { TimelineSimulator } from '../combat/TimelineSimulator';
-import type { SimulationResult as TimelineResult } from '../combat/TimelineSimulator';
+import { TimelineSimulator } from '../simulate/combat/TimelineSimulator';
+import type { SimulationResult as TimelineResult } from '../simulate/combat/TimelineSimulator';
 import type { SimulationEntity, SimulationContext } from '../contracts';
-import type { ScaledEnemy } from '../enemies/EnemyRepository';
+import type { ScaledEnemy } from '../simulate/enemies/EnemyRepository';
 
 /**
  * useTimeline — C2-Dynamic.

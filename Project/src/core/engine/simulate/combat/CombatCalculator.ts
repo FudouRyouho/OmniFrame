@@ -4,8 +4,8 @@
  */
 import { StatusEngine, type StatusEffectProjection } from "./StatusEngine";
 import { AtomicSimulator } from "./AtomicSimulator";
-import type { SimulationEntity, SimulationContext } from "../contracts";
-import { isWeaponDamageToken } from "../contracts/damage-logic";
+import type { SimulationEntity, SimulationContext } from "../../contracts";
+import { isWeaponDamageToken } from "../../contracts/damage-logic";
 
 export interface CombatMetrics {
   average_crit_multiplier: number;

@@ -2,7 +2,7 @@
  * @domain Simulation-v2 / Logic / Combat
  * @status en-desarrollo
  */
-import type { SimulationEntity } from "../contracts";
+import type { SimulationEntity } from "../../contracts";
 
 export interface StatusEffectProjection {
   type: string;

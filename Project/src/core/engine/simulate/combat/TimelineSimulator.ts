@@ -1,13 +1,13 @@
 /**
  * @domain Simulation-v2 / Logic / Simulator
  */
-import type { SimulationEntity, SimulationContext } from "../contracts";
-import { BASELINE_GAME_LAWS } from "../contracts";
+import type { SimulationEntity, SimulationContext } from "../../contracts";
+import { BASELINE_GAME_LAWS } from "../../contracts";
 import { CombatCalculator } from "./CombatCalculator";
 import { CombatSimulator } from "./CombatSimulator";
 import { EnemyState } from "../enemies/EnemyState";
 import type { ScaledEnemy } from "../enemies/EnemyRepository";
-import { isWeaponDamageToken, DAMAGE_ATTR_TO_PROC_KEY } from "../contracts/damage-logic";
+import { isWeaponDamageToken, DAMAGE_ATTR_TO_PROC_KEY } from "../../contracts/damage-logic";
 
 export interface TimelineEvent {
   time: number;

@@ -2,12 +2,12 @@
  * @domain Simulation-v2 / Logic / Combat
  * @status en-desarrollo
  */
-import type { SimulationEntity } from "../contracts";
+import type { SimulationEntity } from "../../contracts";
 import type { EnemyState } from "../enemies/EnemyState";
-import { DAMAGE_EFFICIENCY } from "../contracts/damage-multipliers";
+import { DAMAGE_EFFICIENCY } from "../../contracts/damage-multipliers";
 import { AtomicSimulator, type AtomicRoll } from "./AtomicSimulator";
 import { RngProvider } from "./RngProvider";
-import { isWeaponDamageToken } from "../contracts/damage-logic";
+import { isWeaponDamageToken } from "../../contracts/damage-logic";
 
 export interface HitResolution {
   total_damage: number;

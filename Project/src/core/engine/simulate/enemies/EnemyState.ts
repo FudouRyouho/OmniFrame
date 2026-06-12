@@ -1,5 +1,5 @@
 import type { ScaledEnemy } from "./EnemyRepository";
-import type { EnemyStatusState, GameLaws } from "../contracts";
+import type { EnemyStatusState, GameLaws } from "../../contracts";
 
 /**
  * EnemyState - Gestiona el estado dinámico de un enemigo durante una simulación temporal.

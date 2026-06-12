@@ -3,8 +3,8 @@
  * @status en-desarrollo
  */
 import { useMemo } from 'react';
-import { CombatCalculator } from '../combat/CombatCalculator';
-import type { CombatMetrics } from '../combat/CombatCalculator';
+import { CombatCalculator } from '../simulate/combat/CombatCalculator';
+import type { CombatMetrics } from '../simulate/combat/CombatCalculator';
 import { BASELINE_GAME_LAWS } from '../contracts';
 import type { SimulationEntity, SimulationContext } from '../contracts';
 
