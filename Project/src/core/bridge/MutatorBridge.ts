@@ -3,12 +3,12 @@
  * @SSoT docs/domains/engine/design/simulation-architecture.md
  * @status en-desarrollo
  */
-import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../contracts";
+import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../engine/contracts";
 import type { EnsembleIntention, EnsembleChannel } from "@providers/Ensemble/ensemble.types";
-import { BASELINE_GAME_LAWS } from "../contracts";
-import { DnaRepository } from "../resolve/hydration/DnaRepository";
-import { SimulationEngine } from "../resolve/SimulationEngine";
-import { StaticHydrator } from "../resolve/hydration/StaticHydrator";
+import { BASELINE_GAME_LAWS } from "../engine/contracts";
+import { DnaRepository } from "../engine/resolve/hydration/DnaRepository";
+import { SimulationEngine } from "../engine/resolve/SimulationEngine";
+import { StaticHydrator } from "../engine/resolve/hydration/StaticHydrator";
 import { conditionTokens } from "@shared/types/condition";
 
 export interface SimulationResult {

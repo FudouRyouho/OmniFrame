@@ -3,7 +3,7 @@
  * @status en-desarrollo
  */
 import { useMemo } from 'react';
-import { MutatorBridge } from '../bridge/MutatorBridge';
+import { MutatorBridge } from '../../bridge/MutatorBridge';
 import { useEnsemble } from '@providers/Ensemble/EnsembleProvider';
 import type { SimulationContext } from '../contracts';
 import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';

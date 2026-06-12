@@ -23,7 +23,7 @@
  *      el `resulting_value` es ruidoso por orden y los perks hoy salen `source=unknown`
  *      (B no propaga source_id). Se deja a propósito: reporta el comportamiento real.
  */
-import { MutatorBridge } from '../bridge/MutatorBridge';
+import { MutatorBridge } from '../../bridge/MutatorBridge';
 import type { AttributeNode, AttributeId, SimulationContext, AuditStep, SimulationEntity } from '../contracts';
 import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
 
