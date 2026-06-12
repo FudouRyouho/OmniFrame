@@ -79,8 +79,10 @@ export default function IncarnorEvolutionSelector() {
               {Object.entries(perks).map(([perkId, upgrades]) => {
                 const tierNum = Number(tier);
                 const isSelected = currentPerks[tierNum] === perkId;
-                const effectSummary = upgrades
-                  .map(u => u.upgrade_type ? `${u.upgrade_type} ${u.value}` : u.note)
+                const effectSummary = upgrades.stats
+                  .map(u => u.upgrade_type
+                    ? `${u.upgrade_type}${typeof u.base_value === 'number' ? ` ${u.base_value}` : ''}`
+                    : u.label)
                   .filter(Boolean)
                   .join(' · ');
 

@@ -64,7 +64,7 @@ const BaseItemCard = forwardRef<HTMLButtonElement, BaseItemCardProps>(
             /* --- ANATOMIA DE MOD --- */
             <ModFrameVisual
               rarity={(item as any).rarity || "common"}
-              imageUrl={item.image}
+              imageUrl={item.image ?? undefined}
               name={item.name}
               description={(item as any).description || ""}
               cost={(item as any).drain || (item as any).capacity || 0}

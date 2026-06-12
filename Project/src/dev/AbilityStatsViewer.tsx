@@ -81,8 +81,9 @@ function buildTailIndex(override: Record<string, unknown>): Map<string, AbilityS
 
 function StatRow({ entry }: { entry: AbilityStatEntry }) {
   const resolved = resolveLabel(entry.label, entry, DEFAULT_ENGINE_VARS)
-  const color = UB_COLOR[entry.upgrade_by ?? ''] ?? 'text-ui-primary/40'
-  const tag   = UB_SHORT[entry.upgrade_by ?? ''] ?? entry.upgrade_by ?? ''
+  const ub    = entry.upgrade_by?.[0] ?? ''
+  const color = UB_COLOR[ub] ?? 'text-ui-primary/40'
+  const tag   = UB_SHORT[ub] ?? ub
 
   return (
     <div className="flex items-baseline justify-between gap-3 py-1 border-b border-ui-primary/8 last:border-0">

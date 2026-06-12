@@ -35,9 +35,10 @@ export class ShardRepository {
 
     const stat = (shardEntry.stats as any[])?.find((s: any) => s.id === statId);
     if (!stat?.upgrade_type) return null;
-    if (!isUpgrade(stat.upgrade_type)) return null;
+    const upgradeType: string = stat.upgrade_type;
+    if (!isUpgrade(upgradeType)) return null;
 
-    const entry = UPGRADE_MAP[stat.upgrade_type] ?? resolveToken(stat.upgrade_type);
+    const entry = UPGRADE_MAP[upgradeType] ?? resolveToken(upgradeType);
     if (!entry) return null;
 
     const rawValue = Array.isArray(stat.value) ? stat.value[isTau ? 1 : 0] : stat.value;

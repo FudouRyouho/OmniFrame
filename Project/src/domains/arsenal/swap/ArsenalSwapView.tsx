@@ -51,7 +51,7 @@ const ArsenalSwapContent = () => {
         <div className="flex-1 overflow-hidden">
           <OmniView
             basePath="/arsenal/swap"
-            onSelect={(item) => {
+            onClick={(item: any) => {
               const channel = channelMap[category || ""];
               if (channel) {
                 // Notificar al motor (Capa A)

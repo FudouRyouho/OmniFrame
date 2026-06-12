@@ -46,7 +46,7 @@ const EquipmentBrowser = () => {
   return (
     <OmniView
       basePath="/equipment"
-      onSelect={(item) => {
+      onClick={(item: any) => {
         navigate(`/equipment/${category}/${toRouteSlug(item.name)}`, {
           state: { uniqueName: item.unique_name },
         });

@@ -10,12 +10,8 @@ import {
 import classNames from "classnames";
 import { FormattedText } from "@lib/presentation";
 import { useDataState } from "@providers/DataState/data-state-context";
-import {
-  getModClass,
-  getModDataState,
-  needsExpandedDescription,
-} from "@lib/mod-visual";
-import { createContext, useContext } from "react";
+import { getModDataState } from "@lib/mod-visual";
+import { createContext } from "react";
 import Stage from "@shared/components/Stage";
 
 /**
@@ -28,13 +24,6 @@ interface ModCardState {
 }
 
 const ModCardContext = createContext<ModCardState | null>(null);
-
-const useModCard = () => {
-  const context = useContext(ModCardContext);
-  if (!context)
-    throw new Error("useModCard must be used within a ModCardContext.Provider");
-  return context;
-};
 
 /**
  * ModCard - Card especializada para mods.
@@ -50,7 +39,7 @@ type ModCardProps = {
 
 const ModCard = forwardRef<HTMLButtonElement, ModCardProps>(
   (
-    { item, isSelected = false, onClick, children, isExtended = false },
+    { item, isSelected = false, onClick, isExtended = false },
     forwardedRef,
   ) => {
     const [isOver, setIsOver] = useState(isExtended);
