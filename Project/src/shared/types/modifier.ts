@@ -302,9 +302,14 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
   AVATAR_ADD_ENERGY_ORB_EFFICIENCY: { attr: 'AVATAR_ADD_ENERGY_ORB_EFFICIENCY', op: 'ADD' },
 
   // ── AVATAR — planos post-escala ───────────────────────────────────────────
-  AVATAR_FLAT_HEALTH_MAX:   { attr: 'AVATAR_FLAT_HEALTH_MAX',   op: 'ADD_FLAT' },
-  AVATAR_FLAT_SHIELD_MAX:   { attr: 'AVATAR_FLAT_SHIELD_MAX',   op: 'ADD_FLAT' },
-  AVATAR_FLAT_ENERGY_MAX:   { attr: 'AVATAR_FLAT_ENERGY_MAX',   op: 'ADD_FLAT' },
-  AVATAR_FLAT_ARMOUR:       { attr: 'AVATAR_FLAT_ARMOUR',       op: 'ADD_FLAT' },
+  // Convergencia de nodo (2026-06-11): los FLAT de base-stat apuntan al MISMO attr
+  // que su par ADD para componer sobre la base del warframe — fórmula del juego
+  // `Total = Base × (1 + Mods%) + Flat` (ver references/wiki/mechanics/armor.md).
+  // El nodo base lo siembra getDNA() con id = attr del ADD (precedente: WEAPON_ADD_RELOAD_SPEED).
+  // HEALTH_REGEN no tiene par ADD (acumulador propio, base 0) → queda en su attr.
+  AVATAR_FLAT_HEALTH_MAX:   { attr: 'AVATAR_ADD_HEALTH_MAX',    op: 'ADD_FLAT' },
+  AVATAR_FLAT_SHIELD_MAX:   { attr: 'AVATAR_ADD_SHIELD_MAX',    op: 'ADD_FLAT' },
+  AVATAR_FLAT_ENERGY_MAX:   { attr: 'AVATAR_ADD_ENERGY_MAX',    op: 'ADD_FLAT' },
+  AVATAR_FLAT_ARMOUR:       { attr: 'AVATAR_ADD_ARMOUR',        op: 'ADD_FLAT' },
   AVATAR_FLAT_HEALTH_REGEN: { attr: 'AVATAR_FLAT_HEALTH_REGEN', op: 'ADD_FLAT' },
 }

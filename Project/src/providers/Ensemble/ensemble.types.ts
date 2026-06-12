@@ -25,6 +25,14 @@ export interface ModIntention extends SlotIntention {
   level: number;
 }
 
+// Arcano: slot dedicado, hermano de mods (no de los slots de mod ni de shards).
+// 'rank' SÍ es semántico aquí — indexa la serie base_value[rank] del arcano.
+// No asumir 0-5: hay arcanos 0-3 (array de 4 valores). ArcaneRepository clampa.
+export interface ArcaneIntention {
+  itemId: string | null;
+  rank: number; // 0..max_rank, varía por arcano
+}
+
 export type EnsembleChannel =
   | 'warframe'
   | 'primary'
@@ -45,6 +53,11 @@ const EMPTY_SHARD: ArchonShardIntent = { shardType: null, effectId: null, isTauf
 export interface EnsembleIntention {
   items: Record<EnsembleChannel, SlotIntention>;
   mods: Record<string, Record<number, ModIntention>>;
+  // Espejo de `mods`: capacidad de arcanos por canal. Heterogénea (warframe=2,
+  // armas=1, Zaw/archgun varios de distinto tipo) → un canal puede tener 0..N
+  // slots, o estar ausente. Validación de cuántos/cuáles = OQ-DATA-1 (diferida).
+  // Opcional: las builds-fixture sin arcanos no necesitan declararlo.
+  arcanes?: Record<string, Record<number, ArcaneIntention>>;
   environment: {
     targetLevel: number;
     targetFaction: string | null;
@@ -76,6 +89,7 @@ export const INITIAL_INTENTION: EnsembleIntention = {
     necramech:        { itemId: null, rank: 30 },
   },
   mods: {},
+  arcanes: {},
   environment: {
     targetLevel: 100,
     targetFaction: null,

@@ -10,9 +10,12 @@
  * Ubicación provisional (`fixtures/` mezcla bootstrap + intenciones) — ver OQ-ENGINE-9.
  */
 import weaponsData  from '../../../../public/data/weapons.json';
+import warframesData from '../../../../public/data/warframes.json';
 import modOverrides from '../../../../public/data/mod-stats.override.json';
 import incarnon     from '../../../../public/data/incarnon-evolutions.override.json';
 import weaponStats  from '../../../../public/data/weapon-stats.override.json';
+import arcaneOverrides from '../../../../public/data/arcane-stats.override.json';
+import archonShards from '../../../../public/data/archon-shards.json';
 import { DataLoader } from '../hydration/DataLoader';
 
 /** Carga la data real del juego en los repositorios. Idempotente: carga una sola vez. */
@@ -20,8 +23,11 @@ export function loadEngineData(): void {
   if (DataLoader.isReady()) return;
   DataLoader.init({
     weapons:               weaponsData,
+    warframes:             warframesData,
     modOverrides:          modOverrides,
     weaponAttackOverrides: weaponStats,
     incarnon:              incarnon,
+    arcaneOverrides:       arcaneOverrides,
+    archonShards:          archonShards,
   });
 }

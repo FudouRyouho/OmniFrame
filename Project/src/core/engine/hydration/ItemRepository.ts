@@ -28,7 +28,35 @@ export class ItemRepository {
     if (!raw) return null;
 
     const profiles: Record<string, Record<string, number>> = {};
-    
+
+    // Warframe: stats base de avatar (no tiene ataques). El raw expone health/shield/armor/
+    // energy reales (mismo molde que `flight` de projectile_speed — dato en fuente, sin override).
+    // Cada nodo usa el attr del token ADD como id, para que mods (%) y shards (flat) compongan
+    // sobre la misma base — fórmula `Total = Base × (1 + Mods%) + Flat` (ver armor.md, UPGRADE_MAP).
+    // Los 4 stats de habilidad nacen con base 100 (100% = sin mods); no conozco excepción.
+    if (raw.kind === 'warframe') {
+      const s = raw.stats ?? {};
+      profiles['base'] = {
+        AVATAR_ADD_HEALTH_MAX:        s.health ?? 0,
+        AVATAR_ADD_SHIELD_MAX:        s.shield ?? 0,
+        AVATAR_ADD_ARMOUR:            s.armor  ?? 0,
+        AVATAR_ADD_ENERGY_MAX:        s.energy ?? 0,
+        AVATAR_ADD_ABILITY_STRENGTH:   100,
+        AVATAR_ADD_ABILITY_RANGE:      100,
+        AVATAR_ADD_ABILITY_DURATION:   100,
+        AVATAR_ADD_ABILITY_EFFICIENCY: 100,
+      };
+      return {
+        entity_id: raw.unique_name,
+        domain: raw.domain,
+        kind: raw.kind,
+        family: raw.family,
+        tags: [raw.domain, raw.kind, raw.family, ...(raw.tags || [])].filter(Boolean),
+        profiles,
+        behaviors: [],
+      };
+    }
+
     // Mapear ataques a perfiles
     if (raw.stats?.attacks && raw.stats.attacks.length > 0) {
       raw.stats.attacks.forEach((attack: any, index: number) => {

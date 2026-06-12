@@ -218,6 +218,76 @@ export function boltor(opts: { perks?: Record<number, string>; mods?: Record<num
   };
 }
 
+// ─── Arcano v0: Primary Merciless sobre Lanka (siempre-activo + guarda de null + clamp) ─
+
+export const PRIMARY_MERCILESS = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnKill';
+
+/**
+ * Lanka + Primary Merciless (1 arcano) — primer fixture con arcano. Verifica el flujo A→B→C:
+ *   - parte siempre-activa `+30% Reload Speed` → nodo WEAPON_ADD_RELOAD_SPEED (base 100) → 130;
+ *   - parte `On Kill +5% Damage` con base_value:null + upgrade_type:null → OMITIDA (stacking, OQ-DATA-4);
+ *   - rank:5 sobre serie de 1 valor → clampado a idx 0 (los arcanos no son todos 0-5).
+ */
+export function lankaArcane(profile = 'charged_shot'): EnsembleIntention {
+  return {
+    ...lanka(profile),
+    arcanes: { primary: { 0: { itemId: PRIMARY_MERCILESS, rank: 5 } } },
+  };
+}
+
+// ─── Rhino (warframe net-new, fixture_01 Tier 1: base + mods + shards) ─────────────
+
+export const RHINO = '/Lotus/Powersuits/Rhino/Rhino';
+
+const RHINO_MOD = {
+  BLIND_RAGE:         '/Lotus/Upgrades/Mods/Warframe/DualStat/CorruptedPowerEfficiencyWarframe',           // +99% str / −55% eff (lvl 10)
+  TRANSIENT_FORTITUDE:'/Lotus/Upgrades/Mods/Warframe/DualStat/CorruptedPowerStrengthPowerDurationWarframe', // +55% str / −27.5% dur (lvl 10)
+  PRIMED_CONTINUITY:  '/Lotus/Upgrades/Mods/Warframe/Expert/AvatarAbilityDurationModExpert',                // +55% dur (lvl 10)
+  STRETCH:            '/Lotus/Upgrades/Mods/Warframe/AvatarAbilityRangeMod',                                // +45% range (lvl 5)
+};
+
+// Cristal azul (Boreal) tauforjado, efecto armadura: AVATAR_FLAT_ARMOUR +225 c/u.
+// shardType = uniqueName del cristal (la clave real del catálogo); el mapeo color→cristal
+// es asunto de UI, no del engine. effectId = id del stat dentro del cristal.
+const AZURE_ARMOR_TAU = {
+  shardType: '/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalBoreal',
+  effectId: 'azure-armor',
+  isTauforged: true,
+};
+
+/**
+ * Rhino fixture_01 (Tier 1, base reproducible). Mide los ejes 1+2: dato base del warframe
+ * + mods que componen sobre los nodos AVATAR_*. Sin habilidades (Roar/Iron Skin = paso 2).
+ * Esperado (a verificar con el oráculo): str 254%, range 145%, dur 127.5%, eff 45%,
+ * armor = 240 × (1 + 0%) + 2×225 = 690 (sin mod % de armadura en Tier 1; shards = flat).
+ */
+export function rhino(): EnsembleIntention {
+  return {
+    items: {
+      warframe: {
+        itemId: RHINO, rank: 30,
+        shards: [{ ...AZURE_ARMOR_TAU }, { ...AZURE_ARMOR_TAU }],
+      },
+      primary:          { itemId: null, rank: 30 },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: null, rank: 30 },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: { warframe: {
+      0: { itemId: RHINO_MOD.BLIND_RAGE,          rank: 30, level: 10 },
+      1: { itemId: RHINO_MOD.TRANSIENT_FORTITUDE, rank: 30, level: 10 },
+      2: { itemId: RHINO_MOD.PRIMED_CONTINUITY,   rank: 30, level: 10 },
+      3: { itemId: RHINO_MOD.STRETCH,             rank: 30, level: 5  },
+    } },
+    environment: BASE_ENV,
+  };
+}
+
 // ─── Registro de builds para el oráculo (`npm run oracle -- <name>` | `all`) ───────
 
 /** Invocación representativa de cada build. El oráculo lo recorre por nombre. */
@@ -227,4 +297,6 @@ export const BUILDS: Record<string, () => EnsembleIntention> = {
   laetum: () => laetum(),
   felarx: () => felarx(),
   boltor: () => boltor({ perks: { 2: 'hunters_mantra', 4: 'commodores_fortune' }, mods: { 0: SERRATION } }),
+  lanka_arcane: () => lankaArcane(),
+  rhino:  () => rhino(),
 };

@@ -136,6 +136,7 @@ export interface Ensemble {
     rank: number;
     slots: Record<number, { mod_id?: string; level?: number }>;
     shards: { type: string; stat: string; is_tau?: boolean }[];
+    arcanes?: Record<number, { arcane_id: string; rank: number }>;
     helminth?: { ability_id: string; slot: number };
   };
   weapons: {
@@ -151,4 +152,5 @@ export interface WeaponIntent {
   slots: Record<number, { mod_id?: string; level?: number }>;
   active_profile_id: string;
   evolution_perks?: Record<number, string>;
+  arcanes?: Record<number, { arcane_id: string; rank: number }>;
 }

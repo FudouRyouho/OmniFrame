@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Mapa sistemático de lo que el engine ignora o procesa a medias — el territorio que el testing derivado convierte en cobertura, capa por capa"
-Version: "v0.4.0"
+Version: "v0.5.0"
 Impacto_ID: "E-GapMap"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-06-10"
-Fecha_de_actualizacion: "2026-06-10"
+Fecha_de_actualizacion: "2026-06-11"
 ---
 
 # Mapa de gaps del engine
@@ -29,9 +29,11 @@ Grafo genérico de atributos (`SimulationEngine`): orden topológico + fixed-poi
 
 | Fuente | Volumen en el dato | Estado |
 |---|---|---|
-| `arcane-stats.override` | 102 `upgrade_type` + 145 condition | No cargado |
+| `arcane-stats.override` | 102 `upgrade_type` + 145 condition | 🚧 **v0 cargado (2026-06-11)** — subset mapeado (ver abajo) |
 | `ability-stats.override` | 1236 `upgrade_by` (scaling) | No cargado → ver Capa 5 |
 | `passives-stats`, `companions`, `vehicles`, `archwing-weapons` | varios | No cargados |
+
+> **`arcane-stats` v0 (2026-06-11):** `ArcaneRepository` activo (`DataLoader` lo carga; clave = uniqueName). Slot dedicado `arcanes` en la intención (hermano de `mods`, top-level por canal — heterogéneo: warframe=2, armas=1, Zaw/archgun varios). Resuelve a `Modifier` directo, **sin `DamageCombiner`** (el daño de arcano no se combina con el del arma — naturaleza distinta, como shards). Fluye solo el subset con `base_value` + `upgrade_type` poblados (siempre-activos + condicionales con token); se omiten `base_value:null` (stacking, OQ-DATA-4) y `upgrade_type:null` (status resists, fórmulas per-stat, operador/amp). Clamp de rank (no todos 0-5). Consumidor: `__tests__/arcane.test.ts`. Fuera de v0: stacking, weapon-type gate (OQ-DATA-5), cross-entity warframe→arma (OQ-DATA-1).
 
 > **`archon-shards` ya NO es gap:** `ShardRepository` está activo (resuelve shards, emite `Modifier` con `target_entity`; ver `status.md` y el Tier 1 de Rhino en `catalog-future.md`).
 
@@ -70,5 +72,5 @@ El engine tiene `source_attribute` / `CONTEXT_SCALE`, pero ningún hidratador lo
 | ✅ hecho | Capa 3 (condition incarnon) | bajo | cerró drift |
 | 1 — 🚧 | Capa 4 (nodos faltantes) | bajo por stat (patrón validado con `punch_through`) | toca solo `ItemRepository.getDNA()` |
 | 2 | Capa 2 (warframes, vía linaje Rhino) | medio | `WarframeRepository` net-new |
-| 3 | Capa 1 parcial (arcanes) | medio | mods con más condition |
+| 3 — 🚧 | Capa 1 parcial (arcanes) | medio | v0 hecho (subset mapeado, `ArcaneRepository`); resto = stacking/null/operador, gateado |
 | diferido (RED) | Capa 5 (scaling) + ability-like | alto | requiere contrato de ruteo genérico vs dedicado |

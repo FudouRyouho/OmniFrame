@@ -10,22 +10,31 @@
  */
 import { ItemRepository } from './ItemRepository';
 import { IncarnonRepository } from './IncarnonRepository';
+import { ArcaneRepository } from './ArcaneRepository';
+import { ShardRepository } from './ShardRepository';
 
 export interface DataLoaderInput {
   weapons:               any[];
+  warframes:             any[];
   modOverrides:          Record<string, any>;
   weaponAttackOverrides: Record<string, any>;
   incarnon:              Record<string, any>;
+  arcaneOverrides:       Record<string, any>;
+  archonShards:          Record<string, any>;
 }
 
 export class DataLoader {
   private static _initialized = false;
 
   static init(input: DataLoaderInput): void {
+    // Warframes y weapons comparten ItemRepository (ambos cuatro-pilares, indexados por unique_name).
     ItemRepository.load(input.weapons);
+    ItemRepository.load(input.warframes);
     ItemRepository.loadOverrides(input.modOverrides);
     ItemRepository.loadWeaponAttackOverrides(input.weaponAttackOverrides);
     IncarnonRepository.load(input.incarnon);
+    ArcaneRepository.load(input.arcaneOverrides);
+    ShardRepository.load(input.archonShards);
     DataLoader._initialized = true;
   }
 

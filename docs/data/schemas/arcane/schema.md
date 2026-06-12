@@ -3,9 +3,9 @@ Estado: "activo"
 Rol: "Contrato + catálogo de cobertura de arcane-stats.override.json — definiciones de token en docs/semantic/upgrade-tokens.md"
 Impacto_ID: "data-arcane"
 Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
-Version: "v1.2.1"
+Version: "v1.2.2"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-07"
+Fecha_de_actualizacion: "2026-06-11"
 ---
 
 # Arcane Stats Override — Schema y mapa semántico
@@ -213,7 +213,7 @@ El keyword matcher del script es conservador pero imperfecto. Estado de cada pat
 arcanes.json (@wfcd/items)
     ↓  generate-arcane-override.py
 arcane-stats.override.json  ← SSoT semántico de este schema
-    ↓  ArcaneRepository (pendiente)
+    ↓  ArcaneRepository (activo desde 2026-06-11, v0: subset mapeado)
 ModifierPipeline
 ```
 
@@ -227,8 +227,8 @@ efectos siempre activos — los más simples de implementar en C1.
 
 | Prioridad | Trabajo | N entries |
 |---|---|---|
-| P1 | Implementar `ArcaneRepository` (análogo a `IncarnonRepository`) | — |
-| P1 | Arcanes siempre activos (sin `condition`, upgrade_type: mapeado) | ~15 |
+| ✅ P1 | `ArcaneRepository` implementado (2026-06-11, análogo a `IncarnonRepository`; carga vía `DataLoader`, clave uniqueName, modifier directo sin `DamageCombiner`) | — |
+| ✅ P1 | Arcanes siempre activos (sin `condition`, upgrade_type mapeado) — flujo A→B→C verificado (`__tests__/arcane.test.ts`) | ~15 |
 | P2 | Tokens faltantes simples: `WEAPON_ADD_AMMO_EFFICIENCY`, `WEAPON_ADD_COMBO_COUNT_CHANCE` | ~7 |
 | C1-A | Arcanes con `condition` + `upgrade_type` (on-event, upgrade conocido) | ~45 |
 | C1-B | Fórmulas per-stat (§3.6) | ~7 |

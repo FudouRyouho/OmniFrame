@@ -7,6 +7,7 @@ import type { Ensemble, MutatedDNA, SimulationEntity, AttributeNode, Modifier } 
 import { ModRepository } from "./ModRepository";
 import { ShardRepository } from "./ShardRepository";
 import { IncarnonRepository } from "./IncarnonRepository";
+import { ArcaneRepository } from "./ArcaneRepository";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, type ElementalMod } from "./DamageCombiner";
@@ -24,16 +25,17 @@ export class StaticHydrator {
     const entities: SimulationEntity[] = [];
     const modifiers: Modifier[] = [];
 
-    const intents: { entity_id: string, slots: Record<number, { mod_id?: string; level?: number }>, profile_id: string, evolution_perks?: Record<number, string> }[] = [];
+    const intents: { entity_id: string, slots: Record<number, { mod_id?: string; level?: number }>, profile_id: string, evolution_perks?: Record<number, string>, arcanes?: Record<number, { arcane_id: string; rank: number }> }[] = [];
 
     intents.push({
       entity_id: ensemble.warframe.id,
       slots: ensemble.warframe.slots,
-      profile_id: "base"
+      profile_id: "base",
+      arcanes: ensemble.warframe.arcanes
     });
-    if (ensemble.weapons.primary) intents.push({ entity_id: ensemble.weapons.primary.id, slots: ensemble.weapons.primary.slots, profile_id: ensemble.weapons.primary.active_profile_id, evolution_perks: ensemble.weapons.primary.evolution_perks });
-    if (ensemble.weapons.secondary) intents.push({ entity_id: ensemble.weapons.secondary.id, slots: ensemble.weapons.secondary.slots, profile_id: ensemble.weapons.secondary.active_profile_id, evolution_perks: ensemble.weapons.secondary.evolution_perks });
-    if (ensemble.weapons.melee) intents.push({ entity_id: ensemble.weapons.melee.id, slots: ensemble.weapons.melee.slots, profile_id: ensemble.weapons.melee.active_profile_id, evolution_perks: ensemble.weapons.melee.evolution_perks });
+    if (ensemble.weapons.primary) intents.push({ entity_id: ensemble.weapons.primary.id, slots: ensemble.weapons.primary.slots, profile_id: ensemble.weapons.primary.active_profile_id, evolution_perks: ensemble.weapons.primary.evolution_perks, arcanes: ensemble.weapons.primary.arcanes });
+    if (ensemble.weapons.secondary) intents.push({ entity_id: ensemble.weapons.secondary.id, slots: ensemble.weapons.secondary.slots, profile_id: ensemble.weapons.secondary.active_profile_id, evolution_perks: ensemble.weapons.secondary.evolution_perks, arcanes: ensemble.weapons.secondary.arcanes });
+    if (ensemble.weapons.melee) intents.push({ entity_id: ensemble.weapons.melee.id, slots: ensemble.weapons.melee.slots, profile_id: ensemble.weapons.melee.active_profile_id, evolution_perks: ensemble.weapons.melee.evolution_perks, arcanes: ensemble.weapons.melee.arcanes });
 
     // 2. Hydrate Entities and Modifiers
     intents.forEach(intent => {
@@ -103,6 +105,14 @@ export class StaticHydrator {
         modifiers.push(...perk_mods);
       }
 
+      // Arcanos: directo a modifiers[], SIN pasar por DamageCombiner (su daño no se
+      // combina con el del arma — naturaleza distinta, como los shards). Ver ArcaneRepository.
+      if (intent.arcanes) {
+        Object.values(intent.arcanes).forEach(arc => {
+          modifiers.push(...ArcaneRepository.getModifiers(arc.arcane_id, arc.rank, dna.entity_id));
+        });
+      }
+
       entities.push(entity);
     });
 
@@ -158,8 +168,10 @@ export class StaticHydrator {
       };
     });
 
-    // Inyectar atributo de multiplicador global si no existe (Capa B inyección)
-    if (!attributes["WEAPON_DAMAGE"]) {
+    // Inyectar el multiplicador global de daño solo para armas (hack de composición conocido,
+    // gap del engine — no es ley universal). Un warframe no tiene nodo de daño de arma.
+    const isWarframe = dna.kind === 'warframe';
+    if (!isWarframe && !attributes["WEAPON_DAMAGE"]) {
        const meta = getAttributeMetadata("WEAPON_DAMAGE");
        attributes["WEAPON_DAMAGE"] = {
           base: 100, // 100% baseline
@@ -174,7 +186,8 @@ export class StaticHydrator {
       domain: dna.domain,
       kind: dna.kind,
       family: dna.family,
-      persistence: dna.tags.includes('weapon') ? 'PE' : 'TE',
+      // PE = entidad poseída/equipada (arma o warframe); TE = transitoria (proc, proyectil).
+      persistence: (dna.tags.includes('weapon') || isWarframe) ? 'PE' : 'TE',
       tags: dna.tags,
       attributes,
       behaviors: dna.behaviors,

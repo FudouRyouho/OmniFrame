@@ -91,6 +91,7 @@ export class MutatorBridge {
         rank: warframeSlot.rank,
         slots: this.intentionSlots(intention, "warframe"),
         shards,
+        arcanes: this.intentionArcanes(intention, "warframe"),
         helminth: undefined
       },
       weapons: {
@@ -109,7 +110,8 @@ export class MutatorBridge {
       id: item.itemId,
       slots: this.intentionSlots(intention, channel),
       active_profile_id: item.active_profile || "base",
-      ...(item.evolution_perks ? { evolution_perks: item.evolution_perks } : {})
+      ...(item.evolution_perks ? { evolution_perks: item.evolution_perks } : {}),
+      arcanes: this.intentionArcanes(intention, channel)
     };
   }
 
@@ -119,6 +121,18 @@ export class MutatorBridge {
     Object.entries(channelMods).forEach(([index, mod]) => {
       if (mod?.itemId) {
         result[parseInt(index)] = { mod_id: mod.itemId, level: mod.level };
+      }
+    });
+    return result;
+  }
+
+  /** Espejo de intentionSlots para el canal de arcanos (rank = índice de la serie base_value). */
+  private intentionArcanes(intention: EnsembleIntention, channel: string): Record<number, { arcane_id: string; rank: number }> {
+    const result: Record<number, { arcane_id: string; rank: number }> = {};
+    const channelArcanes = intention.arcanes?.[channel] || {};
+    Object.entries(channelArcanes).forEach(([index, arc]) => {
+      if (arc?.itemId) {
+        result[parseInt(index)] = { arcane_id: arc.itemId, rank: arc.rank };
       }
     });
     return result;
