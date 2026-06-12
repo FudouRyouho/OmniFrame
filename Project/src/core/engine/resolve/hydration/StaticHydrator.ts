@@ -3,7 +3,7 @@
  * @status en-desarrollo
  */
 
-import type { Ensemble, MutatedDNA, SimulationEntity, AttributeNode, Modifier } from "../contracts";
+import type { Ensemble, MutatedDNA, SimulationEntity, AttributeNode, Modifier } from "../../contracts";
 import { ModRepository } from "./ModRepository";
 import { ShardRepository } from "./ShardRepository";
 import { IncarnonRepository } from "./IncarnonRepository";
@@ -11,8 +11,8 @@ import { ArcaneRepository } from "./ArcaneRepository";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, type ElementalMod } from "./DamageCombiner";
-import { isWeaponDamageToken } from "../contracts/damage-logic";
-import { getAttributeMetadata } from "../../../lib/presentation/attribute-registry";
+import { isWeaponDamageToken } from "../../contracts/damage-logic";
+import { getAttributeMetadata } from "../../../../lib/presentation/attribute-registry";
 
 export class StaticHydrator {
   /**

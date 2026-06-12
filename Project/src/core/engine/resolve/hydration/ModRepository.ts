@@ -2,8 +2,8 @@
  * @domain Engine / Hydration
  * @status en-desarrollo
  */
-import type { Modifier, EntityId } from "../contracts";
-import type { ModStatRaw, ModStatValueRaw } from "../contracts/mod-overrides";
+import type { Modifier, EntityId } from "../../contracts";
+import type { ModStatRaw, ModStatValueRaw } from "../../contracts/mod-overrides";
 import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
 import { ItemRepository } from "./ItemRepository";
 

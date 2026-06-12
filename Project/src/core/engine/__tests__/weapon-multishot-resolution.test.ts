@@ -13,7 +13,7 @@ import { loadEngineData } from '../fixtures/engine-data';
 import weaponsData        from '../../../../public/data/weapons.json';
 import weaponStatsOverride from '../../../../public/data/weapon-stats.override.json';
 import { describe, it, expect } from 'vitest';
-import { ItemRepository }  from '../hydration/ItemRepository';
+import { ItemRepository }  from '../resolve/hydration/ItemRepository';
 
 loadEngineData();
 

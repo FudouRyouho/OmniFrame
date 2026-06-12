@@ -3,7 +3,7 @@
  * @status en-desarrollo
  */
 
-import { ELEMENTAL_COMBINATIONS, PRIMARY_ELEMENTS } from "../contracts/damage-logic";
+import { ELEMENTAL_COMBINATIONS, PRIMARY_ELEMENTS } from "../../contracts/damage-logic";
 
 export interface ElementalMod {
   type: string; // AttributeId (e.g. "damage_heat")

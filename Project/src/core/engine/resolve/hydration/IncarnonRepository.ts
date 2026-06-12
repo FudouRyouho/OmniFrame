@@ -2,7 +2,7 @@
  * @domain Engine / Hydration
  * @status en-desarrollo
  */
-import type { Modifier, EntityId } from "../contracts";
+import type { Modifier, EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
 import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
 

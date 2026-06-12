@@ -16,7 +16,7 @@ import incarnon     from '../../../../public/data/incarnon-evolutions.override.j
 import weaponStats  from '../../../../public/data/weapon-stats.override.json';
 import arcaneOverrides from '../../../../public/data/arcane-stats.override.json';
 import archonShards from '../../../../public/data/archon-shards.json';
-import { DataLoader } from '../hydration/DataLoader';
+import { DataLoader } from '../resolve/hydration/DataLoader';
 
 /** Carga la data real del juego en los repositorios. Idempotente: carga una sola vez. */
 export function loadEngineData(): void {

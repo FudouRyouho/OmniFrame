@@ -6,9 +6,9 @@
 import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../contracts";
 import type { EnsembleIntention, EnsembleChannel } from "@providers/Ensemble/ensemble.types";
 import { BASELINE_GAME_LAWS } from "../contracts";
-import { DnaRepository } from "../hydration/DnaRepository";
-import { SimulationEngine } from "../resolution/SimulationEngine";
-import { StaticHydrator } from "../hydration/StaticHydrator";
+import { DnaRepository } from "../resolve/hydration/DnaRepository";
+import { SimulationEngine } from "../resolve/SimulationEngine";
+import { StaticHydrator } from "../resolve/hydration/StaticHydrator";
 import { conditionTokens } from "@shared/types/condition";
 
 export interface SimulationResult {

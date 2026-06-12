@@ -3,7 +3,7 @@
  * @status en-desarrollo
  */
 
-import type { MutatedDNA } from "../contracts";
+import type { MutatedDNA } from "../../contracts";
 
 export class ItemRepository {
   private static items: Map<string, any> = new Map();

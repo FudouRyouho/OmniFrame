@@ -14,7 +14,7 @@
  * Se omiten (sin warning): `base_value: null` (familia stacking Merciless — OQ-DATA-4)
  * y `upgrade_type: null` (sin token — status resists, fórmulas per-stat, operador/amp).
  */
-import type { Modifier, EntityId } from "../contracts";
+import type { Modifier, EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
 import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
 

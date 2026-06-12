@@ -1,4 +1,4 @@
-import type { MutatedDNA } from "../contracts";
+import type { MutatedDNA } from "../../contracts";
 import { ItemRepository } from "./ItemRepository";
 
 /**
