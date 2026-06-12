@@ -14,7 +14,7 @@ import { Registry } from "@shared/data/DataRegistry";
 import { resolveLocalImageUrl } from "@lib/image-url";
 import { useArchonShardCatalog } from "./archon-shards/use-archon-shard-catalog";
 import type { BaseItem } from "@shared/types";
-import type { EnsembleChannel } from "@providers/Ensemble/ensemble.types";
+import type { EnsembleChannel } from "@shared/types/ensemble";
 
 // --- Tipos Locales ---
 

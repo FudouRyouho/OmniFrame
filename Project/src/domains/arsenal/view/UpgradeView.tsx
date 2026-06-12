@@ -8,7 +8,7 @@ import type { FilterState } from "@shared/components/filters/types";
 import { useSimulation } from "@core/engine/hooks/useSimulation";
 import { useEnsembleActions } from "@providers/Ensemble/EnsembleProvider";
 import OmniView from "@shared/components/items/views/OmniView";
-import type { EnsembleChannel } from "@providers/Ensemble/ensemble.types";
+import type { EnsembleChannel } from "@shared/types/ensemble";
 
 /**
  * UpgradeView — Vista de Modding del Arsenal.

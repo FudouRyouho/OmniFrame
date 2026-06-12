@@ -5,7 +5,7 @@
  */
 import { useNavigate, useParams } from 'react-router';
 import { useEnsemble, useEnsembleActions } from '@providers/Ensemble/EnsembleProvider';
-import type { EnsembleChannel } from '@providers/Ensemble/ensemble.types';
+import type { EnsembleChannel } from '@shared/types/ensemble';
 import { useIncarnorCatalog, findEntryForWeapon } from './use-incarnon-catalog';
 
 const WEAPON_CHANNELS: EnsembleChannel[] = ['primary', 'secondary', 'melee'];

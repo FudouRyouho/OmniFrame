@@ -25,7 +25,7 @@
  */
 import { MutatorBridge } from '../../bridge/MutatorBridge';
 import type { AttributeNode, AttributeId, SimulationContext, AuditStep, SimulationEntity } from '../contracts';
-import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
+import type { EnsembleIntention } from '@shared/types/ensemble';
 
 export interface NodeProbe {
   /** (i) El nodo decompuesto: base, base_flat, base_add_pct, mods_add_pct, total_flat, multiplicative, final. */

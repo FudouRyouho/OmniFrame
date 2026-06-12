@@ -21,7 +21,7 @@
 import { loadEngineData } from '../fixtures/engine-data';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
+import type { EnsembleIntention } from '@shared/types/ensemble';
 import { felarx, felarxItems, FELARX, GALVANIZED_SAVVY, TOXIC_BARRAGE, BASE_ENV } from '../fixtures/builds';
 
 loadEngineData();

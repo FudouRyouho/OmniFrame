@@ -4,7 +4,7 @@
  * @status en-desarrollo
  */
 import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../engine/contracts";
-import type { EnsembleIntention, EnsembleChannel } from "@providers/Ensemble/ensemble.types";
+import type { EnsembleIntention, EnsembleChannel } from "@shared/types/ensemble";
 import { BASELINE_GAME_LAWS } from "../engine/contracts";
 import { DnaRepository } from "../engine/resolve/hydration/DnaRepository";
 import { SimulationEngine } from "../engine/resolve/SimulationEngine";

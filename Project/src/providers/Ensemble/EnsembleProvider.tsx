@@ -1,6 +1,6 @@
 import { useSyncExternalStore, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
-import type { EnsembleIntention, EnsembleChannel, ArchonShardIntent } from './ensemble.types';
+import type { EnsembleIntention, EnsembleChannel, ArchonShardIntent } from '@shared/types/ensemble';
 import { ensembleStore } from './ensemble-store';
 
 /**

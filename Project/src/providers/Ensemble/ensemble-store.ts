@@ -4,7 +4,7 @@ import {
   type ModIntention,
   type ArchonShardIntent,
   INITIAL_INTENTION
-} from './ensemble.types';
+} from '@shared/types/ensemble';
 
 type Listener = (state: EnsembleIntention) => void;
 

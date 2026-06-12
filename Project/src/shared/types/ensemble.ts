@@ -20,7 +20,7 @@ export interface SlotIntention {
 
 // Deuda de tipo: ModIntention hereda 'rank' de SlotIntention pero el campo
 // es semánticamente vacío para mods. MutatorBridge.intentionSlots() solo lee
-// 'itemId' y 'level' — 'rank' nunca se propaga al engine. Ver ensemble.types.ts.
+// 'itemId' y 'level' — 'rank' nunca se propaga al engine. Ver ensemble.ts.
 export interface ModIntention extends SlotIntention {
   level: number;
 }
