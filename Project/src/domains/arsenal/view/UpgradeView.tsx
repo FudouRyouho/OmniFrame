@@ -5,7 +5,7 @@ import { StatPanel } from "@shared/components/items/specs/StatPanel";
 import ModSlot from "@shared/components/slots/ModSlot";
 import { FilterProvider } from "@shared/components/filters/context";
 import type { FilterState } from "@shared/components/filters/types";
-import { useSimulation } from "@core/engine/hooks/useSimulation";
+import { useViewModel } from "@providers/Ensemble/use-view-model";
 import { useEnsembleActions } from "@providers/Ensemble/EnsembleProvider";
 import OmniView from "@shared/components/items/views/OmniView";
 import type { EnsembleChannel } from "@shared/types/ensemble";
@@ -19,8 +19,8 @@ const UpgradeContent = () => {
   const { activeSlot, setActiveSlot } = useArsenal();
   const { setMod } = useEnsembleActions();
 
-  // Simulación reactiva desde el EnsembleStore
-  const { entities } = useSimulation();
+  // ViewModelContract reactivo desde el EnsembleStore (cut C→D vía @shared)
+  const { entities } = useViewModel();
 
   const channelMap: Record<string, EnsembleChannel> = {
     warframe: "warframe",
@@ -30,23 +30,18 @@ const UpgradeContent = () => {
   };
   const channel = channelMap[category || "warframe"] || "warframe";
 
-  // Lookup estable: channel asignado por MutatorBridge al construir el SimulationResult
-  const activeEntity = entities.find((e: any) => e.channel === channel) ?? null;
+  // Lookup estable por channel (lo asigna el motor en SimulationEntity → EntityViewModel)
+  const activeEntity = entities.find((e) => e.channel === channel) ?? null;
 
-  // Mapear atributos del motor a StatEntry[] para el StatPanel
-  const simStats =
-    activeEntity && activeEntity.attributes
-      ? Object.entries(activeEntity.attributes).map(
-          ([id, attr]: [string, any]) => ({
-            key: id,
-            label: (attr.label || id.replace(/_/g, " ")).toUpperCase(),
-            value:
-              typeof attr.final === "number"
-                ? `${attr.final.toFixed(1)}${attr.unit || ""}`
-                : String(attr.final),
-          }),
-        )
-      : [];
+  // Mapear StatViewModel[] → StatEntry[] para el StatPanel. Formateo en el borde;
+  // label = token humanizado (i18n diferido, punto A).
+  const simStats = activeEntity
+    ? activeEntity.stats.map((s) => ({
+        key: s.id,
+        label: s.id.replace(/_/g, " ").toUpperCase(),
+        value: `${s.value.toFixed(1)}${s.unit}`,
+      }))
+    : [];
 
   // Helper para traducir el ID del slot visual al índice del motor
   const getSlotIndex = (uid: string): number => {
