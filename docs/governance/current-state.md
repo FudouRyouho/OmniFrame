@@ -5,7 +5,7 @@ Version: "v0.2.0"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-12 (actualización #9)"
+Fecha_de_actualizacion: "2026-06-13 (actualización #10)"
 ---
 
 # OmniFrame — Estado Actual
@@ -82,7 +82,7 @@ Fecha_de_actualizacion: "2026-06-12 (actualización #9)"
 
 | Ruta | Estado | Descripción |
 |---|---|---|
-| `domains/arsenal/` | **Stub** | `use-arsenal-stub-state.ts` (`@status stub`). Arsenal no consume `EnsembleStore` ni `LoadoutContext` de forma definitiva. `UpgradeView` sin diseño definido. |
+| `domains/arsenal/` | **Stub** | Estado de sesión UI-local en `arsenal-ui-session.ts` + `use-arsenal-ui-session.ts` (`useArsenalUiSession`), tras purga de la mitad `arsenalMetadata` mock (Stage 1) + rename honesto del store (Stage 2) — `DC-OQ-STUB-1`/OQ-UI-2. Intención vía `useEnsemble`. `UpgradeView` sin diseño definido. |
 | `domains/equipment/` | **Activo** | Controlador de composición delegado a `@shared`. |
 | `domains/hud/` | **Activo** | `Hud`, `HudHeader`, footer por zona (Arsenal, Equipment, Items). |
 | `domains/options/` | **Activo** | Vista de opciones. |
@@ -103,7 +103,7 @@ Fecha_de_actualizacion: "2026-06-12 (actualización #9)"
 
 | Gap | Estado |
 |---|---|
-| Arsenal es cliente real del engine | ⚠️ Pendiente — `use-arsenal-stub-state.ts` activo, UpgradeView sin diseño definido |
+| Arsenal es cliente real del engine | ⚠️ Pendiente — store de arsenal purgado a estado de sesión UI-local honesto (`use-arsenal-ui-session.ts`, Stage 1+2); intención vía `useEnsemble`, pero UpgradeView sin diseño definido |
 | Capa D materializada (`C→D→UI`) | 🟡 v0 display-only (C1): `ViewModelContract` + `project()` en `@shared/view-model`, consumido por D2 (oráculo `view`) y D1 (`UpgradeView` vía `useViewModel`). Falta i18n/formatter, `metrics`/A2 (C2) |
 | `UpgradeView` importa `@core` directo | ✅ **RESUELTO (2026-06-12)** — consume `ViewModelContract` vía `useViewModel` (`@providers`); ningún dominio importa `@core` |
 
