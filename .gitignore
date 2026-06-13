@@ -6,6 +6,9 @@ Project/public/mod-frames/*
 # ─── IDEs y herramientas locales ─────────────────────────────────────────────
 .vscode/
 .editorconfig
+docker-compose.yml
+Dockerfile
+.dockerignore
 
 # ─── Herramientas IA / agentes ───────────────────────────────────────────────
 .github/
