@@ -1,7 +1,7 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.30.0"
+Version: "v0.31.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
@@ -479,6 +479,50 @@ El principio *"la UI tiene la responsabilidad del estado del usuario"* se invoca
 **No bloquea:** la UI navega (footer stub anda). **Bloquea:** flujo BUILD real (gated por guardado).
 **Vínculo:** **OQ-UI-2** (estado de sesión/UI), **OQ-DATA-1** (materialización de slots para upgrade), **OQ-DATA-10/-13** (presentación). Sistema de guardado = nueva área sin OQ previa.
 **Fuente:** TODO inline del usuario en `HubFooter.tsx`; debate 2026-06-13.
+
+---
+
+## OQ-UI-4 — Profile como "utility hub" (no mapeo de Equipment) + dimensión social diferida — **ABIERTO (2026-06-13)**
+**Dominio:** ui-ux / producto
+
+**Contexto:** `ProfileView` (`@todo` pendiente, gated por materialización del Builder/Arsenal) no está definido como "se va a implementar". El concepto del usuario: una **réplica del profile de Warframe pero enfocada a utilidades** —"qué incarnon tengo", "qué armas kuva tengo", etc.—, una especie de **companion-hub de cosas específicas**, **no** un mapeo de Equipment ni de builds guardadas. Va a existir, pero sin forma cerrada; "debo desarrollarlo muchísimo".
+
+**Pregunta:** ¿Cuál es el shape de Profile como vista de utilidad (qué consulta, sobre qué estado/inventario), distinta de Equipment (browsing) y del Arsenal (build activa)?
+- **Sub-eje social (diferido fuerte):** una dimensión tipo overframe.gg (compartir/social) requeriría **usuario + base de datos + despliegue no-local**, muy lejos del scope actual (function-first; aún no existe ni 1/3 de capa A→D). Interesante, no prioridad.
+
+**No bloquea:** nada (Profile es stub `@todo`).
+**Vínculo:** OQ-UI-2 (estado de sesión/UI), OQ-DATA-1 (materialización de slots). Persistencia/usuario = área nueva sin OQ previa.
+**Fuente:** TODO inline del usuario en `ProfileView.tsx`; triage de user-TODOs 2026-06-13.
+
+---
+
+## OQ-UI-5 — OptionsView: tabs de configuración + decisión de NO-i18n (incompatibilidad con overrides de "0") — **ABIERTO (2026-06-13)**
+**Dominio:** ui-ux / configuración (cruza data/0)
+
+**Contexto:** `OptionsView` debería organizarse en **tabs de paneles** (display / graphics / audio / accessibility); hoy solo existe `display` con el theme-selector. El resto es a futuro (animaciones/efectos BLUR/CANVAS, audio).
+
+**Sub-punto con peso real — NO-i18n (de momento):** se **descarta** implementar i18n ahora. `@wfcd/items` **sí provee** i18n, pero **no es compatible** con el sistema de **overrides manuales** de piso 0: por su naturaleza de mantenimiento manual, mantener traducciones sincronizadas es inviable hoy. Deseado a futuro, no prioridad. Esto **cruza OQ-DATA-9/0** (qué es dato canónico) y el estrato `lib/format` de OQ-ENGINE-10/DATA-10 (labels/locale).
+
+**Pregunta:** ¿Contrato de paneles de configuración (qué persiste, dónde) y condición para reabrir i18n (¿requiere resolver la compat overrides↔traducciones primero?)?
+
+**No bloquea:** nada (theme-selector funciona).
+**Vínculo:** OQ-DATA-9 (0 / dato canónico), OQ-DATA-10 + OQ-ENGINE-10 (`lib/format`/locale), OQ-UI-2 (persistencia de preferencias).
+**Fuente:** TODO inline del usuario en `OptionsView.tsx`; triage de user-TODOs 2026-06-13.
+
+---
+
+## OQ-UI-6 — Revisión funcional del menú de navegación + gestión de inputs/jerarquías — **ABIERTO (2026-06-13)**
+**Dominio:** ui-ux / interacción + navegación
+
+**Contexto:** `DialogMenu` funciona y replica en buena medida el menú de Warframe, pero merece una **revisión funcional** (no estética) como componente principal de navegación. Síntomas: la navegación puede ser tosca para una web-app; el control por `esc` **choca** con otras funcionalidades (cerrar otro diálogo / salir de un input) → posible necesidad de un **sistema dedicado de jerarquía de inputs** que evite saltos del menú.
+
+**Sub-eje arquitectónico:** ¿usar **headless UI** aquí es contraproducente? No expone una API como tal; gestionarlo vía React con estados globales puede ser over-engineering. Contrastar con una **capa de captura propia — desacoplada, genérica y react-free** que React consuma (eco del guardrail react-free de `DC-OQ-ENGINE-10-B`, pero aplicado a **inputs/navegación**, no a presentación). Ojo: evaluar el impacto real antes de reescribir (anti-reescritura).
+
+**Pregunta:** ¿El proyecto necesita un gestor de inputs/jerarquías dedicado (react-free, consumido por React), o basta endurecer el manejo de `esc`/foco sobre lo actual? ¿headless UI suma o estorba en el menú?
+
+**No bloquea:** nada (el menú navega correctamente).
+**Vínculo:** `DC-OQ-ENGINE-10-B` (núcleo react-free, análogo conceptual), OQ-UI-3 (footer / modelo de navegación), OQ-UI-2 (estado de sesión/UI).
+**Fuente:** TODO inline del usuario en `DialogMenu.tsx`; triage de user-TODOs 2026-06-13.
 
 ---
 

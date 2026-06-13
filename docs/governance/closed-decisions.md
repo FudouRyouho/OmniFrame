@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
-Version: "v0.0.7"
+Version: "v0.0.10"
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-12"
+Fecha_de_actualizacion: "2026-06-13"
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -150,3 +150,94 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 **Condición para reabrirse:** Cuando el backlog de estabilización lo permita y exista una propuesta concreta para promover semántica amplia de combate al runtime. No es una discusión activa.
 
 **Ref:** `docs/governance/type-system-boundaries.md` (reglas de frontera vigentes), `docs/semantic/damage-types.md`.
+
+---
+
+## DC-OQ-ENGINE-10-A — `lib/*` = suite de utilidad de presentación, no capa ni orquestador — **CERRADO (2026-06-13)**
+
+**Dominio:** ui-ux / presentación + arquitectura de capas
+
+**Decisión:** `lib/*` (labels `i18n/`, `presentation/`, formateadores numéricos, `FormattedText`, el lado display de `image-url`) es una **suite de utilidad** — funciones consumidas, sin estado, **no una capa** del flujo `A→B→C→D→E` ni un orquestador. Es un **plano de utilidad ortogonal a la salida**, espejo conceptual de `0` (el plano de memoria de la entrada): ninguno de los dos es un eslabón de la cadena vertical. El **orquestador** que decide qué invocar de `lib/*` es `E` (lado UI) / el consumidor (CLI por su lado).
+
+**Qué corrige:** el diagrama de `OQ-ENGINE-10` dibujaba `lib/format` como un *estrato dentro del flujo* ("invocado por D2 y E por igual"). Eso queda corregido: no es estrato, es utilidad.
+
+**Disuelve el "ruido abierto" de OQ-ENGINE-10** (¿partir el consumo de `lib/format` entre D2 y E recrea islas?): **no.** Dos consumidores que llaman a una misma suite de utilidad = biblioteca compartida, no isla. El riesgo de isla es **lógica duplicada**, no **utilidad compartida**. (No rompe la Restricción 1: `lib/*` ya es shared legal.)
+
+**Condición para reabrir:** ninguna.
+**Ref:** `docs/governance/open-questions.md` (OQ-ENGINE-10, OQ-DATA-10). Memoria de proyecto: capa E / presentación.
+
+---
+
+## DC-OQ-STUB-1 — Principio de stub honesto: un placeholder no simula conexión — **CERRADO (2026-06-13)**
+
+**Dominio:** ui-ux / disciplina de implementación
+
+**Decisión:** un stub/placeholder **no debe simular conexión al flujo**. Un campo que existe como *"futuro"* (visible, vacío o deshabilitado) es **correcto**; la **lógica que finge wiring** —p. ej. "equipar companion" que muta estado mock local sin conexión real al engine— es **el defecto**. Placeholder vacío y honesto > falso silencioso funcional.
+
+**Precedente:** el fix del bug de canales (`OQ-DATA-9`) eligió *"panel vacío honesto"* en vez de *"mostrar el warframe en silencio"*. Este DC generaliza ese criterio a todo placeholder de UI.
+
+**Aplicación inmediata:** las funciones `replace*` de `ArsenalMetadataState` + el enum `source: "mock"|"manual"` son exactamente "lógica que finge wiring" → marcadas para purga (ejecución gated, ver `OQ-UI-2`).
+
+**Condición para reabrir:** ninguna.
+**Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-DATA-9 L304).
+
+---
+
+## DC-OQ-UI-SPEC-1 — La UI de arsenal no es spec del flujo; derivar contratos de D2 + dominio — **CERRADO (2026-06-13)**
+
+**Dominio:** ui-ux / arquitectura de contratos
+
+**Decisión:** la UI de arsenal existente **no es la especificación** del flujo de datos. Los contratos (qué exponen `E`/`D`) se **derivan de D2 (oráculo/CLI) + el dominio**, y la UI se **conecta al flujo re-visto** — no se retrofitea el contrato desde el stub-con-aspiraciones. Concretamente: ni el proyector inline de `UpgradeView` ni el shape de `arsenal-state` definen los contratos de `E`/`D`.
+
+**Por qué:** arsenal hoy es un placeholder semi-conectado con aspiración a ser el flujo completo, cuando no lo es. Anclar contratos a esa UI cristaliza el stub como verdad.
+
+**Condición para reabrir:** ninguna.
+**Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-UI-3). Memoria de feedback: *UI no es biblia, derivar de D2*.
+
+---
+
+## DC-OQ-ENGINE-10-B — Topología de `E`: mini-framework (núcleo puro + sub-núcleo React) — **DIRECCIÓN ELEGIDA (2026-06-13, no cierre definitivo)**
+
+**Dominio:** ui-ux / presentación + arquitectura de capas
+
+**Dirección elegida:** `E` se materializa como **módulo/mini-framework (`E/*`)**, no como una clase única, con desacople interno:
+- **Núcleo puro = el snapshot** — composición TS pura, React-free, token-annotated (cruza `0`-chrome + `D`-info, llama a `lib/*` por `DC-OQ-ENGINE-10-A`). **Es el contrato compartido CLI+UI.**
+- **Sub-núcleo React desacoplado = el embed JSX** — render-time, UI-only, **`f(snapshot)`** (lee el snapshot, lo envuelve; nunca recomputa). Es la terminal de composición UI (qué campos se embeben + cómo se arma el bloque), delegando el primitivo a `lib/*`.
+
+**Revisa el modelo:** corrige el *"E = enriquecimiento solo-UI, el CLI no lo usa"* de `OQ-ENGINE-10`. El CLI (D2) **consume el snapshot de E**, no lo bypassea → E **no** es solo-UI; su snapshot es compartido, y solo la **punta embed JSX** es UI-only.
+
+**Guard re-escopado (no borrado):** *"el **núcleo/snapshot** de E es React-free"* (antes: "todo E es React-free"). El guard angosta, no desaparece — sigue protegiendo: (1) que el snapshot no se recompute dentro de React (refs estables para `useSyncExternalStore`), (2) compatibilidad con el consumidor no-React (CLI). El sub-núcleo React siendo render-time **no** viola esto (siempre fue render-time).
+
+**Invariante anti-isla:** el sub-núcleo React debe ser `f(snapshot)`, sin segunda composición. La bifurcación texto/JSX vive **solo en la punta** (el medio de salida, irreducible y legal). Fork en el primitivo de render ≠ isla; isla = lógica duplicada.
+
+**Por qué NO es cierre definitivo:** la definición teórica/técnica es sólida, pero quedan **puntos de abstracción** (micro-arquitectura del núcleo de E) sin resolver. Se difiere a propósito: debatirlos ahora sería discutir sobre un supuesto mientras el **ancla real es la UI** (function-first). El debate de micro-arquitectura **se reabre al componer el núcleo de E**.
+
+**Condición para reabrir:** automática al iniciar la composición del núcleo de E (no requiere evidencia nueva — está agendado).
+**Ref:** `docs/governance/open-questions.md` (OQ-ENGINE-10, OQ-DATA-10), `DC-OQ-ENGINE-10-A`.
+
+---
+
+## DC-OQ-ENGINE-10-C — Modelo de 2 canales de lectura + ejes ortogonales + `E` no es block stage — **CERRADO (2026-06-13)**
+
+**Dominio:** ui-ux / arquitectura de estado + capas
+
+**Decisión (modelo de 2 canales hacia la UI):** la UI consume de **dos canales distintos**, no tres:
+- **Canal 1 — espejo de intención (`useEnsemble`):** un **puntero** a A (itemId, rank, slots). Responsabilidad única: leer + mutar intención. **NO pasa por `E`.** No es un flujo de datos, es un espejo. Meter `useEnsemble` por `E` sería doble responsabilidad / doble flujo.
+- **Canal 2 — presentación (`E`):** nodo de confluencia con **dos entradas** (chrome de `0` + info computada de `A→B→C→D`) y **una salida** (UI). **El chrome de `0` ES una entrada de `E`** — reafirma `DC-OQ-ENGINE-10-A` y el diagrama de confluencia de `OQ-ENGINE-10`.
+
+**Qué corrige (drift transitorio en debate):** durante la iteración se propuso un "canal 3 = lectura directa `0→UI`" para el chrome puro (nombre/ícono). **Descartado:** no existe la "lectura cruda de `0`" — resolver un ícono es **normalización de patch** y mostrar una descripción es **formateo `<DT_*>`**; ambos son **enriquecimiento = trabajo de `E`**. Un canal aparte reimplementaría ese enriquecimiento → **isla**. El chrome puro entra por `E` (con `D`-side vacío); los casos verdaderamente inertes pasan por `E` como no-op, lo que no justifica otro canal.
+
+**Decisión (dos ejes ortogonales):** la sombra `arsenal-state` parece "una sola pieza rota" porque **funde dos ejes que viven en el mismo archivo**:
+- **Eje 1 — honestidad de intención:** fake-`A`+`B`+`D` → `A` real (`useEnsemble`). **E-independiente.** "Equipar companion sin channel" pasa a *"estado UI sin channel disponible"* — honesto (`DC-OQ-STUB-1`), no simulado.
+- **Eje 2 — centralización de chrome:** `0`-disperso en componentes → `E`. Trabajo de `E`, **diferible**.
+
+> *"Es parte del problema, no del mismo problema."* Los ejes son ortogonales; partir la sombra por estos dos ejes **es** la jugada de refactor.
+
+**Decisión (secuencia — `E` NO es block stage):** `E` se construye **después** de estabilizar el ciclo `A→D→UI` + `A=UI`. Mientras tanto la UI **sigue leyendo `0` directo** (acoplado, pero honesto-funcional). Esto **no crea isla nueva**: los detail views (`WarframeDetailView`, etc.) **ya** leen `0` directo (`resolveLocalImageUrl` + `FormattedText`) — ese es el patrón dominante; la sombra es la anomalía. Purgarla = **regresar a la media existente**, no escribir un centralizador nuevo. (Corrige el overreach previo *"construir el selector 0-read = construir E-v0 delgada"*: falso, porque no se escribe nada nuevo en el lado-`0`.)
+
+**Disciplina asociada (gate del eje 2):** los saltos `0→E` que hoy quedan acoplados se **mapean como candidatos durables** ("esto debería vivir en `E`") en backlog, no en memoria de trabajo. El test de *"`E` es real después"* vs *"`E` nunca"* es si ese mapa se consulta al estabilizar `A→D→UI`.
+
+**Pendiente de verificación (checkpoint, no decisión):** ¿los componentes de arsenal ya tienen acceso directo a `DataRegistry`/`0`, o reciben chrome **solo** vía la sombra? Si es lo segundo, purgar fuerza lecturas-de-`0` nuevas (más caro). Confirmar con el código en mano antes de cantar "barato".
+
+**Condición para reabrir:** el eje 2 (centralización en `E`) se retoma al estabilizar `A→D→UI` + `A=UI`; el mapa de candidatos es el gate. El modelo de 2 canales y la separación de ejes no se reabren sin evidencia nueva.
+**Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-ENGINE-10), `DC-OQ-ENGINE-10-A/-B`, `DC-OQ-STUB-1`. Plan de stages: `.working/` (scratchpad, no SSoT).
