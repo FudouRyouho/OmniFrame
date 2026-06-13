@@ -2,6 +2,7 @@ import {
   type EnsembleIntention,
   type EnsembleChannel,
   type ModIntention,
+  type ArcaneIntention,
   type ArchonShardIntent,
   INITIAL_INTENTION
 } from '@shared/types/ensemble';
@@ -110,6 +111,37 @@ class EnsembleStore {
       mods: {
         ...this.state.mods,
         [channel]: channelMods
+      }
+    };
+    this.notify();
+  }
+
+  /**
+   * Equipar/quitar un arcano en un slot de un canal.
+   * Espejo de setMod, pero escribe en `arcanes` (el engine los lee de ahí, no de `mods`).
+   * Passing null limpia el slot.
+   */
+  setArcane(channel: string, slotIndex: number, intent: ArcaneIntention | null) {
+    if (!channel) {
+      console.error("[EnsembleStore] Intento de setArcane sin canal.");
+      return;
+    }
+
+    const channelArcanes = { ...(this.state.arcanes?.[channel] || {}) };
+
+    if (intent === null) {
+      delete channelArcanes[slotIndex];
+    } else {
+      channelArcanes[slotIndex] = intent;
+    }
+
+    console.log(`%c[EnsembleStore] ✨ Arcano en ${channel}[${slotIndex}]: ${intent?.itemId || 'REMOVED'}`, 'color: #1abc9c');
+
+    this.state = {
+      ...this.state,
+      arcanes: {
+        ...(this.state.arcanes || {}),
+        [channel]: channelArcanes
       }
     };
     this.notify();

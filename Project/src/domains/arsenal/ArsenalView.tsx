@@ -8,13 +8,13 @@ import { useNavigate } from "react-router";
 import { ChevronsUpDown, Hexagon, PanelRight, Sparkles } from "lucide-react";
 import { Button } from "@headlessui/react";
 import PreviewPanel from "@shared/components/PreviewPanel";
-import { useArsenalUiState } from "./state/use-arsenal-stub-state";
+import { useArsenalUiSession } from "./state/use-arsenal-ui-session";
 import { useEnsemble } from "@providers/Ensemble/EnsembleProvider";
 import { Registry } from "@shared/data/DataRegistry";
 import { resolveLocalImageUrl } from "@lib/image-url";
-import { useArchonShardCatalog } from "./archon-shards/use-archon-shard-catalog";
-import type { BaseItem } from "@shared/types";
-import type { EnsembleChannel } from "@shared/types/ensemble";
+import { useCatalog } from "@shared/hooks/data/use-catalog";
+import type { BaseItem, ArchonShardCatalog } from "@shared/types";
+import { SLOT_TO_ENSEMBLE_CHANNEL } from "./slot-channel";
 
 // --- Tipos Locales ---
 
@@ -69,7 +69,7 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
     defaultName: "Primary",
     icon: "/assets/ui/Category/Primary.png",
     description: "Arma principal del loadout.",
-    actions: ["Swap", "Upgrade"],
+    actions: ["Swap", "Upgrade", "Incarnon"],
   },
   {
     id: "secondary_weapon",
@@ -78,7 +78,7 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
     defaultName: "Secondary",
     icon: "/assets/ui/Category/Secondary.png",
     description: "Arma secundaria del loadout.",
-    actions: ["Swap", "Upgrade"],
+    actions: ["Swap", "Upgrade", "Incarnon"],
   },
   {
     id: "melee_weapon",
@@ -87,7 +87,7 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
     defaultName: "Melee",
     icon: "/assets/ui/Category/Melee.png",
     description: "Arma cuerpo a cuerpo del loadout.",
-    actions: ["Swap", "Upgrade"],
+    actions: ["Swap", "Upgrade", "Incarnon"],
   },
   {
     id: "warframeExtensions",
@@ -163,19 +163,6 @@ const SLOT_DEFINITIONS: readonly ArsenalSlotDefinition[] = [
   },
 ] as const;
 
-// --- Helper de Hidratación ---
-// Mapeo entre los IDs de slot del Arsenal y los canales del EnsembleStore
-const SLOT_TO_ENSEMBLE_CHANNEL: Record<string, { channel: EnsembleChannel, domain: string }> = {
-  warframe: { channel: "warframe", domain: "warframe" },
-  primary_weapon: { channel: "primary", domain: "weapon" },
-  secondary_weapon: { channel: "secondary", domain: "weapon" },
-  melee_weapon: { channel: "melee", domain: "weapon" },
-  companion: { channel: "companion", domain: "companion" },
-  companionWeapon: { channel: "companion_weapon", domain: "weapon" }, // o companion-weapon según el data registry
-  archwing: { channel: "archwing", domain: "vehicle" },
-  archgun: { channel: "archgun", domain: "archwing-weapon" },
-  necramech: { channel: "necramech", domain: "vehicle" },
-};
 
 // --- Componentes ---
 
@@ -295,13 +282,17 @@ function ArsenalActionRail({
     if (action === "Upgrade") {
       void navigate(`/arsenal/upgrade/${slot.id}`);
     }
+    if (action === "Incarnon") {
+      void navigate(`/arsenal/incarnon/${slot.id}`);
+    }
   }
 
   return (
     <aside className="place-self-start justify-self-start flex w-full max-w-37.5 flex-col gap-1.5 pt-27">
       {slot.actions.map((action) => {
         const isFilled = !!hydratedItem;
-        const isDisabled = (action === "Upgrade" || action === "Abilities") && !isFilled;
+        const isDisabled =
+          (action === "Upgrade" || action === "Abilities" || action === "Incarnon") && !isFilled;
 
         return (
           <Button
@@ -320,10 +311,10 @@ function ArsenalActionRail({
 }
 
 function ArchonShardsPreviewSection() {
-  const { selectArchonShardSlot } = useArsenalUiState();
+  const { selectArchonShardSlot } = useArsenalUiSession();
   const intention = useEnsemble();
   const navigate = useNavigate();
-  const catalog = useArchonShardCatalog();
+  const catalog = useCatalog<ArchonShardCatalog>("archon-shards");
   const shards = intention.items.warframe.shards || [];
 
   function findEntry(shardType: string | null) {

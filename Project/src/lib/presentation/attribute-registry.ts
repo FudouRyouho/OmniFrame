@@ -61,18 +61,3 @@ export const SLOT_LABELS: Record<string, string> = {
 export function getAttributeMetadata(id: string): AttributeMetadata {
   return ATTRIBUTE_REGISTRY[id] || { label: id, category: "utility", unit: "" };
 }
-
-/**
- * Hidratación desde artefacto generado (Pipeline SSoT futuro)
- */
-export async function hydrateAttributeRegistry() {
-  try {
-    const response = await fetch('/data/engine/attribute-registry.json');
-    if (response.ok) {
-      const externalData = await response.json();
-      Object.assign(ATTRIBUTE_REGISTRY, externalData);
-    }
-  } catch (e) {
-    console.warn("No se pudo cargar el registro de atributos externo, usando fallback estático.");
-  }
-}

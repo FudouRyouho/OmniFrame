@@ -7,10 +7,7 @@ export type ArchwingWeaponKind = 'archgun' | 'archmelee';
 
 export interface ArchwingWeapon extends BaseItem {
   domain: 'weapon'; // El dominio sigue siendo arma
-  kind: ArchwingWeaponKind;
-  
-  description: string;
-  
+  kind: ArchwingWeaponKind;  
   // Módulo de estadísticas normalizado (Combate)
   stats: CombatStats;
 

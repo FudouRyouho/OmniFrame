@@ -31,6 +31,9 @@ export function useEnsembleActions() {
     setMod: (channel: string, slotIndex: number, mod: Parameters<typeof ensembleStore.setMod>[2]) =>
       ensembleStore.setMod(channel, slotIndex, mod),
 
+    setArcane: (channel: string, slotIndex: number, intent: Parameters<typeof ensembleStore.setArcane>[2]) =>
+      ensembleStore.setArcane(channel, slotIndex, intent),
+
     setShard: (slotIndex: number, intent: ArchonShardIntent | null) =>
       ensembleStore.setShard(slotIndex, intent),
 

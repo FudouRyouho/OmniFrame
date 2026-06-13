@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router";
-import { fetchMod } from "@lib/mod-data";
+import { Registry } from "@shared/data/DataRegistry";
 import type { Mod } from "@shared/types";
 
 const ModDetailView = () => {
@@ -13,7 +13,7 @@ const ModDetailView = () => {
   useEffect(() => {
     const identifier =
       routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
-    fetchMod(identifier).then((m) => {
+    Registry.getItemById<Mod>("mod", identifier).then((m) => {
       setItem(m ?? null);
       setLoading(false);
     });

@@ -20,9 +20,6 @@ export type ModClass = 'Primed' | 'Galvanized' | 'Archon' | 'Amalgam' | 'Riven';
 export interface Mod extends BaseItem {
   domain: 'mod';
   kind: 'mod';
-
-  description: string;
-
   stats: ModStats;
 
   category_raw: string | null;

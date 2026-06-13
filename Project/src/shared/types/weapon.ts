@@ -6,8 +6,6 @@ export type WeaponCategory = 'primary' | 'secondary' | 'melee'
 export interface Weapon extends BaseItem {
   domain: 'weapon';
   kind: ItemKind; // Generalizado para soportar archguns, sentinel weapons, etc.
-  
-  description: string;
   product_category?: string;
   is_prime: boolean;
   tradable: boolean;

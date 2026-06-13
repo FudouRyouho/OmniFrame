@@ -4,6 +4,7 @@
  */
 import type { BaseItem, Weapon, Warframe, Mod, Arcane, Companion, Vehicle, Ability, AbilityStatsData } from "@shared/types";
 import { hydrateImageFromImageName } from "@lib/image-url";
+import { matchesRouteIdentifier } from "@lib/route-id";
 
 type DatasetKey = 'warframes' | 'weapons' | 'mods' | 'arcanes' | 'companions' | 'archwing-weapons' | 'vehicles';
 
@@ -11,6 +12,10 @@ class DataRegistry {
   private cache: Map<DatasetKey, any[]> = new Map();
   private loadingPromises: Map<DatasetKey, Promise<any[]>> = new Map();
   private abilityStatsDb: Record<string, any> | null = null;
+  private passivesDb: Record<string, { name: string; description: string }> | null = null;
+  // Catálogos crudos (forma Record<key,entry>, no BaseItem[]): archon-shards, incarnon, etc.
+  private catalogCache: Map<string, unknown> = new Map();
+  private catalogPromises: Map<string, Promise<unknown>> = new Map();
 
   /**
    * Carga un dataset específico asegurando hidratación base.
@@ -52,9 +57,21 @@ class DataRegistry {
       const res = await fetch('/data/ability-stats.override.json').catch(() => null);
       this.abilityStatsDb = res?.ok ? await res.json() : {};
     }
+    if (!this.passivesDb) {
+      const res = await fetch('/data/passives.json').catch(() => null);
+      this.passivesDb = res?.ok ? await res.json() : {};
+    }
 
     return warframes.map(wf => ({
       ...wf,
+      // Resuelve la passive (key string → {name, description}); absorbido de lib/warframe-data
+      // al colapsar esa isla — Registry es el merge completo (abilities + passives).
+      passive: typeof wf.passive === 'string'
+        ? (this.passivesDb![wf.passive] ?? wf.passive)
+        : wf.passive,
+      passive_description:
+        (typeof wf.passive === 'string' ? this.passivesDb![wf.passive]?.description : undefined)
+          ?? wf.passive_description,
       abilities: wf.abilities.map(a => this.hydrateAbility(a))
     }));
   }
@@ -140,10 +157,7 @@ class DataRegistry {
     if (!key) return undefined;
 
     const items = await this.getDataset<T>(key);
-    return items.find(i => 
-      i.unique_name === identifier || 
-      i.name.toLowerCase().replace(/ /g, '-') === identifier.toLowerCase()
-    );
+    return items.find((i) => matchesRouteIdentifier(i, identifier));
   }
 
   /**
@@ -165,6 +179,34 @@ class DataRegistry {
     if (domain === 'vehicle') return this.getDataset<Vehicle>('vehicles') as unknown as T[];
 
     return [];
+  }
+
+  /**
+   * Carga un catálogo crudo con forma `Record<key, entry>` (no `BaseItem[]`): archon-shards,
+   * incarnon-evolutions, etc. Sin hidratación — los catálogos no son ítems. Cacheado por key.
+   * Reemplaza los mini-fetchers ad-hoc (use-archon-shard-catalog, use-incarnon-catalog).
+   */
+  async getCatalog<T>(key: string): Promise<T> {
+    if (this.catalogCache.has(key)) return this.catalogCache.get(key) as T;
+    if (this.catalogPromises.has(key)) return this.catalogPromises.get(key) as Promise<T>;
+
+    const promise = (async () => {
+      try {
+        const res = await fetch(`/data/${key}.json`);
+        if (!res.ok) throw new Error(`Failed to load catalog ${key}.json`);
+        const data = await res.json();
+        this.catalogCache.set(key, data);
+        return data;
+      } catch (e) {
+        console.error(`[DataRegistry] Error loading catalog ${key}:`, e);
+        return {} as T;
+      } finally {
+        this.catalogPromises.delete(key);
+      }
+    })();
+
+    this.catalogPromises.set(key, promise);
+    return promise as Promise<T>;
   }
 }
 

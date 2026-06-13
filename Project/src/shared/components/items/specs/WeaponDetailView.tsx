@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router";
-import { fetchWeapon } from "@lib/weapon-data";
+import { Registry } from "@shared/data/DataRegistry";
 import type { Weapon } from "@shared/types";
 
 const StatBadge = ({
@@ -26,7 +26,7 @@ const WeaponDetailView = () => {
   useEffect(() => {
     const identifier =
       routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
-    fetchWeapon(identifier).then((w) => {
+    Registry.getItemById<Weapon>("weapon", identifier).then((w) => {
       setItem(w ?? null);
       setLoading(false);
     });

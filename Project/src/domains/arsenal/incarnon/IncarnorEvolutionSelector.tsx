@@ -5,10 +5,8 @@
  */
 import { useNavigate, useParams } from 'react-router';
 import { useEnsemble, useEnsembleActions } from '@providers/Ensemble/EnsembleProvider';
-import type { EnsembleChannel } from '@shared/types/ensemble';
 import { useIncarnorCatalog, findEntryForWeapon } from './use-incarnon-catalog';
-
-const WEAPON_CHANNELS: EnsembleChannel[] = ['primary', 'secondary', 'melee'];
+import { SLOT_TO_ENSEMBLE_CHANNEL } from '../slot-channel';
 
 export default function IncarnorEvolutionSelector() {
   const { category } = useParams<{ category: string }>();
@@ -17,9 +15,16 @@ export default function IncarnorEvolutionSelector() {
   const { setEvolutionPerk, setActiveProfile } = useEnsembleActions();
   const catalog = useIncarnorCatalog();
 
-  const channel = (
-    WEAPON_CHANNELS.includes(category as EnsembleChannel) ? category : 'primary'
-  ) as EnsembleChannel;
+  // slot.id de la ruta (`primary_weapon`, …) → canal del ensemble (SSoT compartido,
+  // mismo patrón que UpgradeView). Antes usaba WEAPON_CHANNELS.includes(slot.id) con
+  // fallback a 'primary' → misruteaba al recibir el slot.id crudo.
+  const channel = category ? SLOT_TO_ENSEMBLE_CHANNEL[category]?.channel : undefined;
+
+  if (!channel) {
+    return (
+      <div className="p-8 text-ui-primary/30 text-sm">Slot no reconocido: {category}</div>
+    );
+  }
 
   const channelState = intention.items[channel];
   const currentPerks = channelState.evolution_perks ?? {};

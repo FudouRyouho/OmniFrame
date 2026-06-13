@@ -11,6 +11,7 @@
  *
  * @todo Implementación pendiente — depende de la materialización del Builder/Arsenal
  */
+
 export default function ProfileView() {
   return null
 }

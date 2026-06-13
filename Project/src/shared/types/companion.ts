@@ -8,9 +8,6 @@ export type CompanionCategory = 'sentinel' | 'pet' | 'hound' | 'moa';
 export interface Companion extends BaseItem {
   domain: 'companion';
   kind: CompanionCategory;
-  
-  description: string;
-  
   // Módulo de estadísticas normalizado (Supervivencia)
   stats: LivingStats;
 

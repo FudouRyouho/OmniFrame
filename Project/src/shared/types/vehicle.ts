@@ -7,9 +7,6 @@ export type VehicleKind = 'necramech' | 'archwing';
 export interface Vehicle extends BaseItem {
   domain: 'vehicle';
   kind: VehicleKind;
-  
-  description: string;
-  
   // Módulo de estadísticas normalizado (Supervivencia)
   stats: LivingStats;
 
