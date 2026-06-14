@@ -23,7 +23,7 @@ export class StatusEngine {
    */
   public static projectSlashTick(weapon: SimulationEntity, avg_crit_mult: number): StatusEffectProjection {
     const attrs = weapon.attributes;
-    const base_damage_node = attrs["WEAPON_DAMAGE"];
+    const base_damage_node = attrs["WEAPON_ADD_DAMAGE"];
     const faction_node = attrs["FACTION_DAMAGE"];
     const innate_total = this.calculateInnateTotal(weapon);
     const faction_mult = faction_node ? (faction_node.final / 100) : 1.0;

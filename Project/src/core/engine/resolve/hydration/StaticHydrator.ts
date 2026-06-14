@@ -154,7 +154,7 @@ export class StaticHydrator {
     Object.entries(base_attributes).forEach(([id, value]) => {
       // Solo crean AttributeNode los tokens D-6 válidos y los attrs de daño (Fase 2 pendiente).
       // Datos puros como reload_time quedan en innate_dna.profiles — no acumulan modificadores.
-      if (!isUpgrade(id) && id !== 'WEAPON_DAMAGE') return;
+      if (!isUpgrade(id) && id !== 'WEAPON_ADD_DAMAGE') return;
       const meta = getAttributeMetadata(id);
       attributes[id] = {
         base: value,
@@ -171,9 +171,9 @@ export class StaticHydrator {
     // Inyectar el multiplicador global de daño solo para armas (hack de composición conocido,
     // gap del engine — no es ley universal). Un warframe no tiene nodo de daño de arma.
     const isWarframe = dna.kind === 'warframe';
-    if (!isWarframe && !attributes["WEAPON_DAMAGE"]) {
-       const meta = getAttributeMetadata("WEAPON_DAMAGE");
-       attributes["WEAPON_DAMAGE"] = {
+    if (!isWarframe && !attributes["WEAPON_ADD_DAMAGE"]) {
+       const meta = getAttributeMetadata("WEAPON_ADD_DAMAGE");
+       attributes["WEAPON_ADD_DAMAGE"] = {
           base: 100, // 100% baseline
           base_flat: 0, base_add_pct: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
           ...meta

@@ -106,9 +106,9 @@ export class SimulationEngine {
         }
       }
 
-      // Implicit global dependency: damage scales with WEAPON_DAMAGE
+      // Implicit global dependency: damage scales with WEAPON_ADD_DAMAGE
       if (isWeaponDamageToken(mod.target_attribute)) {
-        const sourceKey = `${mod.target_entity}:WEAPON_DAMAGE`;
+        const sourceKey = `${mod.target_entity}:WEAPON_ADD_DAMAGE`;
         if (in_degree.has(sourceKey)) {
           adj.get(sourceKey)!.push(targetKey);
           in_degree.set(targetKey, (in_degree.get(targetKey) || 0) + 1);
@@ -197,7 +197,7 @@ export class SimulationEngine {
     const node = entity.attributes[attributeId];
     if (!node) return 0;
 
-    const weaponDamageNode = entity.attributes["WEAPON_DAMAGE"];
+    const weaponDamageNode = entity.attributes["WEAPON_ADD_DAMAGE"];
     const globalDmgMult = weaponDamageNode
       ? (weaponDamageNode.final / (weaponDamageNode.base || 100))
       : 1.0;

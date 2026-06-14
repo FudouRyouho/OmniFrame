@@ -12,11 +12,11 @@
  * sus 6 buckets + el audit trace), este clic es genérico: una sola implementación sirve
  * a todos los consumidores. Un test dedicado = una intención distinta + sus aserciones.
  *
- *   const dmg = consume(intention).weapon(BOLTOR).node('WEAPON_DAMAGE');
+ *   const dmg = consume(intention).weapon(BOLTOR).node('WEAPON_ADD_DAMAGE');
  *   expect(dmg.base_flat).toBe(4);        // qué/dónde (lógica)
  *   expect(dmg.final).toBeCloseTo(132.5); // resultado (estabilidad)
  *   // ...al final, por debug:
- *   console.table(consume(intention).weapon(BOLTOR).audit('WEAPON_DAMAGE'));
+ *   console.table(consume(intention).weapon(BOLTOR).audit('WEAPON_ADD_DAMAGE'));
  *
  * (i)  `node()`  → el AttributeNode completo: 6 buckets + final. Superficie de aserción limpia.
  * (ii) `audit()` → el trace por modifier (source, op, impact). Procedencia para debug;

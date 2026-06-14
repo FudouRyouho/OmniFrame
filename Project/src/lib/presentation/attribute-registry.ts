@@ -15,7 +15,7 @@ export interface AttributeMetadata {
  */
 export const ATTRIBUTE_REGISTRY: Record<string, AttributeMetadata> = {
   // primary
-  "WEAPON_DAMAGE": { label: "Damage", category: "primary", unit: "%" },
+  "WEAPON_ADD_DAMAGE": { label: "Damage", category: "primary", unit: "%" },
   "critical_chance": { label: "Critical Chance", category: "primary", unit: "%" },
   "critical_multiplier": { label: "Critical Multiplier", category: "primary", unit: "x" },
   "status_chance": { label: "Status Chance", category: "primary", unit: "%" },

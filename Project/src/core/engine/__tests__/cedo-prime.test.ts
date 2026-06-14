@@ -41,7 +41,7 @@ const stat = (withGH = false) => consume(cedo(withGH)).weapon(CEDO_PRIME);
 
 describe('Cedo — modo base (estabilidad: .final)', () => {
   it('daño global 84.8 — PPB +165%', () => {
-    expect(base().node('WEAPON_DAMAGE').final).toBeCloseTo(84.8, 1);
+    expect(base().node('WEAPON_ADD_DAMAGE').final).toBeCloseTo(84.8, 1);
   });
   it('Puncture 84.8 — físico × mult global', () => {
     expect(base().node('WEAPON_ADD_PUNCTURE_DAMAGE').final).toBeCloseTo(84.8, 1);

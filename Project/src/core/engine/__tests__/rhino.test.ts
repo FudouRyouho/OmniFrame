@@ -57,8 +57,8 @@ describe('Rhino fixture_01 — base + mods Tier 1 (flujo A→B→C, entidad warf
   });
 
   // ── La entidad es un warframe limpio, sin contaminación de arma ────────────────
-  it('no inyecta nodo WEAPON_DAMAGE (eso es un hack de composición de arma)', () => {
-    expect(() => wf().node('WEAPON_DAMAGE')).toThrow();
+  it('no inyecta nodo WEAPON_ADD_DAMAGE (eso es un hack de composición de arma)', () => {
+    expect(() => wf().node('WEAPON_ADD_DAMAGE')).toThrow();
   });
 });
 

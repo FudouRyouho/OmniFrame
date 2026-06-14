@@ -78,7 +78,7 @@ export class ItemRepository {
           // público (interno de DE); incondicional, todas las armas tienen recoil. Nodo inerte
           // hasta definir modelado/UI — OQ-ENGINE-7. Ver references/wiki/mechanics/recoil.md.
           WEAPON_ADD_RECOIL:       100,
-          WEAPON_DAMAGE:           damage_sum || 100,
+          WEAPON_ADD_DAMAGE:       damage_sum || 100,
           ...damage_map
         };
 
@@ -109,7 +109,7 @@ export class ItemRepository {
         reload_time:             raw.stats.reload_time ?? 0,
         WEAPON_ADD_RELOAD_SPEED: 100,
         WEAPON_ADD_RECOIL:       100,  // base sintética — ver branch principal y recoil.md
-        WEAPON_DAMAGE:           damage_sum_fallback || 100,
+        WEAPON_ADD_DAMAGE:       damage_sum_fallback || 100,
         ...damage_map_fallback
       };
     }

@@ -195,11 +195,13 @@ export function getUpgradeFamily(upgrade: Upgrade): UpgradeFamily {
 }
 
 // ─── UPGRADE_MAP ─────────────────────────────────────────────────────────────
-// [BRIDGE — D-7] Resuelve Upgrade → attr ID del engine + operación.
-// Existe porque los attr IDs del engine preexisten a D-6 y usan naming distinto.
-// Desaparecerá cuando D-7 estandarice los attr IDs (ver .working/engine-semantic-foundation.md).
+// [D-7 Fase 3, 2026-06-14] Encogido a su núcleo irreducible. `resolveToken()` cubre
+// las identidades (attr=token) y los acumuladores propios (FLAT/BASE que NO convergen);
+// UPGRADE_MAP retiene solo lo que la sintaxis NO deriva: aliases, flags y la
+// convergencia FLAT/BASE → nodo del par ADD.
+// Consumo en los 4 repos: `UPGRADE_MAP[token] ?? resolveToken(token)` (Mod/Arcane/Incarnon/Shard).
 //
-// Tokens sin entrada = pipeline deuda conocida — no es un error de runtime.
+// Tokens sin entrada = resueltos por `resolveToken` — no es un error de runtime.
 
 export interface UpgradeMapEntry {
   attr: string;
@@ -244,72 +246,34 @@ export function resolveToken(token: Upgrade): UpgradeMapEntry | undefined {
 }
 
 export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
+  // Solo lo que `resolveToken()` NO puede derivar. Las identidades (attr=token, todos
+  // los WEAPON_ADD_*/AVATAR_ADD_*) y los acumuladores propios (AVATAR_FLAT_HEALTH_REGEN
+  // → attr = sí mismo) las cubre el fallback — se quitaron en D-7 Fase 3. Quedan 3 clases:
 
-  // ── WEAPON — daño global ──────────────────────────────────────────────────
-  WEAPON_ADD_DAMAGE:             { attr: 'WEAPON_DAMAGE',         op: 'ADD' },
-
-  // ── WEAPON — derivados elementales y físicos ─────────────────────────────
-  // [D-7b Fase 2] Eliminadas — resolveToken() las cubre: attr = token, op = 'ADD'.
-
-  // ── WEAPON — stats de disparo y crítico ──────────────────────────────────
-  WEAPON_ADD_FIRE_RATE:             { attr: 'WEAPON_ADD_FIRE_RATE',             op: 'ADD' },
-  WEAPON_ADD_MULTISHOT:             { attr: 'WEAPON_ADD_MULTISHOT',             op: 'ADD' },
+  // ── (1) ALIAS — SUFFIX distinto del nodo destino (no es op-variante) ──────────
   WEAPON_FIRE_ITERATIONS:           { attr: 'WEAPON_ADD_MULTISHOT',             op: 'ADD' },
-  WEAPON_ADD_CRIT_CHANCE:           { attr: 'WEAPON_ADD_CRIT_CHANCE',           op: 'ADD' },
-  WEAPON_ADD_CRIT_MULT:             { attr: 'WEAPON_ADD_CRIT_MULT',             op: 'ADD' },
-  WEAPON_ADD_STATUS_CHANCE:         { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'ADD' },
-  WEAPON_ADD_MAGAZINE_MAX:          { attr: 'WEAPON_ADD_MAGAZINE_MAX',          op: 'ADD' },
-  WEAPON_ADD_RELOAD_SPEED:          { attr: 'WEAPON_ADD_RELOAD_SPEED',          op: 'ADD' },
-  WEAPON_ADD_STATUS_DAMAGE:         { attr: 'WEAPON_ADD_STATUS_DAMAGE',         op: 'ADD' },
 
-  // ── WEAPON — perks flat incarnon (ADD_FLAT — post-escala, no amplificados) ─
-  // El valor debe pre-dividirse por base_multishot del perfil (ver wiki Felarx / Status Chance).
-  // Para perfiles multi-pellet: valor = bonus_total / base_multishot.
-  // Incarnon (base_multishot=1): valor sin dividir. Requiere OQ-ENGINE-2 para diferenciación.
+  // ── (2) FLAG — toPercent: JSON almacena 1.30 = +30% → 30 para mods_add_pct ────
+  GAMEPLAY_MULT_FACTION_DAMAGE:     { attr: 'GAMEPLAY_MULT_FACTION_DAMAGE',     op: 'ADD', toPercent: true },
+
+  // ── (3) CONVERGENCIA — FLAT/BASE comparten nodo con su par ADD ────────────────
+  // NO derivable por sintaxis: cuál FLAT/BASE converge al nodo ADD vs cuál es
+  // acumulador propio es conocimiento de dominio (ej. AVATAR_FLAT_HEALTH_REGEN —
+  // regen plano HP/s — NO converge a AVATAR_ADD_HEALTH_REGEN — regen % — son stats
+  // distintos). Convergencia: `Total = Base × (1 + Mods%) + Flat` (ver
+  // references/wiki/mechanics/armor.md). El nodo base lo siembra getDNA() con
+  // id = attr del par ADD (precedente: WEAPON_ADD_RELOAD_SPEED).
   WEAPON_FLAT_STATUS_CHANCE:        { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'ADD_FLAT' },
-  // ── WEAPON — perks base incarnon (BASE_FLAT — se amplifican con mods ADD) ─
   WEAPON_BASE_CRIT_CHANCE:          { attr: 'WEAPON_ADD_CRIT_CHANCE',           op: 'BASE_FLAT' },
   WEAPON_BASE_STATUS_CHANCE:        { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'BASE_FLAT' },
-  WEAPON_BASE_DAMAGE:               { attr: 'WEAPON_DAMAGE',                    op: 'BASE_FLAT' },
+  WEAPON_BASE_DAMAGE:               { attr: 'WEAPON_ADD_DAMAGE',                op: 'BASE_FLAT' },
   WEAPON_BASE_MAGAZINE_MAX:         { attr: 'WEAPON_ADD_MAGAZINE_MAX',          op: 'BASE_FLAT' },
   WEAPON_BASE_CRIT_MULT:            { attr: 'WEAPON_ADD_CRIT_MULT',             op: 'BASE_FLAT' },
-  // ── WEAPON — melee BASE_FLAT (los ADD se resuelven vía resolveToken) ──────
   WEAPON_BASE_HEAVY_EFFICIENCY:     { attr: 'WEAPON_ADD_HEAVY_EFFICIENCY',      op: 'BASE_FLAT' },
   WEAPON_BASE_COMBO_DURATION:       { attr: 'WEAPON_ADD_COMBO_DURATION',        op: 'BASE_FLAT' },
   WEAPON_BASE_COMBO_INITIAL:        { attr: 'WEAPON_ADD_COMBO_INITIAL',         op: 'BASE_FLAT' },
-
-  // ── GAMEPLAY — facción ────────────────────────────────────────────────────
-  // toPercent: JSON almacena 1.30 = +30% → convierte a 30 para mods_add_pct.
-  GAMEPLAY_MULT_FACTION_DAMAGE:     { attr: 'GAMEPLAY_MULT_FACTION_DAMAGE',     op: 'ADD', toPercent: true },
-
-  // ── AVATAR — habilidades ──────────────────────────────────────────────────
-  AVATAR_ADD_ABILITY_STRENGTH:      { attr: 'AVATAR_ADD_ABILITY_STRENGTH',      op: 'ADD' },
-  AVATAR_ADD_ABILITY_RANGE:         { attr: 'AVATAR_ADD_ABILITY_RANGE',         op: 'ADD' },
-  AVATAR_ADD_ABILITY_DURATION:      { attr: 'AVATAR_ADD_ABILITY_DURATION',      op: 'ADD' },
-  AVATAR_ADD_ABILITY_EFFICIENCY:    { attr: 'AVATAR_ADD_ABILITY_EFFICIENCY',    op: 'ADD' },
-
-  // ── AVATAR — stats base ───────────────────────────────────────────────────
-  AVATAR_ADD_HEALTH_MAX:            { attr: 'AVATAR_ADD_HEALTH_MAX',            op: 'ADD' },
-  AVATAR_ADD_SHIELD_MAX:            { attr: 'AVATAR_ADD_SHIELD_MAX',            op: 'ADD' },
-  AVATAR_ADD_ARMOUR:                { attr: 'AVATAR_ADD_ARMOUR',                op: 'ADD' },
-  AVATAR_ADD_ENERGY_MAX:            { attr: 'AVATAR_ADD_ENERGY_MAX',            op: 'ADD' },
-  AVATAR_ADD_MOVEMENT_SPEED:        { attr: 'AVATAR_ADD_MOVEMENT_SPEED',        op: 'ADD' },
-  AVATAR_ADD_SPRINT_SPEED:          { attr: 'AVATAR_ADD_SPRINT_SPEED',          op: 'ADD' },
-  AVATAR_ADD_CASTING_SPEED:         { attr: 'AVATAR_ADD_CASTING_SPEED',         op: 'ADD' },
-  AVATAR_ADD_SHIELD_RECHARGE_RATE:  { attr: 'AVATAR_ADD_SHIELD_RECHARGE_RATE',  op: 'ADD' },
-  AVATAR_ADD_PARKOUR_VELOCITY:      { attr: 'AVATAR_ADD_PARKOUR_VELOCITY',      op: 'ADD' },
-  AVATAR_ADD_HEALTH_ORB_EFFICIENCY: { attr: 'AVATAR_ADD_HEALTH_ORB_EFFICIENCY', op: 'ADD' },
-  AVATAR_ADD_ENERGY_ORB_EFFICIENCY: { attr: 'AVATAR_ADD_ENERGY_ORB_EFFICIENCY', op: 'ADD' },
-
-  // ── AVATAR — planos post-escala ───────────────────────────────────────────
-  // Convergencia de nodo (2026-06-11): los FLAT de base-stat apuntan al MISMO attr
-  // que su par ADD para componer sobre la base del warframe — fórmula del juego
-  // `Total = Base × (1 + Mods%) + Flat` (ver references/wiki/mechanics/armor.md).
-  // El nodo base lo siembra getDNA() con id = attr del ADD (precedente: WEAPON_ADD_RELOAD_SPEED).
-  // HEALTH_REGEN no tiene par ADD (acumulador propio, base 0) → queda en su attr.
-  AVATAR_FLAT_HEALTH_MAX:   { attr: 'AVATAR_ADD_HEALTH_MAX',    op: 'ADD_FLAT' },
-  AVATAR_FLAT_SHIELD_MAX:   { attr: 'AVATAR_ADD_SHIELD_MAX',    op: 'ADD_FLAT' },
-  AVATAR_FLAT_ENERGY_MAX:   { attr: 'AVATAR_ADD_ENERGY_MAX',    op: 'ADD_FLAT' },
-  AVATAR_FLAT_ARMOUR:       { attr: 'AVATAR_ADD_ARMOUR',        op: 'ADD_FLAT' },
-  AVATAR_FLAT_HEALTH_REGEN: { attr: 'AVATAR_FLAT_HEALTH_REGEN', op: 'ADD_FLAT' },
+  AVATAR_FLAT_HEALTH_MAX:           { attr: 'AVATAR_ADD_HEALTH_MAX',            op: 'ADD_FLAT' },
+  AVATAR_FLAT_SHIELD_MAX:           { attr: 'AVATAR_ADD_SHIELD_MAX',            op: 'ADD_FLAT' },
+  AVATAR_FLAT_ENERGY_MAX:           { attr: 'AVATAR_ADD_ENERGY_MAX',            op: 'ADD_FLAT' },
+  AVATAR_FLAT_ARMOUR:               { attr: 'AVATAR_ADD_ARMOUR',                op: 'ADD_FLAT' },
 }
