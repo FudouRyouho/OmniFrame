@@ -1,13 +1,9 @@
 import React from "react";
 import { StatRow } from "./stat-row";
+import type { StatEntry } from "@lib/format/stat-entry";
 
-export interface StatEntry {
-  key: string;
-  label: string;
-  value: string | number;
-  isSectionHeader?: boolean;
-  valueTone?: "default" | "accent";
-}
+// SSoT del tipo en lib/format/stat-entry. Re-exportado acá por compat de imports previos.
+export type { StatEntry };
 
 interface StatPanelProps {
   stats: StatEntry[];

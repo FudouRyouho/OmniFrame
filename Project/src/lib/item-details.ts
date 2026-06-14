@@ -18,13 +18,9 @@ import { getDamageLabels } from './i18n/damage-labels'
 
 // ── Tipos de salida ───────────────────────────────────────────────────────────
 
-export interface StatEntry {
-  key: string
-  label: string
-  value: string
-  /** Separa secciones visualmente (ej. antes del bloque de daño) */
-  isSectionHeader?: boolean
-}
+// SSoT del tipo en lib/format/stat-entry (unificado Stage B). Re-exportado por compat.
+export type { StatEntry } from './format/stat-entry'
+import type { StatEntry } from './format/stat-entry'
 
 // ── Formateadores ─────────────────────────────────────────────────────────────
 

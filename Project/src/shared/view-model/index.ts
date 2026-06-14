@@ -49,7 +49,8 @@ export interface ViewModelContract {
  * de display. Pura y total: tira los 6 buckets internos del nodo y queda el
  * `final` + unidad + categoría por entidad. [D-7 Fase 4] unit/category ya NO viajan
  * en el nodo (el engine es puro) — se adjuntan acá por lookup keyed en el token,
- * vía `lib/presentation`. La label sigue siendo del borde (i18n), no del contrato.
+ * vía `lib/format/stat-presentation`. La label NO va en el contrato: la adjunta el
+ * proyector de presentación (`lib/format/stat-entry` → `toStatEntries`) en su borde.
  */
 export function project(snapshot: SimulationEntity[]): ViewModelContract {
   return {

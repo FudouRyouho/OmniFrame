@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { ArsenalProvider, useArsenal } from "../context/ArsenalContext";
 import { StatPanel } from "@shared/components/items/specs/StatPanel";
+import { toStatEntries } from "@lib/format/stat-entry";
 import { useViewModel } from "@providers/Ensemble/use-view-model";
 import { useEnsemble, useEnsembleActions } from "@providers/Ensemble/EnsembleProvider";
 import { useItems } from "@shared/hooks/data/use-items";
@@ -65,14 +66,8 @@ const UpgradeContent = () => {
 
   const activeIsArcane = activeSlot ? isArcaneSlot(activeSlot) : false;
 
-  // StatViewModel[] → StatEntry[]. Formateo crudo a propósito (labels feos = OQ-DATA-10).
-  const simStats = activeEntity
-    ? activeEntity.stats.map((s) => ({
-        key: s.id,
-        label: s.id.replace(/_/g, " ").toUpperCase(),
-        value: `${s.value.toFixed(1)}${s.unit}`,
-      }))
-    : [];
+  // StatViewModel[] → StatEntry[] vía el proyector único (lib/format). Mata el mapeo inline.
+  const simStats = activeEntity ? toStatEntries(activeEntity.stats) : [];
 
   // unique_name → nombre (mods + arcanos), para mostrar qué hay equipado en cada slot.
   const nameById = useMemo(() => {

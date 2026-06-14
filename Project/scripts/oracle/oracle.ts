@@ -13,29 +13,23 @@
  *   - CRUDO (default): `npm run oracle -- <build>` | `all`. Snapshot crudo (nodos + 6 buckets),
  *     material de debug del motor (PASO 3).
  *   - VIEW (display):  `npm run oracle -- view <build>` | `view all`. El ViewModelContract
- *     (cut C→D, display-only/C1) vía `project()`, formateado al borde del CLI. Primer consumidor
- *     real del contrato; hermano de display del adaptador UI (D1). Label = token por ahora
- *     (la resolución i18n es un ingrediente `lib/*` aparte).
+ *     (cut C→D, display-only/C1) vía `project()`, proyectado a filas con `toStatEntries`
+ *     (`lib/format`, el MISMO proyector que D1). Primer consumidor real del contrato; hermano
+ *     de display del adaptador UI.
  *
  * Sin argumento → `lanka` (crudo).
  */
 import { loadEngineData } from '@core/engine/fixtures/engine-data';
 import { BUILDS } from '@core/engine/fixtures/builds';
 import { consume } from '@core/engine/output/consume';
-import { project, type StatViewModel } from '@shared/view-model';
+import { project } from '@shared/view-model';
+import { toStatEntries } from '@lib/format/stat-entry';
 
 loadEngineData();
 
 const isView = process.argv[2] === 'view';
 const arg = (isView ? process.argv[3] : process.argv[2]) ?? 'lanka';
 const names = arg === 'all' ? Object.keys(BUILDS) : [arg];
-
-/** Formateo de display al borde del CLI: value + unit. Label = token (i18n = ingrediente aparte). */
-function formatStat(s: StatViewModel): string {
-  const value = Number.isInteger(s.value) ? String(s.value) : s.value.toFixed(2);
-  const cat = s.category ? `[${s.category}] ` : '';
-  return `${cat}${s.id}: ${value}${s.unit}`;
-}
 
 for (const name of names) {
   const factory = BUILDS[name];
@@ -53,8 +47,11 @@ for (const name of names) {
     console.log(`\n######## VIEW: ${name} — ${vm.entities.length} entidad(es) ########`);
     for (const e of vm.entities) {
       console.log(`\n=== [${e.channel ?? '—'}] ${e.unique_name}  (${e.domain}/${e.kind}) ===`);
-      for (const s of e.stats) {
-        console.log(`  ${formatStat(s)}`);
+      // Proyector único (lib/format) — mismo que D1. El prefijo [category] es debug del CLI.
+      const entries = toStatEntries(e.stats);
+      for (let i = 0; i < entries.length; i++) {
+        const cat = e.stats[i].category ? `[${e.stats[i].category}] ` : '';
+        console.log(`  ${cat}${entries[i].label}: ${entries[i].value}`);
       }
     }
   } else {
