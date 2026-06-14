@@ -132,7 +132,7 @@ export class ItemRepository {
     
     Object.entries(damage).forEach(([key, val]) => {
       if (typeof val === 'number' && val > 0 && key !== 'total') {
-        // Mapeo de tipos de daño (ej: "impact" -> "damage_impact")
+        // Mapeo de tipos de daño al token D-6 (ej: "impact" -> "WEAPON_ADD_IMPACT_DAMAGE")
         result[`WEAPON_ADD_${key.toUpperCase()}_DAMAGE`] = val;
       }
     });

@@ -12,7 +12,6 @@ import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, type ElementalMod } from "./DamageCombiner";
 import { isWeaponDamageToken } from "../../contracts/damage-logic";
-import { getAttributeMetadata } from "../../../../lib/presentation/attribute-registry";
 
 export class StaticHydrator {
   /**
@@ -86,7 +85,6 @@ export class StaticHydrator {
       // Injectar nuevos nodos de daño
       Object.entries(combined_damage).forEach(([type, value]) => {
          // Ley: Cada tipo de daño se inicializa con su valor base combinado
-         const meta = getAttributeMetadata(type);
          entity.attributes[type] = {
            base: value,
            base_flat: 0,
@@ -95,7 +93,6 @@ export class StaticHydrator {
            total_flat: 0,
            multiplicative: 1.0,
            final: value,
-           ...meta
          };
       });
       
@@ -152,10 +149,10 @@ export class StaticHydrator {
     const base_attributes = dna.profiles ? (dna.profiles[profile_id] || dna.profiles["base"] || {}) : {};
     
     Object.entries(base_attributes).forEach(([id, value]) => {
-      // Solo crean AttributeNode los tokens D-6 válidos y los attrs de daño (Fase 2 pendiente).
-      // Datos puros como reload_time quedan en innate_dna.profiles — no acumulan modificadores.
-      if (!isUpgrade(id) && id !== 'WEAPON_ADD_DAMAGE') return;
-      const meta = getAttributeMetadata(id);
+      // Solo crean AttributeNode los tokens D-6 válidos (WEAPON_ADD_DAMAGE incluido en
+      // el vocabulario Upgrade). Datos puros como reload_time quedan en innate_dna.profiles
+      // — no acumulan modificadores.
+      if (!isUpgrade(id)) return;
       attributes[id] = {
         base: value,
         base_flat: 0,
@@ -164,7 +161,6 @@ export class StaticHydrator {
         total_flat: 0,
         multiplicative: 1.0,
         final: value,
-        ...meta
       };
     });
 
@@ -172,11 +168,9 @@ export class StaticHydrator {
     // gap del engine — no es ley universal). Un warframe no tiene nodo de daño de arma.
     const isWarframe = dna.kind === 'warframe';
     if (!isWarframe && !attributes["WEAPON_ADD_DAMAGE"]) {
-       const meta = getAttributeMetadata("WEAPON_ADD_DAMAGE");
        attributes["WEAPON_ADD_DAMAGE"] = {
           base: 100, // 100% baseline
           base_flat: 0, base_add_pct: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
-          ...meta
        };
     }
 

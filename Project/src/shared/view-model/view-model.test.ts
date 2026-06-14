@@ -3,21 +3,23 @@
  *
  * No re-verifica los números del motor (eso lo hace laetum.test). Verifica la
  * PROYECCIÓN: que el cut C→D es fiel a `snapshot()` — value = node.final, unit y
- * category viajan, NO se filtra ningún bucket interno, y las entidades quedan
- * ubicables por channel (la clave de lookup de la UI). Anclado a Laetum porque
- * ya es build verificada (pistola single + radial).
+ * category se adjuntan por lookup en el borde ([D-7 Fase 4] ya NO viajan en el nodo),
+ * NO se filtra ningún bucket interno, y las entidades quedan ubicables por channel
+ * (la clave de lookup de la UI). Anclado a Laetum porque ya es build verificada
+ * (pistola single + radial).
  */
 import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '@core/engine/fixtures/engine-data';
 import { consume } from '@core/engine/output/consume';
 import { laetum, LAETUM } from '@core/engine/fixtures/builds';
+import { getPresentationMeta } from '@lib/presentation/attribute-registry';
 import { project } from './index';
 
 loadEngineData();
 
 const BUCKET_KEYS = [
   'base', 'base_flat', 'base_add_pct', 'mods_add_pct',
-  'total_flat', 'multiplicative', 'final', 'label',
+  'total_flat', 'multiplicative', 'final',
 ];
 
 describe('project() — ViewModelContract fiel al snapshot (display-only / C1)', () => {
@@ -37,9 +39,10 @@ describe('project() — ViewModelContract fiel al snapshot (display-only / C1)',
       for (const [attrId, node] of Object.entries(entity.attributes)) {
         const stat = vmEntity!.stats.find((s) => s.id === attrId);
         expect(stat, `stat ausente: ${attrId}`).toBeTruthy();
+        const meta = getPresentationMeta(attrId);
         expect(stat!.value).toBe(node.final);
-        expect(stat!.unit).toBe(node.unit ?? '');
-        expect(stat!.category).toBe(node.category);
+        expect(stat!.unit).toBe(meta.unit);
+        expect(stat!.category).toBe(meta.category);
         for (const key of Object.keys(stat!)) {
           expect(BUCKET_KEYS, `bucket filtrado: ${key}`).not.toContain(key);
         }

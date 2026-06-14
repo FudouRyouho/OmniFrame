@@ -16,6 +16,7 @@
  */
 import type { SimulationEntity } from '@core/engine/contracts';
 import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
+import { getPresentationMeta } from '@lib/presentation/attribute-registry';
 
 export interface StatViewModel {
   /** Token del atributo (ej. `WEAPON_CRIT_CHANCE`). La label la compone i18n en el borde. */
@@ -46,7 +47,9 @@ export interface ViewModelContract {
 /**
  * Proyecta la salida nativa de C (`snapshot(): SimulationEntity[]`) al contrato
  * de display. Pura y total: tira los 6 buckets internos del nodo y queda el
- * `final` + unidad + categoría por entidad.
+ * `final` + unidad + categoría por entidad. [D-7 Fase 4] unit/category ya NO viajan
+ * en el nodo (el engine es puro) — se adjuntan acá por lookup keyed en el token,
+ * vía `lib/presentation`. La label sigue siendo del borde (i18n), no del contrato.
  */
 export function project(snapshot: SimulationEntity[]): ViewModelContract {
   return {
@@ -57,12 +60,15 @@ export function project(snapshot: SimulationEntity[]): ViewModelContract {
       domain: entity.domain,
       kind: entity.kind,
       family: entity.family,
-      stats: Object.entries(entity.attributes).map(([id, node]) => ({
-        id,
-        value: node.final,
-        unit: node.unit ?? '',
-        category: node.category,
-      })),
+      stats: Object.entries(entity.attributes).map(([id, node]) => {
+        const meta = getPresentationMeta(id);
+        return {
+          id,
+          value: node.final,
+          unit: meta.unit,
+          category: meta.category,
+        };
+      }),
     })),
   };
 }

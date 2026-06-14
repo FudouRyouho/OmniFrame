@@ -22,10 +22,9 @@ export interface AttributeNode {
   multiplicative: number;
   // Result
   final: number;
-  // Presentation Metadata
-  label?: string;
-  category?: 'primary' | 'offensive' | 'utility' | 'elemental';
-  unit?: '%' | 'x' | 's' | '';
+  // [D-7 Fase 4] La metadata de presentación (label/category/unit) NO vive en el
+  // nodo — es del borde C→D. project() la adjunta por lookup keyed en el token.
+  // Ver shared/view-model + lib/presentation/attribute-registry.
 }
 
 export interface EnemyStatusState {

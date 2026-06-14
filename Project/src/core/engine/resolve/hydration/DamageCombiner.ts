@@ -6,7 +6,7 @@
 import { ELEMENTAL_COMBINATIONS, PRIMARY_ELEMENTS } from "../../contracts/damage-logic";
 
 export interface ElementalMod {
-  type: string; // AttributeId (e.g. "damage_heat")
+  type: string; // AttributeId / token D-6 (e.g. "WEAPON_ADD_HEAT_DAMAGE")
   percentage: number; // e.g. 90 for +90%
   index: number;
 }
