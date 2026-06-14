@@ -5,7 +5,7 @@ Version: "v0.31.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-06-13"
+Fecha_de_actualizacion: "2026-06-14"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -333,7 +333,7 @@ Mapa del borde:
 - **`lib/presentation/attribute-registry.ts`** — registro keyed por **id de engine** con `label+unit+category`. Semilla natural del proyector engine→display, pero **mal cableado** (ver leak abajo).
 
 Tres tells de duplicación (espejo de OQ-DATA-9):
-1. **Tres vocabularios de label** para el mismo concepto (stat → label+unit): `i18n/stat-labels` (ruta catálogo), `presentation/attribute-registry` (ids de engine), e inline en `UpgradeView`. Ninguno es el SSoT.
+1. **Tres vocabularios de label** para el mismo concepto (stat → label+unit): `i18n/stat-labels` (ruta catálogo), `presentation/attribute-registry` (ids de engine), e inline en `UpgradeView`. Ninguno es el SSoT. **Afilado 2026-06-14 (trazo de `crit chance`, ver OQ-ENGINE-10):** el eje real no es "3 tablas sin SSoT" sino que **el SSoT semántico SÍ existe** (`upgrade-tokens.md`/D-6, consumido por C\*) y el plano `lib/*` **no lo consume** — nació antes del SSoT y mantiene vocabularios humanos pre-canónicos (`critical_chance`/`crit_chance`). Corolario verificado: `attribute-registry` está keyed por nombres humanos, no por los tokens `WEAPON_ADD_*` que el motor emite → el leak β `StaticHydrator→lib/presentation` **cae al fallback en silencio** (crit chance sale sin `%`, category `utility`). El fix de fondo es **re-keyar el registro por los tokens D-6 + derivar label/unit del SSoT semántico**, no acuñar una cuarta tabla.
 2. **Cuatro convenciones de formateo numérico** simultáneas → *drift visible en el número*, no solo en el código: `item-details` (`Intl es-ES`, 2 frac) vs `WeaponDetailView` (`toFixed(0/1/2)` inline, mismos stats) vs `WarframeDetailView` (`Intl es-ES` inline; los warframes no existen en item-details) vs `UpgradeView` (`toFixed(1)`). Incoherencia extra: labels en inglés + números en locale `es-ES`.
 3. **`hydrateAttributeRegistry()`** (rotulado "Pipeline SSoT futuro", cargaría `/data/engine/attribute-registry.json`) **nunca se invoca** — gemelo literal de `DataLoader.init` nunca llamado en el bootstrap (OQ-DATA-9).
 4. **Dependencia invertida (leak β-análogo):** `StaticHydrator.ts:15` (¡el engine, C1!) importa `getAttributeMetadata` de `lib/presentation`. El registro `@domain Presentation` lo consume *el engine* para hidratar, mientras el formateador de la salida del engine (`UpgradeView`) lo ignora. La pieza que debería proyectar la salida del engine está enchufada al revés.
@@ -343,7 +343,7 @@ Tres tells de duplicación (espejo de OQ-DATA-9):
 **Sub-decisiones abiertas (el mapa está; la ejecución y la priorización no — igual que DATA-9):**
 - **Proyector engine→display:** ¿`attribute-registry` (keyed por id de engine, con `unit`) es la semilla del proyector que `UpgradeView` debería consumir? Desenchufar el leak `StaticHydrator → lib/presentation` (el engine no debe depender de un registro de presentación).
 - **Convención única de formateo numérico:** colapsar las 4 variantes (`toFixed` vs `Intl`, locale `es-ES` vs labels en inglés) a una sola. ¿Dónde vive — en el proyector, no en el componente?
-- **SSoT de label+unit por stat:** ¿cuál de los 3 vocabularios es la fuente y los demás derivan? ¿`stat-labels` (catálogo) y `attribute-registry` (engine) convergen o cubren dos espacios de id distintos?
+- **SSoT de label+unit por stat:** ¿cuál de los 3 vocabularios es la fuente y los demás derivan? ¿`stat-labels` (catálogo) y `attribute-registry` (engine) convergen o cubren dos espacios de id distintos? **Dirección (2026-06-14):** ninguno de los 3 es fuente — la fuente es el vocabulario canónico `Upgrade` (D-7). El dict de presentación se cuelga de él (`Record<Upgrade, PresentationMeta>`, exhaustivo). Se **ejecuta como Fase 4 de D-7** (ver [`../data/decisions.md`](../data/decisions.md) §D-7, camino A elegido). `attribute-registry` está keyed por nombres pre-Fase-1 → relic; `stat-labels` es la ruta catálogo (espacio de id distinto, no engine).
 
 **Drift detectado (registrado; cerrar en la fase de construcción):**
 - `hydrateAttributeRegistry()` muerto (nunca llamado).
@@ -566,12 +566,12 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 **Ruido abierto del usuario (concern legítimo):** partir el consumo de `lib/format` entre D2 y E, ¿no recrea **islas de formateo** (lo que `lib/*` busca evitar)? **Antídoto:** el estrato 2 debe ser **suite única (SSoT), llamada por ambas ramas**, no reimplementada — exactamente el trabajo inconcluso de OQ-DATA-10. El split D/E **no agrega** isla *si y solo si* lib/format es single-source. No rompe contratos (lib/* ya es shared legal por Restricción 1).
 
 **Pendiente de estresar (sesión limpia):**
-- Trazar un **caso real** por los 3 estratos (fila de stat de arma `crit chance` + nodo de habilidad texto+icono): qué produce D, qué agrega lib/format, qué incrusta E.
+- ✅ ~~Trazar un **caso real** por los 3 estratos~~ — **HECHO 2026-06-14** (`crit chance` de arma + nodo de habilidad). Mapa persistido en [`../domains/ui-ux/presentation-layer.md`](../domains/ui-ux/presentation-layer.md) (v0.1.0, reescrito). **Hallazgos verificados:** (1) la **ruta info** ya entrega contrato neutro limpio — `StatViewModel` (`shared/view-model/index.ts`) es exactamente `token·value·unit`; el cuello NO es D sino el estrato de formateo. (2) **El plano `lib/*` no consume el SSoT semántico** (`upgrade-tokens.md`/D-6): tiene 3 tablas keyed por nombres humanos pre-SSoT (`critical_chance`/`crit_chance`), ninguna es fuente — *este es el eje real de OQ-DATA-10, ahora afilado*. (3) **El leak β está roto**, no solo feo: `StaticHydrator:158` llama `getAttributeMetadata("WEAPON_ADD_CRIT_CHANCE")` pero `attribute-registry` está keyed por `"critical_chance"` → cae al fallback (unit `""`, category `utility`) → crit chance se muestra **sin `%`**. (4) **ruta chrome** (nodo de habilidad ícono+nombre) no toca C/D — `0→UI` directo (confirma la confluencia de 2 entradas). (5) el **estado UI-local** no participa del flujo del dato: es selector de qué proyectar, ortogonal.
 - Ubicar el **estado efímero de UI** (OQ-UI-2: slot seleccionado, hover, nav) en el diagrama — *no* pasa por E (es React-state legítimo); ¿dónde entra?
 - Contrastar con la **realidad del proyecto** + los huecos que el usuario debe aportar (la UI "definida a medias").
 
 **No bloquea:** nada (la UI renderiza; D/E hoy conflados ad-hoc en los componentes). **Gated por:** function-first — *modelar* ahora, *construir* E difiere con OQ-DATA-10.
-**Vínculo:** **OQ-DATA-10** (borde de salida / suite = estrato 2 + sumidero de E), **OQ-ENGINE-8** (renombre del payload de D), **OQ-ENGINE-FUTURE** (resuelve "consumer-shaped vs compartido"), **OQ-DATA-9** (par espejo: 0 = borde de entrada), **OQ-UI-2** (estado efímero, sin ubicar), **OQ-ENGINE-9** (estructura de `@core` donde aterrizarían D/E).
+**Vínculo:** **OQ-DATA-10** (borde de salida / suite = estrato 2 + sumidero de E), **OQ-ENGINE-8** (renombre del payload de D), **OQ-ENGINE-FUTURE** (resuelve "consumer-shaped vs compartido"), **OQ-DATA-9** (par espejo: 0 = borde de entrada), **OQ-UI-2** (estado efímero, sin ubicar), **OQ-ENGINE-9** (estructura de `@core` donde aterrizarían D/E). **D-7** ([`../data/decisions.md`](../data/decisions.md) §D-7) = **mecanismo del estrato `lib/format`**: el dict de presentación se cuelga del vocabulario canónico `Upgrade`; lo construye la **Fase 4 de D-7** (camino A, en ejecución). El estrato `lib/format` no se puede unificar limpio hasta que D-7 deje un solo espacio de id (token == nodo) de C a la UI.
 **Cierres parciales (2026-06-13, debate de iteración):**
 - **`lib/*` = suite de utilidad, no estrato del flujo** → `DC-OQ-ENGINE-10-A`. Corrige el diagrama (el estrato 2 no es eslabón; es plano de utilidad ortogonal, espejo de `0`). Disuelve el "ruido abierto" de las islas.
 - **Stub honesto** (`DC-OQ-STUB-1`) y **UI no es spec del flujo** (`DC-OQ-UI-SPEC-1`) — principios ratificados que enmarcan la purga de `metadata` y el re-enfoque de la UI.
