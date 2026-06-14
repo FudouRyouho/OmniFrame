@@ -24,7 +24,7 @@ export interface AttributeNode {
   final: number;
   // [D-7 Fase 4] La metadata de presentación (label/category/unit) NO vive en el
   // nodo — es del borde C→D. project() la adjunta por lookup keyed en el token.
-  // Ver shared/view-model + lib/presentation/attribute-registry.
+  // Ver shared/view-model + lib/format/stat-presentation.
 }
 
 export interface EnemyStatusState {

@@ -12,7 +12,7 @@ import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '@core/engine/fixtures/engine-data';
 import { consume } from '@core/engine/output/consume';
 import { laetum, LAETUM } from '@core/engine/fixtures/builds';
-import { getPresentationMeta } from '@lib/presentation/attribute-registry';
+import { getPresentationMeta } from '@lib/format/stat-presentation';
 import { project } from './index';
 
 loadEngineData();

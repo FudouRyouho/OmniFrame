@@ -16,7 +16,7 @@
  */
 import type { SimulationEntity } from '@core/engine/contracts';
 import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
-import { getPresentationMeta } from '@lib/presentation/attribute-registry';
+import { getPresentationMeta } from '@lib/format/stat-presentation';
 
 export interface StatViewModel {
   /** Token del atributo (ej. `WEAPON_CRIT_CHANCE`). La label la compone i18n en el borde. */
