@@ -10,12 +10,13 @@
  * correctos para las armas con multishot innato en perfiles alternativos.
  */
 import { loadEngineData } from '../fixtures/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import weaponsData        from '../../../../public/data/weapons.json';
 import weaponStatsOverride from '../../../../public/data/weapon-stats.override.json';
 import { describe, it, expect } from 'vitest';
 import { ItemRepository }  from '../resolve/hydration/ItemRepository';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 const IDS = {
   FELARX:       '/Lotus/Weapons/Tenno/Zariman/LongGuns/PumpShotgun/ZarimanPumpShotgun',

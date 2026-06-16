@@ -20,12 +20,13 @@
  * Sin argumento → `lanka` (crudo).
  */
 import { loadEngineData } from '@core/engine/fixtures/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { BUILDS } from '@core/engine/fixtures/builds';
 import { consume } from '@core/engine/output/consume';
 import { project } from '@shared/view-model';
 import { toStatEntries } from '@lib/format/stat-entry';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 const isView = process.argv[2] === 'view';
 const arg = (isView ? process.argv[3] : process.argv[2]) ?? 'lanka';

@@ -9,12 +9,13 @@
  */
 import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '@core/engine/fixtures/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { consume } from '@core/engine/output/consume';
 import { laetum, LAETUM } from '@core/engine/fixtures/builds';
 import { project } from '@shared/view-model';
 import { toStatEntries, formatStatValue } from './stat-entry';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 describe('formatStatValue — tabla unit→regla (locale-free)', () => {
   it('% → 1 decimal + %', () => {

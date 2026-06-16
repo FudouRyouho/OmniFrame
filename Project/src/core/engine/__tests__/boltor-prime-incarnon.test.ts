@@ -10,11 +10,12 @@
  * Boltor Prime Incarnon Form base:  Impact 2.4, Slash 14.4, Puncture 7.2 → 24 | CC 24%, CM 3×, SC 20%
  */
 import { loadEngineData } from '../fixtures/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { boltor, BOLTOR_PRIME, SERRATION } from '../fixtures/builds';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 /** Atajo: resuelve una intención y devuelve la sonda del arma. */
 const probe = (opts: Parameters<typeof boltor>[0] = {}) =>

@@ -11,11 +11,12 @@
  * Valores verificados contra el motor vía `npm run oracle -- rhino` antes de asertar (no inventados).
  */
 import { loadEngineData } from '../fixtures/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { rhino, RHINO } from '../fixtures/builds';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 const wf = () => consume(rhino(), { flags: {} }).weapon(RHINO);
 

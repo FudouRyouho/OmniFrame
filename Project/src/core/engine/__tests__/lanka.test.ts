@@ -19,11 +19,12 @@
  * Ref: references/wiki/mechanics/punch-through.md
  */
 import { loadEngineData } from '../fixtures/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { lanka, LANKA } from '../fixtures/builds';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 const charged   = () => consume(lanka('charged_shot'), { flags: {} }).weapon(LANKA);
 const partially = () => consume(lanka('partially_charged_shot'), { flags: {} }).weapon(LANKA);

@@ -10,12 +10,13 @@
  */
 import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '@core/engine/fixtures/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { consume } from '@core/engine/output/consume';
 import { laetum, LAETUM } from '@core/engine/fixtures/builds';
 import { getPresentationMeta } from '@lib/format/stat-presentation';
 import { project } from './index';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 const BUCKET_KEYS = [
   'base', 'base_flat', 'base_add_pct', 'mods_add_pct',

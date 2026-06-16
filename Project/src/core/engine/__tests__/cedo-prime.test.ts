@@ -26,11 +26,12 @@
  * sin mapear (pendiente D-6) → el status NO sube en modo estático. Ver el test de status.
  */
 import { loadEngineData } from '../fixtures/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { cedo, CEDO_PRIME } from '../fixtures/builds';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 /** Modo base: flags vacías, ninguna condición activa. */
 const base = (withGH = false) => consume(cedo(withGH), { flags: {} }).weapon(CEDO_PRIME);
