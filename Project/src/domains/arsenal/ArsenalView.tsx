@@ -418,7 +418,6 @@ export default function ArsenalView() {
         const itemIntention = intention.items[config.channel];
         if (itemIntention?.itemId) {
           try {
-             console.log(`[ArsenalView] Hydrating slot ${slotId} with ${itemIntention.itemId}...`);
              const item = await Registry.getItemById(config.domain, itemIntention.itemId);
              if (item) {
                newHydration[slotId] = item;
