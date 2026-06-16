@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Mapa de durabilidad del corpus docs/ + criterio de archivado + registro de la campaña de saneamiento"
-Version: "v0.2.0"
+Version: "v0.3.0"
 Impacto_ID: "G-DocMap"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-06-06"
-Fecha_de_actualizacion: "2026-06-10"
+Fecha_de_actualizacion: "2026-06-14"
 ---
 
 # Doc Map — durabilidad del corpus y saneamiento
@@ -122,3 +122,38 @@ para no perder precisión. Las secciones "Mapeo a tokens D-6" se **borran** de `
 **Follow-up menor (no parte del mandato del subdir `wiki/`):** `docs/data/references/status-chance-mechanics.md` está en ubicación válida (derivado con vocablo, **no** bajo `wiki/`), pero su parte de mecánica per-pellet (status chance per-pellet, procs/disparo) es wiki pura que podría extraerse a `references/wiki/mechanics/status-chance.md`. No se tocó hoy. `docs/data/references/` queda con 4 derivados legítimos: `canonical-sources`, `set-mods`, `status-chance-mechanics`, `warframe-items-source`.
 
 **Regla establecida (durable):** todo `.md` nuevo en `references/wiki/` debe ser wiki pura — si se escribe con vocablo del proyecto (tokens, ops, `engine vN`, `D-N`, `OQ-*`, refs `.ts`), es un **flag a notificar y corregir**.
+
+---
+
+## 6. Campaña de documentación de UI (2026-06-14 – 2026-06-16, PASO 4 EN CURSO)
+
+**Origen:** la UI nunca tuvo su corpus de docs/auditoría como sí lo tuvieron `data/`/engine
+(asimetría: `docs/semantic/` pesa más que **todo** `docs/domains/ui-ux/`; de los 6 docs ui-ux,
+4 estaban stale 2 meses, sin `status.md`/`decisions.md`/`workflow.md` ni mecanismo de auditoría).
+Esa pausa de docs **generó el drift** (islas de datos, providers anclados, toolbars con state
+desacoplado, dead-code, tareas "parciales" completas). La campaña corre la UI por el mismo loop
+de auditoría que recibió la data. Hallazgo de fondo destapado en Pre-E (2026-06-14).
+
+**Espina (decidida en Stage 0):** **DOMINIO + 2 ejes ortogonales como lente** — ver
+[`../domains/ui-ux/decisions.md`](../domains/ui-ux/decisions.md) `U-1`. Rechazadas PROVIDER
+(un solo eje) y VIEW (loop + consagra stub).
+
+**Flujo (durable):** [`../domains/ui-ux/workflow.md`](../domains/ui-ux/workflow.md) — loop por
+dominio Recon→Triage→Document, checkpoints C0 (ESTABLE vs STUB) / C1 (RED gate) / traceability.
+Construir = **fuera del mandato** (`U-2`). Ledger de decisiones = serie **U-N** propia, espejo
+de la D-series.
+
+**Diferencia con la campaña de saneamiento (§3–5):** aquélla fue mecánica/contraste sobre el
+corpus existente; ésta **audita código↔docs por dominio** y produce el corpus que faltaba.
+
+| Stage | Resultado | Estado |
+|---|---|---|
+| **Stage 0 — establecer el flujo (DEBATE, sin leer código)** | Espina fijada (`U-1`), trío operativo mandado (`U-2`), `workflow.md` + `decisions.md` creados, serie U-N nacida, hogar split (flujo→workflow.md, registro→aquí). | ✅ |
+| **6 barridos por dominio** (arsenal/equipment/hud/menu-shell/profile/shared + concern-bucket *filtros*) | Inventario completo (`.working/ui-audit.md`); cleanups dead-code-0-consumidor ejecutados (`configSlot`, `MenuBar`, abstracción `routes`, `providers/Arsenal/`). | ✅ |
+| **Cruce de consolidación (paso 3)** | Todo el volumen cruzado en escenarios (`.working/consolidation-map.md`): grafo Track1/Track2, M1 reencuadrado (no cimiento ausente), §E = inventario de deshonestidad; coherence pass map↔docs↔código **sin alarmas**. | ✅ |
+| **Bajar a docs (paso 4)** | `decisions.md` `U-3` (3-ejes `SLOT_DEFINITIONS`) + `U-4` (honestidad UI) · `OQ-ENGINE-11` (exaltadas) · `current-state` [2026-06-16] + gap multi-config · **`ui-ux/status.md` creado** (trío completo) · `shell-status.md` plegado · barrido M6 (comentarios stale). | 🟡 En curso (Pasada D) |
+
+**Pendiente próximo:** cerrar Pasada D (re-apuntar `@SSoT` mispointers a `status.md` *al tocar cada
+archivo* + purgar `.working`). Aparte y **gateado** (construir = fuera del mandato, `U-2`): los refactors
+capturados (E1 dedup de filtros, E4 mover hooks a `@shared`, hook de hidratación compartido, cablear
+ability-popover) y el prototipo de exaltadas (`OQ-ENGINE-11`).
