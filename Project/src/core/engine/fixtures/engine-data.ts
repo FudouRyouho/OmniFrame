@@ -2,8 +2,8 @@
  * Bootstrap de datos del engine — ahora detrás del seam del puerto "0" (DataSource).
  *
  * `loadEngineData(source)` es agnóstico al runtime: recibe el adapter inyectado
- * (NodeAdapter en tests/CLI, StaticAdapter/BrowserAdapter en main.tsx) y NO importa
- * ninguno concreto — así `node:fs` nunca entra al grafo del browser. Lee los 7
+ * (NodeAdapter en tests/CLI, BrowserAdapter en main.tsx) y NO importa ninguno
+ * concreto — así `node:fs` nunca entra al grafo del browser. Lee los 7
  * datasets por el seam y los entrega a `DataLoader.init` (que sigue síncrono).
  *
  * Ubicación provisional (`fixtures/` mezcla bootstrap + intenciones) — ver OQ-ENGINE-9.
