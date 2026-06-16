@@ -4,7 +4,6 @@ import type {
   EntityId,
   AttributeId,
   SimulationContext,
-  ProjectionSnapshot,
   AuditResponse,
   AuditStep
 } from "../contracts";
@@ -25,10 +24,6 @@ export class SimulationEngine {
 
   public addModifier(modifier: Modifier): void {
     this.modifiers.push(modifier);
-  }
-
-  public getAuditSession(): Map<string, AuditStep[]> {
-    return this.audit_session;
   }
 
   /**
@@ -226,25 +221,6 @@ export class SimulationEngine {
       entity_id: entityId,
       attribute_id: attributeId,
       trace: this.audit_session.get(`${entityId}:${attributeId}`) || []
-    };
-  }
-
-  public getProjectionSnapshot(): ProjectionSnapshot {
-    const entities: Record<EntityId, Record<AttributeId, number>> = {};
-    
-    this.entities.forEach((entity, id) => {
-      entities[id] = {};
-      Object.entries(entity.attributes).forEach(([attrId, node]) => {
-        entities[id][attrId] = node.final;
-      });
-    });
-
-    return {
-      timestamp: Date.now(),
-      entities,
-      metrics: {
-        status_weights: {} // TODO: Implement status weighting logic
-      }
     };
   }
 

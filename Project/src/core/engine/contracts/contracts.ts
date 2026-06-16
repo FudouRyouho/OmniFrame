@@ -46,17 +46,6 @@ export interface SimulationContext {
   };
 }
 
-// UI Projection Layers
-export interface ProjectionSnapshot {
-  timestamp: number;
-  entities: Record<EntityId, Record<AttributeId, number>>;
-  metrics: {
-    ttk?: number;
-    effective_dps?: number;
-    status_weights: Record<string, number>;
-  };
-}
-
 export interface AuditStep {
   pass: number;
   source: string;
