@@ -31,7 +31,7 @@ export class StatusEngine {
     // Ley: 35% del daño base modificado
     const damage_per_tick = 0.35 * (innate_total * (base_damage_node.final / 100)) * avg_crit_mult * faction_mult;
 
-    return { type: "damage_slash_proc", damage_per_tick, duration: 6, ticks: 7 };
+    return { type: "damage_slash_dot", damage_per_tick, duration: 6, ticks: 7 };
   }
 
   public static projectHeatTick(weapon: SimulationEntity, avg_crit_mult: number): StatusEffectProjection {
@@ -48,7 +48,7 @@ export class StatusEngine {
     const heat_power = (element_node?.final || 0) / (element_node?.base || 1);
     const damage_per_tick = 0.5 * innate_total * heat_power * avg_crit_mult * faction_mult;
 
-    return { type: "damage_heat_proc", damage_per_tick, duration: 6, ticks: 7 };
+    return { type: "damage_heat_dot", damage_per_tick, duration: 6, ticks: 7 };
   }
 
   public static projectToxinTick(weapon: SimulationEntity, avg_crit_mult: number): StatusEffectProjection {
@@ -63,7 +63,7 @@ export class StatusEngine {
     const toxin_power = (element_node?.final || 0) / (element_node?.base || 1);
     const damage_per_tick = 0.5 * innate_total * toxin_power * avg_crit_mult * faction_mult;
 
-    return { type: "damage_toxin_proc", damage_per_tick, duration: 6, ticks: 7 };
+    return { type: "damage_toxin_dot", damage_per_tick, duration: 6, ticks: 7 };
   }
 
   private static calculateInnateTotal(entity: SimulationEntity): number {

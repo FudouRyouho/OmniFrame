@@ -7,7 +7,7 @@ import { CombatCalculator } from "./CombatCalculator";
 import { CombatSimulator } from "./CombatSimulator";
 import { EnemyState } from "../enemies/EnemyState";
 import type { ScaledEnemy } from "../enemies/EnemyRepository";
-import { isWeaponDamageToken, DAMAGE_ATTR_TO_PROC_KEY } from "../../contracts/damage-logic";
+import { isWeaponDamageToken, DAMAGE_ATTR_TO_DOT_KEY } from "../../contracts/damage-logic";
 
 export interface TimelineEvent {
   time: number;
@@ -95,12 +95,12 @@ export class TimelineSimulator {
 
         // Aplicar Stacks y Potencia DoT
         Object.entries(metrics.status_map).forEach(([attrType, prob]) => {
-          const procType = DAMAGE_ATTR_TO_PROC_KEY[attrType];
-          if (!procType) return;
+          const dotKey = DAMAGE_ATTR_TO_DOT_KEY[attrType];
+          if (!dotKey) return;
           const amount = prob * pellets;
-          const projection = metrics.status_projections.find(p => p.type === procType);
+          const projection = metrics.status_projections.find(p => p.type === dotKey);
           const dotPower = projection ? projection.damage_per_tick : 0;
-          state.addStacks(procType, amount, currentTime, dotPower);
+          state.addStacks(dotKey, amount, currentTime, dotPower);
         });
       }
 

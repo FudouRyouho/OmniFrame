@@ -52,14 +52,18 @@ export function isWeaponDamageToken(value: string): boolean {
   return _DAMAGE_TOKEN_SET.has(value);
 }
 
-// Bridge: D-6 damage attr → runtime proc key usado por EnemyState.
-// EnemyState usa identificadores legacy (damage_*_proc) — vocabulario de runtime independiente.
-// Deuda Fase 3: renombrar claves de EnemyState.stacks / dot_pools.
-export const DAMAGE_ATTR_TO_PROC_KEY: Record<string, string> = {
-  'WEAPON_ADD_SLASH_DAMAGE':     'damage_slash_proc',
-  'WEAPON_ADD_HEAT_DAMAGE':      'damage_heat_proc',
-  'WEAPON_ADD_TOXIN_DAMAGE':     'damage_toxin_proc',
-  'WEAPON_ADD_CORROSIVE_DAMAGE': 'damage_corrosive_proc',
-  'WEAPON_ADD_VIRAL_DAMAGE':     'damage_viral_proc',
-  'WEAPON_ADD_MAGNETIC_DAMAGE':  'damage_magnetic_proc',
+// Bridge: D-6 damage attr → clave de dot_pools/stacks usada por EnemyState.
+// Renombrado en Fase 3 (campaña saneamiento @core): el sufijo `_proc` era jerga
+// interna del juego source, no comunicaba nada — pasa a `_dot` (coincide con el
+// nombre del campo `dot_pools` que consume). `addStacks()` deriva la clave de
+// `stacks` (sin sufijo) quitando `_dot`; solo Heat existe en ambos diccionarios
+// (armor-ramp en `stacks` + burn tick en `dot_pools`, mecánicas distintas que
+// comparten tipo de daño — no un error, ver EnemyState.addStacks).
+export const DAMAGE_ATTR_TO_DOT_KEY: Record<string, string> = {
+  'WEAPON_ADD_SLASH_DAMAGE':     'damage_slash_dot',
+  'WEAPON_ADD_HEAT_DAMAGE':      'damage_heat_dot',
+  'WEAPON_ADD_TOXIN_DAMAGE':     'damage_toxin_dot',
+  'WEAPON_ADD_CORROSIVE_DAMAGE': 'damage_corrosive_dot',
+  'WEAPON_ADD_VIRAL_DAMAGE':     'damage_viral_dot',
+  'WEAPON_ADD_MAGNETIC_DAMAGE':  'damage_magnetic_dot',
 };

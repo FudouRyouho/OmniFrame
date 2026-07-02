@@ -152,7 +152,7 @@ Bloqueado por:
 
 - `EnemyState`, `EnemyRepository` — correctos, fuera de scope
 - `SimulationEngine` — correcto; `calculateCurrentValue()` se refina en Fase 2 cuando haya SSoT estable
-- Vocabulary de `EnemyState` proc identifiers (`damage_slash_proc`, etc.) — es D-7 Fase 3
+- ~~Vocabulary de `EnemyState` proc identifiers (`damage_slash_proc`, etc.) — es D-7 Fase 3~~ — **corregido (2026-07-02):** NO era D-7 (ver `data/decisions.md` N2, que ya marcaba esta atribución como colisión de nombre). Renombrado `_proc`→`_dot` + bug de `getDamageMultiplier` corregido en la Fase 3 de la campaña de saneamiento `@core` (distinta de la Fase 3 de D-7/UPGRADE_MAP) — ver `governance/current-state.md`.
 
 ---
 

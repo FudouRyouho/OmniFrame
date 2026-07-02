@@ -90,11 +90,12 @@ export class CombatSimulator {
     const hasShields = targetState.current_shields > 0;
 
     Object.entries(damageMap).forEach(([type, damage]) => {
-      const stateMultiplier = targetState.getDamageMultiplier(type);
-      
       // 1. ¿A qué capa golpea este tipo de daño?
       const isBypassingShields = type === 'WEAPON_ADD_TOXIN_DAMAGE';
       const hitsShields = hasShields && !isBypassingShields;
+
+      // Multiplicador de stacks de status de la capa golpeada (Magnetic→shields, Viral→salud).
+      const stateMultiplier = targetState.getDamageMultiplier(hitsShields);
 
       // 2. Obtener Eficiencias según la capa
       let layerEfficiency = 0;

@@ -28,14 +28,14 @@ export class EnemyState {
       damage_magnetic: 0
     };
     this.dot_pools = {
-      damage_slash_proc: 0,
-      damage_heat_proc: 0,
-      damage_toxin_proc: 0
+      damage_slash_dot: 0,
+      damage_heat_dot: 0,
+      damage_toxin_dot: 0
     };
   }
 
   public addStacks(type: string, amount: number, currentTime: number = 0, dotPower: number = 0) {
-    const stackKey = type.replace('_proc', '') as keyof EnemyStatusState;
+    const stackKey = type.replace('_dot', '') as keyof EnemyStatusState;
     if (stackKey in this.stacks) {
       if (stackKey === 'damage_heat' && this.stacks.damage_heat === 0 && amount > 0) {
         this.heat_first_proc_time = currentTime;
@@ -60,7 +60,7 @@ export class EnemyState {
       if (dps <= 0) return;
       let damageDealt = dps * dt;
 
-      if (type === 'damage_toxin_proc') {
+      if (type === 'damage_toxin_dot') {
         this.current_health -= damageDealt;
       } else {
         if (this.current_shields > 0) {
@@ -87,11 +87,19 @@ export class EnemyState {
     return Object.values(this.stacks).filter(s => (s as number) > 0).length;
   }
 
-  public getDamageMultiplier(damageId: string): number {
-    if (damageId === 'damage_viral' || damageId === 'damage_magnetic') return 1.0;
-
-    const currentStacks = damageId === 'damage_magnetic' ? this.stacks.damage_magnetic : 
-                         (damageId === 'damage_viral' ? this.stacks.damage_viral : 0);
+  /**
+   * Multiplicador de daño por stacks de status en la capa golpeada. Magnetic
+   * multiplica shields (y overguard); Viral multiplica salud (health layer
+   * únicamente, no shields) — a TODO el daño de esa capa, no solo al del mismo
+   * tipo elemental. Ver references/wiki/mechanics/status-effects.md §Infection/Disruption.
+   *
+   * Bug corregido (Fase 3): antes comparaba `damageId` (un token D-6 como
+   * `WEAPON_ADD_VIRAL_DAMAGE`) contra los strings legacy `'damage_viral'`/
+   * `'damage_magnetic'` — nunca matcheaba, el multiplicador quedaba inerte en
+   * la resolución de combate real. Sin cobertura de test previa (C2 sin probar).
+   */
+  public getDamageMultiplier(hitsShields: boolean): number {
+    const currentStacks = hitsShields ? this.stacks.damage_magnetic : this.stacks.damage_viral;
 
     if (currentStacks > 0) {
       // Ley Dinámica: Bonus = Initial + (Stacks-1) * Stack_Bonus
