@@ -26,7 +26,15 @@ export class ItemRepository {
   public static getDNA(uniqueName: string): MutatedDNA | null {
     const raw = this.items.get(uniqueName);
     if (!raw) return null;
+    return this.normalize(raw);
+  }
 
+  /**
+   * Merge raw→DNA: combina `attacks[]` + overrides + fallback en los perfiles
+   * finales. Extraído de `getDNA` (Fase 2 Slice B) para separar "qué item busco"
+   * (lookup en `items`) de "cómo lo normalizo" (transform puro sobre el raw).
+   */
+  private static normalize(raw: any): MutatedDNA {
     const profiles: Record<string, Record<string, number>> = {};
 
     // Warframe: stats base de avatar (no tiene ataques). El raw expone health/shield/armor/
