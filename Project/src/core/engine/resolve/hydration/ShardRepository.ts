@@ -2,7 +2,7 @@
  * @domain Engine / Hydration
  * @status en-desarrollo
  */
-import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
+import { resolveUpgradeEntry } from "@shared/types/modifier";
 import type { ModifierOperation } from "@shared/types/modifier";
 
 export interface ShardResolution {
@@ -34,11 +34,7 @@ export class ShardRepository {
     if (!shardEntry) return null;
 
     const stat = (shardEntry.stats as any[])?.find((s: any) => s.id === statId);
-    if (!stat?.upgrade_type) return null;
-    const upgradeType: string = stat.upgrade_type;
-    if (!isUpgrade(upgradeType)) return null;
-
-    const entry = UPGRADE_MAP[upgradeType] ?? resolveToken(upgradeType);
+    const entry = resolveUpgradeEntry(stat?.upgrade_type);
     if (!entry) return null;
 
     const rawValue = Array.isArray(stat.value) ? stat.value[isTau ? 1 : 0] : stat.value;

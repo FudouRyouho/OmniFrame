@@ -4,7 +4,7 @@
  */
 import type { Modifier, EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
-import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
+import { resolveUpgradeEntry } from "@shared/types/modifier";
 
 type PerkModifierRaw = {
   upgrade_type: string | null;
@@ -76,9 +76,7 @@ export class IncarnonRepository {
         if (!rawMod.upgrade_type) return;
 
         const token = rawMod.upgrade_type;
-        const upgradeEntry = isUpgrade(token)
-          ? (UPGRADE_MAP[token] ?? resolveToken(token))
-          : undefined;
+        const upgradeEntry = resolveUpgradeEntry(token);
 
         if (!upgradeEntry) {
           console.warn(`[Incarnon] upgrade_type sin mapeo: ${token} (${uniqueName})`);

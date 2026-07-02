@@ -16,7 +16,7 @@
  */
 import type { Modifier, EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
-import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
+import { resolveUpgradeEntry } from "@shared/types/modifier";
 
 type ArcaneValueRaw = {
   base_value: number[] | null;
@@ -58,11 +58,11 @@ export class ArcaneRepository {
 
     entry.stats.forEach((stat, statIdx) => {
       stat.values.forEach((val, valIdx) => {
-        // Guarda 1: base_value null → stacking sin valor estático (familia Merciless, OQ-DATA-4).
-        // Guarda 2: upgrade_type null → sin token mapeado; se omite sin warning (como Incarnon).
-        if (!val.base_value || !val.upgrade_type || !isUpgrade(val.upgrade_type)) return;
+        // Guarda: base_value null → stacking sin valor estático (familia Merciless, OQ-DATA-4).
+        if (!val.base_value || !val.upgrade_type) return;
 
-        const upgradeEntry = UPGRADE_MAP[val.upgrade_type] ?? resolveToken(val.upgrade_type);
+        // Guarda: upgrade_type sin mapeo → se omite sin warning (como Incarnon).
+        const upgradeEntry = resolveUpgradeEntry(val.upgrade_type);
         if (!upgradeEntry) return;
 
         const idx = Math.max(0, Math.min(rank, val.base_value.length - 1));

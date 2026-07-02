@@ -4,7 +4,7 @@
  */
 import type { Modifier, EntityId } from "../../contracts";
 import type { ModStatRaw, ModStatValueRaw } from "../../contracts/mod-overrides";
-import { isUpgrade, UPGRADE_MAP, resolveToken } from "@shared/types/modifier";
+import { resolveUpgradeEntry } from "@shared/types/modifier";
 import { ItemRepository } from "./ItemRepository";
 
 export interface ModBlueprint {
@@ -40,24 +40,20 @@ export class ModRepository {
 
       (override.stats as ModStatRaw[]).forEach((stat: ModStatRaw) => {
         stat.values.forEach((val: ModStatValueRaw) => {
-          const entry = isUpgrade(val.upgrade_type)
-            ? (UPGRADE_MAP[val.upgrade_type] ?? resolveToken(val.upgrade_type))
-            : undefined;
-          const attrId = entry?.attr;
-          const operation: Modifier['operation'] = entry?.op ?? 'ADD';
+          const entry = resolveUpgradeEntry(val.upgrade_type);
 
-          if (attrId) {
+          if (entry) {
             const rawValue = Array.isArray(val.base_value)
               ? (val.base_value[rank] ?? val.base_value[val.base_value.length - 1])
               : val.base_value;
-            const value = entry?.toPercent ? (rawValue - 1) * 100 : rawValue;
+            const value = entry.toPercent ? (rawValue - 1) * 100 : rawValue;
 
             modifiers.push({
-              id: `override:${unique_name}:${attrId}`,
+              id: `override:${unique_name}:${entry.attr}`,
               target_entity: target_id,
-              target_channel: entry?.target_channel,
-              target_attribute: attrId,
-              operation,
+              target_channel: entry.target_channel,
+              target_attribute: entry.attr,
+              operation: entry.op,
               value,
               ...(stat.condition ? { condition: stat.condition } : {})
             });

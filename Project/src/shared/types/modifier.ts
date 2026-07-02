@@ -199,7 +199,8 @@ export function getUpgradeFamily(upgrade: Upgrade): UpgradeFamily {
 // las identidades (attr=token) y los acumuladores propios (FLAT/BASE que NO convergen);
 // UPGRADE_MAP retiene solo lo que la sintaxis NO deriva: aliases, flags y la
 // convergencia FLAT/BASE → nodo del par ADD.
-// Consumo en los 4 repos: `UPGRADE_MAP[token] ?? resolveToken(token)` (Mod/Arcane/Incarnon/Shard).
+// Consumo: `resolveUpgradeEntry(token)` (definida más abajo) — usada por los
+// 4 repos de hydration (Mod/Arcane/Incarnon/Shard).
 //
 // Tokens sin entrada = resueltos por `resolveToken` — no es un error de runtime.
 
@@ -276,4 +277,15 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
   AVATAR_FLAT_SHIELD_MAX:           { attr: 'AVATAR_ADD_SHIELD_MAX',            op: 'ADD_FLAT' },
   AVATAR_FLAT_ENERGY_MAX:           { attr: 'AVATAR_ADD_ENERGY_MAX',            op: 'ADD_FLAT' },
   AVATAR_FLAT_ARMOUR:               { attr: 'AVATAR_ADD_ARMOUR',                op: 'ADD_FLAT' },
+}
+
+// ─── resolveUpgradeEntry ──────────────────────────────────────────────────────
+// Encapsula el patrón `isUpgrade` guard + `UPGRADE_MAP[token] ?? resolveToken(token)`
+// que estaba duplicado literal en los 4 repos de hydration (Fase 2 Slice A,
+// campaña de saneamiento `@core`). Solo resuelve el token al vocabulario — NO
+// aplica `toPercent` al valor: eso queda a cargo de cada caller, porque no todos
+// lo aplican igual (ver IncarnonRepository, que hoy no lo aplica).
+export function resolveUpgradeEntry(token: string | null | undefined): UpgradeMapEntry | undefined {
+  if (!token || !isUpgrade(token)) return undefined
+  return UPGRADE_MAP[token] ?? resolveToken(token)
 }
