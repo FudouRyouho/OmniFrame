@@ -179,9 +179,21 @@ tick_damage = 0.5 × modded_base_damage × (1 + toxin_bonuses) × (1 + status_da
 tick_damage = 0.5 × modded_base_damage × (1 + electricity_bonuses) × (1 + faction) × (1 + status_damage)
 ```
 
-- 6 ticks en 6s; stacks sin cap mecánico, timer propio; crit del hit afecta el tick
+- 6 ticks en 6s; stacks sin cap mecánico, timer propio; crit del hit afecta el tick directo
 - **Arco**: daña a todos los enemigos en radio de **3 m** del target original (filtro espacial
   trivial — `distancia_al_origen ≤ 3m`, no requiere sistema de coordenadas)
+- ✅ **Multi-objetivo confirmado visualmente (usuario, 2026-07-02, capturas de pantalla)** —
+  mismo tick (1057 / 378) apareciendo simultáneo en múltiples enemigos distintos en el mismo
+  frame. Cierra la duda de si el arco efectivamente propaga daño a otros enemigos: sí.
+  **El tick propagado NO hereda el crítico del golpe que lo generó** — con un golpe crítico
+  (2112 en el disparo), los enemigos encadenados igual recibieron el tick base (1057, no
+  escalado). ⚠️ Caveat metodológico: la prueba se hizo con un arma (Alternox Prime/Vadarya)
+  que trae una **pasiva propia** ("creates a conductive area... chance to spawn up to 3
+  lightning strikes on random nearby targets") distinta del Tesla Chain genérico documentado
+  arriba (radio fijo 3m, sin "chance" de spawneo) — probable mezcla de mecánica genérica +
+  pasiva ítem-específica, no aislado al 100%. El hallazgo de multi-objetivo es sólido; el
+  detalle de "crit no se propaga" queda marcado como observado en ese contexto mixto, no
+  confirmado para el proc genérico en aislamiento.
 - **Stun**: ~3s, **solo el target original** — los encadenados por el arco reciben el tick
   de daño pero NO el stun (confirma que el arco es solo aplicación de daño, no un segundo
   proc completo). NO escala con Status Duration; inmunes: Ospreys, Bosses, Tenno
