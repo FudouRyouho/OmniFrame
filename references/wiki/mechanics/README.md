@@ -3,7 +3,7 @@
 > Estado: activo
 > Rol: índice de mecánicas profundas del juego para simulación y cálculo
 > Fuente de verdad de: ubicación de futuras notas técnicas basadas en wiki
-> Última actualización: 2026-03-22
+> Última actualización: 2026-07-02
 
 ## URLs base útiles
 
@@ -82,6 +82,8 @@ conviene crear documentos separados por familia:
 - [critical-hits.md](./critical-hits.md)
 - [multishot.md](./multishot.md)
 - [condition-overload.md](./condition-overload.md)
+- [enemy-resistances.md](./enemy-resistances.md) — modelo U36: matriz facción×elemento (±50%), bypasses de capa, DR de armor enemigo, discrepancia de era con `Enemy.json`
+- [faction-damage.md](./faction-damage.md) — mods Bane/Primed: multiplicador total, double-dip en DoTs (Slash/Heat/Toxin/Gas), excepciones de mapeo
 
 ## Estado editorial
 
