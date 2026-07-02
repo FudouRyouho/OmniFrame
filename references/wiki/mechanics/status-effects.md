@@ -109,6 +109,15 @@ Procs promedio por disparo = Multishot × (Forced Procs + Status Chance por proy
 la única consolidación real es **Heat**. "Reemplaza al más viejo" es el patrón sobre-cap
 en todos los que lo documentan.
 
+✅ **Reforzado por observación directa (usuario, 2026-07-02):** Kuva Nukor (Magnetic puro,
+alto rate de proc por ser arma de rayo) — decaimiento visible stack por stack, 6→5→4→...→0,
+uno a la vez. Confirma el modelo de timer-independiente-por-stack también en Magnetic (no
+solo inferido por texto, visto en vivo). Generaliza con alta confianza a Radiation/Tau (mismo
+lenguaje de stacking). **Distinción correcta señalada por el usuario:** Knockdown (ventana de
+vulnerabilidad/finisher de Heavy Attack) NO es uno de los 16 tipos con proc elemental — es una
+mecánica de combate distinta, fuera de esta taxonomía; no contradice el patrón, confirma que
+el corte 16-tipos-vs-mecánicas-de-combate está bien puesto.
+
 ---
 
 ## Procs de tipo DoT
