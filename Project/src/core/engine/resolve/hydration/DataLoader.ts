@@ -8,7 +8,9 @@
  * Uso en tests/CLI: llamar `loadEngineData()` de `@core/engine/bootstrap/engine-data` (envuelve init()).
  * Uso en runtime: llamar a DataLoader.init() en el bootstrap de la aplicación.
  */
+import type { ModOverrideEntry } from '../../contracts/mod-overrides';
 import { ItemRepository } from './ItemRepository';
+import { ModRepository } from './ModRepository';
 import { IncarnonRepository } from './IncarnonRepository';
 import { ArcaneRepository } from './ArcaneRepository';
 import { ShardRepository } from './ShardRepository';
@@ -16,7 +18,7 @@ import { ShardRepository } from './ShardRepository';
 export interface DataLoaderInput {
   weapons:               any[];
   warframes:             any[];
-  modOverrides:          Record<string, any>;
+  modOverrides:          Record<string, ModOverrideEntry>;
   weaponAttackOverrides: Record<string, any>;
   incarnon:              Record<string, any>;
   arcaneOverrides:       Record<string, any>;
@@ -30,8 +32,8 @@ export class DataLoader {
     // Warframes y weapons comparten ItemRepository (ambos cuatro-pilares, indexados por unique_name).
     ItemRepository.load(input.weapons);
     ItemRepository.load(input.warframes);
-    ItemRepository.loadOverrides(input.modOverrides);
     ItemRepository.loadWeaponAttackOverrides(input.weaponAttackOverrides);
+    ModRepository.loadOverrides(input.modOverrides);
     IncarnonRepository.load(input.incarnon);
     ArcaneRepository.load(input.arcaneOverrides);
     ShardRepository.load(input.archonShards);

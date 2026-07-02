@@ -3,9 +3,8 @@
  * @status en-desarrollo
  */
 import type { Modifier, EntityId } from "../../contracts";
-import type { ModStatRaw, ModStatValueRaw } from "../../contracts/mod-overrides";
+import type { ModOverrideEntry, ModStatRaw, ModStatValueRaw } from "../../contracts/mod-overrides";
 import { resolveUpgradeEntry } from "@shared/types/modifier";
-import { ItemRepository } from "./ItemRepository";
 
 export interface ModBlueprint {
   unique_name: string;
@@ -19,9 +18,17 @@ export interface ModBlueprint {
  */
 export class ModRepository {
   private static registry: Map<string, ModBlueprint> = new Map();
+  private static overrides: Map<string, ModOverrideEntry> = new Map();
 
   public static register(blueprint: ModBlueprint): void {
     this.registry.set(blueprint.unique_name, blueprint);
+  }
+
+  /** Carga los overrides deterministas de mods (mod-stats.override.json). */
+  public static loadOverrides(data: Record<string, ModOverrideEntry>): void {
+    Object.entries(data).forEach(([key, val]) => {
+      this.overrides.set(key, val);
+    });
   }
 
   /**
@@ -34,7 +41,7 @@ export class ModRepository {
     if (blueprint) return blueprint.getModifiers(target_id, rank);
 
     // 2. Overrides Deterministas (SSoT del proyecto)
-    const override = ItemRepository.getModOverride(unique_name);
+    const override = this.overrides.get(unique_name);
     if (override && override.stats) {
       const modifiers: Modifier[] = [];
 

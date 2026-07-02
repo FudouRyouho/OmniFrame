@@ -139,14 +139,7 @@ export class ItemRepository {
     return result;
   }
 
-  private static overrides: Map<string, any> = new Map();
   private static weaponAttackOverrides: Map<string, any> = new Map();
-
-  public static loadOverrides(data: Record<string, any>) {
-    Object.entries(data).forEach(([key, val]) => {
-      this.overrides.set(key, val);
-    });
-  }
 
   // Claves que empiezan con "_" son entradas pendientes/comentario — se ignoran.
   public static loadWeaponAttackOverrides(data: Record<string, any>) {
@@ -172,13 +165,6 @@ export class ItemRepository {
       return override.attacks[attackName].punch_through;
     }
     return rawValue ?? 0;
-  }
-
-  /**
-   * Obtiene el override para un mod específico.
-   */
-  public static getModOverride(uniqueName: string): any | null {
-    return this.overrides.get(uniqueName) || null;
   }
 
   public static getRawItem(uniqueName: string): any | null {
