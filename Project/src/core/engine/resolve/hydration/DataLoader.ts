@@ -29,9 +29,10 @@ export class DataLoader {
   private static _initialized = false;
 
   static init(input: DataLoaderInput): void {
-    // Warframes y weapons comparten ItemRepository (ambos cuatro-pilares, indexados por unique_name).
-    ItemRepository.load(input.weapons);
-    ItemRepository.load(input.warframes);
+    // Warframes y weapons comparten ItemRepository (ambos cuatro-pilares, indexados por unique_name)
+    // pero en Maps separados desde Fase 2 Slice C (segmentación storage+normalize).
+    ItemRepository.loadWeapons(input.weapons);
+    ItemRepository.loadWarframes(input.warframes);
     ItemRepository.loadWeaponAttackOverrides(input.weaponAttackOverrides);
     ModRepository.loadOverrides(input.modOverrides);
     IncarnonRepository.load(input.incarnon);

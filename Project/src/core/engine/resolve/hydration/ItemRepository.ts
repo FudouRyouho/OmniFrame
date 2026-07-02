@@ -6,45 +6,54 @@
 import type { MutatedDNA } from "../../contracts";
 
 export class ItemRepository {
-  private static items: Map<string, any> = new Map();
+  private static weaponItems: Map<string, any> = new Map();
+  private static warframeItems: Map<string, any> = new Map();
 
-  /**
-   * Carga un bloque de items en el repositorio.
-   */
-  public static load(data: any[]) {
+  private static loadInto(target: Map<string, any>, data: any[]) {
     if (!Array.isArray(data)) return;
     data.forEach(item => {
       if (item.unique_name) {
-        this.items.set(item.unique_name, item);
+        target.set(item.unique_name, item);
       }
     });
   }
 
-  /**
-   * Obtiene el ADN de un item mapeado desde el dataset.
-   */
-  public static getDNA(uniqueName: string): MutatedDNA | null {
-    const raw = this.items.get(uniqueName);
-    if (!raw) return null;
-    return this.normalize(raw);
+  /** Carga un bloque de armas en el repositorio. */
+  public static loadWeapons(data: any[]) {
+    this.loadInto(this.weaponItems, data);
+  }
+
+  /** Carga un bloque de warframes en el repositorio. */
+  public static loadWarframes(data: any[]) {
+    this.loadInto(this.warframeItems, data);
   }
 
   /**
-   * Merge raw→DNA: combina `attacks[]` + overrides + fallback en los perfiles
-   * finales. Extraído de `getDNA` (Fase 2 Slice B) para separar "qué item busco"
-   * (lookup en `items`) de "cómo lo normalizo" (transform puro sobre el raw).
+   * Obtiene el ADN de un item mapeado desde el dataset. No conoce el kind de
+   * antemano (mismo vocabulario de ids para arma/warframe) — prueba ambos Maps.
    */
-  private static normalize(raw: any): MutatedDNA {
-    const profiles: Record<string, Record<string, number>> = {};
+  public static getDNA(uniqueName: string): MutatedDNA | null {
+    const weapon = this.weaponItems.get(uniqueName);
+    if (weapon) return this.normalizeWeapon(weapon);
 
-    // Warframe: stats base de avatar (no tiene ataques). El raw expone health/shield/armor/
-    // energy reales (mismo molde que `flight` de projectile_speed — dato en fuente, sin override).
-    // Cada nodo usa el attr del token ADD como id, para que mods (%) y shards (flat) compongan
-    // sobre la misma base — fórmula `Total = Base × (1 + Mods%) + Flat` (ver armor.md, UPGRADE_MAP).
-    // Los 4 stats de habilidad nacen con base 100 (100% = sin mods); no conozco excepción.
-    if (raw.kind === 'warframe') {
-      const s = raw.stats ?? {};
-      profiles['base'] = {
+    const warframe = this.warframeItems.get(uniqueName);
+    if (warframe) return this.normalizeWarframe(warframe);
+
+    return null;
+  }
+
+  /**
+   * Merge raw→DNA de un warframe: stats base de avatar (no tiene ataques). El raw
+   * expone health/shield/armor/energy reales (mismo molde que `flight` de
+   * projectile_speed — dato en fuente, sin override). Cada nodo usa el attr del
+   * token ADD como id, para que mods (%) y shards (flat) compongan sobre la misma
+   * base — fórmula `Total = Base × (1 + Mods%) + Flat` (ver armor.md, UPGRADE_MAP).
+   * Los 4 stats de habilidad nacen con base 100 (100% = sin mods); no conozco excepción.
+   */
+  private static normalizeWarframe(raw: any): MutatedDNA {
+    const s = raw.stats ?? {};
+    const profiles: Record<string, Record<string, number>> = {
+      base: {
         AVATAR_ADD_HEALTH_MAX:        s.health ?? 0,
         AVATAR_ADD_SHIELD_MAX:        s.shield ?? 0,
         AVATAR_ADD_ARMOUR:            s.armor  ?? 0,
@@ -53,17 +62,23 @@ export class ItemRepository {
         AVATAR_ADD_ABILITY_RANGE:      100,
         AVATAR_ADD_ABILITY_DURATION:   100,
         AVATAR_ADD_ABILITY_EFFICIENCY: 100,
-      };
-      return {
-        entity_id: raw.unique_name,
-        domain: raw.domain,
-        kind: raw.kind,
-        family: raw.family,
-        tags: [raw.domain, raw.kind, raw.family, ...(raw.tags || [])].filter(Boolean),
-        profiles,
-        behaviors: [],
-      };
-    }
+      },
+    };
+
+    return {
+      entity_id: raw.unique_name,
+      domain: raw.domain,
+      kind: raw.kind,
+      family: raw.family,
+      tags: [raw.domain, raw.kind, raw.family, ...(raw.tags || [])].filter(Boolean),
+      profiles,
+      behaviors: [],
+    };
+  }
+
+  /** Merge raw→DNA de un arma: combina `attacks[]` + overrides + fallback en los perfiles finales. */
+  private static normalizeWeapon(raw: any): MutatedDNA {
+    const profiles: Record<string, Record<string, number>> = {};
 
     // Mapear ataques a perfiles
     if (raw.stats?.attacks && raw.stats.attacks.length > 0) {
@@ -98,7 +113,7 @@ export class ItemRepository {
           profiles[profile_name].WEAPON_ADD_PROJECTILE_SPEED = attack.flight;
         }
       });
-      
+
       if (!profiles['base'] && Object.keys(profiles).length > 0) {
         profiles['base'] = Object.values(profiles)[0];
       }
@@ -131,13 +146,12 @@ export class ItemRepository {
       profiles,
       behaviors: [raw.trigger?.toLowerCase()].filter(Boolean)
     };
-
   }
 
   private static mapDamage(damage: any): Record<string, number> {
     const result: Record<string, number> = {};
     if (!damage) return result;
-    
+
     Object.entries(damage).forEach(([key, val]) => {
       if (typeof val === 'number' && val > 0 && key !== 'total') {
         // Mapeo de tipos de daño al token D-6 (ej: "impact" -> "WEAPON_ADD_IMPACT_DAMAGE")
@@ -176,17 +190,23 @@ export class ItemRepository {
   }
 
   public static getRawItem(uniqueName: string): any | null {
-    return this.items.get(uniqueName) || null;
+    return this.weaponItems.get(uniqueName) ?? this.warframeItems.get(uniqueName) ?? null;
   }
 
   public static findByName(name: string): any | null {
-    for (const item of this.items.values()) {
+    for (const item of this.weaponItems.values()) {
+      if (item.name === name) return item;
+    }
+    for (const item of this.warframeItems.values()) {
       if (item.name === name) return item;
     }
     return null;
   }
 
   public static getAllNames(): string[] {
-    return Array.from(this.items.values()).map(i => i.name);
+    return [
+      ...Array.from(this.weaponItems.values()).map(i => i.name),
+      ...Array.from(this.warframeItems.values()).map(i => i.name),
+    ];
   }
 }
