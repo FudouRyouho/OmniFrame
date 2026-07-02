@@ -130,6 +130,16 @@ tick_damage = 0.35 × modded_base_damage × (1 + faction) × (1 + status_damage)
 - `modded_base_damage` = daño base total × (1 + bonos de daño base) × (1 + faction)
 - Los mods de daño Slash **no** aumentan el tick (tampoco Buzz Kill/Contagious Spread/finisher
   mods); sí lo hacen base damage, faction (double-dip explícito) y status damage
+- ✅ **Composición True↔Viral confirmada empíricamente (usuario, 2026-07-02) — boundary case
+  cerrado.** Dorrclave (Slash puro, 421.8) vs Arid Butcher, tick baseline 233 → con 2 stacks
+  Viral 525 (×2.2532, predicción 2.25, 0.14% error) → con 4 stacks 642 (×2.7554, predicción
+  2.75, 0.20% error) → con 5 stacks 700 (×3.0043, predicción 3.00, 0.14% error). **True Damage
+  NO es inmune a Viral** — el bypass de True es específicamente sobre la reducción de armor,
+  no sobre los multiplicadores de capa. Regla de composición confirmada: "ignora armor" ≠
+  "inmune a todo lo demás"; True sigue siendo daño de capa-salud a efectos de Viral. Crit
+  también se apila limpio (mismo patrón que el test de Dual Toxocyst). Sigue sin verificar si
+  la matriz de vulnerabilidad por facción (`enemy-resistances.md`) también alcanza a True —
+  pregunta distinta, no probada en este test.
 
 ### Ignite (Heat)
 
