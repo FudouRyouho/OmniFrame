@@ -16,13 +16,22 @@ export interface SimulationResult {
   engine: SimulationEngine;
 }
 
+export interface SimulateOptions {
+  /** Activa la acumulación de trace de procedencia (Fase 3: opt-in, apagado por default — ver SimulationEngine.enableTrace). */
+  trace?: boolean;
+}
+
 export class MutatorBridge {
 
   /** Vía canónica — acepta EnsembleIntention tipada desde EnsembleStore. */
-  public simulateFromIntention(intention: EnsembleIntention, context?: Partial<SimulationContext>): SimulationResult {
+  public simulateFromIntention(
+    intention: EnsembleIntention,
+    context?: Partial<SimulationContext>,
+    options?: SimulateOptions
+  ): SimulationResult {
     const channelMap = this.buildChannelMap(intention);
     const ensemble = this.ensembleFromIntention(intention);
-    return this.runSimulation(ensemble, context, channelMap);
+    return this.runSimulation(ensemble, context, channelMap, options);
   }
 
   // ---------------------------------------------------------------------------
@@ -32,7 +41,8 @@ export class MutatorBridge {
   private runSimulation(
     ensemble: Ensemble,
     context?: Partial<SimulationContext>,
-    channelMap: Record<string, string> = {}
+    channelMap: Record<string, string> = {},
+    options?: SimulateOptions
   ): SimulationResult {
     const dnas = this.hydrateDnas(ensemble);
 
@@ -51,6 +61,7 @@ export class MutatorBridge {
       laws: { ...laws, ...context?.laws }
     };
 
+    if (options?.trace) newEngine.enableTrace();
     newEngine.resolve(fullContext);
 
     const resolvedEntities = entities.map(e => ({

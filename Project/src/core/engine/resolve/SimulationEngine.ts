@@ -4,8 +4,8 @@ import type {
   EntityId,
   AttributeId,
   SimulationContext,
-  AuditResponse,
-  AuditStep
+  TraceResponse,
+  TraceStep
 } from "../contracts";
 import { isWeaponDamageToken } from "../contracts/damage-logic";
 import { applyAdditiveBonus } from "../formulas/common/scaling-base";
@@ -14,7 +14,8 @@ import { evalCondition } from "@shared/types/condition";
 export class SimulationEngine {
   private entities: Map<EntityId, SimulationEntity> = new Map();
   private modifiers: Modifier[] = [];
-  private audit_session: Map<string, AuditStep[]> = new Map();
+  private trace_log: Map<string, TraceStep[]> = new Map();
+  private trace_enabled: boolean = false;
   private sorted_nodes: string[] = []; // Topological order
   private cycle_detected: boolean = false;
 
@@ -27,11 +28,20 @@ export class SimulationEngine {
   }
 
   /**
+   * Activa la acumulación de trace de procedencia durante `resolve()`. Opt-in
+   * (Fase 3): el path UI (`useViewModel` → `consume().snapshot()`) nunca lee
+   * `.trace()` — trazar en cada `resolveNode()` para nadie era costo sin beneficio.
+   */
+  public enableTrace(): void {
+    this.trace_enabled = true;
+  }
+
+  /**
    * Executes a full resolution of the attribute graph.
    * Uses Topological Sort + Fixed-Point fallback for reactive scaling.
    */
   public resolve(context: SimulationContext): void {
-    this.audit_session.clear();
+    this.trace_log.clear();
     this.rebuildGraph();
 
     // 1. Initialize final values
@@ -172,17 +182,19 @@ export class SimulationEngine {
         }
       }
 
-      const intermediateValue = this.calculateCurrentValue(entity, attributeId);
-
-      this.trace(entityId, attributeId, {
-        pass,
-        source: mod.source_id || 'unknown',
-        operation: mod.operation,
-        impact: conditionMet ? modValue : 0,
-        resulting_value: intermediateValue,
-        condition_met: conditionMet,
-        context_value
-      });
+      // calculateCurrentValue() solo alimenta el trace (node.final se recalcula
+      // al final de resolveNode de todos modos) — se salta si el trace está apagado.
+      if (this.trace_enabled) {
+        this.trace(entityId, attributeId, {
+          pass,
+          source: mod.source_id || 'unknown',
+          operation: mod.operation,
+          impact: conditionMet ? modValue : 0,
+          resulting_value: this.calculateCurrentValue(entity, attributeId),
+          condition_met: conditionMet,
+          context_value
+        });
+      }
     });
 
     node.final = this.calculateCurrentValue(entity, attributeId);
@@ -208,19 +220,19 @@ export class SimulationEngine {
     return val;
   }
 
-  private trace(entityId: EntityId, attributeId: AttributeId, step: AuditStep): void {
+  private trace(entityId: EntityId, attributeId: AttributeId, step: TraceStep): void {
     const key = `${entityId}:${attributeId}`;
-    if (!this.audit_session.has(key)) {
-      this.audit_session.set(key, []);
+    if (!this.trace_log.has(key)) {
+      this.trace_log.set(key, []);
     }
-    this.audit_session.get(key)!.push(step);
+    this.trace_log.get(key)!.push(step);
   }
 
-  public getAuditResponse(entityId: EntityId, attributeId: AttributeId): AuditResponse {
+  public getTrace(entityId: EntityId, attributeId: AttributeId): TraceResponse {
     return {
       entity_id: entityId,
       attribute_id: attributeId,
-      trace: this.audit_session.get(`${entityId}:${attributeId}`) || []
+      trace: this.trace_log.get(`${entityId}:${attributeId}`) || []
     };
   }
 

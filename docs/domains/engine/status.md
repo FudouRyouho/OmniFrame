@@ -125,7 +125,7 @@ Nota: `target.faction` requiere que el campo `faction` esté estructurado en los
 
 ### Procedencia de perks de Incarnon — `source_id` ausente
 
-`IncarnonRepository` emite los `Modifier` de los perks **sin** `source_id`, mientras `ModRepository` los emite con `Mod:<id>`. En el audit trace (`SimulationEngine.getAuditResponse`) el aporte de un perk aparece como `source=unknown` — el paso es inatribuible. La mecánica es correcta (el valor aterriza en el bucket correcto); el gap es de **observabilidad**, no de cálculo.
+`IncarnonRepository` emite los `Modifier` de los perks **sin** `source_id`, mientras `ModRepository` los emite con `Mod:<id>`. En el trace de procedencia (`SimulationEngine.getTrace`, renombrado de `getAuditResponse` en Fase 3 — ver `current-state.md`) el aporte de un perk aparece como `source=unknown` — el paso es inatribuible. La mecánica es correcta (el valor aterriza en el bucket correcto); el gap es de **observabilidad**, no de cálculo.
 
 - `engine:debt` — emitir `source_id` en `IncarnonRepository` (p. ej. `Perk:<nombre>`), espejando `ModRepository`. [empirical: `__tests__/boltor-consume.test.ts` — paso `[debug ii]` del audit trace]
 

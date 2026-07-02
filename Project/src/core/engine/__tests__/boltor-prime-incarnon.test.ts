@@ -145,9 +145,14 @@ describe('Boltor — Incarnon Form base (estabilidad: .final)', () => {
 
 // ─── [debug ii] procedencia real (perks = source=unknown, ver engine/status.md) ──
 
-describe('Boltor — audit trace de WEAPON_ADD_DAMAGE (debug)', () => {
+describe('Boltor — trace de procedencia de WEAPON_ADD_DAMAGE (debug)', () => {
   it('reporta procedencia real, perks incluidos', () => {
-    const trace = probe({ perks: { 2: 'hunters_mantra' }, mods: { 0: SERRATION } }).audit('WEAPON_ADD_DAMAGE');
+    // { trace: true } — opt-in (Fase 3): sin esto, .trace() siempre devuelve [].
+    const trace = consume(
+      boltor({ perks: { 2: 'hunters_mantra' }, mods: { 0: SERRATION } }),
+      { flags: {} },
+      { trace: true }
+    ).weapon(BOLTOR_PRIME).trace('WEAPON_ADD_DAMAGE');
     console.log('\n[debug] WEAPON_ADD_DAMAGE audit trace:');
     trace.forEach((s, i) => console.log(`  ${i}: source=${s.source} op=${s.operation} impact=${s.impact}`));
     expect(trace.length).toBeGreaterThan(0);

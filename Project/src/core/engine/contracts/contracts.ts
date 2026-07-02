@@ -46,7 +46,7 @@ export interface SimulationContext {
   };
 }
 
-export interface AuditStep {
+export interface TraceStep {
   pass: number;
   source: string;
   operation: string;
@@ -56,10 +56,10 @@ export interface AuditStep {
   context_value?: number;
 }
 
-export interface AuditResponse {
+export interface TraceResponse {
   entity_id: EntityId;
   attribute_id: AttributeId;
-  trace: AuditStep[];
+  trace: TraceStep[];
 }
 
 export interface Ensemble {
