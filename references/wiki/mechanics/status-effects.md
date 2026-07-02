@@ -216,7 +216,13 @@ effective_armor  = base_armor × (1 − armor_strip(n))
 | 5 | 50% |
 | 10 | 80% (máximo) |
 
-- Dudoso de subpágina: si el armor se recupera de golpe o gradualmente al expirar.
+- ✅ **Cerrado por analogía estructural (2026-07-02), no requiere test propio.** El texto
+  "replace the oldest stack" es idéntico al de Viral/Magnetic/Radiation — mismo modelo de
+  timer independiente por stack, ya confirmado empíricamente en Viral (ver §Infection). No
+  hay "rampa de reversión" que modelar: cuando un stack de 8s expira, desaparece del conteo
+  y `armor_strip(n)` se recalcula con un stack menos — es discreto, no una curva temporal.
+  Contraste explícito con **Heat**, que sí tiene una rampa real por tiempo ("regains armor
+  every 1.5s during 6s") porque consolida sus stacks en un pool compartido, no independiente.
 
 ### Infection (Viral)
 
