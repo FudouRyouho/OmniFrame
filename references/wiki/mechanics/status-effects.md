@@ -235,6 +235,19 @@ multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
   forma de la fórmula quedó confirmada en 4 puntos). **Cierra el dudoso de orden Viral↔armor
   DR** (ficha de modelado #13): el multiplicador dio limpio contra un enemigo con armor real,
   confirmando que es un factor multiplicativo independiente — el orden interno no importa.
+- ✅ **Orden de resolución stack-propio-vs-daño-propio, confirmado (usuario, 2026-07-02).**
+  Segunda tanda de datos (mismo build + Deep Freeze, viral 350/475): baseline derivado de la
+  lectura estable en cap (10 stacks, ya saturado → pre/post-hit dan lo mismo ahí) = 1667/4.25
+  = 392.24. Con ese baseline: la lectura que el usuario tomó como "10 stacks" (1569) matchea
+  **n=9** casi exacto (392.24×4.00=1568.94, error 0.004%), NO n=10 (que predeciría 1667). Esa
+  lectura es justo el hit que empujó el contador de 9→10 — y su propio daño usó el conteo
+  *previo* a su propio proc, no el posterior. **Confirma: el daño de un hit se resuelve con
+  los stacks que existían ANTES de que ese mismo hit aplique su propio proc nuevo** (orden:
+  resolver daño con estado actual → recién después sumar el stack nuevo para hits futuros).
+  Relevante para el orden de operaciones del engine cuando se modele la resolución de stacks
+  en tiempo real. Corrobora además lo ya capturado en §Aplicación (roll por pellet): el
+  usuario cita el caso real de escopetas + Corrosive metiendo hasta 10 stacks de un solo
+  disparo (multishot con cada pellet como proc independiente).
 
 ### Disruption (Magnetic)
 
