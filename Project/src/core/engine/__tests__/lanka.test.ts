@@ -18,7 +18,7 @@
  * Por eso el dual-stat se aserta por bucket (lógica), no por final.
  * Ref: references/wiki/mechanics/punch-through.md
  */
-import { loadEngineData } from '../fixtures/engine-data';
+import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';

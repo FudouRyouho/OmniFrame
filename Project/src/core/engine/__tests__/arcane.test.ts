@@ -9,7 +9,7 @@
  * Naturaleza distinta a los mods: el arcano resuelve a Modifier directo, SIN pasar por DamageCombiner
  * (su daño no se combina con el del arma). Ver ArcaneRepository / StaticHydrator.
  */
-import { loadEngineData } from '../fixtures/engine-data';
+import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';

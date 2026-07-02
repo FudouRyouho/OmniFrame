@@ -6,7 +6,7 @@
  * tocar `@core`. La Capa D (consumo derivado: ViewModelContract + mapping) vive
  * fuera de `@core` y cruza por `@shared`. Ver `docs/domains/engine/design/arch-decisions.md` §6-7.
  *
- * El consumidor impersona A (datos, ya cargados por `loadEngineData` en fixtures/), B (hidratación,
+ * El consumidor impersona A (datos, ya cargados por `loadEngineData` en bootstrap/), B (hidratación,
  * la hace el bridge) y D (mete la intención + lee la proyección). C (el motor) es lo
  * único bajo prueba. Como el motor es auto-auditable por construcción (cada nodo carga
  * sus 6 buckets + el audit trace), este clic es genérico: una sola implementación sirve

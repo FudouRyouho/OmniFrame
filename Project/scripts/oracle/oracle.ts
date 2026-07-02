@@ -5,9 +5,9 @@
  * Adaptador NO-reactivo (lee la salida resuelta de C y la serializa a stdout) — hermano del
  * futuro adaptador reactivo (UI). Ver `docs/domains/engine/design/arch-decisions.md` §5-7.
  *
- * Comparte con los tests el harness de entrada (`@core/engine/fixtures`): el bootstrap de data
- * (`loadEngineData`) y las intenciones-fixture (`builds` / `BUILDS`). El test le adosa
- * expectativas y aserta; el oráculo INSPECCIONA. Mismo input, distinto acto.
+ * Comparte con los tests el harness de entrada: el bootstrap de data (`loadEngineData`,
+ * `@core/engine/bootstrap`) y las intenciones-fixture (`builds` / `BUILDS`, `@core/engine/fixtures`).
+ * El test le adosa expectativas y aserta; el oráculo INSPECCIONA. Mismo input, distinto acto.
  *
  * Dos actos de D2:
  *   - CRUDO (default): `npm run oracle -- <build>` | `all`. Snapshot crudo (nodos + 6 buckets),
@@ -19,7 +19,7 @@
  *
  * Sin argumento → `lanka` (crudo).
  */
-import { loadEngineData } from '@core/engine/fixtures/engine-data';
+import { loadEngineData } from '@core/engine/bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { BUILDS } from '@core/engine/fixtures/builds';
 import { consume } from '@core/engine/output/consume';

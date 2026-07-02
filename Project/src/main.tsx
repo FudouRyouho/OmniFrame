@@ -8,7 +8,7 @@ import { MenuProvider } from "./providers/Menu/menu-context.tsx";
 import { DataStateProvider } from "./providers/DataState/data-state-context.tsx";
 import { ShellProvider } from "./providers/Shell/shell-context.tsx";
 import { EnsembleProvider } from "./providers/Ensemble/EnsembleProvider.tsx";
-import { loadEngineData } from "./core/engine/fixtures/engine-data.ts";
+import { loadEngineData } from "./core/engine/bootstrap/engine-data.ts";
 import { browserSource } from "./shared/data/adapters/BrowserAdapter";
 
 // Bootstrap del plano de datos del engine ANTES del primer render: sin esto, el motor

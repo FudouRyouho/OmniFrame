@@ -25,7 +25,7 @@
  * Deuda viva: Galvanized Savvy stat 1 (`WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`, on_kill)
  * sin mapear (pendiente D-6) → el status NO sube en modo estático. Ver el test de status.
  */
-import { loadEngineData } from '../fixtures/engine-data';
+import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';

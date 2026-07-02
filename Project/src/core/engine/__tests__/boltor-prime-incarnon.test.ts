@@ -9,7 +9,7 @@
  * Boltor Prime Normal Attack base:  Impact 4.6, Puncture 41.4 → 46 | CC 12%, CM 2×, SC 34%
  * Boltor Prime Incarnon Form base:  Impact 2.4, Slash 14.4, Puncture 7.2 → 24 | CC 24%, CM 3×, SC 20%
  */
-import { loadEngineData } from '../fixtures/engine-data';
+import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';

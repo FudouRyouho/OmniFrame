@@ -273,7 +273,9 @@ O sea: la palabra que titula la Capa D también bautiza el payload del lado-prod
 **No bloquea:** el harness compartido ni el CLI; las ubicaciones son provisionales y mecánicas.
 **Vínculo:** OQ-ENGINE-8 (sobrecarga de naming), OQ-ENGINE-FUTURE (simetría de entrada / Capa A respecto a `@core`/`providers`).
 **Fuente:** debate 2026-06-11 sobre extracción del harness tests↔CLI; `arch-decisions.md §6-7`.
-**Resuelto parcialmente (2026-06-12, rama `refactor/core-stage0-restructure`):** reestructura ejecutada (Stage 0+1, commit por slice, `tsc -b` CLEAN + 95 tests). Eje **(c)** Capa A fuera de `providers/` ✓ — `ensemble-store`→`@core/intention`, `ensemble.types`→`@shared/types/ensemble`; más reorg `engine/{resolve (C1), simulate (C2)}`, `bridge`→`@core/bridge` (B), split `contracts.ts`/`primitives.ts`. **Siguen gated por D (Stage 2):** eje **(a)** separar bootstrap de `fixtures/`, eje **(d)** extraer `hooks/` (D-parcial) fuera de `@core`. El ruling `@providers→@core` quedó **PERMITIDO** (resuelve la simetría de entrada de OQ-ENGINE-FUTURE). Detalle: `closed-decisions.md` DC-OQ-ENGINE-9.
+**Resuelto parcialmente (2026-06-12, rama `refactor/core-stage0-restructure`):** reestructura ejecutada (Stage 0+1, commit por slice, `tsc -b` CLEAN + 95 tests). Eje **(c)** Capa A fuera de `providers/` ✓ — `ensemble-store`→`@core/intention`, `ensemble.types`→`@shared/types/ensemble`; más reorg `engine/{resolve (C1), simulate (C2)}`, `bridge`→`@core/bridge` (B), split `contracts.ts`/`primitives.ts`. El ruling `@providers→@core` quedó **PERMITIDO** (resuelve la simetría de entrada de OQ-ENGINE-FUTURE). Detalle: `closed-decisions.md` DC-OQ-ENGINE-9.
+**Eje (d) resuelto por purga, no extracción (2026-06-16, Fase 0 de la campaña de saneamiento):** `@core/engine/hooks/` (`useSimulation`/`useSimulationMetrics`/`useTimeline`) era cluster muerto (solo se referenciaba a sí mismo) — se purgó completo en vez de extraerse a D. Ver `current-state.md` #15.
+**Eje (a) resuelto (2026-07-02, Fase 2 Slice E, campaña saneamiento):** `loadEngineData` separado de `fixtures/` → `@core/engine/bootstrap/engine-data.ts`. `fixtures/` ya solo aloja `builds.ts` (intenciones-fixture) — la mezcla bootstrap+intenciones queda cerrada. Queda pendiente el eje **(b)** (armonía harness-consumidores respecto a `output/`).
 
 ---
 
@@ -284,7 +286,7 @@ O sea: la palabra que titula la Capa D también bautiza el payload del lado-prod
 
 - **`lib/*-data.ts`** (7 fetchers) — `fetch` + hidratación a shape display. Consumidos **1:1** por los 7 DetailViews de `/equipment/<x>/<id>` (warframe, weapon, mod, arcane, companion, vehicle, archwing).
 - **`shared/data/DataRegistry.ts`** (`Registry`) — auto-rotulado "Single Source of Truth", `fetch` + hidratación + `getByDomain/Kind/Id`. Consumido por la grilla (`OmniView`/`use-items`) y el arsenal (`ArsenalView`, `ModSlot`, `HudHeader`). **SSoT a medio adoptar.**
-- **`core/engine/fixtures/engine-data.ts`** → `DataLoader` — `import` estático de 7 JSON → repositorios DNA. Solo tests/CLI; **no cableado en runtime** (`DataLoader.init` nunca se llama en el bootstrap de la app).
+- **`core/engine/bootstrap/engine-data.ts`** → `DataLoader` — `import` estático de 7 JSON → repositorios DNA. Solo tests/CLI; **no cableado en runtime** (`DataLoader.init` nunca se llama en el bootstrap de la app).
 - **Mini-fetchers** en `domains/arsenal/`: `use-archon-shard-catalog`, `use-incarnon-catalog`.
 
 Síntoma concreto: `UpgradeView` (vía `useViewModel→consume`) corre el engine contra un `DataLoader` **vacío** en runtime. Tell de duplicación: `DataRegistry.hydrateAbility` es copia literal de `warframe-data.ts:hydrateAbility`.
@@ -301,6 +303,7 @@ Síntoma concreto: `UpgradeView` (vía `useViewModel→consume`) corre el engine
 - **Split puerto vs proyección-catálogo:** ¿`DataRegistry` es a la vez puerto + proyección-display, o se separa `load+normalize` (puerto) de `→ shape display` (proyección)?
 - **Mecanismo de carga:** runtime debe usar `fetch` (lazy, fuera del bundle); el `import` estático del engine es un test-ism. Los tests inyectan por el mismo puerto (seam de adapter).
   - **Avance 2026-06-12 (rebanada vertical, provisional):** cableado el bootstrap de runtime que faltaba — `main.tsx` ahora llama `loadEngineData()` antes de `createRoot` (el engine ya no corre contra repos vacíos). Reúsa el loader **por import estático** de `fixtures/` (no β, no toca el contrato de `@core` — invoca lo que ya existe). **Evidencia empírica del costo del estático:** `vite build` pasa pero el chunk principal salta a ~2.3 MB (gzip 431 KB, warning de tamaño) — los 7 JSON quedan en el bundle. Confirma que el mecanismo final debe ser `fetch` lazy. **Confirmado visual end-to-end (2026-06-12):** varios warframes muestran números reales del motor en `StatPanel`. Deuda registrada: sacar `loadEngineData` de `fixtures/` + migrar a fetch.
+  - **Avance 2026-06-13 (Fase 1 completa) + 2026-07-02 (Fase 2 Slice E):** el `fetch` lazy ya está resuelto — `BrowserAdapter` (Fase 1) reemplazó el `import` estático, bundle 2.3 MB→565 kB. `loadEngineData` ya salió de `fixtures/` → vive en `@core/engine/bootstrap/engine-data.ts`. De la deuda registrada acá, ambos puntos quedan cerrados; ver `OQ-DATA-12` para el detalle.
   - **Bug colateral encontrado y cerrado durante la verificación (instancia fractal del defecto SSoT-duplicado):** el canal de armas (`primary`/`secondary`/`melee`) mostraba los stats del warframe. Causa: `UpgradeView` se había hecho un `channelMap` local divergente (claves `primary`) en vez de usar el SSoT `SLOT_TO_ENSEMBLE_CHANNEL` de ArsenalView (claves reales `primary_weapon`), y un fallback `|| "warframe"` enmascaraba el desajuste mostrando el warframe en silencio. Fix: extraído `SLOT_TO_ENSEMBLE_CHANNEL` a `domains/arsenal/slot-channel.ts` (SSoT único, consumido por ambos), borrado el mapa local y el fallback (ahora panel vacío honesto). Mismo patrón que OQ-DATA-10: un SSoT que existe + un consumidor que reinventa su copia divergente.
 - **Backlog de migración (mecánico, incremental):** ~~colapsar 7 `lib/*-data.ts`~~ ✅ · ~~2 mini-fetchers (archon/incarnon) → `Registry.getCatalog` + hook `useCatalog`~~ ✅ **HECHO 2026-06-13** · **resta:** cablear la carga de runtime del engine (`import` estático → `fetch`) → **OQ-DATA-12**. Con esto el lado **display** de "0" está consolidado en DataRegistry; solo queda el lado **engine**.
   - **Avance 2026-06-13 (colapso de las 7 islas `lib/*-data`):** los 7 DetailViews migrados a `Registry.getItemById`; los 7 `lib/*-data.ts` borrados. **Registry absorbió la hidratación de passives** (era exclusiva de `warframe-data` → ya no se pierde) y unificó el match en `matchesRouteIdentifier`. Ahora Registry es el merge display completo (abilities + passives + imágenes). tsc limpio. **Pendiente:** los 2 mini-fetchers son catalog-shaped (`Record<key,entry>`, no `BaseItem[]`) → requieren que Registry sirva forma-catálogo (un `getCatalog`) antes de colapsarlos; y el `import` estático del engine → `fetch`.
@@ -397,15 +400,15 @@ Tres tells de duplicación (espejo de OQ-DATA-9):
 
 ---
 
-## OQ-DATA-12 — Carga de runtime del engine: import estático → fetch (cierre de "0" lado engine) — **ABIERTO — DIFERIDO / DEUDA (2026-06-13)**
+## OQ-DATA-12 — Carga de runtime del engine: import estático → fetch (cierre de "0" lado engine) — **CERRADA (2026-07-02)**
 **Dominio:** data / engine / integración (lado engine de "0", hermano de la consolidación display ya hecha)
 
-**Contexto:** Tras colapsar las islas **display** hacia DataRegistry (7 `lib/*-data` + 2 mini-fetchers, 2026-06-13), el único loader que queda fuera del puerto es el del **engine**: `core/engine/fixtures/engine-data.ts` (`loadEngineData`) hace `DataLoader.init` con **`import` estático** de los 7 JSON, cableado en `main.tsx`. Esto **bundlea los datos** (chunk principal ~2.3 MB / gzip 431 KB, medido en `vite build`).
+**Contexto (histórico):** Tras colapsar las islas **display** hacia DataRegistry (7 `lib/*-data` + 2 mini-fetchers, 2026-06-13), el único loader que quedaba fuera del puerto era el del **engine**: `core/engine/fixtures/engine-data.ts` (`loadEngineData`) hacía `DataLoader.init` con **`import` estático** de los 7 JSON, cableado en `main.tsx`. Eso **bundleaba los datos** (chunk principal ~2.3 MB / gzip 431 KB, medido en `vite build`).
 
-**Qué falta:**
-- Migrar la carga de runtime a **`fetch`** (lazy, fuera del bundle) — los mismos JSON que ya sirve DataRegistry. Ideal: el engine consume del **puerto** (un fetch+cache compartido) en vez de su propio loader.
-- Sacar `loadEngineData` de `fixtures/` (nombre/ubicación de test-ism corriendo en runtime).
-- **RED-adjacent**: toca el contrato de entrada de `@core` (hoy `StaticHydrator`/repos esperan data inyectada por `DataLoader`). Es la ejecución de las sub-decisiones "Contrato de entrada del engine" + "Mecanismo de carga" de OQ-DATA-9.
+**Cierre — ambos pendientes resueltos:**
+- Migrar la carga de runtime a `fetch` lazy → **Fase 1 (2026-06-12/13, campaña saneamiento `@core`):** `BrowserAdapter` reemplaza el `import` estático; bundle 2.3 MB→565 kB (gzip 431→171 kB); `DataRegistry` comparte la misma instancia (`browserSource`), sin doble-fetch.
+- Sacar `loadEngineData` de `fixtures/` → **Fase 2 Slice E (2026-07-02):** movido a `@core/engine/bootstrap/engine-data.ts`. `fixtures/` ya solo aloja `builds.ts` (intenciones-fixture).
+- El eje **RED-adjacent** ("contrato de entrada del engine" — el merge de overrides que hoy hacen `StaticHydrator`/repos, β de OQ-DATA-9) **sigue abierto**, pero es un eje distinto y no bloqueaba el cierre de esta OQ (que era específicamente sobre el mecanismo de carga, no sobre quién normaliza). Se sigue rastreando en `OQ-DATA-9` (sub-decisión "Contrato de entrada del engine") y en la campaña de saneamiento `@core` (Fase 2 Slices B/C).
 
 **Reencuadre (debate 2026-06-13) — esto NO se resuelve "moviendo el loader del engine a fetch":**
 - La opción barata (dar al browser un fetch **engine-privado** de los 7 JSON, contrato `@core` intacto) fue **descartada**: 5 de esos archivos son **overrides = dato canónico compartido**, no proyección privada del engine. DATA-9 ya lo fija: *"un override es el valor verdadero, no un cómputo… una sola carga + normalización única; cada consumidor proyecta su forma."* Un loader que baje los overrides por su cuenta **reconstruye la isla** que "0" venía a cerrar.
@@ -414,9 +417,8 @@ Tres tells de duplicación (espejo de OQ-DATA-9):
 - **Naturaleza:** deuda de **bundle (~2.3 MB) + pureza del puerto** → optimización diferible (function-first), no funcionalidad. El `import` estático se queda como provisional (tests/CLI en Node lo necesitan igual).
 - **Gatillo de cierre:** cuando arsenal/`UpgradeView` pida hidratar overrides **directamente** (no vía C1) → ahí aparece el consumidor D que justifica construir el `load+normalize` del puerto (sub-decisión β de DATA-9, RED), y el lado engine cae con él.
 
-**No bloquea:** el runtime funciona (loadEngineData estático anda). Es deuda de bundle + de pureza del puerto.
-**Vínculo:** **OQ-DATA-9** (ejecución de su sub-decisión "Mecanismo de carga"); cierra el lado engine de "0". Gated por el mismo consumidor D que la β de DATA-9.
-**Fuente:** consolidación de loaders display 2026-06-13 — al colapsar las islas, éste quedó como el único loader paralelo. Reencuadrado como deuda diferida en el debate 2026-06-13.
+**Vínculo:** **OQ-DATA-9** (ejecución de su sub-decisión "Mecanismo de carga"); cierra el lado engine de "0". El resto (β, quién normaliza los overrides) sigue gated por el consumidor D real en DATA-9.
+**Fuente:** consolidación de loaders display 2026-06-13 — al colapsar las islas, éste quedó como el único loader paralelo. Reencuadrado como deuda diferida en el debate 2026-06-13; cerrada por Fase 1 (fetch) + Fase 2 Slice E (ubicación) de la campaña de saneamiento `@core` (2026-07-02).
 
 ---
 

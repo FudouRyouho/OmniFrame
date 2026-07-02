@@ -18,7 +18,7 @@
  * Fórmula status per-pellet:  base × (1 + Σ mods_add_pct) + flat_per_pellet
  *   Ref: https://wiki.warframe.com/w/Felarx — "divided by the base multishot of 4"
  */
-import { loadEngineData } from '../fixtures/engine-data';
+import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';

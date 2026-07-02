@@ -1,14 +1,13 @@
 /**
- * Bootstrap de datos del engine — ahora detrás del seam del puerto "0" (DataSource).
+ * Bootstrap de datos del engine — detrás del seam del puerto "0" (DataSource).
  *
  * `loadEngineData(source)` es agnóstico al runtime: recibe el adapter inyectado
  * (NodeAdapter en tests/CLI, BrowserAdapter en main.tsx) y NO importa ninguno
  * concreto — así `node:fs` nunca entra al grafo del browser. Lee los 7
  * datasets por el seam y los entrega a `DataLoader.init` (que sigue síncrono).
  *
- * Ubicación provisional (`fixtures/` mezcla bootstrap + intenciones) — ver OQ-ENGINE-9.
- * Unificar esta carga con la del display (DataRegistry) es Slice 3 de la Fase 1:
- * hoy ambos lados bajan los JSON por separado.
+ * Vive en `bootstrap/` (Fase 2, Slice E) — separado de `fixtures/`, que ahora
+ * solo aloja `builds.ts` (catálogo de intenciones).
  */
 import type { DataSource } from "@shared/data/DataSource";
 import { DataLoader } from "../resolve/hydration/DataLoader";

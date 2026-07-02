@@ -8,7 +8,7 @@
  * de DAMAGE_TYPE_DEFINITIONS (su SSoT), no del dict de presentación.
  */
 import { describe, it, expect } from 'vitest';
-import { loadEngineData } from '@core/engine/fixtures/engine-data';
+import { loadEngineData } from '@core/engine/bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { consume } from '@core/engine/output/consume';
 import { laetum, LAETUM } from '@core/engine/fixtures/builds';
