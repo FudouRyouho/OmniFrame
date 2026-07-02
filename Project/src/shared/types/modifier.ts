@@ -283,8 +283,9 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
 // Encapsula el patrón `isUpgrade` guard + `UPGRADE_MAP[token] ?? resolveToken(token)`
 // que estaba duplicado literal en los 4 repos de hydration (Fase 2 Slice A,
 // campaña de saneamiento `@core`). Solo resuelve el token al vocabulario — NO
-// aplica `toPercent` al valor: eso queda a cargo de cada caller, porque no todos
-// lo aplican igual (ver IncarnonRepository, que hoy no lo aplica).
+// aplica `toPercent` al valor: cada caller decide `entry.toPercent ? (raw-1)*100
+// : raw` sobre su propio rawValue (la extracción del rawValue difiere por repo:
+// array indexado por rank, clamp, lookup por alias, etc. — no es unificable).
 export function resolveUpgradeEntry(token: string | null | undefined): UpgradeMapEntry | undefined {
   if (!token || !isUpgrade(token)) return undefined
   return UPGRADE_MAP[token] ?? resolveToken(token)

@@ -84,10 +84,11 @@ export class IncarnonRepository {
         }
 
         const raw = rawMod.base_value ?? 0;
-        const value =
+        const rawValue =
           typeof raw === "object"
             ? (entry.alias !== null ? (raw[entry.alias] ?? 0) : 0)
             : raw;
+        const value = upgradeEntry.toPercent ? (rawValue - 1) * 100 : rawValue;
 
         modifiers.push({
           id: `incarnon:${uniqueName}:t${tierStr}:${perkId}:${upgradeEntry.attr}`,
