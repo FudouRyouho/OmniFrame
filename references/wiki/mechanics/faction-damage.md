@@ -34,9 +34,16 @@ daño inicial que fija la magnitud del proc, y otra en cada tick.
 tick_vs_facción = tick_base × (1 + FactionBonus)²
 ```
 
-- **Procs que double-dipean: Slash (Bleed), Heat (Ignite), Toxin (Poison), Gas (Gas Cloud).**
+- **Procs que double-dipean: Slash (Bleed), Heat (Ignite), Toxin (Poison), Gas (Gas Cloud), Electricity (Tesla Chain).**
 - Consistente con las fórmulas ya capturadas en `status-effects.md` (el `faction_mult²`
-  de Bleed generaliza a los cuatro DoTs).
+  de Bleed generaliza a los cinco DoTs).
+- ⚠️ **La lista de "procs afectados" de la página general de Faction Bonus está incompleta**
+  (no exhaustiva) — no nombraba Electricity, pero double-dip fue **confirmado empíricamente
+  por el usuario (2026-07-02)**: Alternox Prime (Primed Bane of Grineer +55%) vs Arid Butcher,
+  tick DoT 72→172 = ×2.3889, contra predicción single-dip ×1.55 (descartada, 54% de distancia)
+  vs double-dip ×1.55²=2.4025 (0.57% de distancia — matchea). Mismo patrón de omisión que la
+  tabla de duración de `Status_Effect` marcada "outdated" — la wiki general no es exhaustiva,
+  las subpáginas/verificación empírica priman.
 
 ## Facciones con mod y mapeo
 

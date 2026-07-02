@@ -154,17 +154,26 @@ tick_damage = 0.5 × modded_base_damage × (1 + toxin_bonuses) × (1 + status_da
 - Double-dip de faction explícito en la subpágina: `(1 + faction)²` efectivo
   (+69% con Bane ×1.3, +140.25% con Primed ×1.55)
 
-### Electricity DoT (Tesla Chain) — faltaba como DoT en este doc
+### Electricity DoT (Tesla Chain)
 
 ```
 tick_damage = 0.5 × modded_base_damage × (1 + electricity_bonuses) × (1 + faction) × (1 + status_damage)
 ```
 
 - 6 ticks en 6s; stacks sin cap mecánico, timer propio; crit del hit afecta el tick
-- **Arco**: daña a todos los enemigos en radio de **3 m** del target
-- **Stun**: ~3s, **solo el target original**, NO escala con Status Duration;
-  inmunes: Ospreys, Bosses, Tenno
-- (dudoso de subpágina: si los encadenados reciben stun/proc, y si el daño del arco = tick)
+- **Arco**: daña a todos los enemigos en radio de **3 m** del target original (filtro espacial
+  trivial — `distancia_al_origen ≤ 3m`, no requiere sistema de coordenadas)
+- **Stun**: ~3s, **solo el target original** — los encadenados por el arco reciben el tick
+  de daño pero NO el stun (confirma que el arco es solo aplicación de daño, no un segundo
+  proc completo). NO escala con Status Duration; inmunes: Ospreys, Bosses, Tenno
+- ✅ **Double-dip de faction confirmado empíricamente (usuario, 2026-07-02)** — Alternox
+  Prime (Electricity 187.5, Primed Bane of Grineer +55%) vs Arid Butcher: tick baseline 72 →
+  con Bane 172 = ×2.3889. Single-dip predice ×1.55 (descartado, 54% de distancia); double-dip
+  predice ×1.55²=2.4025 (0.57% de distancia — matchea). **La lista "afectados: slash/heat/
+  toxin/gas" de la página general de Faction Bonus estaba incompleta, no exhaustiva** — mismo
+  patrón que la tabla de duración "outdated" ya detectado antes. Electricity SÍ double-dipea,
+  igual que los otros 4 DoTs primarios/combinados.
+- (dudoso abierto: si el daño del arco a los encadenados = mismo tick que el target original)
 
 ### Gas Cloud (Gas)
 
@@ -217,6 +226,15 @@ multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
 - **Funciona aunque la salud esté protegida por armor** (cita de subpágina) — amplifica
   lo que llegue a la capa health, armor mediante.
 - Los DoTs que pegan a health también se amplifican mientras el proc esté activo.
+- ✅ **Fórmula verificada empíricamente (usuario, 2026-07-02):** Dual Toxocyst vs Arid Butcher
+  (Grineer nivel 210, con armor Ferrite) — 221 dmg (0 stacks) → 442 dmg (1 stack) = ×2.0000
+  exacto; con crit ×2 confirmado: 885 dmg = ×4.0045 (2.0 viral × 2.0 crit, factores limpios
+  e independientes). Serie multi-stack (mismo enemigo/arma, baseline 307): ratios observados
+  1.9967 / 2.2476 / 2.4984 / 2.9967 — matchean `2+0.25×(n−1)` para n=1,2,3,5 con <0.2% de
+  error (las etiquetas de stack del usuario venían corridas respecto al conteo real, pero la
+  forma de la fórmula quedó confirmada en 4 puntos). **Cierra el dudoso de orden Viral↔armor
+  DR** (ficha de modelado #13): el multiplicador dio limpio contra un enemigo con armor real,
+  confirmando que es un factor multiplicativo independiente — el orden interno no importa.
 
 ### Disruption (Magnetic)
 
