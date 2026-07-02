@@ -3,12 +3,21 @@
  * Single Source of Truth para el acceso y carga de datos en OmniFrame.
  */
 import type { BaseItem, Weapon, Warframe, Mod, Arcane, Companion, Vehicle, Ability, AbilityStatsData } from "@shared/types";
+import type { DataSource } from "@shared/data/DataSource";
+import { browserSource } from "@shared/data/adapters/BrowserAdapter";
 import { hydrateImageFromImageName } from "@lib/image-url";
 import { matchesRouteIdentifier } from "@lib/route-id";
 
 type DatasetKey = 'warframes' | 'weapons' | 'mods' | 'arcanes' | 'companions' | 'archwing-weapons' | 'vehicles';
 
 class DataRegistry {
+  // Puerto "0" inyectado: la carga+cache cruda vive en el DataSource (compartido con
+  // el engine vía browserSource). DataRegistry proyecta la vía display sobre él.
+  private source: DataSource;
+  constructor(source: DataSource = browserSource) {
+    this.source = source;
+  }
+
   private cache: Map<DatasetKey, any[]> = new Map();
   private loadingPromises: Map<DatasetKey, Promise<any[]>> = new Map();
   private abilityStatsDb: Record<string, any> | null = null;
@@ -27,10 +36,8 @@ class DataRegistry {
 
     const promise = (async () => {
       try {
-        const res = await fetch(`/data/${key}.json`);
-        if (!res.ok) throw new Error(`Failed to load ${key}.json`);
-        const data: T[] = await res.json();
-        
+        const data = await this.source.read(key) as T[];
+
         let hydrated = data.map(hydrateImageFromImageName);
 
         // Hidratación específica por dominio
@@ -54,12 +61,10 @@ class DataRegistry {
 
   private async hydrateWarframes(warframes: Warframe[]): Promise<Warframe[]> {
     if (!this.abilityStatsDb) {
-      const res = await fetch('/data/ability-stats.override.json').catch(() => null);
-      this.abilityStatsDb = res?.ok ? await res.json() : {};
+      this.abilityStatsDb = await this.source.read('ability-stats.override').catch(() => ({})) as Record<string, any>;
     }
     if (!this.passivesDb) {
-      const res = await fetch('/data/passives.json').catch(() => null);
-      this.passivesDb = res?.ok ? await res.json() : {};
+      this.passivesDb = await this.source.read('passives').catch(() => ({})) as Record<string, { name: string; description: string }>;
     }
 
     return warframes.map(wf => ({
@@ -192,9 +197,7 @@ class DataRegistry {
 
     const promise = (async () => {
       try {
-        const res = await fetch(`/data/${key}.json`);
-        if (!res.ok) throw new Error(`Failed to load catalog ${key}.json`);
-        const data = await res.json();
+        const data = await this.source.read(key);
         this.catalogCache.set(key, data);
         return data;
       } catch (e) {
