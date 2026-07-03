@@ -241,3 +241,21 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 **Condición para reabrir:** el eje 2 (centralización en `E`) se retoma al estabilizar `A→D→UI` + `A=UI`; el mapa de candidatos es el gate. El modelo de 2 canales y la separación de ejes no se reabren sin evidencia nueva.
 **Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-ENGINE-10), `DC-OQ-ENGINE-10-A/-B`, `DC-OQ-STUB-1`. Plan de stages: `.working/` (scratchpad, no SSoT).
+
+---
+
+## DC-OQ-DATA-12 — Carga de runtime del engine: `import` estático → `fetch` (lado engine de "0")
+
+**Fecha de cierre:** 2026-07-02 (migrada desde `open-questions.md` el 2026-07-03).
+
+**Decisión:** cerrado el mecanismo de carga del engine en runtime. El `loadEngineData` que hacía `DataLoader.init` con `import` estático de los 7 JSON (cableado en `main.tsx`, bundleaba los datos: chunk ~2.3 MB) se migró a `fetch` lazy y se reubicó fuera de `fixtures/`.
+
+**Cómo cerró (dos pendientes):**
+- **`fetch` lazy** → Fase 1 (2026-06-12/13, saneamiento `@core`): `BrowserAdapter` reemplaza el `import` estático; bundle 2.3 MB→565 kB (gzip 431→171 kB); `DataRegistry` comparte la instancia `browserSource`, sin doble-fetch.
+- **Ubicación** → Fase 2 Slice E (2026-07-02): `loadEngineData` movido a `@core/engine/bootstrap/engine-data.ts`; `fixtures/` ya solo aloja `builds.ts`.
+
+**Reencuadre clave (por qué NO fue "mover el loader a fetch"):** la opción barata de un fetch engine-privado de los 7 JSON se descartó — 5 son overrides = **dato canónico compartido**, no proyección privada del engine (un loader propio reconstruiría la isla que "0" venía a cerrar). El `import` estático se queda como provisional solo para tests/CLI en Node.
+
+**Lo que NO cierra esta decisión:** el eje RED-adjacent "contrato de entrada del engine" (quién normaliza los overrides, β de OQ-DATA-9) sigue **abierto** — es otro eje, gated por el consumidor D real. Se rastrea en `OQ-DATA-9`.
+
+**Ref:** `OQ-DATA-9` (borde de entrada / "0"); campaña de saneamiento `@core` (Fase 1 + Fase 2 Slices B/C/E). Procedencia completa en git history de `open-questions.md`.

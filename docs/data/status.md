@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline y deuda activa"
-Version: "v0.2.4"
+Version: "v0.2.5"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-06-13"
+Fecha_de_actualizacion: "2026-07-03"
 ---
 
 # Data Domain — Estado Operativo
@@ -154,7 +154,6 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 **Repository:** `ArcaneRepository` ✅ implementado (2026-06-12: drift cerrado — el doc decía "pendiente"). Lee `arcane-stats.override.json`, resuelve `getModifiers` con rank clamping; `StaticHydrator.hydrate` procesa `intent.arcanes` y empuja los modifiers directo (sin DamageCombiner). El engine resuelve arcanos end-to-end. **Gap restante = conexión de escritura en UI** (store `setArcane` + ruteo de slots), no el engine.
 
 **Deuda:**
-- ✅ ~~`engine:debt` `ArcaneRepository` no implementado~~ — **CERRADO 2026-06-12**: implementado y cableado en `StaticHydrator`. El engine resuelve arcanos. La deuda real era de UI (write-connection), ya identificada.
 - `data:debt` P1: ~15 arcanes con `condition: null` + `upgrade_type` mapeado (efectos siempre activos, los más simples de integrar). Sin blocker de vocabulario.
 - `[SEM data:debt:schema` Patrones estructurales transversales (stacking / duration / composición de condition) — criterio de entrada fijado en `decisions.md#D-20`; **captura-only** en `audit-arcane.md`; puente cross-schema ubicado en `data/` (`DC-OQ-DATA-2`), creación gateada (`OQ-DATA-4`). Familia stacking on-event (Merciless/Deadhead/Dexterity, 6 entradas): drift con D-15 §2 (`base_value: null` vs total). Composición OR/AND de condition: contador = 1 (Afflictions), sub-umbral. `[empirical]`
 
@@ -178,7 +177,6 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 | Condition null (condición real sin token) | 2 — paris/vicious_promise ×2 |
 
 **Deuda conocida (activa):**
-- ✅ ~~`[ENGINE data:debt` `IncarnonRepository` lee `upgrades[]` (formato viejo) → devuelve `[]`~~ — **CERRADO 2026-06-13**: lee `stats[]` (formato actual) y `StaticHydrator:103-105` lo cablea. La conexión engine↔UI funciona; el gap real era el entry-point de UI (sin navegación a `/arsenal/incarnon`), ya reparado (acción "Incarnon" en ArsenalView).
 - `[SEM data:debt` G3 abiertos: duration buffs mapeados como estáticos (7 stats) `[inferred]`, SET vs ADD (12 stats) `[needs-verification]`, multi-value labels (3 stats) `[needs-verification]`
 - `data:debt` data:class:cat/d ~101 no-EVO1 restantes: ~82 genuinamente display-only + ~19 pendientes (G3 o tokens nuevos)
 - `[SEM data:debt` 4 condition tokens pendientes: `while_blocking`, `while_enemy_below_half_health`, y otros — trabajo manual usuario `[empirical]`

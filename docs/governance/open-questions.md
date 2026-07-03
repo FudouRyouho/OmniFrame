@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.33.0"
+Version: "v0.34.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-06-14"
+Fecha_de_actualizacion: "2026-07-03"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -98,7 +98,7 @@ El field `condition` estuvo en el schema de `ability-stats.override.json` y fue 
 **A — Double-scaling:** dos abilities tienen un stat que escala simultáneamente con dos modificadores distintos:
 - `Gara Mass Vitrify` → `Max Radius: 11m $DURATION $RANGE`
 - `Harrow Covenant` → `Energy Conversion: 15% $EFFICIENCY $STRENGTH`
-El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`. ~~El schema no soporta `upgrade_by[]` (array)~~ — **resuelto 2026-05-26**: `AbilityStatEntry.upgrade_by` ahora acepta `AbilityUpgradeBy | AbilityUpgradeBy[]`; el engine usa `[0]` hasta que exista `formulas/ability/`. Límite activo: engine + fórmula, no schema.
+El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`. El schema **ya soporta** `upgrade_by` como `AbilityUpgradeBy | AbilityUpgradeBy[]` (resuelto 2026-05-26); el engine usa `[0]` hasta que exista `formulas/ability/`. Límite activo: engine + fórmula, no schema.
 
 **B — Tokens válidos en contexto no-estándar:**
 - `Lavos`: `$EFFICIENCY` → `ENERGY_COST` pero Lavos no tiene pool de energía — `EFFICIENCY` reduce cooldown, no energy cost.
@@ -223,28 +223,17 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 - **(c) Resolución del ataque** — ¿el stat computa o es display-only? Punch through no modifica daño directo; cambia geometría de penetración (cuántos blancos atraviesa) — depende de un modelo de impacto que aún no existe.
 **Condición para resolver:** cuando el foco *weapons* llegue a Capa 4 (prioridad 2 del inventario, tras Capa 3 ya cerrada). Probable que se resuelva por familias de nodo, no token a token.
 **No bloquea:** captura de datos ni el vocabulario (token ya correcto y aplicado).
-**Avance (2026-06-10) — punch through materializado, ejes (a)+(b) resueltos para el caso disparador:**
-- **(a)** ya estaba: `ADD_FLAT` vía `resolveToken`.
-- **(b)** resuelto: el raw de `@wfcd/items` **sí expone** `punch_through` per-ataque (611/715 armas) pero vale **0 en el 100% del dataset** — incluso innatos (Lanka, Zenith). Mecanismo: `ItemRepository.getDNA()` escribe `WEAPON_FLAT_PUNCH_THROUGH` en el profile (`override per-ataque ?? raw ?? 0`); los innatos de la tabla wiki viven en `weapon-stats.override.json` (mismo patrón que multishot; formas Incarnon de Paris/Dread/Miter sin verificar → no anotadas). `createBaseEntity` materializa el nodo sin cambios (ya acepta todo token `isUpgrade()`).
-- **(c)** sigue abierto: el valor computa en C1 (metros); la geometría de penetración es C2 — acuñado como `it.todo` en el consumidor.
-- **Patrón validado para el resto de la Capa 4:** una clave en `getDNA()` por stat + override per-ataque para innatos. Consumidor: `__tests__/lanka.test.ts` (ver `test/catalog-current.md`).
+**Progreso Capa 4 (2026-06-10) — 3 nodos materializados; frente PAUSADO en ammo. Los "moldes" de base son el patrón reusable para el resto de la capa:**
+- **`punch_through`** ✅ (ejes a+b) — molde **override**: `override per-ataque ?? raw ?? 0` (el raw expone el campo pero vale 0 en 100% del dataset; innatos vía `weapon-stats.override.json`). Op `ADD_FLAT`. Consumidor `lanka.test.ts`.
+- **`projectile_speed`** ✅ — molde **raw**: base = `flight` (m/s reales), op `ADD` (%). Gate durable **`flight != null` (ausencia ≠ 0)**: hitscan (274/274 null) → nodo *ausente*, no `base:0` (tratarlo como 0 daría velocidad espuria). Consumidor `cedo-prime.test.ts`.
+- **`recoil`** ✅ (solo valor) — molde **sintético**: base `100` incondicional (no hay dato absoluto público; DE lo tiene interno/oculto, solo semántica relativa "% sobre el nato"), op `ADD` bidireccional. Consumidor `lanka.test.ts`.
+- **Patrón validado:** una clave en `getDNA()` por stat + override per-ataque para innatos; `createBaseEntity` ya acepta todo `isUpgrade()`.
 
-**Avance (2026-06-10 bis) — `projectile_speed` materializado, segundo nodo Capa 4:**
-- **Dos diferencias respecto a punch:** base = `flight` del raw **sin override** (el raw trae m/s reales, a diferencia de punch que era 0 en todo el dataset); op `ADD` (% aditivo) en vez de `ADD_FLAT`.
-- **Patrón nuevo — gate `flight != null` (ausencia ≠ 0):** hitscan = `flight` null en 274/274 (instantáneo, sin proyectil que acelerar) → nodo **ausente**, no `base: 0`. Tratar la ausencia como 0 envenenaría hitscan (un mod % daría velocidad espuria). Primera stat Capa 4 donde la ausencia del dato es semánticamente significativa. Aserción negativa en `cedo-prime.test.ts`.
-- **Edge-case wiki → reencuadrado como C2 (2026-06-10):** hitscan-**con**-falloff (67 ataques) — los mods de projectile speed escalan su rango de falloff. **No es un nodo Capa 4 faltante**: falloff es una **mecánica C2 entera** (`daño(distancia)`, interpolación lineal entre `start`/`end`), que requiere una variable de distancia inexistente en C1, tiene shape de 3 campos `{start,end,reduction}` (no escalar), y nada lo modifica salvo projectile_speed derivadamente. **Tensión abierta (diseño C2):** en hitscan-con-falloff el `%` de projectile speed no tiene nodo dónde aterrizar (gate `flight=null`) — C2 deberá leerlo de los modifiers o de nodos `FALLOFF_*` derivados. Prematuro decidir sin consumidor C2. El gate del nodo de *velocidad* sigue correcto. Spec: `references/wiki/mechanics/damage-falloff.md`. `it.todo` en `cedo-prime.test.ts`.
-- Mecánicas documentadas en `references/wiki/mechanics/{projectile-speed,damage-falloff}.md`. Accuracy/spread (insumo C2 de pellets) ya estaba en `accuracy.md` — no se duplicó.
-
-**Avance (2026-06-10 ter) — `recoil` materializado, tercer molde de base (SINTÉTICA) + sub-pregunta abierta:**
-- **Tercer molde:** ni override (punch) ni raw (projectile). **No existe dato absoluto público** de recoil — es stat interno de DE (`/Lotus/Types/Game/WeaponProperties/Recoil/`), oculto; ni el raw ni la UI ni la wiki lo exponen numéricamente. Única semántica disponible = **relativa** ("% sobre el nato"), validada por el juego (*"−100% recoil negates all recoil"*). → base **sintética `100`** incondicional en `getDNA()` (mismo patrón que `WEAPON_ADD_RELOAD_SPEED: 100`), op `ADD` (% bidireccional). Consumidor `lanka.test.ts` (Vile Precision −90% → final 10).
-- **Sub-pregunta abierta (queda como OQ — el nodo es inerte hasta resolverla):** recoil es **camera feel**, no input de daño — ni C1 ni C2 del simulador lo computan. El nodo produce un número relativo correcto pero **"muerto"** hasta decidir (a) **cómo se modela/usa** y (b) **cómo se representa en UI** (comparación de builds). Sin esa definición, materializarlo más allá del valor sería especulativo. Casos satélite: **clamp de sobre-reducción** (`final < 0` cuando dos reductores apilan > −100%; el juego clampea a 0 — ¿ley de C1 o presentación de D?); **aim vs hip recoil** (`AIMED_/HIP_CAMERA_RECOIL` internos, sin dato público); **fire-rate ↑ recoil** (interacción no parametrizada). `it.todo` en `lanka.test.ts`.
-- ⚠️ **Deuda de datos:** Stabilizer / Steady Hands (mods clásicos de recoil rifle/pistola) no curados en `mod-stats.override.json`; los 13 presentes son corrupted/duales/shotgun. No bloquea.
-- Mecánica documentada en `references/wiki/mechanics/recoil.md`.
-
-**Avance (2026-06-10 quater) — `ammo_max` y `ammo_efficiency`: NO materializados, dos razones distintas (frente Capa 4 PAUSADO aquí):**
-- **`ammo_max` = deuda de FUENTE, no de pipeline.** Verificado: `@wfcd/items` **no expone ammo max** (0/340 armas primary+secondary tienen el campo; `runtime-data-artifacts.ts:463` lee `magazineSize` pero no hay ammo que leer). El valor real existe (Laetum 12 mag / **210** reserva, visible en wiki/UI) pero la API de DE no lo da — solo la wiki. → **No se materializa con base sintética** (eso descartaría el dato real, anti-patrón ya evitado en projectile_speed). El modelado correcto (base = ammo max real) espera capturar el dato base: scrape dedicado de wiki, o que DE lo exponga. Capturar 340 valores a mano por override es inviable como lote. Pariente de eje (b) de esta OQ.
-- **`ammo_efficiency` = no encaja en los moldes, modelado pendiente.** No es stat de arma con base (acumulador de bonos, base 0); el op del token `ADD` (`mods_add_pct`, multiplica) no compone sobre base 0; su efecto es `disparos/ammo = 1/(1−efficiency)` (C2); los únicos 2 mods son condicionales (Brain Storm 0.125s, Zazvat-Kar `while_airborne`). Requiere decidir shape con un caso real (pendiente: estudiar Laetum) antes de modelar. **No bloquea.**
-- **Estado del frente Capa 4:** 3 nodos materializados (punch_through, projectile_speed, recoil); ammo pausado por lo de arriba. Próximos candidatos sin tocar: `zoom`, `headshot_mult`, familias `combo_*`/`heavy_*`, `slam_*`. Retomar tras la campaña de saneamiento de `references/wiki/` (ver `doc-map.md §5`).
+**Sigue abierto:**
+- **(c) resolución del ataque** — el eje abierto de fondo: los nodos computan valor en C1 (metros, m/s) pero su *efecto* es **C2** (geometría de penetración, falloff) — `it.todo` en los consumidores. Sub-caso `projectile_speed`: hitscan-con-falloff es una mecánica C2 entera (`daño(distancia)`, spec `damage-falloff.md`); dónde aterriza el % de speed con gate `flight=null` se decide con consumidor C2, no antes.
+- **`recoil` = nodo inerte hasta modelar** (sub-OQ) — es *camera feel*, ni C1 ni C2 lo computan; el número es correcto pero "muerto" hasta decidir cómo se modela/usa y cómo se representa en UI. Satélites: clamp de sobre-reducción (`final<0` → ¿ley C1 o presentación D?), aim vs hip recoil (sin dato público), fire-rate↑recoil. Deuda de datos: Stabilizer/Steady Hands no curados en `mod-stats.override.json`.
+- **ammo — frente pausado:** `ammo_max` = **deuda de FUENTE** (`@wfcd/items` no expone ammo max, 0/340; el real solo en wiki → no se materializa con base sintética para no descartar el dato real; pariente eje b). `ammo_efficiency` = **no encaja en los moldes** (acumulador base 0, op `ADD` no compone sobre 0; efecto `1/(1−eff)` es C2; 2 mods condicionales) → modelado pendiente de un caso real (Laetum).
+- **Próximos candidatos sin tocar:** `zoom`, `headshot_mult`, familias `combo_*`/`heavy_*`, `slam_*`. Retomar tras la campaña de saneamiento de `references/wiki/` (`doc-map.md §5`).
 **Fuente:** `.working/engine-ignorance-inventory.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,accuracy}.md`; `docs/semantic/upgrade-tokens.md` (filas `WEAPON_FLAT_PUNCH_THROUGH`, `WEAPON_ADD_PROJECTILE_SPEED`).
 
 ---
@@ -273,9 +262,9 @@ O sea: la palabra que titula la Capa D también bautiza el payload del lado-prod
 **No bloquea:** el harness compartido ni el CLI; las ubicaciones son provisionales y mecánicas.
 **Vínculo:** OQ-ENGINE-8 (sobrecarga de naming), OQ-ENGINE-FUTURE (simetría de entrada / Capa A respecto a `@core`/`providers`).
 **Fuente:** debate 2026-06-11 sobre extracción del harness tests↔CLI; `arch-decisions.md §6-7`.
-**Resuelto parcialmente (2026-06-12, rama `refactor/core-stage0-restructure`):** reestructura ejecutada (Stage 0+1, commit por slice, `tsc -b` CLEAN + 95 tests). Eje **(c)** Capa A fuera de `providers/` ✓ — `ensemble-store`→`@core/intention`, `ensemble.types`→`@shared/types/ensemble`; más reorg `engine/{resolve (C1), simulate (C2)}`, `bridge`→`@core/bridge` (B), split `contracts.ts`/`primitives.ts`. El ruling `@providers→@core` quedó **PERMITIDO** (resuelve la simetría de entrada de OQ-ENGINE-FUTURE). Detalle: `closed-decisions.md` DC-OQ-ENGINE-9.
-**Eje (d) resuelto por purga, no extracción (2026-06-16, Fase 0 de la campaña de saneamiento):** `@core/engine/hooks/` (`useSimulation`/`useSimulationMetrics`/`useTimeline`) era cluster muerto (solo se referenciaba a sí mismo) — se purgó completo en vez de extraerse a D. Ver `current-state.md` #15.
-**Eje (a) resuelto (2026-07-02, Fase 2 Slice E, campaña saneamiento):** `loadEngineData` separado de `fixtures/` → `@core/engine/bootstrap/engine-data.ts`. `fixtures/` ya solo aloja `builds.ts` (intenciones-fixture) — la mezcla bootstrap+intenciones queda cerrada. Queda pendiente el eje **(b)** (armonía harness-consumidores respecto a `output/`).
+**Ejes resueltos (rama `refactor/core-stage0-restructure`):** **(c)** Capa A fuera de `providers/` ✓ (Stage 0+1, 2026-06-12: `ensemble-store`→`@core/intention`, `ensemble.types`→`@shared`, reorg `engine/{resolve,simulate}`, `bridge`→`@core/bridge`; ruling `@providers→@core` PERMITIDO — detalle `closed-decisions.md#DC-OQ-ENGINE-9`). **(d)** por purga, no extracción (2026-06-16): `@core/engine/hooks/` era cluster muerto → purgado completo. **(a)** `loadEngineData` sacado de `fixtures/` → `@core/engine/bootstrap/` (2026-07-02); `fixtures/` ya solo aloja `builds.ts`.
+**Sigue abierto — eje (b):** dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`). Gated por la Capa D real.
+**Backlog abierto — shape de la Capa A (usuario, 2026-06-16):** la estructura de las **intenciones** huele incoherente — `Ensemble` mezcla `slots`+`arcanes` y la forma de las intents en general pide una estructura más coherente → revisión de la Capa A. Pariente de "A2 nunca construido"; encaja con una fase futura de la campaña de saneamiento `@core`. No bloquea.
 
 ---
 
@@ -305,11 +294,10 @@ Síntoma concreto: `UpgradeView` (vía `useViewModel→consume`) corre el engine
   - **Avance 2026-06-12 (rebanada vertical, provisional):** cableado el bootstrap de runtime que faltaba — `main.tsx` ahora llama `loadEngineData()` antes de `createRoot` (el engine ya no corre contra repos vacíos). Reúsa el loader **por import estático** de `fixtures/` (no β, no toca el contrato de `@core` — invoca lo que ya existe). **Evidencia empírica del costo del estático:** `vite build` pasa pero el chunk principal salta a ~2.3 MB (gzip 431 KB, warning de tamaño) — los 7 JSON quedan en el bundle. Confirma que el mecanismo final debe ser `fetch` lazy. **Confirmado visual end-to-end (2026-06-12):** varios warframes muestran números reales del motor en `StatPanel`. Deuda registrada: sacar `loadEngineData` de `fixtures/` + migrar a fetch.
   - **Avance 2026-06-13 (Fase 1 completa) + 2026-07-02 (Fase 2 Slice E):** el `fetch` lazy ya está resuelto — `BrowserAdapter` (Fase 1) reemplazó el `import` estático, bundle 2.3 MB→565 kB. `loadEngineData` ya salió de `fixtures/` → vive en `@core/engine/bootstrap/engine-data.ts`. De la deuda registrada acá, ambos puntos quedan cerrados; ver `OQ-DATA-12` para el detalle.
   - **Bug colateral encontrado y cerrado durante la verificación (instancia fractal del defecto SSoT-duplicado):** el canal de armas (`primary`/`secondary`/`melee`) mostraba los stats del warframe. Causa: `UpgradeView` se había hecho un `channelMap` local divergente (claves `primary`) en vez de usar el SSoT `SLOT_TO_ENSEMBLE_CHANNEL` de ArsenalView (claves reales `primary_weapon`), y un fallback `|| "warframe"` enmascaraba el desajuste mostrando el warframe en silencio. Fix: extraído `SLOT_TO_ENSEMBLE_CHANNEL` a `domains/arsenal/slot-channel.ts` (SSoT único, consumido por ambos), borrado el mapa local y el fallback (ahora panel vacío honesto). Mismo patrón que OQ-DATA-10: un SSoT que existe + un consumidor que reinventa su copia divergente.
-- **Backlog de migración (mecánico, incremental):** ~~colapsar 7 `lib/*-data.ts`~~ ✅ · ~~2 mini-fetchers (archon/incarnon) → `Registry.getCatalog` + hook `useCatalog`~~ ✅ **HECHO 2026-06-13** · **resta:** cablear la carga de runtime del engine (`import` estático → `fetch`) → **OQ-DATA-12**. Con esto el lado **display** de "0" está consolidado en DataRegistry; solo queda el lado **engine**.
+- **Backlog de migración — HECHO (2026-06-13):** colapsadas las 7 islas `lib/*-data.ts` + 2 mini-fetchers (→ `Registry.getCatalog` + hook `useCatalog`); el lado **display** de "0" quedó consolidado en DataRegistry. El lado **engine** (carga runtime, `import`→`fetch`) se cerró en `DC-OQ-DATA-12`.
   - **Avance 2026-06-13 (colapso de las 7 islas `lib/*-data`):** los 7 DetailViews migrados a `Registry.getItemById`; los 7 `lib/*-data.ts` borrados. **Registry absorbió la hidratación de passives** (era exclusiva de `warframe-data` → ya no se pierde) y unificó el match en `matchesRouteIdentifier`. Ahora Registry es el merge display completo (abilities + passives + imágenes). tsc limpio. **Pendiente:** los 2 mini-fetchers son catalog-shaped (`Record<key,entry>`, no `BaseItem[]`) → requieren que Registry sirva forma-catálogo (un `getCatalog`) antes de colapsarlos; y el `import` estático del engine → `fetch`.
 
 **Drift detectado (registrado; cerrar en la fase de construcción, no antes):**
-- ✅ ~~`lib/warframe-data.ts:3` cita doc inexistente~~ — **CERRADO 2026-06-13**: `warframe-data.ts` (y las otras 6 islas `lib/*-data`) borradas en el colapso. La cita muerta se fue con el archivo. (Las 6 restantes citaban el mismo doc inexistente — también resuelto.)
 - `docs/domains/integration/README.md` (v0.0.2, 2026-05-19) **stale**: dice "ViewModelContract pendiente de definición" (ya existe v0) y lista `useSimulation` como D-parcial (reemplazado por `useViewModel`).
 - `DataRegistry` se declara SSoT en código y **ya es el SSoT display de facto** (2026-06-13): colapsada la isla `lib/*-data`. Conviven aún: 2 mini-fetchers catalog-shaped (archon/incarnon) + `DataLoader` del engine (import estático). El tell de duplicación `hydrateAbility` (copia literal en `warframe-data`) quedó resuelto al borrar esa isla.
 - `lib/image-url.ts:hydrateImageFromImageName` lo consume `DataRegistry` (lado **entrada/0**: la imagen es chrome, ver L296) pero el archivo mezcla ese hydrate con `resolveLocalImageUrl` (salida/display → DATA-10). Mismo archivo, dos bordes — separar al consolidar 0. (TODO inline del usuario 2026-06-13.)
@@ -361,7 +349,6 @@ Tres tells de duplicación (espejo de OQ-DATA-9):
 
 **Drift detectado (registrado; cerrar en la fase de construcción):**
 - `hydrateAttributeRegistry()` muerto (nunca llamado).
-- ~~`StaticHydrator` (@core) importa de `lib/presentation`~~ **✅ RESUELTO (D-7 Fase 4):** el engine ya no importa presentación; el nodo es puro; la meta se adjunta en `project()` (borde C→D).
 - `presentation-layer.md` (v0.0.2, abr-2026, nunca formalizada) describe el pipeline como si estuviera adoptado; no menciona la ruta engine/D ni las islas ad-hoc.
 - `lib/image-url.ts` se auto-rotula `@SSoT` pero **straddlea los dos bordes**: `resolveLocalImageUrl` (img-name → URL display, 3 consumidores UI) es proyección de **salida**; `hydrateImageFromImageName` es chrome de **entrada** (lo usa `DataRegistry`/0 → ver DATA-9 L296). El SSoT declarado es falso; la pieza display debería vivir en la suite de proyección, no en `lib/` suelto. (TODO inline del usuario 2026-06-13.)
 - `PreviewPanel` (aside name/desc/stub-flag) — TODO inline del usuario: el "panel de stats" se repite en varios lugares sin SSoT; candidato a converger en la proyección (parte de la responsabilidad pasa por Capa D).
@@ -400,25 +387,8 @@ Tres tells de duplicación (espejo de OQ-DATA-9):
 
 ---
 
-## OQ-DATA-12 — Carga de runtime del engine: import estático → fetch (cierre de "0" lado engine) — **CERRADA (2026-07-02)**
-**Dominio:** data / engine / integración (lado engine de "0", hermano de la consolidación display ya hecha)
-
-**Contexto (histórico):** Tras colapsar las islas **display** hacia DataRegistry (7 `lib/*-data` + 2 mini-fetchers, 2026-06-13), el único loader que quedaba fuera del puerto era el del **engine**: `core/engine/fixtures/engine-data.ts` (`loadEngineData`) hacía `DataLoader.init` con **`import` estático** de los 7 JSON, cableado en `main.tsx`. Eso **bundleaba los datos** (chunk principal ~2.3 MB / gzip 431 KB, medido en `vite build`).
-
-**Cierre — ambos pendientes resueltos:**
-- Migrar la carga de runtime a `fetch` lazy → **Fase 1 (2026-06-12/13, campaña saneamiento `@core`):** `BrowserAdapter` reemplaza el `import` estático; bundle 2.3 MB→565 kB (gzip 431→171 kB); `DataRegistry` comparte la misma instancia (`browserSource`), sin doble-fetch.
-- Sacar `loadEngineData` de `fixtures/` → **Fase 2 Slice E (2026-07-02):** movido a `@core/engine/bootstrap/engine-data.ts`. `fixtures/` ya solo aloja `builds.ts` (intenciones-fixture).
-- El eje **RED-adjacent** ("contrato de entrada del engine" — el merge de overrides que hoy hacen `StaticHydrator`/repos, β de OQ-DATA-9) **sigue abierto**, pero es un eje distinto y no bloqueaba el cierre de esta OQ (que era específicamente sobre el mecanismo de carga, no sobre quién normaliza). Se sigue rastreando en `OQ-DATA-9` (sub-decisión "Contrato de entrada del engine") y en la campaña de saneamiento `@core` (Fase 2 Slices B/C).
-
-**Reencuadre (debate 2026-06-13) — esto NO se resuelve "moviendo el loader del engine a fetch":**
-- La opción barata (dar al browser un fetch **engine-privado** de los 7 JSON, contrato `@core` intacto) fue **descartada**: 5 de esos archivos son **overrides = dato canónico compartido**, no proyección privada del engine. DATA-9 ya lo fija: *"un override es el valor verdadero, no un cómputo… una sola carga + normalización única; cada consumidor proyecta su forma."* Un loader que baje los overrides por su cuenta **reconstruye la isla** que "0" venía a cerrar.
-- El override + la hidratación se necesitan en **runtime y en toda la app**, no solo en el engine: hoy mod-stats; pronto hidratación C1 directa en arsenal/`UpgradeView`. Hoy la UI ya recibe valores derivados de overrides **vía C1/D** (`useViewModel→consume`) — no hay hueco funcional roto.
-- **Principio del corte:** el código de hoy **no define lo que mañana va a necesitar**; su composición evoluciona. Forzar ahora la forma del puerto (engine-privado vs β del puerto) sin el consumidor real es prematuro → se difiere por diseño, no por olvido.
-- **Naturaleza:** deuda de **bundle (~2.3 MB) + pureza del puerto** → optimización diferible (function-first), no funcionalidad. El `import` estático se queda como provisional (tests/CLI en Node lo necesitan igual).
-- **Gatillo de cierre:** cuando arsenal/`UpgradeView` pida hidratar overrides **directamente** (no vía C1) → ahí aparece el consumidor D que justifica construir el `load+normalize` del puerto (sub-decisión β de DATA-9, RED), y el lado engine cae con él.
-
-**Vínculo:** **OQ-DATA-9** (ejecución de su sub-decisión "Mecanismo de carga"); cierra el lado engine de "0". El resto (β, quién normaliza los overrides) sigue gated por el consumidor D real en DATA-9.
-**Fuente:** consolidación de loaders display 2026-06-13 — al colapsar las islas, éste quedó como el único loader paralelo. Reencuadrado como deuda diferida en el debate 2026-06-13; cerrada por Fase 1 (fetch) + Fase 2 Slice E (ubicación) de la campaña de saneamiento `@core` (2026-07-02).
+## OQ-DATA-12 — Carga de runtime del engine: import estático → fetch — **CERRADA (2026-07-02) → migrada a `closed-decisions.md` (`DC-OQ-DATA-12`)**
+Cerrada por Fase 1 (`fetch` lazy vía `BrowserAdapter`, bundle 2.3 MB→565 kB) + Fase 2 Slice E (`loadEngineData` → `@core/engine/bootstrap/`) de la campaña de saneamiento `@core`. El eje RED-adjacent "contrato de entrada del engine" (β) sigue abierto en **OQ-DATA-9**. Detalle completo: `closed-decisions.md#DC-OQ-DATA-12`.
 
 ---
 
@@ -578,10 +548,10 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 
 **Ruido abierto del usuario (concern legítimo):** partir el consumo de `lib/format` entre D2 y E, ¿no recrea **islas de formateo** (lo que `lib/*` busca evitar)? **Antídoto:** el estrato 2 debe ser **suite única (SSoT), llamada por ambas ramas**, no reimplementada — exactamente el trabajo inconcluso de OQ-DATA-10. El split D/E **no agrega** isla *si y solo si* lib/format es single-source. No rompe contratos (lib/* ya es shared legal por Restricción 1).
 
-**Pendiente de estresar (sesión limpia):**
-- ✅ ~~Trazar un **caso real** por los 3 estratos~~ — **HECHO 2026-06-14** (`crit chance` de arma + nodo de habilidad). Mapa persistido en [`../domains/ui-ux/presentation-layer.md`](../domains/ui-ux/presentation-layer.md) (v0.1.0, reescrito). **Hallazgos verificados:** (1) la **ruta info** ya entrega contrato neutro limpio — `StatViewModel` (`shared/view-model/index.ts`) es exactamente `token·value·unit`; el cuello NO es D sino el estrato de formateo. (2) **El plano `lib/*` no consume el SSoT semántico** (`upgrade-tokens.md`/D-6): tiene 3 tablas keyed por nombres humanos pre-SSoT (`critical_chance`/`crit_chance`), ninguna es fuente — *este es el eje real de OQ-DATA-10, ahora afilado*. (3) **El leak β estaba roto**, no solo feo: `StaticHydrator:158` llamaba `getAttributeMetadata("WEAPON_ADD_CRIT_CHANCE")` pero `attribute-registry` estaba keyed por `"critical_chance"` → caía al fallback (unit `""`, category `utility`) → crit chance se mostraba **sin `%`**. **✅ RESUELTO (D-7 Fase 4, 2026-06-14):** registry re-keyado por token, leak desenchufado, `project()` adjunta la meta en el borde. (4) **ruta chrome** (nodo de habilidad ícono+nombre) no toca C/D — `0→UI` directo (confirma la confluencia de 2 entradas). (5) el **estado UI-local** no participa del flujo del dato: es selector de qué proyectar, ortogonal.
+**Estrés de los 3 estratos — HECHO 2026-06-14** (`crit chance` de arma + nodo de habilidad; mapa completo persistido en [`../domains/ui-ux/presentation-layer.md`](../domains/ui-ux/presentation-layer.md) v0.1.0). Hallazgos que se llevan adelante: la **ruta info** ya entrega contrato neutro limpio (`StatViewModel` = `token·value·unit`; el cuello es el estrato de formateo, no D); **el plano `lib/*` no consume el SSoT semántico** (`upgrade-tokens.md`/D-6) — 3 tablas keyed por nombres humanos pre-SSoT, ninguna es fuente (*el eje real de OQ-DATA-10*); la **ruta chrome** (`0→UI` directo) confirma la confluencia de 2 entradas de E. El leak β roto (crit sin `%`) quedó resuelto en D-7 Fase 4. Contraste con la realidad del proyecto → ver **Resultado Pre-E** abajo.
+
+**Sigue abierto:**
 - Ubicar el **estado efímero de UI** (OQ-UI-2: slot seleccionado, hover, nav) en el diagrama — *no* pasa por E (es React-state legítimo); ¿dónde entra?
-- ✅ ~~Contrastar con la **realidad del proyecto**~~ — **HECHO (Pre-E, 2026-06-14)** — ver Resultado abajo.
 
 **Resultado Pre-E (2026-06-14, pasada de análisis — NO construcción):** **E NO es necesidad emergente.** A–D materializaron el **estrato 2** (`lib/format`: proyector único `toStatEntries` + `stat-presentation`, consumido por D1 y D2) — *lo que se confundía con E, no E*. Eso **retira el concern "islas de formateo" de L577** (lib/format probó ser single-source: dos consumidores de una utilidad = biblioteca, no isla). Evidencia dura: D1 (`UpgradeView`) opera hoy como `D + lib/format` **sin E** y rinde; el chrome (2ª entrada de E) sigue ad-hoc inline `0→UI` (`nameById` + `SLOT_DEFS`) = el eje-2 diferido de OQ-UI-2. **E queda ESTACIONADO** (no muerto): el modelo de confluencia es buen pensamiento y espera; su próximo forcing-function es un **consumidor UI real** (la vista avanzada, inexistente) que exija la confluencia chrome+info, no más trabajo de formateo. **Hallazgo cross-cutting (excede esta OQ):** la pasada destapó que *la UI nunca tuvo su corpus de docs/auditoría* como sí lo tuvo `data/`/engine → eje del próximo trabajo (**campaña de documentación de UI**, separada de E). Ver trazabilidad de sesión 2026-06-14.
 
@@ -632,3 +602,19 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 **No bloquea:** el núcleo del modelo de daño (Slash/Toxin/Viral/Corrosive) ni el plan de slices que lo implemente primero.
 **Vínculo:** `damage-status-model.md` (el modelo completo, incluye la brecha ya encontrada entre `EnemyState.processDots()` — decaimiento lineal continuo, código de abril — y el primitivo de N-timers-independientes validado empíricamente esta sesión; el bug de `getDamageMultiplier` y el rename de vocabulario legacy ya se resolvieron en Fase 3 pieza 3, commit `98ef01b`, previo a esta campaña).
 **Fuente:** debate de modelado C2, verificación empírica in-game 2026-07-02.
+
+## OQ-ENGINE-13 — ¿Los buffs de habilidad tipo Roar/Xata double-dipean en DoTs? — **ABIERTO (2026-07-03)**
+**Dominio:** engine / C2 (composición de daño) + Capa 5 (scaling de habilidades)
+
+**Contexto:** durante el modelado de C2 se observó que un buff de habilidad (Roar) produce sobre un DoT un multiplicador final mayor que su valor nominal: ×3.4 observado contra ×1.85 nominal (test con Alternox sobre el DoT de Electricity). `1.85² = 3.42` — la aritmética es la **firma de un double-dip**, el mismo primitivo `(1+b)²` que el modelo ya valida para el faction bonus sobre los 5 DoTs (`damage-status-model.md` §Reglas de composición #2). El test fue justamente sobre un DoT, que es donde vive el double-dip.
+
+**Hipótesis:** Roar (y buffs de la misma clase, ej. Xata) double-dipean en DoTs igual que el faction bonus. Esto parte en **dos ejes**:
+- La **composición** (el buff se aplica dos veces en la vida del DoT) es **C2** — mismo mecanismo ya modelado para faction, NO Capa 5.
+- El **origen/sourcing del valor** del buff (de dónde sale el +85%, cómo escala con strength) sí es **Capa 5** (scaling de habilidades, `gap-map.md`).
+
+**Pregunta:** ¿se confirma el double-dip de composición y cómo se separa del sourcing? No se persigue ahora — no hay trade-off en re-testear una mecánica que ya se comporta así; queda registrada para cuando se modele el eje de habilidades.
+
+**No bloquea:** nada del modelo de daño v1 (Roar/Xata no entran a v1). Es una regla de composición que el modelo excluye explícitamente hasta confirmar.
+**Pendiente de captura:** re-test con capturas, Roar aislado sobre un DoT (sin faction); verificar si Xata (Void como posible instancia aparte) se comporta idéntico a Roar.
+**Vínculo:** `damage-status-model.md` §Reglas de composición.
+**Fuente:** observación in-game durante modelado C2 (Alternox + DoT Electricity), 2026-07-02.

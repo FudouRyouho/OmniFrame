@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Status operativo del dominio ui-ux — pulso por code-domain + mapas cross-cutting (output de los 6 barridos + cruce de consolidación)"
-Version: "v0.1.0"
+Version: "v0.1.1"
 Impacto_ID: "UI-UX-Status"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-06-16"
-Fecha_de_actualizacion: "2026-06-16"
+Fecha_de_actualizacion: "2026-07-03"
 Dependencias:
   - "./workflow.md"
   - "./decisions.md"
@@ -34,7 +34,7 @@ stub como spec** — distinguir el clásico 1:1 Warframe (estable) del function-
 
 ### 1.2 Equipment — **ESTABLE** (delegado a `@shared`)
 - Controlador de composición que delega a `@shared` (`OmniToolbar` + `FilterProvider` + `Outlet`). Chrome **data-driven** (recibe `tabs`/`toolbarMap` por props) — asimetría **positiva** vs el chrome inline de arsenal.
-- **Deudas (capturadas, no ejecutadas — `U-2`):** `EquipmentContext` ≡ `ArsenalSwapContext` byte-a-byte → dedup a `useFilterState()` en `@shared` (**E1**); `equipment/hooks/{use-items-filters,use-item-details}` consumidos por `@shared` = **inversión Restricción 1** → mover a `@shared` (**E4**, ver nota R1 en `current-state` [2026-06-16]).
+- **Deudas (capturadas, no ejecutadas — `U-2`):** `EquipmentContext` ≡ `ArsenalSwapContext` byte-a-byte → dedup a `useFilterState()` en `@shared` (**E1**); `equipment/hooks/{use-items-filters,use-item-details}` consumidos por `@shared` = **inversión Restricción 1** → mover a `@shared` (**E4**).
 - **Filtros** = concern-bucket cross-cutting (consumido por equipment Y arsenal-swap), ya carve-out a `@shared`.
 
 ### 1.3 HUD / Footer — **STUB** · `OQ-UI-3`
@@ -99,7 +99,7 @@ La deuda **presente** real de la UI no es dead-code para purgar — es **deshone
 - **Deuda definicional:** "**classic vs advanced vs builder**" se usan sueltos sin definición canónica. *Classic* = mirror 1:1 Warframe; *advanced (vista avanzada)* = clásico + enriquecimientos armónicos (ej. fórmula de habilidad vía buckets de C); *builder* = construcción/edición. Asentar una definición firme cuando se materialice.
   - **Boceto de salida analítica (rescatado de código muerto, Fase 0 2026-06-16):** el tipo `ProjectionSnapshot` (purgado del engine — sin productor ni consumidor, ensuciaba `contracts.ts`) capturaba la forma tentativa de la salida que la *vista avanzada* consumiría: por entidad, `metrics: { ttk?, effective_dps?, status_weights }`. **Punto de partida, NO contrato** — cuando se materialice la vista avanzada, la forma real se deriva del oráculo/dominio (no de este stub pre-oracle). Aquí queda solo como ancla de intención.
 - **Mispointers `@SSoT`** (varios archivos → `shell-status`/`shell-principles` inconsistente): re-apuntar a este `status.md` al tocar cada archivo.
-- **Trayectorias de modelado-diferido** (multi-config warframe-like, filter-variety/A2, abilities n%/exaltadas): no bloqueadas, gated por prioridad — ver `current-state` [2026-06-16] + `OQ-ENGINE-11`.
+- **Trayectorias de modelado-diferido** (multi-config warframe-like, filter-variety/A2, abilities n%/exaltadas): no bloqueadas, gated por prioridad — ver `current-state.md` §2 (Gaps) + `OQ-ENGINE-11`.
 
 ---
 
@@ -108,5 +108,5 @@ La deuda **presente** real de la UI no es dead-code para purgar — es **deshone
 - [`./workflow.md`](./workflow.md) — el flujo de la campaña (Recon→Triage→Document).
 - Cluster **OQ-UI** (`OQ-UI-2`…`OQ-UI-6`) — el corte por dominio; cada sección §1 enlaza el suyo.
 - `OQ-ENGINE-11` (exaltadas / eje estructura de U-3), `OQ-ENGINE-10` + `OQ-DATA-10/-13` (presentación / borde de salida).
-- [`../../governance/current-state.md`](../../governance/current-state.md) — entrada [2026-06-16] (reencuadre M1, gaps).
+- [`../../governance/current-state.md`](../../governance/current-state.md) §2 — gaps de UI (multi-config, badge A/B/C).
 - [`./presentation-layer.md`](./presentation-layer.md) — referencia del borde de salida (eje-2).
