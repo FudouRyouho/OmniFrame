@@ -87,9 +87,8 @@ El convenio (`docs/CLAUDE.md` §"Convenio de tamaño") pide máx 3 operativos po
 (`status.md` + `schema.md` + `workflow.md`). ui-ux **no tenía ninguno** (solo `shell-status.md`
 mal nombrado + 5 referencia). La campaña le da el esqueleto que le falta:
 
-- **`status.md`** (operativo) — status de dominio, secciones por code-domain. Se construye a
-  medida que cada dominio pasa por S0→S2. `shell-status.md` se pliega aquí. *(aún no creado:
-  requiere leer código; es output de los barridos, no de Stage 0.)*
+- **`status.md`** (operativo) — status de dominio, secciones por code-domain. **Creado 2026-06-16**
+  (output de los 6 barridos + cruce de consolidación, no de Stage 0). `shell-status.md` plegado aquí.
 - **`workflow.md`** (operativo) — **este doc**. El flujo es el contrato (sustituye al `schema`).
 - **`decisions.md`** (operativo) — ledger de decisiones de UI, serie U-N (espejo de
   `data/decisions.md`, mismo régimen VIGENTE/DEFINITIVA).

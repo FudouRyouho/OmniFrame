@@ -71,16 +71,13 @@ Drift registrado (gate: **registrar, no auto-fix**):
   - §4.3 "all-operations siempre ADD" → **stale**: hoy `resolveToken()` deriva la op del segmento
     del token (`OPERATION_MAP`: ADD/FLAT/BASE/MULT). `punch_through` usa `ADD_FLAT`.
   - §4.2 IncarnonRepository → no refleja la propagación de `condition` (Capa 3 cerrada, commit `4c6b731`).
-- **`engine/status.md` drift menor (GREEN):** no lista `hydration/DataLoader.ts`; la tabla de tests
-  omite `felarx`, `laetum`, `weapon-multishot-resolution`; el cuerpo dice "última actualización
-  2026-05-27" vs frontmatter `2026-06-04`.
+- **`engine/status.md`** → **atendido por la pasada de drift (§7, 2026-07-03):** era drift severo (doc entero pre-reestructura 2026-06-12); reescrito completo contra la estructura real (`core/bridge`, `engine/{resolve,resolve/hydration,simulate/{combat,enemies},output,bootstrap}`), tabla Hooks purgada, formulas/tests/deudas actualizados. v0.4.0.
 - **`current-state.md`** quedó stale vs el trabajo de junio → **atendido por la campaña docs-review (§7, 2026-07-03):** changelog purgado a git, 4 drifts internos cerrados, snapshot restaurado.
 - **`README.md` (docs raíz, 2026-05-25)** sigue stale vs el trabajo de junio → refrescar al retomar (pendiente).
 
 Pendientes de la campaña (no ejecutados esta sesión):
-- Refrescar `engine-audit.md` y `engine/status.md` contra el código actual.
-- Bloat cualitativo intra-doc (sobre-responsabilidad/acreción histórica): requiere auditoría de
-  contenido doc-completo, fuera del alcance mecánico de esta sesión.
+- Refrescar `engine-audit.md` contra el código actual (posible snapshot histórico frozen — decidir al llegar a Tanda 2). `engine/status.md` ya refrescado (§7).
+- Bloat cualitativo intra-doc (sobre-responsabilidad/acreción histórica): abordado por la campaña docs-review (§7) en los docs de Tanda 1; resto en Tandas 2-3.
 
 ---
 
@@ -190,4 +187,10 @@ hay pudrición estructural; el ruido es 100% cualitativo intra-doc.**
 
 **Hallazgo de la tanda:** el bloat es por **acreción-de-log**, no por edad. Docs viejos bien-formados y recientes-de-campaña están limpios; el bloat vivía en los acretados (`current-state`, `open-questions`). Poda aplicada solo donde había log; el drift va a su pasada aparte.
 
-**Pendiente:** Tandas 2 (contratos SSoT-vivo, ~30 docs) y 3 (referencia, ~25). Luego la **pasada de drift consolidada** — el ítem más grave detectado es `engine/status.md` (pre-reestructura completo).
+**Pasada de drift Tanda-1-adjacente (✅ 2026-07-03):** cerrados los drifts detectados durante Tanda 1 (todos verificados contra código):
+- `engine/status.md` — **reescrito completo** (drift severo, doc entero pre-reestructura). v0.4.0.
+- `decision-frontier.md` — 3 entradas stale (Projection Snapshots → `snapshot()`; Capa D materializada v0; residuales `@core` hooks/fixtures). v0.0.6.
+- `integration/README.md` — bridge/hooks/store paths + estado Capa D. v0.0.3.
+- `test-workflow.md` (`fixtures`→`bootstrap`), `ui-ux/workflow.md` (`status.md` ya existe), `open-questions.md` OQ-DATA-9 (mini-fetchers/DataLoader resueltos).
+
+**Pendiente:** Tandas 2 (contratos SSoT-vivo, ~30 docs) y 3 (referencia, ~25). Drift restante conocido: `engine-audit.md` (§4 — decidir si es snapshot histórico frozen al llegar a Tanda 2), `README.md` raíz.

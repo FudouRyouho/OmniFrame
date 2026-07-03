@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Documentar la capa de integración entre el estado del usuario y el motor de simulación"
-Version: "v0.0.2"
+Version: "v0.0.3"
 Impacto_ID: "D-Integration"
-Fidelidad_Fisica: "Project/src/core/engine/"
+Fidelidad_Fisica: "Project/src/core/"
 Fecha_de_creacion: "2026-05-18"
-Fecha_de_actualizacion: "2026-05-19"
+Fecha_de_actualizacion: "2026-07-03"
 ---
 
 # Dominio: Integration
@@ -18,12 +18,12 @@ Ver `docs/domains/engine/design/simulation-architecture.md` para la definición 
 
 | Archivo | Rol | Capa |
 |---|---|---|
-| `engine/bridge/MutatorBridge.ts` | Orquesta la simulación completa desde `EnsembleIntention`. Absorbe la lógica que `EnsembleAdapter` (eliminado) tenía como stub. | B |
-| `engine/hooks/useSimulation.ts` | Hook React que conecta `EnsembleStore` → `MutatorBridge` → UI. Implementación parcial de Capa D. | D (parcial) |
-| `providers/Ensemble/EnsembleStore` | SSoT de estado del usuario (`EnsembleIntention`). Fuente canónica de intención. | A |
+| `core/bridge/MutatorBridge.ts` | Orquesta la simulación completa desde `EnsembleIntention`. Absorbe la lógica que `EnsembleAdapter` (eliminado) tenía como stub. Fuera de `engine/` desde 2026-06-12. | B |
+| `core/intention/ensemble-store.ts` | SSoT de estado del usuario (`EnsembleIntention`). Fuente canónica de intención. Movido desde `providers/Ensemble/` (2026-06-12). | A1 |
+| `providers/Ensemble/` + `useViewModel` | Binding React de composición: liga `EnsembleStore → consume() → project()` → UI. Cablea la Capa D display-only. | D (v0) |
 
 ## Estado de la documentación
 
 OQs STATE-1/2/3/4 cerradas: ver `docs/governance/closed-decisions.md`.
 
-**Pendiente:** Capa D (Proyección) — contrato `ViewModelContract` no definido formalmente. Ver `OQ-ENGINE-FUTURE` en `docs/governance/open-questions.md`.
+**Estado Capa D:** materializada como `ViewModelContract` v0 (display-only/C1) en `@shared/view-model`, consumida por `useViewModel` (`@providers`) y el oráculo CLI (`view`). **Pendiente:** versión reactiva completa (`metrics`/A2, C2) + rename D→contrato-neutro y construcción de la Capa E (`ViewModel` real) — ver `OQ-ENGINE-10` en `docs/governance/open-questions.md`.
