@@ -13,6 +13,11 @@ Fecha_de_actualizacion: "2026-07-03"
 > Entry point del dominio `data/`. Actualizar cuando se revisen o completen entradas.
 > El engine no hardcodea datos — si un override no existe, el slot no aplica modificadores.
 
+> **Deuda de infra de carga** (rescatada de `transition-residues.md` al archivarlo, 2026-07-03):
+> `shared/data/DataRegistry.ts` usa ~17 `as unknown as T[]` para cargar `ability-stats.override.json`
+> — casts inseguros que ocultan divergencias JSON↔tipos. No urgente (funciona); es la deuda de tipos
+> más alta del área de datos. Ligada a "0" (`OQ-DATA-9`).
+
 ---
 
 ## Cobertura por sector — target ≥70% (D-16)

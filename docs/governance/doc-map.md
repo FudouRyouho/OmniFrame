@@ -61,23 +61,27 @@ Alcance acordado: foco en reducir caos del corpus; `docs/data/references/*` qued
 
 ## 4. Hallazgos de contraste (Foco C — dominio engine) y follow-ups
 
-El dominio engine ya tiene su mecanismo de contraste designado: **`engine-audit.md`** (drift
-doc↔código). El cluster `engine/design/` es un **blueprint pre-implementación auto-consciente**
-(su README lo declara) — no es plan-muerto, no se archiva.
+El estado vivo del motor lo lleva **`engine/status.md`** (refrescado 2026-07-03). **`engine-audit.md`**
+es un **snapshot histórico congelado** (auditoría 2026-05-18) — NO es drift-tracker vivo (se reclasificó
+el 2026-07-03; ver decisión abajo). El cluster `engine/design/` es un **blueprint pre-implementación
+auto-consciente** (su README lo declara) — no es plan-muerto, no se archiva; los gaps de diseño sin
+implementar se rastrean en `design/arch-decisions.md §4`.
 
 Drift registrado (gate: **registrar, no auto-fix**):
 
-- **`engine-audit.md` desactualizado post-2026-05-27:**
-  - §4.3 "all-operations siempre ADD" → **stale**: hoy `resolveToken()` deriva la op del segmento
-    del token (`OPERATION_MAP`: ADD/FLAT/BASE/MULT). `punch_through` usa `ADD_FLAT`.
-  - §4.2 IncarnonRepository → no refleja la propagación de `condition` (Capa 3 cerrada, commit `4c6b731`).
+- **`engine-audit.md`** → **congelado como snapshot histórico (2026-07-03).** Contradicción resuelta:
+  `current-state` (Fase 3) lo declaraba "no tocar/histórico" mientras este §4 lo pedía refrescar. Decisión:
+  es un registro *point-in-time* (2026-05-18), muy superado; se le puso banner "SNAPSHOT CONGELADO → estado
+  vivo en `status.md`", `Estado: histórico`, y **no se refresca** (refrescarlo duplicaría `status.md` y
+  destruiría el registro de auditoría). Sus hallazgos stale (§4.3 all-ops-ADD, §2.2 ProjectionSnapshot, etc.)
+  son esperables en un snapshot y ya no engañan (el banner lo advierte).
 - **`engine/status.md`** → **atendido por la pasada de drift (§7, 2026-07-03):** era drift severo (doc entero pre-reestructura 2026-06-12); reescrito completo contra la estructura real (`core/bridge`, `engine/{resolve,resolve/hydration,simulate/{combat,enemies},output,bootstrap}`), tabla Hooks purgada, formulas/tests/deudas actualizados. v0.4.0.
 - **`current-state.md`** quedó stale vs el trabajo de junio → **atendido por la campaña docs-review (§7, 2026-07-03):** changelog purgado a git, 4 drifts internos cerrados, snapshot restaurado.
 - **`README.md` (docs raíz, 2026-05-25)** sigue stale vs el trabajo de junio → refrescar al retomar (pendiente).
 
 Pendientes de la campaña (no ejecutados esta sesión):
-- Refrescar `engine-audit.md` contra el código actual (posible snapshot histórico frozen — decidir al llegar a Tanda 2). `engine/status.md` ya refrescado (§7).
-- Bloat cualitativo intra-doc (sobre-responsabilidad/acreción histórica): abordado por la campaña docs-review (§7) en los docs de Tanda 1; resto en Tandas 2-3.
+- `README.md` (docs raíz) sigue stale → refrescar (drift, pendiente).
+- Bloat cualitativo intra-doc: abordado por docs-review (§7) en Tanda 1; Tanda 2 en curso (`engine-audit` congelado; resto de contratos presunto-limpios por triage).
 
 ---
 
@@ -159,6 +163,13 @@ ability-popover) y el prototipo de exaltadas (`OQ-ENGINE-11`).
 
 ## 7. Campaña de revisión de `docs/` (2026-07-03, EN CURSO)
 
+**Encuadre estratégico:** paso **PREVIO al merge** de la rama `refactor/core-stage0-restructure` a `master` —
+dejar los docs ordenados/honestos después del refactor de `@core`, antes de volver a master. **NO es la
+revisión de arquitectura** (qué se diseñó vs qué existe vs futuro): eso va en una sesión aparte sobre master,
+después del merge. Por eso el nivel es **saneamiento** (mecánico + honestidad), no re-evaluación de diseño:
+para los SSoT de arquitectura se actualizan los claims stale + se marca el diseño-no-implementado, sin
+congelarlos (el proyecto es evolutivo) — salvo auditorías fechadas (`engine-audit.md`), que sí se congelan.
+
 **Origen:** revisión completa del corpus pedida por el usuario ("tenemos muchísimo ruido"). A diferencia
 de la campaña §3 (mecánica/contraste) y §6 (código↔docs por dominio), ésta ataca el **bloat cualitativo
 intra-doc** que §3 foco B dejó identificado pero sin abordar. **Eje: rol + drift** (no fecha — el campo
@@ -193,4 +204,13 @@ hay pudrición estructural; el ruido es 100% cualitativo intra-doc.**
 - `integration/README.md` — bridge/hooks/store paths + estado Capa D. v0.0.3.
 - `test-workflow.md` (`fixtures`→`bootstrap`), `ui-ux/workflow.md` (`status.md` ya existe), `open-questions.md` OQ-DATA-9 (mini-fetchers/DataLoader resueltos).
 
-**Pendiente:** Tandas 2 (contratos SSoT-vivo, ~30 docs) y 3 (referencia, ~25). Drift restante conocido: `engine-audit.md` (§4 — decidir si es snapshot histórico frozen al llegar a Tanda 2), `README.md` raíz.
+**Tanda 2 — contratos SSoT-vivo (✅ COMPLETA):** triage mecánico → cero patrón changelog-en-doc; ruido concentrado en 4 docs con strikethrough. Poda + drift:
+- `engine-audit.md` — **congelado** como snapshot histórico (ver §4).
+- `transition-residues.md` — **archivado** a `docs-archive/historical/` (0 citas + inventario de purga 2026-05-18 superado). Nugget vivo (17 casts `as unknown as` de DataRegistry) rescatado a `data/status.md`.
+- `archon-shards/schema.md` — 1 strikethrough resuelto podado (reenfocado a la deuda viva Violet Equilibrium).
+- `conditions.md` — 5 strikethrough = filas de migración de vocabulario (documental, citadas en OQ-DATA-4) → **sin poda**.
+- `nomenclature-grammar.md` · `jsdoc-standard.md` — 2 refs stale corregidas (Snapshot B4 / `EnsembleAdapter`).
+- **Cluster `engine/design/` (7 docs) — traído al presente** (decisión del usuario: SSoT de arquitectura se **actualiza**, no se congela; auditorías fechadas sí se congelan). Nivel saneamiento (no re-evaluación de diseño): claims de estado-actual stale → corregidos contra código real (`ProjectionSnapshot` purgado→`snapshot()`, `useSimulation`/`useSimulationMetrics` purgados→`useViewModel`, rutas `resolve/`/`simulate/`/`core/bridge`, `Audit*`→`Trace*`); **diseño no implementado** (Logic Decorators, Casting Snapshot, Hit Location, payload rico) → **marcado inline** `⚠️ diseñado, no implementado`; ejes en-flujo → apuntados a `OQ-ENGINE-8`/`OQ-ENGINE-10`. `simulation-architecture` v0.3.0, `contracts` v0.1.2, `arch-decisions` v0.2.3, `formulas-integration` v0.3.0, `integration-status` v0.0.6, `blueprint`/`roadmap` bump; `design/README` banner reescrito.
+- Resto de contratos (semantic vocab, schemas, rules): presunto-limpios por triage (0 strikethrough, 0 changelog) + drift-scan comprensivo sin hits vivos.
+
+**Pendiente:** **Tanda 3** (referencia/captura/reports, ~25 docs). Drift restante conocido: `README.md` raíz.

@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Auditoría y plan de integración de formulas/ como SSoT matemático del engine"
-Version: "v0.2.0"
+Version: "v0.3.0"
 Impacto_ID: "E-OQ-FORMULAS"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-05-27"  <!-- v0.3.0: Fase 3 redefinida — estabilización C1; DamageCombiner movido a hydration/ -->
+Fecha_de_actualizacion: "2026-07-03"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -59,15 +59,15 @@ grep -rn "import.*CombatCalculator|TimelineSimulator|CombatSimulator" Project/sr
 → solo imports dentro de combat/ entre sí
 ```
 
-Todo `combat/` era el motor de `SimulationLab.tsx` (eliminado). El pipeline de producción actual es:
+Todo `combat/` (hoy `simulate/combat/`) era el motor de `SimulationLab.tsx` (eliminado). El pipeline de producción actual es:
 
 ```
-useSimulation → MutatorBridge → StaticHydrator + SimulationEngine → { entities, engine }
+useViewModel → consume(intention) → MutatorBridge → StaticHydrator + SimulationEngine → { entities, engine }
 ```
 
-`MutatorBridge` nunca llama a `CombatCalculator` ni a `TimelineSimulator`. El engine de producción solo resuelve atributos — no calcula DPS, TTK ni proyecciones de estado.
+El entry-point de UI es `useViewModel` (`@providers`) → `consume()` (salida de C). `MutatorBridge` no llama a `CombatCalculator` ni a `TimelineSimulator` en el path de producción — el engine display-only (C1) solo resuelve atributos, no calcula DPS/TTK/procs. (El `useSimulation` original y su gemelo `useSimulationMetrics` fueron **purgados** 2026-06-16.)
 
-> **⚠️ Parcialmente resuelto (Fase 3):** `CombatCalculator.project()` ahora tiene consumidor: hook `useSimulationMetrics`. `TimelineSimulator` sigue bloqueado por falta de `ScaledEnemy` con datos escalados.
+> **⚠️ Actualizado (2026-07-03):** el hook `useSimulationMetrics` que consumía `CombatCalculator.project()` fue **purgado** (2026-06-16, cluster muerto). C2 no tiene consumidor de producción hoy; su modelado se retomó en la campaña de daño/status ([`damage-status-model.md`](damage-status-model.md), 2026-07-02) con los primeros tests reales (`enemy-state-status-multiplier`, `cedo-prime` `it.todo`). `TimelineSimulator` sigue sin consumidor.
 
 ### 2.3 Duplicación matemática confirmada
 

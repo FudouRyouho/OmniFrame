@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Contratos técnicos base del motor de simulación v2"
-Version: "v0.1.1"
+Version: "v0.1.2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-07-03"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
 Dependidos:
@@ -113,6 +113,9 @@ Es el entorno efímero inyectado en cada corrida de simulación.
   - `Hit Location`: `Head`, `Body`, `Weakpoint`.
 
 ### 5.5 La Proyección (Projection Snapshot)
+
+> **⚠️ Diseño mayormente NO implementado (2026-07-03).** El tipo `ProjectionSnapshot` fue **purgado** (2026-06-16, sin productor/consumidor). Hoy la salida cruda de C es `consume().snapshot(): SimulationEntity[]` (valores `final` + buckets por nodo); las métricas de combate viven en `CombatMetrics` (C2) y aún no fluyen a un contrato único (deuda, `OQ-ENGINE-8`). El **Differential Timeline Stream**, las **Area Metrics** y la **capa de Diagnostics rica** de abajo son **diseño futuro**, no código actual. El modelo de daño/status de C2 se aterrizó en [`damage-status-model.md`](damage-status-model.md).
+
 El reporte final serializable generado tras el `Resolve`. Es lo que la UI consume para pintar.
 
 - **Differential Timeline Stream (Memory Optimized)**:
@@ -144,6 +147,8 @@ El reporte final serializable generado tras el `Resolve`. Es lo que la UI consum
 ---
 
 ## 6. Diagnóstico Detallado (The Traceability Contract)
+
+> **⚠️ Renombrado + parcialmente implementado (2026-07-03):** los tipos `AuditStep`/`AuditResponse`/`audit_session` se renombraron a **`TraceStep`/`TraceResponse`/`trace_log`** (Fase 3 saneamiento — "trace" describe *qué es*, no *quién lo consume*). El trace es **opt-in** (`enableTrace()`/`getTrace()`), no siempre-on. El `AuditQuery` con `filter` (§6.2) **no está implementado** — `getTrace()` devuelve la traza completa. Los nombres de abajo son el diseño original; el código usa `Trace*`.
 
 Cada atributo en la proyección puede opcionalmente incluir un `TraceNode` o ser consultado vía una `AuditSession`:
 

@@ -57,7 +57,7 @@ Exactamente 5 valores permitidos. Sin variantes libres, sin compuestos con `/`.
 @status en-desarrollo
 @status stub
 @status bloqueado — Pendiente resolución OQ-STATE-1
-@status deprecado — Reemplazar por EnsembleAdapter.fromIntention()
+@status deprecado — Reemplazar por MutatorBridge.simulateFromIntention()
 
 // ❌ Incorrecto
 @status stub / en desarrollo          // No usar compuestos con /
