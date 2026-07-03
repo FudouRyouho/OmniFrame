@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router";
-import { fetchWarframe } from "@lib/warframe-data";
+import { Registry } from "@shared/data/DataRegistry";
 import type { Warframe, Ability } from "@shared/types";
 import { resolveLocalImageUrl } from "@lib/image-url";
 import { FormattedText } from "@lib/presentation/FormattedText";
 import { StatRow } from "./stat-row";
+
 
 const AbilityCard = ({ ability }: { ability: Ability }) => (
   <div className="flex flex-col gap-2 p-3 bg-white/5 rounded">
@@ -38,7 +39,7 @@ const WarframeDetailView = () => {
   useEffect(() => {
     const identifier =
       routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
-    fetchWarframe(identifier).then((w) => {
+    Registry.getItemById<Warframe>("warframe", identifier).then((w) => {
       setItem(w ?? null);
       setLoading(false);
     });

@@ -35,7 +35,7 @@ Un `consume()` = un `resolve`. Desde ese único consumo se sondean N nodos: esta
 
 La **intención** que entra al clic vive en un catálogo de fixtures compartido (`@core/engine/fixtures/builds.ts`):
 builds verificadas en partida (`lanka`, `cedo`, `felarx`, `laetum`, `boltor`) + registro `BUILDS`, más el
-bootstrap de data `loadEngineData()` (`fixtures/engine-data.ts`). El test importa la intención y le adosa sus `expect`.
+bootstrap de data `loadEngineData()` (`@core/engine/bootstrap/engine-data.ts`). El test importa la intención y le adosa sus `expect`.
 
 El mismo catálogo lo consume el **oráculo CLI** (`scripts/oracle/`, `npm run oracle -- <build>` | `all`), que
 **inspecciona** en vez de asertar: imprime el snapshot crudo (nodos + buckets) de la build vía `consume().snapshot()`.

@@ -43,8 +43,8 @@ Grafo genérico de atributos (`SimulationEngine`): orden topológico + fixed-poi
 ### Capa 3 — `condition` en perks de Incarnon — ✅ CERRADA (2026-06-06)
 `IncarnonRepository` ahora propaga el campo `condition` al `Modifier`, espejando a `ModRepository`. Antes los 175 perks de incarnon se aplicaban incondicionalmente. Fue el primer objetivo de la fase engine; cerró el drift.
 
-### Capa 4 — Modifiers de weapon que se evaporan por falta de nodo — 🚧 EN CONSTRUCCIÓN (2 nodos 2026-06-10)
-~18 tokens catalogados y mapeados que igual no aplican, porque el arma solo tiene los ~8 nodos que `ItemRepository` mapea. Se pierden: ~~`projectile_speed`~~, ~~`recoil`~~, ~~`punch_through`~~, `zoom`, `ammo_max`, `ammo_efficiency`, `range`, `beam_range`, `headshot_mult`, `finisher_damage`, `slam_damage`, familias `combo_*` / `heavy_*`. El modifier se produce; ningún nodo lo recibe. Toca solo `ItemRepository.getDNA()` — `createBaseEntity` ya materializa todo token `isUpgrade()` presente en el profile. Disparador documentado: **OQ-ENGINE-7** (`punch_through`).
+### Capa 4 — Modifiers de weapon que se evaporan por falta de nodo — 🚧 EN CONSTRUCCIÓN (3 nodos materializados 2026-06-10)
+~18 tokens catalogados y mapeados que igual no aplican, porque el arma solo tiene los ~8 nodos que `ItemRepository` mapea. **Ya materializados (OQ-ENGINE-7):** `punch_through`, `projectile_speed`, `recoil`. **Siguen sin nodo:** `zoom`, `ammo_max`, `ammo_efficiency`, `range`, `beam_range`, `headshot_mult`, `finisher_damage`, `slam_damage`, familias `combo_*` / `heavy_*`. El modifier se produce; ningún nodo lo recibe. Toca solo `ItemRepository.getDNA()` — `createBaseEntity` ya materializa todo token `isUpgrade()` presente en el profile. Disparador documentado: **OQ-ENGINE-7**.
 
 > **`punch_through` materializado (2026-06-10):** una clave en `getDNA()` (`override per-ataque ?? raw ?? 0`) + innatos en `weapon-stats.override.json` (mismo shape que multishot). El raw expone `punch_through` per-ataque pero vale 0 en todo el dataset — los innatos (Lanka 5.0m charged, Zenith, bows) van por override. Op `ADD_FLAT` (metros). Consumidor: `lanka.test.ts`.
 >

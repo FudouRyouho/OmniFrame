@@ -17,12 +17,13 @@
  *
  * Fórmula status:  22 × (1 + 0.60 PP + 0.80 GS) + 20 = 22×2.4 + 20 = 72.8
  */
-import { loadEngineData } from '../fixtures/engine-data';
+import { loadEngineData } from '../bootstrap/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { laetum, LAETUM } from '../fixtures/builds';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 const base = (profile = 'base') => consume(laetum(profile), { flags: {} }).weapon(LAETUM);
 const stat = (profile = 'base') => consume(laetum(profile)).weapon(LAETUM);

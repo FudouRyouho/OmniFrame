@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.2.0"
+Version: "v0.2.3"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-06-10"
+Fecha_de_actualizacion: "2026-07-03"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -137,8 +137,8 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 **Decisión:** `consume()` se promovió a un módulo real dentro de `@core/engine` (fuera de `__tests__/`): vive en `@core/engine/output/consume.ts` (2026-06-10). Es el **punto de salida de C** — la superficie de consumo del dominio engine. **No es la Capa D.** El directorio se nombra `output/` (salida-de-C); se vetó `projection/` porque "Proyección" es el nombre propio de la Capa D — ver `OQ-ENGINE-8` (sobrecarga del término).
 
 **Distinción:**
-- `consume()` = acceso a la salida resuelta de C (`ProjectionSnapshot`). Vive en `@core`. Lo consumen **scripts y tests (no-dominios)** directamente.
-- **Capa D** = consumo derivado (`ViewModelContract` + su mapping). Vive **fuera** de `@core` y cruza por `@shared`. (`useSimulation` en `@core/engine/hooks` es D reactiva *parcial* co-ubicada en `@core` — drift a reubicar cuando D se materialice.)
+- `consume()` = acceso a la salida resuelta de C (`snapshot(): SimulationEntity[]`; el tipo `ProjectionSnapshot` original se purgó, rename en `OQ-ENGINE-8`). Vive en `@core/engine/output/`. Lo consumen **scripts y tests (no-dominios)** directamente.
+- **Capa D** = consumo derivado (`ViewModelContract` v0 + su mapping `project()`). Vive **fuera** de `@core` y cruza por `@shared`; se cablea vía `useViewModel` (`@providers`). (El `useSimulation` co-ubicado en `@core/engine/hooks` que cumplía este rol parcial fue **purgado** 2026-06-16, no reubicado.)
 
 **Consecuencia:** el CLI y la futura UI son **adaptadores hermanos** (Ports & Adapters) sobre el mismo puerto `consume()`: el CLI es la instancia **no-reactiva** (lee la salida de C directo, por ser script), la UI la **reactiva** (cruza por `@shared`). El módulo **no** se nombra `api/` (arrastra la connotación del diseño WebSocket muerto) ni `projection/` (projection = D, fuera de `@core`).
 
@@ -150,7 +150,8 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 
 **Consecuencia:**
 - La UI cruza al motor **solo por `@shared`** (inversión de dependencias): la salida vía `ViewModelContract`, y por **simetría** la entrada (intención) también debe cruzar por `@shared` ↔ `EnsembleStore` (A) en `@core`.
-- `domains/arsenal/view/UpgradeView.tsx` importando `@core/engine/hooks/useSimulation` es una **violación/drift** (stub conectado antes de existir D y antes de los tests), no un patrón válido.
+- `domains/arsenal/view/UpgradeView.tsx` importando `@core/engine/hooks/useSimulation` fue una **violación/drift** (stub conectado antes de existir D). **RESUELTO 2026-06-12:** consume el `ViewModelContract` vía `useViewModel` (`@providers/Ensemble`, binding z3); ningún dominio importa `@core`.
+- **`@providers` (capa de composición / adapter) SÍ importa `@core`** — ruling 2026-06-12. `@providers` **no es un dominio de feature**; esta frontera y la Restricción 1 aplican a `domains/*`, no a la capa que compone adapters. `EnsembleProvider → @core/intention/ensemble-store` es válido (adapter→core, dirección correcta de Ports&Adapters). Ver `closed-decisions.md` DC-OQ-ENGINE-9.
 - `ViewModelContract` debe ser **consumer-shaped** (un ViewModel de MVVM, alimentado por `lib/*` como ingredientes), nunca *producer-laundered* (la salida cruda re-exportada por `@shared` solo para legalizar el import).
 
-**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. Ver `OQ-ENGINE-FUTURE` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).
+**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. La **simetría de entrada quedó realizada (2026-06-12)**: `ensemble.types` → `@shared/types/ensemble.ts`, `ensembleStore` (A1) → `@core/intention/`; `@core` reestructurado (Stage 0+1, DC-OQ-ENGINE-9). Ver `OQ-ENGINE-FUTURE`/`OQ-ENGINE-9` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).

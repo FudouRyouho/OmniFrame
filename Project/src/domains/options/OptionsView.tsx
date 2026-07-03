@@ -3,7 +3,8 @@ import ThemeSelector from "@providers/Theme/ThemeSelector";
 /**
  * OptionsView — configuración de la aplicación.
  */
-const OptionsView = () => {
+
+  const OptionsView = () => {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <div className="flex-1 overflow-y-auto p-4">

@@ -1,16 +1,18 @@
 ---
 Estado: "activo"
 Rol: "Hoja de ruta para la implementación del motor v2"
-Version: "v0.2.1"
+Version: "v0.2.2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-07-03"
 ---
 
 # 🗺️ Roadmap: Reconstrucción del Motor de Simulación (Sim-v2)
 
 Este documento define la ruta crítica para sustituir el sistema de Loadout/Resolver actual por el nuevo **Motor de Simulación Reactiva**.
+
+> **⚠️ Predata la reestructura de `@core` (2026-06-12) y la campaña de saneamiento A+B+C.** Las Fases 1–5 están hechas; las 6–9 son **direccionales** y varios ítems evolucionaron o se reorganizaron desde entonces (p. ej. `attribute-registry` se reescribió en D-7 Fase 4; el puerto de datos "0" y `BrowserAdapter` cubren parte de la "Gobernanza de Datos"). Para el **progreso real** ver [`../status.md`](../status.md) y `governance/current-state.md`; este roadmap conserva la **intención de ruta**, no el estado línea-por-línea.
 
 ---
 
@@ -33,7 +35,7 @@ Contratos cerrados, grafo reactivo implementado (`SimulationEngine` + Kahn's), p
 
 ## Fase 7: Observabilidad Arsenal (Réplica Warframe) 👁️
 - [ ] **Debate Técnico: Umbral de Visibilidad**: Contextos de activación de auditoría.
-- [x] **Snapshot Logic (Fixed-Point)**: Resolución de ciclos mediante 5 iteraciones (Implementado en Core, pendiente ajuste de pasos).
+- [x] **Snapshot Logic (Fixed-Point)**: Resolución de ciclos mediante **3 iteraciones** (implementado en Core; el Convergence Check por delta sigue sin implementar — ver `simulation-architecture.md §2.4`).
 - [ ] **Auditoría No Intrusiva**: Integración en `CustomPopover`.
 
 ## Fase 8: Física de Armas y Refinamiento (En pausa) 🛠️

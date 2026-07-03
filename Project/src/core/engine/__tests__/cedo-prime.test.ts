@@ -25,12 +25,13 @@
  * Deuda viva: Galvanized Savvy stat 1 (`WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`, on_kill)
  * sin mapear (pendiente D-6) → el status NO sube en modo estático. Ver el test de status.
  */
-import { loadEngineData } from '../fixtures/engine-data';
+import { loadEngineData } from '../bootstrap/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { cedo, CEDO_PRIME } from '../fixtures/builds';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 /** Modo base: flags vacías, ninguna condición activa. */
 const base = (withGH = false) => consume(cedo(withGH), { flags: {} }).weapon(CEDO_PRIME);
@@ -41,7 +42,7 @@ const stat = (withGH = false) => consume(cedo(withGH)).weapon(CEDO_PRIME);
 
 describe('Cedo — modo base (estabilidad: .final)', () => {
   it('daño global 84.8 — PPB +165%', () => {
-    expect(base().node('WEAPON_DAMAGE').final).toBeCloseTo(84.8, 1);
+    expect(base().node('WEAPON_ADD_DAMAGE').final).toBeCloseTo(84.8, 1);
   });
   it('Puncture 84.8 — físico × mult global', () => {
     expect(base().node('WEAPON_ADD_PUNCTURE_DAMAGE').final).toBeCloseTo(84.8, 1);

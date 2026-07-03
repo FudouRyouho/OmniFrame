@@ -2,9 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 
 interface ArsenalContextState {
   activeSlot: string | null;
-  configSlot: "A" | "B" | "C";
   setActiveSlot: (slot: string | null) => void;
-  setConfigSlot: (config: "A" | "B" | "C") => void;
 }
 
 const ArsenalContext = createContext<ArsenalContextState | null>(null);
@@ -15,15 +13,12 @@ const ArsenalContext = createContext<ArsenalContextState | null>(null);
  */
 export const ArsenalProvider = ({ children }: { children: ReactNode }) => {
   const [activeSlot, setActiveSlot] = useState<string | null>(null);
-  const [configSlot, setConfigSlot] = useState<"A" | "B" | "C">("A");
 
   return (
     <ArsenalContext.Provider
       value={{
         activeSlot,
-        configSlot,
         setActiveSlot,
-        setConfigSlot,
       }}
     >
       {children}

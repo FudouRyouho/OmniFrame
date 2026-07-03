@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Índice maestro de la reconstrucción del motor de simulación v2"
-Version: "v0.1.0"
+Version: "v0.1.1"
 Impacto_ID: "SSoT-Blueprint"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-04-21"
+Fecha_de_actualizacion: "2026-07-03"
 Dependencias:
   - "docs/governance/naming-conventions.md"
 Dependidos:
@@ -23,12 +23,14 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 
 ## 🧭 Navegación del Simulacro
 
+- **Estado vivo del motor**: [../status.md](../status.md)
 - **Arquitectura**: [simulation-architecture.md](./simulation-architecture.md)
 - **Contratos**: [simulation-contracts.md](./simulation-contracts.md)
 - **Decisiones Arquitectónicas**: [arch-decisions.md](./arch-decisions.md)
 - **Roadmap**: [simulation-roadmap.md](./simulation-roadmap.md)
-- **Auditoría Diseño vs Código**: [../engine-audit.md](../engine-audit.md)
+- **Modelo de daño/status C2**: [damage-status-model.md](./damage-status-model.md)
 - **Integración formulas/ como SSoT**: [formulas-integration.md](./formulas-integration.md)
+- **Auditoría Diseño vs Código (histórica, congelada 2026-05-18)**: [../engine-audit.md](../engine-audit.md)
 
 ---
 
@@ -38,7 +40,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 2. **[Contratos](./simulation-contracts.md)**: El lenguaje matemático del motor.
 3. **[Decisiones Arquitectónicas](./arch-decisions.md)**: Invariantes y resoluciones críticas.
 4. **[Roadmap](./simulation-roadmap.md)**: Pasos de ejecución.
-5. **[Auditoría](../engine-audit.md)**: Estado real del código vs diseño.
+5. **[Estado real del código](../status.md)**: `engine/status.md` (vivo). La [auditoría](../engine-audit.md) es un snapshot **histórico congelado** (2026-05-18), no el estado actual.
 
 ---
 
@@ -47,7 +49,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 - El motor debe ser agnóstico a React y a cualquier librería reactiva concreta.
 - La hidratación consume el pipeline local (`Project/public/data/`) y no directamente `references/`.
 - `Simulation Context` no es una entidad persistente.
-- La salida oficial del motor es un `Projection Snapshot` serializable.
+- La salida de C es un snapshot serializable — hoy `consume().snapshot(): SimulationEntity[]` (el tipo `ProjectionSnapshot` original se purgó; rename del payload en `OQ-ENGINE-8`).
 - Las invariantes arquitectónicas (Stat Accumulator v3, Layered Decorators, etc.) están registradas en `arch-decisions.md`.
 
 ---

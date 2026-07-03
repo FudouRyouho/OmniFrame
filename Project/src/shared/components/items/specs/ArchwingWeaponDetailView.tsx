@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router";
-import { fetchArchwingWeapon } from "@lib/archwing-weapon-data";
+import { Registry } from "@shared/data/DataRegistry";
 import type { ArchwingWeapon } from "@shared/types";
 
 /**
@@ -16,7 +16,7 @@ const ArchwingWeaponDetailView = () => {
   useEffect(() => {
     const identifier =
       routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
-    fetchArchwingWeapon(identifier).then((w) => {
+    Registry.getItemById<ArchwingWeapon>("archwing-weapon", identifier).then((w) => {
       setItem(w ?? null);
       setLoading(false);
     });
@@ -33,12 +33,6 @@ const ArchwingWeaponDetailView = () => {
 
   return (
     <div className="p-4">
-      <Link
-        to="/equipment/archwing-weapons"
-        className="text-sm opacity-40 hover:opacity-100 block mb-4"
-      >
-        ← Back
-      </Link>
       <h1 className="text-2xl font-bold mb-2">{item.name}</h1>
       <p className="text-sm opacity-60">{item.description}</p>
       {/* Panel de detalle completo — Pendiente de integración con [R-02] */}

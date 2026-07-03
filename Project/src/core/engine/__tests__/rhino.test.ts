@@ -10,12 +10,13 @@
  *
  * Valores verificados contra el motor vía `npm run oracle -- rhino` antes de asertar (no inventados).
  */
-import { loadEngineData } from '../fixtures/engine-data';
+import { loadEngineData } from '../bootstrap/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { rhino, RHINO } from '../fixtures/builds';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
 const wf = () => consume(rhino(), { flags: {} }).weapon(RHINO);
 
@@ -57,8 +58,8 @@ describe('Rhino fixture_01 — base + mods Tier 1 (flujo A→B→C, entidad warf
   });
 
   // ── La entidad es un warframe limpio, sin contaminación de arma ────────────────
-  it('no inyecta nodo WEAPON_DAMAGE (eso es un hack de composición de arma)', () => {
-    expect(() => wf().node('WEAPON_DAMAGE')).toThrow();
+  it('no inyecta nodo WEAPON_ADD_DAMAGE (eso es un hack de composición de arma)', () => {
+    expect(() => wf().node('WEAPON_ADD_DAMAGE')).toThrow();
   });
 });
 

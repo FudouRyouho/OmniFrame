@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import type { ConditionInput } from '@shared/types/condition';
+import { useCatalog } from '@shared/hooks/data/use-catalog';
 
 export type IncarnorStat = {
   label:         string;
@@ -24,24 +24,9 @@ export type IncarnorEntry = {
 
 export type IncarnorCatalog = Record<string, IncarnorEntry>;
 
-let catalogPromise: Promise<IncarnorCatalog> | null = null;
-
-function fetchCatalog(): Promise<IncarnorCatalog> {
-  if (!catalogPromise) {
-    catalogPromise = fetch('/data/incarnon-evolutions.override.json').then(r => r.json());
-  }
-  return catalogPromise;
-}
-
-export function useIncarnorCatalog(): IncarnorCatalog | null {
-  const [catalog, setCatalog] = useState<IncarnorCatalog | null>(null);
-
-  useEffect(() => {
-    fetchCatalog().then(setCatalog);
-  }, []);
-
-  return catalog;
-}
+/** El fetch+cache vive en Registry.getCatalog (canal de carga único). */
+export const useIncarnorCatalog = (): IncarnorCatalog | null =>
+  useCatalog<IncarnorCatalog>('incarnon-evolutions.override');
 
 export function findEntryForWeapon(catalog: IncarnorCatalog, weaponId: string): IncarnorEntry | null {
   for (const entry of Object.values(catalog)) {

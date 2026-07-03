@@ -5,20 +5,31 @@
  * Adaptador NO-reactivo (lee la salida resuelta de C y la serializa a stdout) — hermano del
  * futuro adaptador reactivo (UI). Ver `docs/domains/engine/design/arch-decisions.md` §5-7.
  *
- * Comparte con los tests el harness de entrada (`@core/engine/fixtures`): el bootstrap de data
- * (`loadEngineData`) y las intenciones-fixture (`builds` / `BUILDS`). El test le adosa
- * expectativas y aserta; el oráculo INSPECCIONA (imprime el crudo). Mismo input, distinto acto.
+ * Comparte con los tests el harness de entrada: el bootstrap de data (`loadEngineData`,
+ * `@core/engine/bootstrap`) y las intenciones-fixture (`builds` / `BUILDS`, `@core/engine/fixtures`).
+ * El test le adosa expectativas y aserta; el oráculo INSPECCIONA. Mismo input, distinto acto.
  *
- * Uso: `npm run oracle -- <build>` (un build del catálogo) o `npm run oracle -- all` (todos).
- * Sin argumento → `lanka`. Imprime el snapshot CRUDO (nodos + 6 buckets) — material de PASO 3.
+ * Dos actos de D2:
+ *   - CRUDO (default): `npm run oracle -- <build>` | `all`. Snapshot crudo (nodos + 6 buckets),
+ *     material de debug del motor (PASO 3).
+ *   - VIEW (display):  `npm run oracle -- view <build>` | `view all`. El ViewModelContract
+ *     (cut C→D, display-only/C1) vía `project()`, proyectado a filas con `toStatEntries`
+ *     (`lib/format`, el MISMO proyector que D1). Primer consumidor real del contrato; hermano
+ *     de display del adaptador UI.
+ *
+ * Sin argumento → `lanka` (crudo).
  */
-import { loadEngineData } from '@core/engine/fixtures/engine-data';
+import { loadEngineData } from '@core/engine/bootstrap/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { BUILDS } from '@core/engine/fixtures/builds';
 import { consume } from '@core/engine/output/consume';
+import { project } from '@shared/view-model';
+import { toStatEntries } from '@lib/format/stat-entry';
 
-loadEngineData();
+await loadEngineData(new NodeAdapter());
 
-const arg = process.argv[2] ?? 'lanka';
+const isView = process.argv[2] === 'view';
+const arg = (isView ? process.argv[3] : process.argv[2]) ?? 'lanka';
 const names = arg === 'all' ? Object.keys(BUILDS) : [arg];
 
 for (const name of names) {
@@ -29,12 +40,28 @@ for (const name of names) {
     continue;
   }
 
-  // Consumo del puerto: salida CRUDA de C (forma-de-productor, sin shaping).
-  const entities = consume(factory(), { flags: {} }).snapshot();
+  const consumption = consume(factory(), { flags: {} });
 
-  console.log(`\n######## BUILD: ${name} — ${entities.length} entidad(es) resuelta(s) ########`);
-  for (const e of entities) {
-    console.log(`\n=== [${e.channel ?? '—'}] ${e.id}  (${e.domain}/${e.kind}) ===`);
-    console.dir(e.attributes, { depth: null, maxArrayLength: null });
+  if (isView) {
+    // Capa D (display): el ViewModelContract proyectado, formateado al borde.
+    const vm = project(consumption.snapshot());
+    console.log(`\n######## VIEW: ${name} — ${vm.entities.length} entidad(es) ########`);
+    for (const e of vm.entities) {
+      console.log(`\n=== [${e.channel ?? '—'}] ${e.unique_name}  (${e.domain}/${e.kind}) ===`);
+      // Proyector único (lib/format) — mismo que D1. El prefijo [category] es debug del CLI.
+      const entries = toStatEntries(e.stats);
+      for (let i = 0; i < entries.length; i++) {
+        const cat = e.stats[i].category ? `[${e.stats[i].category}] ` : '';
+        console.log(`  ${cat}${entries[i].label}: ${entries[i].value}`);
+      }
+    }
+  } else {
+    // Crudo: salida nativa de C (forma-de-productor, sin shaping) — inspección de buckets.
+    const entities = consumption.snapshot();
+    console.log(`\n######## BUILD: ${name} — ${entities.length} entidad(es) resuelta(s) ########`);
+    for (const e of entities) {
+      console.log(`\n=== [${e.channel ?? '—'}] ${e.id}  (${e.domain}/${e.kind}) ===`);
+      console.dir(e.attributes, { depth: null, maxArrayLength: null });
+    }
   }
 }

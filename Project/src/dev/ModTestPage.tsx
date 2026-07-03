@@ -48,6 +48,7 @@ const ModTestPage: React.FC = () => {
       rarity: "Riven",
       image:
         "https://n9e5v4d8.ssl.hwcdn.net/uploads/e4505315f3e9e36886e08283a0a382c7.png", // Icono genérico de Riven
+      image_name: "mock-riven-soma",
       category: "Mods",
       category_raw: "Mods",
       type: "Rifle Mod",

@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Registro de decisiones D-series del dominio data/ con estado de evolución"
-Version: "v0.1.1"
+Version: "v0.1.3"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-06-07"
+Fecha_de_actualizacion: "2026-07-03"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -108,25 +108,33 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 ---
 
-## D-7 — Token D-6 como ID de atributo del engine (dirección futura)
+## D-7 — Token D-6 como ID de atributo del engine (COMPLETADA — camino A)
 
 **Estado:** VIGENTE
-**Fecha:** 2026-04-19 | **Actualizado:** 2026-05-26 (arquitectura definida, scope faseado; sub-pregunta proc resuelta)
+**Fecha:** 2026-04-19 | **Actualizado:** 2026-06-14 (camino A completado)
 **Decisión:** El token D-6 es el ID de atributo canónico del engine. `UPGRADE_MAP` desaparece. Los attr IDs internos (`critical_chance`, `critical_multiplier`, etc.) se renombran a tokens D-6.
 
 **Arquitectura de resolución (sin UPGRADE_MAP):**
 ```
 token → attr: sub-familia removida si existe → WEAPON_MELEE_ADD_CRIT_MULT → WEAPON_ADD_CRIT_MULT
-       op:   derivado del segmento OPERATION → ADD | FLAT | BASE | MULT → 4 entradas
+       op:   derivado del segmento OPERATION → ADD | FLAT | BASE | MULT
        target_channel: del segmento SUB_FAMILY → 'melee' | 'primary' | 'secondary' | undefined
 ```
 Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel` como filtro — no crean AttributeNodes separados.
 
-**Scope faseado:**
-- **Fase 1** (attrs no-daño): ✅ COMPLETADA 2026-05-26. Renombrados `critical_chance/multiplier`, `status_chance`, `fire_rate`, `magazine_size`, `reload_speed` + `resolveToken()` en `ModRepository`. `reload_time` tratado como dato puro en `innate_dna.profiles`, nunca como `AttributeNode`.
-- **Fase 2** (attrs de daño): renombrar `damage_*` → `WEAPON_ADD_*_DAMAGE`. Afecta `DamageCombiner`, `StaticHydrator` (filtro `startsWith('damage_')` → `isUpgrade()`), `PRIMARY_ELEMENTS`, `PHYSICAL_TYPES`, `DAMAGE_EFFICIENCY`, `StatusEngine`, `ELEMENTAL_COMBINATIONS`, `ItemRepository.mapDamage()`. UPGRADE_MAP: 17 entradas de daño se vuelven redundantes tras la Fase 2 (`resolveToken()` las cubre) — purgar en la misma Fase.
+**Estado de fases (camino A):**
+- **Fase 1** (attrs no-daño) ✅ 2026-05-26 — `critical_chance/multiplier`, `status_chance`, `fire_rate`, `magazine_size`, `reload_speed` + `resolveToken()` en `ModRepository`. `reload_time` es dato puro en `innate_dna.profiles`, nunca `AttributeNode`.
+- **Fase 2** (attrs de daño) ✅ — nodos de daño ya son token canónico `WEAPON_ADD_*_DAMAGE` (`mapDamage()`, `DamageCombiner` y familias operan en token-space, filtro `isUpgrade()`); entradas de daño de UPGRADE_MAP eliminadas.
+- **Fase 2b** — resolver la última divergencia no-daño `WEAPON_ADD_DAMAGE → WEAPON_DAMAGE` (nodo global a token puro).
+- **Fase 3** — purgar `UPGRADE_MAP` (post-Fase-2 quedó casi todo identidad; `resolveToken()` lo cubre). Objetivo: un solo espacio token D-6 == id de nodo, de C a la UI.
+- **Fase 4** (payoff presentación) ✅ 2026-06-14 — `attribute-registry` reescrito a `Partial<Record<Upgrade, PresentationMeta>>` (key-typed, node-id **subset**: solo ADD-variants+daño renderizan; FLAT/BASE/sub-familia convergen y no son nodo propio). Leak β muerto: `StaticHydrator` ya no importa `lib/presentation`, `AttributeNode` es puro (sin label/category/unit); `project()` adjunta la meta en el borde C→D. Bug visible resuelto (crit vuelve a renderizar con `%`). Cierra `OQ-DATA-10` (lado SSoT de vocabulario) + `OQ-ENGINE-10` (estrato `lib/format`).
 
-**Refs:** `Project/src/core/engine/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/semantic/upgrade-tokens.md`, `references/wiki/mechanics/status-effects.md`
+**Rationale durable:** D-7 es el **prerequisito del SSoT de presentación** — el dict se cuelga del vocabulario canónico `Upgrade` (key-typed → un typo en una clave es error de compilador), no de strings sueltos. El bug visible (crit sin `%`) era `attribute-registry` keyed por nombres pre-Fase-1 que el motor ya no emite (relic, no deuda nueva). La convergencia de la `label` + `lib/format` + ruta-catálogo continúa en **OQ-DATA-10** (no es D-7 — es la suite de presentación que D-7 desbloqueó).
+
+**Fuera de scope — N2** (claves proc/stack de `EnemyState`, `damage_*`): NO es D-7 (vocabulario runtime C2, no attr-ids). Resuelto en la Fase 3 de la campaña de saneamiento `@core` (2026-07-02: rename `_proc`→`_dot` + fix del bug de `getDamageMultiplier`). Detalle en [`../domains/engine/design/damage-status-model.md`](../domains/engine/design/damage-status-model.md).
+
+**Vínculo:** `OQ-DATA-10` (borde de salida / suite de presentación), `OQ-ENGINE-10` (Capa E / estrato `lib/format`), `OQ-ENGINE-8` (rename del payload de D).
+**Refs:** `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/semantic/upgrade-tokens.md`
 
 ---
 

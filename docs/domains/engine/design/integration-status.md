@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Auditoría de integración del motor de simulación con el Arsenal"
-Version: "v0.0.5"
+Version: "v0.0.6"
 Impacto_ID: "E-05"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-07-03"
 ---
 
 # Auditoría de Panorama y Mapeo de Dependencias (Sim-v2 vs Arsenal)
@@ -18,7 +18,7 @@ Este documento registra el estado técnico y las brechas detectadas durante la f
 | Capa | Estado Actual | Limitación para Integración |
 | :--- | :--- | :--- |
 | **Engine (EnsembleIntention)** | Estructura de intención tipada: mods, shards, incarnon. | Incarnon Genesis: perks estáticos implementados vía `IncarnonRepository` (D-13, 2026-05-27). Perks dinámicos (on-kill, condicionales, stacking) y Helminth sin implementar. |
-| **UI (ArsenalMetadataState)** | Rico en metadata visual. Posee catálogos de Shards y Evoluciones Mock. | Los datos son puramente descriptivos (`label`, `description`). No emiten modificadores matemáticos procesables por el motor. |
+| **UI (estado de sesión de arsenal)** | La mitad `arsenalMetadata` mock (catálogos Shards/Evoluciones mock) fue **purgada** (Stage 1, `DC-OQ-STUB-1`, 2026-06-13); el store quedó como `arsenal-ui-session` (estado UI-local honesto). Los catálogos reales (archon/incarnon) se leen vía `Registry.getCatalog`/`useCatalog`. | La intención va por `useEnsemble`; el chrome de slots aún se hidrata ad-hoc (eje-2 diferido, `OQ-UI-2`). |
 | **Bridge (MutatorBridge)** | Activo — traduce `EnsembleIntention` → contratos del engine. Absorbe la lógica que `EnsembleAdapter` (eliminado 2026-05-19) tenía como stub. | Archon Shards migrados a `EnsembleIntention` (OQ-STATE-2 ✅). **DNA mutation NO implementada** — `shards: []` y `helminth: undefined` hardcodeados. Ver `../engine-audit.md §3`. |
 
 ## 2. Inventario de Dependencias y Bloqueos
@@ -29,11 +29,11 @@ Este documento registra el estado técnico y las brechas detectadas durante la f
 
 ### UI y Patrones de Interacción
 - **Hover vs Acción**: El sistema de Popover compartido (`CustomPopover.tsx`) está infrautilizado en el Lab.
-- **Dinamismo**: El Arsenal utiliza `useSyncExternalStore` con un snapshot global. Inyectar `useSimulation` aquí requiere asegurar que no existan bucles de renderizado infinito al recalcular estadísticas en cada cambio de estado de UI.
+- **Dinamismo**: El Arsenal utiliza `useSyncExternalStore` con un snapshot global. El binding a la simulación se hace vía `useViewModel` (`@providers`, liga `EnsembleStore → consume() → project()`); cuidar que no haya bucles de render al recalcular en cada cambio de estado de UI.
 
 ## 3. Estado
 
-Arsenal consume `useSimulation` como hook de proyección (implementación parcial activa). Contrato formal de Capa D (`ViewModelContract`) pendiente — ver `simulation-architecture.md §Capa D`.
+**Actualizado 2026-07-03.** La Capa D se materializó como **`ViewModelContract` v0** (display-only/C1) en `@shared/view-model`; el Arsenal (`UpgradeView`) la consume vía `useViewModel` (`@providers`), y el oráculo CLI vía `project()`. El `useSimulation` que cumplía este rol de forma parcial fue **purgado** (2026-06-16). Pendiente: versión reactiva completa + Capa E — ver `simulation-architecture.md §Capa D` y `OQ-ENGINE-10`.
 
 ---
 *Documento generado para soporte de toma de decisiones en la Fase de Integración.*

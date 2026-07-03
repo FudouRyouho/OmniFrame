@@ -1,11 +1,11 @@
 ---
-Estado: "referencia"
-Rol: "Auditoría de alineación entre docs/domains/engine/design/ y la implementación real del motor"
+Estado: "histórico"
+Rol: "Snapshot congelado de la auditoría diseño↔código de Sim-v2 (2026-05-18) — superado, no se refresca. Estado vivo: engine/status.md"
 Version: "v0.1.0"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-05-18"
-Fecha_de_actualizacion: "2026-05-27"
+Fecha_de_actualizacion: "2026-07-03"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/design/simulation-contracts.md"
@@ -13,6 +13,13 @@ Dependencias:
 ---
 
 # Auditoría Fase 3 — Sim-v2: Diseño vs. Implementación
+
+> **⚠️ SNAPSHOT HISTÓRICO CONGELADO (auditoría 2026-05-18).** Registro *point-in-time* de la alineación
+> diseño↔código en mayo 2026. **No se refresca** — editarlo falsearía el registro de auditoría. Gran parte
+> de sus hallazgos están **superados** (reestructura de `@core` 2026-06-12 + campaña de saneamiento A+B+C):
+> p.ej. `ProjectionSnapshot`/`SimulationAuditor`/`TraceObserver` purgados, `AuditStep`→`TraceStep`, rutas
+> movidas a `resolve/`/`simulate/`, all-ops-ADD → `resolveToken()`, faction damage ya mapeado. **Estado vivo
+> del motor → [`status.md`](status.md);** gaps de diseño sin implementar → [`design/arch-decisions.md`](design/arch-decisions.md) §4.
 
 **Alcance**: Lectura completa de `Project/src/core/engine/` comparada contra los cuatro documentos de diseño.
 **Método**: Lectura directa de código. No se ejecutaron tests.

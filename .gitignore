@@ -6,6 +6,9 @@ Project/public/mod-frames/*
 # ─── IDEs y herramientas locales ─────────────────────────────────────────────
 .vscode/
 .editorconfig
+docker-compose.yml
+Dockerfile
+.dockerignore
 
 # ─── Herramientas IA / agentes ───────────────────────────────────────────────
 .github/
@@ -24,7 +27,7 @@ node_modules/*
 warframe-items/
 Project/data/
 Project/scratch/
-docs/domains/data/pipeline/audits/
+docs/data/pipeline/audits/
 
 # ─── Sesiones de trabajo (scratchpad de análisis, no SSoT) ───────────────────
 .working/

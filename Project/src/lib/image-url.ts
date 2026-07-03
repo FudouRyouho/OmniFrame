@@ -2,6 +2,7 @@
  * @domain Shared / Infrastructure / Images
  * @SSoT docs/domains/integration/runtime-hydration.md
  */
+
 export const resolveLocalImageUrl = (imageName?: string | null): string | undefined => {
   if (!imageName) return undefined;
   return `/images/${imageName}`;

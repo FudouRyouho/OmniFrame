@@ -1,16 +1,14 @@
 /**
- * ProfileView — Vista de perfil del usuario.
+ * ProfileView — Vista de perfil del usuario (STUB).
  *
  * Accesible desde DialogMenu → "Profile".
- * Muestra la colección de layouts y builds guardados por el usuario.
+ * Reencuadrado como utility-hub / companion-hub (qué incarnon tengo, qué armas kuva, etc.),
+ * NO mapeo de builds guardadas ni del catálogo de Equipment. Ver OQ-UI-4.
+ * (El switch de configs A/B/C "warframe-like" vive en /equipment/*, no aquí.)
  *
- * Diferencia con EquipmentView: aquí se muestran las builds propias
- * del usuario, no el catálogo completo de items.
- * Diferencia con ArsenalView: aquí se navega entre builds guardadas,
- * no se construye activamente.
- *
- * @todo Implementación pendiente — depende de la materialización del Builder/Arsenal
+ * @todo Implementación pendiente — far-future, gated por Builder/Arsenal. Ver OQ-UI-4.
  */
+
 export default function ProfileView() {
   return null
 }

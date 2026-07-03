@@ -1,4 +1,4 @@
-import type { ModRarity } from "@shared/types";
+import type { ModRarity } from "@lib/mod-visual";
 
 interface ModFrameVisualProps {
   rarity: ModRarity | string;

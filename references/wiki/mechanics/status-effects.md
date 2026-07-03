@@ -1,10 +1,10 @@
 # Status Effects (Procs)
 
 > Estado: activo
-> Rol: mecánicas de efectos de estado — fórmulas de DoT, stacks de debuff, CC
-> Fuente de verdad de: comportamiento de procs — DoT, stacks de debuff, CC
-> No usar para: probabilidad de activación de proc — ver `damage-types.md` §Regla de elección de proc
-> Última actualización: 2026-06-10
+> Rol: mecánicas de efectos de estado — aplicación, fórmulas de DoT, stacks de debuff, duración, CC
+> Fuente de verdad de: comportamiento de procs — aplicación por pellet, DoT, stacks de debuff, duración/ciclo de vida, CC
+> No usar para: elección del tipo de proc por peso de daño — ver `damage-types.md` §Regla de elección de proc
+> Última actualización: 2026-07-02
 
 ## Distinción fundamental
 
@@ -38,43 +38,184 @@ Un **efecto de estado** (proc) es independiente del tipo de daño que lo activa.
 
 ---
 
+## Aplicación: status chance
+
+- **El roll es por pellet, no por disparo**: el status chance del Arsenal es la probabilidad
+  de que **cada pellet individual** aplique un proc (ej. wiki: Strun Wraith 12% × 10 pellets
+  = 10 rolls independientes de 12%).
+- **>100%**: cada hit puede aplicar efectos de estado adicionales "únicos". Fórmula de la wiki:
+
+```text
+Procs promedio por disparo = Multishot × (Forced Procs + Status Chance por proyectil)
+```
+
+  (150% SC ≈ 1.5 procs promedio por proyectil; la página **no** explicita el mecanismo
+  "1 garantizado + excedente como chance del segundo".)
+- **Qué tipo sale**: ponderado por la participación de cada tipo en el daño del hit
+  (`Proc Type Chance = Damage ÷ Total Damage`) — detalle en `damage-types.md` §Regla de elección.
+- ⚠️ **Era**: el peso ×4 de los físicos (Impact/Puncture/Slash) de Damage 2.0 **ya no existe**
+  en la página actual — fuentes viejas que lo citen están desactualizadas.
+
+---
+
+## Duración y ciclo de vida
+
+> ✅ Tabla **corregida contra las subpáginas por tipo** (`Damage/<Tipo>_Damage`, barrido
+> 2026-07-02) — la tabla de la página general estaba marcada "outdated" por la propia wiki
+> y tenía al menos un valor muerto (decía Impact 1 s; la subpágina da 6 s).
+
+| Proc | Duración base | Fuente |
+|---|---|---|
+| Slash, Heat, Toxin, Electricity, Gas (DoTs) | 6 s | subpáginas |
+| Cold, Viral, Magnetic | 6 s | subpáginas |
+| Impact (stagger) | 6 s | subpágina (la general decía 1 s — muerto) |
+| Corrosive | 8 s | subpágina |
+| Tau (Status Vulnerability) | 8 s | subpágina |
+| Puncture | 10 s | subpágina |
+| Radiation | 12 s | subpágina |
+| Void (Bullet Attractor) | 3 s | subpágina |
+| Blast | 1.5 s de fusa por stack | subpágina (rework) |
+
+- Más duración = más ticks = más daño total en DoTs (los ticks son 1/s).
+- **Conteo de ticks — inconsistencia entre subpáginas, capturada literal (no unificar):**
+  Slash y Toxin: delay 1 s → ticks en s1..s6 = **6 ticks**. Gas: la tabla de su subpágina
+  muestra ticks en s0..s6 = **7 ticks** (el cloud tickea al instante). Heat: tick/s por 6 s
+  tras 1 s de delay. (La versión previa de este doc decía "7 ticks en 6s" para todos — corregido.)
+- **Status Duration (mods):** documentado por subpágina solo en: **Blast** (la fusa escala;
+  excepción: la detonación ocurre igual aunque la duración total sea <0%), **Heat** (alarga
+  los *intervalos* del ramp de armor strip — +100% duración = strip cada 1 s en vez de 0.5 s),
+  y **Electricity** (el stun de ~3 s **NO** escala — cita textual; el DoT no está especificado).
+  El resto de tipos: **no especificado en su subpágina** — dudoso abierto.
+  ⚠️ La subpágina de Magnetic trae una frase anómala ("status duration mods... are a final
+  multiplier to the total damage") que suena a error de la wiki o de transcripción — gate visual.
+
+---
+
+## Stacks: caps y comportamiento
+
+> Fuente: subpáginas por tipo (2026-07-02).
+
+| Proc | Cap | Sobre-cap | Timers |
+|---|---|---|---|
+| Slash, Toxin, Electricity | **sin cap mecánico** (solo límite visual de 10) | n/a | timer propio por instancia |
+| Heat | sin cap especificado | n/a | **excepción: los stacks se consolidan en UN solo tick/s compartido; procs nuevos refrescan y suman al tick** |
+| Corrosive, Magnetic, Radiation, Viral, Gas | 10 | reemplaza al más viejo (documentado en Corrosive/Magnetic/Radiation/Viral) | timer propio por stack |
+| Cold | 10 (**bosses/Overguard: 4**) | el 10º congela 3 s; al descongelar quedan 3 stacks residuales | timer propio |
+| Impact, Puncture | 5 | reemplaza al más viejo (Puncture: aunque al viejo le quede más duración) | timer propio |
+| Blast | 10 | detonación al 10º **o al morir el target** | fusa propia de 1.5 s por stack |
+| Tau | 10 | no especificado | timer propio |
+
+**Regla general emergente:** timer independiente por stack/instancia en casi todos;
+la única consolidación real es **Heat**. "Reemplaza al más viejo" es el patrón sobre-cap
+en todos los que lo documentan.
+
+✅ **Reforzado por observación directa (usuario, 2026-07-02):** Kuva Nukor (Magnetic puro,
+alto rate de proc por ser arma de rayo) — decaimiento visible stack por stack, 6→5→4→...→0,
+uno a la vez. Confirma el modelo de timer-independiente-por-stack también en Magnetic (no
+solo inferido por texto, visto en vivo). Generaliza con alta confianza a Radiation/Tau (mismo
+lenguaje de stacking). **Distinción correcta señalada por el usuario:** Knockdown (ventana de
+vulnerabilidad/finisher de Heavy Attack) NO es uno de los 16 tipos con proc elemental — es una
+mecánica de combate distinta, fuera de esta taxonomía; no contradice el patrón, confirma que
+el corte 16-tipos-vs-mecánicas-de-combate está bien puesto.
+
+---
+
 ## Procs de tipo DoT
+
+> Patrón común de fórmula (subpáginas 2026-07-02): `tick = coef × modded_base_damage ×
+> (1 + bonos_del_propio_elemento) × (1 + faction) × (1 + status_damage_bonuses) × extras`,
+> donde `modded_base_damage` ya incluye `(1 + base_damage) × (1 + faction)` → el faction
+> **double-dipea** en todos los DoTs. Excepción estructural: **Slash no lleva el factor de
+> su propio elemento** (los mods de Slash% no amplifican el tick).
 
 ### Bleed (Slash)
 
 ```
-tick_damage = 0.35 × modded_base_damage × faction_mult²
+tick_damage = 0.35 × modded_base_damage × (1 + faction) × (1 + status_damage)
 ```
 
-- 7 ticks en 6s (primer tick tras ~1s de delay)
-- Tipo de daño del tick: **True** — bypasa armor y shields
-- `modded_base_damage` = daño base total × (1 + bonos de daño base) × faction_mult
-- Los mods de daño Slash no aumentan el tick — sí lo hacen base damage y faction
+- 6 ticks en 6s (delay 1s → ticks en s1..s6; corregido, antes decía 7)
+- Tipo de daño del tick: **True/Cinematic** — el armor no lo afecta
+- `modded_base_damage` = daño base total × (1 + bonos de daño base) × (1 + faction)
+- Los mods de daño Slash **no** aumentan el tick (tampoco Buzz Kill/Contagious Spread/finisher
+  mods); sí lo hacen base damage, faction (double-dip explícito) y status damage
+- ✅ **Composición True↔Viral confirmada empíricamente (usuario, 2026-07-02) — boundary case
+  cerrado.** Dorrclave (Slash puro, 421.8) vs Arid Butcher, tick baseline 233 → con 2 stacks
+  Viral 525 (×2.2532, predicción 2.25, 0.14% error) → con 4 stacks 642 (×2.7554, predicción
+  2.75, 0.20% error) → con 5 stacks 700 (×3.0043, predicción 3.00, 0.14% error). **True Damage
+  NO es inmune a Viral** — el bypass de True es específicamente sobre la reducción de armor,
+  no sobre los multiplicadores de capa. Regla de composición confirmada: "ignora armor" ≠
+  "inmune a todo lo demás"; True sigue siendo daño de capa-salud a efectos de Viral. Crit
+  también se apila limpio (mismo patrón que el test de Dual Toxocyst). Sigue sin verificar si
+  la matriz de vulnerabilidad por facción (`enemy-resistances.md`) también alcanza a True —
+  pregunta distinta, no probada en este test.
 
 ### Ignite (Heat)
 
 ```
-tick_damage = 0.5 × modded_base_damage × heat_power × avg_crit_mult × faction_mult
-heat_power   = heat_node.final / heat_node.base
+tick_damage = 0.5 × modded_base_damage × (1 + heat_bonuses) × (1 + faction) × (1 + status_damage)
 ```
 
-- 7 ticks en 6s
+- ticks 1/s por 6s tras ~1s de delay; **stacks consolidados en un solo tick/s compartido**
+  (procs nuevos refrescan y suman) — única excepción al patrón timer-por-stack
 - Tipo de daño del tick: Heat — afectado por armor del enemigo
-- Efecto adicional: reduce armor hasta 50% (ver §Corte de armor por Heat)
+- Efecto adicional: reduce armor hasta 50% (ver §Corte de armor por Heat); el strip
+  **se revierte gradualmente** al expirar (recupera armor cada 1.5s durante 6s)
 
 ### Poison (Toxin)
 
 ```
-tick_damage = 0.5 × modded_base_damage × toxin_power × avg_crit_mult × faction_mult
-toxin_power  = toxin_node.final / toxin_node.base
+tick_damage = 0.5 × modded_base_damage × (1 + toxin_bonuses) × (1 + status_damage) × (1 + faction)
 ```
 
-- 7 ticks en 6s
-- Tipo de daño del tick: Toxin — bypasa shields, no bypasa armor
+- 6 ticks en 6s (delay 1s); stacks sin cap mecánico, timer propio por instancia
+- Tipo de daño del tick: Toxin — **bypasa shields (el hit directo y el DoT), pero NO Overguard**
+- Double-dip de faction explícito en la subpágina: `(1 + faction)²` efectivo
+  (+69% con Bane ×1.3, +140.25% con Primed ×1.55)
+
+### Electricity DoT (Tesla Chain)
+
+```
+tick_damage = 0.5 × modded_base_damage × (1 + electricity_bonuses) × (1 + faction) × (1 + status_damage)
+```
+
+- 6 ticks en 6s; stacks sin cap mecánico, timer propio; crit del hit afecta el tick directo
+- **Arco**: daña a todos los enemigos en radio de **3 m** del target original (filtro espacial
+  trivial — `distancia_al_origen ≤ 3m`, no requiere sistema de coordenadas)
+- ✅ **Multi-objetivo confirmado visualmente (usuario, 2026-07-02, capturas de pantalla)** —
+  mismo tick (1057 / 378) apareciendo simultáneo en múltiples enemigos distintos en el mismo
+  frame. Cierra la duda de si el arco efectivamente propaga daño a otros enemigos: sí.
+  **El tick propagado NO hereda el crítico del golpe que lo generó** — con un golpe crítico
+  (2112 en el disparo), los enemigos encadenados igual recibieron el tick base (1057, no
+  escalado). ⚠️ Caveat metodológico: la prueba se hizo con un arma (Alternox Prime/Vadarya)
+  que trae una **pasiva propia** ("creates a conductive area... chance to spawn up to 3
+  lightning strikes on random nearby targets") distinta del Tesla Chain genérico documentado
+  arriba (radio fijo 3m, sin "chance" de spawneo) — probable mezcla de mecánica genérica +
+  pasiva ítem-específica, no aislado al 100%. El hallazgo de multi-objetivo es sólido; el
+  detalle de "crit no se propaga" queda marcado como observado en ese contexto mixto, no
+  confirmado para el proc genérico en aislamiento.
+- **Stun**: ~3s, **solo el target original** — los encadenados por el arco reciben el tick
+  de daño pero NO el stun (confirma que el arco es solo aplicación de daño, no un segundo
+  proc completo). NO escala con Status Duration; inmunes: Ospreys, Bosses, Tenno
+- ✅ **Double-dip de faction confirmado empíricamente (usuario, 2026-07-02)** — Alternox
+  Prime (Electricity 187.5, Primed Bane of Grineer +55%) vs Arid Butcher: tick baseline 72 →
+  con Bane 172 = ×2.3889. Single-dip predice ×1.55 (descartado, 54% de distancia); double-dip
+  predice ×1.55²=2.4025 (0.57% de distancia — matchea). **La lista "afectados: slash/heat/
+  toxin/gas" de la página general de Faction Bonus estaba incompleta, no exhaustiva** — mismo
+  patrón que la tabla de duración "outdated" ya detectado antes. Electricity SÍ double-dipea,
+  igual que los otros 4 DoTs primarios/combinados.
+- (dudoso abierto: si el daño del arco a los encadenados = mismo tick que el target original)
 
 ### Gas Cloud (Gas)
 
-Proc de AoE: aplica Poison (Toxin) a todos los enemigos en un radio alrededor del objetivo impactado. La fórmula de tick es idéntica a Poison. El cloud dura ~6s.
+```
+tick_damage = 0.5 × modded_base_damage × (1 + gas_bonuses) × (1 + faction) × (1 + status_damage)
+```
+
+- Cloud de 6s; ticks en s0..s6 según su subpágina (= 7 ticks — difiere de Slash/Toxin,
+  capturado literal, no unificar)
+- El daño del cloud es **tipo Gas** y pega a todos los enemigos en el radio
+- Radio: **3 m base, +0.3 m por stack → 6 m a 10 stacks** (cap 10)
 
 ---
 
@@ -82,7 +223,8 @@ Proc de AoE: aplica Poison (Toxin) a todos los enemigos en un radio alrededor de
 
 ### Corrosion (Corrosive)
 
-Reduce el armor del enemigo de forma permanente por stack. Cada stack dura 8s.
+Reduce el armor del enemigo **temporalmente** por stack (corregido: la versión previa decía
+"permanente"; la subpágina es explícita — "temporarily degrades... for 8 seconds").
 
 ```
 armor_strip(n)   = min(0.26 + 0.06 × (n − 1), 0.80)
@@ -95,11 +237,20 @@ effective_armor  = base_armor × (1 − armor_strip(n))
 | 5 | 50% |
 | 10 | 80% (máximo) |
 
+- ✅ **Cerrado por analogía estructural (2026-07-02), no requiere test propio.** El texto
+  "replace the oldest stack" es idéntico al de Viral/Magnetic/Radiation — mismo modelo de
+  timer independiente por stack, ya confirmado empíricamente en Viral (ver §Infection). No
+  hay "rampa de reversión" que modelar: cuando un stack de 8s expira, desaparece del conteo
+  y `armor_strip(n)` se recalcula con un stack menos — es discreto, no una curva temporal.
+  Contraste explícito con **Heat**, que sí tiene una rampa real por tiempo ("regains armor
+  every 1.5s during 6s") porque consolida sus stacks en un pool compartido, no independiente.
+
 ### Infection (Viral)
 
 Multiplica el daño recibido en la capa de salud (health layer únicamente, no shields ni overguard).
 
 ```
+multiplier = 2 + 0.25 × (stacks − 1)      [subpágina, equivalente a la forma de laws]
 multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
 ```
 
@@ -109,16 +260,63 @@ multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
 | `stack_bonus` | 0.25 por stack adicional |
 | Cap | 3.25 extra → ×4.25 total a 10 stacks |
 
+- **Funciona aunque la salud esté protegida por armor** (cita de subpágina) — amplifica
+  lo que llegue a la capa health, armor mediante.
+- Los DoTs que pegan a health también se amplifican mientras el proc esté activo.
+- ✅ **Fórmula verificada empíricamente (usuario, 2026-07-02):** Dual Toxocyst vs Arid Butcher
+  (Grineer nivel 210, con armor Ferrite) — 221 dmg (0 stacks) → 442 dmg (1 stack) = ×2.0000
+  exacto; con crit ×2 confirmado: 885 dmg = ×4.0045 (2.0 viral × 2.0 crit, factores limpios
+  e independientes). Serie multi-stack (mismo enemigo/arma, baseline 307): ratios observados
+  1.9967 / 2.2476 / 2.4984 / 2.9967 — matchean `2+0.25×(n−1)` para n=1,2,3,5 con <0.2% de
+  error (las etiquetas de stack del usuario venían corridas respecto al conteo real, pero la
+  forma de la fórmula quedó confirmada en 4 puntos). **Cierra el dudoso de orden Viral↔armor
+  DR** (ficha de modelado #13): el multiplicador dio limpio contra un enemigo con armor real,
+  confirmando que es un factor multiplicativo independiente — el orden interno no importa.
+- ✅ **Orden de resolución stack-propio-vs-daño-propio, confirmado (usuario, 2026-07-02).**
+  Segunda tanda de datos (mismo build + Deep Freeze, viral 350/475): baseline derivado de la
+  lectura estable en cap (10 stacks, ya saturado → pre/post-hit dan lo mismo ahí) = 1667/4.25
+  = 392.24. Con ese baseline: la lectura que el usuario tomó como "10 stacks" (1569) matchea
+  **n=9** casi exacto (392.24×4.00=1568.94, error 0.004%), NO n=10 (que predeciría 1667). Esa
+  lectura es justo el hit que empujó el contador de 9→10 — y su propio daño usó el conteo
+  *previo* a su propio proc, no el posterior. **Confirma: el daño de un hit se resuelve con
+  los stacks que existían ANTES de que ese mismo hit aplique su propio proc nuevo** (orden:
+  resolver daño con estado actual → recién después sumar el stack nuevo para hits futuros).
+  Relevante para el orden de operaciones del engine cuando se modele la resolución de stacks
+  en tiempo real. Corrobora además lo ya capturado en §Aplicación (roll por pellet): el
+  usuario cita el caso real de escopetas + Corrosive metiendo hasta 10 stacks de un solo
+  disparo (multishot con cada pellet como proc independiente).
+
 ### Disruption (Magnetic)
 
-Multiplica el daño recibido en la capa de shields (y overguard). Misma fórmula de stacks que Infection.
+Multiplica el daño recibido en la capa de shields (y Overguard). Misma fórmula de stacks
+que Infection (`2 + 0.25 × (n − 1)` → ×3.25 a 10 stacks).
 
-```
-multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
-  (mismos parámetros que Viral)
-```
+- Niega la recarga natural de shields durante el proc.
+- **Al romper Overguard**: inflige daño Electricity igual al **3% del Overguard máximo
+  por stack** (subpágina).
+- **Nullifier bubbles**: especialmente efectivo — daño mín. 300 / máx. 1200 por disparo (subpágina).
 
-Adicionalmente: retrasa la recarga de shields por la duración del proc.
+### Weakened (Puncture)
+
+Debuff del daño **saliente** del enemigo + crit del jugador sobre él (subpágina):
+
+- Enemigo hace **−40%** de daño con el 1er stack, **−10%** por stack extra → **−80%** a 5 stacks.
+- El jugador gana **+5% critical chance** por stack contra él → **+25%** a 5 — **no** aplica
+  a daño AoE ni a habilidades de warframe.
+
+### Cold — debuff numérico además del CC (subpágina)
+
+- Slow: **50%** el 1er stack, **+5%** por stack → **90%** al 9º.
+- Crit damage recibido: **+0.1×** el 1er stack, **+0.05×** por stack (≈ +0.5× al 9º).
+- **10º stack**: congelación sólida 3 s (sin acciones, niega recarga de shields), crit
+  recibido sube a **+1.0×**; al descongelar quedan **3 stacks residuales**. Congelado no
+  recibe más stacks de Cold.
+- Cap especial: **bosses y unidades con Overguard solo aceptan 4 stacks**.
+
+### Tau (Status Vulnerability)
+
+- **+10% status chance recibida por stack** (cap 10 = +100%), 8 s, timer propio.
+- Lo infligen Sentients/Amalgams/Archons — y del lado jugador: Caliban, Venato Prime, etc.
 
 ### Corte de armor por Heat (Ignite — efecto secundario)
 
@@ -132,26 +330,35 @@ Ramp de 2s iniciado al primer proc de calor activo. No se acumula con múltiples
 | 2.0s | 50% (máximo) |
 
 Límite absoluto: 50% — independientemente del número de stacks de Heat activos.
+Reversión al expirar: el enemigo **recupera armor cada 1.5 s durante 6 s** (subpágina).
+Status Duration alarga los *intervalos* del ramp (+100% duración → strip cada 1 s en vez de 0.5 s).
 
 ---
 
-## Procs de CC
+## Procs de CC y utilidad (números de subpáginas, 2026-07-02)
 
 | Proc | Tipo fuente | Efecto |
 |---|---|---|
-| Stagger | Impact | Interrumpe acción del enemigo, aumenta threshold de Mercy finisher |
-| Weakened | Puncture | Reduce daño del enemigo, aumenta crit chance sobre él |
-| Freeze | Cold | Reduce velocidad de movimiento/ataque; aumenta daño crítico recibido |
-| Tesla Chain | Electricity | Stun + cadena de daño a enemigos cercanos |
-| Detonation | Blast | Knockback, reduce accuracy del enemigo |
-| Confusion | Radiation | Causa que el enemigo ataque a aliados temporalmente |
-| Bullet Attraction | Void | Atrae proyectiles entrantes hacia el objetivo |
-| Tau | Tau | Aumenta la status chance recibida por el enemigo (~+10% por stack) |
+| Stagger | Impact | Flinch/recoil del enemigo (6 s, cap 5). Contra unidades pesadas: **+8% por proc al threshold de Parazon Mercy** (hasta 80%; 100% en Corpus/Eximus sin shields). Muerte por proc de Impact = ragdoll del cadáver. Inmunes: Ospreys, Bosses, Tenno. |
+| Detonation | Blast | Rework: cada stack = carga que explota tras 1.5 s de fusa haciendo **30% del base damage**; al 10º stack **o al morir el target**, todas detonan juntas: **300% del base damage por stack (máx. 3000%) en 5 m** + stagger a los alcanzados. La fusa escala con Status Duration (y detona incluso con duración total <0%). |
+| Confusion | Radiation | El confundido ataca a sus aliados con **+100% de daño** (1er stack), **+50% por stack → +550% a 10**; slam attacks contra ex-aliados pasan de Knockdown a **Ragdoll**; al expirar, vuelve a su facción. 12 s, timer propio por stack. |
+| Bullet Attraction | Void | Campo de **2.5 m** por **3 s** centrado en el punto de impacto que atrae los proyectiles al target. El daño Void además **resetea la damage adaptation de los Sentients**. |
+| Tesla Chain / stun | Electricity | Ver §Electricity DoT — el stun (~3 s, fijo, solo target original) es la faceta CC. |
+| Freeze | Cold | Ver §Cold en stack-debuffs — el slow/freeze es CC, el crit-recibido es numérico. |
+
+> Nota de modelado: varios de estos "CC" cargan facetas numéricas (Mercy threshold,
+> Confusion +550%, Blast 3000%) — la clasificación fina faceta-por-faceta es trabajo
+> de las fichas, no de esta captura.
 
 ---
 
 ## Fuentes
 
-- https://wiki.warframe.com/w/Status_Effect
+- https://wiki.warframe.com/w/Status_Effect (página general; su tabla de duración está
+  marcada "outdated" por la propia wiki — los valores de este doc vienen de las subpáginas)
+- **Subpáginas por tipo** `https://wiki.warframe.com/w/Damage/<Tipo>_Damage` — barrido
+  completo de los 16 tipos (2026-07-02): duración/caps/timers/fórmulas/facetas
 - https://wiki.warframe.com/w/Damage#Status_Effects
 - `references/wiki/mechanics/damage-types.md` — probabilidad de proc por tipo de daño
+- `references/wiki/mechanics/enemy-resistances.md` — modelo U36 de vulnerabilidades por facción
+- `references/wiki/mechanics/faction-damage.md` — double-dip del faction bonus en los DoTs

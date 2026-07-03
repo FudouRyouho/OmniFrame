@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router";
-import { fetchCompanion } from "@lib/companion-data";
+import { Registry } from "@shared/data/DataRegistry";
 import type { Companion } from "@shared/types";
 
 /**
@@ -16,7 +16,7 @@ const CompanionDetailView = () => {
   useEffect(() => {
     const identifier =
       routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
-    fetchCompanion(identifier).then((c) => {
+    Registry.getItemById<Companion>("companion", identifier).then((c) => {
       setItem(c ?? null);
       setLoading(false);
     });
@@ -33,12 +33,6 @@ const CompanionDetailView = () => {
 
   return (
     <div className="p-4">
-      <Link
-        to="/equipment/companions"
-        className="text-sm opacity-40 hover:opacity-100 block mb-4"
-      >
-        ← Back
-      </Link>
       <h1 className="text-2xl font-bold mb-2">{item.name}</h1>
       <p className="text-sm opacity-60">{item.description}</p>
       {/* TODO: panel de detalle completo — placeholder hasta integración con builder */}

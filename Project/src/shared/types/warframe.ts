@@ -12,9 +12,6 @@ import type { LivingStats } from './stats'
 export interface Warframe extends BaseItem {
   domain: 'warframe';
   kind: 'warframe';
-  
-  description: string;
-  
   // Módulo de estadísticas normalizado (Supervivencia)
   stats: LivingStats;
 

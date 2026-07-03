@@ -4,7 +4,7 @@ import { FilterProvider } from "@shared/components/filters/context";
 import OmniToolbar from "@shared/components/filters/OmniToolbar";
 import OmniView from "@shared/components/items/views/OmniView";
 import { useEnsembleActions } from "@providers/Ensemble/EnsembleProvider";
-import type { EnsembleChannel } from "@providers/Ensemble/ensemble.types";
+import type { EnsembleChannel } from "@shared/types/ensemble";
 
 // Toolbars específicas (reutilizadas)
 import WarframesToolbar from "@shared/components/filters/toolbars/WarframesToolbar";
@@ -51,7 +51,7 @@ const ArsenalSwapContent = () => {
         <div className="flex-1 overflow-hidden">
           <OmniView
             basePath="/arsenal/swap"
-            onSelect={(item) => {
+            onClick={(item: any) => {
               const channel = channelMap[category || ""];
               if (channel) {
                 // Notificar al motor (Capa A)

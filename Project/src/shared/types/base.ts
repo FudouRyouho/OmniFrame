@@ -41,6 +41,7 @@ export interface BaseItem {
   image: string | null;
   image_name: string;
   unique_name: string;
+  description: string;
   
   // Taxonomía (4 Pilares)
   domain: ItemDomain;

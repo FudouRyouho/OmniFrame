@@ -10,7 +10,7 @@
  * Las factories quedan verbatim de sus tests (migración fiel, sin re-abstraer el skeleton de
  * slots). Ubicación provisional (`fixtures/` mezcla bootstrap + builds) — ver OQ-ENGINE-9.
  */
-import type { EnsembleIntention } from '@providers/Ensemble/ensemble.types';
+import type { EnsembleIntention } from '@shared/types/ensemble';
 
 /** Entorno base compartido (target nivel 1, sin Steel Path). */
 export const BASE_ENV = { targetLevel: 1, targetFaction: null, isSteelPath: false };

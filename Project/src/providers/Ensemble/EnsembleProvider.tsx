@@ -1,7 +1,7 @@
 import { useSyncExternalStore, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
-import type { EnsembleIntention, EnsembleChannel, ArchonShardIntent } from './ensemble.types';
-import { ensembleStore } from './ensemble-store';
+import type { EnsembleIntention, EnsembleChannel, ArchonShardIntent } from '@shared/types/ensemble';
+import { ensembleStore } from '@core/intention/ensemble-store';
 
 /**
  * Hook de Consumo: useEnsemble
@@ -30,6 +30,9 @@ export function useEnsembleActions() {
 
     setMod: (channel: string, slotIndex: number, mod: Parameters<typeof ensembleStore.setMod>[2]) =>
       ensembleStore.setMod(channel, slotIndex, mod),
+
+    setArcane: (channel: string, slotIndex: number, intent: Parameters<typeof ensembleStore.setArcane>[2]) =>
+      ensembleStore.setArcane(channel, slotIndex, intent),
 
     setShard: (slotIndex: number, intent: ArchonShardIntent | null) =>
       ensembleStore.setShard(slotIndex, intent),

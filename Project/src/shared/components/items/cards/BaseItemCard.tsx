@@ -17,10 +17,10 @@ import ModFrameVisual from "../visuals/ModFrameVisual";
  *
  * Usa forwardRef para que CustomPopover pueda agregar event listeners correctamente.
  *
- * Ownership actual (2026-04-01):
- * - permanece dentro de `domains/equipment/` aunque su lectura ya sea la de una pieza reusable fina
- * - no debe moverse a una base transversal por anticipación; la extracción física queda diferida
- *   hasta que exista un segundo consumer real y estable (por ejemplo `Arsenal > Swap`) que lo justifique
+ * Ownership (actualizado 2026-06-16):
+ * - vive en `@shared` — la extracción física desde `domains/equipment/` YA ocurrió (tiene múltiples
+ *   consumers reales: equipment, arsenal-swap, las cards por kind). El comentario anterior ("permanece
+ *   en domains/equipment", 2026-04-01) quedó stale: narraba un pasado que el código ya superó.
  * - los comportamientos contextuales como hover/details deben componerse por encima de esta base
  *   y no volver a mezclarse aquí por conveniencia
  */
@@ -64,7 +64,7 @@ const BaseItemCard = forwardRef<HTMLButtonElement, BaseItemCardProps>(
             /* --- ANATOMIA DE MOD --- */
             <ModFrameVisual
               rarity={(item as any).rarity || "common"}
-              imageUrl={item.image}
+              imageUrl={item.image ?? undefined}
               name={item.name}
               description={(item as any).description || ""}
               cost={(item as any).drain || (item as any).capacity || 0}

@@ -25,17 +25,6 @@ import VehicleDetailView from "@shared/components/items/specs/VehicleDetailView"
 import OmniView from "@shared/components/items/views/OmniView";
 import { toRouteSlug } from "@lib/route-id";
 import ModTestPage from "./dev/ModTestPage";
-import AbilityStatsViewer from "./dev/AbilityStatsViewer";
-
-export type AppRoute = {
-  readonly path: string;
-  readonly element: React.ReactNode;
-  readonly label?: string;
-};
-
-// Rutas top-level y redirecciones.
-// eslint-disable-next-line react-refresh/only-export-components
-export const routes: readonly AppRoute[] = [] as const;
 
 import { useNavigate, useParams } from "react-router";
 
@@ -46,7 +35,7 @@ const EquipmentBrowser = () => {
   return (
     <OmniView
       basePath="/equipment"
-      onSelect={(item) => {
+      onClick={(item: any) => {
         navigate(`/equipment/${category}/${toRouteSlug(item.name)}`, {
           state: { uniqueName: item.unique_name },
         });
@@ -60,13 +49,7 @@ export default function App() {
     <Hud>
       <DialogAppMenu />
       <Routes>
-        {/* Rutas top-level */}
-        {routes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.element} />
-        ))}
-
         <Route path="/dev/mod-test" element={<ModTestPage />} />
-        <Route path="/dev/ability-stats" element={<AbilityStatsViewer />} />
 
         <Route path="/arsenal" element={<ArsenalLayout />}>
           <Route index element={<ArsenalView />} />

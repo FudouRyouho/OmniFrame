@@ -1,17 +1,22 @@
 ---
 Estado: "activo"
 Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline y deuda activa"
-Version: "v0.2.2"
+Version: "v0.2.5"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-06-07"
+Fecha_de_actualizacion: "2026-07-03"
 ---
 
 # Data Domain — Estado Operativo
 
 > Entry point del dominio `data/`. Actualizar cuando se revisen o completen entradas.
 > El engine no hardcodea datos — si un override no existe, el slot no aplica modificadores.
+
+> **Deuda de infra de carga** (rescatada de `transition-residues.md` al archivarlo, 2026-07-03):
+> `shared/data/DataRegistry.ts` usa ~17 `as unknown as T[]` para cargar `ability-stats.override.json`
+> — casts inseguros que ocultan divergencias JSON↔tipos. No urgente (funciona); es la deuda de tipos
+> más alta del área de datos. Ligada a "0" (`OQ-DATA-9`).
 
 ---
 
@@ -69,6 +74,7 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 - `[SEM data:debt` Faction damage target (`GAMEPLAY_MULT_FACTION_DAMAGE`, 42 mods Bane/Expel/Cleanse/Smite × facción) — la facción objetivo vive solo en el `label`, sin estructura. Dirección registrada: expresar como token de `condition` (`damage_<faccion>`, spelling diferido), sin campo nuevo. Latente, gateado por madurez de taxonomía condition (`conditions.md §Altitud`). Engine: el modelo "un nodo aditivo `faction_damage_bonus`" (`attribute-node-contract.md §5`) es lossy en multi-facción → anotado para debate de engine. Ver `audit-mods.md §F.5` `[empirical]`
 - `pipeline:debt` Set Mods Gap A — pertenencia al set no materializada como campo, **derivable** de `unique_name` (`/Mods/Sets/<Set>/`, 19 sets / 72 miembros + 19 portadores `type: "Mod Set Mod"`). Discriminador limpio: `type === "Mod Set Mod"`. Candidato: campo derivado o tag. Análogo a `conclave?: boolean` `[empirical]`
 - `[SEM data:debt:schema data:debt` Set Mods Gap B — valores del bonus de conjunto ausentes del dataset (el portador `Mod Set Mod` existe pero vacío); entidad nueva (`set → {bonus, piece-count, condition}`), no cabe en override per-mod. Valores investigados (wiki) en `references/set-mods.md`. Modelado gateado por `OQ-DATA-6` (vínculo OQ-DATA-4/1, eje condition `requires_*` ↔ OQ-SEM-2) `[ref: docs/governance/open-questions.md#OQ-DATA-6]`
+- `data:debt` Captura incompleta del set Kahl/Archon (mods de warframe) — el override tiene 3/5: `Archon Flow`, `Archon Intensify`, `Archon Stretch`; **faltan `Archon Continuity` (`/Lotus/Upgrades/Mods/Warframe/Kahl/KahlAvatarAbilityDurationMod`, +30% duración) y `Archon Vitality` (`KahlAvatarHealthMaxMod`, +health)**. Sin entrada → `ModRepository` devuelve `[]` → el engine no aplica nada (no es que "ignore" el stat: no hay dato). El bonus Archon (ej. toxin status de Continuity) es aparte/condicional. Detectado al equipar Archon Continuity en la UI (duración no se aplicaba). Fix: agregar las 2 entradas espejando `Continuity`/`Vitality` (curva rank 0-5). `[empirical]`
 
 ---
 
@@ -150,10 +156,9 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 
 **Breakdown de null:** ver `docs/data/schemas/arcane/schema.md §3`. Categorías principales: status resistances (~11), buffs on-event de HP/Armor/Shield (~10), economía de HP/Energía (~8), fórmulas per-stat (~7), arcanes de Operador/Kitgun (~18), Primary/Secondary mecánicas de stacking (~14).
 
-**Repository:** `ArcaneRepository` — pendiente (análogo a `IncarnonRepository`).
+**Repository:** `ArcaneRepository` ✅ implementado (2026-06-12: drift cerrado — el doc decía "pendiente"). Lee `arcane-stats.override.json`, resuelve `getModifiers` con rank clamping; `StaticHydrator.hydrate` procesa `intent.arcanes` y empuja los modifiers directo (sin DamageCombiner). El engine resuelve arcanos end-to-end. **Gap restante = conexión de escritura en UI** (store `setArcane` + ruteo de slots), no el engine.
 
 **Deuda:**
-- `engine:debt` `ArcaneRepository` no implementado — análogo a `IncarnonRepository`. Blocker para conectar arcanes al engine. `[ref: docs/data/schemas/arcane/schema.md]`
 - `data:debt` P1: ~15 arcanes con `condition: null` + `upgrade_type` mapeado (efectos siempre activos, los más simples de integrar). Sin blocker de vocabulario.
 - `[SEM data:debt:schema` Patrones estructurales transversales (stacking / duration / composición de condition) — criterio de entrada fijado en `decisions.md#D-20`; **captura-only** en `audit-arcane.md`; puente cross-schema ubicado en `data/` (`DC-OQ-DATA-2`), creación gateada (`OQ-DATA-4`). Familia stacking on-event (Merciless/Deadhead/Dexterity, 6 entradas): drift con D-15 §2 (`base_value: null` vs total). Composición OR/AND de condition: contador = 1 (Afflictions), sub-umbral. `[empirical]`
 
@@ -177,7 +182,6 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 | Condition null (condición real sin token) | 2 — paris/vicious_promise ×2 |
 
 **Deuda conocida (activa):**
-- `[ENGINE data:debt` `IncarnonRepository` lee `upgrades[]` (formato viejo) → devuelve `[]` en runtime. Actualizar a `stats[]` al conectar engine↔UI. `[ref: docs/data/schemas/incarnon/schema.md]`
 - `[SEM data:debt` G3 abiertos: duration buffs mapeados como estáticos (7 stats) `[inferred]`, SET vs ADD (12 stats) `[needs-verification]`, multi-value labels (3 stats) `[needs-verification]`
 - `data:debt` data:class:cat/d ~101 no-EVO1 restantes: ~82 genuinamente display-only + ~19 pendientes (G3 o tokens nuevos)
 - `[SEM data:debt` 4 condition tokens pendientes: `while_blocking`, `while_enemy_below_half_health`, y otros — trabajo manual usuario `[empirical]`

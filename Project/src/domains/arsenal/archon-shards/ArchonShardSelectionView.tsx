@@ -8,12 +8,16 @@
  */
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { ChevronLeft } from "lucide-react";
 import { Button } from "@headlessui/react";
-import { useArsenalUiState } from "@domains/arsenal/state/use-arsenal-stub-state";
+import { useArsenalUiSession } from "@domains/arsenal/state/use-arsenal-ui-session";
 import { useEnsemble, useEnsembleActions } from "@providers/Ensemble/EnsembleProvider";
-import { resolveLocalImageUrl } from "@lib/image-url";
-import { useArchonShardCatalog } from "./use-archon-shard-catalog";
+import { useCatalog } from "@shared/hooks/data/use-catalog";
+import type { ArchonShardCatalog } from "@shared/types";
+
+// Las imágenes de shards viven en /assets/archon-shard/ (PascalCase), no en /images/
+// (donde el resolver general busca los ítems). La variante tauforjada antepone "Tauforged".
+const shardImageUrl = (imageName: string, tauforged: boolean): string =>
+  `/assets/archon-shard/${tauforged ? "Tauforged" : ""}${imageName}`;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -21,18 +25,14 @@ function resolveStatLabel(label: string, value: [number, number], tauforged: boo
   return label.replace("|val1|", String(tauforged ? value[1] : value[0]));
 }
 
-function shardTypeFromName(name: string): string {
-  return name.split(" ")[0].toLowerCase();
-}
-
 // ── Vista principal ───────────────────────────────────────────────────────────
 
 export default function ArchonShardSelectionView() {
-  const { arsenalUi } = useArsenalUiState();
+  const { arsenalUi } = useArsenalUiSession();
   const intention = useEnsemble();
   const { setShard } = useEnsembleActions();
   const navigate = useNavigate();
-  const catalog = useArchonShardCatalog();
+  const catalog = useCatalog<ArchonShardCatalog>("archon-shards");
 
   const slotIndex = arsenalUi.selectedArchonShardSlotIndex ?? 0;
   const currentShard = intention.items.warframe.shards?.[slotIndex] ?? {
@@ -48,8 +48,11 @@ export default function ArchonShardSelectionView() {
     return <div className="p-8 text-ui-primary/30 text-sm">Cargando...</div>;
   }
 
-  const shardEntries = Object.values(catalog).map((entry) => ({
-    type: shardTypeFromName(entry.name),
+  // type = la CLAVE del catálogo (/Lotus/.../ArchonCrystal*), que es lo que el engine espera
+  // (ShardRepository.resolve hace catalog[shardType]). Antes se pasaba el color
+  // (name.split(' ')[0]) → catalog[color] = undefined → ningún shard aplicaba.
+  const shardEntries = Object.entries(catalog).map(([key, entry]) => ({
+    type: key,
     entry,
   }));
 
@@ -76,13 +79,6 @@ export default function ArchonShardSelectionView() {
     <div className="flex h-full flex-col overflow-hidden">
       {/* Header */}
       <header className="flex items-center gap-3 border-b border-ui-primary/10 px-4 py-3">
-        <Button
-          onClick={() => void navigate("/arsenal")}
-          className="flex items-center gap-1 text-xs text-ui-primary/40 hover:text-ui-primary/70 transition-colors"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Arsenal
-        </Button>
         <div className="flex-1 min-w-0">
           <div className="text-sm font-semibold text-ui-primary/90">Archon Shard</div>
           <div className="text-[10px] text-ui-primary/30 font-mono">
@@ -115,7 +111,7 @@ export default function ArchonShardSelectionView() {
               className="relative flex h-10 w-10 items-center justify-center rounded border border-ui-primary/10 bg-ui-primary/3 transition-all hover:border-ui-primary/30 data-[active]:border-ui-accent/50 data-[active]:bg-ui-accent/5"
             >
               <img
-                src={resolveLocalImageUrl(entry.image_name)}
+                src={shardImageUrl(entry.image_name, isTauforged)}
                 alt={entry.name}
                 className="h-6 w-6 object-contain"
                 onError={(e) => {

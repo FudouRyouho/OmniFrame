@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router";
-import { fetchArcane } from "@lib/arcane-data";
+import { Registry } from "@shared/data/DataRegistry";
 import type { Arcane } from "@shared/types";
 
 const ArcaneDetailView = () => {
@@ -13,7 +13,7 @@ const ArcaneDetailView = () => {
   useEffect(() => {
     const identifier =
       routeState?.uniqueName ?? decodeURIComponent(uniqueName ?? "");
-    fetchArcane(identifier).then((a) => {
+    Registry.getItemById<Arcane>("arcane", identifier).then((a) => {
       setItem(a ?? null);
       setLoading(false);
     });

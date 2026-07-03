@@ -1,31 +1,24 @@
 ---
-Estado: "activo"
-Rol: "Estado operativo del HUD, rutas y layouts del proyecto"
-Version: "v0.0.2"
+Estado: "referencia"
+Rol: "[PLEGADO] Antiguo status del shell — su contenido vive ahora en status.md"
+Version: "v0.0.4"
 Impacto_ID: "UI-UX-Shell-Status"
 Fidelidad_Fisica: "Project/src/providers/Shell/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-04-23"
+Fecha_de_actualizacion: "2026-06-16"
 ---
 
-# Navigation Shell Status
+# Navigation Shell Status — [PLEGADO en `status.md`]
 
-## Funcionalidades Actuales
+> **Este doc se plegó en [`./status.md`](./status.md)** (campaña UI, paso 4, 2026-06-16). El status del
+> shell/menu vive ahora en `status.md` §1.4 (Menu / Shell) + §2 (mapas cross-cutting). Contenido stale
+> corregido en la fusión: la zona "Dev" y la abstracción `routes` fueron **purgadas** (MS1/2/3); el footer
+> `Build`/`Wiki` son **false-affordances** (botones sin handler, ver `status.md` §2.2 + U-4).
+>
+> **Se conserva como referencia** sólo hasta que el barrido de mispointers (`@SSoT`) re-apunte los archivos de
+> código (`shell-context.tsx`, `App.tsx`, `use-arsenal-ui-session.ts`, `ArsenalView.tsx`, `use-item-details.ts`)
+> hacia `status.md`. Tras ese barrido, este archivo se retira.
 
-- **HUD Core**: Header estabilizado y Footer contextual (`Back`, `Build`, `Wiki`).
-- **Navegación**: Menú principal (`DialogMenu.tsx`) con rutas activas a `Arsenal`, `Equipment` y zona `Dev`.
-- **Equipment Browser**: Vistas funcionales con datos reales (`warframes`, `weapons`, `mods`, etc.) en `shared/components/items/views/`.
-- **Detalle de Item**: Vistas de detalle centralizadas en `shared/components/items/specs/`.
-- **Cache**: En memoria — `DataRegistry` usa `Map` interno. No hay persistencia en IndexedDB.
-
-## Alcance de las Vistas
-
-- `/equipment/*`: Browsing de ítems e inspección de metadata (Consumidor de `shared/components/items/cards`).
-- `/arsenal`: **ESTADO: STUB**. `use-arsenal-stub-state.ts` — sin conexión definitiva al motor. `UpgradeView` sin diseño definido. Ver OQ-STATE-2.
-- `/profile` | `/options`: Rutas para gestión de caché y persistencia.
-
----
-
-### Notas de Navegación
-
-El `ShellProvider` centraliza la resolución de la zona activa (`zone`, `view`, `isDetail`) para coordinar el contenido del Header y el Footer dinámicamente detectando el `pathname`.
+Durable (ya en `status.md`): `ShellProvider` = resolver puro `URL→estado-de-shell` (`zone`/`view`/`isDetail`/
+`footerKind`/`pageTitle`); `DataRegistry` = cache en memoria (`Map`, sin IndexedDB); `/arsenal` = STUB
+(`use-arsenal-ui-session`, slot de archon shard cross-route).
