@@ -69,7 +69,7 @@ vocabularios humanos divergentes. Resultado: tres tablas para el mismo stat, **n
 
 | Fuente | Keyed por | Label de crit chance | Unit |
 | :--- | :--- | :--- | :--- |
-| `lib/presentation/attribute-registry.ts` | ~~nombres humanos~~ **tokens D-6 (Fase 4)** | (label fuera del dict) | `%` |
+| `lib/presentation/attribute-registry.ts` | **tokens D-6** (Fase 4; antes nombres humanos) | (label fuera del dict) | `%` |
 | `lib/i18n/stat-labels.ts` | claves de catálogo (`crit_chance`) | `"CRIT CHANCE"` | (implícito en formateador) |
 | inline en `UpgradeView.tsx` | id de engine, des-slugificado | `"WEAPON ADD CRIT CHANCE"` | el `unit` del nodo |
 

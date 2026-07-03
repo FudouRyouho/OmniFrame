@@ -9,7 +9,7 @@ Conocimiento técnico organizado por **capa funcional** (comportamiento). Cada d
 | Dominio | Mapea a | Descripción |
 |---|---|---|
 | [`engine/`](engine/) | `Project/src/core/engine/` | Motor matemático, fórmulas y estado operativo. Blueprint y diseño en [`engine/design/`](engine/design/). |
-| [`integration/`](integration/) | `engine/bridge/MutatorBridge` + `engine/hooks/useSimulation` + `providers/Ensemble` | Capa de traducción entre estado del usuario y motor (Capas A→B→D del modelo de 5 capas) |
+| [`integration/`](integration/) | `core/bridge/MutatorBridge` (B) + `core/intention/ensemble-store` (A) + `useViewModel`/`ViewModelContract` (D) | Capa de traducción entre estado del usuario y motor (Capas A→B→D del modelo de 5 capas) |
 | [`ui-ux/`](ui-ux/) | `src/domains/` + `src/shared/components/` + `src/lib/presentation/` | Capa de presentación: shell, vistas, componentes, virtualización |
 
 ## Jerarquía de lectura dentro de un dominio

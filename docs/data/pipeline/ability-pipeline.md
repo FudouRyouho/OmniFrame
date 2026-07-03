@@ -33,7 +33,7 @@ ability-stats.override.json             ← groups/stats actualizados; name/desc
 | `Project/scripts/apply-ability-md.ts` | Parser + merge. Produce `groups[]` planos y aplica al override sin tocar otros campos. |
 | `Project/scripts/parse-ability-md.ts` | Solo parser (stdout JSON). Para inspección sin modificar el override. |
 | `Project/public/data/ability-stats.override.json` | **Runtime SSoT**. No se edita a mano para `groups`/`stats`. |
-| `Project/src/core/engine/hydration/StaticHydrator.ts` | Consumidor final en el engine. |
+| `Project/src/core/engine/resolve/hydration/StaticHydrator.ts` | Consumidor final en el engine. |
 
 ## Referencias wiki (`references/wiki/modules/raw/`)
 

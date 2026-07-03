@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Punto de entrada y mapa de navegación del SSoT de OmniFrame"
-Version: "v0.2.0"
+Version: "v0.2.1"
 Impacto_ID: "N/A"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-04-15"
-Fecha_de_actualizacion: "2026-05-25"
+Fecha_de_actualizacion: "2026-07-03"
 ---
 
 # OmniFrame — Documentation Suite
@@ -42,8 +42,8 @@ docs/
 │   ├── engine/         — motor matemático + design/ (blueprint del motor de simulación)
 │   ├── integration/    — capa entre estado del usuario y motor
 │   └── ui-ux/          — presentación, vistas, shell, componentes
-├── governance/   — reglas, convenciones, estado actual, OQ, decisiones cerradas
-└── decisions/    — debates técnicos activos y plantillas
+├── governance/   — reglas, convenciones, estado actual, OQ, decisiones cerradas, doc-map
+└── decisions/    — plantillas de cierre de OQ + decisiones históricas (los debates activos viven en governance/open-questions.md)
 ```
 
 **Principio arquitectónico:** `data/` y `semantic/` son **fundación transversal** consumida por todos los dominios funcionales. NO son features, son SSoT. Los dominios funcionales (engine, ui-ux, integration) **dependen** de ellos.

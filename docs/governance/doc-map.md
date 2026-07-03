@@ -77,10 +77,9 @@ Drift registrado (gate: **registrar, no auto-fix**):
   son esperables en un snapshot y ya no engañan (el banner lo advierte).
 - **`engine/status.md`** → **atendido por la pasada de drift (§7, 2026-07-03):** era drift severo (doc entero pre-reestructura 2026-06-12); reescrito completo contra la estructura real (`core/bridge`, `engine/{resolve,resolve/hydration,simulate/{combat,enemies},output,bootstrap}`), tabla Hooks purgada, formulas/tests/deudas actualizados. v0.4.0.
 - **`current-state.md`** quedó stale vs el trabajo de junio → **atendido por la campaña docs-review (§7, 2026-07-03):** changelog purgado a git, 4 drifts internos cerrados, snapshot restaurado.
-- **`README.md` (docs raíz, 2026-05-25)** sigue stale vs el trabajo de junio → refrescar al retomar (pendiente).
+- **`README.md` (docs raíz)** → revisado en Tanda 3 (2026-07-03): el nav-index estaba **sano** (punteros/estructura correctos); el flag era por la fecha vieja, no por drift. Corregida la descripción de `decisions/` + bump. v0.2.1.
 
 Pendientes de la campaña (no ejecutados esta sesión):
-- `README.md` (docs raíz) sigue stale → refrescar (drift, pendiente).
 - Bloat cualitativo intra-doc: abordado por docs-review (§7) en Tanda 1; Tanda 2 en curso (`engine-audit` congelado; resto de contratos presunto-limpios por triage).
 
 ---
@@ -213,4 +212,11 @@ hay pudrición estructural; el ruido es 100% cualitativo intra-doc.**
 - **Cluster `engine/design/` (7 docs) — traído al presente** (decisión del usuario: SSoT de arquitectura se **actualiza**, no se congela; auditorías fechadas sí se congelan). Nivel saneamiento (no re-evaluación de diseño): claims de estado-actual stale → corregidos contra código real (`ProjectionSnapshot` purgado→`snapshot()`, `useSimulation`/`useSimulationMetrics` purgados→`useViewModel`, rutas `resolve/`/`simulate/`/`core/bridge`, `Audit*`→`Trace*`); **diseño no implementado** (Logic Decorators, Casting Snapshot, Hit Location, payload rico) → **marcado inline** `⚠️ diseñado, no implementado`; ejes en-flujo → apuntados a `OQ-ENGINE-8`/`OQ-ENGINE-10`. `simulation-architecture` v0.3.0, `contracts` v0.1.2, `arch-decisions` v0.2.3, `formulas-integration` v0.3.0, `integration-status` v0.0.6, `blueprint`/`roadmap` bump; `design/README` banner reescrito.
 - Resto de contratos (semantic vocab, schemas, rules): presunto-limpios por triage (0 strikethrough, 0 changelog) + drift-scan comprensivo sin hits vivos.
 
-**Pendiente:** **Tanda 3** (referencia/captura/reports, ~25 docs). Drift restante conocido: `README.md` raíz.
+**Tanda 3 — referencia/captura/reports (✅ COMPLETA):** triage → **tier muy limpio** (0 changelog, 2 strikethrough, **nada archivable** — todo con ≥1 cita entrante). Acciones:
+- 2 strikethrough podados (`presentation-layer` migración de keying, `gap-map` nodos Capa 4 ya materializados).
+- 2 refs stale corregidas (`domains/README` integration row, `data/pipeline/ability-pipeline` ruta `resolve/hydration`).
+- `docs/README.md` (nav-index) revisado: sano, solo bump + fix menor de `decisions/`.
+- `shell-status.md` = redirect `[PLEGADO]` auto-consciente → se retira cuando el barrido de `@SSoT` en **código** re-apunte a `status.md` (tarea de código, fuera de docs). Dejado.
+- references/reports/pipeline/test-catalogs/decisions: limpios por triage + drift-scan (sin hits vivos).
+
+**Campaña COMPLETA (Tandas 0–3 + pasada de drift).** Corpus saneado y honesto, listo como paso previo al merge de `refactor/core-stage0-restructure` a master. La **revisión de arquitectura profunda** queda para una sesión aparte post-merge.
