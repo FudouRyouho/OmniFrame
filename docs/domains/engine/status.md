@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.3.4"
+Version: "v0.3.5"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-11"
+Fecha_de_actualizacion: "2026-07-02"
 ---
 
 # Engine Status
@@ -138,9 +138,11 @@ Bloquea: aserción de procedencia en la suite de consumo (el trace no puede atri
 Ver `docs/governance/open-questions.md`:
 - **OQ-ENGINE-2** — Profile switching en runtime (Incarnon/Alt-fire): re-hidratar vs. conmutar durante `resolve()`
 - **OQ-ENGINE-FUTURE** — Web Worker, Rewind, y estado del Gold Standard testing
+- **OQ-ENGINE-12** — Timing del pipeline de crit condicional para Puncture/Cold (modelo de daño C2)
 
 Las OQs cerradas (STATE-1..4, ENGINE-1/3/4/5/6) están en `docs/governance/closed-decisions.md`.
 
 ## Contratos del motor
 
 - [`attribute-node-contract.md`](attribute-node-contract.md) — Qué modela cada campo de `AttributeNode`, su capa en la fórmula de Warframe y la operación de modificador que lo alimenta.
+- [`design/damage-status-model.md`](design/damage-status-model.md) — Micro-arquitectura interna de C2: modelo de daño elemental/status/DoT para los 16 tipos, primitivo de stack tracker, reglas de composición (True↔Viral, double-dip de faction, orden de resolución de stacks), verdictos de scope v1 por tipo — verificado empíricamente in-game (2026-07-02), no solo por wiki.

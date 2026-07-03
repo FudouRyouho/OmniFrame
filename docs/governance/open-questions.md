@@ -617,3 +617,18 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 **No bloquea:** nada (diferido). **Estado:** no se modelará de inmediato; el usuario arranca el **prototipo** apenas cierre tareas en pausa.
 **Vínculo:** **`U-3`** (su upstream estructural), **OQ-UI-2** (que ya lista exaltadas como caso de slot-modeling junto a Jade Aura×2 / Sevagoth Shadow / companions modulares — UI-2 = layout de slots; ésta = mecanismo de derivación en A1), **OQ-ENGINE-7** (materialización de nodos de atributo).
 **Fuente:** debate de la campaña ui-ux (2026-06-15) + promoción a ID real en el cruce de consolidación (2026-06-16).
+
+---
+
+## OQ-ENGINE-12 — Timing del pipeline de crit condicional (Puncture/Cold) — **ABIERTO (2026-07-02)**
+**Dominio:** engine / C2 (micro-arquitectura de daño y status)
+
+**Contexto:** la campaña de modelado de daño/status de C2 ([`../domains/engine/design/damage-status-model.md`](../domains/engine/design/damage-status-model.md)) diseñó y verificó empíricamente el núcleo (Slash/Toxin/Viral/Corrosive) y el primitivo reusable de stack tracker (N timers independientes, cap K, reemplaza-al-más-viejo — confirmado en Viral/Magnetic/Corrosive). Dos facetas reales de DPS quedan pendientes de un punto de enganche distinto: **Puncture** (+5%/stack de crit chance del jugador contra el target, hasta +25% a 5 stacks) y **Cold** (+0.1×/+0.05× por stack de crit damage recibido, hasta +0.5× a 9, cap 4 stacks en bosses/Overguard).
+
+**Corrección de encuadre (debate 2026-07-02, no re-litigar):** esto NO es "falta arquitectura nueva" — el primitivo de stack ya está modelado y validado. Lo que falta es **dónde** se lee ese primitivo: Viral/Magnetic/Corrosive lo consumen en la resolución de daño por capa (`CombatSimulator.resolveHit`); Puncture/Cold necesitan consumirlo en el **cálculo de crit** (`AtomicSimulator`/`CombatSimulator.simulateAttack`), un punto distinto del pipeline que hoy no tiene ese gancho.
+
+**Pregunta:** ¿cuándo se construye ese punto de enganche? No bloquea el núcleo (Tier 1 del modelo), pero es la pieza que falta para que Puncture/Cold entren a v1 junto con Magnetic (mismo tier de prioridad, distinto tier de trabajo de cableado).
+
+**No bloquea:** el núcleo del modelo de daño (Slash/Toxin/Viral/Corrosive) ni el plan de slices que lo implemente primero.
+**Vínculo:** `damage-status-model.md` (el modelo completo, incluye la brecha ya encontrada entre `EnemyState.processDots()` — decaimiento lineal continuo, código de abril — y el primitivo de N-timers-independientes validado empíricamente esta sesión; el bug de `getDamageMultiplier` y el rename de vocabulario legacy ya se resolvieron en Fase 3 pieza 3, commit `98ef01b`, previo a esta campaña).
+**Fuente:** debate de modelado C2, verificación empírica in-game 2026-07-02.
