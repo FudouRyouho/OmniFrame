@@ -243,6 +243,47 @@ export function soma(opts: { perks?: Record<number, string>; profile?: string } 
   };
 }
 
+// ─── Nikana Prime (MELEE — hit-base determinista, OQ-ENGINE-14 ladrillo 1) ────────
+
+export const NIKANA_PRIME = '/Lotus/Weapons/Tenno/Melee/Swords/PrimeKatana/PrimeNikana';
+
+const NIKANA_MOD = {
+  PRIMED_PRESSURE_POINT: '/Lotus/Upgrades/Mods/Melee/Expert/WeaponMeleeDamageModExpert', // WEAPON_ADD_DAMAGE
+  TRUE_STEEL:            '/Lotus/Upgrades/Mods/Melee/WeaponCritChanceMod',                // WEAPON_ADD_CRIT_CHANCE
+  ORGAN_SHATTER:         '/Lotus/Upgrades/Mods/Melee/WeaponCritDamageMod',               // WEAPON_ADD_CRIT_MULT
+  MELEE_PROWESS:         '/Lotus/Upgrades/Mods/Melee/WeaponStunChanceMod',               // WEAPON_ADD_STATUS_CHANCE
+  CONDITION_OVERLOAD:    '/Lotus/Upgrades/Mods/Melee/WeaponDamageIfVictimProcActive',    // CONDITION_OVERLOAD (CO melee, coefBase 80, 1x)
+};
+
+/** Nikana Prime — primer melee. Va en el slot `melee` del ensemble. Mods básicos genéricos
+ *  (damage/crit/status), sin nada combo-dependiente. `profile`: 'base'/'normal_attack',
+ *  'slam_attack', 'heavy_slam_attack'. `withCO` añade Condition Overload (el mod CO melee). */
+export function nikana(withMods = true, profile = 'base', withCO = false): EnsembleIntention {
+  const mods: Record<number, { itemId: string; rank: number; level: number }> = withMods ? {
+    0: { itemId: NIKANA_MOD.PRIMED_PRESSURE_POINT, rank: 30, level: 10 },
+    1: { itemId: NIKANA_MOD.TRUE_STEEL,            rank: 30, level: 10 },
+    2: { itemId: NIKANA_MOD.ORGAN_SHATTER,         rank: 30, level: 10 },
+    3: { itemId: NIKANA_MOD.MELEE_PROWESS,         rank: 30, level: 10 },
+  } : {};
+  if (withCO) mods[4] = { itemId: NIKANA_MOD.CONDITION_OVERLOAD, rank: 30, level: 5 };
+  return {
+    items: {
+      warframe:         { itemId: null, rank: 30, shards: [] },
+      primary:          { itemId: null, rank: 30 },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: NIKANA_PRIME, rank: 30, active_profile: profile },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: Object.keys(mods).length > 0 ? { melee: mods } : {},
+    environment: BASE_ENV,
+  };
+}
+
 // ─── Arcano v0: Primary Merciless sobre Lanka (siempre-activo + guarda de null + clamp) ─
 
 export const PRIMARY_MERCILESS = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnKill';

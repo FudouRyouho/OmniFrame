@@ -196,8 +196,12 @@ export class ItemRepository {
       case 'Hit-Scan':   return 'adding';
       case 'Projectile': return 'multiplying';
       case 'AoE':        return 'none';
-      default:           return undefined; // gap: sin shot_type reconocido, no se asume
     }
+    // Melee: el hit primario no tiene shot_type de gun (None). El CO clásico melee es 'adding'
+    // (confirmado in-game; la interacción con la stance es capa aparte, diferida). Los perfiles
+    // AoE del melee (slam) ya cayeron en 'none' arriba. El tag kind gatea la mecánica (data-driven).
+    if (raw.kind === 'melee' && shotType == null) return 'adding';
+    return undefined; // gap: sin shot_type reconocido, no se asume
   }
 
   private static resolveMultishot(raw: any, attackName: string, index: number): number {

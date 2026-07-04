@@ -2999,14 +2999,12 @@
               66.7,
               80
             ],
-            "upgrade_type": "WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE"
+            "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE"
           }
         ],
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica",
-          "engine:note · upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE es binario (legacy DE); el label/condition refleja la mecánica real (escala per tipo) — fidelidad al label"
-        ],
-        "condition": "per_status_type_on_target"
+          "engine:note — coefBase por status type (fidelidad DE: +80% Melee Damage per Status Type). Fórmula: damage × (1 + coefBase% × activeStacks × N). CO clásico melee: coefBase=80, 1x (SIN stacks, sin bakeo) → activeStacks no se declara, default 1. co_behavior=adding (melee, shot_type None). La interacción con la stance (secuencia de hits) es capa aparte, diferida — ver arch-decisions §9 + OQ-ENGINE-14."
+        ]
       }
     ]
   },

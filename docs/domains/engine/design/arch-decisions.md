@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.2.6"
+Version: "v0.2.7"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-04"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -180,7 +180,7 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 
 **Decisión:** Primer caso destilado de §8 (veredicto **ENTRA** en modo estático). La familia CO/GunCO — "+coefBase% daño directo por tipo de status en el target" (Condition Overload melee, Galvanized Aptitude/Savvy/Shot, perks incarnon) — se modela con **dos piezas ortogonales**:
 
-1. **`co_behavior` — topología, agnóstica al modo.** Metadata cualitativa POR ATAQUE (no por arma, no por mod): a qué bucket compone el bonus. `'adding'` (junto a Serration, `mods_add_pct`), `'multiplying'` (multiplicador final aparte) o `'none'` (no aplica, ej. AoE radial). El dato normalizado vive en `MutatedDNA.co_behavior: Record<profile, CoBehavior>` (mapa por perfil); StaticHydrator lo **baja resuelto al perfil activo** de cada entidad en `SimulationEntity.co_behavior` — el motor lo consume directo, sin mirar un `active_profile_id` global (que es único para toda la sim y no modela el perfil por-arma). Resolución en `ItemRepository`: override (`weapon-stats.override.json`, campo `co_behavior`) **terminal** → default por `shot_type` (Hit-Scan→adding, Projectile→multiplying, AoE→none) → **ausente = gap** (no se asume). La tabla `shot_type` es señal, no ley: un override corrige la excepción (ej. Paris Charged Shot). `CoBehavior` es SSoT única en `@shared/types/modifier`. Reemplaza el muerto `behaviors: string[]` (engine v1, purgado — granularidad y tipo inversos).
+1. **`co_behavior` — topología, agnóstica al modo.** Metadata cualitativa POR ATAQUE (no por arma, no por mod): a qué bucket compone el bonus. `'adding'` (junto a Serration, `mods_add_pct`), `'multiplying'` (multiplicador final aparte) o `'none'` (no aplica, ej. AoE radial). El dato normalizado vive en `MutatedDNA.co_behavior: Record<profile, CoBehavior>` (mapa por perfil); StaticHydrator lo **baja resuelto al perfil activo** de cada entidad en `SimulationEntity.co_behavior` — el motor lo consume directo, sin mirar un `active_profile_id` global (que es único para toda la sim y no modela el perfil por-arma). Resolución en `ItemRepository`: override (`weapon-stats.override.json`, campo `co_behavior`) **terminal** → default por `shot_type` (Hit-Scan→adding, Projectile→multiplying, AoE→none; **`kind=melee` + shot_type None → adding**, el CO clásico melee es aditivo) → **ausente = gap** (no se asume). La tabla `shot_type` es señal, no ley: un override corrige la excepción (ej. Paris Charged Shot). `CoBehavior` es SSoT única en `@shared/types/modifier`. Reemplaza el muerto `behaviors: string[]` (engine v1, purgado — granularidad y tipo inversos).
 
 2. **`CONDITION_OVERLOAD` — mecánica, disparador del ruteo.** Es una `ModifierOperation` de **familia** (no una composición genérica): el valor lo calcula `coBonusPct` (SSoT en `formulas/weapon/weapon-condition-overload.ts`) = `coefBase × activeStacks × N`; el **bucket lo decide `co_behavior`, no la operación**. Las dos dimensiones viajan **nombradas** en `Modifier.co_factors` (`{stacks_var, status_count_var}`), resueltas del contexto. **No se bakea el producto** — la separación es lo que permite que §8 opere: en **modo estático/techo** el consumidor las declara (perfect-clic, replica el número de overframe.gg como *input*, no como ley); en **modo dinámico** emergen (stacks de kills en el tiempo, N del `EnemyState`) — misma mecánica, misma topología, distinta fuente. El motor es idéntico en ambos modos.
 
@@ -195,3 +195,25 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 - Primer arma: Cedo Prime (`cedo-co-static.test.ts`) — sus 3 `shot_type` en un arma validan los 3 buckets **end-to-end**: `adding` (Normal Attack, techo N=3/stacks=2: `84.8 → 161.6`, +240%), `multiplying` (Alt-Fire Glaive → `multiplicative`, **fidelidad confirmada en juego**), `none` (Radial AoE, no aplica).
 - **Diferido (modo dinámico):** `activeStacks` y `N` reales requieren `EnemyState`/timeline (misma brecha `processDots` de §8). El `maxStacks` por mod y la abstracción del contador aún **no** se diseñan — emergen con más casos (rifle/secondary/melee/incarnon: solo verificar datos, no re-map — ver `../../../data/decisions.md` D-17).
 - Enlaza con **§8** (es su primer caso concreto) y **§1** (el `co_behavior` por perfil respeta "el arma es el nodo canónico, `attacks[]` sus subestructuras").
+
+---
+
+## 10. Familia `condition-scaled`: partición por composición, no por tema
+
+**Decisión:** El corpus real de "bonus por condición transiente en el target" (wiki *Condition Overload-Style Bonuses*: CO melee, Galvanized ×3, Cedo pasiva, Secondary Shiver, ~8 perks incarnon, Kunai/Dread, Shattering Frost, Catalyze) **no es una mecánica**: es un **eje de vocabulario** que se parte en **tres formas por CÓMO computan el valor**, no por el tema que comparten. El modelo particiona por composición; la agrupación de la wiki ("additively stack in the list") es una observación de *resultado* (todas caen en el bucket aditivo), no el criterio de modelado.
+
+| Forma | Fuentes | Cómo computa | Resuelto por |
+|---|---|---|---|
+| **Gate aditivo** (booleano) | Kunai/Dread (+100% vs <50% HP), Shattering Frost (vs Frozen) | `condition ? value : 0` | **`condition` + `ADD` — ya existe** (`evalCondition` contra `context.flags`) |
+| **Escalado aditivo per-N** | CO, Galvanized ×3, Cedo, Shiver (per freeze stack), mayoría de perks | `coef × stacks × N` | **`CONDITION_OVERLOAD` + `co_factors`** (§9) — la mecánica CO |
+| **Escalado exponencial** | Catalyze (Lavos) | `base × 2^N` | **fórmula dedicada** + es **habilidad** (§2/§3), fuera del grafo de buckets |
+
+**Justificación:**
+- **La partición la firma la propia wiki:** agrupa lo que "stackea aditivo" y **excluye Catalyze** por "exponential per condition". Aditivo (`1 + coef·N`) vs exponencial (`2^N`) es composición **opuesta**, no "similar en esencia" — colapsarlos mentiría sobre la composición (el mismo criterio que hizo honestos a los buckets §4.1: se colapsa lo que compone igual, no lo que se parece).
+- **Kunai/Dread NO son CO:** "+100% vs <50% HP" es un **gate** (flag), no un escalado (no hay N). Caen en el bucket aditivo al final, pero se computan con `condition`+`ADD` — el motor ya los resuelve, no tocan la maquinaria CO. La distinción viaja en el contrato: **gate → `context.flags`; escala → `context.variables`**.
+- **Generalización segura = fuente del factor, NO el ruteo.** Dentro del escalado aditivo, el "N" deja de ser "unique status count" y pasa a ser "el valor de la variable de condición que sea" (`unique_status_count`, `freeze_stacks`, …). Se generaliza **la fuente** del factor manteniendo fijo **el CÓMO** (aditivo, bucket de mods, disparador `operation === 'CONDITION_OVERLOAD'`). Esto **no reabre** el `CONTEXT_SCALE` genérico que §9 mató: aquella muerte fue por generalizar el *ruteo/disparador* (un no-CO se colaba); generalizar solo la variable, con disparador de familia explícito, es cerrado.
+
+**Consecuencia:**
+- **CO se encapsula fuera de `resolveNode` (Abstracción B, no A).** El ruteo inline (doble `if (operation === 'CONDITION_OVERLOAD')` en `SimulationEngine.resolveNode`) es **deuda de coherencia hoy**, no diseño anticipado: CO ya es multi-fuente (mod/galvanized/perk/pasiva). Se extrae a una **unidad cohesiva nombrada** disparada por la operation de familia — se saca el *cómo* del hot loop **sin genericizar el *qué***. La regla "esperar más casos" (§8) **no aplica** a esto: los casos ya existen. Sí aplica a construir la capa genérica de mecánicas (Abstracción A: combo/heavy/slam aún no existen en código) — eso sigue diferido hasta que su forma común emerja de ≥2 mecánicas encapsuladas reales.
+- **Cedo pasiva** prueba que la operation `CONDITION_OVERLOAD` debe poder originarse en **hidratación del arma** (unique trait), no solo en `ModRepository` — igual que un combo intrínseco. Andamiaje para fuente-pasiva sí; **poblar instancias pasivas no**, hasta tener el dato en pipeline (gate §8: falta dato ⇒ `difiere` la instancia, no la mecánica).
+- Enlaza con **§9** (es su profundización: CO vista contra el corpus completo) y con la doctrina `condition` = vocabulario emergente (`../../../semantic/conditions.md`).
