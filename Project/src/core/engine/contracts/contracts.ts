@@ -6,7 +6,10 @@
  */
 
 import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
+import type { CoBehavior } from '@shared/types/modifier';
 import type { EntityId, AttributeId, AttributeNode, GameLaws } from './primitives';
+
+export type { CoBehavior };
 
 export interface SimulationEntity {
   id: EntityId;
@@ -21,7 +24,11 @@ export interface SimulationEntity {
   persistence: 'PE' | 'TE'; // Pure Entity | Transient Entity
   tags: string[];
   attributes: Record<AttributeId, AttributeNode>;
-  behaviors: string[];
+  // Ruteo CO/GunCO YA RESUELTO al perfil activo de ESTA entidad (StaticHydrator lo baja
+  // de innate_dna.co_behavior[perfil]). El motor lo consume directo — no vuelve a mirar el
+  // perfil ni un active_profile_id global (que es único para toda la sim y no modela el
+  // perfil por-arma). Ausente = gap. Ver arch-decisions §9.
+  co_behavior?: CoBehavior;
   innate_dna?: MutatedDNA;
 }
 
@@ -32,7 +39,11 @@ export interface MutatedDNA {
   family?: ItemFamily;
   tags: string[];
   profiles: Record<string, Record<AttributeId, number>>; // 'base', 'alt', 'incarnon'
-  behaviors: string[];
+  // Keyed por profile_name (igual que profiles) — el behavior es por-ataque, no por-arma.
+  // Ausencia de entrada = gap: sin clasificar, el engine NO asume adding. Espejo cualitativo
+  // de profiles (que es cuantitativo). Reemplaza el muerto `behaviors: string[]` (engine v1,
+  // prototipo prematuro de CO con la granularidad y el tipo inversos — purgado 2026-07-03).
+  co_behavior?: Record<string, CoBehavior>;
 }
 
 export interface SimulationContext {

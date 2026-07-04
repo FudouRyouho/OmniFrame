@@ -25,8 +25,21 @@ export type ModifierOperation =
   | 'ADD_FLAT'
   | 'BASE_FLAT'
   | 'BASE_ADD_PCT'
-  | 'CONTEXT_SCALE'
   | 'MULTIPLICATIVE'
+  // Familia Condition Overload / GunCO. NO es una composición genérica: el valor emerge de
+  // `coBonusPct` (formulas/weapon) y el bucket lo decide el `co_behavior` del ataque, no la
+  // operación. Es la MARCA de familia (disparador del ruteo) — reemplaza el `CONTEXT_SCALE`
+  // genérico que casaba operación con mecánica. Ver arch-decisions §9.
+  | 'CONDITION_OVERLOAD'
+
+// ─── CoBehavior ────────────────────────────────────────────────────────────────
+// Familia Condition Overload / GunCO: CÓMO compone un bonus "per Status Type" sobre un
+// ataque. NO es un valor de stat — es ruteo de bucket (adding = junto a Serration;
+// multiplying = multiplicador final aparte; none = no aplica, ej. AoE radial). Propiedad
+// del ataque del arma, no del mod. SSoT única de este vocabulario, compartida por el
+// contrato del engine (`MutatedDNA.co_behavior`) y la fórmula pura
+// (`formulas/weapon/weapon-condition-overload.ts`). Ver arch-decisions §9.
+export type CoBehavior = 'adding' | 'multiplying' | 'none'
 
 // ─── Upgrade ─────────────────────────────────────────────────────────────────
 // Convención D-6: {FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
@@ -65,6 +78,11 @@ export const UPGRADES = [
   'WEAPON_ADD_CRIT_CHANCE',
   'WEAPON_ADD_CRIT_MULT',
   'WEAPON_ADD_STATUS_CHANCE',
+  // Familia Condition Overload / GunCO: +coefBase% daño directo POR tipo de status en el
+  // target. Op real CONDITION_OVERLOAD (valor = coBonusPct(coefBase × activeStacks × N);
+  // bucket por co_behavior del ataque). Reemplaza el legacy binario
+  // WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (D-17). Ver references/wiki/mechanics/condition-overload.md.
+  'WEAPON_ADD_DAMAGE_PER_STATUS_TYPE',
   'WEAPON_ADD_MAGAZINE_MAX',
   // Munición total del arma (pool). Distinto de WEAPON_ADD_MAGAZINE_MAX (capacidad del cargador).
   // Fuente: Ammo Drum, Ammo Chain, Trick Mag, Shell Compression.
@@ -204,11 +222,20 @@ export function getUpgradeFamily(upgrade: Upgrade): UpgradeFamily {
 //
 // Tokens sin entrada = resueltos por `resolveToken` — no es un error de runtime.
 
+export interface CoFactors {
+  // Nombres de las variables de contexto que aportan cada dimensión de la fórmula CO.
+  // Se resuelven en modo estático (declaradas) o dinámico (emergentes del EnemyState).
+  stacks_var: string;        // activeStacks (dimensión temporal del buff)
+  status_count_var: string;  // N tipos de status en el target
+}
+
 export interface UpgradeMapEntry {
   attr: string;
   op: ModifierOperation;
   toPercent?: boolean;
   target_channel?: string;
+  // Solo CONDITION_OVERLOAD: nombres de los factores de contexto (dos dimensiones nombradas).
+  co_factors?: CoFactors;
 }
 
 // ─── OPERATION_MAP ────────────────────────────────────────────────────────────
@@ -253,6 +280,12 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
 
   // ── (1) ALIAS — SUFFIX distinto del nodo destino (no es op-variante) ──────────
   WEAPON_FIRE_ITERATIONS:           { attr: 'WEAPON_ADD_MULTISHOT',             op: 'ADD' },
+
+  // ── CONDITION_OVERLOAD — familia CO/GunCO, ruteo por co_behavior ──────────────
+  // Apunta al daño global (attr WEAPON_ADD_DAMAGE). El valor = coBonusPct(coefBase ×
+  // activeStacks × N); el bucket lo decide el co_behavior del ataque, NO la operación.
+  // co_factors nombra las dos dimensiones de contexto. Ver arch-decisions §9.
+  WEAPON_ADD_DAMAGE_PER_STATUS_TYPE: { attr: 'WEAPON_ADD_DAMAGE', op: 'CONDITION_OVERLOAD', co_factors: { stacks_var: 'active_stacks', status_count_var: 'status_type_count' } },
 
   // ── (2) FLAG — toPercent: JSON almacena 1.30 = +30% → 30 para mods_add_pct ────
   GAMEPLAY_MULT_FACTION_DAMAGE:     { attr: 'GAMEPLAY_MULT_FACTION_DAMAGE',     op: 'ADD', toPercent: true },

@@ -294,6 +294,7 @@
           "stats": [
             {
               "label": "+|val1|% Direct Damage per Status Type affecting the target.",
+              "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 40
             }
           ],
@@ -1656,6 +1657,7 @@
           "stats": [
             {
               "label": "+|val1|% Direct Damage per Status Type affecting the target.",
+              "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 40
             }
           ],
@@ -2176,6 +2178,7 @@
             },
             {
               "label": "+|val1|% Direct Damage per Status Type affecting the target.",
+              "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 40
             }
           ],
@@ -2652,6 +2655,7 @@
             },
             {
               "label": "+|val1|% Direct Damage per Status Type affecting the target.",
+              "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 33
             }
           ],
@@ -4614,6 +4618,7 @@
           "stats": [
             {
               "label": "+|val1|% Direct Damage per Status Type affecting the target.",
+              "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 40
             }
           ],
@@ -4697,6 +4702,7 @@
             },
             {
               "label": "With Sprint Speed 1.2 or Higher: +|val1|% Direct Damage per Status Type affecting the target.",
+              "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 30,
               "condition": "with_sprint_speed_above_1_2"
             }
@@ -7355,6 +7361,7 @@
           "stats": [
             {
               "label": "+|val1|% Direct Damage per Status Type affecting the target.",
+              "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 40,
               "notes": [
                 "engine:note — Familia Condition Overload — escala por tipo de status en target. Condition pendiente de debate. data:class:cat/d provisional."
@@ -8536,6 +8543,7 @@
           "stats": [
             {
               "label": "+|val1|% Direct Damage per Status Type affecting the target.",
+              "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 40,
               "notes": [
                 "engine:note — Familia Condition Overload — escala por tipo de status en target. Condition pendiente de debate. data:class:cat/d provisional."

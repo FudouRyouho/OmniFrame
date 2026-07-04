@@ -3,9 +3,8 @@
  * @SSoT docs/domains/engine/formula-overview.md
  */
 
+import type { CoBehavior } from "@shared/types/modifier";
 import { round2 } from "../common/scaling-base";
-
-export type COBehaviorType = "adding" | "multiplying" | "none";
 
 export type COModParams = {
 	/** Bonus porcentual por status unico por stack (ej. 80 para CO, 40 para Galvanized). */
@@ -15,7 +14,7 @@ export type COModParams = {
 };
 
 export type WeaponCOResult = {
-	behavior: COBehaviorType;
+	behavior: CoBehavior;
 	coBonusPct: number;
 	finalDamageWithCO: number;
 };
@@ -28,7 +27,7 @@ export function applyConditionOverload(
 	baseDamage: number,
 	additiveDamageBonusPct: number,
 	coBonusPctValue: number,
-	behavior: COBehaviorType,
+	behavior: CoBehavior,
 	otherMultipliers = 1,
 ): WeaponCOResult {
 	let finalDamageWithCO: number;

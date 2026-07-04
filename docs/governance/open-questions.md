@@ -617,3 +617,20 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 **Pendiente de captura:** re-test con capturas, Roar aislado sobre un DoT (sin faction); verificar si Xata (Void como posible instancia aparte) se comporta idéntico a Roar.
 **Vínculo:** `damage-status-model.md` §Reglas de composición.
 **Fuente:** observación in-game durante modelado C2 (Alternox + DoT Electricity), 2026-07-02.
+
+---
+
+## OQ-ENGINE-14 — Alcance del modelado melee: ¿qué estrato entra primero? — **ABIERTO (2026-07-04)**
+**Dominio:** engine / C1 (base estadística) + C2 (combo simulado)
+
+**Contexto:** melee no tiene dominio en `docs/` ni fixtures en el engine, pero el vocabulario D-6 ya tiene sus tokens (`WEAPON_ADD_HEAVY_CHARGE_SPEED`, `WEAPON_BASE_HEAVY_EFFICIENCY`, `WEAPON_ADD_SLAM_DAMAGE`/`_RADIUS`, `WEAPON_*_COMBO_*`, `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_ADD_RANGE`=reach) y la mecánica está en `references/wiki/mechanics/melee-combo.md`. Surge al diferir Condition Overload melee (D-17): melee no está modelado.
+
+**Base teórica (dos estratos):**
+- **Estrato 1 — base estadística (el "hit"): C1 puro, ya modelable.** Mismos stats que un gun (damage+tipos, crit, status, attack speed ≈ fire rate). El grafo genérico los resuelve idéntico — `Weapon` canónico (§1) no distingue melee de gun en la base. Casi gratis: falta fixture + mapear attack speed. NO arrastra arquitectura.
+- **Estrato 2 — melee-específico: donde vive C1|C2.** El **combo multiplier es el análogo del `N` de CO**: C1-asumido (combo declarado como factor de contexto, reusa el andamiaje `CONDITION_OVERLOAD`-like de §9) → C2-simulado (contador emerge de la timeline: hits, decay 5s, Naramon Power Spike). Stats planos (combo duration, HAE cap 90%, wind-up) = C1 nodos como reload. Heavy/slam/slide = **perfiles `attacks[]`** (como el glaive de Cedo); heavy añade su multiplicador 2x–12x por tier de combo.
+
+**Pregunta:** ¿el primer ladrillo melee es el **hit-base determinista** (C1, casi gratis, valida el grafo sobre un melee) o se difiere todo hasta consumidor real? ¿El combo multiplier **reusa el patrón CO** (factor de contexto declarado→emergente) o merece mecánica propia? ¿Heavy/slam/slide entran como perfiles desde el inicio o solo el hit primario?
+
+**No bloquea:** nada actual — melee sin fixtures ni consumidor. Condition Overload melee (D-17) y el multishot melee de gunblades/chakrams (`weapons-known-gaps.md`) esperan esto.
+**Vínculo:** `../../references/wiki/mechanics/melee-combo.md`, `../domains/engine/design/arch-decisions.md` §8 (input→simulado) + §9 (patrón CO), `../data/schemas/weapons/weapons-known-gaps.md` (multishot melee).
+**Fuente:** pausa teórica 2026-07-04, tras vincular la familia CO (mods de arma).

@@ -146,7 +146,10 @@ export class StaticHydrator {
 
   private static createBaseEntity(dna: MutatedDNA, profile_id: string = "base"): SimulationEntity {
     const attributes: Record<string, AttributeNode> = {};
-    const base_attributes = dna.profiles ? (dna.profiles[profile_id] || dna.profiles["base"] || {}) : {};
+    // Perfil efectivo: el pedido si existe, si no cae a 'base' (mismo criterio para attributes
+    // y co_behavior, para que no se desincronicen).
+    const effective_profile = (dna.profiles && dna.profiles[profile_id]) ? profile_id : "base";
+    const base_attributes = dna.profiles ? (dna.profiles[effective_profile] || {}) : {};
     
     Object.entries(base_attributes).forEach(([id, value]) => {
       // Solo crean AttributeNode los tokens D-6 válidos (WEAPON_ADD_DAMAGE incluido en
@@ -184,7 +187,7 @@ export class StaticHydrator {
       persistence: (dna.tags.includes('weapon') || isWarframe) ? 'PE' : 'TE',
       tags: dna.tags,
       attributes,
-      behaviors: dna.behaviors,
+      co_behavior: dna.co_behavior?.[effective_profile],
       innate_dna: dna
     };
   }

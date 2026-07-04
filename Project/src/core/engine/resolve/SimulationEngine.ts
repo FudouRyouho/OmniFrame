@@ -9,6 +9,7 @@ import type {
 } from "../contracts";
 import { isWeaponDamageToken } from "../contracts/damage-logic";
 import { applyAdditiveBonus } from "../formulas/common/scaling-base";
+import { coBonusPct } from "../formulas/weapon/weapon-condition-overload";
 import { evalCondition } from "@shared/types/condition";
 
 export class SimulationEngine {
@@ -166,19 +167,36 @@ export class SimulationEngine {
             context_value = sourceNode.final;
           }
         } 
-        else if (mod.operation === 'CONTEXT_SCALE') {
-          context_value = context.variables[mod.context_variable || ""] || 0;
-          modValue = (context_value * mod.value);
+        else if (mod.operation === 'CONDITION_OVERLOAD') {
+          // Familia CO/GunCO. El valor lo calcula `coBonusPct` (SSoT en formulas/weapon):
+          // coefBase × activeStacks × N. Las dos dimensiones vienen de `co_factors` (nombradas),
+          // resueltas del contexto (declaradas en estático, emergentes en dinámico). Factor
+          // ausente ⇒ 0 ⇒ bonus nulo. El bucket lo decide `co_behavior` (abajo).
+          const f = mod.co_factors;
+          const stacks = f ? (context.variables[f.stacks_var] ?? 1) : 1;
+          const n      = f ? (context.variables[f.status_count_var] ?? 0) : 0;
+          modValue = coBonusPct({ perStatusBonusPct: mod.value, activeStacks: stacks }, n);
+          context_value = stacks * n; // informativo para el trace
         }
 
-        switch (mod.operation) {
-          case 'BASE_FLAT': node.base_flat += modValue; break;
-          case 'BASE_ADD_PCT': node.base_add_pct += modValue; break;
-          case 'ADD_FLAT': node.total_flat += modValue; break;
-          case 'ADD': node.mods_add_pct += modValue; break;
-          case 'CONTEXT_SCALE': node.mods_add_pct += modValue; break;
-          case 'MULTIPLICATIVE': node.multiplicative *= (1 + modValue / 100); break;
-          case 'SET': node.final = modValue; break;
+        if (mod.operation === 'CONDITION_OVERLOAD') {
+          // El bucket lo decide el co_behavior del ATAQUE (ya resuelto al perfil en la entity),
+          // no la operación: 'adding' compone junto a Serration (mods_add_pct); 'multiplying' es
+          // un multiplicador final aparte; 'none' o gap ⇒ no aplica (modValue→0 para el trace).
+          // Ver contracts.ts CoBehavior + arch-decisions §9.
+          const cob = entity.co_behavior;
+          if (cob === 'adding')            node.mods_add_pct += modValue;
+          else if (cob === 'multiplying')  node.multiplicative *= (1 + modValue / 100);
+          else                             modValue = 0; // none | gap
+        } else {
+          switch (mod.operation) {
+            case 'BASE_FLAT': node.base_flat += modValue; break;
+            case 'BASE_ADD_PCT': node.base_add_pct += modValue; break;
+            case 'ADD_FLAT': node.total_flat += modValue; break;
+            case 'ADD': node.mods_add_pct += modValue; break;
+            case 'MULTIPLICATIVE': node.multiplicative *= (1 + modValue / 100); break;
+            case 'SET': node.final = modValue; break;
+          }
         }
       }
 

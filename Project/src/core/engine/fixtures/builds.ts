@@ -64,8 +64,9 @@ const CEDO_MOD = {
   PRIMED_RAVAGE:      '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponCritDamageModExpert',
 };
 
-/** Cedo Prime (Normal Attack). `withGH` añade Galvanized Hell (on_kill multishot). */
-export function cedo(withGH = false): EnsembleIntention {
+/** Cedo Prime. `withGH` añade Galvanized Hell (on_kill multishot). `profile` = perfil de
+ *  ataque: 'base'/'normal_attack' (Hit-Scan), 'alt-fire_glaive' (Projectile), 'glaive_radial_attack' (AoE). */
+export function cedo(withGH = false, profile = 'base'): EnsembleIntention {
   const mods: Record<number, { itemId: string; rank: number; level: number }> = {
     0: { itemId: CEDO_MOD.TOXIC_BARRAGE,      rank: 30, level: 3  },
     1: { itemId: CEDO_MOD.SHOTGUN_BARRAGE,    rank: 30, level: 5  },
@@ -79,7 +80,7 @@ export function cedo(withGH = false): EnsembleIntention {
   return {
     items: {
       warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: CEDO_PRIME, rank: 30, active_profile: 'base' },
+      primary:          { itemId: CEDO_PRIME, rank: 30, active_profile: profile },
       secondary:        { itemId: null, rank: 30 },
       melee:            { itemId: null, rank: 30 },
       companion:        { itemId: null, rank: 30 },
@@ -214,6 +215,30 @@ export function boltor(opts: { perks?: Record<number, string>; mods?: Record<num
     mods: opts.mods
       ? { primary: Object.fromEntries(Object.entries(opts.mods).map(([s, id]) => [s, { itemId: id, rank: 30, level: 10 }])) }
       : {},
+    environment: BASE_ENV,
+  };
+}
+
+// ─── Soma Prime (rifle Incarnon, perk CO fatal_affliction) ────────────────────────
+
+export const SOMA_PRIME = '/Lotus/Weapons/Tenno/LongGuns/PrimeSoma/PrimeSomaRifle';
+
+/** Soma Prime con perks de evolución variables. Vehículo del perk CO incarnon (fatal_affliction). */
+export function soma(opts: { perks?: Record<number, string>; profile?: string } = {}): EnsembleIntention {
+  return {
+    items: {
+      warframe:         { itemId: null, rank: 30, shards: [] },
+      primary:          { itemId: SOMA_PRIME, rank: 30, active_profile: opts.profile ?? 'base', evolution_perks: opts.perks },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: null, rank: 30 },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: {},
     environment: BASE_ENV,
   };
 }

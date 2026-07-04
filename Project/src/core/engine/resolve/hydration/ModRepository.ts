@@ -62,6 +62,7 @@ export class ModRepository {
               target_attribute: entry.attr,
               operation: entry.op,
               value,
+              ...(entry.co_factors ? { co_factors: entry.co_factors } : {}),
               ...(stat.condition ? { condition: stat.condition } : {})
             });
           } else {

@@ -3,7 +3,7 @@
  * @status en-desarrollo
  */
 
-import type { MutatedDNA } from "../../contracts";
+import type { MutatedDNA, CoBehavior } from "../../contracts";
 
 export class ItemRepository {
   private static weaponItems: Map<string, any> = new Map();
@@ -72,13 +72,15 @@ export class ItemRepository {
       family: raw.family,
       tags: [raw.domain, raw.kind, raw.family, ...(raw.tags || [])].filter(Boolean),
       profiles,
-      behaviors: [],
     };
   }
 
   /** Merge raw→DNA de un arma: combina `attacks[]` + overrides + fallback en los perfiles finales. */
   private static normalizeWeapon(raw: any): MutatedDNA {
     const profiles: Record<string, Record<string, number>> = {};
+    // Metadata cualitativa por perfil (agnóstica al modo estático/dinámico): a qué bucket
+    // compone un bonus CO/GunCO en este ataque. Ausencia de entrada = gap (no se asume).
+    const co_behavior: Record<string, CoBehavior> = {};
 
     // Mapear ataques a perfiles
     if (raw.stats?.attacks && raw.stats.attacks.length > 0) {
@@ -86,6 +88,9 @@ export class ItemRepository {
         const profile_name = (attack.name || 'default').toLowerCase().replace(/ /g, '_');
         const damage_map = this.mapDamage(attack.damage);
         const damage_sum = Object.values(damage_map).reduce((s, v) => s + v, 0);
+
+        const cob = this.resolveCoBehavior(raw, attack.name ?? '', attack.shot_type);
+        if (cob !== undefined) co_behavior[profile_name] = cob;
 
         profiles[profile_name] = {
           WEAPON_ADD_CRIT_CHANCE:  (attack.crit_chance ?? raw.stats.crit_chance ?? 0) * 100,
@@ -115,7 +120,11 @@ export class ItemRepository {
       });
 
       if (!profiles['base'] && Object.keys(profiles).length > 0) {
-        profiles['base'] = Object.values(profiles)[0];
+        const firstKey = Object.keys(profiles)[0];
+        profiles['base'] = profiles[firstKey];
+        // Espejo del alias 'base' para co_behavior (el default active_profile_id es 'base').
+        // Sin esto, el lookup co_behavior['base'] daría gap y dropearía el bonus CO en silencio.
+        if (co_behavior[firstKey] !== undefined) co_behavior['base'] = co_behavior[firstKey];
       }
     } else if (raw.stats) {
       // Fallback a nivel superior si no hay ataques detallados
@@ -144,7 +153,7 @@ export class ItemRepository {
       family: raw.family,
       tags: [raw.domain, raw.kind, raw.family, ...(raw.tags || [])].filter(Boolean),
       profiles,
-      behaviors: [raw.trigger?.toLowerCase()].filter(Boolean)
+      ...(Object.keys(co_behavior).length > 0 ? { co_behavior } : {}),
     };
   }
 
@@ -168,6 +177,27 @@ export class ItemRepository {
     Object.entries(data).forEach(([key, val]) => {
       if (!key.startsWith('_')) this.weaponAttackOverrides.set(key, val);
     });
+  }
+
+  // Clasifica CÓMO compone un bonus CO/GunCO sobre este ataque. Mismo patrón que
+  // resolveMultishot: override explícito → heurística → gap. El override
+  // (weapon-stats.override.json, campo co_behavior) es TERMINAL — cualquier valor,
+  // incluido 'none', gana y no cae a la heurística. Solo la ausencia total de la clave
+  // dispara el default por shot_type. Ausente + shot_type no reconocido = undefined (gap:
+  // no se asume 'adding'). Tabla de la wiki: Adding (hitscan) / Multiplying (projectile) /
+  // Does not apply (AoE). Es señal, no ley — un override corrige la excepción (ej. Paris
+  // Charged Shot: Projectile pero Adding). Ver references/wiki/mechanics/condition-overload.md.
+  private static resolveCoBehavior(raw: any, attackName: string, shotType?: string): CoBehavior | undefined {
+    const override = this.weaponAttackOverrides.get(raw.unique_name);
+    const ov = override?.attacks?.[attackName]?.co_behavior;
+    if (ov !== undefined) return ov;
+
+    switch (shotType) {
+      case 'Hit-Scan':   return 'adding';
+      case 'Projectile': return 'multiplying';
+      case 'AoE':        return 'none';
+      default:           return undefined; // gap: sin shot_type reconocido, no se asume
+    }
   }
 
   private static resolveMultishot(raw: any, attackName: string, index: number): number {

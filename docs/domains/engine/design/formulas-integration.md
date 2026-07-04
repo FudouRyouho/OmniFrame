@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
-Rol: "Auditoría y plan de integración de formulas/ como SSoT matemático del engine"
-Version: "v0.3.0"
+Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
+Version: "v0.4.0"
 Impacto_ID: "E-OQ-FORMULAS"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-04"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -13,149 +13,112 @@ Dependencias:
 Dependidos: []
 ---
 
-# Auditoría: formulas/ como SSoT Matemático del Engine
+# formulas/ — SSoT matemático del engine: estado e integración
 
-**Sesión**: 2026-05-27  
-**Alcance**: `Project/src/core/engine/formulas/` y su relación con el resto del engine  
-**Hallazgo principal**: `formulas/` contiene lógica matemática correcta y bien estructurada que **nunca es consumida** por ningún módulo del engine de producción.
+`core/engine/formulas/` es la **matemática pura** del motor: funciones deterministas, sin estado
+ni dependencias del engine. El diseño (`simulation-architecture.md §C1`) es que `resolve/` y
+`simulate/combat/` la **orquesten**, no que reimplementen la matemática.
 
----
-
-## 1. El principio que no se cumplió
-
-La arquitectura en `simulation-architecture.md §C1` establece que el engine debe ser:
-
-> "Motor matemático funcional y determinista. No tiene estado mutable."
-
-El diseño pretendido era:
-
-```
-formulas/    → matemática pura, determinista, sin dependencias del engine
-hydration/   → traducción de datos crudos → tipos engine
-resolution/  → orquesta formulas/ para resolver el grafo
-combat/      → orquesta formulas/ para simulación temporal
-```
-
-El código en `formulas/` materializa exactamente este principio. El problema: durante la construcción de v2, `resolution/` y `combat/` reimplementaron la matemática inline en lugar de consumir `formulas/`. El resultado es dos sistemas paralelos donde debería haber uno.
+**Deuda estructural:** durante v2, `resolve/` y `combat/` reimplementaron parte de la matemática
+inline en vez de consumir `formulas/`. La meta es **conectar, no reescribir** — el código de
+`formulas/` es correcto; el trabajo es reemplazar cada copia inline por una llamada.
 
 ---
 
-## 2. Hallazgos de la auditoría (2026-05-27)
+## 1. Consumo actual (estado real)
 
-### 2.1 formulas/ — Cero consumidores externos *(estado al momento de la auditoría)*
-
-```
-grep -rn "from.*engine/formulas" Project/src → (sin resultados)
-```
-
-Los 13 archivos de `formulas/` exportan funciones que nadie llama fuera del propio directorio. Son código muerto.
-
-> **⚠️ Resuelto en Fase 2 (2026-05-27):** `crit-base.ts` ← `AtomicSimulator`; `scaling-base.ts` ← `SimulationEngine`. Dos archivos activamente consumidos.
-
-### 2.2 combat/ — Desconectado del pipeline de producción *(estado al momento de la auditoría)*
-
-```
-grep -rn "import.*CombatCalculator|TimelineSimulator|CombatSimulator" Project/src
-→ solo imports dentro de combat/ entre sí
-```
-
-Todo `combat/` (hoy `simulate/combat/`) era el motor de `SimulationLab.tsx` (eliminado). El pipeline de producción actual es:
-
-```
-useViewModel → consume(intention) → MutatorBridge → StaticHydrator + SimulationEngine → { entities, engine }
-```
-
-El entry-point de UI es `useViewModel` (`@providers`) → `consume()` (salida de C). `MutatorBridge` no llama a `CombatCalculator` ni a `TimelineSimulator` en el path de producción — el engine display-only (C1) solo resuelve atributos, no calcula DPS/TTK/procs. (El `useSimulation` original y su gemelo `useSimulationMetrics` fueron **purgados** 2026-06-16.)
-
-> **⚠️ Actualizado (2026-07-03):** el hook `useSimulationMetrics` que consumía `CombatCalculator.project()` fue **purgado** (2026-06-16, cluster muerto). C2 no tiene consumidor de producción hoy; su modelado se retomó en la campaña de daño/status ([`damage-status-model.md`](damage-status-model.md), 2026-07-02) con los primeros tests reales (`enemy-state-status-multiplier`, `cedo-prime` `it.todo`). `TimelineSimulator` sigue sin consumidor.
-
-### 2.3 Duplicación matemática confirmada
-
-| Fórmula | SSoT en formulas/ (sin consumidores) | Copia inline en combat/ |
+| Fórmula (`formulas/`) | Consumidor | Estado |
 |---|---|---|
-| Multiplicador crit promedio | `crit-base::averageCritMultiplier()` | `AtomicSimulator.calculateAverageMultiplier()` |
-| Resolución de tier de crit | `crit-base::resolveCritTier()` | `AtomicSimulator.calculateCritDistribution()` |
-| Fórmula aditiva base×bonus | `scaling-base::applyAdditiveBonus()` | inline en `SimulationEngine.calculateCurrentValue()` |
-| Pesos de proc por tipo de daño | `status-base::procWeightByType()` | inline en `CombatCalculator.project()` |
+| `common/scaling-base::applyAdditiveBonus` | `resolve/SimulationEngine.calculateCurrentValue` | ✅ integrado — **pipeline de producción vivo (C1)** |
+| `common/crit-base::{resolveCritTier, averageCritMultiplier}` | `simulate/combat/AtomicSimulator` | ✅ integrado — pero `combat/` está **fuera del pipeline de producción** (ver abajo) |
+| resto de `formulas/` | — | sin consumir |
 
-El gap no es de corrección — la matemática en `combat/` es mayormente correcta. El gap es de trazabilidad: si una fórmula cambia, hay que actualizar N lugares. Con `formulas/` como SSoT, se actualiza 1.
+**`combat/` está desconectado del pipeline de producción.** El path vivo es display-only (C1):
 
----
+```
+useViewModel → consume(intention) → MutatorBridge → StaticHydrator + SimulationEngine → { entities }
+```
 
-## 3. Inventario de formulas/ — Estado y clasificación
-
-| Archivo | Contenido | Estado | Vocabulario | Acción |
-|---|---|---|---|---|
-| `common/crit-base.ts` | Crit chance, tier, avg multiplier | ✅ Correcto, SSoT real | Agnóstico | ✅ **Conectado (Fase 2)** ← `AtomicSimulator` |
-| `common/scaling-base.ts` | applyAdditiveBonus, round2, clamp | ✅ Correcto, SSoT real | Agnóstico | ✅ **Conectado (Fase 2)** ← `SimulationEngine` |
-| `common/status-base.ts` | PRIMARY_ELEMENTS, ELEMENT_COMBINATIONS, procWeightByType | ✅ Correcto | DamageType (vocab antiguo: "heat", "cold") | Migrar a D-6 en Fase 4 |
-| ~~`weapon/weapon-core.ts`~~ | ~~calculateWeaponStats~~ | ~~⚠️ D-3 legacy~~ | ~~D-3~~ | ✅ **PURGADO (Fase 1)** |
-| ~~`warframe/warframe-core.ts`~~ | ~~calculateWarframeStats~~ | ~~⚠️ D-3 legacy~~ | ~~D-3~~ | ✅ **PURGADO (Fase 1)** — directorio eliminado |
-| `weapon/weapon-crit.ts` | calculateWeaponCrit delegando a crit-base | ✅ Correcto | Agnóstico | Evaluar en Fase 3 |
-| `weapon/weapon-status.ts` | calculateWeaponStatus | ✅ Correcto | DamageType (antiguo) | Migrar en Fase 4 |
-| `weapon/weapon-multishot.ts` | calculateMultishot, beamTickScaleFactor | ✅ Correcto | Agnóstico | Conectar en Fase 3 |
-| `weapon/weapon-condition-overload.ts` | applyConditionOverload (CO/Galvanized) | ✅ Correcto | Agnóstico | Integrar cuando CO sea feature |
-| `arcane/arcane-core.ts` | collectArcaneBonuses | ⚠️ Bloqueado por override JSON | Agnóstico | Defer hasta Fase 5 |
-| `ability/ability-crit.ts` | calculateGyreCrit, hasAbilityCritException | ✅ Bien documentado | Agnóstico | Integrar con Ability System |
-| `ability/ability-status.ts` | describeAbilityStatus, formatAbilityStatusLabel | ✅ Bien documentado | DamageType | Integrar con Ability System |
+`MutatorBridge` no llama a `CombatCalculator` ni a `TimelineSimulator`. C2 (DPS/TTK/procs) no tiene
+consumidor de producción hoy; su modelado se retoma por otro eje (`damage-status-model.md`). Por eso
+`AtomicSimulator` consume `crit-base` pero el propio `AtomicSimulator` no está en el path vivo.
 
 ---
 
-## 4. Plan de integración iterativo
+## 2. Duplicación vigente
 
-**Principio**: no reescribir, conectar. El código de `formulas/` es correcto — el trabajo es reemplazar las copias inline por llamadas a `formulas/`.
+**Ninguna.** La única que hubo — CO inline vs. `weapon-condition-overload.ts` (introducida al
+implementar el modo estático de CO sin revisar que la fórmula ya existía) — se **reconcilió
+(2026-07-04)**: el motor consume `coBonusPct` (SSoT), el enum `CoBehavior` es único en
+`@shared/types/modifier`, y `applyConditionOverload` (terminal) queda reservada para C2. Es el
+patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 
-### Fase 1 + 2 ✅ 2026-05-27
-
-`weapon-core.ts` / `warframe-core.ts` purgados. `crit-base.ts` ← `AtomicSimulator`; `scaling-base.ts` ← `SimulationEngine`. `DamageCombiner` movido a `hydration/`.
-
-### Fase 3 — Estabilización C1 antes de avanzar a combat/ (DECISIÓN 2026-05-27)
-
-**Decisión:** No avanzar a C2/C3/C4 hasta que C1 esté estable y con cobertura de datos suficiente. Razón: cada capa depende de los atributos resueltos por C1 — sin formulas, overrides y mods correctos, las capas superiores propagan errores silenciosamente.
-
-**Estado actual de C2:**
-- `CombatCalculator.project()` ya tiene consumidor: `useSimulationMetrics` hook (Opción B implementada)
-- `TimelineSimulator` bloqueado: requiere `ScaledEnemy` con health/armor/faction escalados — datos no disponibles en pipeline
-- No hay urgencia de wiring adicional
-
-**Pre-condiciones para avanzar a C2/C3 activamente:**
-- Arcanos modelados en override JSON (`arcane-stats.override.json` — Fase 5)
-- ~~Evoluciones Incarnon mapeadas en `EnsembleIntention` + pipeline de hydration~~ → **Completado (2026-05-27):** `IncarnonRepository` + `incarnon-evolutions.override.json` (85 armas, tokens `WEAPON_BASE_*`)
-- Cobertura de mods al ≥70-80% en override
-- Tests C1 cubriendo los casos de la capa de formulas (status, multishot, elemental combine)
-
-### Fase 4 — Migrar vocabulario de status-base (YELLOW, medio riesgo)
-
-`status-base.ts` usa `DamageType` ("heat", "cold") — vocabulario pre-D-6. Hay dos `PRIMARY_ELEMENTS` paralelos:
-- `formulas/common/status-base.ts::PRIMARY_ELEMENTS` — `Set<DamageType>`
-- `contracts/damage-logic.ts::PRIMARY_ELEMENTS` — `string[]` con tokens D-6
-
-A largo plazo hay una sola SSoT. Opciones:
-- **A**: Migrar `status-base.ts` a D-6 tokens (rompe las ability formulas que usan DamageType)
-- **B**: Agregar un adapter en la frontera entre `formulas/` y `combat/`
-- **C**: Mantener `status-base.ts` con DamageType para las ability formulas y usar `contracts/damage-logic.ts` para el engine
-
-*Relacionado con D-7 Fase 3 (proc vocabulary de EnemyState). Debatir en conjunto.*
-
-### Fase 5 — Integrar arcanes y abilities (PENDIENTE de datos)
-
-Bloqueado por:
-- `arcane-stats.override.json` no existe todavía
-- Diseño del Ability System no está implementado
-- Evoluciones Incarnon no mapeadas en EnsembleIntention
-
-*Defer hasta que los datos estén disponibles. No tocar.*
+> Las duplicaciones históricas de crit (`AtomicSimulator`) y escala aditiva (`SimulationEngine`) ya
+> se resolvieron al conectar `crit-base` y `scaling-base`. `procWeightByType` no está duplicado: solo
+> lo consume `weapon-status.ts` dentro de `formulas/`.
 
 ---
 
-## 5. Lo que NO se toca en este plan
+## 3. Inventario (9 archivos)
 
-- `EnemyState`, `EnemyRepository` — correctos, fuera de scope
-- `SimulationEngine` — correcto; `calculateCurrentValue()` se refina en Fase 2 cuando haya SSoT estable
-- ~~Vocabulary de `EnemyState` proc identifiers (`damage_slash_proc`, etc.) — es D-7 Fase 3~~ — **corregido (2026-07-02):** NO era D-7 (ver `data/decisions.md` N2, que ya marcaba esta atribución como colisión de nombre). Renombrado `_proc`→`_dot` + bug de `getDamageMultiplier` corregido en la Fase 3 de la campaña de saneamiento `@core` (distinta de la Fase 3 de D-7/UPGRADE_MAP) — ver `governance/current-state.md`.
+| Archivo | Contenido | Vocabulario | Estado / acción |
+|---|---|---|---|
+| `common/crit-base.ts` | crit chance, tier, avg multiplier | agnóstico | ✅ consumido por `AtomicSimulator` |
+| `common/scaling-base.ts` | `applyAdditiveBonus`, `round2`, `clamp` | agnóstico | ✅ consumido por `SimulationEngine` |
+| `common/status-base.ts` | `PRIMARY_ELEMENTS`, `ELEMENT_COMBINATIONS`, `procWeightByType` | `DamageType` (pre-D-6: "heat", "cold") | migrar vocab a D-6 (§5) |
+| `weapon/weapon-crit.ts` | `calculateWeaponCrit` (delega a crit-base) | agnóstico | conectar cuando C2 tenga consumidor |
+| `weapon/weapon-status.ts` | `calculateWeaponStatus` | `DamageType` (pre-D-6) | conectar + migrar vocab |
+| `weapon/weapon-multishot.ts` | `calculateMultishot`, `beamTickScaleFactor` | agnóstico | conectar cuando C2 tenga consumidor |
+| `weapon/weapon-condition-overload.ts` | `applyConditionOverload`, `coBonusPct` | agnóstico | ✅ `coBonusPct` consumido por `SimulationEngine` (§4); `applyConditionOverload` reservado para C2 |
+| `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | integrar con Ability System (inexistente) |
+| `ability/ability-status.ts` | `describeAbilityStatus`, `formatAbilityStatusLabel` | `DamageType` | integrar con Ability System (inexistente) |
 
 ---
 
-## 6. Open Questions
+## 4. Patrón de referencia: cómo el grafo consume una fórmula (CO, resuelto 2026-07-04)
 
-OQ-ENGINE-5/6 cerradas. **OQ-ENGINE-7** (`status-base.ts` migra a D-6 o mantiene DamageType) — ABIERTO, bloquea Fase 4.
+CO es el ejemplo canónico de integración grafo↔fórmula, útil como molde para las pendientes. La
+tensión: `applyConditionOverload` es una **fórmula terminal** (recibe daño base + aditivos +
+behavior, devuelve daño final), mientras el grafo de `SimulationEngine` es **bucket-incremental**.
+No encaja como `applyAdditiveBonus` (primitiva componible de un paso).
+
+La resolución partió la fórmula en dos niveles y consumió solo el que sirve al grafo C1:
+
+- **`coBonusPct(mod, N)` — primitiva** (`perStatusBonus × stacks × N`): el grafo la consume
+  (reemplazó el `Π` inline). Componible.
+- **`applyConditionOverload(...)` — fórmula terminal**: reservada para C2/combat (daño cerrado); el
+  grafo de buckets **no** la llama.
+- El **ruteo de bucket** (`adding`→`mods_add_pct` / `multiplying`→`multiplicative` / `none`→no
+  aplica) es responsabilidad del grafo (`co_behavior` de la entidad), no de la fórmula.
+
+Además se cerró el vocabulario duplicado: `CoBehavior` quedó **SSoT única** en
+`@shared/types/modifier` (consumida por el contrato del engine y por la fórmula pura). La primera
+versión usaba un `CONTEXT_SCALE` genérico + `context_variables: string[]` posicional; se reemplazó
+por una operation de familia (`CONDITION_OVERLOAD`) con factores nombrados (`co_factors`). Detalle
+en `arch-decisions.md §9`.
+
+**Lección para las integraciones pendientes:** una fórmula terminal no se enchufa entera al grafo —
+se extrae su primitiva componible; la composición final es del grafo, no de la fórmula.
+
+---
+
+## 5. Vocabulario D-6 en `status-base`
+
+`status-base.ts` (y las fórmulas que lo usan) hablan `DamageType` pre-D-6 ("heat", "cold"). Hay dos
+`PRIMARY_ELEMENTS` paralelos: `formulas/common/status-base.ts` (`Set<DamageType>`) y
+`contracts/damage-logic.ts` (`string[]` con tokens D-6). A largo plazo hay una sola SSoT. Opciones:
+
+- **A** — migrar `status-base.ts` a tokens D-6 (rompe las ability formulas que usan `DamageType`).
+- **B** — adapter en la frontera `formulas/` ↔ consumidor.
+- **C** — mantener `DamageType` para ability formulas y `damage-logic.ts` para el engine.
+
+Bloquea la conexión de `weapon-status`. Decisión de vocabulario pendiente (relacionada con el proc
+vocabulary de `EnemyState`, ya resuelto por otro eje — ver `../../../data/decisions.md`).
+
+---
+
+## 6. Bloqueado por datos / sistemas ausentes
+
+- `ability/*` — requiere el Ability System (no implementado).
+- Conexión de `weapon-crit` / `weapon-multishot` — requiere un consumidor C2 de producción (hoy
+  `combat/` está fuera del pipeline).

@@ -5764,24 +5764,25 @@
         "values": [
           {
             "base_value": [
-              7.2,
-              14.6,
+              3.6,
+              7.3,
+              10.9,
+              14.5,
+              18.2,
               21.8,
-              29.0,
+              25.5,
+              29.1,
+              32.7,
               36.4,
-              43.6,
-              51.0,
-              58.2,
-              65.4,
-              72.8,
-              80
+              40
             ],
-            "upgrade_type": "WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE"
+            "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE"
           }
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica"
+          "engine:note — coefBase por status type (fidelidad DE). Fórmula: damage × (1 + coefBase% × activeStacks × N_status_types). coefBase, activeStacks (max 2, dimensión temporal) y N son factores SEPARADOS — no bakear. En modo estático/techo activeStacks y N se declaran (context.variables); en dinámico emergen. Ver arch-decisions §9 y damage-status-model.md.",
+          "data:note — drift-fix 2026-07-04: rank-10 era 80 (clon del array de Status Chance, idéntico a Galvanized Savvy). Fuente DE (mods-data.lua): '+40% Direct Damage per Status Type... Stacks up to 2x' → coefBase=40. El 80 conflaba coefBase×maxStacks (40×2); array re-escalado ÷2. Token WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (binario legacy DE) → WEAPON_ADD_DAMAGE_PER_STATUS_TYPE (D-17 resuelto para rifle)."
         ]
       }
     ]
@@ -6023,24 +6024,25 @@
         "values": [
           {
             "base_value": [
-              7.2,
-              14.6,
+              3.6,
+              7.3,
+              10.9,
+              14.5,
+              18.2,
               21.8,
-              29.0,
+              25.5,
+              29.1,
+              32.7,
               36.4,
-              43.6,
-              51.0,
-              58.2,
-              65.4,
-              72.8,
-              80
+              40
             ],
-            "upgrade_type": "WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE"
+            "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE"
           }
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica"
+          "engine:note — coefBase por status type (fidelidad DE). Fórmula: damage × (1 + coefBase% × activeStacks × N_status_types). coefBase, activeStacks (max 2, dimensión temporal) y N son factores SEPARADOS — no bakear. En modo estático/techo activeStacks y N se declaran (context.variables); en dinámico emergen. Ver arch-decisions §8 y damage-status-model.md.",
+          "data:note — drift-fix 2026-07-03: rank-10 era 80 (clon del array de Status Chance). Fuente DE (mods-data.lua): '+40% Direct Damage per Status Type... Stacks up to 2x' → coefBase=40. El 80 conflaba coefBase×maxStacks (40×2); array re-escalado ÷2 (escala lineal confirmada del stat hermano). Token WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (binario legacy DE) → WEAPON_ADD_DAMAGE_PER_STATUS_TYPE (D-17 resuelto para shotgun)."
         ]
       }
     ]
@@ -6129,24 +6131,25 @@
         "values": [
           {
             "base_value": [
-              10.8,
-              21.9,
+              3.6,
+              7.3,
+              10.9,
+              14.5,
+              18.2,
+              21.8,
+              25.5,
+              29.1,
               32.7,
-              43.5,
-              54.6,
-              65.4,
-              76.5,
-              87.3,
-              98.1,
-              109.2,
-              120
+              36.4,
+              40
             ],
-            "upgrade_type": "WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE"
+            "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE"
           }
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica"
+          "engine:note — coefBase por status type (fidelidad DE). Fórmula: damage × (1 + coefBase% × activeStacks × N_status_types). coefBase, activeStacks (max 3 — mayor que Savvy/Aptitude, que son 2) y N son factores SEPARADOS — no bakear. En modo estático/techo activeStacks y N se declaran (context.variables); en dinámico emergen. Ver arch-decisions §9 y damage-status-model.md.",
+          "data:note — drift-fix 2026-07-04: rank-10 era 120 = coefBase×maxStacks (40×3) bakeado (misma conflación que Savvy/Aptitude, pero con maxStacks=3, no clon del Status Chance). Fuente DE (mods-data.lua): '+40% Direct Damage per Status Type... Stacks up to 3x' → coefBase=40. Array re-escalado ÷3. Token WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (binario legacy DE) → WEAPON_ADD_DAMAGE_PER_STATUS_TYPE (D-17 resuelto para secondary)."
         ]
       }
     ]

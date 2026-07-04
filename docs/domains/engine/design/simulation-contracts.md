@@ -88,8 +88,8 @@ Un nodo en el grafo que gestiona su propio valor acumulado mediante buckets segr
 La instrucción que altera un Atributo.
 - **Source**: Entidad que lo origina (ej: Mod `Serration`).
 - **Target**: Atributo al que afecta (ej: `WEAPON_DAMAGE`).
-- **Operation**: `ADD` | `MUL` | `SET` | **`CONTEXT_SCALE`**.
-- **Context Link**: (Para `CONTEXT_SCALE`) Clave del contexto a consultar (ej: `target.uniqueStatusCount`) y multiplicador base.
+- **Operation**: `ADD` | `MULTIPLICATIVE` | `SET` | `BASE_FLAT` | `BASE_ADD_PCT` | `ADD_FLAT` | **`CONDITION_OVERLOAD`** (familia CO/GunCO).
+- **co_factors**: (Solo `CONDITION_OVERLOAD`) nombres de las dos dimensiones de contexto (`stacks_var`, `status_count_var`). El valor lo calcula `coBonusPct`; el bucket lo decide el `co_behavior` del ataque. Ver `arch-decisions.md §9`.
 - **Condition**: (Opcional) Contexto bajo el cual se activa.
 
 ### 5.4 El Contexto de Simulación (Simulation Context)

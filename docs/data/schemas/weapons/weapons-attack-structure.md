@@ -31,6 +31,15 @@ No existe un set fijo de nombres universal.
 | `slide` | dano de slide en melee normal attack |
 | `charge_time` | tiempo de carga cuando aplica |
 
+## Override `co_behavior` (Condition Overload)
+
+`weapon-stats.override.json` admite, por ataque, un campo `co_behavior` (`adding` | `multiplying`
+| `none`) que decide a qué bucket compone un bonus CO/GunCO. Es **terminal**: si está presente
+gana; si ausente, el engine lo deriva del `shot_type` (Hit-Scan→adding, Projectile→multiplying,
+AoE→none); si el `shot_type` no se reconoce, queda gap (no se asume). Se escribe solo como
+**excepción verificada** que contradice el default (ej. un Projectile que en el juego es adding).
+Detalle: `engine/design/arch-decisions.md §9`.
+
 ## Casos importantes
 
 - Incarnon agrega ataques nuevos, no un flag estructural especial

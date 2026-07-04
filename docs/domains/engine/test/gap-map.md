@@ -18,7 +18,7 @@ Inventario de **lo que el engine NO construye todavía** — a propósito: no se
 
 ## Núcleo que el engine SÍ resuelve
 
-Grafo genérico de atributos (`SimulationEngine`): orden topológico + fixed-point para ciclos, 7 operaciones (`BASE_FLAT`, `BASE_ADD_PCT`, `ADD_FLAT`, `ADD`, `MULTIPLICATIVE`, `SET`, `CONTEXT_SCALE`). `evalCondition` cableado. Resuelve **~8 stats de arma** (crit chance/mult, status chance, fire rate, multishot, magazine, reload, daño + tipos vía `DamageCombiner`) sobre dos fuentes (`mod-stats` e `incarnon-evolutions`). Estado físico de componentes: [`status.md`](../status.md).
+Grafo genérico de atributos (`SimulationEngine`): orden topológico + fixed-point para ciclos, 7 operaciones (`BASE_FLAT`, `BASE_ADD_PCT`, `ADD_FLAT`, `ADD`, `MULTIPLICATIVE`, `SET`, `CONDITION_OVERLOAD`). `evalCondition` cableado. Resuelve **~8 stats de arma** (crit chance/mult, status chance, fire rate, multishot, magazine, reload, daño + tipos vía `DamageCombiner`) sobre dos fuentes (`mod-stats` e `incarnon-evolutions`). Estado físico de componentes: [`status.md`](../status.md).
 
 ---
 
@@ -55,13 +55,15 @@ Grafo genérico de atributos (`SimulationEngine`): orden topológico + fixed-poi
 > ⚠️ **Gap nuevo destapado — es C2, NO Capa 4 (reencuadrado 2026-06-10):** hitscan-**con**-falloff (67 ataques, ej. Cedo, Baza) — los mods de projectile speed deberían escalar su rango de falloff. No es un "nodo faltante": **falloff es una mecánica C2 entera** (`daño(distancia)`, ver abajo), con projectile_speed como uno de sus inputs. El `%` de projectile speed no tiene dónde aterrizar en esas armas (gate `flight=null` → sin nodo de velocidad) — de dónde lo lee C2 es diseño abierto. Spec: [`damage-falloff.md`](../../../../references/wiki/mechanics/damage-falloff.md). `it.todo` en `cedo-prime.test.ts`.
 
 ### Capa 5 — `upgrade_by` (scaling entre stats) = 0% consumido
-El engine tiene `source_attribute` / `CONTEXT_SCALE`, pero ningún hidratador lo emite. Los 1236 `upgrade_by` de habilidades viven en `lib/abilityCalc.ts`, un cálculo paralelo desconectado del grafo del `SimulationEngine`. Diferido (RED).
+El engine tiene `source_attribute` (scaling cross-attribute) pero ningún hidratador lo emite. Los 1236 `upgrade_by` de habilidades viven en `lib/abilityCalc.ts`, un cálculo paralelo desconectado del grafo del `SimulationEngine`. Diferido (RED). (Nota: el escalado-por-contexto ya no es una operación genérica — CO usa la operation de familia `CONDITION_OVERLOAD` + `co_factors`; ver `../design/arch-decisions.md §9`.)
 
 ---
 
 ## Ability-like (predicción confirmada por el dato)
 
-35 tokens WEAPON + 48 AVATAR fuera del catálogo en `mod-stats`. Los weapon revelan su naturaleza: `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`, `parry_counter_chance`, `corpse_explode_damage`, `proc_damage`, `life_steal`, `slash_proc_on_crit_chance`, `damage_over_distance`, etc. → categoría **"ability-like → fórmula dedicada"**: el dato ya marca cuáles no entran al mecanismo genérico. Diferido (RED): requiere contrato de **dónde viven las fórmulas dedicadas y cómo el engine rutea genérico vs dedicado**.
+35 tokens WEAPON + 48 AVATAR fuera del catálogo en `mod-stats`. Los weapon revelan su naturaleza: `parry_counter_chance`, `corpse_explode_damage`, `proc_damage`, `life_steal`, `slash_proc_on_crit_chance`, `damage_over_distance`, etc. → categoría **"ability-like → fórmula dedicada"**: el dato ya marca cuáles no entran al mecanismo genérico.
+
+> **⚠️ Matiz (2026-07-03):** la frontera "genérico vs dedicado" no es limpia. `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` (Condition Overload) **sí** resultó modelable en el grafo genérico (modo estático, `co_behavior` routing — ver `../design/arch-decisions.md §9`), pese a tener una fórmula dedicada preexistente (`formulas/weapon/weapon-condition-overload.ts`). **Dónde viven las fórmulas dedicadas ya está respondido:** `core/engine/formulas/` existe y poblado (ver `../design/formulas-integration.md`). Lo que **sigue abierto (RED)** es *cómo el grafo de buckets consume una fórmula escalar-cerrada* — la reconciliación grafo↔fórmula que CO destapó.
 
 ---
 

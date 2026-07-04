@@ -77,7 +77,7 @@ Efectos que no encajan en el modelo de atributos continuo:
 
 | Deuda | Descripción |
 |---|---|
-| Violet stacking bonus | `violet-primary-electricity-damage` tiene bonus adicional de `+10%`/`+15%` por cada shard Crimson/Azure/Violet equipado. Requiere `context_variable` en `Modifier`. |
+| Violet stacking bonus | `violet-primary-electricity-damage` tiene bonus adicional de `+10%`/`+15%` por cada shard Crimson/Azure/Violet equipado. Necesita escalado por conteo en `Modifier` — no hay `context_variable` genérico (el único escalado-por-contexto es `CONDITION_OVERLOAD`/`co_factors`, específico de CO). Mecanismo propio pendiente. |
 | `WEAPON_PRIMARY_ADD_ELECTRICITY_DAMAGE` | Token sub-familia de daño elemental — no en UPGRADES[]. Añadir cuando se trabaje gap §2 de Incarnon o se necesite para shards. |
 | Valores tauforged sin verificar | La mayoría usa estimación 1.5x. `topaz-health-on-blast-kill: [1, 2]` único confirmado. |
 

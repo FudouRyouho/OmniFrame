@@ -5,7 +5,7 @@
  * ids, el nodo de atributo, el modifier, las leyes del juego.
  */
 
-import type { ModifierOperation } from '@shared/types/modifier';
+import type { ModifierOperation, CoFactors } from '@shared/types/modifier';
 import type { ConditionInput } from '@shared/types/condition';
 
 export type EntityId = string;
@@ -44,7 +44,9 @@ export interface Modifier {
   operation: ModifierOperation;
   value: number;
   condition?: ConditionInput;
-  context_variable?: string;
+  // Solo CONDITION_OVERLOAD: nombres de las dos dimensiones de contexto (activeStacks, N).
+  // El valor final lo calcula `coBonusPct` y el bucket lo decide `co_behavior`. Ver §9.
+  co_factors?: CoFactors;
 }
 
 export interface GameLaws {

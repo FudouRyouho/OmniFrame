@@ -96,6 +96,7 @@ export class IncarnonRepository {
           target_attribute: upgradeEntry.attr,
           operation: upgradeEntry.op,
           value,
+          ...(upgradeEntry.co_factors ? { co_factors: upgradeEntry.co_factors } : {}),
           ...(rawMod.condition ? { condition: rawMod.condition } : {}),
         });
       });

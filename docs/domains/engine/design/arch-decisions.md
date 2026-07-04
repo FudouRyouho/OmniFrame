@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.2.3"
+Version: "v0.2.6"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
@@ -155,3 +155,43 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 - `ViewModelContract` debe ser **consumer-shaped** (un ViewModel de MVVM, alimentado por `lib/*` como ingredientes), nunca *producer-laundered* (la salida cruda re-exportada por `@shared` solo para legalizar el import).
 
 **Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. La **simetría de entrada quedó realizada (2026-06-12)**: `ensemble.types` → `@shared/types/ensemble.ts`, `ensembleStore` (A1) → `@core/intention/`; `@core` reestructurado (Stage 0+1, DC-OQ-ENGINE-9). Ver `OQ-ENGINE-FUTURE`/`OQ-ENGINE-9` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).
+
+---
+
+## 8. Modelado incremental: input asumido → simulado (C1 es suelo de C2)
+
+**Decisión:** El motor crece **mecanismo por mecanismo**, y cada mecanismo se modela primero en su forma de **estado asumido** (los valores se dan como input: "N status activos", "todos los buffs de equipo activos", "combo en X") y solo después —cuando el suelo lo justifique— en su forma **simulada** (el valor **emerge** de la timeline + RNG). El número bajo estado asumido (C1-honesto) **no es una alternativa a C2 ni lo pospone: es el suelo necesario de C2.** No se simula el status-dependent damage de un arma cuyo status/condition base está a medias.
+
+**Justificación:**
+- El eje de corte **no es ontológico** ("¿esto es C1 o C2?", resbaladizo) sino **operativo**: ¿el valor es *asumido como input* o *emergente de la simulación*? Es el mismo mecanismo en dos escalones — ej. Condition Overload / Galvanized con **N procs asumidos** (C1 con pasos extra, calculable hoy) vs. **uptime real** (C2, necesita `TimelineSimulator`/`StatusEngine`/`RngProvider`).
+- **`overframe.gg` no es techo ni referencia conceptual.** No calcula habilidades (muestra su descripción), EHP solo con stats base (sin mods/habilidades), sin selección de perks Incarnon ni habilidades duales. El `ability override` + el schema de habilidad del proyecto **ya lo exceden**. Sirve como oráculo **parcial** de validación solo para el subconjunto que sí calcula (stats de arma ideal). El objetivo es honestidad de simulación, no replicar un calculador ideal.
+- **Gate de honestidad por mecanismo** (`entra` / `difiere` / `descarta`): *entra* si es abstraible con margen aritmético aceptable (con su caveat documentado como trazabilidad, no disfrazado de exactitud); *difiere* si el suelo aún no existe; *descarta* si no es abstraible de forma honesta hoy (ej. un arcano cuyo efecto depende de un externo que el motor no representa).
+- La **abstracción de conjuntos emerge de acumular casos concretos**, no se diseña primero. Precedente: el análisis de damage types **destiló** el primitivo stack-tracker de los 16 tipos (`design/damage-status-model.md`) — no se partió de la abstracción. Buscar "la primitiva de las 10 habilidades" con 3 casos en la mano es el filo del over-engineering (el motor ya se reescribió 3×).
+
+**Consecuencia:**
+- **Anti-pozo operativo:** modo-input antes que modo-simulado, un mecanismo por vez. **Nunca "el sistema temporal completo de una".** Cada base C1 honesta es un pedazo de suelo simulable.
+- **C2-temporal sigue siendo el destino, no un lujo diferible:** es la diferencia entre un *calculador* (miente al alza asumiendo 100% de uptime / combo máximo) y un *simulador* honesto ("este hit no proqueó → Galvanized pegó menos"). La brecha viva está en `EnemyState.processDots()` (decay lineal vs. N-timers, ver `../status.md` §C2 y `damage-status-model.md`).
+- **Trazabilidad:** cada veredicto `entra`/`difiere`/`descarta` se registra (por conjunto). El registro acumulado **es** el insumo del que emerge la primitiva; no es papeleo, es el material de la abstracción.
+- Enlaza con **§2** (Ability no tiene un único modelo ontológico — el veredicto por mecanismo es la instancia práctica de esa apertura) y con la doctrina de `test/gap-map.md` (mecánico-genérico por default, ability-like → fórmula dedicada como fallback).
+
+---
+
+## 9. Condition Overload / GunCO: `co_behavior` (topología) + `CONDITION_OVERLOAD` (mecánica)
+
+**Decisión:** Primer caso destilado de §8 (veredicto **ENTRA** en modo estático). La familia CO/GunCO — "+coefBase% daño directo por tipo de status en el target" (Condition Overload melee, Galvanized Aptitude/Savvy/Shot, perks incarnon) — se modela con **dos piezas ortogonales**:
+
+1. **`co_behavior` — topología, agnóstica al modo.** Metadata cualitativa POR ATAQUE (no por arma, no por mod): a qué bucket compone el bonus. `'adding'` (junto a Serration, `mods_add_pct`), `'multiplying'` (multiplicador final aparte) o `'none'` (no aplica, ej. AoE radial). El dato normalizado vive en `MutatedDNA.co_behavior: Record<profile, CoBehavior>` (mapa por perfil); StaticHydrator lo **baja resuelto al perfil activo** de cada entidad en `SimulationEntity.co_behavior` — el motor lo consume directo, sin mirar un `active_profile_id` global (que es único para toda la sim y no modela el perfil por-arma). Resolución en `ItemRepository`: override (`weapon-stats.override.json`, campo `co_behavior`) **terminal** → default por `shot_type` (Hit-Scan→adding, Projectile→multiplying, AoE→none) → **ausente = gap** (no se asume). La tabla `shot_type` es señal, no ley: un override corrige la excepción (ej. Paris Charged Shot). `CoBehavior` es SSoT única en `@shared/types/modifier`. Reemplaza el muerto `behaviors: string[]` (engine v1, purgado — granularidad y tipo inversos).
+
+2. **`CONDITION_OVERLOAD` — mecánica, disparador del ruteo.** Es una `ModifierOperation` de **familia** (no una composición genérica): el valor lo calcula `coBonusPct` (SSoT en `formulas/weapon/weapon-condition-overload.ts`) = `coefBase × activeStacks × N`; el **bucket lo decide `co_behavior`, no la operación**. Las dos dimensiones viajan **nombradas** en `Modifier.co_factors` (`{stacks_var, status_count_var}`), resueltas del contexto. **No se bakea el producto** — la separación es lo que permite que §8 opere: en **modo estático/techo** el consumidor las declara (perfect-clic, replica el número de overframe.gg como *input*, no como ley); en **modo dinámico** emergen (stacks de kills en el tiempo, N del `EnemyState`) — misma mecánica, misma topología, distinta fuente. El motor es idéntico en ambos modos.
+
+**Justificación:**
+- El eje estático/dinámico (§8, ≡ asumido/emergente) **no es una fase de desarrollo sino una propiedad de la consulta**: el mismo motor responde techo o esperado según lo que A2 pide. `co_behavior` es agnóstico a ese eje (el bucket no cambia); solo la *fuente* de los factores cambia. Modelar el estático hoy **no cierra ninguna puerta** — construye el andamiaje (operation `CONDITION_OVERLOAD` + `coBonusPct` + ruteo) que el dinámico hereda intacto.
+- **Techo ≠ mentira.** El estático (perfect-clic) es una métrica honesta *si se etiqueta como techo*, no si se disfraza de esperado. La deshonestidad está en confundirlos, no en calcular el techo.
+- **Disparador de familia, no operación genérica.** El ruteo por `co_behavior` se dispara por `operation === 'CONDITION_OVERLOAD'` (mecánica CO explícita), no por una operación reutilizable. Así un futuro "valor que emerge del contexto" no-CO no hereda el ruteo ni se dropea. (Rediseño A: la primera versión usó un `CONTEXT_SCALE` genérico + `context_variables: string[]` posicional; corregidos.)
+
+**Consecuencia:**
+- Contratos: `MutatedDNA.co_behavior` (mapa por perfil) + `SimulationEntity.co_behavior` (resuelto al perfil) + `Modifier.co_factors` (dos dimensiones nombradas) + operation `CONDITION_OVERLOAD`. `CoBehavior` **SSoT única** en `@shared/types/modifier`, consumida por el contrato del engine y por la fórmula pura sin violar la pureza de `formulas/` (que ya importa `@shared/types`).
+- Cálculo: el motor **consume `coBonusPct`** (`formulas/weapon`), no lo duplica. `applyConditionOverload` (fórmula terminal escalar-cerrada) queda reservada para C2 (daño final), no la llama el grafo de buckets. Cierra la deuda de reconciliación con `formulas/` (ver [`formulas-integration.md`](formulas-integration.md)).
+- Primer arma: Cedo Prime (`cedo-co-static.test.ts`) — sus 3 `shot_type` en un arma validan los 3 buckets **end-to-end**: `adding` (Normal Attack, techo N=3/stacks=2: `84.8 → 161.6`, +240%), `multiplying` (Alt-Fire Glaive → `multiplicative`, **fidelidad confirmada en juego**), `none` (Radial AoE, no aplica).
+- **Diferido (modo dinámico):** `activeStacks` y `N` reales requieren `EnemyState`/timeline (misma brecha `processDots` de §8). El `maxStacks` por mod y la abstracción del contador aún **no** se diseñan — emergen con más casos (rifle/secondary/melee/incarnon: solo verificar datos, no re-map — ver `../../../data/decisions.md` D-17).
+- Enlaza con **§8** (es su primer caso concreto) y **§1** (el `co_behavior` por perfil respeta "el arma es el nodo canónico, `attacks[]` sus subestructuras").
