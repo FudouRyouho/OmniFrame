@@ -1,6 +1,9 @@
 import type {
   SimulationEntity,
   Modifier,
+  CoModifier,
+  MeleeComboModifier,
+  SniperComboModifier,
   AttributeNode,
   EntityId,
   AttributeId,
@@ -11,6 +14,8 @@ import type {
 import { isWeaponDamageToken } from "../contracts/damage-logic";
 import { applyAdditiveBonus } from "../formulas/common/scaling-base";
 import { coBonusPct } from "../formulas/weapon/weapon-condition-overload";
+import { meleeComboMult } from "../formulas/weapon/melee-combo";
+import { sniperComboMult } from "../formulas/weapon/sniper-combo";
 import { evalCondition } from "@shared/types/condition";
 
 /**
@@ -27,14 +32,14 @@ import { evalCondition } from "@shared/types/condition";
  * terminal escalar-cerrada reservada para C2 (daño final), no el ruteo de buckets de C1.
  */
 function resolveConditionOverload(
-  mod: Modifier,
+  mod: CoModifier,
   entity: SimulationEntity,
   node: AttributeNode,
   context: SimulationContext,
 ): { value: number; context_value: number } {
-  const f = mod.co_factors;
-  const stacks = f ? (context.variables[f.stacks_var] ?? 1) : 1;
-  const n      = f ? (context.variables[f.status_count_var] ?? 0) : 0;
+  const { stacks_var, status_count_var } = mod.co_factors;
+  const stacks = context.variables[stacks_var] ?? 1;
+  const n      = context.variables[status_count_var] ?? 0;
   let value = coBonusPct({ perStatusBonusPct: mod.value, activeStacks: stacks }, n);
 
   const cob = entity.co_behavior;
@@ -44,6 +49,81 @@ function resolveConditionOverload(
 
   return { value, context_value: stacks * n };
 }
+
+/**
+ * Mecánica Melee Combo — heavy attack como consumidor de daño (§4.1). Hermana de
+ * `resolveConditionOverload`: unidad cohesiva fuera del hot loop, disparada por
+ * `operation === 'MELEE_COMBO_MULT'`. Lee el combo counter del contexto (variable nombrada
+ * en `melee_combo_factors`, declarada en estático / emergente en dinámico; ausente ⇒ 0 ⇒ ×1
+ * identidad, NO dropea — un heavy a combo 0 pega base), lo pasa por `meleeComboMult` y
+ * lo rutea al bucket FIJO `multiplicative` sobre el nodo (WEAPON_ADD_DAMAGE del perfil heavy).
+ * A diferencia de CO no hay `co_behavior` que elija bucket — el ruteo del heavy es único.
+ * Devuelve el multiplicador crudo (para el trace) y el combo counter consumido.
+ * (`_entity` no se usa — firma uniforme de `FamilyResolver`, ver abajo.)
+ */
+function resolveMeleeComboMult(
+  mod: MeleeComboModifier,
+  _entity: SimulationEntity,
+  node: AttributeNode,
+  context: SimulationContext,
+): { value: number; context_value: number } {
+  const count = context.variables[mod.melee_combo_factors.count_var] ?? 0;
+  const mult = meleeComboMult(count);
+  node.multiplicative *= mult;
+  return { value: mult, context_value: count };
+}
+
+/**
+ * Mecánica Sniper Combo — Shot Combo Counter (§10, 3ra mecánica de familia). Hermana de las
+ * anteriores pero fórmula LOGARÍTMICA y con DOS inputs: el `count` (contexto, nombrado en
+ * `sniper_combo_factors.count_var`) + el `min_combo` (por-arma, bakeado en los factores desde el
+ * override en hidratación). Ruteo FIJO `multiplicative`, pasivo (todo shot scoped). `_entity` no se
+ * usa (firma uniforme de `FamilyResolver`). Bajo `min_combo` hits → ×1 identidad.
+ */
+function resolveSniperComboMult(
+  mod: SniperComboModifier,
+  _entity: SimulationEntity,
+  node: AttributeNode,
+  context: SimulationContext,
+): { value: number; context_value: number } {
+  const { count_var, min_combo } = mod.sniper_combo_factors;
+  const count = context.variables[count_var] ?? 0;
+  const mult = sniperComboMult(count, min_combo);
+  node.multiplicative *= mult;
+  return { value: mult, context_value: count };
+}
+
+/**
+ * Registro de mecánicas de FAMILIA (Abstracción B, arch-decisions §10). Separa las dos
+ * clases de modifier que `resolveNode` mezcla: las **ops de acumulador** (value ES el efecto,
+ * el `switch` de abajo) vs las **mecánicas de familia** (el efecto lo COMPUTA una fórmula desde
+ * el contexto + rutea a bucket(s)). Reemplaza la cascada de `if (op === 'X')` que crecía O(n) por
+ * mecánica. NO genericiza el *qué* (cada op mapea a SU resolver; un no-familia no está en la tabla
+ * → cae al switch, no hereda ruteo — no resucita el `CONTEXT_SCALE` que §9 mató): generaliza solo
+ * el *dispatch*. Umbral §10 (≥2 mecánicas encapsuladas) alcanzado con CO + melee-combo. Destino:
+ * subir la distinción al TIPO (`Modifier` discriminated union) cuando la 3ra mecánica (sniper combo)
+ * estabilice la forma — esta tabla se reusa tal cual bajo ese cierre.
+ */
+type FamilyResolver<M extends Modifier = Modifier> = (
+  mod: M,
+  entity: SimulationEntity,
+  node: AttributeNode,
+  context: SimulationContext,
+) => { value: number; context_value: number };
+
+// Cada entrada se chequea contra SU variante de la union (el compilador valida que
+// `resolveConditionOverload` recibe `CoModifier`, etc.). En el call-site se accede vía
+// `as Record<string, FamilyResolver>`: la clave = `operation` ES la prueba de que el `mod`
+// es esa variante (invariante del dispatch), así que ensanchar el parámetro ahí es sound.
+const FAMILY_RESOLVERS: {
+  CONDITION_OVERLOAD: FamilyResolver<CoModifier>;
+  MELEE_COMBO_MULT:   FamilyResolver<MeleeComboModifier>;
+  SNIPER_COMBO_MULT:  FamilyResolver<SniperComboModifier>;
+} = {
+  CONDITION_OVERLOAD: resolveConditionOverload,
+  MELEE_COMBO_MULT:   resolveMeleeComboMult,
+  SNIPER_COMBO_MULT:  resolveSniperComboMult,
+};
 
 export class SimulationEngine {
   private entities: Map<EntityId, SimulationEntity> = new Map();
@@ -189,25 +269,28 @@ export class SimulationEngine {
       let context_value: number | undefined;
 
       if (conditionMet) {
-        modValue = mod.value;
+        // Dos clases de modifier (discriminated union `Modifier`, §10): mecánicas de FAMILIA (el
+        // efecto lo computa una fórmula desde el contexto, despachadas por FAMILY_RESOLVERS) vs ops
+        // de ACUMULADOR (`value` ES el efecto — el switch). El `'value' in mod` re-narrow a las
+        // variantes con value (los combos no lo tienen; ya los atrapó el resolver arriba).
+        const familyResolver = (FAMILY_RESOLVERS as Record<string, FamilyResolver>)[mod.operation];
+        if (familyResolver) {
+          const r = familyResolver(mod, entity, node, context);
+          modValue = r.value;
+          context_value = r.context_value;
+        } else if ('value' in mod) {
+          modValue = mod.value;
 
-        // Scaling from another attribute (value ∝ final/base de otro nodo).
-        if (mod.source_attribute) {
-          const sourceNode = entity.attributes[mod.source_attribute];
-          if (sourceNode) {
-            const scaleFactor = sourceNode.final / (sourceNode.base || 1);
-            modValue = mod.value * scaleFactor;
-            context_value = sourceNode.final;
+          // Scaling from another attribute (value ∝ final/base de otro nodo).
+          if (mod.source_attribute) {
+            const sourceNode = entity.attributes[mod.source_attribute];
+            if (sourceNode) {
+              const scaleFactor = sourceNode.final / (sourceNode.base || 1);
+              modValue = mod.value * scaleFactor;
+              context_value = sourceNode.final;
+            }
           }
-        }
 
-        // Aplicación: la mecánica CO/GunCO se resuelve en su unidad cohesiva (computa +
-        // rutea por co_behavior, §9/§10); el resto son operaciones del acumulador §4.1.
-        if (mod.operation === 'CONDITION_OVERLOAD') {
-          const co = resolveConditionOverload(mod, entity, node, context);
-          modValue = co.value;
-          context_value = co.context_value;
-        } else {
           switch (mod.operation) {
             case 'BASE_FLAT': node.base_flat += modValue; break;
             case 'BASE_ADD_PCT': node.base_add_pct += modValue; break;

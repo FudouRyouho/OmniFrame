@@ -3,7 +3,7 @@
  * @status en-desarrollo
  */
 
-import type { Ensemble, MutatedDNA, SimulationEntity, AttributeNode, Modifier } from "../../contracts";
+import { makeModifier, type Ensemble, type MutatedDNA, type SimulationEntity, type AttributeNode, type Modifier } from "../../contracts";
 import { ModRepository } from "./ModRepository";
 import { ShardRepository } from "./ShardRepository";
 import { IncarnonRepository } from "./IncarnonRepository";
@@ -56,9 +56,11 @@ export class StaticHydrator {
           const isCombat = isWeaponDamageToken(m.target_attribute);
 
           if (isCombat) {
+            // Los mods de tipo de daño son SIEMPRE acumulador (ADD) — nunca familia; el
+            // `'value' in m` es la guarda de la union (los combos no tienen value).
             combination_mods.push({
                type: m.target_attribute,
-               percentage: m.value,
+               percentage: 'value' in m ? m.value : 0,
                index: index
             });
           } else {
@@ -110,6 +112,45 @@ export class StaticHydrator {
         });
       }
 
+      // Melee Combo — heavy attack como consumidor de daño (§4.1). El multiplicador es
+      // INTRÍNSECO (todo melee lo tiene en su perfil heavy), no un mod equipado: no hay
+      // repositorio del que sacarlo → se SINTETIZA acá (primer modifier-de-mecánica nacido
+      // en hidratación; bendecido por arch-decisions §10, Cedo pasiva). Gate doble: kind=melee
+      // (solo el melee tiene combo) + perfil heavy (solo el heavy lo consume como daño; el
+      // light/normal-slam NO, §4.2). Gate por prefijo 'heavy' del perfil — ⚠️ deuda si un día
+      // hay que distinguir heavy-ground de heavy-slam por dato. El valor NO se bakea: viaja el
+      // nombre de la variable (melee_combo_factors), el motor computa `meleeComboMult(melee_combo_count)`.
+      const isHeavyProfile = intent.profile_id.startsWith('heavy') && !!dna.profiles?.[intent.profile_id];
+      if (dna.kind === 'melee' && isHeavyProfile) {
+        modifiers.push({
+          id: `melee-combo:${dna.entity_id}`,
+          source_id: 'Intrinsic:MeleeCombo',
+          target_entity: dna.entity_id,
+          target_attribute: 'WEAPON_ADD_DAMAGE',
+          operation: 'MELEE_COMBO_MULT',
+          melee_combo_factors: { count_var: 'melee_combo_count' },
+        });
+      }
+
+      // Sniper Shot Combo — hermano del melee combo pero PASIVO (todo shot scoped, sin gate de
+      // perfil) y por-arma (`min_combo`, dato del override inyectado en los perfiles). Gate:
+      // family='sniper'. Sin `min_combo` en el dato ⇒ gap (no se sintetiza, no se asume). El
+      // parámetro por-arma viaja bakeado en los factores; el producto lo computa `sniperComboMult`.
+      if (dna.family === 'sniper') {
+        const prof = dna.profiles?.[intent.profile_id] ?? dna.profiles?.['base'];
+        const minCombo = prof?.min_combo;
+        if (minCombo !== undefined) {
+          modifiers.push({
+            id: `sniper-combo:${dna.entity_id}`,
+            source_id: 'Intrinsic:SniperCombo',
+            target_entity: dna.entity_id,
+            target_attribute: 'WEAPON_ADD_DAMAGE',
+            operation: 'SNIPER_COMBO_MULT',
+            sniper_combo_factors: { count_var: 'sniper_combo_count', min_combo: minCombo },
+          });
+        }
+      }
+
       entities.push(entity);
     });
 
@@ -130,14 +171,16 @@ export class StaticHydrator {
 
       if (!targetId) return;
 
-      modifiers.push({
-        id: `shard:${shard.type}:${shard.stat}`,
-        source_id: `Shard:${shard.type}`,
-        target_entity: targetId,
-        target_attribute: resolved.attr,
-        operation: resolved.op,
-        value: resolved.value,
-      });
+      modifiers.push(makeModifier(
+        {
+          id: `shard:${shard.type}:${shard.stat}`,
+          source_id: `Shard:${shard.type}`,
+          target_entity: targetId,
+          target_attribute: resolved.attr,
+        },
+        resolved.op,
+        resolved.value,
+      ));
     });
 
     return { entities, modifiers };

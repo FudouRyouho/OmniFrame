@@ -14,7 +14,7 @@
  * Se omiten (sin warning): `base_value: null` (familia stacking Merciless — OQ-DATA-4)
  * y `upgrade_type: null` (sin token — status resists, fórmulas per-stat, operador/amp).
  */
-import type { Modifier, EntityId } from "../../contracts";
+import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
 import { resolveUpgradeEntry } from "@shared/types/modifier";
 
@@ -69,16 +69,18 @@ export class ArcaneRepository {
         const rawValue = val.base_value[idx];
         const value = upgradeEntry.toPercent ? (rawValue - 1) * 100 : rawValue;
 
-        modifiers.push({
-          id: `arcane:${uniqueName}:s${statIdx}:v${valIdx}:${upgradeEntry.attr}`,
-          source_id: `Arcane:${uniqueName}`,
-          target_entity: targetId,
-          target_channel: upgradeEntry.target_channel,
-          target_attribute: upgradeEntry.attr,
-          operation: upgradeEntry.op,
+        modifiers.push(makeModifier(
+          {
+            id: `arcane:${uniqueName}:s${statIdx}:v${valIdx}:${upgradeEntry.attr}`,
+            source_id: `Arcane:${uniqueName}`,
+            target_entity: targetId,
+            target_channel: upgradeEntry.target_channel,
+            target_attribute: upgradeEntry.attr,
+            ...(stat.condition ? { condition: stat.condition } : {}),
+          },
+          upgradeEntry.op,
           value,
-          ...(stat.condition ? { condition: stat.condition } : {}),
-        });
+        ));
       });
     });
 

@@ -620,27 +620,12 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 
 ---
 
-## OQ-ENGINE-14 — Alcance del modelado melee: ¿qué estrato entra primero? — **ABIERTO (2026-07-04)**
+## OQ-ENGINE-14 — Alcance del modelado melee: ¿qué estrato entra primero? — **PROMOVIDA A DISEÑO (2026-07-05)**
 **Dominio:** engine / C1 (base estadística) + C2 (combo simulado)
 
-**Contexto:** melee no tiene dominio en `docs/` ni fixtures en el engine, pero el vocabulario D-6 ya tiene sus tokens (`WEAPON_ADD_HEAVY_CHARGE_SPEED`, `WEAPON_BASE_HEAVY_EFFICIENCY`, `WEAPON_ADD_SLAM_DAMAGE`/`_RADIUS`, `WEAPON_*_COMBO_*`, `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_ADD_RANGE`=reach) y la mecánica está en `references/wiki/mechanics/melee-combo.md`. Surge al diferir Condition Overload melee (D-17): melee no está modelado.
+**Resuelta y promovida.** La OQ creció hasta ser una mecánica completa (melee combo engloba casi todo lo melee), así que se **promovió a un doc de diseño propio**: [`../domains/engine/design/melee-combo.md`](../domains/engine/design/melee-combo.md) — **SSoT vivo** de la mecánica, incluido su worklist (lo resuelto sentenciado, lo diferido como estado abierto *dentro* del doc).
 
-**Base teórica (dos estratos):**
-- **Estrato 1 — base estadística (el "hit"): C1 puro, ya modelable.** Mismos stats que un gun (damage+tipos, crit, status, attack speed ≈ fire rate). El grafo genérico los resuelve idéntico — `Weapon` canónico (§1) no distingue melee de gun en la base. Casi gratis: falta fixture + mapear attack speed. NO arrastra arquitectura.
-- **Estrato 2 — melee-específico: donde vive C1|C2.** El **combo multiplier es el análogo del `N` de CO**: C1-asumido (combo declarado como factor de contexto, reusa el andamiaje `CONDITION_OVERLOAD`-like de §9) → C2-simulado (contador emerge de la timeline: hits, decay 5s, Naramon Power Spike). Stats planos (combo duration, HAE cap 90%, wind-up) = C1 nodos como reload. Heavy/slam/slide = **perfiles `attacks[]`** (como el glaive de Cedo); heavy añade su multiplicador 2x–12x por tier de combo.
+**Respuestas (cerradas):** el primer ladrillo fue el **hit-base determinista** (estrato 1, ejecutado sin cambios al motor); el combo multiplier **reusa el patrón §8/§9 como mecánica hermana de CO** (factor declarado→emergente), **no** una vía nueva; heavy/slam entran como **perfiles `attacks[]`**. Diferidos (viven en el doc): C2 dinámico del counter, Blood Rush/Weeping Wounds, slam-por-distancia (falta dato), HAE/wind-up, passives que desvían la tabla, y la capa genérica de combo (§10, ≥2 casos reales).
 
-**Pregunta:** ¿el primer ladrillo melee es el **hit-base determinista** (C1, casi gratis, valida el grafo sobre un melee) o se difiere todo hasta consumidor real? ¿El combo multiplier **reusa el patrón CO** (factor de contexto declarado→emergente) o merece mecánica propia? ¿Heavy/slam/slide entran como perfiles desde el inicio o solo el hit primario?
-
-**No bloquea:** nada actual — melee sin fixtures ni consumidor. Condition Overload melee (D-17) y el multishot melee de gunblades/chakrams (`weapons-known-gaps.md`) esperan esto.
-**Vínculo:** `../../references/wiki/mechanics/melee-combo.md`, `../domains/engine/design/arch-decisions.md` §8 (input→simulado) + §9 (patrón CO), `../data/schemas/weapons/weapons-known-gaps.md` (multishot melee).
-**Fuente:** pausa teórica 2026-07-04, tras vincular la familia CO (mods de arma).
-
-> **✅ Estrato 1 EJECUTADO (2026-07-04) — Nikana Prime, `nikana-melee.test.ts`.** El grafo resolvió el melee **sin un solo cambio al motor**: entra por el slot `melee`, `kind=melee` solo evita el gate `isWarframe`, y los 3 perfiles (Normal / Slam / Heavy Slam) resuelven sus stats base (damage+tipos, crit, status, attack_speed=fire_rate). Los mods genéricos (damage/crit/status/elemental) heredan a slam/heavy — confirmado por el usuario. Confirma §1 (grafo agnóstico al tipo de arma). **Grafo melee servido a nivel stat-base.**
->
-> **✅ CO melee HECHO (hito CO-family + melee-P0, 2026-07-04):** reusó `CONDITION_OVERLOAD` sobre el hit-base; resuelto el default `co_behavior` de melee (Normal Attack `shot_type=None` + `kind=melee` → `adding`). Cierra la familia CO. Ver §9/§10 de arch-decisions.
->
-> **Worklist estrato-2 (mapa de trabajo, NO scaffolding — cada mecánica con su caso+dato real, patrón §8/§9/§10; verdictos del estrés 2026-07-04):**
-> 1. **Combo multiplier** — análogo del N de CO: factor `combo_count` en `context.variables` (declarado→emergente), fórmula propia `weapon-combo`, bucket **multiplicative**. Dos diferencias frente a CO: (a) es **intrínseco al arma** (no un mod) → se **sintetiza en hidratación** gateado por `kind=melee`, no viene de ModRepository; (b) su C2 es el **timeline del jugador** (hits + decay 5s + Naramon), **distinto** al C2 de CO (`EnemyState.processDots`, lado enemigo) — no colapsar en "el sistema temporal". El combo alimenta también crit/status vía `per_melee_combo_multiplier` (Blood Rush/Weeping Wounds), no solo daño.
-> 2. **Heavy attack multiplier (2x–12x)** — mismo factor `combo_count`, **otra fórmula** (tabla de tiers; excepciones Venka 13x/Dex Nikana 11x = override), **ruteo por-perfil** (perfil `heavy_attack` consume el combo con la fórmula heavy; light con la light — mutuamente exclusivos, cero doble-conteo). Casi gratis tras (1).
-> 3. **Mods dedicados** — "crit x2 for Heavy" (Galvanized Steel) = **bakeo por-perfil** (mismo mecanismo que `co_behavior`, no flag de runtime). HAE cap 90% = **primer consumidor de un clamp** (§4.5 diseñado, no implementado; bajo riesgo, no toca daño).
-> 4. **⚠️ Slam-por-distancia — `difiere` por falta de dato.** Absorbible por el patrón (factor `flight_distance` → fórmula → multiplicative en perfil slam), pero la **curva distancia→daño NO está en la wiki/`melee-combo.md`** — hay que capturarla en partida antes de modelar. **No asumir.** El heavy slam base (594) ya servido es stat puro, sin el multiplicador de combo.
+**Vínculo:** [`../domains/engine/design/melee-combo.md`](../domains/engine/design/melee-combo.md), `../domains/engine/design/arch-decisions.md` §8/§9/§10, `references/wiki/mechanics/melee-combo.md`.
+**Fuente:** pausa teórica 2026-07-04 + estrés/promoción 2026-07-05.

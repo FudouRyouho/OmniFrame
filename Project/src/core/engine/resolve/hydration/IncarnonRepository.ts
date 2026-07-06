@@ -2,7 +2,7 @@
  * @domain Engine / Hydration
  * @status en-desarrollo
  */
-import type { Modifier, EntityId } from "../../contracts";
+import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
 import { resolveUpgradeEntry } from "@shared/types/modifier";
 
@@ -90,15 +90,17 @@ export class IncarnonRepository {
             : raw;
         const value = upgradeEntry.toPercent ? (rawValue - 1) * 100 : rawValue;
 
-        modifiers.push({
-          id: `incarnon:${uniqueName}:t${tierStr}:${perkId}:${upgradeEntry.attr}`,
-          target_entity: targetId,
-          target_attribute: upgradeEntry.attr,
-          operation: upgradeEntry.op,
+        modifiers.push(makeModifier(
+          {
+            id: `incarnon:${uniqueName}:t${tierStr}:${perkId}:${upgradeEntry.attr}`,
+            target_entity: targetId,
+            target_attribute: upgradeEntry.attr,
+            ...(rawMod.condition ? { condition: rawMod.condition } : {}),
+          },
+          upgradeEntry.op,
           value,
-          ...(upgradeEntry.co_factors ? { co_factors: upgradeEntry.co_factors } : {}),
-          ...(rawMod.condition ? { condition: rawMod.condition } : {}),
-        });
+          upgradeEntry.co_factors,
+        ));
       });
     });
 

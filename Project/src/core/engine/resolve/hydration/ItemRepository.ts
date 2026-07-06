@@ -81,6 +81,10 @@ export class ItemRepository {
     // Metadata cualitativa por perfil (agnóstica al modo estático/dinámico): a qué bucket
     // compone un bonus CO/GunCO en este ataque. Ausencia de entrada = gap (no se asume).
     const co_behavior: Record<string, CoBehavior> = {};
+    // Sniper Shot Combo: `min_combo` (hits para activar el multiplier) NO está en @wfcd — viene
+    // del override como dato por-arma. Se inyecta como dato puro en cada perfil (como reload_time,
+    // NO es un token D-6 → createBaseEntity no lo hace nodo). Ver references/wiki/mechanics/sniper-combo.md.
+    const minCombo = this.weaponAttackOverrides.get(raw.unique_name)?.min_combo;
 
     // Mapear ataques a perfiles
     if (raw.stats?.attacks && raw.stats.attacks.length > 0) {
@@ -146,6 +150,10 @@ export class ItemRepository {
       };
     }
 
+    if (minCombo !== undefined) {
+      Object.values(profiles).forEach(p => { p.min_combo = minCombo; });
+    }
+
     return {
       entity_id: raw.unique_name,
       domain: raw.domain,
@@ -183,24 +191,26 @@ export class ItemRepository {
   // resolveMultishot: override explícito → heurística → gap. El override
   // (weapon-stats.override.json, campo co_behavior) es TERMINAL — cualquier valor,
   // incluido 'none', gana y no cae a la heurística. Solo la ausencia total de la clave
-  // dispara el default por shot_type. Ausente + shot_type no reconocido = undefined (gap:
-  // no se asume 'adding'). Tabla de la wiki: Adding (hitscan) / Multiplying (projectile) /
-  // Does not apply (AoE). Es señal, no ley — un override corrige la excepción (ej. Paris
-  // Charged Shot: Projectile pero Adding). Ver references/wiki/mechanics/condition-overload.md.
+  // dispara el default. La tabla por shot_type es de GUNS: Adding (hitscan) / Multiplying
+  // (projectile) / Does not apply (AoE radial, ej. Cedo glaive). Es señal, no ley — un override
+  // corrige la excepción (ej. Paris Charged Shot: Projectile pero Adding). Ver references/wiki/mechanics/condition-overload.md.
   private static resolveCoBehavior(raw: any, attackName: string, shotType?: string): CoBehavior | undefined {
     const override = this.weaponAttackOverrides.get(raw.unique_name);
     const ov = override?.attacks?.[attackName]?.co_behavior;
     if (ov !== undefined) return ov;
+
+    // Melee: CO es 'adding' SIEMPRE (comunidad: "con Condition Overload, Pressure Point está de
+    // más" — se apilan aditivos). NO cae al switch por shot_type: el heavy slam es shot_type=AoE
+    // pero el CO melee NO es gun-AoE-radial (que sí es 'none'). Va ANTES del switch a propósito —
+    // el AoE→none es lógica de guns, no de melee. El 0.1% de excepción lo cubre el override terminal.
+    // (Bug corregido 2026-07-05: el slam melee caía en AoE→none heredando la regla gun.)
+    if (raw.kind === 'melee') return 'adding';
 
     switch (shotType) {
       case 'Hit-Scan':   return 'adding';
       case 'Projectile': return 'multiplying';
       case 'AoE':        return 'none';
     }
-    // Melee: el hit primario no tiene shot_type de gun (None). El CO clásico melee es 'adding'
-    // (confirmado in-game; la interacción con la stance es capa aparte, diferida). Los perfiles
-    // AoE del melee (slam) ya cayeron en 'none' arriba. El tag kind gatea la mecánica (data-driven).
-    if (raw.kind === 'melee' && shotType == null) return 'adding';
     return undefined; // gap: sin shot_type reconocido, no se asume
   }
 

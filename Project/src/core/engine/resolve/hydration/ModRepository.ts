@@ -2,7 +2,7 @@
  * @domain Engine / Hydration
  * @status en-desarrollo
  */
-import type { Modifier, EntityId } from "../../contracts";
+import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ModOverrideEntry, ModStatRaw, ModStatValueRaw } from "../../contracts/mod-overrides";
 import { resolveUpgradeEntry } from "@shared/types/modifier";
 
@@ -55,16 +55,18 @@ export class ModRepository {
               : val.base_value;
             const value = entry.toPercent ? (rawValue - 1) * 100 : rawValue;
 
-            modifiers.push({
-              id: `override:${unique_name}:${entry.attr}`,
-              target_entity: target_id,
-              target_channel: entry.target_channel,
-              target_attribute: entry.attr,
-              operation: entry.op,
+            modifiers.push(makeModifier(
+              {
+                id: `override:${unique_name}:${entry.attr}`,
+                target_entity: target_id,
+                target_channel: entry.target_channel,
+                target_attribute: entry.attr,
+                ...(stat.condition ? { condition: stat.condition } : {})
+              },
+              entry.op,
               value,
-              ...(entry.co_factors ? { co_factors: entry.co_factors } : {}),
-              ...(stat.condition ? { condition: stat.condition } : {})
-            });
+              entry.co_factors,
+            ));
           } else {
             console.warn(`[Hydration] No se pudo mapear upgrade_type: ${val.upgrade_type} para el mod: ${unique_name}`);
           }

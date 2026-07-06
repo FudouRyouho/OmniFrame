@@ -44,7 +44,9 @@
   },
   "/Lotus/Weapons/ClanTech/Energy/Railgun": {
     "_name": "Lanka",
-    "_note": "punch nato solo a carga completa; Partially Charged Shot = 0m (sin override).",
+    "_note": "punch nato solo a carga completa; Partially Charged Shot = 0m (sin override). min_combo=2 y combo_duration=6s: dato sniper que NO está en @wfcd (ver references/wiki/mechanics/sniper-combo.md).",
+    "min_combo": 2,
+    "combo_duration": 6,
     "attacks": {
       "Charged Shot": { "punch_through": 5.0 }
     }

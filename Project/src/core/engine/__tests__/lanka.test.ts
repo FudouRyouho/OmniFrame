@@ -124,3 +124,37 @@ describe('Lanka — borde de C1 (preguntas abiertas)', () => {
   it.todo('recoil: ¿clamp de sobre-reducción? −90 + (otro −X) podría dar final < 0; el juego clampea a 0. ¿ley de C1 o presentación de D? [recoil.md; OQ-ENGINE-7]');
   it.todo('C1-gap: fire rate de armas de carga — raw trae speed:null/fire_rate:0; ¿el juego deriva 1/charge_time? [dato, no engine]');
 });
+
+// ─── Sniper Shot Combo Counter (3ra mecánica de familia — arch-decisions §10) ─────
+//
+// Multiplier LOGARÍTMICO `1.5 + 0.5·⌊log₃(count/minCombo)⌋` (formulas/weapon/sniper-combo),
+// bucket multiplicative fijo, PASIVO (todo shot scoped, sin gate de perfil). minCombo=2 viene
+// del override (dato sniper ausente en @wfcd). Base charged_shot = 525 electricity (los mods de
+// la build no tocan daño). Estrés del patrón: la 3ra mecánica entró como 1 entrada en la tabla
+// FAMILY_RESOLVERS + 1 resolver, sin tocar resolveNode. Ref: references/wiki/mechanics/sniper-combo.md
+
+const sniper = (count: number) =>
+  consume(lanka('charged_shot'), { flags: {}, variables: { sniper_combo_count: count } }).weapon(LANKA);
+
+describe('Lanka — Sniper Shot Combo (multiplier logarítmico, pasivo)', () => {
+  it('bajo minCombo (count 1 < 2) → inactivo → ×1 → 525', () => {
+    expect(sniper(1).node('WEAPON_ADD_DAMAGE').final).toBeCloseTo(525, 0);
+  });
+  it('count = minCombo (2) → 1.5x → 787.5', () => {
+    const n = sniper(2).node('WEAPON_ADD_DAMAGE');
+    expect(n.multiplicative).toBeCloseTo(1.5, 3);
+    expect(n.final).toBeCloseTo(787.5, 1);
+  });
+  it('tier logarítmico: count 6 (×3 de minCombo) → 2.0x → 1050', () => {
+    expect(sniper(6).node('WEAPON_ADD_DAMAGE').final).toBeCloseTo(1050, 0);
+  });
+  it('tier logarítmico: count 18 (×9) → 2.5x → 1312.5 (guarda de precisión float en potencias de 3)', () => {
+    expect(sniper(18).node('WEAPON_ADD_DAMAGE').final).toBeCloseTo(1312.5, 1);
+  });
+  it('propaga al tipo electricity (525 → 787.5 vía globalDmgMult)', () => {
+    expect(sniper(2).node('WEAPON_ADD_ELECTRICITY_DAMAGE').final).toBeCloseTo(787.5, 1);
+  });
+  it('sin declarar combo → ×1 (525, el modifier intrínseco no dropea)', () => {
+    expect(consume(lanka('charged_shot'), { flags: {} }).weapon(LANKA).node('WEAPON_ADD_DAMAGE').final).toBeCloseTo(525, 0);
+  });
+});

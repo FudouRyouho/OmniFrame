@@ -5,7 +5,7 @@
  * ids, el nodo de atributo, el modifier, las leyes del juego.
  */
 
-import type { ModifierOperation, CoFactors } from '@shared/types/modifier';
+import type { ModifierOperation, AccumulatorOperation, CoFactors, MeleeComboFactors, SniperComboFactors } from '@shared/types/modifier';
 import type { ConditionInput } from '@shared/types/condition';
 
 export type EntityId = string;
@@ -34,19 +34,71 @@ export interface EnemyStatusState {
   damage_magnetic: number;
 }
 
-export interface Modifier {
+/** Campos comunes a todo Modifier, agnósticos a la clase (acumulador vs familia). */
+export interface ModifierBase {
   id: string;
   source_id?: string;
   target_entity: EntityId;
   target_channel?: string; // Overrides target_entity resolution — engine busca la entidad con este channel
   target_attribute: AttributeId;
   source_attribute?: AttributeId; // For cross-attribute scaling
-  operation: ModifierOperation;
-  value: number;
   condition?: ConditionInput;
-  // Solo CONDITION_OVERLOAD: nombres de las dos dimensiones de contexto (activeStacks, N).
-  // El valor final lo calcula `coBonusPct` y el bucket lo decide `co_behavior`. Ver §9.
-  co_factors?: CoFactors;
+}
+
+// `Modifier` = discriminated union por `operation` (arch-decisions §10, Abstracción A). Dos clases:
+//  - ACUMULADOR: `value` ES el efecto (la operación es el bucket).
+//  - FAMILIA: el efecto lo COMPUTA una fórmula desde el contexto; cada familia trae SUS factores,
+//    NO un `value` genérico. El compilador exige los factores correctos por variante y prohíbe
+//    campos muertos (un combo NO puede llevar `value`). Reemplaza el `Modifier` plano que acumulaba
+//    3 campos opcionales mutuamente excluyentes + un `value` con 3 significados (efecto/coefBase/muerto).
+
+export type AccumulatorModifier = ModifierBase & {
+  operation: AccumulatorOperation;
+  value: number;
+};
+
+export type CoModifier = ModifierBase & {
+  operation: 'CONDITION_OVERLOAD';
+  value: number;           // coefBase (bonus % por status). Lo consume `coBonusPct`. Ver §9.
+  co_factors: CoFactors;   // dos dimensiones de contexto (activeStacks, N).
+};
+
+export type MeleeComboModifier = ModifierBase & {
+  operation: 'MELEE_COMBO_MULT';
+  melee_combo_factors: MeleeComboFactors; // var de contexto (combo counter melee). Ver §8/§4.1.
+};
+
+export type SniperComboModifier = ModifierBase & {
+  operation: 'SNIPER_COMBO_MULT';
+  sniper_combo_factors: SniperComboFactors; // var de contexto (count) + min_combo por-arma.
+};
+
+export type Modifier =
+  | AccumulatorModifier
+  | CoModifier
+  | MeleeComboModifier
+  | SniperComboModifier;
+
+/**
+ * Constructor para productores DINÁMICOS (Mod/Incarnon/Arcane/Shard): la `operation` viene del
+ * dato (token D-6), no se conoce en compile-time → este factory centraliza el mapeo op→variante
+ * de la union. Los productores dinámicos SOLO generan acumulador o CONDITION_OVERLOAD; las ops de
+ * combo se sintetizan a mano en StaticHydrator (variante directa, sin pasar por acá).
+ */
+export function makeModifier(
+  base: ModifierBase,
+  op: ModifierOperation,
+  value: number,
+  co_factors?: CoFactors,
+): Modifier {
+  if (op === 'CONDITION_OVERLOAD') {
+    if (!co_factors) throw new Error(`makeModifier: CONDITION_OVERLOAD requiere co_factors (${base.id})`);
+    return { ...base, operation: 'CONDITION_OVERLOAD', value, co_factors };
+  }
+  if (op === 'MELEE_COMBO_MULT' || op === 'SNIPER_COMBO_MULT') {
+    throw new Error(`makeModifier: la op de combo '${op}' se sintetiza a mano, no vía factory (${base.id})`);
+  }
+  return { ...base, operation: op, value };
 }
 
 export interface GameLaws {

@@ -1,65 +1,85 @@
 # Melee Combo System
 
 > Estado: activo
-> Rol: mecánicas del sistema de combo melee — HAE, contador, duración, daño pesado, wind-up
-> Fuente de verdad de: comportamiento de Heavy Attack Efficiency, combo counter/duration, multiplicadores de heavy
-> No usar para: catálogo de mods o perks por arma
-> Última actualización: 2026-06-10
+> Rol: mecánicas del sistema de combo melee — combo counter, combo multiplier, heavy attack, HAE, duración/decay, wind-up
+> Fuente de verdad de: qué escala con el combo multiplier (heavy + mods + habilidades, **NO** normal attacks), tabla heavy 2x–12x, HAE, combo counter/duración/decay, wind-up
+> No usar para: catálogo de mods o perks por arma (los mods se listan agrupados por dimensión mecánica, no por build)
+> Última actualización: 2026-07-04
 > Fuente: https://wiki.warframe.com/w/Melee_Combo
 
 ---
 
-## Heavy Attack Efficiency (HAE)
+## Combo Multiplier — qué escala (y qué NO)
 
-**Comportamiento confirmado en juego:** pool plano, base 0, suma directa, cap 90%.
+**Regla central (verbatim wiki):** *"Melee Combo Multiplier does not multiply the damage of your normal attacks."*
 
-- Base: **0%** en todas las armas melee (salvo pasivas innate — ver abajo)
-- Cada fuente **suma directamente** al pool: `+20% + 40.9% = 60.9%`
-- **No es multiplicativo** — el "%" es nominal; la operación real es suma de puntos a un pool
-- Cap: **90%**. Con 90% de eficiencia, el heavy attack consume 10% del combo counter
-- Excepción de pasiva innate: Kullervo tiene 75% HAE innato
+El combo counter deriva un **combo multiplier** (el tier 2x–12x, ver tabla heavy) que **NO** aplica al ataque normal/light. Es un valor derivado único que distintos consumidores usan distinto:
+- **Heavy attacks** — gastan el combo para pegar 2x–12x (ver abajo).
+- **Mods combo-scaling** — Blood Rush (crit chance), Weeping Wounds (status chance), sets Gladiator/Jugulus: escalan su bonus por el combo multiplier (`val × combo_mult`). Ver `docs/semantic/conditions.md` (`per_melee_combo_multiplier`).
+- **Habilidades** — "Multiplier Ability Damage" escala a ratio **1:0.25** (rinde 1.5x–4x); las que tienen Ability Combo Counter propio reciben el multiplier **completo**.
+
+El ataque normal se beneficia del combo **solo indirectamente** vía esos mods (crit/status), nunca como multiplicador de daño directo. (En Damage 2.0 antiguo el combo sí multiplicaba todo — ya no.)
 
 ---
 
 ## Melee Combo Counter
 
-**Cómo escala:** los ataques de stance añaden puntos proporcionales al multiplicador de daño del
-stance (`100% stance multiplier = 1 punto`). Blocking: 1 punto por ataque enemigo bloqueado.
+**Qué es:** gauge que cuenta los ataques melee de los últimos 5 segundos.
 
-**Decaimiento:** sin Naramon Power Spike → se vacía completamente a los **5 segundos** de
-inactividad. Con Power Spike → decae en ciclos: −20/−15/−10/−5 puntos por ciclo.
+**Cómo escala:**
+- Stance attacks: puntos ∝ stance damage multiplier (**100% = 1 punto**; ej. un ataque de 300% añade 3 puntos/hit).
+- Blocking: **1 punto** por ataque enemigo bloqueado (cada proyectil individual cuenta).
+- Especiales: Rauta genera 2 puntos por pellet que impacta, hasta **28** (14 pellets).
 
-**Initial Combo (innate):** algunas armas tienen combo inicial innato (Synoid Heliocor 20, Furax
-Wraith 20, Fragor Prime 30). Regeneración de initial combo: 40 puntos/segundo.
+**Initial Combo (innato):** algunas armas arrancan con combo (Synoid Heliocor 20, Furax Wraith 20, Fragor Prime 30). Regeneración de initial combo: **40 puntos/s**. Mods de initial combo: Corrupt Charge, Ready Steel, Melee Crescendo, Galvanized Reflex, Covert Lethality.
+
+**Ganancia extra de combo (mods):** Enduring Strike, Quickening, True Punishment, Relentless Combination, Guardian Derision, Exodia Triumph/Valor (Zaws).
+
+---
+
+## Combo Decay / expiry
+
+- **Default:** el contador se vacía por completo tras **5 s** de inactividad.
+- **Naramon Power Spike:** en vez de vaciarse, decae **20 / 15 / 10 / 5** puntos por reset; al cruzar un umbral de tier, baja el multiplier al nuevo valor. A rango máx sin mods de duración: **220 s (44 ticks)** para vaciarse del todo.
 
 ---
 
 ## Combo Duration
 
-- **Base:** 5 segundos (barra gris debajo del contador)
-- **Mínimo:** no puede bajar de 0.1 segundos
-- **Excepciones:** Xoris (infinita), Pulmonars (9s base), Vitrica (10s base)
-
-Hay dos tipos de fuente: las que **suman segundos planos** (+Xs, sobre la base de 5s) y las que
-**modifican por porcentaje** (±X%), distinguibles por el sufijo del valor (`s` vs `%`).
+- **Base:** 5 s. **Mínimo:** no baja de 0.1 s.
+- **Excepciones por arma:** Guandao Prime 6s, Pulmonars 9s, Vitrica 10s, Xoris infinita; Tenet Livia/Grigori pausan el timer enfundadas.
+- **Fuentes:** aditivas; hay **planas** (+Xs sobre los 5s) y **porcentuales** (±X%), distinguibles por el sufijo del valor (`s` vs `%`). Rivens pueden dar valores negativos.
+- **Mods de duración:** Body Count, Drifting Contact, Gladiator Rush, Swift Momentum, Melee Guidance, Rising Storm, Primary/Secondary Dexterity, Power Spike (Naramon).
 
 ---
 
-## Heavy Attack — Daño y multiplicador
+## Heavy Attack — daño y multiplicador
 
-**Rango base:** 2x – 12x daño según tier de combo.
+**Combo multiplier = tier:** `mult = 1 + floor(hits / 20)`, cap 12x.
 
 | Hits consecutivos | Multiplicador |
 |---|---|
 | 20 | 2.0x |
 | 40 | 3.0x |
 | 60 | 4.0x |
+| 80 | 5.0x |
 | … | +1.0x cada 20 hits |
 | 220 | 12.0x (cap general) |
 
-**Excepciones:** Venka Prime (cap 13.0x a 240 hits), Dex Nikana (cap 11.0x a 110 hits).
+**Excepciones:** Venka Prime 13.0x a 240 hits (pasiva); Dex Nikana 11.0x a 110 hits (reduce los hits requeridos a costa de bajar el cap).
 
-**Consumo por defecto:** 100% del combo counter. Reducible con HAE (ver arriba).
+**Consumo por defecto:** 100% del combo counter. Reducible con HAE (ver abajo).
+
+---
+
+## Heavy Attack Efficiency (HAE)
+
+**Comportamiento confirmado:** pool plano, base **0%**, suma directa, cap **90%**.
+
+- Cada fuente **suma directamente** al pool (`+20% + 40.9% = 60.9%`); el "%" es nominal, la operación real es suma de puntos.
+- Cap **90%**: con 90%, el heavy consume 10% del combo counter.
+- Pasiva innata: **Kullervo 75%** HAE.
+- Fuentes (suman al pool): Focus Energy, Focus Radon, Reflex Coil, Galvanized Reflex, Lycath's Hunt (hold).
 
 ---
 
@@ -73,3 +93,9 @@ Tiempo_final = Tiempo_base / (1 + Σ bonus%)
 
 **Verificado:** Swift Break (+60%) + Amalgam Organ Shatter (+60%) → `1.99 / 2.20 = 0.91s`.
 **Stacking:** aditivo entre todas las fuentes.
+
+---
+
+## Habilidades que escalan con combo (Ability Combo Counter)
+
+Algunas habilidades tienen un **contador de combo propio** (afectado por Ability Duration) y consumen el multiplier: Ash (Blade Storm), Atlas (Landslide), Gara (Shattered Lash), Khora (Whipclaw). "Multiplier Ability Damage" escala a ratio **1:0.25** (1.5x–4x); las de Ability Combo Counter reciben el multiplier **completo**. (Candidata a la "otra mecánica similar" que reusa el factor `combo_count`.)

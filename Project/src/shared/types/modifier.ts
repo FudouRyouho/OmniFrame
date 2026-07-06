@@ -19,18 +19,34 @@
 //   FLAT → ADD_FLAT     → total_flat     (plano post-escala, no amplificado)
 //   MULT → MULTIPLICATIVE → multiplicative (% multiplicativo, stack separado)
 
-export type ModifierOperation =
+// Ops de ACUMULADOR: `value` ES el efecto y la operación ES el bucket (el `switch` de resolveNode).
+// Contrapuestas a las ops de FAMILIA (abajo), donde el efecto lo COMPUTA una fórmula desde el
+// contexto. Esta división es el discriminante de la union `Modifier` (contracts/primitives) — §10.
+export type AccumulatorOperation =
   | 'ADD'
   | 'SET'
   | 'ADD_FLAT'
   | 'BASE_FLAT'
   | 'BASE_ADD_PCT'
   | 'MULTIPLICATIVE'
+
+export type ModifierOperation =
+  | AccumulatorOperation
   // Familia Condition Overload / GunCO. NO es una composición genérica: el valor emerge de
   // `coBonusPct` (formulas/weapon) y el bucket lo decide el `co_behavior` del ataque, no la
   // operación. Es la MARCA de familia (disparador del ruteo) — reemplaza el `CONTEXT_SCALE`
   // genérico que casaba operación con mecánica. Ver arch-decisions §9.
   | 'CONDITION_OVERLOAD'
+  // Familia Melee Combo — heavy attack como consumidor de daño. Hermana de CONDITION_OVERLOAD
+  // (misma doctrina §8/§9/§10): valor = `meleeComboMult(melee_combo_count)` (formulas/weapon/melee-combo),
+  // ruteo FIJO `multiplicative` (a diferencia de CO no hay behavior que elija bucket). Disparador
+  // de FAMILIA melee — NO `COMBO_MULT` genérico: el combo de sniper/incarnon es otra familia
+  // (Abstracción A diferida, §10). Se sintetiza en hidratación (intrínseco), no viene de un token.
+  | 'MELEE_COMBO_MULT'
+  // Familia Sniper Combo — Shot Combo Counter. Hermana de MELEE_COMBO_MULT pero fórmula LOGARÍTMICA
+  // (`sniperComboMult`) y necesita DOS inputs: el count (contexto) + `min_combo` (dato por-arma).
+  // Ruteo FIJO `multiplicative`, pasivo (todo shot scoped, sin gate heavy). Se sintetiza en hidratación.
+  | 'SNIPER_COMBO_MULT'
 
 // ─── CoBehavior ────────────────────────────────────────────────────────────────
 // Familia Condition Overload / GunCO: CÓMO compone un bonus "per Status Type" sobre un
@@ -227,6 +243,27 @@ export interface CoFactors {
   // Se resuelven en modo estático (declaradas) o dinámico (emergentes del EnemyState).
   stacks_var: string;        // activeStacks (dimensión temporal del buff)
   status_count_var: string;  // N tipos de status en el target
+}
+
+export interface MeleeComboFactors {
+  // Hermano de CoFactors para la familia MELEE_COMBO_MULT. MELEE-específico por nombre: el combo
+  // hit de snipers y el combo de semi-exaltadas son mecánicas distintas (parecidas, no iguales) —
+  // un `ComboFactors` genérico se malinterpreta. Una sola dimensión: el nombre de la variable de
+  // contexto que aporta el combo counter melee. Declarada en modo estático (el consumidor pasa
+  // `melee_combo_count`), emergente en dinámico (timeline del jugador — diferido). No se bakea el
+  // producto: el valor lo computa `meleeComboMult` en tiempo de resolución. Ver arch-decisions §8.
+  count_var: string;
+}
+
+export interface SniperComboFactors {
+  // Familia SNIPER_COMBO_MULT. Shape MIXTO — nota la asimetría con CoFactors/MeleeComboFactors:
+  //  - `count_var`  = NOMBRE de variable de contexto (dinámico, declarado/emergente).
+  //  - `min_combo`  = VALOR literal por-arma (estático, bakeado en hidratación desde el override).
+  // El producto NO se bakea (lo computa `sniperComboMult(count, min_combo)`); sí el parámetro
+  // por-arma `min_combo`, igual que CO bakea `coefBase` en `mod.value`. Esta divergencia de shape
+  // entre las 3 familias es la señal del cierre en el TIPO (arch-decisions §10, Abstracción A).
+  count_var: string;
+  min_combo: number;
 }
 
 export interface UpgradeMapEntry {
