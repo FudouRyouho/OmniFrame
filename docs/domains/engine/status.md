@@ -57,12 +57,13 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 | `CombatCalculator` · `CombatSimulator` | **Activo** |
 | `AtomicSimulator` | **Activo** — conectado a `formulas/common/crit-base` |
 | `StatusEngine` · `TimelineSimulator` · `RngProvider` | **Activo** |
-| `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`) |
+| `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `scale()` = **curva-S real** (2026-07-06, reemplaza el stub cuadrático) + `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`); validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
 
 > **Nota C2:** cobertura de test históricamente 0; primer diseño interno + primeros tests en la campaña
-> de modelado de daño C2 (2026-07-02, ver [`design/damage-status-model.md`](design/damage-status-model.md)).
-> Brecha conocida: `EnemyState.processDots()` decae con un pool lineal continuo, no el primitivo de
-> N-timers independientes que el modelo valida.
+> de modelado de daño C2 (2026-07-02, ver [`design/damage-status-model.md`](design/damage-status-model.md)) +
+> el eje enemigo (escalado, 2026-07-06). Brechas conocidas: (1) `EnemyState.processDots()` decae con un pool
+> lineal continuo, no el primitivo de N-timers independientes que el modelo valida; (2) el **consumo** del
+> `ScaledEnemy` en el pipeline de daño (facción × DR × capa) aún no existe — es el contraste **#1** (popup real).
 
 ### Salida de C — el "clic" (`engine/output/`)
 

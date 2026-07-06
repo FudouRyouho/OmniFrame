@@ -4,7 +4,7 @@
 > Rol: fórmulas de escalado de stats de enemigos por nivel
 > Fuente de verdad de: curva S post-Update 27.2, coeficientes por facción, EHP derivado
 > No usar para: drops, afinidad de jugador o mecánicas de spawn
-> Última actualización: 2026-06-10
+> Última actualización: 2026-07-06 (re-captura: Δx-regiones, smoothstep, Eximus, DR, open-item de armor)
 > Fuente: https://wiki.warframe.com/w/Enemy_Level_Scaling
 
 ## Fórmula base universal
@@ -17,10 +17,14 @@ Donde `Δx = Nivel Actual − Nivel Base`.
 
 ## Curva S — Update 27.2
 
-Desde Update 27.2 el escalado sigue una **curva S**:
-- **< nivel 70**: crecimiento rápido (exponente alto)
-- **> nivel 80**: crecimiento lento (exponente bajo)
-- **Entre 70-80**: interpolación suave
+Desde Update 27.2 el escalado sigue una **curva S**. La región se elige por **Δx = (Nivel Actual −
+Nivel Base)**, NO por nivel absoluto:
+- **Δx < 70**: `f1` — crecimiento rápido (exponente alto)
+- **Δx > 80**: `f2` — crecimiento lento (exponente bajo)
+- **70 ≤ Δx ≤ 80**: **smoothstep** entre `f1` y `f2` (no lineal):
+  ```
+  T = (Δx − 70) / 10        S = 3T² − 2T³        mult = f1 + (f2 − f1)·S
+  ```
 
 Cada facción tiene coeficientes distintos para las dos mitades de la curva.
 
@@ -51,9 +55,44 @@ Cada facción tiene coeficientes distintos para las dos mitades de la curva.
 > 80:  1 + 0.4(Δx)^0.75
 ```
 
-**Límites:**
-- Máximo: 2700 de armor (≈ 90% DR)
-- Mínimo inicial: 200 de armor base (para unidades con armor)
+**Aplicación (orden exacto, del gadget `ext.gadget.enemyinfoboxslider`, RESUELTO 2026-07-06):**
+```
+armor = floor(base_armor × armor_multi)
+if (armor > 0) { armor = min(armor, 2700); armor = max(armor, 200); }   // clamp SOLO si tiene armor
+```
+El **floor de 200 aplica siempre** que `armor>0` — incluso a nivel base (Arid Butcher base 5 → 200; el 5 es
+nominal). Un enemigo con base armor 0 (sin armadura) NO recibe el floor (queda 0).
+
+**DR desde armor (⚠️ NO es `armor/(armor+300)` — esa está obsoleta):**
+```
+DR = √(3 × armor) / 100          (cap: armor 2700 → 90%)
+```
+El gadget la redondea a 4 decimales para display/EHP. `EHP = health/(1 − DR) + shields + overguard`.
+
+> ✅ Validado: Arid Butcher (Grineer, base 50 hp / 5 armor) @215 → health **25.612,14**, armor **200**,
+> DR **24,49%**, EHP **33.918,87** — los 4 campos del calculador, exactos (`enemy-scaling.test.ts`). El
+> script del gadget es el oráculo (el juego no muestra HP numérico). Confirmar la DR contra un popup en #1.
+
+## Modificadores de base y ORDEN de aplicación (del gadget)
+
+El health/shield BASE se modifica ANTES del escalado por nivel, en este orden exacto:
+
+1. **Base** de la unidad (o `eximus_*` base si es Eximus — algunos enemigos tienen base distinta; el
+   Codex NO refleja el incremento Eximus). Overguard base Eximus = **12** (default).
+2. **Steel Path** (si aplica): `base_health += steel_path_health_bonus` (flat por-enemigo); idem shield.
+3. **Empowered/Archimedea** (si aplica): `base_health += archimedea_health_bonus` (flat).
+4. **Eximus** (si aplica): escalado piecewise de health/shield (ver §Escalado de Eximus).
+5. **Steel Path ×2.5**: `base_health ×= 2.5`, `base_shield ×= 2.5`.
+6. **Empowered ×N** por player_count: 1→**2.5**, 2→**3.0**, 3→**3.5**, 4→**4.0** (health y shield).
+7. **Recién ahora** el escalado por nivel (curva-S `f1/f2/smoothstep`) sobre la base ya modificada.
+
+**Overguard:** misma forma que health pero con transición **45-50** (no 70-80): `1 + og_f1 + (og_f2−og_f1)·smoothstep(45,50,Δx)`.
+
+**Affinity:** `floor(base_affinity × (coef + √(NivelActual) × 0.1425))`, `coef = 1` normal / **3** Eximus.
+
+> Fuente autoritativa de TODO lo anterior: `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`
+> (el gadget del calculador del wiki). Diferido en el engine hasta abrir el frente Eximus/SP (gate de
+> honestidad — Arid Butcher normal primero).
 
 ## Damage (daño de enemigos)
 
@@ -86,8 +125,24 @@ Los tres:              combinación de las dos fórmulas anteriores
 
 ## Escalado de Eximus
 
-Las unidades Eximus reciben escalado adicional de health/shields con puntos de inflexión en niveles:
-**15, 25, 35, 50, 100** — no lineal, depende del tier del Eximus.
+Los Eximus usan el escalado de health de su facción **más un incremento de health base SEPARADO,
+dependiente del nivel** (`x` = level difference). El health del Codex NO es el base del Eximus antes de
+este incremento. Piecewise (`Base Health` = health base de la unidad):
+
+**Con Shields o Armor** (coeficiente 0.25):
+```
+x ≤ 15:        max(BH×1.1, 0.25×(BH+900))
+15 < x ≤ 25:   max(BH×1.1, 0.25×(BH+900)×[1 + 0.025×(x−15)])
+25 < x ≤ 35:   max(BH×1.1, 0.25×(BH+900)×[1.25 + 0.125×(x−25)])
+35 < x ≤ 50:   max(BH×1.1, 0.25×(BH+900)×[2.5 + (2/15)×(x−35)])
+50 < x ≤ 100:  max(BH×1.1, 0.25×(BH+900)×[4.5 + 0.03×(x−50)])
+x > 100:       max(BH×1.1, 0.25×(BH+900)×6)
+```
+
+**Sin Shields ni Armor**: idéntico pero con coeficiente **0.375** en vez de 0.25.
+
+> Diferido en el engine (gate de honestidad): modelamos Arid Butcher **normal** primero; Eximus (+
+> overguard) y Steel Path son capas aparte, se activan con su propio caso/dato. Ver Eximus + The Steel Path.
 
 ## Misiones sin fin
 

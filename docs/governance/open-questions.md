@@ -629,3 +629,23 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 
 **Vínculo:** [`../domains/engine/design/melee-combo.md`](../domains/engine/design/melee-combo.md), `../domains/engine/design/arch-decisions.md` §8/§9/§10, `references/wiki/mechanics/melee-combo.md`.
 **Fuente:** pausa teórica 2026-07-04 + estrés/promoción 2026-07-05.
+
+## OQ-ENGINE-15 — Fórmula de DR de armor enemigo: conflicto de 3 vías — **ABIERTO (2026-07-06)**
+**Dominio:** engine / C2 (mitigación del target)
+
+**Contexto.** Al modelar el escalado de enemigo (contraste #0, Arid Butcher), la fuente que trae los stats escalados —el **gadget del calculador del wiki** (`references/temp/ext.gadget.enemyinfoboxslider-script-0.js`)— computa la DR de armor como `DR = √(3·AR)/100`. Eso **contradice** dos capturas previas de `references/*`, que a su vez se contradicen entre sí:
+
+| Fórmula | Fuente | DR @AR 200 | @2700 |
+|---|---|---|---|
+| `√(3·AR)/100` | gadget del calculador (adoptada) | 24,49% | 90% |
+| `0.9·AR/2700` (lineal U36) | `enemy-resistances.md` (SSoT declarada) + decisión provisional 2026-07-02 | 6,67% | 90% |
+| `AR/(AR+300)` (era vieja) | pre-U36 | 40% | 90% |
+
+Las tres coinciden en el cap (90% @2700) pero divergen fuerte abajo. La propia wiki está **auto-desincronizada** entre sus páginas y su gadget — no es un problema nuestro de resolver, sino de **normalizar** cuál adoptar.
+
+**Decisión provisional (usuario, 2026-07-06):** el engine adopta **`√(3·AR)/100`** (`damageReductionFromArmor`, `EnemyRepository.ts`) — es la fuente más honesta HOY: la que usa el calculador del wiki y la comunidad como referencia. **NO se deprecan** las otras capturas ni se toca `references/*` por ahora (la reconciliación queda para este OQ). El #0 valida contra el calculador (health exacto; DR/EHP reproducen el calculador, cuya DR es esta fórmula provisional).
+
+**Condición para resolver:** contraste **#1** (un popup de daño real contra Arid Butcher) — el primer número de mitigación que el juego SÍ muestra. Ahí se confirma o se tira `√(3·AR)/100` contra el juego, y recién entonces se normaliza `references/*` (reconciliar `enemy-resistances.md` ↔ `enemy-level-scaling.md`) y se cierra este OQ.
+
+**Vínculo:** `references/wiki/mechanics/enemy-level-scaling.md` §Armor, `references/wiki/mechanics/enemy-resistances.md` §DR, `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`, `Project/src/core/engine/simulate/enemies/EnemyRepository.ts`.
+**Fuente:** eje enemigo / contraste #0 (2026-07-06).

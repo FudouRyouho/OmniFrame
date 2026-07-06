@@ -28,6 +28,7 @@ warframe-items/
 Project/data/
 Project/scratch/
 docs/data/pipeline/audits/
+references/temp/
 
 # ─── Sesiones de trabajo (scratchpad de análisis, no SSoT) ───────────────────
 .working/
