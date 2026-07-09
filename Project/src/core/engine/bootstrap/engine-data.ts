@@ -16,7 +16,7 @@ import { DataLoader } from "../resolve/hydration/DataLoader";
 export async function loadEngineData(source: DataSource): Promise<void> {
   if (DataLoader.isReady()) return;
 
-  const [weapons, warframes, modOverrides, weaponStats, incarnon, arcaneOverrides, archonShards] =
+  const [weapons, warframes, modOverrides, weaponStats, incarnon, arcaneOverrides, archonShards, enemies, enemyOverrides] =
     await Promise.all([
       source.read("weapons"),
       source.read("warframes"),
@@ -25,6 +25,8 @@ export async function loadEngineData(source: DataSource): Promise<void> {
       source.read("incarnon-evolutions.override"),
       source.read("arcane-stats.override"),
       source.read("archon-shards"),
+      source.read("enemies"),
+      source.read("enemy-stats.override"),
     ]);
 
   DataLoader.init({
@@ -35,6 +37,8 @@ export async function loadEngineData(source: DataSource): Promise<void> {
     incarnon:              incarnon as DataSourceInput["incarnon"],
     arcaneOverrides:       arcaneOverrides as DataSourceInput["arcaneOverrides"],
     archonShards:          archonShards as DataSourceInput["archonShards"],
+    enemies:               enemies as DataSourceInput["enemies"],
+    enemyOverrides:        enemyOverrides as DataSourceInput["enemyOverrides"],
   });
 }
 

@@ -4,8 +4,11 @@
  */
 
 /**
- * Tabla de Eficiencia Elemental según el tipo de armadura/salud.
- * Basado en las leyes de Warframe.
+ * @deprecated Modelo per-clase **pre-U36** (Ferrite Armor / Cloned Flesh / …). Las 13 clases de
+ * salud/armor/shield **ya no rigen** — desde Update 36.0 el daño-vs-target es **por facción**
+ * (ver `FACTION_BONUS` abajo y `references/wiki/mechanics/enemy-resistances.md`). Se conserva SÓLO
+ * porque el legacy `CombatSimulator.resolveHit` aún la consume; se elimina cuando ese resolveHit se
+ * reconcilie a `FACTION_BONUS` (deferido, C2). **No usar en código nuevo.**
  */
 export const DAMAGE_EFFICIENCY: Record<string, Record<string, number>> = {
   "WEAPON_ADD_IMPACT_DAMAGE": {
@@ -82,4 +85,36 @@ export const DAMAGE_EFFICIENCY: Record<string, Record<string, number>> = {
     "ClonedFlesh": -0.50,
     "Flesh": -0.50
   }
+};
+
+/**
+ * Bonificación de facción (**Update 36.0**) — el modelo vigente que reemplaza a `DAMAGE_EFFICIENCY`.
+ * Matriz facción×elemento **uniforme**: vulnerable = `+0.5` (×1.5), resistente = `−0.5` (×0.5), neutral
+ * ausente (0). Convención = delta de eficiencia para `typeMultiplier = 1 + bonus` (idéntica a la vieja).
+ * SSoT: `references/wiki/mechanics/enemy-resistances.md §Matriz facción×elemento` (verificada por el usuario).
+ *
+ * Keyed `[damageToken][faction]` (espeja `DAMAGE_EFFICIENCY` → swap directo cuando `resolveHit` se reconcilie).
+ * Facción canónica = vocabulario raw (`semantic/factions.md`: Orokin, NO "Corrupted").
+ *
+ * ⚠️ Incluye **subfacciones** (Kuva Grineer, Corpus Amalgam, Narmer, The Murmur, Infested Deimos, Techrot,
+ * Scaldra, Anarchs, Zariman) que el `enemies.json` actual NO distingue (sólo bases) → esos bonus quedan
+ * latentes hasta poder resolver subfacción en el dato (gap conocido). **Aún NO consumida:** `resolveHit`
+ * sigue en `DAMAGE_EFFICIENCY` hasta su reconciliación (deferido, C2).
+ */
+export const FACTION_BONUS: Record<string, Record<string, number>> = {
+  "WEAPON_ADD_IMPACT_DAMAGE":      { "Grineer": 0.5, "Kuva Grineer": 0.5, "Scaldra": 0.5, "Anarchs": 0.5 },
+  "WEAPON_ADD_PUNCTURE_DAMAGE":    { "Corpus": 0.5, "Orokin": 0.5 },
+  "WEAPON_ADD_SLASH_DAMAGE":       { "Infested": 0.5, "Narmer": 0.5 },
+  "WEAPON_ADD_HEAT_DAMAGE":        { "Infested": 0.5, "Kuva Grineer": -0.5 },
+  "WEAPON_ADD_COLD_DAMAGE":        { "Sentient": 0.5, "Techrot": -0.5 },
+  "WEAPON_ADD_ELECTRICITY_DAMAGE": { "Corpus Amalgam": 0.5, "The Murmur": 0.5, "Anarchs": 0.5 },
+  "WEAPON_ADD_TOXIN_DAMAGE":       { "Narmer": 0.5 },
+  "WEAPON_ADD_BLAST_DAMAGE":       { "Infested Deimos": 0.5, "Corpus Amalgam": -0.5 },
+  "WEAPON_ADD_CORROSIVE_DAMAGE":   { "Grineer": 0.5, "Kuva Grineer": 0.5, "Scaldra": 0.5, "Sentient": -0.5 },
+  "WEAPON_ADD_GAS_DAMAGE":         { "Infested Deimos": 0.5, "Techrot": 0.5, "Scaldra": -0.5 },
+  "WEAPON_ADD_MAGNETIC_DAMAGE":    { "Corpus": 0.5, "Corpus Amalgam": 0.5, "Techrot": 0.5, "Narmer": -0.5 },
+  "WEAPON_ADD_RADIATION_DAMAGE":   { "Sentient": 0.5, "The Murmur": 0.5, "Anarchs": -0.5 },
+  "WEAPON_ADD_VIRAL_DAMAGE":       { "Orokin": 0.5, "Infested Deimos": -0.5, "The Murmur": -0.5 },
+  "WEAPON_ADD_VOID_DAMAGE":        { "Zariman": 0.5 },
+  // Tau, True → sin bonificación de facción (matriz vacía).
 };

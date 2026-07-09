@@ -25,8 +25,33 @@ import { BUILDS } from '@core/engine/fixtures/builds';
 import { consume } from '@core/engine/output/consume';
 import { project } from '@shared/view-model';
 import { toStatEntries } from '@lib/format/stat-entry';
+import { EnemyRepository } from '@core/engine/simulate/enemies/EnemyRepository';
+import { damageReductionFromArmor } from '@core/engine/formulas/enemy/armor-mitigation';
 
 await loadEngineData(new NodeAdapter());
+
+// Modo `enemy`: instrumento de contraste del eje enemigo (health/armor/DR/EHP escalados a un nivel).
+//   npm run oracle -- enemy "Arid Butcher" 215   |   enemy <unique_name> <lvl>
+if (process.argv[2] === 'enemy') {
+  const query = process.argv[3] ?? '';
+  const level = Number(process.argv[4] ?? 1);
+  const dna = EnemyRepository.find(query);
+  if (!dna) {
+    console.error(`oráculo: enemigo "${query}" no encontrado (probá el name display o el unique_name).`);
+    process.exitCode = 1;
+  } else {
+    const s = EnemyRepository.scale(dna, level);
+    const dr = damageReductionFromArmor(s.current_armor);
+    const ehp = s.current_health / (1 - dr) + s.current_shields;
+    console.log(`\n######## ENEMY: ${dna.name ?? dna.unique_name} @ lvl ${level} (base ${dna.base_level}, facción ${dna.faction}) ########`);
+    console.log(`  health : ${s.current_health.toFixed(2)}`);
+    console.log(`  armor  : ${s.current_armor}  → DR ${(dr * 100).toFixed(2)}%  [√3a/100, provisional OQ-ENGINE-15]`);
+    console.log(`  shields: ${s.current_shields}  ⚠️ sin escalar (gap)`);
+    console.log(`  EHP    : ${ehp.toFixed(2)}  (health/(1−DR)+shields)`);
+    console.log(`  daño-vs-target: por facción (${dna.faction}) — matriz FACTION_BONUS, aplicación en resolveHit pendiente (C2)`);
+  }
+  process.exit(process.exitCode ?? 0);
+}
 
 const isView = process.argv[2] === 'view';
 const arg = (isView ? process.argv[3] : process.argv[2]) ?? 'lanka';

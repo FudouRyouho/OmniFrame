@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
-Version: "v0.4.0"
+Version: "v0.4.1"
 Impacto_ID: "E-OQ-FORMULAS"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-04"
+Fecha_de_actualizacion: "2026-07-09"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -59,7 +59,7 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 
 ---
 
-## 3. Inventario (9 archivos)
+## 3. Inventario (13 archivos)
 
 | Archivo | Contenido | Vocabulario | Estado / acción |
 |---|---|---|---|
@@ -70,8 +70,16 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 | `weapon/weapon-status.ts` | `calculateWeaponStatus` | `DamageType` (pre-D-6) | conectar + migrar vocab |
 | `weapon/weapon-multishot.ts` | `calculateMultishot`, `beamTickScaleFactor` | agnóstico | conectar cuando C2 tenga consumidor |
 | `weapon/weapon-condition-overload.ts` | `applyConditionOverload`, `coBonusPct` | agnóstico | ✅ `coBonusPct` consumido por `SimulationEngine` (§4); `applyConditionOverload` reservado para C2 |
+| `weapon/melee-combo.ts` | `meleeComboMult` (combo melee heavy) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
+| `weapon/sniper-combo.ts` | `sniperComboMult` (combo sniper) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
+| `enemy/enemy-scaling.ts` | `scaleHealth`, `scaleArmor`, `scaleMult` + coefs curva-S | agnóstico (`faction: string`) | ✅ consumido por `EnemyRepository.scale` (orquestador); **movido de `EnemyRepository` (P1, 2026-07-09)** |
+| `enemy/armor-mitigation.ts` | `damageReductionFromArmor` (√3a/100) | agnóstico | movido de `EnemyRepository` (P1); ⚠️ **migrar a scope `entity/`** con 2º consumidor DR (player/companion) — ver §7 |
 | `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | integrar con Ability System (inexistente) |
 | `ability/ability-status.ts` | `describeAbilityStatus`, `formatAbilityStatusLabel` | `DamageType` | integrar con Ability System (inexistente) |
+
+`enemy/` es el primer scope de **entidad-target** (el resto son `common` agnóstico + fuentes del
+atacante: `weapon`/`ability`). Las tablas de coeficientes de la curva-S se co-locan con su ley (son
+parámetros intrínsecos, no datos de un dominio externo — mismo criterio que `status-base`).
 
 ---
 
@@ -122,3 +130,15 @@ vocabulary de `EnemyState`, ya resuelto por otro eje — ver `../../../data/deci
 - `ability/*` — requiere el Ability System (no implementado).
 - Conexión de `weapon-crit` / `weapon-multishot` — requiere un consumidor C2 de producción (hoy
   `combat/` está fuera del pipeline).
+
+---
+
+## 7. Migración pendiente: DR a scope `entity/` (gate = 2º consumidor)
+
+`enemy/armor-mitigation.ts::damageReductionFromArmor` vive bajo `enemy/` sólo porque el único caso
+ejercitado hoy es el enemigo (`√3a/100`). Conceptualmente **DR no es enemy-specific**: es una
+primitiva del **ciclo de la entidad, indiferente a dónde aplica**. Cuando exista un 2º consumidor
+de DR (player `armor/(armor+300)`, companion, …) se verifica si sube a un scope `entity/` derivando
+por entidad (`entity → player | enemy | companion`), y si el primitivo debe componer una tabla de
+datos intrínseca como los coeficientes de `enemy-scaling`. **Sin framework polimórfico hasta
+entonces (YAGNI).** El nombre `damageReductionFromArmor` se conserva por ahora.

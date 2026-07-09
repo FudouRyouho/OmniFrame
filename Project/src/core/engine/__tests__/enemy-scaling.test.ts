@@ -13,10 +13,24 @@
  * valida que el engine reproduce el CALCULADOR; que el calculador = el juego se confirma en el #1 (popup).
  */
 import { describe, it, expect } from 'vitest';
-import { EnemyRepository, damageReductionFromArmor } from '../simulate/enemies/EnemyRepository';
-import { ARID_BUTCHER } from '../fixtures/enemies';
+import { loadEngineData } from '../bootstrap/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
+import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
+import { damageReductionFromArmor } from '../formulas/enemy/armor-mitigation';
+
+// Fase 1: el enemigo entra por el pipeline "0" (enemies.json normalizado), no por fixture a mano.
+await loadEngineData(new NodeAdapter());
+const ARID_BUTCHER = EnemyRepository.find('/Lotus/Types/Enemies/Grineer/Desert/Avatars/BladeSawmanAvatar')!;
 
 describe('Enemy scaling — HEALTH (validado contra el calculador del wiki)', () => {
+  it('el enemigo se cargó desde el pipeline (no fixture): Arid Butcher existe con stats @wfcd', () => {
+    expect(ARID_BUTCHER).toBeTruthy();
+    expect(ARID_BUTCHER.health).toBe(50);
+    expect(ARID_BUTCHER.armor).toBe(5);
+    expect(ARID_BUTCHER.faction).toBe('Grineer');
+    expect(ARID_BUTCHER.base_level).toBe(1); // seam: override ?? 1
+  });
+
   it('nivel base (1) → sin escalar: 50 hp', () => {
     expect(EnemyRepository.scale(ARID_BUTCHER, 1).current_health).toBeCloseTo(50, 0);
   });

@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
-Version: "v0.3.0"
+Version: "v0.4.0"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-08"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -158,6 +158,67 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 
 OmniFrame opera como un motor de juego simplificado. Todo objeto en el sistema es una **Entidad** conectada a un **Grafo Reactivo de Atributos**.
 
+### 2.0 El trazado de una instancia de daño (source-agnostic)
+
+> **Reconciliación (2026-07-08).** Las facetas del ciclo de vida de una instancia de daño estaban
+> **dispersas** en §2.1 (TE), §2.5 (modo Expected/atómico), §2.6 (capas decoradoras) y §2.7 (Casting
+> Snapshot) — varias "diseñado-no-implementado". Esta sección las unifica en **un trazado único**. Es
+> **ortogonal** al flujo macro A→B→C→D (§1): aquél es equipamiento→proyección; éste es el ciclo de vida
+> de una **instancia** dentro de C. No lo reemplaza.
+
+**Principio rector — desacople emergente, no capas preventivas.** Una etapa/separación se agrega **sólo
+cuando una mecánica real la fuerza**, nunca para prevenir. Separar sobre dato-sin-modelar *genera* drift
+(lo contrario del objetivo). Y el costo es asimétrico: **desacoplar después es barato** (`scale()` es una
+función pura, se reubica en un move), **refactorizar lo enredado es caro** — `resolveHit` (que hoy colapsa
+②+③, abajo) es la evidencia viva de lo segundo.
+
+**El trazado — 3 etapas:**
+
+```
+[C1 ya resolvió los stats de la fuente (§2.3 accumulator). La instancia nace DESPUÉS de C1.]
+        │
+① NACE                una fuente emite instancia(s):
+                      · arma      → perfil (§2.1 AttackProfileRegistry) + multishot (N instancias)
+                      · habilidad → cast + ADN inyectado (§2.7 Casting Snapshot)
+                      · proc/DoT  → TE (§2.1)
+                      cada instancia lleva magnitudes base por tipo + un snapshot CONGELADO de los
+                      stats de su fuente (§2.7 es el caso ability; para arma el snapshot es el entity C1).
+        │
+② COMPONE-TRAYECTO    transforms DETERMINISTAS sobre la instancia, source-agnostic. Todos conmutan
+                      → UNA sola etapa (sub-clasificación interna, NO sub-etapas):
+                      · sinergia externa        (Roar ×, mods de facción Expel/Bane, arcanos final-crit-damage)
+                      · mutación contextual     (falloff por distancia)
+                      · aplicación del crit
+                      Modo promedio (build-calculator, averageCritMultiplier) vs tirada (timeline,
+                      resolveCritTier) = eje §2.5 (Expected/Atómico) + arch-decisions §8 (input→simulado).
+                      El modo NO cambia la etapa.
+        │
+③ RESUELVE-VS-TARGET  física INTRÍNSECA del target-entidad, source-agnostic, keyed en el TARGET (no en el
+                      trayecto): bonificación de facción · DR de armadura · ruteo/bypass de capa
+                      (shields/health, Toxin bypass, Slash=True) · multiplicadores de stacks de status · caps/floors.
+```
+
+**Fronteras que el trazado clarifica:**
+
+- **C1/C2.** La "mutación" de stats es C1 (§2.3); ①②③ son C2. Ninguna etapa del trazado re-resuelve el grafo.
+- **§2.6 = orden de resolución de un STAT (C1), NO del daño-vs-target.** La línea "POST_MUL: Faction damage
+  adjustments" que §2.6 lista pertenece en realidad a **③** (propiedad del target, C2), no a un decorador de
+  stat. Se separan los dos órdenes (deshace el muddle histórico).
+- **② vs ③ = trayecto vs contexto-target.** ② es lo que la instancia acumula/lleva hasta llegar
+  (instance-keyed); ③ es lo que el target le hace (target-keyed). Una "sinergia sobre el target" (ej. el
+  target tiene Viral → recibe más) es **③**, no ②.
+- **③ vive como auxiliares de la ENTIDAD-target**, source-agnostic — cualquier fuente (arma, habilidad, tick)
+  llama las mismas. DR es entidad-level (con variantes: enemigo `√3a/100`, jugador `armor/(armor+300)`);
+  encerrarla por tipo de entidad fue el origen del bug de `resolveHit` (usa la DR del jugador sobre enemigos).
+
+**`resolveHit` = drift.** Hoy colapsa ②+③ en una función weapon-specific. Su descomposición (② composición
+source-agnostic; ③ auxiliares de la entidad-target) es trabajo posterior, no de este doc.
+
+**Estado.** El trazado es el **objetivo** de arquitectura; la implementación actual (`CombatCalculator`/
+`resolveHit`) aún no lo sigue — coherente con §2.1 ("TE-como-entidad-en-cola: diseñado, no implementado"). La
+**salida** del trazado (daño final / métricas C2) no fluye a un contrato de salida único todavía — deuda
+`OQ-ENGINE-8`.
+
 ### 2.1 Clasificación de Entidades (PE vs TE)
 Para mantener el motor ligero y determinista, las entidades se dividen por su ciclo de vida:
 
@@ -229,6 +290,10 @@ Para evitar el agotamiento de la `MAX_TICK_ENERGY` en ráfagas de alta densidad 
 > bloque (la fórmula del acumulador §2.3), sin capas decoradoras ordenadas — caps/floors/overrides no tienen
 > orden garantizado. Es una de las decisiones de blindaje pendientes (ver [`arch-decisions.md`](arch-decisions.md) §4);
 > se construirá cuando el layering con orden crítico empiece a doler.
+
+> **Alcance (2026-07-08, §2.0):** estas capas ordenan la resolución de un **STAT** (C1). El `POST_MUL:
+> Faction damage adjustments` de abajo NO es un decorador de stat: es la etapa **③ RESUELVE-VS-TARGET** del
+> trazado (§2.0) — propiedad del target (C2). No mezclar los dos órdenes.
 
 Para evitar condiciones de carrera entre decoradores (ej: "¿50% de reducción o mínimo 10?").
 

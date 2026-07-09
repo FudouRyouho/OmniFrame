@@ -1,0 +1,5106 @@
+[
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamD/CCTeamDOspreyAvatar",
+    "name": "002-Er",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Vip/Avatars/EidolonVipPilotAvatar",
+    "name": "Aerial Commander",
+    "faction": "Grineer",
+    "health": 800,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonAutoTurretAvatar",
+    "name": "Akkalak Turret",
+    "faction": "Grineer",
+    "health": 1100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/AladV/AladBossAvatar",
+    "name": "Alad V",
+    "faction": "Corpus",
+    "health": 900,
+    "armor": 250,
+    "shields": 1500
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowBird/UncommonSnowBirdAvatar",
+    "name": "Alpine Monitor Sawgaw",
+    "faction": "Predator",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCorpusOverrideAvatar",
+    "name": "Amalgam Alkonost",
+    "faction": "Corpus",
+    "health": 650,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCorpusOverrideAvatarLeader",
+    "name": "Amalgam Alkonost",
+    "faction": "Corpus",
+    "health": 650,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Prototypes/Avatars/AmalgamPrototypeMeleeAvatar",
+    "name": "Amalgam Arca Heqet",
+    "faction": "Sentient",
+    "health": 700,
+    "armor": 0,
+    "shields": 1100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Prototypes/Avatars/AmalgamPrototypeCarrusAvatar",
+    "name": "Amalgam Arca Kucumatz",
+    "faction": "Sentient",
+    "health": 1500,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Prototypes/Avatars/AmalgamPrototypeCarrusPilotAvatar",
+    "name": "Amalgam Cinder Machinist",
+    "faction": "Sentient",
+    "health": 1500,
+    "armor": 0,
+    "shields": 1200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCorpusSniperAvatar",
+    "name": "Amalgam Heqet",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCorpusSniperAvatarLeader",
+    "name": "Amalgam Heqet",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCarrusAvatar",
+    "name": "Amalgam Kucumatz",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCarrusAvatarLeader",
+    "name": "Amalgam Kucumatz",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCarrusPilotAvatar",
+    "name": "Amalgam Machinist",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCarrusPilotAvatarLeader",
+    "name": "Amalgam Machinist",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamMoaAvatar",
+    "name": "Amalgam Moa",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamMoaAvatarLeader",
+    "name": "Amalgam Moa",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamOspreyAvatar",
+    "name": "Amalgam Osprey",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamOspreyAvatarLeader",
+    "name": "Amalgam Osprey",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Prototypes/Avatars/AmalgamPrototypeMoaAvatar",
+    "name": "Amalgam Phase Moa",
+    "faction": "Sentient",
+    "health": 500,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamMoaSatyrAvatar",
+    "name": "Amalgam Satyr",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamMoaSatyrAvatarLeader",
+    "name": "Amalgam Satyr",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Prototypes/Avatars/AmalgamPrototypeSatyrAvatar",
+    "name": "Amalgam Swarm Satyr",
+    "faction": "Sentient",
+    "health": 1300,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Ambulas/BossAmbulasRangedAvatar",
+    "name": "Ambulas",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 150,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/AncientAvatar",
+    "name": "Ancient Disruptor",
+    "faction": "Infested",
+    "health": 400,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/AncientAvatarLeader",
+    "name": "Ancient Disruptor",
+    "faction": "Infested",
+    "health": 400,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/HealingAncientAvatar",
+    "name": "Ancient Healer",
+    "faction": "Infested",
+    "health": 400,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/HealingAncientAvatarLeader",
+    "name": "Ancient Healer",
+    "faction": "Infested",
+    "health": 400,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Acolytes/StrikerAcolyteAvatar",
+    "name": "Angst",
+    "faction": "Stalker",
+    "health": 350,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/LaserDiscBipedAvatar",
+    "name": "Anti Moa",
+    "faction": "Corpus",
+    "health": 50,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/LaserDiscBipedAvatarLeader",
+    "name": "Anti Moa",
+    "faction": "Corpus",
+    "health": 50,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/CorpusEliteShieldDroneAvatar",
+    "name": "Arbitration Shield Drone",
+    "faction": "Neutral",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/SpawningAncientAvatarMiniboss",
+    "name": "Arcane Boiler",
+    "faction": "Infested",
+    "health": 2200,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/BladeSawmanAvatar",
+    "name": "Arid Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/BladeSawmanAvatarLeader",
+    "name": "Arid Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/EvisceratorLancerAvatar",
+    "name": "Arid Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/EvisceratorLancerAvatarLeader",
+    "name": "Arid Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/HeavyFemaleGrineerAvatarDesert",
+    "name": "Arid Heavy Gunner",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/HeavyFemaleGrineerAvatarDesertLeader",
+    "name": "Arid Heavy Gunner",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/JetpackMarineAvatar",
+    "name": "Arid Hellion",
+    "faction": "Grineer",
+    "health": 180,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/RifleLancerAvatar",
+    "name": "Arid Lancer",
+    "faction": "Rifle",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/RifleLancerAvatarLeader",
+    "name": "Arid Lancer",
+    "faction": "Rifle",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/GrineerMarinePistolAvatar",
+    "name": "Arid Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/GrineerMarinePistolAvatarLeader",
+    "name": "Arid Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/ShotgunLancerAvatar",
+    "name": "Arid Trooper",
+    "faction": "Shotgun",
+    "health": 120,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/ShotgunLancerAvatarLeader",
+    "name": "Arid Trooper",
+    "faction": "Shotgun",
+    "health": 120,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Commanders/Avatars/VenusCommanderAquaAvatar",
+    "name": "Armaments Director",
+    "faction": "Corpus",
+    "health": 1750,
+    "armor": 100,
+    "shields": 1200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamD/CCTeamDBusterAAvatar",
+    "name": "Armis Ulta",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SpecialEvents/GrineerArtificerAvatar",
+    "name": "Artificer",
+    "faction": "Grineer",
+    "health": 1500,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/ForestRodent/UncommonForestRodentAvatar",
+    "name": "Ashen Kuaka",
+    "faction": "Neutral",
+    "health": 1,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/DroneAvatars/DroneAttackAvatarLeader",
+    "name": "Attack Drone",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 75
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/CrpSpaceDroneAttackAvatar",
+    "name": "Attack Drone",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 75
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/CrpSpaceDroneAttackAvatarLeader",
+    "name": "Attack Drone",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 75
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamB/CCTeamBRiotMoaAvatar",
+    "name": "Auditor",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamB/CCTeamBHyenaAvatar",
+    "name": "Azoth",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/GrineerChargerAvatarLeader",
+    "name": "Bailiff",
+    "faction": "Grineer",
+    "health": 700,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressGrineerChargerAvatar",
+    "name": "Bailiff",
+    "faction": "Grineer",
+    "health": 700,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/FemaleGrineerAvatar",
+    "name": "Ballista",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/FemaleGrineerAvatarLeader",
+    "name": "Ballista",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Troopers/SentientTrooperAvatar",
+    "name": "Battalyst",
+    "faction": "Sentient",
+    "health": 1150,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowArmadillo/UncommonSnowArmadilloAvatar",
+    "name": "Black-Banded Bolarola",
+    "faction": "Neutral",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/SpawningAncientAvatar",
+    "name": "Boiler",
+    "faction": "Infested",
+    "health": 1200,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/SpawningAncientAvatarLeader",
+    "name": "Boiler",
+    "faction": "Infested",
+    "health": 1000,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RocketBombardAvatar",
+    "name": "Bombard",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RocketBombardAvatarLeader",
+    "name": "Bombard",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/LegendaryKubrow/CommonLegendaryKubrowAvatar",
+    "name": "Brindle Kubrodon",
+    "faction": "Neutral",
+    "health": 1000,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/DiseasedAncientAvatar",
+    "name": "Brood Mother",
+    "faction": "Infested",
+    "health": 700,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/DiseasedAncientAvatarLeader",
+    "name": "Brood Mother",
+    "faction": "Infested",
+    "health": 600,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/BladeSawmanAvatar",
+    "name": "Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/BladeSawmanAvatarLeader",
+    "name": "Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/Avatars/CaptainVorBossAvatar",
+    "name": "Captain Vor",
+    "faction": "Grineer",
+    "health": 900,
+    "armor": 250,
+    "shields": 900
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SpecialEvents/ArtificerSuicideDroneAvatar",
+    "name": "Carabus",
+    "faction": "Grineer",
+    "health": 750,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/Ships/SwarmShipAvatar",
+    "name": "Carrier",
+    "faction": "Orbiter",
+    "health": 100,
+    "armor": 75,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Quadrupeds/QuadrupedColonistAvatar",
+    "name": "Carrion Charger",
+    "faction": "Infested",
+    "health": 80,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Quadrupeds/QuadrupedColonistAvatarLeader",
+    "name": "Carrion Charger",
+    "faction": "Infested",
+    "health": 80,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Quadrupeds/QuadrupedAvatar",
+    "name": "Charger",
+    "faction": "Infested",
+    "health": 80,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Quadrupeds/QuadrupedAvatarLeader",
+    "name": "Charger",
+    "faction": "Infested",
+    "health": 80,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/TennoReplicantChromaAvatar",
+    "name": "Chroma",
+    "faction": "Infested",
+    "health": 2000,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/Hyenas/VenusHyenaPacerAvatar",
+    "name": "Cinderthresh Hyena",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 50,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Friendly/ClemAvatar",
+    "name": "Clem",
+    "faction": "Tenno",
+    "health": 300,
+    "armor": 300,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/OstronSeaBird/CommonOstronSeaBirdAvatar",
+    "name": "Coastal Mergoo",
+    "faction": "Neutral",
+    "health": 1,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/GrineerAvatars/GrineerMarineLeaderAvatar",
+    "name": "Commander",
+    "faction": "Grineer",
+    "health": 500,
+    "armor": 95,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/BirdOfPrey/CommonBirdOfPreyAvatar",
+    "name": "Common Condroc",
+    "faction": "Neutral",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Troopers/SentientMeleeTrooperAvatar",
+    "name": "Conculyst",
+    "faction": "Sentient",
+    "health": 1150,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Dropship/CorpusDropshipAvatar",
+    "name": "Condor Dropship",
+    "faction": "Corpus",
+    "health": 1000,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Ambulas/AmbulasDropshipAvatar",
+    "name": "Condor Storm Dropship",
+    "faction": "Corpus",
+    "health": 1000,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/BirdOfPrey/BaseBirdOfPreyAvatar",
+    "name": "Condroc",
+    "faction": "Neutral",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Arachnoid/ArachnoidCoolantAvatar",
+    "name": "Coolant Raknoid",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 250,
+    "shields": 2000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Vip/Avatars/VenusVipRifleSpacemanAvatar",
+    "name": "Corpus Cestra Target",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 75,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/CarrierSpacemanAvatar",
+    "name": "Corpus Power Carrier",
+    "faction": "Corpus",
+    "health": 650,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusCarrierSpacemanAvatar",
+    "name": "Corpus Power Carrier",
+    "faction": "Corpus",
+    "health": 650,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Vip/Avatars/VenusVipSniperSpacemanAvatar",
+    "name": "Corpus Sniper Target",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 75,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Vip/Avatars/VenusVipShotgunSpacemanAvatar",
+    "name": "Corpus Supra Target",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 75,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CaptureTargets/CaptureTargetCorpus",
+    "name": "Corpus Target",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 20,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/DeployableSpacemanAvatar",
+    "name": "Corpus Tech",
+    "faction": "Corpus",
+    "health": 700,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/DeployableSpacemanAvatarLeader",
+    "name": "Corpus Tech",
+    "faction": "Corpus",
+    "health": 700,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Vip/Avatars/VenusVipPowerSpacemanAvatar",
+    "name": "Corpus Trencher Target",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 75,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Gamemodes/DeployableSpacemanWardenAvatar",
+    "name": "Corpus Warden",
+    "faction": "Corpus",
+    "health": 400,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Gamemodes/DeployableSpacemanWardenAvatarLeader",
+    "name": "Corpus Warden",
+    "faction": "Corpus",
+    "health": 400,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinHealingAncientAvatar",
+    "name": "Corrupted Ancient",
+    "faction": "Orokin",
+    "health": 400,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinHealingAncientLeaderAvatar",
+    "name": "Corrupted Ancient",
+    "faction": "Orokin",
+    "health": 400,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinRocketBombardAvatar",
+    "name": "Corrupted Bombard",
+    "faction": "Orokin",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinRocketBombardAvatarLeader",
+    "name": "Corrupted Bombard",
+    "faction": "Orokin",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinBladeSawmanAvatar",
+    "name": "Corrupted Butcher",
+    "faction": "Orokin",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinBladeSawmanAvatarLeader",
+    "name": "Corrupted Butcher",
+    "faction": "Orokin",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/RifleSpacemanAvatar",
+    "name": "Corrupted Crewman",
+    "faction": "Rifle",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/RifleSpacemanLeaderAvatar",
+    "name": "Corrupted Crewman",
+    "faction": "Rifle",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinDroneAttackAvatar",
+    "name": "Corrupted Drone",
+    "faction": "Orokin",
+    "health": 250,
+    "armor": 0,
+    "shields": 75
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinHeavyFemaleAvatar",
+    "name": "Corrupted Heavy Gunner",
+    "faction": "Orokin",
+    "health": 700,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinHeavyFemaleLeaderAvatar",
+    "name": "Corrupted Heavy Gunner",
+    "faction": "Orokin",
+    "health": 700,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/RifleLancerAvatar",
+    "name": "Corrupted Lancer",
+    "faction": "Rifle",
+    "health": 60,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/RifleLancerLeaderAvatar",
+    "name": "Corrupted Lancer",
+    "faction": "Rifle",
+    "health": 60,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinMoaBipedAvatar",
+    "name": "Corrupted Moa",
+    "faction": "Orokin",
+    "health": 250,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinMoaBipedLeaderAvatar",
+    "name": "Corrupted Moa",
+    "faction": "Orokin",
+    "health": 250,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinNullifySpacemanAvatar",
+    "name": "Corrupted Nullifier",
+    "faction": "Orokin",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinNullifySpacemanAvatarLeader",
+    "name": "Corrupted Nullifier",
+    "faction": "Orokin",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/VorTwo/VorTwoBossAvatar",
+    "name": "Corrupted Vor",
+    "faction": "Grineer",
+    "health": 1500,
+    "armor": 250,
+    "shields": 1500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/Gamemodes/CorruptedWardenAvatar",
+    "name": "Corrupted Warden",
+    "faction": "Orokin",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/Gamemodes/CorruptedWardenAvatarLeader",
+    "name": "Corrupted Warden",
+    "faction": "Orokin",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/Ships/FlakShipAvatar",
+    "name": "Corvette",
+    "faction": "Orbiter",
+    "health": 100,
+    "armor": 75,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/Ships/FlakShipAvatarLeader",
+    "name": "Corvette",
+    "faction": "Orbiter",
+    "health": 100,
+    "armor": 75,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/Hek/HekDroneAvatar",
+    "name": "Councilor Vay Hek",
+    "faction": "Grineer",
+    "health": 1800,
+    "armor": 225,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/CrawlerAvatar",
+    "name": "Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/CrawlerAvatarLeader",
+    "name": "Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/RifleSpacemanAvatar",
+    "name": "Crewman",
+    "faction": "Rifle",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/RifleSpacemanAvatarLeader",
+    "name": "Crewman",
+    "faction": "Rifle",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowPredator/CommonSnowPredatorAvatar",
+    "name": "Dappled Horrasque",
+    "faction": "Predator",
+    "health": 22,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Water/Grineer/Avatars/SquidLancerAvatar",
+    "name": "Darek Draga",
+    "faction": "Grineer",
+    "health": 130,
+    "armor": 10,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Skiffs/GrineerSpaceMarineAvatar",
+    "name": "Dargyn",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Skiffs/GrineerSpaceMarineAvatarLeader",
+    "name": "Dargyn",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonSkiffPilotAvatar",
+    "name": "Dargyn Pilot",
+    "faction": "Grineer",
+    "health": 120,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/SpecialEvents/CorpusArtificerAvatar",
+    "name": "Datalyst",
+    "faction": "Corpus",
+    "health": 1300,
+    "armor": 0,
+    "shields": 600
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Troopers/SentientVoidTrooperAvatar",
+    "name": "Decaying Battalyst",
+    "faction": "Sentient",
+    "health": 1000,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Troopers/SentientVoidMeleeTrooperAvatar",
+    "name": "Decaying Conculyst",
+    "faction": "Sentient",
+    "health": 1000,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowRodent/UncommonSnowRodentAvatar",
+    "name": "Delicate Pobber",
+    "faction": "Prey",
+    "health": 2,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamPilotGhostBossAvatar",
+    "name": "Demolyst",
+    "faction": "Corpus",
+    "health": 400,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCorpusSniperBossAvatar",
+    "name": "Demolyst Heqet",
+    "faction": "Corpus",
+    "health": 2000,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamCarrusPilotBossAvatar",
+    "name": "Demolyst Machinist",
+    "faction": "Corpus",
+    "health": 2000,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamMoaBossAvatar",
+    "name": "Demolyst Moa",
+    "faction": "Corpus",
+    "health": 2000,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamOspreyBossAvatar",
+    "name": "Demolyst Osprey",
+    "faction": "Corpus",
+    "health": 1000,
+    "armor": 0,
+    "shields": 600
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/AmalgamMoaSatyrBossAvatar",
+    "name": "Demolyst Satyr",
+    "faction": "Corpus",
+    "health": 2000,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/RiotBipedPreventionAvatar",
+    "name": "Denial Bursa",
+    "faction": "Corpus",
+    "health": 1200,
+    "armor": 200,
+    "shields": 700
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamC/CCTeamCSimplifiedHackerAvatar",
+    "name": "Derim Zahn",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/CreatureAvatars/SandRayAvatar",
+    "name": "Desert Skate",
+    "faction": "Neutral",
+    "health": 250,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/ShotgunSpacemanAvatar",
+    "name": "Detron Crewman",
+    "faction": "Shotgun",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/ShotgunSpacemanAvatarLeader",
+    "name": "Detron Crewman",
+    "faction": "Shotgun",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Water/Grineer/Avatars/FrogLancerAvatar",
+    "name": "Draga",
+    "faction": "Grineer",
+    "health": 120,
+    "armor": 10,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/CombatKubrowAvatar",
+    "name": "Drahk",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/BeastMasterAvatar",
+    "name": "Drahk Master",
+    "faction": "Grineer",
+    "health": 500,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Drones/GrineerSpaceDroneAvatar",
+    "name": "Dreg",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Drones/GrineerSpaceDroneAvatarLeader",
+    "name": "Dreg",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/FemaleGrineerSniperAvatar",
+    "name": "Drekar Ballista",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/FemaleGrineerSniperAvatarLeader",
+    "name": "Drekar Ballista",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/BladeSawmanAvatar",
+    "name": "Drekar Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/BladeSawmanAvatarLeader",
+    "name": "Drekar Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/EliteRifleLancerAvatar",
+    "name": "Drekar Elite Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/EliteRifleLancerAvatarLeader",
+    "name": "Drekar Elite Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/EvisceratorLancerAvatar",
+    "name": "Drekar Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/EvisceratorLancerAvatarLeader",
+    "name": "Drekar Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/FemaleGrineerHeavyAvatar",
+    "name": "Drekar Heavy Gunner",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/FemaleGrineerHeavyAvatarLeader",
+    "name": "Drekar Heavy Gunner",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/JetpackMarineAvatar",
+    "name": "Drekar Hellion",
+    "faction": "Grineer",
+    "health": 180,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/RifleLancerAvatar",
+    "name": "Drekar Lancer",
+    "faction": "Rifle",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/RifleLancerAvatarLeader",
+    "name": "Drekar Lancer",
+    "faction": "Rifle",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/SeaLabManicGrineerAvatar",
+    "name": "Drekar Manic",
+    "faction": "Grineer",
+    "health": 450,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/SeaLabManicBombardAvatar",
+    "name": "Drekar Manic Bombard",
+    "faction": "Grineer",
+    "health": 1750,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/FemaleGrineerMacheteAvatar",
+    "name": "Drekar Scorpion",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/FemaleGrineerMacheteAvatarLeader",
+    "name": "Drekar Scorpion",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/GrineerMarinePistolAvatar",
+    "name": "Drekar Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/GrineerMarinePistolAvatarLeader",
+    "name": "Drekar Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/ShotgunLancerAvatar",
+    "name": "Drekar Trooper",
+    "faction": "Shotgun",
+    "health": 120,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SeaLab/Avatars/ShotgunLancerAvatarLeader",
+    "name": "Drekar Trooper",
+    "faction": "Shotgun",
+    "health": 120,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/RiotBipedControlAvatar",
+    "name": "Drover Bursa",
+    "faction": "Corpus",
+    "health": 1200,
+    "armor": 200,
+    "shields": 700
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamD/CCTeamDBusterBAvatar",
+    "name": "Dru Pesfor",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/GrineerWorkerAvatarB",
+    "name": "Drudge Brazer",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 75,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/GrineerWorkerAvatar",
+    "name": "Drudge Foreman",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 75,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/GrineerWorkerAvatarC",
+    "name": "Drudge Scrapper",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 75,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowCritter/UncommonSnowCritterAvatar",
+    "name": "Dusky-Headed Virmink",
+    "faction": "Predator",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Eidolon/SentientTeralystBigAvatar",
+    "name": "Eidolon Gantulyst",
+    "faction": "Sentient",
+    "health": 15000,
+    "armor": 200,
+    "shields": 2500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Eidolon/SentientTeralystRainAvatar",
+    "name": "Eidolon Hydrolyst",
+    "faction": "Sentient",
+    "health": 15000,
+    "armor": 200,
+    "shields": 2500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/VomvalystLure/EidolonVomLureAvatar",
+    "name": "Eidolon Lure",
+    "faction": "Grineer",
+    "health": 1000,
+    "armor": 100,
+    "shields": 600
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Eidolon/SentientTeralystAvatar",
+    "name": "Eidolon Teralyst",
+    "faction": "Sentient",
+    "health": 15000,
+    "armor": 200,
+    "shields": 2500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Eidolon/SentientVomvalystAvatar",
+    "name": "Eidolon Vomvalyst",
+    "faction": "Sentient",
+    "health": 700,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/LightningAvatar",
+    "name": "Electric Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/LightningAvatarLeader",
+    "name": "Electric Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/EliteRifleLancerAvatar",
+    "name": "Elite Arid Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Desert/Avatars/EliteRifleLancerAvatarLeader",
+    "name": "Elite Arid Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/EliteSpacemanAvatar",
+    "name": "Elite Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/EliteSpacemanAvatarLeader",
+    "name": "Elite Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/EliteRifleLancerAvatar",
+    "name": "Elite Frontier Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/EliteRifleLancerAvatarLeader",
+    "name": "Elite Frontier Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/EliteRifleLancerAvatar",
+    "name": "Elite Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/EliteRifleLancerAvatarLeader",
+    "name": "Elite Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantEmberAvatar",
+    "name": "Ember Specter",
+    "faction": "Orokin",
+    "health": 1800,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/BirdOfPrey/RareBirdOfPreyAvatar",
+    "name": "Emperor Condroc",
+    "faction": "Neutral",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantYinYangAvatar",
+    "name": "Equinox Specter",
+    "faction": "Orokin",
+    "health": 1800,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/EviseratorLancerAvatar",
+    "name": "Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/EviseratorLancerAvatarLeader",
+    "name": "Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantExcaliburAvatar",
+    "name": "Excalibur Specter",
+    "faction": "Orokin",
+    "health": 1800,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionHeavyAvatar",
+    "name": "Executioner Dhurnam",
+    "faction": "Grineer",
+    "health": 125,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionHealerAvatar",
+    "name": "Executioner Dok Thul",
+    "faction": "Grineer",
+    "health": 125,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionChargerAvatar",
+    "name": "Executioner Garesh",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionTankAvatar",
+    "name": "Executioner Gorth",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionSniperAvatar",
+    "name": "Executioner Harkonar",
+    "faction": "Grineer",
+    "health": 125,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionGruntAvatar",
+    "name": "Executioner Nok",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionEngineerAvatar",
+    "name": "Executioner Reth",
+    "faction": "Grineer",
+    "health": 125,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionJetpackAvatar",
+    "name": "Executioner Vay Molta",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/GrineerChampions/GrineerChampionBeastmasterAvatar",
+    "name": "Executioner Zura",
+    "faction": "Grineer",
+    "health": 175,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Arachnoid/ArachnoidCamperTerraAvatar",
+    "name": "Exploiter Orb",
+    "faction": "Corpus",
+    "health": 12000,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/FairyQuest/FairyQuestPaladinAvatar",
+    "name": "Feyarch Specter",
+    "faction": "Orokin",
+    "health": 2250,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/OrokinKubrow/RareOrokinKubrowAvatar",
+    "name": "Fire-Veined Stover",
+    "faction": "Predator",
+    "health": 200,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/BlowtorchSawmanAvatar",
+    "name": "Flameblade",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowBird/CommonSnowBirdAvatar",
+    "name": "Flossy Sawgaw",
+    "faction": "Predator",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/ModularSpacemanAvatarWalkingDetector",
+    "name": "Fog Comba",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/ModularSpacemanAvatarSkatingDetector",
+    "name": "Fog Scrambus",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/Ships/LaserShipAvatar",
+    "name": "Frigate",
+    "faction": "Orbiter",
+    "health": 100,
+    "armor": 75,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/Ships/LaserShipAvatarLeader",
+    "name": "Frigate",
+    "faction": "Orbiter",
+    "health": 100,
+    "armor": 75,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowBird/RareSnowBirdAvatar",
+    "name": "Frogmouthed Sawgaw",
+    "faction": "Predator",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/BladeSawmanAvatar",
+    "name": "Frontier Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/BladeSawmanAvatarLeader",
+    "name": "Frontier Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/EvisceratorLancerAvatar",
+    "name": "Frontier Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/EvisceratorLancerAvatarLeader",
+    "name": "Frontier Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/HeavyFemaleGrineerAvatarDesert",
+    "name": "Frontier Heavy Gunner",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/HeavyFemaleGrineerAvatarDesertLeader",
+    "name": "Frontier Heavy Gunner",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/JetpackMarineAvatar",
+    "name": "Frontier Hellion",
+    "faction": "Grineer",
+    "health": 180,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/RifleLancerAvatar",
+    "name": "Frontier Lancer",
+    "faction": "Rifle",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/RifleLancerAvatarLeader",
+    "name": "Frontier Lancer",
+    "faction": "Rifle",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SpecialEvents/ForestDroneAvatar",
+    "name": "Frontier Regulator",
+    "faction": "Grineer",
+    "health": 1,
+    "armor": 0,
+    "shields": 99
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/GrineerMarinePistolAvatar",
+    "name": "Frontier Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/GrineerMarinePistolAvatarLeader",
+    "name": "Frontier Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/ShotgunLancerAvatar",
+    "name": "Frontier Trooper",
+    "faction": "Shotgun",
+    "health": 65,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Forest/Avatars/ShotgunLancerAvatarLeader",
+    "name": "Frontier Trooper",
+    "faction": "Shotgun",
+    "health": 65,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantFrostAvatar",
+    "name": "Frost Specter",
+    "faction": "Orokin",
+    "health": 1300,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Friendly/Agents/HiveMode/InfestedHiveAvatarA",
+    "name": "Frozen Infested Hive",
+    "faction": "Infested",
+    "health": 4500,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/OrokinKubrow/UncommonOrokinKubrowAvatar",
+    "name": "Fuming Dax Stover",
+    "faction": "Predator",
+    "health": 200,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/SuperMoaBipedAvatar",
+    "name": "Fusion Moa",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/SuperMoaBipedAvatarLeader",
+    "name": "Fusion Moa",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Friendly/Agents/HiveMode/InfestedHiveAvatarB",
+    "name": "Gas Infested Hive",
+    "faction": "Infested",
+    "health": 4500,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/SargasRuk/Avatars/SargasRukAvatarNew",
+    "name": "General Sargas Ruk",
+    "faction": "Grineer",
+    "health": 2000,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/ForestRodent/RareForestRodentAvatar",
+    "name": "Ghost Kuaka",
+    "faction": "Neutral",
+    "health": 1,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Ghouls/GhoulDrillAvatar",
+    "name": "Ghoul Auger",
+    "faction": "Grineer",
+    "health": 400,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Ghouls/Vip/GhoulDrillVipAvatar",
+    "name": "Ghoul Auger Alpha",
+    "faction": "Grineer",
+    "health": 1200,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Ghouls/GhoulDevourerAvatar",
+    "name": "Ghoul Devourer",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Ghouls/GhoulExpiredAvatar",
+    "name": "Ghoul Expired",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Friendly/Rescue/GhoulRescueAvatar",
+    "name": "Ghoul Expired Deserter",
+    "faction": "Tenno",
+    "health": 150,
+    "armor": 20,
+    "shields": 80
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Ghouls/GhoulSawmanAvatar",
+    "name": "Ghoul Rictus",
+    "faction": "Grineer",
+    "health": 400,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Ghouls/Vip/GhoulSawmanVipAvatar",
+    "name": "Ghoul Rictus Alpha",
+    "faction": "Grineer",
+    "health": 1200,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CaptureTargets/CaptureTargetGhoulAvatar",
+    "name": "Ghoul Target",
+    "faction": "Grineer",
+    "health": 1000,
+    "armor": 60,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/Ships/CrpPodAvatar",
+    "name": "Gox",
+    "faction": "Orbiter",
+    "health": 350,
+    "armor": 500,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/ManicGrineerAvatar",
+    "name": "Grineer Manic",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/CarrierRifleLancerAvatar",
+    "name": "Grineer Power Carrier",
+    "faction": "Grineer",
+    "health": 650,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CaptureTargets/CaptureTargetGrineer",
+    "name": "Grineer Target",
+    "faction": "Grineer",
+    "health": 800,
+    "armor": 60,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Gamemodes/WardenGrineerHeavyAvatar",
+    "name": "Grineer Warden",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Gamemodes/WardenGrineerHeavyAvatarLeader",
+    "name": "Grineer Warden",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/GrineerMeleeStaffAvatar",
+    "name": "Guardsman",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/GrineerMeleeStaffAvatarLeader",
+    "name": "Guardsman",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/Hyenas/VenusHyenaHotrodAvatar",
+    "name": "Gyre Hyena",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 25,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonHackableDroneAvatar",
+    "name": "Hacked Drone",
+    "faction": "Tenno",
+    "health": 900,
+    "armor": 300,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/HeavyFemaleGrineerAvatar",
+    "name": "Heavy Gunner",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/HeavyFemaleGrineerAvatarLeader",
+    "name": "Heavy Gunner",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/JetpackMarineAvatar",
+    "name": "Hellion",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Skiffs/MissileSkiffAvatar",
+    "name": "Hellion Dargyn",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Skiffs/MissileSkiffAvatarLeader",
+    "name": "Hellion Dargyn",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/JetpackMarineCarrierAvatar",
+    "name": "Hellion Power Carrier",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/Eidolon/EidolonLephantisAvatar",
+    "name": "Hemocyte",
+    "faction": "Infested",
+    "health": 2200,
+    "armor": 175,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowPredator/RareSnowPredatorAvatar",
+    "name": "Horrasque Stormer",
+    "faction": "Predator",
+    "health": 22,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/CombatCatbrowAvatar",
+    "name": "Hyekka",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 175,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/CatMasterAvatar",
+    "name": "Hyekka Master",
+    "faction": "Grineer",
+    "health": 650,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Hyena/HyenaIceAvatar",
+    "name": "Hyena Ln2",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 25,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Hyena/HyenaFireAvatar",
+    "name": "Hyena Ng",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 25,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Hyena/HyenaGunAvatar",
+    "name": "Hyena Pb",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 25,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Hyena/HyenaElecAvatar",
+    "name": "Hyena Th",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 25,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/Hyenas/VenusHyenaAstroAvatar",
+    "name": "Icemire Hyena",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 25,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/TennoReplicantGunslingerAvatar",
+    "name": "Infested Mesa",
+    "faction": "Infested",
+    "health": 1700,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/RiotBipedDispersionAvatar",
+    "name": "Isolator Bursa",
+    "faction": "Corpus",
+    "health": 1200,
+    "armor": 200,
+    "shields": 700
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/Vip/J3Golem/J3GolemSpaceAvatar",
+    "name": "J3 Jordas Golem",
+    "faction": "Infested",
+    "health": 20000,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/QuadRobot/QuadRobotAvatar",
+    "name": "Jackal",
+    "faction": "Corpus",
+    "health": 1200,
+    "armor": 100,
+    "shields": 2000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/QuadAvatar",
+    "name": "Jackal",
+    "faction": "Corpus",
+    "health": 3000,
+    "armor": 100,
+    "shields": 3000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/QuadLeaderAvatar",
+    "name": "Jackal",
+    "faction": "Corpus",
+    "health": 5000,
+    "armor": 100,
+    "shields": 3000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamB/CCTeamBDisruptorAvatar",
+    "name": "Jad Teran",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamC/CCTeamCDeceptionAvatar",
+    "name": "Jen Dro",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/Vip/J3Golem/JuniorGolemSpaceAvatar",
+    "name": "Jordas Golem",
+    "faction": "Infested",
+    "health": 20000,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Quadrupeds/JuggernautAvatar",
+    "name": "Juggernaut",
+    "faction": "Infested",
+    "health": 3500,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Quadrupeds/JuggernautAvatarBoss",
+    "name": "Juggernaut Behemoth",
+    "faction": "Infested",
+    "health": 4500,
+    "armor": 300,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Catbrow/CatbrowAvatar",
+    "name": "Kavat",
+    "faction": "Neutral",
+    "health": 300,
+    "armor": 175,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/SyndicateAllies/ColonyRescueAllies/ColonistRescueSteelMeridianAvatarA",
+    "name": "Kavor Defector",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/SyndicateAllies/ColonyRescueAllies/ColonistRescueSteelMeridianAvatarB",
+    "name": "Kavor Defector",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/SyndicateAllies/ColonyRescueAllies/ColonistRescueSteelMeridianAvatarC",
+    "name": "Kavor Defector",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/SyndicateAllies/ColonyRescueAllies/ColonistRescueSteelMeridianAvatarD",
+    "name": "Kavor Defector",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/KelaDeThaym/KelaDeThaymAvatar",
+    "name": "Kela De Thaym",
+    "faction": "Grineer",
+    "health": 7250,
+    "armor": 250,
+    "shields": 1400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/FairyQuest/FairyQuestLokiAvatar",
+    "name": "Knave Specter",
+    "faction": "Orokin",
+    "health": 1250,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/ForestRodent/BaseForestRodentAvatar",
+    "name": "Kuaka",
+    "faction": "Neutral",
+    "health": 1,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/LegendaryKubrow/RareLegendaryKubrowAvatar",
+    "name": "Kubrodon Incarnadine",
+    "faction": "Neutral",
+    "health": 1000,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Kubrow/KubrowAvatar",
+    "name": "Kubrow",
+    "faction": "Neutral",
+    "health": 200,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/GhostTower/GhostAvatar",
+    "name": "Kuva",
+    "faction": "Grineer",
+    "health": 250,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressFemaleGrineerAvatar",
+    "name": "Kuva Ballista",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressRocketBombardAvatar",
+    "name": "Kuva Bombard",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressBladeSawmanAvatar",
+    "name": "Kuva Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressSkiffAvatar",
+    "name": "Kuva Dargyn",
+    "faction": "Grineer",
+    "health": 450,
+    "armor": 125,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressBeastMasterAvatar",
+    "name": "Kuva Drahk Master",
+    "faction": "Grineer",
+    "health": 500,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressEliteRifleLancerAvatar",
+    "name": "Kuva Elite Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressEviseratorLancerAvatar",
+    "name": "Kuva Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressBlowtorchSawmanAvatar",
+    "name": "Kuva Flameblade",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/GrineerRoyalGuard/GrineerRoyalGuardAvatar",
+    "name": "Kuva Guardian",
+    "faction": "Grineer",
+    "health": 400,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressHeavyFemaleGrineerAvatar",
+    "name": "Kuva Heavy Gunner",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressJetpackMarineAvatar",
+    "name": "Kuva Hellion",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressCatMasterAvatar",
+    "name": "Kuva Hyekka Master",
+    "faction": "Grineer",
+    "health": 650,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/RoyalJester/RoyalJesterAvatar",
+    "name": "Kuva Jester",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressRifleLancerAvatar",
+    "name": "Kuva Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressIncendiaryBombardAvatar",
+    "name": "Kuva Napalm",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressPistonSawmanAvatar",
+    "name": "Kuva Powerclaw",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressRollingDroneAvatar",
+    "name": "Kuva Roller",
+    "faction": "Grineer",
+    "health": 40,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressFlameLancerAvatar",
+    "name": "Kuva Scorch",
+    "faction": "Grineer",
+    "health": 120,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressMacheteWomanAvatar",
+    "name": "Kuva Scorpion",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressGrineerMarinePistolAvatar",
+    "name": "Kuva Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressShieldLancerAvatar",
+    "name": "Kuva Shield Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/GhostTower/VoidNegationTower/VoidNegationTowerAvatar",
+    "name": "Kuva Siphon",
+    "faction": "Grineer",
+    "health": 1000,
+    "armor": 0,
+    "shields": 1
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Fortress/Avatars/FortressShotgunLancerAvatar",
+    "name": "Kuva Trooper",
+    "faction": "Grineer",
+    "health": 120,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Arachnoid/ArachnoidWraithAvatar",
+    "name": "Kyta Raknoid",
+    "faction": "Corpus",
+    "health": 4000,
+    "armor": 150,
+    "shields": 10000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RifleLancerAvatar",
+    "name": "Lancer",
+    "faction": "Rifle",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RifleLancerAvatarLeader",
+    "name": "Lancer",
+    "faction": "Rifle",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Drones/LaserDroneAvatar",
+    "name": "Lancer Dreg",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Drones/LaserDroneAvatarLeader",
+    "name": "Lancer Dreg",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Friendly/Agents/HiveMode/InfestedHiveAvatarD",
+    "name": "Lancing Infested Hive",
+    "faction": "Infested",
+    "health": 4500,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/StickyRollingDroneAvatar",
+    "name": "Latcher",
+    "faction": "Tenno",
+    "health": 1,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Runners/LeapingRunnerAvatar",
+    "name": "Leaper",
+    "faction": "Infested",
+    "health": 100,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Runners/LeapingRunnerAvatarLeader",
+    "name": "Leaper",
+    "faction": "Infested",
+    "health": 100,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/LeechDroneAvatar",
+    "name": "Leech Osprey",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/LeechDroneAvatarLeader",
+    "name": "Leech Osprey",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/DeathSquad/Avatars/DeathSquadAvatarB",
+    "name": "Leekter",
+    "faction": "Grineer",
+    "health": 1700,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/Vip/Avatars/GolemFullAvatar",
+    "name": "Lephantis",
+    "faction": "Infested",
+    "health": 1200,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/GrenadeAvatar",
+    "name": "Lobber Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/GrenadeAvatarLeader",
+    "name": "Lobber Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamA/CCTeamAZanukaAvatar",
+    "name": "Lockjaw & Sol",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/Drones/SwarmDroneAvatar",
+    "name": "Locust Drone",
+    "faction": "Corpus",
+    "health": 10,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantLokiAvatar",
+    "name": "Loki Specter",
+    "faction": "Orokin",
+    "health": 160,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/Avatars/BossLechKrilAvatar",
+    "name": "Lt Lech Kril",
+    "faction": "Grineer",
+    "health": 4000,
+    "armor": 250,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/QuadRobot/MiniBoss/QuadRobotMiniBossAvatar",
+    "name": "Lynx",
+    "faction": "Corpus",
+    "health": 1000,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/QuadRobot/MiniBoss/ShieldDroneMiniBossAvatar",
+    "name": "Lynx Osprey",
+    "faction": "Corpus",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/QuadRobot/MiniBoss/TurretQuadMiniBossAvatar",
+    "name": "Lynx Turret",
+    "faction": "Corpus",
+    "health": 50,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamC/CCTeamCMoaAvatar",
+    "name": "M-W.A.M.",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Amalgams/Avatars/CorpusCarrusPilotAvatar",
+    "name": "Machinist",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 230
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantMagAvatar",
+    "name": "Mag Specter",
+    "faction": "Orokin",
+    "health": 1800,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Quadrupeds/RusherAvatar",
+    "name": "Maggot",
+    "faction": "Infested",
+    "health": 20,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Acolytes/HeavyAcolyteAvatar",
+    "name": "Malice",
+    "faction": "Stalker",
+    "health": 350,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Acolytes/RogueAcolyteAvatar",
+    "name": "Mania",
+    "faction": "Stalker",
+    "health": 350,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/ManicRocketBombardAvatar",
+    "name": "Manic Bombard",
+    "faction": "Grineer",
+    "health": 1500,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/ManicRocketBombardAvatarLeader",
+    "name": "Manic Bombard",
+    "faction": "Grineer",
+    "health": 1500,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantGunslingerAvatarRelayBoss",
+    "name": "Mesa Specter",
+    "faction": "Orokin",
+    "health": 1800,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Mimics/SentientTrooperMimicAvatar",
+    "name": "Mimic",
+    "faction": "Sentient",
+    "health": 800,
+    "armor": 125,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/MineDroneAvatar",
+    "name": "Mine Osprey",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/MineDroneAvatarLeader",
+    "name": "Mine Osprey",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Acolytes/AreaCasterAcolyteAvatar",
+    "name": "Misery",
+    "faction": "Stalker",
+    "health": 4000,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/LaserCannonBipedAvatar",
+    "name": "Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/LaserCannonBipedAvatarLeader",
+    "name": "Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonAutoMortarTurretAvatar",
+    "name": "Mordda Turret",
+    "faction": "Grineer",
+    "health": 1100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/InfestedAladV/InfestedAladBossAvatar",
+    "name": "Mutalist Alad V",
+    "faction": "Infested",
+    "health": 2500,
+    "armor": 500,
+    "shields": 1200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/InfestedDrones/PoisonDroneAvatar",
+    "name": "Mutalist Osprey",
+    "faction": "Infested",
+    "health": 200,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/InfestedDrones/CellCarrierDroneAvatar",
+    "name": "Mutalist Osprey Carrier",
+    "faction": "Infested",
+    "health": 200,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamA/CCTeamARifleAvatar",
+    "name": "Nako Xol",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/IncendiaryBombardAvatar",
+    "name": "Napalm",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/IncendiaryBombardAvatarLeader",
+    "name": "Napalm",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/GraspingCrawlerAvatar",
+    "name": "Nauseous Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/GraspingCrawlerAvatarLeader",
+    "name": "Nauseous Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/SpecialEvents/ArtificerSuicideDroneAvatar",
+    "name": "Nemes",
+    "faction": "Corpus",
+    "health": 750,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Gameplay/Race/OrbiterMediumAvatar",
+    "name": "Nemes Ranger",
+    "faction": "Corpus",
+    "health": 900,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/Vip/RaptorTwoSwarmDroneAvatar",
+    "name": "Nemes Rt",
+    "faction": "Corpus",
+    "health": 25,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Gameplay/Race/OrbiterSmallAvatar",
+    "name": "Nemes Scout",
+    "faction": "Corpus",
+    "health": 900,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchGrineerChargerAvatar",
+    "name": "Nightwatch Bailiff",
+    "faction": "Grineer",
+    "health": 700,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchHeavyGunnerAvatar",
+    "name": "Nightwatch Bombard",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightWatchShieldLancerAvatar",
+    "name": "Nightwatch Brunt Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchCarrierRifleLancerAvatar",
+    "name": "Nightwatch Carrier",
+    "faction": "Grineer",
+    "health": 650,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchFlamebladeAvatar",
+    "name": "Nightwatch Flameblade",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchCatMasterAvatar",
+    "name": "Nightwatch Hyekka Master",
+    "faction": "Grineer",
+    "health": 650,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchRifleLancerAvatar",
+    "name": "Nightwatch Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchManicAvatar",
+    "name": "Nightwatch Manic",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchPowerfistAvatar",
+    "name": "Nightwatch Powerclaw",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/JetpackHeavyMarineAvatar",
+    "name": "Nightwatch Reaver",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/NightwatchGrineerMarinePistolAvatar",
+    "name": "Nightwatch Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantNovaAvatar",
+    "name": "Nova Specter",
+    "faction": "Orokin",
+    "health": 1800,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/ChemStrike/ChemStrikeNoxAvatar",
+    "name": "Nox",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/ChemStrike/ChemStrikeNoxAvatarLeader",
+    "name": "Nox",
+    "faction": "Grineer",
+    "health": 350,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/ModularSpacemanAvatarWalkingShield",
+    "name": "Nul Comba",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/ModularSpacemanAvatarSkatingShield",
+    "name": "Nul Scrambus",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/NullifySpacemanAvatar",
+    "name": "Nullifier Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/NullifySpacemanAvatarLeader",
+    "name": "Nullifier Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CaptureTargets/CaptureTargetCorpusNullifierAvatar",
+    "name": "Nullifier Target",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Scouts/ScoutAvatar",
+    "name": "Oculyst",
+    "faction": "Sentient",
+    "health": 300,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Pods/CombatPodAvatar",
+    "name": "Ogma",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/Hek/PropDrones/StrikeDroneAvatar",
+    "name": "Orbital Strike Drone",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinShieldDroneAvatar",
+    "name": "Orokin Drone",
+    "faction": "Orokin",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinShieldDroneLeaderAvatar",
+    "name": "Orokin Drone",
+    "faction": "Orokin",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Orokin/OrokinAutoTurretAvatar",
+    "name": "Orokin Sentry",
+    "faction": "Orokin",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/CameraDroneAvatarOrokin",
+    "name": "Orokin Spectator",
+    "faction": "Orokin",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/CameraDroneAvatarOrokinLeader",
+    "name": "Orokin Spectator",
+    "faction": "Orokin",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/FairyQuest/FairyQuestSarynAvatar",
+    "name": "Orphid Specter",
+    "faction": "Orokin",
+    "health": 1500,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/SuicideDroneAvatar",
+    "name": "Oxium Osprey",
+    "faction": "Corpus",
+    "health": 750,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamA/CCTeamASkateAvatar",
+    "name": "Pelna Cade",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/CrewMan/JetpackMarineTwoAvatar",
+    "name": "Penta Ranger",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/CrewMan/JetpackMarineTwoAvatarLeader",
+    "name": "Penta Ranger",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/Vip/Avatars/QuadrupedVIPAvatar",
+    "name": "Phorid",
+    "faction": "Infested",
+    "health": 5000,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Vip/Avatars/EidolonVipGruntAvatar",
+    "name": "Plains Commander",
+    "faction": "Grineer",
+    "health": 1200,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/ForestRodent/CommonForestRodentAvatar",
+    "name": "Plains Kuaka",
+    "faction": "Neutral",
+    "health": 1,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/PistonSawmanAvatar",
+    "name": "Powerfist",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/PistonSawmanAvatarLeader",
+    "name": "Powerfist",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/MeleeSpacemanAvatar",
+    "name": "Prod Crewman",
+    "faction": "Melee",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/MeleeSpacemanAvatarLeader",
+    "name": "Prod Crewman",
+    "faction": "Melee",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Arachnoid/ArachnoidCamperAvatar",
+    "name": "Profit-Taker Orb",
+    "faction": "Corpus",
+    "health": 7000,
+    "armor": 150,
+    "shields": 30000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/Hek/PropDrones/PropDroneAvatar",
+    "name": "Propaganda Drone",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Friendly/Agents/HiveMode/InfestedHiveAvatarC",
+    "name": "Pulsing Infested Hive",
+    "faction": "Infested",
+    "health": 4500,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/CrewMan/JetpackMarineThreeAvatar",
+    "name": "Quanta Ranger",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/CrewMan/JetpackMarineThreeAvatarLeader",
+    "name": "Quanta Ranger",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/Hyenas/VenusHyenaBurnerAvatar",
+    "name": "Rabbleback Hyena",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 25,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/RailgunBipedAvatar",
+    "name": "Railgun Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/RailgunBipedAvatarLeader",
+    "name": "Railgun Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamD/CCTeamDBusterCAvatar",
+    "name": "Rana Del",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/CrewMan/JetpackMarineAvatar",
+    "name": "Ranger",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Corpus/CrewMan/JetpackMarineAvatarLeader",
+    "name": "Ranger",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/Vip/RaptorTwoCarrierAvatar",
+    "name": "Raptor Mt",
+    "faction": "Corpus",
+    "health": 2500,
+    "armor": 25,
+    "shields": 600
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/Vip/RaptorTwoMortarAvatar",
+    "name": "Raptor Ns",
+    "faction": "Corpus",
+    "health": 2000,
+    "armor": 25,
+    "shields": 600
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/Vip/RaptorTwoLaserAvatar",
+    "name": "Raptor Rv",
+    "faction": "Corpus",
+    "health": 3000,
+    "armor": 25,
+    "shields": 600
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamB/CCTeamBOspreyAvatar",
+    "name": "Raptor Rx",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/QuadRobot/MicroHyenaAvatar",
+    "name": "Ratel",
+    "faction": "Corpus",
+    "health": 10,
+    "armor": 0,
+    "shields": 30
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/SpecialEvents/ArmoredJackal/ArmoredJackalAvatar",
+    "name": "Razorback",
+    "faction": "Corpus",
+    "health": 6000,
+    "armor": 100,
+    "shields": 2000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Vip/Avatars/EidolonVipSniperAvatar",
+    "name": "Recon Commander",
+    "faction": "Grineer",
+    "health": 1200,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowCritter/RareSnowCritterAvatar",
+    "name": "Red-Crested Virmink",
+    "faction": "Predator",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SpecialEvents/SurveillanceDroneAvatar",
+    "name": "Regulator",
+    "faction": "Grineer",
+    "health": 1,
+    "armor": 0,
+    "shields": 99
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Ambulas/AmbulasHackingDroneAvatarB",
+    "name": "Remech Osprey",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantRhinoAvatar",
+    "name": "Rhino Specter",
+    "faction": "Orokin",
+    "health": 550,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/BirdOfPrey/UncommonBirdOfPreyAvatar",
+    "name": "Rogue Condroc",
+    "faction": "Neutral",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RollingDroneAvatar",
+    "name": "Roller",
+    "faction": "Grineer",
+    "health": 40,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RollingDroneAvatarLeader",
+    "name": "Roller",
+    "faction": "Grineer",
+    "health": 40,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RollingDroneTurretAvatar",
+    "name": "Roller Sentry",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Sentients/Ropalolyst/SentientRopalolystAvatar",
+    "name": "Ropalolyst",
+    "faction": "Sentient",
+    "health": 5000,
+    "armor": 200,
+    "shields": 2000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Runners/RunnerAvatar",
+    "name": "Runner",
+    "faction": "Infested",
+    "health": 100,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/ModularSpacemanAvatarWalkingLaser",
+    "name": "Sap Comba",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/ModularSpacemanAvatarSkatingLaser",
+    "name": "Sap Scrambus",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/DiscDroneAvatar",
+    "name": "Sapping Osprey",
+    "faction": "Corpus",
+    "health": 200,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/DiscDroneAvatarLeader",
+    "name": "Sapping Osprey",
+    "faction": "Corpus",
+    "health": 200,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantSarynAvatar",
+    "name": "Saryn Specter",
+    "faction": "Orokin",
+    "health": 1800,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SpecialEvents/WolfGangsterAvatar",
+    "name": "Saturn Six Fugitive",
+    "faction": "Neutral",
+    "health": 800,
+    "armor": 300,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/VacDroneAvatar",
+    "name": "Scavenger Drone",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/VacDroneAvatarLeader",
+    "name": "Scavenger Drone",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/FlameLancerAvatar",
+    "name": "Scorch",
+    "faction": "Grineer",
+    "health": 120,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/FlameLancerAvatarLeader",
+    "name": "Scorch",
+    "faction": "Grineer",
+    "health": 120,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/MacheteWomanAvatar",
+    "name": "Scorpion",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/MacheteWomanAvatarLeader",
+    "name": "Scorpion",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Arachnoid/ArachnoidHungerAvatar",
+    "name": "Scyto Raknoid",
+    "faction": "Corpus",
+    "health": 5000,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Turrets/TurretAvatars/SecurityCameraAvatar",
+    "name": "Security Camera",
+    "faction": "Corpus",
+    "health": 10,
+    "armor": 0,
+    "shields": 10
+  },
+  {
+    "unique_name": "/Lotus/Types/Friendly/Agents/HiveMode/InfestedHiveAvatarF",
+    "name": "Security Infested Hive",
+    "faction": "Infested",
+    "health": 4500,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/GrineerAvatars/GrineerMarinePistolAvatar",
+    "name": "Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/GrineerAvatars/GrineerMarinePistolAvatarLeader",
+    "name": "Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/CameraDroneAvatar",
+    "name": "Sensor Regulator",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 300,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/CameraDroneAvatarLeader",
+    "name": "Sensor Regulator",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 300,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Turrets/TurretAvatars/AutoTurretHeavyAvatar",
+    "name": "Senta Turret",
+    "faction": "Corpus",
+    "health": 300,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Commanders/Avatars/VenusCommanderOrangeAvatar",
+    "name": "Sentient Research Director",
+    "faction": "Corpus",
+    "health": 1750,
+    "armor": 100,
+    "shields": 1200
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/OrokinKubrow/CommonOrokinKubrowAvatar",
+    "name": "Sentinel Stover",
+    "faction": "Predator",
+    "health": 200,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Stalker/SentientStalkerAvatar",
+    "name": "Shadow Stalker",
+    "faction": "Stalker",
+    "health": 750,
+    "armor": 300,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Skiffs/ShieldSkiffAvatar",
+    "name": "Shield Dargyn",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Skiffs/ShieldSkiffAvatarLeader",
+    "name": "Shield Dargyn",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/ShieldLancerAvatar",
+    "name": "Shield Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/ShieldLancerAvatarLeader",
+    "name": "Shield Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/ShieldDroneAvatar",
+    "name": "Shield Osprey",
+    "faction": "Corpus",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/AIWeek/ShieldDroneAvatarLeader",
+    "name": "Shield Osprey",
+    "faction": "Corpus",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Skiffs/MissileShieldSkiffAvatar",
+    "name": "Shield-Hellion Dargyn",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Skiffs/MissileShieldSkiffAvatarLeader",
+    "name": "Shield-Hellion Dargyn",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/DeathSquad/Avatars/DeathSquadAvatarC",
+    "name": "Shik Tal",
+    "faction": "Grineer",
+    "health": 1700,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Water/Grineer/Avatars/EelLancerAvatar",
+    "name": "Shock Draga",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 10,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/ShockwaveBipedAvatar",
+    "name": "Shockwave Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/BipedRobot/AIWeek/ShockwaveBipedAvatarLeader",
+    "name": "Shockwave Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Water/Grineer/Avatars/WaterMineDroneAvatar",
+    "name": "Sikula",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 50,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/ModularSpacemanAvatarWalkingTesla",
+    "name": "Slo Comba",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/ModularSpacemanAvatarSkatingTesla",
+    "name": "Slo Scrambus",
+    "faction": "Corpus",
+    "health": 1100,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/SniperSpacemanAvatar",
+    "name": "Sniper Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/AIWeek/SniperSpacemanAvatarLeader",
+    "name": "Sniper Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/OstronSeaBird/RareOstronSeaBirdAvatar",
+    "name": "Splendid Mergoo",
+    "faction": "Neutral",
+    "health": 1,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowArmadillo/CommonSnowArmadilloAvatar",
+    "name": "Spotted Bolarola",
+    "faction": "Neutral",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/JetpackMeleeAvatar",
+    "name": "Sprag",
+    "faction": "Grineer",
+    "health": 600,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Friendly/Agents/HiveMode/InfestedHiveAvatarE",
+    "name": "Stabilization Infested Hive",
+    "faction": "Infested",
+    "health": 4500,
+    "armor": 25,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Stalker/StalkerAvatar",
+    "name": "Stalker",
+    "faction": "Stalker",
+    "health": 450,
+    "armor": 300,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowRodent/RareSnowRodentAvatar",
+    "name": "Subterranean Pobber",
+    "faction": "Prey",
+    "health": 2,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowRodent/CommonSnowRodentAvatar",
+    "name": "Sunny Pobber",
+    "faction": "Prey",
+    "health": 2,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/InfestedMoas/NaniteCloudBipedAvatar",
+    "name": "Swarm Mutalist Moa",
+    "faction": "Infested",
+    "health": 350,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/InfestedMoas/NaniteCloudBipedAvatarLeader",
+    "name": "Swarm Mutalist Moa",
+    "faction": "Infested",
+    "health": 275,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowPredator/UncommonSnowPredatorAvatar",
+    "name": "Swimmer Horrasque",
+    "faction": "Predator",
+    "health": 22,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/InfestedMoas/SlowBombBipedAvatar",
+    "name": "Tar Mutalist Moa",
+    "faction": "Infested",
+    "health": 350,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/InfestedMoas/SlowBombBipedAvatarLeader",
+    "name": "Tar Mutalist Moa",
+    "faction": "Infested",
+    "health": 275,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/Drones/StasisDroneAvatar",
+    "name": "Temporal Dreg",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/Ambulas/VenusAmbulasAvatar",
+    "name": "Terra Ambulas",
+    "faction": "Corpus",
+    "health": 1500,
+    "armor": 150,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusDroneAttackAvatar",
+    "name": "Terra Attack Drone",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 75
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusDroneAttackAvatarLeader",
+    "name": "Terra Attack Drone",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 75
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusEliteSpacemanAvatar",
+    "name": "Terra Crewman",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusEliteSpacemanAvatarLeader",
+    "name": "Terra Crewman",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusHeavyEliteSpacemanAvatar",
+    "name": "Terra Elite Crewman",
+    "faction": "Corpus",
+    "health": 300,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusHeavyEliteSpacemanAvatarLeader",
+    "name": "Terra Elite Crewman",
+    "faction": "Corpus",
+    "health": 300,
+    "armor": 0,
+    "shields": 400
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusIcewaveEliteBipedAvatar",
+    "name": "Terra Elite Embattor Moa",
+    "faction": "Corpus",
+    "health": 1200,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusIcewaveEliteBipedAvatarLeader",
+    "name": "Terra Elite Embattor Moa",
+    "faction": "Corpus",
+    "health": 1200,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusGrenadierEliteSpacemanAvatar",
+    "name": "Terra Elite Overtaker",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusGrenadierEliteSpacemanAvatarLeader",
+    "name": "Terra Elite Overtaker",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusFlyingEliteSpacemanAvatar",
+    "name": "Terra Elite Provisor",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusFlyingEliteSpacemanAvatarLeader",
+    "name": "Terra Elite Provisor",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusHeavyEliteDroneAvatar",
+    "name": "Terra Elite Raptor Sx",
+    "faction": "Corpus",
+    "health": 1750,
+    "armor": 0,
+    "shields": 1750
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusHeavyMeleeEliteSpacemanAvatar",
+    "name": "Terra Elite Trencher",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusHeavyMeleeEliteSpacemanAvatarLeader",
+    "name": "Terra Elite Trencher",
+    "faction": "Corpus",
+    "health": 800,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusIcewaveBipedAvatar",
+    "name": "Terra Embattor Moa",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 600
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusIcewaveBipedLeaderAvatar",
+    "name": "Terra Embattor Moa",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 600
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusGuardSpacemanAvatar",
+    "name": "Terra Jailer",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusCombatSpacemanAvatar",
+    "name": "Terra Manker",
+    "faction": "Corpus",
+    "health": 900,
+    "armor": 25,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusCombatSpacemanAvatarLeader",
+    "name": "Terra Manker",
+    "faction": "Corpus",
+    "health": 900,
+    "armor": 25,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusLaserCannonBipedAvatar",
+    "name": "Terra Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusLaserCannonBipedAvatarLeader",
+    "name": "Terra Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusGrenadierSpacemanAvatar",
+    "name": "Terra Overtaker",
+    "faction": "Corpus",
+    "health": 400,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusGrenadierSpacemanAvatarLeader",
+    "name": "Terra Overtaker",
+    "faction": "Corpus",
+    "health": 400,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusShotgunSpacemanAvatar",
+    "name": "Terra Plasmor Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusShotgunSpacemanAvatarLeader",
+    "name": "Terra Plasmor Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusFlyingSpacemanAvatar",
+    "name": "Terra Provisor",
+    "faction": "Corpus",
+    "health": 300,
+    "armor": 0,
+    "shields": 450
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusFlyingSpacemanAvatarLeader",
+    "name": "Terra Provisor",
+    "faction": "Corpus",
+    "health": 300,
+    "armor": 0,
+    "shields": 450
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusHeavyDroneAvatar",
+    "name": "Terra Raptor Sx",
+    "faction": "Corpus",
+    "health": 750,
+    "armor": 0,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusShieldDroneAvatar",
+    "name": "Terra Shield Osprey",
+    "faction": "Corpus",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusShieldDroneAvatarLeader",
+    "name": "Terra Shield Osprey",
+    "faction": "Corpus",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusShockwaveBipedAvatar",
+    "name": "Terra Shockwave Moa",
+    "faction": "Corpus",
+    "health": 200,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusShockwaveBipedAvatarLeader",
+    "name": "Terra Shockwave Moa",
+    "faction": "Corpus",
+    "health": 400,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusSniperSpacemanAvatar",
+    "name": "Terra Sniper Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Avatars/VenusSniperSpacemanAvatarLeader",
+    "name": "Terra Sniper Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusHeavyMeleeSpacemanAvatar",
+    "name": "Terra Trencher",
+    "faction": "Corpus",
+    "health": 450,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Heavies/VenusHeavyMeleeSpacemanAvatarLeader",
+    "name": "Terra Trencher",
+    "faction": "Corpus",
+    "health": 1000,
+    "armor": 0,
+    "shields": 300
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Vip/Hyena/HyenaPackAvatar",
+    "name": "The Hyena Pack",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Drones/Vip/RaptorPackAvatar",
+    "name": "The Raptor",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Spaceman/Vip/SniperBossAvatar",
+    "name": "The Sergeant",
+    "faction": "Corpus",
+    "health": 500,
+    "armor": 150,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowArmadillo/RareSnowArmadilloAvatar",
+    "name": "Thorny Bolarola",
+    "faction": "Neutral",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamC/CCTeamCStealthAvatar",
+    "name": "Tia Mayn",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Powersuits/Brawler/SummonAvatarHostile",
+    "name": "Tomb Guardian",
+    "faction": "Warframe",
+    "health": 2000,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Quests/SandmanBoss/SandmanBossAvatar",
+    "name": "Tomb Protector",
+    "faction": "Neutral",
+    "health": 8000,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Quests/SandmanBoss/InarosGolemAvatar",
+    "name": "Tomb Protector Effigy",
+    "faction": "Neutral",
+    "health": 5500,
+    "armor": 250,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Acolytes/ControlAcolyteAvatar",
+    "name": "Torment",
+    "faction": "Stalker",
+    "health": 350,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/ToxicAncientAvatar",
+    "name": "Toxic Ancient",
+    "faction": "Infested",
+    "health": 400,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Ancients/ToxicAncientAvatarLeader",
+    "name": "Toxic Ancient",
+    "faction": "Infested",
+    "health": 400,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/NoxiousCrawlerAvatar",
+    "name": "Toxic Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Crawlers/NoxiousCrawlerAvatarLeader",
+    "name": "Toxic Crawler",
+    "faction": "Infested",
+    "health": 50,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantTrinityAvatar",
+    "name": "Trinity Specter",
+    "faction": "Orokin",
+    "health": 1500,
+    "armor": 200,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/ShotgunLancerAvatar",
+    "name": "Trooper",
+    "faction": "Shotgun",
+    "health": 120,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/ShotgunLancerAvatarLeader",
+    "name": "Trooper",
+    "faction": "Shotgun",
+    "health": 120,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonFemaleGrineerAvatar",
+    "name": "Tusk Ballista",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonFemaleGrineerAvatarLeader",
+    "name": "Tusk Ballista",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/GrineerDropship/GrineerBigDropshipAvatar",
+    "name": "Tusk Bolkor",
+    "faction": "Grineer",
+    "health": 10000,
+    "armor": 600,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonRocketBombardAvatar",
+    "name": "Tusk Bombard",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonRocketBombardAvatarLeader",
+    "name": "Tusk Bombard",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonBladeSawmanAvatar",
+    "name": "Tusk Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonBladeSawmanAvatarLeader",
+    "name": "Tusk Butcher",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Vip/Avatars/EidolonVipGruntDroneAvatar",
+    "name": "Tusk Carabus",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Vip/Avatars/EidolonVipSkiffAvatar",
+    "name": "Tusk Command Dargyn",
+    "faction": "Grineer",
+    "health": 800,
+    "armor": 125,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/GrineerSkiff/GrineerSkiffUnmannedAvatar",
+    "name": "Tusk Dargyn",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 125,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonEliteRifleLancerAvatar",
+    "name": "Tusk Elite Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonEliteRifleLancerAvatarLeader",
+    "name": "Tusk Elite Lancer",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonEviseratorLancerAvatar",
+    "name": "Tusk Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonEviseratorLancerAvatarLeader",
+    "name": "Tusk Eviscerator",
+    "faction": "Grineer",
+    "health": 150,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/GrineerDropship/GrineerDropshipAvatar",
+    "name": "Tusk Firbolg",
+    "faction": "Grineer",
+    "health": 8000,
+    "armor": 600,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonBlowtorchSawmanAvatar",
+    "name": "Tusk Flameblade",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonBlowtorchSawmanAvatarLeader",
+    "name": "Tusk Flameblade",
+    "faction": "Grineer",
+    "health": 50,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonHeavyFemaleGrineerAvatar",
+    "name": "Tusk Heavy Gunner",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonHeavyFemaleGrineerAvatarLeader",
+    "name": "Tusk Heavy Gunner",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonJetpackMarineAvatar",
+    "name": "Tusk Hellion",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonJetpackMarineAvatarLeader",
+    "name": "Tusk Hellion",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonRifleLancerAvatar",
+    "name": "Tusk Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonRifleLancerAvatarLeader",
+    "name": "Tusk Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonMortarBombardAvatar",
+    "name": "Tusk Mortar Bombard",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonIncendiaryBombardAvatar",
+    "name": "Tusk Napalm",
+    "faction": "Grineer",
+    "health": 450,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonIncendiaryBombardAvatarLeader",
+    "name": "Tusk Napalm",
+    "faction": "Grineer",
+    "health": 450,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/GrineerBomber/GrineerBomberAvatar",
+    "name": "Tusk Ogma",
+    "faction": "Grineer",
+    "health": 3500,
+    "armor": 225,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonPredatorAvatar",
+    "name": "Tusk Predator",
+    "faction": "Grineer",
+    "health": 75,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonPredatorAvatarLeader",
+    "name": "Tusk Predator",
+    "faction": "Grineer",
+    "health": 75,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonJetpackMeleeAvatar",
+    "name": "Tusk Reaver",
+    "faction": "Grineer",
+    "health": 200,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonRollingDroneAvatar",
+    "name": "Tusk Roller",
+    "faction": "Grineer",
+    "health": 60,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonGrineerMarinePistolAvatar",
+    "name": "Tusk Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonGrineerMarinePistolAvatarLeader",
+    "name": "Tusk Seeker",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonAlarmDroneAvatar",
+    "name": "Tusk Seeker Drone",
+    "faction": "Grineer",
+    "health": 250,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/GrineerSkiff/GrineerSkiffShieldUnmannedAvatar",
+    "name": "Tusk Shield Dargyn",
+    "faction": "Grineer",
+    "health": 300,
+    "armor": 125,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonShieldLancerAvatar",
+    "name": "Tusk Shield Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonShieldLancerAvatarLeader",
+    "name": "Tusk Shield Lancer",
+    "faction": "Grineer",
+    "health": 100,
+    "armor": 5,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonCaptureTarget",
+    "name": "Tusk Target",
+    "faction": "Grineer",
+    "health": 1000,
+    "armor": 60,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Thumper/ThumperAvatar",
+    "name": "Tusk Thumper",
+    "faction": "Grineer",
+    "health": 3000,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Thumper/ThumperMedAvatar",
+    "name": "Tusk Thumper Bull",
+    "faction": "Grineer",
+    "health": 4000,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Thumper/ThumperLargeAvatar",
+    "name": "Tusk Thumper Doma",
+    "faction": "Grineer",
+    "health": 5000,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonShotgunLancerAvatar",
+    "name": "Tusk Trooper",
+    "faction": "Grineer",
+    "health": 120,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonShotgunLancerAvatarLeader",
+    "name": "Tusk Trooper",
+    "faction": "Grineer",
+    "health": 120,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/TylRegor/TylRegorAvatar",
+    "name": "Tyl Regor",
+    "faction": "Grineer",
+    "health": 3000,
+    "armor": 250,
+    "shields": 800
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantBerserkerAvatar",
+    "name": "Valkyr Specter",
+    "faction": "Orokin",
+    "health": 1800,
+    "armor": 200,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/LegendaryKubrow/UncommonLegendaryKubrowAvatar",
+    "name": "Vallis Kubrodon",
+    "faction": "Neutral",
+    "health": 1000,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasLaserDiscBipedAvatar",
+    "name": "Vapos Anti Moa",
+    "faction": "Corpus",
+    "health": 50,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasLaserDiscBipedAvatarLeader",
+    "name": "Vapos Anti Moa",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 500
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Dropship/SpaceFighterLaserHunterShipAvatar",
+    "name": "Vapos Aquila",
+    "faction": "Corpus",
+    "health": 1000,
+    "armor": 500,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Dropship/CorpusHunterShipAvatar",
+    "name": "Vapos Condor Dropship",
+    "faction": "Corpus",
+    "health": 1500,
+    "armor": 100,
+    "shields": 4000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Dropship/CorpusHunterShipEliteAvatar",
+    "name": "Vapos Condor Elite Dropship",
+    "faction": "Corpus",
+    "health": 2000,
+    "armor": 100,
+    "shields": 4000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasRifleSpacemanAvatar",
+    "name": "Vapos Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasRifleSpacemanAvatarLeader",
+    "name": "Vapos Crewman",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasShotgunSpacemanAvatar",
+    "name": "Vapos Detron Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasShotgunSpacemanAvatarLeader",
+    "name": "Vapos Detron Crewman",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasEliteSpacemanAvatar",
+    "name": "Vapos Elite Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasEliteSpacemanAvatarLeader",
+    "name": "Vapos Elite Crewman",
+    "faction": "Corpus",
+    "health": 300,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasEliteFlyingSpacemanAvatar",
+    "name": "Vapos Elite Ranger",
+    "faction": "Corpus",
+    "health": 80,
+    "armor": 0,
+    "shields": 450
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasEliteFlyingSpacemanAvatarLeader",
+    "name": "Vapos Elite Ranger",
+    "faction": "Corpus",
+    "health": 280,
+    "armor": 0,
+    "shields": 450
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasSuperMoaBipedAvatar",
+    "name": "Vapos Fusion Moa",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasSuperMoaBipedAvatarLeader",
+    "name": "Vapos Fusion Moa",
+    "faction": "Corpus",
+    "health": 400,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasLaserCannonBipedAvatar",
+    "name": "Vapos Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasLaserCannonBipedAvatarLeader",
+    "name": "Vapos Moa",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasNullifySpacemanAvatar",
+    "name": "Vapos Nullifier",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasNullifySpacemanAvatarLeader",
+    "name": "Vapos Nullifier",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasSuicideDroneAvatar",
+    "name": "Vapos Oxium Osprey",
+    "faction": "Corpus",
+    "health": 750,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasMeleeSpacemanAvatar",
+    "name": "Vapos Prod Crewman",
+    "faction": "Corpus",
+    "health": 100,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasMeleeSpacemanAvatarLeader",
+    "name": "Vapos Prod Crewman",
+    "faction": "Corpus",
+    "health": 400,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasRailgunBipedAvatar",
+    "name": "Vapos Railgun Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasRailgunBipedAvatarLeader",
+    "name": "Vapos Railgun Moa",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasDiscDroneAvatar",
+    "name": "Vapos Sapping Osprey",
+    "faction": "Corpus",
+    "health": 80,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasDiscDroneAvatarLeader",
+    "name": "Vapos Sapping Osprey",
+    "faction": "Corpus",
+    "health": 280,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasShieldDroneAvatar",
+    "name": "Vapos Shield Osprey",
+    "faction": "Corpus",
+    "health": 35,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasShieldDroneAvatarLead",
+    "name": "Vapos Shield Osprey",
+    "faction": "Corpus",
+    "health": 200,
+    "armor": 0,
+    "shields": 50
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasShockwaveBipedAvatar",
+    "name": "Vapos Shockwave Moa",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasSniperSpacemanAvatar",
+    "name": "Vapos Sniper Crewman",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasSniperSpacemanAvatarLeader",
+    "name": "Vapos Sniper Crewman",
+    "faction": "Corpus",
+    "health": 250,
+    "armor": 0,
+    "shields": 150
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasDeployableSpacemanAvatar",
+    "name": "Vapos Tech",
+    "faction": "Corpus",
+    "health": 60,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/GasCity/Avatars/GasDeployableSpacemanAvatarLeader",
+    "name": "Vapos Tech",
+    "faction": "Corpus",
+    "health": 300,
+    "armor": 0,
+    "shields": 250
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Vip/Hek/HekBipedAvatar",
+    "name": "Vay Hek Terra Frame",
+    "faction": "Grineer",
+    "health": 2000,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/CorpusChampions/TeamA/CCTeamASkateBAvatar",
+    "name": "Ved Xol",
+    "faction": "Corpus",
+    "health": 150,
+    "armor": 200,
+    "shields": 100
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/DeathSquad/Avatars/DeathSquadAvatarA",
+    "name": "Vem Tabook",
+    "faction": "Grineer",
+    "health": 1700,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/JetpackSniperAvatar",
+    "name": "Ven'Kra Tel",
+    "faction": "Grineer",
+    "health": 400,
+    "armor": 150,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/InfestedDrones/InfestedAttackDroneAvatar",
+    "name": "Venin Mutalist",
+    "faction": "Infested",
+    "health": 200,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Acolytes/DuellistAcolyteAvatar",
+    "name": "Violence",
+    "faction": "Stalker",
+    "health": 350,
+    "armor": 0,
+    "shields": 200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/Venus/Commanders/Avatars/VenusCommanderGreenAvatar",
+    "name": "Vivisect Director",
+    "faction": "Corpus",
+    "health": 1750,
+    "armor": 100,
+    "shields": 1200
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Infested/AiWeek/Runners/SuicideRunnerAvatar",
+    "name": "Volatile Runner",
+    "faction": "Infested",
+    "health": 80,
+    "armor": 0,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/TennoReplicants/RelayBoss/TennoReplicantVoltAvatar",
+    "name": "Volt Specter",
+    "faction": "Orokin",
+    "health": 1125,
+    "armor": 200,
+    "shields": 130
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/Eidolon/Avatars/EidolonAutoRocketTurretAvatar",
+    "name": "Vruush Turret",
+    "faction": "Grineer",
+    "health": 1100,
+    "armor": 100,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/SnowCritter/CommonSnowCritterAvatar",
+    "name": "White-Breasted Virmink",
+    "faction": "Predator",
+    "health": 6,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Grineer/SpecialEvents/WolfStalkerAvatar",
+    "name": "Wolf Of Saturn Six",
+    "faction": "Neutral",
+    "health": 1500,
+    "armor": 200,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/NeutralCreatures/Conservation/OstronSeaBird/UncommonOstronSeaBirdAvatar",
+    "name": "Woodland Mergoo",
+    "faction": "Neutral",
+    "health": 1,
+    "armor": 50,
+    "shields": 0
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/AladVPet/AladVPetAvatar",
+    "name": "Zanuka",
+    "faction": "Corpus",
+    "health": 1000,
+    "armor": 25,
+    "shields": 15000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/Corpus/AladVPet/ZanukaHunterAvatar",
+    "name": "Zanuka Hunter",
+    "faction": "Corpus",
+    "health": 600,
+    "armor": 25,
+    "shields": 1000
+  },
+  {
+    "unique_name": "/Lotus/Types/Enemies/SpaceBattles/Grineer/GrineerMissilePlatAvatar",
+    "name": "Zeplen",
+    "faction": "Grineer",
+    "health": 400,
+    "armor": 2750,
+    "shields": 0
+  }
+]
