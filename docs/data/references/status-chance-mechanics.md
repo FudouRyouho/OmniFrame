@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Mecánica de Status Chance per-proyectil — base para modelado en engine"
-Version: "v0.1.0"
+Version: "v0.1.1"
 Impacto_ID: "REF-StatusChance"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-05-29"
-Fecha_de_actualizacion: "2026-05-29"
+Fecha_de_actualizacion: "2026-07-09"
 Fuente: "https://wiki.warframe.com/w/Status_Effect"
 ---
 
@@ -89,4 +89,9 @@ El perfil activo (Normal vs Incarnon) determina cuál `base_multishot` usar para
 | 4 (Felarx Normal) | 4.0 procs | 3.2 procs | 6.0 procs |
 | 8.4 (Felarx + GH estático) | 8.4 procs | 6.72 procs | 12.6 procs |
 
-> "100% status per pellet" = garantiza exactamente 1 proc de tipo aleatorio por pellet. Por encima de 100%, pueden ocurrir múltiples procs del mismo pellet con priorización por daño.
+> "100% status per pellet" = 1 proc esperado por pellet en promedio. Por encima de 100%, cada pellet
+> puede aplicar procs "únicos" adicionales — el tipo de cada proc adicional se sortea de forma
+> **independiente** (puede repetirse el mismo tipo). La wiki **no especifica** un mecanismo de
+> "garantizado + priorización por daño" (verificado contra la fuente 2026-07-09; afirmación previa
+> de este doc era incorrecta). Ver `references/wiki/mechanics/status-effects.md` §Aplicación para la
+> captura verificada.

@@ -29,6 +29,15 @@ Cada documento de wiki debe responder:
 Como funciona esta mecanica del juego y que implicacion tiene para el engine
 ```
 
+## Regla durable — sin vocablo del proyecto
+
+`wiki/` es la **wiki local pura**: fuente de consulta estable para no re-fetchear la wiki del juego.
+No debe contener vocablo del proyecto (tokens `WEAPON_*`/`AVATAR_*`, ops `ADD`/`ADD_FLAT`, "engine vN",
+`D-N`, `OQ-*`, refs a `Project/src/*.ts`) — si lo tiene, queda stale cada vez que `docs/` cambia. El
+modelado/mapeo a tokens vive en `docs/` (`upgrade-tokens.md`, `gap-map.md`, OQ), no acá. Excepción única:
+`game-ui/` (por composición del pipeline, ver `references/CLAUDE.md`). Si aparece vocablo en un `.md`
+nuevo de `wiki/` → flag a notificar y corregir.
+
 ## Estructura inicial
 
 - `mechanics/`: mecanicas de combate y formulas cross-cutting

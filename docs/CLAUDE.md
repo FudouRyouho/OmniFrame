@@ -65,6 +65,11 @@ no son lectura obligatoria al inicio de sesión.
 Al añadir un nuevo archivo a un dominio funcional: si ya existen 3 operativos, el nuevo es referencia
 por defecto, o uno de los existentes baja a referencia.
 
+Al promover un worklist/sweep de clasificación (ej. `.working/*-sweep.md`, tabla ítem-por-ítem): las
+decisiones destilan a `arch-decisions.md`, los problemas a `open-questions.md`. El **residuo-tabla
+crudo** (consulta bajo demanda, no lectura obligatoria) baja a tier `referencia` — precedente:
+`docs/data/reports/audit-*.md`.
+
 ### SSoT transversal (`docs/data/`, `docs/semantic/`)
 
 `data/` y `semantic/` NO son dominios funcionales. Sus subdirectorios (`schemas/`, `rules/`, etc.)
@@ -81,6 +86,23 @@ Convenio:
 - `data/status.md` — único status global del flujo de datos
 - `data/<categoría>/<archivo>.md` — schemas, rules, references por tipo (sin replicar `status` por subdir)
 - `semantic/<archivo>.md` — vocabulario canónico, todos `referencia` por naturaleza
+
+## Ruteo de contenido — dónde vive cada cosa
+
+`docs/` contiene el **estado verdadero actual + preguntas abiertas**, no el diario de cómo llegamos. Antes de escribir una oración en un doc, rutearla. Discriminador **a nivel-oración**: ¿afirma una verdad presente del sistema, narra historia superada, o es racional personal "por qué NO se hace así"?
+
+| Naturaleza de la oración | Ejemplo | Hogar |
+|---|---|---|
+| **Verdad de dominio viva** | "warframe-items trae `armor_type`; no es mecánica real, `enemy.json` no lo modela" | **`docs/`** |
+| **Historia superada, sin valor de razonamiento** | engine v1, impl purgada por delegar a un primitivo/genérico | **git** (no se escribe en docs) |
+| **Racional personal "por qué NO"** | arquitecturas muertas, decisiones de diseño ya no legítimas | **`docs-archive/`** (local, gitignored, curado por el usuario) |
+
+**Reglas duras:**
+
+1. **Warrant pegado a la nota viva.** Un doc activo **nunca** es la única copia de un warrant del que depende una nota viva. Si "no modelamos X" necesita su "por qué" para no confundir a un agente, el por-qué **comprimido y en presente** se queda con la nota. La historia larga puede ir a `docs-archive/`.
+2. **El agente no decide solo sobre `docs-archive/`.** No escribe ahí por inferencia. **Puede proponer** (preguntar sin inferir, esperando confirmación) guardar algo en `docs-archive/` **o descartarlo por completo**; la elección es del usuario. (Comportamiento del agente: `.claude/CLAUDE.md`.)
+3. **Fechas inline: tripwire de drift, no log.** Una fecha se gana el lugar **solo si tiene contraparte a reconciliar** (decisión-`fecha-A` ↔ código/decisión-`fecha-B` que debería reflejarla). Timestamp solitario ("`2026-07-09: actualicé §3`") = log → git. Convive con la excepción ya vigente de **auditorías fechadas** (warrant legítimo).
+4. **Gap del data-set = propuesta con cierre.** Cuando un dato existe upstream (`references/*`, fuente) que el proyecto **deliberadamente no modela**, el agente **puede proponer** dejar una nota de gap en `docs/` ("esto es un gap; no lo modelamos porque…") — evita que un agente futuro asuma que es conectable. La propuesta se **resuelve por confirmación y se cierra en la misma sesión**: se escribe, o se descarta explícito. **Un punto debatido sin cierre es deuda, no decisión.**
 
 ## Regla de evolución de decisiones de dominio (D-series)
 
