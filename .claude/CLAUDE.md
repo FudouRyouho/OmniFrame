@@ -29,7 +29,16 @@ Antes de actuar, declarar: `[FASE: X | IMPACTO: RED/YELLOW/GREEN | ACCIÓN: halt
 **`README.md` (raíz)** es el README público de GitHub — changelog simple, una entrada por versión, sin detalle técnico profundo. `Project/README.md` es solo un orientador interno.
 
 **SSoT de decisiones abiertas:** `docs/governance/open-questions.md` — consultar ante cualquier cambio de arquitectura.
-Toda sesión debe cerrar con una fase de trazabilidad.
+
+## Cierre de sesión
+
+El cierre de sesión es **colaborativo y deliberado** (el usuario lo inicia o lo confirma), no un paso automático de fin de turno. Cuando se cierra, desamalgamar en acciones distintas — no todas aplican siempre:
+
+1. **Resumir en el chat** lo que cambió. Esto no toca ningún archivo.
+2. **Actualizar docs vivos** — solo si hay drift real o una decisión nueva que afecte el estado actual. Rutear con `docs/CLAUDE.md` ("Ruteo de contenido"): verdad viva → `docs/`, historia superada → no se escribe (git ya la tiene).
+3. **Purgar a git** lo publicado o por publicar — no acumular en docs lo que el commit/historial ya preserva.
+4. **Re-proponer lo no cerrado.** Si en la sesión quedó una propuesta sin confirmar (nota de gap, candidato a `docs-archive/`), no se asume ni se descarta — se re-propone la próxima vez que ese punto vuelva a ser relevante (default acordado: sin memoria de sesión previa, sin OQ intermedia).
+5. **`docs-archive/` nunca se escribe por inferencia.** Si algo del cierre parece racional-personal "por qué NO" (arquitectura muerta, decisión de diseño ya no legítima), **proponer** guardarlo ahí o descartarlo del todo — la elección es del usuario, no del agente.
 
 ## Cuando hay drift (doc vs código)
 
