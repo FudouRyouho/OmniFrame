@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.5.3"
+Version: "v0.6.0"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
@@ -441,3 +441,63 @@ proyecta el snapshot a los flags de `condition` que activa (hoy: `while_enemy_be
 - Enlaza con **§8** (modo asumido primero, C1 como suelo de C2) y **§9/§10/§11/§12** (mismo patrón:
   primitivo mínimo, consumido explícitamente, sin ruteo implícito heredado). Cita cruzada:
   `OQ-DATA-4` (T5, evidencia de un caso concreto del eje "quién").
+
+---
+
+## 14. Modelo de flujo del daño: propiedad y flujo (instancia→daño→estado), tres capas LEY/ESTADO/RESOLUCIÓN
+
+**Decisión (RATIFICADO 2026-07-10, marco; extracción de Familia A EJECUTADA 2026-07-10).** El daño **no
+pertenece** a weapon ni a enemy — **viaja**. El eje: `instancia (source) → daño → tipo de daño → estado
+del daño (target)`. Algo *instancia* el daño (disparo, habilidad, tick de proc) cargando sus propiedades
+(valor por tipo, crit, buckets ②, spec de aplicación de status); el paquete emanado es extensión de la
+instancia; el **estado** (stacks de status) se acumula en el **target**. Source y target son **agnósticos
+entre sí hasta el punto de resolución** — se encuentran recién cuando el paquete se resuelve contra
+defensas + estado (`simulateAttack(entity, targetState)` → `resolveHit`).
+
+**Corolario que corrige el error de ubicación:** como cualquier entidad instancia Y recibe daño, la **LEY**
+de qué hace un status es **agnóstica al eje source/target** — no es "fórmula de enemigo", es ley del juego.
+
+**Tres capas que antes estaban fundidas en `EnemyState`:**
+
+| Capa | Qué es | Naturaleza | Dónde vive (post-extracción) |
+|---|---|---|---|
+| **LEY** | qué hace N stacks (función pura) | atemporal, C1-able | `formulas/status/` |
+| **ESTADO** | este target tiene N stacks ahora | acumulativo (C2) / declarado (C1) | portador = la entidad-target (`EnemyState.stacks`) |
+| **RESOLUCIÓN** | este hit contra este estado + defensas | puntual, instante congelado | el *pairing* source×target (`resolveHit`) |
+
+**El vínculo tipo↔efecto se parte en dos aristas** (colapsarlas es el error):
+- **Arista 1 — identidad (1:1, vocabulario):** `tipo-de-daño → proc-que-PUEDE-disparar` (heat→Ignite, nunca
+  Corrosion). Fija → `docs/semantic/damage-types.md` (solo el nombre) + runtime `EFFECT_BY_DAMAGE_TYPE`/
+  `EFFECT_BY_DOT_KEY` en `formulas/status/`.
+- **Arista 2 — aplicación (NO 1:1, propiedad del INSTANCE):** `{forced_procs, status_chance}` (2a, spec
+  C1-declarable, source-agnóstica) + el ROLL (2b, C2). **Gated** — ver frontera abajo.
+
+**Consecuencia — Familia A extraída (esta sesión, el paso §6-SÍ que 3 casos reales fuerzan):**
+- LEY de **Familia A** ("primer stack especial + incremento lineal con techo": `f(n) = first + perAdd ×
+  max(0, n−1)`, clamp opcional) → `formulas/status/stack-debuff.ts`, función pura citada contra
+  `status-effects.md`. Instancia Infection (Viral, ×2→×4.25) y Corrosion (strip 0.26→0.80 cap) con valores
+  verificados; Disruption (Magnetic) **provisional = Infection** hasta cerrar la frontera O4.
+- **LEY + ESTADO keyeados por EFECTO, no por tipo de daño.** `EnemyStatusState` renombrado
+  `damage_corrosive→corrosion`, `damage_viral→infection`, `damage_heat→ignite`, `damage_magnetic→disruption`
+  (snake_case). Esto resuelve la confusión de vocabulario del marco §1 (una habilidad que aplica Corrosion
+  sin daño corrosivo ahora cae limpio) — mismo cambio, dos problemas.
+- `EnemyState.getDamageMultiplier`/`getEffectiveArmor` → **orquestadores** (leen stacks, llaman la LEY;
+  ya no la contienen). Coeficientes de `GameLaws` (configurables, override vía `MutatorBridge`) → parámetros
+  de las fórmulas per-efecto. El armor-strip por tiempo de Heat (Ignite) NO es Familia A (rampa temporal) —
+  se queda inline como excepción documentada.
+- `procWeightByType` (ley de SELECCIÓN de proc) migrada `common/status-base.ts → formulas/status/proc-selection.ts`.
+  `ELEMENT_COMBINATIONS` (ley de TIPO de daño) se queda en `common/` — eje ortogonal.
+- **Partición por composición (damage-flow-model §5):** Familia A (extraída), Familia B (`stackDecayBonusPct`,
+  §11, ya existía), Familia C (DoT-tick dependiente del daño del arma) = `damage-status-model.md §Checkpoint 3`,
+  fuera de esta extracción.
+
+**Lo que NO se construyó (norte, no obra a levantar de una — el motor ya se reescribió 3×):** el tipo
+`DamageInstance` de primera clase, el contenedor de ESTADO entidad-neutral, la Arista 2, Familia C, las
+facetas-LEY de Heat, y la resolución de Magnetic ×3.25 vs ×4.25 — todo trazado en
+[`../../../governance/decision-frontier.md`](../../../governance/decision-frontier.md).
+
+**Enlaza con §8** (modo asumido primero, la LEY es C1 puro), **§13** (`EnemySnapshot` es el pairing del lado
+entrada; el estado del daño es su espejo del lado salida — mismo concepto `snapshot`), **§4** (double-dip:
+bucket② viaja con la instancia, matriz③ es del encuentro — prueba dura de que las capas son separadas), y
+**§9/§10/§11/§12** (mismo patrón de primitivo mínimo consumido explícitamente). Cita cruzada:
+`damage-status-model.md`, `references/wiki/mechanics/status-effects.md`.

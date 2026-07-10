@@ -1,6 +1,10 @@
 /**
  * @domain Engine / Formulas / Common / Status
  * @SSoT docs/semantic/damage-types.md
+ *
+ * Ley de TIPO de daño (combinación elemental) + status chance del arma. La ley de SELECCIÓN
+ * de proc (`procWeightByType`) se movió a `formulas/status/proc-selection.ts` (arch-decisions §14):
+ * es ley de status, no de tipo de daño.
  */
 
 import type { DamageType } from "@shared/types";
@@ -28,23 +32,6 @@ export const SPECIAL_DAMAGE_TYPES: ReadonlySet<DamageType> = new Set<DamageType>
 
 export function totalStatusChance(baseStatusChance: number, relativeBonus: number): number {
 	return baseStatusChance * (1 + relativeBonus);
-}
-
-export function procWeightByType(
-	damageBreakdown: Partial<Record<DamageType, number>>,
-): Partial<Record<DamageType, number>> {
-	const entries = Object.entries(damageBreakdown) as Array<[DamageType, number | undefined]>;
-	const total = entries.reduce((sum, [, v]) => sum + (v ?? 0), 0);
-
-	if (total <= 0) return {};
-
-	const result: Partial<Record<DamageType, number>> = {};
-	for (const [type, value] of entries) {
-		if (value && value > 0) {
-			result[type] = value / total;
-		}
-	}
-	return result;
 }
 
 export function resolveElementalCombination(elements: ReadonlySet<DamageType>): DamageType | null {

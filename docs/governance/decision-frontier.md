@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
-Version: "v0.0.6"
+Version: "v0.0.7"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-10"
 ---
 
 # Decision Frontier
@@ -49,6 +49,21 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 
 **Abierto**:
 - Arquitectura final de CSS y design tokens.
+
+### 4. Flujo del daño y status (E-DamageFlow)
+**Decidido** (RATIFICADO + extracción de Familia A ejecutada 2026-07-10 — ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §14):
+- **El daño viaja** (`instancia → daño → tipo → estado`); source/target agnósticos hasta la resolución. La **LEY** de un status es ley del juego (agnóstica a source/target), NO "fórmula de enemigo".
+- **Tres capas separadas:** LEY (`formulas/status/`, pura) · ESTADO (`EnemyState.stacks`, portado-por-entidad) · RESOLUCIÓN (el pairing, `resolveHit`).
+- **Familia A extraída** a `formulas/status/stack-debuff.ts` (Infection/Corrosion instanciadas; Disruption provisional=Infection). **LEY + ESTADO keyeados por EFECTO** (snake_case: corrosion/infection/ignite/disruption), no por tipo de daño.
+- **Arista 1** (identidad tipo→proc, 1:1) resuelta = vocabulario en `semantic/damage-types.md` + runtime en `formulas/status/`.
+
+**Abierto (gated — NO construir sin el caso real que lo fuerza):**
+- **`DamageInstance` de primera clase + rename de `resolveHit`** — gate O5: primer daño-de-habilidad resuelto contra un enemigo (`resolveHit` resuelve una *instancia*, no un "hit"). Casos que informan: Toxic Lash, Xata's Whisper (CREAR instancia derivada cross-entity; = Roar `fixture_04`).
+- **Contenedor de ESTADO entidad-neutral** — gate: primera entidad no-enemigo que porte status (jugador self-status, companion). Deuda marcada en `EnemyState`.
+- **Arista 2 (aplicación del proc):** spec `{forced_procs, status_chance}` (2a, C1-declarable) + el ROLL (2b, C2). Hoy `addStacks` está huérfano de disparador real desde la resolución.
+- **Familia C (DoT-tick dependiente del daño del arma)** — plan propio en `damage-status-model.md §Checkpoint 3` (faltan `(1+status_damage)` + matriz③ + cuadrado del bucket②).
+- **Facetas-LEY de Heat/Ignite** (DoT-tick Familia C + armor-strip por tiempo): la unidad de LEY es la *faceta*, no el efecto. Eje estructura-de-LEY, ortogonal a la aplicación. Parkeado.
+- **Magnetic ×3.25 vs ×4.25 (O4):** Disruption hereda Infection (×4.25) hasta verificar contra `/w/Magnetic_Damage` (hipótesis: 100% a Overguard cruza el dato). Tripwire en `status-family-a.test.ts`.
 
 ---
 

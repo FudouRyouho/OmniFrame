@@ -1,8 +1,22 @@
 import type { ScaledEnemy } from "./EnemyRepository";
 import type { EnemyStatusState, GameLaws } from "../../contracts";
+import {
+  stackDebuffValue,
+  infectionLaw,
+  disruptionLaw,
+  corrosionLaw,
+  EFFECT_BY_DOT_KEY,
+} from "../../formulas/status/stack-debuff";
 
 /**
  * EnemyState - Gestiona el estado dinámico de un enemigo durante una simulación temporal.
+ *
+ * DEUDA DE NORTE (O1, damage-flow-model §8 / decision-frontier.md): el ESTADO de status
+ * (`stacks`) es portado-por-entidad — cualquier entidad instancia Y recibe daño (jugador con
+ * self-status, companion). El contenedor debería ser entidad-neutral eventualmente. NO se
+ * generaliza hoy: único consumidor real (enemigo). Gate = primera entidad no-enemigo que porte
+ * status. La LEY (formulas/status/) YA es agnóstica a source/target; lo que falta relocalizar es
+ * solo este contenedor, cuando el gate se abra.
  */
 export class EnemyState {
   public current_health: number;
@@ -22,10 +36,10 @@ export class EnemyState {
     this.current_armor = base.current_armor;
     this.current_shields = base.current_shields;
     this.stacks = {
-      damage_corrosive: 0,
-      damage_viral: 0,
-      damage_heat: 0,
-      damage_magnetic: 0
+      corrosion: 0,
+      infection: 0,
+      ignite: 0,
+      disruption: 0
     };
     this.dot_pools = {
       damage_slash_dot: 0,
@@ -35,18 +49,21 @@ export class EnemyState {
   }
 
   public addStacks(type: string, amount: number, currentTime: number = 0, dotPower: number = 0) {
-    const stackKey = type.replace('_dot', '') as keyof EnemyStatusState;
-    if (stackKey in this.stacks) {
-      if (stackKey === 'damage_heat' && this.stacks.damage_heat === 0 && amount > 0) {
+    // El dot_pool sigue keyeado por tipo (`damage_*_dot`, Familia C); el ESTADO de stacks se
+    // keyea por EFECTO. EFFECT_BY_DOT_KEY traduce (Arista 1). Slash/Toxin no tienen efecto de
+    // stack → no caen en `stacks`, solo en `dot_pools`.
+    const effect = EFFECT_BY_DOT_KEY[type];
+    if (effect) {
+      if (effect === 'ignite' && this.stacks.ignite === 0 && amount > 0) {
         this.heat_first_proc_time = currentTime;
       }
 
       // Aplicar límites dinámicos por Ley
-      const maxStacks = stackKey === 'damage_corrosive' 
-        ? this.laws.corrosive_max_stacks 
-        : (stackKey === 'damage_heat' ? 999 : this.laws.status_max_stacks);
+      const maxStacks = effect === 'corrosion'
+        ? this.laws.corrosive_max_stacks
+        : (effect === 'ignite' ? 999 : this.laws.status_max_stacks);
 
-      this.stacks[stackKey] = Math.min(maxStacks, this.stacks[stackKey] + amount);
+      this.stacks[effect] = Math.min(maxStacks, this.stacks[effect] + amount);
     }
 
     if (type in this.dot_pools) {
@@ -88,41 +105,38 @@ export class EnemyState {
   }
 
   /**
-   * Multiplicador de daño por stacks de status en la capa golpeada. Magnetic
-   * multiplica shields (y overguard); Viral multiplica salud (health layer
-   * únicamente, no shields) — a TODO el daño de esa capa, no solo al del mismo
-   * tipo elemental. Ver references/wiki/mechanics/status-effects.md §Infection/Disruption.
-   *
-   * Bug corregido (Fase 3): antes comparaba `damageId` (un token D-6 como
-   * `WEAPON_ADD_VIRAL_DAMAGE`) contra los strings legacy `'damage_viral'`/
-   * `'damage_magnetic'` — nunca matcheaba, el multiplicador quedaba inerte en
-   * la resolución de combate real. Sin cobertura de test previa (C2 sin probar).
+   * Multiplicador de daño por stacks de status en la capa golpeada. Disruption (Magnetic)
+   * multiplica shields (y Overguard); Infection (Viral) multiplica salud (health layer
+   * únicamente, no shields) — a TODO el daño de esa capa, no solo al del mismo tipo elemental.
+   * Ver references/wiki/mechanics/status-effects.md §Infection/Disruption.
    */
   public getDamageMultiplier(hitsShields: boolean): number {
-    const currentStacks = hitsShields ? this.stacks.damage_magnetic : this.stacks.damage_viral;
+    // Disruption (Magnetic) multiplica la capa shields/Overguard; Infection (Viral) la capa salud.
+    // La LEY (Familia A) vive en formulas/status; acá solo se lee el estado y se orquesta.
+    const currentStacks = hitsShields ? this.stacks.disruption : this.stacks.infection;
+    if (currentStacks <= 0) return 1.0;
 
-    if (currentStacks > 0) {
-      // Ley Dinámica: Bonus = Initial + (Stacks-1) * Stack_Bonus
-      // Ejemplo Viral: 1 + (0.75 + (9 * 0.25)) = 1 + 3.0 = x4.0
-      return 1 + (this.laws.status_initial_bonus / 100) + ((currentStacks - 1) * (this.laws.status_stack_bonus / 100));
-    }
-
-    return 1.0;
+    const law = hitsShields
+      ? disruptionLaw(this.laws.status_initial_bonus, this.laws.status_stack_bonus)
+      : infectionLaw(this.laws.status_initial_bonus, this.laws.status_stack_bonus);
+    return stackDebuffValue(law, currentStacks);
   }
 
   public getEffectiveArmor(currentTime: number): number {
     let armor = this.base.current_armor;
 
-    // 1. Aplicar Corrosivo (Evolución por Ley)
-    if (this.stacks.damage_corrosive > 0) {
-      const initial = this.laws.corrosive_initial_strip / 100;
-      const perStack = this.laws.corrosive_stack_strip / 100;
-      const reduction = initial + ((this.stacks.damage_corrosive - 1) * perStack);
-      armor *= (1 - Math.min(1.0, reduction)); // Nunca reducir más del 100%
+    // 1. Corrosion (Corrosive) — armor strip por stack (Familia A, LEY en formulas/status).
+    if (this.stacks.corrosion > 0) {
+      const strip = stackDebuffValue(
+        corrosionLaw(this.laws.corrosive_initial_strip, this.laws.corrosive_stack_strip),
+        this.stacks.corrosion,
+      );
+      armor *= (1 - strip);
     }
 
-    // 2. Aplicar Calor (Rampa de 2 segundos)
-    if (this.stacks.damage_heat > 0 && this.heat_first_proc_time !== null) {
+    // 2. Ignite (Heat) — armor strip por TIEMPO transcurrido (rampa de 2s). NO es Familia A
+    // (no escala por stacks) — excepción documentada, se queda inline como orquestación temporal.
+    if (this.stacks.ignite > 0 && this.heat_first_proc_time !== null) {
       const elapsed = currentTime - this.heat_first_proc_time;
       if (elapsed > 0.5) {
         const rampProgress = Math.min(1.0, (elapsed - 0.5) / 1.5);

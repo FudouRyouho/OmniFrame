@@ -43,14 +43,14 @@ describe('EnemyState.getDamageMultiplier — fórmula por capa (Viral=salud, Mag
 
   it('1 stack de Viral: ×2.0 en salud, shields sin cambio', () => {
     const state = new EnemyState(scaled, BASELINE_GAME_LAWS);
-    state.stacks.damage_viral = 1;
+    state.stacks.infection = 1;
     expect(state.getDamageMultiplier(false)).toBeCloseTo(2.0, 5);
     expect(state.getDamageMultiplier(true)).toBe(1.0);
   });
 
   it('10 stacks de Magnetic: ×4.25 en shields (cap documentado), salud sin cambio', () => {
     const state = new EnemyState(scaled, BASELINE_GAME_LAWS);
-    state.stacks.damage_magnetic = 10;
+    state.stacks.disruption = 10;
     expect(state.getDamageMultiplier(true)).toBeCloseTo(4.25, 5);
     expect(state.getDamageMultiplier(false)).toBe(1.0);
   });
@@ -64,7 +64,7 @@ describe('CombatSimulator.resolveHit — el multiplicador de status llega a la r
     const baseHit = CombatSimulator.resolveHit(damageMap, baseline);
 
     const withViral = new EnemyState(scaled, BASELINE_GAME_LAWS);
-    withViral.stacks.damage_viral = 1;
+    withViral.stacks.infection = 1;
     const viralHit = CombatSimulator.resolveHit(damageMap, withViral);
 
     expect(viralHit.health_damage).toBeCloseTo(baseHit.health_damage * 2, 5);

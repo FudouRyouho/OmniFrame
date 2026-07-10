@@ -4,7 +4,8 @@
  */
 
 import type { DamageType } from "@shared/types";
-import { totalStatusChance, procWeightByType, resolveElementalCombination, PRIMARY_ELEMENTS } from "../common/status-base";
+import { totalStatusChance, resolveElementalCombination, PRIMARY_ELEMENTS } from "../common/status-base";
+import { procWeightByType } from "../status/proc-selection";
 import { round2 } from "../common/scaling-base";
 
 export type WeaponStatusResult = {

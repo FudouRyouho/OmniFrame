@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Contrato semántico de tipos de daño y sus mapeos"
-Version: "v0.0.2"
+Version: "v0.0.3"
 Impacto_ID: "semantic-damage"
 Fidelidad_Fisica: "Project/src/shared/types/damage.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-07-10"
 ---
 
 # DamageType — Semántica Canónica
@@ -20,6 +20,39 @@ El sistema unifica los tipos de daño bajo una taxonomía canónica (lowercase),
 | **Elemental Base** | `heat`, `cold`, `electricity`, `toxin` |
 | **Combinado** | `blast`, `corrosive`, `gas`, `magnetic`, `radiation`, `viral` |
 | **Especial** | `void`, `tau` (Sentient), `true` (Finisher) |
+
+## Mapeo tipo de daño → efecto de estado (Arista 1)
+
+El **tipo de daño** y el **efecto de estado** que dispara son cosas distintas: `corrosive` es el tipo,
+`Corrosion` es el efecto; `viral` es el tipo, `Infection` el efecto (por sí solo no hace daño, amplifica
+el daño recibido). Este mapeo es **1:1 e identidad fija** (heat solo puede producir Ignite, nunca
+Corrosion) — es vocabulario, la "Arista 1" de [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §14.
+
+Solo se lista **el nombre**. La **fórmula** de cada efecto (qué hace N stacks) NO vive acá — es mecánica:
+`references/wiki/mechanics/status-effects.md` + `Project/src/core/engine/formulas/status/` (ejes ortogonales).
+
+| Tipo de daño | Efecto de estado | Categoría |
+|---|---|---|
+| `impact` | Stagger | CC |
+| `puncture` | Weakened | Debuff |
+| `slash` | Bleed | DoT |
+| `heat` | Ignite | DoT + Debuff |
+| `cold` | Freeze | CC |
+| `electricity` | Tesla Chain | CC |
+| `toxin` | Poison | DoT |
+| `blast` | Detonation | CC |
+| `corrosive` | Corrosion | Stack Debuff |
+| `gas` | Gas Cloud | DoT (AoE) |
+| `magnetic` | Disruption | Stack Debuff |
+| `radiation` | Confusion | CC |
+| `viral` | Infection | Stack Debuff |
+| `void` | Bullet Attraction | CC |
+| `tau` | Tau | Debuff |
+| `true` | — (no dispara proc) | — |
+
+> El código rastrea ESTADO solo para los 4 efectos con LEY que resuelve en C1 hoy (Corrosion,
+> Infection, Ignite, Disruption) — `EnemyStatusState` keyeado por efecto; el mapeo runtime del
+> subconjunto vive en `formulas/status/stack-debuff.ts` (`EFFECT_BY_DAMAGE_TYPE`/`EFFECT_BY_DOT_KEY`).
 
 ## Resolución de Tags Raw (`DT_*`)
 
