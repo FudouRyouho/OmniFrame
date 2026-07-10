@@ -4,6 +4,7 @@ import type {
   CoModifier,
   MeleeComboModifier,
   SniperComboModifier,
+  ComboScaledAddModifier,
   AttributeNode,
   EntityId,
   AttributeId,
@@ -94,6 +95,26 @@ function resolveSniperComboMult(
 }
 
 /**
+ * Mecánica Combo Scaled Add — Blood Rush / Weeping Wounds (`melee-combo.md §4`). Hermana de
+ * `resolveMeleeComboMult` (mismo factor de contexto, misma fórmula `meleeComboMult`) pero DISTINTA
+ * en dos ejes: trae `value` propio (rank del mod real, no intrínseco) y rutea FIJO a `ADD`
+ * (mods_add_pct), no `multiplicative`. Efecto = `value × meleeComboMult(count)` — el escalar de
+ * combo amplifica el valor del mod, no reemplaza el nodo. `_entity` no se usa (firma uniforme).
+ */
+function resolveComboScaledAdd(
+  mod: ComboScaledAddModifier,
+  _entity: SimulationEntity,
+  node: AttributeNode,
+  context: SimulationContext,
+): { value: number; context_value: number } {
+  const count = context.variables[mod.melee_combo_factors.count_var] ?? 0;
+  const mult = meleeComboMult(count);
+  const value = mod.value * mult;
+  node.mods_add_pct += value;
+  return { value, context_value: count };
+}
+
+/**
  * Registro de mecánicas de FAMILIA (Abstracción B, arch-decisions §10). Separa las dos
  * clases de modifier que `resolveNode` mezcla: las **ops de acumulador** (value ES el efecto,
  * el `switch` de abajo) vs las **mecánicas de familia** (el efecto lo COMPUTA una fórmula desde
@@ -119,10 +140,12 @@ const FAMILY_RESOLVERS: {
   CONDITION_OVERLOAD: FamilyResolver<CoModifier>;
   MELEE_COMBO_MULT:   FamilyResolver<MeleeComboModifier>;
   SNIPER_COMBO_MULT:  FamilyResolver<SniperComboModifier>;
+  COMBO_SCALED_ADD:   FamilyResolver<ComboScaledAddModifier>;
 } = {
   CONDITION_OVERLOAD: resolveConditionOverload,
   MELEE_COMBO_MULT:   resolveMeleeComboMult,
   SNIPER_COMBO_MULT:  resolveSniperComboMult,
+  COMBO_SCALED_ADD:   resolveComboScaledAdd,
 };
 
 export class SimulationEngine {

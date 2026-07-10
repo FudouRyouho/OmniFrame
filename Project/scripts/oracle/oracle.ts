@@ -46,7 +46,7 @@ if (process.argv[2] === 'enemy') {
     console.log(`\n######## ENEMY: ${dna.name ?? dna.unique_name} @ lvl ${level} (base ${dna.base_level}, facción ${dna.faction}) ########`);
     console.log(`  health : ${s.current_health.toFixed(2)}`);
     console.log(`  armor  : ${s.current_armor}  → DR ${(dr * 100).toFixed(2)}%  [√3a/100, provisional OQ-ENGINE-15]`);
-    console.log(`  shields: ${s.current_shields}  ⚠️ sin escalar (gap)`);
+    console.log(`  shields: ${s.current_shields.toFixed(2)}`);
     console.log(`  EHP    : ${ehp.toFixed(2)}  (health/(1−DR)+shields)`);
     console.log(`  daño-vs-target: por facción (${dna.faction}) — matriz FACTION_BONUS, aplicación en resolveHit pendiente (C2)`);
   }

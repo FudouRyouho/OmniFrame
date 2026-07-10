@@ -3,9 +3,9 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.16.1"
+Version: "v1.16.3"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-09"
+Fecha_de_actualizacion: "2026-07-10"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
 ---
 
@@ -305,12 +305,19 @@ Sub-familia emergente `while_enemy_*` — condición sobre el **estado del targe
 
 | Token | Label (override) | `upgrade_type` |
 |---|---|---|
-| `while_enemy_below_half_health` | "+Damage to enemies below half Health" | — |
+| `while_enemy_below_half_health` | "+Damage to enemies below half Health" | `WEAPON_ADD_DAMAGE` (Sicarus/Feigned Retreat) — **resuelto 2026-07-09** |
 | `while_enemy_undamaged` | "Combo / Base CC / Base CD on undamaged enemies" | varios |
 | `while_enemy_impaled` | "Puncture Status while impaled" / "+vulnerable to SC" | — |
 | `while_enemy_status_count_below_3` | "enemies with <3 Status Effects: +Crit Damage" | `WEAPON_ADD_CRIT_MULT` |
 | `while_enemies_within_6m` | "+Attack Speed per enemy within 6m. Stacks 5x" | `WEAPON_ADD_FIRE_RATE` |
 | `while_impaling_5_or_more_enemies` | "+Heavy Attack Efficiency for 20s when impaling 5+ enemies" | `WEAPON_BASE_HEAVY_EFFICIENCY` |
+
+**`while_enemy_below_half_health` — resuelto (2026-07-09):** primer `while_enemy_*` con vehículo real
+cableado, vía `EnemySnapshot` (`arch-decisions.md §13`). Solo el perfil **Sicarus** (Feigned Retreat,
+"additive a mods como Hornet Strike") se pobló — Dread (Hitman's Opportunity, "modificador
+multiplicativo único aislado") y Kunai (Swift Conclusion, dual-mode normal/incarnon) comparten el
+mismo token pero cada uno necesita su propia fórmula dedicada; siguen sin `upgrade_type`, gap trazado
+sin resolver.
 
 Eventos nuevos:
 
@@ -395,7 +402,7 @@ diferidos** (ver §Altitud de los debates): entran a nivel captura, derivados de
 | `while_crouching` (nuevo) | Lie In Wait | "+Fire Rate when Crouching" — flag binario del jugador, familia de `while_aiming`/`while_sliding`. |
 | `on_first_shot_in_magazine` (nuevo) | Charged Chamber, Primed Chamber | "+Damage on first shot in Magazine" (`WEAPON_INIT_DAMAGE_MOD`). Tensión evento (primer disparo) vs derivado (posición en cargador) — diferida hasta diseñar el contador de munición del SimContext. |
 | `per_status_type_on_target` (nuevo) | Condition Overload, Healing Return | "per Status Type affecting the target" — escala proporcional al nº de status distintos en el target. Amplía la familia `per_` (G4). ⚠ `upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` es binario (legacy DE); gana el label (fidelidad). **Cross-schema:** misma fórmula en incarnon y en Galvanized Aptitude/Savvy/Shot — pero allí el token primario es `on_kill` (el "per status type" es escala, no condición; `condition:string` guarda una sola). **Migración COMPLETA (2026-07-04):** `WEAPON_ADD_DAMAGE_PER_STATUS_TYPE` (op `CONDITION_OVERLOAD`; dimensiones stacks/N en `co_factors`, no en `condition`) cubre **toda la familia**: mods galvanizados (Savvy/Aptitude/Shot), 8 perks incarnon (1x), y **Condition Overload melee** (coefBase 80, 1x, adding). En el CO melee se **removió** `condition: per_status_type_on_target` — era la escala N disfrazada de condición; la escala vive en `co_factors`, no en `condition` (el token sigue documentado como concepto; su uso como `condition` en datos de CO queda obsoleto). Ver `data/decisions.md` D-17 + `engine/design/arch-decisions.md §9`. |
-| `per_melee_combo_multiplier` (existente, G4) | Weeping Wounds, Blood Rush | Son los "más casos" que G4 anticipaba. Token stat-agnóstico (Status Chance / Crit Chance). Blood Rush: label "stacks with Combo Multiplier" pero su nota de fórmula confirma mecánica idéntica (`val × combo_mult`). |
+| `per_melee_combo_multiplier` (existente, G4) | Weeping Wounds, Blood Rush | Son los "más casos" que G4 anticipaba. Token stat-agnóstico (Status Chance / Crit Chance). Blood Rush: label "stacks with Combo Multiplier" pero su nota de fórmula confirma mecánica idéntica (`val × combo_mult`). **Migración COMPLETA (2026-07-10):** misma trampa que `per_status_type_on_target` — es escala disfrazada de condición, no gate. `COMBO_SCALED_ADD` (`melee-combo.md §4.3`) la resuelve: `ModRepository` reconoce el token y NO lo pasa como `condition` (no hay `evalCondition`), construye el modifier directo con `melee_combo_factors`. Como `per_status_type_on_target`, el token sigue documentado como concepto; su uso como `condition` en datos queda obsoleto. |
 
 > **Fuera de scope (Grupo B, no acuñado):** mods con `upgrade_type AVATAR_*`/`VEHICLE_*` —
 > `on_bullet_jump` (parkour elemental), `while_falling` (Air Time/Mad Stack), `on_spawn` (Preparation).

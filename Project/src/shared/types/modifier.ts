@@ -47,6 +47,14 @@ export type ModifierOperation =
   // (`sniperComboMult`) y necesita DOS inputs: el count (contexto) + `min_combo` (dato por-arma).
   // Ruteo FIJO `multiplicative`, pasivo (todo shot scoped, sin gate heavy). Se sintetiza en hidratación.
   | 'SNIPER_COMBO_MULT'
+  // Familia Combo Scaled Add — Blood Rush / Weeping Wounds. Hermana de MELEE_COMBO_MULT (mismo
+  // factor `melee_combo_factors`, misma fórmula `meleeComboMult`) pero DISTINTA en dos ejes: (1) trae
+  // `value` propio (el rank del mod real, vía ModRepository — no intrínseco/sintetizado), (2) ruteo
+  // FIJO `ADD` (mods_add_pct), no `multiplicative` — efecto = `value × meleeComboMult(count)`. El
+  // trigger es `condition: 'per_melee_combo_multiplier'` en el dato — MISMA trampa que
+  // `per_status_type_on_target` fue para CO (escala disfrazada de condición, `conditions.md`):
+  // ModRepository lo reconoce y descarta el `condition` (no es gate), construye este op en su lugar.
+  | 'COMBO_SCALED_ADD'
 
 // ─── CoBehavior ────────────────────────────────────────────────────────────────
 // Familia Condition Overload / GunCO: CÓMO compone un bonus "per Status Type" sobre un

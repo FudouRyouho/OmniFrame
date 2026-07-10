@@ -26,6 +26,16 @@ const HEALTH_COEF: Record<string, SCoef> = {
   Techrot:   { below: { c: 0.02,   e: 2.12 }, above: { c: 15.1,    e: 0.7   } },
 };
 
+// Coeficientes de SHIELDS por facción. Infested no tiene fila en la wiki (no llevan escudo — el
+// `base=0` de esos enemigos hace el coef irrelevante en la práctica); fallback Grineer/Sentient.
+const SHIELDS_COEF: Record<string, SCoef> = {
+  Corpus:    { below: { c: 0.02, e: 1.76 }, above: { c: 2,   e: 0.76 } },
+  Orokin:    { below: { c: 0.02, e: 1.75 }, above: { c: 2,   e: 0.75 } },
+  Grineer:   { below: { c: 0.02, e: 1.75 }, above: { c: 1.6, e: 0.75 } },
+  Sentient:  { below: { c: 0.02, e: 1.75 }, above: { c: 1.6, e: 0.75 } },
+  Techrot:   { below: { c: 0.02, e: 1.76 }, above: { c: 3.5, e: 0.76 } },
+};
+
 // Armadura: fórmula ÚNICA para todas las facciones (no depende de faction ni de armor_type).
 const ARMOR_COEF: SCoef = { below: { c: 0.005, e: 1.75 }, above: { c: 0.4, e: 0.75 } };
 
@@ -52,6 +62,15 @@ function scaleMult(coef: SCoef, dx: number): number {
 export function scaleHealth(base: number, faction: string, dx: number): number {
   const healthCoef = HEALTH_COEF[faction] ?? HEALTH_COEF.Grineer;
   return base * scaleMult(healthCoef, dx);
+}
+
+/**
+ * SHIELDS escalados por facción (fallback Grineer si la facción no está tabulada). Sin floor/cap —
+ * a diferencia de armor, la wiki no documenta ninguno para shields. `dx` = Δnivel ≥ 0.
+ */
+export function scaleShields(base: number, faction: string, dx: number): number {
+  const shieldsCoef = SHIELDS_COEF[faction] ?? SHIELDS_COEF.Grineer;
+  return base * scaleMult(shieldsCoef, dx);
 }
 
 /**

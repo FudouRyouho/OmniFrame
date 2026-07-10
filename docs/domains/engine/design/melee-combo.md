@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Contrato de consumo de la mecánica de melee combo — quién consume el combo y qué le exige al engine (SSoT de la mecánica; promoción de OQ-ENGINE-14)"
-Version: "v0.3.0"
+Version: "v0.4.0"
 Impacto_ID: "E-MeleeCombo"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-07-05"
-Fecha_de_actualizacion: "2026-07-05"
+Fecha_de_actualizacion: "2026-07-10"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "docs/domains/engine/design/formulas-integration.md"
@@ -109,8 +109,8 @@ operación/bucket, en qué perfil/gate, de qué fuente, su estado y su procedenc
 |---|---|---|---|---|---|---|---|
 | **Heavy slam** | identidad (× `combo_mult`) | `WEAPON_ADD_DAMAGE` | `multiplicative` | perfil `heavy_slam_attack` | intrínseco (hidratación) | **✅ ejecutado** | (c) |
 | **Heavy ground** | identidad (× `combo_mult`) | `WEAPON_ADD_DAMAGE` | `multiplicative` | perfil sintético (no en el dato) | intrínseco | **difiere** (comparte perfil `base` con el light + capa stance) | (b) |
-| **Blood Rush** | escalar (`val × combo_mult`) | `WEAPON_ADD_CRIT_CHANCE` | `ADD` (mods_add_pct) | mod, gate combo>1 | ModRepository | diferido | (b) |
-| **Weeping Wounds** | escalar (`val × combo_mult`) | `WEAPON_ADD_STATUS_CHANCE` | `ADD` (mods_add_pct) | mod, gate combo>1 | ModRepository | diferido | (b) |
+| **Blood Rush** | escalar (`val × combo_mult`) | `WEAPON_ADD_CRIT_CHANCE` | `ADD` (mods_add_pct) | mod, sin gate (combo 0 → mult 1, siempre activo) | ModRepository | **✅ ejecutado (2026-07-10)** | (c) |
+| **Weeping Wounds** | escalar (`val × combo_mult`) | `WEAPON_ADD_STATUS_CHANCE` | `ADD` (mods_add_pct) | mod, sin gate (combo 0 → mult 1, siempre activo) | ModRepository | **✅ ejecutado (2026-07-10)** (mismo op, sin test propio — Blood Rush lo valida) | (c) |
 | **Habilidades** | ratio 1:0.25 (o completo si Ability Combo Counter) | (fuera del grafo de arma) | fórmula dedicada | ability (§2/§3) | ability domain | diferido | (b) |
 | **Light attack** | **∅ (no consume daño)** | — | — | perfil `normal` | — | **sentenciado como dato** | (b) |
 
@@ -163,6 +163,31 @@ Verbatim wiki: *"Melee Combo Multiplier does not multiply the damage of your nor
 vía Blood Rush / Weeping Wounds (crit/status), nunca como multiplicador de daño. Se registra como **dato**
 para que nadie lo re-abra.
 
+### 4.3 Blood Rush / Weeping Wounds — familia `COMBO_SCALED_ADD` (✅ ejecutado 2026-07-10)
+
+Consumidor **indirecto** del light (§4.2): escala crit/status chance por `combo_mult`, no daño. **5ª
+mecánica de familia** (hermana de `CONDITION_OVERLOAD`/`MELEE_COMBO_MULT`/`SNIPER_COMBO_MULT`,
+`arch-decisions §10`), con una diferencia real respecto a Heavy Slam:
+
+- **Trae `value` propio.** Heavy Slam es intrínseco (identidad ×`combo_mult`, sin dato propio); Blood
+  Rush/WW son **mods reales** (`ModRepository`, rank-based) — el efecto es `value × meleeComboMult(count)`,
+  no una identidad.
+- **Ruteo FIJO `ADD`** (mods_add_pct), no `multiplicative` — el escalar de combo amplifica el valor del
+  mod, no reemplaza el nodo.
+- **`condition: 'per_melee_combo_multiplier'` en el dato NO es un gate booleano** — es escala disfrazada
+  de condición, misma trampa que `per_status_type_on_target` tuvo para CO (`conditions.md`). La nota de
+  fórmula del propio override lo confirma: `actual crit chance = val × combo_mult`. `ModRepository`
+  reconoce el token y descarta el `condition` (no pasa por `evalCondition`), construye `COMBO_SCALED_ADD`
+  directo — mismo patrón que `StaticHydrator` sintetiza `MELEE_COMBO_MULT` a mano, pero disparado por
+  dato (no intrínseco por perfil).
+- **Sin gate real:** a combo 0, `meleeComboMult(0) = 1` (tier base, no 0) → el mod siempre contribuye
+  al menos su valor pleno. La entrada previa de la tabla §4 ("gate combo>1") era imprecisa — corregida.
+
+Cierre: `nikana-melee.test.ts` §5 — Blood Rush rank 10 (+40%), combo 0/20/240(cap 12x) sobre
+`WEAPON_ADD_CRIT_CHANCE`, perfil `base` (light — Blood Rush no exige heavy). Weeping Wounds comparte
+el mismo `op` y trigger; sin test propio (la mecánica ya está validada por Blood Rush, mismo camino de
+código, solo cambia el nodo destino).
+
 ## 5 — Bucket 4 · En la órbita del combo (no consumidores directos)
 
 Vecinos inventariados, **no modelados** — cada uno diferido a su propio caso+dato:
@@ -207,6 +232,13 @@ Reemplaza el worklist de OQ-ENGINE-14. Patrón §8/§9/§10 (cada mecánica con 
   **discriminated union por `operation`** (`AccumulatorModifier | CoModifier | MeleeComboModifier | SniperComboModifier`).
   El compilador exige los factores por variante y mató el `value` muerto de los combos; productores dinámicos vía
   factory `makeModifier`. Ver arch-decisions §10.
+- **Blood Rush / Weeping Wounds — familia `COMBO_SCALED_ADD`** (2026-07-10, §4.3) — **5ª mecánica de
+  familia**, primer caso donde un mod DINÁMICO (no intrínseco) necesita `melee_combo_factors`: nuevo op
+  `COMBO_SCALED_ADD` + variante `ComboScaledAddModifier {value, melee_combo_factors}` + resolver
+  `resolveComboScaledAdd` (ruteo fijo `ADD`) + `ModRepository` reconoce `condition:
+  'per_melee_combo_multiplier'` como escala-no-gate y sintetiza el modifier directo (bypassa
+  `makeModifier`, que ahora rechaza explícitamente `COMBO_SCALED_ADD` igual que los otros combos).
+  **(c)** `nikana-melee.test.ts` §5.
 
 **⏸ Diferido (con motivo):**
 - **Heavy ground (§4.1 celda 3)** — comparte perfil `base` con el light (no se le puede colgar `MELEE_COMBO_MULT`
@@ -219,7 +251,6 @@ Reemplaza el worklist de OQ-ENGINE-14. Patrón §8/§9/§10 (cada mecánica con 
 - **Validación con enemigo aplicado** — un combat capture (ej. 4275 = heavy slam crit vs Arid Butcher lvl 215)
   valida la **tubería completa** (crit aplicado + armadura), no el C1 de este ladrillo. El fork soporta modelar
   un enemigo de prueba (dato en `references/*`); camino de validación **futuro**, fuera del `combo_mult` (§8).
-- **Blood Rush / Weeping Wounds (§4)** — escalar crit/status por `combo_mult`; sin fixture aún.
 - **Slam falloff radial (§5)** — ya en el dato (`@wfcd falloff`); el ladrillo modela el centro 100%. El
   **bonus por altura** de caída sí difiere (falta la curva altura→daño).
 - **Forced status en slam** — Nikana aplica Impact forzado en slam (tooltip). Entra como **duda** (no universal),

@@ -6911,8 +6911,9 @@
               "label": "+|val1|% Damage to enemies below half Health.",
               "base_value": 40,
               "condition": "while_enemy_below_half_health",
+              "upgrade_type": "WEAPON_ADD_DAMAGE",
               "notes": [
-                "engine:note — % Damage bonus additive con mods — sin upgrade_type establecido. data:class:cat/e."
+                "engine:note — % Damage bonus additive con mods (WEAPON_ADD_DAMAGE, op ADD) — mismo patrón que Hornet Strike. upgrade_type poblado 2026-07-09 (forcing-case EnemySnapshot, condition ya evaluaba genérico contra context.flags)."
               ]
             }
           ],

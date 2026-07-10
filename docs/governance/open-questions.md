@@ -1,7 +1,7 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.38.0"
+Version: "v0.39.1"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
@@ -133,10 +133,19 @@ El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`
 **Bloquea:** unificación del modelado de stacking/duration entre los 4 schemas; diseño de composición de condition.
 **No bloquea:** captura de datos actual (escape hatch clasificado, D-20) ni el engine Fase 0 (D-15).
 
+**Nueva evidencia para el eje "quién" (T5, 2026-07-09, no cierra el OQ):** primer caso concreto del
+sujeto de condition sobre el TARGET (no jugador/loadout) ejecutado — `while_enemy_below_half_health`
+vía `EnemySnapshot` (`arch-decisions.md §13`), vehículo real Sicarus/Feigned Retreat. Confirma que el
+"quién" es viable de resolver caso por caso sin infraestructura nueva (consume el mismo mecanismo de
+`context.flags` que el modo estático) — el **operando literal** (`_450`, `_3_stacks`) sigue sin forzar,
+este caso era puramente booleano. Sigue sin cerrar el OQ (la gramática sujeto/predicado/operando
+completa sigue abierta), pero es evidencia de que el eje "quién" no bloquea casos concretos mientras
+se difiere la gramática general.
+
 **Nueva evidencia para el gate D-20 (2026-07-09, no cierra el OQ):** el barrido de arcanes
 (`OQ-ENGINE-17`) confirmó 8 casos reales de la familia "evento → +val por stack, cap Nx"
 (Primary/Secondary Merciless, Deadhead, Dexterity, Exhilarate, Cascadia Flare —
-`.working/arcane-corpus-sweep.md`), y el motor los resuelve ahora a nivel **engine** (no schema)
+`docs/data/reports/audit-arcane-ability-like.md`), y el motor los resuelve ahora a nivel **engine** (no schema)
 vía la nueva operación `STACK_DECAY_BUFF` (`arch-decisions.md §11`) — que consume `stacks` como
 input **C1-declarado**, misma altitud que `activeStacks` de CO hoy, sin tocar el shape del schema.
 Esto es la 2ª forma real (arcanes) apuntando al mismo patrón que Galvanized (mods, D-15 §2) — sigue
@@ -355,7 +364,7 @@ Tres tells de duplicación (espejo de OQ-DATA-9):
 - **SSoT de label+unit por stat — DECIDIDO (revierte conscientemente una sub-decisión de Fase 4):** UN solo mapa declarativo token-keyed. La **`label` vuelve al registro** (`{ label, category, unit }`), porque el split label↔(category/unit) **no tiene caso real**: i18n-por-token no existe e i18n está diferido (English-only) → dos mapas token-keyed = isla a sincronizar = la puerta falsa que veníamos matando. El registro se **muda `lib/presentation` → `lib/format`** (es dato puro, hoy mal ubicado en la carpeta de React) y se **renombra `stat-presentation`** (token→{label,category,unit}). Invariantes que NO cambian: `StatViewModel` sigue neutro (token·value·unit·category, sin label) y el nodo del engine sigue puro — la label entra solo en el borde (`StatEntry`), por lookup. Cuando multi-locale sea real, la label gradúa a i18n. **Sigue abierto:** la convergencia con la ruta **catálogo** (`stat-labels`, espacio de id `@wfcd/items`) — dos espacios de id, fuera de este corte.
 - **Tipo `StatEntry` único — DECIDIDO:** hoy duplicado (`StatPanel.tsx:4` ≠ `item-details.ts:21`); converge a uno solo (el del sumidero), producido por el proyector.
 
-**Plan de ejecución por stages (acordado 2026-06-14 — recon-per-stage, sin asumir el resultado del anterior; cada stage cierra con `tsc`+tests+confirmación). Backlog vivo: `.working/presentation-stages.md`:**
+**Plan de ejecución por stages (acordado 2026-06-14 — recon-per-stage, sin asumir el resultado del anterior; cada stage cierra con `tsc`+tests+confirmación). Backlog cerrado, purgado de `.working/` tras consolidarse acá:**
 - **Stage A — mapa declarativo (data):** mudar `attribute-registry` (`lib/presentation` → `lib/format`) + renombrar `stat-presentation` + re-agregar `label`. Recon previo: capturar qué labels existen y dónde (`stat-labels`, inline en `UpgradeView`, ¿otros?) antes de poblar.
 - **Stage B — proyector + formateo (lógica):** `toStatEntries(StatViewModel[]) → StatEntry[]` en `lib/format` (label por lookup + regla `unit→formato`). Unificar el tipo `StatEntry` duplicado. Recon: las 2 declaraciones + consumidores.
 - **Stage C — cablear D1:** `UpgradeView` consume `toStatEntries`, borra su map inline. Checkpoint visual.
@@ -572,7 +581,7 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 **Resultado Pre-E (2026-06-14, pasada de análisis — NO construcción):** **E NO es necesidad emergente.** A–D materializaron el **estrato 2** (`lib/format`: proyector único `toStatEntries` + `stat-presentation`, consumido por D1 y D2) — *lo que se confundía con E, no E*. Eso **retira el concern "islas de formateo" de L577** (lib/format probó ser single-source: dos consumidores de una utilidad = biblioteca, no isla). Evidencia dura: D1 (`UpgradeView`) opera hoy como `D + lib/format` **sin E** y rinde; el chrome (2ª entrada de E) sigue ad-hoc inline `0→UI` (`nameById` + `SLOT_DEFS`) = el eje-2 diferido de OQ-UI-2. **E queda ESTACIONADO** (no muerto): el modelo de confluencia es buen pensamiento y espera; su próximo forcing-function es un **consumidor UI real** (la vista avanzada, inexistente) que exija la confluencia chrome+info, no más trabajo de formateo. **Hallazgo cross-cutting (excede esta OQ):** la pasada destapó que *la UI nunca tuvo su corpus de docs/auditoría* como sí lo tuvo `data/`/engine → eje del próximo trabajo (**campaña de documentación de UI**, separada de E). Ver trazabilidad de sesión 2026-06-14.
 
 **No bloquea:** nada (la UI renderiza; D/E hoy conflados ad-hoc en los componentes). **Gated por:** function-first — *modelar* ahora, *construir* E difiere con OQ-DATA-10.
-**Vínculo:** **OQ-DATA-10** (borde de salida / suite = estrato 2 + sumidero de E), **OQ-ENGINE-8** (renombre del payload de D), **OQ-ENGINE-FUTURE** (resuelve "consumer-shaped vs compartido"), **OQ-DATA-9** (par espejo: 0 = borde de entrada), **OQ-UI-2** (estado efímero, sin ubicar), **OQ-ENGINE-9** (estructura de `@core` donde aterrizarían D/E). **D-7** ([`../data/decisions.md`](../data/decisions.md) §D-7) = **mecanismo del estrato `lib/format`**: el dict de presentación se cuelga del vocabulario canónico `Upgrade`; **✅ ejecutado por la Fase 4 de D-7 (2026-06-14, camino A completo).** El estrato `lib/format` ahora tiene un solo espacio de id (token == nodo) de C a la UI — desbloquea la unificación, pero **construir E + renombrar D siguen siendo esta OQ** (prematura: la UI clásica/avanzada aún se está re-enfocando, function-first). Lo que la Fase 4 aterrizó es solo la **meta estructural** (category/unit); la label/locale y la suite numérica siguen en OQ-DATA-10. **Materialización en curso (2026-06-14):** OQ-DATA-10 stages A–D construyen el estrato `lib/format` real (mapa `stat-presentation` + proyector `toStatEntries`, consumido por D1+D2); su **Stage E ("Pre-E")** es la pasada de análisis que alimenta directamente esta OQ — dónde/cómo ubicar la Capa E y su arquitectura interna. Backlog: `.working/presentation-stages.md`.
+**Vínculo:** **OQ-DATA-10** (borde de salida / suite = estrato 2 + sumidero de E), **OQ-ENGINE-8** (renombre del payload de D), **OQ-ENGINE-FUTURE** (resuelve "consumer-shaped vs compartido"), **OQ-DATA-9** (par espejo: 0 = borde de entrada), **OQ-UI-2** (estado efímero, sin ubicar), **OQ-ENGINE-9** (estructura de `@core` donde aterrizarían D/E). **D-7** ([`../data/decisions.md`](../data/decisions.md) §D-7) = **mecanismo del estrato `lib/format`**: el dict de presentación se cuelga del vocabulario canónico `Upgrade`; **✅ ejecutado por la Fase 4 de D-7 (2026-06-14, camino A completo).** El estrato `lib/format` ahora tiene un solo espacio de id (token == nodo) de C a la UI — desbloquea la unificación, pero **construir E + renombrar D siguen siendo esta OQ** (prematura: la UI clásica/avanzada aún se está re-enfocando, function-first). Lo que la Fase 4 aterrizó es solo la **meta estructural** (category/unit); la label/locale y la suite numérica siguen en OQ-DATA-10. **Materialización en curso (2026-06-14):** OQ-DATA-10 stages A–D construyen el estrato `lib/format` real (mapa `stat-presentation` + proyector `toStatEntries`, consumido por D1+D2); su **Stage E ("Pre-E")** es la pasada de análisis que alimenta directamente esta OQ — dónde/cómo ubicar la Capa E y su arquitectura interna. Backlog cerrado, purgado de `.working/` (ver Resultado Pre-E arriba y `current-state.md` #12).
 **Cierres parciales (2026-06-13, debate de iteración):**
 - **`lib/*` = suite de utilidad, no estrato del flujo** → `DC-OQ-ENGINE-10-A`. Corrige el diagrama (el estrato 2 no es eslabón; es plano de utilidad ortogonal, espejo de `0`). Disuelve el "ruido abierto" de las islas.
 - **Stub honesto** (`DC-OQ-STUB-1`) y **UI no es spec del flujo** (`DC-OQ-UI-SPEC-1`) — principios ratificados que enmarcan la purga de `metadata` y el re-enfoque de la UI.
@@ -705,36 +714,8 @@ estrese con tests.
 
 **Vínculo:** `.working/c1-simulation-doctrine.md` §4-T1, `.working/c1-corpus-roadmap.md` (findings del
 sweep, clúster `c2/stack`=42), `damage-status-model.md` (timers independientes, brecha `processDots`),
-`arch-decisions.md` §8, §11 (caso hermano `STACK_DECAY_BUFF`), `.working/arcane-corpus-sweep.md`,
+`arch-decisions.md` §8, §11 (caso hermano `STACK_DECAY_BUFF`), `docs/data/reports/audit-arcane-ability-like.md`,
 `OQ-DATA-4` (evidencia cruzada de schema).
-**Fuente:** `.working/c1-simulation-doctrine.md` (debate 2026-07-08); cristalizada en verificación de
-estabilidad pre-C1 (2026-07-09).
-
----
-
-## OQ-ENGINE-17 — Fórmula de arcanos ability-like: ¿por-arcano o por-familia? — **ABIERTO (2026-07-09)**
-**Dominio:** engine / C1 (arcanes, primer ladrillo del roadmap)
-
-**Contexto.** El corpus de arcanos con `upgrade_type:null` (per-stat, operador/amp, status resists) es
-**ability-like → fórmula dedicada** — el *dónde* viven las fórmulas dedicadas ya está respondido
-(`core/engine/formulas/`, ver `gap-map.md` "matiz 2026-07-03"). Lo que sigue abierto es más angosto:
-**dentro** de ese corpus específico, `formulas/arcane/` está **vacío** — ¿cada arcano necesita su propia
-fórmula (N fórmulas dedicadas), o varios comparten forma y deberían modelarse como **familia** (mismo
-patrón que `CONDITION_OVERLOAD` unificó CO+Galvanized×3+Cedo bajo una mecánica, `arch-decisions §9/§10`)?
-
-**Hipótesis a estresar (Doc 2, `c1-corpus-roadmap.md` §1):** varios arcanes comparten forma → familia,
-no N fórmulas. No confirmado — es hipótesis, no dato.
-
-**Bloquea:** el primer ladrillo del roadmap C1 (arranque arcanes, Doc 2 §1) — el barrido de clasificación
-del corpus arcane completo (102 `upgrade_type` + 145 condition) puede avanzar sin esto, pero la
-implementación real del residuo `upgrade_type:null` sí lo necesita resuelto.
-
-**Condición para resolver:** el barrido de clasificación del corpus (primer trabajo de Doc 2 §1, "no
-código") — con 2-3 casos reales en mano se decide familia vs per-arcano, mismo método que CO (§9: no se
-diseña la abstracción antes de tener el corpus enfrente).
-
-**Vínculo:** `.working/c1-simulation-doctrine.md` §4-T2, `.working/c1-corpus-roadmap.md` §1,
-`arch-decisions.md` §9/§10, `test/gap-map.md` (nota "matiz 2026-07-03").
 **Fuente:** `.working/c1-simulation-doctrine.md` (debate 2026-07-08); cristalizada en verificación de
 estabilidad pre-C1 (2026-07-09).
 

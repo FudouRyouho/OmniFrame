@@ -178,3 +178,34 @@ describe('Nikana Prime — CO × Heavy Slam (dos familias, buckets separados)', 
     expect(coHeavy(3, 60).node('WEAPON_ADD_BLAST_DAMAGE').final).toBeCloseTo(8078.4, 1);
   });
 });
+
+// ═══ 5. Blood Rush — familia COMBO_SCALED_ADD (ladrillo #3, melee-combo.md §4) ══════
+//
+// Distinta de Heavy Slam: trae `value` propio (rank real del mod, 40 en rank 10/10) y rutea
+// FIJO a `ADD` (mods_add_pct), no `multiplicative`. Efecto = val × meleeComboMult(count). El
+// `condition: 'per_melee_combo_multiplier'` del dato NO es gate — ModRepository lo descarta y
+// construye COMBO_SCALED_ADD directo (escala disfrazada de condición, mismo patrón que CO tuvo
+// con `per_status_type_on_target`). Vehículo: Blood Rush rank 10 (+40% base), perfil `base` (light
+// attack — Blood Rush no exige heavy, a diferencia del combo-como-daño de §3).
+
+const bloodRush = (combo: number) =>
+  consume(nikana(false, 'base', false, true), { variables: { melee_combo_count: combo } }).weapon(NIKANA_PRIME);
+
+describe('Nikana Prime — Blood Rush (familia COMBO_SCALED_ADD)', () => {
+  it('combo 0 → mult 1 (tier base) → +40 en mods_add_pct de WEAPON_ADD_CRIT_CHANCE', () => {
+    expect(bloodRush(0).node('WEAPON_ADD_CRIT_CHANCE').mods_add_pct).toBeCloseTo(40, 1);
+  });
+  it('combo 20 → mult 2 → +80 (val × mult, no identidad)', () => {
+    expect(bloodRush(20).node('WEAPON_ADD_CRIT_CHANCE').mods_add_pct).toBeCloseTo(80, 1);
+  });
+  it('cap 12x: combo 240 → mult 12 → +480', () => {
+    expect(bloodRush(240).node('WEAPON_ADD_CRIT_CHANCE').mods_add_pct).toBeCloseTo(480, 1);
+  });
+  it('sin declarar combo → mult 1 igual (no dropea, mismo default que Heavy Slam) → +40', () => {
+    expect(consume(nikana(false, 'base', false, true)).weapon(NIKANA_PRIME).node('WEAPON_ADD_CRIT_CHANCE').mods_add_pct)
+      .toBeCloseTo(40, 1);
+  });
+  it('el perfil light NO recibe el multiplicative del combo (eje ortogonal a Heavy Slam §3)', () => {
+    expect(bloodRush(60).node('WEAPON_ADD_CRIT_CHANCE').multiplicative).toBeCloseTo(1, 3);
+  });
+});

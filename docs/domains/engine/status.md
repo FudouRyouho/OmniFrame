@@ -1,7 +1,7 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.4.1"
+Version: "v0.4.2"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
@@ -169,7 +169,7 @@ en `SimulationEngine`, y la reconciliación de `resolveHit` con accessors dedica
 C2 real, no se reconcilia todavía (gate = consumidor, no ausencia de plan).
 
 - `engine:debt` — descomponer `project()` en piezas por naturaleza cuando `combat/` tenga un consumidor
-  de producción. [verificación de estabilidad, `.working/stability-matrix.md` Tramo 3]
+  de producción. [verificación de estabilidad pre-C1, 2026-07-09]
 
 ### Procedencia de perks de Incarnon — `source_id` ausente
 

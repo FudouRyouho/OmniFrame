@@ -3,7 +3,7 @@
  * @status en-desarrollo
  */
 
-import { scaleHealth, scaleArmor } from '../../formulas/enemy/enemy-scaling';
+import { scaleHealth, scaleArmor, scaleShields } from '../../formulas/enemy/enemy-scaling';
 
 export type HealthType = "Health" | "Flesh" | "ClonedFlesh" | "Fossilized" | "Robotic" | "Infested" | "InfestedFlesh" | "InfestedSinew" | "Machinery";
 export type ArmorType = "None" | "FerriteArmor" | "AlloyArmor";
@@ -95,10 +95,8 @@ export class EnemyRepository {
 
   /**
    * Escala un enemigo por la curva-S real (post Update 27.2, `enemy-level-scaling.md`). Orquesta las
-   * primitivas puras de `formulas/enemy/enemy-scaling` (health por facción; armor cap/floor) contra
-   * los campos de la entidad; la matemática vive en la fórmula, aquí solo la composición.
-   * ⚠️ Gap flagueado: escalado de SHIELDS aún no poblado (los enemigos con escudo escalan mal).
-   * Nuestro primer target (Arid Butcher @215) no lo ejercita.
+   * primitivas puras de `formulas/enemy/enemy-scaling` (health/shields por facción; armor cap/floor)
+   * contra los campos de la entidad; la matemática vive en la fórmula, aquí solo la composición.
    */
   public static scale(dna: EnemyDNA, level: number): ScaledEnemy {
     const dx = Math.max(0, level - dna.base_level);
@@ -107,7 +105,7 @@ export class EnemyRepository {
       current_level: level,
       current_health: scaleHealth(dna.health, dna.faction, dx),
       current_armor: scaleArmor(dna.armor, dx),
-      current_shields: dna.shields, // ⚠️ sin escalar aún — gap (Arid Butcher = 0 shields)
+      current_shields: scaleShields(dna.shields, dna.faction, dx),
     };
   }
 }

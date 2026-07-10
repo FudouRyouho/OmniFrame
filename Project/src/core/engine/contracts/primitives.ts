@@ -73,17 +73,26 @@ export type SniperComboModifier = ModifierBase & {
   sniper_combo_factors: SniperComboFactors; // var de contexto (count) + min_combo por-arma.
 };
 
+export type ComboScaledAddModifier = ModifierBase & {
+  operation: 'COMBO_SCALED_ADD';
+  value: number;                          // rank del mod real (Blood Rush/Weeping Wounds), NO intrínseco.
+  melee_combo_factors: MeleeComboFactors; // mismo factor de contexto que MELEE_COMBO_MULT.
+};
+
 export type Modifier =
   | AccumulatorModifier
   | CoModifier
   | MeleeComboModifier
-  | SniperComboModifier;
+  | SniperComboModifier
+  | ComboScaledAddModifier;
 
 /**
  * Constructor para productores DINÁMICOS (Mod/Incarnon/Arcane/Shard): la `operation` viene del
  * dato (token D-6), no se conoce en compile-time → este factory centraliza el mapeo op→variante
  * de la union. Los productores dinámicos SOLO generan acumulador o CONDITION_OVERLOAD; las ops de
- * combo se sintetizan a mano en StaticHydrator (variante directa, sin pasar por acá).
+ * combo (incluida `COMBO_SCALED_ADD` — Blood Rush/Weeping Wounds SÍ son dinámicos, pero su variante
+ * trae `melee_combo_factors` que este factory no conoce) se sintetizan a mano (StaticHydrator para
+ * las intrínsecas, `ModRepository` para `COMBO_SCALED_ADD`) — variante directa, sin pasar por acá.
  */
 export function makeModifier(
   base: ModifierBase,
@@ -95,7 +104,7 @@ export function makeModifier(
     if (!co_factors) throw new Error(`makeModifier: CONDITION_OVERLOAD requiere co_factors (${base.id})`);
     return { ...base, operation: 'CONDITION_OVERLOAD', value, co_factors };
   }
-  if (op === 'MELEE_COMBO_MULT' || op === 'SNIPER_COMBO_MULT') {
+  if (op === 'MELEE_COMBO_MULT' || op === 'SNIPER_COMBO_MULT' || op === 'COMBO_SCALED_ADD') {
     throw new Error(`makeModifier: la op de combo '${op}' se sintetiza a mano, no vía factory (${base.id})`);
   }
   return { ...base, operation: op, value };

@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.5.0"
+Version: "v0.5.2"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
@@ -250,7 +250,7 @@ Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (
 
 **Decisión:** Primer caso **no-CO** que entra por el mismo patrón de familia (§9/§10) — mecánica
 distinta, mismo mecanismo de dispatch. El corpus real: 8 arcanos (Primary/Secondary Merciless,
-Deadhead, Dexterity, Exhilarate, Cascadia Flare — barrido `.working/arcane-corpus-sweep.md`,
+Deadhead, Dexterity, Exhilarate, Cascadia Flare — barrido `docs/data/reports/audit-arcane-ability-like.md`,
 2026-07-09) con la forma `evento discreto → +val por stack, cap Nx`. Distinto de CO en el eje que
 importa: **no lee status del target** (no hay `co_behavior`/bucket-routing ambiguo) — el bonus
 aplica directo al `target_attribute` que el arcano ya declara (daño%, energy regen/s, etc.).
@@ -312,7 +312,7 @@ consumidor de `source_attribute` hoy (`SimulationEngine.ts:284-292`, `scaleFacto
 sourceNode.final / (sourceNode.base || 1)`) está **hardcodeado a un solo shape** ("ratio contra la
 propia base" — el caso de Roar, `it.todo` en `rhino.test.ts:70`, **cero casos construidos hoy**) y
 no sirve para el shape que necesitan 5 arcanos reales (Bulwark, Battery, Bellicose, Doughty,
-Expertise — `.working/arcane-corpus-sweep.md`, Familia D corregida).
+Expertise — `docs/data/reports/audit-arcane-ability-like.md`, Familia D corregida).
 
 **Evidencia — los 6 casos reales candidatos reducen algebraicamente a la misma forma:**
 
@@ -357,3 +357,48 @@ heredar sin que alguien escriba la línea que la llama. Mismo estatus que `clamp
   fórmula específica) y **§9** (el principio "derivación no selección" aplicado por 3ra vez).
   Cita cruzada: `OQ-W-6` (Inaros, cross-stat composición — **fuera de este primitivo**, es fórmula
   dedicada de habilidad per `rhino.test.ts:72`, no `source_attribute` simple).
+
+---
+
+## 13. `EnemySnapshot`: primer pull-read C1-declarado sobre el estado del target
+
+**Decisión:** primer primitivo para `condition` cuyo **sujeto** (§8-adyacente, eje "quién" de
+`.working/c1-simulation-doctrine.md` §4-T5) es el **target**, no el jugador/loadout. Un objeto
+congelado de dos campos — `EnemySnapshot { max_health, current_health }` — derivado de
+`EnemyRepository.scale()` (pipeline "0", ya existente) contra un `health_pct` que el **consumidor
+declara explícitamente** (C1-declarado, §8.1 escalón 2 — sin timeline, sin RNG). `deriveEnemyFlags(snapshot)`
+proyecta el snapshot a los flags de `condition` que activa (hoy: `while_enemy_below_half_health`).
+
+**Justificación:**
+- **No inventa infraestructura — la extiende.** El motor ya evalúa `condition` genéricamente contra
+  `context.flags` (`evalCondition`, `SimulationEngine.resolveNode`) y el modo estático ya declara
+  flags a mano (`{flags:{...}}`, precedente CO estático). `EnemySnapshot` es solo la función que
+  DERIVA esos flags de un estado real en vez de declararlos arbitrariamente — **cero cambios** a
+  `SimulationContext`/`SimulationEngine`/`MutatorBridge`.
+- **Deliberadamente mínimo.** Dos campos, uno declarado (`health_pct`). No se generaliza a
+  armor/shields/status hasta que OTRO caso real lo fuerce (mismo principio anti-pozo de §8) — el
+  candidato inmediato son los `while_enemy_*` restantes de `conditions.md` G3
+  (`while_enemy_undamaged`, `while_enemy_status_count_below_3`), sin construirlos por anticipación.
+- **Separado de `EnemyState` a propósito.** `EnemyState` es maquinaria C2 (stacks, dot_pools,
+  timeline). `EnemySnapshot` vive en el mismo directorio (`simulate/enemies/`) pero es C1 puro —
+  mezclar los dos types haría parecer C2-listo algo que es solo un input declarado.
+- **Vehículo real, no sintético.** El corpus trajo el gap: `while_enemy_below_half_health` existe en
+  3 armas (Dread/Kunai/Sicarus, perks incarnon tier 2) pero solo Sicarus (Feigned Retreat) tiene
+  semántica simple ("additive a mods, como Hornet Strike" — su propio `note`); Dread es
+  multiplicador aislado y Kunai es dual-mode (normal/incarnon), ambos exigen fórmula dedicada
+  propia. Se pobló el `upgrade_type: WEAPON_ADD_DAMAGE` que faltaba en Sicarus (dato — `resolveToken`
+  ya deriva `op:ADD` genérico, cero código de motor); Dread/Kunai quedan gap trazado
+  (`conditions.md` G3), sin tocar.
+
+**Consecuencia:**
+- Nuevo módulo `simulate/enemies/EnemySnapshot.ts`: `snapshotEnemy(scaled, healthPct)` +
+  `deriveEnemyFlags(snapshot)`.
+- Test end-to-end real (`enemy-snapshot.test.ts`): Arid Butcher escalado (pipeline "0") + Sicarus
+  Prime/Feigned Retreat, `health_pct` declarado en 0.3/0.5/0.8 — confirma que el flag responde al
+  snapshot derivado, no a un valor a mano.
+- Cierra la primera instancia concreta de `.working/c1-simulation-doctrine.md` §5 (concepto
+  `snapshot`, antes "no formalizado, pendiente de casos") y resuelve `while_enemy_below_half_health`
+  en `conditions.md` G3 (perfil Sicarus únicamente).
+- Enlaza con **§8** (modo asumido primero, C1 como suelo de C2) y **§9/§10/§11/§12** (mismo patrón:
+  primitivo mínimo, consumido explícitamente, sin ruteo implícito heredado). Cita cruzada:
+  `OQ-DATA-4` (T5, evidencia de un caso concreto del eje "quién").

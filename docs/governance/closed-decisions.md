@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
-Version: "v0.0.11"
+Version: "v0.0.12"
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
@@ -284,3 +284,35 @@ facción×elemento) es un mecanismo **aparte** y single-dipea — no se confunde
 
 **Ref:** `damage-status-model.md §Evidencia` (test in-game 2026-07-08); `simulation-architecture.md §2.0`
 (bucket②/matriz③); `status.md §Deudas` (`GAMEPLAY_MULT_FACTION_DAMAGE`, consumo pendiente).
+
+---
+
+## DC-OQ-ENGINE-17 — Fórmula de arcanos ability-like: ¿por-arcano o por-familia? — NO BINARIO, ambos caminos coexisten
+
+**Fecha de cierre:** 2026-07-09 (barrido completo del corpus, migrada desde `open-questions.md`).
+
+**Decisión:** la hipótesis original ("varios arcanos comparten forma → familia, no N fórmulas")
+**se confirma solo parcialmente.** El barrido completo del corpus `upgrade_type:null` de
+`arcane-stats.override.json` (85 arcanos; 34 parkeados por `OQ-DATA-14` — Amp/Operator/Zaw/Kitgun;
+51 en scope real) reparte así:
+
+- **2 familias reales (13 casos, ~15% del residuo):** `STACK_DECAY_BUFF` (buff on-event con decay,
+  8 arcanos — `arch-decisions.md §11`) y `linearThresholdScale` + `source_attribute`
+  (cross-attribute-read con cap, 5 arcanos — `arch-decisions.md §12`).
+- **6 casos complejos con `references/wiki/mechanics/arcane-*.md` propio** (Afflictions, Duplicate,
+  Influence, Camisado, Persistence, Universal Fallout) — demasiado ricos para generalizar, cada uno
+  con su propia fórmula documentada.
+- **~30 genuinamente per-arcano** (sin forma compartida) — necesitan fórmula dedicada individual.
+
+**Método que produjo la respuesta:** el mismo que CO/melee-combo (`arch-decisions §9/§10`) — no
+diseñar la abstracción antes del corpus; barrer con el corpus real enfrente y dejar que la
+familia emerja donde exista. Confirma el principio, no lo reabre.
+
+**Lo que NO cierra esta decisión:** la ejecución (cero código todavía para ninguna de las 2
+familias ni para el residuo per-arcano) — es deuda de implementación, no pregunta abierta.
+El residuo-tabla completo (ítem por ítem, con datos de escalado por rank verificados contra la
+wiki) vive en `docs/data/reports/audit-arcane-sweep.md` (tier referencia).
+
+**Ref:** `arch-decisions.md §11` (`STACK_DECAY_BUFF`), `§12` (`linearThresholdScale`);
+`docs/data/reports/audit-arcane-sweep.md` (residuo-tabla); `OQ-DATA-14` (park modular);
+`OQ-ENGINE-16` (tensión hermana, sigue abierta — fidelidad de N-declarado, no resuelta acá).

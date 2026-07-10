@@ -73,3 +73,45 @@ describe('Enemy scaling — ARMOR + DR + EHP (validados contra el calculador del
     expect(ehp).toBeCloseTo(33918.87, 0);
   });
 });
+
+describe('Enemy scaling — SHIELDS (gap cerrado 2026-07-09; fórmula de enemy-level-scaling.md §Shields)', () => {
+  // Arid Butcher tiene shields=0 — no ejercita este eje. Se eligen enemigos shield-dominant,
+  // no-boss, health/armor triviales para AISLAR el eje (precedente Doc2: "exponer gaps, no esconderlos").
+  const ELITE_CREWMAN = EnemyRepository.find('/Lotus/Types/Enemies/Corpus/Spaceman/EliteSpacemanAvatar')!;
+  const TUSK_CARABUS = EnemyRepository.find('/Lotus/Types/Enemies/Grineer/Eidolon/Vip/Avatars/EidolonVipGruntDroneAvatar')!;
+
+  it('el pipeline trae ambos fixtures con shields>0, health/armor triviales', () => {
+    expect(ELITE_CREWMAN).toBeTruthy();
+    expect(ELITE_CREWMAN.shields).toBe(200);
+    expect(ELITE_CREWMAN.faction).toBe('Corpus');
+    expect(TUSK_CARABUS).toBeTruthy();
+    expect(TUSK_CARABUS.shields).toBe(50);
+    expect(TUSK_CARABUS.faction).toBe('Grineer');
+  });
+
+  it('nivel base → sin escalar (mult=1)', () => {
+    expect(EnemyRepository.scale(ELITE_CREWMAN, 1).current_shields).toBeCloseTo(200, 0);
+  });
+
+  it('Corpus Δx<70 (@51): shields ≈ 4110.63 (coef 0.02/1.76)', () => {
+    expect(EnemyRepository.scale(ELITE_CREWMAN, 51).current_shields).toBeCloseTo(4110.63, 1);
+  });
+
+  it('Corpus Δx>80 (@151): shields ≈ 18225.58 (coef 2/0.76)', () => {
+    expect(EnemyRepository.scale(ELITE_CREWMAN, 151).current_shields).toBeCloseTo(18225.58, 1);
+  });
+
+  it('Grineer Δx<70 (@51): shields ≈ 990.15 (coef 0.02/1.75, distinto de Corpus)', () => {
+    expect(EnemyRepository.scale(TUSK_CARABUS, 51).current_shields).toBeCloseTo(990.15, 1);
+  });
+
+  it('Grineer Δx>80 (@151): shields ≈ 3478.93 (coef 1.6/0.75 — crece más lento que Corpus)', () => {
+    expect(EnemyRepository.scale(TUSK_CARABUS, 151).current_shields).toBeCloseTo(3478.93, 1);
+  });
+
+  it('sin floor/cap (a diferencia de armor): un shield bajo no se pisa a un mínimo', () => {
+    // Security Camera: shields=10, sin equivalente al floor-200 de armor.
+    const cam = EnemyRepository.find('/Lotus/Types/Enemies/Corpus/Turrets/TurretAvatars/SecurityCameraAvatar')!;
+    expect(EnemyRepository.scale(cam, 1).current_shields).toBeCloseTo(10, 0);
+  });
+});

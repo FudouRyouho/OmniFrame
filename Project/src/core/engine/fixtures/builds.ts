@@ -253,12 +253,14 @@ const NIKANA_MOD = {
   ORGAN_SHATTER:         '/Lotus/Upgrades/Mods/Melee/WeaponCritDamageMod',               // WEAPON_ADD_CRIT_MULT
   MELEE_PROWESS:         '/Lotus/Upgrades/Mods/Melee/WeaponStunChanceMod',               // WEAPON_ADD_STATUS_CHANCE
   CONDITION_OVERLOAD:    '/Lotus/Upgrades/Mods/Melee/WeaponDamageIfVictimProcActive',    // CONDITION_OVERLOAD (CO melee, coefBase 80, 1x)
+  BLOOD_RUSH:            '/Lotus/Upgrades/Mods/Melee/Event/ComboCritChanceMod',          // COMBO_SCALED_ADD (val × meleeComboMult)
 };
 
 /** Nikana Prime — primer melee. Va en el slot `melee` del ensemble. Mods básicos genéricos
  *  (damage/crit/status), sin nada combo-dependiente. `profile`: 'base'/'normal_attack',
- *  'slam_attack', 'heavy_slam_attack'. `withCO` añade Condition Overload (el mod CO melee). */
-export function nikana(withMods = true, profile = 'base', withCO = false): EnsembleIntention {
+ *  'slam_attack', 'heavy_slam_attack'. `withCO` añade Condition Overload (el mod CO melee).
+ *  `withBloodRush` añade Blood Rush (familia `COMBO_SCALED_ADD`, `melee-combo.md §4`). */
+export function nikana(withMods = true, profile = 'base', withCO = false, withBloodRush = false): EnsembleIntention {
   const mods: Record<number, { itemId: string; rank: number; level: number }> = withMods ? {
     0: { itemId: NIKANA_MOD.PRIMED_PRESSURE_POINT, rank: 30, level: 10 },
     1: { itemId: NIKANA_MOD.TRUE_STEEL,            rank: 30, level: 10 },
@@ -266,6 +268,7 @@ export function nikana(withMods = true, profile = 'base', withCO = false): Ensem
     3: { itemId: NIKANA_MOD.MELEE_PROWESS,         rank: 30, level: 10 },
   } : {};
   if (withCO) mods[4] = { itemId: NIKANA_MOD.CONDITION_OVERLOAD, rank: 30, level: 5 };
+  if (withBloodRush) mods[5] = { itemId: NIKANA_MOD.BLOOD_RUSH, rank: 30, level: 10 };
   return {
     items: {
       warframe:         { itemId: null, rank: 30, shards: [] },
@@ -354,6 +357,30 @@ export function rhino(): EnsembleIntention {
   };
 }
 
+// ─── Sicarus Prime (perk incarnon Feigned Retreat — vehículo de EnemySnapshot, ladrillo #2) ─
+
+export const SICARUS_PRIME = '/Lotus/Weapons/Tenno/Pistols/PrimeSicarus/PrimeSicarusPistol';
+
+/** Sicarus Prime con perks de evolución variables. Vehículo de `while_enemy_below_half_health`. */
+export function sicarus(opts: { perks?: Record<number, string>; profile?: string } = {}): EnsembleIntention {
+  return {
+    items: {
+      warframe:         { itemId: null, rank: 30, shards: [] },
+      primary:          { itemId: null, rank: 30 },
+      secondary:        { itemId: SICARUS_PRIME, rank: 30, active_profile: opts.profile ?? 'base', evolution_perks: opts.perks },
+      melee:            { itemId: null, rank: 30 },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: {},
+    environment: BASE_ENV,
+  };
+}
+
 // ─── Registro de builds para el oráculo (`npm run oracle -- <name>` | `all`) ───────
 
 /** Invocación representativa de cada build. El oráculo lo recorre por nombre. */
@@ -365,4 +392,5 @@ export const BUILDS: Record<string, () => EnsembleIntention> = {
   boltor: () => boltor({ perks: { 2: 'hunters_mantra', 4: 'commodores_fortune' }, mods: { 0: SERRATION } }),
   lanka_arcane: () => lankaArcane(),
   rhino:  () => rhino(),
+  sicarus: () => sicarus({ perks: { 2: 'feigned_retreat' } }),
 };

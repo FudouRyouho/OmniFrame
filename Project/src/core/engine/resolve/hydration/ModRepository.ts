@@ -55,6 +55,24 @@ export class ModRepository {
               : val.base_value;
             const value = entry.toPercent ? (rawValue - 1) * 100 : rawValue;
 
+            // Blood Rush / Weeping Wounds: `condition: 'per_melee_combo_multiplier'` NO es un gate
+            // booleano — es escala disfrazada de condición (misma trampa que `per_status_type_on_target`
+            // tuvo para CO, `conditions.md`). Se descarta como condition y se construye la familia
+            // COMBO_SCALED_ADD directo (mismo patrón que StaticHydrator sintetiza MELEE_COMBO_MULT a
+            // mano) — a diferencia de ese, este SÍ trae `value` propio (rank del mod real).
+            if (stat.condition === 'per_melee_combo_multiplier') {
+              modifiers.push({
+                id: `override:${unique_name}:${entry.attr}`,
+                target_entity: target_id,
+                target_channel: entry.target_channel,
+                target_attribute: entry.attr,
+                operation: 'COMBO_SCALED_ADD',
+                value,
+                melee_combo_factors: { count_var: 'melee_combo_count' },
+              });
+              return;
+            }
+
             modifiers.push(makeModifier(
               {
                 id: `override:${unique_name}:${entry.attr}`,
