@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.5.2"
+Version: "v0.5.3"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-07-09"
+Fecha_de_actualizacion: "2026-07-10"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -251,13 +251,20 @@ Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (
 **Decisión:** Primer caso **no-CO** que entra por el mismo patrón de familia (§9/§10) — mecánica
 distinta, mismo mecanismo de dispatch. El corpus real: 8 arcanos (Primary/Secondary Merciless,
 Deadhead, Dexterity, Exhilarate, Cascadia Flare — barrido `docs/data/reports/audit-arcane-ability-like.md`,
-2026-07-09) con la forma `evento discreto → +val por stack, cap Nx`. Distinto de CO en el eje que
-importa: **no lee status del target** (no hay `co_behavior`/bucket-routing ambiguo) — el bonus
-aplica directo al `target_attribute` que el arcano ya declara (daño%, energy regen/s, etc.).
+2026-07-09) **más 7 mods "Galvanized [Arma]"** (Chamber/Diffusion/Hell/Crosshairs/Scope/Elementalist/
+Steel — ver evidencia abajo) con la forma `evento discreto → +val por stack, cap Nx`. Distinto de CO
+en el eje que importa: **no lee status del target** (no hay `co_behavior`/bucket-routing ambiguo) —
+el bonus aplica directo al `target_attribute` que el mod/arcano ya declara (daño%, crit%, energy
+regen/s, etc.).
 
-**Nueva `ModifierOperation`: `STACK_DECAY_BUFF`.** Fórmula pura en
-`formulas/arcane/arcane-stack-decay.ts` (no en `formulas/common/` todavía — un solo consumidor
-real hoy; se promueve si un caso de mods lo necesita, no antes — D-20):
+**✅ EJECUTADO (2026-07-10, ladrillo #4 roadmap C1).** Vehículo real: Galvanized Chamber sobre Boltor
+(`galvanized-stack-decay.test.ts`). Primer código de la familia — 0 líneas existían para ninguno de
+los dos schemas (ni arcanos ni mods) hasta esta sesión.
+
+**`ModifierOperation`: `STACK_DECAY_BUFF`.** Fórmula pura en `formulas/common/scaling-base.ts`
+(co-locada con `clamp`, NO en `formulas/arcane/` — ese directorio nunca tuvo código; el primer
+consumidor real resultó ser un mod, no un arcano, así que la promoción que este mismo párrafo
+anticipaba ocurrió desde el día 1, sin migración):
 
 ```ts
 stackDecayBonusPct(perStackPct: number, stacks: number, cap: number): number {
@@ -266,8 +273,36 @@ stackDecayBonusPct(perStackPct: number, stacks: number, cap: number): number {
 ```
 
 `stacks` es **C1-declarado** — misma altitud que `activeStacks` de CO hoy (§9: "el motor usa el
-default 1" si no se declara, sin ningún tracker real detrás). Este resolver **no intenta modelar
-decay real** — esa brecha es explícitamente de `OQ-ENGINE-16`, no de esta decisión.
+default 1" si no se declara, sin ningún tracker real detrás; acá el default es 0 — no hay stacks sin
+kills, distinto de `meleeComboMult(0)=1` de `COMBO_SCALED_ADD`, cuyo tier base NO es cero). Este
+resolver **no intenta modelar decay real** — esa brecha es explícitamente de `OQ-ENGINE-16`, no de
+esta decisión.
+
+**El hallazgo que reencuadró la ejecución: el dato NO estaba roto.** `D-15 §2` (VIGENTE desde
+2026-05-28) ya documentaba `base_value` = total-a-máximo-stacks como diseño **deliberado**, con el
+desglose per-stack en `notes[]` como texto libre — verificado exacto en los 7 mods reales (ej.
+Galvanized Chamber: `150/5=30`, coincide con la nota "per_stack: 30% at rank 10"). Lo que faltaba era
+**estructurar** el cap: nuevo campo `max_stacks: number` en el stat (D-15 evolución, `ModStatRaw`),
+sibling de `condition`/`base_value`/`upgrade_type`. `base_value` **no se re-autoriza** — el motor
+deriva `perStackPct = base_value/max_stacks` en hidratación. Ausencia de `max_stacks` = stat normal
+(camino genérico sin cambios, ej. `+80% Multishot` plano de Chamber, mismo mod).
+
+**Galvanized Reflex queda fuera de esta pasada** (target `WEAPON_BASE_COMBO_INITIAL`, valor flat no
+%, op `BASE_FLAT`) — el resolver rutea FIJO a `ADD` (los 7 casos reales son todos `%`); no se
+construye bucket-routing genérico para 1 caso sin un 2do que lo fuerce (mismo principio anti-
+`CONTEXT_SCALE` de §9).
+
+**Trigger de hidratación: `stat.max_stacks` presente, NO `condition === 'on_kill'`.** El token
+`on_kill`/`on_headshot_kill`/`on_melee_kill` es legítimo y se reusa en stats NO-stacking del MISMO
+mod (ej. Galvanized Crosshairs mezcla `on_headshot` simple + `on_headshot_kill` stacking) —
+condicionar por el token colgaría la familia de casos ajenos. Al detectar `max_stacks`, `condition`
+se **descarta** (no pasa por `evalCondition`) — mismo tratamiento que `COMBO_SCALED_ADD` le dio a
+`per_melee_combo_multiplier`: C1-declarado, no gate.
+
+**`stacks_var` se deriva de `unique_name`, NO un nombre genérico compartido.** A diferencia de
+`melee_combo_count` (un solo contador melee real) o `active_stacks` de CO, cada Galvanized/arcano de
+esta familia es un buff **independiente** con su propio contador — dos equipados a la vez (slots
+distintos) no deben colisionar en `context.variables`. Convención: `stack_decay:<unique_name>`.
 
 **Justificación:**
 - **Reutiliza el principio de §9, no la operación.** "Un futuro valor que emerge del contexto no-CO
@@ -276,30 +311,34 @@ decay real** — esa brecha es explícitamente de `OQ-ENGINE-16`, no de esta dec
   `co_behavior` (que es específico de cómo CO compone con el daño de arma). La primitiva compartida
   real (`clamp`) ya vivía en `formulas/common/` desde antes de CO — no hubo que extraer nada de
   `weapon-condition-overload.ts`, que nunca tuvo la primitiva genérica adentro.
-- **Evidencia cruzada con `OQ-DATA-4` (no la cierra, la alimenta).** `D-15` (VIGENTE) documenta que
-  los mods con este mismo patrón hoy se guardan como valor **máximo aplanado** (`base_value` =
-  total a full stacks, duración solo en `note`); los arcanos de esta familia usan `base_value:
-  null` + nota. Es la misma divergencia que `OQ-DATA-4` ya nombra como su ejemplo motivador. Esta
-  decisión es la 2ª forma real (arcanes) apuntando al mismo patrón que Galvanized (mods) — nueva
-  evidencia para el gate D-20 (≥2 casos misma forma), **no una resolución** del bridge de schema
-  (eso sigue en `OQ-DATA-4`, altitud dato, no motor).
+- **Gate D-20 satisfecho — 2do schema real, no solo teórico.** `OQ-DATA-4` nombraba la divergencia
+  mods-vs-arcanos como su ejemplo motivador (bridge de schema stacking/duration). Con los 7
+  Galvanized reales cableados, el gate `≥2 casos misma forma` ya no depende de que los arcanos se
+  pueblen — **ambos caminos coexisten**, mods ejecutado, arcanos arquitectura cerrada pendiente de
+  dato.
 - **Caso de estrés de `OQ-ENGINE-16`.** Esta familia es el caso concreto que esa OQ pedía como
   condición de resolución (T1: "elegir un caso concreto... y estresarlo con dato real antes de
   generalizar"). El resolver de esta decisión se queda deliberadamente en modo C1/declarado — no
   resuelve la fidelidad N-declarado-vs-timers-reales, la deja abierta y trazada ahí.
+- **Regresión de honestidad detectada y corregida.** 3 tests preexistentes (`cedo-prime`, `felarx`,
+  `laetum`) asumían que el modo "estático/techo" (`deriveStaticFlags`) activaba el bonus de
+  Galvanized Hell/Diffusion al **valor máximo aplanado** con solo el flag `on_kill` derivado — un
+  supuesto MÁS optimista que el que CO ya se auto-impone (`activeStacks` sin declarar → default 1,
+  no max). Corregido: los 3 tests ahora declaran el cap explícito (`variables:
+  {'stack_decay:<uid>': 4}`), igual que los tests de CO declaran `status_type_count` cuando quieren
+  un N específico — mismos números finales, mecanismo honesto.
 
 **Consecuencia:**
 - Contratos: nueva variante discriminada en `Modifier` (patrón ya compiler-enforced desde §10:
-  1 op + 1 factors + 1 variante + 1 resolver + 1 entrada en `FAMILY_RESOLVERS`).
-- **Prerequisito de datos (antes de cablear):** los 8 arcanos de esta familia tienen hoy
-  `base_value: null` en `arcane-stats.override.json` — el valor real por-stack está documentado en
-  `notes[]` (ej. Merciless: "+5% Damage por stack, cap 12×, duration:4s") pero no estructurado.
-  Poblar `base_value` con el valor per-stack real (ya extraído en el pase 2 del sweep) es paso
-  previo — dato, no arquitectura.
+  1 op + 1 factors + 1 variante + 1 resolver + 1 entrada en `FAMILY_RESOLVERS`) —
+  `StackDecayBuffModifier {value: perStackPct, stack_decay_factors: {stacks_var, cap}}`.
+- **Pendiente (arcanos, sin tocar esta sesión):** los 8 arcanos de esta familia siguen con
+  `base_value: null` en `arcane-stats.override.json` — mismo prerequisito de dato que ya existía,
+  ahora con el molde de `max_stacks` ya probado en mods como precedente directo a seguir.
 - **Diferido explícitamente:** decay/duration real (C2) — el resolver consume `stacks` como
-  input puro, igual que Galvanized hoy. Ver `OQ-ENGINE-16`.
+  input puro. Ver `OQ-ENGINE-16`.
 - Enlaza con **§9/§10** (mismo mecanismo de familia, mecánica hermana no reuso) y **§8** (modo
-  asumido primero). Cita cruzada: `OQ-DATA-4`, `OQ-ENGINE-16`.
+  asumido primero). Cita cruzada: `OQ-DATA-4`, `OQ-ENGINE-16`, `data/decisions.md` D-15.
 
 ---
 

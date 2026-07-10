@@ -5,6 +5,7 @@ import type {
   MeleeComboModifier,
   SniperComboModifier,
   ComboScaledAddModifier,
+  StackDecayBuffModifier,
   AttributeNode,
   EntityId,
   AttributeId,
@@ -13,7 +14,7 @@ import type {
   TraceStep
 } from "../contracts";
 import { isWeaponDamageToken } from "../contracts/damage-logic";
-import { applyAdditiveBonus } from "../formulas/common/scaling-base";
+import { applyAdditiveBonus, stackDecayBonusPct } from "../formulas/common/scaling-base";
 import { coBonusPct } from "../formulas/weapon/weapon-condition-overload";
 import { meleeComboMult } from "../formulas/weapon/melee-combo";
 import { sniperComboMult } from "../formulas/weapon/sniper-combo";
@@ -115,6 +116,26 @@ function resolveComboScaledAdd(
 }
 
 /**
+ * Mecánica Stack Decay Buff — Galvanized [Arma] / (arcanos, §11, aún sin vehículo). `mod.value` YA
+ * es el perStackPct derivado en hidratación (`base_value/max_stacks`) — acá solo se aplica
+ * `clamp(stacks,0,cap)`. Ruteo FIJO `ADD` (mods_add_pct): los 7 casos reales de esta pasada
+ * (Chamber/Diffusion/Hell/Crosshairs/Scope/Elementalist/Steel) resuelven ahí; el caso flat
+ * (Galvanized Reflex, BASE_FLAT) queda fuera — no fuerza bucket-routing genérico sin un 2do caso
+ * real enfrente. `_entity` no se usa (firma uniforme).
+ */
+function resolveStackDecayBuff(
+  mod: StackDecayBuffModifier,
+  _entity: SimulationEntity,
+  node: AttributeNode,
+  context: SimulationContext,
+): { value: number; context_value: number } {
+  const stacks = context.variables[mod.stack_decay_factors.stacks_var] ?? 0;
+  const value = stackDecayBonusPct(mod.value, stacks, mod.stack_decay_factors.cap);
+  node.mods_add_pct += value;
+  return { value, context_value: stacks };
+}
+
+/**
  * Registro de mecánicas de FAMILIA (Abstracción B, arch-decisions §10). Separa las dos
  * clases de modifier que `resolveNode` mezcla: las **ops de acumulador** (value ES el efecto,
  * el `switch` de abajo) vs las **mecánicas de familia** (el efecto lo COMPUTA una fórmula desde
@@ -141,11 +162,13 @@ const FAMILY_RESOLVERS: {
   MELEE_COMBO_MULT:   FamilyResolver<MeleeComboModifier>;
   SNIPER_COMBO_MULT:  FamilyResolver<SniperComboModifier>;
   COMBO_SCALED_ADD:   FamilyResolver<ComboScaledAddModifier>;
+  STACK_DECAY_BUFF:   FamilyResolver<StackDecayBuffModifier>;
 } = {
   CONDITION_OVERLOAD: resolveConditionOverload,
   MELEE_COMBO_MULT:   resolveMeleeComboMult,
   SNIPER_COMBO_MULT:  resolveSniperComboMult,
   COMBO_SCALED_ADD:   resolveComboScaledAdd,
+  STACK_DECAY_BUFF:   resolveStackDecayBuff,
 };
 
 export class SimulationEngine {

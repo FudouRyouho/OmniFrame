@@ -5830,8 +5830,9 @@
           }
         ],
         "condition": "on_kill",
+        "max_stacks": 5,
         "notes": [
-          "engine:note — stacks 5x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 5x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10: max_stacks poblado, base_value sigue total-a-máximo D-15 §2)"
         ]
       }
     ]
@@ -5885,8 +5886,9 @@
           }
         ],
         "condition": "on_headshot_kill",
+        "max_stacks": 5,
         "notes": [
-          "engine:note — while_aiming; max_stacks: 5; per_stack: 40% at rank 10; duration: 12s per stack"
+          "engine:note — while_aiming; max_stacks: 5; per_stack: 40% at rank 10; duration: 12s per stack (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -5936,8 +5938,9 @@
           }
         ],
         "condition": "on_kill",
+        "max_stacks": 4,
         "notes": [
-          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -5987,8 +5990,9 @@
           }
         ],
         "condition": "on_kill",
+        "max_stacks": 4,
         "notes": [
-          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -6094,8 +6098,9 @@
           }
         ],
         "condition": "on_headshot_kill",
+        "max_stacks": 5,
         "notes": [
-          "engine:note — while_aiming; max_stacks: 5; per_stack: 40% at rank 10; duration: 12s per stack"
+          "engine:note — while_aiming; max_stacks: 5; per_stack: 40% at rank 10; duration: 12s per stack (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -17952,8 +17957,9 @@
           }
         ],
         "condition": "on_melee_kill",
+        "max_stacks": 4,
         "notes": [
-          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -18057,8 +18063,9 @@
           }
         ],
         "condition": "on_melee_kill",
+        "max_stacks": 4,
         "notes": [
-          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]

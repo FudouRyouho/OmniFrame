@@ -29,14 +29,22 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import { cedo, CEDO_PRIME } from '../fixtures/builds';
+import { cedo, CEDO_PRIME, GALVANIZED_HELL, galvanizedStacksVar } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
+const GH_STACKS = galvanizedStacksVar(GALVANIZED_HELL);
+
 /** Modo base: flags vacías, ninguna condición activa. */
 const base = (withGH = false) => consume(cedo(withGH), { flags: {} }).weapon(CEDO_PRIME);
-/** Modo estático: flags derivadas del equipamiento → on_kill activo. */
-const stat = (withGH = false) => consume(cedo(withGH)).weapon(CEDO_PRIME);
+/**
+ * Modo estático/techo: flags derivadas del equipamiento. `on_kill` de Galvanized Hell ya NO es un
+ * gate booleano (familia STACK_DECAY_BUFF, 2026-07-10) — los stacks son C1-declarados, mismo
+ * escalón que `activeStacks` de CO (que tampoco se auto-asume en techo: default 1, no max). Acá
+ * se declara el cap (4) explícito para reproducir el escenario "techo" honestamente, no implícito.
+ */
+const stat = (withGH = false) =>
+  consume(cedo(withGH), withGH ? { variables: { [GH_STACKS]: 4 } } : undefined).weapon(CEDO_PRIME);
 
 // ─── Estabilidad: stats no condicionales (.final) ────────────────────────────────
 

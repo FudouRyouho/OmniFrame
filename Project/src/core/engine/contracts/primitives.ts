@@ -5,7 +5,7 @@
  * ids, el nodo de atributo, el modifier, las leyes del juego.
  */
 
-import type { ModifierOperation, AccumulatorOperation, CoFactors, MeleeComboFactors, SniperComboFactors } from '@shared/types/modifier';
+import type { ModifierOperation, AccumulatorOperation, CoFactors, MeleeComboFactors, SniperComboFactors, StackDecayFactors } from '@shared/types/modifier';
 import type { ConditionInput } from '@shared/types/condition';
 
 export type EntityId = string;
@@ -79,20 +79,28 @@ export type ComboScaledAddModifier = ModifierBase & {
   melee_combo_factors: MeleeComboFactors; // mismo factor de contexto que MELEE_COMBO_MULT.
 };
 
+export type StackDecayBuffModifier = ModifierBase & {
+  operation: 'STACK_DECAY_BUFF';
+  value: number;                      // perStackPct YA derivado (base_value/max_stacks), NO el total.
+  stack_decay_factors: StackDecayFactors; // var de contexto (stacks declarados) + cap por-mod/arcano.
+};
+
 export type Modifier =
   | AccumulatorModifier
   | CoModifier
   | MeleeComboModifier
   | SniperComboModifier
-  | ComboScaledAddModifier;
+  | ComboScaledAddModifier
+  | StackDecayBuffModifier;
 
 /**
  * Constructor para productores DINÁMICOS (Mod/Incarnon/Arcane/Shard): la `operation` viene del
  * dato (token D-6), no se conoce en compile-time → este factory centraliza el mapeo op→variante
  * de la union. Los productores dinámicos SOLO generan acumulador o CONDITION_OVERLOAD; las ops de
- * combo (incluida `COMBO_SCALED_ADD` — Blood Rush/Weeping Wounds SÍ son dinámicos, pero su variante
- * trae `melee_combo_factors` que este factory no conoce) se sintetizan a mano (StaticHydrator para
- * las intrínsecas, `ModRepository` para `COMBO_SCALED_ADD`) — variante directa, sin pasar por acá.
+ * combo (incluida `COMBO_SCALED_ADD`/`STACK_DECAY_BUFF` — Blood Rush/Galvanized SÍ son dinámicos,
+ * pero sus variantes traen factores que este factory no conoce) se sintetizan a mano (StaticHydrator
+ * para las intrínsecas, `ModRepository` para `COMBO_SCALED_ADD`/`STACK_DECAY_BUFF`) — variante
+ * directa, sin pasar por acá.
  */
 export function makeModifier(
   base: ModifierBase,
@@ -104,7 +112,7 @@ export function makeModifier(
     if (!co_factors) throw new Error(`makeModifier: CONDITION_OVERLOAD requiere co_factors (${base.id})`);
     return { ...base, operation: 'CONDITION_OVERLOAD', value, co_factors };
   }
-  if (op === 'MELEE_COMBO_MULT' || op === 'SNIPER_COMBO_MULT' || op === 'COMBO_SCALED_ADD') {
+  if (op === 'MELEE_COMBO_MULT' || op === 'SNIPER_COMBO_MULT' || op === 'COMBO_SCALED_ADD' || op === 'STACK_DECAY_BUFF') {
     throw new Error(`makeModifier: la op de combo '${op}' se sintetiza a mano, no vía factory (${base.id})`);
   }
   return { ...base, operation: op, value };

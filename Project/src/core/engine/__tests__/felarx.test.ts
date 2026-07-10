@@ -23,9 +23,11 @@ import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import type { EnsembleIntention } from '@shared/types/ensemble';
-import { felarx, felarxItems, FELARX, GALVANIZED_SAVVY, TOXIC_BARRAGE, BASE_ENV } from '../fixtures/builds';
+import { felarx, felarxItems, FELARX, GALVANIZED_SAVVY, GALVANIZED_HELL, galvanizedStacksVar, TOXIC_BARRAGE, BASE_ENV } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
+
+const GH_STACKS = galvanizedStacksVar(GALVANIZED_HELL);
 
 type Slots = Record<number, { itemId: string; rank: number; level: number }>;
 
@@ -35,7 +37,12 @@ function felarxStatus(statusMods: Slots): EnsembleIntention {
 }
 
 const fullBase   = (profile = 'base') => consume(felarx(profile), { flags: {} }).weapon(FELARX);
-const fullStatic = (profile = 'base') => consume(felarx(profile)).weapon(FELARX);
+/**
+ * Modo estático/techo: Galvanized Hell siempre equipado en este fixture. `on_kill` ya no es gate
+ * booleano (STACK_DECAY_BUFF, 2026-07-10) — se declara el cap (4) explícito, honesto con el
+ * escalón C1 (mismo trato que `activeStacks` de CO: no se auto-asume en techo).
+ */
+const fullStatic = (profile = 'base') => consume(felarx(profile), { variables: { [GH_STACKS]: 4 } }).weapon(FELARX);
 const statusOnly = (mods: Slots)      => consume(felarxStatus(mods), { flags: {} }).weapon(FELARX);
 
 // ─── Estabilidad: Normal Attack base (.final) ────────────────────────────────────

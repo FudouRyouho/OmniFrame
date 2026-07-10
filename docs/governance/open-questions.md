@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.39.1"
+Version: "v0.39.2"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-09"
+Fecha_de_actualizacion: "2026-07-10"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -150,8 +150,13 @@ vía la nueva operación `STACK_DECAY_BUFF` (`arch-decisions.md §11`) — que c
 input **C1-declarado**, misma altitud que `activeStacks` de CO hoy, sin tocar el shape del schema.
 Esto es la 2ª forma real (arcanes) apuntando al mismo patrón que Galvanized (mods, D-15 §2) — sigue
 sin cerrar el bridge de schema (`condition`/`duration` estructurados), pero el gate D-20 (≥2 casos
-misma forma) ahora tiene evidencia cross-schema concreta, no solo teórica. Usuario (2026-07-09): no
-hace falta un 3er caso de mods para estresar esto — Galvanized alcanza cuando se estrese con tests.
+misma forma) ahora tiene evidencia cross-schema concreta, no solo teórica.
+
+**Galvanized estresado con tests reales (2026-07-10, sigue sin cerrar el OQ):** 7 mods "Galvanized
+[Arma]" cableados (`arch-decisions.md §11`, `galvanized-stack-decay.test.ts`) — el gate D-20 queda
+satisfecho con evidencia de **código**, no solo de dato. El bridge de schema (`condition`/`duration`
+estructurados, cross-schema mods↔arcanes) sigue sin resolverse — lo que se cerró fue el *motor*
+(`STACK_DECAY_BUFF`), no la *gramática*; los 8 arcanos de esta familia siguen con `base_value: null`.
 **Fuente:** debate 2026-06-02 sobre la familia stacking on-event de arcanes; `docs/data/schemas/arcane/schema.md §3`, `docs/data/reports/audit-arcane.md`.
 
 ---
@@ -709,8 +714,18 @@ con fórmulas y fuentes de N distintas — capturar por separado, no fusionar (p
 del usuario). Confirmado además: el motor hoy no tiene NINGÚN tracker real para ninguno de los dos
 — `activeStacks` de CO/Galvanized se declara a mano (`co-incarnon-perk.test.ts`: "activeStacks no
 se declara → el motor usa el default 1"), cero código de acumulación existe todavía en ningún lado.
-Usuario (2026-07-09): no hace falta un 3er caso para estresar esto — Galvanized alcanza cuando se
-estrese con tests.
+
+**`STACK_DECAY_BUFF` ejecutado (2026-07-10, no resuelve esta OQ — la deja donde estaba a propósito.)**
+7 mods Galvanized cableados (`arch-decisions.md §11`) con `stacks` C1-declarado puro (default 0, no
+timer). Confirma el diagnóstico de este OQ: el resolver **no intenta** modelar decay real (el
+mismo dato lo tiene disponible — `notes[]` documenta `duration: 20s` por mod — pero se deja sin
+consumir a propósito). La tensión de fondo (T1: fidelidad N-declarado vs. timers reales, los 2
+modelos de decay divergentes) sigue intacta y **separada** del clúster `c2/stack`=42 de status —
+esta ejecución fue del caso HERMANO (buff-on-event propio), no del clúster de proc-stacking en
+target. Regresión detectada durante la ejecución: 3 tests preexistentes (Cedo/Felarx/Laetum)
+asumían que el modo "estático/techo" auto-declaraba stacks al máximo — corregido a declaración
+explícita (mismo trato que `activeStacks` de CO). El clúster `c2/stack`=42 real (Viral/Magnetic/
+Corrosive) sigue sin tocar.
 
 **Vínculo:** `.working/c1-simulation-doctrine.md` §4-T1, `.working/c1-corpus-roadmap.md` (findings del
 sweep, clúster `c2/stack`=42), `damage-status-model.md` (timers independientes, brecha `processDots`),

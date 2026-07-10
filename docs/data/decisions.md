@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Registro de decisiones D-series del dominio data/ con estado de evolución"
-Version: "v0.1.3"
+Version: "v0.1.4"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-10"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -257,6 +257,15 @@ Lo que NO va en `note`: referencias a la sesión actual, nombres de scripts, nú
 }
 ```
 El `note` no es parte del modelo de cálculo — es documentación para cuando se implemente stacking en C1-B.
+
+**Evolución 2026-07-10 (`STACK_DECAY_BUFF`, `arch-decisions.md §11`):** el punto 2 sigue vigente
+(`base_value` sigue total-a-máximo, sin re-autorizar) pero deja de ser 100% texto libre. Para la
+familia `evento discreto → +val por stack, cap Nx` (Galvanized [Arma], 7 mods reales cableados), se
+agregó el campo estructurado `max_stacks: number` (sibling de `condition`/`base_value`/
+`upgrade_type` en `ModStatRaw`) — el motor deriva `perStackPct = base_value/max_stacks` en
+hidratación. `note` sigue siendo la fuente humana-legible; `max_stacks` es su cap, ahora
+máquina-legible. Ausencia de `max_stacks` = stat normal, sin cambios. No aplica a stacking de otras
+formas (ej. `co_factors` de CO, que vive en el motor no en el override).
 
 **3. Duración = irrelevante por ahora.** Los buffs temporales (on_kill: +X% for Ys) no tienen campo `duration`. El `note` puede documentarla si es relevante para implementación futura. El engine aplica el valor como si fuera permanente.
 

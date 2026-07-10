@@ -196,6 +196,11 @@ export function felarx(profile = 'base'): EnsembleIntention {
 
 export const BOLTOR_PRIME = '/Lotus/Weapons/Tenno/LongGuns/PrimeBoltor/PrimeBoltor';
 export const SERRATION    = '/Lotus/Upgrades/Mods/Rifle/WeaponDamageAmountMod';
+export const GALVANIZED_CHAMBER = '/Lotus/Upgrades/Mods/Rifle/WeaponFireIterationsSPMod'; // STACK_DECAY_BUFF (ladrillo #4)
+export const GALVANIZED_HELL = '/Lotus/Upgrades/Mods/Shotgun/WeaponFireIterationsSPMod'; // STACK_DECAY_BUFF (Cedo/Felarx)
+export const GALVANIZED_DIFFUSION = '/Lotus/Upgrades/Mods/Pistol/WeaponFireIterationsSPMod'; // STACK_DECAY_BUFF (Laetum)
+/** Variable de contexto que declara stacks C1 para un Galvanized [Arma] (`stack_decay:<unique_name>`). */
+export const galvanizedStacksVar = (uniqueName: string) => `stack_decay:${uniqueName}`;
 
 /** Boltor Prime con perks/mods/perfil variables. Perfil por defecto: `'base'`. */
 export function boltor(opts: { perks?: Record<number, string>; mods?: Record<number, string>; profile?: string } = {}): EnsembleIntention {

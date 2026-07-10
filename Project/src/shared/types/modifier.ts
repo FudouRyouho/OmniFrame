@@ -55,6 +55,16 @@ export type ModifierOperation =
   // `per_status_type_on_target` fue para CO (escala disfrazada de condición, `conditions.md`):
   // ModRepository lo reconoce y descarta el `condition` (no es gate), construye este op en su lugar.
   | 'COMBO_SCALED_ADD'
+  // Familia Stack Decay Buff (arch-decisions §11) — Galvanized [Arma] (mods) + Merciless/Deadhead/
+  // Dexterity/Exhilarate/Cascadia Flare (arcanos, arquitectura cerrada, aún sin código). Evento
+  // discreto (on_kill/on_headshot_kill/on_melee_kill…) → +val por stack, cap Nx. `value` = perStackPct
+  // YA derivado (`base_value/max_stacks` en hidratación, D-15 evolución 2026-07-10) — NO el total
+  // aplanado del dato crudo. Ruteo FIJO `ADD` (todos los casos reales de esta familia son % aditivo;
+  // el caso flat/BASE_FLAT — Galvanized Reflex — queda fuera, no fuerza bucket-routing genérico
+  // todavía). Trigger: `stat.max_stacks` presente en el override (NO `condition === 'on_kill'` — ese
+  // token es legítimo y se reusa en stats NO-stacking, ej. Galvanized Crosshairs mezcla ambos en el
+  // mismo mod). `condition` se descarta al construir (mismo tratamiento que CO/COMBO_SCALED_ADD).
+  | 'STACK_DECAY_BUFF'
 
 // ─── CoBehavior ────────────────────────────────────────────────────────────────
 // Familia Condition Overload / GunCO: CÓMO compone un bonus "per Status Type" sobre un
@@ -272,6 +282,16 @@ export interface SniperComboFactors {
   // entre las 3 familias es la señal del cierre en el TIPO (arch-decisions §10, Abstracción A).
   count_var: string;
   min_combo: number;
+}
+
+export interface StackDecayFactors {
+  // Familia STACK_DECAY_BUFF (arch-decisions §11). Shape MIXTO, mismo patrón que SniperComboFactors:
+  //  - `stacks_var` = NOMBRE de variable de contexto (C1-declarado, mismo escalón que activeStacks de CO).
+  //  - `cap`        = VALOR literal por-mod/arcano (`max_stacks` del override), bakeado en hidratación.
+  // `value` del modifier NO es el total-a-máximo del dato crudo — es el perStackPct YA derivado
+  // (`base_value/max_stacks`) en hidratación; el resolver solo multiplica por `clamp(stacks,0,cap)`.
+  stacks_var: string;
+  cap: number;
 }
 
 export interface UpgradeMapEntry {

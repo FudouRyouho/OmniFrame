@@ -73,6 +73,28 @@ export class ModRepository {
               return;
             }
 
+            // Galvanized [Arma] (STACK_DECAY_BUFF, arch-decisions §11 + D-15 evolución 2026-07-10):
+            // `stat.max_stacks` presente → el dato es total-a-máximo (D-15 §2, sin re-autorizar), el
+            // motor deriva perStackPct = value/max_stacks acá. Trigger = `max_stacks`, NO `condition`
+            // (on_kill/on_headshot_kill/on_melee_kill son tokens legítimos, reusados en stats NO-
+            // stacking del mismo mod — ej. Galvanized Crosshairs). `condition` se descarta igual que
+            // en COMBO_SCALED_ADD (C1-declarado, no gate). `stacks_var` se deriva de `unique_name`
+            // (NO un nombre genérico compartido, a diferencia de `melee_combo_count`/CO): cada
+            // Galvanized es un buff independiente con su propio contador — dos equipados a la vez
+            // (slots distintos) no deben colisionar en el mismo `context.variables`.
+            if (stat.max_stacks) {
+              modifiers.push({
+                id: `override:${unique_name}:${entry.attr}`,
+                target_entity: target_id,
+                target_channel: entry.target_channel,
+                target_attribute: entry.attr,
+                operation: 'STACK_DECAY_BUFF',
+                value: value / stat.max_stacks,
+                stack_decay_factors: { stacks_var: `stack_decay:${unique_name}`, cap: stat.max_stacks },
+              });
+              return;
+            }
+
             modifiers.push(makeModifier(
               {
                 id: `override:${unique_name}:${entry.attr}`,
