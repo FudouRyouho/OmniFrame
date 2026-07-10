@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT, verdictos de scope v1, primitivos reusables"
-Version: "v0.3.0"
+Version: "v0.3.3"
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
-Fecha_de_actualizacion: "2026-07-08"
+Fecha_de_actualizacion: "2026-07-09"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/status-effects.md"
@@ -108,6 +108,62 @@ DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) × 
 
 Los `(1+faction)²` de §Detalle se leen bajo esto: `faction` = el **bucket ②** (mods de facción + buffs), que
 sí se dobla; la **matriz del target es aparte** y single-dipea. Datos crudos de todos los tests: `.working/double-dipping-test.md`.
+
+### Reconciliación de `resolveHit` — Checkpoint 1 COMPLETO (2026-07-09)
+
+La matriz ③ ya vive en `resolveHit` (`CombatSimulator.ts`), vía `targetFactionMult(token, faction)`
+(`contracts/damage-multipliers.ts` — accessor co-locado con el dato `FACTION_BONUS`, NO en `formulas/`:
+es lookup, no cómputo). Reemplaza el lookup muerto `DAMAGE_EFFICIENCY[type]?.[healthType/armorType/
+shieldType]` — inerte desde siempre porque `EnemyRepository.load()` rellena esos `*_type` con defaults
+que no matchean ninguna clave. Estresado con test real: `__tests__/target-faction-matrix.test.ts`,
+Charger (Infested, armor=0, shields=0, aísla la matriz) — Heat/Toxin ratio = **1.5 exacto**, contra el
+1.0 (inerte) previo al fix. `EnemyDNA.*_type` queda **candidato a sunset** — pendiente autorización RED
+separada (son campos de contrato), no se tocan en este checkpoint.
+
+### Reconciliación de `resolveHit` — Checkpoint 2 COMPLETO (2026-07-09)
+
+DR de `resolveHit` reconciliada a `formulas/enemy/armor-mitigation.ts::damageReductionFromArmor`
+(`√3a/100`, la misma fórmula que P1 ya validó contra el calculador wiki) — reemplaza la vieja
+`netArmor/(netArmor+300)`. **Sunset del `armorBypass`-por-elemento:** sin evidencia post-U36 de que un
+elemento "ignore" parte de la armor (`enemy-resistances.md` documenta bypasses fijos y mecánicos —
+Toxin/Slash-bleed/Magnetic/Viral — no "por fuerza del elemento contra armor"); era artefacto del modelo
+per-clase muerto, se elimina en vez de migrar. **No cierra `OQ-ENGINE-15`** (conflicto de 3 fórmulas de
+DR en la wiki) — sólo fuerza consistencia con la fórmula que el proyecto ya eligió en P1.
+
+Estresado con test real: `__tests__/resolvehit-dr.test.ts`, Arid Butcher @215 (armor=200, Toxin bypasa
+shields para aislar la capa salud+armor) — 100 dmg → **75.51** de daño a salud (DR 24.49%), contra 60
+(DR 40%, vieja fórmula) previo al fix.
+
+Ambos checkpoints (matriz③ + DR) verificados sin regresiones: suite 175 passed / 1 expected fail / 25
+todo, `tsc` limpio; `enemy-state-status-multiplier.test.ts` y `enemy-scaling.test.ts` corridos aparte y
+confirmados verdes.
+
+**Checkpoint 3 (bucket② double-dip en DoT) — re-escopeado a exploración/documentación, sin código esta
+vuelta.** El tick de DoT se computa en `StatusEngine.{projectSlashTick,projectHeatTick,projectToxinTick}`
+(vía `CombatCalculator.project` ← `TimelineSimulator`), funciones que **no reciben el target** — cero
+matriz③ modelada ahí. Ya existe un `faction_mult` (de un attr `FACTION_DAMAGE` del lado del arma) aplicado
+**sin elevar al cuadrado**, pese a que el comentario del código dice `"Faction^2"` (`StatusEngine.ts`
+líneas 45/62) — bug de comentario-vs-implementación ya presente, independiente de este trabajo. Conectar
+bucket②+matriz③ ahí exige cambiar firma de 3 funciones + 2 llamadores — unidad de trabajo separada, con
+su propio debate/plan.
+
+**Refinado (verificación de estabilidad, 2026-07-09) — falta un tercer término, no sólo dos.** Cruzando
+`StatusEngine.ts` contra la fórmula formal de `references/wiki/mechanics/status-effects.md` (patrón
+general de los 5 DoTs: `tick = coef × modded_base × (1+propio_elemento) × (1+faction) × (1+status_damage)
+× extras`), el código no sólo tiene matriz③ ausente y bucket② sin cuadrado — **le falta por completo el
+término `(1+status_damage)`** (ej. Viral amplificando un tick de Slash/Toxin). Los tres términos están
+**cross-validados** (wiki formal + `damage-status-model.md §Evidencia` propio) — esto es nivel de
+**implementación pura**, no de investigación: no hay ambigüedad que estresar, sólo falta escribir los
+tres factores. Fórmula objetivo completa:
+
+```
+DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σbucket②)²
+DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × (1+Σbucket②)²
+```
+
+(mismas fórmulas de §Evidencia arriba — la referencia formal de la wiki las confirma independientemente).
+Anclado en `status.md §Deudas` (`GAMEPLAY_MULT_FACTION_DAMAGE`). Al implementar: **seguir el patrón de
+`resolveHit`** (accessor dedicado por naturaleza), no agregar los términos inline en `StatusEngine`.
 
 ---
 

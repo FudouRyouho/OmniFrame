@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.34.0"
+Version: "v0.38.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-09"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -77,6 +77,12 @@ Principio decidido: `ViewModelContract` debe ser **consumer-shaped** (ViewModel 
 - Opciones: token completo idéntico al mod (`AVATAR_ADD_HEALTH_MAX`), o forma sin OPERATION (`AVATAR_HEALTH_MAX`) para separar el eje "con qué escala" del eje "qué modifica".
 **Condición para resolver:** al resolver la taxonomía general de `upgrade_by` — cuando haya ≥2 casos distintos de base-stat scaling en abilities que justifiquen el patrón. Hoy solo Inaros es caso confirmado.
 **Bloquea:** Anotar correctamente Inaros Scarab Swarm. Extensión del vocabulario `AbilityUpgradeBy` en `shared/types/ability.ts`.
+
+**Precisión (2026-07-09, debate de `source_attribute`):** Inaros Scarab Swarm es **composición
+cross-stat con fórmula dedicada** (`rhino.test.ts:72`, "Iron Skin overguard = (1200×str) +
+armor×(2.5×str) — fórmula dedicada [post-scope]"), **no** el shape simple de `linearThresholdScale`
+(`arch-decisions.md §12`) que sí sirve a Roar y a la Familia D de arcanos. No confundir: esta OQ
+sigue abierta y sin relación directa con §12 — es una fórmula propia, no un caso más del primitivo.
 **Fuente:** `references/game-ui/Inaros.md` línea `//!`
 
 ---
@@ -126,6 +132,17 @@ El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`
 
 **Bloquea:** unificación del modelado de stacking/duration entre los 4 schemas; diseño de composición de condition.
 **No bloquea:** captura de datos actual (escape hatch clasificado, D-20) ni el engine Fase 0 (D-15).
+
+**Nueva evidencia para el gate D-20 (2026-07-09, no cierra el OQ):** el barrido de arcanes
+(`OQ-ENGINE-17`) confirmó 8 casos reales de la familia "evento → +val por stack, cap Nx"
+(Primary/Secondary Merciless, Deadhead, Dexterity, Exhilarate, Cascadia Flare —
+`.working/arcane-corpus-sweep.md`), y el motor los resuelve ahora a nivel **engine** (no schema)
+vía la nueva operación `STACK_DECAY_BUFF` (`arch-decisions.md §11`) — que consume `stacks` como
+input **C1-declarado**, misma altitud que `activeStacks` de CO hoy, sin tocar el shape del schema.
+Esto es la 2ª forma real (arcanes) apuntando al mismo patrón que Galvanized (mods, D-15 §2) — sigue
+sin cerrar el bridge de schema (`condition`/`duration` estructurados), pero el gate D-20 (≥2 casos
+misma forma) ahora tiene evidencia cross-schema concreta, no solo teórica. Usuario (2026-07-09): no
+hace falta un 3er caso de mods para estresar esto — Galvanized alcanza cuando se estrese con tests.
 **Fuente:** debate 2026-06-02 sobre la familia stacking on-event de arcanes; `docs/data/schemas/arcane/schema.md §3`, `docs/data/reports/audit-arcane.md`.
 
 ---
@@ -602,22 +619,6 @@ Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no s
 **Vínculo:** `damage-status-model.md` (el modelo completo, incluye la brecha ya encontrada entre `EnemyState.processDots()` — decaimiento lineal continuo, código de abril — y el primitivo de N-timers-independientes validado empíricamente esta sesión; el bug de `getDamageMultiplier` y el rename de vocabulario legacy ya se resolvieron en Fase 3 pieza 3, commit `98ef01b`, previo a esta campaña).
 **Fuente:** debate de modelado C2, verificación empírica in-game 2026-07-02.
 
-## OQ-ENGINE-13 — ¿Los buffs de habilidad tipo Roar/Xata double-dipean en DoTs? — **ABIERTO (2026-07-03)**
-**Dominio:** engine / C2 (composición de daño) + Capa 5 (scaling de habilidades)
-
-**Contexto:** durante el modelado de C2 se observó que un buff de habilidad (Roar) produce sobre un DoT un multiplicador final mayor que su valor nominal: ×3.4 observado contra ×1.85 nominal (test con Alternox sobre el DoT de Electricity). `1.85² = 3.42` — la aritmética es la **firma de un double-dip**, el mismo primitivo `(1+b)²` que el modelo ya valida para el faction bonus sobre los 5 DoTs (`damage-status-model.md` §Reglas de composición #2). El test fue justamente sobre un DoT, que es donde vive el double-dip.
-
-**Hipótesis:** Roar (y buffs de la misma clase, ej. Xata) double-dipean en DoTs igual que el faction bonus. Esto parte en **dos ejes**:
-- La **composición** (el buff se aplica dos veces en la vida del DoT) es **C2** — mismo mecanismo ya modelado para faction, NO Capa 5.
-- El **origen/sourcing del valor** del buff (de dónde sale el +85%, cómo escala con strength) sí es **Capa 5** (scaling de habilidades, `gap-map.md`).
-
-**Pregunta:** ¿se confirma el double-dip de composición y cómo se separa del sourcing? No se persigue ahora — no hay trade-off en re-testear una mecánica que ya se comporta así; queda registrada para cuando se modele el eje de habilidades.
-
-**No bloquea:** nada del modelo de daño v1 (Roar/Xata no entran a v1). Es una regla de composición que el modelo excluye explícitamente hasta confirmar.
-**Pendiente de captura:** re-test con capturas, Roar aislado sobre un DoT (sin faction); verificar si Xata (Void como posible instancia aparte) se comporta idéntico a Roar.
-**Vínculo:** `damage-status-model.md` §Reglas de composición.
-**Fuente:** observación in-game durante modelado C2 (Alternox + DoT Electricity), 2026-07-02.
-
 ---
 
 ## OQ-ENGINE-14 — Alcance del modelado melee: ¿qué estrato entra primero? — **PROMOVIDA A DISEÑO (2026-07-05)**
@@ -647,5 +648,124 @@ Las tres coinciden en el cap (90% @2700) pero divergen fuerte abajo. La propia w
 
 **Condición para resolver:** contraste **#1** (un popup de daño real contra Arid Butcher) — el primer número de mitigación que el juego SÍ muestra. Ahí se confirma o se tira `√(3·AR)/100` contra el juego, y recién entonces se normaliza `references/*` (reconciliar `enemy-resistances.md` ↔ `enemy-level-scaling.md`) y se cierra este OQ.
 
-**Vínculo:** `references/wiki/mechanics/enemy-level-scaling.md` §Armor, `references/wiki/mechanics/enemy-resistances.md` §DR, `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`, `Project/src/core/engine/simulate/enemies/EnemyRepository.ts`.
-**Fuente:** eje enemigo / contraste #0 (2026-07-06).
+**Precisión añadida (verificación de estabilidad, 2026-07-09):** la fila `AR/(AR+300)` de la tabla NO es
+"era vieja" en abstracto — `references/wiki/mechanics/{armor.md,damage-reduction.md}` confirman que es
+la fórmula **vigente y correcta para Tenno** (jugador), coeficiente 300 explícitamente descrito como
+"escala estándar para Tenno". El conflicto de 3 vías es exclusivamente sobre DR de **enemigo**; no hay
+conflicto en la fórmula de jugador. Esto re-diagnostica (no resuelve) el checkpoint 2 de la
+reconciliación de `resolveHit` (`damage-status-model.md`): la fórmula vieja que tenía `resolveHit` no
+era "una DR incorrecta" sin más — era la fórmula de Tenno aplicada a un target enemigo.
+
+**Vínculo:** `references/wiki/mechanics/{enemy-level-scaling.md §Armor, enemy-resistances.md §DR, armor.md, damage-reduction.md}`, `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`, `Project/src/core/engine/formulas/enemy/armor-mitigation.ts` (movido de `EnemyRepository.ts` en P1, 2026-07-09).
+**Fuente:** eje enemigo / contraste #0 (2026-07-06); verificación de estabilidad pre-C1 (2026-07-09).
+
+---
+
+## OQ-ENGINE-16 — Fidelidad de N-declarado vs. timers reales para stacks de status (C1) — **ABIERTO (2026-07-09)**
+**Dominio:** engine / C1 (input declarado) + C2 (timers de status)
+
+**Contexto.** Doctrina §8 (`arch-decisions.md`): toda mecánica C2 se modela primero en modo **input
+declarado** ("asumo N stacks") antes que modo simulado (el valor emerge de una timeline). Para el eje de
+status-stacks (Viral/Magnetic/Corrosive — clúster `c2/stack`=42 del roadmap, Galvanized-like) las
+**fórmulas del multiplicador ya están cross-validadas** (verificación de estabilidad, Tramo 2, 2026-07-09):
+Viral/Magnetic `1+1.00+(n−1)×0.25`, Corrosive `min(0.26+0.06×(n−1),0.80)` — match exacto entre
+`references/wiki/mechanics/status-effects.md` y el código (`EnemyState`). **No es la fórmula lo que
+falta.**
+
+**Lo que sí falta (T1 de `.working/c1-simulation-doctrine.md` §4, cristalizado acá):** el comportamiento
+real de cada stack es **timer independiente por instancia, con decay/reemplazo propio** (confirmado
+empíricamente en Viral/Magnetic/Corrosive, `damage-status-model.md`). "Declarar N estáticamente" asume
+un snapshot fijo — pero el juego real tiene stacks entrando y venciendo de forma escalonada. **¿Hasta
+qué punto un N declarado es fiel** al comportamiento real antes de que el número mienta (infle o desinfle)?
+El clúster `c2/stack`=42 además trae **2 modelos de decay divergentes** ("expiran juntos" vs "incremental
+1-stack") sin resolver cuál aplica a qué caso.
+
+**Precedente que fija el método (no re-litigar el método, sólo aplicarlo):** exactamente el mismo patrón
+que double-dipping (`DC-OQ-ENGINE-13`) — la fórmula "sonaba" simple y no lo era hasta estresarla contra
+un caso real in-game. **No se resuelve teorizando**: se elige un caso concreto (candidato: primer
+Galvanized real, o el propio `c2/stack` de mayor payoff) y se estresa con dato real antes de generalizar
+una respuesta.
+
+**No bloquea:** el modo-input declarado ya es válido y usable para casos donde el consumidor acepta
+"asumido, no simulado" como techo (mismo espíritu que CO estático). Bloquea sólo la confianza en la
+FIDELIDAD del número asumido para el clúster completo de 42 casos.
+
+**Caso de estrés hermano, distinto del clúster de proc-stacking (2026-07-09, no confundir las
+fórmulas):** el barrido de arcanes (`OQ-ENGINE-17`) identificó una **segunda familia** de
+"N-declarado" — buff-on-event con cap (Merciless/Deadhead/Dexterity/Exhilarate/Cascadia Flare,
+`STACK_DECAY_BUFF`, `arch-decisions.md §11`) — que comparte la misma tensión de fondo (¿hasta qué
+punto `stacks` declarado sin timer es fiel?) pero **NO es el mismo mecanismo** que el clúster
+`c2/stack`=42 de status (Viral/Magnetic/Corrosive): son procs del target vs. buff on-event propio,
+con fórmulas y fuentes de N distintas — capturar por separado, no fusionar (precaución explícita
+del usuario). Confirmado además: el motor hoy no tiene NINGÚN tracker real para ninguno de los dos
+— `activeStacks` de CO/Galvanized se declara a mano (`co-incarnon-perk.test.ts`: "activeStacks no
+se declara → el motor usa el default 1"), cero código de acumulación existe todavía en ningún lado.
+Usuario (2026-07-09): no hace falta un 3er caso para estresar esto — Galvanized alcanza cuando se
+estrese con tests.
+
+**Vínculo:** `.working/c1-simulation-doctrine.md` §4-T1, `.working/c1-corpus-roadmap.md` (findings del
+sweep, clúster `c2/stack`=42), `damage-status-model.md` (timers independientes, brecha `processDots`),
+`arch-decisions.md` §8, §11 (caso hermano `STACK_DECAY_BUFF`), `.working/arcane-corpus-sweep.md`,
+`OQ-DATA-4` (evidencia cruzada de schema).
+**Fuente:** `.working/c1-simulation-doctrine.md` (debate 2026-07-08); cristalizada en verificación de
+estabilidad pre-C1 (2026-07-09).
+
+---
+
+## OQ-ENGINE-17 — Fórmula de arcanos ability-like: ¿por-arcano o por-familia? — **ABIERTO (2026-07-09)**
+**Dominio:** engine / C1 (arcanes, primer ladrillo del roadmap)
+
+**Contexto.** El corpus de arcanos con `upgrade_type:null` (per-stat, operador/amp, status resists) es
+**ability-like → fórmula dedicada** — el *dónde* viven las fórmulas dedicadas ya está respondido
+(`core/engine/formulas/`, ver `gap-map.md` "matiz 2026-07-03"). Lo que sigue abierto es más angosto:
+**dentro** de ese corpus específico, `formulas/arcane/` está **vacío** — ¿cada arcano necesita su propia
+fórmula (N fórmulas dedicadas), o varios comparten forma y deberían modelarse como **familia** (mismo
+patrón que `CONDITION_OVERLOAD` unificó CO+Galvanized×3+Cedo bajo una mecánica, `arch-decisions §9/§10`)?
+
+**Hipótesis a estresar (Doc 2, `c1-corpus-roadmap.md` §1):** varios arcanes comparten forma → familia,
+no N fórmulas. No confirmado — es hipótesis, no dato.
+
+**Bloquea:** el primer ladrillo del roadmap C1 (arranque arcanes, Doc 2 §1) — el barrido de clasificación
+del corpus arcane completo (102 `upgrade_type` + 145 condition) puede avanzar sin esto, pero la
+implementación real del residuo `upgrade_type:null` sí lo necesita resuelto.
+
+**Condición para resolver:** el barrido de clasificación del corpus (primer trabajo de Doc 2 §1, "no
+código") — con 2-3 casos reales en mano se decide familia vs per-arcano, mismo método que CO (§9: no se
+diseña la abstracción antes de tener el corpus enfrente).
+
+**Vínculo:** `.working/c1-simulation-doctrine.md` §4-T2, `.working/c1-corpus-roadmap.md` §1,
+`arch-decisions.md` §9/§10, `test/gap-map.md` (nota "matiz 2026-07-03").
+**Fuente:** `.working/c1-simulation-doctrine.md` (debate 2026-07-08); cristalizada en verificación de
+estabilidad pre-C1 (2026-07-09).
+
+---
+
+## OQ-DATA-14 — Armas/entidades modulares: ensamblaje de DNA desde piezas — **ABIERTO (2026-07-09)**
+**Dominio:** data / hidratación ("B", hipótesis tentativa — no confirmado)
+
+**Contexto.** Durante el barrido de clasificación de arcanes (OQ-ENGINE-17) se detectó que un subconjunto
+del corpus `upgrade_type:null` cuelga de armas/entidades **modulares** — no una pieza única con stats
+propios, sino **N piezas que se combinan** para producir el DNA final (stats base, tipo de daño, etc.):
+**Zaw** (strike+link+grip, 5 arcanos), **Kitgun** (chamber+grip+loader, 7 arcanos), **Amp** (prism+scaffold+brace,
+5 arcanos) ya confirmados con arcanos propios en el dataset; **MOA** y **Hound** son la misma "bolsa"
+conceptual (compañeros modulares) aunque hoy no tienen arcanos propios capturados en `arcanes.json`. Lo que
+cambia entre casos es únicamente **qué piezas** se combinan y **con qué regla** — el problema de fondo
+("construir un DNA canónico a partir de N componentes") es el mismo.
+
+**Hipótesis (tentativa, "entre comillas" — no se investiga todavía):** el ensamblaje es responsabilidad de
+**B** (hidratación/materialización), no de C — mismo principio que `§1` (Weapon = nodo canónico principal:
+C opera sobre el nodo ya hidratado, agnóstico a su origen) y el precedente de exaltadas (`OQ-ENGINE-11`,
+la derivación vive en A1/B, no en C). Sin confirmar contra datos reales todavía.
+
+**Condición para resolver:** cuando se decida atacar el modelado de armas/entidades modulares — primero
+traer información real de la wiki por tipo (piezas, reglas de combinación) y construir la teoría desde
+ahí, no antes (mismo método que CO/melee-combo: no diseñar la abstracción sin el corpus enfrente).
+
+**No bloquea:** el resto del engine, ni el barrido de arcanes no-modulares (ya separado en OQ-ENGINE-17).
+**Bloquea:** modelar los arcanos Amp/Zaw/Kitgun-específicos (22 arcanos parkeados: 5 amp + 5 zaw + 7 kitgun,
+más los 17 de Operator que quedan gated aparte por falta de foco en el Operador, no por este eje); build
+completo de cualquier Zaw/Kitgun/Amp.
+**Vínculo:** **OQ-ENGINE-17** (el disparador — barrido de arcanes, 2026-07-09), **OQ-DATA-1** (par cercano
+pero eje distinto: DATA-1 = *layout de slots* de companions modulares; ésta = *cómputo de stats* del DNA
+ensamblado).
+**Fuente:** debate 2026-07-09, barrido de corpus arcane (OQ-ENGINE-17).

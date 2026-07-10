@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.4.0"
+Version: "v0.4.1"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-09"
 ---
 
 # Engine Status
@@ -129,14 +129,47 @@ Suite de **consumidores derivados** vía el "clic" (`output/consume.ts`). Índic
 
 ## Deudas de implementación
 
-### `GAMEPLAY_MULT_FACTION_DAMAGE` — consumo C2 incompleto
+### `GAMEPLAY_MULT_FACTION_DAMAGE` — consumo C2 incompleto (bucket② en DoT ticks)
 
 El token está **mapeado** (`UPGRADE_MAP`: `op: ADD, toPercent: true`); 42 mods Bane/Expel/Cleanse/Smite lo
 llevan. Falta: (1) `target.faction` **estructurado** en los mods (hoy solo en el `label` → `OQ-DATA-5`) y
-(2) el consumo en C2 como multiplicador por facción. La composición (incl. el double-dip de faction sobre
-DoTs) está diseñada en [`design/damage-status-model.md`](design/damage-status-model.md); modelar el bonus
-como un nodo aditivo único es **lossy en multi-facción** ([`attribute-node-contract.md`](attribute-node-contract.md) §5).
-Vocabulario destino: [`../../semantic/factions.md`](../../semantic/factions.md).
+(2) el consumo en C2 como multiplicador por facción. Vocabulario destino: [`../../semantic/factions.md`](../../semantic/factions.md).
+
+**Actualizado (verificación de estabilidad, 2026-07-09) — el hit directo YA está resuelto, el DoT no:**
+`resolveHit` (`CombatSimulator.ts`) ya consume la matriz③ (vulnerabilidad target-keyed, `resolveHit`
+checkpoints 1-2, esta sesión). Lo que falta es específicamente el **tick de DoT** en `StatusEngine.
+{projectSlashTick,projectHeatTick,projectToxinTick}`, que hoy no recibe target en absoluto y le faltan
+**tres términos** confirmados por dato cross-validado (wiki formal `status-effects.md` + empírico
+`damage-status-model.md`, no ambigüedad — nivel de implementación, no de investigación):
+1. Matriz③ (vulnerabilidad del target) — ausente.
+2. Bucket② (mods de facción + buffs tipo Roar, aditivos entre sí) — presente parcial (`FACTION_DAMAGE`
+   del lado del arma) pero **sin elevar al cuadrado**, pese a que el propio comentario del código dice
+   `"Faction^2"` (`StatusEngine.ts` líneas ~45/62) — bug comentario-vs-implementación.
+3. `(1+status_damage)` (ej. Viral amplificando un tick de Slash/Toxin) — **totalmente ausente**.
+
+Fórmula objetivo completa (`damage-status-model.md §Reconciliación de resolveHit`): `tick = coef ×
+modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σbucket②)²` (no-True) / con `[bypass ③]`
+en vez de matriz (True, ej. Slash bleed). **Al implementar, seguir el patrón de `resolveHit`** (accessor
+dedicado por naturaleza — matriz vs bucket vs status — NO agregar los términos inline): mismo síndrome
+que motivó la reconciliación de `resolveHit` esta sesión.
+
+**Vínculo:** `design/damage-status-model.md §Evidencia` + `§Reconciliación de resolveHit`,
+`governance/closed-decisions.md#DC-OQ-ENGINE-13` (confirma que el double-dip es del bucket②, no de
+"faction" a secas).
+
+### `CombatCalculator.project` — god-function (falloff + crit + status + dps en una función)
+
+Verificación de estabilidad pre-C1 (2026-07-09): `project()` (`simulate/combat/CombatCalculator.ts`)
+absorbe 3-4 naturalezas distintas en ~90 líneas — falloff (física espacial), distribución de crit
+(probabilístico), proyección de status/DoT (delega a `StatusEngine`, ok) y aritmética de DPS/reload/
+magazine (composición escalar). Mismo síndrome que tenía `resolveHit` antes de esta sesión. **No es
+deuda de investigación** — el patrón para resolverlo ya existe y está probado 4 veces (`FAMILY_RESOLVERS`
+en `SimulationEngine`, y la reconciliación de `resolveHit` con accessors dedicados por naturaleza).
+`combat/` sigue fuera del pipeline de producción (`design/formulas-integration.md §1`) — sin consumidor
+C2 real, no se reconcilia todavía (gate = consumidor, no ausencia de plan).
+
+- `engine:debt` — descomponer `project()` en piezas por naturaleza cuando `combat/` tenga un consumidor
+  de producción. [verificación de estabilidad, `.working/stability-matrix.md` Tramo 3]
 
 ### Procedencia de perks de Incarnon — `source_id` ausente
 
@@ -157,10 +190,12 @@ Ver [`../../governance/open-questions.md`](../../governance/open-questions.md):
 - **OQ-ENGINE-7** — Materialización de nodos de atributo de arma faltantes (Capa 4).
 - **OQ-ENGINE-11** — Exaltadas: derivación de intención estructural en A1.
 - **OQ-ENGINE-12** — Timing del pipeline de crit condicional para Puncture/Cold (C2).
-- **OQ-ENGINE-13** — ¿Buffs de habilidad tipo Roar/Xata double-dipean en DoTs? (C2).
+- **OQ-ENGINE-15** — Fórmula de DR de armor enemigo: conflicto de 3 vías.
+- **OQ-ENGINE-16** — Fidelidad de N-declarado vs. timers reales para stacks de status (C1).
+- **OQ-ENGINE-17** — Fórmula de arcanos ability-like: ¿por-arcano o por-familia?
 - **OQ-ENGINE-FUTURE** — Web Worker, Rewind, y estado del Gold Standard testing.
 
-Las OQs cerradas (STATE-1..4, ENGINE-1/3/4/5/6, DATA-12) están en [`../../governance/closed-decisions.md`](../../governance/closed-decisions.md).
+Las OQs cerradas (STATE-1..4, ENGINE-1/3/4/5/6/13, DATA-12) están en [`../../governance/closed-decisions.md`](../../governance/closed-decisions.md).
 
 ## Contratos del motor
 

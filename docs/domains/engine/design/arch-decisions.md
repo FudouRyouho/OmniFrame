@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.2.9"
+Version: "v0.5.0"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-07-05"
+Fecha_de_actualizacion: "2026-07-09"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -174,6 +174,31 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 - **Trazabilidad:** cada veredicto `entra`/`difiere`/`descarta` se registra (por conjunto). El registro acumulado **es** el insumo del que emerge la primitiva; no es papeleo, es el material de la abstracción.
 - Enlaza con **§2** (Ability no tiene un único modelo ontológico — el veredicto por mecanismo es la instancia práctica de esa apertura) y con la doctrina de `test/gap-map.md` (mecánico-genérico por default, ability-like → fórmula dedicada como fallback).
 
+### 8.1 La escalera de madurez (lente, no capa nueva)
+
+Toda mecánica que "se siente C2" factoriza en `contribución = f(estado)`, ruteada a un bucket (`add`/`mult`/tabla), donde `estado ∈ {count, level, stacks, duration, ...}`. El invariante que decide el escalón **no es `f` ni el bucket** (esos varían libremente) — es **de dónde sale `estado`**:
+
+- **Asumido (C1):** `estado` es un **input declarado** (asumo 10 stacks de Viral, combo máximo, N stacks de Galvanized). `f(estado)` es función pura → resuelve en el grafo hoy.
+- **Emergente (C2):** `estado` **emerge** de una línea de tiempo (stacks se acumulan, combo decae, duración corre).
+
+No hace falta una capa intermedia ni renombrar C2: cada mecanismo sube una **escalera ortogonal** al eje C1/C2, sin capa nueva —
+
+```
+(0) sin modelar → (1) número display → (2) fórmula de input declarado → (3) dinámica parcial → (4) timeline pleno
+        └──────────────── C1 ────────────────┘        └──────────────── C2 ────────────────┘
+```
+
+**Corolario — clasificación de la superficie "que se siente sin atacar":**
+- **(a) ya-hecho-no-catalogado** — ej. el *número* de `AVATAR_ADD_ABILITY_DURATION` ya lo resuelve Rhino; solo el *efecto que decae* es C2.
+- **(b) decidido-no-implementado** — ej. Galvanized/CO/Cedo → familia `CONDITION_OVERLOAD` + variables (§9/§10). Con count declarado, `val × N` es C1.
+- **(c) genuinamente pendiente** — ej. el peso de cada stack de status en el daño asumido: sin eso, `f(estado)` no tiene tabla honesta. Único de los tres que exige modelado nuevo (ver OQ-ENGINE-16).
+
+### 8.2 Principio: "la fórmula lógica alcanza"
+
+**Parar en el peldaño 2 salvo que un consumidor real fuerce subir.** El input declarado no es una maqueta provisional a reemplazar por el timeline — es el suelo honesto que cubre la mayoría de los usos (arsenal, comparación de builds — el número que overframe.gg/la UI clásica muestran). Subir a (3)/(4) es **decisión por consumidor**, no default.
+
+Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (mata el reuso estático→dinámico, ver §9), ni un scaler genérico (el `CONTEXT_SCALE` que §9 ya mató). Familia **nombrada** con factores nombrados, siempre.
+
 ---
 
 ## 9. Condition Overload / GunCO: `co_behavior` (topología) + `CONDITION_OVERLOAD` (mecánica)
@@ -218,3 +243,117 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 - **Abstracción A — cierre en el TIPO (hecho 2026-07-05, con la 3ra mecánica).** La 3ra mecánica (sniper combo) **disparó el trigger**: con 3 casos reales la forma de la unión se estabilizó y su divergencia quedó clara — los 3 factores no comparten shape (`CoFactors {2 vars}` / `MeleeComboFactors {1 var}` / `SniperComboFactors {1 var + 1 literal min_combo}`), `Modifier` era una bolsa de 3 campos opcionales mutuamente excluyentes, y `value` tenía 3 significados (efecto / coefBase / muerto). Se subió la distinción al TIPO: **`Modifier` = discriminated union por `operation`** (`contracts/primitives.ts`) con variantes `AccumulatorModifier | CoModifier | MeleeComboModifier | SniperComboModifier` sobre un `ModifierBase` común. El compilador ahora **exige los factores correctos por variante y prohíbe el `value` muerto** (los combos ya no lo llevan). Los productores dinámicos (Mod/Incarnon/Arcane/Shard — la `operation` viene del dato) construyen vía el factory `makeModifier` (centraliza el mapeo op→variante); las mecánicas intrínsecas sintetizan su variante directa. La tabla de B se reusó tal cual (los resolvers pasaron a recibir su variante). **Agregar una mecánica ahora**: 1 op + 1 factors + 1 variante + 1 resolver + 1 entrada en la tabla, todo compiler-enforced.
 - **Cedo pasiva** prueba que la operation `CONDITION_OVERLOAD` debe poder originarse en **hidratación del arma** (unique trait), no solo en `ModRepository` — igual que un combo intrínseco. Andamiaje para fuente-pasiva sí; **poblar instancias pasivas no**, hasta tener el dato en pipeline (gate §8: falta dato ⇒ `difiere` la instancia, no la mecánica).
 - Enlaza con **§9** (es su profundización: CO vista contra el corpus completo) y con la doctrina `condition` = vocabulario emergente (`../../../semantic/conditions.md`).
+
+---
+
+## 11. `STACK_DECAY_BUFF`: familia hermana de CO para buff-on-event con cap, C1-declarado
+
+**Decisión:** Primer caso **no-CO** que entra por el mismo patrón de familia (§9/§10) — mecánica
+distinta, mismo mecanismo de dispatch. El corpus real: 8 arcanos (Primary/Secondary Merciless,
+Deadhead, Dexterity, Exhilarate, Cascadia Flare — barrido `.working/arcane-corpus-sweep.md`,
+2026-07-09) con la forma `evento discreto → +val por stack, cap Nx`. Distinto de CO en el eje que
+importa: **no lee status del target** (no hay `co_behavior`/bucket-routing ambiguo) — el bonus
+aplica directo al `target_attribute` que el arcano ya declara (daño%, energy regen/s, etc.).
+
+**Nueva `ModifierOperation`: `STACK_DECAY_BUFF`.** Fórmula pura en
+`formulas/arcane/arcane-stack-decay.ts` (no en `formulas/common/` todavía — un solo consumidor
+real hoy; se promueve si un caso de mods lo necesita, no antes — D-20):
+
+```ts
+stackDecayBonusPct(perStackPct: number, stacks: number, cap: number): number {
+  return perStackPct * clamp(stacks, 0, cap); // clamp ya vive en common/scaling-base.ts
+}
+```
+
+`stacks` es **C1-declarado** — misma altitud que `activeStacks` de CO hoy (§9: "el motor usa el
+default 1" si no se declara, sin ningún tracker real detrás). Este resolver **no intenta modelar
+decay real** — esa brecha es explícitamente de `OQ-ENGINE-16`, no de esta decisión.
+
+**Justificación:**
+- **Reutiliza el principio de §9, no la operación.** "Un futuro valor que emerge del contexto no-CO
+  no hereda el ruteo ni se dropea" — `STACK_DECAY_BUFF` es exactamente ese caso: comparte la forma
+  matemática de base (`valor × clamp(N, 0, cap)`) pero **no** comparte el bucket-routing de
+  `co_behavior` (que es específico de cómo CO compone con el daño de arma). La primitiva compartida
+  real (`clamp`) ya vivía en `formulas/common/` desde antes de CO — no hubo que extraer nada de
+  `weapon-condition-overload.ts`, que nunca tuvo la primitiva genérica adentro.
+- **Evidencia cruzada con `OQ-DATA-4` (no la cierra, la alimenta).** `D-15` (VIGENTE) documenta que
+  los mods con este mismo patrón hoy se guardan como valor **máximo aplanado** (`base_value` =
+  total a full stacks, duración solo en `note`); los arcanos de esta familia usan `base_value:
+  null` + nota. Es la misma divergencia que `OQ-DATA-4` ya nombra como su ejemplo motivador. Esta
+  decisión es la 2ª forma real (arcanes) apuntando al mismo patrón que Galvanized (mods) — nueva
+  evidencia para el gate D-20 (≥2 casos misma forma), **no una resolución** del bridge de schema
+  (eso sigue en `OQ-DATA-4`, altitud dato, no motor).
+- **Caso de estrés de `OQ-ENGINE-16`.** Esta familia es el caso concreto que esa OQ pedía como
+  condición de resolución (T1: "elegir un caso concreto... y estresarlo con dato real antes de
+  generalizar"). El resolver de esta decisión se queda deliberadamente en modo C1/declarado — no
+  resuelve la fidelidad N-declarado-vs-timers-reales, la deja abierta y trazada ahí.
+
+**Consecuencia:**
+- Contratos: nueva variante discriminada en `Modifier` (patrón ya compiler-enforced desde §10:
+  1 op + 1 factors + 1 variante + 1 resolver + 1 entrada en `FAMILY_RESOLVERS`).
+- **Prerequisito de datos (antes de cablear):** los 8 arcanos de esta familia tienen hoy
+  `base_value: null` en `arcane-stats.override.json` — el valor real por-stack está documentado en
+  `notes[]` (ej. Merciless: "+5% Damage por stack, cap 12×, duration:4s") pero no estructurado.
+  Poblar `base_value` con el valor per-stack real (ya extraído en el pase 2 del sweep) es paso
+  previo — dato, no arquitectura.
+- **Diferido explícitamente:** decay/duration real (C2) — el resolver consume `stacks` como
+  input puro, igual que Galvanized hoy. Ver `OQ-ENGINE-16`.
+- Enlaza con **§9/§10** (mismo mecanismo de familia, mecánica hermana no reuso) y **§8** (modo
+  asumido primero). Cita cruzada: `OQ-DATA-4`, `OQ-ENGINE-16`.
+
+---
+
+## 12. `linearThresholdScale`: primitivo compartido para cross-attribute-read (source_attribute)
+
+**Decisión:** el campo `source_attribute` (`ModifierBase`, ya existente) + el orden topológico del
+grafo (`SimulationEngine.rebuildGraph`, ya existente) son infraestructura **real y reusable** para
+que un modifier lea el valor ya resuelto de OTRO atributo de la misma entidad. Pero el único
+consumidor de `source_attribute` hoy (`SimulationEngine.ts:284-292`, `scaleFactor =
+sourceNode.final / (sourceNode.base || 1)`) está **hardcodeado a un solo shape** ("ratio contra la
+propia base" — el caso de Roar, `it.todo` en `rhino.test.ts:70`, **cero casos construidos hoy**) y
+no sirve para el shape que necesitan 5 arcanos reales (Bulwark, Battery, Bellicose, Doughty,
+Expertise — `.working/arcane-corpus-sweep.md`, Familia D corregida).
+
+**Evidencia — los 6 casos reales candidatos reducen algebraicamente a la misma forma:**
+
+| Caso | Fuente | Fórmula real | Forma reducida |
+|---|---|---|---|
+| Roar (Rhino, no construido) | Ability Strength | `50% × (final/base)` | `perUnit(50) × (source−0) / unitSize(base dinámico)` |
+| Primary Bulwark | Armor | `+1%/unidad sobre 1000, cap%` | `perUnit(1) × max(0, source−1000) / unitSize(1)` |
+| Arcane Battery | Armor | `+1 Energy/punto, cap 1000` | `perUnit(1) × source / unitSize(1)` |
+| Arcane Bellicose | Max Health | `+X%/250 HP, cap%` | `perUnit(X) × source / unitSize(250)` |
+| Melee Doughty | Puncture Status Chance | `round(chance × 0.1 × val1)` | `perUnit(val1) × source / unitSize(10)` |
+| Arcane Expertise | Ability Strength | `(source−100%) × rate` — **sin `max(0,...)`, puede ir negativo** | `perUnit(rate) × (source−100) / unitSize(1)` |
+
+Los 6 son `perUnit × (source − threshold) / unitSize`, con `cap` y `max(0,...)` **opcionales por
+consumidor** (Expertise deliberadamente no clampea en 0).
+
+**Corte de responsabilidad (por qué esto NO es el error de `CONTEXT_SCALE`, §9):**
+`CONTEXT_SCALE` murió por generalizar el **ruteo/disparador** — un valor no-CO se colaba y heredaba
+comportamiento no pedido. `linearThresholdScale` es una **función pura, invocada explícitamente**
+por cada consumidor con sus propios parámetros — no hay ruteo implícito que un caso ajeno pueda
+heredar sin que alguien escriba la línea que la llama. Mismo estatus que `clamp()` (ya en
+`common/scaling-base.ts` desde antes de CO): extraída temprano, sin riesgo, porque no rutea nada.
+
+**Decisión de split:**
+- **Se reusa el grafo** (`source_attribute` + orden topológico) — sirve a cualquier fórmula que
+  necesite leer un atributo hermano ya resuelto, Roar incluido.
+- **NO se generaliza el `scaleFactor` hardcodeado del switch genérico** — se queda dedicado a Roar
+  (single case, sin construir, no se toca hasta que exista). Los 5 casos de Familia D **no pasan
+  por ese switch**: cada uno es una fórmula dedicada propia (mismo enganche genérico per-arcano de
+  §11), que internamente compone `linearThresholdScale` de `formulas/common/scaling-base.ts`.
+- Gate D-20 (≥2 casos misma forma) superado de sobra: 6 casos reales, no 2.
+
+**Consecuencia:**
+- Nuevo export en `formulas/common/scaling-base.ts`: `linearThresholdScale(source, threshold,
+  unitSize, perUnit): number` — sin cap, sin floor-en-cero (decisión del consumidor).
+- Cada arcano de Familia D (`formulas/arcane/*`) importa el primitivo, fija sus 4 parámetros,
+  compone `clamp()` si necesita cap, decide si clampea en 0 antes de capar.
+- Roar (`formulas/ability/` cuando se construya) es un consumidor más del mismo primitivo, no un
+  caso especial en el motor — pero su construcción es un ticket propio, separado en dos partes ya
+  marcadas en `rhino.test.ts`: `fixture_03` (escalado atómico, self-contained) y `fixture_04`
+  (ruteo cross-entity del bonus al arma equipada) — no confundir alcance.
+- Enlaza con **§11** (mismo criterio de split: reusar la infraestructura de dependencia, no la
+  fórmula específica) y **§9** (el principio "derivación no selección" aplicado por 3ra vez).
+  Cita cruzada: `OQ-W-6` (Inaros, cross-stat composición — **fuera de este primitivo**, es fórmula
+  dedicada de habilidad per `rhino.test.ts:72`, no `source_attribute` simple).

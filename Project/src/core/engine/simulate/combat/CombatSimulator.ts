@@ -4,7 +4,8 @@
  */
 import type { SimulationEntity } from "../../contracts";
 import type { EnemyState } from "../enemies/EnemyState";
-import { DAMAGE_EFFICIENCY } from "../../contracts/damage-multipliers";
+import { targetFactionMult } from "../../contracts/damage-multipliers";
+import { damageReductionFromArmor } from "../../formulas/enemy/armor-mitigation";
 import { AtomicSimulator, type AtomicRoll } from "./AtomicSimulator";
 import { RngProvider } from "./RngProvider";
 import { isWeaponDamageToken } from "../../contracts/damage-logic";
@@ -83,9 +84,6 @@ export class CombatSimulator {
     let totalShieldDamage = 0;
     let totalHealthDamage = 0;
 
-    const armorType = targetState.base.dna.armor_type;
-    const healthType = targetState.base.dna.health_type;
-    const shieldType = targetState.base.dna.shield_type === "None" ? "Shield" : targetState.base.dna.shield_type;
     const effectiveArmor = targetState.getEffectiveArmor(currentTime);
     const hasShields = targetState.current_shields > 0;
 
@@ -97,28 +95,15 @@ export class CombatSimulator {
       // Multiplicador de stacks de status de la capa golpeada (Magnetic→shields, Viral→salud).
       const stateMultiplier = targetState.getDamageMultiplier(hitsShields);
 
-      // 2. Obtener Eficiencias según la capa
-      let layerEfficiency = 0;
-      if (hitsShields) {
-        layerEfficiency = DAMAGE_EFFICIENCY[type]?.[shieldType] || 0;
-      } else {
-        const healthEfficiency = DAMAGE_EFFICIENCY[type]?.[healthType] || 0;
-        const armorEfficiency = (armorType !== "None") ? (DAMAGE_EFFICIENCY[type]?.[armorType] || 0) : 0;
-        layerEfficiency = healthEfficiency + armorEfficiency;
-      }
+      // 2. Matriz ③ (facción del target × elemento) — post-U36 NO distingue capa, un solo valor
+      // sin importar si el hit golpea shields/armor/salud (ver targetFactionMult).
+      const typeMultiplier = targetFactionMult(type, targetState.base.dna.faction);
 
-      // 3. Calcular Multiplicador de Tipo
-      const typeMultiplier = 1 + layerEfficiency;
-
-      // 4. Calcular Mitigación (Armadura solo afecta a Salud, no a Escudos)
-      let dr = 0;
-      if (!hitsShields && effectiveArmor > 0) {
-        // En Warframe, si el elemento es fuerte contra la armadura, ignora parte de ella
-        const armorMultiplier = (armorType !== "None") ? (DAMAGE_EFFICIENCY[type]?.[armorType] || 0) : 0;
-        const armorBypass = armorMultiplier > 0 ? armorMultiplier : 0;
-        const netArmor = Math.max(0, effectiveArmor * (1 - armorBypass));
-        dr = netArmor / (netArmor + 300);
-      }
+      // 3. Mitigación por armadura (sólo afecta a Salud, no a Escudos). Sin bypass-por-elemento:
+      // no hay evidencia post-U36 de que un elemento "ignore" parte de la armor (enemy-resistances.md
+      // documenta bypasses fijos — Toxin/Slash-bleed/Magnetic/Viral — no "por fuerza del elemento");
+      // el viejo armorBypass era artefacto del modelo per-clase muerto (sunset, Checkpoint 2).
+      const dr = (!hitsShields && effectiveArmor > 0) ? damageReductionFromArmor(effectiveArmor) : 0;
 
       const finalDamage = damage * stateMultiplier * typeMultiplier * (1 - dr);
       

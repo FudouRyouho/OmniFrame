@@ -118,3 +118,18 @@ export const FACTION_BONUS: Record<string, Record<string, number>> = {
   "WEAPON_ADD_VOID_DAMAGE":        { "Zariman": 0.5 },
   // Tau, True → sin bonificación de facción (matriz vacía).
 };
+
+/**
+ * Accessor de la matriz ③ (`FACTION_BONUS`) — física del target, source-agnostic (ver
+ * `simulation-architecture.md §2.0`). `FACTION_BONUS` es **dato** (lookup, no cómputo) → el accessor
+ * se co-loca con la tabla, NO en `formulas/` (que es matemática pura; ver `formulas-integration.md`).
+ *
+ * **Single-dip, keyed en el target** (facción), NO en el bucket de mods/buffs del source — confirmado
+ * `damage-status-model.md §Evidencia`: Heat/Toxin contra Charger dan ratio ×1.5 constante en TODO nivel
+ * de buff (no ×2.25) → la matriz se aplica **una** vez, se distingue del bucket② (que sí double-dipea
+ * en DoT). Post-U36 la matriz NO distingue capa (shields/armor/salud) — mismo valor sin importar dónde
+ * pega el hit (`enemy-resistances.md`, "el modelo de resistencias es por facción, no por clase de capa").
+ */
+export function targetFactionMult(damageToken: string, faction: string): number {
+  return 1 + (FACTION_BONUS[damageToken]?.[faction] ?? 0);
+}

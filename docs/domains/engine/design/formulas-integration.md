@@ -142,3 +142,21 @@ de DR (player `armor/(armor+300)`, companion, …) se verifica si sube a un scop
 por entidad (`entity → player | enemy | companion`), y si el primitivo debe componer una tabla de
 datos intrínseca como los coeficientes de `enemy-scaling`. **Sin framework polimórfico hasta
 entonces (YAGNI).** El nombre `damageReductionFromArmor` se conserva por ahora.
+
+---
+
+## 8. Reconciliación de `resolveHit` (Checkpoint 1, 2026-07-09) — nota cruzada
+
+`resolveHit` (`simulate/combat/CombatSimulator.ts`, sigue **fuera** del pipeline de producción, ver §1)
+recibió dos checkpoints de reconciliación (2026-07-09):
+
+- **Checkpoint 1** — la matriz ③ (facción×elemento) pasó del lookup muerto `DAMAGE_EFFICIENCY` al
+  accessor `targetFactionMult` sobre el dato `FACTION_BONUS` (`contracts/damage-multipliers.ts` — **no**
+  `formulas/`, es lookup no cómputo).
+- **Checkpoint 2** — la DR pasó de la vieja `netArmor/(netArmor+300)` a `formulas/enemy/
+  armor-mitigation.ts::damageReductionFromArmor` (la misma `√3a/100` de P1); el `armorBypass`-por-elemento
+  se **sunseteó** (sin evidencia post-U36, artefacto del modelo per-clase muerto).
+
+Detalle completo y evidencia en `damage-status-model.md §Reconciliación de resolveHit`. El bucket② en DoT
+(checkpoint 3) queda re-escopeado a documentación — requiere cambiar firma de `StatusEngine.*` +
+`CombatCalculator`/`TimelineSimulator`, unidad de trabajo separada.
