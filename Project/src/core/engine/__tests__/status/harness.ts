@@ -20,6 +20,7 @@ import { CombatSimulator, type HitResolution } from "../../simulate/combat/Comba
 import { BASELINE_GAME_LAWS } from "../../contracts";
 import type { EnemyStatusState, GameLaws } from "../../contracts";
 import type { ScaledEnemy } from "../../simulate/enemies/EnemyRepository";
+import { dotTickValue, type DotType } from "../../formulas/status/dot-tick";
 
 /** Facción sentinela ausente de `FACTION_BONUS` → matriz③ = ×1.0 para todo tipo (faction diferido). */
 export const ISOLATED_FACTION = "Isolated";
@@ -72,4 +73,25 @@ export function resolveIsolated(
   currentTime = 0,
 ): HitResolution {
   return CombatSimulator.resolveHit(damage, target, currentTime);
+}
+
+/**
+ * Instancia de daño sintética (lado source) — gemelo mínimo de `IsolatedTargetSpec`. Carga SÓLO
+ * los inputs que el valor del tick necesita (§14: la instancia es un dato, el tick una función
+ * sobre ella). Es un proto-`DamageInstance` (O5): cuando ese tipo materialice, este spec se
+ * reemplaza por él, no se conserva como gemelo. El tick es source-side (no depende del target);
+ * el target entra recién en la aplicación (timeline, Slice 3).
+ */
+export interface IsolatedInstanceSpec {
+  /** Daño base modificado TOTAL de la instancia (sin faction). */
+  moddedBase: number;
+  /** +% mods del propio elemento (ignorado para Slash — excepción). */
+  ownElementBonusPct?: number;
+  /** +% status damage. */
+  statusDamageBonusPct?: number;
+}
+
+/** Computa el valor de un tick de DoT desde la instancia sintética (parte no-faction, no-timeline). */
+export function tickFromInstance(type: DotType, inst: IsolatedInstanceSpec): number {
+  return dotTickValue(type, inst.moddedBase, inst.ownElementBonusPct ?? 0, inst.statusDamageBonusPct ?? 0);
 }

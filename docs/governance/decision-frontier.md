@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
-Version: "v0.0.7"
+Version: "v0.0.8"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
@@ -61,7 +61,7 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **`DamageInstance` de primera clase + rename de `resolveHit`** — gate O5: primer daño-de-habilidad resuelto contra un enemigo (`resolveHit` resuelve una *instancia*, no un "hit"). Casos que informan: Toxic Lash, Xata's Whisper (CREAR instancia derivada cross-entity; = Roar `fixture_04`).
 - **Contenedor de ESTADO entidad-neutral** — gate: primera entidad no-enemigo que porte status (jugador self-status, companion). Deuda marcada en `EnemyState`.
 - **Arista 2 (aplicación del proc):** spec `{forced_procs, status_chance}` (2a, C1-declarable) + el ROLL (2b, C2). Hoy `addStacks` está huérfano de disparador real desde la resolución.
-- **Familia C (DoT-tick dependiente del daño del arma)** — plan propio en `damage-status-model.md §Checkpoint 3` (faltan `(1+status_damage)` + matriz③ + cuadrado del bucket②).
+- **Familia C (DoT-tick dependiente del daño del arma)** — **valor del tick EXTRAÍDO** (2026-07-10, `formulas/status/dot-tick.ts`: `coef × modded_base × (1+own_element) × (1+status_damage)`, parte no-faction/no-timeline, verificado en `__tests__/status/dot-tick-law` + `slash`). **Sigue gated:** el `×(1+faction)²` (eje faction) + el timeline (ticks/decay/N-timers/`processDots`) + cablear el `StatusEngine` inline roto a esta LEY — plan en `damage-status-model.md §Checkpoint 3`.
 - **Facetas-LEY de Heat/Ignite** (DoT-tick Familia C + armor-strip por tiempo): la unidad de LEY es la *faceta*, no el efecto. Eje estructura-de-LEY, ortogonal a la aplicación. Parkeado.
 - **Magnetic ×3.25 vs ×4.25 (O4):** Disruption hereda Infection (×4.25) hasta verificar contra `/w/Magnetic_Damage` (hipótesis: 100% a Overguard cruza el dato). Tripwire en `status-family-a.test.ts`.
 

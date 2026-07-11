@@ -5,29 +5,27 @@
  * maquinaria ausente). Cuando un efecto se modela, GRADÚA a su propio archivo (ver corrosion/
  * infection/disruption). NO es fuente de verdad absoluta — es el mapa de qué falta.
  *
- * Modelados con archivo propio: Corrosion (corrosive), Infection (viral), Disruption (magnetic).
+ * Modelados con archivo propio: Corrosion (corrosive), Infection (viral), Disruption (magnetic),
+ * Slash/Bleed (valor del tick, prototipo Slice 2).
  * Fuente de los veredictos: docs/domains/engine/design/damage-status-model.md §Veredictos por tipo — v1.
  */
 import { describe, it } from 'vitest';
 
-// — DoT (Familia C: tick dependiente del daño del arma; §Checkpoint 3, la Slice 2 lo prototipa) —
-describe('Slash → Bleed', () => {
-  it.todo('tick = 0.35 × modded_base × (1+status_damage) [True, bypass armor] — Familia C');
-});
+// — DoT (Familia C). La LEY del VALOR del tick YA existe (formulas/status/dot-tick.ts, Slice 2);
+//   falta GRADUAR cada uno a archivo propio + el faction² + el timeline (C2, Slice 3). —
 describe('Toxin → Poison', () => {
   it.todo('hit directo: bypassa shields (MODELADO en resolveHit; ver infection.test)');
-  it.todo('tick = 0.5 × modded_base × (1+toxin) × (1+status_damage) [bypass shields, no Overguard] — Familia C');
+  it.todo('valor del tick: dotTickValue("toxin", ...) YA existe — falta graduar a toxin.test + bypass shields/no-Overguard en aplicación');
 });
 describe('Heat → Ignite', () => {
   it.todo('armor strip por TIEMPO (rampa 2s, cap 50%): MODELADO inline en EnemyState (excepción, no Familia A) — falta harness temporal');
-  it.todo('tick = 0.5 × modded_base × (1+heat) × (1+status_damage) [stacks consolidados en 1 tick/s] — Familia C');
+  it.todo('valor del tick: dotTickValue("heat", ...) YA existe — falta graduar + stacks consolidados en 1 tick/s (timeline)');
 });
 describe('Electricity → Tesla Chain', () => {
-  it.todo('tick = 0.5 × modded_base × (1+electric) × (1+status_damage) — Familia C');
-  it.todo('arco a enemigos en 3m (filtro espacial) + stun ~3s solo al target original — deferido');
+  it.todo('valor del tick: dotTickValue("electricity", ...) YA existe — falta graduar + arco 3m + stun');
 });
 describe('Gas → Gas Cloud', () => {
-  it.todo('tick = 0.5 × modded_base × (1+gas) × (1+status_damage) [AoE, radio 3m +0.3/stack] — Familia C');
+  it.todo('valor del tick: dotTickValue("gas", ...) YA existe — falta graduar + AoE radio 3m +0.3/stack (timeline)');
 });
 
 // — Debuff numérico Familia A/B, consumido FUERA de la resolución por capa (crit calc, status calc) —
