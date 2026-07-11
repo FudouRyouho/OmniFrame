@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT, verdictos de scope v1, primitivos reusables"
-Version: "v0.4.1"
+Version: "v0.5.0"
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
@@ -294,6 +294,39 @@ para el resto (Slash incluido) es hueco. **Test decisivo:** sumar el daño total
 sin substrato); las cinco fronteras + el generador de fases emergentes (RNG/rate) son el **substrato
 steppeado / dedicado** (C2), gated por consumidor real. Este modelo es la profundización de la brecha
 `processDots` de abajo (el pool-único-con-decay-lineal es justo lo que la superposición de pulsos NO es).
+
+### El frame para construir C2 sin re-acoplar (destilado 2026-07-10)
+
+El DoT **no es una mecánica especial** — es `resolveHit` en un **cronograma** con el valor de la fuente
+**congelado**. Se descompone en **cuatro ejes ortogonales que se componen, no se fusionan** (fusionarlos
+en "un grafo que hace todo" re-acopla lo que se separó):
+
+| Eje | Qué es | Dónde vive |
+|---|---|---|
+| **Tiempo** (1D) | superposición de pulsos, `total`/curva | `formulas/status/dot-timeline.ts` ✓ |
+| **Espacio** (grilla 2D) | filtro de posición (arco 3m, nube Gas, viaje del proyectil = otro delay declarado) | **diferido como código** — hoy los casos reales son un escalar `distancia ≤ R`, no una grilla (`status-effects.md`) |
+| **Población** (RNG) | qué pulsos existen | multiplicador: **`esperado = forzado × chance × peso`** (todo lineal; el `peso` `1/N` es `procWeightByType`). El sampled (Monte Carlo) solo para la varianza |
+| **Resolución** (por tick) | capa/armor/facción/coupling vs target | **`resolveHit`** (reusar, no reimplementar) |
+
+**Compute-once / plano — la simplificación clave.** La fórmula pesada (source-side: `modded_base`,
+`status_damage`, **double-dip bucket²**) corre **una sola vez, al nacer el proc**, y deja un **número plano
+congelado** en el estado del target (`DotPulse.value` ya es eso). La vida del pulso es **plano + resolución
+trivial por tick** — el mismo costo que un hit directo, no una re-corrida de fórmula. El double-dip "vive en
+el target" como número, no como fórmula. Caro al nacer, barato el resto.
+
+**Dos capas distintas (§14):** el hit directo es **RESOLUCIÓN** pura (resolvé → aplicá → olvidá, sin
+estado). El DoT deposita **ESTADO** portado-por-el-target (los pulsos vivos + los debuffs), que resuelve en
+el tiempo. El estado del target se parte en **emisores de daño** (ticks) y **modificadores de defensa**
+(Corrosión/Heat strip, Viral amplifica) — y estos últimos acoplan cómo resuelven los primeros (fuga 2).
+
+**Disciplina de código (no repetir el error `forcedFiringPulses`):** el andamiaje **sintético** (escenarios
+forzados, supuestos 100%) vive en el **harness de test**, NO en `formulas/`. `formulas/` es matemática pura
+sobre pulsos; fabricar la lista de pulsos desde un escenario es test-side. El DoT evoluciona **componiendo**
+piezas existentes (cronograma × `resolveHit` × multiplicador de chance), no inflando un módulo.
+
+> **Caveat de medida:** `timelineByTick` cuenta ticks en el MISMO instante — frágil a la alineación (a fire
+> rate alto los ticks caen en tiempos fraccionarios que no colisionan). Para tasa/DPS usar `damageInWindow`
+> (daño en `[from,to)`), que no depende de alineación. Hallazgo del tramo (a): reproducir el dato lo expuso.
 
 ---
 

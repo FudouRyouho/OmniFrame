@@ -21,6 +21,7 @@ import { BASELINE_GAME_LAWS } from "../../contracts";
 import type { EnemyStatusState, GameLaws } from "../../contracts";
 import type { ScaledEnemy } from "../../simulate/enemies/EnemyRepository";
 import { dotTickValue, type DotType } from "../../formulas/status/dot-tick";
+import type { DotPulse } from "../../formulas/status/dot-timeline";
 
 /** Facción sentinela ausente de `FACTION_BONUS` → matriz③ = ×1.0 para todo tipo (faction diferido). */
 export const ISOLATED_FACTION = "Isolated";
@@ -94,4 +95,41 @@ export interface IsolatedInstanceSpec {
 /** Computa el valor de un tick de DoT desde la instancia sintética (parte no-faction, no-timeline). */
 export function tickFromInstance(type: DotType, inst: IsolatedInstanceSpec): number {
   return dotTickValue(type, inst.moddedBase, inst.ownElementBonusPct ?? 0, inst.statusDamageBonusPct ?? 0);
+}
+
+/**
+ * Escenario de tiro **forzado** (100% status) — andamiaje SINTÉTICO de test (no producción): vaciar
+ * `shots` balas a `fireRate`, cada una con `multishot` pellets, cada pellet una **instancia forzada**
+ * de DoT (uncapped — Slash/Toxin). Fabrica una lista de pulsos DECLARADA para el tramo (a) del método
+ * (composición a 100%, sin dados, número exacto). Vive acá y no en `formulas/` porque FABRICA el input
+ * (como makeIsolatedTarget), no computa sobre él. La generación de eventos REAL (fire rate × status
+ * chance × RNG) es el tramo (b), otra cosa. NO modela caps (fuga 4).
+ */
+export interface ForcedFiringScenario {
+  shots: number;          // balas disparadas
+  fireRate: number;       // disparos por segundo
+  multishot?: number;     // pellets por disparo, cada uno instancia forzada (default 1)
+  procDelay?: number;     // delay al primer tick (default 1)
+  ticks: number;          // ticks por instancia (duración en ticks)
+  tickValue: number;      // daño por tick (amplitud del pulso)
+  tickInterval?: number;  // segundos entre ticks (default 1)
+}
+
+/** Expande el escenario forzado a la lista de pulsos DECLARADA (una por pellet por disparo). */
+export function forcedFiringPulses(s: ForcedFiringScenario): DotPulse[] {
+  const multishot = s.multishot ?? 1;
+  const procDelay = s.procDelay ?? 1;
+  const pulses: DotPulse[] = [];
+  for (let shot = 0; shot < s.shots; shot++) {
+    const shotTime = shot / s.fireRate;
+    for (let pellet = 0; pellet < multishot; pellet++) {
+      pulses.push({
+        firstTick: shotTime + procDelay,
+        ticks: s.ticks,
+        value: s.tickValue,
+        interval: s.tickInterval,
+      });
+    }
+  }
+  return pulses;
 }

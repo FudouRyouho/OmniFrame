@@ -54,3 +54,21 @@ export function timelineByTick(pulses: readonly DotPulse[]): Map<number, number>
 	}
 	return curve;
 }
+
+/**
+ * Daño de los ticks que caen en la ventana `[from, to)` — la medida ROBUSTA de tasa (DPS por
+ * ventana). A diferencia de `timelineByTick` (ticks en el MISMO instante), no depende de la
+ * alineación de los ticks: al disparar rápido los ticks caen en tiempos fraccionarios que no
+ * colisionan, y `timelineByTick` los subestima. Para "¿cuánto daño por segundo?" se usa esta, no
+ * la curva de instantes. (Hallazgo del tramo (a): reproducir el dato expuso el artefacto.)
+ */
+export function damageInWindow(pulses: readonly DotPulse[], from: number, to: number): number {
+	let sum = 0;
+	for (const p of pulses) {
+		for (const t of tickTimes(p)) {
+			if (t >= from && t < to) sum += p.value;
+		}
+	}
+	return sum;
+}
+
