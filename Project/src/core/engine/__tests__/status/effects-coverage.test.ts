@@ -20,6 +20,7 @@ describe('Toxin → Poison', () => {
 describe('Heat → Ignite', () => {
   it.todo('armor strip por TIEMPO (rampa 2s, cap 50%): MODELADO inline en EnemyState (excepción, no Familia A) — falta harness temporal');
   it.todo('valor del tick: dotTickValue("heat", ...) YA existe — falta graduar + stacks consolidados en 1 tick/s (timeline)');
+  it.todo('FRONTERA 1: Heat NO es pulsos independientes — un pulso consolidado que crece + refresca duración (damage-status-model §Modelo de timeline)');
 });
 describe('Electricity → Tesla Chain', () => {
   it.todo('valor del tick: dotTickValue("electricity", ...) YA existe — falta graduar + arco 3m + stun');
@@ -58,4 +59,16 @@ describe('Void → Bullet Attraction', () => {
 // — Regla de composición, no un proc con daño propio —
 describe('True (Finisher/Cinematic)', () => {
   it.todo('NO dispara proc — es regla de composición #1 (ignora armor ≠ inmune a multiplicadores de capa; ver §Bleed)');
+});
+
+// — Modelo de timeline (superposición de pulsos) — supuestos y fronteras cross-cutting.
+//   Narrativa: damage-status-model.md §Modelo de timeline. Frontera 1 (Heat) → describe Heat;
+//   Frontera 4 (detonación) → describe Blast. Acá las que no cuelgan de un solo efecto: —
+describe('Timeline / Familia C — superposición de pulsos declarados (suelo C1)', () => {
+  it.todo('total = Σ(ticks × valor), independiente del fase; curva DPS(t) = pulsos vivos en t — fold puro sobre lista declarada, sin substrato');
+  it.todo('FRONTERA 2 (snapshot/coupling): el pulso es rectángulo porque el daño se congela al nacer; Viral amplifica DoTs de salud EN VIVO → Viral+Slash (meta) rompe la amplitud constante');
+  it.todo('FRONTERA 3 (pulsos que generan pulsos): arco de Electricity (secundarios sin crit) + Gas AoE (N targets) — un pulso ≠ un target');
+  it.todo('FRONTERA 4 (terminación temprana): muerte del target trunca todos los pulsos y el instante de muerte es salida del propio timeline (circularidad, integrar hasta health=0)');
+  it.todo('FRONTERA 5 (densidad): cientos de pulsos/s en builds reales → arch-decisions §4.4 (Hybrid/EV), la enumeración deja de ser viable');
+  it.todo('HUECO DE DATO — Status Duration ensancha el pulso: (A) más ticks→total sube vs (B) ticks estirados→total igual. SIN VERIFICAR (wiki solo especifica Blast/Heat/Electric). Test: sumar total con/sin, no observar duración');
 });

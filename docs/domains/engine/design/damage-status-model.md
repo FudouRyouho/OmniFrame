@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT, verdictos de scope v1, primitivos reusables"
-Version: "v0.3.3"
+Version: "v0.4.1"
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
-Fecha_de_actualizacion: "2026-07-09"
+Fecha_de_actualizacion: "2026-07-10"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/status-effects.md"
@@ -240,6 +240,60 @@ Diferido. Cross-cutting (+10%/stack de status chance recibida por el target, has
 
 ### True Damage
 Ver regla de composición #1. No es una ficha de implementación — es la regla que valida el resto.
+
+---
+
+## Modelo de timeline (superposición de pulsos declarados) y sus fronteras
+
+El DoT en el tiempo **no exige un reloj steppeado** para el caso simple. Cada instancia de DoT es un
+**pulso**: `{ inicio, ancho (duración), amplitud (valor de tick) }`. La línea de tiempo es la
+**superposición** (suma) de los pulsos activos. Dos resultados, ambos de **forma cerrada** mientras los
+pulsos estén **declarados** y de **amplitud constante**:
+
+- **Total** = `Σ_i (ticks_i × valor_i)` — **independiente del fase**: cuándo empezó cada pulso no cambia
+  el total, solo su distribución por segundo. Suficiente para daño-total / TTK.
+- **Curva `DPS(t)`** = suma de los pulsos vivos en `t` — sí depende del fase (sube al pisarse ventanas,
+  baja al expirar). Necesaria solo para preguntas de forma (¿supera la regen en cada instante?).
+
+Es el suelo C1 del timeline (`arch-decisions §8.1`, peldaño 2→3): con pulsos declarados, "cuánto daño
+hace un DoT aislado" se **evalúa**, no se simula. Tanto el valor del tick (`formulas/status/dot-tick.ts`)
+como el fold de superposición (`formulas/status/dot-timeline.ts`: `pulseTotal` + `timelineByTick`)
+**ya existen** (Slice 3a, 2026-07-10), sin tocar el substrato de `EnemyState`. La curva canónica de test
+es la tabla de dos pulsos fasados (`__tests__/status/timeline.test.ts`).
+
+**Las cinco fronteras — dónde la superposición cerrada se rompe** y hay que steppear (substrato C2) o ir
+a manejo dedicado. Estresadas 2026-07-10; cada una es candidata a `todo` falsable en `__tests__/status/`:
+
+1. **Heat NO es pulsos independientes.** Sus stacks se **consolidan en un único tick/s compartido** que
+   crece con cada proc y cuya duración **se refresca** (`status-effects.md §Ignite`). Un pulso mutante,
+   no N — manejo dedicado, no la lista genérica.
+2. **La amplitud constante depende del SNAPSHOT, y el acoplamiento en vivo lo rompe.** El pulso es
+   rectangular porque Warframe **congela** el daño del DoT al nacer. Pero Viral (Infection) **amplifica
+   los DoTs de capa-salud en vivo** (`status-effects.md §Infection`): si los stacks de Viral cambian
+   mientras el bleed tickea, la amplitud del pulso cambia dentro de su ancho. Igual el strip de armor
+   bajo un tick de Heat/Toxin. **Es el caso meta (Viral+Slash)** — el build más común viola el rectángulo.
+   La frontera más traicionera: se disfraza de caso limpio en el laboratorio (donde Viral está quieto).
+3. **Pulsos que generan pulsos.** El arco de Electricity emite ticks secundarios en enemigos a 3m **sin
+   heredar el crítico**; Gas es un pulso por **área** (N targets), no por instancia. "Un pulso = un
+   target" es falso — extensión espacial + multi-target.
+4. **Terminación temprana por evento.** Blast **detona** al 10º stack o al morir el target; los efectos
+   capeados **reemplazan al más viejo** (un pulso muere antes por uno nuevo); la **muerte del target
+   trunca todos los pulsos** — y el momento de muerte es a su vez salida del timeline (circularidad leve,
+   resoluble integrando hasta `health=0`). "El pulso vive su ancho declarado" es condicional.
+5. **Densidad.** A fire rate alto + multishot los pulsos se multiplican (cientos/s en builds reales, ej.
+   los del test). Enumerarlos deja de ser viable → `arch-decisions §4.4` (Hybrid / Expected Value Mode):
+   arriba de cierta densidad se abandona la enumeración por agregación estadística.
+
+**Hueco de dato (no de modelo) — Status Duration.** Ensancha el pulso, pero está **sin verificar** si es
+(A) más ticks a intervalo fijo → total **sube**, o (B) los mismos ticks a intervalo estirado → total
+**igual**. `status-effects.md` solo especifica el escalado de duración para **Blast/Heat/Electricity**;
+para el resto (Slash incluido) es hueco. **Test decisivo:** sumar el daño total con/sin Status Duration
+(duplica → A; igual → B) — NO observar si "dura más" (ambas lo hacen). Hipótesis abierta, no se asume.
+
+**Corte:** la agregación cerrada de pulsos declarados de amplitud constante es **viable hoy** (suelo C1,
+sin substrato); las cinco fronteras + el generador de fases emergentes (RNG/rate) son el **substrato
+steppeado / dedicado** (C2), gated por consumidor real. Este modelo es la profundización de la brecha
+`processDots` de abajo (el pool-único-con-decay-lineal es justo lo que la superposición de pulsos NO es).
 
 ---
 

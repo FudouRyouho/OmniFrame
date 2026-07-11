@@ -1,7 +1,7 @@
 ---
 Estado: "referencia"
 Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
-Version: "v0.0.8"
+Version: "v0.0.10"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
@@ -62,8 +62,9 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **Contenedor de ESTADO entidad-neutral** — gate: primera entidad no-enemigo que porte status (jugador self-status, companion). Deuda marcada en `EnemyState`.
 - **Arista 2 (aplicación del proc):** spec `{forced_procs, status_chance}` (2a, C1-declarable) + el ROLL (2b, C2). Hoy `addStacks` está huérfano de disparador real desde la resolución.
 - **Familia C (DoT-tick dependiente del daño del arma)** — **valor del tick EXTRAÍDO** (2026-07-10, `formulas/status/dot-tick.ts`: `coef × modded_base × (1+own_element) × (1+status_damage)`, parte no-faction/no-timeline, verificado en `__tests__/status/dot-tick-law` + `slash`). **Sigue gated:** el `×(1+faction)²` (eje faction) + el timeline (ticks/decay/N-timers/`processDots`) + cablear el `StatusEngine` inline roto a esta LEY — plan en `damage-status-model.md §Checkpoint 3`.
+- **Modelo de timeline (superposición de pulsos)** — el DoT-en-el-tiempo se parte en **agregación cerrada de pulsos declarados** (suelo C1, `total = Σ ticks×valor` + curva `DPS(t)`) vs **substrato steppeado / dedicado** (C2). El lado C1 (3a) está **CONSTRUIDO**: `formulas/status/dot-timeline.ts` (`pulseTotal`/`timelineByTick`), sin tocar el substrato. Las **5 fronteras** que fuerzan el substrato (Heat consolidado, coupling Viral-en-vivo/snapshot, pulsos-que-generan-pulsos, terminación por muerte/detonación, densidad→EV) + el hueco de Status Duration (A vs B, `OQ-ENGINE-18`) están estresadas y documentadas en `damage-status-model.md §Modelo de timeline` (2026-07-10) + `todo` en `__tests__/status/`. El substrato (3b) sigue gated por consumidor real.
 - **Facetas-LEY de Heat/Ignite** (DoT-tick Familia C + armor-strip por tiempo): la unidad de LEY es la *faceta*, no el efecto. Eje estructura-de-LEY, ortogonal a la aplicación. Parkeado.
-- **Magnetic ×3.25 vs ×4.25 (O4):** Disruption hereda Infection (×4.25) hasta verificar contra `/w/Magnetic_Damage` (hipótesis: 100% a Overguard cruza el dato). Tripwire en `status-family-a.test.ts`.
+- **Magnetic ×3.25 vs ×4.25 (O4):** Disruption hereda Infection (×4.25) hasta verificar contra `/w/Magnetic_Damage` (hipótesis: 100% a Overguard cruza el dato). Tripwire en `__tests__/status/{stack-debuff-law,disruption}.test.ts`.
 
 ---
 

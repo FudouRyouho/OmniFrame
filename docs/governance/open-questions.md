@@ -1,7 +1,7 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.39.2"
+Version: "v0.39.3"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
@@ -733,6 +733,41 @@ sweep, clúster `c2/stack`=42), `damage-status-model.md` (timers independientes,
 `OQ-DATA-4` (evidencia cruzada de schema).
 **Fuente:** `.working/c1-simulation-doctrine.md` (debate 2026-07-08); cristalizada en verificación de
 estabilidad pre-C1 (2026-07-09).
+
+---
+
+## OQ-ENGINE-18 — Status Duration en DoT: ¿más ticks o ticks estirados? (A vs B) — **ABIERTO (2026-07-10)**
+**Dominio:** engine / C1-timeline (ancho del pulso de DoT) — depende de dato in-game
+
+**Contexto.** El modelo de timeline de DoT (`../domains/engine/design/damage-status-model.md` §Modelo de
+timeline) trata cada instancia como un **pulso** `{inicio, ancho, amplitud}`. Un mod de **Status Duration**
+ensancha el pulso, pero NO está verificado CÓMO:
+- **(A) más ticks a intervalo fijo** → +100% dur. = 12 ticks en vez de 6 → **daño total sube ×2**.
+- **(B) los mismos ticks a intervalo estirado** → 6 ticks repartidos en 12s → **daño total igual**, solo más lento.
+
+Ambas coinciden en "el proc dura más" — por eso la observación de duración **NO las distingue**.
+
+**Test decisivo (in-game):** **sumar el daño total** del DoT con y sin Status Duration (duplica → A; igual
+→ B), o contar los números de tick que aparecen. NO observar si "dura más" (ambas lo hacen).
+
+**Lo que la wiki dice hoy:** `references/wiki/mechanics/status-effects.md` solo especifica el escalado de
+duración para **Blast/Heat/Electricity**; para el resto (Slash/Toxin/etc.) es **hueco de dato**, no ley.
+Lean del equipo = **(A)** (Status Duration es multiplicador de daño conocido en builds de DoT — nadie lo
+correría si fuera B), pero **sin verificar cuantitativamente**.
+
+**Ramificación a los stack-debuffs (no confundir):** para Viral/Corrosive (capeados) "más duración" NO
+sube el techo (Corrosive tope 80% sigue igual) — sube el **uptime** (los stacks decaen más lento). Es una
+consecuencia distinta del eje A/B del DoT; testear por separado (DoT → ¿sube el total? / debuff → ¿sube el
+uptime?).
+
+**No bloquea:** la agregación de pulsos **declarados** (`formulas/status/dot-timeline.ts`, Slice 3a) — ahí
+el ancho se declara directo ("6 ticks"), no se deriva del mod. A/B solo importa cuando se derive el ancho
+desde un valor de Status Duration.
+
+**Vínculo:** `../domains/engine/design/damage-status-model.md` §Modelo de timeline (el pulso y sus 5
+fronteras), `OQ-ENGINE-16` (fidelidad N-declarado vs timers — eje hermano de duración/decay),
+`references/wiki/mechanics/status-effects.md` (escalado de duración documentado solo para Blast/Heat/Electric).
+**Fuente:** debate 2026-07-10 (Slice 3, modelo de timeline); observación in-game del usuario, pendiente de comprobación cuantitativa.
 
 ---
 
