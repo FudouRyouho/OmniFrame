@@ -2,7 +2,6 @@
  * @domain Simulation-v2 / Logic / Projector
  * @status en-desarrollo
  */
-import { StatusEngine, type StatusEffectProjection } from "./StatusEngine";
 import { AtomicSimulator } from "./AtomicSimulator";
 import type { SimulationEntity, SimulationContext } from "../../contracts";
 import { isWeaponDamageToken } from "../../contracts/damage-logic";
@@ -11,8 +10,7 @@ export interface CombatMetrics {
   average_crit_multiplier: number;
   burst_dps: number;
   sustained_dps: number;
-  status_map: Record<string, number>; 
-  status_projections: StatusEffectProjection[];
+  status_map: Record<string, number>;
   crit_distribution: Record<number, number>;
   pellet_count: number;
   falloff_multiplier: number;
@@ -47,18 +45,6 @@ export class CombatCalculator {
     
     const crit_distribution = AtomicSimulator.calculateCritDistribution(crit_chance);
     const avg_crit_mult = AtomicSimulator.calculateAverageMultiplier(crit_chance, crit_mult);
-
-    // 3. Proyección de Estados Proactivos (Capa C+)
-    const projections: StatusEffectProjection[] = [];
-    if (attrs["WEAPON_ADD_SLASH_DAMAGE"]) {
-      projections.push(StatusEngine.projectSlashTick(entity, avg_crit_mult));
-    }
-    if (attrs["WEAPON_ADD_HEAT_DAMAGE"]) {
-      projections.push(StatusEngine.projectHeatTick(entity, avg_crit_mult));
-    }
-    if (attrs["WEAPON_ADD_TOXIN_DAMAGE"]) {
-      projections.push(StatusEngine.projectToxinTick(entity, avg_crit_mult));
-    }
 
     // 4. Lógica de Estado (Probability Weighting)
     const status_chance = (attrs["WEAPON_ADD_STATUS_CHANCE"]?.final || 0) / 100;
@@ -102,7 +88,6 @@ export class CombatCalculator {
       status_map,
       crit_distribution,
       pellet_count: multishot,
-      status_projections: projections,
       falloff_multiplier: falloffMult
     };
   }

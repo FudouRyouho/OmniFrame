@@ -19,6 +19,7 @@ import { EnemyState } from "../../simulate/enemies/EnemyState";
 import { CombatSimulator, type HitResolution } from "../../simulate/combat/CombatSimulator";
 import { BASELINE_GAME_LAWS } from "../../contracts";
 import type { EnemyStatusState, GameLaws } from "../../contracts";
+import type { StatusEffect } from "@shared/types";
 import type { ScaledEnemy } from "../../simulate/enemies/EnemyRepository";
 import { dotTickValue, type DotType } from "../../formulas/status/dot-tick";
 import type { DotPulse } from "../../formulas/status/dot-timeline";
@@ -60,7 +61,17 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EnemyState {
   };
 
   const state = new EnemyState(scaled, spec.laws ?? BASELINE_GAME_LAWS);
-  if (spec.stacks) Object.assign(state.stacks, spec.stacks);
+  // Status pre-declarado (C1): materializa el estado de proc del modelo unificado directamente.
+  // corrosion/infection/disruption = `{ count }`; ignite (Heat) = su estado de pool + ignite stacks.
+  if (spec.stacks) {
+    for (const [effect, count] of Object.entries(spec.stacks) as Array<[StatusEffect, number]>) {
+      if (!count) continue;
+      state.effectStates.set(
+        effect,
+        effect === "ignite" ? { pool: 0, ignite: count, firstProcTime: 0 } : { count },
+      );
+    }
+  }
   return state;
 }
 

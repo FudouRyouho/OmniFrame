@@ -8,7 +8,7 @@ import { targetFactionMult } from "../../contracts/damage-multipliers";
 import { damageReductionFromArmor } from "../../formulas/enemy/armor-mitigation";
 import { AtomicSimulator, type AtomicRoll } from "./AtomicSimulator";
 import { RngProvider } from "./RngProvider";
-import { isWeaponDamageToken } from "../../contracts/damage-logic";
+import { isWeaponDamageToken, bypassesShields, bypassesArmorAndMatrix } from "../../contracts/damage-logic";
 
 export interface HitResolution {
   total_damage: number;
@@ -77,36 +77,44 @@ export class CombatSimulator {
   }
 
   /**
-   * Resuelve un único impacto contra el estado actual de un enemigo.
+   * Resuelve UN evento de daño (un token D-6) contra el estado actual de un enemigo — el átomo de
+   * RESOLUCIÓN, **AGNÓSTICO AL ORIGEN**: lo comparten el hit directo (`resolveHit`, una vez por tipo)
+   * y el tick de un proc DoT (`EnemyState`, que emite `Resolucion{value, as}` → token). Todas las
+   * reglas se derivan del CANÓNICO keyeadas por el token: bypass de shields (Toxin), bypass de
+   * armor/matriz③ de True (`as:'true'` del bleed), DR, y el multiplicador de capa (Viral/Magnetic).
+   * La emisión declara CON QUÉ tipo resuelve — sin opt ad-hoc. Ver `contracts/damage-logic.ts`.
+   */
+  public static resolveDamageEvent(
+    damageToken: string,
+    damage: number,
+    targetState: EnemyState,
+    currentTime: number = 0,
+  ): { hitsShields: boolean; finalDamage: number } {
+    const effectiveArmor = targetState.getEffectiveArmor(currentTime);
+    const hasShields = targetState.current_shields > 0;
+    // True (ej. el token `WEAPON_ADD_TRUE_DAMAGE` del bleed): bypasea armor/matriz③, NO el layer-mult.
+    const bypassArmorMatrix = bypassesArmorAndMatrix(damageToken);
+
+    const hitsShields = hasShields && !bypassesShields(damageToken);            // Toxin bypasea shields
+    const stateMultiplier = targetState.getDamageMultiplier(hitsShields, currentTime);
+    const typeMultiplier = bypassArmorMatrix ? 1 : targetFactionMult(damageToken, targetState.base.dna.faction);
+    const dr = (!bypassArmorMatrix && !hitsShields && effectiveArmor > 0) ? damageReductionFromArmor(effectiveArmor) : 0;
+
+    return { hitsShields, finalDamage: damage * stateMultiplier * typeMultiplier * (1 - dr) };
+  }
+
+  /**
+   * Resuelve un único impacto (todos los tipos de daño de un hit) contra el estado actual de un
+   * enemigo. Delega la resolución por-tipo a `resolveDamageEvent`.
    */
   public static resolveHit(damageMap: Record<string, number>, targetState: EnemyState, currentTime: number = 0): HitResolution {
     const breakdown: Record<string, number> = {};
     let totalShieldDamage = 0;
     let totalHealthDamage = 0;
 
-    const effectiveArmor = targetState.getEffectiveArmor(currentTime);
-    const hasShields = targetState.current_shields > 0;
-
     Object.entries(damageMap).forEach(([type, damage]) => {
-      // 1. ¿A qué capa golpea este tipo de daño?
-      const isBypassingShields = type === 'WEAPON_ADD_TOXIN_DAMAGE';
-      const hitsShields = hasShields && !isBypassingShields;
+      const { hitsShields, finalDamage } = this.resolveDamageEvent(type, damage, targetState, currentTime);
 
-      // Multiplicador de stacks de status de la capa golpeada (Magnetic→shields, Viral→salud).
-      const stateMultiplier = targetState.getDamageMultiplier(hitsShields);
-
-      // 2. Matriz ③ (facción del target × elemento) — post-U36 NO distingue capa, un solo valor
-      // sin importar si el hit golpea shields/armor/salud (ver targetFactionMult).
-      const typeMultiplier = targetFactionMult(type, targetState.base.dna.faction);
-
-      // 3. Mitigación por armadura (sólo afecta a Salud, no a Escudos). Sin bypass-por-elemento:
-      // no hay evidencia post-U36 de que un elemento "ignore" parte de la armor (enemy-resistances.md
-      // documenta bypasses fijos — Toxin/Slash-bleed/Magnetic/Viral — no "por fuerza del elemento");
-      // el viejo armorBypass era artefacto del modelo per-clase muerto (sunset, Checkpoint 2).
-      const dr = (!hitsShields && effectiveArmor > 0) ? damageReductionFromArmor(effectiveArmor) : 0;
-
-      const finalDamage = damage * stateMultiplier * typeMultiplier * (1 - dr);
-      
       if (hitsShields) {
         totalShieldDamage += finalDamage;
       } else {
@@ -116,11 +124,11 @@ export class CombatSimulator {
       breakdown[type] = finalDamage;
     });
 
-    return { 
-      total_damage: totalShieldDamage + totalHealthDamage, 
+    return {
+      total_damage: totalShieldDamage + totalHealthDamage,
       shield_damage: totalShieldDamage,
       health_damage: totalHealthDamage,
-      breakdown 
+      breakdown
     };
   }
 }

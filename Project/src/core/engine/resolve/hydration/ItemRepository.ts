@@ -4,6 +4,8 @@
  */
 
 import type { MutatedDNA, CoBehavior } from "../../contracts";
+import { normalizeDamageType } from "@shared/types";
+import { damageTokenFromType } from "../../contracts/damage-logic";
 
 export class ItemRepository {
   private static weaponItems: Map<string, any> = new Map();
@@ -170,10 +172,15 @@ export class ItemRepository {
     if (!damage) return result;
 
     Object.entries(damage).forEach(([key, val]) => {
-      if (typeof val === 'number' && val > 0 && key !== 'total') {
-        // Mapeo de tipos de daño al token D-6 (ej: "impact" -> "WEAPON_ADD_IMPACT_DAMAGE")
-        result[`WEAPON_ADD_${key.toUpperCase()}_DAMAGE`] = val;
-      }
+      if (typeof val !== 'number' || val <= 0) return;
+      // Consumir el vocabulario CANÓNICO (@shared): `normalizeDamageType` valida + resuelve alias
+      // (fire→heat, poison→toxin), `damageTokenFromType` proyecta al token D-6. Una key que no sea un
+      // DamageType real (`cinematic`/`shieldDrain`/`total`/… en el raw) se DROPEA — antes el transform
+      // a ciegas `WEAPON_ADD_${key.toUpperCase()}_DAMAGE` generaba un token fantasma que inflaba
+      // `damage_sum`. Verificado (2026-07-12): esas keys nunca son > 0 en el dataset → red de
+      // seguridad, sin cambio de comportamiento sobre el dato actual.
+      const type = normalizeDamageType(key);
+      if (type) result[damageTokenFromType(type)] = val;
     });
     return result;
   }

@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.39.3"
+Version: "v0.40.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-10"
+Fecha_de_actualizacion: "2026-07-13"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -768,6 +768,77 @@ desde un valor de Status Duration.
 fronteras), `OQ-ENGINE-16` (fidelidad N-declarado vs timers — eje hermano de duración/decay),
 `references/wiki/mechanics/status-effects.md` (escalado de duración documentado solo para Blast/Heat/Electric).
 **Fuente:** debate 2026-07-10 (Slice 3, modelo de timeline); observación in-game del usuario, pendiente de comprobación cuantitativa.
+
+---
+
+## OQ-ENGINE-19 — Generador discreto de N proc-slots a Status Chance >100% — **ABIERTO (2026-07-11)**
+**Dominio:** engine / C1-población (eje RNG del DoT) — depende de dato in-game / doc oficial
+
+**Contexto.** El eje Población del frame de C2 (`../domains/engine/design/damage-status-model.md
+§Población/RNG`) modela cuántos proc-slots dispara un pellet cuando su Status Chance supera 100%. La
+wiki confirma el **mecanismo** (cada hit puede aplicar más de un status, cada slot dibuja su tipo
+independiente — `references/wiki/mechanics/status-effects.md §Aplicación`, cita literal + nota de
+parche `{{ver|27.2}}`) pero no da la fórmula exacta del **generador discreto**: cuántos slots produce,
+ej., un SC=234%.
+
+**Hipótesis de trabajo, no confirmada:** floor+remainder, por analogía con el generador YA confirmado
+de Multishot (`references/wiki/mechanics/multishot.md`: `Guaranteed=floor(total)`, `Extra
+Chance=frac(total)`). Plausible (misma familia de mecanismo), pero la wiki de Status Chance nunca lo
+escribe letra por letra para status — a diferencia de multishot.
+
+**Por qué no bloquea:** para el total esperado y la curva esperada, el valor exacto del generador es
+irrelevante — por identidad de Wald, `E[N]=chance` alcanza sin importar la distribución completa de N.
+Solo importaría para un futuro sampler de corrida individual (Monte Carlo, varianza) o para UI que
+muestre "qué pasó en este hit exacto" — ninguno de los dos existe hoy.
+
+**Ramificación — folding contra el cap del primitivo de stack (no confundir).** Si N≥2 slots del mismo
+efecto stack-debuff (Corrosive, Viral, etc.) nacen del mismo hit simultáneamente, ¿el primitivo de
+N-timers/cap-K (`damage-status-model.md §primitivo reusable`) los pliega secuencial (cada uno chequeando
+el estado ya actualizado por los anteriores del mismo hit) o hay una regla especial para eventos
+co-instantáneos? Sin evidencia in-game ni wiki que lo distinga. Gated por la brecha YA existente de
+`EnemyState.processDots()` (pool lineal, no N-timers) — no es un gate nuevo, solo se vuelve relevante
+cuando esa brecha se resuelva.
+
+**Vínculo:** `../domains/engine/design/damage-status-model.md §Población/RNG` (debate destilado; scratch `.working/` purgado), `OQ-ENGINE-18` (mismo patrón de hueco —
+fórmula de promedio conocida, generador discreto no).
+**Fuente:** debate 2026-07-11 (eje Población/RNG, tramo b); captura in-game del usuario (Exalted Blade,
+SC=200,6%, 3 stacks de Corrosive de 1 hit — confirma que el mecanismo existe y permite same-type
+multi-stack, no confirma el conteo exacto).
+
+---
+
+## OQ-ENGINE-20 — Snapshot vs. live en el tick de DoT: frontera temporal bajo buffs dinámicos — **ABIERTO (2026-07-13)**
+**Dominio:** engine / C2 (modelo de proc/DoT) — depende de test in-game
+
+**Contexto.** La data de double-dip (`.working/double-dipping-test.md`) prueba que el tick de un DoT
+compone **dos mitades**: `tick = snapshot(daño del hit resuelto, con buffs source YA horneados al
+aplicar) × live(re-aplicación del contexto source en el tick)`. La huella dura es el double-dip:
+Roar (×2.128, bucket②) aparece **al cuadrado** en el DoT (`DoT÷base = 4.53 ≈ 2.128²`) pero ×1 en el
+hit — solo posible si el mismo multiplicador vive en las **dos mitades** a la vez. **Toda la data es
+steady-state** (el buff está activo en TODAS las tiradas).
+
+**Pregunta.** Bajo cambio del buff **a mitad** del DoT (ej. Roar cae en el tick 4 de 6), ¿qué mitad
+responde? (i) solo cae la mitad **live** — el tick baja de Roar² a Roar¹, el snapshot persiste; (ii)
+**muere todo** el aporte del buff; (iii) otra. Esto decide qué contexto del source es **snapshot**
+(congelado en el proc) vs. **live-ref** (re-evaluado por tick) en el modelo de proc.
+
+**Hipótesis del usuario, no confirmada:** "muere completo" — por experiencia de juego (usa mucho estas
+sinergias), pero **explícitamente sin verificar** (no spamea la habilidad al terminar el DoT, así que
+la sensación no distingue (i) de (ii)).
+
+**Por qué importa.** Define la estructura del proc: `{ snapshot, refs-live }`. El proc **referencia
+estado del emisor** (congelado y/o vivo) → **rompe la agnosticidad source** — aceptado deliberadamente
+como *fidelidad*, no como accidente (decisión 2026-07-13). No bloquea construir el modelo con la
+premisa conocida (snapshot × live); bloquea **cerrar el split exacto** por multiplicador.
+
+**Test que lo cierra:** dropear un buff (Roar) a mitad de un DoT largo y medir ticks post-drop vs.
+pre-drop. Un solo experimento discrimina (i)/(ii).
+
+**Vínculo:** `.working/double-dipping-test.md` (data steady-state), `../domains/engine/design/damage-status-model.md §Modelo unificado de proc`, `../domains/engine/design/damage-status-model.md §Evidencia`, frontera
+"coupling Viral-en-vivo/snapshot" (5 fronteras del timeline, `decision-frontier.md §4`), `OQ-ENGINE-16`
+(mismo eje de fidelidad temporal: N-declarado vs. timers reales), bucket② gating.
+**Fuente:** debate 2026-07-13 (ontología instancia/proc + composición snapshot×live); data double-dip
+pre-existente (no cubre el transitorio).
 
 ---
 

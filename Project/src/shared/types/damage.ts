@@ -8,6 +8,19 @@ export type DamageType =
   | 'blast' | 'corrosive' | 'gas' | 'magnetic' | 'radiation' | 'viral'
   | 'void' | 'tau' | 'true' | 'none';
 
+/**
+ * Vocabulario canónico de EFECTOS de status (procs). Faceta target-side del tipo de daño:
+ * `instancia [DamageType] → resolución vs target → estado [StatusEffect]`. Identidad 1:1 fija con
+ * el tipo (Arista 1), pero concepto distinto: es lo que MATERIALIZA en el target, agnóstico a la
+ * resolución. SSoT del NOMBRE; la LEY (qué hace N stacks) es mecánica y vive en
+ * `engine/formulas/status/` (eje ortogonal). Ver `docs/semantic/damage-types.md §Arista 1`.
+ */
+export type StatusEffect =
+  | 'stagger' | 'weakened' | 'bleed'
+  | 'ignite' | 'freeze' | 'tesla_chain' | 'poison'
+  | 'detonation' | 'corrosion' | 'gas_cloud' | 'disruption' | 'confusion' | 'infection'
+  | 'bullet_attraction' | 'tau';
+
 export type DamageTypeFamily = 'physical' | 'elemental' | 'combined' | 'special' | 'none'
 export type DamageIconVariant = 'colored' | 'outline'
 
@@ -18,6 +31,8 @@ export interface DamageTypeDefinition {
   rawTags?: readonly string[]
   label: string
   statusLabel: string
+  /** Token canónico del efecto (proc) que dispara este tipo — `null` si no dispara (true, none). */
+  statusEffect: StatusEffect | null
   description: string
 }
 
@@ -35,6 +50,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_IMPACT'],
     label: 'Impact',
     statusLabel: 'Stagger',
+    statusEffect: 'stagger',
     description: 'Staggers the enemy and increases the health threshold for Mercy finishers.',
   },
   puncture: {
@@ -43,6 +59,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_PUNCTURE'],
     label: 'Puncture',
     statusLabel: 'Weakened',
+    statusEffect: 'weakened',
     description: 'Reduces the damage dealt by the enemy and increases critical hit chance against them.',
   },
   slash: {
@@ -51,6 +68,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_SLASH'],
     label: 'Slash',
     statusLabel: 'Bleed',
+    statusEffect: 'bleed',
     description: 'Deals damage over time that bypasses armor.',
   },
   heat: {
@@ -60,6 +78,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_HEAT', 'DT_FIRE'],
     label: 'Heat',
     statusLabel: 'Ignite',
+    statusEffect: 'ignite',
     description: 'Deals fire damage over time, causes panic, and reduces enemy armor by 50%.',
   },
   cold: {
@@ -69,6 +88,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_COLD', 'DT_FREEZE'],
     label: 'Cold',
     statusLabel: 'Freeze',
+    statusEffect: 'freeze',
     description: 'Reduces enemy movement and attack speed, while increasing critical hit damage.',
   },
   electricity: {
@@ -78,6 +98,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_ELECTRICITY', 'DT_ELECTRIC'],
     label: 'Electricity',
     statusLabel: 'Tesla Chain',
+    statusEffect: 'tesla_chain',
     description: 'Stuns the enemy and deals damage to nearby enemies in a chain.',
   },
   toxin: {
@@ -87,6 +108,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_TOXIN', 'DT_POISON'],
     label: 'Toxin',
     statusLabel: 'Poison',
+    statusEffect: 'poison',
     description: 'Deals damage over time that bypasses shields.',
   },
   blast: {
@@ -96,6 +118,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_BLAST', 'DT_EXPLOSION'],
     label: 'Blast',
     statusLabel: 'Detonation',
+    statusEffect: 'detonation',
     description: 'Causes a mini-explosion that reduces enemy accuracy.',
   },
   corrosive: {
@@ -104,6 +127,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_CORROSIVE'],
     label: 'Corrosive',
     statusLabel: 'Corrosion',
+    statusEffect: 'corrosion',
     description: 'Reduces enemy armor permanently by a percentage.',
   },
   gas: {
@@ -112,6 +136,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_GAS'],
     label: 'Gas',
     statusLabel: 'Gas Cloud',
+    statusEffect: 'gas_cloud',
     description: 'Creates a cloud that deals damage over time to all enemies within.',
   },
   magnetic: {
@@ -120,6 +145,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_MAGNETIC'],
     label: 'Magnetic',
     statusLabel: 'Disruption',
+    statusEffect: 'disruption',
     description: 'Increases damage dealt to shields and overguard, and delays shield regeneration.',
   },
   radiation: {
@@ -129,6 +155,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_RADIATION', 'DT_RADIANT'],
     label: 'Radiation',
     statusLabel: 'Confusion',
+    statusEffect: 'confusion',
     description: 'Causes enemies to attack their own allies.',
   },
   viral: {
@@ -137,6 +164,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_VIRAL'],
     label: 'Viral',
     statusLabel: 'Infection',
+    statusEffect: 'infection',
     description: 'Increases all damage dealt to the enemy health.',
   },
   void: {
@@ -145,6 +173,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_VOID'],
     label: 'Void',
     statusLabel: 'Bullet Attraction',
+    statusEffect: 'bullet_attraction',
     description: 'Creates a bullet attraction field on the enemy.',
   },
   tau: {
@@ -154,6 +183,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_TAU', 'DT_SENTIENT'],
     label: 'Tau',
     statusLabel: 'Tau',
+    statusEffect: 'tau',
     description: 'Increases the likelihood of other status effects occurring.',
   },
   true: {
@@ -163,6 +193,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     rawTags: ['DT_TRUE', 'DT_FINISHER'],
     label: 'True Damage',
     statusLabel: 'True Damage',
+    statusEffect: null,
     description: 'Deals raw damage that ignores all forms of resistance and armor.',
   },
   none: {
@@ -170,6 +201,7 @@ export const DAMAGE_TYPE_DEFINITIONS: Record<DamageType, DamageTypeDefinition> =
     iconAsset: null,
     label: '',
     statusLabel: 'None',
+    statusEffect: null,
     description: '',
   },
 }
@@ -198,6 +230,11 @@ export type DamageMap = Partial<Record<DamageType, number>> & { [key: string]: n
 
 export function isDamageType(value: string): value is DamageType {
   return DAMAGE_TYPE_SET.has(value as DamageType)
+}
+
+/** El efecto (proc) que dispara un tipo de daño — `null` si no dispara (true, none). Arista 1. */
+export function effectOfDamageType(type: DamageType): StatusEffect | null {
+  return DAMAGE_TYPE_DEFINITIONS[type].statusEffect
 }
 
 export function normalizeDamageType(value: string | DamageType): DamageType | null {

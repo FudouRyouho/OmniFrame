@@ -4,7 +4,7 @@
 > Rol: mecánicas de efectos de estado — aplicación, fórmulas de DoT, stacks de debuff, duración, CC
 > Fuente de verdad de: comportamiento de procs — aplicación por pellet, DoT, stacks de debuff, duración/ciclo de vida, CC
 > No usar para: elección del tipo de proc por peso de daño — ver `damage-types.md` §Regla de elección de proc
-> Última actualización: 2026-07-02
+> Última actualización: 2026-07-11
 
 ## Distinción fundamental
 
@@ -42,17 +42,47 @@ Un **efecto de estado** (proc) es independiente del tipo de daño que lo activa.
 
 - **El roll es por pellet, no por disparo**: el status chance del Arsenal es la probabilidad
   de que **cada pellet individual** aplique un proc (ej. wiki: Strun Wraith 12% × 10 pellets
-  = 10 rolls independientes de 12%).
-- **>100%**: cada hit puede aplicar efectos de estado adicionales "únicos". Fórmula de la wiki:
+  = 10 rolls independientes de 12%). **Confirmado con fundamento histórico** (nota de parche
+  `{{ver|27.2}}`, `raw/status-effect.wikitext` L937-952): antes de ese parche el SC de Arsenal
+  venía inflado por multishot en el display; se separó a un stat propio y **desde entonces el
+  SC mostrado ya es la probabilidad real por pellet**, sin ajuste adicional. Las escopetas tienen
+  un buff ×3+ ya horneado en su dato base (mismo motivo) — no hace falta modelar caso especial.
+- **>100%**: cada hit puede aplicar efectos de estado adicionales "únicos", **confirmado y con
+  mecanismo explicado** (`raw/status-effect.wikitext` L168-172, cita literal):
+  > *"When a weapon achieves a status chance higher than 100%, each hit may apply additional
+  > 'unique' status effects. **The type of each proc is independently drawn**, so it is possible
+  > to apply the same status several times in one hit."*
+  > *"A specific status type shown at 100% status chance... does not guarantee that status
+  > effect. An example... a weapon that has 200% Status with only Heat and Impact... can still
+  > trigger two heat or two impact status effects regardless of their relative status chance
+  > values."*
+  > *"If a single attack hits multiple enemies, **each enemy gets their own status roll**..."*
 
-```text
-Procs promedio por disparo = Multishot × (Forced Procs + Status Chance por proyectil)
-```
+  Origen del mecanismo — nota de parche `{{ver|27.2}}` (L943-952), cita de diseño de Digital
+  Extremes: *"When you hit a Status Chance greater than 100%, a single damage instance will be
+  able to create two Status Effects. ...a Shot with 200% Status Chance modded with both Blast
+  and Toxin Damage, that single shot will result in both Status Effects!"*
 
-  (150% SC ≈ 1.5 procs promedio por proyectil; la página **no** explicita el mecanismo
-  "1 garantizado + excedente como chance del segundo".)
+  Fórmula del promedio agregado (no el generador discreto de una tirada individual):
+
+  ```text
+  Procs promedio por disparo = Multishot × (Forced Procs + Status Chance por proyectil)
+  ```
+
+  ⚠️ **"Forced Procs" en esta fórmula NO es "la parte garantizada de un SC>100%"** — es un
+  mecanismo de arma/mod **separado y aparte** (`raw/status-effect.wikitext` L360-367, sección
+  `==Forced Procs==`): *"Forced Procs are guaranteed to occur regardless of the status chance
+  and damage distribution of the weapon... **this is not the same as having 100% status
+  chance**."* (ej. Hunter Munitions, Kunai con Slash forzado innato). Para la mayoría de las
+  armas ese término es 0; el `Status Chance por proyectil` de la fórmula es el SC crudo, sin
+  descomponer — el 150% SC ≈ 1.5 procs promedio ya lo captura tal cual, sin floor+remainder.
+  El generador discreto exacto de una tirada única (¿floor(SC) garantizados + frac(SC) de
+  chance del extra, por analogía con `multishot.md`?) sigue sin una fórmula explícita en la
+  wiki — residual de baja prioridad, no bloqueante (detalle del debate en
+  `.working/c2-population-rng-stress.md`).
 - **Qué tipo sale**: ponderado por la participación de cada tipo en el daño del hit
   (`Proc Type Chance = Damage ÷ Total Damage`) — detalle en `damage-types.md` §Regla de elección.
+  Aplica igual a cada proc-slot resuelto, **incluida la porción garantizada** (ver cita arriba).
 - ⚠️ **Era**: el peso ×4 de los físicos (Impact/Puncture/Slash) de Damage 2.0 **ya no existe**
   en la página actual — fuentes viejas que lo citen están desactualizadas.
 
@@ -355,7 +385,10 @@ Status Duration alarga los *intervalos* del ramp (+100% duración → strip cada
 ## Fuentes
 
 - https://wiki.warframe.com/w/Status_Effect (página general; su tabla de duración está
-  marcada "outdated" por la propia wiki — los valores de este doc vienen de las subpáginas)
+  marcada "outdated" por la propia wiki — los valores de este doc vienen de las subpáginas).
+  **Captura cruda completa (1006 líneas, `?action=raw`) en `raw/status-effect.wikitext`
+  (2026-07-11)** — usada para citas literales de §Aplicación; incluye nota de parche
+  `{{ver|27.2}}` con el diseño original del mecanismo >100% y de "Forced Procs".
 - **Subpáginas por tipo** `https://wiki.warframe.com/w/Damage/<Tipo>_Damage` — barrido
   completo de los 16 tipos (2026-07-02): duración/caps/timers/fórmulas/facetas
 - https://wiki.warframe.com/w/Damage#Status_Effects

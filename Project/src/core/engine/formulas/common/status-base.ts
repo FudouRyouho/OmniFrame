@@ -26,10 +26,6 @@ export const ELEMENT_COMBINATIONS: ReadonlyArray<{
 	{ a: "electricity", b: "toxin",       result: "corrosive" },
 ] as const;
 
-export const SPECIAL_DAMAGE_TYPES: ReadonlySet<DamageType> = new Set<DamageType>([
-	"void", "tau", "true",
-]);
-
 export function totalStatusChance(baseStatusChance: number, relativeBonus: number): number {
 	return baseStatusChance * (1 + relativeBonus);
 }

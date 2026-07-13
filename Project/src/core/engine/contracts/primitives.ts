@@ -28,8 +28,9 @@ export interface AttributeNode {
 }
 
 // Keyed por EFECTO de estado (no por tipo de daño): un efecto puede aplicarse sin su tipo de
-// daño homónimo — Arista 1, damage-flow-model §2 / arch-decisions §14. El mapeo tipo→efecto vive
-// en formulas/status/stack-debuff.ts (EFFECT_BY_DOT_KEY) + docs/semantic/damage-types.md.
+// daño homónimo — Arista 1, damage-flow-model §2 / arch-decisions §14. El mapeo CANÓNICO tipo→efecto
+// vive en @shared/types/damage.ts (`statusEffect` + `effectOfDamageType`); el engine lo DERIVA
+// (formulas/status/stack-debuff.ts: `EFFECT_BY_DOT_KEY` derivado + `TrackedStatusEffect`).
 export interface EnemyStatusState {
   corrosion: number;   // Corrosive → Corrosion (armor strip)
   infection: number;   // Viral → Infection (mult. daño capa salud)
