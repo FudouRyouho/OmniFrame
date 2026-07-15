@@ -64,10 +64,12 @@ export class TimelineSimulator {
     const instance = deriveInstance(weapon);
     const damageBreakdown = instance.damageByType;
     const statusChance = instance.statusChance;
+    // El DoT usa el `dotModdedBase` (base innato × Serration, SIN mods de elemento) y el `ownElementBonusPct`
+    // (mods del propio elemento) — NO el daño compuesto. Ver `damage-instance.ts` + `ingame-tests/dot-scaling.md`.
     const hitContext: HitContext = {
-      moddedBase: instance.moddedBase,
+      moddedBase: instance.dotModdedBase,
       statusDamageBonusPct: instance.statusDamageBonusPct,
-      elementBonusPct: instance.elementBonusPct,
+      elementBonusPct: instance.ownElementBonusPct,
     };
 
     // Bucle Temporal

@@ -7,6 +7,7 @@
 
 import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
 import type { CoBehavior } from '@shared/types/modifier';
+import type { DamageType } from '@shared/types';
 import type { EntityId, AttributeId, AttributeNode, GameLaws } from './primitives';
 
 export type { CoBehavior };
@@ -30,6 +31,19 @@ export interface SimulationEntity {
   // perfil por-arma). Ausente = gap. Ver arch-decisions §9.
   co_behavior?: CoBehavior;
   innate_dna?: MutatedDNA;
+  /**
+   * Enriquecimiento C1→C2 para el escalado de DoT (`simulation-architecture §2.0.1`;
+   * `references/wiki/mechanics/status-effects.md §Procs de tipo DoT` + `ingame-tests/dot-scaling.md`).
+   * El DoT NO escala con el daño COMPUESTO (que incluye mods de elemento) sino con el **base innato ×
+   * base-damage-mods**; y el `own_element` sale de los mods del propio elemento. Ambos se pierden al
+   * componer (`DamageCombiner` los descarta) — C1 los preserva acá para que C2 no los reconstruya.
+   */
+  dot_scaling?: {
+    /** Σ del daño innato (pre-combine, pre-Serration). × serrationMult = `modded_base` del DoT. */
+    innateBaseTotal: number;
+    /** Σ % de mods del propio elemento por tipo (Hellfire→heat). Físicos NO cuentan; Slash → ausente. */
+    ownElementBonusPct: Partial<Record<DamageType, number>>;
+  };
 }
 
 export interface MutatedDNA {

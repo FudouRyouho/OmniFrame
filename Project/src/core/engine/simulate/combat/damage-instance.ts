@@ -8,9 +8,11 @@
  *
  * **Target-agnóstica** (①②): NO carga facción/DR/capa (③, target) ni cadencia/mag/reload (Schedule).
  *
- * ⚠️ `elementBonusPct` se reconstruye por `final/base-1` — heredado TAL CUAL (double-cuenta Serration,
- * huella conocida). Este módulo es el **hogar único** donde ese valor se computa; el fix (que C1 lo
- * emita en su salida) es trabajo aparte — el contrato C1→C2, no esta reconciliación.
+ * **Escalado del DoT (`dotModdedBase` + `ownElementBonusPct`):** el DoT NO escala con el daño COMPUESTO
+ * (que incluye los mods de elemento) sino con el **base innato × base-damage-mods**, y su `own_element`
+ * sale de los mods del propio elemento — ambos vienen de `entity.dot_scaling` (que C1 preserva porque el
+ * `DamageCombiner` los descarta al componer). Ya NO se reconstruye por `final/base-1` (que daba Serration
+ * = double-count, bug). Fuente: `references/wiki/mechanics/status-effects.md §DoT` + `ingame-tests/dot-scaling.md`.
  */
 import type { SimulationEntity } from "../../contracts";
 import { isWeaponDamageToken, damageTypeFromToken } from "../../contracts/damage-logic";
@@ -21,10 +23,13 @@ export interface DamageInstance {
   damageByToken: Record<string, number>;
   /** El mismo daño keyeado por `DamageType` canónico. Lo consume la población de procs. */
   damageByType: Partial<Record<DamageType, number>>;
-  /** Σ `damageByToken` — daño modded total (sin faction/falloff/crit). */
+  /** Σ `damageByToken` — daño modded TOTAL (para el HIT directo; incluye mods de elemento). */
   moddedBase: number;
-  /** +% del propio elemento por tipo (`final/base-1`). Frágil: double-cuenta Serration (huella). */
-  elementBonusPct: Partial<Record<DamageType, number>>;
+  /** `modded_base` del DoT: base innato × base-damage-mods, **SIN** los mods de elemento (el DoT no los ve
+   *  como daño, solo por `ownElementBonusPct`). Ver `entity.dot_scaling`. */
+  dotModdedBase: number;
+  /** +% de mods del propio elemento por tipo (Hellfire→heat). Físicos NO cuentan; Slash → 0/ausente. */
+  ownElementBonusPct: Partial<Record<DamageType, number>>;
   critChance: number;
   critMult: number;
   /** 0..1 (ya dividido /100). */
@@ -41,25 +46,30 @@ export function deriveInstance(entity: SimulationEntity): DamageInstance {
   const attrs = entity.attributes;
   const damageByToken: Record<string, number> = {};
   const damageByType: Partial<Record<DamageType, number>> = {};
-  const elementBonusPct: Partial<Record<DamageType, number>> = {};
 
   for (const [token, node] of Object.entries(attrs)) {
     if (!isWeaponDamageToken(token)) continue;
     damageByToken[token] = node.final;
     const type = damageTypeFromToken(token);
-    if (type) {
-      damageByType[type] = node.final;
-      if (node.base) elementBonusPct[type] = (node.final / node.base - 1) * 100;
-    }
+    if (type) damageByType[type] = node.final;
   }
 
   const moddedBase = Object.values(damageByToken).reduce((sum, v) => sum + v, 0);
+
+  // `modded_base` del DoT = base innato × el multiplicador de base-damage (Serration = `WEAPON_ADD_DAMAGE`
+  // final/base). NO el compuesto: el DoT no cuenta el daño de mods de elemento (empírico, `ingame-tests`).
+  const serration = attrs["WEAPON_ADD_DAMAGE"];
+  const serrationMult = serration && serration.base ? serration.final / serration.base : 1;
+  const dot = entity.dot_scaling;
+  const dotModdedBase = dot ? dot.innateBaseTotal * serrationMult : moddedBase;
+  const ownElementBonusPct = dot?.ownElementBonusPct ?? {};
 
   return {
     damageByToken,
     damageByType,
     moddedBase,
-    elementBonusPct,
+    dotModdedBase,
+    ownElementBonusPct,
     critChance: attrs["WEAPON_ADD_CRIT_CHANCE"]?.final || 0,
     critMult: attrs["WEAPON_ADD_CRIT_MULT"]?.final || 1.0,
     statusChance: (attrs["WEAPON_ADD_STATUS_CHANCE"]?.final || 0) / 100,

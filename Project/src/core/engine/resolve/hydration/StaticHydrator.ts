@@ -10,8 +10,9 @@ import { IncarnonRepository } from "./IncarnonRepository";
 import { ArcaneRepository } from "./ArcaneRepository";
 import { isUpgrade } from "@shared/types/modifier";
 
-import { DamageCombiner, type ElementalMod } from "./DamageCombiner";
-import { isWeaponDamageToken } from "../../contracts/damage-logic";
+import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
+import { isWeaponDamageToken, damageTypeFromToken } from "../../contracts/damage-logic";
+import type { DamageType } from "@shared/types";
 
 export class StaticHydrator {
   /**
@@ -77,6 +78,19 @@ export class StaticHydrator {
       });
 
       const combined_damage = DamageCombiner.combine(innate_damage, combination_mods);
+
+      // 3.b Enriquecimiento C1→C2 para el DoT (contracts §dot_scaling): el combiner descarta el base
+      // innato y el % de mods de elemento. El DoT escala con el **base innato** (NO el compuesto — el
+      // hit sí, el DoT no; ver `ingame-tests/dot-scaling.md`), y su `own_element` sale de los mods del
+      // propio elemento (los físicos NO cuentan → Slash queda en 0).
+      const innateBaseTotal = Object.values(innate_damage).reduce((a, b) => a + b, 0);
+      const ownElementBonusPct: Partial<Record<DamageType, number>> = {};
+      for (const mod of combination_mods) {
+        if (PHYSICAL_TYPES.includes(mod.type)) continue;
+        const dtype = damageTypeFromToken(mod.type);
+        if (dtype) ownElementBonusPct[dtype] = (ownElementBonusPct[dtype] ?? 0) + mod.percentage;
+      }
+      entity.dot_scaling = { innateBaseTotal, ownElementBonusPct };
 
       // 4. Actualizar atributos de la entidad con el daño combinado
       // Limpiar daños previos que podrían haber sido combinados

@@ -12,7 +12,7 @@ import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { deriveInstance } from '../simulate/combat/damage-instance';
 import { damageTypeFromToken } from '../contracts/damage-logic';
-import { cedo, lanka } from '../fixtures/builds';
+import { cedo, lanka, BUILDS } from '../fixtures/builds';
 import type { SimulationEntity } from '../contracts';
 import type { EnsembleIntention } from '@shared/types/ensemble';
 
@@ -68,5 +68,33 @@ describe('deriveInstance — invariantes del átomo (seam C1→C2)', () => {
     for (const k of ['armor', 'faction', 'fireRate', 'reload', 'magSize', 'dr']) {
       expect(keys).not.toContain(k);
     }
+  });
+});
+
+// El DoT NO escala con el daño compuesto (incluye mods de elemento) sino con el base innato × Serration;
+// su own_element sale de los mods del propio elemento — NO de `final/base-1` (que daba Serration = bug).
+// Confirmado in-game: `references/ingame-tests/dot-scaling.md` (Tiberon, Slash DoT invariante al agregar Heat).
+describe('deriveInstance — escalado de DoT (fix dot_scaling C1→C2)', () => {
+  it('SIN mods de elemento (boltor): dotModdedBase == moddedBase (no hay mod-elemento que excluir)', () => {
+    const inst = deriveInstance(weaponOf(BUILDS.boltor()));
+    expect(inst.dotModdedBase).toBeCloseTo(inst.moddedBase, 3);
+    expect(Object.keys(inst.ownElementBonusPct).length).toBe(0);
+  });
+
+  it('CON mods de elemento (cedo): dotModdedBase EXCLUYE el daño de mods → estrictamente < moddedBase', () => {
+    const inst = deriveInstance(weaponOf(cedo(true)));
+    expect(inst.dotModdedBase).toBeGreaterThan(0);
+    expect(inst.dotModdedBase).toBeLessThan(inst.moddedBase);
+  });
+
+  it('ownElementBonusPct = mods del propio elemento (componentes), NO el combinado ni Serration', () => {
+    const oe = deriveInstance(weaponOf(cedo(true))).ownElementBonusPct;
+    // cedo trae mods de toxin + cold (que combinan a viral). own_element captura los COMPONENTES por su
+    // token literal — el combinado (viral) NO, porque no hay mod de viral (regla del wiki).
+    expect(oe.toxin).toBeGreaterThan(0);
+    expect(oe.cold).toBeGreaterThan(0);
+    expect(oe.viral).toBeUndefined();
+    // Serration (WEAPON_ADD_DAMAGE) no es token de elemento → estructuralmente no puede filtrarse acá.
+    expect('damage' in oe).toBe(false);
   });
 });
