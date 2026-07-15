@@ -56,14 +56,14 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 > Las duplicaciones históricas de crit (`AtomicSimulator`) y escala aditiva (`SimulationEngine`) ya
 > se resolvieron al conectar `crit-base` y `scaling-base`.
 
-**Precisión (2026-07-11, checkpoint 2 de la auditoría retrospectiva Slice 3):** "Ninguna" es cierto
-solo para el pipeline de producción (C1). Dentro de `formulas/` + `combat/` (C2, sin consumidor de
-producción — ver §1) existen **3 implementaciones paralelas** de `chance × peso` (Población/RNG):
-`CombatCalculator.project` (inline, `status_map[id] = status_chance * weight`), `weapon-status.ts::
-calculateWeaponStatus` (huérfana), y `status/proc-population.ts::expectedProcEvents` (huérfana,
-2026-07-11). Las tres usan `procWeightByType` correctamente o reimplementan su misma matemática —
-sin conflicto porque ninguna corre en producción, pero pendiente de reconciliar cuando se ataque
-Checkpoint 3 (bucket② en DoT, ver `damage-status-model.md §Reconciliación de resolveHit`).
+**Precisión (actualizado 2026-07-13, modelo unificado de proc):** "Ninguna" es cierto solo para el
+pipeline de producción (C1). Dentro de `formulas/` + `combat/` (C2, sin consumidor de producción — ver §1)
+persisten **3 implementaciones paralelas** de `chance × peso` (Población/RNG): `CombatCalculator.project`
+(inline, `status_map[id] = status_chance * weight` — hoy **sin consumidor** tras el rediseño),
+`weapon-status.ts::calculateWeaponStatus` (huérfana), y `status/proc-population.ts::expectedProcEvents`
+(esta última **ya wired** vía `TimelineSimulator` → `behaviors`, `6947eb1`). Todas usan `procWeightByType`
+o reimplementan su misma matemática — sin conflicto porque el path de producción sigue en C1, pero
+pendiente de reconciliar (`CombatCalculator.status_map` vs `weapon-status` vs el generador ya wired).
 
 ---
 
@@ -81,11 +81,11 @@ Checkpoint 3 (bucket② en DoT, ver `damage-status-model.md §Reconciliación de
 | `weapon/melee-combo.ts` | `meleeComboMult` (combo melee heavy) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
 | `weapon/sniper-combo.ts` | `sniperComboMult` (combo sniper) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
 | `status/stack-debuff.ts` | Familia A (`stackDebuffValue`, `infectionLaw`/`disruptionLaw`/`corrosionLaw`) | efecto (snake_case: corrosion/infection/ignite/disruption) | ✅ consumido por `EnemyState.getDamageMultiplier`/`getEffectiveArmor` (2026-07-10, `arch-decisions §14`) |
-| `status/proc-selection.ts` | `procWeightByType` (LEY de selección, migrada de `common/status-base.ts`) | `DamageType` (D-6) | ✅ **wired para Toxin+Slash** (2026-07-12, vía `proc-population.ts` ← `TimelineSimulator`); huérfano aún para el resto (`weapon-status.ts` sigue muerto) |
-| `status/dot-tick.ts` | `dotTickValue`, valor de un tick DoT (Familia C, parte no-faction/no-timeline) | `DotType` | ✅ **wired para Toxin+Slash** (`TimelineSimulator` construye `tickValue` por tipo); `StatusEngine.projectHeatTick` sigue reimplementando esto inline, roto (`§Deudas` de `status.md`) — Heat pendiente (frontera 1) |
-| `status/dot-timeline.ts` | `tickTimes` — usado por el tick de pulsos activos; `pulseTotal`/`damageInWindow` aún sin consumidor de producción | `DotPulse` | 🟡 **parcial** — `EnemyState.active_pulses` (Toxin+Slash) usa `tickTimes` vía `EnemyState.tickActivePulses`; Heat sigue en `dot_pools` (pool-decay); Electricity/Gas fuera a propósito (frontera 3) |
-| `status/proc-population.ts` | `expectedProcEvents` — generador de eventos esperados (Población/RNG) | `ProcEvent`/`DamageType` | ✅ **wired para Toxin+Slash** (2026-07-12) ← `TimelineSimulator`; overlap con `weapon-status.ts` sigue sin reconciliar (ver §2) |
-| `status/dot-population.ts` | `dotPulseFromProcEvent` — glue `ProcEvent → DotPulse` pre-escalado | `DotPulse` | ✅ **wired para Toxin+Slash** (2026-07-12) ← `TimelineSimulator` |
+| `status/proc-selection.ts` | `procWeightByType` (LEY de selección, migrada de `common/status-base.ts`) | `DamageType` (D-6) | ✅ **wired** vía `proc-population.ts` ← `TimelineSimulator` (modelo unificado `6947eb1`, los 6 efectos con LEY); `weapon-status.ts` sigue muerto (overlap §2) |
+| `status/dot-tick.ts` | `dotTickValue`, valor de un tick DoT (Familia C, parte no-faction/no-timeline) | `DotType` (⊂ `DamageType`, sin disolver — deuda G2) | ✅ **wired** vía `behaviors` (bleed/poison/ignite computan `tickValue`); `StatusEngine.projectHeatTick` **eliminado** con el rediseño |
+| `status/dot-timeline.ts` | `tickTimes` — usado por el `advance` de los DoT behaviors; `pulseTotal`/`damageInWindow` aún sin consumidor de producción | `DotPulse` | ✅ **wired** — `behaviors.makeDotBehavior` (bleed/poison) usa `tickTimes` en su `advance`; Electricity/Gas fuera a propósito (frontera 3) |
+| `status/proc-population.ts` | `expectedProcEvents` — generador de eventos esperados (Población/RNG) | `ProcEvent`/`DamageType` | ✅ **wired** ← `TimelineSimulator` (genera los procs de los 6 efectos, `6947eb1`); overlap con `weapon-status.ts` sigue sin reconciliar (ver §2) |
+| `status/dot-population.ts` | `dotPulseFromProcEvent` — glue `ProcEvent → DotPulse` pre-escalado | `DotPulse` | ⚠️ **huérfano** — `behaviors.makeDotBehavior` arma el pulso inline; solo test-consumido (doble camino, deuda G3) |
 | `enemy/enemy-scaling.ts` | `scaleHealth`, `scaleArmor`, `scaleMult` + coefs curva-S | agnóstico (`faction: string`) | ✅ consumido por `EnemyRepository.scale` (orquestador); **movido de `EnemyRepository` (P1, 2026-07-09)** |
 | `enemy/armor-mitigation.ts` | `damageReductionFromArmor` (√3a/100) | agnóstico | ✅ consumido por `resolveHit` (`8b014f6`, 2026-07-09, checkpoint 2 de la reconciliación) además de `EnemyRepository.scale`; ⚠️ **migrar a scope `entity/`** con 2º consumidor DR (player/companion) — ver §7 |
 | `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | integrar con Ability System (inexistente) |
@@ -183,29 +183,6 @@ recibió dos checkpoints de reconciliación (2026-07-09):
   armor-mitigation.ts::damageReductionFromArmor` (la misma `√3a/100` de P1); el `armorBypass`-por-elemento
   se **sunseteó** (sin evidencia post-U36, artefacto del modelo per-clase muerto).
 
-Detalle completo y evidencia en `damage-status-model.md §Reconciliación de resolveHit`. El bucket② en DoT
-(checkpoint 3) queda re-escopeado a documentación — requiere cambiar firma de `StatusEngine.*` +
-`CombatCalculator`/`TimelineSimulator`, unidad de trabajo separada.
-
-## 9. Reconciliación de Familia C — Toxin + Slash (2026-07-12) — nota cruzada
-
-> ⚠️ **SUPERSEDED por el rediseño de proc (2026-07-13).** La reconciliación Toxin/Slash (`active_pulses`,
-> `resolveDamageInstance`) fue el *camino*; el *target* es el modelo unificado (`damage-status-model.md
-> §Modelo unificado de proc`): un contenedor único + `EffectBehavior` por efecto, que absorbe `dot-tick`/
-> `dot-timeline`/`stack-debuff` y mata `StatusEngine`/`dot_pools`/`dot_key`. Lo de abajo describe el
-> estado intermedio (código actual, pre-rediseño).
-
-Auditoría retrospectiva Slice 3 (`.working/c2-engine-coupling-audit.md`).
-`resolveHit` se partió en `resolveDamageInstance` (resuelve UN tipo de daño) + `resolveHit` (itera
-tipos, agrega) — el hit directo sigue igual, pero ahora `EnemyState.active_pulses` reusa
-`resolveDamageInstance` por tick en vez de reimplementar matriz③/DR una tercera vez.
-`dot_pools['damage_toxin_dot'\|'damage_slash_dot']` se retira; `formulas/status/{dot-tick,
-dot-timeline,proc-population,dot-population,proc-selection}` quedan **wired** para ambos tipos (ver
-§3). Slash agrega `resolveDamageInstance(..., { bypassArmorAndMatrix: true })` — regla de
-composición #1 (True), bypasea matriz③+DR pero NO el multiplicador de stack de capa (Viral sigue
-amplificando el bleed, confirmado empírico). Heat sigue en `dot_pools` (pool-decay, espera frontera
-1); **Electricity/Gas quedan fuera a propósito** — requieren frontera 3 (pulsos que generan pulsos,
-`damage-status-model.md §Modelo de timeline`), reconciliar solo el tick sin cadena/nube los dejaría
-incompletos. Detalle en `damage-status-model.md §Estado real de EnemyState.ts`. El adapter de
-vocabulario D-6↔`DamageType` que esta reconciliación usó (`WEAPON_DAMAGE_TOKEN_TO_TYPE`) fue
-**retirado** (2026-07-12): ahora es el transform derivado `damageTypeFromToken` — ver §5.
+Detalle completo y evidencia en `damage-status-model.md §Reconciliación de resolveHit`. El bucket②/faction²
+en DoT ya no cuelga de `StatusEngine` (eliminado, `6947eb1`): es la **mitad live** del tick del modelo
+unificado, gated por `OQ-ENGINE-20` (ver `status.md §Deudas`).

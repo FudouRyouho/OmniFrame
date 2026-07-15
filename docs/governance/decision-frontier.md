@@ -56,30 +56,26 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **Tres capas separadas:** LEY (`formulas/status/`, pura) · ESTADO (`EnemyState.stacks`, portado-por-entidad) · RESOLUCIÓN (el pairing, `resolveHit`).
 - **Familia A extraída** a `formulas/status/stack-debuff.ts` (Infection/Corrosion instanciadas; Disruption provisional=Infection). **LEY + ESTADO keyeados por EFECTO** (snake_case: corrosion/infection/ignite/disruption), no por tipo de daño.
 - **Arista 1** (identidad tipo→proc, 1:1) resuelta = vocabulario en `semantic/damage-types.md` + runtime en `formulas/status/`.
-- **Modelo unificado de proc — arquitectura RESUELTA (2026-07-13, [`../domains/engine/design/damage-status-model.md §Modelo unificado de proc`](../domains/engine/design/damage-status-model.md)):** un contenedor de instancias de proc en el target + `EffectBehavior` por efecto (acumulación + emisión + modificador de resolución), reemplazando los 3 contenedores (`stacks`/`dot_pools`/`active_pulses`) + `StatusEngine` + `dot_key` + `DotType`. Ontología LOCKED (instancia/resolución/proc/tick), composición `snapshot × live` (el double-dip es su huella), resolución vía `as: DamageType` (deriva del canónico). **Cierra el "cómo estructurar C2"** de los bullets de abajo — lo que sigue gated son las FACETAS específicas (data/caso forzante), no la arquitectura. Implementación = fase aparte, código aún pre-rediseño (drift docs>código deliberado).
+- **Modelo unificado de proc — arquitectura RESUELTA (2026-07-13, [`../domains/engine/design/damage-status-model.md §Modelo unificado de proc`](../domains/engine/design/damage-status-model.md)):** un contenedor de instancias de proc en el target + `EffectBehavior` por efecto (acumulación + emisión + modificador de resolución), reemplazando los 3 contenedores (`stacks`/`dot_pools`/`active_pulses`) + `StatusEngine` + `dot_key` + `DotType`. Ontología LOCKED (instancia/resolución/proc/tick), composición `snapshot × live` (el double-dip es su huella), resolución vía `as: DamageType` (deriva del canónico). **Cierra el "cómo estructurar C2"** de los bullets de abajo — lo que sigue gated son las FACETAS específicas (data/caso forzante), no la arquitectura. Implementación **ejecutada** (`6947eb1`, 2026-07-13); residual `DotType`/`DOT_COEF` sin disolver (deuda G2).
 
 **Abierto (gated — NO construir sin el caso real que lo fuerza):**
 - **`DamageInstance` de primera clase + rename de `resolveHit`** — gate O5: primer daño-de-habilidad resuelto contra un enemigo (`resolveHit` resuelve una *instancia*, no un "hit"). Casos que informan: Toxic Lash, Xata's Whisper (CREAR instancia derivada cross-entity; = Roar `fixture_04`).
 - **Contenedor de ESTADO entidad-neutral** — gate: primera entidad no-enemigo que porte status (jugador self-status, companion). Deuda marcada en `EnemyState`.
-- **Arista 2 (aplicación del proc):** spec `{forced_procs, status_chance}` (2a, C1-declarable) + el ROLL (2b, C2). Hoy `addStacks` está huérfano de disparador real desde la resolución.
-- **Familia C (DoT-tick dependiente del daño del arma)** — **valor del tick EXTRAÍDO** (2026-07-10, `formulas/status/dot-tick.ts`: `coef × modded_base × (1+own_element) × (1+status_damage)`, parte no-faction/no-timeline, verificado en `__tests__/status/dot-tick-law` + `slash`). **Sigue gated:** el `×(1+faction)²` (eje faction) + el timeline (ticks/decay/N-timers/`processDots`) + cablear el `StatusEngine` inline roto a esta LEY — plan en `damage-status-model.md §Checkpoint 3`.
+- **Arista 2 (aplicación del proc):** spec `{forced_procs, status_chance}` (2a, C1-declarable) + el ROLL (2b, C2). El disparo desde la resolución YA existe (`TimelineSimulator` → `applyProc` vía `expectedProcEvents`, modelo unificado `6947eb1`); lo gated es el ROLL exacto (2b) y `forced_procs` como spec.
+- **Familia C (DoT-tick dependiente del daño del arma)** — **wired** en el modelo unificado (`6947eb1`): `formulas/status/dot-tick.ts` (`coef × modded_base × (1+own_element) × (1+status_damage)`) alimenta los DoT behaviors (bleed/poison/ignite); el `advance` emite y `resolveDamageEvent` resuelve (verificado en `__tests__/status/{dot-tick-law,slash,proc-model}`). **Sigue gated:** el `×(1+faction)²` (bucket②/faction², mitad live, `OQ-ENGINE-20`) — `StatusEngine` ya no existe.
 - **Modelo de timeline (superposición de pulsos)** — el DoT-en-el-tiempo se parte en **agregación cerrada de pulsos declarados** (suelo C1, `total = Σ ticks×valor` + curva `DPS(t)`) vs **substrato steppeado / dedicado** (C2). El lado C1 (3a) está **CONSTRUIDO**: `formulas/status/dot-timeline.ts` (`pulseTotal`/`timelineByTick`), sin tocar el substrato. Las **5 fronteras** que fuerzan el substrato (Heat consolidado, coupling Viral-en-vivo/snapshot, pulsos-que-generan-pulsos, terminación por muerte/detonación, densidad→EV) + el hueco de Status Duration (A vs B, `OQ-ENGINE-18`) están estresadas y documentadas en `damage-status-model.md §Modelo de timeline` (2026-07-10) + `todo` en `__tests__/status/`. El substrato (3b) sigue gated por consumidor real.
-- **Eje Población/RNG del DoT — Toxin+Slash reconciliados a `EnemyState` (2026-07-12).** `esperado =
+- **Eje Población/RNG del DoT — generador wired al modelo unificado (`6947eb1`).** `esperado =
   forzado × chance × peso` con generador de eventos (2 niveles colapsados en una sola llamada vía
   identidad de Wald, agnóstico a DoT vs stack-debuff) — `damage-status-model.md §Población/RNG`.
-  Prototipo (`formulas/status/proc-population.ts` + `dot-population.ts`, 2026-07-11) **cableado** a
-  `EnemyState`/`TimelineSimulator` para los 2 casos que caben en el scope-cut sin fronteras — auditoría
-  retrospectiva Slice 3 (`.working/c2-engine-coupling-audit.md`, checkpoints 1-2).
-  `dot_pools` retirado para ambos en favor de `active_pulses` (pulsos declarados); cada tick resuelve
-  vía `CombatSimulator.resolveDamageInstance` (matriz③+DR, extraído de `resolveHit`) — Slash agrega
-  `bypassArmorAndMatrix` (regla de composición #1, True bypasea matriz③+DR pero no el multiplicador
-  de Viral). Heat **sigue** en el modelo viejo (frontera 1, pool consolidado genuino — no aplica el
-  mismo patrón). **Electricity/Gas quedan fuera del scope-cut a propósito** (frontera 3, pulsos que
-  generan pulsos — cadena/nube, no un tick aislado). Residuo no bloqueante: generador discreto exacto
-  de N proc-slots (`OQ-ENGINE-19`). Debate destilado en `../domains/engine/design/damage-status-model.md §Población/RNG` (scratch purgado). **Sigue
-  gated:** frontera 1 (Heat), frontera 3 (Electricity/Gas), bucket② en DoT (Checkpoint 3), cronograma
+  `formulas/status/proc-population.ts::expectedProcEvents` **cableado** vía `TimelineSimulator` →
+  `effectOfDamageType` → `applyProc` (rutea al behavior de cada uno de los 6 efectos con LEY). Cada tick
+  resuelve vía `CombatSimulator.resolveDamageEvent` (matriz③+DR; `as: DamageType` deriva las reglas del
+  canónico — Slash emite `as:'true'`, bypasa matriz③+DR pero no el layer-mult de Viral). `dot-population.ts`
+  quedó **huérfano** (el pulso se arma inline en `behaviors`; doble camino — deuda G3). **Sigue gated:**
+  frontera 3 (Electricity/Gas, pulsos que generan pulsos — cadena/nube), bucket②/faction² del tick
+  (`OQ-ENGINE-20`, mitad live), generador discreto exacto de N proc-slots (`OQ-ENGINE-19`), cronograma
   real de disparos más allá del reloj steppeado de `TimelineSimulator`, extender el oráculo CLI a C2.
-- **Facetas-LEY de Heat/Ignite** (DoT-tick Familia C + armor-strip por tiempo): la unidad de LEY es la *faceta*, no el efecto. Eje estructura-de-LEY, ortogonal a la aplicación. Parkeado.
+- **Facetas-LEY de Heat/Ignite** (DoT-tick Familia C + armor-strip por tiempo): **implementadas** como el `ignite` behavior (pool + rampa de armor por tiempo transcurrido, `6947eb1`); pendiente sólo **verificar la rampa** contra dato in-game (hoy es la curva 0.5s→0…2s→50% de la wiki, sin test que la fije).
 - **Magnetic ×3.25 vs ×4.25 (O4):** Disruption hereda Infection (×4.25) hasta verificar contra `/w/Magnetic_Damage` (hipótesis: 100% a Overguard cruza el dato). Tripwire en `__tests__/status/{stack-debuff-law,disruption}.test.ts`.
 
 ---

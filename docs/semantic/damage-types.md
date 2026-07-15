@@ -53,12 +53,13 @@ vocabulario). La **fórmula** de cada efecto (qué hace N stacks) tampoco vive a
 | `tau` | Tau | Debuff |
 | `true` | — (no dispara proc) | — |
 
-> El código rastrea ESTADO solo para los 4 efectos con LEY que resuelve en C1 hoy (Corrosion,
-> Infection, Ignite, Disruption) — `EnemyStatusState` keyeado por efecto. Ese subconjunto es
-> conocimiento del engine (`TrackedStatusEffect` en `formulas/status/stack-debuff.ts`, subtipo del
-> canónico verificado por `Extract`); el NOMBRE del efecto se **DERIVA** de `@shared` vía
-> `effectOfDamageType`, ya no se reimplementa (`EFFECT_BY_DAMAGE_TYPE` retirado 2026-07-13;
-> `EFFECT_BY_DOT_KEY` ahora derivado — solo persiste el key legacy `damage_*_dot` de `dot_pools`).
+> El engine modela ESTADO para los 6 efectos con `EffectBehavior` hoy (Bleed, Poison, Ignite,
+> Corrosion, Infection, Disruption) — un contenedor único `Map<StatusEffect, S>` + registro
+> `EFFECT_BEHAVIORS` (una fórmula por efecto), no una tabla de estado por-tipo. El NOMBRE del efecto se
+> **DERIVA** de `@shared` vía `effectOfDamageType` (Arista 1), ya no se reimplementa: las tablas-sombra
+> `EFFECT_BY_DAMAGE_TYPE`/`EFFECT_BY_DOT_KEY` y los subtipos `TrackedStatusEffect`/`EnemyStatusState`
+> fueron **retirados** (2026-07-13, modelo unificado de proc — `6947eb1` + saneamiento). Ver
+> [`../domains/engine/design/damage-status-model.md §Modelo unificado de proc`](../domains/engine/design/damage-status-model.md).
 
 ## Resolución de Tags Raw (`DT_*`)
 

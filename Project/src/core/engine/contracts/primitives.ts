@@ -27,17 +27,6 @@ export interface AttributeNode {
   // Ver shared/view-model + lib/format/stat-presentation.
 }
 
-// Keyed por EFECTO de estado (no por tipo de daño): un efecto puede aplicarse sin su tipo de
-// daño homónimo — Arista 1, damage-flow-model §2 / arch-decisions §14. El mapeo CANÓNICO tipo→efecto
-// vive en @shared/types/damage.ts (`statusEffect` + `effectOfDamageType`); el engine lo DERIVA
-// (formulas/status/stack-debuff.ts: `EFFECT_BY_DOT_KEY` derivado + `TrackedStatusEffect`).
-export interface EnemyStatusState {
-  corrosion: number;   // Corrosive → Corrosion (armor strip)
-  infection: number;   // Viral → Infection (mult. daño capa salud)
-  ignite: number;      // Heat → Ignite (armor-strip por tiempo; DoT-tick es Familia C)
-  disruption: number;  // Magnetic → Disruption (mult. daño capa shields/Overguard)
-}
-
 /** Campos comunes a todo Modifier, agnósticos a la clase (acumulador vs familia). */
 export interface ModifierBase {
   id: string;

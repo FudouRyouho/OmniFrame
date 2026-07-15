@@ -12,7 +12,6 @@ import {
   infectionLaw,
   disruptionLaw,
   corrosionLaw,
-  EFFECT_BY_DOT_KEY,
 } from '../../formulas/status/stack-debuff';
 import { effectOfDamageType } from '@shared/types';
 import { BASELINE_GAME_LAWS } from '../../contracts';
@@ -60,20 +59,15 @@ describe('Suite enumerada — cada efecto × su LEY contra status-effects.md', (
   });
 });
 
-describe('Arista 1 — mapeo tipo→efecto, separado del contenedor de estado', () => {
-  it('EFFECT_BY_DOT_KEY (derivado) y effectOfDamageType (canónico) resuelven los 4 efectos rastreados', () => {
-    expect(EFFECT_BY_DOT_KEY['damage_corrosive_dot']).toBe('corrosion');
-    expect(EFFECT_BY_DOT_KEY['damage_viral_dot']).toBe('infection');
-    expect(EFFECT_BY_DOT_KEY['damage_heat_dot']).toBe('ignite');
-    expect(EFFECT_BY_DOT_KEY['damage_magnetic_dot']).toBe('disruption');
-    // La forma canónica tipo→efecto vive en @shared (Arista 1 como dato del vocabulario, no sombra).
+describe('Arista 1 — mapeo tipo→efecto (canónico @shared, sin tabla-sombra)', () => {
+  it('effectOfDamageType resuelve los 4 efectos con LEY de Familia A', () => {
     expect(effectOfDamageType('corrosive')).toBe('corrosion');
     expect(effectOfDamageType('viral')).toBe('infection');
-    expect(effectOfDamageType('true')).toBeNull(); // no dispara proc
+    expect(effectOfDamageType('heat')).toBe('ignite');
+    expect(effectOfDamageType('magnetic')).toBe('disruption');
   });
 
-  it('Slash/Toxin (DoT puro, sin stack-debuff) no están en el mapeo', () => {
-    expect(EFFECT_BY_DOT_KEY['damage_slash_dot']).toBeUndefined();
-    expect(EFFECT_BY_DOT_KEY['damage_toxin_dot']).toBeUndefined();
+  it('true no dispara proc (sin efecto)', () => {
+    expect(effectOfDamageType('true')).toBeNull();
   });
 });

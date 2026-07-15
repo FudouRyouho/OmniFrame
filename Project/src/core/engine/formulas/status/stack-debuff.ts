@@ -14,31 +14,6 @@
  * es Familia A (rampa por tiempo transcurrido, no por stacks) — se queda inline en EnemyState.
  */
 
-import { effectOfDamageType, type DamageType, type StatusEffect } from "@shared/types";
-
-/**
- * Efectos con ESTADO rastreado hoy (los 4 con LEY que resuelve en C1). Subconjunto del vocabulario
- * canónico `StatusEffect` (@shared): `Extract` verifica EN TIPOS que son miembros válidos (un typo
- * colapsa a `never`). QUÉ se trackea es conocimiento del engine; el NOMBRE del efecto es canónico.
- */
-export type TrackedStatusEffect = Extract<StatusEffect, "corrosion" | "infection" | "ignite" | "disruption">;
-
-/** Tipos de daño cuyo efecto tiene LEY rastreada en C1 (engine-side; el mapeo tipo→efecto es canónico). */
-const TRACKED_EFFECT_TYPES = ["corrosive", "viral", "heat", "magnetic"] as const satisfies readonly DamageType[];
-
-/**
- * Arista 1 aplicada al keying legacy de `dot_pools`: `damage_<type>_dot` → efecto, DERIVADO del
- * canónico (`effectOfDamageType`), ya no hardcodeado. El espacio `dot_key` sigue vivo porque
- * `dot_pools` lo usa (frontera 1/3, muere con la migración de pools); el EFECTO ya no cuelga de una
- * tabla-sombra. Ver `docs/semantic/damage-types.md §Arista 1`.
- */
-export const EFFECT_BY_DOT_KEY: Readonly<Record<string, TrackedStatusEffect>> = Object.fromEntries(
-	TRACKED_EFFECT_TYPES.map((t): [string, TrackedStatusEffect] => [
-		`damage_${t}_dot`,
-		effectOfDamageType(t) as TrackedStatusEffect,
-	]),
-);
-
 /** Parámetros de la LEY de Familia A para un efecto concreto. */
 export interface StackDebuffLaw {
 	/** Valor en el 1er stack (n=1). */

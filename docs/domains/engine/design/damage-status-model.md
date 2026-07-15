@@ -355,9 +355,9 @@ usado directo como cantidad esperada.
 **El generador es agnóstico al tipo de proc.** No hay nada DoT-específico en la selección de tipo ni en
 el conteo de slots — la tabla tipo→proc trata Slash/Toxin/Heat (DoT) igual que Corrosive/Viral/Puncture
 (stack-debuff). Lo acotado es el **consumidor**, no el generador: el output limpio es una lista de
-eventos `(tipo, timestamp)`. DoT ya tiene consumidor construido (`dot-tick.ts` + `dot-timeline.ts`,
-Slice 3a); stack-debuff heredará el mismo generador cuando se resuelva la brecha ya documentada de
-`EnemyState.processDots()` (§Estado real de EnemyState.ts, abajo) — no es un gate nuevo.
+eventos `(tipo, timestamp)`. En el modelo unificado (`6947eb1`) el generador (`expectedProcEvents`)
+alimenta por igual a los DoT behaviors (`dot-tick`/`dot-timeline`) y a los stack-debuff (Familia A):
+`TimelineSimulator` rutea cada evento a su `EffectBehavior` vía `applyProc`, sin dos consumidores separados.
 
 **Compute-once, sin superficie de código nueva.** No hace falta una función de "curva esperada"
 separada de la de "total esperado": basta con producir `DotPulse[]` con `value` pre-escalado por
@@ -371,63 +371,90 @@ una sola llamada con `statusChance` crudo. `formulas/status/dot-population.ts`
 (`dotPulseFromProcEvent`): glue DoT-específico, `ProcEvent → DotPulse` con `value` pre-escalado, sin
 tocar `dot-timeline.ts`. Tests en `__tests__/status/population.test.ts`. **Sigue gated:** el
 cronograma real de disparos que alimenta `timestamp` (tramo c, integración de arma) y el cableado a
-`EnemyState`/`CombatSimulator` (brecha `processDots`, ver abajo).
+`EnemyState`/`CombatSimulator` (resuelto por el modelo unificado, §Modelo unificado de proc).
 
 ---
 
-## Estado real de `EnemyState.ts` vs. este modelo — brecha encontrada
+## El proceso del status — un solo lenguaje (consecuencia)
 
-> ⚠️ **SUPERSEDED por §Modelo unificado de proc (2026-07-13).** Esta sección documenta el híbrido de 3
-> contenedores (`stacks`/`dot_pools`/`active_pulses`) y su historia de reconciliación (Toxin/Slash) —
-> el **camino** que llevó al rediseño. El **target** ya no es este híbrido: es un contenedor único +
-> `EffectBehavior` por efecto. Se conserva como registro del "antes" y de la evidencia de reconciliación.
+> **Rol:** lenguaje-norte del status, **NO** descripción del código actual. El §Modelo unificado de proc
+> (abajo) es el **piso actual** bajo este lenguaje — implementa casi todas las estaciones, con UNA brecha
+> estructural nombrada (la Aplicación). Existe porque el status se venía segmentando por **grupo** (DoT,
+> stack, Familia A/C) en vez de por **proceso**, y por eso cada pieza se fabricó su propio vocabulario (el
+> DoT su propio SSoT). **Alcance:** va más allá del DoT — es el lenguaje de cómo un daño del *source* se
+> vuelve *estado* en el target; toca varios puntos del proyecto (`elementBonusPct`, `CombatCalculator`, la
+> instancia derivada). Destilado del debate 2026-07-13; estresado contra Slash/Ignite/Gas/Electricity/
+> Corrosion. Se hizo mal antes; esto asienta el lenguaje al que reconciliar — no es una reescritura, es
+> dejar de parchar.
 
-**Ya resuelto** (Fase 3 pieza 3 del saneamiento de `@core`, commit `98ef01b`, previo a esta campaña): el rename de vocabulario legacy `damage_*_proc`→`damage_*_dot` y el bug de `getDamageMultiplier` (comparaba un token D-6 contra strings legacy, nunca matcheaba — el multiplicador de Viral/Magnetic quedaba inerte). Ya corregido a `getDamageMultiplier(hitsShields: boolean)`, la forma que la regla de composición #1 confirma.
+### El proceso — cada estación es CONSECUENCIA de la anterior (verbos, no grupos, igual que A→B→C)
 
-**Parcialmente resuelto (2026-07-12) — Toxin reconciliado, primer caso de la auditoría retrospectiva
-Slice 3 (checkpoints 1-2 en `.working/c2-engine-coupling-audit.md`).** `EnemyState`
-gana `active_pulses: Array<{type, pulse: DotPulse}>` — Toxin ya no vive en `dot_pools`, tickea como
-pulso declarado (`formulas/status/dot-timeline.ts`), poblado vía `expectedProcEvents` +
-`dotPulseFromProcEvent` desde `TimelineSimulator`, y cada tick se resuelve vía
-`CombatSimulator.resolveDamageInstance` (matriz③+DR+bypass de shields — extraído de `resolveHit`,
-mismo camino, sin reimplementar). Cierra 2 de los 3 términos de la deuda `GAMEPLAY_MULT_FACTION_DAMAGE`
-(`status.md`) para Toxin específicamente: matriz③ y DR. `(1+status_damage)` también cerrado (lee
-`WEAPON_ADD_STATUS_DAMAGE`, token ya existente en el vocabulario D-6 pero sin consumidor). Bucket②
-(double-dip) sigue **fuera** — Checkpoint 3 re-escopeado se mantiene. Adapter de vocabulario D-6↔`DamageType`
-(`contracts/damage-logic.ts::WEAPON_DAMAGE_TOKEN_TO_TYPE`) marcado para desacople junto a
-`formulas-integration.md §5` — no resuelve la pregunta general, cierra solo lo que Familia C necesita.
+```
+INSTANCIA ─ejecutar─► HIT ─┬─ consecuencia inmediata ──► ⟨RESOLUCIÓN⟩ daño directo → capas
+                           └─ consecuencia depositante ─► APLICACIÓN ─depositar─► ESTADO(target)
+                                                                                    │ muta sobre sí mismo
+                                                                                    │ (decay/expira · guarda refs)
+                                                                                    ▼
+                                                                                  EFECTO ─lectura─►
+                                                                                   ├ modificador (stack) → se lee al resolver un daño
+                                                                                   └ emisión (DoT) ──► ⟨RESOLUCIÓN⟩ tick → capas
+   ⟨RESOLUCIÓN⟩ = átomo transversal (mismo `resolveDamageEvent`), NO una estación — aparece en 2 momentos.
+```
 
-**Slash reconciliado (2026-07-12), segundo y último caso dentro del scope-cut.** Mismo patrón que
-Toxin, con una excepción real: el bleed es **True** (`status-effects.md §Bleed`) — bypasea matriz③ y
-DR (regla de composición #1), pero SIGUE amplificado por el multiplicador de stack de capa-salud
-(Viral) — confirmado empírico (Dorrclave+Viral, error <0.2%). `CombatSimulator.resolveDamageInstance`
-gana `opts.bypassArmorAndMatrix` para esto; `resolveHit` (hit directo, NO True) no lo usa, sin cambio
-de comportamiento. Tests: `__tests__/status/slash-reconciliation.test.ts` (matriz③/DR bypaseadas con
-fixtures reales — Arid Butcher armor=200, Charger Slash-vuln ×1.5 — más Viral confirmado NO bypaseado).
+- **Instancia** — el arma *potencial* (daño por tipo, status_chance, multishot, crit, forced). Dato que C1 produce.
+- **Hit** — la instancia *ejecutada*: acá se tiran los dados de multishot y crit. No es otra capa; es la instancia en pasado.
+- **Aplicación** — la **consecuencia discreta** del hit: qué proc salió. Lleva una **traza** `{efecto, count, crit, origen: rolled|forced}`, no un promedio. **Es la estación que hoy falta como objeto.**
+- **Estado** — la acumulación de aplicaciones por efecto, **portada por el target**. Muta sobre sí mismo.
+- **Efecto** — la **consecuencia del estado**, leída cuando hace falta. Bifurca en **modificador** (stack: strip/mult) o **emisión** (DoT: tick).
+- **Resolución** — el átomo "daño de tipo T vs las capas", **transversal**: lo comparten el hit directo y el tick emitido. No es una estación de la cadena; la cruza.
 
-**Electricity y Gas quedan explícitamente FUERA de esta reconciliación — no es omisión, es la
-frontera 3.** Ambos requieren "pulsos que generan pulsos" (arco de Electricity a enemigos en 3m sin
-heredar el crítico; nube de Gas por N-targets) — la frontera que el modelo de timeline ya señala como
-fuera del suelo C1 (`§Modelo de timeline`, frontera 3). Reconciliar solo el tick sin la cadena/nube
-dejaría esos dos tipos silenciosamente incompletos (la wiki los marca "completo, sin gate" *por*
-incluir esa parte espacial) — se prefiere mantenerlos en `dot_pools` (documentado, honesto) hasta que
-la frontera 3 se ataque como su propia unidad de trabajo.
+### Principios (el cimiento)
 
-**No resuelto — Heat sigue en el modelo viejo.** `EnemyState.processDots()` sigue decayendo
-`dot_pools['damage_heat_dot']` con **decaimiento lineal continuo** sobre una `duration = 6.0` fija —
-Heat espera la frontera 1 (pool consolidado genuino, no N-instancias independientes — sería incorrecto
-aplicarle el mismo patrón de pulsos). `stacks` (Corrosive/Viral/Magnetic/Ignite) **tampoco se tocó** —
-sigue con el mismo pool-decay en vez de N-timers independientes por stack (`OQ-ENGINE-16`), fuera de
-alcance de esta reconciliación (Familia A, no Familia C).
+- **El peso se consume en la Aplicación.** El peso decide *qué* proc sale (probabilidad); no persiste como factor del daño. Salió Corrosive, no "0.667 de un proc". (Hoy `expectedProcEvents` lo deja multiplicando para siempre — el síntoma de tratar la selección como valor.)
+- **"stack" y "DoT" NO son dos procesos** — divergen SOLO en el último eslabón (qué clase de Efecto es consecuencia del Estado). Segmentar arriba (`DotType`, generador propio, Familia A/C) fue el error.
+- **El Estado muta sobre sí mismo** ("dentro, no fuera"): las consecuencias salen (daño, strip leído) pero **no re-depositan** estado. La única excepción es la frontera 3 (Gas/Electricity: el tick genera otra instancia → cross-entity).
+- **target-local vs cross-entity** decide dónde vive cada cosa: lo que opera sobre el *mismo* target (tick, strip, stack-mult) es del behavior/estado; lo que **cruza una entidad** (buffs del source re-leídos, targets vecinos en un radio) es del **orquestador**, no del behavior.
+- **El Estado puede guardar REFERENCIAS, no solo números muertos** (capacidad). "¿Roar sigue activo?" se responde resolviendo una ref del source en la lectura, no leyendo un valor congelado. *Cuáles* términos son ref-viva vs snapshot-consumado = gated (abajo).
+
+### Mapeo al código actual (honestidad — qué existe, qué falta)
+
+| Estación | Código hoy | Estado |
+|---|---|---|
+| Resolución (átomo) | `CombatSimulator.resolveDamageEvent` | ✅ ya transversal (hit + tick) |
+| Estado | `EnemyState.effectStates: Map<StatusEffect,S>` | ✅ existe, muta dentro |
+| Efecto — modificador | `EffectBehavior.resolutionModifier` (stacks) | ✅ ya es "consecuencia del estado" |
+| Efecto — emisión | `dot-tick` / `behaviors` (DoT) | ⚠️ desviado (SSoT propio: `DotType`, `dot-population`) |
+| **Aplicación** | diluida en `expectedProcEvents` (predictivo) | 🔴 **la brecha estructural** — no existe como objeto, no consume el peso |
+
+Casi todo el lenguaje **ya está implementado**. La brecha real es **una**: la Aplicación como objeto de primera clase (hoy es un valor esperado; debe ser una consecuencia con traza).
+
+### Las tres formas de definir la aplicación (marco)
+
+La selección de proc es una de tres proyecciones, para tres preguntas distintas — **no** una jerarquía de calidad:
+- **Selectiva** (C1) — "hace este daño" (declarativo, el arsenal).
+- **Predictiva** (valor esperado) — "el daño *esperado*" (proyección cerrada; legítima para su pregunta, **mal usada como mecanismo**).
+- **Consecuencia** (RNG) — "qué pasó en *esta* corrida" (fiel, estocástica).
+
+Incoherencia raíz actual: en el mismo loop, el **hit directo** ya es consecuencia (`simulateAttack`, RNG atómico) pero los **procs** son predictivos (`expected × pellets`). La meta no es borrar el predictivo (`E[N]` es la media de las corridas) — es **dejar de usarlo como mecanismo**.
+
+### Gated — nombrado, no cerrado (no predecir cómo el modelo lo aplica)
+
+- **ref-viva vs snapshot-congelado** (el *split* de `snapshot × live`) → `OQ-ENGINE-20`, dato empírico. El lenguaje admite ambos; el dato reparte.
+- **Forced proc** (Hunter Munitions, Kunai) = **"extensión" de la instancia source**, no consecuencia de un roll — otra naturaleza de Aplicación (`origen: forced`). Existe, no modelada.
+- **Frontera 3** (Gas/Electricity: pulsos que generan pulsos) → recursión cross-entity, ver §Modelo de timeline.
+
+**Próximo tramo (no en esta bajada):** cruzar este lenguaje con `@core` para marcar qué se auto-percibe como sub-capa sin serlo, qué es sustrato de una consecuencia, y qué queda fuera del concepto.
 
 ---
 
 ## Modelo unificado de proc — arquitectura resuelta (2026-07-13)
 
-> **Supersede** la maquinaria descrita en §Estado real de EnemyState.ts (los 3 contenedores
-> `stacks`/`dot_pools`/`active_pulses` + `StatusEngine`). Consolida el §frame ("cómo construir C2") en
-> una interfaz concreta. (Graduado desde el prototipo de `.working/`, purgado tras graduar.) **Estado: ontología
-> LOCKED, interfaz sustancialmente cerrada (target-side); dos huecos gated nombrados.**
+> **Supersede** la maquinaria pre-rediseño (los 3 contenedores `stacks`/`dot_pools`/`active_pulses` +
+> `StatusEngine`; su historia de reconciliación intermedia Toxin/Slash vive en git — Slice 3, commits
+> `d5d5ce2`→`6947eb1`). Es el **piso actual** bajo el §El proceso del status (arriba) — implementa el
+> lenguaje con la Aplicación aún predictiva. Consolida el §frame ("cómo construir C2") en una interfaz concreta. (Graduado
+> desde el prototipo de `.working/`, purgado tras graduar.) **Estado: ontología LOCKED, interfaz
+> sustancialmente cerrada (target-side); dos huecos gated nombrados.**
 
 ### Ontología (LOCKED)
 
@@ -439,9 +466,9 @@ Emisor → INSTANCIA → ┬─ RESOLUCIÓN (hit)
 
 - **Instancia** — evento de daño externo; resuelve su hit una vez; al generar un proc **snapshotea su
   contexto resuelto** en él. El hit muere; su snapshot vive en el proc.
-- **Resolución** (código: `resolveDamageInstance` → renombrar `resolveDamageEvent`) — el átomo "daño de
-  tipo T vs las capas del target". **Agnóstica al origen**: hit y tick la comparten (por eso se
-  conflaba; el nombre lavaba la diferencia).
+- **Resolución** (código: `resolveDamageEvent`, renombrado de `resolveDamageInstance` en `6947eb1`) — el
+  átomo "daño de tipo T vs las capas del target". **Agnóstica al origen**: hit y tick la comparten (por
+  eso se conflaba; el nombre lavaba la diferencia).
 - **Proc** — efecto de estado aplicado al target, persistente, con ciclo de vida. **NO es una instancia.**
 - **Tick** — una resolución que emite un proc DoT desde el estado del target.
 
@@ -494,10 +521,16 @@ upstream, §Población/RNG) sin tratarla hoy.
 
 ### Disposición (muere con el diseño, no aislado)
 
-`StatusEngine` entero · `dot_pools` · `dot_key`/`DAMAGE_ATTR_TO_DOT_KEY` · `DotType` · `DOT_TYPE_IS_TRUE`
-· los 3 contenedores. El comportamiento pool-like de **Heat sobrevive como su propia fórmula** (Heat ≠
-Toxin), no como contenedor compartido. **Reusa** `stack-debuff` (modifiers Familia A), `dot-tick`
-(snapshot DoT), `dot-timeline` (advance DoT) — reorganización, no rewrite. **Fuera a propósito:**
+`StatusEngine` entero · `dot_pools` · `dot_key`/`DAMAGE_ATTR_TO_DOT_KEY`/`EFFECT_BY_DOT_KEY` ·
+`DOT_TYPE_IS_TRUE` · `EnemyStatusState`/`TrackedStatusEffect` · los 3 contenedores — **ejecutado**
+(`6947eb1` rediseño + saneamiento G1/G2, 2026-07-13). **`DotType` NO se dispone:** es una partición viva
+(los tipos con coeficiente de tick escalado por daño, consumida por `dotTickValue`) — se **ató al canónico**
+como `Extract<DamageType, …>` (G2), no se disolvió a `DamageType` pelado (eso perdía la exhaustividad de
+`DOT_COEF` + la seguridad de tipo). ⚠️ **Deuda semántica abierta:** "DoT" es un comportamiento, no un grupo
+invariante (`status_damage` afecta también a Blast, no-DoT) — el naming presume una categoría que no cierra;
+la solución honesta (eje comportamiento vs. eje coeficiente) es trabajo aparte. El comportamiento pool-like
+de **Heat sobrevive como su propia fórmula** (Heat ≠ Toxin), no como contenedor compartido. **Reusa** `stack-debuff` (modifiers Familia A),
+`dot-tick` (snapshot DoT), `dot-timeline` (advance DoT) — reorganización, no rewrite. **Fuera a propósito:**
 generación del proc (§Población/RNG; H2: dedup chance×peso en `.working/c2-engine-coupling-audit.md`),
 crit (OQ-12), split snapshot/live fino (OQ-20), duración del proc en `HitContext` (source-side,
 `OQ-ENGINE-18`), efectos sin modelar, frontera 3.

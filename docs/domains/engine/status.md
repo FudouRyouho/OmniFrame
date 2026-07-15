@@ -56,28 +56,31 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 |---|---|
 | `CombatCalculator` · `CombatSimulator` | **Activo** |
 | `AtomicSimulator` | **Activo** — conectado a `formulas/common/crit-base` |
-| `StatusEngine` · `TimelineSimulator` · `RngProvider` | **Activo** — ⚠️ `StatusEngine` muere con el rediseño de proc (ver Nota C2) |
+| `TimelineSimulator` · `RngProvider` | **Activo** — generación de procs unificada (`expectedProcEvents` → `effectOfDamageType` → `applyProc`); `StatusEngine` **eliminado** (`6947eb1`, ver Nota C2) |
 | `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `scale()` = **curva-S real** (2026-07-06, reemplaza el stub cuadrático) + `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`); validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
 
-> **⚠️ REDISEÑO EN DISEÑO (2026-07-13):** toda la maquinaria de status de C2 (`StatusEngine`,
-> `EnemyState.{stacks, dot_pools, active_pulses}`, `processDots`, `DotType`, `dot_key`) está **slated
-> para reemplazo** por el **modelo unificado de proc** — un contenedor único + `EffectBehavior` por
-> efecto. Diseño cerrado (target-side) en [`design/damage-status-model.md §Modelo unificado de
-> proc`](design/damage-status-model.md). Lo descrito abajo es el **híbrido pre-rediseño** (el camino que
-> llevó al diseño); el código aún NO cambió — drift docs>código deliberado, se salda al implementar.
+> **✅ REDISEÑO IMPLEMENTADO (`6947eb1`, 2026-07-13):** la maquinaria de status de C2 (`StatusEngine`,
+> `EnemyState.{stacks, dot_pools, active_pulses}`, `processDots` viejo, `dot_key`) fue **reemplazada** por
+> el **modelo unificado de proc** — un contenedor único `Map<StatusEffect, S>` + `EffectBehavior` por
+> efecto. `EnemyState` itera el registro `EFFECT_BEHAVIORS`; `resolveDamageEvent` (renombrado de
+> `resolveDamageInstance`) deriva las reglas del canónico por `as: DamageType`. Diseño y SSoT en
+> [`design/damage-status-model.md §Modelo unificado de proc`](design/damage-status-model.md). Residual
+> conocido: `DotType`/`DOT_COEF` sin disolver (deuda G2). La Nota C2 de abajo describe el modelo nuevo.
 >
 > **Nota C2:** cobertura de test históricamente 0; primer diseño interno + primeros tests en la campaña
 > de modelado de daño C2 (2026-07-02, ver [`design/damage-status-model.md`](design/damage-status-model.md)) +
-> el eje enemigo (escalado, 2026-07-06). **Brecha conocida, acotada (2026-07-12):** `EnemyState.processDots()` decae Heat con un pool
-> lineal continuo — Toxin y Slash **ya reconciliados** a `active_pulses` (pulsos declarados,
-> `damage-status-model.md §Estado real de EnemyState.ts`; Slash con la excepción True — bypasea
-> matriz③+DR, no el multiplicador de Viral). Heat espera la frontera 1 (pool consolidado genuino);
-> Electricity/Gas quedan fuera a propósito — frontera 3, no omisión. `stacks`
-> (Corrosive/Viral/Magnetic/Ignite) también sigue en pool-decay — Familia A, fuera de esta
-> reconciliación (`OQ-ENGINE-16`).
+> el eje enemigo (escalado, 2026-07-06). **Modelo unificado de proc (`6947eb1`, 2026-07-13):** los 6
+> efectos con LEY (bleed/poison/ignite/corrosion/infection/disruption) viven en `EFFECT_BEHAVIORS`;
+> `EnemyState.processDots` itera cada behavior (decae/expira + emite `Resolucion`), y cada emisión resuelve
+> por `CombatSimulator.resolveDamageEvent` (mismo camino que un hit directo). Heat sobrevive como su propia
+> fórmula (`ignite`: pool + rampa de armor por tiempo), no como contenedor compartido; Corrosion/Infection/
+> Disruption son behaviors con estado `{count}` + decay (Familia A, ya no un contenedor aparte).
+> **Sigue fuera del behavior-set:** Electricity/Gas (frontera 3, pulsos que generan pulsos — cadena/nube)
+> y los efectos sin LEY (puncture/impact/cold/… — no-op). Bucket②/faction² del tick = gated (`OQ-ENGINE-20`,
+> mitad live). `stacks` de N-timers reales sigue como fidelidad diferida (`OQ-ENGINE-16`).
 > **Resuelto (`8b014f6`, 2026-07-09):** el consumo del `ScaledEnemy` en el pipeline de daño (facción × DR ×
-> capa) — `resolveHit` ya consume `targetFactionMult` (matriz③) + `damageReductionFromArmor` (DR),
-> checkpoints 1-2 de la reconciliación (`damage-status-model.md §Reconciliación de resolveHit`). **Ojo:**
+> capa) — `resolveDamageEvent`/`resolveHit` consumen `targetFactionMult` (matriz③) + `damageReductionFromArmor`
+> (DR), checkpoints 1-2 de la reconciliación (`damage-status-model.md §Reconciliación de resolveHit`). **Ojo:**
 > esto es acoplamiento *dentro* de C2 (`TimelineSimulator`/`CombatSimulator`) — C2 en sí sigue **fuera** del
 > pipeline de producción (`design/formulas-integration.md §1`: el camino vivo es solo C1, `MutatorBridge →
 > SimulationEngine`).
@@ -123,7 +126,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 |---|---|
 | `common/` | `crit-base` (→ `AtomicSimulator`), `scaling-base`, `status-base` |
 | `weapon/` | `weapon-crit`, `weapon-status`, `weapon-multishot`, `weapon-condition-overload` |
-| `status/` | `stack-debuff` (**wired** → `EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population`+`dot-population` (**wired para Toxin+Slash** → `EnemyState`/`TimelineSimulator`, 2026-07-12, Familia C; Heat espera frontera 1, Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3`) |
+| `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado `6947eb1`; los 6 efectos con LEY). `dot-population` quedó **huérfano** (el pulso se arma inline en `behaviors.makeDotBehavior`; solo test-consumido — deuda G3). Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
 | `ability/` | `ability-crit`, `ability-status` |
 | `arcane/` · `warframe/` | **vacíos** (reservados; `arcane-core` purgado 2026-06-11, `warframe-core` 2026-05-27) |
 
@@ -159,38 +162,21 @@ El token está **mapeado** (`UPGRADE_MAP`: `op: ADD, toPercent: true`); 42 mods 
 llevan. Falta: (1) `target.faction` **estructurado** en los mods (hoy solo en el `label` → `OQ-DATA-5`) y
 (2) el consumo en C2 como multiplicador por facción. Vocabulario destino: [`../../semantic/factions.md`](../../semantic/factions.md).
 
-**Actualizado (verificación de estabilidad, 2026-07-09) — el hit directo YA está resuelto, el DoT no:**
-`resolveHit` (`CombatSimulator.ts`) ya consume la matriz③ (vulnerabilidad target-keyed, `resolveHit`
-checkpoints 1-2, esta sesión). Lo que falta es específicamente el **tick de DoT** en `StatusEngine.
-{projectSlashTick,projectHeatTick,projectToxinTick}`, que hoy no recibe target en absoluto y le faltan
-**tres términos** confirmados por dato cross-validado (wiki formal `status-effects.md` + empírico
-`damage-status-model.md`, no ambigüedad — nivel de implementación, no de investigación):
-1. Matriz③ (vulnerabilidad del target) — ausente.
-2. Bucket② (mods de facción + buffs tipo Roar, aditivos entre sí) — presente parcial (`FACTION_DAMAGE`
-   del lado del arma) pero **sin elevar al cuadrado**, pese a que el propio comentario del código dice
-   `"Faction^2"` (`StatusEngine.ts` líneas ~45/62) — bug comentario-vs-implementación.
-3. `(1+status_damage)` (ej. Viral amplificando un tick de Slash/Toxin) — **totalmente ausente**.
+**Historia (2026-07-09 → 2026-07-12, superada por el rediseño — detalle en git):** el análisis original
+ubicaba el hueco en `StatusEngine.projectXTick` (tick de DoT sin target, faltándole matriz③, `bucket²`
+sin cuadrado y `(1+status_damage)`); la reconciliación intermedia de Toxin/Slash lo resolvió por
+`active_pulses` + `resolveDamageInstance`. Todo eso quedó **subsumido**: `StatusEngine` ya no existe. La
+fórmula objetivo del tick sigue firme: `tick = coef × modded_base × (1+status_damage) × matriz(elem,
+facción) × (1+Σbucket②)²` (no-True) / con `[bypass ③]` (True). Hoy el `EffectBehavior` + `resolveDamageEvent`
+computan todo **menos** el `(1+Σbucket²)²`.
 
-Fórmula objetivo completa (`damage-status-model.md §Reconciliación de resolveHit`): `tick = coef ×
-modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σbucket②)²` (no-True) / con `[bypass ③]`
-en vez de matriz (True, ej. Slash bleed). **Al implementar, seguir el patrón de `resolveHit`** (accessor
-dedicado por naturaleza — matriz vs bucket vs status — NO agregar los términos inline): mismo síndrome
-que motivó la reconciliación de `resolveHit` esta sesión.
-
-**Actualizado (2026-07-12) — Toxin y Slash cierran los términos que les tocan, por un camino distinto
-a `StatusEngine`:** la reconciliación de Familia C (`EnemyState.active_pulses` +
-`CombatSimulator.resolveDamageInstance`, ver `damage-status-model.md §Estado real de EnemyState.ts`)
-resuelve matriz③+DR+`(1+status_damage)` para Toxin, y matriz③+DR **bypaseadas** (True,
-`opts.bypassArmorAndMatrix`) + `(1+status_damage)` para Slash — sin tocar `StatusEngine.
-projectToxinTick`/`projectSlashTick` (quedan muertos para esos tipos: `TimelineSimulator` ya no los
-usa). `projectHeatTick` sigue consumido y roto igual que antes — la deuda de arriba sigue vigente para
-Heat. Bucket② sigue sin resolver para ningún tipo (Checkpoint 3 re-escopeado se mantiene).
-
-**Subsumido por el rediseño (2026-07-13):** esta deuda (bucket②/`StatusEngine`) deja de ser una unidad
-propia — `StatusEngine` **muere** con el modelo unificado de proc (`damage-status-model.md §Modelo
-unificado de proc`). El bucket② es la **mitad live** de la composición `snapshot × live` del tick, gated
-por `OQ-ENGINE-20` (split fino snapshot/live). Ya no "falta cablear `StatusEngine`" — falta implementar
-el modelo nuevo, y el bucket② entra como la re-aplicación live del source (frontera cross-entity).
+**Subsumido por el rediseño (`6947eb1`, 2026-07-13):** esta deuda deja de ser una unidad propia —
+`StatusEngine` fue **eliminado** con el modelo unificado de proc (`damage-status-model.md §Modelo unificado
+de proc`), así que los detalles de `StatusEngine.projectXTick` de los párrafos de arriba son **históricos**
+(el tick ahora lo computan los `EffectBehavior`, resueltos vía `resolveDamageEvent`). Lo que **sigue
+pendiente** es el bucket②/faction²: es la **mitad live** de la composición `snapshot × live` del tick,
+gated por `OQ-ENGINE-20` (split fino snapshot/live) — la re-aplicación live del source (frontera
+cross-entity), NO horneada aún en el `HitContext` snapshot (que hoy solo carga `moddedBase` + status/element).
 
 **Vínculo:** `design/damage-status-model.md §Evidencia` + `§Reconciliación de resolveHit`,
 `governance/closed-decisions.md#DC-OQ-ENGINE-13` (confirma que el double-dip es del bucket②, no de
@@ -200,8 +186,8 @@ el modelo nuevo, y el bucket② entra como la re-aplicación live del source (fr
 
 Verificación de estabilidad pre-C1 (2026-07-09): `project()` (`simulate/combat/CombatCalculator.ts`)
 absorbe 3-4 naturalezas distintas en ~90 líneas — falloff (física espacial), distribución de crit
-(probabilístico), proyección de status/DoT (delega a `StatusEngine`, ok) y aritmética de DPS/reload/
-magazine (composición escalar). Mismo síndrome que tenía `resolveHit` antes de esta sesión. **No es
+(probabilístico), proyección de status (`status_map`: chance×peso inline — hoy computado pero **sin
+consumidor** tras retirar `status_projections`/`StatusEngine`) y aritmética de DPS/reload/magazine. Mismo síndrome que tenía `resolveHit` antes de esta sesión. **No es
 deuda de investigación** — el patrón para resolverlo ya existe y está probado 4 veces (`FAMILY_RESOLVERS`
 en `SimulationEngine`, y la reconciliación de `resolveHit` con accessors dedicados por naturaleza).
 `combat/` sigue fuera del pipeline de producción (`design/formulas-integration.md §1`) — sin consumidor

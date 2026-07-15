@@ -18,7 +18,7 @@
 import { EnemyState } from "../../simulate/enemies/EnemyState";
 import { CombatSimulator, type HitResolution } from "../../simulate/combat/CombatSimulator";
 import { BASELINE_GAME_LAWS } from "../../contracts";
-import type { EnemyStatusState, GameLaws } from "../../contracts";
+import type { GameLaws } from "../../contracts";
 import type { StatusEffect } from "@shared/types";
 import type { ScaledEnemy } from "../../simulate/enemies/EnemyRepository";
 import { dotTickValue, type DotType } from "../../formulas/status/dot-tick";
@@ -32,7 +32,7 @@ export interface IsolatedTargetSpec {
   armor?: number;    // default 0 (sin armor → sin DR)
   shields?: number;  // default 0 (sin shields → todo hit va a salud)
   /** Status pre-declarado (C1): el consumidor fija N stacks por efecto, sin timeline. */
-  stacks?: Partial<EnemyStatusState>;
+  stacks?: Partial<Record<StatusEffect, number>>;
   laws?: GameLaws;   // default BASELINE_GAME_LAWS
 }
 

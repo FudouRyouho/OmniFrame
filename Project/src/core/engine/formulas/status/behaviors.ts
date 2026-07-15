@@ -12,7 +12,7 @@
  */
 
 import type { DamageType, StatusEffect } from "@shared/types";
-import type { EffectBehavior, HitContext, Resolucion } from "./effect-behavior";
+import type { EffectBehavior, Resolucion } from "./effect-behavior";
 import { dotTickValue, type DotType } from "./dot-tick";
 import { tickTimes, type DotPulse } from "./dot-timeline";
 import { stackDebuffValue, infectionLaw, disruptionLaw, corrosionLaw } from "./stack-debuff";
