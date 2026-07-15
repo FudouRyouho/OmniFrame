@@ -4,7 +4,7 @@
  */
 import { AtomicSimulator } from "./AtomicSimulator";
 import type { SimulationEntity, SimulationContext } from "../../contracts";
-import { isWeaponDamageToken } from "../../contracts/damage-logic";
+import { deriveInstance } from "./damage-instance";
 
 export interface CombatMetrics {
   average_crit_multiplier: number;
@@ -19,7 +19,10 @@ export interface CombatMetrics {
 export class CombatCalculator {
   public static project(entity: SimulationEntity, context: SimulationContext): CombatMetrics {
     const attrs = entity.attributes;
-    
+    // La Instancia (①②): C2 consume el potencial que C1 compuso, no re-extrae. Falloff (②contextual),
+    // cadencia/mag/reload (Schedule) NO son de la Instancia — se leen aparte (§2.0.1).
+    const instance = deriveInstance(entity);
+
     // 0. Cálculo de Falloff (Distancia)
     const dist = context.variables["distance"] || 0;
     const fStart = attrs["falloff_start"]?.final || 1000; // Por defecto sin falloff
@@ -34,35 +37,24 @@ export class CombatCalculator {
       falloffMult = 1.0 - (ratio * (1.0 - minMult));
     }
 
-    // 1. Resolver Daño Total Base (Afectado por Falloff)
-    const total_base_damage = Object.entries(attrs)
-      .filter(([id]) => isWeaponDamageToken(id))
-      .reduce((acc, [_, node]) => acc + node.final, 0) * falloffMult;
+    // 1. Daño total = potencial de la Instancia × falloff
+    const total_base_damage = instance.moddedBase * falloffMult;
 
-    // 2. Lógica de Críticos Atómica (Distribución de Tiers)
-    const crit_chance = (attrs["WEAPON_ADD_CRIT_CHANCE"]?.final || 0);
-    const crit_mult = attrs["WEAPON_ADD_CRIT_MULT"]?.final || 1.0;
-    
-    const crit_distribution = AtomicSimulator.calculateCritDistribution(crit_chance);
-    const avg_crit_mult = AtomicSimulator.calculateAverageMultiplier(crit_chance, crit_mult);
+    // 2. Lógica de Críticos Atómica (spec de crit de la Instancia; el EV es realización de C2)
+    const crit_distribution = AtomicSimulator.calculateCritDistribution(instance.critChance);
+    const avg_crit_mult = AtomicSimulator.calculateAverageMultiplier(instance.critChance, instance.critMult);
 
-    // 4. Lógica de Estado (Probability Weighting)
-    const status_chance = (attrs["WEAPON_ADD_STATUS_CHANCE"]?.final || 0) / 100;
+    // 4. Lógica de Estado (Probability Weighting): peso = daño del tipo / daño total
     const status_map: Record<string, number> = {};
-    
     if (total_base_damage > 0) {
-      Object.entries(attrs)
-        .filter(([id]) => isWeaponDamageToken(id))
-        .forEach(([id, node]) => {
-          // Probabilidad = StatusChance * (Weight del elemento / Daño Total)
-          const weight = node.final / total_base_damage;
-          status_map[id] = status_chance * weight;
-        });
+      for (const [id, dmg] of Object.entries(instance.damageByToken)) {
+        status_map[id] = instance.statusChance * (dmg / total_base_damage);
+      }
     }
 
-    // 5. Lógica de DPS y Multishot
+    // 5. Lógica de DPS y Multishot (multishot de la Instancia; cadencia/mag = Schedule)
     const fire_rate = attrs["WEAPON_ADD_FIRE_RATE"]?.final || 1.0;
-    const multishot = attrs["WEAPON_ADD_MULTISHOT"]?.final || 1.0;
+    const multishot = instance.multishot;
     const mag_size  = attrs["WEAPON_ADD_MAGAZINE_MAX"]?.final || 1.0;
 
     // Ley de Recarga: TiempoFinal = Base / (1 + ReloadSpeedBonus / 100)

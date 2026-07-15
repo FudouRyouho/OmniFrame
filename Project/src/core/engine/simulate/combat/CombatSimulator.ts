@@ -2,13 +2,13 @@
  * @domain Simulation-v2 / Logic / Combat
  * @status en-desarrollo
  */
-import type { SimulationEntity } from "../../contracts";
 import type { EnemyState } from "../enemies/EnemyState";
+import type { DamageInstance } from "./damage-instance";
 import { targetFactionMult } from "../../contracts/damage-multipliers";
 import { damageReductionFromArmor } from "../../formulas/enemy/armor-mitigation";
 import { AtomicSimulator, type AtomicRoll } from "./AtomicSimulator";
 import { RngProvider } from "./RngProvider";
-import { isWeaponDamageToken, bypassesShields, bypassesArmorAndMatrix } from "../../contracts/damage-logic";
+import { bypassesShields, bypassesArmorAndMatrix } from "../../contracts/damage-logic";
 
 export interface HitResolution {
   total_damage: number;
@@ -25,19 +25,10 @@ export class CombatSimulator {
    * Simula un ataque completo (incluyendo Multishot) contra un objetivo.
    * Utiliza el Modo Híbrido (Atómico vs Bulk) basado en la densidad de perdigones.
    */
-  public static simulateAttack(entity: SimulationEntity, targetState: EnemyState, currentTime: number = 0, rng: RngProvider = new RngProvider()): HitResolution {
-    const attrs = entity.attributes;
-    const multishot  = attrs["WEAPON_ADD_MULTISHOT"]?.final || 1.0;
-    const critChance = attrs["WEAPON_ADD_CRIT_CHANCE"]?.final || 0;
-    const critMult   = attrs["WEAPON_ADD_CRIT_MULT"]?.final || 1.0;
-
-    // 1. Obtener Mapa de Daño Base (por proyectil)
-    const baseDamageMap: Record<string, number> = {};
-    Object.entries(attrs)
-      .filter(([id]) => isWeaponDamageToken(id))
-      .forEach(([id, node]: [string, any]) => {
-        baseDamageMap[id] = node.final;
-      });
+  public static simulateAttack(instance: DamageInstance, targetState: EnemyState, currentTime: number = 0, rng: RngProvider = new RngProvider()): HitResolution {
+    // La Instancia (①②) ya trae el potencial modded por tipo + crit spec + multishot — C2 la CONSUME,
+    // no re-extrae de `attributes` (seam C1→C2, `damage-instance.ts`). Multishot/crit se ejecutan acá (Hit).
+    const { multishot, critChance, critMult, damageByToken: baseDamageMap } = instance;
 
     // 2. ¿Modo Atómico o Modo Bulk?
     if (multishot <= AtomicSimulator.HYBRID_THRESHOLD) {

@@ -3,15 +3,14 @@
  */
 import type { SimulationEntity, SimulationContext } from "../../contracts";
 import { BASELINE_GAME_LAWS } from "../../contracts";
-import { CombatCalculator } from "./CombatCalculator";
 import { CombatSimulator } from "./CombatSimulator";
 import { RngProvider } from "./RngProvider";
 import { EnemyState } from "../enemies/EnemyState";
 import type { ScaledEnemy } from "../enemies/EnemyRepository";
-import { isWeaponDamageToken, damageTypeFromToken } from "../../contracts/damage-logic";
-import { effectOfDamageType, type DamageType } from "@shared/types";
+import { effectOfDamageType } from "@shared/types";
 import { expectedProcEvents } from "../../formulas/status/proc-population";
 import type { HitContext } from "../../formulas/status/effect-behavior";
+import { deriveInstance } from "./damage-instance";
 
 export interface TimelineEvent {
   time: number;
@@ -50,7 +49,6 @@ export class TimelineSimulator {
       laws: context?.laws || { ...BASELINE_GAME_LAWS }
     };
 
-    const metrics = CombatCalculator.project(weapon, fullContext);
     const state = new EnemyState(target, fullContext.laws);
     const events: TimelineEvent[] = [];
     
@@ -60,28 +58,17 @@ export class TimelineSimulator {
     let totalDamage = 0;
     let ttk: number | null = null;
 
-    const damageMap: Record<string, number> = {};
-    Object.entries(weapon.attributes).forEach(([id, node]) => {
-      if (isWeaponDamageToken(id)) damageMap[id] = node.final;
-    });
-
-    // Contexto FROZEN de la instancia (source-side, estático por burst — no varía por disparo en este
-    // modelo). Cada behavior computa su snapshot de acá al aplicar el proc (`HitContext`, modelo
-    // unificado). `moddedBase` = daño modded TOTAL (sin faction/falloff). `elementBonusPct` por tipo se
-    // reconstruye de `final/base` (fuente del own-element de dot-tick; frágil, marcado para mejorar).
-    const moddedBase = Object.values(damageMap).reduce((sum, v) => sum + v, 0);
-    const statusDamageBonusPct = weapon.attributes["WEAPON_ADD_STATUS_DAMAGE"]?.final ?? 0;
-    const statusChance = (weapon.attributes["WEAPON_ADD_STATUS_CHANCE"]?.final || 0) / 100;
-    const damageBreakdown: Partial<Record<DamageType, number>> = {};
-    const elementBonusPct: Partial<Record<DamageType, number>> = {};
-    Object.entries(weapon.attributes).forEach(([token, node]) => {
-      if (!isWeaponDamageToken(token)) return;
-      const type = damageTypeFromToken(token);
-      if (!type) return;
-      damageBreakdown[type] = node.final;
-      if (node.base) elementBonusPct[type] = (node.final / node.base - 1) * 100;
-    });
-    const hitContext: HitContext = { moddedBase, statusDamageBonusPct, elementBonusPct };
+    // La Instancia (①②) — derivada UNA vez del entity de C1; C2 la CONSUME (seam, `damage-instance.ts`),
+    // no re-extrae de `attributes`. Contexto FROZEN source-side (estático por burst en este modelo). Cada
+    // behavior computa su snapshot del `HitContext` (subset de la Instancia) al aplicar el proc.
+    const instance = deriveInstance(weapon);
+    const damageBreakdown = instance.damageByType;
+    const statusChance = instance.statusChance;
+    const hitContext: HitContext = {
+      moddedBase: instance.moddedBase,
+      statusDamageBonusPct: instance.statusDamageBonusPct,
+      elementBonusPct: instance.elementBonusPct,
+    };
 
     // Bucle Temporal
     const step = 0.1;
@@ -102,8 +89,8 @@ export class TimelineSimulator {
         // atómico → el timeline es estocástico pero reproducible por `rng` (seed fijo). `pellets`
         // (multishot EV) se conserva SOLO para la población de status (eje EV — proc-population), NO
         // para el daño.
-        const resolution = CombatSimulator.simulateAttack(weapon, state, currentTime, rng);
-        const pellets = metrics.pellet_count;
+        const resolution = CombatSimulator.simulateAttack(instance, state, currentTime, rng);
+        const pellets = instance.multishot;
 
         const hitShieldDamage = resolution.shield_damage;
         const hitHealthDamage = resolution.health_damage;
