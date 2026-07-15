@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Describir el pulso real de la estructura física y funcional del repositorio"
-Version: "v0.3.8"
+Version: "v0.3.9"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-13"
+Fecha_de_actualizacion: "2026-07-15"
 ---
 
 # OmniFrame — Estado Actual
@@ -14,7 +14,9 @@ Este documento describe el **estado físico y funcional actual** de `Project/src
 
 **Modelo arquitectónico:** ver [`../domains/engine/design/simulation-architecture.md`](../domains/engine/design/simulation-architecture.md) para el modelo de 5 capas (A / B / C1 / C2 / D, acordado 2026-05-19) — estructura física, arquitectura conceptual y principios de comunicación entre capas.
 
-**Trazado de daño (2026-07-08, cambio de visión — `simulation-architecture.md §2.0`):** el ciclo de vida de una instancia de daño se consolidó como visión de arquitectura — `① NACE → ② COMPONE-TRAYECTO → ③ RESUELVE-VS-TARGET`, **source-agnostic**, reconciliando facetas antes dispersas (§2.1/2.5/2.6/2.7). Principio: **desacople emergente, no capas preventivas**. `resolveHit` queda documentado como **drift** (colapsa ②③, weapon-specific, modelo per-clase muerto). Reconciliación diferida — debate de limpieza de arquitectura en curso (puntos P1–P4).
+**Trazado de daño (2026-07-08, cambio de visión — `simulation-architecture.md §2.0`):** el ciclo de vida de una instancia de daño se consolidó como visión de arquitectura — `① NACE → ② COMPONE-TRAYECTO → ③ RESUELVE-VS-TARGET`, **source-agnostic**, reconciliando facetas antes dispersas (§2.1/2.5/2.6/2.7). Principio: **desacople emergente, no capas preventivas**. `resolveHit` queda documentado como **drift** (colapsa ②③, weapon-specific, modelo per-clase muerto).
+
+**La Instancia como objeto (2026-07-15, `simulation-architecture.md §2.0.1`):** el trazado se cristaliza en **un objeto Instancia construido una vez en el seam C1→C2**, consumido por los proyectores de C2 (hoy re-derivado 3× desde `attributes` — el drift raíz; `HitContext` es ese objeto medio nacido). Principio **C1 COMPONE, C2 REALIZA** (C2 consume la salida de C1, no re-compone; D consume la **historia** del ciclo de vida). **Tres entradas:** Instancia (átomo per-evento) · Schedule (cadencia) · Target (③). Consecuencias: la Instancia target-agnóstica **fuerza** la descomposición ②③ de `resolveHit` (**des-gated** — reconciliación planificada, ya no espera "1ª habilidad"); aparece el **contrato C1→C2** (emitir rico para consumo de C2, simétrico a `OQ-ENGINE-8`); único hueco estructural abierto = el **`source-state` vivo** (próximo cimiento). Relectura del catálogo: la mayoría de las deudas del motor son **una sola deuda conceptual** que el objeto disuelve. Diseño en `decision-frontier §4`; bajada a SSoT hecha, código pendiente (Stage 1).
 
 ---
 

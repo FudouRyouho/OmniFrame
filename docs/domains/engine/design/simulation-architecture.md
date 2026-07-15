@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
-Version: "v0.4.0"
+Version: "v0.5.0"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-08"
+Fecha_de_actualizacion: "2026-07-15"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -119,7 +119,7 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 
 ### Capa C2: Simulation (Entorno Reproducible)
 
-- **Naturaleza**: Aplica el resultado de C1 en un escenario reproducible con contexto. Usa C1 internamente.
+- **Naturaleza**: Aplica el resultado de C1 en un escenario reproducible con contexto. **Consume** la salida de C1 (no la re-compone); la extiende con tiempo/target/RNG. Principio **C1 compone, C2 realiza** — ver §2.0.1.
 - **Responsabilidad**:
   - Recibe las entidades resueltas de C1 + `SimulationContext` (flags de condiciones, variables de stacks, target opcional, distancia).
   - Resuelve daño final, procs de estado, líneas de tiempo. El nivel de detalle depende de la riqueza del `SimulationContext` recibido — no de sub-modos internos de C2.
@@ -212,12 +212,51 @@ función pura, se reubica en un move), **refactorizar lo enredado es caro** — 
   encerrarla por tipo de entidad fue el origen del bug de `resolveHit` (usa la DR del jugador sobre enemigos).
 
 **`resolveHit` = drift.** Hoy colapsa ②+③ en una función weapon-specific. Su descomposición (② composición
-source-agnostic; ③ auxiliares de la entidad-target) es trabajo posterior, no de este doc.
+source-agnostic; ③ auxiliares de la entidad-target) queda **forzada por la Instancia-objeto** (§2.0.1): la
+física del target no puede vivir dentro de un objeto que no lo conoce. Es reconciliación planificada, no gated.
 
 **Estado.** El trazado es el **objetivo** de arquitectura; la implementación actual (`CombatCalculator`/
-`resolveHit`) aún no lo sigue — coherente con §2.1 ("TE-como-entidad-en-cola: diseñado, no implementado"). La
-**salida** del trazado (daño final / métricas C2) no fluye a un contrato de salida único todavía — deuda
-`OQ-ENGINE-8`.
+`resolveHit`) aún no lo sigue. La **salida** del trazado (métricas C2) ya tiene un **consumidor real** (oráculo
+`metrics`, materializa `OQ-ENGINE-8`) del que emerge el contrato; la **entrada** (el objeto que baja la
+composición de C1 a la realización de C2) se cristaliza en §2.0.1.
+
+### 2.0.1 La Instancia como objeto (el seam C1→C2)
+
+> **Decisión de arquitectura.** El trazado de §2.0 es un **ciclo de vida**: la instancia **nace** (potencial),
+> el Hit la **ejecuta**, la Aplicación **deposita** un hijo (proc) que migra al target con su propio ciclo, y
+> **D consume la historia** de esos ciclos — el frame-0 = la composición de C1; los deltas = la realización de
+> C2 (`§5.5`, Initial Snapshot + deltas). Ese ciclo se materializa en **un objeto Instancia construido UNA vez
+> en el seam C1→C2**, no re-derivado por cada proyector. Hoy `CombatCalculator`, `CombatSimulator` y
+> `TimelineSimulator` re-extraen de `attributes` en 3 lugares; `HitContext` es ese objeto **medio nacido**.
+
+**Principio rector — C1 COMPONE, C2 REALIZA.** C1 compone *cuánto vale cada cosa*; C2 realiza *qué pasa con
+esos valores en el tiempo, contra un target, con RNG* — lo único que C1 estructuralmente no puede. **C2 consume
+la salida de C1 — la llama y la extiende — NUNCA re-compone.** Del lado source, C2 tiene **un solo upstream: el
+output de C1** (del lado target tiene su propio input, el enemigo; eso ES la extensión:
+`C1-output ⊕ target ⊕ tiempo ⊕ RNG`). Donde C2 hoy reconstruye lo que C1 ya compuso (`elementBonusPct` vía
+`final/base` — con el double-count de Serration como huella, `moddedBase` sumado a mano, `status_map`
+recalculado) es **deuda de re-implementación**: el fix sube a lo que C1 emite, no a reconstruir mejor.
+
+**Tres entradas, no una** (el átomo separado del throughput separado del target):
+- **Instancia** — potencial de UN disparo (①②): daño por tipo (congelado), spec de crit, spec de status
+  `{chance, forced}`, multishot, bonus por elemento, snapshot del source + **stamp** de procedencia.
+  **Target-agnóstica**; **congela valores, no refs** (lo "vivo" se lee como *pull* keyed por stamp, `OQ-ENGINE-20`).
+- **Schedule** — la cadencia/fire-mode (auto/charge/beam/burst) que **produce** Instancias en el tiempo
+  (`fire_rate`/`mag`/`reload`). Multishot = 1 Instancia · N Hits; burst-x3 = N Instancias.
+- **Target** — la física intrínseca del enemigo (③): facción/DR/capa/stacks. **Input propio de C2**, no de C1.
+
+**Consecuencias estructurales:**
+- La Instancia target-agnóstica **fuerza** la descomposición ②③ de `resolveHit` (arriba).
+- El **contrato C1→C2** (qué emite C1 para consumo de C2, no solo para display) es el cimiento **simétrico a
+  `OQ-ENGINE-8`** (salida C2→D): ambos = *emitir rico para el consumidor*. Diseñarlo mata la re-implementación.
+- **Hueco estructural único que esto deja abierto:** el **`source-state` vivo** (buffs con duración, combo)
+  contra el que la Instancia se deriva **no existe** todavía — el target tiene su columna (`EnemyState`), el
+  source no. Para arma sin buffs live, `source-state = la entity estática de C1` (funciona hoy). El contenedor
+  vivo = próximo cimiento (`decision-frontier §4`), NO construido hasta que un buff con duración lo fuerce.
+
+**Alcance (no over-engineering):** el objeto se construye para el **fire-event de arma** que los 3 proyectores
++ el oráculo consumen HOY (reconciliación de estructura ya construida). Habilidad = source que emite Instancias
+vía Delivery, y source-hijo (exaltada/minion) = capacidades **nombradas, no construidas** (no se simulan arcos).
 
 ### 2.1 Clasificación de Entidades (PE vs TE)
 Para mantener el motor ligero y determinista, las entidades se dividen por su ciclo de vida:
