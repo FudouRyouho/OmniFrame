@@ -4,7 +4,7 @@
 > Rol: mecánicas de efectos de estado — aplicación, fórmulas de DoT, stacks de debuff, duración, CC
 > Fuente de verdad de: comportamiento de procs — aplicación por pellet, DoT, stacks de debuff, duración/ciclo de vida, CC
 > No usar para: elección del tipo de proc por peso de daño — ver `damage-types.md` §Regla de elección de proc
-> Última actualización: 2026-07-11
+> Última actualización: 2026-07-15
 
 ## Distinción fundamental
 
@@ -152,11 +152,27 @@ el corte 16-tipos-vs-mecánicas-de-combate está bien puesto.
 
 ## Procs de tipo DoT
 
-> Patrón común de fórmula (subpáginas 2026-07-02): `tick = coef × modded_base_damage ×
-> (1 + bonos_del_propio_elemento) × (1 + faction) × (1 + status_damage_bonuses) × extras`,
-> donde `modded_base_damage` ya incluye `(1 + base_damage) × (1 + faction)` → el faction
-> **double-dipea** en todos los DoTs. Excepción estructural: **Slash no lleva el factor de
-> su propio elemento** (los mods de Slash% no amplifican el tick).
+> **Fórmula (autoritativa — `raw/damage-over-time.wikitext §DoT Damage Scaling`, capturada 2026-07-15):**
+> ```
+> tick = coef × modded_base_damage × (1 + own_element_bonuses) × (1 + faction)² × (1 + status_damage) × extras
+> ```
+> **Ejemplo trabajado del wiki (Bleed):** arma innata 100 + Serration + Bane of Grineer →
+> `100 × (1 + Serration 1.65) × 0.35 × (1 + Bane 0.3)² × (1 + Rifle Elementalist 0.9)`.
+>
+> - `modded_base_damage` = **daño base del arma** (total, todos los tipos sumados) × bonos de daño base
+>   (Serration, multiplicadores de daño tipo Furious Javelin/Eclipse, debuffs de enemigo tipo Molecular
+>   Prime). **El elemento del DoT define el tipo/peso del tick, NO su magnitud** — el DoT escala con el
+>   TOTAL, no con el daño de su solo elemento.
+> - `own_element_bonuses` = **SOLO los mods de daño del propio elemento** (Hellfire→Heat, Malignant Force→Toxin):
+>   - Aplica solo a status **elementales**; los mods **físicos NO** (Sawtooth Clip no buffea Slash → **Slash
+>     lleva `own_element = 0`**, la excepción estructural).
+>   - Los DoT de status **combinados** (Gas, Blast) **NO** los buffean sus mods componentes (Thermite+Infected);
+>     solo el **daño elemental literal** (Leaded Gas, Valence Formation, Thermal Transfer). Funciona en reverso:
+>     Toxic Lash + mods Corrosive buffean el Toxin DoT forzado.
+> - `(1 + faction)²` = **double-dip** (el faction ya está en `modded_base` y se aplica una vez más — confirmado
+>   empírico en las secciones de abajo).
+> - Otros factores que heredan del hit inicial: crit, Stealth, Status Damage (Rifle Elementalist), Melee/Sniper
+>   Combo, multiplicadores de body-part. (Weakspots de Sonar/Detect Vulnerability **NO** pasan al proc.)
 
 ### Bleed (Slash)
 
