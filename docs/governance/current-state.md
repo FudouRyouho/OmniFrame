@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Describir el pulso real de la estructura física y funcional del repositorio"
-Version: "v0.3.9"
+Version: "v0.3.11"
 Impacto_ID: "SSoT-State"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-15"
+Fecha_de_actualizacion: "2026-07-16"
 ---
 
 # OmniFrame — Estado Actual
@@ -16,7 +16,7 @@ Este documento describe el **estado físico y funcional actual** de `Project/src
 
 **Trazado de daño (2026-07-08, cambio de visión — `simulation-architecture.md §2.0`):** el ciclo de vida de una instancia de daño se consolidó como visión de arquitectura — `① NACE → ② COMPONE-TRAYECTO → ③ RESUELVE-VS-TARGET`, **source-agnostic**, reconciliando facetas antes dispersas (§2.1/2.5/2.6/2.7). Principio: **desacople emergente, no capas preventivas**. `resolveHit` queda documentado como **drift** (colapsa ②③, weapon-specific, modelo per-clase muerto).
 
-**La Instancia como objeto (2026-07-15, `simulation-architecture.md §2.0.1`):** el trazado se cristaliza en **un objeto Instancia construido una vez en el seam C1→C2**, consumido por los proyectores de C2 (hoy re-derivado 3× desde `attributes` — el drift raíz; `HitContext` es ese objeto medio nacido). Principio **C1 COMPONE, C2 REALIZA** (C2 consume la salida de C1, no re-compone; D consume la **historia** del ciclo de vida). **Tres entradas:** Instancia (átomo per-evento) · Schedule (cadencia) · Target (③). Consecuencias: la Instancia target-agnóstica **fuerza** la descomposición ②③ de `resolveHit` (**des-gated** — reconciliación planificada, ya no espera "1ª habilidad"); aparece el **contrato C1→C2** (emitir rico para consumo de C2, simétrico a `OQ-ENGINE-8`); único hueco estructural abierto = el **`source-state` vivo** (próximo cimiento). Relectura del catálogo: la mayoría de las deudas del motor son **una sola deuda conceptual** que el objeto disuelve. Diseño en `decision-frontier §4`; bajada a SSoT hecha, código pendiente (Stage 1).
+**La Instancia como objeto (2026-07-15, `simulation-architecture.md §2.0.1`):** el trazado se cristaliza en **un objeto Instancia construido una vez en el seam C1→C2**, consumido por los proyectores de C2 (hoy re-derivado 3× desde `attributes` — el drift raíz; `HitContext` es ese objeto medio nacido). Principio **C1 COMPONE, C2 REALIZA** (C2 consume la salida de C1, no re-compone; D consume la **historia** del ciclo de vida). **Tres entradas:** Instancia (átomo per-evento) · Schedule (cadencia) · Target (③). Consecuencias: la Instancia target-agnóstica **fuerza** la descomposición ②③ de `resolveHit` (**des-gated** — reconciliación planificada, ya no espera "1ª habilidad"); aparece el **contrato C1→C2** (emitir rico para consumo de C2, simétrico a `OQ-ENGINE-8`); único hueco estructural abierto = el **`source-state` vivo** (próximo cimiento; propuesta 2026-07-15 = `NeutralState` base del que derivan los estados por nodo, consumidor-puente `warframe→weapon→enemy`/Rhino+Roar — `decision-frontier §4`). Relectura del catálogo: la mayoría de las deudas del motor son **una sola deuda conceptual** que el objeto disuelve; la "clase de re-composición" se consolidó en **una** (source-state) — `OQ-ENGINE-2` profile-switch salió de ella (re-scopeada: cómputo estático por perfil). Diseño en `decision-frontier §4`; bajada a SSoT hecha, código pendiente (Stage 1).
 
 ---
 
@@ -100,8 +100,8 @@ La Capa D (Proyección) se materializó como `ViewModelContract` v0 (display-onl
 
 El set completo de OQs activas (transversales) vive en [`open-questions.md`](open-questions.md); las cerradas en [`closed-decisions.md`](closed-decisions.md). Ejemplo de OQ crítica de motor todavía sin resolver:
 
-**OQ-ENGINE-2: Profile switching (Incarnon/Alt-fire) — ABIERTO**
-Re-hidratar todo el ensemble vs. conmutar `active_profile_id` en `resolve()` en runtime.
+**OQ-ENGINE-2: Profile switching (Incarnon/Alt-fire) — RE-SCOPEADA (2026-07-15)**
+El path dinámico (switch en runtime) **no tiene consumidor** en un calculador de builds: se computa cada perfil por separado (dos hidrataciones estáticas). Perks = `Modifier[]` (resuelto, tests). El switch es intención/UI, no runtime del engine. Sale de la clase de re-composición de C1 (esa = `source-state` vivo). Ver `open-questions.md` / `decision-frontier §4`.
 
 ---
 

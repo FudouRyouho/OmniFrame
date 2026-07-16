@@ -1,7 +1,7 @@
 ---
 Estado: "activo"
 Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
-Version: "v0.5.0"
+Version: "v0.5.1"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
@@ -251,8 +251,12 @@ recalculado) es **deuda de re-implementación**: el fix sube a lo que C1 emite, 
   `OQ-ENGINE-8`** (salida C2→D): ambos = *emitir rico para el consumidor*. Diseñarlo mata la re-implementación.
 - **Hueco estructural único que esto deja abierto:** el **`source-state` vivo** (buffs con duración, combo)
   contra el que la Instancia se deriva **no existe** todavía — el target tiene su columna (`EnemyState`), el
-  source no. Para arma sin buffs live, `source-state = la entity estática de C1` (funciona hoy). El contenedor
-  vivo = próximo cimiento (`decision-frontier §4`), NO construido hasta que un buff con duración lo fuerce.
+  source no. Para arma sin buffs live, `source-state = la entity estática de C1` (funciona hoy). Propuesta de
+  horizonte (`decision-frontier §4`): un **`NeutralState` base (objeto-de-estado)** del que derivan los estados
+  por naturaleza del nodo (source/target/minion/object); **consumidor-puente = la cadena `warframe→weapon→enemy`**
+  (dos acumuladores vivos con un derive en el medio, caso **Rhino+Roar** — no requiere minion). NO construido
+  hasta que un buff con duración lo fuerce. (La **clase de re-composición** = {CO dinámico, combo, buff vivo};
+  `OQ-ENGINE-2` profile-switch **no** es de ella — cómputo estático por perfil, sin runtime-switch.)
 
 **Alcance (no over-engineering):** el objeto se construye para el **fire-event de arma** que los 3 proyectores
 + el oráculo consumen HOY (reconciliación de estructura ya construida). Habilidad = source que emite Instancias

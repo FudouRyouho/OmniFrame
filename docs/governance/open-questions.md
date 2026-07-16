@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.40.0"
+Version: "v0.41.0"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-13"
+Fecha_de_actualizacion: "2026-07-15"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -14,11 +14,14 @@ Este documento contiene únicamente los debates técnicos activos. Las preguntas
 
 ---
 
-## OQ-ENGINE-2 — Profile switching en runtime (Incarnon/Alt-fire) — **ABIERTO (2026-05-18)**
+## OQ-ENGINE-2 — Profile switching en runtime (Incarnon/Alt-fire) — **RE-SCOPEADA (2026-07-15): sin consumidor para el path dinámico**
 **Dominio:** engine / simulation-context
 **Contexto:** `SimulationContext.active_profile_id` existe pero no se usa durante `SimulationEngine.resolve()`. El perfil se selecciona en hidratación (`StaticHydrator.createBaseEntity()`). Cambiar a modo Incarnon requiere re-hidratar todo el ensemble.
-**Pregunta:** ¿El motor debe re-hidratar al cambiar perfil (path simple), o debe conmutar atributos durante `resolve()` (path diseñado)? El diseño original requería el segundo.
-**Fuente:** `docs/domains/engine/engine-audit.md §2.4`
+**Pregunta original:** ¿El motor debe re-hidratar al cambiar perfil (path simple), o debe conmutar atributos durante `resolve()` (path diseñado)? El diseño original requería el segundo.
+
+**Re-scope (2026-07-15, debate source-state → `decision-frontier §4`):** para lo que OmniFrame **es** (un calculador de builds) **no hay consumidor del switch en runtime** — se **computa cada perfil por separado** (dos hidrataciones estáticas: `consume(build_base)` vs `consume(build_incarnon)`). El "switch" es preocupación de **intención/UI** (cuál perfil se muestra), no del runtime del engine. Verificado (2026-07-15): los **perks incarnon son literalmente `Modifier[]`** (`IncarnonRepository.getModifiers`, tests `co-incarnon-perk`/`boltor-prime-incarnon`) — *"mods con pasos extra"*, resueltos por el mismo grafo; la **selección estática de perfil ya funciona**. Un runtime-switch solo tendría sentido dentro de una **timeline-sim completa donde la transformación es un evento simulado** (llenás el medidor Incarnon → transforma en el segundo N) — fuera de scope, probablemente para siempre.
+**Consecuencia:** el profile-switch **NO** pertenece a la clase de re-composición de C1 (esa clase = `source-state` vivo: CO dinámico / combo / buff vivo — modificadores con reloj, no swaps de raíz). No se cierra del todo (queda la puerta por si algún día hay timeline-sim consumidora), pero el **path dinámico no se construye**: no tiene consumidor. No confundir con **combo / medidor Incarnon**, que son modificadores vivos (`source-state`), no switches de perfil.
+**Fuente:** `docs/domains/engine/engine-audit.md §2.4`; debate source-state 2026-07-15 (`decision-frontier §4`).
 
 ---
 
