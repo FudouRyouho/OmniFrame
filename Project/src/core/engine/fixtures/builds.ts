@@ -389,7 +389,38 @@ export function sicarus(opts: { perks?: Record<number, string>; profile?: string
 // ─── Registro de builds para el oráculo (`npm run oracle -- <name>` | `all`) ───────
 
 /** Invocación representativa de cada build. El oráculo lo recorre por nombre. */
+// ─── Tiberon Prime (rifle semi) — reproduce el test in-game `references/ingame-tests/dot-scaling.md` ──
+export const TIBERON_PRIME = '/Lotus/Weapons/Tenno/LongGuns/PrimeTiberon/PrimeTiberonRifle';
+const THERMITE_ROUNDS = '/Lotus/Upgrades/Mods/Rifle/DualStat/FireEventRifleMod'; // +Heat + status chance
+
+/** Tiberon Prime + Serration. `heat=true` agrega Thermite Rounds (+Heat). Rifle Aptitude se omite:
+ *  es status chance, no cambia el valor del tick de DoT (que se computa determinista de la Instancia). */
+export function tiberon(heat = false): EnsembleIntention {
+  const mods: Record<number, { itemId: string; rank: number; level: number }> = {
+    0: { itemId: SERRATION, rank: 30, level: 10 },
+  };
+  if (heat) mods[1] = { itemId: THERMITE_ROUNDS, rank: 30, level: 10 };
+  return {
+    items: {
+      warframe:         { itemId: null, rank: 30, shards: [] },
+      primary:          { itemId: TIBERON_PRIME, rank: 30 },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: null, rank: 30 },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: { primary: mods },
+    environment: BASE_ENV,
+  };
+}
+
 export const BUILDS: Record<string, () => EnsembleIntention> = {
+  tiberon:      () => tiberon(false),
+  tiberon_heat: () => tiberon(true),
   lanka:  () => lanka('charged_shot'),
   cedo:   () => cedo(true),
   laetum: () => laetum(),

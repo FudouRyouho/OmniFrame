@@ -42,3 +42,23 @@ Fórmula bajo prueba (autoritativa, `wiki/mechanics/status-effects.md §Procs de
 **Impacto en el engine:** el `modded_base` del DoT = **base innato × base-damage-mods** (Σ innato del
 `DamageCombiner`, NO el Σ compuesto que incluye mod-elementos). `own_element[E]` = Σ % de mods con
 `type == WEAPON_ADD_<E>_DAMAGE`. Ambos están en el `DamageCombiner` y hoy se descartan.
+
+### Reproducción en el engine (fix `43ce2c1`, validado)
+
+Fixture `tiberon(heat)` + test `__tests__/tiberon-dot.test.ts` reproducen el test al decimal:
+
+| | Engine | In-game |
+|---|---|---|
+| moddedBase (hit, físico) | 127.20 | 127.2 ✓ |
+| moddedBase con Heat (hit) | 203.52 | 203.5 ✓ |
+| dotModdedBase (DoT) | 127.20 (**invariante al Heat**) | (Slash DoT 45 invariante) ✓ |
+| Slash DoT `0.35 × 127.2` | 44.52 ≈ **45** | 45 ✓ |
+| own_element (Thermite) | `{heat: 60}` | mod +60% ✓ |
+| Heat DoT pre-armor `0.5 × 127.2 × 1.6` | **101.76** | 81 post-armor (×0.80) |
+
+### Pendiente — Test de Heat aislado (punto 2, own_element numérico)
+
+El engine predice **Heat DoT = 101.76 pre-armor** (own_element=60% de Thermite). El in-game 81 es
+post-armor (Arid Butcher lvl215, resolución ③). Para fijar `own_element` numéricamente sin la mitigación,
+correr un **Heat DoT contra enemigo/zona sin armor** → debería dar ~101.76 (con `modded_base 127.2`).
+Sin bloquear: `own_element` ya sale del % del mod (definicional), no de reverse-engineering.
