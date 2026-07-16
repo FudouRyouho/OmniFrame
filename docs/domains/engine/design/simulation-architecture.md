@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
-Version: "v0.5.1"
+Version: "v0.5.2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-15"
+Fecha_de_actualizacion: "2026-07-16"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -169,8 +169,9 @@ OmniFrame opera como un motor de juego simplificado. Todo objeto en el sistema e
 **Principio rector — desacople emergente, no capas preventivas.** Una etapa/separación se agrega **sólo
 cuando una mecánica real la fuerza**, nunca para prevenir. Separar sobre dato-sin-modelar *genera* drift
 (lo contrario del objetivo). Y el costo es asimétrico: **desacoplar después es barato** (`scale()` es una
-función pura, se reubica en un move), **refactorizar lo enredado es caro** — `resolveHit` (que hoy colapsa
-②+③, abajo) es la evidencia viva de lo segundo.
+función pura, se reubica en un move), **refactorizar lo enredado es caro** — `simulateAttack` (que fusiona
+ejecución del Hit + ② + invocación de ③ + elección de paradigma en una god-function, abajo) es la evidencia
+viva de lo segundo.
 
 **El trazado — 3 etapas:**
 
@@ -211,9 +212,18 @@ función pura, se reubica en un move), **refactorizar lo enredado es caro** — 
   llama las mismas. DR es entidad-level (con variantes: enemigo `√3a/100`, jugador `armor/(armor+300)`);
   encerrarla por tipo de entidad fue el origen del bug de `resolveHit` (usa la DR del jugador sobre enemigos).
 
-**`resolveHit` = drift.** Hoy colapsa ②+③ en una función weapon-specific. Su descomposición (② composición
-source-agnostic; ③ auxiliares de la entidad-target) queda **forzada por la Instancia-objeto** (§2.0.1): la
-física del target no puede vivir dentro de un objeto que no lo conoce. Es reconciliación planificada, no gated.
+**El split ②③ ya está en el código; el drift restante es `simulateAttack` (actualizado 2026-07-16).** La
+resolución ③ (target-keyed: facción/DR/capa/stacks) vive limpia en `resolveDamageEvent` (extraído 2026-07-12/13,
+agnóstico al origen — lo comparten el hit directo y el tick de DoT); ② (crit) se aplica upstream en
+`simulateAttack`; la Instancia (§2.0.1) ya nace target-agnóstica. `resolveHit` quedó como **fan-out por tipo**
+sobre `resolveDamageEvent`, no como el colapso ②③ que este párrafo describía antes. Lo que sigue enredado es
+**`simulateAttack` como god-function**: fusiona ejecución del Hit (rolls multishot/crit) + ② + invocación de ③
++ **elección de paradigma** (atómico vs bulk por `HYBRID_THRESHOLD` escondido — el eje consecuencia/predictivo
+sin identidad). Darle a ② **identidad-de-objeto** (una etapa COMPONE-TRAYECTO reutilizable) es **gated — sin
+consumidor que lo fuerce hoy**: el crit ya está centralizado en `crit-base`, el falloff tiene un solo hogar
+(`CombatCalculator`, gated por `OQ-ENGINE-7`), y Roar/Bane (la sinergia externa que ② nombra) no existen aún.
+Se difiere hasta el forcing-case (1ª sinergia externa, o falloff-en-timeline). Separar el paradigma = Opción C,
+ver `decision-frontier §4`.
 
 **Estado.** El trazado es el **objetivo** de arquitectura; la implementación actual (`CombatCalculator`/
 `resolveHit`) aún no lo sigue. La **salida** del trazado (métricas C2) ya tiene un **consumidor real** (oráculo
@@ -246,7 +256,9 @@ recalculado) es **deuda de re-implementación**: el fix sube a lo que C1 emite, 
 - **Target** — la física intrínseca del enemigo (③): facción/DR/capa/stacks. **Input propio de C2**, no de C1.
 
 **Consecuencias estructurales:**
-- La Instancia target-agnóstica **fuerza** la descomposición ②③ de `resolveHit` (arriba).
+- La Instancia target-agnóstica **ya habilitó** la separación ②③: la física del target vive en
+  `resolveDamageEvent` (③, extraído), no dentro de la Instancia. El drift restante no es `resolveHit` sino
+  `simulateAttack` god-function (arriba) — y darle identidad a la etapa ② es gated (sin consumidor hoy).
 - El **contrato C1→C2** (qué emite C1 para consumo de C2, no solo para display) es el cimiento **simétrico a
   `OQ-ENGINE-8`** (salida C2→D): ambos = *emitir rico para el consumidor*. Diseñarlo mata la re-implementación.
 - **Hueco estructural único que esto deja abierto:** el **`source-state` vivo** (buffs con duración, combo)
