@@ -75,7 +75,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 > por `CombatSimulator.resolveDamageEvent` (mismo camino que un hit directo). Heat sobrevive como su propia
 > fórmula (`ignite`: pool + rampa de armor por tiempo), no como contenedor compartido; Corrosion/Infection/
 > Disruption son behaviors con estado `{count}` + decay (Familia A, ya no un contenedor aparte).
-> **Sigue fuera del behavior-set:** Electricity/Gas (frontera 3, pulsos que generan pulsos — cadena/nube)
+> **Sigue fuera del behavior-set:** Electricity/Gas (frontera 3, emisión multi-target de daño — cadena/nube; NO recursión de procs, descartada in-game 2026-07-14)
 > y los efectos sin LEY (puncture/impact/cold/… — no-op). Bucket②/faction² del tick = gated (`OQ-ENGINE-20`,
 > mitad live). `stacks` de N-timers reales sigue como fidelidad diferida (`OQ-ENGINE-16`).
 > **Resuelto (`8b014f6`, 2026-07-09):** el consumo del `ScaledEnemy` en el pipeline de daño (facción × DR ×

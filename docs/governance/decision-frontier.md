@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
-Version: "v0.0.13"
+Version: "v0.0.14"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-15"
+Fecha_de_actualizacion: "2026-07-16"
 ---
 
 # Decision Frontier
@@ -77,7 +77,8 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
   resuelve vía `CombatSimulator.resolveDamageEvent` (matriz③+DR; `as: DamageType` deriva las reglas del
   canónico — Slash emite `as:'true'`, bypasa matriz③+DR pero no el layer-mult de Viral). `dot-population.ts`
   quedó **huérfano** (el pulso se arma inline en `behaviors`; doble camino — deuda G3). **Sigue gated:**
-  frontera 3 (Electricity/Gas, pulsos que generan pulsos — cadena/nube), bucket②/faction² del tick
+  frontera 3 (Electricity/Gas, emisión multi-target de daño — cadena/nube; **NO recursión de procs**,
+  descartada in-game 2026-07-14 — es cross-entity en la Resolución, no un ciclo), bucket②/faction² del tick
   (`OQ-ENGINE-20`, mitad live), generador discreto exacto de N proc-slots (`OQ-ENGINE-19`), cronograma
   real de disparos más allá del reloj steppeado de `TimelineSimulator`, extender el oráculo CLI a C2.
 - **Facetas-LEY de Heat/Ignite** (DoT-tick Familia C + armor-strip por tiempo): **implementadas** como el `ignite` behavior (pool + rampa de armor por tiempo transcurrido, `6947eb1`); pendiente sólo **verificar la rampa** contra dato in-game (hoy es la curva 0.5s→0…2s→50% de la wiki, sin test que la fije).

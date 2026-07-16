@@ -1,11 +1,11 @@
 ---
 Estado: "referencia"
 Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT, verdictos de scope v1, primitivos reusables"
-Version: "v0.9.0"
+Version: "v0.9.1"
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
-Fecha_de_actualizacion: "2026-07-13"
+Fecha_de_actualizacion: "2026-07-16"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/status-effects.md"
@@ -273,9 +273,12 @@ a manejo dedicado. Estresadas 2026-07-10; cada una es candidata a `todo` falsabl
    mientras el bleed tickea, la amplitud del pulso cambia dentro de su ancho. Igual el strip de armor
    bajo un tick de Heat/Toxin. **Es el caso meta (Viral+Slash)** — el build más común viola el rectángulo.
    La frontera más traicionera: se disfraza de caso limpio en el laboratorio (donde Viral está quieto).
-3. **Pulsos que generan pulsos.** El arco de Electricity emite ticks secundarios en enemigos a 3m **sin
-   heredar el crítico**; Gas es un pulso por **área** (N targets), no por instancia. "Un pulso = un
-   target" es falso — extensión espacial + multi-target.
+3. **Emisión multi-target (NO pulsos que generan pulsos).** El arco de Electricity emite ticks secundarios
+   en enemigos a 3m **sin heredar el crítico y sin re-proquear**; Gas es un pulso por **área** (N targets),
+   no por instancia. "Un pulso = un target" es falso — extensión espacial + multi-target. **Verificado
+   in-game (2026-07-14): no hay recursión de procs** (los vecinos reciben daño, no un nuevo status) — el
+   tick sigue siendo Resolución, la frontera es el hogar cross-entity del orquestador, no un ciclo. Ver
+   §Frontera 3.
 4. **Terminación temprana por evento.** Blast **detona** al 10º stack o al morir el target; los efectos
    capeados **reemplazan al más viejo** (un pulso muere antes por uno nuevo); la **muerte del target
    trunca todos los pulsos** — y el momento de muerte es a su vez salida del timeline (circularidad leve,
@@ -412,7 +415,7 @@ INSTANCIA ─ejecutar─► HIT ─┬─ consecuencia inmediata ──► ⟨RE
 
 - **El peso se consume en la Aplicación.** El peso decide *qué* proc sale (probabilidad); no persiste como factor del daño. Salió Corrosive, no "0.667 de un proc". (Hoy `expectedProcEvents` lo deja multiplicando para siempre — el síntoma de tratar la selección como valor.)
 - **"stack" y "DoT" NO son dos procesos** — divergen SOLO en el último eslabón (qué clase de Efecto es consecuencia del Estado). Segmentar arriba (`DotType`, generador propio, Familia A/C) fue el error.
-- **El Estado muta sobre sí mismo** ("dentro, no fuera"): las consecuencias salen (daño, strip leído) pero **no re-depositan** estado. La única excepción es la frontera 3 (Gas/Electricity: el tick genera otra instancia → cross-entity).
+- **El Estado muta sobre sí mismo** ("dentro, no fuera"): las consecuencias salen (daño, strip leído) pero **no re-depositan** estado — **sin excepción**: el tick es siempre Resolución, nunca re-genera una instancia (frontera 3 = emisión multi-target de daño, no recursión de procs — verificado in-game, §Frontera 3).
 - **target-local vs cross-entity** decide dónde vive cada cosa: lo que opera sobre el *mismo* target (tick, strip, stack-mult) es del behavior/estado; lo que **cruza una entidad** (buffs del source re-leídos, targets vecinos en un radio) es del **orquestador**, no del behavior.
 - **El Estado puede guardar REFERENCIAS, no solo números muertos** (capacidad). "¿Roar sigue activo?" se responde resolviendo una ref del source en la lectura, no leyendo un valor congelado. *Cuáles* términos son ref-viva vs snapshot-consumado = gated (abajo).
 
@@ -441,9 +444,9 @@ Incoherencia raíz actual: en el mismo loop, el **hit directo** ya es consecuenc
 
 - **ref-viva vs snapshot-congelado** (el *split* de `snapshot × live`) → `OQ-ENGINE-20`, dato empírico. El lenguaje admite ambos; el dato reparte.
 - **Forced proc** (Hunter Munitions, Kunai) = **"extensión" de la instancia source**, no consecuencia de un roll — otra naturaleza de Aplicación (`origen: forced`). Existe, no modelada.
-- **Frontera 3** (Gas/Electricity: pulsos que generan pulsos) → recursión cross-entity, ver §Modelo de timeline.
+- **Frontera 3** (Gas/Electricity: emisión multi-target de daño a vecinos, sin re-proc — no recursión, verificado in-game) → cross-entity en la Resolución, ver §Frontera 3.
 
-**Próximo tramo (no en esta bajada):** cruzar este lenguaje con `@core` para marcar qué se auto-percibe como sub-capa sin serlo, qué es sustrato de una consecuencia, y qué queda fuera del concepto.
+**Cruce con `@core` — EJECUTADO (2026-07-14).** El barrido de este lenguaje contra la estructura real de `@core` (marcar qué se auto-percibe como sub-capa sin serlo, qué es sustrato de una consecuencia, qué queda fuera) cerró con **4 ejes-raíz**, todos descendientes de la **Instancia-sin-objeto**. Sus conclusiones viven en SSoT: la Instancia-objeto en [`simulation-architecture.md §2.0.1`](simulation-architecture.md) (el seam C1→C2 que disuelve la raíz) y la reconciliación planificada de `resolveHit` ②③ en `decision-frontier.md §4`.
 
 ---
 
@@ -512,12 +515,17 @@ interface ResolutionModifier { armorMult?: number; layerMult?: Partial<Record<La
   resolución). `EnemyState` colapsa a `Map<StatusEffect, S>` + registro `EFFECT_BEHAVIORS`; los 3 caminos
   de `processDots` + `getDamageMultiplier` + `getEffectiveArmor` → una sola iteración.
 
-### Recursión = frontera 3
+### Frontera 3 = emisión multi-target (NO recursión)
 
-slash/toxin/heat: tick → resolución → **fin** (un tick NO proquea). gas/electricity: el tick **ES** una
-instancia→resolución que a su vez proquea (nube/cadena) — misma forma, un nivel de recursión más. Por eso
-son **frontera 3** (gated). La interfaz la **admite** (la emisión que proquea re-entra por la generación
-upstream, §Población/RNG) sin tratarla hoy.
+slash/toxin/heat: tick → resolución → **fin** (un tick NO proquea). gas/electricity **tampoco**: el tick
+llega a los targets vecinos como **daño, sin re-proquear**. **Ground-truth in-game (2026-07-14):** Gas (nube
+AoE, mismo daño en el radio, sin re-proc) ni Electricity (cadena de daño, sin tesla-procs en los vecinos)
+replican recursión de procs — la asunción previa ("pulsos que generan pulsos") quedó **empíricamente
+descartada**. → **el borde Instancia↔Resolución es absoluto: el tick es SIEMPRE Resolución, nunca Instancia.**
+Gas/Electricity = **emisión multi-target**: un Efecto → **N Resoluciones sobre vecinos** (solo daño),
+cross-entity **en la Resolución** (el orquestador conoce los vecinos), NO recursión. Por eso siguen siendo
+**frontera 3** (gated) — el hogar cross-entity del orquestador no existe todavía —, pero por el eje
+**espacial/multi-target**, no por recursión.
 
 ### Disposición (muere con el diseño, no aislado)
 
@@ -531,7 +539,7 @@ invariante (`status_damage` afecta también a Blast, no-DoT) — el naming presu
 la solución honesta (eje comportamiento vs. eje coeficiente) es trabajo aparte. El comportamiento pool-like
 de **Heat sobrevive como su propia fórmula** (Heat ≠ Toxin), no como contenedor compartido. **Reusa** `stack-debuff` (modifiers Familia A),
 `dot-tick` (snapshot DoT), `dot-timeline` (advance DoT) — reorganización, no rewrite. **Fuera a propósito:**
-generación del proc (§Población/RNG; H2: dedup chance×peso en `.working/c2-engine-coupling-audit.md`),
+generación del proc (§Población/RNG; dedup chance×peso reconciliado en `formulas-integration.md §2`, `9fc1e63`),
 crit (OQ-12), split snapshot/live fino (OQ-20), duración del proc en `HitContext` (source-side,
 `OQ-ENGINE-18`), efectos sin modelar, frontera 3.
 

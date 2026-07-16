@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
-Version: "v0.41.0"
+Version: "v0.41.1"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-15"
+Fecha_de_actualizacion: "2026-07-16"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -287,6 +287,12 @@ O sea: la palabra que titula la Capa D también bautiza el payload del lado-prod
 **Fuente:** debate 2026-06-10 sobre el nombre del módulo de salida de C; `arch-decisions.md §6-7`; `simulation-architecture.md §Capa C2/§Capa D`; `contracts/index.ts:106-115`.
 
 **Faceta *contrato de salida* + materialización (2026-07-15, rama `refactor/engine-mechanics`).** Esta OQ tiene una segunda cara además del rename: **las métricas de C2 no fluyen a un payload de salida único** (`simulation-architecture.md §Capa C2`, `simulation-contracts.md §5.5`). El tipo que lo cumplía **existió**: `ProjectionSnapshot { entities, metrics: { ttk?, effective_dps?, status_weights } }`, **purgado en `6ab32e8`** (saneamiento Fase 0, 2026-06-16) **por falta de consumidor, no por error** — junto al cluster `hooks/` muerto, dejando `simulateBurst` huérfano. Su intención vive como **ancla** (no contrato) en [`../domains/ui-ux/status.md §3`](../domains/ui-ux/status.md). **Plan de materialización (function-first):** un modo `oracle metrics <build> [enemy] [lvl]` (hermano de `oracle view`) que corre `CombatCalculator.project` (closed-form) + `TimelineSimulator.simulateBurst` (needs-a-run) contra un `ScaledEnemy`, y del cual **emerge** la forma del contrato antes de cristalizar el tipo — así el re-implementado (git tiene la forma thin) nace con un consumidor real y no se repite el ciclo de purga. Fabricar el consumidor destraba el gate, no lo difiere.
+
+**Spike EJECUTADO (`224286b`, 2026-07-15).** El modo `oracle metrics <build> [enemy] [lvl] [dur]` existe y corre los **dos actos** contra un `ScaledEnemy`: `CombatCalculator.project` (closed-form) + `TimelineSimulator.simulateBurst` (needs-a-run — primer call-site de `simulateBurst` desde su purga). La forma impresa `{closed_form:{burst/sustained/crit/status_weights}, run:{ttk, total_damage, effective_dps}}` = **borrador del contrato** (las 3 del ancla `ui-ux/status.md §3` presentes). **Contrato NO cristalizado a propósito** (emerge-first): el consumidor real expuso **2 forks pendientes de decisión de intención** antes de fijar el tipo —
+- **(a) `ttk=0.00s` en one-shot kills** — `simulateBurst` marca el ttk en `currentTime`, que es 0 cuando el target muere en `t=0` (el primer hit lo mata). ¿ttk=0 es la respuesta correcta (muerte instantánea) o el contrato necesita un caso especial "muere al primer hit"?
+- **(b) denominador de `effective_dps`** — hoy `/simDuration`, que **sub-reporta** si el enemigo muere antes de agotar la ventana (el DPS efectivo real es contra `ttk`, no contra la duración nominal). ¿`/ttk` o `/simDuration`? Decide qué mide la métrica (DPS sostenido teórico vs. DPS efectivo hasta matar).
+
+Ambos forks son **decisión de intención** (qué pregunta responde la métrica), no de arquitectura; se cierran al cristalizar el tipo. Ver `.working/c2-instancia-objeto-stage0.md §6` (ambos = métricas de RUN, la Instancia clarifica que se deciden en la capa run-result, no dispersos).
 
 ---
 
