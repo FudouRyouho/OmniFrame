@@ -5,6 +5,7 @@
 import { AtomicSimulator } from "./AtomicSimulator";
 import type { SimulationEntity, SimulationContext } from "../../contracts";
 import { deriveInstance } from "./damage-instance";
+import { expectedProcEvents } from "../../formulas/status/proc-population";
 
 export interface CombatMetrics {
   average_crit_multiplier: number;
@@ -44,12 +45,14 @@ export class CombatCalculator {
     const crit_distribution = AtomicSimulator.calculateCritDistribution(instance.critChance);
     const avg_crit_mult = AtomicSimulator.calculateAverageMultiplier(instance.critChance, instance.critMult);
 
-    // 4. Lógica de Estado (Probability Weighting): peso = daño del tipo / daño total
+    // 4. Lógica de Estado (Probability Weighting): peso = daño del tipo / daño total.
+    // Consume la ÚNICA ley `expectedProcEvents` (chance×peso), alimentada por la Instancia —
+    // misma función que `TimelineSimulator` (seam C1→C2), en vez de reinventar `dmg/total` inline.
+    // El peso es falloff-independiente (falloff escala daño, no la chance de proc) → se deriva de
+    // `damageByType` crudo, no de `total_base_damage` (que sí lleva falloff). Keyed por `DamageType`.
     const status_map: Record<string, number> = {};
-    if (total_base_damage > 0) {
-      for (const [id, dmg] of Object.entries(instance.damageByToken)) {
-        status_map[id] = instance.statusChance * (dmg / total_base_damage);
-      }
+    for (const ev of expectedProcEvents(instance.damageByType, instance.statusChance, 0)) {
+      status_map[ev.type] = ev.expected;
     }
 
     // 5. Lógica de DPS y Multishot (multishot de la Instancia; cadencia/mag = Schedule)

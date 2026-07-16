@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
-Version: "v0.6.0"
+Version: "v0.6.1"
 Impacto_ID: "E-OQ-FORMULAS"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-13"
+Fecha_de_actualizacion: "2026-07-16"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -56,18 +56,33 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 > Las duplicaciones históricas de crit (`AtomicSimulator`) y escala aditiva (`SimulationEngine`) ya
 > se resolvieron al conectar `crit-base` y `scaling-base`.
 
-**Precisión (actualizado 2026-07-13, modelo unificado de proc):** "Ninguna" es cierto solo para el
-pipeline de producción (C1). Dentro de `formulas/` + `combat/` (C2, sin consumidor de producción — ver §1)
-persisten **3 implementaciones paralelas** de `chance × peso` (Población/RNG): `CombatCalculator.project`
-(inline, `status_map[id] = status_chance * weight` — hoy **sin consumidor** tras el rediseño),
-`weapon-status.ts::calculateWeaponStatus` (huérfana), y `status/proc-population.ts::expectedProcEvents`
-(esta última **ya wired** vía `TimelineSimulator` → `behaviors`, `6947eb1`). Todas usan `procWeightByType`
-o reimplementan su misma matemática — sin conflicto porque el path de producción sigue en C1, pero
-pendiente de reconciliar (`CombatCalculator.status_map` vs `weapon-status` vs el generador ya wired).
+**Reconciliación (2026-07-16) — `chance × peso` unificado sobre `expectedProcEvents`.** El "3×" era
+1 canónica + 1 muerta + 1 inline:
+- `status/proc-population.ts::expectedProcEvents` = la **ley única** (usa `procWeightByType`), ya wired
+  vía `TimelineSimulator`.
+- `CombatCalculator.project` **reconciliado**: el loop inline (`status_map[id] = chance × dmg/total`,
+  keyed por token) se reemplazó por `expectedProcEvents(instance.damageByType, instance.statusChance, 0)`
+  — ahora ambos proyectores consumen la misma ley, alimentada por la Instancia (seam C1→C2). **Fix de
+  paso:** el inline dividía por `total_base_damage` (falloff-scaled) con numeradores crudos → los pesos
+  sumaban >1 a `falloff<1`; la ley los deriva de `damageByType` crudo (falloff-independiente, correcto —
+  el falloff escala daño, no la chance de proc). `status_map` pasa a keyed por `DamageType`; sin
+  consumidor downstream ni test → seguro.
+- `weapon-status.ts::calculateWeaponStatus` = **código muerto** (0 llamadores) → **ELIMINADO (2026-07-16)**.
+
+> **SUGERENCIA (trazabilidad, NO ejecutada) — materializar el status-spec en la Instancia.** Hoy ambos
+> proyectores derivan el `chance×peso` on-the-fly llamando a `expectedProcEvents(instance.damageByType,…)`.
+> Un campo `procWeights`/`statusSpec` materializado **una vez en `deriveInstance`** haría el seam
+> **observable/asertable** — un punto de inspección único donde vive el spec, en vez de recomputarse
+> transitorio dentro de cada proyector. Motivo = **trazabilidad interna, no caching**: un fallo silencioso
+> en la derivación (como el bug de falloff que vivió enterrado en el loop inline de `CombatCalculator`, sin
+> artefacto contra el cual contrastar) tendría dónde saltar. **Condición para que valga:** el campo debe ser
+> el **único camino** (los proyectores LEEN el campo, no recomputan al lado) — si no, es cache que puede
+> driftar y da falsa confianza. Diferido: la derivación on-the-fly funciona; el campo es refinamiento de
+> observabilidad del seam, no arquitectura.
 
 ---
 
-## 3. Inventario (19 archivos)
+## 3. Inventario (20 archivos)
 
 | Archivo | Contenido | Vocabulario | Estado / acción |
 |---|---|---|---|
@@ -75,17 +90,18 @@ pendiente de reconciliar (`CombatCalculator.status_map` vs `weapon-status` vs el
 | `common/scaling-base.ts` | `applyAdditiveBonus`, `round2`, `clamp` | agnóstico | ✅ consumido por `SimulationEngine` |
 | `common/status-base.ts` | `PRIMARY_ELEMENTS`, `ELEMENT_COMBINATIONS`, `procWeightByType` | `DamageType` (pre-D-6: "heat", "cold") | migrar vocab a D-6 (§5) |
 | `weapon/weapon-crit.ts` | `calculateWeaponCrit` (delega a crit-base) | agnóstico | conectar cuando C2 tenga consumidor |
-| `weapon/weapon-status.ts` | `calculateWeaponStatus` | `DamageType` (pre-D-6) | conectar + migrar vocab; overlap con `status/proc-population.ts` (ver §2) |
 | `weapon/weapon-multishot.ts` | `calculateMultishot`, `beamTickScaleFactor` | agnóstico | conectar cuando C2 tenga consumidor |
 | `weapon/weapon-condition-overload.ts` | `applyConditionOverload`, `coBonusPct` | agnóstico | ✅ `coBonusPct` consumido por `SimulationEngine` (§4); `applyConditionOverload` reservado para C2 |
 | `weapon/melee-combo.ts` | `meleeComboMult` (combo melee heavy) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
 | `weapon/sniper-combo.ts` | `sniperComboMult` (combo sniper) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
 | `status/stack-debuff.ts` | Familia A (`stackDebuffValue`, `infectionLaw`/`disruptionLaw`/`corrosionLaw`) | efecto (snake_case: corrosion/infection/ignite/disruption) | ✅ consumido por `EnemyState.getDamageMultiplier`/`getEffectiveArmor` (2026-07-10, `arch-decisions §14`) |
-| `status/proc-selection.ts` | `procWeightByType` (LEY de selección, migrada de `common/status-base.ts`) | `DamageType` (D-6) | ✅ **wired** vía `proc-population.ts` ← `TimelineSimulator` (modelo unificado `6947eb1`, los 6 efectos con LEY); `weapon-status.ts` sigue muerto (overlap §2) |
+| `status/proc-selection.ts` | `procWeightByType` (LEY de selección, migrada de `common/status-base.ts`) | `DamageType` (D-6) | ✅ **wired** vía `proc-population.ts` ← `TimelineSimulator` + `CombatCalculator` (modelo unificado `6947eb1`; overlap `weapon-status` reconciliado + eliminado, §2) |
 | `status/dot-tick.ts` | `dotTickValue`, valor de un tick DoT (Familia C, parte no-faction/no-timeline) | `DotType` (⊂ `DamageType`, sin disolver — deuda G2) | ✅ **wired** vía `behaviors` (bleed/poison/ignite computan `tickValue`); `StatusEngine.projectHeatTick` **eliminado** con el rediseño |
 | `status/dot-timeline.ts` | `tickTimes` — usado por el `advance` de los DoT behaviors; `pulseTotal`/`damageInWindow` aún sin consumidor de producción | `DotPulse` | ✅ **wired** — `behaviors.makeDotBehavior` (bleed/poison) usa `tickTimes` en su `advance`; Electricity/Gas fuera a propósito (frontera 3) |
-| `status/proc-population.ts` | `expectedProcEvents` — generador de eventos esperados (Población/RNG) | `ProcEvent`/`DamageType` | ✅ **wired** ← `TimelineSimulator` (genera los procs de los 6 efectos, `6947eb1`); overlap con `weapon-status.ts` sigue sin reconciliar (ver §2) |
+| `status/proc-population.ts` | `expectedProcEvents` — generador de eventos esperados (Población/RNG) | `ProcEvent`/`DamageType` | ✅ **wired** ← `TimelineSimulator` + **`CombatCalculator.project`** (2026-07-16, la ley única de `chance×peso`); overlap con `weapon-status.ts` **reconciliado** (ver §2) |
 | `status/dot-population.ts` | `dotPulseFromProcEvent` — glue `ProcEvent → DotPulse` pre-escalado | `DotPulse` | ⚠️ **huérfano** — `behaviors.makeDotBehavior` arma el pulso inline; solo test-consumido (doble camino, deuda G3) |
+| `status/effect-behavior.ts` | `EffectBehavior<S>` (interfaz del modelo unificado) + `HitContext`/`Resolucion`/`ResolutionModifier`/`Layer` | `StatusEffect`/`DamageType` | ✅ **wired** — contrato consumido por `behaviors` + `EnemyState` (rediseño `6947eb1`) |
+| `status/behaviors.ts` | fórmulas-estrategia por efecto + registro `EFFECT_BEHAVIORS` (reusa `dot-tick`/`dot-timeline`/`stack-debuff`) | `StatusEffect`/`DamageType` | ✅ **wired** ← `EnemyState` itera (los 6 efectos con LEY, `6947eb1`) |
 | `enemy/enemy-scaling.ts` | `scaleHealth`, `scaleArmor`, `scaleMult` + coefs curva-S | agnóstico (`faction: string`) | ✅ consumido por `EnemyRepository.scale` (orquestador); **movido de `EnemyRepository` (P1, 2026-07-09)** |
 | `enemy/armor-mitigation.ts` | `damageReductionFromArmor` (√3a/100) | agnóstico | ✅ consumido por `resolveHit` (`8b014f6`, 2026-07-09, checkpoint 2 de la reconciliación) además de `EnemyRepository.scale`; ⚠️ **migrar a scope `entity/`** con 2º consumidor DR (player/companion) — ver §7 |
 | `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | integrar con Ability System (inexistente) |
@@ -142,7 +158,7 @@ es `@shared/types/damage.ts` (`DAMAGE_TYPES`/`isDamageType`/`normalizeDamageType
 siguen codificadas DOS veces, una por espacio, y colapsarlas está entrelazado con la capa de fórmulas
 muerta (§6):
 - `ELEMENT_COMBINATIONS`/`PRIMARY_ELEMENTS` en `common/status-base.ts` (type-space) — consumidas SOLO
-  por `weapon-status`/`ability-status` (muertas).
+  por `ability-status` (muerta; `weapon-status` eliminado 2026-07-16 — `status-base` queda más huérfano aún).
 - `ELEMENTAL_COMBINATIONS`/`PRIMARY_ELEMENTS`/`PHYSICAL_TYPES` en `contracts/damage-logic.ts` +
   `DamageCombiner` (token-space, camino VIVO).
 

@@ -32,6 +32,9 @@ export interface DamageInstance {
   ownElementBonusPct: Partial<Record<DamageType, number>>;
   critChance: number;
   critMult: number;
+  // SUGERENCIA (diferida — ver `docs/domains/engine/design/formulas-integration.md §2`): materializar
+  // acá el status-spec (`procWeights` por tipo) como ÚNICO camino observable del seam, en vez de
+  // derivarlo on-the-fly en cada proyector vía `expectedProcEvents(damageByType, statusChance)`.
   /** 0..1 (ya dividido /100). */
   statusChance: number;
   statusDamageBonusPct: number;

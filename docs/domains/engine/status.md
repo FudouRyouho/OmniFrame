@@ -1,11 +1,11 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.4.5"
+Version: "v0.4.6"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-13"
+Fecha_de_actualizacion: "2026-07-16"
 ---
 
 # Engine Status
@@ -125,7 +125,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 | Carpeta | Archivos activos |
 |---|---|
 | `common/` | `crit-base` (→ `AtomicSimulator`), `scaling-base`, `status-base` |
-| `weapon/` | `weapon-crit`, `weapon-status`, `weapon-multishot`, `weapon-condition-overload` |
+| `weapon/` | `weapon-crit`, `weapon-multishot`, `weapon-condition-overload`, `melee-combo`, `sniper-combo` |
 | `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado `6947eb1`; los 6 efectos con LEY). `dot-population` quedó **huérfano** (el pulso se arma inline en `behaviors.makeDotBehavior`; solo test-consumido — deuda G3). Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
 | `ability/` | `ability-crit`, `ability-status` |
 | `arcane/` · `warframe/` | **vacíos** (reservados; `arcane-core` purgado 2026-06-11, `warframe-core` 2026-05-27) |
