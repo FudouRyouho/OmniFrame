@@ -94,27 +94,21 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 
 ---
 
-## OQ-ENGINE-FUTURE — Features de evolución del motor en backlog — **ABIERTO (2026-05-25)**
+## OQ-ENGINE-FUTURE — Features de evolución del motor en backlog — **ABIERTA (2026-05-25)**
 **Dominio:** engine / simulation-v2
-**Contexto:** Features consideradas en pre-implementación (abril 2026) que no entraron al motor inicial. Sin prioridad asignada.
+**Contexto:** features consideradas en pre-implementación (abril 2026) que no entraron al motor inicial, sin prioridad asignada. Backlog puro — ninguna tiene consumidor que la exija hoy.
 
 | Feature | Descripción | Implicación |
 |---|---|---|
-| **Web Worker compatibility** | API serializable del motor para mover carga de simulación a un Worker | Performance bajo simulaciones extensas |
+| **Web Worker compatibility** | API serializable del motor para mover la simulación a un Worker | Performance bajo simulaciones extensas |
 | **Rewind / Time Travel** | Historial de cambios para deshacer/rehacer; aprovecha que el motor es determinista | UX de comparación de builds |
 
-**Condición:** cuando la Capa D (Proyección) se materialice y haya un cliente real consumiendo el motor (Arsenal UpgradeView definido).
+**Estado:** la condición-gate original ("cuando la Capa D se materialice y haya un cliente real") **ya se cumplió** — `ViewModelContract` v0 existe, consumido por D1 (`use-view-model`) y D2 (`oracle`). Aun así ninguna de las dos features tiene demanda: se retoman si un consumidor las pide. Nada en código todavía (verificado 2026-07-17).
 
-**Capa D / `ViewModelContract` — diseño activado (2026-06-10):** El **CLI oráculo** (ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5) se vuelve el primer cliente real (no-UI), lo que **activa** el diseño de la Capa D. `consume()` (salida de C, en `@core`) es el puerto; el CLI lo consume como script. Su output crudo es **material** del que se deriva el contrato, no el contrato.
+> El debate del **contrato de salida / `ViewModelContract`** que creció dentro de esta OQ se cerró o migró y **ya no vive acá**: el contrato es **estructurado neutral** (`StatViewModel { token, value, unit }` — decidido, no strings formateados); el rename D→nombre-neutro es `OQ-ENGINE-8`; la simetría de entrada (`ensemble.types`→`@shared`, store→`@core`) es `DC-OQ-ENGINE-9`; "dominios ↛ `@core`" (y `@providers → @core` permitido) está en `arch-decisions.md §7` + `decision-frontier.md §1`; el principio consumer-shaped / anti producer-laundered vive en `arch-decisions.md` + `view-model/index.ts`.
 
-Principio decidido: `ViewModelContract` debe ser **consumer-shaped** (ViewModel de MVVM, `lib/*` como ingredientes), **no** producer-laundered (snapshot crudo re-exportado por `@shared` solo para legalizar el import). Sub-preguntas abiertas:
-- **Forma del contrato:** ¿invariantes estructurados (`token + value + unit`, neutral a presentación, formateados por `lib/*` en el borde) o strings ya formateados? Inclinación: **estructurado**, para que CLI y UI compartan el mismo contrato. Se decide con material del CLI en mano, no en abstracto (derivar un consumidor a la vez).
-- **Tensión "consumer-shaped" vs "compartido" — RESUELTA al descartar E (2026-07-17):** ser *consumer-shaped (ViewModel)* y a la vez *compartido CLI+UI* se contradecía. El re-encuadre 2026-06-13 proponía partirlo en dos capas (D neutro + E view-shaped); **E se descartó** (`DC-OQ-ENGINE-10`). Resolución vigente: **D es el contrato neutro compartido** (token·value·unit) y **se queda con `ViewModelContract`**; el enriquecimiento view-shaped no es una capa, lo hace cada lente de salida (D1 UI vía `lib/format` + chrome de 0). Consecuencia para esta OQ: el nombre `ViewModelContract` es un misnomer (el contrato es neutro, no un ViewModel) → **el rename D→nombre-neutro es justamente lo que esta OQ decide**.
-- **Simetría de entrada — RESUELTA (2026-06-12):** el contrato de intención (`ensemble.types`) cruza por `@shared/types/ensemble.ts`; el store (A1) vive en `@core/intention`; `EnsembleProvider` (`@providers`, composición) los conecta vía el ruling `@providers→@core`. Consolidó la deuda "ubicación de Capa A respecto a `@core`/`providers/`". Ver `closed-decisions.md` DC-OQ-ENGINE-9. (El gemelo de salida `ViewModelContract` sigue abierto.)
-
-**No es OQ:** "¿pueden los dominios importar `@core`?" → **decidido NO** (reafirma Restricción 1; ver `arch-decisions.md` §7 y `decision-frontier.md` §1). `UpgradeView → @core` era drift — **corregido 2026-06-12** (consume `ViewModelContract` vía `useViewModel` en `@providers`). **Distinto de `@providers → @core`, que SÍ está permitido** (2026-06-12): `@providers` es capa de composición/adapter, no dominio de feature. Ver `closed-decisions.md` DC-OQ-ENGINE-9.
-
----
+**No bloquea:** nada.
+**Fuente:** notas de pre-implementación (abril 2026).
 
 ## OQ-W-6 — Vocabulary gap: upgrade_by para stats base del warframe — **ABIERTO (2026-05-26)**
 **Dominio:** data / ability-stats → taxonomía
@@ -320,7 +314,7 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 Ambos forks son métricas de RUN (la Instancia los ubica en la capa run-result — `.working/c2-instancia-objeto-stage0.md §6`); se cierran al cristalizar el tipo.
 
 **No bloquea:** el engine actual. Es deuda de contrato + vocabulario.
-**Vínculo:** `OQ-ENGINE-FUTURE` (diseño del contrato de salida / materialización de Capa D). `DC-OQ-ENGINE-10` (E descartada → el nombre view-shaped no se reasigna).
+**Vínculo:** `DC-OQ-ENGINE-10` (E descartada → el nombre view-shaped no se reasigna). Esta OQ es hoy el hogar del contrato de salida; la condición-gate que `OQ-ENGINE-FUTURE` ponía ("materializar la Capa D") ya se cumplió.
 **Fuente:** debate 2026-06-10 (nombre del módulo de salida de C); spike 2026-07-15; `arch-decisions.md §6-7`; `simulation-architecture.md §Capa C2/§Capa D`.
 
 ## OQ-ENGINE-9 — Estructura interna de `@core/engine` y ubicación del harness — **CERRADA (2026-07-17) → migrada a `closed-decisions.md` (`DC-OQ-ENGINE-9`)**
@@ -342,7 +336,7 @@ Residual (A2 · shape de la Capa A · lift de `contracts/`) vive en el §Pendien
 **Residual menor:** `lib/image-url.ts` mezcla los dos bordes — `hydrateImageFromImageName` (entrada, lo consume `DataRegistry`) y `resolveLocalImageUrl` (salida/display → OQ-DATA-10). Separar al consolidar 0.
 
 **No bloquea:** nada. El engine ya no corre contra repos vacíos (`main.tsx` llama `loadEngineData(browserSource)` antes de `createRoot`).
-**Vínculo:** **OQ-DATA-10** (borde de salida, par espejo — los dos bordes del mismo flujo) · **corrige el encuadre de OQ-ENGINE-9 eje (c)** ("Capa A fuera de `providers/`": lo que ahí se llamó A es en realidad 0, upstream, que **no es A**) · OQ-ENGINE-FUTURE (simetría de entrada respecto a `@core`).
+**Vínculo:** **OQ-DATA-10** (borde de salida, par espejo — los dos bordes del mismo flujo) · **corrige el encuadre de OQ-ENGINE-9 eje (c)** ("Capa A fuera de `providers/`": lo que ahí se llamó A es en realidad 0, upstream, que **no es A**) · `DC-OQ-ENGINE-9` (simetría de entrada respecto a `@core`, resuelta).
 **Fuente:** debate 2026-06-12 (raíz: quilombo de carga detectado al desplegar la UI). Re-scope 2026-07-17 al cruzar contra código: puerto + adapters, bootstrap de runtime, `fetch` lazy (`DC-OQ-DATA-12`), colapso de las 7 islas `lib/*-data` + los 2 mini-fetchers (→ `Registry.getCatalog` / `useCatalog`) y dedup de `hydrateAbility` ya están ejecutados — dejaron de ser pregunta.
 
 ## OQ-DATA-10 — Borde de salida: convergencia de la ruta catálogo con el proyector del engine — **ABIERTA (2026-06-12; re-scopeada 2026-07-17 contra código)**
@@ -419,7 +413,7 @@ Cerrada por Fase 1 (`fetch` lazy vía `BrowserAdapter`, bundle 2.3 MB→565 kB) 
 - **Chrome de slot disperso:** nombre+imagen por slot hidratados a mano en `ArsenalView` (`Registry.getItemById` en `useEffect`) y `SLOT_DEFINITIONS` (labels/desc/iconos inline). Es lectura de 0 inconsistente — deuda de consistencia menor (la Capa E que iba a centralizarlo se descartó, `DC-OQ-ENGINE-10`; el patrón vigente es leer 0 directo). Los candidatos de formateo/íconos ya están en OQ-DATA-10/-13.
 
 **No bloquea:** la UI funciona.
-**Vínculo:** **OQ-DATA-9** (0 / borde de entrada), **OQ-ENGINE-FUTURE** (Capa A / intención respecto a `@core`), **OQ-DATA-10/-13** (lo display deriva de la proyección), **OQ-UI-3** (la confirmación de pérdida consulta el estado "sucio" de esta capa), `DC-OQ-ENGINE-10-C` (modelo de 2 canales / separación de ejes). El mismatch UI↔engine id es síntoma vecino.
+**Vínculo:** **OQ-DATA-9** (0 / borde de entrada), **`DC-OQ-ENGINE-9`** (Capa A / intención respecto a `@core`, resuelta), **OQ-DATA-10/-13** (lo display deriva de la proyección), **OQ-UI-3** (la confirmación de pérdida consulta el estado "sucio" de esta capa), `DC-OQ-ENGINE-10-C` (modelo de 2 canales / separación de ejes). El mismatch UI↔engine id es síntoma vecino.
 **Fuente:** TODO inline del usuario en la vieja sombra `arsenal-state`; debate 2026-06-13.
 
 ## OQ-UI-3 — Footer: acciones contextuales de navegación + patrón de confirmación (gated por sistema de guardado) — **ABIERTO (2026-06-13)**
