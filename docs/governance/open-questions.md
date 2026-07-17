@@ -45,7 +45,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-ENGINE-7` | Nodos de arma faltantes (Capa 4): resta el eje (c)/C2 | engine / hydration | abierta — no bloquea |
 | `OQ-ENGINE-8` | "Proyección" sobrecargado: Capa D vs payload de C | engine / vocabulario de capas | abierta |
 | `OQ-ENGINE-9` | Estructura interna de `@core/engine` + harness | engine / arquitectura `@core` | **cerrada** → `closed-decisions.md` |
-| `OQ-ENGINE-10` | Capa E (Presentación / ViewModel) + rename de D | engine / capas + ui-ux | abierta — propuesta prematura |
+| `OQ-ENGINE-10` | Capa E (Presentación / ViewModel) | engine / capas + ui-ux | **descartada** → `closed-decisions.md` |
 | `OQ-ENGINE-11` | Exaltadas: intención estructural en A1 | engine / Capa A | abierta — diferida |
 | `OQ-ENGINE-12` | Timing del crit condicional (Puncture/Cold) | engine / C2 | abierta — no bloquea el núcleo |
 | `OQ-ENGINE-14` | Alcance del modelado melee | engine / C1 + C2 | promovida a diseño |
@@ -109,7 +109,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 
 Principio decidido: `ViewModelContract` debe ser **consumer-shaped** (ViewModel de MVVM, `lib/*` como ingredientes), **no** producer-laundered (snapshot crudo re-exportado por `@shared` solo para legalizar el import). Sub-preguntas abiertas:
 - **Forma del contrato:** ¿invariantes estructurados (`token + value + unit`, neutral a presentación, formateados por `lib/*` en el borde) o strings ya formateados? Inclinación: **estructurado**, para que CLI y UI compartan el mismo contrato. Se decide con material del CLI en mano, no en abstracto (derivar un consumidor a la vez).
-- **Tensión "consumer-shaped" vs "compartido" (re-encuadrada 2026-06-13):** ser *consumer-shaped (ViewModel)* y a la vez *compartido CLI+UI* se contradice — conflaba **dos capas**. **OQ-ENGINE-10** lo desambigua: **D = contrato neutro** (token·value·unit, compartido por CLI y UI) y **E = el ViewModel real** (solo-UI, merge de chrome + iconos). El nombre `ViewModelContract` migra de D a **E**.
+- **Tensión "consumer-shaped" vs "compartido" — RESUELTA al descartar E (2026-07-17):** ser *consumer-shaped (ViewModel)* y a la vez *compartido CLI+UI* se contradecía. El re-encuadre 2026-06-13 proponía partirlo en dos capas (D neutro + E view-shaped); **E se descartó** (`DC-OQ-ENGINE-10`). Resolución vigente: **D es el contrato neutro compartido** (token·value·unit) y **se queda con `ViewModelContract`**; el enriquecimiento view-shaped no es una capa, lo hace cada lente de salida (D1 UI vía `lib/format` + chrome de 0). Consecuencia para esta OQ: el nombre `ViewModelContract` es un misnomer (el contrato es neutro, no un ViewModel) → **el rename D→nombre-neutro es justamente lo que esta OQ decide**.
 - **Simetría de entrada — RESUELTA (2026-06-12):** el contrato de intención (`ensemble.types`) cruza por `@shared/types/ensemble.ts`; el store (A1) vive en `@core/intention`; `EnsembleProvider` (`@providers`, composición) los conecta vía el ruling `@providers→@core`. Consolidó la deuda "ubicación de Capa A respecto a `@core`/`providers/`". Ver `closed-decisions.md` DC-OQ-ENGINE-9. (El gemelo de salida `ViewModelContract` sigue abierto.)
 
 **No es OQ:** "¿pueden los dominios importar `@core`?" → **decidido NO** (reafirma Restricción 1; ver `arch-decisions.md` §7 y `decision-frontier.md` §1). `UpgradeView → @core` era drift — **corregido 2026-06-12** (consume `ViewModelContract` vía `useViewModel` en `@providers`). **Distinto de `@providers → @core`, que SÍ está permitido** (2026-06-12): `@providers` es capa de composición/adapter, no dominio de feature. Ver `closed-decisions.md` DC-OQ-ENGINE-9.
@@ -319,7 +319,7 @@ O sea: la palabra que titula la Capa D también bautiza el payload del lado-prod
 **Pregunta:** ¿se renombra el payload de C para sacarle la palabra de D (p. ej. `EngineSnapshot` / `ResolvedSnapshot` / `CSnapshot`), reservando `Proyección/projection` exclusivamente para la Capa D? ¿O se acepta la sobrecarga y se desambigua por contexto?
 **Inclinación:** rename del *tipo* (no del directorio, ya resuelto `output/`) cuando se materialice la Capa D y haya que tocar el contrato de todas formas — evita un rename especulativo hoy. El comentario `// UI Projection Layers` es el primer candidato a corregir (el payload no es de la UI).
 **No bloquea:** PASO 1 (extracción de `consume()` a `output/`), ni el engine actual. Es deuda de vocabulario.
-**Vínculo:** `OQ-ENGINE-FUTURE` (diseño de `ViewModelContract` / materialización de Capa D — momento natural para el rename); **OQ-ENGINE-10** propone la dirección del rename (D → nombre neutro; "ViewModel"/"View" → Capa E).
+**Vínculo:** `OQ-ENGINE-FUTURE` (diseño de `ViewModelContract` / materialización de Capa D — momento natural para el rename). El rename apunta a un nombre neutro para D; la Capa E que iba a heredar "ViewModel" se descartó (`DC-OQ-ENGINE-10`), así que el nombre view-shaped no se reasigna a ningún lado.
 **Fuente:** debate 2026-06-10 sobre el nombre del módulo de salida de C; `arch-decisions.md §6-7`; `simulation-architecture.md §Capa C2/§Capa D`; `contracts/index.ts:106-115`.
 
 **Faceta *contrato de salida* + materialización (2026-07-15, rama `refactor/engine-mechanics`).** Esta OQ tiene una segunda cara además del rename: **las métricas de C2 no fluyen a un payload de salida único** (`simulation-architecture.md §Capa C2`, `simulation-contracts.md §5.5`). El tipo que lo cumplía **existió**: `ProjectionSnapshot { entities, metrics: { ttk?, effective_dps?, status_weights } }`, **purgado** (saneamiento Fase 0, 2026-06-16) **por falta de consumidor, no por error** — junto al cluster `hooks/` muerto, dejando `simulateBurst` huérfano. Su intención vive como **ancla** (no contrato) en [`../domains/ui-ux/status.md §3`](../domains/ui-ux/status.md). **Plan de materialización (function-first):** un modo `oracle metrics <build> [enemy] [lvl]` (hermano de `oracle view`) que corre `CombatCalculator.project` (closed-form) + `TimelineSimulator.simulateBurst` (needs-a-run) contra un `ScaledEnemy`, y del cual **emerge** la forma del contrato antes de cristalizar el tipo — así el re-implementado (git tiene la forma thin) nace con un consumidor real y no se repite el ciclo de purga. Fabricar el consumidor destraba el gate, no lo difiere.
@@ -365,7 +365,7 @@ Residual (A2 · shape de la Capa A · lift de `contracts/`) vive en el §Pendien
 
 **No bloquea:** nada — la UI renderiza y ambas rutas funcionan.
 **Gated por:** un consumidor que necesite el mismo stat por las dos rutas con el mismo formato. Sin eso, unificar es especulativo.
-**Vínculo:** OQ-DATA-9 (borde de entrada, par espejo) · OQ-ENGINE-10 (Capa E) · OQ-ENGINE-8 (sobrecarga de "Proyección").
+**Vínculo:** OQ-DATA-9 (borde de entrada, par espejo) · OQ-ENGINE-10 (Capa E, descartada) · OQ-ENGINE-8 (sobrecarga de "Proyección").
 **Fuente:** diagnóstico 2026-06-12. Re-scope 2026-07-17 al cruzar contra código: los stages A–D y D-7 Fase 4 ya están ejecutados — proyector único, `StatEntry` único, registro token-keyed en `lib/format`, formateo locale-free centralizado y leak β muerto. Todo eso dejó de ser pregunta; la OQ describía como abierto lo que ya estaba hecho.
 
 ## OQ-DATA-11 — Compatibilidad de mods por entidad: no materializada — **ABIERTO (2026-06-12)**
@@ -521,60 +521,13 @@ El principio *"la UI tiene la responsabilidad del estado del usuario"* se invoca
 
 ---
 
-## OQ-ENGINE-10 — Capa E (Presentación / ViewModel) + renombre de D a contrato neutro — **ABIERTO — PROPUESTA PREMATURA (2026-06-13)**
-**Dominio:** engine / arquitectura de capas + ui-ux / presentación (amplía el modelo A→B→C→D)
-
-**Contexto:** `simulation-architecture.md` define A→B→C→D→UI pero solo modeló el **flujo de información** (salida de C, ya computada, vía D). Nunca nombró el **flujo de datos hacia la UI** (lo canónico que C *no* calcula — chrome: nombre/imagen/desc). Al estresar los user-TODOs de UI (sesión 2026-06-13) se concluyó que (a) falta una capa de confluencia entre D y la UI y (b) la definición de D quedó corta (`Capa D` "recibe `ProjectionSnapshot` de C2" — su única entrada es C; ver `simulation-architecture.md:130`). Modelo **en estrés, NO adoptado**:
-
-**Topología — confluencia, no cadena** (corrige el `D→E→UI` lineal a un merge de dos entradas):
-```
-                            ┌──────────────────────► D2 (CLI)
-                            │   + lib/format (labels, unidades, números)
-C ─► D (contrato NEUTRO) ───┤
-     token · value · unit   │
-                            └─► E ─► vistas UI (D1, DetailViews, …)
-                                 + lib/format (el mismo)
-                                 + iconos / imágenes / chrome (solo-UI)
-       0 ──(chrome)──────────────► E
-```
-**E es un nodo de confluencia** (dos entradas: info reactiva de D + chrome estático de 0), no un eslabón lineal. **Espejo del borde de entrada:** así como **0** tiene un puerto y dos consumidores (B/C1→DNA, catálogo→display), **E** tiene un sumidero y dos fuentes (0/chrome, C/info). OQ-DATA-9 L315 ya los llamaba "par espejo, los dos bordes del mismo flujo"; esto nombra el de salida.
-
-**Tres estratos (el corte NO es "texto vs iconos"):**
-1. **D = contrato neutro** — `token · value · unit`, sin formatear, sin iconos, sin locale. Compartido.
-2. **`lib/format` = estrato compartido** — labels + unidades + número→string. Lo invocan **D2 (CLI) y E por igual** (el CLI necesita labels/unidades, no consume D crudo). Es el SSoT de presentación de **OQ-DATA-10** (los 3 vocabularios / 4 convenciones numéricas) — ahora con ubicación en el flujo.
-3. **E = enriquecimiento solo-UI** — tokens→iconos (`FormattedText`), imágenes, merge de chrome de 0. El CLI no lo usa.
-
-Resultado: **D2 = D + lib/format**; **D1/UI = D + lib/format + E**. D y E **no se solapan**.
-
-**Renombres (en propuesta):**
-- **`ViewModelContract` pasa a nombrar E, no D.** Llamar "ViewModel" (modelo *con forma de vista*) a un contrato **neutro y compartido con el CLI** (que no es vista) es **error de categoría**. El ViewModel real (consumer-shaped, MVVM) es **E**. Resuelve la tensión interna de OQ-ENGINE-FUTURE L63 ("consumer-shaped" **y** "compartido CLI+UI" se contradicen — conflaba D y E).
-- **D (payload/contrato) se renombra a algo neutro** (`EngineSnapshot`/`ResolvedSnapshot`/…) → ejecuta **OQ-ENGINE-8**.
-- Candidato del usuario "**Embed**" → calza en la **sub-pieza visual de E** (incrustar iconos/imágenes), si E se parte en "formateo compartido" + "incrustación visual". Nombre final → OQ-ENGINE-8, sin bikeshed.
-
-**Restricciones de implementación de E (eje distinto al topológico — son sobre *cómo*, no *dónde*):**
-- **Pureza (guardrail, ya se cumple):** la composición de E es **TS puro, fuera del render**; React **solo se suscribe** (`useSyncExternalStore`) al snapshot. No re-procesar el objeto puro A→D dentro de React ("no puede ser React" = el cómputo afuera, solo la suscripción cruza).
-- **Composición destructurada por referencia (decisión de shape, barata ahora / cara de retrofitear):** `E.snapshot = { chrome: <ref estable>, stats: <ref nueva solo al recomputar> }`. **No** deep-merge (`{...chrome,...stats}`): además de re-render espurio, **rompe `useSyncExternalStore`** (exige `getSnapshot` referencialmente estable). Granularidad guiada por **dónde duele el render** (imagen/bloque estable; un `StatEntry {label,value,unit}` se puede recrear barato). El memo per-nodo fino ya lo hace el diff de D; E **preserva** esas refs, no las aplana.
-
-**Ruido abierto del usuario (concern legítimo):** partir el consumo de `lib/format` entre D2 y E, ¿no recrea **islas de formateo** (lo que `lib/*` busca evitar)? **Antídoto:** el estrato 2 debe ser **suite única (SSoT), llamada por ambas ramas**, no reimplementada — exactamente el trabajo inconcluso de OQ-DATA-10. El split D/E **no agrega** isla *si y solo si* lib/format es single-source. No rompe contratos (lib/* ya es shared legal por Restricción 1).
-
-**Estrés de los 3 estratos — HECHO 2026-06-14** (`crit chance` de arma + nodo de habilidad; mapa completo persistido en [`../domains/ui-ux/presentation-layer.md`](../domains/ui-ux/presentation-layer.md) v0.1.0). Hallazgos que se llevan adelante: la **ruta info** ya entrega contrato neutro limpio (`StatViewModel` = `token·value·unit`; el cuello es el estrato de formateo, no D); **el plano `lib/*` no consume el SSoT semántico** (`upgrade-tokens.md`/D-6) — 3 tablas keyed por nombres humanos pre-SSoT, ninguna es fuente (*el eje real de OQ-DATA-10*); la **ruta chrome** (`0→UI` directo) confirma la confluencia de 2 entradas de E. El leak β roto (crit sin `%`) quedó resuelto en D-7 Fase 4. Contraste con la realidad del proyecto → ver **Resultado Pre-E** abajo.
-
-**Sigue abierto:**
-- Ubicar el **estado efímero de UI** (OQ-UI-2: slot seleccionado, hover, nav) en el diagrama — *no* pasa por E (es React-state legítimo); ¿dónde entra?
-
-**Resultado Pre-E (2026-06-14, pasada de análisis — NO construcción):** **E NO es necesidad emergente.** A–D materializaron el **estrato 2** (`lib/format`: proyector único `toStatEntries` + `stat-presentation`, consumido por D1 y D2) — *lo que se confundía con E, no E*. Eso **retira el concern "islas de formateo" de L577** (lib/format probó ser single-source: dos consumidores de una utilidad = biblioteca, no isla). Evidencia dura: D1 (`UpgradeView`) opera hoy como `D + lib/format` **sin E** y rinde; el chrome (2ª entrada de E) sigue ad-hoc inline `0→UI` (`nameById` + `SLOT_DEFS`) = el eje-2 diferido de OQ-UI-2. **E queda ESTACIONADO** (no muerto): el modelo de confluencia es buen pensamiento y espera; su próximo forcing-function es un **consumidor UI real** (la vista avanzada, inexistente) que exija la confluencia chrome+info, no más trabajo de formateo. **Hallazgo cross-cutting (excede esta OQ):** la pasada destapó que *la UI nunca tuvo su corpus de docs/auditoría* como sí lo tuvo `data/`/engine → eje del próximo trabajo (**campaña de documentación de UI**, separada de E). Ver trazabilidad de sesión 2026-06-14.
-
-**No bloquea:** nada (la UI renderiza; D/E hoy conflados ad-hoc en los componentes). **Gated por:** function-first — *modelar* ahora, *construir* E difiere con OQ-DATA-10.
-**Vínculo:** **OQ-DATA-10** (borde de salida / suite = estrato 2 + sumidero de E), **OQ-ENGINE-8** (renombre del payload de D), **OQ-ENGINE-FUTURE** (resuelve "consumer-shaped vs compartido"), **OQ-DATA-9** (par espejo: 0 = borde de entrada), **OQ-UI-2** (estado efímero, sin ubicar), **OQ-ENGINE-9** (estructura de `@core` donde aterrizarían D/E). **D-7** ([`../data/decisions.md`](../data/decisions.md) §D-7) = **mecanismo del estrato `lib/format`**: el dict de presentación se cuelga del vocabulario canónico `Upgrade`; **✅ ejecutado por la Fase 4 de D-7 (2026-06-14, camino A completo).** El estrato `lib/format` ahora tiene un solo espacio de id (token == nodo) de C a la UI — desbloquea la unificación, pero **construir E + renombrar D siguen siendo esta OQ** (prematura: la UI clásica/avanzada aún se está re-enfocando, function-first). Lo que la Fase 4 aterrizó es solo la **meta estructural** (category/unit); la label/locale y la suite numérica siguen en OQ-DATA-10. **Materialización en curso (2026-06-14):** OQ-DATA-10 stages A–D construyen el estrato `lib/format` real (mapa `stat-presentation` + proyector `toStatEntries`, consumido por D1+D2); su **Stage E ("Pre-E")** es la pasada de análisis que alimenta directamente esta OQ — dónde/cómo ubicar la Capa E y su arquitectura interna. Backlog cerrado, purgado de `.working/` (ver Resultado Pre-E arriba y `current-state.md` #12).
-**Cierres parciales (2026-06-13, debate de iteración):**
-- **`lib/*` = suite de utilidad, no estrato del flujo** → `DC-OQ-ENGINE-10-A`. Corrige el diagrama (el estrato 2 no es eslabón; es plano de utilidad ortogonal, espejo de `0`). Disuelve el "ruido abierto" de las islas.
-- **Stub honesto** (`DC-OQ-STUB-1`) y **UI no es spec del flujo** (`DC-OQ-UI-SPEC-1`) — principios ratificados que enmarcan la purga de `metadata` y el re-enfoque de la UI.
-- **Topología de E = mini-framework** → `DC-OQ-ENGINE-10-B` (DIRECCIÓN ELEGIDA, no cierre definitivo). Núcleo puro (snapshot, React-free, lo consume el CLI) + sub-núcleo React desacoplado (embed JSX, render-time, `f(snapshot)`). Revisa "E solo-UI" (el CLI consume el snapshot, no lo bypassea). Guardrail re-escopado a "el núcleo/snapshot es React-free". **Micro-arquitectura del núcleo diferida** — se reabre al componer E (el ancla real es la UI, function-first).
-- **Modelo de 2 canales + ejes ortogonales + `E` no es block stage** → `DC-OQ-ENGINE-10-C`. Corrige el drift transitorio del "canal 3 directo `0→UI`": el chrome de `0` es **entrada de E**, no canal aparte (canal 1 = espejo `useEnsemble`/puntero que NO pasa por E; canal 2 = presentación E). Separa el refactor en eje-1 (honestidad de intención, E-independiente, **es el P0**) vs eje-2 (centralización de chrome, diferido). **`E` se construye después de estabilizar `A→D→UI` + `A=UI`**, no antes — ver OQ-UI-2 para la dirección de refactor del estado y el plan de stages en `.working/`.
-
-**Fuente:** debate 2026-06-13 (estrés del modelo de capas desde los user-TODOs de UI) + iteración de secuencia 2026-06-13. **Estado: propuesta prematura para la Capa E en sí; la secuencia de refactor de estado (eje 1) está lista para plan — ver `.working/`.**
-
----
+## OQ-ENGINE-10 — Capa E (Presentación / ViewModel) — **DESCARTADA (2026-07-17) → `closed-decisions.md` (`DC-OQ-ENGINE-10`)**
+E proponía una capa intermedia C→D→E→UI que enriquecía+hidrataba el snapshot, moviendo
+`ViewModelContract` fuera de D. Se descartó: la hidratación de chrome la provee el piso "0"
+(capa horizontal de datos, OQ-DATA-9) y el formateo lo provee `lib/format` — sin esos dos
+trabajos, E no queda con nada propio. **D se lee por dos lentes de salida** — D1 (`use-view-model`,
+UI, aún prematuro) y D2 (`oracle`, CLI) —, sin capa entre medio. No re-proponer E.
+El rename D→contrato neutro que E arrastraba es decisión aparte y sigue viva: `OQ-ENGINE-8`.
 
 ## OQ-ENGINE-11 — Exaltadas: derivación de intención estructural en A1 — **ABIERTO (2026-06-16)**
 **Dominio:** engine / Capa A (intención) — downstream del eje *estructura* de `U-3` ([`../domains/ui-ux/decisions.md`](../domains/ui-ux/decisions.md))

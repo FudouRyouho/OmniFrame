@@ -13,7 +13,7 @@ Dependencias:
 # Presentation Layer (borde de salida)
 
 > **Estado real (2026-06-14):** este doc fue reescrito tras trazar un caso real por todos los
-> estratos (ver `OQ-ENGINE-10` "Pendiente de estresar"). La versión v0.0.2 describía un pipeline
+> estratos. La versión v0.0.2 describía un pipeline
 > lineal de 3 etapas que **no matchea el código**: hay **dos rutas** distintas al sumidero, y el
 > plano de formateo (`lib/*`) **no consume el SSoT semántico**. Lo abierto vive en las OQ; este
 > doc solo mapea lo que **es**.
@@ -41,7 +41,9 @@ RUTA CHROME (no toca el motor):
 
 Es el par espejo de "0" (borde de entrada, `OQ-DATA-9`): así como 0 es un puerto con dos
 proyecciones, la salida es un sumidero con dos fuentes (info reactiva de C/D + chrome estático de
-0). `OQ-ENGINE-10` nombra ese nodo de confluencia **Capa E** (aún no existe — hoy conflado inline).
+0). Esa confluencia se propuso como una **Capa E** intermedia y se **descartó** (`DC-OQ-ENGINE-10`):
+la resuelve la UI leyendo D (info) + 0 (chrome) directo, sin capa entre medio — es el estado de hoy,
+no un pendiente.
 
 ## Trazo real verificado — `crit chance` de un arma (ruta información)
 
@@ -109,9 +111,10 @@ Todo `lib/*` es el **plano de formateo** (utilidad ortogonal, espejo de "0" en l
 
 - **`OQ-DATA-10`** — la suite de presentación como SSoT del borde de salida (las 3 tablas → una;
   las 2/4 convenciones numéricas → una). **DIFERIDO** por function-first.
-- **`OQ-ENGINE-10`** — Capa E (confluencia info+chrome) + el estrato `lib/format` re-anclado al SSoT
-  semántico. **Fase 4 ✅** re-keyó `attribute-registry` por tokens D-6 y lo desenchufó del motor;
-  **falta** construir E y renombrar D (siguen prematuros — la UI se re-enfoca, function-first).
+- **Capa E — DESCARTADA** (`DC-OQ-ENGINE-10`): la confluencia info+chrome no es una capa; la resuelve
+  la UI leyendo D + 0 directo. El estrato `lib/format` que E iba a consumir sigue vivo como utilidad
+  (`DC-OQ-ENGINE-10-A`); su **Fase 4 ✅** re-keyó `attribute-registry` por tokens D-6 y lo desenchufó
+  del motor. El rename de D→nombre-neutro sigue abierto en `OQ-ENGINE-8`.
 - **`OQ-DATA-13`** — render de íconos de habilidad/shard duplicado (ruta chrome sin SSoT).
 - **`OQ-ENGINE-8`** — rename del payload de D (sobrecarga "Proyección").
 

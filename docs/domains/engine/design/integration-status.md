@@ -32,7 +32,7 @@ Este documento registra el estado técnico y las brechas detectadas durante la f
 
 ## 3. Estado
 
-**Actualizado 2026-07-03.** La Capa D se materializó como **`ViewModelContract` v0** (display-only/C1) en `@shared/view-model`; el Arsenal (`UpgradeView`) la consume vía `useViewModel` (`@providers`), y el oráculo CLI vía `project()`. El `useSimulation` que cumplía este rol de forma parcial fue **purgado** (2026-06-16). Pendiente: versión reactiva completa + Capa E — ver `simulation-architecture.md §Capa D` y `OQ-ENGINE-10`.
+**Actualizado 2026-07-03.** La Capa D se materializó como **`ViewModelContract` v0** (display-only/C1) en `@shared/view-model`; el Arsenal (`UpgradeView`) la consume vía `useViewModel` (`@providers`, D1), y el oráculo CLI vía `project()` (D2) — dos lentes del mismo contrato. El `useSimulation` que cumplía el rol de binding de forma parcial fue **purgado** (2026-06-16). Pendiente: versión reactiva completa — ver `simulation-architecture.md §Capa D`. *(La Capa E intermedia se descartó — `DC-OQ-ENGINE-10`.)*
 
 ---
 *Documento generado para soporte de toma de decisiones en la Fase de Integración.*

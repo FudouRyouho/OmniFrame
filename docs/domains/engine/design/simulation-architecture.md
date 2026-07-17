@@ -46,9 +46,9 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 
 > **Nomenclatura en evolución (2026-07-03):** el payload de salida de C se llamaba `ProjectionSnapshot`
 > (tipo purgado 2026-06-16); hoy la salida cruda es `snapshot(): SimulationEntity[]`. El rename del payload
-> y el destino final de la Capa D (contrato neutro + Capa E / ViewModel real) **siguen en flujo** — ver
-> `OQ-ENGINE-8` (rename del payload) y `OQ-ENGINE-10` (Capa E). Este doc refleja lo asentado; los ejes
-> abiertos se rastrean en esas OQ.
+> **sigue en flujo** — ver `OQ-ENGINE-8`. La **Capa E** (ViewModel intermedio) se **descartó** (2026-07-17,
+> `DC-OQ-ENGINE-10`): no hay capa entre D y la UI; D se lee por dos lentes de salida (D1 UI / D2 CLI) y la
+> hidratación de chrome viene del piso "0". Este doc refleja lo asentado; los ejes abiertos se rastrean en `OQ-ENGINE-8`.
 
 ---
 
@@ -141,13 +141,13 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 - **No conoce**: fórmulas del engine, lógica de simulación.
 - **`view_mode`** *(diseñado, no implementado)*: `"classic"` expondría solo `AttributeNode.final`; `"advanced"` los buckets completos con atribución por fuente. Mismo cálculo de C1 — distinta profundidad de exposición.
 - **Estado actual (2026-07-03)**: **`ViewModelContract` v0 (display-only/C1) materializado** — `project()` en `@shared/view-model` (snapshot crudo → `token·value·unit·category`), consumido por **D1** (`UpgradeView` vía `useViewModel` en `@providers`) y **D2** (oráculo CLI, `npm run oracle -- view`). Ningún dominio importa `@core`.
-- **Pendiente**: versión reactiva completa (diff tracker, granular emitters), `metrics`/A2 (C2), y el rename D→contrato-neutro + construcción de la **Capa E** (ViewModel real con chrome) — ver `OQ-ENGINE-10`. El `useSimulation` que cumplía este rol de forma parcial fue **purgado** (2026-06-16), no reubicado.
+- **Pendiente**: versión reactiva completa (diff tracker, granular emitters), `metrics`/A2 (C2), y el rename D→contrato-neutro (`OQ-ENGINE-8`). El `useSimulation` que cumplía el rol de binding de forma parcial fue **purgado** (2026-06-16), no reubicado. *(La **Capa E** intermedia se descartó — `DC-OQ-ENGINE-10`; la hidratación de chrome viene del piso "0", no de una capa entre D y la UI.)*
 
 > **Salida de C ≠ Capa D (frontera de dominios):** `consume()` (en `@core/engine/output/`) es el **punto de salida de C** — superficie del dominio engine, consumida directo por **scripts y tests (no-dominios)**. **No es la Capa D.** La Capa D (consumo derivado: `ViewModelContract` + mapping) vive **fuera** de `@core` y cruza por `@shared`; los dominios no importan `@core` (Restricción 1). Ver [`arch-decisions.md`](arch-decisions.md) §6-7.
 >
 > **Primer cliente real (no-UI):** el CLI oráculo (`scripts/oracle/`) consume `consume()` y, en modo `view`, `project()` — es el cliente que `OQ-ENGINE-FUTURE` ponía como condición para materializar D. Su output fue el material del que se derivó `ViewModelContract` v0.
 >
-> **Estado:** `A→B→C→D` coherente con D v0 (display-only); la **Capa E** (confluencia info+chrome) sigue estacionada — `OQ-ENGINE-10`.
+> **Estado:** `A→B→C→D→UI` coherente con D v0 (display-only), leído por dos lentes (D1 UI / D2 CLI). La confluencia info+chrome la resuelve la UI leyendo el piso "0" + `lib/format`; la **Capa E** intermedia se **descartó** (`DC-OQ-ENGINE-10`).
 
 > **Regla clave:** el engine no expone signals ni objetos reactivos propios. La reactividad vive exclusivamente en Capa D, no en C1 ni C2.
 

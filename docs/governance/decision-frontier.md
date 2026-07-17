@@ -27,7 +27,7 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 **Abierto**:
 - Umbrales de conmutación para el **Modo Probabilístico** (Energy Threshold).
 - Versión **reactiva completa** de la Capa D. (Materializada como `ViewModelContract` v0 display-only/C1, 2026-06-12; falta `metrics`/A2 reactivo — C2.)
-- Renombre de D a contrato neutro + construcción de la **Capa E** (ViewModel real): `ViewModelContract` v0 ya existe en `@shared/view-model`; el rename D→E y E siguen abiertos en `OQ-ENGINE-10`. (La **simetría de entrada** — intención vía `@shared` ↔ store en `@core` — quedó **resuelta** el 2026-06-12; ver DC-OQ-ENGINE-9.)
+- Renombre de D a contrato neutro: `ViewModelContract` v0 ya existe en `@shared/view-model`; el rename del payload sigue abierto en `OQ-ENGINE-8`. La **Capa E** (ViewModel intermedio) se **descartó** (`DC-OQ-ENGINE-10`): D se lee por dos lentes (D1 UI / D2 CLI), la hidratación de chrome viene del piso "0", no de una capa entre D y la UI. (La **simetría de entrada** — intención vía `@shared` ↔ store en `@core` — quedó **resuelta** el 2026-06-12; ver DC-OQ-ENGINE-9.)
 - Estándar de esquemas JSON para **Behaviors Declarativos**.
 
 ### 2. Capas de Datos y SSoT

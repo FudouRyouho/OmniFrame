@@ -25,4 +25,4 @@ Ver `docs/domains/engine/design/simulation-architecture.md` para la definición 
 
 OQs STATE-1/2/3/4 cerradas: ver `docs/governance/closed-decisions.md`.
 
-**Estado Capa D:** materializada como `ViewModelContract` v0 (display-only/C1) en `@shared/view-model`, consumida por `useViewModel` (`@providers`) y el oráculo CLI (`view`). **Pendiente:** versión reactiva completa (`metrics`/A2, C2) + rename D→contrato-neutro y construcción de la Capa E (`ViewModel` real) — ver `OQ-ENGINE-10` en `docs/governance/open-questions.md`.
+**Estado Capa D:** materializada como `ViewModelContract` v0 (display-only/C1) en `@shared/view-model`, consumida por `useViewModel` (`@providers`, D1) y el oráculo CLI (`view`, D2) — dos lentes de salida del mismo contrato. **Pendiente:** versión reactiva completa (`metrics`/A2, C2) + rename D→contrato-neutro (`OQ-ENGINE-8`). *(La Capa E intermedia se **descartó** — `DC-OQ-ENGINE-10`; la hidratación de chrome viene del piso "0".)*

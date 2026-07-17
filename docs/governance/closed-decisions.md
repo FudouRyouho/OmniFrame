@@ -178,6 +178,32 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 ---
 
+## DC-OQ-ENGINE-10 — Capa E DESCARTADA: D se lee por dos lentes de salida, no por una capa intermedia — **CERRADO (2026-07-17)**
+
+**Dominio:** engine / arquitectura de capas + ui-ux / presentación
+
+**Qué proponía E:** una capa intermedia entre la salida de C y la UI que **enriquecía e hidrataba** el snapshot para display, moviendo `ViewModelContract` **fuera de D**. La topología propuesta era:
+```
+C → D → salida cruda → D2 (CLI/oracle)
+C → D → salida cruda → E (enriquece + hidrata) → UI
+```
+
+**Por qué NO (decisión 2026-07-17):** E era un pasamanos con dos trabajos, y ambos ya tienen mejor hogar:
+- **La hidratación de chrome** (nombre/imagen/desc) la provee el **piso "0"** — la capa **horizontal** de datos (`DataRegistry`, OQ-DATA-9). Que la UI lea el chrome de 0 directo es más sólido que una capa vertical E que lo re-hidrate: 0 ya es el SSoT de datos y la UI (como los DetailViews) ya lee de ahí.
+- **El formateo** (labels/unidades/números) lo provee `lib/format` (estrato de utilidad, `DC-OQ-ENGINE-10-A`), consumido por igual por CLI y UI.
+- Sin esos dos trabajos, E no queda con nada propio: **D se divide en sus dos lentes de salida** — **D1** (`use-view-model`, binding reactivo UI, aún prematuro) y **D2** (`oracle`, CLI). Ambas consumen el mismo `project()` (cut C→D); no hace falta una capa entre medio.
+
+**Consecuencia:** `ViewModelContract` **se queda en D** (no se mueve a E). El modelo de capas es `A→B→C→D→UI` con D leído por dos lentes; **no hay Capa E**. Un agente futuro **no debe re-proponer E**: la confluencia info+chrome se resuelve con 0 (horizontal) + lib/format, no con una capa vertical.
+
+**Qué sobrevive de los sub-DC:** `DC-OQ-ENGINE-10-A` (lib/* = utilidad) intacto — es independiente de E. `DC-OQ-ENGINE-10-C` conserva el modelo de 2 canales de lectura y los dos ejes de refactor; su "Canal 2 = E" se lee ahora como "canal de presentación (D1 + lib/format + chrome de 0)", sin capa E. `DC-OQ-ENGINE-10-B` (topología mini-framework de E) queda como **diseño de arquitectura descartada** — no se construye.
+
+**Distinto del rename de D:** el "rename D→contrato neutro" que E arrastraba en su enunciado es **decisión aparte y sigue viva** — es `OQ-ENGINE-8` (nombre del payload de salida de C), independiente de que E se descarte.
+
+**Condición para reabrir:** ninguna prevista. E se reabre solo si aparece un trabajo de confluencia que **ni 0 ni lib/format** puedan cubrir — no anticipado.
+**Ref:** `OQ-ENGINE-10` (lápida), `DC-OQ-ENGINE-10-A/-B/-C`, `OQ-DATA-9` (piso 0), `OQ-ENGINE-8` (rename de D).
+
+---
+
 ## DC-OQ-ENGINE-10-A — `lib/*` = suite de utilidad de presentación, no capa ni orquestador — **CERRADO (2026-06-13)**
 
 **Dominio:** ui-ux / presentación + arquitectura de capas
@@ -221,7 +247,9 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 ---
 
-## DC-OQ-ENGINE-10-B — Topología de `E`: mini-framework (núcleo puro + sub-núcleo React) — **DIRECCIÓN ELEGIDA (2026-06-13, no cierre definitivo)**
+## DC-OQ-ENGINE-10-B — Topología de `E`: mini-framework (núcleo puro + sub-núcleo React) — **SUPERSEDIDO: E DESCARTADA (2026-07-17, `DC-OQ-ENGINE-10`)**
+
+> ⚠️ **Diseño de arquitectura descartada.** Esta era la dirección de *cómo se construiría* la Capa E; E se descartó (`DC-OQ-ENGINE-10`: D se lee por dos lentes, sin capa intermedia). No se construye. Se conserva como registro del debate hasta decidir su destino (`docs-archive/` o purga a git).
 
 **Dominio:** ui-ux / presentación + arquitectura de capas
 
@@ -242,13 +270,15 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 ---
 
-## DC-OQ-ENGINE-10-C — Modelo de 2 canales de lectura + ejes ortogonales + `E` no es block stage — **CERRADO (2026-06-13)**
+## DC-OQ-ENGINE-10-C — Modelo de 2 canales de lectura + ejes ortogonales — **CERRADO (2026-06-13; reencuadrado 2026-07-17 tras descartar E)**
 
 **Dominio:** ui-ux / arquitectura de estado + capas
 
+> ⚠️ **Reencuadre (2026-07-17):** este DC nombraba el canal de presentación como "Capa E". E se descartó (`DC-OQ-ENGINE-10`). El **modelo de 2 canales sigue vigente** — solo que el canal de presentación es **D1 + `lib/format` + chrome de 0 leído directo**, no una capa E. Léase "`E`" abajo como "canal de presentación". La sub-decisión *"`E` no es block stage"* se vuelve trivial: no hay E que secuenciar.
+
 **Decisión (modelo de 2 canales hacia la UI):** la UI consume de **dos canales distintos**, no tres:
-- **Canal 1 — espejo de intención (`useEnsemble`):** un **puntero** a A (itemId, rank, slots). Responsabilidad única: leer + mutar intención. **NO pasa por `E`.** No es un flujo de datos, es un espejo. Meter `useEnsemble` por `E` sería doble responsabilidad / doble flujo.
-- **Canal 2 — presentación (`E`):** nodo de confluencia con **dos entradas** (chrome de `0` + info computada de `A→B→C→D`) y **una salida** (UI). **El chrome de `0` ES una entrada de `E`** — reafirma `DC-OQ-ENGINE-10-A` y el diagrama de confluencia de `OQ-ENGINE-10`.
+- **Canal 1 — espejo de intención (`useEnsemble`):** un **puntero** a A (itemId, rank, slots). Responsabilidad única: leer + mutar intención. **NO pasa por el canal de presentación.** No es un flujo de datos, es un espejo.
+- **Canal 2 — presentación:** confluencia de **dos entradas** (chrome de `0` leído directo + info computada de `A→B→C→D` vía D1) hacia la UI. El chrome de `0` es una de las dos entradas — reafirma `DC-OQ-ENGINE-10-A`. (Enunciado original: "nodo de confluencia `E`"; E descartada, la confluencia la hace la UI leyendo 0 + D1, sin capa intermedia.)
 
 **Qué corrige (drift transitorio en debate):** durante la iteración se propuso un "canal 3 = lectura directa `0→UI`" para el chrome puro (nombre/ícono). **Descartado:** no existe la "lectura cruda de `0`" — resolver un ícono es **normalización de patch** y mostrar una descripción es **formateo `<DT_*>`**; ambos son **enriquecimiento = trabajo de `E`**. Un canal aparte reimplementaría ese enriquecimiento → **isla**. El chrome puro entra por `E` (con `D`-side vacío); los casos verdaderamente inertes pasan por `E` como no-op, lo que no justifica otro canal.
 

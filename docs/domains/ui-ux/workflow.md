@@ -114,6 +114,6 @@ funciona, no rediseño):
 ## Vínculos
 
 - Cluster **OQ-UI** (OQ-UI-2…6) — el corte por dominio del que deriva el orden de barrido.
-- **OQ-DATA-10 / OQ-DATA-13 / OQ-ENGINE-10** — el eje-2 (presentación / borde de salida).
+- **OQ-DATA-10 / OQ-DATA-13** — el eje-2 (presentación / borde de salida).
 - **`doc-map.md` §6** — registro de progreso de la campaña.
 - **`./decisions.md`** — serie U-N (U-1 = espina, U-2 = mandato del trío).

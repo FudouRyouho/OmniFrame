@@ -52,7 +52,7 @@ stub como spec** — distinguir el clásico 1:1 Warframe (estable) del function-
 - **⚠️ deuda (M6):** el JSDoc dice "builds guardadas" — **stale** respecto al reencuadre de `OQ-UI-4`; barrer (Pasada D). El badge A/B/C de config vive en `/equipment/*`, no en Profile.
 
 ### 1.6 Shared / Presentación — eje-2 transversal (no es un 6º dominio, es el destino)
-- ~33 componentes **paralelos por kind** (cards/views/detail-views/popovers, 7-8 c/u). **Corpus propio:** [`./presentation-layer.md`](./presentation-layer.md) + `OQ-DATA-10/-13` + `OQ-ENGINE-10`.
+- ~33 componentes **paralelos por kind** (cards/views/detail-views/popovers, 7-8 c/u). **Corpus propio:** [`./presentation-layer.md`](./presentation-layer.md) + `OQ-DATA-10/-13`.
 - **Sumidero sano:** `StatPanel` + el proyector único (`toStatEntries`/`getModStats`/`getAttackStats` → `StatEntry[]`). **Adopción inconsistente:** las route-detail-views son mayormente **stubs** que bypassean el proyector (hand-roll + formateo inline); los popovers repiten el shell ×7 + 5/7 hand-rollean stats.
 - **`mod-visual` forkeado** (`ModCard` vs `ModFrameVisual`, 2 medio-implementaciones) → subsistema de diseño **diferido**, dirección = colapsar a UN genérico + composición-por-interacción (precedente `BaseItemCard`). Anclas read-only: `references/visual/{canvas,mod-cards}.md`.
 - **`ability-popover` huérfano** (0 imports) pero **con uso planeado** (hover sobre el icono de habilidad en `/equipment/warframes/*`, `/arsenal/*`) → **KEEP + WIRE** (no purgar).
@@ -106,6 +106,6 @@ La deuda **presente** real de la UI no es dead-code para purgar — es **deshone
 - [`./decisions.md`](./decisions.md) — serie U-N (**U-1** espina · **U-2** trío/mandato · **U-3** 3-ejes `SLOT_DEFINITIONS` · **U-4** honestidad UI).
 - [`./workflow.md`](./workflow.md) — el flujo de la campaña (Recon→Triage→Document).
 - Cluster **OQ-UI** (`OQ-UI-2`…`OQ-UI-6`) — el corte por dominio; cada sección §1 enlaza el suyo.
-- `OQ-ENGINE-11` (exaltadas / eje estructura de U-3), `OQ-ENGINE-10` + `OQ-DATA-10/-13` (presentación / borde de salida).
+- `OQ-ENGINE-11` (exaltadas / eje estructura de U-3), `OQ-DATA-10/-13` (presentación / borde de salida).
 - [`../../governance/current-state.md`](../../governance/current-state.md) §2 — gaps de UI (multi-config, badge A/B/C).
 - [`./presentation-layer.md`](./presentation-layer.md) — referencia del borde de salida (eje-2).
