@@ -13,6 +13,7 @@
     "get:img": "node scripts/get-img.mjs --clean",
     "merge:semantic-groups": "node scripts/merge-semantic-groups.mjs",
     "verify:polarity": "node scripts/verify-polarity-normalization.mjs",
+    "validate:docs": "node scripts/validate-docs.mjs",
     "test": "vitest --run",
     "validate:sim": "tsx scripts/validate-sim-v2.ts",
     "parse:ability": "tsx scripts/parse-ability-md.ts",

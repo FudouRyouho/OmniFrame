@@ -9,8 +9,14 @@ Aplica a todo trabajo en `docs/`. Estas reglas son bloqueantes.
    - `README.md` (cualquier ubicación) — índice de navegación, rol implícito.
 
    Todo otro `.md` en `docs/` debe comenzar con `---` y contener los campos:
-   `Estado`, `Rol`, `Version`, `Impacto_ID`, `Fidelidad_Fisica`, `Fecha_de_creacion`, `Fecha_de_actualizacion`
+   `Estado`, `Rol`, `Impacto_ID`, `Fidelidad_Fisica`, `Fecha_de_creacion`, `Fecha_de_actualizacion`
    Si falta → inyectarlo antes de continuar.
+
+   **No hay campo `Version`** (retirado 2026-07-17). Un semver a mano no se gana el lugar: driftea en
+   silencio (nada obliga a bumpearlo) y empuja a leer el doc como artefacto publicado — de ahí a
+   escribirle un changelog hay un paso, y ya pasó. El indicio de cuánto se iteró un doc lo da git,
+   exacto y gratis: `npm run validate:docs -- --iteraciones`. La señal de staleness es
+   `Fecha_de_actualizacion`.
 
 2. **Fidelidad física.** El campo `Fidelidad_Fisica` debe apuntar a una ruta que exista en el repo.
    Si la ruta no existe → marcar el documento como `[OBSOLETO]` y no editarlo sin autorización.
@@ -104,6 +110,10 @@ Convenio:
 1. **Warrant pegado a la nota viva.** Un doc activo **nunca** es la única copia de un warrant del que depende una nota viva. Si "no modelamos X" necesita su "por qué" para no confundir a un agente, el por-qué **comprimido y en presente** se queda con la nota. La historia larga puede ir a `docs-archive/`.
 2. **El agente no decide solo sobre `docs-archive/`.** No escribe ahí por inferencia. **Puede proponer** (preguntar sin inferir, esperando confirmación) guardar algo en `docs-archive/` **o descartarlo por completo**; la elección es del usuario. (Comportamiento del agente: `.claude/CLAUDE.md`.)
 3. **Fechas inline: tripwire de drift, no log.** Una fecha se gana el lugar **solo si tiene contraparte a reconciliar** (decisión-`fecha-A` ↔ código/decisión-`fecha-B` que debería reflejarla). Timestamp solitario ("`2026-07-09: actualicé §3`") = log → git. Convive con la excepción ya vigente de **auditorías fechadas** (warrant legítimo).
+
+4. **Hashes de commit: nunca en un doc vivo.** Un hash es procedencia pura, y la procedencia vive en git. No tiene la excepción de la fecha: un hash **no puede** ser tripwire de drift, porque nombra un punto muerto de la historia, no un estado a reconciliar. La afirmación se escribe en presente y sin él ("el modelo unificado de proc resuelve X", no "modelo unificado `6947eb1`"). Aplica a `Estado: activo` y `referencia`; `histórico` queda exento. Ejecutable: `npm run validate:docs` (check `hash-en-doc-vivo`).
+
+5. **El delta se reescribe, no se agrega.** Si un doc afirma X y ahora vale Y, la oración se **reescribe** para decir Y. Está prohibido el paréntesis acumulativo ("`X (Actualización 2026-07-16: en realidad Y)`"): eso es un changelog plegado a nivel-oración — sobrevive a cualquier límite de tamaño y obliga al lector a reconstruir el estado actual leyendo el diario. Lo que se pierde al reescribir ya está en git, que es su hogar. Un doc es un **snapshot del presente + el horizonte futuro marcado**, nunca el camino recorrido.
 4. **Gap del data-set = propuesta con cierre.** Cuando un dato existe upstream (`references/*`, fuente) que el proyecto **deliberadamente no modela**, el agente **puede proponer** dejar una nota de gap en `docs/` ("esto es un gap; no lo modelamos porque…") — evita que un agente futuro asuma que es conectable. La propuesta se **resuelve por confirmación y se cierra en la misma sesión**: se escribe, o se descarta explícito. **Un punto debatido sin cierre es deuda, no decisión.**
 
 ## Regla de evolución de decisiones de dominio (D-series)
