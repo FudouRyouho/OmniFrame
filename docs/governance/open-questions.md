@@ -43,7 +43,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-UI-6` | Revisión funcional del menú de navegación | ui-ux / interacción | abierta — no bloquea |
 | `OQ-ENGINE-2` | Profile switching en runtime (Incarnon/Alt-fire) | engine / simulation-context | re-scopeada — path dinámico sin consumidor |
 | `OQ-ENGINE-7` | Nodos de arma faltantes (Capa 4): resta el eje (c)/C2 | engine / hydration | abierta — no bloquea |
-| `OQ-ENGINE-8` | "Proyección" sobrecargado: Capa D vs payload de C | engine / vocabulario de capas | abierta |
+| `OQ-ENGINE-8` | Contrato de salida de C: métricas (2 forks) + vocabulario neutro | engine / contrato de salida | abierta |
 | `OQ-ENGINE-9` | Estructura interna de `@core/engine` + harness | engine / arquitectura `@core` | **cerrada** → `closed-decisions.md` |
 | `OQ-ENGINE-10` | Capa E (Presentación / ViewModel) | engine / capas + ui-ux | **descartada** → `closed-decisions.md` |
 | `OQ-ENGINE-11` | Exaltadas: intención estructural en A1 | engine / Capa A | abierta — diferida |
@@ -308,29 +308,20 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 **Vínculo:** el mapa de gaps y el detalle de moldes viven en `gap-map.md §Capa 4` (SSoT vivo). Spec de falloff: [`damage-falloff.md`](../../references/wiki/mechanics/damage-falloff.md).
 **Fuente:** `gap-map.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,recoil,damage-falloff}.md`; `docs/semantic/upgrade-tokens.md`.
 
-## OQ-ENGINE-8 — "Proyección" sobrecargado: nombre de Capa D vs payload de salida de C — **ABIERTO (2026-06-10)**
-**Dominio:** engine / vocabulario de capas
-**Contexto:** Al nombrar el módulo de salida de C (PASO 1 del oráculo CLI), surgió que la palabra **`Proyección`/`projection` se usa en dos sentidos en conflicto**:
-- **Nombre de la Capa D** — `### Capa D: Proyección (Reactive View Bridge)` (`simulation-architecture.md §Capa D`). El consumo derivado/reactivo (`ViewModelContract` + mapping), fuera de `@core`.
-- **Nombre del payload que emite C2** — `ProjectionSnapshot` (`contracts/index.ts:107`, comentado `// UI Projection Layers`), que **C2 emite** y D **recibe** (`simulation-architecture.md §C2/§D`).
+## OQ-ENGINE-8 — Contrato de salida de C: materialización de métricas + vocabulario neutro — **ABIERTA (2026-06-10; re-scopeada 2026-07-17 contra código)**
+**Dominio:** engine / contrato de salida + vocabulario de capas
 
-O sea: la palabra que titula la Capa D también bautiza el payload del lado-productor (C). La conflación está cristalizada en el comentario `// UI Projection Layers` sobre un tipo que es salida de C, no de la UI. Esto debilita la cuña **"salida de C ≠ Capa D"** que `arch-decisions.md §6-7` acaba de clavar: por eso `projection/` quedó **vetado** como nombre del módulo de salida de C (se eligió `output/`), aunque por el *nombre del payload* (`ProjectionSnapshot`) habría sido herencia directa.
+**Faceta 1 — vocabulario (parcialmente resuelta por la purga):** la palabra "Proyección" estaba sobrecargada entre el **título de la Capa D** (`simulation-architecture.md §Capa D` — sigue siendo "Proyección (Reactive View Bridge)") y el **payload que emitía C** (`ProjectionSnapshot`, comentado `// UI Projection Layers`). Ese tipo y ese comentario se **purgaron** (Fase 0, 2026-06-16) — la sobrecarga cristalizada ya no existe. Queda como **principio**: cuando el contrato de salida de C se cristalice (faceta 2), nombrarlo **neutro** — sin "Projection" (reservada al título de D) ni "ViewModel" (la Capa E que lo heredaría se descartó, `DC-OQ-ENGINE-10`). Nota menor: el actual `ViewModelContract` (cut C→D display) es un misnomer leve (no hay ViewModel) — rename opcional de bajo valor.
 
-**Pregunta:** ¿se renombra el payload de C para sacarle la palabra de D (p. ej. `EngineSnapshot` / `ResolvedSnapshot` / `CSnapshot`), reservando `Proyección/projection` exclusivamente para la Capa D? ¿O se acepta la sobrecarga y se desambigua por contexto?
-**Inclinación:** rename del *tipo* (no del directorio, ya resuelto `output/`) cuando se materialice la Capa D y haya que tocar el contrato de todas formas — evita un rename especulativo hoy. El comentario `// UI Projection Layers` es el primer candidato a corregir (el payload no es de la UI).
-**No bloquea:** PASO 1 (extracción de `consume()` a `output/`), ni el engine actual. Es deuda de vocabulario.
-**Vínculo:** `OQ-ENGINE-FUTURE` (diseño de `ViewModelContract` / materialización de Capa D — momento natural para el rename). El rename apunta a un nombre neutro para D; la Capa E que iba a heredar "ViewModel" se descartó (`DC-OQ-ENGINE-10`), así que el nombre view-shaped no se reasigna a ningún lado.
-**Fuente:** debate 2026-06-10 sobre el nombre del módulo de salida de C; `arch-decisions.md §6-7`; `simulation-architecture.md §Capa C2/§Capa D`; `contracts/index.ts:106-115`.
+**Faceta 2 — contrato de salida de métricas (el corazón vivo):** las métricas de C2 no fluían a un payload único; el tipo que lo cumplía (`ProjectionSnapshot { entities, metrics:{ ttk?, effective_dps?, status_weights } }`) se purgó por falta de consumidor. Su intención queda como **ancla** (no contrato) en [`../domains/ui-ux/status.md §3`](../domains/ui-ux/status.md). **Spike ejecutado (2026-07-15):** el modo `oracle metrics <build> [enemy] [lvl] [dur]` corre los dos actos contra un `ScaledEnemy` — `CombatCalculator.project` (closed-form) + `TimelineSimulator.simulateBurst` (needs-a-run). La forma impresa `{closed_form:{burst/sustained/crit/status_weights}, run:{ttk, total_damage, effective_dps}}` es el **borrador**; el contrato **no se cristaliza** hasta decidir 2 forks de **intención** (no de arquitectura):
+- **(a) `ttk=0` en one-shot kills** — `simulateBurst` marca ttk en `currentTime`, que es 0 si el target muere en `t=0` (`TimelineSimulator.ts:137`). ¿ttk=0 es correcto (muerte instantánea) o el contrato necesita el caso "muere al primer hit"?
+- **(b) denominador de `effective_dps`** — hoy `total_damage / simDuration` (`oracle.ts:110`), que **sub-reporta** si el enemigo muere antes de agotar la ventana. ¿`/ttk` (DPS efectivo hasta matar) o `/simDuration` (DPS sostenido teórico)? Define qué mide la métrica.
 
-**Faceta *contrato de salida* + materialización (2026-07-15, rama `refactor/engine-mechanics`).** Esta OQ tiene una segunda cara además del rename: **las métricas de C2 no fluyen a un payload de salida único** (`simulation-architecture.md §Capa C2`, `simulation-contracts.md §5.5`). El tipo que lo cumplía **existió**: `ProjectionSnapshot { entities, metrics: { ttk?, effective_dps?, status_weights } }`, **purgado** (saneamiento Fase 0, 2026-06-16) **por falta de consumidor, no por error** — junto al cluster `hooks/` muerto, dejando `simulateBurst` huérfano. Su intención vive como **ancla** (no contrato) en [`../domains/ui-ux/status.md §3`](../domains/ui-ux/status.md). **Plan de materialización (function-first):** un modo `oracle metrics <build> [enemy] [lvl]` (hermano de `oracle view`) que corre `CombatCalculator.project` (closed-form) + `TimelineSimulator.simulateBurst` (needs-a-run) contra un `ScaledEnemy`, y del cual **emerge** la forma del contrato antes de cristalizar el tipo — así el re-implementado (git tiene la forma thin) nace con un consumidor real y no se repite el ciclo de purga. Fabricar el consumidor destraba el gate, no lo difiere.
+Ambos forks son métricas de RUN (la Instancia los ubica en la capa run-result — `.working/c2-instancia-objeto-stage0.md §6`); se cierran al cristalizar el tipo.
 
-**Spike EJECUTADO (2026-07-15).** El modo `oracle metrics <build> [enemy] [lvl] [dur]` existe y corre los **dos actos** contra un `ScaledEnemy`: `CombatCalculator.project` (closed-form) + `TimelineSimulator.simulateBurst` (needs-a-run — primer call-site de `simulateBurst` desde su purga). La forma impresa `{closed_form:{burst/sustained/crit/status_weights}, run:{ttk, total_damage, effective_dps}}` = **borrador del contrato** (las 3 del ancla `ui-ux/status.md §3` presentes). **Contrato NO cristalizado a propósito** (emerge-first): el consumidor real expuso **2 forks pendientes de decisión de intención** antes de fijar el tipo —
-- **(a) `ttk=0.00s` en one-shot kills** — `simulateBurst` marca el ttk en `currentTime`, que es 0 cuando el target muere en `t=0` (el primer hit lo mata). ¿ttk=0 es la respuesta correcta (muerte instantánea) o el contrato necesita un caso especial "muere al primer hit"?
-- **(b) denominador de `effective_dps`** — hoy `/simDuration`, que **sub-reporta** si el enemigo muere antes de agotar la ventana (el DPS efectivo real es contra `ttk`, no contra la duración nominal). ¿`/ttk` o `/simDuration`? Decide qué mide la métrica (DPS sostenido teórico vs. DPS efectivo hasta matar).
-
-Ambos forks son **decisión de intención** (qué pregunta responde la métrica), no de arquitectura; se cierran al cristalizar el tipo. Ver `.working/c2-instancia-objeto-stage0.md §6` (ambos = métricas de RUN, la Instancia clarifica que se deciden en la capa run-result, no dispersos).
-
----
+**No bloquea:** el engine actual. Es deuda de contrato + vocabulario.
+**Vínculo:** `OQ-ENGINE-FUTURE` (diseño del contrato de salida / materialización de Capa D). `DC-OQ-ENGINE-10` (E descartada → el nombre view-shaped no se reasigna).
+**Fuente:** debate 2026-06-10 (nombre del módulo de salida de C); spike 2026-07-15; `arch-decisions.md §6-7`; `simulation-architecture.md §Capa C2/§Capa D`.
 
 ## OQ-ENGINE-9 — Estructura interna de `@core/engine` y ubicación del harness — **CERRADA (2026-07-17) → migrada a `closed-decisions.md` (`DC-OQ-ENGINE-9`)**
 Los 4 ejes están resueltos: (a) bootstrap separado de `fixtures/`, (c) Capa A fuera de `providers/`,
