@@ -11,6 +11,51 @@ Fecha_de_actualizacion: "2026-07-16"
 
 Este documento contiene únicamente los debates técnicos activos. Las preguntas cerradas han sido migradas a `closed-decisions.md`.
 
+## Índice
+
+**Leé esta tabla, no el documento.** El detalle de cada OQ se consulta bajo demanda: buscar `## <ID>`.
+Es lectura obligatoria de arranque (`docs/CLAUDE.md` §Jerarquía) y el cuerpo son ~15k palabras — el
+presupuesto de atención se gasta acá, no leyendo las 36 en fila.
+
+| OQ | Tema | Dominio | Estado |
+|---|---|---|---|
+| `OQ-W-5` | Semántica de `ENERGY_COST` / `ENERGY_DRAIN` | data / ability-stats → engine | abierta — no bloquea |
+| `OQ-W-6` | Vocabulary gap: `upgrade_by` para stats base de warframe | data / ability-stats | abierta |
+| `OQ-W-7` | Double-scaling y semántica especial de `upgrade_by` | data / ability-stats → formulas | abierta — no bloquea |
+| `OQ-SEM-1` | Conditions de abilities y augments | data / semantic / ability-stats | abierta — no bloquea |
+| `OQ-SEM-2` | Eje organizador del mapa de `condition` | semantic / conditions → engine | abierta — no bloquea |
+| `OQ-DATA-1` | Materialización de slots por entidad | data / arsenal / engine | abierta |
+| `OQ-DATA-4` | Patrones transversales (stacking / duration / condition) | data / schema | abierta — no bloquea |
+| `OQ-DATA-5` | Weapon-type gate en arcanes: campo ausente | data / schema (arcane) → UI | abierta — no bloquea |
+| `OQ-DATA-6` | Set Mods: bonus de conjunto como entidad | data / schema → engine / UI | abierta — no bloquea |
+| `OQ-DATA-7` | Archgun range vs melee reach en `WEAPON_ADD_RANGE` | data / semantic → engine | abierta — no bloquea |
+| `OQ-DATA-8` | Unidad flat (`+Xm`) vs `%` bajo un mismo token de range | data / semantic / schema | abierta — no bloquea |
+| `OQ-DATA-9` | Merge de overrides duplicado engine ↔ display (frontera β) | data / integration | abierta — no bloquea |
+| `OQ-DATA-10` | Convergencia ruta catálogo ↔ proyector del engine | ui-ux / presentation | abierta — re-scopeada 2026-07-17 |
+| `OQ-DATA-11` | Compatibilidad de mods por entidad | data / semantic | abierta — degrada usabilidad |
+| `OQ-DATA-12` | Carga de runtime: import estático → fetch | data / integration | **cerrada** → `closed-decisions.md` |
+| `OQ-DATA-13` | Render de íconos/nodos de habilidad sin SSoT | ui-ux / presentation | abierta — no bloquea |
+| `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
+| `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
+| `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
+| `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
+| `OQ-UI-5` | OptionsView + decisión de NO-i18n | ui-ux / configuración | abierta — no bloquea |
+| `OQ-UI-6` | Revisión funcional del menú de navegación | ui-ux / interacción | abierta — no bloquea |
+| `OQ-ENGINE-2` | Profile switching en runtime (Incarnon/Alt-fire) | engine / simulation-context | re-scopeada — path dinámico sin consumidor |
+| `OQ-ENGINE-7` | Nodos de atributo de arma faltantes (Capa 4) | engine / hydration | abierta — no bloquea |
+| `OQ-ENGINE-8` | "Proyección" sobrecargado: Capa D vs payload de C | engine / vocabulario de capas | abierta |
+| `OQ-ENGINE-9` | Estructura interna de `@core/engine` + harness | engine / arquitectura `@core` | parcialmente resuelta |
+| `OQ-ENGINE-10` | Capa E (Presentación / ViewModel) + rename de D | engine / capas + ui-ux | abierta — propuesta prematura |
+| `OQ-ENGINE-11` | Exaltadas: intención estructural en A1 | engine / Capa A | abierta — diferida |
+| `OQ-ENGINE-12` | Timing del crit condicional (Puncture/Cold) | engine / C2 | abierta — no bloquea el núcleo |
+| `OQ-ENGINE-14` | Alcance del modelado melee | engine / C1 + C2 | promovida a diseño |
+| `OQ-ENGINE-15` | DR de armor enemigo: conflicto de 3 vías | engine / C2 | abierta — `√3a/100` provisional |
+| `OQ-ENGINE-16` | N-declarado vs timers reales de stacks | engine / C1 + C2 | abierta — no bloquea |
+| `OQ-ENGINE-18` | Status Duration en DoT: ¿más ticks o estirados? | engine / C1-timeline | abierta — gated por test in-game |
+| `OQ-ENGINE-19` | Generador discreto de N proc-slots a SC >100% | engine / C1-población | abierta — gated por dato in-game |
+| `OQ-ENGINE-20` | Snapshot vs live en el tick de DoT | engine / C2 | abierta — gated por test in-game |
+| `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
+
 ---
 
 ## OQ-ENGINE-2 — Profile switching en runtime (Incarnon/Alt-fire) — **RE-SCOPEADA (2026-07-15): sin consumidor para el path dinámico**
@@ -309,95 +354,35 @@ Ambos forks son **decisión de intención** (qué pregunta responde la métrica)
 
 ---
 
-## OQ-DATA-9 — Origen de datos: `DataRegistry` como puerto normalizador (plano de memoria, "0") — **ABIERTO (2026-06-12)**
+## OQ-DATA-9 — Borde de entrada: el merge de overrides sigue duplicado entre el engine y el display — **ABIERTA (2026-06-12; re-scopeada 2026-07-17 contra código)**
 **Dominio:** data / integration / arquitectura de acceso
 
-**Contexto:** El modelo de capas (`simulation-architecture.md`) define el "Flujo de Verdad" A→B→C→D pero **presupone el dataset ya materializado en memoria**: ninguna capa posee la *carga*. B lee "el dataset", C1 hidrata "desde dataset + DNA", pero *quién lo carga* quedó huérfano. Resultado: la carga proliferó en **islas paralelas** que leen los mismos JSON sin coordinarse (audit 2026-06-12):
+**Modelo acordado (2026-06-12, vigente):** la carga **no es una capa del flujo A→B→C→D** — es un **plano de memoria** ortogonal, direccionado por referencia. A guarda *punteros* (ids); B y la UI los *dereferencian* contra esa memoria. Regla `datos vs información`: 0 entrega *datos canónicos*; los consumidores derivan *información*.
+- **Frontera β (anti-god-object):** 0 normaliza *datos* — un override es *el valor verdadero*, no un cómputo — y NO construye *información* (ni el grafo DNA del engine ni el shape display). Test de pertenencia: si X *corrige* el valor → 0; si X *deriva* del valor → consumidor.
+- **Puerto y proyecciones:** `DataSource` es el puerto (ports-and-adapters: `BrowserAdapter` / `NodeAdapter`); sobre él proyectan el engine (→ DNA/grafo) y `DataRegistry` (→ display), compartiendo `browserSource`.
 
-- **`lib/*-data.ts`** (7 fetchers) — `fetch` + hidratación a shape display. Consumidos **1:1** por los 7 DetailViews de `/equipment/<x>/<id>` (warframe, weapon, mod, arcane, companion, vehicle, archwing).
-- **`shared/data/DataRegistry.ts`** (`Registry`) — auto-rotulado "Single Source of Truth", `fetch` + hidratación + `getByDomain/Kind/Id`. Consumido por la grilla (`OmniView`/`use-items`) y el arsenal (`ArsenalView`, `ModSlot`, `HudHeader`). **SSoT a medio adoptar.**
-- **`core/engine/bootstrap/engine-data.ts`** → `DataLoader` — `import` estático de 7 JSON → repositorios DNA. Solo tests/CLI; **no cableado en runtime** (`DataLoader.init` nunca se llama en el bootstrap de la app).
-- **Mini-fetchers** en `domains/arsenal/`: `use-archon-shard-catalog`, `use-incarnon-catalog`.
+**Lo que queda abierto — una sola cosa:** el puerto normaliza la **carga**, no el **valor**. Los overrides se mergean **dos veces**: el engine los aplica en su hidratación (`DataLoader`, `StaticHydrator`, `ItemRepository`, `ModRepository`, `ArcaneRepository`) y `DataRegistry` lee `ability-stats.override` por su lado. Ninguno tiene el registro completo — el síntoma que la frontera β predijo y que sigue sin cruzarse.
+**Pregunta:** ¿cómo se corta el contrato de entrada de `@core` para que consuma dato pre-normalizado? (RED-adjacent: le saca trabajo al engine, no le agrega.)
 
-Síntoma concreto: `UpgradeView` (vía `useViewModel→consume`) corre el engine contra un `DataLoader` **vacío** en runtime. Tell de duplicación: `DataRegistry.hydrateAbility` es copia literal de `warframe-data.ts:hydrateAbility`.
+**Residual menor:** `lib/image-url.ts` mezcla los dos bordes — `hydrateImageFromImageName` (entrada, lo consume `DataRegistry`) y `resolveLocalImageUrl` (salida/display → OQ-DATA-10). Separar al consolidar 0.
 
-**Modelo acordado (debate 2026-06-12):** La carga **no es una capa del flujo vertical** — es un **plano de memoria** ortogonal, direccionado por referencia. A guarda *punteros* (ids); B y la UI los *dereferencian* contra esa memoria (`A → B → obtiene 0 → C`; la UI de catálogo lee 0 directo). A **no** consume 0 (confirmado: `ensemble-store` no importa datos). Regla `datos vs información`: 0 entrega *datos canónicos*; los consumidores derivan *información*.
+**No bloquea:** nada. El engine ya no corre contra repos vacíos (`main.tsx` llama `loadEngineData(browserSource)` antes de `createRoot`).
+**Vínculo:** **OQ-DATA-10** (borde de salida, par espejo — los dos bordes del mismo flujo) · **corrige el encuadre de OQ-ENGINE-9 eje (c)** ("Capa A fuera de `providers/`": lo que ahí se llamó A es en realidad 0, upstream, que **no es A**) · OQ-ENGINE-FUTURE (simetría de entrada respecto a `@core`).
+**Fuente:** debate 2026-06-12 (raíz: quilombo de carga detectado al desplegar la UI). Re-scope 2026-07-17 al cruzar contra código: puerto + adapters, bootstrap de runtime, `fetch` lazy (`DC-OQ-DATA-12`), colapso de las 7 islas `lib/*-data` + los 2 mini-fetchers (→ `Registry.getCatalog` / `useCatalog`) y dedup de `hydrateAbility` ya están ejecutados — dejaron de ser pregunta.
 
-- **0 = `DataRegistry`** (nombre conservado: "registra los datos en memoria"; `Catalog` descartado por sonar a UI). Responsabilidad: **puerto normalizador** = `load (adapter) + merge de overrides + resolución de refs` → registro canónico. Es *puerto* (ports-and-adapters): JSON-hoy / DB-mañana son adapters intercambiables detrás de la misma interfaz.
-- **Frontera anti-god-object (β):** 0 normaliza *datos* (corrige/completa el valor — un override es *el valor verdadero*, no un cómputo), NO construye *información* (ni el grafo DNA del engine ni el shape display de la UI). Test de pertenencia: ¿X *corrige* el valor → 0; ¿X *deriva* del valor → consumidor.
-- **Dos proyecciones sobre el puerto:** hidratación del engine (→ DNA/grafo, B/C1) y `DataRegistry`-proyección-catálogo (→ display). Una sola *carga* + normalización única; cada consumidor proyecta su forma. Beneficio neto: hoy el catálogo mergea unos overrides y el engine otros — **ninguno tiene el registro completo**; 0 mergea todo una vez.
-- **Fidelidad forzada por el swap:** `/arsenal/` compara "equipado (base)" vs "a equipar (C1)" lado a lado → el número base **no puede tener dos fuentes**: debe estar fidelity-locked al bucket `Base` de C1. Chrome (nombre/imagen/desc, que C1 no modela) sale de 0 por read fino. El proyector compone ambos.
+## OQ-DATA-10 — Borde de salida: convergencia de la ruta catálogo con el proyector del engine — **ABIERTA (2026-06-12; re-scopeada 2026-07-17 contra código)**
+**Dominio:** ui-ux / presentation (owner) — par espejo de OQ-DATA-9 (data).
 
-**Sub-decisiones abiertas (la arquitectura está acordada; la ejecución no):**
-- **Contrato de entrada del engine:** hoy `StaticHydrator`/repositorios aplican overrides ellos mismos. Bajo β pasan a consumir dato pre-normalizado → cambio al input de `@core` (RED-adjacent: le saca trabajo, no le agrega). ¿Cómo se corta?
-- **Split puerto vs proyección-catálogo:** ¿`DataRegistry` es a la vez puerto + proyección-display, o se separa `load+normalize` (puerto) de `→ shape display` (proyección)?
-- **Mecanismo de carga:** runtime debe usar `fetch` (lazy, fuera del bundle); el `import` estático del engine es un test-ism. Los tests inyectan por el mismo puerto (seam de adapter).
-  - **Avance 2026-06-12 (rebanada vertical, provisional):** cableado el bootstrap de runtime que faltaba — `main.tsx` ahora llama `loadEngineData()` antes de `createRoot` (el engine ya no corre contra repos vacíos). Reúsa el loader **por import estático** de `fixtures/` (no β, no toca el contrato de `@core` — invoca lo que ya existe). **Evidencia empírica del costo del estático:** `vite build` pasa pero el chunk principal salta a ~2.3 MB (gzip 431 KB, warning de tamaño) — los 7 JSON quedan en el bundle. Confirma que el mecanismo final debe ser `fetch` lazy. **Confirmado visual end-to-end (2026-06-12):** varios warframes muestran números reales del motor en `StatPanel`. Deuda registrada: sacar `loadEngineData` de `fixtures/` + migrar a fetch.
-  - **Avance 2026-06-13 (Fase 1 completa) + 2026-07-02 (Fase 2 Slice E):** el `fetch` lazy ya está resuelto — `BrowserAdapter` (Fase 1) reemplazó el `import` estático, bundle 2.3 MB→565 kB. `loadEngineData` ya salió de `fixtures/` → vive en `@core/engine/bootstrap/engine-data.ts`. De la deuda registrada acá, ambos puntos quedan cerrados; ver `OQ-DATA-12` para el detalle.
-  - **Bug colateral encontrado y cerrado durante la verificación (instancia fractal del defecto SSoT-duplicado):** el canal de armas (`primary`/`secondary`/`melee`) mostraba los stats del warframe. Causa: `UpgradeView` se había hecho un `channelMap` local divergente (claves `primary`) en vez de usar el SSoT `SLOT_TO_ENSEMBLE_CHANNEL` de ArsenalView (claves reales `primary_weapon`), y un fallback `|| "warframe"` enmascaraba el desajuste mostrando el warframe en silencio. Fix: extraído `SLOT_TO_ENSEMBLE_CHANNEL` a `domains/arsenal/slot-channel.ts` (SSoT único, consumido por ambos), borrado el mapa local y el fallback (ahora panel vacío honesto). Mismo patrón que OQ-DATA-10: un SSoT que existe + un consumidor que reinventa su copia divergente.
-- **Backlog de migración — HECHO (2026-06-13):** colapsadas las 7 islas `lib/*-data.ts` + 2 mini-fetchers (→ `Registry.getCatalog` + hook `useCatalog`); el lado **display** de "0" quedó consolidado en DataRegistry. El lado **engine** (carga runtime, `import`→`fetch`) se cerró en `DC-OQ-DATA-12`.
-  - **Avance 2026-06-13 (colapso de las 7 islas `lib/*-data`):** los 7 DetailViews migrados a `Registry.getItemById`; los 7 `lib/*-data.ts` borrados. **Registry absorbió la hidratación de passives** (era exclusiva de `warframe-data` → ya no se pierde) y unificó el match en `matchesRouteIdentifier`. Ahora Registry es el merge display completo (abilities + passives + imágenes). tsc limpio. **Pendiente:** los 2 mini-fetchers son catalog-shaped (`Record<key,entry>`, no `BaseItem[]`) → requieren que Registry sirva forma-catálogo (un `getCatalog`) antes de colapsarlos; y el `import` estático del engine → `fetch`.
+**Contexto:** el borde de salida (información → píxeles) tiene **dos rutas que no convergen**, cada una con su vocabulario de label y su formateo:
+- **Ruta engine (C→D):** `lib/format/stat-presentation` (token D-6 → `{label, category, unit}`) + `toStatEntries` / `formatStatValue` (tabla `unit→regla`, locale-free). Proyector único, consumido por D1 (`UpgradeView`) y D2 (oráculo).
+- **Ruta catálogo:** `lib/item-details` (`getAttackStats` / `getModStats`) + `lib/i18n/stat-labels`, con formateo `Intl es-ES` / `toFixed` inline en `WeaponDetailView`, `WarframeDetailView` y popovers.
 
-**Drift detectado (registrado; cerrar en la fase de construcción, no antes):**
-- `DataRegistry` se declara SSoT en código y **ya es el SSoT display de facto** (2026-06-13): colapsada la isla `lib/*-data` + los 2 mini-fetchers catalog-shaped (archon/incarnon). El `DataLoader` del engine ya carga vía `fetch` lazy (Fase 1, `BrowserAdapter`) compartiendo instancia con `DataRegistry` — el import estático quedó atrás (`DC-OQ-DATA-12`). El tell de duplicación `hydrateAbility` se resolvió al borrar esa isla.
-- `lib/image-url.ts:hydrateImageFromImageName` lo consume `DataRegistry` (lado **entrada/0**: la imagen es chrome, ver L296) pero el archivo mezcla ese hydrate con `resolveLocalImageUrl` (salida/display → DATA-10). Mismo archivo, dos bordes — separar al consolidar 0. (TODO inline del usuario 2026-06-13.)
+**Pregunta:** ¿convergen a un proyector único, o son dos espacios de id legítimamente distintos (`@wfcd/items` humano vs tokens `WEAPON_ADD_*` del engine) que solo comparten el sumidero `StatPanel`?
 
-**No bloquea:** captura de datos ni el schema. **Bloquea** el flujo C→D→UI en runtime (engine sin datos).
-**Vínculo:** **corrige el encuadre de OQ-ENGINE-9 eje (c)** ("Capa A fuera de `providers/`"): lo que ahí se llamó "Capa A" conflaciona A (intención/punteros) con un concepto distinto y *upstream* — el puerto de datos (0), que **no es A**. También OQ-ENGINE-FUTURE (simetría de entrada respecto a `@core`).
-**Fuente:** debate 2026-06-12 (raíz: quilombo de carga de datos detectado al desplegar la UI); audit de islas + consumidores en la misma sesión.
-**Vínculo (par espejo):** **OQ-DATA-10** mapea el *borde de salida* (información → píxeles), simétrico a este borde de entrada. Entrada y salida son los dos bordes del mismo flujo de datos.
-
----
-
-## OQ-DATA-10 — Borde de salida: capa de proyección como SSoT display (espejo de "0") — **stages A–D EJECUTADOS + Pre-E (análisis) CERRADO (2026-06-14); construcción de E DIFERIDA**
-**Dominio:** **ui-ux / presentation** (owner) — par espejo de OQ-DATA-9 (data). *Reclasificada 2026-06-12: el formateo es responsabilidad de UI/UX, no de DATA.*
-
-**⚠️ Cierre parcial (D-7 Fase 4, 2026-06-14):** se cerró el **lado SSoT de vocabulario** — el dict de presentación (`attribute-registry`) ya se cuelga del vocabulario canónico `Upgrade` (key-typed) y el **leak β murió** (`StaticHydrator` ya no importa `lib/presentation`; el nodo es puro; `project()` adjunta `unit`+`category` en el borde). El bug visible (crit sin `%`) está resuelto. **Sigue ABIERTO/DIFERIDO:** las 4 convenciones de formateo numérico (tell #2), la convergencia de los 3 vocabularios de **label** para la ruta catálogo (`stat-labels` vs engine), el dead-code `hydrateAttributeRegistry()` (tell #3), y el proyector unificado `StatEntry[]`. Ver §D-7 en [`../data/decisions.md`](../data/decisions.md).
-
-**Prioridad (decisión 2026-06-12 — function-first):** DIFERIDA tras el hito funcional. El formateo (labels, unidades, locale, los 3 vocabularios, las 4 convenciones numéricas) es "que se vea bonito" — **no bloquea "que funcione"**. Primero hay que destapar y hacer funcional la UI (equip → engine → display correcto en todos los canales/entidades) para *poder definir si todo funciona*; recién con eso estable se ataca esta OQ. Los labels feos (`AVATAR ADD HEALTH MAX`) y headers crudos (`primary_weapon Upgrade`) son síntomas conocidos y aceptados mientras tanto.
-
-**Contexto:** Mapeado el *borde de salida* (información → píxeles) como espejo de "0" (borde de entrada). [`presentation-layer.md`](../domains/ui-ux/presentation-layer.md) documenta un pipeline `i18n (labels) → item-details (mapeo a StatEntry[]) → componente (render)`. Verificado contra código (audit 2026-06-12): el mismo defecto raíz de la carga —**SSoT diseñado pero a medio adoptar + formateo ad-hoc en islas**— se repite, y *más fragmentado* que la entrada.
-
-Mapa del borde:
-- **`StatPanel` (`StatEntry[]`)** — **sumidero de render unificado**: todo converge aquí. El fork está *aguas arriba*, en cómo se proyecta a `StatEntry`.
-- **`lib/item-details.ts`** (`getAttackStats`/`getModStats`) — proyector → `StatEntry[]` de la ruta **catálogo** (weapons+mods). **Vivo**, ~13 consumidores (panels + popovers de equipment).
-- **`domains/arsenal/view/UpgradeView.tsx:38-44`** — proyector inline → `StatEntry[]` de la ruta **engine/D** (ViewModelContract). **Ad-hoc**, reinventa label (`.replace(/_/g," ").toUpperCase()`) y formato (`toFixed(1)+unit`) ignorando la suite. Es el frente activo (recién cableado D1) construyéndose a medio adoptar *desde cero*.
-- **`FormattedText`** (tag `DT_*` → icono) — genuinamente compartido, **vivo**.
-- **`lib/presentation/attribute-registry.ts`** — registro keyed por **id de engine** con `label+unit+category`. Semilla natural del proyector engine→display, pero **mal cableado** (ver leak abajo).
-
-Tres tells de duplicación (espejo de OQ-DATA-9):
-1. **Tres vocabularios de label** para el mismo concepto (stat → label+unit): `i18n/stat-labels` (ruta catálogo), `presentation/attribute-registry` (ids de engine), e inline en `UpgradeView`. Ninguno es el SSoT. **Afilado 2026-06-14 (trazo de `crit chance`, ver OQ-ENGINE-10):** el eje real no es "3 tablas sin SSoT" sino que **el SSoT semántico SÍ existe** (`upgrade-tokens.md`/D-6, consumido por C\*) y el plano `lib/*` **no lo consume** — nació antes del SSoT y mantiene vocabularios humanos pre-canónicos (`critical_chance`/`crit_chance`). Corolario verificado: `attribute-registry` está keyed por nombres humanos, no por los tokens `WEAPON_ADD_*` que el motor emite → el leak β `StaticHydrator→lib/presentation` **cae al fallback en silencio** (crit chance sale sin `%`, category `utility`). El fix de fondo es **re-keyar el registro por los tokens D-6 + derivar label/unit del SSoT semántico**, no acuñar una cuarta tabla.
-2. **Cuatro convenciones de formateo numérico** simultáneas → *drift visible en el número*, no solo en el código: `item-details` (`Intl es-ES`, 2 frac) vs `WeaponDetailView` (`toFixed(0/1/2)` inline, mismos stats) vs `WarframeDetailView` (`Intl es-ES` inline; los warframes no existen en item-details) vs `UpgradeView` (`toFixed(1)`). Incoherencia extra: labels en inglés + números en locale `es-ES`.
-3. **`hydrateAttributeRegistry()`** (rotulado "Pipeline SSoT futuro", cargaría `/data/engine/attribute-registry.json`) **nunca se invoca** — gemelo literal de `DataLoader.init` nunca llamado en el bootstrap (OQ-DATA-9).
-4. **Dependencia invertida (leak β-análogo) — ✅ RESUELTO (D-7 Fase 4, 2026-06-14):** `StaticHydrator` (¡el engine, C1!) importaba `getAttributeMetadata` de `lib/presentation` y horneaba `label/category/unit` en el `AttributeNode`. Ahora el nodo es puro (sin meta) y la proyección la adjunta `project()` en el borde C→D (`@shared/view-model → @lib/presentation`, dirección correcta). `getAttributeMetadata` eliminado; reemplazado por `getPresentationMeta(id)` keyed por token.
-
-**Juicio (acordado):** La suite de presentación **debe ser el SSoT del borde de salida, simétrica a `DataRegistry` en la entrada**. Simetría limpia con OQ-DATA-9: entrada = *puerto normalizador* (datos canónicos) con dos proyecciones (DNA-engine / display-catálogo); salida = *capa de proyección* (datos/información → forma display) alimentando el sumidero único `StatPanel`. Hoy el sumidero ya está unificado; lo que falta unificar es la **proyección**. El gap crítico/urgente es el proyector de la salida del engine (C→D), porque es el frente activo y se está construyendo ad-hoc.
-
-**Sub-decisiones — DIRECCIÓN ACORDADA 2026-06-14 (debate de presentación; ejecución por stages, ver abajo):**
-- **Proyector engine→display — DECIDIDO:** el proyector único `StatViewModel[] → StatEntry[]` vive en **`lib/format/`** (estrato React-free, consumido por **D1 (`UpgradeView`) y D2 (oráculo) por igual** — hoy ambos reinventan la proyección inline: `UpgradeView.tsx:68-75` y `oracle.ts:34-38` son **gemelos**). Razón dura del estrato: el oráculo corre en Node sin React → no puede importar `lib/presentation` (que tiene componentes). Mata las dos islas de una.
-- **Convención única de formateo numérico — DECIDIDO:** NO es un `toFixed` global — es **data-driven `unit → regla`** (`%`→1 dec, `x`→2 dec, `s`→1 dec+"s", entero para multishot/magazine/daño), off la `unit` que ya lleva el registro. **Locale-free** (sin `Intl es-ES`, coherente con English-only OQ-UI-5; resuelve la incoherencia labels-inglés/números-locale). Vive en el proyector, no en el componente. **Se ataca AHORA** (no diferir — "para después" es exactamente lo que pasó con D-7).
-- **SSoT de label+unit por stat — DECIDIDO (revierte conscientemente una sub-decisión de Fase 4):** UN solo mapa declarativo token-keyed. La **`label` vuelve al registro** (`{ label, category, unit }`), porque el split label↔(category/unit) **no tiene caso real**: i18n-por-token no existe e i18n está diferido (English-only) → dos mapas token-keyed = isla a sincronizar = la puerta falsa que veníamos matando. El registro se **muda `lib/presentation` → `lib/format`** (es dato puro, hoy mal ubicado en la carpeta de React) y se **renombra `stat-presentation`** (token→{label,category,unit}). Invariantes que NO cambian: `StatViewModel` sigue neutro (token·value·unit·category, sin label) y el nodo del engine sigue puro — la label entra solo en el borde (`StatEntry`), por lookup. Cuando multi-locale sea real, la label gradúa a i18n. **Sigue abierto:** la convergencia con la ruta **catálogo** (`stat-labels`, espacio de id `@wfcd/items`) — dos espacios de id, fuera de este corte.
-- **Tipo `StatEntry` único — DECIDIDO:** hoy duplicado (`StatPanel.tsx:4` ≠ `item-details.ts:21`); converge a uno solo (el del sumidero), producido por el proyector.
-
-**Plan de ejecución por stages (acordado 2026-06-14 — recon-per-stage, sin asumir el resultado del anterior; cada stage cierra con `tsc`+tests+confirmación). Backlog cerrado, purgado de `.working/` tras consolidarse acá:**
-- **Stage A — mapa declarativo (data):** mudar `attribute-registry` (`lib/presentation` → `lib/format`) + renombrar `stat-presentation` + re-agregar `label`. Recon previo: capturar qué labels existen y dónde (`stat-labels`, inline en `UpgradeView`, ¿otros?) antes de poblar.
-- **Stage B — proyector + formateo (lógica):** `toStatEntries(StatViewModel[]) → StatEntry[]` en `lib/format` (label por lookup + regla `unit→formato`). Unificar el tipo `StatEntry` duplicado. Recon: las 2 declaraciones + consumidores.
-- **Stage C — cablear D1:** `UpgradeView` consume `toStatEntries`, borra su map inline. Checkpoint visual.
-- **Stage D — cablear D2:** `oracle.formatStat` consume el mismo proyector (mata la isla gemela).
-- **Stage E — pasada "Pre-E":** análisis (no construcción) de dónde/cómo ubicar la **Capa E** y su arquitectura interna, alimentado por lo aprendido en A–D. Alimenta **OQ-ENGINE-10** (E = confluencia info+chrome). No asume resultado: es captura→derivación para decidir si/cómo se construye E. **✅ HECHO 2026-06-14:** E NO es necesidad emergente (estrato 2 = `lib/format` ≠ E; retira el concern de islas). E **estacionado**, gated por consumidor UI real. Hallazgo cross-cutting: la UI nunca tuvo su corpus → **campaña de docs de UI** (próxima sesión, antes de leer código). Bajado a OQ-ENGINE-10 (Resultado Pre-E).
-- **Fuera de corte (sigue OQ-DATA-10/ENGINE-10):** convergencia ruta-catálogo↔engine, construcción de Capa E real, las piezas straddle (`image-url`).
-
-**Drift detectado (registrado; cerrar en la fase de construcción):**
-- `hydrateAttributeRegistry()` muerto (nunca llamado).
-- `presentation-layer.md` (v0.0.2, abr-2026, nunca formalizada) describe el pipeline como si estuviera adoptado; no menciona la ruta engine/D ni las islas ad-hoc.
-- `lib/image-url.ts` se auto-rotula `@SSoT` pero **straddlea los dos bordes**: `resolveLocalImageUrl` (img-name → URL display, 3 consumidores UI) es proyección de **salida**; `hydrateImageFromImageName` es chrome de **entrada** (lo usa `DataRegistry`/0 → ver DATA-9 L296). El SSoT declarado es falso; la pieza display debería vivir en la suite de proyección, no en `lib/` suelto. (TODO inline del usuario 2026-06-13.)
-- `PreviewPanel` (aside name/desc/stub-flag) — TODO inline del usuario: el "panel de stats" se repite en varios lugares sin SSoT; candidato a converger en la proyección (parte de la responsabilidad pasa por Capa D).
-
-**No bloquea:** nada hoy (la UI renderiza). **Gated por:** la misma fase de construcción que OQ-DATA-9 (cablear 0 / engine en runtime); construir el proyector unificado sin esa base sería prematuro.
-**Vínculo (par espejo):** **OQ-DATA-9** (borde de entrada). También OQ-ENGINE-8 (sobrecarga "Proyección": ojo, "proyección de salida de C" vs "proyección display" son ejes distintos) y `DC-OQ-UI-1` (unificación de infra UI @shared). **OQ-ENGINE-10** nombra este borde como capa (E/Presentación) y ubica esta suite de formateo como su **estrato compartido** (el que consumen tanto el CLI como E).
-**Fuente:** diagnóstico 2026-06-12 (arco entrada↔salida; audit de la suite vs formateo ad-hoc, sin tocar código).
-
----
+**No bloquea:** nada — la UI renderiza y ambas rutas funcionan.
+**Gated por:** un consumidor que necesite el mismo stat por las dos rutas con el mismo formato. Sin eso, unificar es especulativo.
+**Vínculo:** OQ-DATA-9 (borde de entrada, par espejo) · OQ-ENGINE-10 (Capa E) · OQ-ENGINE-8 (sobrecarga de "Proyección").
+**Fuente:** diagnóstico 2026-06-12. Re-scope 2026-07-17 al cruzar contra código: los stages A–D y D-7 Fase 4 ya están ejecutados — proyector único, `StatEntry` único, registro token-keyed en `lib/format`, formateo locale-free centralizado y leak β muerto. Todo eso dejó de ser pregunta; la OQ describía como abierto lo que ya estaba hecho.
 
 ## OQ-DATA-11 — Compatibilidad de mods por entidad: no materializada — **ABIERTO (2026-06-12)**
 **Dominio:** data / semantic / compatibilidad (hermana de OQ-DATA-1, que cubre slots)
