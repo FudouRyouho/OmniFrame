@@ -34,7 +34,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-DATA-10` | Convergencia ruta catálogo ↔ proyector del engine | ui-ux / presentation | abierta — re-scopeada 2026-07-17 |
 | `OQ-DATA-11` | Compatibilidad de mods por entidad | data / semantic | abierta — degrada usabilidad |
 | `OQ-DATA-12` | Carga de runtime: import estático → fetch | data / integration | **cerrada** → `closed-decisions.md` |
-| `OQ-DATA-13` | Render de íconos/nodos de habilidad sin SSoT | ui-ux / presentation | abierta — no bloquea |
+| `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
@@ -392,21 +392,18 @@ Cerrada por Fase 1 (`fetch` lazy vía `BrowserAdapter`, bundle 2.3 MB→565 kB) 
 
 ---
 
-## OQ-DATA-13 — Render de íconos/nodos de habilidad: lógica duplicada sin SSoT de presentación — **ABIERTO (2026-06-13)**
+## OQ-DATA-13 — Render de íconos/nodos de habilidad y shards: presentación duplicada sin SSoT — **ABIERTA (2026-06-13; re-scopeada 2026-07-17 contra código)**
 **Dominio:** ui-ux / presentation (hermana de OQ-DATA-10)
 
-**Contexto:** Mostrar los íconos/nodos de habilidades de un warframe está **duplicado y disperso**, sin un solo lugar:
-- `WarframeDetailView` (`AbilityCard`) lo implementa una vez.
-- `ArsenalPreviewPanel` (`slot.showAbilityNodes`, ~L383) repite una variante.
-- Los popovers de detalle (`WarframeDetailsPopover` y hermanos) **deberían** mostrar al menos los íconos de habilidad y hoy **no lo hacen**.
-- Relacionado (mismo molde, shards): `ArchonShardSelectionView` (selector de tipo, L102) y `ArsenalView` (slots de shard, L332) renderizan **dos veces** la misma lógica "estado→ícono por imagen" del shard. Dos TODO inline del usuario (2026-06-13) piden extraer la util compartida a `lib/*`.
+**Contexto:** dos conceptos de display se renderizan dispersos, sin componente/derivación única:
+- **Nodos de habilidad de warframe** — `WarframeDetailView` (`AbilityCard`) y `ArsenalView` (`showAbilityNodes`) lo implementan por separado; no hay util compartida en `lib/*`. Los popovers (`warframe-details-popover`) **no** muestran íconos de habilidad y deberían.
+- **Ícono de shard** — no es duplicación literal sino **divergencia**: `ArchonShardSelectionView` arma la URL con `shardImageUrl()` (`/assets/archon-shard/` + prefijo `Tauforged`), mientras `ArsenalView` (`ArchonShardsPreviewSection`) usa `resolveLocalImageUrl(entry.image_name)` (`/images/`). Dos rutas de asset distintas para el mismo ícono — peor que copia: pueden resolver a archivos distintos.
 
-**Pregunta:** ¿Dónde vive el componente/derivación único de "render de habilidad (ícono + nombre + desc)" para que los 3+ consumidores lo compartan? Es el mismo patrón SSoT-duplicado de presentación que OQ-DATA-10 (formateo) y el id-mismatch UI↔engine — un concepto de display sin fuente única.
-**No bloquea:** función; es consistencia/DRY de presentación. Diferido con el resto del borde de salida (function-first).
-**Vínculo:** **OQ-DATA-10** (borde de salida / suite de presentación como SSoT). Flags inline del usuario en `WarframeDetailView.tsx` y `ArchonShardSelectionView.tsx`.
-**Fuente:** anotación del usuario 2026-06-13 durante la consolidación de "0".
+**Pregunta:** ¿dónde vive el render único de "ícono de habilidad/shard (ícono + nombre + desc)" para que los 3+ consumidores lo compartan? Mismo patrón SSoT-duplicado que OQ-DATA-10 (formateo) — un concepto de display sin fuente única. El caso del shard además exige **unificar la vía de asset** antes de compartir el componente.
 
----
+**No bloquea:** función; es consistencia/DRY de presentación. Diferido con el resto del borde de salida (function-first). *(La Capa E que iba a alojar el enriquecimiento de chrome se descartó — `DC-OQ-ENGINE-10`; el SSoT de presentación es `lib/format` + componentes compartidos, no una capa.)*
+**Vínculo:** **OQ-DATA-10** (borde de salida / convergencia de rutas de presentación). El mismatch UI↔engine id es síntoma vecino.
+**Fuente:** anotación del usuario 2026-06-13 durante la consolidación de "0" (los flags inline originales ya no están en el código).
 
 ## OQ-UI-2 — Estado de sesión/UI del usuario: ¿dónde encaja en A→B→C→D→UI + 0? — **ABIERTA (2026-06-13; re-scopeada 2026-07-17 contra código)**
 **Dominio:** ui-ux / arquitectura de estado (cruza 0, A, B, D)
