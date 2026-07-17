@@ -1,6 +1,6 @@
 /**
  * @domain Engine / Formulas / Weapon / ConditionOverload
- * @SSoT docs/domains/engine/formula-overview.md
+ * @SSoT references/wiki/mechanics/condition-overload.md
  */
 
 import type { CoBehavior } from "@shared/types/modifier";

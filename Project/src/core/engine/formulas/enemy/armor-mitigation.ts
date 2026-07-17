@@ -1,6 +1,6 @@
 /**
  * @domain Engine / Formulas / Enemy / Armor-Mitigation
- * @SSoT docs/domains/engine/formula-overview.md
+ * @SSoT references/wiki/mechanics/armor.md §Reducción de daño — ⚠️ divergencia deliberada: el código adopta `√3a/100` (OQ-ENGINE-15, ver abajo)
  *
  * Ley de mitigación por armadura (Damage Reduction). Matemática pura: número→número.
  *

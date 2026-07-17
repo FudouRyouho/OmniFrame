@@ -81,7 +81,7 @@ Ciclo (todo **(b)**, salvo lo indicado):
 ## 3 — Bucket 2 · Derivación / tabla (`combo_mult`)
 
 Un **único valor derivado** vía fórmula dedicada `melee-combo`
-([`formulas/weapon/melee-combo.ts`](../formula-overview.md), `meleeComboMult(count)`). **Melee-específica
+(`formulas/weapon/melee-combo.ts`, `meleeComboMult(count)`). **Melee-específica
 por nombre** — NO `weapon-combo`: el combo de sniper/incarnon es otra familia (Abstracción A diferida,
 §10) y un nombre genérico se malinterpreta.
 

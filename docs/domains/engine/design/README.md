@@ -8,6 +8,7 @@ Documentación de diseño del motor de simulación v2. `engine/` (el dominio fun
 | Archivo | Rol |
 |---|---|
 | [`simulation-blueprint.md`](simulation-blueprint.md) | Índice maestro del track — leer primero |
+| [`vocabulary.md`](vocabulary.md) | **SSoT del vocabulario interno** — el idioma de `@core` (node / bucket / pool / flat / independiente). No es vocabulario del juego (eso es `docs/semantic/`) |
 | [`simulation-architecture.md`](simulation-architecture.md) | Macro y micro arquitectura del motor |
 | [`simulation-contracts.md`](simulation-contracts.md) | Contratos técnicos base |
 | [`arch-decisions.md`](arch-decisions.md) | Decisiones arquitectónicas críticas (invariantes vigentes) |

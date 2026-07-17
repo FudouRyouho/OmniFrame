@@ -75,12 +75,14 @@ crudo** (consulta bajo demanda, no lectura obligatoria) baja a tier `referencia`
 `data/` y `semantic/` NO son dominios funcionales. Sus subdirectorios (`schemas/`, `rules/`, etc.)
 NO son sub-dominios: son **contratos bajo un mismo flujo**, organización por tipo de dato.
 
-**Regla de enrutamiento semantic vs data:**
+**Regla de enrutamiento semantic vs data vs lenguaje de dominio:**
 - `docs/semantic/` — vocabulario y taxonomía: qué SIGNIFICA un token o concepto del juego. Consumido por todos los dominios por igual. Ejemplos: tipos de daño, facciones, condition tokens, upgrade tokens.
 - `docs/data/schemas/` — contratos de formato JSON: cómo se ESTRUCTURA el dato en los overrides. El schema describe el shape del archivo; la semántica de sus valores vive en `semantic/`.
+- `docs/domains/<dominio>/design/` — el **lenguaje interno del dominio**: el vocabulario de su arquitectura, NO del juego. No se **deriva** de una taxonomía declarada (a diferencia de un token `{WEAPON,WARFRAME}_{ADD,MULT}_…`, que se compone desde un cuerpo) — *es* el idioma con el que el dominio se piensa. Ejemplo: `domains/engine/design/vocabulary.md` (node / bucket / pool / instancia).
 
-Si un documento define qué significa algo → `docs/semantic/`.
+Si un documento define qué significa algo **del juego** → `docs/semantic/`.
 Si un documento define cómo escribirlo en un JSON → `docs/data/schemas/`.
+Si un documento define **cómo habla un dominio de sí mismo** → `docs/domains/<dominio>/design/`.
 
 Convenio:
 - `data/status.md` — único status global del flujo de datos

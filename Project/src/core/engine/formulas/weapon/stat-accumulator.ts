@@ -5,9 +5,14 @@
  * El acumulador de un stat (fórmula de referencia D-6 / §4.1) + el factor del bucket de daño global.
  * Extraído de `SimulationEngine.calculateCurrentValue` (P2a, **identidad** — comportamiento idéntico).
  *
- * ⚠️ Este es el modelo ACTUAL: un pool aditivo (`mods_add_pct`) + `multiplicative` como bolsa. El modelo
- * de POOLS de `calculating-bonuses.md` (`Base × ∏_pools(1+Σ) + ΣFlat`, donde facción/Roar es un pool que
- * suma dentro) es **P2b** — todavía no implementado. Ver `.working/damage-composition-formulas-audit.md`.
+ * Vocabulario (`docs/domains/engine/design/vocabulary.md`): `base` = input · los **5 buckets** = las
+ * ranuras acumuladoras · `pool` = grupo de apilado aditivo `(1+Σ)` · `final` = output.
+ *
+ * ⚠️ Deuda de ESTRUCTURA (no de vocabulario): el acumulador tiene un set **cerrado** de ranuras aditivas
+ * (`base_add_pct`, `mods_add_pct`), sin colección abierta de pools nombrados. Por eso los pools globales
+ * (base-damage/facción) se realizan como **nodos falsos** en vez de vivir dentro del nodo que escalan —
+ * ver `arch-decisions §16` y `vocabulary.md §3`. La forma honesta (`Base × ∏_pools(1+Σ) + ΣFlat`, de
+ * `calculating-bonuses.md`) está EN DEBATE, no decidida.
  */
 import type { AttributeNode } from "../../contracts";
 import { applyAdditiveBonus } from "../common/scaling-base";

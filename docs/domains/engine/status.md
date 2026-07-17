@@ -130,7 +130,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 | `ability/` | `ability-crit`, `ability-status` |
 | `arcane/` · `warframe/` | **vacíos** (reservados; `arcane-core` purgado 2026-06-11, `warframe-core` 2026-05-27) |
 
-Ver [`formula-overview.md`](formula-overview.md) para la especificación matemática.
+Cada primitiva cita su autoridad matemática en su propio `@SSoT`, apuntando a la fuente real (`references/wiki/mechanics/*`: `critical-hits`, `multishot`, `condition-overload`, `calculating-bonuses`, `armor`, `enemy-level-scaling`…). El **idioma** con el que se describen vive en [`design/vocabulary.md`](design/vocabulary.md); el **estado de integración**, en [`design/formulas-integration.md`](design/formulas-integration.md).
 
 ---
 

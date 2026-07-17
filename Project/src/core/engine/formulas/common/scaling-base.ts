@@ -1,6 +1,6 @@
 /**
  * @domain Engine / Formulas / Common / Scaling
- * @SSoT docs/domains/engine/formula-overview.md
+ * @SSoT references/wiki/mechanics/calculating-bonuses.md (ley del bonus aditivo `1 + Σ`)
  */
 
 export function additiveBonusMultiplier(bonusPct: number): number {
