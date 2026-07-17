@@ -306,7 +306,7 @@ Tokens de familia `AVATAR_CHANCE_RESIST_*` no siguen D-6 estrictamente (CHANCE n
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `GAMEPLAY_MULT_FACTION_DAMAGE` | `GAMEPLAY_MULT_FACTION_DAMAGE` | ADD | `[empirical]` | `C2·F` | Bane of Grineer y familia. Requiere faction tag del target en SimulationContext. |
+| `GAMEPLAY_MULT_FACTION_DAMAGE` | `GAMEPLAY_MULT_FACTION_DAMAGE` | ADD | `[empirical]` | `C2·F` | Bane/Expel/Cleanse y familia. **Pool de facción** (`arch-decisions §16`): op `ADD` = los miembros **SUMAN** en su nodo global propio (Roar+Bane aditivos, ×2.428 verificado `faction-damage.md`); el `_MULT_` = el pool se aplica **multiplicativamente** (factor `1+Σ`, NO en `mods_add_pct` de Serration). **C2·F**: el gate depende de la facción del target, que vive en `EnemyState`/③ (NO en `SimulationContext`/C1). ⚠️ **Shim FLAGGED** (`ModRepository.C2F_FACTION_TOKENS_DEFERRED`): NO se emite en C1 hasta normalizar la semántica del token (facción + gate) y migrar a resolución. El pool C1 queda para bonos incondicionales (Roar, §15). |
 | `GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE` | `GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE` | ADD ⚠ | `[needs-verification]` | `C2·F` | Archon Shard Emerald. Instancias aditivas. ⚠ Scope real sin confirmar. Afecta proc de Toxin en C2. |
 
 > `toPercent: true` en UPGRADE_MAP — el JSON almacena el valor como `1.30` (+30%); el engine lo convierte a `30` para `mods_add_pct`.

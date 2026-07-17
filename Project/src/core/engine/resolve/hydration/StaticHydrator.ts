@@ -234,6 +234,15 @@ export class StaticHydrator {
        };
     }
 
+    // Pool de facción (Roar/Bane) — nodo global paralelo a WEAPON_ADD_DAMAGE (arch-decisions §16):
+    // sus miembros SUMAN (op ADD) y su factor MULTIPLICA los daño-tokens (Step 3 de calculating-bonuses).
+    // NO alimenta el DoT (dotModdedBase lee solo WEAPON_ADD_DAMAGE; double-dip = OQ-20). Vacío ⇒ factor 1.0.
+    if (!isWarframe && !attributes["GAMEPLAY_MULT_FACTION_DAMAGE"]) {
+       attributes["GAMEPLAY_MULT_FACTION_DAMAGE"] = {
+          base: 100, base_flat: 0, base_add_pct: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
+       };
+    }
+
     return {
       id: dna.entity_id,
       unique_name: dna.entity_id,

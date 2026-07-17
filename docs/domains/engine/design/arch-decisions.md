@@ -5,7 +5,7 @@ Version: "v0.6.0"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-07-10"
+Fecha_de_actualizacion: "2026-07-17"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -501,3 +501,85 @@ entrada; el estado del daño es su espejo del lado salida — mismo concepto `sn
 bucket② viaja con la instancia, matriz③ es del encuentro — prueba dura de que las capas son separadas), y
 **§9/§10/§11/§12** (mismo patrón de primitivo mínimo consumido explícitamente). Cita cruzada:
 `damage-status-model.md`, `references/wiki/mechanics/status-effects.md`.
+
+---
+
+## 15. El nodo-source: qué HACE una fuente (la regla es por verbo, no por habilidad) — HIPÓTESIS
+
+> **Estado: HIPÓTESIS DE TRABAJO / prototipo — NO invariante ratificada** (a diferencia del resto de este
+> doc). El **concepto general sigue sin construir**, pero **Fase 1a validó su primer eslabón con dato**: el
+> derive cross-entity source→target (Roar sintético — warframe strength → pool de facción del arma vía el
+> campo `source_entity`; `rhino.test.ts` fixture_03/04, HIT `100×(1+1.65)×(1+1.27)=601.55` al decimal vs
+> `Roar.md`). El resto (simetría ②/③, sub-source, key-por-verbo, source-state VIVO con duración) se
+> **refuerza o cae** con Fase 1b+ y el corpus (Fase 2 — primero procesar datos). Origen: debate 2026-07-16
+> (`.working/ability-model-debate.md`, gitignored). **No colgar más código que el eslabón ya sostenido por un test.**
+
+**Planteo (refina §2).** "Ability no tiene modelo ontológico único" (§2) se precisaría así: no hay modelo
+único de *efecto*, pero sí **anatomía única de source**. Toda fuente —arma, habilidad, minion, objeto— sería
+un **nodo-source** que hace **dos verbos + un nulo**:
+
+1. **Emite instancia** — paquete de daño target-agnóstico (§14, §2.0.1) con su Delivery (proyectil/hitscan/
+   beam/AoE). Caso especial: la instancia puede **materializar una sub-source** (minion/objeto/exaltada §3)
+   = nuevo nodo-source con su propio state que emite sus propias instancias (recursión).
+2. **Muta un state** — el propio source-state, el de un aliado, o el del target (buff/debuff/heal/CC). Las
+   instancias **derivan contra el state**. El "emit Modifier" (C1, `upgrade_type`) sería la **proyección
+   estática** de esto: sin duración → source-state = la entity estática de C1.
+3. **(nulo)** valor display / fuera-de-sim (radius, duration, movilidad).
+
+**La simetría (teoría, aún NO código).** ② y ③ del trazado (§2.0) serían la MISMA operación en nodos
+distintos: **derivar-contra-un-state**. ② deriva la instancia contra el **source-state** (Roar viviría acá);
+③ la resuelve contra el **target-state** (Viral/DR viven acá). Ambos serían `NeutralState`
+(`../../../governance/decision-frontier.md` §4). El ciclo sería **simétrico alrededor de la instancia**.
+
+**Consecuencia operativa — la regla del corpus (key-por-verbo).** Al catalogar el vocabulario de
+habilidades, se ordena **por verbo** (emite/muta/sub-source), **nunca por identidad de habilidad ni por
+grupo**. "Exaltada" no es una categoría — resuelve a sub-source (§3). "Chroma/Equinox" no son un grupo — son
+un warframe cuyos stats mutan varios source-states exclusivos. Key = verbo disuelve el sesgo de identidad y
+prohíbe grupos arbitrarios por construcción. (Esta regla vale para el trabajo de corpus **aunque la hipótesis
+general aún no esté probada** — es disciplina de clasificación, no una afirmación de arquitectura.)
+
+**Gates (nombrados, no construidos):** source-state vivo (G-a, 1er buff con duración = Rhino+Roar) ·
+`NeutralState` base (G-b, 2ª columna) · recursión/sub-source (G-c). Ver `decision-frontier §4`.
+
+**Enlaza con §2** (lo refinaría), **§3** (exaltada = sub-source), **§14** (el daño que la instancia emite
+viaja), **§2.0/§2.0.1** (el trazado y el seam C1→C2).
+
+---
+
+## 16. Modelo de pools de daño (aditivo/facción, suman-dentro·multiplican-afuera) + facción C2·F
+
+**Decisión (P2b, 2026-07-16).** La composición de daño se lee de `calculating-bonuses.md` (SSoT wiki), NO
+del código (que estaba parcial/inline — ver `.working/damage-composition-formulas-audit.md`):
+
+```
+Total = base × (1 + Σ_aditivo) × (1 + Σ_facción) × ∏(independientes)
+              [Serration+CO-add]  [Roar/Bane]      [CO-mult, combo, crit]
+```
+
+- **Dos pools GLOBALES que SUMAN dentro y se aplican como FACTOR (multiplican afuera):** el aditivo
+  (Serration, `WEAPON_ADD_DAMAGE`) y el de facción (`GAMEPLAY_MULT_FACTION_DAMAGE`). Estructura idéntica:
+  nodo global, miembros op `ADD` (suman en `mods_add_pct`), factor `= final/base = 1+Σ`. **Reusan la misma
+  primitiva `globalDamageBucketFactor`** (`formulas/weapon/stat-accumulator.ts`, P2a) — NO son 2 primitivas,
+  es una aplicada a dos nodos. La compositora (`calculateCurrentValue`) las multiplica.
+- **El pool se distingue por ATTR (qué nodo), NO por op.** Serration y facción ambos usan op `ADD`; nodos
+  distintos → pools distintos → multiplican. Un token con `_MULT_` en el nombre (facción) señala que su pool
+  se aplica **multiplicativamente**, no que sus miembros usen op MULTIPLICATIVE.
+- **CO y Combo NO son upgrade tokens** — se autorutean por su mecánica (CO por `co_behavior`: adding→pool
+  aditivo, multiplying→multiplicador independiente `×(1+co)`; Combo por su fórmula heavy `×mult`). Son
+  multiplicadores **independientes** que multiplican, NO entran al pool de facción. (§9/§10.)
+- **Facción NO alimenta el DoT** (`dotModdedBase` lee solo `WEAPON_ADD_DAMAGE`); el double-dip ×² = OQ-20.
+
+**Facción es C2·F — su gate vive en RESOLUCIÓN, no en C1 (hallazgo Felarx/Primed Cleanse).** El bonus de
+facción (Bane/Cleanse) solo aplica si el target es de esa facción, y **`targetFaction` NO está en el
+`SimulationContext`** — vive en `EnemyState`, se usa en ③ (`targetFactionMult`). Por eso NO se puede gatear
+en el grafo C1. Aplicarlo incondicional sobre-cuenta (Felarx: ×1.55 sin target faction).
+
+**Shim FLAGGED (temporal, `ModRepository.C2F_FACTION_TOKENS_DEFERRED`):** los tokens de facción C2·F **no
+se emiten como modifier C1** hasta normalizar la semántica del token (que codifique facción + gate) y
+migrar el bonus a resolución. El **pool C1 de facción queda para bonos INCONDICIONALES** (Roar, §15/1a —
+Roar no gatea por facción). **Borrar el set al normalizar.**
+
+**Estado P2b:** mecanismo del pool + shim construidos, suite verde; el pool C1 sin miembros hoy (facción
+diferida, Roar sin wired) → poblarlo/testearlo es 1a. **Enlaza con §9/§10** (CO/Combo, multiplicadores
+independientes), **§14** (facción-en-DoT = ③, double-dip OQ-20), **§15** (Roar = miembro incondicional del
+pool). Cita: `calculating-bonuses.md`, `faction-damage.md`, `condition-overload.md`, `melee-combo.md`.

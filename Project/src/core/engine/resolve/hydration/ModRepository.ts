@@ -6,6 +6,15 @@ import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ModOverrideEntry, ModStatRaw, ModStatValueRaw } from "../../contracts/mod-overrides";
 import { resolveUpgradeEntry } from "@shared/types/modifier";
 
+// ⚠️ FLAGGED (shim temporal — arch-decisions §16, P2b): los tokens de daño por FACCIÓN (Bane/Cleanse)
+// son C2·F — su gate depende de la facción del TARGET, que solo se conoce en RESOLUCIÓN (③), NO en el
+// grafo C1 (`SimulationContext` no lleva `targetFaction`; vive en `EnemyState`). Emitirlos como modifier
+// C1 los vuelve INCONDICIONALES → sobre-cuentan (bug destapado por Felarx/Primed Cleanse: ×1.55 sin target
+// faction). Hasta normalizar la semántica del token (que codifique facción + gate) NO se emiten en C1; el
+// pool de facción C1 queda para bonos INCONDICIONALES (Roar, 1a). Migrar a resolución al modelar
+// `targetFaction`. **Borrar este set al normalizar la semántica.**
+const C2F_FACTION_TOKENS_DEFERRED = new Set(['GAMEPLAY_MULT_FACTION_DAMAGE']);
+
 export interface ModBlueprint {
   unique_name: string;
   compatible_tags: string[];
@@ -50,6 +59,8 @@ export class ModRepository {
           const entry = resolveUpgradeEntry(val.upgrade_type);
 
           if (entry) {
+            if (C2F_FACTION_TOKENS_DEFERRED.has(entry.attr)) return; // ⚠️ FLAGGED shim (ver arriba)
+
             const rawValue = Array.isArray(val.base_value)
               ? (val.base_value[rank] ?? val.base_value[val.base_value.length - 1])
               : val.base_value;

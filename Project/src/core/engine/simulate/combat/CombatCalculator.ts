@@ -6,6 +6,7 @@ import { AtomicSimulator } from "./AtomicSimulator";
 import type { SimulationEntity, SimulationContext } from "../../contracts";
 import { deriveInstance } from "./damage-instance";
 import { expectedProcEvents } from "../../formulas/status/proc-population";
+import { averageShot, weaponDps, finalReloadTime } from "../../formulas/weapon/dps";
 
 export interface CombatMetrics {
   average_crit_multiplier: number;
@@ -66,15 +67,13 @@ export class CombatCalculator {
       ?? entity.innate_dna?.profiles?.['base']?.['reload_time']
       ?? 1.0;
     const reload_bonus = attrs["WEAPON_ADD_RELOAD_SPEED"]?.final ?? 100;
-    const final_reload_time = base_reload / (reload_bonus / 100);
+    const final_reload_time = finalReloadTime(base_reload, reload_bonus);
 
-    const damage_per_shot = total_base_damage * avg_crit_mult * multishot;
-    const burst_dps = damage_per_shot * fire_rate;
-
-    // Sustained = TotalMagDamage / (Time_to_empty + Reload)
-    const shots_in_mag = mag_size / multishot;
-    const time_to_empty = shots_in_mag / fire_rate;
-    const sustained_dps = (damage_per_shot * shots_in_mag) / (time_to_empty + final_reload_time);
+    // DPS del Arsenal (primitivas `formulas/weapon/dps.ts`, P4).
+    const damage_per_shot = averageShot(total_base_damage, avg_crit_mult, multishot);
+    const { burst: burst_dps, sustained: sustained_dps } = weaponDps({
+      damagePerShot: damage_per_shot, fireRate: fire_rate, magSize: mag_size, multishot, reloadTime: final_reload_time,
+    });
 
     return {
       average_crit_multiplier: avg_crit_mult,

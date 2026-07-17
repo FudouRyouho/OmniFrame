@@ -16,6 +16,7 @@
  */
 import type { SimulationEntity } from "../../contracts";
 import { isWeaponDamageToken, damageTypeFromToken } from "../../contracts/damage-logic";
+import { scaleDotBase } from "../../formulas/status/dot-base-scaling";
 import type { DamageType } from "@shared/types";
 
 export interface DamageInstance {
@@ -59,12 +60,10 @@ export function deriveInstance(entity: SimulationEntity): DamageInstance {
 
   const moddedBase = Object.values(damageByToken).reduce((sum, v) => sum + v, 0);
 
-  // `modded_base` del DoT = base innato × el multiplicador de base-damage (Serration = `WEAPON_ADD_DAMAGE`
-  // final/base). NO el compuesto: el DoT no cuenta el daño de mods de elemento (empírico, `ingame-tests`).
-  const serration = attrs["WEAPON_ADD_DAMAGE"];
-  const serrationMult = serration && serration.base ? serration.final / serration.base : 1;
+  // `modded_base` del DoT = base innato × factor de base-damage (Serration), NO el compuesto — el DoT no
+  // cuenta el daño de mods de elemento (empírico, `ingame-tests`). Primitiva `scaleDotBase` (P3, §16).
   const dot = entity.dot_scaling;
-  const dotModdedBase = dot ? dot.innateBaseTotal * serrationMult : moddedBase;
+  const dotModdedBase = dot ? scaleDotBase(dot.innateBaseTotal, attrs["WEAPON_ADD_DAMAGE"]) : moddedBase;
   const ownElementBonusPct = dot?.ownElementBonusPct ?? {};
 
   return {

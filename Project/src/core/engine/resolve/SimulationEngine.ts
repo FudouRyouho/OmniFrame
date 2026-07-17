@@ -14,7 +14,8 @@ import type {
   TraceStep
 } from "../contracts";
 import { isWeaponDamageToken } from "../contracts/damage-logic";
-import { applyAdditiveBonus, stackDecayBonusPct } from "../formulas/common/scaling-base";
+import { stackDecayBonusPct } from "../formulas/common/scaling-base";
+import { resolveStatValue, globalDamageBucketFactor } from "../formulas/weapon/stat-accumulator";
 import { coBonusPct } from "../formulas/weapon/weapon-condition-overload";
 import { meleeComboMult } from "../formulas/weapon/melee-combo";
 import { sniperComboMult } from "../formulas/weapon/sniper-combo";
@@ -262,23 +263,35 @@ export class SimulationEngine {
     this.modifiers.forEach(mod => {
       const targetKey = `${mod.target_entity}:${mod.target_attribute}`;
       
-      // Explicit source dependency
+      // Explicit source dependency. Con `source_entity` la arista CRUZA a otra entidad (buff
+      // cross-entity, ej. Roar: warframe strength → pool de facción del arma; arch §15). Sin él,
+      // intra-entidad (default histórico).
       if (mod.source_attribute) {
-        const sourceKey = `${mod.target_entity}:${mod.source_attribute}`;
+        const sourceKey = `${mod.source_entity ?? mod.target_entity}:${mod.source_attribute}`;
         if (in_degree.has(sourceKey)) {
           adj.get(sourceKey)!.push(targetKey);
           in_degree.set(targetKey, (in_degree.get(targetKey) || 0) + 1);
         }
       }
+    });
 
-      // Implicit global dependency: damage scales with WEAPON_ADD_DAMAGE
-      if (isWeaponDamageToken(mod.target_attribute)) {
-        const sourceKey = `${mod.target_entity}:WEAPON_ADD_DAMAGE`;
-        if (in_degree.has(sourceKey)) {
-          adj.get(sourceKey)!.push(targetKey);
-          in_degree.set(targetKey, (in_degree.get(targetKey) || 0) + 1);
+    // Dependencia global ESTRUCTURAL (no gateada por modifier): TODO daño-token escala con los pools
+    // GLOBALES del arma (Serration + facción, §16) → ambos deben resolver ANTES que el token que los
+    // lee en calculateCurrentValue. Antes vivía dentro del loop de modifiers (solo cableaba tokens CON
+    // modifier; el resto dependía del orden de inserción — frágil, y se rompía cuando facción entra por
+    // una arista cross-entity que la retrasa en la cola de Kahn). Roar (§15) lo destapó.
+    this.entities.forEach(entity => {
+      Object.keys(entity.attributes).forEach(attrId => {
+        if (!isWeaponDamageToken(attrId)) return;
+        const targetKey = `${entity.id}:${attrId}`;
+        for (const globalNode of ["WEAPON_ADD_DAMAGE", "GAMEPLAY_MULT_FACTION_DAMAGE"]) {
+          const sourceKey = `${entity.id}:${globalNode}`;
+          if (in_degree.has(sourceKey)) {
+            adj.get(sourceKey)!.push(targetKey);
+            in_degree.set(targetKey, (in_degree.get(targetKey) || 0) + 1);
+          }
         }
-      }
+      });
     });
 
     // Kahn's Algorithm
@@ -327,9 +340,11 @@ export class SimulationEngine {
         } else if ('value' in mod) {
           modValue = mod.value;
 
-          // Scaling from another attribute (value ∝ final/base de otro nodo).
+          // Scaling from another attribute (value ∝ final/base de otro nodo). Con `source_entity`
+          // el nodo source vive en OTRA entidad (cross-entity, ej. Roar); sin él, en esta misma.
           if (mod.source_attribute) {
-            const sourceNode = entity.attributes[mod.source_attribute];
+            const sourceEntity = mod.source_entity ? this.entities.get(mod.source_entity) : entity;
+            const sourceNode = sourceEntity?.attributes[mod.source_attribute];
             if (sourceNode) {
               const scaleFactor = sourceNode.final / (sourceNode.base || 1);
               modValue = mod.value * scaleFactor;
@@ -370,17 +385,13 @@ export class SimulationEngine {
     const node = entity.attributes[attributeId];
     if (!node) return 0;
 
-    const weaponDamageNode = entity.attributes["WEAPON_ADD_DAMAGE"];
-    const globalDmgMult = weaponDamageNode
-      ? (weaponDamageNode.final / (weaponDamageNode.base || 100))
-      : 1.0;
+    let val = resolveStatValue(node);
 
-    const scaledBase = applyAdditiveBonus(node.base + node.base_flat, node.base_add_pct);
-    const withMods = applyAdditiveBonus(scaledBase, node.mods_add_pct);
-    let val = (withMods + node.total_flat) * node.multiplicative;
-
+    // Los daño-tokens llevan los factores de los pools GLOBALES (suman dentro, multiplican afuera,
+    // arch-decisions §16): Serration (aditivo, Step 1) y facción (Roar/Bane, Step 3). Misma primitiva.
     if (isWeaponDamageToken(attributeId)) {
-      val *= globalDmgMult;
+      val *= globalDamageBucketFactor(entity.attributes["WEAPON_ADD_DAMAGE"]);
+      val *= globalDamageBucketFactor(entity.attributes["GAMEPLAY_MULT_FACTION_DAMAGE"]);
     }
 
     return val;

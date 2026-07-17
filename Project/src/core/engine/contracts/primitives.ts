@@ -34,7 +34,11 @@ export interface ModifierBase {
   target_entity: EntityId;
   target_channel?: string; // Overrides target_entity resolution — engine busca la entidad con este channel
   target_attribute: AttributeId;
-  source_attribute?: AttributeId; // For cross-attribute scaling
+  source_attribute?: AttributeId; // For cross-attribute scaling (misma entidad)
+  // Cross-ENTITY scaling: el `source_attribute` se lee de OTRA entidad, no de `target_entity`
+  // (buff source→target, ej. Roar: warframe strength → pool de facción del arma; arch-decisions §15).
+  // Default = target_entity (deja intacto el escalado intra-entidad histórico).
+  source_entity?: EntityId;
   condition?: ConditionInput;
 }
 
