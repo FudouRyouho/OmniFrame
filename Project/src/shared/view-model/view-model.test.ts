@@ -32,7 +32,7 @@ describe('project() — ViewModelContract fiel al snapshot (display-only / C1)',
     expect(vm.entities.length).toBe(snapshot.length);
   });
 
-  it('cada stat es fiel al AttributeNode y NO filtra los 6 buckets internos', () => {
+  it('cada stat es fiel al AttributeNode y NO filtra los 5 buckets internos', () => {
     for (const entity of snapshot) {
       const vmEntity = vm.entities.find((e) => e.id === entity.id);
       expect(vmEntity).toBeTruthy();

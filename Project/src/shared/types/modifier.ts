@@ -353,6 +353,13 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
   WEAPON_ADD_DAMAGE_PER_STATUS_TYPE: { attr: 'WEAPON_ADD_DAMAGE', op: 'CONDITION_OVERLOAD', co_factors: { stacks_var: 'active_stacks', status_count_var: 'status_type_count' } },
 
   // ── (2) FLAG — toPercent: JSON almacena 1.30 = +30% → 30 para mods_add_pct ────
+  // ⚠️ Esta entrada hace DOS cosas: el toPercent, y **pisar la op del token**. El segmento
+  // `_MULT_` derivaría `MULTIPLICATIVE` por resolveToken(); la op real es `ADD` — los miembros
+  // del pool de facción SUMAN entre sí (Roar+Bane ×2.428, verificado in-game). El nombre del
+  // token es el que está mal (sería GAMEPLAY_ADD_FACTION_DAMAGE), no la op. NO quitar este `op`
+  // sin renombrar el token primero: resolveToken() derivaría MULTIPLICATIVE y los miembros
+  // multiplicarían en vez de sumar. Rename diferido tras el shim C2F_FACTION_TOKENS_DEFERRED
+  // (ver docs/domains/engine/design/vocabulary.md §4/L-8).
   GAMEPLAY_MULT_FACTION_DAMAGE:     { attr: 'GAMEPLAY_MULT_FACTION_DAMAGE',     op: 'ADD', toPercent: true },
 
   // ── (3) CONVERGENCIA — FLAT/BASE comparten nodo con su par ADD ────────────────

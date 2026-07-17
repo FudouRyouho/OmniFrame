@@ -46,7 +46,7 @@ export interface ViewModelContract {
 
 /**
  * Proyecta la salida nativa de C (`snapshot(): SimulationEntity[]`) al contrato
- * de display. Pura y total: tira los 6 buckets internos del nodo y queda el
+ * de display. Pura y total: tira los 5 buckets internos del nodo y queda el
  * `final` + unidad + categoría por entidad. [D-7 Fase 4] unit/category ya NO viajan
  * en el nodo (el engine es puro) — se adjuntan acá por lookup keyed en el token,
  * vía `lib/format/stat-presentation`. La label NO va en el contrato: la adjunta el

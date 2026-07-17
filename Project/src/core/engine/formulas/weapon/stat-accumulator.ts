@@ -8,11 +8,9 @@
  * Vocabulario (`docs/domains/engine/design/vocabulary.md`): `base` = input · los **5 buckets** = las
  * ranuras acumuladoras · `pool` = grupo de apilado aditivo `(1+Σ)` · `final` = output.
  *
- * ⚠️ Deuda de ESTRUCTURA (no de vocabulario): el acumulador tiene un set **cerrado** de ranuras aditivas
- * (`base_add_pct`, `mods_add_pct`), sin colección abierta de pools nombrados. Por eso los pools globales
- * (base-damage/facción) se realizan como **nodos falsos** en vez de vivir dentro del nodo que escalan —
- * ver `arch-decisions §16` y `vocabulary.md §3`. La forma honesta (`Base × ∏_pools(1+Σ) + ΣFlat`, de
- * `calculating-bonuses.md`) está EN DEBATE, no decidida.
+ * Que un pool GLOBAL se aplique leyendo el ratio `final/base` de un nodo designado es `DC-OQ-ENGINE-1`
+ * (decisión CERRADA, `governance/closed-decisions.md`) — **no un hack**: expresa el pool ADITIVO (Step 1 de
+ * `calculating-bonuses.md`) como factor. Realización en `arch-decisions §16`; contexto en `vocabulary.md §5`.
  */
 import type { AttributeNode } from "../../contracts";
 import { applyAdditiveBonus } from "../common/scaling-base";
