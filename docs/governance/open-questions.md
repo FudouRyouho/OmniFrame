@@ -42,7 +42,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-UI-5` | OptionsView + decisión de NO-i18n | ui-ux / configuración | abierta — no bloquea |
 | `OQ-UI-6` | Revisión funcional del menú de navegación | ui-ux / interacción | abierta — no bloquea |
 | `OQ-ENGINE-2` | Profile switching en runtime (Incarnon/Alt-fire) | engine / simulation-context | re-scopeada — path dinámico sin consumidor |
-| `OQ-ENGINE-7` | Nodos de atributo de arma faltantes (Capa 4) | engine / hydration | abierta — no bloquea |
+| `OQ-ENGINE-7` | Nodos de arma faltantes (Capa 4): resta el eje (c)/C2 | engine / hydration | abierta — no bloquea |
 | `OQ-ENGINE-8` | "Proyección" sobrecargado: Capa D vs payload de C | engine / vocabulario de capas | abierta |
 | `OQ-ENGINE-9` | Estructura interna de `@core/engine` + harness | engine / arquitectura `@core` | **cerrada** → `closed-decisions.md` |
 | `OQ-ENGINE-10` | Capa E (Presentación / ViewModel) + rename de D | engine / capas + ui-ux | abierta — propuesta prematura |
@@ -292,29 +292,21 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 
 ---
 
-## OQ-ENGINE-7 — Materialización de nodos de atributo de arma faltantes (Capa 4) — **ABIERTO (2026-06-06) — avance 2026-06-10**
+## OQ-ENGINE-7 — Materialización de nodos de atributo de arma faltantes (Capa 4) — **ABIERTA: ejes (a)+(b) resueltos por molde, eje (c)/C2 de fondo**
 **Dominio:** engine / hydration
-**Contexto:** ~18 tokens `WEAPON_*` catalogados y mapeados producen un `Modifier` correcto, pero **ningún nodo lo recibe**: `ItemRepository.getDNA()` / `createBaseEntity()` solo materializa ~8 nodos de arma (crit chance/mult, status chance, fire rate, multishot, magazine, reload, daño). El resto (`punch_through`, `recoil`, `zoom`, `projectile_speed`, `ammo_max`, `headshot_mult`, familia `combo_*`/`heavy_*`, etc.) se evapora silenciosamente. **Caso disparador:** `WEAPON_FLAT_PUNCH_THROUGH` (rename cerrado 2026-06-06; op `ADD_FLAT` correcta vía `resolveToken`; 10 mods + 7 stats incarnon) — el token está bien resuelto pero no hay nodo `PUNCH_THROUGH`.
-**Pregunta:** ¿cómo y cuándo el engine materializa estos nodos? Separar los **tres ejes** (no conflacionar):
-- **(a) Operación del upgrade** — ya resuelta para punch through (`ADD_FLAT`, flat post-escala).
-- **(b) Dato base faltante** — ¿de dónde sale el valor nato del arma? (la mayoría = 0m; innatos como Lanka 5.0m / charged-shot only / forma incarnon — ver `references/wiki/mechanics/punch-through.md`). ¿Lo expone `@wfcd/items` en el raw, o requiere override por-arma?
-- **(c) Resolución del ataque** — ¿el stat computa o es display-only? Punch through no modifica daño directo; cambia geometría de penetración (cuántos blancos atraviesa) — depende de un modelo de impacto que aún no existe.
-**Condición para resolver:** cuando el foco *weapons* llegue a Capa 4 (prioridad 2 del inventario, tras Capa 3 ya cerrada). Probable que se resuelva por familias de nodo, no token a token.
-**No bloquea:** captura de datos ni el vocabulario (token ya correcto y aplicado).
-**Progreso Capa 4 (2026-06-10) — 3 nodos materializados; frente PAUSADO en ammo. Los "moldes" de base son el patrón reusable para el resto de la capa:**
-- **`punch_through`** ✅ (ejes a+b) — molde **override**: `override per-ataque ?? raw ?? 0` (el raw expone el campo pero vale 0 en 100% del dataset; innatos vía `weapon-stats.override.json`). Op `ADD_FLAT`. Consumidor `lanka.test.ts`.
-- **`projectile_speed`** ✅ — molde **raw**: base = `flight` (m/s reales), op `ADD` (%). Gate durable **`flight != null` (ausencia ≠ 0)**: hitscan (274/274 null) → nodo *ausente*, no `base:0` (tratarlo como 0 daría velocidad espuria). Consumidor `cedo-prime.test.ts`.
-- **`recoil`** ✅ (solo valor) — molde **sintético**: base `100` incondicional (no hay dato absoluto público; DE lo tiene interno/oculto, solo semántica relativa "% sobre el nato"), op `ADD` bidireccional. Consumidor `lanka.test.ts`.
-- **Patrón validado:** una clave en `getDNA()` por stat + override per-ataque para innatos; `createBaseEntity` ya acepta todo `isUpgrade()`.
+**Contexto:** ~18 tokens `WEAPON_*` catalogados producen un `Modifier` correcto, pero `ItemRepository.getDNA()` solo materializa ~8 nodos de arma — el resto (`punch_through`, `recoil`, `zoom`, `projectile_speed`, `ammo_*`, `headshot_mult`, familias `combo_*`/`heavy_*`/`slam_*`) se evapora sin nodo que lo reciba.
+**Pregunta — separar los tres ejes (no conflacionar):**
+- **(a) Operación del upgrade** — cómo compone el token. *Resuelta por molde.*
+- **(b) Dato base faltante** — de dónde sale el valor nato del arma (raw de `@wfcd/items`, override por-arma, o sintético). *Resuelta por molde.*
+- **(c) Resolución del ataque** — ¿el stat computa o es display-only? Es el **eje de fondo abierto**: los nodos computan valor en C1 (metros, m/s) pero su *efecto* es **C2** (geometría de penetración, falloff) — sin modelo todavía; `it.todo` en `lanka.test.ts`/`cedo-prime.test.ts`.
 
-**Sigue abierto:**
-- **(c) resolución del ataque** — el eje abierto de fondo: los nodos computan valor en C1 (metros, m/s) pero su *efecto* es **C2** (geometría de penetración, falloff) — `it.todo` en los consumidores. Sub-caso `projectile_speed`: hitscan-con-falloff es una mecánica C2 entera (`daño(distancia)`, spec `damage-falloff.md`); dónde aterriza el % de speed con gate `flight=null` se decide con consumidor C2, no antes.
-- **`recoil` = nodo inerte hasta modelar** (sub-OQ) — es *camera feel*, ni C1 ni C2 lo computan; el número es correcto pero "muerto" hasta decidir cómo se modela/usa y cómo se representa en UI. Satélites: clamp de sobre-reducción (`final<0` → ¿ley C1 o presentación D?), aim vs hip recoil (sin dato público), fire-rate↑recoil. Deuda de datos: Stabilizer/Steady Hands no curados en `mod-stats.override.json`.
-- **ammo — frente pausado:** `ammo_max` = **deuda de FUENTE** (`@wfcd/items` no expone ammo max, 0/340; el real solo en wiki → no se materializa con base sintética para no descartar el dato real; pariente eje b). `ammo_efficiency` = **no encaja en los moldes** (acumulador base 0, op `ADD` no compone sobre 0; efecto `1/(1−eff)` es C2; 2 mods condicionales) → modelado pendiente de un caso real (Laetum).
-- **Próximos candidatos sin tocar:** `zoom`, `headshot_mult`, familias `combo_*`/`heavy_*`, `slam_*`. Retomar tras la campaña de saneamiento de `references/wiki/` (`doc-map.md §5`).
-**Fuente:** `.working/engine-ignorance-inventory.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,accuracy}.md`; `docs/semantic/upgrade-tokens.md` (filas `WEAPON_FLAT_PUNCH_THROUGH`, `WEAPON_ADD_PROJECTILE_SPEED`).
+**Qué hay:** 3 nodos materializados (2026-06-10), que fijan los **tres moldes de base reusables** para el resto de la capa — `punch_through` (override), `projectile_speed` (raw, gate `flight != null` = ausencia ≠ 0), `recoil` (sintético 100, nodo inerte). Detalle vivo de cada molde: [`gap-map.md §Capa 4`](../domains/engine/test/gap-map.md).
+**Qué falta:** el resto de los nodos (`zoom`, `ammo_max`/`ammo_efficiency`, `headshot_mult`, `combo_*`/`heavy_*`/`slam_*`) por su molde; `ammo` pausado (`ammo_max` = deuda de fuente, `@wfcd/items` no lo expone; `ammo_efficiency` = no encaja en los moldes, efecto `1/(1−eff)` es C2, espera caso Laetum); y sobre todo el **eje (c)/C2** — falloff, penetración, geometría balística — que decide si estos nodos son display-only o computan.
 
----
+**No bloquea:** captura de datos ni el vocabulario (tokens correctos y aplicados).
+**Gate:** el resto se materializa cuando el foco *weapons* retome Capa 4; el eje (c) se resuelve con consumidor C2, no antes.
+**Vínculo:** el mapa de gaps y el detalle de moldes viven en `gap-map.md §Capa 4` (SSoT vivo). Spec de falloff: [`damage-falloff.md`](../../references/wiki/mechanics/damage-falloff.md).
+**Fuente:** `gap-map.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,recoil,damage-falloff}.md`; `docs/semantic/upgrade-tokens.md`.
 
 ## OQ-ENGINE-8 — "Proyección" sobrecargado: nombre de Capa D vs payload de salida de C — **ABIERTO (2026-06-10)**
 **Dominio:** engine / vocabulario de capas
