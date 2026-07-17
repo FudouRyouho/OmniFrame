@@ -106,7 +106,14 @@ una alternativa: no la reabre.** Lo que no se re-debate es el patrón `final/bas
 
 **Ruling `@providers → @core` = PERMITIDO (2026-06-12):** `EnsembleProvider` (capa de composición / adapter) importa `@core/intention/ensemble-store`. Adapter→core es la dirección correcta de Ports&Adapters; la Restricción 1 protege a los **dominios de feature** entre sí y de `@core`, **no** a la capa de composición. **No contradice** "los dominios no importan `@core`" (sigue NO; `domains/* → @core` es drift): `@providers` no es un dominio de feature. Esto resuelve la **simetría de entrada** de `OQ-ENGINE-FUTURE` (contrato de intención en `@shared` ↔ store en `@core`).
 
-**Pendiente (gated por consumidor D real — Stage 2, NO ejecutar en abstracto):** extraer `engine/hooks/` (D-parcial) fuera de `@core`; separar bootstrap de `fixtures/`; construir A2 (`SimulationContext` aún mezcla intención+dato+leyes); `ProjectionSnapshot` → `ViewModelContract`. También diferido: lift de `contracts/`/`primitives/` a nivel `@core` (ubicación de `damage-logic`/`damage-multipliers`/`mod-overrides` = decisión nueva).
+**Cierre del eje (b) — por solución mejor (2026-07-17).** El eje (b) de `OQ-ENGINE-9` preguntaba "dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`)", gated por "esperar a la Capa D real". **Se disolvió al ejecutarse el eje (a):** el harness dejó de ser una cosa — `bootstrap/` se graduó a producción (lo llama `main.tsx`) y `fixtures/builds.ts` quedó como el **catálogo de builds compartido tests↔CLI**, consumido por el oráculo D2 (`scripts/oracle/oracle.ts`) y por las suites. Es el harness compartido que el Contexto original pedía: cumple su función y hace crecer el CLI y D1/D2. El gate además nunca fue el correcto — D consume `output/`, nunca `fixtures/`, así que esperar a D no iba a informar esta ubicación. Cerrado sin reorganizar: no hay consumidor que pida moverlo.
+
+**Pendiente (verificado contra código 2026-07-17):**
+- **A2** — `SimulationContext` (`contracts/contracts.ts`) sigue mezclando intención (`active_profile_id`/`flags`/`variables`) + leyes (`laws`) + dato (`target`).
+- **Shape de la Capa A** (backlog del usuario, 2026-06-16; pariente de A2): la estructura de las **intenciones** huele incoherente — `EnsembleIntention` mezcla `slots`+`arcanes` y la forma de los intents pide una estructura más coherente → revisión de la Capa A. Encaja con una fase futura del saneamiento de `@core`. No bloquea.
+- **Lift de `contracts/`/`primitives/` a nivel `@core`** — siguen en `engine/contracts/`; la ubicación de `damage-logic`/`damage-multipliers`/`mod-overrides` = decisión nueva.
+
+De la lista original de Stage 2 ya no queda nada más: `engine/hooks/` se purgó (era cluster muerto, no se extrajo), el bootstrap se separó de `fixtures/` (`bootstrap/engine-data.ts`; `fixtures/` solo aloja `builds.ts`) y `ProjectionSnapshot` fue reemplazado por `ViewModelContract` (consumido por D1 `use-view-model`, D2 oráculo y `UpgradeView`).
 
 **Condición para reabrir el ruling:** ninguna prevista. Reabrir solo si `@providers` deja de ser capa de composición pura.
 

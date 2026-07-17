@@ -44,7 +44,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-ENGINE-2` | Profile switching en runtime (Incarnon/Alt-fire) | engine / simulation-context | re-scopeada — path dinámico sin consumidor |
 | `OQ-ENGINE-7` | Nodos de atributo de arma faltantes (Capa 4) | engine / hydration | abierta — no bloquea |
 | `OQ-ENGINE-8` | "Proyección" sobrecargado: Capa D vs payload de C | engine / vocabulario de capas | abierta |
-| `OQ-ENGINE-9` | Estructura interna de `@core/engine` + harness | engine / arquitectura `@core` | parcialmente resuelta |
+| `OQ-ENGINE-9` | Estructura interna de `@core/engine` + harness | engine / arquitectura `@core` | **cerrada** → `closed-decisions.md` |
 | `OQ-ENGINE-10` | Capa E (Presentación / ViewModel) + rename de D | engine / capas + ui-ux | abierta — propuesta prematura |
 | `OQ-ENGINE-11` | Exaltadas: intención estructural en A1 | engine / Capa A | abierta — diferida |
 | `OQ-ENGINE-12` | Timing del crit condicional (Puncture/Cold) | engine / C2 | abierta — no bloquea el núcleo |
@@ -340,19 +340,11 @@ Ambos forks son **decisión de intención** (qué pregunta responde la métrica)
 
 ---
 
-## OQ-ENGINE-9 — Estructura interna de `@core/engine` y ubicación del harness de consumidores — **PARCIALMENTE RESUELTO (2026-06-12)**
-**Dominio:** engine / arquitectura de `@core`
-**Contexto:** Al extraer el harness compartido tests↔CLI (bootstrap de data + intenciones-fixture) no había ubicación clara en `@core/engine/` para scaffolding de **consumidores no-dominio**. Se resolvió pragmáticamente en `@core/engine/fixtures/` (provisional), que además **mezcla** dos cosas distintas: el bootstrap (carga de data real del juego — lado A) y las intenciones-fixture (builds predefinidas — input de prueba). Se suma al olor ya acumulado: nombres solapados (OQ-ENGINE-8), Capa A co-ubicada en `providers/`, `useSimulation` (D parcial) dentro de `@core`, `output/` (salida de C). `@core` creció sin una estructura interna deliberada.
-**Pregunta:** ¿Cómo se reestructura internamente `@core/engine`? Ejes: (a) separar bootstrap de fixtures; (b) dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`); (c) Capa A fuera de `providers/`; (d) extraer la D-parcial (`useSimulation`).
-**Gate:** la organización correcta se **deriva** de cómo consume la Capa D real — reestructurar antes es especulativo. Hasta entonces: ubicaciones pragmáticas + esta OQ como registro vivo del olor.
-**No bloquea:** el harness compartido ni el CLI; las ubicaciones son provisionales y mecánicas.
-**Vínculo:** OQ-ENGINE-8 (sobrecarga de naming), OQ-ENGINE-FUTURE (simetría de entrada / Capa A respecto a `@core`/`providers`).
-**Fuente:** debate 2026-06-11 sobre extracción del harness tests↔CLI; `arch-decisions.md §6-7`.
-**Ejes resueltos (rama `refactor/core-stage0-restructure`):** **(c)** Capa A fuera de `providers/` ✓ (Stage 0+1, 2026-06-12: `ensemble-store`→`@core/intention`, `ensemble.types`→`@shared`, reorg `engine/{resolve,simulate}`, `bridge`→`@core/bridge`; ruling `@providers→@core` PERMITIDO — detalle `closed-decisions.md#DC-OQ-ENGINE-9`). **(d)** por purga, no extracción (2026-06-16): `@core/engine/hooks/` era cluster muerto → purgado completo. **(a)** `loadEngineData` sacado de `fixtures/` → `@core/engine/bootstrap/` (2026-07-02); `fixtures/` ya solo aloja `builds.ts`.
-**Sigue abierto — eje (b):** dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`). Gated por la Capa D real.
-**Backlog abierto — shape de la Capa A (usuario, 2026-06-16):** la estructura de las **intenciones** huele incoherente — `Ensemble` mezcla `slots`+`arcanes` y la forma de las intents en general pide una estructura más coherente → revisión de la Capa A. Pariente de "A2 nunca construido"; encaja con una fase futura de la campaña de saneamiento `@core`. No bloquea.
-
----
+## OQ-ENGINE-9 — Estructura interna de `@core/engine` y ubicación del harness — **CERRADA (2026-07-17) → migrada a `closed-decisions.md` (`DC-OQ-ENGINE-9`)**
+Los 4 ejes están resueltos: (a) bootstrap separado de `fixtures/`, (c) Capa A fuera de `providers/`,
+(d) `engine/hooks/` purgado, (b) cerrado por solución mejor — el harness dejó de ser una cosa y
+`fixtures/builds.ts` es hoy el catálogo compartido tests↔CLI que consume el oráculo D2.
+Residual (A2 · shape de la Capa A · lift de `contracts/`) vive en el §Pendiente de `DC-OQ-ENGINE-9`.
 
 ## OQ-DATA-9 — Borde de entrada: el merge de overrides sigue duplicado entre el engine y el display — **ABIERTA (2026-06-12; re-scopeada 2026-07-17 contra código)**
 **Dominio:** data / integration / arquitectura de acceso
