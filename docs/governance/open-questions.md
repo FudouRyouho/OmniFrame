@@ -417,42 +417,22 @@ Cerrada por Fase 1 (`fetch` lazy vía `BrowserAdapter`, bundle 2.3 MB→565 kB) 
 
 ---
 
-## OQ-UI-2 — Estado de sesión/UI del usuario: ¿dónde vive en A→B→C→D→UI + 0? — **ABIERTO (2026-06-13)**
+## OQ-UI-2 — Estado de sesión/UI del usuario: ¿dónde encaja en A→B→C→D→UI + 0? — **ABIERTA (2026-06-13; re-scopeada 2026-07-17 contra código)**
 **Dominio:** ui-ux / arquitectura de estado (cruza 0, A, B, D)
 
-**Contexto:** Existe un estado que el modelo de capas (`simulation-architecture.md`) **no nombra**: el *estado de sesión de la UI / del usuario* — qué slot está seleccionado, metadata visual de incarnon/focus/companion/vehicles, selección de shard en curso. Hoy vive en dos piezas con responsabilidades mezcladas:
-- **`domains/arsenal/state/use-arsenal-stub-state.ts`** — store `useSyncExternalStore` module-level, marcado por el usuario como *"stub con pretensiones de intención de Capa A y mezcla de responsabilidades con B"*.
-- **`domains/arsenal/arsenal-state.ts`** (`@status stub`) — tipos + defaults. `ArsenalMetadataSource = "core"|"dataset"|"mock"|"manual"|"unavailable"`: el propio shape **conflaciona** intención (A), dato canónico (0) y display/mock (B).
+**Contexto:** hay un estado que el modelo de capas (`simulation-architecture.md`) **no nombra**: el *estado de sesión de la UI* — qué slot está seleccionado, selección de shard en curso, foco/navegación transitoria. Es distinto de la intención de build (`EnsembleIntention`/`ensemble-store`, A1 = *qué está equipado*): esto es *en qué está el usuario ahora mismo en la UI*. Hoy vive en `domains/arsenal/arsenal-ui-session.ts` (store `useSyncExternalStore` module-level).
 
-El principio *"la UI tiene la responsabilidad del estado del usuario"* se invoca entre líneas pero **no está documentado ni ubicado** en el flujo. Distinto de la intención de build (`EnsembleIntention`/`ensemble-store`, ya en `@core/intention`, A1 — *qué está equipado*); esto es *en qué está el usuario ahora mismo en la UI* (selección, navegación, metadata visual transitoria, build "sucia").
+**Pregunta abierta (el eje de fondo):** ¿dónde encaja el estado de sesión UI en el flujo? ¿Es un plano ortogonal (como 0 lo es para datos) que ni A ni B poseen, o React-state local sin lugar en el modelo de capas? El *qué* (nombre, hogar físico) ya está resuelto; falta el *encaje conceptual*.
 
-**Pregunta:** ¿Dónde vive el estado de sesión/UI y cómo se separa de las capas existentes?
-- ¿Es un plano ortogonal (como 0 lo es para datos) — "estado de UI" que ni A ni B poseen?
-- ¿Qué parte de `arsenal-state` es **intención** (→ A/`@core/intention`), qué parte es **dato** (→ 0/DataRegistry), qué parte es **display derivado** (→ proyección/D), y qué queda como **estado puro de UI** (selección/foco, propiedad legítima de la UI)?
-- El shard ya vive bien en `EnsembleStore` (intención); el resto del metadata (incarnon/focus/companion) debe re-mapearse a su capa real.
+**Resuelto (refactor de honestidad, 2026-06-13):** la vieja sombra `arsenal-state` fundía intención (A) + dato (0) + display/mock (B) en un shape con `ArsenalMetadataSource`. Al cruzarla, la mitad `arsenalMetadata` estaba **muerta** (0 consumidores, mock duplicado de una feature viva) → **purgada como dead-code**, no migrada. Sobrevive el estado UI-local (`ArsenalUiState`/`selectArchonShardSlot`), renombrado a `arsenal-ui-session`. Decisión de shape: es **React-state local** (hogar por vista), NO plano global ni capa E; se conserva el store module-level por la **vida cross-route** del slot (lo escribe `ArsenalView`, lo lee `ArchonShardSelectionView` tras `navigate`). Ref `DC-OQ-STUB-1`. Exemplar ya-honesto: `IncarnonEvolutionSelector` (A vía `useEnsemble` + 0 vía `useCatalog`).
 
-**No bloquea:** la UI funciona (el stub anda). Es deuda de arquitectura de estado + documentación inexistente.
+**Sigue abierto:**
+- El **encaje conceptual** del estado de sesión UI en A→B→C→D→UI + 0 (la pregunta de fondo).
+- **Chrome de slot disperso:** nombre+imagen por slot hidratados a mano en `ArsenalView` (`Registry.getItemById` en `useEffect`) y `SLOT_DEFINITIONS` (labels/desc/iconos inline). Es lectura de 0 inconsistente — deuda de consistencia menor (la Capa E que iba a centralizarlo se descartó, `DC-OQ-ENGINE-10`; el patrón vigente es leer 0 directo). Los candidatos de formateo/íconos ya están en OQ-DATA-10/-13.
 
-**Dirección de refactor (2026-06-13, ver `DC-OQ-ENGINE-10-C`):** la sombra `arsenal-state` se parte por **dos ejes ortogonales** que hoy funde:
-- **Eje 1 — honestidad de intención (E-independiente, es el P0):** purgar fake-`A`+`B`+`D` y cablear a `useEnsemble` (el espejo de A ya existe y está sano). Los slots sin channel en A pasan a *"estado UI sin channel disponible"* (honesto, `DC-OQ-STUB-1`), no a wiring simulado.
-- **Eje 2 — centralización de chrome (diferido):** los componentes siguen leyendo `0` directo (patrón existente de los detail views, **no** isla nueva); la centralización en `E` se retoma **después** de estabilizar `A→D→UI` + `A=UI`. `E` no es block stage.
-- **Estado UI puro** (slot seleccionado, filtros, hover, nav) = React-state legítimo, **hogar local por vista**; NO es `E`, NO es plano global, NO pasa por nada. (Ojo colisión de nombres: esto es estado-UI-local, distinto de la **Capa E**.)
-- **Backlog durable:** mapear los saltos `0→E` como candidatos ("esto debería vivir en E") a medida que se tocan, no en memoria de trabajo.
-- **Checkpoint abierto:** ¿los componentes de arsenal ya tienen acceso a `DataRegistry`/`0`, o reciben chrome solo vía la sombra? Verificar antes de ejecutar (afecta el costo de la purga). Plan de stages en `.working/`.
-
-**Progreso (2026-06-13):**
-- **Stage 0 (reconocimiento) CERRADO.** Mapa: solo 2 consumidores vivos de la sombra (`ArsenalView`, `ArchonShardSelectionView`), ambos vía `useArsenalUiState`; `incarnon/IncarnorEvolutionSelector` es el exemplar ya-honesto (A vía `useEnsemble` + `0` vía `useCatalog`, **no** toca la sombra). **Checkpoint C0 → purga barata** (ambos consumidores ya leen `0` directo; el chrome no fluye por la sombra). Hallazgo clave: la mitad `arsenalMetadata` estaba **muerta** (0 consumidores) y para incarnon era mock duplicado de una feature viva.
-- **Stage 1 (Eje 1, purga) CERRADO.** Resultó un **borrado de dead-code**, no una migración: eliminada toda la mitad `arsenalMetadata` (tipos `Arsenal*Metadata*`/`Incarnon*`, enum `ArsenalMetadataSource` `"mock"|"manual"`, factories, `replace*`, 4 acciones del store). Sobrevive estado UI-local: `ArsenalUiState`/`selectArchonShardSlot`/`selectedArchonShardSlotIndex`. `tsc -b --noEmit` → exit 0. **C1** pasa trivial (sin gap de A; el único dato vivo es UI-local). `DC-OQ-STUB-1` aplicado.
-- **Stage 2 (nombrar/dar hogar al estado UI-local) CERRADO.** Decisión del usuario: **store UI renombrado** (mínimo cambio). `arsenal-state.ts`→`arsenal-ui-session.ts`, `state/use-arsenal-stub-state.ts`→`state/use-arsenal-ui-session.ts`, hook `useArsenalUiState`→`useArsenalUiSession`; se conserva el store module-level por la **vida cross-route** del slot (lo escribe `ArsenalView`, lo lee `ArchonShardSelectionView` tras `navigate`). Colisión de nombres con Capa E resuelta (es "sesión UI-local", no presentación). `tsc -b --noEmit` → exit 0. El `//user TODO` se reescribe: nombre/hogar resueltos, queda el eje de fondo (encaje en el modelo de capas).
-- **Sigue abierto:** Eje 2 (chrome → `E`, diferido) + el eje arquitectónico de OQ-UI-2 (dónde encaja el estado de sesión UI en A→B→C→D→UI + 0).
-- **Backlog `0→E` (gate "E real" vs "E nunca", `DC-OQ-ENGINE-10-C`) — plegado desde el scratchpad antes de purgarlo:**
-  - *Ya capturados en OQ hermanas:* dup de íconos de shard (`ArsenalView` `ArchonShardsPreviewSection` + `ArchonShardSelectionView`) y de habilidad → **OQ-DATA-13**; formateo `resolveStatLabel` (`|val1|`), `effectSummary` (token+`base_value`→string en `IncarnonEvolutionSelector`), de-slug `perkId.replace(/_/g,' ')` → **estrato 2 `lib/format`, OQ-DATA-10**.
-  - *Netos de eje-2 (sin otra OQ):* chrome de slot del arsenal — nombre+imagen por slot hidratados a mano en `ArsenalView` (`ArsenalSlotCard`/`ArsenalPreviewPanel`, hoy `Registry.getItemById` en `useEffect`) y `SLOT_DEFINITIONS` (labels/desc/iconos hardcodeados inline). Candidatos a `f(snapshot)` de `E` cuando se retome eje-2.
-
-**Vínculo:** **OQ-DATA-9** (0 / borde de entrada — qué es dato canónico), **OQ-ENGINE-9** eje (c) + **OQ-ENGINE-FUTURE** (Capa A / intención respecto a `@core`/`providers`), **OQ-DATA-10/-13** (lo display deriva de la proyección), **OQ-UI-3** (la confirmación de pérdida consulta el estado "sucio" de esta capa), **OQ-ENGINE-10** + `DC-OQ-ENGINE-10-C` (modelo de 2 canales, separación de ejes, secuencia). El mismatch UI↔engine id es síntoma vecino.
-**Fuente:** TODO inline del usuario en `use-arsenal-stub-state.ts`; debate 2026-06-13 (triage de user-TODOs) + iteración de secuencia 2026-06-13.
-
----
+**No bloquea:** la UI funciona.
+**Vínculo:** **OQ-DATA-9** (0 / borde de entrada), **OQ-ENGINE-FUTURE** (Capa A / intención respecto a `@core`), **OQ-DATA-10/-13** (lo display deriva de la proyección), **OQ-UI-3** (la confirmación de pérdida consulta el estado "sucio" de esta capa), `DC-OQ-ENGINE-10-C` (modelo de 2 canales / separación de ejes). El mismatch UI↔engine id es síntoma vecino.
+**Fuente:** TODO inline del usuario en la vieja sombra `arsenal-state`; debate 2026-06-13.
 
 ## OQ-UI-3 — Footer: acciones contextuales de navegación + patrón de confirmación (gated por sistema de guardado) — **ABIERTO (2026-06-13)**
 **Dominio:** ui-ux / interacción + navegación
