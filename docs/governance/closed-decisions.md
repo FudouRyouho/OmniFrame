@@ -193,9 +193,9 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 - **El formateo** (labels/unidades/números) lo provee `lib/format` (estrato de utilidad, `DC-OQ-ENGINE-10-A`), consumido por igual por CLI y UI.
 - Sin esos dos trabajos, E no queda con nada propio: **D se divide en sus dos lentes de salida** — **D1** (`use-view-model`, binding reactivo UI, aún prematuro) y **D2** (`oracle`, CLI). Ambas consumen el mismo `project()` (cut C→D); no hace falta una capa entre medio.
 
-**Consecuencia:** `ViewModelContract` **se queda en D** (no se mueve a E). El modelo de capas es `A→B→C→D→UI` con D leído por dos lentes; **no hay Capa E**. Un agente futuro **no debe re-proponer E**: la confluencia info+chrome se resuelve con 0 (horizontal) + lib/format, no con una capa vertical.
+**Consecuencia:** `ViewModelContract` **se queda en D** (no se mueve a E). El modelo de capas es `A→B→C→D→UI` con D leído por dos lentes; **no hay Capa E**. Un agente futuro **no debe re-proponer E**: la confluencia info+chrome se resuelve con 0 (horizontal) + lib/format, no con una capa vertical. En una frase: **E era sobredimensionar una solución** — el concepto quedó completamente suspendido.
 
-**Qué sobrevive de los sub-DC:** `DC-OQ-ENGINE-10-A` (lib/* = utilidad) intacto — es independiente de E. `DC-OQ-ENGINE-10-C` conserva el modelo de 2 canales de lectura y los dos ejes de refactor; su "Canal 2 = E" se lee ahora como "canal de presentación (D1 + lib/format + chrome de 0)", sin capa E. `DC-OQ-ENGINE-10-B` (topología mini-framework de E) queda como **diseño de arquitectura descartada** — no se construye.
+**Qué sobrevive de los sub-DC:** `DC-OQ-ENGINE-10-A` (lib/* = utilidad) intacto — es independiente de E. `DC-OQ-ENGINE-10-C` conserva el modelo de 2 canales de lectura y los dos ejes de refactor; su "Canal 2 = E" se lee ahora como "canal de presentación (D1 + lib/format + chrome de 0)", sin capa E. `DC-OQ-ENGINE-10-B` (topología mini-framework de E) se **purgó** — era el manual de construcción de E; su historia queda en git.
 
 **Distinto del rename de D:** el "rename D→contrato neutro" que E arrastraba en su enunciado es **decisión aparte y sigue viva** — es `OQ-ENGINE-8` (nombre del payload de salida de C), independiente de que E se descarte.
 
@@ -244,29 +244,6 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 
 **Condición para reabrir:** ninguna.
 **Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-UI-3). Memoria de feedback: *UI no es biblia, derivar de D2*.
-
----
-
-## DC-OQ-ENGINE-10-B — Topología de `E`: mini-framework (núcleo puro + sub-núcleo React) — **SUPERSEDIDO: E DESCARTADA (2026-07-17, `DC-OQ-ENGINE-10`)**
-
-> ⚠️ **Diseño de arquitectura descartada.** Esta era la dirección de *cómo se construiría* la Capa E; E se descartó (`DC-OQ-ENGINE-10`: D se lee por dos lentes, sin capa intermedia). No se construye. Se conserva como registro del debate hasta decidir su destino (`docs-archive/` o purga a git).
-
-**Dominio:** ui-ux / presentación + arquitectura de capas
-
-**Dirección elegida:** `E` se materializa como **módulo/mini-framework (`E/*`)**, no como una clase única, con desacople interno:
-- **Núcleo puro = el snapshot** — composición TS pura, React-free, token-annotated (cruza `0`-chrome + `D`-info, llama a `lib/*` por `DC-OQ-ENGINE-10-A`). **Es el contrato compartido CLI+UI.**
-- **Sub-núcleo React desacoplado = el embed JSX** — render-time, UI-only, **`f(snapshot)`** (lee el snapshot, lo envuelve; nunca recomputa). Es la terminal de composición UI (qué campos se embeben + cómo se arma el bloque), delegando el primitivo a `lib/*`.
-
-**Revisa el modelo:** corrige el *"E = enriquecimiento solo-UI, el CLI no lo usa"* de `OQ-ENGINE-10`. El CLI (D2) **consume el snapshot de E**, no lo bypassea → E **no** es solo-UI; su snapshot es compartido, y solo la **punta embed JSX** es UI-only.
-
-**Guard re-escopado (no borrado):** *"el **núcleo/snapshot** de E es React-free"* (antes: "todo E es React-free"). El guard angosta, no desaparece — sigue protegiendo: (1) que el snapshot no se recompute dentro de React (refs estables para `useSyncExternalStore`), (2) compatibilidad con el consumidor no-React (CLI). El sub-núcleo React siendo render-time **no** viola esto (siempre fue render-time).
-
-**Invariante anti-isla:** el sub-núcleo React debe ser `f(snapshot)`, sin segunda composición. La bifurcación texto/JSX vive **solo en la punta** (el medio de salida, irreducible y legal). Fork en el primitivo de render ≠ isla; isla = lógica duplicada.
-
-**Por qué NO es cierre definitivo:** la definición teórica/técnica es sólida, pero quedan **puntos de abstracción** (micro-arquitectura del núcleo de E) sin resolver. Se difiere a propósito: debatirlos ahora sería discutir sobre un supuesto mientras el **ancla real es la UI** (function-first). El debate de micro-arquitectura **se reabre al componer el núcleo de E**.
-
-**Condición para reabrir:** automática al iniciar la composición del núcleo de E (no requiere evidencia nueva — está agendado).
-**Ref:** `docs/governance/open-questions.md` (OQ-ENGINE-10, OQ-DATA-10), `DC-OQ-ENGINE-10-A`.
 
 ---
 

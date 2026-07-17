@@ -511,12 +511,12 @@ El principio *"la UI tiene la responsabilidad del estado del usuario"* se invoca
 
 **Contexto:** `DialogMenu` funciona y replica en buena medida el menú de Warframe, pero merece una **revisión funcional** (no estética) como componente principal de navegación. Síntomas: la navegación puede ser tosca para una web-app; el control por `esc` **choca** con otras funcionalidades (cerrar otro diálogo / salir de un input) → posible necesidad de un **sistema dedicado de jerarquía de inputs** que evite saltos del menú.
 
-**Sub-eje arquitectónico:** ¿usar **headless UI** aquí es contraproducente? No expone una API como tal; gestionarlo vía React con estados globales puede ser over-engineering. Contrastar con una **capa de captura propia — desacoplada, genérica y react-free** que React consuma (eco del guardrail react-free de `DC-OQ-ENGINE-10-B`, pero aplicado a **inputs/navegación**, no a presentación). Ojo: evaluar el impacto real antes de reescribir (anti-reescritura).
+**Sub-eje arquitectónico:** ¿usar **headless UI** aquí es contraproducente? No expone una API como tal; gestionarlo vía React con estados globales puede ser over-engineering. Contrastar con una **capa de captura propia — desacoplada, genérica y react-free** que React consuma (el principio "núcleo react-free que React solo consume", aplicado a **inputs/navegación**, no a presentación). Ojo: evaluar el impacto real antes de reescribir (anti-reescritura).
 
 **Pregunta:** ¿El proyecto necesita un gestor de inputs/jerarquías dedicado (react-free, consumido por React), o basta endurecer el manejo de `esc`/foco sobre lo actual? ¿headless UI suma o estorba en el menú?
 
 **No bloquea:** nada (el menú navega correctamente).
-**Vínculo:** `DC-OQ-ENGINE-10-B` (núcleo react-free, análogo conceptual), OQ-UI-3 (footer / modelo de navegación), OQ-UI-2 (estado de sesión/UI).
+**Vínculo:** OQ-UI-3 (footer / modelo de navegación), OQ-UI-2 (estado de sesión/UI).
 **Fuente:** TODO inline del usuario en `DialogMenu.tsx`; triage de user-TODOs 2026-06-13.
 
 ---
