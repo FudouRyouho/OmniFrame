@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Documentar la capa de integración entre el estado del usuario y el motor de simulación"
-Version: "v0.0.3"
 Impacto_ID: "D-Integration"
 Fidelidad_Fisica: "Project/src/core/"
 Fecha_de_creacion: "2026-05-18"

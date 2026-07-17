@@ -1,11 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Registro de decisiones D-series del dominio data/ con estado de evolución"
-Version: "v0.1.4"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-07-10"
+Fecha_de_actualizacion: "2026-07-17"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -125,8 +124,8 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 **Estado de fases (camino A):**
 - **Fase 1** (attrs no-daño) ✅ 2026-05-26 — `critical_chance/multiplier`, `status_chance`, `fire_rate`, `magazine_size`, `reload_speed` + `resolveToken()` en `ModRepository`. `reload_time` es dato puro en `innate_dna.profiles`, nunca `AttributeNode`.
 - **Fase 2** (attrs de daño) ✅ — nodos de daño ya son token canónico `WEAPON_ADD_*_DAMAGE` (`mapDamage()`, `DamageCombiner` y familias operan en token-space, filtro `isUpgrade()`); entradas de daño de UPGRADE_MAP eliminadas.
-- **Fase 2b** — resolver la última divergencia no-daño `WEAPON_ADD_DAMAGE → WEAPON_DAMAGE` (nodo global a token puro).
-- **Fase 3** — purgar `UPGRADE_MAP` (post-Fase-2 quedó casi todo identidad; `resolveToken()` lo cubre). Objetivo: un solo espacio token D-6 == id de nodo, de C a la UI.
+- **Fase 2b** ✅ 2026-06-14 — nodo global de daño = token canónico **`WEAPON_ADD_DAMAGE`** (node-id == token D-6; convención **node = variante-ADD**). `WEAPON_DAMAGE` no era token D-6 (sin segmento `OPERATION`) y no existe en el código.
+- **Fase 3** ✅ 2026-06-14 — `UPGRADE_MAP` encogido a su **núcleo irreducible**: `resolveToken()` cubre identidades + acumuladores propios; quedan 3 clases — **alias** (`WEAPON_FIRE_ITERATIONS`), **flag** (`GAMEPLAY_MULT_FACTION_DAMAGE` `toPercent`) y **convergencia** FLAT/BASE→nodo ADD. Objetivo cumplido: un solo espacio token D-6 == id de nodo, de C a la UI.
 - **Fase 4** (payoff presentación) ✅ 2026-06-14 — `attribute-registry` reescrito a `Partial<Record<Upgrade, PresentationMeta>>` (key-typed, node-id **subset**: solo ADD-variants+daño renderizan; FLAT/BASE/sub-familia convergen y no son nodo propio). Leak β muerto: `StaticHydrator` ya no importa `lib/presentation`, `AttributeNode` es puro (sin label/category/unit); `project()` adjunta la meta en el borde C→D. Bug visible resuelto (crit vuelve a renderizar con `%`). Cierra `OQ-DATA-10` (lado SSoT de vocabulario) + `OQ-ENGINE-10` (estrato `lib/format`).
 
 **Rationale durable:** D-7 es el **prerequisito del SSoT de presentación** — el dict se cuelga del vocabulario canónico `Upgrade` (key-typed → un typo en una clave es error de compilador), no de strings sueltos. El bug visible (crit sin `%`) era `attribute-registry` keyed por nombres pre-Fase-1 que el motor ya no emite (relic, no deuda nueva). La convergencia de la `label` + `lib/format` + ruta-catálogo continúa en **OQ-DATA-10** (no es D-7 — es la suite de presentación que D-7 desbloqueó).

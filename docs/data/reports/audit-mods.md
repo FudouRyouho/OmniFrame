@@ -1,7 +1,6 @@
 ---
 Estado: activo
 Rol: auditoria-manual
-Version: "v0.2.0"
 Impacto_ID: "D-18"
 Fidelidad_Fisica: "Project/public/data/mod-stats.override.json"
 Fecha_de_creacion: "2026-06-02"

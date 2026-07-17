@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Manual técnico de la arquitectura de vistas y centralización de componentes"
-Version: "v0.0.2"
 Impacto_ID: "UI-UX-Views"
 Fidelidad_Fisica: "Project/src/shared/components/items/"
 Fecha_de_creacion: "2026-04-18"

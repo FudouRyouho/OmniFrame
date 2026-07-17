@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Guía de proceso para agregar o actualizar habilidades vía pipeline semántico"
-Version: "v0.1.0"
 Impacto_ID: "data-abilities-workflow"
 Fidelidad_Fisica: "references/game-ui/"
 Fecha_de_creacion: "2026-04-18"

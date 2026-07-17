@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Documentar patrones de fórmulas para habilidades"
-Version: "v0.0.2"
 Impacto_ID: "data-abilities-formulas"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"

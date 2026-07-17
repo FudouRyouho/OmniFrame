@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Mapa de durabilidad del corpus docs/ + criterio de archivado + registro de la campaña de saneamiento"
-Version: "v0.6.0"
 Impacto_ID: "G-DocMap"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-06-06"
@@ -67,8 +66,7 @@ Foco en reducir caos del corpus. A — `Project/data` eliminado (1.9 MB huérfan
 lote 1 — `multishot-profiles.md` → `docs-archive/historical/`. B — dispersión: `naming-conventions.md` ↔
 `nomenclature-grammar.md` no eran duplicados, desambiguados con cross-link (la dispersión cross-doc
 literal casi no existe; el bloat reducible es cualitativo intra-doc, atendido en §7). C — contraste
-docs↔código engine: colisión `OQ-ENGINE-3` → renumerada `OQ-ENGINE-7`. Detalle en commits `2117299`,
-`bff5c9a`, `413c9c3`.
+docs↔código engine: colisión `OQ-ENGINE-3` → renumerada `OQ-ENGINE-7`.
 
 ---
 
@@ -149,6 +147,5 @@ D-7 comprimido), drift cerrado contra código real (`engine/status.md` reescrito
 archivado, cluster `engine/design/` 7 docs traído al presente), tier referencia/reports confirmado limpio
 (nada archivable, todo con ≥1 cita).
 
-Detalle completo por tanda (versiones bumpeadas, líneas exactas) en los commits: `2f76edb` (Tanda 1),
-`95b761c` (pasada drift), `b88f145` (Tanda 2), `2baf991` (Tanda 3). Tracker efímero `.working/docs-review-pass.md`
-descartado al cerrar la campaña.
+El detalle por tanda (versiones bumpeadas, líneas exactas) vive en git. Tracker efímero
+`.working/docs-review-pass.md` descartado al cerrar la campaña.

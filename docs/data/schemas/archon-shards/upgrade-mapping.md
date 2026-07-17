@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Mapeo de upgrade_type por stat de Archon Shard — catálogo de tokens D-6 y bloqueos"
-Version: "v0.2.0"
 Impacto_ID: "data-archon-mapping"
 Fidelidad_Fisica: "Project/public/data/archon-shards.json"
 Fecha_de_creacion: "2026-05-25"

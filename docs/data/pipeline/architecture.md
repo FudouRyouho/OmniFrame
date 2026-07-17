@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Arquitectura del pipeline de datos: flujo, modelo de 4 pilares y build pipeline"
-Version: "v0.2.0"
 Impacto_ID: "D-Pipeline-Arch"
 Fidelidad_Fisica: "Project/scripts/"
 Fecha_de_creacion: "2026-03-21"

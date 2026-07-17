@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Registrar gaps reales de la fuente de armas que afectan lectura o cálculo"
-Version: "v0.0.4"
 Impacto_ID: "data-weapons-gaps"
 Fidelidad_Fisica: "Project/src/shared/types/weapon.ts"
 Fecha_de_creacion: "2026-04-17"

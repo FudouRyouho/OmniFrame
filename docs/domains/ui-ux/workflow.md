@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Flujo de documentación/auditoría del dominio UI — espina, stages, checkpoints y lente de 2 ejes"
-Version: "v0.1.0"
 Impacto_ID: "UI-UX-Workflow"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-06-14"

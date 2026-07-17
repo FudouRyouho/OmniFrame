@@ -3,7 +3,6 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.16.3"
 Fecha_de_creacion: "2026-05-28"
 Fecha_de_actualizacion: "2026-07-10"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
@@ -260,10 +259,8 @@ Fuera del scope del weapon simulator. Se documentan para completitud.
 Tokens capturados en los overrides cuya forma canónica aún no se consolidó aquí. No es deuda ni
 drift (D-19) — es cola de consolidación; se resuelve al definir, no como requisito previo:
 
-✅ Sin pendientes activos (2026-06-07).
+✅ Sin pendientes activos.
 
-> **Incarnon completado (2026-05-30):** 120 stats condicionales mapeados. 5 tokens añadidos (`on_slide_kill`, `on_non_crit_non_status_hit`, 3× `while_*_equipped` stalker pairs). Patch one-off purgado; ver git history.
-> **Fase 3b completada (2026-06-05):** `while_sliding_or_aim_gliding` migrado a `{any:[…]}`.
 
 ## Ingesta incarnon (2026-06-01) — cola de clasificación
 
@@ -393,8 +390,7 @@ Token **pre-existente** en el override que faltaba documentar (detectado en el c
 ## Ingesta mods exilus/general (2026-06-03) — cola de clasificación
 
 Grupo A del triage `Project/scripts/triage-mod-conditions.py` (read-only) sobre
-`mod-stats.override.json`. Tokens IN-SCOPE weapon-sim (`upgrade_type WEAPON_*`), acuñados tras
-ratificación vía patch one-off (purgado tras uso; procedencia en git history). **Naturaleza/modelo
+`mod-stats.override.json`. Tokens IN-SCOPE weapon-sim (`upgrade_type WEAPON_*`), acuñados tras ratificación. **Naturaleza/modelo
 diferidos** (ver §Altitud de los debates): entran a nivel captura, derivados del label.
 
 | Token | Fuente (mods) | Label / nota de naturaleza |
@@ -411,7 +407,7 @@ diferidos** (ver §Altitud de los debates): entran a nivel captura, derivados de
 **SUGGEST limpio (14 stats, mismo día):** mapeo de tokens **ya consolidados** (no acuña vocab) a mods
 cuyo label matchea frase canónica — `while_aim_gliding` ×6, `while_airborne` ×2, `while_holstered` ×3,
 `while_sliding` ×3. Los AVATAR_* (Aero Vantage, Boreal's Anguish, Air Thrusters) llevan nota de scope
-(efecto de movimiento WF fuera del weapon-sim; condición válida igual). Patch one-off purgado tras uso.
+(efecto de movimiento WF fuera del weapon-sim; condición válida igual).
 
 **Dudosos resueltos (gate manual + contraste @wfcd/items type/compat):** `Hunter Munitions` (Primary Mod)
 → `on_critical_hit` (valor = chance de proc Slash). `Hunter Synergy` (Companion Mod) → ausente: el
@@ -429,8 +425,7 @@ el balde SUGGEST quedó en 0; los `ausente`+`notes[]` (revisados) van al balde R
 | `null` | Condición real, sin token de este vocabulario todavía (hueco de mapeo) |
 | `"<token>"` | Condicional, mapeada a un token de aquí |
 
-Aplica a los tres schemas (mods, arcanes, incarnon). El `null` incondicional anterior (D-14) fue
-eliminado el 2026-05-30 vía patch one-off (purgado tras uso; ver git history). Ver [D-18](../data/decisions.md).
+Aplica a los tres schemas (mods, arcanes, incarnon). El `null` incondicional anterior (D-14) ya no existe. Ver [D-18](../data/decisions.md).
 
 > La normalización es trabajo de datos (scripts/patch), no de engine. Los overrides son SSoT —
 > el engine leerá el token que esté en el JSON. Normalizar evita que el engine tenga que conocer

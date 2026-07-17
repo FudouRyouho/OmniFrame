@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Documentar el estado de las facciones en el proyecto"
-Version: "v0.0.2"
 Impacto_ID: "semantic-factions"
 Fidelidad_Fisica: "Project/src/lib/i18n/faction-icons.ts"
 Fecha_de_creacion: "2026-04-18"

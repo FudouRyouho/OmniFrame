@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Memoria técnica de errores del parser de mods — taxonomía de fallos y casos críticos"
-Version: "v0.1.0"
 Impacto_ID: "D-Pipeline-Mods-Triage"
 Fidelidad_Fisica: "Project/scripts/"
 Fecha_de_creacion: "2026-04-18"

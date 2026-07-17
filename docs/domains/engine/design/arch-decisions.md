@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-v2"
-Version: "v0.6.0"
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
@@ -562,8 +561,12 @@ Total = base × (1 + Σ_aditivo) × (1 + Σ_facción) × ∏(independientes)
   primitiva `globalDamageBucketFactor`** (`formulas/weapon/stat-accumulator.ts`, P2a) — NO son 2 primitivas,
   es una aplicada a dos nodos. La compositora (`calculateCurrentValue`) las multiplica.
 - **El pool se distingue por ATTR (qué nodo), NO por op.** Serration y facción ambos usan op `ADD`; nodos
-  distintos → pools distintos → multiplican. Un token con `_MULT_` en el nombre (facción) señala que su pool
-  se aplica **multiplicativamente**, no que sus miembros usen op MULTIPLICATIVE.
+  distintos → pools distintos → multiplican. ⚠️ **El `_MULT_` de `GAMEPLAY_MULT_FACTION_DAMAGE` es un
+  error de nombre, no una señal.** Por D-6 (`upgrade-tokens.md` §OPERATION, mapeo 1:1) `MULT` ⇒ op
+  `MULTIPLICATIVE`; la op real es `ADD` (`UPGRADE_MAP` la pisa). **No leerlo como "su pool se aplica
+  multiplicativamente"**: eso vale para **todo** pool global — el de Serration multiplica igual, con la
+  misma `globalDamageBucketFactor`, y se llama `_ADD_`. Si `_MULT_` significara eso, Serration estaría
+  mal nombrado. Rename diferido tras el shim C2·F (`vocabulary.md` L-8).
 - **CO y Combo NO son upgrade tokens** — se autorutean por su mecánica (CO por `co_behavior`: adding→pool
   aditivo, multiplying→multiplicador independiente `×(1+co)`; Combo por su fórmula heavy `×mult`). Son
   multiplicadores **independientes** que multiplican, NO entran al pool de facción. (§9/§10.)

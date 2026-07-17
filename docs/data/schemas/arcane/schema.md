@@ -3,7 +3,6 @@ Estado: "activo"
 Rol: "Contrato + catálogo de cobertura de arcane-stats.override.json — definiciones de token en docs/semantic/upgrade-tokens.md"
 Impacto_ID: "data-arcane"
 Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
-Version: "v1.2.2"
 Fecha_de_creacion: "2026-05-28"
 Fecha_de_actualizacion: "2026-06-11"
 ---

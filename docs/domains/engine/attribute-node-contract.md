@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en la fórmula de Warframe y la operación de modificador que lo alimenta"
-Version: "v0.3.0"
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
@@ -87,8 +86,8 @@ final = … × (1 + co_mult%) × comboMult × …
 ```
 
 Los mods de Condition Overload con comportamiento **"Multiplying"** van acá, igual que el multiplicador de combo (melee/sniper). Ver `arch-decisions §9/§10`.
+> **Faction damage y Roar NO van en `multiplicative`.** Son un **pool** (`GAMEPLAY_MULT_FACTION_DAMAGE`): sus miembros usan op **`ADD`** y **suman entre sí** (`×(1 + roar + bane)`, no `×(1+roar)×(1+bane)` — verificado in-game, `references/ingame-tests/double-dipping-test.md`). ⚠️ El `_MULT_` del token es un **error de nombre** (por D-6 la op sería `MULTIPLICATIVE`; la real es `ADD`) — **no** una señal de que el pool se aplique multiplicativamente: eso vale para todo pool global, y el de Serration se llama `_ADD_`. Ver §5, `arch-decisions §16` y `design/vocabulary.md` L-8.
 
-> **Faction damage y Roar NO van en `multiplicative`.** Son un **pool** (`GAMEPLAY_MULT_FACTION_DAMAGE`): sus miembros usan op **`ADD`** y **suman entre sí** (`×(1 + roar + bane)`, no `×(1+roar)×(1+bane)` — verificado in-game, `references/ingame-tests/double-dipping-test.md`). El `_MULT_` del token señala que **el pool se aplica multiplicativamente**, no que sus miembros usen op `MULTIPLICATIVE`. Ver §5 y `arch-decisions §16`. *(Corrige la afirmación previa de este doc — drift 06-08 → 07-17.)*
 
 ### `base_add_pct` vs `mods_add_pct`
 
@@ -143,8 +142,10 @@ Ambos son `AttributeNode` **sintéticos** inyectados por `StaticHydrator` en tod
 **Restricción de dominio:** ninguno de los dos se inyecta en entidades `kind: warframe` — Serration no afecta daño de habilidades en el juego.
 
 **Estado de facción (`arch-decisions §16`):** los mods de facción (Bane/Expel/Cleanse) son **`C2·F`** — su gate depende de la facción del target, que vive en `EnemyState`/③, **no** en el `SimulationContext` de C1 → no se pueden gatear en el grafo. Por eso hay un **shim FLAGGED** (`ModRepository.C2F_FACTION_TOKENS_DEFERRED`): **no se emiten como modifier C1**. El pool C1 de facción queda para bonos **incondicionales** (Roar, que no gatea por facción). Borrar el shim al normalizar la semántica del token y migrar el bonus a resolución.
+> **Token ≠ attr.** `WEAPON_ADD_DAMAGE` es a la vez el **token** ("% aditivo al daño global" — lo llevan Serration/Hornet Strike) y el nombre del **attr** (el **daño global**, raíz de la familia). Su `base` es un **dato real** (`damage_sum` innato, vía `ItemRepository`); el `100` de `StaticHydrator` es solo **fallback**. `GAMEPLAY_MULT_FACTION_DAMAGE`, en cambio, sí tiene base sintética `100` (no hay dato). Ver [`design/vocabulary.md §3`](design/vocabulary.md).
+>
+> **Estructura (DECIDIDO):** que un pool global se aplique leyendo el **ratio `final/base` de un nodo designado** es **`DC-OQ-ENGINE-1`** — decisión **cerrada**, no un hack: expresa el pool **aditivo** (Step 1 de `calculating-bonuses.md`) como factor. Realizada en §16, ratificada in-game por la Fase 1a (facción con la misma primitiva). **No re-debatir** — ver [`design/vocabulary.md §5`](design/vocabulary.md) y `governance/closed-decisions.md`.
 
-> ⚠️ **Deuda de estructura (no de vocabulario):** estos "nodos" **no son stats** — son **pools disfrazados de nodo**. Causa: el acumulador tiene un set **cerrado** de ranuras aditivas, sin colección abierta de pools nombrados → un 3er pool no tuvo dónde vivir salvo inventando un nodo. La forma honesta está **en debate, no decidida** — ver `design/vocabulary.md §3`.
 
 ---
 

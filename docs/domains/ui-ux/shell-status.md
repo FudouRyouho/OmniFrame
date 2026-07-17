@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "[PLEGADO] Antiguo status del shell — su contenido vive ahora en status.md"
-Version: "v0.0.4"
 Impacto_ID: "UI-UX-Shell-Status"
 Fidelidad_Fisica: "Project/src/providers/Shell/"
 Fecha_de_creacion: "2026-04-18"

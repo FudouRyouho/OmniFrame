@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Plantilla para cerrar Open Questions de forma iterativa"
-Version: "v0.2.0"
 Impacto_ID: "G-OQ-Template"
 Fidelidad_Fisica: "docs/governance/open-questions.md"
 Fecha_de_creacion: "2026-04-13"

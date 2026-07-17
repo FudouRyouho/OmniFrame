@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Catálogo de builds y modelos de test por construir: roadmap de fixtures (Rhino, standard-set por arquetipo, frontera C2) y modelos sin consumidor"
-Version: "v0.1.0"
 Impacto_ID: "E-TestCatalogFuture"
 Fidelidad_Fisica: "Project/src/core/engine/__tests__/"
 Fecha_de_creacion: "2026-06-09"

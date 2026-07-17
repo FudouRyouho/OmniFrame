@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Contrato del archivo archon-shards.json — catálogo de tipos de shard y sus bonus options"
-Version: "v0.2.0"
 Impacto_ID: "data-archon-schema"
 Fidelidad_Fisica: "Project/public/data/archon-shards.json"
 Fecha_de_creacion: "2026-05-20"

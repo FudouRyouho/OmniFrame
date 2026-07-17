@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Describir el flujo de datos de ability stats desde captura hasta runtime"
-Version: "v0.1.0"
 Impacto_ID: "D-Abilities-Pipeline"
 Fidelidad_Fisica: "Project/scripts/apply-ability-md.ts"
 Fecha_de_creacion: "2026-04-18"

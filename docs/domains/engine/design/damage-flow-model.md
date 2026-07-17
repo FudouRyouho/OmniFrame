@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Marco de propiedad y flujo del daño (instancia→daño→estado) — RATIFICADO + Familia A extraída (2026-07-10). Núcleo promovido a arch-decisions §14; gated a decision-frontier §4. Este doc conserva el casework que informa el trabajo gated."
-Version: "v1.0.0"
 Impacto_ID: "E-DamageFlow"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/status/"
 Fecha_de_creacion: "2026-07-10"

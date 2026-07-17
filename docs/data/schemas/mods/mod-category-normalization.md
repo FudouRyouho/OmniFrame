@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Documentar la normalización de mod.type hacia ModCategory"
-Version: "v0.0.2"
 Impacto_ID: "data-mods-taxonomy"
 Fidelidad_Fisica: "Project/src/shared/types/mod.ts"
 Fecha_de_creacion: "2026-03-21"

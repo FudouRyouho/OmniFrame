@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Definir el rol de la UI shell y sus responsabilidades"
-Version: "v0.0.2"
 Impacto_ID: "UI-UX-Shell"
 Fidelidad_Fisica: "Project/src/providers/Shell/"
 Fecha_de_creacion: "2026-04-01"

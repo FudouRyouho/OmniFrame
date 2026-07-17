@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Mecánica de Status Chance per-proyectil — base para modelado en engine"
-Version: "v0.1.1"
 Impacto_ID: "REF-StatusChance"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-05-29"

@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Taxonomía facetada de la naturaleza de condition — categorías mecánicas y reglas de composición"
-Version: "v0.1.0"
 Impacto_ID: "semantic-condition-nature"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-06-05"

@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Auditoría de integración del motor de simulación con el Arsenal"
-Version: "v0.0.6"
 Impacto_ID: "E-05"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"

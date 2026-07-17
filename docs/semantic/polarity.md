@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Contrato semántico de polaridades y su normalización en el pipeline"
-Version: "v0.0.2"
 Impacto_ID: "semantic-polarity"
 Fidelidad_Fisica: "Project/src/shared/types/polarity.ts"
 Fecha_de_creacion: "2026-04-18"

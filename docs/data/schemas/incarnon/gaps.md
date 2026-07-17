@@ -3,7 +3,6 @@ Estado: "referencia"
 Rol: "Catálogo de gaps semánticos — 87 armas Incarnon (48 genesis), 727 efectos"
 Impacto_ID: "data-incarnon-gaps"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
-Version: "v1.3.0"
 Fecha_de_creacion: "2026-05-27"
 Fecha_de_actualizacion: "2026-06-01"
 ---
@@ -161,7 +160,7 @@ Efectos con placeholder `+X`/`+Y` del extractor — valor real requiere verifica
 
 ### Falsos positivos en detección de weapons faltantes
 
-El script de migración (purgado tras uso; ver git history) extraía `{{Weapon|Name}}` de todo el wikitext vía `find_missing_weapons()`, incluyendo secciones de Trivia y comparaciones. Dos casos identificados:
+La detección extraía `{{Weapon|Name}}` de **todo** el wikitext, incluyendo Trivia y comparaciones — de ahí los falsos positivos. Dos casos identificados:
 
 - **Klamora Prism** aparece en `furis-incarnon-genesis.wikitext` como comparación de Incarnon Form ("fires a wide Klamora Prism-like beam") — no pertenece al genesis.
 - **Arca Titron** aparece en `magistar-incarnon-genesis.wikitext` en Trivia como referencia de slam radius — no pertenece al genesis.

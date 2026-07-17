@@ -1,11 +1,10 @@
 ---
 Estado: "activo"
 Rol: "Contrato del override JSON de Incarnon Genesis / Incarnon nativo"
-Version: "v2.0.0"
 Impacto_ID: "data-incarnon"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-06-06"
+Fecha_de_actualizacion: "2026-07-17"
 ---
 
 # Schema: incarnon-evolutions.override.json
@@ -78,7 +77,7 @@ Cobertura (2026-06-01): **175** token · **0** null · **539** ausente (714 stat
 
 | Token | Mapea a | Operación |
 |---|---|---|
-| `WEAPON_BASE_DAMAGE` | `WEAPON_DAMAGE` | `BASE_FLAT` |
+| `WEAPON_BASE_DAMAGE` | `WEAPON_ADD_DAMAGE` | `BASE_FLAT` |
 | `WEAPON_BASE_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | `BASE_FLAT` |
 | `WEAPON_BASE_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | `BASE_FLAT` |
 | `WEAPON_BASE_MAGAZINE_MAX` | `WEAPON_ADD_MAGAZINE_MAX` | `BASE_FLAT` |

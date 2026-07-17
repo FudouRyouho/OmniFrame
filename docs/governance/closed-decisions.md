@@ -1,11 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
-Version: "v0.0.12"
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-09"
+Fecha_de_actualizacion: "2026-07-17"
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -60,13 +59,32 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 | **DC-OQ-5** | Migración hidratación build time | No aplica. `StaticHydrator` + overrides JSON = funcionalmente equivalente a build-time. |
 | **DC-OQ-12** | Contrato de Proyección B4 | Projection Snapshot inmutable y serializable. Reactividad via Selective UI Reactive Bridge externo. |
 | **DC-OQ-13** | Frontera Arsenal / Builder | No hay frontera de cálculo. Mismo engine, distinto SimulationContext (Target vs Baseline). |
-| **DC-OQ-ENGINE-1** | Patrón WEAPON_DAMAGE global | `base = damage_sum` del perfil activo. `final/base` como multiplicador global. Validado en 33 tests gold standard (2026-05-27). |
+| **DC-OQ-ENGINE-1** | Patrón de nodo de daño global | Nodo `WEAPON_ADD_DAMAGE`, `base = damage_sum` del perfil activo. `final/base` como multiplicador global (= el pool ADITIVO expresado como factor, Step 1 de `calculating-bonuses.md` — **no un hack**). Detalle ↓. |
 | **DC-OQ-ENGINE-3** | Label parsing en ModRepository | No aplica en v2. Consume `upgrade_type` directamente vía `isUpgrade()` + UPGRADE_MAP/`resolveToken()`. |
 | **DC-OQ-ENGINE-4** | DNA Mutation (Archon Shards) | `StaticHydrator.hydrate()` consume shards vía `ShardRepository`. Shards = mods en slots especiales. Helminth sin implementar. |
 | **DC-OQ-ENGINE-5** | Fórmulas legacy desconectadas | `weapon-core.ts` y `warframe-core.ts` purgados (2026-05-27). `formulas/` conectado a `AtomicSimulator` + `SimulationEngine`. |
 | **DC-OQ-ENGINE-6** | WEAPON_FIRE_ITERATIONS sin mapear | Alias añadido en UPGRADE_MAP → `WEAPON_ADD_MULTISHOT`. 3 mods Galvanized añadidos manualmente al override. |
 | **DC-OQ-W-4** | Sub-familia en D-6 | Patrón: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`. Sub-familias activas: PRIMARY, SECONDARY, MELEE. Deuda D-7 en pipeline de filtrado. |
 | **DC-OQ-UI-1** | Unificación de infraestructura UI en @shared | `shared/components/items/` activo: views por entidad (WarframesView/WeaponsView/etc.), cards, specs/detail-views, ItemsGrid. `shared/hooks/data/use-items.ts` + `use-performance-debug.ts`. Dominios actúan como smart wrappers. Implementado (2026-04-23). Ref: `docs/decisions/ui-unification.md` (histórico). |
+
+---
+
+## DC-OQ-ENGINE-1 — patrón de nodo de daño global
+
+**Dominio:** engine / pools globales de daño
+
+**Evidencia** (nombrada, no contada — un conteo caduca solo):
+- `formulas/weapon/stat-accumulator.ts::globalDamageBucketFactor` — la primitiva.
+- `__tests__/lanka.test.ts` + `__tests__/nikana-melee.test.ts` — la propagación del pool global a los nodos
+  por-tipo (525→787.5 / 594→2376).
+- `__tests__/tiberon-dot.test.ts` — el mismo factor vía `formulas/status/dot-base-scaling.ts`, **validado
+  contra medición in-game** (`references/ingame-tests/`).
+- `__tests__/rhino.test.ts` — la **misma primitiva aplicada a un segundo pool global** (facción), verificada
+  in-game (Roar+Expel suman, `×2.428`). Ver `../domains/engine/design/arch-decisions.md` §16.
+
+**Frontera:** la *colección* de pools globales es implícita (hardcodeada en `rebuildGraph` +
+`calculateCurrentValue`). **Declararla sería un refactor de realización — compatible con esta decisión, no
+una alternativa: no la reabre.** Lo que no se re-debate es el patrón `final/base`.
 
 ---
 

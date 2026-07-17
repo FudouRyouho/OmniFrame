@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Definir las fuentes de verdad por entidad y su sistema de origen"
-Version: "v0.0.3"
 Impacto_ID: "D-SSoT"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"

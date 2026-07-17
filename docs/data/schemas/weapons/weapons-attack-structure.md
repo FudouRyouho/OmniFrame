@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Documentar la semántica de attacks[] en armas"
-Version: "v0.0.2"
 Impacto_ID: "data-weapons-attacks"
 Fidelidad_Fisica: "Project/src/shared/types/weapon.ts"
 Fecha_de_creacion: "2026-04-17"

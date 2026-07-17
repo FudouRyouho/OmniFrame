@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Ledger de decisiones de arquitectura de UI (serie U-N) — espejo de data/decisions.md"
-Version: "v0.2.0"
 Impacto_ID: "UI-UX-Decisions"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-06-14"

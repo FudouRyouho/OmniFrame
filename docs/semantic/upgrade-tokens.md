@@ -1,11 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
-Version: "v0.5.8"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-10"
+Fecha_de_actualizacion: "2026-07-17"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -69,9 +68,8 @@ Regla de derivación elemental: `{PREFIX}` = `DamageType` en mayúsculas (`heat`
 
 | Token | Engine attr | Motivo |
 | :--- | :--- | :--- |
-| `WEAPON_ADD_DAMAGE` | `WEAPON_DAMAGE` | Daño global: alias del atributo raíz |
 | `WEAPON_FIRE_ITERATIONS` | `WEAPON_ADD_MULTISHOT` | Alias del pipeline @wfcd/items — resolución OQ-ENGINE-6 |
-| `WEAPON_BASE_DAMAGE` | `WEAPON_DAMAGE` | Perk Incarnon: BASE_FLAT del atributo raíz |
+| `WEAPON_BASE_DAMAGE` | `WEAPON_ADD_DAMAGE` | Perk Incarnon: BASE_FLAT del atributo raíz |
 | `WEAPON_BASE_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | Perk Incarnon: BASE_FLAT de CC |
 | `WEAPON_BASE_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | Perk Incarnon: BASE_FLAT de SC |
 | `WEAPON_BASE_MAGAZINE_MAX` | `WEAPON_ADD_MAGAZINE_MAX` | Perk Incarnon: BASE_FLAT de magazine |
@@ -98,7 +96,7 @@ Los `[ref: X]` apuntan a `references/wiki/mechanics/X`. Tokens con `⚠` requier
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Modelo | Ejemplo de mod |
 | :--- | :--- | :--- | :--- | :--- |
-| `WEAPON_ADD_DAMAGE` | `WEAPON_DAMAGE` | ADD | `C1` | Serration, Hornet Strike, Pressure Point |
+| `WEAPON_ADD_DAMAGE` | `WEAPON_ADD_DAMAGE` | ADD | `C1` | Serration, Hornet Strike, Pressure Point |
 
 ### WEAPON — derivados elementales y físicos
 
@@ -192,7 +190,7 @@ por mods `ADD` (Serration, Hornet Strike, etc.). Fuente: `incarnon-evolutions.ov
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Modelo | Ejemplo de perk |
 | :--- | :--- | :--- | :--- | :--- |
-| `WEAPON_BASE_DAMAGE` | `WEAPON_DAMAGE` | BASE_FLAT | `C1` | Boltor EVO II: +18 daño |
+| `WEAPON_BASE_DAMAGE` | `WEAPON_ADD_DAMAGE` | BASE_FLAT | `C1` | Boltor EVO II: +18 daño |
 | `WEAPON_BASE_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | BASE_FLAT | `C1` | Sibear EVO IV: +25% CC |
 | `WEAPON_BASE_CRIT_MULT` | `WEAPON_ADD_CRIT_MULT` | BASE_FLAT | `C1` | Perk Incarnon: BASE_FLAT de crit damage |
 | `WEAPON_BASE_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | BASE_FLAT | `C1` | Boltor EVO IV: +20% SC |
@@ -210,14 +208,9 @@ Patrón extendido: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`.
 Sin entrada en UPGRADE_MAP — `resolveToken()` los deriva automáticamente, emitiendo `target_channel`.
 Deuda D-7: el pipeline de filtrado por canal no está implementado.
 
-> ⚠ **Deuda alias-en-cadena (2026-06-01):** los sub-family de daño (`WEAPON_{PRIMARY,SECONDARY,MELEE}_ADD_DAMAGE`)
-> derivan `attr = WEAPON_ADD_DAMAGE` (resolveToken línea ~210), que a su vez es **alias** de `WEAPON_DAMAGE`
-> en UPGRADE_MAP. `resolveToken()` no encadena la segunda resolución → el attr final queda en `WEAPON_ADD_DAMAGE`
-> en vez de `WEAPON_DAMAGE`. Los sub-family de fire_rate/reload/status/crit (auto-referenciales) no tienen este
-> problema. Detectado al mapear arcanes sub-family (Arcane Precision/Rage/Primary Charger/Awakening/Rise/Blade
-> Charger). **No bloquea captura de datos** (token correcto en el override); requiere fix de engine —re-resolver
-> el alias o registrar UPGRADE_MAP entries— antes de implementar D-7. Canales válidos: solo `PRIMARY/SECONDARY/MELEE`
-> (no hay `SNIPER`/`SHOTGUN` — son subtipos de primary, mapeados a `primary` + nota de restricción).
+> **Canales válidos:** solo `PRIMARY`/`SECONDARY`/`MELEE` — no hay `SNIPER`/`SHOTGUN` (son subtipos de
+> primary: mapean a `primary` + nota de restricción).
+>
 > Evidencia por defecto: `[empirical]` — fuente Archon Shards, verificada en juego.
 
 | Tipo OmniFrame D-6 | Engine attr derivado | Op | target_channel | Modelo | Fuente |
@@ -306,7 +299,7 @@ Tokens de familia `AVATAR_CHANCE_RESIST_*` no siguen D-6 estrictamente (CHANCE n
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `GAMEPLAY_MULT_FACTION_DAMAGE` | `GAMEPLAY_MULT_FACTION_DAMAGE` | ADD | `[empirical]` | `C2·F` | Bane/Expel/Cleanse y familia. **Pool de facción** (`arch-decisions §16`): op `ADD` = los miembros **SUMAN** en su nodo global propio (Roar+Bane aditivos, ×2.428 verificado `faction-damage.md`); el `_MULT_` = el pool se aplica **multiplicativamente** (factor `1+Σ`, NO en `mods_add_pct` de Serration). **C2·F**: el gate depende de la facción del target, que vive en `EnemyState`/③ (NO en `SimulationContext`/C1). ⚠️ **Shim FLAGGED** (`ModRepository.C2F_FACTION_TOKENS_DEFERRED`): NO se emite en C1 hasta normalizar la semántica del token (facción + gate) y migrar a resolución. El pool C1 queda para bonos incondicionales (Roar, §15). |
+| `GAMEPLAY_MULT_FACTION_DAMAGE` | `GAMEPLAY_MULT_FACTION_DAMAGE` | ADD | `[empirical]` | `C2·F` | Bane/Expel/Cleanse y familia. **Pool de facción** (`arch-decisions §16`): op `ADD` = los miembros **SUMAN** en su nodo global propio (Roar+Bane aditivos, ×2.428 verificado `faction-damage.md`). ⚠️ **El segmento `_MULT_` es incorrecto** — por §OPERATION (mapeo 1:1) `MULT` ⇒ op `MULTIPLICATIVE`, pero la op real es `ADD` (`UPGRADE_MAP` la pisa). Por D-6 debería ser `GAMEPLAY_ADD_FACTION_DAMAGE`. **No se renombra todavía**: sale junto con la normalización del token que el shim ya declara ↓. Ver `../domains/engine/design/vocabulary.md` §4 (L-8). **C2·F**: el gate depende de la facción del target, que vive en `EnemyState`/③ (NO en `SimulationContext`/C1). ⚠️ **Shim FLAGGED** (`ModRepository.C2F_FACTION_TOKENS_DEFERRED`): NO se emite en C1 hasta normalizar la semántica del token (facción + gate) y migrar a resolución. El pool C1 queda para bonos incondicionales (Roar, §15). |
 | `GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE` | `GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE` | ADD ⚠ | `[needs-verification]` | `C2·F` | Archon Shard Emerald. Instancias aditivas. ⚠ Scope real sin confirmar. Afecta proc de Toxin en C2. |
 
 > `toPercent: true` en UPGRADE_MAP — el JSON almacena el valor como `1.30` (+30%); el engine lo convierte a `30` para `mods_add_pct`.

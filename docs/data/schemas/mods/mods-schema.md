@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Contrato del archivo mod-stats.override.json consumido por el Resolver"
-Version: "v0.2.0"
 Impacto_ID: "data-mods-schema"
 Fidelidad_Fisica: "Project/public/data/mod-stats.override.json"
 Fecha_de_creacion: "2026-04-18"

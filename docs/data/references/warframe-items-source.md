@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Documentar el fork de warframe-items y los deltas que aporta al dataset base"
-Version: "v0.1.0"
 Impacto_ID: "D-Pipeline-WFI-Source"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-22"

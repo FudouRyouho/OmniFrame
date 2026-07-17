@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Definir la gobernanza de los datos mantenidos manualmente"
-Version: "v0.0.11"
 Impacto_ID: "D-Overrides"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"

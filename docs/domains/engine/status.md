@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Estado operativo del motor de simulación"
-Version: "v0.4.6"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
@@ -56,10 +55,10 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 |---|---|
 | `CombatCalculator` · `CombatSimulator` | **Activo** |
 | `AtomicSimulator` | **Activo** — conectado a `formulas/common/crit-base` |
-| `TimelineSimulator` · `RngProvider` | **Activo** — generación de procs unificada (`expectedProcEvents` → `effectOfDamageType` → `applyProc`); `StatusEngine` **eliminado** (`6947eb1`, ver Nota C2) |
+| `TimelineSimulator` · `RngProvider` | **Activo** — generación de procs unificada (`expectedProcEvents` → `effectOfDamageType` → `applyProc`); `StatusEngine` **eliminado** (ver Nota C2) |
 | `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `scale()` = **curva-S real** (2026-07-06, reemplaza el stub cuadrático) + `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`); validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
 
-> **✅ REDISEÑO IMPLEMENTADO (`6947eb1`, 2026-07-13):** la maquinaria de status de C2 (`StatusEngine`,
+> **✅ REDISEÑO IMPLEMENTADO (2026-07-13):** la maquinaria de status de C2 (`StatusEngine`,
 > `EnemyState.{stacks, dot_pools, active_pulses}`, `processDots` viejo, `dot_key`) fue **reemplazada** por
 > el **modelo unificado de proc** — un contenedor único `Map<StatusEffect, S>` + `EffectBehavior` por
 > efecto. `EnemyState` itera el registro `EFFECT_BEHAVIORS`; `resolveDamageEvent` (renombrado de
@@ -69,7 +68,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 >
 > **Nota C2:** cobertura de test históricamente 0; primer diseño interno + primeros tests en la campaña
 > de modelado de daño C2 (2026-07-02, ver [`design/damage-status-model.md`](design/damage-status-model.md)) +
-> el eje enemigo (escalado, 2026-07-06). **Modelo unificado de proc (`6947eb1`, 2026-07-13):** los 6
+> el eje enemigo (escalado, 2026-07-06). **Modelo unificado de proc (2026-07-13):** los 6
 > efectos con LEY (bleed/poison/ignite/corrosion/infection/disruption) viven en `EFFECT_BEHAVIORS`;
 > `EnemyState.processDots` itera cada behavior (decae/expira + emite `Resolucion`), y cada emisión resuelve
 > por `CombatSimulator.resolveDamageEvent` (mismo camino que un hit directo). Heat sobrevive como su propia
@@ -78,7 +77,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 > **Sigue fuera del behavior-set:** Electricity/Gas (frontera 3, emisión multi-target de daño — cadena/nube; NO recursión de procs, descartada in-game 2026-07-14)
 > y los efectos sin LEY (puncture/impact/cold/… — no-op). Bucket②/faction² del tick = gated (`OQ-ENGINE-20`,
 > mitad live). `stacks` de N-timers reales sigue como fidelidad diferida (`OQ-ENGINE-16`).
-> **Resuelto (`8b014f6`, 2026-07-09):** el consumo del `ScaledEnemy` en el pipeline de daño (facción × DR ×
+> **Resuelto (2026-07-09):** el consumo del `ScaledEnemy` en el pipeline de daño (facción × DR ×
 > capa) — `resolveDamageEvent`/`resolveHit` consumen `targetFactionMult` (matriz③) + `damageReductionFromArmor`
 > (DR), checkpoints 1-2 de la reconciliación (`damage-status-model.md §Reconciliación de resolveHit`). **Ojo:**
 > esto es acoplamiento *dentro* de C2 (`TimelineSimulator`/`CombatSimulator`) — C2 en sí sigue **fuera** del
@@ -126,7 +125,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 |---|---|
 | `common/` | `crit-base` (→ `AtomicSimulator`), `scaling-base`, `status-base` |
 | `weapon/` | `weapon-crit`, `weapon-multishot`, `weapon-condition-overload`, `melee-combo`, `sniper-combo` |
-| `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado `6947eb1`; los 6 efectos con LEY). `dot-population` quedó **huérfano** (el pulso se arma inline en `behaviors.makeDotBehavior`; solo test-consumido — deuda G3). Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
+| `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado; los 6 efectos con LEY). `dot-population` quedó **huérfano** (el pulso se arma inline en `behaviors.makeDotBehavior`; solo test-consumido — deuda G3). Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
 | `ability/` | `ability-crit`, `ability-status` |
 | `arcane/` · `warframe/` | **vacíos** (reservados; `arcane-core` purgado 2026-06-11, `warframe-core` 2026-05-27) |
 
@@ -170,7 +169,7 @@ fórmula objetivo del tick sigue firme: `tick = coef × modded_base × (1+status
 facción) × (1+Σbucket②)²` (no-True) / con `[bypass ③]` (True). Hoy el `EffectBehavior` + `resolveDamageEvent`
 computan todo **menos** el `(1+Σbucket²)²`.
 
-**Subsumido por el rediseño (`6947eb1`, 2026-07-13):** esta deuda deja de ser una unidad propia —
+**Subsumido por el rediseño (2026-07-13):** esta deuda deja de ser una unidad propia —
 `StatusEngine` fue **eliminado** con el modelo unificado de proc (`damage-status-model.md §Modelo unificado
 de proc`), así que los detalles de `StatusEngine.projectXTick` de los párrafos de arriba son **históricos**
 (el tick ahora lo computan los `EffectBehavior`, resueltos vía `resolveDamageEvent`). Lo que **sigue

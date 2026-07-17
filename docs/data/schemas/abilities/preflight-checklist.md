@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Verificación antes de considerar una habilidad como 'Cerrada' en el override"
-Version: "v0.0.2"
 Impacto_ID: "data-abilities-checklist"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-18"

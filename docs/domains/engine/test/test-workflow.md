@@ -1,11 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Workflow de testing derivado del engine: el CÓMO (clic + gramática ✓/fails/todo) y el registro de dirección (provenance, invariante, disparadores de graduación)"
-Version: "v0.2.0"
 Impacto_ID: "E-TestWorkflow"
 Fidelidad_Fisica: "Project/src/core/engine/output/consume.ts"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-06-11"
+Fecha_de_actualizacion: "2026-07-17"
 ---
 
 # Test workflow — testing derivado del engine
@@ -20,12 +19,13 @@ acompañan: [`catalog-current.md`](catalog-current.md) (índice de los consumido
 
 El harness vive en `Project/src/core/engine/output/consume.ts` (módulo de salida de C, fuera de `__tests__/`). Un test impersona **A** (datos,
 ya cargados), **B** (hidratación, vía el bridge) y **D** (mete la intención, lee la proyección). **C** (el
-motor) es lo único bajo prueba. Como el motor es auto-auditable por construcción (cada nodo carga sus 6
-buckets + audit trace), el clic es genérico: una implementación sirve a todos los consumidores.
+motor) es lo único bajo prueba. Como el motor es auto-auditable por construcción (cada nodo carga sus 5
+buckets + trace), el clic es genérico: una implementación sirve a todos los consumidores.
 
 ```ts
-consume(intention).weapon(id).node('WEAPON_DAMAGE')  // (i) los 6 buckets + final
-consume(intention).weapon(id).audit('WEAPON_DAMAGE') // (ii) trace de procedencia (debug)
+consume(intention).weapon(id).node('WEAPON_ADD_DAMAGE')   // (i) los 5 buckets + base + final
+consume(intention, undefined, { trace: true })
+  .weapon(id).trace('WEAPON_ADD_DAMAGE')                   // (ii) procedencia (debug, opt-in)
 ```
 
 Un `consume()` = un `resolve`. Desde ese único consumo se sondean N nodos: estabilidad (`.final`) y lógica

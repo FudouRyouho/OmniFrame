@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Status operativo del dominio ui-ux — pulso por code-domain + mapas cross-cutting (output de los 6 barridos + cruce de consolidación)"
-Version: "v0.1.1"
 Impacto_ID: "UI-UX-Status"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-06-16"

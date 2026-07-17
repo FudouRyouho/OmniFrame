@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Contrato de consumo de la mecánica de melee combo — quién consume el combo y qué le exige al engine (SSoT de la mecánica; promoción de OQ-ENGINE-14)"
-Version: "v0.4.0"
 Impacto_ID: "E-MeleeCombo"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-07-05"

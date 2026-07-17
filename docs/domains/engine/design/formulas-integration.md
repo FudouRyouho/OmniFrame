@@ -1,7 +1,6 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
-Version: "v0.6.1"
 Impacto_ID: "E-OQ-FORMULAS"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
@@ -95,15 +94,15 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 | `weapon/melee-combo.ts` | `meleeComboMult` (combo melee heavy) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
 | `weapon/sniper-combo.ts` | `sniperComboMult` (combo sniper) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
 | `status/stack-debuff.ts` | Familia A (`stackDebuffValue`, `infectionLaw`/`disruptionLaw`/`corrosionLaw`) | efecto (snake_case: corrosion/infection/ignite/disruption) | ✅ consumido por `EnemyState.getDamageMultiplier`/`getEffectiveArmor` (2026-07-10, `arch-decisions §14`) |
-| `status/proc-selection.ts` | `procWeightByType` (LEY de selección, migrada de `common/status-base.ts`) | `DamageType` (D-6) | ✅ **wired** vía `proc-population.ts` ← `TimelineSimulator` + `CombatCalculator` (modelo unificado `6947eb1`; overlap `weapon-status` reconciliado + eliminado, §2) |
+| `status/proc-selection.ts` | `procWeightByType` (LEY de selección, migrada de `common/status-base.ts`) | `DamageType` (D-6) | ✅ **wired** vía `proc-population.ts` ← `TimelineSimulator` + `CombatCalculator` (modelo unificado; overlap `weapon-status` reconciliado + eliminado, §2) |
 | `status/dot-tick.ts` | `dotTickValue`, valor de un tick DoT (Familia C, parte no-faction/no-timeline) | `DotType` (⊂ `DamageType`, sin disolver — deuda G2) | ✅ **wired** vía `behaviors` (bleed/poison/ignite computan `tickValue`); `StatusEngine.projectHeatTick` **eliminado** con el rediseño |
 | `status/dot-timeline.ts` | `tickTimes` — usado por el `advance` de los DoT behaviors; `pulseTotal`/`damageInWindow` aún sin consumidor de producción | `DotPulse` | ✅ **wired** — `behaviors.makeDotBehavior` (bleed/poison) usa `tickTimes` en su `advance`; Electricity/Gas fuera a propósito (frontera 3) |
 | `status/proc-population.ts` | `expectedProcEvents` — generador de eventos esperados (Población/RNG) | `ProcEvent`/`DamageType` | ✅ **wired** ← `TimelineSimulator` + **`CombatCalculator.project`** (2026-07-16, la ley única de `chance×peso`); overlap con `weapon-status.ts` **reconciliado** (ver §2) |
 | `status/dot-population.ts` | `dotPulseFromProcEvent` — glue `ProcEvent → DotPulse` pre-escalado | `DotPulse` | ⚠️ **huérfano** — `behaviors.makeDotBehavior` arma el pulso inline; solo test-consumido (doble camino, deuda G3) |
-| `status/effect-behavior.ts` | `EffectBehavior<S>` (interfaz del modelo unificado) + `HitContext`/`Resolucion`/`ResolutionModifier`/`Layer` | `StatusEffect`/`DamageType` | ✅ **wired** — contrato consumido por `behaviors` + `EnemyState` (rediseño `6947eb1`) |
-| `status/behaviors.ts` | fórmulas-estrategia por efecto + registro `EFFECT_BEHAVIORS` (reusa `dot-tick`/`dot-timeline`/`stack-debuff`) | `StatusEffect`/`DamageType` | ✅ **wired** ← `EnemyState` itera (los 6 efectos con LEY, `6947eb1`) |
+| `status/effect-behavior.ts` | `EffectBehavior<S>` (interfaz del modelo unificado) + `HitContext`/`Resolucion`/`ResolutionModifier`/`Layer` | `StatusEffect`/`DamageType` | ✅ **wired** — contrato consumido por `behaviors` + `EnemyState` (rediseño) |
+| `status/behaviors.ts` | fórmulas-estrategia por efecto + registro `EFFECT_BEHAVIORS` (reusa `dot-tick`/`dot-timeline`/`stack-debuff`) | `StatusEffect`/`DamageType` | ✅ **wired** ← `EnemyState` itera (los 6 efectos con LEY) |
 | `enemy/enemy-scaling.ts` | `scaleHealth`, `scaleArmor`, `scaleMult` + coefs curva-S | agnóstico (`faction: string`) | ✅ consumido por `EnemyRepository.scale` (orquestador); **movido de `EnemyRepository` (P1, 2026-07-09)** |
-| `enemy/armor-mitigation.ts` | `damageReductionFromArmor` (√3a/100) | agnóstico | ✅ consumido por `resolveHit` (`8b014f6`, 2026-07-09, checkpoint 2 de la reconciliación) además de `EnemyRepository.scale`; ⚠️ **migrar a scope `entity/`** con 2º consumidor DR (player/companion) — ver §7 |
+| `enemy/armor-mitigation.ts` | `damageReductionFromArmor` (√3a/100) | agnóstico | ✅ consumido por `resolveHit` (2026-07-09, checkpoint 2 de la reconciliación) además de `EnemyRepository.scale`; ⚠️ **migrar a scope `entity/`** con 2º consumidor DR (player/companion) — ver §7 |
 | `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | integrar con Ability System (inexistente) |
 | `ability/ability-status.ts` | `describeAbilityStatus`, `formatAbilityStatusLabel` | `DamageType` | integrar con Ability System (inexistente) |
 
@@ -200,5 +199,5 @@ recibió dos checkpoints de reconciliación (2026-07-09):
   se **sunseteó** (sin evidencia post-U36, artefacto del modelo per-clase muerto).
 
 Detalle completo y evidencia en `damage-status-model.md §Reconciliación de resolveHit`. El bucket②/faction²
-en DoT ya no cuelga de `StatusEngine` (eliminado, `6947eb1`): es la **mitad live** del tick del modelo
+en DoT ya no cuelga de `StatusEngine` (eliminado): es la **mitad live** del tick del modelo
 unificado, gated por `OQ-ENGINE-20` (ver `status.md §Deudas`).

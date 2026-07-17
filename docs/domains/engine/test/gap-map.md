@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Mapa sistemático de lo que el engine ignora o procesa a medias — el territorio que el testing derivado convierte en cobertura, capa por capa"
-Version: "v0.5.0"
 Impacto_ID: "E-GapMap"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-06-10"

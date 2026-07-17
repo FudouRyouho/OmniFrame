@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Documentar la semántica de compatName y la jerarquía de pertenencia para mods de companion"
-Version: "v0.1.0"
 Impacto_ID: "D-Pipeline-Companion"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-03-21"

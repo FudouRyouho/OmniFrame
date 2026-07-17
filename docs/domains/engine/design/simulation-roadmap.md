@@ -1,7 +1,6 @@
 ---
-Estado: "activo"
+Estado: "referencia"
 Rol: "Hoja de ruta para la implementación del motor v2"
-Version: "v0.2.2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"

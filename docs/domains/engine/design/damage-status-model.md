@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT, verdictos de scope v1, primitivos reusables"
-Version: "v0.9.1"
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
@@ -358,7 +357,7 @@ usado directo como cantidad esperada.
 **El generador es agnóstico al tipo de proc.** No hay nada DoT-específico en la selección de tipo ni en
 el conteo de slots — la tabla tipo→proc trata Slash/Toxin/Heat (DoT) igual que Corrosive/Viral/Puncture
 (stack-debuff). Lo acotado es el **consumidor**, no el generador: el output limpio es una lista de
-eventos `(tipo, timestamp)`. En el modelo unificado (`6947eb1`) el generador (`expectedProcEvents`)
+eventos `(tipo, timestamp)`. En el modelo unificado el generador (`expectedProcEvents`)
 alimenta por igual a los DoT behaviors (`dot-tick`/`dot-timeline`) y a los stack-debuff (Familia A):
 `TimelineSimulator` rutea cada evento a su `EffectBehavior` vía `applyProc`, sin dos consumidores separados.
 
@@ -453,8 +452,8 @@ Incoherencia raíz actual: en el mismo loop, el **hit directo** ya es consecuenc
 ## Modelo unificado de proc — arquitectura resuelta (2026-07-13)
 
 > **Supersede** la maquinaria pre-rediseño (los 3 contenedores `stacks`/`dot_pools`/`active_pulses` +
-> `StatusEngine`; su historia de reconciliación intermedia Toxin/Slash vive en git — Slice 3, commits
-> `d5d5ce2`→`6947eb1`). Es el **piso actual** bajo el §El proceso del status (arriba) — implementa el
+> `StatusEngine`; su historia de reconciliación intermedia Toxin/Slash vive en git — Slice 3).
+> Es el **piso actual** bajo el §El proceso del status (arriba) — implementa el
 > lenguaje con la Aplicación aún predictiva. Consolida el §frame ("cómo construir C2") en una interfaz concreta. (Graduado
 > desde el prototipo de `.working/`, purgado tras graduar.) **Estado: ontología LOCKED, interfaz
 > sustancialmente cerrada (target-side); dos huecos gated nombrados.**
@@ -469,7 +468,7 @@ Emisor → INSTANCIA → ┬─ RESOLUCIÓN (hit)
 
 - **Instancia** — evento de daño externo; resuelve su hit una vez; al generar un proc **snapshotea su
   contexto resuelto** en él. El hit muere; su snapshot vive en el proc.
-- **Resolución** (código: `resolveDamageEvent`, renombrado de `resolveDamageInstance` en `6947eb1`) — el
+- **Resolución** (código: `resolveDamageEvent`, renombrado de `resolveDamageInstance`) — el
   átomo "daño de tipo T vs las capas del target". **Agnóstica al origen**: hit y tick la comparten (por
   eso se conflaba; el nombre lavaba la diferencia).
 - **Proc** — efecto de estado aplicado al target, persistente, con ciclo de vida. **NO es una instancia.**
@@ -531,7 +530,7 @@ cross-entity **en la Resolución** (el orquestador conoce los vecinos), NO recur
 
 `StatusEngine` entero · `dot_pools` · `dot_key`/`DAMAGE_ATTR_TO_DOT_KEY`/`EFFECT_BY_DOT_KEY` ·
 `DOT_TYPE_IS_TRUE` · `EnemyStatusState`/`TrackedStatusEffect` · los 3 contenedores — **ejecutado**
-(`6947eb1` rediseño + saneamiento G1/G2, 2026-07-13). **`DotType` NO se dispone:** es una partición viva
+(rediseño + saneamiento G1/G2, 2026-07-13). **`DotType` NO se dispone:** es una partición viva
 (los tipos con coeficiente de tick escalado por daño, consumida por `dotTickValue`) — se **ató al canónico**
 como `Extract<DamageType, …>` (G2), no se disolvió a `DamageType` pelado (eso perdía la exhaustividad de
 `DOT_COEF` + la seguridad de tipo). ⚠️ **Deuda semántica abierta:** "DoT" es un comportamiento, no un grupo
@@ -539,7 +538,7 @@ invariante (`status_damage` afecta también a Blast, no-DoT) — el naming presu
 la solución honesta (eje comportamiento vs. eje coeficiente) es trabajo aparte. El comportamiento pool-like
 de **Heat sobrevive como su propia fórmula** (Heat ≠ Toxin), no como contenedor compartido. **Reusa** `stack-debuff` (modifiers Familia A),
 `dot-tick` (snapshot DoT), `dot-timeline` (advance DoT) — reorganización, no rewrite. **Fuera a propósito:**
-generación del proc (§Población/RNG; dedup chance×peso reconciliado en `formulas-integration.md §2`, `9fc1e63`),
+generación del proc (§Población/RNG; dedup chance×peso reconciliado en `formulas-integration.md §2`),
 crit (OQ-12), split snapshot/live fino (OQ-20), duración del proc en `HitContext` (source-side,
 `OQ-ENGINE-18`), efectos sin modelar, frontera 3.
 

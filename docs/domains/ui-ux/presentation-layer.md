@@ -1,11 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Mapa del borde de salida (información/datos → píxeles) y diagnóstico del plano de formateo"
-Version: "v0.2.0"
 Impacto_ID: "UI-UX-Presentation"
 Fidelidad_Fisica: "Project/src/lib/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-14"
+Fecha_de_actualizacion: "2026-07-17"
 Dependencias:
   - "docs/semantic/upgrade-tokens.md"
   - "docs/governance/open-questions.md"
@@ -51,7 +50,7 @@ proyecciones, la salida es un sumidero con dos fuentes (info reactiva de C/D + c
 | **0** | `core/engine/resolve/hydration/ItemRepository.ts:68` `getDNA()` | escribe el token canónico `WEAPON_ADD_CRIT_CHANCE = crit_chance × 100` |
 | **C1** | `core/engine/resolve/hydration/StaticHydrator.ts` `createBaseEntity` | crea el `AttributeNode` **puro** (Fase 4: ya NO spread de `getAttributeMetadata` — leak β muerto) |
 | **C** | `core/engine/formulas/weapon/weapon-crit.ts` | resuelve `node.final` |
-| **D** | `core/engine/output/consume.ts` `snapshot()` → `shared/view-model/index.ts:51` `project()` | tira los 6 buckets; adjunta `unit`+`category` por lookup (Fase 4) → `{ id, value: final, unit, category }` (`StatViewModel` = contrato **neutro**) |
+| **D** | `core/engine/output/consume.ts` `snapshot()` → `shared/view-model/index.ts:51` `project()` | tira los 5 buckets; adjunta `unit`+`category` por lookup (Fase 4) → `{ id, value: final, unit, category }` (`StatViewModel` = contrato **neutro**) |
 | **D1** | `providers/Ensemble/use-view-model.ts:23` `useViewModel` | binding reactivo |
 | **(E)** | **no existe** — inline en `domains/arsenal/view/UpgradeView.tsx:69-74` | `label = id.replace(/_/g," ").toUpperCase()`; `value = final.toFixed(1)+unit` |
 | **UI** | `shared/components/items/specs/StatPanel.tsx` | render |

@@ -1,7 +1,6 @@
 ---
 Estado: "histórico"
 Rol: "Roles lógicos de la arquitectura de datos — ABSORBIDO por overrides.md (v0.0.11, 2026-06-07)"
-Version: "v0.0.3"
 Impacto_ID: "D-Roles"
 Fidelidad_Fisica: "Project/src/shared/types/"
 Fecha_de_creacion: "2026-04-17"

@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Contrato semántico de tipos de daño y sus mapeos"
-Version: "v0.0.3"
 Impacto_ID: "semantic-damage"
 Fidelidad_Fisica: "Project/src/shared/types/damage.ts"
 Fecha_de_creacion: "2026-04-18"
@@ -58,7 +57,7 @@ vocabulario). La **fórmula** de cada efecto (qué hace N stacks) tampoco vive a
 > `EFFECT_BEHAVIORS` (una fórmula por efecto), no una tabla de estado por-tipo. El NOMBRE del efecto se
 > **DERIVA** de `@shared` vía `effectOfDamageType` (Arista 1), ya no se reimplementa: las tablas-sombra
 > `EFFECT_BY_DAMAGE_TYPE`/`EFFECT_BY_DOT_KEY` y los subtipos `TrackedStatusEffect`/`EnemyStatusState`
-> fueron **retirados** (2026-07-13, modelo unificado de proc — `6947eb1` + saneamiento). Ver
+> fueron **retirados** (2026-07-13, modelo unificado de proc + saneamiento). Ver
 > [`../domains/engine/design/damage-status-model.md §Modelo unificado de proc`](../domains/engine/design/damage-status-model.md).
 
 ## Resolución de Tags Raw (`DT_*`)

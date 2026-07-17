@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline y deuda activa"
-Version: "v0.2.5"
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"

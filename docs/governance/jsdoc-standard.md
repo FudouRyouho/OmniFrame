@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Vocabulario canónico de anotaciones JSDoc en Project/src/"
-Version: "v0.1.0"
 Impacto_ID: "G-Naming"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-05-18"

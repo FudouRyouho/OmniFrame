@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Convención de clasificación para ítems de deuda técnica — etiquetas de capa y evidencia"
-Version: "v0.2.0"
 Impacto_ID: "G-Deuda"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-05-31"

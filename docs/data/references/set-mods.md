@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Captura de conocimiento de Set Mods — bonus de conjunto ausente en @wfcd/items"
-Version: "v0.2.0"
 Impacto_ID: "REF-SetMods"
 Fidelidad_Fisica: "Project/public/data/mods.json"
 Fecha_de_creacion: "2026-06-03"

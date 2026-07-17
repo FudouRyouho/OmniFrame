@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Índice maestro de la reconstrucción del motor de simulación v2"
-Version: "v0.1.1"
 Impacto_ID: "SSoT-Blueprint"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"

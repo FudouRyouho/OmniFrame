@@ -1,7 +1,6 @@
 ---
 Estado: "histórico"
 Rol: "Snapshot congelado de la auditoría diseño↔código de Sim-v2 (2026-05-18) — superado, no se refresca. Estado vivo: engine/status.md"
-Version: "v0.1.0"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-05-18"

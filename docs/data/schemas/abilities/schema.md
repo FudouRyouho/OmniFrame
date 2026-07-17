@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Documentar el esquema operativo de ability-stats.override.json"
-Version: "v0.1.0"
 Impacto_ID: "data-abilities-schema"
 Fidelidad_Fisica: "Project/public/data/ability-stats.override.json"
 Fecha_de_creacion: "2026-04-18"

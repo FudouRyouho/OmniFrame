@@ -1,11 +1,10 @@
 ---
 Estado: "activo"
 Rol: "SSoT de la gramática facetada de nomenclaturas internas — define forma, vocabulario y reglas de composición"
-Version: "v1.1.0"
 Impacto_ID: "G-Nomenclatura"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-06-01"
-Fecha_de_actualizacion: "2026-06-01 (v1.1.0 — esquema `layer` eliminado; L1-L4 de conditions descartado)"
+Fecha_de_actualizacion: "2026-06-01"
 ---
 
 # Nomenclature Grammar — Gramática de nomenclaturas internas
