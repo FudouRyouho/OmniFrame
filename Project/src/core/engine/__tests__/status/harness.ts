@@ -11,7 +11,7 @@
  * sentinela ausente de `FACTION_BONUS`, así `targetFactionMult` devuelve ×1.0 para todo tipo y la
  * aritmética queda pura status + armor. La invariante se verifica con un tripwire en la suite.
  *
- * **Anemia visible:** hoy `resolveHit` toma un `damageMap` pelado — no carga bucket②/crit/metadata
+ * **Anemia visible:** hoy `resolveHit` toma un `damageMap` pelado — no carga pool②/crit/metadata
  * (instance medio-nacido, §14/O5). Lo que el harness NO puede inyectar aún se registra como `todo`
  * en los per-effect tests; el harness expone el hueco, no lo esconde.
  */

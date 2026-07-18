@@ -198,6 +198,6 @@ recibió dos checkpoints de reconciliación (2026-07-09):
   armor-mitigation.ts::damageReductionFromArmor` (la misma `√3a/100` de P1); el `armorBypass`-por-elemento
   se **sunseteó** (sin evidencia post-U36, artefacto del modelo per-clase muerto).
 
-Detalle completo y evidencia en `damage-status-model.md §Reconciliación de resolveHit`. El bucket②/faction²
+Detalle completo y evidencia en `damage-status-model.md §Reconciliación de resolveHit`. El pool②/faction²
 en DoT ya no cuelga de `StatusEngine` (eliminado): es la **mitad live** del tick del modelo
 unificado, gated por `OQ-ENGINE-20` (ver `status.md §Deudas`).

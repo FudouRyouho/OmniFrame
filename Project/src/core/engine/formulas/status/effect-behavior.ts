@@ -16,7 +16,7 @@ export type Layer = "health" | "shields";
 
 /**
  * El contexto FROZEN de la instancia que generó el proc (source-side, compute-once). El efecto
- * computa su snapshot de acá al aplicar. La re-aplicación LIVE del source (faction², bucket②) NO va
+ * computa su snapshot de acá al aplicar. La re-aplicación LIVE del source (faction², pool②) NO va
  * acá — es `OQ-ENGINE-20`, entraría como ref-live en el tick.
  */
 export interface HitContext {

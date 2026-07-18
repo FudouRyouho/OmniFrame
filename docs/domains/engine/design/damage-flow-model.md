@@ -59,7 +59,7 @@ not dilute weapon elements"* · *"17–26% of total weapon damage as Void"* · *
 - **Spec de aplicación distinto en el mismo sabor:** Xata = `chance` (hereda status chance) vs Toxic Lash =
   `forced`. Refuerza: el spec es per-instancia.
 - **Generaliza el double-dip (hipótesis a testear):** no es exclusivo del DoT ni del sabor MODIFICAR — es
-  propiedad de la **estructura de derivación** (`(1+Σbucket②)²`). Falsable: predice Xata-void ×(1+faction)²
+  propiedad de la **estructura de derivación** (`(1+Σpool②)²`). Falsable: predice Xata-void ×(1+faction)²
   (multiplicidad no verificada numéricamente aún).
 - **Abierto empírico:** ¿el void alimenta el tick de Ignite? Predicción del marco (instancias independientes
   → NO), sin confirmar. Parkeado (Familia C + habilidad, doble-gate).

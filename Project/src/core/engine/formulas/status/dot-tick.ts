@@ -11,7 +11,7 @@
  * al aplicar el proc (`behaviors.ts`). El `advance` del behavior emite y `resolveDamageEvent` resuelve.
  *
  * FUERA (gated — no se computa acá):
- *   - `× (1 + faction)²` (double-dip de bucket②) — mitad live del tick, `OQ-ENGINE-20`.
+ *   - `× (1 + faction)²` (double-dip de pool②) — mitad live del tick, `OQ-ENGINE-20`.
  *   - el timeline: cuántos ticks, decay, N-timers — vive en `dot-timeline.ts` + el behavior.
  *   - la aplicación (¿el tick pega a salud/shields?, True bypassa armor) — resolución, no valor.
  */

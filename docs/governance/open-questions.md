@@ -630,7 +630,7 @@ multi-stack, no confirma el conteo exacto).
 **Contexto.** La data de double-dip (`.working/double-dipping-test.md`) prueba que el tick de un DoT
 compone **dos mitades**: `tick = snapshot(daño del hit resuelto, con buffs source YA horneados al
 aplicar) × live(re-aplicación del contexto source en el tick)`. La huella dura es el double-dip:
-Roar (×2.128, bucket②) aparece **al cuadrado** en el DoT (`DoT÷base = 4.53 ≈ 2.128²`) pero ×1 en el
+Roar (×2.128, pool②) aparece **al cuadrado** en el DoT (`DoT÷base = 4.53 ≈ 2.128²`) pero ×1 en el
 hit — solo posible si el mismo multiplicador vive en las **dos mitades** a la vez. **Toda la data es
 steady-state** (el buff está activo en TODAS las tiradas).
 
@@ -653,7 +653,7 @@ pre-drop. Un solo experimento discrimina (i)/(ii).
 
 **Vínculo:** `.working/double-dipping-test.md` (data steady-state), `../domains/engine/design/damage-status-model.md §Modelo unificado de proc`, `../domains/engine/design/damage-status-model.md §Evidencia`, frontera
 "coupling Viral-en-vivo/snapshot" (5 fronteras del timeline, `decision-frontier.md §4`), `OQ-ENGINE-16`
-(mismo eje de fidelidad temporal: N-declarado vs. timers reales), bucket② gating.
+(mismo eje de fidelidad temporal: N-declarado vs. timers reales), pool② gating.
 **Fuente:** debate 2026-07-13 (ontología instancia/proc + composición snapshot×live); data double-dip
 pre-existente (no cubre el transitorio).
 

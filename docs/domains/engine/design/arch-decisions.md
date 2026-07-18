@@ -497,7 +497,7 @@ facetas-LEY de Heat, y la resolución de Magnetic ×3.25 vs ×4.25 — todo traz
 
 **Enlaza con §8** (modo asumido primero, la LEY es C1 puro), **§13** (`EnemySnapshot` es el pairing del lado
 entrada; el estado del daño es su espejo del lado salida — mismo concepto `snapshot`), **§4** (double-dip:
-bucket② viaja con la instancia, matriz③ es del encuentro — prueba dura de que las capas son separadas), y
+pool② viaja con la instancia, matriz③ es del encuentro — prueba dura de que las capas son separadas), y
 **§9/§10/§11/§12** (mismo patrón de primitivo mínimo consumido explícitamente). Cita cruzada:
 `damage-status-model.md`, `references/wiki/mechanics/status-effects.md`.
 

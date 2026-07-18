@@ -126,7 +126,7 @@ export const FACTION_BONUS: Record<string, Record<string, number>> = {
  *
  * **Single-dip, keyed en el target** (facción), NO en el bucket de mods/buffs del source — confirmado
  * `damage-status-model.md §Evidencia`: Heat/Toxin contra Charger dan ratio ×1.5 constante en TODO nivel
- * de buff (no ×2.25) → la matriz se aplica **una** vez, se distingue del bucket② (que sí double-dipea
+ * de buff (no ×2.25) → la matriz se aplica **una** vez, se distingue del pool② (que sí double-dipea
  * en DoT). Post-U36 la matriz NO distingue capa (shields/armor/salud) — mismo valor sin importar dónde
  * pega el hit (`enemy-resistances.md`, "el modelo de resistencias es por facción, no por clase de capa").
  */

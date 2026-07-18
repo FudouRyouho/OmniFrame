@@ -54,7 +54,7 @@ Confirmado como el mismo mecanismo en Viral, Magnetic y Corrosive (detalle y cit
 > los buffs de daño-final tipo Roar caen en el **mismo bucket aditivo** que los mods de facción (Expel/Bane)
 > y double-dipean igual. NO están "fuera de estas reglas" — son parte del bucket que se dobla.
 
-### Evidencia empírica — el double-dip es del bucket ②, no de "faction" ni de ③ (2026-07-08)
+### Evidencia empírica — el double-dip es del pool ②, no de "faction" ni de ③ (2026-07-08)
 
 Tests in-game (Akvasto Prime, Slash 169.4; hit **no-crit** al cuerpo; Roar +112.8%; Expel rank 5 +30%;
 target **lvl 215 normal**, sin Steel Path). Formato de celda: `Slash directo → tick de DoT`.
@@ -71,16 +71,16 @@ target **lvl 215 normal**, sin Steel Path). Formato de celda: `Slash directo →
   multiplicativo, que daría ×2.766). Expel (mod de facción) y Roar (buff de habilidad) comparten un **bucket
   aditivo "final-damage bonus"** (bucket **②** del trazado, `simulation-architecture.md §2.0`).
 - **Tick de DoT:** el MISMO bucket **al cuadrado** — Expel `×1.69=(1.30)²`, Roar `×4.53=(2.128)²`, ambos
-  `×5.90=(2.428)²`. → **double-dip = el bucket ② elevado al cuadrado** para instancias damage-DoT. Cada
+  `×5.90=(2.428)²`. → **double-dip = el pool ② elevado al cuadrado** para instancias damage-DoT. Cada
   fuente double-dipea sola (Expel sin Roar ya da ×1.69).
 - **La matriz ③ del target NO toca el bleed de Slash:** los DoT son **idénticos** (39/66/175/228) entre el
   Grineer (neutral) y el Infested (Slash ×1.5), aunque los hits difieren — porque el bleed es **True** (bypasa
   resistencias y armor). El double-dip ocurre **con ③ totalmente bypasseado** → es fenómeno de **②, no de ③**
   (la matriz sí toca el **hit** directo: 287 vs 160).
 
-**Refina la regla #2:** el double-dip pertenece al **bucket ② de bonos de daño-final** (mods de facción +
+**Refina la regla #2:** el double-dip pertenece al **pool ② de bonos de daño-final** (mods de facción +
 buffs de habilidad, aditivos entre sí), no a "faction" a secas ni a la matriz ③. El `(1+faction)²` de §Detalle
-es el caso particular "bucket = sólo faction"; la lectura general es **`(1 + Σ bucket②)²`**.
+es el caso particular "bucket = sólo faction"; la lectura general es **`(1 + Σ pool②)²`**.
 
 **Eje ③ CERRADO (2026-07-08, DoT no-True).** Tests con Akvasto Prime (mods 60/60 → elemento 66, Slash 77,
 total 176) vs **Charger (Infested)**: Toxin es **neutral ×1.0**, Heat **vulnerable ×1.5** — misma base y
@@ -95,17 +95,17 @@ coeficiente (0.5), así que el ratio Heat/Toxin **aísla la matriz**. Charger si
 
 - **La matriz ③ SINGLE-dipea:** Heat/Toxin = **×1.5 constante** (no ×2.25) en todo nivel de buff → la matriz
   se aplica **una** vez al DoT no-True (igual que al hit), NO se dobla.
-- **El bucket ② sigue doblando** en ambos (Toxin y Heat: ×1.69 / ×4.53 / ×5.90 sobre su base).
+- **El pool ② sigue doblando** en ambos (Toxin y Heat: ×1.69 / ×4.53 / ×5.90 sobre su base).
 
-**Modelo completo — lo ÚNICO que double-dipea es el bucket ②.** La matriz ③ single-dipea cuando aplica; True
+**Modelo completo — lo ÚNICO que double-dipea es el pool ②.** La matriz ③ single-dipea cuando aplica; True
 la bypasea (Slash bleed); la DR single-aplica (no-True) o se bypasea (True). Fórmula general del tick:
 
 ```
-DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σbucket②)²
-DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × (1+Σbucket②)²
+DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σpool②)²
+DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × (1+Σpool②)²
 ```
 
-Los `(1+faction)²` de §Detalle se leen bajo esto: `faction` = el **bucket ②** (mods de facción + buffs), que
+Los `(1+faction)²` de §Detalle se leen bajo esto: `faction` = el **pool ②** (mods de facción + buffs), que
 sí se dobla; la **matriz del target es aparte** y single-dipea. Datos crudos de todos los tests: `.working/double-dipping-test.md`.
 
 ### Reconciliación de `resolveHit` — Checkpoint 1 COMPLETO (2026-07-09)
@@ -137,27 +137,27 @@ Ambos checkpoints (matriz③ + DR) verificados sin regresiones: suite 175 passed
 todo, `tsc` limpio; `enemy-state-status-multiplier.test.ts` y `enemy-scaling.test.ts` corridos aparte y
 confirmados verdes.
 
-**Checkpoint 3 (bucket② double-dip en DoT) — re-escopeado a exploración/documentación, sin código esta
+**Checkpoint 3 (pool② double-dip en DoT) — re-escopeado a exploración/documentación, sin código esta
 vuelta.** El tick de DoT se computa en `StatusEngine.{projectSlashTick,projectHeatTick,projectToxinTick}`
 (vía `CombatCalculator.project` ← `TimelineSimulator`), funciones que **no reciben el target** — cero
 matriz③ modelada ahí. Ya existe un `faction_mult` (de un attr `FACTION_DAMAGE` del lado del arma) aplicado
 **sin elevar al cuadrado**, pese a que el comentario del código dice `"Faction^2"` (`StatusEngine.ts`
 líneas 45/62) — bug de comentario-vs-implementación ya presente, independiente de este trabajo. Conectar
-bucket②+matriz③ ahí exige cambiar firma de 3 funciones + 2 llamadores — unidad de trabajo separada, con
+pool②+matriz③ ahí exige cambiar firma de 3 funciones + 2 llamadores — unidad de trabajo separada, con
 su propio debate/plan.
 
 **Refinado (verificación de estabilidad, 2026-07-09) — falta un tercer término, no sólo dos.** Cruzando
 `StatusEngine.ts` contra la fórmula formal de `references/wiki/mechanics/status-effects.md` (patrón
 general de los 5 DoTs: `tick = coef × modded_base × (1+propio_elemento) × (1+faction) × (1+status_damage)
-× extras`), el código no sólo tiene matriz③ ausente y bucket② sin cuadrado — **le falta por completo el
+× extras`), el código no sólo tiene matriz③ ausente y pool② sin cuadrado — **le falta por completo el
 término `(1+status_damage)`** (ej. Viral amplificando un tick de Slash/Toxin). Los tres términos están
 **cross-validados** (wiki formal + `damage-status-model.md §Evidencia` propio) — esto es nivel de
 **implementación pura**, no de investigación: no hay ambigüedad que estresar, sólo falta escribir los
 tres factores. Fórmula objetivo completa:
 
 ```
-DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σbucket②)²
-DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × (1+Σbucket②)²
+DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σpool②)²
+DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × (1+Σpool②)²
 ```
 
 (mismas fórmulas de §Evidencia arriba — la referencia formal de la wiki las confirma independientemente).
@@ -483,7 +483,7 @@ Instancia y tick comparten la **resolución**, NO el **origen ni el ciclo de vid
 en las dos mitades. Heat Inherit = la mitad snapshot; un buff que cae mid-DoT = la mitad live. El proc =
 `{ snapshot, refs-live }`; delegar lo live dentro del snapshot del target **rompe la agnosticidad source
 a propósito** (fidelidad, no accidente). El `DotPulse.value` actual ya es la mitad snapshot (compute-once,
-§frame); falta —gated— la re-aplicación live del source (faction², bucket②). El split fino snapshot/live
+§frame); falta —gated— la re-aplicación live del source (faction², pool②). El split fino snapshot/live
 y el comportamiento bajo drop de buff = **`OQ-ENGINE-20`** (data actual solo steady-state).
 
 ### La interfaz

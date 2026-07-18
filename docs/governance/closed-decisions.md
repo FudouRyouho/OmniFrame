@@ -300,22 +300,22 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 
 **Decisión:** confirmado empíricamente (test in-game, Akvasto Prime vs Arid Butcher/Charger,
 `damage-status-model.md §Evidencia`). Roar **sí** double-dipea en DoTs, igual que el faction bonus —
-y por la misma razón: ambos caen en el **mismo bucket aditivo** de bonos de daño-final (bucket ②,
+y por la misma razón: ambos caen en el **mismo bucket aditivo** de bonos de daño-final (pool ②,
 `simulation-architecture.md §2.0`).
 
 **Cómo cerró (más preciso que la hipótesis original):** la OQ preguntaba si Roar double-dipeaba "igual
 que faction". La respuesta real **refina la regla**, no sólo la confirma: el double-dip **no es una
-propiedad de "faction"** — es una propiedad del **bucket ② en general** (mods de facción + buffs de
+propiedad de "faction"** — es una propiedad del **pool ② en general** (mods de facción + buffs de
 habilidad, aditivos entre sí). Evidencia: Expel (mod) y Roar (buff) cada uno double-dipea **solo**, y
 juntos dan `(1+Expel+Roar)²`, no `(1+Expel)²×(1+Roar)²`. La matriz ③ del target (vulnerabilidad por
 facción×elemento) es un mecanismo **aparte** y single-dipea — no se confunde con el bucket.
 
-**Lo que NO cierra esta decisión:** el **consumo** en código (bucket② + matriz③ en el tick de DoT,
+**Lo que NO cierra esta decisión:** el **consumo** en código (pool② + matriz③ en el tick de DoT,
 `StatusEngine`) sigue sin implementar — es deuda de implementación, no pregunta abierta. Ver
 `status.md §Deudas` y `damage-status-model.md §Reconciliación de resolveHit`.
 
 **Ref:** `damage-status-model.md §Evidencia` (test in-game 2026-07-08); `simulation-architecture.md §2.0`
-(bucket②/matriz③); `status.md §Deudas` (`GAMEPLAY_MULT_FACTION_DAMAGE`, consumo pendiente).
+(pool②/matriz③); `status.md §Deudas` (`GAMEPLAY_MULT_FACTION_DAMAGE`, consumo pendiente).
 
 ---
 

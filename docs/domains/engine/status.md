@@ -75,7 +75,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 > fórmula (`ignite`: pool + rampa de armor por tiempo), no como contenedor compartido; Corrosion/Infection/
 > Disruption son behaviors con estado `{count}` + decay (Familia A, ya no un contenedor aparte).
 > **Sigue fuera del behavior-set:** Electricity/Gas (frontera 3, emisión multi-target de daño — cadena/nube; NO recursión de procs, descartada in-game 2026-07-14)
-> y los efectos sin LEY (puncture/impact/cold/… — no-op). Bucket②/faction² del tick = gated (`OQ-ENGINE-20`,
+> y los efectos sin LEY (puncture/impact/cold/… — no-op). Pool②/faction² del tick = gated (`OQ-ENGINE-20`,
 > mitad live). `stacks` de N-timers reales sigue como fidelidad diferida (`OQ-ENGINE-16`).
 > **Resuelto (2026-07-09):** el consumo del `ScaledEnemy` en el pipeline de daño (facción × DR ×
 > capa) — `resolveDamageEvent`/`resolveHit` consumen `targetFactionMult` (matriz③) + `damageReductionFromArmor`
@@ -155,21 +155,21 @@ Suite de **consumidores derivados** vía el "clic" (`output/consume.ts`). Índic
 
 ## Deudas de implementación
 
-### `GAMEPLAY_MULT_FACTION_DAMAGE` — consumo C2 incompleto (bucket② en DoT ticks)
+### `GAMEPLAY_MULT_FACTION_DAMAGE` — consumo C2 incompleto (pool② en DoT ticks)
 
 El token está **mapeado** (`UPGRADE_MAP`: `op: ADD, toPercent: true`); 42 mods Bane/Expel/Cleanse/Smite lo
 llevan. Falta: (1) `target.faction` **estructurado** en los mods (hoy solo en el `label` → `OQ-DATA-5`) y
 (2) el consumo en C2 como multiplicador por facción. Vocabulario destino: [`../../semantic/factions.md`](../../semantic/factions.md).
 
 El tick lo computan hoy los `EffectBehavior` resueltos vía `resolveDamageEvent` — todo **menos** el
-`(1+Σbucket②)²`. La fórmula objetivo sigue firme: `tick = coef × modded_base × (1+status_damage) ×
-matriz(elem, facción) × (1+Σbucket②)²` (no-True) / con `[bypass ③]` (True). El único pendiente es ese
-bucket②/faction²: la **mitad live** de la composición `snapshot × live` del tick, gated por `OQ-ENGINE-20`
+`(1+Σpool②)²`. La fórmula objetivo sigue firme: `tick = coef × modded_base × (1+status_damage) ×
+matriz(elem, facción) × (1+Σpool②)²` (no-True) / con `[bypass ③]` (True). El único pendiente es ese
+pool②/faction²: la **mitad live** de la composición `snapshot × live` del tick, gated por `OQ-ENGINE-20`
 (split fino snapshot/live) — la re-aplicación live del source (frontera cross-entity), NO horneada aún en
 el `HitContext` snapshot (que hoy solo carga `moddedBase` + status/element).
 
 **Vínculo:** `design/damage-status-model.md §Evidencia` + `§Reconciliación de resolveHit`,
-`governance/closed-decisions.md#DC-OQ-ENGINE-13` (confirma que el double-dip es del bucket②, no de
+`governance/closed-decisions.md#DC-OQ-ENGINE-13` (confirma que el double-dip es del pool②, no de
 "faction" a secas).
 
 ### `CombatCalculator.project` — god-function (falloff + crit + status + dps en una función)

@@ -22,7 +22,7 @@ el idioma. (Ruteo codificado en `docs/CLAUDE.md` §"Regla de enrutamiento".) Los
 (`engine:debt`) son otro eje: [`../../../governance/nomenclature-grammar.md`](../../../governance/nomenclature-grammar.md).
 
 **Por qué existe.** Un vocabulario que crece sin SSoT **colisiona** — el mismo concepto termina nombrado dos
-veces por ejes que crecieron por separado (`bucket②` ≡ "pool de facción", §2), y la misma palabra cubriendo
+veces por ejes que crecieron por separado (`bucket②` fue el "pool de facción" hasta el LOCK L-2 — resuelto en §2), y la misma palabra cubriendo
 conceptos sin relación (§6). En un flujo donde cada sesión arranca fría, eso no genera una duda: genera que
 cada sesión lo **re-derive**.
 
@@ -86,14 +86,14 @@ Y `SimulationEngine.resetAccumulators()` resetea **exactamente esos 5** (`multip
 
 ---
 
-## 2. Renombres que este LOCK ordena (decidido; ejecución pendiente)
+## 2. Renombres que este LOCK ordena (✅ ejecutados)
 
 | Hoy | Canónico | Dónde |
 |---|---|---|
-| `bucket②` | **`pool②`** (hoy su único miembro es el pool de facción) | `dot-tick.ts`, `damage-multipliers.ts`, `effect-behavior.ts`, `engine/status.md`, `damage-flow-model.md`, `formulas-integration.md` |
+| `bucket②` | **`pool②`** (hoy su único miembro es el pool de facción) | ✅ ejecutado: comentarios de código (`dot-tick.ts`, `effect-behavior.ts`, `damage-multipliers.ts`, `__tests__/status/harness.ts`) + design docs (`arch-decisions`, `damage-flow-model`, `damage-status-model`, `formulas-integration`, `engine/status.md`) + governance viva (`closed-decisions`, `open-questions`, `decision-frontier`). **NO** `melee-combo.md` ("Bucket 2" ahí = paso 2 del combo, otro concepto). |
 | "6 buckets" | **"5 buckets"** (`base` no cuenta; era un conteo de *presentación*, no conceptual) | ✅ ejecutado: `output/consume.ts` (×3), `shared/view-model/index.ts`, `view-model.test.ts`, `ui-ux/presentation-layer.md`, `engine/test/test-workflow.md`. **NO** `engine-audit.md` (histórico). |
 
-**Decidir ≠ ejecutar:** el renombre es una pasada aparte. Hasta que corra, el código dice `bucket②`.
+**Decidir ≠ ejecutar:** el LOCK decide el nombre canónico; el renombre corre en una pasada aparte. Ambas filas ya corrieron — el código y los docs vivos dicen `pool②` / "5 buckets".
 
 ---
 
