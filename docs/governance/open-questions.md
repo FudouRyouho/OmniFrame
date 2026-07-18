@@ -145,7 +145,7 @@ El field `condition` estuvo en el schema de `ability-stats.override.json` y fue 
 **A — Double-scaling:** dos abilities tienen un stat que escala simultáneamente con dos modificadores distintos:
 - `Gara Mass Vitrify` → `Max Radius: 11m $DURATION $RANGE`
 - `Harrow Covenant` → `Energy Conversion: 15% $EFFICIENCY $STRENGTH`
-El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`. El schema **ya soporta** `upgrade_by` como `AbilityUpgradeBy | AbilityUpgradeBy[]` (resuelto 2026-05-26); el engine usa `[0]` hasta que exista `formulas/ability/`. Límite activo: engine + fórmula, no schema.
+El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`. El schema **ya soporta** `upgrade_by` como `AbilityUpgradeBy | AbilityUpgradeBy[]` (resuelto 2026-05-26); el engine usa `[0]`. Límite activo: la **fórmula dedicada de double-scaling**, no el schema — `formulas/ability/` ya existe (`ability-crit`, `ability-status`) pero sin la fórmula de composición de dos modificadores.
 
 **B — Tokens válidos en contexto no-estándar:**
 - `Lavos`: `$EFFICIENCY` → `ENERGY_COST` pero Lavos no tiene pool de energía — `EFFICIENCY` reduce cooldown, no energy cost.
