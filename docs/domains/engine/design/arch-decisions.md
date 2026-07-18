@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-18"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -88,9 +88,18 @@ Se desglosa la suma en `BaseFlat`, `BaseAddPct`, `ModsAddPct`, `TotalFlat` y `Mu
 
 ### 4.2 Attribute-Level Resolve (Graph Convergence)
 
-El motor resuelve **por atributo**, no por entidad. Para dependencias circulares, aplica un ciclo de 3 iteraciones (Fixed-Point). Si no converge, congela y emite alerta.
+El motor resuelve **por atributo**, no por entidad, en **un pass topológico** (Kahn). El acoplamiento
+inter-nodo viaja por `.final` (persiste; los acumuladores se resetean cada pass): un read cross-nodo
+(source-scaling, factores de pool) exige su **arista gemela** en `rebuildGraph`, o lee stale **en silencio**
+(clase de bug recurrente). En la práctica el grafo es un **DAG puro** → un pass ya es el punto fijo; un
+**guard de convergencia solo-test** (`test-setup.ts`) lo blinda: tras cada `resolve()` corre un pass de
+confirmación, exige `Δ=0` y nombra el nodo si falta una arista.
 
-**Propósito:** evita cuelgues por recursión infinita.
+El fallback de 3 iteraciones (Fixed-Point) cubre **dependencias circulares**, pero **hoy no se ejerce** (no
+hay ciclos reales). Convertirlo en un loop *always-converge* real —que volvería irrelevante el orden de
+aristas— queda **diferido** hasta que aparezca el primer ciclo; mientras tanto el guard cubre la fragilidad.
+
+**Propósito:** evita cuelgues por recursión infinita **y** el orden-stale silencioso.
 
 ### 4.3 Differential Timeline Stream
 
