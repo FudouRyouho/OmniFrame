@@ -569,66 +569,22 @@ era "una DR incorrecta" sin más — era la fórmula de Tenno aplicada a un targ
 
 ---
 
-## OQ-ENGINE-16 — Fidelidad de N-declarado vs. timers reales para stacks de status (C1) — **ABIERTO (2026-07-09)**
+## OQ-ENGINE-16 — Fidelidad de N-declarado vs. timers reales para stacks de status (C1) — **ABIERTA (2026-07-09)**
 **Dominio:** engine / C1 (input declarado) + C2 (timers de status)
 
-**Contexto.** Doctrina §8 (`arch-decisions.md`): toda mecánica C2 se modela primero en modo **input
-declarado** ("asumo N stacks") antes que modo simulado (el valor emerge de una timeline). Para el eje de
-status-stacks (Viral/Magnetic/Corrosive — clúster `c2/stack`=42 del roadmap, Galvanized-like) las
-**fórmulas del multiplicador ya están cross-validadas** (verificación de estabilidad, Tramo 2, 2026-07-09):
-Viral/Magnetic `1+1.00+(n−1)×0.25`, Corrosive `min(0.26+0.06×(n−1),0.80)` — match exacto entre
-`references/wiki/mechanics/status-effects.md` y el código (`EnemyState`). **No es la fórmula lo que
-falta.**
+**Contexto.** Doctrina §8 (`arch-decisions.md`): toda mecánica C2 se modela primero en modo **input declarado** ("asumo N stacks") antes que simulado (el valor emerge de una timeline). Para el clúster de status-stacks (Viral/Magnetic/Corrosive — `c2/stack`=42 del roadmap, Galvanized-like) **las fórmulas del multiplicador ya están cross-validadas** contra `references/wiki/mechanics/status-effects.md` (verificado in-game): viven en `formulas/status/stack-debuff.ts` (Viral/Magnetic `first + perAdd×(n−1)`, Corrosive `min(0.26+0.06×(n−1),0.80)`). **No es la fórmula lo que falta.**
 
-**Lo que sí falta (T1 de `.working/c1-simulation-doctrine.md` §4, cristalizado acá):** el comportamiento
-real de cada stack es **timer independiente por instancia, con decay/reemplazo propio** (confirmado
-empíricamente en Viral/Magnetic/Corrosive, `damage-status-model.md`). "Declarar N estáticamente" asume
-un snapshot fijo — pero el juego real tiene stacks entrando y venciendo de forma escalonada. **¿Hasta
-qué punto un N declarado es fiel** al comportamiento real antes de que el número mienta (infle o desinfle)?
-El clúster `c2/stack`=42 además trae **2 modelos de decay divergentes** ("expiran juntos" vs "incremental
-1-stack") sin resolver cuál aplica a qué caso.
+**Lo que falta:** el comportamiento real de cada stack es **timer independiente por instancia, con decay/reemplazo propio** (confirmado empíricamente, `damage-status-model.md`). Declarar N estáticamente asume un snapshot fijo, pero el juego tiene stacks entrando y venciendo escalonados. **¿Hasta qué punto un N declarado es fiel** antes de que el número mienta (infle/desinfle)? El clúster trae además **2 modelos de decay divergentes** ("expiran juntos" vs "incremental 1-stack") sin resolver cuál aplica a qué caso.
 
-**Precedente que fija el método (no re-litigar el método, sólo aplicarlo):** exactamente el mismo patrón
-que double-dipping (`DC-OQ-ENGINE-13`) — la fórmula "sonaba" simple y no lo era hasta estresarla contra
-un caso real in-game. **No se resuelve teorizando**: se elige un caso concreto (candidato: primer
-Galvanized real, o el propio `c2/stack` de mayor payoff) y se estresa con dato real antes de generalizar
-una respuesta.
+**Método (no re-litigar, aplicar):** mismo patrón que double-dipping (`DC-OQ-ENGINE-13`) — la fórmula "sonaba" simple y no lo era hasta estresarla in-game. **No se resuelve teorizando:** se elige un caso real (candidato: primer Galvanized real, o el `c2/stack` de mayor payoff) y se estresa con dato antes de generalizar.
 
-**No bloquea:** el modo-input declarado ya es válido y usable para casos donde el consumidor acepta
-"asumido, no simulado" como techo (mismo espíritu que CO estático). Bloquea sólo la confianza en la
-FIDELIDAD del número asumido para el clúster completo de 42 casos.
+**Estado del tracker (verificado 2026-07-17):** el motor **no tiene tracker real de acumulación para ninguna familia** — `stacks`/`activeStacks` se declaran a mano por variable de contexto (`SimulationEngine`, default 0/1). Confirma el diagnóstico: el resolver **no intenta** modelar decay, aun teniendo el dato (`notes[]` documenta `duration` por mod), a propósito.
 
-**Caso de estrés hermano, distinto del clúster de proc-stacking (2026-07-09, no confundir las
-fórmulas):** el barrido de arcanes (`OQ-ENGINE-17`) identificó una **segunda familia** de
-"N-declarado" — buff-on-event con cap (Merciless/Deadhead/Dexterity/Exhilarate/Cascadia Flare,
-`STACK_DECAY_BUFF`, `arch-decisions.md §11`) — que comparte la misma tensión de fondo (¿hasta qué
-punto `stacks` declarado sin timer es fiel?) pero **NO es el mismo mecanismo** que el clúster
-`c2/stack`=42 de status (Viral/Magnetic/Corrosive): son procs del target vs. buff on-event propio,
-con fórmulas y fuentes de N distintas — capturar por separado, no fusionar (precaución explícita
-del usuario). Confirmado además: el motor hoy no tiene NINGÚN tracker real para ninguno de los dos
-— `activeStacks` de CO/Galvanized se declara a mano (`co-incarnon-perk.test.ts`: "activeStacks no
-se declara → el motor usa el default 1"), cero código de acumulación existe todavía en ningún lado.
+**Caso hermano — NO fusionar:** el buff-on-event con cap (Merciless/Deadhead/Galvanized, `STACK_DECAY_BUFF`, `arch-decisions.md §11`) comparte la tensión (¿N declarado sin timer es fiel?) pero **es otro mecanismo** que el clúster `c2/stack`=42 de status: buff propio on-event vs. procs del target, fórmulas y fuentes de N distintas. Se ejecutó C1-declarado puro (sin timer) — dejó esta OQ **donde estaba a propósito**. Capturar por separado (precaución explícita del usuario).
 
-**`STACK_DECAY_BUFF` ejecutado (2026-07-10, no resuelve esta OQ — la deja donde estaba a propósito.)**
-7 mods Galvanized cableados (`arch-decisions.md §11`) con `stacks` C1-declarado puro (default 0, no
-timer). Confirma el diagnóstico de este OQ: el resolver **no intenta** modelar decay real (el
-mismo dato lo tiene disponible — `notes[]` documenta `duration: 20s` por mod — pero se deja sin
-consumir a propósito). La tensión de fondo (T1: fidelidad N-declarado vs. timers reales, los 2
-modelos de decay divergentes) sigue intacta y **separada** del clúster `c2/stack`=42 de status —
-esta ejecución fue del caso HERMANO (buff-on-event propio), no del clúster de proc-stacking en
-target. Regresión detectada durante la ejecución: 3 tests preexistentes (Cedo/Felarx/Laetum)
-asumían que el modo "estático/techo" auto-declaraba stacks al máximo — corregido a declaración
-explícita (mismo trato que `activeStacks` de CO). El clúster `c2/stack`=42 real (Viral/Magnetic/
-Corrosive) sigue sin tocar.
-
-**Vínculo:** `.working/c1-simulation-doctrine.md` §4-T1, `.working/c1-corpus-roadmap.md` (findings del
-sweep, clúster `c2/stack`=42), `damage-status-model.md` (timers independientes, brecha `processDots`),
-`arch-decisions.md` §8, §11 (caso hermano `STACK_DECAY_BUFF`), `docs/data/reports/audit-arcane-ability-like.md`,
-`OQ-DATA-4` (evidencia cruzada de schema).
-**Fuente:** `.working/c1-simulation-doctrine.md` (debate 2026-07-08); cristalizada en verificación de
-estabilidad pre-C1 (2026-07-09).
-
----
+**No bloquea:** el modo-input declarado es válido como techo donde el consumidor acepta "asumido, no simulado" (mismo espíritu que CO estático). Bloquea sólo la confianza en la FIDELIDAD del número para el clúster de 42 casos.
+**Vínculo:** `damage-status-model.md` (timers independientes, brecha `processDots`), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).
+**Fuente:** debate 2026-07-08 (`.working/c1-simulation-doctrine.md §4-T1`); cristalizada en la verificación de estabilidad pre-C1 (2026-07-09).
 
 ## OQ-ENGINE-18 — Status Duration en DoT: ¿más ticks o ticks estirados? (A vs B) — **ABIERTO (2026-07-10)**
 **Dominio:** engine / C1-timeline (ancho del pulso de DoT) — depende de dato in-game
