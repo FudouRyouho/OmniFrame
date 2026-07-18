@@ -11,7 +11,7 @@ import { ArcaneRepository } from "./ArcaneRepository";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
-import { isWeaponDamageToken, damageTypeFromToken } from "../../contracts/damage-logic";
+import { isWeaponDamageToken, damageTypeFromToken, GLOBAL_DAMAGE_POOLS } from "../../contracts/damage-logic";
 import type { DamageType } from "@shared/types";
 
 export class StaticHydrator {
@@ -83,6 +83,8 @@ export class StaticHydrator {
       // innato y el % de mods de elemento. El DoT escala con el **base innato** (NO el compuesto — el
       // hit sí, el DoT no; ver `ingame-tests/dot-scaling.md`), y su `own_element` sale de los mods del
       // propio elemento (los físicos NO cuentan → Slash queda en 0).
+      // Se computa en la hidratación (no en el seam/deriveInstance): es el último punto donde existen los
+      // combination_mods; el seam lo consume como output de C1 (simulation-architecture §2.0.1).
       const innateBaseTotal = Object.values(innate_damage).reduce((a, b) => a + b, 0);
       const ownElementBonusPct: Partial<Record<DamageType, number>> = {};
       for (const mod of combination_mods) {
@@ -224,23 +226,21 @@ export class StaticHydrator {
       };
     });
 
-    // Inyectar el multiplicador global de daño solo para armas (hack de composición conocido,
-    // gap del engine — no es ley universal). Un warframe no tiene nodo de daño de arma.
+    // Sembrar el nodo baseline de cada pool de daño GLOBAL — derivado de la SSoT única
+    // (GLOBAL_DAMAGE_POOLS en damage-logic), NO de literales sueltos: agregar un 3er pool = una línea
+    // allá, y las aristas/reads del engine ya derivan del mismo array (F1-D). base 100 = 100% neutro
+    // (vacío ⇒ factor 1.0). Solo armas: un warframe no tiene nodo de daño de arma (hack de composición
+    // conocido, gap del engine — no es ley universal). El WHY de cada pool (Serration Step 1 · Roar/Bane
+    // Step 3 · el subconjunto que lee el DoT, OQ-20) vive en la SSoT. El guard `!attributes[pool]`
+    // respeta el nodo que ya vino del perfil (WEAPON_ADD_DAMAGE = damage_sum del arma).
     const isWarframe = dna.kind === 'warframe';
-    if (!isWarframe && !attributes["WEAPON_ADD_DAMAGE"]) {
-       attributes["WEAPON_ADD_DAMAGE"] = {
-          base: 100, // 100% baseline
-          base_flat: 0, base_add_pct: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
-       };
-    }
-
-    // Pool de facción (Roar/Bane) — nodo global paralelo a WEAPON_ADD_DAMAGE (arch-decisions §16):
-    // sus miembros SUMAN (op ADD) y su factor MULTIPLICA los daño-tokens (Step 3 de calculating-bonuses).
-    // NO alimenta el DoT (dotModdedBase lee solo WEAPON_ADD_DAMAGE; double-dip = OQ-20). Vacío ⇒ factor 1.0.
-    if (!isWarframe && !attributes["GAMEPLAY_MULT_FACTION_DAMAGE"]) {
-       attributes["GAMEPLAY_MULT_FACTION_DAMAGE"] = {
+    if (!isWarframe) {
+      for (const pool of GLOBAL_DAMAGE_POOLS) {
+        if (attributes[pool]) continue;
+        attributes[pool] = {
           base: 100, base_flat: 0, base_add_pct: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
-       };
+        };
+      }
     }
 
     return {

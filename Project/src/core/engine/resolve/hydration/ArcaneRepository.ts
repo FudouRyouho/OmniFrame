@@ -61,7 +61,8 @@ export class ArcaneRepository {
         // Guarda: base_value null → stacking sin valor estático (familia Merciless, OQ-DATA-4).
         if (!val.base_value || !val.upgrade_type) return;
 
-        // Guarda: upgrade_type sin mapeo → se omite sin warning (como Incarnon).
+        // Guarda: upgrade_type sin mapeo → se omite en silencio (a diferencia de Incarnon/Mod, que
+        // warnean: acá la ausencia es un gap ESPERADO —familia Merciless, status resists—, no una anomalía).
         const upgradeEntry = resolveUpgradeEntry(val.upgrade_type);
         if (!upgradeEntry) return;
 

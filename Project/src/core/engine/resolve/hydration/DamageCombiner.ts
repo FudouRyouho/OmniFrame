@@ -39,7 +39,10 @@ export class DamageCombiner {
     const finalDamage: Record<string, number> = {};
     const innateCopy = { ...innateDamage };
     
-    // Calcular el daño base total para escalar los mods elementales
+    // Calcular el daño base total para escalar los mods elementales. Escala en BASE-UNITS a propósito:
+    // el Step 1 (Serration, pool WEAPON_ADD_DAMAGE) se aplica DOWNSTREAM al resolver el nodo, no acá —
+    // Base×elem%×(1+Serration) ≡ Modified_Base×elem% (double-dip, arch §16 / DC-OQ-ENGINE-1). Cruzar
+    // con calculating-bonuses Step 1/2 sin esto parece "falta Modified_Base": no falta, viaja en el pool.
     const totalBaseDamage = Object.values(innateDamage).reduce((acc, val) => acc + val, 0);
 
     // 1. Clasificar mods por índice
