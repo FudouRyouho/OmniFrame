@@ -491,7 +491,7 @@ El rename D→contrato neutro que E arrastraba es decisión aparte y sigue viva:
 **Pregunta:** ¿cuándo se construye ese punto de enganche? No bloquea el núcleo (Tier 1 del modelo), pero es la pieza que falta para que Puncture/Cold entren a v1 junto con Magnetic (mismo tier de prioridad, distinto tier de trabajo de cableado).
 
 **No bloquea:** el núcleo del modelo de daño (Slash/Toxin/Viral/Corrosive) ni el plan de slices que lo implemente primero.
-**Vínculo:** `damage-status-model.md` (el modelo completo, incluye la brecha ya encontrada entre `EnemyState.processDots()` — decaimiento lineal continuo, código de abril — y el primitivo de N-timers-independientes validado empíricamente esta sesión; el bug de `getDamageMultiplier` y el rename de vocabulario legacy ya se resolvieron en Fase 3 pieza 3, previo a esta campaña).
+**Vínculo:** `damage-status-model.md` (el modelo completo + el primitivo de stack tracker). Nota: la brecha de `processDots` que este OQ citaba en su origen (decaimiento lineal, código de abril) ya se **cerró** — hoy `EnemyState.processDots()` itera `EFFECT_BEHAVIORS` (modelo unificado de proc, 2026-07-13); esta OQ es solo el gancho de crit, independiente de eso.
 **Fuente:** debate de modelado C2, verificación empírica in-game 2026-07-02.
 
 ---
