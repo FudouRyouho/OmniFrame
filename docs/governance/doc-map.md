@@ -4,7 +4,7 @@ Rol: "Mapa de durabilidad del corpus docs/ + criterio de archivado + registro de
 Impacto_ID: "G-DocMap"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-06-06"
-Fecha_de_actualizacion: "2026-07-09"
+Fecha_de_actualizacion: "2026-07-17"
 ---
 
 # Doc Map — durabilidad del corpus y saneamiento
@@ -47,7 +47,7 @@ fecha del doc.
 ## 2.1. Disciplina de cierre de campaña (regla dura)
 
 Una campaña **EN CURSO** puede escribir su propia sección narrativa acá (progreso, decisiones,
-pendientes) — es el registro vivo mientras dura, igual que §6 hoy. Pero **al cerrarla, en la misma
+pendientes) — es el registro vivo mientras dura. Pero **al cerrarla, en la misma
 sesión de cierre**, esa sección se comprime: reglas durables migran a su doc natural (schema, status,
 rules, README del dominio), y lo que queda es un párrafo-resumen + punteros a los commits. Ninguna
 sección de campaña queda en formato "log detallado por tanda" una vez marcada COMPLETA — eso es lo que
@@ -99,36 +99,21 @@ mecanismo ">100% garantiza 1 + priorización por daño" que la wiki no confirma 
 
 ## 6. Campaña de documentación de UI (2026-06-14 – 2026-06-16, grueso COMPLETO — residuo diferido)
 
-**Origen:** la UI nunca tuvo su corpus de docs/auditoría como sí lo tuvieron `data/`/engine
-(asimetría: `docs/semantic/` pesa más que **todo** `docs/domains/ui-ux/`; de los 6 docs ui-ux,
-4 estaban stale 2 meses, sin `status.md`/`decisions.md`/`workflow.md` ni mecanismo de auditoría).
-Esa pausa de docs **generó el drift** (islas de datos, providers anclados, toolbars con state
-desacoplado, dead-code, tareas "parciales" completas). La campaña corre la UI por el mismo loop
-de auditoría que recibió la data. Hallazgo de fondo destapado en Pre-E (2026-06-14).
+La UI nunca tuvo corpus de docs/auditoría como sí lo tuvieron `data/`/engine, y esa pausa **generó
+el drift** (islas de datos, providers anclados, dead-code, tareas "parciales" completas). La campaña
+la corrió por el mismo loop que recibió la data —**audita código↔docs por dominio** (a diferencia de
+§3–5, mecánicas sobre el corpus existente)— y **produjo el corpus que faltaba**: el trío operativo
+[`ui-ux/status.md`](../domains/ui-ux/status.md) + [`workflow.md`](../domains/ui-ux/workflow.md) (loop
+Recon→Triage→Document, checkpoints C0/C1/traceability) + [`decisions.md`](../domains/ui-ux/decisions.md)
+(serie **U-N** propia: `U-1` espina DOMINIO+2-ejes, `U-2` construir=fuera del mandato, `U-3` 3-ejes
+`SLOT_DEFINITIONS`, `U-4` honestidad UI), más `OQ-ENGINE-11` (exaltadas) y `current-state` §2 (M1
+reencuadrado, multi-config). Detalle por barrido en git (rama de la época, 2026-06-14–16).
 
-**Espina (decidida en Stage 0):** **DOMINIO + 2 ejes ortogonales como lente** — ver
-[`../domains/ui-ux/decisions.md`](../domains/ui-ux/decisions.md) `U-1`. Rechazadas PROVIDER
-(un solo eje) y VIEW (loop + consagra stub).
-
-**Flujo (durable):** [`../domains/ui-ux/workflow.md`](../domains/ui-ux/workflow.md) — loop por
-dominio Recon→Triage→Document, checkpoints C0 (ESTABLE vs STUB) / C1 (RED gate) / traceability.
-Construir = **fuera del mandato** (`U-2`). Ledger de decisiones = serie **U-N** propia, espejo
-de la D-series.
-
-**Diferencia con la campaña de saneamiento (§3–5):** aquélla fue mecánica/contraste sobre el
-corpus existente; ésta **audita código↔docs por dominio** y produce el corpus que faltaba.
-
-| Stage | Resultado | Estado |
-|---|---|---|
-| **Stage 0 — establecer el flujo (DEBATE, sin leer código)** | Espina fijada (`U-1`), trío operativo mandado (`U-2`), `workflow.md` + `decisions.md` creados, serie U-N nacida, hogar split (flujo→workflow.md, registro→aquí). | ✅ |
-| **6 barridos por dominio** (arsenal/equipment/hud/menu-shell/profile/shared + concern-bucket *filtros*) | Inventario completo (`.working/ui-audit.md`); cleanups dead-code-0-consumidor ejecutados (`configSlot`, `MenuBar`, abstracción `routes`, `providers/Arsenal/`). | ✅ |
-| **Cruce de consolidación (paso 3)** | Todo el volumen cruzado en escenarios (`.working/consolidation-map.md`): grafo Track1/Track2, M1 reencuadrado (no cimiento ausente), §E = inventario de deshonestidad; coherence pass map↔docs↔código **sin alarmas**. | ✅ |
-| **Bajar a docs (paso 4)** | `decisions.md` `U-3` (3-ejes `SLOT_DEFINITIONS`) + `U-4` (honestidad UI) · `OQ-ENGINE-11` (exaltadas) · `current-state` §2 Gaps (multi-config, reencuadre M1) · **`ui-ux/status.md` creado** (trío completo) · `shell-status.md` plegado · barrido M6 (comentarios stale). | ✅ (residuo `@SSoT` mispointers = **at-touch**, no bloqueante) |
-
-**Pendiente próximo:** cerrar Pasada D (re-apuntar `@SSoT` mispointers a `status.md` *al tocar cada
-archivo* + purgar `.working`). Aparte y **gateado** (construir = fuera del mandato, `U-2`): los refactors
-capturados (E1 dedup de filtros, E4 mover hooks a `@shared`, hook de hidratación compartido, cablear
-ability-popover) y el prototipo de exaltadas (`OQ-ENGINE-11`).
+**Horizonte vivo (por qué no cierra del todo):** residuo at-touch = re-apuntar `@SSoT` mispointers a
+`status.md` al tocar cada archivo. Aparte y **gateado** por `U-2` (construir = fuera del mandato): los
+refactors capturados en el worklist del construer `.working/consolidation-map.md` (local, gitignored)
+—E1 dedup de filtros, E4 hooks a `@shared`, hook de hidratación compartido, cablear ability-popover,
+des-fusionar `SLOT_DEFINITIONS`— y el prototipo de exaltadas (`OQ-ENGINE-11`).
 
 ---
 
