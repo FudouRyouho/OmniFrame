@@ -332,33 +332,21 @@ Residual (A2 · shape de la Capa A · lift de `contracts/`) vive en el §Pendien
 **Vínculo:** OQ-DATA-9 (borde de entrada, par espejo) · OQ-ENGINE-10 (Capa E, descartada) · OQ-ENGINE-8 (sobrecarga de "Proyección").
 **Fuente:** diagnóstico 2026-06-12. Re-scope 2026-07-17 al cruzar contra código: los stages A–D y D-7 Fase 4 ya están ejecutados — proyector único, `StatEntry` único, registro token-keyed en `lib/format`, formateo locale-free centralizado y leak β muerto. Todo eso dejó de ser pregunta; la OQ describía como abierto lo que ya estaba hecho.
 
-## OQ-DATA-11 — Compatibilidad de mods por entidad: no materializada — **ABIERTO (2026-06-12)**
+## OQ-DATA-11 — Compatibilidad de mods por entidad: no materializada — **ABIERTA (2026-06-12)**
 **Dominio:** data / semantic / compatibilidad (hermana de OQ-DATA-1, que cubre slots)
 
-**Contexto:** Al cablear el filtro de compatibilidad del picker de mods en `UpgradeView` (que un arma muestre solo sus mods) se destapó que **la relación de compatibilidad mod↔entidad no está modelada en la data**:
+**Contexto:** al cablear el filtro de compat del picker de mods en `UpgradeView` se destapó que la relación mod↔entidad **no está en la data**:
+- **`tags:[]` vacíos.** La única señal es `compat_name` (string: `Rifle`/`Shotgun`/`Sniper`/`Pistol`/`Melee`/`WARFRAME`/nombre-de-arma/`null`). La Restricción 3 ("filtros dependen de `tags`") no puede aplicarse tal como está — el fix correcto es enriquecer los mods con compat en `tags`.
+- **Matriz muchos-a-muchos ausente:** en el juego los mods `Rifle` caben en rifle+sniper+bow; `compat_name` da una sola clase y el cruce (qué clases acepta cada `family`) no vive en ningún lado. Conocimiento de dominio sin materializar.
+- **Duplicados en `mods.json`** (Serration ×3, Adaptation ×2) — fuente sucia, bug de pipeline.
+- **`useItemsFilters` (`domains/equipment`) no es reutilizable desde `domains/arsenal`** (Restricción 1) → mover a `@shared` si se quiere una lógica única.
 
-- **`tags: []` vacíos en los mods.** La única señal de compat es `compat_name` (string: `"Rifle"`, `"Shotgun"`, `"Sniper"`, `"Pistol"`, `"Melee"`, `"WARFRAME"`, nombre de arma para augments, o `null`). → **Restricción 3 ("filtros de UI dependen de `tags`") no puede aplicarse a mods tal como está la data.** El fix correcto es enriquecer los mods con compat en `tags`.
-- **Matriz muchos-a-muchos ausente:** en el juego, mods `Rifle` caben en rifle + sniper + bow; `compat_name` da una sola clase, y el cruce (qué clases acepta cada `family` de arma) no vive en ningún lado (ni tags, ni tabla). Es conocimiento de dominio sin materializar.
-- **Duplicados en `mods.json`** (p.ej. Serration ×3, Adaptation ×2) — bug del pipeline de datos; la fuente está sucia.
-- **`useItemsFilters` (`domains/equipment`) no es reutilizable desde `domains/arsenal`** (Restricción 1). Si se quiere una sola lógica de filtrado de ítems, debe moverse a `@shared`.
+**Estado del filtro (stopgap PROVISIONAL, marcado en `UpgradeView.tsx`):** compara campo-a-campo `mod.compat_name ↔ entity.family` (arma) / `entity.domain` (warframe) + dedup. Data-driven (no matriz hardcodeada), pero **incompleto** — oculta augments/universales y el cruce de tipos. Roto donde `family` no coincide literal con la clase de mod: `Afuris.family="dual pistols"` vs `compat_name="Pistol"` → picker vacío; igual `throwing`(Kunai), `sniper`/`bow`→`Rifle`. Melee/rifle/shotgun/pistol andan solo porque `family == compat_name`. Secondary queda **gated por esta OQ** (decisión del usuario: sin stopgap). **Arcanos = caso limpio** (resuelto v1): su `compat_name` ya es a granularidad de **canal** (`warframe`/`primary`/`secondary`/`melee`), match directo sin cruce M2M; solo los sub-tipos (`zaw`→melee, `kitgun`→primary/secondary, `bow`/`shotgun`→primary, ~19 arcanos) quedan ocultos. Confirma que el fix correcto es **por-fuente**.
 
-**Stopgap vigente (no es la solución):** `UpgradeView` filtra inline por comparación campo-a-campo `mod.compat_name ↔ entity.family` (arma) / `entity.domain` (warframe) + dedup. Data-driven (no matriz hardcodeada, respeta el espíritu de Restricción 3), pero **incompleto**: oculta augments, universales y el cruce de tipos (sniper/bow no ven mods `Rifle`). Marcado PROVISIONAL en el código.
-
-**Confirmado en runtime (2026-06-12), gated por esta OQ (no se arregla hasta materializar):**
-- **Secondary roto:** `Afuris.family = "dual pistols"` (con espacio) vs `compat_name = "Pistol"` (139 mods) → exact-match da **cero → picker vacío**. Igual con `family = "throwing"` (Kunai). Las familias granulares que NO coinciden con su clase de mod: `dual pistols`/`throwing` → `Pistol`; `sniper`/`bow` → `Rifle`. (Melee/rifle/shotgun/pistol funcionan solo porque `family` == `compat_name` literal.)
-- Decisión del usuario: dejar secondary gated por esta OQ (no stopgap por ahora).
-- **Arcanos = caso más limpio (resuelto en v1):** `arcanes.json.compat_name` está a granularidad de **canal** (`warframe`:67, `primary`:13, `secondary`:17, `melee`:11, + `operator`/`amp`) — sin el cruce muchos-a-muchos de las armas. `UpgradeView` ya filtra arcanos por `compat_name === channel` (match directo, limpio). **Gated solo los sub-tipos:** `zaw`→melee, `kitgun`→primary/secondary, `bow`/`shotgun`→primary (~19 arcanos) quedan ocultos hasta materializar el alias sub-tipo→canal. Confirma que el fix correcto es por-fuente: la compat de arcanos ya es usable, la de mods no.
-
-**Pregunta:** ¿Dónde y cómo se materializa la compatibilidad mod↔entidad? Opciones (espejo de OQ-DATA-1):
-- (a) Enriquecer cada mod con `tags`/clases de compat en la data (pipeline) → filtro por tags, Restricción 3 limpia.
-- (b) Una matriz `family de arma → clases de mod aceptadas` como dato (no hardcode en componente).
-- (c) Híbrido: `compat_name` se queda como clase base + matriz de cruce como dato.
-
-**Vínculo:** **OQ-DATA-1** (par: slots = otra cara de "qué puede equipar/portar una entidad"); **Restricción 3** (`Project/CLAUDE.md`); capa "0" (la compat es dato canónico que 0 debería normalizar/entregar). Bonus: dedup de `mods.json` toca el pipeline de datos (OQ-DATA-9 / status de datos).
-**No bloquea:** el loop equip→stat (funciona); sí degrada la usabilidad del picker para tipos no-rifle.
-**Fuente:** implementación del filtro de compat 2026-06-12 (rebanada UI mínima funcional; ver `UpgradeView.tsx`).
-
----
+**Pregunta:** ¿dónde/cómo se materializa la compat mod↔entidad? (espejo de OQ-DATA-1) — (a) enriquecer cada mod con `tags` en pipeline (Restricción 3 limpia); (b) matriz `family → clases aceptadas` como dato; (c) híbrido (`compat_name` base + matriz de cruce).
+**Vínculo:** **OQ-DATA-1** (slots = otra cara de "qué equipa una entidad"), **Restricción 3** (`Project/CLAUDE.md`), capa "0" (compat = dato canónico que 0 normaliza). Dedup de `mods.json` toca el pipeline (OQ-DATA-9).
+**No bloquea:** el loop equip→stat funciona; degrada la usabilidad del picker para tipos no-rifle.
+**Fuente:** implementación del filtro de compat 2026-06-12 (`UpgradeView.tsx`).
 
 ## OQ-DATA-12 — Carga de runtime del engine: import estático → fetch — **CERRADA (2026-07-02) → migrada a `closed-decisions.md` (`DC-OQ-DATA-12`)**
 Cerrada por Fase 1 (`fetch` lazy vía `BrowserAdapter`, bundle 2.3 MB→565 kB) + Fase 2 Slice E (`loadEngineData` → `@core/engine/bootstrap/`) de la campaña de saneamiento `@core`. El eje RED-adjacent "contrato de entrada del engine" (β) sigue abierto en **OQ-DATA-9**. Detalle completo: `closed-decisions.md#DC-OQ-DATA-12`.
