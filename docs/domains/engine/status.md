@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-16"
+Fecha_de_actualizacion: "2026-07-17"
 ---
 
 # Engine Status
@@ -161,21 +161,12 @@ El token está **mapeado** (`UPGRADE_MAP`: `op: ADD, toPercent: true`); 42 mods 
 llevan. Falta: (1) `target.faction` **estructurado** en los mods (hoy solo en el `label` → `OQ-DATA-5`) y
 (2) el consumo en C2 como multiplicador por facción. Vocabulario destino: [`../../semantic/factions.md`](../../semantic/factions.md).
 
-**Historia (2026-07-09 → 2026-07-12, superada por el rediseño — detalle en git):** el análisis original
-ubicaba el hueco en `StatusEngine.projectXTick` (tick de DoT sin target, faltándole matriz③, `bucket²`
-sin cuadrado y `(1+status_damage)`); la reconciliación intermedia de Toxin/Slash lo resolvió por
-`active_pulses` + `resolveDamageInstance`. Todo eso quedó **subsumido**: `StatusEngine` ya no existe. La
-fórmula objetivo del tick sigue firme: `tick = coef × modded_base × (1+status_damage) × matriz(elem,
-facción) × (1+Σbucket②)²` (no-True) / con `[bypass ③]` (True). Hoy el `EffectBehavior` + `resolveDamageEvent`
-computan todo **menos** el `(1+Σbucket²)²`.
-
-**Subsumido por el rediseño (2026-07-13):** esta deuda deja de ser una unidad propia —
-`StatusEngine` fue **eliminado** con el modelo unificado de proc (`damage-status-model.md §Modelo unificado
-de proc`), así que los detalles de `StatusEngine.projectXTick` de los párrafos de arriba son **históricos**
-(el tick ahora lo computan los `EffectBehavior`, resueltos vía `resolveDamageEvent`). Lo que **sigue
-pendiente** es el bucket②/faction²: es la **mitad live** de la composición `snapshot × live` del tick,
-gated por `OQ-ENGINE-20` (split fino snapshot/live) — la re-aplicación live del source (frontera
-cross-entity), NO horneada aún en el `HitContext` snapshot (que hoy solo carga `moddedBase` + status/element).
+El tick lo computan hoy los `EffectBehavior` resueltos vía `resolveDamageEvent` — todo **menos** el
+`(1+Σbucket②)²`. La fórmula objetivo sigue firme: `tick = coef × modded_base × (1+status_damage) ×
+matriz(elem, facción) × (1+Σbucket②)²` (no-True) / con `[bypass ③]` (True). El único pendiente es ese
+bucket②/faction²: la **mitad live** de la composición `snapshot × live` del tick, gated por `OQ-ENGINE-20`
+(split fino snapshot/live) — la re-aplicación live del source (frontera cross-entity), NO horneada aún en
+el `HitContext` snapshot (que hoy solo carga `moddedBase` + status/element).
 
 **Vínculo:** `design/damage-status-model.md §Evidencia` + `§Reconciliación de resolveHit`,
 `governance/closed-decisions.md#DC-OQ-ENGINE-13` (confirma que el double-dip es del bucket②, no de
