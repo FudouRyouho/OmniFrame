@@ -398,7 +398,7 @@ Cerrada por Fase 1 (`fetch` lazy vía `BrowserAdapter`, bundle 2.3 MB→565 kB) 
 - **Sistema de guardado de builds** — inexistente, es el bloqueante real. ¿Persistencia local? ¿shape? ¿relación con `EnsembleIntention`/A?
 - **Modelo de navegación del footer**: contrato de qué acciones expone por zona (item-details vs arsenal vs …) — hoy ad-hoc.
 
-**Arranca la campaña de documentación UI/UX** (los 6 docs de `docs/domains/ui-ux/` suman ~258 líneas, sin tocar hace meses; footer y modelo de interacción sin consolidar). Principio: derivar de **D2 (oráculo/CLI)** + dominio, **no** anclar contratos al stub actual.
+La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domains/ui-ux/` tiene status/decisions/workflow activos) — pero el **footer y el modelo de interacción siguen sin consolidar**, que es lo que esta OQ cubre. Principio: derivar de **D2 (oráculo/CLI)** + dominio, **no** anclar contratos al stub actual.
 
 **No bloquea:** la UI navega (footer stub anda). **Bloquea:** flujo BUILD real (gated por guardado).
 **Vínculo:** **OQ-UI-2** (estado de sesión/UI), **OQ-DATA-1** (materialización de slots para upgrade), **OQ-DATA-10/-13** (presentación). Sistema de guardado = nueva área sin OQ previa.
@@ -425,12 +425,12 @@ Cerrada por Fase 1 (`fetch` lazy vía `BrowserAdapter`, bundle 2.3 MB→565 kB) 
 
 **Contexto:** `OptionsView` debería organizarse en **tabs de paneles** (display / graphics / audio / accessibility); hoy solo existe `display` con el theme-selector. El resto es a futuro (animaciones/efectos BLUR/CANVAS, audio).
 
-**Sub-punto con peso real — NO-i18n (de momento):** se **descarta** implementar i18n ahora. `@wfcd/items` **sí provee** i18n, pero **no es compatible** con el sistema de **overrides manuales** de piso 0: por su naturaleza de mantenimiento manual, mantener traducciones sincronizadas es inviable hoy. Deseado a futuro, no prioridad. Esto **cruza OQ-DATA-9/0** (qué es dato canónico) y el estrato `lib/format` de OQ-ENGINE-10/DATA-10 (labels/locale).
+**Sub-punto con peso real — NO-i18n (de momento):** se **descarta** implementar i18n ahora. `@wfcd/items` **sí provee** i18n, pero **no es compatible** con el sistema de **overrides manuales** de piso 0: por su naturaleza de mantenimiento manual, mantener traducciones sincronizadas es inviable hoy. Deseado a futuro, no prioridad. Esto **cruza OQ-DATA-9/0** (qué es dato canónico) y el estrato `lib/format` (`DC-OQ-ENGINE-10-A` / OQ-DATA-10, labels/locale).
 
 **Pregunta:** ¿Contrato de paneles de configuración (qué persiste, dónde) y condición para reabrir i18n (¿requiere resolver la compat overrides↔traducciones primero?)?
 
 **No bloquea:** nada (theme-selector funciona).
-**Vínculo:** OQ-DATA-9 (0 / dato canónico), OQ-DATA-10 + OQ-ENGINE-10 (`lib/format`/locale), OQ-UI-2 (persistencia de preferencias).
+**Vínculo:** OQ-DATA-9 (0 / dato canónico), OQ-DATA-10 + `DC-OQ-ENGINE-10-A` (`lib/format`/locale), OQ-UI-2 (persistencia de preferencias).
 **Fuente:** TODO inline del usuario en `OptionsView.tsx`; triage de user-TODOs 2026-06-13.
 
 ---
