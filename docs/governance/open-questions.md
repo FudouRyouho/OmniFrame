@@ -82,7 +82,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 
 ## OQ-DATA-1 — Materialización de slots por entidad — **ABIERTO (2026-05-25)**
 **Dominio:** data / arsenal / engine
-**Contexto:** Los slots por entidad (Warframe 8 mods + Aura + Exilus + 2 Arcanos, Melee + Stance, etc.) son información canónica del juego documentada en `docs/domains/ui-ux/slot-reference.md`. Casos especiales como Jade (2 Auras), Sevagoth Shadow, exaltadas y companions modulares requieren modelado explícito. `UpgradeView.tsx` existe como stub (`@status stub`) sin diseño definido del layout de slots.
+**Contexto:** Los slots por entidad (Warframe 8 mods + Aura + Exilus + 2 Arcanos, Melee + Stance, etc.) son información canónica del juego documentada en `docs/domains/ui-ux/slot-reference.md`. Casos especiales como Jade (2 Auras), Sevagoth Shadow, exaltadas y companions modulares requieren modelado explícito. `UpgradeView.tsx` ya está **activo** (consume el engine vía `useViewModel` + `toStatEntries`), pero sin diseño definido del **layout de slots por entidad** — que es lo que esta OQ gatea.
 **Pregunta:** ¿Cómo se materializan estas capacidades en el sistema? Opciones:
 - (a) **JSON por entidad** (similar a `archon-shards.json`) — `slot-capabilities.json` indexado por `uniqueName`
 - (b) **Constantes/mapeos en código** — en `Project/src/shared/types/` o `Project/src/lib/`
@@ -208,7 +208,7 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 
 ## OQ-SEM-2 — Eje organizador del mapa de clasificación de condition: ¿mecánica de juego o modelo de engine? — **ABIERTO (2026-06-03)**
 **Dominio:** semantic / conditions → engine
-**Contexto:** `conditions.md` clasifica los tokens con `engine:class:c2/*` (binary / derived / event / stack / —). Ese eje describe **qué debería computar un `SimContext` que aún no existe** — está anclado al modelo de un engine hipotético, no a la mecánica real del juego. Resultado: un mapa que "medio existe y medio no", poco robusto, porque su criterio organizador es especulativo y se reordenaría solo cuando el engine se materialice.
+**Contexto:** `conditions.md` clasifica los tokens con `engine:class:c2/*` (binary / derived / event / stack / —). Ese eje describe qué debería computar el C2. Cuando la OQ se abrió (2026-06-03) ese engine no existía y el eje era puramente especulativo; hoy el C2 se materializó parcialmente (`SimulationContext`, `EnemyState`, `behaviors`, stacks) — el eje ya **se puede contrastar** contra el engine real en vez de contra uno hipotético. Aun así el criterio organizador sigue anclado al modelo de evaluación, no a la mecánica del juego.
 
 **Pregunta:** ¿El mapa de clasificación de condition debe organizarse por **naturaleza/mecánica real del juego** —qué *es* la condición en el juego: estado del jugador, estado del target, evento de combate, maniobra de parkour, umbral de recurso, restricción de loadout— en vez de por el modelo de evaluación del engine? Bajo esta dirección, `engine:class:c2/*` pasa a ser una **proyección derivada** del mapa de naturaleza, no el eje primario.
 
