@@ -95,9 +95,10 @@ inter-nodo viaja por `.final` (persiste; los acumuladores se resetean cada pass)
 **guard de convergencia solo-test** (`test-setup.ts`) lo blinda: tras cada `resolve()` corre un pass de
 confirmación, exige `Δ=0` y nombra el nodo si falta una arista.
 
-El fallback de 3 iteraciones (Fixed-Point) cubre **dependencias circulares**, pero **hoy no se ejerce** (no
-hay ciclos reales). Convertirlo en un loop *always-converge* real —que volvería irrelevante el orden de
-aristas— queda **diferido** hasta que aparezca el primer ciclo; mientras tanto el guard cubre la fragilidad.
+Un ciclo real (`cycle_detected`: Kahn no ordena todos los nodos) hoy **corta con alerta** (throw) — el DAG
+no los produce, y un ciclo dejaría nodos leyendo `base` en silencio. Resolverlo bien es un loop
+*always-converge* —que volvería irrelevante el orden de aristas— **diferido** (Opción B) hasta que aparezca
+el primer ciclo; mientras tanto el guard cubre la fragilidad del orden.
 
 **Propósito:** evita cuelgues por recursión infinita **y** el orden-stale silencioso.
 

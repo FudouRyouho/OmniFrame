@@ -198,8 +198,10 @@ export class SimulationEngine {
   }
 
   /**
-   * Executes a full resolution of the attribute graph.
-   * Uses Topological Sort + Fixed-Point fallback for reactive scaling.
+   * Resuelve el grafo de atributos en un pass topológico (Kahn). El grafo es un DAG en la práctica
+   * → un pass alcanza el punto fijo (arch-decisions §4.2). Un ciclo real (Kahn no ordena todos los
+   * nodos) lanza — no soportado, requiere convergencia iterativa (Opción B, diferida). Que "un pass
+   * basta" lo vigila el convergence guard solo-test (`test-setup.ts`).
    */
   public resolve(context: SimulationContext): void {
     this.trace_log.clear();
@@ -219,16 +221,15 @@ export class SimulationEngine {
       this.resolveNode(entityId, attributeId, context, 1);
     });
 
-    // 3. Fallback for Cycles (Fixed-Point)
+    // 3. Ciclo real detectado (Kahn no ordenó todos los nodos) → alerta fail-loud. El grafo es un DAG
+    //    en la práctica; un ciclo dejaría nodos sin resolver leyendo `base` EN SILENCIO. En vez de un
+    //    loop de 3 pasos que no converge ni avisa (el histórico), se corta ruidoso. Resolverlo bien =
+    //    convergencia iterativa (Opción B, diferida — arch-decisions §4.2).
     if (this.cycle_detected) {
-      for (let pass = 2; pass <= 3; pass++) {
-        this.resetAccumulators();
-        this.entities.forEach(entity => {
-           Object.keys(entity.attributes).forEach(attrId => {
-              this.resolveNode(entity.id, attrId, context, pass);
-           });
-        });
-      }
+      throw new Error(
+        'SimulationEngine: ciclo de dependencias detectado en el grafo de atributos — no soportado. ' +
+        'Requiere convergencia iterativa (Opción B, diferida; arch-decisions §4.2).',
+      );
     }
   }
 
