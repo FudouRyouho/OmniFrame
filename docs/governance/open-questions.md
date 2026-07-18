@@ -158,49 +158,28 @@ El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`
 
 ---
 
-## OQ-DATA-4 — Patrones estructurales transversales (stacking / duration / composición de condition) — **ABIERTO (2026-06-02)**
+## OQ-DATA-4 — Patrones estructurales transversales (stacking / duration / composición de condition) — **ABIERTA (2026-06-02)**
 **Dominio:** data / schema (mods + arcanes + incarnon + archon)
-**Contexto:** stacking, duration y la composición OR/AND de `condition` son conceptos **análogos** en los 4 schemas, hoy resueltos de forma divergente (mods: stacking=total, D-15 §2; arcanes familia Merciless: `base_value: null` + nota). La divergencia nació de resolver cada schema por separado — aislar produce drift. El criterio de **cuándo** acuñar estructura está fijado en `decisions.md#D-20` (≥2 casos misma forma + gate de consumidor + escape hatch como hipótesis con contador). Passives queda **fuera**: no existe como schema y su heterogeneidad (ley de juego / daño / mod-like / casi-habilidad) indica que no es un schema único — sus casos se reparten en las puertas de D-20.
+**Contexto:** stacking, duration y la composición OR/AND de `condition` son conceptos **análogos** en los 4 schemas, hoy resueltos de forma divergente (mods: stacking=total, D-15 §2; arcanes Merciless: `base_value:null` + nota). Aislar cada schema produce drift. El criterio de **cuándo** acuñar estructura está en `decisions.md#D-20` (≥2 casos misma forma + gate de consumidor + escape hatch como hipótesis con contador). Passives queda **fuera** (no es un schema único; su heterogeneidad se reparte en las puertas de D-20).
 
-**Preguntas abiertas:**
-- **Ubicación del puente** (definición canónica cross-schema de stacking/duration): **resuelta en `DC-OQ-DATA-2` (2026-06-05)** — el puente es estructura de schema, no vocabulario de significado → vive en `data/` (`rules/` o `schemas/`), no en `semantic/`. Su **creación** sigue gateada por D-20 (≥2 casos) + D-16 (cobertura ≥70%); captura provisional en `audit-*.md` + `status.md` hasta entonces.
-- **Composición de `condition` (OR/AND):** **~9 composiciones reales** detectadas (2026-06-05) — 5 OR (`on_parkour_maneuver`, `on_shield_or_overguard_break`, `on_bullet_jump_or_double_jump`, + los 2 de movimiento ya migrados) + 2 AND evento∧estado (`on_hit_incarnon_form`, `on_hit_while_target_affected_by_electricity`) + Melee Afflictions (anidado). **El shape obj-key `{any|all}` ya está implementado y el engine lo evalúa** (`evalCondition`, Fase 3a); los 2 OR de movimiento (Fase 3b, `{any:[…]}`) y el primer AND `on_hit_while_target_affected_by_electricity` (Fase 4, `{all:[…]}`) ya migrados; `on_hit_incarnon_form` catalogado como **stub** (flag-paraguas, no descompuesto — granularidad de hit incierta: headshot/weakpoint/charged-blast, deuda `weak-points.md`). Todos los OR planos migrados (movimiento Fase 3b; break + maniobra Fase 4). Supera D-20 en masa para las formas planas; el prototipo sigue **no cerrado** (gateado por D-16 cobertura + el resto de la migración).
-  - **Prototipo de shape (2026-06-05, HIPÓTESIS ABIERTA, no cerrado):** `condition: string | {any:[…]} | {all:[…]}` — `any`=OR, `all`=AND como **intención explícita del autor** (no derivable de la sintaxis: `["while_aim","while_airborne"]` puede ser AND co-ocurrente u OR de alternativas). Un nivel, sin anidar. Frontera (→ fórmula dedicada): anidado, secuencial/acumulativo (eje `duration`, **separado** de condition), relacional (variable ligada, p.ej. Primary Debilitate); multi-efecto se disuelve antes por split D-18. Documentado a nivel flujo en [`docs/data/rules/overrides.md` §Prototipo de condition](../data/rules/overrides.md); la **granularidad** que el shape necesita se formaliza en [`docs/semantic/condition-nature.md`](../semantic/condition-nature.md) (naturaleza facetada + reglas de composición + exclusión mutua). **Próximo paso:** leer casos mapeados de composición y razonar su comportamiento bajo obj-key antes de acuñar. Un array plano *sin* operador explícito quedó descartado (no distingue AND de OR; derivar el operador del prefijo colapsa casos).
-  - **Afinado (2026-06-03):** el eje a decidir no es solo "string vs lenguaje de expresiones" sino **`string → array → objeto`**, con el criterio del usuario: que OR/AND sea **derivado de la estructura del dato** (validable mecánicamente por la *forma*), no lógica aplicada por encima — objetivo de schema *"legible y funcional, derivado de la estructura"*. Trade-off asumido: más denso y menos flexible estructuralmente, a cambio de precisión a nivel engine. **Orden:** se teoriza OR/AND **antes** de cualquier prototipo de gramática (separador `:` / reglas de derivación tipo `nomenclature-grammar.md`); la gramática es *posterior* a fijar el shape. Teorización abierta — exprimir/expandir/romper el modelo, **sin objetivo de cierre**; sigue gateada por D-16 (≥70%) + D-20 (≥2 casos). Cobertura actual (2026-06-03): 404 token / 8 null cross-source (`conditions.md §Resumen`).
-- **Scope-grupo de `condition`** (varios stats, una condición): hoy se resuelve **repitiendo** el token (precedente: Pax Soar, dos stats `while_airborne`). Scope-grupo es optimización anti-repetición, no expresividad — salvo semántica compartida no-replicable (p. ej. pool de stacks común entre efectos). Latente.
+**Resuelto:**
+- **Ubicación del puente** (definición canónica cross-schema de stacking/duration): `DC-OQ-DATA-2` — es estructura de schema, no vocabulario → vive en `data/` (`rules/` o `schemas/`), no en `semantic/`. Su **creación** sigue gateada por D-20 (≥2 casos) + D-16 (cobertura ≥70%).
+- **Nivel:** stacking/duration/condition viven a nivel **stat**, no entry (confirmado: entradas multi-efecto como Merciless/Deadhead/Pax Soar mezclan stats con y sin condición; el split `1 label = 1 stat` hace del stat el nivel natural).
 
-**Nivel resuelto (2026-06-02):** stacking/duration/condition viven a nivel **stat**, no entry — confirmado empíricamente: entradas multi-efecto (Merciless, Deadhead, Pax Soar) mezclan stats con y sin condición bajo el mismo arcano. El split `1 label = 1 stat` hace del stat el nivel natural.
+**Abierto — composición de `condition` (OR/AND):** el shape `condition: string | {any:[…]} | {all:[…]}` está **implementado y el engine lo evalúa** (`evalCondition`, `SimulationEngine`); los OR planos y el primer AND (`on_hit_while_target_affected_by_electricity`) ya migraron; `on_hit_incarnon_form` queda **stub** (granularidad de hit incierta — headshot/weakpoint/charged, deuda `weak-points.md`). El shape es **hipótesis abierta, no cerrada** (gateada por D-16 cobertura + resto de la migración). Claves del diseño:
+- `any`=OR, `all`=AND como **intención explícita del autor** (no derivable de la sintaxis: `["while_aim","while_airborne"]` puede ser AND co-ocurrente u OR de alternativas). Un nivel, sin anidar. Un array plano *sin* operador se descartó (no distingue AND de OR).
+- Criterio (2026-06-03): OR/AND **derivado de la estructura del dato** (validable por la forma), no lógica por encima — eje `string → array → objeto`. Trade-off: más denso/rígido a cambio de precisión a nivel engine. La gramática (separador `:`, reglas de derivación) es **posterior** a fijar el shape.
+- Frontera (→ fórmula dedicada): anidado, secuencial/acumulativo (eje `duration`, separado de condition), relacional (variable ligada, p.ej. Primary Debilitate).
+- Documentado a nivel flujo en [`../data/rules/overrides.md`](../data/rules/overrides.md); la granularidad en [`../semantic/condition-nature.md`](../semantic/condition-nature.md). Cobertura y conteo de composiciones: `conditions.md §Resumen` (no duplicar acá). **Próximo paso:** razonar los casos mapeados bajo obj-key antes de acuñar.
+
+**Abierto — scope-grupo** (varios stats, una condición): hoy se **repite** el token (precedente Pax Soar). Optimización anti-repetición, no expresividad — salvo semántica compartida no-replicable (pool de stacks común). Latente.
+
+**Estado del gate D-20:** tiene evidencia cross-schema concreta — Galvanized (mods, D-15 §2) + familia Merciless/Deadhead (arcanes), la misma forma "evento → +val por stack, cap Nx", **ambas resueltas a nivel engine** vía `STACK_DECAY_BUFF` (`arch-decisions.md §11`, `galvanized-stack-decay.test.ts`), consumiendo `stacks` como input C1-declarado sin tocar el schema. Lo que se cerró es el **motor**, no la **gramática**: el bridge de schema (`condition`/`duration` estructurados cross-schema) sigue sin resolver y los 8 arcanos de la familia siguen con `base_value:null`. El eje "quién" (sujeto de condition sobre el target) también tiene un caso concreto resuelto sin infraestructura nueva (`while_enemy_below_half_health` vía `EnemySnapshot`, `arch-decisions.md §13`); el operando literal (`_450`, `_3_stacks`) sigue sin forzar.
 
 **Bloquea:** unificación del modelado de stacking/duration entre los 4 schemas; diseño de composición de condition.
-**No bloquea:** captura de datos actual (escape hatch clasificado, D-20) ni el engine Fase 0 (D-15).
-
-**Nueva evidencia para el eje "quién" (T5, 2026-07-09, no cierra el OQ):** primer caso concreto del
-sujeto de condition sobre el TARGET (no jugador/loadout) ejecutado — `while_enemy_below_half_health`
-vía `EnemySnapshot` (`arch-decisions.md §13`), vehículo real Sicarus/Feigned Retreat. Confirma que el
-"quién" es viable de resolver caso por caso sin infraestructura nueva (consume el mismo mecanismo de
-`context.flags` que el modo estático) — el **operando literal** (`_450`, `_3_stacks`) sigue sin forzar,
-este caso era puramente booleano. Sigue sin cerrar el OQ (la gramática sujeto/predicado/operando
-completa sigue abierta), pero es evidencia de que el eje "quién" no bloquea casos concretos mientras
-se difiere la gramática general.
-
-**Nueva evidencia para el gate D-20 (2026-07-09, no cierra el OQ):** el barrido de arcanes
-(`OQ-ENGINE-17`) confirmó 8 casos reales de la familia "evento → +val por stack, cap Nx"
-(Primary/Secondary Merciless, Deadhead, Dexterity, Exhilarate, Cascadia Flare —
-`docs/data/reports/audit-arcane-ability-like.md`), y el motor los resuelve ahora a nivel **engine** (no schema)
-vía la nueva operación `STACK_DECAY_BUFF` (`arch-decisions.md §11`) — que consume `stacks` como
-input **C1-declarado**, misma altitud que `activeStacks` de CO hoy, sin tocar el shape del schema.
-Esto es la 2ª forma real (arcanes) apuntando al mismo patrón que Galvanized (mods, D-15 §2) — sigue
-sin cerrar el bridge de schema (`condition`/`duration` estructurados), pero el gate D-20 (≥2 casos
-misma forma) ahora tiene evidencia cross-schema concreta, no solo teórica.
-
-**Galvanized estresado con tests reales (2026-07-10, sigue sin cerrar el OQ):** 7 mods "Galvanized
-[Arma]" cableados (`arch-decisions.md §11`, `galvanized-stack-decay.test.ts`) — el gate D-20 queda
-satisfecho con evidencia de **código**, no solo de dato. El bridge de schema (`condition`/`duration`
-estructurados, cross-schema mods↔arcanes) sigue sin resolverse — lo que se cerró fue el *motor*
-(`STACK_DECAY_BUFF`), no la *gramática*; los 8 arcanos de esta familia siguen con `base_value: null`.
-**Fuente:** debate 2026-06-02 sobre la familia stacking on-event de arcanes; `docs/data/schemas/arcane/schema.md §3`, `docs/data/reports/audit-arcane.md`.
-
----
+**No bloquea:** captura de datos actual (escape hatch D-20) ni el engine Fase 0 (D-15).
+**Vínculo:** `DC-OQ-ENGINE-17` (barrido de arcanes que aportó la evidencia cross-schema), `OQ-DATA-14` (armas modulares, par cercano).
+**Fuente:** debate 2026-06-02; `docs/data/schemas/arcane/schema.md §3`, `docs/data/reports/audit-arcane.md`.
 
 ## OQ-DATA-5 — Weapon-type gate en arcanes: campo ausente en schema — **ABIERTO (2026-06-02)**
 **Dominio:** data / schema (arcane) → UI / filter
@@ -695,7 +674,7 @@ pre-existente (no cubre el transitorio).
 ## OQ-DATA-14 — Armas/entidades modulares: ensamblaje de DNA desde piezas — **ABIERTO (2026-07-09)**
 **Dominio:** data / hidratación ("B", hipótesis tentativa — no confirmado)
 
-**Contexto.** Durante el barrido de clasificación de arcanes (OQ-ENGINE-17) se detectó que un subconjunto
+**Contexto.** Durante el barrido de clasificación de arcanes (DC-OQ-ENGINE-17) se detectó que un subconjunto
 del corpus `upgrade_type:null` cuelga de armas/entidades **modulares** — no una pieza única con stats
 propios, sino **N piezas que se combinan** para producir el DNA final (stats base, tipo de daño, etc.):
 **Zaw** (strike+link+grip, 5 arcanos), **Kitgun** (chamber+grip+loader, 7 arcanos), **Amp** (prism+scaffold+brace,
@@ -713,11 +692,11 @@ la derivación vive en A1/B, no en C). Sin confirmar contra datos reales todaví
 traer información real de la wiki por tipo (piezas, reglas de combinación) y construir la teoría desde
 ahí, no antes (mismo método que CO/melee-combo: no diseñar la abstracción sin el corpus enfrente).
 
-**No bloquea:** el resto del engine, ni el barrido de arcanes no-modulares (ya separado en OQ-ENGINE-17).
+**No bloquea:** el resto del engine, ni el barrido de arcanes no-modulares (ya separado en DC-OQ-ENGINE-17).
 **Bloquea:** modelar los arcanos Amp/Zaw/Kitgun-específicos (22 arcanos parkeados: 5 amp + 5 zaw + 7 kitgun,
 más los 17 de Operator que quedan gated aparte por falta de foco en el Operador, no por este eje); build
 completo de cualquier Zaw/Kitgun/Amp.
-**Vínculo:** **OQ-ENGINE-17** (el disparador — barrido de arcanes, 2026-07-09), **OQ-DATA-1** (par cercano
+**Vínculo:** **DC-OQ-ENGINE-17** (el disparador — barrido de arcanes, 2026-07-09), **OQ-DATA-1** (par cercano
 pero eje distinto: DATA-1 = *layout de slots* de companions modulares; ésta = *cómputo de stats* del DNA
 ensamblado).
-**Fuente:** debate 2026-07-09, barrido de corpus arcane (OQ-ENGINE-17).
+**Fuente:** debate 2026-07-09, barrido de corpus arcane (DC-OQ-ENGINE-17).
