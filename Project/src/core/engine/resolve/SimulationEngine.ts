@@ -13,7 +13,7 @@ import type {
   TraceResponse,
   TraceStep
 } from "../contracts";
-import { isWeaponDamageToken } from "../contracts/damage-logic";
+import { isWeaponDamageToken, GLOBAL_DAMAGE_POOLS } from "../contracts/damage-logic";
 import { stackDecayBonusPct } from "../formulas/common/scaling-base";
 import { resolveStatValue, globalDamageBucketFactor } from "../formulas/weapon/stat-accumulator";
 import { coBonusPct } from "../formulas/weapon/weapon-condition-overload";
@@ -284,7 +284,7 @@ export class SimulationEngine {
       Object.keys(entity.attributes).forEach(attrId => {
         if (!isWeaponDamageToken(attrId)) return;
         const targetKey = `${entity.id}:${attrId}`;
-        for (const globalNode of ["WEAPON_ADD_DAMAGE", "GAMEPLAY_MULT_FACTION_DAMAGE"]) {
+        for (const globalNode of GLOBAL_DAMAGE_POOLS) {
           const sourceKey = `${entity.id}:${globalNode}`;
           if (in_degree.has(sourceKey)) {
             adj.get(sourceKey)!.push(targetKey);
@@ -390,8 +390,9 @@ export class SimulationEngine {
     // Los daño-tokens llevan los factores de los pools GLOBALES (suman dentro, multiplican afuera,
     // arch-decisions §16): Serration (aditivo, Step 1) y facción (Roar/Bane, Step 3). Misma primitiva.
     if (isWeaponDamageToken(attributeId)) {
-      val *= globalDamageBucketFactor(entity.attributes["WEAPON_ADD_DAMAGE"]);
-      val *= globalDamageBucketFactor(entity.attributes["GAMEPLAY_MULT_FACTION_DAMAGE"]);
+      for (const pool of GLOBAL_DAMAGE_POOLS) {
+        val *= globalDamageBucketFactor(entity.attributes[pool]);
+      }
     }
 
     return val;

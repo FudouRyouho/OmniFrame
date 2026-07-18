@@ -40,6 +40,18 @@ export function isWeaponDamageToken(value: string): boolean {
 }
 
 /**
+ * Los pools de daño GLOBALES del arma (arch-decisions §16): grupos aditivos `(1+Σ)` que todo daño-token
+ * multiplica **al resolverse como nodo** (el HIT; suman dentro, multiplican afuera). Hoy dos:
+ * `WEAPON_ADD_DAMAGE` (Serration, Step 1) y `GAMEPLAY_MULT_FACTION_DAMAGE` (Roar/Bane, Step 3). SSoT única
+ * del conjunto: el orden de resolución (aristas en `rebuildGraph`) y la aplicación del factor
+ * (`calculateCurrentValue`) derivan de acá — no pueden divergir. Agregar un 3er pool = una línea.
+ * NB: NO son daño-tokens (no matchean `isWeaponDamageToken`); son los pools que ESOS tokens leen.
+ * NB2: el DoT (`dot-base-scaling`) lee DELIBERADAMENTE un subconjunto (solo el aditivo; faction gated,
+ * OQ-20) — NO usa este conjunto. No "unificar" ahí sin cerrar OQ-20.
+ */
+export const GLOBAL_DAMAGE_POOLS = ['WEAPON_ADD_DAMAGE', 'GAMEPLAY_MULT_FACTION_DAMAGE'] as const;
+
+/**
  * SSoT de RESOLUCIÓN por tipo de daño: cómo un token resuelve contra las capas del objetivo.
  * La lee `CombatSimulator.resolveDamageEvent`. La emisión (hit o tick de DoT) declara CON QUÉ tipo
  * resuelve (`Resolucion.as`) y core deriva las reglas de acá — sin ambigüedad: el hit directo de
