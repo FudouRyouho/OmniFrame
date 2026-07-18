@@ -4,7 +4,7 @@ Rol: "Arquitectura del pipeline de datos: flujo, modelo de 4 pilares y build pip
 Impacto_ID: "D-Pipeline-Arch"
 Fidelidad_Fisica: "Project/scripts/"
 Fecha_de_creacion: "2026-03-21"
-Fecha_de_actualizacion: "2026-05-25"
+Fecha_de_actualizacion: "2026-07-17"
 ---
 
 # Pipeline — Arquitectura
@@ -17,21 +17,25 @@ fuente canónica (@wfcd/items + patches del fork)
   → overrides (manual SSoT en public/data/*.override.json)
   → JSON estático (Project/public/data/*.json)
   → tipado (shared/types/*)
-  → lógica y traducción (lib/*)
+  → carga + hidratación (puerto "0" → DataRegistry)
   → UI (domains/*)
 ```
 
 Trail concreto en código:
 
 ```
-warframe-items (crudo + patch)
-  → runtime-data-artifacts.ts (pipeline determinista)
-  → JSON (SSoT consolidado)
-  → lib/*-data.ts (fetch + hydration)
-  → useItems (agnóstico)
-  → useOmniFilter (lógica de tags)
-  → UI
+@wfcd/items (crudo + patch del fork)
+  → generate-data.ts (orquesta normalization/* + pipeline/runtime-data-artifacts.ts)
+  → JSON (public/data/*.json) + overrides (public/data/*.override.json)
+  → puerto "0" DataSource (BrowserAdapter fetch / NodeAdapter fs; instancia compartida browserSource)
+      ├→ DataRegistry (cache + hidratación display + merge de overrides)
+      │     → useItems (shared/hooks/data/) → useItemsFilters (domains/equipment/hooks/) → UI
+      └→ loadEngineData → engine (StaticHydrator)
 ```
+
+El puerto "0" (`DataSource`) es el único seam que varía por runtime; alimenta **dos**
+consumidores desde la misma instancia cacheada (`browserSource`): display vía `DataRegistry`
+y el motor vía `loadEngineData`. Detalle del puerto y sus decisiones en OQ-DATA-9 / OQ-DATA-12.
 
 ## 2. Reglas centrales
 
