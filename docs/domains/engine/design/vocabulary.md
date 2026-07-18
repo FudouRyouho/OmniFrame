@@ -4,7 +4,7 @@ Rol: "SSoT del vocabulario interno del engine — el idioma con el que @core se 
 Impacto_ID: "E-Vocabulary"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-07-17"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-18"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/calculating-bonuses.md"
@@ -128,11 +128,14 @@ La taxonomía declara *"OPERATION — **mapeo 1:1** con `Modifier.operation` del
   a `ADD`; ninguna entrada de `UPGRADE_MAP` la produce. El bucket `multiplicative` **sí se escribe**, pero
   **por fuera del vocabulario** — los family resolvers (CO-`multiplying`, melee/sniper combo) lo mutan
   directo. ⇒ dos caminos al mismo bucket: uno declarado (muerto) y otro real (no declarado).
-- **`SET` no tiene segmento** (0 tokens) y su `case` lo pisa el recompute (ver §Tabla de campos del
-  `attribute-node-contract`). Inalcanzable **y** roto.
+- **`SET` fue PURGADO** (union + `case`). No era "sin terminar" sino **muerto**: 0 tokens, sin productor, y
+  su `case` escribía `final` para que el recompute lo pisara (inalcanzable **y** roto). Distinto de MULT
+  —que es un bucket real con semántica pendiente—, `SET` era una puerta muerta que mentía. Si un mecanismo
+  real "setear a valor absoluto" aparece, se re-agrega con semántica de override (que `resolveStatValue`
+  respete) contra un test real — un rename es un regex.
 
-⇒ **`MULT` y `SET` quedan PENDIENTES**: la semántica del vocabulario de operaciones no está terminada, y
-cerrarla exige el corpus real (mods/arcanos/habilidades), no una decisión de escritorio.
+⇒ **`MULT` queda PENDIENTE**: la semántica del vocabulario de operaciones no está terminada, y cerrarla
+exige el corpus real (mods/arcanos/habilidades), no una decisión de escritorio.
 
 ## 5. Estructura — el patrón `final/base` está DECIDIDO
 
@@ -157,9 +160,9 @@ Alcance de este LOCK = **L-1 + L-2**. Lo demás está inventariado y **pendiente
 | **L-3** | **`pool` sobrecargado**: además del grupo aditivo, significa **contenedor de instancias de proc** (`dot_pools` en `EnemyState`; `HeatState.pool` con decay, `behaviors.ts`). | abierta |
 | **L-4** | **`bucket` sobrecargado**: además de la ranura, existe **"Distance Bucket"** (banda de rango del falloff, `engine-audit.md`). | abierta |
 | **L-5** | **"facción" sobrecargado**: (a) el **pool de bonus** de facción (Roar/Bane, etapa ②) vs (b) la **`matriz③`** facción×elemento del target (etapa ③). Dos mecánicas, una palabra. | abierta |
-| **L-7** | **`base`/`final` sin nombre propio.** "Input"/"output" son demasiado genéricos, y **`final` ya se malinterpreta**: es el target de la *inicialización* (`resolve()` paso 1: `final = base`), se recomputa por pass (no es terminal), significa cosas distintas por rol (valor del stat vs numerador del factor `final/base` de un pool global), y **el op `SET` roto es su víctima** (escribe `final`, el recompute lo pisa). Bautizarlos si vuelve a morder. | diferida |
+| **L-7** | **`base`/`final` sin nombre propio.** "Input"/"output" son demasiado genéricos, y **`final` ya se malinterpreta**: es el target de la *inicialización* (`resolve()` paso 1: `final = base`), se recomputa por pass (no es terminal), significa cosas distintas por rol (valor del stat vs numerador del factor `final/base` de un pool global). (El op `SET` roto —que escribía `final` para que el recompute lo pisara— era su víctima; ya purgado.) Bautizarlos si vuelve a morder. | diferida |
 | **L-8** | **El token de facción miente** (`MULT` vs op `ADD`) — ver §4. **Parkeado** tras el shim C2·F; su salida ya está declarada en el propio shim. | parkeada |
-| **L-9** | **`MULTIPLICATIVE` y `SET` inalcanzables** desde el vocabulario — ver §4. Semántica de operaciones **sin terminar**; cerrarla exige el corpus real. ⚠️ **Warrant:** normalizar `OPERATION→ADD` en `resolveToken()` **ya se descartó** (D-7 Fase 3) — fusionaría `AVATAR_FLAT_HEALTH_REGEN` (regen plano HP/s) con `AVATAR_ADD_HEALTH_REGEN` (regen %), que son **stats distintos**. No re-proponerlo. | pendiente |
+| **L-9** | **`MULTIPLICATIVE` inalcanzable** desde el vocabulario — ver §4. (`SET` ya no: purgado por muerto.) Semántica de operaciones **sin terminar**; cerrarla exige el corpus real. ⚠️ **Warrant:** normalizar `OPERATION→ADD` en `resolveToken()` **ya se descartó** (D-7 Fase 3) — fusionaría `AVATAR_FLAT_HEALTH_REGEN` (regen plano HP/s) con `AVATAR_ADD_HEALTH_REGEN` (regen %), que son **stats distintos**. No re-proponerlo. | pendiente |
 | **L-10** | **`WEAPON_DAMAGE` = nombre pre-rename del nodo global** (hoy `WEAPON_ADD_DAMAGE`, token D-6 — D-7 Fase 2b). **0 líneas de código, 19 en 8 docs.** **Corregir (5):** `upgrade-tokens.md`, `incarnon/schema.md`, `simulation-contracts.md`, `data/decisions.md`, y **`engine/test/test-workflow.md:27` — `consume(…).node('WEAPON_DAMAGE')` TIRA** (`consume.ts` lanza si el nodo está ausente). **NO tocar:** `engine-audit.md §4.1` — `Estado: histórico`, dice el nombre de su época y es correcto *como registro*. | fix mecánico |
 
 ## Ligado a

@@ -359,7 +359,6 @@ export class SimulationEngine {
             case 'ADD_FLAT': node.total_flat += modValue; break;
             case 'ADD': node.mods_add_pct += modValue; break;
             case 'MULTIPLICATIVE': node.multiplicative *= (1 + modValue / 100); break;
-            case 'SET': node.final = modValue; break;
           }
         }
       }

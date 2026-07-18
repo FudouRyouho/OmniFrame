@@ -24,7 +24,6 @@
 // contexto. Esta división es el discriminante de la union `Modifier` (contracts/primitives) — §10.
 export type AccumulatorOperation =
   | 'ADD'
-  | 'SET'
   | 'ADD_FLAT'
   | 'BASE_FLAT'
   | 'BASE_ADD_PCT'
