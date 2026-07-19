@@ -4,7 +4,7 @@ Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
 Impacto_ID: "E-OQ-FORMULAS"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-16"
+Fecha_de_actualizacion: "2026-07-18"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -76,8 +76,12 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 > en la derivación (como el bug de falloff que vivió enterrado en el loop inline de `CombatCalculator`, sin
 > artefacto contra el cual contrastar) tendría dónde saltar. **Condición para que valga:** el campo debe ser
 > el **único camino** (los proyectores LEEN el campo, no recomputan al lado) — si no, es cache que puede
-> driftar y da falsa confianza. Diferido: la derivación on-the-fly funciona; el campo es refinamiento de
-> observabilidad del seam, no arquitectura.
+> driftar y da falsa confianza. **Diferido — consumidor conocido, HOW no.** La ley ya es **única** (`expectedProcEvents`, ambos proyectores
+> la llaman — sin duplicación-de-ley que prevenir) → el valor es **solo observabilidad**, no arquitectura. El
+> consumidor nace en el **oráculo/CLI (D2)**: cuando D necesite la distribución de proc por tipo como salida
+> (WHERE conocido, HOW no), el campo `procWeights` en `deriveInstance` se materializa **ahí**, como parte de
+> cablear ese consumo — no antes, no como test. El `HitContext` re-empacado a mano en `TimelineSimulator`
+> (subset de la Instancia) viaja con el mismo trigger.
 
 ---
 

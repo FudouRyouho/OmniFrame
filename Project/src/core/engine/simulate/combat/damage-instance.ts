@@ -33,9 +33,11 @@ export interface DamageInstance {
   ownElementBonusPct: Partial<Record<DamageType, number>>;
   critChance: number;
   critMult: number;
-  // SUGERENCIA (diferida — ver `docs/domains/engine/design/formulas-integration.md §2`): materializar
-  // acá el status-spec (`procWeights` por tipo) como ÚNICO camino observable del seam, en vez de
-  // derivarlo on-the-fly en cada proyector vía `expectedProcEvents(damageByType, statusChance)`.
+  // SUGERENCIA (diferida — ver `formulas-integration.md §2`): materializar acá el status-spec
+  // (`procWeights` por tipo) como único camino observable del seam, en vez de derivarlo on-the-fly en cada
+  // proyector vía `expectedProcEvents(damageByType, statusChance)`. Diferido a sabiendas: la ley ya es única
+  // (todos llaman la misma función, sin duplicación) → el valor es observabilidad, no un fix. El consumidor
+  // nace en el oráculo/CLI (D2) cuando D consuma la distribución de proc; se construye ahí, no antes.
   /** 0..1 (ya dividido /100). */
   statusChance: number;
   statusDamageBonusPct: number;
