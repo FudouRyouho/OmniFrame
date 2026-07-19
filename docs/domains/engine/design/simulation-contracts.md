@@ -4,7 +4,7 @@ Rol: "Contratos técnicos base del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-19"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
 Dependidos:
@@ -87,7 +87,7 @@ Un nodo en el grafo que gestiona su propio valor acumulado mediante buckets segr
 La instrucción que altera un Atributo.
 - **Source**: Entidad que lo origina (ej: Mod `Serration`).
 - **Target**: Atributo al que afecta (ej: `WEAPON_ADD_DAMAGE`).
-- **Operation**: `ADD` | `MULTIPLICATIVE` | `SET` | `BASE_FLAT` | `BASE_ADD_PCT` | `ADD_FLAT` | **`CONDITION_OVERLOAD`** (familia CO/GunCO).
+- **Operation**: `ADD` | `MULTIPLICATIVE` | `BASE_FLAT` | `BASE_ADD_PCT` | `ADD_FLAT` | **`CONDITION_OVERLOAD`** (familia CO/GunCO).
 - **co_factors**: (Solo `CONDITION_OVERLOAD`) nombres de las dos dimensiones de contexto (`stacks_var`, `status_count_var`). El valor lo calcula `coBonusPct`; el bucket lo decide el `co_behavior` del ataque. Ver `arch-decisions.md §9`.
 - **Condition**: (Opcional) Contexto bajo el cual se activa.
 
@@ -160,7 +160,7 @@ interface TraceNode {
     source: string; // "Mod:Serration", "Arcane:Fury", "DNA:Base"
     bucket: "base" | "base_flat" | "base_add_pct" | "mods_add_pct" | "total_flat" | "multiplicative";
     value: number;
-    op: "ADD" | "MUL" | "SET";
+    op: "ADD" | "MUL";
   }[];
 }
 ```

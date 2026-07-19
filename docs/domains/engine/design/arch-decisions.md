@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-19"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -427,8 +427,8 @@ proyecta el snapshot a los flags de `condition` que activa (hoy: `while_enemy_be
   armor/shields/status hasta que OTRO caso real lo fuerce (mismo principio anti-pozo de §8) — el
   candidato inmediato son los `while_enemy_*` restantes de `conditions.md` G3
   (`while_enemy_undamaged`, `while_enemy_status_count_below_3`), sin construirlos por anticipación.
-- **Separado de `EnemyState` a propósito.** `EnemyState` es maquinaria C2 (stacks, dot_pools,
-  timeline). `EnemySnapshot` vive en el mismo directorio (`simulate/enemies/`) pero es C1 puro —
+- **Separado de `EnemyState` a propósito.** `EnemyState` es maquinaria C2 (estado por-efecto
+  `Map<StatusEffect,S>`: stacks/pools, timeline). `EnemySnapshot` vive en el mismo directorio (`simulate/enemies/`) pero es C1 puro —
   mezclar los dos types haría parecer C2-listo algo que es solo un input declarado.
 - **Vehículo real, no sintético.** El corpus trajo el gap: `while_enemy_below_half_health` existe en
   3 armas (Dread/Kunai/Sicarus, perks incarnon tier 2) pero solo Sicarus (Feigned Retreat) tiene

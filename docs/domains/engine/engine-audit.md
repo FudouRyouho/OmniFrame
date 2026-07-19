@@ -4,7 +4,7 @@ Rol: "Snapshot congelado de la auditoría diseño↔código de Sim-v2 (2026-05-1
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-05-18"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-19"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/design/simulation-contracts.md"
@@ -125,7 +125,7 @@ No conectado a ningún dato real.
 | Concepto | Archivo diseñado | Estado |
 | :--- | :--- | :--- |
 | Casting Snapshot (ADN Dinámico) | `simulation-architecture.md §2.7` | No existe. El behavior `CAST` → snapshot parcial del padre → InjectedDNA en TE no está implementado. |
-| Transient Entity Queue (Anti-recursión) | `simulation-architecture.md §Capa C` | Los procs (Slash, Heat, Toxin) son proyecciones matemáticas de `StatusEngine`, no TEs reales en una cola. No hay límite de profundidad ni energía de tick. |
+| Transient Entity Queue (Anti-recursión) | `simulation-architecture.md §Capa C` | Los procs (Slash, Heat, Toxin) son proyecciones matemáticas del modelo unificado de proc (`design/damage-status-model.md §Modelo unificado de proc`), no TEs reales en una cola. No hay límite de profundidad ni energía de tick. |
 | Logic Decorator Layers (6 capas) | `simulation-architecture.md §2.6` | No existen. El engine resuelve todos los modificadores en un solo bloque sin capas ordenadas (`INITIAL_OVERRIDE` → `FINAL_CLIP`). |
 | AuditQuery con filtros | `simulation-contracts.md §6.2` | La interfaz `AuditQuery` (`filter: "all" \| "only_changes" \| "last_pass"`) no está implementada. `SimulationAuditor.getAudit()` devuelve siempre la traza completa. |
 | Hit Location (Head / Body / Weakpoint) | `simulation-architecture.md §2.2` | No implementado en `CombatSimulator.resolveHit()`. No hay multiplicador por zona de impacto. |

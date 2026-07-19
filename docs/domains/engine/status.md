@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-19"
 ---
 
 # Engine Status
@@ -47,7 +47,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 
 | Componente | Estado |
 |---|---|
-| `SimulationEngine` | **Activo** — grafo de atributos con topological sort + fixed-point fallback. Trace de procedencia **opt-in** (`enableTrace()`/`getTrace()`, Fase 3). |
+| `SimulationEngine` | **Activo** — grafo de atributos con topological sort (Kahn, un pass; DAG → punto fijo). Ciclo real → alerta fail-loud (convergencia iterativa = Opción B, diferida). Trace de procedencia **opt-in** (`enableTrace()`/`getTrace()`, Fase 3). |
 
 ### Capa C2 — Combate (`engine/simulate/combat/` + `engine/simulate/enemies/`)
 

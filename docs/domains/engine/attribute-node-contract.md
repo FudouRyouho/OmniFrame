@@ -4,7 +4,7 @@ Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en l
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-19"
 Dependencias:
   - "docs/domains/engine/design/vocabulary.md"
   - "docs/domains/engine/design/arch-decisions.md"
@@ -60,7 +60,7 @@ donde `poolFactor(n) = n.final / n.base` (= `1 + Σ` del pool). Ver §5.
 
 ¹ Eclipse: ver §4.
 
-> ⚠️ `SET` es una operación permitida (`ModifierOperation`) pero **hoy no funciona**: escribe `final` y el recompute de cierre de `resolveNode` lo pisa. Sin productores. Su forma correcta depende del modelo de resolución — ver campaña `Engine fidelity+hygiene` (F1-C).
+> ⚠️ No hay op de override terminal. `SET` fue **purgado** (F1-C) por muerto: escribía `final` y el recompute de cierre de `resolveNode` lo pisaba, sin productores. Si un mecanismo futuro necesita override terminal, su forma correcta depende del modelo de resolución — re-proponer entonces (ver [`design/vocabulary.md`](design/vocabulary.md) L-7).
 
 ---
 

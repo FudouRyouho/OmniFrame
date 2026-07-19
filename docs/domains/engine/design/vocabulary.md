@@ -4,7 +4,7 @@ Rol: "SSoT del vocabulario interno del engine — el idioma con el que @core se 
 Impacto_ID: "E-Vocabulary"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-07-17"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-19"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/calculating-bonuses.md"
@@ -157,7 +157,7 @@ Alcance de este LOCK = **L-1 + L-2**. Lo demás está inventariado y **pendiente
 
 | ID | Colisión | Estado |
 |---|---|---|
-| **L-3** | **`pool` sobrecargado**: además del grupo aditivo, significa **contenedor de instancias de proc** (`dot_pools` en `EnemyState`; `HeatState.pool` con decay, `behaviors.ts`). | abierta |
+| **L-3** | **`pool` sobrecargado**: además del grupo aditivo, significa **contenedor de instancias de proc** (`HeatState.pool` con decay en `behaviors.ts`, dentro del estado por-efecto de `EnemyState`). | abierta |
 | **L-4** | **`bucket` sobrecargado**: además de la ranura, existe **"Distance Bucket"** (banda de rango del falloff, `engine-audit.md`). | abierta |
 | **L-5** | **"facción" sobrecargado**: (a) el **pool de bonus** de facción (Roar/Bane, etapa ②) vs (b) la **`matriz③`** facción×elemento del target (etapa ③). Dos mecánicas, una palabra. | abierta |
 | **L-7** | **`base`/`final` sin nombre propio.** "Input"/"output" son demasiado genéricos, y **`final` ya se malinterpreta**: es el target de la *inicialización* (`resolve()` paso 1: `final = base`), se recomputa por pass (no es terminal), significa cosas distintas por rol (valor del stat vs numerador del factor `final/base` de un pool global). (El op `SET` roto —que escribía `final` para que el recompute lo pisara— era su víctima; ya purgado.) Bautizarlos si vuelve a morder. | diferida |
