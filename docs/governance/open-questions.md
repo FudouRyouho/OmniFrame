@@ -9,7 +9,7 @@ Fecha_de_actualizacion: "2026-07-19"
 
 # Open Questions (Preguntas Abiertas)
 
-Este documento contiene únicamente los debates técnicos activos. Las preguntas cerradas han sido migradas a `closed-decisions.md`.
+Este documento contiene únicamente los debates técnicos **activos** (abierto / gated / condicional). Una pregunta que se cierra de verdad se mueve **entera** a `closed-decisions.md` y se **borra de acá** — cuerpo y fila del índice, sin lápida. La regla completa (y cómo verificar que un cierre es genuino) vive en `docs/CLAUDE.md §Frontera open-questions ↔ closed-decisions`.
 
 ## Índice
 
@@ -33,7 +33,6 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-DATA-9` | Merge de overrides duplicado engine ↔ display (frontera β) | data / integration | abierta — no bloquea |
 | `OQ-DATA-10` | Convergencia ruta catálogo ↔ proyector del engine | ui-ux / presentation | abierta — re-scopeada 2026-07-17 |
 | `OQ-DATA-11` | Compatibilidad de mods por entidad | data / semantic | abierta — degrada usabilidad |
-| `OQ-DATA-12` | Carga de runtime: import estático → fetch | data / integration | **cerrada** → `closed-decisions.md` |
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — degrada fidelidad |
@@ -45,8 +44,6 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-ENGINE-2` | Profile switching en runtime (Incarnon/Alt-fire) | engine / simulation-context | re-scopeada — path dinámico sin consumidor |
 | `OQ-ENGINE-7` | Nodos de arma faltantes (Capa 4): resta el eje (c)/C2 | engine / hydration | abierta — no bloquea |
 | `OQ-ENGINE-8` | Contrato de salida de C: métricas (2 forks) + vocabulario neutro | engine / contrato de salida | abierta |
-| `OQ-ENGINE-9` | Estructura interna de `@core/engine` + harness | engine / arquitectura `@core` | **cerrada** → `closed-decisions.md` |
-| `OQ-ENGINE-10` | Capa E (Presentación / ViewModel) | engine / capas + ui-ux | **descartada** → `closed-decisions.md` |
 | `OQ-ENGINE-11` | Exaltadas: intención estructural en A1 | engine / Capa A | abierta — diferida |
 | `OQ-ENGINE-12` | Timing del crit condicional (Puncture/Cold) | engine / C2 | abierta — no bloquea el núcleo |
 | `OQ-ENGINE-14` | Alcance del modelado melee | engine / C1 + C2 | promovida a diseño |
@@ -299,12 +296,6 @@ Ambos forks son métricas de RUN (la Instancia los ubica en la capa run-result �
 **Vínculo:** `DC-OQ-ENGINE-10` (E descartada → el nombre view-shaped no se reasigna). Esta OQ es hoy el hogar del contrato de salida; la condición-gate que `OQ-ENGINE-FUTURE` ponía ("materializar la Capa D") ya se cumplió.
 **Fuente:** debate 2026-06-10 (nombre del módulo de salida de C); spike 2026-07-15; `arch-decisions.md §6-7`; `simulation-architecture.md §Capa C2/§Capa D`.
 
-## OQ-ENGINE-9 — Estructura interna de `@core/engine` y ubicación del harness — **CERRADA (2026-07-17) → migrada a `closed-decisions.md` (`DC-OQ-ENGINE-9`)**
-Los 4 ejes están resueltos: (a) bootstrap separado de `fixtures/`, (c) Capa A fuera de `providers/`,
-(d) `engine/hooks/` purgado, (b) cerrado por solución mejor — el harness dejó de ser una cosa y
-`fixtures/builds.ts` es hoy el catálogo compartido tests↔CLI que consume el oráculo D2.
-Residual (A2 · shape de la Capa A · lift de `contracts/`) vive en el §Pendiente de `DC-OQ-ENGINE-9`.
-
 ## OQ-DATA-9 — Borde de entrada: el merge de overrides sigue duplicado entre el engine y el display — **ABIERTA (2026-06-12; re-scopeada 2026-07-17 contra código)**
 **Dominio:** data / integration / arquitectura de acceso
 
@@ -332,7 +323,7 @@ Residual (A2 · shape de la Capa A · lift de `contracts/`) vive en el §Pendien
 
 **No bloquea:** nada — la UI renderiza y ambas rutas funcionan.
 **Gated por:** un consumidor que necesite el mismo stat por las dos rutas con el mismo formato. Sin eso, unificar es especulativo.
-**Vínculo:** OQ-DATA-9 (borde de entrada, par espejo) · OQ-ENGINE-10 (Capa E, descartada) · OQ-ENGINE-8 (sobrecarga de "Proyección").
+**Vínculo:** OQ-DATA-9 (borde de entrada, par espejo) · `DC-OQ-ENGINE-10` (Capa E, descartada) · OQ-ENGINE-8 (sobrecarga de "Proyección").
 **Fuente:** diagnóstico 2026-06-12. Re-scope 2026-07-17 al cruzar contra código: los stages A–D y D-7 Fase 4 ya están ejecutados — proyector único, `StatEntry` único, registro token-keyed en `lib/format`, formateo locale-free centralizado y leak β muerto. Todo eso dejó de ser pregunta; la OQ describía como abierto lo que ya estaba hecho.
 
 ## OQ-DATA-11 — Compatibilidad de mods por entidad: no materializada — **ABIERTA (2026-06-12)**
@@ -350,11 +341,6 @@ Residual (A2 · shape de la Capa A · lift de `contracts/`) vive en el §Pendien
 **Vínculo:** **OQ-DATA-1** (slots = otra cara de "qué equipa una entidad"), **Restricción 3** (`Project/CLAUDE.md`), capa "0" (compat = dato canónico que 0 normaliza). Dedup de `mods.json` toca el pipeline (OQ-DATA-9).
 **No bloquea:** el loop equip→stat funciona; degrada la usabilidad del picker para tipos no-rifle.
 **Fuente:** implementación del filtro de compat 2026-06-12 (`UpgradeView.tsx`).
-
-## OQ-DATA-12 — Carga de runtime del engine: import estático → fetch — **CERRADA (2026-07-02) → migrada a `closed-decisions.md` (`DC-OQ-DATA-12`)**
-Cerrada por Fase 1 (`fetch` lazy vía `BrowserAdapter`, bundle 2.3 MB→565 kB) + Fase 2 Slice E (`loadEngineData` → `@core/engine/bootstrap/`) de la campaña de saneamiento `@core`. El eje RED-adjacent "contrato de entrada del engine" (β) sigue abierto en **OQ-DATA-9**. Detalle completo: `closed-decisions.md#DC-OQ-DATA-12`.
-
----
 
 ## OQ-DATA-13 — Render de íconos/nodos de habilidad y shards: presentación duplicada sin SSoT — **ABIERTA (2026-06-13; re-scopeada 2026-07-17 contra código)**
 **Dominio:** ui-ux / presentation (hermana de OQ-DATA-10)
@@ -452,14 +438,6 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 **Fuente:** TODO inline del usuario en `DialogMenu.tsx`; triage de user-TODOs 2026-06-13.
 
 ---
-
-## OQ-ENGINE-10 — Capa E (Presentación / ViewModel) — **DESCARTADA (2026-07-17) → `closed-decisions.md` (`DC-OQ-ENGINE-10`)**
-E proponía una capa intermedia C→D→E→UI que enriquecía+hidrataba el snapshot, moviendo
-`ViewModelContract` fuera de D. Se descartó: la hidratación de chrome la provee el piso "0"
-(capa horizontal de datos, OQ-DATA-9) y el formateo lo provee `lib/format` — sin esos dos
-trabajos, E no queda con nada propio. **D se lee por dos lentes de salida** — D1 (`use-view-model`,
-UI, aún prematuro) y D2 (`oracle`, CLI) —, sin capa entre medio. No re-proponer E.
-El rename D→contrato neutro que E arrastraba es decisión aparte y sigue viva: `OQ-ENGINE-8`.
 
 ## OQ-ENGINE-11 — Exaltadas: derivación de intención estructural en A1 — **ABIERTO (2026-06-16)**
 **Dominio:** engine / Capa A (intención) — downstream del eje *estructura* de `U-3` ([`../domains/ui-ux/decisions.md`](../domains/ui-ux/decisions.md))

@@ -8,7 +8,7 @@
  * (o `all`). Cada entrada es una invocación representativa de su factory.
  *
  * Las factories quedan verbatim de sus tests (migración fiel, sin re-abstraer el skeleton de
- * slots). Ubicación provisional (`fixtures/` mezcla bootstrap + builds) — ver OQ-ENGINE-9.
+ * slots). Ubicación provisional (`fixtures/` mezcla bootstrap + builds) — ver `DC-OQ-ENGINE-9` §Pendiente.
  */
 import type { EnsembleIntention } from '@shared/types/ensemble';
 

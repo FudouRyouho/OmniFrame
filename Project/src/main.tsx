@@ -15,7 +15,7 @@ import { browserSource } from "./shared/data/adapters/BrowserAdapter";
 // corre contra repos vacíos y la salida C→D (useViewModel) llega vacía a la UI.
 // Vía el puerto "0" con la instancia compartida `browserSource` (fetch lazy desde /data/,
 // cacheada): la MISMA que usa DataRegistry para display → cada archivo común se baja una
-// sola vez (Slice 3). Los JSON ya NO viajan en el bundle (OQ-DATA-12). Render diferido.
+// sola vez (Slice 3). Los JSON ya NO viajan en el bundle (DC-OQ-DATA-12). Render diferido.
 loadEngineData(browserSource).then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>

@@ -35,7 +35,7 @@ Trail concreto en código:
 
 El puerto "0" (`DataSource`) es el único seam que varía por runtime; alimenta **dos**
 consumidores desde la misma instancia cacheada (`browserSource`): display vía `DataRegistry`
-y el motor vía `loadEngineData`. Detalle del puerto y sus decisiones en OQ-DATA-9 / OQ-DATA-12.
+y el motor vía `loadEngineData`. Detalle del puerto y sus decisiones en OQ-DATA-9 / `DC-OQ-DATA-12`.
 
 ## 2. Reglas centrales
 

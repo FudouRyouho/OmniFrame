@@ -129,6 +129,21 @@ Las decisiones D-N en `docs/data/decisions.md` tienen dos estados:
 - **DEFINITIVA** — invariante del sistema. Mismo protocolo que RED: halt + debate + autorización.
   Se declara DEFINITIVA explícitamente en `decisions.md`. Por defecto, las D-series son VIGENTES.
 
+## Frontera `open-questions.md` ↔ `closed-decisions.md`
+
+`open-questions.md` contiene **solo lo vivo** — abierto / gated / condicional a algo pendiente.
+`closed-decisions.md` es el **registro de lo cerrado** (con su condición de reapertura y su residual
+angosto). Son dos archivos, no dos copias.
+
+- **Cierre genuino → mover entero a DC + borrar de OQ** (cuerpo *y* fila del índice). **No dejar
+  lápidas** (`"cerrada → closed-decisions.md"`) en OQ: inflan el archivo con registro que ya es
+  competencia de DC. Git tiene la historia; DC tiene la sentencia. Al mover, **re-apuntar las citas
+  entrantes** de `OQ-X` a `DC-OQ-X`.
+- **Antes de cerrar, verificar que no haya consumidor vivo:** un test rojo (`it.fails`/`it.todo` que
+  cita la OQ), una cita `SIGUE ABIERTO` en otro doc, o un gate-por-consumidor con residuo real. Si lo
+  hay, **no es cierre genuino** → la OQ se queda. Un re-scope que descarta *un* camino no cierra la OQ
+  si otro eje sigue vivo.
+
 ## Post-flight: después de cambios de arquitectura o contratos
 
 Si el cambio afecta arquitectura o contratos, en la misma sesión:

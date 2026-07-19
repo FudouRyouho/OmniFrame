@@ -5,7 +5,7 @@
  * fetch lazy desde `/data/` (servido por Vite desde `public/`). Hermano de
  * NodeAdapter (fs) — ambos implementan DataSource; el composition root inyecta
  * el del runtime. Sustituye el import estático previo del engine: saca los datos
- * del bundle (~2.3 MB, OQ-DATA-12).
+ * del bundle (~2.3 MB, DC-OQ-DATA-12).
  *
  * Cachea por key (la promesa, no el valor → dedup también de requests en vuelo):
  * la instancia compartida `browserSource` hace que display (DataRegistry) y engine
