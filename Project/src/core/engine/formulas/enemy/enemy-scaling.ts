@@ -15,15 +15,22 @@
 // Cada región (`below` Δnivel<70 rápido / `above` Δnivel>80 lento) = { c: coef, e: exponente }.
 type SCoef = { below: { c: number; e: number }; above: { c: number; e: number } };
 
-// Coeficientes de HEALTH por facción.
+// Coeficientes de HEALTH por grupo de facción (enemy-level-scaling.md §Health). Facciones que comparten
+// coef comparten valores. `Orokin` = grupo "Corrupted" del wiki (Corrupted es un tipo Void, no una
+// facción propia). `Unaffiliated` = default documentado del wiki para facción no reconocida (NO Grineer).
+// Anarchs-health queda FUERA a propósito: el wiki se contradice (tab "Anarchs, Corrupted" `^2.1/^0.685`
+// vs prosa "Murmur, Sentient, Anarchs, Unaffiliated" `^2/^0.5`) → `OQ-ENGINE-21`; hasta medir, cae al
+// default (Unaffiliated).
 const HEALTH_COEF: Record<string, SCoef> = {
-  Grineer:   { below: { c: 0.015,  e: 2.12 }, above: { c: 10.7332, e: 0.72  } },
-  Scaldra:   { below: { c: 0.015,  e: 2.12 }, above: { c: 10.7332, e: 0.72  } },
-  Corpus:    { below: { c: 0.015,  e: 2.12 }, above: { c: 13.4165, e: 0.55  } },
-  Infested:  { below: { c: 0.0225, e: 2.12 }, above: { c: 16.1,    e: 0.72  } },
-  Orokin:    { below: { c: 0.015,  e: 2.1  }, above: { c: 10.7332, e: 0.685 } },
-  Sentient:  { below: { c: 0.015,  e: 2.0  }, above: { c: 10.7332, e: 0.5   } },
-  Techrot:   { below: { c: 0.02,   e: 2.12 }, above: { c: 15.1,    e: 0.7   } },
+  Grineer:      { below: { c: 0.015,  e: 2.12 }, above: { c: 10.7332, e: 0.72  } },
+  Scaldra:      { below: { c: 0.015,  e: 2.12 }, above: { c: 10.7332, e: 0.72  } },
+  Corpus:       { below: { c: 0.015,  e: 2.12 }, above: { c: 13.4165, e: 0.55  } },
+  Infested:     { below: { c: 0.0225, e: 2.12 }, above: { c: 16.0998, e: 0.72  } },
+  Orokin:       { below: { c: 0.015,  e: 2.1  }, above: { c: 10.7332, e: 0.685 } },
+  Sentient:     { below: { c: 0.015,  e: 2.0  }, above: { c: 10.7332, e: 0.5   } },
+  Murmur:       { below: { c: 0.015,  e: 2.0  }, above: { c: 10.7332, e: 0.5   } },
+  Unaffiliated: { below: { c: 0.015,  e: 2.0  }, above: { c: 10.7332, e: 0.5   } },
+  Techrot:      { below: { c: 0.02,   e: 2.12 }, above: { c: 15.0998, e: 0.7   } },
 };
 
 // Coeficientes de SHIELDS por facción. Infested no tiene fila en la wiki (no llevan escudo — el
@@ -58,15 +65,20 @@ function scaleMult(coef: SCoef, dx: number): number {
   return below + (above - below) * s;
 }
 
-/** HEALTH escalada por facción (fallback Grineer si la facción no está tabulada). `dx` = Δnivel ≥ 0. */
+/**
+ * HEALTH escalada por facción. Fallback = grupo **Unaffiliated** (el default del wiki para facción no
+ * reconocida), NO Grineer. ⚠️ Muchos enemigos traen un `faction` contaminado (categoría de arma / rol de
+ * IA en vez de facción real, `enemies.json`) → caen a este default: `OQ-DATA-15`. `dx` = Δnivel ≥ 0.
+ */
 export function scaleHealth(base: number, faction: string, dx: number): number {
-  const healthCoef = HEALTH_COEF[faction] ?? HEALTH_COEF.Grineer;
+  const healthCoef = HEALTH_COEF[faction] ?? HEALTH_COEF.Unaffiliated;
   return base * scaleMult(healthCoef, dx);
 }
 
 /**
- * SHIELDS escalados por facción (fallback Grineer si la facción no está tabulada). Sin floor/cap —
- * a diferencia de armor, la wiki no documenta ninguno para shields. `dx` = Δnivel ≥ 0.
+ * SHIELDS escalados por facción. Sin floor/cap — a diferencia de armor, la wiki no documenta ninguno
+ * para shields. El wiki tampoco documenta un grupo "Unaffiliated" para shields (a diferencia de health)
+ * → el fallback Grineer es una elección de código, no un default del wiki (`OQ-DATA-15`). `dx` = Δnivel ≥ 0.
  */
 export function scaleShields(base: number, faction: string, dx: number): number {
   const shieldsCoef = SHIELDS_COEF[faction] ?? SHIELDS_COEF.Grineer;

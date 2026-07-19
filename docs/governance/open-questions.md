@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-19"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -36,6 +36,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-DATA-12` | Carga de runtime: import estático → fetch | data / integration | **cerrada** → `closed-decisions.md` |
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
+| `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — degrada fidelidad |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
 | `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
@@ -54,6 +55,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-ENGINE-18` | Status Duration en DoT: ¿más ticks o estirados? | engine / C1-timeline | abierta — gated por test in-game |
 | `OQ-ENGINE-19` | Generador discreto de N proc-slots a SC >100% | engine / C1-población | abierta — gated por dato in-game |
 | `OQ-ENGINE-20` | Snapshot vs live en el tick de DoT | engine / C2 | abierta — gated por test in-game |
+| `OQ-ENGINE-21` | Fidelidad de la ley de scaling: contradicción Anarchs + sin validar por DE | engine / C2 | abierta — gated por medición |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 
 ---
@@ -692,3 +694,66 @@ completo de cualquier Zaw/Kitgun/Amp.
 pero eje distinto: DATA-1 = *layout de slots* de companions modulares; ésta = *cómputo de stats* del DNA
 ensamblado).
 **Fuente:** debate 2026-07-09, barrido de corpus arcane (DC-OQ-ENGINE-17).
+
+---
+
+## OQ-DATA-15 — Campo `faction` contaminado del enemigo: quiebra scaling + FACTION_BONUS — **ABIERTO (2026-07-19)**
+**Dominio:** data / "0" (DataRegistry) → engine (scaling + matriz③)
+
+**Contexto:** el campo `faction` de `enemies.json` **no es la taxonomía real de facciones**. De 638 entries
+con `faction`, muchas traen valores que no son facción: categorías de arma (`Shotgun`, `Rifle`, `Melee`),
+rol de IA/allegiance (`Neutral`, `Predator`, `Prey`), u otros (`Orbiter`, `Warframe`). La lista real (wiki
+`Factions`) son 14 y no incluye ninguno de esos. Es el mismo patrón "tipo de carne/escudo" de Damage 2.0:
+un campo de la fuente (`@wfcd/items`) que el engine trata como input vivo pero que mezcla ejes.
+
+**Dos consumidores lo keyean — ambos degradados en silencio:**
+- **Scaling** (`enemy-scaling.ts` vía `EnemyRepository.scale`): `HEALTH_COEF[faction]` / `SHIELDS_COEF[faction]`
+  → facción no reconocida cae al **default** (health: grupo Unaffiliated tras el fix F5; shields: Grineer,
+  elección de código). El enemigo escala con una curva que no es la de su facción real.
+- **FACTION_BONUS** (`targetFactionMult(token, dna.faction)`, matriz③ de `resolveHit`): `FACTION_BONUS[token]?.[faction] ?? 0`
+  → facción-basura ⇒ **bonus 0** (no se aplica el bonus anti-facción). *(`resolveHit` está fuera del pipeline
+  de producción hoy, pero el defecto es real.)*
+
+**Pregunta:** ¿cómo se obtiene un **grupo de scaling / facción** confiable por enemigo? Opciones (todas poco
+atractivas, por eso su propia OQ):
+- (a) **Limpiar `faction`** en `enemies.json` / override a mano — trabajo + drift permanente.
+- (b) **Re-sourcing per-enemy desde `Module:Enemies`** (la infobox del wiki carga los coefs por enemigo
+  directamente) — pipeline pesado pero ground-truth; disuelve la tabla-por-facción.
+- (c) **Default + overrides curados** solo para los enemigos que importan — pragmático, deja el resto mal.
+- (d) **Campo `scaling_group` separado** del label `faction` — schema nuevo, desacopla los ejes.
+
+**No bloquea:** el engine corre; el scaling es aproximado para enemigos con facción contaminada. **Degrada:**
+fidelidad de todo mecanismo keyed-por-facción (scaling + bonus de facción).
+**Vínculo:** **OQ-ENGINE-21** (fidelidad de la LEY de scaling, hermana — ésta es el INPUT, aquélla la ley),
+**OQ-DATA-9** (borde de entrada "0" / normalización de datos), **OQ-ENGINE-15** (DR provisional, scaling
+vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/damage-multipliers.ts`.
+**Fuente:** F5-P2 (2026-07-19), `.working/engine-fidelity-hygiene.md`; censo de `enemies.json`; wiki `Factions`.
+
+---
+
+## OQ-ENGINE-21 — Fidelidad de la ley de enemy-scaling: contradicción Anarchs + tabla sin validar por DE — **ABIERTO (2026-07-19)**
+**Dominio:** engine / C2 (enemy scaling) — hermana de `OQ-ENGINE-15` (DR)
+
+**Contexto:** los coeficientes de `enemy-scaling.ts` se transcriben de `Enemy_Level_Scaling` (re-capturado
+raw 2026-07-19, `references/wiki/mechanics/raw/enemy-level-scaling.wikitext`). El propio raw advierte que las
+fórmulas "are derived from in-game testing and have **not** been confirmed or denied valid by Digital
+Extremes… accuracy still under review". Dos puntos de fidelidad abiertos:
+
+1. **Contradicción Anarchs-health (el concreto):** el wiki lista Anarchs en **dos grupos de health a la vez**
+   — el tab "Anarchs, Corrupted" (`^2.1/^0.685`) y la prosa del grupo "Murmur, Sentient, Anarchs, Unaffiliated"
+   (`^2/^0.5`). En **shields no hay ambigüedad** (Anarchs = grupo Corrupted). El código deja Anarchs-health
+   **fuera** de `HEALTH_COEF` a propósito → cae al default (Unaffiliated, una de las dos opciones) hasta medir.
+2. **Validación general:** toda la tabla (coefs health/shield/armor, smoothstep, DR `√3a/100`) es
+   community-derived; hoy solo Arid Butcher @215 está validado contra el **calculador** del wiki (no contra el
+   juego — no muestra HP numérico). La DR ya es `OQ-ENGINE-15`.
+
+**Pregunta:** ¿cuál grupo de Anarchs-health es el correcto? + una pasada de validación contra medición
+in-game (o al menos el calculador para más facciones/enemigos).
+**Dirección (precedente `OQ-ENGINE-15`):** adoptar lo más honesto hoy (Unaffiliated default para Anarchs);
+resolver por medición. No inventar hacia una wiki que se contradice.
+
+**No bloquea:** el engine corre; Anarchs no está en la data todavía. **Bloquea:** scaling correcto de
+Anarchs-health; confianza plena en la tabla de scaling.
+**Vínculo:** **OQ-DATA-15** (el INPUT `faction`, hermana), **OQ-ENGINE-15** (DR, mismo "provisional hasta
+popup #1"), mirror `references/wiki/mechanics/enemy-level-scaling.md` (reconciliado 2026-07-19).
+**Fuente:** F5-P2 (2026-07-19), re-captura raw; `.working/engine-fidelity-hygiene.md`.

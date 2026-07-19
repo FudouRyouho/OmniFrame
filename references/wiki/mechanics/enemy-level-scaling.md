@@ -4,8 +4,9 @@
 > Rol: fórmulas de escalado de stats de enemigos por nivel
 > Fuente de verdad de: curva S post-Update 27.2, coeficientes por facción, EHP derivado
 > No usar para: drops, afinidad de jugador o mecánicas de spawn
-> Última actualización: 2026-07-06 (re-captura: Δx-regiones, smoothstep, Eximus, DR, open-item de armor)
-> Fuente: https://wiki.warframe.com/w/Enemy_Level_Scaling
+> Última actualización: 2026-07-19 (re-captura vía `?action=raw` — corrige tablas health/shield stale:
+> grupos Murmur/Unaffiliated/Anarchs, coefs exactos 16.0998/15.0998, contradicción Anarchs del wiki)
+> Fuente: https://wiki.warframe.com/w/Enemy_Level_Scaling (raw en `raw/enemy-level-scaling.wikitext`)
 
 ## Fórmula base universal
 
@@ -30,23 +31,36 @@ Cada facción tiene coeficientes distintos para las dos mitades de la curva.
 
 ## Health por facción
 
-| Facción | Fórmula < 70 | Fórmula > 80 |
+Los tab-headers del wiki agrupan facciones que comparten coeficientes (`Corrupted` = tipo Void, facción
+**Orokin**; no es una facción propia).
+
+| Grupo (tab del wiki) | Fórmula < 70 | Fórmula > 80 |
 |---|---|---|
 | Grineer / Scaldra | `1 + 0.015(Δx)^2.12` | `1 + 10.7332(Δx)^0.72` |
 | Corpus | `1 + 0.015(Δx)^2.12` | `1 + 13.4165(Δx)^0.55` |
-| Infested | `1 + 0.0225(Δx)^2.12` | `1 + 16.1(Δx)^0.72` |
-| Corrupted | `1 + 0.015(Δx)^2.1` | `1 + 10.7332(Δx)^0.685` |
-| Sentient / Anarchs | `1 + 0.015(Δx)^2` | `1 + 10.7332(Δx)^0.5` |
-| Techrot | `1 + 0.02(Δx)^2.12` | `1 + 15.1(Δx)^0.7` |
+| Infested | `1 + 0.0225(Δx)^2.12` | `1 + 16.0998(Δx)^0.72` |
+| Anarchs* / Corrupted (=Orokin) | `1 + 0.015(Δx)^2.1` | `1 + 10.7332(Δx)^0.685` |
+| Murmur / Sentient / **Unaffiliated (default)** / Anarchs* | `1 + 0.015(Δx)^2` | `1 + 10.7332(Δx)^0.5` |
+| Techrot | `1 + 0.02(Δx)^2.12` | `1 + 15.0998(Δx)^0.7` |
+
+> **⚠️ Anarchs (health): el wiki se contradice.** Aparece a la vez en el tab "Anarchs, Corrupted"
+> (`^2.1/^0.685`) y en la prosa del grupo "Murmur, Sentient, Anarchs, Unaffiliated" (`^2/^0.5`). Sin
+> resolver — adoptar lo más honesto y verificar por medición (precedente DR/`OQ-ENGINE-15`). En **shields
+> no hay ambigüedad**: Anarchs = grupo Corrupted.
+>
+> **Default para facción no reconocida = "Unaffiliated" → grupo `^2/^0.5` (el de Sentient), NO Grineer.**
+> Relevante porque el motor cae a Grineer por defecto (delta código↔fuente).
 
 ## Shields por facción
 
-| Facción | Fórmula < 70 | Fórmula > 80 |
+| Grupo (tab del wiki) | Fórmula < 70 | Fórmula > 80 |
 |---|---|---|
 | Corpus | `1 + 0.02(Δx)^1.76` | `1 + 2(Δx)^0.76` |
-| Corrupted | `1 + 0.02(Δx)^1.75` | `1 + 2(Δx)^0.75` |
+| Anarchs / Corrupted (=Orokin) | `1 + 0.02(Δx)^1.75` | `1 + 2(Δx)^0.75` |
 | Grineer / Sentient | `1 + 0.02(Δx)^1.75` | `1 + 1.6(Δx)^0.75` |
 | Techrot | `1 + 0.02(Δx)^1.76` | `1 + 3.5(Δx)^0.76` |
+
+Infested no lleva escudo (sin fila). El wiki no documenta grupo Unaffiliated para shields.
 
 ## Armor — fórmula única para todas las facciones
 
