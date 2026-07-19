@@ -4,7 +4,7 @@ Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-16"
+Fecha_de_actualizacion: "2026-07-18"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -34,7 +34,7 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 │  C1 — ENGINE (resolve/)   C2 — SIMULATION       │
 │  SimulationEngine         CombatCalculator      │
 │  StaticHydrator           TimelineSimulator     │
-│  ModRepository            StatusEngine          │
+│  ModRepository            CombatSimulator       │
 └───────────────────┬─────────────────────────────┘
                     │ snapshot(): SimulationEntity[]  (salida de C, output/consume.ts)
 ┌───────────────────▼─────────────────────────────┐
@@ -125,7 +125,7 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
   - Emite métricas de combate (DPS, TTK, status weights). *(El payload rico `ProjectionSnapshot` diseñado para esto fue purgado 2026-06-16; hoy las métricas viven en `CombatMetrics` de `CombatCalculator` y aún no fluyen a un contrato de salida único — deuda registrada, ver `OQ-ENGINE-8`. El modelo de daño/status de C2 se aterrizó en `design/damage-status-model.md`, 2026-07-02.)*
 - **No conoce**: UI, intención del usuario, cómo se presentan los resultados.
 - **Distinción clave con C1**: C1 resuelve *qué vale cada atributo*. C2 resuelve *qué pasa en el juego con esos valores*.
-- **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, StatusEngine, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EnemyState}.ts`. Reorganizado a `simulate/` el 2026-06-12.
+- **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EnemyState}.ts`. Reorganizado a `simulate/` el 2026-06-12. (El proc/DoT lo modelan los `EffectBehavior` sobre `EnemyState`; `StatusEngine` eliminado con el rediseño unificado.)
 
 ---
 
@@ -235,8 +235,11 @@ composición de C1 a la realización de C2) se cristaliza en §2.0.1.
 > el Hit la **ejecuta**, la Aplicación **deposita** un hijo (proc) que migra al target con su propio ciclo, y
 > **D consume la historia** de esos ciclos — el frame-0 = la composición de C1; los deltas = la realización de
 > C2 (`§5.5`, Initial Snapshot + deltas). Ese ciclo se materializa en **un objeto Instancia construido UNA vez
-> en el seam C1→C2**, no re-derivado por cada proyector. Hoy `CombatCalculator`, `CombatSimulator` y
-> `TimelineSimulator` re-extraen de `attributes` en 3 lugares; `HitContext` es ese objeto **medio nacido**.
+> en el seam C1→C2**, no re-derivado por cada proyector. Ese objeto es `deriveInstance` (`damage-instance.ts`):
+> `CombatCalculator`, `CombatSimulator` y `TimelineSimulator` lo **CONSUMEN**, ya no re-extraen de `attributes`.
+> `HitContext` quedó como una **vista angosta** (subset de la Instancia) que los DoT behaviors consumen. Lo
+> que la Instancia todavía NO materializa es el **status-spec** (`procWeights`): se deriva on-the-fly en cada
+> proyector vía `expectedProcEvents` — completarlo es trabajo abierto (`formulas-integration.md §2`).
 
 **Principio rector — C1 COMPONE, C2 REALIZA.** C1 compone *cuánto vale cada cosa*; C2 realiza *qué pasa con
 esos valores en el tiempo, contra un target, con RNG* — lo único que C1 estructuralmente no puede. **C2 consume
@@ -283,7 +286,7 @@ Para mantener el motor ligero y determinista, las entidades se dividen por su ci
 
 - **TE (Transient Entities)**:
   - **Definición**: Entidades efímeras generadas por una acción o comportamiento.
-  - **Jerarquía de Generación** *(TE-como-entidad-en-cola: diseñado, no implementado)*: la idea era que una TE genere TEs hijas (Impacto → Proc). Hoy los procs/DoT son **proyecciones matemáticas** de `StatusEngine`/`EnemyState`, no TEs reales en una cola (sin límite de profundidad ni energía de tick). El **double-dip** sí se modela como regla de composición aritmética — ver [`damage-status-model.md`](damage-status-model.md) §Reglas de composición (faction sobre DoTs, `OQ-ENGINE-13`).
+  - **Jerarquía de Generación** *(TE-como-entidad-en-cola: diseñado, no implementado)*: la idea era que una TE genere TEs hijas (Impacto → Proc). Hoy los procs/DoT son **proyecciones matemáticas** de los `EffectBehavior` sobre `EnemyState` (modelo unificado de proc), no TEs reales en una cola (sin límite de profundidad ni energía de tick). El **double-dip** sí se modela como regla de composición aritmética — ver [`damage-status-model.md`](damage-status-model.md) §Reglas de composición (faction sobre DoTs, `OQ-ENGINE-13`).
   - **Ejemplos**: Proyectiles, Procs de Estado, Invocaciones temporales.
 
 ### 2.2 El Escenario: Espacio Abstracto (Buckets de Estado)
@@ -398,7 +401,7 @@ Resuelve el problema de habilidades como Iron Skin de Rhino.
 
 ### C2 — Simulation Modules
 - **Combat Simulator**: Resolución de daño final contra un Target (`CombatCalculator`, `CombatSimulator`).
-- **Status Engine**: Simulación de proyecciones de DoT y procs (`StatusEngine`).
+- **Modelo de proc (DoT/status)**: proyecciones de DoT y procs vía `EffectBehavior` por efecto sobre `EnemyState` (`StatusEngine` eliminado con el rediseño unificado).
 - **Ability System**: Escalado de poderes por contexto de simulación.
 - **Time-Window Simulator (Timeline)**:
   - Sistema híbrido que proyecta el comportamiento del loadout en una ventana de tiempo (ej: 0s a 10s).

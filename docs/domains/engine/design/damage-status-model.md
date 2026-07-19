@@ -4,7 +4,7 @@ Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT,
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
-Fecha_de_actualizacion: "2026-07-16"
+Fecha_de_actualizacion: "2026-07-18"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/status-effects.md"
@@ -106,7 +106,7 @@ DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) × 
 ```
 
 Los `(1+faction)²` de §Detalle se leen bajo esto: `faction` = el **pool ②** (mods de facción + buffs), que
-sí se dobla; la **matriz del target es aparte** y single-dipea. Datos crudos de todos los tests: `.working/double-dipping-test.md`.
+sí se dobla; la **matriz del target es aparte** y single-dipea. Datos crudos de todos los tests: `references/ingame-tests/double-dip.md`.
 
 ### Reconciliación de `resolveHit` — Checkpoint 1 COMPLETO (2026-07-09)
 
@@ -137,32 +137,27 @@ Ambos checkpoints (matriz③ + DR) verificados sin regresiones: suite 175 passed
 todo, `tsc` limpio; `enemy-state-status-multiplier.test.ts` y `enemy-scaling.test.ts` corridos aparte y
 confirmados verdes.
 
-**Checkpoint 3 (pool② double-dip en DoT) — re-escopeado a exploración/documentación, sin código esta
-vuelta.** El tick de DoT se computa en `StatusEngine.{projectSlashTick,projectHeatTick,projectToxinTick}`
-(vía `CombatCalculator.project` ← `TimelineSimulator`), funciones que **no reciben el target** — cero
-matriz③ modelada ahí. Ya existe un `faction_mult` (de un attr `FACTION_DAMAGE` del lado del arma) aplicado
-**sin elevar al cuadrado**, pese a que el comentario del código dice `"Faction^2"` (`StatusEngine.ts`
-líneas 45/62) — bug de comentario-vs-implementación ya presente, independiente de este trabajo. Conectar
-pool②+matriz③ ahí exige cambiar firma de 3 funciones + 2 llamadores — unidad de trabajo separada, con
-su propio debate/plan.
+**Checkpoint 3 (pool② double-dip en DoT) — el único término que falta hoy.** El modelo unificado de proc
+reemplazó al viejo `StatusEngine`: el tick se computa en `dot-tick.ts` (`dotTickValue`) y **resuelve contra
+el target vía `resolveDamageEvent`** (el mismo átomo agnóstico-al-origen que comparte con el hit directo).
+Contra la fórmula objetivo, el código de hoy **ya aplica**: `coef`, `modded_base` (innato × Serration, vía
+`dotModdedBase`), `(1+own_element)` y `(1+status_damage)` — los cuatro en `dotTickValue` — más la **matriz③
+(elem×facción) + DR + bypass de True** en `resolveDamageEvent`. **Lo único ausente es el `(1+Σpool②)²`**: el
+double-dip del bucket de facción/buffs del source, elevado al cuadrado. Y hoy es no-op incluso
+estructuralmente — `dotModdedBase` lee solo `WEAPON_ADD_DAMAGE`, y el pool② (`GAMEPLAY_MULT_FACTION_DAMAGE`)
+está **sin miembros**: facción diferida (shim C2·F, `arch-decisions §16`), Roar sin wired.
 
-**Refinado (verificación de estabilidad, 2026-07-09) — falta un tercer término, no sólo dos.** Cruzando
-`StatusEngine.ts` contra la fórmula formal de `references/wiki/mechanics/status-effects.md` (patrón
-general de los 5 DoTs: `tick = coef × modded_base × (1+propio_elemento) × (1+faction) × (1+status_damage)
-× extras`), el código no sólo tiene matriz③ ausente y pool② sin cuadrado — **le falta por completo el
-término `(1+status_damage)`** (ej. Viral amplificando un tick de Slash/Toxin). Los tres términos están
-**cross-validados** (wiki formal + `damage-status-model.md §Evidencia` propio) — esto es nivel de
-**implementación pura**, no de investigación: no hay ambigüedad que estresar, sólo falta escribir los
-tres factores. Fórmula objetivo completa:
+Es un término **decidido y cross-validado** (`DC-OQ-ENGINE-13` cerrada; wiki formal + `§Evidencia` propio),
+no una incógnita — pero su implementación está **gated aguas arriba** por poblar el pool②: Roar es
+incondicional (wireable hoy), los mods de facción son C2·F (RED). Fórmula objetivo:
 
 ```
 DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σpool②)²
 DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × (1+Σpool②)²
 ```
 
-(mismas fórmulas de §Evidencia arriba — la referencia formal de la wiki las confirma independientemente).
-Anclado en `status.md §Deudas` (`GAMEPLAY_MULT_FACTION_DAMAGE`). Al implementar: **seguir el patrón de
-`resolveHit`** (accessor dedicado por naturaleza), no agregar los términos inline en `StatusEngine`.
+Datos crudos: `references/ingame-tests/double-dip.md` (**PROVISIONAL** — pendiente re-medición). Al
+implementar: **seguir el patrón de `resolveHit`** (accessor dedicado por naturaleza), no inline.
 
 ---
 

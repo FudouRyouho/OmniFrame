@@ -4,7 +4,7 @@ Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en l
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-18"
 Dependencias:
   - "docs/domains/engine/design/vocabulary.md"
   - "docs/domains/engine/design/arch-decisions.md"
@@ -86,7 +86,7 @@ final = … × (1 + co_mult%) × comboMult × …
 ```
 
 Los mods de Condition Overload con comportamiento **"Multiplying"** van acá, igual que el multiplicador de combo (melee/sniper). Ver `arch-decisions §9/§10`.
-> **Faction damage y Roar NO van en `multiplicative`.** Son un **pool** (`GAMEPLAY_MULT_FACTION_DAMAGE`): sus miembros usan op **`ADD`** y **suman entre sí** (`×(1 + roar + bane)`, no `×(1+roar)×(1+bane)` — verificado in-game, `references/ingame-tests/double-dipping-test.md`). ⚠️ El `_MULT_` del token es un **error de nombre** (por D-6 la op sería `MULTIPLICATIVE`; la real es `ADD`) — **no** una señal de que el pool se aplique multiplicativamente: eso vale para todo pool global, y el de Serration se llama `_ADD_`. Ver §5, `arch-decisions §16` y `design/vocabulary.md` L-8.
+> **Faction damage y Roar NO van en `multiplicative`.** Son un **pool** (`GAMEPLAY_MULT_FACTION_DAMAGE`): sus miembros usan op **`ADD`** y **suman entre sí** (`×(1 + roar + bane)`, no `×(1+roar)×(1+bane)` — verificado in-game, `references/ingame-tests/double-dip.md`). ⚠️ El `_MULT_` del token es un **error de nombre** (por D-6 la op sería `MULTIPLICATIVE`; la real es `ADD`) — **no** una señal de que el pool se aplique multiplicativamente: eso vale para todo pool global, y el de Serration se llama `_ADD_`. Ver §5, `arch-decisions §16` y `design/vocabulary.md` L-8.
 
 
 ### `base_add_pct` vs `mods_add_pct`

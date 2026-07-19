@@ -4,7 +4,7 @@ Rol: "Workflow de testing derivado del engine: el CÓMO (clic + gramática ✓/f
 Impacto_ID: "E-TestWorkflow"
 Fidelidad_Fisica: "Project/src/core/engine/output/consume.ts"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-18"
 ---
 
 # Test workflow — testing derivado del engine
@@ -59,7 +59,7 @@ modelo documentado). Su valor real es **mapear el borde de C1**. Tres marcadores
 El archivo de test **se lee como el mapa del borde**. Es pregunta **y** respuesta: la capa-respuesta es la
 red de regresión; la capa-pregunta (`todo`) es la brújula de construcción. Ejemplo vivo —
 `cedo-prime.test.ts` (shotgun pura, baseline): 12 ✓ + 5 todo, los `todo` marcando lo que es C2
-(`AtomicSimulator`/`StatusEngine`) o gap de mapeo. Referencia para acuñar los `todo`:
+(`AtomicSimulator`/`EffectBehavior`) o gap de mapeo. Referencia para acuñar los `todo`:
 [`hit-mechanic.md`](../../../../references/wiki/mechanics/hit-mechanic.md) §Relevancia para el engine.
 
 ---
@@ -93,7 +93,7 @@ red de regresión; la capa-pregunta (`todo`) es la brújula de construcción. Ej
 | 2 — **dominio de docs** transversal | una carpeta propia | **primer consumidor fuera del engine** (primer test de ability con esta gramática) |
 | 3 — **capacidad** (capa debug/observabilidad, ≈ `observer/`) | una *capa real del sistema*: tracing por frontera con payload de buckets | **que exista D (UI)** que consuma los taps |
 
-**C2 no dispara la graduación.** `CombatSimulator`/`AtomicSimulator`/`StatusEngine` son capas del engine:
+**C2 no dispara la graduación.** `CombatSimulator`/`AtomicSimulator`/`TimelineSimulator` son capas del engine:
 C2 hace crecer el workflow *hacia adentro*, sigue siendo engine. Lo que gradúa es lo *transversal*
 (abilities → Futuro 2) o lo *runtime* (D existe → Futuro 3). Construir taps sin consumidor (p. ej. C→D antes
 de que D exista) es prematuro.

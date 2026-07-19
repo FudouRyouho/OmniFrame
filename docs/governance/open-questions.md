@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-16"
+Fecha_de_actualizacion: "2026-07-18"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -627,7 +627,7 @@ multi-stack, no confirma el conteo exacto).
 ## OQ-ENGINE-20 — Snapshot vs. live en el tick de DoT: frontera temporal bajo buffs dinámicos — **ABIERTO (2026-07-13)**
 **Dominio:** engine / C2 (modelo de proc/DoT) — depende de test in-game
 
-**Contexto.** La data de double-dip (`.working/double-dipping-test.md`) prueba que el tick de un DoT
+**Contexto.** La data de double-dip (`references/ingame-tests/double-dip.md`) prueba que el tick de un DoT
 compone **dos mitades**: `tick = snapshot(daño del hit resuelto, con buffs source YA horneados al
 aplicar) × live(re-aplicación del contexto source en el tick)`. La huella dura es el double-dip:
 Roar (×2.128, pool②) aparece **al cuadrado** en el DoT (`DoT÷base = 4.53 ≈ 2.128²`) pero ×1 en el
@@ -648,10 +648,14 @@ estado del emisor** (congelado y/o vivo) → **rompe la agnosticidad source** �
 como *fidelidad*, no como accidente (decisión 2026-07-13). No bloquea construir el modelo con la
 premisa conocida (snapshot × live); bloquea **cerrar el split exacto** por multiplicador.
 
+**Alcance (de-conflación).** El double-dip **steady-state** `(1+Σpool②)²` (toda la data medida) NO es parte
+de este OQ: es **(A)**, decidido (`DC-OQ-ENGINE-13`) y **build-debt** gated por poblar el pool②
+(`../domains/engine/status.md §Deudas`). ESTE OQ es solo el **transitorio** — qué mitad responde al drop del buff.
+
 **Test que lo cierra:** dropear un buff (Roar) a mitad de un DoT largo y medir ticks post-drop vs.
 pre-drop. Un solo experimento discrimina (i)/(ii).
 
-**Vínculo:** `.working/double-dipping-test.md` (data steady-state), `../domains/engine/design/damage-status-model.md §Modelo unificado de proc`, `../domains/engine/design/damage-status-model.md §Evidencia`, frontera
+**Vínculo:** `references/ingame-tests/double-dip.md` (data steady-state), `../domains/engine/design/damage-status-model.md §Modelo unificado de proc`, `../domains/engine/design/damage-status-model.md §Evidencia`, frontera
 "coupling Viral-en-vivo/snapshot" (5 fronteras del timeline, `decision-frontier.md §4`), `OQ-ENGINE-16`
 (mismo eje de fidelidad temporal: N-declarado vs. timers reales), pool② gating.
 **Fuente:** debate 2026-07-13 (ontología instancia/proc + composición snapshot×live); data double-dip

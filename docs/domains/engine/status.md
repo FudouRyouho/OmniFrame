@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-18"
 ---
 
 # Engine Status
@@ -163,10 +163,13 @@ llevan. Falta: (1) `target.faction` **estructurado** en los mods (hoy solo en el
 
 El tick lo computan hoy los `EffectBehavior` resueltos vía `resolveDamageEvent` — todo **menos** el
 `(1+Σpool②)²`. La fórmula objetivo sigue firme: `tick = coef × modded_base × (1+status_damage) ×
-matriz(elem, facción) × (1+Σpool②)²` (no-True) / con `[bypass ③]` (True). El único pendiente es ese
-pool②/faction²: la **mitad live** de la composición `snapshot × live` del tick, gated por `OQ-ENGINE-20`
-(split fino snapshot/live) — la re-aplicación live del source (frontera cross-entity), NO horneada aún en
-el `HitContext` snapshot (que hoy solo carga `moddedBase` + status/element).
+matriz(elem, facción) × (1+Σpool②)²` (no-True) / con `[bypass ③]` (True). El pendiente **steady-state**
+(ambos buffs activos, que es toda la data medida) es un build **decidido** (`DC-OQ-ENGINE-13`), gated por
+**poblar el pool②** — hoy vacío: facción diferida (shim C2·F, RED) + Roar sin wired — **NO** por
+`OQ-ENGINE-20`. `OQ-ENGINE-20` gobierna solo el **transitorio** (buff cae a mitad del DoT: ¿la mitad live
+baja de pool²²→pool² o muere todo?) — el split fino `snapshot × live` que NO bloquea el build steady-state.
+La re-aplicación live NO está horneada aún en el `HitContext` snapshot (que hoy solo carga `moddedBase` +
+status/element).
 
 **Vínculo:** `design/damage-status-model.md §Evidencia` + `§Reconciliación de resolveHit`,
 `governance/closed-decisions.md#DC-OQ-ENGINE-13` (confirma que el double-dip es del pool②, no de

@@ -172,7 +172,7 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 **Decisión:** El motor crece **mecanismo por mecanismo**, y cada mecanismo se modela primero en su forma de **estado asumido** (los valores se dan como input: "N status activos", "todos los buffs de equipo activos", "combo en X") y solo después —cuando el suelo lo justifique— en su forma **simulada** (el valor **emerge** de la timeline + RNG). El número bajo estado asumido (C1-honesto) **no es una alternativa a C2 ni lo pospone: es el suelo necesario de C2.** No se simula el status-dependent damage de un arma cuyo status/condition base está a medias.
 
 **Justificación:**
-- El eje de corte **no es ontológico** ("¿esto es C1 o C2?", resbaladizo) sino **operativo**: ¿el valor es *asumido como input* o *emergente de la simulación*? Es el mismo mecanismo en dos escalones — ej. Condition Overload / Galvanized con **N procs asumidos** (C1 con pasos extra, calculable hoy) vs. **uptime real** (C2, necesita `TimelineSimulator`/`StatusEngine`/`RngProvider`).
+- El eje de corte **no es ontológico** ("¿esto es C1 o C2?", resbaladizo) sino **operativo**: ¿el valor es *asumido como input* o *emergente de la simulación*? Es el mismo mecanismo en dos escalones — ej. Condition Overload / Galvanized con **N procs asumidos** (C1 con pasos extra, calculable hoy) vs. **uptime real** (C2, necesita `TimelineSimulator`/`EffectBehavior`/`RngProvider`).
 - **`overframe.gg` no es techo ni referencia conceptual.** No calcula habilidades (muestra su descripción), EHP solo con stats base (sin mods/habilidades), sin selección de perks Incarnon ni habilidades duales. El `ability override` + el schema de habilidad del proyecto **ya lo exceden**. Sirve como oráculo **parcial** de validación solo para el subconjunto que sí calcula (stats de arma ideal). El objetivo es honestidad de simulación, no replicar un calculador ideal.
 - **Gate de honestidad por mecanismo** (`entra` / `difiere` / `descarta`): *entra* si es abstraible con margen aritmético aceptable (con su caveat documentado como trazabilidad, no disfrazado de exactitud); *difiere* si el suelo aún no existe; *descarta* si no es abstraible de forma honesta hoy (ej. un arcano cuyo efecto depende de un externo que el motor no representa).
 - La **abstracción de conjuntos emerge de acumular casos concretos**, no se diseña primero. Precedente: el análisis de damage types **destiló** el primitivo stack-tracker de los 16 tipos (`design/damage-status-model.md`) — no se partió de la abstracción. Buscar "la primitiva de las 10 habilidades" con 3 casos en la mano es el filo del over-engineering (el motor ya se reescribió 3×).
@@ -580,7 +580,9 @@ Total = base × (1 + Σ_aditivo) × (1 + Σ_facción) × ∏(independientes)
 - **CO y Combo NO son upgrade tokens** — se autorutean por su mecánica (CO por `co_behavior`: adding→pool
   aditivo, multiplying→multiplicador independiente `×(1+co)`; Combo por su fórmula heavy `×mult`). Son
   multiplicadores **independientes** que multiplican, NO entran al pool de facción. (§9/§10.)
-- **Facción NO alimenta el DoT** (`dotModdedBase` lee solo `WEAPON_ADD_DAMAGE`); el double-dip ×² = OQ-20.
+- **Facción NO alimenta el DoT** (`dotModdedBase` lee solo `WEAPON_ADD_DAMAGE`). El double-dip ×²
+  **steady-state** es build-debt decidido (`DC-OQ-ENGINE-13`; `status.md §Deudas`), gated por poblar el
+  pool②; el **transitorio** (buff mid-DoT) = `OQ-ENGINE-20`.
 
 **Facción es C2·F — su gate vive en RESOLUCIÓN, no en C1 (hallazgo Felarx/Primed Cleanse).** El bonus de
 facción (Bane/Cleanse) solo aplica si el target es de esa facción, y **`targetFaction` NO está en el
@@ -594,5 +596,5 @@ Roar no gatea por facción). **Borrar el set al normalizar.**
 
 **Estado P2b:** mecanismo del pool + shim construidos, suite verde; el pool C1 sin miembros hoy (facción
 diferida, Roar sin wired) → poblarlo/testearlo es 1a. **Enlaza con §9/§10** (CO/Combo, multiplicadores
-independientes), **§14** (facción-en-DoT = ③, double-dip OQ-20), **§15** (Roar = miembro incondicional del
+independientes), **§14** (facción-en-DoT = ③; double-dip steady-state = build-debt, transitorio = OQ-20), **§15** (Roar = miembro incondicional del
 pool). Cita: `calculating-bonuses.md`, `faction-damage.md`, `condition-overload.md`, `melee-combo.md`.
