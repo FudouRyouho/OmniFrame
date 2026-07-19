@@ -61,7 +61,8 @@ export class CombatCalculator {
     const multishot = instance.multishot;
     const mag_size  = attrs["WEAPON_ADD_MAGAZINE_MAX"]?.final || 1.0;
 
-    // Ley de Recarga: TiempoFinal = Base / (1 + ReloadSpeedBonus / 100)
+    // Ley de Recarga: TiempoFinal = Base / (ReloadTotal / 100) — reload_bonus es el TOTAL ya sumado
+    // (`.final`, default 100 = sin bonus), no el delta; sin `1 +` (double-contaría).
     // reload_time es dato puro del arma — vive en innate_dna, no en AttributeNode.
     const base_reload = entity.innate_dna?.profiles?.[context.active_profile_id]?.['reload_time']
       ?? entity.innate_dna?.profiles?.['base']?.['reload_time']

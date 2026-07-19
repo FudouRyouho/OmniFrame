@@ -57,6 +57,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-ENGINE-20` | Snapshot vs live en el tick de DoT | engine / C2 | abierta — gated por test in-game |
 | `OQ-ENGINE-21` | Fidelidad de la ley de scaling: contradicción Anarchs + sin validar por DE | engine / C2 | abierta — gated por medición |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
+| `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 
 ---
 
@@ -727,7 +728,7 @@ fidelidad de todo mecanismo keyed-por-facción (scaling + bonus de facción).
 **Vínculo:** **OQ-ENGINE-21** (fidelidad de la LEY de scaling, hermana — ésta es el INPUT, aquélla la ley),
 **OQ-DATA-9** (borde de entrada "0" / normalización de datos), **OQ-ENGINE-15** (DR provisional, scaling
 vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/damage-multipliers.ts`.
-**Fuente:** F5-P2 (2026-07-19), `.working/engine-fidelity-hygiene.md`; censo de `enemies.json`; wiki `Factions`.
+**Fuente:** censo de `enemies.json` (638 entries) + wiki `Factions`. Auditoría: F5-P2 (2026-07-19).
 
 ---
 
@@ -756,4 +757,39 @@ resolver por medición. No inventar hacia una wiki que se contradice.
 Anarchs-health; confianza plena en la tabla de scaling.
 **Vínculo:** **OQ-DATA-15** (el INPUT `faction`, hermana), **OQ-ENGINE-15** (DR, mismo "provisional hasta
 popup #1"), mirror `references/wiki/mechanics/enemy-level-scaling.md` (reconciliado 2026-07-19).
-**Fuente:** F5-P2 (2026-07-19), re-captura raw; `.working/engine-fidelity-hygiene.md`.
+**Fuente:** re-captura raw (`references/wiki/mechanics/raw/enemy-level-scaling.wikitext`). Auditoría: F5-P2 (2026-07-19).
+
+---
+
+## OQ-DOC-1 — Docs commiteados citan `.working/` (gitignored) como autoridad de razonamiento — **ABIERTO (2026-07-19)**
+**Dominio:** governance / higiene de documentación
+
+**Contexto:** ~24 líneas en 13 docs commiteados referencian archivos de `.working/` (scratch de campaña,
+gitignored). Para cualquier clon que no sea la máquina donde se escribió el scratch, el archivo **no existe**
+→ el warrant citado es inalcanzable. Choca con `docs/CLAUDE.md` regla 1 ("un doc activo nunca es la única copia
+de un warrant del que depende una nota viva").
+
+**Dos clases — solo una es defecto:**
+- **Procedencia honesta (se quedan):** la cita nombra un scratch **ya purgado/graduado** como historia
+  ("migrado desde `.working/X` al cerrar la campaña", "`.working/Y` descartado"). Equivale a un puntero a
+  git-history; no promete un archivo vivo. Ej.: `data/reports/audit-arcane-ability-like.md`,
+  `governance/doc-map.md`, `docs/CLAUDE.md` (usa `.working/*-sweep.md` como *ejemplo de patrón*, no como fuente).
+- **Warrant roto (a remediar):** la cita apunta a un archivo `.working/` **vivo** como SSoT del razonamiento
+  (plan de implementación con §-anchor, tabla de corpus). Inventario (worklist de la pasada):
+  - `governance/decision-frontier.md` + `governance/current-state.md` → `.working/ability-model-debate.md §9`
+  - `governance/open-questions.md` → `.working/c2-instancia-objeto-stage0.md §6` + `.working/c1-simulation-doctrine.md §4`
+  - `domains/ui-ux/decisions.md` (×2) → `.working/consolidation-map.md`
+  - `data/decisions.md` → `.working/engine-semantic-foundation.md`
+  - `domains/engine/design/arch-decisions.md` (×4) → `c1-simulation-doctrine` / `ability-model-debate` / `damage-composition-formulas-audit`
+  - `governance/closed-decisions.md` (DC-OQ-ENGINE-10) → `.working/` (plan de stages)
+
+**Pregunta:** ¿cómo se remedia cada cita de Clase 2 — (a) **graduar** el núcleo durable del `.working/` vivo
+a un doc + soltar el puntero; (b) **comprimir** lo decidido en la propia oración y marcar el resto como "en
+diseño (local)"; o (c) aceptar el puntero cuando el `.working/` es genuinamente scratch-en-progreso y la
+afirmación del doc **ya es auto-suficiente** sin él? La regla dura: el doc no puede **depender** del `.working/`
+para entenderse.
+
+**No bloquea:** cada doc afectado es legible; el puntero roto solo se nota en otra máquina. **Degrada:**
+reproducibilidad del razonamiento fuera de esta máquina.
+**Vínculo:** `docs/CLAUDE.md` regla 1 (warrant pegado a la nota viva) + regla 4 (procedencia vive en git).
+**Fuente:** cierre de la campaña engine-fidelity F1–F5 (2026-07-19); inventario reproducible: `grep -rn '\.working/' docs/`.

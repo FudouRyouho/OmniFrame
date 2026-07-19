@@ -189,6 +189,21 @@ C2 real, no se reconcilia todavía (gate = consumidor, no ausencia de plan).
 - `engine:debt` — descomponer `project()` en piezas por naturaleza cuando `combat/` tenga un consumidor
   de producción. [verificación de estabilidad pre-C1, 2026-07-09]
 
+### Campos `*_type` de `EnemyDNA` — muertos, candidatos a sunset (revisión pendiente)
+
+`EnemyDNA` declara `health_type`/`armor_type`/`shield_type` (`EnemyRepository.ts`), pero son **inertes**: se
+sintetizan como constantes (`'Health'/'None'/'None'`), `RawEnemyEntry` los **omite** del `enemies.json`, y
+`resolveHit` no los lee (la ley de armadura es **única para todas las facciones** — no depende de `armor_type`,
+ver `enemy-scaling.ts`). Son un artefacto del modelo per-clase muerto (mismo linaje que el `armorBypass`-por-elemento
+ya sunseteado en `resolveHit`).
+
+Sunset **candidato pero NO ejecutado**: el radio de impacto no está cerrado — además de los 3 campos toca las
+uniones `HealthType`/`ArmorType`/`ShieldType` y hay que confirmar si algún override de `enemies.json` los carga
+(el grep dice que no, pero es lo que la revisión debe verificar antes de borrar). RED — GO/NO-GO del usuario.
+
+- `engine:debt` — decidir sunset de `*_type` tras auditar las uniones de tipo + la cobertura real en `enemies.json`.
+  [empirical: `EnemyRepository.ts:30-32,78-80` synth constante; `RawEnemyEntry` Omit; `resolveHit` no los lee]
+
 ### Procedencia de perks de Incarnon — `source_id` ausente
 
 `IncarnonRepository` emite los `Modifier` de perks **sin** `source_id`, mientras `ModRepository` los emite con

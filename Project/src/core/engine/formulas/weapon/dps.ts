@@ -12,7 +12,8 @@ export function averageShot(totalDamage: number, avgCritMult: number, multishot:
   return totalDamage * avgCritMult * multishot;
 }
 
-/** Ley de recarga: `TiempoFinal = Base / (1 + ReloadSpeedBonus/100)` (el bonus llega como % ya sumado). */
+/** Ley de recarga: `TiempoFinal = Base / (ReloadTotal/100)` — `reloadBonusPct` llega como el TOTAL ya
+ *  sumado (100 = sin bonus, 200 = +100%), NO el delta. Sin `1 +` (eso lo double-contaría). */
 export function finalReloadTime(baseReload: number, reloadBonusPct: number): number {
   return baseReload / (reloadBonusPct / 100);
 }

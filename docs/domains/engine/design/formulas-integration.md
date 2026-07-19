@@ -4,7 +4,7 @@ Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
 Impacto_ID: "E-OQ-FORMULAS"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-19"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -28,7 +28,7 @@ inline en vez de consumir `formulas/`. La meta es **conectar, no reescribir** �
 
 | Fórmula (`formulas/`) | Consumidor | Estado |
 |---|---|---|
-| `common/scaling-base::applyAdditiveBonus` | `resolve/SimulationEngine.calculateCurrentValue` | ✅ integrado — **pipeline de producción vivo (C1)** |
+| `weapon/stat-accumulator::resolveStatValue` (envuelve `common/scaling-base::applyAdditiveBonus`) | `resolve/SimulationEngine.calculateCurrentValue` | ✅ integrado — **pipeline de producción vivo (C1)** |
 | `common/crit-base::{resolveCritTier, averageCritMultiplier}` | `simulate/combat/AtomicSimulator` | ✅ integrado — pero `combat/` está **fuera del pipeline de producción** (ver abajo) |
 | resto de `formulas/` | — | sin consumir |
 
@@ -85,21 +85,24 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 
 ---
 
-## 3. Inventario (20 archivos)
+## 3. Inventario (24 archivos)
 
 | Archivo | Contenido | Vocabulario | Estado / acción |
 |---|---|---|---|
 | `common/crit-base.ts` | crit chance, tier, avg multiplier | agnóstico | ✅ consumido por `AtomicSimulator` |
-| `common/scaling-base.ts` | `applyAdditiveBonus`, `round2`, `clamp` | agnóstico | ✅ consumido por `SimulationEngine` |
+| `common/scaling-base.ts` | `applyAdditiveBonus`, `round2`, `clamp` | agnóstico | ✅ consumido (transitivo) vía `stat-accumulator` ← `SimulationEngine` |
 | `common/status-base.ts` | `PRIMARY_ELEMENTS`, `ELEMENT_COMBINATIONS`, `procWeightByType` | `DamageType` (pre-D-6: "heat", "cold") | migrar vocab a D-6 (§5) |
 | `weapon/weapon-crit.ts` | `calculateWeaponCrit` (delega a crit-base) | agnóstico | conectar cuando C2 tenga consumidor |
 | `weapon/weapon-multishot.ts` | `calculateMultishot`, `beamTickScaleFactor` | agnóstico | conectar cuando C2 tenga consumidor |
 | `weapon/weapon-condition-overload.ts` | `applyConditionOverload`, `coBonusPct` | agnóstico | ✅ `coBonusPct` consumido por `SimulationEngine` (§4); `applyConditionOverload` reservado para C2 |
 | `weapon/melee-combo.ts` | `meleeComboMult` (combo melee heavy) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
 | `weapon/sniper-combo.ts` | `sniperComboMult` (combo sniper) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
+| `weapon/stat-accumulator.ts` | `resolveStatValue` (fórmula de referencia D-6 / §4.1) + `globalDamageBucketFactor` | agnóstico (`node`/`base`/`bucket`/`pool`) | ✅ consumido por `SimulationEngine.calculateCurrentValue` — **pipeline de producción vivo (C1)**; extraído P2a (identidad) |
+| `weapon/dps.ts` | `averageShot`, `weaponDps` (burst/sustained), `finalReloadTime` | agnóstico | ✅ consumido por `CombatCalculator` (combat/, **fuera** del pipeline vivo — §1) |
 | `status/stack-debuff.ts` | Familia A (`stackDebuffValue`, `infectionLaw`/`disruptionLaw`/`corrosionLaw`) | efecto (snake_case: corrosion/infection/ignite/disruption) | ✅ consumido por `EnemyState.getDamageMultiplier`/`getEffectiveArmor` (2026-07-10, `arch-decisions §14`) |
 | `status/proc-selection.ts` | `procWeightByType` (LEY de selección, migrada de `common/status-base.ts`) | `DamageType` (D-6) | ✅ **wired** vía `proc-population.ts` ← `TimelineSimulator` + `CombatCalculator` (modelo unificado; overlap `weapon-status` reconciliado + eliminado, §2) |
 | `status/dot-tick.ts` | `dotTickValue`, valor de un tick DoT (Familia C, parte no-faction/no-timeline) | `DotType` (⊂ `DamageType`, sin disolver — deuda G2) | ✅ **wired** vía `behaviors` (bleed/poison/ignite computan `tickValue`); `StatusEngine.projectHeatTick` **eliminado** con el rediseño |
+| `status/dot-base-scaling.ts` | `scaleDotBase` — `modded_base` del DoT = innato × factor Serration (evita el double-count del compuesto) | `DamageType` | ✅ consumido por `deriveInstance` (seam C1→C2; fix `dot_scaling` validado in-game) |
 | `status/dot-timeline.ts` | `tickTimes` — usado por el `advance` de los DoT behaviors; `pulseTotal`/`damageInWindow` aún sin consumidor de producción | `DotPulse` | ✅ **wired** — `behaviors.makeDotBehavior` (bleed/poison) usa `tickTimes` en su `advance`; Electricity/Gas fuera a propósito (frontera 3) |
 | `status/proc-population.ts` | `expectedProcEvents` — generador de eventos esperados (Población/RNG) | `ProcEvent`/`DamageType` | ✅ **wired** ← `TimelineSimulator` + **`CombatCalculator.project`** (2026-07-16, la ley única de `chance×peso`); overlap con `weapon-status.ts` **reconciliado** (ver §2) |
 | `status/dot-population.ts` | `dotPulseFromProcEvent` — glue `ProcEvent → DotPulse` pre-escalado | `DotPulse` | ⚠️ **huérfano** — `behaviors.makeDotBehavior` arma el pulso inline; solo test-consumido (doble camino, deuda G3) |
@@ -107,6 +110,7 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 | `status/behaviors.ts` | fórmulas-estrategia por efecto + registro `EFFECT_BEHAVIORS` (reusa `dot-tick`/`dot-timeline`/`stack-debuff`) | `StatusEffect`/`DamageType` | ✅ **wired** ← `EnemyState` itera (los 6 efectos con LEY) |
 | `enemy/enemy-scaling.ts` | `scaleHealth`, `scaleArmor`, `scaleMult` + coefs curva-S | agnóstico (`faction: string`) | ✅ consumido por `EnemyRepository.scale` (orquestador); **movido de `EnemyRepository` (P1, 2026-07-09)** |
 | `enemy/armor-mitigation.ts` | `damageReductionFromArmor` (√3a/100) | agnóstico | ✅ consumido por `resolveHit` (2026-07-09, checkpoint 2 de la reconciliación) además de `EnemyRepository.scale`; ⚠️ **migrar a scope `entity/`** con 2º consumidor DR (player/companion) — ver §7 |
+| `enemy/ehp.ts` | `effectiveHealthFromArmor` — `Health×(Armor+300)/300` (EHP lineal, diminishing sólo en el DR%) | agnóstico | primitiva DISPONIBLE (piso wiki); sin consumidor en el motor todavía |
 | `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | integrar con Ability System (inexistente) |
 | `ability/ability-status.ts` | `describeAbilityStatus`, `formatAbilityStatusLabel` | `DamageType` | integrar con Ability System (inexistente) |
 
