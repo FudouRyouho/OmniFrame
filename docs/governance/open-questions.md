@@ -780,7 +780,7 @@ de un warrant del que depende una nota viva").
   - `governance/open-questions.md` → `.working/c2-instancia-objeto-stage0.md §6` + `.working/c1-simulation-doctrine.md §4`
   - `domains/ui-ux/decisions.md` (×2) → `.working/consolidation-map.md`
   - `data/decisions.md` → `.working/engine-semantic-foundation.md`
-  - `domains/engine/design/arch-decisions.md` (×4) → `c1-simulation-doctrine` / `ability-model-debate` / `damage-composition-formulas-audit`
+  - `domains/engine/design/arch-decisions.md` (×3) → `c1-simulation-doctrine` / `ability-model-debate`
   - `governance/closed-decisions.md` (DC-OQ-ENGINE-10) → `.working/` (plan de stages)
 
 **Pregunta:** ¿cómo se remedia cada cita de Clase 2 — (a) **graduar** el núcleo durable del `.working/` vivo

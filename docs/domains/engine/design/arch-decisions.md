@@ -558,7 +558,7 @@ viaja), **§2.0/§2.0.1** (el trazado y el seam C1→C2).
 ## 16. Modelo de pools de daño (aditivo/facción, suman-dentro·multiplican-afuera) + facción C2·F
 
 **Decisión (P2b, 2026-07-16).** La composición de daño se lee de `calculating-bonuses.md` (SSoT wiki), NO
-del código (que estaba parcial/inline — ver `.working/damage-composition-formulas-audit.md`):
+del código (que estaba parcial/inline — reconciliación code↔`formulas/` en [`formulas-integration.md`](formulas-integration.md) §2/§5):
 
 ```
 Total = base × (1 + Σ_aditivo) × (1 + Σ_facción) × ∏(independientes)
