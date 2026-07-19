@@ -7,10 +7,10 @@
  * tiene armor=0 Y shields=0 → sin confound de DR ni de capa (post-U36 la matriz no distingue capa,
  * ver `enemy-resistances.md` línea 12).
  *
- * Antes de este checkpoint, `resolveHit` es 100% inerte en el eje facción: `EnemyRepository.load()`
- * rellena `health_type/armor_type/shield_type` con defaults inertes para TODO enemigo → ningún lookup
- * en `DAMAGE_EFFICIENCY` matchea nunca → `typeMultiplier` siempre ×1, sin importar elemento o facción
- * real (confirmado por este mismo test antes del fix: ratio = 1.0, no 1.5).
+ * Antes de este checkpoint, `resolveHit` era 100% inerte en el eje facción: el viejo lookup per-clase
+ * (`EnemyRepository.load()` rellena `health_type/armor_type/shield_type` con defaults inertes para TODO
+ * enemigo) no matcheaba nunca → `typeMultiplier` siempre ×1, sin importar elemento o facción real
+ * (confirmado por este mismo test antes del fix: ratio = 1.0, no 1.5).
  */
 import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '../bootstrap/engine-data';

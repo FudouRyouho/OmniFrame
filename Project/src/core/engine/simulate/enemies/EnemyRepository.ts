@@ -23,9 +23,9 @@ export interface EnemyDNA {
   /**
    * @deprecated Clases per-capa **pre-U36** — ya no rigen (daño-vs-target = por facción, ver
    * `FACTION_BONUS`). El generador **NO las emite**; `load()` las rellena con **defaults inertes**
-   * (`'Health'`/`'None'`/`'None'`) que no matchean ninguna clave de `DAMAGE_EFFICIENCY` → el legacy
-   * `resolveHit` los resuelve a 0 (modelo muerto inerte, correcto post-U36) SIN necesidad de tocarlo.
-   * Se eliminan del contrato cuando `resolveHit` se reconcilie a facción (deferido, C2).
+   * (`'Health'`/`'None'`/`'None'`). `resolveHit` ya resuelve la matriz③ por facción (`targetFactionMult`,
+   * checkpoint-1) y **NO lee estos campos** → son un **sunset candidato del contrato** (separado del de
+   * `DAMAGE_EFFICIENCY`, ya purgado): borrarlos toca `EnemyDNA` + `enemies.json` + `load()`.
    */
   health_type: HealthType;
   armor_type: ArmorType;
@@ -73,8 +73,8 @@ export class EnemyRepository {
       this.register({
         ...e,
         base_level: overrides[e.unique_name]?.base_level ?? 1,
-        // Defaults inertes de los `*_type` deprecados (ver EnemyDNA): no matchean DAMAGE_EFFICIENCY
-        // → el legacy resolveHit los resuelve a 0. Se quitan al reconciliar resolveHit a facción.
+        // Defaults inertes de los `*_type` deprecados (ver EnemyDNA): `resolveHit` ya usa la matriz③ por
+        // facción (`targetFactionMult`) y no lee estos campos. Sunset candidato del contrato (ver EnemyDNA).
         health_type: 'Health',
         armor_type: 'None',
         shield_type: 'None',

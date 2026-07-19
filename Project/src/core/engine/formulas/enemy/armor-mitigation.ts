@@ -1,6 +1,8 @@
 /**
  * @domain Engine / Formulas / Enemy / Armor-Mitigation
- * @SSoT references/wiki/mechanics/armor.md §Reducción de daño — ⚠️ divergencia deliberada: el código adopta `√3a/100` (OQ-ENGINE-15, ver abajo)
+ * @SSoT references/wiki/mechanics/enemy-resistances.md §DR de armor enemigo — ⚠️ divergencia deliberada
+ *      (OQ-ENGINE-15): el wiki-texto da `1−0.9·AR/2700` (lineal), el código adopta `√3a/100` (la del
+ *      calculador-gadget, ver abajo). NB: `armor.md` da `AR/(AR+300)` = DR del **jugador**, no del enemigo.
  *
  * Ley de mitigación por armadura (Damage Reduction). Matemática pura: número→número.
  *

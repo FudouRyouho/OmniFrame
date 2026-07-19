@@ -74,6 +74,8 @@ export class CombatSimulator {
    * reglas se derivan del CANÓNICO keyeadas por el token: bypass de shields (Toxin), bypass de
    * armor/matriz③ de True (`as:'true'` del bleed), DR, y el multiplicador de capa (Viral/Magnetic).
    * La emisión declara CON QUÉ tipo resuelve — sin opt ad-hoc. Ver `contracts/damage-logic.ts`.
+   * GAP deliberado: NO se modela la **cuantización** (`escala = base/32`, redondeo pre-multiplicadores;
+   * `enemy-resistances.md §Orden de composición`) — error < 1 dígito %, no vale la complejidad hoy.
    */
   public static resolveDamageEvent(
     damageToken: string,
