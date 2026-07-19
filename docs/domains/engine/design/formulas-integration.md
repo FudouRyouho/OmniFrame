@@ -161,16 +161,17 @@ es `@shared/types/damage.ts` (`DAMAGE_TYPES`/`isDamageType`/`normalizeDamageType
   vez del transform a ciegas — una key no-`DamageType` (`cinematic`/`shieldDrain`) ya no genera token
   fantasma que inflaba `damage_sum`.
 
-**Todavía duplicado (Tier C, NO resuelto):** la LEY de combinación elemental y la membresía de familias
-siguen codificadas DOS veces, una por espacio, y colapsarlas está entrelazado con la capa de fórmulas
-muerta (§6):
-- `ELEMENT_COMBINATIONS`/`PRIMARY_ELEMENTS` en `common/status-base.ts` (type-space) — consumidas SOLO
-  por `ability-status` (muerta; `weapon-status` eliminado 2026-07-16 — `status-base` queda más huérfano aún).
-- `ELEMENTAL_COMBINATIONS`/`PRIMARY_ELEMENTS`/`PHYSICAL_TYPES` en `contracts/damage-logic.ts` +
-  `DamageCombiner` (token-space, camino VIVO).
+**Deduplicación de la ley elemental — RESUELTA.** La LEY de combinación elemental vive **una sola vez**:
+`ELEMENT_COMBINATIONS`/`PRIMARY_ELEMENTS`/`resolveElementalCombination` en `common/status-base.ts`
+(type-space, SSoT). `DamageCombiner` (`resolve/hydration/`, token-space, camino VIVO) la **consume** vía el
+puente token↔type de `contracts/damage-logic.ts` — ya no re-declara la tabla. `status-base.ts` deja de
+estar huérfano: es la fuente que alimenta el path vivo (además del muerto `ability-status`).
 
-Ambas familias son derivables del `family` del canónico (`DAMAGE_TYPE_DEFINITIONS`). Es debate propio
-(qué se hace con la capa muerta), no de pasada.
+**Residual (Tier C, NO duplicación — extracción):** el **algoritmo** de combinación
+(`DamageCombiner.combine`, pairing por slots) sigue inline en una clase de hydration, no como primitiva
+citada de `formulas/`; y `PHYSICAL_TYPES` (token-space) vive en `DamageCombiner.ts` en vez de derivarse del
+`family` del canónico (`DAMAGE_TYPE_DEFINITIONS`). Extraerlo es debate propio (entrelazado con qué se hace
+con la capa de fórmulas muerta, §6), no de pasada.
 
 ---
 
