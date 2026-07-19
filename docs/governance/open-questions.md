@@ -764,30 +764,36 @@ popup #1"), mirror `references/wiki/mechanics/enemy-level-scaling.md` (reconcili
 ## OQ-DOC-1 — Docs commiteados citan `.working/` (gitignored) como autoridad de razonamiento — **ABIERTO (2026-07-19)**
 **Dominio:** governance / higiene de documentación
 
-**Contexto:** ~24 líneas en 13 docs commiteados referencian archivos de `.working/` (scratch de campaña,
-gitignored). Para cualquier clon que no sea la máquina donde se escribió el scratch, el archivo **no existe**
-→ el warrant citado es inalcanzable. Choca con `docs/CLAUDE.md` regla 1 ("un doc activo nunca es la única copia
-de un warrant del que depende una nota viva").
+**Contexto:** ~2 docenas de líneas en docs commiteados referencian archivos de `.working/` (scratch de
+campaña, gitignored). Para cualquier clon que no sea la máquina donde se escribió el scratch, el archivo **no
+existe**. La mayoría es **procedencia honesta** (Clase-1, abajo): la oración se entiende sin el scratch, el
+puntero solo nombra historia. El defecto real es el subconjunto donde el doc **depende** del scratch vivo para
+entenderse (Clase-2) — ahí el warrant es inalcanzable. Choca con `docs/CLAUDE.md` regla 1 ("un doc activo nunca
+es la única copia de un warrant del que depende una nota viva").
 
 **Dos clases — solo una es defecto:**
-- **Procedencia honesta (se quedan):** la cita nombra un scratch **ya purgado/graduado** como historia
-  ("migrado desde `.working/X` al cerrar la campaña", "`.working/Y` descartado"). Equivale a un puntero a
-  git-history; no promete un archivo vivo. Ej.: `data/reports/audit-arcane-ability-like.md`,
-  `governance/doc-map.md`, `docs/CLAUDE.md` (usa `.working/*-sweep.md` como *ejemplo de patrón*, no como fuente).
+- **Procedencia honesta (se quedan):** la cita nombra un scratch **ya purgado/graduado/extinto** como historia
+  ("migrado desde `.working/X` al cerrar la campaña", "`.working/Y` descartado", "`.working/` *no SSoT*").
+  Equivale a un puntero a git-history; no promete un archivo vivo, la oración se entiende sin él. Ej.:
+  `data/reports/audit-arcane-ability-like.md`, `governance/doc-map.md`, `docs/CLAUDE.md` (usa `.working/*-sweep.md`
+  como *ejemplo de patrón*); `data/decisions.md` (nombra su `.working/` como **extinto**);
+  `governance/closed-decisions.md` DC-OQ-ENGINE-10 (`.working/` marcado **no SSoT**, plan de la E descartada).
 - **Warrant roto (a remediar):** la cita apunta a un archivo `.working/` **vivo** como SSoT del razonamiento
-  (plan de implementación con §-anchor, tabla de corpus). Inventario (worklist de la pasada):
-  - `governance/decision-frontier.md` + `governance/current-state.md` → `.working/ability-model-debate.md §9`
-  - `governance/open-questions.md` → `.working/c2-instancia-objeto-stage0.md §6` + `.working/c1-simulation-doctrine.md §4`
-  - `domains/ui-ux/decisions.md` (×2) → `.working/consolidation-map.md`
-  - `data/decisions.md` → `.working/engine-semantic-foundation.md`
-  - `domains/engine/design/arch-decisions.md` (×3) → `c1-simulation-doctrine` / `ability-model-debate`
-  - `governance/closed-decisions.md` (DC-OQ-ENGINE-10) → `.working/` (plan de stages)
+  (plan de implementación con §-anchor, tabla de corpus). Inventario — **cada uno gateado por el horizonte de
+  diseño que su `.working/` está debatiendo**, por eso su núcleo no puede graduar a doc todavía:
+  - `governance/decision-frontier.md` + `current-state.md` + `domains/engine/design/arch-decisions.md` (×3)
+    → `.working/ability-model-debate.md` / `c1-simulation-doctrine` — gate: horizontes **habilidades** +
+    **source-state / peso-de-status (T1)**
+  - `governance/open-questions.md` → `.working/c2-instancia-objeto-stage0.md §6` — gate: contrato de salida **OQ-ENGINE-8**
+  - `domains/ui-ux/decisions.md` (×2) → `.working/consolidation-map.md` — gate: refactors **UI U-2**
 
-**Pregunta:** ¿cómo se remedia cada cita de Clase 2 — (a) **graduar** el núcleo durable del `.working/` vivo
-a un doc + soltar el puntero; (b) **comprimir** lo decidido en la propia oración y marcar el resto como "en
-diseño (local)"; o (c) aceptar el puntero cuando el `.working/` es genuinamente scratch-en-progreso y la
-afirmación del doc **ya es auto-suficiente** sin él? La regla dura: el doc no puede **depender** del `.working/`
-para entenderse.
+**El gate real (corrige el "circular" aparente):** estas citas parecen atascadas —el `.working/` no madura a
+docs, y las decisiones que lo desbloquearían están diferidas— pero la regla dura pide solo que **el doc no
+dependa del `.working/` para entenderse**, NO que el diseño esté cerrado. Por eso la remediación **no es (a)
+graduar** (ésa sí la bloquea el horizonte), sino **(c/b): hacer la oración commiteada auto-suficiente sobre lo
+YA decidido + degradar el puntero a "en diseño (local, en progreso)"**. Eso es ungated, editorial, por cita —
+independiente de habilidades/source-state. **Pregunta operativa:** por cada cita, ¿la oración ya se sostiene
+sin el `.working/` (→ degradar puntero) o hoy **depende** de él (→ comprimir lo decidido inline primero)?
 
 **No bloquea:** cada doc afectado es legible; el puntero roto solo se nota en otra máquina. **Degrada:**
 reproducibilidad del razonamiento fuera de esta máquina.
