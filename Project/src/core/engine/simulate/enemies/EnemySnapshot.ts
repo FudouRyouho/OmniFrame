@@ -8,7 +8,8 @@
  * el caso `while_enemy_below_half_health` fuerza — no una abstracción de snapshot general
  * (armor/shields/status se agregan cuando OTRO caso los fuerce, no antes).
  *
- * Distinto de `EnemyState` (maquinaria C2: stacks, dot_pools, timeline). Este es C1-declarado
+ * Distinto de `EnemyState` (maquinaria C2: `effectStates` Map<StatusEffect,S> — stacks/pools por
+ * efecto + avance temporal). Este es C1-declarado
  * (arch-decisions.md §8.1, escalón 2): `health_pct` es un input que el consumidor DECLARA
  * ("asumo que el enemigo está a X% de su salud máxima cuando este hit conecta"), no un valor
  * que emerge de una timeline. Sin RNG, sin frames.
