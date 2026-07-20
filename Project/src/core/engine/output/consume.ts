@@ -49,7 +49,7 @@ export interface Consumption {
    * Es la **forma nativa de C** sin shaping — el consumidor (CLI/script) selecciona/formatea en su borde.
    * NO devolver una forma seleccionada o de presentación: eso sería un `ViewModelContract` incipiente en
    * `@core` (anti-patrón producer-laundered). El contrato consumer-shaped vive fuera de `@core` (Capa D).
-   * Ver `docs/domains/engine/design/arch-decisions.md` §6 y `OQ-ENGINE-8`.
+   * Ver `docs/domains/engine/design/arch-decisions.md` §6 y `DC-OQ-ENGINE-8`.
    */
   snapshot(): SimulationEntity[];
 }

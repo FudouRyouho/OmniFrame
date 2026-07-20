@@ -44,11 +44,13 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 └─────────────────────────────────────────────────┘
 ```
 
-> **Nomenclatura en evolución (2026-07-03):** el payload de salida de C se llamaba `ProjectionSnapshot`
-> (tipo purgado 2026-06-16); hoy la salida cruda es `snapshot(): SimulationEntity[]`. El rename del payload
-> **sigue en flujo** — ver `OQ-ENGINE-8`. La **Capa E** (ViewModel intermedio) se **descartó** (2026-07-17,
-> `DC-OQ-ENGINE-10`): no hay capa entre D y la UI; D se lee por dos lentes de salida (D1 UI / D2 CLI) y la
-> hidratación de chrome viene del piso "0". Este doc refleja lo asentado; los ejes abiertos se rastrean en `OQ-ENGINE-8`.
+> **Nomenclatura (asentada 2026-07-19):** el payload de salida de C se llamaba `ProjectionSnapshot`
+> (tipo purgado 2026-06-16); hoy la salida cruda es `snapshot(): SimulationEntity[]` y las **métricas de
+> combate** cristalizaron en `CombatMetrics` (`output/combat-metrics.ts`, contrato neutro particionado por
+> dependencia-de-target) — ver `DC-OQ-ENGINE-8`. La **Capa E** (ViewModel intermedio) se **descartó**
+> (2026-07-17, `DC-OQ-ENGINE-10`): no hay capa entre D y la UI; D se lee por dos lentes de salida (D1 UI /
+> D2 CLI) y la hidratación de chrome viene del piso "0". Residual editorial: el rename de `ViewModelContract`
+> (cut C→D display) sigue diferido (`DC-OQ-ENGINE-8` §residual).
 
 ---
 
@@ -122,7 +124,7 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 - **Responsabilidad**:
   - Recibe las entidades resueltas de C1 + `SimulationContext` (flags de condiciones, variables de stacks, target opcional, distancia).
   - Resuelve daño final, procs de estado, líneas de tiempo. El nivel de detalle depende de la riqueza del `SimulationContext` recibido — no de sub-modos internos de C2.
-  - Emite métricas de combate (DPS, TTK, status weights). *(El payload rico `ProjectionSnapshot` diseñado para esto fue purgado 2026-06-16; hoy las métricas viven en `CombatMetrics` de `CombatCalculator` y aún no fluyen a un contrato de salida único — deuda registrada, ver `OQ-ENGINE-8`. El modelo de daño/status de C2 se aterrizó en `design/damage-status-model.md`, 2026-07-02.)*
+  - Emite métricas de combate (DPS, TTK, status weights). *(El payload rico `ProjectionSnapshot` diseñado para esto se purgó 2026-06-16; hoy las métricas fluyen a `CombatMetrics` — el contrato de salida único ya cristalizado (`output/combat-metrics.ts`, particionado `target_agnostic`/`vs_target`), ver `DC-OQ-ENGINE-8`. El modelo de daño/status de C2 se aterrizó en `design/damage-status-model.md`, 2026-07-02.)*
 - **No conoce**: UI, intención del usuario, cómo se presentan los resultados.
 - **Distinción clave con C1**: C1 resuelve *qué vale cada atributo*. C2 resuelve *qué pasa en el juego con esos valores*.
 - **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EnemyState}.ts`. Reorganizado a `simulate/` el 2026-06-12. (El proc/DoT lo modelan los `EffectBehavior` sobre `EnemyState`; `StatusEngine` eliminado con el rediseño unificado.)
@@ -141,7 +143,7 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 - **No conoce**: fórmulas del engine, lógica de simulación.
 - **`view_mode`** *(diseñado, no implementado)*: `"classic"` expondría solo `AttributeNode.final`; `"advanced"` los buckets completos con atribución por fuente. Mismo cálculo de C1 — distinta profundidad de exposición.
 - **Estado actual (2026-07-03)**: **`ViewModelContract` v0 (display-only/C1) materializado** — `project()` en `@shared/view-model` (snapshot crudo → `token·value·unit·category`), consumido por **D1** (`UpgradeView` vía `useViewModel` en `@providers`) y **D2** (oráculo CLI, `npm run oracle -- view`). Ningún dominio importa `@core`.
-- **Pendiente**: versión reactiva completa (diff tracker, granular emitters), `metrics`/A2 (C2), y el rename D→contrato-neutro (`OQ-ENGINE-8`). El `useSimulation` que cumplía el rol de binding de forma parcial fue **purgado** (2026-06-16), no reubicado. *(La **Capa E** intermedia se descartó — `DC-OQ-ENGINE-10`; la hidratación de chrome viene del piso "0", no de una capa entre D y la UI.)*
+- **Pendiente**: versión reactiva completa (diff tracker, granular emitters), `metrics`/A2 (C2). *(El contrato de salida de métricas ya cristalizó como `CombatMetrics`, `DC-OQ-ENGINE-8`; el rename residual de `ViewModelContract` display queda diferido.)* El `useSimulation` que cumplía el rol de binding de forma parcial fue **purgado** (2026-06-16), no reubicado. *(La **Capa E** intermedia se descartó — `DC-OQ-ENGINE-10`; la hidratación de chrome viene del piso "0", no de una capa entre D y la UI.)*
 
 > **Salida de C ≠ Capa D (frontera de dominios):** `consume()` (en `@core/engine/output/`) es el **punto de salida de C** — superficie del dominio engine, consumida directo por **scripts y tests (no-dominios)**. **No es la Capa D.** La Capa D (consumo derivado: `ViewModelContract` + mapping) vive **fuera** de `@core` y cruza por `@shared`; los dominios no importan `@core` (Restricción 1). Ver [`arch-decisions.md`](arch-decisions.md) §6-7.
 >
@@ -226,7 +228,7 @@ ver `decision-frontier §4`.
 
 **Estado.** El trazado es el **objetivo** de arquitectura; la implementación actual (`CombatCalculator`/
 `resolveHit`) aún no lo sigue. La **salida** del trazado (métricas C2) ya tiene un **consumidor real** (oráculo
-`metrics`, materializa `OQ-ENGINE-8`) del que emerge el contrato; la **entrada** (el objeto que baja la
+`metrics`, materializó `DC-OQ-ENGINE-8` — contrato `CombatMetrics` cristalizado); la **entrada** (el objeto que baja la
 composición de C1 a la realización de C2) se cristaliza en §2.0.1.
 
 ### 2.0.1 La Instancia como objeto (el seam C1→C2)
@@ -261,8 +263,8 @@ recalculado) es **deuda de re-implementación**: el fix sube a lo que C1 emite, 
 - La Instancia target-agnóstica **ya habilitó** la separación ②③: la física del target vive en
   `resolveDamageEvent` (③, extraído), no dentro de la Instancia. El drift restante no es `resolveHit` sino
   `simulateAttack` god-function (arriba) — y darle identidad a la etapa ② es gated (sin consumidor hoy).
-- El **contrato C1→C2** (qué emite C1 para consumo de C2, no solo para display) es el cimiento **simétrico a
-  `OQ-ENGINE-8`** (salida C2→D): ambos = *emitir rico para el consumidor*. Diseñarlo mata la re-implementación.
+- El **contrato C1→C2** (qué emite C1 para consumo de C2, no solo para display) es el cimiento **simétrico al
+  contrato de salida C2→D** (`DC-OQ-ENGINE-8`, ya cristalizado): ambos = *emitir rico para el consumidor*. Diseñarlo mata la re-implementación.
 - **Hueco estructural único que esto deja abierto:** el **`source-state` vivo** (buffs con duración, combo)
   contra el que la Instancia se deriva **no existe** todavía — el target tiene su columna (`EnemyState`), el
   source no. Para arma sin buffs live, `source-state = la entity estática de C1` (funciona hoy). Propuesta de

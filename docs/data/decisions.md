@@ -132,7 +132,7 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 
 **Fuera de scope — N2** (claves proc/stack de `EnemyState`, `damage_*`): NO es D-7 (vocabulario runtime C2, no attr-ids). Resuelto en la Fase 3 de la campaña de saneamiento `@core` (2026-07-02: rename `_proc`→`_dot` + fix del bug de `getDamageMultiplier`). Detalle en [`../domains/engine/design/damage-status-model.md`](../domains/engine/design/damage-status-model.md).
 
-**Vínculo:** `OQ-DATA-10` (borde de salida / suite de presentación), `OQ-ENGINE-8` (rename del payload de D). *(El estrato `lib/format` que la extinta Capa E iba a consumir sigue vivo como utilidad — `DC-OQ-ENGINE-10-A`; E se descartó, `DC-OQ-ENGINE-10`.)*
+**Vínculo:** `OQ-DATA-10` (borde de salida / suite de presentación), `DC-OQ-ENGINE-8` (contrato de salida `CombatMetrics`; rename de `ViewModelContract` residual). *(El estrato `lib/format` que la extinta Capa E iba a consumir sigue vivo como utilidad — `DC-OQ-ENGINE-10-A`; E se descartó, `DC-OQ-ENGINE-10`.)*
 **Refs:** `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/semantic/upgrade-tokens.md`
 
 ---

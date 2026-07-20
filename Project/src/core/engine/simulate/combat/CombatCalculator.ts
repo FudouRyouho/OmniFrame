@@ -7,19 +7,10 @@ import type { SimulationEntity, SimulationContext } from "../../contracts";
 import { deriveInstance } from "./damage-instance";
 import { expectedProcEvents } from "../../formulas/status/proc-population";
 import { averageShot, weaponDps, finalReloadTime } from "../../formulas/weapon/dps";
-
-export interface CombatMetrics {
-  average_crit_multiplier: number;
-  burst_dps: number;
-  sustained_dps: number;
-  status_map: Record<string, number>;
-  crit_distribution: Record<number, number>;
-  pellet_count: number;
-  falloff_multiplier: number;
-}
+import type { TargetAgnosticMetrics } from "../../output/combat-metrics";
 
 export class CombatCalculator {
-  public static project(entity: SimulationEntity, context: SimulationContext): CombatMetrics {
+  public static project(entity: SimulationEntity, context: SimulationContext): TargetAgnosticMetrics {
     const attrs = entity.attributes;
     // La Instancia (①②): C2 consume el potencial que C1 compuso, no re-extrae. Falloff (②contextual),
     // cadencia/mag/reload (Schedule) NO son de la Instancia — se leen aparte (§2.0.1).

@@ -143,10 +143,10 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 
 ## 6. `consume()` = salida de C, no Capa D
 
-**Decisión:** `consume()` se promovió a un módulo real dentro de `@core/engine` (fuera de `__tests__/`): vive en `@core/engine/output/consume.ts` (2026-06-10). Es el **punto de salida de C** — la superficie de consumo del dominio engine. **No es la Capa D.** El directorio se nombra `output/` (salida-de-C); se vetó `projection/` porque "Proyección" es el nombre propio de la Capa D — ver `OQ-ENGINE-8` (sobrecarga del término).
+**Decisión:** `consume()` se promovió a un módulo real dentro de `@core/engine` (fuera de `__tests__/`): vive en `@core/engine/output/consume.ts` (2026-06-10). Es el **punto de salida de C** — la superficie de consumo del dominio engine. **No es la Capa D.** El directorio se nombra `output/` (salida-de-C); se vetó `projection/` porque "Proyección" es el nombre propio de la Capa D — ver `DC-OQ-ENGINE-8` (sobrecarga del término, resuelta: las métricas salen como `CombatMetrics`, neutro).
 
 **Distinción:**
-- `consume()` = acceso a la salida resuelta de C (`snapshot(): SimulationEntity[]`; el tipo `ProjectionSnapshot` original se purgó, rename en `OQ-ENGINE-8`). Vive en `@core/engine/output/`. Lo consumen **scripts y tests (no-dominios)** directamente.
+- `consume()` = acceso a la salida resuelta de C (`snapshot(): SimulationEntity[]`; el tipo `ProjectionSnapshot` original se purgó; las métricas de combate salen aparte como `CombatMetrics`, `DC-OQ-ENGINE-8`). Vive en `@core/engine/output/`. Lo consumen **scripts y tests (no-dominios)** directamente.
 - **Capa D** = consumo derivado (`ViewModelContract` v0 + su mapping `project()`). Vive **fuera** de `@core` y cruza por `@shared`; se cablea vía `useViewModel` (`@providers`). (El `useSimulation` co-ubicado en `@core/engine/hooks` que cumplía este rol parcial fue **purgado** 2026-06-16, no reubicado.)
 
 **Consecuencia:** el CLI y la futura UI son **adaptadores hermanos** (Ports & Adapters) sobre el mismo puerto `consume()`: el CLI es la instancia **no-reactiva** (lee la salida de C directo, por ser script), la UI la **reactiva** (cruza por `@shared`). El módulo **no** se nombra `api/` (arrastra la connotación del diseño WebSocket muerto) ni `projection/` (projection = D, fuera de `@core`).

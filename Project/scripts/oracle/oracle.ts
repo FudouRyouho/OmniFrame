@@ -18,7 +18,7 @@
  *     de display del adaptador UI.
  *   - ENEMY (target):  `npm run oracle -- enemy <name> <lvl>`. Contraste del eje enemigo.
  *   - METRICS (C2):    `npm run oracle -- metrics <build> [enemy] [lvl] [dur]`. Materializa
- *     OQ-ENGINE-8: el paquete de salida de C2, corriendo sus DOS actos contra un enemigo
+ *     DC-OQ-ENGINE-8: el paquete de salida de C2, corriendo sus DOS actos contra un enemigo
  *     escalado — closed-form (`CombatCalculator.project`, suelo C1, sin target) + needs-a-run
  *     (`TimelineSimulator.simulateBurst`, timeline steppeado vs el target). El consumidor real
  *     del que EMERGE la forma del contrato (espejo de cómo `view` derivó `ViewModelContract v0`).
@@ -33,8 +33,7 @@ import { project } from '@shared/view-model';
 import { toStatEntries } from '@lib/format/stat-entry';
 import { EnemyRepository } from '@core/engine/simulate/enemies/EnemyRepository';
 import { damageReductionFromArmor } from '@core/engine/formulas/enemy/armor-mitigation';
-import { CombatCalculator } from '@core/engine/simulate/combat/CombatCalculator';
-import { TimelineSimulator } from '@core/engine/simulate/combat/TimelineSimulator';
+import { computeCombatMetrics } from '@core/engine/output/combat-metrics';
 import { BASELINE_GAME_LAWS } from '@core/engine/contracts';
 import type { SimulationContext } from '@core/engine/contracts';
 
@@ -63,7 +62,7 @@ if (process.argv[2] === 'enemy') {
   process.exit(process.exitCode ?? 0);
 }
 
-// Modo `metrics`: materializa OQ-ENGINE-8 — el paquete de salida de C2 (métricas de combate),
+// Modo `metrics`: materializa DC-OQ-ENGINE-8 — el paquete de salida de C2 (métricas de combate),
 // derivándolo de un consumidor REAL en vez de cristalizar un tipo sin call-sites (el error que
 // purgó `ProjectionSnapshot` en `6ab32e8`). La FORMA que se imprime acá ES el borrador del
 // contrato. Corre los dos actos del selector C1|C2 contra un enemigo escalado.
@@ -103,32 +102,32 @@ if (process.argv[2] === 'metrics') {
     laws: { ...BASELINE_GAME_LAWS },
   };
 
-  // Acto 1 — closed-form (suelo C1): DPS/crit/status en forma cerrada, sin correr el reloj ni ver el target.
-  const closed = CombatCalculator.project(weapon, ctx);
-  // Acto 2 — needs-a-run (C2): timeline steppeado contra el target escalado → ttk + daño realizado.
-  const run = TimelineSimulator.simulateBurst(weapon, target, simDuration, simDuration, ctx);
-  const effective_dps = simDuration > 0 ? run.total_damage / simDuration : 0;
+  // El contrato de salida ya cristalizado: C corre sus dos actos y deriva las métricas (incluido
+  // effective_dps). D2 sólo CONSUME el `CombatMetrics` y lo formatea — no computa.
+  const metrics = computeCombatMetrics(weapon, target, ctx, simDuration);
+  const { target_agnostic: ta, vs_target: vt } = metrics;
 
   console.log(`\n######## METRICS: ${buildName} vs ${dna.name ?? dna.unique_name} @lvl ${level} (dur ${simDuration}s) ########`);
   console.log(`=== [${weapon.channel ?? '—'}] ${weapon.unique_name}  (${weapon.domain}/${weapon.kind}) ===`);
   console.log(`  target: health ${target.current_health.toFixed(0)}  armor ${target.current_armor.toFixed(0)}  shields ${target.current_shields.toFixed(0)}`);
 
-  console.log(`\n  closed-form (C1 suelo — sin target):`);
-  console.log(`    burst_dps      : ${closed.burst_dps.toFixed(1)}`);
-  console.log(`    sustained_dps  : ${closed.sustained_dps.toFixed(1)}`);
-  console.log(`    avg_crit_mult  : ${closed.average_crit_multiplier.toFixed(3)}`);
-  console.log(`    pellet_count   : ${closed.pellet_count}`);
-  console.log(`    falloff_mult   : ${closed.falloff_multiplier.toFixed(3)}`);
+  console.log(`\n  target_agnostic (C1 suelo — sin target):`);
+  console.log(`    burst_dps      : ${ta.burst_dps.toFixed(1)}`);
+  console.log(`    sustained_dps  : ${ta.sustained_dps.toFixed(1)}`);
+  console.log(`    avg_crit_mult  : ${ta.average_crit_multiplier.toFixed(3)}`);
+  console.log(`    pellet_count   : ${ta.pellet_count}`);
+  console.log(`    falloff_mult   : ${ta.falloff_multiplier.toFixed(3)}`);
   console.log(`    status_weights :`);
-  for (const [token, p] of Object.entries(closed.status_map)) {
+  for (const [token, p] of Object.entries(ta.status_map)) {
     if (p > 0) console.log(`      ${token}: ${(p * 100).toFixed(2)}%`);
   }
 
-  console.log(`\n  needs-a-run (C2 — timeline vs target):`);
-  console.log(`    ttk            : ${run.ttk === null ? '— (no muere en la ventana)' : run.ttk.toFixed(2) + ' s'}`);
-  console.log(`    total_damage   : ${run.total_damage.toFixed(0)}`);
-  console.log(`    effective_dps  : ${effective_dps.toFixed(1)}  (total_damage/dur)`);
-  console.log(`    events         : ${run.events.length}`);
+  console.log(`\n  vs_target (C2 — timeline vs target):`);
+  const kills = vt.ttk !== null;
+  console.log(`    ttk            : ${kills ? vt.ttk!.toFixed(2) + ' s' : '— (no muere en la ventana)'}`);
+  console.log(`    shots_to_kill  : ${vt.shots_to_kill ?? '—'}`);
+  console.log(`    total_damage   : ${vt.total_damage.toFixed(0)}`);
+  console.log(`    effective_dps  : ${vt.effective_dps.toFixed(1)}  (${kills ? 'total/ttk — hasta matar' : 'total/dur — sostenido'})`);
 
   process.exit(0);
 }

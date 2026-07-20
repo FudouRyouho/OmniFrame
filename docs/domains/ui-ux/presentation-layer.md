@@ -114,9 +114,9 @@ Todo `lib/*` es el **plano de formateo** (utilidad ortogonal, espejo de "0" en l
 - **Capa E — DESCARTADA** (`DC-OQ-ENGINE-10`): la confluencia info+chrome no es una capa; la resuelve
   la UI leyendo D + 0 directo. El estrato `lib/format` que E iba a consumir sigue vivo como utilidad
   (`DC-OQ-ENGINE-10-A`); su **Fase 4 ✅** re-keyó `attribute-registry` por tokens D-6 y lo desenchufó
-  del motor. El rename de D→nombre-neutro sigue abierto en `OQ-ENGINE-8`.
+  del motor. El payload de métricas de salida ya cristalizó (`CombatMetrics`, `DC-OQ-ENGINE-8`); el rename
+  residual de `ViewModelContract` (cut C→D display) queda diferido, bajo valor.
 - **`OQ-DATA-13`** — render de íconos de habilidad/shard duplicado (ruta chrome sin SSoT).
-- **`OQ-ENGINE-8`** — rename del payload de D (sobrecarga "Proyección").
 
 **Estado UI-local** (slot seleccionado, hover, nav): **no participa del flujo del dato** — es
 selector de *qué entidad/lista proyectar* (`UpgradeView.tsx:60-64`), ortogonal. No es entrada de E

@@ -15,7 +15,7 @@ Este documento contiene únicamente los debates técnicos **activos** (abierto /
 
 **Leé esta tabla, no el documento.** El detalle de cada OQ se consulta bajo demanda: buscar `## <ID>`.
 Es lectura obligatoria de arranque (`docs/CLAUDE.md` §Jerarquía) y el cuerpo son ~15k palabras — el
-presupuesto de atención se gasta acá, no leyendo las 36 en fila.
+presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 
 | OQ | Tema | Dominio | Estado |
 |---|---|---|---|
@@ -43,7 +43,6 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 | `OQ-UI-6` | Revisión funcional del menú de navegación | ui-ux / interacción | abierta — no bloquea |
 | `OQ-ENGINE-2` | Profile switching en runtime (Incarnon/Alt-fire) | engine / simulation-context | re-scopeada — path dinámico sin consumidor |
 | `OQ-ENGINE-7` | Nodos de arma faltantes (Capa 4): resta el eje (c)/C2 | engine / hydration | abierta — no bloquea |
-| `OQ-ENGINE-8` | Contrato de salida de C: métricas (2 forks) + vocabulario neutro | engine / contrato de salida | abierta |
 | `OQ-ENGINE-11` | Exaltadas: intención estructural en A1 | engine / Capa A | abierta — diferida |
 | `OQ-ENGINE-12` | Timing del crit condicional (Puncture/Cold) | engine / C2 | abierta — no bloquea el núcleo |
 | `OQ-ENGINE-14` | Alcance del modelado melee | engine / C1 + C2 | promovida a diseño |
@@ -105,7 +104,7 @@ presupuesto de atención se gasta acá, no leyendo las 36 en fila.
 
 **Estado:** la condición-gate original ("cuando la Capa D se materialice y haya un cliente real") **ya se cumplió** — `ViewModelContract` v0 existe, consumido por D1 (`use-view-model`) y D2 (`oracle`). Aun así ninguna de las dos features tiene demanda: se retoman si un consumidor las pide. Nada en código todavía (verificado 2026-07-17).
 
-> El debate del **contrato de salida / `ViewModelContract`** que creció dentro de esta OQ se cerró o migró y **ya no vive acá**: el contrato es **estructurado neutral** (`StatViewModel { token, value, unit }` — decidido, no strings formateados); el rename D→nombre-neutro es `OQ-ENGINE-8`; la simetría de entrada (`ensemble.types`→`@shared`, store→`@core`) es `DC-OQ-ENGINE-9`; "dominios ↛ `@core`" (y `@providers → @core` permitido) está en `arch-decisions.md §7` + `decision-frontier.md §1`; el principio consumer-shaped / anti producer-laundered vive en `arch-decisions.md` + `view-model/index.ts`.
+> El debate del **contrato de salida / `ViewModelContract`** que creció dentro de esta OQ se cerró o migró y **ya no vive acá**: el contrato es **estructurado neutral** (`StatViewModel { token, value, unit }` — decidido, no strings formateados); el rename D→nombre-neutro (residual `ViewModelContract`) es `DC-OQ-ENGINE-8`; la simetría de entrada (`ensemble.types`→`@shared`, store→`@core`) es `DC-OQ-ENGINE-9`; "dominios ↛ `@core`" (y `@providers → @core` permitido) está en `arch-decisions.md §7` + `decision-frontier.md §1`; el principio consumer-shaped / anti producer-laundered vive en `arch-decisions.md` + `view-model/index.ts`.
 
 **No bloquea:** nada.
 **Fuente:** notas de pre-implementación (abril 2026).
@@ -281,21 +280,6 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 **Vínculo:** el mapa de gaps y el detalle de moldes viven en `gap-map.md §Capa 4` (SSoT vivo). Spec de falloff: [`damage-falloff.md`](../../references/wiki/mechanics/damage-falloff.md).
 **Fuente:** `gap-map.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,recoil,damage-falloff}.md`; `docs/semantic/upgrade-tokens.md`.
 
-## OQ-ENGINE-8 — Contrato de salida de C: materialización de métricas + vocabulario neutro — **ABIERTA (2026-06-10; re-scopeada 2026-07-17 contra código)**
-**Dominio:** engine / contrato de salida + vocabulario de capas
-
-**Faceta 1 — vocabulario (parcialmente resuelta por la purga):** la palabra "Proyección" estaba sobrecargada entre el **título de la Capa D** (`simulation-architecture.md §Capa D` — sigue siendo "Proyección (Reactive View Bridge)") y el **payload que emitía C** (`ProjectionSnapshot`, comentado `// UI Projection Layers`). Ese tipo y ese comentario se **purgaron** (Fase 0, 2026-06-16) — la sobrecarga cristalizada ya no existe. Queda como **principio**: cuando el contrato de salida de C se cristalice (faceta 2), nombrarlo **neutro** — sin "Projection" (reservada al título de D) ni "ViewModel" (la Capa E que lo heredaría se descartó, `DC-OQ-ENGINE-10`). Nota menor: el actual `ViewModelContract` (cut C→D display) es un misnomer leve (no hay ViewModel) — rename opcional de bajo valor.
-
-**Faceta 2 — contrato de salida de métricas (el corazón vivo):** las métricas de C2 no fluían a un payload único; el tipo que lo cumplía (`ProjectionSnapshot { entities, metrics:{ ttk?, effective_dps?, status_weights } }`) se purgó por falta de consumidor. Su intención queda como **ancla** (no contrato) en [`../domains/ui-ux/status.md §3`](../domains/ui-ux/status.md). **Spike ejecutado (2026-07-15):** el modo `oracle metrics <build> [enemy] [lvl] [dur]` corre los dos actos contra un `ScaledEnemy` — `CombatCalculator.project` (closed-form) + `TimelineSimulator.simulateBurst` (needs-a-run). La forma impresa `{closed_form:{burst/sustained/crit/status_weights}, run:{ttk, total_damage, effective_dps}}` es el **borrador**; el contrato **no se cristaliza** hasta decidir 2 forks de **intención** (no de arquitectura):
-- **(a) `ttk=0` en one-shot kills** — `simulateBurst` marca ttk en `currentTime`, que es 0 si el target muere en `t=0` (`TimelineSimulator.ts:137`). ¿ttk=0 es correcto (muerte instantánea) o el contrato necesita el caso "muere al primer hit"?
-- **(b) denominador de `effective_dps`** — hoy `total_damage / simDuration` (`oracle.ts:110`), que **sub-reporta** si el enemigo muere antes de agotar la ventana. ¿`/ttk` (DPS efectivo hasta matar) o `/simDuration` (DPS sostenido teórico)? Define qué mide la métrica.
-
-Ambos forks son métricas de RUN (la Instancia los ubica en la capa run-result — `.working/c2-instancia-objeto-stage0.md §6`); se cierran al cristalizar el tipo.
-
-**No bloquea:** el engine actual. Es deuda de contrato + vocabulario.
-**Vínculo:** `DC-OQ-ENGINE-10` (E descartada → el nombre view-shaped no se reasigna). Esta OQ es hoy el hogar del contrato de salida; la condición-gate que `OQ-ENGINE-FUTURE` ponía ("materializar la Capa D") ya se cumplió.
-**Fuente:** debate 2026-06-10 (nombre del módulo de salida de C); spike 2026-07-15; `arch-decisions.md §6-7`; `simulation-architecture.md §Capa C2/§Capa D`.
-
 ## OQ-DATA-9 — Borde de entrada: el merge de overrides sigue duplicado entre el engine y el display — **ABIERTA (2026-06-12; re-scopeada 2026-07-17 contra código)**
 **Dominio:** data / integration / arquitectura de acceso
 
@@ -323,7 +307,7 @@ Ambos forks son métricas de RUN (la Instancia los ubica en la capa run-result �
 
 **No bloquea:** nada — la UI renderiza y ambas rutas funcionan.
 **Gated por:** un consumidor que necesite el mismo stat por las dos rutas con el mismo formato. Sin eso, unificar es especulativo.
-**Vínculo:** OQ-DATA-9 (borde de entrada, par espejo) · `DC-OQ-ENGINE-10` (Capa E, descartada) · OQ-ENGINE-8 (sobrecarga de "Proyección").
+**Vínculo:** OQ-DATA-9 (borde de entrada, par espejo) · `DC-OQ-ENGINE-10` (Capa E, descartada) · `DC-OQ-ENGINE-8` (sobrecarga de "Proyección", resuelta).
 **Fuente:** diagnóstico 2026-06-12. Re-scope 2026-07-17 al cruzar contra código: los stages A–D y D-7 Fase 4 ya están ejecutados — proyector único, `StatEntry` único, registro token-keyed en `lib/format`, formateo locale-free centralizado y leak β muerto. Todo eso dejó de ser pregunta; la OQ describía como abierto lo que ya estaba hecho.
 
 ## OQ-DATA-11 — Compatibilidad de mods por entidad: no materializada — **ABIERTA (2026-06-12)**
@@ -762,7 +746,6 @@ es la única copia de un warrant del que depende una nota viva").
   - `governance/decision-frontier.md` + `current-state.md` + `domains/engine/design/arch-decisions.md` (×3)
     → `.working/ability-model-debate.md` / `c1-simulation-doctrine` — gate: horizontes **habilidades** +
     **source-state / peso-de-status (T1)**
-  - `governance/open-questions.md` → `.working/c2-instancia-objeto-stage0.md §6` — gate: contrato de salida **OQ-ENGINE-8**
   - `domains/ui-ux/decisions.md` (×2) → `.working/consolidation-map.md` — gate: refactors **UI U-2**
 
 **El gate real (corrige el "circular" aparente):** estas citas parecen atascadas —el `.working/` no madura a

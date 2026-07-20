@@ -23,7 +23,8 @@ export interface TimelineEvent {
 
 export interface SimulationResult {
   events: TimelineEvent[];
-  ttk: number | null; // Time to Kill en segundos
+  ttk: number | null; // Time to Kill en segundos (nunca 0: piso = 1 ciclo de disparo)
+  shots_to_kill: number | null; // disparos efectuados hasta detectar la muerte
   total_damage: number;
 }
 
@@ -57,6 +58,8 @@ export class TimelineSimulator {
     let currentTime = 0;
     let totalDamage = 0;
     let ttk: number | null = null;
+    let shotsFired = 0;
+    let shotsToKill: number | null = null;
 
     // La Instancia (①②) — derivada UNA vez del entity de C1; C2 la CONSUME (seam, `damage-instance.ts`),
     // no re-extrae de `attributes`. Contexto FROZEN source-side (estático por burst en este modelo). Cada
@@ -84,6 +87,7 @@ export class TimelineSimulator {
                       (currentTime === 0 || Math.abs((currentTime % timeStep)) < 0.01 || Math.abs((currentTime % timeStep) - timeStep) < 0.01);
       
       if (isFiring) {
+        shotsFired++;
         // Resolución del ataque = MISMO camino que un hit directo (`CombatSimulator.simulateAttack`:
         // híbrido atómico/bulk, con multishot+crit YA adentro). `simulateBurst` ya no reimplementa la
         // resolución ni re-multiplica post-hoc — camino único (ver `status.md §C2`, nota "camino de
@@ -134,8 +138,13 @@ export class TimelineSimulator {
         stacks: Object.fromEntries(state.activeEffects().map((e) => [e, 1])),
       });
 
-      if (state.isDead() && ttk === null) ttk = currentTime;
-      
+      if (state.isDead() && ttk === null) {
+        // Piso = 1 ciclo de disparo: un one-shot mata en `timeStep`, no en 0. El reloj discreto pone
+        // el primer disparo en t=0; sin el piso, `ttk=0` mentiría y rompería cualquier `total/ttk`.
+        ttk = Math.max(currentTime, timeStep);
+        shotsToKill = shotsFired;
+      }
+
       // Avanzar el reloj
       currentTime += step;
     }
@@ -143,6 +152,7 @@ export class TimelineSimulator {
     return {
       events,
       ttk,
+      shots_to_kill: shotsToKill,
       total_damage: totalDamage
     };
   }

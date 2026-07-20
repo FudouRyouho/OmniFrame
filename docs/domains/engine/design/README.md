@@ -24,7 +24,7 @@ saneamiento de docs (paso previo al merge de `refactor/core-stage0-restructure` 
 Casting Snapshot, Hit Location, el payload rico `ProjectionSnapshot`) quedó **marcado inline** como tal.
 
 - **Estado vivo del motor** (qué existe hoy): [`../status.md`](../status.md).
-- **Eje en flujo** (rename del payload de salida): `OQ-ENGINE-8`. *(La Capa E se descartó — `DC-OQ-ENGINE-10`.)*
+- **Contrato de salida de métricas**: cristalizado como `CombatMetrics` (`DC-OQ-ENGINE-8`); residual editorial = rename de `ViewModelContract` display. *(La Capa E se descartó — `DC-OQ-ENGINE-10`.)*
 - [`../engine-audit.md`](../engine-audit.md) es un **snapshot histórico congelado** (2026-05-18), **NO**
   la referencia de estado actual — se conserva como registro de auditoría point-in-time.
 

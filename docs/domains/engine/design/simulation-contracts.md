@@ -113,7 +113,7 @@ Es el entorno efímero inyectado en cada corrida de simulación.
 
 ### 5.5 La Proyección (Projection Snapshot)
 
-> **⚠️ Diseño mayormente NO implementado (2026-07-03).** El tipo `ProjectionSnapshot` fue **purgado** (2026-06-16, sin productor/consumidor). Hoy la salida cruda de C es `consume().snapshot(): SimulationEntity[]` (valores `final` + buckets por nodo); las métricas de combate viven en `CombatMetrics` (C2) y aún no fluyen a un contrato único (deuda, `OQ-ENGINE-8`). El **Differential Timeline Stream**, las **Area Metrics** y la **capa de Diagnostics rica** de abajo son **diseño futuro**, no código actual. El modelo de daño/status de C2 se aterrizó en [`damage-status-model.md`](damage-status-model.md).
+> **⚠️ Diseño mayormente NO implementado (2026-07-03).** El tipo `ProjectionSnapshot` fue **purgado** (2026-06-16, sin productor/consumidor). Hoy la salida cruda de C es `consume().snapshot(): SimulationEntity[]` (valores `final` + buckets por nodo); las métricas de combate fluyen al contrato único ya cristalizado `CombatMetrics` (`output/combat-metrics.ts`, particionado `target_agnostic`/`vs_target` — `DC-OQ-ENGINE-8`). El **Differential Timeline Stream**, las **Area Metrics** y la **capa de Diagnostics rica** de abajo son **diseño futuro**, no código actual. El modelo de daño/status de C2 se aterrizó en [`damage-status-model.md`](damage-status-model.md).
 
 El reporte final serializable generado tras el `Resolve`. Es lo que la UI consume para pintar.
 

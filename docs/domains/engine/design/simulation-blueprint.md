@@ -48,7 +48,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 - El motor debe ser agnóstico a React y a cualquier librería reactiva concreta.
 - La hidratación consume el pipeline local (`Project/public/data/`) y no directamente `references/`.
 - `Simulation Context` no es una entidad persistente.
-- La salida de C es un snapshot serializable — hoy `consume().snapshot(): SimulationEntity[]` (el tipo `ProjectionSnapshot` original se purgó; rename del payload en `OQ-ENGINE-8`).
+- La salida de C es un snapshot serializable — hoy `consume().snapshot(): SimulationEntity[]` (el tipo `ProjectionSnapshot` original se purgó; las métricas de combate salen aparte como `CombatMetrics`, `DC-OQ-ENGINE-8`).
 - Las invariantes arquitectónicas (Stat Accumulator v3, Layered Decorators, etc.) están registradas en `arch-decisions.md`.
 
 ---

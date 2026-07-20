@@ -348,3 +348,26 @@ wiki) vive en `docs/data/reports/audit-arcane-sweep.md` (tier referencia).
 **Ref:** `arch-decisions.md §11` (`STACK_DECAY_BUFF`), `§12` (`linearThresholdScale`);
 `docs/data/reports/audit-arcane-sweep.md` (residuo-tabla); `OQ-DATA-14` (park modular);
 `OQ-ENGINE-16` (tensión hermana, sigue abierta — fidelidad de N-declarado, no resuelta acá).
+
+---
+
+## DC-OQ-ENGINE-8 — Contrato de salida de C: `CombatMetrics` cristalizado + vocabulario neutro — **CERRADO (2026-07-19)**
+
+**Dominio:** engine / contrato de salida de C2 + vocabulario de capas
+
+**Faceta 1 — vocabulario neutro (resuelta):** el payload de salida de métricas se nombra **`CombatMetrics`** — neutro, sin colisión: ni "Projection" (nombre propio de la Capa D) ni "ViewModel" (la Capa E que lo heredaría se descartó, `DC-OQ-ENGINE-10`). Es un **conjunto extensible** particionado por **dependencia-de-target**, no por tema:
+- `target_agnostic` (`TargetAgnosticMetrics`) — closed-form de C1, sin ver al enemigo (DPS, crit, pesos de status). Lo produce `CombatCalculator.project`.
+- `vs_target` (`VsTargetMetrics`) — lo que sólo emerge de correr el reloj contra un enemigo escalado (ttk, daño realizado, DPS efectivo).
+
+El contrato vive en `@core/engine/output/combat-metrics.ts`, **separado del productor** — `CombatCalculator` lo importa y produce su parte, no lo posee. Las hojas son **valores neutros** (números tipados con nombre semántico): "D consumible" — D1 (UI) y D2 (oráculo) los formatean cada uno, C no formatea. **El catálogo NO se predice:** añadir una métrica es aditivo (crece horizontal); las hojas se pueblan cuando un consumidor las pida — evita el error que purgó `ProjectionSnapshot` (tipo rico sin call-sites).
+
+**Faceta 2 — los 2 forks de intención (resueltos):**
+- **(a) `ttk` nunca es 0.** Un one-shot mata en **≥ 1 ciclo de disparo** (piso = `timeStep = 1/fireRate`). `ttk=0` era artefacto del reloj discreto (primer disparo en t=0): mentía y rompía cualquier `total/ttk`. Se añade además **`shots_to_kill`** (métrica discreta honesta: "murió en N disparos").
+- **(b) `effective_dps` mide lo REALIZADO vs target.** `= total_damage / ttk` cuando mata (DPS efectivo hasta matar); `= total_damage / dur` cuando no mata (sostenido en la ventana). El DPS **teórico** ya lo da el closed-form (`burst_dps`/`sustained_dps`) — el run no lo duplica, aporta lo que el target impone (DR/armor, muerte antes de la ventana). El cómputo se **movió de D2 (oráculo) a C** (el ensamblador `computeCombatMetrics`): es dato que D consume, no computa.
+
+**Materialización:** `computeCombatMetrics(weapon, target, ctx, dur)` corre los dos actos y ensambla el contenedor; el modo `oracle -- metrics` lo consume e imprime (D2 sólo formatea). Test de contrato en `__tests__/combat-metrics.test.ts` (forks + estructura, invariantes no números in-game).
+
+**Residual (diferido, no reabre):** el rename de **`ViewModelContract`** (el cut C→D **display-only/C1**, misnomer leve — no hay ViewModel) sigue sin hacerse. Es un contrato **separado** de `CombatMetrics` (aquél = stats de la hoja del arsenal; éste = métricas de combate C2), de bajo valor. Se renombra si alguien toca esa ruta; no gatea nada.
+
+**Condición para reabrir:** ninguna para el contrato de métricas — el catálogo crece aditivo sin reabrir esta decisión.
+**Ref:** `output/combat-metrics.ts` (contrato), `CombatCalculator`/`TimelineSimulator` (productores), `scripts/oracle/oracle.ts` (consumidor D2); `DC-OQ-ENGINE-10` (E descartada), `OQ-DATA-10` (borde de salida display, par vecino).

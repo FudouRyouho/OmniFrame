@@ -12,7 +12,7 @@
  * Deuda liviana (deliberada): `project()` importa `type SimulationEntity` de
  * `@core` (solo el tipo → erased en runtime, sin ciclo `@core ↔ @shared`). El
  * smell direccional vive aquí por simplicidad hasta nombrar la capa z2 real.
- * Ver `docs/governance/open-questions.md` (OQ-ENGINE-FUTURE / OQ-ENGINE-8).
+ * Ver `docs/governance/open-questions.md` (OQ-ENGINE-FUTURE) y `closed-decisions.md` (DC-OQ-ENGINE-8).
  */
 import type { SimulationEntity } from '@core/engine/contracts';
 import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
