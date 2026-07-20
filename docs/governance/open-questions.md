@@ -30,7 +30,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-6` | Set Mods: bonus de conjunto como entidad | data / schema → engine / UI | abierta — no bloquea |
 | `OQ-DATA-7` | Archgun range vs melee reach en `WEAPON_ADD_RANGE` | data / semantic → engine | abierta — no bloquea |
 | `OQ-DATA-8` | Unidad flat (`+Xm`) vs `%` bajo un mismo token de range | data / semantic / schema | abierta — no bloquea |
-| `OQ-DATA-9` | Merge de overrides duplicado engine ↔ display (frontera β) | data / integration | abierta — no bloquea |
+| `OQ-DATA-9` | Overrides = vista-consumidor (no doble-merge); convergencia por salida diferida | data / integration | re-scopeada — gate: madurez de datos |
 | `OQ-DATA-10` | Convergencia ruta catálogo ↔ proyector del engine | ui-ux / presentation | abierta — re-scopeada 2026-07-17 |
 | `OQ-DATA-11` | Compatibilidad de mods por entidad | data / semantic | abierta — degrada usabilidad |
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
@@ -280,21 +280,24 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 **Vínculo:** el mapa de gaps y el detalle de moldes viven en `gap-map.md §Capa 4` (SSoT vivo). Spec de falloff: [`damage-falloff.md`](../../references/wiki/mechanics/damage-falloff.md).
 **Fuente:** `gap-map.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,recoil,damage-falloff}.md`; `docs/semantic/upgrade-tokens.md`.
 
-## OQ-DATA-9 — Borde de entrada: el merge de overrides sigue duplicado entre el engine y el display — **ABIERTA (2026-06-12; re-scopeada 2026-07-17 contra código)**
+## OQ-DATA-9 — Borde de entrada: los overrides son vista-consumidor legítima (no doble-merge); convergencia diferida por madurez de datos — **RE-SCOPEADA (2026-07-20 contra código)**
 **Dominio:** data / integration / arquitectura de acceso
 
 **Modelo acordado (2026-06-12, vigente):** la carga **no es una capa del flujo A→B→C→D** — es un **plano de memoria** ortogonal, direccionado por referencia. A guarda *punteros* (ids); B y la UI los *dereferencian* contra esa memoria. Regla `datos vs información`: 0 entrega *datos canónicos*; los consumidores derivan *información*.
 - **Frontera β (anti-god-object):** 0 normaliza *datos* — un override es *el valor verdadero*, no un cómputo — y NO construye *información* (ni el grafo DNA del engine ni el shape display). Test de pertenencia: si X *corrige* el valor → 0; si X *deriva* del valor → consumidor.
 - **Puerto y proyecciones:** `DataSource` es el puerto (ports-and-adapters: `BrowserAdapter` / `NodeAdapter`); sobre él proyectan el engine (→ DNA/grafo) y `DataRegistry` (→ display), compartiendo `browserSource`.
 
-**Lo que queda abierto — una sola cosa:** el puerto normaliza la **carga**, no el **valor**. Los overrides se mergean **dos veces**: el engine los aplica en su hidratación (`DataLoader`, `StaticHydrator`, `ItemRepository`, `ModRepository`, `ArcaneRepository`) y `DataRegistry` lee `ability-stats.override` por su lado. Ninguno tiene el registro completo — el síntoma que la frontera β predijo y que sigue sin cruzarse.
-**Pregunta:** ¿cómo se corta el contrato de entrada de `@core` para que consuma dato pre-normalizado? (RED-adjacent: le saca trabajo al engine, no le agrega.)
+**Corrección de premisa (análisis 2026-07-20, con datos):** NO hay "doble-merge". Los overrides son **disjuntos por consumidor** — el engine aplica los suyos (`mod`/`weapon`/`arcane`/`incarnon`/`enemy-stats.override`, en `ModRepository`/`ItemRepository`/…), `DataRegistry` aplica `ability-stats.override` + `passives`. **Ningún override se aplica dos veces.** Y los `*-stats.override` NO son "dato-crudo que 0 deba normalizar": son **vista-CONSUMIDOR** (forma-engine). Verificado sobre Serration — `mods.json.stats` = objeto con strings pre-formateados (`"+10% Damage"`) + token @wfcd (`WEAPON_DAMAGE_AMOUNT`); `mod-stats.override.stats` = array con números por rango (`[15,30,…]`) + token D-6 (`WEAPON_ADD_DAMAGE`). **Schemas distintos a propósito**: engine-computable vs display-legible.
 
-**Residual menor:** `lib/image-url.ts` mezcla los dos bordes — `hydrateImageFromImageName` (entrada, lo consume `DataRegistry`) y `resolveLocalImageUrl` (salida/display → OQ-DATA-10). Separar al consolidar 0.
+**Consecuencia — el corte "normalizar overrides en 0" se DESCARTA:** 0 normaliza *dato-crudo*; la vista-engine no lo es. Que cada consumidor aplique su vista **es** ports-and-adapters correcto (no el síntoma de un god-object). La frontera β sigue vigente, solo que el test *"corrige→0 / deriva→consumidor"* clasifica los `*-stats.override` como **deriva** (forma-engine), no corrige.
 
-**No bloquea:** nada. El engine ya no corre contra repos vacíos (`main.tsx` llama `loadEngineData(browserSource)` antes de `createRoot`).
-**Vínculo:** **OQ-DATA-10** (borde de salida, par espejo — los dos bordes del mismo flujo) · **corrige el encuadre de OQ-ENGINE-9 eje (c)** ("Capa A fuera de `providers/`": lo que ahí se llamó A es en realidad 0, upstream, que **no es A**) · `DC-OQ-ENGINE-9` (simetría de entrada respecto a `@core`, resuelta).
-**Fuente:** debate 2026-06-12 (raíz: quilombo de carga detectado al desplegar la UI). Re-scope 2026-07-17 al cruzar contra código: puerto + adapters, bootstrap de runtime, `fetch` lazy (`DC-OQ-DATA-12`), colapso de las 7 islas `lib/*-data` + los 2 mini-fetchers (→ `Registry.getCatalog` / `useCatalog`) y dedup de `hydrateAbility` ya están ejecutados — dejaron de ser pregunta.
+**Lo que queda vivo (diferido) — y su gate real:** *"un dato, ambos consumen"* **sí** es alcanzable, pero por **SALIDA**: la UI deriva sus stats de la vista-engine vía `lib/format` (el mismo proyector que `oracle view`), en vez de leer `mods.json.stats` como fuente-display paralela → eso vive en **`OQ-DATA-10`** (no acá; los dos JSON de entrada son legítimos). El gate NO es "consumidor" ni "contrato de entrada de @core" — es **madurez de datos**: overrides incompletos, contrapartes del pipeline desactualizadas, y **cero tracking de sincronización override↔pipeline**. Converger dos vistas sobre datos que no se sabe si están sincronizados = construir sobre arena. Diferido hasta que exista ese seguimiento (idea del usuario: campo `version`/patchnotes por schema — ver conversación 2026-07-20).
+
+**Residual menor:** `lib/image-url.ts` mezcla los dos bordes — `hydrateImageFromImageName` (entrada) y `resolveLocalImageUrl` (salida/display → OQ-DATA-10).
+
+**No bloquea:** nada. El engine ya no corre contra repos vacíos (`main.tsx` llama `loadEngineData(browserSource)` antes de `createRoot`); el oracle usa `NodeAdapter`.
+**Vínculo:** **OQ-DATA-10** (borde de salida — donde vive la convergencia real por proyección) · `DC-OQ-ENGINE-9` (simetría de entrada respecto a `@core`, resuelta).
+**Fuente:** debate 2026-06-12; re-scope 2026-07-17 (puerto+adapters, bootstrap, `fetch` lazy `DC-OQ-DATA-12`, colapso de islas `lib/*-data` — ejecutados); análisis 2026-07-20 (premisa del doble-merge corregida con datos; corte de entrada descartado; gate = madurez de datos).
 
 ## OQ-DATA-10 — Borde de salida: convergencia de la ruta catálogo con el proyector del engine — **ABIERTA (2026-06-12; re-scopeada 2026-07-17 contra código)**
 **Dominio:** ui-ux / presentation (owner) — par espejo de OQ-DATA-9 (data).
