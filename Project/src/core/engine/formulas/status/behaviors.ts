@@ -15,7 +15,7 @@ import type { DamageType, StatusEffect } from "@shared/types";
 import type { EffectBehavior, Resolucion } from "./effect-behavior";
 import { dotTickValue, type DotType } from "./dot-tick";
 import { tickTimes, type DotPulse } from "./dot-timeline";
-import { stackDebuffValue, infectionLaw, disruptionLaw, corrosionLaw } from "./stack-debuff";
+import { stackDebuffValue, infectionLaw, disruptionLaw, corrosionLaw, WEAKENED_CRIT_LAW, COLD_CRIT_LAW } from "./stack-debuff";
 
 /** Duración fija del decay lineal (el `duration = 6.0` del viejo `processDots`). */
 const DECAY_DURATION = 6.0;
@@ -112,6 +112,49 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Crit-buff-por-stack — el target debilitado sube el crit del ATACANTE (OQ-ENGINE-12).
+// Mismo molde que corrosion (StackState + decay fluido), pero contribuye vía `critModifier`
+// (stage del hit) en vez de `resolutionModifier` (stage de mitigación).
+//
+// ⚠️ AUSENCIAS DIFERIDAS (no simplificaciones — dato/mecánica que hoy NO existe, OQ-ENGINE-12):
+//   · Freeze cap 4 stacks en bosses/Overguard — falta el flag boss/overguard en el DNA del enemigo.
+//   · Freeze 10º stack (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — sin modelar.
+//   · Puncture no aplica a AoE / habilidades de warframe — gratis hoy (el modelo son hits de arma).
+// El decay fluido (compartido con corrosion) vs los N-timers reales es SIMPLIFICACIÓN → OQ-ENGINE-16.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const WEAKENED_MAX_STACKS = 5;
+const FREEZE_MAX_STACKS = 9; // ⚠️ 4 en bosses/Overguard (ausente: sin flag boss) — OQ-ENGINE-12.
+
+const weakenedBehavior: EffectBehavior<StackState> = {
+  effect: "weakened",
+  applyProc(state, _hit, amount) {
+    return { count: Math.min(WEAKENED_MAX_STACKS, (state?.count ?? 0) + amount) };
+  },
+  advance(state, _t, dt) {
+    return { state: { count: decayCount(state.count, dt) }, damage: [] };
+  },
+  critModifier(state) {
+    if (state.count <= 0) return {};
+    return { critChanceAdd: stackDebuffValue(WEAKENED_CRIT_LAW, state.count) };
+  },
+};
+
+const freezeBehavior: EffectBehavior<StackState> = {
+  effect: "freeze",
+  applyProc(state, _hit, amount) {
+    return { count: Math.min(FREEZE_MAX_STACKS, (state?.count ?? 0) + amount) };
+  },
+  advance(state, _t, dt) {
+    return { state: { count: decayCount(state.count, dt) }, damage: [] };
+  },
+  critModifier(state) {
+    if (state.count <= 0) return {};
+    return { critMultAdd: stackDebuffValue(COLD_CRIT_LAW, state.count) };
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Heat — DoT pool consolidado + rampa de armor por tiempo (frontera 1, su propia fórmula).
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -155,9 +198,10 @@ const igniteBehavior: EffectBehavior<HeatState> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * Registro de behaviors — PARCIAL sobre los 15 `StatusEffect`: solo los 6 con LEY en C1 hoy. Los
- * demás (puncture/impact/cold/… ; gas/electricity = frontera 3) no tienen behavior aún. `<any>` en el
- * estado: el registro es heterogéneo (cada efecto modela su `S` distinto), opaco a core.
+ * Registro de behaviors — PARCIAL sobre los 15 `StatusEffect`: los que tienen LEY hoy. Los demás
+ * (impact/… ; gas/electricity = frontera 3) no tienen behavior aún. `<any>` en el estado: el registro
+ * es heterogéneo (cada efecto modela su `S` distinto), opaco a core. `weakened`/`freeze` acumulan
+ * stacks pero NO emiten daño — solo buffean el crit del atacante vía `critModifier` (`OQ-ENGINE-12`).
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const EFFECT_BEHAVIORS: Partial<Record<StatusEffect, EffectBehavior<any>>> = {
@@ -167,4 +211,6 @@ export const EFFECT_BEHAVIORS: Partial<Record<StatusEffect, EffectBehavior<any>>
   corrosion: corrosionBehavior,
   infection: infectionBehavior,
   disruption: disruptionBehavior,
+  weakened: weakenedBehavior, // Puncture → +crit chance del atacante (OQ-ENGINE-12)
+  freeze: freezeBehavior,     // Cold → +crit damage del atacante (OQ-ENGINE-12)
 };

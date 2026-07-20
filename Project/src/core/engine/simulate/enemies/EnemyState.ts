@@ -76,6 +76,22 @@ export class EnemyState {
     return mult;
   }
 
+  /**
+   * Bonos al crit del ATACANTE según los efectos presentes en este target (`OQ-ENGINE-12`).
+   * Suma los `critModifier` de los efectos activos: Weakened (Puncture) → +crit chance (%),
+   * Freeze (Cold) → +crit damage (×). Se lee LIVE por hit en `simulateAttack`.
+   */
+  public getCritBonuses(currentTime: number = 0): { critChanceAdd: number; critMultAdd: number } {
+    let critChanceAdd = 0;
+    let critMultAdd = 0;
+    for (const [effect, behavior] of this.activeBehaviors()) {
+      const c = behavior.critModifier?.(this.effectStates.get(effect), currentTime, this.laws);
+      if (c?.critChanceAdd) critChanceAdd += c.critChanceAdd;
+      if (c?.critMultAdd) critMultAdd += c.critMultAdd;
+    }
+    return { critChanceAdd, critMultAdd };
+  }
+
   /** Armor efectivo = base × producto de los `armorMult` de los efectos activos (Corrosion, Heat-ramp). */
   public getEffectiveArmor(currentTime: number): number {
     let armor = this.base.current_armor;

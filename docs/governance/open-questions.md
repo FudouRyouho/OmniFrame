@@ -44,7 +44,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-2` | Profile switching en runtime (Incarnon/Alt-fire) | engine / simulation-context | re-scopeada — path dinámico sin consumidor |
 | `OQ-ENGINE-7` | Nodos de arma faltantes (Capa 4): resta el eje (c)/C2 | engine / hydration | abierta — no bloquea |
 | `OQ-ENGINE-11` | Exaltadas: intención estructural en A1 | engine / Capa A | abierta — diferida |
-| `OQ-ENGINE-12` | Timing del crit condicional (Puncture/Cold) | engine / C2 | abierta — no bloquea el núcleo |
+| `OQ-ENGINE-12` | Crit condicional (Puncture/Cold): gancho hecho, fidelidad pendiente | engine / C2 | re-scopeada — ausencias vivas (cap-boss / 10º stack) |
 | `OQ-ENGINE-14` | Alcance del modelado melee | engine / C1 + C2 | promovida a diseño |
 | `OQ-ENGINE-15` | DR de armor enemigo: conflicto de 3 vías | engine / C2 | abierta — `√3a/100` provisional |
 | `OQ-ENGINE-16` | N-declarado vs timers reales de stacks | engine / C1 + C2 | abierta — no bloquea |
@@ -446,18 +446,25 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 
 ---
 
-## OQ-ENGINE-12 — Timing del pipeline de crit condicional (Puncture/Cold) — **ABIERTO (2026-07-02)**
+## OQ-ENGINE-12 — Crit condicional (Puncture/Cold): gancho RESUELTO, fidelidad pendiente por ausencia de dato — **RE-SCOPEADA (2026-07-20)**
 **Dominio:** engine / C2 (micro-arquitectura de daño y status)
 
-**Contexto:** la campaña de modelado de daño/status de C2 ([`../domains/engine/design/damage-status-model.md`](../domains/engine/design/damage-status-model.md)) diseñó y verificó empíricamente el núcleo (Slash/Toxin/Viral/Corrosive) y el primitivo reusable de stack tracker (N timers independientes, cap K, reemplaza-al-más-viejo — confirmado en Viral/Magnetic/Corrosive). Dos facetas reales de DPS quedan pendientes de un punto de enganche distinto: **Puncture** (+5%/stack de crit chance del jugador contra el target, hasta +25% a 5 stacks) y **Cold** (+0.1×/+0.05× por stack de crit damage recibido, hasta +0.5× a 9, cap 4 stacks en bosses/Overguard).
+**Resuelto — el gancho (la pregunta original "¿dónde/cuándo se construye el punto de enganche?"):** construido 2026-07-20. Puncture (efecto `weakened`) y Cold (efecto `freeze`) buffean el crit del **atacante** según sus stacks en el target, por un canal separado del de mitigación:
+- Contrato `CritModifier { critChanceAdd?, critMultAdd? }` + `EffectBehavior.critModifier?` (`effect-behavior.ts`) — stage del **hit**, no de la mitigación (canal aparte de `resolutionModifier` a propósito).
+- `EnemyState.getCritBonuses(t)` suma los aportes (espejo de `getEffectiveArmor`); `CombatSimulator.simulateAttack` lo lee **LIVE** y lo suma a critChance/critMult antes de resolver el crit (ambos modos, atómico y bulk).
+- Behaviors `weakened`/`freeze` (molde de `corrosion` + `critModifier`); leyes `WEAKENED_CRIT_LAW {first:5,perAdd:5,cap:25}` (chance) / `COLD_CRIT_LAW {0.1,0.05,cap:0.5}` (mult) vía `stackDebuffValue`. Test: `crit-stack-buff.test.ts`.
 
-**Corrección de encuadre (debate 2026-07-02, no re-litigar):** esto NO es "falta arquitectura nueva" — el primitivo de stack ya está modelado y validado. Lo que falta es **dónde** se lee ese primitivo: Viral/Magnetic/Corrosive lo consumen en la resolución de daño por capa (`CombatSimulator.resolveHit`); Puncture/Cold necesitan consumirlo en el **cálculo de crit** (`AtomicSimulator`/`CombatSimulator.simulateAttack`), un punto distinto del pipeline que hoy no tiene ese gancho.
+**Sigue vivo — AUSENCIAS de fidelidad (no simplificaciones: es dato/mecánica que hoy NO existe):**
+- **Cold cap 4 stacks en bosses/Overguard** — falta el flag `boss`/`overguard` en el DNA del enemigo; v1 usa el cap normal (9). El behavior lo consumirá cuando el DNA lo tenga.
+- **Cold 10º stack** (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — mecánica compleja sin modelar.
+- **Puncture no aplica a AoE / habilidades de warframe** — gate ausente pero irrelevante hoy (el modelo de combate son hits de arma, no hay AoE); se gatea cuando exista AoE.
 
-**Pregunta:** ¿cuándo se construye ese punto de enganche? No bloquea el núcleo (Tier 1 del modelo), pero es la pieza que falta para que Puncture/Cold entren a v1 junto con Magnetic (mismo tier de prioridad, distinto tier de trabajo de cableado).
+**No es de esta OQ (SIMPLIFICACIÓN, no ausencia):** el decay de los stacks es **fluido** (`count` fraccional, compartido con Corrosion/Viral), no los N-timers discretos reales — su fidelidad es `OQ-ENGINE-16` (gated por medición).
 
-**No bloquea:** el núcleo del modelo de daño (Slash/Toxin/Viral/Corrosive) ni el plan de slices que lo implemente primero.
-**Vínculo:** `damage-status-model.md` (el modelo completo + el primitivo de stack tracker). Nota: la brecha de `processDots` que este OQ citaba en su origen (decaimiento lineal, código de abril) ya se **cerró** — hoy `EnemyState.processDots()` itera `EFFECT_BEHAVIORS` (modelo unificado de proc, 2026-07-13); esta OQ es solo el gancho de crit, independiente de eso.
-**Fuente:** debate de modelado C2, verificación empírica in-game 2026-07-02.
+**Por qué NO cierra a DC:** el gancho cerró, pero las ausencias son deuda viva real — la aproximación es un **suelo aceptable, no completo**. Se queda como OQ hasta que el dato (flag boss) y la mecánica (10º stack) existan.
+**No bloquea:** el núcleo; Puncture/Cold ya entran a v1 con fidelidad de suelo.
+**Vínculo:** `damage-status-model.md` (modelo + primitivo), `OQ-ENGINE-16` (decay N-timers), `references/wiki/mechanics/status-effects.md §Weakened/§Cold`.
+**Fuente:** debate de modelado C2 (2026-07-02); implementación del gancho + re-scope 2026-07-20.
 
 ---
 

@@ -43,6 +43,19 @@ export interface ResolutionModifier {
 }
 
 /**
+ * Cómo un efecto altera el CRIT del atacante según su presencia en el target (`OQ-ENGINE-12`).
+ * Stage ANTERIOR a la resolución de daño: se aplica en el cálculo de crit del hit (`simulateAttack`),
+ * no en la mitigación por capa. Aditivo. Canal separado de `ResolutionModifier` a propósito — son
+ * dos momentos distintos del pipeline (crit del hit vs mitigación del target).
+ */
+export interface CritModifier {
+  /** Suma a la crit chance del jugador (%). Weakened (Puncture): +5×n, cap +25 a 5 stacks. */
+  critChanceAdd?: number;
+  /** Suma al crit damage multiplier del jugador (×). Freeze (Cold): +0.1+0.05(n−1), cap +0.5. */
+  critMultAdd?: number;
+}
+
+/**
  * La fórmula-estrategia de un efecto. `S` = su estado interno, OPACO a core (cada efecto lo modela
  * como quiera: lista de pulsos, contador, pool). El comportamiento —acumulación, ciclo de vida,
  * contribución— vive en la fórmula, no en core (que solo itera y resuelve).
@@ -56,4 +69,6 @@ export interface EffectBehavior<S> {
   advance(state: S, t: number, dt: number): { state: S; damage: Resolucion[] };
   /** Modificador de resolución actual (armor/capa). Ausente = no modifica. `laws` = coeficientes de LEY. */
   resolutionModifier?(state: S, t: number, laws: GameLaws): ResolutionModifier;
+  /** Modificador de crit del atacante (Weakened/Freeze, `OQ-ENGINE-12`). Ausente = no toca el crit. */
+  critModifier?(state: S, t: number, laws: GameLaws): CritModifier;
 }

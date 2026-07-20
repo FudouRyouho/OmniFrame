@@ -28,7 +28,13 @@ export class CombatSimulator {
   public static simulateAttack(instance: DamageInstance, targetState: EnemyState, currentTime: number = 0, rng: RngProvider = new RngProvider()): HitResolution {
     // La Instancia (①②) ya trae el potencial modded por tipo + crit spec + multishot — C2 la CONSUME,
     // no re-extrae de `attributes` (seam C1→C2, `damage-instance.ts`). Multishot/crit se ejecutan acá (Hit).
-    const { multishot, critChance, critMult, damageByToken: baseDamageMap } = instance;
+    const { multishot, critChance: baseCritChance, critMult: baseCritMult, damageByToken: baseDamageMap } = instance;
+
+    // Gancho OQ-ENGINE-12: el target debilitado buffea el crit del atacante — Weakened (Puncture) → +crit
+    // chance, Freeze (Cold) → +crit damage. Leído LIVE del estado del target; ambos modos lo heredan.
+    const critBonus = targetState.getCritBonuses(currentTime);
+    const critChance = baseCritChance + critBonus.critChanceAdd;
+    const critMult = baseCritMult + critBonus.critMultAdd;
 
     // 2. ¿Modo Atómico o Modo Bulk?
     if (multishot <= AtomicSimulator.HYBRID_THRESHOLD) {

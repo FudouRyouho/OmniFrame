@@ -203,10 +203,10 @@ Detalle en `references/wiki/mechanics/status-effects.md`.
 Entra: `multiplier = 2+0.25×(n-1)` sobre daño a shields/Overguard, mismo seam que Viral (`getDamageMultiplier(hitsShields=true)`). Diferido: negación de recarga de shields (no simulamos regen), bonus Electricity al romper Overguard (evento puntual), extra-efectividad vs Nullifiers (nicho).
 
 ### Puncture — Weakened
-Entra: +5%/stack de crit chance del jugador contra el target (hasta +25% a 5 stacks), no aplica a AoE/habilidades. Consume el primitivo de stack, se engancha en el cálculo de crit chance (punto distinto al de resolución por capa — ver OQ-ENGINE-12). Diferido: reducción de daño saliente del enemigo (eje fuera de scope).
+Entra (**construido** 2026-07-20): +5%/stack de crit chance del jugador contra el target (hasta +25% a 5 stacks). Behavior `weakened`, enganchado en el cálculo de crit chance vía `critModifier` (canal aparte del de resolución por capa — OQ-ENGINE-12). Diferido: gate no-AoE/habilidades (irrelevante hoy, sin AoE); reducción de daño saliente del enemigo (eje fuera de scope).
 
 ### Cold — Freeze
-Entra: bonus de crit damage recibido, +0.1× (1er stack) +0.05×/stack (hasta +0.5× a 9), mismo mecanismo que Puncture — construir juntos. Cap especial: bosses/Overguard solo aceptan 4 stacks. Diferido: slow (survivability), freeze sólido al 10º (CC).
+Entra (**construido** 2026-07-20): bonus de crit damage recibido, +0.1× (1er stack) +0.05×/stack (hasta +0.5× a 9). Behavior `freeze`, mismo canal `critModifier` que Puncture. **Ausencias vivas (OQ-ENGINE-12):** cap especial de 4 stacks en bosses/Overguard (falta el flag boss en el DNA — v1 usa 9); freeze sólido al 10º stack (+1.0×, 3 residuales, CC). Diferido: slow (survivability).
 
 ### Heat — Ignite
 Entra: tick DoT, `0.5 × modded_base × (1+heat) × (1+faction)² × (1+status_damage)`, **pool consolidado compartido** (única excepción al primitivo). Diferido: rampa de armor strip (0.5s→15%…2s→50%, reversión gradual) — única mecánica de las 16 que necesita timeline real genuino. Fuera de scope: Panic (CC).
@@ -498,8 +498,9 @@ interface ResolutionModifier { armorMult?: number; layerMult?: Partial<Record<La
 ```
 
 - Un canal de **emisión** + un **modificador de resolución** genérico (armor + layer). Armor NO es canal
-  privilegiado; crit-vs-target (cold/puncture) es un 2º canal del stage atacante (hits-only), gated por
-  `OQ-ENGINE-12`, **no construido** (falsa puerta sin efecto que lo use).
+  privilegiado; crit-vs-target (cold/puncture) es un 2º canal del stage atacante (hits-only) — **construido**
+  (2026-07-20, `EffectBehavior.critModifier` → `EnemyState.getCritBonuses` → `simulateAttack`), con efecto real
+  (behaviors `weakened`/`freeze`). Fidelidad de suelo; las ausencias (cap-boss, 10º stack) siguen en `OQ-ENGINE-12`.
 - La emisión declara `as: DamageType` (bleed→`'true'`, poison→`'toxin'`…); **core deriva las reglas del
   canónico** (bypass shields, bypass armor/matriz de True, DR, layer-mult). Único dato per-efecto = `as`
   (sucesor de `DOT_TYPE_IS_TRUE`, NO tabla-sombra). **Cierra el cabo:** hit Slash resuelve `as:'slash'`
@@ -541,7 +542,7 @@ crit (OQ-12), split snapshot/live fino (OQ-20), duración del proc en `HitContex
 
 ## Preguntas abiertas
 
-- **OQ-ENGINE-12** — cuándo se cablea el consumo del primitivo de stack en el pipeline de crit (Puncture/Cold). El primitivo ya está modelado; falta decidir el timing del punto de enganche.
+- **OQ-ENGINE-12** — el gancho de crit (Puncture/Cold) se **construyó** (2026-07-20, canal `critModifier`); la OQ sigue **viva por AUSENCIAS de fidelidad** (Cold cap-4-boss = falta flag boss en DNA; 10º stack sin modelar), no por el gancho.
 - **OQ-ENGINE-19** — generador discreto exacto de N proc-slots cuando el Status Chance de un pellet supera 100% (§Población/RNG arriba). No bloqueante — el total y la curva esperados no dependen de él.
 - **OQ-ENGINE-20** — split fino snapshot vs. live del tick de DoT y su comportamiento temporal bajo drop de buff (§Modelo unificado / composición snapshot × live). Gated por data (nuestra evidencia de double-dip es solo steady-state); un test de drop-mid-DoT lo cierra.
 - **OQ-ENGINE-18** — Status Duration en DoT (§Modelo de timeline, hueco de dato): más ticks vs. ticks estirados — decide la duración que `HitContext` debe cargar.

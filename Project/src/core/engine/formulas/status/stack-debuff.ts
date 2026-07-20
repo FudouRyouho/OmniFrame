@@ -36,6 +36,16 @@ export function stackDebuffValue(law: StackDebuffLaw, n: number): number {
 }
 
 /**
+ * LEYES de crit-buff-por-stack (`OQ-ENGINE-12`, status-effects.md §Weakened/§Cold). El target
+ * debilitado sube el crit del ATACANTE — misma forma Familia A, aplicada al crit en vez del daño.
+ * Constantes de ley fija (no config per-sim); si algún día se vuelven ajustables, migran a `GameLaws`.
+ */
+/** Weakened (Puncture): +5% crit chance/stack, cap +25% a 5 stacks. */
+export const WEAKENED_CRIT_LAW: StackDebuffLaw = { first: 5, perAdditional: 5, cap: 25 };
+/** Freeze (Cold): +0.1× crit damage (1er) luego +0.05×/stack, cap +0.5× (≈9 stacks). */
+export const COLD_CRIT_LAW: StackDebuffLaw = { first: 0.1, perAdditional: 0.05, cap: 0.5 };
+
+/**
  * Infection (Viral) — multiplicador al daño recibido en la capa de salud.
  * `2 + 0.25 × (n−1)`, cap ×4.25 a 10 stacks (status-effects.md §Infection, verificado in-game).
  * Los coeficientes vienen de GameLaws (configurables, override vía MutatorBridge);
