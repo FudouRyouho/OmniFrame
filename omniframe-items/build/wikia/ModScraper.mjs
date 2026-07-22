@@ -19,6 +19,11 @@ export default class ModScraper {
       if (raw.UpgradeTypes?.length) fields.upgradeTypes = raw.UpgradeTypes
       if (raw.MaxRank != null) fields.maxRank = raw.MaxRank
       if (raw.IncompatibilityTags?.length) fields.incompatibilityTags = raw.IncompatibilityTags
+      if (raw.Incompatible?.length) fields.incompatible = raw.Incompatible
+      if (raw.Class != null) fields.modClass = raw.Class
+      if (raw.IsExilus != null) fields.isExilus = raw.IsExilus
+      if (raw.IsFlawed != null) fields.isFlawed = raw.IsFlawed
+      if (raw.IsWeaponAugment != null) fields.isWeaponAugment = raw.IsWeaponAugment
       if (Object.keys(fields).length) out[raw.InternalName] = fields
     }
     return out
