@@ -1,1 +1,2234 @@
-[{"id":"/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon","name":"Agkuza","image":"/assets/items/agkuza-ad630f8d41.png.png","image_name":"agkuza-ad630f8d41.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon","domain":"weapon","kind":"archmelee","family":"arch-melee","category":"Arch-Melee","type":"Arch-Melee","mastery_req":3,"polarities":["vazarin"],"tags":["tenno"],"description":"Tear apart incoming enemies with this massive hooked blade.","product_category":"SpaceMelee","is_prime":false,"tradable":false,"stats":{"damage":{"impact":65.400002,"puncture":65.399986,"slash":305.19998},"total_damage":435.99997,"crit_chance":0.050000001,"crit_mult":1.5,"status_chance":0.14999998,"attacks":[{"name":"Normal Attack","damage":{"impact":65.4,"slash":65.4,"puncture":305.2},"total_damage":436,"crit_chance":0.05,"crit_mult":1.5,"status_chance":0.15,"speed":1,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update: Specters of the Rail 0.0","wikia_thumbnail":"https://wiki.warframe.com/images/Agkuza.png?5cbfc","wikia_url":"https://wiki.warframe.com/w/Agkuza"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun","name":"Arbucep","image":"/assets/items/arbucep-6cabdc8f25.png.png","image_name":"arbucep-6cabdc8f25.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":0,"polarities":["madurai","naramon"],"tags":["tenno"],"description":"Nokko’s signature archgun fires six homing missiles, each bearing a payload of one of the six combined elements which detonate in an area upon impact.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"blast":130},"total_damage":130,"crit_chance":0.1,"crit_mult":2.9000001,"status_chance":0.34900004,"attacks":[{"name":"1st Attack","damage":{"blast":16},"total_damage":16,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"Projectile","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"1st Attack Radial Attack","damage":{"blast":114},"total_damage":114,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"AoE","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"2nd Attack","damage":{"corrosive":16},"total_damage":16,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"Projectile","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"2nd Attack Radial Attack","damage":{"corrosive":114},"total_damage":114,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"AoE","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"3rd Attack","damage":{"gas":16},"total_damage":16,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"Projectile","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"3rd Attack Radial Attack","damage":{"gas":114},"total_damage":114,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"AoE","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"4th Attack","damage":{"magnetic":16},"total_damage":16,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"Projectile","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"4th Attack Radial Attack","damage":{"magnetic":114},"total_damage":114,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"AoE","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"5th Attack","damage":{"radiation":16},"total_damage":16,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"Projectile","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"5th Attack Radial Attack","damage":{"radiation":114},"total_damage":114,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"AoE","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"6th Attack","damage":{"viral":16},"total_damage":16,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"Projectile","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"6th Attack Radial Attack","damage":{"viral":114},"total_damage":114,"crit_chance":0.1,"crit_mult":2.9,"status_chance":0.349,"speed":1.5,"shot_type":"AoE","flight":null,"falloff":{"start":1500,"end":2003,"reduction":1},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 40.0","wikia_thumbnail":"https://wiki.warframe.com/images/Arbucep.png?37aa2","wikia_url":"https://wiki.warframe.com/w/Arbucep"},{"id":"/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield","name":"Centaur","image":"/assets/items/centaur-a00c7e4fd8.png.png","image_name":"centaur-a00c7e4fd8.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield","domain":"weapon","kind":"archmelee","family":"arch-melee","category":"Arch-Melee","type":"Arch-Melee","mastery_req":8,"polarities":["madurai"],"tags":["tenno"],"description":"Part sword, part shield, the Centaur excels at charging headlong into enemy fire.","product_category":"SpaceMelee","is_prime":false,"tradable":false,"stats":{"damage":{"impact":37.600002,"puncture":263.19998,"slash":75.200005},"total_damage":376,"crit_chance":0.25,"crit_mult":2,"status_chance":0.19999999,"attacks":[{"name":"Normal Attack","damage":{"impact":37.6,"slash":263.2,"puncture":75.2},"total_damage":376,"crit_chance":0.25,"crit_mult":2,"status_chance":0.2,"speed":1.08,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Hotfix 15.7.2","wikia_thumbnail":"https://wiki.warframe.com/images/Centaur.png?ad3fd","wikia_url":"https://wiki.warframe.com/w/Centaur"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchGun/ThanoTechArchGun","name":"Cortege","image":"/assets/items/cortege-9af4117990.png.png","image_name":"cortege-9af4117990.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchGun/ThanoTechArchGun","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":14,"polarities":[],"tags":["entrati"],"description":"An ancient weapon designed by the Entrati for use by their Necramechs. Primary fire siphons life essence from the target to fuel a devastating secondary fire. A heavy flamethrower with surprising range. Secondary fire launches three projectiles in a fan pattern that explode, leaving a damaging area of effect for a short duration.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"heat":90},"total_damage":90,"crit_chance":0.2,"crit_mult":1.9,"status_chance":0.39999998,"attacks":[{"name":"Held","damage":{"heat":90},"total_damage":90,"crit_chance":0.2,"crit_mult":1.9,"status_chance":0.4,"speed":12,"shot_type":"Hit-Scan","flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Grenade Impact","damage":{"impact":10},"total_damage":10,"crit_chance":0.3,"crit_mult":2.4,"status_chance":0.16699999999999998,"speed":0.25,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Radial Attack","damage":{"blast":1000},"total_damage":1000,"crit_chance":0.3,"crit_mult":2.4,"status_chance":0.16699999999999998,"speed":0.25,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":4,"reduction":0.3},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 29.0","wikia_thumbnail":"https://wiki.warframe.com/images/Cortege.png?b7e25","wikia_url":"https://wiki.warframe.com/w/Cortege"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/LaunchGrenade/ArchCannon","name":"Corvas","image":"/assets/items/corvas-13db9b551f.png.png","image_name":"corvas-13db9b551f.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/LaunchGrenade/ArchCannon","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":1,"polarities":["naramon"],"tags":["tenno"],"description":"When fully charged, this flak cannon delivers a devastating shot. Perfect for taking down fast-moving interceptors.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":400,"heat":480},"total_damage":880,"crit_chance":0.40000001,"crit_mult":2.5999999,"status_chance":0.13,"attacks":[{"name":"Uncharged Shot","damage":{"impact":200,"heat":240},"total_damage":440,"crit_chance":0.4,"crit_mult":2.6,"status_chance":0.13,"speed":2,"shot_type":"Projectile","flight":400,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Charged Shot","damage":{"impact":400,"heat":480},"total_damage":880,"crit_chance":0.4,"crit_mult":3,"status_chance":0.13,"speed":2,"shot_type":"Projectile","flight":400,"falloff":{"start":600,"end":1200},"slide":null,"charge_time":0.5,"punch_through":0}]},"introduced":"Update 15.0","wikia_thumbnail":"https://wiki.warframe.com/images/Corvas.png?2ae6a","wikia_url":"https://wiki.warframe.com/w/Corvas"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/PrimeCorvas/PrimeCorvasWeapon","name":"Corvas Prime","image":"/assets/items/corvas-prime-3a5514ae24.png.png","image_name":"corvas-prime-3a5514ae24.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/PrimeCorvas/PrimeCorvasWeapon","domain":"weapon","kind":"archgun","family":"prime","category":"Arch-Gun","type":"Arch-Gun","mastery_req":14,"polarities":["madurai","madurai","naramon"],"tags":["prime"],"description":"Flaunting ceremonial beauty, this arch gun flak cannon is even more devastating than its standard issue counterpart.","product_category":"SpaceGuns","is_prime":true,"tradable":true,"stats":{"damage":{"impact":430,"heat":530},"total_damage":960,"crit_chance":0.44,"crit_mult":3,"status_chance":0.30000001,"attacks":[{"name":"Uncharged Shot","damage":{"impact":230,"heat":330},"total_damage":560,"crit_chance":0.44,"crit_mult":3,"status_chance":0.2,"speed":2,"shot_type":"Projectile","flight":120,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Charged Shot","damage":{"impact":430,"heat":530},"total_damage":960,"crit_chance":0.56,"crit_mult":3,"status_chance":0.2,"speed":2,"shot_type":"Projectile","flight":140,"falloff":{"start":100,"end":200,"reduction":0.5},"slide":null,"charge_time":0.5,"punch_through":0}]},"introduced":"Update 31.3","wikia_thumbnail":"https://wiki.warframe.com/images/CorvasPrime.png?290fd","wikia_url":"https://wiki.warframe.com/w/Corvas_Prime_(Atmosphere)"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/ArchBurstGun/ArchBurstGun","name":"Cyngas","image":"/assets/items/cyngas-842f5f0899.png.png","image_name":"cyngas-842f5f0899.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/ArchBurstGun/ArchBurstGun","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":4,"polarities":[],"tags":["tenno"],"description":"Unload deadly accurate bursts of mayhem.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":39.600002,"puncture":40.799995,"slash":39.600002},"total_damage":120,"crit_chance":0.2,"crit_mult":2.2,"status_chance":0.30000001,"attacks":[{"name":"Normal Attack","damage":{"impact":39.6,"slash":40.8,"puncture":39.6},"total_damage":120,"crit_chance":0.2,"crit_mult":2.2,"status_chance":0.3,"speed":6.67,"shot_type":"Projectile","flight":220,"falloff":{"start":1500,"end":3000,"reduction":0.8},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update: Specters of the Rail 0.0","wikia_thumbnail":"https://wiki.warframe.com/images/Cyngas.png?1a357","wikia_url":"https://wiki.warframe.com/w/Cyngas"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/ArchHeavyPistols","name":"Dual Decurion","image":"/assets/items/dual-decurion-2c12e236ac.png.png","image_name":"dual-decurion-2c12e236ac.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/ArchHeavyPistols","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":1,"polarities":[],"tags":["tenno"],"description":"Delivering twin streams of highly accurate, rapid-fire ordnance, the Decurion are specifically designed for combat in the vacuum of space.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":49.5,"puncture":30.249998,"slash":30.25},"total_damage":110,"crit_chance":0.28,"crit_mult":2.2,"status_chance":0.13999999,"attacks":[{"name":"Normal Attack","damage":{"impact":49.5,"slash":30.25,"puncture":30.25},"total_damage":110,"crit_chance":0.28,"crit_mult":2.2,"status_chance":0.14,"speed":10.42,"shot_type":"Projectile","flight":220,"falloff":{"start":1500,"end":3000,"reduction":0.5},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 15.5","wikia_thumbnail":"https://wiki.warframe.com/images/DualDecurion.png?9569b","wikia_url":"https://wiki.warframe.com/w/Dual_Decurion"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/RocketArtillery/ArchRocketCrossbow","name":"Fluctus","image":"/assets/items/fluctus-1e012e3298.png.png","image_name":"fluctus-1e012e3298.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/RocketArtillery/ArchRocketCrossbow","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":2,"polarities":["naramon"],"tags":["tenno","corpus"],"description":"An Archwing energy weapon that sends waves of deadly plasma crashing into enemies.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":50,"puncture":175,"slash":25},"total_damage":250,"crit_chance":0.22,"crit_mult":2,"status_chance":0.15999997,"attacks":[{"name":"Normal Attack","damage":{"impact":50,"slash":175,"puncture":25},"total_damage":250,"crit_chance":0.22,"crit_mult":2,"status_chance":0.16,"speed":5,"shot_type":"Projectile","flight":300,"falloff":{"start":800,"end":1600,"reduction":0.5},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Hotfix 15.7.2","wikia_thumbnail":"https://wiki.warframe.com/images/Fluctus.png?e32bf","wikia_url":"https://wiki.warframe.com/w/Fluctus"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/RepurposedGrineerAntiAircraftGun/ArchGRNAAGun","name":"Grattler","image":"/assets/items/grattler-ce089ce28a.png.png","image_name":"grattler-ce089ce28a.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/RepurposedGrineerAntiAircraftGun/ArchGRNAAGun","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":4,"polarities":["madurai"],"tags":["grineer"],"description":"Shatter your targets with explosive shells from this devastating Archwing cannon.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":22.5,"puncture":22.499992,"slash":180,"blast":310},"total_damage":535,"crit_chance":0.25,"crit_mult":2,"status_chance":0.25,"attacks":[{"name":"Projectile Impact","damage":{"impact":15,"slash":15,"puncture":120},"total_damage":150,"crit_chance":0.25,"crit_mult":2,"status_chance":0.25,"speed":6.25,"shot_type":"Projectile","flight":250,"falloff":{"start":1000,"end":2000},"slide":null,"charge_time":null,"punch_through":0},{"name":"Explosion","damage":{"blast":205},"total_damage":205,"crit_chance":0.25,"crit_mult":2,"status_chance":0.25,"speed":6.25,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":9,"reduction":0.7},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 17.0","wikia_thumbnail":"https://wiki.warframe.com/images/Grattler.png?fa336","wikia_url":"https://wiki.warframe.com/w/Grattler"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGun","name":"Imperator","image":"/assets/items/imperator-06651a85cb.png.png","image_name":"imperator-06651a85cb.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGun","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":0,"polarities":["madurai"],"tags":["tenno"],"description":"A long range rifle capable of firing in space, the Imperator's versatility makes it an ideal weapon for space combat.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":20,"puncture":12.5,"slash":17.5},"total_damage":50,"crit_chance":0.23999999,"crit_mult":2,"status_chance":0.12,"attacks":[{"name":"Normal Attack","damage":{"impact":20,"slash":12.5,"puncture":17.5},"total_damage":50,"crit_chance":0.24,"crit_mult":2,"status_chance":0.12,"speed":16.7,"shot_type":"Projectile","flight":220,"falloff":{"start":1500,"end":3000,"reduction":0.5},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 15.0","wikia_thumbnail":"https://wiki.warframe.com/images/Imperator.png?3a6f3","wikia_url":"https://wiki.warframe.com/w/Imperator"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGunVandal","name":"Imperator Vandal","image":"/assets/items/imperator-vandal-11d120197b.png.png","image_name":"imperator-vandal-11d120197b.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGunVandal","domain":"weapon","kind":"archgun","family":"vandal","category":"Arch-Gun","type":"Arch-Gun","mastery_req":5,"polarities":["madurai"],"tags":["tenno","vandal"],"description":"The Imperator Vandal has been customized by the Tenno with a blue-green metallic finish and Lotus branding on the barrel.","product_category":"SpaceGuns","is_prime":false,"tradable":true,"stats":{"damage":{"impact":20,"puncture":12.5,"slash":17.5},"total_damage":50,"crit_chance":0.28,"crit_mult":2.4000001,"status_chance":0.12,"attacks":[{"name":"Normal Attack","damage":{"impact":20,"slash":12.5,"puncture":17.5},"total_damage":50,"crit_chance":0.28,"crit_mult":2.4,"status_chance":0.12,"speed":25,"shot_type":"Projectile","flight":220,"falloff":{"start":1500,"end":3000,"reduction":0.5},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 15.8","wikia_thumbnail":"https://wiki.warframe.com/images/ImperatorVandal.png?a8014","wikia_url":"https://wiki.warframe.com/w/Imperator_Vandal"},{"id":"/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe","name":"Kaszas","image":"/assets/items/kaszas-fa004e9997.png.png","image_name":"kaszas-fa004e9997.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe","domain":"weapon","kind":"archmelee","family":"arch-melee","category":"Arch-Melee","type":"Arch-Melee","mastery_req":4,"polarities":["vazarin"],"tags":["tenno"],"description":"Become an angel of death, with this Archwing scythe.","product_category":"SpaceMelee","is_prime":false,"tradable":false,"stats":{"damage":{"impact":19.6,"puncture":58.799992,"slash":313.60001},"total_damage":392,"crit_chance":0.15000001,"crit_mult":2,"status_chance":0.19999999,"attacks":[{"name":"Normal Attack","damage":{"impact":19.7,"slash":58.7,"puncture":313.6},"total_damage":392,"crit_chance":0.15,"crit_mult":2,"status_chance":0.2,"speed":1,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 17.5","wikia_thumbnail":"https://wiki.warframe.com/images/Kaszas.png?9fcb4","wikia_url":"https://wiki.warframe.com/w/Kaszas"},{"id":"/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon","name":"Knux","image":"/assets/items/knux-939cea4c86.png.png","image_name":"knux-939cea4c86.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon","domain":"weapon","kind":"archmelee","family":"arch-melee","category":"Arch-Melee","type":"Arch-Melee","mastery_req":7,"polarities":["vazarin"],"tags":["grineer"],"description":"Gallium-alloy gauntlets for close-range Archwing combat. Designed by the infamous Tyl Regor.","product_category":"SpaceMelee","is_prime":false,"tradable":false,"stats":{"damage":{"impact":400.5,"puncture":22.250006,"slash":22.25},"total_damage":445,"crit_chance":0.13,"crit_mult":2,"status_chance":0.30000001,"attacks":[{"name":"Normal Attack","damage":{"impact":400.5,"slash":22.25,"puncture":22.25},"total_damage":445,"crit_chance":0.13,"crit_mult":2,"status_chance":0.3,"speed":1,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 17.2","wikia_thumbnail":"https://wiki.warframe.com/images/Knux.png?2d0e0","wikia_url":"https://wiki.warframe.com/w/Knux"},{"id":"/Lotus/Weapons/Grineer/HeavyWeapons/GrnHeavyGrenadeLauncher","name":"Kuva Ayanga","image":"/assets/items/kuva-ayanga-191784ae00.png.png","image_name":"kuva-ayanga-191784ae00.png","unique_name":"/Lotus/Weapons/Grineer/HeavyWeapons/GrnHeavyGrenadeLauncher","domain":"weapon","kind":"archgun","family":"kuva","category":"Arch-Gun","type":"Arch-Gun","mastery_req":13,"polarities":[],"tags":["grineer","kuva lich"],"description":"Sweep aside hordes of enemies with flaming fury of this powerful, automatic, grenade launching archgun.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":87,"blast":187},"total_damage":274,"crit_chance":0.34999999,"crit_mult":2,"status_chance":0.19999999,"attacks":[{"name":"Grenade Impact","damage":{"impact":87},"total_damage":87,"crit_chance":0.35,"crit_mult":2,"status_chance":0.2,"speed":4.58,"shot_type":"Projectile","flight":300,"falloff":{"start":1200,"end":2400},"slide":null,"charge_time":null,"punch_through":0},{"name":"Explosion","damage":{"blast":187},"total_damage":187,"crit_chance":0.35,"crit_mult":2,"status_chance":0.2,"speed":4.58,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":9,"reduction":0.3},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 26.0","wikia_thumbnail":"https://wiki.warframe.com/images/KuvaAyanga.png?098c6","wikia_url":"https://wiki.warframe.com/w/Kuva_Ayanga"},{"id":"/Lotus/Weapons/Grineer/KuvaLich/HeavyWeapons/Grattler/KuvaGrattler","name":"Kuva Grattler","image":"/assets/items/kuva-grattler-57e1150f75.png.png","image_name":"kuva-grattler-57e1150f75.png","unique_name":"/Lotus/Weapons/Grineer/KuvaLich/HeavyWeapons/Grattler/KuvaGrattler","domain":"weapon","kind":"archgun","family":"kuva","category":"Arch-Gun","type":"Arch-Gun","mastery_req":15,"polarities":["madurai","madurai","madurai"],"tags":["grineer","kuva lich"],"description":"Reconfigured for maximum lethality, the Kuva Grattler still shatters targets with explosive shells, but now reaches maximum fire-rate instantaneously.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":5,"puncture":4.9999981,"slash":40,"blast":155},"total_damage":205,"crit_chance":0.27000001,"crit_mult":2.0999999,"status_chance":0.26999998,"attacks":[{"name":"Projectile Impact","damage":{"impact":9.4,"slash":9.4,"puncture":75.2},"total_damage":94,"crit_chance":0.27,"crit_mult":2.1,"status_chance":0.27,"speed":5.55,"shot_type":"Projectile","flight":250,"falloff":{"start":1000,"end":2000},"slide":null,"charge_time":null,"punch_through":0},{"name":"Explosion","damage":{"blast":155},"total_damage":155,"crit_chance":0.27,"crit_mult":2.1,"status_chance":0.27,"speed":5.55,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":9,"reduction":0.7},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 30.5","wikia_thumbnail":"https://wiki.warframe.com/images/KuvaGrattler.png?baf07","wikia_url":"https://wiki.warframe.com/w/Kuva_Grattler"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/TnShieldframeArchGun/TnShieldFrameArchGun","name":"Larkspur","image":"/assets/items/larkspur-75e75160ee.png.png","image_name":"larkspur-75e75160ee.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/TnShieldframeArchGun/TnShieldFrameArchGun","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":8,"polarities":["madurai"],"tags":["tenno"],"description":"From death blooms the Larkspur. A unique and menacing Archgun with a wild initial attack that locks onto a target then chains other targets close to the first. It also sports an explosive projectile mode. In Hildryn's grip the Larkspur carries more reserve ammo.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":10,"radiation":80},"total_damage":90,"crit_chance":0.1,"crit_mult":1.4,"status_chance":0.5,"attacks":[{"name":"Normal Attack","damage":{"impact":10,"radiation":80},"total_damage":90,"crit_chance":0.1,"crit_mult":1.4,"status_chance":0.5,"speed":12,"shot_type":"Hit-Scan","flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Alt-Fire Projectile Impact","damage":{"impact":140,"radiation":100,"blast":180},"total_damage":420,"crit_chance":0.26,"crit_mult":2.2,"status_chance":0.34,"speed":1,"shot_type":"Projectile","flight":100,"falloff":null,"slide":null,"charge_time":0.5,"punch_through":0},{"name":"Explosion","damage":{"radiation":400,"blast":400},"total_damage":800,"crit_chance":0.26,"crit_mult":2.2,"status_chance":0.34,"speed":1,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":9.6,"reduction":0.6},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 24.4","wikia_thumbnail":"https://wiki.warframe.com/images/Larkspur.png?15f51","wikia_url":"https://wiki.warframe.com/w/Larkspur"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/PrimeLarkspur/PrimeLarkspurWeapon","name":"Larkspur Prime","image":"/assets/items/larkspur-prime-2320f70a2f.png.png","image_name":"larkspur-prime-2320f70a2f.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/PrimeLarkspur/PrimeLarkspurWeapon","domain":"weapon","kind":"archgun","family":"prime","category":"Arch-Gun","type":"Arch-Gun","mastery_req":8,"polarities":["madurai","madurai","madurai"],"tags":["tenno"],"description":"Embrace pandemonium. Chainfire and explosive potential meet in Larkspur Prime. Hildryn packs more ammo when she wields this mighty weapon.","product_category":"SpaceGuns","is_prime":true,"tradable":true,"stats":{"damage":{"impact":10,"radiation":80},"total_damage":90,"crit_chance":0.14,"crit_mult":1.6,"status_chance":0.5,"attacks":[{"name":"Normal Attack","damage":{"impact":10,"radiation":80},"total_damage":90,"crit_chance":0.14,"crit_mult":1.6,"status_chance":0.5,"speed":12,"shot_type":"Hit-Scan","flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Alt-Fire Projectile Impact","damage":{"impact":140,"radiation":100,"blast":180},"total_damage":420,"crit_chance":0.28,"crit_mult":2.2,"status_chance":0.38,"speed":2,"shot_type":"Projectile","flight":100,"falloff":null,"slide":null,"charge_time":0.5,"punch_through":0},{"name":"Explosion","damage":{"radiation":400,"blast":400},"total_damage":800,"crit_chance":0.28,"crit_mult":2.2,"status_chance":0.38,"speed":2,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":9.6,"reduction":0.6},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Hotfix 32.3.6","wikia_thumbnail":"https://wiki.warframe.com/images/LarkspurPrime.png?fdc3a","wikia_url":"https://wiki.warframe.com/w/Larkspur_Prime"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/TnConcreteArchgun/TnConcreteArchgunWeapon","name":"Mandonel","image":"/assets/items/mandonel-e7a5f57785.png.png","image_name":"mandonel-e7a5f57785.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/TnConcreteArchgun/TnConcreteArchgunWeapon","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":10,"polarities":[],"tags":[],"description":"Mandonel fires <DT_RADIATION_COLOR>Radiation Damage projectiles. Partially charged shots release a spread and fully charged shots release a beam that dissolves into a radiation field. Projectiles that pass through the field are empowered.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":25.000002,"puncture":10,"slash":15,"radiation":40},"total_damage":90,"crit_chance":0.25,"crit_mult":2,"status_chance":0.14999998,"attacks":[]},"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchLongGun/ThanoTechLongGun","name":"Mausolon","image":"/assets/items/mausolon-483fb60c57.png.png","image_name":"mausolon-483fb60c57.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchLongGun/ThanoTechLongGun","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":14,"polarities":["madurai"],"tags":["entrati"],"description":"An ancient weapon designed by the Entrati for use by their Necramechs. Primary fire siphons life essence from the target to fuel a devastating secondary fire. Punishing automatic primary fire and a secondary mode that charges up to unleash a destructive beam of energy with a large explosion at point of impact.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":24,"slash":46,"heat":50},"total_damage":120,"crit_chance":0.30000001,"crit_mult":2.2,"status_chance":0.25999999,"attacks":[{"name":"Auto","damage":{"impact":35,"puncture":70,"heat":75},"total_damage":180,"crit_chance":0.3,"crit_mult":2.2,"status_chance":0.26,"speed":8.33,"shot_type":"Hit-Scan","flight":null,"falloff":{"start":1400,"end":2800,"reduction":1},"slide":null,"charge_time":null,"punch_through":0},{"name":"Auto Radial Attack","damage":{"heat":72},"total_damage":72,"crit_chance":0.3,"crit_mult":2.2,"status_chance":0.26,"speed":8.33,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":1.8,"reduction":0.1},"slide":null,"charge_time":null,"punch_through":0},{"name":"Charged Shot Laser","damage":{"impact":150,"puncture":600,"heat":750},"total_damage":1500,"crit_chance":0.5,"crit_mult":3.5,"status_chance":0.5,"speed":0.5,"shot_type":"Hit-Scan","flight":null,"falloff":null,"slide":null,"charge_time":0.8,"punch_through":0},{"name":"Charged Shot Explosion","damage":{"heat":4500},"total_damage":4500,"crit_chance":0.5,"crit_mult":3.5,"status_chance":0.5,"speed":0.5,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":8,"reduction":0.4},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 29.0","wikia_thumbnail":"https://wiki.warframe.com/images/Mausolon.png?65300","wikia_url":"https://wiki.warframe.com/w/Mausolon"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechGrenadeLaunch/ThanoTechGrenadeLauncher","name":"Morgha","image":"/assets/items/morgha-40068b33ff.png.png","image_name":"morgha-40068b33ff.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechGrenadeLaunch/ThanoTechGrenadeLauncher","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":15,"polarities":["madurai"],"tags":["entrati"],"description":"Blast through enemies with a double-barreled shot of energized slugs. This siphons their life essence which is then used to generate the secondary fire's massive air-burst mortar. The ancient Entrati weapon was built for Necramechs but also functions as an Archgun.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":32,"blast":164},"total_damage":196,"crit_chance":0.30000001,"crit_mult":2.2,"status_chance":0.27999997,"attacks":[{"name":"Auto-Burst","damage":{"impact":32},"total_damage":32,"crit_chance":0.3,"crit_mult":2.2,"status_chance":0.28,"speed":3,"shot_type":"Projectile","flight":160,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Auto Burst Explosion","damage":{"blast":164},"total_damage":164,"crit_chance":0.3,"crit_mult":2.2,"status_chance":0.28,"speed":3,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":3,"reduction":0.3},"slide":null,"charge_time":null,"punch_through":0},{"name":"Charged Shot","damage":{"impact":100},"total_damage":100,"crit_chance":0.4,"crit_mult":3,"status_chance":0.5,"speed":0.833,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Charged Shot Explosion","damage":{"impact":600,"slash":1000,"puncture":800,"blast":1200},"total_damage":3600,"crit_chance":0.4,"crit_mult":3,"status_chance":0.5,"speed":0.833,"shot_type":"AoE","flight":null,"falloff":{"start":0,"end":20,"reduction":0.6},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 29.5","wikia_thumbnail":"https://wiki.warframe.com/images/Morgha.png?fc121","wikia_url":"https://wiki.warframe.com/w/Morgha"},{"id":"/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon","name":"Onorix","image":"/assets/items/onorix-cec1553bd5.png.png","image_name":"onorix-cec1553bd5.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon","domain":"weapon","kind":"archmelee","family":"arch-melee","category":"Arch-Melee","type":"Arch-Melee","mastery_req":1,"polarities":["madurai"],"tags":["tenno"],"description":"This laser bladed battle-axe easily hacks through a ship's defenses and the forces protecting it.","product_category":"SpaceMelee","is_prime":false,"tradable":false,"stats":{"damage":{"impact":123.60001,"puncture":206,"slash":82.400002},"total_damage":412,"crit_chance":0.15000001,"crit_mult":1.25,"status_chance":0.050000012,"attacks":[{"name":"Normal Attack","damage":{"impact":123.6,"slash":206,"puncture":82.4},"total_damage":412,"crit_chance":0.15,"crit_mult":1.3,"status_chance":0.05,"speed":1,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 15.0","wikia_thumbnail":"https://wiki.warframe.com/images/Onorix.png?f4784","wikia_url":"https://wiki.warframe.com/w/Onorix"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/ArchLongRifle/ArchLongRifle","name":"Phaedra","image":"/assets/items/phaedra-629ac9ffc2.png.png","image_name":"phaedra-629ac9ffc2.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/ArchLongRifle/ArchLongRifle","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":3,"polarities":["madurai"],"tags":["tenno"],"description":"Devastate free-space enemies with Phaedra, the Soma's big-sister.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":14,"puncture":5.6000013,"slash":36.399998},"total_damage":56,"crit_chance":0.14,"crit_mult":2,"status_chance":0.30000001,"attacks":[{"name":"Normal Attack","damage":{"impact":14,"slash":5.6,"puncture":36.4},"total_damage":56,"crit_chance":0.14,"crit_mult":2,"status_chance":0.3,"speed":18.75,"shot_type":"Projectile","flight":220,"falloff":{"start":1500,"end":3000,"reduction":0.6786},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 17.5","wikia_thumbnail":"https://wiki.warframe.com/images/Phaedra.png?154a1","wikia_url":"https://wiki.warframe.com/w/Phaedra"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/Prisma/PrismaArchHeavyPistols","name":"Prisma Dual Decurions","image":"/assets/items/prisma-dual-decurions-e4d5a8cf9e.png.png","image_name":"prisma-dual-decurions-e4d5a8cf9e.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/Prisma/PrismaArchHeavyPistols","domain":"weapon","kind":"archgun","family":"prisma","category":"Arch-Gun","type":"Arch-Gun","mastery_req":1,"polarities":["madurai","madurai"],"tags":["prisma","baro"],"description":"Colder than space and less forgiving, Prisma crystals bring elite efficiency to the already sleek Dual Decurion. Requiring the lightest of touches to reload, these twin archguns prove that heavy weaponry can still possess elegance.","product_category":"SpaceGuns","is_prime":false,"tradable":true,"stats":{"damage":{"impact":49.5,"puncture":30.249998,"slash":30.25},"total_damage":110,"crit_chance":0.30000001,"crit_mult":2.2,"status_chance":0.24000001,"attacks":[{"name":"Normal Attack","damage":{"impact":49.5,"slash":30.25,"puncture":30.25},"total_damage":110,"crit_chance":0.3,"crit_mult":2.2,"status_chance":0.24,"speed":12.5,"shot_type":"Projectile","flight":300,"falloff":{"start":1500,"end":3000,"reduction":0.5},"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Hotfix 29.5.8","wikia_thumbnail":"https://wiki.warframe.com/images/PrismaDualDecurions.png?25327","wikia_url":"https://wiki.warframe.com/w/Prisma_Dual_Decurions"},{"id":"/Lotus/Weapons/Tenno/Archwing/Melee/VoidTraderArchsword/VTArchSwordWeapon","name":"Prisma Veritux","image":"/assets/items/prisma-veritux-b7348241ce.png.png","image_name":"prisma-veritux-b7348241ce.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Melee/VoidTraderArchsword/VTArchSwordWeapon","domain":"weapon","kind":"archmelee","family":"prisma","category":"Arch-Melee","type":"Arch-Melee","mastery_req":8,"polarities":["vazarin"],"tags":["tenno","prisma"],"description":"A rare object of beauty, this Archwing sword has been sheathed in prisma crystal and baptized in the Void’s energy.","product_category":"SpaceMelee","is_prime":false,"tradable":true,"stats":{"damage":{"impact":59.100002,"puncture":275.79999,"slash":59.100002},"total_damage":394,"crit_chance":0.30000001,"crit_mult":2,"status_chance":0.19999999,"attacks":[{"name":"Normal Attack","damage":{"impact":59.1,"slash":275.8,"puncture":59.1},"total_damage":394.00000000000006,"crit_chance":0.3,"crit_mult":2,"status_chance":0.2,"speed":1,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Hotfix 15.13.3","wikia_thumbnail":"https://wiki.warframe.com/images/PrismaVeritux.png?571f6","wikia_url":"https://wiki.warframe.com/w/Prisma_Veritux"},{"id":"/Lotus/Weapons/Tenno/Archwing/Melee/ArchHammer/ArchHammer","name":"Rathbone","image":"/assets/items/rathbone-918424e099.png.png","image_name":"rathbone-918424e099.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Melee/ArchHammer/ArchHammer","domain":"weapon","kind":"archmelee","family":"arch-melee","category":"Arch-Melee","type":"Arch-Melee","mastery_req":6,"polarities":["madurai"],"tags":["tenno"],"description":"Using Archwing's jets for thrust, this massive hammer crushes anything in its path.","product_category":"SpaceMelee","is_prime":false,"tradable":false,"stats":{"damage":{"impact":360,"puncture":22.499979,"slash":67.5},"total_damage":449.99997,"crit_chance":0.2,"crit_mult":2,"status_chance":0.12,"attacks":[{"name":"Normal Attack","damage":{"impact":360,"slash":22.5,"puncture":67.5},"total_damage":450,"crit_chance":0.2,"crit_mult":2,"status_chance":0.12,"speed":0.917,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 15.2","wikia_thumbnail":"https://wiki.warframe.com/images/Rathbone.png?255ff","wikia_url":"https://wiki.warframe.com/w/Rathbone"},{"id":"/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun","name":"Velocitus","image":"/assets/items/velocitus-218fe8d40e.png.png","image_name":"velocitus-218fe8d40e.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun","domain":"weapon","kind":"archgun","family":"arch-gun","category":"Arch-Gun","type":"Arch-Gun","mastery_req":0,"polarities":[],"tags":["tenno"],"description":"When fully charged, the magnetized barrel of the Velocitus accelerates a metal slug to tremendous speeds, piercing hulls and obliterating armor.","product_category":"SpaceGuns","is_prime":false,"tradable":false,"stats":{"damage":{"impact":400,"puncture":400,"slash":400,"magnetic":400},"total_damage":1600,"crit_chance":0.30000001,"crit_mult":2,"status_chance":0.25,"attacks":[{"name":"Uncharged Shot","damage":{"impact":150,"slash":150,"puncture":150,"magnetic":150},"total_damage":600,"crit_chance":0.3,"crit_mult":2,"status_chance":0.25,"speed":5,"shot_type":"Projectile","flight":500,"falloff":null,"slide":null,"charge_time":null,"punch_through":0},{"name":"Charged Shot","damage":{"impact":400,"slash":400,"puncture":400,"magnetic":400},"total_damage":1600,"crit_chance":0.6,"crit_mult":3.6,"status_chance":0.25,"speed":5,"shot_type":"Projectile","flight":500,"falloff":null,"slide":null,"charge_time":1,"punch_through":0}]},"introduced":"Update 15.2","wikia_thumbnail":"https://wiki.warframe.com/images/Velocitus.png?26b5b","wikia_url":"https://wiki.warframe.com/w/Velocitus"},{"id":"/Lotus/Weapons/Tenno/Archwing/Melee/Archsword/ArchSwordWeapon","name":"Veritux","image":"/assets/items/veritux-a2d86d183e.png.png","image_name":"veritux-a2d86d183e.png","unique_name":"/Lotus/Weapons/Tenno/Archwing/Melee/Archsword/ArchSwordWeapon","domain":"weapon","kind":"archmelee","family":"arch-melee","category":"Arch-Melee","type":"Arch-Melee","mastery_req":0,"polarities":["vazarin"],"tags":["tenno"],"description":"Weightless space turns this impossibly massive sword into an agile instrument of destruction.","product_category":"SpaceMelee","is_prime":false,"tradable":false,"stats":{"damage":{"impact":70.5,"puncture":329,"slash":70.5},"total_damage":470,"crit_chance":0.050000001,"crit_mult":1.5,"status_chance":0.10000002,"attacks":[{"name":"Normal Attack","damage":{"impact":70.5,"slash":329,"puncture":70.5},"total_damage":470,"crit_chance":0.05,"crit_mult":1.5,"status_chance":0.1,"speed":0.833,"shot_type":null,"flight":null,"falloff":null,"slide":null,"charge_time":null,"punch_through":0}]},"introduced":"Update 15.0","wikia_thumbnail":"https://wiki.warframe.com/images/Veritux.png?e0827","wikia_url":"https://wiki.warframe.com/w/Veritux"}]
+[
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon",
+    "name": "Agkuza",
+    "image": "/assets/items/agkuza-ad630f8d41.png.png",
+    "image_name": "agkuza-ad630f8d41.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 3,
+    "polarities": [
+      "vazarin"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Tear apart incoming enemies with this massive hooked blade.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 65.400002,
+        "puncture": 65.399986,
+        "slash": 305.19998
+      },
+      "total_damage": 435.99997,
+      "crit_chance": 0.050000001,
+      "crit_mult": 1.5,
+      "status_chance": 0.14999998,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 65.4,
+            "slash": 65.4,
+            "puncture": 305.2
+          },
+          "total_damage": 436,
+          "crit_chance": 0.05,
+          "crit_mult": 1.5,
+          "status_chance": 0.15,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update: Specters of the Rail 0.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Agkuza.png?5cbfc",
+    "wikia_url": "https://wiki.warframe.com/w/Agkuza"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun",
+    "name": "Arbucep",
+    "image": "/assets/items/arbucep-6cabdc8f25.png.png",
+    "image_name": "arbucep-6cabdc8f25.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 0,
+    "polarities": [
+      "madurai",
+      "naramon"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Nokko’s signature archgun fires six homing missiles, each bearing a payload of one of the six combined elements which detonate in an area upon impact.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "blast": 130
+      },
+      "total_damage": 130,
+      "crit_chance": 0.1,
+      "crit_mult": 2.9000001,
+      "status_chance": 0.34900004,
+      "attacks": [
+        {
+          "name": "1st Attack",
+          "damage": {
+            "blast": 16
+          },
+          "total_damage": 16,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "Projectile",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "1st Attack Radial Attack",
+          "damage": {
+            "blast": 114
+          },
+          "total_damage": 114,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "2nd Attack",
+          "damage": {
+            "corrosive": 16
+          },
+          "total_damage": 16,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "Projectile",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "2nd Attack Radial Attack",
+          "damage": {
+            "corrosive": 114
+          },
+          "total_damage": 114,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "3rd Attack",
+          "damage": {
+            "gas": 16
+          },
+          "total_damage": 16,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "Projectile",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "3rd Attack Radial Attack",
+          "damage": {
+            "gas": 114
+          },
+          "total_damage": 114,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "4th Attack",
+          "damage": {
+            "magnetic": 16
+          },
+          "total_damage": 16,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "Projectile",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "4th Attack Radial Attack",
+          "damage": {
+            "magnetic": 114
+          },
+          "total_damage": 114,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "5th Attack",
+          "damage": {
+            "radiation": 16
+          },
+          "total_damage": 16,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "Projectile",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "5th Attack Radial Attack",
+          "damage": {
+            "radiation": 114
+          },
+          "total_damage": 114,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "6th Attack",
+          "damage": {
+            "viral": 16
+          },
+          "total_damage": 16,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "Projectile",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "6th Attack Radial Attack",
+          "damage": {
+            "viral": 114
+          },
+          "total_damage": 114,
+          "crit_chance": 0.1,
+          "crit_mult": 2.9,
+          "status_chance": 0.349,
+          "speed": 1.5,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 1500,
+            "end": 2003,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 40.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Arbucep.png?37aa2",
+    "wikia_url": "https://wiki.warframe.com/w/Arbucep"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield",
+    "name": "Centaur",
+    "image": "/assets/items/centaur-a00c7e4fd8.png.png",
+    "image_name": "centaur-a00c7e4fd8.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 8,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Part sword, part shield, the Centaur excels at charging headlong into enemy fire.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 37.600002,
+        "puncture": 263.19998,
+        "slash": 75.200005
+      },
+      "total_damage": 376,
+      "crit_chance": 0.25,
+      "crit_mult": 2,
+      "status_chance": 0.19999999,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 37.6,
+            "slash": 263.2,
+            "puncture": 75.2
+          },
+          "total_damage": 376,
+          "crit_chance": 0.25,
+          "crit_mult": 2,
+          "status_chance": 0.2,
+          "speed": 1.08,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Hotfix 15.7.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Centaur.png?ad3fd",
+    "wikia_url": "https://wiki.warframe.com/w/Centaur"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchGun/ThanoTechArchGun",
+    "name": "Cortege",
+    "image": "/assets/items/cortege-9af4117990.png.png",
+    "image_name": "cortege-9af4117990.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchGun/ThanoTechArchGun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 14,
+    "polarities": [],
+    "tags": [
+      "entrati"
+    ],
+    "description": "An ancient weapon designed by the Entrati for use by their Necramechs. Primary fire siphons life essence from the target to fuel a devastating secondary fire. A heavy flamethrower with surprising range. Secondary fire launches three projectiles in a fan pattern that explode, leaving a damaging area of effect for a short duration.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "heat": 90
+      },
+      "total_damage": 90,
+      "crit_chance": 0.2,
+      "crit_mult": 1.9,
+      "status_chance": 0.39999998,
+      "attacks": [
+        {
+          "name": "Held",
+          "damage": {
+            "heat": 90
+          },
+          "total_damage": 90,
+          "crit_chance": 0.2,
+          "crit_mult": 1.9,
+          "status_chance": 0.4,
+          "speed": 12,
+          "shot_type": "Hit-Scan",
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Grenade Impact",
+          "damage": {
+            "impact": 10
+          },
+          "total_damage": 10,
+          "crit_chance": 0.3,
+          "crit_mult": 2.4,
+          "status_chance": 0.16699999999999998,
+          "speed": 0.25,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Radial Attack",
+          "damage": {
+            "blast": 1000
+          },
+          "total_damage": 1000,
+          "crit_chance": 0.3,
+          "crit_mult": 2.4,
+          "status_chance": 0.16699999999999998,
+          "speed": 0.25,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 4,
+            "reduction": 0.3
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 29.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Cortege.png?b7e25",
+    "wikia_url": "https://wiki.warframe.com/w/Cortege"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/LaunchGrenade/ArchCannon",
+    "name": "Corvas",
+    "image": "/assets/items/corvas-13db9b551f.png.png",
+    "image_name": "corvas-13db9b551f.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/LaunchGrenade/ArchCannon",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 1,
+    "polarities": [
+      "naramon"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "When fully charged, this flak cannon delivers a devastating shot. Perfect for taking down fast-moving interceptors.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 400,
+        "heat": 480
+      },
+      "total_damage": 880,
+      "crit_chance": 0.40000001,
+      "crit_mult": 2.5999999,
+      "status_chance": 0.13,
+      "attacks": [
+        {
+          "name": "Uncharged Shot",
+          "damage": {
+            "impact": 200,
+            "heat": 240
+          },
+          "total_damage": 440,
+          "crit_chance": 0.4,
+          "crit_mult": 2.6,
+          "status_chance": 0.13,
+          "speed": 2,
+          "shot_type": "Projectile",
+          "flight": 400,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Charged Shot",
+          "damage": {
+            "impact": 400,
+            "heat": 480
+          },
+          "total_damage": 880,
+          "crit_chance": 0.4,
+          "crit_mult": 3,
+          "status_chance": 0.13,
+          "speed": 2,
+          "shot_type": "Projectile",
+          "flight": 400,
+          "falloff": {
+            "start": 600,
+            "end": 1200
+          },
+          "slide": null,
+          "charge_time": 0.5,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Corvas.png?2ae6a",
+    "wikia_url": "https://wiki.warframe.com/w/Corvas"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/PrimeCorvas/PrimeCorvasWeapon",
+    "name": "Corvas Prime",
+    "image": "/assets/items/corvas-prime-3a5514ae24.png.png",
+    "image_name": "corvas-prime-3a5514ae24.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/PrimeCorvas/PrimeCorvasWeapon",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "prime",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 14,
+    "polarities": [
+      "madurai",
+      "madurai",
+      "naramon"
+    ],
+    "tags": [
+      "prime"
+    ],
+    "description": "Flaunting ceremonial beauty, this arch gun flak cannon is even more devastating than its standard issue counterpart.",
+    "product_category": "SpaceGuns",
+    "is_prime": true,
+    "tradable": true,
+    "stats": {
+      "damage": {
+        "impact": 430,
+        "heat": 530
+      },
+      "total_damage": 960,
+      "crit_chance": 0.44,
+      "crit_mult": 3,
+      "status_chance": 0.30000001,
+      "attacks": [
+        {
+          "name": "Uncharged Shot",
+          "damage": {
+            "impact": 230,
+            "heat": 330
+          },
+          "total_damage": 560,
+          "crit_chance": 0.44,
+          "crit_mult": 3,
+          "status_chance": 0.2,
+          "speed": 2,
+          "shot_type": "Projectile",
+          "flight": 120,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Charged Shot",
+          "damage": {
+            "impact": 430,
+            "heat": 530
+          },
+          "total_damage": 960,
+          "crit_chance": 0.56,
+          "crit_mult": 3,
+          "status_chance": 0.2,
+          "speed": 2,
+          "shot_type": "Projectile",
+          "flight": 140,
+          "falloff": {
+            "start": 100,
+            "end": 200,
+            "reduction": 0.5
+          },
+          "slide": null,
+          "charge_time": 0.5,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 31.3",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/CorvasPrime.png?290fd",
+    "wikia_url": "https://wiki.warframe.com/w/Corvas_Prime_(Atmosphere)"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchBurstGun/ArchBurstGun",
+    "name": "Cyngas",
+    "image": "/assets/items/cyngas-842f5f0899.png.png",
+    "image_name": "cyngas-842f5f0899.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchBurstGun/ArchBurstGun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 4,
+    "polarities": [],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Unload deadly accurate bursts of mayhem.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 39.600002,
+        "puncture": 40.799995,
+        "slash": 39.600002
+      },
+      "total_damage": 120,
+      "crit_chance": 0.2,
+      "crit_mult": 2.2,
+      "status_chance": 0.30000001,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 39.6,
+            "slash": 40.8,
+            "puncture": 39.6
+          },
+          "total_damage": 120,
+          "crit_chance": 0.2,
+          "crit_mult": 2.2,
+          "status_chance": 0.3,
+          "speed": 6.67,
+          "shot_type": "Projectile",
+          "flight": 220,
+          "falloff": {
+            "start": 1500,
+            "end": 3000,
+            "reduction": 0.8
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update: Specters of the Rail 0.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Cyngas.png?1a357",
+    "wikia_url": "https://wiki.warframe.com/w/Cyngas"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/ArchHeavyPistols",
+    "name": "Dual Decurion",
+    "image": "/assets/items/dual-decurion-2c12e236ac.png.png",
+    "image_name": "dual-decurion-2c12e236ac.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/ArchHeavyPistols",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 1,
+    "polarities": [],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Delivering twin streams of highly accurate, rapid-fire ordnance, the Decurion are specifically designed for combat in the vacuum of space.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 49.5,
+        "puncture": 30.249998,
+        "slash": 30.25
+      },
+      "total_damage": 110,
+      "crit_chance": 0.28,
+      "crit_mult": 2.2,
+      "status_chance": 0.13999999,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 49.5,
+            "slash": 30.25,
+            "puncture": 30.25
+          },
+          "total_damage": 110,
+          "crit_chance": 0.28,
+          "crit_mult": 2.2,
+          "status_chance": 0.14,
+          "speed": 10.42,
+          "shot_type": "Projectile",
+          "flight": 220,
+          "falloff": {
+            "start": 1500,
+            "end": 3000,
+            "reduction": 0.5
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/DualDecurion.png?9569b",
+    "wikia_url": "https://wiki.warframe.com/w/Dual_Decurion"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/RocketArtillery/ArchRocketCrossbow",
+    "name": "Fluctus",
+    "image": "/assets/items/fluctus-1e012e3298.png.png",
+    "image_name": "fluctus-1e012e3298.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/RocketArtillery/ArchRocketCrossbow",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 2,
+    "polarities": [
+      "naramon"
+    ],
+    "tags": [
+      "tenno",
+      "corpus"
+    ],
+    "description": "An Archwing energy weapon that sends waves of deadly plasma crashing into enemies.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 50,
+        "puncture": 175,
+        "slash": 25
+      },
+      "total_damage": 250,
+      "crit_chance": 0.22,
+      "crit_mult": 2,
+      "status_chance": 0.15999997,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 50,
+            "slash": 175,
+            "puncture": 25
+          },
+          "total_damage": 250,
+          "crit_chance": 0.22,
+          "crit_mult": 2,
+          "status_chance": 0.16,
+          "speed": 5,
+          "shot_type": "Projectile",
+          "flight": 300,
+          "falloff": {
+            "start": 800,
+            "end": 1600,
+            "reduction": 0.5
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Hotfix 15.7.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Fluctus.png?e32bf",
+    "wikia_url": "https://wiki.warframe.com/w/Fluctus"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/RepurposedGrineerAntiAircraftGun/ArchGRNAAGun",
+    "name": "Grattler",
+    "image": "/assets/items/grattler-ce089ce28a.png.png",
+    "image_name": "grattler-ce089ce28a.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/RepurposedGrineerAntiAircraftGun/ArchGRNAAGun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 4,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "grineer"
+    ],
+    "description": "Shatter your targets with explosive shells from this devastating Archwing cannon.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 22.5,
+        "puncture": 22.499992,
+        "slash": 180,
+        "blast": 310
+      },
+      "total_damage": 535,
+      "crit_chance": 0.25,
+      "crit_mult": 2,
+      "status_chance": 0.25,
+      "attacks": [
+        {
+          "name": "Projectile Impact",
+          "damage": {
+            "impact": 15,
+            "slash": 15,
+            "puncture": 120
+          },
+          "total_damage": 150,
+          "crit_chance": 0.25,
+          "crit_mult": 2,
+          "status_chance": 0.25,
+          "speed": 6.25,
+          "shot_type": "Projectile",
+          "flight": 250,
+          "falloff": {
+            "start": 1000,
+            "end": 2000
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Explosion",
+          "damage": {
+            "blast": 205
+          },
+          "total_damage": 205,
+          "crit_chance": 0.25,
+          "crit_mult": 2,
+          "status_chance": 0.25,
+          "speed": 6.25,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 9,
+            "reduction": 0.7
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 17.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Grattler.png?fa336",
+    "wikia_url": "https://wiki.warframe.com/w/Grattler"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGun",
+    "name": "Imperator",
+    "image": "/assets/items/imperator-06651a85cb.png.png",
+    "image_name": "imperator-06651a85cb.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 0,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "A long range rifle capable of firing in space, the Imperator's versatility makes it an ideal weapon for space combat.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 20,
+        "puncture": 12.5,
+        "slash": 17.5
+      },
+      "total_damage": 50,
+      "crit_chance": 0.23999999,
+      "crit_mult": 2,
+      "status_chance": 0.12,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 20,
+            "slash": 12.5,
+            "puncture": 17.5
+          },
+          "total_damage": 50,
+          "crit_chance": 0.24,
+          "crit_mult": 2,
+          "status_chance": 0.12,
+          "speed": 16.7,
+          "shot_type": "Projectile",
+          "flight": 220,
+          "falloff": {
+            "start": 1500,
+            "end": 3000,
+            "reduction": 0.5
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Imperator.png?3a6f3",
+    "wikia_url": "https://wiki.warframe.com/w/Imperator"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGunVandal",
+    "name": "Imperator Vandal",
+    "image": "/assets/items/imperator-vandal-11d120197b.png.png",
+    "image_name": "imperator-vandal-11d120197b.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGunVandal",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "vandal",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 5,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno",
+      "vandal"
+    ],
+    "description": "The Imperator Vandal has been customized by the Tenno with a blue-green metallic finish and Lotus branding on the barrel.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": true,
+    "stats": {
+      "damage": {
+        "impact": 20,
+        "puncture": 12.5,
+        "slash": 17.5
+      },
+      "total_damage": 50,
+      "crit_chance": 0.28,
+      "crit_mult": 2.4000001,
+      "status_chance": 0.12,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 20,
+            "slash": 12.5,
+            "puncture": 17.5
+          },
+          "total_damage": 50,
+          "crit_chance": 0.28,
+          "crit_mult": 2.4,
+          "status_chance": 0.12,
+          "speed": 25,
+          "shot_type": "Projectile",
+          "flight": 220,
+          "falloff": {
+            "start": 1500,
+            "end": 3000,
+            "reduction": 0.5
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.8",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/ImperatorVandal.png?a8014",
+    "wikia_url": "https://wiki.warframe.com/w/Imperator_Vandal"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe",
+    "name": "Kaszas",
+    "image": "/assets/items/kaszas-fa004e9997.png.png",
+    "image_name": "kaszas-fa004e9997.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 4,
+    "polarities": [
+      "vazarin"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Become an angel of death, with this Archwing scythe.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 19.6,
+        "puncture": 58.799992,
+        "slash": 313.60001
+      },
+      "total_damage": 392,
+      "crit_chance": 0.15000001,
+      "crit_mult": 2,
+      "status_chance": 0.19999999,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 19.7,
+            "slash": 58.7,
+            "puncture": 313.6
+          },
+          "total_damage": 392,
+          "crit_chance": 0.15,
+          "crit_mult": 2,
+          "status_chance": 0.2,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 17.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Kaszas.png?9fcb4",
+    "wikia_url": "https://wiki.warframe.com/w/Kaszas"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon",
+    "name": "Knux",
+    "image": "/assets/items/knux-939cea4c86.png.png",
+    "image_name": "knux-939cea4c86.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 7,
+    "polarities": [
+      "vazarin"
+    ],
+    "tags": [
+      "grineer"
+    ],
+    "description": "Gallium-alloy gauntlets for close-range Archwing combat. Designed by the infamous Tyl Regor.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 400.5,
+        "puncture": 22.250006,
+        "slash": 22.25
+      },
+      "total_damage": 445,
+      "crit_chance": 0.13,
+      "crit_mult": 2,
+      "status_chance": 0.30000001,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 400.5,
+            "slash": 22.25,
+            "puncture": 22.25
+          },
+          "total_damage": 445,
+          "crit_chance": 0.13,
+          "crit_mult": 2,
+          "status_chance": 0.3,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 17.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Knux.png?2d0e0",
+    "wikia_url": "https://wiki.warframe.com/w/Knux"
+  },
+  {
+    "id": "/Lotus/Weapons/Grineer/HeavyWeapons/GrnHeavyGrenadeLauncher",
+    "name": "Kuva Ayanga",
+    "image": "/assets/items/kuva-ayanga-191784ae00.png.png",
+    "image_name": "kuva-ayanga-191784ae00.png",
+    "unique_name": "/Lotus/Weapons/Grineer/HeavyWeapons/GrnHeavyGrenadeLauncher",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "kuva",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 13,
+    "polarities": [],
+    "tags": [
+      "grineer",
+      "kuva lich"
+    ],
+    "description": "Sweep aside hordes of enemies with flaming fury of this powerful, automatic, grenade launching archgun.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 87,
+        "blast": 187
+      },
+      "total_damage": 274,
+      "crit_chance": 0.34999999,
+      "crit_mult": 2,
+      "status_chance": 0.19999999,
+      "attacks": [
+        {
+          "name": "Grenade Impact",
+          "damage": {
+            "impact": 87
+          },
+          "total_damage": 87,
+          "crit_chance": 0.35,
+          "crit_mult": 2,
+          "status_chance": 0.2,
+          "speed": 4.58,
+          "shot_type": "Projectile",
+          "flight": 300,
+          "falloff": {
+            "start": 1200,
+            "end": 2400
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Explosion",
+          "damage": {
+            "blast": 187
+          },
+          "total_damage": 187,
+          "crit_chance": 0.35,
+          "crit_mult": 2,
+          "status_chance": 0.2,
+          "speed": 4.58,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 9,
+            "reduction": 0.3
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 26.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/KuvaAyanga.png?098c6",
+    "wikia_url": "https://wiki.warframe.com/w/Kuva_Ayanga"
+  },
+  {
+    "id": "/Lotus/Weapons/Grineer/KuvaLich/HeavyWeapons/Grattler/KuvaGrattler",
+    "name": "Kuva Grattler",
+    "image": "/assets/items/kuva-grattler-57e1150f75.png.png",
+    "image_name": "kuva-grattler-57e1150f75.png",
+    "unique_name": "/Lotus/Weapons/Grineer/KuvaLich/HeavyWeapons/Grattler/KuvaGrattler",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "kuva",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 15,
+    "polarities": [
+      "madurai",
+      "madurai",
+      "madurai"
+    ],
+    "tags": [
+      "grineer",
+      "kuva lich"
+    ],
+    "description": "Reconfigured for maximum lethality, the Kuva Grattler still shatters targets with explosive shells, but now reaches maximum fire-rate instantaneously.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 5,
+        "puncture": 4.9999981,
+        "slash": 40,
+        "blast": 155
+      },
+      "total_damage": 205,
+      "crit_chance": 0.27000001,
+      "crit_mult": 2.0999999,
+      "status_chance": 0.26999998,
+      "attacks": [
+        {
+          "name": "Projectile Impact",
+          "damage": {
+            "impact": 9.4,
+            "slash": 9.4,
+            "puncture": 75.2
+          },
+          "total_damage": 94,
+          "crit_chance": 0.27,
+          "crit_mult": 2.1,
+          "status_chance": 0.27,
+          "speed": 5.55,
+          "shot_type": "Projectile",
+          "flight": 250,
+          "falloff": {
+            "start": 1000,
+            "end": 2000
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Explosion",
+          "damage": {
+            "blast": 155
+          },
+          "total_damage": 155,
+          "crit_chance": 0.27,
+          "crit_mult": 2.1,
+          "status_chance": 0.27,
+          "speed": 5.55,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 9,
+            "reduction": 0.7
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 30.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/KuvaGrattler.png?baf07",
+    "wikia_url": "https://wiki.warframe.com/w/Kuva_Grattler"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/TnShieldframeArchGun/TnShieldFrameArchGun",
+    "name": "Larkspur",
+    "image": "/assets/items/larkspur-75e75160ee.png.png",
+    "image_name": "larkspur-75e75160ee.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/TnShieldframeArchGun/TnShieldFrameArchGun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 8,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "From death blooms the Larkspur. A unique and menacing Archgun with a wild initial attack that locks onto a target then chains other targets close to the first. It also sports an explosive projectile mode. In Hildryn's grip the Larkspur carries more reserve ammo.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 10,
+        "radiation": 80
+      },
+      "total_damage": 90,
+      "crit_chance": 0.1,
+      "crit_mult": 1.4,
+      "status_chance": 0.5,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 10,
+            "radiation": 80
+          },
+          "total_damage": 90,
+          "crit_chance": 0.1,
+          "crit_mult": 1.4,
+          "status_chance": 0.5,
+          "speed": 12,
+          "shot_type": "Hit-Scan",
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Alt-Fire Projectile Impact",
+          "damage": {
+            "impact": 140,
+            "radiation": 100,
+            "blast": 180
+          },
+          "total_damage": 420,
+          "crit_chance": 0.26,
+          "crit_mult": 2.2,
+          "status_chance": 0.34,
+          "speed": 1,
+          "shot_type": "Projectile",
+          "flight": 100,
+          "falloff": null,
+          "slide": null,
+          "charge_time": 0.5,
+          "punch_through": 0
+        },
+        {
+          "name": "Explosion",
+          "damage": {
+            "radiation": 400,
+            "blast": 400
+          },
+          "total_damage": 800,
+          "crit_chance": 0.26,
+          "crit_mult": 2.2,
+          "status_chance": 0.34,
+          "speed": 1,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 9.6,
+            "reduction": 0.6
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 24.4",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Larkspur.png?15f51",
+    "wikia_url": "https://wiki.warframe.com/w/Larkspur"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/PrimeLarkspur/PrimeLarkspurWeapon",
+    "name": "Larkspur Prime",
+    "image": "/assets/items/larkspur-prime-2320f70a2f.png.png",
+    "image_name": "larkspur-prime-2320f70a2f.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/PrimeLarkspur/PrimeLarkspurWeapon",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "prime",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 8,
+    "polarities": [
+      "madurai",
+      "madurai",
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Embrace pandemonium. Chainfire and explosive potential meet in Larkspur Prime. Hildryn packs more ammo when she wields this mighty weapon.",
+    "product_category": "SpaceGuns",
+    "is_prime": true,
+    "tradable": true,
+    "stats": {
+      "damage": {
+        "impact": 10,
+        "radiation": 80
+      },
+      "total_damage": 90,
+      "crit_chance": 0.14,
+      "crit_mult": 1.6,
+      "status_chance": 0.5,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 10,
+            "radiation": 80
+          },
+          "total_damage": 90,
+          "crit_chance": 0.14,
+          "crit_mult": 1.6,
+          "status_chance": 0.5,
+          "speed": 12,
+          "shot_type": "Hit-Scan",
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Alt-Fire Projectile Impact",
+          "damage": {
+            "impact": 140,
+            "radiation": 100,
+            "blast": 180
+          },
+          "total_damage": 420,
+          "crit_chance": 0.28,
+          "crit_mult": 2.2,
+          "status_chance": 0.38,
+          "speed": 2,
+          "shot_type": "Projectile",
+          "flight": 100,
+          "falloff": null,
+          "slide": null,
+          "charge_time": 0.5,
+          "punch_through": 0
+        },
+        {
+          "name": "Explosion",
+          "damage": {
+            "radiation": 400,
+            "blast": 400
+          },
+          "total_damage": 800,
+          "crit_chance": 0.28,
+          "crit_mult": 2.2,
+          "status_chance": 0.38,
+          "speed": 2,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 9.6,
+            "reduction": 0.6
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Hotfix 32.3.6",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/LarkspurPrime.png?fdc3a",
+    "wikia_url": "https://wiki.warframe.com/w/Larkspur_Prime"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/TnConcreteArchgun/TnConcreteArchgunWeapon",
+    "name": "Mandonel",
+    "image": "/assets/items/mandonel-e7a5f57785.png.png",
+    "image_name": "mandonel-e7a5f57785.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/TnConcreteArchgun/TnConcreteArchgunWeapon",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 10,
+    "polarities": [],
+    "tags": [],
+    "description": "Mandonel fires <DT_RADIATION_COLOR>Radiation Damage projectiles. Partially charged shots release a spread and fully charged shots release a beam that dissolves into a radiation field. Projectiles that pass through the field are empowered.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 25.000002,
+        "puncture": 10,
+        "slash": 15,
+        "radiation": 40
+      },
+      "total_damage": 90,
+      "crit_chance": 0.25,
+      "crit_mult": 2,
+      "status_chance": 0.14999998,
+      "attacks": []
+    },
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchLongGun/ThanoTechLongGun",
+    "name": "Mausolon",
+    "image": "/assets/items/mausolon-483fb60c57.png.png",
+    "image_name": "mausolon-483fb60c57.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchLongGun/ThanoTechLongGun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 14,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "entrati"
+    ],
+    "description": "An ancient weapon designed by the Entrati for use by their Necramechs. Primary fire siphons life essence from the target to fuel a devastating secondary fire. Punishing automatic primary fire and a secondary mode that charges up to unleash a destructive beam of energy with a large explosion at point of impact.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 24,
+        "slash": 46,
+        "heat": 50
+      },
+      "total_damage": 120,
+      "crit_chance": 0.30000001,
+      "crit_mult": 2.2,
+      "status_chance": 0.25999999,
+      "attacks": [
+        {
+          "name": "Auto",
+          "damage": {
+            "impact": 35,
+            "puncture": 70,
+            "heat": 75
+          },
+          "total_damage": 180,
+          "crit_chance": 0.3,
+          "crit_mult": 2.2,
+          "status_chance": 0.26,
+          "speed": 8.33,
+          "shot_type": "Hit-Scan",
+          "flight": null,
+          "falloff": {
+            "start": 1400,
+            "end": 2800,
+            "reduction": 1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Auto Radial Attack",
+          "damage": {
+            "heat": 72
+          },
+          "total_damage": 72,
+          "crit_chance": 0.3,
+          "crit_mult": 2.2,
+          "status_chance": 0.26,
+          "speed": 8.33,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 1.8,
+            "reduction": 0.1
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Charged Shot Laser",
+          "damage": {
+            "impact": 150,
+            "puncture": 600,
+            "heat": 750
+          },
+          "total_damage": 1500,
+          "crit_chance": 0.5,
+          "crit_mult": 3.5,
+          "status_chance": 0.5,
+          "speed": 0.5,
+          "shot_type": "Hit-Scan",
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": 0.8,
+          "punch_through": 0
+        },
+        {
+          "name": "Charged Shot Explosion",
+          "damage": {
+            "heat": 4500
+          },
+          "total_damage": 4500,
+          "crit_chance": 0.5,
+          "crit_mult": 3.5,
+          "status_chance": 0.5,
+          "speed": 0.5,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 8,
+            "reduction": 0.4
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 29.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Mausolon.png?65300",
+    "wikia_url": "https://wiki.warframe.com/w/Mausolon"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechGrenadeLaunch/ThanoTechGrenadeLauncher",
+    "name": "Morgha",
+    "image": "/assets/items/morgha-40068b33ff.png.png",
+    "image_name": "morgha-40068b33ff.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechGrenadeLaunch/ThanoTechGrenadeLauncher",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 15,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "entrati"
+    ],
+    "description": "Blast through enemies with a double-barreled shot of energized slugs. This siphons their life essence which is then used to generate the secondary fire's massive air-burst mortar. The ancient Entrati weapon was built for Necramechs but also functions as an Archgun.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 32,
+        "blast": 164
+      },
+      "total_damage": 196,
+      "crit_chance": 0.30000001,
+      "crit_mult": 2.2,
+      "status_chance": 0.27999997,
+      "attacks": [
+        {
+          "name": "Auto-Burst",
+          "damage": {
+            "impact": 32
+          },
+          "total_damage": 32,
+          "crit_chance": 0.3,
+          "crit_mult": 2.2,
+          "status_chance": 0.28,
+          "speed": 3,
+          "shot_type": "Projectile",
+          "flight": 160,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Auto Burst Explosion",
+          "damage": {
+            "blast": 164
+          },
+          "total_damage": 164,
+          "crit_chance": 0.3,
+          "crit_mult": 2.2,
+          "status_chance": 0.28,
+          "speed": 3,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 3,
+            "reduction": 0.3
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Charged Shot",
+          "damage": {
+            "impact": 100
+          },
+          "total_damage": 100,
+          "crit_chance": 0.4,
+          "crit_mult": 3,
+          "status_chance": 0.5,
+          "speed": 0.833,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Charged Shot Explosion",
+          "damage": {
+            "impact": 600,
+            "slash": 1000,
+            "puncture": 800,
+            "blast": 1200
+          },
+          "total_damage": 3600,
+          "crit_chance": 0.4,
+          "crit_mult": 3,
+          "status_chance": 0.5,
+          "speed": 0.833,
+          "shot_type": "AoE",
+          "flight": null,
+          "falloff": {
+            "start": 0,
+            "end": 20,
+            "reduction": 0.6
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 29.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Morgha.png?fc121",
+    "wikia_url": "https://wiki.warframe.com/w/Morgha"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon",
+    "name": "Onorix",
+    "image": "/assets/items/onorix-cec1553bd5.png.png",
+    "image_name": "onorix-cec1553bd5.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 1,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "This laser bladed battle-axe easily hacks through a ship's defenses and the forces protecting it.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 123.60001,
+        "puncture": 206,
+        "slash": 82.400002
+      },
+      "total_damage": 412,
+      "crit_chance": 0.15000001,
+      "crit_mult": 1.25,
+      "status_chance": 0.050000012,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 123.6,
+            "slash": 206,
+            "puncture": 82.4
+          },
+          "total_damage": 412,
+          "crit_chance": 0.15,
+          "crit_mult": 1.3,
+          "status_chance": 0.05,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Onorix.png?f4784",
+    "wikia_url": "https://wiki.warframe.com/w/Onorix"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchLongRifle/ArchLongRifle",
+    "name": "Phaedra",
+    "image": "/assets/items/phaedra-629ac9ffc2.png.png",
+    "image_name": "phaedra-629ac9ffc2.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchLongRifle/ArchLongRifle",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 3,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Devastate free-space enemies with Phaedra, the Soma's big-sister.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 14,
+        "puncture": 5.6000013,
+        "slash": 36.399998
+      },
+      "total_damage": 56,
+      "crit_chance": 0.14,
+      "crit_mult": 2,
+      "status_chance": 0.30000001,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 14,
+            "slash": 5.6,
+            "puncture": 36.4
+          },
+          "total_damage": 56,
+          "crit_chance": 0.14,
+          "crit_mult": 2,
+          "status_chance": 0.3,
+          "speed": 18.75,
+          "shot_type": "Projectile",
+          "flight": 220,
+          "falloff": {
+            "start": 1500,
+            "end": 3000,
+            "reduction": 0.6786
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 17.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Phaedra.png?154a1",
+    "wikia_url": "https://wiki.warframe.com/w/Phaedra"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/Prisma/PrismaArchHeavyPistols",
+    "name": "Prisma Dual Decurions",
+    "image": "/assets/items/prisma-dual-decurions-e4d5a8cf9e.png.png",
+    "image_name": "prisma-dual-decurions-e4d5a8cf9e.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/Prisma/PrismaArchHeavyPistols",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "prisma",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 1,
+    "polarities": [
+      "madurai",
+      "madurai"
+    ],
+    "tags": [
+      "prisma",
+      "baro"
+    ],
+    "description": "Colder than space and less forgiving, Prisma crystals bring elite efficiency to the already sleek Dual Decurion. Requiring the lightest of touches to reload, these twin archguns prove that heavy weaponry can still possess elegance.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": true,
+    "stats": {
+      "damage": {
+        "impact": 49.5,
+        "puncture": 30.249998,
+        "slash": 30.25
+      },
+      "total_damage": 110,
+      "crit_chance": 0.30000001,
+      "crit_mult": 2.2,
+      "status_chance": 0.24000001,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 49.5,
+            "slash": 30.25,
+            "puncture": 30.25
+          },
+          "total_damage": 110,
+          "crit_chance": 0.3,
+          "crit_mult": 2.2,
+          "status_chance": 0.24,
+          "speed": 12.5,
+          "shot_type": "Projectile",
+          "flight": 300,
+          "falloff": {
+            "start": 1500,
+            "end": 3000,
+            "reduction": 0.5
+          },
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Hotfix 29.5.8",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/PrismaDualDecurions.png?25327",
+    "wikia_url": "https://wiki.warframe.com/w/Prisma_Dual_Decurions"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/VoidTraderArchsword/VTArchSwordWeapon",
+    "name": "Prisma Veritux",
+    "image": "/assets/items/prisma-veritux-b7348241ce.png.png",
+    "image_name": "prisma-veritux-b7348241ce.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/VoidTraderArchsword/VTArchSwordWeapon",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "prisma",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 8,
+    "polarities": [
+      "vazarin"
+    ],
+    "tags": [
+      "tenno",
+      "prisma"
+    ],
+    "description": "A rare object of beauty, this Archwing sword has been sheathed in prisma crystal and baptized in the Void’s energy.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": true,
+    "stats": {
+      "damage": {
+        "impact": 59.100002,
+        "puncture": 275.79999,
+        "slash": 59.100002
+      },
+      "total_damage": 394,
+      "crit_chance": 0.30000001,
+      "crit_mult": 2,
+      "status_chance": 0.19999999,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 59.1,
+            "slash": 275.8,
+            "puncture": 59.1
+          },
+          "total_damage": 394.00000000000006,
+          "crit_chance": 0.3,
+          "crit_mult": 2,
+          "status_chance": 0.2,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Hotfix 15.13.3",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/PrismaVeritux.png?571f6",
+    "wikia_url": "https://wiki.warframe.com/w/Prisma_Veritux"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchHammer/ArchHammer",
+    "name": "Rathbone",
+    "image": "/assets/items/rathbone-918424e099.png.png",
+    "image_name": "rathbone-918424e099.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchHammer/ArchHammer",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 6,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Using Archwing's jets for thrust, this massive hammer crushes anything in its path.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 360,
+        "puncture": 22.499979,
+        "slash": 67.5
+      },
+      "total_damage": 449.99997,
+      "crit_chance": 0.2,
+      "crit_mult": 2,
+      "status_chance": 0.12,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 360,
+            "slash": 22.5,
+            "puncture": 67.5
+          },
+          "total_damage": 450,
+          "crit_chance": 0.2,
+          "crit_mult": 2,
+          "status_chance": 0.12,
+          "speed": 0.917,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Rathbone.png?255ff",
+    "wikia_url": "https://wiki.warframe.com/w/Rathbone"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun",
+    "name": "Velocitus",
+    "image": "/assets/items/velocitus-218fe8d40e.png.png",
+    "image_name": "velocitus-218fe8d40e.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "tenno"
+    ],
+    "description": "When fully charged, the magnetized barrel of the Velocitus accelerates a metal slug to tremendous speeds, piercing hulls and obliterating armor.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 400,
+        "puncture": 400,
+        "slash": 400,
+        "magnetic": 400
+      },
+      "total_damage": 1600,
+      "crit_chance": 0.30000001,
+      "crit_mult": 2,
+      "status_chance": 0.25,
+      "attacks": [
+        {
+          "name": "Uncharged Shot",
+          "damage": {
+            "impact": 150,
+            "slash": 150,
+            "puncture": 150,
+            "magnetic": 150
+          },
+          "total_damage": 600,
+          "crit_chance": 0.3,
+          "crit_mult": 2,
+          "status_chance": 0.25,
+          "speed": 5,
+          "shot_type": "Projectile",
+          "flight": 500,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Charged Shot",
+          "damage": {
+            "impact": 400,
+            "slash": 400,
+            "puncture": 400,
+            "magnetic": 400
+          },
+          "total_damage": 1600,
+          "crit_chance": 0.6,
+          "crit_mult": 3.6,
+          "status_chance": 0.25,
+          "speed": 5,
+          "shot_type": "Projectile",
+          "flight": 500,
+          "falloff": null,
+          "slide": null,
+          "charge_time": 1,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Velocitus.png?26b5b",
+    "wikia_url": "https://wiki.warframe.com/w/Velocitus"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archsword/ArchSwordWeapon",
+    "name": "Veritux",
+    "image": "/assets/items/veritux-a2d86d183e.png.png",
+    "image_name": "veritux-a2d86d183e.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archsword/ArchSwordWeapon",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 0,
+    "polarities": [
+      "vazarin"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Weightless space turns this impossibly massive sword into an agile instrument of destruction.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 70.5,
+        "puncture": 329,
+        "slash": 70.5
+      },
+      "total_damage": 470,
+      "crit_chance": 0.050000001,
+      "crit_mult": 1.5,
+      "status_chance": 0.10000002,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 70.5,
+            "slash": 329,
+            "puncture": 70.5
+          },
+          "total_damage": 470,
+          "crit_chance": 0.05,
+          "crit_mult": 1.5,
+          "status_chance": 0.1,
+          "speed": 0.833,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Veritux.png?e0827",
+    "wikia_url": "https://wiki.warframe.com/w/Veritux"
+  }
+]

@@ -4,7 +4,7 @@ Rol: "Arquitectura del pipeline de datos: flujo, modelo de 4 pilares y build pip
 Impacto_ID: "D-Pipeline-Arch"
 Fidelidad_Fisica: "Project/scripts/"
 Fecha_de_creacion: "2026-03-21"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-22"
 ---
 
 # Pipeline — Arquitectura
@@ -87,9 +87,11 @@ El motor de generación (`Project/scripts/generate-data.ts`) transforma la fuent
 - **`sourceFingerprint`** — hash sha256 del contenido canónico → detecta cambios de valor (independiente del formato de escritura).
 - **`delta`** entre el run anterior y el actual: `newItems`, `changedFingerprint`, `changedLastSourceUpdate`, `unchangedItems`. Responde *"¿se tocó algo viejo o solo se añadió nuevo?"* — `changedFingerprint === 0 && newItems > 0` = solo altas.
 
+**Cobertura:** el audit cubre **7 de los 8** artefactos generados (warframes, weapons, mods, arcanes, companions, archwing-weapons, vehicles). `passives.json` queda **deliberadamente fuera**: `passivesDb` es un `Record` keyed por path, no un array de ítems con `sourceFingerprint`, y no encaja en `buildAuditEntries`. Un cambio en passives **no lo detecta el delta** — punto ciego conocido y aceptado.
+
 **Rol:** es la mitad-fuente de la detección de **staleness override↔pipeline** — cuando la fuente actualiza un ítem que tiene override manual, ese override queda sospechoso de estar viejo. El **puente a overrides no existe** aún (los `*.override.json` no llevan sello de versión) → es el gate vivo de `OQ-DATA-9`. Es **detección, no mutación**: señala qué revisar, nunca toca overrides automáticamente.
 
-> ⚠️ **Deuda de formato:** `writeJson` escribe **minified** pero los JSON committeados en `public/data/` están **pretty** — regenerar tira un diff de ~188k líneas de puro formato que ahoga la señal de "qué cambió". Resolver (pretty consistente en `writeJson`) **antes** de convertir el tracking en flujo recurrente.
+> **Formato de salida:** `writeJson` emite **pretty (2 espacios) + newline final** → regenerar produce diffs **solo-contenido**. Como `sourceFingerprint` es format-independiente (ver arriba), la elección de formato no afecta el tracking, solo la legibilidad del diff.
 
 ## Documentos relacionados
 

@@ -46,9 +46,9 @@ const arcaneNormalizationState = createArcaneNormalizationState()
 const weaponNormalizationState = createWeaponNormalizationState()
 const polarityNormalizationState = createPolarityNormalizationState()
 
-async function writeJson(fileName: string, data: unknown, pretty = false): Promise<void> {
+async function writeJson(fileName: string, data: unknown, pretty = true): Promise<void> {
   const output = pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data)
-  await fs.writeFile(path.join(outDir, fileName), output)
+  await fs.writeFile(path.join(outDir, fileName), output + '\n')
 }
 
 async function persistRuntimeDataArtifacts(artifacts: RuntimeDataArtifacts): Promise<void> {

@@ -1,1 +1,2454 @@
-[{"id":"/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerSuit","name":"Adarza Kavat","image":"/assets/items/adarza-kavat-9155649686.png.png","image_name":"adarza-kavat-9155649686.png","unique_name":"/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","penjaga"],"tags":[],"description":"A vicious and deadly Kavat prized for its combat prowess, offering increased critical chance and punishing those that dare attack it.","stats":{"health":310,"shield":270,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update: Specters of the Rail 0.0","wikia_thumbnail":"https://wiki.warframe.com/images/AdarzaKavat.png?c023b","wikia_url":"https://wiki.warframe.com/w/Adarza_Kavat"},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyA","name":"Adlet Core","image":"/assets/items/adlet-core-669b6f6ed6.png.png","image_name":"adlet-core-669b6f6ed6.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyA","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenA","name":"Adra Mutagen","image":"/assets/items/adra-mutagen-1ce8daeeb9.png.png","image_name":"adra-mutagen-1ce8daeeb9.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenA","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadAegron","name":"Aegron Gyro","image":"/assets/items/aegron-gyro-8fd83ea080.png.png","image_name":"aegron-gyro-8fd83ea080.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadAegron","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineArcotek","name":"Alcrom Core","image":"/assets/items/alcrom-core-0bcd9e4c50.png.png","image_name":"alcrom-core-0bcd9e4c50.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineArcotek","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenC","name":"Arioli Mutagen","image":"/assets/items/arioli-mutagen-d46942fe31.png.png","image_name":"arioli-mutagen-d46942fe31.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenC","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadThermocor","name":"Atheca Gyro","image":"/assets/items/atheca-gyro-8ca14b81ce.png.png","image_name":"atheca-gyro-8ca14b81ce.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadThermocor","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadB","name":"Bhaira Hound","image":"/assets/items/bhaira-hound-7cde58bf1c.png.png","image_name":"bhaira-hound-7cde58bf1c.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadB","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit","name":"Carrier","image":"/assets/items/carrier-f4e5806f6e.png.png","image_name":"carrier-f4e5806f6e.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","vazarin","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Assault Mode' and 'Ammo Case' as default Precepts, Carrier is a seeker Sentinel. Carrier also comes with a shotgun weapon.","stats":{"health":560,"shield":250,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 10.0","wikia_thumbnail":"https://wiki.warframe.com/images/Carrier.png?fb038","wikia_url":"https://wiki.warframe.com/w/Carrier"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit","name":"Carrier Prime","image":"/assets/items/carrier-prime-7e84bae628.png.png","image_name":"carrier-prime-7e84bae628.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit","domain":"companion","kind":"sentinel","family":"prime","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","madurai","penjaga","vazarin","penjaga"],"tags":["sentinel","robotic"],"description":"This ornate sentinel is an excellent example of late Orokin craftsmanship and styling.","stats":{"health":650,"shield":300,"armor":150},"is_prime":true,"tradable":true,"introduced":"Update 16.11","wikia_thumbnail":"https://wiki.warframe.com/images/CarrierPrime.png?5bad8","wikia_url":"https://wiki.warframe.com/w/Carrier%2FPrime"},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsA","name":"Cela Bracket","image":"/assets/items/cela-bracket-0038da5467.png.png","image_name":"cela-bracket-0038da5467.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsA","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Game/KubrowPet/RetrieverKubrowPetPowerSuit","name":"Chesa Kubrow","image":"/assets/items/chesa-kubrow-d9e3052301.png.png","image_name":"chesa-kubrow-d9e3052301.png","unique_name":"/Lotus/Types/Game/KubrowPet/RetrieverKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","vazarin","penjaga"],"tags":["kubrow","beast"],"description":"A clever accomplice, trained to relieve the enemy of both their weapons and their loot caches.","stats":{"health":940,"shield":290,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 17.0","wikia_thumbnail":"https://wiki.warframe.com/images/ChesaKubrow.png?12edc","wikia_url":"https://wiki.warframe.com/w/Chesa_Kubrow"},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenB","name":"Chiten Mutagen","image":"/assets/items/chiten-mutagen-7e5ae78ae2.png.png","image_name":"chiten-mutagen-7e5ae78ae2.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenB","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/HornedInfestedCatbrowPetPowerSuit","name":"Crescent Vulpaphyla","image":"/assets/items/crescent-vulpaphyla-7926240141.png.png","image_name":"crescent-vulpaphyla-7926240141.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/HornedInfestedCatbrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga"],"tags":[],"description":"Fast and foxy, Vulpaphyla are agile allies to bring along on your next adventure.","stats":{"health":680,"shield":370,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 29.0","wikia_thumbnail":"https://wiki.warframe.com/images/CrescentVulpaphyla.png?e0913","wikia_url":"https://wiki.warframe.com/w/Crescent_Vulpaphyla"},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenB","name":"Desus Antigen","image":"/assets/items/desus-antigen-3e05a951a9.png.png","image_name":"desus-antigen-3e05a951a9.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenB","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit","name":"Dethcube","image":"/assets/items/dethcube-c0fb93fb8c.png.png","image_name":"dethcube-c0fb93fb8c.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Assault Mode' and 'Vaporize' as default precepts, Dethcube acts exactly as advertised, as a badass cube of 'deth'. Comes loaded with Deth Machine Rifle weapon.","stats":{"health":560,"shield":250,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 8.0","wikia_thumbnail":"https://wiki.warframe.com/images/Dethcube.png?d7366","wikia_url":"https://wiki.warframe.com/w/Dethcube"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit","name":"Dethcube Prime","image":"/assets/items/dethcube-prime-568b4f3c87.png.png","image_name":"dethcube-prime-568b4f3c87.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit","domain":"companion","kind":"sentinel","family":"prime","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","vazarin","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Assault Mode' and 'Vaporize' as default precepts, Dethcube Prime is the apex of lethal support. Comes loaded with Deth Machine Rifle Prime weapon.","stats":{"health":600,"shield":300,"armor":150},"is_prime":true,"tradable":true,"introduced":"Update 25.8","wikia_thumbnail":"https://wiki.warframe.com/images/DethcubePrime.png?75332","wikia_url":"https://wiki.warframe.com/w/Dethcube%2FPrime"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit","name":"Diriga","image":"/assets/items/diriga-b51a3dc56d.png.png","image_name":"diriga-b51a3dc56d.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","penjaga"],"tags":["sentinel","robotic"],"description":"Diriga shocks nearby enemies, and picks off distant threats, utilizing the Vulklok sniper rifle and the 'Calculated Shot', 'Arc Coil' and 'Electro Pulse' precepts.","stats":{"health":700,"shield":150,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 17.3","wikia_thumbnail":"https://wiki.warframe.com/images/Diriga.png?95532","wikia_url":"https://wiki.warframe.com/w/Diriga"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit","name":"Djinn","image":"/assets/items/djinn-95bb8b0ef8.png.png","image_name":"djinn-95bb8b0ef8.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","naramon","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Thumper' and 'Fatal Attraction' as default Precepts, Djinn is a combat Sentinel. Djinn also comes with a poison dart weapon.","stats":{"health":560,"shield":250,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 10.0","wikia_thumbnail":"https://wiki.warframe.com/images/Djinn.png?2bee3","wikia_url":"https://wiki.warframe.com/w/Djinn"},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadA","name":"Dorma Hound","image":"/assets/items/dorma-hound-e3020d33c4.png.png","image_name":"dorma-hound-e3020d33c4.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadA","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineThricore","name":"Drex Core","image":"/assets/items/drex-core-11daddd19b.png.png","image_name":"drex-core-11daddd19b.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineThricore","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegA","name":"Drimper Bracket","image":"/assets/items/drimper-bracket-fd2be44d6b.png.png","image_name":"drimper-bracket-fd2be44d6b.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegA","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenA","name":"Elasmun Antigen","image":"/assets/items/elasmun-antigen-a8bd6a0e75.png.png","image_name":"elasmun-antigen-a8bd6a0e75.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenA","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenB","name":"Elsa Mutagen","image":"/assets/items/elsa-mutagen-db1077954a.png.png","image_name":"elsa-mutagen-db1077954a.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenB","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailC","name":"Frak Stabilizer","image":"/assets/items/frak-stabilizer-e2aac2d7aa.png.png","image_name":"frak-stabilizer-e2aac2d7aa.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailC","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyB","name":"Garmr Core","image":"/assets/items/garmr-core-ee94e1fb7e.png.png","image_name":"garmr-core-ee94e1fb7e.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyB","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegD","name":"Gauth Bracket","image":"/assets/items/gauth-bracket-452f3fd563.png.png","image_name":"gauth-bracket-452f3fd563.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegD","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadDarta","name":"Harpen Gyro","image":"/assets/items/harpen-gyro-87cb34e237.png.png","image_name":"harpen-gyro-87cb34e237.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadDarta","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadC","name":"Hec Hound","image":"/assets/items/hec-hound-2a523e3443.png.png","image_name":"hec-hound-2a523e3443.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadC","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit","name":"Helios","image":"/assets/items/helios-8cacabc9a2.png.png","image_name":"helios-8cacabc9a2.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","vazarin","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Investigator' as its unique Precept and 'Deconstructor' as its weapon, the versatile Helios Sentinel acts as both a lethal guardian and an automatic codex scanner. Scans require an equipped Codex Scanner and an available charge.","stats":{"health":560,"shield":250,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 12.5","wikia_thumbnail":"https://wiki.warframe.com/images/Helios.png?a5e25","wikia_url":"https://wiki.warframe.com/w/Helios"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit","name":"Helios Prime","image":"/assets/items/helios-prime-7bd311ccae.png.png","image_name":"helios-prime-7bd311ccae.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit","domain":"companion","kind":"sentinel","family":"prime","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","vazarin","penjaga"],"tags":["sentinel","robotic"],"description":"This knowledge hungry protector defends its master with Deconstructor Prime.","stats":{"health":700,"shield":300,"armor":100},"is_prime":true,"tradable":true,"introduced":"Hotfix 19.11.5","wikia_thumbnail":"https://wiki.warframe.com/images/HeliosPrime.png?c4d66","wikia_url":"https://wiki.warframe.com/w/Helios%2FPrime"},{"id":"/Lotus/Types/Game/KubrowPet/ChargerKubrowPetPowerSuit","name":"Helminth Charger","image":"/assets/items/helminth-charger-eb4e8d41ec.png.png","image_name":"helminth-charger-eb4e8d41ec.png","unique_name":"/Lotus/Types/Game/KubrowPet/ChargerKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","madurai","penjaga"],"tags":["kubrow","beast"],"description":"An experimental blending of Kubrow and Infestation. Uses maggots and other Infested abilities to inflict damage and control the battlefield.","stats":{"health":710,"shield":330,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 19.5","wikia_thumbnail":"https://wiki.warframe.com/images/HelminthCharger.png?b24a1","wikia_url":"https://wiki.warframe.com/w/Helminth_Charger"},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadHextra","name":"Hextra Gyro","image":"/assets/items/hextra-gyro-f6a8f1e11f.png.png","image_name":"hextra-gyro-f6a8f1e11f.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadHextra","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailB","name":"Hinta Stabilizer","image":"/assets/items/hinta-stabilizer-a9616f5570.png.png","image_name":"hinta-stabilizer-a9616f5570.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailB","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegMelee","name":"Hona Bracket","image":"/assets/items/hona-bracket-fafe4be147.png.png","image_name":"hona-bracket-fafe4be147.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegMelee","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Game/KubrowPet/FurtiveKubrowPetPowerSuit","name":"Huras Kubrow","image":"/assets/items/huras-kubrow-8d5f938fa0.png.png","image_name":"huras-kubrow-8d5f938fa0.png","unique_name":"/Lotus/Types/Game/KubrowPet/FurtiveKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","madurai","penjaga"],"tags":["kubrow","beast"],"description":"A stealthy ally, surprising enemies with impressive takedowns of explosive force.","stats":{"health":560,"shield":490,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 14.0","wikia_thumbnail":"https://wiki.warframe.com/images/HurasKubrow.png?a7ddd","wikia_url":"https://wiki.warframe.com/w/Huras_Kubrow"},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenC","name":"Ibexan Antigen","image":"/assets/items/ibexan-antigen-9c56be9764.png.png","image_name":"ibexan-antigen-9c56be9764.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenC","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenB","name":"Iranon Antigen","image":"/assets/items/iranon-antigen-f038b23f3a.png.png","image_name":"iranon-antigen-f038b23f3a.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenB","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegC","name":"Jonsin Bracket","image":"/assets/items/jonsin-bracket-e329e1e176.png.png","image_name":"jonsin-bracket-e329e1e176.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegC","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineKrisys","name":"Krisys Core","image":"/assets/items/krisys-core-c7cafce5c4.png.png","image_name":"krisys-core-c7cafce5c4.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineKrisys","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadLambeo","name":"Lambeo Moa","image":"/assets/items/lambeo-moa-2cf268fdc0.png.png","image_name":"lambeo-moa-2cf268fdc0.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadLambeo","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetEngine","name":"Lehan Core","image":"/assets/items/lehan-core-adfacfcff9.png.png","image_name":"lehan-core-adfacfcff9.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetEngine","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenA","name":"Leptosam Mutagen","image":"/assets/items/leptosam-mutagen-ee68cb6866.png.png","image_name":"leptosam-mutagen-ee68cb6866.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenA","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/MedjayPredatorKubrowPetPowerSuit","name":"Medjay Predasite","image":"/assets/items/medjay-predasite-0c531c81da.png.png","image_name":"medjay-predasite-0c531c81da.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/MedjayPredatorKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga"],"tags":["kubrow","beast"],"description":"These hard-charging, four-legged predators make formidable companions when in the field.","stats":{"health":710,"shield":350,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 29.0","wikia_thumbnail":"https://wiki.warframe.com/images/MedjayPredasite.png?807ff","wikia_url":"https://wiki.warframe.com/w/Medjay_Predasite"},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenD","name":"Monachod Mutagen","image":"/assets/items/monachod-mutagen-57f834fbaa.png.png","image_name":"monachod-mutagen-57f834fbaa.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenD","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadMunitron","name":"Munit Gyro","image":"/assets/items/munit-gyro-0213e0ff05.png.png","image_name":"munit-gyro-0213e0ff05.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadMunitron","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit","name":"Nautilus","image":"/assets/items/nautilus-b1bfae3524.png.png","image_name":"nautilus-b1bfae3524.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Auto Omni' and 'Cordon' as default Precepts, this Sentinel is the ideal companion for long voyages aboard a Railjack.","stats":{"health":560,"shield":250,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 29.10","wikia_thumbnail":"https://wiki.warframe.com/images/Nautilus.png?f0f26","wikia_url":"https://wiki.warframe.com/w/Nautilus"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit","name":"Nautilus Prime","image":"/assets/items/nautilus-prime-710cc92335.png.png","image_name":"nautilus-prime-710cc92335.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit","domain":"companion","kind":"sentinel","family":"prime","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","vazarin","penjaga","penjaga","penjaga"],"tags":["sentinel","robotic"],"description":"This brave deckhand defends his crew with Verglas Prime.","stats":{"health":560,"shield":350,"armor":175},"is_prime":true,"tradable":true,"introduced":"Update 36.1","wikia_thumbnail":"https://wiki.warframe.com/images/NautilusPrime.png?63a43","wikia_url":"https://wiki.warframe.com/w/Nautilus%2FPrime"},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadMelee","name":"Nychus Moa","image":"/assets/items/nychus-moa-679ad59727.png.png","image_name":"nychus-moa-679ad59727.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadMelee","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadOloro","name":"Oloro Moa","image":"/assets/items/oloro-moa-31c59ff67f.png.png","image_name":"oloro-moa-31c59ff67f.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadOloro","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit","name":"Oxylus","image":"/assets/items/oxylus-9cb847b2e4.png.png","image_name":"oxylus-9cb847b2e4.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","vazarin","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Scan Aquatic Lifeforms' and 'Scan Matter' as default Precepts, Oxylus was designed to assist in Search-and-Rescue operations through the harsh landscape around The Orb Vallis. Oxylus also comes with a Multron rifle.","stats":{"health":560,"shield":250,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 24.0","wikia_thumbnail":"https://wiki.warframe.com/images/Oxylus.png?464ff","wikia_url":"https://wiki.warframe.com/w/Oxylus"},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/ArmoredInfestedCatbrowPetPowerSuit","name":"Panzer Vulpaphyla","image":"/assets/items/panzer-vulpaphyla-5d6c5d857b.png.png","image_name":"panzer-vulpaphyla-5d6c5d857b.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/ArmoredInfestedCatbrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga"],"tags":[],"description":"Fast and foxy, Vulpaphyla are agile allies to bring along on your next adventure.","stats":{"health":680,"shield":370,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 29.0","wikia_thumbnail":"https://wiki.warframe.com/images/PanzerVulpaphyla.png?e97bc","wikia_url":"https://wiki.warframe.com/w/Panzer_Vulpaphyla"},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadPara","name":"Para Moa","image":"/assets/items/para-moa-e983dce892.png.png","image_name":"para-moa-e983dce892.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadPara","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/PharaohPredatorKubrowPetPowerSuit","name":"Pharaoh Predasite","image":"/assets/items/pharaoh-predasite-a8fee1bece.png.png","image_name":"pharaoh-predasite-a8fee1bece.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/PharaohPredatorKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga"],"tags":["kubrow","beast"],"description":"These hard-charging, four-legged predators make formidable companions when in the field.","stats":{"health":710,"shield":350,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 29.0","wikia_thumbnail":"https://wiki.warframe.com/images/PharaohPredasite.png?9de94","wikia_url":"https://wiki.warframe.com/w/Pharaoh_Predasite"},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadTazron","name":"Phazor Gyro","image":"/assets/items/phazor-gyro-1a0a528d4c.png.png","image_name":"phazor-gyro-1a0a528d4c.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadTazron","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenD","name":"Phijar Mutagen","image":"/assets/items/phijar-mutagen-ceff9f9d36.png.png","image_name":"phijar-mutagen-ceff9f9d36.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenD","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenC","name":"Plagen Antigen","image":"/assets/items/plagen-antigen-5bc478c501.png.png","image_name":"plagen-antigen-5bc478c501.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenC","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenD","name":"Poxi Antigen","image":"/assets/items/poxi-antigen-9d93d3c5fd.png.png","image_name":"poxi-antigen-9d93d3c5fd.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenD","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit","name":"Prisma Shade","image":"/assets/items/prisma-shade-25398bfb4c.png.png","image_name":"prisma-shade-25398bfb4c.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","naramon","penjaga"],"tags":["sentinel","robotic"],"description":"A rare jewel of the void. How could anything so beautiful be crafted for stealth?","stats":{"health":700,"shield":300,"armor":80},"is_prime":false,"tradable":true,"introduced":"Hotfix 17.2.2","wikia_thumbnail":"https://wiki.warframe.com/images/PrismaShade.png?4432c","wikia_url":"https://wiki.warframe.com/w/Prisma_Shade"},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyC","name":"Raiju Core","image":"/assets/items/raiju-core-fcffc162ca.png.png","image_name":"raiju-core-fcffc162ca.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyC","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Game/KubrowPet/GuardKubrowPetPowerSuit","name":"Raksa Kubrow","image":"/assets/items/raksa-kubrow-f12afc941f.png.png","image_name":"raksa-kubrow-f12afc941f.png","unique_name":"/Lotus/Types/Game/KubrowPet/GuardKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","vazarin","penjaga"],"tags":["kubrow","beast"],"description":"A strong guardian focused on protecting its master by bolstering their defense and by driving away attackers.","stats":{"health":750,"shield":390,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 14.0","wikia_thumbnail":"https://wiki.warframe.com/images/RaksaKubrow.png?037cd","wikia_url":"https://wiki.warframe.com/w/Raksa_Kubrow"},{"id":"/Lotus/Types/Game/KubrowPet/AdventurerKubrowPetPowerSuit","name":"Sahasa Kubrow","image":"/assets/items/sahasa-kubrow-2f3f1069b3.png.png","image_name":"sahasa-kubrow-2f3f1069b3.png","unique_name":"/Lotus/Types/Game/KubrowPet/AdventurerKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","vazarin","penjaga"],"tags":["kubrow","beast"],"description":"A reliable partner that locates supplies for their Tenno master and while thinning enemy ranks.","stats":{"health":940,"shield":290,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 14.0","wikia_thumbnail":"https://wiki.warframe.com/images/SahasaKubrow.png?10a51","wikia_url":"https://wiki.warframe.com/w/Sahasa_Kubrow"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit","name":"Shade","image":"/assets/items/shade-fae1390837.png.png","image_name":"shade-fae1390837.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Revenge' and 'Ghost' as default Precepts, Shade is well suited for stealth gameplay. Shade also comes with a burst laser pistol.","stats":{"health":600,"shield":130,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 7.0","wikia_thumbnail":"https://wiki.warframe.com/images/Shade.png?f0319","wikia_url":"https://wiki.warframe.com/w/Shade"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit","name":"Shade Prime","image":"/assets/items/shade-prime-53572a63b2.png.png","image_name":"shade-prime-53572a63b2.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit","domain":"companion","kind":"sentinel","family":"prime","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","penjaga","naramon","penjaga"],"tags":["sentinel","robotic"],"description":"Shade Prime specializes in stealth and comes locked and loaded with the Burst Laser Prime. Together, you can dominate the shadows.","stats":{"health":700,"shield":300,"armor":100},"is_prime":true,"tradable":true,"introduced":"Hotfix 32.3.6","wikia_thumbnail":"https://wiki.warframe.com/images/ShadePrime.png?31cf5","wikia_url":"https://wiki.warframe.com/w/Shade%2FPrime"},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/VulpineInfestedCatbrowPetPowerSuit","name":"Sly Vulpaphyla","image":"/assets/items/sly-vulpaphyla-4cda8d7962.png.png","image_name":"sly-vulpaphyla-4cda8d7962.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/VulpineInfestedCatbrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga"],"tags":[],"description":"Fast and foxy, Vulpaphyla are agile allies to bring along on your next adventure.","stats":{"health":680,"shield":370,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 29.0","wikia_thumbnail":"https://wiki.warframe.com/images/SlyVulpaphyla.png?14390","wikia_url":"https://wiki.warframe.com/w/Sly_Vulpaphyla"},{"id":"/Lotus/Types/Game/CatbrowPet/CheshireCatbrowPetPowerSuit","name":"Smeeta Kavat","image":"/assets/items/smeeta-kavat-221e85b8af.png.png","image_name":"smeeta-kavat-221e85b8af.png","unique_name":"/Lotus/Types/Game/CatbrowPet/CheshireCatbrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","penjaga"],"tags":[],"description":"This sly feline is playful yet devious.","stats":{"health":390,"shield":230,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update: Specters of the Rail 0.0","wikia_thumbnail":"https://wiki.warframe.com/images/SmeetaKavat.png?30322","wikia_url":"https://wiki.warframe.com/w/Smeeta_Kavat"},{"id":"/Lotus/Types/Game/KubrowPet/HunterKubrowPetPowerSuit","name":"Sunika Kubrow","image":"/assets/items/sunika-kubrow-5047769a99.png.png","image_name":"sunika-kubrow-5047769a99.png","unique_name":"/Lotus/Types/Game/KubrowPet/HunterKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","vazarin","penjaga"],"tags":["kubrow","beast"],"description":"Bred by the Orokin for combat. This martial beast lives to create chaos and bring down the most fierce opponents.","stats":{"health":830,"shield":350,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 14.0","wikia_thumbnail":"https://wiki.warframe.com/images/SunikaKubrow.png?31785","wikia_url":"https://wiki.warframe.com/w/Sunika_Kubrow"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit","name":"Taxon","image":"/assets/items/taxon-99ef68d98a.png.png","image_name":"taxon-99ef68d98a.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Assault Mode' and 'Molecular Conversion' as default Precepts, Taxon protects its owner with shield restoration. Equipped with the Artax ice-beam.","stats":{"health":560,"shield":250,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 19.10","wikia_thumbnail":"https://wiki.warframe.com/images/Taxon.png?fcad2","wikia_url":"https://wiki.warframe.com/w/Taxon"},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenD","name":"Tethron Antigen","image":"/assets/items/tethron-antigen-33683ea60e.png.png","image_name":"tethron-antigen-33683ea60e.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenD","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegB","name":"Tian Bracket","image":"/assets/items/tian-bracket-f473c6663a.png.png","image_name":"tian-bracket-f473c6663a.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegB","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadCryoxion","name":"Trux Gyro","image":"/assets/items/trux-gyro-f80be5d1e3.png.png","image_name":"trux-gyro-f80be5d1e3.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadCryoxion","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetPayload","name":"Tyli Gyro","image":"/assets/items/tyli-gyro-2613172c8e.png.png","image_name":"tyli-gyro-2613172c8e.png","unique_name":"/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetPayload","domain":"companion","kind":"moa","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":["moa","robotic"],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsB","name":"Urga Bracket","image":"/assets/items/urga-bracket-61d33be27c.png.png","image_name":"urga-bracket-61d33be27c.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsB","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Game/CatbrowPet/VampireCatbrowPetPowerSuit","name":"Vasca Kavat","image":"/assets/items/vasca-kavat-ea0afbf0ec.png.png","image_name":"vasca-kavat-ea0afbf0ec.png","unique_name":"/Lotus/Types/Game/CatbrowPet/VampireCatbrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga","penjaga"],"tags":[],"description":"Now free of the Vasca virus, these Kavats can transfuse life to extend not only their own health but that of their master.","stats":{"health":310,"shield":270,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 26.0","wikia_thumbnail":"https://wiki.warframe.com/images/VascaKavat.png?221f6","wikia_url":"https://wiki.warframe.com/w/Vasca_Kavat"},{"id":"/Lotus/Powersuits/Khora/Kavat/KhoraKavatPowerSuit","name":"Venari","image":"/assets/items/venari-d3da8c6eb7.png.png","image_name":"venari-d3da8c6eb7.png","unique_name":"/Lotus/Powersuits/Khora/Kavat/KhoraKavatPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Warframe","mastery_req":0,"polarities":["penjaga","madurai","vazarin","naramon"],"tags":["kavat","beast"],"description":"Khora's loyal Kavat. Her constant companion and protector.","stats":{"health":900,"shield":0,"armor":350},"is_prime":false,"tradable":false,"introduced":"Update 22.18","wikia_thumbnail":"https://wiki.warframe.com/images/Venari.png?d08b0","wikia_url":"https://wiki.warframe.com/w/Venari"},{"id":"/Lotus/Powersuits/Khora/Kavat/KhoraPrimeKavatPowerSuit","name":"Venari Prime","image":"/assets/items/venari-prime-20c5b97138.png.png","image_name":"venari-prime-20c5b97138.png","unique_name":"/Lotus/Powersuits/Khora/Kavat/KhoraPrimeKavatPowerSuit","domain":"companion","kind":"pet","family":"prime","category":"Pets","type":"Warframe","mastery_req":0,"polarities":["penjaga","madurai","vazarin","naramon"],"tags":["kavat","beast"],"description":"Khora's will, Venari's fangs and claws.","stats":{"health":1050,"shield":0,"armor":450},"is_prime":false,"tradable":false,"introduced":"Update 31.7","wikia_thumbnail":"https://wiki.warframe.com/images/VenariPrime.png?99e1c","wikia_url":"https://wiki.warframe.com/w/Venari%2FPrime"},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenA","name":"Virox Antigen","image":"/assets/items/virox-antigen-b03698a385.png.png","image_name":"virox-antigen-b03698a385.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenA","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/VizierPredatorKubrowPetPowerSuit","name":"Vizier Predasite","image":"/assets/items/vizier-predasite-6334788772.png.png","image_name":"vizier-predasite-6334788772.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/VizierPredatorKubrowPetPowerSuit","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pets","mastery_req":0,"polarities":["penjaga"],"tags":["kubrow","beast"],"description":"These hard-charging, four-legged predators make formidable companions when in the field.","stats":{"health":710,"shield":350,"armor":300},"is_prime":false,"tradable":false,"introduced":"Update 29.0","wikia_thumbnail":"https://wiki.warframe.com/images/VizierPredasite.png?8430d","wikia_url":"https://wiki.warframe.com/w/Vizier_Predasite"},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailA","name":"Wanz Stabilizer","image":"/assets/items/wanz-stabilizer-b88f78047b.png.png","image_name":"wanz-stabilizer-b88f78047b.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailA","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/WyrmPowerSuit","name":"Wyrm","image":"/assets/items/wyrm-7593567ef4.png.png","image_name":"wyrm-7593567ef4.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/WyrmPowerSuit","domain":"companion","kind":"sentinel","family":"robotic","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":["penjaga","penjaga","penjaga","penjaga"],"tags":["sentinel","robotic"],"description":"With 'Assault Mode' and 'Crowd Dispersion' as default Precepts, Wyrm is a highly offensive Sentinel. Wyrm also comes with a laser rifle.","stats":{"health":560,"shield":250,"armor":80},"is_prime":false,"tradable":false,"introduced":"Update 7.0","wikia_thumbnail":"https://wiki.warframe.com/images/Wyrm.png?8bf39","wikia_url":"https://wiki.warframe.com/w/Wyrm"},{"id":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeWyrmPowerSuit","name":"Wyrm Prime","image":"/assets/items/wyrm-prime-62d6263c3e.png.png","image_name":"wyrm-prime-62d6263c3e.png","unique_name":"/Lotus/Types/Sentinels/SentinelPowersuits/PrimeWyrmPowerSuit","domain":"companion","kind":"sentinel","family":"prime","category":"Sentinels","type":"Sentinel","mastery_req":0,"polarities":[],"tags":["sentinel","robotic"],"description":"Both bodyguard and status symbol, the Wyrm Prime Sentinel was the last line of defense for high ranking Tenno in the Orokin Era.","stats":{"health":450,"shield":600,"armor":150},"is_prime":true,"tradable":true,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC","name":"Zarim Mutagen","image":"/assets/items/zarim-mutagen-51b51275db.png.png","image_name":"zarim-mutagen-51b51275db.png","unique_name":"/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Parts","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null},{"id":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC","name":"Zubb Bracket","image":"/assets/items/zubb-bracket-e76af7d4a9.png.png","image_name":"zubb-bracket-e76af7d4a9.png","unique_name":"/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC","domain":"companion","kind":"pet","family":"beast","category":"Pets","type":"Pet Resource","mastery_req":0,"polarities":[],"tags":[],"description":"","stats":{"health":0,"shield":0,"armor":0},"is_prime":false,"tradable":false,"introduced":null,"wikia_thumbnail":null,"wikia_url":null}]
+[
+  {
+    "id": "/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerSuit",
+    "name": "Adarza Kavat",
+    "image": "/assets/items/adarza-kavat-9155649686.png.png",
+    "image_name": "adarza-kavat-9155649686.png",
+    "unique_name": "/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [],
+    "description": "A vicious and deadly Kavat prized for its combat prowess, offering increased critical chance and punishing those that dare attack it.",
+    "stats": {
+      "health": 310,
+      "shield": 270,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update: Specters of the Rail 0.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/AdarzaKavat.png?c023b",
+    "wikia_url": "https://wiki.warframe.com/w/Adarza_Kavat"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyA",
+    "name": "Adlet Core",
+    "image": "/assets/items/adlet-core-669b6f6ed6.png.png",
+    "image_name": "adlet-core-669b6f6ed6.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyA",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenA",
+    "name": "Adra Mutagen",
+    "image": "/assets/items/adra-mutagen-1ce8daeeb9.png.png",
+    "image_name": "adra-mutagen-1ce8daeeb9.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenA",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadAegron",
+    "name": "Aegron Gyro",
+    "image": "/assets/items/aegron-gyro-8fd83ea080.png.png",
+    "image_name": "aegron-gyro-8fd83ea080.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadAegron",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineArcotek",
+    "name": "Alcrom Core",
+    "image": "/assets/items/alcrom-core-0bcd9e4c50.png.png",
+    "image_name": "alcrom-core-0bcd9e4c50.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineArcotek",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenC",
+    "name": "Arioli Mutagen",
+    "image": "/assets/items/arioli-mutagen-d46942fe31.png.png",
+    "image_name": "arioli-mutagen-d46942fe31.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadThermocor",
+    "name": "Atheca Gyro",
+    "image": "/assets/items/atheca-gyro-8ca14b81ce.png.png",
+    "image_name": "atheca-gyro-8ca14b81ce.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadThermocor",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadB",
+    "name": "Bhaira Hound",
+    "image": "/assets/items/bhaira-hound-7cde58bf1c.png.png",
+    "image_name": "bhaira-hound-7cde58bf1c.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadB",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit",
+    "name": "Carrier",
+    "image": "/assets/items/carrier-f4e5806f6e.png.png",
+    "image_name": "carrier-f4e5806f6e.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Ammo Case' as default Precepts, Carrier is a seeker Sentinel. Carrier also comes with a shotgun weapon.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 10.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Carrier.png?fb038",
+    "wikia_url": "https://wiki.warframe.com/w/Carrier"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit",
+    "name": "Carrier Prime",
+    "image": "/assets/items/carrier-prime-7e84bae628.png.png",
+    "image_name": "carrier-prime-7e84bae628.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "madurai",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "This ornate sentinel is an excellent example of late Orokin craftsmanship and styling.",
+    "stats": {
+      "health": 650,
+      "shield": 300,
+      "armor": 150
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Update 16.11",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/CarrierPrime.png?5bad8",
+    "wikia_url": "https://wiki.warframe.com/w/Carrier%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsA",
+    "name": "Cela Bracket",
+    "image": "/assets/items/cela-bracket-0038da5467.png.png",
+    "image_name": "cela-bracket-0038da5467.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsA",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Game/KubrowPet/RetrieverKubrowPetPowerSuit",
+    "name": "Chesa Kubrow",
+    "image": "/assets/items/chesa-kubrow-d9e3052301.png.png",
+    "image_name": "chesa-kubrow-d9e3052301.png",
+    "unique_name": "/Lotus/Types/Game/KubrowPet/RetrieverKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "A clever accomplice, trained to relieve the enemy of both their weapons and their loot caches.",
+    "stats": {
+      "health": 940,
+      "shield": 290,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 17.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/ChesaKubrow.png?12edc",
+    "wikia_url": "https://wiki.warframe.com/w/Chesa_Kubrow"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenB",
+    "name": "Chiten Mutagen",
+    "image": "/assets/items/chiten-mutagen-7e5ae78ae2.png.png",
+    "image_name": "chiten-mutagen-7e5ae78ae2.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenB",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/HornedInfestedCatbrowPetPowerSuit",
+    "name": "Crescent Vulpaphyla",
+    "image": "/assets/items/crescent-vulpaphyla-7926240141.png.png",
+    "image_name": "crescent-vulpaphyla-7926240141.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/HornedInfestedCatbrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga"
+    ],
+    "tags": [],
+    "description": "Fast and foxy, Vulpaphyla are agile allies to bring along on your next adventure.",
+    "stats": {
+      "health": 680,
+      "shield": 370,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 29.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/CrescentVulpaphyla.png?e0913",
+    "wikia_url": "https://wiki.warframe.com/w/Crescent_Vulpaphyla"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenB",
+    "name": "Desus Antigen",
+    "image": "/assets/items/desus-antigen-3e05a951a9.png.png",
+    "image_name": "desus-antigen-3e05a951a9.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenB",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit",
+    "name": "Dethcube",
+    "image": "/assets/items/dethcube-c0fb93fb8c.png.png",
+    "image_name": "dethcube-c0fb93fb8c.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Vaporize' as default precepts, Dethcube acts exactly as advertised, as a badass cube of 'deth'. Comes loaded with Deth Machine Rifle weapon.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 8.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Dethcube.png?d7366",
+    "wikia_url": "https://wiki.warframe.com/w/Dethcube"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit",
+    "name": "Dethcube Prime",
+    "image": "/assets/items/dethcube-prime-568b4f3c87.png.png",
+    "image_name": "dethcube-prime-568b4f3c87.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Vaporize' as default precepts, Dethcube Prime is the apex of lethal support. Comes loaded with Deth Machine Rifle Prime weapon.",
+    "stats": {
+      "health": 600,
+      "shield": 300,
+      "armor": 150
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Update 25.8",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/DethcubePrime.png?75332",
+    "wikia_url": "https://wiki.warframe.com/w/Dethcube%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit",
+    "name": "Diriga",
+    "image": "/assets/items/diriga-b51a3dc56d.png.png",
+    "image_name": "diriga-b51a3dc56d.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "Diriga shocks nearby enemies, and picks off distant threats, utilizing the Vulklok sniper rifle and the 'Calculated Shot', 'Arc Coil' and 'Electro Pulse' precepts.",
+    "stats": {
+      "health": 700,
+      "shield": 150,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 17.3",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Diriga.png?95532",
+    "wikia_url": "https://wiki.warframe.com/w/Diriga"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit",
+    "name": "Djinn",
+    "image": "/assets/items/djinn-95bb8b0ef8.png.png",
+    "image_name": "djinn-95bb8b0ef8.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "naramon",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Thumper' and 'Fatal Attraction' as default Precepts, Djinn is a combat Sentinel. Djinn also comes with a poison dart weapon.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 10.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Djinn.png?2bee3",
+    "wikia_url": "https://wiki.warframe.com/w/Djinn"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadA",
+    "name": "Dorma Hound",
+    "image": "/assets/items/dorma-hound-e3020d33c4.png.png",
+    "image_name": "dorma-hound-e3020d33c4.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadA",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineThricore",
+    "name": "Drex Core",
+    "image": "/assets/items/drex-core-11daddd19b.png.png",
+    "image_name": "drex-core-11daddd19b.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineThricore",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegA",
+    "name": "Drimper Bracket",
+    "image": "/assets/items/drimper-bracket-fd2be44d6b.png.png",
+    "image_name": "drimper-bracket-fd2be44d6b.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegA",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenA",
+    "name": "Elasmun Antigen",
+    "image": "/assets/items/elasmun-antigen-a8bd6a0e75.png.png",
+    "image_name": "elasmun-antigen-a8bd6a0e75.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenA",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenB",
+    "name": "Elsa Mutagen",
+    "image": "/assets/items/elsa-mutagen-db1077954a.png.png",
+    "image_name": "elsa-mutagen-db1077954a.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenB",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailC",
+    "name": "Frak Stabilizer",
+    "image": "/assets/items/frak-stabilizer-e2aac2d7aa.png.png",
+    "image_name": "frak-stabilizer-e2aac2d7aa.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyB",
+    "name": "Garmr Core",
+    "image": "/assets/items/garmr-core-ee94e1fb7e.png.png",
+    "image_name": "garmr-core-ee94e1fb7e.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyB",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegD",
+    "name": "Gauth Bracket",
+    "image": "/assets/items/gauth-bracket-452f3fd563.png.png",
+    "image_name": "gauth-bracket-452f3fd563.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegD",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadDarta",
+    "name": "Harpen Gyro",
+    "image": "/assets/items/harpen-gyro-87cb34e237.png.png",
+    "image_name": "harpen-gyro-87cb34e237.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadDarta",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadC",
+    "name": "Hec Hound",
+    "image": "/assets/items/hec-hound-2a523e3443.png.png",
+    "image_name": "hec-hound-2a523e3443.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit",
+    "name": "Helios",
+    "image": "/assets/items/helios-8cacabc9a2.png.png",
+    "image_name": "helios-8cacabc9a2.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Investigator' as its unique Precept and 'Deconstructor' as its weapon, the versatile Helios Sentinel acts as both a lethal guardian and an automatic codex scanner. Scans require an equipped Codex Scanner and an available charge.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 12.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Helios.png?a5e25",
+    "wikia_url": "https://wiki.warframe.com/w/Helios"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit",
+    "name": "Helios Prime",
+    "image": "/assets/items/helios-prime-7bd311ccae.png.png",
+    "image_name": "helios-prime-7bd311ccae.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "This knowledge hungry protector defends its master with Deconstructor Prime.",
+    "stats": {
+      "health": 700,
+      "shield": 300,
+      "armor": 100
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Hotfix 19.11.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/HeliosPrime.png?c4d66",
+    "wikia_url": "https://wiki.warframe.com/w/Helios%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Game/KubrowPet/ChargerKubrowPetPowerSuit",
+    "name": "Helminth Charger",
+    "image": "/assets/items/helminth-charger-eb4e8d41ec.png.png",
+    "image_name": "helminth-charger-eb4e8d41ec.png",
+    "unique_name": "/Lotus/Types/Game/KubrowPet/ChargerKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "madurai",
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "An experimental blending of Kubrow and Infestation. Uses maggots and other Infested abilities to inflict damage and control the battlefield.",
+    "stats": {
+      "health": 710,
+      "shield": 330,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 19.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/HelminthCharger.png?b24a1",
+    "wikia_url": "https://wiki.warframe.com/w/Helminth_Charger"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadHextra",
+    "name": "Hextra Gyro",
+    "image": "/assets/items/hextra-gyro-f6a8f1e11f.png.png",
+    "image_name": "hextra-gyro-f6a8f1e11f.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadHextra",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailB",
+    "name": "Hinta Stabilizer",
+    "image": "/assets/items/hinta-stabilizer-a9616f5570.png.png",
+    "image_name": "hinta-stabilizer-a9616f5570.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailB",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegMelee",
+    "name": "Hona Bracket",
+    "image": "/assets/items/hona-bracket-fafe4be147.png.png",
+    "image_name": "hona-bracket-fafe4be147.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegMelee",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Game/KubrowPet/FurtiveKubrowPetPowerSuit",
+    "name": "Huras Kubrow",
+    "image": "/assets/items/huras-kubrow-8d5f938fa0.png.png",
+    "image_name": "huras-kubrow-8d5f938fa0.png",
+    "unique_name": "/Lotus/Types/Game/KubrowPet/FurtiveKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "madurai",
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "A stealthy ally, surprising enemies with impressive takedowns of explosive force.",
+    "stats": {
+      "health": 560,
+      "shield": 490,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 14.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/HurasKubrow.png?a7ddd",
+    "wikia_url": "https://wiki.warframe.com/w/Huras_Kubrow"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenC",
+    "name": "Ibexan Antigen",
+    "image": "/assets/items/ibexan-antigen-9c56be9764.png.png",
+    "image_name": "ibexan-antigen-9c56be9764.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenB",
+    "name": "Iranon Antigen",
+    "image": "/assets/items/iranon-antigen-f038b23f3a.png.png",
+    "image_name": "iranon-antigen-f038b23f3a.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenB",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegC",
+    "name": "Jonsin Bracket",
+    "image": "/assets/items/jonsin-bracket-e329e1e176.png.png",
+    "image_name": "jonsin-bracket-e329e1e176.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegC",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineKrisys",
+    "name": "Krisys Core",
+    "image": "/assets/items/krisys-core-c7cafce5c4.png.png",
+    "image_name": "krisys-core-c7cafce5c4.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineKrisys",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadLambeo",
+    "name": "Lambeo Moa",
+    "image": "/assets/items/lambeo-moa-2cf268fdc0.png.png",
+    "image_name": "lambeo-moa-2cf268fdc0.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadLambeo",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetEngine",
+    "name": "Lehan Core",
+    "image": "/assets/items/lehan-core-adfacfcff9.png.png",
+    "image_name": "lehan-core-adfacfcff9.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetEngine",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenA",
+    "name": "Leptosam Mutagen",
+    "image": "/assets/items/leptosam-mutagen-ee68cb6866.png.png",
+    "image_name": "leptosam-mutagen-ee68cb6866.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenA",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/MedjayPredatorKubrowPetPowerSuit",
+    "name": "Medjay Predasite",
+    "image": "/assets/items/medjay-predasite-0c531c81da.png.png",
+    "image_name": "medjay-predasite-0c531c81da.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/MedjayPredatorKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "These hard-charging, four-legged predators make formidable companions when in the field.",
+    "stats": {
+      "health": 710,
+      "shield": 350,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 29.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/MedjayPredasite.png?807ff",
+    "wikia_url": "https://wiki.warframe.com/w/Medjay_Predasite"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenD",
+    "name": "Monachod Mutagen",
+    "image": "/assets/items/monachod-mutagen-57f834fbaa.png.png",
+    "image_name": "monachod-mutagen-57f834fbaa.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenD",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadMunitron",
+    "name": "Munit Gyro",
+    "image": "/assets/items/munit-gyro-0213e0ff05.png.png",
+    "image_name": "munit-gyro-0213e0ff05.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadMunitron",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit",
+    "name": "Nautilus",
+    "image": "/assets/items/nautilus-b1bfae3524.png.png",
+    "image_name": "nautilus-b1bfae3524.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Auto Omni' and 'Cordon' as default Precepts, this Sentinel is the ideal companion for long voyages aboard a Railjack.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 29.10",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Nautilus.png?f0f26",
+    "wikia_url": "https://wiki.warframe.com/w/Nautilus"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit",
+    "name": "Nautilus Prime",
+    "image": "/assets/items/nautilus-prime-710cc92335.png.png",
+    "image_name": "nautilus-prime-710cc92335.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "vazarin",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "This brave deckhand defends his crew with Verglas Prime.",
+    "stats": {
+      "health": 560,
+      "shield": 350,
+      "armor": 175
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Update 36.1",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/NautilusPrime.png?63a43",
+    "wikia_url": "https://wiki.warframe.com/w/Nautilus%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadMelee",
+    "name": "Nychus Moa",
+    "image": "/assets/items/nychus-moa-679ad59727.png.png",
+    "image_name": "nychus-moa-679ad59727.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadMelee",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadOloro",
+    "name": "Oloro Moa",
+    "image": "/assets/items/oloro-moa-31c59ff67f.png.png",
+    "image_name": "oloro-moa-31c59ff67f.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadOloro",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit",
+    "name": "Oxylus",
+    "image": "/assets/items/oxylus-9cb847b2e4.png.png",
+    "image_name": "oxylus-9cb847b2e4.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Scan Aquatic Lifeforms' and 'Scan Matter' as default Precepts, Oxylus was designed to assist in Search-and-Rescue operations through the harsh landscape around The Orb Vallis. Oxylus also comes with a Multron rifle.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 24.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Oxylus.png?464ff",
+    "wikia_url": "https://wiki.warframe.com/w/Oxylus"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/ArmoredInfestedCatbrowPetPowerSuit",
+    "name": "Panzer Vulpaphyla",
+    "image": "/assets/items/panzer-vulpaphyla-5d6c5d857b.png.png",
+    "image_name": "panzer-vulpaphyla-5d6c5d857b.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/ArmoredInfestedCatbrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga"
+    ],
+    "tags": [],
+    "description": "Fast and foxy, Vulpaphyla are agile allies to bring along on your next adventure.",
+    "stats": {
+      "health": 680,
+      "shield": 370,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 29.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/PanzerVulpaphyla.png?e97bc",
+    "wikia_url": "https://wiki.warframe.com/w/Panzer_Vulpaphyla"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadPara",
+    "name": "Para Moa",
+    "image": "/assets/items/para-moa-e983dce892.png.png",
+    "image_name": "para-moa-e983dce892.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadPara",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/PharaohPredatorKubrowPetPowerSuit",
+    "name": "Pharaoh Predasite",
+    "image": "/assets/items/pharaoh-predasite-a8fee1bece.png.png",
+    "image_name": "pharaoh-predasite-a8fee1bece.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/PharaohPredatorKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "These hard-charging, four-legged predators make formidable companions when in the field.",
+    "stats": {
+      "health": 710,
+      "shield": 350,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 29.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/PharaohPredasite.png?9de94",
+    "wikia_url": "https://wiki.warframe.com/w/Pharaoh_Predasite"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadTazron",
+    "name": "Phazor Gyro",
+    "image": "/assets/items/phazor-gyro-1a0a528d4c.png.png",
+    "image_name": "phazor-gyro-1a0a528d4c.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadTazron",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenD",
+    "name": "Phijar Mutagen",
+    "image": "/assets/items/phijar-mutagen-ceff9f9d36.png.png",
+    "image_name": "phijar-mutagen-ceff9f9d36.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenD",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenC",
+    "name": "Plagen Antigen",
+    "image": "/assets/items/plagen-antigen-5bc478c501.png.png",
+    "image_name": "plagen-antigen-5bc478c501.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenD",
+    "name": "Poxi Antigen",
+    "image": "/assets/items/poxi-antigen-9d93d3c5fd.png.png",
+    "image_name": "poxi-antigen-9d93d3c5fd.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenD",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit",
+    "name": "Prisma Shade",
+    "image": "/assets/items/prisma-shade-25398bfb4c.png.png",
+    "image_name": "prisma-shade-25398bfb4c.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "naramon",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "A rare jewel of the void. How could anything so beautiful be crafted for stealth?",
+    "stats": {
+      "health": 700,
+      "shield": 300,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": true,
+    "introduced": "Hotfix 17.2.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/PrismaShade.png?4432c",
+    "wikia_url": "https://wiki.warframe.com/w/Prisma_Shade"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyC",
+    "name": "Raiju Core",
+    "image": "/assets/items/raiju-core-fcffc162ca.png.png",
+    "image_name": "raiju-core-fcffc162ca.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Game/KubrowPet/GuardKubrowPetPowerSuit",
+    "name": "Raksa Kubrow",
+    "image": "/assets/items/raksa-kubrow-f12afc941f.png.png",
+    "image_name": "raksa-kubrow-f12afc941f.png",
+    "unique_name": "/Lotus/Types/Game/KubrowPet/GuardKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "A strong guardian focused on protecting its master by bolstering their defense and by driving away attackers.",
+    "stats": {
+      "health": 750,
+      "shield": 390,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 14.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/RaksaKubrow.png?037cd",
+    "wikia_url": "https://wiki.warframe.com/w/Raksa_Kubrow"
+  },
+  {
+    "id": "/Lotus/Types/Game/KubrowPet/AdventurerKubrowPetPowerSuit",
+    "name": "Sahasa Kubrow",
+    "image": "/assets/items/sahasa-kubrow-2f3f1069b3.png.png",
+    "image_name": "sahasa-kubrow-2f3f1069b3.png",
+    "unique_name": "/Lotus/Types/Game/KubrowPet/AdventurerKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "A reliable partner that locates supplies for their Tenno master and while thinning enemy ranks.",
+    "stats": {
+      "health": 940,
+      "shield": 290,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 14.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/SahasaKubrow.png?10a51",
+    "wikia_url": "https://wiki.warframe.com/w/Sahasa_Kubrow"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit",
+    "name": "Shade",
+    "image": "/assets/items/shade-fae1390837.png.png",
+    "image_name": "shade-fae1390837.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Revenge' and 'Ghost' as default Precepts, Shade is well suited for stealth gameplay. Shade also comes with a burst laser pistol.",
+    "stats": {
+      "health": 600,
+      "shield": 130,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 7.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Shade.png?f0319",
+    "wikia_url": "https://wiki.warframe.com/w/Shade"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit",
+    "name": "Shade Prime",
+    "image": "/assets/items/shade-prime-53572a63b2.png.png",
+    "image_name": "shade-prime-53572a63b2.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "naramon",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "Shade Prime specializes in stealth and comes locked and loaded with the Burst Laser Prime. Together, you can dominate the shadows.",
+    "stats": {
+      "health": 700,
+      "shield": 300,
+      "armor": 100
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Hotfix 32.3.6",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/ShadePrime.png?31cf5",
+    "wikia_url": "https://wiki.warframe.com/w/Shade%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/VulpineInfestedCatbrowPetPowerSuit",
+    "name": "Sly Vulpaphyla",
+    "image": "/assets/items/sly-vulpaphyla-4cda8d7962.png.png",
+    "image_name": "sly-vulpaphyla-4cda8d7962.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/VulpineInfestedCatbrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga"
+    ],
+    "tags": [],
+    "description": "Fast and foxy, Vulpaphyla are agile allies to bring along on your next adventure.",
+    "stats": {
+      "health": 680,
+      "shield": 370,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 29.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/SlyVulpaphyla.png?14390",
+    "wikia_url": "https://wiki.warframe.com/w/Sly_Vulpaphyla"
+  },
+  {
+    "id": "/Lotus/Types/Game/CatbrowPet/CheshireCatbrowPetPowerSuit",
+    "name": "Smeeta Kavat",
+    "image": "/assets/items/smeeta-kavat-221e85b8af.png.png",
+    "image_name": "smeeta-kavat-221e85b8af.png",
+    "unique_name": "/Lotus/Types/Game/CatbrowPet/CheshireCatbrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [],
+    "description": "This sly feline is playful yet devious.",
+    "stats": {
+      "health": 390,
+      "shield": 230,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update: Specters of the Rail 0.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/SmeetaKavat.png?30322",
+    "wikia_url": "https://wiki.warframe.com/w/Smeeta_Kavat"
+  },
+  {
+    "id": "/Lotus/Types/Game/KubrowPet/HunterKubrowPetPowerSuit",
+    "name": "Sunika Kubrow",
+    "image": "/assets/items/sunika-kubrow-5047769a99.png.png",
+    "image_name": "sunika-kubrow-5047769a99.png",
+    "unique_name": "/Lotus/Types/Game/KubrowPet/HunterKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "Bred by the Orokin for combat. This martial beast lives to create chaos and bring down the most fierce opponents.",
+    "stats": {
+      "health": 830,
+      "shield": 350,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 14.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/SunikaKubrow.png?31785",
+    "wikia_url": "https://wiki.warframe.com/w/Sunika_Kubrow"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
+    "name": "Taxon",
+    "image": "/assets/items/taxon-99ef68d98a.png.png",
+    "image_name": "taxon-99ef68d98a.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Molecular Conversion' as default Precepts, Taxon protects its owner with shield restoration. Equipped with the Artax ice-beam.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 19.10",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Taxon.png?fcad2",
+    "wikia_url": "https://wiki.warframe.com/w/Taxon"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenD",
+    "name": "Tethron Antigen",
+    "image": "/assets/items/tethron-antigen-33683ea60e.png.png",
+    "image_name": "tethron-antigen-33683ea60e.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenD",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegB",
+    "name": "Tian Bracket",
+    "image": "/assets/items/tian-bracket-f473c6663a.png.png",
+    "image_name": "tian-bracket-f473c6663a.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegB",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadCryoxion",
+    "name": "Trux Gyro",
+    "image": "/assets/items/trux-gyro-f80be5d1e3.png.png",
+    "image_name": "trux-gyro-f80be5d1e3.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadCryoxion",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetPayload",
+    "name": "Tyli Gyro",
+    "image": "/assets/items/tyli-gyro-2613172c8e.png.png",
+    "image_name": "tyli-gyro-2613172c8e.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetPayload",
+    "domain": "companion",
+    "kind": "moa",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "moa",
+      "robotic"
+    ],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsB",
+    "name": "Urga Bracket",
+    "image": "/assets/items/urga-bracket-61d33be27c.png.png",
+    "image_name": "urga-bracket-61d33be27c.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsB",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Game/CatbrowPet/VampireCatbrowPetPowerSuit",
+    "name": "Vasca Kavat",
+    "image": "/assets/items/vasca-kavat-ea0afbf0ec.png.png",
+    "image_name": "vasca-kavat-ea0afbf0ec.png",
+    "unique_name": "/Lotus/Types/Game/CatbrowPet/VampireCatbrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [],
+    "description": "Now free of the Vasca virus, these Kavats can transfuse life to extend not only their own health but that of their master.",
+    "stats": {
+      "health": 310,
+      "shield": 270,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 26.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/VascaKavat.png?221f6",
+    "wikia_url": "https://wiki.warframe.com/w/Vasca_Kavat"
+  },
+  {
+    "id": "/Lotus/Powersuits/Khora/Kavat/KhoraKavatPowerSuit",
+    "name": "Venari",
+    "image": "/assets/items/venari-d3da8c6eb7.png.png",
+    "image_name": "venari-d3da8c6eb7.png",
+    "unique_name": "/Lotus/Powersuits/Khora/Kavat/KhoraKavatPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Warframe",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "madurai",
+      "vazarin",
+      "naramon"
+    ],
+    "tags": [
+      "kavat",
+      "beast"
+    ],
+    "description": "Khora's loyal Kavat. Her constant companion and protector.",
+    "stats": {
+      "health": 900,
+      "shield": 0,
+      "armor": 350
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 22.18",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Venari.png?d08b0",
+    "wikia_url": "https://wiki.warframe.com/w/Venari"
+  },
+  {
+    "id": "/Lotus/Powersuits/Khora/Kavat/KhoraPrimeKavatPowerSuit",
+    "name": "Venari Prime",
+    "image": "/assets/items/venari-prime-20c5b97138.png.png",
+    "image_name": "venari-prime-20c5b97138.png",
+    "unique_name": "/Lotus/Powersuits/Khora/Kavat/KhoraPrimeKavatPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "prime",
+    "category": "Pets",
+    "type": "Warframe",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "madurai",
+      "vazarin",
+      "naramon"
+    ],
+    "tags": [
+      "kavat",
+      "beast"
+    ],
+    "description": "Khora's will, Venari's fangs and claws.",
+    "stats": {
+      "health": 1050,
+      "shield": 0,
+      "armor": 450
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 31.7",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/VenariPrime.png?99e1c",
+    "wikia_url": "https://wiki.warframe.com/w/Venari%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenA",
+    "name": "Virox Antigen",
+    "image": "/assets/items/virox-antigen-b03698a385.png.png",
+    "image_name": "virox-antigen-b03698a385.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenA",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/VizierPredatorKubrowPetPowerSuit",
+    "name": "Vizier Predasite",
+    "image": "/assets/items/vizier-predasite-6334788772.png.png",
+    "image_name": "vizier-predasite-6334788772.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/VizierPredatorKubrowPetPowerSuit",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pets",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga"
+    ],
+    "tags": [
+      "kubrow",
+      "beast"
+    ],
+    "description": "These hard-charging, four-legged predators make formidable companions when in the field.",
+    "stats": {
+      "health": 710,
+      "shield": 350,
+      "armor": 300
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 29.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/VizierPredasite.png?8430d",
+    "wikia_url": "https://wiki.warframe.com/w/Vizier_Predasite"
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailA",
+    "name": "Wanz Stabilizer",
+    "image": "/assets/items/wanz-stabilizer-b88f78047b.png.png",
+    "image_name": "wanz-stabilizer-b88f78047b.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailA",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/WyrmPowerSuit",
+    "name": "Wyrm",
+    "image": "/assets/items/wyrm-7593567ef4.png.png",
+    "image_name": "wyrm-7593567ef4.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/WyrmPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Crowd Dispersion' as default Precepts, Wyrm is a highly offensive Sentinel. Wyrm also comes with a laser rifle.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 7.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Wyrm.png?8bf39",
+    "wikia_url": "https://wiki.warframe.com/w/Wyrm"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeWyrmPowerSuit",
+    "name": "Wyrm Prime",
+    "image": "/assets/items/wyrm-prime-62d6263c3e.png.png",
+    "image_name": "wyrm-prime-62d6263c3e.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeWyrmPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "Both bodyguard and status symbol, the Wyrm Prime Sentinel was the last line of defense for high ranking Tenno in the Orokin Era.",
+    "stats": {
+      "health": 450,
+      "shield": 600,
+      "armor": 150
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC",
+    "name": "Zarim Mutagen",
+    "image": "/assets/items/zarim-mutagen-51b51275db.png.png",
+    "image_name": "zarim-mutagen-51b51275db.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC",
+    "name": "Zubb Bracket",
+    "image": "/assets/items/zubb-bracket-e76af7d4a9.png.png",
+    "image_name": "zubb-bracket-e76af7d4a9.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  }
+]
