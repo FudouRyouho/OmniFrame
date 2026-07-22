@@ -36,6 +36,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — degrada fidelidad |
+| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — investigar, no bloquea |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
 | `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
@@ -701,6 +702,23 @@ fidelidad de todo mecanismo keyed-por-facción (scaling + bonus de facción).
 **OQ-DATA-9** (borde de entrada "0" / normalización de datos), **OQ-ENGINE-15** (DR provisional, scaling
 vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/damage-multipliers.ts`.
 **Fuente:** censo de `enemies.json` (638 entries) + wiki `Factions`. Auditoría: F5-P2 (2026-07-19).
+
+---
+
+## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA (2026-07-20) — investigar, no decidir**
+
+**Dominio:** data / pipeline / fuente
+
+**Contexto:** hoy el pipeline consume `@wfcd/items` como un **fork local** (`file:../warframe-items`, submódulo). El fork impone su estructura; `generate-data.ts` la **re-mapea** entera a los contratos del engine (`normalization/*`). Fricciones acumuladas: mantener el submódulo sincronizado, re-mapear todo en cada campo nuevo, y una estructura upstream que **no es la que el proyecto necesita** (de ahí el volumen de normalización). Nota de sesión 2026-07-20 (semilla de esta OQ): *"empezando a pensar en hacer mi propio warframe-items con la estructura que necesito, en vez del fork — qué paja"*.
+
+**Pregunta (a INVESTIGAR, no a resolver):**
+- ¿Qué aporta hoy el fork que habría que **replicar** para no perderlo? Al menos: la data cruda del juego, `patchlogs` (→ `versionTag`, base del audit `OQ-DATA-9`), categorías/kinds, `compatName`. Inventario real en [`../data/references/warframe-items-source.md`](../data/references/warframe-items-source.md).
+- ¿De dónde saldría la data sin el fork? (misma fuente que `@wfcd`: export/worldstate de Warframe) — ¿costo de mantener ese ingest propio vs. el re-mapeo actual?
+- ¿La "estructura a medida" elimina normalización, o solo **mueve** el trabajo aguas arriba? (mismo patrón que el debate de `OQ-DATA-9`: cuidado con mover-no-eliminar).
+
+**No bloquea:** nada. El fork funciona; esto es evaluación de fuente, no un defecto.
+**Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../data/references/warframe-items-source.md` (qué aporta el fork actual).
+**Fuente:** reflexión del usuario, cierre de sesión 2026-07-20.
 
 ---
 
