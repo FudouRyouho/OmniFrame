@@ -4,7 +4,7 @@ Rol: "Documentar el fork de warframe-items y los deltas que aporta al dataset ba
 Impacto_ID: "D-Pipeline-WFI-Source"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-22"
-Fecha_de_actualizacion: "2026-05-25"
+Fecha_de_actualizacion: "2026-07-22"
 ---
 
 # Warframe Items Source Integration
@@ -30,15 +30,30 @@ build/build.mjs
 
 ---
 
-## 2. Mejoras del Fork (Deltas Activos)
+## 2. Qué aporta upstream vs. qué agrega el fork
 
-El fork de OmniFrame añade campos de alta inteligencia que no están en el export público estándar:
+Distinción medida contra el merge-base con `WFCD/warframe-items` (git), no por inspección visual del JSON.
 
-- **Warframes**: Enriquecimiento de metadata y campos adicionales de habilidades capturados de la wiki.
-- **Mods**: Inyección de `upgradeTypes[]`, `isExilus`, `isWeaponAugment`, `modClass` e incompatibilidades de equipo.
-- **Armas**: Estructuración de ataques y flags de behavior. Persistencia del campo `weaponClass` inyectado desde la Wiki (ver `parser.mjs:addWeaponWikiaData`).
-- **Compañeros**: Normalización determinística de categorías para evitar solapamientos con armas modulares (Moas/Hounds).
-- **Taxonomía**: Inyección de metadatos de "clase" (glaive, sword, sniper) persistidos desde la Wiki para habilitar el motor de filtrado de OmniFrame.
+**Enriquecimiento wiki heredado del upstream VIEJO (base del fork), no del fork** (framework de scrapers
+`build/wikia/scrapers/*` + transformers): armas (`weaponClass`), mods (`upgradeTypes[]`, `maxRank`, `isFlawed`,
+`modClass`), warframes (`playstyle`, `progenitor`, `subsumed`, etc.), arcanos, compañeros, taxonomía de clase,
+versión, vault. El fork **no agrega nada de esto** — es maquinaria del upstream del que salió.
+**Ojo — depende de la versión:** el `master` actual de `WFCD/warframe-items` (rewrite a TS) **removió** buena
+parte de este enriquecimiento wiki (0 referencias a `weaponClass`/`upgradeTypes`/`playstyle` en su `build/`;
+verificado 2026-07-22). Por eso el swap a pristino-master es un major bump breaking, no un refresh — el plan es
+**re-cosechar** esos campos vía `omniframe-items` (mismo patrón que el AbilityScraper). Detalle e inventario
+completo en `OQ-DATA-16` (§Ejecución 2026-07-22).
+
+**Delta genuino del fork** (~117 líneas, casi todo aditivo sobre el patrón de plugin de upstream):
+- **Habilidades**: `AbilityScraper` cosecha `Module:Ability/data` + `Module:Ability/data/stats` de la wiki;
+  `transformAbility` los normaliza; un hook de ~12 líneas en `parser.mjs` mergea los campos wiki sobre
+  `item.abilities` por `uniqueName`. Registrado en `scraper.mjs` (fetch) y re-exportadas
+  `getLuaData`/`convertLuaDataToJson` para reuso externo.
+- Higiene: `data/json/*` gitignoreado (artefactos generados), fetch `--depth=1`.
+
+La **maquinaria Lua es genérica y reusable**: `getLuaData(url)` baja cualquier `Module:X/data?action=edit`;
+`convertLuaDataToJson` lo pasa a JSON. Agregar un módulo que upstream ignora (p. ej. enemigos) = un scraper
+con la receta de `AbilityScraper`. Esta capacidad es la base de la dirección en `OQ-DATA-16`.
 
 ---
 

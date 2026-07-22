@@ -36,7 +36,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — degrada fidelidad |
-| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — investigar, no bloquea |
+| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — fase-1 EJECUTADA (omniframe-items consolidado); migración a pristino-master scopeada (MAJOR_RED, gated); no bloquea |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
 | `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
@@ -705,7 +705,7 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 
 ---
 
-## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA (2026-07-20) — investigar, no decidir**
+## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA (2026-07-20) — fase-1 EJECUTADA 2026-07-22 (omniframe-items consolidado); migración a pristino-master scopeada (MAJOR_RED, gated)**
 
 **Dominio:** data / pipeline / fuente
 
@@ -716,9 +716,104 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 - ¿De dónde saldría la data sin el fork? (misma fuente que `@wfcd`: export/worldstate de Warframe) — ¿costo de mantener ese ingest propio vs. el re-mapeo actual?
 - ¿La "estructura a medida" elimina normalización, o solo **mueve** el trabajo aguas arriba? (mismo patrón que el debate de `OQ-DATA-9`: cuidado con mover-no-eliminar).
 
+**Investigación (2026-07-22) — hallazgos (medidos contra git, no inspección visual):**
+1. **El fork es liviano.** Su delta genuino sobre el merge-base de `WFCD/warframe-items` es ~117 líneas,
+   casi todo aditivo sobre el patrón de plugin propio de upstream (`build/wikia/scrapers/*`): un
+   `AbilityScraper` (cosecha `Module:Ability/data`) + `transformAbility` + ~19 líneas de hook en
+   `parser.mjs`/`scraper.mjs`. No es un fork pesado de sincronizar; la capa-1 (ingest/scraper de upstream)
+   está intacta. Detalle en `../data/references/warframe-items-source.md` §2.
+2. **La maquinaria Lua es genérica y reusable.** `getLuaData(url)` baja cualquier `Module:X/data?action=edit`;
+   `convertLuaDataToJson` lo pasa a JSON. Cosechar módulos que upstream ignora (enemigos + otros) = un scraper
+   con la receta de `AbilityScraper`, sin reconstruir capa-1. El módulo Lua de enemigos hoy no lo toca nadie:
+   `generate-enemies.mjs` lee `Enemy.json` del export del juego, no de la wiki.
+3. **Drift corregido:** `warframe-items-source.md` §2 sobreatribuía al fork (`weaponClass`, `upgradeTypes[]`,
+   `modClass`, taxonomía = son upstream). Corregido en la misma sesión.
+
+**Dirección (investigada, NO decidida — sigue en debate):** no es "fuente propia vs fork" como binario, sino
+un **repo-superset de cosecha**: mismo ingest de upstream (capa-1 intacta, dependencia dura), exprimiendo N
+módulos Lua de la wiki que `@wfcd` deja sobre la mesa (opt-in — cada módulo es superficie de mantenimiento
+propia, mini-treadmill dimensionado a conciencia), emitiendo solo lo que OmniFrame necesita.
+**Dos motivaciones a NO amalgamar:** (a) cosecha-superset = lo que carga la decisión del repo; (b) reducir peso
+del output (`mods.json` 2.9MB, `weapons.json` 1.6MB) se resuelve HOY project-side en los builders de
+`generate-data`, NO justifica repo nuevo por sí solo. La frontera "raw sellado vs. normalizado" queda diferida
+(el usuario no la ve necesaria hoy) — cae bajo `OQ-DATA-9`.
+
+**Forma acordada — tres hermanos** (organización interna de `omniframe-items` diferida a propósito):
+```
+OmniFrame/  Project/  ←  omniframe-items/  ←  warframe-items/ (upstream PRISTINO)
+flujo:   warframe-items (upstream puro) ─► omniframe-items (cosecha) ─► Project (consume)
+```
+- `warframe-items` **no se sube** al repo → se trae en build (`git clone --depth=1`, **pin diferido**: HEAD por
+  ahora, endurecer a tag/SHA cuando muerda o cuando aparezca el futuro-biblioteca del punto 3). Precedente de
+  fetch shallow: el propio fork ya usa `--depth=1` para evitar `data/img` (~913 MB).
+
+**Consumo actual del fork en Project (verificado, completo):** 3 superficies runtime — (1) `generate-data.ts`
+importa `@wfcd/items` (**única con delta del fork**: enriquecimiento de habilidades); (2) `generate-enemies.mjs`
+lee `warframe-items/data/json/Enemy.json` (**upstream puro**); (3) `get-img.mjs` lee `warframe-items/data/img`
+(**upstream puro**). → **Matar el fork = reemplazar solo la superficie #1**; #2 y #3 siguen leyendo
+`warframe-items/` ya pristino, sin cambios.
+
+**Payload a relocalizar a `omniframe-items`** (~117 líneas, todo el delta del fork): `AbilityScraper`
+(`Module:Ability/data` + `/data/stats`) + `transformAbility` + su propio `getLuaData`/`convertLuaDataToJson`
+(~40 líneas) + el merge por `uniqueName` sobre las `abilities` (hoy hook de +12 en `parser.mjs`) → como
+post-proceso.
+
+**Plan de migración fase-1 — golden-master, nunca queda roto.** Árbitro de cada paso: `git diff public/data/`
+vacío (los JSON commiteados son el golden master).
+1. `omniframe-items` = passthrough del build del fork; Project apunta ahí → **diff vacío** (plomería OK).
+2. Meter el `AbilityScraper` propio en `omniframe-items` sobre el output → **diff vacío** (la cosecha propia
+   reproduce las habilidades; nunca se pierden).
+3. Swap `warframe-items`: fork → upstream pristino → **diff vacío** (ya no dependemos del fork).
+4. El fork queda sin referencias → **se borra**. Muere en el instante en que el paso 3 da diff vacío.
+
+**Fase-2 (gated en el usuario, post-fork):** traer el módulo Lua de enemigos de la wiki — el usuario aporta los
+links y se revisa el `EnemyScraper` juntos antes de escribir. Alimenta `OQ-ENGINE-21`/`OQ-DATA-15` (grupos de
+scaling, `base_level` — el export sólo da `health/shield/armor/faction`, dropea el resto).
+
+---
+
+### Ejecución 2026-07-22 — fase-1 HECHA + el swap a pristino resultó un major bump
+
+**Fase-1 ejecutada y verificada** (golden-master `git diff public/data` vacío en cada paso):
+- `omniframe-items/` creado como tercer hermano, consumido por Project (`generate-data.ts` importa
+  `omniframe-items`, no `@wfcd/items`). Resolución de symlink: omniframe-items tiene su propio
+  `node_modules/@wfcd/items`.
+- `AbilityScraper` + `transformAbility` + `getLuaData`/`convertLuaDataToJson` propios + `JSON.lua`
+  **relocalizados** a `omniframe-items/build/wikia/`, con un mini-build (`omniframe-items build` → cache
+  `data/abilities.json`, gitignored) y merge por `uniqueName` en `index.mjs`. Verificado: 327 habilidades
+  cosechadas, merge OK. **El pipeline de datos corre en HOST, no en Docker** (el Dockerfile stubbea
+  `@wfcd/items`); `lua` en `/usr/bin`, wiki/github/game-export alcanzables.
+- **Hallazgo:** el enriquecimiento de habilidades del fork **no llega a `public/data`** (generate-data toma
+  sólo `ability.uniqueName`; las ability-stats reales salen de `references/game-ui/*.md`). Se relocó igual
+  (decisión del usuario) como plantilla viva del patrón scraper para fase-2. Invariante: no filtra a `public/data`.
+
+**El paso 3 (swap a pristino) NO es un refresh limpio — es un major bump breaking.** El fork salió de un
+upstream viejo; el `master` actual (`WFCD/warframe-items`) migró a TS y **re-scopeó el enriquecimiento wiki**.
+Diagnóstico (grep en `build/` de pristino): los campos faltan porque **pristino dejó de cosecharlos del wiki**
+(0 referencias en su código), NO porque su `data/json` sea "lean". Todos venían de wiki-scrapers del fork
+(`parser.mjs` + `transformMod`/`transformWarframe`/WeaponScraper) → **re-cosechables vía `omniframe-items`**,
+mismo patrón que el AbilityScraper. Inventario ratificado (barrido sobre 17k+ ítems):
+- **Perdidos que Project consume:** `weaponClass` (todas las armas → **Restricción 3**), `upgradeTypes` +
+  `maxRank` + `incompatibilityTags` (mods), `energy`/`initialEnergy`/`maxRank`/`playstyle`/`progenitor`/
+  `subsumed`/`tactical`/`themes`/`wikiaThumbnail` (warframes), ídem Archwing. Railjack pierde mucho
+  (`attacks`/`tags`/`weaponClass`) — verificar si Project consume armamento Railjack.
+- **Perdidos NO consumidos (ruido):** `modClass`, `isWeaponAugment`, `isFlawed`, `incompatible`,
+  `wikiaCategory`, `*Rank30`, `itemCount`, `parents`, `releaseDate`, `wikiAvailable`.
+- **NUEVOS relevantes:** arcanos GANARON `wikiaThumbnail`/`wikiaUrl`/`introduced` (consumidos); Pets ganó
+  `isPrime`; nuevos no-consumidos: `exilusPolarity` (armas/warframes), `excludeFromCodex`, `exaltedSlot`.
+- **Caveat:** `energy`/`initialEnergy` de warframes — verificar si eran wiki o core (si core, es otro fix).
+
+**Scope de la migración a pristino-master (MAJOR_RED, gated a autorización explícita):** relocar los
+wiki-scrapers que Project consume a `omniframe-items` (patrón AbilityScraper ×4: Weapon, Mod, Warframe,
+Arcane) + resolver el nuevo esquema de `image_name` (internal-name vs slug-hash, afecta assets/`get-img`) +
+auditar campos core-vs-wiki + adaptar `normalization/*`. Lo delicado: los parser-hooks de matcheo wiki↔game
+por nombre (fuzzy). **Esto valida la tesis de la OQ:** upstream adelgazó, `omniframe-items` re-cosecha — es el
+caso de uso que motivó el repo. Estado sano: todo revertido al fork, `public/data` intacto;
+`warframe-items.pristine/` clonado local (~605 MB, untracked) para el trabajo de migración.
+
 **No bloquea:** nada. El fork funciona; esto es evaluación de fuente, no un defecto.
-**Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../data/references/warframe-items-source.md` (qué aporta el fork actual).
-**Fuente:** reflexión del usuario, cierre de sesión 2026-07-20.
+**Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../data/references/warframe-items-source.md` (qué aporta el fork actual).
+**Fuente:** reflexión del usuario, cierre de sesión 2026-07-20; investigación 2026-07-22.
 
 ---
 
