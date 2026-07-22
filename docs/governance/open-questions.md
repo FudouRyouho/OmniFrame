@@ -831,6 +831,17 @@ Auxiliar: **VersionScraper** (`introduced`/`releaseDate`).
    (parser.mjs:984-988), pisando el game-export. Pristino usa **core**. Migrar sin re-cosechar = las stats base
    de warframe cambian de fuente (valores pueden diferir). Decisión: ¿wiki o core como verdad?
 
+**Bonus de frescura (a auditar en la promoción).** La cosecha vía omniframe-items es del wiki **fresco**
+(julio), más completa que el fork **stale** (abril). Detectado al probar: el fork trae `incompatibilityTags ==
+null` en **1660/1801 mods**; la cosecha fresca los llena (152 mods con tags reales). Hoy Project emite `[]`
+para esos mods vía `incompatibility_tags: raw.incompatibilityTags ?? []`
+([runtime-data-artifacts.ts:510](../../Project/scripts/pipeline/runtime-data-artifacts.ts)) — **no es un
+override, es un default defensivo que emite vacío donde el wiki tiene verdad**. Al promover a pristino
+(`fields:true`) esos huecos se llenan solos. **A auditar en la promoción:** qué defaults `?? []`/normalizaciones
+compensaban la incompletitud del fork y quedan redundantes al entrar el dato fresco (aplica a
+`incompatibilityTags` y potencialmente a otros campos re-cosechados). No es override que remover — es normalización
+a revisar.
+
 **No bloquea:** nada. El fork funciona; esto es evaluación de fuente, no un defecto.
 **Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../data/references/warframe-items-source.md` (qué aporta el fork actual).
 **Fuente:** reflexión del usuario, cierre de sesión 2026-07-20; investigación 2026-07-22.
