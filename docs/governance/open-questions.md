@@ -806,10 +806,30 @@ mismo patrón que el AbilityScraper. Inventario ratificado (barrido sobre 17k+ �
 **Scope de la migración a pristino-master (MAJOR_RED, gated a autorización explícita):** relocar los
 wiki-scrapers que Project consume a `omniframe-items` (patrón AbilityScraper ×4: Weapon, Mod, Warframe,
 Arcane) + resolver el nuevo esquema de `image_name` (internal-name vs slug-hash, afecta assets/`get-img`) +
-auditar campos core-vs-wiki + adaptar `normalization/*`. Lo delicado: los parser-hooks de matcheo wiki↔game
-por nombre (fuzzy). **Esto valida la tesis de la OQ:** upstream adelgazó, `omniframe-items` re-cosecha — es el
-caso de uso que motivó el repo. Estado sano: todo revertido al fork, `public/data` intacto;
-`warframe-items.pristine/` clonado local (~605 MB, untracked) para el trabajo de migración.
+auditar campos core-vs-wiki + adaptar `normalization/*`. **Esto valida la tesis de la OQ:** upstream adelgazó,
+`omniframe-items` re-cosecha — es el caso de uso que motivó el repo. Estado sano: todo revertido al fork,
+`public/data` intacto; `warframe-items.pristine/` clonado local (~605 MB, untracked) para el trabajo.
+
+**Snapshot retrospectivo del fork (qué relocar, cómo).** Matcheo wiki↔game = por **`uniqueName`**
+(determinístico, no fuzzy; armas suman check de `slot`). Dispatch por categoría (`Upgrades→mods`,
+`Archwing→archwings`, `Sentinels→companions`).
+
+| Scraper | Módulo wiki | Campos LOST que Project consume |
+|---|---|---|
+| Weapon | `Module:Weapons/data` | `weaponClass` (el hook además *pisa* attacks/tags/polarities con wiki) |
+| Mod | `Module:Mods/data` | `upgradeTypes`, `maxRank`, `incompatibilityTags` |
+| Warframe | `Module:Warframes/data` (+Blueprints) | `energy`, `initialEnergy`, `maxRank`, `playstyle`, `progenitor`, `subsumed`, `themes`, `tactical` |
+| Arcane | `Module:Arcane/data` | `upgradeTypes` (pristino ya agregó wikia*/introduced para arcanos) |
+
+Auxiliar: **VersionScraper** (`introduced`/`releaseDate`).
+
+**Dos decisiones que el snapshot destapa (resolver con el diff aislado real):**
+1. **Quirúrgico vs replicar** — los hooks del fork *sobrescriben* campos que pristino ya trae de su core
+   (weapon `attacks`/`tags`/`polarities`). ¿Recuperar solo lo perdido (quirúrgico) o dejar que el wiki pise
+   todo (replicar-fork)?
+2. **💣 Fidelidad de stats base de warframe** — el hook toma `health`/`shield`/`armor`/`energy` del **WIKI**
+   (parser.mjs:984-988), pisando el game-export. Pristino usa **core**. Migrar sin re-cosechar = las stats base
+   de warframe cambian de fuente (valores pueden diferir). Decisión: ¿wiki o core como verdad?
 
 **No bloquea:** nada. El fork funciona; esto es evaluación de fuente, no un defecto.
 **Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../data/references/warframe-items-source.md` (qué aporta el fork actual).
