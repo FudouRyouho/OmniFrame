@@ -705,7 +705,7 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 
 ---
 
-## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA (2026-07-20) — fase-1 EJECUTADA 2026-07-22 (omniframe-items consolidado); migración a pristino-master scopeada (MAJOR_RED, gated)**
+## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA (2026-07-20) — MIGRACIÓN EJECUTADA 2026-07-22 (pristino activo, fork → `.backup`, omniframe-items re-cosecha); pendiente: fase-2 enemigos + residuales**
 
 **Dominio:** data / pipeline / fuente
 
@@ -855,11 +855,22 @@ source-change-report, no se enumera acá):**
   `data/img` al **100%** en todas las categorías (esquema auto-consistente). Tras el swap +
   `get-img --clean`, las imágenes resuelven solas. Costo = diff cosmético de rutas + re-copia de assets.
 
-**→ Árbitro efectivamente VERDE.** Regresiones cerradas (mods) o aceptadas (weapons); el resto es refresh
-explicable. La promoción está lista: swap de nombres (`warframe-items.pristine` → `warframe-items`, fork →
-`.backup`), `omniframe-items` a `fields:true` permanente, `generate:data` completo, commit del refresh.
+**→ PROMOCIÓN EJECUTADA (2026-07-22).** Swap de nombres hecho (`warframe-items` = upstream pristino,
+`warframe-items.backup` = fork viejo, gitignored). `omniframe-items` con `fields:true`. `public/data`
+regenerado (refresh abril→julio + campos re-cosechados), `source-change-report` re-baselineado, `enemies.json`
+sin cambios (pristino trae `Enemy.json`). Árbitro final verde salvo las regresiones aceptadas. Commit del
+refresh hecho.
 
-**No bloquea:** nada. El fork funciona; esto es evaluación de fuente, no un defecto.
+**Residuales abiertos (post-promoción):**
+- **Fase-2 — enemigos:** el objetivo de fondo. Traer el módulo Lua de enemigos de la wiki (el `EnemyScraper`,
+  mismo patrón que los otros ×5), que pristino tampoco cosecha. El usuario aporta los links y se revisa juntos.
+- **Auditar normalizaciones `?? []` redundantes** que compensaban la incompletitud del fork (ej.
+  `incompatibility_tags`) — ahora el dato fresco las puede volver innecesarias.
+- **Borrar `warframe-items.backup`** una vez confirmada la estabilidad de omniframe-items a nivel pipeline.
+- **Investigar "cositas"** que el usuario vio en `warframe-items` pristino (fuera del modelado actual, sin
+  urgencia).
+
+**No bloquea:** nada.
 **Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../data/references/warframe-items-source.md` (qué aporta el fork actual).
 **Fuente:** reflexión del usuario, cierre de sesión 2026-07-20; investigación 2026-07-22.
 
