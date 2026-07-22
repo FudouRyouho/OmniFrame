@@ -24,10 +24,11 @@ node_modules/*
 **/*.pyc
 
 # ─── Datos y temporales del proyecto ─────────────────────────────────────────
+# Fuente activa: upstream pristino de WFCD/warframe-items (post-migración OQ-DATA-16).
+# Local, no se sube (data/img pesada); omniframe-items re-cosecha del wiki lo que upstream adelgazó.
 warframe-items/
-# Clone pristino de WFCD/warframe-items (upstream master) — copia local para investigación/migración
-# (OQ-DATA-16). No se sube (605 MB con data/img). Igual que el fork: local, para comparar viejo↔nuevo.
-warframe-items.pristine/
+# Banco de lectura: el fork viejo, conservado hasta confirmar estabilidad de omniframe-items (OQ-DATA-16).
+warframe-items.backup/
 # Excepción: el baseline del audit de sincronización SÍ se trackea (ver docs/data/pipeline/architecture.md §Audit reports).
 # Se re-incluye nivel por nivel porque git no desciende en un directorio ignorado por completo.
 Project/data/*

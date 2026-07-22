@@ -2,8 +2,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon",
     "name": "Agkuza",
-    "image": "/assets/items/agkuza-ad630f8d41.png.png",
-    "image_name": "agkuza-ad630f8d41.png",
+    "image": "/assets/items/Agkuza.png.png",
+    "image_name": "Agkuza.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon",
     "domain": "weapon",
     "kind": "archmelee",
@@ -60,8 +60,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun",
     "name": "Arbucep",
-    "image": "/assets/items/arbucep-6cabdc8f25.png.png",
-    "image_name": "arbucep-6cabdc8f25.png",
+    "image": "/assets/items/NokkoArchGun.png.png",
+    "image_name": "NokkoArchGun.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun",
     "domain": "weapon",
     "kind": "archgun",
@@ -350,8 +350,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield",
     "name": "Centaur",
-    "image": "/assets/items/centaur-a00c7e4fd8.png.png",
-    "image_name": "centaur-a00c7e4fd8.png",
+    "image": "/assets/items/Centaur.png.png",
+    "image_name": "Centaur.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield",
     "domain": "weapon",
     "kind": "archmelee",
@@ -408,8 +408,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchGun/ThanoTechArchGun",
     "name": "Cortege",
-    "image": "/assets/items/cortege-9af4117990.png.png",
-    "image_name": "cortege-9af4117990.png",
+    "image": "/assets/items/ThanotechArchGun.png.png",
+    "image_name": "ThanotechArchGun.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchGun/ThanoTechArchGun",
     "domain": "weapon",
     "kind": "archgun",
@@ -498,8 +498,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/LaunchGrenade/ArchCannon",
     "name": "Corvas",
-    "image": "/assets/items/corvas-13db9b551f.png.png",
-    "image_name": "corvas-13db9b551f.png",
+    "image": "/assets/items/Corvas.png.png",
+    "image_name": "Corvas.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/LaunchGrenade/ArchCannon",
     "domain": "weapon",
     "kind": "archgun",
@@ -575,8 +575,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/PrimeCorvas/PrimeCorvasWeapon",
     "name": "Corvas Prime",
-    "image": "/assets/items/corvas-prime-3a5514ae24.png.png",
-    "image_name": "corvas-prime-3a5514ae24.png",
+    "image": "/assets/items/CorvasPrime.png.png",
+    "image_name": "CorvasPrime.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/PrimeCorvas/PrimeCorvasWeapon",
     "domain": "weapon",
     "kind": "archgun",
@@ -655,8 +655,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchBurstGun/ArchBurstGun",
     "name": "Cyngas",
-    "image": "/assets/items/cyngas-842f5f0899.png.png",
-    "image_name": "cyngas-842f5f0899.png",
+    "image": "/assets/items/Cyngas.png.png",
+    "image_name": "Cyngas.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchBurstGun/ArchBurstGun",
     "domain": "weapon",
     "kind": "archgun",
@@ -715,8 +715,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/ArchHeavyPistols",
     "name": "Dual Decurion",
-    "image": "/assets/items/dual-decurion-2c12e236ac.png.png",
-    "image_name": "dual-decurion-2c12e236ac.png",
+    "image": "/assets/items/DualDecurion.png.png",
+    "image_name": "DualDecurion.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/ArchHeavyPistols",
     "domain": "weapon",
     "kind": "archgun",
@@ -775,8 +775,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/RocketArtillery/ArchRocketCrossbow",
     "name": "Fluctus",
-    "image": "/assets/items/fluctus-1e012e3298.png.png",
-    "image_name": "fluctus-1e012e3298.png",
+    "image": "/assets/items/Fluctus.png.png",
+    "image_name": "Fluctus.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/RocketArtillery/ArchRocketCrossbow",
     "domain": "weapon",
     "kind": "archgun",
@@ -838,8 +838,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/RepurposedGrineerAntiAircraftGun/ArchGRNAAGun",
     "name": "Grattler",
-    "image": "/assets/items/grattler-ce089ce28a.png.png",
-    "image_name": "grattler-ce089ce28a.png",
+    "image": "/assets/items/Grattler.png.png",
+    "image_name": "Grattler.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/RepurposedGrineerAntiAircraftGun/ArchGRNAAGun",
     "domain": "weapon",
     "kind": "archgun",
@@ -921,8 +921,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGun",
     "name": "Imperator",
-    "image": "/assets/items/imperator-06651a85cb.png.png",
-    "image_name": "imperator-06651a85cb.png",
+    "image": "/assets/items/Imperator.png.png",
+    "image_name": "Imperator.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGun",
     "domain": "weapon",
     "kind": "archgun",
@@ -983,8 +983,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGunVandal",
     "name": "Imperator Vandal",
-    "image": "/assets/items/imperator-vandal-11d120197b.png.png",
-    "image_name": "imperator-vandal-11d120197b.png",
+    "image": "/assets/items/ImperatorVandal.png.png",
+    "image_name": "ImperatorVandal.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/FoldingMachineGun/ArchMachineGunVandal",
     "domain": "weapon",
     "kind": "archgun",
@@ -1046,8 +1046,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe",
     "name": "Kaszas",
-    "image": "/assets/items/kaszas-fa004e9997.png.png",
-    "image_name": "kaszas-fa004e9997.png",
+    "image": "/assets/items/Kaszas.png.png",
+    "image_name": "Kaszas.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe",
     "domain": "weapon",
     "kind": "archmelee",
@@ -1104,8 +1104,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon",
     "name": "Knux",
-    "image": "/assets/items/knux-939cea4c86.png.png",
-    "image_name": "knux-939cea4c86.png",
+    "image": "/assets/items/Knux.png.png",
+    "image_name": "Knux.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon",
     "domain": "weapon",
     "kind": "archmelee",
@@ -1162,8 +1162,8 @@
   {
     "id": "/Lotus/Weapons/Grineer/HeavyWeapons/GrnHeavyGrenadeLauncher",
     "name": "Kuva Ayanga",
-    "image": "/assets/items/kuva-ayanga-191784ae00.png.png",
-    "image_name": "kuva-ayanga-191784ae00.png",
+    "image": "/assets/items/GrnHeavyGrenadeLauncher.png.png",
+    "image_name": "GrnHeavyGrenadeLauncher.png",
     "unique_name": "/Lotus/Weapons/Grineer/HeavyWeapons/GrnHeavyGrenadeLauncher",
     "domain": "weapon",
     "kind": "archgun",
@@ -1171,7 +1171,9 @@
     "category": "Arch-Gun",
     "type": "Arch-Gun",
     "mastery_req": 13,
-    "polarities": [],
+    "polarities": [
+      "naramon"
+    ],
     "tags": [
       "grineer",
       "kuva lich"
@@ -1240,8 +1242,8 @@
   {
     "id": "/Lotus/Weapons/Grineer/KuvaLich/HeavyWeapons/Grattler/KuvaGrattler",
     "name": "Kuva Grattler",
-    "image": "/assets/items/kuva-grattler-57e1150f75.png.png",
-    "image_name": "kuva-grattler-57e1150f75.png",
+    "image": "/assets/items/KuvaGrattler.png.png",
+    "image_name": "KuvaGrattler.png",
     "unique_name": "/Lotus/Weapons/Grineer/KuvaLich/HeavyWeapons/Grattler/KuvaGrattler",
     "domain": "weapon",
     "kind": "archgun",
@@ -1326,8 +1328,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/TnShieldframeArchGun/TnShieldFrameArchGun",
     "name": "Larkspur",
-    "image": "/assets/items/larkspur-75e75160ee.png.png",
-    "image_name": "larkspur-75e75160ee.png",
+    "image": "/assets/items/ShieldFrameArchGun.png.png",
+    "image_name": "ShieldFrameArchGun.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/TnShieldframeArchGun/TnShieldFrameArchGun",
     "domain": "weapon",
     "kind": "archgun",
@@ -1423,8 +1425,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/PrimeLarkspur/PrimeLarkspurWeapon",
     "name": "Larkspur Prime",
-    "image": "/assets/items/larkspur-prime-2320f70a2f.png.png",
-    "image_name": "larkspur-prime-2320f70a2f.png",
+    "image": "/assets/items/LarkspurPrime.png.png",
+    "image_name": "LarkspurPrime.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/PrimeLarkspur/PrimeLarkspurWeapon",
     "domain": "weapon",
     "kind": "archgun",
@@ -1522,8 +1524,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/TnConcreteArchgun/TnConcreteArchgunWeapon",
     "name": "Mandonel",
-    "image": "/assets/items/mandonel-e7a5f57785.png.png",
-    "image_name": "mandonel-e7a5f57785.png",
+    "image": "/assets/items/TnConcreteArchgun.png.png",
+    "image_name": "TnConcreteArchgun.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/TnConcreteArchgun/TnConcreteArchgunWeapon",
     "domain": "weapon",
     "kind": "archgun",
@@ -1531,8 +1533,12 @@
     "category": "Arch-Gun",
     "type": "Arch-Gun",
     "mastery_req": 10,
-    "polarities": [],
-    "tags": [],
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "entrati"
+    ],
     "description": "Mandonel fires <DT_RADIATION_COLOR>Radiation Damage projectiles. Partially charged shots release a spread and fully charged shots release a beam that dissolves into a radiation field. Projectiles that pass through the field are empowered.",
     "product_category": "SpaceGuns",
     "is_prime": false,
@@ -1548,17 +1554,57 @@
       "crit_chance": 0.25,
       "crit_mult": 2,
       "status_chance": 0.14999998,
-      "attacks": []
+      "attacks": [
+        {
+          "name": "Horizontal Spread",
+          "damage": {
+            "impact": 25,
+            "slash": 10,
+            "puncture": 15,
+            "radiation": 40
+          },
+          "total_damage": 90,
+          "crit_chance": 0.25,
+          "crit_mult": 2,
+          "status_chance": 0.15,
+          "speed": 3,
+          "shot_type": "Projectile",
+          "flight": 125,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Charge",
+          "damage": {
+            "puncture": 200,
+            "heat": 300,
+            "radiation": 400
+          },
+          "total_damage": 900,
+          "crit_chance": 0.3,
+          "crit_mult": 2.5,
+          "status_chance": 0.2,
+          "speed": 3,
+          "shot_type": "Hit-Scan",
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": 1.5,
+          "punch_through": 0
+        }
+      ]
     },
-    "introduced": null,
-    "wikia_thumbnail": null,
-    "wikia_url": null
+    "introduced": "Update 35.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Mandonel.png?e64d1",
+    "wikia_url": "https://wiki.warframe.com/w/Mandonel"
   },
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchLongGun/ThanoTechLongGun",
     "name": "Mausolon",
-    "image": "/assets/items/mausolon-483fb60c57.png.png",
-    "image_name": "mausolon-483fb60c57.png",
+    "image": "/assets/items/ThanotechLongGun.png.png",
+    "image_name": "ThanotechLongGun.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchLongGun/ThanoTechLongGun",
     "domain": "weapon",
     "kind": "archgun",
@@ -1590,11 +1636,11 @@
         {
           "name": "Auto",
           "damage": {
-            "impact": 35,
-            "puncture": 70,
-            "heat": 75
+            "impact": 24,
+            "puncture": 46,
+            "heat": 50
           },
-          "total_damage": 180,
+          "total_damage": 120,
           "crit_chance": 0.3,
           "crit_mult": 2.2,
           "status_chance": 0.26,
@@ -1613,9 +1659,9 @@
         {
           "name": "Auto Radial Attack",
           "damage": {
-            "heat": 72
+            "heat": 48
           },
-          "total_damage": 72,
+          "total_damage": 48,
           "crit_chance": 0.3,
           "crit_mult": 2.2,
           "status_chance": 0.26,
@@ -1634,11 +1680,11 @@
         {
           "name": "Charged Shot Laser",
           "damage": {
-            "impact": 150,
-            "puncture": 600,
-            "heat": 750
+            "impact": 100,
+            "puncture": 400,
+            "heat": 500
           },
-          "total_damage": 1500,
+          "total_damage": 1000,
           "crit_chance": 0.5,
           "crit_mult": 3.5,
           "status_chance": 0.5,
@@ -1653,9 +1699,9 @@
         {
           "name": "Charged Shot Explosion",
           "damage": {
-            "heat": 4500
+            "heat": 3000
           },
-          "total_damage": 4500,
+          "total_damage": 3000,
           "crit_chance": 0.5,
           "crit_mult": 3.5,
           "status_chance": 0.5,
@@ -1680,8 +1726,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechGrenadeLaunch/ThanoTechGrenadeLauncher",
     "name": "Morgha",
-    "image": "/assets/items/morgha-40068b33ff.png.png",
-    "image_name": "morgha-40068b33ff.png",
+    "image": "/assets/items/ThanoTechGrenadeLauncher.png.png",
+    "image_name": "ThanoTechGrenadeLauncher.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechGrenadeLaunch/ThanoTechGrenadeLauncher",
     "domain": "weapon",
     "kind": "archgun",
@@ -1797,8 +1843,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon",
     "name": "Onorix",
-    "image": "/assets/items/onorix-cec1553bd5.png.png",
-    "image_name": "onorix-cec1553bd5.png",
+    "image": "/assets/items/Onorix.png.png",
+    "image_name": "Onorix.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon",
     "domain": "weapon",
     "kind": "archmelee",
@@ -1855,8 +1901,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchLongRifle/ArchLongRifle",
     "name": "Phaedra",
-    "image": "/assets/items/phaedra-629ac9ffc2.png.png",
-    "image_name": "phaedra-629ac9ffc2.png",
+    "image": "/assets/items/Phaedra.png.png",
+    "image_name": "Phaedra.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchLongRifle/ArchLongRifle",
     "domain": "weapon",
     "kind": "archgun",
@@ -1917,8 +1963,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/Prisma/PrismaArchHeavyPistols",
     "name": "Prisma Dual Decurions",
-    "image": "/assets/items/prisma-dual-decurions-e4d5a8cf9e.png.png",
-    "image_name": "prisma-dual-decurions-e4d5a8cf9e.png",
+    "image": "/assets/items/PrismaDualDecurion.png.png",
+    "image_name": "PrismaDualDecurion.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchwingHeavyPistols/Prisma/PrismaArchHeavyPistols",
     "domain": "weapon",
     "kind": "archgun",
@@ -1981,8 +2027,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/VoidTraderArchsword/VTArchSwordWeapon",
     "name": "Prisma Veritux",
-    "image": "/assets/items/prisma-veritux-b7348241ce.png.png",
-    "image_name": "prisma-veritux-b7348241ce.png",
+    "image": "/assets/items/PrismaVeritux.png.png",
+    "image_name": "PrismaVeritux.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/VoidTraderArchsword/VTArchSwordWeapon",
     "domain": "weapon",
     "kind": "archmelee",
@@ -2040,8 +2086,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchHammer/ArchHammer",
     "name": "Rathbone",
-    "image": "/assets/items/rathbone-918424e099.png.png",
-    "image_name": "rathbone-918424e099.png",
+    "image": "/assets/items/Rathbone.png.png",
+    "image_name": "Rathbone.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchHammer/ArchHammer",
     "domain": "weapon",
     "kind": "archmelee",
@@ -2098,8 +2144,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun",
     "name": "Velocitus",
-    "image": "/assets/items/velocitus-218fe8d40e.png.png",
-    "image_name": "velocitus-218fe8d40e.png",
+    "image": "/assets/items/Velocitus.png.png",
+    "image_name": "Velocitus.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun",
     "domain": "weapon",
     "kind": "archgun",
@@ -2176,8 +2222,8 @@
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archsword/ArchSwordWeapon",
     "name": "Veritux",
-    "image": "/assets/items/veritux-a2d86d183e.png.png",
-    "image_name": "veritux-a2d86d183e.png",
+    "image": "/assets/items/Veritux.png.png",
+    "image_name": "Veritux.png",
     "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archsword/ArchSwordWeapon",
     "domain": "weapon",
     "kind": "archmelee",

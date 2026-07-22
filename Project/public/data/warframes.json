@@ -2,8 +2,8 @@
   {
     "id": "/Lotus/Powersuits/Ninja/Ninja",
     "name": "Ash",
-    "image": "/assets/items/ash-f2c6f3ab3f.png.png",
-    "image_name": "ash-f2c6f3ab3f.png",
+    "image": "/assets/items/Ash.png.png",
+    "image_name": "Ash.png",
     "unique_name": "/Lotus/Powersuits/Ninja/Ninja",
     "domain": "warframe",
     "kind": "warframe",
@@ -59,8 +59,8 @@
   {
     "id": "/Lotus/Powersuits/Ninja/AshPrime",
     "name": "Ash Prime",
-    "image": "/assets/items/ash-prime-bfcb09331e.png.png",
-    "image_name": "ash-prime-bfcb09331e.png",
+    "image": "/assets/items/AshPrime.png.png",
+    "image_name": "AshPrime.png",
     "unique_name": "/Lotus/Powersuits/Ninja/AshPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -117,8 +117,8 @@
   {
     "id": "/Lotus/Powersuits/Brawler/Brawler",
     "name": "Atlas",
-    "image": "/assets/items/atlas-a39443cc8b.png.png",
-    "image_name": "atlas-a39443cc8b.png",
+    "image": "/assets/items/Atlas.png.png",
+    "image_name": "Atlas.png",
     "unique_name": "/Lotus/Powersuits/Brawler/Brawler",
     "domain": "warframe",
     "kind": "warframe",
@@ -175,8 +175,8 @@
   {
     "id": "/Lotus/Powersuits/Brawler/AtlasPrime",
     "name": "Atlas Prime",
-    "image": "/assets/items/atlas-prime-7312f6d838.png.png",
-    "image_name": "atlas-prime-7312f6d838.png",
+    "image": "/assets/items/AtlasPrime.png.png",
+    "image_name": "AtlasPrime.png",
     "unique_name": "/Lotus/Powersuits/Brawler/AtlasPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -234,8 +234,8 @@
   {
     "id": "/Lotus/Powersuits/Banshee/Banshee",
     "name": "Banshee",
-    "image": "/assets/items/banshee-f3216d3957.png.png",
-    "image_name": "banshee-f3216d3957.png",
+    "image": "/assets/items/Banshee.png.png",
+    "image_name": "Banshee.png",
     "unique_name": "/Lotus/Powersuits/Banshee/Banshee",
     "domain": "warframe",
     "kind": "warframe",
@@ -290,8 +290,8 @@
   {
     "id": "/Lotus/Powersuits/Banshee/BansheePrime",
     "name": "Banshee Prime",
-    "image": "/assets/items/banshee-prime-7bebac6654.png.png",
-    "image_name": "banshee-prime-7bebac6654.png",
+    "image": "/assets/items/BansheePrime.png.png",
+    "image_name": "BansheePrime.png",
     "unique_name": "/Lotus/Powersuits/Banshee/BansheePrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -347,8 +347,8 @@
   {
     "id": "/Lotus/Powersuits/Pacifist/Pacifist",
     "name": "Baruuk",
-    "image": "/assets/items/baruuk-e935d0749d.png.png",
-    "image_name": "baruuk-e935d0749d.png",
+    "image": "/assets/items/Pacifist.png.png",
+    "image_name": "Pacifist.png",
     "unique_name": "/Lotus/Powersuits/Pacifist/Pacifist",
     "domain": "warframe",
     "kind": "warframe",
@@ -404,8 +404,8 @@
   {
     "id": "/Lotus/Powersuits/Pacifist/BaruukPrime",
     "name": "Baruuk Prime",
-    "image": "/assets/items/baruuk-prime-7e1a50c877.png.png",
-    "image_name": "baruuk-prime-7e1a50c877.png",
+    "image": "/assets/items/BaruukPrime.png.png",
+    "image_name": "BaruukPrime.png",
     "unique_name": "/Lotus/Powersuits/Pacifist/BaruukPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -462,8 +462,8 @@
   {
     "id": "/Lotus/Powersuits/Sentient/Sentient",
     "name": "Caliban",
-    "image": "/assets/items/caliban-c2f7820be2.png.png",
-    "image_name": "caliban-c2f7820be2.png",
+    "image": "/assets/items/Caliban.png.png",
+    "image_name": "Caliban.png",
     "unique_name": "/Lotus/Powersuits/Sentient/Sentient",
     "domain": "warframe",
     "kind": "warframe",
@@ -507,7 +507,6 @@
     "passive": "/Lotus/Powersuits/Sentient/Sentient",
     "max_rank": 30,
     "playstyle": [
-      "survival",
       "crowd control"
     ],
     "progenitor": "Electricity",
@@ -518,8 +517,8 @@
   {
     "id": "/Lotus/Powersuits/Sentient/CalibanPrime",
     "name": "Caliban Prime",
-    "image": "/assets/items/caliban-prime-6e04a41118.png.png",
-    "image_name": "caliban-prime-6e04a41118.png",
+    "image": "/assets/items/CalibanPrime.png.png",
+    "image_name": "CalibanPrime.png",
     "unique_name": "/Lotus/Powersuits/Sentient/CalibanPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -565,7 +564,6 @@
     "passive": "/Lotus/Powersuits/Sentient/CalibanPrime",
     "max_rank": 30,
     "playstyle": [
-      "survival",
       "crowd control"
     ],
     "progenitor": "Electricity",
@@ -576,8 +574,8 @@
   {
     "id": "/Lotus/Powersuits/Dragon/Dragon",
     "name": "Chroma",
-    "image": "/assets/items/chroma-2fd0ea0ba6.png.png",
-    "image_name": "chroma-2fd0ea0ba6.png",
+    "image": "/assets/items/Chroma.png.png",
+    "image_name": "Chroma.png",
     "unique_name": "/Lotus/Powersuits/Dragon/Dragon",
     "domain": "warframe",
     "kind": "warframe",
@@ -633,8 +631,8 @@
   {
     "id": "/Lotus/Powersuits/Dragon/ChromaPrime",
     "name": "Chroma Prime",
-    "image": "/assets/items/chroma-prime-2ac05d2866.png.png",
-    "image_name": "chroma-prime-2ac05d2866.png",
+    "image": "/assets/items/ChromaPrime.png.png",
+    "image_name": "ChromaPrime.png",
     "unique_name": "/Lotus/Powersuits/Dragon/ChromaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -692,8 +690,8 @@
   {
     "id": "/Lotus/Powersuits/Geode/Geode",
     "name": "Citrine",
-    "image": "/assets/items/citrine-d7392c4d7d.png.png",
-    "image_name": "citrine-d7392c4d7d.png",
+    "image": "/assets/items/Citrine.png.png",
+    "image_name": "Citrine.png",
     "unique_name": "/Lotus/Powersuits/Geode/Geode",
     "domain": "warframe",
     "kind": "warframe",
@@ -748,8 +746,8 @@
   {
     "id": "/Lotus/Powersuits/Frumentarius/Frumentarius",
     "name": "Cyte-09",
-    "image": "/assets/items/cyte-09-62e778e37c.png.png",
-    "image_name": "cyte-09-62e778e37c.png",
+    "image": "/assets/items/Frumentarius.png.png",
+    "image_name": "Frumentarius.png",
     "unique_name": "/Lotus/Powersuits/Frumentarius/Frumentarius",
     "domain": "warframe",
     "kind": "warframe",
@@ -805,8 +803,8 @@
   {
     "id": "/Lotus/Powersuits/Dagath/Dagath",
     "name": "Dagath",
-    "image": "/assets/items/dagath-7589f2ce5b.png.png",
-    "image_name": "dagath-7589f2ce5b.png",
+    "image": "/assets/items/Dagath.png.png",
+    "image_name": "Dagath.png",
     "unique_name": "/Lotus/Powersuits/Dagath/Dagath",
     "domain": "warframe",
     "kind": "warframe",
@@ -861,8 +859,8 @@
   {
     "id": "/Lotus/Powersuits/Pagemaster/Pagemaster",
     "name": "Dante",
-    "image": "/assets/items/dante-43d70fb91a.png.png",
-    "image_name": "dante-43d70fb91a.png",
+    "image": "/assets/items/Pagemaster.png.png",
+    "image_name": "Pagemaster.png",
     "unique_name": "/Lotus/Powersuits/Pagemaster/Pagemaster",
     "domain": "warframe",
     "kind": "warframe",
@@ -919,8 +917,8 @@
   {
     "id": "/Lotus/Powersuits/Ember/Ember",
     "name": "Ember",
-    "image": "/assets/items/ember-338265ce88.png.png",
-    "image_name": "ember-338265ce88.png",
+    "image": "/assets/items/Ember.png.png",
+    "image_name": "Ember.png",
     "unique_name": "/Lotus/Powersuits/Ember/Ember",
     "domain": "warframe",
     "kind": "warframe",
@@ -975,8 +973,8 @@
   {
     "id": "/Lotus/Powersuits/Ember/EmberPrime",
     "name": "Ember Prime",
-    "image": "/assets/items/ember-prime-e978f28a35.png.png",
-    "image_name": "ember-prime-e978f28a35.png",
+    "image": "/assets/items/EmberPrime.png.png",
+    "image_name": "EmberPrime.png",
     "unique_name": "/Lotus/Powersuits/Ember/EmberPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -1031,8 +1029,8 @@
   {
     "id": "/Lotus/Powersuits/YinYang/YinYang",
     "name": "Equinox",
-    "image": "/assets/items/equinox-ae1572be82.png.png",
-    "image_name": "equinox-ae1572be82.png",
+    "image": "/assets/items/Equinox.png.png",
+    "image_name": "Equinox.png",
     "unique_name": "/Lotus/Powersuits/YinYang/YinYang",
     "domain": "warframe",
     "kind": "warframe",
@@ -1087,8 +1085,8 @@
   {
     "id": "/Lotus/Powersuits/YinYang/EquinoxPrime",
     "name": "Equinox Prime",
-    "image": "/assets/items/equinox-prime-9fbe947b57.png.png",
-    "image_name": "equinox-prime-9fbe947b57.png",
+    "image": "/assets/items/EquinoxPrime.png.png",
+    "image_name": "EquinoxPrime.png",
     "unique_name": "/Lotus/Powersuits/YinYang/EquinoxPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -1145,8 +1143,8 @@
   {
     "id": "/Lotus/Powersuits/Excalibur/Excalibur",
     "name": "Excalibur",
-    "image": "/assets/items/excalibur-2621a69bfa.png.png",
-    "image_name": "excalibur-2621a69bfa.png",
+    "image": "/assets/items/Excalibur.png.png",
+    "image_name": "Excalibur.png",
     "unique_name": "/Lotus/Powersuits/Excalibur/Excalibur",
     "domain": "warframe",
     "kind": "warframe",
@@ -1201,8 +1199,8 @@
   {
     "id": "/Lotus/Powersuits/Excalibur/ExcaliburPrime",
     "name": "Excalibur Prime",
-    "image": "/assets/items/excalibur-prime-6d56b10bbf.png.png",
-    "image_name": "excalibur-prime-6d56b10bbf.png",
+    "image": "/assets/items/ExcaliburPrime.png.png",
+    "image_name": "ExcaliburPrime.png",
     "unique_name": "/Lotus/Powersuits/Excalibur/ExcaliburPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -1258,8 +1256,8 @@
   {
     "id": "/Lotus/Powersuits/Excalibur/ExcaliburUmbra",
     "name": "Excalibur Umbra",
-    "image": "/assets/items/excalibur-umbra-d421af56c1.png.png",
-    "image_name": "excalibur-umbra-d421af56c1.png",
+    "image": "/assets/items/ExcaliburUmbra.png.png",
+    "image_name": "ExcaliburUmbra.png",
     "unique_name": "/Lotus/Powersuits/Excalibur/ExcaliburUmbra",
     "domain": "warframe",
     "kind": "warframe",
@@ -1316,8 +1314,8 @@
   {
     "id": "/Lotus/Powersuits/Inkblot/Inkblot",
     "name": "Follie",
-    "image": "/assets/items/follie-2c6d732813.png.png",
-    "image_name": "follie-2c6d732813.png",
+    "image": "/assets/items/Inkblot.png.png",
+    "image_name": "Inkblot.png",
     "unique_name": "/Lotus/Powersuits/Inkblot/Inkblot",
     "domain": "warframe",
     "kind": "warframe",
@@ -1338,7 +1336,7 @@
       "energy": 175,
       "sprint_speed": 0.94999999
     },
-    "passive_description": "INKBLOT: Follie's abilities coat enemies in ink that slows their movement by |SLOW|% for a few seconds. Afflicted enemies have a |CHANCE|% chance to drop Health and Energy Orbs.",
+    "passive_description": "INKBLOT: Follie's abilities coat enemies in ink that slows their movement by |SLOW|% for |DURATION|s. Afflicted enemies have a |CHANCE|% chance to drop Health and Energy Orbs.",
     "is_prime": false,
     "aura": "vazarin",
     "sex": "Female",
@@ -1362,7 +1360,6 @@
     "passive": "/Lotus/Powersuits/Inkblot/Inkblot",
     "max_rank": 30,
     "playstyle": [
-      "damage",
       "crowd control"
     ],
     "progenitor": "Electricity",
@@ -1373,8 +1370,8 @@
   {
     "id": "/Lotus/Powersuits/Frost/Frost",
     "name": "Frost",
-    "image": "/assets/items/frost-620cddb4a6.png.png",
-    "image_name": "frost-620cddb4a6.png",
+    "image": "/assets/items/Frost.png.png",
+    "image_name": "Frost.png",
     "unique_name": "/Lotus/Powersuits/Frost/Frost",
     "domain": "warframe",
     "kind": "warframe",
@@ -1430,8 +1427,8 @@
   {
     "id": "/Lotus/Powersuits/Frost/FrostPrime",
     "name": "Frost Prime",
-    "image": "/assets/items/frost-prime-f177de2e0c.png.png",
-    "image_name": "frost-prime-f177de2e0c.png",
+    "image": "/assets/items/FrostPrime.png.png",
+    "image_name": "FrostPrime.png",
     "unique_name": "/Lotus/Powersuits/Frost/FrostPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -1488,8 +1485,8 @@
   {
     "id": "/Lotus/Powersuits/Glass/Glass",
     "name": "Gara",
-    "image": "/assets/items/gara-b2089c43f8.png.png",
-    "image_name": "gara-b2089c43f8.png",
+    "image": "/assets/items/Gara.png.png",
+    "image_name": "Gara.png",
     "unique_name": "/Lotus/Powersuits/Glass/Glass",
     "domain": "warframe",
     "kind": "warframe",
@@ -1546,8 +1543,8 @@
   {
     "id": "/Lotus/Powersuits/Glass/GaraPrime",
     "name": "Gara Prime",
-    "image": "/assets/items/gara-prime-faf70dfd7c.png.png",
-    "image_name": "gara-prime-faf70dfd7c.png",
+    "image": "/assets/items/GaraPrime.png.png",
+    "image_name": "GaraPrime.png",
     "unique_name": "/Lotus/Powersuits/Glass/GaraPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -1605,8 +1602,8 @@
   {
     "id": "/Lotus/Powersuits/Garuda/Garuda",
     "name": "Garuda",
-    "image": "/assets/items/garuda-5e3cc04493.png.png",
-    "image_name": "garuda-5e3cc04493.png",
+    "image": "/assets/items/Garuda.png.png",
+    "image_name": "Garuda.png",
     "unique_name": "/Lotus/Powersuits/Garuda/Garuda",
     "domain": "warframe",
     "kind": "warframe",
@@ -1661,8 +1658,8 @@
   {
     "id": "/Lotus/Powersuits/Garuda/GarudaPrime",
     "name": "Garuda Prime",
-    "image": "/assets/items/garuda-prime-2c4ce210a0.png.png",
-    "image_name": "garuda-prime-2c4ce210a0.png",
+    "image": "/assets/items/GarudaPrime.png.png",
+    "image_name": "GarudaPrime.png",
     "unique_name": "/Lotus/Powersuits/Garuda/GarudaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -1718,8 +1715,8 @@
   {
     "id": "/Lotus/Powersuits/Runner/Runner",
     "name": "Gauss",
-    "image": "/assets/items/gauss-8060019853.png.png",
-    "image_name": "gauss-8060019853.png",
+    "image": "/assets/items/Gauss.png.png",
+    "image_name": "Gauss.png",
     "unique_name": "/Lotus/Powersuits/Runner/Runner",
     "domain": "warframe",
     "kind": "warframe",
@@ -1775,8 +1772,8 @@
   {
     "id": "/Lotus/Powersuits/Runner/GaussPrime",
     "name": "Gauss Prime",
-    "image": "/assets/items/gauss-prime-170a77a036.png.png",
-    "image_name": "gauss-prime-170a77a036.png",
+    "image": "/assets/items/GaussPrime.png.png",
+    "image_name": "GaussPrime.png",
     "unique_name": "/Lotus/Powersuits/Runner/GaussPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -1833,8 +1830,8 @@
   {
     "id": "/Lotus/Powersuits/Devourer/Devourer",
     "name": "Grendel",
-    "image": "/assets/items/grendel-4d1c382605.png.png",
-    "image_name": "grendel-4d1c382605.png",
+    "image": "/assets/items/Grendel.png.png",
+    "image_name": "Grendel.png",
     "unique_name": "/Lotus/Powersuits/Devourer/Devourer",
     "domain": "warframe",
     "kind": "warframe",
@@ -1890,8 +1887,8 @@
   {
     "id": "/Lotus/Powersuits/Devourer/GrendelPrime",
     "name": "Grendel Prime",
-    "image": "/assets/items/grendel-prime-e23d41072d.png.png",
-    "image_name": "grendel-prime-e23d41072d.png",
+    "image": "/assets/items/GrendelPrime.png.png",
+    "image_name": "GrendelPrime.png",
     "unique_name": "/Lotus/Powersuits/Devourer/GrendelPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -1948,8 +1945,8 @@
   {
     "id": "/Lotus/Powersuits/Gyre/Gyre",
     "name": "Gyre",
-    "image": "/assets/items/gyre-b17b2d4464.png.png",
-    "image_name": "gyre-b17b2d4464.png",
+    "image": "/assets/items/Gyre.png.png",
+    "image_name": "Gyre.png",
     "unique_name": "/Lotus/Powersuits/Gyre/Gyre",
     "domain": "warframe",
     "kind": "warframe",
@@ -1994,6 +1991,7 @@
     "passive": "/Lotus/Powersuits/Gyre/Gyre",
     "max_rank": 30,
     "playstyle": [
+      "damage",
       "crowd control"
     ],
     "progenitor": "Electricity",
@@ -2004,8 +2002,8 @@
   {
     "id": "/Lotus/Powersuits/Gyre/GyrePrime",
     "name": "Gyre Prime",
-    "image": "/assets/items/gyre-prime-f8b507d90e.png.png",
-    "image_name": "gyre-prime-f8b507d90e.png",
+    "image": "/assets/items/GyrePrime.png.png",
+    "image_name": "GyrePrime.png",
     "unique_name": "/Lotus/Powersuits/Gyre/GyrePrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -2050,6 +2048,7 @@
     "passive": "/Lotus/Powersuits/Gyre/GyrePrime",
     "max_rank": 30,
     "playstyle": [
+      "damage",
       "crowd control"
     ],
     "progenitor": "Electricity",
@@ -2060,8 +2059,8 @@
   {
     "id": "/Lotus/Powersuits/Priest/Priest",
     "name": "Harrow",
-    "image": "/assets/items/harrow-7f74b91fce.png.png",
-    "image_name": "harrow-7f74b91fce.png",
+    "image": "/assets/items/Harrow.png.png",
+    "image_name": "Harrow.png",
     "unique_name": "/Lotus/Powersuits/Priest/Priest",
     "domain": "warframe",
     "kind": "warframe",
@@ -2117,8 +2116,8 @@
   {
     "id": "/Lotus/Powersuits/Priest/HarrowPrime",
     "name": "Harrow Prime",
-    "image": "/assets/items/harrow-prime-8237c36a69.png.png",
-    "image_name": "harrow-prime-8237c36a69.png",
+    "image": "/assets/items/HarrowPrime.png.png",
+    "image_name": "HarrowPrime.png",
     "unique_name": "/Lotus/Powersuits/Priest/HarrowPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -2175,8 +2174,8 @@
   {
     "id": "/Lotus/Powersuits/IronFrame/IronFrame",
     "name": "Hildryn",
-    "image": "/assets/items/hildryn-ceaeb4320d.png.png",
-    "image_name": "hildryn-ceaeb4320d.png",
+    "image": "/assets/items/IronFrame.png.png",
+    "image_name": "IronFrame.png",
     "unique_name": "/Lotus/Powersuits/IronFrame/IronFrame",
     "domain": "warframe",
     "kind": "warframe",
@@ -2232,8 +2231,8 @@
   {
     "id": "/Lotus/Powersuits/IronFrame/IronFramePrime",
     "name": "Hildryn Prime",
-    "image": "/assets/items/hildryn-prime-20937cebe2.png.png",
-    "image_name": "hildryn-prime-20937cebe2.png",
+    "image": "/assets/items/HildrynPrime.png.png",
+    "image_name": "HildrynPrime.png",
     "unique_name": "/Lotus/Powersuits/IronFrame/IronFramePrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -2290,8 +2289,8 @@
   {
     "id": "/Lotus/Powersuits/Pirate/Pirate",
     "name": "Hydroid",
-    "image": "/assets/items/hydroid-e97d6abb00.png.png",
-    "image_name": "hydroid-e97d6abb00.png",
+    "image": "/assets/items/Hydroid.png.png",
+    "image_name": "Hydroid.png",
     "unique_name": "/Lotus/Powersuits/Pirate/Pirate",
     "domain": "warframe",
     "kind": "warframe",
@@ -2346,8 +2345,8 @@
   {
     "id": "/Lotus/Powersuits/Pirate/HydroidPrime",
     "name": "Hydroid Prime",
-    "image": "/assets/items/hydroid-prime-718aec2104.png.png",
-    "image_name": "hydroid-prime-718aec2104.png",
+    "image": "/assets/items/HydroidPrime.png.png",
+    "image_name": "HydroidPrime.png",
     "unique_name": "/Lotus/Powersuits/Pirate/HydroidPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -2404,8 +2403,8 @@
   {
     "id": "/Lotus/Powersuits/Sandman/Sandman",
     "name": "Inaros",
-    "image": "/assets/items/inaros-826f62196f.png.png",
-    "image_name": "inaros-826f62196f.png",
+    "image": "/assets/items/Inaros.png.png",
+    "image_name": "Inaros.png",
     "unique_name": "/Lotus/Powersuits/Sandman/Sandman",
     "domain": "warframe",
     "kind": "warframe",
@@ -2461,8 +2460,8 @@
   {
     "id": "/Lotus/Powersuits/Sandman/InarosPrime",
     "name": "Inaros Prime",
-    "image": "/assets/items/inaros-prime-f6689c5568.png.png",
-    "image_name": "inaros-prime-f6689c5568.png",
+    "image": "/assets/items/InarosPrime.png.png",
+    "image_name": "InarosPrime.png",
     "unique_name": "/Lotus/Powersuits/Sandman/InarosPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -2519,8 +2518,8 @@
   {
     "id": "/Lotus/Powersuits/Ranger/Ranger",
     "name": "Ivara",
-    "image": "/assets/items/ivara-d0be78df04.png.png",
-    "image_name": "ivara-d0be78df04.png",
+    "image": "/assets/items/Ivara.png.png",
+    "image_name": "Ivara.png",
     "unique_name": "/Lotus/Powersuits/Ranger/Ranger",
     "domain": "warframe",
     "kind": "warframe",
@@ -2575,8 +2574,8 @@
   {
     "id": "/Lotus/Powersuits/Ranger/IvaraPrime",
     "name": "Ivara Prime",
-    "image": "/assets/items/ivara-prime-1be20f1393.png.png",
-    "image_name": "ivara-prime-1be20f1393.png",
+    "image": "/assets/items/IvaraPrime.png.png",
+    "image_name": "IvaraPrime.png",
     "unique_name": "/Lotus/Powersuits/Ranger/IvaraPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -2632,8 +2631,8 @@
   {
     "id": "/Lotus/Powersuits/Choir/Choir",
     "name": "Jade",
-    "image": "/assets/items/jade-d88fcb42ca.png.png",
-    "image_name": "jade-d88fcb42ca.png",
+    "image": "/assets/items/Jade.png.png",
+    "image_name": "Jade.png",
     "unique_name": "/Lotus/Powersuits/Choir/Choir",
     "domain": "warframe",
     "kind": "warframe",
@@ -2687,8 +2686,8 @@
   {
     "id": "/Lotus/Powersuits/Khora/Khora",
     "name": "Khora",
-    "image": "/assets/items/khora-2062e830c0.png.png",
-    "image_name": "khora-2062e830c0.png",
+    "image": "/assets/items/Khora.png.png",
+    "image_name": "Khora.png",
     "unique_name": "/Lotus/Powersuits/Khora/Khora",
     "domain": "warframe",
     "kind": "warframe",
@@ -2744,8 +2743,8 @@
   {
     "id": "/Lotus/Powersuits/Khora/KhoraPrime",
     "name": "Khora Prime",
-    "image": "/assets/items/khora-prime-29d9f8a9d7.png.png",
-    "image_name": "khora-prime-29d9f8a9d7.png",
+    "image": "/assets/items/KhoraPrime.png.png",
+    "image_name": "KhoraPrime.png",
     "unique_name": "/Lotus/Powersuits/Khora/KhoraPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -2802,8 +2801,8 @@
   {
     "id": "/Lotus/Powersuits/Koumei/Koumei",
     "name": "Koumei",
-    "image": "/assets/items/koumei-6cf94f7516.png.png",
-    "image_name": "koumei-6cf94f7516.png",
+    "image": "/assets/items/Koumei.png.png",
+    "image_name": "Koumei.png",
     "unique_name": "/Lotus/Powersuits/Koumei/Koumei",
     "domain": "warframe",
     "kind": "warframe",
@@ -2849,7 +2848,7 @@
     "max_rank": 30,
     "playstyle": [
       "damage",
-      "survival"
+      "crowd control"
     ],
     "progenitor": "Cold",
     "subsumed": "Omamori",
@@ -2859,8 +2858,8 @@
   {
     "id": "/Lotus/Powersuits/PaxDuviricus/PaxDuviricus",
     "name": "Kullervo",
-    "image": "/assets/items/kullervo-994239dee1.png.png",
-    "image_name": "kullervo-994239dee1.png",
+    "image": "/assets/items/PaxDuviricus.png.png",
+    "image_name": "PaxDuviricus.png",
     "unique_name": "/Lotus/Powersuits/PaxDuviricus/PaxDuviricus",
     "domain": "warframe",
     "kind": "warframe",
@@ -2915,8 +2914,8 @@
   {
     "id": "/Lotus/Powersuits/Alchemist/Alchemist",
     "name": "Lavos",
-    "image": "/assets/items/lavos-aea18ae52f.png.png",
-    "image_name": "lavos-aea18ae52f.png",
+    "image": "/assets/items/Lavos.png.png",
+    "image_name": "Lavos.png",
     "unique_name": "/Lotus/Powersuits/Alchemist/Alchemist",
     "domain": "warframe",
     "kind": "warframe",
@@ -2971,8 +2970,8 @@
   {
     "id": "/Lotus/Powersuits/Alchemist/LavosPrime",
     "name": "Lavos Prime",
-    "image": "/assets/items/lavos-prime-90a6c16d29.png.png",
-    "image_name": "lavos-prime-90a6c16d29.png",
+    "image": "/assets/items/LavosPrime.png.png",
+    "image_name": "LavosPrime.png",
     "unique_name": "/Lotus/Powersuits/Alchemist/LavosPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3028,8 +3027,8 @@
   {
     "id": "/Lotus/Powersuits/Magician/Magician",
     "name": "Limbo",
-    "image": "/assets/items/limbo-c107f3bcc2.png.png",
-    "image_name": "limbo-c107f3bcc2.png",
+    "image": "/assets/items/Limbo.png.png",
+    "image_name": "Limbo.png",
     "unique_name": "/Lotus/Powersuits/Magician/Magician",
     "domain": "warframe",
     "kind": "warframe",
@@ -3084,8 +3083,8 @@
   {
     "id": "/Lotus/Powersuits/Magician/LimboPrime",
     "name": "Limbo Prime",
-    "image": "/assets/items/limbo-prime-7449a6c1ce.png.png",
-    "image_name": "limbo-prime-7449a6c1ce.png",
+    "image": "/assets/items/LimboPrime.png.png",
+    "image_name": "LimboPrime.png",
     "unique_name": "/Lotus/Powersuits/Magician/LimboPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3142,8 +3141,8 @@
   {
     "id": "/Lotus/Powersuits/Loki/Loki",
     "name": "Loki",
-    "image": "/assets/items/loki-04905b317a.png.png",
-    "image_name": "loki-04905b317a.png",
+    "image": "/assets/items/Loki.png.png",
+    "image_name": "Loki.png",
     "unique_name": "/Lotus/Powersuits/Loki/Loki",
     "domain": "warframe",
     "kind": "warframe",
@@ -3198,8 +3197,8 @@
   {
     "id": "/Lotus/Powersuits/Loki/LokiPrime",
     "name": "Loki Prime",
-    "image": "/assets/items/loki-prime-5b192774c4.png.png",
-    "image_name": "loki-prime-5b192774c4.png",
+    "image": "/assets/items/LokiPrime.png.png",
+    "image_name": "LokiPrime.png",
     "unique_name": "/Lotus/Powersuits/Loki/LokiPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3256,8 +3255,8 @@
   {
     "id": "/Lotus/Powersuits/Mag/Mag",
     "name": "Mag",
-    "image": "/assets/items/mag-1a461f5a07.png.png",
-    "image_name": "mag-1a461f5a07.png",
+    "image": "/assets/items/Mag.png.png",
+    "image_name": "Mag.png",
     "unique_name": "/Lotus/Powersuits/Mag/Mag",
     "domain": "warframe",
     "kind": "warframe",
@@ -3312,8 +3311,8 @@
   {
     "id": "/Lotus/Powersuits/Mag/MagPrime",
     "name": "Mag Prime",
-    "image": "/assets/items/mag-prime-a3d6c2f9ba.png.png",
-    "image_name": "mag-prime-a3d6c2f9ba.png",
+    "image": "/assets/items/MagPrime.png.png",
+    "image_name": "MagPrime.png",
     "unique_name": "/Lotus/Powersuits/Mag/MagPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3369,8 +3368,8 @@
   {
     "id": "/Lotus/Powersuits/Cowgirl/Cowgirl",
     "name": "Mesa",
-    "image": "/assets/items/mesa-30651569ff.png.png",
-    "image_name": "mesa-30651569ff.png",
+    "image": "/assets/items/Mesa.png.png",
+    "image_name": "Mesa.png",
     "unique_name": "/Lotus/Powersuits/Cowgirl/Cowgirl",
     "domain": "warframe",
     "kind": "warframe",
@@ -3425,8 +3424,8 @@
   {
     "id": "/Lotus/Powersuits/Cowgirl/MesaPrime",
     "name": "Mesa Prime",
-    "image": "/assets/items/mesa-prime-f912b57a14.png.png",
-    "image_name": "mesa-prime-f912b57a14.png",
+    "image": "/assets/items/MesaPrime.png.png",
+    "image_name": "MesaPrime.png",
     "unique_name": "/Lotus/Powersuits/Cowgirl/MesaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3483,8 +3482,8 @@
   {
     "id": "/Lotus/Powersuits/Harlequin/Harlequin",
     "name": "Mirage",
-    "image": "/assets/items/mirage-83f6195ffb.png.png",
-    "image_name": "mirage-83f6195ffb.png",
+    "image": "/assets/items/Mirage.png.png",
+    "image_name": "Mirage.png",
     "unique_name": "/Lotus/Powersuits/Harlequin/Harlequin",
     "domain": "warframe",
     "kind": "warframe",
@@ -3539,8 +3538,8 @@
   {
     "id": "/Lotus/Powersuits/Harlequin/MiragePrime",
     "name": "Mirage Prime",
-    "image": "/assets/items/mirage-prime-96a31c01da.png.png",
-    "image_name": "mirage-prime-96a31c01da.png",
+    "image": "/assets/items/MiragePrime.png.png",
+    "image_name": "MiragePrime.png",
     "unique_name": "/Lotus/Powersuits/Harlequin/MiragePrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3597,8 +3596,8 @@
   {
     "id": "/Lotus/Powersuits/Necro/Necro",
     "name": "Nekros",
-    "image": "/assets/items/nekros-61cb2c9f69.png.png",
-    "image_name": "nekros-61cb2c9f69.png",
+    "image": "/assets/items/Nekros.png.png",
+    "image_name": "Nekros.png",
     "unique_name": "/Lotus/Powersuits/Necro/Necro",
     "domain": "warframe",
     "kind": "warframe",
@@ -3653,8 +3652,8 @@
   {
     "id": "/Lotus/Powersuits/Necro/NekrosPrime",
     "name": "Nekros Prime",
-    "image": "/assets/items/nekros-prime-4f3e86be2a.png.png",
-    "image_name": "nekros-prime-4f3e86be2a.png",
+    "image": "/assets/items/NekrosPrime.png.png",
+    "image_name": "NekrosPrime.png",
     "unique_name": "/Lotus/Powersuits/Necro/NekrosPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3710,8 +3709,8 @@
   {
     "id": "/Lotus/Powersuits/Nezha/Nezha",
     "name": "Nezha",
-    "image": "/assets/items/nezha-39ab6803c6.png.png",
-    "image_name": "nezha-39ab6803c6.png",
+    "image": "/assets/items/Nezha.png.png",
+    "image_name": "Nezha.png",
     "unique_name": "/Lotus/Powersuits/Nezha/Nezha",
     "domain": "warframe",
     "kind": "warframe",
@@ -3756,7 +3755,6 @@
     "passive": "/Lotus/Powersuits/Nezha/Nezha",
     "max_rank": 30,
     "playstyle": [
-      "damage",
       "survival",
       "crowd control"
     ],
@@ -3768,8 +3766,8 @@
   {
     "id": "/Lotus/Powersuits/Nezha/NezhaPrime",
     "name": "Nezha Prime",
-    "image": "/assets/items/nezha-prime-b5e9ddf42b.png.png",
-    "image_name": "nezha-prime-b5e9ddf42b.png",
+    "image": "/assets/items/NezhaPrime.png.png",
+    "image_name": "NezhaPrime.png",
     "unique_name": "/Lotus/Powersuits/Nezha/NezhaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3815,7 +3813,6 @@
     "passive": "/Lotus/Powersuits/Nezha/NezhaPrime",
     "max_rank": 30,
     "playstyle": [
-      "damage",
       "survival",
       "crowd control"
     ],
@@ -3827,8 +3824,8 @@
   {
     "id": "/Lotus/Powersuits/Infestation/Infestation",
     "name": "Nidus",
-    "image": "/assets/items/nidus-02067c4ce9.png.png",
-    "image_name": "nidus-02067c4ce9.png",
+    "image": "/assets/items/Nidus.png.png",
+    "image_name": "Nidus.png",
     "unique_name": "/Lotus/Powersuits/Infestation/Infestation",
     "domain": "warframe",
     "kind": "warframe",
@@ -3843,7 +3840,7 @@
     "tags": [],
     "description": "Nidus draws strength from the Infestation. It bolsters him with survivability as he deals high damage and provides crowd control. Plague your enemies.",
     "stats": {
-      "health": 455,
+      "health": 675,
       "shield": 0,
       "armor": 350,
       "energy": 100,
@@ -3885,8 +3882,8 @@
   {
     "id": "/Lotus/Powersuits/Infestation/InfestationPrime",
     "name": "Nidus Prime",
-    "image": "/assets/items/nidus-prime-c1781ebcc9.png.png",
-    "image_name": "nidus-prime-c1781ebcc9.png",
+    "image": "/assets/items/NidusPrime.png.png",
+    "image_name": "NidusPrime.png",
     "unique_name": "/Lotus/Powersuits/Infestation/InfestationPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -3902,7 +3899,7 @@
     "tags": [],
     "description": "Mutation is endless. The ravening plague-bearer returns in a long-unseen form, seething with a primal strain of the Infestation.",
     "stats": {
-      "health": 550,
+      "health": 825,
       "shield": 0,
       "armor": 425,
       "energy": 140,
@@ -3944,8 +3941,8 @@
   {
     "id": "/Lotus/Powersuits/Nokko/Nokko",
     "name": "Nokko",
-    "image": "/assets/items/nokko-519627ee77.png.png",
-    "image_name": "nokko-519627ee77.png",
+    "image": "/assets/items/Nokko.png.png",
+    "image_name": "Nokko.png",
     "unique_name": "/Lotus/Powersuits/Nokko/Nokko",
     "domain": "warframe",
     "kind": "warframe",
@@ -4001,8 +3998,8 @@
   {
     "id": "/Lotus/Powersuits/AntiMatter/Anti",
     "name": "Nova",
-    "image": "/assets/items/nova-1f908986f1.png.png",
-    "image_name": "nova-1f908986f1.png",
+    "image": "/assets/items/Nova.png.png",
+    "image_name": "Nova.png",
     "unique_name": "/Lotus/Powersuits/AntiMatter/Anti",
     "domain": "warframe",
     "kind": "warframe",
@@ -4047,7 +4044,8 @@
     "passive": "/Lotus/Powersuits/AntiMatter/Anti",
     "max_rank": 30,
     "playstyle": [
-      "damage"
+      "damage",
+      "crowd control"
     ],
     "progenitor": "Electricity",
     "subsumed": "Null Star",
@@ -4057,8 +4055,8 @@
   {
     "id": "/Lotus/Powersuits/AntiMatter/NovaPrime",
     "name": "Nova Prime",
-    "image": "/assets/items/nova-prime-2345192401.png.png",
-    "image_name": "nova-prime-2345192401.png",
+    "image": "/assets/items/NovaPrime.png.png",
+    "image_name": "NovaPrime.png",
     "unique_name": "/Lotus/Powersuits/AntiMatter/NovaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -4104,7 +4102,8 @@
     "passive": "/Lotus/Powersuits/AntiMatter/NovaPrime",
     "max_rank": 30,
     "playstyle": [
-      "damage"
+      "damage",
+      "crowd control"
     ],
     "progenitor": "Electricity",
     "subsumed": null,
@@ -4114,8 +4113,8 @@
   {
     "id": "/Lotus/Powersuits/Jade/Jade",
     "name": "Nyx",
-    "image": "/assets/items/nyx-b6f1ec8736.png.png",
-    "image_name": "nyx-b6f1ec8736.png",
+    "image": "/assets/items/Nyx.png.png",
+    "image_name": "Nyx.png",
     "unique_name": "/Lotus/Powersuits/Jade/Jade",
     "domain": "warframe",
     "kind": "warframe",
@@ -4170,8 +4169,8 @@
   {
     "id": "/Lotus/Powersuits/Jade/NyxPrime",
     "name": "Nyx Prime",
-    "image": "/assets/items/nyx-prime-b16b670098.png.png",
-    "image_name": "nyx-prime-b16b670098.png",
+    "image": "/assets/items/NyxPrime.png.png",
+    "image_name": "NyxPrime.png",
     "unique_name": "/Lotus/Powersuits/Jade/NyxPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -4227,8 +4226,8 @@
   {
     "id": "/Lotus/Powersuits/Paladin/Paladin",
     "name": "Oberon",
-    "image": "/assets/items/oberon-61900220ad.png.png",
-    "image_name": "oberon-61900220ad.png",
+    "image": "/assets/items/Oberon.png.png",
+    "image_name": "Oberon.png",
     "unique_name": "/Lotus/Powersuits/Paladin/Paladin",
     "domain": "warframe",
     "kind": "warframe",
@@ -4283,8 +4282,8 @@
   {
     "id": "/Lotus/Powersuits/Paladin/PaladinPrime",
     "name": "Oberon Prime",
-    "image": "/assets/items/oberon-prime-71fc40c9ca.png.png",
-    "image_name": "oberon-prime-71fc40c9ca.png",
+    "image": "/assets/items/OberonPrime.png.png",
+    "image_name": "OberonPrime.png",
     "unique_name": "/Lotus/Powersuits/Paladin/PaladinPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -4341,8 +4340,8 @@
   {
     "id": "/Lotus/Powersuits/Bard/Bard",
     "name": "Octavia",
-    "image": "/assets/items/octavia-d57837e36e.png.png",
-    "image_name": "octavia-d57837e36e.png",
+    "image": "/assets/items/Octavia.png.png",
+    "image_name": "Octavia.png",
     "unique_name": "/Lotus/Powersuits/Bard/Bard",
     "domain": "warframe",
     "kind": "warframe",
@@ -4399,8 +4398,8 @@
   {
     "id": "/Lotus/Powersuits/Bard/OctaviaPrime",
     "name": "Octavia Prime",
-    "image": "/assets/items/octavia-prime-93e1ad02f0.png.png",
-    "image_name": "octavia-prime-93e1ad02f0.png",
+    "image": "/assets/items/OctaviaPrime.png.png",
+    "image_name": "OctaviaPrime.png",
     "unique_name": "/Lotus/Powersuits/Bard/OctaviaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -4458,8 +4457,8 @@
   {
     "id": "/Lotus/Powersuits/Oraxia/Oraxia",
     "name": "Oraxia",
-    "image": "/assets/items/oraxia-8a9e4aab09.png.png",
-    "image_name": "oraxia-8a9e4aab09.png",
+    "image": "/assets/items/Oraxia.png.png",
+    "image_name": "Oraxia.png",
     "unique_name": "/Lotus/Powersuits/Oraxia/Oraxia",
     "domain": "warframe",
     "kind": "warframe",
@@ -4513,10 +4512,67 @@
     "tactical": "Webbed Embrace"
   },
   {
+    "id": "/Lotus/Powersuits/SiriusOrion/OrionSuit",
+    "name": "Orion & Sirius",
+    "image": "/assets/items/OrionSirius.png.png",
+    "image_name": "OrionSirius.png",
+    "unique_name": "/Lotus/Powersuits/SiriusOrion/OrionSuit",
+    "domain": "warframe",
+    "kind": "warframe",
+    "family": "warframe",
+    "category": "Warframes",
+    "type": "Warframe",
+    "mastery_req": 0,
+    "polarities": [
+      "vazarin",
+      "madurai",
+      "omni"
+    ],
+    "tags": [],
+    "description": "Wield the power of the stars in a constant battle for supremacy. The dueling sons, Sirius & Orion, occupy the space of a single Warframe, jockeying for position to rain cosmic destruction upon foes.",
+    "stats": {
+      "health": 350,
+      "shield": 270,
+      "armor": 300,
+      "energy": 200,
+      "sprint_speed": 1.15
+    },
+    "passive_description": "Swapping between them grants |EFFICIENCY|% Ability Efficiency for the next |COUNT| casts.\n\nWhen below 50 energy, Sirius & Orion will steal energy from each other.",
+    "is_prime": false,
+    "aura": "naramon",
+    "sex": "Male",
+    "introduced": "Update 43.0",
+    "wikia_thumbnail": null,
+    "wikia_url": "https://wiki.warframe.com/w/Orion",
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/SiriusOrion/Abilities/OrionScytheAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/SiriusOrion/Abilities/OrionBuffAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/SiriusOrion/Abilities/OrionVortexAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/SiriusOrion/Abilities/SiriusOrionUltimateAbility"
+      }
+    ],
+    "passive": "/Lotus/Powersuits/SiriusOrion/OrionSuit",
+    "max_rank": 30,
+    "playstyle": [
+      "damage"
+    ],
+    "progenitor": "Impact",
+    "subsumed": "Astral Shell",
+    "themes": "Constellation, Gravity Elemental, Parallel Timelines",
+    "tactical": "Event Horizon"
+  },
+  {
     "id": "/Lotus/Powersuits/Odalisk/Odalisk",
     "name": "Protea",
-    "image": "/assets/items/protea-69a74795e8.png.png",
-    "image_name": "protea-69a74795e8.png",
+    "image": "/assets/items/Odalisk.png.png",
+    "image_name": "Odalisk.png",
     "unique_name": "/Lotus/Powersuits/Odalisk/Odalisk",
     "domain": "warframe",
     "kind": "warframe",
@@ -4572,8 +4628,8 @@
   {
     "id": "/Lotus/Powersuits/Odalisk/ProteaPrime",
     "name": "Protea Prime",
-    "image": "/assets/items/protea-prime-86cbc2b038.png.png",
-    "image_name": "protea-prime-86cbc2b038.png",
+    "image": "/assets/items/ProteaPrime.png.png",
+    "image_name": "ProteaPrime.png",
     "unique_name": "/Lotus/Powersuits/Odalisk/ProteaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -4630,8 +4686,8 @@
   {
     "id": "/Lotus/Powersuits/ConcreteFrame/ConcreteFrame",
     "name": "Qorvex",
-    "image": "/assets/items/qorvex-ec9d170e8b.png.png",
-    "image_name": "qorvex-ec9d170e8b.png",
+    "image": "/assets/items/Qorvex.png.png",
+    "image_name": "Qorvex.png",
     "unique_name": "/Lotus/Powersuits/ConcreteFrame/ConcreteFrame",
     "domain": "warframe",
     "kind": "warframe",
@@ -4687,8 +4743,8 @@
   {
     "id": "/Lotus/Powersuits/Revenant/Revenant",
     "name": "Revenant",
-    "image": "/assets/items/revenant-c9bd7cfbcc.png.png",
-    "image_name": "revenant-c9bd7cfbcc.png",
+    "image": "/assets/items/Revenant.png.png",
+    "image_name": "Revenant.png",
     "unique_name": "/Lotus/Powersuits/Revenant/Revenant",
     "domain": "warframe",
     "kind": "warframe",
@@ -4744,8 +4800,8 @@
   {
     "id": "/Lotus/Powersuits/Revenant/RevenantPrime",
     "name": "Revenant Prime",
-    "image": "/assets/items/revenant-prime-a5be34cbf2.png.png",
-    "image_name": "revenant-prime-a5be34cbf2.png",
+    "image": "/assets/items/RevenantPrime.png.png",
+    "image_name": "RevenantPrime.png",
     "unique_name": "/Lotus/Powersuits/Revenant/RevenantPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -4802,8 +4858,8 @@
   {
     "id": "/Lotus/Powersuits/Rhino/Rhino",
     "name": "Rhino",
-    "image": "/assets/items/rhino-87af2466b6.png.png",
-    "image_name": "rhino-87af2466b6.png",
+    "image": "/assets/items/Rhino.png.png",
+    "image_name": "Rhino.png",
     "unique_name": "/Lotus/Powersuits/Rhino/Rhino",
     "domain": "warframe",
     "kind": "warframe",
@@ -4859,8 +4915,8 @@
   {
     "id": "/Lotus/Powersuits/Rhino/RhinoPrime",
     "name": "Rhino Prime",
-    "image": "/assets/items/rhino-prime-7142165571.png.png",
-    "image_name": "rhino-prime-7142165571.png",
+    "image": "/assets/items/RhinoPrime.png.png",
+    "image_name": "RhinoPrime.png",
     "unique_name": "/Lotus/Powersuits/Rhino/RhinoPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -4917,8 +4973,8 @@
   {
     "id": "/Lotus/Powersuits/Saryn/Saryn",
     "name": "Saryn",
-    "image": "/assets/items/saryn-88c1d4da08.png.png",
-    "image_name": "saryn-88c1d4da08.png",
+    "image": "/assets/items/Saryn.png.png",
+    "image_name": "Saryn.png",
     "unique_name": "/Lotus/Powersuits/Saryn/Saryn",
     "domain": "warframe",
     "kind": "warframe",
@@ -4973,8 +5029,8 @@
   {
     "id": "/Lotus/Powersuits/Saryn/SarynPrime",
     "name": "Saryn Prime",
-    "image": "/assets/items/saryn-prime-8703933001.png.png",
-    "image_name": "saryn-prime-8703933001.png",
+    "image": "/assets/items/SarynPrime.png.png",
+    "image_name": "SarynPrime.png",
     "unique_name": "/Lotus/Powersuits/Saryn/SarynPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -5030,8 +5086,8 @@
   {
     "id": "/Lotus/Powersuits/Wraith/Wraith",
     "name": "Sevagoth",
-    "image": "/assets/items/sevagoth-9264d64897.png.png",
-    "image_name": "sevagoth-9264d64897.png",
+    "image": "/assets/items/Wraith.png.png",
+    "image_name": "Wraith.png",
     "unique_name": "/Lotus/Powersuits/Wraith/Wraith",
     "domain": "warframe",
     "kind": "warframe",
@@ -5087,8 +5143,8 @@
   {
     "id": "/Lotus/Powersuits/Wraith/SevagothPrime",
     "name": "Sevagoth Prime",
-    "image": "/assets/items/sevagoth-prime-5f34bf2dba.png.png",
-    "image_name": "sevagoth-prime-5f34bf2dba.png",
+    "image": "/assets/items/SevagothPrime.png.png",
+    "image_name": "SevagothPrime.png",
     "unique_name": "/Lotus/Powersuits/Wraith/SevagothPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -5143,10 +5199,67 @@
     "tactical": "Gloom"
   },
   {
+    "id": "/Lotus/Powersuits/SiriusOrion/SiriusSuit",
+    "name": "Sirius & Orion",
+    "image": "/assets/items/SiriusOrion.png.png",
+    "image_name": "SiriusOrion.png",
+    "unique_name": "/Lotus/Powersuits/SiriusOrion/SiriusSuit",
+    "domain": "warframe",
+    "kind": "warframe",
+    "family": "warframe",
+    "category": "Warframes",
+    "type": "Warframe",
+    "mastery_req": 0,
+    "polarities": [
+      "vazarin",
+      "madurai",
+      "omni"
+    ],
+    "tags": [],
+    "description": "Wield the power of the stars in a constant battle for supremacy. The dueling sons, Sirius & Orion, occupy the space of a single Warframe, jockeying for position to rain cosmic destruction upon foes.",
+    "stats": {
+      "health": 475,
+      "shield": 355,
+      "armor": 160,
+      "energy": 200,
+      "sprint_speed": 1.15
+    },
+    "passive_description": "Swapping between them grants |EFFICIENCY|% Ability Efficiency for the next |COUNT| casts.\n\nWhen below 50 energy, Sirius & Orion will steal energy from each other.",
+    "is_prime": false,
+    "aura": "vazarin",
+    "sex": "Male",
+    "introduced": "Update 43.0",
+    "wikia_thumbnail": null,
+    "wikia_url": "https://wiki.warframe.com/w/Sirius",
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/SiriusOrion/Abilities/SiriusScytheAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/SiriusOrion/Abilities/SiriusBuffAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/SiriusOrion/Abilities/SiriusFieldAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/SiriusOrion/Abilities/SiriusOrionUltimateAbility"
+      }
+    ],
+    "passive": "/Lotus/Powersuits/SiriusOrion/SiriusSuit",
+    "max_rank": 30,
+    "playstyle": [
+      "support"
+    ],
+    "progenitor": "Impact",
+    "subsumed": "Jade Stars",
+    "themes": "Constellation, Stellar Elemental, Parallel Timelines",
+    "tactical": "Light's Sanctuary"
+  },
+  {
     "id": "/Lotus/Powersuits/Hoplite/Hoplite",
     "name": "Styanax",
-    "image": "/assets/items/styanax-09419fb39f.png.png",
-    "image_name": "styanax-09419fb39f.png",
+    "image": "/assets/items/Styanax.png.png",
+    "image_name": "Styanax.png",
     "unique_name": "/Lotus/Powersuits/Hoplite/Hoplite",
     "domain": "warframe",
     "kind": "warframe",
@@ -5191,7 +5304,8 @@
     "passive": "/Lotus/Powersuits/Hoplite/Hoplite",
     "max_rank": 30,
     "playstyle": [
-      "damage"
+      "damage",
+      "support"
     ],
     "progenitor": "Cold",
     "subsumed": "Tharros Strike",
@@ -5199,10 +5313,68 @@
     "tactical": "Rally Point"
   },
   {
+    "id": "/Lotus/Powersuits/Hoplite/StyanaxPrime",
+    "name": "Styanax Prime",
+    "image": "/assets/items/StyanaxPrime.png.png",
+    "image_name": "StyanaxPrime.png",
+    "unique_name": "/Lotus/Powersuits/Hoplite/StyanaxPrime",
+    "domain": "warframe",
+    "kind": "warframe",
+    "family": "prime",
+    "category": "Warframes",
+    "type": "Warframe",
+    "mastery_req": 0,
+    "polarities": [
+      "vazarin",
+      "naramon",
+      "naramon"
+    ],
+    "tags": [],
+    "description": "Shield of the innocent. Spear of justice. Styanax Prime holds the line in defiance of tyranny.",
+    "stats": {
+      "health": 270,
+      "shield": 925,
+      "armor": 265,
+      "energy": 215,
+      "sprint_speed": 1
+    },
+    "passive_description": "Styanax's critical chance increases with his shields and doubles for spearguns.",
+    "is_prime": true,
+    "aura": "naramon",
+    "sex": "Male",
+    "introduced": "Update 43.0",
+    "wikia_thumbnail": null,
+    "wikia_url": "https://wiki.warframe.com/w/Styanax%2FPrime",
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/Hoplite/Abilities/HopliteImpaleAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Hoplite/Abilities/HopliteBashAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Hoplite/Abilities/HopliteRallyAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Hoplite/Abilities/HopliteArmyAbility"
+      }
+    ],
+    "passive": "/Lotus/Powersuits/Hoplite/StyanaxPrime",
+    "max_rank": 30,
+    "playstyle": [
+      "damage",
+      "support"
+    ],
+    "progenitor": "Cold",
+    "subsumed": null,
+    "themes": "Astyanax, Hoplite, Peltast, Shield & Spear Paradox",
+    "tactical": "Rally Point"
+  },
+  {
     "id": "/Lotus/Powersuits/Temple/Temple",
     "name": "Temple",
-    "image": "/assets/items/temple-c3d2feb7ae.png.png",
-    "image_name": "temple-c3d2feb7ae.png",
+    "image": "/assets/items/Temple.png.png",
+    "image_name": "Temple.png",
     "unique_name": "/Lotus/Powersuits/Temple/Temple",
     "domain": "warframe",
     "kind": "warframe",
@@ -5258,8 +5430,8 @@
   {
     "id": "/Lotus/Powersuits/Fairy/Fairy",
     "name": "Titania",
-    "image": "/assets/items/titania-dd20b18d5b.png.png",
-    "image_name": "titania-dd20b18d5b.png",
+    "image": "/assets/items/Titania.png.png",
+    "image_name": "Titania.png",
     "unique_name": "/Lotus/Powersuits/Fairy/Fairy",
     "domain": "warframe",
     "kind": "warframe",
@@ -5315,8 +5487,8 @@
   {
     "id": "/Lotus/Powersuits/Fairy/TitaniaPrime",
     "name": "Titania Prime",
-    "image": "/assets/items/titania-prime-7a328a3d8a.png.png",
-    "image_name": "titania-prime-7a328a3d8a.png",
+    "image": "/assets/items/TitaniaPrime.png.png",
+    "image_name": "TitaniaPrime.png",
     "unique_name": "/Lotus/Powersuits/Fairy/TitaniaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -5374,8 +5546,8 @@
   {
     "id": "/Lotus/Powersuits/Trinity/Trinity",
     "name": "Trinity",
-    "image": "/assets/items/trinity-b59556a37b.png.png",
-    "image_name": "trinity-b59556a37b.png",
+    "image": "/assets/items/Trinity.png.png",
+    "image_name": "Trinity.png",
     "unique_name": "/Lotus/Powersuits/Trinity/Trinity",
     "domain": "warframe",
     "kind": "warframe",
@@ -5431,8 +5603,8 @@
   {
     "id": "/Lotus/Powersuits/Trinity/TrinityPrime",
     "name": "Trinity Prime",
-    "image": "/assets/items/trinity-prime-aa68b6373d.png.png",
-    "image_name": "trinity-prime-aa68b6373d.png",
+    "image": "/assets/items/TrinityPrime.png.png",
+    "image_name": "TrinityPrime.png",
     "unique_name": "/Lotus/Powersuits/Trinity/TrinityPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -5490,8 +5662,8 @@
   {
     "id": "/Lotus/Powersuits/DemonFrame/DemonFrame",
     "name": "Uriel",
-    "image": "/assets/items/uriel-f39d1dadc6.png.png",
-    "image_name": "uriel-f39d1dadc6.png",
+    "image": "/assets/items/Demonframe.png.png",
+    "image_name": "Demonframe.png",
     "unique_name": "/Lotus/Powersuits/DemonFrame/DemonFrame",
     "domain": "warframe",
     "kind": "warframe",
@@ -5536,8 +5708,7 @@
     "passive": "/Lotus/Powersuits/DemonFrame/DemonFrame",
     "max_rank": 30,
     "playstyle": [
-      "damage",
-      "crowd control"
+      "damage"
     ],
     "progenitor": "Heat",
     "subsumed": "Remedium",
@@ -5547,8 +5718,8 @@
   {
     "id": "/Lotus/Powersuits/Berserker/Berserker",
     "name": "Valkyr",
-    "image": "/assets/items/valkyr-c1f7e5d2ab.png.png",
-    "image_name": "valkyr-c1f7e5d2ab.png",
+    "image": "/assets/items/Valkyr.png.png",
+    "image_name": "Valkyr.png",
     "unique_name": "/Lotus/Powersuits/Berserker/Berserker",
     "domain": "warframe",
     "kind": "warframe",
@@ -5604,8 +5775,8 @@
   {
     "id": "/Lotus/Powersuits/Berserker/ValkyrPrime",
     "name": "Valkyr Prime",
-    "image": "/assets/items/valkyr-prime-354cd87f77.png.png",
-    "image_name": "valkyr-prime-354cd87f77.png",
+    "image": "/assets/items/ValkyrPrime.png.png",
+    "image_name": "ValkyrPrime.png",
     "unique_name": "/Lotus/Powersuits/Berserker/ValkyrPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -5662,8 +5833,8 @@
   {
     "id": "/Lotus/Powersuits/Trapper/Trapper",
     "name": "Vauban",
-    "image": "/assets/items/vauban-c95db9ee09.png.png",
-    "image_name": "vauban-c95db9ee09.png",
+    "image": "/assets/items/Vauban.png.png",
+    "image_name": "Vauban.png",
     "unique_name": "/Lotus/Powersuits/Trapper/Trapper",
     "domain": "warframe",
     "kind": "warframe",
@@ -5718,8 +5889,8 @@
   {
     "id": "/Lotus/Powersuits/Trapper/TrapperPrime",
     "name": "Vauban Prime",
-    "image": "/assets/items/vauban-prime-f9c539bdde.png.png",
-    "image_name": "vauban-prime-f9c539bdde.png",
+    "image": "/assets/items/VaubanPrime.png.png",
+    "image_name": "VaubanPrime.png",
     "unique_name": "/Lotus/Powersuits/Trapper/TrapperPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -5775,8 +5946,8 @@
   {
     "id": "/Lotus/Powersuits/Volt/Volt",
     "name": "Volt",
-    "image": "/assets/items/volt-9ad956c441.png.png",
-    "image_name": "volt-9ad956c441.png",
+    "image": "/assets/items/Volt.png.png",
+    "image_name": "Volt.png",
     "unique_name": "/Lotus/Powersuits/Volt/Volt",
     "domain": "warframe",
     "kind": "warframe",
@@ -5821,8 +5992,7 @@
     "passive": "/Lotus/Powersuits/Volt/Volt",
     "max_rank": 30,
     "playstyle": [
-      "damage",
-      "support"
+      "damage"
     ],
     "progenitor": "Electricity",
     "subsumed": "Shock",
@@ -5832,8 +6002,8 @@
   {
     "id": "/Lotus/Powersuits/Volt/VoltPrime",
     "name": "Volt Prime",
-    "image": "/assets/items/volt-prime-dd65a6befd.png.png",
-    "image_name": "volt-prime-dd65a6befd.png",
+    "image": "/assets/items/VoltPrime.png.png",
+    "image_name": "VoltPrime.png",
     "unique_name": "/Lotus/Powersuits/Volt/VoltPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -5879,8 +6049,7 @@
     "passive": "/Lotus/Powersuits/Volt/VoltPrime",
     "max_rank": 30,
     "playstyle": [
-      "damage",
-      "support"
+      "damage"
     ],
     "progenitor": "Electricity",
     "subsumed": null,
@@ -5890,8 +6059,8 @@
   {
     "id": "/Lotus/Powersuits/Werewolf/Werewolf",
     "name": "Voruna",
-    "image": "/assets/items/voruna-83e8799edc.png.png",
-    "image_name": "voruna-83e8799edc.png",
+    "image": "/assets/items/Voruna.png.png",
+    "image_name": "Voruna.png",
     "unique_name": "/Lotus/Powersuits/Werewolf/Werewolf",
     "domain": "warframe",
     "kind": "warframe",
@@ -5947,8 +6116,8 @@
   {
     "id": "/Lotus/Powersuits/Werewolf/VorunaPrime",
     "name": "Voruna Prime",
-    "image": "/assets/items/voruna-prime-ffc806f3a8.png.png",
-    "image_name": "voruna-prime-ffc806f3a8.png",
+    "image": "/assets/items/VorunaPrime.png.png",
+    "image_name": "VorunaPrime.png",
     "unique_name": "/Lotus/Powersuits/Werewolf/VorunaPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -6005,8 +6174,8 @@
   {
     "id": "/Lotus/Powersuits/Wisp/Wisp",
     "name": "Wisp",
-    "image": "/assets/items/wisp-a046bb62f4.png.png",
-    "image_name": "wisp-a046bb62f4.png",
+    "image": "/assets/items/Wisp.png.png",
+    "image_name": "Wisp.png",
     "unique_name": "/Lotus/Powersuits/Wisp/Wisp",
     "domain": "warframe",
     "kind": "warframe",
@@ -6061,8 +6230,8 @@
   {
     "id": "/Lotus/Powersuits/Wisp/WispPrime",
     "name": "Wisp Prime",
-    "image": "/assets/items/wisp-prime-7a898e071d.png.png",
-    "image_name": "wisp-prime-7a898e071d.png",
+    "image": "/assets/items/WispPrime.png.png",
+    "image_name": "WispPrime.png",
     "unique_name": "/Lotus/Powersuits/Wisp/WispPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -6118,8 +6287,8 @@
   {
     "id": "/Lotus/Powersuits/MonkeyKing/MonkeyKing",
     "name": "Wukong",
-    "image": "/assets/items/wukong-bbc641319b.png.png",
-    "image_name": "wukong-bbc641319b.png",
+    "image": "/assets/items/Wukong.png.png",
+    "image_name": "Wukong.png",
     "unique_name": "/Lotus/Powersuits/MonkeyKing/MonkeyKing",
     "domain": "warframe",
     "kind": "warframe",
@@ -6175,8 +6344,8 @@
   {
     "id": "/Lotus/Powersuits/MonkeyKing/WukongPrime",
     "name": "Wukong Prime",
-    "image": "/assets/items/wukong-prime-4e1c56fd43.png.png",
-    "image_name": "wukong-prime-4e1c56fd43.png",
+    "image": "/assets/items/WukongPrime.png.png",
+    "image_name": "WukongPrime.png",
     "unique_name": "/Lotus/Powersuits/MonkeyKing/WukongPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -6233,8 +6402,8 @@
   {
     "id": "/Lotus/Powersuits/BrokenFrame/BrokenFrame",
     "name": "Xaku",
-    "image": "/assets/items/xaku-8fb3ad2779.png.png",
-    "image_name": "xaku-8fb3ad2779.png",
+    "image": "/assets/items/BrokenFrame.png.png",
+    "image_name": "BrokenFrame.png",
     "unique_name": "/Lotus/Powersuits/BrokenFrame/BrokenFrame",
     "domain": "warframe",
     "kind": "warframe",
@@ -6289,8 +6458,8 @@
   {
     "id": "/Lotus/Powersuits/BrokenFrame/XakuPrime",
     "name": "Xaku Prime",
-    "image": "/assets/items/xaku-prime-f6213dd36f.png.png",
-    "image_name": "xaku-prime-f6213dd36f.png",
+    "image": "/assets/items/XakuPrime.png.png",
+    "image_name": "XakuPrime.png",
     "unique_name": "/Lotus/Powersuits/BrokenFrame/XakuPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -6346,8 +6515,8 @@
   {
     "id": "/Lotus/Powersuits/Yareli/Yareli",
     "name": "Yareli",
-    "image": "/assets/items/yareli-3b577c5064.png.png",
-    "image_name": "yareli-3b577c5064.png",
+    "image": "/assets/items/Yareli.png.png",
+    "image_name": "Yareli.png",
     "unique_name": "/Lotus/Powersuits/Yareli/Yareli",
     "domain": "warframe",
     "kind": "warframe",
@@ -6403,8 +6572,8 @@
   {
     "id": "/Lotus/Powersuits/Yareli/YareliPrime",
     "name": "Yareli Prime",
-    "image": "/assets/items/yareli-prime-c4dbed6caa.png.png",
-    "image_name": "yareli-prime-c4dbed6caa.png",
+    "image": "/assets/items/YareliPrime.png.png",
+    "image_name": "YareliPrime.png",
     "unique_name": "/Lotus/Powersuits/Yareli/YareliPrime",
     "domain": "warframe",
     "kind": "warframe",
@@ -6461,8 +6630,8 @@
   {
     "id": "/Lotus/Powersuits/Tengu/Tengu",
     "name": "Zephyr",
-    "image": "/assets/items/zephyr-02db9643ed.png.png",
-    "image_name": "zephyr-02db9643ed.png",
+    "image": "/assets/items/Zephyr.png.png",
+    "image_name": "Zephyr.png",
     "unique_name": "/Lotus/Powersuits/Tengu/Tengu",
     "domain": "warframe",
     "kind": "warframe",
@@ -6518,8 +6687,8 @@
   {
     "id": "/Lotus/Powersuits/Tengu/ZephyrPrime",
     "name": "Zephyr Prime",
-    "image": "/assets/items/zephyr-prime-c777d1497b.png.png",
-    "image_name": "zephyr-prime-c777d1497b.png",
+    "image": "/assets/items/ZephyrPrime.png.png",
+    "image_name": "ZephyrPrime.png",
     "unique_name": "/Lotus/Powersuits/Tengu/ZephyrPrime",
     "domain": "warframe",
     "kind": "warframe",

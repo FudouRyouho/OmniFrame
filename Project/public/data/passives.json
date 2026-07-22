@@ -93,7 +93,7 @@
   },
   "/Lotus/Powersuits/Inkblot/Inkblot": {
     "name": "Follie Passive",
-    "description": "INKBLOT: Follie's abilities coat enemies in ink that slows their movement by |SLOW|% for a few seconds. Afflicted enemies have a |CHANCE|% chance to drop Health and Energy Orbs."
+    "description": "INKBLOT: Follie's abilities coat enemies in ink that slows their movement by |SLOW|% for |DURATION|s. Afflicted enemies have a |CHANCE|% chance to drop Health and Energy Orbs."
   },
   "/Lotus/Powersuits/Frost/Frost": {
     "name": "Frost Passive",
@@ -315,6 +315,10 @@
     "name": "Oraxia Passive",
     "description": "Wall Latching grants Predator's Lurk, rendering Oraxia invisible for |DURATION|s. "
   },
+  "/Lotus/Powersuits/SiriusOrion/OrionSuit": {
+    "name": "Orion & Sirius Passive",
+    "description": "Swapping between them grants |EFFICIENCY|% Ability Efficiency for the next |COUNT| casts.\n\nWhen below 50 energy, Sirius & Orion will steal energy from each other."
+  },
   "/Lotus/Powersuits/Odalisk/Odalisk": {
     "name": "Protea Passive",
     "description": "Every |CASTS|th Power Cast is granted +|STRENGTH|% Ability Strength."
@@ -359,8 +363,16 @@
     "name": "Sevagoth Prime Passive",
     "description": "On death, become Sevagoth's Shadow and fight to resurrect him by collecting the souls needed to rebuild his tombstone. "
   },
+  "/Lotus/Powersuits/SiriusOrion/SiriusSuit": {
+    "name": "Sirius & Orion Passive",
+    "description": "Swapping between them grants |EFFICIENCY|% Ability Efficiency for the next |COUNT| casts.\n\nWhen below 50 energy, Sirius & Orion will steal energy from each other."
+  },
   "/Lotus/Powersuits/Hoplite/Hoplite": {
     "name": "Styanax Passive",
+    "description": "Styanax's critical chance increases with his shields and doubles for spearguns."
+  },
+  "/Lotus/Powersuits/Hoplite/StyanaxPrime": {
+    "name": "Styanax Prime Passive",
     "description": "Styanax's critical chance increases with his shields and doubles for spearguns."
   },
   "/Lotus/Powersuits/Temple/Temple": {

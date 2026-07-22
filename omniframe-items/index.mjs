@@ -11,16 +11,15 @@
 // Si las caches no existen (clon fresco sin correr el build), enrichItems degrada a
 // no-op (passthrough). Refrescar la cosecha = `npm run build` acá.
 //
-// `fields` va OFF mientras la base es el fork (ya trae weaponClass/upgradeTypes/…;
-// activarlo surfacearía data wiki fresca y alteraría public/data). Se activa al migrar
-// a pristino (que perdió esos campos): ahí este `enrichItems(this)` pasa a
-// `enrichItems(this, { fields: true })`. Ver OQ-DATA-16.
+// `fields: true`: la base es upstream pristino (WFCD master), que dejó de cosechar del
+// wiki weaponClass/upgradeTypes/playstyle/… — omniframe-items los re-cosecha (merge
+// quirúrgico fill-if-missing por uniqueName). Ver OQ-DATA-16 (promoción 2026-07-22).
 import Items from '@wfcd/items'
 import { enrichItems } from './enrich.mjs'
 
 export default class extends Items {
   constructor(...args) {
     super(...args)
-    enrichItems(this)
+    enrichItems(this, { fields: true })
   }
 }
