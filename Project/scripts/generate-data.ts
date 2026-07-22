@@ -5,7 +5,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import Items from '@wfcd/items'
+import Items from 'omniframe-items'
 
 import {
   createArcaneNormalizationState,

@@ -25,6 +25,9 @@ node_modules/*
 
 # ─── Datos y temporales del proyecto ─────────────────────────────────────────
 warframe-items/
+# Clone pristino de WFCD/warframe-items (upstream master) — copia local para investigación/migración
+# (OQ-DATA-16). No se sube (605 MB con data/img). Igual que el fork: local, para comparar viejo↔nuevo.
+warframe-items.pristine/
 # Excepción: el baseline del audit de sincronización SÍ se trackea (ver docs/data/pipeline/architecture.md §Audit reports).
 # Se re-incluye nivel por nivel porque git no desciende en un directorio ignorado por completo.
 Project/data/*
