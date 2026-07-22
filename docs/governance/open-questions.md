@@ -842,30 +842,22 @@ compensaban la incompletitud del fork y quedan redundantes al entrar el dato fre
 `incompatibilityTags` y potencialmente a otros campos re-cosechados). No es override que remover — es normalización
 a revisar.
 
-**Análisis del diff sobre pristino (árbitro, iteración 2026-07-22).** Comparador OLD (fork) vs NEW
-(pristino+cosecha) a nivel campo, clasificando regresión (OLD tenía dato, NEW no) vs refresh explicable.
-- **mods: GREEN** tras ampliar `ModScraper` al set completo (`incompatible`+451, `modClass`+79, isExilus/
-  isFlawed/isWeaponAugment). Cero regresión; solo refresh (image_name + stats).
-- **warframes/arcanes/companions: sin regresión.** 💣 **La bomba de fidelidad se defusó:** health/shield/armor
-  de warframe wiki-vs-core difieren en **solo 2 warframes** → decisión resuelta: **core de pristino**.
-- **weapons: 2 regresiones DIFERIDAS** (a abordar antes de promover, no urgentes):
-  1. `tags` — 17 armas; solo **1 pérdida total real**: **Dark Split-Sword** (melé modular sword+dagger, caso
-     borde). Las otras ~16 son sutilezas de taxonomía. "A nadie le importa" (decisión usuario) → parche puntual
-     o aceptar.
-  2. weapon **wikia-meta** (`wikia_thumbnail`/`wikia_url`/`introduced`, ~17-30) — el `WeaponScraper` lean solo
-     trae `weaponClass`. Cosmético; investigar si recuperar.
-- **Refresh explicable (NO regresión):** `image_name` cambia en TODOS (esquema nuevo internal-name; pendiente
-  resolver assets/`get-img`); `stats` value-changed = refresh abril→julio.
+**Estado del árbitro (regresiones a cerrar antes de promover; el refresh de datos lo audita el
+source-change-report, no se enumera acá):**
+- **mods / warframes / arcanes / companions: sin regresión.** `ModScraper` ampliado al set completo
+  (`incompatible`, `modClass`, isExilus/isFlawed/isWeaponAugment). 💣 **Fidelidad de stats de warframe
+  DEFUSADA:** wiki-vs-core difieren en solo 2 warframes → **decisión: core de pristino**.
+- **weapons — 2 regresiones, ambas ACEPTADAS:**
+  1. `tags` — 1 pérdida total real: **Dark Split-Sword** (melé modular sword+dagger). Aceptado.
+  2. weapon **wikia-meta** (`wikia_thumbnail`/`wikia_url`) — **campos muertos** (solo en types, cero uso en
+     UI). Aceptado, no se recuperan.
+- **`image_name` (todos los ítems): NO-ISSUE.** Verificado: el `imageName` de pristino matchea su
+  `data/img` al **100%** en todas las categorías (esquema auto-consistente). Tras el swap +
+  `get-img --clean`, las imágenes resuelven solas. Costo = diff cosmético de rutas + re-copia de assets.
 
-**Contenido nuevo real: 272 ítems** (el `newItems=45` del audit mide contra otro baseline; el diff crudo
-pristino-vs-fork por uniqueName da 272). Incluye **Styanax Prime** + **Orion & Sirius** (warframe dual nuevo:
-ocupa 2 slots como Sevagoth+sombra, pero pristino **trae ambos por separado** — bien, a diferencia de Sevagoth
-cuya sombra requiere override/investigación). 6 armas nuevas (Afentis/Athodai Prime, Haalvu, War Prime, Wrath,
-Pride). El refresh de datos es un bonus de la migración, no un defecto.
-
-**Nota abierta (usuario 2026-07-22):** hay "varias cositas" que llamaron la atención en `warframe-items`
-pristino (ej. el manejo de Sevagoth/sombra, y otras que el usuario vio de reojo) — a inventariar y abordar
-más adelante, fuera del scope de cerrar las regresiones de la promoción.
+**→ Árbitro efectivamente VERDE.** Regresiones cerradas (mods) o aceptadas (weapons); el resto es refresh
+explicable. La promoción está lista: swap de nombres (`warframe-items.pristine` → `warframe-items`, fork →
+`.backup`), `omniframe-items` a `fields:true` permanente, `generate:data` completo, commit del refresh.
 
 **No bloquea:** nada. El fork funciona; esto es evaluación de fuente, no un defecto.
 **Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../data/references/warframe-items-source.md` (qué aporta el fork actual).
