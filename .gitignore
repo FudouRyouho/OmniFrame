@@ -25,7 +25,12 @@ node_modules/*
 
 # ─── Datos y temporales del proyecto ─────────────────────────────────────────
 warframe-items/
-Project/data/
+# Excepción: el baseline del audit de sincronización SÍ se trackea (ver docs/data/pipeline/architecture.md §Audit reports).
+# Se re-incluye nivel por nivel porque git no desciende en un directorio ignorado por completo.
+Project/data/*
+!Project/data/audits/
+Project/data/audits/*
+!Project/data/audits/source-change-report.json
 Project/scratch/
 docs/data/pipeline/audits/
 references/temp/

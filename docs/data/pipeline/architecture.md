@@ -79,9 +79,17 @@ El motor de generación (`Project/scripts/generate-data.ts`) transforma la fuent
 - **Determinismo**: no se inyecta conocimiento manual ni se completan mecánicas desde evidencia externa. Si no es derivable de la fuente, no pertenece a `generate-data`.
 - **Observabilidad**: reporta valores desconocidos o gaps de normalización para asegurar integridad de datos.
 
-### Audit reports
+### Audit reports — tracking de sincronización fuente↔override
 
-`generate-data.ts` produce `Project/data/audits/source-change-report.json` para tracking de cambios entre runs.
+`generate-data.ts` produce `Project/data/audits/source-change-report.json` (baseline **committeado**; el resto de `Project/data/` es local, gitignored). Por cada ítem generado captura:
+
+- **`lastSourceUpdate.versionTag`** — la versión del último parche del ítem, extraída de sus `patchlogs` (`"Update 40.2"` → `"40.2"`) = *cuándo tocó el juego este ítem por última vez*.
+- **`sourceFingerprint`** — hash sha256 del contenido canónico → detecta cambios de valor (independiente del formato de escritura).
+- **`delta`** entre el run anterior y el actual: `newItems`, `changedFingerprint`, `changedLastSourceUpdate`, `unchangedItems`. Responde *"¿se tocó algo viejo o solo se añadió nuevo?"* — `changedFingerprint === 0 && newItems > 0` = solo altas.
+
+**Rol:** es la mitad-fuente de la detección de **staleness override↔pipeline** — cuando la fuente actualiza un ítem que tiene override manual, ese override queda sospechoso de estar viejo. El **puente a overrides no existe** aún (los `*.override.json` no llevan sello de versión) → es el gate vivo de `OQ-DATA-9`. Es **detección, no mutación**: señala qué revisar, nunca toca overrides automáticamente.
+
+> ⚠️ **Deuda de formato:** `writeJson` escribe **minified** pero los JSON committeados en `public/data/` están **pretty** — regenerar tira un diff de ~188k líneas de puro formato que ahoga la señal de "qué cambió". Resolver (pretty consistente en `writeJson`) **antes** de convertir el tracking en flujo recurrente.
 
 ## Documentos relacionados
 
