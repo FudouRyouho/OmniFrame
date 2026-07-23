@@ -1044,7 +1044,8 @@ nativo de esta fase).
   silencio igual que `Enemy.json`. Ver [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).
 - **Auditar normalizaciones `?? []` redundantes** que compensaban la incompletitud del fork (ej.
   `incompatibility_tags`) — ahora el dato fresco las puede volver innecesarias.
-- **Borrar `warframe-items.backup`** una vez confirmada la estabilidad de omniframe-items a nivel pipeline.
+- **`warframe-items.backup`** (el fork viejo) movido fuera del repo a `/HDD/Development/Warframe/Lib/`
+  pendiente de lectura del usuario; borrado definitivo a su criterio.
 - **Investigar "cositas"** que el usuario vio en `warframe-items` pristino (fuera del modelado actual, sin
   urgencia).
 

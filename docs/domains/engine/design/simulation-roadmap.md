@@ -27,7 +27,7 @@ Contratos cerrados, grafo reactivo implementado (`SimulationEngine` + Kahn's), p
 - [x] **Arquitectura de Manifiesto Plano**: Adopción de `Record<Uid, Intent>` con Uids Semánticos.
 - [x] **MutatorBridge Refactor**: `EnsembleAdapter` eliminado (OQ-STATE-4, 2026-05-19) — lógica absorbida por `MutatorBridge`.
 - [x] **Data Hydration Engine**: `StaticHydrator` + `ModRepository` + `ShardRepository` + `IncarnonRepository` + `ItemRepository` (2026-05-27).
-- [ ] **Gobernanza de Datos (Engine-Only)**: Centralizar `slot-rules.json` y `attribute-registry.json` en `public/data/engine/`.
+- [~] **Gobernanza de Datos (Engine-Only)**: descartada. `attribute-registry` se reescribió como tipo TS (D-7 Fase 4, no un JSON); `public/data/engine/{attribute-registry,slot-rules}.json` se purgaron 2026-07-23 — muertos desde v1, sin consumidor.
 - [ ] **Reactive Selection Selectors**: Hooks de suscripción granular para optimizar re-renders en el Arsenal.
 - [ ] **Validation UI Feedback**: Predicados de compatibilidad (`isExilus`, `compatName`) integrados en la UI.
 - [ ] **SimulationContext Runtime**: Manejo de flags efímeros (Modo Incarnon, Toggles) fuera del estado inmutable.
