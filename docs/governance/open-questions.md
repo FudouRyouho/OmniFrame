@@ -1010,11 +1010,26 @@ nativo de esta fase).
   el día que haga falta pin de versión del export.
 - **Imágenes: dos fuentes, ninguna resuelta en `omniframe-items`.** El raw es propio pero las imágenes
   salen de `warframe-items/data/img` (605 MB) vía `get-img.mjs` — la asimetría que sostiene el clon.
-  El manifest de DE (19.690 entradas) cubre los ítems y haría innecesaria esa dependencia. **No cubre
-  los iconos de habilidades:** `Catalyze130xWhite.png`, `AmpIcon.png` y las otras 1.283 referencias de
-  `ability-stats.override.json` no están en el manifest (cero entradas con `130xWhite`) — son
-  nomenclatura del **wiki**, y nunca existió proceso que las descargara. Las habilidades no tienen
-  icono y nunca lo tuvieron.
+  El manifest de DE (19.690 entradas) cubre los ítems y haría innecesaria esa dependencia.
+- **Los iconos de habilidades no son el mismo problema.** Las 507 referencias de
+  `ability-stats.override.json` (`Catalyze130xWhite.png`, `AmpIcon.png`) **no están en el manifest de
+  DE** (cero entradas con `130xWhite`): son títulos de la **wiki**, no nombres de archivo. La
+  distinción importa — los ítems guardan nombre de archivo, las habilidades guardan título de wiki, y
+  tratarlos igual es lo que mantuvo el gap invisible. Nunca tuvieron icono.
+
+  **No se resuelve por ahora (decisión 2026-07-23):** ningún consumidor lo reclama y el arreglo toca
+  tres piezas, no una. Lo investigado, para no volver a pagarlo:
+  - El mecanismo **existe y funciona**: el fork resolvía nombre→URL con la API MediaWiki
+    (`api.php?action=query&titles=File:X&prop=imageinfo&iiprop=url`, lotes de 50) en `getImageUrls`.
+    Verificado hoy contra la wiki: responde 50/50.
+  - `omniframe-items/build/wikia/AbilityScraper.mjs` lo perdió al relocalizarse — llama
+    `transformAbility(raw, {})` con el mapa vacío, así que `icon` cae al fallback del nombre crudo.
+    El consumidor del mapa sigue intacto.
+  - **El scraper no es el consumidor real:** `DataRegistry.hydrateAbility` lee el icono de
+    `ability-stats.override.json`, no de la cosecha. Arreglarlo exige scraper + override + resolver.
+  - Los nombres **no son nombres de archivo**: el título real lleva paréntesis
+    (`AntimatterDrop130(xWhite).png`) que la normalización del wiki oculta. Contra un directorio local
+    no matchean ni bajando los archivos.
 - **`wikia_thumbnail` se mantiene sin consumidor.** Ningún componente lo lee y ensucia el árbitro del
   dataset (~13 armas por regeneración, es scrape del wiki en vivo). Se conserva como único puntero a
   la imagen remota. Cobertura: 73% de armas, 49% de companions, 0% de warframes/mods/arcanes.
