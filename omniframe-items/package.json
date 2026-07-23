@@ -17,5 +17,8 @@
   "dependencies": {
     "@wfcd/items": "file:../warframe-items",
     "cheerio": "^1.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.1"
   }
 }
