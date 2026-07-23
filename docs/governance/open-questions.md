@@ -36,7 +36,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — síntoma resuelto en el consumidor (cascada); **causa raíz en el parser de upstream**, alcance fuera del enemigo sin medir |
-| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — fases 1 (omniframe-items) y 2 (enemigos) cerradas; **fase-3 planificada**: build propio del raw, arranca por la fusión del pipeline; no bloquea |
+| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — el raw es propio y Project lo consume (build + loader + G-1 corregido); queda la **fase 2** (control de acción: qué categorías y locales emitir); no bloquea |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
 | `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
@@ -729,7 +729,7 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 
 ---
 
-## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA — fases 1-2 cerradas (pristino activo, fork → `.backup`, omniframe-items re-cosecha); fase-3 planificada: build propio del raw**
+## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA — el raw ya es propio: build, loader y G-1 corregido; queda el control de acción (categorías y locales)**
 
 **Dominio:** data / pipeline / fuente
 
@@ -771,28 +771,11 @@ flujo:   warframe-items (upstream puro) ─► omniframe-items (cosecha) ─► 
   ahora, endurecer a tag/SHA cuando muerda o cuando aparezca el futuro-biblioteca del punto 3). Precedente de
   fetch shallow: el propio fork ya usa `--depth=1` para evitar `data/img` (~913 MB).
 
-**Consumo actual del fork en Project (verificado, completo):** 3 superficies runtime — (1) `generate-data.ts`
-importa `@wfcd/items` (**única con delta del fork**: enriquecimiento de habilidades); (2) `generate-enemies.mjs`
-lee `warframe-items/data/json/Enemy.json` (**upstream puro**); (3) `get-img.mjs` lee `warframe-items/data/img`
-(**upstream puro**). → **Matar el fork = reemplazar solo la superficie #1**; #2 y #3 siguen leyendo
-`warframe-items/` ya pristino, sin cambios.
-
-**Payload a relocalizar a `omniframe-items`** (~117 líneas, todo el delta del fork): `AbilityScraper`
-(`Module:Ability/data` + `/data/stats`) + `transformAbility` + su propio `getLuaData`/`convertLuaDataToJson`
-(~40 líneas) + el merge por `uniqueName` sobre las `abilities` (hoy hook de +12 en `parser.mjs`) → como
-post-proceso.
-
-**Plan de migración fase-1 — golden-master, nunca queda roto.** Árbitro de cada paso: `git diff public/data/`
-vacío (los JSON commiteados son el golden master).
-1. `omniframe-items` = passthrough del build del fork; Project apunta ahí → **diff vacío** (plomería OK).
-2. Meter el `AbilityScraper` propio en `omniframe-items` sobre el output → **diff vacío** (la cosecha propia
-   reproduce las habilidades; nunca se pierden).
-3. Swap `warframe-items`: fork → upstream pristino → **diff vacío** (ya no dependemos del fork).
-4. El fork queda sin referencias → **se borra**. Muere en el instante en que el paso 3 da diff vacío.
-
-**Fase-2 (gated en el usuario, post-fork):** traer el módulo Lua de enemigos de la wiki — el usuario aporta los
-links y se revisa el `EnemyScraper` juntos antes de escribir. Alimenta `OQ-ENGINE-21`/`OQ-DATA-15` (grupos de
-scaling, `base_level` — el export sólo da `health/shield/armor/faction`, dropea el resto).
+**Superficies que Project apoya en `warframe-items` hoy:** ninguna en el dato — `generate-data.ts` importa
+`omniframe-items`, que lee su propio `data/json`. Quedan dos apoyos indirectos: `get-img.mjs` lee
+`warframe-items/data/img` (605 MB, asimetría aceptada mientras el raw propio use el `parser` de upstream y
+por tanto el mismo `imageName`), y el passthrough del fósil `Enemy.json`. El `package.json` de Project aún
+declara `@wfcd/items`, pero sólo lo usa un script archivado (ver residual de limpieza).
 
 ---
 

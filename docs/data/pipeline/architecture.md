@@ -24,7 +24,7 @@ fuente canónica (Public Export → warframe-items → omniframe-items)
 Trail concreto en código:
 
 ```
-@wfcd/items (crudo) + cosecha wiki de omniframe-items
+omniframe-items (raw propio + cosecha wiki en runtime)
   → generate-data.ts (orquesta normalization/* + pipeline/runtime-data-artifacts.ts)
   → JSON (public/data/*.json) + overrides (public/data/*.override.json)
   → puerto "0" DataSource (BrowserAdapter fetch / NodeAdapter fs; instancia compartida browserSource)
@@ -64,7 +64,7 @@ Implementado y verificado en `Project/scripts/normalization/entities.ts`. Cada i
 
 ## 4. Build pipeline (`generate-data.ts`)
 
-El motor de generación (`Project/scripts/generate-data.ts`) transforma la fuente cruda de `@wfcd/items` en datasets consumibles por el Resolver.
+El motor de generación (`Project/scripts/generate-data.ts`) transforma el raw de `omniframe-items` en datasets consumibles por el Resolver.
 
 ### Responsabilidades
 

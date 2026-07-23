@@ -51,6 +51,24 @@ Las dos primeras son ajenas; las dos últimas son nuestras.
 3. **Un gap de la fuente no se arregla en la fuente.** No controlamos WFCD ni DE. La mitigación
    siempre es nuestra: cosecha propia, override manual, o corrección en el raw propio.
 
+## Los comandos
+
+Todo desde `omniframe-items/`, y **en host, no en Docker** — necesitan salida a `origin.warframe.com`,
+a la wiki y a GitHub. El clon de `warframe-items` necesita sus propias deps (`npm install` allí): el
+build importa su código, y Node resuelve por la ubicación del importador.
+
+| Comando | Qué hace | Cuándo |
+|---|---|---|
+| `npm run build:raw` | regenera `data/json/` desde el Public Export (~27 s de fetch, ~158 MB) | cuando DE actualiza, o en un clon nuevo |
+| `npm run build` | refresca la **cosecha wiki** (`data/*.json`, el enriquecimiento) | cuando el wiki cambia |
+| `npm run diff:raw` | compara nuestro raw contra el de upstream | tras tocar `raw-build.ts` |
+| `npm run census` | censa qué campos de upstream no llegan a `public/data` | al buscar dato perdido |
+
+`diff:raw` **ya no espera diff vacío**: G-1 introdujo una divergencia deliberada (~620 ítems en
+`damage`). Lo que sigue siendo señal ahí es *solo-upstream / solo-nuestro ≠ 0*, o cualquier campo que
+no sea `damage`. El árbitro del dataset es `git diff Project/public/data` tras correr
+`generate-data.ts`.
+
 ## Catálogo de gaps
 
 El corazón del dominio: [`gaps.md`](gaps.md) — cada gap con síntoma, alcance medido, cómo

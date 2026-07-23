@@ -161,8 +161,8 @@ function dedupImageNames(data: Record<string, Item[]>, manifest: ImageManifest, 
 
 /**
  * Copia de `Build.saveJson`, apuntada a NUESTRO `data/json`. Acá vive el control de acción de la
- * fase 2 (qué categorías se emiten); por ahora emite todas, para que el árbitro sea diff vacío
- * contra el raw de upstream.
+ * fase 2 (qué categorías se emiten); hoy emite las 23, igual que upstream — dejar de emitir lo que
+ * nadie consume es trabajo pendiente, no una omisión.
  */
 async function saveJson(
   categories: Record<string, Item[]>,

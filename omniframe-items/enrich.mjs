@@ -1,6 +1,7 @@
 // enrich.mjs — aplica el enriquecimiento cosechado (build/build.mjs → data/*.json)
-// sobre una lista de Items, por uniqueName. Reutilizable: lo usa index.mjs sobre su
-// base, y el harness de test aislado sobre pristino. Ver OQ-DATA-16.
+// sobre una lista de Items, por uniqueName. Agnóstico de dónde salieron esos items:
+// lo usa `index.mjs` sobre el raw propio, y el harness de test aislado sobre el de
+// upstream pristino. Ver OQ-DATA-16.
 //
 // Merge QUIRÚRGICO: Object.assign sólo agrega los campos cosechados (los perdidos),
 // no pisa lo que la base ya provee.

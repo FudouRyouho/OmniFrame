@@ -68,9 +68,10 @@ como canónica (usa "Corrupted" donde el proyecto usa "Orokin").
 
 ## Qué sale mal al parsearlo
 
-El export en sí es coherente; lo que se pierde o se tuerce ocurre en el parser de `warframe-items`.
-Catálogo completo en [`gaps.md`](gaps.md): **G-1** (daño físico invertido), **G-3** (campos
-publicados que el ecosistema descarta), **G-4/G-5** (falsos positivos ya descartados).
+El export en sí es coherente; lo que se tuerce ocurre en el parser de `warframe-items`, y lo que se
+pierde suele perderse **después**, en nuestro propio pipeline. Catálogo completo en
+[`gaps.md`](gaps.md): **G-1** (daño físico invertido — corregido en nuestro raw), **G-3** (campos que
+llegan de upstream y `generate-data.ts` descarta), **G-4/G-5** (falsos positivos ya cerrados).
 
 ## Caveat de la fuente
 

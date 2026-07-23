@@ -15,7 +15,7 @@ Dependencias:
 
 Los datos de OmniFrame tienen dos orígenes:
 
-- **base-generated** — producidos por `generate-data.ts` desde `@wfcd/items` (`warframes.json`, `weapons.json`, `mods.json`, etc.). Datos masivos; baja fidelidad semántica.
+- **base-generated** — producidos por `generate-data.ts` desde `omniframe-items` (`warframes.json`, `weapons.json`, `mods.json`, etc.). Datos masivos; baja fidelidad semántica.
 - **manual-intel** (overrides) — este documento. Inteligencia auditada que corrige y amplía la base generada con semántica que las fuentes externas no proveen.
 
 En runtime el override tiene prioridad. El pipeline no toca los overrides.
@@ -29,7 +29,7 @@ Project/public/data/ (Editable Manual SSoT)
   -> Commit Git
   -> Runtime (DataLoader singleton — carga y merge en memoria)
 
-generate-data.ts produce SOLO datos de fuente externa (@wfcd/items).
+generate-data.ts produce SOLO datos de fuente externa (vía omniframe-items).
 Los overrides los gestiona el usuario, agentes o scripts dedicados (apply-ability-md.ts, etc.).
 El pipeline no toca los overrides.
 ```

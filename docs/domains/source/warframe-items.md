@@ -58,8 +58,9 @@ las colisiones detectadas están en
 Relevante porque el build propio lo **reusa in-situ** en vez de reimplementarlo:
 
 - **La orquestación son ~30 líneas** de `build/build.ts` (447 en total). El músculo vive en módulos
-  importables: `scraper` (fetch) y `parser` (1435 líneas). **El parser se importa, no se copia** — de
-  ahí que G-1 se herede intacto.
+  importables: `scraper` (fetch) y `parser` (1435 líneas). **El parser se importa, no se copia** — por
+  eso sus bugs de derivación llegan intactos, y por eso G-1 se corrige *después* del parseo
+  ([`gaps.md`](gaps.md) §G-1) en vez de en el parser.
 - **`build.ts` no exporta su clase** (`new Build(); void build.init()` al final), así que el pegamento
   —`applyCustomCategories`, `dedupImageNames`, `saveJson`— **se copia**: importarlo dispararía el
   build entero de upstream.

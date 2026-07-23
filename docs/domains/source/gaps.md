@@ -103,6 +103,9 @@ enteros a `warframe-items/data/json/*` y se pierden después, en `generate-data.
 
 | Campo | Llega de upstream | Para qué serviría |
 |---|---|---|
+| `heavyAttackDamage` | las 223 melee | el multiplicador del heavy de tierra, **per-arma y no derivable** (`1×` a `18×` el `totalDamage`). No está en `attacks[]` porque el wiki no lo trae. El perfil *heavy ground* del engine está diferido citando "no en el dato" — el dato existe |
+| `slamAttack` · `heavySlamAttack` | las 223 melee | el **impacto directo** del slam (`3×` en 170 armas, `2×` en 53 — tampoco derivable). Lo que servimos hoy es el **radial**, que sí es derivable (`2×`/`3×` constante). Ver [`../engine/design/melee-combo.md`](../engine/design/melee-combo.md) §5 |
+| `slamRadius` · `heavySlamRadius` | las 223 melee | el radio del área; coincide con el `falloff.end` que ya llega del wiki (redundante, pero confirma la lectura) |
 | `modSet` · `numUpgradesInSet` + `stats[]` | 72 mods · 19 portadores | el bonus de set completo (ver §G-4) |
 | `baseDrain` · `fusionLimit` | 1.784 mods de 1.803 | drain base y rango máximo del mod |
 | `excludeFromCodex` | 2.890 ítems | DE diciendo qué no es contenido real — mejor filtro de entidades que el `ExcludedFromSimulacrum` del wiki |

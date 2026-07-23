@@ -26,7 +26,7 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 **Estado:** VIGENTE
 **Fecha:** 2026-04-18
-**Decisión:** Los overrides en `Project/public/data/` son una capa de inteligencia manual, no deuda técnica. `generate-data.ts` produce la base desde `@wfcd/items`; los overrides añaden semántica que las fuentes externas no proveen.
+**Decisión:** Los overrides en `Project/public/data/` son una capa de inteligencia manual, no deuda técnica. `generate-data.ts` produce la base desde `omniframe-items`; los overrides añaden semántica que las fuentes externas no proveen.
 **Evolución (2026-05-29):** El modelo original asumía consumo runtime-directo para todos los overrides. La implementación real tenía patrones mixtos: `ability-stats.override.json` era bidireccional (pipeline lo leía y escribía), los demás eran runtime-directos. Ese patrón fue corregido: `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`. El pipeline produce solo datos de fuente externa; la gestión de overrides es responsabilidad de `apply-ability-md.ts` (manual/agente). Dirección unificada: todos los overrides se gestionan manualmente y se consumen en runtime mediante un DataLoader singleton (ver `OQ-DATA-3`).
 **Ref:** `docs/data/rules/overrides.md`
 
