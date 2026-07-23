@@ -27,6 +27,9 @@ import {
 } from './pipeline/source-change-audit.ts'
 import {
   buildRuntimeDataArtifacts,
+  createEnemyBuildState,
+  type EnemyBuildState,
+  type GeneratedEnemy,
   type RuntimeDataArtifacts,
   type SourceItem,
 } from './pipeline/runtime-data-artifacts.ts'
@@ -45,6 +48,7 @@ const sourceItems = Array.from(new Items()) as SourceItem[]
 const arcaneNormalizationState = createArcaneNormalizationState()
 const weaponNormalizationState = createWeaponNormalizationState()
 const polarityNormalizationState = createPolarityNormalizationState()
+const enemyBuildState = createEnemyBuildState()
 
 async function writeJson(fileName: string, data: unknown, pretty = true): Promise<void> {
   const output = pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data)
@@ -79,6 +83,29 @@ async function persistRuntimeDataArtifacts(artifacts: RuntimeDataArtifacts): Pro
   console.log(
     `✓ vehicles.json — ${artifacts.vehicles.length} vehicles (${artifacts.necramechCount} necramechs, ${artifacts.archwingCount} archwings)`,
   )
+
+  await writeJson('enemies.json', artifacts.enemies)
+  console.log(`✓ enemies.json — ${artifacts.enemies.length} enemigos`)
+  reportEnemyBuildState(artifacts.enemies, enemyBuildState)
+}
+
+/**
+ * Resumen del eje enemigo: reparto de facciones + censo de descartes de la cosecha wiki.
+ *
+ * El **reparto de facciones no es adorno**: es el instrumento que destapó `OQ-DATA-15` (un `Rifle: 14`
+ * en esta línea = el matcher por substring de upstream volvió a contaminar `type`). La cascada lo
+ * absorbe hoy, pero si aparece una facción que no debería existir, se ve acá y no seis meses después.
+ */
+function reportEnemyBuildState(enemies: GeneratedEnemy[], state: EnemyBuildState): void {
+  const byFaction: Record<string, number> = {}
+  for (const enemy of enemies) byFaction[enemy.faction] = (byFaction[enemy.faction] ?? 0) + 1
+  const cosechados = enemies.filter((e) => e.base_level > 1 || e.eximus_health || e.weakpoints).length
+
+  console.log(`  · facciones: ${JSON.stringify(byFaction)}`)
+  console.log(`  · con cosecha wiki: ${cosechados} · weakpoints: ${enemies.filter((e) => e.weakpoints).length}`)
+  if (!state.droppedMultis.length) return
+  console.log(`  · multis no parseables (descartados): ${state.droppedMultis.length}`)
+  for (const entry of state.droppedMultis) console.log(`    · ${entry}`)
 }
 
 async function persistSourceChangeAuditReport(params: {
@@ -93,6 +120,16 @@ async function persistSourceChangeAuditReport(params: {
     ...buildAuditEntries(params.artifacts.companions),
     ...buildAuditEntries(params.artifacts.archwingWeapons),
     ...buildAuditEntries(params.artifacts.vehicles),
+    // El enemigo es plano (sin los cuatro pilares) y no lleva `kind`/`category` en el JSON emitido:
+    // se los agrega **sólo** para el índice del audit, sin tocar el artefacto que se escribe a disco.
+    ...buildAuditEntries(
+      params.artifacts.enemies.map((enemy) => ({
+        ...enemy,
+        name: enemy.name ?? enemy.unique_name,
+        kind: 'enemy' as const,
+        category: 'Enemy',
+      })),
+    ),
   ]
 
   const sourceChangeAuditReport = await createSourceChangeAuditReport({
@@ -119,6 +156,7 @@ async function main(): Promise<void> {
     arcaneNormalizationState,
     weaponNormalizationState,
     polarityNormalizationState,
+    enemyBuildState,
   })
 
   await persistRuntimeDataArtifacts(artifacts)

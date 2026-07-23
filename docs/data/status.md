@@ -221,7 +221,8 @@ Fuera de scope del override actual (gateado por modelado de dominio): Incarnon F
 ## Enemigos (`enemies.json`)
 
 **Schema:** `docs/data/schemas/enemy/schema.md` ✅
-**Generador:** `Project/scripts/generate-enemies.mjs` — sin override poblado (`enemy-stats.override.json` = `{}`).
+**Generador:** `buildEnemiesArtifacts` en el pipeline (`generate-data.ts`) — sin override poblado
+(`enemy-stats.override.json` = `{}`).
 **Estado:** ✅ 638 entradas, fuente **doble** (export del juego + cosecha wiki `Module:Enemies/data` vía
 `omniframe-items`, merge por nombre). `faction` canónica en cascada (incluye subfacciones: Kuva Grineer 25, Corpus Amalgam 46); `base_level` > 1 en 61 entradas;
 `eximus_health` (283) y `weakpoints[]` (407) emitidos por fidelidad, sin consumidor en el engine.

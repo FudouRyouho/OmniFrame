@@ -9,7 +9,8 @@ Fecha_de_actualizacion: "2026-07-22"
 
 # Enemy — Schema de `enemies.json`
 
-Generado por `Project/scripts/generate-enemies.mjs` sobre `omniframe-items`. 638 entradas.
+Generado por `buildEnemiesArtifacts` (`Project/scripts/pipeline/runtime-data-artifacts.ts`) sobre
+`omniframe-items`, emitido por `generate-data.ts`. 638 entradas.
 
 Es el único dato del engine cuya fuente es **doble**: el export del juego (vía `@wfcd/items`) da los
 stats base; el `Module:Enemies/data/<facción>` del wiki (cosechado por `EnemyScraper`, mergeado en
