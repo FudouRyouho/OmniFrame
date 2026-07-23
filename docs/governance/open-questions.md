@@ -96,12 +96,13 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 
 ## OQ-ENGINE-FUTURE — Features de evolución del motor en backlog — **ABIERTA (2026-05-25)**
 **Dominio:** engine / simulation-v2
-**Contexto:** features consideradas en pre-implementación (abril 2026) que no entraron al motor inicial, sin prioridad asignada. Backlog puro — ninguna tiene consumidor que la exija hoy.
+**Contexto:** backlog vivo de features sin prioridad asignada — las dos primeras vienen de pre-implementación (abril 2026); se suman las que aparecen después (fechadas en la tabla). Ninguna tiene consumidor que la exija hoy.
 
 | Feature | Descripción | Implicación |
 |---|---|---|
 | **Web Worker compatibility** | API serializable del motor para mover la simulación a un Worker | Performance bajo simulaciones extensas |
 | **Rewind / Time Travel** | Historial de cambios para deshacer/rehacer; aprovecha que el motor es determinista | UX de comparación de builds |
+| **Overguard como capa de entidad** (2026-07-22) | Modelar overguard **para entidades en general**, no solo enemigos (hoy sólo aparece como "futuro" en `effect-behavior.ts` y como flag faltante en `OQ-ENGINE-12`). Dato disponible: coeficientes de scaling en `Module:Enemies/infobox` (`f1 0.0015/4.00, f2 260.00/0.90`) | Capa de mitigación propia + caps de status (Freeze 4 stacks en Overguard) |
 
 **Estado:** la condición-gate original ("cuando la Capa D se materialice y haya un cliente real") **ya se cumplió** — `ViewModelContract` v0 existe, consumido por D1 (`use-view-model`) y D2 (`oracle`). Aun así ninguna de las dos features tiene demanda: se retoman si un consumidor las pide. Nada en código todavía (verificado 2026-07-17).
 
@@ -876,7 +877,7 @@ refresh hecho.
 
 ---
 
-## OQ-ENGINE-21 — Fidelidad de la ley de enemy-scaling: contradicción Anarchs + tabla sin validar por DE — **ABIERTO (2026-07-19)**
+## OQ-ENGINE-21 — Fidelidad de la ley de enemy-scaling: contradicción Anarchs + tabla sin validar por DE — **ABIERTO (2026-07-19) — Anarchs RESUELTO 2026-07-22 (fix sin aplicar); validación in-game sigue abierta**
 **Dominio:** engine / C2 (enemy scaling) — hermana de `OQ-ENGINE-15` (DR)
 
 **Contexto:** los coeficientes de `enemy-scaling.ts` se transcriben de `Enemy_Level_Scaling` (re-capturado
@@ -892,13 +893,28 @@ Extremes… accuracy still under review". Dos puntos de fidelidad abiertos:
    community-derived; hoy solo Arid Butcher @215 está validado contra el **calculador** del wiki (no contra el
    juego — no muestra HP numérico). La DR ya es `OQ-ENGINE-15`.
 
-**Pregunta:** ¿cuál grupo de Anarchs-health es el correcto? + una pasada de validación contra medición
-in-game (o al menos el calculador para más facciones/enemigos).
-**Dirección (precedente `OQ-ENGINE-15`):** adoptar lo más honesto hoy (Unaffiliated default para Anarchs);
-resolver por medición. No inventar hacia una wiki que se contradice.
+**Punto 1 RESUELTO (2026-07-22) — vía el módulo Lua propio del wiki.** `Module:Enemies/infobox` (el que la
+propia wiki ejecuta para mostrar stats) contiene las tablas de scaling machine-readable, sin ambigüedad de
+prosa. Ver: `curl -sS "https://wiki.warframe.com/w/Module:Enemies/infobox?action=raw" | sed -n '15,160p'`.
+- **Anarchs = grupo Orokin/Corrupted en AMBAS capas:** health `f1 0.0150/2.10, f2 10.7332/0.685`;
+  shields `f1 0.0200/1.75, f2 2.0000/0.75`. El tab "Anarchs, Corrupted" tenía razón; la prosa que los agrupaba
+  con Murmur/Sentient/Unaffiliated está **mal**. → el código actual (Anarchs ausente → default Unaffiliated
+  `2.00/0.5` en health y fallback Grineer `1.6/0.75` en shields) usa **el grupo incorrecto en las dos**.
+- **El resto de la tabla del proyecto MATCHEA el módulo** (transcripción validada): armor exacto
+  (`0.005/1.75, 0.4/0.75`, fórmula única confirmada), health de Grineer/Scaldra/Corpus/Orokin/Techrot y el
+  default para Sentient/Murmur/Unaffiliated, shields de Corpus/Orokin/Grineer.
+- **Delta menor:** Techrot shields `f1_expo` — proyecto `1.76`, módulo `1.75`. (Infested health `16.0998` vs
+  `16.100` = redondeo, el proyecto es más preciso.)
+
+**Fixes pendientes de aplicar (YELLOW, tocan `enemy-scaling.ts`):** agregar `Anarchs` a `HEALTH_COEF` (grupo
+Orokin) y a `SHIELDS_COEF` (grupo Corrupted); corregir Techrot shields a `1.75`.
+
+**Punto 2 sigue abierto:** el módulo es *del wiki*, no de DE — resuelve la **contradicción interna** (fuente
+única ejecutable > prosa contradictoria) pero la tabla sigue siendo community-derived. La validación contra
+medición in-game no se cierra con esto.
 
 **No bloquea:** el engine corre; Anarchs no está en la data todavía. **Bloquea:** scaling correcto de
-Anarchs-health; confianza plena en la tabla de scaling.
+Anarchs (health y shields); confianza plena en la tabla de scaling.
 **Vínculo:** **OQ-DATA-15** (el INPUT `faction`, hermana), **OQ-ENGINE-15** (DR, mismo "provisional hasta
 popup #1"), mirror `references/wiki/mechanics/enemy-level-scaling.md` (reconciliado 2026-07-19).
 **Fuente:** re-captura raw (`references/wiki/mechanics/raw/enemy-level-scaling.wikitext`). Auditoría: F5-P2 (2026-07-19).
