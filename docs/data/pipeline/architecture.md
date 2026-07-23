@@ -37,6 +37,27 @@ El puerto "0" (`DataSource`) es el único seam que varía por runtime; alimenta 
 consumidores desde la misma instancia cacheada (`browserSource`): display vía `DataRegistry`
 y el motor vía `loadEngineData`. Detalle del puerto y sus decisiones en OQ-DATA-9 / `DC-OQ-DATA-12`.
 
+### El vínculo dato↔imagen
+
+Corre por fuera del trail de arriba y **se rompe en silencio**, así que tiene su propia vigilancia:
+
+```
+imageName (upstream, mutado por dedupImageNames)
+  → image_name en public/data
+  → get-img.mjs --clean  copia de warframe-items/data/img a public/images (flat)
+  → resolveLocalImageUrl(image_name) = /images/<image_name>   ← la URL la produce la presentación
+```
+
+El dataset **no lleva campo `image`**: lo inyecta `hydrateImageFromImageName` en `DataRegistry`.
+
+La unión es por **nombre de archivo exacto**, y ese nombre lo decide la fuente. Si cambia de esquema,
+el JSON apunta al vacío y la UI muestra un hueco sin que nada avise — ya pasó con el swap del fork a
+upstream pristino, y duró un mes. Por eso `generate-data` corre `reportImageAssetCoverage`, que
+distingue *falta el asset en upstream* (gap de fuente) de *falta correr `get:img`*.
+
+⚠️ `public/images` está gitignored. En un clon nuevo: `npm run generate:data` (el completo);
+`generate:data:base` sólo escribe los JSON.
+
 ## 2. Reglas centrales
 
 - la normalización de **formato** ocurre en build time

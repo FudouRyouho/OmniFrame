@@ -1048,11 +1048,25 @@ nativo de esta fase).
   Cobertura: 73% de armas, 49% de companions, 0% de warframes/mods/arcanes. No hace falta
   "comentarlo": el campo sigue en el raw (`wikiaThumbnail`) y re-emitirlo es la misma línea que
   quitarlo — git conserva ambas.
-- **Campo `image` del dataset: muerto y mal formado.** `runtime-data-artifacts.ts` emite
-  `/assets/items/<name>.png` — directorio que no existe, y `<name>` ya trae `.png` (queda `.png.png`).
-  **No rompe nada**: `DataRegistry` aplica `hydrateImageFromImageName`, que lo sobrescribe con
-  `/images/<image_name>`, donde `get-img.mjs` sí copia. Es basura en el contrato de salida, no un bug
-  visible. Candidato a purga junto con el resto de la limpieza de contrato.
+- **Campo `image` del dataset ✅ purgado.** Emitía `/assets/items/<name>.png` (directorio inexistente,
+  extensión duplicada) y nadie lo leía: `DataRegistry` lo sobrescribe al hidratar. Resolver la URL es
+  responsabilidad de la presentación (`resolveLocalImageUrl`), no del pipeline. `BaseItem.image` pasó
+  a opcional y documenta que lo inyecta la hidratación.
+- **Vínculo dato↔imagen ✅ reconectado, con tripwire.** Las imágenes de ítems estaban **rotas desde el
+  swap a pristino**: el fork producía `ash-f2c6f3ab3f.png` (esquema del CDN warframestat.us) y
+  pristino produce `AckAndBrunt.png` (nombre de DE). Encima `get-img.mjs` recolectaba sólo la clave
+  `imageName` (cruda) y no `image_name` (la que emite el pipeline), así que sincronizaba contra
+  `public/data/items/*.json`, tres fósiles de marzo que nadie lee. Hoy los 7 artefactos resuelven al
+  100% (2.570 referencias). `reportImageAssetCoverage` en `generate-data` vigila el vínculo y
+  distingue *falta el asset en upstream* (gap de fuente) de *falta correr `get:img`*.
+  ⚠️ `public/images` está **gitignored**: en un clon nuevo hay que correr `npm run generate:data`, el
+  completo — `generate:data:base` sólo genera los JSON.
+- **Gap abierto: iconos de habilidades.** 1.283 referencias (`Catalyze130xWhite.png`, `AmpIcon.png`,
+  …) **no están en `warframe-items/data/img`** — vienen del `AbilityScraper` y su fuente de imágenes
+  no está resuelta. Las habilidades quedan sin icono. No investigado.
+- **Residuo trackeado sin consumidor:** `Project/public/data/items/{primary,secondary,melee}.json`
+  — 6,4 MB de marzo, con el esquema de nombres del fork, **ningún código los lee**. Eran lo que
+  desviaba a `get-img`. Candidatos a purga; están en git, así que la decisión es del usuario.
 - **Dependencia de Project ✅ cortada** — `Project/package.json` ya no declara `@wfcd/items`; sólo lo
   importaba un script archivado. Contenedor reconstruido, suite verde, dataset sin cambios.
   ⚠️ **El stub del Dockerfile NO se puede quitar**: `omniframe-items` sigue declarando
