@@ -12,10 +12,16 @@ Fecha_de_actualizacion: "2026-07-22"
 Generado por `buildEnemiesArtifacts` (`Project/scripts/pipeline/runtime-data-artifacts.ts`) sobre
 `omniframe-items`, emitido por `generate-data.ts`. 638 entradas.
 
-Es el único dato del engine cuya fuente es **doble**: el export del juego (vía `@wfcd/items`) da los
-stats base; el `Module:Enemies/data/<facción>` del wiki (cosechado por `EnemyScraper`, mergeado en
-`omniframe-items/enrich.mjs`) da lo que el export no trae. El schema es deliberadamente **plano y
-chico**: entra lo que existe en el juego, no una estructura anticipada.
+Es el único dato del engine cuya fuente es **doble**: el `Enemy.json` de `warframe-items` da los stats
+base; el `Module:Enemies/data/<facción>` del wiki (cosechado por `EnemyScraper`, mergeado en
+`omniframe-items/enrich.mjs`) da lo que aquél no trae. El schema es deliberadamente **plano y chico**:
+entra lo que existe en el juego, no una estructura anticipada.
+
+> 🚨 **La mitad "export" de esa fuente está muerta.** DE **no expone enemigos**: no existe
+> `ExportEnemies` en el Public Export (ver [`../../../domains/source/public-export.md`](../../../domains/source/public-export.md)),
+> y el `Enemy.json` de upstream es un **fósil sin tocar desde 2019-12-04** — su contenido corta en Orb
+> Vallis, sin un solo enemigo de Deimos/Narmer/Zariman/Duviri/1999. Todo lo que este schema atribuye
+> "al export" son datos de 2019. **La única fuente viva de enemigos es el wiki.**
 
 ---
 
@@ -174,13 +180,17 @@ sabemos". Se tratan como ausencia, que es lo que dicen.
   juego), no porque el engine los use — no modela ni la variante Eximus ni los headshots.
 - **No se cosecha:** `Attacks` / `DamageDistribution` del wiki. Su consumidor (modelo de DR/EHP para
   builds tanque) no existe; se suma cuando el engine lo pida.
-- **⚠️ Facciones modernas ausentes del export: ley sin dato.** El wiki tiene 1000 enemigos, el export
-  638, y el faltante no es aleatorio: **ningún** enemigo de Narmer (41), Anarchs (26), The Murmur (26),
-  Techrot (13) ni Scaldra (9) llega al output. `enemy-scaling.ts`
-  tiene coeficientes para esas facciones y `FACTION_BONUS` tiene bonus, pero no hay un solo enemigo
-  contra el cual ejercerlos. Cerrar el hueco = cosechar también `Health`/`Armor`/`Shield` del wiki y
-  emitir las entradas wiki-only, lo que cambia la procedencia del stat base (hoy siempre export) →
-  decisión abierta, no ejecutada.
+- **⚠️ Facciones modernas ausentes: ley sin dato — y ya sabemos por qué.** El wiki tiene 1000 enemigos
+  y el fósil 638; el faltante no es aleatorio: **ningún** enemigo de Narmer (41), Anarchs (26),
+  The Murmur (26), Techrot (13) ni Scaldra (9) llega al output, porque **todas esas facciones son
+  posteriores a diciembre de 2019**. `enemy-scaling.ts` tiene coeficientes para ellas y `FACTION_BONUS`
+  tiene bonus, contra enemigos que el proyecto no puede instanciar. Cerrar el hueco = cosechar también
+  `Health`/`Armor`/`Shield` del wiki y emitir las entradas wiki-only — que es el mismo movimiento que
+  invertir la política de fuente (fila 1 del inventario), no una decisión aparte.
+- **`ExportRegions` trae contexto de combate vivo y sin usar:** los 269 nodos de `Node.json` tienen
+  `minEnemyLevel`/`maxEnemyLevel` y `factionIndex`. Es dato fresco de DE sobre enemigos —el único que
+  sobrevive— y permitiría anclar el nivel de simulación a misiones reales en vez de a un número
+  arbitrario. Ver [`../../../domains/source/public-export.md`](../../../domains/source/public-export.md).
 - **Overguard:** no está en el schema. Es una capa de entidad general, no un stat de enemigo —
   backlog (`OQ-ENGINE-FUTURE`).
 - **La ley de escalado es otro frente:** este schema fija el **input** (`OQ-DATA-15`); la fidelidad de
@@ -220,7 +230,7 @@ Ordenado por lo que bloquea esa base:
 
 | # | Qué verificar | Toca el set | Estado |
 |---|---|---|---|
-| 1 | **Ninguna fuente es confiable en los stats base.** wiki↔export divergen: health 128/589 (22%), armor 67/416 (16%), shields 84/223 (38%). Hoy gana el export por omisión de `fill-if-missing`, sin decisión detrás | **sí — sólo Elite Crewman.** Un dato de codex lo cierra | **diferido** |
+| 1 | ~~Ninguna fuente es confiable~~ → **el export está muerto y el wiki es la fuente viva.** Las divergencias (health 22%, armor 16%, shields 38%) no son un conflicto entre pares: son **seis años de reworks** que el fósil de 2019 nunca vio. El `fill-if-missing` que hace ganar al export está **al revés** | sí — todo el set | **resuelto en el diagnóstico; falta invertir la política de fuente** |
 | 2 | **16 colisiones de nombre en el wiki.** Gana la primera; en `Bailiff` y `Heavy Gunner` las dos entradas son enemigos distintos con el mismo nombre display | no | diferido |
 | 3 | **`Ember Specter → Anarchs`**: un Specter clasificado en una facción de Höllvania. Sospecha de match espurio por nombre (el del export puede ser el Specter del jugador) | no | diferido |
 | 4 | **`base_level` sin contrastar.** 61 entradas con valor > 1 (Bombard 4, Eidolon ~15). Cambia `Δnivel`, y con él todo el escalado | no — los 5 son `base_level = 1` y ambas fuentes coinciden | diferido |

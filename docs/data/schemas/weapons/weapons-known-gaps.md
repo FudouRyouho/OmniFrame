@@ -121,7 +121,7 @@ Estas armas tienen multishot innato en su ataque principal y `stats.multishot` y
 - **Incarnon Form:** la regla `attacks[0]` ya lo resuelve para escopetas (Felarx). Para incarnon con multishot propio en Incarnon Form (Boltor, Soma, Kunai), resolver junto al diseño del sistema incarnon.
 - **Melee:** posponer hasta modelado del dominio melee.
 - **Archwing/Special:** posponer hasta modelado de esos dominios.
-- **No modificar `@wfcd/items` fork** para extraer esto vía scraping: costo/beneficio desfavorable dado que la wiki usa overrides manuales propios no disponibles en la API pública.
+- **Cosecharlo del wiki: sin descartar, sin verificar.** El warrant original ("no tocar el fork de `@wfcd/items`") caducó — ya no hay fork, y cosechar módulos Lua es rutina (`omniframe-items` tiene seis scrapers). Lo que sigue sin comprobarse es si `Module:Weapons/data` expone multishot **por ataque**: nuestro `WeaponScraper` es *lean* a propósito (sólo `weaponClass`), así que nadie miró. Con 5 armas resueltas por override, el override sigue siendo más barato; el día que la lista crezca, la pregunta se responde bajando un submódulo. Ver [`../../../domains/source/warframe-items.md`](../../../domains/source/warframe-items.md) §La cosecha propia.
 
 ## Implicacion
 

@@ -226,18 +226,20 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 
 ## OQ-DATA-6 — Set Mods: bonus de conjunto como entidad estructurada — **ABIERTO (2026-06-03)**
 **Dominio:** data / schema (mods → sets) → engine / UI
-**Contexto:** `@wfcd/items` expone los 91 mods miembro de los 19 sets (cada uno bajo `unique_name` `/Lotus/Upgrades/Mods/Sets/<Set>/...`) con su stat propio, pero **no expone el bonus de conjunto** — el efecto emergente que escala con el nº de piezas equipadas (ej. *"Gladiator Set: +X% melee crit per combo stack"*). Dos gaps separados (ver `docs/data/reports/audit-mods.md §Grupo D` y `docs/data/references/set-mods.md`):
+**Contexto:** el bonus de conjunto —el efecto emergente que escala con el nº de piezas equipadas (ej. *"Gladiator Set: +X% melee crit per combo stack"*)— no llega a `public/data/mods.json`, y hace falta para simular un loadout. **Es un gap de pipeline, no de datos** (ver `docs/data/references/set-mods.md` y `docs/domains/source/gaps.md` §G-4):
 
-- **Gap A — pertenencia al set:** sin campo agrupador, pero **derivable** del `unique_name`. Bajo riesgo → `pipeline:debt` (análogo a `conclave?: boolean`).
-- **Portador existe, vacío:** cada set tiene una entrada `<Codename>setmod` con `type: "Mod Set Mod"` (discriminador limpio), pero con `description: ""` y `stats` sin tokens. Es la clave natural para colgar el bonus sin tocar los mods miembro.
-- **Gap B — los valores del bonus:** ausentes. **No es un stat de ningún mod individual** sino un efecto del *set*, parametrizado por piece-count + condition propia. No cabe en `mod-stats.override.json` (shape per-mod). Es una **entidad nueva** (`set → {bonus, escala por piezas, miembros, condition}`). Valores ya investigados (wiki) en `references/set-mods.md`.
+- **La fuente lo trae completo.** `warframe-items/data/json/Mods.json` expone `modSet` (puntero al portador) en los 72 mods miembro, y los 19 portadores `type: "Mod Set Mod"` con `numUpgradesInSet` + `stats[]`: un escalón de texto por cantidad de piezas. `generate-data.ts` no lee ninguno de esos campos, así que los portadores llegan vacíos a nuestro dataset.
+- **Gap A — pertenencia al set:** resuelto en la fuente (`modSet` explícito, no hay que derivar del `unique_name`). Queda `pipeline:debt` trivial: propagar el campo.
+- **Gap B — el modelado, no la captura:** los valores vienen como **texto libre** → hay que tokenizarlos (mismo parseo que `levelStats`). Y el bonus sigue sin caber en `mod-stats.override.json` (shape per-mod): es un efecto del *set*, parametrizado por piece-count + condition propia. Es una **entidad nueva** (`set → {bonus, escala por piezas, miembros, condition}`). Tabla del wiki en `references/set-mods.md`, ahora como contraste del tokenizado.
 
 **Preguntas abiertas:**
 - ¿Schema/entidad `sets` propia, o extensión del modelo de mods (override colgado del portador `Mod Set Mod`)? El bonus es un efecto **stacking por piece-count** → instancia de `OQ-DATA-4` (stacking + composición de condition); la escala 1→max es literalmente un array indexado por nº de piezas.
 - **Eje de condition nuevo:** los bonus introducen `requires_<equipo>` (companion type, umbral mods, both pieces) ausente del vocabulario actual → cruzar con `OQ-SEM-2` (naturaleza de condition) antes de acuñar.
 - La noción "nº de piezas equipadas" requiere conocer el loadout completo → cercano al patrón de materialización de `OQ-DATA-1`.
 - ¿Gap A se resuelve como campo derivado en pipeline o como tag?
-- **Hipótesis de procedencia (pendiente, 2026-06-03):** ¿el bonus es un **gap de datos** (warframe-items / `@wfcd/items` tampoco lo expone aguas arriba) o un **gap de pipeline** (el export raw sí lo trae y `generate-data.ts` lo descarta al construir `GeneratedMod`)? Verificable: inspeccionar el export raw del submódulo `warframe-items` para las entradas `type: "Mod Set Mod"`. Determina si la solución es arreglar el pipeline o capturar manual. Diferido hasta abordar el modelado.
+- ¿El tokenizado del `stats[]` del portador reusa el parseo de `levelStats`, o el eje piece-count pide el suyo?
+
+**Procedencia — RESUELTA:** era la duda de si el bonus es gap de datos o de pipeline. Se inspeccionó `Mods.json` de upstream: el dato está entero, `generate-data.ts` lo descarta. Es **gap de pipeline** → la solución es propagarlo, no capturarlo a mano.
 
 **Condición para resolver:** cuando exista consumidor real (engine que compute bonus de set, o UI que lo muestre). Hoy es captura/investigación.
 **No bloquea:** captura de datos, engine Fase 0, ni el override actual (los stats propios de los mods miembro ya viven bien en `mod-stats.override.json`).
@@ -734,7 +736,7 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 **Contexto:** hoy el pipeline consume `@wfcd/items` como un **fork local** (`file:../warframe-items`, submódulo). El fork impone su estructura; `generate-data.ts` la **re-mapea** entera a los contratos del engine (`normalization/*`). Fricciones acumuladas: mantener el submódulo sincronizado, re-mapear todo en cada campo nuevo, y una estructura upstream que **no es la que el proyecto necesita** (de ahí el volumen de normalización). Nota de sesión 2026-07-20 (semilla de esta OQ): *"empezando a pensar en hacer mi propio warframe-items con la estructura que necesito, en vez del fork — qué paja"*.
 
 **Pregunta (a INVESTIGAR, no a resolver):**
-- ¿Qué aporta hoy el fork que habría que **replicar** para no perderlo? Al menos: la data cruda del juego, `patchlogs` (→ `versionTag`, base del audit `OQ-DATA-9`), categorías/kinds, `compatName`. Inventario real en [`../data/references/warframe-items-source.md`](../data/references/warframe-items-source.md).
+- ¿Qué aporta hoy el fork que habría que **replicar** para no perderlo? Al menos: la data cruda del juego, `patchlogs` (→ `versionTag`, base del audit `OQ-DATA-9`), categorías/kinds, `compatName`. Inventario real en [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).
 - ¿De dónde saldría la data sin el fork? (misma fuente que `@wfcd`: export/worldstate de Warframe) — ¿costo de mantener ese ingest propio vs. el re-mapeo actual?
 - ¿La "estructura a medida" elimina normalización, o solo **mueve** el trabajo aguas arriba? (mismo patrón que el debate de `OQ-DATA-9`: cuidado con mover-no-eliminar).
 
@@ -743,12 +745,12 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
    casi todo aditivo sobre el patrón de plugin propio de upstream (`build/wikia/scrapers/*`): un
    `AbilityScraper` (cosecha `Module:Ability/data`) + `transformAbility` + ~19 líneas de hook en
    `parser.mjs`/`scraper.mjs`. No es un fork pesado de sincronizar; la capa-1 (ingest/scraper de upstream)
-   está intacta. Detalle en `../data/references/warframe-items-source.md` §2.
+   está intacta. Detalle en `../domains/source/warframe-items.md` §2.
 2. **La maquinaria Lua es genérica y reusable.** `getLuaData(url)` baja cualquier `Module:X/data?action=edit`;
    `convertLuaDataToJson` lo pasa a JSON. Cosechar módulos que upstream ignora (enemigos + otros) = un scraper
    con la receta de `AbilityScraper`, sin reconstruir capa-1. El módulo Lua de enemigos hoy no lo toca nadie:
    `generate-enemies.mjs` lee `Enemy.json` del export del juego, no de la wiki.
-3. **Drift corregido:** `warframe-items-source.md` §2 sobreatribuía al fork (`weaponClass`, `upgradeTypes[]`,
+3. **Drift corregido:** `../domains/source/warframe-items.md` §Lo que la promoción a pristino nos costó sobreatribuía al fork (`weaponClass`, `upgradeTypes[]`,
    `modClass`, taxonomía = son upstream). Corregido en la misma sesión.
 
 **Dirección (investigada, NO decidida — sigue en debate):** no es "fuente propia vs fork" como binario, sino
@@ -1000,8 +1002,8 @@ cache existe pero no está wired".
 *Costos aceptados, explícitos:*
 - `parser`/`scraper` **no están en los `exports`** del `package.json` de upstream (sólo `"."` y
   `"./utilities"`) → se importan **por ruta relativa** al clon. Es el acoplamiento a internos que (a)
-  asume a conciencia, no un accidente: documentado acá hasta que nazca el dominio de `omniframe-items` en
-  `docs/`, donde pasará a vivir con su JSDoc.
+  asume a conciencia, no un accidente. La anatomía del build que lo hace viable vive en
+  [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md); acá queda la decisión.
 - **El build propio corre en HOST, no en Docker** — como el resto del pipeline de datos: necesita salida a
   `origin.warframe.com`, a la wiki y a GitHub.
 - El build de upstream es TS (`tsx ./build/build.ts`); `omniframe-items` es `.mjs` plano → suma `tsx`.
@@ -1021,8 +1023,18 @@ nativo de esta fase).
 - **Entradas wiki-only:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en
   el wiki). Emitirlas exige cosechar también sus stats base del wiki → cambia la procedencia del stat base
   (hoy siempre export). No ejecutado; ver `OQ-DATA-15` (residual) y el §6 del schema.
-- **`omniframe-items` merece dominio propio en `docs/`** (hoy su verdad vive repartida en esta OQ y en los
-  schemas), posiblemente junto a una re-estructuración del dominio `data/`. A debatir.
+- **🔴 El build propio no es determinista.** Entre dos corridas idénticas el delta contra el raw de
+  upstream pasó de ~400 ítems a 14, sin cambiar nada. Pista: los 3 ítems con `imageName` distinto son los
+  tres Merulina Prime y el valor se **intercambia** entre corridas → empate en el `group.sort` de
+  `dedupImageNames` (misma categoría ⇒ misma prioridad ⇒ decide el orden de entrada). Es sensibilidad al
+  orden del input, no lógica distinta. **Bloquea la fase 1**: un árbitro que cambia solo no distingue
+  "nuestro build está mal" de "el mundo cambió". Árbitro reusable: `omniframe-items/build/diff-raw.mjs`.
+- **Falta el loader propio** → sin él Project sigue leyendo el raw de upstream y el árbitro real
+  (`git diff public/data` vacío) no se puede correr. Estado del diff raw-vs-raw hoy: 21/26 archivos
+  idénticos byte a byte, difieren 5 en 14 ítems sobre 16.889 (0,08%), casi todo `wikiaThumbnail`.
+- **Dependencias estáticas de upstream sin auditar:** su `warnings.json` (de donde sale `failedImage`, que
+  alimenta `dedupImageNames`) y su `data/img` (605 MB). Si upstream deja de publicarlas, envejecen en
+  silencio igual que `Enemy.json`. Ver [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).
 - **Auditar normalizaciones `?? []` redundantes** que compensaban la incompletitud del fork (ej.
   `incompatibility_tags`) — ahora el dato fresco las puede volver innecesarias.
 - **Borrar `warframe-items.backup`** una vez confirmada la estabilidad de omniframe-items a nivel pipeline.
@@ -1030,7 +1042,7 @@ nativo de esta fase).
   urgencia).
 
 **No bloquea:** nada.
-**Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../data/references/warframe-items-source.md` (qué aporta el fork actual).
+**Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../domains/source/warframe-items.md` (qué aporta el fork actual).
 **Fuente:** reflexión del usuario, cierre de sesión 2026-07-20; investigación 2026-07-22.
 
 ---

@@ -35,6 +35,10 @@ Aplica a todo trabajo en `docs/`. Estas reglas son bloqueantes.
   - `docs/domains/engine/` (incluye `engine/design/` con el blueprint del motor)
   - `docs/domains/integration/`
   - `docs/domains/ui-ux/`
+  - `docs/domains/source/` — las fuentes de datos **ajenas** (Public Export, `warframe-items`,
+    cosecha wiki). Único dominio cuya capa física está fuera de `Project/`. Discriminador: si la
+    oración describe la fuente ajena → `source/`; si describe nuestro JSON → `data/schemas/`; si
+    describe la transformación → `data/pipeline/`.
 - **Meta** — reglas, estado, decisiones, debates:
   - `docs/governance/`, `docs/decisions/`
 

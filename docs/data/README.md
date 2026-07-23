@@ -13,7 +13,10 @@ por su cuenta. Todos consumen desde aquí.
 | [`rules/`](rules/) | Gobernanza y reglas de datos (SSoT, roles, overrides, taxonomía) |
 | [`schemas/`](schemas/) | Contratos por tipo de dato (abilities, mods, archon-shards, warframes, weapons) |
 | [`pipeline/`](pipeline/) | Procesos de transformación: build, normalización, triage |
-| [`references/`](references/) | Fuentes upstream (canonical-sources, warframe-items) |
+| [`references/`](references/) | Capturas de investigación sobre mecánicas del juego (set mods, status chance) |
+
+> Las **fuentes de datos ajenas** (Public Export, `warframe-items`, cosecha wiki) tienen dominio
+> propio: [`../domains/source/`](../domains/source/).
 
 ## Lectura inicial sugerida
 

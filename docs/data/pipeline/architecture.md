@@ -12,7 +12,7 @@ Fecha_de_actualizacion: "2026-07-22"
 ## 1. Flujo del dato
 
 ```text
-fuente canónica (@wfcd/items + patches del fork)
+fuente canónica (Public Export → warframe-items → omniframe-items)
   → build pipeline (generate-data.ts, normalización)
   → overrides (manual SSoT en public/data/*.override.json)
   → JSON estático (Project/public/data/*.json)
@@ -24,7 +24,7 @@ fuente canónica (@wfcd/items + patches del fork)
 Trail concreto en código:
 
 ```
-@wfcd/items (crudo + patch del fork)
+@wfcd/items (crudo) + cosecha wiki de omniframe-items
   → generate-data.ts (orquesta normalization/* + pipeline/runtime-data-artifacts.ts)
   → JSON (public/data/*.json) + overrides (public/data/*.override.json)
   → puerto "0" DataSource (BrowserAdapter fetch / NodeAdapter fs; instancia compartida browserSource)
@@ -98,5 +98,5 @@ El motor de generación (`Project/scripts/generate-data.ts`) transforma la fuent
 - [`ability-pipeline.md`](ability-pipeline.md) — pipeline específico de ability stats (`apply-ability-md.ts`)
 - [`mods-triage.md`](mods-triage.md) — registro de rechazos del parser de mods
 - [`companion-compatibility.md`](companion-compatibility.md) — semántica de `compatName` jerárquico
-- [`../references/warframe-items-source.md`](../references/warframe-items-source.md) — el fork upstream y deltas que aporta
+- [`../../domains/source/`](../../domains/source/) — las fuentes ajenas que alimentan este pipeline, y su [catálogo de gaps](../../domains/source/gaps.md)
 - [`../rules/overrides.md`](../rules/overrides.md) — gobernanza del SSoT manual
