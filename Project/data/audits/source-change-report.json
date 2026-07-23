@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-07-23T11:38:25.602Z",
+  "generatedAt": "2026-07-23T12:00:14.671Z",
   "totalItems": 3713,
   "delta": {
     "mode": "diff",
-    "comparedToGeneratedAt": "2026-07-23T10:43:04.138Z",
+    "comparedToGeneratedAt": "2026-07-23T11:38:25.602Z",
     "previousTotalItems": 3713,
     "currentTotalItems": 3713,
     "newItems": 0,
     "removedItems": 0,
-    "changedFingerprint": 13,
+    "changedFingerprint": 0,
     "changedLastSourceUpdate": 0,
-    "unchangedItems": 3700,
-    "possibleChanges": 13
+    "unchangedItems": 3713,
+    "possibleChanges": 0
   },
   "items": {
     "/Lotus/Powersuits/Ninja/Ninja": {

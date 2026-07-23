@@ -1041,13 +1041,25 @@ nativo de esta fase).
 - **Residual: los locales.** El fetch sigue bajando los 15 idiomas (~5 min de build). `locales` se lee
   del `config/locales.json` del clon **a nivel de módulo**, así que recortarlo exige tocar upstream
   pristino o reimplementar `fetchResources`. El costo es tiempo de build, no dato → diferido.
-- **Ruido conocido del árbitro fuerte:** `wikia_thumbnail` es scrape del wiki en vivo y
-  aparece/desaparece entre corridas (~13 armas por regeneración). Viaja en el contrato y en
-  `shared/types/*` pero **ningún componente lo consume**: dejar de emitirlo limpiaría el árbitro. Es
-  contrato de salida, no control de acción → decisión aparte, no ejecutada.
-- **Residual de limpieza:** Project declara `@wfcd/items` pero sólo lo usa un script archivado. Cortar
-  esa dependencia elimina también el stub del Dockerfile, que existe únicamente porque
-  `file:../warframe-items` dispara un `prepare` con husky que rompe el install en Linux. No ejecutado.
+- **`wikia_thumbnail` — decidido NO tocar (2026-07-23).** Es scrape del wiki en vivo, aparece y
+  desaparece entre corridas (~13 armas por regeneración) y ensucia el árbitro fuerte; ningún
+  componente lo consume. Se mantiene porque es el **único puntero a la imagen remota** si alguna vez
+  falta el asset local, y el ruido del árbitro es tolerable comparado con cerrar esa puerta.
+  Cobertura: 73% de armas, 49% de companions, 0% de warframes/mods/arcanes. No hace falta
+  "comentarlo": el campo sigue en el raw (`wikiaThumbnail`) y re-emitirlo es la misma línea que
+  quitarlo — git conserva ambas.
+- **Campo `image` del dataset: muerto y mal formado.** `runtime-data-artifacts.ts` emite
+  `/assets/items/<name>.png` — directorio que no existe, y `<name>` ya trae `.png` (queda `.png.png`).
+  **No rompe nada**: `DataRegistry` aplica `hydrateImageFromImageName`, que lo sobrescribe con
+  `/images/<image_name>`, donde `get-img.mjs` sí copia. Es basura en el contrato de salida, no un bug
+  visible. Candidato a purga junto con el resto de la limpieza de contrato.
+- **Dependencia de Project ✅ cortada** — `Project/package.json` ya no declara `@wfcd/items`; sólo lo
+  importaba un script archivado. Contenedor reconstruido, suite verde, dataset sin cambios.
+  ⚠️ **El stub del Dockerfile NO se puede quitar**: `omniframe-items` sigue declarando
+  `file:../warframe-items` (para los tipos de `index.d.ts`), así que el `prepare` con husky se
+  dispararía igual. El stub muere cuando el tipado salga de `@wfcd/items`, no antes.
+- **Arranque desde cero verificado:** sin `data/json`, `generate-data` aborta con el comando a correr
+  en vez de emitir un dataset vacío.
 - **Dependencias estáticas de upstream sin auditar:** su `warnings.json` (de donde sale `failedImage`, que
   alimenta `dedupImageNames`) y su `data/img` (605 MB). Si upstream deja de publicarlas, envejecen en
   silencio igual que `Enemy.json`. Ver [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).
