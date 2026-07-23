@@ -1,9 +1,11 @@
 // Árbitro raw-vs-raw (OQ-DATA-16): nuestro data/json vs el de upstream, categoría por categoría.
 //
-// ⚠️ **Ya no espera diff vacío.** Con G-1 corregido en `raw-build.ts` (puncture↔slash) hay una
-// divergencia deliberada: ~620 ítems en el campo `damage`. Lo que sigue siendo señal acá es
-// **solo-upstream / solo-nuestro ≠ 0** (ítems que aparecen o desaparecen) y cualquier campo distinto
-// de `damage`. El árbitro del dataset es `git diff public/data`, que el loader propio habilitó.
+// ⚠️ **Ya no espera diff vacío.** Hay dos divergencias deliberadas contra upstream:
+//   · G-1 (puncture↔slash corregido en `raw-build.ts`) → ~620 ítems en el campo `damage`.
+//   · Control de acción → no emitimos 8 categorías sin consumidor, ni `All.json`/`i18n.json`.
+// Ambas se descuentan acá abajo. Lo que sigue siendo señal es **solo-upstream / solo-nuestro ≠ 0**
+// dentro de una categoría que sí emitimos, y cualquier campo distinto de `damage`.
+// El árbitro del dataset es `git diff public/data`, que el loader propio habilitó.
 //
 // Uso: node build/diff-raw.mjs
 import { readFileSync, readdirSync } from 'node:fs';
@@ -33,16 +35,26 @@ const omitVolatile = (o) => {
   return c;
 };
 
+// No las emitimos a propósito (control de acción, fase 2): no aportan un solo ítem a `public/data`.
+// `All.json` es el agregado que el loader excluye; `i18n.json`, traducciones sin consumidor.
+const NOT_EMITTED = new Set([
+  'Fish.json', 'Gear.json', 'Glyphs.json', 'Quests.json',
+  'Relics.json', 'Resources.json', 'Sigils.json', 'Skins.json',
+  'All.json', 'i18n.json',
+]);
+
 const files = [...new Set([...readdirSync(UP), ...readdirSync(OURS)])].sort();
 const md5 = (s) => createHash('md5').update(s).digest('hex');
 
 let identical = 0;
 const differing = [];
+const notEmitted = [];
 
 for (const f of files) {
+  if (NOT_EMITTED.has(f)) { notEmitted.push(f.replace('.json', '')); continue; }
   let a, b;
   try { a = readFileSync(UP + f, 'utf8'); } catch { differing.push([f, 'SOLO EN UPSTREAM']); continue; }
-  try { b = readFileSync(OURS + f, 'utf8'); } catch { differing.push([f, 'FALTA EN EL NUESTRO']); continue; }
+  try { b = readFileSync(OURS + f, 'utf8'); } catch { differing.push([f, 'FALTA EN EL NUESTRO — ¿build incompleto?']); continue; }
 
   if (md5(a) === md5(b)) { identical++; continue; }
 
@@ -94,6 +106,8 @@ for (const f of files) {
   differing.push([f, detail]);
 }
 
-console.log(`IDÉNTICOS: ${identical}/${files.length}`);
+const comparados = files.length - notEmitted.length;
+console.log(`IDÉNTICOS: ${identical}/${comparados} comparados`);
 console.log(`DIFIEREN:  ${differing.length}\n`);
 for (const [f, d] of differing) console.log(`  ${f.padEnd(20)} ${d}`);
+console.log(`\nno emitidas a propósito (${notEmitted.length}): ${notEmitted.join(' · ')}`);

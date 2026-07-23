@@ -160,31 +160,73 @@ function dedupImageNames(data: Record<string, Item[]>, manifest: ImageManifest, 
 }
 
 /**
- * Copia de `Build.saveJson`, apuntada a NUESTRO `data/json`. Acá vive el control de acción de la
- * fase 2 (qué categorías se emiten); hoy emite las 23, igual que upstream — dejar de emitir lo que
- * nadie consume es trabajo pendiente, no una omisión.
+ * **Control de acción (fase 2 de OQ-DATA-16): qué se emite.**
+ *
+ * Medido, no supuesto: se rastreó de qué categoría del raw viene cada ítem que termina en
+ * `public/data`. Estas 15 lo alimentan; las otras 8 no aportan un solo ítem a ningún artefacto.
+ *
+ * ⚠️ **El filtro es de EMISIÓN, no de parseo.** `dedupImageNames` corre antes y sobre *todas* las
+ * categorías: es lo que resuelve las colisiones de `imageName` entre ellas. Filtrar aguas arriba
+ * cambiaría los `imageName` de lo que sí emitimos y rompería `get-img.mjs`, que lee el `data/img` de
+ * upstream por ese nombre.
  */
+const EMITTED = new Set([
+  // armas → weapons.json (Misc aporta las modulares; SentinelWeapons las de compañero)
+  'Primary', 'Secondary', 'Melee', 'Misc', 'SentinelWeapons',
+  'Arch-Gun', 'Arch-Melee', // → archwing-weapons.json
+  'Archwing', 'Railjack', // → vehicles.json (necramechs incluidos)
+  'Warframes', // → warframes.json + vehicles.json
+  'Pets', 'Sentinels', // → companions.json
+  'Mods', 'Arcanes', // → mods.json / arcanes.json
+  'Enemy', // → enemies.json (el fósil; ver gaps.md §G-2)
+
+  // Sin consumidor HOY, se emite igual: es `ExportRegions` — nivel y facción de los 269 nodos del
+  // Star Chart, el único dato de enemigos fresco que sobrevive al fósil. Cuesta 1,2 MB y es el
+  // candidato a anclar el nivel de simulación a misiones reales. Ver gaps.md §G-3.
+  'Node',
+])
+
+/** No se emiten: Fish · Gear · Glyphs · Quests · Relics · Resources · Sigils · Skins (~15 MB). */
+
 async function saveJson(
   categories: Record<string, Item[]>,
-  i18n: Record<string, Record<string, Partial<Item>>>,
-): Promise<void> {
-  let all: Item[] = []
+): Promise<{ skipped: string[]; stale: string[] }> {
   const sort = (a: Item, b: Item): number => {
     const res = a.name.localeCompare(b.name)
     return res === 0 ? a.uniqueName.localeCompare(b.uniqueName) : res
   }
 
+  const skipped: string[] = []
+  const stale: string[] = []
   for (const category of Object.keys(categories)) {
     const categoryData = categories[category]
     if (!categoryData) continue
+    if (!EMITTED.has(category)) {
+      skipped.push(`${category}(${categoryData.length})`)
+      continue
+    }
     const data = categoryData.sort(sort)
-    all = all.concat(data)
     await fs.writeFile(new URL(`${category}.json`, jsonDir), JSON.stringify(JSON.parse(stringify(data))))
   }
 
-  all.sort(sort)
-  await fs.writeFile(new URL('All.json', jsonDir), stringify(all))
-  await fs.writeFile(new URL('i18n.json', jsonDir), JSON.stringify(JSON.parse(stringify(i18n))))
+  // `All.json` (57 MB) tampoco se emite: es el agregado de todo lo anterior y **nadie lo lee** — el
+  // loader lo excluye explícitamente, porque cargarlo duplicaría cada ítem. `i18n.json` (50 MB)
+  // igual: el proyecto consume `en` y ningún consumidor pide traducciones.
+  // Juntos eran el 72% del raw. Siguen bajándose del export (el fetch trae los 15 idiomas y no es
+  // parametrizable sin tocar el clon pristino): lo que se ahorra es disco, no red.
+
+  // El build CONVERGE: dejar de escribir no borra, y el loader lista el directorio — un archivo de
+  // un build anterior seguiría cargándose. Sin esto, reducir lo emitido no tendría efecto sobre lo
+  // que Project consume hasta un `rm` manual.
+  for (const file of await fs.readdir(jsonDir)) {
+    if (!file.endsWith('.json')) continue
+    const category = file.slice(0, -'.json'.length)
+    if (EMITTED.has(category) || category === 'Enemy') continue // Enemy lo escribe el passthrough
+    await fs.unlink(new URL(file, jsonDir))
+    stale.push(file)
+  }
+
+  return { skipped, stale }
 }
 
 /**
@@ -272,24 +314,27 @@ async function main(): Promise<void> {
   parsed.warnings.failedImage = [...warnings.failedImage]
 
   const data = applyCustomCategories(parsed.data)
-  const i18n = parser.applyI18n(data, raw.i18n)
+  // `dedupImageNames` DEBE ver todas las categorías: resuelve colisiones de `imageName` ENTRE ellas.
   dedupImageNames(data, raw.manifest, parsed.warnings)
 
   console.log(`· G-1: puncture↔slash corregido en ${fixPhysicalDamage(data)} ítems`)
 
-  // El fósil se copia como categoría suelta y NO entra a `All.json`: upstream tampoco lo incluye
-  // (su All.json son 16889 items, sin un solo `category: 'Enemy'`) — la categoría no la produce el parser.
+  // El fósil se copia como categoría suelta: el parser no produce la categoría `Enemy`.
   await passthroughFossilEnemies()
-  await saveJson(data, i18n)
+  const { skipped, stale } = await saveJson(data)
   await fs.writeFile(new URL('warnings.json', dataDir), stringify(parsed.warnings))
   // El cache va a NUESTRO layout: `hashManager.saveExportCache()` escribiría en el de upstream.
   await fs.writeFile(new URL('.export.json', cacheDir), JSON.stringify(hashManager.exportCache, undefined, 1))
 
   const counts = Object.entries(data)
+    .filter(([category]) => EMITTED.has(category))
     .map(([category, items]) => `${category}: ${items.length}`)
     .sort()
-  console.log(`✓ data/json — ${Object.keys(data).length} categorías`)
+  console.log(`✓ data/json — ${counts.length} categorías emitidas`)
   console.log('  ' + counts.join(' · '))
+  console.log(`· sin consumidor, no emitidas: ${skipped.sort().join(' · ')}`)
+  console.log('· All.json e i18n.json no se emiten (agregado + traducciones, sin consumidor)')
+  if (stale.length) console.log(`· purgadas de builds anteriores: ${stale.sort().join(' · ')}`)
 }
 
 await main()

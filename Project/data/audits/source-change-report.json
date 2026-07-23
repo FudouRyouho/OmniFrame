@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-07-23T10:43:04.138Z",
+  "generatedAt": "2026-07-23T11:38:25.602Z",
   "totalItems": 3713,
   "delta": {
     "mode": "diff",
-    "comparedToGeneratedAt": "2026-07-23T10:23:25.782Z",
+    "comparedToGeneratedAt": "2026-07-23T10:43:04.138Z",
     "previousTotalItems": 3713,
     "currentTotalItems": 3713,
     "newItems": 0,
     "removedItems": 0,
-    "changedFingerprint": 499,
+    "changedFingerprint": 13,
     "changedLastSourceUpdate": 0,
-    "unchangedItems": 3214,
-    "possibleChanges": 499
+    "unchangedItems": 3700,
+    "possibleChanges": 13
   },
   "items": {
     "/Lotus/Powersuits/Ninja/Ninja": {
@@ -1983,7 +1983,7 @@
         "url": "https://forums.warframe.com/topic/763931-the-glast-gambit-hotfix-19112/",
         "versionTag": "19.11.2"
       },
-      "sourceFingerprint": "sha256:b26ce4d89fed1df76be9f75170b9c574e7286197fc938846025c0d3ac58661ff"
+      "sourceFingerprint": "sha256:0170301783f42e55ef532eae864c5ba297f5dac5d95309728e6ff35d1e7c16ed"
     },
     "/Lotus/Weapons/Tenno/Melee/DualShortSword/DualEtherSword": {
       "uniqueName": "/Lotus/Weapons/Tenno/Melee/DualShortSword/DualEtherSword",
@@ -1996,7 +1996,7 @@
         "url": "https://forums.warframe.com/topic/975040-the-sacrifice-hotfix-2306/",
         "versionTag": "23.0.6"
       },
-      "sourceFingerprint": "sha256:c61ddfa853496cab524943337ecb9ba9f22f28078cbfa1bfc0eadb586451f9c7"
+      "sourceFingerprint": "sha256:43441b61d47e444ac6852123ac768ac1612bde5135000d0589006a4bd8c3e91c"
     },
     "/Lotus/Weapons/Tenno/Melee/DualShortSword/DualHeatSwords": {
       "uniqueName": "/Lotus/Weapons/Tenno/Melee/DualShortSword/DualHeatSwords",
@@ -2009,7 +2009,7 @@
         "url": "https://forums.warframe.com/topic/536207-update-175-the-jordas-precept-hotfix-1751/",
         "versionTag": "17.5"
       },
-      "sourceFingerprint": "sha256:2e3c100f70b9f2d25304b558f1785271cbf5e57db9fb9e214f5b73612a8bb8ec"
+      "sourceFingerprint": "sha256:58c9b294d680fca38bd1ca01193990ef8b5d006db33c03309cf4b76d8bc76db5"
     },
     "/Lotus/Weapons/Tenno/Melee/Axe/DualInfestedAxesWeapon": {
       "uniqueName": "/Lotus/Weapons/Tenno/Melee/Axe/DualInfestedAxesWeapon",
@@ -2022,7 +2022,7 @@
         "url": "https://forums.warframe.com/topic/122841-update-1050-the-gradivus-dilemma/",
         "versionTag": "10.5.0"
       },
-      "sourceFingerprint": "sha256:9efd1e9c5a9616517c1c309341f15174fb7c010e856096290a391ff5f3b0c1b6"
+      "sourceFingerprint": "sha256:91342e3b9fc1969b30cd32533fb850c047bb54ad37eb44a05079b6857b472bfe"
     },
     "/Lotus/Weapons/Tenno/Melee/DualKamas/DualKamas": {
       "uniqueName": "/Lotus/Weapons/Tenno/Melee/DualKamas/DualKamas",
@@ -4026,7 +4026,7 @@
         "url": "https://forums.warframe.com/topic/1305880-update-315-angels-of-the-zariman/",
         "versionTag": "31.5"
       },
-      "sourceFingerprint": "sha256:3547af8235b14beae8bc191dabfbe2289c1bc0c6264a695d6e2a8d3b5da9a693"
+      "sourceFingerprint": "sha256:df733ede676c5bd736bc320eccfaf7cc973c0adbb221ebd5587475225b12a0cb"
     },
     "/Lotus/Weapons/Tenno/Melee/LongSword/SkanaPrime": {
       "uniqueName": "/Lotus/Weapons/Tenno/Melee/LongSword/SkanaPrime",
@@ -4039,7 +4039,7 @@
         "url": "https://forums.warframe.com/topic/514266-update-172/",
         "versionTag": "17.2"
       },
-      "sourceFingerprint": "sha256:13cde7e7606b92bd5b89dbf8508cacd92f8ab84f10477d8eb09324e818f89d90"
+      "sourceFingerprint": "sha256:fb3196a81168f3f8673c0d685584e515750b23038598ea85102cc03a89ee4c47"
     },
     "/Lotus/Weapons/Tenno/Melee/Swords/UmbraKatana/UmbraKatana": {
       "uniqueName": "/Lotus/Weapons/Tenno/Melee/Swords/UmbraKatana/UmbraKatana",
@@ -4052,7 +4052,7 @@
         "url": "https://forums.warframe.com/topic/1299619-update-3110-echoes-of-war/",
         "versionTag": "31.1.0"
       },
-      "sourceFingerprint": "sha256:17ce8322afe92e77ec4f572cfa73f9ab1d99a1af8bf93b60ad61e31ef8f0b54e"
+      "sourceFingerprint": "sha256:915adb35e9627824f775b9933d033c2723adc7641890922ce9d74437957d00d4"
     },
     "/Lotus/Weapons/Grineer/Melee/GrnSharbola/GrnSharbolaWeapon": {
       "uniqueName": "/Lotus/Weapons/Grineer/Melee/GrnSharbola/GrnSharbolaWeapon",
@@ -4065,7 +4065,7 @@
         "url": "https://forums.warframe.com/topic/1327014-veilbreaker-revenant-prime-hotfix-3209/",
         "versionTag": "32.0.9"
       },
-      "sourceFingerprint": "sha256:2df93f6c04a429bd59a7031a6856fa60a778821f28fd45cf2bd6c5e2f3cfb021"
+      "sourceFingerprint": "sha256:0586e4d6f9be8c10e36b2f21c91169020c7a37ae5f2ff8be3fe01dac180de801"
     },
     "/Lotus/Weapons/Tenno/Melee/Whips/SpiderWhip/SpiderWhipWeapon": {
       "uniqueName": "/Lotus/Weapons/Tenno/Melee/Whips/SpiderWhip/SpiderWhipWeapon",
@@ -4073,7 +4073,7 @@
       "category": "Melee",
       "kind": "melee",
       "lastSourceUpdate": null,
-      "sourceFingerprint": "sha256:60a962e186f448938302be23b4d3bae94c41960de46ff7934ec748940b91497d"
+      "sourceFingerprint": "sha256:94bacf88ae1f52c978f809ef3341c06bfa0d03aaf8095a711601b80fd1921ebc"
     },
     "/Lotus/Weapons/Corpus/Melee/Gunblade/CrpGunBlade/CrpGunbladeWeapon": {
       "uniqueName": "/Lotus/Weapons/Corpus/Melee/Gunblade/CrpGunBlade/CrpGunbladeWeapon",
@@ -4086,7 +4086,7 @@
         "url": "https://forums.warframe.com/topic/1209933-the-steel-path-inaros-prime-2821/",
         "versionTag": "28.2.1"
       },
-      "sourceFingerprint": "sha256:f1e818bd66581489fb2a36af65fcde7bbddc900f0e5ed93660d4ef7367127126"
+      "sourceFingerprint": "sha256:dbe7d8f3edb82666459d5cee0a86827611098e1ca025e60b165d5420721962bd"
     },
     "/Lotus/Types/Friendly/PlayerControllable/Weapons/DuviriDualSwordsWeapon": {
       "uniqueName": "/Lotus/Types/Friendly/PlayerControllable/Weapons/DuviriDualSwordsWeapon",
@@ -4552,7 +4552,7 @@
       "category": "Melee",
       "kind": "melee",
       "lastSourceUpdate": null,
-      "sourceFingerprint": "sha256:d8c1dc167cb4026ac0149402058774769b2049593adb754f7f74666665b7db17"
+      "sourceFingerprint": "sha256:707e53e9b055b073461e7155bf50a77f7e6e6dfb54f19082233688db24889028"
     },
     "/Lotus/Weapons/Corpus/Melee/Glaive/CrpGhostCatcherGlaive/CrpGhostCatcherGlaive": {
       "uniqueName": "/Lotus/Weapons/Corpus/Melee/Glaive/CrpGhostCatcherGlaive/CrpGhostCatcherGlaive",
@@ -4565,7 +4565,7 @@
         "url": "https://forums.warframe.com/topic/1321162-veilbreaker-update-32/",
         "versionTag": "32"
       },
-      "sourceFingerprint": "sha256:714d6014bad782db98d7b2e8a98fbe36b3629fe15ff3b72d48d4e7ec5a7a79bc"
+      "sourceFingerprint": "sha256:b97a540b85f7c9b8a5fbdcd9cdaa3f2e47e32e4d17ea1d22cc139d9692c3abf9"
     },
     "/Lotus/Weapons/Tenno/Melee/SunDialAxe/SundialAxeWeapon": {
       "uniqueName": "/Lotus/Weapons/Tenno/Melee/SunDialAxe/SundialAxeWeapon",
@@ -4578,7 +4578,7 @@
         "url": "https://forums.warframe.com/topic/1234193-heart-of-deimos-tennogen-2931/",
         "versionTag": "29.3.1"
       },
-      "sourceFingerprint": "sha256:575545166726e98d82000b2f068701f7f4b739a5c7b3033194b681f015384933"
+      "sourceFingerprint": "sha256:405f6420b5dba7f95bba2c23dc333256a0e7f8aba321645c340a24148632004b"
     },
     "/Lotus/Weapons/Sentients/OperatorAmplifiers/Set2/Grip/SentAmpSet2GripPartA": {
       "uniqueName": "/Lotus/Weapons/Sentients/OperatorAmplifiers/Set2/Grip/SentAmpSet2GripPartA",

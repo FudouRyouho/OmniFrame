@@ -5300,7 +5300,7 @@
       "blocking_angle": 60
     },
     "introduced": "Update 8.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/DualCleavers.png?547b9",
+    "wikia_thumbnail": null,
     "wikia_url": "https://wiki.warframe.com/w/Dual_Cleavers"
   },
   {
@@ -5405,7 +5405,7 @@
       "blocking_angle": 60
     },
     "introduced": "Hotfix 7.7.3",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/DualEther.png?e911b",
+    "wikia_thumbnail": null,
     "wikia_url": "https://wiki.warframe.com/w/Dual_Ether"
   },
   {
@@ -5512,7 +5512,7 @@
       "blocking_angle": 60
     },
     "introduced": "Update 6.2",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/DualHeatSwords.png?bd93b",
+    "wikia_thumbnail": null,
     "wikia_url": "https://wiki.warframe.com/w/Dual_Heat_Swords"
   },
   {
@@ -5621,7 +5621,7 @@
       "blocking_angle": 60
     },
     "introduced": "Update 10.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/DualIchor.png?caea1",
+    "wikia_thumbnail": null,
     "wikia_url": "https://wiki.warframe.com/w/Dual_Ichor"
   },
   {
@@ -22901,7 +22901,7 @@
       "blocking_angle": 55
     },
     "introduced": "Vanilla",
-    "wikia_thumbnail": null,
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Skana.png?67dfa",
     "wikia_url": "https://wiki.warframe.com/w/Skana"
   },
   {
@@ -23011,7 +23011,7 @@
       "blocking_angle": 50
     },
     "introduced": "Update 5.0",
-    "wikia_thumbnail": null,
+    "wikia_thumbnail": "https://wiki.warframe.com/images/SkanaPrime.png?2d1ba",
     "wikia_url": "https://wiki.warframe.com/w/Skana_Prime"
   },
   {
@@ -23119,7 +23119,7 @@
       "blocking_angle": 55
     },
     "introduced": "Update 23.0",
-    "wikia_thumbnail": null,
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Skiajati.png?929c5",
     "wikia_url": "https://wiki.warframe.com/w/Skiajati"
   },
   {
@@ -23226,7 +23226,7 @@
       "blocking_angle": 55
     },
     "introduced": "Update 32.0",
-    "wikia_thumbnail": null,
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Slaytra.png?a775f",
     "wikia_url": "https://wiki.warframe.com/w/Slaytra"
   },
   {
@@ -23328,7 +23328,7 @@
       "blocking_angle": 45
     },
     "introduced": "Update 39.0",
-    "wikia_thumbnail": null,
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Spinnerex.png?7d5c8",
     "wikia_url": "https://wiki.warframe.com/w/Spinnerex"
   },
   {
@@ -23454,7 +23454,7 @@
       "blocking_angle": 45
     },
     "introduced": "Update 28.0",
-    "wikia_thumbnail": null,
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Stropha.png?f8de6",
     "wikia_url": "https://wiki.warframe.com/w/Stropha"
   },
   {
@@ -27740,7 +27740,7 @@
       "blocking_angle": 65
     },
     "introduced": "Update 43.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Wrath.png?ff3cf",
+    "wikia_thumbnail": null,
     "wikia_url": "https://wiki.warframe.com/w/Wrath"
   },
   {
@@ -27967,7 +27967,7 @@
       "blocking_angle": 55
     },
     "introduced": "Update 28.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Xoris.png?5c2e5",
+    "wikia_thumbnail": null,
     "wikia_url": "https://wiki.warframe.com/w/Xoris"
   },
   {
@@ -28152,7 +28152,7 @@
       "blocking_angle": 55
     },
     "introduced": "Update: Specters of the Rail 1",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Zenistar.png?27d70",
+    "wikia_thumbnail": null,
     "wikia_url": "https://wiki.warframe.com/w/Zenistar"
   },
   {

@@ -59,15 +59,46 @@ build importa su código, y Node resuelve por la ubicación del importador.
 
 | Comando | Qué hace | Cuándo |
 |---|---|---|
-| `npm run build:raw` | regenera `data/json/` desde el Public Export (~27 s de fetch, ~158 MB) | cuando DE actualiza, o en un clon nuevo |
+| `npm run build:raw` | regenera `data/json/` desde el Public Export (~5 min: el fetch baja los 15 idiomas) | cuando DE actualiza, o en un clon nuevo |
 | `npm run build` | refresca la **cosecha wiki** (`data/*.json`, el enriquecimiento) | cuando el wiki cambia |
 | `npm run diff:raw` | compara nuestro raw contra el de upstream | tras tocar `raw-build.ts` |
 | `npm run census` | censa qué campos de upstream no llegan a `public/data` | al buscar dato perdido |
 
-`diff:raw` **ya no espera diff vacío**: G-1 introdujo una divergencia deliberada (~620 ítems en
-`damage`). Lo que sigue siendo señal ahí es *solo-upstream / solo-nuestro ≠ 0*, o cualquier campo que
-no sea `damage`. El árbitro del dataset es `git diff Project/public/data` tras correr
-`generate-data.ts`.
+`diff:raw` **ya no espera diff vacío**: hay dos divergencias deliberadas — G-1 (~620 ítems en
+`damage`) y el control de acción (10 archivos que no emitimos). Ambas se descuentan. Lo que sigue
+siendo señal ahí es *solo-upstream / solo-nuestro ≠ 0* dentro de una categoría que sí emitimos, o
+cualquier campo que no sea `damage`.
+
+El árbitro del dataset es `git diff Project/public/data` tras correr `generate-data.ts`.
+⚠️ **Tiene un ruido conocido:** `wikia_thumbnail` es scrape del wiki en vivo y aparece/desaparece
+entre corridas (~13 armas). Viaja en el contrato y en `shared/types/*`, pero **ningún componente lo
+consume** — candidato a dejar de emitirse, lo que limpiaría el árbitro. Es contrato de salida, no
+control de acción: decisión aparte.
+
+## Qué emitimos y qué no
+
+El raw pasó de **149 MB a 28 MB**. Medido, no supuesto: se rastreó de qué categoría del raw viene
+cada ítem que llega a `public/data`.
+
+- **15 categorías emitidas** — las que alimentan algún artefacto.
+- **`Node` se emite sin consumidor**, a propósito: es `ExportRegions` (nivel y facción de los 269
+  nodos del Star Chart), 1,2 MB, el único dato de enemigos fresco que sobrevive al fósil.
+- **8 categorías no se emiten** — Fish, Gear, Glyphs, Quests, Relics, Resources, Sigils, Skins: no
+  aportan un solo ítem a ningún artefacto (~15 MB).
+- **`All.json` (57 MB) e `i18n.json` (50 MB) tampoco** — el agregado que el loader ya excluía, y
+  traducciones que nadie pide. Eran el 72% del raw.
+
+Dos cosas que no son obvias y sostienen esto:
+
+1. **El filtro es de emisión, no de parseo.** `dedupImageNames` corre antes y sobre *todas* las
+   categorías: resuelve colisiones de `imageName` entre ellas. Filtrar aguas arriba cambiaría los
+   nombres de lo que sí emitimos y rompería `get-img.mjs`.
+2. **El build purga lo que ya no corresponde.** Dejar de escribir no borra, y el loader lista el
+   directorio — sin la purga, un archivo de un build anterior se seguiría cargando.
+
+Lo que **no** se ahorra es red: el fetch baja los 15 idiomas igual. `locales` se lee del
+`config/locales.json` del clon a nivel de módulo, así que recortarlo exige tocar upstream pristino o
+reimplementar `fetchResources`. Diferido: el costo es tiempo de build, no dato.
 
 ## Catálogo de gaps
 

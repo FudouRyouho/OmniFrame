@@ -36,7 +36,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — síntoma resuelto en el consumidor (cascada); **causa raíz en el parser de upstream**, alcance fuera del enemigo sin medir |
-| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — el raw es propio y Project lo consume (build + loader + G-1 corregido); queda la **fase 2** (control de acción: qué categorías y locales emitir); no bloquea |
+| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — el raw es propio, Project lo consume, G-1 corregido y el control de acción aplicado (149→28 MB). Residual angosto: recortar locales (exige tocar upstream) y limpieza de la dependencia; no bloquea |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
 | `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
@@ -729,7 +729,7 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 
 ---
 
-## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA — el raw ya es propio: build, loader y G-1 corregido; queda el control de acción (categorías y locales)**
+## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA — el raw es propio y controlado: build, loader, G-1 y control de acción. Residual: locales + limpieza de dependencia**
 
 **Dominio:** data / pipeline / fuente
 
@@ -1031,6 +1031,20 @@ nativo de esta fase).
   no sea `damage`. Efecto medido: 480 armas cambian `stats.damage` en `public/data`, `attacks[]` no se
   toca en ninguna, y el comportamiento del engine cambia **en una sola** (Dark Split-Sword, físicos
   casi equidistribuidos) — la corrección es preventiva. Detalle en `../domains/source/gaps.md` §G-1.
+- **Control de acción ✅ (fase 2)** — el raw pasa de **149 MB a 28 MB**. Se emiten 15 categorías (las
+  que alimentan algún artefacto, rastreadas ítem por ítem) más `Node` sin consumidor a propósito
+  (`ExportRegions`, 1,2 MB). No se emiten 8 categorías sin consumidor (~15 MB) ni `All.json`/`i18n.json`
+  (107 MB, el 72% del raw). **El filtro es de emisión, no de parseo** — `dedupImageNames` debe seguir
+  viendo todas las categorías o cambian los `imageName` de lo que sí emitimos y se rompe `get-img`. Y
+  **el build purga** lo que ya no corresponde: dejar de escribir no borra, y el loader lista el
+  directorio. Dataset sin cambios (`git diff public/data` sólo mueve `wikia_thumbnail`), suite verde.
+- **Residual: los locales.** El fetch sigue bajando los 15 idiomas (~5 min de build). `locales` se lee
+  del `config/locales.json` del clon **a nivel de módulo**, así que recortarlo exige tocar upstream
+  pristino o reimplementar `fetchResources`. El costo es tiempo de build, no dato → diferido.
+- **Ruido conocido del árbitro fuerte:** `wikia_thumbnail` es scrape del wiki en vivo y
+  aparece/desaparece entre corridas (~13 armas por regeneración). Viaja en el contrato y en
+  `shared/types/*` pero **ningún componente lo consume**: dejar de emitirlo limpiaría el árbitro. Es
+  contrato de salida, no control de acción → decisión aparte, no ejecutada.
 - **Residual de limpieza:** Project declara `@wfcd/items` pero sólo lo usa un script archivado. Cortar
   esa dependencia elimina también el stub del Dockerfile, que existe únicamente porque
   `file:../warframe-items` dispara un `prepare` con husky que rompe el install en Linux. No ejecutado.
