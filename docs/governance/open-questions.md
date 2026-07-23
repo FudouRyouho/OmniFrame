@@ -1023,15 +1023,18 @@ nativo de esta fase).
 - **Entradas wiki-only:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en
   el wiki). Emitirlas exige cosechar también sus stats base del wiki → cambia la procedencia del stat base
   (hoy siempre export). No ejecutado; ver `OQ-DATA-15` (residual) y el §6 del schema.
-- **🔴 El build propio no es determinista.** Entre dos corridas idénticas el delta contra el raw de
-  upstream pasó de ~400 ítems a 14, sin cambiar nada. Pista: los 3 ítems con `imageName` distinto son los
-  tres Merulina Prime y el valor se **intercambia** entre corridas → empate en el `group.sort` de
-  `dedupImageNames` (misma categoría ⇒ misma prioridad ⇒ decide el orden de entrada). Es sensibilidad al
-  orden del input, no lógica distinta. **Bloquea la fase 1**: un árbitro que cambia solo no distingue
-  "nuestro build está mal" de "el mundo cambió". Árbitro reusable: `omniframe-items/build/diff-raw.mjs`.
-- **Falta el loader propio** → sin él Project sigue leyendo el raw de upstream y el árbitro real
-  (`git diff public/data` vacío) no se puede correr. Estado del diff raw-vs-raw hoy: 21/26 archivos
-  idénticos byte a byte, difieren 5 en 14 ítems sobre 16.889 (0,08%), casi todo `wikiaThumbnail`.
+- **El raw propio es equivalente al de upstream: 26/26 archivos**, con el árbitro
+  `omniframe-items/build/diff-raw.mjs`. Lo que parecía no-determinismo era **ruido con causa conocida**,
+  no lógica inestable: `wikiaThumbnail` (scrape del wiki en vivo — cambia porque el wiki cambió),
+  `imageName` (empate en el `group.sort` de `dedupImageNames`: misma categoría ⇒ misma prioridad ⇒ decide
+  el orden de entrada), `itemCount`/`patchlogs` derivados. El árbitro los descuenta y normaliza el orden
+  de claves; `--strict` compara todo. **Ya no bloquea la fase.** Ninguno de esos campos toca el engine, y
+  el día que introduzcamos una divergencia deliberada (G-1) el árbitro la va a mostrar limpia.
+- **Falta el loader propio** → sin él Project sigue leyendo el raw de upstream y el árbitro fuerte
+  (`git diff public/data` vacío) no se puede correr. Es lo único que separa la fase 1 de su cierre.
+- **Orden a respetar:** G-1 (corregir puncture↔slash en el raw propio) va **después** del loader. Es la
+  primera divergencia deliberada contra upstream: introducida antes, `diff-raw` reportaría 486 armas
+  cambiadas por diseño y perderíamos el árbitro justo cuando empieza a servir.
 - **Dependencias estáticas de upstream sin auditar:** su `warnings.json` (de donde sale `failedImage`, que
   alimenta `dedupImageNames`) y su `data/img` (605 MB). Si upstream deja de publicarlas, envejecen en
   silencio igual que `Enemy.json`. Ver [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).

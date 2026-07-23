@@ -201,6 +201,21 @@ Vecinos inventariados, **no modelados** — cada uno diferido a su propio caso+d
 > El heavy slam base ya servido (Nikana 594, blast) es **stat puro**, sin el multiplicador de combo ni el
 > factor de distancia. Es la base del perfil, no el slam completo.
 
+> ⚠️ **Duda abierta: qué mitad del slam estamos sirviendo.** El export trae, para las 223 melee, un
+> **par** por cada slam —impacto directo y radial— y nuestro dataset conserva **uno solo**, sin que el
+> nombre lo diga. Nikana Prime: el export da `slamAttack 594` / `slamRadialDamage 396` y
+> `heavySlamAttack 792` / `heavySlamRadialDamage 594`; nuestro `attacks[]` (wiki) da *Slam Attack* 396
+> y *Heavy Slam Attack* 594. Coinciden **desplazados**: lo que servimos como el ataque es lo que el
+> export llama radial, y el impacto directo no llega a `public/data`.
+>
+> El 594 que este ladrillo modela está validado contra el arsenal, así que el número **no está mal**
+> — lo que está sin resolver es **qué representa** y si falta la otra mitad del par.
+>
+> **Pregunta ejecutable (necesita partida, no análisis):** con Nikana Prime sin mods, ¿el enemigo bajo
+> el punto de impacto y uno al borde del radio reciben números distintos? Si sí, ¿cuál de los dos es
+> 594? Eso decide si `attacks[]` nos está dando el directo o el radial, y si el par hay que propagarlo
+> entero desde el export. Ver `../../source/gaps.md` §G-3.
+
 ## 6 — Estado / worklist (SSoT)
 
 Reemplaza el worklist de OQ-ENGINE-14. Patrón §8/§9/§10 (cada mecánica con su caso+dato real, no scaffolding).
