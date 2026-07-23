@@ -12,7 +12,10 @@
   "main": "index.mjs",
   "types": "index.d.ts",
   "scripts": {
-    "build": "node build/build.mjs"
+    "build": "node build/build.mjs",
+    "build:raw": "tsx build/raw-build.ts",
+    "diff:raw": "node build/diff-raw.mjs",
+    "census": "node build/census-fields.mjs"
   },
   "dependencies": {
     "@wfcd/items": "file:../warframe-items",

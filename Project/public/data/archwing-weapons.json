@@ -1,63 +1,5 @@
 [
   {
-    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon",
-    "name": "Agkuza",
-    "image": "/assets/items/Agkuza.png.png",
-    "image_name": "Agkuza.png",
-    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon",
-    "domain": "weapon",
-    "kind": "archmelee",
-    "family": "arch-melee",
-    "category": "Arch-Melee",
-    "type": "Arch-Melee",
-    "mastery_req": 3,
-    "polarities": [
-      "vazarin"
-    ],
-    "tags": [
-      "tenno"
-    ],
-    "description": "Tear apart incoming enemies with this massive hooked blade.",
-    "product_category": "SpaceMelee",
-    "is_prime": false,
-    "tradable": false,
-    "stats": {
-      "damage": {
-        "impact": 65.400002,
-        "puncture": 65.399986,
-        "slash": 305.19998
-      },
-      "total_damage": 435.99997,
-      "crit_chance": 0.050000001,
-      "crit_mult": 1.5,
-      "status_chance": 0.14999998,
-      "attacks": [
-        {
-          "name": "Normal Attack",
-          "damage": {
-            "impact": 65.4,
-            "slash": 65.4,
-            "puncture": 305.2
-          },
-          "total_damage": 436,
-          "crit_chance": 0.05,
-          "crit_mult": 1.5,
-          "status_chance": 0.15,
-          "speed": 1,
-          "shot_type": null,
-          "flight": null,
-          "falloff": null,
-          "slide": null,
-          "charge_time": null,
-          "punch_through": 0
-        }
-      ]
-    },
-    "introduced": "Update: Specters of the Rail 0.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Agkuza.png?5cbfc",
-    "wikia_url": "https://wiki.warframe.com/w/Agkuza"
-  },
-  {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun",
     "name": "Arbucep",
     "image": "/assets/items/NokkoArchGun.png.png",
@@ -346,64 +288,6 @@
     "introduced": "Update 40.0",
     "wikia_thumbnail": "https://wiki.warframe.com/images/Arbucep.png?37aa2",
     "wikia_url": "https://wiki.warframe.com/w/Arbucep"
-  },
-  {
-    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield",
-    "name": "Centaur",
-    "image": "/assets/items/Centaur.png.png",
-    "image_name": "Centaur.png",
-    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield",
-    "domain": "weapon",
-    "kind": "archmelee",
-    "family": "arch-melee",
-    "category": "Arch-Melee",
-    "type": "Arch-Melee",
-    "mastery_req": 8,
-    "polarities": [
-      "madurai"
-    ],
-    "tags": [
-      "tenno"
-    ],
-    "description": "Part sword, part shield, the Centaur excels at charging headlong into enemy fire.",
-    "product_category": "SpaceMelee",
-    "is_prime": false,
-    "tradable": false,
-    "stats": {
-      "damage": {
-        "impact": 37.600002,
-        "puncture": 263.19998,
-        "slash": 75.200005
-      },
-      "total_damage": 376,
-      "crit_chance": 0.25,
-      "crit_mult": 2,
-      "status_chance": 0.19999999,
-      "attacks": [
-        {
-          "name": "Normal Attack",
-          "damage": {
-            "impact": 37.6,
-            "slash": 263.2,
-            "puncture": 75.2
-          },
-          "total_damage": 376,
-          "crit_chance": 0.25,
-          "crit_mult": 2,
-          "status_chance": 0.2,
-          "speed": 1.08,
-          "shot_type": null,
-          "flight": null,
-          "falloff": null,
-          "slide": null,
-          "charge_time": null,
-          "punch_through": 0
-        }
-      ]
-    },
-    "introduced": "Hotfix 15.7.2",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Centaur.png?ad3fd",
-    "wikia_url": "https://wiki.warframe.com/w/Centaur"
   },
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ThanoTechArchGun/ThanoTechArchGun",
@@ -1042,122 +926,6 @@
     "introduced": "Update 15.8",
     "wikia_thumbnail": "https://wiki.warframe.com/images/ImperatorVandal.png?a8014",
     "wikia_url": "https://wiki.warframe.com/w/Imperator_Vandal"
-  },
-  {
-    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe",
-    "name": "Kaszas",
-    "image": "/assets/items/Kaszas.png.png",
-    "image_name": "Kaszas.png",
-    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe",
-    "domain": "weapon",
-    "kind": "archmelee",
-    "family": "arch-melee",
-    "category": "Arch-Melee",
-    "type": "Arch-Melee",
-    "mastery_req": 4,
-    "polarities": [
-      "vazarin"
-    ],
-    "tags": [
-      "tenno"
-    ],
-    "description": "Become an angel of death, with this Archwing scythe.",
-    "product_category": "SpaceMelee",
-    "is_prime": false,
-    "tradable": false,
-    "stats": {
-      "damage": {
-        "impact": 19.6,
-        "puncture": 58.799992,
-        "slash": 313.60001
-      },
-      "total_damage": 392,
-      "crit_chance": 0.15000001,
-      "crit_mult": 2,
-      "status_chance": 0.19999999,
-      "attacks": [
-        {
-          "name": "Normal Attack",
-          "damage": {
-            "impact": 19.7,
-            "slash": 58.7,
-            "puncture": 313.6
-          },
-          "total_damage": 392,
-          "crit_chance": 0.15,
-          "crit_mult": 2,
-          "status_chance": 0.2,
-          "speed": 1,
-          "shot_type": null,
-          "flight": null,
-          "falloff": null,
-          "slide": null,
-          "charge_time": null,
-          "punch_through": 0
-        }
-      ]
-    },
-    "introduced": "Update 17.5",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Kaszas.png?9fcb4",
-    "wikia_url": "https://wiki.warframe.com/w/Kaszas"
-  },
-  {
-    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon",
-    "name": "Knux",
-    "image": "/assets/items/Knux.png.png",
-    "image_name": "Knux.png",
-    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon",
-    "domain": "weapon",
-    "kind": "archmelee",
-    "family": "arch-melee",
-    "category": "Arch-Melee",
-    "type": "Arch-Melee",
-    "mastery_req": 7,
-    "polarities": [
-      "vazarin"
-    ],
-    "tags": [
-      "grineer"
-    ],
-    "description": "Gallium-alloy gauntlets for close-range Archwing combat. Designed by the infamous Tyl Regor.",
-    "product_category": "SpaceMelee",
-    "is_prime": false,
-    "tradable": false,
-    "stats": {
-      "damage": {
-        "impact": 400.5,
-        "puncture": 22.250006,
-        "slash": 22.25
-      },
-      "total_damage": 445,
-      "crit_chance": 0.13,
-      "crit_mult": 2,
-      "status_chance": 0.30000001,
-      "attacks": [
-        {
-          "name": "Normal Attack",
-          "damage": {
-            "impact": 400.5,
-            "slash": 22.25,
-            "puncture": 22.25
-          },
-          "total_damage": 445,
-          "crit_chance": 0.13,
-          "crit_mult": 2,
-          "status_chance": 0.3,
-          "speed": 1,
-          "shot_type": null,
-          "flight": null,
-          "falloff": null,
-          "slide": null,
-          "charge_time": null,
-          "punch_through": 0
-        }
-      ]
-    },
-    "introduced": "Update 17.2",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Knux.png?2d0e0",
-    "wikia_url": "https://wiki.warframe.com/w/Knux"
   },
   {
     "id": "/Lotus/Weapons/Grineer/HeavyWeapons/GrnHeavyGrenadeLauncher",
@@ -1841,64 +1609,6 @@
     "wikia_url": "https://wiki.warframe.com/w/Morgha"
   },
   {
-    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon",
-    "name": "Onorix",
-    "image": "/assets/items/Onorix.png.png",
-    "image_name": "Onorix.png",
-    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon",
-    "domain": "weapon",
-    "kind": "archmelee",
-    "family": "arch-melee",
-    "category": "Arch-Melee",
-    "type": "Arch-Melee",
-    "mastery_req": 1,
-    "polarities": [
-      "madurai"
-    ],
-    "tags": [
-      "tenno"
-    ],
-    "description": "This laser bladed battle-axe easily hacks through a ship's defenses and the forces protecting it.",
-    "product_category": "SpaceMelee",
-    "is_prime": false,
-    "tradable": false,
-    "stats": {
-      "damage": {
-        "impact": 123.60001,
-        "puncture": 206,
-        "slash": 82.400002
-      },
-      "total_damage": 412,
-      "crit_chance": 0.15000001,
-      "crit_mult": 1.25,
-      "status_chance": 0.050000012,
-      "attacks": [
-        {
-          "name": "Normal Attack",
-          "damage": {
-            "impact": 123.6,
-            "slash": 206,
-            "puncture": 82.4
-          },
-          "total_damage": 412,
-          "crit_chance": 0.15,
-          "crit_mult": 1.3,
-          "status_chance": 0.05,
-          "speed": 1,
-          "shot_type": null,
-          "flight": null,
-          "falloff": null,
-          "slide": null,
-          "charge_time": null,
-          "punch_through": 0
-        }
-      ]
-    },
-    "introduced": "Update 15.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Onorix.png?f4784",
-    "wikia_url": "https://wiki.warframe.com/w/Onorix"
-  },
-  {
     "id": "/Lotus/Weapons/Tenno/Archwing/Primary/ArchLongRifle/ArchLongRifle",
     "name": "Phaedra",
     "image": "/assets/items/Phaedra.png.png",
@@ -2025,6 +1735,374 @@
     "wikia_url": "https://wiki.warframe.com/w/Prisma_Dual_Decurions"
   },
   {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun",
+    "name": "Velocitus",
+    "image": "/assets/items/Velocitus.png.png",
+    "image_name": "Velocitus.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun",
+    "domain": "weapon",
+    "kind": "archgun",
+    "family": "arch-gun",
+    "category": "Arch-Gun",
+    "type": "Arch-Gun",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [
+      "tenno"
+    ],
+    "description": "When fully charged, the magnetized barrel of the Velocitus accelerates a metal slug to tremendous speeds, piercing hulls and obliterating armor.",
+    "product_category": "SpaceGuns",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 400,
+        "puncture": 400,
+        "slash": 400,
+        "magnetic": 400
+      },
+      "total_damage": 1600,
+      "crit_chance": 0.30000001,
+      "crit_mult": 2,
+      "status_chance": 0.25,
+      "attacks": [
+        {
+          "name": "Uncharged Shot",
+          "damage": {
+            "impact": 150,
+            "slash": 150,
+            "puncture": 150,
+            "magnetic": 150
+          },
+          "total_damage": 600,
+          "crit_chance": 0.3,
+          "crit_mult": 2,
+          "status_chance": 0.25,
+          "speed": 5,
+          "shot_type": "Projectile",
+          "flight": 500,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        },
+        {
+          "name": "Charged Shot",
+          "damage": {
+            "impact": 400,
+            "slash": 400,
+            "puncture": 400,
+            "magnetic": 400
+          },
+          "total_damage": 1600,
+          "crit_chance": 0.6,
+          "crit_mult": 3.6,
+          "status_chance": 0.25,
+          "speed": 5,
+          "shot_type": "Projectile",
+          "flight": 500,
+          "falloff": null,
+          "slide": null,
+          "charge_time": 1,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Velocitus.png?26b5b",
+    "wikia_url": "https://wiki.warframe.com/w/Velocitus"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon",
+    "name": "Agkuza",
+    "image": "/assets/items/Agkuza.png.png",
+    "image_name": "Agkuza.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchSwordHook/ArchHookSwordWeapon",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 3,
+    "polarities": [
+      "vazarin"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Tear apart incoming enemies with this massive hooked blade.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 65.400002,
+        "puncture": 65.399986,
+        "slash": 305.19998
+      },
+      "total_damage": 435.99997,
+      "crit_chance": 0.050000001,
+      "crit_mult": 1.5,
+      "status_chance": 0.14999998,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 65.4,
+            "slash": 65.4,
+            "puncture": 305.2
+          },
+          "total_damage": 436,
+          "crit_chance": 0.05,
+          "crit_mult": 1.5,
+          "status_chance": 0.15,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update: Specters of the Rail 0.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Agkuza.png?5cbfc",
+    "wikia_url": "https://wiki.warframe.com/w/Agkuza"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield",
+    "name": "Centaur",
+    "image": "/assets/items/Centaur.png.png",
+    "image_name": "Centaur.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archswordandshield/ArchSwordShield",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 8,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Part sword, part shield, the Centaur excels at charging headlong into enemy fire.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 37.600002,
+        "puncture": 263.19998,
+        "slash": 75.200005
+      },
+      "total_damage": 376,
+      "crit_chance": 0.25,
+      "crit_mult": 2,
+      "status_chance": 0.19999999,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 37.6,
+            "slash": 263.2,
+            "puncture": 75.2
+          },
+          "total_damage": 376,
+          "crit_chance": 0.25,
+          "crit_mult": 2,
+          "status_chance": 0.2,
+          "speed": 1.08,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Hotfix 15.7.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Centaur.png?ad3fd",
+    "wikia_url": "https://wiki.warframe.com/w/Centaur"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe",
+    "name": "Kaszas",
+    "image": "/assets/items/Kaszas.png.png",
+    "image_name": "Kaszas.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/ArchScythe/ArchScythe",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 4,
+    "polarities": [
+      "vazarin"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "Become an angel of death, with this Archwing scythe.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 19.6,
+        "puncture": 58.799992,
+        "slash": 313.60001
+      },
+      "total_damage": 392,
+      "crit_chance": 0.15000001,
+      "crit_mult": 2,
+      "status_chance": 0.19999999,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 19.7,
+            "slash": 58.7,
+            "puncture": 313.6
+          },
+          "total_damage": 392,
+          "crit_chance": 0.15,
+          "crit_mult": 2,
+          "status_chance": 0.2,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 17.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Kaszas.png?9fcb4",
+    "wikia_url": "https://wiki.warframe.com/w/Kaszas"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon",
+    "name": "Knux",
+    "image": "/assets/items/Knux.png.png",
+    "image_name": "Knux.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/GrnArchHand/GrnArchHandWeapon",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 7,
+    "polarities": [
+      "vazarin"
+    ],
+    "tags": [
+      "grineer"
+    ],
+    "description": "Gallium-alloy gauntlets for close-range Archwing combat. Designed by the infamous Tyl Regor.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 400.5,
+        "puncture": 22.250006,
+        "slash": 22.25
+      },
+      "total_damage": 445,
+      "crit_chance": 0.13,
+      "crit_mult": 2,
+      "status_chance": 0.30000001,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 400.5,
+            "slash": 22.25,
+            "puncture": 22.25
+          },
+          "total_damage": 445,
+          "crit_chance": 0.13,
+          "crit_mult": 2,
+          "status_chance": 0.3,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 17.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Knux.png?2d0e0",
+    "wikia_url": "https://wiki.warframe.com/w/Knux"
+  },
+  {
+    "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon",
+    "name": "Onorix",
+    "image": "/assets/items/Onorix.png.png",
+    "image_name": "Onorix.png",
+    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Melee/Archaxe/ArchAxeWeapon",
+    "domain": "weapon",
+    "kind": "archmelee",
+    "family": "arch-melee",
+    "category": "Arch-Melee",
+    "type": "Arch-Melee",
+    "mastery_req": 1,
+    "polarities": [
+      "madurai"
+    ],
+    "tags": [
+      "tenno"
+    ],
+    "description": "This laser bladed battle-axe easily hacks through a ship's defenses and the forces protecting it.",
+    "product_category": "SpaceMelee",
+    "is_prime": false,
+    "tradable": false,
+    "stats": {
+      "damage": {
+        "impact": 123.60001,
+        "puncture": 206,
+        "slash": 82.400002
+      },
+      "total_damage": 412,
+      "crit_chance": 0.15000001,
+      "crit_mult": 1.25,
+      "status_chance": 0.050000012,
+      "attacks": [
+        {
+          "name": "Normal Attack",
+          "damage": {
+            "impact": 123.6,
+            "slash": 206,
+            "puncture": 82.4
+          },
+          "total_damage": 412,
+          "crit_chance": 0.15,
+          "crit_mult": 1.3,
+          "status_chance": 0.05,
+          "speed": 1,
+          "shot_type": null,
+          "flight": null,
+          "falloff": null,
+          "slide": null,
+          "charge_time": null,
+          "punch_through": 0
+        }
+      ]
+    },
+    "introduced": "Update 15.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Onorix.png?f4784",
+    "wikia_url": "https://wiki.warframe.com/w/Onorix"
+  },
+  {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/VoidTraderArchsword/VTArchSwordWeapon",
     "name": "Prisma Veritux",
     "image": "/assets/items/PrismaVeritux.png.png",
@@ -2140,84 +2218,6 @@
     "introduced": "Update 15.2",
     "wikia_thumbnail": "https://wiki.warframe.com/images/Rathbone.png?255ff",
     "wikia_url": "https://wiki.warframe.com/w/Rathbone"
-  },
-  {
-    "id": "/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun",
-    "name": "Velocitus",
-    "image": "/assets/items/Velocitus.png.png",
-    "image_name": "Velocitus.png",
-    "unique_name": "/Lotus/Weapons/Tenno/Archwing/Primary/Railgun/ArchRailgun",
-    "domain": "weapon",
-    "kind": "archgun",
-    "family": "arch-gun",
-    "category": "Arch-Gun",
-    "type": "Arch-Gun",
-    "mastery_req": 0,
-    "polarities": [],
-    "tags": [
-      "tenno"
-    ],
-    "description": "When fully charged, the magnetized barrel of the Velocitus accelerates a metal slug to tremendous speeds, piercing hulls and obliterating armor.",
-    "product_category": "SpaceGuns",
-    "is_prime": false,
-    "tradable": false,
-    "stats": {
-      "damage": {
-        "impact": 400,
-        "puncture": 400,
-        "slash": 400,
-        "magnetic": 400
-      },
-      "total_damage": 1600,
-      "crit_chance": 0.30000001,
-      "crit_mult": 2,
-      "status_chance": 0.25,
-      "attacks": [
-        {
-          "name": "Uncharged Shot",
-          "damage": {
-            "impact": 150,
-            "slash": 150,
-            "puncture": 150,
-            "magnetic": 150
-          },
-          "total_damage": 600,
-          "crit_chance": 0.3,
-          "crit_mult": 2,
-          "status_chance": 0.25,
-          "speed": 5,
-          "shot_type": "Projectile",
-          "flight": 500,
-          "falloff": null,
-          "slide": null,
-          "charge_time": null,
-          "punch_through": 0
-        },
-        {
-          "name": "Charged Shot",
-          "damage": {
-            "impact": 400,
-            "slash": 400,
-            "puncture": 400,
-            "magnetic": 400
-          },
-          "total_damage": 1600,
-          "crit_chance": 0.6,
-          "crit_mult": 3.6,
-          "status_chance": 0.25,
-          "speed": 5,
-          "shot_type": "Projectile",
-          "flight": 500,
-          "falloff": null,
-          "slide": null,
-          "charge_time": 1,
-          "punch_through": 0
-        }
-      ]
-    },
-    "introduced": "Update 15.2",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Velocitus.png?26b5b",
-    "wikia_url": "https://wiki.warframe.com/w/Velocitus"
   },
   {
     "id": "/Lotus/Weapons/Tenno/Archwing/Melee/Archsword/ArchSwordWeapon",

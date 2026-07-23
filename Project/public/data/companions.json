@@ -220,77 +220,6 @@
     "wikia_url": "https://wiki.warframe.com/w/Bhaira_Hound"
   },
   {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit",
-    "name": "Carrier",
-    "image": "/assets/items/Carrier.png.png",
-    "image_name": "Carrier.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "vazarin",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Assault Mode' and 'Ammo Case' as default Precepts, Carrier is a seeker Sentinel. Carrier also comes with a shotgun weapon.",
-    "stats": {
-      "health": 560,
-      "shield": 250,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 10.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Carrier.png?fb038",
-    "wikia_url": "https://wiki.warframe.com/w/Carrier"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit",
-    "name": "Carrier Prime",
-    "image": "/assets/items/CarrierPrime.png.png",
-    "image_name": "CarrierPrime.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "prime",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "madurai",
-      "penjaga",
-      "vazarin",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "This ornate sentinel is an excellent example of late Orokin craftsmanship and styling.",
-    "stats": {
-      "health": 650,
-      "shield": 300,
-      "armor": 150
-    },
-    "is_prime": true,
-    "tradable": true,
-    "introduced": "Update 16.11",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/CarrierPrime.png?5bad8",
-    "wikia_url": "https://wiki.warframe.com/w/Carrier%2FPrime"
-  },
-  {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsA",
     "name": "Cela Bracket",
     "image": "/assets/items/ZanukaPetLegsA.png.png",
@@ -428,144 +357,6 @@
     "introduced": null,
     "wikia_thumbnail": null,
     "wikia_url": null
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit",
-    "name": "Dethcube",
-    "image": "/assets/items/Dethcube.png.png",
-    "image_name": "Dethcube.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Assault Mode' and 'Vaporize' as default precepts, Dethcube acts exactly as advertised, as a badass cube of 'deth'. Comes loaded with Deth Machine Rifle weapon.",
-    "stats": {
-      "health": 560,
-      "shield": 250,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 8.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Dethcube.png?d7366",
-    "wikia_url": "https://wiki.warframe.com/w/Dethcube"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit",
-    "name": "Dethcube Prime",
-    "image": "/assets/items/DethcubePrime.png.png",
-    "image_name": "DethcubePrime.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "prime",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "vazarin",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Assault Mode' and 'Vaporize' as default precepts, Dethcube Prime is the apex of lethal support. Comes loaded with Deth Machine Rifle Prime weapon.",
-    "stats": {
-      "health": 600,
-      "shield": 300,
-      "armor": 150
-    },
-    "is_prime": true,
-    "tradable": true,
-    "introduced": "Update 25.8",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/DethcubePrime.png?75332",
-    "wikia_url": "https://wiki.warframe.com/w/Dethcube%2FPrime"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit",
-    "name": "Diriga",
-    "image": "/assets/items/Diriga.png.png",
-    "image_name": "Diriga.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "Diriga shocks nearby enemies, and picks off distant threats, utilizing the Vulklok sniper rifle and the 'Calculated Shot', 'Arc Coil' and 'Electro Pulse' precepts.",
-    "stats": {
-      "health": 700,
-      "shield": 150,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 17.3",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Diriga.png?95532",
-    "wikia_url": "https://wiki.warframe.com/w/Diriga"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit",
-    "name": "Djinn",
-    "image": "/assets/items/Djinn.png.png",
-    "image_name": "Djinn.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "naramon",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Thumper' and 'Fatal Attraction' as default Precepts, Djinn is a combat Sentinel. Djinn also comes with a poison dart weapon.",
-    "stats": {
-      "health": 560,
-      "shield": 250,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 10.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Djinn.png?2bee3",
-    "wikia_url": "https://wiki.warframe.com/w/Djinn"
   },
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadA",
@@ -838,76 +629,6 @@
     "introduced": "Update 30.5",
     "wikia_thumbnail": "https://wiki.warframe.com/images/HecHound.png?ddd84",
     "wikia_url": "https://wiki.warframe.com/w/Hec_Hound"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit",
-    "name": "Helios",
-    "image": "/assets/items/Helios.png.png",
-    "image_name": "Helios.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "vazarin",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Investigator' as its unique Precept and 'Deconstructor' as its weapon, the versatile Helios Sentinel acts as both a lethal guardian and an automatic codex scanner. Scans require an equipped Codex Scanner and an available charge.",
-    "stats": {
-      "health": 560,
-      "shield": 250,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 12.5",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Helios.png?a5e25",
-    "wikia_url": "https://wiki.warframe.com/w/Helios"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit",
-    "name": "Helios Prime",
-    "image": "/assets/items/HeliosPrime.png.png",
-    "image_name": "HeliosPrime.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "prime",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "vazarin",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "This knowledge hungry protector defends its master with Deconstructor Prime.",
-    "stats": {
-      "health": 700,
-      "shield": 300,
-      "armor": 100
-    },
-    "is_prime": true,
-    "tradable": true,
-    "introduced": "Hotfix 19.11.5",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/HeliosPrime.png?c4d66",
-    "wikia_url": "https://wiki.warframe.com/w/Helios%2FPrime"
   },
   {
     "id": "/Lotus/Types/Game/KubrowPet/ChargerKubrowPetPowerSuit",
@@ -1340,75 +1061,6 @@
     "wikia_url": null
   },
   {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit",
-    "name": "Nautilus",
-    "image": "/assets/items/EmpyreanSentinel.png.png",
-    "image_name": "EmpyreanSentinel.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Auto Omni' and 'Cordon' as default Precepts, this Sentinel is the ideal companion for long voyages aboard a Railjack.",
-    "stats": {
-      "health": 560,
-      "shield": 250,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 29.10",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Nautilus.png?f0f26",
-    "wikia_url": "https://wiki.warframe.com/w/Nautilus"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit",
-    "name": "Nautilus Prime",
-    "image": "/assets/items/NautilusPrime.png.png",
-    "image_name": "NautilusPrime.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "prime",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "vazarin",
-      "penjaga",
-      "penjaga",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "This brave deckhand defends his crew with Verglas Prime.",
-    "stats": {
-      "health": 560,
-      "shield": 350,
-      "armor": 175
-    },
-    "is_prime": true,
-    "tradable": true,
-    "introduced": "Update 36.1",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/NautilusPrime.png?63a43",
-    "wikia_url": "https://wiki.warframe.com/w/Nautilus%2FPrime"
-  },
-  {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadMelee",
     "name": "Nychus Moa",
     "image": "/assets/items/PetMoaMeleeHead.png.png",
@@ -1465,41 +1117,6 @@
     "introduced": "Update 24.0",
     "wikia_thumbnail": "https://wiki.warframe.com/images/OloroMOA.png?ed998",
     "wikia_url": "https://wiki.warframe.com/w/Oloro_Moa"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit",
-    "name": "Oxylus",
-    "image": "/assets/items/Oxylus.png.png",
-    "image_name": "Oxylus.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "vazarin",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Scan Aquatic Lifeforms' and 'Scan Matter' as default Precepts, Oxylus was designed to assist in Search-and-Rescue operations through the harsh landscape around The Orb Vallis. Oxylus also comes with a Multron rifle.",
-    "stats": {
-      "health": 560,
-      "shield": 250,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 24.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Oxylus.png?464ff",
-    "wikia_url": "https://wiki.warframe.com/w/Oxylus"
   },
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/ArmoredInfestedCatbrowPetPowerSuit",
@@ -1697,41 +1314,6 @@
     "wikia_url": null
   },
   {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit",
-    "name": "Prisma Shade",
-    "image": "/assets/items/PrismaShade.png.png",
-    "image_name": "PrismaShade.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "naramon",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "A rare jewel of the void. How could anything so beautiful be crafted for stealth?",
-    "stats": {
-      "health": 700,
-      "shield": 300,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": true,
-    "introduced": "Hotfix 17.2.2",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/PrismaShade.png?4432c",
-    "wikia_url": "https://wiki.warframe.com/w/Prisma_Shade"
-  },
-  {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyC",
     "name": "Raiju Core",
     "image": "/assets/items/ZanukaPetBodyC.png.png",
@@ -1824,76 +1406,6 @@
     "wikia_url": "https://wiki.warframe.com/w/Sahasa_Kubrow"
   },
   {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit",
-    "name": "Shade",
-    "image": "/assets/items/Shade.png.png",
-    "image_name": "Shade.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Revenge' and 'Ghost' as default Precepts, Shade is well suited for stealth gameplay. Shade also comes with a burst laser pistol.",
-    "stats": {
-      "health": 600,
-      "shield": 130,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 7.0",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Shade.png?f0319",
-    "wikia_url": "https://wiki.warframe.com/w/Shade"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit",
-    "name": "Shade Prime",
-    "image": "/assets/items/ShadePrime.png.png",
-    "image_name": "ShadePrime.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "prime",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "naramon",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "Shade Prime specializes in stealth and comes locked and loaded with the Burst Laser Prime. Together, you can dominate the shadows.",
-    "stats": {
-      "health": 700,
-      "shield": 300,
-      "armor": 100
-    },
-    "is_prime": true,
-    "tradable": true,
-    "introduced": "Hotfix 32.3.6",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/ShadePrime.png?31cf5",
-    "wikia_url": "https://wiki.warframe.com/w/Shade%2FPrime"
-  },
-  {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/VulpineInfestedCatbrowPetPowerSuit",
     "name": "Sly Vulpaphyla",
     "image": "/assets/items/KavatBreedSlyVulpaphyla.png.png",
@@ -1982,40 +1494,6 @@
     "introduced": "Update 14.0",
     "wikia_thumbnail": "https://wiki.warframe.com/images/SunikaKubrow.png?31785",
     "wikia_url": "https://wiki.warframe.com/w/Sunika_Kubrow"
-  },
-  {
-    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
-    "name": "Taxon",
-    "image": "/assets/items/Taxon.png.png",
-    "image_name": "Taxon.png",
-    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
-    "domain": "companion",
-    "kind": "sentinel",
-    "family": "robotic",
-    "category": "Sentinels",
-    "type": "Sentinel",
-    "mastery_req": 0,
-    "polarities": [
-      "penjaga",
-      "penjaga",
-      "penjaga",
-      "penjaga"
-    ],
-    "tags": [
-      "sentinel",
-      "robotic"
-    ],
-    "description": "With 'Assault Mode' and 'Molecular Conversion' as default Precepts, Taxon protects its owner with shield restoration. Equipped with the Artax ice-beam.",
-    "stats": {
-      "health": 560,
-      "shield": 250,
-      "armor": 80
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": "Update 19.10",
-    "wikia_thumbnail": "https://wiki.warframe.com/images/Taxon.png?fcad2",
-    "wikia_url": "https://wiki.warframe.com/w/Taxon"
   },
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenD",
@@ -2337,6 +1815,580 @@
     "wikia_url": null
   },
   {
+    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC",
+    "name": "Zarim Mutagen",
+    "image": "/assets/items/MutagenInfestedCritterC.png.png",
+    "image_name": "MutagenInfestedCritterC.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Parts",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC",
+    "name": "Zubb Bracket",
+    "image": "/assets/items/ZanukaPetLegsC.png.png",
+    "image_name": "ZanukaPetLegsC.png",
+    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC",
+    "domain": "companion",
+    "kind": "pet",
+    "family": "beast",
+    "category": "Pets",
+    "type": "Pet Resource",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "",
+    "stats": {
+      "health": 0,
+      "shield": 0,
+      "armor": 0
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": null,
+    "wikia_thumbnail": null,
+    "wikia_url": null
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit",
+    "name": "Carrier",
+    "image": "/assets/items/Carrier.png.png",
+    "image_name": "Carrier.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Ammo Case' as default Precepts, Carrier is a seeker Sentinel. Carrier also comes with a shotgun weapon.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 10.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Carrier.png?fb038",
+    "wikia_url": "https://wiki.warframe.com/w/Carrier"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit",
+    "name": "Carrier Prime",
+    "image": "/assets/items/CarrierPrime.png.png",
+    "image_name": "CarrierPrime.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "madurai",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "This ornate sentinel is an excellent example of late Orokin craftsmanship and styling.",
+    "stats": {
+      "health": 650,
+      "shield": 300,
+      "armor": 150
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Update 16.11",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/CarrierPrime.png?5bad8",
+    "wikia_url": "https://wiki.warframe.com/w/Carrier%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit",
+    "name": "Dethcube",
+    "image": "/assets/items/Dethcube.png.png",
+    "image_name": "Dethcube.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Vaporize' as default precepts, Dethcube acts exactly as advertised, as a badass cube of 'deth'. Comes loaded with Deth Machine Rifle weapon.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 8.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Dethcube.png?d7366",
+    "wikia_url": "https://wiki.warframe.com/w/Dethcube"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit",
+    "name": "Dethcube Prime",
+    "image": "/assets/items/DethcubePrime.png.png",
+    "image_name": "DethcubePrime.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Vaporize' as default precepts, Dethcube Prime is the apex of lethal support. Comes loaded with Deth Machine Rifle Prime weapon.",
+    "stats": {
+      "health": 600,
+      "shield": 300,
+      "armor": 150
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Update 25.8",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/DethcubePrime.png?75332",
+    "wikia_url": "https://wiki.warframe.com/w/Dethcube%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit",
+    "name": "Diriga",
+    "image": "/assets/items/Diriga.png.png",
+    "image_name": "Diriga.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "Diriga shocks nearby enemies, and picks off distant threats, utilizing the Vulklok sniper rifle and the 'Calculated Shot', 'Arc Coil' and 'Electro Pulse' precepts.",
+    "stats": {
+      "health": 700,
+      "shield": 150,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 17.3",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Diriga.png?95532",
+    "wikia_url": "https://wiki.warframe.com/w/Diriga"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit",
+    "name": "Djinn",
+    "image": "/assets/items/Djinn.png.png",
+    "image_name": "Djinn.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "naramon",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Thumper' and 'Fatal Attraction' as default Precepts, Djinn is a combat Sentinel. Djinn also comes with a poison dart weapon.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 10.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Djinn.png?2bee3",
+    "wikia_url": "https://wiki.warframe.com/w/Djinn"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit",
+    "name": "Helios",
+    "image": "/assets/items/Helios.png.png",
+    "image_name": "Helios.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Investigator' as its unique Precept and 'Deconstructor' as its weapon, the versatile Helios Sentinel acts as both a lethal guardian and an automatic codex scanner. Scans require an equipped Codex Scanner and an available charge.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 12.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Helios.png?a5e25",
+    "wikia_url": "https://wiki.warframe.com/w/Helios"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit",
+    "name": "Helios Prime",
+    "image": "/assets/items/HeliosPrime.png.png",
+    "image_name": "HeliosPrime.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "This knowledge hungry protector defends its master with Deconstructor Prime.",
+    "stats": {
+      "health": 700,
+      "shield": 300,
+      "armor": 100
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Hotfix 19.11.5",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/HeliosPrime.png?c4d66",
+    "wikia_url": "https://wiki.warframe.com/w/Helios%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit",
+    "name": "Nautilus",
+    "image": "/assets/items/EmpyreanSentinel.png.png",
+    "image_name": "EmpyreanSentinel.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Auto Omni' and 'Cordon' as default Precepts, this Sentinel is the ideal companion for long voyages aboard a Railjack.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 29.10",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Nautilus.png?f0f26",
+    "wikia_url": "https://wiki.warframe.com/w/Nautilus"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit",
+    "name": "Nautilus Prime",
+    "image": "/assets/items/NautilusPrime.png.png",
+    "image_name": "NautilusPrime.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "vazarin",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "This brave deckhand defends his crew with Verglas Prime.",
+    "stats": {
+      "health": 560,
+      "shield": 350,
+      "armor": 175
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Update 36.1",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/NautilusPrime.png?63a43",
+    "wikia_url": "https://wiki.warframe.com/w/Nautilus%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit",
+    "name": "Oxylus",
+    "image": "/assets/items/Oxylus.png.png",
+    "image_name": "Oxylus.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "vazarin",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Scan Aquatic Lifeforms' and 'Scan Matter' as default Precepts, Oxylus was designed to assist in Search-and-Rescue operations through the harsh landscape around The Orb Vallis. Oxylus also comes with a Multron rifle.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 24.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Oxylus.png?464ff",
+    "wikia_url": "https://wiki.warframe.com/w/Oxylus"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit",
+    "name": "Prisma Shade",
+    "image": "/assets/items/PrismaShade.png.png",
+    "image_name": "PrismaShade.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "naramon",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "A rare jewel of the void. How could anything so beautiful be crafted for stealth?",
+    "stats": {
+      "health": 700,
+      "shield": 300,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": true,
+    "introduced": "Hotfix 17.2.2",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/PrismaShade.png?4432c",
+    "wikia_url": "https://wiki.warframe.com/w/Prisma_Shade"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit",
+    "name": "Shade",
+    "image": "/assets/items/Shade.png.png",
+    "image_name": "Shade.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Revenge' and 'Ghost' as default Precepts, Shade is well suited for stealth gameplay. Shade also comes with a burst laser pistol.",
+    "stats": {
+      "health": 600,
+      "shield": 130,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 7.0",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Shade.png?f0319",
+    "wikia_url": "https://wiki.warframe.com/w/Shade"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit",
+    "name": "Shade Prime",
+    "image": "/assets/items/ShadePrime.png.png",
+    "image_name": "ShadePrime.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "prime",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "naramon",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "Shade Prime specializes in stealth and comes locked and loaded with the Burst Laser Prime. Together, you can dominate the shadows.",
+    "stats": {
+      "health": 700,
+      "shield": 300,
+      "armor": 100
+    },
+    "is_prime": true,
+    "tradable": true,
+    "introduced": "Hotfix 32.3.6",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/ShadePrime.png?31cf5",
+    "wikia_url": "https://wiki.warframe.com/w/Shade%2FPrime"
+  },
+  {
+    "id": "/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
+    "name": "Taxon",
+    "image": "/assets/items/Taxon.png.png",
+    "image_name": "Taxon.png",
+    "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
+    "domain": "companion",
+    "kind": "sentinel",
+    "family": "robotic",
+    "category": "Sentinels",
+    "type": "Sentinel",
+    "mastery_req": 0,
+    "polarities": [
+      "penjaga",
+      "penjaga",
+      "penjaga",
+      "penjaga"
+    ],
+    "tags": [
+      "sentinel",
+      "robotic"
+    ],
+    "description": "With 'Assault Mode' and 'Molecular Conversion' as default Precepts, Taxon protects its owner with shield restoration. Equipped with the Artax ice-beam.",
+    "stats": {
+      "health": 560,
+      "shield": 250,
+      "armor": 80
+    },
+    "is_prime": false,
+    "tradable": false,
+    "introduced": "Update 19.10",
+    "wikia_thumbnail": "https://wiki.warframe.com/images/Taxon.png?fcad2",
+    "wikia_url": "https://wiki.warframe.com/w/Taxon"
+  },
+  {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/WyrmPowerSuit",
     "name": "Wyrm",
     "image": "/assets/items/Wyrm.png.png",
@@ -2403,57 +2455,5 @@
     "introduced": "Update 13.7",
     "wikia_thumbnail": "https://wiki.warframe.com/images/WyrmPrime.png?35ced",
     "wikia_url": "https://wiki.warframe.com/w/Wyrm%2FPrime"
-  },
-  {
-    "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC",
-    "name": "Zarim Mutagen",
-    "image": "/assets/items/MutagenInfestedCritterC.png.png",
-    "image_name": "MutagenInfestedCritterC.png",
-    "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC",
-    "domain": "companion",
-    "kind": "pet",
-    "family": "beast",
-    "category": "Pets",
-    "type": "Pet Parts",
-    "mastery_req": 0,
-    "polarities": [],
-    "tags": [],
-    "description": "",
-    "stats": {
-      "health": 0,
-      "shield": 0,
-      "armor": 0
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": null,
-    "wikia_thumbnail": null,
-    "wikia_url": null
-  },
-  {
-    "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC",
-    "name": "Zubb Bracket",
-    "image": "/assets/items/ZanukaPetLegsC.png.png",
-    "image_name": "ZanukaPetLegsC.png",
-    "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC",
-    "domain": "companion",
-    "kind": "pet",
-    "family": "beast",
-    "category": "Pets",
-    "type": "Pet Resource",
-    "mastery_req": 0,
-    "polarities": [],
-    "tags": [],
-    "description": "",
-    "stats": {
-      "health": 0,
-      "shield": 0,
-      "armor": 0
-    },
-    "is_prime": false,
-    "tradable": false,
-    "introduced": null,
-    "wikia_thumbnail": null,
-    "wikia_url": null
   }
 ]

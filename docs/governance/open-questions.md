@@ -1030,11 +1030,24 @@ nativo de esta fase).
   el orden de entrada), `itemCount`/`patchlogs` derivados. El árbitro los descuenta y normaliza el orden
   de claves; `--strict` compara todo. **Ya no bloquea la fase.** Ninguno de esos campos toca el engine, y
   el día que introduzcamos una divergencia deliberada (G-1) el árbitro la va a mostrar limpia.
-- **Falta el loader propio** → sin él Project sigue leyendo el raw de upstream y el árbitro fuerte
-  (`git diff public/data` vacío) no se puede correr. Es lo único que separa la fase 1 de su cierre.
-- **Orden a respetar:** G-1 (corregir puncture↔slash en el raw propio) va **después** del loader. Es la
-  primera divergencia deliberada contra upstream: introducida antes, `diff-raw` reportaría 486 armas
-  cambiadas por diseño y perderíamos el árbitro justo cuando empieza a servir.
+- **Loader propio ✅** — `omniframe-items/index.mjs` lee **nuestro** `data/json/`. Project no cambió una
+  línea (sigue siendo `Array.from(new Items())`). Replica la regla de composición de upstream, que no es
+  obvia: el default **lista el directorio** y carga cada categoría por separado, no lee `All.json` — de
+  ahí salen los 638 de `Enemy.json`, que el agregado no contiene. Leer `All.json` habría dado 16.889
+  ítems sin enemigos y sin aviso. Validado: **17.527 ítems, los mismos uniqueName, cero solo-A/solo-B**;
+  las 3.124 diferencias son exactamente la cosecha wiki de `enrichItems`.
+  **Dataset regenerado: cero regresiones** — mismos ítems, mismos stats; los 8 cambios son
+  `wikia_thumbnail` de `null` a URL (dato nuevo). Suite verde. El orden de categorías se fija con
+  `.sort()`: `readdirSync` depende del filesystem, y sin eso el orden de `public/data` baila entre
+  máquinas y 40.000 líneas de reordenamiento tapan el cambio real de un stat.
+- **El árbitro fuerte ya corre:** dos corridas consecutivas de `generate-data` dan `public/data`
+  byte-idéntico. A partir de acá, un `git diff` no vacío es señal.
+- **Orden a respetar:** G-1 (corregir puncture↔slash en el raw propio) es la **primera divergencia
+  deliberada** contra upstream. Introducirla ciega `diff-raw` (486 armas cambiadas por diseño), así que
+  el árbitro de esa etapa es `git diff public/data` — que ya está disponible.
+- **Residual de limpieza:** Project declara `@wfcd/items` pero sólo lo usa un script archivado. Cortar
+  esa dependencia elimina también el stub del Dockerfile, que existe únicamente porque
+  `file:../warframe-items` dispara un `prepare` con husky que rompe el install en Linux. No ejecutado.
 - **Dependencias estáticas de upstream sin auditar:** su `warnings.json` (de donde sale `failedImage`, que
   alimenta `dedupImageNames`) y su `data/img` (605 MB). Si upstream deja de publicarlas, envejecen en
   silencio igual que `Enemy.json`. Ver [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).

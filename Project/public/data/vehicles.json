@@ -41,6 +41,171 @@
     ]
   },
   {
+    "id": "/Lotus/Powersuits/Archwing/DemolitionJetPack/DemolitionJetPack",
+    "name": "Elytron",
+    "image": "/assets/items/Elytron.png.png",
+    "image_name": "Elytron.png",
+    "unique_name": "/Lotus/Powersuits/Archwing/DemolitionJetPack/DemolitionJetPack",
+    "domain": "vehicle",
+    "kind": "archwing",
+    "family": "vehicle",
+    "category": "Archwing",
+    "type": "Archwing",
+    "mastery_req": 0,
+    "polarities": [
+      "madurai",
+      "vazarin",
+      "naramon"
+    ],
+    "tags": [],
+    "description": "This heavy duty Archwing was designed for one purpose, destruction.",
+    "stats": {
+      "health": 765,
+      "shield": 745,
+      "armor": 145
+    },
+    "is_prime": false,
+    "tradable": false,
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/TnTAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/ExhaustTrailAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/ArtilleryBarrageAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/BigBoyAbility"
+      }
+    ]
+  },
+  {
+    "id": "/Lotus/Powersuits/Archwing/StealthJetPack/StealthJetPack",
+    "name": "Itzal",
+    "image": "/assets/items/Itzal.png.png",
+    "image_name": "Itzal.png",
+    "unique_name": "/Lotus/Powersuits/Archwing/StealthJetPack/StealthJetPack",
+    "domain": "vehicle",
+    "kind": "archwing",
+    "family": "vehicle",
+    "category": "Archwing",
+    "type": "Archwing",
+    "mastery_req": 0,
+    "polarities": [
+      "madurai",
+      "vazarin",
+      "naramon"
+    ],
+    "tags": [],
+    "description": "Designed for quick clandestine attacks, the Itzal Archwing excels at striking from the darkness of space.",
+    "stats": {
+      "health": 200,
+      "shield": 220,
+      "armor": 50
+    },
+    "is_prime": false,
+    "tradable": false,
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/GrappleHookAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/CloakingAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/GravitationalInstabilityAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/DistractionDronesAbility"
+      }
+    ]
+  },
+  {
+    "id": "/Lotus/Powersuits/Archwing/StandardJetPack/StandardJetPack",
+    "name": "Odonata",
+    "image": "/assets/items/Odonata.png.png",
+    "image_name": "Odonata.png",
+    "unique_name": "/Lotus/Powersuits/Archwing/StandardJetPack/StandardJetPack",
+    "domain": "vehicle",
+    "kind": "archwing",
+    "family": "vehicle",
+    "category": "Archwing",
+    "type": "Archwing",
+    "mastery_req": 0,
+    "polarities": [
+      "madurai",
+      "vazarin",
+      "naramon"
+    ],
+    "tags": [],
+    "description": "The systems built into this Archwing balance offensive capabilities with defensive countermeasures.",
+    "stats": {
+      "health": 425,
+      "shield": 430,
+      "armor": 100
+    },
+    "is_prime": false,
+    "tradable": false,
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FireShieldAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FlareCounterMeasureAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/MissileVolleyAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/EMPPushAbility"
+      }
+    ]
+  },
+  {
+    "id": "/Lotus/Powersuits/Archwing/PrimeJetPack/PrimeJetPack",
+    "name": "Odonata Prime",
+    "image": "/assets/items/OdonataPrime.png.png",
+    "image_name": "OdonataPrime.png",
+    "unique_name": "/Lotus/Powersuits/Archwing/PrimeJetPack/PrimeJetPack",
+    "domain": "vehicle",
+    "kind": "archwing",
+    "family": "prime",
+    "category": "Archwing",
+    "type": "Archwing",
+    "mastery_req": 0,
+    "polarities": [
+      "madurai",
+      "vazarin",
+      "naramon",
+      "naramon"
+    ],
+    "tags": [],
+    "description": "This enhanced version of the first Archwing prototype takes the design to its theoretical limits.",
+    "stats": {
+      "health": 650,
+      "shield": 640,
+      "armor": 100
+    },
+    "is_prime": true,
+    "tradable": true,
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FireShieldAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FlareCounterMeasureAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/MissileVolleyAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/EMPPushAbility"
+      }
+    ]
+  },
+  {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannon",
     "name": "Apoc",
     "image": "/assets/items/RailjackTurretAutoCannon.png.png",
@@ -159,43 +324,6 @@
     "is_prime": false,
     "tradable": false,
     "abilities": []
-  },
-  {
-    "id": "/Lotus/Powersuits/EntratiMech/ThanoTech",
-    "name": "Bonewidow",
-    "image": "/assets/items/ThanoMech.png.png",
-    "image_name": "ThanoMech.png",
-    "unique_name": "/Lotus/Powersuits/EntratiMech/ThanoTech",
-    "domain": "vehicle",
-    "kind": "necramech",
-    "family": "vehicle",
-    "category": "Warframes",
-    "type": "Warframe",
-    "mastery_req": 0,
-    "polarities": [],
-    "tags": [],
-    "description": "This fearsome Necramech, fashioned in honor of the Entrati matriarch, is a robust front-line fighter. Favoring armor and health over shield strength, Bonewidow can grab and hurl enemies, deploy a heavy shield for personal defense, and cleave through opposing ranks with a massive warblade.",
-    "stats": {
-      "health": 1880,
-      "shield": 430,
-      "armor": 480
-    },
-    "is_prime": false,
-    "tradable": false,
-    "abilities": [
-      {
-        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechGrabAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechRiotShieldAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechRepulseAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechSwordAbility"
-      }
-    ]
   },
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/Blaster",
@@ -390,47 +518,6 @@
     "abilities": []
   },
   {
-    "id": "/Lotus/Powersuits/Archwing/DemolitionJetPack/DemolitionJetPack",
-    "name": "Elytron",
-    "image": "/assets/items/Elytron.png.png",
-    "image_name": "Elytron.png",
-    "unique_name": "/Lotus/Powersuits/Archwing/DemolitionJetPack/DemolitionJetPack",
-    "domain": "vehicle",
-    "kind": "archwing",
-    "family": "vehicle",
-    "category": "Archwing",
-    "type": "Archwing",
-    "mastery_req": 0,
-    "polarities": [
-      "madurai",
-      "vazarin",
-      "naramon"
-    ],
-    "tags": [],
-    "description": "This heavy duty Archwing was designed for one purpose, destruction.",
-    "stats": {
-      "health": 765,
-      "shield": 745,
-      "armor": 145
-    },
-    "is_prime": false,
-    "tradable": false,
-    "abilities": [
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/TnTAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/ExhaustTrailAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/ArtilleryBarrageAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/BigBoyAbility"
-      }
-    ]
-  },
-  {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/IceSniperCannonTierA",
     "name": "Glazio Mk I",
     "image": "/assets/items/IceSniper.png.png",
@@ -501,47 +588,6 @@
     "is_prime": false,
     "tradable": false,
     "abilities": []
-  },
-  {
-    "id": "/Lotus/Powersuits/Archwing/StealthJetPack/StealthJetPack",
-    "name": "Itzal",
-    "image": "/assets/items/Itzal.png.png",
-    "image_name": "Itzal.png",
-    "unique_name": "/Lotus/Powersuits/Archwing/StealthJetPack/StealthJetPack",
-    "domain": "vehicle",
-    "kind": "archwing",
-    "family": "vehicle",
-    "category": "Archwing",
-    "type": "Archwing",
-    "mastery_req": 0,
-    "polarities": [
-      "madurai",
-      "vazarin",
-      "naramon"
-    ],
-    "tags": [],
-    "description": "Designed for quick clandestine attacks, the Itzal Archwing excels at striking from the darkness of space.",
-    "stats": {
-      "health": 200,
-      "shield": 220,
-      "armor": 50
-    },
-    "is_prime": false,
-    "tradable": false,
-    "abilities": [
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/GrappleHookAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/CloakingAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/GravitationalInstabilityAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/DistractionDronesAbility"
-      }
-    ]
   },
   {
     "id": "/Lotus/Weapons/CrewShip/Countermeasures/SmokeCountermeasure",
@@ -1526,89 +1572,6 @@
     "is_prime": false,
     "tradable": false,
     "abilities": []
-  },
-  {
-    "id": "/Lotus/Powersuits/Archwing/StandardJetPack/StandardJetPack",
-    "name": "Odonata",
-    "image": "/assets/items/Odonata.png.png",
-    "image_name": "Odonata.png",
-    "unique_name": "/Lotus/Powersuits/Archwing/StandardJetPack/StandardJetPack",
-    "domain": "vehicle",
-    "kind": "archwing",
-    "family": "vehicle",
-    "category": "Archwing",
-    "type": "Archwing",
-    "mastery_req": 0,
-    "polarities": [
-      "madurai",
-      "vazarin",
-      "naramon"
-    ],
-    "tags": [],
-    "description": "The systems built into this Archwing balance offensive capabilities with defensive countermeasures.",
-    "stats": {
-      "health": 425,
-      "shield": 430,
-      "armor": 100
-    },
-    "is_prime": false,
-    "tradable": false,
-    "abilities": [
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FireShieldAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FlareCounterMeasureAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/MissileVolleyAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/EMPPushAbility"
-      }
-    ]
-  },
-  {
-    "id": "/Lotus/Powersuits/Archwing/PrimeJetPack/PrimeJetPack",
-    "name": "Odonata Prime",
-    "image": "/assets/items/OdonataPrime.png.png",
-    "image_name": "OdonataPrime.png",
-    "unique_name": "/Lotus/Powersuits/Archwing/PrimeJetPack/PrimeJetPack",
-    "domain": "vehicle",
-    "kind": "archwing",
-    "family": "prime",
-    "category": "Archwing",
-    "type": "Archwing",
-    "mastery_req": 0,
-    "polarities": [
-      "madurai",
-      "vazarin",
-      "naramon",
-      "naramon"
-    ],
-    "tags": [],
-    "description": "This enhanced version of the first Archwing prototype takes the design to its theoretical limits.",
-    "stats": {
-      "health": 650,
-      "shield": 640,
-      "armor": 100
-    },
-    "is_prime": true,
-    "tradable": true,
-    "abilities": [
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FireShieldAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FlareCounterMeasureAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/MissileVolleyAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/Archwing/ArchwingAbilities/EMPPushAbility"
-      }
-    ]
   },
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeapon",
@@ -2739,43 +2702,6 @@
     "abilities": []
   },
   {
-    "id": "/Lotus/Powersuits/EntratiMech/NechroTech",
-    "name": "Voidrig",
-    "image": "/assets/items/NechroMech.png.png",
-    "image_name": "NechroMech.png",
-    "unique_name": "/Lotus/Powersuits/EntratiMech/NechroTech",
-    "domain": "vehicle",
-    "kind": "necramech",
-    "family": "vehicle",
-    "category": "Warframes",
-    "type": "Warframe",
-    "mastery_req": 0,
-    "polarities": [],
-    "tags": [],
-    "description": "Nothing fancy but gets the job done and then some. With its electrified armor, this rough and ready mech can make the battlefield treacherous for the enemy with an arsenal of explosives.",
-    "stats": {
-      "health": 1400,
-      "shield": 850,
-      "armor": 385
-    },
-    "is_prime": false,
-    "tradable": false,
-    "abilities": [
-      {
-        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechOilGrenadeAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechShockingIronAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechMinefieldAbility"
-      },
-      {
-        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechTurretModeAbility"
-      }
-    ]
-  },
-  {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/ElectricTetherCannonTierA",
     "name": "Vort Mk I",
     "image": "/assets/items/ElectricTether.png.png",
@@ -3710,5 +3636,79 @@
     "is_prime": false,
     "tradable": false,
     "abilities": []
+  },
+  {
+    "id": "/Lotus/Powersuits/EntratiMech/ThanoTech",
+    "name": "Bonewidow",
+    "image": "/assets/items/ThanoMech.png.png",
+    "image_name": "ThanoMech.png",
+    "unique_name": "/Lotus/Powersuits/EntratiMech/ThanoTech",
+    "domain": "vehicle",
+    "kind": "necramech",
+    "family": "vehicle",
+    "category": "Warframes",
+    "type": "Warframe",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "This fearsome Necramech, fashioned in honor of the Entrati matriarch, is a robust front-line fighter. Favoring armor and health over shield strength, Bonewidow can grab and hurl enemies, deploy a heavy shield for personal defense, and cleave through opposing ranks with a massive warblade.",
+    "stats": {
+      "health": 1880,
+      "shield": 430,
+      "armor": 480
+    },
+    "is_prime": false,
+    "tradable": false,
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechGrabAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechRiotShieldAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechRepulseAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechSwordAbility"
+      }
+    ]
+  },
+  {
+    "id": "/Lotus/Powersuits/EntratiMech/NechroTech",
+    "name": "Voidrig",
+    "image": "/assets/items/NechroMech.png.png",
+    "image_name": "NechroMech.png",
+    "unique_name": "/Lotus/Powersuits/EntratiMech/NechroTech",
+    "domain": "vehicle",
+    "kind": "necramech",
+    "family": "vehicle",
+    "category": "Warframes",
+    "type": "Warframe",
+    "mastery_req": 0,
+    "polarities": [],
+    "tags": [],
+    "description": "Nothing fancy but gets the job done and then some. With its electrified armor, this rough and ready mech can make the battlefield treacherous for the enemy with an arsenal of explosives.",
+    "stats": {
+      "health": 1400,
+      "shield": 850,
+      "armor": 385
+    },
+    "is_prime": false,
+    "tradable": false,
+    "abilities": [
+      {
+        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechOilGrenadeAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechShockingIronAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechMinefieldAbility"
+      },
+      {
+        "unique_name": "/Lotus/Powersuits/EntratiMech/Abilities/EntratiMechTurretModeAbility"
+      }
+    ]
   }
 ]
