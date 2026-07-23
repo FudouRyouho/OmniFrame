@@ -1042,9 +1042,12 @@ nativo de esta fase).
   máquinas y 40.000 líneas de reordenamiento tapan el cambio real de un stat.
 - **El árbitro fuerte ya corre:** dos corridas consecutivas de `generate-data` dan `public/data`
   byte-idéntico. A partir de acá, un `git diff` no vacío es señal.
-- **Orden a respetar:** G-1 (corregir puncture↔slash en el raw propio) es la **primera divergencia
-  deliberada** contra upstream. Introducirla ciega `diff-raw` (486 armas cambiadas por diseño), así que
-  el árbitro de esa etapa es `git diff public/data` — que ya está disponible.
+- **G-1 ✅ corregido en el raw propio** (`fixPhysicalDamage` en `raw-build.ts`, 692 ítems). Es la
+  **primera divergencia deliberada** contra upstream: `diff-raw` ya no da vacío por diseño (~620 ítems
+  en `damage`), y lo que sigue siendo señal ahí es solo-upstream/solo-nuestro ≠ 0 o cualquier campo que
+  no sea `damage`. Efecto medido: 480 armas cambian `stats.damage` en `public/data`, `attacks[]` no se
+  toca en ninguna, y el comportamiento del engine cambia **en una sola** (Dark Split-Sword, físicos
+  casi equidistribuidos) — la corrección es preventiva. Detalle en `../domains/source/gaps.md` §G-1.
 - **Residual de limpieza:** Project declara `@wfcd/items` pero sólo lo usa un script archivado. Cortar
   esa dependencia elimina también el stub del Dockerfile, que existe únicamente porque
   `file:../warframe-items` dispara un `prepare` con husky que rompe el install en Linux. No ejecutado.

@@ -1,5 +1,10 @@
-// Árbitro de la fase 1 (OQ-DATA-16): nuestro data/json vs el de upstream, categoría por categoría.
-// Mientras el build propio deba ser equivalente al de upstream, la respuesta esperada es "idénticos".
+// Árbitro raw-vs-raw (OQ-DATA-16): nuestro data/json vs el de upstream, categoría por categoría.
+//
+// ⚠️ **Ya no espera diff vacío.** Con G-1 corregido en `raw-build.ts` (puncture↔slash) hay una
+// divergencia deliberada: ~620 ítems en el campo `damage`. Lo que sigue siendo señal acá es
+// **solo-upstream / solo-nuestro ≠ 0** (ítems que aparecen o desaparecen) y cualquier campo distinto
+// de `damage`. El árbitro del dataset es `git diff public/data`, que el loader propio habilitó.
+//
 // Uso: node build/diff-raw.mjs
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';

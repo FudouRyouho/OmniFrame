@@ -205,6 +205,45 @@ async function passthroughFossilEnemies(): Promise<Item[]> {
   return fossil
 }
 
+/**
+ * **G-1 — corrige `puncture` ↔ `slash` invertidos.** Primera divergencia deliberada contra el raw de
+ * upstream (ver `docs/domains/source/gaps.md` §G-1).
+ *
+ * El orden canónico de `damagePerShot` es **Impact, Puncture, Slash**, documentado por DE. El
+ * `addDamage` del parser desestructura la posición `[1]` como `slash` y la `[2]` como `puncture`, y
+ * después arma el objeto por nombre — así que sale cruzado: **486 de 595 armas invertidas, cero
+ * correctas** (las demás no son distinguibles: puncture = slash, o ambos en 0). El propio ítem se
+ * contradice: su `attacks[0]`, que viene del wiki, trae los valores bien.
+ *
+ * Se corrige acá y no en el parser porque el parser se **importa** de upstream, no se copia.
+ * Idempotente por construcción: opera sobre `damagePerShot`, que es el dato crudo de DE, no sobre el
+ * `damage` ya derivado.
+ *
+ * ⚠️ A partir de este swap `build/diff-raw.mjs` deja de dar diff vacío por diseño. El árbitro de esta
+ * etapa es `git diff public/data` (el loader propio ya lo habilita).
+ */
+function fixPhysicalDamage(categories: Record<string, Item[]>): number {
+  let fixed = 0
+  const walk = (item: Record<string, unknown>): void => {
+    const shot = item.damagePerShot as number[] | undefined
+    const damage = item.damage as Record<string, number> | undefined
+    if (Array.isArray(shot) && damage) {
+      const [, puncture, slash] = shot
+      if (damage.puncture !== puncture || damage.slash !== slash) {
+        damage.puncture = puncture!
+        damage.slash = slash!
+        fixed++
+      }
+    }
+    // Los componentes repiten el shape: un componente de arma trae su propio daño.
+    // `attacks[]` NO se toca: viene del wiki y ya está bien — de hecho es la evidencia del bug.
+    const components = item.components
+    if (Array.isArray(components)) for (const sub of components) if (sub && typeof sub === 'object') walk(sub)
+  }
+  for (const items of Object.values(categories)) for (const item of items) walk(item as never)
+  return fixed
+}
+
 async function main(): Promise<void> {
   await fs.mkdir(jsonDir, { recursive: true })
   await fs.mkdir(cacheDir, { recursive: true })
@@ -235,6 +274,8 @@ async function main(): Promise<void> {
   const data = applyCustomCategories(parsed.data)
   const i18n = parser.applyI18n(data, raw.i18n)
   dedupImageNames(data, raw.manifest, parsed.warnings)
+
+  console.log(`· G-1: puncture↔slash corregido en ${fixPhysicalDamage(data)} ítems`)
 
   // El fósil se copia como categoría suelta y NO entra a `All.json`: upstream tampoco lo incluye
   // (su All.json son 16889 items, sin un solo `category: 'Enemy'`) — la categoría no la produce el parser.

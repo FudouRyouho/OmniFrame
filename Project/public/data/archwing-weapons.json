@@ -559,8 +559,8 @@
     "stats": {
       "damage": {
         "impact": 39.600002,
-        "puncture": 40.799995,
-        "slash": 39.600002
+        "puncture": 39.600002,
+        "slash": 40.799995
       },
       "total_damage": 120,
       "crit_chance": 0.2,
@@ -619,8 +619,8 @@
     "stats": {
       "damage": {
         "impact": 49.5,
-        "puncture": 30.249998,
-        "slash": 30.25
+        "puncture": 30.25,
+        "slash": 30.249998
       },
       "total_damage": 110,
       "crit_chance": 0.28,
@@ -682,8 +682,8 @@
     "stats": {
       "damage": {
         "impact": 50,
-        "puncture": 175,
-        "slash": 25
+        "puncture": 25,
+        "slash": 175
       },
       "total_damage": 250,
       "crit_chance": 0.22,
@@ -744,8 +744,8 @@
     "stats": {
       "damage": {
         "impact": 22.5,
-        "puncture": 22.499992,
-        "slash": 180,
+        "puncture": 180,
+        "slash": 22.499992,
         "blast": 310
       },
       "total_damage": 535,
@@ -827,8 +827,8 @@
     "stats": {
       "damage": {
         "impact": 20,
-        "puncture": 12.5,
-        "slash": 17.5
+        "puncture": 17.5,
+        "slash": 12.5
       },
       "total_damage": 50,
       "crit_chance": 0.23999999,
@@ -890,8 +890,8 @@
     "stats": {
       "damage": {
         "impact": 20,
-        "puncture": 12.5,
-        "slash": 17.5
+        "puncture": 17.5,
+        "slash": 12.5
       },
       "total_damage": 50,
       "crit_chance": 0.28,
@@ -1035,8 +1035,8 @@
     "stats": {
       "damage": {
         "impact": 5,
-        "puncture": 4.9999981,
-        "slash": 40,
+        "puncture": 40,
+        "slash": 4.9999981,
         "blast": 155
       },
       "total_damage": 205,
@@ -1314,8 +1314,8 @@
     "stats": {
       "damage": {
         "impact": 25.000002,
-        "puncture": 10,
-        "slash": 15,
+        "puncture": 15,
+        "slash": 10,
         "radiation": 40
       },
       "total_damage": 90,
@@ -1393,7 +1393,7 @@
     "stats": {
       "damage": {
         "impact": 24,
-        "slash": 46,
+        "puncture": 46,
         "heat": 50
       },
       "total_damage": 120,
@@ -1633,8 +1633,8 @@
     "stats": {
       "damage": {
         "impact": 14,
-        "puncture": 5.6000013,
-        "slash": 36.399998
+        "puncture": 36.399998,
+        "slash": 5.6000013
       },
       "total_damage": 56,
       "crit_chance": 0.14,
@@ -1697,8 +1697,8 @@
     "stats": {
       "damage": {
         "impact": 49.5,
-        "puncture": 30.249998,
-        "slash": 30.25
+        "puncture": 30.25,
+        "slash": 30.249998
       },
       "total_damage": 110,
       "crit_chance": 0.30000001,
@@ -1837,8 +1837,8 @@
     "stats": {
       "damage": {
         "impact": 65.400002,
-        "puncture": 65.399986,
-        "slash": 305.19998
+        "puncture": 305.19998,
+        "slash": 65.399986
       },
       "total_damage": 435.99997,
       "crit_chance": 0.050000001,
@@ -1895,8 +1895,8 @@
     "stats": {
       "damage": {
         "impact": 37.600002,
-        "puncture": 263.19998,
-        "slash": 75.200005
+        "puncture": 75.200005,
+        "slash": 263.19998
       },
       "total_damage": 376,
       "crit_chance": 0.25,
@@ -1953,8 +1953,8 @@
     "stats": {
       "damage": {
         "impact": 19.6,
-        "puncture": 58.799992,
-        "slash": 313.60001
+        "puncture": 313.60001,
+        "slash": 58.799992
       },
       "total_damage": 392,
       "crit_chance": 0.15000001,
@@ -2011,8 +2011,8 @@
     "stats": {
       "damage": {
         "impact": 400.5,
-        "puncture": 22.250006,
-        "slash": 22.25
+        "puncture": 22.25,
+        "slash": 22.250006
       },
       "total_damage": 445,
       "crit_chance": 0.13,
@@ -2069,8 +2069,8 @@
     "stats": {
       "damage": {
         "impact": 123.60001,
-        "puncture": 206,
-        "slash": 82.400002
+        "puncture": 82.400002,
+        "slash": 206
       },
       "total_damage": 412,
       "crit_chance": 0.15000001,
@@ -2128,8 +2128,8 @@
     "stats": {
       "damage": {
         "impact": 59.100002,
-        "puncture": 275.79999,
-        "slash": 59.100002
+        "puncture": 59.100002,
+        "slash": 275.79999
       },
       "total_damage": 394,
       "crit_chance": 0.30000001,
@@ -2186,8 +2186,8 @@
     "stats": {
       "damage": {
         "impact": 360,
-        "puncture": 22.499979,
-        "slash": 67.5
+        "puncture": 67.5,
+        "slash": 22.499979
       },
       "total_damage": 449.99997,
       "crit_chance": 0.2,
@@ -2244,8 +2244,8 @@
     "stats": {
       "damage": {
         "impact": 70.5,
-        "puncture": 329,
-        "slash": 70.5
+        "puncture": 70.5,
+        "slash": 329
       },
       "total_damage": 470,
       "crit_chance": 0.050000001,

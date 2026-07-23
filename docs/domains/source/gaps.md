@@ -44,13 +44,26 @@ Braton Prime · damagePerShot (DE):  [1.75, 12.25, 21]  → impact, puncture, sl
 `stats.damage` cuando el arma no tiene ataques: de las 109 sin `attacks`, **una sola** tiene
 puncture/slash > 0 — Dark Split-Sword, la regresión ya aceptada de la migración.
 
-**Estado: vigente, y se replica en nuestro raw** — el build propio *importa* `parser.parse()` en vez
-de copiarlo, así que hereda el bug tal cual. **Mitigación: ninguna hoy.** Corregirlo en el raw propio
-es trabajo de la fase 3 de `OQ-DATA-16`.
+**Estado: vigente en upstream · CORREGIDO en nuestro raw.** El build propio *importa*
+`parser.parse()` en vez de copiarlo, así que heredaba el bug; `fixPhysicalDamage` en
+`build/raw-build.ts` lo revierte después del parseo, leyendo el `damagePerShot` crudo de DE — es
+idempotente por construcción, porque no deriva del `damage` ya calculado. **692 ítems corregidos**
+(armas y sus componentes); cero armas invertidas en el raw resultante, y el `item.damage` ahora
+coincide con el `attacks[0]` del wiki en vez de contradecirlo.
 
-> ⚠️ **Mina.** Cualquier movimiento que reduzca la dependencia del wiki para `attacks` haría que
-> **todas** las armas tomen el daño físico mal repartido, no una. El bug está latente detrás de un
-> fallback que hoy casi nunca se toma.
+**Efecto medido en el dataset:** 480 armas cambian `stats.damage` en `public/data`, pero `attacks[]`
+no se toca en ninguna — y como el engine sólo cae a `stats.damage` cuando el arma no tiene ataques,
+**el comportamiento cambia en una sola: Dark Split-Sword**, cuyos tres físicos son casi
+equidistribuidos (difieren en el quinto decimal). Es decir: la corrección es **preventiva**, no
+arregla un número visible. Suite verde.
+
+> ⚠️ **Es la mina lo que se desactiva.** Cualquier movimiento que redujera la dependencia del wiki
+> para `attacks` habría hecho que **todas** las armas tomaran el daño físico mal repartido. El bug
+> estaba latente detrás de un fallback que casi nunca se toma.
+
+**Consecuencia para el árbitro:** esta es la **primera divergencia deliberada** contra upstream, así
+que `build/diff-raw.mjs` ya no da diff vacío por diseño — reporta ~620 ítems en `damage`. El árbitro
+de acá en adelante es `git diff public/data`, que el loader propio habilitó.
 
 ---
 
