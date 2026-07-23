@@ -14,6 +14,7 @@ import WeaponScraper from './wikia/WeaponScraper.mjs'
 import ModScraper from './wikia/ModScraper.mjs'
 import WarframeScraper from './wikia/WarframeScraper.mjs'
 import ArcaneScraper from './wikia/ArcaneScraper.mjs'
+import EnemyScraper from './wikia/EnemyScraper.mjs'
 
 const dataDir = fileURLToPath(new URL('../data/', import.meta.url))
 await mkdir(dataDir, { recursive: true })
@@ -33,3 +34,4 @@ await harvest('armas (weaponClass)', 'weapons', new WeaponScraper())
 await harvest('mods (upgradeTypes…)', 'mods', new ModScraper())
 await harvest('warframes (playstyle…)', 'warframes', new WarframeScraper())
 await harvest('arcanos (upgradeTypes)', 'arcanes', new ArcaneScraper())
+await harvest('enemigos (baseLevel/multis…)', 'enemies', new EnemyScraper())
