@@ -44,7 +44,7 @@ Braton Prime · damagePerShot (DE):  [1.75, 12.25, 21]  → impact, puncture, sl
 `stats.damage` cuando el arma no tiene ataques: de las 109 sin `attacks`, **una sola** tiene
 puncture/slash > 0 — Dark Split-Sword, la regresión ya aceptada de la migración.
 
-**Estado: vigente en upstream · CORREGIDO en nuestro raw.** El build propio *importa*
+**Estado: vigente en upstream · no llega a nuestro raw.** El build propio *importa*
 `parser.parse()` en vez de copiarlo, así que heredaba el bug; `fixPhysicalDamage` en
 `build/raw-build.ts` lo revierte después del parseo, leyendo el `damagePerShot` crudo de DE — es
 idempotente por construcción, porque no deriva del `damage` ya calculado. **692 ítems corregidos**

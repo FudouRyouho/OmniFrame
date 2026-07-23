@@ -55,8 +55,20 @@ el JSON apunta al vacío y la UI muestra un hueco sin que nada avise — ya pas�
 upstream pristino, y duró un mes. Por eso `generate-data` corre `reportImageAssetCoverage`, que
 distingue *falta el asset en upstream* (gap de fuente) de *falta correr `get:img`*.
 
-⚠️ `public/images` está gitignored. En un clon nuevo: `npm run generate:data` (el completo);
-`generate:data:base` sólo escribe los JSON.
+⚠️ `public/images` está gitignored. En un clon nuevo hace falta `npm run generate:data`, que corre
+las dos mitades; `generate:data:json` escribe los JSON y **no** sincroniza imágenes.
+
+### Comandos
+
+| Comando | Qué hace |
+|---|---|
+| `npm run generate:data` | pipeline completo: JSON + sincronización de imágenes |
+| `npm run generate:data:json` | sólo los JSON — **no** toca `public/images` |
+| `npm run get:img` | sólo las imágenes, contra los JSON ya generados |
+| `npm run audit:data` | salud de los 4 pilares taxonómicos en los artefactos |
+| `npm run verify:abilities` · `verify:polarity` | conformidad de `ability-stats.override.json` / normalización de polaridad |
+
+Corren en **host**, no en Docker: necesitan salida a `origin.warframe.com`, a la wiki y a GitHub.
 
 ## 2. Reglas centrales
 

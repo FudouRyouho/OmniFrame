@@ -77,8 +77,8 @@ control de acción: decisión aparte.
 
 ## Qué emitimos y qué no
 
-El raw pasó de **149 MB a 28 MB**. Medido, no supuesto: se rastreó de qué categoría del raw viene
-cada ítem que llega a `public/data`.
+El raw ocupa **28 MB** — emitir todo lo que produce el parser serían 149. Qué entra no se supone: se
+rastrea de qué categoría del raw viene cada ítem que llega a `public/data`.
 
 - **15 categorías emitidas** — las que alimentan algún artefacto.
 - **`Node` se emite sin consumidor**, a propósito: es `ExportRegions` (nivel y facción de los 269

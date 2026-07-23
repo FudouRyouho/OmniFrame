@@ -161,7 +161,7 @@ async function persistSourceChangeAuditReport(params: {
  *
  * Ya pasó: el swap del fork a upstream pristino cambió los nombres de `ash-f2c6f3ab3f.png` (esquema
  * del CDN warframestat.us) a `AckAndBrunt.png` (nombre de DE), y quedó sin detectar un mes porque
- * `get-img.mjs` sólo corre con `npm run generate:data`, no con `generate:data:base`.
+ * `get-img.mjs` sólo corre con `npm run generate:data`, no con `generate:data:json`.
  *
  * Distingue los dos fallos porque tienen arreglos distintos:
  *   · sin asset en ORIGEN  → upstream no lo trae. Gap de fuente, `get:img` no lo arregla.

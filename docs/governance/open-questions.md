@@ -36,7 +36,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — síntoma resuelto en el consumidor (cascada); **causa raíz en el parser de upstream**, alcance fuera del enemigo sin medir |
-| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — el raw es propio, Project lo consume, G-1 corregido y el control de acción aplicado (149→28 MB). Residual angosto: recortar locales (exige tocar upstream) y limpieza de la dependencia; no bloquea |
+| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — el raw es propio y Project lo consume; las **imágenes** siguen saliendo del clon de upstream (605 MB) y los iconos de habilidades no existen en ninguna fuente resuelta; no bloquea |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
 | `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
@@ -729,7 +729,7 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 
 ---
 
-## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA — el raw es propio y controlado: build, loader, G-1 y control de acción. Residual: locales + limpieza de dependencia**
+## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA — el raw es propio y Project lo consume; falta que las imágenes también lo sean**
 
 **Dominio:** data / pipeline / fuente
 
@@ -1003,77 +1003,27 @@ nativo de esta fase).
 ---
 
 **Residuales abiertos:**
+- **Locales.** El fetch baja los 15 idiomas (~5 min de build) aunque el proyecto consuma `en`.
+  `locales` se lee del `config/locales.json` del clon **a nivel de módulo**: recortarlo exige tocar
+  upstream pristino o reimplementar `fetchResources`. **Diferido con criterio de reapertura:** no es
+  rentable por ahorro —el raw propio son 29 MB contra 1,7 GB del clon— pero sí lo será por **control**
+  el día que haga falta pin de versión del export.
+- **Imágenes: dos fuentes, ninguna resuelta en `omniframe-items`.** El raw es propio pero las imágenes
+  salen de `warframe-items/data/img` (605 MB) vía `get-img.mjs` — la asimetría que sostiene el clon.
+  El manifest de DE (19.690 entradas) cubre los ítems y haría innecesaria esa dependencia. **No cubre
+  los iconos de habilidades:** `Catalyze130xWhite.png`, `AmpIcon.png` y las otras 1.283 referencias de
+  `ability-stats.override.json` no están en el manifest (cero entradas con `130xWhite`) — son
+  nomenclatura del **wiki**, y nunca existió proceso que las descargara. Las habilidades no tienen
+  icono y nunca lo tuvieron.
+- **`wikia_thumbnail` se mantiene sin consumidor.** Ningún componente lo lee y ensucia el árbitro del
+  dataset (~13 armas por regeneración, es scrape del wiki en vivo). Se conserva como único puntero a
+  la imagen remota. Cobertura: 73% de armas, 49% de companions, 0% de warframes/mods/arcanes.
+- **El stub del Dockerfile no es removible todavía.** `omniframe-items` declara
+  `file:../warframe-items` para los tipos de `index.d.ts`, así que el `prepare` con husky se dispara
+  igual. Muere cuando el tipado salga de `@wfcd/items`.
 - **Entradas wiki-only:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en
   el wiki). Emitirlas exige cosechar también sus stats base del wiki → cambia la procedencia del stat base
   (hoy siempre export). No ejecutado; ver `OQ-DATA-15` (residual) y el §6 del schema.
-- **El raw propio es equivalente al de upstream: 26/26 archivos**, con el árbitro
-  `omniframe-items/build/diff-raw.mjs`. Lo que parecía no-determinismo era **ruido con causa conocida**,
-  no lógica inestable: `wikiaThumbnail` (scrape del wiki en vivo — cambia porque el wiki cambió),
-  `imageName` (empate en el `group.sort` de `dedupImageNames`: misma categoría ⇒ misma prioridad ⇒ decide
-  el orden de entrada), `itemCount`/`patchlogs` derivados. El árbitro los descuenta y normaliza el orden
-  de claves; `--strict` compara todo. **Ya no bloquea la fase.** Ninguno de esos campos toca el engine, y
-  el día que introduzcamos una divergencia deliberada (G-1) el árbitro la va a mostrar limpia.
-- **Loader propio ✅** — `omniframe-items/index.mjs` lee **nuestro** `data/json/`. Project no cambió una
-  línea (sigue siendo `Array.from(new Items())`). Replica la regla de composición de upstream, que no es
-  obvia: el default **lista el directorio** y carga cada categoría por separado, no lee `All.json` — de
-  ahí salen los 638 de `Enemy.json`, que el agregado no contiene. Leer `All.json` habría dado 16.889
-  ítems sin enemigos y sin aviso. Validado: **17.527 ítems, los mismos uniqueName, cero solo-A/solo-B**;
-  las 3.124 diferencias son exactamente la cosecha wiki de `enrichItems`.
-  **Dataset regenerado: cero regresiones** — mismos ítems, mismos stats; los 8 cambios son
-  `wikia_thumbnail` de `null` a URL (dato nuevo). Suite verde. El orden de categorías se fija con
-  `.sort()`: `readdirSync` depende del filesystem, y sin eso el orden de `public/data` baila entre
-  máquinas y 40.000 líneas de reordenamiento tapan el cambio real de un stat.
-- **El árbitro fuerte ya corre:** dos corridas consecutivas de `generate-data` dan `public/data`
-  byte-idéntico. A partir de acá, un `git diff` no vacío es señal.
-- **G-1 ✅ corregido en el raw propio** (`fixPhysicalDamage` en `raw-build.ts`, 692 ítems). Es la
-  **primera divergencia deliberada** contra upstream: `diff-raw` ya no da vacío por diseño (~620 ítems
-  en `damage`), y lo que sigue siendo señal ahí es solo-upstream/solo-nuestro ≠ 0 o cualquier campo que
-  no sea `damage`. Efecto medido: 480 armas cambian `stats.damage` en `public/data`, `attacks[]` no se
-  toca en ninguna, y el comportamiento del engine cambia **en una sola** (Dark Split-Sword, físicos
-  casi equidistribuidos) — la corrección es preventiva. Detalle en `../domains/source/gaps.md` §G-1.
-- **Control de acción ✅ (fase 2)** — el raw pasa de **149 MB a 28 MB**. Se emiten 15 categorías (las
-  que alimentan algún artefacto, rastreadas ítem por ítem) más `Node` sin consumidor a propósito
-  (`ExportRegions`, 1,2 MB). No se emiten 8 categorías sin consumidor (~15 MB) ni `All.json`/`i18n.json`
-  (107 MB, el 72% del raw). **El filtro es de emisión, no de parseo** — `dedupImageNames` debe seguir
-  viendo todas las categorías o cambian los `imageName` de lo que sí emitimos y se rompe `get-img`. Y
-  **el build purga** lo que ya no corresponde: dejar de escribir no borra, y el loader lista el
-  directorio. Dataset sin cambios (`git diff public/data` sólo mueve `wikia_thumbnail`), suite verde.
-- **Residual: los locales.** El fetch sigue bajando los 15 idiomas (~5 min de build). `locales` se lee
-  del `config/locales.json` del clon **a nivel de módulo**, así que recortarlo exige tocar upstream
-  pristino o reimplementar `fetchResources`. El costo es tiempo de build, no dato → diferido.
-- **`wikia_thumbnail` — decidido NO tocar (2026-07-23).** Es scrape del wiki en vivo, aparece y
-  desaparece entre corridas (~13 armas por regeneración) y ensucia el árbitro fuerte; ningún
-  componente lo consume. Se mantiene porque es el **único puntero a la imagen remota** si alguna vez
-  falta el asset local, y el ruido del árbitro es tolerable comparado con cerrar esa puerta.
-  Cobertura: 73% de armas, 49% de companions, 0% de warframes/mods/arcanes. No hace falta
-  "comentarlo": el campo sigue en el raw (`wikiaThumbnail`) y re-emitirlo es la misma línea que
-  quitarlo — git conserva ambas.
-- **Campo `image` del dataset ✅ purgado.** Emitía `/assets/items/<name>.png` (directorio inexistente,
-  extensión duplicada) y nadie lo leía: `DataRegistry` lo sobrescribe al hidratar. Resolver la URL es
-  responsabilidad de la presentación (`resolveLocalImageUrl`), no del pipeline. `BaseItem.image` pasó
-  a opcional y documenta que lo inyecta la hidratación.
-- **Vínculo dato↔imagen ✅ reconectado, con tripwire.** Las imágenes de ítems estaban **rotas desde el
-  swap a pristino**: el fork producía `ash-f2c6f3ab3f.png` (esquema del CDN warframestat.us) y
-  pristino produce `AckAndBrunt.png` (nombre de DE). Encima `get-img.mjs` recolectaba sólo la clave
-  `imageName` (cruda) y no `image_name` (la que emite el pipeline), así que sincronizaba contra
-  `public/data/items/*.json`, tres fósiles de marzo que nadie lee. Hoy los 7 artefactos resuelven al
-  100% (2.570 referencias). `reportImageAssetCoverage` en `generate-data` vigila el vínculo y
-  distingue *falta el asset en upstream* (gap de fuente) de *falta correr `get:img`*.
-  ⚠️ `public/images` está **gitignored**: en un clon nuevo hay que correr `npm run generate:data`, el
-  completo — `generate:data:base` sólo genera los JSON.
-- **Gap abierto: iconos de habilidades.** 1.283 referencias (`Catalyze130xWhite.png`, `AmpIcon.png`,
-  …) **no están en `warframe-items/data/img`** — vienen del `AbilityScraper` y su fuente de imágenes
-  no está resuelta. Las habilidades quedan sin icono. No investigado.
-- **Residuo trackeado sin consumidor:** `Project/public/data/items/{primary,secondary,melee}.json`
-  — 6,4 MB de marzo, con el esquema de nombres del fork, **ningún código los lee**. Eran lo que
-  desviaba a `get-img`. Candidatos a purga; están en git, así que la decisión es del usuario.
-- **Dependencia de Project ✅ cortada** — `Project/package.json` ya no declara `@wfcd/items`; sólo lo
-  importaba un script archivado. Contenedor reconstruido, suite verde, dataset sin cambios.
-  ⚠️ **El stub del Dockerfile NO se puede quitar**: `omniframe-items` sigue declarando
-  `file:../warframe-items` (para los tipos de `index.d.ts`), así que el `prepare` con husky se
-  dispararía igual. El stub muere cuando el tipado salga de `@wfcd/items`, no antes.
-- **Arranque desde cero verificado:** sin `data/json`, `generate-data` aborta con el comando a correr
-  en vez de emitir un dataset vacío.
 - **Dependencias estáticas de upstream sin auditar:** su `warnings.json` (de donde sale `failedImage`, que
   alimenta `dedupImageNames`) y su `data/img` (605 MB). Si upstream deja de publicarlas, envejecen en
   silencio igual que `Enemy.json`. Ver [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).
