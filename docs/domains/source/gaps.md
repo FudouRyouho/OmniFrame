@@ -25,9 +25,9 @@ docs vivos.)
 (documentado por DE). El parser de `warframe-items` mapea la posición `[1]` a slash y la `[2]` a
 puncture, invirtiendo los dos.
 
-**Alcance.** 486 de 595 armas invertidas, **cero correctas**. Las 109 restantes no son distinguibles
-(puncture = slash, o ambos en 0). Sólo esas dos posiciones fallan: los otros 18 tipos de daño mapean
-bien, medido sobre 567 armas.
+**Alcance.** Sobre las 567 armas con `damagePerShot` en `{Primary,Secondary,Melee}.json`, **467 están
+invertidas y cero correctas**; las otras 100 no son distinguibles (puncture = slash). Sólo fallan esas
+dos posiciones — los otros 18 tipos de daño mapean bien.
 
 **Evidencia interna.** El `attacks[0]` del **mismo ítem** —que viene del wiki, no del export— trae
 los valores bien, así que el raw se contradice a sí mismo ítem por ítem:
@@ -41,8 +41,8 @@ Braton Prime · damagePerShot (DE):  [1.75, 12.25, 21]  → impact, puncture, sl
 `warframe-items/data/json/{Primary,Secondary,Melee}.json`. Si da cero invertidas, upstream lo arregló.
 
 **Impacto acá: 1 arma.** `ItemRepository` lee `stats.attacks[]` (wiki, correctos) y sólo cae a
-`stats.damage` cuando el arma no tiene ataques: de las 109 sin `attacks`, **una sola** tiene
-puncture/slash > 0 — Dark Split-Sword, la regresión ya aceptada de la migración.
+`stats.damage` cuando el arma no tiene ataques. De todo el arsenal, **una sola** arma sin `attacks[]`
+tiene puncture/slash > 0 — Dark Split-Sword, la regresión ya aceptada de la migración.
 
 **Estado: vigente en upstream · no llega a nuestro raw.** El build propio *importa*
 `parser.parse()` en vez de copiarlo, así que heredaba el bug; `fixPhysicalDamage` en
@@ -98,8 +98,8 @@ del fósil con warrant escrito, y la fuente real de enemigos pasa a ser la cosec
 ## G-3 · Lo que falta no falta en la fuente: lo descarta nuestro pipeline
 
 **Está acá para cortar una búsqueda equivocada.** Varios datos que el proyecto da por ausentes llegan
-enteros a `warframe-items/data/json/*` y se pierden después, en `generate-data.ts`. Censado sobre
-`All.json` (16.889 ítems) y `Node.json`:
+enteros a `warframe-items/data/json/*` y se pierden después, en `generate-data.ts`. Censado sobre los
+archivos de categoría de upstream (`Melee.json`, `Mods.json`, `Node.json`, …), no sobre el agregado:
 
 | Campo | Llega de upstream | Para qué serviría |
 |---|---|---|
@@ -137,7 +137,7 @@ de texto por cantidad de piezas equipadas.
 ```
 
 **Dónde se pierde: en nuestro pipeline.** `generate-data.ts` no lee ninguno de esos campos, así que
-los 20 portadores llegan a `public/data/mods.json` con `description: ""` y sin `stats`, y ningún mod
+los 19 portadores llegan a `public/data/mods.json` con `description: ""` y sin `stats`, y ningún mod
 lleva su `modSet`. La lectura vieja —"el portador existe pero está vacío"— describía **nuestra
 salida**, no la fuente.
 

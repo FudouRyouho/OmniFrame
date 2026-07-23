@@ -64,20 +64,22 @@ Relevante porque el build propio lo **reusa in-situ** en vez de reimplementarlo:
 - **`build.ts` no exporta su clase** (`new Build(); void build.init()` al final), así que el pegamento
   —`applyCustomCategories`, `dedupImageNames`, `saveJson`— **se copia**: importarlo dispararía el
   build entero de upstream.
-- **El clon necesita `npm install` propio.** Hoy su `node_modules` está vacío: lo usamos como
-  repositorio de datos, nunca como paquete ejecutable. Las deps van **dentro del clon** (Node resuelve
-  por la ubicación del importador). De sus 54 deps, la cadena `scraper`+`parser` necesita **11**; las
-  pesadas (`sharp`, `imagemin*`) no están entre ellas — son de `saveImages`, que se salta.
+- **El clon se ejecuta, no es sólo un repositorio de datos.** El build propio importa su
+  `scraper`/`parser`, así que el clon necesita sus deps instaladas (`npm install` en su directorio —
+  Node resuelve por la ubicación del importador). De sus 54 deps, la cadena `scraper`+`parser` necesita
+  **11**; las pesadas (`sharp`, `imagemin*`) no están entre ellas — son de `saveImages`, que se salta.
 - **El estado del build vive en el directorio de upstream.** El caché incremental está anclado por
   `import.meta.url`: `previousBuild` lee `../data/json/All.json` (reusa drops y patchlogs si el hash
   no cambió) y `hashManager` **lee y escribe** `../data/cache/.export.json`. La formulación precisa de
   lo que hace el build propio es *orquestar la maquinaria de upstream in-situ y materializar la salida
   en su propio layout*.
-- **Satélites que el loader exige:** `data/cache/.export.json` (sin él el paquete no carga —
-  `require` sin try/catch), `data/json/i18n.json`, `data/warnings.json`.
-- **La clase `Items` no es re-apuntable** (`dirname(fileURLToPath(import.meta.url))`, sin parámetro),
-  así que un layout propio necesita loader propio. A cambio, Project no cambia una línea.
-- Métricas: origin alcanzable en ~450 ms; `fetchResources()` ~27 s / ~158 MB / 225 chunks.
+- **La clase `Items` de upstream no es re-apuntable** (`dirname(fileURLToPath(import.meta.url))`, sin
+  parámetro) y exige satélites propios (`require('data/cache/.export.json')` sin try/catch). Por eso
+  escribimos loader propio (`omniframe-items/index.mjs`): lee nuestro layout, toma `.export.json` con
+  fallback y ya no depende de `i18n.json` (que el control de acción dejó de emitir). A cambio, Project
+  no cambia una línea.
+- Métricas: origin alcanzable en ~450 ms; el fetch de recursos ~158 MB. El build completo tarda
+  ~5 min — lo domina la descarga de los 15 idiomas.
 
 ## Dependencias estáticas sin auditar
 
