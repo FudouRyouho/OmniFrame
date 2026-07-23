@@ -4,7 +4,7 @@ Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline 
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-22"
 ---
 
 # Data Domain — Estado Operativo
@@ -215,6 +215,18 @@ Corrige el **multishot por perfil de ataque**: `@wfcd/items` expone un único `s
 | Pendiente | 1 (Fusilai — `unique_name` no verificado) |
 
 Fuera de scope del override actual (gateado por modelado de dominio): Incarnon Form (Boltor/Soma/Kunai), melee con proyectil (Redeemer, gunblades, chakrams), archwing/companion/operador. Detalle en `weapons-known-gaps.md`.
+
+---
+
+## Enemigos (`enemies.json`)
+
+**Schema:** `docs/data/schemas/enemy/schema.md` ✅
+**Generador:** `Project/scripts/generate-enemies.mjs` — sin override poblado (`enemy-stats.override.json` = `{}`).
+**Estado:** ✅ 638 entradas, fuente **doble** (export del juego + cosecha wiki `Module:Enemies/data` vía
+`omniframe-items`, merge por nombre). `faction` canónica en cascada (incluye subfacciones: Kuva Grineer 25, Corpus Amalgam 46); `base_level` > 1 en 61 entradas;
+`eximus_health` (283) y `weakpoints[]` (407) emitidos por fidelidad, sin consumidor en el engine.
+**Gap conocido:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en el wiki)
+— hay ley de scaling y bonus de facción sin enemigos contra los cuales ejercerlos (schema §5).
 
 ---
 

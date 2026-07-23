@@ -33,6 +33,21 @@ const HEALTH_COEF: Record<string, SCoef> = {
   Techrot:      { below: { c: 0.02,   e: 2.12 }, above: { c: 15.0998, e: 0.7   } },
 };
 
+// SUBFACCIÓN → grupo de scaling. Una subfacción es una facción propia para el daño-vs-target
+// (Kuva Grineer resiste Heat, Grineer no) pero comparte la CURVA de su base: el wiki no publica
+// tablas separadas. Vive acá y no en el dato porque es agrupamiento de la ley, no del enemigo.
+const SCALING_GROUP: Record<string, string> = {
+  'Kuva Grineer': 'Grineer',
+  'Corpus Amalgam': 'Corpus',
+  'Infested Deimos': 'Infested',
+  'The Murmur': 'Murmur',
+};
+
+/** Coeficiente de la facción, cayendo a su grupo si es subfacción, y al default si no hay fila. */
+function coefFor(table: Record<string, SCoef>, faction: string, fallback: SCoef): SCoef {
+  return table[faction] ?? table[SCALING_GROUP[faction]] ?? fallback;
+}
+
 // Coeficientes de SHIELDS por facción. Infested no tiene fila en la wiki (no llevan escudo — el
 // `base=0` de esos enemigos hace el coef irrelevante en la práctica); fallback Grineer/Sentient.
 const SHIELDS_COEF: Record<string, SCoef> = {
@@ -67,11 +82,12 @@ function scaleMult(coef: SCoef, dx: number): number {
 
 /**
  * HEALTH escalada por facción. Fallback = grupo **Unaffiliated** (el default del wiki para facción no
- * reconocida), NO Grineer. ⚠️ Muchos enemigos traen un `faction` contaminado (categoría de arma / rol de
- * IA en vez de facción real, `enemies.json`) → caen a este default: `OQ-DATA-15`. `dx` = Δnivel ≥ 0.
+ * reconocida), NO Grineer. El `faction` que llega ya es canónico (cascada del generador, `OQ-DATA-15`
+ * resuelta): caen al default sólo las entidades que el proyecto no modela (fauna), marcadas
+ * `Unaffiliated` explícito en el dato. `dx` = Δnivel ≥ 0.
  */
 export function scaleHealth(base: number, faction: string, dx: number): number {
-  const healthCoef = HEALTH_COEF[faction] ?? HEALTH_COEF.Unaffiliated;
+  const healthCoef = coefFor(HEALTH_COEF, faction, HEALTH_COEF.Unaffiliated);
   return base * scaleMult(healthCoef, dx);
 }
 
@@ -81,7 +97,7 @@ export function scaleHealth(base: number, faction: string, dx: number): number {
  * → el fallback Grineer es una elección de código, no un default del wiki (`OQ-DATA-15`). `dx` = Δnivel ≥ 0.
  */
 export function scaleShields(base: number, faction: string, dx: number): number {
-  const shieldsCoef = SHIELDS_COEF[faction] ?? SHIELDS_COEF.Grineer;
+  const shieldsCoef = coefFor(SHIELDS_COEF, faction, SHIELDS_COEF.Grineer);
   return base * scaleMult(shieldsCoef, dx);
 }
 

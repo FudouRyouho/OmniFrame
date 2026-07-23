@@ -10,6 +10,16 @@ export type ArmorType = "None" | "FerriteArmor" | "AlloyArmor";
 export type ShieldType = "None" | "Shields" | "ProtoShield";
 
 /**
+ * Punto débil de un enemigo: multiplicador de daño por parte del cuerpo (`Multis` del wiki,
+ * "Head: 3.0x"). **Sin consumidor todavía** — el engine no modela headshots; se emite porque es
+ * dato real del juego (el schema es fidelidad, no engine). Ver `docs/data/schemas/enemy/schema.md`.
+ */
+export interface Weakpoint {
+  part: string;
+  multiplier: number;
+}
+
+/**
  * ADN de un Enemigo básico.
  */
 export interface EnemyDNA {
@@ -19,7 +29,17 @@ export interface EnemyDNA {
   health: number;
   armor: number;
   shields: number;
+  /**
+   * Facción canónica (`docs/semantic/factions.md`), resuelta en cascada por el generador
+   * (export → wiki → `type` → `Unaffiliated`): keyea el scaling y `FACTION_BONUS`. Ya NO llega
+   * contaminada con categorías de arma / roles de IA (`OQ-DATA-15`); lo que no es facción real
+   * cae a `Unaffiliated` explícito.
+   */
   faction: string;
+  /** Health de la variante Eximus (cosecha wiki). Sin consumidor todavía; fidelidad del dato. */
+  eximus_health?: number;
+  /** Multiplicadores por parte. Sin consumidor todavía; fidelidad del dato. */
+  weakpoints?: Weakpoint[];
   /**
    * @deprecated Clases per-capa **pre-U36** — ya no rigen (daño-vs-target = por facción, ver
    * `FACTION_BONUS`). El generador **NO las emite**; `load()` las rellena con **defaults inertes**
@@ -33,13 +53,16 @@ export interface EnemyDNA {
 }
 
 /**
- * Forma del enemigo tal como sale del generador (`public/data/enemies.json`): EnemyDNA MENOS el
- * `base_level` (seam, no viene de @wfcd) y MENOS los `*_type` deprecados (ver arriba). `load()`
- * completa ambos.
+ * Forma del enemigo tal como sale del generador (`public/data/enemies.json`): EnemyDNA MENOS los
+ * `*_type` deprecados (ver arriba), que `load()` rellena con defaults inertes. `base_level` YA
+ * viene en el dato (cosecha wiki vía omniframe-items) — dejó de ser un seam.
  */
-export type RawEnemyEntry = Omit<EnemyDNA, 'base_level' | 'health_type' | 'armor_type' | 'shield_type'>;
+export type RawEnemyEntry = Omit<EnemyDNA, 'health_type' | 'armor_type' | 'shield_type'>;
 
-/** Override fino de enemigo (hoy sólo `base_level`; keyed por unique_name). Sembrado, casi vacío. */
+/**
+ * Override fino de enemigo (hoy sólo `base_level`; keyed por unique_name). Sembrado, casi vacío.
+ * El override es curación manual: **gana** sobre el `base_level` cosechado.
+ */
 export type EnemyOverride = Record<string, { base_level?: number }>;
 
 /**
@@ -64,15 +87,15 @@ export class EnemyRepository {
   }
 
   /**
-   * Puebla el registro desde el dato normalizado (`enemies.json`), inyectando el `base_level`
-   * del override (`??1`, seam de Fase 1). Reemplaza el `register()` a mano de los fixtures.
+   * Puebla el registro desde el dato normalizado (`enemies.json`). El `base_level` viene en el
+   * dato; el override sólo lo pisa donde cura a mano. Reemplaza el `register()` de los fixtures.
    */
   public static load(entries: RawEnemyEntry[], overrides: EnemyOverride = {}): void {
     this.registry.clear();
     for (const e of entries) {
       this.register({
         ...e,
-        base_level: overrides[e.unique_name]?.base_level ?? 1,
+        base_level: overrides[e.unique_name]?.base_level ?? e.base_level ?? 1,
         // Defaults inertes de los `*_type` deprecados (ver EnemyDNA): `resolveHit` ya usa la matriz③ por
         // facción (`targetFactionMult`) y no lee estos campos. Sunset candidato del contrato (ver EnemyDNA).
         health_type: 'Health',

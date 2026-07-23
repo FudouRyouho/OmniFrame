@@ -28,7 +28,7 @@ describe('Enemy scaling — HEALTH (validado contra el calculador del wiki)', ()
     expect(ARID_BUTCHER.health).toBe(50);
     expect(ARID_BUTCHER.armor).toBe(5);
     expect(ARID_BUTCHER.faction).toBe('Grineer');
-    expect(ARID_BUTCHER.base_level).toBe(1); // seam: override ?? 1
+    expect(ARID_BUTCHER.base_level).toBe(1); // ya viene en el dato (cosecha wiki), no del seam
   });
 
   it('nivel base (1) → sin escalar: 50 hp', () => {

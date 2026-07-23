@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-19"
+Fecha_de_actualizacion: "2026-07-22"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -35,7 +35,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-11` | Compatibilidad de mods por entidad | data / semantic | abierta — degrada usabilidad |
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
-| `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — degrada fidelidad |
+| `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — síntoma resuelto en el consumidor (cascada); **causa raíz en el parser de upstream**, alcance fuera del enemigo sin medir |
 | `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — fase-1 EJECUTADA (omniframe-items consolidado); migración a pristino-master scopeada (MAJOR_RED, gated); no bloquea |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
@@ -672,7 +672,7 @@ ensamblado).
 
 ---
 
-## OQ-DATA-15 — Campo `faction` contaminado del enemigo: quiebra scaling + FACTION_BONUS — **ABIERTO (2026-07-19)**
+## OQ-DATA-15 — Campo `faction` contaminado del enemigo: quiebra scaling + FACTION_BONUS — **ABIERTA — síntoma resuelto, causa raíz upstream sin acotar**
 **Dominio:** data / "0" (DataRegistry) → engine (scaling + matriz③)
 
 **Contexto:** el campo `faction` de `enemies.json` **no es la taxonomía real de facciones**. De 638 entries
@@ -689,16 +689,37 @@ un campo de la fuente (`@wfcd/items`) que el engine trata como input vivo pero q
   → facción-basura ⇒ **bonus 0** (no se aplica el bonus anti-facción). *(`resolveHit` está fuera del pipeline
   de producción hoy, pero el defecto es real.)*
 
-**Pregunta:** ¿cómo se obtiene un **grupo de scaling / facción** confiable por enemigo? Opciones (todas poco
-atractivas, por eso su propia OQ):
-- (a) **Limpiar `faction`** en `enemies.json` / override a mano — trabajo + drift permanente.
-- (b) **Re-sourcing per-enemy desde `Module:Enemies`** (la infobox del wiki carga los coefs por enemigo
-  directamente) — pipeline pesado pero ground-truth; disuelve la tabla-por-facción.
-- (c) **Default + overrides curados** solo para los enemigos que importan — pragmático, deja el resto mal.
-- (d) **Campo `scaling_group` separado** del label `faction` — schema nuevo, desacopla los ejes.
+**Resolución (2026-07-22) — opción (b), y salió barata.** La cosecha de `Module:Enemies/data/<facción>`
+(fase-2 de `OQ-DATA-16`) la resolvió sin pipeline pesado: **el submódulo de origen ES la facción** (la tabla
+Lua no tiene campo de facción), y sus 12 valores son exactamente el dominio de `HEALTH_COEF`. El módulo Lua
+*es* el grupo de scaling — no hizo falta un `scaling_group` separado (opción (d)): el eje contaminado no
+tenía consumidor, sólo estorbaba.
 
-**No bloquea:** el engine corre; el scaling es aproximado para enemigos con facción contaminada. **Degrada:**
-fidelidad de todo mecanismo keyed-por-facción (scaling + bonus de facción).
+El generador resuelve `faction` en **cascada**: `faction` del export (lo trae justo para los 33 con `type`
+contaminado) → facción del submódulo wiki → `type` si es facción válida → `Unaffiliated` explícito.
+Resultado: 638/638 con facción canónica, ningún valor que no sea facción. Contrato y tabla de procedencia en
+[`../data/schemas/enemy/schema.md`](../data/schemas/enemy/schema.md).
+
+**Causa raíz: el parser de upstream, no la normalización propia.** `warframe-items/build/parser.ts`
+asigna `type` matcheando **substrings del `uniqueName`** contra su tabla de tipos de arma
+(`/…/Avatars/RifleLancerAvatar` contiene `"Rifle"` → `type = 'Rifle'`), y sólo si no matcheó nada hace
+`item.type = item.faction; item.faction = undefined`. De ahí el patrón exacto: 605 enemigos con `type`
+= facción real (movida por la segunda regla) y 33 con `type` = arma **que conservan `faction`**, porque
+la primera los capturó antes. La cascada del generador resuelve el síntoma **en un consumidor**; la
+regla sigue viva aguas arriba.
+
+**Lo que queda abierto — el alcance.** Si la causa es un matcher por substring de `uniqueName`,
+puede estar mal-tipando **cualquier** ítem cuyo path contenga `Rifle`/`Shotgun`/`Melee`, no sólo
+enemigos. Nadie midió eso. Censo pendiente: ítems no-`Enemy` cuyo `type` no cuadra con su categoría.
+
+**Residual (no es contaminación, es ausencia de dato):**
+- **Subfacciones:** `FACTION_BONUS` distingue Kuva Grineer, Corpus Amalgam, Infested Deimos, Zariman…;
+  `enemies.json` sólo trae la base. Esos bonus siguen latentes (gap ya anotado en `damage-multipliers.ts`).
+- **Facciones modernas sin enemigos:** el export no contiene **ninguna** unidad de Narmer/Anarchs/Murmur/
+  Techrot/Scaldra (115 en el wiki, 0 match). Hay ley (coefs + bonus) sin dato contra el cual ejercerla;
+  cerrarlo implica cosechar los stats base del wiki y emitir entradas wiki-only — decisión abierta.
+
+**No bloquea:** el engine corre. **Ya no degrada** el scaling por facción-basura.
 **Vínculo:** **OQ-ENGINE-21** (fidelidad de la LEY de scaling, hermana — ésta es el INPUT, aquélla la ley),
 **OQ-DATA-9** (borde de entrada "0" / normalización de datos), **OQ-ENGINE-15** (DR provisional, scaling
 vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/damage-multipliers.ts`.
@@ -862,9 +883,20 @@ regenerado (refresh abril→julio + campos re-cosechados), `source-change-report
 sin cambios (pristino trae `Enemy.json`). Árbitro final verde salvo las regresiones aceptadas. Commit del
 refresh hecho.
 
-**Residuales abiertos (post-promoción):**
-- **Fase-2 — enemigos:** el objetivo de fondo. Traer el módulo Lua de enemigos de la wiki (el `EnemyScraper`,
-  mismo patrón que los otros ×5), que pristino tampoco cosecha. El usuario aporta los links y se revisa juntos.
+**Fase-2 (enemigos) — cerrada.** `EnemyScraper` cosecha los 12 submódulos de `Module:Enemies/data` (1000
+enemigos: facción + `BaseLevel`/`EximusHealth`/`Multis`); `enrich.mjs` los mergea **por nombre** (no por
+`uniqueName`: el wiki indexa el *Agent*, el export el *Avatar* — 2.4% vs 86.5% de match) sobre los ítems
+`category: 'Enemy'`; `generate-enemies.mjs` consume `omniframe-items`. Contrato y gaps:
+[`../data/schemas/enemy/schema.md`](../data/schemas/enemy/schema.md).
+
+**Residuales abiertos:**
+- **Entradas wiki-only:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en
+  el wiki). Emitirlas exige cosechar también sus stats base del wiki → cambia la procedencia del stat base
+  (hoy siempre export). No ejecutado; ver `OQ-DATA-15` (residual) y el §5 del schema.
+- **`omniframe-items` merece dominio propio en `docs/`** (hoy su verdad vive repartida en esta OQ y en los
+  schemas), posiblemente junto a una re-estructuración del dominio `data/`. A debatir.
+- **Normalización aguas arriba:** que `omniframe-items` se encargue también de normalizar exige derivar el
+  tipado de `@shared` a un paquete de types reusable entre proyectos. Dirección acordada, sin fecha.
 - **Auditar normalizaciones `?? []` redundantes** que compensaban la incompletitud del fork (ej.
   `incompatibility_tags`) — ahora el dato fresco las puede volver innecesarias.
 - **Borrar `warframe-items.backup`** una vez confirmada la estabilidad de omniframe-items a nivel pipeline.
