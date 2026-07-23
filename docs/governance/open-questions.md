@@ -937,7 +937,7 @@ es el golden-master (`git diff public/data` vacío), que ya existe: detección, 
 |---|---|---|
 | 0 | **Fusión del pipeline.** `generate-enemies.mjs` → `buildEnemiesArtifacts` en `runtime-data-artifacts.ts` (tipado contra `RawEnemyEntry`); `enemies.json` se emite desde `generate-data`; los enemigos entran a `generatedEntries` del `source-change-audit`. Independiente del source: **se puede hacer ya** | `git diff public/data/enemies.json` vacío; un solo `new Items()` |
 | 1 | **Build propio passthrough.** Orquestador en `omniframe-items` que emite `data/json/*` reutilizando la capa-1 de upstream; Project consume ese raw | `git diff public/data` vacío. Si no da vacío, no se avanza |
-| 2 | **Control de acción.** Elegir categorías; dejar de emitir lo que nadie consume | diff vacío en lo consumido + peso del output |
+| 2 | **Control de acción.** Elegir categorías **y locales**: el fetch baja los **15** (`en de fr it ko es zh ja pl pt ru th tc tr uk`, 225 chunks) y Project instancia `new Items()` sin opciones — default `i18n: false`, así que **14 no los consume nadie**. Dejar de emitir lo que nadie usa | diff vacío en lo consumido + peso del output |
 | 3 | **Las correcciones suben de capa.** Censo del matcher por substring (`OQ-DATA-15`) → corregir `type` en el raw → **borrar la cascada de `faction`** del builder | diff **no** vacío: esperado y explicado ítem por ítem |
 
 **Por qué la fase 0 va primero:** hoy hay **dos** consumidores independientes del source (`generate-data.ts`
@@ -945,14 +945,39 @@ y `generate-enemies.mjs`, cada uno con su `new Items()`), y `enemies.json` **est
 regeneración** — no lo dispara ningún script de `package.json`, así que queda stale en silencio cuando el
 resto de `public/data` se actualiza. Fusionar deja **un** punto de contacto y hace la fase 1 más barata.
 
-**Forma de la fase 1 (resuelta — medida sobre el `build/` de upstream):**
+**Forma de la fase 1 (resuelta — medida sobre el `build/` de upstream y validada ejecutándolo):**
 
 *Cuánto se reutiliza:* `build/build.ts` son 447 líneas pero la **orquestación son ~30**; el músculo vive
 en módulos importables — `scraper` (fetch del export + manifest/drops/patchlogs/wikia) y `parser`
 (1435 líneas). **El parser no se copia, se importa.** El build propio = importar esos dos + escribir
 nuestro `saveJson` (~20 líneas, donde vive el control de acción: qué categorías se emiten). **`saveImages`
 se salta** — es lo caro del build (`imagemin`/`sharp`, descarga por ítem) y las imágenes ya vienen del
-`data/img` del clon de upstream (605 MB), que es lo que `get-img.mjs` lee.
+`data/img` del clon de upstream (605 MB), que es lo que `get-img.mjs` lee. Verificado: los tres módulos
+(`scraper`/`parser`/`hashManager`) cargan e exponen su API importados por ruta desde fuera del paquete.
+
+*⚠️ El clon deja de ser solo-datos: hay que instalarlo.* Hoy `warframe-items/node_modules` está **vacío**
+— nunca corrió `npm install`, porque sólo consumimos su `data/json` commiteado. El build propio lo exige,
+y las dependencias **van dentro del clon, no en `omniframe-items`**: Node resuelve por la ubicación del
+*importador*, y los archivos importados viven en `warframe-items/build/`. Traer el clon pasa a ser
+`git clone --depth=1` **+** install. De sus **54 deps declaradas la cadena `scraper`+`parser` necesita 11**
+(`chalk`, `cheerio`, `https-proxy-agent`, `lodash.clonedeep`, `lzma`, `node-fetch`, `progress`,
+`sanitize-filename`, `socks5-http-client`, `@wfcd/patchlogs`, `@wfcd/relics`) — `sharp`/`imagemin*`, las
+pesadas, **no** están entre ellas: son de `saveImages`, que se salta.
+
+*⚠️ El estado del build vive en el directorio de upstream.* No es sólo lectura de `config/`: el parser
+mantiene un **caché incremental** anclado por `import.meta.url` a su propio directorio —
+`previousBuild ← ../data/json/All.json` (reusa drops y patchlogs del build anterior cuando el hash no
+cambió, "takes a lot of cpu time"), y `hashManager` **lee y escribe** `../data/cache/.export.json`. O sea:
+el build propio reutiliza el `All.json` *de upstream* como caché y sus escrituras de cache caen *allí*.
+Funciona —el clon es descartable y regenerable— pero la formulación precisa no es "omniframe-items genera
+su raw de punta a punta" sino: **orquesta el build con la maquinaria de upstream in-situ y materializa la
+salida en su propio layout.**
+
+*Precondición validada:* `origin.warframe.com` es alcanzable (451 ms) y `scraper.fetchResources()`
+completa en **~27 s trayendo ~158 MB**. Los endpoints traen el **hash embebido**
+(`ExportCustoms_en.json!00_ZJIc6+…`) — es el insumo directo de `.export.json` y, con él, del sello de
+versión. Sin correr aún: `parser.parse()`, que exige además manifest/drops/patchlogs/wikia/relics — eso
+ya *es* la fase 1 y tiene su árbitro de diff vacío.
 
 *Cómo expone el raw:* **`omniframe-items` replica el layout de upstream** — `data/json/` propio + loader
 propio. No es elección estética: la clase `Items` resuelve su `data/json` **relativo a su propio archivo**
@@ -977,6 +1002,8 @@ cache existe pero no está wired".
   `"./utilities"`) → se importan **por ruta relativa** al clon. Es el acoplamiento a internos que (a)
   asume a conciencia, no un accidente: documentado acá hasta que nazca el dominio de `omniframe-items` en
   `docs/`, donde pasará a vivir con su JSDoc.
+- **El build propio corre en HOST, no en Docker** — como el resto del pipeline de datos: necesita salida a
+  `origin.warframe.com`, a la wiki y a GitHub.
 - El build de upstream es TS (`tsx ./build/build.ts`); `omniframe-items` es `.mjs` plano → suma `tsx`.
 - **Asimetría a sostener:** el raw JSON viene de `omniframe-items`, las **imágenes** siguen viniendo de
   `warframe-items/data/img` vía `get-img.mjs`. Coherente mientras el build propio use el `parser` de
