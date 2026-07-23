@@ -107,7 +107,7 @@ operación/bucket, en qué perfil/gate, de qué fuente, su estado y su procedenc
 | Consumidor | Transferencia | Nodo destino | Operación / bucket | Perfil / gate | Fuente | Estado | Proc. |
 |---|---|---|---|---|---|---|---|
 | **Heavy slam** | identidad (× `combo_mult`) | `WEAPON_ADD_DAMAGE` | `multiplicative` | perfil `heavy_slam_attack` | intrínseco (hidratación) | **✅ ejecutado** | (c) |
-| **Heavy ground** | identidad (× `combo_mult`) | `WEAPON_ADD_DAMAGE` | `multiplicative` | perfil sintético (no en el dato) | intrínseco | **difiere** (comparte perfil `base` con el light + capa stance) | (b) |
+| **Heavy ground** | identidad (× `combo_mult`) | `WEAPON_ADD_DAMAGE` | `multiplicative` | perfil sintético — **no en `attacks[]`, pero sí en el export**: `heavyAttackDamage` está en las 223 melee y **no es derivable** (de `1×` a `18×` el `totalDamage`, per-arma). El pipeline lo descarta | intrínseco | **difiere** (comparte perfil `base` con el light + capa stance) | (b) |
 | **Blood Rush** | escalar (`val × combo_mult`) | `WEAPON_ADD_CRIT_CHANCE` | `ADD` (mods_add_pct) | mod, sin gate (combo 0 → mult 1, siempre activo) | ModRepository | **✅ ejecutado (2026-07-10)** | (c) |
 | **Weeping Wounds** | escalar (`val × combo_mult`) | `WEAPON_ADD_STATUS_CHANCE` | `ADD` (mods_add_pct) | mod, sin gate (combo 0 → mult 1, siempre activo) | ModRepository | **✅ ejecutado (2026-07-10)** (mismo op, sin test propio — Blood Rush lo valida) | (c) |
 | **Habilidades** | ratio 1:0.25 (o completo si Ability Combo Counter) | (fuera del grafo de arma) | fórmula dedicada | ability (§2/§3) | ability domain | diferido | (b) |
@@ -201,20 +201,23 @@ Vecinos inventariados, **no modelados** — cada uno diferido a su propio caso+d
 > El heavy slam base ya servido (Nikana 594, blast) es **stat puro**, sin el multiplicador de combo ni el
 > factor de distancia. Es la base del perfil, no el slam completo.
 
-> ⚠️ **Duda abierta: qué mitad del slam estamos sirviendo.** El export trae, para las 223 melee, un
-> **par** por cada slam —impacto directo y radial— y nuestro dataset conserva **uno solo**, sin que el
-> nombre lo diga. Nikana Prime: el export da `slamAttack 594` / `slamRadialDamage 396` y
-> `heavySlamAttack 792` / `heavySlamRadialDamage 594`; nuestro `attacks[]` (wiki) da *Slam Attack* 396
-> y *Heavy Slam Attack* 594. Coinciden **desplazados**: lo que servimos como el ataque es lo que el
-> export llama radial, y el impacto directo no llega a `public/data`.
+> ⚠️ **El slam tiene dos mitades y modelamos una: la radial.** El export trae el par —impacto directo
+> al enemigo golpeado y daño radial en área— para las 223 melee. El wiki **no**: su módulo modela el
+> slam como AoE puro con `falloff`, y publica sólo el radial. No es el parser descartando un campo; el
+> dato no está en esa fuente.
 >
-> El 594 que este ladrillo modela está validado contra el arsenal, así que el número **no está mal**
-> — lo que está sin resolver es **qué representa** y si falta la otra mitad del par.
+> Nikana Prime: export `slamAttack 594` / `slamRadialDamage 396`, `heavySlamAttack 792` /
+> `heavySlamRadialDamage 594`. Wiki (nuestro `attacks[]`): *Slam Attack* 396 con `falloff end 6`,
+> *Heavy Slam Attack* 594 con `falloff end 7`. Las dos fuentes **coinciden en el radial** —los radios
+> también (`slamRadius 6`/`heavySlamRadius 7` = los `falloff.end`)—. El 594 de este ladrillo está bien;
+> es el heavy slam **radial**, y "el centro 100%" significa el centro del área, no el impacto directo.
 >
-> **Pregunta ejecutable (necesita partida, no análisis):** con Nikana Prime sin mods, ¿el enemigo bajo
-> el punto de impacto y uno al borde del radio reciben números distintos? Si sí, ¿cuál de los dos es
-> 594? Eso decide si `attacks[]` nos está dando el directo o el radial, y si el par hay que propagarlo
-> entero desde el export. Ver `../../source/gaps.md` §G-3.
+> **Lo que servimos es derivable y por eso no perdimos nada ahí:** el radial es exactamente `2×` el
+> `totalDamage` en el slam y `3×` en el heavy slam, **constante en las 223 armas, sin excepción**.
+>
+> **Lo que sí se pierde es información real:** `slamAttack` (el impacto directo) vale `3×` en 170 armas
+> pero `2×` en 53 — no es derivable. Falta saber si se **suma** al radial sobre el enemigo golpeado o
+> si es exclusivo; eso sí necesita partida. Ver `../../source/gaps.md` §G-3.
 
 ## 6 — Estado / worklist (SSoT)
 
