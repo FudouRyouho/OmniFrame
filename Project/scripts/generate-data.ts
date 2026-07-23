@@ -150,6 +150,73 @@ async function persistSourceChangeAuditReport(params: {
   }
 }
 
+/**
+ * Tripwire del vínculo dato↔imagen.
+ *
+ * El dataset referencia sus imágenes **por nombre de archivo exacto** (`image_name` →
+ * `/images/<image_name>` en `resolveLocalImageUrl`), y ese nombre lo decide upstream — más
+ * `dedupImageNames`, que lo muta para resolver colisiones entre categorías. Nada garantiza que el
+ * archivo exista: si el esquema cambia, el JSON apunta al vacío, la UI muestra un hueco y **ningún
+ * proceso avisa**.
+ *
+ * Ya pasó: el swap del fork a upstream pristino cambió los nombres de `ash-f2c6f3ab3f.png` (esquema
+ * del CDN warframestat.us) a `AckAndBrunt.png` (nombre de DE), y quedó sin detectar un mes porque
+ * `get-img.mjs` sólo corre con `npm run generate:data`, no con `generate:data:base`.
+ *
+ * Distingue los dos fallos porque tienen arreglos distintos:
+ *   · sin asset en ORIGEN  → upstream no lo trae. Gap de fuente, `get:img` no lo arregla.
+ *   · sin asset en DESTINO → falta correr `npm run get:img`.
+ *
+ * Reporta y no rompe: es señal, no un gate.
+ */
+async function reportImageAssetCoverage(artifacts: RuntimeDataArtifacts): Promise<void> {
+  const origen = path.resolve(projectRoot, '../warframe-items/data/img')
+  const destino = path.resolve(projectRoot, 'public/images')
+
+  const nombres = new Set<string>()
+  for (const grupo of [
+    artifacts.warframes, artifacts.weapons, artifacts.mods, artifacts.arcanes,
+    artifacts.companions, artifacts.archwingWeapons, artifacts.vehicles,
+  ]) {
+    for (const item of grupo as Array<{ image_name?: string }>) {
+      if (item.image_name) nombres.add(item.image_name)
+    }
+  }
+
+  const leer = async (dir: string): Promise<Set<string> | null> => {
+    try {
+      return new Set(await fs.readdir(dir))
+    } catch {
+      return null // el clon o el directorio no existen en este entorno
+    }
+  }
+
+  const [enOrigen, enDestino] = await Promise.all([leer(origen), leer(destino)])
+
+  if (enOrigen) {
+    const faltan = [...nombres].filter((n) => !enOrigen.has(n))
+    if (faltan.length) {
+      console.log(`⚠️  ${faltan.length}/${nombres.size} imágenes SIN asset en upstream (gap de fuente)`)
+      console.log(`    ej.: ${faltan.slice(0, 5).join(', ')}`)
+    }
+  }
+
+  if (enDestino) {
+    const faltan = [...nombres].filter((n) => !enDestino.has(n))
+    if (faltan.length) {
+      const todas = faltan.length === nombres.size
+      console.log(`⚠️  ${faltan.length}/${nombres.size} imágenes sin copiar a public/images`)
+      console.log(
+        todas
+          ? '    NINGUNA resuelve — el esquema de nombres cambió o nunca se corrió. Correr: npm run get:img'
+          : `    Correr: npm run get:img — ej.: ${faltan.slice(0, 5).join(', ')}`,
+      )
+    } else {
+      console.log(`✓ imágenes — ${nombres.size} referencias resueltas en public/images`)
+    }
+  }
+}
+
 async function main(): Promise<void> {
   const artifacts = buildRuntimeDataArtifacts({
     sourceItems,
@@ -161,6 +228,7 @@ async function main(): Promise<void> {
 
   await persistRuntimeDataArtifacts(artifacts)
   await persistSourceChangeAuditReport({ sourceItems, artifacts })
+  await reportImageAssetCoverage(artifacts)
 
   console.log('Done.')
 }

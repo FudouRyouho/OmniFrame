@@ -105,8 +105,10 @@ function collectImageNamesFromValue(value, parentKey, bucket) {
 
   if (typeof value !== 'string') return
 
-  // Fuente principal: imageName
-  if (parentKey === 'imageName') {
+  // `image_name` es el campo que emite el pipeline; `imageName` es la forma cruda de la fuente.
+  // Se aceptan ambas: leer sólo la camelCase dejaba fuera TODO el dataset actual —el pipeline
+  // normaliza a snake_case— y hacía que este script sincronizara contra JSON muertos.
+  if (parentKey === 'image_name' || parentKey === 'imageName') {
     const normalized = normalizeImageName(value)
     if (normalized) bucket.add(normalized)
   }
