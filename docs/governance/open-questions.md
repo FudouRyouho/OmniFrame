@@ -36,7 +36,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-13` | Íconos de habilidad/shard: presentación duplicada/divergente | ui-ux / presentation | abierta — no bloquea |
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — síntoma resuelto en el consumidor (cascada); **causa raíz en el parser de upstream**, alcance fuera del enemigo sin medir |
-| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — fase-1 EJECUTADA (omniframe-items consolidado); migración a pristino-master scopeada (MAJOR_RED, gated); no bloquea |
+| `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — fases 1 (omniframe-items) y 2 (enemigos) cerradas; **fase-3 planificada**: build propio del raw, arranca por la fusión del pipeline; no bloquea |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
 | `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
@@ -727,7 +727,7 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 
 ---
 
-## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA (2026-07-20) — MIGRACIÓN EJECUTADA 2026-07-22 (pristino activo, fork → `.backup`, omniframe-items re-cosecha); pendiente: fase-2 enemigos + residuales**
+## OQ-DATA-16 — Fuente de datos propia (estructura a medida) vs. el fork `@wfcd/items` — **ABIERTA — fases 1-2 cerradas (pristino activo, fork → `.backup`, omniframe-items re-cosecha); fase-3 planificada: build propio del raw**
 
 **Dominio:** data / pipeline / fuente
 
@@ -889,14 +889,113 @@ enemigos: facción + `BaseLevel`/`EximusHealth`/`Multis`); `enrich.mjs` los merg
 `category: 'Enemy'`; `generate-enemies.mjs` consume `omniframe-items`. Contrato y gaps:
 [`../data/schemas/enemy/schema.md`](../data/schemas/enemy/schema.md).
 
+---
+
+### Fase-3 — `omniframe-items` genera su propio raw (PLANIFICADA, no arrancada)
+
+**Tesis: enriquecer no alcanza, el gap se traslada.** `omniframe-items` hoy **no genera** nada propio —
+enriquece en memoria el output de upstream (`enrichItems` muta objetos dentro del constructor; no hay
+artefacto en disco que mirar). Sirve para lo **ausente**, pero no para lo **mal derivado**: cuando el
+defecto nace en la construcción del raw, sólo se puede parchear el síntoma aguas abajo, en cada
+consumidor. Caso testigo: el `type` contaminado del enemigo (`OQ-DATA-15`) — la cascada de `faction`
+vive en un consumidor y cualquier otro que lea enemigos hereda el defecto de nuevo.
+
+**Forma:**
+```
+warframe-items ──► omniframe-items ──► generate-data.ts ──► dataset final
+  capa raw           build propio        normalización
+  (caja negra)       (scrapers propios,  (sin cambio de rol,
+                      categorías          toma el source de
+                      elegidas, gaps      omniframe-items)
+                      de derivación
+                      corregidos)
+```
+
+Cada capa mantiene su objetivo: `warframe-items` aporta ingest/tipado/estructura y **no se modifica**;
+`omniframe-items` **recompone** con ese tipado (no inventa uno nuevo) y emite el raw a disco;
+`generate-data.ts` normaliza como siempre. Materializar el raw hace **diffeable cada frontera**:
+upstream → omniframe → normalizado, y un breakage se bisecta en un paso en vez de ejecutar código.
+
+**Build propio, NO wrapper sobre el `data/json` de upstream.** El wrapper es lo que ya tenemos y es lo
+que **no** protegió: el incidente que costó la migración fue un cambio de **contenido** (upstream dejó de
+cosechar campos del wiki), no de forma — un wrapper lo recibe idéntico, un build propio con scrapers
+propios lo absorbe. El riesgo de mantenimiento existe en ambas variantes (upstream puede cambiar
+estructura, código o tipado en cualquier momento), así que no es el discriminador; el discriminador es
+el **control de acción**: elegir qué se genera (no emitir `Gear`/`Fish`/`Node`), corregir derivaciones,
+aligerar el raw. Eso el wrapper no lo da por construcción.
+
+**Sin pin de versión, a propósito.** Un pin sin política de bump es deuda que driftea en silencio — el
+mismo patrón por el que se retiró el campo `Version` de los docs. El criterio sano es **por versión del
+juego**, y exige maquinaria (¿qué build del juego? ¿qué commit de upstream le corresponde?) que hoy
+sería over-engineering. El **sello de versión nativo** que habilita el ingest propio (`OQ-DATA-9`) es
+justamente su insumo: **el pin es consecuencia de esta fase, no requisito.** Mientras tanto el árbitro
+es el golden-master (`git diff public/data` vacío), que ya existe: detección, no prevención.
+
+**Secuencia y árbitro por fase:**
+
+| # | Paso | Árbitro |
+|---|---|---|
+| 0 | **Fusión del pipeline.** `generate-enemies.mjs` → `buildEnemiesArtifacts` en `runtime-data-artifacts.ts` (tipado contra `RawEnemyEntry`); `enemies.json` se emite desde `generate-data`; los enemigos entran a `generatedEntries` del `source-change-audit`. Independiente del source: **se puede hacer ya** | `git diff public/data/enemies.json` vacío; un solo `new Items()` |
+| 1 | **Build propio passthrough.** Orquestador en `omniframe-items` que emite `data/json/*` reutilizando la capa-1 de upstream; Project consume ese raw | `git diff public/data` vacío. Si no da vacío, no se avanza |
+| 2 | **Control de acción.** Elegir categorías; dejar de emitir lo que nadie consume | diff vacío en lo consumido + peso del output |
+| 3 | **Las correcciones suben de capa.** Censo del matcher por substring (`OQ-DATA-15`) → corregir `type` en el raw → **borrar la cascada de `faction`** del builder | diff **no** vacío: esperado y explicado ítem por ítem |
+
+**Por qué la fase 0 va primero:** hoy hay **dos** consumidores independientes del source (`generate-data.ts`
+y `generate-enemies.mjs`, cada uno con su `new Items()`), y `enemies.json` **está fuera del ciclo de
+regeneración** — no lo dispara ningún script de `package.json`, así que queda stale en silencio cuando el
+resto de `public/data` se actualiza. Fusionar deja **un** punto de contacto y hace la fase 1 más barata.
+
+**Forma de la fase 1 (resuelta — medida sobre el `build/` de upstream):**
+
+*Cuánto se reutiliza:* `build/build.ts` son 447 líneas pero la **orquestación son ~30**; el músculo vive
+en módulos importables — `scraper` (fetch del export + manifest/drops/patchlogs/wikia) y `parser`
+(1435 líneas). **El parser no se copia, se importa.** El build propio = importar esos dos + escribir
+nuestro `saveJson` (~20 líneas, donde vive el control de acción: qué categorías se emiten). **`saveImages`
+se salta** — es lo caro del build (`imagemin`/`sharp`, descarga por ítem) y las imágenes ya vienen del
+`data/img` del clon de upstream (605 MB), que es lo que `get-img.mjs` lee.
+
+*Cómo expone el raw:* **`omniframe-items` replica el layout de upstream** — `data/json/` propio + loader
+propio. No es elección estética: la clase `Items` resuelve su `data/json` **relativo a su propio archivo**
+(`dirname(fileURLToPath(import.meta.url))`, sin parámetro), así que no se la puede re-apuntar — hoy
+`omniframe-items` la extiende y por eso lee el `data/json` de *upstream*. Con layout propio, **Project no
+cambia una línea**: `generate-data.ts` sigue haciendo `new Items()` y el swap es transparente, que es lo
+que hace viable el árbitro de diff vacío.
+
+*Satélites del layout (no alcanza con `data/json/<Category>.json`):* el loader **exige**
+`data/cache/.export.json` (hashes por archivo del export ⇒ `Items.versions`) y lee `data/json/i18n.json`;
+el build lee `data/warnings.json`. Replicar el layout es replicar esos también. **`.export.json` es además
+el insumo del sello de versión** que habilita el pin futuro (`OQ-DATA-9`).
+
+*Consecuencia estructural:* el enriquecimiento pasa de **dos tiempos a uno**. Hoy hay build → cache
+(`data/*.json`) y luego runtime → `enrichItems` mutando en memoria dentro del constructor; con raw propio
+los scrapers corren dentro del build y el resultado queda en el `data/json` emitido. `enrich.mjs` y el
+`index.mjs` actual (que extiende la clase de upstream) mueren ahí. Elimina de raíz la clase de bug "la
+cache existe pero no está wired".
+
+*Costos aceptados, explícitos:*
+- `parser`/`scraper` **no están en los `exports`** del `package.json` de upstream (sólo `"."` y
+  `"./utilities"`) → se importan **por ruta relativa** al clon. Es el acoplamiento a internos que (a)
+  asume a conciencia, no un accidente: documentado acá hasta que nazca el dominio de `omniframe-items` en
+  `docs/`, donde pasará a vivir con su JSDoc.
+- El build de upstream es TS (`tsx ./build/build.ts`); `omniframe-items` es `.mjs` plano → suma `tsx`.
+- **Asimetría a sostener:** el raw JSON viene de `omniframe-items`, las **imágenes** siguen viniendo de
+  `warframe-items/data/img` vía `get-img.mjs`. Coherente mientras el build propio use el `parser` de
+  upstream (mismo `imageName`); si esa derivación se toca, `get-img` es el primer damnificado.
+- El **stub de `@wfcd/items` del Dockerfile** asume la forma actual del paquete → revisar al cambiarla.
+
+**Diferido con gate explícito:** normalización dentro de `omniframe-items` (gated por sacar el tipado de
+`@shared` a un paquete reusable) · frontera source/normalizado en dos carpetas, con `generate-data`
+reducido a comprobar/copiar/auditar (`OQ-DATA-9`) · pin + maquinaria de versión (habilitado por el sello
+nativo de esta fase).
+
+---
+
 **Residuales abiertos:**
 - **Entradas wiki-only:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en
   el wiki). Emitirlas exige cosechar también sus stats base del wiki → cambia la procedencia del stat base
-  (hoy siempre export). No ejecutado; ver `OQ-DATA-15` (residual) y el §5 del schema.
+  (hoy siempre export). No ejecutado; ver `OQ-DATA-15` (residual) y el §6 del schema.
 - **`omniframe-items` merece dominio propio en `docs/`** (hoy su verdad vive repartida en esta OQ y en los
   schemas), posiblemente junto a una re-estructuración del dominio `data/`. A debatir.
-- **Normalización aguas arriba:** que `omniframe-items` se encargue también de normalizar exige derivar el
-  tipado de `@shared` a un paquete de types reusable entre proyectos. Dirección acordada, sin fecha.
 - **Auditar normalizaciones `?? []` redundantes** que compensaban la incompletitud del fork (ej.
   `incompatibility_tags`) — ahora el dato fresco las puede volver innecesarias.
 - **Borrar `warframe-items.backup`** una vez confirmada la estabilidad de omniframe-items a nivel pipeline.
