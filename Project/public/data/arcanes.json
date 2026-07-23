@@ -2,7 +2,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AmmoEfficiencyOnSliding",
     "name": "Akimbo Slip Shot",
-    "image": "/assets/items/ArcaneProjectionCT.png.png",
     "image_name": "ArcaneProjectionCT.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AmmoEfficiencyOnSliding",
     "domain": "arcane",
@@ -53,7 +52,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunSpeedOnCrit",
     "name": "Arcane Acceleration",
-    "image": "/assets/items/ArcaneProjectionAM.png.png",
     "image_name": "ArcaneProjectionAM.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunSpeedOnCrit",
     "domain": "arcane",
@@ -107,7 +105,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/GolemArcaneShieldRegenOnDamage",
     "name": "Arcane Aegis",
-    "image": "/assets/items/ArcaneProjectionBA.png.png",
     "image_name": "ArcaneProjectionBA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/GolemArcaneShieldRegenOnDamage",
     "domain": "arcane",
@@ -161,7 +158,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SpeedOnDamage",
     "name": "Arcane Agility",
-    "image": "/assets/items/ArcaneProjectionAG.png.png",
     "image_name": "ArcaneProjectionAG.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SpeedOnDamage",
     "domain": "arcane",
@@ -215,7 +211,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneBonusDamageOnWallLatch",
     "name": "Arcane Arachne",
-    "image": "/assets/items/ArcaneEnergise.png.png",
     "image_name": "ArcaneEnergise.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneBonusDamageOnWallLatch",
     "domain": "arcane",
@@ -269,7 +264,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/CritChanceOnDamage",
     "name": "Arcane Avenger",
-    "image": "/assets/items/ArcaneProjectionAB.png.png",
     "image_name": "ArcaneProjectionAB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/CritChanceOnDamage",
     "domain": "arcane",
@@ -323,7 +317,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/PistolDamageOnReload",
     "name": "Arcane Awakening",
-    "image": "/assets/items/ArcaneProjectionAS.png.png",
     "image_name": "ArcaneProjectionAS.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/PistolDamageOnReload",
     "domain": "arcane",
@@ -377,7 +370,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/InstantShieldOnDamage",
     "name": "Arcane Barrier",
-    "image": "/assets/items/ArcaneProjectionAE.png.png",
     "image_name": "ArcaneProjectionAE.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/InstantShieldOnDamage",
     "domain": "arcane",
@@ -431,7 +423,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MaxEnergyForArmor",
     "name": "Arcane Battery",
-    "image": "/assets/items/ArcaneProjectionDF.png.png",
     "image_name": "ArcaneProjectionDF.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MaxEnergyForArmor",
     "domain": "arcane",
@@ -485,7 +476,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthForMaxHealth",
     "name": "Arcane Bellicose",
-    "image": "/assets/items/ArcaneProjectionDI.png.png",
     "image_name": "ArcaneProjectionDI.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthForMaxHealth",
     "domain": "arcane",
@@ -539,7 +529,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeDmgOnRifleKill",
     "name": "Arcane Blade Charger",
-    "image": "/assets/items/ArcaneProjectionMeleeDmgOnRifleKill.png.png",
     "image_name": "ArcaneProjectionMeleeDmgOnRifleKill.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeDmgOnRifleKill",
     "domain": "arcane",
@@ -593,7 +582,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/IncreaseMaxHealthOnHealthPickup",
     "name": "Arcane Blessing",
-    "image": "/assets/items/ArcaneProjectionCA.png.png",
     "image_name": "ArcaneProjectionCA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/IncreaseMaxHealthOnHealthPickup",
     "domain": "arcane",
@@ -647,7 +635,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HealCompanionOnSixMeleeKills",
     "name": "Arcane Bodyguard",
-    "image": "/assets/items/ArcaneProjectionHealCompanionOnSixMeleeKills.png.png",
     "image_name": "ArcaneProjectionHealCompanionOnSixMeleeKills.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HealCompanionOnSixMeleeKills",
     "domain": "arcane",
@@ -701,7 +688,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthOnSummonAttack",
     "name": "Arcane Camisado",
-    "image": "/assets/items/ArcaneProjectionDP.png.png",
     "image_name": "ArcaneProjectionDP.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthOnSummonAttack",
     "domain": "arcane",
@@ -755,7 +741,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/StealDefensiveStatsOnRoll",
     "name": "Arcane Circumvent",
-    "image": "/assets/items/ArcaneProjectionDY.png.png",
     "image_name": "ArcaneProjectionDY.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/StealDefensiveStatsOnRoll",
     "domain": "arcane",
@@ -809,7 +794,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityDurationOnCast",
     "name": "Arcane Concentration",
-    "image": "/assets/items/ArcaneProjectionAO.png.png",
     "image_name": "ArcaneProjectionAO.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityDurationOnCast",
     "domain": "arcane",
@@ -863,7 +847,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneAimGlideOnHeadshot",
     "name": "Arcane Consequence",
-    "image": "/assets/items/ArcaneProjectionBH.png.png",
     "image_name": "ArcaneProjectionBH.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneAimGlideOnHeadshot",
     "domain": "arcane",
@@ -917,7 +900,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityStrengthAndCritDamageWhenInvisible",
     "name": "Arcane Crepuscular",
-    "image": "/assets/items/ArcaneProjectionDQ.png.png",
     "image_name": "ArcaneProjectionDQ.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityStrengthAndCritDamageWhenInvisible",
     "domain": "arcane",
@@ -971,7 +953,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/PunctureProcResist",
     "name": "Arcane Defense",
-    "image": "/assets/items/ArcaneProjectionPuncture.png.png",
     "image_name": "ArcaneProjectionPuncture.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/PunctureProcResist",
     "domain": "arcane",
@@ -1025,7 +1006,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SlashProcResist",
     "name": "Arcane Deflection",
-    "image": "/assets/items/ArcaneProjectionSlash.png.png",
     "image_name": "ArcaneProjectionSlash.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SlashProcResist",
     "domain": "arcane",
@@ -1079,7 +1059,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/PoisonProcResist",
     "name": "Arcane Detoxifier",
-    "image": "/assets/items/ArcaneProjectionPoison.png.png",
     "image_name": "ArcaneProjectionPoison.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/PoisonProcResist",
     "domain": "arcane",
@@ -1133,7 +1112,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/DamageResistanceStacksOverTime",
     "name": "Arcane Double Back",
-    "image": "/assets/items/ArcaneProjectionCE.png.png",
     "image_name": "ArcaneProjectionCE.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/DamageResistanceStacksOverTime",
     "domain": "arcane",
@@ -1187,7 +1165,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneRadialEnergyOnEnergyPickup",
     "name": "Arcane Energize",
-    "image": "/assets/items/ArcaneProjectionBI.png.png",
     "image_name": "ArcaneProjectionBI.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneRadialEnergyOnEnergyPickup",
     "domain": "arcane",
@@ -1241,7 +1218,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/RadialKnockdownOnEnergyPickup",
     "name": "Arcane Eruption",
-    "image": "/assets/items/ArcaneProjectionAU.png.png",
     "image_name": "ArcaneProjectionAU.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/RadialKnockdownOnEnergyPickup",
     "domain": "arcane",
@@ -1295,7 +1271,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/InvulnerabilityOnDeathOnMercyKill",
     "name": "Arcane Escapist",
-    "image": "/assets/items/ArcaneProjectionDR.png.png",
     "image_name": "ArcaneProjectionDR.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/InvulnerabilityOnDeathOnMercyKill",
     "domain": "arcane",
@@ -1349,7 +1324,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ShieldMaxForAbilityStrength",
     "name": "Arcane Expertise",
-    "image": "/assets/items/ArcaneProjectionEB.png.png",
     "image_name": "ArcaneProjectionEB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ShieldMaxForAbilityStrength",
     "domain": "arcane",
@@ -1403,7 +1377,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneMeleeDamageOnCrit",
     "name": "Arcane Fury",
-    "image": "/assets/items/ArcaneProjectionBC.png.png",
     "image_name": "ArcaneProjectionBC.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneMeleeDamageOnCrit",
     "domain": "arcane",
@@ -1457,7 +1430,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/HealthRegenOnDamage",
     "name": "Arcane Grace",
-    "image": "/assets/items/ArcaneProjectionAC.png.png",
     "image_name": "ArcaneProjectionAC.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/HealthRegenOnDamage",
     "domain": "arcane",
@@ -1511,7 +1483,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ArmourOnDamage",
     "name": "Arcane Guardian",
-    "image": "/assets/items/ArcaneProjectionAA.png.png",
     "image_name": "ArcaneProjectionAA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ArmourOnDamage",
     "domain": "arcane",
@@ -1565,7 +1536,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/RadiationProcResist",
     "name": "Arcane Healing",
-    "image": "/assets/items/ArcaneProjectionRadiation.png.png",
     "image_name": "ArcaneProjectionRadiation.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/RadiationProcResist",
     "domain": "arcane",
@@ -1619,7 +1589,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityHeatProcsGiveCritChance",
     "name": "Arcane Hot Shot",
-    "image": "/assets/items/ArcaneProjectionDS.png.png",
     "image_name": "ArcaneProjectionDS.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityHeatProcsGiveCritChance",
     "domain": "arcane",
@@ -1673,7 +1642,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/FireProcResist",
     "name": "Arcane Ice",
-    "image": "/assets/items/ArcaneProjectionHeat.png.png",
     "image_name": "ArcaneProjectionHeat.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/FireProcResist",
     "domain": "arcane",
@@ -1727,7 +1695,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityPowerOnFreeze",
     "name": "Arcane Ice Storm",
-    "image": "/assets/items/ArcaneProjectionDD.png.png",
     "image_name": "ArcaneProjectionDD.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityPowerOnFreeze",
     "domain": "arcane",
@@ -1781,7 +1748,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityStatusProcsGiveAbilityStrengthAndEfficiency",
     "name": "Arcane Impetus",
-    "image": "/assets/items/ArcaneProjectionDO.png.png",
     "image_name": "ArcaneProjectionDO.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityStatusProcsGiveAbilityStrengthAndEfficiency",
     "domain": "arcane",
@@ -1835,7 +1801,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/HealthWhileUsingChanneledAbilities",
     "name": "Arcane Intention",
-    "image": "/assets/items/ArcaneProjectionCJ.png.png",
     "image_name": "ArcaneProjectionCJ.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/HealthWhileUsingChanneledAbilities",
     "domain": "arcane",
@@ -1889,7 +1854,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/GasProcResist",
     "name": "Arcane Liquid",
-    "image": "/assets/items/ArcaneProjectionGas.png.png",
     "image_name": "ArcaneProjectionGas.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/GasProcResist",
     "domain": "arcane",
@@ -1943,7 +1907,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneSniperSpeedOnCrit",
     "name": "Arcane Momentum",
-    "image": "/assets/items/ArcaneProjectionBG.png.png",
     "image_name": "ArcaneProjectionBG.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneSniperSpeedOnCrit",
     "domain": "arcane",
@@ -1997,7 +1960,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/MagneticProcResist",
     "name": "Arcane Nullifier",
-    "image": "/assets/items/ArcaneProjectionMagnetic.png.png",
     "image_name": "ArcaneProjectionMagnetic.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/MagneticProcResist",
     "domain": "arcane",
@@ -2051,7 +2013,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/MaxDPSTakenForArmour",
     "name": "Arcane Persistence",
-    "image": "/assets/items/ArcaneProjectionEC.png.png",
     "image_name": "ArcaneProjectionEC.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/MaxDPSTakenForArmour",
     "domain": "arcane",
@@ -2105,7 +2066,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SpeedOnParry",
     "name": "Arcane Phantasm",
-    "image": "/assets/items/ArcaneProjectionAH.png.png",
     "image_name": "ArcaneProjectionAH.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SpeedOnParry",
     "domain": "arcane",
@@ -2159,7 +2119,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AmmoEfficiencyOnPistolHeadshot",
     "name": "Arcane Pistoleer",
-    "image": "/assets/items/ArcaneProjectionAmmoEfficiencyOnPistolHeadshot.png.png",
     "image_name": "ArcaneProjectionAmmoEfficiencyOnPistolHeadshot.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AmmoEfficiencyOnPistolHeadshot",
     "domain": "arcane",
@@ -2213,7 +2172,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthOnCast",
     "name": "Arcane Power Ramp",
-    "image": "/assets/items/ArcaneProjectionCR.png.png",
     "image_name": "ArcaneProjectionCR.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityStrengthOnCast",
     "domain": "arcane",
@@ -2267,7 +2225,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcanePistolDamageOnHeadshot",
     "name": "Arcane Precision",
-    "image": "/assets/items/ArcaneProjectionBD.png.png",
     "image_name": "ArcaneProjectionBD.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcanePistolDamageOnHeadshot",
     "domain": "arcane",
@@ -2321,7 +2278,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDmgOnMeleeKill",
     "name": "Arcane Primary Charger",
-    "image": "/assets/items/ArcaneProjectionPrimaryDmgOnMeleeKill.png.png",
     "image_name": "ArcaneProjectionPrimaryDmgOnMeleeKill.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDmgOnMeleeKill",
     "domain": "arcane",
@@ -2375,7 +2331,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/CorrosiveProcResist",
     "name": "Arcane Protection",
-    "image": "/assets/items/ArcaneProjectionCorrosive.png.png",
     "image_name": "ArcaneProjectionCorrosive.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/CorrosiveProcResist",
     "domain": "arcane",
@@ -2429,7 +2384,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/RadialHealOnHealthPickup",
     "name": "Arcane Pulse",
-    "image": "/assets/items/ArcaneProjectionAT.png.png",
     "image_name": "ArcaneProjectionAT.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/RadialHealOnHealthPickup",
     "domain": "arcane",
@@ -2483,7 +2437,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunDamageOnHeadshot",
     "name": "Arcane Rage",
-    "image": "/assets/items/ArcaneProjectionAL.png.png",
     "image_name": "ArcaneProjectionAL.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunDamageOnHeadshot",
     "domain": "arcane",
@@ -2537,7 +2490,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealthRegenAndArmorOnMeleeKill",
     "name": "Arcane Reaper",
-    "image": "/assets/items/ArcaneProjectionCK.png.png",
     "image_name": "ArcaneProjectionCK.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealthRegenAndArmorOnMeleeKill",
     "domain": "arcane",
@@ -2591,7 +2543,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ElectricityProcResist",
     "name": "Arcane Resistance",
-    "image": "/assets/items/ArcaneProjectionPoison.png.png",
     "image_name": "ArcaneProjectionPoison.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ElectricityProcResist",
     "domain": "arcane",
@@ -2645,7 +2596,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/LongGunDamageOnReload",
     "name": "Arcane Rise",
-    "image": "/assets/items/ArcaneProjectionCB.png.png",
     "image_name": "ArcaneProjectionCB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/LongGunDamageOnReload",
     "domain": "arcane",
@@ -2699,7 +2649,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityEfficiencyOnAbilityObjectCreation",
     "name": "Arcane Sculptor",
-    "image": "/assets/items/WarframeObjectCreation.png.png",
     "image_name": "WarframeObjectCreation.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityEfficiencyOnAbilityObjectCreation",
     "domain": "arcane",
@@ -2753,7 +2702,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ImpactProcResist",
     "name": "Arcane Shield",
-    "image": "/assets/items/ArcaneProjectionImpact.png.png",
     "image_name": "ArcaneProjectionImpact.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ImpactProcResist",
     "domain": "arcane",
@@ -2807,7 +2755,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceAbility1Listener",
     "name": "Arcane Steadfast",
-    "image": "/assets/items/ArcaneProjectionCF.png.png",
     "image_name": "ArcaneProjectionCF.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceAbility1Listener",
     "domain": "arcane",
@@ -2827,7 +2774,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceAbility2Listener",
     "name": "Arcane Steadfast",
-    "image": "/assets/items/ArcaneProjectionCF.png.png",
     "image_name": "ArcaneProjectionCF.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceAbility2Listener",
     "domain": "arcane",
@@ -2847,7 +2793,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceAbility3Listener",
     "name": "Arcane Steadfast",
-    "image": "/assets/items/ArcaneProjectionCF.png.png",
     "image_name": "ArcaneProjectionCF.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceAbility3Listener",
     "domain": "arcane",
@@ -2867,7 +2812,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceAbility4Listener",
     "name": "Arcane Steadfast",
-    "image": "/assets/items/ArcaneProjectionCF.png.png",
     "image_name": "ArcaneProjectionCF.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceAbility4Listener",
     "domain": "arcane",
@@ -2887,7 +2831,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceOnCast",
     "name": "Arcane Steadfast",
-    "image": "/assets/items/ArcaneProjectionCF.png.png",
     "image_name": "ArcaneProjectionCF.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/NoCostCastChanceOnCast",
     "domain": "arcane",
@@ -2941,7 +2884,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeSpeedOnHit",
     "name": "Arcane Strike",
-    "image": "/assets/items/ArcaneProjectionAN.png.png",
     "image_name": "ArcaneProjectionAN.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeSpeedOnHit",
     "domain": "arcane",
@@ -2995,7 +2937,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/SlowerBleedOutOnPredeath",
     "name": "Arcane Survival",
-    "image": "/assets/items/ArcaneProjectionAV.png.png",
     "image_name": "ArcaneProjectionAV.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/SlowerBleedOutOnPredeath",
     "domain": "arcane",
@@ -3049,7 +2990,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ArmorOnHeavyGunEquipped",
     "name": "Arcane Tanker",
-    "image": "/assets/items/ArcaneProjectionArmorOnHeavyGunEquipped.png.png",
     "image_name": "ArcaneProjectionArmorOnHeavyGunEquipped.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ArmorOnHeavyGunEquipped",
     "domain": "arcane",
@@ -3103,7 +3043,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/DamageReductionDuringRevive",
     "name": "Arcane Temperance",
-    "image": "/assets/items/ArcaneProjectionAR.png.png",
     "image_name": "ArcaneProjectionAR.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/DamageReductionDuringRevive",
     "domain": "arcane",
@@ -3157,7 +3096,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneShotgunSpeedOnCrit",
     "name": "Arcane Tempo",
-    "image": "/assets/items/ArcaneProjectionBF.png.png",
     "image_name": "ArcaneProjectionBF.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneShotgunSpeedOnCrit",
     "domain": "arcane",
@@ -3211,7 +3149,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/InvisibilityOnFinisher",
     "name": "Arcane Trickery",
-    "image": "/assets/items/ArcaneProjectionAQ.png.png",
     "image_name": "ArcaneProjectionAQ.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/InvisibilityOnFinisher",
     "domain": "arcane",
@@ -3265,7 +3202,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/RadialViralAttackOnOverguardGain",
     "name": "Arcane Truculence",
-    "image": "/assets/items/ArcaneProjectionDN.png.png",
     "image_name": "ArcaneProjectionDN.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/RadialViralAttackOnOverguardGain",
     "domain": "arcane",
@@ -3319,7 +3255,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneArmorOnFinisher",
     "name": "Arcane Ultimatum",
-    "image": "/assets/items/ArcaneProjectionBB.png.png",
     "image_name": "ArcaneProjectionBB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneArmorOnFinisher",
     "domain": "arcane",
@@ -3373,7 +3308,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityRadiationProcsCreateUniversalOrbsOnKill",
     "name": "Arcane Universal Fallout",
-    "image": "/assets/items/ArcaneProjectionDT.png.png",
     "image_name": "ArcaneProjectionDT.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityRadiationProcsCreateUniversalOrbsOnKill",
     "domain": "arcane",
@@ -3427,7 +3361,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcanePistolSpeedOnCrit",
     "name": "Arcane Velocity",
-    "image": "/assets/items/ArcaneProjectionBE.png.png",
     "image_name": "ArcaneProjectionBE.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcanePistolSpeedOnCrit",
     "domain": "arcane",
@@ -3481,7 +3414,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HealthRegenOnHeadshot",
     "name": "Arcane Victory",
-    "image": "/assets/items/ArcaneProjectionAJ.png.png",
     "image_name": "ArcaneProjectionAJ.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HealthRegenOnHeadshot",
     "domain": "arcane",
@@ -3535,7 +3467,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/FreezeProcResist",
     "name": "Arcane Warmth",
-    "image": "/assets/items/ArcaneProjectionCold.png.png",
     "image_name": "ArcaneProjectionCold.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Defensive/FreezeProcResist",
     "domain": "arcane",
@@ -3589,7 +3520,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnRollCritChanceOnHeadshot",
     "name": "Cascadia Accuracy",
-    "image": "/assets/items/ArcaneProjectionBU.png.png",
     "image_name": "ArcaneProjectionBU.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnRollCritChanceOnHeadshot",
     "domain": "arcane",
@@ -3640,7 +3570,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnStatusProcBonusDamage",
     "name": "Cascadia Empowered",
-    "image": "/assets/items/ArcaneProjectionBT.png.png",
     "image_name": "ArcaneProjectionBT.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnStatusProcBonusDamage",
     "domain": "arcane",
@@ -3691,7 +3620,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnHeatProc",
     "name": "Cascadia Flare",
-    "image": "/assets/items/ArcaneProjectionBY.png.png",
     "image_name": "ArcaneProjectionBY.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnHeatProc",
     "domain": "arcane",
@@ -3742,7 +3670,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnOvershieldCritChance",
     "name": "Cascadia Overcharge",
-    "image": "/assets/items/ArcaneProjectionBL.png.png",
     "image_name": "ArcaneProjectionBL.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/SecondaryOnOvershieldCritChance",
     "domain": "arcane",
@@ -3793,7 +3720,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryReloadSpeedAndMultishotOnElectricProc",
     "name": "Conjunction Voltage",
-    "image": "/assets/items/ArcaneProjectionCD.png.png",
     "image_name": "ArcaneProjectionCD.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryReloadSpeedAndMultishotOnElectricProc",
     "domain": "arcane",
@@ -3844,7 +3770,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/EnergyOnGhostDissipate",
     "name": "Emergence Dissipate",
-    "image": "/assets/items/ArcaneProjectionBR.png.png",
     "image_name": "ArcaneProjectionBR.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/EnergyOnGhostDissipate",
     "domain": "arcane",
@@ -3895,7 +3820,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnEnergyDepletedRegenEnergy",
     "name": "Emergence Renewed",
-    "image": "/assets/items/ArcaneProjectionBQ.png.png",
     "image_name": "ArcaneProjectionBQ.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnEnergyDepletedRegenEnergy",
     "domain": "arcane",
@@ -3946,7 +3870,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnDeathInvulnerability",
     "name": "Emergence Savior",
-    "image": "/assets/items/ArcaneProjectionBS.png.png",
     "image_name": "ArcaneProjectionBS.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnDeathInvulnerability",
     "domain": "arcane",
@@ -3997,7 +3920,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnOperatorAbilityIncreaseDamage",
     "name": "Eternal Eradicate",
-    "image": "/assets/items/ArcaneProjectionBP.png.png",
     "image_name": "ArcaneProjectionBP.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/OperatorOnOperatorAbilityIncreaseDamage",
     "domain": "arcane",
@@ -4048,7 +3970,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/AmpOnVoidSlingAmpAmmoEfficiency",
     "name": "Eternal Logistics",
-    "image": "/assets/items/ArcaneProjectionBW.png.png",
     "image_name": "ArcaneProjectionBW.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/AmpOnVoidSlingAmpAmmoEfficiency",
     "domain": "arcane",
@@ -4099,7 +4020,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/AmpOnEnergyDepletedCritChance",
     "name": "Eternal Onslaught",
-    "image": "/assets/items/ArcaneProjectionBV.png.png",
     "image_name": "ArcaneProjectionBV.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/AmpOnEnergyDepletedCritChance",
     "domain": "arcane",
@@ -4150,7 +4070,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ChannelKillEnergyRate",
     "name": "Exodia Brave",
-    "image": "/assets/items/MeleeArcaneA.png.png",
     "image_name": "MeleeArcaneA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ChannelKillEnergyRate",
     "domain": "arcane",
@@ -4191,7 +4110,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeArcaneProjectileOnJump",
     "name": "Exodia Contagion",
-    "image": "/assets/items/MeleeArcaneProjectileOnJump.png.png",
     "image_name": "MeleeArcaneProjectileOnJump.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeArcaneProjectileOnJump",
     "domain": "arcane",
@@ -4232,7 +4150,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeArcaneShockwaveOnJump",
     "name": "Exodia Epidemic",
-    "image": "/assets/items/MeleeArcaneShockwaveOnJump.png.png",
     "image_name": "MeleeArcaneShockwaveOnJump.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeArcaneShockwaveOnJump",
     "domain": "arcane",
@@ -4273,7 +4190,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusTriggerRadialDamage",
     "name": "Exodia Force",
-    "image": "/assets/items/MeleeArcaneF.png.png",
     "image_name": "MeleeArcaneF.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusTriggerRadialDamage",
     "domain": "arcane",
@@ -4314,7 +4230,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GroundSlamPull",
     "name": "Exodia Hunt",
-    "image": "/assets/items/MeleeArcaneE.png.png",
     "image_name": "MeleeArcaneE.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/GroundSlamPull",
     "domain": "arcane",
@@ -4355,7 +4270,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/FinisherLifesteal",
     "name": "Exodia Might",
-    "image": "/assets/items/MeleeArcaneC.png.png",
     "image_name": "MeleeArcaneC.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/FinisherLifesteal",
     "domain": "arcane",
@@ -4396,7 +4310,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusChannelingDamage",
     "name": "Exodia Triumph",
-    "image": "/assets/items/MeleeArcaneD.png.png",
     "image_name": "MeleeArcaneD.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusChannelingDamage",
     "domain": "arcane",
@@ -4437,7 +4350,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CritChannelingDamage",
     "name": "Exodia Valor",
-    "image": "/assets/items/MeleeArcaneB.png.png",
     "image_name": "MeleeArcaneB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CritChannelingDamage",
     "domain": "arcane",
@@ -4478,7 +4390,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/PrimaryOnAbilityReloadSpeed",
     "name": "Fractalized Reset",
-    "image": "/assets/items/ArcaneProjectionBO.png.png",
     "image_name": "ArcaneProjectionBO.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/PrimaryOnAbilityReloadSpeed",
     "domain": "arcane",
@@ -4529,7 +4440,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongbowDamageOnHeadshot",
     "name": "Longbow Sharpshot",
-    "image": "/assets/items/ArcaneProjectionCL.png.png",
     "image_name": "ArcaneProjectionCL.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongbowDamageOnHeadshot",
     "domain": "arcane",
@@ -4580,7 +4490,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HeatResistOnBlast",
     "name": "Magus Accelerant",
-    "image": "/assets/items/SolarisMagusAccelerant.png.png",
     "image_name": "SolarisMagusAccelerant.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HeatResistOnBlast",
     "domain": "arcane",
@@ -4631,7 +4540,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OperatorHeavyMeleeDamageOnTransference",
     "name": "Magus Aggress",
-    "image": "/assets/items/ArcaneProjectionCQ.png.png",
     "image_name": "ArcaneProjectionCQ.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OperatorHeavyMeleeDamageOnTransference",
     "domain": "arcane",
@@ -4682,7 +4590,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/PullOnTransferenceIn",
     "name": "Magus Anomaly",
-    "image": "/assets/items/SolarisMagusAnomaly.png.png",
     "image_name": "SolarisMagusAnomaly.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/PullOnTransferenceIn",
     "domain": "arcane",
@@ -4733,7 +4640,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/SpeedOnVoidDash",
     "name": "Magus Cadence",
-    "image": "/assets/items/SpeedOnVoidDash.png.png",
     "image_name": "SpeedOnVoidDash.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/SpeedOnVoidDash",
     "domain": "arcane",
@@ -4784,7 +4690,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ImmunityFallDamageOnVoidDash",
     "name": "Magus Cloud",
-    "image": "/assets/items/ImmunityFallDamageOnVoidDamage.png.png",
     "image_name": "ImmunityFallDamageOnVoidDamage.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ImmunityFallDamageOnVoidDash",
     "domain": "arcane",
@@ -4835,7 +4740,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ProcResistOnBlast",
     "name": "Magus Destruct",
-    "image": "/assets/items/SolarisMagusDestruct.png.png",
     "image_name": "SolarisMagusDestruct.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ProcResistOnBlast",
     "domain": "arcane",
@@ -4886,7 +4790,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HoverboardSpeedOnTransferenceIn",
     "name": "Magus Drive",
-    "image": "/assets/items/SolarisMagusDrive.png.png",
     "image_name": "SolarisMagusDrive.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HoverboardSpeedOnTransferenceIn",
     "domain": "arcane",
@@ -4937,7 +4840,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnTransferenceIn",
     "name": "Magus Elevate",
-    "image": "/assets/items/HealOnTransferenceIn.png.png",
     "image_name": "HealOnTransferenceIn.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnTransferenceIn",
     "domain": "arcane",
@@ -4988,7 +4890,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/DamageReductionOnVoidMode",
     "name": "Magus Firewall",
-    "image": "/assets/items/SolarisMagusFirewall.png.png",
     "image_name": "SolarisMagusFirewall.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/DamageReductionOnVoidMode",
     "domain": "arcane",
@@ -5039,7 +4940,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/NoPenaltyOnDeath",
     "name": "Magus Glitch",
-    "image": "/assets/items/SolarisMagusGlitch.png.png",
     "image_name": "SolarisMagusGlitch.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/NoPenaltyOnDeath",
     "domain": "arcane",
@@ -5090,7 +4990,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ArmourOnOperatorMode",
     "name": "Magus Husk",
-    "image": "/assets/items/ArmourOnOperatorMode.png.png",
     "image_name": "ArmourOnOperatorMode.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ArmourOnOperatorMode",
     "domain": "arcane",
@@ -5141,7 +5040,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/TetherMineOnDash",
     "name": "Magus Lockdown",
-    "image": "/assets/items/SolarisMagusLockdown.png.png",
     "image_name": "SolarisMagusLockdown.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/TetherMineOnDash",
     "domain": "arcane",
@@ -5192,7 +5090,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HeatDamageOnDash",
     "name": "Magus Melt",
-    "image": "/assets/items/SolarisMagusMelt.png.png",
     "image_name": "SolarisMagusMelt.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HeatDamageOnDash",
     "domain": "arcane",
@@ -5243,7 +5140,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnTransferenceOut",
     "name": "Magus Nourish",
-    "image": "/assets/items/HealOnTransferenceOut.png.png",
     "image_name": "HealOnTransferenceOut.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnTransferenceOut",
     "domain": "arcane",
@@ -5294,7 +5190,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/RobotStunOnBlast",
     "name": "Magus Overload",
-    "image": "/assets/items/SolarisMagusOverload.png.png",
     "image_name": "SolarisMagusOverload.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/RobotStunOnBlast",
     "domain": "arcane",
@@ -5345,7 +5240,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnVoidMode",
     "name": "Magus Repair",
-    "image": "/assets/items/SolarisMagusRepair.png.png",
     "image_name": "SolarisMagusRepair.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnVoidMode",
     "domain": "arcane",
@@ -5396,7 +5290,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnVoidDash",
     "name": "Magus Replenish",
-    "image": "/assets/items/HealOnVoidDash.png.png",
     "image_name": "HealOnVoidDash.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealOnVoidDash",
     "domain": "arcane",
@@ -5447,7 +5340,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ReverseOnDash",
     "name": "Magus Revert",
-    "image": "/assets/items/SolarisMagusRevert.png.png",
     "image_name": "SolarisMagusRevert.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/ReverseOnDash",
     "domain": "arcane",
@@ -5498,7 +5390,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealthOnOperatorMode",
     "name": "Magus Vigor",
-    "image": "/assets/items/HealthOnOperatorMode.png.png",
     "image_name": "HealthOnOperatorMode.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorArmour/HealthOnOperatorMode",
     "domain": "arcane",
@@ -5549,7 +5440,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/DuplicateStatusOnKnock",
     "name": "Melee Afflictions",
-    "image": "/assets/items/ArcaneProjectionDH.png.png",
     "image_name": "ArcaneProjectionDH.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/DuplicateStatusOnKnock",
     "domain": "arcane",
@@ -5600,7 +5490,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HeavyCritOnRegularMelee",
     "name": "Melee Animosity",
-    "image": "/assets/items/ArcaneProjectionCV.png.png",
     "image_name": "ArcaneProjectionCV.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HeavyCritOnRegularMelee",
     "domain": "arcane",
@@ -5651,7 +5540,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HeavyAttackDamageAndShieldOnShieldBreak",
     "name": "Melee Assimilation",
-    "image": "/assets/items/MeleeArcaneShieldBreakMeleeUp.png.png",
     "image_name": "MeleeArcaneShieldBreakMeleeUp.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/HeavyAttackDamageAndShieldOnShieldBreak",
     "domain": "arcane",
@@ -5702,7 +5590,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/FreezeEnemiesOnRoll",
     "name": "Melee Careen",
-    "image": "/assets/items/ArcaneProjectionDX.png.png",
     "image_name": "ArcaneProjectionDX.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/FreezeEnemiesOnRoll",
     "domain": "arcane",
@@ -5753,7 +5640,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PermaComboOnFinisher",
     "name": "Melee Crescendo",
-    "image": "/assets/items/ArcaneProjectionDB.png.png",
     "image_name": "ArcaneProjectionDB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PermaComboOnFinisher",
     "domain": "arcane",
@@ -5804,7 +5690,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CritDamageForPunctureStatus",
     "name": "Melee Doughty",
-    "image": "/assets/items/ArcaneProjectionDM.png.png",
     "image_name": "ArcaneProjectionDM.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CritDamageForPunctureStatus",
     "domain": "arcane",
@@ -5855,7 +5740,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ReplayLightCritHits",
     "name": "Melee Duplicate",
-    "image": "/assets/items/ArcaneProjectionCW.png.png",
     "image_name": "ArcaneProjectionCW.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ReplayLightCritHits",
     "domain": "arcane",
@@ -5906,7 +5790,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CorrosiveMeleePerAbilityCast",
     "name": "Melee Exposure",
-    "image": "/assets/items/ArcaneProjectionCY.png.png",
     "image_name": "ArcaneProjectionCY.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CorrosiveMeleePerAbilityCast",
     "domain": "arcane",
@@ -5957,7 +5840,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ArmorOnMeleeKill",
     "name": "Melee Fortification",
-    "image": "/assets/items/ArcaneProjectionDA.png.png",
     "image_name": "ArcaneProjectionDA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ArmorOnMeleeKill",
     "domain": "arcane",
@@ -6008,7 +5890,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeProcsSpread",
     "name": "Melee Influence",
-    "image": "/assets/items/ArcaneProjectionCZ.png.png",
     "image_name": "ArcaneProjectionCZ.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeProcsSpread",
     "domain": "arcane",
@@ -6059,7 +5940,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeDamageForActiveShields",
     "name": "Melee Retaliation",
-    "image": "/assets/items/ArcaneProjectionCX.png.png",
     "image_name": "ArcaneProjectionCX.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeDamageForActiveShields",
     "domain": "arcane",
@@ -6110,7 +5990,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PullEnemiesOnMeleeKill",
     "name": "Melee Vortex",
-    "image": "/assets/items/ArcaneProjectionDC.png.png",
     "image_name": "ArcaneProjectionDC.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PullEnemiesOnMeleeKill",
     "domain": "arcane",
@@ -6161,7 +6040,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PowerStrengthOnKill",
     "name": "Molt Augmented",
-    "image": "/assets/items/ArcaneProjectionBX.png.png",
     "image_name": "ArcaneProjectionBX.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PowerStrengthOnKill",
     "domain": "arcane",
@@ -6215,7 +6093,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/WarframeOnShieldUptimePowerDuration",
     "name": "Molt Efficiency",
-    "image": "/assets/items/ArcaneProjectionBN.png.png",
     "image_name": "ArcaneProjectionBN.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/WarframeOnShieldUptimePowerDuration",
     "domain": "arcane",
@@ -6269,7 +6146,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/HealAlliesOnEnergySpent",
     "name": "Molt Reconstruct",
-    "image": "/assets/items/ArcaneProjectionBZ.png.png",
     "image_name": "ArcaneProjectionBZ.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/HealAlliesOnEnergySpent",
     "domain": "arcane",
@@ -6323,7 +6199,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/WarframeOnOperatorAbilityPowerStrength",
     "name": "Molt Vigor",
-    "image": "/assets/items/ArcaneProjectionBM.png.png",
     "image_name": "ArcaneProjectionBM.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Zariman/WarframeOnOperatorAbilityPowerStrength",
     "domain": "arcane",
@@ -6377,7 +6252,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/EnergyEfficiencyOnHeadshot",
     "name": "Pax Bolt",
-    "image": "/assets/items/SolarisEnergyEfficiency.png.png",
     "image_name": "SolarisEnergyEfficiency.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/EnergyEfficiencyOnHeadshot",
     "domain": "arcane",
@@ -6418,7 +6292,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/BulletToBattery",
     "name": "Pax Charge",
-    "image": "/assets/items/SolarisBulletToBattery.png.png",
     "image_name": "SolarisBulletToBattery.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/BulletToBattery",
     "domain": "arcane",
@@ -6459,7 +6332,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SeekerProjOnHeadshotKill",
     "name": "Pax Seeker",
-    "image": "/assets/items/SolarisSeekerProjOnHeadshotKill.png.png",
     "image_name": "SolarisSeekerProjOnHeadshotKill.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SeekerProjOnHeadshotKill",
     "domain": "arcane",
@@ -6500,7 +6372,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/EyeInTheSky",
     "name": "Pax Soar",
-    "image": "/assets/items/SolarisEyeInTheSky.png.png",
     "image_name": "SolarisEyeInTheSky.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/EyeInTheSky",
     "domain": "arcane",
@@ -6549,7 +6420,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryHeadshotCritMultOnHeadshot",
     "name": "Primary Blight",
-    "image": "/assets/items/ArcaneProjectionCS.png.png",
     "image_name": "ArcaneProjectionCS.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryHeadshotCritMultOnHeadshot",
     "domain": "arcane",
@@ -6600,7 +6470,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/DamageForBonusArmour",
     "name": "Primary Bulwark",
-    "image": "/assets/items/ArcaneProjectionDU.png.png",
     "image_name": "ArcaneProjectionDU.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/DamageForBonusArmour",
     "domain": "arcane",
@@ -6651,7 +6520,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/ConvergeRadialAttackOnAim",
     "name": "Primary Compression",
-    "image": "/assets/items/PrimaryRadialAttack.png.png",
     "image_name": "PrimaryRadialAttack.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/ConvergeRadialAttackOnAim",
     "domain": "arcane",
@@ -6702,7 +6570,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusAndAmmoEfficiencyOnWeakpointHit",
     "name": "Primary Crux",
-    "image": "/assets/items/ArcaneProjectionDK.png.png",
     "image_name": "ArcaneProjectionDK.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusAndAmmoEfficiencyOnWeakpointHit",
     "domain": "arcane",
@@ -6753,7 +6620,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnNoMelee",
     "name": "Primary Deadhead",
-    "image": "/assets/items/ArcaneProjectionSteelPathPrecisionHeadshotB.png.png",
     "image_name": "ArcaneProjectionSteelPathPrecisionHeadshotB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnNoMelee",
     "domain": "arcane",
@@ -6806,7 +6672,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SplitStatusProcsOnStackedStatusHit",
     "name": "Primary Debilitate",
-    "image": "/assets/items/ArcaneProjectionDW.png.png",
     "image_name": "ArcaneProjectionDW.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SplitStatusProcsOnStackedStatusHit",
     "domain": "arcane",
@@ -6857,7 +6722,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnMeleeKill",
     "name": "Primary Dexterity",
-    "image": "/assets/items/ArcaneProjectionSteelPathMeleeToolsB.png.png",
     "image_name": "ArcaneProjectionSteelPathMeleeToolsB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnMeleeKill",
     "domain": "arcane",
@@ -6909,7 +6773,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryEnergyRegenOnImpactProc",
     "name": "Primary Exhilarate",
-    "image": "/assets/items/ArcaneProjectionCN.png.png",
     "image_name": "ArcaneProjectionCN.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryEnergyRegenOnImpactProc",
     "domain": "arcane",
@@ -6960,7 +6823,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryCritDmgAndMultishotOnColdProc",
     "name": "Primary Frostbite",
-    "image": "/assets/items/ArcaneProjectionCC.png.png",
     "image_name": "ArcaneProjectionCC.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryCritDmgAndMultishotOnColdProc",
     "domain": "arcane",
@@ -7011,7 +6873,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnKill",
     "name": "Primary Merciless",
-    "image": "/assets/items/ArcaneProjectionSteelPathWarcrimesB.png.png",
     "image_name": "ArcaneProjectionSteelPathWarcrimesB.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamageOnKill",
     "domain": "arcane",
@@ -7063,7 +6924,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryJamEnemyWeaponsOnMagneticProc",
     "name": "Primary Obstruct",
-    "image": "/assets/items/ArcaneProjectionCM.png.png",
     "image_name": "ArcaneProjectionCM.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryJamEnemyWeaponsOnMagneticProc",
     "domain": "arcane",
@@ -7114,7 +6974,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MultishotForMaxEnergy",
     "name": "Primary Overcharge",
-    "image": "/assets/items/ArcaneProjectionEA.png.png",
     "image_name": "ArcaneProjectionEA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MultishotForMaxEnergy",
     "domain": "arcane",
@@ -7165,7 +7024,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamagePerAmmoOnReload",
     "name": "Primary Plated Round",
-    "image": "/assets/items/ArcaneProjectionCH.png.png",
     "image_name": "ArcaneProjectionCH.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/PrimaryDamagePerAmmoOnReload",
     "domain": "arcane",
@@ -7216,7 +7074,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/BurningCystOnKill",
     "name": "Residual Boils",
-    "image": "/assets/items/ResidualLesions.png.png",
     "image_name": "ResidualLesions.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/BurningCystOnKill",
     "domain": "arcane",
@@ -7257,7 +7114,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/IceMistOnKill",
     "name": "Residual Malodor",
-    "image": "/assets/items/ResidualMiasma.png.png",
     "image_name": "ResidualMiasma.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/IceMistOnKill",
     "domain": "arcane",
@@ -7298,7 +7154,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/LightningStrikeOnKill",
     "name": "Residual Shock",
-    "image": "/assets/items/ResidualShock.png.png",
     "image_name": "ResidualShock.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/LightningStrikeOnKill",
     "domain": "arcane",
@@ -7339,7 +7194,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/ToxicBloodOnKill",
     "name": "Residual Viremia",
-    "image": "/assets/items/ResidualViremia.png.png",
     "image_name": "ResidualViremia.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/ToxicBloodOnKill",
     "domain": "arcane",
@@ -7380,7 +7234,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryColdOnPuncture",
     "name": "Secondary Cryogenic",
-    "image": "/assets/items/SecondaryCritStrikeColdPunct.png.png",
     "image_name": "SecondaryCritStrikeColdPunct.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryColdOnPuncture",
     "domain": "arcane",
@@ -7431,7 +7284,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnNoMelee",
     "name": "Secondary Deadhead",
-    "image": "/assets/items/ArcaneProjectionSteelPathPrecisionHeadshotA.png.png",
     "image_name": "ArcaneProjectionSteelPathPrecisionHeadshotA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnNoMelee",
     "domain": "arcane",
@@ -7484,7 +7336,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnMeleeKill",
     "name": "Secondary Dexterity",
-    "image": "/assets/items/ArcaneProjectionSteelPathMeleeToolsA.png.png",
     "image_name": "ArcaneProjectionSteelPathMeleeToolsA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnMeleeKill",
     "domain": "arcane",
@@ -7536,7 +7387,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Utility/ExtraProcOnProc",
     "name": "Secondary Encumber",
-    "image": "/assets/items/ArcaneProjectionCG.png.png",
     "image_name": "ArcaneProjectionCG.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Utility/ExtraProcOnProc",
     "domain": "arcane",
@@ -7587,7 +7437,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryCritOnHit",
     "name": "Secondary Enervate",
-    "image": "/assets/items/ArcaneProjectionDL.png.png",
     "image_name": "ArcaneProjectionDL.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryCritOnHit",
     "domain": "arcane",
@@ -7638,7 +7487,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OverguardSteal",
     "name": "Secondary Fortifier",
-    "image": "/assets/items/ArcaneProjectionDG.png.png",
     "image_name": "ArcaneProjectionDG.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OverguardSteal",
     "domain": "arcane",
@@ -7695,7 +7543,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/RadialDamageOnMaxRadiationStackHit",
     "name": "Secondary Irradiate",
-    "image": "/assets/items/ArcaneProjectionDV.png.png",
     "image_name": "ArcaneProjectionDV.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/RadialDamageOnMaxRadiationStackHit",
     "domain": "arcane",
@@ -7746,7 +7593,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryCritChancePerBuff",
     "name": "Secondary Kinship",
-    "image": "/assets/items/ArcaneProjectionCI.png.png",
     "image_name": "ArcaneProjectionCI.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryCritChancePerBuff",
     "domain": "arcane",
@@ -7797,7 +7643,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnKill",
     "name": "Secondary Merciless",
-    "image": "/assets/items/ArcaneProjectionSteelPathWarcrimesA.png.png",
     "image_name": "ArcaneProjectionSteelPathWarcrimesA.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnKill",
     "domain": "arcane",
@@ -7849,7 +7694,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MultishotForCombo",
     "name": "Secondary Outburst",
-    "image": "/assets/items/ArcaneProjectionCU.png.png",
     "image_name": "ArcaneProjectionCU.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MultishotForCombo",
     "domain": "arcane",
@@ -7900,7 +7744,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryExtraDamagePerFreezeStack",
     "name": "Secondary Shiver",
-    "image": "/assets/items/ArcaneProjectionCP.png.png",
     "image_name": "ArcaneProjectionCP.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryExtraDamagePerFreezeStack",
     "domain": "arcane",
@@ -7951,7 +7794,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/BonusDamageNextShotForCurEnergy",
     "name": "Secondary Surge",
-    "image": "/assets/items/ArcaneProjectionDE.png.png",
     "image_name": "ArcaneProjectionDE.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/BonusDamageNextShotForCurEnergy",
     "domain": "arcane",
@@ -8002,7 +7844,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ShotgunMultishotAndReloadSpeedOnCloseKill",
     "name": "Shotgun Vendetta",
-    "image": "/assets/items/ArcaneProjectionCO.png.png",
     "image_name": "ArcaneProjectionCO.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ShotgunMultishotAndReloadSpeedOnCloseKill",
     "domain": "arcane",
@@ -8053,7 +7894,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OrbsOnResidualContact",
     "name": "Theorem Contagion",
-    "image": "/assets/items/TheoremContagion.png.png",
     "image_name": "TheoremContagion.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OrbsOnResidualContact",
     "domain": "arcane",
@@ -8107,7 +7947,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/WeaponDamageOnResidualContact",
     "name": "Theorem Demulcent",
-    "image": "/assets/items/TheoremDemulcent.png.png",
     "image_name": "TheoremDemulcent.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/WeaponDamageOnResidualContact",
     "domain": "arcane",
@@ -8161,7 +8000,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CompanionDamageOnResidualContact",
     "name": "Theorem Infection",
-    "image": "/assets/items/TheoremInfection.png.png",
     "image_name": "TheoremInfection.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CompanionDamageOnResidualContact",
     "domain": "arcane",
@@ -8215,7 +8053,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToHeatDamage",
     "name": "Virtuos Forge",
-    "image": "/assets/items/SolarisVirtuosForge.png.png",
     "image_name": "SolarisVirtuosForge.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToHeatDamage",
     "domain": "arcane",
@@ -8256,7 +8093,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/IncreasedDamageOnStatusProc",
     "name": "Virtuos Fury",
-    "image": "/assets/items/IncreasedDamageOnStatusProc.png.png",
     "image_name": "IncreasedDamageOnStatusProc.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/IncreasedDamageOnStatusProc",
     "domain": "arcane",
@@ -8297,7 +8133,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/StatusChanceOnHeadshot",
     "name": "Virtuos Ghost",
-    "image": "/assets/items/StatusChanceOnHeadshot.png.png",
     "image_name": "StatusChanceOnHeadshot.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/StatusChanceOnHeadshot",
     "domain": "arcane",
@@ -8338,7 +8173,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/OperatorAmmoRegenOnKill",
     "name": "Virtuos Null",
-    "image": "/assets/items/OperatorAmmoRegenOnKill.png.png",
     "image_name": "OperatorAmmoRegenOnKill.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/OperatorAmmoRegenOnKill",
     "domain": "arcane",
@@ -8379,7 +8213,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/CriticalChanceOnHeadshot",
     "name": "Virtuos Shadow",
-    "image": "/assets/items/CriticalChanceOnHeadshot.png.png",
     "image_name": "CriticalChanceOnHeadshot.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/CriticalChanceOnHeadshot",
     "domain": "arcane",
@@ -8420,7 +8253,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToPunctureDamage",
     "name": "Virtuos Spike",
-    "image": "/assets/items/SolarisVirtuosSpike.png.png",
     "image_name": "SolarisVirtuosSpike.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToPunctureDamage",
     "domain": "arcane",
@@ -8461,7 +8293,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/IncreasedCriticalDamageOnCriticalStrike",
     "name": "Virtuos Strike",
-    "image": "/assets/items/IncreasedCriticalDamageOnCriticalStrike.png.png",
     "image_name": "IncreasedCriticalDamageOnCriticalStrike.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/IncreasedCriticalDamageOnCriticalStrike",
     "domain": "arcane",
@@ -8502,7 +8333,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToElectricDamage",
     "name": "Virtuos Surge",
-    "image": "/assets/items/SolarisVirtuosSurge.png.png",
     "image_name": "SolarisVirtuosSurge.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToElectricDamage",
     "domain": "arcane",
@@ -8543,7 +8373,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/AttackSpeedOnKill",
     "name": "Virtuos Tempo",
-    "image": "/assets/items/AttackSpeedOnKill.png.png",
     "image_name": "AttackSpeedOnKill.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/AttackSpeedOnKill",
     "domain": "arcane",
@@ -8584,7 +8413,6 @@
   {
     "id": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToViralDamage",
     "name": "Virtuos Trojan",
-    "image": "/assets/items/SolarisVirtuosTrojan.png.png",
     "image_name": "SolarisVirtuosTrojan.png",
     "unique_name": "/Lotus/Upgrades/CosmeticEnhancers/OperatorAmps/VoidToViralDamage",
     "domain": "arcane",

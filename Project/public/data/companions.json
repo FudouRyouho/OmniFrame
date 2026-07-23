@@ -2,7 +2,6 @@
   {
     "id": "/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerSuit",
     "name": "Adarza Kavat",
-    "image": "/assets/items/KavatBreedAdarza.png.png",
     "image_name": "KavatBreedAdarza.png",
     "unique_name": "/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerSuit",
     "domain": "companion",
@@ -31,7 +30,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyA",
     "name": "Adlet Core",
-    "image": "/assets/items/ZanukaPetBodyA.png.png",
     "image_name": "ZanukaPetBodyA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyA",
     "domain": "companion",
@@ -57,7 +55,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenA",
     "name": "Adra Mutagen",
-    "image": "/assets/items/MutagenInfestedCritterA.png.png",
     "image_name": "MutagenInfestedCritterA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenA",
     "domain": "companion",
@@ -83,7 +80,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadAegron",
     "name": "Aegron Gyro",
-    "image": "/assets/items/MoaChestB.png.png",
     "image_name": "MoaChestB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadAegron",
     "domain": "companion",
@@ -112,7 +108,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineArcotek",
     "name": "Alcrom Core",
-    "image": "/assets/items/MoaBackC.png.png",
     "image_name": "MoaBackC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineArcotek",
     "domain": "companion",
@@ -141,7 +136,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenC",
     "name": "Arioli Mutagen",
-    "image": "/assets/items/MutagenInfestedPredatorC.png.png",
     "image_name": "MutagenInfestedPredatorC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenC",
     "domain": "companion",
@@ -167,7 +161,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadThermocor",
     "name": "Atheca Gyro",
-    "image": "/assets/items/MoaChestG.png.png",
     "image_name": "MoaChestG.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadThermocor",
     "domain": "companion",
@@ -196,7 +189,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadB",
     "name": "Bhaira Hound",
-    "image": "/assets/items/ZanukaPetHeadB.png.png",
     "image_name": "ZanukaPetHeadB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadB",
     "domain": "companion",
@@ -222,7 +214,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsA",
     "name": "Cela Bracket",
-    "image": "/assets/items/ZanukaPetLegsA.png.png",
     "image_name": "ZanukaPetLegsA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsA",
     "domain": "companion",
@@ -248,7 +239,6 @@
   {
     "id": "/Lotus/Types/Game/KubrowPet/RetrieverKubrowPetPowerSuit",
     "name": "Chesa Kubrow",
-    "image": "/assets/items/KubrowBreedChesa.png.png",
     "image_name": "KubrowBreedChesa.png",
     "unique_name": "/Lotus/Types/Game/KubrowPet/RetrieverKubrowPetPowerSuit",
     "domain": "companion",
@@ -281,7 +271,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenB",
     "name": "Chiten Mutagen",
-    "image": "/assets/items/MutagenInfestedPredatorB.png.png",
     "image_name": "MutagenInfestedPredatorB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenB",
     "domain": "companion",
@@ -307,7 +296,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/HornedInfestedCatbrowPetPowerSuit",
     "name": "Crescent Vulpaphyla",
-    "image": "/assets/items/KavatBreedCrescentVulpaphyla.png.png",
     "image_name": "KavatBreedCrescentVulpaphyla.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/HornedInfestedCatbrowPetPowerSuit",
     "domain": "companion",
@@ -335,7 +323,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenB",
     "name": "Desus Antigen",
-    "image": "/assets/items/AntigenInfestedCritterB.png.png",
     "image_name": "AntigenInfestedCritterB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenB",
     "domain": "companion",
@@ -361,7 +348,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadA",
     "name": "Dorma Hound",
-    "image": "/assets/items/ZanukaPetHeadA.png.png",
     "image_name": "ZanukaPetHeadA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadA",
     "domain": "companion",
@@ -387,7 +373,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineThricore",
     "name": "Drex Core",
-    "image": "/assets/items/MoaBackA.png.png",
     "image_name": "MoaBackA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineThricore",
     "domain": "companion",
@@ -416,7 +401,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegA",
     "name": "Drimper Bracket",
-    "image": "/assets/items/MoaLegsA.png.png",
     "image_name": "MoaLegsA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegA",
     "domain": "companion",
@@ -445,7 +429,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenA",
     "name": "Elasmun Antigen",
-    "image": "/assets/items/AntigenInfestedPredatorA.png.png",
     "image_name": "AntigenInfestedPredatorA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenA",
     "domain": "companion",
@@ -471,7 +454,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenB",
     "name": "Elsa Mutagen",
-    "image": "/assets/items/MutagenInfestedCritterB.png.png",
     "image_name": "MutagenInfestedCritterB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenB",
     "domain": "companion",
@@ -497,7 +479,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailC",
     "name": "Frak Stabilizer",
-    "image": "/assets/items/ZanukaPetTailC.png.png",
     "image_name": "ZanukaPetTailC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailC",
     "domain": "companion",
@@ -523,7 +504,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyB",
     "name": "Garmr Core",
-    "image": "/assets/items/ZanukaPetBodyB.png.png",
     "image_name": "ZanukaPetBodyB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyB",
     "domain": "companion",
@@ -549,7 +529,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegD",
     "name": "Gauth Bracket",
-    "image": "/assets/items/MoaLegsD.png.png",
     "image_name": "MoaLegsD.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegD",
     "domain": "companion",
@@ -578,7 +557,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadDarta",
     "name": "Harpen Gyro",
-    "image": "/assets/items/MoaChestC.png.png",
     "image_name": "MoaChestC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadDarta",
     "domain": "companion",
@@ -607,7 +585,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadC",
     "name": "Hec Hound",
-    "image": "/assets/items/ZanukaPetHeadC.png.png",
     "image_name": "ZanukaPetHeadC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartHeadC",
     "domain": "companion",
@@ -633,7 +610,6 @@
   {
     "id": "/Lotus/Types/Game/KubrowPet/ChargerKubrowPetPowerSuit",
     "name": "Helminth Charger",
-    "image": "/assets/items/KubrowBreedHelminthCharger.png.png",
     "image_name": "KubrowBreedHelminthCharger.png",
     "unique_name": "/Lotus/Types/Game/KubrowPet/ChargerKubrowPetPowerSuit",
     "domain": "companion",
@@ -666,7 +642,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadHextra",
     "name": "Hextra Gyro",
-    "image": "/assets/items/MoaChestD.png.png",
     "image_name": "MoaChestD.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadHextra",
     "domain": "companion",
@@ -695,7 +670,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailB",
     "name": "Hinta Stabilizer",
-    "image": "/assets/items/ZanukaPetTailB.png.png",
     "image_name": "ZanukaPetTailB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailB",
     "domain": "companion",
@@ -721,7 +695,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegMelee",
     "name": "Hona Bracket",
-    "image": "/assets/items/PetMoaMeleeLegs.png.png",
     "image_name": "PetMoaMeleeLegs.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegMelee",
     "domain": "companion",
@@ -750,7 +723,6 @@
   {
     "id": "/Lotus/Types/Game/KubrowPet/FurtiveKubrowPetPowerSuit",
     "name": "Huras Kubrow",
-    "image": "/assets/items/KubrowBreedHuras.png.png",
     "image_name": "KubrowBreedHuras.png",
     "unique_name": "/Lotus/Types/Game/KubrowPet/FurtiveKubrowPetPowerSuit",
     "domain": "companion",
@@ -783,7 +755,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenC",
     "name": "Ibexan Antigen",
-    "image": "/assets/items/AntigenInfestedPredatorC.png.png",
     "image_name": "AntigenInfestedPredatorC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenC",
     "domain": "companion",
@@ -809,7 +780,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenB",
     "name": "Iranon Antigen",
-    "image": "/assets/items/AntigenInfestedPredatorB.png.png",
     "image_name": "AntigenInfestedPredatorB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenB",
     "domain": "companion",
@@ -835,7 +805,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegC",
     "name": "Jonsin Bracket",
-    "image": "/assets/items/MoaLegsC.png.png",
     "image_name": "MoaLegsC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegC",
     "domain": "companion",
@@ -864,7 +833,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineKrisys",
     "name": "Krisys Core",
-    "image": "/assets/items/MoaBackB.png.png",
     "image_name": "MoaBackB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetEngineKrisys",
     "domain": "companion",
@@ -893,7 +861,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadLambeo",
     "name": "Lambeo Moa",
-    "image": "/assets/items/MoaHeadB.png.png",
     "image_name": "MoaHeadB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadLambeo",
     "domain": "companion",
@@ -922,7 +889,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetEngine",
     "name": "Lehan Core",
-    "image": "/assets/items/PetMoaMeleeBack.png.png",
     "image_name": "PetMoaMeleeBack.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetEngine",
     "domain": "companion",
@@ -951,7 +917,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenA",
     "name": "Leptosam Mutagen",
-    "image": "/assets/items/MutagenInfestedPredatorA.png.png",
     "image_name": "MutagenInfestedPredatorA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenA",
     "domain": "companion",
@@ -977,7 +942,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/MedjayPredatorKubrowPetPowerSuit",
     "name": "Medjay Predasite",
-    "image": "/assets/items/KubrowBreedPredasiteMedjay.png.png",
     "image_name": "KubrowBreedPredasiteMedjay.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/MedjayPredatorKubrowPetPowerSuit",
     "domain": "companion",
@@ -1008,7 +972,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenD",
     "name": "Monachod Mutagen",
-    "image": "/assets/items/MutagenInfestedPredatorD.png.png",
     "image_name": "MutagenInfestedPredatorD.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorMutagenD",
     "domain": "companion",
@@ -1034,7 +997,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadMunitron",
     "name": "Munit Gyro",
-    "image": "/assets/items/MoaChestE.png.png",
     "image_name": "MoaChestE.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadMunitron",
     "domain": "companion",
@@ -1063,7 +1025,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadMelee",
     "name": "Nychus Moa",
-    "image": "/assets/items/PetMoaMeleeHead.png.png",
     "image_name": "PetMoaMeleeHead.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadMelee",
     "domain": "companion",
@@ -1092,7 +1053,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadOloro",
     "name": "Oloro Moa",
-    "image": "/assets/items/MoaHeadC.png.png",
     "image_name": "MoaHeadC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadOloro",
     "domain": "companion",
@@ -1121,7 +1081,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/ArmoredInfestedCatbrowPetPowerSuit",
     "name": "Panzer Vulpaphyla",
-    "image": "/assets/items/KavatBreedPanzerVulpaphyla.png.png",
     "image_name": "KavatBreedPanzerVulpaphyla.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/ArmoredInfestedCatbrowPetPowerSuit",
     "domain": "companion",
@@ -1149,7 +1108,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadPara",
     "name": "Para Moa",
-    "image": "/assets/items/MoaHeadA.png.png",
     "image_name": "MoaHeadA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHeadPara",
     "domain": "companion",
@@ -1178,7 +1136,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/PharaohPredatorKubrowPetPowerSuit",
     "name": "Pharaoh Predasite",
-    "image": "/assets/items/KubrowBreedPredasitePharaoh.png.png",
     "image_name": "KubrowBreedPredasitePharaoh.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/PharaohPredatorKubrowPetPowerSuit",
     "domain": "companion",
@@ -1209,7 +1166,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadTazron",
     "name": "Phazor Gyro",
-    "image": "/assets/items/MoaChestF.png.png",
     "image_name": "MoaChestF.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadTazron",
     "domain": "companion",
@@ -1238,7 +1194,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenD",
     "name": "Phijar Mutagen",
-    "image": "/assets/items/MutagenInfestedCritterD.png.png",
     "image_name": "MutagenInfestedCritterD.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenD",
     "domain": "companion",
@@ -1264,7 +1219,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenC",
     "name": "Plagen Antigen",
-    "image": "/assets/items/AntigenInfestedCritterC.png.png",
     "image_name": "AntigenInfestedCritterC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenC",
     "domain": "companion",
@@ -1290,7 +1244,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenD",
     "name": "Poxi Antigen",
-    "image": "/assets/items/AntigenInfestedCritterD.png.png",
     "image_name": "AntigenInfestedCritterD.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenD",
     "domain": "companion",
@@ -1316,7 +1269,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyC",
     "name": "Raiju Core",
-    "image": "/assets/items/ZanukaPetBodyC.png.png",
     "image_name": "ZanukaPetBodyC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartBodyC",
     "domain": "companion",
@@ -1342,7 +1294,6 @@
   {
     "id": "/Lotus/Types/Game/KubrowPet/GuardKubrowPetPowerSuit",
     "name": "Raksa Kubrow",
-    "image": "/assets/items/KubrowBreedRaksa.png.png",
     "image_name": "KubrowBreedRaksa.png",
     "unique_name": "/Lotus/Types/Game/KubrowPet/GuardKubrowPetPowerSuit",
     "domain": "companion",
@@ -1375,7 +1326,6 @@
   {
     "id": "/Lotus/Types/Game/KubrowPet/AdventurerKubrowPetPowerSuit",
     "name": "Sahasa Kubrow",
-    "image": "/assets/items/KubrowBreedSahasa.png.png",
     "image_name": "KubrowBreedSahasa.png",
     "unique_name": "/Lotus/Types/Game/KubrowPet/AdventurerKubrowPetPowerSuit",
     "domain": "companion",
@@ -1408,7 +1358,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/VulpineInfestedCatbrowPetPowerSuit",
     "name": "Sly Vulpaphyla",
-    "image": "/assets/items/KavatBreedSlyVulpaphyla.png.png",
     "image_name": "KavatBreedSlyVulpaphyla.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/VulpineInfestedCatbrowPetPowerSuit",
     "domain": "companion",
@@ -1436,7 +1385,6 @@
   {
     "id": "/Lotus/Types/Game/CatbrowPet/CheshireCatbrowPetPowerSuit",
     "name": "Smeeta Kavat",
-    "image": "/assets/items/KavatBreedSmeeta.png.png",
     "image_name": "KavatBreedSmeeta.png",
     "unique_name": "/Lotus/Types/Game/CatbrowPet/CheshireCatbrowPetPowerSuit",
     "domain": "companion",
@@ -1465,7 +1413,6 @@
   {
     "id": "/Lotus/Types/Game/KubrowPet/HunterKubrowPetPowerSuit",
     "name": "Sunika Kubrow",
-    "image": "/assets/items/KubrowBreedSunika.png.png",
     "image_name": "KubrowBreedSunika.png",
     "unique_name": "/Lotus/Types/Game/KubrowPet/HunterKubrowPetPowerSuit",
     "domain": "companion",
@@ -1498,7 +1445,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenD",
     "name": "Tethron Antigen",
-    "image": "/assets/items/AntigenInfestedPredatorD.png.png",
     "image_name": "AntigenInfestedPredatorD.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedPredatorAntigenD",
     "domain": "companion",
@@ -1524,7 +1470,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegB",
     "name": "Tian Bracket",
-    "image": "/assets/items/MoaLegsB.png.png",
     "image_name": "MoaLegsB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetLegB",
     "domain": "companion",
@@ -1553,7 +1498,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadCryoxion",
     "name": "Trux Gyro",
-    "image": "/assets/items/MoaChestA.png.png",
     "image_name": "MoaChestA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetPayloadCryoxion",
     "domain": "companion",
@@ -1582,7 +1526,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetPayload",
     "name": "Tyli Gyro",
-    "image": "/assets/items/PetMoaMeleeChest.png.png",
     "image_name": "PetMoaMeleeChest.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MeleeMoaPetPayload",
     "domain": "companion",
@@ -1611,7 +1554,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsB",
     "name": "Urga Bracket",
-    "image": "/assets/items/ZanukaPetLegsB.png.png",
     "image_name": "ZanukaPetLegsB.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsB",
     "domain": "companion",
@@ -1637,7 +1579,6 @@
   {
     "id": "/Lotus/Types/Game/CatbrowPet/VampireCatbrowPetPowerSuit",
     "name": "Vasca Kavat",
-    "image": "/assets/items/KavatBreedVasca.png.png",
     "image_name": "KavatBreedVasca.png",
     "unique_name": "/Lotus/Types/Game/CatbrowPet/VampireCatbrowPetPowerSuit",
     "domain": "companion",
@@ -1666,7 +1607,6 @@
   {
     "id": "/Lotus/Powersuits/Khora/Kavat/KhoraKavatPowerSuit",
     "name": "Venari",
-    "image": "/assets/items/KavatBreedKhora.png.png",
     "image_name": "KavatBreedKhora.png",
     "unique_name": "/Lotus/Powersuits/Khora/Kavat/KhoraKavatPowerSuit",
     "domain": "companion",
@@ -1700,7 +1640,6 @@
   {
     "id": "/Lotus/Powersuits/Khora/Kavat/KhoraPrimeKavatPowerSuit",
     "name": "Venari Prime",
-    "image": "/assets/items/VenariPrime.png.png",
     "image_name": "VenariPrime.png",
     "unique_name": "/Lotus/Powersuits/Khora/Kavat/KhoraPrimeKavatPowerSuit",
     "domain": "companion",
@@ -1734,7 +1673,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenA",
     "name": "Virox Antigen",
-    "image": "/assets/items/AntigenInfestedCritterA.png.png",
     "image_name": "AntigenInfestedCritterA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterAntigenA",
     "domain": "companion",
@@ -1760,7 +1698,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/VizierPredatorKubrowPetPowerSuit",
     "name": "Vizier Predasite",
-    "image": "/assets/items/KubrowBreedPredasiteVizier.png.png",
     "image_name": "KubrowBreedPredasiteVizier.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/VizierPredatorKubrowPetPowerSuit",
     "domain": "companion",
@@ -1791,7 +1728,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailA",
     "name": "Wanz Stabilizer",
-    "image": "/assets/items/ZanukaPetTailA.png.png",
     "image_name": "ZanukaPetTailA.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartTailA",
     "domain": "companion",
@@ -1817,7 +1753,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC",
     "name": "Zarim Mutagen",
-    "image": "/assets/items/MutagenInfestedCritterC.png.png",
     "image_name": "MutagenInfestedCritterC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/CreaturePets/CreaturePetParts/Deimos/InfestedCritterMutagenC",
     "domain": "companion",
@@ -1843,7 +1778,6 @@
   {
     "id": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC",
     "name": "Zubb Bracket",
-    "image": "/assets/items/ZanukaPetLegsC.png.png",
     "image_name": "ZanukaPetLegsC.png",
     "unique_name": "/Lotus/Types/Friendly/Pets/ZanukaPets/ZanukaPetParts/ZanukaPetPartLegsC",
     "domain": "companion",
@@ -1869,7 +1803,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit",
     "name": "Carrier",
-    "image": "/assets/items/Carrier.png.png",
     "image_name": "Carrier.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/CarrierPowerSuit",
     "domain": "companion",
@@ -1904,7 +1837,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit",
     "name": "Carrier Prime",
-    "image": "/assets/items/CarrierPrime.png.png",
     "image_name": "CarrierPrime.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeCarrierPowerSuit",
     "domain": "companion",
@@ -1940,7 +1872,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit",
     "name": "Dethcube",
-    "image": "/assets/items/Dethcube.png.png",
     "image_name": "Dethcube.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/DethCubePowerSuit",
     "domain": "companion",
@@ -1974,7 +1905,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit",
     "name": "Dethcube Prime",
-    "image": "/assets/items/DethcubePrime.png.png",
     "image_name": "DethcubePrime.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeDethCubePowerSuit",
     "domain": "companion",
@@ -2009,7 +1939,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit",
     "name": "Diriga",
-    "image": "/assets/items/Diriga.png.png",
     "image_name": "Diriga.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/ArcDronePowerSuit",
     "domain": "companion",
@@ -2043,7 +1972,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit",
     "name": "Djinn",
-    "image": "/assets/items/Djinn.png.png",
     "image_name": "Djinn.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/GubberPowerSuit",
     "domain": "companion",
@@ -2078,7 +2006,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit",
     "name": "Helios",
-    "image": "/assets/items/Helios.png.png",
     "image_name": "Helios.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/MeleePetPowerSuit",
     "domain": "companion",
@@ -2113,7 +2040,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit",
     "name": "Helios Prime",
-    "image": "/assets/items/HeliosPrime.png.png",
     "image_name": "HeliosPrime.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeHeliosPowerSuit",
     "domain": "companion",
@@ -2148,7 +2074,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit",
     "name": "Nautilus",
-    "image": "/assets/items/EmpyreanSentinel.png.png",
     "image_name": "EmpyreanSentinel.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/EmpyreanSentinelPowerSuit",
     "domain": "companion",
@@ -2182,7 +2107,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit",
     "name": "Nautilus Prime",
-    "image": "/assets/items/NautilusPrime.png.png",
     "image_name": "NautilusPrime.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/NautilusPrimeSentinelPowerSuit",
     "domain": "companion",
@@ -2217,7 +2141,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit",
     "name": "Oxylus",
-    "image": "/assets/items/Oxylus.png.png",
     "image_name": "Oxylus.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/RadarPowerSuit",
     "domain": "companion",
@@ -2252,7 +2175,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit",
     "name": "Prisma Shade",
-    "image": "/assets/items/PrismaShade.png.png",
     "image_name": "PrismaShade.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit",
     "domain": "companion",
@@ -2287,7 +2209,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit",
     "name": "Shade",
-    "image": "/assets/items/Shade.png.png",
     "image_name": "Shade.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/ShadePowerSuit",
     "domain": "companion",
@@ -2321,7 +2242,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit",
     "name": "Shade Prime",
-    "image": "/assets/items/ShadePrime.png.png",
     "image_name": "ShadePrime.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeShadePowerSuit",
     "domain": "companion",
@@ -2357,7 +2277,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
     "name": "Taxon",
-    "image": "/assets/items/Taxon.png.png",
     "image_name": "Taxon.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
     "domain": "companion",
@@ -2391,7 +2310,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/WyrmPowerSuit",
     "name": "Wyrm",
-    "image": "/assets/items/Wyrm.png.png",
     "image_name": "Wyrm.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/WyrmPowerSuit",
     "domain": "companion",
@@ -2425,7 +2343,6 @@
   {
     "id": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeWyrmPowerSuit",
     "name": "Wyrm Prime",
-    "image": "/assets/items/WyrmPrime.png.png",
     "image_name": "WyrmPrime.png",
     "unique_name": "/Lotus/Types/Sentinels/SentinelPowersuits/PrimeWyrmPowerSuit",
     "domain": "companion",

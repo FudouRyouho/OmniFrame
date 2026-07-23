@@ -38,7 +38,12 @@ export type ItemSource = ItemKind | 'all' | 'companion';
 export interface BaseItem {
   id: string;
   name: string;
-  image: string | null;
+  /**
+   * URL resuelta de la imagen. **No viene del dato**: la inyecta `hydrateImageFromImageName`
+   * (`DataRegistry`) a partir de `image_name`. Opcional porque los artefactos de `public/data` no
+   * la traen — resolver la URL es responsabilidad de la capa de presentación.
+   */
+  image?: string | null;
   image_name: string;
   unique_name: string;
   description: string;

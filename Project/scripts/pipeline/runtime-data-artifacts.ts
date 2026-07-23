@@ -160,7 +160,9 @@ export interface SourceItem {
 interface GeneratedBaseFields {
   id: string
   name: string
-  image: string | null
+  // Sin campo `image`: la URL la resuelve la capa de presentación (`resolveLocalImageUrl` sobre
+  // `image_name`), y `DataRegistry` la inyecta al hidratar. Emitirla acá duplicaba esa
+  // responsabilidad — y la copia se corrompió sin que nadie lo notara, porque nadie la leía.
   image_name: string
   unique_name: string
   domain: ItemDomain
@@ -419,7 +421,6 @@ function buildBaseFields(
   return {
     id: resolveId(raw),
     name: resolveName(raw),
-    image: raw.imageName ? `/assets/items/${raw.imageName}.png` : null,
     image_name: resolveImageName(raw),
     unique_name: resolveUniqueName(raw),
     domain: taxonomy.domain,

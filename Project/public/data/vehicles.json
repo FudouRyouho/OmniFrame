@@ -2,7 +2,6 @@
   {
     "id": "/Lotus/Powersuits/Archwing/SupportJetPack/SupportJetPack",
     "name": "Amesha",
-    "image": "/assets/items/Amesha.png.png",
     "image_name": "Amesha.png",
     "unique_name": "/Lotus/Powersuits/Archwing/SupportJetPack/SupportJetPack",
     "domain": "vehicle",
@@ -43,7 +42,6 @@
   {
     "id": "/Lotus/Powersuits/Archwing/DemolitionJetPack/DemolitionJetPack",
     "name": "Elytron",
-    "image": "/assets/items/Elytron.png.png",
     "image_name": "Elytron.png",
     "unique_name": "/Lotus/Powersuits/Archwing/DemolitionJetPack/DemolitionJetPack",
     "domain": "vehicle",
@@ -84,7 +82,6 @@
   {
     "id": "/Lotus/Powersuits/Archwing/StealthJetPack/StealthJetPack",
     "name": "Itzal",
-    "image": "/assets/items/Itzal.png.png",
     "image_name": "Itzal.png",
     "unique_name": "/Lotus/Powersuits/Archwing/StealthJetPack/StealthJetPack",
     "domain": "vehicle",
@@ -125,7 +122,6 @@
   {
     "id": "/Lotus/Powersuits/Archwing/StandardJetPack/StandardJetPack",
     "name": "Odonata",
-    "image": "/assets/items/Odonata.png.png",
     "image_name": "Odonata.png",
     "unique_name": "/Lotus/Powersuits/Archwing/StandardJetPack/StandardJetPack",
     "domain": "vehicle",
@@ -166,7 +162,6 @@
   {
     "id": "/Lotus/Powersuits/Archwing/PrimeJetPack/PrimeJetPack",
     "name": "Odonata Prime",
-    "image": "/assets/items/OdonataPrime.png.png",
     "image_name": "OdonataPrime.png",
     "unique_name": "/Lotus/Powersuits/Archwing/PrimeJetPack/PrimeJetPack",
     "domain": "vehicle",
@@ -208,7 +203,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannon",
     "name": "Apoc",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannon",
     "domain": "vehicle",
@@ -232,7 +226,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannonTierA",
     "name": "Apoc Mk I",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannonTierA",
     "domain": "vehicle",
@@ -256,7 +249,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannonTierB",
     "name": "Apoc Mk Ii",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannonTierB",
     "domain": "vehicle",
@@ -280,7 +272,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannonTierC",
     "name": "Apoc Mk Iii",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/AutoCannonTierC",
     "domain": "vehicle",
@@ -304,7 +295,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Countermeasures/DecoyCountermeasure",
     "name": "Bahul Decoy",
-    "image": "/assets/items/RailjackPayloadRearChaff.png.png",
     "image_name": "RailjackPayloadRearChaff.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Countermeasures/DecoyCountermeasure",
     "domain": "vehicle",
@@ -328,7 +318,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/Blaster",
     "name": "Carcinnox",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/Blaster",
     "domain": "vehicle",
@@ -352,7 +341,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterTierA",
     "name": "Carcinnox Mk I",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterTierA",
     "domain": "vehicle",
@@ -376,7 +364,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterTierB",
     "name": "Carcinnox Mk Ii",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterTierB",
     "domain": "vehicle",
@@ -400,7 +387,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterTierC",
     "name": "Carcinnox Mk Iii",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterTierC",
     "domain": "vehicle",
@@ -424,7 +410,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterShotgun",
     "name": "Cryophon",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterShotgun",
     "domain": "vehicle",
@@ -448,7 +433,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterShotgunTierA",
     "name": "Cryophon Mk I",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterShotgunTierA",
     "domain": "vehicle",
@@ -472,7 +456,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterShotgunTierB",
     "name": "Cryophon Mk Ii",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterShotgunTierB",
     "domain": "vehicle",
@@ -496,7 +479,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterShotgunTierC",
     "name": "Cryophon Mk Iii",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/BlasterShotgunTierC",
     "domain": "vehicle",
@@ -520,7 +502,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/IceSniperCannonTierA",
     "name": "Glazio Mk I",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/IceSniperCannonTierA",
     "domain": "vehicle",
@@ -544,7 +525,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/IceSniperCannonTierB",
     "name": "Glazio Mk Ii",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/IceSniperCannonTierB",
     "domain": "vehicle",
@@ -568,7 +548,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/IceSniperCannonTierC",
     "name": "Glazio Mk Iii",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/IceSniperCannonTierC",
     "domain": "vehicle",
@@ -592,7 +571,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Countermeasures/SmokeCountermeasure",
     "name": "Jasvin Smoke",
-    "image": "/assets/items/RailjackPayloadRearSmoke.png.png",
     "image_name": "RailjackPayloadRearSmoke.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Countermeasures/SmokeCountermeasure",
     "domain": "vehicle",
@@ -616,7 +594,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ShrapnelShotgun",
     "name": "Laith",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ShrapnelShotgun",
     "domain": "vehicle",
@@ -640,7 +617,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ShrapnelShotgunTierA",
     "name": "Laith Mk I",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ShrapnelShotgunTierA",
     "domain": "vehicle",
@@ -664,7 +640,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ShrapnelShotgunTierB",
     "name": "Laith Mk Ii",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ShrapnelShotgunTierB",
     "domain": "vehicle",
@@ -688,7 +663,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ShrapnelShotgunTierC",
     "name": "Laith Mk Iii",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ShrapnelShotgunTierC",
     "domain": "vehicle",
@@ -712,7 +686,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/LavanAutoCannonTierA",
     "name": "Lavan Apoc Mk I",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/LavanAutoCannonTierA",
     "domain": "vehicle",
@@ -736,7 +709,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/LavanAutoCannonTierB",
     "name": "Lavan Apoc Mk Ii",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/LavanAutoCannonTierB",
     "domain": "vehicle",
@@ -760,7 +732,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/LavanAutoCannonTierC",
     "name": "Lavan Apoc Mk Iii",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/LavanAutoCannonTierC",
     "domain": "vehicle",
@@ -784,7 +755,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/LavanAutoCannonTierD",
     "name": "Lavan Apoc Mk Iv",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/LavanAutoCannonTierD",
     "domain": "vehicle",
@@ -808,7 +778,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterTierA",
     "name": "Lavan Carcinnox Mk I",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterTierA",
     "domain": "vehicle",
@@ -832,7 +801,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterTierB",
     "name": "Lavan Carcinnox Mk Ii",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterTierB",
     "domain": "vehicle",
@@ -856,7 +824,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterTierC",
     "name": "Lavan Carcinnox Mk Iii",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterTierC",
     "domain": "vehicle",
@@ -880,7 +847,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterTierD",
     "name": "Lavan Carcinnox Mk Iv",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterTierD",
     "domain": "vehicle",
@@ -904,7 +870,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterShotgunTierA",
     "name": "Lavan Cryophon Mk I",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterShotgunTierA",
     "domain": "vehicle",
@@ -928,7 +893,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterShotgunTierB",
     "name": "Lavan Cryophon Mk Ii",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterShotgunTierB",
     "domain": "vehicle",
@@ -952,7 +916,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterShotgunTierC",
     "name": "Lavan Cryophon Mk Iii",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterShotgunTierC",
     "domain": "vehicle",
@@ -976,7 +939,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterShotgunTierD",
     "name": "Lavan Cryophon Mk Iv",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/LavanBlasterShotgunTierD",
     "domain": "vehicle",
@@ -1000,7 +962,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/LavanIceSniperCannonTierA",
     "name": "Lavan Glazio Mk I",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/LavanIceSniperCannonTierA",
     "domain": "vehicle",
@@ -1024,7 +985,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/LavanIceSniperCannonTierB",
     "name": "Lavan Glazio Mk Ii",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/LavanIceSniperCannonTierB",
     "domain": "vehicle",
@@ -1048,7 +1008,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/LavanIceSniperCannonTierC",
     "name": "Lavan Glazio Mk Iii",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/LavanIceSniperCannonTierC",
     "domain": "vehicle",
@@ -1072,7 +1031,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/LavanIceSniperCannonTierD",
     "name": "Lavan Glazio Mk Iv",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/LavanIceSniperCannonTierD",
     "domain": "vehicle",
@@ -1096,7 +1054,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/LavanShrapnelShotgunTierA",
     "name": "Lavan Laith Mk I",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/LavanShrapnelShotgunTierA",
     "domain": "vehicle",
@@ -1120,7 +1077,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/LavanShrapnelShotgunTierB",
     "name": "Lavan Laith Mk Ii",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/LavanShrapnelShotgunTierB",
     "domain": "vehicle",
@@ -1144,7 +1100,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/LavanShrapnelShotgunTierC",
     "name": "Lavan Laith Mk Iii",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/LavanShrapnelShotgunTierC",
     "domain": "vehicle",
@@ -1168,7 +1123,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/LavanShrapnelShotgunTierD",
     "name": "Lavan Laith Mk Iv",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/LavanShrapnelShotgunTierD",
     "domain": "vehicle",
@@ -1192,7 +1146,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/LavanRailJackBeamWeaponTierA",
     "name": "Lavan Photor Mk I",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/LavanRailJackBeamWeaponTierA",
     "domain": "vehicle",
@@ -1216,7 +1169,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/LavanRailJackBeamWeaponTierB",
     "name": "Lavan Photor Mk Ii",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/LavanRailJackBeamWeaponTierB",
     "domain": "vehicle",
@@ -1240,7 +1192,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/LavanRailJackBeamWeaponTierC",
     "name": "Lavan Photor Mk Iii",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/LavanRailJackBeamWeaponTierC",
     "domain": "vehicle",
@@ -1264,7 +1215,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/LavanRailJackBeamWeaponTierD",
     "name": "Lavan Photor Mk Iv",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/LavanRailJackBeamWeaponTierD",
     "domain": "vehicle",
@@ -1288,7 +1238,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/LavanPulseLaserTierA",
     "name": "Lavan Pulsar Mk I",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/LavanPulseLaserTierA",
     "domain": "vehicle",
@@ -1312,7 +1261,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/LavanPulseLaserTierB",
     "name": "Lavan Pulsar Mk Ii",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/LavanPulseLaserTierB",
     "domain": "vehicle",
@@ -1336,7 +1284,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/LavanPulseLaserTierC",
     "name": "Lavan Pulsar Mk Iii",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/LavanPulseLaserTierC",
     "domain": "vehicle",
@@ -1360,7 +1307,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/LavanPulseLaserTierD",
     "name": "Lavan Pulsar Mk Iv",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/LavanPulseLaserTierD",
     "domain": "vehicle",
@@ -1384,7 +1330,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/LavanGatlingLaserTierA",
     "name": "Lavan Talyn Mk I",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/LavanGatlingLaserTierA",
     "domain": "vehicle",
@@ -1408,7 +1353,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/LavanGatlingLaserTierB",
     "name": "Lavan Talyn Mk Ii",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/LavanGatlingLaserTierB",
     "domain": "vehicle",
@@ -1432,7 +1376,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/LavanGatlingLaserTierC",
     "name": "Lavan Talyn Mk Iii",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/LavanGatlingLaserTierC",
     "domain": "vehicle",
@@ -1456,7 +1399,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/LavanGatlingLaserTierD",
     "name": "Lavan Talyn Mk Iv",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/LavanGatlingLaserTierD",
     "domain": "vehicle",
@@ -1480,7 +1422,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/LavanElectricTetherCannonTierA",
     "name": "Lavan Vort Mk I",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/LavanElectricTetherCannonTierA",
     "domain": "vehicle",
@@ -1504,7 +1445,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/LavanElectricTetherCannonTierB",
     "name": "Lavan Vort Mk Ii",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/LavanElectricTetherCannonTierB",
     "domain": "vehicle",
@@ -1528,7 +1468,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/LavanElectricTetherCannonTierC",
     "name": "Lavan Vort Mk Iii",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/LavanElectricTetherCannonTierC",
     "domain": "vehicle",
@@ -1552,7 +1491,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/LavanElectricTetherCannonTierD",
     "name": "Lavan Vort Mk Iv",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/LavanElectricTetherCannonTierD",
     "domain": "vehicle",
@@ -1576,7 +1514,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeapon",
     "name": "Photor",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeapon",
     "domain": "vehicle",
@@ -1600,7 +1537,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeaponTierA",
     "name": "Photor Mk I",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeaponTierA",
     "domain": "vehicle",
@@ -1624,7 +1560,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeaponTierB",
     "name": "Photor Mk Ii",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeaponTierB",
     "domain": "vehicle",
@@ -1648,7 +1583,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeaponTierC",
     "name": "Photor Mk Iii",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/RailJackBeamWeaponTierC",
     "domain": "vehicle",
@@ -1672,7 +1606,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/PulseLaser",
     "name": "Pulsar",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/PulseLaser",
     "domain": "vehicle",
@@ -1696,7 +1629,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/PulseLaserTierA",
     "name": "Pulsar Mk I",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/PulseLaserTierA",
     "domain": "vehicle",
@@ -1720,7 +1652,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/PulseLaserTierB",
     "name": "Pulsar Mk Ii",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/PulseLaserTierB",
     "domain": "vehicle",
@@ -1744,7 +1675,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/PulseLaserTierC",
     "name": "Pulsar Mk Iii",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/PulseLaserTierC",
     "domain": "vehicle",
@@ -1768,7 +1698,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/GatlingLaserTierA",
     "name": "Talyn Mk I",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/GatlingLaserTierA",
     "domain": "vehicle",
@@ -1792,7 +1721,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/GatlingLaserTierB",
     "name": "Talyn Mk Ii",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/GatlingLaserTierB",
     "domain": "vehicle",
@@ -1816,7 +1744,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/GatlingLaserTierC",
     "name": "Talyn Mk Iii",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/GatlingLaserTierC",
     "domain": "vehicle",
@@ -1840,7 +1767,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/VidarAutoCannonTierA",
     "name": "Vidar Apoc Mk I",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/VidarAutoCannonTierA",
     "domain": "vehicle",
@@ -1864,7 +1790,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/VidarAutoCannonTierB",
     "name": "Vidar Apoc Mk Ii",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/VidarAutoCannonTierB",
     "domain": "vehicle",
@@ -1888,7 +1813,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/VidarAutoCannonTierC",
     "name": "Vidar Apoc Mk Iii",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/VidarAutoCannonTierC",
     "domain": "vehicle",
@@ -1912,7 +1836,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/VidarAutoCannonTierD",
     "name": "Vidar Apoc Mk Iv",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/VidarAutoCannonTierD",
     "domain": "vehicle",
@@ -1936,7 +1859,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterTierA",
     "name": "Vidar Carcinnox Mk I",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterTierA",
     "domain": "vehicle",
@@ -1960,7 +1882,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterTierB",
     "name": "Vidar Carcinnox Mk Ii",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterTierB",
     "domain": "vehicle",
@@ -1984,7 +1905,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterTierC",
     "name": "Vidar Carcinnox Mk Iii",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterTierC",
     "domain": "vehicle",
@@ -2008,7 +1928,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterTierD",
     "name": "Vidar Carcinnox Mk Iv",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterTierD",
     "domain": "vehicle",
@@ -2032,7 +1951,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterShotgunTierA",
     "name": "Vidar Cryophon Mk I",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterShotgunTierA",
     "domain": "vehicle",
@@ -2056,7 +1974,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterShotgunTierB",
     "name": "Vidar Cryophon Mk Ii",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterShotgunTierB",
     "domain": "vehicle",
@@ -2080,7 +1997,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterShotgunTierC",
     "name": "Vidar Cryophon Mk Iii",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterShotgunTierC",
     "domain": "vehicle",
@@ -2104,7 +2020,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterShotgunTierD",
     "name": "Vidar Cryophon Mk Iv",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/VidarBlasterShotgunTierD",
     "domain": "vehicle",
@@ -2128,7 +2043,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/VidarIceSniperCannonTierA",
     "name": "Vidar Glazio Mk I",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/VidarIceSniperCannonTierA",
     "domain": "vehicle",
@@ -2152,7 +2066,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/VidarIceSniperCannonTierB",
     "name": "Vidar Glazio Mk Ii",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/VidarIceSniperCannonTierB",
     "domain": "vehicle",
@@ -2176,7 +2089,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/VidarIceSniperCannonTierC",
     "name": "Vidar Glazio Mk Iii",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/VidarIceSniperCannonTierC",
     "domain": "vehicle",
@@ -2200,7 +2112,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/VidarIceSniperCannonTierD",
     "name": "Vidar Glazio Mk Iv",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/VidarIceSniperCannonTierD",
     "domain": "vehicle",
@@ -2224,7 +2135,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/VidarShrapnelShotgunTierA",
     "name": "Vidar Laith Mk I",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/VidarShrapnelShotgunTierA",
     "domain": "vehicle",
@@ -2248,7 +2158,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/VidarShrapnelShotgunTierB",
     "name": "Vidar Laith Mk Ii",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/VidarShrapnelShotgunTierB",
     "domain": "vehicle",
@@ -2272,7 +2181,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/VidarShrapnelShotgunTierC",
     "name": "Vidar Laith Mk Iii",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/VidarShrapnelShotgunTierC",
     "domain": "vehicle",
@@ -2296,7 +2204,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/VidarShrapnelShotgunTierD",
     "name": "Vidar Laith Mk Iv",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/VidarShrapnelShotgunTierD",
     "domain": "vehicle",
@@ -2320,7 +2227,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/VidarRailJackBeamWeaponTierA",
     "name": "Vidar Photor Mk I",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/VidarRailJackBeamWeaponTierA",
     "domain": "vehicle",
@@ -2344,7 +2250,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/VidarRailJackBeamWeaponTierB",
     "name": "Vidar Photor Mk Ii",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/VidarRailJackBeamWeaponTierB",
     "domain": "vehicle",
@@ -2368,7 +2273,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/VidarRailJackBeamWeaponTierC",
     "name": "Vidar Photor Mk Iii",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/VidarRailJackBeamWeaponTierC",
     "domain": "vehicle",
@@ -2392,7 +2296,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/VidarRailJackBeamWeaponTierD",
     "name": "Vidar Photor Mk Iv",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/VidarRailJackBeamWeaponTierD",
     "domain": "vehicle",
@@ -2416,7 +2319,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/VidarPulseLaserTierA",
     "name": "Vidar Pulsar Mk I",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/VidarPulseLaserTierA",
     "domain": "vehicle",
@@ -2440,7 +2342,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/VidarPulseLaserTierB",
     "name": "Vidar Pulsar Mk Ii",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/VidarPulseLaserTierB",
     "domain": "vehicle",
@@ -2464,7 +2365,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/VidarPulseLaserTierC",
     "name": "Vidar Pulsar Mk Iii",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/VidarPulseLaserTierC",
     "domain": "vehicle",
@@ -2488,7 +2388,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/VidarPulseLaserTierD",
     "name": "Vidar Pulsar Mk Iv",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/VidarPulseLaserTierD",
     "domain": "vehicle",
@@ -2512,7 +2411,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/VidarGatlingLaserTierA",
     "name": "Vidar Talyn Mk I",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/VidarGatlingLaserTierA",
     "domain": "vehicle",
@@ -2536,7 +2434,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/VidarGatlingLaserTierB",
     "name": "Vidar Talyn Mk Ii",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/VidarGatlingLaserTierB",
     "domain": "vehicle",
@@ -2560,7 +2457,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/VidarGatlingLaserTierC",
     "name": "Vidar Talyn Mk Iii",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/VidarGatlingLaserTierC",
     "domain": "vehicle",
@@ -2584,7 +2480,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/VidarGatlingLaserTierD",
     "name": "Vidar Talyn Mk Iv",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/VidarGatlingLaserTierD",
     "domain": "vehicle",
@@ -2608,7 +2503,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/VidarElectricTetherCannonTierA",
     "name": "Vidar Vort Mk I",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/VidarElectricTetherCannonTierA",
     "domain": "vehicle",
@@ -2632,7 +2526,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/VidarElectricTetherCannonTierB",
     "name": "Vidar Vort Mk Ii",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/VidarElectricTetherCannonTierB",
     "domain": "vehicle",
@@ -2656,7 +2549,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/VidarElectricTetherCannonTierC",
     "name": "Vidar Vort Mk Iii",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/VidarElectricTetherCannonTierC",
     "domain": "vehicle",
@@ -2680,7 +2572,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/VidarElectricTetherCannonTierD",
     "name": "Vidar Vort Mk Iv",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/VidarElectricTetherCannonTierD",
     "domain": "vehicle",
@@ -2704,7 +2595,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/ElectricTetherCannonTierA",
     "name": "Vort Mk I",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/ElectricTetherCannonTierA",
     "domain": "vehicle",
@@ -2728,7 +2618,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/ElectricTetherCannonTierB",
     "name": "Vort Mk Ii",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/ElectricTetherCannonTierB",
     "domain": "vehicle",
@@ -2752,7 +2641,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/ElectricTetherCannonTierC",
     "name": "Vort Mk Iii",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/ElectricTetherCannonTierC",
     "domain": "vehicle",
@@ -2776,7 +2664,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/ZektiAutoCannonTierA",
     "name": "Zetki Apoc Mk I",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/ZektiAutoCannonTierA",
     "domain": "vehicle",
@@ -2800,7 +2687,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/ZektiAutoCannonTierB",
     "name": "Zetki Apoc Mk Ii",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/ZektiAutoCannonTierB",
     "domain": "vehicle",
@@ -2824,7 +2710,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/ZektiAutoCannonTierC",
     "name": "Zetki Apoc Mk Iii",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/ZektiAutoCannonTierC",
     "domain": "vehicle",
@@ -2848,7 +2733,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/ZektiAutoCannonTierD",
     "name": "Zetki Apoc Mk Iv",
-    "image": "/assets/items/RailjackTurretAutoCannon.png.png",
     "image_name": "RailjackTurretAutoCannon.png",
     "unique_name": "/Lotus/Weapons/CrewShip/MassDriver/AutoCannon/ZektiAutoCannonTierD",
     "domain": "vehicle",
@@ -2872,7 +2756,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterTierA",
     "name": "Zetki Carcinnox Mk I",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterTierA",
     "domain": "vehicle",
@@ -2896,7 +2779,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterTierB",
     "name": "Zetki Carcinnox Mk Ii",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterTierB",
     "domain": "vehicle",
@@ -2920,7 +2802,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterTierC",
     "name": "Zetki Carcinnox Mk Iii",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterTierC",
     "domain": "vehicle",
@@ -2944,7 +2825,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterTierD",
     "name": "Zetki Carcinnox Mk Iv",
-    "image": "/assets/items/RailjackTurretBlaster.png.png",
     "image_name": "RailjackTurretBlaster.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterTierD",
     "domain": "vehicle",
@@ -2968,7 +2848,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterShotgunTierA",
     "name": "Zetki Cryophon Mk I",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterShotgunTierA",
     "domain": "vehicle",
@@ -2992,7 +2871,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterShotgunTierB",
     "name": "Zetki Cryophon Mk Ii",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterShotgunTierB",
     "domain": "vehicle",
@@ -3016,7 +2894,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterShotgunTierC",
     "name": "Zetki Cryophon Mk Iii",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterShotgunTierC",
     "domain": "vehicle",
@@ -3040,7 +2917,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterShotgunTierD",
     "name": "Zetki Cryophon Mk Iv",
-    "image": "/assets/items/RailjackTurretBlasterShotgun.png.png",
     "image_name": "RailjackTurretBlasterShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Blaster/ZektiBlasterShotgunTierD",
     "domain": "vehicle",
@@ -3064,7 +2940,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/ZektiIceSniperCannonTierA",
     "name": "Zetki Glazio Mk I",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/ZektiIceSniperCannonTierA",
     "domain": "vehicle",
@@ -3088,7 +2963,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/ZektiIceSniperCannonTierB",
     "name": "Zetki Glazio Mk Ii",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/ZektiIceSniperCannonTierB",
     "domain": "vehicle",
@@ -3112,7 +2986,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/ZektiIceSniperCannonTierC",
     "name": "Zetki Glazio Mk Iii",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/ZektiIceSniperCannonTierC",
     "domain": "vehicle",
@@ -3136,7 +3009,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/IceSniper/ZektiIceSniperCannonTierD",
     "name": "Zetki Glazio Mk Iv",
-    "image": "/assets/items/IceSniper.png.png",
     "image_name": "IceSniper.png",
     "unique_name": "/Lotus/Weapons/CrewShip/IceSniper/ZektiIceSniperCannonTierD",
     "domain": "vehicle",
@@ -3160,7 +3032,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ZektiShrapnelShotgunTierA",
     "name": "Zetki Laith Mk I",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ZektiShrapnelShotgunTierA",
     "domain": "vehicle",
@@ -3184,7 +3055,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ZektiShrapnelShotgunTierB",
     "name": "Zetki Laith Mk Ii",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ZektiShrapnelShotgunTierB",
     "domain": "vehicle",
@@ -3208,7 +3078,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ZektiShrapnelShotgunTierC",
     "name": "Zetki Laith Mk Iii",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ZektiShrapnelShotgunTierC",
     "domain": "vehicle",
@@ -3232,7 +3101,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ZektiShrapnelShotgunTierD",
     "name": "Zetki Laith Mk Iv",
-    "image": "/assets/items/ShrapnelShotgun.png.png",
     "image_name": "ShrapnelShotgun.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ShrapnelShotgun/ZektiShrapnelShotgunTierD",
     "domain": "vehicle",
@@ -3256,7 +3124,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/ZektiRailJackBeamWeaponTierA",
     "name": "Zetki Photor Mk I",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/ZektiRailJackBeamWeaponTierA",
     "domain": "vehicle",
@@ -3280,7 +3147,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/ZektiRailJackBeamWeaponTierB",
     "name": "Zetki Photor Mk Ii",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/ZektiRailJackBeamWeaponTierB",
     "domain": "vehicle",
@@ -3304,7 +3170,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/ZektiRailJackBeamWeaponTierC",
     "name": "Zetki Photor Mk Iii",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/ZektiRailJackBeamWeaponTierC",
     "domain": "vehicle",
@@ -3328,7 +3193,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/Beam/ZektiRailJackBeamWeaponTierD",
     "name": "Zetki Photor Mk Iv",
-    "image": "/assets/items/RailjackTurretB.png.png",
     "image_name": "RailjackTurretB.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/Beam/ZektiRailJackBeamWeaponTierD",
     "domain": "vehicle",
@@ -3352,7 +3216,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/ZektiPulseLaserTierA",
     "name": "Zetki Pulsar Mk I",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/ZektiPulseLaserTierA",
     "domain": "vehicle",
@@ -3376,7 +3239,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/ZektiPulseLaserTierB",
     "name": "Zetki Pulsar Mk Ii",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/ZektiPulseLaserTierB",
     "domain": "vehicle",
@@ -3400,7 +3262,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/ZektiPulseLaserTierC",
     "name": "Zetki Pulsar Mk Iii",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/ZektiPulseLaserTierC",
     "domain": "vehicle",
@@ -3424,7 +3285,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/ZektiPulseLaserTierD",
     "name": "Zetki Pulsar Mk Iv",
-    "image": "/assets/items/RailjackTurretC.png.png",
     "image_name": "RailjackTurretC.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/PulseLaser/ZektiPulseLaserTierD",
     "domain": "vehicle",
@@ -3448,7 +3308,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/ZektiGatlingLaserTierA",
     "name": "Zetki Talyn Mk I",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/ZektiGatlingLaserTierA",
     "domain": "vehicle",
@@ -3472,7 +3331,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/ZektiGatlingLaserTierB",
     "name": "Zetki Talyn Mk Ii",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/ZektiGatlingLaserTierB",
     "domain": "vehicle",
@@ -3496,7 +3354,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/ZektiGatlingLaserTierC",
     "name": "Zetki Talyn Mk Iii",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/ZektiGatlingLaserTierC",
     "domain": "vehicle",
@@ -3520,7 +3377,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/ZektiGatlingLaserTierD",
     "name": "Zetki Talyn Mk Iv",
-    "image": "/assets/items/GatlingLaser.png.png",
     "image_name": "GatlingLaser.png",
     "unique_name": "/Lotus/Weapons/CrewShip/Laser/GatlingLaser/ZektiGatlingLaserTierD",
     "domain": "vehicle",
@@ -3544,7 +3400,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/ZektiElectricTetherCannonTierA",
     "name": "Zetki Vort Mk I",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/ZektiElectricTetherCannonTierA",
     "domain": "vehicle",
@@ -3568,7 +3423,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/ZektiElectricTetherCannonTierB",
     "name": "Zetki Vort Mk Ii",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/ZektiElectricTetherCannonTierB",
     "domain": "vehicle",
@@ -3592,7 +3446,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/ZektiElectricTetherCannonTierC",
     "name": "Zetki Vort Mk Iii",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/ZektiElectricTetherCannonTierC",
     "domain": "vehicle",
@@ -3616,7 +3469,6 @@
   {
     "id": "/Lotus/Weapons/CrewShip/ElectricTether/ZektiElectricTetherCannonTierD",
     "name": "Zetki Vort Mk Iv",
-    "image": "/assets/items/ElectricTether.png.png",
     "image_name": "ElectricTether.png",
     "unique_name": "/Lotus/Weapons/CrewShip/ElectricTether/ZektiElectricTetherCannonTierD",
     "domain": "vehicle",
@@ -3640,7 +3492,6 @@
   {
     "id": "/Lotus/Powersuits/EntratiMech/ThanoTech",
     "name": "Bonewidow",
-    "image": "/assets/items/ThanoMech.png.png",
     "image_name": "ThanoMech.png",
     "unique_name": "/Lotus/Powersuits/EntratiMech/ThanoTech",
     "domain": "vehicle",
@@ -3677,7 +3528,6 @@
   {
     "id": "/Lotus/Powersuits/EntratiMech/NechroTech",
     "name": "Voidrig",
-    "image": "/assets/items/NechroMech.png.png",
     "image_name": "NechroMech.png",
     "unique_name": "/Lotus/Powersuits/EntratiMech/NechroTech",
     "domain": "vehicle",

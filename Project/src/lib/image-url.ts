@@ -12,10 +12,11 @@ type WithImageFields = {
   image?: string | null;
 };
 
-export const hydrateImageFromImageName = <T extends WithImageFields>(item: T): T & { image: string | null } => {
-  const local = resolveLocalImageUrl(item.image_name);
-  return {
-    ...item,
-    image: local ?? item.image ?? null,
-  };
-};
+/**
+ * Puebla `image` desde `image_name`. Es el único productor de ese campo: los artefactos de
+ * `public/data` ya no lo traen — resolver la URL es responsabilidad de esta capa, no del pipeline.
+ */
+export const hydrateImageFromImageName = <T extends WithImageFields>(item: T): T => ({
+  ...item,
+  image: resolveLocalImageUrl(item.image_name) ?? null,
+});
