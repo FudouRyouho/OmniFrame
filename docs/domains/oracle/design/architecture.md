@@ -41,7 +41,7 @@ Lente **utilitaria** (no observa el pipeline de una build):
 
 | Lente | Sujeto | Qué expone | Estado |
 |---|---|---|---|
-| `enemy` | nombre de enemigo | el enemigo escalado (health/armor/DR/EHP), sin build | implementada; hoy reimplementa el EHP **fuera de C** (síntoma a reconciliar — que deje de bypasear el pipeline es trabajo futuro) |
+| `enemy` | nombre de enemigo | el enemigo escalado (health/armor/DR/EHP), sin build | implementada; compone `effectiveHealthVsEnemy` (`formulas/enemy/effective-health.ts`, DR adoptada `√3a/100`) — sigue **fuera del grafo C1** (no pasa por `consume()`), residual menor, no bloqueante |
 
 **Por qué este eje y no la terna anterior:** un desarrollador que construye un mecanismo nuevo necesita
 ver *cada seam* —¿B hidrató bien? ¿C1 puso el bucket correcto? ¿el trace muestra la fuente esperada?—,

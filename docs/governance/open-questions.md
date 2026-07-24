@@ -53,6 +53,8 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-19` | Generador discreto de N proc-slots a SC >100% | engine / C1-población | abierta — gated por dato in-game |
 | `OQ-ENGINE-20` | Snapshot vs live en el tick de DoT | engine / C2 | abierta — gated por test in-game |
 | `OQ-ENGINE-21` | Fidelidad de la ley de scaling: contradicción Anarchs + sin validar por DE | engine / C2 | abierta — gated por medición |
+| `OQ-ENGINE-22` | Generalizar EHP/DR de `enemy/` a `entity/` (player/companion) | engine / formulas | abierta — diferida, sin consumidor real hoy |
+| `OQ-ENGINE-23` | Rank de ítem (warframe/arma) sin consumidor; `mod.rank` vestigial | engine / A1-C1 | abierta — diferida, no bloquea, sin necesidad real hoy |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 
@@ -510,7 +512,9 @@ conflicto en la fórmula de jugador. Esto re-diagnostica (no resuelve) el checkp
 reconciliación de `resolveHit` (`damage-status-model.md`): la fórmula vieja que tenía `resolveHit` no
 era "una DR incorrecta" sin más — era la fórmula de Tenno aplicada a un target enemigo.
 
-**Vínculo:** `references/wiki/mechanics/{enemy-level-scaling.md §Armor, enemy-resistances.md §DR, armor.md, damage-reduction.md}`, `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`, `Project/src/core/engine/formulas/enemy/armor-mitigation.ts` (movido de `EnemyRepository.ts` en P1, 2026-07-09).
+**Manifestación en código:** `formulas/enemy/ehp.ts` (`EHP = Health×(Armor+300)/300`, huérfana) computa exactamente la DR "era vieja"/Tenno de esta tabla, mal ubicada bajo `enemy/`. El CLI oráculo (lente `enemy`) usa la DR adoptada vía la primitiva correcta `formulas/enemy/effective-health.ts`. `ehp.ts` queda disponible (sin consumidor) para cuando exista EHP de jugador, con docstring corregido para no confundir.
+
+**Vínculo:** `references/wiki/mechanics/{enemy-level-scaling.md §Armor, enemy-resistances.md §DR, armor.md, damage-reduction.md}`, `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`, `Project/src/core/engine/formulas/enemy/{armor-mitigation.ts (movido de EnemyRepository.ts en P1, 2026-07-09), effective-health.ts, ehp.ts}`.
 **Fuente:** eje enemigo / contraste #0 (2026-07-06); verificación de estabilidad pre-C1 (2026-07-09).
 
 ---
@@ -1096,6 +1100,49 @@ Anarchs (health y shields); confianza plena en la tabla de scaling.
 **Vínculo:** **OQ-DATA-15** (el INPUT `faction`, hermana), **OQ-ENGINE-15** (DR, mismo "provisional hasta
 popup #1"), mirror `references/wiki/mechanics/enemy-level-scaling.md` (reconciliado 2026-07-19).
 **Fuente:** re-captura raw (`references/wiki/mechanics/raw/enemy-level-scaling.wikitext`). Auditoría: F5-P2 (2026-07-19).
+
+---
+
+## OQ-ENGINE-22 — Generalizar EHP/DR de `enemy/` a `entity/` (player/companion) — **ABIERTO, DIFERIDO**
+**Dominio:** engine / formulas — hermana de `OQ-ENGINE-15` (DR de enemigo)
+
+**Contexto:** `damageReductionFromArmor` y `effectiveHealthVsEnemy` (`formulas/enemy/{armor-mitigation,effective-health}.ts`)
+son primitivas de enemigo. La mitigación por armadura no es conceptualmente enemy-specific — jugador
+(Tenno) y compañero/minion tienen su propia versión (jugador: `DR = Armor/(Armor+300)`, distinta de la
+de enemigo, confirmada vigente en el addendum "Precisión añadida" de `OQ-ENGINE-15`). `armor-mitigation.ts`
+ya declara el gate de esta migración en su propio docstring.
+
+**Pregunta (a evaluar cuando aparezca, no a resolver ahora):** ¿la generalización sube el *código* a
+`formulas/entity/` con una fórmula por tipo (`entity → player | enemy | companion`), o alcanza con que
+cada tipo tenga su propia primitiva en su propia carpeta, sin scope compartido? Cada entidad diverge en
+fórmula y en caps propios — no está garantizado que unificar la ubicación ahorre algo más que
+organización.
+
+**Condición para abrir el trabajo:** un consumidor real de EHP/DR de jugador o compañero (hoy ninguno
+existe — el CLI oráculo solo ejerce el eje enemigo). No se construye por consumidor hipotético.
+
+**Vínculo:** `OQ-ENGINE-15` (DR de enemigo, la mitad ya resuelta de este eje), `Project/src/core/engine/formulas/enemy/armor-mitigation.ts` (declara el gate), `docs/domains/oracle/design/architecture.md` (lente `enemy`, el consumidor actual de la mitad enemigo).
+**Fuente:** debate de organización del CLI oráculo (Trabajo 1/2, dominio `oracle`).
+
+---
+
+## OQ-ENGINE-23 — Rank de ítem sin consumidor; `mod.rank` vestigial — **ABIERTO, DIFERIDO**
+**Dominio:** engine / A1→C1 (intención → hidratación)
+
+**Contexto:** `mod.level`/`arcane.rank` ya se autodescriben (índice sobre el `base_value[]` propio del ítem,
+clamp al último valor — `ModRepository`/`ArcaneRepository`). El resto de `rank` en `EnsembleIntention` no
+tiene consumidor: `mod.rank` (heredado de `SlotIntention`) nunca se lee; `item.rank` de warframe/arma (el
+0-30) no engancha a ningún nodo — `WeaponIntent` ni siquiera lo declara, `ensemble.warframe.rank` se pasa
+y no se lee. Hoy un ítem rank-0 y uno rank-30 computan idéntico.
+
+**Se va a usar, pero no hoy:** por simplicidad, hoy no hay consumidor real ni necesidad de modelarlo. Esta
+OQ existe para no dejarlo acoplado a "código real" implícito — no para forzar diseño ahora.
+
+**Condición para retomar:** un consumidor real (rank de ítem escala algo; o se purga `mod.rank` de
+`EnsembleIntention` — toca contrato core, RED, radio ancho por UI de producción).
+
+**Vínculo:** `Project/src/core/bridge/MutatorBridge.ts` (`intentionSlots`, `intentionWeapon`), `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `Project/src/shared/types/ensemble.ts`.
+**Fuente:** debate de organización del CLI oráculo (Trabajo 1/2, dominio `oracle`).
 
 ---
 

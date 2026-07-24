@@ -9,6 +9,7 @@ import { computeCombatMetrics } from '@core/engine/output/combat-metrics';
 import { project } from '@shared/view-model';
 import { EnemyRepository } from '@core/engine/simulate/enemies/EnemyRepository';
 import { damageReductionFromArmor } from '@core/engine/formulas/enemy/armor-mitigation';
+import { effectiveHealthVsEnemy } from '@core/engine/formulas/enemy/effective-health';
 import { BASELINE_GAME_LAWS } from '@core/engine/contracts';
 import type { SimulationContext, SimulationEntity } from '@core/engine/contracts';
 import { resolveSubject, subjectNames } from './subject';
@@ -53,7 +54,7 @@ export function acquire(q: OracleQuery): AcquiredResult {
     case 'enemy': {
       const scaled = EnemyRepository.scale(findEnemy(q.subject), q.a2.level);
       const dr = damageReductionFromArmor(scaled.current_armor);
-      const ehp = scaled.current_health / (1 - dr) + scaled.current_shields;
+      const ehp = effectiveHealthVsEnemy(scaled.current_health, scaled.current_armor, scaled.current_shields);
       return { lens: 'enemy', query: q.subject, level: q.a2.level, scaled, dr, ehp };
     }
 
