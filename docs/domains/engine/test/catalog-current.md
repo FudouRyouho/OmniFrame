@@ -4,7 +4,7 @@ Rol: "Índice de acceso a los consumidores de test que existen hoy: qué modelo 
 Impacto_ID: "E-TestCatalogCurrent"
 Fidelidad_Fisica: "Project/src/core/engine/__tests__/"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Catálogo actual — consumidores de test
@@ -25,7 +25,7 @@ Workflow y gramática: [`test-workflow.md`](test-workflow.md).
 | **Cedo** (negativo) | shotgun hitscan-con-falloff | gate hitscan: `WEAPON_ADD_PROJECTILE_SPEED` **ausente** (ausencia ≠ 0) — blinda el gate de `ItemRepository` | `__tests__/cedo-prime.test.ts` |
 | **Arcano v0** (Primary Merciless / Lanka) | arcano siempre-activo + guarda de null | flujo A→B→C de arcanos: `ArcaneRepository` → modifier directo (sin DamageCombiner); `+30% reload` fluye (→130), parte `on_kill` `base_value:null` omitida (OQ-DATA-4), clamp de rank | `__tests__/arcane.test.ts` |
 | **Nikana Prime** | melee (hit-base / Slam / Heavy Slam) | un archivo por arma, **un `describe` por build** sobre el mismo fixture parametrizado (`withMods`/`profile`/`withCO`): el grafo genérico resuelve un melee **como un gun** (OQ-ENGINE-14); + CO `adding`, combo del Heavy Slam (`melee-combo.md §4.1`), CO×combo en buckets separados, Blood Rush (`COMBO_SCALED_ADD`) | `__tests__/nikana-melee.test.ts` |
-| **Rhino** | warframe (entidad no-arma) | primer net-new de **Capa 2**: A→B→C sobre nodos `AVATAR_*`; mods (%) y shards (flat) componen `Total = Base × (1 + Mods%) + Flat`. + **Fase 1a: Roar** = derive **cross-entity** source→target (`source_entity`, sintético) | `__tests__/rhino.test.ts` |
+| **Rhino** | warframe (entidad no-arma) | primer net-new de **Capa 2**: A→B→C sobre nodos `AVATAR_*`; mods (%) y shards (flat) componen `Total = Base × (1 + Mods%) + Flat`. + **Roar** = derive **cross-entity** source→target (`source_entity`): la arista del grafo + el adaptador `AbilityRepository` que hidrata Roar desde `ability-stats.override` → pool de facción del arma, +127% al decimal vs `Roar.md` | `__tests__/rhino.test.ts` |
 | **Tiberon Prime** | rifle, DoT scaling | reproduce **end-to-end un test in-game** (`references/ingame-tests/dot-scaling.md`): el DoT escala con el base innato × Serration (NO el compuesto) y su `own_element` sale de los mods del propio elemento. Firma empírica que lockea el fix: **el Slash DoT no cambia al agregar Heat** (el hit sí) | `__tests__/tiberon-dot.test.ts` |
 
 > **Qué NO se cataloga acá:** tests de **datos/regla** y de **mecánica/ley** — integridad de override y

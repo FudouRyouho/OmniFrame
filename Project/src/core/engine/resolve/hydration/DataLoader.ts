@@ -13,6 +13,7 @@ import { ItemRepository } from './ItemRepository';
 import { ModRepository } from './ModRepository';
 import { IncarnonRepository } from './IncarnonRepository';
 import { ArcaneRepository } from './ArcaneRepository';
+import { AbilityRepository } from './AbilityRepository';
 import { ShardRepository } from './ShardRepository';
 import { EnemyRepository, type RawEnemyEntry, type EnemyOverride } from '../../simulate/enemies/EnemyRepository';
 
@@ -23,6 +24,7 @@ export interface DataLoaderInput {
   weaponAttackOverrides: Record<string, any>;
   incarnon:              Record<string, any>;
   arcaneOverrides:       Record<string, any>;
+  abilityOverrides:      Record<string, any>;
   archonShards:          Record<string, any>;
   enemies:               RawEnemyEntry[];
   enemyOverrides:        EnemyOverride;
@@ -40,6 +42,7 @@ export class DataLoader {
     ModRepository.loadOverrides(input.modOverrides);
     IncarnonRepository.load(input.incarnon);
     ArcaneRepository.load(input.arcaneOverrides);
+    AbilityRepository.load(input.abilityOverrides);
     ShardRepository.load(input.archonShards);
     EnemyRepository.load(input.enemies, input.enemyOverrides);
     DataLoader._initialized = true;

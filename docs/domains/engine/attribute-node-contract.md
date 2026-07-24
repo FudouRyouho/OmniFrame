@@ -4,7 +4,7 @@ Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en l
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-07-19"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/domains/engine/design/vocabulary.md"
   - "docs/domains/engine/design/arch-decisions.md"
@@ -118,7 +118,7 @@ Eclipse provee hasta `STR × 200%` de bonus de daño (fuente: `references/wiki/m
 
 Los mods elementales (Heat, Cold, Electricity, etc.) **no** modifican un daño-token existente vía bucket. En su lugar, `DamageCombiner` los procesa en hidratación para crear o combinar tipos de daño en la entidad.
 
-El ordenamiento de slots de mods determina qué elementos se combinan primero (Heat + Cold = Blast, etc.). La ley de combinación es SSoT única en `formulas/common/status-base.ts` (deduplicada 2026-07-16). Ver `references/wiki/mechanics/damage-types.md §Reglas de combinación`.
+El ordenamiento de slots de mods determina qué elementos se combinan primero (Heat + Cold = Blast, etc.). La ley de combinación es SSoT única en `formulas/common/status-base.ts` (deduplicada). Ver `references/wiki/mechanics/damage-types.md §Reglas de combinación`.
 
 Una vez que `DamageCombiner` produce el breakdown final de daño, cada tipo resultante se inyecta como un `AttributeNode` nuevo (`base` = el valor combinado). Desde ese punto participan en el sistema de buckets como cualquier otro atributo.
 
@@ -155,7 +155,7 @@ Ambos son `AttributeNode` **sintéticos** inyectados por `StaticHydrator` en tod
 |---|---|---|
 | Daño global (Serration) | `ADD` sobre `WEAPON_ADD_DAMAGE` | ✅ Correcto |
 | Faction damage (Bane/Expel/Cleanse) | `ADD` sobre `GAMEPLAY_MULT_FACTION_DAMAGE` | ⚠️ **Diferido** — `C2·F`, no se emite en C1 (shim FLAGGED). Ver §5 |
-| Roar (habilidad, no mod) | `ADD` sobre `GAMEPLAY_MULT_FACTION_DAMAGE`, cross-entity (`source_entity`) | ✅ Construido (Fase 1a, sintético). Adaptador de dato real = Fase 1b |
+| Roar (habilidad, no mod) | `ADD` sobre `GAMEPLAY_MULT_FACTION_DAMAGE`, cross-entity (`source_entity`) | ✅ Construido — `AbilityRepository` lo produce desde el dato real (`upgrade_type` poblado); incondicional, esquiva el shim C2·F |
 | GunCO "Multiplying" | `MULTIPLICATIVE` | ✅ Ruteado por `co_behavior` (`arch-decisions §9`) |
 | Crit chance relativo | `ADD` sobre el nodo de crit | ⚠️ Correcto por casualidad (solo hay un bucket de crit hoy) |
 

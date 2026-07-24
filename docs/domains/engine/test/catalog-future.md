@@ -4,7 +4,7 @@ Rol: "Catálogo de builds y modelos de test por construir: roadmap de fixtures (
 Impacto_ID: "E-TestCatalogFuture"
 Fidelidad_Fisica: "Project/src/core/engine/__tests__/"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-06-09"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Catálogo futuro — builds y modelos por construir
@@ -72,19 +72,21 @@ arma ejerce.
 La **base es incondicional** (Tier 1); lo condicional/stacking entra como peldaño posterior con supuesto explícito.
 
 ```
-fixture_01: Rhino + mods Tier 1            → strength / duration / range / armor
-fixture_02: fixture_01 + Iron Skin         → overguard = (1200 + armor×2.5) × strength   (cross-stat C1)
-fixture_03: fixture_02 + Roar              → bonus damage = 50% × strength               (ability output)
-fixture_04: fixture_03 → aplicado a weapon → hit modificado                              (cross-entity)
-fixture_05: fixture_04 + Condition Overload→ double-dipping                              (C2)
+fixture_01: Rhino + mods Tier 1            → strength / duration / range / armor          ✅ hecho
+fixture_02: fixture_01 + Iron Skin         → overguard = (1200 + armor×2.5) × strength   (cross-stat C1) — it.todo
+fixture_03: (Rhino Tier 1) + Roar          → bonus damage = 50% × strength               ✅ hecho
+fixture_04: fixture_03 → aplicado a weapon → hit modificado (pool de facción)            ✅ hecho
+fixture_05: fixture_04 + Condition Overload→ double-dipping                              (C2) — pendiente
 ```
+
+> **Roar (fixture 03/04)** está construido **directo sobre Tier 1**, no sobre Iron Skin — el linaje no es una dependencia dura. Restan **fixture_02 (Iron Skin, cross-stat)** y **fixture_05 (CO double-dip, C2)**.
 
 ---
 
 ## Gates abiertos
 
 - **≥2 warframes de validación** (D16) antes de consolidar el grafo de warframe como referencia validada.
-- **`WarframeRepository` no existe** — `formulas/warframe/` está vacío intencionalmente (purgado 2026-05-27).
+- **`WarframeRepository` no existe** — `formulas/warframe/` está vacío intencionalmente (purgado).
   El primer fixture de warframe (Rhino Tier 1) es trabajo net-new, no rescate. Antes de diseñarlo: leer
   `docs/data/schemas/abilities/formula-patterns.md` (Iron Skin es cross-stat).
 - **Frontera C2** — los `it.todo` de los consumidores actuales (crit-por-pellet, procs/disparo, daño÷pellet,

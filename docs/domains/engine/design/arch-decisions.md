@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-07-19"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -143,11 +143,11 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 
 ## 6. `consume()` = salida de C, no Capa D
 
-**Decisión:** `consume()` se promovió a un módulo real dentro de `@core/engine` (fuera de `__tests__/`): vive en `@core/engine/output/consume.ts` (2026-06-10). Es el **punto de salida de C** — la superficie de consumo del dominio engine. **No es la Capa D.** El directorio se nombra `output/` (salida-de-C); se vetó `projection/` porque "Proyección" es el nombre propio de la Capa D — ver `DC-OQ-ENGINE-8` (sobrecarga del término, resuelta: las métricas salen como `CombatMetrics`, neutro).
+**Decisión:** `consume()` es un módulo real dentro de `@core/engine` (fuera de `__tests__/`): vive en `@core/engine/output/consume.ts`. Es el **punto de salida de C** — la superficie de consumo del dominio engine. **No es la Capa D.** El directorio se nombra `output/` (salida-de-C); se vetó `projection/` porque "Proyección" es el nombre propio de la Capa D — ver `DC-OQ-ENGINE-8` (sobrecarga del término, resuelta: las métricas salen como `CombatMetrics`, neutro).
 
 **Distinción:**
 - `consume()` = acceso a la salida resuelta de C (`snapshot(): SimulationEntity[]`; el tipo `ProjectionSnapshot` original se purgó; las métricas de combate salen aparte como `CombatMetrics`, `DC-OQ-ENGINE-8`). Vive en `@core/engine/output/`. Lo consumen **scripts y tests (no-dominios)** directamente.
-- **Capa D** = consumo derivado (`ViewModelContract` v0 + su mapping `project()`). Vive **fuera** de `@core` y cruza por `@shared`; se cablea vía `useViewModel` (`@providers`). (El `useSimulation` co-ubicado en `@core/engine/hooks` que cumplía este rol parcial fue **purgado** 2026-06-16, no reubicado.)
+- **Capa D** = consumo derivado (`ViewModelContract` v0 + su mapping `project()`). Vive **fuera** de `@core` y cruza por `@shared`; se cablea vía `useViewModel` (`@providers`).
 
 **Consecuencia:** el CLI y la futura UI son **adaptadores hermanos** (Ports & Adapters) sobre el mismo puerto `consume()`: el CLI es la instancia **no-reactiva** (lee la salida de C directo, por ser script), la UI la **reactiva** (cruza por `@shared`). El módulo **no** se nombra `api/` (arrastra la connotación del diseño WebSocket muerto) ni `projection/` (projection = D, fuera de `@core`).
 
@@ -159,11 +159,11 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 
 **Consecuencia:**
 - La UI cruza al motor **solo por `@shared`** (inversión de dependencias): la salida vía `ViewModelContract`, y por **simetría** la entrada (intención) también debe cruzar por `@shared` ↔ `EnsembleStore` (A) en `@core`.
-- `domains/arsenal/view/UpgradeView.tsx` importando `@core/engine/hooks/useSimulation` fue una **violación/drift** (stub conectado antes de existir D). **RESUELTO 2026-06-12:** consume el `ViewModelContract` vía `useViewModel` (`@providers/Ensemble`, binding z3); ningún dominio importa `@core`.
-- **`@providers` (capa de composición / adapter) SÍ importa `@core`** — ruling 2026-06-12. `@providers` **no es un dominio de feature**; esta frontera y la Restricción 1 aplican a `domains/*`, no a la capa que compone adapters. `EnsembleProvider → @core/intention/ensemble-store` es válido (adapter→core, dirección correcta de Ports&Adapters). Ver `closed-decisions.md` DC-OQ-ENGINE-9.
+- `UpgradeView` consume el `ViewModelContract` vía `useViewModel` (`@providers/Ensemble`, binding z3); ningún dominio importa `@core`.
+- **`@providers` (capa de composición / adapter) SÍ importa `@core`**. `@providers` **no es un dominio de feature**; esta frontera y la Restricción 1 aplican a `domains/*`, no a la capa que compone adapters. `EnsembleProvider → @core/intention/ensemble-store` es válido (adapter→core, dirección correcta de Ports&Adapters). Ver `closed-decisions.md` DC-OQ-ENGINE-9.
 - `ViewModelContract` debe ser **consumer-shaped** (un ViewModel de MVVM, alimentado por `lib/*` como ingredientes), nunca *producer-laundered* (la salida cruda re-exportada por `@shared` solo para legalizar el import).
 
-**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. La **simetría de entrada quedó realizada (2026-06-12)**: `ensemble.types` → `@shared/types/ensemble.ts`, `ensembleStore` (A1) → `@core/intention/`; `@core` reestructurado (Stage 0+1, DC-OQ-ENGINE-9). Ver `OQ-ENGINE-FUTURE`/`OQ-ENGINE-9` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).
+**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. La **simetría de entrada está realizada**: `ensemble.types` → `@shared/types/ensemble.ts`, `ensembleStore` (A1) → `@core/intention/`; `@core` reestructurado (Stage 0+1, DC-OQ-ENGINE-9). Ver `OQ-ENGINE-FUTURE`/`OQ-ENGINE-9` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).
 
 ---
 
@@ -214,7 +214,7 @@ Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (
 
 **Decisión:** Primer caso destilado de §8 (veredicto **ENTRA** en modo estático). La familia CO/GunCO — "+coefBase% daño directo por tipo de status en el target" (Condition Overload melee, Galvanized Aptitude/Savvy/Shot, perks incarnon) — se modela con **dos piezas ortogonales**:
 
-1. **`co_behavior` — topología, agnóstica al modo.** Metadata cualitativa POR ATAQUE (no por arma, no por mod): a qué bucket compone el bonus. `'adding'` (junto a Serration, `mods_add_pct`), `'multiplying'` (multiplicador final aparte) o `'none'` (no aplica, ej. AoE radial). El dato normalizado vive en `MutatedDNA.co_behavior: Record<profile, CoBehavior>` (mapa por perfil); StaticHydrator lo **baja resuelto al perfil activo** de cada entidad en `SimulationEntity.co_behavior` — el motor lo consume directo, sin mirar un `active_profile_id` global (que es único para toda la sim y no modela el perfil por-arma). Resolución en `ItemRepository`: override (`weapon-stats.override.json`, campo `co_behavior`) **terminal** → **`kind=melee` → adding SIEMPRE** (el CO melee es aditivo pase lo que pase — comunidad: "con CO, Pressure Point está de más"; va ANTES del switch: el `AoE→none` es regla de guns, el heavy slam melee es AoE pero NO gun-radial. Bug corregido 2026-07-05: el slam caía en `AoE→none`) → default por `shot_type` para guns (Hit-Scan→adding, Projectile→multiplying, AoE→none) → **ausente = gap** (no se asume). La tabla `shot_type` es señal, no ley: un override corrige la excepción (ej. Paris Charged Shot). `CoBehavior` es SSoT única en `@shared/types/modifier`. Reemplaza el muerto `behaviors: string[]` (engine v1, purgado — granularidad y tipo inversos).
+1. **`co_behavior` — topología, agnóstica al modo.** Metadata cualitativa POR ATAQUE (no por arma, no por mod): a qué bucket compone el bonus. `'adding'` (junto a Serration, `mods_add_pct`), `'multiplying'` (multiplicador final aparte) o `'none'` (no aplica, ej. AoE radial). El dato normalizado vive en `MutatedDNA.co_behavior: Record<profile, CoBehavior>` (mapa por perfil); StaticHydrator lo **baja resuelto al perfil activo** de cada entidad en `SimulationEntity.co_behavior` — el motor lo consume directo, sin mirar un `active_profile_id` global (que es único para toda la sim y no modela el perfil por-arma). Resolución en `ItemRepository`: override (`weapon-stats.override.json`, campo `co_behavior`) **terminal** → **`kind=melee` → adding SIEMPRE** (el CO melee es aditivo pase lo que pase — comunidad: "con CO, Pressure Point está de más"; va ANTES del switch: el `AoE→none` es regla de guns, el heavy slam melee es AoE pero NO gun-radial — el slam ya no cae en `AoE→none`) → default por `shot_type` para guns (Hit-Scan→adding, Projectile→multiplying, AoE→none) → **ausente = gap** (no se asume). La tabla `shot_type` es señal, no ley: un override corrige la excepción (ej. Paris Charged Shot). `CoBehavior` es SSoT única en `@shared/types/modifier`. Reemplaza el muerto `behaviors: string[]` (engine v1, purgado — granularidad y tipo inversos).
 
 2. **`CONDITION_OVERLOAD` — mecánica, disparador del ruteo.** Es una `ModifierOperation` de **familia** (no una composición genérica): el valor lo calcula `coBonusPct` (SSoT en `formulas/weapon/weapon-condition-overload.ts`) = `coefBase × activeStacks × N`; el **bucket lo decide `co_behavior`, no la operación**. Las dos dimensiones viajan **nombradas** en `Modifier.co_factors` (`{stacks_var, status_count_var}`), resueltas del contexto. **No se bakea el producto** — la separación es lo que permite que §8 opere: en **modo estático/techo** el consumidor las declara (perfect-clic, replica el número de overframe.gg como *input*, no como ley); en **modo dinámico** emergen (stacks de kills en el tiempo, N del `EnemyState`) — misma mecánica, misma topología, distinta fuente. El motor es idéntico en ambos modos.
 
@@ -248,8 +248,8 @@ Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (
 - **Generalización segura = fuente del factor, NO el ruteo.** Dentro del escalado aditivo, el "N" deja de ser "unique status count" y pasa a ser "el valor de la variable de condición que sea" (`unique_status_count`, `freeze_stacks`, …). Se generaliza **la fuente** del factor manteniendo fijo **el CÓMO** (aditivo, bucket de mods, disparador `operation === 'CONDITION_OVERLOAD'`). Esto **no reabre** el `CONTEXT_SCALE` genérico que §9 mató: aquella muerte fue por generalizar el *ruteo/disparador* (un no-CO se colaba); generalizar solo la variable, con disparador de familia explícito, es cerrado.
 
 **Consecuencia:**
-- **Abstracción B — dispatch por tabla (hecho 2026-07-05).** `resolveNode` mezclaba dos clases: **ops de acumulador** (`value` ES el efecto — el `switch`) vs **mecánicas de familia** (el efecto lo COMPUTA una fórmula desde el contexto + rutea a bucket(s) — CO, melee-combo, sniper-combo). El ruteo inline crecía O(n) por mecánica (doble `if` → triple). Se reemplazó por el **registro** `FAMILY_RESOLVERS` (`SimulationEngine.ts`). Generaliza solo el **dispatch**, NO el *qué*: cada op mapea a SU resolver; un no-familia no está en la tabla → cae al switch, no hereda ruteo (no resucita `CONTEXT_SCALE`, §9). Prueba: la 3ra mecánica (sniper) entró como **1 entrada + 1 resolver, cero cambios a `resolveNode`**.
-- **Abstracción A — cierre en el TIPO (hecho 2026-07-05, con la 3ra mecánica).** La 3ra mecánica (sniper combo) **disparó el trigger**: con 3 casos reales la forma de la unión se estabilizó y su divergencia quedó clara — los 3 factores no comparten shape (`CoFactors {2 vars}` / `MeleeComboFactors {1 var}` / `SniperComboFactors {1 var + 1 literal min_combo}`), `Modifier` era una bolsa de 3 campos opcionales mutuamente excluyentes, y `value` tenía 3 significados (efecto / coefBase / muerto). Se subió la distinción al TIPO: **`Modifier` = discriminated union por `operation`** (`contracts/primitives.ts`) con variantes `AccumulatorModifier | CoModifier | MeleeComboModifier | SniperComboModifier` sobre un `ModifierBase` común. El compilador ahora **exige los factores correctos por variante y prohíbe el `value` muerto** (los combos ya no lo llevan). Los productores dinámicos (Mod/Incarnon/Arcane/Shard — la `operation` viene del dato) construyen vía el factory `makeModifier` (centraliza el mapeo op→variante); las mecánicas intrínsecas sintetizan su variante directa. La tabla de B se reusó tal cual (los resolvers pasaron a recibir su variante). **Agregar una mecánica ahora**: 1 op + 1 factors + 1 variante + 1 resolver + 1 entrada en la tabla, todo compiler-enforced.
+- **Abstracción B — dispatch por tabla.** `resolveNode` mezclaba dos clases: **ops de acumulador** (`value` ES el efecto — el `switch`) vs **mecánicas de familia** (el efecto lo COMPUTA una fórmula desde el contexto + rutea a bucket(s) — CO, melee-combo, sniper-combo). El ruteo inline crecía O(n) por mecánica (doble `if` → triple). Se reemplazó por el **registro** `FAMILY_RESOLVERS` (`SimulationEngine.ts`). Generaliza solo el **dispatch**, NO el *qué*: cada op mapea a SU resolver; un no-familia no está en la tabla → cae al switch, no hereda ruteo (no resucita `CONTEXT_SCALE`, §9). Prueba: la 3ra mecánica (sniper) entró como **1 entrada + 1 resolver, cero cambios a `resolveNode`**.
+- **Abstracción A — cierre en el TIPO (con la 3ra mecánica).** La 3ra mecánica (sniper combo) **disparó el trigger**: con 3 casos reales la forma de la unión se estabilizó y su divergencia quedó clara — los 3 factores no comparten shape (`CoFactors {2 vars}` / `MeleeComboFactors {1 var}` / `SniperComboFactors {1 var + 1 literal min_combo}`), `Modifier` era una bolsa de 3 campos opcionales mutuamente excluyentes, y `value` tenía 3 significados (efecto / coefBase / muerto). Se subió la distinción al TIPO: **`Modifier` = discriminated union por `operation`** (`contracts/primitives.ts`) con variantes `AccumulatorModifier | CoModifier | MeleeComboModifier | SniperComboModifier` sobre un `ModifierBase` común. El compilador ahora **exige los factores correctos por variante y prohíbe el `value` muerto** (los combos ya no lo llevan). Los productores dinámicos (Mod/Incarnon/Arcane/Shard — la `operation` viene del dato) construyen vía el factory `makeModifier` (centraliza el mapeo op→variante); las mecánicas intrínsecas sintetizan su variante directa. La tabla de B se reusó tal cual (los resolvers pasaron a recibir su variante). **Agregar una mecánica ahora**: 1 op + 1 factors + 1 variante + 1 resolver + 1 entrada en la tabla, todo compiler-enforced.
 - **Cedo pasiva** prueba que la operation `CONDITION_OVERLOAD` debe poder originarse en **hidratación del arma** (unique trait), no solo en `ModRepository` — igual que un combo intrínseco. Andamiaje para fuente-pasiva sí; **poblar instancias pasivas no**, hasta tener el dato en pipeline (gate §8: falta dato ⇒ `difiere` la instancia, no la mecánica).
 - Enlaza con **§9** (es su profundización: CO vista contra el corpus completo) y con la doctrina `condition` = vocabulario emergente (`../../../semantic/conditions.md`).
 
@@ -259,16 +259,16 @@ Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (
 
 **Decisión:** Primer caso **no-CO** que entra por el mismo patrón de familia (§9/§10) — mecánica
 distinta, mismo mecanismo de dispatch. El corpus real: 8 arcanos (Primary/Secondary Merciless,
-Deadhead, Dexterity, Exhilarate, Cascadia Flare — barrido `docs/data/reports/audit-arcane-ability-like.md`,
-2026-07-09) **más 7 mods "Galvanized [Arma]"** (Chamber/Diffusion/Hell/Crosshairs/Scope/Elementalist/
+Deadhead, Dexterity, Exhilarate, Cascadia Flare — barrido `docs/data/reports/audit-arcane-ability-like.md`)
+**más 7 mods "Galvanized [Arma]"** (Chamber/Diffusion/Hell/Crosshairs/Scope/Elementalist/
 Steel — ver evidencia abajo) con la forma `evento discreto → +val por stack, cap Nx`. Distinto de CO
 en el eje que importa: **no lee status del target** (no hay `co_behavior`/bucket-routing ambiguo) —
 el bonus aplica directo al `target_attribute` que el mod/arcano ya declara (daño%, crit%, energy
 regen/s, etc.).
 
-**✅ EJECUTADO (2026-07-10, ladrillo #4 roadmap C1).** Vehículo real: Galvanized Chamber sobre Boltor
-(`galvanized-stack-decay.test.ts`). Primer código de la familia — 0 líneas existían para ninguno de
-los dos schemas (ni arcanos ni mods) hasta esta sesión.
+**✅ EJECUTADO (ladrillo #4 roadmap C1).** Vehículo real: Galvanized Chamber sobre Boltor
+(`galvanized-stack-decay.test.ts`). Primer código de la familia — no había código para ninguno de
+los dos schemas (ni arcanos ni mods).
 
 **`ModifierOperation`: `STACK_DECAY_BUFF`.** Fórmula pura en `formulas/common/scaling-base.ts`
 (co-locada con `clamp`, NO en `formulas/arcane/` — ese directorio nunca tuvo código; el primer
@@ -287,8 +287,8 @@ kills, distinto de `meleeComboMult(0)=1` de `COMBO_SCALED_ADD`, cuyo tier base N
 resolver **no intenta modelar decay real** — esa brecha es explícitamente de `OQ-ENGINE-16`, no de
 esta decisión.
 
-**El hallazgo que reencuadró la ejecución: el dato NO estaba roto.** `D-15 §2` (VIGENTE desde
-2026-05-28) ya documentaba `base_value` = total-a-máximo-stacks como diseño **deliberado**, con el
+**El hallazgo que reencuadró la ejecución: el dato NO estaba roto.** `D-15 §2` (VIGENTE)
+ya documenta `base_value` = total-a-máximo-stacks como diseño **deliberado**, con el
 desglose per-stack en `notes[]` como texto libre — verificado exacto en los 7 mods reales (ej.
 Galvanized Chamber: `150/5=30`, coincide con la nota "per_stack: 30% at rank 10"). Lo que faltaba era
 **estructurar** el cap: nuevo campo `max_stacks: number` en el stat (D-15 evolución, `ModStatRaw`),
@@ -455,7 +455,7 @@ proyecta el snapshot a los flags de `condition` que activa (hoy: `while_enemy_be
 
 ## 14. Modelo de flujo del daño: propiedad y flujo (instancia→daño→estado), tres capas LEY/ESTADO/RESOLUCIÓN
 
-**Decisión (RATIFICADO 2026-07-10, marco; extracción de Familia A EJECUTADA 2026-07-10).** El daño **no
+**Decisión (RATIFICADO, marco; extracción de Familia A EJECUTADA).** El daño **no
 pertenece** a weapon ni a enemy — **viaja**. El eje: `instancia (source) → daño → tipo de daño → estado
 del daño (target)`. Algo *instancia* el daño (disparo, habilidad, tick de proc) cargando sus propiedades
 (valor por tipo, crit, buckets ②, spec de aplicación de status); el paquete emanado es extensión de la
@@ -516,12 +516,14 @@ pool② viaja con la instancia, matriz③ es del encuentro — prueba dura de qu
 ## 15. El nodo-source: qué HACE una fuente (la regla es por verbo, no por habilidad) — HIPÓTESIS
 
 > **Estado: HIPÓTESIS DE TRABAJO / prototipo — NO invariante ratificada** (a diferencia del resto de este
-> doc). El **concepto general sigue sin construir**, pero **Fase 1a validó su primer eslabón con dato**: el
-> derive cross-entity source→target (Roar sintético — warframe strength → pool de facción del arma vía el
-> campo `source_entity`; `rhino.test.ts` fixture_03/04, HIT `100×(1+1.65)×(1+1.27)=601.55` al decimal vs
-> `Roar.md`). El resto (simetría ②/③, sub-source, key-por-verbo, source-state VIVO con duración) se
-> **refuerza o cae** con Fase 1b+ y el corpus (Fase 2 — primero procesar datos). Origen: debate 2026-07-16
-> (`.working/ability-model-debate.md`, gitignored). **No colgar más código que el eslabón ya sostenido por un test.**
+> doc). El **concepto general sigue sin construir**, pero **el verbo muta-state ya está construido end-to-end**:
+> la CAPACIDAD (derive cross-entity `source_entity`) y el ADAPTADOR (`AbilityRepository` lee la ability activa
+> del `ability-stats.override` — verbo = `upgrade_type` poblado — y emite el buff cross-entity). Roar por
+> hidratación real: warframe strength → pool de facción del arma (`rhino.test.ts` `rhino_roar`,
+> `GAMEPLAY_MULT_FACTION_DAMAGE` +127% = 50×2.54, al decimal vs `Roar.md`). Esto responde **"¿el motor consume habilidades?"** (sí, el
+> primer verbo). El resto (simetría ②/③, sub-source, key-por-verbo, source-state VIVO con duración) se
+> **refuerza o cae** con el corpus (Fase 2 — primero procesar datos) y el emite-instancia (Fase 3). Origen:
+> debate (`.working/ability-model-debate.md`, gitignored). **No colgar más código que el eslabón ya sostenido por un test.**
 
 **Planteo (refina §2).** "Ability no tiene modelo ontológico único" (§2) se precisaría así: no hay modelo
 único de *efecto*, pero sí **anatomía única de source**. Toda fuente —arma, habilidad, minion, objeto— sería
@@ -531,8 +533,9 @@ un **nodo-source** que hace **dos verbos + un nulo**:
    beam/AoE). Caso especial: la instancia puede **materializar una sub-source** (minion/objeto/exaltada §3)
    = nuevo nodo-source con su propio state que emite sus propias instancias (recursión).
 2. **Muta un state** — el propio source-state, el de un aliado, o el del target (buff/debuff/heal/CC). Las
-   instancias **derivan contra el state**. El "emit Modifier" (C1, `upgrade_type`) sería la **proyección
-   estática** de esto: sin duración → source-state = la entity estática de C1.
+   instancias **derivan contra el state**. El "emit Modifier" (C1, `upgrade_type`) es la **proyección
+   estática** de esto: sin duración → source-state = la entity estática de C1. `AbilityRepository` produce
+   ese modifier desde `upgrade_type` (construido); el source-state VIVO (con duración) = G-a.
 3. **(nulo)** valor display / fuera-de-sim (radius, duration, movilidad).
 
 **La simetría (teoría, aún NO código).** ② y ③ del trazado (§2.0) serían la MISMA operación en nodos
@@ -557,7 +560,7 @@ viaja), **§2.0/§2.0.1** (el trazado y el seam C1→C2).
 
 ## 16. Modelo de pools de daño (aditivo/facción, suman-dentro·multiplican-afuera) + facción C2·F
 
-**Decisión (P2b, 2026-07-16).** La composición de daño se lee de `calculating-bonuses.md` (SSoT wiki), NO
+**Decisión (P2b).** La composición de daño se lee de `calculating-bonuses.md` (SSoT wiki), NO
 del código (que estaba parcial/inline — reconciliación code↔`formulas/` en [`formulas-integration.md`](formulas-integration.md) §2/§5):
 
 ```
@@ -591,10 +594,12 @@ en el grafo C1. Aplicarlo incondicional sobre-cuenta (Felarx: ×1.55 sin target 
 
 **Shim FLAGGED (temporal, `ModRepository.C2F_FACTION_TOKENS_DEFERRED`):** los tokens de facción C2·F **no
 se emiten como modifier C1** hasta normalizar la semántica del token (que codifique facción + gate) y
-migrar el bonus a resolución. El **pool C1 de facción queda para bonos INCONDICIONALES** (Roar, §15/1a —
+migrar el bonus a resolución. El **pool C1 de facción queda para bonos INCONDICIONALES** (Roar, §15 —
 Roar no gatea por facción). **Borrar el set al normalizar.**
 
-**Estado P2b:** mecanismo del pool + shim construidos, suite verde; el pool C1 sin miembros hoy (facción
-diferida, Roar sin wired) → poblarlo/testearlo es 1a. **Enlaza con §9/§10** (CO/Combo, multiplicadores
+**Estado P2b:** mecanismo del pool + shim construidos, suite verde; el pool C1 **ya tiene su primer miembro
+real** — Roar, *wired* vía `AbilityRepository`: el buff incondicional del warframe entra al
+`GAMEPLAY_MULT_FACTION_DAMAGE` del arma por hidratación, cross-entity, sin pasar por el shim C2·F.
+**Enlaza con §9/§10** (CO/Combo, multiplicadores
 independientes), **§14** (facción-en-DoT = ③; double-dip steady-state = build-debt, transitorio = OQ-20), **§15** (Roar = miembro incondicional del
 pool). Cita: `calculating-bonuses.md`, `faction-damage.md`, `condition-overload.md`, `melee-combo.md`.

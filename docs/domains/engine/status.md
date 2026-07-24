@@ -4,13 +4,13 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-19"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Engine Status
 
-Estado físico real del motor tras la reestructura de `@core` (2026-06-12, `DC-OQ-ENGINE-9`) y la
-campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo de 5 capas
+Estado físico real del motor tras la reestructura de `@core` (`DC-OQ-ENGINE-9`) y la
+campaña de saneamiento A+B+C. Modelo de 5 capas
 (A / B / C1 / C2 / D): ver [`design/simulation-architecture.md`](design/simulation-architecture.md).
 
 ---
@@ -21,33 +21,34 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 
 | Componente | Ruta | Estado |
 |---|---|---|
-| `ensembleStore` | `core/intention/ensemble-store.ts` | **Activo** — SSoT de intención del usuario; observable agnóstico a React. Movido desde `providers/Ensemble/` (2026-06-12). |
+| `ensembleStore` | `core/intention/ensemble-store.ts` | **Activo** — SSoT de intención del usuario; observable agnóstico a React. |
 
 ### Capa B — Bridge (`core/bridge/`)
 
 | Componente | Ruta | Estado |
 |---|---|---|
-| `MutatorBridge` | `core/bridge/MutatorBridge.ts` | **Activo** — orquesta la simulación desde `EnsembleIntention`; única ruta `simulateFromIntention`. Vive **fuera** de `engine/` (es B, no C). Absorbió el eliminado `EnsembleAdapter`. |
+| `MutatorBridge` | `core/bridge/MutatorBridge.ts` | **Activo** — orquesta la simulación desde `EnsembleIntention`; única ruta `simulateFromIntention`. Vive **fuera** de `engine/` (es B, no C). |
 
 ### Capa C1 — Hidratación (`engine/resolve/hydration/`)
 
 | Componente | Estado |
 |---|---|
 | `StaticHydrator` | **Activo** — construye `SimulationContext` desde `EnsembleIntention`; consume todos los repositories. |
-| `ItemRepository` | **Activo** — **segmentado** (Slice C, 2026-07-02): Maps `weaponItems`/`warframeItems`, `loadWeapons`/`loadWarframes`, `normalizeWeapon`/`normalizeWarframe`. Emite los nodos de daño como token canónico `WEAPON_ADD_*_DAMAGE`. |
+| `ItemRepository` | **Activo** — **segmentado** (Slice C): Maps `weaponItems`/`warframeItems`, `loadWeapons`/`loadWarframes`, `normalizeWeapon`/`normalizeWarframe`. Emite los nodos de daño como token canónico `WEAPON_ADD_*_DAMAGE`. |
 | `ModRepository` | **Activo** — resuelve mods vía `resolveUpgradeEntry()` (helper compartido, Slice A = `isUpgrade` + `UPGRADE_MAP`/`resolveToken`). Dueño de `modOverrides` (Slice D). |
-| `ArcaneRepository` | **Activo** — resuelve `arcane-stats.override.json` con rank clamping (2026-06-12). |
+| `ArcaneRepository` | **Activo** — resuelve `arcane-stats.override.json` con rank clamping. |
+| `AbilityRepository` | **Activo** — resuelve el verbo **muta-state** de habilidades activas (`ability-stats.override`, `upgrade_type` poblado → `Modifier` cross-entity). Primer caso: Roar. NO pasa por `DamageCombiner` ni el shim C2·F. Ver `arch-decisions §15`. |
 | `IncarnonRepository` | **Activo** — resuelve perks Incarnon Genesis leyendo `stats[]` (D-18). |
 | `ShardRepository` | **Activo** — Archon Shards; emite `Modifier` con `target_entity`/`target_channel`. |
 | `DnaRepository` | **Activo** — passthrough de DNA. |
-| `DamageCombiner` | **Activo** — combinación elemental (movido de `combat/`, 2026-05-27). |
+| `DamageCombiner` | **Activo** — combinación elemental. |
 | `DataLoader` | **Activo** — bootstrap central (`isReady()`); carga vía `DataSource` (adapter fetch/import). |
 
 ### Capa C1 — Resolución (`engine/resolve/`)
 
 | Componente | Estado |
 |---|---|
-| `SimulationEngine` | **Activo** — grafo de atributos con topological sort (Kahn, un pass; DAG → punto fijo). Ciclo real → alerta fail-loud (convergencia iterativa = Opción B, diferida). Trace de procedencia **opt-in** (`enableTrace()`/`getTrace()`, Fase 3). |
+| `SimulationEngine` | **Activo** — grafo de atributos con topological sort (Kahn, un pass; DAG → punto fijo). Ciclo real → alerta fail-loud (convergencia iterativa = Opción B, diferida). Trace de procedencia **opt-in** (`enableTrace()`/`getTrace()`). |
 
 ### Capa C2 — Combate (`engine/simulate/combat/` + `engine/simulate/enemies/`)
 
@@ -56,39 +57,32 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 | `CombatCalculator` · `CombatSimulator` | **Activo** |
 | `AtomicSimulator` | **Activo** — conectado a `formulas/common/crit-base` |
 | `TimelineSimulator` · `RngProvider` | **Activo** — generación de procs unificada (`expectedProcEvents` → `effectOfDamageType` → `applyProc`); `StatusEngine` **eliminado** (ver Nota C2) |
-| `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `scale()` = **curva-S real** (2026-07-06, reemplaza el stub cuadrático) + `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`); validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
+| `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `scale()` = **curva-S real** + `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`); validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
 
-> **✅ REDISEÑO IMPLEMENTADO (2026-07-13):** la maquinaria de status de C2 (`StatusEngine`,
-> `EnemyState.{stacks, dot_pools, active_pulses}`, `processDots` viejo, `dot_key`) fue **reemplazada** por
-> el **modelo unificado de proc** — un contenedor único `Map<StatusEffect, S>` + `EffectBehavior` por
-> efecto. `EnemyState` itera el registro `EFFECT_BEHAVIORS`; `resolveDamageEvent` (renombrado de
-> `resolveDamageInstance`) deriva las reglas del canónico por `as: DamageType`. Diseño y SSoT en
-> [`design/damage-status-model.md §Modelo unificado de proc`](design/damage-status-model.md). Residual
-> conocido: `DotType`/`DOT_COEF` sin disolver (deuda G2). La Nota C2 de abajo describe el modelo nuevo.
+> **El status de C2 usa el modelo unificado de proc:** un contenedor único `Map<StatusEffect, S>` +
+> `EffectBehavior` por efecto. `EnemyState` itera el registro `EFFECT_BEHAVIORS`; `resolveDamageEvent`
+> deriva las reglas del canónico por `as: DamageType`. Diseño y SSoT en
+> [`design/damage-status-model.md §Modelo unificado de proc`](design/damage-status-model.md). Residual:
+> `DotType`/`DOT_COEF` sin disolver (deuda G2).
 >
-> **Nota C2:** cobertura de test históricamente 0; primer diseño interno + primeros tests en la campaña
-> de modelado de daño C2 (2026-07-02, ver [`design/damage-status-model.md`](design/damage-status-model.md)) +
-> el eje enemigo (escalado, 2026-07-06). **Modelo unificado de proc (2026-07-13):** los 6
-> efectos con LEY (bleed/poison/ignite/corrosion/infection/disruption) viven en `EFFECT_BEHAVIORS`;
-> `EnemyState.processDots` itera cada behavior (decae/expira + emite `Resolucion`), y cada emisión resuelve
-> por `CombatSimulator.resolveDamageEvent` (mismo camino que un hit directo). Heat sobrevive como su propia
-> fórmula (`ignite`: pool + rampa de armor por tiempo), no como contenedor compartido; Corrosion/Infection/
-> Disruption son behaviors con estado `{count}` + decay (Familia A, ya no un contenedor aparte).
-> **Sigue fuera del behavior-set:** Electricity/Gas (frontera 3, emisión multi-target de daño — cadena/nube; NO recursión de procs, descartada in-game 2026-07-14)
+> **Nota C2:** los 6 efectos con LEY (bleed/poison/ignite/corrosion/infection/disruption) viven en
+> `EFFECT_BEHAVIORS`; `EnemyState.processDots` itera cada behavior (decae/expira + emite `Resolucion`), y
+> cada emisión resuelve por `CombatSimulator.resolveDamageEvent` (mismo camino que un hit directo). Heat
+> sobrevive como su propia fórmula (`ignite`: pool + rampa de armor por tiempo), no como contenedor
+> compartido; Corrosion/Infection/Disruption son behaviors con estado `{count}` + decay (Familia A).
+> **Fuera del behavior-set:** Electricity/Gas (frontera 3, emisión multi-target de daño — cadena/nube; NO recursión de procs, descartada in-game 2026-07-14)
 > y los efectos sin LEY (puncture/impact/cold/… — no-op). Pool②/faction² del tick = gated (`OQ-ENGINE-20`,
-> mitad live). `stacks` de N-timers reales sigue como fidelidad diferida (`OQ-ENGINE-16`).
-> **Resuelto (2026-07-09):** el consumo del `ScaledEnemy` en el pipeline de daño (facción × DR ×
-> capa) — `resolveDamageEvent`/`resolveHit` consumen `targetFactionMult` (matriz③) + `damageReductionFromArmor`
-> (DR), checkpoints 1-2 de la reconciliación (`damage-status-model.md §Reconciliación de resolveHit`). **Ojo:**
-> esto es acoplamiento *dentro* de C2 (`TimelineSimulator`/`CombatSimulator`) — C2 en sí sigue **fuera** del
-> pipeline de producción (`design/formulas-integration.md §1`: el camino vivo es solo C1, `MutatorBridge →
-> SimulationEngine`).
-> **Camino de resolución unificado (2026-07-12):** `TimelineSimulator.simulateBurst` resuelve el hit
-> directo vía `CombatSimulator.simulateAttack` (mismo híbrido atómico/bulk que un ataque suelto), ya no
-> reimplementa una variante bulk propia. Consecuencia: con multishot ≤ `HYBRID_THRESHOLD` (casi toda
-> arma real) el modo es **atómico → timeline estocástico**, reproducible por el `RngProvider` inyectado
-> (seed fijo). `simulateBurst` sigue **sin call-sites** (latente); quien lo cablee (oráculo CLI → C2)
-> debe seedear el `rng` para salida determinista.
+> mitad live). `stacks` de N-timers reales = fidelidad diferida (`OQ-ENGINE-16`). El consumo del
+> `ScaledEnemy` en el pipeline de daño (facción × DR × capa) está resuelto: `resolveDamageEvent`/`resolveHit`
+> consumen `targetFactionMult` (matriz③) + `damageReductionFromArmor` (DR), ver
+> `damage-status-model.md §Reconciliación de resolveHit`. **Ojo:** esto es acoplamiento *dentro* de C2
+> (`TimelineSimulator`/`CombatSimulator`) — C2 en sí sigue **fuera** del pipeline de producción
+> (`design/formulas-integration.md §1`: el camino vivo es solo C1, `MutatorBridge → SimulationEngine`).
+> **Camino de resolución unificado:** `TimelineSimulator.simulateBurst` resuelve el hit directo vía
+> `CombatSimulator.simulateAttack` (mismo híbrido atómico/bulk que un ataque suelto). Consecuencia: con
+> multishot ≤ `HYBRID_THRESHOLD` (casi toda arma real) el modo es **atómico → timeline estocástico**,
+> reproducible por el `RngProvider` inyectado (seed fijo). `simulateBurst` sigue **sin call-sites**
+> (latente); quien lo cablee (oráculo CLI → C2) debe seedear el `rng` para salida determinista.
 
 ### Salida de C — el "clic" (`engine/output/`)
 
@@ -100,21 +94,18 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 
 | Componente | Estado |
 |---|---|
-| `bootstrap/engine-data.ts` | **Activo** — `loadEngineData(source)` async/agnóstico (Slice E, salió de `fixtures/`). |
+| `bootstrap/engine-data.ts` | **Activo** — `loadEngineData(source)` async/agnóstico (Slice E). |
 | `fixtures/builds.ts` | **Activo** — catálogo de intenciones-fixture (`BUILDS`: lanka/cedo/felarx/laetum/boltor…). |
 
 ### Contratos (`engine/contracts/`)
 
 | Archivo | Estado |
 |---|---|
-| `contracts.ts` | **Activo** — cortes/DTOs (split 2026-06-12). |
+| `contracts.ts` | **Activo** — cortes/DTOs. |
 | `primitives.ts` | **Activo** — `AttributeNode`, `Modifier`, `GameLaws`, ids. |
 | `damage-logic.ts` · `damage-multipliers.ts` · `mod-overrides.ts` · `index.ts` (barrel) | **Activo** |
 
-(`attributes.ts` eliminado 2026-05-21; `ProjectionSnapshot` purgado 2026-06-16, Fase 0.)
-
-> **Purgado (2026-06-16, Fase 0):** `engine/hooks/` completo (`useSimulation`/`useSimulationMetrics`/`useTimeline`)
-> — cluster muerto sin call-sites. La Capa D se cablea vía `useViewModel` (`@providers`) + `ViewModelContract`
+> La Capa D se cablea vía `useViewModel` (`@providers`) + `ViewModelContract`
 > (`@shared/view-model`), **fuera** de `@core`.
 
 ---
@@ -127,7 +118,7 @@ campaña de saneamiento A+B+C (Fases 0–3, 2026-06-16 → 2026-07-02). Modelo d
 | `weapon/` | `weapon-crit`, `weapon-multishot`, `weapon-condition-overload`, `melee-combo`, `sniper-combo` |
 | `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado; los 6 efectos con LEY). `dot-population` quedó **huérfano** (el pulso se arma inline en `behaviors.makeDotBehavior`; solo test-consumido — deuda G3). Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
 | `ability/` | `ability-crit`, `ability-status` |
-| `arcane/` · `warframe/` | **vacíos** (reservados; `arcane-core` purgado 2026-06-11, `warframe-core` 2026-05-27) |
+| `arcane/` · `warframe/` | **vacíos** (reservados) |
 
 Cada primitiva cita su autoridad matemática en su propio `@SSoT`, apuntando a la fuente real (`references/wiki/mechanics/*`: `critical-hits`, `multishot`, `condition-overload`, `calculating-bonuses`, `armor`, `enemy-level-scaling`…). El **idioma** con el que se describen vive en [`design/vocabulary.md`](design/vocabulary.md); el **estado de integración**, en [`design/formulas-integration.md`](design/formulas-integration.md).
 
@@ -146,10 +137,8 @@ Suite de **consumidores derivados** vía el "clic" (`output/consume.ts`). Índic
 | `lanka.test.ts` | primer nodo Capa 4 (`WEAPON_FLAT_PUNCH_THROUGH`, OQ-ENGINE-7 ejes a+b) |
 | `rhino.test.ts` | único fixture de warframe (verifica la segmentación Slice C) |
 | `arcane.test.ts` | consumidor de arcanos v0 |
-| `enemy-state-status-multiplier.test.ts` | C2 — fórmula de multiplicador de stacks Viral/Magnetic + wiring vía `CombatSimulator` (Fase 3 pieza 3) |
+| `enemy-state-status-multiplier.test.ts` | C2 — fórmula de multiplicador de stacks Viral/Magnetic + wiring vía `CombatSimulator` |
 | `weapon-multishot-resolution.test.ts` | test de datos/regla (integridad override + resolución DNA) |
-
-(`aklex-prime` eliminado 2026-06-09, OQ-ENGINE-6 cerrado; `__tests__-legacy/` 12 suites purgadas 2026-05-21.)
 
 ---
 
@@ -165,7 +154,9 @@ El tick lo computan hoy los `EffectBehavior` resueltos vía `resolveDamageEvent`
 `(1+Σpool②)²`. La fórmula objetivo sigue firme: `tick = coef × modded_base × (1+status_damage) ×
 matriz(elem, facción) × (1+Σpool②)²` (no-True) / con `[bypass ③]` (True). El pendiente **steady-state**
 (ambos buffs activos, que es toda la data medida) es un build **decidido** (`DC-OQ-ENGINE-13`), gated por
-**poblar el pool②** — hoy vacío: facción diferida (shim C2·F, RED) + Roar sin wired — **NO** por
+que **el DoT lea el pool②** — hoy `dotModdedBase` solo lee `WEAPON_ADD_DAMAGE`, no la facción. El pool②
+ya tiene su primer miembro **para el HIT** (Roar, wired vía `AbilityRepository`), pero **no alimenta
+el DoT**; la facción por mods sigue diferida (shim C2·F, RED). **NO** por
 `OQ-ENGINE-20`. `OQ-ENGINE-20` gobierna solo el **transitorio** (buff cae a mitad del DoT: ¿la mitad live
 baja de pool²²→pool² o muere todo?) — el split fino `snapshot × live` que NO bloquea el build steady-state.
 La re-aplicación live NO está horneada aún en el `HitContext` snapshot (que hoy solo carga `moddedBase` +
@@ -177,17 +168,17 @@ status/element).
 
 ### `CombatCalculator.project` — god-function (falloff + crit + status + dps en una función)
 
-Verificación de estabilidad pre-C1 (2026-07-09): `project()` (`simulate/combat/CombatCalculator.ts`)
+Verificación de estabilidad pre-C1: `project()` (`simulate/combat/CombatCalculator.ts`)
 absorbe 3-4 naturalezas distintas en ~90 líneas — falloff (física espacial), distribución de crit
 (probabilístico), proyección de status (`status_map`: chance×peso inline — hoy computado pero **sin
-consumidor** tras retirar `status_projections`/`StatusEngine`) y aritmética de DPS/reload/magazine. Mismo síndrome que tenía `resolveHit` antes de esta sesión. **No es
+consumidor** tras retirar `status_projections`/`StatusEngine`) y aritmética de DPS/reload/magazine. Mismo síndrome que ya resolvió `resolveHit`. **No es
 deuda de investigación** — el patrón para resolverlo ya existe y está probado 4 veces (`FAMILY_RESOLVERS`
 en `SimulationEngine`, y la reconciliación de `resolveHit` con accessors dedicados por naturaleza).
 `combat/` sigue fuera del pipeline de producción (`design/formulas-integration.md §1`) — sin consumidor
 C2 real, no se reconcilia todavía (gate = consumidor, no ausencia de plan).
 
 - `engine:debt` — descomponer `project()` en piezas por naturaleza cuando `combat/` tenga un consumidor
-  de producción. [verificación de estabilidad pre-C1, 2026-07-09]
+  de producción. [verificación de estabilidad pre-C1]
 
 ### Campos `*_type` de `EnemyDNA` — muertos, candidatos a sunset (revisión pendiente)
 
@@ -207,7 +198,7 @@ uniones `HealthType`/`ArmorType`/`ShieldType` y hay que confirmar si algún over
 ### Procedencia de perks de Incarnon — `source_id` ausente
 
 `IncarnonRepository` emite los `Modifier` de perks **sin** `source_id`, mientras `ModRepository` los emite con
-`Mod:<id>`. En el trace de procedencia (`SimulationEngine.getTrace`, renombrado de `getAuditResponse` en Fase 3)
+`Mod:<id>`. En el trace de procedencia (`SimulationEngine.getTrace`)
 el aporte de un perk aparece como `source=unknown` — inatribuible. La mecánica es correcta (el valor aterriza en
 el bucket correcto); el gap es de **observabilidad**, no de cálculo.
 

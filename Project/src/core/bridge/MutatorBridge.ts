@@ -103,6 +103,7 @@ export class MutatorBridge {
         slots: this.intentionSlots(intention, "warframe"),
         shards,
         arcanes: this.intentionArcanes(intention, "warframe"),
+        abilities: (warframeSlot.abilities || []).map(a => ({ ability_id: a.id, rank: a.rank })),
         helminth: undefined
       },
       weapons: {

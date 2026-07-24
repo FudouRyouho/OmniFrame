@@ -14,7 +14,7 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import { rhino, RHINO } from '../fixtures/builds';
+import { rhino, RHINO, rhinoRoar, TIBERON_PRIME } from '../fixtures/builds';
 import { SimulationEngine } from '../resolve/SimulationEngine';
 import { BASELINE_GAME_LAWS } from '../contracts';
 import type { SimulationEntity, AttributeNode, AccumulatorModifier, SimulationContext } from '../contracts';
@@ -157,6 +157,36 @@ describe('Rhino Fase 1a — Roar (derive cross-entity source→target, sintétic
   it('baseline sin Roar: HIT = 100 × (1+1.65) = 265 (pool de facción vacío)', () => {
     const gun = resolveWith([STRENGTH, SERRATION]);
     expect(gun.attributes['WEAPON_ADD_IMPACT_DAMAGE'].final).toBeCloseTo(265, 3);
+  });
+});
+
+// ─── Fase 1b — Roar por HIDRATACIÓN REAL (AbilityRepository, no hand-built) ─────────
+//
+// El salto de 1a→1b: en 1a el modifier de Roar se construía a mano en el fixture (probaba
+// la CAPACIDAD — la arista cross-entity del grafo). Acá el modifier lo PRODUCE la
+// hidratación desde el dato real (`ability-stats.override`, upgrade_type poblado con
+// `$$GAMEPLAY_MULT_FACTION_DAMAGE`): AbilityRepository lee la ability activa declarada en la
+// intención (`abilities:[{id}]`), resuelve el verbo muta-state y emite el buff cross-entity.
+// Es fixture_03 realizado por el motor de datos — cierra "¿el motor consume habilidades?".
+//
+// Build: Rhino (strength 254%) + Tiberon Prime (sin mods) + Roar. Roar asumido-activo
+// (proyección estática del source-state, §15; source-state vivo/duración = gate G-a diferido).
+
+const roarWeapon = () => consume(rhinoRoar(), { flags: {} }).weapon(TIBERON_PRIME);
+
+describe('Rhino Fase 1b — Roar (hidratación real: AbilityRepository → pool de facción)', () => {
+  it('el buff aterriza en el pool de facción del arma: +127% = 50% × strength(254%)', () => {
+    const faction = roarWeapon().node('GAMEPLAY_MULT_FACTION_DAMAGE');
+    expect(faction.base).toBe(100);
+    expect(faction.mods_add_pct).toBeCloseTo(127, 5); // 50 (base_value real del override) × 2.54
+    expect(faction.final).toBeCloseTo(227, 5);         // 100 × (1 + 1.27)
+  });
+
+  it('aislamiento: sin la ability declarada, el pool de facción es no-op (100)', () => {
+    const noRoar = rhinoRoar();
+    delete noRoar.items.warframe.abilities; // misma build, sin el verbo muta-state
+    const faction = consume(noRoar, { flags: {} }).weapon(TIBERON_PRIME).node('GAMEPLAY_MULT_FACTION_DAMAGE');
+    expect(faction.final).toBe(100);
   });
 });
 

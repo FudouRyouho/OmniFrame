@@ -10,10 +10,21 @@ export interface ArchonShardIntent {
   isTauforged: boolean;
 }
 
+// Habilidad activa declarada en la intención (warframe only). Asumida-activa: es
+// la proyección estática del source-state (un buff sin duración → source-state = la
+// entity estática de C1; arch-decisions §15). `rank` es opcional y hoy no se consume
+// (Roar entra por su base_value máximo del override — CP1b, Fase 1b); se reserva para
+// cuando el source-state vivo formalice rank/duración (gate G-a).
+export interface AbilityIntent {
+  id: string;      // uniqueName de la ability (clave del ability-stats.override)
+  rank?: number;
+}
+
 export interface SlotIntention {
   itemId: string | null;
   rank: number;
   shards?: ArchonShardIntent[];           // warframe only — 5 slots
+  abilities?: AbilityIntent[];            // warframe only — habilidades activas (muta-state, §15)
   active_profile?: string;                // weapon only — 'base' | 'incarnon_form'
   evolution_perks?: Record<number, string>; // weapon incarnon only — tier → perk id
 }

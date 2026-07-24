@@ -94,6 +94,7 @@ export interface Ensemble {
     slots: Record<number, { mod_id?: string; level?: number }>;
     shards: { type: string; stat: string; is_tau?: boolean }[];
     arcanes?: Record<number, { arcane_id: string; rank: number }>;
+    abilities?: { ability_id: string; rank?: number }[]; // habilidades activas (muta-state, arch §15)
     helminth?: { ability_id: string; slot: number };
   };
   weapons: {

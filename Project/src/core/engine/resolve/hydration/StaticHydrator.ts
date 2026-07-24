@@ -8,6 +8,7 @@ import { ModRepository } from "./ModRepository";
 import { ShardRepository } from "./ShardRepository";
 import { IncarnonRepository } from "./IncarnonRepository";
 import { ArcaneRepository } from "./ArcaneRepository";
+import { AbilityRepository } from "./AbilityRepository";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
@@ -198,6 +199,19 @@ export class StaticHydrator {
         resolved.value,
       ));
     });
+
+    // Habilidades activas del warframe (verbo muta-state, arch §15). Fan-out cross-entity:
+    // el buff nace en el warframe (source, de donde se lee el scaling × Ability Strength) y
+    // aterriza en las ARMAS equipadas (targets, donde vive el pool de facción — Roar es
+    // ALL-scope). Corre acá, POST-loop, por la misma razón que los shards: necesita todas
+    // las entidades construidas para conocer los ids de arma. El source-state vivo (duración)
+    // = gate G-a diferido; hoy la ability es asumida-activa (proyección estática, §15).
+    const weaponTargetIds = entities.filter(e => e.domain === 'weapon').map(e => e.id);
+    if (weaponTargetIds.length > 0) {
+      (ensemble.warframe.abilities || []).forEach(ability => {
+        modifiers.push(...AbilityRepository.getModifiers(ability.ability_id, ensemble.warframe.id, weaponTargetIds));
+      });
+    }
 
     return { entities, modifiers };
   }

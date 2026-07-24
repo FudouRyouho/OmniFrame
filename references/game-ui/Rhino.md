@@ -28,7 +28,7 @@ Radius: 8m $RANGE
 Drain: <ENERGY> 75 $EFFICIENCY
 Duration: 30s $DURATION
 Radius: 25m $RANGE
-Damage Increase: 50% $STRENGTH
+Damage Increase: 50% $STRENGTH $$GAMEPLAY_MULT_FACTION_DAMAGE
 #### PIERCING ROAR
 Radius: 25m $RANGE
 Debuff Duration: 1x $DURATION

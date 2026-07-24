@@ -418,6 +418,29 @@ export function tiberon(heat = false): EnsembleIntention {
   };
 }
 
+// ─── Rhino + Roar (Fase 1b — habilidad real, verbo muta-state cross-entity) ───────
+
+export const RHINO_ROAR = '/Lotus/Powersuits/PowersuitAbilities/RhinoRoarAbility';
+
+/**
+ * Rhino (strength 254%, mismos mods que fixture_01) + Roar activo + un arma simple
+ * (Tiberon Prime, sin mods). El buff nace en el warframe (source) y aterriza en el
+ * pool de facción del arma (target): +127% = 50% × strength(2.54). Es fixture_03/04
+ * pero por HIDRATACIÓN REAL — el modifier lo produce `AbilityRepository` desde el
+ * `ability-stats.override` (upgrade_type poblado), NO hand-built. Cierra Fase 1b.
+ */
+export function rhinoRoar(): EnsembleIntention {
+  const base = rhino();
+  return {
+    ...base,
+    items: {
+      ...base.items,
+      warframe: { ...base.items.warframe, abilities: [{ id: RHINO_ROAR }] },
+      primary:  { itemId: TIBERON_PRIME, rank: 30, active_profile: 'base' },
+    },
+  };
+}
+
 export const BUILDS: Record<string, () => EnsembleIntention> = {
   tiberon:      () => tiberon(false),
   tiberon_heat: () => tiberon(true),
@@ -428,5 +451,6 @@ export const BUILDS: Record<string, () => EnsembleIntention> = {
   boltor: () => boltor({ perks: { 2: 'hunters_mantra', 4: 'commodores_fortune' }, mods: { 0: SERRATION } }),
   lanka_arcane: () => lankaArcane(),
   rhino:  () => rhino(),
+  rhino_roar: () => rhinoRoar(),
   sicarus: () => sicarus({ perks: { 2: 'feigned_retreat' } }),
 };
