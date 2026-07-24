@@ -79,6 +79,42 @@ function frontmatter(texto) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Ratchet de changelog-en-doc-vivo (docs/CLAUDE.md §Ruteo #3/#5)
+// Un doc es snapshot del presente, no diario. El corpus arrastra ~480 fechas-log
+// como deuda: el ratchet no exige purgarlas de un saque — prohíbe que SUBAN. La
+// purga baja el techo; `--update-baseline` lo lockea.
+// ─────────────────────────────────────────────────────────────────────────────
+const BASELINE_PATH = path.join(DOCS, 'governance/docs-date-baseline.json');
+
+/** Cuerpo del doc SIN frontmatter ni bloques de código cercados (ahí una fecha puede ser dato). */
+function cuerpo(texto) {
+  const lineas = texto.split('\n');
+  let start = 0;
+  if (lineas[0]?.trim() === '---') {
+    const cierre = lineas.indexOf('---', 1);
+    if (cierre !== -1) start = cierre + 1;
+  }
+  return lineas.slice(start).join('\n').replace(/```[\s\S]*?```/g, '');
+}
+
+/** Formas AGUDAS nombradas por #5: paréntesis-acumulativo y sello-de-fase-con-fecha/verbo. */
+const CHANGELOG_AGUDO = [
+  /\((?:Actualizaci[oó]n|Update|Correcci[oó]n|Nota)[^)]*\d{4}-\d{2}/gi, // (Actualización … fecha)
+  /\(\s*\d{4}-\d{2}-\d{2}[^)]*:/g,                                       // (fecha: …)
+  /Fase\s*\d+[a-z]?\s*\(\s*\d{4}-/gi,                                    // Fase 1b (2026-…
+  /\(\s*Fase\s*\d+[a-z]?,?\s*\d{4}-/gi,                                  // (Fase 1b, 2026-…
+  /Fase\s*\d+[a-z]?\s+(?:ejecut[oó]|cerr[oó]|valid[oó]|hizo|realiz[oó]|reemplaz[oó])/gi, // Fase 1b ejecutó/cerró…
+];
+
+const contarFechas = (cuerpoTxt) => (cuerpoTxt.match(/\d{4}-\d{2}-\d{2}/g) || []).length;
+const contarAgudo = (cuerpoTxt) => CHANGELOG_AGUDO.reduce((n, re) => n + (cuerpoTxt.match(re) || []).length, 0);
+
+function cargarBaseline() {
+  try { return JSON.parse(fs.readFileSync(BASELINE_PATH, 'utf-8')).archivos || {}; }
+  catch { return {}; }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Pasada 1 — frontmatter, fidelidad física y links (docs/CLAUDE.md §Pre-flight)
 // ─────────────────────────────────────────────────────────────────────────────
 const docs = walk(DOCS, ['.md']);
@@ -188,6 +224,57 @@ if (fs.existsSync(dominios)) {
       add('WARN', 'tamano-dominio', dir,
         `${activos.length} operativos (max ${MAX_OPERATIVOS}): ${activos.map((f) => path.relative(dir, f)).join(', ')}`);
     }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Modo --update-baseline — recuenta y lockea el baseline del ratchet. Se corre
+// DELIBERADAMENTE tras una purga (bajar el techo) o una adición justificada.
+// ─────────────────────────────────────────────────────────────────────────────
+if (process.argv.includes('--update-baseline')) {
+  const archivos = {};
+  for (const { f, texto } of corpus) {
+    if (EXENTOS.has(path.basename(f))) continue;
+    const c = cuerpo(texto);
+    const fecha = contarFechas(c);
+    const agudo = contarAgudo(c);
+    if (fecha || agudo) archivos[path.relative(REPO, f)] = { fecha, agudo };
+  }
+  const orden = Object.fromEntries(Object.entries(archivos).sort(([a], [b]) => a.localeCompare(b)));
+  const salida = {
+    _nota: 'Baseline del ratchet de changelog-en-doc-vivo (docs/CLAUDE.md §Ruteo #3/#5). El conteo por archivo NO puede subir; bajar es progreso. Regenerar SOLO tras purga o adición justificada (tripwire/auditoría). No editar a mano para subir un techo.',
+    generado: new Date().toISOString().slice(0, 10),
+    archivos: orden,
+  };
+  fs.writeFileSync(BASELINE_PATH, JSON.stringify(salida, null, 2) + '\n');
+  const tot = Object.values(archivos).reduce((a, c) => ({ fecha: a.fecha + c.fecha, agudo: a.agudo + c.agudo }), { fecha: 0, agudo: 0 });
+  console.log(`\n✅ Baseline regenerado → ${path.relative(REPO, BASELINE_PATH)}`);
+  console.log(`   ${Object.keys(archivos).length} archivos · ${tot.fecha} fechas-log · ${tot.agudo} formas agudas\n`);
+  process.exit(0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Pasada 5 — ratchet de changelog (docs/CLAUDE.md §Ruteo #3/#5)
+// ─────────────────────────────────────────────────────────────────────────────
+{
+  const baseline = cargarBaseline();
+  let mejoras = 0;
+  for (const { f, texto } of corpus) {
+    if (EXENTOS.has(path.basename(f))) continue;
+    const c = cuerpo(texto);
+    const fecha = contarFechas(c);
+    const agudo = contarAgudo(c);
+    const base = baseline[path.relative(REPO, f)] || { fecha: 0, agudo: 0 };
+    if (agudo > base.agudo) {
+      add('ERROR', 'changelog-agudo', f, `${agudo} forma(s) de changelog agudo (baseline ${base.agudo}): sello de fase-con-fecha o paréntesis acumulativo — reescribir a presente (docs/CLAUDE.md §Ruteo #5)`);
+    }
+    if (fecha > base.fecha) {
+      add('ERROR', 'fecha-cuerpo-ratchet', f, `${fecha} fechas-log en el cuerpo, +${fecha - base.fecha} sobre el baseline (${base.fecha}) — reescribir a presente; si es tripwire/auditoría legítima, \`--update-baseline\` (docs/CLAUDE.md §Ruteo #3/#5)`);
+    }
+    if (fecha < base.fecha || agudo < base.agudo) mejoras++;
+  }
+  if (mejoras) {
+    add('INFO', 'ratchet-mejora', BASELINE_PATH, `${mejoras} archivo(s) por debajo de su baseline — corré \`npm run validate:docs -- --update-baseline\` para lockear el progreso`);
   }
 }
 
