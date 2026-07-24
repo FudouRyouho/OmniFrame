@@ -72,7 +72,8 @@ argv ──▶ [1] Dispatch ──▶ OracleQuery ──▶ [2] Adquisición ─
 2. **Adquisición** (motor-facing) — `OracleQuery → AcquiredResult`. Llama a `consume()` /
    `computeCombatMetrics` / `getTrace` / el bridge según la lente. Produce **estructuras nativas del
    motor, sin formatear**. Un único punto de resolución de sujeto (`resolveSubject`) traduce A1 a
-   `EnsembleIntention` (hoy `BUILDS[name]`; gancho limpio para la boca de intención parcial, diferida).
+   `EnsembleIntention` desde dos fuentes: el catálogo (`BUILDS[name]`, por nombre) o un archivo JSON
+   parcial (por path, completado sobre `INITIAL_INTENTION`; ver §4).
 
 3. **Presentación** — `AcquiredResult × format → stdout`. `text` (humano) | `json` (máquina/IA).
    **Desechable y específica del Oracle**: no es un contrato, es el borde de impresión.
@@ -102,8 +103,10 @@ consumirá después.
 oracle <lente> <sujeto> [A2: --vs <enemy> --lvl <n> --dur <n>] [--node <attr>] [--format text|json]
 ```
 
-- **`<lente>`** ∈ `{ intention, nodes, display, metrics, trace }` — punto de observación (§1).
-- **`<sujeto>`** — A1; resuelto en un único `resolveSubject` (hoy `BUILDS[name]` | `all`).
+- **`<lente>`** ∈ `{ nodes, display, metrics, trace, enemy, intention }` — punto de observación (§1);
+  `intention` diferida.
+- **`<sujeto>`** — A1; resuelto en un único `resolveSubject`: nombre de build del catálogo, path a un
+  `.json` parcial, o `all` (ver §3.1).
 - **`--vs / --lvl / --dur`** — **A2**, la consulta a C2; relevantes sólo cuando la lente los consume
   (`metrics`). Nombre reservado; su contrato **no se cristaliza en docs todavía** —el uso le da forma
   primero, mismo patrón que `ViewModelContract` (evita el error de "cristalizar un tipo sin
@@ -115,14 +118,29 @@ oracle <lente> <sujeto> [A2: --vs <enemy> --lvl <n> --dur <n>] [--node <attr>] [
 consulta que C2 ya espera. Por eso son flags de la lente que los consume, no un lenguaje propio del CLI
 — el Oracle no inventa vocabulario, ejerce el del engine (A1 → A2 → C).
 
+### 3.1. Fuentes de sujeto (A1)
+
+`resolveSubject` traduce un sujeto a `EnsembleIntention` desde dos fuentes; la discrimina por forma
+(un path contiene `/` o termina en `.json`, un nombre de build no):
+
+- **Catálogo** — `BUILDS[name]` por nombre (`lanka`, `cedo`, …), o `all` (sólo `nodes`/`display`).
+  Input compartido con los tests (§5).
+- **Archivo JSON parcial** — un `.json` con un `EnsembleIntention` a medias, **completado sobre
+  `INITIAL_INTENTION`** (el skeleton canónico de [`@shared/types/ensemble.ts`](../../../../Project/src/shared/types/ensemble.ts),
+  el mismo default que consume el EnsembleStore) vía merge profundo. `DeepPartial` tipa el input; el
+  merge lo completa (TypeScript no regenera solo — es type-erased). Es, para el CLI, el equivalente
+  stateless del hook que en la UI mantiene el ensemble: acá sólo completa, no mantiene estado.
+  Sólo hay que declarar lo que importa —`{ items: { primary: { itemId, active_profile } }, mods: … }`—;
+  el resto sale del skeleton. `rank` en mods es omitible (el bridge sólo lee `itemId`+`level`).
+
 ---
 
-## 4. Fuera de scope (diferido, con hogar)
+## 4. Diferido (con hogar)
 
-- **Boca de intención parcial** (pasar un `EnsembleIntention` a medias, completado por
-  `merge(EMPTY_ENSEMBLE, parcial)`; `DeepPartial` como tipo + normalizador como capa de inyección,
-  análogo al hook de la UI): es el **Trabajo 2**. Esta organización le deja el gancho (`resolveSubject`),
-  no lo implementa.
+- **Flags componibles** (`--weapon`/`--mod`/`--profile` → intención) como capa ergonómica sobre la boca
+  JSON: se retoma si un caso real la pide (la boca JSON ya cubre el destino canónico).
+- **Validación robusta del JSON externo**: hoy laxa (function-first) — parse + guarda de objeto, y se
+  deja que el motor falle ruidoso ante un `itemId` inexistente. Endurecer es trabajo futuro.
 - **Saneamiento de `EnsembleIntention`** (vocabulario `rank`/`level` inconsistente en mods): frente
   aparte, toca contrato core (RED) → se abre su OQ y no se mezcla con esta reorganización.
 - **Error-handling del borde A→B** ante input no-confiable: se **observa cómo falla** primero

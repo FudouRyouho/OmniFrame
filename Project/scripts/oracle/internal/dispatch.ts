@@ -9,6 +9,9 @@ export const USAGE = `oráculo — banco de trabajo del motor (D2)
 
   uso: npm run oracle -- <lente> <sujeto> [flags]
 
+  el <sujeto> es un build del catálogo (lanka, cedo, …), "all", o un path a
+  un .json con un EnsembleIntention parcial (se completa sobre el skeleton canónico).
+
   lentes (punto de observación del pipeline):
     nodes    <build|all>   AttributeNode crudos (C1)
     display  <build|all>   ViewModelContract proyectado (C1 display)
