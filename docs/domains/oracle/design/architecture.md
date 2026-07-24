@@ -1,23 +1,19 @@
 ---
 Estado: "activo"
-Rol: "Diseño de la organización del Oracle (decisión de diseño abierta)"
+Rol: "Diseño de la organización del Oracle"
 Impacto_ID: "O-Arch"
 Fidelidad_Fisica: "Project/scripts/oracle/"
 Fecha_de_creacion: "2026-07-24"
 Fecha_de_actualizacion: "2026-07-24"
 ---
 
-# Oracle — Arquitectura de la organización (diseño target)
+# Oracle — Arquitectura de la organización
 
-> **Decisión de diseño abierta.** Este documento describe la organización a la que el Oracle se
-> dirige, no la que tiene hoy. Es SSoT *adelantado*: el drift vive en el código hasta que la
-> reorganización aterrice. Ver la excepción declarada en [`../status.md`](../status.md).
-
-El Oracle deja de ser un spike monolítico (un `oracle.ts` que en cada rama parsea `argv`, llama al
-motor e imprime) y pasa a una organización que sirve sus **tres roles** (consumidor / partera de
-contratos / banco de trabajo — ver [`../status.md`](../status.md)). Dos decisiones estructurales lo
-sostienen: un **eje de lentes** sobre el pipeline, y **tres capas internas** cuyo seam central es el
-órgano por el que el Oracle hace crecer el engine.
+El Oracle es una organización en tres capas (no un spike monolítico que mezcla parsing, acceso al
+motor y presentación en cada rama) que sirve sus **tres roles** (consumidor / partera de contratos /
+banco de trabajo — ver [`../status.md`](../status.md)). Dos decisiones estructurales lo sostienen: un
+**eje de lentes** sobre el pipeline, y **tres capas internas** cuyo seam central es el órgano por el
+que el Oracle hace crecer el engine.
 
 ---
 

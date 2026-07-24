@@ -9,13 +9,6 @@ Fecha_de_actualizacion: "2026-07-24"
 
 # Oracle — Estado del dominio
 
-> **Excepción temporal declarada.** Este dominio **adelanta al código**: describe la organización
-> a la que el Oracle se dirige, no la que su fuente tiene hoy (un spike monolítico en
-> [`oracle.ts`](../../../../Project/scripts/oracle/oracle.ts), un único archivo que mezcla parsing,
-> acceso al motor y presentación en cada rama). Mientras dure la transición, el SSoT es este diseño
-> y **el drift vive en el código**, no en el doc — inversión autorizada de la regla `docs = presente`.
-> Se reconcilia (el doc pasa a narrar el presente) cuando la reorganización aterrice.
-
 ## Qué es el Oracle
 
 El Oracle es el **adaptador no-reactivo del motor**: el cliente que consume la salida del engine por
@@ -38,12 +31,15 @@ reorganización de diseño existe para servir a los tres:
 ## Estado
 
 La identidad (los tres roles) es estable. La **organización** que la sirve —eje de lentes, tres capas
-internas, el seam adquisición↔presentación como órgano de crecimiento— es una **decisión de diseño
-abierta**, especificada en [`design/architecture.md`](design/architecture.md) y pendiente de aterrizar
-en código.
+internas (dispatch/adquisición/presentación en [`scripts/oracle/internal/`](../../../../Project/scripts/oracle/internal/)),
+el seam adquisición↔presentación como órgano de crecimiento— **ya aterrizó en código**, espejando
+[`design/architecture.md`](design/architecture.md). Diferido con hogar (no incompletitud, decisión
+explícita): la lente `intention` (requiere exponer la salida de B desde `@core`), flags componibles,
+validación robusta del JSON externo, saneamiento de `EnsembleIntention` (RED, toca contrato core) — ver
+`design/architecture.md §4`.
 
 ## Punteros
 
-- Diseño de la organización target: [`design/architecture.md`](design/architecture.md)
+- Diseño de la organización actual: [`design/architecture.md`](design/architecture.md)
 - Contrato de intención que consume (A1): [`@shared/types/ensemble.ts`](../../../../Project/src/shared/types/ensemble.ts), ejercido vía [`consume()`](../../../../Project/src/core/engine/output/consume.ts)
 - Estado del motor que el Oracle consume: [`domains/engine/status.md`](../engine/status.md)
