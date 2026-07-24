@@ -1,0 +1,55 @@
+<onlyinclude>{{AbilityU10.3
+| gameimage = RhinoStomp.png
+| name = Rhino Stomp
+| energy = 100
+| hotkey = 4
+| cardimage = RhinoStompModU15.jpeg
+| description = Rhino stomps with force sufficient to disrupt time, tumbling enemies around him in stasis.
+| strength = 150 / 300 / 500 / 800 ({{D|Blast}} damage)
+| range = 15 / 18 / 22 / 25 m
+| duration = 3 / 4 / 5 / 8 s
+| misc = 80% / 90% / 95% / 97.5% (slow)
+| cardonly = {{{1|}}}
+| info = 
+*{{WF|Rhino}} expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to stomp the ground with tremendous force, dealing {{Stat|Ability Strength|icon=only}}'''150 / 300 / 500 / 800''' {{D|Blast}} damage to all enemies within an initial radius of {{Stat|Ability Range|icon=only}}'''? / ? / ? / 5''' meters. After a short delay, a second instance of damage is inflicted to enemies within {{Stat|Ability Range|icon=only}}'''15 / 18 / 22 / 25''' meters. Affected enemies are forced into a tumble with their movements {{D|Slow|Slowed}} by <u>'''80% / 90% / 95% / 97.5%'''</u> over {{Stat|Ability Duration|icon=only}}'''3 / 4 / 5 / 8''' seconds.
+**Does '''not''' affect enemies with {{D|Overguard}}.
+**Does affect {{E|Tusk Thumper}}.
+**Initial damage instance does '''not''' bypass obstacles in the environment and diminishes with distance.
+**Second damage instance bypass obstacles in the environment and does '''not''' diminish with distance.
+**Suspended enemies cannot be damaged by additional casts of Stomp until they have recovered from the initial cast.
+**{{D|Ragdoll}} and {{D|Lifted}} will instantly break the tumbling effect.
+*If cast in midair, Rhino will instantly drop to the ground to perform this ability.
+*Can be recast while active; however, enemies already affected by Rhino Stomp will '''not''' have their stasis duration reset and are only damaged by the initial short-range burst. This can be remedied if you cast said abilities after they are in the recovery animation (the moment when they start to get up), which is shortly after into the 2s recovery animation.
+*Similar to {{M|Celestial Stomp}}, there is a recovery duration after the 8s stasis duration but in the case of Rhino Stomp, instead of the usual recovery animation length of 2-3s, the recovery animation will vary between '''3-5s'''.
+*The duration shown on the ability icon does '''not''' reflect the accurate duration of Rhino Stomp for each enemy as Rhino Stomp's duration is applied '''individually''' on each enemy, and it only starts when the enemy starts to turn/being affected, '''not''' when the damage happens.
+| synergies =
+{{A|Rhino Charge}} deals an additional '''100%''' damage to enemies affected by Rhino Stomp.
+| augment = [[File:ReinforcingStompMod.png|200px|left]]
+{{main|Reinforcing Stomp}}
+{{#lst:Reinforcing Stomp|intro}}
+{{#lsth:Reinforcing Stomp|Stats}}
+{{clr}}
+| tips = 
+*With maximized radius, Stomp can be used for both crowd control of high level enemies and clearing rooms of low level enemies.
+*The initial close range blast can break storage containers and reinforced glass on [[Corpus Ship]].
+<noinclude>
+|max = {{WFmax|rhino|rhino4}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Rhino}}
+
+==References==
+{{Reflist}}
+[[de:Rhino-Stampfer]]
+[[es:RhinoPisotón]]
+[[fr:Piétinement Rhino]]
+[[it:Rhino Stomp]]
+[[ru:Топот Рино]]
+__NOTOC__
+[[Category:Rhino]]
+[[Category:Warframe Abilities]]
+[[Category:Blast Damage]]
+[[Category:Slow]]
+[[uk:Тупання]]

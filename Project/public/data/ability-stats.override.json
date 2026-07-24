@@ -4290,12 +4290,12 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Base Health: |val1|",
+            "label": "Base Overguard: |val1|",
             "base_value": 1200,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
@@ -4305,8 +4305,23 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Invulnerability Duration: |val1|s",
+            "label": "Time Invulnerable: |val1|s",
             "base_value": 3
+          }
+        ]
+      },
+      {
+        "id": "iron-shrapnel",
+        "label": "IRON SHRAPNEL",
+        "stats": [
+          {
+            "label": "Damage: <DT_PUNCTURE> |val1|%",
+            "base_value": 100
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 8,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           }
         ]
       }
@@ -6860,28 +6875,44 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 650,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Charge Range: |val1|m",
+            "label": "Range: |val1|m",
             "base_value": 12,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Impact Radius: |val1|m",
+            "label": "Damage: <DT_IMPACT> |val1|",
+            "base_value": 650,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Radius: |val1|m",
             "base_value": 2,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Combo Window: |val1|s",
             "base_value": 1,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          }
+        ]
+      },
+      {
+        "id": "ironclad-charge",
+        "label": "IRONCLAD CHARGE",
+        "stats": [
+          {
+            "label": "Armor Increase: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 10,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
@@ -6896,24 +6927,40 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Bonus Damage: |val1|%",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
-            "upgrade_type": "GAMEPLAY_MULT_FACTION_DAMAGE"
+            "label": "Duration: |val1|s",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Duration: |val1|s",
-            "base_value": 30,
+            "label": "Damage Increase: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
+            "upgrade_type": "GAMEPLAY_MULT_FACTION_DAMAGE"
+          }
+        ]
+      },
+      {
+        "id": "piercing-roar",
+        "label": "PIERCING ROAR",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Debuff Duration: |val1|x",
+            "base_value": 1,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
@@ -6928,28 +6975,38 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage: |val1|",
+            "label": "Damage: <DT_BLAST> |val1|",
             "base_value": 800,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Speed Decrease: |val1|%",
+            "base_value": 97.5
           },
           {
             "label": "Duration: |val1|s",
             "base_value": 8,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+          }
+        ]
+      },
+      {
+        "id": "reinforcing-stomp",
+        "label": "REINFORCING STOMP",
+        "stats": [
           {
-            "label": "Slow: |val1|%",
-            "base_value": 97.5
+            "label": "Restoration: |val1|%",
+            "base_value": 4
           }
         ]
       }
