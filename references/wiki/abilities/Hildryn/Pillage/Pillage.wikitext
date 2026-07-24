@@ -1,0 +1,57 @@
+<onlyinclude>{{AbilityU10.3
+| name = Pillage
+| gameimage = Pillage130xWhite.png
+| cardimage = PillageModx256.png
+| hotkey = 2
+| energy = 
+| costType = SHIELD
+| cost = 150
+| description = Pillage a percentage of Shields and Armor of nearby enemies to replenish Hildryn's own Shields and Overshields.
+| strength = 10% / 15% / 20% / 25% (shield/armor drain per enemy)
+| range = 5 m / 6 m / 7 m / 8 m (pulse initial radius)
+| duration = 2 s (expansion duration)
+| misc = ? / ? / 6 / 20 m/s (expansion distance per sec)<br/>100% (status cleanse on cast)
+| subsumable = true
+| cardonly = {{{1|}}}
+| info = *Hildryn expends {{stat|Ability Efficiency|icon=only}}'''150''' [[shield]]s or overshields to emit a radial pulse with an initial radius of {{stat|Ability Range|icon=only}}'''5 / 6 / 7 / 8''' meters, which follows her as an aura and rapidly expands outward by <u>'''? / ? / 6 / 20'''</u> meters per second over a duration of {{stat|Ability Duration|icon=only}}'''2''' seconds. Hildryn and allies touched by the expanding pulse are instantly cleansed of all negative [[Status Effect]]s. Enemies in direct line of sight of Hildryn and within range of her aura are marked for pillage, reducing their current [[Shields]] or total [[Armor]] by {{stat|Ability Strength|icon=only}}'''10% / 15% / 20% / 25%'''. When Pillage expires or when the ability key (default {{Keybind|2}}) is pressed again while the ability is active, the pulse instantly retracts to Hildryn to restore her missing shields and produce Overshields based on the amount of shields and/or armor stolen from all pillaged enemies.
+**Enemy armor and shields are fully removed at '''400%''' {{Stat|Ability Strength}}. 
+***With one {{M|Corrosive Projection}}, armor will be fully stripped at '''328%''' Ability Strength.
+***Enemy shields can still regenerate with natural shield regeneration (such as [[Armis Ulta]], [[Kuva Lich]]es, or [[Sisters of Parvos]]) or while affected by regeneration buffs (such as [[Shield Osprey]]s).
+**Does '''not''' steal from enemies without shields or armor stats.
+***Enemy {{D|Overguard}} will not be stolen, converted, or damaged in any way.
+** {{D|Magnetic}} has '''no''' effect on the shield damage done to enemies.
+**Enemies that possess both shields and armor will need to have their shields broken before armor can be pillaged.
+**Pillaged enemies leaving Pillage's pulse and/or Hildryn's line of sight will still return shields to her.
+*From Activating the ability, it takes 0.2 seconds of cast time (can be reduced) for the aura to spawn and start expanding at its given rate for the modded duration. After Which it takes 0.5 seconds for the drained defenses to return to Hildryn as shields (cannot be reduced).
+*Casting Pillage is a full body animation that stops Hildryn's movement and melee (but not weapon firing) for 0.75 seconds of cast time (can be reduced).
+*Hildryn's shoulder-mounted shield pads briefly become visible when Pillage is cast.
+*Enemies affected by Pillage glow in an upward stream of energy particles. Pillaged shields return to Hildryn as energy missiles once the ability expires or is recast while active.
+*Pulse, energy stream, and energy missiles are affected by Hildryn's chosen Warframe energy color.
+| helminth =
+*Subsuming Hildryn to the [[Helminth]] will offer Pillage and its augments to be used by other Warframes.
+**Subsumed Pillage uses {{stat|Ability Efficiency|icon=only}}'''50''' energy instead of shields.
+**Does not generate shields for {{WF|Inaros}}, {{WF|Nidus}}, or {{WF|Kullervo}}.
+**Other Warframes cannot make use of the {{M|Blazing Pillage}} augment, due to their inability to cast {{A|Haven}}.
+| augment = [[File:BlazingPillageMod.png|200px|left]]
+{{main|Blazing Pillage}}
+{{#lst:Blazing Pillage|intro}}
+{{#lsth:Blazing Pillage|Stats}}
+{{clr}}
+| tips = *Similar to {{A|Molecular Prime}}, ability duration is far more effective at increasing this ability's range than ability range itself. Increasing duration also provides more time for Hildryn to move around and tag enemies with the aura.
+*Using {{M|Corrosive Projection}} is useful , as the armor strip is additive with Pillage. For example, the 18% reduced armor from Corrosive Projection equates to 72% power strength that is no longer needed, bringing down the power strength requirement for a full armor strip from 400% to 328%.
+| bugs = Visually, the ability only expands at 17-17.5 meters/second, but actually expands at 20 meters/second|
+}}
+
+</onlyinclude>
+
+==See Also==
+*{{WF|Hildryn}}
+__NOTOC__
+[[es:Pillaje]]
+[[Category:Update 24]]
+[[Category:Hildryn]]
+[[Category:Armor Reduction]]
+[[Category:Line Of Sight Abilities]]
+[[Category:Percentage Based Damage]]
+[[Category:Shield Restoration]]
+[[uk:Обкрадання]]

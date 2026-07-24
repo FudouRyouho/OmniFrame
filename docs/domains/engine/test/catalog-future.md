@@ -86,8 +86,9 @@ fixture_05: fixture_04 + Condition Overload→ double-dipping                   
 ## Gates abiertos
 
 - **≥2 warframes de validación** (D16) antes de consolidar el grafo de warframe como referencia validada.
-- **`WarframeRepository` no existe** — `formulas/warframe/` está vacío intencionalmente (purgado).
-  El primer fixture de warframe (Rhino Tier 1) es trabajo net-new, no rescate. Antes de diseñarlo: leer
-  `docs/data/schemas/abilities/formula-patterns.md` (Iron Skin es cross-stat).
+- **Fórmula cross-stat de warframe (Iron Skin) no existe aún** — `formulas/warframe/` sigue vacío; Tier 1
+  (base + mods + shards + Roar cross-entity) ya resuelve sin fórmula dedicada, Iron Skin sí la necesita
+  (compone armor×strength). Antes de escribirla: leer `docs/data/schemas/abilities/formula-patterns.md`
+  (Iron Skin es cross-stat).
 - **Frontera C2** — los `it.todo` de los consumidores actuales (crit-por-pellet, procs/disparo, daño÷pellet,
   AoE radial) apuntan todos a C2: ese es el frente de construcción inmediato, dentro de engine.

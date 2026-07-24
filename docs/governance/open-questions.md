@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-22"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -55,6 +55,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-21` | Fidelidad de la ley de scaling: contradicción Anarchs + sin validar por DE | engine / C2 | abierta — gated por medición |
 | `OQ-ENGINE-22` | Generalizar EHP/DR de `enemy/` a `entity/` (player/companion) | engine / formulas | abierta — diferida, sin consumidor real hoy |
 | `OQ-ENGINE-23` | Rank de ítem (warframe/arma) sin consumidor; `mod.rank` vestigial | engine / A1-C1 | abierta — diferida, no bloquea, sin necesidad real hoy |
+| `OQ-ENGINE-24` | Derivación cross-stat (Iron Skin y su clase): fórmula dedicada ↔ grafo | engine / C1 | abierta — **diferida por decisión**: 1 de 1241 `upgrade_by` emite modifier; gap rojo-ejecutable |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 
@@ -119,7 +120,21 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 **Pregunta:** ¿Cómo se extiende `upgrade_by` para cubrir stats base del warframe (health, shield, armor)?
 - La taxonomía D-6 ya define `AVATAR_ADD_HEALTH_MAX` como token de mod. El principio que se busca es **globalizar la semántica**: el mismo vocabulario `AVATAR_*` debería aplicar.
 - Opciones: token completo idéntico al mod (`AVATAR_ADD_HEALTH_MAX`), o forma sin OPERATION (`AVATAR_HEALTH_MAX`) para separar el eje "con qué escala" del eje "qué modifica".
-**Condición para resolver:** al resolver la taxonomía general de `upgrade_by` — cuando haya ≥2 casos distintos de base-stat scaling en abilities que justifiquen el patrón. Hoy solo Inaros es caso confirmado.
+**Condición para resolver:** al resolver la taxonomía general de `upgrade_by` — cuando haya ≥2 casos distintos de base-stat scaling en abilities que justifiquen el patrón. ~~Hoy solo Inaros es caso confirmado.~~
+
+**El umbral de ≥2 casos YA se superó** (barrido contra `references/wiki/`)**:** Iron Skin
+(`× TotalArmor`), Snow Globe (idéntica), Icy Avalanche (`20% armor→OG`), Trinity pasiva
+(`0.5 × Energy Max`), Bloodletting (`MaxEnergy` **y** `MaxHealth`) — **5 casos además de Inaros**, en
+3 formas distintas. Que el umbral esté cubierto **no** dispara la extensión del vocabulario: el eje
+**mecanismo** está diferido en `OQ-ENGINE-24` por falta de corpus de habilidades modeladas, y extender
+`upgrade_by` sin mecanismo que lo consuma sería vocabulario muerto.
+
+**Medición del dato:** el override tiene **1241 `upgrade_by` en 5 valores** —
+`AVATAR_ABILITY_STRENGTH` (481), `_RANGE` (257), `ENERGY_COST` (245), `_DURATION` (223),
+`ENERGY_DRAIN` (35). **Ningún capacity-stat, y ninguno va a aparecer por parsing:** la wiki expresa
+esas dependencias en prosa ("Armor Multiplier × Total Armor"), no en formato de stat. Cualquiera sea
+la forma que se elija, el dato hay que **escribirlo a mano** — lo que empuja la decisión hacia dónde
+es verificable (código tipado y testeado) y no hacia el JSON.
 **Bloquea:** Anotar correctamente Inaros Scarab Swarm. Extensión del vocabulario `AbilityUpgradeBy` en `shared/types/ability.ts`.
 
 **Precisión (2026-07-09, debate de `source_attribute`):** Inaros Scarab Swarm es **composición
@@ -1143,6 +1158,74 @@ OQ existe para no dejarlo acoplado a "código real" implícito — no para forza
 
 **Vínculo:** `Project/src/core/bridge/MutatorBridge.ts` (`intentionSlots`, `intentionWeapon`), `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `Project/src/shared/types/ensemble.ts`.
 **Fuente:** debate de organización del CLI oráculo (Trabajo 1/2, dominio `oracle`).
+
+---
+
+## OQ-ENGINE-24 — Derivación cross-stat: el mecanismo, DIFERIDO por falta de corpus de habilidades — **ABIERTO, DIFERIDO**
+**Dominio:** engine / C1 — frontera grafo de buckets ↔ fórmula dedicada
+
+**Contexto.** Una clase de habilidades computa su efecto **leyendo capacity-stats ya resueltos del propio
+warframe**. Corpus relevado contra `references/wiki/` (no contra el override, que estaba sembrado
+pre-pipeline):
+
+| Caso | Fórmula | Forma |
+|---|---|---|
+| Iron Skin (Rhino) | `(1200 + 2.5 × TotalArmor) × Strength + Absorbed` | bracket armor × strength |
+| Snow Globe (Frost) | idéntica letra por letra | ídem |
+| Icy Avalanche (Frost augment) | `60 × str` + `20% armor→OG × str` + cap | ídem + cap |
+| Trinity (pasiva) | `ally_health += 0.5 × trinity_energy_max` | 1 input, sin bracket ni cap |
+| Bloodletting (Garuda) | `% × MaxEnergy × min(1, hp/½MaxHealth) ÷ (2−efic)` | 2 inputs + clamp + no-lineal |
+
+**3 casos de UNA forma + 2 formas de un caso cada una.**
+
+**Evidencia medida** (`Project/src/core/engine/__tests__/cross-stat-derivation.test.ts`, fixtures
+sintéticos hand-built al molde de `rhino.test.ts` Fase 1a):
+- **`× Strength` es estructuralmente inexpresable** por el acumulador actual: resolver
+  `value × (str/100) = str − 100` da `value = 100(str−100)/str`, que depende de `str` ⇒ no existe
+  `value` constante. El calibrado a `str=130` produce **3507.69** en `str=200` cuando la wiki dice **4800**.
+- **La derivación post-resolve no sobrevive** (analogía con `effective-health.ts` descartada): escribir
+  `node.final` fuera del grafo deja el nodo inconsistente con sus buckets y el aporte **se borra en el
+  siguiente `resolve()`**; escribir el bucket exige reimplementar `calculateCurrentValue` afuera y
+  `resetAccumulators()` lo zeroea igual. ⇒ la fórmula **no puede escribir `final`**: debe aportar a un bucket.
+- **El bucket destino no es libre:** el `+ Absorbed` de Iron Skin va a `total_flat` (fuera del `× Strength`).
+  Depositar el escalado en `multiplicative` amplifica el Absorbed (3770 vs 3620 real).
+- **`value × (final/base)` ≡ `(value/100) × final` sólo si `base = 100`.** Los tres `source_attribute`
+  que la hidratación puede emitir (`ABILITY_SCALE_NODE`) tienen base 100 ⇒ el mecanismo actual es una
+  **particularización accidental**, no una decisión. Con un capacity-stat (energy 175, armor 240) divergen.
+
+**Pregunta.** ¿Cómo lee una fórmula de familia los nodos **ya resueltos** del grafo?
+Refina el enunciado de [`../domains/engine/test/gap-map.md`](../domains/engine/test/gap-map.md) —
+"cómo el grafo consume una fórmula escalar-cerrada" ya está respondido por CO
+(`resolveConditionOverload` consume `coBonusPct` y rutea a bucket). Lo que **no** existe es una familia
+con **dependencia topológica**: las 5 actuales (CO, melee/sniper combo, combo-scaled-add, stack-decay)
+leen `context.variables`, **ninguna lee otro nodo**. Implicaría arista declarada + `rebuildGraph`
+iterando N sources + acceso a nodos source en `FamilyResolver`.
+
+**Descartado en el análisis (no re-proponer sin argumento nuevo):**
+- **Op genérica de derivación** con bucket elegido por dato — reintroduce el failure mode que
+  `arch-decisions.md §9` mató en `CONTEXT_SCALE` ("generalizar el ruteo ⇒ un no-miembro se cuela").
+  Regla vigente de §10: *generalizar la fuente del factor, NO el ruteo*.
+- **Expresar la fórmula en los buckets del override** (descomponer Iron Skin en 3 stats sueltos): el
+  schema `{label, base_value, upgrade_by, upgrade_type}` es **un stat = un modifier** y nada declara que
+  pertenecen a la misma expresión; además exigiría meter `ARMOUR` en `upgrade_by`, que es el eje de
+  *modding del jugador* (`OQ-W-6`). Mueve la fórmula de TypeScript a JSON: pierde tipos, tests y
+  explicitud. La precedencia de buckets es fácil de errar en silencio (se erró durante el propio análisis).
+
+**DIFERIDO — decisión de dirección.** No se paga el costo estructural hoy. Razón medida:
+**de 1241 `upgrade_by` del override, exactamente 1 emite modifier** (Roar) — hay **una sola habilidad
+funcional** en todo el sistema. Modelar la clase más compleja antes de estresar el pipeline con
+habilidades simples (Volt Speed, Ember Fireball) invierte el orden de construcción.
+
+**Condición para retomar:** haber recorrido warframes modelando habilidades **simples** primero, y que
+de ese recorrido salga el conteo real de formas — con esa evidencia se decide si la familia se recorta
+angosta (sólo "bracket de armadura × strength", 3 casos) o más ancha. **No antes.**
+
+**Bloquea:** Iron Skin, Snow Globe, Icy Avalanche, Trinity (pasiva), Bloodletting. `formulas/warframe/`
+sigue vacío a propósito.
+**Vínculo:** `Project/src/core/engine/contracts/primitives.ts` (`source_attribute` singular),
+`Project/src/core/engine/resolve/SimulationEngine.ts` (`rebuildGraph`, `FAMILY_RESOLVERS`),
+`Project/src/core/engine/__tests__/cross-stat-derivation.test.ts` (`it.fails` = el gap, ejecutable).
+**Fuente:** `references/wiki/abilities/{Rhino/Iron-Skin,Frost/Snow-Globe,Trinity/Passive,Garuda/Bloodletting}`.
 
 ---
 

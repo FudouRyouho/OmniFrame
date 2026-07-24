@@ -1,0 +1,40 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly = {{{1|}}}
+| name = Scarab Shell
+| gameimage = ScarabShellIcon.png
+| cardimage = ScarabShell.png
+| hotkey = 3
+| energy = 
+| description = Activate to form Armor by draining Inaros' Health. Activate again to stop the formation early. The protective layer reduces incoming Damage and absorbs Status Effects.
+| strength = 175 / 250 / 300 / 350 (armor bonus)
+| misc = 5% (status protection cost)<br/>? m (charging damage radius)<br/>? (damage per tick)<br/>{{D|Stagger}} on hit<br/>2,500 HP (total health cost)<br/>2 HP (min. health threshold)<br/>&infin; (armor bonus duration)<br/>25 HP (health drain per percent charge)<br/>4.67s (time to full armor bonus)
+| info = 
+*{{WF|Inaros}} summons the desert sands and sacred scarabs, offering his {{Stat|Health}} as a sacrifice to gain {{A|Scarab Shell}}, gaining up to {{Stat|Ability Strength|icon=only}}'''350''' bonus {{Stat|Armor}} and immunity to [[Status Effect]]s. While charging {{A|Scarab Shell}}, enemies within '''7m''' of Inaros are {{D|Stagger}}ed and take '''500''' {{D|Slash}} damage every half second, as Inaros loses '''25''' {{Stat|Health}} for every '''1%''' of generated bonus armor, for a total of '''2500''' health lost to fully charge the armor. 
+**The armor buildup will end once the bonus armor is fully filled, Inaros only has '''2''' health left, or the ability is manually deactivated. 
+**Upon negating a status effect, the shell loses '''5%''' of its maximum armor value. Afterwards Inaros will remain immune to all status effects for '''3s''', statuses negated during this time will '''not''' consume shell charge.
+***A full charge will therefore make Inaros immune to status effects for a minimum of '''60''' seconds.
+***Knockdowns will consume charge even when negated by {{M|Primed Sure Footed}}, and statuses will consume charge even when negated by sources like {{Arcane|Arcane Ice}}.
+**Scarab Shell is '''not''' dispelled from falling [[Out of Bounds]] or entering an ability nullification zone such as [[Nullifier Crewman]] bubbles.
+**The shell can last '''indefinitely''' until Inaros suffers a lethal hit.
+**While the armor bonus is active, a stylized armor bonus counter appears above the ability icons.
+**Scarab Shell status immunity does '''not''' prevent {{M|Negation Armor}}'s {{D|Slash}} proc.
+*Charging Scarab Shell takes '''4.67s''' in total, '''not''' affected by [[Casting Speed]].
+*Inaros can move but cannot cast other abilities, use weapons, or perform parkour [[Maneuvers]] or general interactions while channeling this ability.
+| tips = 
+*Bonus armor can trigger effects that need high amounts of armor (e.g. {{Arcane|Arcane Battery}}, {{Arcane|Arcane Persistence}}).
+*[[Status Immunity]] and bonus armor will keep {{Arcane|Arcane Persistence}} always active, and will re-activate it as soon as Inaros leaves a {{E|Nullifier Crewman}} bubble.
+|bugs=
+*The charging animation will not stop if Inaros has '''2'''{{Stat|Health}} left.
+*Inaros can [[zoom]] and crouch during the charge, it will reduce his movement speed and provide no benefit.
+| augment = [[File:NegationArmorMod.png|200px|left]]
+{{main|Negation Armor}}
+{{#lst:Negation Armor|intro}}
+{{#lsth:Negation Armor|Stats}}
+{{clr}}
+<noinclude>
+|max = {{WFmax|main|inaros3}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Inaros}}

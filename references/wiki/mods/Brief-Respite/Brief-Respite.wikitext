@@ -1,0 +1,74 @@
+{{ModBox}}
+'''Brief Respite''' is an [[Aura Mod]] that grants additional [[Shield]]s equal to a percentage of [[Energy]] spent whenever an ability is cast.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect
+! [[Mod#Attributes|Cost]] *
+|-
+| 0 || 25% || -2
+|-
+| 1 || 50% || -3
+|-
+| 2 || 75% || -4
+|-
+| 3 || 100% || -5
+|-
+| 4 || 125% || -6
+|-
+| 5 || 150% || -7
+|}
+<small>''* Aura mods increase the amount of Mod Capacity''</small>
+
+==Acquisition==
+Brief Respite is dropped by the [[Orphid Specter]], available upon anointing a Silver Grove shrine with the [[Apothic#Twilight|Twilight Apothic]].
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+*Stacks with the [[Set_Mods#Augur_Mod_Set|Augur]] mod set effect for a total of 390% Energy to shield conversion.
+*{{WF|Inaros}}, {{WF|Nidus}},  {{WF|Kullervo}}, {{WF|Hildryn}} and {{WF|Lavos}} (due to having either no energy or no shields) gain no benefit from this aura.
+*Shields are only replenished from activating abilities. Constant Energy drain from channeling abilities or triggered drain such as {{A|Artemis Bow}} shots do not replenish Shields.
+*Because the amount of shields restored is based off energy usage, this means that [[Ability Efficiency]] can ''reduce'' the amount of energy this Aura sees spent on most abilities.
+**Conversely, equipping {{M|Blind Rage}} to decrease Efficiency increases the effectiveness of the aura.
+
+==Trivia==
+*Brief Respite was the first (and is currently the only) aura possessing the {{Pol|Zenurik}} Zenurik polarity.
+**The only Warframe to possess a default {{Pol|Zenurik}} Zenurik aura polarity is {{WF|Dagath}}, who released seven years after Brief Respite was introduced.
+**{{WF|Dante}}, {{WF|Jade}} and {{WF|Protea}} ({{WF|Protea Prime|Prime}}) possess a default {{Pol|Aura}} Universal aura polarity, the only other Warframes who "match" Brief Respite by default.
+
+==Bugs==
+*In the [[Simulacrum]], triggering this aura fully restores shields, then grants overshields proportional to energy spent. 
+**[[Augur Set|Augur Mods]] do not share this bug.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.0.8}}
+*Fixed Brief Respite not triggering for Clients in Höllvania missions if they have Inner Might active. 
+
+{{ver|32}}
+*Fixed Brief Respite Warframe Aura Mod affecting the Operator.
+
+{{ver|The Silver Grove 4}}
+*Fixed new Aura mods being untradable.
+
+{{ver|The Silver Grove 2}}
+*Fixed The Silver Grove new Aura rewards missing from the Codex.
+
+{{ver|The Silver Grove}}
+*Introduced via The Silver Grove quest.
+}}
+{{AuraNav}}
+[[de:Kurze Ruhe]]
+[[es:Breve respiro]]
+[[fr:Court Répit]]
+[[ru:Краткая Отсрочка]]
+[[Category:Update 19]]
+[[Category:Zenurik Mods]]
+[[Category:Shield Restoration]]
+[[Category:Auras]]
+[[Category:Warframe Mods]]
+[[uk:Коротка зупинка]]

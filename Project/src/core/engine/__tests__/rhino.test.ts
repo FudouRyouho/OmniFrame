@@ -193,6 +193,10 @@ describe('Rhino Fase 1b — Roar (hidratación real: AbilityRepository → pool 
 // ─── Borde — lo que el linaje NO modela todavía (it.todo) ──────────────────────────
 
 describe('Rhino — borde (próximos peldaños del linaje)', () => {
-  // Composición cross-stat = fórmula dedicada (B), diferida:
-  it.todo('Iron Skin overguard = (1200×str) + armor×(2.5×str) — fórmula dedicada [post-scope]');
+  // Composición cross-stat = fórmula dedicada (B). DIFERIDA por `OQ-ENGINE-24`: el mecanismo no se
+  // paga hasta recorrer habilidades simples y tener el conteo real de formas (hoy 1 de 1241
+  // `upgrade_by` del override emite modifier — Roar). El gap está caracterizado y ROJO-ejecutable en
+  // `cross-stat-derivation.test.ts` (2 `it.fails`): "× Strength" es estructuralmente inexpresable por
+  // el acumulador, y la derivación post-resolve no sobrevive al `resolve()` siguiente.
+  it.todo('Iron Skin overguard = ([1200 + 2.5 × TotalArmor] × Strength) + Absorbed — fórmula dedicada [OQ-ENGINE-24]');
 });

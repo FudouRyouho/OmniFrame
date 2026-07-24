@@ -36,8 +36,10 @@ Grafo genérico de atributos (`SimulationEngine`): un pass topológico (Kahn) �
 
 > **`archon-shards` ya NO es gap:** `ShardRepository` está activo (resuelve shards, emite `Modifier` con `target_entity`; ver `status.md` y el Tier 1 de Rhino en `catalog-future.md`).
 
-### Capa 2 — Warframes sin nodos
-`ItemRepository.getDNA()` solo mapea stats de arma. Un warframe no genera ningún nodo `AVATAR_*` → todo mod de warframe se evapora (target sin nodo). El vocabulario `AVATAR_*` está mapeado en `UPGRADE_MAP`, pero no hay entidad receptora. **En construcción:** el linaje Rhino (`catalog-future.md`) es el primer fixture de warframe net-new; `WarframeRepository` no existe aún (`formulas/warframe/` purgado, vacío intencionalmente).
+### Capa 2 — Warframes: base + mods + ability cross-entity — 🚧 Tier 1 resuelto, cross-stat pendiente
+`ItemRepository.normalizeWarframe()` emite los nodos `AVATAR_*` (health/shield/armor/energy + ability strength/range/duration/efficiency) desde el raw de `warframes.json` — un warframe **es** una entidad receptora, no hay evaporación. Mods (%) y shards (flat) componen (`Total = Base × (1 + Mods%) + Flat`), y el derive cross-entity source→target (Roar, vía `AbilityRepository`) hidrata un buff real de habilidad al pool de facción del arma. Validado end-to-end en `rhino.test.ts` (fixture_01 base+mods, fixture_03/04 Roar cross-entity).
+
+**Sigue abierto:** composición cross-stat con fórmula dedicada (Iron Skin `overguard = (1200 + armor×2.5) × strength`, fixture_02, `it.todo`) y el double-dip de Condition Overload en C2 (fixture_05). No hace falta una clase repositorio separada — el mismo molde de `ItemRepository` alcanza; `formulas/warframe/` sigue vacío porque todavía no hay una fórmula dedicada escrita (Iron Skin la ocupará primero). Roadmap: [`catalog-future.md §Rhino`](catalog-future.md).
 
 ### Capa 3 — `condition` en perks de Incarnon — ✅ CERRADA
 `IncarnonRepository` ahora propaga el campo `condition` al `Modifier`, espejando a `ModRepository`. Antes los 175 perks de incarnon se aplicaban incondicionalmente. Fue el primer objetivo de la fase engine; cerró el drift.
@@ -53,8 +55,12 @@ Grafo genérico de atributos (`SimulationEngine`): un pass topológico (Kahn) �
 >
 > ⚠️ **Gap nuevo destapado — es C2, NO Capa 4:** hitscan-**con**-falloff (67 ataques, ej. Cedo, Baza) — los mods de projectile speed deberían escalar su rango de falloff. No es un "nodo faltante": **falloff es una mecánica C2 entera** (`daño(distancia)`, ver abajo), con projectile_speed como uno de sus inputs. El `%` de projectile speed no tiene dónde aterrizar en esas armas (gate `flight=null` → sin nodo de velocidad) — de dónde lo lee C2 es diseño abierto. Spec: [`damage-falloff.md`](../../../../references/wiki/mechanics/damage-falloff.md). `it.todo` en `cedo-prime.test.ts`.
 
-### Capa 5 — `upgrade_by` (scaling entre stats) = 0% consumido
-El engine tiene `source_attribute` (scaling cross-attribute) pero ningún hidratador lo emite. Los 1236 `upgrade_by` de habilidades viven en `lib/abilityCalc.ts`, un cálculo paralelo desconectado del grafo del `SimulationEngine`. Diferido (RED). (Nota: el escalado-por-contexto ya no es una operación genérica — CO usa la operation de familia `CONDITION_OVERLOAD` + `co_factors`; ver `../design/arch-decisions.md §9`.)
+### Capa 5 — `upgrade_by` (scaling entre stats) = 0.1% consumido
+`AbilityRepository` **sí** emite `source_attribute` desde `upgrade_by` (Roar end-to-end, `rhino.test.ts` Fase 1b) — el mecanismo existe y funciona. Lo que falta es **corpus**: de los **1241 `upgrade_by` del override, exactamente 1 trae `upgrade_type`** (el destino del efecto) y por lo tanto produce un modifier. Sin `upgrade_type` el stat es display-only: se muestra escalado, no compone.
+
+El vocabulario del dato es cerrado y homogéneo — 5 valores, **ninguno un capacity-stat**: `AVATAR_ABILITY_STRENGTH` (481), `AVATAR_ABILITY_RANGE` (257), `ENERGY_COST` (245), `AVATAR_ABILITY_DURATION` (223), `ENERGY_DRAIN` (35). Los ejes de costo son `OQ-W-5`; leer un capacity-stat propio del frame (Iron Skin `× TotalArmor`) **no existe en el dato y no llega por parsing** (la wiki lo dice en prosa) — es `OQ-W-6` en el eje vocabulario y `OQ-ENGINE-24` en el eje mecanismo. Diferido (RED).
+
+(Nota: el escalado-por-contexto ya no es una operación genérica — CO usa la operation de familia `CONDITION_OVERLOAD` + `co_factors`; ver `../design/arch-decisions.md §9`.)
 
 ---
 
@@ -72,6 +78,6 @@ El engine tiene `source_attribute` (scaling cross-attribute) pero ningún hidrat
 |---|---|---|---|
 | ✅ hecho | Capa 3 (condition incarnon) | bajo | cerró drift |
 | 1 — 🚧 | Capa 4 (nodos faltantes) | bajo por stat (patrón validado con `punch_through`) | toca solo `ItemRepository.getDNA()` |
-| 2 | Capa 2 (warframes, vía linaje Rhino) | medio | `WarframeRepository` net-new |
+| 2 | Capa 2 (warframes) — resta cross-stat (Iron Skin) + CO double-dip C2 | medio (lo que resta; Tier 1 ya resuelto) | fórmula dedicada `formulas/warframe/`, net-new |
 | 3 — 🚧 | Capa 1 parcial (arcanes) | medio | v0 hecho (subset mapeado, `ArcaneRepository`); resto = stacking/null/operador, gateado |
 | diferido (RED) | Capa 5 (scaling) + ability-like | alto | requiere contrato de ruteo genérico vs dedicado |
