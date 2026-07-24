@@ -4,7 +4,7 @@ Rol: "Índice maestro de la reconstrucción del motor de simulación v2"
 Impacto_ID: "SSoT-Blueprint"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/governance/naming-conventions.md"
 Dependidos:
@@ -29,7 +29,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 - **Roadmap**: [simulation-roadmap.md](./simulation-roadmap.md)
 - **Modelo de daño/status C2**: [damage-status-model.md](./damage-status-model.md)
 - **Integración formulas/ como SSoT**: [formulas-integration.md](./formulas-integration.md)
-- **Auditoría Diseño vs Código (histórica, congelada 2026-05-18)**: [../engine-audit.md](../engine-audit.md)
+- **Auditoría Diseño vs Código (histórica, congelada)**: [../engine-audit.md](../engine-audit.md)
 
 ---
 
@@ -39,7 +39,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 2. **[Contratos](./simulation-contracts.md)**: El lenguaje matemático del motor.
 3. **[Decisiones Arquitectónicas](./arch-decisions.md)**: Invariantes y resoluciones críticas.
 4. **[Roadmap](./simulation-roadmap.md)**: Pasos de ejecución.
-5. **[Estado real del código](../status.md)**: `engine/status.md` (vivo). La [auditoría](../engine-audit.md) es un snapshot **histórico congelado** (2026-05-18), no el estado actual.
+5. **[Estado real del código](../status.md)**: `engine/status.md` (vivo). La [auditoría](../engine-audit.md) es un snapshot **histórico congelado**, no el estado actual.
 
 ---
 

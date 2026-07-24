@@ -4,7 +4,7 @@ Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -163,8 +163,8 @@ confirmar un mod o mecánica que lo requiera.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `WEAPON_ADD_ACCURACY` | `WEAPON_ADD_ACCURACY` | ADD | `[ref: accuracy.md]` | `—` | Pax Soar (arcane); exilus On-Equip. `WEAPON_SPREAD` (DE legacy) confirmado = **mismo stat** (spread = inverso de accuracy; Narrow Barrel / Tainted Shell llevan token spread con label "+% Accuracy") → unificar bajo este token. Sim asume aim perfecto — stat informativo. |
 | `WEAPON_ADD_RECOIL` | `WEAPON_ADD_RECOIL` | ADD | `[ref: recoil.md]` | `C1·inerte` | Camera kick post-disparo (% bidireccional: −90% a +100%). **Sin dato absoluto público** (interno de DE) → base **sintética `100`** en `getDNA()` (recoil relativo; mismo patrón que `WEAPON_ADD_RELOAD_SPEED`). Nodo **inerte** (no input de daño — camera feel) hasta definir modelado/UI → OQ-ENGINE-7 (clamp sobre-reducción, aim-vs-hip abiertos). Consumidor `lanka.test.ts` (Vile Precision). ⚠️ Stabilizer/Steady Hands no curados; los 13 mods son corrupted/duales/shotgun |
-| `WEAPON_ADD_PROJECTILE_SPEED` | `WEAPON_ADD_PROJECTILE_SPEED` | ADD | `[ref: projectile-speed.md]` | `C1` | Velocidad de proyectil **m/s** (% aditivo). Base = `flight` del raw, sin override. **Gate `flight != null` (ausencia ≠ 0):** nodo ausente en hitscan (instantáneo, sin proyectil); un base 0 + mod % daría velocidad espuria. Consumidor `lanka.test.ts` (2026-06-10). Edge-case diferido: hitscan-con-falloff escala falloff-range (nodo inexistente). Terminal Velocity, Fatal Acceleration, Whirlwind |
-| `WEAPON_FLAT_PUNCH_THROUGH` | `WEAPON_FLAT_PUNCH_THROUGH` | ADD_FLAT | `[ref: punch-through.md]` | `—` | Penetración **flat en metros** (post-escala, nunca se amplifica). Metal Auger, Seeking Force, Vigilante Offense + stats Incarnon. Cadena de rename: `WEAPON_PUNCTURE_DEPTH` (misnomer DE-legacy) → `WEAPON_ADD_PUNCH_THROUGH` (2026-06-04, intermedio) → `WEAPON_FLAT_PUNCH_THROUGH` (2026-06-06; segmento D-6 `FLAT` → op `ADD_FLAT` vía `resolveToken`). 10 mods + 7 stats incarnon. **Consumidor de engine `lanka.test.ts` (2026-06-10):** nodo materializado en `getDNA()` (`override per-ataque ?? raw ?? 0`); innatos en `weapon-stats.override.json`. El valor computa en C1 (metros); la geometría de penetración es C2 (OQ-ENGINE-7 eje c, abierto). |
+| `WEAPON_ADD_PROJECTILE_SPEED` | `WEAPON_ADD_PROJECTILE_SPEED` | ADD | `[ref: projectile-speed.md]` | `C1` | Velocidad de proyectil **m/s** (% aditivo). Base = `flight` del raw, sin override. **Gate `flight != null` (ausencia ≠ 0):** nodo ausente en hitscan (instantáneo, sin proyectil); un base 0 + mod % daría velocidad espuria. Consumidor `lanka.test.ts`. Edge-case diferido: hitscan-con-falloff escala falloff-range (nodo inexistente). Terminal Velocity, Fatal Acceleration, Whirlwind |
+| `WEAPON_FLAT_PUNCH_THROUGH` | `WEAPON_FLAT_PUNCH_THROUGH` | ADD_FLAT | `[ref: punch-through.md]` | `—` | Penetración **flat en metros** (post-escala, nunca se amplifica). Metal Auger, Seeking Force, Vigilante Offense + stats Incarnon. Cadena de rename: `WEAPON_PUNCTURE_DEPTH` (misnomer DE-legacy) → `WEAPON_ADD_PUNCH_THROUGH` (intermedio) → `WEAPON_FLAT_PUNCH_THROUGH` (segmento D-6 `FLAT` → op `ADD_FLAT` vía `resolveToken`). 10 mods + 7 stats incarnon. **Consumidor de engine `lanka.test.ts`:** nodo materializado en `getDNA()` (`override per-ataque ?? raw ?? 0`); innatos en `weapon-stats.override.json`. El valor computa en C1 (metros); la geometría de penetración es C2 (OQ-ENGINE-7 eje c, abierto). |
 | `WEAPON_ADD_ZOOM` | `WEAPON_ADD_ZOOM` | ADD | `[empirical]` | `—` | Eagle Eye (DE: `zoom`) |
 
 ### WEAPON — melee
@@ -174,7 +174,7 @@ confirmar un mod o mecánica que lo requiera.
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Fuente |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `WEAPON_ADD_RANGE` | `WEAPON_ADD_RANGE` | ADD | `[empirical]` | `—` | Reach, Primed Reach (alcance **melee**). Beam range movido a `WEAPON_ADD_BEAM_RANGE` (D-17, 2026-06-03); archgun `+% Range` (Ballista Measure) sigue aquí → OQ-DATA-7 |
+| `WEAPON_ADD_RANGE` | `WEAPON_ADD_RANGE` | ADD | `[empirical]` | `—` | Reach, Primed Reach (alcance **melee**). Beam range movido a `WEAPON_ADD_BEAM_RANGE` (D-17); archgun `+% Range` (Ballista Measure) sigue aquí → OQ-DATA-7 |
 | `WEAPON_ADD_BEAM_RANGE` | `WEAPON_ADD_BEAM_RANGE` | ADD | `[empirical]` | `—` | Alcance del rayo de armas continuas. Sinister Reach, Ruinous Extension, Sequence Burn, Galvanized Acceleration (split). Flat `+Xm` y `+%` conviven; unidad en label → OQ-DATA-8 |
 | `WEAPON_ADD_SLAM_RADIUS` | `WEAPON_ADD_SLAM_RADIUS` | ADD | `[empirical]` | `—` | Mods de slam attack radius |
 | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | `WEAPON_ADD_HEAVY_CHARGE_SPEED` | ADD | `[empirical]` | `C1` | Corrupt Charge y similares |
@@ -202,7 +202,7 @@ por mods `ADD` (Serration, Hornet Strike, etc.). Fuente: `incarnon-evolutions.ov
 > `WEAPON_ADD_COMBO_INITIAL` y `WEAPON_ADD_HEAVY_EFFICIENCY` son engine attrs (target de los tokens BASE),
 > no tokens del vocabulario. No instanciar como `upgrade_type` sin mod/perk confirmado.
 
-### WEAPON — sub-familia clase (D-6 extensión, activa 2026-05-26)
+### WEAPON — sub-familia clase (D-6 extensión, activa)
 
 Patrón extendido: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`.
 Sin entrada en UPGRADE_MAP — `resolveToken()` los deriva automáticamente, emitiendo `target_channel`.
@@ -251,16 +251,16 @@ Deuda D-7: el pipeline de filtrado por canal no está implementado.
 | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | ADD | `C1` | Amber Archon Shard (+100/+150%). Multiplicador estático sobre valor del orb; C2 lo usa al modelar economía de recursos. |
 | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | ADD | `C1` | Amber Archon Shard (+50/+75%). Ídem. Equilibrium añade complejidad de conversión — fórmula a definir en C2. |
 | `AVATAR_ADD_HEALTH_REGEN` | `AVATAR_ADD_HEALTH_REGEN` | ADD_FLAT ⚠ | `C1` | Arcane Grace, Arcane Victory. ⚠ **Hipótesis usuario**: toda regen de salud en Warframe es plana (HP/s), no porcentual — si fuera %, solo Nidus (con regen nata) tendría base relevante. Si se confirma: este token es duplicado de `AVATAR_FLAT_HEALTH_REGEN` y debe colapsarse. Requiere verificación de valor real de Arcane Grace rank 5 en juego |
-| `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY` | `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY` | ADD | `—` | Rage, Hunter Adrenaline, Kinetic Diversion, Necramech Rage. Convierte % del daño recibido en salud → energía. Renombrado del misnomer DE-legacy `AVATAR_DAMAGE_POWER_MULTIPLIER` (2026-06-04); premisa "escudos→energía (Kinetic Diversion)" desmentida vs raw — los 4 mods son salud→energía. Sin consumidor de engine aún. |
+| `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY` | `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY` | ADD | `—` | Rage, Hunter Adrenaline, Kinetic Diversion, Necramech Rage. Convierte % del daño recibido en salud → energía. Renombrado del misnomer DE-legacy `AVATAR_DAMAGE_POWER_MULTIPLIER`; premisa "escudos→energía (Kinetic Diversion)" desmentida vs raw — los 4 mods son salud→energía. Sin consumidor de engine aún. |
 
 ### AVATAR — planos post-escala (ADD_FLAT)
 
-Fórmula verificada (wiki + test en juego 2026-05-26):
+Fórmula verificada (wiki + test en juego):
 ```
 Total = Base × (1 + Mods%) + FLAT
 ```
 Los valores FLAT se suman **después** del pool de mods porcentuales. No se amplifican por Steel Fiber, Vitality, ni ningún otro mod.
-> Evidencia por defecto: `[ref: armor.md / health.md / shield.md]` + `[empirical]` (test en juego 2026-05-26).
+> Evidencia por defecto: `[ref: armor.md / health.md / shield.md]` + `[empirical]` (test en juego).
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Modelo | Fuentes confirmadas |
 | :--- | :--- | :--- | :--- | :--- |
@@ -271,7 +271,7 @@ Los valores FLAT se suman **después** del pool de mods porcentuales. No se ampl
 | `AVATAR_FLAT_HEALTH_REGEN` | `AVATAR_FLAT_HEALTH_REGEN` | ADD_FLAT | `C1` | Azure Archon Shard (+5/+7.5 Health/s), Rejuvenation (aura) |
 | `AVATAR_FLAT_ENERGY_REGEN` | `AVATAR_FLAT_ENERGY_REGEN` | ADD_FLAT ⚠ | `C1` | Energy Nexus, Energy Siphon (aura), Relentless Assault. ⚠ ¿la regen de energía es ADD_FLAT (E/s plano) o tiene mecánica de ramp-up (Energy Nexus sube con el tiempo)? |
 
-> `AVATAR_BASE_ARMOUR` (BASE_FLAT) eliminado — no existe ninguna mecánica de armor pre-escala amplificada por mods. El token fue modelado incorrectamente; corregido 2026-05-26.
+> `AVATAR_BASE_ARMOUR` (BASE_FLAT) eliminado — no existe ninguna mecánica de armor pre-escala amplificada por mods. El token fue modelado incorrectamente; corregido.
 
 ### AVATAR — chance de resistir proc (CHANCE-family, desviación D-6)
 
@@ -346,8 +346,8 @@ fallo silencioso detectable inspeccionando el output de `ModRepository`.
 
 | Estado | Descripción |
 | :--- | :--- |
-| En UPGRADES[] | **93 tokens** = 82 D-6 (inc. alias `WEAPON_FIRE_ITERATIONS` y 3 tokens sub-familia) + 11 `AVATAR_CHANCE_RESIST_*` (desviación D-6, sin `UPGRADE_MAP`) — sincronizado con `modifier.ts` 2026-06-04 |
-| Documentados aquí | 100% — delta code-vs-doc = 0 (verificado 2026-06-04) |
+| En UPGRADES[] | **93 tokens** = 82 D-6 (inc. alias `WEAPON_FIRE_ITERATIONS` y 3 tokens sub-familia) + 11 `AVATAR_CHANCE_RESIST_*` (desviación D-6, sin `UPGRADE_MAP`) — sincronizado con `modifier.ts` |
+| Documentados aquí | 100% — delta code-vs-doc = 0 (verificado) |
 | En UPGRADE_MAP (explícito) | 40 entradas — excepciones al patrón self-referencial |
 | Via resolveToken() (implícito) | elementales + sub-familia |
 | Sin mapear (pipeline deuda) | tipos DE legacy en `mod-stats.override.json` — auditoría de aplicaciones en curso (Fase 2c) |

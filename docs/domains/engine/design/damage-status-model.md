@@ -4,7 +4,7 @@ Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT,
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/status-effects.md"
@@ -54,7 +54,7 @@ Confirmado como el mismo mecanismo en Viral, Magnetic y Corrosive (detalle y cit
 > los buffs de daño-final tipo Roar caen en el **mismo bucket aditivo** que los mods de facción (Expel/Bane)
 > y double-dipean igual. NO están "fuera de estas reglas" — son parte del bucket que se dobla.
 
-### Evidencia empírica — el double-dip es del pool ②, no de "faction" ni de ③ (2026-07-08)
+### Evidencia empírica — el double-dip es del pool ②, no de "faction" ni de ③
 
 Tests in-game (Akvasto Prime, Slash 169.4; hit **no-crit** al cuerpo; Roar +112.8%; Expel rank 5 +30%;
 target **lvl 215 normal**, sin Steel Path). Formato de celda: `Slash directo → tick de DoT`.
@@ -108,7 +108,7 @@ DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) × 
 Los `(1+faction)²` de §Detalle se leen bajo esto: `faction` = el **pool ②** (mods de facción + buffs), que
 sí se dobla; la **matriz del target es aparte** y single-dipea. Datos crudos de todos los tests: `references/ingame-tests/double-dip.md`.
 
-### Reconciliación de `resolveHit` — Checkpoint 1 COMPLETO (2026-07-09)
+### Reconciliación de `resolveHit` — Checkpoint 1
 
 La matriz ③ ya vive en `resolveHit` (`CombatSimulator.ts`), vía `targetFactionMult(token, faction)`
 (`contracts/damage-multipliers.ts` — accessor co-locado con el dato `FACTION_BONUS`, NO en `formulas/`:
@@ -119,7 +119,7 @@ Charger (Infested, armor=0, shields=0, aísla la matriz) — Heat/Toxin ratio = 
 1.0 (inerte) previo al fix. `EnemyDNA.*_type` queda **candidato a sunset** — pendiente autorización RED
 separada (son campos de contrato), no se tocan en este checkpoint.
 
-### Reconciliación de `resolveHit` — Checkpoint 2 COMPLETO (2026-07-09)
+### Reconciliación de `resolveHit` — Checkpoint 2
 
 DR de `resolveHit` reconciliada a `formulas/enemy/armor-mitigation.ts::damageReductionFromArmor`
 (`√3a/100`, la misma fórmula que P1 ya validó contra el calculador wiki) — reemplaza la vieja
@@ -203,10 +203,10 @@ Detalle en `references/wiki/mechanics/status-effects.md`.
 Entra: `multiplier = 2+0.25×(n-1)` sobre daño a shields/Overguard, mismo seam que Viral (`getDamageMultiplier(hitsShields=true)`). Diferido: negación de recarga de shields (no simulamos regen), bonus Electricity al romper Overguard (evento puntual), extra-efectividad vs Nullifiers (nicho).
 
 ### Puncture — Weakened
-Entra (**construido** 2026-07-20): +5%/stack de crit chance del jugador contra el target (hasta +25% a 5 stacks). Behavior `weakened`, enganchado en el cálculo de crit chance vía `critModifier` (canal aparte del de resolución por capa — OQ-ENGINE-12). Diferido: gate no-AoE/habilidades (irrelevante hoy, sin AoE); reducción de daño saliente del enemigo (eje fuera de scope).
+Entra: +5%/stack de crit chance del jugador contra el target (hasta +25% a 5 stacks). Behavior `weakened`, enganchado en el cálculo de crit chance vía `critModifier` (canal aparte del de resolución por capa — OQ-ENGINE-12). Diferido: gate no-AoE/habilidades (irrelevante hoy, sin AoE); reducción de daño saliente del enemigo (eje fuera de scope).
 
 ### Cold — Freeze
-Entra (**construido** 2026-07-20): bonus de crit damage recibido, +0.1× (1er stack) +0.05×/stack (hasta +0.5× a 9). Behavior `freeze`, mismo canal `critModifier` que Puncture. **Ausencias vivas (OQ-ENGINE-12):** cap especial de 4 stacks en bosses/Overguard (falta el flag boss en el DNA — v1 usa 9); freeze sólido al 10º stack (+1.0×, 3 residuales, CC). Diferido: slow (survivability).
+Entra: bonus de crit damage recibido, +0.1× (1er stack) +0.05×/stack (hasta +0.5× a 9). Behavior `freeze`, mismo canal `critModifier` que Puncture. **Ausencias vivas (OQ-ENGINE-12):** cap especial de 4 stacks en bosses/Overguard (falta el flag boss en el DNA — v1 usa 9); freeze sólido al 10º stack (+1.0×, 3 residuales, CC). Diferido: slow (survivability).
 
 ### Heat — Ignite
 Entra: tick DoT, `0.5 × modded_base × (1+heat) × (1+faction)² × (1+status_damage)`, **pool consolidado compartido** (única excepción al primitivo). Diferido: rampa de armor strip (0.5s→15%…2s→50%, reversión gradual) — única mecánica de las 16 que necesita timeline real genuino. Fuera de scope: Panic (CC).
@@ -252,11 +252,11 @@ pulsos estén **declarados** y de **amplitud constante**:
 Es el suelo C1 del timeline (`arch-decisions §8.1`, peldaño 2→3): con pulsos declarados, "cuánto daño
 hace un DoT aislado" se **evalúa**, no se simula. Tanto el valor del tick (`formulas/status/dot-tick.ts`)
 como el fold de superposición (`formulas/status/dot-timeline.ts`: `pulseTotal` + `timelineByTick`)
-**ya existen** (Slice 3a, 2026-07-10), sin tocar el substrato de `EnemyState`. La curva canónica de test
+**ya existen** (Slice 3a), sin tocar el substrato de `EnemyState`. La curva canónica de test
 es la tabla de dos pulsos fasados (`__tests__/status/timeline.test.ts`).
 
 **Las cinco fronteras — dónde la superposición cerrada se rompe** y hay que steppear (substrato C2) o ir
-a manejo dedicado. Estresadas 2026-07-10; cada una es candidata a `todo` falsable en `__tests__/status/`:
+a manejo dedicado. Cada una es candidata a `todo` falsable en `__tests__/status/`:
 
 1. **Heat NO es pulsos independientes.** Sus stacks se **consolidan en un único tick/s compartido** que
    crece con cada proc y cuya duración **se refresca** (`status-effects.md §Ignite`). Un pulso mutante,
@@ -292,7 +292,7 @@ sin substrato); las cinco fronteras + el generador de fases emergentes (RNG/rate
 steppeado / dedicado** (C2), gated por consumidor real. Este modelo es la profundización de la brecha
 `processDots` de abajo (el pool-único-con-decay-lineal es justo lo que la superposición de pulsos NO es).
 
-### El frame para construir C2 sin re-acoplar (destilado 2026-07-10)
+### El frame para construir C2 sin re-acoplar
 
 El DoT **no es una mecánica especial** — es `resolveHit` en un **cronograma** con el valor de la fuente
 **congelado**. Se descompone en **cuatro ejes ortogonales que se componen, no se fusionan** (fusionarlos
@@ -327,8 +327,8 @@ piezas existentes (cronograma × `resolveHit` × multiplicador de chance), no in
 
 ### Población/RNG — modelo resuelto
 
-El eje **Población** del frame (`esperado = forzado × chance × peso`) tiene modelo asentado — debate
-completo (destilado acá; scratch `.working/` purgado), fuente principal `references/wiki/mechanics/
+El eje **Población** del frame (`esperado = forzado × chance × peso`) tiene modelo asentado, fuente
+principal `references/wiki/mechanics/
 status-effects.md §Aplicación` (mecanismo confirmado con cita literal + nota de parche `{{ver|27.2}}`).
 
 **Generador de eventos, dos niveles:**
@@ -359,10 +359,10 @@ alimenta por igual a los DoT behaviors (`dot-tick`/`dot-timeline`) y a los stack
 **Compute-once, sin superficie de código nueva.** No hace falta una función de "curva esperada"
 separada de la de "total esperado": basta con producir `DotPulse[]` con `value` pre-escalado por
 `chance × peso` al nacer el proc (mismo principio compute-once que ya rige el resto de la fórmula
-pesada) — `pulseTotal`, `timelineByTick` y `damageInWindow` (ya construidos, Slice 3a) operan sobre esa
+pesada) — `pulseTotal`, `timelineByTick` y `damageInWindow` (Slice 3a) operan sobre esa
 lista sin modificarse. Total y curva salen del mismo lugar, sin decisión de exposición separada.
 
-**Prototipo construido (2026-07-11).** `formulas/status/proc-population.ts` (`expectedProcEvents`):
+**Prototipo.** `formulas/status/proc-population.ts` (`expectedProcEvents`):
 agnóstico, un pellet/hit → `ProcEvent[]` (`{type, timestamp, expected}`), colapsando los 2 niveles en
 una sola llamada con `statusChance` crudo. `formulas/status/dot-population.ts`
 (`dotPulseFromProcEvent`): glue DoT-específico, `ProcEvent → DotPulse` con `value` pre-escalado, sin
@@ -380,7 +380,7 @@ cronograma real de disparos que alimenta `timestamp` (tramo c, integración de a
 > stack, Familia A/C) en vez de por **proceso**, y por eso cada pieza se fabricó su propio vocabulario (el
 > DoT su propio SSoT). **Alcance:** va más allá del DoT — es el lenguaje de cómo un daño del *source* se
 > vuelve *estado* en el target; toca varios puntos del proyecto (`elementBonusPct`, `CombatCalculator`, la
-> instancia derivada). Destilado del debate 2026-07-13; estresado contra Slash/Ignite/Gas/Electricity/
+> instancia derivada). Estresado contra Slash/Ignite/Gas/Electricity/
 > Corrosion. Se hizo mal antes; esto asienta el lenguaje al que reconciliar — no es una reescritura, es
 > dejar de parchar.
 
@@ -440,18 +440,18 @@ Incoherencia raíz actual: en el mismo loop, el **hit directo** ya es consecuenc
 - **Forced proc** (Hunter Munitions, Kunai) = **"extensión" de la instancia source**, no consecuencia de un roll — otra naturaleza de Aplicación (`origen: forced`). Existe, no modelada.
 - **Frontera 3** (Gas/Electricity: emisión multi-target de daño a vecinos, sin re-proc — no recursión, verificado in-game) → cross-entity en la Resolución, ver §Frontera 3.
 
-**Cruce con `@core` — EJECUTADO (2026-07-14).** El barrido de este lenguaje contra la estructura real de `@core` (marcar qué se auto-percibe como sub-capa sin serlo, qué es sustrato de una consecuencia, qué queda fuera) cerró con **4 ejes-raíz**, todos descendientes de la **Instancia-sin-objeto**. Sus conclusiones viven en SSoT: la Instancia-objeto en [`simulation-architecture.md §2.0.1`](simulation-architecture.md) (el seam C1→C2 que disuelve la raíz) y la reconciliación planificada de `resolveHit` ②③ en `decision-frontier.md §4`.
+**Cruce con `@core`.** El barrido de este lenguaje contra la estructura real de `@core` (marcar qué se auto-percibe como sub-capa sin serlo, qué es sustrato de una consecuencia, qué queda fuera) cierra con **4 ejes-raíz**, todos descendientes de la **Instancia-sin-objeto**. Sus conclusiones viven en SSoT: la Instancia-objeto en [`simulation-architecture.md §2.0.1`](simulation-architecture.md) (el seam C1→C2 que disuelve la raíz) y la reconciliación planificada de `resolveHit` ②③ en `decision-frontier.md §4`.
 
 ---
 
-## Modelo unificado de proc — arquitectura resuelta (2026-07-13)
+## Modelo unificado de proc — arquitectura resuelta
 
-> **Supersede** la maquinaria pre-rediseño (los 3 contenedores `stacks`/`dot_pools`/`active_pulses` +
-> `StatusEngine`; su historia de reconciliación intermedia Toxin/Slash vive en git — Slice 3).
+> Un contenedor único `Map<StatusEffect, S>` + `EffectBehavior` por efecto reemplaza la maquinaria
+> pre-rediseño (los 3 contenedores `stacks`/`dot_pools`/`active_pulses` + `StatusEngine`; su historia de
+> reconciliación intermedia Toxin/Slash vive en git — Slice 3).
 > Es el **piso actual** bajo el §El proceso del status (arriba) — implementa el
-> lenguaje con la Aplicación aún predictiva. Consolida el §frame ("cómo construir C2") en una interfaz concreta. (Graduado
-> desde el prototipo de `.working/`, purgado tras graduar.) **Estado: ontología LOCKED, interfaz
-> sustancialmente cerrada (target-side); dos huecos gated nombrados.**
+> lenguaje con la Aplicación aún predictiva. Consolida el §frame ("cómo construir C2") en una interfaz concreta.
+> **Estado: ontología LOCKED, interfaz sustancialmente cerrada (target-side); dos huecos gated nombrados.**
 
 ### Ontología (LOCKED)
 
@@ -499,7 +499,7 @@ interface ResolutionModifier { armorMult?: number; layerMult?: Partial<Record<La
 
 - Un canal de **emisión** + un **modificador de resolución** genérico (armor + layer). Armor NO es canal
   privilegiado; crit-vs-target (cold/puncture) es un 2º canal del stage atacante (hits-only) — **construido**
-  (2026-07-20, `EffectBehavior.critModifier` → `EnemyState.getCritBonuses` → `simulateAttack`), con efecto real
+  (`EffectBehavior.critModifier` → `EnemyState.getCritBonuses` → `simulateAttack`), con efecto real
   (behaviors `weakened`/`freeze`). Fidelidad de suelo; las ausencias (cap-boss, 10º stack) siguen en `OQ-ENGINE-12`.
 - La emisión declara `as: DamageType` (bleed→`'true'`, poison→`'toxin'`…); **core deriva las reglas del
   canónico** (bypass shields, bypass armor/matriz de True, DR, layer-mult). Único dato per-efecto = `as`
@@ -526,7 +526,7 @@ cross-entity **en la Resolución** (el orquestador conoce los vecinos), NO recur
 
 `StatusEngine` entero · `dot_pools` · `dot_key`/`DAMAGE_ATTR_TO_DOT_KEY`/`EFFECT_BY_DOT_KEY` ·
 `DOT_TYPE_IS_TRUE` · `EnemyStatusState`/`TrackedStatusEffect` · los 3 contenedores — **ejecutado**
-(rediseño + saneamiento G1/G2, 2026-07-13). **`DotType` NO se dispone:** es una partición viva
+(rediseño + saneamiento G1/G2). **`DotType` NO se dispone:** es una partición viva
 (los tipos con coeficiente de tick escalado por daño, consumida por `dotTickValue`) — se **ató al canónico**
 como `Extract<DamageType, …>` (G2), no se disolvió a `DamageType` pelado (eso perdía la exhaustividad de
 `DOT_COEF` + la seguridad de tipo). ⚠️ **Deuda semántica abierta:** "DoT" es un comportamiento, no un grupo
@@ -542,7 +542,7 @@ crit (OQ-12), split snapshot/live fino (OQ-20), duración del proc en `HitContex
 
 ## Preguntas abiertas
 
-- **OQ-ENGINE-12** — el gancho de crit (Puncture/Cold) se **construyó** (2026-07-20, canal `critModifier`); la OQ sigue **viva por AUSENCIAS de fidelidad** (Cold cap-4-boss = falta flag boss en DNA; 10º stack sin modelar), no por el gancho.
+- **OQ-ENGINE-12** — el gancho de crit (Puncture/Cold) se **construyó** (canal `critModifier`); la OQ sigue **viva por AUSENCIAS de fidelidad** (Cold cap-4-boss = falta flag boss en DNA; 10º stack sin modelar), no por el gancho.
 - **OQ-ENGINE-19** — generador discreto exacto de N proc-slots cuando el Status Chance de un pellet supera 100% (§Población/RNG arriba). No bloqueante — el total y la curva esperados no dependen de él.
 - **OQ-ENGINE-20** — split fino snapshot vs. live del tick de DoT y su comportamiento temporal bajo drop de buff (§Modelo unificado / composición snapshot × live). Gated por data (nuestra evidencia de double-dip es solo steady-state); un test de drop-mid-DoT lo cierra.
 - **OQ-ENGINE-18** — Status Duration en DoT (§Modelo de timeline, hueco de dato): más ticks vs. ticks estirados — decide la duración que `HitContext` debe cargar.
@@ -555,6 +555,6 @@ Ambas en `docs/governance/open-questions.md`.
 
 - `references/wiki/mechanics/status-effects.md` — fórmulas, duración, caps, verificación empírica completa
 - `references/wiki/mechanics/damage-types.md` — familias, combinación elemental, regla de elección de proc
-- `references/wiki/mechanics/enemy-resistances.md` — matriz facción×elemento y DR de armor enemigo (**fuera del scope de esta campaña**; el escalado del enemigo SÍ existe desde 2026-07-06 — `EnemyRepository.scale()` produce `ScaledEnemy` real, validado contra el calculador del wiki, ver `enemy-scaling.test.ts` — pero el **consumo en el pipeline de daño** (facción × DR × capa) sigue pendiente del contraste #1; la DR adoptada es provisional, `OQ-ENGINE-15`)
+- `references/wiki/mechanics/enemy-resistances.md` — matriz facción×elemento y DR de armor enemigo (**fuera del scope de esta campaña**; el escalado del enemigo existe — `EnemyRepository.scale()` produce `ScaledEnemy` real, validado contra el calculador del wiki, ver `enemy-scaling.test.ts` — pero el **consumo en el pipeline de daño** (facción × DR × capa) sigue pendiente del contraste #1; la DR adoptada es provisional, `OQ-ENGINE-15`)
 - `references/wiki/mechanics/faction-damage.md` — faction bonus, double-dip
 - `docs/domains/engine/test/gap-map.md` — Capa 5 (scaling de habilidades), contexto de por qué el sourcing de buffs como Roar queda fuera

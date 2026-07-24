@@ -4,7 +4,7 @@ Rol: "Contratos técnicos base del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-19"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
 Dependidos:
@@ -113,7 +113,7 @@ Es el entorno efímero inyectado en cada corrida de simulación.
 
 ### 5.5 La Proyección (Projection Snapshot)
 
-> **⚠️ Diseño mayormente NO implementado (2026-07-03).** El tipo `ProjectionSnapshot` fue **purgado** (2026-06-16, sin productor/consumidor). Hoy la salida cruda de C es `consume().snapshot(): SimulationEntity[]` (valores `final` + buckets por nodo); las métricas de combate fluyen al contrato único ya cristalizado `CombatMetrics` (`output/combat-metrics.ts`, particionado `target_agnostic`/`vs_target` — `DC-OQ-ENGINE-8`). El **Differential Timeline Stream**, las **Area Metrics** y la **capa de Diagnostics rica** de abajo son **diseño futuro**, no código actual. El modelo de daño/status de C2 se aterrizó en [`damage-status-model.md`](damage-status-model.md).
+> **⚠️ Diseño mayormente NO implementado.** El tipo `ProjectionSnapshot` fue **purgado** (sin productor/consumidor). Hoy la salida cruda de C es `consume().snapshot(): SimulationEntity[]` (valores `final` + buckets por nodo); las métricas de combate fluyen al contrato único ya cristalizado `CombatMetrics` (`output/combat-metrics.ts`, particionado `target_agnostic`/`vs_target` — `DC-OQ-ENGINE-8`). El **Differential Timeline Stream**, las **Area Metrics** y la **capa de Diagnostics rica** de abajo son **diseño futuro**, no código actual. El modelo de daño/status de C2 se aterrizó en [`damage-status-model.md`](damage-status-model.md).
 
 El reporte final serializable generado tras el `Resolve`. Es lo que la UI consume para pintar.
 
@@ -147,7 +147,7 @@ El reporte final serializable generado tras el `Resolve`. Es lo que la UI consum
 
 ## 6. Diagnóstico Detallado (The Traceability Contract)
 
-> **⚠️ Renombrado + parcialmente implementado (2026-07-03):** los tipos `AuditStep`/`AuditResponse`/`audit_session` se renombraron a **`TraceStep`/`TraceResponse`/`trace_log`** (Fase 3 saneamiento — "trace" describe *qué es*, no *quién lo consume*). El trace es **opt-in** (`enableTrace()`/`getTrace()`), no siempre-on. El `AuditQuery` con `filter` (§6.2) **no está implementado** — `getTrace()` devuelve la traza completa. Los nombres de abajo son el diseño original; el código usa `Trace*`.
+> **⚠️ Renombrado + parcialmente implementado:** los tipos `AuditStep`/`AuditResponse`/`audit_session` se renombraron a **`TraceStep`/`TraceResponse`/`trace_log`** (Fase 3 saneamiento — "trace" describe *qué es*, no *quién lo consume*). El trace es **opt-in** (`enableTrace()`/`getTrace()`), no siempre-on. El `AuditQuery` con `filter` (§6.2) **no está implementado** — `getTrace()` devuelve la traza completa. Los nombres de abajo son el diseño original; el código usa `Trace*`.
 
 Cada atributo en la proyección puede opcionalmente incluir un `TraceNode` o ser consultado vía una `AuditSession`:
 
@@ -195,7 +195,7 @@ interface AuditResponse {
 ```
 
 ### 6.3 La Trinidad del Arsenal (Contextos de Uso)
-El motor debe ser agnóstico a la UI. `EnsembleAdapter` eliminado (OQ-STATE-4, 2026-05-19) — lógica absorbida por `MutatorBridge`. Los tres flujos que debe garantizar `MutatorBridge`:
+El motor debe ser agnóstico a la UI. `EnsembleAdapter` eliminado (OQ-STATE-4) — lógica absorbida por `MutatorBridge`. Los tres flujos que debe garantizar `MutatorBridge`:
 1. **Arsenal (Equipado)**: Sincronización bidireccional con el estado persistente del usuario.
 2. **Swap (Intercambio)**: Proyección efímera comparativa (Ensemble Actual vs Ensemble con Cambio).
 3. **Upgrade (Builder/Overframe)**: Manipulación total de slots y variables de contexto para optimización.

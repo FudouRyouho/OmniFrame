@@ -4,7 +4,7 @@ Rol: "Flujo de documentación/auditoría del dominio UI — espina, stages, chec
 Impacto_ID: "UI-UX-Workflow"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-06-14"
-Fecha_de_actualizacion: "2026-06-14"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/governance/open-questions.md"
   - "docs/governance/doc-map.md"
@@ -86,7 +86,7 @@ El convenio (`docs/CLAUDE.md` §"Convenio de tamaño") pide máx 3 operativos po
 (`status.md` + `schema.md` + `workflow.md`). ui-ux **no tenía ninguno** (solo `shell-status.md`
 mal nombrado + 5 referencia). La campaña le da el esqueleto que le falta:
 
-- **`status.md`** (operativo) — status de dominio, secciones por code-domain. **Creado 2026-06-16**
+- **`status.md`** (operativo) — status de dominio, secciones por code-domain
   (output de los 6 barridos + cruce de consolidación, no de Stage 0). `shell-status.md` plegado aquí.
 - **`workflow.md`** (operativo) — **este doc**. El flujo es el contrato (sustituye al `schema`).
 - **`decisions.md`** (operativo) — ledger de decisiones de UI, serie U-N (espejo de

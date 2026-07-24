@@ -4,7 +4,7 @@ Rol: "Definir el rol de la UI shell y sus responsabilidades"
 Impacto_ID: "UI-UX-Shell"
 Fidelidad_Fisica: "Project/src/providers/Shell/"
 Fecha_de_creacion: "2026-04-01"
-Fecha_de_actualizacion: "2026-04-20"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Shell And Navigation
@@ -28,7 +28,7 @@ Fecha_de_actualizacion: "2026-04-20"
 - toolbars dedicadas por vista con `FilterIcon`, `useDataState` y estado visual local via `use-view-filter`
 - 7 vistas de equipment operativas con datos reales bajo `domains/equipment/view/`
 - `EquipmentView` — reemplazada por arquitectura de vistas en `view/*` (Completado)
-- `domains/arcanes/` — eliminada (2026-04-14)
+- `domains/arcanes/` — eliminada
 
 ## Pendientes estructurales
 

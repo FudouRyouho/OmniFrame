@@ -4,18 +4,18 @@ Rol: "Hoja de ruta para la implementación del motor v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # 🗺️ Roadmap: Reconstrucción del Motor de Simulación (Sim-v2)
 
 Este documento define la ruta crítica para sustituir el sistema de Loadout/Resolver actual por el nuevo **Motor de Simulación Reactiva**.
 
-> **⚠️ Predata la reestructura de `@core` (2026-06-12) y la campaña de saneamiento A+B+C.** Las Fases 1–5 están hechas; las 6–9 son **direccionales** y varios ítems evolucionaron o se reorganizaron desde entonces (p. ej. `attribute-registry` se reescribió en D-7 Fase 4; el puerto de datos "0" y `BrowserAdapter` cubren parte de la "Gobernanza de Datos"). Para el **progreso real** ver [`../status.md`](../status.md) y `governance/current-state.md`; este roadmap conserva la **intención de ruta**, no el estado línea-por-línea.
+> **⚠️ Predata la reestructura de `@core` y la campaña de saneamiento A+B+C.** Las Fases 1–5 están hechas; las 6–9 son **direccionales** y varios ítems evolucionaron o se reorganizaron desde entonces (p. ej. `attribute-registry` se reescribió en D-7 Fase 4; el puerto de datos "0" y `BrowserAdapter` cubren parte de la "Gobernanza de Datos"). Para el **progreso real** ver [`../status.md`](../status.md) y `governance/current-state.md`; este roadmap conserva la **intención de ruta**, no el estado línea-por-línea.
 
 ---
 
-## Fases 1–5 ✅ (completadas al 2026-05-27)
+## Fases 1–5 ✅ (completadas)
 
 Contratos cerrados, grafo reactivo implementado (`SimulationEngine` + Kahn's), pipeline de hidratación completo (`StaticHydrator`, `ModRepository`, repositorios). Path legacy (`LoadoutProvider`, `SimulationLab`, `EnsembleAdapter`) purgado.
 
@@ -25,8 +25,8 @@ Contratos cerrados, grafo reactivo implementado (`SimulationEngine` + Kahn's), p
 *Prioridad actual: Estabilizar la conexión de datos y la reactividad de la UI.*
 
 - [x] **Arquitectura de Manifiesto Plano**: Adopción de `Record<Uid, Intent>` con Uids Semánticos.
-- [x] **MutatorBridge Refactor**: `EnsembleAdapter` eliminado (OQ-STATE-4, 2026-05-19) — lógica absorbida por `MutatorBridge`.
-- [x] **Data Hydration Engine**: `StaticHydrator` + `ModRepository` + `ShardRepository` + `IncarnonRepository` + `ItemRepository` (2026-05-27).
+- [x] **MutatorBridge Refactor**: `EnsembleAdapter` eliminado (OQ-STATE-4) — lógica absorbida por `MutatorBridge`.
+- [x] **Data Hydration Engine**: `StaticHydrator` + `ModRepository` + `ShardRepository` + `IncarnonRepository` + `ItemRepository`.
 - [~] **Gobernanza de Datos (Engine-Only)**: descartada. `attribute-registry` es un tipo TS (D-7 Fase 4), no un JSON; no existen `public/data/engine/{attribute-registry,slot-rules}.json` — eran fósiles de v1 sin consumidor.
 - [ ] **Reactive Selection Selectors**: Hooks de suscripción granular para optimizar re-renders en el Arsenal.
 - [ ] **Validation UI Feedback**: Predicados de compatibilidad (`isExilus`, `compatName`) integrados en la UI.

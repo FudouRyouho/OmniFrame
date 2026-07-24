@@ -4,7 +4,7 @@ Rol: "Mapa del borde de salida (información/datos → píxeles) y diagnóstico 
 Impacto_ID: "UI-UX-Presentation"
 Fidelidad_Fisica: "Project/src/lib/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/semantic/upgrade-tokens.md"
   - "docs/governance/open-questions.md"
@@ -12,16 +12,14 @@ Dependencias:
 
 # Presentation Layer (borde de salida)
 
-> **Estado real (2026-06-14):** este doc fue reescrito tras trazar un caso real por todos los
-> estratos. La versión v0.0.2 describía un pipeline
-> lineal de 3 etapas que **no matchea el código**: hay **dos rutas** distintas al sumidero, y el
+> **Estado real:** hay **dos rutas** distintas al sumidero, y el
 > plano de formateo (`lib/*`) **no consume el SSoT semántico**. Lo abierto vive en las OQ; este
 > doc solo mapea lo que **es**.
 >
-> **⚠️ Update D-7 Fase 4 (2026-06-14):** la **ruta información** ya fue saneada en su lado de
+> La **ruta información** ya está saneada en su lado de
 > vocabulario. El leak β murió (el motor ya no importa `lib/presentation`; el nodo es puro;
 > `project()` adjunta `unit`+`category` por lookup keyed en el token D-6). `attribute-registry` es
-> ahora `Partial<Record<Upgrade, PresentationMeta>>` keyed por token, sin `label` (la label es i18n).
+> `Partial<Record<Upgrade, PresentationMeta>>` keyed por token, sin `label` (la label es i18n).
 > Los síntomas 1/2/5 abajo están **RESUELTOS**; el trazo se conserva como historia. Sigue abierto el
 > plano numérico (síntoma 4) y la convergencia con la **ruta catálogo** (`stat-labels`).
 

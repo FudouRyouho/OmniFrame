@@ -4,7 +4,7 @@ Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline 
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-07-22"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Data Domain — Estado Operativo
@@ -12,7 +12,7 @@ Fecha_de_actualizacion: "2026-07-22"
 > Entry point del dominio `data/`. Actualizar cuando se revisen o completen entradas.
 > El engine no hardcodea datos — si un override no existe, el slot no aplica modificadores.
 
-> **Deuda de infra de carga** (rescatada de `transition-residues.md` al archivarlo, 2026-07-03):
+> **Deuda de infra de carga** (rescatada de `transition-residues.md` al archivarlo):
 > `shared/data/DataRegistry.ts` usa ~17 `as unknown as T[]` para cargar `ability-stats.override.json`
 > — casts inseguros que ocultan divergencias JSON↔tipos. No urgente (funciona); es la deuda de tipos
 > más alta del área de datos. Ligada a "0" (`OQ-DATA-9`).
@@ -61,14 +61,14 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 
 **Deuda conocida:** (gramática de tags: `docs/governance/nomenclature-grammar.md` · evidencia: `docs/governance/deuda-taxonomy.md`)
 - `engine:debt` `condition` — vocabulario consolidado en `conditions.md`; integración en SimContext pendiente. Bloqueada antes que por cobertura por el eje de clasificación (OQ-SEM-2) y el shape OR/AND (OQ-DATA-4), no por un % L\*. `[ref: docs/semantic/conditions.md]`
-- `data:debt` `WEAPON_ADD_AMMO_MAX` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
-- `data:debt` `WEAPON_ADD_COMBO_COUNT_CHANCE` — token definido (2026-05-31); Guardian Derision pendiente de mapeo en override `[empirical]`
+- `data:debt` `WEAPON_ADD_AMMO_MAX` — token definido; Guardian Derision pendiente de mapeo en override `[empirical]`
+- `data:debt` `WEAPON_ADD_COMBO_COUNT_CHANCE` — token definido; Guardian Derision pendiente de mapeo en override `[empirical]`
 - `[PIPE semantic:debt` `WEAPON_SPREAD` — confirmado **misma mecánica que `WEAPON_ADD_ACCURACY`** (spread = nombre interno DE, accuracy = stat visible, inversos; Narrow Barrel / Tainted Shell llevan token `WEAPON_SPREAD` pero label "+% Accuracy"). Dirección: unificar bajo `WEAPON_ADD_ACCURACY`; spread de shotgun = contexto de arma. Pendiente: mecanismo (alias en `UPGRADE_MAP` vs mapeo en pipeline); sin mods `WEAPON_SPREAD` en overrides curados aún. `[ref: references/wiki/mechanics/accuracy.md]`
 - `[SEM data:debt` `AVATAR_DAMAGE_TAKEN` — DR **multiplicativa** (op MULT). Bucket sobrecargado, 3 sub-formas: (a) resistencia estática por tipo, (b) DR genérica condicional (`while_airborne`), (c) DR adaptativa/stacking (**Adaptation** → OQ-DATA-4). Taxonomía sin cerrar (per-elemento, precedente `AVATAR_CHANCE_RESIST_*`, vs genérico+condition); coinage diferido hasta consumidor de engine. Drift cerrado: `references/wiki/mechanics/damage-reduction.md` creado. `[ref: references/wiki/mechanics/damage-reduction.md]`
 - `semantic:debt` `AVATAR_PARKOUR_GLIDE` — duración de aim glide/wall latch. Candidato: `AVATAR_ADD_AIM_GLIDE_DURATION`. Mix de mods legítimos (Patagium, Mobilize) y conclave `[empirical]`
 - `[SEM data:debt` `AVATAR_HEAL_RATE` — mezcla de companion scope y warframe scope (Rejuvenation, Recuperate). Requiere revisión de auras y separación de contextos antes de definir token `[empirical]`
 - `pipeline:debt` `conclave?: boolean` — campo no preservado en `GeneratedMod`. Sin este campo no es posible filtrar mods PVP desde la data base. Fix: `GeneratedMod` + `generate-data.ts` `[ref: @wfcd/items API]`
-- `data:debt` ~255 entradas con token no-D-6 clasificadas: deuda documentada (WEAPON_SPREAD, AVATAR_DAMAGE_TAKEN, AVATAR_PARKOUR_GLIDE, AVATAR_HEAL_RATE, etc.) o out-of-model (sindicatos, vehículos, compañero, stamina removida). 8 renames aplicados (2026-06-04; detalle por token en `upgrade-tokens.md` + git history).
+- `data:debt` ~255 entradas con token no-D-6 clasificadas: deuda documentada (WEAPON_SPREAD, AVATAR_DAMAGE_TAKEN, AVATAR_PARKOUR_GLIDE, AVATAR_HEAL_RATE, etc.) o out-of-model (sindicatos, vehículos, compañero, stamina removida). 8 renames aplicados (detalle por token en `upgrade-tokens.md` + git history).
 - `[ENGINE data:debt` Condition Overload family (`WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`) — fórmula `damage × (1 + n_status_types × val%)`. Notas añadidas en 4 mods. Cross-schema con incarnon evolutions: verificar si la fórmula es idéntica antes de implementar `[empirical]`
 - `[SEM data:debt` Faction damage target (`GAMEPLAY_MULT_FACTION_DAMAGE`, 42 mods Bane/Expel/Cleanse/Smite × facción) — la facción objetivo vive solo en el `label`, sin estructura. Dirección registrada: expresar como token de `condition` (`damage_<faccion>`, spelling diferido), sin campo nuevo. Latente, gateado por madurez de taxonomía condition (`conditions.md §Altitud`). Engine: el modelo "un nodo aditivo `faction_damage_bonus`" (`attribute-node-contract.md §5`) es lossy en multi-facción → anotado para debate de engine. Ver `audit-mods.md §F.5` `[empirical]`
 - `pipeline:debt` Set Mods Gap A — pertenencia al set no materializada. **No hay que derivarla:** upstream trae `modSet` explícito en los 72 miembros, y los 19 portadores (`type: "Mod Set Mod"`, discriminador limpio) traen `numUpgradesInSet`. Fix: propagar el campo. Análogo a `conclave?: boolean` `[empirical]`
@@ -89,10 +89,10 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 ## Ability Stats (`ability-stats.override.json`)
 
 **Schema JSON:** `Project/public/data/ability-stats.schema.json` ✅ — draft-07, VS Code validation activa
-**Schema de dominio:** `docs/data/schemas/abilities/schema.md` ✅ — actualizado (2026-05-24)
+**Schema de dominio:** `docs/data/schemas/abilities/schema.md` ✅ — actualizado
 **Estado:** 286 entradas con datos reales, 704 stats aplicados vía pipeline
 
-### Pipeline de datos (activo, 2026-05-22)
+### Pipeline de datos (activo)
 
 ```
 references/game-ui/<Warframe>.md   ← fuente de verdad (anotaciones $/$$ manuales)
@@ -121,7 +121,7 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 ### Herramienta de visualización
 
 `AbilityStatsViewer.tsx` — ruta `/dev/ability-stats` ✅ operativa
-- Verificación visual completada (2026-05-22) — schema y datos correctos
+- Verificación visual completada — schema y datos correctos
 - Issues de renderización pendientes son presentación, no de schema
 
 ### Deuda conocida
@@ -148,7 +148,7 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 
 ## Arcanos (`arcane-stats.override.json`)
 
-**Schema:** `docs/data/schemas/arcane/schema.md` ✅ (2026-05-28)
+**Schema:** `docs/data/schemas/arcane/schema.md` ✅
 **Override:** `Project/public/data/arcane-stats.override.json` ✅
 **Generador:** `Project/scripts/generate-arcane-override.py`
 
@@ -164,7 +164,7 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 
 **Breakdown de null:** ver `docs/data/schemas/arcane/schema.md §3`. Categorías principales: status resistances (~11), buffs on-event de HP/Armor/Shield (~10), economía de HP/Energía (~8), fórmulas per-stat (~7), arcanes de Operador/Kitgun (~18), Primary/Secondary mecánicas de stacking (~14).
 
-**Repository:** `ArcaneRepository` ✅ implementado (2026-06-12: drift cerrado — el doc decía "pendiente"). Lee `arcane-stats.override.json`, resuelve `getModifiers` con rank clamping; `StaticHydrator.hydrate` procesa `intent.arcanes` y empuja los modifiers directo (sin DamageCombiner). El engine resuelve arcanos end-to-end. **Gap restante = conexión de escritura en UI** (store `setArcane` + ruteo de slots), no el engine.
+**Repository:** `ArcaneRepository` ✅ implementado. Lee `arcane-stats.override.json`, resuelve `getModifiers` con rank clamping; `StaticHydrator.hydrate` procesa `intent.arcanes` y empuja los modifiers directo (sin DamageCombiner). El engine resuelve arcanos end-to-end. **Gap restante = conexión de escritura en UI** (store `setArcane` + ruteo de slots), no el engine.
 
 **Deuda:**
 - `data:debt` P1: ~15 arcanes con `condition: null` + `upgrade_type` mapeado (efectos siempre activos, los más simples de integrar). Sin blocker de vocabulario.
@@ -207,7 +207,7 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 **Schema:** `docs/data/schemas/archon-shards/schema.md` ✅
 **Mapeo upgrade_type detallado:** `docs/data/schemas/archon-shards/upgrade-mapping.md` (referencia)
 **Estado:** ⚠️ Parcial — 6 entradas / 27 stats. Mapeado solo donde existe token D-6 sin ambigüedad. Bloqueos y deuda en mapping.
-**UI:** ✅ `useArchonShardCatalog`, `ArchonShardSelectionView`, iconos en Arsenal (2026-05-21).
+**UI:** ✅ `useArchonShardCatalog`, `ArchonShardSelectionView`, iconos en Arsenal.
 
 ---
 

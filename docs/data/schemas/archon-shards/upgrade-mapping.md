@@ -4,7 +4,7 @@ Rol: "Mapeo de upgrade_type por stat de Archon Shard — catálogo de tokens D-6
 Impacto_ID: "data-archon-mapping"
 Fidelidad_Fisica: "Project/public/data/archon-shards.json"
 Fecha_de_creacion: "2026-05-25"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Archon Shards — Mapeo upgrade_type
@@ -14,7 +14,7 @@ Entry point operativo: `docs/data/status.md`.
 
 **Archivo:** `Project/public/data/archon-shards.json` ✅ — 6 entradas, 27 stats totales
 **Schema:** `docs/data/schemas/archon-shards/schema.md`
-**Estado:** 20 mapeados / 7 nulos (auditado Gate 2b 2026-05-31 contra JSON real)
+**Estado:** 20 mapeados / 7 nulos (auditado Gate 2b contra JSON real)
 
 ---
 
@@ -43,8 +43,8 @@ Entry point operativo: `docs/data/status.md`.
 | Azure | `azure-armor` | `AVATAR_FLAT_ARMOUR` | ADD_FLAT |
 | Azure | `azure-health-regeneration` | `AVATAR_FLAT_HEALTH_REGEN` | ADD_FLAT |
 
-> Tokens de sub-familia (`WEAPON_MELEE_*`, `WEAPON_PRIMARY_*`, `WEAPON_SECONDARY_*`) resueltos en OQ-W-4 (2026-05-26).
-> Azure usa `AVATAR_FLAT_*` (ADD_FLAT) — planos post-escala. `AVATAR_BASE_ARMOUR` eliminado de la taxonomía (2026-05-26).
+> Tokens de sub-familia (`WEAPON_MELEE_*`, `WEAPON_PRIMARY_*`, `WEAPON_SECONDARY_*`) resueltos en OQ-W-4.
+> Azure usa `AVATAR_FLAT_*` (ADD_FLAT) — planos post-escala. `AVATAR_BASE_ARMOUR` eliminado de la taxonomía.
 
 ---
 
@@ -86,6 +86,6 @@ Efectos que no encajan en el modelo de atributos continuo:
 
 | Componente | Estado |
 |---|---|
-| `useArchonShardCatalog.ts` | ✅ implementado (2026-05-21) |
+| `useArchonShardCatalog.ts` | ✅ implementado |
 | `ArchonShardSelectionView.tsx` | ✅ implementado — selector de tipo, tauforged toggle, lista de stats |
 | `ArsenalView.tsx` (sección shards) | ✅ iconos resueltos vía `resolveLocalImageUrl` |

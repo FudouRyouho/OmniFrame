@@ -4,7 +4,7 @@ Rol: "Catálogo de gaps semánticos — 87 armas Incarnon (48 genesis), 727 efec
 Impacto_ID: "data-incarnon-gaps"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Gaps semánticos — Incarnon Genesis / Incarnon nativo
@@ -127,7 +127,7 @@ Distintos de `WEAPON_BASE_MAGAZINE_MAX` (que suma). Necesitan operación `BASE_S
 
 ## 5. Cobertura y deuda de datos
 
-### Estado actual (2026-05-28 post-sesión)
+### Estado actual
 
 - **48 genesis** mapeados, **87 unique weapons** cubiertos
 - **727 efectos** en override (post-migración genesis-first)
@@ -167,7 +167,7 @@ La detección extraía `{{Weapon|Name}}` de **todo** el wikitext, incluyendo Tri
 
 ---
 
-## 6. Schema — variantes por alias (genesis-first, 2026-05-28)
+## 6. Schema — variantes por alias (genesis-first)
 
 La estructura genesis-first resuelve el problema de variantes. Ver [schema.md](schema.md) para el contrato completo.
 
@@ -179,7 +179,7 @@ Resumen del patrón:
 
 ---
 
-## 7. Cola de consolidación de condition tokens (2026-06-01)
+## 7. Cola de consolidación de condition tokens
 
 Inventario de tokens `condition` presentes en el override que **aún no se consolidaron** en
 `docs/semantic/conditions.md`. Por [D-19](../../decisions.md), el JSON es el SSoT del token; este
@@ -244,8 +244,8 @@ Naturaleza sin analizar.
 
 | Prioridad | Trabajo | Estado |
 |---|---|---|
-| P1 | Tokens §1 en `modifier.ts` + `UPGRADE_MAP` | ✅ Completado 2026-05-28 |
-| P1 | Boar Prime + Soma Prime en override | ✅ Completado 2026-05-28 |
+| P1 | Tokens §1 en `modifier.ts` + `UPGRADE_MAP` | ✅ Completado |
+| P1 | Boar Prime + Soma Prime en override | ✅ Completado |
 | P2 | Completar perk data de 5 weapons incompletas | Pendiente (wiki manual) |
 | P2 | Valores placeholder `+X`/`+Y` (~30 efectos) | Pendiente (wiki manual) |
 | C1-A | Diseñar `context.flags` vocabulary (§2.1) | Requiere debate — ~40 perks simples |

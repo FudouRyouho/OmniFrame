@@ -4,7 +4,7 @@ Rol: "SSoT de la gramática facetada de nomenclaturas internas — define forma,
 Impacto_ID: "G-Nomenclatura"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-06-01"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Nomenclature Grammar — Gramática de nomenclaturas internas
@@ -157,7 +157,7 @@ Los siguientes sistemas son independientes y **no** se rigen por esta gramática
 |---|---|---|
 | Eje de evidencia `[EVD]` (`[ref:]`, `[empirical]`, `[inferred]`, `[needs-verification]`) | [`deuda-taxonomy.md`](deuda-taxonomy.md) | Activo — no migrar |
 | `@status` JSDoc (valores: `en-desarrollo`, `activo`, etc.) | `docs/governance/jsdoc-standard.md` | Pendiente normalización — trabajo aparte |
-| `B1`–`B4` / "Snapshot B4" (fases deprecadas) | — | Deprecado — las 2 referencias pendientes se eliminaron con la purga de `hooks/useSimulation.ts` (2026-06-16) y la limpieza de `UpgradeView`. Sin remanentes. |
+| `B1`–`B4` / "Snapshot B4" (fases deprecadas) | — | Deprecado — las 2 referencias pendientes se eliminaron con la purga de `hooks/useSimulation.ts` y la limpieza de `UpgradeView`. Sin remanentes. |
 | `D-N` / `OQ-N` (registro de decisiones y OQs) | `docs/data/decisions.md` / `docs/governance/open-questions.md` | Nomenclatura de registro, no tags inline |
 | `WEAPON_ADD_*` / tokens D-6 (upgrade tokens) | `docs/semantic/upgrade-tokens.md` | Vocabulario canónico del juego — no es nomenclatura interna del proyecto |
 | `Gate` del juego ("Shield Gate", "Sol Gate") | `docs/data/schemas/abilities/` | Nombre del juego — falso positivo, no tocar |

@@ -4,7 +4,7 @@ Rol: "Mapa de durabilidad del corpus docs/ + criterio de archivado + registro de
 Impacto_ID: "G-DocMap"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-06-06"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Doc Map — durabilidad del corpus y saneamiento
@@ -51,7 +51,7 @@ pendientes) — es el registro vivo mientras dura. Pero **al cerrarla, en la mis
 sesión de cierre**, esa sección se comprime: reglas durables migran a su doc natural (schema, status,
 rules, README del dominio), y lo que queda es un párrafo-resumen + punteros a los commits. Ninguna
 sección de campaña queda en formato "log detallado por tanda" una vez marcada COMPLETA — eso es lo que
-generó la necesidad de esta misma limpieza en 2026-07-09 (§3–§5, §7 comprimidas ese día; ver
+generó la necesidad de esta misma limpieza (§3–§5, §7 comprimidas; ver
 `references/wiki/README.md` como ejemplo de destino para una regla rescatada).
 
 **Why:** sin este paso, el doc vuelve a acumular indefinidamente y nadie lo revisa fuera de una sesión
@@ -60,7 +60,7 @@ dedicada a "sanear docs" (evidencia: 5 commits/14 docs tocados en una semana de 
 
 ---
 
-## 3. Registro de la campaña — 2026-06-06 (COMPLETA)
+## 3. Registro de la campaña — reducción de caos (COMPLETA)
 
 Foco en reducir caos del corpus. A — `Project/data` eliminado (1.9 MB huérfano/regenerable). Históricos
 lote 1 — `multishot-profiles.md` → `docs-archive/historical/`. B — dispersión: `naming-conventions.md` ↔
@@ -70,7 +70,7 @@ docs↔código engine: colisión `OQ-ENGINE-3` → renumerada `OQ-ENGINE-7`.
 
 ---
 
-## 4. Contraste docs↔código — dominio engine (2026-07-03, COMPLETA)
+## 4. Contraste docs↔código — dominio engine (COMPLETA)
 
 Resultado vigente: `engine/status.md` es el estado vivo (reescrito completo, drift severo
 pre-reestructura). `engine-audit.md` es snapshot histórico congelado (banner propio, `Estado: histórico`).
@@ -80,7 +80,7 @@ Detalle de la reconciliación en commits de la rama `refactor/core-stage0-restru
 
 ---
 
-## 5. Saneamiento de `references/wiki/` (2026-06-10, COMPLETA)
+## 5. Saneamiento de `references/wiki/` (COMPLETA)
 
 Hallazgo: `references/wiki/` tenía contaminación sistémica de vocablo del proyecto (18/18 docs raíz +
 8 híbridos mal ubicados en `docs/data/references/wiki/`). Campaña completa: ~26 docs saneados a wiki
@@ -90,14 +90,14 @@ actualizados, suite verde. Commit range en la rama de la época.
 **Regla durable** (contaminación de vocablo, wiki pura) migrada a
 [`references/wiki/README.md`](../../references/wiki/README.md) — ya no vive acá.
 
-**Pendiente menor — CERRADO 2026-07-09:** la porción wiki-pura (roll per-pellet, fórmula de procs) ya
-estaba capturada en `references/wiki/mechanics/status-effects.md` §Aplicación (barrido 2026-07-02, no
+**Pendiente menor — CERRADO:** la porción wiki-pura (roll per-pellet, fórmula de procs) ya
+estaba capturada en `references/wiki/mechanics/status-effects.md` §Aplicación (barrido, no
 en archivo separado). Al verificar se encontró drift real: `status-chance-mechanics.md` afirmaba un
 mecanismo ">100% garantiza 1 + priorización por daño" que la wiki no confirma — corregido contra fuente.
 
 ---
 
-## 6. Campaña de documentación de UI (2026-06-14 – 2026-06-16, grueso COMPLETO — residuo diferido)
+## 6. Campaña de documentación de UI (grueso COMPLETO — residuo diferido)
 
 La UI nunca tuvo corpus de docs/auditoría como sí lo tuvieron `data/`/engine, y esa pausa **generó
 el drift** (islas de datos, providers anclados, dead-code, tareas "parciales" completas). La campaña
@@ -107,7 +107,7 @@ la corrió por el mismo loop que recibió la data —**audita código↔docs por
 Recon→Triage→Document, checkpoints C0/C1/traceability) + [`decisions.md`](../domains/ui-ux/decisions.md)
 (serie **U-N** propia: `U-1` espina DOMINIO+2-ejes, `U-2` construir=fuera del mandato, `U-3` 3-ejes
 `SLOT_DEFINITIONS`, `U-4` honestidad UI), más `OQ-ENGINE-11` (exaltadas) y `current-state` §2 (M1
-reencuadrado, multi-config). Detalle por barrido en git (rama de la época, 2026-06-14–16).
+reencuadrado, multi-config). Detalle por barrido en git (rama de la época).
 
 **Horizonte vivo (por qué no cierra del todo):** residuo at-touch = re-apuntar `@SSoT` mispointers a
 `status.md` al tocar cada archivo. Aparte y **gateado** por `U-2` (construir = fuera del mandato): los
@@ -117,7 +117,7 @@ des-fusionar `SLOT_DEFINITIONS`— y el prototipo de exaltadas (`OQ-ENGINE-11`).
 
 ---
 
-## 7. Campaña de revisión de `docs/` (2026-07-03, COMPLETA)
+## 7. Campaña de revisión de `docs/` (COMPLETA)
 
 Paso previo al merge de `refactor/core-stage0-restructure` a `master`: saneamiento (mecánico + honestidad)
 del corpus completo, no re-evaluación de arquitectura (esa queda para sesión aparte post-merge). Atacó el

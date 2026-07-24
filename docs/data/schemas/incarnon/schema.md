@@ -4,14 +4,14 @@ Rol: "Contrato del override JSON de Incarnon Genesis / Incarnon nativo"
 Impacto_ID: "data-incarnon"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Schema: incarnon-evolutions.override.json
 
 Datos de perks de evolución Incarnon. Indexado por `unique_name` del arma.
 
-> **v2.0.0 (2026-05-30):** el schema migró de array de modificadores `[{upgrade_type, value}]`
+> **v2.0.0:** el schema migró de array de modificadores `[{upgrade_type, value}]`
 > a `stats[]` con `label`/`base_value`/`upgrade_type`/`condition` — convergente con el patrón
 > de abilities (plano) + `condition` de mods. Ver [D-18](../../decisions.md).
 
@@ -71,7 +71,7 @@ del token en `condition` para el engine.
 | *(ausente)* | No hay condición. | label no condicional |
 
 `condition` habla solo de la condición. El estado "analizado" se infiere de `upgrade_type`/`note`.
-Cobertura (2026-06-01): **175** token · **0** null · **539** ausente (714 stats). 69 tokens únicos; 21 en cola de clasificación — ver `docs/semantic/conditions.md` §Ingesta incarnon (2026-06-01).
+Cobertura: **175** token · **0** null · **539** ausente (714 stats). 69 tokens únicos; 21 en cola de clasificación — ver `docs/semantic/conditions.md` §Ingesta incarnon.
 
 ## Tokens `upgrade_type` usados
 
@@ -100,7 +100,7 @@ Cobertura (2026-06-01): **175** token · **0** null · **539** ausente (714 stat
 
 `IncarnonRepository.getModifiers(uniqueName, evolutionPerks, targetId)` → `Modifier[]`.
 
-> **Deuda (2026-05-30):** el repository todavía lee el formato viejo `perk.upgrades[]`. Tras la migración
+> **Deuda:** el repository todavía lee el formato viejo `perk.upgrades[]`. Tras la migración
 > a `stats[]`, devuelve `[]` en runtime. La actualización para consumir `stats` + respetar `condition`
 > (default-activo, D-15) es fase posterior, al conectar engine↔UI. Fuera de scope del trabajo de datos.
 

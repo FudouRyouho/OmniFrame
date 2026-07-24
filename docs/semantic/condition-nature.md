@@ -4,7 +4,7 @@ Rol: "Taxonomía facetada de la naturaleza de condition — categorías mecánic
 Impacto_ID: "semantic-condition-nature"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-06-05"
-Fecha_de_actualizacion: "2026-06-05"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/semantic/conditions.md"
   - "docs/data/rules/overrides.md"
@@ -27,14 +27,14 @@ la **naturaleza mecánica** de cada token y las **reglas de composición** que o
 
 Por qué existe: el shape de composición `condition: string | {any|all:[…]}` **no tiene solidez propia** — la toma
 prestada de (a) un vocabulario con la granularidad justa y (b) tener separados los ejes que no son condición. Esta
-taxonomía formaliza (a). Cobertura verificada (2026-06-05): **145 tokens del dato real, 0 huérfanos de naturaleza.**
+taxonomía formaliza (a). Cobertura verificada: **145 tokens del dato real, 0 huérfanos de naturaleza.**
 
 ---
 
 ## Dos ejes ortogonales
 
 La condición de un stat se describe por **dos facetas independientes** (no un árbol único). Constatado en
-`conditions.md` (2026-06-03): el scope es ortogonal a la naturaleza.
+`conditions.md`: el scope es ortogonal a la naturaleza.
 
 ```
 condition-token  =  {NATURALEZA}  ⊥  {SCOPE}
@@ -113,7 +113,7 @@ no exhaustiva — se amplía al madurar la taxonomía de movimiento/postura:
 
 ---
 
-## Cobertura (validación 2026-06-05)
+## Cobertura (validación)
 
 Script read-only sobre los 4 overrides (`arcane-stats`, `incarnon-evolutions`, `mod-stats`, `archon-shards`):
 

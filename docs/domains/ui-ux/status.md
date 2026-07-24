@@ -4,7 +4,7 @@ Rol: "Status operativo del dominio ui-ux — pulso por code-domain + mapas cross
 Impacto_ID: "UI-UX-Status"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-06-16"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "./workflow.md"
   - "./decisions.md"
@@ -96,7 +96,7 @@ La deuda **presente** real de la UI no es dead-code para purgar — es **deshone
 
 ## 3. Deudas abiertas (no-decisión)
 - **Deuda definicional:** "**classic vs advanced vs builder**" se usan sueltos sin definición canónica. *Classic* = mirror 1:1 Warframe; *advanced (vista avanzada)* = clásico + enriquecimientos armónicos (ej. fórmula de habilidad vía buckets de C); *builder* = construcción/edición. Asentar una definición firme cuando se materialice.
-  - **Boceto de salida analítica (rescatado de código muerto, Fase 0 2026-06-16):** el tipo `ProjectionSnapshot` (purgado del engine — sin productor ni consumidor, ensuciaba `contracts.ts`) capturaba la forma tentativa de la salida que la *vista avanzada* consumiría: por entidad, `metrics: { ttk?, effective_dps?, status_weights }`. **Punto de partida, NO contrato** — cuando se materialice la vista avanzada, la forma real se deriva del oráculo/dominio (no de este stub pre-oracle). Aquí queda solo como ancla de intención.
+  - **Boceto de salida analítica (rescatado de código muerto, Fase 0):** el tipo `ProjectionSnapshot` (purgado del engine — sin productor ni consumidor, ensuciaba `contracts.ts`) capturaba la forma tentativa de la salida que la *vista avanzada* consumiría: por entidad, `metrics: { ttk?, effective_dps?, status_weights }`. **Punto de partida, NO contrato** — cuando se materialice la vista avanzada, la forma real se deriva del oráculo/dominio (no de este stub pre-oracle). Aquí queda solo como ancla de intención.
 - **Mispointers `@SSoT`** (varios archivos → `shell-status`/`shell-principles` inconsistente): re-apuntar a este `status.md` al tocar cada archivo.
 - **Trayectorias de modelado-diferido** (multi-config warframe-like, filter-variety/A2, abilities n%/exaltadas): no bloqueadas, gated por prioridad — ver `current-state.md` §2 (Gaps) + `OQ-ENGINE-11`.
 

@@ -4,7 +4,7 @@ Rol: "Contrato de consumo de la mecánica de melee combo — quién consume el c
 Impacto_ID: "E-MeleeCombo"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-07-05"
-Fecha_de_actualizacion: "2026-07-10"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "docs/domains/engine/design/formulas-integration.md"
@@ -108,15 +108,15 @@ operación/bucket, en qué perfil/gate, de qué fuente, su estado y su procedenc
 |---|---|---|---|---|---|---|---|
 | **Heavy slam** | identidad (× `combo_mult`) | `WEAPON_ADD_DAMAGE` | `multiplicative` | perfil `heavy_slam_attack` | intrínseco (hidratación) | **✅ ejecutado** | (c) |
 | **Heavy ground** | identidad (× `combo_mult`) | `WEAPON_ADD_DAMAGE` | `multiplicative` | perfil sintético — **no en `attacks[]`, pero sí en el export**: `heavyAttackDamage` está en las 223 melee y **no es derivable** (de `1×` a `18×` el `totalDamage`, per-arma). El pipeline lo descarta | intrínseco | **difiere** (comparte perfil `base` con el light + capa stance) | (b) |
-| **Blood Rush** | escalar (`val × combo_mult`) | `WEAPON_ADD_CRIT_CHANCE` | `ADD` (mods_add_pct) | mod, sin gate (combo 0 → mult 1, siempre activo) | ModRepository | **✅ ejecutado (2026-07-10)** | (c) |
-| **Weeping Wounds** | escalar (`val × combo_mult`) | `WEAPON_ADD_STATUS_CHANCE` | `ADD` (mods_add_pct) | mod, sin gate (combo 0 → mult 1, siempre activo) | ModRepository | **✅ ejecutado (2026-07-10)** (mismo op, sin test propio — Blood Rush lo valida) | (c) |
+| **Blood Rush** | escalar (`val × combo_mult`) | `WEAPON_ADD_CRIT_CHANCE` | `ADD` (mods_add_pct) | mod, sin gate (combo 0 → mult 1, siempre activo) | ModRepository | **✅ ejecutado** | (c) |
+| **Weeping Wounds** | escalar (`val × combo_mult`) | `WEAPON_ADD_STATUS_CHANCE` | `ADD` (mods_add_pct) | mod, sin gate (combo 0 → mult 1, siempre activo) | ModRepository | **✅ ejecutado** (mismo op, sin test propio — Blood Rush lo valida) | (c) |
 | **Habilidades** | ratio 1:0.25 (o completo si Ability Combo Counter) | (fuera del grafo de arma) | fórmula dedicada | ability (§2/§3) | ability domain | diferido | (b) |
 | **Light attack** | **∅ (no consume daño)** | — | — | perfil `normal` | — | **sentenciado como dato** | (b) |
 
-### 4.1 Heavy attack — consumidor primario (✅ ejecutado 2026-07-05)
+### 4.1 Heavy attack — consumidor primario (✅ ejecutado)
 
-> **Términos: "heavy" y "slam" son dos ejes ORTOGONALES, no un espectro** (corrección del estrés
-> 2026-07-05, confirmada en partida). Un golpe melee se clasifica por tres ejes independientes:
+> **Términos: "heavy" y "slam" son dos ejes ORTOGONALES, no un espectro** (corrección del estrés,
+> confirmada en partida). Un golpe melee se clasifica por tres ejes independientes:
 >
 > | Eje | Pregunta | Qué decide | Dato Nikana Prime |
 > |---|---|---|---|
@@ -162,7 +162,7 @@ Verbatim wiki: *"Melee Combo Multiplier does not multiply the damage of your nor
 vía Blood Rush / Weeping Wounds (crit/status), nunca como multiplicador de daño. Se registra como **dato**
 para que nadie lo re-abra.
 
-### 4.3 Blood Rush / Weeping Wounds — familia `COMBO_SCALED_ADD` (✅ ejecutado 2026-07-10)
+### 4.3 Blood Rush / Weeping Wounds — familia `COMBO_SCALED_ADD` (✅ ejecutado)
 
 Consumidor **indirecto** del light (§4.2): escala crit/status chance por `combo_mult`, no daño. **5ª
 mecánica de familia** (hermana de `CONDITION_OVERLOAD`/`MELEE_COMBO_MULT`/`SNIPER_COMBO_MULT`,
@@ -224,32 +224,32 @@ Vecinos inventariados, **no modelados** — cada uno diferido a su propio caso+d
 Reemplaza el worklist de OQ-ENGINE-14. Patrón §8/§9/§10 (cada mecánica con su caso+dato real, no scaffolding).
 
 **✅ Ejecutado:**
-- **Estrato 1 — hit-base melee** (2026-07-04, `nikana-melee.test.ts` §1): grafo genérico resuelve los 3
+- **Estrato 1 — hit-base melee** (`nikana-melee.test.ts` §1): grafo genérico resuelve los 3
   perfiles a stat-base **sin cambios al motor** (`kind=melee` solo evita `isWarframe`; `attack_speed=fire_rate`).
   Confirma §1. **(c)**
-- **CO melee** (2026-07-04, `nikana-melee.test.ts` §2): reusó `CONDITION_OVERLOAD`; default `co_behavior`
+- **CO melee** (`nikana-melee.test.ts` §2): reusó `CONDITION_OVERLOAD`; default `co_behavior`
   `kind=melee → adding`. Cierra la familia CO. **(c)**
-- **Heavy Slam multiplier** (2026-07-05, `nikana-melee.test.ts` §3, §4.1) — modifier `MELEE_COMBO_MULT`
+- **Heavy Slam multiplier** (`nikana-melee.test.ts` §3, §4.1) — modifier `MELEE_COMBO_MULT`
   sintetizado en hidratación (lee `melee_combo_count`) + fórmula `melee-combo` (`meleeComboMult`) + operación
   de familia (hermana de CO) + `melee_combo_factors {count_var}` + bucket `multiplicative` fijo en perfil `heavy_slam_attack`. Valida
   factor→fórmula→bucket→perfil sobre dato real (594 = arsenal = `@wfcd`). **Primer consumidor de daño.** **(c)**
-- **Bug co_behavior melee corregido** (2026-07-05) — el heavy slam es `shot_type=AoE` → caía en el default
+- **Bug co_behavior melee corregido** — el heavy slam es `shot_type=AoE` → caía en el default
   gun `AoE→none` y CO no aplicaba. Confirmado en partida que **CO melee es aditivo siempre** → `ItemRepository`
   ahora resuelve `kind=melee → adding` ANTES del switch por shot_type (arch-decisions §9). **(c)**
-- **CO × Heavy Slam** (2026-07-05, `nikana-melee.test.ts` §4) — las dos mecánicas de familia componen en
+- **CO × Heavy Slam** (`nikana-melee.test.ts` §4) — las dos mecánicas de familia componen en
   buckets separados: `594 × (1 + CO%) × combo_mult` (adding × multiplicative). **(c)**
-- **Sniper Shot Combo** (2026-07-05, `lanka.test.ts`) — **3ra mecánica de familia**, hermana del melee combo
+- **Sniper Shot Combo** (`lanka.test.ts`) — **3ra mecánica de familia**, hermana del melee combo
   pero fórmula LOGARÍTMICA (`sniperComboMult`, `1.5 + 0.5·⌊log₃(count/minCombo)⌋`) y con `min_combo` por-arma
   (dato del override, ausente en `@wfcd`). Pasivo (todo shot scoped). Lanka minCombo=2: `525 × 1.5/2.0/2.5`.
   Ref: `references/wiki/mechanics/sniper-combo.md`. **(c)**
-- **Abstracción B — tabla de dispatch** (2026-07-05) — la cascada `if (op === 'X')` de `resolveNode` → registro
+- **Abstracción B — tabla de dispatch** — la cascada `if (op === 'X')` de `resolveNode` → registro
   `FAMILY_RESOLVERS`. Prueba: la 3ra mecánica (sniper) entró como 1 entrada + 1 resolver, **cero cambios a
   `resolveNode`**. Ver arch-decisions §10.
-- **Abstracción A — cierre en el TIPO** (2026-07-05) — la 3ra mecánica disparó el trigger: `Modifier` pasó a
+- **Abstracción A — cierre en el TIPO** — la 3ra mecánica disparó el trigger: `Modifier` pasó a
   **discriminated union por `operation`** (`AccumulatorModifier | CoModifier | MeleeComboModifier | SniperComboModifier`).
   El compilador exige los factores por variante y mató el `value` muerto de los combos; productores dinámicos vía
   factory `makeModifier`. Ver arch-decisions §10.
-- **Blood Rush / Weeping Wounds — familia `COMBO_SCALED_ADD`** (2026-07-10, §4.3) — **5ª mecánica de
+- **Blood Rush / Weeping Wounds — familia `COMBO_SCALED_ADD`** (§4.3) — **5ª mecánica de
   familia**, primer caso donde un mod DINÁMICO (no intrínseco) necesita `melee_combo_factors`: nuevo op
   `COMBO_SCALED_ADD` + variante `ComboScaledAddModifier {value, melee_combo_factors}` + resolver
   `resolveComboScaledAdd` (ruteo fijo `ADD`) + `ModRepository` reconoce `condition:

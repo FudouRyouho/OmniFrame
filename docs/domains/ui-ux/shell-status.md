@@ -4,12 +4,12 @@ Rol: "[PLEGADO] Antiguo status del shell — su contenido vive ahora en status.m
 Impacto_ID: "UI-UX-Shell-Status"
 Fidelidad_Fisica: "Project/src/providers/Shell/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-16"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Navigation Shell Status — [PLEGADO en `status.md`]
 
-> **Este doc se plegó en [`./status.md`](./status.md)** (campaña UI, paso 4, 2026-06-16). El status del
+> **Este doc se plegó en [`./status.md`](./status.md)** (campaña UI, paso 4). El status del
 > shell/menu vive ahora en `status.md` §1.4 (Menu / Shell) + §2 (mapas cross-cutting). Contenido stale
 > corregido en la fusión: la zona "Dev" y la abstracción `routes` fueron **purgadas** (MS1/2/3); el footer
 > `Build`/`Wiki` son **false-affordances** (botones sin handler, ver `status.md` §2.2 + U-4).

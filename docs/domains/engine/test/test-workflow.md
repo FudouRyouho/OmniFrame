@@ -4,7 +4,7 @@ Rol: "Workflow de testing derivado del engine: el CÓMO (clic + gramática ✓/f
 Impacto_ID: "E-TestWorkflow"
 Fidelidad_Fisica: "Project/src/core/engine/output/consume.ts"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Test workflow — testing derivado del engine
@@ -102,7 +102,7 @@ de que D exista) es prematuro.
 
 ## Lineaje de decisión (D12–D16)
 
-> Origen: sesión 2026-06-08 (`.working/` purgado tras graduar).
+> Origen: `.working/` purgado tras graduar.
 
 - **D12 — Test progresivo = diagonal.** Un consumidor, linaje de aserciones en orden de dependencia (no N
   fixtures horizontales). El linaje puede vivir dentro de un mismo test como secuencia de aserciones.

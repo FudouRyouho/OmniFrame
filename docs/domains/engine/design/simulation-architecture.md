@@ -4,7 +4,7 @@ Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-18"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -44,11 +44,10 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 └─────────────────────────────────────────────────┘
 ```
 
-> **Nomenclatura (asentada 2026-07-19):** el payload de salida de C se llamaba `ProjectionSnapshot`
-> (tipo purgado 2026-06-16); hoy la salida cruda es `snapshot(): SimulationEntity[]` y las **métricas de
-> combate** cristalizaron en `CombatMetrics` (`output/combat-metrics.ts`, contrato neutro particionado por
-> dependencia-de-target) — ver `DC-OQ-ENGINE-8`. La **Capa E** (ViewModel intermedio) se **descartó**
-> (2026-07-17, `DC-OQ-ENGINE-10`): no hay capa entre D y la UI; D se lee por dos lentes de salida (D1 UI /
+> **Nomenclatura:** la salida cruda de C es `snapshot(): SimulationEntity[]` y las **métricas de
+> combate** cristalizan en `CombatMetrics` (`output/combat-metrics.ts`, contrato neutro particionado por
+> dependencia-de-target) — ver `DC-OQ-ENGINE-8`. La **Capa E** (ViewModel intermedio) está **descartada**
+> (`DC-OQ-ENGINE-10`): no hay capa entre D y la UI; D se lee por dos lentes de salida (D1 UI /
 > D2 CLI) y la hidratación de chrome viene del piso "0". Residual editorial: el rename de `ViewModelContract`
 > (cut C→D display) sigue diferido (`DC-OQ-ENGINE-8` §residual).
 
@@ -83,9 +82,9 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
   - **EnsembleStore** — contenedor reactivo (observable agnóstico de framework). Reacciona a acciones explícitas del usuario (equipar ítem, asignar mod). Es proactivamente reactivo: no sabe de UI interna, pero emite snapshots cuando el usuario actúa.
   - **EnsembleIntention** — contrato de datos puro (POJO tipado). Define qué tiene equipado el usuario en cada canal y bajo qué condiciones de entorno.
 - **Responsabilidad**: Almacenar la intención del usuario como datos puros. No contiene lógica de juego ni fórmulas.
-- **Contrato**: `EnsembleIntention` — ver `@shared/types/ensemble.ts` (gemelo-de-entrada, movido desde `providers/Ensemble` 2026-06-12).
+- **Contrato**: `EnsembleIntention` — ver `@shared/types/ensemble.ts` (gemelo-de-entrada).
 - **No conoce**: fórmulas del engine, contexto de simulación, cómo la UI se renderiza.
-- **Físico**: store `ensembleStore` en `@core/intention/ensemble-store.ts` (A1); binding React `EnsembleProvider` en `providers/Ensemble/` (composición). El store salió de `providers/` el 2026-06-12.
+- **Físico**: store `ensembleStore` en `@core/intention/ensemble-store.ts` (A1); binding React `EnsembleProvider` en `providers/Ensemble/` (composición).
 
 > **Edge cases (ej: armas exaltadas):** Cuando una habilidad activa un arma exaltada (Excalibur, Valkyr), la intención debe reflejar ese cambio de estado sin que sea una selección directa del usuario. Este caso no está resuelto hoy — es una preocupación de diseño pendiente en Capa A.
 
@@ -97,10 +96,10 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 - **Dos entradas:** recibe `EnsembleIntention` desde Capa A **y** `SimulationContext` desde Arsenal State (UI). No construye el contexto — lo recibe ya formado y lo reenvía al engine junto con el Ensemble traducido.
 - **Responsabilidad**:
   - Escucha el snapshot de `EnsembleIntention`.
-  - **DNA Mutation Step**: Aplica mutaciones fijas (Archon Shards, Helminth) sobre los valores base del dataset. Entrega `MutatedDNA` al engine. *(Archon Shards implementados — OQ-ENGINE-4 cerrado (2026-05-27): `StaticHydrator.hydrate()` consume `ensemble.warframe.shards` vía `ShardRepository`. Helminth sigue sin implementar.)*
+  - **DNA Mutation Step**: Aplica mutaciones fijas (Archon Shards, Helminth) sobre los valores base del dataset. Entrega `MutatedDNA` al engine. *(Archon Shards implementados — OQ-ENGINE-4 cerrado: `StaticHydrator.hydrate()` consume `ensemble.warframe.shards` vía `ShardRepository`. Helminth sigue sin implementar.)*
   - **Positional Mapping**: Preserva el orden de slots de mods para el Elemental System de C1.
 - **No conoce**: React, UI, cómo las fórmulas funcionan internamente. No decide qué condiciones están activas.
-- **Físico**: `Project/src/core/bridge/MutatorBridge.ts` (fuera de `engine/` desde 2026-06-12 — B no es C).
+- **Físico**: `Project/src/core/bridge/MutatorBridge.ts` (fuera de `engine/` — B no es C).
 
 ---
 
@@ -114,7 +113,7 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
   - Emite entidades con atributos completamente resueltos.
 - **No conoce**: tiempo, enemigos, entorno de combate, UI.
 - **Contrato de AttributeNode**: ver `docs/domains/engine/attribute-node-contract.md`
-- **Físico**: `engine/resolve/SimulationEngine.ts` + `engine/resolve/hydration/{StaticHydrator, ModRepository, DnaRepository, ItemRepository (segmentado weapon/warframe, Slice C), ShardRepository, IncarnonRepository, ArcaneRepository, DamageCombiner}.ts`. Reorganizado a `resolve/` el 2026-06-12.
+- **Físico**: `engine/resolve/SimulationEngine.ts` + `engine/resolve/hydration/{StaticHydrator, ModRepository, DnaRepository, ItemRepository (segmentado weapon/warframe, Slice C), ShardRepository, IncarnonRepository, ArcaneRepository, DamageCombiner}.ts`.
 
 ---
 
@@ -124,10 +123,10 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 - **Responsabilidad**:
   - Recibe las entidades resueltas de C1 + `SimulationContext` (flags de condiciones, variables de stacks, target opcional, distancia).
   - Resuelve daño final, procs de estado, líneas de tiempo. El nivel de detalle depende de la riqueza del `SimulationContext` recibido — no de sub-modos internos de C2.
-  - Emite métricas de combate (DPS, TTK, status weights). *(El payload rico `ProjectionSnapshot` diseñado para esto se purgó 2026-06-16; hoy las métricas fluyen a `CombatMetrics` — el contrato de salida único ya cristalizado (`output/combat-metrics.ts`, particionado `target_agnostic`/`vs_target`), ver `DC-OQ-ENGINE-8`. El modelo de daño/status de C2 se aterrizó en `design/damage-status-model.md`, 2026-07-02.)*
+  - Emite métricas de combate (DPS, TTK, status weights). *(Las métricas fluyen a `CombatMetrics` — el contrato de salida único cristalizado (`output/combat-metrics.ts`, particionado `target_agnostic`/`vs_target`), ver `DC-OQ-ENGINE-8`. El modelo de daño/status de C2 vive en `design/damage-status-model.md`.)*
 - **No conoce**: UI, intención del usuario, cómo se presentan los resultados.
 - **Distinción clave con C1**: C1 resuelve *qué vale cada atributo*. C2 resuelve *qué pasa en el juego con esos valores*.
-- **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EnemyState}.ts`. Reorganizado a `simulate/` el 2026-06-12. (El proc/DoT lo modelan los `EffectBehavior` sobre `EnemyState`; `StatusEngine` eliminado con el rediseño unificado.)
+- **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EnemyState}.ts`. (El proc/DoT lo modelan los `EffectBehavior` sobre `EnemyState`.)
 
 ---
 
@@ -142,8 +141,8 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 - **No es el Observer de v1**: el Observer era externo y para debug. La Capa D es parte del flujo de presentación.
 - **No conoce**: fórmulas del engine, lógica de simulación.
 - **`view_mode`** *(diseñado, no implementado)*: `"classic"` expondría solo `AttributeNode.final`; `"advanced"` los buckets completos con atribución por fuente. Mismo cálculo de C1 — distinta profundidad de exposición.
-- **Estado actual (2026-07-03)**: **`ViewModelContract` v0 (display-only/C1) materializado** — `project()` en `@shared/view-model` (snapshot crudo → `token·value·unit·category`), consumido por **D1** (`UpgradeView` vía `useViewModel` en `@providers`) y **D2** (oráculo CLI, `npm run oracle -- view`). Ningún dominio importa `@core`.
-- **Pendiente**: versión reactiva completa (diff tracker, granular emitters), `metrics`/A2 (C2). *(El contrato de salida de métricas ya cristalizó como `CombatMetrics`, `DC-OQ-ENGINE-8`; el rename residual de `ViewModelContract` display queda diferido.)* El `useSimulation` que cumplía el rol de binding de forma parcial fue **purgado** (2026-06-16), no reubicado. *(La **Capa E** intermedia se descartó — `DC-OQ-ENGINE-10`; la hidratación de chrome viene del piso "0", no de una capa entre D y la UI.)*
+- **Estado actual**: **`ViewModelContract` v0 (display-only/C1) materializado** — `project()` en `@shared/view-model` (snapshot crudo → `token·value·unit·category`), consumido por **D1** (`UpgradeView` vía `useViewModel` en `@providers`) y **D2** (oráculo CLI, `npm run oracle -- view`). Ningún dominio importa `@core`.
+- **Pendiente**: versión reactiva completa (diff tracker, granular emitters), `metrics`/A2 (C2). *(El contrato de salida de métricas ya cristalizó como `CombatMetrics`, `DC-OQ-ENGINE-8`; el rename residual de `ViewModelContract` display queda diferido.)* *(La **Capa E** intermedia está descartada — `DC-OQ-ENGINE-10`; la hidratación de chrome viene del piso "0", no de una capa entre D y la UI.)*
 
 > **Salida de C ≠ Capa D (frontera de dominios):** `consume()` (en `@core/engine/output/`) es el **punto de salida de C** — superficie del dominio engine, consumida directo por **scripts y tests (no-dominios)**. **No es la Capa D.** La Capa D (consumo derivado: `ViewModelContract` + mapping) vive **fuera** de `@core` y cruza por `@shared`; los dominios no importan `@core` (Restricción 1). Ver [`arch-decisions.md`](arch-decisions.md) §6-7.
 >
@@ -161,7 +160,7 @@ OmniFrame opera como un motor de juego simplificado. Todo objeto en el sistema e
 
 ### 2.0 El trazado de una instancia de daño (source-agnostic)
 
-> **Reconciliación (2026-07-08).** Las facetas del ciclo de vida de una instancia de daño estaban
+> **Reconciliación.** Las facetas del ciclo de vida de una instancia de daño estaban
 > **dispersas** en §2.1 (TE), §2.5 (modo Expected/atómico), §2.6 (capas decoradoras) y §2.7 (Casting
 > Snapshot) — varias "diseñado-no-implementado". Esta sección las unifica en **un trazado único**. Es
 > **ortogonal** al flujo macro A→B→C→D (§1): aquél es equipamiento→proyección; éste es el ciclo de vida
@@ -213,9 +212,9 @@ viva de lo segundo.
   llama las mismas. DR es entidad-level (con variantes: enemigo `√3a/100`, jugador `armor/(armor+300)`);
   encerrarla por tipo de entidad fue el origen del bug de `resolveHit` (usa la DR del jugador sobre enemigos).
 
-**El split ②③ ya está en el código; el drift restante es `simulateAttack` (actualizado 2026-07-16).** La
-resolución ③ (target-keyed: facción/DR/capa/stacks) vive limpia en `resolveDamageEvent` (extraído 2026-07-12/13,
-agnóstico al origen — lo comparten el hit directo y el tick de DoT); ② (crit) se aplica upstream en
+**El split ②③ ya está en el código; el drift restante es `simulateAttack`.** La
+resolución ③ (target-keyed: facción/DR/capa/stacks) vive limpia en `resolveDamageEvent` (extraída,
+agnóstica al origen — lo comparten el hit directo y el tick de DoT); ② (crit) se aplica upstream en
 `simulateAttack`; la Instancia (§2.0.1) ya nace target-agnóstica. `resolveHit` quedó como **fan-out por tipo**
 sobre `resolveDamageEvent`, no como el colapso ②③ que este párrafo describía antes. Lo que sigue enredado es
 **`simulateAttack` como god-function**: fusiona ejecución del Hit (rolls multishot/crit) + ② + invocación de ③
@@ -345,12 +344,12 @@ Para evitar el agotamiento de la `MAX_TICK_ENERGY` en ráfagas de alta densidad 
 
 ### 2.6 Jerarquía de Leyes (Logic Decorator Layers)
 
-> **⚠️ Diseñado, NO implementado (2026-07-03).** Hoy el engine resuelve todos los modificadores en un solo
+> **⚠️ Diseñado, NO implementado.** Hoy el engine resuelve todos los modificadores en un solo
 > bloque (la fórmula del acumulador §2.3), sin capas decoradoras ordenadas — caps/floors/overrides no tienen
 > orden garantizado. Es una de las decisiones de blindaje pendientes (ver [`arch-decisions.md`](arch-decisions.md) §4);
 > se construirá cuando el layering con orden crítico empiece a doler.
 
-> **Alcance (2026-07-08, §2.0):** estas capas ordenan la resolución de un **STAT** (C1). El `POST_MUL:
+> **Alcance (§2.0):** estas capas ordenan la resolución de un **STAT** (C1). El `POST_MUL:
 > Faction damage adjustments` de abajo NO es un decorador de stat: es la etapa **③ RESUELVE-VS-TARGET** del
 > trazado (§2.0) — propiedad del target (C2). No mezclar los dos órdenes.
 
@@ -369,7 +368,7 @@ Para evitar condiciones de carrera entre decoradores (ej: "¿50% de reducción o
 
 ### 2.7 ADN Dinámico: El "Casting Snapshot"
 
-> **⚠️ Diseñado, NO implementado (2026-07-03).** El behavior `CAST` → snapshot parcial del padre →
+> **⚠️ Diseñado, NO implementado.** El behavior `CAST` → snapshot parcial del padre →
 > `Injected DNA` en la TE no existe (Iron Skin y habilidades-snapshot no modeladas). Feature futura —
 > ver [`arch-decisions.md`](arch-decisions.md) §4.
 

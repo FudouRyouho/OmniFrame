@@ -4,7 +4,7 @@ Rol: "Marco de propiedad y flujo del daño (instancia→daño→estado) — RATI
 Impacto_ID: "E-DamageFlow"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/status/"
 Fecha_de_creacion: "2026-07-10"
-Fecha_de_actualizacion: "2026-07-10"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "docs/domains/engine/design/damage-status-model.md"
@@ -12,7 +12,7 @@ Dependencias:
 
 # Modelo de flujo del daño
 
-> ✅ **RATIFICADO + IMPLEMENTADO (2026-07-10).** El marco se estresó con 3 casos reales (Toxic Lash,
+> ✅ **RATIFICADO + IMPLEMENTADO.** El marco se estresó con 3 casos reales (Toxic Lash,
 > Xata) + 2 conceptuales, salió más preciso de cada golpe, y su núcleo se **promovió a
 > [`arch-decisions.md`](./arch-decisions.md) §14** (SSoT ahora). Lo gated viaja a
 > [`../../../governance/decision-frontier.md`](../../../governance/decision-frontier.md) §4. Este doc
