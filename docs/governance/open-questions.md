@@ -1173,6 +1173,7 @@ pre-pipeline):
 | Iron Skin (Rhino) | `(1200 + 2.5 × TotalArmor) × Strength + Absorbed` | bracket armor × strength |
 | Snow Globe (Frost) | idéntica letra por letra | ídem |
 | Icy Avalanche (Frost augment) | `60 × str` + `20% armor→OG × str` + cap | ídem + cap |
+| **Warding Halo (Nezha)** | `Damage Absorption 1662` + `Absorption Multiplier 2.5x`, ambos `$STRENGTH` | **ídem** — 4º caso, hallado en el propio override |
 | Trinity (pasiva) | `ally_health += 0.5 × trinity_energy_max` | 1 input, sin bracket ni cap |
 | Bloodletting (Garuda) | `% × MaxEnergy × min(1, hp/½MaxHealth) ÷ (2−efic)` | 2 inputs + clamp + no-lineal |
 

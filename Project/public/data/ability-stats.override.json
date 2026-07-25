@@ -655,27 +655,30 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Base Damage: |val1|",
-            "base_value": 200,
+            "label": "Radius: |val1|m",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Projectile Multiplier: |val1|x",
+            "base_value": 8,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
+          }
+        ]
+      },
+      {
+        "id": "antimatter-absorb",
+        "label": "ANTIMATTER ABSORB",
+        "stats": [
           {
-            "label": "Contact Damage: |val1|",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Absorb Multiplier: |val1|x",
-            "base_value": 8
-          },
-          {
-            "label": "Explosion Range: |val1|m",
-            "base_value": 15
+            "label": "Radius: |val1|m",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           }
         ]
       }
@@ -756,23 +759,29 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage Percentage: |val1|%",
-            "base_value": 70,
+            "label": "Damage: |val1|%",
+            "base_value": 100,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Max Damage Per Instance: |val1|",
-            "base_value": 140,
+            "label": "Buffer Limit: |val1|",
+            "base_value": 5000,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
+          }
+        ]
+      },
+      {
+        "id": "ballistic-bullseye",
+        "label": "BALLISTIC BULLSEYE",
+        "stats": [
           {
-            "label": "Max Stored Damage: |val1|",
-            "base_value": 1600,
+            "label": "Critical Chance: |val1|%",
+            "base_value": 50,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
@@ -829,14 +838,14 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Max Damage Multiplier: |val1|x",
-            "base_value": 2,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Radius: |val1|m",
+            "base_value": 14,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
@@ -844,17 +853,12 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Range: |val1|m",
-            "base_value": 14,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Mallet Damage And Range Bonus: |val1|%",
-            "base_value": 200
-          },
-          {
-            "label": "Limit Of Amp Fields: |val1|",
-            "base_value": 1
+            "label": "Damage Multiplier: |val1| - |val2|x",
+            "base_value": [
+              0.25,
+              2
+            ],
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -868,14 +872,9 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Blast Damage Per Beat: |val1|",
-            "base_value": 125,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Duration: |val1|s",
@@ -893,12 +892,20 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Limit Of Resonators: |val1|",
-            "base_value": 1
-          },
+            "label": "Damage / Charm: <DT_BLAST> |val1|",
+            "base_value": 125,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "conductor",
+        "label": "CONDUCTOR",
+        "stats": [
           {
-            "label": "Stagger On Expiry: |val1|%",
-            "base_value": 100
+            "label": "Speed Multiplier: |val1|x",
+            "base_value": 1.5,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -912,44 +919,62 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Armor Bonus: |val1|%",
-            "base_value": 35,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Radius: |val1|m",
+            "base_value": 12,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Speed Bonus: |val1|%",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Multishot Bonus: |val1|%",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Melee Damage Bonus: |val1|%",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Ability Duration: |val1|s",
+            "label": "Duration: |val1|s",
             "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Armor Increase: |val1|%",
+            "base_value": 35,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Buff Duration: |val1|s",
             "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+          }
+        ]
+      },
+      {
+        "id": "vivace",
+        "label": "VIVACE",
+        "stats": [
           {
-            "label": "Range: |val1|m",
-            "base_value": 12,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Speed: |val1|%",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "opera",
+        "label": "OPERA",
+        "stats": [
+          {
+            "label": "Multishot: |val1|%",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "forte",
+        "label": "FORTE",
+        "stats": [
+          {
+            "label": "Melee Damage: |val1|%",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -963,28 +988,34 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage Multiplier: |val1|x",
+            "label": "Damage Multiplier: <DT_BLAST> |val1|x",
             "base_value": 2.5,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Radius: |val1|",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
             "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+          }
+        ]
+      },
+      {
+        "id": "partitioned-mallet",
+        "label": "PARTITIONED MALLET",
+        "stats": [
           {
-            "label": "Range: |val1|m",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Limit Of Mallets: |val1|",
-            "base_value": 1
+            "label": "Radius: |val1|%",
+            "base_value": 80
           }
         ]
       }
@@ -998,39 +1029,40 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Attack Speed Buff: |val1|%",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Armor Buff: |val1|%",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Slow: |val1|%",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
-            "cap": 75
-          },
-          {
-            "label": "Range: |val1|m",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
             "label": "Duration: |val1|s",
-            "base_value": 15,
+            "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Slow Cap: |val1|%",
-            "base_value": 75
+            "label": "Armor Increase: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Attack Speed: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "eternal-war",
+        "label": "ETERNAL WAR",
+        "stats": [
+          {
+            "label": "Time / Kill: |val1|s",
+            "base_value": 2,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Max Duration: |val1|s",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -1044,33 +1076,24 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Shield/Health Restoration: |val1|%",
+            "label": "Duration: |val1|s",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Restoration: |val1|%",
             "base_value": 80,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Damage Reduction: |val1|%",
             "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
-            "cap": 75
-          },
-          {
-            "label": "Buff Duration: |val1|s",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Affinity Range: |val1|m",
-            "base_value": 50
-          },
-          {
-            "label": "Damage Reduction Cap: |val1|%",
-            "base_value": 75
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -1548,24 +1571,9 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Blast Explosion Base Damage: |val1|",
-            "base_value": 300,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Damage Multiplier: |val1|x",
-            "base_value": 2,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Magnetic Pull: |val1|x",
-            "base_value": 4,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Duration: |val1|s",
@@ -1578,21 +1586,42 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Field Radius: |val1|m",
+            "label": "Explosion Damage: <DT_BLAST> |val1|",
+            "base_value": 300,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "targeted",
+        "label": "TARGETED",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
             "base_value": 4,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Damage Absorption: |val1|%",
-            "base_value": 25
-          },
-          {
-            "label": "Blast Base Damage: |val1|",
-            "base_value": 300,
+            "label": "Damage Multiplier: |val1|x",
+            "base_value": 2,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Blast Damage Increase Per Second: |val1|",
+            "label": "Damage Absorption: |val1|%",
+            "base_value": 25
+          }
+        ]
+      },
+      {
+        "id": "protective",
+        "label": "PROTECTIVE",
+        "stats": [
+          {
+            "label": "Angle: |val1|°",
+            "base_value": 120
+          },
+          {
+            "label": "Absorb / Second: <DT_BLAST> |val1|",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
@@ -1602,18 +1631,9 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Duration: |val1|s",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Blast Range: |val1|m",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Blast Angle: |val1|xb0",
-            "base_value": 80
+            "label": "Shrapnel Damage: |val1|",
+            "base_value": 500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -1673,12 +1693,12 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
@@ -1686,6 +1706,20 @@
             "label": "Duration: |val1|s",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Status Effect / Enemy: <DT_RADIATION> |val1|",
+            "base_value": 10
+          }
+        ]
+      },
+      {
+        "id": "chaos-sphere",
+        "label": "CHAOS SPHERE",
+        "stats": [
+          {
+            "label": "Duration: |val1|%",
+            "base_value": 50
           }
         ]
       }
@@ -1699,41 +1733,49 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage Bonus: |val1|%",
-            "base_value": 150,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Shield Bonus: |val1|%",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Health Bonus: |val1|%",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Health Decay Per Sec: |val1|%",
-            "base_value": 3,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Shadow Copies: |val1|",
+            "label": "Enemies Affected: |val1|",
             "base_value": 7
           },
           {
-            "label": "Spawn Radius: |val1|m",
-            "base_value": 10
+            "label": "Damage Multiplier: |val1|X",
+            "base_value": 2.5,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Recall Range: > |val1|m",
-            "base_value": 30
+            "label": "Health Multiplier: |val1|x",
+            "base_value": 2,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Shield Multiplier: |val1|x",
+            "base_value": 2,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Health Decay / Second: |val1|%",
+            "base_value": 3,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          }
+        ]
+      },
+      {
+        "id": "shield-of-shadows",
+        "label": "SHIELD OF SHADOWS",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage Redirection: |val1|%",
+            "base_value": 6,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -1747,29 +1789,45 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 1500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Extra Damage: |val1|",
-            "base_value": 1500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Shields Per Hit: |val1|",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 18,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage: <DT_MAGNETIC> |val1|",
+            "base_value": 500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Magnetized Damage: <DT_MAGNETIC> |val1|",
+            "base_value": 500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Shield / Hit: |val1|",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "fracturing-crush",
+        "label": "FRACTURING CRUSH",
+        "stats": [
+          {
+            "label": "Armor Reduction: |val1|%",
+            "base_value": 75,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 7,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -1788,36 +1846,68 @@
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Defense Reduction: |val1|%",
-            "base_value": 80,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
-            "cap": 100
+            "label": "Bolts: |val1|",
+            "base_value": 9
           },
           {
-            "label": "Infested Speed Penalty: |val1|%",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Additional Bolts / Death: |val1|",
+            "base_value": 2
           },
           {
-            "label": "Duration: |val1|s",
-            "base_value": 11,
+            "label": "Debuff Duration: |val1|s",
+            "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Number Of Bolts: |val1|",
-            "base_value": 6
+            "label": "Defense Reduction: |val1|%",
+            "base_value": 80,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Targeting Range: |val1|m",
-            "base_value": 60
+            "label": "Armor / Enemy: |val1|",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Aura Nullification: |val1|%",
-            "base_value": 100
+            "label": "Armor Buff Duration: |val1|s",
+            "base_value": 20,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Defense Reduction Cap: |val1|%",
-            "base_value": 100
+            "label": "Max Armor: |val1|",
+            "base_value": 1000,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Shield Restore: |val1|",
+            "base_value": 75,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Overguard Steal: |val1|",
+            "base_value": 500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Overguard Max: |val1|",
+            "base_value": 7500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Speed Decrease: |val1|%",
+            "base_value": 20,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "pacifying-bolts",
+        "label": "PACIFYING BOLTS",
+        "stats": [
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -2542,32 +2632,26 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Energy Restored Per Pulse: |val1|",
+            "label": "Energy / Pulse: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Damage Percentage: |val1|%",
-            "base_value": 6.25,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Pulse Interval: |val1|s",
+            "base_value": 2.25
           },
           {
-            "label": "Damage Health Threshold: ≥|val1|%",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Cast Range: |val1|m",
+            "label": "Range: |val1|m",
             "base_value": 100,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Pulse Radius: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
@@ -2577,16 +2661,19 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Number Of Pulses: |val1|",
-            "base_value": 4
-          },
+            "label": "Damage: <DT_TRUE> |val1|%",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "vampire-leech",
+        "label": "VAMPIRE LEECH",
+        "stats": [
           {
-            "label": "Min True Damage: |val1|",
-            "base_value": 5
-          },
-          {
-            "label": "Max Target Limit: |val1|",
-            "base_value": 1
+            "label": "Energy Conversion: |val1|%",
+            "base_value": 225
           }
         ]
       }
@@ -2820,19 +2907,19 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 150,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage / Second: <DT_VIRAL> |val1|",
+            "base_value": 150,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Duration: |val1|s",
@@ -2840,11 +2927,7 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Viral Status Chance: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Spores Damage Multiplier: |val1|x",
+            "label": "Spore Damage Multiplier: |val1|x",
             "base_value": 4
           }
         ]
@@ -2859,28 +2942,38 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
             "base_value": 16,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          }
+        ]
+      },
+      {
+        "id": "spellbound-harvest",
+        "label": "SPELLBOUND HARVEST",
+        "stats": [
+          {
+            "label": "Energy: <ENERGY> |val1|",
+            "base_value": 50
           },
           {
-            "label": "Area Radius: |val1|m",
-            "base_value": 5,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Cast Range: |val1|m",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Status Cleanse And Immunity: |val1|%",
-            "base_value": 100
+            "label": "Boosted Radius: |val1|%",
+            "base_value": 40
           }
         ]
       }
@@ -2894,45 +2987,66 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Energy Drain: |val1|",
-            "base_value": 5,
-            "upgrade_by": "ENERGY_DRAIN"
+            "label": "Number Of Drones: |val1|",
+            "base_value": 6
           },
           {
-            "label": "Gun Damage: |val1|",
+            "label": "Evasion: |val1|%",
+            "base_value": 50
+          },
+          {
+            "label": "Damage: <DT_SLASH> <DT_IMPACT> <DT_PUNCTURE> |val1|",
             "base_value": 160,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Melee Damage: |val1|",
+            "label": "Melee Damage: <DT_IMPACT> <DT_PUNCTURE> <DT_SLASH> |val1|",
             "base_value": 200,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Drone Damage: |val1|",
+            "label": "Drone Damage: <DT_SLASH> <DT_IMPACT> <DT_PUNCTURE> |val1|",
             "base_value": 80,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Evasion Bonus: |val1|%",
-            "base_value": 50
+            "label": "Damage Vulnerability: |val1|%",
+            "base_value": 100
           },
           {
-            "label": "Vacuum Radius: |val1|m",
-            "base_value": 10
+            "label": "Energy / Second: <ENERGY> |val1|",
+            "base_value": 5,
+            "upgrade_by": "ENERGY_DRAIN"
+          }
+        ]
+      },
+      {
+        "id": "razorwing-blitz",
+        "label": "RAZORWING BLITZ",
+        "stats": [
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 8,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Razorfly Drones: |val1|",
-            "base_value": 6
+            "label": "Speed: |val1|%",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Max Extra Razorflies From Tribute: |val1|",
-            "base_value": 4
+            "label": "Fire Rate: |val1|%",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Damage Reduction: |val1|%",
+            "base_value": 40
           }
         ]
       }
@@ -2946,19 +3060,14 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Heat Damage Per Sec: |val1|",
-            "base_value": 350,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Heat Damage On Explosion: |val1|",
-            "base_value": 2500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Range: |val1|m",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
@@ -2966,14 +3075,19 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Cast Range: |val1|m",
-            "base_value": 25,
+            "label": "Damage / Second: <DT_HEAT> |val1|",
+            "base_value": 350,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 2.5,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Attract Radius: |val1|m",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Explosion Damage: <DT_HEAT> |val1|",
+            "base_value": 2500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Explosion Radius: |val1|m",
@@ -2981,13 +3095,20 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Damage Radius: |val1|m",
-            "base_value": 2.5,
+            "label": "Attract Radius: |val1|m",
+            "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
+          }
+        ]
+      },
+      {
+        "id": "beguiling-lantern",
+        "label": "BEGUILING LANTERN",
+        "stats": [
           {
-            "label": "Max Number Of Lanterns: |val1|",
-            "base_value": 4
+            "label": "Damage Increase: |val1|%",
+            "base_value": 100,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -3001,14 +3122,19 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Impact Damage: |val1|",
+            "label": "Damage: <DT_IMPACT> |val1|",
             "base_value": 500,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Debuff Duration: |val1|s",
@@ -3016,45 +3142,40 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Cast Range: |val1|m",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Damage Debuff: -|val1|%",
-            "base_value": 25
-          },
-          {
-            "label": "Offering Duration: |val1|s",
-            "base_value": 15
-          },
-          {
-            "label": "Aura Buff Duration: |val1|s",
-            "base_value": 120
-          },
-          {
-            "label": "Aura Range: |val1|m",
+            "label": "Effect Radius: |val1|m",
             "base_value": 35
           },
           {
-            "label": "Thorns Damage Reflection And Reduction: |val1|%",
-            "base_value": 50
-          },
+            "label": "Effect Duration: |val1|s",
+            "base_value": 120
+          }
+        ]
+      },
+      {
+        "id": "thorns",
+        "label": "THORNS",
+        "stats": [
           {
-            "label": "Dust Accuracy Debuff: |val1|%",
+            "label": "Damage Reduction: |val1|%",
             "base_value": 50
-          },
+          }
+        ]
+      },
+      {
+        "id": "full-moon",
+        "label": "FULL MOON",
+        "stats": [
           {
-            "label": "Full Moon Damage Bonus: |val1|%",
+            "label": "Damage: |val1|%",
             "base_value": 75
           },
           {
-            "label": "Full Moon Health And Armor Bonus: |val1|%",
+            "label": "Health: |val1|%",
             "base_value": 50
           },
           {
-            "label": "Entangle Move Speed Debuff: |val1|%",
-            "base_value": 25
+            "label": "Armor: |val1|%",
+            "base_value": 50
           }
         ]
       }
@@ -3584,12 +3705,22 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage: |val1|",
+            "label": "Range: |val1|m",
+            "base_value": 75,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 9,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage: <DT_SLASH> |val1|",
             "base_value": 600,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
@@ -3597,11 +3728,6 @@
             "label": "Combo Window: |val1|s",
             "base_value": 1,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Range: |val1|m",
-            "base_value": 75,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
           }
         ]
       }
@@ -3615,31 +3741,33 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Energy Drain: |val1|",
-            "base_value": 15,
             "upgrade_by": "ENERGY_DRAIN"
           },
           {
-            "label": "Damage Bonus: |val1|%",
-            "base_value": 150,
+            "label": "Energy / Second: <ENERGY> |val1|",
+            "base_value": 15
+          },
+          {
+            "label": "Damage Multiplier: |val1|x",
+            "base_value": 1.5,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 50
-          },
+            "label": "Field Of View: |val1|°",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "mesas-waltz",
+        "label": "MESA'S WALTZ",
+        "stats": [
           {
-            "label": "Maximum Shooting Distance: |val1|m",
+            "label": "Speed: |val1|%",
             "base_value": 50
-          },
-          {
-            "label": "Minimum Field Of View: |val1|xb0",
-            "base_value": 15
           }
         ]
       }
@@ -3653,65 +3781,49 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Pickup Explosion Damage: |val1|",
-            "base_value": 200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Jewel Explosion Damage: |val1|",
-            "base_value": 200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Trap Radius: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 40,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Jewel Charm Radius: |val1|m",
-            "base_value": 12,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Duration: |val1|s",
+            "base_value": 18,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Explosion Damage: <DT_BLAST> |val1|",
+            "base_value": 200,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Explosion Radius: |val1|m",
             "base_value": 8,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "explosive-legerdemain",
+        "label": "EXPLOSIVE LEGERDEMAIN",
+        "stats": [
+          {
+            "label": "Damage: <DT_HEAT> <DT_COLD> <DT_TOXIN> |val1|",
+            "base_value": 1000,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Blind Radius: |val1|m",
-            "base_value": 8,
+            "label": "Radius: |val1|m",
+            "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Trap Duration: |val1|s",
-            "base_value": 18,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Blind Duration: |val1|s",
-            "base_value": 5,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Jewel Cast Range: |val1|m",
-            "base_value": 60
-          },
-          {
-            "label": "Jewel Duration: |val1|s",
-            "base_value": 20
-          },
-          {
-            "label": "Detonation Radius: |val1|m",
-            "base_value": 2
-          },
-          {
-            "label": "Clone Jewels Distance: |val1|m",
-            "base_value": 6
+            "label": "Status Chance: |val1|%",
+            "base_value": 100
           }
         ]
       }
@@ -3877,14 +3989,13 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage Percentage: |val1|%",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Doppelgangers: |val1|",
+            "base_value": 4
           },
           {
             "label": "Duration: |val1|s",
@@ -3892,8 +4003,19 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Holograms: |val1|",
-            "base_value": 4
+            "label": "Damage: |val1|%",
+            "base_value": 20,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "hall-of-malevolence",
+        "label": "HALL OF MALEVOLENCE",
+        "stats": [
+          {
+            "label": "Damage Increase: |val1|%",
+            "base_value": 5
           }
         ]
       }
@@ -3907,19 +4029,8 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 0,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Strength Bonus: |val1|%",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Damage Redirection: |val1|%",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Mutation Stacks Cost: |val1|",
+            "base_value": 1
           },
           {
             "label": "Duration: |val1|s",
@@ -3927,14 +4038,35 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Ally Link: |val1|m",
+            "label": "Ally Range: |val1|m",
             "base_value": 40,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Enemy Link: |val1|m",
+            "label": "Damage Increase: |val1|%",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Enemy Range: |val1|m",
             "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage Redirection: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "parasitic-vitality",
+        "label": "PARASITIC VITALITY",
+        "stats": [
+          {
+            "label": "Max Health: |val1|%",
+            "base_value": 4,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -3948,19 +4080,8 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 0,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Explosion Damage: |val1|",
-            "base_value": 150,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Health Regen Per Second: |val1|",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Mutation Stacks Cost: |val1|",
+            "base_value": 3
           },
           {
             "label": "Explosion Radius: |val1|m",
@@ -3968,25 +4089,34 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Duration: |val1|s",
-            "base_value": 40,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "label": "Maggot Rupture Damage: <DT_BLAST> |val1|",
+            "base_value": 150,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Ability Diameter: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 8
           },
           {
-            "label": "Number Of Maggots: |val1|",
-            "base_value": 9
+            "label": "Regen Rate / Second: |val1|",
+            "base_value": 20,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Maggot Health: |val1|",
-            "base_value": 1000
-          },
+            "label": "Duration: |val1|s",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          }
+        ]
+      },
+      {
+        "id": "insatiable",
+        "label": "INSATIABLE",
+        "stats": [
           {
-            "label": "Maggot Toxin Damage: |val1|",
-            "base_value": 10
+            "label": "Success Chance: |val1|%",
+            "base_value": 60,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -4000,7 +4130,7 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 40,
             "upgrade_by": "ENERGY_COST"
           },
@@ -4010,17 +4140,30 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Range: |val1|m",
+            "label": "Length: |val1|m",
             "base_value": 16,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Fungal Growth Width: |val1|m",
-            "base_value": 4
+            "label": "Energy Refund / Hit: <DT_IMPACT> <DT_PUNCTURE> <DT_SLASH> |val1|",
+            "base_value": 10,
+            "upgrade_by": "ENERGY_COST"
+          }
+        ]
+      },
+      {
+        "id": "teeming-virulence",
+        "label": "TEEMING VIRULENCE",
+        "stats": [
+          {
+            "label": "Critical Chance: |val1|%",
+            "base_value": 120,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Energy Refund Rate Per Hit: |val1|%",
-            "base_value": 25
+            "label": "Duration: |val1|s",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -4034,23 +4177,35 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 12,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
             "base_value": 7,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+          }
+        ]
+      },
+      {
+        "id": "larva-burst",
+        "label": "LARVA BURST",
+        "stats": [
           {
-            "label": "Grab Radius: |val1|m",
-            "base_value": 12,
+            "label": "Radius: |val1|m",
+            "base_value": 8,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Unaffected Targets Release Delay: |val1|s",
-            "base_value": 3
+            "label": "Area Damage: <DT_TOXIN> |val1|",
+            "base_value": 600,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -4551,35 +4706,28 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Minimum Energy Drain: |val1|",
-            "base_value": 2,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Maximum Energy Drain: |val1|",
-            "base_value": 15,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Damage: |val1|",
+            "label": "Damage: <DT_SLASH> <DT_PUNCTURE> |val1|",
             "base_value": 250,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Lifesteal: |val1|%",
-            "base_value": 5
+            "label": "Drain / Second: <ENERGY> |val1|",
+            "base_value": 5,
+            "upgrade_by": "ENERGY_DRAIN"
           },
           {
-            "label": "Aura Radius: |val1|-|val2|m",
-            "base_value": [
-              5,
-              20
-            ]
+            "label": "Life Steal: <HEALTH> |val1|",
+            "base_value": 100,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Armor Increase: |val1|x",
+            "base_value": 3
           }
         ]
       }
@@ -4593,58 +4741,50 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Blast Damage On Device Hit: |val1|",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Max Targets Lifted: |val1|",
-            "base_value": 12,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Armor Removal Per Second: |val1|%",
+            "label": "Radius: |val1|m",
             "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "bastille",
+        "label": "BASTILLE",
+        "stats": [
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Magnetic Damage Per Second In Vortex: |val1|",
+            "label": "Buff Duration: |val1|s",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          }
+        ]
+      },
+      {
+        "id": "vortex",
+        "label": "VORTEX",
+        "stats": [
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 15
+          },
+          {
+            "label": "Damage / Second: <DT_MAGNETIC> |val1|",
             "base_value": 50,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Capture Radius: |val1|m",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Bastille Duration: |val1|s",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Vortex Duration: |val1|s",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Armor Buff Duration: |val1|s",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Auto Collapse Vortex Duration: |val1|s",
-            "base_value": 3,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Armor Bonus Cap: |val1|",
-            "base_value": 1000
+            "label": "Status Chance: |val1|%",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -4658,20 +4798,9 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Max. Damage Bonus: |val1|%",
-            "base_value": 200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Max. Damage Reduction: |val1|%",
-            "base_value": 75,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
-            "cap": 95
           },
           {
             "label": "Duration: |val1|s",
@@ -4679,8 +4808,25 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Damage Reduction Cap: |val1|%",
-            "base_value": 95
+            "label": "Damage Increase: |val1|%",
+            "base_value": 200,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Damage Reduction: |val1|%",
+            "base_value": 75,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "total-eclipse",
+        "label": "TOTAL ECLIPSE",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           }
         ]
       }
@@ -4694,31 +4840,38 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Range: |val1|m",
+            "label": "Enemies Affected: |val1|",
+            "base_value": 3
+          },
+          {
+            "label": "Damage Redirection: |val1|%",
+            "base_value": 75
+          },
+          {
+            "label": "Radius: |val1|m",
             "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 12,
+            "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+          }
+        ]
+      },
+      {
+        "id": "abating-link",
+        "label": "ABATING LINK",
+        "stats": [
           {
-            "label": "Affected Enemies: |val1|",
-            "base_value": 3
-          },
-          {
-            "label": "Damage Reduction: |val1|%",
-            "base_value": 75
-          },
-          {
-            "label": "Damage And Status Transfer: |val1|%",
-            "base_value": 100
+            "label": "Armor Reduction: |val1|%",
+            "base_value": 60,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -4802,7 +4955,7 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
@@ -4813,24 +4966,33 @@
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 30,
+            "base_value": 60,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Stun Duration: |val1|s",
-            "base_value": 3
-          },
-          {
-            "label": "Damage Immunity: |val1|%",
+            "label": "Status Chance: <DT_RADIATION> |val1|%",
             "base_value": 100
+          }
+        ]
+      },
+      {
+        "id": "mind-freak",
+        "label": "MIND FREAK",
+        "stats": [
+          {
+            "label": "Damage Increase: |val1|%",
+            "base_value": 1000,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Damage Conversion Duration: |val1|s",
-            "base_value": 4
+            "label": "Fire Rate: |val1|%",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Max Target Limit: |val1|",
-            "base_value": 1
+            "label": "Speed: |val1|%",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -4844,20 +5006,28 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Explosion Damage: |val1|",
-            "base_value": 800,
+            "label": "Radius: |val1|m",
+            "base_value": 35,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Enemy Slow Or Speed: |val1|%",
+            "base_value": 50,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Slow: |val1|%",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
-            "cap": 75
+            "label": "Damage Vulnerability: |val1|%",
+            "base_value": 100
+          },
+          {
+            "label": "Explosion Damage: <DT_BLAST> |val1|",
+            "base_value": 800,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Explosion Radius: |val1|m",
@@ -4865,26 +5035,14 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Wave Duration: |val1|s",
+            "label": "Duration: |val1|s",
             "base_value": 6,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Prime Duration: |val1|s",
+            "label": "Effect Duration: |val1|s",
             "base_value": 30,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Wave Speed: |val1|m/s",
-            "base_value": 5
-          },
-          {
-            "label": "Damage Multiplier: |val1|x",
-            "base_value": 2
-          },
-          {
-            "label": "Default Wave Radius: |val1|m",
-            "base_value": 35
           }
         ]
       }
@@ -5049,24 +5207,9 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Damage: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Boosted Damage: |val1|",
-            "base_value": 1000,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Vulnerability: |val1|%",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Duration: |val1|s",
@@ -5074,20 +5217,19 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Health Orb Chance: |val1|%",
-            "base_value": 100
+            "label": "Damage Vulnerability: |val1|%",
+            "base_value": 100,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Energy Orb Chance: |val1|%",
-            "base_value": 35
+            "label": "Damage: <DT_HEAT> |val1|",
+            "base_value": 250,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Uncharged Throw Distance: |val1|m",
-            "base_value": 30
-          },
-          {
-            "label": "Charged Throw Distance: |val1|m",
-            "base_value": 70
+            "label": "Boosted Damage: <DT_HEAT> |val1|",
+            "base_value": 1000,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -5101,38 +5243,33 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Base Health: |val1|",
-            "base_value": 1000,
+            "label": "Damage Absorption: |val1|",
+            "base_value": 1662,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Damage Per Second: |val1|",
+            "label": "Radius: |val1|m",
+            "base_value": 2,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage / Second: <DT_SLASH> |val1|",
             "base_value": 125,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Armor Multiplier: |val1|x",
-            "base_value": 2.5,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Time Invulnerable: |val1|s",
+            "base_value": 3
           },
           {
             "label": "Absorption Multiplier: |val1|x",
             "base_value": 2.5,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Range: |val1|m",
-            "base_value": 2,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Invulnerability Duration: |val1|s",
-            "base_value": 3
           }
         ]
       }
@@ -5146,12 +5283,22 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Impale Damage: |val1|",
+            "label": "Radius: |val1|m",
+            "base_value": 14,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 12,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Impale Damage: <DT_PUNCTURE> |val1|",
             "base_value": 600,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
@@ -5159,16 +5306,17 @@
             "label": "Slam Damage: |val1|",
             "base_value": 600,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
+          }
+        ]
+      },
+      {
+        "id": "divine-retribution",
+        "label": "DIVINE RETRIBUTION",
+        "stats": [
           {
-            "label": "Range: |val1|m",
-            "base_value": 19,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Duration: |val1|s",
-            "base_value": 12,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "label": "Damage Multiplier: |val1|x",
+            "base_value": 1.5,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -5182,19 +5330,23 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Heat Damage Per Tick: |val1|",
-            "base_value": 200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Duration: |val1|s",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Heat Explosion Damage: |val1|",
-            "base_value": 1250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Effect Duration: |val1|s",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Speed Increase: |val1|%",
+            "base_value": 25
           },
           {
             "label": "Explosion Radius: |val1|m",
@@ -5202,30 +5354,29 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Buff Duration: |val1|s",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "label": "Damage / Second: <DT_HEAT> |val1|",
+            "base_value": 200,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Flame Duration: |val1|s",
+            "label": "Explosion Damage: <DT_HEAT> |val1|",
+            "base_value": 1250,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "pyroclastic-flow",
+        "label": "PYROCLASTIC FLOW",
+        "stats": [
+          {
+            "label": "Conversion Percent: |val1|%",
+            "base_value": 250
+          },
+          {
+            "label": "Duration: |val1|s",
             "base_value": 10,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Speed Bonus: |val1|%",
-            "base_value": 25
-          },
-          {
-            "label": "Damage Interval: |val1|s",
-            "base_value": 0.5
-          },
-          {
-            "label": "Heat Status Chance: |val1|%",
-            "base_value": 75
-          },
-          {
-            "label": "Flame Trail Status Cleanse: |val1|%",
-            "base_value": 100
           }
         ]
       }
@@ -5285,32 +5436,49 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Slash Damage: |val1|",
-            "base_value": 200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Attack Radius: |val1|m",
+            "label": "Antimatter Particles: |val1|",
             "base_value": 12,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Particles: |val1|",
-            "base_value": 6,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Attack Interval: |val1|s",
-            "base_value": 1
+            "label": "Damage Reduction / Particle: |val1|%",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Damage Reduction Per Particle: |val1|%",
-            "base_value": 5
+            "label": "Damage Reduction Cap: |val1|%",
+            "base_value": 90
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage: <DT_BLAST> |val1|",
+            "base_value": 300,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "neutron-star",
+        "label": "NEUTRON STAR",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 8,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage: <DT_HEAT> |val1|",
+            "base_value": 240,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -5324,12 +5492,17 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Recorded Damage Conversion: |val1|%",
+            "label": "Duration: |val1|s",
+            "base_value": 8,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Implosion Damage: <DT_BLAST> |val1|%",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
@@ -5337,35 +5510,17 @@
             "label": "Implosion Range: |val1|m",
             "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
+          }
+        ]
+      },
+      {
+        "id": "temporal-erosion",
+        "label": "TEMPORAL EROSION",
+        "stats": [
           {
-            "label": "Anchor Duration: |val1|s",
-            "base_value": 8,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Initial Invulnerability Phase: |val1|s",
-            "base_value": 3
-          },
-          {
-            "label": "Enemy Knockdown Chance On Implosion: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Status Cleanse On Rewind: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Rewind Countdown: |val1|s",
-            "base_value": 1.5
-          },
-          {
-            "label": "Self Knockdown Chance On Lethal Hit: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Health Restore On Lethal Hit: |val1|%",
-            "base_value": 5
+            "label": "Armor Reduction: |val1|%",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -5379,19 +5534,14 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Heat Damage Per Shot: |val1|",
+            "label": "Damage: <DT_HEAT> |val1|",
             "base_value": 500,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Targeting Range: |val1|m",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
@@ -5399,32 +5549,27 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Shots Per Second: |val1|/s",
-            "base_value": 3
+            "label": "+ Damage Per Hit: |val1|%",
+            "base_value": 100
           },
           {
-            "label": "Firing Arc: |val1|xb0",
+            "label": "Range: |val1|m",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Firing Arc: |val1|°",
             "base_value": 130
-          },
+          }
+        ]
+      },
+      {
+        "id": "temporal-artillery",
+        "label": "TEMPORAL ARTILLERY",
+        "stats": [
           {
-            "label": "Limit Of Active Turrets: |val1|",
-            "base_value": 3
-          },
-          {
-            "label": "Critical Chance: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Heat Status Chance: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Area Of Effect: |val1|m",
-            "base_value": 2
-          },
-          {
-            "label": "Damage Bonus Per Hit: +|val1|%",
-            "base_value": 100
+            "label": "Artillery Multiplier Cap: |val1|x",
+            "base_value": 20
           }
         ]
       }
@@ -5438,14 +5583,9 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <DT_ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Extra Pickup Drop Chance: |val1|%",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Duration: |val1|s",
@@ -5453,24 +5593,9 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Initial Pickup Drop Delay: |val1|s",
-            "base_value": 3
-          },
-          {
-            "label": "Empowered Health Orb Restore: |val1|HP",
-            "base_value": 100
-          },
-          {
-            "label": "Universal Ammo Pack Restore: |val1|%",
-            "base_value": 10
-          },
-          {
-            "label": "Pickup Replenish Cooldown: |val1|s",
-            "base_value": 5
-          },
-          {
-            "label": "Limit Of Active Caches: |val1|",
-            "base_value": 1
+            "label": "Extra Pickup Chance: |val1|%",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -5484,29 +5609,9 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Slash Damage Per Second: |val1|",
-            "base_value": 500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Shield Restore On Attach: |val1|",
-            "base_value": 500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Shield Points Per Second: |val1|",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Vortex And Pickup Radii: |val1|m",
-            "base_value": 5,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
@@ -5514,40 +5619,36 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Initial Jump Height: |val1|m",
-            "base_value": 1
+            "label": "Radius: |val1|m",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "shrapnel-vortex",
+        "label": "SHRAPNEL VORTEX",
+        "stats": [
+          {
+            "label": "Damage: <DT_SLASH> |val1|",
+            "base_value": 500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "shield-satellites",
+        "label": "SHIELD SATELLITES",
+        "stats": [
+          {
+            "label": "Shield: |val1|",
+            "base_value": 500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Shrapnel Grenades Per Throw: |val1|",
-            "base_value": 3
-          },
-          {
-            "label": "Shrapnel Grenade Spread: |val1|xb0",
-            "base_value": 135
-          },
-          {
-            "label": "Slash Status Chance: |val1|%",
-            "base_value": 33
-          },
-          {
-            "label": "Stagger Chance: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Shield Grenades Per Throw: |val1|",
-            "base_value": 4
-          },
-          {
-            "label": "Shield Grenade Spread: |val1|xb0",
-            "base_value": 135
-          },
-          {
-            "label": "Limit Of Allies Per Satellite: |val1|",
-            "base_value": 1
-          },
-          {
-            "label": "Shield Gate Extension: |val1|s",
-            "base_value": 2
+            "label": "Shields / Second: |val1|",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -5561,37 +5662,43 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 1200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Ability Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Electric Arc Radius: |val1|m",
+            "label": "Effect Radius: |val1|m",
             "base_value": 8,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 4
+          },
+          {
+            "label": "Damage / Second: <DT_ELECTRICITY> |val1|",
+            "base_value": 1200,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Effect Duration: |val1|s",
             "base_value": 6,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+          }
+        ]
+      },
+      {
+        "id": "capacitance",
+        "label": "CAPACITANCE",
+        "stats": [
           {
-            "label": "Ability Duration: |val1|s",
-            "base_value": 4
-          },
-          {
-            "label": "Damage Delay: |val1|s",
-            "base_value": 4.5
+            "label": "Damage Absorption: <SHIELD> |val1|%",
+            "base_value": 3
           }
         ]
       }
@@ -5775,39 +5882,29 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Initial Damage: |val1|",
+            "label": "Range: |val1|m",
+            "base_value": 60,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage / Second: <DT_CORROSIVE> |val1|",
             "base_value": 10,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Damage Growth Per Enemy: |val1|",
+            "label": "Damage Growth / Enemy: <DT_CORROSIVE> |val1|",
             "base_value": 2,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Corrosive Status Chance: |val1|%",
+            "label": "Status Chance: |val1|%",
             "base_value": 50,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Reset Decay: |val1|%",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Damage Decay Rate: |val1|%",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Cast Range: |val1|m",
-            "base_value": 60,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Spread Radius: |val1|m",
@@ -5815,32 +5912,46 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Damage Growth Enemy Cap: |val1|",
-            "base_value": 7
+            "label": "Decay Rate: |val1|%",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Damage Decay Interval: |val1|s",
-            "base_value": 0.5
+            "label": "Reset Decay: |val1|%",
+            "base_value": 20,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "revealing-spores",
+        "label": "REVEALING SPORES",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "venom-dose",
+        "label": "VENOM DOSE",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Initial Spores: |val1|",
-            "base_value": 3
+            "label": "Extra Damage: <DT_CORRISVE> |val1|%",
+            "base_value": 100,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Transmitted Spore: |val1|",
-            "base_value": 1
-          },
-          {
-            "label": "Max Spores Per Enemy Via Spread: |val1|",
-            "base_value": 3
-          },
-          {
-            "label": "Max Spores Per Enemy Via Recast: |val1|",
-            "base_value": 12
-          },
-          {
-            "label": "Miasma Damage Multiplier: |val1|x",
-            "base_value": 4
+            "label": "Duration: |val1|s",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -6043,37 +6154,26 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Energy Drain: |val1|",
+            "label": "Drain / Second: <ENERGY> |val1|",
             "base_value": 10,
             "upgrade_by": "ENERGY_DRAIN"
           },
           {
-            "label": "Minimum Damage: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Number Of Lasers: |val1|",
+            "base_value": 20
           },
           {
-            "label": "Maximum Damage: |val1|",
-            "base_value": 500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Laser Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 30,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Blind Radius: |val1|m",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Prism Duration: |val1|s",
+            "label": "Duration: |val1|s",
             "base_value": 12,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
@@ -6083,12 +6183,25 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Lasers: |val1|",
-            "base_value": 20
+            "label": "Damage: <DT_RADIATION> |val1|",
+            "base_value": 250,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Speed: |val1|mxb7s",
-            "base_value": 5
+            "label": "Range: |val1|m",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "prism-guard",
+        "label": "PRISM GUARD",
+        "stats": [
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 4,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -6102,19 +6215,9 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Magnetic Damage: |val1|",
-            "base_value": 300,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Energy Drop Chance: |val1|%",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Range: |val1|m",
@@ -6122,16 +6225,19 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Radial Pull: |val1|m",
-            "base_value": 6
-          },
+            "label": "Damage: <DT_MAGMETOC> |val1|",
+            "base_value": 300,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "greedy-pull",
+        "label": "GREEDY PULL",
+        "stats": [
           {
-            "label": "Angle: |val1|xb0",
-            "base_value": 90
-          },
-          {
-            "label": "Damage On Magnetized Target: |val1|%",
-            "base_value": 200
+            "label": "Success Chance: |val1|%",
+            "base_value": 100
           }
         ]
       }
@@ -6563,43 +6669,83 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 100,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Armor Reduction: |val1|%",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Damage: |val1|",
-            "base_value": 1250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Extra Damage: |val1|",
-            "base_value": 625,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Blind: |val1|s",
-            "base_value": 4,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Blind Radius: |val1|m",
-            "base_value": 4,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Cast Radius: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Health Orb Chance: |val1|%",
+            "label": "Damage: <DT_RADIATION> |val1|",
+            "base_value": 7500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Bonus / Radiation Status: <DT_RADIATION> |val1|",
+            "base_value": 750,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Armor Reduction: |val1|%",
+            "base_value": 60,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Armor / Targets: |val1|",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Armor / Radiation Status: |val1|",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Armor Buff Cap: |val1|",
+            "base_value": 1000
+          },
+          {
+            "label": "Duration: |val1|",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Health Orb Drop: <HEALTH> |val1|%",
             "base_value": 50
+          }
+        ]
+      },
+      {
+        "id": "hallowed-reckoning",
+        "label": "HALLOWED RECKONING",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 3,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Armor Increase: |val1|",
+            "base_value": 250,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Damage / Second: <DT_RADIATION> |val1|",
+            "base_value": 300,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Bonus / Radiation Status: <DT_RADIATION> |val1|",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -6613,54 +6759,49 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Energy Drain: |val1|",
-            "base_value": 2,
+            "label": "Drain / Second: <ENERGY> |val1|",
+            "base_value": 3.5,
             "upgrade_by": "ENERGY_DRAIN"
           },
           {
-            "label": "Energy Drain per Target: |val1|",
-            "base_value": 3,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Wave Duration: |val1|s",
-            "base_value": 4,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Armor Buff: |val1|",
-            "base_value": 200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Initial Heal: |val1|",
+            "label": "Inttial Heal: |val1|",
             "base_value": 125,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Health Per Second: |val1|",
+            "label": "Health / Second: |val1|",
             "base_value": 40,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Armor: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Allies Bonus Armor: |val1|x",
+            "base_value": 2
           },
           {
             "label": "Bleedout Slow: |val1|%",
             "base_value": 45,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+          }
+        ]
+      },
+      {
+        "id": "phoenix-renewal",
+        "label": "PHOENIX RENEWAL",
+        "stats": [
           {
-            "label": "Buff: |val1|s",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Range: |val1|m",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Health: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -6674,19 +6815,14 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Hitpoints Drain/Restore: |val1|%",
-            "base_value": 8,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Thrall Hitpoints Drain/Restore: |val1|%",
-            "base_value": 40,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Width: |val1|m",
+            "base_value": 6,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
@@ -6694,17 +6830,24 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Current Width: |val1|m",
-            "base_value": 6,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Health Drain: |val1|%",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Status Effects Transfer: |val1|%",
-            "base_value": 100
-          },
+            "label": "Drain: |val1|%",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "blinding-reave",
+        "label": "BLINDING REAVE",
+        "stats": [
           {
-            "label": "Mesmer Skin Ally Buff Charge: |val1|",
-            "base_value": 1
+            "label": "Blind Duration: |val1|s",
+            "base_value": 10
           }
         ]
       }
@@ -6718,42 +6861,39 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage / Sec: |val1|",
-            "base_value": 1000,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Range: |val1|m",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Thrall Duration: |val1|s",
+            "label": "Duration: |val1|s",
             "base_value": 30,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Pillar Duration: |val1|s",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Cast Range: |val1|m",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Damage / Second: <DT_IMPACT> <DT_PUNCTURE> <DT_SLASH> |val1|",
+            "base_value": 1000,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Effect Radius: |val1|m",
             "base_value": 2,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
+          }
+        ]
+      },
+      {
+        "id": "thrall-pact",
+        "label": "THRALL PACT",
+        "stats": [
           {
-            "label": "Max Thralls Active: |val1|",
-            "base_value": 7
-          },
-          {
-            "label": "Overshields Per Pickup: |val1|",
-            "base_value": 50
+            "label": "Damage: |val1|%",
+            "base_value": 25
           }
         ]
       }
@@ -6767,63 +6907,34 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Energy Drain: |val1|",
-            "base_value": 20,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Boosted Energy Drain: |val1|",
-            "base_value": 40,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Damage / S: |val1|",
+            "label": "Damage / Second: |val1|",
             "base_value": 1250,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Boosted Damage / S: |val1|",
+            "label": "Boosted Damage / Second: |val1|",
             "base_value": 2500,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Beam Radius: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 0.1,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Boosted Beam Radius: |val1|m",
+            "label": "Boosted Radius: |val1|m",
             "base_value": 0.2,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Number Of Beams: |val1|",
-            "base_value": 9
-          },
-          {
-            "label": "Sweep Area: |val1|m",
-            "base_value": 100
-          },
-          {
-            "label": "Rotation Speed: |val1|rev/sec",
-            "base_value": 1
-          },
-          {
-            "label": "Status Chance: |val1|%",
-            "base_value": 20
-          },
-          {
-            "label": "Boosted Status Chance: |val1|%",
-            "base_value": 40
-          },
-          {
-            "label": "Overshield Points Per Pickup: |val1|",
-            "base_value": 50
+            "label": "Energy / Second: <ENERGY> |val1|",
+            "base_value": 20,
+            "upgrade_by": "ENERGY_DRAIN"
           }
         ]
       }
@@ -6837,7 +6948,7 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
@@ -6847,21 +6958,19 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Stun Duration: |val1|s",
+            "label": "Duration: |val1|s",
             "base_value": 5,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+          }
+        ]
+      },
+      {
+        "id": "mesmer-shield",
+        "label": "MESMER SHIELD",
+        "stats": [
           {
-            "label": "Reflected Damage And Status: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Enthrall Energy Discount: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Ally Buff Charge: |val1|",
-            "base_value": 1
+            "label": "Number Of Charges: |val1|",
+            "base_value": 5
           }
         ]
       }
@@ -7020,15 +7129,14 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
             "label": "Damage Reduction: |val1|%",
             "base_value": 80,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
-            "cap": 95
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Duration: |val1|s",
@@ -7036,21 +7144,20 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 11,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
+          }
+        ]
+      },
+      {
+        "id": "staggering-shield",
+        "label": "STAGGERING SHIELD",
+        "stats": [
           {
-            "label": "Damage Reduction Cap: |val1|%",
-            "base_value": 95
-          },
-          {
-            "label": "Deflect Angle: |val1|xb0",
-            "base_value": 45
-          },
-          {
-            "label": "Divert Angle: |val1|xb0",
-            "base_value": 90
+            "label": "Status Chance: <DT_IMPACT> |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -7272,19 +7379,14 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage Bonus: |val1|%",
+            "label": "Damage: |val1|%",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Target Radius: |val1|m",
-            "base_value": 16,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
@@ -7292,16 +7394,25 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Number Of Targets Per Stun: |val1|",
-            "base_value": 3
+            "label": "Radius: |val1|m",
+            "base_value": 16,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "muzzle-flash",
+        "label": "MUZZLE FLASH",
+        "stats": [
+          {
+            "label": "Blind Duration: |val1|s",
+            "base_value": 6,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Stun Interval: |val1|s",
-            "base_value": 1.5
-          },
-          {
-            "label": "Instances In Coop Play: |val1|",
-            "base_value": 2
+            "label": "Blind Range: |val1|m",
+            "base_value": 12,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           }
         ]
       }
@@ -7497,18 +7608,33 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 10,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Range: |val1|m",
+            "label": "Energy / Enemy: <ENERGY> |val1|",
+            "base_value": 10,
+            "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Radius: |val1|m",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Drop Table Chance: |val1|%",
+            "label": "Extra Loot: |val1|%",
             "base_value": 54
+          }
+        ]
+      },
+      {
+        "id": "despoil",
+        "label": "DESPOIL",
+        "stats": [
+          {
+            "label": "Health Drain: |val1|",
+            "base_value": 10
           }
         ]
       }
@@ -7522,39 +7648,63 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 25,
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Energy Drain: |val1|",
-            "base_value": 7,
-            "upgrade_by": "ENERGY_DRAIN"
+            "label": "Duration: |val1|s",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Passive Damage Gain: |val1|",
-            "base_value": 200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Speed Multiplier: |val1|%",
+            "base_value": 70
           },
           {
-            "label": "Minimum Damage: |val1|",
-            "base_value": 1500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Taken Damage Converted: |val1|%",
-            "base_value": 0.03,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Range: |val1|m",
-            "base_value": 10,
+            "label": "Explosion Radius: |val1| - |val2|m",
+            "base_value": [
+              15,
+              50
+            ],
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Duration: |val1|s",
+            "label": "Conversion Percent: |val1|%",
+            "base_value": 0.02,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Max Weapon Damage Buff: |val1|%",
+            "base_value": 400
+          },
+          {
+            "label": "Buff Duration: |val1|s",
             "base_value": 8,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Absorb Threshold: |val1|",
+            "base_value": 5000
+          },
+          {
+            "label": "Invulnerability Duration Boost: |val1|s",
+            "base_value": 1
+          },
+          {
+            "label": "Invulnerability Duration Cap: |val1|s",
+            "base_value": 6
+          }
+        ]
+      },
+      {
+        "id": "assimilate",
+        "label": "ASSIMILATE",
+        "stats": [
+          {
+            "label": "Drain / Second: |val1|",
+            "base_value": 65,
+            "upgrade_by": "ENERGY_DRAIN"
           }
         ]
       }
@@ -7568,9 +7718,14 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
             "label": "Health: |val1|",
@@ -7578,7 +7733,12 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Toxin Explosion Damage: |val1|",
+            "label": "Radius: |val1|m",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage: <DT_TOXIN> |val1|",
             "base_value": 400,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
@@ -7588,39 +7748,24 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Range: |val1|m",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Decoy: |val1|s",
-            "base_value": 40,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Speed Buff: |val1|s",
+            "label": "Buff Duration: |val1|s",
             "base_value": 5,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          }
+        ]
+      },
+      {
+        "id": "regenerative-molt",
+        "label": "REGENERATIVE MOLT",
+        "stats": [
+          {
+            "label": "Health / Second: |val1|",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Status Cleanse On Cast: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Invuln. Time: |val1|s",
-            "base_value": 3
-          },
-          {
-            "label": "Decoy Shields: |val1|",
-            "base_value": 400
-          },
-          {
-            "label": "Toxin Status Chance: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Limit Of Molts: |val1|",
-            "base_value": 1
+            "label": "Heal Time: |val1|s",
+            "base_value": 10
           }
         ]
       }
@@ -7634,13 +7779,8 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Meters per Energy Drained: |val1|",
-            "base_value": 4,
             "upgrade_by": "ENERGY_COST"
           },
           {
@@ -7649,30 +7789,19 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Damage Bonus: |val1|%",
+            "label": "Extra Damage: <DT_ELECTRICITY> |val1|%",
             "base_value": 50
-          },
+          }
+        ]
+      },
+      {
+        "id": "transistor-shield",
+        "label": "TRANSISTOR SHIELD",
+        "stats": [
           {
-            "label": "Critical Damage Bonus: |val1|%",
-            "base_value": 200
-          },
-          {
-            "label": "Static Shield: |val1|m x |val2|m",
-            "base_value": [
-              6,
-              4.25
-            ]
-          },
-          {
-            "label": "Current Shield: |val1|m x |val2|m",
-            "base_value": [
-              2,
-              3
-            ]
-          },
-          {
-            "label": "Shields Limit: |val1|",
-            "base_value": 6
+            "label": "Damage Absorption: |val1|%",
+            "base_value": 300,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -7686,13 +7815,23 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 5,
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage Multiplier: |val1|x",
-            "base_value": 3.5,
+            "label": "Duration: |val1|s",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Damage: <DT_IMPACT> |val1|",
+            "base_value": 400,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
@@ -7701,9 +7840,14 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Range: |val1|m",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Damage Vulnerability: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Speed Decrease: |val1|%",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -7717,33 +7861,40 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 400,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Damage Multiplier: |val1|x",
-            "base_value": 2.5,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Pulse Travel Time: |val1|s",
-            "base_value": 5,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Initial And Explosion Radius: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 8,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Pulse Travel Speed: |val1|m/s",
-            "base_value": 5.9
+            "label": "Damage: <DT_MAGNETIC> |val1|",
+            "base_value": 400,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Damage Multiplier: |val1|X",
+            "base_value": 2.5,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "counter-pulse",
+        "label": "COUNTER PULSE",
+        "stats": [
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 4,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -7757,27 +7908,44 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 25,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Electricity Damage: |val1|",
-            "base_value": 200,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Chain Link Range: |val1|m",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "upgrade_by": "ENERGY_COST"
           },
           {
             "label": "Chain Links: |val1|",
             "base_value": 5
           },
           {
-            "label": "Electricity Status Chance: |val1|%",
-            "base_value": 100
+            "label": "Damage: <DT_ELECTRICITY> |val1|",
+            "base_value": 200,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "shock-trooper",
+        "label": "SHOCK TROOPER",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Extra Damage: <DT_ELECTRICITY> |val1|%",
+            "base_value": 100,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -7854,51 +8022,55 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Initial Impact & Radiation Damage: |val1|",
+            "label": "Initial Damage: <DT_RADIATION> |val1|",
             "base_value": 500,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Orb Base Radiation Damage: |val1|",
-            "base_value": 150,
+            "label": "Additional Damage: <DT_RADIATION> |val1|%",
+            "base_value": 35,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Number Of Orbs: |val1|",
+            "label": "Radial Damage: <DT_RADIATION> |val1|%",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Radius: |val1|m",
             "base_value": 6,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Orb Duration: |val1|s",
-            "base_value": 12,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Cast Range: |val1|m",
+            "label": "Range: |val1|m",
             "base_value": 50,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
+          }
+        ]
+      },
+      {
+        "id": "smite-infusion",
+        "label": "SMITE INFUSION",
+        "stats": [
           {
-            "label": "Orb Range: |val1|m",
-            "base_value": 12.5,
+            "label": "Radius: |val1|m",
+            "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Knockdown Chance: |val1|%",
-            "base_value": 100
+            "label": "Extra Damage: <DT_RADIATION> |val1|%",
+            "base_value": 100,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Radiation Status Chance: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Hitpoints To Damage Conversion: |val1|%",
-            "base_value": 35
+            "label": "Duration: |val1|s",
+            "base_value": 40,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -8039,27 +8211,30 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Initial Damage: |val1|",
-            "base_value": 500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Cast Range: |val1|m",
+            "label": "Range: |val1|m",
             "base_value": 50,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Projectile Damage: |val1|",
-            "base_value": 50
-          },
+            "label": "Damage: <DT_IMPACT> |val1|",
+            "base_value": 500,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "soul-survivor",
+        "label": "SOUL SURVIVOR",
+        "stats": [
           {
-            "label": "Area Damage: |val1|",
-            "base_value": 100
+            "label": "Health: |val1|%",
+            "base_value": 30,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -8073,29 +8248,45 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Speed Buff: |val1|%",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Reload Speed Buff: |val1|%",
-            "base_value": 17,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 10,
+            "base_value": 12,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Speed Multiplier: |val1|x",
+            "base_value": 1.75,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Reload Speed: |val1|%",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "shocking-speed",
+        "label": "SHOCKING SPEED",
+        "stats": [
+          {
+            "label": "Area Damage: <DT_ELECTRICITY> |val1|",
+            "base_value": 300,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 3,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           }
         ]
       }
@@ -8109,19 +8300,14 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": " Status Chance : |val1|%",
+            "label": "Radius: |val1|m",
             "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
@@ -8129,14 +8315,19 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Angle: |val1|xb0",
-            "base_value": 180,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
+            "label": "Damage: <DT_RADIATION> |val1|",
+            "base_value": 100,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "hallowed-eruption",
+        "label": "HALLOWED ERUPTION",
+        "stats": [
           {
-            "label": "Radius: |val1|m",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Added Duration: |val1|%",
+            "base_value": 200
           }
         ]
       }
@@ -8236,42 +8427,50 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 25,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Contact Radius: |val1|m",
-            "base_value": 2,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Explosion Radius: |val1|m",
-            "base_value": 7,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Air Speed: |val1|m/s",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Hover Height: |val1|m",
-            "base_value": 12.5,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Hover Duration: |val1|s",
-            "base_value": 10
-          },
-          {
-            "label": "Dive Initial Speed: |val1|m/s",
+            "label": "Drain / Second: <ENERGY> |val1|",
             "base_value": 5
+          }
+        ]
+      },
+      {
+        "id": "tail-wind",
+        "label": "TAIL WIND",
+        "stats": [
+          {
+            "label": "Air Range: |val1|m",
+            "base_value": 2
+          },
+          {
+            "label": "Damage: <DT_SLASH> |val1|",
+            "base_value": 750
+          }
+        ]
+      },
+      {
+        "id": "dive-bomb",
+        "label": "DIVE BOMB",
+        "stats": [
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 7
+          },
+          {
+            "label": "Damage: <DT_IMPACT> |val1|",
+            "base_value": 4500
+          }
+        ]
+      },
+      {
+        "id": "target-fixation",
+        "label": "TARGET FIXATION",
+        "stats": [
+          {
+            "label": "Damage Increase: |val1|%",
+            "base_value": 100
           }
         ]
       }
@@ -8376,27 +8575,30 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 50,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
           },
           {
-            "label": "Contact And Explosion Damage: |val1|",
-            "base_value": 500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Damage: <DT_SLASH> <DT_IMPACT> <DT_PUNCTURE> |val1|",
+            "base_value": 500
           },
           {
-            "label": "Explosion Radius: |val1|m",
-            "base_value": 8,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Radius: |val1|m",
+            "base_value": 8
           },
           {
-            "label": "Number Of Projectiles: |val1|",
-            "base_value": 3
-          },
+            "label": "Damage Growth / Enemy: |val1|%",
+            "base_value": 35
+          }
+        ]
+      },
+      {
+        "id": "airburst-rounds",
+        "label": "AIRBURST ROUNDS",
+        "stats": [
           {
-            "label": "Travel Distance: |val1|m",
-            "base_value": 100
+            "label": "Damage Increase: |val1|%",
+            "base_value": 40
           }
         ]
       }
@@ -8410,22 +8612,12 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Affected Enemies: |val1|",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Armor Reduction: |val1|%",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Range: |val1|m",
+            "label": "Radius: |val1|m",
             "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
@@ -8433,6 +8625,16 @@
             "label": "Duration: |val1|s",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Enemies Affected: |val1|",
+            "base_value": 20,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Armor Reduction: |val1|%",
+            "base_value": 60,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -8472,44 +8674,42 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 100,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Projectile Flight Speed: |val1|%",
+            "base_value": 100
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 120,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Spawn Radius: |val1|m",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 100
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "base_value": 20
           },
           {
-            "label": "Number Of Tornadoes: |val1|",
-            "base_value": 4
+            "label": "Tornadoes: |val1|",
+            "base_value": 3
           },
           {
-            "label": "Tornado Heights: |val1|m",
-            "base_value": 9
+            "label": "Damage / Second: <DT_SLASH> <DT_IMPACT> <DT_PUNCTURE> |val1|",
+            "base_value": 160
           },
           {
-            "label": "Move Speeds: |val1|m/s",
-            "base_value": 5
+            "label": "Radius: |val1|",
+            "base_value": 25
+          }
+        ]
+      },
+      {
+        "id": "funnel-clouds",
+        "label": "FUNNEL CLOUDS",
+        "stats": [
+          {
+            "label": "Tornadoes: |val1|",
+            "base_value": 8
           },
           {
-            "label": "Pull Radius: |val1|m",
-            "base_value": 5
-          },
-          {
-            "label": "Absorbed Damage Distribution: |val1|%",
-            "base_value": 100
+            "label": "Radius: |val1|%",
+            "base_value": 50
           }
         ]
       }
@@ -8523,24 +8723,29 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Blast Damage On Mine Hit: |val1|",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Slash Damage On Latch: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Mine Duration: |val1|s",
+            "label": "Duration: |val1|s",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          }
+        ]
+      },
+      {
+        "id": "tether-flechette-orb",
+        "label": "TETHER-FLECHETTE ORB",
+        "stats": [
+          {
+            "label": "Max Targets: |val1|",
+            "base_value": 2
+          },
+          {
+            "label": "Damage: |val1|",
+            "base_value": 250,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Grab Range: |val1|m",
@@ -8548,90 +8753,25 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Max Targets: |val1|",
-            "base_value": 2
-          },
-          {
-            "label": "Max Coils Active: |val1|",
-            "base_value": 4
-          },
-          {
-            "label": "Blast Damage On Mine Hit: |val1|",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Puncture Damage Per Nail: |val1|",
+            "label": "Damage: |val1|",
             "base_value": 300,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
+          }
+        ]
+      },
+      {
+        "id": "vector-overdrive-pad",
+        "label": "VECTOR-OVERDRIVE PAD",
+        "stats": [
           {
-            "label": "Mine Duration: |val1|s",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Critical Chance: |val1|%",
-            "base_value": 50
-          },
-          {
-            "label": "Critical Multiplier: |val1|x",
-            "base_value": 2
-          },
-          {
-            "label": "Target Radius: |val1|m",
-            "base_value": 10
-          },
-          {
-            "label": "Max Orbs Active: |val1|",
-            "base_value": 4
-          },
-          {
-            "label": "Damage Multiplier Per 10 Enemy Levels: |val1|x",
-            "base_value": 1
-          },
-          {
-            "label": "Blast Damage On Mine Hit: |val1|",
-            "base_value": 15,
+            "label": "Speed Multiplier: |val1|x",
+            "base_value": 1.25,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Speed Boost: |val1|m/s",
-            "base_value": 25,
+            "label": "Damage Multiplier: |val1|x",
+            "base_value": 125,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Mine Duration: |val1|s",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Max Pads Active: |val1|",
-            "base_value": 4
-          },
-          {
-            "label": "Blast Damage On Mine Hit: |val1|",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Weapon Damage Bonus: |val1|%",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Mine Duration: |val1|s",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Attach Radius: |val1|m",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Max Drivers Active: |val1|",
-            "base_value": 4
           }
         ]
       }
@@ -8645,32 +8785,19 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 75,
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Blast Damage On Beacon Hit: |val1|",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Blast Damage On Explosion: |val1|",
+            "label": "Damage: <DT_BLAST> |val1|",
             "base_value": 2500,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Blast Radius: |val1|m",
-            "base_value": 5,
+            "label": "Radius: |val1|m",
+            "base_value": 7,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Strike Delay: |val1|s",
-            "base_value": 1.5
-          },
-          {
-            "label": "Damage Multiplier Per 10 Enemy Levels: |val1|x",
-            "base_value": 1
           }
         ]
       }
@@ -8684,19 +8811,16 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 75,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Range: |val1|m",
-            "base_value": 6,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 75
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "base_value": 20
+          },
+          {
+            "label": "Shield Radius: |val1|m",
+            "base_value": 6
           }
         ]
       }
@@ -8710,23 +8834,26 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 75,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 75
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 1000,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Radius: |val1|m",
+            "base_value": 25
           },
           {
-            "label": "Range: |val1|m",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
+            "label": "Damage: <DT_SLASH> <DT_IMPACT> <DT_PUNCTURE> |val1|",
+            "base_value": 1000
+          }
+        ]
+      },
+      {
+        "id": "furious-javelin",
+        "label": "FURIOUS JAVELIN",
+        "stats": [
           {
-            "label": "Javelins: |val1|",
-            "base_value": 12
+            "label": "Melee Damage: |val1|%",
+            "base_value": 15
           }
         ]
       }
@@ -8740,19 +8867,26 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 50,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
           },
           {
-            "label": "Range: |val1|m",
-            "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Radius: |val1|m",
+            "base_value": 25
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "base_value": 15
+          }
+        ]
+      },
+      {
+        "id": "radiant-finish",
+        "label": "RADIANT FINISH",
+        "stats": [
+          {
+            "label": "Finisher Damage: |val1|%",
+            "base_value": 300
           }
         ]
       }
@@ -8766,19 +8900,26 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 25,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Damage: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
           },
           {
             "label": "Range: |val1|m",
-            "base_value": 12,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "base_value": 20
+          },
+          {
+            "label": "Chain Range: |val1|m",
+            "base_value": 7
+          }
+        ]
+      },
+      {
+        "id": "surging-dash",
+        "label": "SURGING DASH",
+        "stats": [
+          {
+            "label": "Bonus Combo Hits: |val1|",
+            "base_value": 8
           }
         ]
       }
@@ -8792,37 +8933,38 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 25,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Duration: |val1|s",
+            "base_value": 16
           },
           {
-            "label": "Energy Drain: |val1|",
-            "base_value": 2.5,
-            "upgrade_by": "ENERGY_DRAIN"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
           },
           {
-            "label": "Damage: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain / Second: |val1|",
+            "base_value": 2.5
+          },
+          {
+            "label": "Damage: <DT_SLASH> <DT_IMPACT> <DT_PUNCTURE> |val1|",
+            "base_value": 250
           },
           {
             "label": "Blind Radius: |val1|m",
-            "base_value": 5,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "base_value": 5
           },
           {
             "label": "Blind Duration: |val1|s",
-            "base_value": 6,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
+            "base_value": 6
+          }
+        ]
+      },
+      {
+        "id": "chromatic-blade",
+        "label": "CHROMATIC BLADE",
+        "stats": [
           {
-            "label": "Wave Speed: |val1|m/s",
-            "base_value": 15
-          },
-          {
-            "label": "Wave Range: |val1|m",
-            "base_value": 40
+            "label": "Status Chance: |val1|%",
+            "base_value": 300
           }
         ]
       }
@@ -8883,32 +9025,40 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 50,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Added Gun Damage: |val1|%",
+            "label": "Extra Damage: <DT_TOXIN> |val1|%",
             "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Added Melee Damage: |val1|%",
-            "base_value": 60,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Duration: |val1|s",
             "base_value": 45,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          }
+        ]
+      },
+      {
+        "id": "contagion-cloud",
+        "label": "CONTAGION CLOUD",
+        "stats": [
+          {
+            "label": "Effect Radius: |val1|m",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Toxin Status Chance: |val1|%",
-            "base_value": 100
+            "label": "Duration: |val1|s",
+            "base_value": 12,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Spores Burst Chance: |val1|%",
-            "base_value": 100
+            "label": "Damage / Second: <DT_TOXIN> |val1|",
+            "base_value": 300,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
       }
@@ -8922,38 +9072,37 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Health Per Second: |val1|",
+            "label": "Range: |val1|m",
             "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Lifesteal On Hit: |val1|%",
-            "base_value": 1,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Cast Range: |val1|m",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Healing Radius: |val1|m",
-            "base_value": 8,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 12,
+            "base_value": 20,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Max Target Limit: |val1|",
-            "base_value": 1
+            "label": "Radius: |val1|m",
+            "base_value": 20,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Health / Second: |val1|",
+            "base_value": 100,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Immortality Duration: |val1|s",
+            "base_value": 5
+          },
+          {
+            "label": "Max Targets: |val1|",
+            "base_value": 3
           }
         ]
       }
@@ -8967,53 +9116,34 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 50,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
           },
           {
-            "label": "Damage Multiplier: |val1|x",
-            "base_value": 2,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Radiation Status Chance: |val1|%",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Range: |val1|m",
-            "base_value": 18,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Radius: |val1|m",
+            "base_value": 18
           },
           {
             "label": "Blind Duration: |val1|s",
-            "base_value": 16,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "base_value": 16
           },
           {
-            "label": "Spark Chance On Hit: |val1|%",
-            "base_value": 10
+            "label": "Damage Multiplier: |val1|x",
+            "base_value": 3
           },
           {
-            "label": "Spark Chance On Kill: |val1|%",
-            "base_value": 100
-          },
+            "label": "Status Chance: |val1|%",
+            "base_value": 30
+          }
+        ]
+      },
+      {
+        "id": "critical-surge",
+        "label": "CRITICAL SURGE",
+        "stats": [
           {
-            "label": "Spark Crit Multiplier: |val1|x",
-            "base_value": 1.5
-          },
-          {
-            "label": "Reservoir Surge Range Bonus: |val1|%",
-            "base_value": 200
-          },
-          {
-            "label": "Reservoir Teleport Min. Range: |val1|m",
-            "base_value": 10
-          },
-          {
-            "label": "Sol Gate Spark Chance On Hit: |val1|%",
-            "base_value": 100
+            "label": "Drain: |val1|%",
+            "base_value": 50
           }
         ]
       }
@@ -9027,18 +9157,12 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 35,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 35
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 4,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Teleport Invulnerability Time: |val1|s",
-            "base_value": 3
+            "base_value": 4
           }
         ]
       }
@@ -9052,75 +9176,72 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 25,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Max Health: |val1|",
-            "base_value": 300,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Health Per Second: |val1|s",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Max Reservoirs Active: |val1|",
-            "base_value": 6
-          },
-          {
-            "label": "Sol Gate Damage Buff: |val1|%",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25
           },
           {
-            "label": "Movement Speed: |val1|%",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Attack Speed: |val1|%",
-            "base_value": 20,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Fire Rate: |val1|%",
-            "base_value": 30,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Max Reservoirs Active: |val1|",
-            "base_value": 6
-          },
-          {
-            "label": "Sol Gate Corrosive Status Chance: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Shock Damage: |val1|",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Max Reservoirs Active: |val1|",
-            "base_value": 6
-          },
-          {
-            "label": "Electric Status Chance: |val1|%",
-            "base_value": 100
-          },
-          {
-            "label": "Number Of Targets: |val1|",
+            "label": "Radius: |val1|m",
             "base_value": 5
           },
           {
-            "label": "Shock Cooldown: |val1|s",
-            "base_value": 3
+            "label": "Buff Duration: |val1|s",
+            "base_value": 30
+          }
+        ]
+      },
+      {
+        "id": "vitality-mote",
+        "label": "VITALITY MOTE",
+        "stats": [
+          {
+            "label": "Max Health: |val1|",
+            "base_value": 300
           },
           {
-            "label": "Sol Gate Damage Buff: |val1|%",
-            "base_value": 25
+            "label": "Health / Second: |val1|",
+            "base_value": 30
+          }
+        ]
+      },
+      {
+        "id": "haste-mote",
+        "label": "HASTE MOTE",
+        "stats": [
+          {
+            "label": "Speed Multiplier: |val1|%",
+            "base_value": 20
+          },
+          {
+            "label": "Fire Rate: |val1|%",
+            "base_value": 30
+          }
+        ]
+      },
+      {
+        "id": "shock-mote",
+        "label": "SHOCK MOTE",
+        "stats": [
+          {
+            "label": "Status Chance: <DT_ELECTRICITY> |val1|%",
+            "base_value": 100
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 15
+          },
+          {
+            "label": "Targets: |val1|",
+            "base_value": 5
+          }
+        ]
+      },
+      {
+        "id": "fused-reservoir",
+        "label": "FUSED RESERVOIR",
+        "stats": [
+          {
+            "label": "Energy Drain: |val1|%",
+            "base_value": 200
           }
         ]
       }
@@ -9134,62 +9255,50 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 25,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Duration: |val1|s",
+            "base_value": 9
           },
           {
-            "label": "Energy Drain: |val1|",
-            "base_value": 12,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Boosted Energy Drain: |val1|",
-            "base_value": 24,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Base Beam Damage Per Half Second: |val1|",
-            "base_value": 1500,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Boosted Beam Damage Per Half Second: |val1|",
-            "base_value": 3000,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Beam Length: |val1|m",
-            "base_value": 40,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Base Beam Max Damage Ramp-Up: |val1|%",
-            "base_value": 500
-          },
-          {
-            "label": "Boosted Beam Max Damage Ramp-Up: |val1|%",
-            "base_value": 1000
-          },
-          {
-            "label": "Boosted Beam Move Speed Penalty: -|val1|%",
-            "base_value": 50
-          },
-          {
-            "label": "Vitality Mote Damage Bonus: |val1|%",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25
           },
           {
-            "label": "Haste Mote Corrosive Status Chance: |val1|%",
-            "base_value": 100
+            "label": "Drain / Second: <ENERGY> |val1|",
+            "base_value": 12
           },
           {
-            "label": "Shock Mote Damage Bonus: |val1|%",
-            "base_value": 25
+            "label": "Damage / Second: <DT_HEAT> <DT_RADIATION> |val1|",
+            "base_value": 1500
           },
           {
-            "label": "Breach Surge Spark Chance On Hit: |val1|%",
-            "base_value": 100
+            "label": "Range: |val1|m",
+            "base_value": 40
+          }
+        ]
+      },
+      {
+        "id": "cataclysmic-gate",
+        "label": "CATACLYSMIC GATE",
+        "stats": [
+          {
+            "label": "Damage: <DT_HEAT> |val1|",
+            "base_value": 5000
+          },
+          {
+            "label": "Damage / Second: <DT_HEAT> |val1|",
+            "base_value": 750
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 10
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 10
+          },
+          {
+            "label": "Max Sol Gates: |val1|",
+            "base_value": 3
           }
         ]
       }
@@ -9203,27 +9312,37 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 75,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Range: |val1|m",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Duration: |val1|s",
-            "base_value": 16,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Max Portals Active: |val1|",
+            "label": "Number Of Portals: |val1|",
             "base_value": 4
           },
           {
             "label": "Number Of Uses: |val1|",
             "base_value": 4
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "escape-velocity",
+        "label": "ESCAPE VELOCITY",
+        "stats": [
+          {
+            "label": "Speed: |val1|%",
+            "base_value": 50
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 7,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -9237,50 +9356,30 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 50,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
           },
           {
-            "label": "Energy Drain Per Target: |val1|/s",
-            "base_value": 0.75,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Max Energy Drain: |val1|/s",
-            "base_value": 7.5,
-            "upgrade_by": "ENERGY_DRAIN"
-          },
-          {
-            "label": "Slow: |val1|%",
-            "base_value": 35,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Life Steal: |val1|%",
-            "base_value": 5,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Energy / Enemy: <ENERGY> |val1| - |val2|",
+            "base_value": [
+              0.75,
+              7.5
+            ]
           },
           {
             "label": "Range: |val1| - |val2|m",
             "base_value": [
               4,
               16
-            ],
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            ]
           },
           {
-            "label": "Range Increase: |val1|m/s",
-            "base_value": 2,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "label": "Slow: |val1|%",
+            "base_value": 35
           },
           {
-            "label": "Slow Cap: |val1|%",
-            "base_value": 95
-          },
-          {
-            "label": "Energy Drain Enemy Cap: |val1|",
-            "base_value": 10
+            "label": "Life Steal: |val1|%",
+            "base_value": 5
           }
         ]
       }
@@ -9294,50 +9393,42 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 25,
-            "upgrade_by": "ENERGY_COST"
-          },
-          {
-            "label": "Radiation Damage: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Debuff Bonus Damage: |val1|%",
-            "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Debuff Duration: |val1|s",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Flight Duration: |val1|s",
-            "base_value": 6,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
-          },
-          {
-            "label": "Damage & Debuff Radius: |val1|m",
-            "base_value": 8,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Active Shadow Limit: |val1|",
-            "base_value": 1
-          },
-          {
-            "label": "Blast Damage: |val1|% Target Health",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25
           },
           {
-            "label": "Blast Damage Radius: |val1|m",
-            "base_value": 4
+            "label": "Duration: |val1|s",
+            "base_value": 6
           },
           {
-            "label": "Death Well Gain Per Target: +|val1|%",
-            "base_value": 5
+            "label": "Radius: |val1|m",
+            "base_value": 8
+          },
+          {
+            "label": "Damage: <DT_RADIATION> |val1|",
+            "base_value": 250
+          },
+          {
+            "label": "Debuff Duration: |val1|s",
+            "base_value": 10
+          },
+          {
+            "label": "Damage Vulnerability: |val1|%",
+            "base_value": 50
+          }
+        ]
+      },
+      {
+        "id": "shadow-haze",
+        "label": "SHADOW HAZE",
+        "stats": [
+          {
+            "label": "Critical Chance: |val1|%",
+            "base_value": 50
+          },
+          {
+            "label": "Shadows Limit: |val1|",
+            "base_value": 3
           }
         ]
       }
@@ -9351,27 +9442,8 @@
       {
         "stats": [
           {
-            "label": "Death Well Required: >|val1|%",
-            "base_value": 75
-          },
-          {
-            "label": "Death Well Drain: |val1|% per Second",
-            "base_value": 1
-          },
-          {
-            "label": "Slash Damage: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Impact Damage: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Puncture Damage: |val1|",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Damage: <DT_SLASH> <DT_IMPACT> <DT_PUNCTURE> |val1|",
+            "base_value": 250
           }
         ]
       }
@@ -9385,53 +9457,30 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
-            "base_value": 50,
-            "upgrade_by": "ENERGY_COST"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
           },
           {
             "label": "Range: |val1|m",
-            "base_value": 16,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "base_value": 16
           },
           {
             "label": "Duration: |val1|s",
-            "base_value": 10,
-            "upgrade_by": "AVATAR_ABILITY_DURATION"
+            "base_value": 10
           },
           {
-            "label": "True Damage: |val1|/s",
-            "base_value": 250,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
+            "label": "Damage / Second: <DT_TRUE> |val1|",
+            "base_value": 250
+          }
+        ]
+      },
+      {
+        "id": "dark-propagation",
+        "label": "DARK PROPAGATION",
+        "stats": [
           {
-            "label": "True Damage (max range): |val1|/s",
-            "base_value": 62.5,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Damage Falloff Range: |val1| - |val2|m",
-            "base_value": [
-              8,
-              16
-            ],
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
-          },
-          {
-            "label": "Damage Falloff Amount: |val1|% of Max",
-            "base_value": 25
-          },
-          {
-            "label": "Blast Damage: |val1|% Target Health",
-            "base_value": 25
-          },
-          {
-            "label": "Blast Damage Radius: |val1|m",
-            "base_value": 4
-          },
-          {
-            "label": "Death Well Fill Rate Per Target: +|val1|%",
-            "base_value": 5
+            "label": "Radius: |val1|m",
+            "base_value": 15
           }
         ]
       }
@@ -9914,29 +9963,24 @@
       {
         "stats": [
           {
-            "label": "Drain: |val1|",
+            "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
           },
           {
-            "label": "Blast Damage On Capsule Hit: |val1|",
-            "base_value": 15,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
-          },
-          {
-            "label": "Electricity Damage Per Discharge: |val1|",
+            "label": "Damage: <DT_ELECTRICITY> |val1|",
             "base_value": 150,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Electricity Damage Per Second: |val1|",
+            "label": "Damage / Second: <DT_ELECTRICITY> |val1|",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Shock Radius: |val1|m",
-            "base_value": 6,
-            "upgrade_by": "AVATAR_ABILITY_RANGE"
+            "label": "Status Chance: |val1|%",
+            "base_value": 50,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Number Of Charges: |val1|",
@@ -9944,16 +9988,20 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
-            "label": "Discharge Interval: |val1|s",
-            "base_value": 1
-          },
+            "label": "Radius: |val1|m",
+            "base_value": 6,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "tesla-bank",
+        "label": "TESLA BANK",
+        "stats": [
           {
-            "label": "Electricity Status Chance: |val1|%",
-            "base_value": 50
-          },
-          {
-            "label": "Limit Of Active Drones: |val1|",
-            "base_value": 4
+            "label": "Radius: |val1|m",
+            "base_value": 8,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
           }
         ]
       }
@@ -11311,9 +11359,20 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 20
+          },
+          {
+            "label": "Melee Critical Chance: |val1|%",
+            "base_value": 50
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 7
           }
         ]
       }
@@ -11327,9 +11386,32 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 5
+          },
+          {
+            "label": "Number Of Daggers: |val1|",
+            "base_value": 10
+          },
+          {
+            "label": "Damage: <DT_SLASH> |val1|",
+            "base_value": 200
+          },
+          {
+            "label": "Health: |val1|",
+            "base_value": 250
+          },
+          {
+            "label": "Health Drain: |val1|",
+            "base_value": 20
+          },
+          {
+            "label": "Overguard Cap: |val1|",
+            "base_value": 10000
           }
         ]
       }
@@ -11343,9 +11425,24 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 75
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 20
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 10
+          },
+          {
+            "label": "Damage Redirection: |val1|%",
+            "base_value": 20
+          },
+          {
+            "label": "Angle: |val1|°",
+            "base_value": 65
           }
         ]
       }
@@ -11359,9 +11456,20 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: |val1|",
+            "base_value": 100
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 7
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 10
+          },
+          {
+            "label": "Damage / Second: <DT_SLASH> |val1|",
+            "base_value": 1000
           }
         ]
       }
@@ -11375,9 +11483,28 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25,
+            "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Damage / Pulse: <DT_VIRAL> |val1|",
+            "base_value": 250,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Pulse Rate: |val1|s",
+            "base_value": 3
           }
         ]
       }
@@ -11391,9 +11518,38 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50,
+            "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Strength: |val1|%",
+            "base_value": 30,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Energy Restore: <ENERGY> |val1|",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Effect Duration: |val1|s",
+            "base_value": 5,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Pulse Rate: |val1|s",
+            "base_value": 3
           }
         ]
       }
@@ -11407,8 +11563,23 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50,
+            "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Health / Second: <HEALTH> <ENERGY> |val1|",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Health / Pickup: <HEALTH> <ENERGY> |val1|",
+            "base_value": 80,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
@@ -11423,9 +11594,36 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 75,
+            "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Damage: <DT_TOXIN> |val1|",
+            "base_value": 2500,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 8,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Max Bounces: |val1|",
+            "base_value": 10
+          },
+          {
+            "label": "Critical Chance / Bounce: |val1|%",
+            "base_value": 25
+          },
+          {
+            "label": "Explosion Radius: |val1|m",
+            "base_value": 3,
+            "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Max Projectiles: |val1|",
+            "base_value": 3
           }
         ]
       }
@@ -11439,9 +11637,28 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 25
+          },
+          {
+            "label": "Damage: <DT_TOXIN> |val1|",
+            "base_value": 1000
+          },
+          {
+            "label": "Instant Kill Threshold: |val1|%",
+            "base_value": 50
+          },
+          {
+            "label": "Health Orb Drop: |val1|%",
+            "base_value": 200
+          },
+          {
+            "label": "Energy Orb Drop: |val1|%",
+            "base_value": 50
           }
         ]
       }
@@ -11455,9 +11672,28 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 5
+          },
+          {
+            "label": "Damage: <DT_TOXIN> |val1|",
+            "base_value": 100
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 10
+          },
+          {
+            "label": "Damage Vulnerability: |val1|%",
+            "base_value": 35
+          },
+          {
+            "label": "Max Webs: |val1|",
+            "base_value": 3
           }
         ]
       }
@@ -11487,9 +11723,36 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
+          },
+          {
+            "label": "Drain / Second: <ENERGY> |val1|",
+            "base_value": 5
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 75
+          },
+          {
+            "label": "Max Health: |val1|x",
+            "base_value": 1.25
+          },
+          {
+            "label": "Extra Damage: <DT_TOXIN> |val1|%",
+            "base_value": 10
+          },
+          {
+            "label": "Wall Latch Extra Damage: <DT_TOXIN> |val1|%",
+            "base_value": 20
+          },
+          {
+            "label": "Explosion Damage: <DT_TOXIN> |val1|",
+            "base_value": 200
+          },
+          {
+            "label": "Explosion Radius: |val1|m",
+            "base_value": 5
           }
         ]
       }
@@ -11503,9 +11766,32 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 20
+          },
+          {
+            "label": "Damage: <DT_RADIATION> |val1|",
+            "base_value": 700
+          },
+          {
+            "label": "Empowered Duration: |val1|s",
+            "base_value": 5
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 5
+          },
+          {
+            "label": "Max Pillars: |val1|",
+            "base_value": 2
+          },
+          {
+            "label": "Slow: |val1|%",
+            "base_value": 35
           }
         ]
       }
@@ -11519,9 +11805,24 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 14
+          },
+          {
+            "label": "Damage: <DT_IMPACT> |val1|",
+            "base_value": 2000
+          },
+          {
+            "label": "Jamage / Second: <DT_RADIATION> |val1|",
+            "base_value": 125
+          },
+          {
+            "label": "Jamage Vulnerability: |val1|%",
+            "base_value": 25
           }
         ]
       }
@@ -11535,9 +11836,24 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 75
+          },
+          {
+            "label": "Area Damage: <DT_RADIATION> |val1|",
+            "base_value": 200
+          },
+          {
+            "label": "Max Stacks: |val1|",
+            "base_value": 5
+          },
+          {
+            "label": "Initial Stacks: |val1|",
+            "base_value": 2
+          },
+          {
+            "label": "Chance Per Status: |val1|%",
+            "base_value": 10
           }
         ]
       }
@@ -11551,9 +11867,24 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 100
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 40
+          },
+          {
+            "label": "Damage / Second: <DT_RADIATION> |val1|",
+            "base_value": 2500
+          },
+          {
+            "label": "Explosion Base Damage: <DT_RADIATION> |val1|",
+            "base_value": 200
+          },
+          {
+            "label": "Explosion Damage Per Status: <DT_RADIATION> |val1|",
+            "base_value": 100
           }
         ]
       }
@@ -11567,9 +11898,28 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 15
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 50
+          },
+          {
+            "label": "Damage: <DT_PUNCTURE> |val1|",
+            "base_value": 500
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 8
+          },
+          {
+            "label": "Explosion Range: |val1|m",
+            "base_value": 15
+          },
+          {
+            "label": "Explosion Damage: <DT_BLAST> |val1|",
+            "base_value": 500
           }
         ]
       }
@@ -11583,9 +11933,24 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 9
+          },
+          {
+            "label": "Damage: <DT_IMPACT> |val1|",
+            "base_value": 250
+          },
+          {
+            "label": "Health: |val1|",
+            "base_value": 50
+          },
+          {
+            "label": "Defense Reduction: |val1|%",
+            "base_value": 50
           }
         ]
       }
@@ -11599,9 +11964,24 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 75
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 30
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 30
+          },
+          {
+            "label": "Shield / Kill: |val1|",
+            "base_value": 20
+          },
+          {
+            "label": "Energy Rate: <ENERGY> |val1|",
+            "base_value": 3
           }
         ]
       }
@@ -11615,9 +11995,24 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 100
+          },
+          {
+            "label": "Damage: <DT_SLASH> |val1|",
+            "base_value": 1000
+          },
+          {
+            "label": "Explosion Range: |val1|m",
+            "base_value": 6
+          },
+          {
+            "label": "Explosion Damage: <DT_BLAST> |val1|",
+            "base_value": 1000
+          },
+          {
+            "label": "Number Of Javelins: |val1|",
+            "base_value": 30
           }
         ]
       }
@@ -11631,9 +12026,32 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
+          },
+          {
+            "label": "Damage: <DT_HEAT> |val1|",
+            "base_value": 550
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 25
+          },
+          {
+            "label": "Radius: |val1|m",
+            "base_value": 20
+          },
+          {
+            "label": "Max Pillars: |val1|",
+            "base_value": 3
+          },
+          {
+            "label": "Pyrotechnics Bonus: |val1|x",
+            "base_value": 2
+          },
+          {
+            "label": "Ripper's Wail Bonus: |val1|s",
+            "base_value": 3
           }
         ]
       }
@@ -11647,9 +12065,36 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 25
+          },
+          {
+            "label": "Damage: <DT_HEAT> |val1|",
+            "base_value": 300
+          },
+          {
+            "label": "Range: |val1|m",
+            "base_value": 14
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 8
+          },
+          {
+            "label": "Critical Chance: |val1|%",
+            "base_value": 10
+          },
+          {
+            "label": "Angle: |val1|°",
+            "base_value": 100
+          },
+          {
+            "label": "Overdrive Bonus: |val1|x",
+            "base_value": 2
+          },
+          {
+            "label": "Ripper's Wail Bonus: |val1|s",
+            "base_value": 3
           }
         ]
       }
@@ -11663,9 +12108,36 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50
+          },
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 15
+          },
+          {
+            "label": "Max Duration: |val1|s",
+            "base_value": 60
+          },
+          {
+            "label": "Heat Damage: <DT_HEAT> |val1|%",
+            "base_value": 30
+          },
+          {
+            "label": "Backbeat Bonus: <DT_HEAT> |val1|%",
+            "base_value": 2
+          },
+          {
+            "label": "Heat Damage Cap: <DT_HEAT> |val1|%",
+            "base_value": 750
+          },
+          {
+            "label": "Health / Second: |val1|%",
+            "base_value": 50
+          },
+          {
+            "label": "Invulnerability Bonus: |val1|s",
+            "base_value": 4
           }
         ]
       }
@@ -11679,9 +12151,16 @@
       {
         "stats": [
           {
-            "label": "TEMPLATE STAT: |val1|",
-            "base_value": 100,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 75
+          },
+          {
+            "label": "Damage Multiplier: |val1|x",
+            "base_value": 1
+          },
+          {
+            "label": "Wave Status Bonus: |val1|",
+            "base_value": 3
           }
         ]
       }
