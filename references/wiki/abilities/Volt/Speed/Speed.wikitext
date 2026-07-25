@@ -1,0 +1,49 @@
+{{For|Information about the movement speed|Sprint Speed}}
+<onlyinclude>{{AbilityU10.3
+| name = Speed
+| gameimage = Speed.png
+| cardimage = SpeedModU15.jpeg
+| hotkey = 2
+| energy = 25
+| description = Gain a brief boost of movement speed which affects all allies in range.
+| strength = 75% (speed buff)<br/>10% / 15% / 20% / 25% (reload speed buff)
+| range = 25 m
+| duration = 9 / 10 / 11 / 12 s
+| cardonly = {{{1|}}}
+| info =
+*Volt expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to energize the surrounding area, increasing the mobility of himself and his allies within {{Stat|Ability Range|icon=only}}'''25''' meters. Affected players will gain {{Stat|Ability Strength|icon=only}}'''10% / 15% / 20% / 25%''' weapon [[Reload Speed]] and {{Stat|Ability Strength|icon=only}}'''75%''' melee [[Attack Speed]] and [[Movement Speed]] bonuses, lasting for {{Stat|Ability Duration|icon=only}}'''9 / 10 / 11 / 12''' seconds.
+**The movement speed increase is capped at '''<u>150%</u>''' for allied players; there is no cap for the Volt who cast the ability, nor any cap for non-player entities such as NPCs.
+***Allies can [[Maneuvers#Backspring|backflip]] to remove Speed if they wish to opt-out.
+**The movement speed buff stacks additively with other movement speed modifiers. (e.g., {{M|Dispatch Overdrive}} combined with Speed at max rank and +30% Ability Strength from {{M|Intensify}} will increase Volt's move speed by {{Math|{{A|Speed|75%}} {{mul}} {{M|Intensify|1.3}} + {{M|Dispatch Overdrive|60%}}|mt=y|percent=y}}).
+**The attack speed buff stacks additively with other attack speed modifiers. (e.g., {{M|Fury}} combined with Speed at max rank and +30% Ability Strength will increase Volt's attack speed by {{Math|{{A|Speed|75%}} {{mul}} {{M|Intensify|1.3}} + {{M|Fury|30%}}|mt=y|percent=y}}).
+**The reload speed buff stacks additively with other reload speed modifiers. (e.g., {{M|Quickdraw}} combined with Speed at max rank and +30% Ability Strength from {{M|Intensify}} will increase Volt's reload speed by {{Math|{{A|Speed|25%}} {{mul}} {{M|Intensify|1.3}} + {{M|Quickdraw|48%}}|mt=y|percent=y}}).
+*Increases the distance of [[maneuvers]] like the sliding, front flip, and wall run as a result of the faster movement speed.
+*Can be used while performing many actions without interrupting them, including [[reload|reloading]].
+*Can be recast while active.
+| augment = [[File:ShockingSpeedMod.png|200px|left]]
+{{main|Shocking Speed}}
+{{#lst:Shocking Speed|intro}}
+{{#lsth:Shocking Speed|Stats}}
+{{clr}}
+| tips = *Great for catching up with teammates that need to be revived, fleeing from tough enemies, or taking the lead.
+*Excellent skill to use for a squad looking to get through a mission quickly.
+*Can be combined with {{M|Rush}} for speed only rivalled by the likes of Gauss, Titania, etc.
+*Can be used to avoid enemy fire due to reduced enemy accuracy and to dodge almost all Corpus due to their weapons' projectile travel time.
+*Can reduce recharge delay for {{Weapon|Cycron}} or a [[Kitgun]] equipped with {{Arcane|Pax Charge}}, however, it does '''not''' affect recharge rate.
+*Using Speed before switching to Archwing mode significantly boost Archwing's flight speed, including underwater.
+<noinclude>
+| max = {{WFmax|main|volt2}}
+</noinclude>|
+}}
+</onlyinclude>
+
+==See Also==
+* {{WF|Volt}}
+[[de:Geschwindigkeit]]
+[[es:Velocidad]]
+[[fr:Vitesse (Volt)]]
+[[ru:Ускорение]]
+__NOTOC__
+[[Category:Warframe Abilities]]
+[[Category:Volt]]
+[[uk:Пришвидшення]]

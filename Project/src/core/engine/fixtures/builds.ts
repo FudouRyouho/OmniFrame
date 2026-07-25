@@ -441,7 +441,65 @@ export function rhinoRoar(): EnsembleIntention {
   };
 }
 
+// ─── Volt + Speed (2ª habilidad hidratada — buff a un nodo de arma YA materializado) ──
+
+export const VOLT = '/Lotus/Powersuits/Volt/Volt';
+export const VOLT_SPEED = '/Lotus/Powersuits/PowersuitAbilities/SpeedAbility';
+
+/**
+ * Volt limpio (sin mods → strength 100%) + Tiberon Prime sin mods. Baseline para aislar
+ * el aporte de Speed: `WEAPON_ADD_RELOAD_SPEED` queda en su base 100 (no-op).
+ */
+export function volt(): EnsembleIntention {
+  return {
+    items: {
+      warframe:         { itemId: VOLT, rank: 30 },
+      primary:          { itemId: TIBERON_PRIME, rank: 30, active_profile: 'base' },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: null, rank: 30 },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: { warframe: {} },
+    environment: BASE_ENV,
+  };
+}
+
+/**
+ * Volt + Speed activo. Segunda habilidad que el motor consume por hidratación real
+ * (la 1ª fue Roar). Diferencia con Roar: el destino NO es un pool de daño sino un nodo
+ * de utilidad del arma que ya existía materializado (`WEAPON_ADD_RELOAD_SPEED`, base 100),
+ * y el token `$$` se resuelve por SINTAXIS (`resolveToken`: WEAPON+ADD → op ADD), sin
+ * entrada en `UPGRADE_MAP`. Cero código nuevo: sólo la anotación en el `.md`.
+ *
+ * Wiki (`references/wiki/abilities/Volt/Speed/Speed.md`): el buff de reload **stackea
+ * ADITIVAMENTE** con los mods de reload — `Speed(25%) × Intensify(1.3) + Quickdraw(48%)`.
+ * Por eso aterriza en `mods_add_pct`, junto a los mods, y no en un bucket propio.
+ *
+ * @param strengthMod si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
+ */
+export function voltSpeed(opts: { strength?: boolean } = {}): EnsembleIntention {
+  const base = volt();
+  return {
+    ...base,
+    items: {
+      ...base.items,
+      warframe: { ...base.items.warframe, abilities: [{ id: VOLT_SPEED }] },
+    },
+    ...(opts.strength
+      ? { mods: { warframe: { 0: { itemId: RHINO_MOD.BLIND_RAGE, rank: 30, level: 10 } } } }
+      : {}),
+  };
+}
+
 export const BUILDS: Record<string, () => EnsembleIntention> = {
+  volt:       () => volt(),
+  volt_speed: () => voltSpeed(),
+  volt_speed_str: () => voltSpeed({ strength: true }),
   tiberon:      () => tiberon(false),
   tiberon_heat: () => tiberon(true),
   lanka:  () => lanka('charged_shot'),

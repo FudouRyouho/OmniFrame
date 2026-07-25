@@ -19,7 +19,7 @@ Drain: <ENERGY> 25 $EFFICIENCY
 Radius: 25m $RANGE
 Duration: 12s $DURATION
 Speed Multiplier: 1,75x $STRENGTH
-Reload Speed: 25% $STRENGTH
+Reload Speed: 25% $STRENGTH $$WEAPON_ADD_RELOAD_SPEED
 #### SHOCKING SPEED
 Area Damage: <DT_ELECTRICITY> 300 $STRENGTH
 Radius: 3m $RANGE

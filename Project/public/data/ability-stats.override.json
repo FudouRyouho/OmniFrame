@@ -8270,7 +8270,8 @@
           {
             "label": "Reload Speed: |val1|%",
             "base_value": 25,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
+            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
           }
         ]
       },
