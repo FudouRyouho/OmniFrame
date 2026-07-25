@@ -1628,7 +1628,7 @@
               29.2,
               35
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ],
         "notes": [
@@ -5684,7 +5684,7 @@
               7.5,
               10
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -5705,7 +5705,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -6331,7 +6331,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -8880,7 +8880,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       },
@@ -9885,7 +9885,7 @@
               30,
               40
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -12006,7 +12006,7 @@
               50,
               55
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -13087,7 +13087,7 @@
               30,
               40
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       },
@@ -15466,7 +15466,7 @@
               -15,
               -20
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }

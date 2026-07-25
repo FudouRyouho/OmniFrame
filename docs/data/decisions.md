@@ -87,6 +87,28 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 - `WEAPON` → sub-familias válidas: `PRIMARY`, `SECONDARY`, `MELEE`
 - Tokens sin `SUB_FAMILY` se aplican universalmente — son la norma por defecto
 
+**Familia `MELEE` (añadida): dominio del atributo ≠ target del modificador.** Las dos cosas se
+confundían y son ortogonales:
+
+| Eje | Pregunta que responde | Mecanismo |
+|---|---|---|
+| **FAMILY** | ¿en qué entidades **existe** este nodo? | prefijo del token (`WEAPON_`, `MELEE_`, `AVATAR_`…) |
+| **SUB_FAMILY** | ¿a qué entidad **le llega** este modificador? | `target_channel` (solo cross-entity) |
+
+`MELEE_` se usa cuando el atributo **solo existe** en armas melee y no tiene contraparte ranged
+(primer caso: `MELEE_ADD_ATTACK_SPEED`). NO se usa `WEAPON_MELEE_ADD_*` para eso: esa forma expresa
+*target*, y su criterio de uso dice explícitamente que no se añade sub-familia aunque el stat sea
+melee-exclusivo.
+
+Consecuencia práctica: con `WEAPON_` el nodo puede existir en cualquier arma, así que impedir que un
+stat melee aterrice en un rifle queda a cargo de un `if` en la materialización — **el token no
+declara nada y el error es silencioso**. Con `MELEE_` el token declara el dominio y el desvío es
+detectable.
+
+**Deuda:** los tokens melee-exclusivos heredados siguen bajo `WEAPON_` (`HEAVY_CHARGE_SPEED`,
+`HEAVY_EFFICIENCY`, `COMBO_DURATION`, `COMBO_INITIAL`, `COMBO_COUNT_CHANCE`, `SLAM_*`). Son deuda,
+no norma — **no citarlos como precedente**. Migración pendiente, scope propio.
+
 **Criterio de uso de sub-familia (2026-05-28):** La sub-familia solo se añade cuando el modificador **no reside en el mismo nodo que su target**. Si el modificador ya está en el nodo del arma (mod en melee, perk en melee), el target es implícito por contexto — no se añade sub-familia aunque el stat sea melee-exclusivo.
 
 | Caso | Token correcto | Por qué |

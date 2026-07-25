@@ -39,6 +39,9 @@ export const STAT_PRESENTATION: Partial<Record<Upgrade, PresentationMeta>> = {
 
   // ── WEAPON — offensive ──────────────────────────────────────────────────────
   WEAPON_ADD_FIRE_RATE:       { label: 'FIRE RATE',       category: 'offensive', unit: '' },
+  // Melee: stat propio, no un alias de FIRE RATE. Antes una espada se proyectaba con el
+  // label 'FIRE RATE' porque compartía nodo — la UI mostraba el nombre equivocado.
+  MELEE_ADD_ATTACK_SPEED:     { label: 'ATTACK SPEED',    category: 'offensive', unit: '' },
   WEAPON_ADD_MULTISHOT:       { label: 'MULTISHOT',       category: 'offensive', unit: '' },
   WEAPON_ADD_MAGAZINE_MAX:    { label: 'MAGAZINE',        category: 'offensive', unit: '' },
   WEAPON_ADD_AMMO_MAX:        { label: 'AMMO MAX',        category: 'offensive', unit: '' },

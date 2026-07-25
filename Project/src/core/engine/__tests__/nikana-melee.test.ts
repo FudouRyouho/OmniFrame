@@ -35,7 +35,28 @@ describe('Nikana Prime — hidratación base (melee entra al grafo)', () => {
     expect(w.node('WEAPON_ADD_CRIT_CHANCE').final).toBeCloseTo(28, 0);
     expect(w.node('WEAPON_ADD_CRIT_MULT').final).toBeCloseTo(2.4, 1);
     expect(w.node('WEAPON_ADD_STATUS_CHANCE').final).toBeCloseTo(28, 0);
-    expect(w.node('WEAPON_ADD_FIRE_RATE').final).toBeCloseTo(1.08, 2);
+    // La cadencia melee vive en su propio nodo (familia MELEE), no en el de las armas de
+    // fuego: el raw ya la trae separada (`attack.speed` vs `stats.fire_rate`) y son stats
+    // distintos — fire rate es disparos/s, attack speed un multiplicador de animación.
+    expect(w.node('MELEE_ADD_ATTACK_SPEED').final).toBeCloseTo(1.08, 2);
+  });
+
+  // El token declara el dominio: una melee NO materializa el nodo de las armas de fuego.
+  // Antes compartían nodo, así que un mod de fire rate podía aterrizar sobre una espada
+  // y la UI proyectaba el label 'FIRE RATE' para un arma cuerpo a cuerpo.
+  it('una melee NO tiene nodo de fire rate (el dominio lo declara el token)', () => {
+    expect(() => base().node('WEAPON_ADD_FIRE_RATE')).toThrow();
+  });
+
+  // Fury es el mod que destapó la separación: su label dice "+30% Attack Speed" pero su
+  // `upgrade_type` decía `WEAPON_ADD_FIRE_RATE` — la contradicción vivía escrita en nuestro
+  // propio override normalizado. Ahora compone sobre el nodo que su label declara.
+  it('Fury (+30% Attack Speed) compone sobre el nodo melee: 1.08 × 1.30 = 1.404', () => {
+    const w = consume(nikana(false, 'base', false, false, true)).weapon(NIKANA_PRIME);
+    const speed = w.node('MELEE_ADD_ATTACK_SPEED');
+    expect(speed.base).toBeCloseTo(1.08, 2);
+    expect(speed.mods_add_pct).toBeCloseTo(30, 5);
+    expect(speed.final).toBeCloseTo(1.404, 3);
   });
 });
 

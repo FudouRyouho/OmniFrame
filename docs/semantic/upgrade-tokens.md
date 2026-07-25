@@ -30,10 +30,23 @@ parsing de labels.
 
 | Token | Dominio |
 | :--- | :--- |
-| `WEAPON_` | Arma y ataques — ranged y melee (compatibilidad se maneja en el slot, no en el tipo) |
+| `WEAPON_` | Arma y ataques — stats que existen en **cualquier** arma (compatibilidad por slot, no por tipo) |
+| `MELEE_` | Atributos que **solo existen** en armas melee y no tienen equivalente ranged |
 | `AVATAR_` | Stats del Warframe — habilidades, defensas, movilidad |
 | `VEHICLE_` | K-Drive y vehículos |
 | `GAMEPLAY_` | Facción, utilidades, reglas generales |
+
+**Criterio `WEAPON_` vs `MELEE_`:** la familia declara **dónde vive el nodo**, no a quién se le
+aplica un modificador (eso es la sub-familia, y expresa *target* cross-entity — ver D-6). Si el
+atributo puede existir en un arma de fuego → `WEAPON_`. Si es propio del dominio melee y no tiene
+contraparte ranged → `MELEE_`. La consecuencia práctica: un token `MELEE_*` que aterriza sobre una
+entidad no-melee es un **error detectable**, no algo que un `if` de materialización deba silenciar.
+
+> ⚠️ **Deuda de vocabulario:** varios tokens melee-exclusivos siguen bajo `WEAPON_` por herencia
+> (`WEAPON_ADD_HEAVY_CHARGE_SPEED`, `WEAPON_BASE_HEAVY_EFFICIENCY`, `WEAPON_ADD_COMBO_DURATION`,
+> `WEAPON_BASE_COMBO_INITIAL`, `WEAPON_ADD_COMBO_COUNT_CHANCE`, `WEAPON_ADD_SLAM_*`). Son deuda,
+> **no norma** — no citarlos como precedente para dejar un stat melee bajo `WEAPON_`. Su migración
+> es trabajo aparte.
 
 ### OPERATION — mapeo 1:1 con `Modifier.operation` del engine
 
@@ -136,7 +149,7 @@ confirmar un mod o mecánica que lo requiera.
 
 | Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `WEAPON_ADD_FIRE_RATE` | `WEAPON_ADD_FIRE_RATE` | ADD | `[empirical]` | `C1` | Speed Trigger, Shred |
+| `WEAPON_ADD_FIRE_RATE` | `WEAPON_ADD_FIRE_RATE` | ADD | `[empirical]` | `C1` | Speed Trigger, Shred, Gunslinger — **solo armas de fuego**; el melee usa `MELEE_ADD_ATTACK_SPEED` |
 | `WEAPON_ADD_MULTISHOT` | `WEAPON_ADD_MULTISHOT` | ADD | `[ref: multishot.md]` | `C1` | Split Chamber, Galvanized Chamber |
 | `WEAPON_FIRE_ITERATIONS` | `WEAPON_ADD_MULTISHOT` | ADD | `[ref: multishot.md]` | `C1` | Hell's Chamber, Galvanized Hell, Barrel Diffusion — alias pipeline `@wfcd/items`; resolución formal en OQ-ENGINE-6 |
 | `WEAPON_ADD_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | ADD | `[ref: critical-hits.md]` | `C1` | Point Strike, True Steel |
@@ -218,6 +231,35 @@ Deuda D-7: el pipeline de filtrado por canal no está implementado.
 | `WEAPON_PRIMARY_ADD_STATUS_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` | ADD | `primary` | `C1` | Crimson Archon Shard |
 | `WEAPON_SECONDARY_ADD_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` | ADD | `secondary` | `C1` | Crimson Archon Shard |
 | `WEAPON_MELEE_ADD_CRIT_MULT` | `WEAPON_ADD_CRIT_MULT` | ADD | `melee` | `C1` | Crimson Archon Shard |
+
+### MELEE — atributos propios del dominio melee
+
+`attr = token` (auto-derivado por `resolveToken`: `MELEE` no es sub-familia, así que `parts[1]` es
+la OPERATION y el attr queda igual al token).
+
+| Tipo OmniFrame D-6 | Engine attr | Op | Evidencia | Modelo | Ejemplo de mod |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `MELEE_ADD_ATTACK_SPEED` | `MELEE_ADD_ATTACK_SPEED` | ADD | `[empirical]` | `C1` | Fury, Primed Fury, Berserker Fury, Quickening, Spoiled Strike (−), Gladiator Vice, Furor, Necramech Fury, Martial Fury |
+
+**Por qué está separado de `WEAPON_ADD_FIRE_RATE`.** DE emite un único token upstream
+(`WEAPON_FIRE_RATE`) tanto para Fury como para Gunslinger, pero son stats distintos:
+
+- el **texto de la carta** ya los distingue — Fury: `+30% Attack Speed`; Gunslinger: `+72% Fire Rate`;
+- el **raw** ya los trae separados — `attack.speed` en melee, `stats.fire_rate` en armas de fuego;
+- **no significan lo mismo**: fire rate es cadencia absoluta (disparos/segundo); attack speed es un
+  **multiplicador** sobre la animación del stance (el operando base no está en ninguna fuente — ver
+  la deuda de cadencia melee más abajo).
+
+Es el mismo principio de derivación que rige todo este documento: DE suministra tipos genéricos,
+OmniFrame los normaliza al nodo correcto. Mantenerlos juntos hacía que `mod-stats.override.json`
+declarara `label: "+X% Attack Speed"` con `upgrade_type: WEAPON_ADD_FIRE_RATE` — la contradicción
+escrita en el propio dato normalizado.
+
+> ⚠️ **Deuda destapada por esta separación (no resuelta acá):** `CombatCalculator` y
+> `TimelineSimulator` consumen la cadencia como disparos/segundo (`timeStep = 1 / speed`,
+> `weaponDps({fireRate})`). Aplicado a melee eso interpreta un **multiplicador** como cadencia
+> absoluta. El bug es anterior a la separación; ésta solo lo hace visible. Una ley de cadencia melee
+> necesita el swing time base por stance, que **no existe en ninguna fuente del pipeline**.
 
 ### AVATAR — habilidades
 
@@ -319,7 +361,7 @@ fallo silencioso detectable inspeccionando el output de `ModRepository`.
 | `WEAPON_PERCENT_BASE_DAMAGE_ADDED` | → derivar al tipo elemental específico |
 | `WEAPON_DAMAGE_AMOUNT` | `WEAPON_ADD_DAMAGE` |
 | `WEAPON_MELEE_DAMAGE` | `WEAPON_ADD_DAMAGE` (mismo target engine) |
-| `WEAPON_FIRE_RATE` | `WEAPON_ADD_FIRE_RATE` |
+| `WEAPON_FIRE_RATE` | `WEAPON_ADD_FIRE_RATE` en armas de fuego · **`MELEE_ADD_ATTACK_SPEED` en melee** (DE colapsa ambos en un token; el label y el raw ya los distinguen) |
 | `WEAPON_CRIT_CHANCE` | `WEAPON_ADD_CRIT_CHANCE` |
 | `WEAPON_CRIT_DAMAGE` | `WEAPON_ADD_CRIT_MULT` |
 | `WEAPON_PROC_CHANCE` | `WEAPON_ADD_STATUS_CHANCE` |

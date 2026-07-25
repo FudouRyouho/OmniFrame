@@ -80,6 +80,15 @@ export class ItemRepository {
   /** Merge raw→DNA de un arma: combina `attacks[]` + overrides + fallback en los perfiles finales. */
   private static normalizeWeapon(raw: any): MutatedDNA {
     const profiles: Record<string, Record<string, number>> = {};
+    // Cadencia: DOS stats distintos que el raw ya trae separados (`attack.speed` en melee vs
+    // `stats.fire_rate` en guns) y que DE colapsa en un único token upstream. El nodo se
+    // materializa según el dominio del arma — una espada NO tiene `WEAPON_ADD_FIRE_RATE` y un
+    // rifle NO tiene `MELEE_ADD_ATTACK_SPEED`. No es un gate de conveniencia: son atributos de
+    // familias distintas (D-6), y el token declara dónde vive el nodo.
+    const isMelee = raw.kind === 'melee';
+    const speedNode = (speed: number): Record<string, number> => isMelee
+      ? { MELEE_ADD_ATTACK_SPEED: speed }
+      : { WEAPON_ADD_FIRE_RATE:   speed };
     // Metadata cualitativa por perfil (agnóstica al modo estático/dinámico): a qué bucket
     // compone un bonus CO/GunCO en este ataque. Ausencia de entrada = gap (no se asume).
     const co_behavior: Record<string, CoBehavior> = {};
@@ -102,7 +111,7 @@ export class ItemRepository {
           WEAPON_ADD_CRIT_CHANCE:  (attack.crit_chance ?? raw.stats.crit_chance ?? 0) * 100,
           WEAPON_ADD_CRIT_MULT:    attack.crit_mult ?? raw.stats.crit_mult ?? 0,
           WEAPON_ADD_STATUS_CHANCE:(attack.status_chance ?? raw.stats.status_chance ?? 0) * 100,
-          WEAPON_ADD_FIRE_RATE:    attack.speed ?? raw.stats.fire_rate ?? 0,
+          ...speedNode(attack.speed ?? raw.stats.fire_rate ?? 0),
           WEAPON_ADD_MULTISHOT:    this.resolveMultishot(raw, attack.name ?? '', index),
           WEAPON_FLAT_PUNCH_THROUGH: this.resolvePunchThrough(raw, attack.name ?? '', attack.punch_through),
           WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
@@ -140,7 +149,7 @@ export class ItemRepository {
         WEAPON_ADD_CRIT_CHANCE:  (raw.stats.crit_chance ?? 0) * 100,
         WEAPON_ADD_CRIT_MULT:    raw.stats.crit_mult ?? 0,
         WEAPON_ADD_STATUS_CHANCE:(raw.stats.status_chance ?? 0) * 100,
-        WEAPON_ADD_FIRE_RATE:    raw.stats.fire_rate ?? 0,
+        ...speedNode(raw.stats.fire_rate ?? 0),
         WEAPON_ADD_MULTISHOT:    raw.stats.multishot ?? 1,
         WEAPON_FLAT_PUNCH_THROUGH: 0,
         WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,

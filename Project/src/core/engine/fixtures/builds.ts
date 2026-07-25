@@ -259,13 +259,20 @@ const NIKANA_MOD = {
   MELEE_PROWESS:         '/Lotus/Upgrades/Mods/Melee/WeaponStunChanceMod',               // WEAPON_ADD_STATUS_CHANCE
   CONDITION_OVERLOAD:    '/Lotus/Upgrades/Mods/Melee/WeaponDamageIfVictimProcActive',    // CONDITION_OVERLOAD (CO melee, coefBase 80, 1x)
   BLOOD_RUSH:            '/Lotus/Upgrades/Mods/Melee/Event/ComboCritChanceMod',          // COMBO_SCALED_ADD (val × meleeComboMult)
+  FURY:                  '/Lotus/Upgrades/Mods/Melee/WeaponFireRateMod',                 // MELEE_ADD_ATTACK_SPEED (+30% a rank 5)
 };
 
 /** Nikana Prime — primer melee. Va en el slot `melee` del ensemble. Mods básicos genéricos
  *  (damage/crit/status), sin nada combo-dependiente. `profile`: 'base'/'normal_attack',
  *  'slam_attack', 'heavy_slam_attack'. `withCO` añade Condition Overload (el mod CO melee).
  *  `withBloodRush` añade Blood Rush (familia `COMBO_SCALED_ADD`, `melee-combo.md §4`). */
-export function nikana(withMods = true, profile = 'base', withCO = false, withBloodRush = false): EnsembleIntention {
+export function nikana(
+  withMods = true,
+  profile = 'base',
+  withCO = false,
+  withBloodRush = false,
+  withFury = false,
+): EnsembleIntention {
   const mods: Record<number, { itemId: string; rank: number; level: number }> = withMods ? {
     0: { itemId: NIKANA_MOD.PRIMED_PRESSURE_POINT, rank: 30, level: 10 },
     1: { itemId: NIKANA_MOD.TRUE_STEEL,            rank: 30, level: 10 },
@@ -274,6 +281,9 @@ export function nikana(withMods = true, profile = 'base', withCO = false, withBl
   } : {};
   if (withCO) mods[4] = { itemId: NIKANA_MOD.CONDITION_OVERLOAD, rank: 30, level: 5 };
   if (withBloodRush) mods[5] = { itemId: NIKANA_MOD.BLOOD_RUSH, rank: 30, level: 10 };
+  // Fury: el mod que motivó separar el token — su label dice "Attack Speed" pero su
+  // `upgrade_type` decía `WEAPON_ADD_FIRE_RATE`. Vehículo de la separación (familia MELEE).
+  if (withFury) mods[6] = { itemId: NIKANA_MOD.FURY, rank: 30, level: 5 };
   return {
     items: {
       warframe:         { itemId: null, rank: 30, shards: [] },
@@ -497,6 +507,8 @@ export function voltSpeed(opts: { strength?: boolean } = {}): EnsembleIntention 
 }
 
 export const BUILDS: Record<string, () => EnsembleIntention> = {
+  nikana:      () => nikana(false),
+  nikana_fury: () => nikana(false, 'base', false, false, true),
   volt:       () => volt(),
   volt_speed: () => voltSpeed(),
   volt_speed_str: () => voltSpeed({ strength: true }),

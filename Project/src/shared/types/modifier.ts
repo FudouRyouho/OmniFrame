@@ -78,7 +78,10 @@ export type CoBehavior = 'adding' | 'multiplying' | 'none'
 // Convención D-6: {FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
 // Fuente de verdad: el array UPGRADES — el tipo se deriva de él (no al revés).
 
-export type UpgradeFamily = 'WEAPON' | 'AVATAR' | 'VEHICLE' | 'GAMEPLAY'
+// `MELEE` es familia propia, no sub-familia de WEAPON: declara el DOMINIO en el que el
+// atributo existe. Un token `MELEE_*` sobre una entidad no-melee es un error detectable,
+// no algo que un `if` de materialización deba silenciar. Ver D-6 (criterio de familia).
+export type UpgradeFamily = 'WEAPON' | 'AVATAR' | 'VEHICLE' | 'GAMEPLAY' | 'MELEE'
 
 export const UPGRADES = [
   // ── WEAPON — daño global ────────────────────────────────────────────────
@@ -102,6 +105,11 @@ export const UPGRADES = [
   'WEAPON_ADD_TRUE_DAMAGE',
   'WEAPON_ADD_NONE_DAMAGE',
   // ── WEAPON — stats de disparo y crítico ─────────────────────────────────
+  // Cadencia de DISPARO (disparos/segundo). NO es attack speed melee: ese es
+  // `MELEE_ADD_ATTACK_SPEED`, familia propia. DE los emite con un único token upstream
+  // (`WEAPON_FIRE_RATE` para Fury y para Gunslinger) pero el texto de la carta ya los
+  // distingue ("+30% Attack Speed" vs "+72% Fire Rate") y el raw también (`attack.speed`
+  // en melee vs `stats.fire_rate` en guns). La normalización OmniFrame los separa.
   'WEAPON_ADD_FIRE_RATE',
   'WEAPON_ADD_MULTISHOT',
   // Alias del pipeline @wfcd/items → mapea al mismo atributo que WEAPON_ADD_MULTISHOT.
@@ -148,7 +156,17 @@ export const UPGRADES = [
   'WEAPON_BASE_DAMAGE',
   'WEAPON_BASE_MAGAZINE_MAX',
   'WEAPON_BASE_CRIT_MULT',
+  // ── MELEE — familia propia (atributos que SOLO existen en armas melee) ────
+  // Velocidad de ataque melee. El raw la trae como `attack.speed`; DE la colapsa con fire
+  // rate en un único token upstream, pero son stats distintos: fire rate es cadencia de
+  // disparo (disparos/s) y attack speed es un MULTIPLICADOR sobre la animación del stance.
+  // Familia `MELEE_` y no `WEAPON_MELEE_*`: la sub-familia D-6 expresa TARGET cross-entity,
+  // no dominio del atributo (ver D-6, criterio 2026-05-28).
+  'MELEE_ADD_ATTACK_SPEED',
   // ── WEAPON — melee ────────────────────────────────────────────────────────
+  // ⚠️ Los tokens de abajo son melee-exclusivos pero viven bajo `WEAPON_` por herencia:
+  // deuda de vocabulario, no norma. Migrarlos a `MELEE_` es trabajo aparte (no se toca acá
+  // para no mezclar la separación fire-rate/attack-speed con una migración masiva).
   'WEAPON_ADD_HEAVY_CHARGE_SPEED',
   'WEAPON_BASE_HEAVY_EFFICIENCY',
   'WEAPON_ADD_SLAM_RADIUS',
@@ -239,6 +257,7 @@ export function isUpgrade(value: string): value is Upgrade {
 }
 
 export function getUpgradeFamily(upgrade: Upgrade): UpgradeFamily {
+  if (upgrade.startsWith('MELEE_')) return 'MELEE'
   if (upgrade.startsWith('WEAPON_')) return 'WEAPON'
   if (upgrade.startsWith('AVATAR_')) return 'AVATAR'
   if (upgrade.startsWith('VEHICLE_')) return 'VEHICLE'
