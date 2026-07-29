@@ -60,6 +60,16 @@ export class ItemRepository {
         AVATAR_ADD_SHIELD_MAX:        s.shield ?? 0,
         AVATAR_ADD_ARMOUR:            s.armor  ?? 0,
         AVATAR_ADD_ENERGY_MAX:        s.energy ?? 0,
+        // `sprint_speed` del raw NO es velocidad de sprint: es el modificador base de MOVEMENT
+        // speed. La wiki lo dice literal — *"A Warframe's base Sprint Speed Stat is not a direct
+        // modifier to its sprint speed, but is actually the Warframes base Movement Speed
+        // modifier"* — y los bonos de Sprint Speed (Rush) no lo tocan aunque suban el número que
+        // el arsenal muestra. Mismo patrón que `fire_rate` en melee: DE nombra una cosa y la
+        // mecánica es otra, y el token declara la verdad, no el raw. Base 1.0 = 6 m/s de walk
+        // speed; sprintar suma 25% aparte. Ver references/wiki/mechanics/movement-speed.md.
+        // `AVATAR_ADD_SPRINT_SPEED` y `AVATAR_ADD_PARKOUR_VELOCITY` son stats DISTINTOS (existen
+        // como token, sin nodo): esperan su consumidor — Rush y el shard ámbar respectivamente.
+        AVATAR_ADD_MOVEMENT_SPEED:    s.sprint_speed ?? 0,
         AVATAR_ADD_ABILITY_STRENGTH:   100,
         AVATAR_ADD_ABILITY_RANGE:      100,
         AVATAR_ADD_ABILITY_DURATION:   100,

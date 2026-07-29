@@ -490,15 +490,25 @@ export function volt(): EnsembleIntention {
  * ADITIVAMENTE** con los mods de reload — `Speed(25%) × Intensify(1.3) + Quickdraw(48%)`.
  * Por eso aterriza en `mods_add_pct`, junto a los mods, y no en un bucket propio.
  *
- * @param strengthMod si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
+ * Los otros dos buffs de Speed (`references/wiki/mechanics/movement-speed.md`) aterrizan en
+ * entidades distintas y por eso el ruteo sale del token, no de la pertenencia: Movement Speed
+ * (`AVATAR_*`) vuelve al warframe que castea, Melee Attack Speed (`MELEE_*`) alcanza sólo la
+ * melee equipada. Los tres salen de DOS renglones del `.md` porque la UI del juego colapsa
+ * movement y melee attack speed en un solo `Speed Multiplier: 1,75x`.
+ *
+ * @param strength si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
+ * @param melee    si se pasa, equipa la Nikana Prime — necesario para ejercer el buff `MELEE_*`.
  */
-export function voltSpeed(opts: { strength?: boolean } = {}): EnsembleIntention {
+export function voltSpeed(opts: { strength?: boolean, melee?: boolean } = {}): EnsembleIntention {
   const base = volt();
   return {
     ...base,
     items: {
       ...base.items,
       warframe: { ...base.items.warframe, abilities: [{ id: VOLT_SPEED }] },
+      ...(opts.melee
+        ? { melee: { itemId: NIKANA_PRIME, rank: 30, active_profile: 'base' } }
+        : {}),
     },
     ...(opts.strength
       ? { mods: { warframe: { 0: { itemId: RHINO_MOD.BLIND_RAGE, rank: 30, level: 10 } } } }
@@ -552,6 +562,7 @@ export const BUILDS: Record<string, () => EnsembleIntention> = {
   volt:       () => volt(),
   volt_speed: () => voltSpeed(),
   volt_speed_str: () => voltSpeed({ strength: true }),
+  volt_speed_melee: () => voltSpeed({ melee: true }),
   tiberon:      () => tiberon(false),
   tiberon_heat: () => tiberon(true),
   lanka:  () => lanka('charged_shot'),

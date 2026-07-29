@@ -100,7 +100,10 @@ export const STAT_PRESENTATION: Partial<Record<Upgrade, PresentationMeta>> = {
   AVATAR_ADD_ABILITY_DAMAGE:     { label: 'ABILITY DAMAGE',     category: 'offensive', unit: '%' },
 
   // ── AVATAR — utility ────────────────────────────────────────────────────────
-  AVATAR_ADD_MOVEMENT_SPEED:       { label: 'MOVEMENT SPEED',  category: 'utility', unit: '%' },
+  // Escala, no porcentaje: el nodo nace del `sprint_speed` del raw (1.0 = 6 m/s de walk) y los
+  // buffs lo multiplican — 1.0 × Volt Speed = 1.75, que el arsenal muestra como un `1,75x`, no
+  // como "1.8%". Mismo formato que ATTACK SPEED y FIRE RATE. Ver wiki/mechanics/movement-speed.md.
+  AVATAR_ADD_MOVEMENT_SPEED:       { label: 'MOVEMENT SPEED',  category: 'utility', unit: '' },
   AVATAR_ADD_SPRINT_SPEED:         { label: 'SPRINT SPEED',    category: 'utility', unit: '%' },
   AVATAR_ADD_CASTING_SPEED:        { label: 'CASTING SPEED',   category: 'utility', unit: '%' },
   AVATAR_ADD_SHIELD_RECHARGE_RATE: { label: 'SHIELD RECHARGE', category: 'utility', unit: '%' },

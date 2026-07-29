@@ -1,0 +1,562 @@
+{{Top|Lotus|Melee|Melee|Lotus|Key Bindings|Key Bindings}}
+{{UpdateMe|[[Necramech]] related movement}}
+{{Infobox
+| Box title=Maneuvers
+| image=IconClanObstacleCourse.png
+| caption=Clan Dojo Obstacle Course icon
+}}
+'''Maneuvers''' or '''Parkour''' are a set of actions that a player can perform with the [[Warframe]] and [[weapons|melee weapon]]. This includes rolls, wallruns, swordplay, and acrobatics.
+
+==Basic Movements==
+===Sprinting===
+{{Combo|{{Keybind|Shift}}|ps4={{Keybind|L3}}}}[[File:MovementSprinting.gif|right]]
+Sprinting will cause the frame to run at a slightly increased speed. Each Warframe has a different base [[Sprint Speed]]. Firing will cancel the sprint, but certain melee weapons can be swung while sprinting. 
+
+By default, sprinting is a hold input. This can be changed in [[Settings]], under Accessibility, by toggling 'Hold to Sprint' off for controller or keyboard. This is useful so you don't end up holding the sprint button all the time.
+
+[[Sprint Speed]] mods like {{M|Rush}} apply a bonus to a frame's base Sprint Speed, causing them to sprint even faster. Some frames with alternate forms, like {{WF|Titania}}'s {{A|Razorwing}} or {{WF|Grendel}}'s {{A|Pulverize}} will also have their movement in those forms affected by Sprint Speed mods. 
+
+[[Movement Speed]] buffs increase movement speed while moving normally as well as while sprinting. 
+
+{{CustomCollapsible|Sprint Speed}}
+{{for|more information|Sprint Speed}}
+{{#invoke:Warframes|getSprintList}}
+{{CustomCollapsible/End}}
+
+====Rolling====
+{{Combo|Tapping Sprint}}[[File:MovementRollForward.gif|right]]
+'''Rolling''' (also called '''Dodging''') is a basic combat evasive maneuver that allows player to evade charging enemies, evade bullets, grenades or melee attacks. Rolling also '''reduces all damage taken by the player by 75%''' (or invulnerability with {{M|Rolling Guard}}) and grants [[Knockdown]] immunity during its animation.
+
+Rolling shakes off certain enemies or projectiles that cling to the player (such as [[Latcher]]s, [[Maggot]]s, or [[Leech Osprey|Leeches]]) and can also 'dispel' certain status effects such as [[Swarm Mutalist MOA]] spores and unwanted {{A|Banish}} effects. It can negate some enemy abilities such as fire waves from Arson [[Eximus]]. Rolling just before touching the ground from high elevations also prevents hard landings.
+
+Roll distance can be increased with Parkour Velocity mods (e.g. {{M|Mobilize}}, {{M|Hit And Run}}). The speed of the maneuver can be increased by equipping {{M|Amalgam Barrel Diffusion}} or by {{WF|Mirage}}'s passive. Some arcanes and mods provide combat bonuses related to rolling: 
+*{{Arcane|Melee Careen}} applies 10 stacks of {{D|Cold}} on enemies near the roll, [[Damage/Cold_Damage#General|freezing]] them.
+*{{Arcane|Arcane Circumvent}} steals some Armor, Shields, and Overguard from enemies near the roll.
+*{{Arcane|Cascadia Accuracy}} and {{M|Deadly Maneuvers}} provide Critical Chance on weakpoint hits after a roll.
+
+Rolling can be performed while airborne, allowing for some of the velocity of the roll to be stored via [[#Aim_Glide|Aim Gliding]]. However, if a roll is performed in the air, the ground must be touched before another roll can be performed, similar to [[#Double_Jump|Double Jumping]]. Alternatively, a [[#Wall_Dash|Wall Dash]] or Wall-Latch can be performed to reset the airborne roll as well. 
+
+Carriables such as [[Mobile Defense]] datamasses or [[Excavation]] power cells can be picked up by rolling over them while pressing the interact key, bypassing the normal pickup animation.
+
+Certain Warframes utilize different animations instead of the standard rolls but otherwise remain identical in function: 
+*{{WF|Limbo}} ({{WF|Limbo Prime|Prime}}), {{WF|Hildryn}} ({{WF|Hildryn Prime|Prime}}), {{WF|Wisp}} ({{WF|Wisp Prime|Prime}}), {{WF|Titania Prime}}, {{WF|Xaku}} ({{WF|Xaku Prime|Prime}}), {{WF|Qorvex}}, {{WF|Dante}}, and {{WF|Jade}} all dash upright.
+*{{WF|Protea}} ({{WF|Protea Prime|Prime}}) performs a cartwheel.
+*{{WF|Sevagoth}} ({{WF|Sevagoth Prime|Prime}}) utilizes bullet jumps. 
+*{{WF|Gyre}} ({{WF|Gyre Prime|Prime}}) executes a twirl.
+*{{WF|Uriel}} uses a bullet jump when rolling forwards, but dashes upright when rolling to the side or rolling back.
+
+====Sidespring====
+{{Combo|Aim + Left/Right + Tap Sprint}}[[File:MovementRollSideways.gif|right]]
+While [[Zoom|aiming]], move sideways and tap the sprint button to do a sideways roll. As of now, the side-roll's range is short compared to the other ones, though it is still useful because of the damage reduction. As with all rolling maneuvers, it can be used in midair to adjust a trajectory or landing.
+
+{{clr}}
+
+====Backspring====
+{{Combo|Aim + Backward + Tap Sprint}}[[File:MovementRollBackward.gif|right]]
+While holding the aim button hold the back key and tap the roll button to do a back handspring. This maneuver is useful to put a modest distance between the player and any threat, while still maintaining their orientation. As with all rolling maneuvers, it can be used in midair to adjust a trajectory or landing.
+
+Note that aiming is not required to perform this maneuver in midair, as the character does not automatically turn around when pressing backward like it would do while on the ground.
+
+{{clr}}
+
+===Crouching===
+{{Combo|{{Keybind|Ctrl}}|ps4={{Keybind|L1}}}}
+Crouching lowers the Warframe to an average of about half height, reducing hitbox size and assists with stealth movements. When crouched, near-normal movement is still possible, albeit slower. You can, however, still roll while crouched. If crouch is toggled on, you stay crouched. Press {{Keybind|V}} (default) to toggle crouching.
+
+{{clr}}
+====Sliding====
+{{Combo|While Moving + Crouch}}[[File:MovementSliding.gif|right]]
+Sliding is crouching while moving. This will bring a frame to a gradual stop because of ''Friction'', except when on slopes. Ranged weapons may be used while sliding and a melee attack creates a separate combat maneuver.
+
+Sliding is helpful for going under obstacles quickly that would otherwise need to be crawled under by Crouching.
+
+{{clr}}
+
+====Jump Kick====
+{{Combo|While Moving Mid-Air + Crouch}}[[File:MovementJumpKick.gif|right]]
+This action is essentially the same as a crouch which has been initiated while midair. It will help maintain momentum and allow the frame to travel further. When landing on the ground, the Warframe will return to a slide. Like sliding, the frame's jump distance is also improved allowing to reach distant places. 
+
+Jump Kicking will also [[knockdown]] most enemies on hit, as well as dealing pure {{D|Impact}} damage equal to 20 + 100% of equipped melee weapon base damage (including base damage mods). This damage cannot be increased by headshotting an enemy, but can be increased to 20 + 200% of melee base damage with {{M|Gale Kick}} equipped.
+
+{{clr}}
+
+===Jumping===
+{{Combo|{{Keybind|Space}}|ps4={{Keybind/PS4|X}}}}[[File:MovementJump.gif|right]]
+A basic jumping function that propels players upwards.
+
+{{clr}}
+
+====Double Jump====
+{{Combo|While Mid-Air + Jump|ps4 = {{Keybind/PS4|X}}+{{Keybind/PS4|X}}}}[[File:MovementJumpDouble.gif|right]]
+Players can jump twice by tapping the jump button twice. Double jumping carries the momentum the player has, and can be used in tandem with other advanced maneuvers to achieve a complex feat. In addition, coming into contact with any surface &ndash; wall and ground alike, will recharge the player's ability to double jump again.
+
+{{clr}}
+
+====Bullet Jump====
+{{Combo|While Crouching + Jump}}[[File:MovementJumpBullet.gif|right]]
+While crouching, pressing the jump button will cause the Warframe to quickly launch themselves towards the direction of the reticle, leaping into midair with a spiraling movement at a initial speed of 14.5 meters per second. This allows the Warframe to close a longer gap or reach a higher destination. 
+
+Bullet Jump deals 100 {{D|Blast}} damage and guaranteed proc within a 3-meter radius (damage falling off over distance) from where the user initiates the jump. This damage can be modified and amplified by some Exilus Mods such as {{M|Piercing Step}}.
+
+It is possible to bullet jump from a slide (crouching after moving), which will still propel the Warframe forward with extra speed.
+
+Bullet jumping while having the camera pointed to the ground will propel the players up and slightly forward, allowing them to easily aim at ground enemies mid-air (usually in tandem with [[Zoom|Aim Glide]]).
+
+After performing a bullet jump, another bullet jump cannot be performed until after touching ground again. A bullet jump cannot be used after a double jump, but a bullet jump started from the ground can be followed up with a double jump. Similar to the rules of rolling and double jumping, a bullet jump can also be reset by performing a [[#Wall Dash|Wall Dash]] or Wall Latch, which in some cases may be faster than touching the ground. 
+
+{{clr}}
+
+====Aim Glide====
+{{Combo|While Airborne + Aim}}[[File:MovementAimGlide.gif|right]]
+Players can aim midair to perform Aim Gliding, this slows player's descent into a controlled gliding while allowing them to aim better even while moving through the air. Players can only Aim Glide for 3 seconds &ndash; after which they will descend rapidly to the ground. 
+
+Despite its name, Aim Gliding can also be performed while holding melee weapons by Blocking or while casting abilities.
+
+Aim gliding makes players harder to hit by enemies, effectively reducing enemy [[accuracy]]. 
+
+While an [[Archgun]] is [[Archgun Deployer|deployed]], Aim Glide duration is reduced by approximately 70%; 0.9 seconds without increases.
+
+This maneuver shares its timer with Wall Latching.
+{{clr}}
+
+====Mantling====
+{{combo|Approach Edge + Jump}}[[File:MovementEdgeGrab.gif|right]]
+After jumping, a frame will attempt to grab onto an edge of any kind, then attempt to climb up to a standing position regardless if there is enough space to stand or not.
+
+Players can double jump while mantling to flip upwards, achieving faster climb.
+
+Mantling will not occur while casting abilities. It can also be cancelled by inputting crouch or slide.
+
+{{clr}}
+
+===Wall Dash===
+{{Combo|Sprint Forward + Jump}}
+Run at a wall then tap jump and a directional key to perform wall dash.
+
+Wall Dashing and Wall Latching count as a ground reset, allowing the player to perform their [[#Rolling|Roll]], [[#Double_Jump|Double Jump]], or [[#Bullet_Jump|Bullet Jump]] maneuvers again after touching the wall. 
+
+{{clr}}
+
+====Vertical====
+[[File:MovementWallClimb.gif|right]]
+Run at a perpendicular direction towards a wall, then tap jump to wall dash upwards. Players can continue to wall dash indefinitely by subsequently holding jump, and can flexibly switch to walldash sideways by pointing the camera relative to the direction. The faster the sprint speed of the frame, the faster it can climb.
+
+{{clr}}
+
+====Horizontal====
+[[File:MovementWallDash.gif|right]]
+Run with less than a 70 degree angle towards a wall and tap jump to wall dash across the wall. Players can continue to wall dash indefinitely by subsequently holding jump, and can flexibly switch to walldash upwards by pointing the camera relative to the direction. The faster the sprint speed of the frame, the faster it can climb.
+
+Players can also propel themselves away from the wall by pointing the camera relative to the direction players wish to jump away to.
+
+{{clr}}
+
+====Wall Latch====
+{{Combo|While Walldashing + Aim}}[[File:MovementWallLatch.gif|right]]
+During wall dashing, players can latch onto a wall by [[Zoom|aiming]]. This stops any movements players currently have and will remain stationary on the place, such as a high vantage point. Players using the wall latch may also cast some abilities that normally cannot be cast in the air. However, players can only perform this maneuver for a limited amount of time of 6 seconds &ndash; if the timer runs out, they will involuntarily latch off the wall.
+
+Performing this maneuver in the air while falling will prevent a hard fall that stops you from moving momentarily.
+
+While an Archgun is deployed, players cannot Wall Latch.
+
+This maneuver shares its timer with Aim Gliding.
+{{clr}}
+
+===Hard Landing===
+[[File:MovementHardLanding.gif|right]]
+A '''Hard Landing''' occurs when a Warframe drops to the ground at a velocity of 20 meters per second from high altitudes, causing them to impact the ground with heavy force. During a Hard Landing, the Warframe is unable to move briefly as it recovers from the impact. However, the Warframe will not receive any fall damage.
+
+Hard Landings can be prevented by double jumping, jump kicking, rolling, or aim gliding just before hitting the ground. Alternatively, players can equip {{M|Kavat's Grace}} to mitigate the effects of Hard Landings.
+
+{{clr}}
+
+===Zipline===
+[[File:MovementZipline.gif|right]]
+'''Ziplines''' are hanging lines strung between two objects, which can be found on many maps. Players can mount ziplines by pressing or holding the Use key (default {{Keybind|X}}) to instantly hop unto the zipline, making the Warframe crouch on it like a tightrope. Mounting ziplines can be performed as long as the player is within the vicinity of the line even while in mid-air, and can be mounted on any part of its length. Dismounting from a zipline can be done by pressing the Use key again, or by performing a maneuver like Bullet Jump.
+
+Players can walk, sprint and slide along the zipline's length at will, as well as fire weapons. However, players cannot cast powers while mounting a zipline, nor use melee attacks.
+
+While on a zipline, player base movement speed is increased from '''6m/s''' to '''7.5m/s'''. Aiming does not apply its movement speed debuff while on ziplines.
+
+{{clr}}
+
+===Knockdown Recovery===
+[[File:U272StaggerVideo.mp4|400px|right|Demonstrating self-stagger mechanics and recovery]]
+Players can press the jump or roll key within the span of 70ms when the Warframe glows during a [[Knockdown]] animation to do a recovery animation, however the glow is currently '''bugged''' and will not appear in any instances of knockdown, although the recovery window will still be present. <!--(it will be increased to 433ms in jade shadows constellations)-->  
+
+*Counterintuitively, {{M|Handspring}} speeds up the knockdown animation by a significant amount, shrinking the recovery window making it more difficult to recover instead.
+{{clr}}
+
+==Melee Maneuvers==
+[[File:SwordComboSlam.gif|thumb|Excalibur performing a slam attack.|right]]
+{{main|Melee}}
+===Slam Attack===
+{{Combo|In Air + Aim Downwards + Melee}}
+All melee weapons are capable of a [[Melee#Slam_Attack|Slam Attack]] while airborne, causing a downwards plummet towards the target. This can be used to quickly reach the ground, or as a traversal maneuver to cross large distances with a diagonal plunge. The player must have their reticle below a certain angle to do a slam attack, or they will simply do an [[Melee#Aerial_Attack|Aerial Attack]] instead. 
+
+===Heavy Slam Attack===
+{{Combo|In Air + Melee Equipped + Heavy Attack}}
+{{Combo|Middle Mouse {{Keybind|MMB}}|ps4={{Keybind|R3}}}}
+A Heavy Slam Attack is similarly useful for traversal, but can be performed while the reticle is pointed in any direction. This allows heavy slam attacks to be used at their maximum angle reliably, thereby maximizing horizontal distance traveled per slam, without risk of doing an aerial attack by accident.
+
+Heavy slam attacks are also capable of triggering {{M|Dispatch Overdrive}}, further improving the mobility of the weapon's user. 
+
+===Forward Blocking Combo===
+[[File:BlindJusticeCombo2.gif|thumb|Banshee performing the forward blocking combo of Blind Justice at regular speed.|right]]
+{{Combo|Forward + Block/Aim + Melee}}
+[[Stance]]s used by melee weapons provide them with a list of moves, some of which are useful for traversal. In particular, the first move of the forward blocking combo often provides a gap closer, such as the long forward slide of {{M|Blind Justice}} for [[Nikanas]], or the leaping overhead attack of {{M|Gaia's Tragedy}} for [[Fist]] weapons. Increasing the weapon's [[Attack Speed|attack speed]] will cause these moves to complete faster with more velocity, though too much will shorten their distance. 
+
+Other stances with useful gap closers in their forward blocking combo:
+*[[Claws (Melee)|Claws]]: {{M|Malicious Raptor}} and {{M|Four Riders}}
+*[[Dagger|Daggers]] - {{M|Stinging Thorn}}
+*[[Dual Daggers]]: {{M|Spinning Needle}}
+*[[Dual Swords]]: All three {{M|Swirling Tiger}}, {{M|Crossing Snakes}} and {{M|Carving Mantis}}
+*[[Heavy Blade]] - {{M|Cleaving Whirlwind}}
+*[[Rapier|Rapiers]] - {{M|Vulpine Mask}}
+*[[Scythe]] - {{M|Reaping Spiral}}
+*[[Sparring]] - {{M|Brutal Tide}}
+*[[Staff]] - {{M|Flailing Branch}}
+*[[Sword|Swords]] - {{M|Vengeful Revenant}}
+*[[Sword and Shield|Sword & Shield]] - Both {{M|Eleventh Storm}} and {{M|Final Harbinger}}
+*[[Tonfa|Tonfas]] - {{M|Gemini Cross}}
+*[[Two-Handed Nikana|Two-Handed Nikanas]] - {{M|Wise Razor}}
+*[[Whip|Whips]] - {{M|Burning Wasp}}
+
+During these attacks, the horizontal orientation of the attack curves towards the reticle. This allows the attacks to be actively steered during the move, providing a flexibility of motion that parkour maneuvers do not have. These moves can also useful in situations where the other parkour options are not available, such as while using {{WF|Ivara}}'s {{A|Prowl}}, or {{WF|Nyx}}'s {{M|Assimilate}}.
+
+==Advanced Tech==
+{{Community}}
+{{UpdateMe|Can include any movement tech seen in Conclave matches; valid place for stuff like chaining movement or momentum cancellation}}
+
+===Bullet Roll===
+{{Combo|While crouching tap {{Keybind|Shift}} + {{Keybind|Space}} }}[[File:BulletRoll.gif|right]]
+
+A '''Bullet Roll''' is performed by doing Bullet Jump and Roll at the same time. The movement direction is between the aim and the horizontal axis. It behaves as both Bullet Jump and Roll, benefiting from bonuses to both and triggering effects such as {{M|Rolling Guard}} and {{M|Motus Setup}}
+*Binding '''Roll''' to a button separate from sprint can make it easier to perform Bullet Roll.
+**Keyboards often cannot have certain combinations of buttons pressed simultaneously due to hardware limitations. Binding one or more of the buttons to mouse buttons or scroll wheel can fix that issue.
+**It is difficult or impossible to do on a controller due to specifics of key binds on it.
+*This behaves as both a Bullet Jump and a Roll, subject to bonuses to Bullet Jump speed and to Dodge Speed, such as {{M|Amalgam Barrel Diffusion}}.
+**It is especially affected by bonuses to especially Parkour Velocity, such as those from {{M|Lightning Dash}} and {{Resource|Amber Archon Shard}}, which increase velocity of both Bullet Jump and Rolls. 
+**Grants two stacks of {{Arcane|Arcane Double Back}}
+**If done from the ground, a regular Roll can be done in midair after the Bullet Roll.
+**{{WF|Chroma}}'s passive allows two Bullet Rolls in a row.
+*The movement direction is between the aim and the horizontal axis, allowing for higher angles than rolling can usually achieve, although it cannot go directly vertical like standard bullet jumps can. 
+<!-- [[File:BulletRollJumpRoll.gif|thumb|Bullet Roll chained with Double Jump and regular Roll|right|300px]]-->
+<!-- Commented out due to issues with image spacing -->
+
+A similar effect can be found by initiating a Bullet Jump input, and then immediately Double Jumping instead. Since Rolling can then be performed during the Double Jump, this maneuver achieves much the same effect. There is still has a tight timing window for the Double Jump input, but some may find it easier to simply press Jump repeatedly than to time a roll in that window. Though easier to perform, this variant may be slower depending on the player's execution, and the additional upward inertia from the Double Jump increases the amount of time before the player can reset their maneuvers by touching the ground.
+
+===Slam Jump===
+{{Combo|In Air + {{Keybind|E}}+ Flick Camera Down}}[[File:MovementSlamJump.gif|right]]
+A '''Slam Jump''' (also known as Slam Flight and Melee Flight) is performed by jumping, then quickly moving the camera down and then melee-ing midair to exploit the momentum gained from [[Melee#Slam Attack|Melee Slam]] forward. This sends the player towards initial player FOV at a high speed at around '''~50m/s''', comparable to {{WF|Itzal}}'s base sprinting speed.
+[[File:SlamJumpIllustration.png|thumb|Slam Jump illustration |right|300px]]
+*Increasing look sensitivity in the [[Settings]] may help perform this movement tech.
+*When failing this move:
+**Performing regular aerial attack indicates that you are meleeing '''too fast''' or flicking down '''too slow'''.
+**Performing regular slam indicates that you are meleeing '''too late'''.
+*It is notable that Kahl can perform Slam Jumping in [[Break Narmer]] missions where he possesses a '''Jetpack''', making this Kahl's fastest movement tech. 
+**A Jetpack is required for Kahl to perform melee slam. As Sneaky Sabotage does not have any accessible Jetpack it remains the only Kahl mission he cannot perform this tech.
+*It can be done when piloting a [[Necramech]]
+*It cannot be done with [[Glaive (Weapon Type)|Glaives]].
+
+===Slam Cancel===
+{{Combo|In Air + Melee Slam + Tap {{Keybind|Shift}}}}[[File:MovementSlamCancel.gif|right]]
+A '''Slam Cancel''' can be performed by melee slamming and timing a roll to exit out of the slamming animation. Best used when the map requires players to head downwards.
+{{clr}}
+
+===Roll Slide===
+{{Combo|Tap Sprint + Crouch in any direction}}[[File:MovementRollSlide.gif|right]]
+A '''Roll Slide''' can be performed by inputting a slide during a roll. This will push the player in a specified direction during a roll, which allows for fine-tuning of rolling movements.
+{{clr}}
+
+===Roll Pickup===
+{{Combo|Tap Sprint + Tap or hold {{Keybind|X}} on item}}
+'''Roll Pickup''' can be executed by rolling and pressing the interact button (default: {{Keybind|X}}) when the player is near an item, which allows them to pick up items without going into an animation lock.
+
+==Archwing Maneuvers==
+{{Main|Archwing Maneuvers}}
+{{#lst:Archwing Maneuvers|intro}}
+
+==Increasing Maneuverability==
+
+===Aim Glide/Wall Latch Duration===
+Aim Glide/Wall Latch Duration is an [[Upgrade]] type that increases the Aim Glide and Wall Latch durations.
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+AerodynamicMod.png|link=Aerodynamic|{{M|Aerodynamic}}|alt=Aerodynamic
+BatteringManeuverMod.png|link=Battering Maneuver|{{M|Battering Maneuver}}|alt=Battering Maneuver
+FirewalkerMod.png|link=Firewalker|{{M|Firewalker}}|alt=Firewalker
+IceSpringMod.png|link=Ice Spring|{{M|Ice Spring}}|alt=Ice Spring
+LightningDashMod.png|link=Lightning Dash|{{M|Lightning Dash}}|alt=Lightning Dash
+MobilizeMod.png|link=Mobilize|{{M|Mobilize}}|alt=Mobilize
+Nira'sAnguishMod.png|{{M|Nira's Anguish}}|alt=Nira's Anguish
+PatagiumMod.png|link=Patagium|{{M|Patagium}}|alt=Patagium
+PiercingStepMod.png|link=Piercing Step|{{M|Piercing Step}}|alt=Piercing Step
+RendingTurnMod.png|link=Rending Turn|{{M|Rending Turn}}|alt=Rending Turn
+StealthDriftMod.png|link=Stealth Drift|{{M|Stealth Drift}}|alt=Stealth Drift
+ToxicFlightMod.png|link=Toxic Flight|{{M|Toxic Flight}}|alt=Toxic Flight
+Boreal'sAnguishMod.png|link=Boreal's Anguish|{{M|Boreal's Anguish}}|alt=Boreal's Anguish
+</gallery>
+
+===Dodge Speed===
+Dodge Speed is an [[Upgrade]] type that increases the player's rolling, sidespring, and backspring speeds.
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+AmalgamBarrelDiffusionMod.png|link=Amalgam Barrel Diffusion|{{M|Amalgam Barrel Diffusion}}|alt=Amalgam Barrel Diffusion
+</gallery>
+
+===Mobility===
+Mobility is a [[Conclave]]-exclusive stat that represents a multiplier to the player's Bullet Jump speed, sliding speed, and sliding friction.
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+AdeptSurgeMod.png|link=Adept Surge|{{M|Adept Surge}}|alt=Adept Surge
+AirThrustersMod.png|link=Air Thrusters|{{M|Air Thrusters}}|alt=Air Thrusters
+Anti-FlakPlatingMod.png|link=Anti-Flak Plating|{{M|Anti-Flak Plating}}|alt=Anti-Flak Plating
+ArmoredAcrobaticsMod.png|link=Armored Acrobatics|{{M|Armored Acrobatics}}|alt=Armored Acrobatics
+ArmoredEvadeMod.png|link=Armored Evade|{{M|Armored Evade}}|alt=Armored Evade
+CalculatedSpringMod.png|link=Calculated Spring|{{M|Calculated Spring}}|alt=Calculated Spring
+DeftTempoMod.png|link=Deft Tempo|{{M|Deft Tempo}} (only affects Bullet Jump speed)|alt=Deft Tempo (only affects Bullet Jump speed)
+NoCurrentLeapMod.png|link=No Current Leap|{{M|No Current Leap}}|alt=No Current Leap
+RisingSkillMod.png|link=Rising Skill|{{M|Rising Skill}}|alt=Rising Skill
+SwordAloneMod.png|link=Sword Alone|{{M|Sword Alone}}|alt=Sword Alone
+TacticalRetreatMod.png|link=Tactical Retreat|{{M|Tactical Retreat}}|alt=Tactical Retreat
+TemperedBoundMod.png|link=Tempered Bound|{{M|Tempered Bound}}|alt=Tempered Bound
+</gallery>
+
+===Movement Speed===
+{{Main|Movement Speed}}
+Movement Speed is an [[Upgrade]] type that increases the animation speed of certain non-sprinting maneuvers.
+
+{{Transclude|Movement Speed#Increasing Movement Speed}}
+
+===Parkour Velocity===
+Parkour Velocity (also localized as "Bullet Jump") is an [[Upgrade]] type that increases the player's Bullet Jump speed as well as double jump, rolling, sidespring, and backspring speed.
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+MobilizeMod.png|link=Mobilize|{{M|Mobilize}}
+RendingTurnMod.png|link=Rending Turn|{{M|Rending Turn}}
+PiercingStepMod.png|link=Piercing Step|{{M|Piercing Step}}
+BatteringManeuverMod.png|link=Battering Maneuver|{{M|Battering Maneuver}}
+FirewalkerMod.png|link=Firewalker|{{M|Firewalker}}
+IceSpringMod.png|link=Ice Spring|{{M|Ice Spring}}
+LightningDashMod.png|link=Lightning Dash|{{M|Lightning Dash}}
+ToxicFlightMod.png|link=Toxic Flight|{{M|Toxic Flight}}
+Amar'sAnguishMod.png|link=Amar's Anguish|{{M|Amar's Anguish}}
+Nira'sAnguishMod.png|{{M|Nira's Anguish}}
+EnduranceDriftMod.png|link=Endurance Drift|{{M|Endurance Drift}}
+SynthReflexMod.png|link=Synth Reflex|{{M|Synth Reflex}}
+ProtonPulseMod.png|link=Proton Pulse|{{M|Proton Pulse}}
+TeleportRushMod.png|link=Teleport Rush|{{M|Teleport Rush}}
+SwingLineMod.png|link=Swing Line|{{M|Swing Line}}
+ArcaneAgility.png|link=Arcane Agility|{{Arcane|Arcane Agility}}
+ArcaneConsequence.png|link=Arcane Consequence|{{Arcane|Arcane Consequence}}
+AmberArchonShard.png|link=Amber Archon Shard|{{Resource|Amber Archon Shard}}<br>(+15% Parkour Velocity)
+TauforgedAmberArchonShard.png|link=Tauforged Amber Archon Shard|{{Resource|Tauforged Amber Archon Shard}}<br>(+22.5% Parkour Velocity)
+Voruna.png|link=Voruna/Abilities|{{A|Shroud of Dynar}} passive<br>(+50% Parkour Velocity)
+IncreasedBulletJump(xWhite).png|link=Ascension|Uplift Buff during [[Ascension]]<br>(+75% Parkour Velocity)
+</gallery>
+
+===Slide & Friction===
+Slide is an [[Upgrade]] type that increases the player's sliding speed. Friction is an Upgrade type that increases the player's resistance to slowing down from sliding while on the ground, similar to the [[wikipedia:Friction|real-world equivalent]].
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+AirThrustersMod.png|link=Air Thrusters|{{M|Air Thrusters}}
+ArmoredRecoveryMod.png|link=Armored Recovery|{{M|Armored Recovery}}
+CunningDriftMod.png|link=Cunning Drift|{{M|Cunning Drift}}
+MaglevMod.png|link=Maglev|{{M|Maglev}}
+StreamlinedFormMod.png|link=Streamlined Form|{{M|Streamlined Form}}
+</gallery>
+
+===Sprint Speed===
+{{Main|Sprint Speed}}
+Sprint Speed is an [[Upgrade]] type that speeds up the player's sprint animation.
+{{Transclude|Sprint Speed#Increasing Sprint Speed}}
+
+==Maneuver Bonuses==
+Some items may provide a unique bonus upon performing maneuvers.
+<div class="tabber-borderless">{{#tag:tabber|Set Mods=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+AeroAgilityMod.png|link=Aero Agility|{{M|Aero Agility}}
+AeroPeripheryMod.png|link=Aero Periphery|{{M|Aero Periphery}}
+AeroVantageMod.png|link=Aero Vantage|{{M|Aero Vantage}}
+MotusImpactMod.png|link=Motus Impact|{{M|Motus Impact}}
+MotusSetupMod.png|link=Motus Setup|{{M|Motus Setup}}
+MotusSignalMod.png|link=Motus Signal|{{M|Motus Signal}}
+ProtonJetMod.png|link=Proton Jet|{{M|Proton Jet}}
+ProtonPulseMod.png|link=Proton Pulse|{{M|Proton Pulse}}
+ProtonSnapMod.png|link=Proton Snap|{{M|Proton Snap}}
+</gallery>
+{{!}}-{{!}}Warframe Mods=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+AerodynamicMod.png|link=Aerodynamic|{{M|Aerodynamic}}
+AgilityDriftMod.png|link=Agility Drift|{{M|Agility Drift}}
+ArmoredRecoveryMod.png|link=Armored Recovery|{{M|Armored Recovery}} (PvP only)
+AviatorMod.png|link=Aviator|{{M|Aviator}}
+RollingGuardMod.png|link=Rolling Guard|{{M|Rolling Guard}}
+GaleKickMod.png|link=Gale Kick|{{M|Gale Kick}}
+</gallery>
+{{!}}-{{!}}Arcanes=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArcaneArachne.png|link=Arcane Arachne|{{Arcane|Arcane Arachne}}
+ArcaneCircumvent.png|link=Arcane Circumvent|{{Arcane|Arcane Circumvent}}
+ExodiaContagion.png|link=Exodia Contagion|{{Arcane|Exodia Contagion}}
+ExodiaEpidemic.png|link=Exodia Epidemic|{{Arcane|Exodia Epidemic}}
+PaxSoar.png|link=Pax Soar|{{Arcane|Pax Soar}}
+MeleeCareen.png|link=Melee Careen|{{Arcane|Melee Careen}}
+</gallery>
+}}</div>
+
+==Media==
+{{VideoGallery
+|{{YouTube|mmMrAfhbwxY|size=302px}}
+|{{YouTube|19RwtZyRhQY|size=302px}}
+}}
+
+==References==
+{{Reflist}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43}}
+*Made small adjustments to camera movement when mantling so you can see better.
+
+{{ver|42}}
+;Mantle Animation Improvements 
+
+We’ve made improvements to mantling over surfaces so that it is faster and much more fluid! 
+
+*Added new mantle animations to Warframes to improve the transition to mantle surfaces. 
+**These new animations are Warframe-only and do not apply to Drifter/Operator as they do not have the same parkour speed and capabilities as their Transference counterparts. 
+**Improved vault up/over logic to better detect if there’s a ledge to mantle and automatically give a small jump to get up to the ledge. 
+**Improve the speed at which a mantle triggers so that there’s less delay between reaching a ledge and starting a mantle. 
+**Mantle animation can now be canceled by crouching/sliding. 
+***It will only interrupt the mantle at the time the binding is used and not while it is being held. 
+**Improved how and when mantling triggers when performing other parkour movements around mantle surfaces. 
+**Mantling is now possible while aim gliding. 
+**Fixed an issue where the mantle animation would occur during ability casting animation and teleport you back to where the mantle occurred. 
+***To prevent this, mantles will not trigger during casting animations anymore. 
+*Drifter mantle improvements: 
+**Drifter no longer plays that front flip up animation when mantling. 
+***This animation would occur randomly and could make the transition feel clunky. 
+**Fixed Drifter getting stuck up high when mantling. 
+
+{{ver|41}}
+*Fixed being able to trigger an unfinished version of wall running with melee weapon equipped. 
+**Wall running will be complete in its feature complete state in a future update. A partial version accidentally leaked in The Vallis Undermind.
+
+{{ver|40.0.1}}
+*Fixed players being unable to Wall Latch.
+
+{{ver|40}}
+*Fixed cases of neck positions looking weird when double jumping.
+
+{{ver|38.6}}
+*Fixed the wrong animations being used when aiming while wall-latching.
+
+{{ver|38}}
+*Fixed a clicking sound occurring when Aim Gliding.
+
+{{ver|37}}
+*Fixed Bullet Jumping at the end of a Slam animation playing a tiny little hop.
+
+{{ver|36}}
+*"Parkour Velocity" mods now affect a few more parkour-related activities:
+**Increases velocity when wall running parallel to the wall
+**Increases velocity when wall jumping away from a wall
+**Increases the instantaneous velocity change when performing a double jump
+
+{{ver|35.5}}
+;GENERAL CHANGES
+*Player avatars no longer get stuck at corners of obstacles when going up a slope or when sliding along a wall that isn't perfectly vertical. Sticky corners be gone!
+**This was a consistent issue for Warframe over its development, and the result of this change should be a more fluid movement and parkour experience for players!
+
+{{ver|34}}
+*Added a sound effect to mid-air rolls. Your aerial rolling will be silent no more!
+*Fixed being unable to cancel the Bullet Jump animation in Lunaro.
+*Fixed weird animation issues when interrupting a double jump with a normal jump.
+
+{{ver|33}}
+*Fixed casting many Warframe abilities interrupting aim gliding and forcing you to land.
+
+{{ver|32}}
+*Fixed incorrect Arching animations when using sprint, aim and dash.
+
+{{ver|31.6.4}}
+*Fixed an issue where jumping out of a mantle animation wouldn't give you any vertical velocity.
+**''Previously, if you came across a scalable object, your Warframe would attempt to climb over the object. Pressing the jump button during this action would cause your Warframe to somersault downwards and fall. We have now adjusted the animation to propel the Warframe upwards to allow you to easily climb over the object and maintain your momentum.''
+
+{{ver|30.7.6}}
+*Fixed overly slow Bullet Jump landing recovery if the animation is interrupted.
+
+{{ver|28.3}}
+*Fixed Slide Kicking/Bullet Jumping a knocked down enemy resulting in multiple hits.
+
+{{ver|27.2.2}}
+*Fixed a crash that could occur in missions with Zip-lines.
+
+{{ver|25.8.1}}
+*Fixed Ziplines kicking you off if you bump into geometry instead of just stopping you short of overlapping. Also fixed colliding with other players/enemies on Ziplines when you should be able to pass through.
+
+{{ver|22.20}}
+*Crouching is now stateful! If you let go of crouch while in a small tunnel, your Warframe will now stand up when it can. You can also now  crouch while parrying.
+
+{{ver|22.3}}
+*Fixed a 300ms delay to start sprinting when using the sprint/roll combination key.
+
+{{ver|Specters of the Rail}}
+*Improved jump detection. Before players could prematurely double jump when just about to fall off a ledge, when falling off a small edge, or when walking down a steep incline. Regular jumps will now be performed in these scenarios.
+
+{{ver|17}}
+;Parkour 2.0
+This complete overhaul of Warframe’s parkour system brings a dramatic change to one of Warframe’s core elements: movement. With these changes players will be given true freedom of movement without limitations such as being required to use specific weapons or becoming locked into restrictive animations.
+
+The following features have been added to Warframe’s movement system:
+*Double Jump: Players can now use a second jump while in mid-air. Players will be able to jump again immediately after touching any surface or enemy.
+*Bullet Jump: Pressing the ‘Jump’ button after sliding will send the player into a mid-air dash, temporarily improving movement speed. Players can use a Bullet Jump as a double jump in any direction.
+*Wall Latch: Pressing the ‘Right Mouse Button’ button against a wall will allow players to latch onto flat surfaces for a limited duration. Players may fire their equipped Primary or Secondary weapon while using Wall Latch.
+*Wall Dash: Pressing the ‘Jump’ button while against any surface will allow players to hop along the surface in any direction. This can be used to scale vertical surfaces, and can be chained indefinitely.
+*Aim Gliding: Using the ‘Aim’ button while in mid-air will slow the player’s fall speed, enabling a slow glide that players can fire their weapon in any direction from.
+*Ziplines: Pressing X while near a zipline will allow players to jump directly onto the zipline. Players can now run or dash along ziplines, and X to jump on a zipline can be done after a double jump.
+*'''Stamina has now been removed from the game.'''
+*Parrying now only blocks a base percentage of incoming damage.
+**Channeling while parrying will block 100% of incoming damage, and reflect a percentage of the damage back at the cost of Energy.
+
+{{ver|14}}
+*Added the ability to Slide Jump into a wall run. Before you would just slide and jump at the wall, but now, if aimed and the correct functions pressed, this will transition into a wall run.
+
+{{ver|11.1}}
+*Require movement to do an auto-vault (like we do for wallrunning).
+
+{{ver|11}}
+*Sprint is no longer needed to initiate a Wall-Run
+
+{{ver|10.0.3}}
+*Stamina System tweaks:
+**Reduced delay on stamina recharge.
+**Increased stamina recharge rate.
+**Decreased cost of stamina required for sprinting.
+**Dodging now uses stamina and has reduced damage while dodging.
+**Dodges are executed slightly faster.
+
+{{ver|10}}
+;Stamina Changes
+*Stamina system now has a timer before it recharges. This makes Stamina a more significant system in game play.
+*Reduced Stamina cost of melee swings and jumping
+*Reduced the rate of stamina recharge
+*Added delay timer to Stamina recharge.
+
+{{ver|8.1.3}}
+*Removed Slide Cooldown
+
+{{ver|7.11}}
+*Crouch-aim walk is now slower than stand-aim walk
+}}
+
+{{MechNav}}
+[[de:Kampfmanöver]]
+[[es:Maniobra]]
+[[fr:Mouvements]]
+[[ru:Боевые манёвры]]
+[[Category:Mechanics]]
+[[Category:Closed Beta]]
+[[Category:HomePage]]

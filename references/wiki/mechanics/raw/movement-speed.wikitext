@@ -1,0 +1,250 @@
+{{For|the sprinting modifier|Sprint Speed}}
+'''Movement Speed''' is a stat that modifies the base walk speed of players.
+
+==Mechanics==
+A Warframe's base Sprint Speed Stat is <u>not</u> a direct modifier to its sprint speed, but is actually the Warframes base <u>Movement Speed modifier</u>. At a base Sprint Speed of 1.0, Warframes have a walk speed of '''6 m/s'''. A base Sprint Speed stat of '''1.2''' will increase a Warframe's speed to '''7.2 m/s''', while a base Sprint Speed stat of '''1.4''' will increase it to '''8.4 m/s'''. 
+All Movement Speed bonuses are multiplicative to this modifier.
+
+Sprint Speed bonuses <u>do not</u> affect a Warframe's Movement Speed, even though they increase the listed Sprint Speed stat in the arsenal.
+
+Increasing or decreasing the base Sprint Speed using mods or through other sources will not change the base walking speed, only modifying the sprint animation speed. For example, an unmodded {{WF|Gauss}} has a base Sprint Speed stat of 1.4 and will walk faster than a {{WF|Mesa}} equipped with {{M|Rush}} (1.43 Sprint Speed). However, they will share similar running speeds. Additionally, an unmodded {{WF|Gauss}} will walk the same speed as {{WF|Gauss}} with {{M|Rush}}.
+
+Movement Speed buffs '''directly''' affect the following maneuvers:
+*Walking speed
+*Walking speed while aiming
+*Crouch speed
+*Crouch walking speed
+
+Movement Speed buffs '''indirectly''' affect the following maneuvers:
+*Sprint speed (due to increasing base walk speed)
+*Rolling distance (due to inheriting momentum from walking/sprinting)
+*Sliding distance (due to inheriting momentum from walking/sprinting)
+*Aim glide speed (due to inheriting momentum from walking/sprinting)
+*Jump kicking distance (due to inheriting momentum from walking/sprinting)
+
+Movement Speed buffs do '''not''' affect:
+*Jumping/double jumping height
+*Bullet jump speed
+*Wall-dashing speed
+*'''Attack speed (or melee attack speed)'''
+
+===Acceleration===
+Warframes have a fixed acceleration of '''12 m/s<sup>2</sup>''', regardless of movement speed. {{WF|Gauss}} ({{WF|Gauss Prime|Prime}}) is an exception, and  accelerates at '''20 m/s<sup>2</sup>'''. Acceleration is <u>not</u> affected by movement speed bonuses, or the base movement speed of a warframe.
+
+==Increasing Movement Speed==
+===Mods===
+<div class="tabber-borderless">{{#tag:tabber|General=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+AgileAimMod.png|link=Agile Aim|{{M|Agile Aim}}
+DispatchOverdriveMod.png|link=Dispatch Overdrive|{{M|Dispatch Overdrive}}
+SnapShotMod.png|link=Snap Shot|{{M|Snap Shot}}
+SprySightsMod.png|link=Spry Sights|{{M|Spry Sights}}
+</gallery>
+{{!}}-{{!}}Augments=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+EscapeVelocityMod.png|link=Escape Velocity|{{M|Escape Velocity}}
+InfiltrateMod.png|link=Infiltrate||{{M|Infiltrate}} (only when crouched or on ziplines)
+JetStreamMod.png|link=Jet Stream|{{M|Jet Stream}}
+RazorwingBlitzMod.png|link=Razorwing Blitz|{{M|Razorwing Blitz}}
+</gallery>
+{{!}}-{{!}}Weapon Augments=<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+ErodingBlightMod.png|link=Eroding Blight|{{M|Eroding Blight}}
+GleamingBlightMod.png|link=Gleaming Blight|{{M|Gleaming Blight}}
+StockpiledBlightMod.png|link=Stockpiled Blight|{{M|Stockpiled Blight}}
+ToxicBlightMod.png|link=Toxic Blight|{{M|Toxic Blight}}
+</gallery>
+}}</div>
+
+===Warframe Abilities===
+<div class="tabber-borderless">{{#tag:tabber|
+Chroma=
+{{:Effigy}}
+{{!}}-{{!}}
+
+Equinox=
+{{:Metamorphosis}}
+{{!}}-{{!}}
+
+Gyre=
+{{:Rotorswell}}
+{{!}}-{{!}}
+
+Jade=
+{{:Glory on High}}
+{{!}}-{{!}}
+
+Khora=
+{{:Venari}}
+{{!}}-{{!}}
+
+Loki=
+{{:Switch Teleport}}
+{{!}}-{{!}}
+
+Nezha=
+{{:Fire Walker}}
+{{!}}-{{!}}
+
+Octavia=
+{{:Metronome}}
+{{!}}-{{!}}
+
+Oraxia=
+{{:Silken Stride}}
+{{!}}-{{!}}
+
+Saryn=
+{{:Molt}}
+{{!}}-{{!}}
+
+Vauban=
+{{:Minelayer}}
+{{!}}-{{!}}
+
+Volt=
+{{:Speed}}
+{{!}}-{{!}}
+
+Voruna = 
+{{#tag:tabber|
+Shroud of Dynar =
+{{:Shroud of Dynar}}
+{{!}}-{{!}}
+
+Ulfrun's Descent =
+{{:Ulfrun's Descent}}
+}}
+{{!}}-{{!}}
+
+Wisp=
+{{:Reservoirs}}
+{{!}}-{{!}}
+
+Wukong=
+{{:Cloud Walker}}
+{{!}}-{{!}}
+
+Xaku=
+{{:The Vast Untime}}
+{{!}}-{{!}}
+}}
+
+===Arcanes===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArcanePhantasm.png|{{Arcane|Arcane Phantasm}}<br />([[Warframe]])|alt=Arcane Phantasm(Warframe)
+</gallery>
+
+===Weapon Passives===
+{| class="wikitable sortable" width="100%"
+|-
+! Weapon
+! Bonus
+! Notes
+|-
+| {{Resource|Anku Incarnon Genesis}}
+| +20%
+|
+*Requires Swordsman's Celerity Evolution. Applies at all times.
+|-
+| {{Resource|Bo Incarnon Genesis}}
+| +20%
+|
+*Requires Swordsman's Celerity Evolution. Applies at all times.
+|-
+| {{Resource|Okina Incarnon Genesis}}
+| +30%
+|
+*Requires Swordsman's Celerity Evolution. Applies at all times.
+|-
+| {{Weapon|Ruvox}}
+| +5% per combo level
+|
+*Requires Gathering Momentum Evolution
+|-
+| {{Weapon|Dark Split-Sword (Dual Swords)}} 
+| +5%
+|
+*Only given by the Dual Swords form.
+*Only applies while in hand.
+|-
+| {{Weapon|Dual Viciss}} 
+| +8% for 10 seconds upon {{D|Gas}} status effect
+|
+*Bonus stacks up to 5x, for a maximum of +40%
+|-
+| {{Weapon|Rakta Ballistica}}
+| +10% for 30 seconds upon triggering [[Blight]]
+|
+*30 second cooldown between activations
+|-
+| {{Weapon|Rakta Cernos}}
+| +10% for 30 seconds upon triggering [[Blight]]
+|
+*30 second cooldown between activations
+|-
+| {{Weapon|Shedu}} 
+| +30% while aiming
+|
+|-
+|All [[Sparring]]
+| +5%
+|
+* Only applies while in hand.
+|-
+|All [[Dual Daggers]]
+| +5%
+|
+* Only applies while in hand.
+|-
+|All [[Dagger|Daggers]]
+| +10%
+|
+* Only applies while in hand.
+* {{Weapon|Rakta Dark Dagger}} is an exception and does not have a movement speed bonus
+|}
+
+==Decreasing Your Movement Speed==
+There are very few sources of movement speed reduction. Here are some examples:
+<div class="tabber-borderless">{{#tag:tabber|
+Ivara=
+{{:Prowl}}
+{{!}}-{{!}}
+
+Nyx=
+{{:Absorb}}
+{{!}}-{{!}}
+}}
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+ColdModBundleIcon.png|link=Damage/Cold_Damage|{{D|Cold}} procs|alt=Cold procs
+HobbledDragonKey.png|link=Dragon Key|Hobbled Dragon Key
+DEMaggot.png|link=Maggot|Maggots
+SlowInfestedMoa.png|link=Tar Mutalist MOA|Tar Mutalist MOA's Tar Puddles
+Mesa'sWaltzMod.png|link=Mesa's Waltz|{{M|Mesa's Waltz}}|alt=Mesa's Waltz
+FusedCrucibleMod.png|link=Fused Crucible|{{M|Fused Crucible}}|alt=Fused Crucible
+</gallery>
+
+==Decreasing Enemy Movement Speed==
+{{#tag:tabber|
+Nova=
+{{:Molecular Prime}}
+{{!}}-{{!}}
+Sevagoth=
+{{:Gloom}}
+{{!}}-{{!}}
+}}
+<div class="tabber-borderless"><gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+ColdModBundleIcon.png|link=Damage/Cold_Damage|{{D|Cold}} Damage|alt=Cold Damage
+File:CreepingTerrifyMod.png|{{M|Creeping Terrify}}|alt=Creeping Terrify
+</gallery>
+
+==Notes==
+*Most sources of Movement Speed stack additively with each other. The following sources stack multiplicatively.
+**{{A|Absorb}}
+**{{M|Fused Crucible}}
+**{{M|Mesa's Waltz}}
+**{{A|Prowl}}
+**{{A|Rotorswell}}
+
+
+{{MechNav}}
+[[Category:Mechanics]]

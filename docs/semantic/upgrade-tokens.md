@@ -320,11 +320,11 @@ escrita en el propio dato normalizado.
 | `AVATAR_ADD_SHIELD_MAX` | `C1` | Redirection, Primed Vigor |
 | `AVATAR_ADD_ARMOUR` | `C1` | Steel Fiber, Warcry (habilidad) |
 | `AVATAR_ADD_ENERGY_MAX` | `C1` | Flow, Primed Flow |
-| `AVATAR_ADD_MOVEMENT_SPEED` | `—` | Rush |
-| `AVATAR_ADD_SPRINT_SPEED` | `—` | Rush |
+| `AVATAR_ADD_MOVEMENT_SPEED` | `C1` | Volt Speed, Dispatch Overdrive, Wisp Reservoirs. **Nodo materializado**, base = `sprint_speed` del raw. El nombre del dato miente: la wiki declara que el stat base del arsenal *"is actually the Warframes base Movement Speed modifier"* — 1.0 = 6 m/s de walk. Es una **escala**, no un porcentaje. |
+| `AVATAR_ADD_SPRINT_SPEED` | `—` | Rush, Sprint Boost, Armored Agility. **Stat distinto del anterior, no un alias**: acelera sólo la animación de sprint y *"do not affect a Warframe's Movement Speed, even though they increase the listed Sprint Speed stat in the arsenal"*. Sin nodo: espera consumidor, y con él la pregunta de si es display-only. Ver [`../../references/wiki/mechanics/movement-speed.md`](../../references/wiki/mechanics/movement-speed.md). |
 | `AVATAR_ADD_CASTING_SPEED` | `—` | Natural Talent. Velocidad de animación de cast; no afecta output del simulador simplificado. |
 | `AVATAR_ADD_SHIELD_RECHARGE_RATE` | `C1` | Fast Deflection |
-| `AVATAR_ADD_PARKOUR_VELOCITY` | `—` | Mobilize (aura), Amber Archon Shard |
+| `AVATAR_ADD_PARKOUR_VELOCITY` | `—` | Mobilize (aura), Amber Archon Shard (+15% / +22.5% tauforged). **Tercer stat de movimiento**, distinto de los dos de arriba: gobierna bullet jump, double jump, rodar, sidespring y backspring. Movement Speed no lo toca. Sin nodo, pero el shard ya lo declara en `archon-shards.json` — consumidor de dato vivo esperando. |
 | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | `C1` | Amber Archon Shard (+100/+150%). Multiplicador estático sobre valor del orb; C2 lo usa al modelar economía de recursos. |
 | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | `C1` | Amber Archon Shard (+50/+75%). Ídem. Equilibrium añade complejidad de conversión — fórmula a definir en C2. |
 | `AVATAR_ADD_HEALTH_REGEN` | `C1` | Arcane Grace, Arcane Victory. ⚠ **Hipótesis usuario**: toda regen de salud en Warframe es plana (HP/s), no porcentual — si fuera %, solo Nidus (con regen nata) tendría base relevante. Si se confirma: este token es duplicado de `AVATAR_FLAT_HEALTH_REGEN` y debe colapsarse. Requiere verificación de valor real de Arcane Grace rank 5 en juego |

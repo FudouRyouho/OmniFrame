@@ -35,3 +35,39 @@ export function resolveChannelEntities(
 ): EntityId[] {
   return entities.filter(e => e.channel === channel).map(e => e.id);
 }
+
+/**
+ * Entidades que alcanza la FAMILIA de un token — el `{dónde}` cuando no hay sub-familia.
+ *
+ * Segundo eje del mismo `{cuál}` de arriba, para el cruce cross-entity. `resolveToken` sólo emite
+ * `target_channel` bajo `WEAPON` (la sub-familia es exclusiva de esa familia: preguntar "¿cuál de
+ * las tres armas?" no tiene sentido en `AVATAR`), así que un buff que sale de un warframe hacia
+ * `AVATAR_ADD_MOVEMENT_SPEED` o `MELEE_ADD_ATTACK_SPEED` llega acá **sin canal** y sin nada que
+ * diga a qué entidad apunta.
+ *
+ * La familia ya lo dice, y es la misma doctrina que gobierna la materialización de nodos: el token
+ * declara el dominio. `AVATAR_*` es del warframe, `MELEE_*` del arma cuerpo a cuerpo, `WEAPON_*`
+ * de toda arma equipada (el ALL-scope de Roar).
+ *
+ * La alternativa —fan-out a todas las entidades y dejar que el modifier se pierda donde el nodo no
+ * existe— *funciona* hoy por accidente (verificado: el buff de reload de Speed llega a una melee y
+ * se descarta porque el nodo no está). Pero es ruteo por ausencia: el día que dos entidades
+ * materialicen el mismo token, el buff aterriza en las dos sin que nadie lo haya declarado.
+ */
+export function resolveFamilyEntities(
+  family: string,
+  entities: SimulationEntity[],
+): EntityId[] {
+  switch (family) {
+    case 'AVATAR':   return entities.filter(e => e.domain === 'warframe').map(e => e.id);
+    case 'MELEE':    return entities.filter(e => e.channel === 'melee').map(e => e.id);
+    // `WEAPON` y `GAMEPLAY` comparten destino y NO por conveniencia: el pool global de daño
+    // (`GAMEPLAY_MULT_FACTION_DAMAGE`, el de Roar) vive en el arma igual que un stat de arma
+    // — `arch-decisions §16`. La familia dice "pool global", el dominio sigue siendo el arma.
+    case 'WEAPON':
+    case 'GAMEPLAY': return entities.filter(e => e.domain === 'weapon').map(e => e.id);
+    // Sin caso ⇒ el buff no aterriza. Deliberado: una familia nueva debe declarar su destino
+    // acá, no heredar el de las armas por descarte. El censo del override cubre las cuatro.
+    default:         return [];
+  }
+}

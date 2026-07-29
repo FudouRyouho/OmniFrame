@@ -21,7 +21,7 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import { volt, voltSpeed, VOLT, TIBERON_PRIME } from '../fixtures/builds';
+import { volt, voltSpeed, VOLT, TIBERON_PRIME, NIKANA_PRIME } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
@@ -61,24 +61,86 @@ describe('Volt Speed — buff cross-entity a un nodo de utilidad del arma', () =
   });
 });
 
-// ─── Borde — los otros dos efectos de Speed, bloqueados por nodo inexistente ────────
+// ─── Los otros dos buffs de Speed — un renglón de la UI, dos stats distintos ────────
 //
-// La wiki da los tres buffs de Speed (rank 3): Movement Speed 75%, Melee Attack Speed 75%,
-// Reload Speed 25% — los tres `× Ability Strength` y los tres ADITIVOS con los mods del
-// stat correspondiente. Sólo el de reload es modelable hoy: su nodo existe.
+// La wiki da los tres buffs (rank 3): Movement Speed 75%, Melee Attack Speed 75%, Reload
+// Speed 25% — los tres `× Ability Strength` y los tres ADITIVOS con los mods de su stat.
+// La UI del juego colapsa los dos primeros en un solo renglón (`Speed Multiplier: 1,75x`),
+// así que el `.md` lleva DOS `$$` en esa línea y el parser emite `upgrade_type: string[]`.
 //
-// Estado de los otros dos destinos (verificado en `ItemRepository.normalizeWarframe` y
-// `shared/types/modifier.ts`):
-//   - MOVEMENT/SPRINT SPEED → el TOKEN existe (`AVATAR_ADD_MOVEMENT_SPEED`,
-//     `AVATAR_ADD_SPRINT_SPEED`) y hay dato base (`warframes.json` → `sprint_speed`),
-//     pero el NODO no se materializa. Segundo consumidor real: Wisp Reservoirs [HASTE MOTE].
-//   - MELEE ATTACK SPEED → no existe ni el token: es decisión de vocabulario, previa.
+// Dos conversiones que este bloque fija (si alguna se rompe, el número miente en silencio):
+//   1. UNIDAD: `1,75x` es multiplicador; el motor consume porcentaje aditivo → +75%.
+//      Sin la conversión entraría como +1.75%, plausible y falso.
+//   2. RUTEO: el token declara la entidad. `AVATAR_*` vuelve al warframe que castea,
+//      `MELEE_*` alcanza sólo la melee. No hay fan-out ciego a "las armas equipadas".
+//
+// El nodo de movement es una ESCALA, no un porcentaje: `sprint_speed` del raw (mal nombrado
+// por DE — es el modificador base de Movement Speed) vale 1.0 para Volt = 6 m/s de walk.
+// Ver `references/wiki/mechanics/movement-speed.md`.
 
-describe('Volt Speed — borde (efectos sin nodo destino)', () => {
-  it.todo('movement speed +75% × str — materializar AVATAR_ADD_MOVEMENT_SPEED (2 consumidores: Speed + Reservoirs)');
-  it.todo('melee attack speed +75% × str — el token no existe: decisión de vocabulario primero');
+const movementOf = (intention: ReturnType<typeof volt>) =>
+  consume(intention, { flags: {} }).weapon(VOLT).node('AVATAR_ADD_MOVEMENT_SPEED');
+
+describe('Volt Speed — movement speed (el buff vuelve al warframe que castea)', () => {
+  it('baseline: sin la ability, el nodo queda en el sprint_speed del raw (1.0 = 6 m/s)', () => {
+    const mov = movementOf(volt());
+    expect(mov.base).toBeCloseTo(1, 5);
+    expect(mov.mods_add_pct).toBe(0);
+    expect(mov.final).toBeCloseTo(1, 5);
+  });
+
+  it('con Speed: +75% desde un dato que dice 1,75 — la unidad se convierte, no se copia', () => {
+    const mov = movementOf(voltSpeed());
+    expect(mov.mods_add_pct).toBeCloseTo(75, 5);   // NO 1.75
+    expect(mov.final).toBeCloseTo(1.75, 5);        // 1.0 × (1 + 0.75)
+  });
+
+  it('con Blind Rage (strength 199%): +149.25% = 75 × 1.99', () => {
+    const mov = movementOf(voltSpeed({ strength: true }));
+    expect(mov.mods_add_pct).toBeCloseTo(149.25, 5);
+    expect(mov.final).toBeCloseTo(2.4925, 5);
+  });
+});
+
+describe('Volt Speed — melee attack speed (el buff alcanza sólo la melee)', () => {
+  const speedOf = (intention: ReturnType<typeof volt>) =>
+    consume(intention, { flags: {} }).weapon(NIKANA_PRIME).node('MELEE_ADD_ATTACK_SPEED');
+
+  it('baseline: la Nikana sin la ability queda en su attack speed nato (1.08)', () => {
+    const spd = speedOf(voltSpeed({ melee: true }));
+    expect(spd.base).toBeCloseTo(1.08, 2);
+  });
+
+  it('con Speed: 1.08 × 1.75 = 1.89 — el mismo renglón que dio el movement speed', () => {
+    const spd = speedOf(voltSpeed({ melee: true }));
+    expect(spd.mods_add_pct).toBeCloseTo(75, 5);
+    expect(spd.final).toBeCloseTo(1.89, 5);
+  });
+
+  // El ruteo por familia es lo que hace esto cierto: el token `MELEE_*` no alcanza al rifle.
+  // Antes el repo hacía fan-out a TODA arma equipada y sólo la ausencia del nodo evitaba el
+  // aterrizaje — ruteo por accidente. Ahora el rifle ni siquiera recibe el modifier.
+  it('el buff melee NO toca la primaria (el token declara la entidad, no la pertenencia)', () => {
+    const out = consume(voltSpeed({ melee: true }), { flags: {} });
+    expect(() => out.weapon(TIBERON_PRIME).node('MELEE_ADD_ATTACK_SPEED')).toThrow();
+    // y el de reload sigue llegando al rifle, que es su destino legítimo
+    expect(out.weapon(TIBERON_PRIME).node('WEAPON_ADD_RELOAD_SPEED').final).toBeCloseTo(125, 5);
+  });
+});
+
+// ─── Borde — lo que Speed NO modela todavía (it.todo) ──────────────────────────────
+
+describe('Volt Speed — borde', () => {
   // Cap asimétrico (wiki): el movement speed capea a 150% para ALIADOS y no capea para
   // el propio Volt. Depende de quién recibe, no de la fuente — eje distinto a los caps
-  // por-fuente (Icy Avalanche, Recompense). No bloquea el buff de reload.
+  // por-fuente (Icy Avalanche, Recompense). El modelo no tiene aliados como entidad.
   it.todo('cap de movement speed 150% sólo para aliados (no para el caster)');
+  // Los aliados pueden hacer backflip para quitarse el buff: opt-out por entidad receptora,
+  // no modelable en C1 estático (la ability es asumida-activa, arch §15).
+  it.todo('opt-out del buff por backflip del aliado — requiere source-state vivo (gate G-a)');
+  // AVATAR_ADD_SPRINT_SPEED y AVATAR_ADD_PARKOUR_VELOCITY existen como token sin nodo. Son
+  // stats DISTINTOS de movement speed (movement-speed.md): Rush no afecta el walk, y parkour
+  // velocity gobierna bullet jump/rodar. El shard ámbar ya declara el segundo en el dato.
+  it.todo('AVATAR_ADD_SPRINT_SPEED — materializar cuando llegue Rush (¿display-only?)');
+  it.todo('AVATAR_ADD_PARKOUR_VELOCITY — consumidor de dato ya vivo: shard ámbar +15%/+22.5%');
 });

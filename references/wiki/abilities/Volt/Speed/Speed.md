@@ -46,19 +46,17 @@ el pool aditivo** del stat destino. No hay bracket, no hay lectura cross-stat, n
 - Recasteable mientras está activo; no interrumpe otras acciones (incluida la recarga).
 - Afecta la distancia de maniobras (slide, front flip, wall run) como consecuencia de la velocidad.
 
-## Divergencia con el override (a reconciliar, NO usar el override como fuente)
+## Relación con el override (reconciliado)
 
-`ability-stats.override.json` (`/Lotus/Powersuits/PowersuitAbilities/SpeedAbility`) está sin
-reconciliar — mismo síntoma que Rhino antes de su pasada:
+`ability-stats.override.json` (`/Lotus/Powersuits/PowersuitAbilities/SpeedAbility`) se deriva de
+`references/game-ui/Volt.md` y coincide con la wiki en los tres buffs, la duración (12s) y el
+augment.
 
-| Campo | Override | Wiki (rank 3) |
-|---|---|---|
-| Speed Buff | 50% | **75%** |
-| Reload Speed Buff | 17% | **25%** |
-| Duration | 10s | **12s** (10s es rank 1) |
-| Melee Attack Speed | **ausente** | 75% |
-| Augment Shocking Speed | **ausente** | existe |
-| Label de Drain | `Drain: \|val1\|` | falta el token `<ENERGY>` |
+La única divergencia de **forma** que queda es deliberada: el juego colapsa Movement Speed y Melee
+Attack Speed en un solo renglón (`Speed Multiplier: 1,75x`), y el `.md` captura la pantalla. Los dos
+destinos se anotan sobre esa misma línea (`$$AVATAR_ADD_MOVEMENT_SPEED $$MELEE_ADD_ATTACK_SPEED`) y
+el `1,75x` se convierte a `+75%` al consumirlo, no al capturarlo. Ver
+`../../../mechanics/movement-speed.md` y `docs/data/schemas/abilities/schema.md`.
 
 ## Fuentes
 

@@ -1,0 +1,87 @@
+{{Infobox
+| Box title = Sprint Speed
+| image = File:U25.7 Gauss.jpg
+| caption = Gauss sprinting into action
+}}
+{{Quote|Modifies how fast a Warframe moves while sprinting.|In-game Description}}
+'''Sprint Speed''' is a Warframe attribute that determines how fast a Warframe moves while [[Maneuvers#Sprinting|sprinting]] as well as the base walking speed.
+
+==Mechanics==
+Sprint Speed is a multiplier to the Warframe's run animation speed. Note that a Warframe's base Sprint Speed stat is <u>'''not'''</u> a direct modifier to its sprint speed, but is actually a [[Movement Speed]] modifier. Sprinting increases the speed of a Warframe by '''25%'''.
+
+*A Warframe with a base Sprint Speed stat of '''1.0''' will walk at '''6 m/s''' and sprint at '''7.5 m/s'''.<br>
+*A Warframe with a base Sprint Speed stat of '''1.4''' will walk at '''8.4 m/s''' and sprint at '''10.5 m/s'''.<br>
+*A Warframe with a base Sprint Speed stat of '''1.4''' using {{M|Rush}} will walk at '''8.4 m/s''' and sprint at '''13.65 m/s'''.
+
+Sprinting can affect the speed of other [[Maneuvers]] if done immediately after sprinting as they will inherit the momentum gained from walking/sprinting. Any [[Movement Speed]] buff also increases sprinting speed.
+
+Sprinting has no direct affect on bullet jump, sliding, and wall-hopping speed.
+Note that bonuses to Sprint Speed may not affect movement speed while under certain abilities that prevent players from sprinting such as {{WF|Grendel}}'s {{A|Pulverize}} and {{WF|Wukong}}'s {{A|Cloud Walker}}. Bonuses to ''movement speed'' may however, but not always.
+
+==Increasing Sprint Speed==
+
+===Mods===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+AmalgamSerrationMod.png|link=Amalgam Serration|{{M|Amalgam Serration}}
+Amar'sAnguishMod.png|link=Amar's Anguish|{{M|Amar's Anguish}}
+ArmoredAgilityMod.png|link=Armored Agility|{{M|Armored Agility}}
+RushMod.png|link=Rush|{{M|Rush}}
+SpeedDriftMod.png|link=Speed Drift|{{M|Speed Drift}}
+SprintBoostMod.png|link=Sprint Boost|{{M|Sprint Boost}}
+RuntimeMod.png|link=Runtime|{{M|Runtime}}
+HastenedStepsMod.png|link=Hastened Steps|{{M|Hastened Steps}} ([[Conclave]] only)
+</gallery>
+
+===Warframe Abilities===
+<div class="tabber-borderless">{{#tag:tabber|
+Helminth=
+{{:Infested Mobility}}
+{{!}}-{{!}}
+}}</div>
+
+===Arcanes===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+MagusCadence.png|link=Magus Cadence|{{Arcane|Magus Cadence}}<br />([[Operator]])
+</gallery>
+
+===Weapon Passives===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+Ack&BruntIncarnonGenesis.png|link=Ack & Brunt Incarnon Genesis|{{Resource|Ack & Brunt Incarnon Genesis}} (+20% from Incarnon Form)
+AnkuIncarnonGenesis.png|link=Anku Incarnon Genesis|{{Resource|Anku Incarnon Genesis}} (+25% from Incarnon Form)
+BoIncarnonGenesis.png|link=Bo Incarnon Genesis|{{Resource|Bo Incarnon Genesis}} (+20% from Incarnon Form)
+CeramicDaggerIncarnonGenesis.png|link=Ceramic Dagger Incarnon Genesis|{{Resource|Ceramic Dagger Incarnon Genesis}} (+25% from Incarnon Form)
+DualIchorIncarnonGenesis.png|link=Dual Ichor Incarnon Genesis|{{Resource|Dual Ichor Incarnon Genesis}} (+20% from Incarnon Form)
+FuraxIncarnonGenesis.png|link=Furax Incarnon Genesis|{{Resource|Furax Incarnon Genesis}} (+25% from Incarnon Form)
+HateIncarnonGenesis.png|link=Hate Incarnon Genesis|{{Resource|Hate Incarnon Genesis}} (+20% from Incarnon Form)
+Innodem.png|link=Innodem|{{Weapon|Innodem}} (+30% if [[Innodem#Evolution|Striking Swiftness]] is selected)
+MagistarIncarnonGenesis.png|link=Magistar Incarnon Genesis|{{Resource|Magistar Incarnon Genesis}} (+10% from Incarnon Form)
+NamiSoloIncarnonGenesis.png|link=Nami Solo Incarnon Genesis|{{Resource|Nami Solo Incarnon Genesis}} (+20% from Incarnon Form)
+Praedos.png|link=Praedos|{{Weapon|Praedos}} (+20% if [[Praedos#Evolution|Drifting Grace]] is selected)
+SibearIncarnonGenesis.png|link=Sibear Incarnon Genesis|{{Resource|Sibear Incarnon Genesis}} (+10% from Incarnon Form)
+SkanaIncarnonGenesis.png|link=Skana Incarnon Genesis|{{Resource|Skana Incarnon Genesis}} (+20% from Incarnon Form)
+</gallery>
+
+==Increasing Movement Speed==
+{{Main|Movement Speed}}
+
+Movement speed buffs will increase how fast a Warframe moves while sprinting (but not the Sprint Speed stat itself) since the Sprint Speed modifier applies to movement speed.
+{{Transclude|Movement Speed#Increasing Movement Speed}}
+
+==Flight Speed==
+{{for|flight speed in regards to weapons|Projectile Speed}}
+
+'''Flight Speed''' is the [[Archwing]] equivalent to Sprint Speed and it determines how fast Archwings move while [[Archwing Maneuvers#Dashing|Dashing]].
+
+===Increasing Flight Speed===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+HyperionThrustersMod.png|link=Hyperion Thrusters|{{M|Hyperion Thrusters}}
+RazorwingBlitzMod.png|link=Razorwing Blitz|{{M|Razorwing Blitz}} <br/>({{A|Razorwing}} [[Warframe Augment Mods|Augment]])
+RaiderMatrixMod.png|link=Raider Matrix|{{M|Raider Matrix}} <br/>[[Plexus]] [[Aura]]
+PilotingIntrinsic.png|link=Intrinsics#Piloting|Aeronaut <br/>(Piloting [[Intrinsic]] Rank 8)
+</gallery>
+
+==Sprint Speed Comparison==
+{{#invoke:Warframes|getSprintList}}
+
+{{MechNav}}
+[[Category:Mechanics]]

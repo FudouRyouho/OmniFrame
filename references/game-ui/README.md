@@ -33,6 +33,9 @@ Las anotaciones van inline al final de cada línea de stat, después del valor.
 - Si una línea no tiene `$` → valor fijo (`upgrade_by` ausente en el output, no `NONE`).
 - `$$` solo cuando la habilidad modifica un atributo externo (arma, otro warframe, etc.).
 - `$` y `$$` pueden coexistir en la misma línea: `Label: val $UPGRADE_BY $$UPGRADE_TYPE`.
+- **Varios `$$` en una misma línea**: cuando el juego muestra en UN renglón un buff que
+  mecánicamente son stats distintos. Se anotan todos; **no se parte el renglón** — el `.md` refleja
+  la pantalla, y partirlo rompería eso. El parser emite un array.
 - `//` al final de una línea o en línea propia → comentario, ignorado. Usar para incertidumbre.
 
 ```
@@ -42,6 +45,18 @@ Duration: 23s $AVATAR_ABILITY_DURATION
 Reload Speed: 35% $AVATAR_ABILITY_DURATION $$WEAPON_RELOAD_SPEED
 Status Chance: 10%                          // sin $ → valor fijo, no escala
 ```
+
+**Capturar la unidad como se ve, no como la consume el motor.** Si la pantalla dice `1,75x`, se
+escribe `1,75x` — aunque el motor necesite `+75%`. La conversión la hace el consumidor leyendo el
+sufijo del label (`|val1|x` vs `|val1|%`); normalizarla acá falsearía la única fuente. Ver
+`docs/data/schemas/abilities/schema.md`.
+
+```
+Speed Multiplier: 1,75x $STRENGTH $$AVATAR_ADD_MOVEMENT_SPEED $$MELEE_ADD_ATTACK_SPEED
+```
+
+↑ Volt Speed: un renglón, dos stats. La wiki los declara separados (Movement Speed **no** afecta
+melee attack speed) — `references/wiki/mechanics/movement-speed.md`.
 
 **Vocabulario `upgrade_by` activo** (extensible — agregar con `//` si hay duda):
 `AVATAR_ABILITY_STRENGTH` · `AVATAR_ABILITY_RANGE` · `AVATAR_ABILITY_DURATION` · `AVATAR_ABILITY_EFFICIENCY` · `ENERGY_COST` · `ENERGY_DRAIN`

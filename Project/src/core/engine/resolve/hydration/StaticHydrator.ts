@@ -203,12 +203,13 @@ export class StaticHydrator {
     // ALL-scope). Corre acá, POST-loop, por la misma razón que los shards: necesita todas
     // las entidades construidas para conocer los ids de arma. El source-state vivo (duración)
     // = gate G-a diferido; hoy la ability es asumida-activa (proyección estática, §15).
-    const weaponTargetIds = entities.filter(e => e.domain === 'weapon').map(e => e.id);
-    if (weaponTargetIds.length > 0) {
-      (ensemble.warframe.abilities || []).forEach(ability => {
-        modifiers.push(...AbilityRepository.getModifiers(ability.ability_id, ensemble.warframe.id, weaponTargetIds));
-      });
-    }
+    // El destino ya no se precomputa: cada token del `.md` declara su propio `{cuál}` y el repo
+    // lo resuelve contra las entidades construidas (`channel-routing`). Un buff de habilidad puede
+    // aterrizar en el warframe mismo (`AVATAR_ADD_MOVEMENT_SPEED`), en una sola arma
+    // (`MELEE_ADD_ATTACK_SPEED`) o en todas (`WEAPON_ADD_RELOAD_SPEED` — el ALL-scope de Roar).
+    (ensemble.warframe.abilities || []).forEach(ability => {
+      modifiers.push(...AbilityRepository.getModifiers(ability.ability_id, ensemble.warframe.id, entities));
+    });
 
     // ── Ruteo por canal — pasada ÚNICA sobre todos los modifiers ────────────────────────
     // El `{cuál}` se resuelve acá, en un solo lugar y agnóstico a la fuente (shard, arcano, mod).

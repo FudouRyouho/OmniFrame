@@ -8265,7 +8265,11 @@
           {
             "label": "Speed Multiplier: |val1|x",
             "base_value": 1.75,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
+            "upgrade_type": [
+              "AVATAR_ADD_MOVEMENT_SPEED",
+              "MELEE_ADD_ATTACK_SPEED"
+            ]
           },
           {
             "label": "Reload Speed: |val1|%",

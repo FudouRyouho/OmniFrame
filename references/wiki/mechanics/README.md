@@ -22,6 +22,12 @@
 - `https://wiki.warframe.com/w/Shield`
 - `https://wiki.warframe.com/w/Overguard`
 
+### Movimiento y maniobras
+
+- `https://wiki.warframe.com/w/Movement_Speed`
+- `https://wiki.warframe.com/w/Sprint_Speed`
+- `https://wiki.warframe.com/w/Maneuvers`
+
 ### Mecánicas candidatas de builder
 
 - `https://wiki.warframe.com/w/Condition_Overload_(Mechanic)`

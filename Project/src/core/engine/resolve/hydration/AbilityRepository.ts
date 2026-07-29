@@ -22,8 +22,9 @@
  *
  * Scope 1b (un verbo = muta-state): emite-instancia y sub-source (§15) = Fase 2/3.
  */
-import { makeModifier, type Modifier, type EntityId } from "../../contracts";
+import { makeModifier, type Modifier, type EntityId, type SimulationEntity } from "../../contracts";
 import { resolveUpgradeEntry } from "@shared/types/modifier";
+import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing";
 
 // Puente vocabulario-de-carta → nodo del grafo para el eje de scaling (`upgrade_by`).
 // La carta de habilidad expresa "escala con Ability Strength" como el token D-3
@@ -42,8 +43,30 @@ type AbilityStatRaw = {
   label?: string;
   base_value?: number | number[];
   upgrade_by?: string;
-  upgrade_type?: string;
+  /** Uno o varios nodos destino: un renglón de la UI del juego puede cubrir N stats. */
+  upgrade_type?: string | string[];
 };
+
+/**
+ * Normaliza el valor de la carta a **porcentaje aditivo crudo** (el `50` de Roar = +50%).
+ *
+ * POR QUÉ EXISTE. La UI del juego expresa el MISMO tipo de bonus en dos unidades según la
+ * habilidad, y el `.md` de `game-ui/` captura la pantalla literal — es su razón de ser, así que la
+ * divergencia entra al dato y hay que resolverla acá, no falseando la captura:
+ *
+ *     "Reload Speed: |val1|%"      base_value 25    → +25%   (ya es porcentaje)
+ *     "Speed Multiplier: |val1|x"  base_value 1.75  → +75%   (es multiplicador)
+ *
+ * Sin esta conversión, `1.75` entraría como **+1.75%** — un valor plausible, silencioso y
+ * completamente falso. La unidad la declara el sufijo del placeholder en el label, que el parser
+ * ya conserva estructurado; no hay otro campo que la lleve.
+ *
+ * ⚠️ Si algún día el label deja de ser fiel a la unidad del dato, esto se rompe en silencio. El
+ * tripwire es `volt.test.ts` (Speed: 75% desde 1,75x). Contexto: `wiki/mechanics/movement-speed.md`.
+ */
+function toAdditivePercent(raw: number, label: string | undefined): number {
+  return /\|val\d+\|\s*x/i.test(label ?? '') ? (raw - 1) * 100 : raw;
+}
 type AbilityGroupRaw = { stats?: AbilityStatRaw[] };
 type AbilityEntry = { name?: string; groups?: AbilityGroupRaw[] };
 
@@ -63,7 +86,7 @@ export class AbilityRepository {
    * @param sourceId  entidad que castea (el warframe) — de dónde se lee el scaling.
    * @param targetIds entidades que reciben el buff (armas equipadas).
    */
-  public static getModifiers(abilityId: string, sourceId: EntityId, targetIds: EntityId[]): Modifier[] {
+  public static getModifiers(abilityId: string, sourceId: EntityId, entities: SimulationEntity[]): Modifier[] {
     const entry = this.index.get(abilityId);
     if (!entry?.groups) return [];
 
@@ -74,33 +97,45 @@ export class AbilityRepository {
         // Solo el verbo muta-state: sin `upgrade_type`, el stat es display (§15).
         if (!stat.upgrade_type) return;
 
-        const target = resolveUpgradeEntry(stat.upgrade_type);
-        if (!target) return; // token sin mapeo → gap, se omite en silencio (como Arcane).
-
-        // Valor crudo (porcentaje, sin `toPercent`). Si viniera como serie min-max,
-        // tomamos el máximo (1b: Roar asumido-max, CP1b).
+        // Valor crudo. Si viniera como serie min-max, tomamos el máximo (1b: Roar asumido-max, CP1b).
         const raw = Array.isArray(stat.base_value)
           ? stat.base_value[stat.base_value.length - 1]
           : stat.base_value;
         if (raw === undefined) return;
+        const value = toAdditivePercent(raw, stat.label);
 
         // El scaling cross-entity (× Ability Strength) lo hace el grafo vía source_attribute;
         // acá solo se resuelve el token de carta (`upgrade_by`) al nodo del warframe.
         const source_attribute = stat.upgrade_by ? ABILITY_SCALE_NODE[stat.upgrade_by] : undefined;
 
-        targetIds.forEach(targetId => {
-          modifiers.push(makeModifier(
-            {
-              id: `ability:${abilityId}:g${gIdx}:s${sIdx}:${target.attr}:${targetId}`,
-              source_id: `Ability:${abilityId}`,
-              target_entity: targetId,
-              target_attribute: target.attr,
-              source_entity: sourceId,
-              ...(source_attribute ? { source_attribute } : {}),
-            },
-            target.op,
-            raw,
-          ));
+        // N destinos por stat: la UI colapsa en un renglón buffs que son stats distintos
+        // (Volt Speed → movement speed Y melee attack speed). Cada token rutea por su cuenta.
+        const tokens = Array.isArray(stat.upgrade_type) ? stat.upgrade_type : [stat.upgrade_type];
+
+        tokens.forEach(token => {
+          const target = resolveUpgradeEntry(token);
+          if (!target) return; // token sin mapeo → gap, se omite en silencio (como Arcane).
+
+          // El `{cuál}` sale del token, no de la pertenencia: la sub-familia si la hay
+          // (`WEAPON_MELEE_*`), la familia si no (`AVATAR_*` → el warframe). Ver channel-routing.
+          const targetIds = target.target_channel
+            ? resolveChannelEntities(target.target_channel, entities)
+            : resolveFamilyEntities(token.split('_')[0], entities);
+
+          targetIds.forEach(targetId => {
+            modifiers.push(makeModifier(
+              {
+                id: `ability:${abilityId}:g${gIdx}:s${sIdx}:${target.attr}:${targetId}`,
+                source_id: `Ability:${abilityId}`,
+                target_entity: targetId,
+                target_attribute: target.attr,
+                source_entity: sourceId,
+                ...(source_attribute ? { source_attribute } : {}),
+              },
+              target.op,
+              value,
+            ));
+          });
         });
       });
     });
