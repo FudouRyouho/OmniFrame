@@ -48,6 +48,18 @@ describe('Nikana Prime — hidratación base (melee entra al grafo)', () => {
     expect(() => base().node('WEAPON_ADD_FIRE_RATE')).toThrow();
   });
 
+  // El mismo criterio, aplicado al resto de los stats de arma de fuego. Las 224 melee del
+  // dataset no traen `magazine_size` ni `reload_time`: los nodos existían por un `?? 0` que
+  // inventaba un cargador de 0 balas y una recarga de 0s en una espada, y la UI los proyectaba
+  // ("MAGAZINE 0", "RELOAD SPEED 100%"). El recoil no tiene dato que lo gatee — lo gatea el
+  // dominio. Ver ItemRepository.normalizeWeapon (`firearmNodes`).
+  it('una melee NO materializa cargador, recarga ni recoil', () => {
+    const w = base();
+    expect(() => w.node('WEAPON_ADD_MAGAZINE_MAX')).toThrow();
+    expect(() => w.node('WEAPON_ADD_RELOAD_SPEED')).toThrow();
+    expect(() => w.node('WEAPON_ADD_RECOIL')).toThrow();
+  });
+
   // Fury es el mod que destapó la separación: su label dice "+30% Attack Speed" pero su
   // `upgrade_type` decía `WEAPON_ADD_FIRE_RATE` — la contradicción vivía escrita en nuestro
   // propio override normalizado. Ahora compone sobre el nodo que su label declara.
@@ -229,4 +241,21 @@ describe('Nikana Prime — Blood Rush (familia COMBO_SCALED_ADD)', () => {
   it('el perfil light NO recibe el multiplicative del combo (eje ortogonal a Heavy Slam §3)', () => {
     expect(bloodRush(60).node('WEAPON_ADD_CRIT_CHANCE').multiplicative).toBeCloseTo(1, 3);
   });
+});
+
+// ─── Borde — la cadencia melee en C2 (it.todo) ─────────────────────────────────────
+//
+// Este archivo es íntegramente C1: ningún test ejerce C2 sobre melee, y por eso el error de
+// abajo está latente, no activo. `CombatCalculator` y `TimelineSimulator` leen
+// `WEAPON_ADD_FIRE_RATE` — un nodo que una melee ya no materializa — y caen a su default (`|| 1`),
+// devolviendo un número plausible y falso en vez de fallar. Encima, aun leyendo el nodo correcto,
+// `MELEE_ADD_ATTACK_SPEED` es un multiplicador sobre la animación del stance, NO golpes/segundo:
+// convertirlo en cadencia absoluta requiere el swing time base por stance, que NO existe en
+// ninguna fuente del pipeline (el dataset no trae stance ni tiempos de animación; el Public Export
+// tampoco los publica). El gap es de dato antes que de diseño — candidato a medición propia
+// (`references/ingame-tests/`), no a cosecha. Alcance en OQ-ENGINE-14.
+
+describe('Nikana Prime — cadencia en C2 (gap de dato, no de diseño)', () => {
+  it.todo('C2: una melee NO debe caer al default de fire rate — hoy `|| 1` devuelve 1 golpe/s en silencio [OQ-ENGINE-14]');
+  it.todo('C2: ley de cadencia melee = swing time base por stance × MELEE_ADD_ATTACK_SPEED — el swing time no existe en ninguna fuente [OQ-ENGINE-14]');
 });

@@ -89,6 +89,25 @@ export class ItemRepository {
     const speedNode = (speed: number): Record<string, number> => isMelee
       ? { MELEE_ADD_ATTACK_SPEED: speed }
       : { WEAPON_ADD_FIRE_RATE:   speed };
+    // Cargador, recarga y recoil NO son atributos universales de "arma": son del dominio de las
+    // armas de fuego. Mismo criterio que `speedNode` (D-6: el token declara dónde vive el nodo) y
+    // que el gate `flight != null` de projectile speed. El discriminador difiere por naturaleza:
+    //   - cargador/recarga vienen del raw → gate por PRESENCIA. Un `?? 0` inventa un cargador de 0
+    //     balas en una espada (0/224 melee traen el dato) y, peor, tapa en silencio el hueco de las
+    //     armas de fuego cuyo dato falta upstream (kitguns ensamblados, armas de compañero, Nataruk).
+    //   - `WEAPON_ADD_RELOAD_SPEED` es base sintética (100% = sin mods, no hay dato que consultar):
+    //     se ata a la presencia de aquello que modula, `reload_time`. El par lo declara UPGRADE_MAP.
+    //   - `WEAPON_ADD_RECOIL` no tiene dato público (interno de DE) ni contraparte en el raw que lo
+    //     gatee: el único discriminador posible es el dominio. Una espada no tiene retroceso. Base
+    //     sintética 100 (recoil relativo, % sobre el nato); nodo inerte hasta definir modelado/UI —
+    //     OQ-ENGINE-7. Ver references/wiki/mechanics/recoil.md.
+    const firearmNodes: Record<string, number> = {};
+    if (raw.stats?.magazine_size != null) firearmNodes.WEAPON_ADD_MAGAZINE_MAX = raw.stats.magazine_size;
+    if (raw.stats?.reload_time != null) {
+      firearmNodes.reload_time             = raw.stats.reload_time;
+      firearmNodes.WEAPON_ADD_RELOAD_SPEED = 100;
+    }
+    if (!isMelee) firearmNodes.WEAPON_ADD_RECOIL = 100;
     // Metadata cualitativa por perfil (agnóstica al modo estático/dinámico): a qué bucket
     // compone un bonus CO/GunCO en este ataque. Ausencia de entrada = gap (no se asume).
     const co_behavior: Record<string, CoBehavior> = {};
@@ -114,13 +133,7 @@ export class ItemRepository {
           ...speedNode(attack.speed ?? raw.stats.fire_rate ?? 0),
           WEAPON_ADD_MULTISHOT:    this.resolveMultishot(raw, attack.name ?? '', index),
           WEAPON_FLAT_PUNCH_THROUGH: this.resolvePunchThrough(raw, attack.name ?? '', attack.punch_through),
-          WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
-          reload_time:             raw.stats.reload_time ?? 0,
-          WEAPON_ADD_RELOAD_SPEED: 100,
-          // Recoil: base sintética 100 (recoil relativo, % sobre el nato). No hay dato absoluto
-          // público (interno de DE); incondicional, todas las armas tienen recoil. Nodo inerte
-          // hasta definir modelado/UI — OQ-ENGINE-7. Ver references/wiki/mechanics/recoil.md.
-          WEAPON_ADD_RECOIL:       100,
+          ...firearmNodes,
           WEAPON_ADD_DAMAGE:       damage_sum || 100,
           ...damage_map
         };
@@ -152,10 +165,7 @@ export class ItemRepository {
         ...speedNode(raw.stats.fire_rate ?? 0),
         WEAPON_ADD_MULTISHOT:    raw.stats.multishot ?? 1,
         WEAPON_FLAT_PUNCH_THROUGH: 0,
-        WEAPON_ADD_MAGAZINE_MAX: raw.stats.magazine_size ?? 0,
-        reload_time:             raw.stats.reload_time ?? 0,
-        WEAPON_ADD_RELOAD_SPEED: 100,
-        WEAPON_ADD_RECOIL:       100,  // base sintética — ver branch principal y recoil.md
+        ...firearmNodes,
         WEAPON_ADD_DAMAGE:       damage_sum_fallback || 100,
         ...damage_map_fallback
       };
