@@ -192,7 +192,7 @@ confirmar un mod o mecánica que lo requiera.
 | `WEAPON_ADD_STATUS_DAMAGE` | `[empirical]` | `C1` | Rifle/Shotgun/Pistol/Melee Elementalist (+90%) |
 | `WEAPON_ADD_FINISHER_DAMAGE` | `[empirical]` | `C1` | Finishing Touch, Covert Lethality |
 | `WEAPON_ADD_SLAM_DAMAGE` | `[empirical]` | `C1` | Seismic Wave, Necramech Seismic Wave — daño de slam attack. Distinto de `WEAPON_ADD_SLAM_RADIUS` (radio de AoE del slam) |
-| `WEAPON_ADD_HEADSHOT_MULT` | `[needs-verification]` | `C1` | Primary/Secondary Deadhead "+30% to Headshot Multiplier". Op ADD confirmada por usuario. ⚠ Semántica: "headshot" en DE es legacy — hoy aplica a **cualquier weak point** del enemigo, no solo cabeza. Requiere doc `references/wiki/mechanics/weak-points.md` (fuente: wiki.warframe.com/w/Enemy_Body_Parts) antes de implementar en engine |
+| `WEAPON_ADD_HEADSHOT_MULT` | verificado | `C1` | Primary/Secondary Deadhead "+30% to Headshot Multiplier". Op ADD confirmada por usuario y por la ley: el multiplicador de la parte del cuerpo es el **base**, y los bonus **se suman entre sí** antes de multiplicar — `3 × (1 + 0.30 + 0.75)` es el ejemplo textual de la wiki. Semántica **estricta**: "headshot" aplica **sólo a la cabeza**, no a cualquier weak point (`references/wiki/mechanics/enemy-body-parts.md`) |
 | `WEAPON_FLAT_STATUS_CHANCE` | `[empirical]` ⚠ | `C1·F` | Perk Incarnon (Felarx). ⚠ valor pre-dividido por base_multishot del perfil — modelado complejo, ver comentario en `modifier.ts` |
 | `WEAPON_ADD_AMMO_EFFICIENCY` | `[empirical]` | `C1` | Brain Storm, Zazvat-Kar (mods); Arcane Pistoleer, Akimbo Slip Shot, Eternal Logistics, Primary Crux (arcanes). D-6 compliant; `resolveToken()` lo cubre. Reduce la tasa de consumo de munición por disparo. |
 
@@ -452,7 +452,7 @@ hasta resolver** (regla anti "trust-me-bro", `docs/governance/deuda-taxonomy.md`
 
 | Token | Estado post-Gate 1 | Acción pendiente |
 | :--- | :--- | :--- |
-| `WEAPON_ADD_HEADSHOT_MULT` | Op ADD confirmada. ⚠ semántica: "headshot" = weak point en DE moderno, no solo cabeza | Crear `references/wiki/mechanics/weak-points.md` (fuente: wiki.warframe.com/w/Enemy_Body_Parts) |
+| `WEAPON_ADD_HEADSHOT_MULT` | ✅ **Cerrado** — Op ADD confirmada y semántica resuelta **al revés de lo que asumía el gate**: "headshot" **no** es legacy de "weak point", es estrictamente **la cabeza**. Ley y composición en `references/wiki/mechanics/enemy-body-parts.md` | — |
 | `WEAPON_FLAT_STATUS_CHANCE` | Sin resolver — modelado multi-pellet complejo | Investigación propia |
 | `WEAPON_ADD_ACCURACY` | Sin resolver — ¿mismo stat que `WEAPON_SPREAD` (DE legacy)? | Investigación propia, auditoría mods Fase 2c |
 | `AVATAR_ADD_ABILITY_DAMAGE` | Pending — engine de habilidades no diseñado aún | Defer hasta diseño de engine de habilidades |

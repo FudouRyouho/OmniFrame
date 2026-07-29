@@ -197,7 +197,7 @@ Coinciden parcialmente con un token existente; la forma a unificar se decide **a
 
 | Token en override | Token consolidado cercano | Observación (sin juicio de equivalencia) |
 |---|---|---|
-| `on_weakpoint_hit` | `on_weak_point_hit` / `on_consecutive_weakpoint_hits` | El propio doc ya usa ambas formas (`weak_point` vs `weakpoint`); forma canónica = deuda pendiente conocida |
+| `on_weakpoint_hit` | `on_weak_point_hit` / `on_consecutive_weakpoint_hits` | Forma canónica **resuelta** = `on_weakpoint_hit` (`conditions.md §G1`); la variante `weak_point` ya migró. `on_consecutive_*` sigue distinto: lleva contador, no es variante ortográfica |
 | `on_hit_while_target_affected_by_electricity` | `on_hitting_enemies_affected_by_electricity` | Misma área conceptual; naturaleza real sin confirmar |
 | `while_aim_gliding_or_sliding` | `while_sliding_or_aim_gliding` (arcanes) | OR — bloqueado por schema (§Gate 1 conditions.md); orden a unificar al resolver OR |
 

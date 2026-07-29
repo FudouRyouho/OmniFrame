@@ -152,6 +152,9 @@ export const UPGRADES = [
   'WEAPON_ADD_FINISHER_DAMAGE',
   // Multiplicador de headshot — se aplica sobre el multiplicador base del juego (no es % aditivo al daño).
   // Fuente: Primary/Secondary Deadhead "+30% to Headshot Multiplier".
+  // Ley de composición: mult_parte × (1 + Σ bonus). Los bonus se suman ENTRE SÍ, no se multiplican
+  // — ejemplo textual de la wiki: 3 × (1 + 0.30 + 0.75) = 6.15x. Base = 3x desde la v32 (era 2x).
+  // Alcance ESTRICTO: solo la cabeza, no cualquier weak point (references/wiki/mechanics/enemy-body-parts.md).
   'WEAPON_ADD_HEADSHOT_MULT',
   // ── WEAPON — perks flat incarnon (ADD_FLAT — post-escala, no amplificados) ─
   'WEAPON_FLAT_STATUS_CHANCE',

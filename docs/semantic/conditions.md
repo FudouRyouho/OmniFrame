@@ -272,8 +272,12 @@ fuerza aquí para no pre-juzgar. El token vive literal; la consolidación ocurre
 ### G1 — normalización aplicada / pendiente
 
 - **`on_weakpoint_hit`** confirmado como forma canónica. Misma mecánica de weak point;
-  pura diferencia de redacción. Drift cerrado: arcanes migró su única instancia `on_weak_point_hit`
-  → `on_weakpoint_hit` en `arcane-stats.override.json`.
+  pura diferencia de redacción — y la wiki hizo la **misma** normalización ortográfica en su
+  versión 39 (*"Fixed instances of 'Weak Points' being written as 'weakpoints'"*). Drift cerrado:
+  arcanes migró su única instancia `on_weak_point_hit` → `on_weakpoint_hit` en
+  `arcane-stats.override.json`.
+  **No confundir con `on_headshot`:** eso *no* es diferencia de redacción sino de mecánica, y no
+  colapsan (ver la tabla del stub `on_hit_incarnon_form`).
 - ~~`while_aim_gliding_or_sliding`~~ — **resuelto (Fase 3b):** los dos labels que cubría
   (el "and" coloquial de Agile Executor y el "or" de Feather of Justice) son mecánicamente **OR**
   (aim-gliding y sliding se excluyen). Migrados a `{any:["while_aim_gliding","while_sliding"]}` — el
@@ -464,7 +468,7 @@ se audita en Fase 2.
 | `with_energy_max_over_200` | Umbral "unlisted" — no aparece en UI del juego; descubierto por la comunidad (Dual Toxocyst). | evidencia |
 | `while_holstered` | Depende de que el sim tenga noción de "arma activa". Si no la tiene, no es evaluable. Posponer hasta diseño de contexto multi-arma. | engine |
 | `while_dread_and_hate_equipped` (+2 pares stalker) | Modelados como tokens por-par por precedente de especificidad. ¿Generalizar a un patrón `while_pair_equipped(A,B)` en el futuro? | taxonomía |
-| `on_hit_incarnon_form` (stub) | **Granularidad del evento de hit sin resolver:** ¿`on_headshot` colapsa con `on_weakpoint_hit` (DE legacy "headshot" ≈ weak point moderno, no solo cabeza; más diferenciado en arcos/snipers)? ¿"fully charged blast" es scope del efecto o un `on_charged_blast_hit` propio? Catalogado como flag-paraguas hasta verificar en juego. Deuda compartida con `upgrade-tokens.md §Gate 1` (`WEAPON_ADD_HEADSHOT_MULT`) + `references/wiki/mechanics/weak-points.md` (pendiente). | evidencia |
+| `on_hit_incarnon_form` (stub) | **Granularidad del evento de hit, parcialmente resuelta.** `on_headshot` y `on_weakpoint_hit` **no colapsan**: son dos condiciones distintas en relación de subsunción — todo headshot es un weakpoint hit, no al revés (`references/wiki/mechanics/enemy-body-parts.md`). Queda abierto sólo el otro eje: ¿"fully charged blast" es scope del efecto o un `on_charged_blast_hit` propio? Sigue flag-paraguas por eso. | evidencia |
 
 > Resolución: igual que upgrade-tokens §Gate 1 — debate, elevar evidencia, o decidir extensión de schema.
 > Las condiciones con `⚠` de schema (OR) no son engine-ready hasta que el contrato `condition` soporte la composición.

@@ -1,0 +1,610 @@
+Certain '''Enemy Body Parts''' will apply damage multipliers to incoming damage that is inflicted on them. These special enemy body parts are specific to each enemy type, and the multipliers are applied to all damage inflicted, independent of their damage type. Targeting these body parts will also completely bypass their [[Shield Gating]].
+
+{{clr}}
+
+==Special Body Part Multipliers==
+{{UpdateMe|Vehicles, Archwing, Murmur, Scaldra, and Techrot enemies need adding.}}Below is are lists containing all enemy types and all their known special body part multipliers.<br />Stats apply to '''all variants with the same suffix''' unless otherwise stated (e.g. [[MOA]] includes [[Railgun MOA]] and [[Vapos MOA]] but not [[Fusion MOA]] or [[Terra Anti MOA]]).
+
+===Corpus Body Parts===
+Almost all humanoid and airborne {{Faction|Corpus}} have a 3x headshot multiplier.
+
+{{CustomCollapsible|Crewmen|Crewmen}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center;" width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Amalgam Alkonost]] || Body (1x) || Head (1x) ||
+|-
+| [[Amalgam Heqet]] || Body (1x) || Head (1x) ||Backpack (3x)
+|-
+| [[Amalgam Machinist]] || Body (1x) || Head (0.5x) ||
+|-
+| [[Vapos Bioengineer|Bioengineer]] || Body (1x) || Head (3x) ||
+|-
+| [[Comba]] || Body (1x) || Head (3x) ||
+|-
+| [[Crewman]] || Body (1x) || Head (3x) ||
+|-
+| [[Armaments Director|Director]] || Body (1x) || Head (3x) ||
+|-
+| [[Terra Jailer|Jailer]] || Body (1x) || Head (3x) ||
+|-
+| [[Machinist]] || Body (1x) || Head (1x) ||
+|-
+| [[Terra Manker|Manker]] || Body (1x) || Head (3x) ||
+|-
+| [[Terra Overtaker|Overtaker]] || Body (1x) || Head (3x) ||
+|-
+| [[Terra Provisor|Proviser]] || Body (1x) || Head (3x) ||
+|-
+| [[Ranger]] || Body (1x) || Head (3x) ||
+|-
+| [[Scrambus]] || Body (1x) || Head (3x) ||
+|-
+| [[Terra Trencher|Trencher]] || Body (1x) || Head (3x) ||
+|-
+| [[Tech]] || Body (1x) || Head (3x) ||
+|}
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Proxies|Proxies}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Amalgam Kucumatz]] || Chassis (1x) || ||
+|-
+| [[Amalgam Kucumatz]] || Legs (1x) || Face (1x)<br />Gun (1x) || Fanny Pack (3x)
+|-
+| [[Amalgam Satyr]] || Body (1x) || ||
+|-
+| [[Anti MOA]] || Legs (1x) || Head (1x) || Fanny Pack (3x)
+|-
+| [[Attack Drone]] || Body (1x) || Face (3x) ||
+|-
+| [[Bursa]] || Body (1x)<br />Riot Shield (0x) || Head (1x) || Back Console (3x)<br />Front (0.4x)<br />Gun (0.5x)
+|-
+| [[Coolant Raknoid]] || Body (1x)|| Coolant Tank (1.5x) ||
+|-
+| [[Fusion MOA]] || Legs (1x) || Head (1x) || Fanny Pack (3x)
+|-
+| [[Hyena]] || Body (1x) || Head (3x) ||
+|-
+| [[Kyta Raknoid]] || Body (1x)|| Laser Turret (1.5x) ||
+|-
+| [[MOA]] || Legs (1x) || Head (1x) || Gun (0.5x)<br />Fanny Pack (3x)
+|-
+| [[Nemes]] || Chassis (1x)|| ||
+|-
+| [[Osprey]] || Body (1x) || Head (3x) ||
+|-
+| [[Ratel]] || Body (1x) || ||
+|-
+| [[Terra Raptor SX|Raptor SX]] || Body (1x) || Head (3x) ||
+|-
+| [[Scavenger Drone]] || Body (1x) || Head (3x) ||
+|-
+| [[Scyto Raknoid]] || Body (1x) || Glue Sac (3x) ||
+|}
+*Don't confuse a MOA's head with its gun, the head is small and on its front, not on top.
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Vehicles|CorpusVehicles}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|}
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Bosses|CorpusBosses}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Target''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Alad V]] || Body (1x) || Head (3x) ||
+|-
+| [[Ambulas]] || Legs (1x) || Head (3x) || Gun (0.1x)<br />Fanny Pack (0.5x)
+|-
+| [[Hyena Pack]] || Body (1x) || Head (1x) ||
+|-
+| [[Jackal]] || Body (1x) || Head (1x) || Limbs (1x)
+|-
+| [[Lynx]] || Body (1x) || Head (1x) ||
+|-
+| [[Razorback]] || || ||
+|-
+| [[The Sergeant]] || Body (1x) || Head (3x) ||
+|-
+| [[Zanuka]] || Body (1x) || Head (1x) ||
+|}
+{{CustomCollapsible/End}}
+
+===Grineer Body Parts===
+All humanoid {{Faction|Grineer}} have a 3x headshot multiplier.
+
+{{CustomCollapsible|Soldiers|Soldiers}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Aerial Commander]] || Body (1x) || Head (3x) ||
+|-
+| [[Bailiff]] || Body (1x) || Head (3x) ||
+|-
+| [[Ballista]] || Body (1x) || Head (3x) ||
+|-
+| [[Blite Captain]] || || ||
+|-
+| [[Bombard]] || Body (1x) || Head (3x) ||
+|-
+| [[Butcher]] || Body (1x) || Head (3x) ||
+|-
+| [[Raider Carver|Carver]] || Body (1x) || Head (3x) ||
+|-
+| [[Commander]] || Body (1x) || Head (3x) ||
+|-
+| [[Drahk Master]] || Body (1x) || Head (3x) ||
+|-
+| [[Eviscerator]] || Body (1x) || Head (3x) ||
+|-
+| [[Flameblade]] || Body (1x) || Head (3x) ||
+|-
+| [[Ghoul Auger]] || Body (1x) || Head (3x) ||
+|-
+| [[Ghoul Devourer]] || Body (1x) || Head (3x) ||
+|-
+| [[Ghoul Expired]] || Body (1x) || Head (3x) ||
+|-
+| [[Ghoul Rictus]] || Body (1x) || Head (3x) ||
+|-
+| [[Glacik Commander]] || || ||
+|-
+| [[Guardsman]] || Body (1x) || Head (3x) ||
+|-
+| [[Heavy Gunner]] || Body (1x) || Head (3x) ||
+|-
+| [[Hellion]] || Body (1x) || Head (3x) ||
+|-
+| [[Hyekka Master]] || Body (1x) || Head (3x) ||
+|-
+| [[Kuva Guardian]] || Body (1x) || Head (3x) ||
+|-
+| [[Kuva Jester]] || Body (1x) || Head (3x) ||
+|-
+| [[Lancer]] || Body (1x) || Head (3x) ||
+|-
+| [[Lektro Commander]] || || ||
+|-
+| [[Manic]] || Body (1x) || Head (3x) ||
+|-
+| [[Napalm]] || Body (1x) || Head (3x) ||
+|-
+| [[Nox]] || Body (1x) || Helmet (3x)<br />Head (4x) ||
+|-
+| [[Gokstad Officer|Officer]] || Body (1x) || Head (3x) ||
+|-
+| [[Dargyn Pilot|Pilot]] || Body (1x) || Head (3x) ||
+|-
+| [[Plains Commander]] || Body (1x) || Head (3x) ||
+|-
+| [[Powerfist]] || Body (1x) || Head (3x) ||
+|-
+| [[Pyr Captain]] || || ||
+|-
+| [[Recon Commander]] || Body (1x) || Head (3x) ||
+|-
+| [[Scorch]] || Body (1x) || Head (3x) ||
+|-
+| [[Seeker]] || Body (1x) || Head (3x) ||
+|-
+| [[Supressor]] || Body (1x) || Head (3x) ||
+|-
+| [[Trooper]] || Body (1x) || Head (3x) ||
+|}
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Machines|Machines}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Eidolon Lure]] || Chassis (1x) || ||
+|-
+| [[Orbital Strike Drone]] || Chassis (1x) || ||
+|-
+| [[Propaganda Drone]] || Chassis (1x) || ||
+|-
+| [[Roller]] || Chassis (1x) || ||
+|-
+| [[Roller Sentry]] || Chassis (1x) || ||
+|-
+| [[Regulator]] || Chassis (1x) || ||
+|-
+| [[Tusk Seeker Drone|Seeker Drone]] || Chassis (1x) || ||
+|-
+| [[Turret]] || Chassis (1x) || ||
+|}
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Vehicles|GrineerVehicles}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|}
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Bosses|GrineerBosses}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Target''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Captain Vor]] || Body (1x) || Head (3x) ||
+|-
+| [[General Sargas Ruk]] || Body (0x) || || Vents (1x)
+|-
+| [[The Grustrag Three]] || Body (1x) || Head (3x) ||
+|-
+| [[Kela De Thaym]] || Body (1x) || Head (1x) ||
+|-
+| [[Lieutenant Lech Kril]] || Body (1x) || Head (1x) ||
+|-
+| [[Sprag]] || Body (0x) || Head (0.5x)<br />Jetpack (3x) ||
+|-
+| [[Tyl Regor]] || Body (1x) || Head (3x) ||
+|-
+| [[Ven'kra Tel]] || Body (0x) || Head (0.5x)<br />Jetpack (3x) ||
+|}
+{{CustomCollapsible/End}}
+
+===Infested Body Parts===
+Almost all {{Faction|Infested}} have a 3x headshot multiplier.
+
+{{CustomCollapsible|Infested|Infested}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Charger]] || Body (1x) || Mouth (1x) ||
+|-
+| [[Crawler]] || Body (1x) || Head (3x) ||
+|-
+| [[Leaper]] || Body (1x) || Head (3x) ||
+|-
+| [[Runner]] || Body (1x) || Head (3x) ||
+|-
+| [[Leaper]] || Body (1x) || Head (3x) ||
+|-
+| [[Undying Flyer]] || Body (1x) || Mouth (3x) ||
+|-
+| [[Zealoid Bastion]] || Body (1x) || Head (3x) ||
+|-
+| [[Zealot Baptizer]] || Body (1x) || Head (3x) ||
+|-
+| [[Zealot Herald]] || Body (1x) || Head (3x) ||
+|-
+| [[Zealot Proselytizer]] || Body (1x) || Head (3x) ||
+|}
+*Damaging a Undying Flyer's mouth (not the former Grineer head) will instantly destroy it, rendering that area invulnerable.
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Mutalists|Mutalists}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Mutalist Osprey]] || Body (1x) || ||
+|-
+| [[Swarm Mutalist MOA]] || Legs (1x) || Face (1x) || Gun (0.5x)<br />Fanny Pack (3x)
+|-
+| [[Tar Mutalist MOA]] || Legs (1x) || Face (1x) || Gun (0.5x)<br />Fanny Pack (3x)
+|-
+| [[Venin Mutalist]] || Body (1x) || ||
+|}
+*Infested [[Osprey]]s do not have "heads".
+
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Ancients|Ancients}}
+
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Unit''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Ancient Healer]] || Body (1x) || Head (3x) || Upper Back (0.5x)
+|-
+| [[Ancient Disruptor]] || Body (1x) || Head (3x) || Upper Back (0.5x)
+|-
+| [[Boiler]] || Body (1x) || Orange Pustules (3x) ||
+|-
+| [[Brood Mother]] || Body (1x) || Face (3x) || Exposed Chest/Heart (3x)
+|-
+| [[Leaping Thrasher]] || Body (1x) || Head (3x) || Upper Back (0.5x)<br /> Back Skull (3x) 
+|-
+| [[Toxic Ancient]] || Body (1x) || Head (3x) || Upper Back (0.5x)
+|}
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Bosses|InfestedBosses}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center; " width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Target''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Juggernaut]] || Body (1x) || ||
+|-
+| [[Jordas Golem]] || Body (0x) || || Engines (1x)
+|-
+| [[Lephantis]] || Body (0x) || || Mouths (1x)
+|-
+| [[Mutalist Alad V]] || Body (1x) || Head (3x) ||
+|-
+| [[Phorid]] || Body (1x) || Head (1x) ||
+|-
+| [[Zealoid Prelate]] || Body (1x) || Head (3x) ||
+|}
+{{CustomCollapsible/End}}
+
+===Sentient Body Parts===
+{{CustomCollapsible|Drones|Drones}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center;" width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Target''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Aerolyst]] || Body (1x) || Head (3x) ||
+|-
+| [[Battalyst]] || Body (1x) || Head (3x) ||
+|-
+| [[Brachiolyst]] || Body (1x) || Head (3x) ||
+|-
+| [[Conculyst]] || Body (1x) || Head (3x) ||
+|-
+| [[Symbilyst]] || Body (1x) || Head (3x) || Shield (0.5x)
+|-
+| [[Eidolon Vomvalyst|Vomvalyst]] || Body (1x) || ||
+|-
+|}
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Amalgams|Amalgams}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center;" width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Target''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Amalgam Arca Heqet]] || Body (1x) || Head (3x) ||
+|-
+| [[Amalgam Arca Kucumatz]] || Body (1x) || ||
+|-
+| [[Amalgam Cinder Machinist]] || Body (1x) || Head (3x) ||
+|-
+| [[Amalgam Phase MOA]] || Body (1x) || Head (1x) || Gun (0.5x)
+|-
+| [[Amalgam Swarm Satyr]] || Body (1x) || Head (1x) ||
+|-
+|}
+{{CustomCollapsible/End}}
+
+{{CustomCollapsible|Bosses|SentientBosses}}
+{| border="0" cellpadding="1" cellspacing="1" class="article-table" style="text-align: center;" width="100%"
+|- style="font-weight: 600; "
+| style="width: 25%;" | '''Target''' || General (Multiplier) || Weak Point (Multiplier) || Other (Multiplier)
+|-
+| [[Condrix]] || Body (0x) || Mouth (1x) ||
+|-
+| [[Eidolon]] || Body (1x) || Head (1x) || Synovia (1x)
+|-
+| [[Ropalolyst]] || Body (1x) || Head (1x) || Synovia (1x)
+|-
+|}
+{{CustomCollapsible/End}}
+
+==Weak Spot Bonuses==
+Certain weapons and equipment possess bonuses that take effect upon striking weak spots.
+
+Effects that specify headshots only take effect when striking the target's head and do '''not''' apply against any other weak spot.
+
+===Weapons===
+{|class="wikitable" style="text-align: left; width: 100%;"
+|-
+! Weapon
+! Effect
+|-
+| {{Weapon|Athodai}}
+| Weak point kills grant the '''Overdrive''' buff for '''8''' seconds, increasing [[fire rate]] by '''100%''' and [[Ammo Efficiency]] by '''100%''', but increases [[recoil]] and disables use of [[Alternate Fire]]
+|-
+| {{Weapon|Cernos Prime}}
+| '''+50%''' headshot damage
+|-
+| {{Weapon|Daikyu}}
+| '''+75%''' headshot damage with {{M|Amalgam Daikyu Target Acquired}}
+|-
+| {{Weapon|Daikyu Prime}}
+| '''+250%''' [[Critical Chance]] on weak point hits<br />'''+75%''' headshot damage with {{M|Amalgam Daikyu Target Acquired}}
+|-
+| {{Weapon|Dual Toxocyst}}
+| Headshot hits grants the '''Frenzy''' buff for '''3''' seconds, increasing [[fire rate]] by '''150%''', [[Ammo Efficiency]] by '''100%''', and reduces [[recoil]]
+|-
+| {{Weapon|Epitaph}}<br />{{Weapon|Epitaph Prime}}
+| When used by {{WF|Sevagoth}}/{{WF|Sevagoth Prime}}, '''20%''' headshot damage
+|-
+| {{Weapon|Hystrix}}<br />{{Weapon|Hystrix Prime}}
+| When used by {{WF|Khora}}/{{WF|Khora Prime}}, '''8%''' chance to instantly reload on headshot hits
+|-
+| {{Weapon|Knell}}<br />{{Weapon|Knell Prime}}
+| Headshot hits grants the '''Death Knell''' buff for '''2''' seconds, increasing [[critical multiplier]] by '''0.5x''' and [[status chance]] by '''20%''' per stack for up to '''3''' stacks, and [[Ammo Efficiency]] by '''100%'''
+|-
+| {{Weapon|Kuva Chakkhurr}}
+| '''+50%''' headshot damage
+|-
+| {{Weapon|Laetum}}
+| Headshots charge the '''Incarnon Transmutation''' gauge, allowing [[Alternate Fire]] to activate Incarnon Form<br />Evolution III Perk 1: On headshot, '''+30%''' reload speed for '''12''' seconds, stacks '''3x'''<br />Evolution IV Perk 1: '''+50%''' headshot damage<br />Evolution V Perk 2: On headshot, '''+40%''' [[Ammo Efficiency]] for '''6''' seconds
+|-
+|{{Resource|Latron Incarnon Genesis}}
+| Headshots charge the '''Incarnon Transmutation''' gauge, allowing [[Alternate Fire]] to activate Incarnon Form<br />Evolution IV Perk 2: '''Deadhead: +100%''' to Headshot Multiplier.
+|-
+| {{Weapon|Pandero}}<br />{{Weapon|Pandero Prime}}
+| When used by {{WF|Octavia}}/{{WF|Octavia Prime}}, [[Alternate Fire]] headshot kills increases [[reload speed]] by '''20%'''
+|-
+| {{Weapon|Perigale}}
+| '''4''' consecutive headshots or a headshot kill grants the '''Gale Force''' buff for '''4''' seconds, increasing [[Ammo Efficiency]] by '''100%'''
+|-
+| {{Weapon|Phenmor}}
+| Headshots charge the '''Incarnon Transmutation''' gauge, allowing [[Alternate Fire]] to activate Incarnon Form<br />Evolution III Perk 3: Headshot kills have a '''20%''' to instantly reload<br />Evolution V Perk 3: 2 headshots within 2 seconds grants '''+50%''' headshot damage for '''8''' seconds
+|-
+| style="white-space:nowrap" | {{Weapon|Snipetron}}<br />{{Weapon|Snipetron Vandal}}
+| '''+30%''' headshot damage with 2.5x zoom<br>'''+50%''' headshot damage with 6.0x zoom
+|-
+| {{Weapon|Sporothrix}}
+| '''+50%''' headshot damage with 2.7x zoom
+|-
+| {{Weapon|Synapse}}<br />{{Weapon|Coda Synapse}}
+| '''+20%''' headshot damage
+|-
+| {{Weapon|Tenet Spirex}}
+| Headshot hits grants the '''Bullseye Reload''' buff for '''4''' seconds, increasing [[reload speed]] by '''25%''' for up to '''2''' stacks
+|-
+| {{Weapon|Tenora}}<br />{{Weapon|Tenora Prime}}
+| When used by {{WF|Octavia}}/{{WF|Octavia Prime}}, [[Alternate Fire]] headshot kills has a '''20%''' chance to instantly refill magazine
+|-
+| {{Weapon|Vectis}}
+| '''+30%''' headshot damage with 3.0x zoom / '''+50%''' headshot damage with 4.5x zoom
+|-
+| {{Weapon|Vectis Prime}}
+| '''+40%''' headshot damage with 3.5x zoom / '''+60%''' headshot damage with 6.0x zoom
+|-
+| {{Weapon|Vulkar}}<br />{{Weapon|Vulkar Wraith}}
+| '''+35%''' headshot damage with 2.5x zoom<br>'''+55%''' headshot damage with 4.0x zoom<br>'''+70%''' headshot damage with 8.0x zoom
+|}
+
+===Abilities===
+<div class="tabber-borderless">{{#tag:tabber|
+Cyte-09 ={{#tag:tabber|
+Seek=
+{{:Seek|cardonly}}
+{{!}}-{{!}}
+
+Neutralize=
+{{:Neutralize|cardonly}}
+}}
+{{!}}-{{!}}
+Harrow ={{#tag:tabber|
+Thurible=
+{{:Thurible|cardonly}}
+{{!}}-{{!}}
+
+Covenant=
+{{:Covenant|cardonly}}
+}}
+{{!}}-{{!}}
+Ivara ={{#tag:tabber|
+Prowl=
+{{:Prowl|cardonly}}
+}}
+{{!}}-{{!}}
+{{!}}-{{!}}
+Voruna ={{#tag:tabber|
+Lycath's Hunt=
+{{:Lycath's Hunt|cardonly}}
+}}
+{{!}}-{{!}}
+}}
+</div>
+
+===Mods===
+<gallery>
+ArgonScopeMod.png|link=Argon Scope|{{M|Argon Scope}}
+EximusAdvantageMod.png|link=Eximus Advantage|{{M|Eximus Advantage}}
+GalvanizedScopeMod.png|link=Galvanized Scope|{{M|Galvanized Scope}}
+HydraulicCrosshairsMod.png|link=Hydraulic Crosshairs|{{M|Hydraulic Crosshairs}}
+GalvanizedCrosshairsMod.png|link=Galvanized Crosshairs|{{M|Galvanized Crosshairs}}
+LaserSightMod.png|link=Laser Sight|{{M|Laser Sight}}
+PrimaryAcuityMod.png|link=Primary Acuity|{{M|Primary Acuity}}
+PistolAcuityMod.png|link=Pistol Acuity|{{M|Pistol Acuity}}
+SkullShotsMod.png|link=Skull Shots|{{M|Skull Shots}}
+TargetAcquiredMod.png|link=Target Acquired|{{M|Target Acquired}}
+MeticulousAimMod.png|link=Meticulous Aim|{{M|Meticulous Aim}}
+LeadedGasMod.png|link=Leaded Gas|{{M|Leaded Gas}}
+BioticRoundsMod.png|link=Biotic Rounds|{{M|Biotic Rounds}}
+PainPointsMod.png|link=Pain Points|{{M|Pain Points}}
+</gallery>
+
+===Arcanes===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArcaneConsequence.png|link=Arcane Consequence|{{Arcane|Arcane Consequence}}
+ArcanePistoleer.png|link=Arcane Pistoleer|{{Arcane|Arcane Pistoleer}}
+ArcanePrecision.png|link=Arcane Precision|{{Arcane|Arcane Precision}}
+ArcaneRage.png|link=Arcane Rage|{{Arcane|Arcane Rage}}
+ArcaneVictory.png|link=Arcane Victory|{{Arcane|Arcane Victory}}
+LongbowSharpshot.png|link=Longbow Sharpshot|{{Arcane|Longbow Sharpshot}}
+PaxBolt.png|link=Pax Bolt|{{Arcane|Pax Bolt}}
+PaxSeeker.png|link=Pax Seeker|{{Arcane|Pax Seeker}}
+PrimaryCrux.png|link=Primary Crux|{{Arcane|Primary Crux}}
+PrimaryDeadhead.png|link=Primary Deadhead|{{Arcane|Primary Deadhead}}
+SecondaryDeadhead.png|link=Secondary Deadhead|{{Arcane|Secondary Deadhead}}
+VirtuosShadow.png|link=Virtuos Shadow|{{Arcane|Virtuos Shadow}}
+VirtuosGhost.png|link=Virtuos Ghost|{{Arcane|Virtuos Ghost}}
+</gallery>
+
+===Focus===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+FocusTemporalShot.png|link=Temporal Shot|{{Focus|Temporal Shot}}
+</gallery>
+
+==Detecting Weak Points==
+Some effects will visually highlight specific Weak Points for the player:
+*{{A|Seek}} highlights some Weak Points (see [[Seek#Bugs]]).
+*{{Weapon|Zenith}}'s Alt-Fire highlights heads.
+*{{Weapon|Scourge}}'s Alt-Fire highlights heads.
+*{{Weapon|Vesper 77}}'s aim highlights heads.
+
+==Notes==
+*Certain weapons do not have bonus damage on headshots, always defaulting to the 1x multiplier, unaffected by acuity-like bonuses but affected by deadhead-like bonuses:
+**{{Weapon|Arca Plasmor}} ({{Weapon|Tenet Arca Plasmor|Tenet}})
+**{{Weapon|Alternox}}'s primary fire ({{Weapon|Alternox Prime}})
+**{{Weapon|Argo & Vel}}'s Heavy Attack Glaive
+**{{Weapon|Athodai}}'s Alternate Fire
+**{{Weapon|Catchmoon}}
+**{{Weapon|Catchmoon (Secondary)}}
+**{{Weapon|Corufell}}'s shots
+**{{Weapon|Cyanex}}'s Primary Fire
+**{{Resource|Dread Incarnon Genesis}}
+**{{Weapon|Fulmin}} in semi-auto mode
+**{{Weapon|Ignis}} ({{Weapon|Ignis Wraith}})
+**{{Resource|Lex Incarnon Genesis}}
+**{{Weapon|Lizzie}}'s Primary Fire and Waves
+**{{Weapon|Nataruk}}'s charged and perfect shots
+**{{Weapon|Nepheri}}'s Fireballs
+**{{Resource|Paris Incarnon Genesis}}
+**{{Weapon|Steflos}}
+**{{Weapon|Stropha}}'s shots
+**{{Weapon|Tenet Agendus}}'s Energy Disks
+**{{D|Electricity}} and {{D|Gas}} status procs
+**Resupply
+*Most Headshot bonuses stack their effects additively. For example, a {{Weapon|Daikyu}} using {{Arcane|Primary Deadhead}} and {{M|Amalgam Daikyu Target Acquired}} on an enemy with a 3x headshot multiplier will have a {{Math|3 * (1 + {{Arcane|Primary Deadhead|30%}} + {{M|Amalgam Daikyu Target Acquired|75%}})|b=y|bf=y}}x headshot multiplier.
+*Radial parts of all [[Area of Effect Weapons]] have a 1x headshot multiplier and additionally cannot trigger headshot conditions.
+**This does not apply to the projectile itself, such as {{Weapon|Kuva Bramma}}'s arrows or {{Weapon|Kuva Chakkhurr}}'s precision shots.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39}}
+*Fixed instances of “Weak Points” being written as “weakpoints”.
+
+{{ver|32}}
+;Headshot Damage Changes
+
+During playtesting, the ammo changes alone weren’t enough to significantly change things for AoE weapons. So instead of tightening these values to be overly restrictive, we chose to address other factors that make these weapons so strong, such as headshot damage. 
+
+Our approach here is two-fold, to reduce the impact of headshots for AOE weapons, but to also make precision headshots pack a larger punch overall.
+
+*Radial damage no longer gains extra headshot damage or triggers headshot conditions.
+**This is primarily targeted at the Ignis Wraith - as a “flamethrower” weapon, it’s hard to imagine a blanket of elements being precise enough to target weak points specifically. Explosive projectiles themselves can still land headshots, so there is still a reason to aim with most weapons for maximum damage.
+*Increased the base damage multiplier on headshots from 2x to 3x. 
+**This means precision weapons are more rewarded for skillful usage, leveling the playing field even further!
+
+{{ver|21}}
+*Corpus Ospreys can now receive headshots! You may now unleash devastating shots to their “faces”.
+}}
+
+{{DamageNav}}
+[[de:Gegnerischer_Körperteil_Modifikator]]
+[[es:Partes del cuerpo del enemigo]]
+[[Category:Damage 2.0]]
+[[Category:Mechanics]]

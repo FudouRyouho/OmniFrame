@@ -156,8 +156,10 @@ Derivada del contraste contra los casos compuestos reales (los 5 huecos `null` d
 (`evalCondition`). **Migrados:** los OR de movimiento (`while_sliding`∨`while_aim_gliding`, Fase 3b) y el
 primer AND evento∧estado (`on_hit_while_target_affected_by_electricity` → `{all:[…]}`, Fase 4).
 **`on_hit_incarnon_form` queda como stub catalogado** (flag-paraguas, NO descompuesto) — su composición depende
-de la granularidad del evento de hit (¿`on_headshot` ≡ `on_weakpoint_hit`? ¿"charged blast" = scope u `on_charged_blast_hit`?),
-deuda de verificación en juego (`weak-points.md` pendiente). Todos los OR planos migrados. El prototipo sigue **no cerrado**. Hilo en `OQ-DATA-4`.
+de la granularidad del evento de hit. De sus dos incógnitas, una está **resuelta**: `on_headshot` **≢**
+`on_weakpoint_hit` — son distintas y están en subsunción, no en sinonimia
+(`references/wiki/mechanics/enemy-body-parts.md`). Sigue stub por la otra: ¿"charged blast" = scope u
+`on_charged_blast_hit`? Todos los OR planos migrados. El prototipo sigue **no cerrado**. Hilo en `OQ-DATA-4`.
 
 Ver:
 - `ssot.md`

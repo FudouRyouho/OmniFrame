@@ -111,6 +111,21 @@ no exhaustiva — se amplía al madurar la taxonomía de movimiento/postura:
 > Regla derivada: `{all:[A,B]}` con A,B en la misma fila → **rechazar** (debió ser `{any:…}`). El operador correcto
 > lo da la **mecánica de co-ocurrencia**, nunca la conjunción del label.
 
+### Tabla semilla de subsunción
+
+Relación **dual** de la anterior: en vez de "A ∧ B imposible", es "A ⇒ B". Dos tokens no son
+sinónimos ni excluyentes: uno es **caso particular** del otro. Consecuencia práctica: un evento que
+satisface A satisface también B, pero **colapsarlos sería un error de modelado** — el efecto
+redactado sobre A es más restrictivo y no puede heredarse al que se redactó sobre B.
+
+| Particular (A) | General (B) | Fuente |
+| :--- | :--- | :--- |
+| `on_headshot` | `on_weakpoint_hit` | *"Effects that specify headshots only take effect when striking the target's head and do **not** apply against any other weak spot"* (`references/wiki/mechanics/enemy-body-parts.md`) |
+
+Semilla de una sola fila **a propósito**: es la única relación con fuente. La cadena que la
+intuición sugiere (`on_critical_hit`/`on_melee_hit` ⇒ `on_hit`) es plausible pero **no verificada**
+— no se siembra sin dato, que es exactamente el error que produjo esta fila.
+
 ---
 
 ## Cobertura (validación)
