@@ -15,7 +15,7 @@
  * ARMA (`target_entity`/`target_attribute`). Roar = 50% × Ability Strength → pool de
  * facción del arma (`GAMEPLAY_MULT_FACTION_DAMAGE`, bono INCONDICIONAL §15/§16). NO
  * pasa por `ModRepository` → esquiva el shim `C2F_FACTION_TOKENS_DEFERRED` (Roar no
- * gatea por facción del target — `references/wiki/abilities/Rhino/Roar/Roar.md`).
+ * gatea por facción del target — `references/wiki/warframes/rhino/roar.md`).
  *
  * ⚠️ El valor de habilidad es porcentaje CRUDO (50 = +50%), no un multiplicador
  * (1.50) → NO se aplica `toPercent` (a diferencia de ArcaneRepository).

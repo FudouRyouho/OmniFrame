@@ -88,7 +88,7 @@ del usuario. Queda "a un lado" — no es bloqueo técnico. **No contrastado en p
 
 ### Melee (5)
 
-**Melee Afflictions** 🔎 — `references/wiki/mechanics/arcane-melee-afflictions.md` (creado)
+**Melee Afflictions** 🔎 — `references/wiki/arcanes/melee-afflictions.md` (creado)
 Confirmado complejo. Fórmula de 4 pasos (MBD por proc → promedio por tipo → Affliction Hit →
 DoT tick). Tabla de restricción CC-state×enemy-state (Overguard bloquea todo; Cold-freeze solo
 permite Ragdoll). Exclusiones de mods elementales por tipo (Heat NO se beneficia salvo Heat
@@ -106,13 +106,13 @@ vez de 6. Posible bug de scaling exponencial con Faction/Status bonus, sin confi
 - Sinergiza con Arcane Ice Storm, Primary Frostbite, Secondary Shiver.
 → **Verdict: fórmula simple con escalado por rank a capturar (no es un valor fijo).**
 
-**Melee Duplicate** — `references/wiki/mechanics/arcane-melee-duplicate.md` (creado)
+**Melee Duplicate** — `references/wiki/arcanes/melee-duplicate.md` (creado)
 Chance 25%→100% por rank. El golpe duplicado **re-rollea** crit tier y status de forma
 independiente (no hereda el original). Exclusiones: Shield Gating en la instancia AoE separada,
 Seeking Talons no fuerza status en el duplicado, Exodia Contagion solo si el primer burst no mata.
 → **Verdict: simple, `references/*` propio — HECHO.**
 
-**Melee Influence** — `references/wiki/mechanics/arcane-melee-influence.md` (creado)
+**Melee Influence** — `references/wiki/arcanes/melee-influence.md` (creado)
 Confirmado complejo. Chance fija 20% (no escala), radio/duración sí escalan (10m/3s → 20m/18s).
 **Faction Damage Bonus se aplica 2× en daño directo y 3× en status procs** — detalle crítico no
 trivial. Lista cerrada de status propagables/excluidos. No refrescable mientras activo.
@@ -267,7 +267,7 @@ Dato adicional: solo funciona en secondarias, incompatible con `OPERATOR_SUIT` e
 → **Verdict: simple, confirmado con escalado y alcance (cualquier companion, sin restricción de
   proximidad documentada).**
 
-**Arcane Camisado** — `references/wiki/mechanics/arcane-camisado.md` (creado)
+**Arcane Camisado** — `references/wiki/arcanes/arcane-camisado.md` (creado)
 Fórmula limpia (1%→6% por ataque de minion, cap 10 stacks) pero lista cerrada de qué cuenta como
 "minion" (15 casos sí, 15 casos no). Fuera de scope real: depende de un concepto "minion invocado
 ataca" que el engine no modela hoy.
@@ -365,7 +365,7 @@ concepto más amplio de "entidades derivadas", no a resolver ítem por ítem.
 → **Verdict: más rico de lo capturado — stacking hasta 4x por canalizaciones simultáneas + efecto
   de curación secundario, no solo "Max Health por habilidad activa".**
 
-**Arcane Persistence** — `references/wiki/mechanics/arcane-persistence.md` (creado)
+**Arcane Persistence** — `references/wiki/arcanes/arcane-persistence.md` (creado)
 Cap de daño/s escala 750(R0)→500(R5). Umbral de Armor `>=700` (no estrictamente `>700` pese a la
 redacción). Se desactiva con Magnetic Status/Ability Nullifying. Bajo Overguard solo cappea el
 primer hit de cada ventana de 1s (limita mucho su efectividad real).
@@ -504,4 +504,4 @@ Storm.
   (`linearThresholdScale` + `source_attribute`)
 - `.working/c1-corpus-roadmap.md` §1 — tabla de corpus que este barrido alimenta
 - `Project/public/data/arcane-stats.override.json` — fuente del corpus
-- `references/wiki/mechanics/arcane-*.md` — los 6 `references/*` creados en este barrido
+- `references/wiki/arcanes/arcane-*.md` — los 6 `references/*` creados en este barrido

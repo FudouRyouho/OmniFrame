@@ -486,7 +486,7 @@ export function volt(): EnsembleIntention {
  * y el token `$$` se resuelve por SINTAXIS (`resolveToken`: WEAPON+ADD → op ADD), sin
  * entrada en `UPGRADE_MAP`. Cero código nuevo: sólo la anotación en el `.md`.
  *
- * Wiki (`references/wiki/abilities/Volt/Speed/Speed.md`): el buff de reload **stackea
+ * Wiki (`references/wiki/warframes/volt/speed.md`): el buff de reload **stackea
  * ADITIVAMENTE** con los mods de reload — `Speed(25%) × Intensify(1.3) + Quickdraw(48%)`.
  * Por eso aterriza en `mods_add_pct`, junto a los mods, y no en un bucket propio.
  *

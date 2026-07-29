@@ -1,0 +1,128 @@
+{{ArcaneBox}}'''Arcane Camisado''' is an [[Arcane Enhancement]] for Warframes that increases the {{Stat|Ability Strength}} of the next ability cast based on attacks from [[Summons|summoned minions]]. When fully ranked, the Arcane also gives minions 20% more movement speed.
+
+==Effect==
+{| class="emodtable"
+|-
+!Rank
+!Strength Increase
+!Maximum Increase
+|-
+|0||1%
+|10%
+|-
+|1||2%
+|20%
+|-
+|2||3%
+|30%
+|-
+|3||4%
+|40%
+|-
+|4||5%
+|50%
+|-
+|5||6%
+|60%
+|-
+|}
+
+{{Acquisition|*Can be bought from [[Eleanor]] of {{Faction|The Hex}} for {{sc|7,500}} at '''Rank 3: 2-For-1'''.
+*Rewarded from the [[1999 Calendar]].
+*Rewarded from Techrot Safes in [[Höllvania]] [[Hell-Scrub]] and [[Legacyte Harvest]] missions.
+*Rewarded from Scaldra Caches in Höllvania [[Exterminate]] missions.
+*Dropped by the {{E|H-09 Efervon Tank}} in Höllvania [[Assassination]] missions.
+*Rewarded from Höllvania [[Faceoff]] missions.
+*Dropped by the {{E|Scaldra Screamer}} in Höllvania [[Stage Defense]] missions.}}
+
+==Notes==
+*The following are counted as summons:
+**{{WF|Atlas}}' {{A|Rumblers}}
+**{{WF|Caliban}}'s {{A|Lethal Progeny}}
+***This includes [[Choralyst]]s summoned by the [[Summulyst]]
+***[[Conculyst]]s damaging enemies with {{A|Fusion Strike}} will also provide stacks
+**{{WF|Chroma}}'s {{A|Effigy}}
+**{{WF|Dante}}'s Paragrimms from {{A|Final Verse|Pageflight}}
+**{{WF|Equinox}}'s {{M|Duality}}
+**{{WF|Inaros}}' Swarm Kavats created by {{M|Desiccation's Curse}} and {{A|Scarab Swarm}}
+**{{WF|Khora}}'s {{Companion|Venari}}
+**{{WF|Loki}}'s {{A|Decoy}}
+***Damage dealt by {{M|Damage Decoy}} does '''not''' increase Arcane Camisado's stacks
+***The Decoy seems to only give stacks against enemies at melee range
+**{{WF|Nekros}}' {{A|Shadows of the Dead}}
+**{{WF|Nidus}}' Maggots from {{A|Ravenous}}
+**{{WF|Oraxia}}'s Scuttlers from {{A|Widow's Brood}}
+**{{WF|Titania}}'s Razorflies from {{A|Razorwing}}
+**{{WF|Uriel}}'s [[Uriel/Abilities|Demons]]
+***The movement speed bonus has minimal to no effect on any of his demons however.
+**{{WF|Wukong}}'s {{A|Celestial Twin}}
+**{{WF|Yareli}}'s {{M|Loyal Merulina}}
+*The following do '''not''' count as summons:
+**Enemies affected by {{D|Radiation}}
+**{{WF|Ash}}'s Shadow Clones from {{A|Blade Storm}}
+**{{WF|Citrine}}'s {{A|Prismatic Gem}}
+**{{WF|Dagath}}'s {{A|Rakhali's Cavalry}}
+**{{WF|Dante}}'s Noctua from {{A|Final Verse|Wordwarden}}
+**{{WF|Excalibur Umbra}}'s [[Excalibur/Abilities|Passive]]
+**{{WF|Hydroid}}'s {{A|Tentacle Swarm}}
+**{{WF|Mirage}}'s {{A|Hall of Mirrors}}
+**{{WF|Nokko}}'s {{A|Stinkbrain}} and {{A|Sporespring}}
+**{{WF|Nyx}}'s {{A|Mind Control}}
+**{{WF|Octavia}}'s {{A|Mallet}} and {{A|Resonator}}
+**{{WF|Protea}}'s {{A|Blaze Artillery}}
+**{{WF|Revenant}}'s {{A|Enthrall}}
+**{{WF|Sevagoth}}'s {{A|Reap}}'s shadows, including from {{M|Shadow Haze}}, and {{A|Exalted Shadow}}
+**{{WF|Sirius & Orion}}'s uncontrolled Warframe
+**{{WF|Styanax}}'s specters from {{M|Axios Javelineers}}
+**{{WF|Vauban}}'s {{A|Tesla Nervos}} and {{A|Minelayer}}
+**{{WF|Xaku}}'s {{A|The Lost|The Lost: Accuse}}
+**[[Companion]]'s {{M|Duplex Bond}}
+**[[Hound (Companion)|Hound]]'s {{M|Diversified Denial}}
+**{{Companion|Helminth Charger}}'s Cyst maggots from the [[Set Mods|Strain Mod Set]]
+**{{Companion|Smeeta Kavat}}'s {{M|Mischief}}
+**{{Weapon|Ballistica Prime}}'s ghosts from its on-kill effect
+**{{Weapon|Synoid Heliocor}}'s specters from its heavy attack kill effect
+**[[On Call Crew]]
+**[[Specter]]s
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|40}}
+*The following Arcane Collections are now available for Vosfor in Loid’s Arcane Dissolution: 
+**Hӧllvania Arcane Collection (includes the Hex and Temporal Archimedea Arcanes) 
+***Arcane Camisado
+
+{{ver|39}}
+*Fixed Nidus’ Ravenous Maggots not triggering Arcane Camisado.
+
+{{ver|38.5}}<br/>
+'''Scaldra Screamers:'''
+
+Scaldra Screamers also have a few Arcanes stuffed in their pockets — you’ll find when you stop their shrieking that they end up dropping one! Each Scaldra Screamer will drop one of the following Arcanes:
+
+*Arcane Camisado
+
+;FIXES
+
+'''Misc. Fixes:'''
+*Fixed the description for Arcane reward in the 1999 Calendar being incorrect. 
+
+{{ver|38.0.8}}
+*Fixed Clients experiencing performance issues from Nekros’ Shadows of the Dead with Arcane Camisado.
+*Fixed script error caused by max rank Arcane Camisado.
+
+{{ver|38.0.6}}
+*Updated Arcane Camisado's description to indicate that the buff only applies to the next Ability cast, then resets.
+*Fixed performance issues related to Arcane Camisado.
+
+{{ver|38.0}}
+*Introduced.
+}}
+
+{{ArcaneNav}}
+[[Category:Arcane Enhancements]]
+[[Category:Update 38]]
+[[Category:Warframe Arcanes]]
+[[Category:Hex Arcanes]]
+[[es:Camisado arcano]]
+[[fr:Arcane Camisado]]

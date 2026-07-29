@@ -458,7 +458,7 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 2. La derivación corre en la **acción de equipar** del ensemble (dispatch): `equipWarframe` lee "0" (el hecho "otorga exaltada" del dato de habilidad) → escribe **ambos** punteros (warframe + exaltada derivada) en A1 al mutar. **Sin círculo B→A1** (el puntero nace en A1, no se descubre en B).
 3. A1 = punteros puros (la lógica vive en la acción). Nodo derivado: flag `origen:derivado` + **acciones recortadas** (p. ej. solo `Upgrade`, sin `Swap`) = la entry `secondary_weapon` clonada y recortada.
 4. B = hidratación agnóstica pura (deref de A1, sin inyección estructural).
-5. Exaltada = arma de **canal real** (p. ej. `secondary`) → el ruteo agnóstico de buffs de C la alcanza **gratis** (un arcano de secundaria buffea también Reguladoras). Confirma que va en A1, no como conditional. **El "gratis" ya está construido:** `resolve/hydration/channel-routing.ts` resuelve canal → **`EntityId[]`** filtrando entidades por su `channel` (que `StaticHydrator` estampa al construirlas). Una exaltada que nazca como entidad con `channel: 'secondary'` la alcanza sin tocar el ruteo. La firma-lista es deliberada por esto: con firma escalar la exaltada le pisaría el slot al arma equipada. Verdad del juego que lo exige: `references/wiki/systems/archon-shards/archon-shards-table.md` — *"Affects Exalted Weapons of the appropriate class"*.
+5. Exaltada = arma de **canal real** (p. ej. `secondary`) → el ruteo agnóstico de buffs de C la alcanza **gratis** (un arcano de secundaria buffea también Reguladoras). Confirma que va en A1, no como conditional. **El "gratis" ya está construido:** `resolve/hydration/channel-routing.ts` resuelve canal → **`EntityId[]`** filtrando entidades por su `channel` (que `StaticHydrator` estampa al construirlas). Una exaltada que nazca como entidad con `channel: 'secondary'` la alcanza sin tocar el ruteo. La firma-lista es deliberada por esto: con firma escalar la exaltada le pisaría el slot al arma equipada. Verdad del juego que lo exige: `references/wiki/archon-shards/archon-shards-table.md` — *"Affects Exalted Weapons of the appropriate class"*.
 6. Re-derivación **continua**: cambiar warframe re-corre la acción; la **política de mods huérfanos** vive ahí.
 
 **Preguntas abiertas (requieren datos):** schema del dato de exaltada (¿`weapons` + marcador granted-by / canal / fixed? *lean:* nuevo JSON, no muy distinto de `weapons`) · shape de la declaración en el modelo de habilidad · política de mods huérfanos al re-derivar · **escalado cruzado** (exaltada ← power strength) = ability-like, **RED**, sub-concern separado.
@@ -1079,7 +1079,7 @@ nativo de esta fase).
 **Dominio:** engine / C2 (enemy scaling) — hermana de `OQ-ENGINE-15` (DR)
 
 **Contexto:** los coeficientes de `enemy-scaling.ts` se transcriben de `Enemy_Level_Scaling` (re-capturado
-raw 2026-07-19, `references/wiki/mechanics/raw/enemy-level-scaling.wikitext`). El propio raw advierte que las
+raw 2026-07-19, `references/wiki/mechanics/enemy-level-scaling.wikitext`). El propio raw advierte que las
 fórmulas "are derived from in-game testing and have **not** been confirmed or denied valid by Digital
 Extremes… accuracy still under review". Dos puntos de fidelidad abiertos:
 
@@ -1115,7 +1115,7 @@ medición in-game no se cierra con esto.
 Anarchs (health y shields); confianza plena en la tabla de scaling.
 **Vínculo:** **OQ-DATA-15** (el INPUT `faction`, hermana), **OQ-ENGINE-15** (DR, mismo "provisional hasta
 popup #1"), mirror `references/wiki/mechanics/enemy-level-scaling.md` (reconciliado 2026-07-19).
-**Fuente:** re-captura raw (`references/wiki/mechanics/raw/enemy-level-scaling.wikitext`). Auditoría: F5-P2 (2026-07-19).
+**Fuente:** re-captura raw (`references/wiki/mechanics/enemy-level-scaling.wikitext`). Auditoría: F5-P2 (2026-07-19).
 
 ---
 

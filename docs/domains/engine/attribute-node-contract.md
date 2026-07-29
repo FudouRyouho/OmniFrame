@@ -109,7 +109,7 @@ totalCritChance = baseCritChance × (1 + relativeCritBonus) + absoluteCritBonus
 
 ### ¹ Eclipse (Mirage)
 
-Eclipse provee hasta `STR × 200%` de bonus de daño (fuente: `references/wiki/modules/raw/maximization-data.lua`). Está expresado como porcentaje y se aplica **fuera** del pool aditivo de Serration — lo que lo ubicaría en `multiplicative`.
+Eclipse provee hasta `STR × 200%` de bonus de daño (fuente: `references/wiki/sources/maximization-data.lua`). Está expresado como porcentaje y se aplica **fuera** del pool aditivo de Serration — lo que lo ubicaría en `multiplicative`.
 
 ⚠️ **Pendiente de verificación**: confirmar contra la wiki si Eclipse es `(1 + bonus%)` multiplicativo puro, o si comparte pool con facción (como Roar), o si tiene interacción especial con luz/sombra. **Sin consumidor real hoy** — no modelado.
 

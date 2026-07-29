@@ -7,6 +7,7 @@
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Movement_Speed · https://wiki.warframe.com/w/Sprint_Speed · https://wiki.warframe.com/w/Maneuvers
 > Raw íntegro: `raw/movement-speed.wikitext`, `raw/sprint-speed.wikitext`, `raw/maneuvers.wikitext` (capturados vía `?action=raw`)
+> Raw: movement-speed.wikitext · sprint-speed.wikitext · maneuvers.wikitext
 
 Hechos del juego, no decisiones de OmniFrame.
 
@@ -90,4 +91,4 @@ Movement Speed +75%, Melee Attack Speed +75%, Reload Speed +25%. La wiki de Move
 explícitamente que **no** afecta melee attack speed — por eso son dos buffs y no uno, aunque la UI
 del juego los muestre colapsados en un solo renglón (`Speed Multiplier: 1,75x`).
 
-Detalle de la habilidad: `../abilities/Volt/Speed/Speed.md`.
+Detalle de la habilidad: `../abilities/Volt/Speed.md`.

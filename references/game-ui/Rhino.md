@@ -20,7 +20,7 @@ Drain: <ENERGY> 50 $EFFICIENCY
 Base Overguard: 1200 $STRENGTH
 Armor Multiplier: 2,5x $STRENGTH
 Time Invulnerable: 3s
-//! Overguard = (Base Overguard + Armor Multiplier × Total Armor) × Strength + Absorbed Damage — ver wiki/abilities/Rhino/Iron-Skin/Iron-Skin.md
+//! Overguard = (Base Overguard + Armor Multiplier × Total Armor) × Strength + Absorbed Damage — ver wiki/warframes/rhino/iron-skin.md
 #### IRON SHRAPNEL
 Damage: <DT_PUNCTURE> 100%
 Radius: 8m $RANGE

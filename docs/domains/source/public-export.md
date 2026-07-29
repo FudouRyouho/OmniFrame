@@ -14,7 +14,7 @@ juego. Es la **capa-1 real** de todo el pipeline: `warframe-items` lo consume, `
 también (vía su `scraper`), y de ahí sale todo `public/data`.
 
 Captura wikitext completa de la página oficial:
-[`../../../references/wiki/modules/raw/public-export.wikitext`](../../../references/wiki/modules/raw/public-export.wikitext).
+[`../../../references/wiki/sources/public-export.wikitext`](../../../references/wiki/sources/public-export.wikitext).
 
 ## Cómo se accede
 

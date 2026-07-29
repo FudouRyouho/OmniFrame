@@ -34,7 +34,7 @@ ability-stats.override.json             ← groups/stats actualizados; name/desc
 | `Project/public/data/ability-stats.override.json` | **Runtime SSoT**. No se edita a mano para `groups`/`stats`. |
 | `Project/src/core/engine/resolve/hydration/StaticHydrator.ts` | Consumidor final en el engine. |
 
-## Referencias wiki (`references/wiki/modules/raw/`)
+## Referencias wiki (`references/wiki/sources/`)
 
 Los módulos Lua de la wiki son referencia pasiva — nunca fuente primaria del pipeline. No se editan sin autorización.
 

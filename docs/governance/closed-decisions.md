@@ -331,7 +331,7 @@ facción×elemento) es un mecanismo **aparte** y single-dipea — no se confunde
 - **2 familias reales (13 casos, ~15% del residuo):** `STACK_DECAY_BUFF` (buff on-event con decay,
   8 arcanos — `arch-decisions.md §11`) y `linearThresholdScale` + `source_attribute`
   (cross-attribute-read con cap, 5 arcanos — `arch-decisions.md §12`).
-- **6 casos complejos con `references/wiki/mechanics/arcane-*.md` propio** (Afflictions, Duplicate,
+- **6 casos complejos con `references/wiki/arcanes/arcane-*.md` propio** (Afflictions, Duplicate,
   Influence, Camisado, Persistence, Universal Fallout) — demasiado ricos para generalizar, cada uno
   con su propia fórmula documentada.
 - **~30 genuinamente per-arcano** (sin forma compartida) — necesitan fórmula dedicada individual.

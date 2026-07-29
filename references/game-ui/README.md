@@ -133,7 +133,7 @@ Los siguientes campos tienen **sintaxis `<key:value/>` acordada** pero el parser
 
 **Distinción de tags:** `<key:value/>` es parseable (minúsculas + colon + self-closing). `<DT_HEAT>` y similares son pass-through de la UI — el parser los ignora, van al label tal cual.
 
-**Multi-scaling** (`upgrade_by` como array): cuando un stat escala con dos modificadores, el parser toma el primero; el segundo se ignora hasta que exista `formulas/ability/`. Para verificar la fórmula real, consultar `references/wiki/modules/raw/maximization-data.lua`.
+**Multi-scaling** (`upgrade_by` como array): cuando un stat escala con dos modificadores, el parser toma el primero; el segundo se ignora hasta que exista `formulas/ability/`. Para verificar la fórmula real, consultar `references/wiki/sources/maximization-data.lua`.
 
 ---
 

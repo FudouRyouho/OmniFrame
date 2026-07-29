@@ -5,6 +5,7 @@
 > Fuente de verdad de: comportamiento de procs — aplicación por pellet, DoT, stacks de debuff, duración/ciclo de vida, CC
 > No usar para: elección del tipo de proc por peso de daño — ver `damage-types.md` §Regla de elección de proc
 > Última actualización: 2026-07-15
+> Raw: status-effect.wikitext
 
 ## Distinción fundamental
 

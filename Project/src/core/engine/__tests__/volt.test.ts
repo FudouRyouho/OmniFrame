@@ -10,7 +10,7 @@
  *     `references/game-ui/Volt.md`. Es la prueba de que el pipeline
  *     `.md → parser → override → AbilityRepository → grafo` cierra solo.
  *
- * Fidelidad (`references/wiki/abilities/Volt/Speed/Speed.md`): el buff de reload
+ * Fidelidad (`references/wiki/warframes/volt/speed.md`): el buff de reload
  * **stackea ADITIVAMENTE** con los mods de reload — la wiki lo declara con ejemplo:
  * `Speed(25%) × Intensify(1.3) + Quickdraw(48%)`. Por eso aterriza en `mods_add_pct`,
  * junto a los mods, y no en un bucket propio.

@@ -70,7 +70,7 @@ describe('Rhino fixture_01 — base + mods Tier 1 (flujo A→B→C, entidad warf
 //
 // Primer buff source→target en C1-estático: un warframe compone un bonus escalado por su PROPIO
 // strength (Roar = 0.50×str), que fluye CROSS-ENTITY al pool de facción del arma y multiplica su
-// daño — coincidiendo con la matemática exacta de la wiki (references/wiki/abilities/Rhino/Roar/Roar.md).
+// daño — coincidiendo con la matemática exacta de la wiki (references/wiki/warframes/rhino/roar.md).
 //
 // SINTÉTICO a nivel engine (2 entidades + modifier hand-built): NO pasa por la hidratación de ability
 // (eso es Fase 1b, con dato real). Prueba la CAPACIDAD (arista del grafo vía `source_entity`), no el
