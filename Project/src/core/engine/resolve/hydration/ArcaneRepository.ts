@@ -16,7 +16,7 @@
  */
 import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
-import { resolveUpgradeEntry } from "@shared/types/modifier";
+import { resolveUpgradeEntry, decodeUpgradeValue } from "@shared/types/modifier";
 
 type ArcaneValueRaw = {
   base_value: number[] | null;
@@ -68,7 +68,7 @@ export class ArcaneRepository {
 
         const idx = Math.max(0, Math.min(rank, val.base_value.length - 1));
         const rawValue = val.base_value[idx];
-        const value = upgradeEntry.toPercent ? (rawValue - 1) * 100 : rawValue;
+        const value = decodeUpgradeValue(upgradeEntry, rawValue);
 
         modifiers.push(makeModifier(
           {

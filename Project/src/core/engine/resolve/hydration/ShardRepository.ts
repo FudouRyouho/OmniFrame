@@ -2,7 +2,7 @@
  * @domain Engine / Hydration
  * @status en-desarrollo
  */
-import { resolveUpgradeEntry } from "@shared/types/modifier";
+import { resolveUpgradeEntry, decodeUpgradeValue } from "@shared/types/modifier";
 import type { ModifierOperation } from "@shared/types/modifier";
 
 export interface ShardResolution {
@@ -38,7 +38,7 @@ export class ShardRepository {
     if (!entry) return null;
 
     const rawValue = Array.isArray(stat.value) ? stat.value[isTau ? 1 : 0] : stat.value;
-    const value = entry.toPercent ? (rawValue - 1) * 100 : rawValue;
+    const value = decodeUpgradeValue(entry, rawValue);
 
     return { attr: entry.attr, op: entry.op, target_channel: entry.target_channel, value };
   }

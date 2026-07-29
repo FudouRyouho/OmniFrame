@@ -26,7 +26,7 @@ import { BASELINE_GAME_LAWS } from '../contracts';
 import type { SimulationEntity, AttributeNode, AccumulatorModifier, SimulationContext } from '../contracts';
 
 const node = (base: number): AttributeNode => ({
-  base, base_flat: 0, base_add_pct: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: base,
+  base, base_flat: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: base,
 });
 
 const CTX: SimulationContext = {
@@ -234,7 +234,6 @@ describe('cross-stat — restricciones que la solución deberá respetar (NO pru
   const ironSkinNode = (totalArmor: number, strengthFinal: number, absorbed = 0): AttributeNode => ({
     base: OG_BASE,
     base_flat: ARMOR_MULT * totalArmor,
-    base_add_pct: 0,
     mods_add_pct: strengthFinal - 100,
     total_flat: absorbed,
     multiplicative: 1,

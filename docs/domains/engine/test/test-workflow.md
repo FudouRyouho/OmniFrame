@@ -4,7 +4,7 @@ Rol: "Workflow de testing derivado del engine: el CÓMO (clic + gramática ✓/f
 Impacto_ID: "E-TestWorkflow"
 Fidelidad_Fisica: "Project/src/core/engine/output/consume.ts"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-07-29"
 ---
 
 # Test workflow — testing derivado del engine
@@ -23,7 +23,7 @@ motor) es lo único bajo prueba. Como el motor es auto-auditable por construcci�
 buckets + trace), el clic es genérico: una implementación sirve a todos los consumidores.
 
 ```ts
-consume(intention).weapon(id).node('WEAPON_ADD_DAMAGE')   // (i) los 5 buckets + base + final
+consume(intention).weapon(id).node('WEAPON_ADD_DAMAGE')   // (i) los 4 buckets + base + final
 consume(intention, undefined, { trace: true })
   .weapon(id).trace('WEAPON_ADD_DAMAGE')                   // (ii) procedencia (debug, opt-in)
 ```

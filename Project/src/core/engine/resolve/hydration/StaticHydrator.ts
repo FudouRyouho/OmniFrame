@@ -9,6 +9,7 @@ import { ShardRepository } from "./ShardRepository";
 import { IncarnonRepository } from "./IncarnonRepository";
 import { ArcaneRepository } from "./ArcaneRepository";
 import { AbilityRepository } from "./AbilityRepository";
+import { resolveChannelEntities } from "./channel-routing";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
@@ -26,17 +27,21 @@ export class StaticHydrator {
     const entities: SimulationEntity[] = [];
     const modifiers: Modifier[] = [];
 
-    const intents: { entity_id: string, slots: Record<number, { mod_id?: string; level?: number }>, profile_id: string, evolution_perks?: Record<number, string>, arcanes?: Record<number, { arcane_id: string; rank: number }> }[] = [];
+    // `channel` viaja en el intent y se estampa en la entidad al construirla: es la clave que el
+    // ruteo por canal consulta (`channel-routing.ts`). El bridge también lo escribe, pero POST-resolve
+    // y solo para la salida — demasiado tarde para que C lo use.
+    const intents: { entity_id: string, channel: string, slots: Record<number, { mod_id?: string; level?: number }>, profile_id: string, evolution_perks?: Record<number, string>, arcanes?: Record<number, { arcane_id: string; rank: number }> }[] = [];
 
     intents.push({
       entity_id: ensemble.warframe.id,
+      channel: "warframe",
       slots: ensemble.warframe.slots,
       profile_id: "base",
       arcanes: ensemble.warframe.arcanes
     });
-    if (ensemble.weapons.primary) intents.push({ entity_id: ensemble.weapons.primary.id, slots: ensemble.weapons.primary.slots, profile_id: ensemble.weapons.primary.active_profile_id, evolution_perks: ensemble.weapons.primary.evolution_perks, arcanes: ensemble.weapons.primary.arcanes });
-    if (ensemble.weapons.secondary) intents.push({ entity_id: ensemble.weapons.secondary.id, slots: ensemble.weapons.secondary.slots, profile_id: ensemble.weapons.secondary.active_profile_id, evolution_perks: ensemble.weapons.secondary.evolution_perks, arcanes: ensemble.weapons.secondary.arcanes });
-    if (ensemble.weapons.melee) intents.push({ entity_id: ensemble.weapons.melee.id, slots: ensemble.weapons.melee.slots, profile_id: ensemble.weapons.melee.active_profile_id, evolution_perks: ensemble.weapons.melee.evolution_perks, arcanes: ensemble.weapons.melee.arcanes });
+    if (ensemble.weapons.primary) intents.push({ entity_id: ensemble.weapons.primary.id, channel: "primary", slots: ensemble.weapons.primary.slots, profile_id: ensemble.weapons.primary.active_profile_id, evolution_perks: ensemble.weapons.primary.evolution_perks, arcanes: ensemble.weapons.primary.arcanes });
+    if (ensemble.weapons.secondary) intents.push({ entity_id: ensemble.weapons.secondary.id, channel: "secondary", slots: ensemble.weapons.secondary.slots, profile_id: ensemble.weapons.secondary.active_profile_id, evolution_perks: ensemble.weapons.secondary.evolution_perks, arcanes: ensemble.weapons.secondary.arcanes });
+    if (ensemble.weapons.melee) intents.push({ entity_id: ensemble.weapons.melee.id, channel: "melee", slots: ensemble.weapons.melee.slots, profile_id: ensemble.weapons.melee.active_profile_id, evolution_perks: ensemble.weapons.melee.evolution_perks, arcanes: ensemble.weapons.melee.arcanes });
 
     // 2. Hydrate Entities and Modifiers
     intents.forEach(intent => {
@@ -44,6 +49,7 @@ export class StaticHydrator {
       if (!dna) return;
 
       const entity = this.createBaseEntity(dna, intent.profile_id);
+      entity.channel = intent.channel;
       const combination_mods: ElementalMod[] = [];
       
       Object.entries(intent.slots).forEach(([index_str, slot]) => {
@@ -107,7 +113,6 @@ export class StaticHydrator {
          entity.attributes[type] = {
            base: value,
            base_flat: 0,
-           base_add_pct: 0,
            mods_add_pct: 0,
            total_flat: 0,
            multiplicative: 1.0,
@@ -171,28 +176,20 @@ export class StaticHydrator {
       entities.push(entity);
     });
 
-    // OQ-ENGINE-4: Consumer loop de Archon Shards
-    const channelToEntityId: Record<string, string | undefined> = {
-      primary:   ensemble.weapons.primary?.id,
-      secondary: ensemble.weapons.secondary?.id,
-      melee:     ensemble.weapons.melee?.id,
-    };
-
+    // OQ-ENGINE-4: Consumer loop de Archon Shards. El shard nace en el warframe; si su token trae
+    // sub-familia, el `target_channel` lo redirige en la pasada de ruteo de abajo — igual que un
+    // arcano o un mod. Acá ya no se resuelve el canal: hacerlo era la razón de que el ruteo
+    // existiera una sola vez y solo para shards.
     ensemble.warframe.shards.forEach(shard => {
       const resolved = ShardRepository.resolve(shard.type, shard.stat, shard.is_tau ?? false);
       if (!resolved) return;
-
-      const targetId = resolved.target_channel
-        ? channelToEntityId[resolved.target_channel]
-        : ensemble.warframe.id;
-
-      if (!targetId) return;
 
       modifiers.push(makeModifier(
         {
           id: `shard:${shard.type}:${shard.stat}`,
           source_id: `Shard:${shard.type}`,
-          target_entity: targetId,
+          target_entity: ensemble.warframe.id,
+          target_channel: resolved.target_channel,
           target_attribute: resolved.attr,
         },
         resolved.op,
@@ -213,7 +210,31 @@ export class StaticHydrator {
       });
     }
 
-    return { entities, modifiers };
+    // ── Ruteo por canal — pasada ÚNICA sobre todos los modifiers ────────────────────────
+    // El `{cuál}` se resuelve acá, en un solo lugar y agnóstico a la fuente (shard, arcano, mod).
+    // Antes vivía dentro del loop de shards: por eso un arcano de warframe con canal apuntaba al
+    // nodo del warframe —que no tiene `WEAPON_ADD_DAMAGE`— y se perdía en silencio.
+    //
+    // El motor NO rutea por canal: filtra por `target_entity`. Esta pasada es la que convierte el
+    // canal en entidad, así que después de acá ningún modifier conserva `target_channel` sin
+    // resolver. Un canal puede alcanzar N entidades (ver `channel-routing.ts`) ⇒ fan-out: un
+    // modifier por entidad alcanzada, con id derivado para no colisionar en el trace.
+    const routed: Modifier[] = [];
+    for (const m of modifiers) {
+      if (!m.target_channel) { routed.push(m); continue; }
+      const targetIds = resolveChannelEntities(m.target_channel, entities);
+      // Canal vacío (sin arma equipada en ese slot) ⇒ se descarta, como hacía el loop de shards.
+      for (const id of targetIds) {
+        routed.push({
+          ...m,
+          id: targetIds.length > 1 ? `${m.id}@${id}` : m.id,
+          target_entity: id,
+          target_channel: undefined,
+        });
+      }
+    }
+
+    return { entities, modifiers: routed };
   }
 
 
@@ -232,7 +253,6 @@ export class StaticHydrator {
       attributes[id] = {
         base: value,
         base_flat: 0,
-        base_add_pct: 0,
         mods_add_pct: 0,
         total_flat: 0,
         multiplicative: 1.0,
@@ -252,7 +272,7 @@ export class StaticHydrator {
       for (const pool of GLOBAL_DAMAGE_POOLS) {
         if (attributes[pool]) continue;
         attributes[pool] = {
-          base: 100, base_flat: 0, base_add_pct: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
+          base: 100, base_flat: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
         };
       }
     }

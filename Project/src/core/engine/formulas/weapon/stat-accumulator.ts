@@ -5,7 +5,7 @@
  * El acumulador de un stat (fórmula de referencia D-6 / §4.1) + el factor del bucket de daño global.
  * Extraído de `SimulationEngine.calculateCurrentValue` (P2a, **identidad** — comportamiento idéntico).
  *
- * Vocabulario (`docs/domains/engine/design/vocabulary.md`): `base` = input · los **5 buckets** = las
+ * Vocabulario (`docs/domains/engine/design/vocabulary.md`): `base` = input · los **4 buckets** = las
  * ranuras acumuladoras · `pool` = grupo de apilado aditivo `(1+Σ)` · `final` = output.
  *
  * Que un pool GLOBAL se aplique leyendo el ratio `final/base` de un nodo designado es `DC-OQ-ENGINE-1`
@@ -16,13 +16,12 @@ import type { AttributeNode } from "../../contracts";
 import { applyAdditiveBonus } from "../common/scaling-base";
 
 /**
- * Valor resuelto de un nodo (genérico, cualquier stat): `(Base+base_flat)×(1+base_add%)` escalado por
+ * Valor resuelto de un nodo (genérico, cualquier stat): `(Base+base_flat)` escalado por
  * `mods_add_pct`, más `total_flat` post-escala, todo por `multiplicative`. La fórmula que
  * `upgrade-tokens.md §fórmula de referencia` declara y que `SimulationEngine` calculaba inline.
  */
 export function resolveStatValue(node: AttributeNode): number {
-  const scaledBase = applyAdditiveBonus(node.base + node.base_flat, node.base_add_pct);
-  const withMods = applyAdditiveBonus(scaledBase, node.mods_add_pct);
+  const withMods = applyAdditiveBonus(node.base + node.base_flat, node.mods_add_pct);
   return (withMods + node.total_flat) * node.multiplicative;
 }
 

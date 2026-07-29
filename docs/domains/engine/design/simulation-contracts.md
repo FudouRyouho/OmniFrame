@@ -4,7 +4,7 @@ Rol: "Contratos técnicos base del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-07-29"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
 Dependidos:
@@ -77,17 +77,16 @@ Un nodo en el grafo que gestiona su propio valor acumulado mediante buckets segr
 - **Schema**:
   - `base`: Valor inicial (ADN).
   - `base_flat`: Suma fija a la base (ej: +900 Armor).
-  - `base_add_pct`: Escala de la base previa a mods.
   - `mods_add_pct`: Acumulador de mods (ej: +165%).
   - `total_flat`: Suma fija final.
   - `multiplicative`: Producto de multiplicadores.
-- **Fórmula de Resolución**: `((base + base_flat) * (1 + base_add_pct/100) * (1 + mods_add_pct/100) + total_flat) * multiplicative`.
+- **Fórmula de Resolución**: `((base + base_flat) * (1 + mods_add_pct/100) + total_flat) * multiplicative`.
 
 ### 5.3 El Modificador (Modifier)
 La instrucción que altera un Atributo.
 - **Source**: Entidad que lo origina (ej: Mod `Serration`).
 - **Target**: Atributo al que afecta (ej: `WEAPON_ADD_DAMAGE`).
-- **Operation**: `ADD` | `MULTIPLICATIVE` | `BASE_FLAT` | `BASE_ADD_PCT` | `ADD_FLAT` | **`CONDITION_OVERLOAD`** (familia CO/GunCO).
+- **Operation**: discriminante de la union. **Acumulador** (`value` ES el efecto, la op ES el bucket): `ADD` | `ADD_FLAT` | `BASE_FLAT` | `MULTIPLICATIVE`. **Familia** (el efecto lo computa una fórmula desde el contexto, cada una con sus factores): `CONDITION_OVERLOAD` | `MELEE_COMBO_MULT` | `SNIPER_COMBO_MULT` | `COMBO_SCALED_ADD` | `STACK_DECAY_BUFF`.
 - **co_factors**: (Solo `CONDITION_OVERLOAD`) nombres de las dos dimensiones de contexto (`stacks_var`, `status_count_var`). El valor lo calcula `coBonusPct`; el bucket lo decide el `co_behavior` del ataque. Ver `arch-decisions.md §9`.
 - **Condition**: (Opcional) Contexto bajo el cual se activa.
 
@@ -158,7 +157,7 @@ interface TraceNode {
   final_value: number;
   steps: {
     source: string; // "Mod:Serration", "Arcane:Fury", "DNA:Base"
-    bucket: "base" | "base_flat" | "base_add_pct" | "mods_add_pct" | "total_flat" | "multiplicative";
+    bucket: "base" | "base_flat" | "mods_add_pct" | "total_flat" | "multiplicative";
     value: number;
     op: "ADD" | "MUL";
   }[];

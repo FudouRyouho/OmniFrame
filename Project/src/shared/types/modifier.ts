@@ -1,6 +1,8 @@
 /**
  * @domain Shared / Types / Modifier
- * @SSoT docs/semantic/upgrade-tokens.md
+ * @SSoT de la LISTA de tokens: este archivo (`UPGRADES`). `docs/semantic/upgrade-tokens.md` NO la
+ * replica —replicarla era la fuente del drift— sino que aporta lo que el código no tiene: evidencia
+ * por token, frontera negativa (qué NO puede declarar un token) y el registro de lo inexpresable.
  *
  * Vocabulario del sistema de modificadores. Aplica a cualquier fuente que
  * modifique atributos del engine: mods, pasivas, habilidades, arcanos, etc.
@@ -22,11 +24,14 @@
 // Ops de ACUMULADOR: `value` ES el efecto y la operación ES el bucket (el `switch` de resolveNode).
 // Contrapuestas a las ops de FAMILIA (abajo), donde el efecto lo COMPUTA una fórmula desde el
 // contexto. Esta división es el discriminante de la union `Modifier` (contracts/primitives) — §10.
+// Las 4 ops mapean 1:1 con los 4 buckets del nodo, y `OPERATION_MAP` (abajo) las cubre exacto:
+// toda op de acumulador es alcanzable desde un segmento del token D-6, y toda op tiene bucket.
+// Hubo una 5ª, `BASE_ADD_PCT`, que no cumplía ninguna de las dos: sin segmento que la derivara y
+// sin emisor. Ver el comentario de `AttributeNode` en engine/contracts/primitives.ts.
 export type AccumulatorOperation =
   | 'ADD'
   | 'ADD_FLAT'
   | 'BASE_FLAT'
-  | 'BASE_ADD_PCT'
   | 'MULTIPLICATIVE'
 
 export type ModifierOperation =
@@ -185,10 +190,29 @@ export const UPGRADES = [
   'WEAPON_ADD_COMBO_COUNT_CHANCE',
   // ── WEAPON — sub-familia clase (D-6 extensión, activa 2026-05-26) ────────
   // Patrón: {FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
-  // Sin entrada en UPGRADE_MAP — pipeline deuda D-7. Engine los consumirá directamente.
+  // Sin entrada en UPGRADE_MAP: `resolveToken` los deriva y emite `target_channel`.
+  // La sub-familia declara el `{cuál}` (a qué arma del warframe apunta), NO el dominio del
+  // atributo: el ruteo lo hace la hidratación vía `target_channel` (`channel-routing.ts`).
+  // Portadores de los 3 primeros: Archon Shards crimson. De los 6 siguientes: arcanos de
+  // WARFRAME que buffean un arma (por eso el canal es imprescindible — montados en el
+  // warframe, su `target_entity` no es donde aterriza el efecto).
   'WEAPON_PRIMARY_ADD_STATUS_CHANCE',
   'WEAPON_SECONDARY_ADD_CRIT_CHANCE',
   'WEAPON_MELEE_ADD_CRIT_MULT',
+  // Arcane Rage, Arcane Rise (on_headshot / on_reload)
+  'WEAPON_PRIMARY_ADD_DAMAGE',
+  // Arcane Acceleration, Arcane Tempo (on_critical_hit)
+  'WEAPON_PRIMARY_ADD_FIRE_RATE',
+  // Arcane Momentum (on_critical_hit)
+  'WEAPON_PRIMARY_ADD_RELOAD_SPEED',
+  // Arcane Awakening, Arcane Precision (on_reload / on_headshot)
+  'WEAPON_SECONDARY_ADD_DAMAGE',
+  // Arcane Velocity (on_critical_hit)
+  'WEAPON_SECONDARY_ADD_FIRE_RATE',
+  // Arcane Blade Charger (on_primary_weapon_kill) — cruzado: kill con rifle → daño de melee.
+  // El hermano cruzado `Arcane Primary Charger` (on_melee_kill) usa WEAPON_PRIMARY_ADD_DAMAGE.
+  // Los tres ejes viven separados en el dato: destino = token · cuál = canal · cuándo = condition.
+  'WEAPON_MELEE_ADD_DAMAGE',
   // ── AVATAR — habilidades ─────────────────────────────────────────────────
   'AVATAR_ADD_ABILITY_STRENGTH',
   'AVATAR_ADD_ABILITY_RANGE',
@@ -265,10 +289,13 @@ export function getUpgradeFamily(upgrade: Upgrade): UpgradeFamily {
 }
 
 // ─── UPGRADE_MAP ─────────────────────────────────────────────────────────────
-// [D-7 Fase 3, 2026-06-14] Encogido a su núcleo irreducible. `resolveToken()` cubre
-// las identidades (attr=token) y los acumuladores propios (FLAT/BASE que NO convergen);
-// UPGRADE_MAP retiene solo lo que la sintaxis NO deriva: aliases, flags y la
-// convergencia FLAT/BASE → nodo del par ADD.
+// Núcleo irreducible: `resolveToken()` cubre las identidades (nodo = token, porque el `{cómo}` es
+// ADD y no hay sub-familia que quitar) y los acumuladores propios (FLAT/BASE que NO convergen);
+// UPGRADE_MAP retiene solo lo que la sintaxis NO deriva: aliases, flags y la convergencia
+// FLAT/BASE → nodo del par ADD. Esas 13 convergencias NO son deuda: son la mitad no-derivable de
+// la función `token → nodo`. Cuál FLAT/BASE converge y cuál es stat propio es conocimiento de
+// dominio, no sintaxis (`AVATAR_FLAT_HEALTH_REGEN`, HP/s plano, NO converge a
+// `AVATAR_ADD_HEALTH_REGEN`, que es %: son stats distintos).
 // Consumo: `resolveUpgradeEntry(token)` (definida más abajo) — usada por los
 // 4 repos de hydration (Mod/Arcane/Incarnon/Shard).
 //
@@ -338,13 +365,29 @@ const SUB_FAMILY_CHANNELS: Record<string, string> = {
 }
 
 // Resuelve un token D-6 en { attr, op, target_channel? } sin consultar UPGRADE_MAP.
-// Para tokens sin sub-familia: attr = token. Para tokens con sub-familia: attr = token sin sub-familia.
-// Fallback de ModRepository para tokens no registrados en UPGRADE_MAP (deuda D-7).
+//
+// TOKEN ≠ NODO. El token declara TRES cosas y el nodo es sólo dos de ellas:
+//   TOKEN = {dónde}_{cómo}_{qué}   "qué modifico y cómo entra"   WEAPON_BASE_CRIT_CHANCE
+//   NODO  = {dónde}_{qué}          dónde se acumula              WEAPON_ADD_CRIT_CHANCE
+// El `{cómo}` **se queda en el token**: es lo que dice qué significa el `20` del dato, y hay 101
+// símbolos auditables donde hay 1446 valores que no lo son. `resolveToken` implementa la parte
+// derivable de `token → nodo` (quitar la sub-familia); las convergencias FLAT/BASE→ADD son la otra
+// parte de la MISMA función, hoy escrita a mano en UPGRADE_MAP porque no es derivable por sintaxis.
+// Prueba de que no son el mismo espacio: `WEAPON_ADD_HEAVY_EFFICIENCY` y `WEAPON_ADD_COMBO_INITIAL`
+// existen como NODO y no están en `UPGRADES` — nodos sin token. Y a la inversa, `attribute-registry`
+// es subset del vocabulario porque sólo las variantes ADD son nodo propio.
+//
+// Fallback de ModRepository para tokens no registrados en UPGRADE_MAP.
 export function resolveToken(token: Upgrade): UpgradeMapEntry | undefined {
   const parts = token.split('_')
   if (parts.length < 3) return undefined
 
-  const subFamily = SUB_FAMILY_CHANNELS[parts[1]]
+  // La sub-familia SOLO existe bajo `WEAPON` (D-6 §sub-familia): declara a cuál de las tres armas
+  // del warframe apunta el efecto, y esa pregunta no tiene sentido en otra familia. Sin este gate
+  // `AVATAR_MELEE_ADD_ABILITY_STRENGTH`, `VEHICLE_PRIMARY_ADD_SPEED` y `MELEE_MELEE_ADD_ATTACK_SPEED`
+  // resuelven y devuelven basura. Funcionaba sólo porque {PRIMARY,SECONDARY,MELEE} y
+  // {ADD,BASE,FLAT,MULT} no se solapan — invariante accidental que nada declaraba ni verificaba.
+  const subFamily = parts[0] === 'WEAPON' ? SUB_FAMILY_CHANNELS[parts[1]] : undefined
   const opIdx     = subFamily ? 2 : 1
   const op        = OPERATION_MAP[parts[opIdx]]
   if (!op) return undefined
@@ -404,12 +447,26 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
 
 // ─── resolveUpgradeEntry ──────────────────────────────────────────────────────
 // Encapsula el patrón `isUpgrade` guard + `UPGRADE_MAP[token] ?? resolveToken(token)`
-// que estaba duplicado literal en los 4 repos de hydration (Fase 2 Slice A,
-// campaña de saneamiento `@core`). Solo resuelve el token al vocabulario — NO
-// aplica `toPercent` al valor: cada caller decide `entry.toPercent ? (raw-1)*100
-// : raw` sobre su propio rawValue (la extracción del rawValue difiere por repo:
-// array indexado por rank, clamp, lookup por alias, etc. — no es unificable).
+// que estaba duplicado literal en los 4 repos de hydration. Solo resuelve el token
+// al vocabulario — NO extrae el valor: la extracción del rawValue difiere por repo
+// (array indexado por rank, clamp, lookup por alias) y no es unificable.
 export function resolveUpgradeEntry(token: string | null | undefined): UpgradeMapEntry | undefined {
   if (!token || !isUpgrade(token)) return undefined
   return UPGRADE_MAP[token] ?? resolveToken(token)
+}
+
+// ─── decodeUpgradeValue ───────────────────────────────────────────────────────
+// `toPercent` es CODIFICACIÓN del dato, no unidad semántica: un JSON guarda `1.30`
+// donde otro guarda `30` para el mismo "+30%". Aplicarlo es un paso propio, posterior
+// a la extracción del rawValue (que sí difiere por repo) — por eso vive acá y no
+// dentro de `resolveUpgradeEntry`. Los 4 repos de hydration repetían esta línea literal.
+//
+// ⚠️ Hogar PROVISIONAL. Que la codificación viaje keyed por token mezcla dos ejes: el
+// token dice qué significa el valor, no en qué formato viene escrito. El lugar honesto
+// es la normalización de datos (el puerto "0"), que dejaría todos los overrides en la
+// misma escala y haría `toPercent` innecesario. Eso es cambio de dato, no de engine —
+// ver `OQ-DATA-9`. Hasta entonces: un solo punto de aplicación, no cinco.
+// Hoy lo usa 1 token (`GAMEPLAY_MULT_FACTION_DAMAGE`).
+export function decodeUpgradeValue(entry: UpgradeMapEntry, rawValue: number): number {
+  return entry.toPercent ? (rawValue - 1) * 100 : rawValue
 }

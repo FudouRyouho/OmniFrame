@@ -4,7 +4,7 @@
  */
 import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
-import { resolveUpgradeEntry } from "@shared/types/modifier";
+import { resolveUpgradeEntry, decodeUpgradeValue } from "@shared/types/modifier";
 
 type PerkModifierRaw = {
   upgrade_type: string | null;
@@ -88,7 +88,7 @@ export class IncarnonRepository {
           typeof raw === "object"
             ? (entry.alias !== null ? (raw[entry.alias] ?? 0) : 0)
             : raw;
-        const value = upgradeEntry.toPercent ? (rawValue - 1) * 100 : rawValue;
+        const value = decodeUpgradeValue(upgradeEntry, rawValue);
 
         modifiers.push(makeModifier(
           {

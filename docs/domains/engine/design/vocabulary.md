@@ -4,7 +4,7 @@ Rol: "SSoT del vocabulario interno del engine — el idioma con el que @core se 
 Impacto_ID: "E-Vocabulary"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-07-17"
-Fecha_de_actualizacion: "2026-07-19"
+Fecha_de_actualizacion: "2026-07-29"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/calculating-bonuses.md"
@@ -33,7 +33,7 @@ cada sesión lo **re-derive**.
 La fórmula que corre **cada nodo** (`formulas/weapon/stat-accumulator.ts::resolveStatValue`):
 
 ```
-final = [ (base + base_flat) · (1 + base_add_pct) · (1 + mods_add_pct) + total_flat ] · multiplicative
+final = [ (base + base_flat) · (1 + mods_add_pct) + total_flat ] · multiplicative
 ```
 
 Y su forma honesta, la de la SSoT del juego (`calculating-bonuses.md`: `Base × ∏_pools (1 + Σ) + ΣFlat`):
@@ -46,7 +46,7 @@ final = (base + Σflat_base) × ∏_pool(1 + Σ_pool) × ∏_indep(1 + x) + Σfl
 |---|---|---|
 | **node** | Un **stat/atributo de una entidad** — donde corre la fórmula. `WEAPON_ADD_MULTISHOT`, `WEAPON_FIRE_RATE`, un daño-token. | Es la unidad que el grafo resuelve. |
 | **base** | El **dato de entrada** del nodo. Viene de la **hidratación** (A→B, del profile/DNA del ítem). | **NO es bucket.** Nada lo acumula: no se escribe, se recibe. Los mods flat escriben `base_flat`, no `base`. |
-| **bucket** | Una de las **5 ranuras acumuladoras** del nodo, cada una con **rol fijo** en la fórmula: `base_flat`, `base_add_pct`, `mods_add_pct`, `total_flat`, `multiplicative`. | Un bucket es **lo único que se llena con contribuciones y lo único que se resetea**. **El código ya trazaba esta línea** (§1.1). |
+| **bucket** | Una de las **4 ranuras acumuladoras** del nodo, cada una con **rol fijo** en la fórmula: `base_flat`, `mods_add_pct`, `total_flat`, `multiplicative`. | Un bucket es **lo único que se llena con contribuciones y lo único que se resetea**. **El código ya trazaba esta línea** (§1.1). |
 | **pool** | Un **grupo de apilado ADITIVO**: sus miembros **suman entre sí** (`100% + 33%`) y el grupo entra como **`(1 + Σ)`**, multiplicando contra otros pools. | Serration y los demás base-damage = un pool. Roar + Bane = otro pool. Suman adentro, multiplican afuera. |
 | **multiplicador independiente** | Multiplica **solo**: `× (1 + x)`. **NO suma con nadie.** | CO-`multiplying`, combo, crit. No entra a ningún pool. |
 | **flat** | Suma **cruda**, sin `%`. | `base_flat` (pre-escala), `total_flat` (post-escala). No es pool: no lleva porcentaje. |
@@ -54,29 +54,29 @@ final = (base + Σflat_base) × ∏_pool(1 + Σ_pool) × ∏_indep(1 + x) + Σfl
 
 ### 1.1 Este LOCK no inventa nada: el código ya trazaba la línea
 
-`contracts/primitives.ts::AttributeNode` **agrupa los 7 campos en exactamente estos 3 roles** — y llama
-"Accumulators" a los 5, sin que nadie lo hubiera escrito en un doc:
+`contracts/primitives.ts::AttributeNode` **agrupa sus campos en exactamente estos 3 roles** — y llama
+"Accumulators" a los buckets, sin que nadie lo hubiera escrito en un doc:
 
 ```ts
 export interface AttributeNode {
   base: number;                  // ← input (sin comentario: no pertenece a ningún grupo)
-  // Accumulators (Per Pass)     // ← los 5 BUCKETS, nombrados así por el código
-  base_flat; base_add_pct; mods_add_pct; total_flat; multiplicative;
+  // Accumulators (Per Pass)     // ← los 4 BUCKETS, nombrados así por el código
+  base_flat; mods_add_pct; total_flat; multiplicative;
   // Result
   final: number;                 // ← output
 }
 ```
 
-Y `SimulationEngine.resetAccumulators()` resetea **exactamente esos 5** (`multiplicative` a `1.0`, el resto a
+Y `SimulationEngine.resetAccumulators()` resetea **exactamente esos 4** (`multiplicative` a `1.0`, el resto a
 `0`) — ni `base` ni `final`. ⇒ El criterio **rol, no pertenencia** ya estaba implementado; este doc lo
-**nombra**, no lo decide. (El "6 buckets" que circulaba contaba `base` como bucket — un conteo de
-*presentación*; corregido en §2.)
+**nombra**, no lo decide. (Los conteos mayores que circularon —"6", "5"— salen de dos errores distintos,
+ambos disecados en §2.)
 
 ### Las reglas duras que se derivan
 
-1. **`base` y `final` NO son buckets.** El criterio no es *dónde vive* un campo (los 7 viven en
+1. **`base` y `final` NO son buckets.** El criterio no es *dónde vive* un campo (los 6 viven en
    `AttributeNode`) sino **qué rol cumple**. Por pertenencia, `final` también sería bucket — reductio.
-   ⇒ **1 input (`base`) + 5 buckets + 1 output (`final`)**.
+   ⇒ **1 input (`base`) + 4 buckets + 1 output (`final`)**.
 2. **`bucket` ≠ `pool`.** Están en **niveles distintos**: un bucket es una **ranura DENTRO** de un nodo; un
    pool es un **grupo de apilado**. Comparten la connotación "lugar donde algo se suma" — por eso colisionan
    si no se los define. No son sinónimos ni jerarquía trivial.
@@ -91,9 +91,14 @@ Y `SimulationEngine.resetAccumulators()` resetea **exactamente esos 5** (`multip
 | Hoy | Canónico | Dónde |
 |---|---|---|
 | `bucket②` | **`pool②`** (hoy su único miembro es el pool de facción) | ✅ ejecutado: comentarios de código (`dot-tick.ts`, `effect-behavior.ts`, `damage-multipliers.ts`, `__tests__/status/harness.ts`) + design docs (`arch-decisions`, `damage-flow-model`, `damage-status-model`, `formulas-integration`, `engine/status.md`) + governance viva (`closed-decisions`, `open-questions`, `decision-frontier`). **NO** `melee-combo.md` ("Bucket 2" ahí = paso 2 del combo, otro concepto). |
-| "6 buckets" | **"5 buckets"** (`base` no cuenta; era un conteo de *presentación*, no conceptual) | ✅ ejecutado: `output/consume.ts` (×3), `shared/view-model/index.ts`, `view-model.test.ts`, `ui-ux/presentation-layer.md`, `engine/test/test-workflow.md`. **NO** `engine-audit.md` (histórico). |
+| "6 buckets" / "5 buckets" | **"4 buckets"** | ✅ ejecutado: `output/consume.ts` (×3), `shared/view-model/index.ts`, `view-model.test.ts`, `ui-ux/presentation-layer.md`, `engine/test/test-workflow.md`, `formulas/weapon/stat-accumulator.ts`, `attribute-node-contract.md` (×2), `oracle/design/architecture.md` (×2), este doc. **NO** `engine-audit.md` (histórico: dice el conteo de su época y es correcto *como registro*). |
 
-**Decidir ≠ ejecutar:** el LOCK decide el nombre canónico; el renombre corre en una pasada aparte. Ambas filas ya corrieron — el código y los docs vivos dicen `pool②` / "5 buckets".
+**El conteo se equivocó dos veces por razones distintas** — vale distinguirlas, porque la segunda es la que arrastra checklist:
+
+- **6 → 5** fue un error de **criterio**: contaba `base` como bucket. Nada que purgar; se corrigió el conteo (§1.1).
+- **5 → 4** fue un error de **inventario**: `base_add_pct` existía en el tipo y en el `switch` de `resolveNode`, pero era inalcanzable —`OPERATION_MAP` no tiene segmento que derive `BASE_ADD_PCT`— y nunca tuvo emisor. Acá **sí se purgó el campo**, y por eso el radio incluye código además de prosa. Acta de reapertura en [`../attribute-node-contract.md`](../attribute-node-contract.md).
+
+**Decidir ≠ ejecutar:** el LOCK decide el nombre canónico; el renombre corre en una pasada aparte. Ambas filas ya corrieron — el código y los docs vivos dicen `pool②` / "4 buckets".
 
 ---
 
@@ -162,12 +167,12 @@ Alcance de este LOCK = **L-1 + L-2**. Lo demás está inventariado y **pendiente
 | **L-5** | **"facción" sobrecargado**: (a) el **pool de bonus** de facción (Roar/Bane, etapa ②) vs (b) la **`matriz③`** facción×elemento del target (etapa ③). Dos mecánicas, una palabra. | abierta |
 | **L-7** | **`base`/`final` sin nombre propio.** "Input"/"output" son demasiado genéricos, y **`final` ya se malinterpreta**: es el target de la *inicialización* (`resolve()` paso 1: `final = base`), se recomputa por pass (no es terminal), significa cosas distintas por rol (valor del stat vs numerador del factor `final/base` de un pool global). (El op `SET` roto —que escribía `final` para que el recompute lo pisara— era su víctima; ya purgado.) Bautizarlos si vuelve a morder. | diferida |
 | **L-8** | **El token de facción miente** (`MULT` vs op `ADD`) — ver §4. **Parkeado** tras el shim C2·F; su salida ya está declarada en el propio shim. | parkeada |
-| **L-9** | **`MULTIPLICATIVE` inalcanzable** desde el vocabulario — ver §4. (`SET` ya no: purgado por muerto.) Semántica de operaciones **sin terminar**; cerrarla exige el corpus real. ⚠️ **Warrant:** normalizar `OPERATION→ADD` en `resolveToken()` **ya se descartó** (D-7 Fase 3) — fusionaría `AVATAR_FLAT_HEALTH_REGEN` (regen plano HP/s) con `AVATAR_ADD_HEALTH_REGEN` (regen %), que son **stats distintos**. No re-proponerlo. | pendiente |
+| **L-9** | **Semántica de operaciones: CERRADA salvo un residuo nombrado.** El enunciado viejo (*"sin terminar, cerrarla exige el corpus real"*) ya tiene su corpus: los 1446 `upgrade_type` medidos. Resultado: **4 ops de acumulador ↔ 4 buckets ↔ 4 segmentos `OPERATION`, 1:1 y sin huecos** (`BASE_ADD_PCT` purgado por inalcanzable, `SET` por muerto). El residuo no es una indefinición sino **un hecho del corpus**: ningún token usa legítimamente el segmento `MULT` — el único que lo lleva es el de facción, cuya op real es `ADD` y cuyo nombre está mal (§4). ⇒ el bucket `multiplicative` se escribe **sólo por ops de familia** (CO-`multiplying`, melee/sniper combo), nunca por un token. Eso es **la frontera acumulador↔familia funcionando**, no una puerta rota: lo multiplicativo-independiente es mecánica, no mod. Se reabre si aparece un mod real cuyo efecto sea un multiplicador independiente declarado. ⚠️ **Warrant:** normalizar `OPERATION→ADD` en `resolveToken()` **ya se descartó** — fusionaría `AVATAR_FLAT_HEALTH_REGEN` (HP/s plano) con `AVATAR_ADD_HEALTH_REGEN` (%), **stats distintos**. No re-proponerlo. | cerrada con residuo |
 | **L-10** | **`WEAPON_DAMAGE` = nombre pre-rename del nodo global** (hoy `WEAPON_ADD_DAMAGE`, token D-6 — D-7 Fase 2b). **0 líneas de código, 19 en 8 docs.** **Corregir (5):** `upgrade-tokens.md`, `incarnon/schema.md`, `simulation-contracts.md`, `data/decisions.md`, y **`engine/test/test-workflow.md:27` — `consume(…).node('WEAPON_DAMAGE')` TIRA** (`consume.ts` lanza si el nodo está ausente). **NO tocar:** `engine-audit.md §4.1` — `Estado: histórico`, dice el nombre de su época y es correcto *como registro*. | fix mecánico |
 
 ## Ligado a
 - [`../../../governance/closed-decisions.md`](../../../governance/closed-decisions.md) **`DC-OQ-ENGINE-1`** (el patrón `final/base` — §5: **cerrado**, no re-debatir).
-- [`arch-decisions.md`](arch-decisions.md) §4.1 (Stat Accumulator v3 — los 5 buckets), §16 (modelo de pools), §9/§10 (CO/combo = independientes).
+- [`arch-decisions.md`](arch-decisions.md) §4.1 (Stat Accumulator v3 — los 4 buckets), §16 (modelo de pools), §9/§10 (CO/combo = independientes).
 - [`simulation-architecture.md`](simulation-architecture.md) §2.0 (las etapas ①②③ que califican `pool②`).
 - `references/wiki/mechanics/calculating-bonuses.md` (la fórmula honesta, SSoT del juego).
 - `docs/CLAUDE.md` §"Regla de enrutamiento" (por qué este doc vive acá y no en `semantic/`).

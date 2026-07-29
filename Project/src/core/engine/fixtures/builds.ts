@@ -506,7 +506,47 @@ export function voltSpeed(opts: { strength?: boolean } = {}): EnsembleIntention 
   };
 }
 
+// ─── Arcanos de WARFRAME con canal (ruteo por sub-familia, S2-A/S2-B) ────────────────
+
+export const ARCANE_RAGE          = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunDamageOnHeadshot';
+export const ARCANE_BLADE_CHARGER = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeDmgOnRifleKill';
+
+/**
+ * Volt limpio + Tiberon Prime (primaria) + Nikana Prime (melee), con DOS arcanos montados en
+ * el **warframe** cuyo efecto aterriza en **armas distintas**:
+ *
+ *   Arcane Rage          `WEAPON_PRIMARY_ADD_DAMAGE` +180% @rank5  → canal directo  → Tiberon
+ *   Arcane Blade Charger `WEAPON_MELEE_ADD_DAMAGE`   +300% @rank5  → canal CRUZADO  → Nikana
+ *                        (su trigger es un kill con rifle; el destino es el melee)
+ *
+ * Es el caso que sólo el ruteo por canal resuelve: los dos modifiers nacen con
+ * `target_entity` = Volt, que no tiene nodo `WEAPON_ADD_DAMAGE`. Sin `channel-routing` se
+ * pierden en silencio — el token resuelve y el modifier no aterriza en ningún lado.
+ *
+ * ⚠️ Uptime asumido 100%. Ambos son condicionales en el juego (`on_headshot` proc 15% / 24s,
+ * `on_primary_weapon_kill` proc 30% / 12s). C1 los proyecta siempre-activos, misma doctrina que
+ * Roar (`arch-decisions §15`); el `condition` viaja en el modifier sin evaluarse. La fidelidad
+ * del *cuándo* es otro eje — ver el registro de inexpresables.
+ */
+export function voltChannelArcanes(): EnsembleIntention {
+  const base = volt();
+  return {
+    ...base,
+    items: {
+      ...base.items,
+      melee: { itemId: NIKANA_PRIME, rank: 30, active_profile: 'base' },
+    },
+    arcanes: {
+      warframe: {
+        0: { itemId: ARCANE_RAGE,          rank: 5 },
+        1: { itemId: ARCANE_BLADE_CHARGER, rank: 5 },
+      },
+    },
+  };
+}
+
 export const BUILDS: Record<string, () => EnsembleIntention> = {
+  volt_channel_arcanes: () => voltChannelArcanes(),
   nikana:      () => nikana(false),
   nikana_fury: () => nikana(false, 'base', false, false, true),
   volt:       () => volt(),

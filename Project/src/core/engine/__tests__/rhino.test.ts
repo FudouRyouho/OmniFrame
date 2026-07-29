@@ -79,7 +79,7 @@ describe('Rhino fixture_01 — base + mods Tier 1 (flujo A→B→C, entidad warf
 // pasa por ModRepository → el shim C2F_FACTION_TOKENS_DEFERRED no lo afecta.
 
 const node = (base: number, mods_add_pct = 0): AttributeNode => ({
-  base, base_flat: 0, base_add_pct: 0, mods_add_pct, total_flat: 0, multiplicative: 1.0, final: base,
+  base, base_flat: 0, mods_add_pct, total_flat: 0, multiplicative: 1.0, final: base,
 });
 
 const CTX: SimulationContext = {

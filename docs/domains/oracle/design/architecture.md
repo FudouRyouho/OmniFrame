@@ -4,7 +4,7 @@ Rol: "Diseño de la organización del Oracle"
 Impacto_ID: "O-Arch"
 Fidelidad_Fisica: "Project/scripts/oracle/"
 Fecha_de_creacion: "2026-07-24"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-07-29"
 ---
 
 # Oracle — Arquitectura de la organización
@@ -27,7 +27,7 @@ Lentes **sobre una build** (sujeto A1):
 
 | Lente | Punto del pipeline | Qué expone | Estado |
 |---|---|---|---|
-| `nodes` | **C1** crudo | los `AttributeNode` completos (base + 5 buckets + final) | implementada |
+| `nodes` | **C1** crudo | los `AttributeNode` completos (base + 4 buckets + final) | implementada |
 | `display` | **C1** proyectado | el `ViewModelContract` (`project()` → `token·value·unit`) | implementada |
 | `metrics` | **C2** | `CombatMetrics` (DPS/TTK/status weights) vs un target | implementada |
 | `trace` | **C1** (procedencia) | el trace por modifier de un nodo (source·op·impact) | implementada |
@@ -42,7 +42,7 @@ Lente **utilitaria** (no observa el pipeline de una build):
 **Por qué este eje y no la terna anterior:** un desarrollador que construye un mecanismo nuevo necesita
 ver *cada seam* —¿B hidrató bien? ¿C1 puso el bucket correcto? ¿el trace muestra la fuente esperada?—,
 no sólo el número final. `trace` ya la produce el motor (es **auto-trazable por construcción**: cada
-nodo carga sus 5 buckets + el trace opt-in) y antes el Oracle la descartaba en stdout. `intention` es
+nodo carga sus 4 buckets + el trace opt-in) y antes el Oracle la descartaba en stdout. `intention` es
 el mismo caso pero su seam (salida de B) **no está expuesto** por el bridge — por eso queda declarada
 en el eje pero diferida hasta que `@core` la publique. La disciplina se cumple: el vocabulario nombra
 la lente, la implementación llega cuando el seam existe.

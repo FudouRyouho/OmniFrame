@@ -4,7 +4,7 @@ Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno deri
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-07-29"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
 ---
 
@@ -397,8 +397,29 @@ diferidos** (ver §Altitud de los debates): entran a nivel captura, derivados de
 |---|---|---|
 | `while_crouching` (nuevo) | Lie In Wait | "+Fire Rate when Crouching" — flag binario del jugador, familia de `while_aiming`/`while_sliding`. |
 | `on_first_shot_in_magazine` (nuevo) | Charged Chamber, Primed Chamber | "+Damage on first shot in Magazine" (`WEAPON_INIT_DAMAGE_MOD`). Tensión evento (primer disparo) vs derivado (posición en cargador) — diferida hasta diseñar el contador de munición del SimContext. |
-| `per_status_type_on_target` (nuevo) | Condition Overload, Healing Return | "per Status Type affecting the target" — escala proporcional al nº de status distintos en el target. Amplía la familia `per_` (G4). ⚠ `upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` es binario (legacy DE); gana el label (fidelidad). **Cross-schema:** misma fórmula en incarnon y en Galvanized Aptitude/Savvy/Shot — pero allí el token primario es `on_kill` (el "per status type" es escala, no condición; `condition:string` guarda una sola). **Migración COMPLETA:** `WEAPON_ADD_DAMAGE_PER_STATUS_TYPE` (op `CONDITION_OVERLOAD`; dimensiones stacks/N en `co_factors`, no en `condition`) cubre **toda la familia**: mods galvanizados (Savvy/Aptitude/Shot), 8 perks incarnon (1x), y **Condition Overload melee** (coefBase 80, 1x, adding). En el CO melee se **removió** `condition: per_status_type_on_target` — era la escala N disfrazada de condición; la escala vive en `co_factors`, no en `condition` (el token sigue documentado como concepto; su uso como `condition` en datos de CO queda obsoleto). Ver `data/decisions.md` D-17 + `engine/design/arch-decisions.md §9`. |
+| `per_status_type_on_target` (nuevo) | Condition Overload, Healing Return | "per Status Type affecting the target" — escala proporcional al nº de status distintos en el target. Amplía la familia `per_` (G4). ⚠ `upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` es binario (legacy DE); gana el label (fidelidad). **Cross-schema:** misma fórmula en incarnon y en Galvanized Aptitude/Savvy/Shot — pero allí el token primario es `on_kill` (el "per status type" es escala, no condición; `condition:string` guarda una sola). **Migración COMPLETA salvo un portador** (ver la nota de asimetría abajo): `WEAPON_ADD_DAMAGE_PER_STATUS_TYPE` (op `CONDITION_OVERLOAD`; dimensiones stacks/N en `co_factors`, no en `condition`) cubre **toda la familia**: mods galvanizados (Savvy/Aptitude/Shot), 8 perks incarnon (1x), y **Condition Overload melee** (coefBase 80, 1x, adding). En el CO melee se **removió** `condition: per_status_type_on_target` — era la escala N disfrazada de condición; la escala vive en `co_factors`, no en `condition` (el token sigue documentado como concepto; su uso como `condition` en datos de CO queda obsoleto). Ver `data/decisions.md` D-17 + `engine/design/arch-decisions.md §9`. |
 | `per_melee_combo_multiplier` (existente, G4) | Weeping Wounds, Blood Rush | Son los "más casos" que G4 anticipaba. Token stat-agnóstico (Status Chance / Crit Chance). Blood Rush: label "stacks with Combo Multiplier" pero su nota de fórmula confirma mecánica idéntica (`val × combo_mult`). **Migración COMPLETA:** misma trampa que `per_status_type_on_target` — es escala disfrazada de condición, no gate. `COMBO_SCALED_ADD` (`melee-combo.md §4.3`) la resuelve: `ModRepository` reconoce el token y NO lo pasa como `condition` (no hay `evalCondition`), construye el modifier directo con `melee_combo_factors`. Como `per_status_type_on_target`, el token sigue documentado como concepto; su uso como `condition` en datos queda obsoleto. |
+
+> ### ⚠️ Asimetría de camino — dos soluciones para el mismo fenómeno, ambas declaradas completas
+>
+> El código llama **"la misma trampa"** a `per_status_type_on_target` y `per_melee_combo_multiplier`:
+> las dos son **escala disfrazada de condición**, no gates. Y las resolvió **al revés**:
+>
+> | token | camino | dónde vive hoy |
+> |---|---|---|
+> | `per_status_type_on_target` | **token nuevo** — `WEAPON_ADD_DAMAGE_PER_STATUS_TYPE`, entrada propia en `UPGRADE_MAP` | el vocabulario |
+> | `per_melee_combo_multiplier` | **se quedó en `condition`** — `ModRepository` lo reconoce, lo descarta y sintetiza `COMBO_SCALED_ADD` | el disparador del repo |
+>
+> No es un defecto a corregir de oficio: son las **dos formas legítimas** que tiene una mecánica de
+> entrar al motor (por token vs sintetizada), y la frontera entre ellas es el **disparador** — ver el
+> contrato de `makeModifier` en `engine/contracts/primitives.ts`. Lo que sí es un defecto es que
+> ninguna de las dos filas lo dijera: quien lea una y aplique su patrón a la otra se equivoca.
+>
+> **El portador que no migró:** `per_status_type_on_target` sobrevive en **un** lugar del corpus —
+> **Healing Return** (`WEAPON_HEALTH_ON_HIT_ENEMY_WITH_PROC`, fuera de `UPGRADES`, descartado en
+> silencio). No migró porque su efecto es **curación, no daño**: no converge al nodo de CO
+> (`WEAPON_ADD_DAMAGE`) y no tiene nodo propio al que ir. Está registrado como inexpresable en
+> [`upgrade-tokens.md`](upgrade-tokens.md) con su condición de reapertura.
 
 > **Fuera de scope (Grupo B, no acuñado):** mods con `upgrade_type AVATAR_*`/`VEHICLE_*` —
 > `on_bullet_jump` (parkour elemental), `while_falling` (Air Time/Mad Stack), `on_spawn` (Preparation).

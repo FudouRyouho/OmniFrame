@@ -4,7 +4,7 @@
  */
 import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ModOverrideEntry, ModStatRaw, ModStatValueRaw } from "../../contracts/mod-overrides";
-import { resolveUpgradeEntry } from "@shared/types/modifier";
+import { resolveUpgradeEntry, decodeUpgradeValue } from "@shared/types/modifier";
 
 // ⚠️ FLAGGED (shim temporal — arch-decisions §16, P2b): los tokens de daño por FACCIÓN (Bane/Cleanse)
 // son C2·F — su gate depende de la facción del TARGET, que solo se conoce en RESOLUCIÓN (③), NO en el
@@ -64,7 +64,7 @@ export class ModRepository {
             const rawValue = Array.isArray(val.base_value)
               ? (val.base_value[rank] ?? val.base_value[val.base_value.length - 1])
               : val.base_value;
-            const value = entry.toPercent ? (rawValue - 1) * 100 : rawValue;
+            const value = decodeUpgradeValue(entry, rawValue);
 
             // Blood Rush / Weeping Wounds: `condition: 'per_melee_combo_multiplier'` NO es un gate
             // booleano — es escala disfrazada de condición (misma trampa que `per_status_type_on_target`

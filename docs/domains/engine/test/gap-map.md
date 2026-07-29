@@ -4,7 +4,7 @@ Rol: "Mapa sistemático de lo que el engine ignora o procesa a medias — el ter
 Impacto_ID: "E-GapMap"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-06-10"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-07-29"
 ---
 
 # Mapa de gaps del engine
@@ -17,7 +17,7 @@ Inventario de **lo que el engine NO construye todavía** — a propósito: no se
 
 ## Núcleo que el engine SÍ resuelve
 
-Grafo genérico de atributos (`SimulationEngine`): un pass topológico (Kahn) — DAG en la práctica, un pass alcanza el punto fijo; ciclo real → fail-loud (no soportado, convergencia iterativa diferida = Opción B, `arch-decisions §4.2`). 6 operaciones (`BASE_FLAT`, `BASE_ADD_PCT`, `ADD_FLAT`, `ADD`, `MULTIPLICATIVE`, `CONDITION_OVERLOAD`). `evalCondition` cableado. Resuelve **~8 stats de arma** (crit chance/mult, status chance, fire rate, multishot, magazine, reload, daño + tipos vía `DamageCombiner`) sobre dos fuentes (`mod-stats` e `incarnon-evolutions`). Estado físico de componentes: [`status.md`](../status.md).
+Grafo genérico de atributos (`SimulationEngine`): un pass topológico (Kahn) — DAG en la práctica, un pass alcanza el punto fijo; ciclo real → fail-loud (no soportado, convergencia iterativa diferida = Opción B, `arch-decisions §4.2`). 9 operaciones: **4 de acumulador** (`ADD`, `ADD_FLAT`, `BASE_FLAT`, `MULTIPLICATIVE` — 1:1 con los 4 buckets) + **5 de familia** (`CONDITION_OVERLOAD`, `MELEE_COMBO_MULT`, `SNIPER_COMBO_MULT`, `COMBO_SCALED_ADD`, `STACK_DECAY_BUFF` — el valor lo computa una fórmula, no el `value`). `evalCondition` cableado. Resuelve **~8 stats de arma** (crit chance/mult, status chance, fire rate, multishot, magazine, reload, daño + tipos vía `DamageCombiner`) sobre dos fuentes (`mod-stats` e `incarnon-evolutions`). Estado físico de componentes: [`status.md`](../status.md).
 
 ---
 

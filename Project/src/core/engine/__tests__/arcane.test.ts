@@ -44,5 +44,8 @@ describe('Arcano v0 — Primary Merciless sobre Lanka (flujo A→B→C)', () => 
 describe('Arcano v0 — borde (preguntas abiertas)', () => {
   it.todo('stacking on_kill: +5%/stack, cap 12×, 4s — requiere contexto de stack-count [OQ-DATA-4 / D-20]');
   it.todo('weapon-type gate: Merciless es Primary-only; v0 no valida compatibilidad de slot [OQ-DATA-5]');
-  it.todo('cross-entity: arcano de Warframe que buffea un arma (Acceleration, Slip Shot) — ruteo por canal [OQ-DATA-1]');
+  // Servido: el ruteo por canal existe y está cubierto en `channel-routing.test.ts` (Arcane Rage
+  // directo + Arcane Blade Charger cruzado). Lo que sigue abierto de este borde es el `{cuándo}`
+  // (proc/duration), no el `{cuál}`.
+  it.todo('uptime de arcano condicional: proc% + duration — hoy C1 lo proyecta al 100% [arch §15]');
 });

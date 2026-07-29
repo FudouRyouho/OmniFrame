@@ -4,7 +4,7 @@ Rol: "Registro de decisiones D-series del dominio data/ con estado de evolución
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-07-17"
+Fecha_de_actualizacion: "2026-07-29"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -119,9 +119,17 @@ no norma — **no citarlos como precedente**. Migración pendiente, scope propio
 
 **Condición que activó la extensión:** ≥3 casos en overrides reales — Crimson Archon Shards: `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`. Estos tres son los únicos casos cross-entity confirmados.
 
-**Deuda conocida en `mod-stats.override.json`:** ~26 entradas con tokens `WEAPON_MELEE_*` incorrectos (mods intra-entity con sub-familia indebida: `WEAPON_MELEE_COMBO_DURATION_BONUS`, `WEAPON_MELEE_HEAVY_CHARGE_SPEED`, etc.). Son tokens inválidos — no están en `UPGRADES`, engine los silencia. Cleanup pendiente.
+**Estado del dato:** los overrides no contienen ningún token de sub-familia inválido. Los **10 usos**
+existentes son todos legítimos y están en `UPGRADES` — los arcanos de warframe que buffean un arma
+(`WEAPON_PRIMARY_ADD_DAMAGE` ×3, `WEAPON_PRIMARY_ADD_FIRE_RATE` ×2, `WEAPON_SECONDARY_ADD_DAMAGE` ×2,
+`WEAPON_PRIMARY_ADD_RELOAD_SPEED`, `WEAPON_SECONDARY_ADD_FIRE_RATE`, `WEAPON_MELEE_ADD_DAMAGE`), más
+los 3 de shards que viven en `archon-shards.json`. La forma intra-entity con sub-familia indebida
+(`WEAPON_MELEE_HEAVY_CHARGE_SPEED` → canónico `WEAPON_ADD_HEAVY_CHARGE_SPEED`, mismo stat que el
+"Heavy Attack Wind Up Speed" de los perks incarnon) ya no aparece en el dato.
 
-**Nota sobre `WEAPON_MELEE_HEAVY_CHARGE_SPEED`:** confirmado = mismo stat que "Heavy Attack Wind Up Speed" en Incarnon perks. Token canónico: `WEAPON_ADD_HEAVY_CHARGE_SPEED`. Cleanup: `WEAPON_MELEE_HEAVY_CHARGE_SPEED` → `WEAPON_ADD_HEAVY_CHARGE_SPEED` (quitar sub-familia).
+**Gate ejecutable:** la sub-familia **sólo** resuelve bajo `WEAPON` (`resolveToken`). Un
+`AVATAR_MELEE_*` o `VEHICLE_PRIMARY_*` no resuelve en vez de devolver basura — cubierto en
+`__tests__/channel-routing.test.ts`.
 
 **Nota D-7:** Los tokens D-6 (incluida la sub-familia) son los futuros IDs de atributo del engine. `UPGRADE_MAP` es un puente temporal — no se extiende con lógica de filtrado por clase; eso corresponde al engine post-D-7.
 
@@ -129,25 +137,54 @@ no norma — **no citarlos como precedente**. Migración pendiente, scope propio
 
 ---
 
-## D-7 — Token D-6 como ID de atributo del engine (COMPLETADA — camino A)
+## D-7 — El vocabulario D-6 es el espacio del que se DERIVA el id de nodo
 
 **Estado:** VIGENTE
-**Fecha:** 2026-04-19 | **Actualizado:** 2026-06-14 (camino A completado)
-**Decisión:** El token D-6 es el ID de atributo canónico del engine. `UPGRADE_MAP` desaparece. Los attr IDs internos (`critical_chance`, `critical_multiplier`, etc.) se renombran a tokens D-6.
+**Fecha:** 2026-04-19
+**Decisión:** El token D-6 es el vocabulario canónico del engine: los attr IDs internos
+(`critical_chance`, `critical_multiplier`, …) no existen. El id de nodo **se deriva del token**, y
+`UPGRADE_MAP` queda reducido a lo que la sintaxis no deriva.
 
-**Arquitectura de resolución (sin UPGRADE_MAP):**
+**Token ≠ nodo.** El token declara **tres** cosas; el nodo es dos de ellas:
+
 ```
-token → attr: sub-familia removida si existe → WEAPON_MELEE_ADD_CRIT_MULT → WEAPON_ADD_CRIT_MULT
-       op:   derivado del segmento OPERATION → ADD | FLAT | BASE | MULT
-       target_channel: del segmento SUB_FAMILY → 'melee' | 'primary' | 'secondary' | undefined
+TOKEN = {dónde}_{cómo}_{qué}    "qué modifico y cómo entra"   WEAPON_BASE_CRIT_CHANCE
+NODO  = {dónde}_{qué}           dónde se acumula              WEAPON_ADD_CRIT_CHANCE
 ```
-Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel` como filtro — no crean AttributeNodes separados.
+
+El `{cómo}` **se queda en el token**: es lo que declara qué significa el `20` del dato. La etiqueta
+del stat miente; el token no. Y son 101 símbolos auditables contra 1446 valores que no lo son.
+
+Los dos espacios **no coinciden**, en ambas direcciones:
+- **Tokens que no son nodo** — las 13 convergencias FLAT/BASE→ADD y las variantes de sub-familia.
+  Por eso `attribute-registry` es **subset** del vocabulario: sólo las variantes ADD renderizan.
+- **Nodos que no son token** — `WEAPON_ADD_HEAVY_EFFICIENCY` y `WEAPON_ADD_COMBO_INITIAL` son
+  destino de convergencia y **no están en `UPGRADES`**.
+
+**`token → nodo` es una función**, con una mitad derivable y otra no:
+
+```
+op:             segmento OPERATION            → ADD | ADD_FLAT | BASE_FLAT | MULTIPLICATIVE
+target_channel: segmento SUB_FAMILY           → 'primary' | 'secondary' | 'melee' | undefined
+                (sólo bajo WEAPON — la sub-familia no existe en otra familia)
+nodo:           token menos {cómo}            derivable: quitar sub-familia
+                                              NO derivable: cuál FLAT/BASE converge a su par ADD
+```
+
+Las 13 entradas de convergencia en `UPGRADE_MAP` **no son deuda de pipeline**: son la mitad
+no-derivable de esa función. Qué FLAT/BASE converge y qué FLAT/BASE es stat propio es conocimiento
+de dominio (`AVATAR_FLAT_HEALTH_REGEN`, HP/s plano, NO converge a `AVATAR_ADD_HEALTH_REGEN`, que
+es %: son stats distintos).
+
+Los tokens de sub-familia acumulan en el nodo genérico del arma que el canal designa — no crean
+`AttributeNode` separados. El canal lo resuelve la hidratación (`resolve/hydration/channel-routing.ts`),
+no el motor.
 
 **Estado de fases (camino A):**
 - **Fase 1** (attrs no-daño) ✅ 2026-05-26 — `critical_chance/multiplier`, `status_chance`, `fire_rate`, `magazine_size`, `reload_speed` + `resolveToken()` en `ModRepository`. `reload_time` es dato puro en `innate_dna.profiles`, nunca `AttributeNode`.
 - **Fase 2** (attrs de daño) ✅ — nodos de daño ya son token canónico `WEAPON_ADD_*_DAMAGE` (`mapDamage()`, `DamageCombiner` y familias operan en token-space, filtro `isUpgrade()`); entradas de daño de UPGRADE_MAP eliminadas.
 - **Fase 2b** ✅ 2026-06-14 — nodo global de daño = token canónico **`WEAPON_ADD_DAMAGE`** (node-id == token D-6; convención **node = variante-ADD**). `WEAPON_DAMAGE` no era token D-6 (sin segmento `OPERATION`) y no existe en el código.
-- **Fase 3** ✅ 2026-06-14 — `UPGRADE_MAP` encogido a su **núcleo irreducible**: `resolveToken()` cubre identidades + acumuladores propios; quedan 3 clases — **alias** (`WEAPON_FIRE_ITERATIONS`), **flag** (`GAMEPLAY_MULT_FACTION_DAMAGE` `toPercent`) y **convergencia** FLAT/BASE→nodo ADD. Objetivo cumplido: un solo espacio token D-6 == id de nodo, de C a la UI.
+- **Fase 3** ✅ — `UPGRADE_MAP` encogido a su **núcleo irreducible**: `resolveToken()` cubre identidades + acumuladores propios; quedan 3 clases — **alias** (`WEAPON_FIRE_ITERATIONS`), **flag** (`GAMEPLAY_MULT_FACTION_DAMAGE` `toPercent`) y **convergencia** FLAT/BASE→nodo ADD (13 entradas). El vocabulario es **uno solo** de C a la UI; el id de nodo se **deriva** de él, no lo iguala (ver arriba).
 - **Fase 4** (payoff presentación) ✅ 2026-06-14 — `attribute-registry` reescrito a `Partial<Record<Upgrade, PresentationMeta>>` (key-typed, node-id **subset**: solo ADD-variants+daño renderizan; FLAT/BASE/sub-familia convergen y no son nodo propio). Leak β muerto: `StaticHydrator` ya no importa `lib/presentation`, `AttributeNode` es puro (sin label/category/unit); `project()` adjunta la meta en el borde C→D. Bug visible resuelto (crit vuelve a renderizar con `%`). Cierra `OQ-DATA-10` (lado SSoT de vocabulario); el estrato `lib/format` que habilita sigue vivo como utilidad (`DC-OQ-ENGINE-10-A`).
 
 **Rationale durable:** D-7 es el **prerequisito del SSoT de presentación** — el dict se cuelga del vocabulario canónico `Upgrade` (key-typed → un typo en una clave es error de compilador), no de strings sueltos. El bug visible (crit sin `%`) era `attribute-registry` keyed por nombres pre-Fase-1 que el motor ya no emite (relic, no deuda nueva). La convergencia de la `label` + `lib/format` + ruta-catálogo continúa en **OQ-DATA-10** (no es D-7 — es la suite de presentación que D-7 desbloqueó).

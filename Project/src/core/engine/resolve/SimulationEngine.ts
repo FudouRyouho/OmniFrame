@@ -237,7 +237,6 @@ export class SimulationEngine {
     this.entities.forEach(entity => {
       Object.values(entity.attributes).forEach(node => {
         node.base_flat = 0;
-        node.base_add_pct = 0;
         node.mods_add_pct = 0;
         node.total_flat = 0;
         node.multiplicative = 1.0;
@@ -355,7 +354,6 @@ export class SimulationEngine {
 
           switch (mod.operation) {
             case 'BASE_FLAT': node.base_flat += modValue; break;
-            case 'BASE_ADD_PCT': node.base_add_pct += modValue; break;
             case 'ADD_FLAT': node.total_flat += modValue; break;
             case 'ADD': node.mods_add_pct += modValue; break;
             case 'MULTIPLICATIVE': node.multiplicative *= (1 + modValue / 100); break;

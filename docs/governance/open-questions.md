@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-07-29"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -56,6 +56,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-22` | Generalizar EHP/DR de `enemy/` a `entity/` (player/companion) | engine / formulas | abierta — diferida, sin consumidor real hoy |
 | `OQ-ENGINE-23` | Rank de ítem (warframe/arma) sin consumidor; `mod.rank` vestigial | engine / A1-C1 | abierta — diferida, no bloquea, sin necesidad real hoy |
 | `OQ-ENGINE-24` | Derivación cross-stat (Iron Skin y su clase): fórmula dedicada ↔ grafo | engine / C1 | abierta — **diferida por decisión**: 1 de 1241 `upgrade_by` emite modifier; gap rojo-ejecutable |
+| `OQ-ENGINE-25` | Orden de `total_flat` vs `multiplicative` contra la referencia canónica | engine / formulas — fidelidad | abierta — **latente**: intersección vacía medida, no bloquea |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 
@@ -457,7 +458,7 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 2. La derivación corre en la **acción de equipar** del ensemble (dispatch): `equipWarframe` lee "0" (el hecho "otorga exaltada" del dato de habilidad) → escribe **ambos** punteros (warframe + exaltada derivada) en A1 al mutar. **Sin círculo B→A1** (el puntero nace en A1, no se descubre en B).
 3. A1 = punteros puros (la lógica vive en la acción). Nodo derivado: flag `origen:derivado` + **acciones recortadas** (p. ej. solo `Upgrade`, sin `Swap`) = la entry `secondary_weapon` clonada y recortada.
 4. B = hidratación agnóstica pura (deref de A1, sin inyección estructural).
-5. Exaltada = arma de **canal real** (p. ej. `secondary`) → el ruteo agnóstico de buffs de C la alcanza **gratis** (un arcano de secundaria buffea también Reguladoras). Confirma que va en A1, no como conditional.
+5. Exaltada = arma de **canal real** (p. ej. `secondary`) → el ruteo agnóstico de buffs de C la alcanza **gratis** (un arcano de secundaria buffea también Reguladoras). Confirma que va en A1, no como conditional. **El "gratis" ya está construido:** `resolve/hydration/channel-routing.ts` resuelve canal → **`EntityId[]`** filtrando entidades por su `channel` (que `StaticHydrator` estampa al construirlas). Una exaltada que nazca como entidad con `channel: 'secondary'` la alcanza sin tocar el ruteo. La firma-lista es deliberada por esto: con firma escalar la exaltada le pisaría el slot al arma equipada. Verdad del juego que lo exige: `references/wiki/systems/archon-shards/archon-shards-table.md` — *"Affects Exalted Weapons of the appropriate class"*.
 6. Re-derivación **continua**: cambiar warframe re-corre la acción; la **política de mods huérfanos** vive ahí.
 
 **Preguntas abiertas (requieren datos):** schema del dato de exaltada (¿`weapons` + marcador granted-by / canal / fixed? *lean:* nuevo JSON, no muy distinto de `weapons`) · shape de la declaración en el modelo de habilidad · política de mods huérfanos al re-derivar · **escalado cruzado** (exaltada ← power strength) = ability-like, **RED**, sub-concern separado.
@@ -1227,6 +1228,57 @@ sigue vacío a propósito.
 `Project/src/core/engine/resolve/SimulationEngine.ts` (`rebuildGraph`, `FAMILY_RESOLVERS`),
 `Project/src/core/engine/__tests__/cross-stat-derivation.test.ts` (`it.fails` = el gap, ejecutable).
 **Fuente:** `references/wiki/abilities/{Rhino/Iron-Skin,Frost/Snow-Globe,Trinity/Passive,Garuda/Bloodletting}`.
+
+---
+
+## OQ-ENGINE-25 — Orden de `total_flat` vs `multiplicative` contra la referencia canónica — **ABIERTO, LATENTE**
+**Dominio:** engine / formulas — fidelidad del acumulador
+
+**Contexto.** [`references/wiki/mechanics/calculating-bonuses.md`](../../references/wiki/mechanics/calculating-bonuses.md)
+§*"Orden de operaciones — implementación canónica"* fija el orden:
+
+```
+1. Bonuses aditivos del primer pool
+2. Multiplicativos independientes (MULTIPLICATIVE, uno a la vez)
+3. Flat bonuses post-escala (ADD_FLAT)
+
+Stat = [Base × (1 + ΣAdd_Pool1) × (1 + ΣAdd_Pool2) × (1 + Mult1) × (1 + Mult2) …] + ΣFlat
+```
+
+`formulas/weapon/stat-accumulator.ts::resolveStatValue` aplica:
+
+```
+final = ((base + base_flat) × (1 + mods_add_pct) + total_flat) × multiplicative
+```
+
+**Los pasos 2 y 3 están invertidos.** `references/wiki/mechanics/armor.md` no dirime: su ecuación
+(`Base × (1 + Mod Multiplier) + Flat Bonus`) no contiene multiplicativos independientes, así que la
+única fuente que fija el orden relativo es `calculating-bonuses.md`, y el motor la contradice.
+
+**Por qué no se corrige de una: la intersección es VACÍA (medido).**
+
+| bucket | nodos que lo reciben hoy |
+|---|---|
+| `total_flat` | `WEAPON_ADD_STATUS_CHANCE` (perk Felarx), `AVATAR_ADD_{HEALTH,SHIELD,ENERGY}_MAX`, `AVATAR_ADD_ARMOUR` (Azure Shards) + acumuladores propios (`AVATAR_FLAT_*_REGEN`, `WEAPON_FLAT_PUNCH_THROUGH`) |
+| `multiplicative` | **sólo nodos de daño** — `resolveMeleeComboMult`, `resolveSniperComboMult`, CO con `co_behavior: multiplying`. La op `MULTIPLICATIVE` por vocabulario es inalcanzable (`design/vocabulary.md` L-9) |
+
+Ningún nodo recibe ambos y **no existe token FLAT de daño** ⇒ ningún valor del motor cambia con el
+orden actual. La discrepancia es de forma, no de resultado.
+
+**Condición de activación:** el primer nodo que reciba `ADD_FLAT` **y** `multiplicative` a la vez.
+Caminos concretos: un multiplicativo sobre armor/health (clase Vex Armor, no modelada) o la aparición
+de un token FLAT de daño.
+
+**Gate de resolución:** no se decide de escritorio. Invertir el orden **cambia resultados**, y la
+referencia sola no alcanza para tocar el acumulador — precedente `OQ-ENGINE-15` (DR de armor: 3
+fórmulas en conflicto, se adopta la más honesta como provisional y se deja gated por medición).
+Método: `references/ingame-tests/`.
+
+**No bloquea:** nada hoy. **Degrada:** la fidelidad se vuelve incierta en el momento exacto en que
+alguien modele el primer caso que cruce los dos buckets — y ese caso no va a avisar.
+**Vínculo:** `Project/src/core/engine/formulas/weapon/stat-accumulator.ts`,
+[`../domains/engine/design/vocabulary.md`](../domains/engine/design/vocabulary.md) (`L-9`),
+[`../domains/engine/attribute-node-contract.md`](../domains/engine/attribute-node-contract.md).
 
 ---
 

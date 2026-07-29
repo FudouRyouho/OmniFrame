@@ -4,7 +4,7 @@ Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en l
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-07-29"
 Dependencias:
   - "docs/domains/engine/design/vocabulary.md"
   - "docs/domains/engine/design/arch-decisions.md"
@@ -27,9 +27,8 @@ Dependencias:
 ## La fórmula maestra del engine
 
 ```
-scaledBase = (base + base_flat) × (1 + base_add_pct / 100)
-withMods   = scaledBase × (1 + mods_add_pct / 100)
-final      = (withMods + total_flat) × multiplicative
+withMods = (base + base_flat) × (1 + mods_add_pct / 100)
+final    = (withMods + total_flat) × multiplicative
 ```
 
 (Implementación: `formulas/weapon/stat-accumulator.ts::resolveStatValue`.)
@@ -46,13 +45,12 @@ donde `poolFactor(n) = n.final / n.base` (= `1 + Σ` del pool). Ver §5.
 
 ## Tabla de campos
 
-`base` y `final` **no son buckets** — son el **input** y el **output** del nodo (criterio y reductio en [`design/vocabulary.md §1`](design/vocabulary.md)). Los **5 buckets** son los acumuladores: lo único que se llena con contribuciones y lo único que resetea `resetAccumulators()`.
+`base` y `final` **no son buckets** — son el **input** y el **output** del nodo (criterio y reductio en [`design/vocabulary.md §1`](design/vocabulary.md)). Los **4 buckets** son los acumuladores: lo único que se llena con contribuciones y lo único que resetea `resetAccumulators()`.
 
 | Campo | Rol | Capa de la fórmula de Warframe | `Modifier.operation` | Ejemplo de fuente |
 |---|---|---|---|---|
 | `base` | **input** | Valor base del item (del dataset) | — inyectado en hidratación | Stat del arma, armor del warframe |
 | `base_flat` | bucket (flat) | Adición plana al base, antes de mods porcentuales | `BASE_FLAT` | Arcane con bonus flat a stat base |
-| `base_add_pct` | bucket (pool) | Pool relativo al base (escala sobre el base, no apila con mods de daño) | `BASE_ADD_PCT` | Mods de crit chance relativo (Pointstrike) |
 | `mods_add_pct` | bucket (pool) | Pool aditivo principal — sus miembros suman entre sí | `ADD` | Serration, Heavy Caliber, Hornet Strike, Pressure Point |
 | `total_flat` | bucket (flat) | Adición plana post-mods, antes del multiplicativo | `ADD_FLAT` | Arcane Dexterity (daño flat absoluto) |
 | `multiplicative` | bucket (independientes) | Multiplicadores **independientes** — cada fuente multiplica por separado, no suman entre sí | `MULTIPLICATIVE` | CO "Multiplying", melee/sniper combo, Eclipse (Mirage)¹ |
@@ -61,6 +59,8 @@ donde `poolFactor(n) = n.final / n.base` (= `1 + Σ` del pool). Ver §5.
 ¹ Eclipse: ver §4.
 
 > ⚠️ No hay op de override terminal. `SET` fue **purgado** (F1-C) por muerto: escribía `final` y el recompute de cierre de `resolveNode` lo pisaba, sin productores. Si un mecanismo futuro necesita override terminal, su forma correcta depende del modelo de resolución — re-proponer entonces (ver [`design/vocabulary.md`](design/vocabulary.md) L-7).
+>
+> ⚠️ **Tampoco hay un segundo pool porcentual.** `base_add_pct` (op `BASE_ADD_PCT`) fue **purgado** por el mismo criterio que `SET`, y su caso es más nítido: nació en este contrato —no en código— motivado por el crit chance relativo de Point Strike, y ese caso lo resuelve `mods_add_pct`. Nunca tuvo emisor y **no podía tenerlo**: `OPERATION_MAP` deriva la op del segmento D-6 del token (`ADD`/`FLAT`/`BASE`/`MULT`) y ninguno produce `BASE_ADD_PCT`. **Condición de reapertura:** un mecanismo real que necesite un pool porcentual que componga **multiplicativamente** con `mods_add_pct` — `(1+a)×(1+b)`, no `(1+a+b)`. El aditivo ya existe; lo que se purgó es el multiplicativo-entre-pools, y ése es el único que justifica traerlo de vuelta.
 
 ---
 
@@ -89,18 +89,19 @@ Los mods de Condition Overload con comportamiento **"Multiplying"** van acá, ig
 > **Faction damage y Roar NO van en `multiplicative`.** Son un **pool** (`GAMEPLAY_MULT_FACTION_DAMAGE`): sus miembros usan op **`ADD`** y **suman entre sí** (`×(1 + roar + bane)`, no `×(1+roar)×(1+bane)` — verificado in-game, `references/ingame-tests/double-dip.md`). ⚠️ El `_MULT_` del token es un **error de nombre** (por D-6 la op sería `MULTIPLICATIVE`; la real es `ADD`) — **no** una señal de que el pool se aplique multiplicativamente: eso vale para todo pool global, y el de Serration se llama `_ADD_`. Ver §5, `arch-decisions §16` y `design/vocabulary.md` L-8.
 
 
-### `base_add_pct` vs `mods_add_pct`
+### El crit chance y sus dos términos
 
-La distinción sigue la fórmula de critical hits documentada en `references/wiki/mechanics/critical-hits.md`:
+La fórmula de critical hits (`references/wiki/mechanics/critical-hits.md`) tiene **un** término relativo y **uno** absoluto:
 
 ```
 totalCritChance = baseCritChance × (1 + relativeCritBonus) + absoluteCritBonus
 ```
 
-- `relativeCritBonus` → `base_add_pct` (escala sobre el base, se multiplica con él)
-- `absoluteCritBonus` → **⚠️ sin verificar**: este doc mapeaba a `base_flat`, pero la fórmula lo suma **después** de escalar, y `base_flat` se suma **antes** (`(base + base_flat) × (1 + base_add_pct)`). La semántica post-escala es `total_flat`. **Discrepancia no resuelta** — pendiente de verificar contra el código en la fase de crit de la campaña `Engine fidelity+hygiene`. No asumir ninguna de las dos.
+- `baseCritChance` → **`base` + `base_flat`**. Lo que llena `base_flat` es `WEAPON_BASE_CRIT_CHANCE`, cuyos 66 emisores son perks incarnon cuyo texto de juego dice literal *"Increase **Base** Critical Chance"*. Se amplifica con los mods relativos, que es exactamente lo que `(base + base_flat) × (1 + mods_add_pct)` modela. **Correcto.**
+- `relativeCritBonus` → **`mods_add_pct`**. `WEAPON_ADD_CRIT_CHANCE` con op `ADD`. Point Strike entra por acá.
+- `absoluteCritBonus` → **sin token**. Es el término post-escala, así que su bucket sería `total_flat` y su segmento D-6 sería `FLAT` — pero **`WEAPON_FLAT_CRIT_CHANCE` no existe**, mientras su hermano `WEAPON_FLAT_STATUS_CHANCE` sí. La asimetría es real y verificable en `UPGRADES`.
 
-Para daño de armas, `base_add_pct` es raro — casi todos los bonos de daño son aditivos entre sí (`mods_add_pct`) o multiplicadores independientes (`multiplicative`).
+> El `⚠️ sin verificar` que este párrafo arrastraba planteaba mal el problema: no había un mapeo equivocado de `absoluteCritBonus`, había **dos términos distintos leídos como uno**. `base_flat` nunca modeló el término absoluto — modela el aditivo-al-base, y lo hace bien. Lo que queda abierto es más chico y más preciso: **el término absoluto no tiene puerta de vocabulario**, y clasificar qué fuentes reales le pertenecen (candidato: Arcane Avenger, hoy en `WEAPON_ADD_CRIT_CHANCE`/relativo) **no se puede resolver con el corpus local** — `references/wiki/mechanics/critical-hits.md` da la fórmula pero no enumera qué fuente cae en cada término. Requiere test in-game. Registrado como inexpresable en [`../../semantic/upgrade-tokens.md`](../../semantic/upgrade-tokens.md).
 
 ---
 
@@ -169,7 +170,7 @@ Ambos son `AttributeNode` **sintéticos** inyectados por `StaticHydrator` en tod
 > [`test/catalog-future.md`](test/catalog-future.md). Ya ejercido sobre 4 consumidores de arma (ver
 > [`test/catalog-current.md`](test/catalog-current.md)); la validación con warframes sigue abierta.
 
-Los campos nombrados de `AttributeNode` (`base` + los **5 buckets** + `final`) **son la superficie de aserción de los tests**, no solo el insumo de `final`.
+Los campos nombrados de `AttributeNode` (`base` + los **4 buckets** + `final`) **son la superficie de aserción de los tests**, no solo el insumo de `final`.
 
 - **Test de estabilidad** — asierta solo `final`. Dice *que* un resultado cambió; no localiza la causa.
 - **Test de lógica** — asierta los **buckets intermedios**. Dice *dónde*: si cambió el `n` de una

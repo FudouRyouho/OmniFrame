@@ -18,6 +18,7 @@
     "oracle": "tsx --tsconfig ./tsconfig.scripts.json scripts/oracle/oracle.ts",
     "audit:data": "tsx scripts/audit-data-integrity.ts",
     "audit:upgradeby": "node scripts/audit-upgradeby.mjs",
+    "measure:tokens": "node scripts/measure-token-coverage.mjs",
     "verify:abilities": "node scripts/verify-ability-stats.mjs",
     "verify:polarity": "node scripts/verify-polarity-normalization.mjs",
     "validate:docs": "node scripts/validate-docs.mjs"
