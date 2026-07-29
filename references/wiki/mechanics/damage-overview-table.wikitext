@@ -1,0 +1,325 @@
+<noinclude>{{Navigation|Damage|Damage/Calculation|Damage/Overview Table}}</noinclude>
+<div style="width: 100%; overflow: auto; white-space: nowrap">
+*As of {{ver|36}}, {{text|var(--positive-text-color)|Vulnerable}} <span style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">&nbsp;&nbsp;+&nbsp;&nbsp;</span> = x1.5 and {{text|var(--negative-text-color)|Resistant}} <span style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">&nbsp;&nbsp;-&nbsp;&nbsp;</span> = x0.5 incoming damage multiplier.
+
+{| class="wikitable" style="width:100%; text-align:center; overflow: hidden;"
+|- style="height: 110px; background-color: var(--lotus-blue);"
+! colspan="2" style="width:10px; background-color: var(--lotus-blue);" |Damage Type
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Tenno}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Grineer}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Kuva Grineer}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Corpus}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Corpus Amalgam}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Infested}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Infested Deimos}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Orokin}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Sentient}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Narmer}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|The Murmur}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Zariman}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Scaldra}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Techrot}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg) rotate(320deg); width: 33px; margin-left: -5px;"><span style="display: flex; margin-left: -155%; justify-content: flex-start;">{{D|Anarchs}}</span></div>
+! style="transform-origin: 0% 100%;transform: skew(-50deg);" |<div style="transform: skew(50deg); margin-left: -65px">Status Effects</div>
+|-
+| rowspan="3" style="border-bottom: 4px solid #777777;" |<div class="text_rotate-270" style="width: 20px"><span style="margin-left: -21px">Physical</span></div>
+|{{D|Impact}}
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|Stagger<br />Increase Parazon Mercy threshold
+|-
+|{{D|Puncture}}
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|
+|
+|Enemy Damage Reduced<br />Amplified Crit Chance 
+|- style="border-bottom: 4px solid #777777;"
+|{{D|Slash}}
+|
+|
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|Bleed (DoT)<br />Ignores Armor
+|-
+| rowspan="4" style="border-bottom: 4px solid #777777;" |<div class="text_rotate-270" style="width: 20px"><span style="margin-left: -55px">Primary Elemental</span></div>
+|{{D|Cold}}
+|
+|
+|
+|
+|
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|
+|Slow/Freeze<br />Amplified Crit Damage
+|-
+|{{D|Electricity}}
+|
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+| Tesla Chain (DoT)<br />Stun 
+|-
+|{{D|Heat}}
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|
+|
+|
+|
+| Burn (DoT)<br />Panic<br />Reduce Armor
+
+|- style="border-bottom: 4px solid #777777;"
+|{{D|Toxin}}
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|Poison (DoT)<br />Ignores Shields
+|-
+| rowspan="6" style="border-bottom: 4px solid #777777;" |<div class="text_rotate-270" style="width: 20px"><span style="margin-left: -65px">Secondary Elemental</span></div>
+|{{D|Blast}}<br /><small>({{D|Heat}} + {{D|Cold}} )</small>
+|
+|
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|
+|
+|
+|Multiple Explosions
+|-
+|{{D|Corrosive}}<br /><small>({{D|Electricity}} + {{D|Toxin}} )</small>
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|Reduce Armor
+|-
+|{{D|Gas}}<br /><small>({{D|Heat}} + {{D|Toxin}} )</small>
+|
+|
+|
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|Gas Cloud (AOE DoT)
+|-
+|{{D|Magnetic}}<br /><small>({{D|Cold}} + {{D|Electricity}} )</small>
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|Amplified Damage to Shields,<br />Overguard, and Nullifier Bubbles<br />Negates Shield Regeneration
+|-
+|{{D|Radiation}}<br /><small>({{D|Heat}} + {{D|Electricity}} )</small>
+|
+|
+|
+|
+|
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|Friendly Fire
+|- style="border-bottom: 4px solid #777777;"
+|{{D|Viral}}<br /><small><small>({{D|Cold}} + {{D|Toxin}} )</small>
+|
+|
+|
+|
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|<div style="background-color: var(--negative-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">-</div>
+|
+|
+|
+|
+|Amplified Damage to Health
+|-
+| rowspan="3" |<div class="text_rotate-270" style="width: 20px"><span style="margin-left: -18px">Special</span></div>
+|{{D|Void}}
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|<div style="background-color: var(--positive-text-icon-color--subtle); border-radius: 20px;color: var(--almost-black);font-weight: 700;">+</div>
+|
+|
+|
+|Bullet Attract
+|-
+|{{D|Tau}}
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|Status Vulnerability
+|-
+|{{D|True}}
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|-
+|}
+
+</div>
+
+[[fr:Dégâts/OngletTout]]
+[[Category:Tabview]]
+[[Category:Damage 3.0]]
+[[Category:Damage]]
