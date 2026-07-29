@@ -1,26 +1,22 @@
 # Arcane Camisado
 
 > Estado: activo
-> Rol: arcano warframe — stack de Ability Strength por ataque de minion invocado, consumido en el próximo cast
-> Fuente de verdad de: tabla de escalado por rank, lista canónica de qué cuenta como "summoned minion"
-> No usar para: modelado real (fuera de scope — depende de "minions", sistema no modelado hoy, ver OQ-ENGINE-17/sweep)
-> Última actualización: 2026-07-09
+> Rol: arcano warframe — los ataques de invocaciones acumulan Ability Strength, que se consume en el próximo cast
+> Fuente de verdad de: escalado por rank, lista canónica de qué cuenta y qué no cuenta como invocación
+> No usar para: catálogo de fuentes de invocación fuera de la lista de la wiki
+> Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Arcane_Camisado
 > Raw: arcane-camisado.wikitext
 
 ## Qué es
 
-**Efecto (Rank 5):** "Attacks from summoned minions increase Ability Strength by 6% up to 60% on
-the next Ability Cast."
-
-Cada ataque de un minion otorga un stack. A rank máximo (5), el cap es 10 stacks (6% × 10 = 60%).
-El buff aplica **solo al próximo cast de habilidad**, y luego los stacks vuelven a cero.
-
-**Bonus secundario:** los summons ganan 20% de velocidad de movimiento (solo a rank máximo).
+Cada ataque de una **invocación** otorga un stack de **Ability Strength**, hasta un tope, y el buff
+se consume en el **próximo cast de habilidad**. A rank 5: **+6% por ataque, hasta +60%** — o sea 10
+stacks. Las invocaciones ganan además **+20% de velocidad de movimiento** (sólo a rank máximo).
 
 ## Escalado por rank
 
-| Rank | Por ataque | Cap |
+| Rank | Por ataque | Máximo |
 |---|---|---|
 | 0 | 1% | 10% |
 | 1 | 2% | 20% |
@@ -29,42 +25,60 @@ El buff aplica **solo al próximo cast de habilidad**, y luego los stacks vuelve
 | 4 | 5% | 50% |
 | 5 | 6% | 60% |
 
-## Qué cuenta como "summoned minion" (lista canónica de la wiki)
+## Qué cuenta como invocación
 
-**Cuentan:** Atlas Rumblers, Caliban Lethal Progeny, Chroma Effigy, Dante Paragrimms, Equinox
-Duality, Inaros Swarm Kavats, Khora Venari, Loki Decoy, Nekros Shadows of the Dead, Nidus Maggots,
-Oraxia Scuttlers, Titania Razorflies, Uriel Demons, Wukong Celestial Twin, Yareli Loyal Merulina.
+- **Atlas** — Rumblers
+- **Caliban** — Lethal Progeny; incluye los **Choralysts** invocados por el Summulyst, y los
+  **Conculysts** que dañan con Fusion Strike también dan stacks
+- **Chroma** — Effigy
+- **Dante** — Paragrimms (Pageflight)
+- **Equinox** — Duality
+- **Inaros** — Swarm Kavats, tanto de Desiccation's Curse como de Scarab Swarm
+- **Khora** — Venari
+- **Loki** — Decoy. El daño de **Damage Decoy no** suma stacks, y el decoy **parece dar stacks sólo
+  contra enemigos a distancia de melee**
+- **Nekros** — Shadows of the Dead
+- **Nidus** — Maggots de Ravenous
+- **Oraxia** — Scuttlers de Widow's Brood
+- **Titania** — Razorflies de Razorwing
+- **Uriel** — Demons. El bonus de velocidad de movimiento **casi no les afecta**
+- **Wukong** — Celestial Twin
+- **Yareli** — Loyal Merulina
 
-**NO cuentan:** Ash Shadow Clones, Citrine Prismatic Gem, Dagath Cavalry, Dante Noctua, Excalibur
-Umbra Passive, Hydroid Tentacles, Mirage Hall of Mirrors, Nekros Shadows... (nota: hay overlap
-aparente con la lista "sí cuenta" — verificar en captura futura si hay revisión de wiki), Nyx Mind
-Control, Octavia objects, Protea Artillery, Revenant Enthrall, Sevagoth shadows, Styanax specters,
-Vauban turrets, Xaku The Lost.
+## Qué NO cuenta
 
-## Interacciones específicas
+- **Enemigos afectados por Radiation**
+- **Ash** — Shadow Clones de Blade Storm
+- **Citrine** — Prismatic Gem
+- **Dagath** — Rakhali's Cavalry
+- **Dante** — Noctua (Wordwarden)
+- **Excalibur Umbra** — su pasiva
+- **Hydroid** — Tentacle Swarm
+- **Mirage** — Hall of Mirrors
+- **Nokko** — Stinkbrain y Sporespring
+- **Nyx** — Mind Control
+- **Octavia** — Mallet y Resonator
+- **Protea** — Blaze Artillery
+- **Revenant** — Enthrall
+- **Sevagoth** — las sombras de Reap (incluidas las de Shadow Haze) y Exalted Shadow
+- **Sirius & Orion** — el warframe no controlado
+- **Styanax** — specters de Axios Javelineers
+- **Vauban** — Tesla Nervos y Minelayer
+- **Xaku** — The Lost: Accuse
+- **Compañeros** — Duplex Bond · Diversified Denial (Hound) · maggots del quiste del Helminth
+  Charger (set Strain) · Mischief (Smeeta Kavat)
+- **Armas** — fantasmas del Ballistica Prime · specters del Synoid Heliocor
+- **On Call Crew** y **Specters** en general
 
-- **Loki Decoy:** solo triggerea por daño cuerpo a cuerpo del decoy; "Damage Decoy mod does **not**
-  increase stacks."
-- **Caliban Conculysts:** el daño de Fusion Strike cuenta para stacks.
-- **Caliban Summulyst:** los Choralysts que invoca también cuentan.
+> Las sombras de **Nekros** cuentan; las de **Sevagoth** no. Son entradas distintas de la wiki, no
+> una contradicción — la versión anterior de este documento las había fundido en una sola.
 
-## Known issues (parcheados, referencia histórica)
+## Adquisición
 
-- Fix: Nidus Ravenous Maggots no triggereaban (Update 39.0).
-- Fix: problemas de performance client-side con Nekros Shadows (Hotfix 38.0.8).
-- Fix: error de script a rank máximo (Hotfix 38.0.8).
-- Clarificación de descripción: el buff resetea tras el cast (Hotfix 38.0.6).
-
-## Sin documentar
-
-No hay límite de duración documentado para los stacks antes del cast — persisten indefinidamente
-hasta usarse una habilidad.
-
-## Por qué está fuera de scope (nota de modelado)
-
-Depende de un sistema de "minions/summons" que el engine no modela hoy — no es la fórmula lo que
-bloquea (es simple, lineal con cap), es la ausencia del concepto "minion invocado ataca" como evento
-observable. Diferido hasta que exista ese sustrato.
+Se compra a **Eleanor** de The Hex por 7.500 de standing, con rango **3: 2-For-1**. También cae del
+**1999 Calendar**, de Techrot Safes en misiones Hell-Scrub y Legacyte Harvest de Höllvania, de
+Scaldra Caches en Exterminate, del **H-09 Efervon Tank** en Assassination, de misiones Faceoff, y de
+la **Scaldra Screamer** en Stage Defense.
 
 ## Fuentes
 

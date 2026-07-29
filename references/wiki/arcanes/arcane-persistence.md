@@ -1,63 +1,81 @@
 # Arcane Persistence
 
 > Estado: activo
-> Rol: arcano warframe — remueve shields, cap de daño/s condicionado a Armor>700
-> Fuente de verdad de: tabla de cap por rank, condiciones de activación/desactivación, comportamiento bajo Overguard
-> No usar para: interacción exacta con múltiples hits/segundo bajo Overguard (sin confirmar en la wiki)
-> Última actualización: 2026-07-09
+> Rol: arcano warframe — remueve todos los shields y, con Armor ≥ 700, capea el daño recibido por segundo
+> Fuente de verdad de: cap por rank, umbral de armor y qué lo baja, efectos que desactivan el arcano
+> No usar para: interacción con múltiples hits por segundo bajo Overguard (la wiki sólo describe el primer hit)
+> Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Arcane_Persistence
 > Raw: arcane-persistence.wikitext
 
 ## Qué es
 
-Arcano warframe muy jugado actualmente (meta). Remueve todos los Shields del warframe; si el Armor
-está por encima de 700, cappea el daño recibido por segundo.
+Remueve **todos los shields** del warframe y, mientras el **Armor esté en 700 o más**, capea el daño
+que se puede recibir **por segundo**.
 
-**Cap de daño (Rank 5):** "Cannot be hit for more than 500 Damage/s."
+## Cap por rank
 
-## Escalado del cap por rank
-
-| Rank | Cap Damage/s |
+| Rank | Daño/s máximo |
 |---|---|
 | 0 | 750 |
-| 5 | 500 |
+| 1 | 700 |
+| 2 | 650 |
+| 3 | 600 |
+| 4 | 550 |
+| 5 | **500** |
 
-(la wiki no detalla los ranks intermedios explícitamente en la captura — verificar tabla completa
-si se necesita precisión rank-por-rank).
+## El umbral de armor
 
-## Condición de activación
+La descripción dice *"if Armor is above 700"*, pero la wiki aclara que **funciona con exactamente
+700**: el umbral es `≥ 700`, no `> 700`.
 
-**Requisito de Armor:** "If Armor is above 700" — pero la propia wiki aclara la ambigüedad de la
-frase: "Despite the phrasing, the arcane will function with exactly 700 Armor" (el umbral es
-`>= 700`, no estrictamente `> 700`).
+El efecto **se pierde si el armor cae por debajo** de ese valor, típicamente por status. Cuánto
+armor hace falta para aguantar cada caso:
 
-**Costo:** "Remove all Shields" — desactiva el pool de shields por completo mientras el arcano está
-equipado (no es un trigger condicional, es estructural).
+| Status | Reducción | Armor mínimo para no caer |
+|---|---|---|
+| Corrosive | −26% | 946 |
+| Heat | −50% | 1400 |
+| Ambos juntos | −63% | 1892 |
 
-## Efectos que desactivan la protección
+## Qué lo desactiva
 
-1. **Magnetic Status** y **Ability Nullifying Effects** desactivan la protección por completo.
-2. Corrosive/Heat reducen el Armor efectivo — notas específicas de la wiki: Corrosive necesita
-   ≥946 Armor para inmunidad total al proc; Heat necesita ≥1400.
+- Recibir un status **Magnetic**.
+- Estar dentro de un **campo de nulificación de habilidades** (Nullifier Crewman y similares).
 
-## Comportamiento bajo Overguard (limitación crítica)
+## Otras interacciones
 
-"Works with Overguard from any source, but only caps the damage of the first hit every 1 second to
-500" — esto reduce significativamente la efectividad defensiva del arcano cuando hay múltiples hits
-en la misma ventana de 1s (solo el primero está capeado).
+- **No funciona sobre daño autoinfligido**: el drenaje de vida de Bloodletting (Garuda) no se reduce.
+- **Hijack** pasa a drenar **health** en vez de shields, ya que estos no existen.
+- **Perjudicial en Archwing**: ningún Archwing alcanza los 700 de armor, así que el arcano quita los
+  shields sin dar nada a cambio.
 
-## Otras limitaciones documentadas
+## Bugs conocidos
 
-- **Quick Thinking / Gladiator Finesse:** limitan daño **por hit**, no por segundo — eje distinto
-  al de Persistence (per-second).
-- **No funciona en daño autoinfligido** (ej. Garuda's Bloodletting).
-- **Hijack:** convierte el drenaje de shields (ya removidos) en drenaje de health.
+> Clasificados como **bugs** por la wiki, no como comportamiento diseñado.
 
-## Ambigüedades para el simulador
+- **Overguard:** funciona con Overguard de cualquier fuente, pero **sólo capea el primer hit de cada
+  segundo** a 500. Eso lo vuelve inviable como herramienta de supervivencia para frames que dependen
+  de shields u overguard — el caso que la wiki nombra es Styanax con el augment Intrepid Stand.
+- **Quick Thinking / Gladiator Finesse:** funciona con ambos, pero capea **cada hit** a 500, no el
+  daño por segundo.
 
-- Comportamiento exacto con múltiples hits/segundo bajo Overguard requiere clarificación adicional
-  (solo se sabe que cappea el primer hit de cada ventana de 1s).
-- Interacción con otros modificadores de daño no está explícita en la wiki.
+## Cómo llegar al umbral
+
+- **Health Conversion** permite a cualquier warframe alcanzar los 700 de armor.
+- **4× Azure Archon Shard** dan +600; **3× Tauforged Azure** dan +675.
+- Comparación de la wiki: **Arcane Grace** necesitaría 8.334 de health para sostener 500 health/s, y
+  eso asumiendo 100% de uptime, lo cual es irreal.
+- **Inaros** lo mantiene activo con facilidad curándose con Sandstorm y ganando armor e inmunidad a
+  status con Scarab Shell.
+- **Nidus** se beneficia mucho, sobre todo con Parasitic Vitality: con Ravenous supera los 500
+  daño/s de curación, y **Parasitic Link** redirige los status negativos al enemigo objetivo, lo que
+  evita que el arcano se desactive.
+
+## Adquisición
+
+Se compra a **Roathe** en La Cathédrale (Sanctum Anatomica) por 5 Maphica. También aparece como
+recompensa rotativa semanal de The Descendia en Steel Path: Infernum 6 y 13 dan 1, Infernum 20 da 3.
 
 ## Fuentes
 

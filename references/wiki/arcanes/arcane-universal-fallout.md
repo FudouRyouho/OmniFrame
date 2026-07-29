@@ -1,58 +1,58 @@
 # Arcane Universal Fallout
 
 > Estado: activo
-> Rol: arcano warframe — chance permanente-por-stack de drop de Universal Orb al matar, por proc de Radiation infligido por habilidades
-> Fuente de verdad de: fórmula de chance acumulada + cap + persistencia del stack tras vencer el status
-> No usar para: comportamiento exacto con múltiples procs de Radiation en el mismo frame (sin confirmar)
-> Última actualización: 2026-07-09
+> Rol: arcano warframe — cada proc de Radiation aplicado por habilidades sube permanentemente la chance de que el enemigo suelte un Universal Orb al morir; además otorga revives
+> Fuente de verdad de: chance por rank, revives por rank, cap y persistencia del bonus, qué habilidades lo disparan
+> No usar para: qué pasa si una habilidad aplica varios procs de Radiation en el mismo instante — la wiki no lo dice
+> Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Arcane_Universal_Fallout
 > Raw: arcane-universal-fallout.wikitext
 
 ## Qué es
 
-**Fórmula (Rank 5):** "Each Radiation Status Effect inflicted on enemies by Abilities gives a 6%
-chance to drop a Universal Orb on enemy death."
+Cada **status de Radiation aplicado por una habilidad** sube **permanentemente** la chance de que
+ese enemigo suelte un **Universal Orb** al morir.
 
-## Escalado por rank
+| Rank | Chance por status | Revives del arcano |
+|---|---|---|
+| 0 | 1% | — |
+| 1 | 2% | — |
+| 2 | 3% | — |
+| 3 | 4% | +1 |
+| 4 | 5% | +1 |
+| 5 | **6%** | **+1** |
 
-| Rank | % por status |
-|---|---|
-| 0 | 1% |
-| 1-5 | +1% por rank, hasta 6% en Rank 5 |
+Los **revives** son un segundo efecto del arcano, no una consecuencia del primero: aparecen a partir
+del rank 3.
 
-## Mecánica de stacking (clave para el modelado)
+## Cómo se acumula
 
-- El incremento de chance es **permanente**: "Applying a Radiation status effect on an enemy
-  **permanently** increases the chance" — no depende de que el status siga activo.
-- **Persistencia:** "Drop chance increase persists after Radiation status effect wears off; No
-  Radiation status effect need be present when an affected enemy is killed."
-- **Cap duro:** "Chance is capped at **60%** for all ranks of the arcane" — a Rank 5 esto equivale a
-  10 procs de Radiation acumulados (6% × 10 = 60%).
+- El aumento es **permanente** sobre ese enemigo: no requiere que el status siga activo.
+- **Persiste después de que el Radiation se agota.** No hace falta que haya un status de Radiation
+  presente cuando el enemigo muere.
+- **Cap de 60%** para todos los ranks del arcano. A rank 5 eso son 10 aplicaciones (6% × 10).
 
-## Qué cuenta como trigger
+## El orbe
 
-Solo **Radiation Status Effects infligidos por habilidades de Warframe/Companion** — no por armas.
-La wiki lista 40+ habilidades compatibles, la mayoría requiriendo que la habilidad o el arma esté
-moddeada para daño Radiation (ej. "Only when Exalted Blade is modded for Radiation damage").
+Los Universal Orbs creados por este arcano dan **50 de health y 50 de energy**.
 
-## Propiedades del Universal Orb
+## Qué lo dispara
 
-"Universal orbs created from this Arcane give **50** health and **50** energy."
+Sólo los status de Radiation aplicados por **habilidades** — la wiki tabula **42 casos** por
+warframe y habilidad. La mayoría lleva una condición: que la habilidad o el arma exaltada esté
+moddeada para daño de Radiation (por ejemplo, Blade Storm sólo cuando los Shadow Clones lo están;
+Landslide sólo con los Landslide Fists moddeados; Rumblers sólo usando Rumbled moddeado).
 
-## Notas de modelado (de la wiki, ya orientadas a simulador)
+La tabla completa, con la nota de cada caso, está en el raw.
 
-1. Sin cooldown intrínseco entre procs — el stacking es puramente lineal por aplicación de status.
-2. RNG independiente por proc: cada uno de los 10 stacks acumulados en un enemigo representa un
-   chequeo de 60% de drop independiente al morir.
-3. No depende del daño infligido ni del tipo de enemigo — solo del conteo de stacks acumulados.
-4. Arcano tradeable, requiere Mastery Rank 11+.
+## Comercio
 
-## Ambigüedades para el simulador
+Comerciarlo exige que **quien entrega** sea Mastery Rank 11 o superior.
 
-- Comportamiento exacto si la misma habilidad aplica múltiples procs de Radiation en el mismo
-  frame/tick.
-- Si el status de Radiation infligido por un companion cuenta igual que el de un warframe.
-- Interacción específica con habilidades que aplican Radiation en AoE vs. single-target.
+## Adquisición
+
+Una copia por semana de **Kaya Velasco** en Höllvania Central Mall por 5 Pix Chip. También como
+recompensa aleatoria de **Temporal Archimedea**.
 
 ## Fuentes
 
