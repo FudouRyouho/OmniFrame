@@ -1,0 +1,338 @@
+{{Infobox
+| Box title = Punch Through
+| image = MetalAugerMod.png
+| caption = Example of a mod that provides punch through
+}}
+{{Quote|Determines how far projectiles can pass through enemies and objects. Each pierced target subtracts the value of the remaining Punch Through potential for that projectile.|In-game Description}}
+'''Punch Through''' is a mechanic that allows weapons to shoot through a set distance of material, whether this material is cover, objects or enemies. The total amount of material that a weapon's bullet, beam or projectile can pass through before despawning is determined by the Punch Through value (measured in meters). Punch Through is typically gained through [[Mods]], though certain weapons have innate Punch Through values.
+
+With higher Punch Through values, a skilled player can estimate and strike the location of [[Enemy Body Parts|enemies' weak spots]] while they're in total cover, without waiting for them to expose themselves to the player's line of sight. High values of Punch Through can also be used to penetrate multiple enemies at once, which can greatly boost a weapon's ammo efficiency against swarms of enemies. 
+
+==Mechanics==
+
+===Geometry Punch Through===
+Geometry Punch Through is the total distance of material (object or enemy) that a weapon's projectile, bullet or beam can pass through before dissipating. Punch Through values listed in the arsenal and from mods are this type of Punch Through.
+This Punch Through value is gradually diminished as the projectile passes through objects or enemies. Once a projectile's Punch Through distance is used up, the projectile despawns normally as if it were fired from a weapon with no Punch Through. A Punch Through value of 1.2m is sufficient to pass through most enemies at least once (Infested [[Boiler]]s being one of the notable exceptions).
+
+For example, when using a weapon with 1.2m of Punch Through distance against a line of four Grineer [[Butcher]]s at chest height, a shot will only pass through the first two targets but not through the third, since the torso hitbox of three butchers combined adds up to over 1.2m of material. This results in only three of the four Butchers being hit. Increasing the punch through to 2.1m will result in all four Butchers being hit.<ref>[https://www.youtube.com/watch?v=bpDphg5GxQU Punch Through Mechanics Testing]</ref>
+
+It is important to note that there are some objects that cannot be Punched Through by any means; barriers from abilities such as [[Eximus#Arctic|Arctic Eximus]] barriers or [[Nullifier Crewman]] fields will block all projectiles regardless of the amount of Punch Through they may otherwise be capable of. Additionally, some [[Bosses]] have weakspots that periodically close, and cannot be penetrated by any means until they open up (such as [[General Sargas Ruk]]'s exhaust vents, which only open after he performs certain attacks). 
+
+[[File:PunchThroughVelocity.gif|thumb|An example of Punch Through projectiles losing velocity. Note how the second volley passing through the pillar have notably less speed.]]
+[[Projectile Speed#Hitscan vs Projectile|Non-hitscan]] weapons with Punch Through will function as expected. However, projectiles that fully penetrate geometry and pass through will lose a significant amount of their velocity.
+
+Despite having no unrestricted mod sources of punch through, regular melee strikes can also benefit from it, allowing them to bypass level geometry.
+
+===Infinite Body Punch Through===
+Some weapons that shoot wide [[projectile]]s or a stream of particles possess infinite body Punch Through. Infinite body Punch Through allows these weapons to pierce an unlimited amount of enemies, but '''not''' level geometry, objects, or barriers.
+''The following is a list of weapons with infinite body Punch Through:'' 
+<div class="tabber-borderless">{{#tag:tabber|Primary =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Alternox.png|link=Alternox|{{Weapon|Alternox}} (Primary Fire)
+AlternoxPrime.png|link=Alternox Prime| {{Weapon|Alternox Prime}} (Primary Fire)
+ArcaPlasmor.png|link=Arca Plasmor|{{Weapon|Arca Plasmor}}
+Catchmoon.png|link=Catchmoon|{{Weapon|Catchmoon}}
+Cinta.png|link=Cinta|{{Weapon|Cinta}} (Perfect Shot)
+CodaBassocyst.png|link=Coda Bassocyst|{{Weapon|Coda Bassocyst}}
+Dread.png|link=Dread|{{Weapon|Dread}} (Incarnon Form)
+Exergis.png|link=Exergis|{{Weapon|Exergis}}
+Felarx.png|link=Felarx|{{Weapon|Felarx}}
+Fulmin.png|link=Fulmin|{{Weapon|Fulmin}} (Semi-Auto Mode)
+FulminPrime.png|link=Fulmin Prime|{{Weapon|Fulmin Prime}} (Semi-Auto Mode)
+Ignis.png|link=Ignis|{{Weapon|Ignis}}
+IgnisWraith.png|link=Ignis Wraith|{{Weapon|Ignis Wraith}}
+Lanka.png|link=Lanka|{{Weapon|Lanka}}
+Paris.png|link=Mk1-Paris|{{Weapon|Mk1-Paris}} (Incarnon Form)
+Nataruk.png|link=Nataruk|{{Weapon|Nataruk}} (Charged and Perfect Shot)
+Paris.png|link=Paris|{{Weapon|Paris}} (Incarnon Form)
+ParisPrime.png|link=Paris Prime|{{Weapon|Paris Prime}} (Incarnon Form)
+Phantasma.png|link=Phantasma|{{Weapon|Phantasma}} (Primary Fire)
+PhantasmaPrime.png|link=Phantasma Prime|{{Weapon|Phantasma Prime}} (Primary Fire)
+Purgator1.png|link=Purgator 1|{{Weapon|Purgator 1}}
+Quellor.png|link=Quellor|{{Weapon|Quellor}} (Alt-Fire)
+Steflos.png|link=Steflos|{{Weapon|Steflos}}
+TenetArcaPlasmor.png|link=Tenet Arca Plasmor|{{Weapon|Tenet Arca Plasmor}}
+</gallery>
+{{!}}-{{!}}Secondary =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Athodai.png|link=Athodai|{{Weapon|Athodai}} (Alt-Fire)
+Catchmoon.png|link=Catchmoon|{{Weapon|Catchmoon (Secondary)}}
+Cyanex.png|link=Cyanex|{{Weapon|Cyanex}} (Alt-Fire)
+Grimoire.png|link=Grimoire|{{Weapon|Grimoire}} (Alt-Fire)
+Lex.png|link=Lex|{{Weapon|Lex}} (Incarnon Form)
+LexPrime.png|link=Lex Prime|{{Weapon|Lex Prime}} (Incarnon Form)
+</gallery>
+{{!}}-{{!}}Melee=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Cerata.png|link=Cerata|{{Weapon|Cerata}} (Charged Throw only)
+Corufell.png|link=Corufell|{{Weapon|Corufell}} (Heavy Attack projectile)
+Falcor.png|link=Falcor|{{Weapon|Falcor}} (Charged Throw only)
+Glaive.png|link=Glaive|{{Weapon|Glaive}} (Charged Throw only)
+GlaivePrime.png|link=Glaive Prime|{{Weapon|Glaive Prime}} (Charged Throw only)
+Halikar.png|link=Halikar|{{Weapon|Halikar}} (Charged Throw only)
+HalikarWraith.png|link=Halikar Wraith|{{Weapon|Halikar Wraith}} (Charged Throw only)
+Kestrel.png|link=Kestrel|{{Weapon|Kestrel}} (Charged Throw only)
+Nepheri.png|link=Nepheri|{{Weapon|Nepheri}} (Neutral Combo projectiles)
+Stropha.png|link=Stropha|{{Weapon|Stropha}} (projectiles)
+Syam.png|link=Syam|{{Weapon|Syam}} (Heavy Attack projectiles)
+TenetAgendus.png|link=Tenet Agendus|{{Weapon|Tenet Agendus}} (Heavy Attack projectile)
+Verdilac.png|link=Verdilac|{{Weapon|Verdilac}} (Tactical Combo projectiles)
+</gallery>
+{{!}}-{{!}}Archgun=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Cortege.png|link=Cortege|{{Weapon|Cortege}} (Primary Fire)
+Corvas.png|link=Corvas|{{Weapon|Corvas}} (Atmospheric Mode)
+CorvasPrime.png|link=Corvas Prime|{{Weapon|Corvas Prime}}
+Grattler.png|link=Grattler|{{Weapon|Grattler}}
+KuvaGrattler.png|link=Kuva Grattler|{{Weapon|Kuva Grattler}}
+Mandonel.png|link=Mandonel|{{Weapon|Mandonel}}
+Velocitus.png|link=Velocitus|{{Weapon|Velocitus}}
+</gallery>
+{{!}}-{{!}}Sentinel=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Vulklok.png|link=Vulklok|{{Weapon|Vulklok}}
+</gallery>
+}}</div>
+
+===Area of Effect Weapons and Locked Punch Through===
+With a very few exceptions, weapon projectiles with an area of effect (AoE) component will not Punch Through enemies or level geometry at all. Instead the projectile will explode on first contact. Note that some weapons have multiple modes though, where an AoE mode won't benefit from Punch Through but another mode will.
+
+However, Projectile AoE weapons (as opposed to hit-scan projectiles) cannot have their Punch Through stat modified. This is signified by a lock icon [[File:IconLocked(xWhite).png|x16px|inline]] next to the Punch Through stat in the Arsenal.
+
+==Weapons==
+Some weapons come with an innate amount of Punch Through without any installed mods. Most weapons with a charged shot mechanic will add Punch Through upon full charge, while their uncharged shots may not penetrate anything. In both cases, their innate Punch Through values will stack with any mods that grant Punch Through.
+<div class="tabber-borderless">{{#tag:tabber|Primary =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Aeolak.png|link=Aeolak|{{Weapon|Aeolak}} (Primary Fire only: 1.0m)
+ArtemisBowWeapon.png|link=Artemis Bow (Weapon)|[[Artemis Bow (Weapon)|Artemis Bow]] (1.0m)
+Battacor.png|link=Battacor|{{Weapon|Battacor}} (Alt-Fire only: 2.0m)
+Boltor.png|link=Boltor|{{Weapon|Boltor}} (Incarnon Form only: 0.6m)
+Bubonico.png|link=Bubonico|{{Weapon|Bubonico}} (Primary Fire only: 1.9m)
+Cedo.png|link=Cedo|{{Weapon|Cedo}} (Primary Fire only: 0.8m)
+Cernos.png|link=Cernos|{{Weapon|Cernos}} (Charged Shot only: 1.0m)
+CernosPrime.png|link=Cernos Prime|{{Weapon|Cernos Prime}} (Charged Shot only: 1.0m)
+Cinta.png|link=Cinta|{{Weapon|Cinta}} (Charged Shot only: 2.0m)
+Convectrix.png|link=Convectrix|{{Weapon|Convectrix}} (0.6m)
+Daikyu.png|link=Daikyu|{{Weapon|Daikyu}} (Charged Shot only: 3.0m)
+Drakgoon.png|link=Drakgoon|{{Weapon|Drakgoon}} (Charged Shot only: 1.5m)
+Dread.png|link=Dread|{{Weapon|Dread}} (Charged Shot only: 2.5m)
+Exergis.png|link=Exergis|{{Weapon|Exergis}} (0.5m)
+Ferrox.png|link=Ferrox|{{Weapon|Ferrox}} (Charged Shot only: 1.5m)
+FluxRifle.png|link=Flux Rifle|{{Weapon|Flux Rifle}} (0.5m)
+GotvaPrime.png|link=Gotva Prime|{{Weapon|Gotva Prime}} (0.5m)
+Kohm.png|link=Kohm|{{Weapon|Kohm}} (1.5m)
+Komorex.png|link=Komorex|{{Weapon|Komorex}} (First zoom level only: 2.0m)
+KuvaDrakgoon.png|link=Kuva Drakgoon|{{Weapon|Kuva Drakgoon}} (Charged Shot only: 1.5m)
+KuvaHek.png|link=Kuva Hek|{{Weapon|Kuva Hek}} (0.3m)
+KuvaKarak.png|link=Kuva Karak|{{Weapon|Kuva Karak}} (0.2m)
+KuvaKohm.png|link=Kuva Kohm|{{Weapon|Kuva Kohm}} (1.5m)
+KuvaQuartakk.png|link=Kuva Quartakk|{{Weapon|Kuva Quartakk}} (While aiming: 0.5m)
+KuvaZarr.png|link=Kuva Zarr|{{Weapon|Kuva Zarr}} (Barrage Mode only: 1.6m)
+Lanka.png|link=Lanka|{{Weapon|Lanka}} (Charged Shot only: 5.0m)
+Miter.png|link=Miter|{{Weapon|Miter}} (Charged Shot only: 2.5m)
+Paris.png|link=Mk1-Paris|{{Weapon|Mk1-Paris}} (Charged Shot only: 2.0m)
+MutalistCernos.png|link=Mutalist Cernos|{{Weapon|Mutalist Cernos}} (Charged Shot only: 1.0m)
+Nagantaka.png|link=Nagantaka|{{Weapon|Nagantaka}} (When wielded by {{WF|Garuda}} ({{WF|Garuda Prime|Prime}}): 1.0m)
+NagantakaPrime.png|link=Nagantaka Prime|{{Weapon|Nagantaka Prime}} (When wielded by {{WF|Garuda}} ({{WF|Garuda Prime|Prime}}): 1.0m)
+Opticor.png|link=Opticor|{{Weapon|Opticor}} (1.0m)
+OpticorVandal.png|link=Opticor Vandal|{{Weapon|Opticor Vandal}} (1.0m)
+Paris.png|link=Paris|{{Weapon|Paris}} (Charged Shot only: 2.0m)
+ParisPrime.png|link=Paris Prime|{{Weapon|Paris Prime}} (Charged Shot only: 3.0m)
+Perigale.png|link=Perigale|{{Weapon|Perigale}} (1.0m)
+Phenmor.png|link=Phenmor|{{Weapon|Phenmor}} (Incarnon Form only: 3.0m)
+Quartakk.png|link=Quartakk|{{Weapon|Quartakk}} (0.5m)
+Quellor.png|link=Quellor|{{Weapon|Quellor}} (Primary Fire only: 0.5m)
+RaktaCernos.png|link=Rakta Cernos|{{Weapon|Rakta Cernos}} (Charged Shot only: 1.0m)
+Rubico.png|link=Rubico|{{Weapon|Rubico}} (1.0m)
+RubicoPrime.png|link=Rubico Prime|{{Weapon|Rubico Prime}} (1.0m)
+Snipetron.png|link=Snipetron|{{Weapon|Snipetron}} (2.5m)
+SnipetronVandal.png|link=Snipetron Vandal|{{Weapon|Snipetron Vandal}} (3.0m)
+Stahlta.png|link=Stahlta|{{Weapon|Stahlta}} (Primary Fire only: 1.2m)
+StradavarPrime.png|link=Stradavar Prime|{{Weapon|Stradavar Prime}} (Semi-Mode only: 1.0m)
+StrunPrime.png|link=Strun Prime|{{Weapon|Strun Prime}} (0.8m)
+TelosBoltor.png|link=Telos Boltor|{{Weapon|Telos Boltor}} (Incarnon Form only: 0.6m)
+Tenora.png|link=Tenora|{{Weapon|Tenora}} (Alt-Fire only: 1.0m)
+TenoraPrime.png|link=Tenora Prime|{{Weapon|Tenora Prime}} (Alt-Fire only: 1.0m)
+Vectis.png|link=Vectis|{{Weapon|Vectis}} (1.0m)
+VectisPrime.png|link=Vectis Prime|{{Weapon|Vectis Prime}} (1.0m)
+Vulkar.png|link=Vulkar|{{Weapon|Vulkar}} (1.0m)
+VulkarWraith.png|link=Vulkar Wraith|{{Weapon|Vulkar Wraith}} (1.0m)
+Zarr.png|link=Zarr|{{Weapon|Zarr}} (Barrage Mode only: 1.6m)
+Zenith.png|link=Zenith|{{Weapon|Zenith}} (Semi-Mode only: 99999.0 m)
+</gallery>
+{{!}}-{{!}}Secondary =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+AkjagaraPrime.png|link=Akjagara Prime|{{Weapon|Akjagara Prime}} (0.2m)
+Athodai.png|link=Athodai|{{Weapon|Athodai}} (Alt-Fire only: 2.0m)
+Cyanex.png|link=Cyanex|{{Weapon|Cyanex}} (Alt-Fire only: 0.5m)
+Cycron.png|link=Cycron|{{Weapon|Cycron}} (1.0m)
+Epitaph.png|link=Epitaph|{{Weapon|Epitaph}} (Charged Shot only: 2.0m)
+Gaze.png|link=Gaze|[[Gaze|Secondary Gaze]] (1.0m)
+Kohmak.png|link=Kohmak|{{Weapon|Kohmak}} (1.5m)
+KuvaBrakk.png|link=Kuva Brakk|{{Weapon|Kuva Brakk}} (0.5m)
+Lato.png|link=Lato|{{Weapon|Lato}} (Incarnon Form only: 0.4m)
+LatoPrime.png|link=Lato Prime|{{Weapon|Lato Prime}} (Incarnon Form only: 1.0m)
+LatoVandal.png|link=Lato Vandal|{{Weapon|Lato Vandal}} (Incarnon Form only: 0.8m)
+Lex.png|link=Lex|{{Weapon|Lex}} (Incarnon Form only: 1.4m)
+LexPrime.png|link=Lex Prime|{{Weapon|Lex Prime}} (Incarnon Form only: 1.4m)
+Spectra.png|link=Spectra|{{Weapon|Spectra}} (0.5m)
+SpectraVandal.png|link=Spectra Vandal|{{Weapon|Spectra Vandal}} (0.5m)
+TenetCycron.png|link=Tenet Cycron|{{Weapon|Tenet Cycron}} (1.0m)
+TenetDiplos.png|link=Tenet Diplos|{{Weapon|Tenet Diplos}} (1.0m)
+TwinKohmak.png|link=Twin Kohmak|{{Weapon|Twin Kohmak}} (1.5m)
+Vermisplicer.png|link=Vermisplicer|[[Vermisplicer|Secondary Vermisplicer]] (1.0m)
+</gallery>
+{{!}}-{{!}}Melee=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+DesertWind.png|link=Desert Wind|[[Desert Wind]] (20.0m)
+ExaltedBladeWeapon.png|link=Exalted Blade (Weapon)|[[Exalted Blade (Weapon)|Exalted Blade]] (40.0m)
+Innodem.png|link=Innodem|{{Weapon|Innodem}} (Incarnon Form Aim Glide projectile only: 21.0m)
+Redeemer.png|link=Redeemer|{{Weapon|Redeemer}} (On Shots only: 1.0m)
+RedeemerPrime.png|link=Redeemer Prime|{{Weapon|Redeemer Prime}} (On Shots only: 1.0m)
+Sarpa.png|Link=Sarpa|{{Weapon|Sarpa}} (On Shots only: 1.0m)
+Vastilok.png|link=Vastilok|{{Weapon|Vastilok}} (On Shots only: 1.3m)
+</gallery>
+{{!}}-{{!}}Archgun=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Corvas.png|link=Corvas|{{Weapon|Corvas}} (2.4m)
+CorvasPrime.png|link=Corvas Prime|{{Weapon|Corvas Prime}} (1.4m)
+Cyngas.png|link=Cyngas|{{Weapon|Cyngas}} (1.5m)
+DualDecurion.png|link=Dual Decurion|{{Weapon|Dual Decurion}} (1.2m)
+Fluctus.png|link=Fluctus|{{Weapon|Fluctus}} (275m)
+Imperator.png|link=Imperator|{{Weapon|Imperator}} (1.2m)
+ImperatorVandal.png|link=Imperator Vandal|{{Weapon|Imperator Vandal}} (1.2m)
+Mandonel.png|link=Mandonel|{{Weapon|Mandonel}} (Charged Shot only: 2.4m)
+Phaedra.png|link=Phaedra|{{Weapon|Phaedra}} (1.2m)
+PrismaDualDecurions.png|link=Prisma Dual Decurions|{{Weapon|Prisma Dual Decurions}} (1.4m)
+Velocitus.png|link=Velocitus|{{Weapon|Velocitus}} (5.0m)
+</gallery>
+{{!}}-{{!}}Robotic=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Multron.png|link=Multron|{{Weapon|Multron}} (0.1m)
+Vulcax.png|link=Vulcax|{{Weapon|Vulcax}} (1.0m)
+Vulklok.png|link=Vulklok|{{Weapon|Vulklok}} (1.5m)
+</gallery>
+}}</div>
+
+
+==Minimum Mod Ranks for Penetration==
+;Notes
+*Average data, result will differ due to width variances.
+*Humanoid enemies include {{E|Elite Lancer}}, {{E|Crewman}}, and {{E|Ancient Disruptor}}.
+*Quadruped enemies include {{E|Charger}}.
+{| class="article-table" style="text-align:center;"
+|+ Approximate Body Units Punctured
+|-
+! {{M|Seeking Fury}}, {{M|Shred}}, {{M|Merciless Gunfight}}
+! +0.2 !! +0.4 !! +0.6 !! +0.8 !! +1.0 !! +1.2
+|-
+| Humanoid
+| ❌ || ❌ || ✔️ || ✔️ || ✔️ || ✔️
+|-
+| Quadruped
+| ❌ || ❌ || ❌ || ❌ || ✔️ || ✔️
+|-
+! {{M|Vigilante Offense}}
+! +0.25 !! +0.5 !! +0.75 !! +1.0 !! +1.25 !! +1.5
+|-
+| Humanoid
+| ❌ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️
+|-
+| Quadruped
+| ❌ || ❌ || ❌ || ✔️ || ✔️ || ✔️
+|-
+! {{M|Power Throw}}
+! +0.3 !! +0.7 !! +1 !! +1.3 !! +1.7 !! +2
+|-
+| Humanoid
+| ❌ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️
+|-
+| Quadruped
+| ❌ || ❌ || ✔️ || ✔️ || ✔️ || ✔️
+|-
+! {{M|Metal Auger}}, {{M|Seeker|Seeker}}, {{M|Seeking Force}}
+! +0.4 !! +0.7 !! +1.1 !! +1.4 !! +1.8 !! +2.1
+|-
+| Humanoid
+| ❌ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️
+|-
+| Quadruped
+| ❌ || ❌ || ✔️ || ✔️ || ✔️ || ✔️
+|-
+! {{M|Primed Shred}}
+! +0.2 !! +0.4 !! +0.6 !! +0.8 !! +1.0 !! +1.2!! +1.4 !! +1.6 !! +1.8 !! +2.0 !! +2.2
+|-
+| Humanoid
+| ❌ || ❌ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️
+|-
+| Quadruped
+| ❌ || ❌ || ❌ || ❌ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️ || ✔️
+|}
+
+{{clr}}
+
+==Sources of Punch Through==
+===Mods===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+SabotRoundsMod.png|link=Sabot Rounds|{{M|Sabot Rounds}}|alt=Sabot Rounds
+RifleElementalistMod.png|link=Rifle Elementalist|{{M|Rifle Elementalist}}|alt=Rifle Elementalist
+PrimedShredMod.png|link=Primed Shred|{{M|Primed Shred}}|alt=Primed Shred
+Semi-RifleCannonadeMod.png|link=Semi-Rifle Cannonade|{{M|Semi-Rifle Cannonade}}|alt=Semi-Rifle Cannonade
+ShredMod.png|link=Shred|{{M|Shred}}|alt=Shred
+MetalAugerMod.png|link=Metal Auger|{{M|Metal Auger}}|alt=Metal Auger
+AmalgamArgonakMetalAugerMod.png|link=Amalgam Argonak Metal Auger|{{M|Amalgam Argonak Metal Auger}}|alt=Amalgam Argonak Metal Auger
+SeekingForceMod.png|link=Seeking Force|{{M|Seeking Force}}|alt=Seeking Force
+SeekingFuryMod.png|link=Seeking Fury|{{M|Seeking Fury}}|alt=Seeking Fury
+Semi-ShotgunCannonadeMod.png|link=Semi-Shotgun Cannonade|{{M|Semi-Shotgun Cannonade}}|alt=Semi-Shotgun Cannonade
+SeekerMod.png|link=Seeker (Mod)|{{M|Seeker}}|alt=Seeker
+File:MercilessGunfightMod.png|{{M|Merciless Gunfight}}|alt=Merciless Gunfight
+Semi-PistolCannonadeMod.png|link=Semi-Pistol Cannonade|{{M|Semi-Pistol Cannonade}}|alt=Semi-Pistol Cannonade
+PowerThrowMod.png|link=Power Throw|{{M|Power Throw}}|alt=Power Throw
+VigilanteOffenseMod.png|link=Vigilante Offense|{{M|Vigilante Offense}}|alt=Vigilante Offense
+File:PiercingNavigatorMod.png|{{M|Piercing Navigator}}|alt=Piercing Navigator
+File:VolatileVariantMod.png|{{M|Volatile Variant}}|alt=Volatile Variant
+</gallery>
+
+===Passive===
+*{{WF|Garuda}}/{{WF|Garuda Prime}}'s [[Signature Weapon]] effect with {{Weapon|Nagantaka}}/{{Weapon|Nagantaka Prime}} (1m) 
+*{{WF|Qorvex}}'s [[Qorvex/Abilities#Passive|Passive]] (3m)
+
+===Abilities===
+{{#tag:tabber|Cyte-09=
+{{:Seek}}
+{{!}}-{{!}}
+}}
+
+==Notes==
+*A number of bosses actually become invulnerable when they deploy protection rather than using a physical barrier to block attacks. In those cases Punch Through will ''not'' allow damage to be dealt during these phases. The [[Raptors]], [[Captain Vor]] and [[Lephantis]] are good examples.
+*The shields of [[Eximus]] Guardian cannot be bypassed with Punch Through.
+
+==Bugs==
+*The Drakgoon's real Punch Through on Charged Shots may differ from the listed Punch Through in the Arsenal/Codex and on site. It seems to be even less than 1.5m as listed in the Arsenal/Codex. Further testing/info required.
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+Containers_1.png|These two containers are 22m apart, the Latron Prime has maxed Metal Auger.
+Containers_2.png|The bullet can puncture the first, travel ~20m and still hit the second.
+Containers_3.png|This shows Punch Through only counts solid objects, not empty space.
+</gallery>
+
+==Trivia==
+[[File:Puncture_refraction.gif|thumb|300px|An demonstration of how Punch Through interacted with a projectile weapon (in this case, an {{Weapon|Acrid}} with {{M|Seeker|Seeker}} equipped). Note how the Acrid's darts would veer off to the right of the reticle, as opposed to continuing forward.]]
+*Beginning in {{ver|9.7}}, Punch Through functionality was given to non-hitscan weapons. However, projectiles that manage to penetrate an angled surface will veer off to the side once they exit, and with significantly reduced velocity. After an unknown update, projectiles passing through objects would no longer deviate, but would still lose velocity.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|41}}
+*Fixed Punch Through causing projectiles from certain weapons to bounce off of dead foes instead of punching through them. 
+}}
+
+==References==
+{{Reflist}}
+
+{{DamageNav}}
+{{MechNav}}
+[[es:Atravesar]]
+[[Category:Mechanics]]
+[[Category:Update 7]]
+[[fr:Pénétration]]
