@@ -116,9 +116,22 @@ el alt-fire embebido de la familia Ferrox, la torreta de la Azima y el Sonicor.
 
 ## Qué cuenta como status effect
 
-**Todos los status que tienen un tipo de daño equivalente.** Los tres físicos (Impact, Puncture,
-Slash), los cuatro elementales simples (Cold, Electricity, Heat, Toxin) y los seis combinados
-(Blast, Corrosive, Gas, Magnetic, Radiation, Viral), más los de tipos únicos.
+**Todos los status que tienen un tipo de daño equivalente** — los tres físicos (Impact, Puncture,
+Slash), los cuatro elementales simples (Cold, Electricity, Heat, Toxin), los seis combinados (Blast,
+Corrosive, Gas, Magnetic, Radiation, Viral) y los de tipos únicos (Void, Tau).
+
+**Y además tres que la wiki llama *"unique hidden status effects"*, que NO vienen de ningún tipo de
+daño:**
+
+| Status | Nota |
+|---|---|
+| **Lifted** | **no puede coexistir con Knockdown** en el mismo objetivo |
+| **Knockdown** | **no puede coexistir con Lifted** en el mismo objetivo |
+| **Microwave** | — |
+
+> Es la excepción a la regla que la propia sección enuncia: para el bonus de CO, estos tres suman
+> **aunque no tengan tipo de daño equivalente**. La exclusión mutua Lifted ↔ Knockdown acota cuánto
+> pueden aportar entre los dos: **uno, nunca los dos**.
 
 ## Secuencia dentro del mismo disparo
 
