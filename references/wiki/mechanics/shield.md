@@ -6,7 +6,7 @@
 > No usar para: escalado de shields de enemigos por nivel (→ `enemy-level-scaling.md`) · el catálogo completo de fuentes de restauración (está en el raw)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Shield
-> Raw: shield.wikitext
+> Raw: shield.wikitext · ../arcanes/arcane-aegis.wikitext
 
 ## Fórmula base
 
@@ -75,21 +75,47 @@ segundos, y a partir de ahí crece muy poco — **ni con 10.000 de shields super
 **Enemigos:** sus shields tardan **máximo 3 segundos** en empezar a regenerar, según cuánto se les
 haya agotado.
 
+### Arcane Aegis anula el delay
+
+3% de chance, al recibir daño a los shields, de regenerarlos durante 12 segundos. Su efecto
+declarado es +30% de tasa de recarga, pero lo importante está en las notas:
+
+> *"Has a **hidden stat** that sets shield recharge delay to **0 seconds** while active. This causes
+> the players shields to **constantly regenerate, even when being damaged**."*
+
+Es decir: mientras dura, los dos delays de arriba dejan de existir. Consecuencias que la wiki
+declara:
+
+- **Magnetic sigue impidiendo la regeneración**, aun con el arcano activo.
+- El bonus de recarga es **aditivo al 5% innato**, pero **multiplicativo** con Fast Deflection y
+  Vigilante Vigor. Ejemplo textual con Hildryn + Redirection + Fast Deflection:
+  `[15 + (5% + 30%) × 1780 × (1 + 100%)] × (1 + 90%)` shields/s.
+- **No genera overshields.**
+- **No sirve** en Inaros, Kullervo ni Nidus (no tienen shields que dañar), ni con **Arcane
+  Persistence** equipado, ni bajo el modificador *No Shields*.
+
 ## Shield Gating
 
 Al agotarse los shields, el exceso de daño **no se filtra a la salud**: se gana invulnerabilidad.
 Aplica a warframes, companions, archwings, necramechs y railjacks.
 
-La duración **tiene fórmula**, no es un valor fijo:
+La duración **tiene fórmula**, y su argumento **no es el shield máximo del warframe**:
+
+> *"Invulnerability duration will scale based on the maximum shields **replenished since the last
+> shield gate occurred**."*
 
 ```text
-              ⎧ Shield/180 + 1/3                si Shield < 53
-t(Shield)  =  ⎨ (Shield/350)^0.65 + 1/3         si 53 ≤ Shield ≤ 1150
-              ⎩ 2.5                             si Shield > 1150
+              ⎧ S/180 + 1/3               si S < 53
+t(S)       =  ⎨ (S/350)^0.65 + 1/3        si 53 ≤ S ≤ 1150
+              ⎩ 2.5                       si S > 1150
+
+donde S = shields REPUESTOS desde el último shield gate
 ```
 
-Es decir: de **0.33 s** como mínimo hasta **2.5 s** a partir de 1.150 de shields. La duración escala
-según los shields máximos **repuestos desde el último shield gate**.
+De **0.33 s** como mínimo hasta **2.5 s** al reponer 1.150 o más.
+
+**La consecuencia práctica:** en el modo por defecto, la duración del gate es **proporcional a
+cuánto shield lograste rellenar**. Rellenar poco da una ventana corta.
 
 Excepciones y modificadores:
 
@@ -97,8 +123,13 @@ Excepciones y modificadores:
 |---|---|
 | Hildryn, y aliados bajo su Haven | **3.5 s** |
 | Grenade Fan (Protea) | **duplica** el mínimo — rango de 0.66 a 5 s |
-| Catalyzing Shields | fija la ventana en **1.33 s** al recuperar cualquier cantidad de shields, a costa de −80% de shield máximo |
+| **Catalyzing Shields** | **rompe la proporcionalidad**: fija la ventana en **1.33 s** *"upon recovering **any amount** of shields"*, a costa de −80% de shield máximo |
 | Decaying Dragon Key | **capa** la ventana a 0.33 s sin importar el shield máximo; anula por completo a Catalyzing Shields |
+
+> **Catalyzing Shields cambia la naturaleza de la mecánica, no sólo su número.** Sin él, el gate es
+> *consecuencia de rellenar shields* y escala con cuánto se rellenó. Con él, **cualquier cantidad**
+> —1 punto de 50— da los mismos 1.33 s. Por eso el shield máximo bajo (−80%) no es una desventaja
+> para este build: nada depende ya de la magnitud.
 
 > ⚠️ **Recuperar shields durante la invulnerabilidad la termina de inmediato** — cualquier cantidad,
 > de cualquier fuente, incluida la regeneración natural.

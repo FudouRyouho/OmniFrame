@@ -1,0 +1,85 @@
+{{ArcaneBox}}
+'''Arcane Aegis''' is an [[Arcane Enhancement]] that provides a 3% chance whenever the player receives damage to [[shield]]s to regenerate [[Warframe]] [[Shield]]s for 12 seconds.
+
+Can be sold for {{cc|1,000}}.
+
+==Effect==
+{| class="emodtable"
+|-
+! [[Arcane Enhancement#Rank|Rank]]
+! Shield Recharge Rate
+|-
+| 0 || +5%
+|-
+| 1 || +10%
+|-
+| 2 || +15%
+|-
+| 3 || +20%
+|-
+| 4 || +25%
+|-
+| 5 || +30%
+|}
+
+{{Acquisition|*Awarded for capturing the [[Eidolon Gantulyst]].
+*Dropped in Rotation C of [[Orphix]] [[Venus Proxima]] or [[Veil Proxima]] missions.}}
+
+===History===
+*Arcane Aegis was first introduced in the [[Trial]] mission [[The Jordas Verdict]], which was retired in {{ver|22.14}}.
+*The [[Operation: Scarlet Spear]] event sold Arcane Aegis from [[Little Duck]] for 2,000 {{Resource|Scarlet Credits}}.
+*The [[Operation: Orphix Venom]] event sold Arcane Aegis from [[Father]] for 400 {{Resource|Phasic Cells}}.
+*The [[Operation: Gargoyle's Cry]] event sold Arcane Aegis from the [[Jahu Gargoyle|Vigile Jahu Gargoyle]] for 6 {{Resource|Grotesque Splinter}}.
+*The [[Operation: Belly of the Beast]] event sold Arcane Aegis from [[Ordis]] for 5 {{Resource|Volatile Motes}} in the first run of the event, and 6 Motes in the second, with a purchase limit of 42.
+*The [[Operation: Eight Claw]] event sold Arcane Aegis from [[Dominus Thrax]] in bundles of 7, costing 4 {{Resource|Dominus Aureus}}, with a purchase limit of 3 (21 Arcanes  total).
+*The [[Operation: Blood of Perita]] event sold Arcane Aegis from [[Roathe]] for 4 {{Resource|Marks of Valiance}} with a purchase limit of 21 per week.
+
+==Notes==
+*Has a hidden stat that sets shield recharge delay to '''0''' seconds while active. This causes the players shields to constantly regenerate, even when being damaged.
+**{{D|Magnetic}} status effect still prevents shield regeneration with this Arcane active.
+*Shield Recharge bonus is additive to the innate '''5%''' shield recharge rate.
+*Shield recharge bonus stacks multiplicatively with {{M|Fast Deflection}} and {{M|Vigilante Vigor}}.
+**A {{WF|Hildryn}} with {{M|Redirection}}, {{M|Fast Deflection}}, and {{Arcane|Arcane Aegis}} equipped will have a shield recharge rate of 
+:::{{Math|[ 15 + ( 5% + {{Arcane|Arcane Aegis|30%}} ) * 1780 * ( 1 + {{M|Redirection|100%}} ) ] * (1 + {{M|Fast Deflection|90%}})|t=y|bf-a=y}} shields per second while {{Arcane|Arcane Aegis}} is active.
+*Does <u>not</u> generate [[overshields]].
+*Since this Arcane only triggers when shields are damaged, it has no benefit on {{WF|Inaros}}, {{WF|Kullervo}}, or {{WF|Nidus}} (as they have no shields to begin with), any Warframe with {{Arcane|Arcane Persistence}} equipped, or during a [[Nightmare Mode]] mission with the ''No Shields'' modifier.
+
+==Bugs==
+*Activating Arcane Aegis once will break the 80% Shield Recharge cap for the rest of the mission or until death.
+After the cap is lifted, {{WF|Gauss}}'s [[Gauss/Abilities|Passive]], {{WF|Jade}}'s {{A|Symphony of Mercy}}, and {{Focus|Vazarin}} ability {{Focus|Guardian Break}} when paired with {{M|Fast Deflection}} and {{M|Vigilante Vigor}} will set Shield Recharge Delay to 0. Due to Shield Gating, this makes shields effectively impossible to bypass except through Toxin or Magnetic status.
+
+
+==Media==
+{{YouTube|VxmgO9Mp-84|size=330x330px|align=center}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|34.0.2}}
+*Fixed Arcane Aegis exclusively triggering when not being attacked instead of when Shields are damaged. As reported here: https://forums.warframe.com/topic/1368186-arcane-aegis-massive-nerf
+
+{{ver|31.6}}
+;ARCANE STAT CHANGES PER RANK
+
+We’ve adjusted the values of older Arcanes with the goal of making lower rank Arcanes more viable, and more desirable while collecting as a result. In short, there are three stats that each Arcane tends to have (speaking generally) -- for example, a percentage chance, a stat buff, and the duration of the buff.
+
+Certain Arcanes increase all of these stats per rank (making them scale exponentially), but we are changing it so that only one stat is affected by rank (making it scale linearly). The other stats will now be at the max-rank value regardless of the Arcane Rank, thereby buffing lower-rank Arcanes as a result.
+
+;Arcane Aegis
+On Shield Damaged: 3% (was 1%) chance for 5%/30% Shield Recharge for 12s (was 2s)
+
+{{ver|17.9.1}}
+*Introduced.
+}}
+{{ArcaneNav}}
+
+[[de:Arkana Ägis]]
+[[es:Égida arcana]]
+[[Category:Arcane Enhancements]]
+[[Category:Equipment]]
+[[Category:Mechanics]]
+[[Category:Update 17]]
+[[Category:Shield Restoration]]
+[[uk:Містична еґіда]]
+[[Category:Eidolon Arcanes]]
+[[Category:Gantulyst Arcanes]]
+[[Category:Orphix Arcanes]]
