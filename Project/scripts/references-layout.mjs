@@ -67,7 +67,8 @@ const reclama = (doc, raw) => {
   const decl = declaredRaws(doc);
   if (!decl) return stem(doc) === stem(raw) && path.dirname(doc) === path.dirname(raw);
   return decl.some(d => d.includes('/')
-    ? path.resolve(WIKI, d) === raw
+    // con path: se acepta relativo al doc (`../mods/x.wikitext`) o a `wiki/` (`mods/x.wikitext`)
+    ? path.resolve(path.dirname(doc), d) === raw || path.resolve(WIKI, d) === raw
     : d === path.basename(raw) && path.dirname(doc) === path.dirname(raw));
 };
 

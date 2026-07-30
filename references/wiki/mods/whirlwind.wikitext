@@ -1,0 +1,79 @@
+{{ModBox}}
+'''Whirlwind''' is an [[Exilus Weapon Mod]] for [[Glaive (Weapon Type)|Glaives]] that increases the [[Projectile Speed]] when thrown. As a direct result, this mod also increases throwing distance.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +30% || 4
+|-
+| 1 || +60% || 5
+|-
+| 2 || +90% || 6
+|-
+| 3 || +120% || 7
+|-
+| 4 || +150% || 8
+|-
+| 5 || +180% || 9
+|}
+<br/>
+{| class="emodtable"
+|+ [[Flawed Mods|Flawed]]
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +30% || 4
+|-
+| 1 || +60% || 5
+|-
+| 2 || +90% || 6
+|-
+| 3 || +120% || 7
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Media==
+<gallery hideaddbutton="true">
+ModWhirlwind.png|Old appearance
+</gallery>
+
+{{YouTube|0oiyWdDFIZE|size=350px|align=center|caption=Almost Glaive only run on Ceres Ludi (maxed Whirlwind is equipped)}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|35}}
+;MELEE UPGRADE SEGMENT 
+
+Upon completion of the Whispers in the Walls Quest, players will receive a new Melee Upgrade Segment via their in-game Inbox. Installing it will further expand your Melee Arsenal with two new upgrade options:
+
+'''Melee Exilus Slots'''<br/>
+Fuse an Exilus Weapon Adapter into your Melee weapon to unlock the new Melee Exilus Slot. Players will be able to equip the following newly Exilus-compatible Mods: 
+*Whirlwind
+
+{{ver|10.0}}
+*Introduced
+}}
+
+==See Also==
+*[[Mods]]
+
+{{MeleeMods}}
+
+[[es:Torbellino]]
+[[fr:Tourbillon]]
+[[ru:Ураган]]
+[[Category:Mods]]
+[[Category:Melee Mods]]
+[[Category:Glaive Exclusive Mods]]
+[[Category:Rare Mods]]
+[[Category:Update 10]]
+[[Category:Madurai Mods]]
+[[uk:Смерч]]

@@ -1,0 +1,50 @@
+{{ModBox}}
+'''Entropy Flight''' is a [[Weapon Augments#Weapon Augment Mods|Weapon Augment Mod]] exclusive to the {{Weapon|Kestrel}} that increases [[Projectile Speed]] and adds an [[Entropy]] effect.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! [[Projectile Speed]]
+! [[Entropy]]
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +35% || 0.25 || 4
+|-
+| 1 || +70% || 0.5 || 5
+|-
+| 2 || +105% || 0.75 || 6
+|-
+| 3 || +140% || 1 || 7
+|}
+
+==Acquisition==
+*This mod is acquired by attaining the rank of '''Wise''' with {{Faction|Cephalon Suda}}, and spending {{sc|25,000}} to purchase.
+
+==Notes==
+*Combined with {{M|Whirlwind}} it is able to reach a flight speed of 126 m/s, which is faster than the {{Weapon|Glaive Prime}} with Whirlwind, which attains a speed of 112 m/s.
+
+{{Clr}}
+==Patch History==
+{{Scrollbox/Article|
+{{ver|15.0}}
+*Introduced.
+}}
+
+{{AugmentedMods}}
+__NOTOC__
+[[de:Entropie-Flug]]
+[[es:Trayectoria de entropía]]
+[[fr:Vol Entropique]]
+[[ru:Полёт Энтропии]]
+[[Category:Mods]]
+[[Category:Rare Mods]]
+[[Category:Melee Mods]]
+[[Category:Glaive Exclusive Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Update 15]]
+[[Category:Dual Stat Mods]]
+[[Category:Augment Mods]]
+[[Category:Naramon Mods]]
+[[Category:Magnetic Damage]]
+[[uk:Політ ентропії]]

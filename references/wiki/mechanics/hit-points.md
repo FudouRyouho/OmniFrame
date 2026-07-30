@@ -1,91 +1,86 @@
 # Hit Points
 
 > Estado: activo
-> Rol: modelo unificado de capas de HP y fórmulas de EHP
-> Fuente de verdad de: jerarquía de daño (Overguard → Shield → Health), cálculo de EHP, bleedout
-> No usar para: escalado de HP de enemigos o mecánicas de revivir detalladas
-> Última actualización: 2026-06-10
+> Rol: modelo unificado de las tres capas de HP y el cálculo de EHP total
+> Fuente de verdad de: qué es cada barra y qué mitigación tiene, orden de aplicación del daño, las cuatro fórmulas de Effective Hit Points
+> No usar para: escalado de HP de enemigos (→ `enemy-level-scaling.md`) · el detalle de cada capa (→ `health.md` · `shield.md` · `overguard.md`) · bleedout y revivir
+> Última actualización: 2026-07-29
+> Fuente: https://wiki.warframe.com/w/Hit_Points
+> Raw: hit-points.wikitext · shield.wikitext · overguard.wikitext
 
-## Orden de capas
+**Hit Points** es un concepto meta: el daño máximo que un jugador o NPC puede recibir antes de
+entrar en bleedout o morir.
 
-```text
-Overguard → Shield (+ Overshield) → Health
-```
+## Las tres barras
 
-El daño se aplica a cada capa en orden. Una capa debe vaciarse completamente antes de que el daño pase a la siguiente (con excepciones de bypass como Toxin).
-
-| Capa | Presente en | Bypass conocido |
+| Barra | Mitigación propia | Al agotarse |
 |---|---|---|
-| **Overguard** | Warframes con fuentes específicas; Eximus | Ninguno completo — Void +50% efectivo |
-| **Overshield** | Encima de shields normales (cap 1200) | — |
-| **Shield** | Todos los warframes excepto Inaros, Nidus | Toxin, True damage |
-| **Health** | Todos los warframes y entidades | — |
+| **Health** | recibe DR del **armor** | el jugador entra en **bleedout** |
+| **Shield** | **50% de DR plana**; ninguna del armor | invulnerabilidad temporal (Shield Gating) |
+| **Overguard** | **ninguna** — pero da inmunidad a **Crowd Control** mientras sea > 0 | invulnerabilidad temporal |
 
-## EHP — Effective Health Points
-
-EHP mide cuánto daño bruto puede absorber una entidad antes de morir, considerando todas las mitigaciones.
-
-### EHP con solo armor
+## Orden de aplicación del daño
 
 ```text
-EHP_armor = Health × (Armor + 300) / 300
+Overguard  →  Shield  →  Health
+              (Toxin lo bypasea)
 ```
 
-Ejemplo (Oberon R30, base 740 HP, 900 armor con mods):
-```text
-EHP = 740 × (900 + 300) / 300 = 740 × 4.0 = 2960
-```
+Cada capa se agota antes de pasar a la siguiente.
 
-### EHP con shield + armor
+**Si hay cualquier efecto de invulnerabilidad activo cuando llegan los hits, no se aplica daño a
+ninguna de las tres.**
 
-```text
-EHP_total = EHP_health + Shield × 2
-```
+## Cálculo de Effective Hit Points
 
-El factor ×2 refleja la DR inherente del 50% de los shields (cada punto de shield absorbe efectivamente 2 de daño normal).
-
-> Esta fórmula asume daño no elemental. Magnetic vs shields o Toxin bypass cambian el peso relativo de cada capa.
-
-### EHP con DR adicional
-
-Si hay fuentes de DR adicional (Adaptation, habilidades):
+En su forma más simple, el EHP total es la suma de las tres barras después de aplicar upgrades,
+damage reduction, modificadores de tipo de daño y demás efectos.
 
 ```text
-EHP_total = Health / (1 − DR_armor) / (1 − DR_hab_1) / (1 − DR_hab_2) / ...
+Total EHP (contra un tipo de daño) = Effective Health + Effective Shield + Effective Overguard
 ```
 
-Donde `DR_armor = Armor / (Armor + 300)`. Ver `damage-reduction.md` para stacking completo.
+```text
+                        Net Armor + 300         1                    1
+Effective Health = NH × ───────────────  ×  ──────────  ×  ──────────────────────
+                              300            1 − Net DR      1 + Damage Type Mod
+```
 
-## Bleedout
+```text
+Effective Shield = (Net Shield + Net Overshield) × 0.5 × ──────────────────────
+                                                          1 + Damage Type Mod
+```
 
-Al llegar a 0 Health el warframe entra en **bleedout**:
+```text
+Effective Overguard = Net Overguard × ──────────────────────
+                                       1 + Damage Type Mod
+```
 
-- **Duración**: 20 segundos para ser revivido por un compañero
-- **Durante bleedout**: el warframe puede arrastrarse y usar algunas habilidades (Inaros resucita solo)
-- **Al expirar**: instakill — requiere revivir con token o un compañero cerca
-- **Daño en bleedout**: el warframe continúa recibiendo daño — puede morir antes de los 20s
+Notas de lectura:
 
-| Warframe / mecánica | Excepción |
-|---|---|
-| Inaros — Undying | Consume Scarab Armor para auto-resucitar |
-| Revenant — Mesmer Skin | Puede bloquear bleedout en algunas circunstancias |
-| Nidus — Undying | Consume Mutation Stacks para auto-resucitar |
+- El `(Armor + 300)/300` es la forma del **jugador**. Para enemigos la DR de armor es otra —
+  ver [`armor.md`](armor.md) §Reducción de daño.
+- El `1/(1 + Damage Type Mod)` aparece en las tres: es el único término que hace que el EHP dependa
+  del **tipo de daño** con el que se lo mida.
+- El armor sólo entra en la capa de Health. Shield y Overguard no reciben nada de él.
+
+> ℹ️ Ilustración propia. Oberon R30 con 740 de health y 900 de armor, sin DR extra ni modificador de
+> tipo: `740 × (900 + 300)/300 = 740 × 4.0 = 2960`.
 
 ## Interacciones entre capas
 
+Datos de las páginas de cada capa, no de `Hit Points`.
+
 | Mecánica | Comportamiento |
 |---|---|
-| **Toxin** | Bypasa shields → daña salud directamente; no afecta Overguard |
-| **Magnetic** | Drena shields; stacks especiales vs Overguard (hasta 325%) |
-| **Viral** | Reduce max health temporalmente — afecta el pool de HP base |
-| **Shield Gate** | 0.33s mínimo de invulnerabilidad al romper shields |
-| **Overguard gate** | 0.5s de invulnerabilidad al agotar Overguard |
-| **Overshield cap** | 1200 independientemente del max shield del warframe |
+| **Toxin** | Bypasea shields → daña la salud directamente. No afecta Overguard |
+| **Magnetic** | Amplifica el daño contra Overguard, hasta **325%** tras 10 stacks |
+| **Shield Gate** | Invulnerabilidad al romper shields: **0.33 s** como mínimo, hasta **2.5 s** con 1.150 de shields — escala con el shield máximo |
+| **Overguard gate** | **0.5 s** de invulnerabilidad al agotarse |
+| **Overshield** | Cap de **1.200** para warframes y **600** para companions, independiente del shield máximo |
 
 ## Fuentes
 
 - https://wiki.warframe.com/w/Hit_Points
-- https://wiki.warframe.com/w/Health
-- https://wiki.warframe.com/w/Shield
-- https://wiki.warframe.com/w/Overguard
+- https://wiki.warframe.com/w/Shield · https://wiki.warframe.com/w/Overguard (interacciones)
 - [`health.md`](health.md) · [`shield.md`](shield.md) · [`overguard.md`](overguard.md) · [`armor.md`](armor.md) · [`damage-reduction.md`](damage-reduction.md)

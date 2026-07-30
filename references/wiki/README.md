@@ -42,7 +42,13 @@ en la del documento que la cita: `Steel_Fiber` citado desde `mechanics/armor.md`
 `mods/steel-fiber.wikitext`. Así, el día que exista `mods/steel-fiber.md`, el raw ya está en su
 lugar — el corpus crece de forma acumulativa.
 
-**Una fuente citada no es huérfana:** su dueño es el documento que la declara en `> Raw:`.
+**Una fuente citada no es huérfana:** su dueño es el documento que la declara en `> Raw:`. Al
+declararla con path se acepta tanto **relativo al documento** (`../mods/steel-fiber.wikitext`) como
+**relativo a `wiki/`** (`mods/steel-fiber.wikitext`).
+
+> Un documento que aparece en *"con raw pero sin declararlo"* no es un error: suele ser un raw que
+> se bajó como fuente citada de otro documento y todavía espera su propia reconciliación. La señal
+> es útil — dice "el material ya está, falta el trabajo".
 
 ---
 
