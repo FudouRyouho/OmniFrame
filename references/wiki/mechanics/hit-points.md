@@ -51,6 +51,8 @@ Effective Shield = (Net Shield + Net Overshield) × 0.5 × ───────
                                                           1 + Damage Type Mod
 ```
 
+> ⚠️ Conflicto ↔ [`health.md`](health.md) §Effective Health
+
 ```text
 Effective Overguard = Net Overguard × ──────────────────────
                                        1 + Damage Type Mod

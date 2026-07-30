@@ -1,0 +1,147 @@
+{{Infobox
+| Box title=Health
+| image=Health 01.png
+| caption=The top right of the screen shows your health and [[shield]], as well as that of your [[companions]] and [[squad]] members.
+}}
+{{Quote|Total amount of Damage a Warframe can take before going into Bleedout.|In-game Description}}
+{{Quote|Critical to Railjack integrity. When the Hull goes, the Railjack goes.|In-game Description}}
+'''Health''' ('''Hull''' for [[Railjack]]s) is a value that represents how much [[damage]] an entity can sustain; if the value is reduced to zero, the entity will be incapacitated in some manner. [[Warframe]]s, Railjacks, [[Companion]]s, [[Rescue]] targets, and certain enemies will enter "[[bleedout]]" when their health values are reduced to zero, while all other entities will instead be killed.
+
+A Warframe's health is indicated as a red number at the top right of the screen. The health of other entities can be displayed over their heads, should the player aim directly at them. While a Warframe is losing health, the screen's edges will begin to flash red at a pulse. Once the Warframe reaches 10% health or below, a loud, heartbeat-like sound will play, and a slight ringing can be heard. This sound also plays when bleeding out and when dead.
+
+==Effects==
+Health determines the amount of damage the user can sustain and is the last line of defense for all entities. Once the value is depleted, most enemies will die, while Warframes and certain characters will enter a weakened state called [[bleedout]] in which they must be revived within a few seconds or be killed.
+
+Health receives damage mitigation from [[armor]].
+
+Most attacks will only damage health after the entity's [[shields]] have been fully drained, but there are a few exceptions. {{D|Toxin}} damage will bypass shields and strike the target's health directly. {{D|Viral}} [[Status Effect]] also increases damage dealt towards health.
+
+{{clr}}
+
+==Modifying Maximum Health==
+===Mods===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" column="3" position="center" bordersize="none" bordercolor="#FFFFFF">
+PhysiqueMod.png|link=Physique|{{M|Physique}}
+ShepherdMod.png|link=Shepherd|{{M|Shepherd}} (Only benefits companions)
+VitalityMod.png|link=Vitality|{{M|Vitality}}
+VigorMod.png|link=Vigor|{{M|Vigor}}
+PrimedVigorMod.png|link=Primed Vigor|{{M|Primed Vigor}}
+CarnisCarapaceMod.png|link=Carnis Carapace|{{M|Carnis Carapace}}
+GladiatorResolveMod.png|link=Gladiator Resolve|{{M|Gladiator Resolve}}
+JugulusCarapaceMod.png|link=Jugulus Carapace|{{M|Jugulus Carapace}}
+SaxumCarapaceMod.png|link=Saxum Carapace|{{M|Saxum Carapace}}
+UmbralVitalityMod.png|link=Umbral Vitality|{{M|Umbral Vitality}}
+ArchonVitalityMod.png|link=Archon Vitality|{{M|Archon Vitality}}
+EnhancedVitalityMod.png|link=Enhanced Vitality|{{M|Enhanced Vitality}} (Companion only)
+LinkVitalityMod.png|link=Link Vitality|{{M|Link Vitality}} (Companion only)
+AdeptSurgeMod.png|link=Adept Surge|{{M|Adept Surge}} ([[Conclave]] only)
+CalculatedSpringMod.png|link=Calculated Spring|{{M|Calculated Spring}} ([[Conclave]] only)
+Nira'sHatredMod.png|{{M|Nira's Hatred}}
+</gallery>
+
+===Abilities===
+<div class="tabber-borderless">{{#tag:tabber|Innate = {{#tag:tabber|
+Chroma=
+{{:Elemental Ward}}
+{{!}}-{{!}}
+
+Oraxia=
+{{:Silken Stride}}
+{{!}}-{{!}}
+
+Titania=
+(Companion only)
+{{:Tribute}}
+{{!}}-{{!}}
+
+Trinity=
+{{:Trinity/Abilities/Passive}}
+{{!}}-{{!}}
+
+Wisp=
+{{:Reservoirs}}
+}}
+{{!}}-{{!}}
+Augmented=
+
+{{#tag:tabber|
+Nidus=
+[[File:ParasiticVitalityMod.png|thumb|right|150px]]
+{{Main|Parasitic Vitality}}
+{{!}}-{{!}}
+
+}}}}
+
+===Other===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+RhinoThrakHelmet.png|link=Thrak Rhino Helmet|[[Rhino_Thrak_Helmet#Arcane_Variant|Arcane Thrak Rhino Helmet]]
+EmberBackdraftHelmet.png|link=Backdraft Ember Helmet|[[Ember_Backdraft_Helmet#Arcane_Variant|Arcane Backdraft Ember Helmet]]
+LokaIconBlack.png|link=Purity|[[Purity]]
+MagusVigor.png|link=Magus Vigor|{{Arcane|Magus Vigor}} (Operator only)
+FocusEnduringTides.png|link=Enduring Tides|Vazarin's [[Enduring Tides]] (Operator only)
+AzureArchonShard.png|link=Azure Archon Shard|{{Resource|Azure Archon Shard}}<br> {{Resource|Tauforged Azure Archon Shard}}
+TopazArchonShard.png|link=Topaz Archon Shard|{{Resource|Topaz Archon Shard}}<br> {{Resource|Tauforged Topaz Archon Shard}}
+File:ArcaneBlessing.png|{{Arcane|Arcane Blessing}}
+File:ArcaneIntention.png|{{Arcane|Arcane Intention}}
+</gallery>
+
+Like most attribute values, Health is increased by single multiplier formed from effects that additively stack with each other. The health gained from leveling is an exception, stacking additively with base health before multipliers
+
+{{MathText|Total Health {{eql}} (Base Health + Warframe Rank Bonuses) {{mul}} (1 + Modifier from Mods) + Other Bonuses}}
+*'''Base Health''' refers to the Warframe's health at Rank 0.
+*'''Warframe Rank Bonuses''' are increases to a Warframe's health that apply as the Warframe goes from rank 0 to 30. These are normally +100 at rank 30, though there are exceptions. Importantly, unlike capacity, they are not impacted by mastery rank, meaning that two players with newly built frames will always have the same bonuses regardless of their mastery.
+*'''Modifier from Mods''' is from mods such as {{M|Vitality}} and {{M|Vigor}}, increasing the Health by 100% and 50% at their maximum ranks, respectively. The {{M|Physique}} [[Aura]] mod increases it by 20% at maximum rank. Each additional [[squad]] member that brings Physique will increase your Modifier by an additional 20%, to a maximum 80% addition in a four-player mission, which can be further increased with {{M|Coaction Drift}}. Lastly, the bonus from some [[:Category:Helmet|Arcane helmets]] contribute to this modifier.
+
+===Health Reduction===
+[[File:BleedingDragonKeySymbol.jpg|right|x100px]] Having equipped a [[Dragon Key|Bleeding Dragon Key]] reduces total health by 75%, after all other calculations. During missions, this is indicated by a symbol to the left of the shield/health bar (shown on the right).
+
+The '''Permanent Injury''' personal modifier in [[Deep Archimedea]] in [[Temporal Archimedea]] multiplies maximum health by 0.985x each time you take health damage. You regain 3% of max health after not taking damage for 12 seconds. Maximum health is the warframe's health before rank bonuses or other buffs. Maximum health is floored after each reduction.
+{{clr}}
+
+==Healing==
+{{Main|Healing}}
+Unlike shields, health does not naturally regenerate over time, except when either the {{M|Rejuvenation}} or {{M|Dreamer's Bond}} [[Aura]] mod is equipped by at least one member of the [[squad]]. Otherwise, damage inflicted upon health must actively be healed by picking up [[Health Orb]]s, by receiving the effects of certain Warframe abilities, or by using certain mods, weapons, consumable equipment, or [[Arcane Enhancement|Arcane Enhancements]].
+
+==Bleedout & Death==
+{{Main|Death}}
+When health is reduced to 0, Warframes enter the [[Bleedout]] state. In bleedout, Warframes can barely move and are restricted to firing their [[:Category:Secondary Weapons|sidearm]]. If they do not receive the appropriate attention from an ally within 20 seconds, they are killed in action. It is quite difficult to complete missions successfully when all players are dead, so players typically strive to keep health above 0 at all times.
+
+==Effective Health==
+Damage calculations get complicated when damage resistances are involved. '''Effective health''' and '''effective hit points''' (EHP) are common [[wikipedia:metagaming|metagame]] concepts which states that because each hit point you have actually absorbs more than one point of damage, you effectively have more hit points than indicated. In [[WARFRAME]], effective health can be increased by [[armor]], sources of [[Damage Reduction|damage reduction]], negative [[Damage Type Modifier|damage type modifiers]], [[:Category:Resistance Mods|resistance mods]], and health classes.
+
+===Calculation===
+Player's effective health against a particular damage type can be calculated as such:
+
+<math>
+{
+\begin{aligned}
+\text{Effective Health} &= \text{Nominal Health} \cdot \frac{\text{Net Armor} + 300}{300} \\
+\text{Effective Shield} &= \text{Nominal Shield} \cdot 2 \\
+
+\text{EHP} &= (\text{Effective Health} + \text{Effective Shield}) \cdot \frac{1}{1 - \text{Net Damage Reduction} } \cdot \frac{1}{1 + \text{Damage Type Modifier} } \\
+
+\qquad &= \frac{ \text{Nominal Health} \cdot \frac{(\text{Net Armor} + 300)}{300} + \text{Nominal Shield} \cdot 2}{ (1- \text{Net Damage Reduction})(1 + \text{Damage Type Modifier}) }
+
+\end{aligned}
+}
+</math>
+:''Nominal health refers to listed health points as displayed in-game; in other words, it is the total health after mods and buffs are applied.''
+:''Shield has a general 50% damage reduction.''
+:''Net damage reduction refers to total damage reduction outside of armor, e.g. {{A|Blessing}} or {{M|Adaptation}}.''
+
+==Enemy Health Scaling==
+{{Main|Enemy Level Scaling}}
+{{#lsth:Enemy Level Scaling|Health}}
+
+===Enemy EHP===
+{{#lsth:Enemy Level Scaling|Effective Hitpoints}}
+
+==References==
+<references />
+
+{{DamageNav}}
+{{MechNav}}
+[[es:Salud]]
+[[fr:Santé]]
+[[Category:Mechanics]]
+[[Category:Damage 2.0]]

@@ -1,6 +1,7 @@
 # Double-dip de facción/buff en DoTs — data cruda (PROVISIONAL)
 
 > Rol: mediciones in-game del double-dip del **bucket ②** (mods de facción + buffs de habilidad) en el tick de DoT.
+> Corrige: `wiki/mechanics/faction-damage.md`
 > Fuente de verdad de: el exponente del pool ② en el DoT (empírico) — `DoT ÷ base` esperado al cuadrado.
 > Última actualización: 2026-07-18 (movido desde `.working/`; medición original previa).
 > El análisis vive en `docs/domains/engine/design/damage-status-model.md §Evidencia` — este archivo es **solo datos**.
