@@ -1,0 +1,642 @@
+{{Community}}
+In [[WARFRAME]], [[damage]] is applied to [[health]] in discrete chunks that are represented by individual '''hit''' registrations against a target's [[hitbox]]. When a player presses the "Attack" [[keybinding|keybind]], they may deal one or more damage instances to targets. On successful hit, these damage instances have a chance to roll for their respective damage type's [[Status Effect]] and other "on-hit" effects. [[Damage over Time]] effects can be thought as applying hits to the center of the target's hitbox, but will not roll for Status Effects or trigger "on-hit" effects.
+
+This article explains a commonly used algorithm in [[wikipedia:Shooter game|shooter video games]] and [[wikipedia:Fighting game|fighting games]] for processing attack hits and describes its implementation in WARFRAME from the perspective of a player. It is unknown if the game uses the same algorithm when processing [[enemies]] and [[NPC]] hits against players.
+
+== Overview ==
+
+=== Terminology ===
+[[File:English The number of hits from attacking enemies2.png|thumb|right|Example hierarchy of hit data types]]
+There are three important hit [[wikipedia:data structure|data structures]]:
+
+* DmgSrc - "Damage Source", the lowest unit of hit registration that can be produced from an attack input
+
+* HitPtr - "Hit [[wikipedia:Pointer (computer programming)|Pointer]]"; a Hit Pointer contains one or more Damage Sources
+
+* HitStruct - "Hit [[wikipedia:Struct|Structure]]"; a Hit Structure contains one or more Hit Pointers
+**HitStruct essentially represents the number of hit-related event resolutions per game tick. At most, there can be only 2 HitStructs per game tick. In short, it's the event resolution count per game tick.
+
+=== Damage Source ===
+DmgSrc represents each individual hit of an attack. This is visually represented by a single [[Damage Number]] on the screen if the [[Heads-Up Display]] Damage Number is set to "Legacy" mode.
+
+DmgSrc may contain information on:
+*[[Damage Type]] distribution
+*Whether or not a [[Critical Hit]] has occurred based on [[Critical Chance]]
+*If a Critical Hit has occured, the Critical Tier
+*Whether or not a [[Status Effect]] will proc based on [[Status Chance]]
+*If a Status Effect will proc, the actual Status Effect based on Damage Type distribution
+*Whether or not there is a [[Forced Proc]]
+*Other "On-Hit" effect rolls
+
+Note that this is a simplification of the DmgSrc data structure; there may be additional logic used to affect the contents of DmgSrc. For example, a {{D|Toxin}} proc will never be able to critically hit so the associated {{D|Toxin}} DoT effect's DmgSrc will likely say that it will not crit.
+
+=== Hit Pointer Structure ===
+{{UpdateMe|So are Status HitPtrs OtherPtrs? Probably not since Extra Hits can proc and thus create Status HitPtrs. Status HitPtrs are their own category from MainPtr and OtherPtr}}
+{{UpdateMe|Need to elaborate that [[Continuous Weapon]]s with [[Multishot]] do not produce additional damage instances. Instead, Multishot bonuses act as a damage multiplier.}}
+A HitPtr is a data structure that contains one or more DmgSrcs.
+
+* HitPtrs are categorized into Main Hit Pointer (MainPtr), Other Hit Pointer (OtherPtr), and Status Hit Pointer (StatusPtr) types. See [[#HitPtr Types]] for more details.
+** MainPtrs are generally determined by attacks that require hitbox collision detection, usually those with [[ammo]] consumption or melee attack inputs. See [[Hit Detection]].
+** OtherPtrs can only exist when connected to a MainPtr. In other words, OtherPtrs must have one associated MainPtr as its "parent". Thus, OtherPtrs increase the number of HitPtrs based on MainPtrs.
+** StatusPtrs come from damage-dealing [[Status Effect]] procs (e.g. {{D|Slash}} or {{D|Blast}}) and can be produced from a MainPtr or OtherPtr.
+** The total number of HitPtrs is calculated by adding all the MainPtrs, OtherPtrs, and StatusPtrs.
+*** For example, {{Weapon|Kuva Quartakk}} Burst-Fire While Aiming consumes 4 ammo, resulting in 4 HitPtrs; these 4 HitPtrs are all MainPtrs.
+*** For example, {{Weapon|Tenet Envoy}}, when a projectile hits an enemy, it generates two MainPtrs: one [[AoE]] hit and one direct projectile hit.
+<hr />
+* The total damage of a HitPtr is the sum of its DmgSrcs.
+** For example, if a weapon has [[Multishot]] of 2.1, and two projectiles are fired, the HitPtr damage is calculated as 2 times the damage at Multishot = 1. If three projectiles are fired, the HitPtr damage is 3 times the damage at Multishot = 1.
+** For example, {{Weapon|Cernos Prime}} has a Multishot of 3. Assuming the total damage is 9000, that total damage is the total HitPtr damage. With 3 projectiles, the HitPtr divides that total damage into 3 DmgSrcs, each projectile dealing 3000 damage.
+<hr />
+Notes:
+* Many [[Continuous Weapon]] consume only 0.5 ammo per shot, so consuming 1 ammo will result in two MainPtr structures.
+* Melee HitPtrs separate the left-hand and right-hand parts of dual-wielding weapons (e.g. [[Dual Swords]], [[Dual Nikanas]], [[Fist]], [[Tonfa]], etc.)
+** For example, {{Weapon|Kronen}} Heavy Attack hitting an enemy will produce two MainPtrs: one for the left-hand Kronen and one for the right-hand Kronen.
+
+=== Hit Structure ===
+A HitStruct is a data structure that contains one or more HitPtrs. It represents a segment of [[Health]] reduced from an enemy when a single attack hits the enemy.
+
+*For example, if you shoot an enemy twice with a {{Weapon|Karak}}, the enemy will lose two segments of health corresponding to two HitStructs. If you shoot the enemy only once, the enemy will lose one segment of health corresponding to one HitStruct.
+
+* If multiple DmgSrcs hit the enemy at different times, multiple HitStructs will be created.
+* StatusPtrs are all determined based on the number of HitPtrs in a HitStruct.
+
+* MainPtrs that hit the enemy simultaneously will establish their own HitStruct, and there may be more than one HitStruct.
+** Because StatusPtrs calculate their count based on HitStructs.
+
+==== HitStruct Examples ====
+[[File:English Kuva Quartakk Hits Structure.jpg|thumb|right|alt=Kuva Quartakk Hits Structure with 8 hits (no Xata's Whisper)|Kuva Quartakk Hits Structure with 8 hits (no {{A|Xata's Whisper}})]]
+Say a player is:
+* Using a {{Weapon|Kuva Quartakk}}...
+** modded with a max-ranked {{M|Split Chamber}} and unranked {{M|Vigilante Armaments}} (total +100% Multishot),
+** modded with {{D|Corrosive}},
+** and has {{D|Cold}} [[Progenitor Bonus]],
+* has clicked "Attack" input once,
+* and is aiming down sights (4 projectiles that hit simultaneously unmodded, 8 with +100% Multishot).
+
+Assuming all 8 projectiles hit the enemy on the same [https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking Game Tick], these projectiles will be grouped separately into two HitStructs as demonstrated in the image on the right. See [[#Tick Rate and Hit Calculations]].
+
+{| class="wikitable"
+|+ Single "Burst-Fire While Aiming" attack from {{Weapon|Kuva Quartakk}} with +100% Multishot bonus
+|-
+! HitStruct
+! HitPtr (Type)
+! DmgSrc (Data)
+|-
+| rowspan="2" | HitStruct1
+| rowspan="2" | HitPtr1 (MainPtr)
+| DmgSrc1 (1,201 damage, {{D|Cold}} proc)
+|-
+| DmgSrc2 (1,201 damage)
+|-
+| rowspan="6" | HitStruct2
+| rowspan="2" | HitPtr2 (MainPtr)
+| DmgSrc3 (1,201 damage)
+|-
+| DmgSrc4 (1,201 damage, {{D|Corrosive}} proc)
+|-
+| rowspan="2" | HitPtr3 (MainPtr)
+| DmgSrc5 (1,201 damage, {{D|Corrosive}} proc)
+|-
+| DmgSrc6 (1,201 damage, {{D|Cold}} proc)
+|-
+| rowspan="2" | HitPtr4 (MainPtr)
+| DmgSrc7 (1,201 damage)
+|-
+| DmgSrc8 (1,201 damage)
+|-
+|}
+
+If the player casted {{A|Xata's Whisper}} before shooting ([[Extra Hit]] for 26% of total weapon damage as {{D|Void}} damage), then additional HitPtrs equal to the number of Main HitPtrs will be created, copying the same shape of the previous hit but with different damage numbers and rerolled procs. For the Kuva Quartakk example above, all Extra Hits from Xata's Whisper will be added into the second HitStruct within the same Game Tick.
+*Note that {{A|Xata's Whisper}} HitPtrs are created as OtherPtrs based on MainPtrs.
+*This assumes exactly 2 HitStructs exist within the tick. There is still a low probability that only 1 HitStruct is formed for this attack.
+*
+
+{| class="wikitable"
+|+ {{A|Xata's Whisper}} copying single "Burst-Fire While Aiming" attack from {{Weapon|Kuva Quartakk}} with +100% Multishot bonus
+! HitStruct
+! HitPtr (Type)
+! DmgSrc (Data)
+|-
+| rowspan="8" | HitStruct2
+| HitPtr5 (OtherPtr)
+| DmgSrc9 (312.26 {{D|Void}} damage)
+|-
+| HitPtr5 (OtherPtr)
+| DmgSrc10 (312.26 {{D|Void}} damage)
+|-
+| HitPtr6 (OtherPtr)
+| DmgSrc11 (312.26 {{D|Void}} damage)
+|-
+| HitPtr6 (OtherPtr)
+| DmgSrc12 (312.26 {{D|Void}} damage, {{D|Void}} proc)
+|-
+| HitPtr7 (OtherPtr)
+| DmgSrc13 (312.26 {{D|Void}} damage)
+|-
+| HitPtr7 (OtherPtr)
+| DmgSrc14 (312.26 {{D|Void}} damage)
+|-
+| HitPtr8 (OtherPtr)
+| DmgSrc15 (312.26 {{D|Void}} damage)
+|-
+| HitPtr8 (OtherPtr)
+| DmgSrc16 (312.26 {{D|Void}} damage)
+|-
+|}
+
+<hr />
+For another example, {{Weapon|Cernos Prime}} has a Multishot of 3, meaning 3 projectiles. A {{Weapon|Karak}} has one projectile; if Multishot is increased to 3, than {{Weapon|Karak}}'s HitStruct will look similar to {{Weapon|Cernos Prime}}'s HitStruct.
+
+With {{A|Xata's Whisper}} activated and +200% Multishot bonus on {{Weapon|Karak}}, or no Multishot bonus on {{Weapon|Cernos Prime}}, say all 3 projectiles hit the enemy at the same time:
+
+{| class="wikitable"
+|+ Unmodded, uncharged {{Weapon|Cernos Prime}} that hits the target 3 times simultaneously
+! HitStruct
+! HitPtr (Type)
+! DmgSrc (Data)
+|-
+| rowspan="3" | HitStruct1
+| rowspan="3" | HitPtr1 (MainPtr)
+| DmgSrc1 (92 damage; 90% {{D|Impact}}, 5% {{D|Puncture}}, 5% {{D|Slash}})
+|-
+| DmgSrc2 (92 damage; 90% {{D|Impact}}, 5% {{D|Puncture}}, 5% {{D|Slash}})
+|-
+| DmgSrc3 (92 damage; 90% {{D|Impact}}, 5% {{D|Puncture}}, 5% {{D|Slash}})
+|-
+|}
+
+{| class="wikitable"
+|+ {{A|Xata's Whisper}} copying the previous unmodded, uncharged {{Weapon|Cernos Prime}} attack
+! HitStruct
+! HitPtr (Type)
+! DmgSrc (Data)
+|-
+| rowspan="3" | HitStruct2
+| rowspan="3" | HitPtr2 (OtherPtr)
+| DmgSrc4 (23.92 {{D|Void}} damage)
+|-
+| DmgSrc5 (23.92 {{D|Void}} damage)
+|-
+| DmgSrc6 (23.92 {{D|Void}} damage)
+|-
+|}
+
+<hr />
+{| class="wikitable"
+|+ Unmodded {{Weapon|Karak}} with +200% Multishot that hits the target 3 times simultaneously
+! HitStruct
+! HitPtr (Type)
+! DmgSrc (Data)
+|-
+| rowspan="3" | HitStruct1
+| rowspan="3" | HitPtr1 (MainPtr)
+| DmgSrc1 (29 damage; 45% {{D|Impact}}, 30% {{D|Puncture}}, 25% {{D|Slash}})
+|-
+| DmgSrc2 (29 damage; 45% {{D|Impact}}, 30% {{D|Puncture}}, 25% {{D|Slash}})
+|-
+| DmgSrc3 (29 damage; 45% {{D|Impact}}, 30% {{D|Puncture}}, 25% {{D|Slash}})
+|-
+|}
+
+{| class="wikitable"
+|+ {{A|Xata's Whisper}} copying the previous unmodded {{Weapon|Karak}} with +200% Multishot attack
+! HitStruct
+! HitPtr (Type)
+! DmgSrc (Data)
+|-
+| rowspan="3" | HitStruct2
+| rowspan="3" | HitPtr2 (OtherPtr)
+| DmgSrc4 (7.54 {{D|Void}} damage)
+|-
+| DmgSrc5 (7.54 {{D|Void}} damage)
+|-
+| DmgSrc6 (7.54 {{D|Void}} damage)
+|-
+|}
+
+=== MainPtr Structure Differences ===
+The HitPtr structure mainly categorizes into AoE attack hits and projectile attack hits, but fundamentally they are the same.
+* Projectile attacks, such as {{Weapon|Lato}}'s hitscan shot, {{Weapon|Synapse}}'s hitscan shot, {{Weapon|Quassus}} Heavy Attack projectiles, etc.
+* AoE attacks, such as {{Weapon|Tenet Envoy}}'s AoE (excluding projectiles), {{Weapon|Kronen}}'s melee attack, {{Weapon|Tenet Exec}}'s Slam Attack, etc.
+<hr />
+* Projectile attacks further divide into hitscan attacks and "true" projectile attacks.
+* AoE attacks further divide into melee attacks and AoE attacks.
+** Melee weapons' melee attacks are treated as AoE attacks similarly; however, if dual-wielded, each side has their own HitPtr structure. In other words, the left-handed melee will have its own HitPtr separate from the right-handed melee on a single "Attack" input.
+
+{| class="wikitable"
+! 
+! HitPtr Category
+! Attack Type
+! Examples
+! Notes
+|-
+| rowspan="4" | HitPtr<br />(MainPtr type)
+| rowspan="2" | Projectile HitPtr
+| Hitscan attacks || {{Weapon|Lato}} Primary Fire || Includes hitscan shots from Melee attacks (e.g. [[Gunblade]]s)
+|-
+| "True" [[projectile]] attacks || {{Weapon|Boltor}} Primary Fire || Projectiles with flight time; includes projectiles spawned from Melee attacks
+|-
+| rowspan="2" | AoE HitPtr
+| Melee attacks || {{Weapon|Skana}} Melee || Sweeping melee attacks that travel in arcs; not including Slam Attacks
+|-
+| "True" [[AoE]] attacks || {{Weapon|Ogris}}'s Rocket Explosion || Includes melee Slam Attacks
+|}
+
+=== Hit Detection ===
+HitDetection is the hit determination method of MainPtr which can be one of four detection checks:
+*Projectile Detection: Has a physical object that requires physical contact with the target's hitbox to deal damage.
+*[[Hitscan]] Detection: Checks if a target exists within [[Line of Sight]] and deals damage instantly upon firing.
+*AoE Detection: Checks if targets exist within a circular hitscan range to deal damage.
+**Because AoE hit detection is independent from hitscan and projectile hits, direct hits with an AoE weapon will produce two damage instances.
+*Melee Detection: Creates sequential detection zones in a fan-shaped area, scanning from the attack's origin to termination. This is a delayed multi-hit hitscan, where each segment checks for targets and deals damage.
+
+<gallery widths="200px">
+ParacesisUnmoddedReachHitbox.jpg|Unmodded {{Weapon|Paracesis}} hitbox
+ParacesisUnmoddedReachHitboxSide.jpg|Unmodded {{Weapon|Paracesis}} hitbox
+ParacesisModdedReachHitbox.jpg|{{Weapon|Paracesis}} hitbox with {{M|Primed Reach}}|alt=Paracesis hitbox with  Primed Reach
+ParacesisModdedReachHitboxSide.jpg|{{Weapon|Paracesis}} hitbox with {{M|Primed Reach}}|alt=Paracesis hitbox with  Primed Reach
+</gallery>
+
+== Tick Rate and Hit Calculations ==
+{{UpdateMe|Is game logic processing tied to player host's frame time?
+*No. Gameplay logic is not directly tied to the host player's frame time. It is executed on a tick-based simulation system, but tick execution timing may be affected by host frametime and CPU scheduling under load.}}
+
+Every [https://en.wikipedia.org/wiki/Netcode Game Tick] organizes MainPtrs that hit enemies into multiple HitStructs.
+*For example, if two or more MainPtrs hit during 1 tick, they split into two HitStructs. The first MainPtr forms the first HitStruct in this tick, while all remaining MainPtrs form the second HitStruct. This occurs even with 0-attack-interval weapons like {{Weapon|Quartakk}}'s Burst-Fire or any hitscan weapon with Multishot.
+*Warframe uses a P2P networking architecture, and its synchronization model appears to be primarily based on state synchronization.
+*During gameplay, the host is responsible for world state simulation, AI processing, damage calculation, and most gameplay event handling, while clients synchronize and interpolate based on the host state.
+*The core gameplay logic runs on a tick-based discrete simulation model. All major combat-related systems, including damage resolution, AI updates, and status effect processing, are executed at discrete simulation ticks rather than continuous time-step integration.
+*Simulation tick execution is triggered by the host runtime scheduling system. The actual execution timing of ticks is influenced by host CPU load, frametime, and system scheduling latency. As a result, under high load or unstable frametime conditions, tick execution delays, short-term tick burst execution (batch processing), and temporary network synchronization jitter may occur.
+*Client-side frame rate primarily affects rendering and interpolation quality, and does not directly influence combat logic or simulation outcomes. However, it may indirectly affect input sampling frequency and local prediction behavior.
+
+
+=== Game Loop Terminology ===
+A Game Tick in WARFRAME is related to [[wikipedia:Frame rate|frame rate]]. To understand WARFRAME's [[wikipedia:game loop|game loop]]:
+*'''Tick''' - also refers to Game Tick, the game's internal time unit representing the duration required for each game logic/state update.
+**Each tick can only process events that have already occurred. Pending and upcoming events are deferred to the next tick for processing.
+**If events from the previous tick remain unprocessed, stuttering (frame drop) occurs, and these events are carried over to the next tick for calculation.
+*'''Time''' (or frame time) - represents CPU latency, measured as the duration between the start of one tick and the start of the next tick.
+**In WARFRAME, this duration corresponds to the "time" value displayed in the frame rate counter.
+**Note that hardware factors such as memory speed, GPU performance, and system bus delays can extend the latency between ticks.
+*'''Tick Rate''' - denotes the number of ticks per second, reflecting how fast the game state updates.
+
+=== Game Tick Time Formula ===
+WARFRAME's tick calculation formulas as it relate to frame rate:
+
+<math>\text{Current Tick Time (in milliseconds)} = \frac{1000}{\text{Current Frame Rate}}</math>
+
+<hr />
+
+<math>\text{Current Tick Time (in seconds)} = \frac{1}{\text{Current Frame Rate}}</math> 
+
+=== Game Tick Hit Application ===
+{{UpdateMe|In what order does the game resolve HitStructs and does it process only one HitStruct per gametick? What is the process in the game logic to register a hit, bundle all the HitPtrs into HitStructs, batch process the HitStructs damage and status procs, and then update the enemy health bar UI to reflect on damage dealt?}}
+
+Judgments are categorized as Group-based or Individual-based:
+
+* '''Group judgment''' (e.g. {{Arcane|Secondary Enervate}}): Within the same tick, simultaneously dealing one or two HitStructs to multiple enemies can only apply one or two stacks of Enervate respectively.
+**This indicates that a higher hit frequency leads to faster stack accumulation for {{Arcane|Secondary Enervate}}, since the stack determination is part of the HitStruct resolution count. The actual benefit of Secondary Enervate can therefore be calculated using HitStruct.
+
+
+* '''Individual judgment''' (e.g. {{Arcane|Cascadia Empowered}}): Within the same tick, simultaneously dealing one or two HitStructs to multiple enemies can apply one or two effects to each enemy respectively.
+
+
+*'''Summary :'''
+**The relationship between hit frequency, GameTick duration, and the number of HitStructs can be illustrated with a linear graph. When the hit frequency is less than or equal to the GameTick duration, the number of HitStructs is always 1.
+**When the hit frequency exceeds the GameTick duration, the faster the hit frequency, the higher the probability that the number of HitStructs is 2.
+**Because sometimes the HitStruct within a single GameTick is 1 instead of 2, the damage from status effects (e.g., DoT) under that HitStruct will be merged into a single HitPtr — specifically referring to the HitPtr of the same type of Status Effect damage.
+
+== Effects That Increase HitPtrs ==
+{| class="wikitable sortable"
+|-
+! Source !! Classification !! Description
+|-
+| {{WF|Xaku}}'s {{A|Xata's Whisper}} || Extra Hit || Adds hits based on the number of hits in a HitStruct and skill conditions.
+|-
+| {{WF|Saryn}}'s {{A|Toxic Lash}} || Extra Hit || Adds hits based on the number of hits in a HitStruct and skill conditions.
+|-
+| {{WF|Cyte-09}}'s {{A|Resupply}} || Extra Hit || Adds hits based on the number of hits in a HitStruct and skill conditions.
+|-
+| {{WF|Oraxia}}'s {{A|Silken Stride}} || Extra Hit || Adds hits based on the number of hits in a HitStruct and skill conditions.
+|-
+| {{Arcane|Melee Duplicate}} || Extra Hit || Replicates each melee attack that triggers Melee Duplicate.
+|-
+| {{WF|Zephyr}}'s {{A|Tornado}} || Distribution Hit || Copies damage based on the number of hits in a HitStruct and propagates it to enemies in the area.
+|-
+| {{WF|Zephyr}}'s {{M|Funnel Clouds}} augment || Distribution Hit || Copies damage based on the number of hits in a HitStruct and propagates it to enemies in the area.
+|-
+| {{WF|Mirage}}'s {{A|Hall of Mirrors}} || Hall of Mirrors Clone Hit || Each clone replicates the number of hits from the weapon's HitStruct.
+|-
+| {{D|Blast}} proc || Status Hit || Each stack of Blast proc effect resolved counts as one HitPtr.
+|-
+|}
+
+== HitPtr Types ==
+{{UpdateMe|Questions:
+*Does {{A|Absorb}} produce a "Distribution HitPtr" or is it an "AoE HitPtr"
+*How does {{A|Expedite Suffering}} influence HitPtr count?
+**{{A|Expedite Suffering}} is simply treated as a single Abilities damage HitPtr.
+*Is Status HitPtr a subtype of Other HitPtr?
+**Status HitPtr is not a subtype of Other HitPtr, but an independent HitPtr concept separate from Other HitPtr. This is because the existence of a Status HitPtr requires the enemy to have triggered a Status_Effect. The Status_Effect then produces a DoT, and each instance of damage dealt by that DoT is considered a Status HitPtr. Blast works similarly, as the damage dealt during Blast resolution is also considered a type of Status HitPtr, since these are ultimately damage effects caused by Status.
+*Are hits from abilities considered separate from weapon hits? Is there a "Ability HitPtr"? And are some ability hits coded as weapon hits (explains [[Universal Weapon Bonus]])?
+*Is Tornado considered [[Damage Redirection]]? And thus do other Damage Redirection effects fall under "Distribution HitPtr"?
+*Are chaining hits a special hit type or no? {{Weapon|Atomos}}, {{Weapon|Tenet Cycron}}
+**Weapons with chaining beam hits function similarly to [[Hitscan]] weapons, except their ammo consumption is 0.5 per tick. Taking {{Weapon|Karak}} as an example, its ammo consumption is 1 per shot. In both cases, the fired bullets and chaining beams are essentially just visual effects and are not fundamentally special.
+*{{A|Magnetize}} and {{D|Void}} bullet attract counts as what hit type?
+}}
+
+There are multiple types of HitPtr that can originate from the player, each is independently tracked by the game for purposes of calculating damage and rolling for effects.
+* Note that Main HitPtr is the parent for all Other HitPtr types; without a Main HitPtr, other effects cannot add their HitPtrs.
+
+{| class="wikitable"
+|-
+! Type !! Subtype !! Description !! Examples
+|-
+| rowspan=4 | Main HitPtr (MainPtr, requires hitbox collision detection)
+| Projectile HitPtr
+| Comes from the main hitscan or projectile hit of the avatar's attack.
+| {{Weapon|Braton}}'s Primary Fire, {{Weapon|Boltor}}'s Primary Fire, {{Weapon|Redeemer}} ranged Heavy Attack, additional projectiles from [[Multishot]]
+|-
+| AoE HitPtr
+| Comes from the AoE component of the avatar's attack. Includes melee swings.
+| The AoE of a {{Weapon|Ogris}}, a player swinging a {{Weapon|Skana}}, the Slam Attack of a {{Weapon|Fragor}}
+|-
+| Rebound HitPtr
+| Comes from projectiles that [[bounce]] off a surface or enemy and hits another enemy
+| Player that throws a {{Weapon|Glaive}} and it bounces off an enemy to hit another enemy
+|-
+| Clone HitPtr
+| Comes from hits originating from {{A|Hall of Mirrors}} clones.
+* Each clone replicates the player Warframe's weapon, creating a Main HitPtr belonging to the clone when attacking.
+* Clone HitPtr can only increase its number of HitPtrs through Distribution HitPtr effects.
+** In other words, {{A|Hall of Mirrors}} clones are not affected by [[Extra Hit]].
+| {{A|Hall of Mirrors}} clone shooting a copy of the player's {{Weapon|Braton}}
+|-
+| rowspan=2 | Other HitPtr (OtherPtr)
+| Extra HitPtr ([[Extra Hit]])
+| Comes from effects that adds extra HitPtrs on top of the Main HitPtr.
+* Not the same as [[Multishot]].
+| e.g. {{A|Toxic Lash}}, {{A|Xata's Whisper}}, {{A|Resupply}}, {{A|Silken Stride}}, {{Arcane|Melee Duplicate}}
+|-
+| Distribution HitPtr
+| Comes from effects that distribute the damage instantly to multiple targets from the avatar's original hit.
+* Adds HitPtrs based on the number of HitPtrs that are sourced directly from an avatar.
+* HitPtrs that are sourced directly from an avatar includes Clone HitPtr and Main HitPtr.
+| e.g. {{A|Tornado}} and {{M|Funnel Clouds}} after being shot at
+|-
+| rowspan=3 | Status HitPtr (StatusPtr)
+| Blast Proc HitPtr
+| Comes from {{D|Blast}} procs; can be single-target or [[AoE]] depending on stack count
+| e.g. {{D|Blast}} proc; {{A|Resupply}} {{D|Blast}} proc
+|-
+| DoT HitPtr
+| Comes from [[Damage over Time]] (DoT) effects where each proc creates an independent HitPtr (indefinitely stackable).
+| e.g. {{D|Slash}} procs, {{D|Toxin}} procs
+|-
+| Merged DoT HitPtr
+| Comes from [[Damage over Time]] (DoT) effects where multiple procs merge into a single HitPtr, regardless of how many times it procs.
+| e.g. 100 stacks of {{D|Heat}} procs, 100 stacks of {{D|Electricity}} procs, 10 stacks of {{D|Gas}} procs
+|}
+
+{{UpdateMe|Add a logic tree that visualizes how these HitPtrs are produced based on what condition}}
+[[File:Single_AoE_HitPtr_Logic_Flowchart.png|alt=Logic flowchart showing the hierarchical structure of a single AoE HitPtr, with Main HitPtr as the parent node branching into Melee Duplicate, Toxic Lash, Xata's Whisper, DoT HitPtr, and Clone HitPtr sub-elements.|thumb|width=330x330|Logic flowchart with Main HitPtr as the parent node, integrating Melee Duplicate, Toxic Lash, Xata's Whisper, DoT HitPtr, and Clone HitPtr. This diagram is accurate for the case where there are 2 HitStructs within a single Tick. If there is only 1 HitStruct within a Tick, simply treat DoT HitPtr as 1.]]
+
+=== Hall of Mirror Clones ===
+*Clone HitPtr copies the Main HitPtr.
+*Not affected by Extra Hits.
+
+=== Extra Hits ===
+Sources of [[Extra Hit]] include:
+*{{A|Xata's Whisper}} - adds one independent HitPtr with {{D|Void}} Damage
+*{{A|Toxic Lash}} - adds one independent HitPtr with {{D|Toxin}} Damage
+*{{A|Resupply}} - adds one independent HitPtr with Elemental Damage
+*{{A|Silken Stride}} - adds one independent HitPtr with {{D|Toxin}} Damage
+*{{Arcane|Melee Duplicate}} - on basic [[Critical Hit]], it has a chance to add one independent HitPtr that copies the DmgSrcs of the hit that procced it
+
+=== Distribution Hits ===
+"Distribution Hits" comes from effects that distribute the damage instantly to multiple targets from the avatar's original hit.
+
+Sources of Distribution Hit include:
+*{{A|Tornado}} - adds up to 3 HitPtrs based on the number of hits; adds HitPtrs by copying and distributing the DmgSrcs of the HitPtrs it hits.
+*{{M|Funnel Clouds}} - adds up to 8 HitPtrs based on the number of hits; adds HitPtrs by copying and distributing the DmgSrcs of the HitPtrs it hits.
+
+=== Status Hits ===
+{{UpdateMe|Clarification needed, is the guaranteed proc from {{A|Resupply}} associated with the Extra HitPtr?
+*Resupply does not appear to be strongly related to Extra HitPtr. The guaranteed 100% Status Effect proc clearly seems to use the same underlying implementation as Silken Stride, as this “guaranteed Status proc” behavior already appears to be built into this template at the code level.}}
+
+Status HitPtrs comes from [[Status Effect]]s that proc on hitting enemies with a Main HitPtr or Other HitPtr.
+* Status HitPtrs cannot proc additional status effects.
+* Status HitPtrs and OtherPtrs apply on different timelines and need to be calculated independently.
+* Each HitStruct can have only one DoT HitPtr of the same condition.
+** For example, if a weapon procs both {{D|Heat}} and {{D|Toxin}} on two projectiles that hit the enemy at the same time, then one HitStruct will have {{D|Heat}} DoT HitPtrs and the other HitStruct will have {{D|Toxin}} DoT HitPtrs.
+* Each HitStruct can have at most as many Blast Proc HitPtrs as the enemy's Blast stack limit.
+
+Sources of Status Hits include:
+*Status AoE Damage HitPtr - {{D|Blast}}, resolves and causes AoE damage to hit enemies
+*DoT HitPtr (DoTPtr) - each HitStruct can have only one DoT damage of the same condition type
+
+Notes:
+* Status AoE Damage HitPtr refers to {{D|Blast}} procs; upon resolution, each stack causes AoE damage to enemies, and each stack counts as one HitPtr.
+* Each HitStruct can have at most as many Status AoE Damage HitPtrs as the current maximum stacks on the enemy.
+* Each HitStruct can have only one DoT HitPtr of the same condition type.
+* Each HitStruct can have at most as many Blast HitPtrs as the enemy's Blast stack limit.
+* In Status HitPtr, within a single HitStruct, Slash DoTs merge into one DmgSrc regardless of how many DmgSrcs there are.
+* {{A|Resupply}} cannot attach an independent DoTPtr for elements (clarification needed, is the guaranteed proc is associated with the Extra HitPtr?).
+* {{D|Heat}} DoT can only have one HitPtr due to its unique [[Heat Inherit]] mechanic.
+* {{D|Electricity}} DoT can only have one HitPtr due to its unique [[Electricity Damage|Tesla Chain]] mechanic.
+* {{D|Gas}} DoT can only have one HitPtr due to its unique [[Gas Damage|Gas Clouds]] mechanic.
+
+=== Rebound and Bouncing Hits ===
+* If MainPtrs [[bounce]] off a surface and hit an enemy again, a ReboundPtr will be created.
+** MainPtrs include: weapon's MainPtrs and {{A|Hall of Mirrors}} ClonePtrs.
+* ReboundPtr counts as a MainPtr; most ReboundPtr hit timings almost never overlap with other MainPtr hit timings.
+* ReboundPtr inherits the [[Extra Hit]] bonuses of its MainPtr.
+** For example, with {{A|Xata's Whisper}} active, firing {{Weapon|Cyanex}} once: MainPtr has 1 AoE HitPtr and 1 Projectile HitPtr; AddPtrs are 2 Xata's Whisper HitPtrs. When that hits an enemy and bounces to hit again, it will again deal 1 AoE HitPtr and 1 Projectile HitPtr plus 2 Xata's Whisper HitPtrs.
+* ClonePtr cannot have Extra Hits; so clone-generated ReboundPtrs can calculate HitPtr counts based on Distribution Hit effects.
+* Because ReboundPtr is on a different timeline than OtherPtrs and MainPtrs, a ReboundPtr count formula cannot be derived.
+
+
+== HitPtr Count Formulas ==
+*Note: if an effect that increases HitPtr is active, set as 1; if not, set as 0. Thus, they appear as (0~1) in the formulas.
+
+=== Single Main Hit Count Formula ===
+<math>{
+\text{Single MainPtr Count} = 1
+}</math>
+
+=== Extra Hit Count Formula ===
+<math>
+\begin{aligned}
+\text{Total Extra Hit Count} &=\text{Single MainPtr Count} \times (\text{Xata's Whisper} + \text{Toxic Lash} + \text{Resupply} + \text{Silken Stride} + \text{Melee Duplicate}) \\
+&= 1 \times \big[ (0 \sim 1) + (0 \sim 1) + (0 \sim 1) + (0 \sim 1) + (0 \sim 1) \big]
+\end{aligned}
+</math>
+
+=== Distribution Hit Count Formula ===
+* Each {{A|Tornado}} counts as one Distribution Hit HitPtr, up to 3 Tornados.
+* Each {{M|Funnel Clouds|Funnel Cloud}} counts as one Distribution Hit HitPtr, up to 8 Tornados.
+
+<math>{
+\begin{aligned}
+\text{Total Distribution Hit Count} &= \text{Single MainPtr Count} \times (\text{Number of Tornados Hit} + \text{Number of Funnel Clouds Tornados Hit}) \\
+&= 1 \times \big[ (0 \sim 3) + (0 \sim 8) \big]
+\end{aligned}
+}</math>
+
+=== Clone Hit Count Formula === 
+* {{A|Hall of Mirrors}} clone attacks cannot have HitPtrs added by Extra Hit effects but can increase HitPtrs by hitting enemies with Distribution Hit abilities like {{A|Tornado}}. 
+* Each clone's attack replicates that attack's MainPtr, so clones have their own MainPtr counted as ClonePtr.
+* To calculate the number of ClonePtrs, determine how many clones exist, whether each clone hit the enemy, and how many Distribution Hit HitPtrs each Clone Hit produced. 
+
+'''Clone Hit count for one clone formula:''' 
+
+<math>{
+\begin{aligned}
+\text{Total nth Clone Hit Count} &= \text{Is there an nth Clone?} \times \text{Did that nth Clone hit the enemy?} \\
+&= 1 \times (0 \sim 1)
+\end{aligned}
+}</math>
+
+<hr />
+
+'''Number of Distribution Hits that were hit by a single Clone Hit formula:''' 
+
+<math>{ 
+\begin{aligned}
+\text{Total nth Clone Hit and Distribution Hit Count} &= \text{Is there an nth Clone?} + \text{Did that nth Clone hit a Tornado?} \times (\text{Number of Tornados the nth Clone hit} + \text{Did the nth Clone hit Funnel Clouds?}) \\
+&= (0 \sim 1) + \big[ (0 \sim 1) \times \big[ (1 \sim 0) \times [ (1 \sim 3) + (0 \sim 8) ] \big] \big]
+\end{aligned}
+}</math>
+
+<hr />
+
+* Note: These {{A|Hall of Mirrors}} clone formulas depend on a single MainPtr of the current weapon.
+* Up to 6 clones, so each ClonePtr's replicated single MainPtr's final HitPtr count must be calculated according to the actual situation.
+** For example, {{Weapon|Kuva Quartakk}} Burst-Fire While Aiming has 4 MainPtrs hit in one attack; the Clone Hit and Distribution Hit Count formula can only calculate one MainPtr from the 4 MainPtrs in each replicated attack per clone.
+*** {{Weapon|Kuva Quartakk}} is cloned by Hall Of Mirrors into 2 clones; each clone fires 4 ClonePtrs, so that one Burst-Fire While Aiming attack requires calculating the Clone Hit and Distribution Hit Count 8 times to determine how many HitPtrs Hall Of Mirrors added.
+
+=== Single MainPtr Final Hit Count Formula ===
+* Each weapon's main attack needs its own calculation of how many MainPtrs appear.
+** For example, projectile attacks, melee attacks, and other AoE attacks must be calculated separately.
+** For example, {{Weapon|Stropha}}'s attack: maintaining very close range to the enemy and attacking produces one melee attack and one projectile attack, which is 2 MainPtrs. If multiple HitPtr increasing effects are used, each MainPtr's final HitPtr count must be calculated independently.
+* Note: Each MainPtr must use the formula below to calculate its final HitPtr count.
+** For example, {{Weapon|Kuva Quartakk}} Burst-Fire While Aiming has 4 MainPtrs; each of these 4 MainPtrs must be calculated separately using the formula below, then summed to get the total HitPtrs.
+
+<hr />
+
+<math>{ 
+\begin{aligned}
+\text{Single MainPtr Final Hit Count} ={}&
+\text{Single MainPtr Count} \\
+&+ \text{Total Extra Hit Count} \\
+&+ \text{Total Distribution Hit Count} \\
+&+ \text{Total First Clone Hit Count} \\
+&+ \text{Total Second Clone Hit Count} \\
+&+ \text{Total Third Clone Hit Count} \\
+&+ \text{Total Fourth Clone Hit Count} \\
+&+ \text{Total Fifth Clone Hit Count} \\
+&+ \text{Total Sixth Clone Hit Count} \\
+\end{aligned}
+}</math> 
+
+<math>{ 
+\begin{aligned}
+\text{Single MainPtr Final Hit Count} ={}&
+(1) \\
+&+ (1 \times \big[ (0\sim1) + (0\sim1) + (0\sim1) + (0 \sim 1) + (0\sim1)) \big] \\
+&+ (1 \times (1\sim3 + (0\sim1))) + \\
+&+ (1\sim0 + (1\sim0 \times (1\sim3 + (0\sim8)))) \\
+&+ (1\sim0 + (1\sim0 \times (1\sim3 + (0\sim8)))) \\
+&+ (1\sim0 + (1\sim0 \times (1\sim3 + (0\sim8)))) \\
+&+ (1\sim0 + (1\sim0 \times (1\sim3 + (0\sim8)))) \\
+&+ (1\sim0 + (1\sim0 \times (1\sim3 + (0\sim8)))) \\
+&+ (1\sim0 + (1\sim0 \times (1\sim3 + (0\sim8)))) \\   
+\end{aligned}
+}</math>
+
+<hr />
+
+Notes:
+* Each weapon's MainPtr must calculate HitPtrs independently.
+** For example, {{Weapon|Sampotes}}' Heavy Slam Attack wave, {{Weapon|Tenet Exec}}'s Heavy Attack wave.
+*** {{Weapon|Sampotes}} Heavy Slam Attack has 13 MainPtrs; each slam wave must independently calculate HitPtr count.
+* Multiple additional AoE attacks that increase HitPtrs can only be DmgSrcs and cannot calculate HitPtrs independently.
+
+=== Status Hit HitPtr Formula ===
+[[Status Effect|DoT]]-type HitPtr count is determined by the number of HitStructs.
+* For example, two different HitStructs trigger SlashCondition ({{D|Slash}} proc), ToxicCondition ({{D|Toxin}} proc), ShockCondition ({{D|Electricity}} proc), HeatCondition ({{D|Heat}} proc), and GasCondition ({{D|Gas}} proc). Regardless of how many DmgSrcs caused these procs or how many proc stacks:
+**The GasCondition can only have a maximum of 10 GasConditionDoT.
+**The SlashCondition, ShockCondition, and ToxicCondition can only have a maximum of 2 DoTPtr of the same type of status effect because there are only 2 HitStructs.
+**The HeatCondition can only be 1 HeatConditionDotPtr because of its unique [[Heat Inherit]] mechanic. The same applies to [[Electricity]] and [[Gas]].
+* Within the same HitStruct, Slash DoT will merge into a single DmgSrc. The same applies to Toxic DoT.
+* {{D|Heat}} DoT can only have one HitPtr due to its unique [[Heat Inherit]] mechanic.
+* {{D|Electricity}} DoT can only have one HitPtr due to its unique [[Electricity Damage|Tesla Chain]] mechanic.
+* {{D|Gas}} DoT can only have one HitPtr due to its unique [[Gas Damage|Gas Clouds]] mechanic.
+====Blast Proc Hit Count Formula====
+<math>{
+\text{Total Blast Procs Hit Count} = \text{Blast Proc Stack Count} + \text{Resupply's Blast Proc Stack Count}
+}</math>
+
+====Damage Over Time Hit Count Formula====
+<math>{
+\begin{aligned}
+\text{Total nth HitStruct DoT Hit Count} ={}& 
+\text{Does this nth HitStruct have Slash proc?} \\
+&+ \text{Does this nth HitStruct have Toxin proc?} 
+\end{aligned}
+}</math>
+
+<math>{
+\begin{aligned}
+\text{Total nth HitStruct DoT Hit Count} ={}& 
+n \times ( 0\sim 1 ) \\
+&+ n \times ( 0\sim 1 )
+\end{aligned}
+}</math>
+
+====Heat Proc Hit Count Formula====
+<math>{
+\begin{aligned}
+\text{Total Heat DoT Hit Count} &= 1 \times \text{Does the enemy have Heat proc?} \\
+&= 1 \times (0 \sim 1)
+\end{aligned}
+}</math>
+
+====Electricity Proc Hit Count Formula====
+<math>{
+\begin{aligned}
+\text{Total Heat DoT Hit Count} &= 1 \times \text{Does the enemy have Electricity proc?} \\
+&= 1 \times (0 \sim 1)
+\end{aligned}
+}</math>
+
+====Gas Proc Hit Count Formula====
+<math>{
+\begin{aligned}
+\text{Total Heat DoT Hit Count} &= 1 \times \text{Does the enemy have Gas proc?} \\
+&= 1 \times (0 \sim 1)
+\end{aligned}
+}</math>
+
+== Summary ==
+* {{A|Xata's Whisper}}, {{A|Toxic Lash}}, {{A|Resupply}}, and {{Arcane|Melee Duplicate}} each count as 1 in HitPtr calculations.
+* {{A|Tornado}} counts as 1-3 in HitPtr calculations.
+* {{M|Funnel Clouds}} counts as 1-8 in HitPtr calculations.
+* {{A|Hall of Mirrors}} clones count as 0-6 clones based on actual number (some weapons like {{Weapon|Syam}}'s Heavy Attack can use 6 clones to attack).
+* {{D|Blast}} proc resolution counts as the number of stacks at resolution time for Status Hit HitPtr, with {{A|Resupply}}'s Status Hit being separate.
+* {{A|Hall of Mirrors}} will clone 0 to 6 Warframe clones that follow the main Warframe's attacks from different positions depending on weapon, making hit counts variable.
+* AoE attack and projectile attack HitPtrs are different MainPtrs and must be calculated separately.
+* Each attack hit's HitPtr count must be calculated independently (i.e., attacks hitting at different times).
+* Status proc calculations must be separate because those formulas operate on the HitStruct timeline, not the others.
+* For each weapon, each attack counts as 1 MainPtr. For example, {{Weapon|Kronen}} performing two Heavy Attacks counts as 4 MainPtrs.
+* Each HitStruct can have only one HitPtr of the same Status Effect type.
+* In the HitStruct, the {{D|Slash}} DoT in the DoT HitPtr will, combine all the DmgSrcs of {{D|Slash}} DoT into a single DmgSrc if they are within the same HitStruct, regardless of the number of DmgSrcs.
+
+==External Links==
+*https://warframe.huijiwiki.com/wiki/Hits_Mechanism, source article that this content was translated from
+
+{{MechNav}}
+[[Category:Mechanics]]
+[[Category:Mechanics Research]]
+[[Category:User Research (Damage)]]
+[[Category:Development]]
