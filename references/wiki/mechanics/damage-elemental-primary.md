@@ -225,6 +225,12 @@ Slingshot, puertas y Resource Forge.
 |---|---|---|---|---|---|---|---|---|
 | ¿Tick? | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
 
+> ⚠️ Conflicto ↔ [`damage-over-time.md`](damage-over-time.md) §Cuántos ticks
+>
+> La página declara **6 s de duración**, pero la ventana que dibuja su propia tabla —s0..s5— es la
+> misma que Sear declara como **5 s**. Con 5 s, la fórmula general de ticks acierta; con 6 s,
+> predice 7 y la tabla marca 6.
+
 ### Stacking — un híbrido entre Slash y Heat
 
 > Desde `{{ver|33.6}}`: varios procs ya **no** aplican su daño por separado como Slash, sino **una

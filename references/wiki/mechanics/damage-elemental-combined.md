@@ -146,6 +146,12 @@ La misma expresión vive en [`damage-elemental-primary.md`](damage-elemental-pri
 
 **6 ticks, en s0..s5** — sin retardo inicial, a diferencia de Slash y Toxin.
 
+> ⚠️ Conflicto ↔ [`damage-over-time.md`](damage-over-time.md) §Cuántos ticks
+>
+> Mismo caso que Electricity: la página declara **6 s**, pero la ventana s0..s5 es la que Sear
+> declara como **5 s**. Con 5 s la fórmula general acierta; con 6 s predice 7 ticks contra los 6
+> de la tabla.
+
 **El radio crece con los stacks:** 3 m de base, **+0.3 m por stack**, hasta **6 m a los 10 stacks**.
 Máximo 10 instancias, cada una con su timer; la 11ª reemplaza a la más vieja.
 

@@ -211,8 +211,14 @@ tornado**, que después proca sobre los enemigos el status con el que quedó afe
   los *intervalos* del ramp de armor strip — +100% duración = strip cada 1 s en vez de 0.5 s),
   y **Electricity** (el stun de ~3 s **NO** escala — cita textual; el DoT no está especificado).
   El resto de tipos: **no especificado en su subpágina** — dudoso abierto.
-  ⚠️ La subpágina de Magnetic trae una frase anómala ("status duration mods... are a final
-  multiplier to the total damage") que suena a error de la wiki o de transcripción — gate visual.
+- ✅ **Gate de Magnetic resuelto (2026-07-30, con el raw en mano).** La frase que sonaba anómala
+  —*"status duration mods … are a final multiplier to the **total** damage"*— **no es un error**:
+  no habla del status de Magnetic sino del **proc forzado de Electricity** que se dispara al
+  romper escudos/Overguard. Ese proc entrega un total fijo (**3% de los escudos máximos por
+  stack**, hasta 30%) **repartido en 6 s**; alargar la ventana agrega ticks, así que la duración
+  multiplica el total. Es correcto por la magnitud a la que se aplica. El gate se abrió sólo
+  porque la frase se leyó sin su contexto —la subpágina no estaba capturada—. Detalle en
+  [`damage-elemental-combined.md`](damage-elemental-combined.md) §Magnetic.
 
 ---
 
@@ -276,20 +282,29 @@ tick_damage = 0.35 × modded_base_damage × (1 + faction) × (1 + status_damage)
 ```
 
 - 6 ticks en 6s (delay 1s → ticks en s1..s6; corregido, antes decía 7)
-- Tipo de daño del tick: **True/Cinematic** — el armor no lo afecta
+- Tipo de daño del tick: **Cinematic** (`DT_CINEMATIC_DAMAGE`) — el armor no lo afecta.
+  **No es "True/Cinematic": son dos tipos distintos, cada uno con su página.** Lo que aplica el
+  proc de Slash es Cinematic; "True" es un término de jugadores para otro tipo, que comparte la
+  propiedad de ignorar la DR de armadura pero no la fuente. Ver
+  [`damage-unique.md`](damage-unique.md)
 - `modded_base_damage` = daño base total × (1 + bonos de daño base) × (1 + faction)
 - Los mods de daño Slash **no** aumentan el tick (tampoco Buzz Kill/Contagious Spread/finisher
   mods); sí lo hacen base damage, faction (double-dip explícito) y status damage
 - ✅ **Composición True↔Viral confirmada empíricamente (usuario, 2026-07-02) — boundary case
   cerrado.** Dorrclave (Slash puro, 421.8) vs Arid Butcher, tick baseline 233 → con 2 stacks
   Viral 525 (×2.2532, predicción 2.25, 0.14% error) → con 4 stacks 642 (×2.7554, predicción
-  2.75, 0.20% error) → con 5 stacks 700 (×3.0043, predicción 3.00, 0.14% error). **True Damage
-  NO es inmune a Viral** — el bypass de True es específicamente sobre la reducción de armor,
+  2.75, 0.20% error) → con 5 stacks 700 (×3.0043, predicción 3.00, 0.14% error). **El daño que
+  ignora armor NO es inmune a Viral** — el bypass es específicamente sobre la reducción de armor,
   no sobre los multiplicadores de capa. Regla de composición confirmada: "ignora armor" ≠
-  "inmune a todo lo demás"; True sigue siendo daño de capa-salud a efectos de Viral. Crit
+  "inmune a todo lo demás"; sigue siendo daño de capa-salud a efectos de Viral. Crit
   también se apila limpio (mismo patrón que el test de Dual Toxocyst). Sigue sin verificar si
-  la matriz de vulnerabilidad por facción (`enemy-resistances.md`) también alcanza a True —
+  la matriz de vulnerabilidad por facción (`enemy-resistances.md`) también alcanza a este daño —
   pregunta distinta, no probada en este test.
+  > **Qué midió realmente este test.** La sonda fue un tick de Slash, y **el tick de Slash es
+  > Cinematic, no True** — distinción que no teníamos cuando se escribió. Los números y la regla
+  > de composición no cambian; lo que cambia es el alcance de la etiqueta: está **medido sobre
+  > Cinematic** y **extrapolado** a True, que es otro tipo con otras fuentes. Extrapolación
+  > razonable —las dos páginas declaran el mismo bypass— pero no medida.
 
 ### Ignite (Heat)
 
@@ -404,6 +419,15 @@ multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
 - **Funciona aunque la salud esté protegida por armor** (cita de subpágina) — amplifica
   lo que llegue a la capa health, armor mediante.
 - Los DoTs que pegan a health también se amplifican mientras el proc esté activo.
+- **Y se evalúa tick por tick, no al nacer el proc.** `Damage/Viral_Damage` es explícita: el daño
+  del tick se calcula *"based on whether or not a Viral proc is active **when the DoT tick deals
+  damage**"*. Ejemplo textual: un arma de 100 que aplica Slash, con 1 stack de Viral, hace 200 en
+  el hit y **70/s** de Bleed **hasta que Viral se cae, y ahí baja a 35/s**; al revés, un Bleed que
+  nació sin Viral hace 35/s y **sube a 70/s** en cuanto llegue un proc de Viral.
+  > **Por eso Viral no double-dipea en los DoT y la facción sí** — la subpágina lo contrasta
+  > explícitamente. No son dos reglas arbitrarias: **la facción es propiedad del atacante y queda
+  > horneada en el proc al crearse; Viral es estado del objetivo y se lee en cada tick.** La misma
+  > partición que ya separa `f(declarado)` de `f(emergente)`.
 - ✅ **Fórmula verificada empíricamente (usuario, 2026-07-02):** Dual Toxocyst vs Arid Butcher
   (Grineer nivel 210, con armor Ferrite) — 221 dmg (0 stacks) → 442 dmg (1 stack) = ×2.0000
   exacto; con crit ×2 confirmado: 885 dmg = ×4.0045 (2.0 viral × 2.0 crit, factores limpios
@@ -432,10 +456,25 @@ multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
 Multiplica el daño recibido en la capa de shields (y Overguard). Misma fórmula de stacks
 que Infection (`2 + 0.25 × (n − 1)` → ×3.25 a 10 stacks).
 
-- Niega la recarga natural de shields durante el proc.
-- **Al romper Overguard**: inflige daño Electricity igual al **3% del Overguard máximo
-  por stack** (subpágina).
+- Niega la recarga natural de shields durante el proc. **Los efectos que *restauran* shields
+  (links de Shield Osprey y Orokin Drone) bypasean esa penalidad.**
+- **Al romper shields u Overguard**: proc **forzado** de Electricity por el **3% de los
+  shields/Overguard máximos por stack** (hasta **30%** a 10), repartido en **6 s**.
+  Lo escala el arma o habilidad que aplicó el Magnetic, con reglas que **no se parecen a las de
+  ningún otro proc**:
+
+  | | |
+  |---|---|
+  | Base damage mods (Serration) | **ningún efecto** |
+  | Status damage mods (Pistol Elementalist) | **×2** → factor 3.61 |
+  | Faction damage mods (Expel Corpus) | **×2** |
+  | Mods de Electricity (Convulsion) | normales, **aun combinados en otro elemento** |
+  | Status duration | **multiplicador final del daño TOTAL** — ver §Status Duration |
+
+  Archon Stretch aplica sobre este proc al romper Overguard, pero **sólo desde habilidades**.
 - **Nullifier bubbles**: especialmente efectivo — daño mín. 300 / máx. 1200 por disparo (subpágina).
+- **Sobre Tenno**: HUD distorsionado y **30 de Energy Drain por segundo durante 3 s** — primer tick
+  instantáneo → **4 ticks, 120 de energía**. Un cleanse corta el drenaje.
 
 ### Weakened (Puncture)
 
@@ -449,6 +488,12 @@ Debuff del daño **saliente** del enemigo + crit del jugador sobre él (subpági
 
 - Slow: **50%** el 1er stack, **+5%** por stack → **90%** al 9º.
 - Crit damage recibido: **+0.1×** el 1er stack, **+0.05×** por stack (≈ +0.5× al 9º).
+  **Es aditivo con los mods de crit damage y entra ANTES de calcular el tier crítico** — no es un
+  multiplicador final. Entra dentro del escalón, no encima
+  (→ [`critical-hits.md`](critical-hits.md) §Resolución de tiers). Ejemplos textuales de la
+  subpágina: Kunai + Primed Target Cracker a 9 stacks = `1.6 × (1 + 1.10) + 0.5 = 3.86×`;
+  Paris Prime + Point Strike a 9 stacks = `1 + n × (2 + 0.5 − 1)` → **2.5×** en tier 1 y **4×**
+  en tier 2.
 - **10º stack**: congelación sólida 3 s (sin acciones, niega recarga de shields), crit
   recibido sube a **+1.0×**; al descongelar quedan **3 stacks residuales**. Congelado no
   recibe más stacks de Cold.
@@ -482,12 +527,21 @@ Status Duration alarga los *intervalos* del ramp (+100% duración → strip cada
 |---|---|---|
 | **Knockback** | Impact | Flinch/recoil del enemigo (6 s, cap 5). Contra unidades pesadas: **+8% por proc al threshold de Parazon Mercy** (hasta 80%; 100% en Corpus/Eximus sin shields). Muerte por proc de Impact = ragdoll del cadáver. Inmunes: Ospreys, Bosses, Tenno. |
 | **Detonate** | Blast | Rework: cada stack = carga que explota tras 1.5 s de fusa haciendo **30% del base damage**; al 10º stack **o al morir el target**, todas detonan juntas: **300% del base damage por stack (máx. 3000%) en 5 m** + stagger a los alcanzados. La fusa escala con Status Duration (y detona incluso con duración total <0%). |
-| Confusion | Radiation | El confundido ataca a sus aliados con **+100% de daño** (1er stack), **+50% por stack → +550% a 10**; slam attacks contra ex-aliados pasan de Knockdown a **Ragdoll**; al expirar, vuelve a su facción. 12 s, timer propio por stack. |
+| Confusion | Radiation | El confundido ataca a sus aliados con **+100% de daño** (1er stack), **+50% por stack → +550% a 10**; slam attacks contra ex-aliados pasan de Knockdown a **Ragdoll**; al expirar, vuelve a su facción. 12 s, timer propio por stack. Las **auras** del confundido (Eximus, Ancient Healer) dejan de afectar a sus aliados, y él tampoco se beneficia de las ajenas. **En unidades especiales es otra mecánica** — ver abajo. |
 | Bullet Attraction | Void | Campo de **2.5 m** por **3 s** centrado en el punto de impacto que atrae los proyectiles al target. El daño Void además **resetea la damage adaptation de los Sentients**. |
 | Tesla Chain / stun | Electricity | Ver §Electricity DoT — el stun (~3 s, fijo, solo target original) es la faceta CC. |
 | Freeze | Cold | Ver §Cold en stack-debuffs — el slow/freeze es CC, el crit-recibido es numérico. |
 
 > Nota de modelado: varios de estos "CC" cargan facetas numéricas (Mercy threshold,
+> **Confusion en unidades especiales no es el mismo status.** En **Kuva Liches, Acolytes,
+> Necramechs enemigos, Sisters of Parvos y Hounds** la Confusion **no los vuelve atacables por sus
+> aliados** —salvo que esos aliados estén confundidos también—; en cambio les sube el daño que
+> **reciben** de unidades aliadas: **+100%**, con cap de **4 stacks** → **+250%**. Es otro efecto
+> bajo la misma etiqueta: de "cambia de bando" pasa a "vulnerabilidad direccional".
+>
+> Los enemigos con **Overguard** reciben el status pero son **inmunes a su efecto** hasta que se
+> rompa el buffer.
+
 > Confusion +550%, Blast 3000%) — la clasificación fina faceta-por-faceta es trabajo
 > de las fichas, no de esta captura.
 
@@ -513,6 +567,13 @@ Sphere sólo **Electricity**.
 
 Los DoT **también reciben** los modificadores de headshot y de crítico
 (→ [`enemy-body-parts.md`](enemy-body-parts.md), [`critical-hits.md`](critical-hits.md)).
+
+> **Excepción — los DoT que golpean por su cuenta.** La **Tesla Chain** (Electricity) y la **Gas
+> Cloud** pueden impactar cabezas y otras partes **por sí solas**, pero con un multiplicador de
+> headshot de **1x** — es decir, ninguno. Sólo sube con Target Acquired, los bonus de zoom de
+> algunos sniper rifles, o Primary/Secondary Deadhead. Es la diferencia entre *heredar* el headshot
+> del hit que creó el proc y *generar* impactos propios: los DoT de objetivo único heredan; los dos
+> que tienen geometría propia, no. Ambas subpáginas lo declaran con la misma frase.
 
 ---
 

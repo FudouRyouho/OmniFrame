@@ -46,9 +46,19 @@ del arma (regla exacta en [`status-effects.md`](status-effects.md)).
 
 | Tipo | Interno | Status | Interno |
 |---|---|---|---|
-| **Impact** | `DT_IMPACT` | **Knockback** — flinch y stagger **1 s** (más largo con más stacks). Durante **6 s** sube el umbral de salud para finisher de Parazon **+8% por stack**, hasta 5 stacks = **80%** (**100%** en Corpus sin escudos). Cada stack con su duración. | `PT_KNOCKBACK` |
-| **Puncture** | `DT_PUNCTURE` | **Weakened** — el objetivo hace **−40%** de daño y recibe **+5%** de crit chance por **6 s**. Cada proc siguiente suma **+10%**, hasta **−80%** de daño y **+25%** de crit a 5 stacks. | `PT_FRAILTY` |
+| **Impact** | `DT_IMPACT` | **Knockback** / **Stagger** — status de **6 s**, hasta 5 stacks; el tambaleo en sí dura **1 s**. Sube el umbral de salud para finisher de Parazon **+8% por stack**, hasta **80%** (**100%** en Corpus/Eximus sin escudos). Cada stack con su duración. | `PT_KNOCKBACK` |
+| **Puncture** | `DT_PUNCTURE` | **Weakened** — el objetivo hace **−40%** de daño y recibe **+5%** de crit chance por **10 s**. Cada proc siguiente suma **+10%**, hasta **−80%** de daño y **+25%** de crit a 5 stacks. | `PT_FRAILTY` |
 | **Slash** | `DT_SLASH` | **Bleed** — **35%** del daño base como daño **Cinematic** por segundo durante **6 s**, tras **1 s** de retardo. Stacks **ilimitados**. | `PT_BLEEDING` |
+
+> **Dos nombres para el proc de Impact, y dos magnitudes distintas de duración.** `Status_Effect` lo
+> llama **Knockback** y dice que *"staggers movement for 1 second"*; `Damage/Impact_Damage` lo llama
+> **Stagger** y dice que *"it lasts 6 seconds"*. No se contradicen —son cosas distintas: la
+> animación de tambaleo y la vida del status/stack— pero **ninguna de las dos páginas lo declara
+> así**; la separación es lectura nuestra. El desacuerdo de *nombre* sí es real y la propia
+> subpágina lo marca con un `{{UpdateMe}}`; la partición en tres códigos está en
+> [`status-effects.md`](status-effects.md).
+
+Detalle por tipo, con las fórmulas de tick: [`damage-physical.md`](damage-physical.md).
 
 > **El daño físico no se puede añadir.** Un arma sin componente de Impact, Puncture o Slash **no se
 > ve afectada** por los mods de ese tipo. Es la asimetría con los elementales, que sí se agregan.
