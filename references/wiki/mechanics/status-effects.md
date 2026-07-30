@@ -191,9 +191,7 @@ tornado**, que después proca sobre los enemigos el status con el que quedó afe
 | Blast | 1.5 s de fusa por stack | subpágina (rework) |
 
 - Más duración = más ticks = más daño total en DoTs (los ticks son 1/s).
-- **Conteo de ticks — la página general y las subpáginas no coinciden. Capturado literal, sin
-  unificar.** `Status_Effect` publica esta tabla, donde **todos dan 6 ticks** y lo que cambia es
-  *dónde caen*:
+- **Conteo de ticks — todos los DoT dan 6 ticks.** Lo que cambia es **dónde caen**:
 
   | Time from proc | 0s | 1s | 2s | 3s | 4s | 5s | 6s |
   |---|---|---|---|---|---|---|---|
@@ -204,8 +202,10 @@ tornado**, que después proca sobre los enemigos el status con el que quedó afe
   > en que se procan, mientras que los de **objetivo único** (Slash, Heat, Toxin) tienen **1 segundo
   > de retardo**."*
 
-  **Pero la subpágina `Damage/Gas_Damage` muestra ticks en s0..s6 = 7 ticks.** Un tick de diferencia
-  sobre la misma mecánica, entre la página general y la de su tipo. No se elige ganador acá.
+  **La página general y las subpáginas `Damage/<Tipo>_Damage` coinciden** — verificado contra Slash,
+  Gas y Electricity. Una versión anterior de este doc afirmaba *"Gas: 7 ticks según su subpágina"*:
+  era un error de lectura de la tabla —contar las siete **columnas** `0s..6s` en vez de los seis
+  ✓— que sobrevivió porque esas subpáginas **no estaban capturadas** y nadie podía cotejarlo.
 - **Status Duration (mods):** documentado por subpágina solo en: **Blast** (la fusa escala;
   excepción: la detonación ocurre igual aunque la duración total sea <0%), **Heat** (alarga
   los *intervalos* del ramp de armor strip — +100% duración = strip cada 1 s en vez de 0.5 s),
@@ -353,8 +353,8 @@ tick_damage = 0.5 × modded_base_damage × (1 + electricity_bonuses) × (1 + fac
 tick_damage = 0.5 × modded_base_damage × (1 + gas_bonuses) × (1 + faction) × (1 + status_damage)
 ```
 
-- Cloud de 6s; ticks en s0..s6 según su subpágina (= 7 ticks — difiere de Slash/Toxin,
-  capturado literal, no unificar)
+- Cloud de 6 s; **6 ticks, en s0..s5** — sin retardo inicial, a diferencia de Slash/Toxin, que
+  tickean en s1..s6 (verificado contra `Damage/Gas_Damage`)
 - El daño del cloud es **tipo Gas** y pega a todos los enemigos en el radio
 - Radio: **3 m base, +0.3 m por stack → 6 m a 10 stacks** (cap 10)
 
