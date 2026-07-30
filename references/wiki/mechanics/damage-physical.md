@@ -2,7 +2,7 @@
 
 > Estado: activo
 > Rol: los tres tipos físicos en detalle — a qué facción pegan, qué status producen y cómo se computa ese status
-> Fuente de verdad de: el proc de cada físico con sus stacks y duración · la **fórmula del tick de Bleed** y qué la escala · el umbral de Parazon por stack de Impact · el buff de crit recibido de Puncture · las condiciones de desmembramiento · los contrapartes Railjack
+> Fuente de verdad de: el proc de cada físico con sus stacks y duración · la **fórmula del tick de Bleed** y qué la escala · el umbral de Parazon por stack de Impact · el buff de crit recibido de Puncture · las condiciones de desmembramiento · los contrapartes Railjack · el índice de qué se engancha a cada status y qué entidad lo resiste
 > No usar para: la taxonomía y los códigos `DT_*`/`PT_*` — ver [`damage-types.md`](damage-types.md) · la ley general de DoT — ver [`damage-over-time.md`](damage-over-time.md) · el comportamiento genérico de un proc — ver [`status-effects.md`](status-effects.md) · el catálogo de armas/mods/habilidades que aplican cada tipo (son cientos de líneas en cada raw)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage/Impact_Damage · https://wiki.warframe.com/w/Damage/Puncture_Damage · https://wiki.warframe.com/w/Damage/Slash_Damage
@@ -157,6 +157,23 @@ así que se pueden montar libremente.
 
 Importa para Nekros: cada parte de un cuerpo bisectado puede tirar Health Orb y loot con Desecrate
 —los miembros sueltos, no—.
+
+---
+
+## Qué se dispara con cada status, y quién lo resiste
+
+Dos índices cortos que **no son el catálogo de fuentes**. El catálogo dice *qué arma aplica* el
+tipo; estos dicen **qué se engancha al status ya aplicado** y **qué entidad concreta lo resiste**.
+
+| Tipo | Se dispara con el status | Resisten |
+|---|---|---|
+| **Impact** | Internal Bleeding · Hemorrhage · Magnetic Welt · Shattering Impact · Primary Exhilarate | — |
+| **Puncture** | Melee Doughty · Secondary Cryogenic | — |
+| **Slash** | Hunter Command · Relentless Combination · **bonus del set Hunter** (los compañeros hacen daño extra a enemigos con status de Slash) | Arcane Deflection · Adaptation · Shock Absorbers · **Hyekka Master (80%)** |
+
+> Las resistencias **por entidad** son otra capa que la matriz por facción de
+> [`enemy-resistances.md`](enemy-resistances.md): el Hyekka Master resiste **80%** de Slash *y* de
+> Heat con independencia de su facción.
 
 ---
 

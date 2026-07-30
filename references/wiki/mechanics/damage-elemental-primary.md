@@ -2,7 +2,7 @@
 
 > Estado: activo
 > Rol: los cuatro elementales primarios en detalle — su status, sus stacks y la fórmula de tick de los que hacen DoT
-> Fuente de verdad de: la **fórmula del tick** de Heat, Electricity y Toxin con su coeficiente 0.5 · **Heat Inherit** y la captura de bonus en el primer proc · la **rampa del armor strip de Heat** y su interacción con Status Duration · la escala de stacks de Cold y su bonus de crit damage **previo al tier** · el radio y el stun de Tesla Chain · los contrapartes Railjack
+> Fuente de verdad de: la **fórmula del tick** de Heat, Electricity y Toxin con su coeficiente 0.5 · **Heat Inherit** y la captura de bonus en el primer proc · la **rampa del armor strip de Heat** y su interacción con Status Duration · la escala de stacks de Cold y su bonus de crit damage **previo al tier** · el radio y el stun de Tesla Chain · los contrapartes Railjack · el índice de qué se engancha a cada status y qué entidad lo resiste
 > No usar para: la ley general de DoT y qué lo escala — ver [`damage-over-time.md`](damage-over-time.md) · la taxonomía y las combinaciones — ver [`damage-types.md`](damage-types.md) · el catálogo de fuentes y de resistencias por tipo (son cientos de líneas en cada raw)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage/Heat_Damage · https://wiki.warframe.com/w/Damage/Cold_Damage · https://wiki.warframe.com/w/Damage/Electricity_Damage · https://wiki.warframe.com/w/Damage/Toxin_Damage
@@ -276,6 +276,39 @@ a la vez** por rendimiento.
 
 **Cambia la facción del objetivo durante 12 s**, habilitando fuego amigo con sus propios aliados.
 Los procs refrescan la duración.
+
+---
+
+## Qué se dispara con cada status, y quién lo resiste
+
+Dos índices cortos que **no son el catálogo de fuentes**. El catálogo dice *qué arma aplica* el
+tipo; estos dicen **qué se engancha al status ya aplicado** y **qué entidad concreta lo resiste**.
+
+| Tipo | Se dispara con el status | Resisten |
+|---|---|---|
+| **Heat** | Archon Vitality · Burning Hate · Arcane Hot Shot · Cascadia Flare · Topaz Archon Shard | Arcane Ice · Flame Repellent · Orgone Tuning Matrix · **Hyekka Master (80%)** |
+| **Cold** | Archon Flow · **Primary Frostbite** · **Secondary Shiver** · Arcane Ice Storm · Melee Careen | Arcane Warmth · Insulation · Orgone Tuning Matrix · **The Fragmented (inmune)** |
+| **Electricity** | Archon Stretch · Conjunction Voltage · Melee Influence · Violet Archon Shard | Lightning Rod · Orgone Tuning Matrix · **Techrot Obsolyte** |
+| **Toxin** | Archon Continuity · Primary Blight · Emerald Archon Shard | Arcane Resistance · Antitoxin · Toxin Resistance · Orgone Tuning Matrix · **Toxic Ancient** · Peely Pix *Breathless* |
+
+Dos de esos escalan **por cantidad de status activos**, no por su presencia:
+
+- **Secondary Shiver** — *"enemies take +45% damage per Cold Status"*.
+- **Primary Frostbite** — *"+3% Critical Damage y +2.25% Multishot por 12 s, hasta 40 stacks"*, al
+  proccear Cold.
+
+> Las resistencias **por entidad** son otra capa que la matriz por facción de
+> [`enemy-resistances.md`](enemy-resistances.md): el Hyekka Master resiste **80%** de Heat *y* de
+> Slash con independencia de su facción, y The Fragmented es **inmune** a Cold y a Viral.
+
+> **Magus Accelerant** es un caso raro de reducción de resistencia que **multiplica** los efectos de
+> Heat. Y **Heat sirve como reemplazo parcial de Corrosive** para pelar armadura.
+
+> Los enemigos muertos bajo Heat se inmolan y el cuerpo desaparece en segundos — corta el pull de
+> Magnetize, igual que Blast y Corrosive.
+
+> **Curiosidad con consecuencia de build:** los mods de Cold que no llevan efecto secundario usan
+> polaridad **Vazarin**, no Naramon como el resto de los elementales.
 
 ---
 

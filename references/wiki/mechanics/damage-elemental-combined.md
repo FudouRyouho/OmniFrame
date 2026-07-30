@@ -2,7 +2,7 @@
 
 > Estado: activo
 > Rol: los seis elementales combinados en detalle — su status, sus stacks y las fórmulas de los tres que hacen daño
-> Fuente de verdad de: la **doble fórmula de Blast** (single-target vs radial) y su triple-dip con Xata's Whisper · el escalón de armor strip de Corrosive y el cap ampliado por Emerald Shard · el radio creciente de Gas · la fórmula de vulnerabilidad de Viral y Magnetic · el **proc forzado de Electricity al romper escudos** y qué mods lo escalan · los caps de Confusion en unidades especiales
+> Fuente de verdad de: la **doble fórmula de Blast** (single-target vs radial) y su triple-dip con Xata's Whisper · el escalón de armor strip de Corrosive y el cap ampliado por Emerald Shard · el radio creciente de Gas · la fórmula de vulnerabilidad de Viral y Magnetic · el **proc forzado de Electricity al romper escudos** y qué mods lo escalan · los caps de Confusion en unidades especiales · el índice de qué se engancha a cada status y qué entidad lo resiste · las **dos listas de inmunes a Viral** que la misma página no unifica
 > No usar para: la ley general de DoT — ver [`damage-over-time.md`](damage-over-time.md) · la taxonomía y jerarquía de combinación — ver [`damage-types.md`](damage-types.md) · el catálogo de fuentes por tipo (son cientos de líneas en cada raw)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage/Blast_Damage · https://wiki.warframe.com/w/Damage/Corrosive_Damage · https://wiki.warframe.com/w/Damage/Gas_Damage · https://wiki.warframe.com/w/Damage/Magnetic_Damage · https://wiki.warframe.com/w/Damage/Radiation_Damage · https://wiki.warframe.com/w/Damage/Viral_Damage
@@ -309,6 +309,35 @@ Deimos Leaping Thrasher · Deimos Therid · Deimos Saxum (y Rex) · Demolisher B
 Thrasher · Tusk Bolkor · Tusk Firbolg · Techrot Babau.
 
 **Completamente inmunes a Viral:** Demolisher Charger · Demolisher Juggernaut.
+
+> **La misma página trae una segunda lista de inmunes que no coincide con la primera.** Su sección
+> *Sources of Viral Resistances* nombra **The Fragmented**, **Leaping Thrasher** y **Scaldra
+> TI-92** — dos de los tres **no están** en la lista de arriba, y el tercero aparece ahí como
+> *Deimos* Leaping Thrasher. No se contradicen (ninguna niega a la otra): **son dos listas
+> incompletas que no se unifican**. Sin marca: nada desmiente nada, y forzar un tipo sobreestimaría
+> la evidencia. Al usar cualquiera de las dos, tomar la **unión**.
+
+---
+
+## Qué se dispara con cada status, y quién lo resiste
+
+Dos índices cortos que **no son el catálogo de fuentes**. El catálogo dice *qué arma aplica* el
+tipo; estos dicen **qué se engancha al status ya aplicado** y **qué entidad concreta lo resiste**.
+
+| Tipo | Se dispara con el status | Resisten |
+|---|---|---|
+| **Blast** | Afterburner · Topaz Archon Shard · Vexing Retaliation | — |
+| **Corrosive** | Emerald Archon Shard | — |
+| **Gas** | — | Peely Pix *Breathless* (100% a Gas y Toxin por 30 s) |
+| **Magnetic** | Melee Vortex · Primary Obstruct | Arcane Nullifier |
+| **Radiation** | Arcane Universal Fallout · Secondary Irradiate | Arcane Healing · Diamond Skin |
+| **Viral** | — | **The Fragmented · Leaping Thrasher · Scaldra TI-92** (inmunes) |
+
+> Las resistencias **por entidad** son otra capa que la matriz por facción de
+> [`enemy-resistances.md`](enemy-resistances.md).
+
+> **Corrosive + Viral** es la combinación clásica contra armadura, sobre todo Grineer: uno reduce la
+> mitigación, el otro amplifica lo que llega a la salud.
 
 ## Fuentes
 

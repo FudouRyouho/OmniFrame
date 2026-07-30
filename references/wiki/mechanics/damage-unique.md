@@ -2,7 +2,7 @@
 
 > Estado: activo
 > Rol: los seis tipos de daño que no son ni físicos ni elementales — qué ignoran, qué status tienen (casi ninguno) y de dónde salen
-> Fuente de verdad de: **Cinematic es el daño de los ticks de Slash**, y qué ignora exactamente · la diferencia Cinematic ↔ True · la vulnerabilidad de Status Chance de Tau · el Bullet Attractor de Void y su lista de usos no-daño · que Energy Drain es el daño que consume energía del jugador
+> Fuente de verdad de: **Cinematic es el daño de los ticks de Slash**, y qué ignora exactamente · la diferencia Cinematic ↔ True · la vulnerabilidad de Status Chance de Tau · el Bullet Attractor de Void y su lista de usos no-daño · que Energy Drain es el daño que consume energía del jugador · quién resiste Tau
 > No usar para: la taxonomía general y los códigos `DT_*` — ver [`damage-types.md`](damage-types.md)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage/Cinematic_Damage · https://wiki.warframe.com/w/Damage/True_Damage · https://wiki.warframe.com/w/Damage/Void_Damage · https://wiki.warframe.com/w/Damage/Tau_Damage · https://wiki.warframe.com/w/Damage/Shield_Drain_Damage · https://wiki.warframe.com/w/Damage/Energy_Drain_Damage
@@ -128,6 +128,9 @@ duración. El 11º reemplaza al más viejo.
 
 > **Los procs forzados no se benefician.** Un arma con proc garantizado —el Hystrix— no genera procs
 > extra por esta vulnerabilidad. Es una multiplicación de la *chance*, no del recuento.
+
+**Resisten Tau:** el set **Umbral** (Intensify · Fiber · Vitality) · **Adaptation** · la pasiva de
+**Caliban** (y Caliban Prime).
 
 ---
 
