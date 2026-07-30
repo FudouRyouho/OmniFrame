@@ -108,6 +108,9 @@ Las **armas continuas** (Glaxion) tienen poco o nada de spread en su haz.
 | **Uniforme** | los disparos se reparten uniformemente en la **horizontal** | Perigale (sin zoom), Veldt |
 | **Único** | el spread sigue una estructura geométrica dependiente del multishot | Angstrum, Prisma Angstrum |
 
+La **Boar Prime** también tiene patrón propio —una **estrella de 8 puntas**—, aunque la wiki lo
+documenta con una captura en §Media y no en la sección de patrones.
+
 **Arrojadizas y de proyectil con arco** (Castanas, Tonkor) suelen tener accuracy "Very High" y aun
 así presentan desviación notable en la trayectoria.
 

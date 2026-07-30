@@ -84,6 +84,9 @@ Los mods de **mutación** convierten los pickups de *otro* tipo al del arma acti
 otro pool esté lleno**. Desde la v32 convierten al **50%** del Ammo Pickup (Vigilante Supplies, al
 **30%**).
 
+> En esa misma revisión, **Primary y Secondary Merciless perdieron su bonus de +100% de Ammo
+> Maximum**. Ya no son fuente de reserva.
+
 ## Armas de batería
 
 Usan una batería **autorecargable** en vez de reserva: al dejar de disparar hay un retardo corto y

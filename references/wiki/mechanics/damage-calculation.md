@@ -19,6 +19,10 @@
 > *"**Dealing damage is quantized.** […] physical and elemental damages round to the nearest multiple
 > of **1/32nd of their attack's base damage**, before being multiplied further."*
 
+**La granularidad cambió en la versión 40**, sin documentar: *"(Undocumented) Damage Quantization
+changed **from 1/16 to 1/32**"* (patch history de `Damage`). Cualquier cálculo o material anterior que
+use 1/16 quedó obsoleto ahí.
+
 ```text
 Scale = Modded Base Damage / 32
 
@@ -54,6 +58,33 @@ el juego muestra como **123**.
 - **Los elementos que nacen de sumar varios mods cuantizan su suma, no cada sumando.** 90% Cold + 90%
   Toxin, o 90% de Radiation modeada + 90% de Smite Infusion, entran como **un** 180% del elemento
   final, redondeado una vez.
+
+### El caso trabajado — Nagantaka Prime
+
+Seis tipos de daño a la vez. Base **173** ⇒ `Scale = 5.40625`. Mods, en ese orden: Cryo Rounds,
+Malignant Force, Hellfire, Piercing Caliber y Valence Formation de Gas.
+
+| Tipo | Base | Modificador | ÷ Scale | Redondeado | Cuantizado |
+|---|---|---|---|---|---|
+| Impact | 1.73 | — | 0.319 | **0** | **0** |
+| Puncture | 15.57 | +120% | 6.336 | 6 | 32.4375 |
+| Slash | 155.7 | — | 28.8 | 29 | 156.78125 |
+| Viral | 0 | +150% (90% Cold **+** 60% Toxin) | 48.0 | 48 | 259.5 |
+| Heat | 0 | +90% | 28.8 | 29 | 156.78125 |
+| Gas | 0 | +200% | 64.0 | 64 | 346.0 |
+| | **173** | | | | **951.5** |
+
+> **El Impact de la Nagantaka Prime cuantiza a 0 y *"will not register during attacks"*.** No es que
+> haga poco daño: **desaparece**. Es el mismo mecanismo que impide que un melee de Impact bajo dispare
+> Shattering Impact.
+
+Y el Viral muestra la regla de la suma en acción: `90% + 60%` se cuantizan **como un único 150%**, no
+por separado.
+
+> La nota que la wiki cierra bajo este ejemplo —*"Applying +Damage, +Faction or any other
+> non-elemental bonus multiplies **both** the base value of rounding numerator **and** Scale"*— es la
+> **segunda** de las dos afirmaciones incompatibles de §La contradicción declarada. El cuerpo del
+> artículo usa la primera; el ejemplo, la segunda.
 
 ### La contradicción declarada
 

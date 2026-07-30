@@ -64,6 +64,18 @@ enemigo con una Karak le quita dos segmentos: dos HitStructs.
 - Los MainPtr que impactan **simultáneamente** arman su propio HitStruct.
 - **Los StatusPtr se cuentan a partir de la cantidad de HitPtrs de cada HitStruct.**
 
+### Dónde caen los Extra Hits
+
+El ejemplo que la wiki desarrolla —Kuva Quartakk con +100% de multishot, 8 proyectiles simultáneos—
+se reparte en `HitStruct1` con **un** MainPtr (2 `DmgSrc`) y `HitStruct2` con los **tres** restantes.
+Cada `DmgSrc` **tira su proc por separado**: en el ejemplo, uno saca Cold, dos sacan Corrosive y cinco
+no sacan nada, todos dentro del mismo ataque.
+
+Al añadir Xata's Whisper, los HitPtrs extra:
+
+- **copian la forma** del hit que los originó, pero **con daño distinto y los procs vueltos a tirar**;
+- **caen todos en el segundo HitStruct**.
+
 ## Subtipos de HitPtr
 
 | Categoría | Subtipo | Qué es |
@@ -147,7 +159,7 @@ Distinción que decide cómo acumula un efecto:
 
 | Fuente | Clase | Aporte |
 |---|---|---|
-| Xata's Whisper (Xaku) | Extra Hit | +1 HitPtr independiente de **Void** |
+| Xata's Whisper (Xaku) | Extra Hit | +1 HitPtr independiente de **Void**, por **26% del daño total del arma** |
 | Toxic Lash (Saryn) | Extra Hit | +1 HitPtr independiente de **Toxin** |
 | Resupply (Cyte-09) | Extra Hit | +1 HitPtr independiente **elemental** |
 | Silken Stride (Oraxia) | Extra Hit | +1 HitPtr independiente de **Toxin** |
@@ -156,6 +168,10 @@ Distinción que decide cómo acumula un efecto:
 | Funnel Clouds (augment) | Distribution | hasta **8** HitPtrs, ídem |
 | Hall of Mirrors (Mirage) | Clone | **0–6** clones, cada uno replicando el MainPtr |
 | proc de **Blast** | Status | cada stack resuelto cuenta como **un** HitPtr |
+
+> El **26%** de Xata's Whisper es el único de estos aportes con valor publicado, y la wiki lo verifica
+> tres veces en sus propios ejemplos: `1201 × 0.26 = 312.26` (Kuva Quartakk), `92 × 0.26 = 23.92`
+> (Cernos Prime) y `29 × 0.26 = 7.54` (Karak).
 
 ## Fórmulas de conteo
 

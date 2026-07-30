@@ -16,9 +16,13 @@ Desde la versión **36**, el sistema es **Damage 3.0**, y el cambio es estructur
 > Vulnerabilities and resistances have also been **decoupled from health types and are now solely
 > based on the enemy Faction**"*
 
-Ya no existen Cloned Flesh, Machinery, Ferrite Armor, Alloy Armor, Proto Shield: hay **un** Health, **un**
-Armor, **un** Shield. Y un Grineer es vulnerable a Impact y Corrosive **siempre**, tenga o no armadura
-o escudos — sin resistencias de ningún tipo.
+Ya no existen Cloned Flesh, Machinery, Ferrite Armor, Alloy Armor, Proto Shield. Las notas de la v36
+lo dicen con precisión: **de 13 health types se pasó a 4 — Health, Armor, Shields y Overguard**, que
+ahora *"sólo sirven para diferenciar qué status effects y habilidades los afectan"* (Magnetic estorba
+escudos, Corrosive pela armadura, Viral amplifica salud).
+
+Y un Grineer es vulnerable a Impact y Corrosive **siempre**, tenga o no armadura o escudos — sin
+resistencias de ningún tipo.
 
 > Cualquier razonamiento del tipo *"este tipo de daño es bueno contra esta armadura"* es del sistema
 > **anterior**.
@@ -70,7 +74,7 @@ Los mods de daño general (Serration) afectan **todos** los tipos base del arma;
 | **Gas** | Heat + Toxin | `DT_GAS` | **Gas Cloud** — nube de **3 m** que hace **50%** del daño base por segundo durante **6 s**. Hasta 10 stacks y **6 m** de radio. **La nube persiste aunque el enemigo muera.** | `PT_ASPHYXIATION` |
 | **Magnetic** | Cold + Electricity | `DT_MAGNETIC` | **Disrupt** — *enemigo:* **+100%** de daño a **escudos y Overguard** por **6 s**, hasta 10 stacks = **+325%**; **no regenera escudos**. Al romperse escudo/Overguard, recibe daño y status de **Electricity** igual al **3% del máximo por stack**, hasta **30%**. *Jugador:* +100% a escudos, sin regeneración, **20 de Energy Drain por segundo** y HUD alterado, 4 s. | `PT_MAGNETIZED` |
 | **Viral** | Cold + Toxin | `DT_VIRAL` | **Virus** — **+100%** de daño a la **salud** por **6 s**, hasta 10 stacks = **+325%**. | `PT_INFECTED` |
-| **Corrosive** | Electricity + Toxin | `DT_CORROSIVE` | **Corrosion** — **−26%** de la armadura **actual** por **8 s**, hasta 10 stacks = **−80%**. | `PT_CAUSTIC_BURN` |
+| **Corrosive** | Electricity + Toxin | `DT_CORROSIVE` | **Corrosion** — **−26%** de la armadura **actual** por **8 s**; cada proc siguiente pela **+6%** más, hasta 10 stacks = **−80%**. | `PT_CAUSTIC_BURN` |
 
 > **Un primario que se combinó deja de existir.** Un arma cuyo Blast salió de Cold + Heat **ya no
 > hace** daño Cold ni Heat, ni aplica Freeze ni Ignite.
@@ -158,6 +162,17 @@ Railjack y los mods tácticos del Plexus hacen su daño completo.
 No aplica a enemigos a pie (abordajes de Ramsled, tripulación de Crewship y de puntos de interés):
 esos reciben daño y status normales.
 
+## Qué baja el daño base
+
+| Fuente | Efecto |
+|---|---|
+| **Extinguished Dragon Key** | **−75%** de daño |
+| estar bajo un proc de **Puncture** | el objetivo hace menos daño (ver la tabla de físico) |
+| Frail Momentum · Hollow Point · Shrapnel Rounds · Vile Acceleration · Anemic Agility | mods corruptos |
+
+> El Extinguished Dragon Key es además uno de los multiplicadores que la recalculación aditiva del
+> Condition Overload **ignora** (→ [`condition-overload.md`](condition-overload.md)).
+
 ## Escalado de daño enemigo
 
 ```text
@@ -181,6 +196,18 @@ Ver [`enemy-level-scaling.md`](enemy-level-scaling.md).
 Cada proyectil o golpe muestra **una** instancia, redondeada al entero más cercano; las armas de
 multishot muestran una por proyectil, y las continuas una a ritmo constante según su cadencia.
 Ver [`critical-hits.md`](critical-hits.md).
+
+### Damage Over Time Preview
+
+Desde la versión **43**, la barra de vida muestra **el daño exacto que un DoT activo va a hacer
+durante toda su duración**, repartido sobre salud, escudos y/o Overguard. Si ese daño es letal, la
+barra queda con **contorno negro**.
+
+> **Sólo cuenta el DoT de status effects, no el de habilidades.** El daño de Spores de Saryn no
+> aparece; el de los status que aplica el Bunraku de Koumei, sí.
+
+Que el juego pueda dibujarlo implica que **precomputa el total del DoT en el momento de aplicarlo** —
+consistente con el modelo de *seed* guardado de [`damage-calculation.md`](damage-calculation.md).
 
 ## Fuentes
 

@@ -102,6 +102,18 @@ Del lado enemigo: los shockwaves (Shockwave MOA, Rippling Shockwave, Seismic Sho
 Heavy Gunner / Napalm), el arpón del Scorpion, el escudo del Shield Lancer, el tackle del Leaper, los
 misiles del Hellion, el slam del Juggernaut y los eximus Blitz y Arson.
 
+## Quién causa stagger
+
+**Enemigos:** Aerolyst, Choralyst, Amalgam Heqet y Amalgam Arca Heqet, Deimos Jugulus, Denial Bursa,
+Kyta Raknoid, Scyto Raknoid, Leaping Thrasher y Roller.
+
+**Armas con stagger garantizado:** Opticor y Opticor Vandal, más las que tienen proc de Impact
+garantizado. **Mod:** Tek Gravity.
+
+Del lado del jugador, la fuente más común es el **self-stagger** de sus propias AoE (ver arriba), y
+los augments que lo previenen son Assimilate, Empowered Quiver, Icy Avalanche, Intrepid Stand,
+Negation Swarm, Shield of Shadows y Rumbled.
+
 ## Bug conocido
 
 El ataque especial de un enemigo (el slam de una Heavy Gunner, por ejemplo) **se ejecuta igual** si el

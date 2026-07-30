@@ -125,6 +125,44 @@ Los status aplicados por un hit **no mejoran ese mismo impacto**. Pero si el dis
 instancias secuenciales, las siguientes sí heredan el bonus — lo que importa en escopetas y en armas
 con multishot alto.
 
+## De dónde vienen los comportamientos raros
+
+El patch history de la página explica qué es bug y qué es diseño — la distinción que el aviso de
+`{{Community}}` anuncia pero el cuerpo del artículo no desarrolla.
+
+### El #4 (arcos y cargados) es un bug declarado y **sin arreglar**
+
+> **v31.1** — *"(Fixed CO on many projectile attacks. Previously, many projectiles had a **default CO
+> damage of 10** instead of using the full projectile damage. Most cases were fixed, but
+> **multi-stage damage and charged attacks were not**)."*
+
+Y la explicación de DE de por qué era tan generalizado:
+
+> *"A previous change had them operate relative to 'base damage' but the code was incorrectly getting
+> base damage from the **impact behavior** rather than the **projectile**. This problem was pervasive
+> and there are hundreds of weapons in our game!"*
+
+Es decir: el comportamiento #4 no es una regla del sistema, es **el resto de una corrección
+incompleta**.
+
+### El #5 (AoE) es decisión de diseño, no accidente
+
+> **v30.9** — *"([[GunCO]] **never** applied to explosions"*. La descripción de Galvanized Aptitude se
+> cambió para decirlo, y DE justificó no revertirlo: las armas AoE dominan todas las métricas de uso,
+> y *"we are not willing to further bolster AoE at this time"*. El CO quedó deliberadamente **exclusivo
+> de ataques a un solo objetivo**.
+
+### Dos leyes más del historial
+
+- **v31.1.6** — *"(Fixed Multishot on weapons **multiplying** bonus from CO by each pellet)"*. El bonus
+  de CO **no** se multiplica por pellet.
+- **v31.2 / v31.5** — el bonus innato de las Kuva/Tenet de proyectil no aplicaba el CO, *"never broken
+  on multiplicative cases, **only the additive recalculation**"* — confirma que los dos modos son
+  rutas de código distintas, no dos lecturas del mismo cálculo.
+
+**Cronología:** la mecánica nace con el mod Condition Overload en la **v19.2**; se rehace en la
+**v26.0**; y llega a las armas a distancia en la **v30.5** con los mods Galvanized.
+
 ## Fuentes
 
 - https://wiki.warframe.com/w/Condition_Overload_(Mechanic)
