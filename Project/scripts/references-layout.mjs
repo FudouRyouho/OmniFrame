@@ -1,15 +1,25 @@
 #!/usr/bin/env node
 /**
- * references-layout.mjs — audita el layout y la reconciliabilidad de `references/wiki/`.
+ * references-layout.mjs — audita el layout, la reconciliabilidad y las marcas de `references/wiki/`.
  *
- * Regla (ver `references/wiki/README.md` § "el raw vive junto a su `.md`"):
+ * Regla del raw (ver `references/wiki/README.md`):
  *
  *     <categoría>/<documento>.md  +  <página-wiki>.wikitext   ← hermanos, sin carpeta intermedia
  *
  * Un `.md` sin raw **no es reconciliable**: no hay contra qué verificarlo, así que no se sabe si
  * está completo ni si sigue siendo cierto. El vínculo se **declara** en el encabezado
- * (`> Raw: a.wikitext · b.wikitext`) porque el nombre de archivo no alcanza: un documento puede
- * destilar varias páginas de wiki, y ahí no hay coincidencia de nombres posible.
+ * (`> Raw: a.wikitext · b.wikitext`) porque el nombre de archivo no alcanza.
+ *
+ * Dos figuras de raw, y la diferencia importa para qué cuenta como huérfano:
+ *   - **fuente principal** — la página que el `.md` destila. Vive junto a su `.md`.
+ *   - **fuente citada**    — respalda una línea suelta. NO lleva `.md` propio y vive en la categoría
+ *                            de su propia página, así que se declara con path:
+ *                            `> Raw: armor.wikitext · mods/steel-fiber.wikitext`
+ * Un raw es huérfano sólo si **ningún** documento lo declara — no sólo sus vecinos de directorio.
+ *
+ * Regla de la marca: `⚠️ <TIPO> <flecha> <puntero>`. `Conflicto` usa `↔` y **exige contraparte**:
+ * es la única parte de la regla que se rompe en silencio (marcás un lado, olvidás el otro, y quien
+ * entra por el lado ciego no se entera de que el dato está en disputa).
  *
  * Uso:
  *   node scripts/references-layout.mjs            → audita
@@ -49,26 +59,65 @@ const declaredRaws = (doc) => {
 /** Raw hermanos: mismo directorio que el doc. */
 const hermanos = (doc) => raws.filter(r => path.dirname(r) === path.dirname(doc));
 
+/**
+ * ¿El doc reclama este raw? Una entrada sin `/` se resuelve como hermana (fuente principal);
+ * una con `/` es un path relativo a `wiki/` (fuente citada en otra categoría).
+ */
+const reclama = (doc, raw) => {
+  const decl = declaredRaws(doc);
+  if (!decl) return stem(doc) === stem(raw) && path.dirname(doc) === path.dirname(raw);
+  return decl.some(d => d.includes('/')
+    ? path.resolve(WIKI, d) === raw
+    : d === path.basename(raw) && path.dirname(doc) === path.dirname(raw));
+};
+
+/** `sources/` queda fuera: son módulos Lua y export, no páginas de wiki destilables. */
+const EXENTO = new Set(['sources']);
+const esExento = (p) => EXENTO.has(rel(p).split(path.sep)[0]);
+
 const sinRaw = [], sinDeclarar = [], enGenerico = [], huerfanos = [];
 
 for (const doc of docs) {
+  if (esExento(doc)) continue;
   const decl = declaredRaws(doc);
-  const propios = hermanos(doc);
-  const mios = decl
-    ? propios.filter(r => decl.includes(path.basename(r)))
-    : propios.filter(r => stem(r) === stem(doc));
+  const mios = raws.filter(r => reclama(doc, r));
 
   if (!mios.length) sinRaw.push(rel(doc));
   else if (decl === null) sinDeclarar.push(rel(doc));
 }
 
-// Un raw tiene dueño si algún doc de su directorio lo declara o comparte su nombre.
+// Un raw tiene dueño si CUALQUIER documento lo declara — no sólo sus vecinos de directorio.
 for (const r of raws) {
+  if (esExento(r)) continue;
   if (enContenedor(r)) { enGenerico.push(rel(r)); continue; }
-  const vecinos = docs.filter(d => path.dirname(d) === path.dirname(r));
-  const reclamado = vecinos.some(d =>
-    (declaredRaws(d) ?? []).includes(path.basename(r)) || stem(d) === stem(r));
-  if (!reclamado) huerfanos.push(rel(r));
+  if (!docs.some(d => reclama(d, r))) huerfanos.push(rel(r));
+}
+
+// ── Marcas ───────────────────────────────────────────────────────────────────────────
+const TIPOS = ['Desactualizado', 'Conflicto', 'Discrepancia', 'Ilustración propia'];
+const RE_MARCA = /⚠️\s*([A-Za-zÁ-úñ ]+?)\s*(→|↔)\s*(.+)/g;
+const linkPath = (s) => (s.match(/\]\(([^)]+)\)/) ?? [])[1];
+
+const marcaMalTipo = [], conflictoSinVuelta = [];
+
+for (const doc of docs) {
+  const txt = fs.readFileSync(doc, 'utf8');
+  for (const [, tipo, flecha, dest] of txt.matchAll(RE_MARCA)) {
+    if (!TIPOS.includes(tipo)) { marcaMalTipo.push(`${rel(doc)} → "${tipo}"`); continue; }
+    if (tipo !== 'Conflicto') continue;
+
+    if (flecha !== '↔') { conflictoSinVuelta.push(`${rel(doc)} — usa "${flecha}", debe ser ↔`); continue; }
+    const lp = linkPath(dest);
+    if (!lp) { conflictoSinVuelta.push(`${rel(doc)} — puntero sin link resoluble`); continue; }
+
+    const otro = path.resolve(path.dirname(doc), lp.split('#')[0]);
+    if (!fs.existsSync(otro)) { conflictoSinVuelta.push(`${rel(doc)} → ${lp} (no existe)`); continue; }
+
+    const vuelve = [...fs.readFileSync(otro, 'utf8').matchAll(RE_MARCA)]
+      .some(([, t, f, d]) => t === 'Conflicto' && f === '↔'
+        && path.resolve(path.dirname(otro), (linkPath(d) ?? '').split('#')[0]) === doc);
+    if (!vuelve) conflictoSinVuelta.push(`${rel(doc)} ↔ ${lp} — falta la contraparte`);
+  }
 }
 
 const bloque = (titulo, items) => {
@@ -83,6 +132,8 @@ bloque('sin raw — no reconciliable, worklist de captura', sinRaw);
 bloque('con raw pero sin declararlo en el encabezado', sinDeclarar);
 bloque('raw en contenedor genérico (raw/ | documents/)', enGenerico);
 bloque('raw que ningún documento reclama', huerfanos);
+bloque('marca con tipo inválido', marcaMalTipo);
+bloque('conflicto sin contraparte — se rompe en silencio', conflictoSinVuelta);
 
 // ── --declare ────────────────────────────────────────────────────────────────────────
 if (process.argv.includes('--declare')) {

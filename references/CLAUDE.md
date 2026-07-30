@@ -8,7 +8,13 @@ Datos del juego y anotaciones semánticas para el pipeline de OmniFrame.
 |---|---|---|
 | `game-ui/` | Habilidades por warframe — captura de UI + anotaciones `$`/`$$` para el pipeline | ✅ Sí |
 | `wiki/` | Wiki local auditada: leyes, entidades y fuentes del juego, cada `.md` con su raw al lado | ⚠️ Solo con autorización |
+| `ingame-tests/` | **Mediciones propias in-game** — data cruda medida por el usuario | ⚠️ Solo el usuario mide |
 | `visual/` | Imágenes, screenshots, web-rips de referencia visual | ❌ Read-only |
+
+**`ingame-tests/` es la única fuente con autoridad sobre la wiki.** Cuando una medición la
+desmiente, el documento de `wiki/` lleva una marca `⚠️ Discrepancia →` apuntando acá, y el test
+declara a quién corrige (`> Corrige: wiki/…`). El vínculo es **bidireccional**: si el test cambia,
+hay que poder saber qué documentos dependían de él.
 
 ## `game-ui/` — fuente activa del pipeline
 
@@ -35,11 +41,27 @@ que `utilities/fetch-wiki-module.mjs` ya usa para módulos Lua — creada puntua
 este mismo problema): `curl -sL "https://wiki.warframe.com/w/<Página>?action=raw"` da el wikitext
 crudo completo, sin resumen. Guardar la captura **como hermana del `.md` que la destila**
 (`wiki/<categoría>/<página>.wikitext`, sin carpeta intermedia) y declararla en el encabezado del
-`.md` — layout y campos obligatorios en `wiki/README.md` § *"el raw vive junto a su `.md`"*. Un raw
-sin `.md` que lo explique, o un `.md` sin raw contra el cual verificarse, son ambos defectos.
+`.md`. **Un `.md` sin raw contra el cual verificarse es un defecto**; un raw sin `.md` sólo lo es si
+pretendía ser fuente principal — una **fuente citada** no lleva `.md` propio y su dueño es el
+documento que la declara. Layout, figuras y campos obligatorios: `wiki/README.md`.
 
 Cualquier `.md` de `wiki/` escrito **sin** haber pasado por este método es candidato a tener huecos del
 mismo tipo — no asumir que un doc ya citado varias veces está completo solo porque fue leído antes.
+
+## `wiki/` guarda datos, no opiniones
+
+Un dato de la wiki que está mal **se marca, no se corrige**. Corregirlo en el lugar mezcla la
+autoridad del proyecto con la de la fuente y vuelve `wiki/` no confiable — que es exactamente el
+defecto que la campaña de reconciliación está limpiando.
+
+La marca es mínima —`⚠️ <TIPO> <flecha> <puntero>`— con cuatro tipos (**Desactualizado**,
+**Conflicto**, **Discrepancia**, **Ilustración propia**) y sin explicación adjunta: el dato apuntado
+se explica solo, y el cómo se llegó vive en git. Forma completa y quién tiene autoridad para marcar:
+`wiki/README.md` § *La marca*.
+
+Contenido que no viene de la wiki **sale** de `wiki/`, pero **nunca se borra en silencio**: se
+preserva en `.working/` con su procedencia para rutearlo después. "No encuentro la fuente en *esta*
+página" no autoriza a purgar — puede estar en la página de la entidad y no en la de la mecánica.
 
 ## Cuándo consultar
 

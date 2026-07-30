@@ -77,13 +77,11 @@ Es decir `DR = 0.9 · √(AR/2700)`, que es **algebraicamente idéntico** a `√
   página `Armor` las separa explícitamente por sujeto. Ojo: `armor.md` documenta además que un
   enemigo con `AR > 2700` (condición excepcional) usa la forma del jugador.
 
-> ⚠️ **Contradicción abierta entre páginas de la wiki — sigue en pie, pero no es la que se creía.**
-> `Enemy_Level_Scaling` deriva el EHP **enemigo** con el coeficiente 300
-> (`EHP Multiplier = Health Multiplier × (1 + Base Armor × Armor Multiplier / 300)`), que es la forma
-> del **jugador**, mientras `Damage/Calculation` da la raíz de arriba para la DR enemiga. Ambas
-> capturas son fieles a su página; la wiki está desincronizada consigo misma. Lo que **no** existe es
-> un conflicto entre una DR "lineal" y una "con raíz": esa era una transcripción defectuosa de este
-> mismo documento, que perdió el `√`. Las dos páginas de daño coinciden.
+`Enemy_Level_Scaling` deriva el EHP **enemigo** con el coeficiente 300
+(`EHP Multiplier = Health Multiplier × (1 + Base Armor × Armor Multiplier / 300)`) — la forma del
+**jugador**, no la de arriba.
+
+> ⚠️ Conflicto ↔ [`enemy-level-scaling.md`](enemy-level-scaling.md) §EHP
 
 ## Orden de composición del daño (Damage/Calculation)
 

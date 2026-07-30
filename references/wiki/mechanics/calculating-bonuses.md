@@ -108,16 +108,12 @@ componentes aditivos internos**:
 Resultant Stat = [ Base × ∏(1 + Σ Additive Stacking Bonuses) ] + Σ Flat Bonuses
 ```
 
-> ⚠️ **Lo que este orden implica sobre Bane y Roar, y no es obvio.** El ejemplo textual de la wiki es:
-> *"Serration y Heavy Caliber apilan aditivamente **de forma separada de** Bane of Orokin y Roar de
-> Rhino, a pesar de afectar el mismo stat de daño"*, y el paso 2 dice que el bonus de Serration y
-> Heavy Caliber *"apila multiplicativamente con el bonus de Bane of Orokin y Roar de Rhino"*.
->
-> Leído literal: **Bane y Roar están en el mismo pool y se suman entre sí**; es *ese pool* el que
-> multiplica al de Serration. No es "cada buff su propio multiplicador".
->
-> Punto a verificar contra el juego antes de tratarlo como ley: la redacción es de esta página y el
-> raw no la corrobora con un ejemplo numérico completo de los dos juntos.
+**Bane y Roar están en el mismo pool y se suman entre sí**; es *ese pool* el que multiplica al de
+Serration. El ejemplo textual: *"Serration y Heavy Caliber apilan aditivamente **de forma separada
+de** Bane of Orokin y Roar de Rhino, a pesar de afectar el mismo stat de daño"*.
+
+> ℹ️ Medido y coincidente: [`../../ingame-tests/double-dip.md`](../../ingame-tests/double-dip.md)
+> registra `Roar + Expel → aditivos → ×(1 + 0.30 + 1.128) = ×2.428`.
 
 ## Orden de aplicación del daño de armas
 

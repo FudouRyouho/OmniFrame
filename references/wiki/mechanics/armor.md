@@ -6,7 +6,7 @@
 > No usar para: tablas completas de armor por warframe · cálculo de Effective Health detallado (→ `health.md`) · fuentes de DR que no son armor (→ `damage-reduction.md`)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Armor
-> Raw: armor.wikitext
+> Raw: armor.wikitext · mods/steel-fiber.wikitext
 
 ## Fórmula base
 
@@ -97,9 +97,7 @@ DR 67% → ~3.000 EHP.
 
 ## Fuentes de Flat Bonus (plano post-escala)
 
-> ℹ️ **Ejemplo construido por el proyecto**, no citado de la wiki. La *ley* sí es de la wiki
-> (`Total Armor = Base Armor(1 + Mod Multiplier) + Arcane Bonus`); los valores también (Oberon 450,
-> Umbral Fiber +100%, Tauforged Azure +225). Lo propio es el armado del caso.
+> ℹ️ Ilustración propia. La ley y los valores son de la wiki; el armado del caso, no.
 
 ```text
 450 × (1 + 100% Umbral Fiber) = 900
@@ -140,14 +138,10 @@ Temporales (duran mientras la habilidad está activa), se suman en el mismo buck
 **Steel Fiber a rango máximo da +100%** (multiplicador `1.0`), y `1.40` con Armored Agility (+40%)
 también equipado.
 
-> ⚠️ **Los ejemplos de cálculo de esta página están desactualizados.** Seis de ellos —Iron Skin,
-> Snow Globe, Warding Halo, Tectonics, Rumblers y Crystallize— operan con `2.1` o `+ 1.1`, es decir
-> con el **+110% viejo**. La página `Steel Fiber` registra el cambio en su patch history:
-> *"Steel Fiber: Reduced from +110% to +100% Armor"*. La oración de esta sección es la correcta; los
-> ejemplos quedaron sin actualizar.
->
-> Autoridad de la marca: **la wiki se corrige a sí misma** (patch history de
-> `https://wiki.warframe.com/w/Steel_Fiber`). No es una contradicción sin ganador.
+Los ejemplos de cálculo de la página `Armor` (Iron Skin, Snow Globe, Warding Halo, Tectonics,
+Rumblers, Crystallize) operan con `2.1` / `+1.1`.
+
+> ⚠️ Desactualizado → `mods/steel-fiber.wikitext` §Patch History
 
 ## No existe armor plano pre-escala
 

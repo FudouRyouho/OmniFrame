@@ -138,6 +138,8 @@ Health + armor:        EHP = Health × (1 + Armor_Base × Armor_Mult / 300)
 Los tres:              combinación de las dos fórmulas anteriores
 ```
 
+> ⚠️ Conflicto ↔ [`enemy-resistances.md`](enemy-resistances.md) §DR de armor enemigo
+
 ## Escalado de Eximus
 
 Los Eximus usan el escalado de health de su facción **más un incremento de health base SEPARADO,
