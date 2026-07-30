@@ -7,7 +7,7 @@
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Shield
 > Fuente actualizada: 2026-07-05
-> Raw: shield.wikitext · ../arcanes/arcane-aegis.wikitext
+> Raw: shield.wikitext · ../arcanes/arcane-aegis.wikitext · ../mods/brief-respite.wikitext
 
 ## Fórmula base
 
@@ -167,6 +167,17 @@ El cap sólo lo suben tres fuentes:
 
 Se obtienen de Squad Shield Restores, Lethal Progeny (Caliban), Mend & Maim (Equinox), Condemn
 (Harrow), Omamori (Koumei), Crush (Mag) y Vampire Leech (Trinity), entre otros.
+
+### Brief Respite
+
+El aura **Brief Respite** otorga escudos **iguales a un porcentaje de la energía gastada** cada vez
+que se lanza una habilidad — la vía más directa para generar overshield a voluntad.
+
+| Rango | 0 | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|---|
+| Escudo por energía gastada | 25% | 50% | 75% | 100% | 125% | 150% |
+
+Dropea del Orphid Specter, que aparece al ungir un santuario del Silver Grove con el Twilight Apothic.
 
 ## Reducción y remoción de shields
 

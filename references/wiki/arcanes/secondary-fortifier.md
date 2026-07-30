@@ -1,9 +1,8 @@
 # Secondary Fortifier — Arcano secundario
 
-> **Fuente:** `https://wiki.warframe.com/w/Secondary_Fortifier?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `secondary-fortifier.wikitext`, mismo directorio). Hechos del juego,
-> no decisiones de OmniFrame. Primera captura de arcano bajo `wiki/arcanes/` — no existía precedente
-> de carpeta para arcanos (solo `wiki/abilities/<Warframe>/`); mismo patrón, categoría nueva.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Secondary_Fortifier
+> Fuente actualizada: 2026-06-11
 > Raw: secondary-fortifier.wikitext
 
 ## Clasificación: robo dependiente de daño infligido — C2, NO C1

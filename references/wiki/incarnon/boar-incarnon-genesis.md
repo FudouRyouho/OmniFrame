@@ -1,6 +1,8 @@
 # Boar — Incarnon Genesis
 
 > **Variantes:** Boar · Boar Prime
+> Fuente: https://wiki.warframe.com/w/Boar_Incarnon_Genesis
+> Fuente actualizada: 2026-05-04
 > Raw: boar-incarnon-genesis.wikitext
 
 ---

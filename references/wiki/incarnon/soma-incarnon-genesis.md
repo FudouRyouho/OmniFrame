@@ -1,6 +1,8 @@
 # Soma — Incarnon Genesis
 
 > **Variantes:** Soma · Prime
+> Fuente: https://wiki.warframe.com/w/Soma_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: soma-incarnon-genesis.wikitext
 
 ---

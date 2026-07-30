@@ -1,5 +1,7 @@
 # Thalys — Incarnon Genesis
 
+> Fuente: https://wiki.warframe.com/w/Thalys
+> Fuente actualizada: 2026-06-29
 > Raw: thalys.wikitext
 
 

@@ -1,7 +1,8 @@
 # Speed — Volt (habilidad 2)
 
-> **Fuente:** `https://wiki.warframe.com/w/Speed?action=raw` — capturado 2026-07-24 vía `?action=raw`
-> (raw íntegro en `speed.wikitext`, mismo directorio). Hechos del juego, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Speed
+> Fuente actualizada: 2026-04-06
 > Raw: speed.wikitext
 
 ## Qué es

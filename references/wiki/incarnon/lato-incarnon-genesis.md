@@ -1,6 +1,8 @@
 # Lato — Incarnon Genesis
 
 > **Variantes:** Lato · Lato Vandal · Lato Prime
+> Fuente: https://wiki.warframe.com/w/Lato_Incarnon_Genesis
+> Fuente actualizada: 2026-06-23
 > Raw: lato-incarnon-genesis.wikitext
 
 ---

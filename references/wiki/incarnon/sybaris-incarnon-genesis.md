@@ -1,6 +1,8 @@
 # Sybaris — Incarnon Genesis
 
 > **Variantes:** Sybaris · Dex Sybaris · Sybaris Prime
+> Fuente: https://wiki.warframe.com/w/Sybaris_Incarnon_Genesis
+> Fuente actualizada: 2026-06-07
 > Raw: sybaris-incarnon-genesis.wikitext
 
 ---

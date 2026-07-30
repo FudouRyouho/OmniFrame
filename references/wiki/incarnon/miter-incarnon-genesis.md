@@ -1,6 +1,8 @@
 # Miter — Incarnon Genesis
 
 > **Variantes:** Miter
+> Fuente: https://wiki.warframe.com/w/Miter_Incarnon_Genesis
+> Fuente actualizada: 2026-05-02
 > Raw: miter-incarnon-genesis.wikitext
 
 ---

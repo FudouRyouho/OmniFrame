@@ -1,6 +1,8 @@
 # Dera — Incarnon Genesis
 
 > **Variantes:** Dera · Dera Vandal
+> Fuente: https://wiki.warframe.com/w/Dera_Incarnon_Genesis
+> Fuente actualizada: 2026-07-10
 > Raw: dera-incarnon-genesis.wikitext
 
 ---

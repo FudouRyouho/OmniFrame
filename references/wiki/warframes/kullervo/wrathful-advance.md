@@ -1,8 +1,8 @@
 # Wrathful Advance — Kullervo (habilidad 1)
 
-> **Fuente:** `https://wiki.warframe.com/w/Wrathful_Advance?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `wrathful-advance.wikitext`, mismo directorio). Hechos del juego, no
-> decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Wrathful_Advance
+> Fuente actualizada: 2026-07-29
 > Raw: wrathful-advance.wikitext
 
 ## No genera Overguard — se anotó por relación indirecta con Recompense

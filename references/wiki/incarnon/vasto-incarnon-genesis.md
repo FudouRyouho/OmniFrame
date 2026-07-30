@@ -1,6 +1,8 @@
 # Vasto — Incarnon Genesis
 
 > **Variantes:** Vasto · Prime
+> Fuente: https://wiki.warframe.com/w/Vasto_Incarnon_Genesis
+> Fuente actualizada: 2026-06-01
 > Raw: vasto-incarnon-genesis.wikitext
 
 ---

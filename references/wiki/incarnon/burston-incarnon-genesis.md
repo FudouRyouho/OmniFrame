@@ -1,6 +1,8 @@
 # Burston — Incarnon Genesis
 
 > **Variantes:** Burston · Burston Prime
+> Fuente: https://wiki.warframe.com/w/Burston_Incarnon_Genesis
+> Fuente actualizada: 2026-04-30
 > Raw: burston-incarnon-genesis.wikitext
 
 ---

@@ -1,5 +1,7 @@
 # Felarx — Incarnon Genesis
 
+> Fuente: https://wiki.warframe.com/w/Felarx
+> Fuente actualizada: 2026-06-30
 > Raw: felarx.wikitext
 
 

@@ -1,6 +1,8 @@
 # Dual Toxocyst — Incarnon Genesis
 
 > **Variantes:** Dual Toxocyst
+> Fuente: https://wiki.warframe.com/w/Dual_Toxocyst_Incarnon_Genesis
+> Fuente actualizada: 2026-07-30
 > Raw: dual-toxocyst-incarnon-genesis.wikitext
 
 ---

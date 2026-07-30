@@ -1,5 +1,7 @@
 # Phenmor — Incarnon Genesis
 
+> Fuente: https://wiki.warframe.com/w/Phenmor
+> Fuente actualizada: 2026-06-30
 > Raw: phenmor.wikitext
 
 

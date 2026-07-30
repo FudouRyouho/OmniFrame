@@ -1,6 +1,8 @@
 # Nami Solo — Incarnon Genesis
 
 > **Variantes:** Nami Solo
+> Fuente: https://wiki.warframe.com/w/Nami_Solo_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: nami-solo-incarnon-genesis.wikitext
 
 ---

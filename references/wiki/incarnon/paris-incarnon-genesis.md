@@ -1,6 +1,8 @@
 # Paris — Incarnon Genesis
 
 > **Variantes:** Paris · Mk1-Paris · Paris Prime
+> Fuente: https://wiki.warframe.com/w/Paris_Incarnon_Genesis
+> Fuente actualizada: 2026-06-23
 > Raw: paris-incarnon-genesis.wikitext
 
 ---

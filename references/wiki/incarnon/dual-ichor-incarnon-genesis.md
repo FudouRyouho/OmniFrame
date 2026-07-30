@@ -1,6 +1,8 @@
 # Dual Ichor — Incarnon Genesis
 
 > **Variantes:** Dual Ichor
+> Fuente: https://wiki.warframe.com/w/Dual_Ichor_Incarnon_Genesis
+> Fuente actualizada: 2026-07-15
 > Raw: dual-ichor-incarnon-genesis.wikitext
 
 ---

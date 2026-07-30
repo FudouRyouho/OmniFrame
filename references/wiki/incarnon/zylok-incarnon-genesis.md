@@ -1,6 +1,8 @@
 # Zylok — Incarnon Genesis
 
 > **Variantes:** Zylok · Prime
+> Fuente: https://wiki.warframe.com/w/Zylok_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: zylok-incarnon-genesis.wikitext
 
 ---

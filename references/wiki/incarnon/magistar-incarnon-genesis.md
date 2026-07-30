@@ -1,6 +1,8 @@
 # Magistar — Incarnon Genesis
 
 > **Variantes:** Magistar · Sancti Magistar
+> Fuente: https://wiki.warframe.com/w/Magistar_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: magistar-incarnon-genesis.wikitext
 
 ---

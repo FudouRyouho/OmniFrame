@@ -1,7 +1,8 @@
 # Scarab Shell — Inaros (habilidad 3)
 
-> **Fuente:** `https://wiki.warframe.com/w/Scarab_Shell?action=raw` — capturado 2026-07-24. Hechos
-> del juego, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Scarab_Shell
+> Fuente actualizada: 2026-05-02
 > Raw: scarab-shell.wikitext
 
 ## Ojo: esta NO es la habilidad que cita `OQ-W-6`

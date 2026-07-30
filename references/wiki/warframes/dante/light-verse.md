@@ -1,8 +1,8 @@
 # Light Verse — Dante (habilidad 2)
 
-> **Fuente:** `https://wiki.warframe.com/w/Light_Verse?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `light-verse.wikitext`, mismo directorio). Hechos del juego, no
-> decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Light_Verse
+> Fuente actualizada: 2026-07-10
 > Raw: light-verse.wikitext
 
 ## Clasificación: estático cast-time — mismo molde que Iron Skin/Icy Avalanche

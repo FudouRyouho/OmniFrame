@@ -1,6 +1,8 @@
 # Braton — Incarnon Genesis
 
 > **Variantes:** Braton · Mk1 · Vandal · Prime
+> Fuente: https://wiki.warframe.com/w/Braton_Incarnon_Genesis
+> Fuente actualizada: 2026-06-23
 > Raw: braton-incarnon-genesis.wikitext
 
 ---

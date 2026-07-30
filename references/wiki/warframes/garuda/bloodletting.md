@@ -1,7 +1,8 @@
 # Bloodletting — Garuda (habilidad 3)
 
-> **Fuente:** `https://wiki.warframe.com/w/Bloodletting?action=raw` — capturado 2026-07-24. Hechos
-> del juego, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Bloodletting
+> Fuente actualizada: 2024-05-19
 > Raw: bloodletting.wikitext
 
 ## Cuarta forma: cross-stat de DOS capacity-stats (Health Y Energy), sin bracket de armor

@@ -1,7 +1,8 @@
 # Nourish — Trinity (habilidad 2)
 
-> **Fuente:** `https://wiki.warframe.com/w/Nourish?action=raw` — capturado 2026-07-24. Hechos del
-> juego, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Nourish
+> Fuente actualizada: 2026-07-10
 > Raw: nourish.wikitext
 
 ## Descartada del eje cross-stat "propio" — depende del TARGET, no del warframe

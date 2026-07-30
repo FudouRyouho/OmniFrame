@@ -1,6 +1,8 @@
 # Bo — Incarnon Genesis
 
 > **Variantes:** Bo · Mk1-Bo · Bo Prime
+> Fuente: https://wiki.warframe.com/w/Bo_Incarnon_Genesis
+> Fuente actualizada: 2026-07-05
 > Raw: bo-incarnon-genesis.wikitext
 
 ---

@@ -1,6 +1,8 @@
 # Furis — Incarnon Genesis
 
 > **Variantes:** Furis · Mk1-Furis
+> Fuente: https://wiki.warframe.com/w/Furis_Incarnon_Genesis
+> Fuente actualizada: 2026-06-22
 > Raw: furis-incarnon-genesis.wikitext
 
 ---

@@ -1,6 +1,8 @@
 # Dread — Incarnon Genesis
 
 > **Variantes:** Dread
+> Fuente: https://wiki.warframe.com/w/Dread_Incarnon_Genesis
+> Fuente actualizada: 2026-06-23
 > Raw: dread-incarnon-genesis.wikitext
 
 ---

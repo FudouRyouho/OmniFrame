@@ -1,6 +1,8 @@
 # Latron — Incarnon Genesis
 
 > **Variantes:** Latron · Wraith · Prime
+> Fuente: https://wiki.warframe.com/w/Latron_Incarnon_Genesis
+> Fuente actualizada: 2026-04-30
 > Raw: latron-incarnon-genesis.wikitext
 
 ---

@@ -1,6 +1,8 @@
 # Kunai — Incarnon Genesis
 
 > **Variantes:** Kunai · Mk1-Kunai
+> Fuente: https://wiki.warframe.com/w/Kunai_Incarnon_Genesis
+> Fuente actualizada: 2026-07-23
 > Raw: kunai-incarnon-genesis.wikitext
 
 ---

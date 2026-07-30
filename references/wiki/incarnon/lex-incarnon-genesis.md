@@ -1,6 +1,8 @@
 # Lex — Incarnon Genesis
 
 > **Variantes:** Lex · Lex Prime
+> Fuente: https://wiki.warframe.com/w/Lex_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: lex-incarnon-genesis.wikitext
 
 ---

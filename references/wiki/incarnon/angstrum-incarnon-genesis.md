@@ -1,6 +1,8 @@
 # Angstrum — Incarnon Genesis
 
 > **Variantes:** Angstrum · Prisma Angstrum
+> Fuente: https://wiki.warframe.com/w/Angstrum_Incarnon_Genesis
+> Fuente actualizada: 2026-06-23
 > Raw: angstrum-incarnon-genesis.wikitext
 
 ---

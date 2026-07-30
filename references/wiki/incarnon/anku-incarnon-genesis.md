@@ -1,6 +1,8 @@
 # Anku — Incarnon Genesis
 
 > **Variantes:** Anku
+> Fuente: https://wiki.warframe.com/w/Anku_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: anku-incarnon-genesis.wikitext
 
 ---

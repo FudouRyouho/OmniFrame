@@ -1,6 +1,8 @@
 # Hate — Incarnon Genesis
 
 > **Variantes:** Hate
+> Fuente: https://wiki.warframe.com/w/Hate_Incarnon_Genesis
+> Fuente actualizada: 2026-05-22
 > Raw: hate-incarnon-genesis.wikitext
 
 ---

@@ -1,6 +1,8 @@
 # Skana — Incarnon Genesis
 
 > **Variantes:** Skana · Prisma Skana · Skana Prime
+> Fuente: https://wiki.warframe.com/w/Skana_Incarnon_Genesis
+> Fuente actualizada: 2026-05-06
 > Raw: skana-incarnon-genesis.wikitext
 
 ---

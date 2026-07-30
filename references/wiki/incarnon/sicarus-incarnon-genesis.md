@@ -1,6 +1,8 @@
 # Sicarus — Incarnon Genesis
 
 > **Variantes:** Sicarus · Prime
+> Fuente: https://wiki.warframe.com/w/Sicarus_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: sicarus-incarnon-genesis.wikitext
 
 ---

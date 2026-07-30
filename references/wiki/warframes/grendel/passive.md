@@ -1,7 +1,8 @@
 # Grendel — Pasiva
 
-> **Fuente:** `https://wiki.warframe.com/w/Grendel/Abilities/Passive?action=raw` — capturado
-> 2026-07-24. Hechos del juego, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Grendel/Abilities/Passive
+> Fuente actualizada: 2025-11-03
 > Raw: passive.wikitext
 
 ## Descartada — no es cross-stat, es evento/count de combate (C2)

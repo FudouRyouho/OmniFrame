@@ -1,9 +1,9 @@
 # Final Verse — Dante (habilidad 4, modo Triumph)
 
-> **Fuente:** `https://wiki.warframe.com/w/Final_Verse?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `final-verse.wikitext`, mismo directorio). Hechos del juego, no
-> decisiones de OmniFrame. Esta nota cubre **solo el modo Triumph** (el único con Overguard); Tragedy/
-> Wordwarden/Pageflight son mecánicas de daño/copia sin relación a Overguard, fuera de alcance acá.
+> No usar para: los otros modos de Final Verse — Tragedy, Wordwarden y Pageflight son mecánicas de daño/copia sin relación con Overguard
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Final_Verse
+> Fuente actualizada: 2026-06-20
 > Raw: final-verse.wikitext
 
 ## Triumph tiene DOS componentes, de naturaleza distinta

@@ -1,5 +1,7 @@
 # Innodem — Incarnon Genesis
 
+> Fuente: https://wiki.warframe.com/w/Innodem
+> Fuente actualizada: 2026-06-29
 > Raw: innodem.wikitext
 
 

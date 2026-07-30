@@ -1,6 +1,8 @@
 # Sibear — Incarnon Genesis
 
 > **Variantes:** Sibear
+> Fuente: https://wiki.warframe.com/w/Sibear_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: sibear-incarnon-genesis.wikitext
 
 ---

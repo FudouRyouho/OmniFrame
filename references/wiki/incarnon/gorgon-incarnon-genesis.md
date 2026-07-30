@@ -1,6 +1,8 @@
 # Gorgon — Incarnon Genesis
 
 > **Variantes:** Gorgon · Wraith · Prisma
+> Fuente: https://wiki.warframe.com/w/Gorgon_Incarnon_Genesis
+> Fuente actualizada: 2026-06-23
 > Raw: gorgon-incarnon-genesis.wikitext
 
 ---

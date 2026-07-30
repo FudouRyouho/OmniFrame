@@ -1,8 +1,8 @@
 # Rhino Stomp — Rhino (habilidad 4)
 
-> **Fuente:** `https://wiki.warframe.com/w/Rhino_Stomp?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `rhino-stomp.wikitext`, mismo directorio). Estos son **hechos del
-> juego**, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Rhino_Stomp
+> Fuente actualizada: 2026-07-10
 > Raw: rhino-stomp.wikitext
 
 ## Qué es

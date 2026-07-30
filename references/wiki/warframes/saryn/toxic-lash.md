@@ -1,9 +1,8 @@
 # Toxic Lash — Saryn (habilidad 3)
 
-> **Fuente:** `https://wiki.warframe.com/w/Toxic_Lash` — capturado 2026-07-29 vía `?action=raw`
-> (raw íntegro en `toxic-lash.wikitext`, mismo directorio). El `action=raw` no trae la fecha de última
-> edición de la wiki; cotejar contra la página si se sospecha staleness (ver `references/CLAUDE.md`).
-> Estos son **hechos del juego**, no decisiones de OmniFrame.
+> Última actualización: 2026-07-29
+> Fuente: https://wiki.warframe.com/w/Toxic_Lash
+> Fuente actualizada: 2026-07-15
 > Raw: toxic-lash.wikitext
 
 ## Identidad de la mecánica: NO es un buff de nodo

@@ -1,6 +1,8 @@
 # Despair — Incarnon Genesis
 
 > **Variantes:** Despair
+> Fuente: https://wiki.warframe.com/w/Despair_Incarnon_Genesis
+> Fuente actualizada: 2026-06-13
 > Raw: despair-incarnon-genesis.wikitext
 
 ---

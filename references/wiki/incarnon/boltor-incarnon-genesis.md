@@ -1,6 +1,8 @@
 # Boltor — Incarnon Genesis
 
 > **Variantes:** Boltor · Telos · Prime
+> Fuente: https://wiki.warframe.com/w/Boltor_Incarnon_Genesis
+> Fuente actualizada: 2026-04-30
 > Raw: boltor-incarnon-genesis.wikitext
 
 ---

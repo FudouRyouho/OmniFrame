@@ -1,7 +1,8 @@
 # Snow Globe — Frost (habilidad 3)
 
-> **Fuente:** `https://wiki.warframe.com/w/Snow_Globe?action=raw` — capturado 2026-07-24 vía
-> `?action=raw`. Hechos del juego, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Snow_Globe
+> Fuente actualizada: 2025-12-09
 > Raw: snow-globe.wikitext
 
 ## Tercer caso confirmado de la MISMA fórmula que Iron Skin

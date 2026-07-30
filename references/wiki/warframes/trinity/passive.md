@@ -1,7 +1,8 @@
 # Trinity — Pasiva
 
-> **Fuente:** `https://wiki.warframe.com/w/Trinity/Abilities/Passive?action=raw` — capturado
-> 2026-07-24 vía `?action=raw`. Hechos del juego, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Trinity/Abilities/Passive
+> Fuente actualizada: 2025-11-02
 > Raw: passive.wikitext
 
 ## El caso cross-stat MÁS SIMPLE encontrado — sin strength, sin bracket, sin cap

@@ -1,6 +1,8 @@
 # Torid — Incarnon Genesis
 
 > **Variantes:** Torid
+> Fuente: https://wiki.warframe.com/w/Torid_Incarnon_Genesis
+> Fuente actualizada: 2026-05-10
 > Raw: torid-incarnon-genesis.wikitext
 
 ---

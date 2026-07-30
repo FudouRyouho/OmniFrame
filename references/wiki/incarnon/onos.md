@@ -1,5 +1,7 @@
 # Onos — Incarnon Genesis
 
+> Fuente: https://wiki.warframe.com/w/Onos
+> Fuente actualizada: 2026-05-14
 > Raw: onos.wikitext
 
 

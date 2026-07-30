@@ -1,6 +1,8 @@
 # Atomos — Incarnon Genesis
 
 > **Variantes:** Atomos
+> Fuente: https://wiki.warframe.com/w/Atomos_Incarnon_Genesis
+> Fuente actualizada: 2026-06-19
 > Raw: atomos-incarnon-genesis.wikitext
 
 ---

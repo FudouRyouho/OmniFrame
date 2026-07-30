@@ -1,6 +1,8 @@
 # Ceramic Dagger — Incarnon Genesis
 
 > **Variantes:** Ceramic Dagger
+> Fuente: https://wiki.warframe.com/w/Ceramic_Dagger_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: ceramic-dagger-incarnon-genesis.wikitext
 
 ---

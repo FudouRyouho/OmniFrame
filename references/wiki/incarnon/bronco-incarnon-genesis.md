@@ -1,6 +1,8 @@
 # Bronco — Incarnon Genesis
 
 > **Variantes:** Bronco · Prime
+> Fuente: https://wiki.warframe.com/w/Bronco_Incarnon_Genesis
+> Fuente actualizada: 2026-07-20
 > Raw: bronco-incarnon-genesis.wikitext
 
 ---

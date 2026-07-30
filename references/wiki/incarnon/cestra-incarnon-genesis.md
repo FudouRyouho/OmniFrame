@@ -1,6 +1,8 @@
 # Cestra — Incarnon Genesis
 
 > **Variantes:** Cestra
+> Fuente: https://wiki.warframe.com/w/Cestra_Incarnon_Genesis
+> Fuente actualizada: 2026-05-01
 > Raw: cestra-incarnon-genesis.wikitext
 
 ---

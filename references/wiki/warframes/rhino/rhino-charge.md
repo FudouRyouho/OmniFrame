@@ -1,8 +1,8 @@
 # Rhino Charge — Rhino (habilidad 1)
 
-> **Fuente:** `https://wiki.warframe.com/w/Rhino_Charge?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `rhino-charge.wikitext`, mismo directorio). Estos son **hechos del
-> juego**, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Rhino_Charge
+> Fuente actualizada: 2026-07-10
 > Raw: rhino-charge.wikitext
 
 ## Qué es

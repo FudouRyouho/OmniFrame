@@ -1,6 +1,8 @@
 # Ack And Brunt — Incarnon Genesis
 
 > **Variantes:** Ack & Brunt
+> Fuente: https://wiki.warframe.com/w/Ack_&_Brunt_Incarnon_Genesis
+> Fuente actualizada: 2026-06-20
 > Raw: ack-and-brunt-incarnon-genesis.wikitext
 
 ---

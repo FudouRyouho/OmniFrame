@@ -1,9 +1,8 @@
 # Iron Skin — Rhino (habilidad 2)
 
-> **Fuente:** `https://wiki.warframe.com/w/Iron_Skin?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `iron-skin.wikitext`, mismo directorio). El `action=raw` no trae la
-> fecha de última edición de la wiki; cotejar contra la página si se sospecha staleness (ver
-> `references/CLAUDE.md`). Estos son **hechos del juego**, no decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Iron_Skin
+> Fuente actualizada: 2026-07-10
 > Raw: iron-skin.wikitext
 
 ## Qué es

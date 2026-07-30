@@ -1,6 +1,8 @@
 # Strun — Incarnon Genesis
 
 > **Variantes:** Strun · Mk1-Strun · Strun Wraith · Strun Prime
+> Fuente: https://wiki.warframe.com/w/Strun_Incarnon_Genesis
+> Fuente actualizada: 2026-06-22
 > Raw: strun-incarnon-genesis.wikitext
 
 ---

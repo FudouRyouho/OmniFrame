@@ -1,6 +1,8 @@
 # Furax — Incarnon Genesis
 
 > **Variantes:** Furax · Mk1-Furax · Furax Wraith
+> Fuente: https://wiki.warframe.com/w/Furax_Incarnon_Genesis
+> Fuente actualizada: 2026-05-30
 > Raw: furax-incarnon-genesis.wikitext
 
 ---

@@ -1,8 +1,8 @@
 # Pillage — Hildryn (habilidad 2)
 
-> **Fuente:** `https://wiki.warframe.com/w/Pillage?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `pillage.wikitext`, mismo directorio). Hechos del juego, no
-> decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Pillage
+> Fuente actualizada: 2026-07-10
 > Raw: pillage.wikitext
 
 ## Clasificación: dependiente de estado del enemigo — C2, NO C1

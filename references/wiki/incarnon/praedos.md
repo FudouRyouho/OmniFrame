@@ -1,5 +1,7 @@
 # Praedos — Incarnon Genesis
 
+> Fuente: https://wiki.warframe.com/w/Praedos
+> Fuente actualizada: 2026-06-29
 > Raw: praedos.wikitext
 
 

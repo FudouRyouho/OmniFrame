@@ -1,8 +1,8 @@
 # Recompense — Kullervo (habilidad 2)
 
-> **Fuente:** `https://wiki.warframe.com/w/Recompense?action=raw` — capturado 2026-07-24 vía
-> `?action=raw` (raw íntegro en `recompense.wikitext`, mismo directorio). Hechos del juego, no
-> decisiones de OmniFrame.
+> Última actualización: 2026-07-24
+> Fuente: https://wiki.warframe.com/w/Recompense
+> Fuente actualizada: 2025-11-16
 > Raw: recompense.wikitext
 
 ## Clasificación: evento de combate — C2, NO C1 (confirmado, no era solo un stub sin capturar)

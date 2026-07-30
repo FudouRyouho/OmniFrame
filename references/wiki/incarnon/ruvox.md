@@ -1,5 +1,7 @@
 # Ruvox — Incarnon Genesis
 
+> Fuente: https://wiki.warframe.com/w/Ruvox
+> Fuente actualizada: 2026-06-29
 > Raw: ruvox.wikitext
 
 

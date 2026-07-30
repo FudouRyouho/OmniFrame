@@ -1,10 +1,9 @@
 # Roar — Rhino (habilidad 3)
 
-> **Fuente:** `https://wiki.warframe.com/w/Roar#Info` — capturado 2026-07-16 vía `?action=raw`
-> (raw íntegro en `roar.wikitext`, mismo directorio). El `action=raw` no trae la fecha de última
-> edición de la wiki; cotejar contra la página si se sospecha staleness (ver
-> `references/CLAUDE.md`). Estos son **hechos del juego**, no decisiones de OmniFrame (el modelado
-> vive en `.working/rhino-roar-prototype.md`).
+> No usar para: el modelado de Roar hacia el engine — vive en `.working/rhino-roar-prototype.md`
+> Última actualización: 2026-07-16
+> Fuente: https://wiki.warframe.com/w/Roar#Info
+> Fuente actualizada: 2026-07-10
 > Raw: roar.wikitext
 
 ## Identidad del buff (el bucket)

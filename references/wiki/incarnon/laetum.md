@@ -1,5 +1,7 @@
 # Laetum — Incarnon Genesis
 
+> Fuente: https://wiki.warframe.com/w/Laetum
+> Fuente actualizada: 2026-06-30
 > Raw: laetum.wikitext
 
 
