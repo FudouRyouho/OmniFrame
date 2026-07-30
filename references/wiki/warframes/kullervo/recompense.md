@@ -32,4 +32,4 @@ depende de cuántos enemigos hay, si Kullervo ya estaba a full Health, y el orde
 ## Fuentes
 
 - https://wiki.warframe.com/w/Recompense
-- [`../Wrathful-Advance/Wrathful-Advance.md`](../Wrathful-Advance/Wrathful-Advance.md)
+- [`../Wrathful-Advance/Wrathful-Advance.md`](wrathful-advance.md)

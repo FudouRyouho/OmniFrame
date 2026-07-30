@@ -23,6 +23,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(__dirname, '../..');
 const DOCS = path.join(REPO, 'docs');
 const SRC = path.join(REPO, 'Project/src');
+const REFS = path.join(REPO, 'references/wiki');
 
 /** docs/CLAUDE.md §Pre-flight 1 — campos obligatorios del frontmatter. */
 const CAMPOS = [
@@ -228,6 +229,106 @@ if (fs.existsSync(dominios)) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Pasada 6 — corpus `references/wiki/` (references/wiki/README.md · references/CLAUDE.md)
+//
+// El layout, los raw, las marcas y las fechas los audita `references-layout.mjs`
+// (dominio propio, sale a la red con --fuente). Acá van las reglas del corpus que
+// ese auditor NO cubre y que sí son del mismo régimen que docs/: links, vocablo y
+// encabezado. Sin solapamiento deliberado — dos herramientas, dos objetos.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** README §Encabezado obligatorio. Acepta la variante en negrita (`> **Fuente:**`) que usa el corpus. */
+const CAMPOS_REF = ['Estado', 'Rol', 'Fuente de verdad de', 'No usar para', 'Última actualización', 'Fuente', 'Raw'];
+
+/**
+ * README §Regla — sin vocablo del proyecto. Sólo lo INEQUÍVOCAMENTE nuestro es ERROR:
+ * un `OQ-*` o un `D-N` no existen fuera de este repo. `WEAPON_*`/`AVATAR_*` los nombra
+ * la misma regla, pero el corpus los usa como **dato de la wiki** — los módulos Lua de
+ * `sources/` los traen literales en `UpgradeTypes`. Ese solapamiento es real y no lo
+ * resuelve un regex: va como INFO, que es la casilla para "patrón sin autoridad clara".
+ */
+const VOCABLO_PROPIO = /\b(OQ-[A-Z]+-\d+|D-\d+|engine v\d+)\b|Project\/src\//g;
+const VOCABLO_AMBIGUO = /\b(?:WEAPON|AVATAR)_[A-Z][A-Z_]+\b/g;
+
+/** README §Estructura — `sources/` está declarado FUERA de estas reglas ("excepción declarada"). */
+const esFuente = (rel) => rel.split(path.sep).includes('sources');
+
+/** Sin bloques cercados: ahí un link o un token es *ejemplo de la forma*, no un uso. */
+const sinCercados = (texto) => texto.replace(/```[\s\S]*?```/g, '');
+
+const REF_BASELINE_PATH = path.join(DOCS, 'governance/references-header-baseline.json');
+const cargarRefBaseline = () => {
+  try { return JSON.parse(fs.readFileSync(REF_BASELINE_PATH, 'utf-8')).archivos || {}; }
+  catch { return {}; }
+};
+
+/** Campos faltantes del encabezado, o `null` si el doc está exento. */
+function faltantesRef(f, texto) {
+  const rel = path.relative(REFS, f);
+  if (path.basename(f) === 'README.md' || esFuente(rel)) return null;
+  const head = texto.split('\n').slice(0, 16).join('\n');
+  return CAMPOS_REF.filter((c) => !new RegExp(`^>\\s*\\*{0,2}${c}`, 'm').test(head));
+}
+
+const refs = fs.existsSync(REFS) ? walk(REFS, ['.md']) : [];
+const refsCorpus = refs.map((f) => ({ f, texto: fs.readFileSync(f, 'utf-8') }));
+
+if (!process.argv.includes('--update-baseline')) {
+  const refBaseline = cargarRefBaseline();
+  let refMejoras = 0;
+
+  for (const { f, texto } of refsCorpus) {
+    const rel = path.relative(REPO, f);
+
+    // Links relativos resolubles — misma regla que docs/CLAUDE.md §Pre-flight 3,
+    // extendida a references/. Un link colgado es un hecho, no una política.
+    //
+    // Los bloques cercados se descuentan: el README **enseña la forma de la marca**
+    // con links de ejemplo que no apuntan a nada. Tratarlos como rotos hace que
+    // "arreglarlos" corrompa la documentación de la propia regla — ya pasó una vez.
+    for (const m of sinCercados(texto).matchAll(/\]\(([^)\s#]+\.md)(?:#[^)]*)?\)/g)) {
+      const href = m[1];
+      if (/^https?:/.test(href)) continue;
+      if (href.startsWith('/')) {
+        add('ERROR', 'ref-link-absoluto', f, `link absoluto: ${href}`);
+      } else if (!fs.existsSync(path.resolve(path.dirname(f), href))) {
+        add('ERROR', 'ref-link-roto', f, `link relativo no resuelve: ${href}`);
+      }
+    }
+
+    // Vocablo del proyecto dentro de la wiki local.
+    const propio = [...new Set((texto.match(VOCABLO_PROPIO) || []))];
+    if (propio.length && path.basename(f) !== 'README.md') {
+      add('ERROR', 'ref-vocablo', f, `vocablo del proyecto en wiki/: ${propio.join(', ')} (references/wiki/README.md §Regla — sin vocablo del proyecto)`);
+    }
+    const ambiguo = [...new Set((texto.match(VOCABLO_AMBIGUO) || []))];
+    if (ambiguo.length && !esFuente(path.relative(REFS, f))) {
+      add('INFO', 'ref-vocablo-ambiguo', f, `${ambiguo.length} token(s) \`WEAPON_*\`/\`AVATAR_*\`: ${ambiguo.slice(0, 3).join(', ')}${ambiguo.length > 3 ? '…' : ''} — la regla los prohíbe, pero también son nombres internos del juego que la wiki publica. Decidir si la regla se precisa o el uso se acepta.`);
+    }
+
+    // Estado dentro del vocabulario de tiers.
+    const est = texto.match(/^>\s*\*{0,2}Estado:?\*{0,2}\s*(.+)$/m)?.[1]?.trim().replace(/\*/g, '');
+    if (est && !ESTADOS.has(est)) {
+      add('WARN', 'ref-estado', f, `Estado "${est}" fuera del vocabulario de doc-map §1`);
+    }
+
+    // Encabezado obligatorio — ratchet. 66 documentos legacy lo tienen incompleto:
+    // exigirlo de golpe sería inventar una campaña, no validar. Prohibimos que SUBA.
+    const faltan = faltantesRef(f, texto);
+    if (faltan) {
+      const base = refBaseline[rel] ?? 0;
+      if (faltan.length > base) {
+        add('ERROR', 'ref-encabezado', f, `${faltan.length} campo(s) faltantes (baseline ${base}): ${faltan.join(', ')} (references/wiki/README.md §Encabezado obligatorio)`);
+      } else if (faltan.length < base) refMejoras++;
+    }
+  }
+
+  if (refMejoras) {
+    add('INFO', 'ref-ratchet-mejora', REF_BASELINE_PATH, `${refMejoras} archivo(s) por debajo de su baseline — corré \`npm run validate:docs -- --update-baseline\` para lockear el progreso`);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Modo --update-baseline — recuenta y lockea el baseline del ratchet. Se corre
 // DELIBERADAMENTE tras una purga (bajar el techo) o una adición justificada.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -250,6 +351,21 @@ if (process.argv.includes('--update-baseline')) {
   const tot = Object.values(archivos).reduce((a, c) => ({ fecha: a.fecha + c.fecha, agudo: a.agudo + c.agudo }), { fecha: 0, agudo: 0 });
   console.log(`\n✅ Baseline regenerado → ${path.relative(REPO, BASELINE_PATH)}`);
   console.log(`   ${Object.keys(archivos).length} archivos · ${tot.fecha} fechas-log · ${tot.agudo} formas agudas\n`);
+
+  // Ratchet de encabezado de references/ — mismo régimen, archivo aparte.
+  const refArchivos = {};
+  for (const { f, texto } of refsCorpus) {
+    const faltan = faltantesRef(f, texto);
+    if (faltan?.length) refArchivos[path.relative(REPO, f)] = faltan.length;
+  }
+  fs.writeFileSync(REF_BASELINE_PATH, JSON.stringify({
+    _nota: 'Baseline del ratchet de encabezado de references/wiki/ (references/wiki/README.md §Encabezado obligatorio). El conteo de campos faltantes por archivo NO puede subir; bajar es progreso. `sources/` y los README están exentos por el propio contrato.',
+    generado: new Date().toISOString().slice(0, 10),
+    archivos: Object.fromEntries(Object.entries(refArchivos).sort(([a], [b]) => a.localeCompare(b))),
+  }, null, 2) + '\n');
+  const refTot = Object.values(refArchivos).reduce((a, c) => a + c, 0);
+  console.log(`✅ Baseline de references/ → ${path.relative(REPO, REF_BASELINE_PATH)}`);
+  console.log(`   ${Object.keys(refArchivos).length} archivos · ${refTot} campos de encabezado faltantes\n`);
   process.exit(0);
 }
 
@@ -313,7 +429,7 @@ const ICONO = { ERROR: '❌', WARN: '⚠️ ', INFO: 'ℹ️ ' };
 const orden = ['ERROR', 'WARN', 'INFO'];
 const n = (s) => hallazgos.filter((h) => h.sev === s).length;
 
-console.log(`\n🔍 Validación del corpus docs/ — ${docs.length} archivos\n`);
+console.log(`\n🔍 Validación — ${docs.length} docs/ · ${refs.length} references/wiki/\n`);
 
 for (const sev of orden) {
   const grupo = hallazgos.filter((h) => h.sev === sev);

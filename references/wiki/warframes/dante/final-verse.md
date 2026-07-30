@@ -33,4 +33,4 @@
 ## Fuentes
 
 - https://wiki.warframe.com/w/Final_Verse
-- [`../Light-Verse/Light-Verse.md`](../Light-Verse/Light-Verse.md)
+- [`../Light-Verse/Light-Verse.md`](light-verse.md)

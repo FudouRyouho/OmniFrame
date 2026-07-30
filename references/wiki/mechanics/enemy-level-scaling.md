@@ -47,7 +47,8 @@ Los tab-headers del wiki agrupan facciones que comparten coeficientes (`Corrupte
 
 > **⚠️ Anarchs (health): el wiki se contradice.** Aparece a la vez en el tab "Anarchs, Corrupted"
 > (`^2.1/^0.685`) y en la prosa del grupo "Murmur, Sentient, Anarchs, Unaffiliated" (`^2/^0.5`). Sin
-> resolver — adoptar lo más honesto y verificar por medición (precedente DR/`OQ-ENGINE-15`). En **shields
+> resolver — adoptar lo más honesto y verificar por medición, como ya se hizo con la DR de armadura
+> enemiga. En **shields
 > no hay ambigüedad**: Anarchs = grupo Corrupted.
 >
 > **Default para facción no reconocida = "Unaffiliated" → grupo `^2/^0.5` (el de Sentient), NO Grineer.**

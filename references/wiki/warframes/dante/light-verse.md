@@ -37,4 +37,4 @@ warframe — hoy ningún fixture lo requiere.
 ## Fuentes
 
 - https://wiki.warframe.com/w/Light_Verse
-- [`../Final-Verse/Final-Verse.md`](../Final-Verse/Final-Verse.md) (Triumph comparte el mismo pool)
+- [`../Final-Verse/Final-Verse.md`](final-verse.md) (Triumph comparte el mismo pool)

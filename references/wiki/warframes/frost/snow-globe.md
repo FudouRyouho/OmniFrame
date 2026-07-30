@@ -18,8 +18,8 @@ Overguard = ([Base Overguard + (Armor Multiplier × Total Armor)] × Ability Str
 
 **Estructuralmente idéntica** — mismo bracket `(Base + Mult×TotalArmor) × Strength + Absorbed`. Solo
 cambian los números y el recurso de salida (Health de un objeto desplegado, no Overguard del
-warframe). Sube el gate D-20 de 2 a **3 casos con la misma forma exacta** (Iron Skin, Icy Avalanche
-—parcial—, Snow Globe).
+warframe). Es el **tercer caso con la misma forma exacta**, junto a Iron Skin e Icy Avalanche
+(parcial).
 
 ## La diferencia arquitectónica real — no es el warframe, es OTRA entidad
 
@@ -47,4 +47,4 @@ distinto y más grande — anotado, no resuelto acá.
 ## Fuentes
 
 - https://wiki.warframe.com/w/Snow_Globe
-- [`../../Rhino/Iron-Skin/Iron-Skin.md`](../../Rhino/Iron-Skin/Iron-Skin.md) — misma fórmula, otro recurso/entidad
+- [`../../Rhino/Iron-Skin/Iron-Skin.md`](../rhino/iron-skin.md) — misma fórmula, otro recurso/entidad

@@ -60,4 +60,4 @@ El `× 2` es `1 + Armor Mods` (Steel Fiber +100% armor → `1 + 1.0`). El `× 1.
 ## Fuentes
 
 - https://wiki.warframe.com/w/Iron_Skin
-- [`shield.md`](../../../mechanics/shield.md) · [`overguard.md`](../../../mechanics/overguard.md)
+- [`shield.md`](../../mechanics/shield.md) · [`overguard.md`](../../mechanics/overguard.md)

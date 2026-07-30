@@ -31,4 +31,4 @@ anotado en `arcane-stats.override.json:3756-3774` con `engine:note` de una sesi√
 ## Fuentes
 
 - https://wiki.warframe.com/w/Secondary_Fortifier
-- [`../../mechanics/overguard.md`](../../mechanics/overguard.md)
+- [`../../mechanics/overguard.md`](../mechanics/overguard.md)

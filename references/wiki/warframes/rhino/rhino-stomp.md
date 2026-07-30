@@ -41,4 +41,4 @@ se anota en `../Rhino-Charge/Rhino-Charge.md`.
 ## Fuentes
 
 - https://wiki.warframe.com/w/Rhino_Stomp
-- [`overguard.md`](../../../mechanics/overguard.md)
+- [`overguard.md`](../../mechanics/overguard.md)

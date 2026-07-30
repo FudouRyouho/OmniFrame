@@ -235,13 +235,35 @@ La referencia informa al engine; no decide su contrato. Cuando una mecánica imp
 
 ## Auditoría
 
+**Dos herramientas, dos objetos, sin solapamiento.**
+
 ```bash
-node Project/scripts/references-layout.mjs            # audita, offline
+node Project/scripts/references-layout.mjs            # layout, raw, marcas, fechas — offline
 node Project/scripts/references-layout.mjs --fuente   # consulta la wiki y escribe `> Fuente actualizada:`
+npm run validate:docs                                 # links, vocablo y encabezado (junto con docs/)
 ```
 
-Reporta documentos sin raw, raws sin dueño, declaraciones faltantes, marcas mal tipadas, conflictos
-sin contraparte, documentos sin `> Fuente:`, y **fuentes que se movieron después de destilarlas**.
+`references-layout.mjs` reporta documentos sin raw, raws sin dueño, declaraciones faltantes, marcas
+mal tipadas, conflictos sin contraparte, documentos sin `> Fuente:`, y **fuentes que se movieron
+después de destilarlas**.
 
 `--fuente` es la única parte que sale a la red: agrupa los títulos de `> Fuente:` en lotes de 50 y
 resuelve redirecciones. El corpus entero cuesta **una request por cada 50 páginas**.
+
+`validate:docs` aplica a `wiki/` las reglas que comparte con `docs/`:
+
+| Check | Severidad | Qué exige |
+|---|---|---|
+| `ref-link-roto` · `ref-link-absoluto` | ❌ | los links `.md` relativos resuelven. **Los bloques cercados no cuentan** — ahí un link es ejemplo de la forma, no un uso |
+| `ref-vocablo` | ❌ | nada de `OQ-*`, `D-N`, `Project/src/`, `engine vN` |
+| `ref-vocablo-ambiguo` | ℹ️ | `WEAPON_*` / `AVATAR_*`: la regla los prohíbe, pero **también son nombres internos del juego que la wiki publica**. Sin resolver a propósito |
+| `ref-estado` | ⚠️ | `Estado` dentro del vocabulario de tiers |
+| `ref-encabezado` | ❌ | **ratchet**: el nº de campos faltantes no puede subir |
+
+**El encabezado va por ratchet, no por exigencia.** 66 documentos entraron al corpus con encabezado
+incompleto —casi todos de `incarnon/`—, así que pedirlo de golpe sería inventar una campaña en vez de
+validar. El baseline queda lockeado en
+[`docs/governance/references-header-baseline.json`](../../docs/governance/references-header-baseline.json);
+bajarlo es progreso y se relockea con `npm run validate:docs -- --update-baseline`.
+
+`sources/` y los `README.md` están **exentos del encabezado** por la excepción ya declarada arriba.

@@ -88,12 +88,12 @@ resolvió por `Damage/Overview_Table`. Decisión pendiente, no urgente.
 - [faction-damage.md](./faction-damage.md) — mods Bane/Primed: multiplicador total, double-dip en DoTs (Slash/Heat/Toxin/Gas), excepciones de mapeo
 
 ### Arcanos (residuo `upgrade_type:null`, barrido OQ-ENGINE-17)
-- [arcane-melee-afflictions.md](./arcane-melee-afflictions.md) — fórmula de 4 pasos, tabla CC-state×enemy-state, exclusiones de mods elementales por tipo
-- [arcane-melee-duplicate.md](./arcane-melee-duplicate.md) — chance por rank, reroll independiente de crit/status, exclusiones (Shield Gating, Seeking Talons)
-- [arcane-melee-influence.md](./arcane-melee-influence.md) — chance fija 20%, Faction Damage Bonus ×2/×3, lista de status propagables/excluidos
-- [arcane-camisado.md](./arcane-camisado.md) — lista canónica de qué cuenta como "summoned minion"; fuera de scope hasta modelar minions
-- [arcane-persistence.md](./arcane-persistence.md) — cap de daño/s por rank, umbral de Armor, comportamiento bajo Overguard
-- [arcane-universal-fallout.md](./arcane-universal-fallout.md) — chance permanente-por-stack de Radiation, cap 60%, persistencia tras vencer el status
+- [arcane-melee-afflictions.md](../arcanes/melee-afflictions.md) — fórmula de 4 pasos, tabla CC-state×enemy-state, exclusiones de mods elementales por tipo
+- [arcane-melee-duplicate.md](../arcanes/melee-duplicate.md) — chance por rank, reroll independiente de crit/status, exclusiones (Shield Gating, Seeking Talons)
+- [arcane-melee-influence.md](../arcanes/melee-influence.md) — chance fija 20%, Faction Damage Bonus ×2/×3, lista de status propagables/excluidos
+- [arcane-camisado.md](../arcanes/arcane-camisado.md) — lista canónica de qué cuenta como "summoned minion"; fuera de scope hasta modelar minions
+- [arcane-persistence.md](../arcanes/arcane-persistence.md) — cap de daño/s por rank, umbral de Armor, comportamiento bajo Overguard
+- [arcane-universal-fallout.md](../arcanes/arcane-universal-fallout.md) — chance permanente-por-stack de Radiation, cap 60%, persistencia tras vencer el status
 
 ## Estado editorial
 

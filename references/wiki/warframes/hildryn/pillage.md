@@ -29,4 +29,4 @@ un roster de enemigos concreto.
 ## Fuentes
 
 - https://wiki.warframe.com/w/Pillage
-- [`../../../mechanics/shield.md`](../../../mechanics/shield.md)
+- [`../../../mechanics/shield.md`](../../mechanics/shield.md)

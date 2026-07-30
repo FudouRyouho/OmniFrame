@@ -23,4 +23,4 @@ Overguard que Recompense ya haya generado (no lo crea).
 ## Fuentes
 
 - https://wiki.warframe.com/w/Wrathful_Advance
-- [`../Recompense/Recompense.md`](../Recompense/Recompense.md)
+- [`../Recompense/Recompense.md`](recompense.md)

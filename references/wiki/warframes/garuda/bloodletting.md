@@ -17,9 +17,9 @@ Base Energy Gain  = (18/22/30/40% por rank) × Max Energy × min(1, health_dispo
 - Si Garuda tiene menos del 50% de vida disponible, la ganancia de energía se reduce proporcional
   (ejemplo verbatim: 25% HP restante → mitad de energía) — el input real es `min(50%, hp_actual/hp_max)`,
   no un flat.
-- La fórmula de eficiencia (`÷ (2 − eficiencia)`) es la **misma forma exacta** que `OQ-W-5`
-  (`ENERGY_COST = (2−eficiencia)×base`) — mismo patrón, invertido (división en vez de multiplicación,
-  ganancia en vez de costo). Reutilizable si `OQ-W-5` alguna vez se implementa.
+- La fórmula de eficiencia (`÷ (2 − eficiencia)`) es la **misma forma exacta** que la del costo de
+  energía (`(2 − eficiencia) × base`), **invertida**: división en vez de multiplicación, ganancia en
+  vez de costo.
 - No dispara mods de "daño→energía" (Rage/Hunter Adrenaline) — exclusión explícita, anotar si se
   modela para no duplicar la conversión.
 
@@ -33,4 +33,4 @@ Overguard — más argumento para no diseñar el mecanismo solo alrededor de Iro
 ## Fuentes
 
 - https://wiki.warframe.com/w/Bloodletting
-- [`../../Trinity/Passive/Passive.md`](../../Trinity/Passive/Passive.md) — otro caso de 1 capacity-stat leído
+- [`../../Trinity/Passive/Passive.md`](../trinity/passive.md) — otro caso de 1 capacity-stat leído
