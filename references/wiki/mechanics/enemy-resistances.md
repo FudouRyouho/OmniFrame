@@ -5,8 +5,11 @@
 > Fuente de verdad de: matriz facción×elemento (±50% uniforme), multiplicadores especiales por capa, fórmula de DR de armor enemigo, orden de composición del daño, discrepancia de era con `warframe-items/Enemy.json`
 > No usar para: armor/DR del jugador (ver `armor.md`) ni escalado por nivel (ver `enemy-level-scaling.md`)
 > Última actualización: 2026-07-29
-> Fuente: https://wiki.warframe.com/w/Damage/Overview_Table + https://wiki.warframe.com/w/Damage/Calculation
-> Raw: damage-overview-table.wikitext · damage-calculation.wikitext
+> Fuente: https://wiki.warframe.com/w/Damage/Overview_Table
+> Raw: damage-overview-table.wikitext
+
+> La fórmula de DR se cita desde `Damage/Calculation`, cuya destilación vive en
+> [`damage-calculation.md`](damage-calculation.md) — ése es el dueño de ese raw.
 
 ## Cambio de era — Update 36.0 (2024-06-18)
 
