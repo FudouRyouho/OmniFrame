@@ -196,15 +196,36 @@ una **chance** de disparar proyectiles adicionales, cada uno con el daño modded
   de los disparos tira 6.
 - En armas de haz continuo (Glaxion), el multishot da chance de que un **tick** duplique su daño.
 
+## Update 34 — los mods de stats base aplican al rango actual
+
+> Dato de la wiki, pero **no de esta página**: vive en el patch history de los mods afectados
+> (`https://wiki.warframe.com/w/Steel_Fiber` y equivalentes).
+
+Antes del Update 34, los mods de Health/Shield/Energy/Armor aplicaban su multiplicador al stat de
+**Rank 0**, no al que se ve en el arsenal — de ahí la "Warframe Math" de que 300 + 440% diera 740.
+Desde U34 aplican al stat **en el rango actual**.
+
+Para que el resultado final no cambiara, DE hizo tres ajustes a la vez:
+
+1. **Bajó los multiplicadores** — Vitality y Redirection de +440% a +100%, Flow de +150% a +100%,
+   Steel Fiber de +110% a +100%.
+2. **Subió los stats base** de los warframes para compensar.
+3. **Redujo a la mitad** lo que ganan por rango, transfiriendo esa suma al stat base.
+
+Ejemplo textual de la wiki con Excalibur:
+
+```text
+R30 Health = 370  ×  (1 + 100% Vitality)  =  740     ← el mismo total que antes del cambio
+```
+
 ## Nota de procedencia
 
-Esta página **no contiene** fórmulas de Burst DPS, Sustained DPS, EHP por armor ni la nota del
-Update 34 sobre mods de stats base de warframe. Las versiones anteriores de este documento las
-incluían sin fuente identificable. Quedan fuera hasta poder atribuirlas:
+Esta página **no contiene** fórmulas de Burst DPS ni Sustained DPS. Las versiones anteriores de este
+documento las incluían; no se pudo localizar su página fuente, así que quedan fuera de
+`references/wiki/` hasta poder atribuirlas — preservadas en
+`.working/references-residuos-no-wiki.md`, no descartadas.
 
-- EHP por armor → [`armor.md`](armor.md) y [`health.md`](health.md), que sí lo declaran con su raw.
-- Burst / Sustained DPS → sin página fuente localizada. Candidato a derivación propia del proyecto,
-  no a dato de wiki.
+El EHP por armor sí es dato de wiki y vive donde le corresponde: [`armor.md`](armor.md).
 
 La sección `Damage Calculations` de esta página es un transclude de `Damage/Calculation`
 (→ [`enemy-resistances.md`](enemy-resistances.md), que la destila).

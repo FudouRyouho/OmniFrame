@@ -97,14 +97,16 @@ DR 67% → ~3.000 EHP.
 
 ## Fuentes de Flat Bonus (plano post-escala)
 
-Ejemplo con Oberon (base 450):
+> ℹ️ **Ejemplo construido por el proyecto**, no citado de la wiki. La *ley* sí es de la wiki
+> (`Total Armor = Base Armor(1 + Mod Multiplier) + Arcane Bonus`); los valores también (Oberon 450,
+> Umbral Fiber +100%, Tauforged Azure +225). Lo propio es el armado del caso.
 
 ```text
 450 × (1 + 100% Umbral Fiber) = 900
 900 + 225 (Tauforged Azure Shard) = 1125
 ```
 
-Si fuera pre-escala: `(450 + 225) × 2 = 1350` — resultado incorrecto (no es así en el juego).
+Si fuera pre-escala: `(450 + 225) × 2 = 1350` — resultado que el juego no produce.
 
 | Fuente | Valor |
 |---|---|
@@ -132,14 +134,20 @@ Temporales (duran mientras la habilidad está activa), se suman en el mismo buck
 
 | Fuente | Ejemplo |
 |---|---|
-| Mods % de armor | Steel Fiber, Umbral Fiber, Armored Agility (+40%), Stand United, Gladiator Aegis, Health Conversion, Ironclad Charge, Mecha Pulse, los Carapace de Deimos · Shepherd / Link Fiber / Metal Fiber / Synth Fiber (solo companion) |
+| Mods % de armor | Steel Fiber (+100%), Umbral Fiber (+100%), Armored Agility (+40%), Stand United, Gladiator Aegis, Health Conversion, Ironclad Charge, Mecha Pulse, los Carapace de Deimos · Shepherd / Link Fiber / Metal Fiber / Synth Fiber (solo companion) |
 | Habilidades % de armor | Warcry (Valkyr), Vex Armor / Elemental Ward (Chroma), Roar (multiplicativo) |
 
-> ⚠️ **La wiki se contradice sobre Steel Fiber.** La sección de mods afirma que el multiplicador
-> *"es 1.0 a rango máximo de Steel Fiber […] y 1.40 con ambos equipados"* (es decir +100%), pero los
-> **seis** ejemplos de cálculo de la misma página usan **1.1** (+110%) — Iron Skin, Snow Globe,
-> Warding Halo, Tectonics, Rumblers y Crystallize todos operan con `2.1` o `+ 1.1`. El valor de los
-> ejemplos (+110%) es el que se sostiene por repetición; la oración suelta es el dato dudoso.
+**Steel Fiber a rango máximo da +100%** (multiplicador `1.0`), y `1.40` con Armored Agility (+40%)
+también equipado.
+
+> ⚠️ **Los ejemplos de cálculo de esta página están desactualizados.** Seis de ellos —Iron Skin,
+> Snow Globe, Warding Halo, Tectonics, Rumblers y Crystallize— operan con `2.1` o `+ 1.1`, es decir
+> con el **+110% viejo**. La página `Steel Fiber` registra el cambio en su patch history:
+> *"Steel Fiber: Reduced from +110% to +100% Armor"*. La oración de esta sección es la correcta; los
+> ejemplos quedaron sin actualizar.
+>
+> Autoridad de la marca: **la wiki se corrige a sí misma** (patch history de
+> `https://wiki.warframe.com/w/Steel_Fiber`). No es una contradicción sin ganador.
 
 ## No existe armor plano pre-escala
 
