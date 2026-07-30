@@ -61,6 +61,13 @@ Se nota sobre todo en mapas grandes como los Landscapes.
 
 Ver [`projectile-speed.md`](projectile-speed.md).
 
+## El CO aditivo ignora el falloff por rango
+
+Los bonus tipo Condition Overload que apilan **aditivamente** hacen una recalculación interna que
+**omite el damage falloff por rango** — pero **no** el ramp-up de los beams. Dato de
+`Condition Overload (Mechanic)`, no de esta página: ver
+[`condition-overload.md`](condition-overload.md) §La matemática.
+
 ## AoE falloff
 
 En armas de área, el falloff mide la distancia al **epicentro de la explosión**, y decrece cuanto más
