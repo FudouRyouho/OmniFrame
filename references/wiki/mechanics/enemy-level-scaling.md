@@ -7,6 +7,7 @@
 > Última actualización: 2026-07-19 (re-captura vía `?action=raw` — corrige tablas health/shield stale:
 > grupos Murmur/Unaffiliated/Anarchs, coefs exactos 16.0998/15.0998, contradicción Anarchs del wiki)
 > Fuente: https://wiki.warframe.com/w/Enemy_Level_Scaling (raw en `raw/enemy-level-scaling.wikitext`)
+> Fuente actualizada: 2026-07-29
 > Raw: enemy-level-scaling.wikitext
 
 ## Fórmula base universal

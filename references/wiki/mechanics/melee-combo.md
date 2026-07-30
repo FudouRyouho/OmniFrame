@@ -6,6 +6,7 @@
 > No usar para: catálogo de mods por build (la wiki los agrupa por dimensión mecánica) · velocidad de wind-up del heavy (no está en esta página)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Melee_Combo
+> Fuente actualizada: 2026-07-04
 > Raw: melee-combo.wikitext
 
 ## Qué es

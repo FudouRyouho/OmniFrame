@@ -6,6 +6,7 @@
 > No usar para: catálogo de sniper mods (transclusión aparte) · falloff de snipers (→ [`damage-falloff.md`](damage-falloff.md))
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Sniper_Rifle
+> Fuente actualizada: 2026-06-06
 > Raw: sniper-combo.wikitext
 
 ## Shot Combo Counter

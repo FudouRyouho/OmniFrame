@@ -6,6 +6,7 @@
 > No usar para: catálogo de fuentes de invocación fuera de la lista de la wiki
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Arcane_Camisado
+> Fuente actualizada: 2026-07-21
 > Raw: arcane-camisado.wikitext
 
 ## Qué es

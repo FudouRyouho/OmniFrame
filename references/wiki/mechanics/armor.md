@@ -6,6 +6,7 @@
 > No usar para: tablas completas de armor por warframe · cálculo de Effective Health detallado (→ `health.md`) · fuentes de DR que no son armor (→ `damage-reduction.md`)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Armor
+> Fuente actualizada: 2026-07-29
 > Raw: armor.wikitext · mods/steel-fiber.wikitext
 
 ## Fórmula base

@@ -6,6 +6,7 @@
 > No usar para: el catálogo de deviation por arma · la lista completa de armas con spread inverso/uniforme (galerías del raw)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Accuracy
+> Fuente actualizada: 2026-06-26
 > Raw: accuracy.wikitext
 
 ## Definición

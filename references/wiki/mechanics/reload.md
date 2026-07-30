@@ -6,6 +6,7 @@
 > No usar para: valores de reload por arma (están en el arsenal) · los bonus por mod y por habilidad (viven en la página de cada uno)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Reload
+> Fuente actualizada: 2026-02-22
 > Raw: reload.wikitext
 
 ## Fórmula base

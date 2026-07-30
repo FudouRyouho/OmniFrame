@@ -6,6 +6,7 @@
 > No usar para: fórmulas de daño (→ [`damage-types.md`](damage-types.md), `damage-calculation`) · el comportamiento de multishot en sí (→ [`multishot.md`](multishot.md))
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Hit_Mechanic
+> Fuente actualizada: 2026-06-20
 > Raw: hit-mechanic.wikitext
 
 > ⚠️ La wiki marca la página con **`{{Community}}`** y lleva **ocho `{{UpdateMe}}`** internos con

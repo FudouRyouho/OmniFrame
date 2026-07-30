@@ -6,6 +6,7 @@
 > No usar para: el catálogo por arma y ataque (son ~500 líneas del raw) ni el listado completo de fuentes
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Condition_Overload_(Mechanic)
+> Fuente actualizada: 2025-12-30
 > Raw: condition-overload.wikitext
 
 > ⚠️ La wiki marca esta página con **`{{Community}}`, `{{UpdateMe}}` y `{{CleanUp}}`** a la vez. Y

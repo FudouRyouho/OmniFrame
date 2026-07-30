@@ -6,6 +6,7 @@
 > No usar para: catálogo completo de fuentes de bonus (está en el raw) · qué habilidades pueden crit caso por caso
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Critical_Hit
+> Fuente actualizada: 2026-07-29
 > Raw: critical-hits.wikitext
 
 ## Qué es

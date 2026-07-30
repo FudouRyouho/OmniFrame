@@ -6,6 +6,7 @@
 > No usar para: escalado de health de enemigos (→ `enemy-level-scaling.md`) · el detalle de las otras capas (→ `shield.md` · `overguard.md`)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Health
+> Fuente actualizada: 2026-03-31
 > Raw: health.wikitext
 
 ## Fórmula base

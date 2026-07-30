@@ -4,7 +4,7 @@
 > Rol: wiki local auditada — leyes, entidades y fuentes del juego, cada `.md` con su raw al lado
 > Fuente de verdad de: reglas de captura, marca, layout y taxonomía de `references/wiki/`
 > No usar para: estado del proyecto, backlog, ni modelado hacia el engine
-> Última actualización: 2026-07-29
+> Última actualización: 2026-07-30
 
 ## Qué es, y qué no
 
@@ -158,10 +158,51 @@ con un raw sin dueño y con documentos de varias páginas):
 > Rol: …
 > Fuente de verdad de: …
 > No usar para: …
-> Última actualización: 2026-07-29
+> Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Movement_Speed · .../Sprint_Speed · .../Maneuvers
+> Fuente actualizada: 2026-07-30
 > Raw: movement-speed.wikitext · sprint-speed.wikitext · maneuvers.wikitext
 ```
+
+---
+
+## Regla — las tres fechas
+
+Tres preguntas distintas. **Sólo las dos primeras viven en el encabezado.**
+
+| Fecha | Pregunta | Quién la pone |
+|---|---|---|
+| `> Última actualización:` | ¿cuándo destilamos **nosotros**? | a mano |
+| `> Fuente actualizada:` | ¿cuándo tocó la **wiki** esa página? | `--fuente`, **nunca a mano** |
+| `{{ver|N}}` en el raw | ¿en qué **parche del juego** cambió la ley? | a mano, **sólo donde hace falta** |
+
+**Fuente movida después de destilar ≠ documento incorrecto.** Prueba que **nadie miró desde
+entonces** — es la única señal de drift que se obtiene sin releer la página entera. El auditor la
+reporta; qué hacer con ella es criterio de quien reconcilia.
+
+Si el doc destila varias páginas, manda **la más reciente**: basta con que una se mueva.
+
+### El parche (`{{ver|N}}`) no se anota por costumbre
+
+La mayoría de las leyes no cambian nunca, y ponerles versión es ruido. Se anota **donde el motor
+consume el dato** — ahí la trazabilidad se paga sola el día que un parche toque esa mecánica.
+
+Los tags ya están en los raws (**668 en 91 de 102 archivos**); resolverlos a fecha es cuestión de
+cruzar el alias contra [`sources/version-data.lua`](sources/version-data.md). No hace falta pedirle
+nada a la wiki.
+
+> **Lo que NO se hace: fechar por bisección del historial de la wiki.** Es viable (`prop=revisions` +
+> búsqueda binaria) y cuesta ~11 requests **por dato**, pero responde una pregunta *editorial*
+> —cuándo un editor tipeó un párrafo— y no una del juego. Descartado 2026-07-30.
+
+### La fecha de la fuente también avisa lo contrario
+
+Sirve para detectar dos patologías opuestas, y la segunda es la que se pasa por alto:
+
+- **fuente estancada** — `Stagger` sin tocar desde enero, coherente con su `{{UpdateMe}}`;
+- **fuente demasiado fresca** — `Damage/Calculation` se editó **ocho veces en dos días, por un solo
+  autor**, justo sobre la sección que destilamos. Eso no es doctrina asentada: es material en
+  refinamiento, y hay que decirlo en el doc antes de que alguien lo implemente.
 
 ---
 
@@ -195,7 +236,12 @@ La referencia informa al engine; no decide su contrato. Cuando una mecánica imp
 ## Auditoría
 
 ```bash
-node Project/scripts/references-layout.mjs
+node Project/scripts/references-layout.mjs            # audita, offline
+node Project/scripts/references-layout.mjs --fuente   # consulta la wiki y escribe `> Fuente actualizada:`
 ```
 
-Reporta documentos sin raw, raws sin dueño y declaraciones faltantes.
+Reporta documentos sin raw, raws sin dueño, declaraciones faltantes, marcas mal tipadas, conflictos
+sin contraparte, documentos sin `> Fuente:`, y **fuentes que se movieron después de destilarlas**.
+
+`--fuente` es la única parte que sale a la red: agrupa los títulos de `> Fuente:` en lotes de 50 y
+resuelve redirecciones. El corpus entero cuesta **una request por cada 50 páginas**.

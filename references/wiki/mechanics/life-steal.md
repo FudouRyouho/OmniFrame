@@ -6,6 +6,7 @@
 > No usar para: valores exactos de % por fuente — están en la página de cada mod/arma/habilidad
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Life_Steal
+> Fuente actualizada: 2026-01-28
 > Raw: life-steal.wikitext · ../arcanes/exodia-might.wikitext
 
 ## Qué es

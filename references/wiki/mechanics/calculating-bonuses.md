@@ -6,6 +6,7 @@
 > No usar para: escalado de nivel de enemigos (→ `enemy-level-scaling.md`) · DR de armor (→ `armor.md`) · fórmulas de DPS del Arsenal (**no están en esta página** — ver §Nota de procedencia)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Calculating_Bonuses
+> Fuente actualizada: 2026-06-27
 > Raw: calculating-bonuses.wikitext
 
 ## Concepto base: Percent Bonus → Multiplicador

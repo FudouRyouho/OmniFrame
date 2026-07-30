@@ -6,6 +6,7 @@
 > No usar para: el catálogo de armas con multishot innato ni la lista completa de mods (están en el raw)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Multishot
+> Fuente actualizada: 2026-07-07
 > Raw: multishot.wikitext
 
 ## Fórmula

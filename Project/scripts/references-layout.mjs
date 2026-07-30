@@ -21,10 +21,20 @@
  * es la única parte de la regla que se rompe en silencio (marcás un lado, olvidás el otro, y quien
  * entra por el lado ciego no se entera de que el dato está en disputa).
  *
+ * Tres fechas, tres preguntas distintas — sólo las dos primeras viven en el encabezado:
+ *   `> Última actualización:` — cuándo **nosotros** destilamos. Ya existía.
+ *   `> Fuente actualizada:`   — cuándo la **wiki** tocó la página por última vez. La pone `--fuente`.
+ *   `{{ver|N}}` en el raw     — en qué **parche del juego** cambió la ley. No se anota por costumbre:
+ *                               sólo donde el motor consume el dato. Resolver contra
+ *                               `wiki/sources/version-data.lua`.
+ * Que la fuente se haya movido DESPUÉS de destilar no prueba que el doc esté mal — prueba que nadie
+ * miró. Es la única señal de drift que se puede obtener sin volver a leer la página entera.
+ *
  * Uso:
- *   node scripts/references-layout.mjs            → audita
+ *   node scripts/references-layout.mjs            → audita (offline)
  *   node scripts/references-layout.mjs --declare  → escribe `> Raw:` donde el raw YA existe
  *   node scripts/references-layout.mjs --flatten  → saca raw de contenedores `raw/`|`documents/`
+ *   node scripts/references-layout.mjs --fuente   → consulta la wiki y escribe `> Fuente actualizada:`
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -121,6 +131,31 @@ for (const doc of docs) {
   }
 }
 
+// ── Fechas ───────────────────────────────────────────────────────────────────────────
+const campo = (doc, nombre) => {
+  const head = fs.readFileSync(doc, 'utf8').split('\n').slice(0, 15).join('\n');
+  return (head.match(new RegExp(`^>\\s*${nombre}:\\s*(.+)$`, 'mi')) ?? [])[1]?.trim() ?? null;
+};
+
+/** Títulos de página wiki declarados en `> Fuente:`. Un doc puede destilar más de una. */
+const titulosWiki = (doc) => [...(campo(doc, 'Fuente') ?? '')
+  .matchAll(/wiki\.warframe\.com\/w\/([^\s·,)?]+)/g)]
+  .map(m => decodeURIComponent(m[1]));
+
+const fuenteMovida = [], sinFechaFuente = [], sinFuente = [];
+/** El campo puede llevar comentario detrás de la fecha (`2026-07-19 (re-captura…)`). */
+const soloFecha = (s) => (s?.match(/\d{4}-\d{2}-\d{2}/) ?? [])[0] ?? null;
+
+for (const doc of docs) {
+  if (esExento(doc)) continue;
+  const nuestra = soloFecha(campo(doc, 'Última actualización'));
+  const suya = soloFecha(campo(doc, 'Fuente actualizada'));
+  // Sin `> Fuente:` no hay a qué volver: el raw dice QUÉ se destiló, la URL dice DE DÓNDE.
+  if (!campo(doc, 'Fuente')) { sinFuente.push(rel(doc)); continue; }
+  if (!suya) { if (titulosWiki(doc).length) sinFechaFuente.push(rel(doc)); continue; }
+  if (nuestra && suya > nuestra) fuenteMovida.push(`${rel(doc)} — destilado ${nuestra}, fuente ${suya}`);
+}
+
 const bloque = (titulo, items) => {
   if (!items.length) return;
   console.log(`\n── ${titulo} (${items.length}) ──`);
@@ -135,6 +170,10 @@ bloque('raw en contenedor genérico (raw/ | documents/)', enGenerico);
 bloque('raw que ningún documento reclama', huerfanos);
 bloque('marca con tipo inválido', marcaMalTipo);
 bloque('conflicto sin contraparte — se rompe en silencio', conflictoSinVuelta);
+bloque('la fuente se movió después de destilar — nadie miró desde entonces', fuenteMovida);
+bloque('sin `> Fuente actualizada:` — correr --fuente', sinFechaFuente);
+if (sinFuente.length) console.log(`\n── sin \`> Fuente:\` — no se sabe de qué página vienen (${sinFuente.length}) ──`
+  + `\n  ${[...new Set(sinFuente.map(p => p.split(path.sep)[0]))].sort().join(' · ')}`);
 
 // ── --declare ────────────────────────────────────────────────────────────────────────
 if (process.argv.includes('--declare')) {
@@ -157,6 +196,60 @@ if (process.argv.includes('--declare')) {
     n++;
   }
   console.log(`\n✓ ${n} documentos declararon su raw\n`);
+}
+
+// ── --fuente ─────────────────────────────────────────────────────────────────────────
+if (process.argv.includes('--fuente')) {
+  const API = 'https://wiki.warframe.com/api.php';
+  const pedidos = new Map();                        // doc → [títulos]
+  for (const doc of docs) {
+    if (esExento(doc)) continue;
+    const t = titulosWiki(doc);
+    if (t.length) pedidos.set(doc, t);
+  }
+  const todos = [...new Set([...pedidos.values()].flat())];
+
+  /** La API acepta hasta 50 títulos por llamada, y **normaliza** los que redirigen. */
+  const fecha = new Map();
+  for (let i = 0; i < todos.length; i += 50) {
+    const lote = todos.slice(i, i + 50);
+    const url = `${API}?action=query&format=json&prop=revisions&rvprop=timestamp`
+              + `&titles=${lote.map(encodeURIComponent).join('%7C')}`;
+    const { query } = await fetch(url).then(r => r.json());
+    // `normalized` y `redirects` remapean lo pedido a lo que la wiki realmente devolvió
+    const alias = new Map([...(query.normalized ?? []), ...(query.redirects ?? [])]
+      .map(({ from, to }) => [from, to]));
+    for (const p of Object.values(query.pages)) {
+      const ts = p.revisions?.[0]?.timestamp?.slice(0, 10);
+      if (ts) fecha.set(p.title, ts);
+    }
+    for (const t of lote) {
+      let cur = t, hop = 0;
+      while (!fecha.has(cur) && alias.has(cur) && hop++ < 4) cur = alias.get(cur);
+      if (fecha.has(cur) && cur !== t) fecha.set(t, fecha.get(cur));
+    }
+    process.stdout.write(`  ${Math.min(i + 50, todos.length)}/${todos.length}\r`);
+  }
+
+  let escritos = 0, faltantes = [];
+  for (const [doc, titulos] of pedidos) {
+    const fs_ = titulos.map(t => fecha.get(t)).filter(Boolean);
+    if (!fs_.length) { faltantes.push(`${rel(doc)} — ${titulos.join(', ')}`); continue; }
+    const max = fs_.sort().at(-1);                  // si destila varias páginas, manda la más reciente
+    const lines = fs.readFileSync(doc, 'utf8').split('\n');
+    const decl = `> Fuente actualizada: ${max}`;
+    const i = lines.findIndex(l => /^>\s*Fuente actualizada:/i.test(l));
+    if (i !== -1) { if (lines[i] === decl) continue; lines[i] = decl; }
+    else {
+      const j = lines.findIndex(l => /^>\s*Fuente:/i.test(l));
+      if (j === -1) { faltantes.push(`${rel(doc)} — sin campo "> Fuente:"`); continue; }
+      lines.splice(j + 1, 0, decl);
+    }
+    fs.writeFileSync(doc, lines.join('\n'));
+    escritos++;
+  }
+  console.log(`\n✓ ${escritos} documentos con fecha de fuente actualizada`);
+  bloque('la wiki no devolvió fecha', faltantes);
 }
 
 // ── --flatten ────────────────────────────────────────────────────────────────────────

@@ -6,6 +6,7 @@
 > No usar para: la matriz de vulnerabilidades por facción (→ `enemy-resistances.md`) · el orden general de mods (→ `calculating-bonuses.md`) · la ley completa de escalado de DoT (→ `damage-over-time.md`)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Faction_Damage_Bonus
+> Fuente actualizada: 2026-06-23
 > Raw: faction-damage.wikitext
 
 ## Fórmula

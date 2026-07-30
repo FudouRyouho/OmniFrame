@@ -6,6 +6,7 @@
 > No usar para: catálogo completo de mods/arcanos por stat (la wiki los lista, acá solo los representativos)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Movement_Speed · https://wiki.warframe.com/w/Sprint_Speed · https://wiki.warframe.com/w/Maneuvers
+> Fuente actualizada: 2026-07-30
 > Raw íntegro: `raw/movement-speed.wikitext`, `raw/sprint-speed.wikitext`, `raw/maneuvers.wikitext` (capturados vía `?action=raw`)
 > Raw: movement-speed.wikitext · sprint-speed.wikitext · maneuvers.wikitext
 

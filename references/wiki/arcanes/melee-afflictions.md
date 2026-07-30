@@ -6,6 +6,7 @@
 > No usar para: catálogo de stances que fuerzan Ragdoll
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Melee_Afflictions
+> Fuente actualizada: 2026-06-21
 > Raw: melee-afflictions.wikitext
 
 > ⚠️ **La wiki marca esta página con `{{UpdateMe}}`** — se declara desactualizada a sí misma. Todo

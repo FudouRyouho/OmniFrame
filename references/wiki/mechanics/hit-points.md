@@ -6,6 +6,7 @@
 > No usar para: escalado de HP de enemigos (→ `enemy-level-scaling.md`) · el detalle de cada capa (→ `health.md` · `shield.md` · `overguard.md`) · bleedout y revivir
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Hit_Points
+> Fuente actualizada: 2026-05-22
 > Raw: hit-points.wikitext · shield.wikitext · overguard.wikitext
 
 **Hit Points** es un concepto meta: el daño máximo que un jugador o NPC puede recibir antes de

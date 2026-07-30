@@ -6,6 +6,7 @@
 > No usar para: catálogo de armas/stances compatibles
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Melee_Duplicate
+> Fuente actualizada: 2026-05-28
 > Raw: melee-duplicate.wikitext
 
 ## Qué es

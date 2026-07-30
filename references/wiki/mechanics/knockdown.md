@@ -6,6 +6,7 @@
 > No usar para: el catálogo de habilidades/enemigos que causan knockdown (son galerías completas en los raws) · los valores de resistencia por mod (están en la página de cada mod)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Knockdown · https://wiki.warframe.com/w/Stagger
+> Fuente actualizada: 2026-06-22
 > Raw: knockdown.wikitext · stagger.wikitext
 
 > ⚠️ La wiki marca `Stagger` con **`{{UpdateMe}}`**. `Knockdown` no lleva marca.

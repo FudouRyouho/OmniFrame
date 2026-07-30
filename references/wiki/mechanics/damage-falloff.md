@@ -6,6 +6,7 @@
 > No usar para: valores de falloff por arma (están en el arsenal) · beam range de armas continuas
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Damage_Falloff
+> Fuente actualizada: 2026-05-24
 > Raw: damage-falloff.wikitext
 
 ## Definición

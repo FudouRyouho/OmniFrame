@@ -6,6 +6,7 @@
 > No usar para: catálogo de valores de flight speed por arma (está en las tablas del raw)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Projectile_Speed
+> Fuente actualizada: 2026-07-09
 > Raw: projectile-speed.wikitext · ../mods/terminal-velocity.wikitext · ../mods/feathered-arrows.wikitext · ../mods/whirlwind.wikitext · ../mods/entropy-flight.wikitext · ../mods/fatal-acceleration.wikitext · ../mods/heavy-warhead.wikitext
 
 ## Definición

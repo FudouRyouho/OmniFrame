@@ -6,6 +6,7 @@
 > No usar para: el catálogo por unidad (está en el raw, ~175 filas) · si las partes de la columna *Other* cuentan como weak spot para los efectos que dicen "weak point" — la wiki no lo declara
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Enemy_Body_Parts
+> Fuente actualizada: 2026-06-05
 > Raw: enemy-body-parts.wikitext
 
 > ℹ️ Esta página **absorbió tres términos**: `Headshot`, `Weak Point` y `Weak Spot` son hoy

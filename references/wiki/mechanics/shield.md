@@ -6,6 +6,7 @@
 > No usar para: escalado de shields de enemigos por nivel (→ `enemy-level-scaling.md`) · el catálogo completo de fuentes de restauración (está en el raw)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Shield
+> Fuente actualizada: 2026-07-05
 > Raw: shield.wikitext · ../arcanes/arcane-aegis.wikitext
 
 ## Fórmula base

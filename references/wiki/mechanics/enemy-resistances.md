@@ -6,6 +6,7 @@
 > No usar para: armor/DR del jugador (ver `armor.md`) ni escalado por nivel (ver `enemy-level-scaling.md`)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Damage/Overview_Table
+> Fuente actualizada: 2026-07-09
 > Raw: damage-overview-table.wikitext
 
 > La fórmula de DR se cita desde `Damage/Calculation`, cuya destilación vive en

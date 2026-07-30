@@ -6,6 +6,7 @@
 > No usar para: interacción con múltiples hits por segundo bajo Overguard (la wiki sólo describe el primer hit)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Arcane_Persistence
+> Fuente actualizada: 2026-07-28
 > Raw: arcane-persistence.wikitext
 
 ## Qué es

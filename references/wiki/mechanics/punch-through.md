@@ -6,6 +6,7 @@
 > No usar para: el catálogo completo de armas con punch through innato ni la tabla de rangos mínimos de mod (están en el raw)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Punch_Through
+> Fuente actualizada: 2026-07-19
 > Raw: punch-through.wikitext
 
 ## Definición

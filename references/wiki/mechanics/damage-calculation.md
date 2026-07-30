@@ -6,6 +6,7 @@
 > No usar para: los multiplicadores por facción y parte del cuerpo (→ [`faction-damage.md`](faction-damage.md), [`enemy-body-parts.md`](enemy-body-parts.md)) · la DR por armadura en detalle (→ [`enemy-resistances.md`](enemy-resistances.md), [`armor.md`](armor.md))
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage/Calculation
+> Fuente actualizada: 2026-07-30
 > Raw: damage-calculation.wikitext
 
 > ⚠️ La página lleva `{{UpdateMe}}` general y **otro `{{UpdateMe}}` que declara información
@@ -263,6 +264,13 @@ Average DPS  = Average Hit × Modded Attack Speed / Base Combo Length
 `Average Hit` es sobre el **primer** enemigo golpeado: no contempla Follow Through.
 
 ## Damage over Time
+
+> ⚠️ **Sección joven.** El historial de la página muestra que la cuantización con signo, el `binary32`
+> y todo el modelo del `+1` se escribieron entre el **29 y el 30 de julio de 2026**, en ocho ediciones
+> consecutivas de **un solo autor**, tras tres semanas sin tocar la página. La última reinterpreta el
+> `+1` de *"bias fijo"* a *"valor inicial del acumulador de tick-group"* — misma constante, mecanismo
+> descrito distinto. Es material en refinamiento activo, no doctrina asentada: contrastar antes de
+> implementar.
 
 > **El DoT NO sufre la cuantización a 1/32.** El proc se calcula desde el **daño base modeado**, no
 > desde la suma de los valores cuantizados por tipo. Las operaciones intermedias usan aritmética

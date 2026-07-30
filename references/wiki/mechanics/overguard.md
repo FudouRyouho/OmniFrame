@@ -6,6 +6,7 @@
 > No usar para: la tabla de enemigos con Overguard ni el catálogo completo de fuentes de player Overguard (están en el raw) · el escalado por nivel (→ `enemy-level-scaling.md`)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Overguard
+> Fuente actualizada: 2026-07-28
 > Raw: overguard.wikitext
 
 ## Qué es

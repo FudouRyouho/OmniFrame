@@ -6,6 +6,7 @@
 > No usar para: qué pasa si una habilidad aplica varios procs de Radiation en el mismo instante — la wiki no lo dice
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Arcane_Universal_Fallout
+> Fuente actualizada: 2026-01-06
 > Raw: arcane-universal-fallout.wikitext
 
 ## Qué es

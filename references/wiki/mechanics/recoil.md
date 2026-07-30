@@ -6,6 +6,7 @@
 > No usar para: valores de recoil por arma (no expuestos, ni en la wiki) · el catálogo de armas de recoil alto (galería del raw)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Recoil
+> Fuente actualizada: 2026-06-20
 > Raw: recoil.wikitext
 
 ## Definición

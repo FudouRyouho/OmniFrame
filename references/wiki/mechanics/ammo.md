@@ -6,6 +6,7 @@
 > No usar para: el catálogo completo de ammo pickup overrides por arma (~150 entradas en el patch history del raw) · los bonus por mod (viven en la página de cada mod)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Ammo
+> Fuente actualizada: 2026-07-24
 > Raw: ammo.wikitext
 
 ## Tres ejes independientes

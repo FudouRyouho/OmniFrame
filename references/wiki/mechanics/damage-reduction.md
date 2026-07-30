@@ -6,6 +6,7 @@
 > No usar para: la fórmula de armor en sí (→ `armor.md`) · el detalle de cada capa (→ `health.md` · `shield.md` · `overguard.md`)
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Damage_Reduction
+> Fuente actualizada: 2026-06-01
 > Raw: damage-reduction.wikitext · adaptation.wikitext
 
 ## Cómo se compone el daño recibido

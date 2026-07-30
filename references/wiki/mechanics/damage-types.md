@@ -6,6 +6,7 @@
 > No usar para: fórmulas de proc y stacking detallado — ver [`status-effects.md`](status-effects.md) · la matriz de multiplicadores por facción — ver [`faction-damage.md`](faction-damage.md) y [`enemy-resistances.md`](enemy-resistances.md)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage
+> Fuente actualizada: 2026-07-13
 > Raw: damage-types.wikitext
 
 ## Damage 3.0 — qué cambió respecto de 2.0
@@ -74,7 +75,10 @@ Los mods de daño general (Serration) afectan **todos** los tipos base del arma;
 | **Gas** | Heat + Toxin | `DT_GAS` | **Gas Cloud** — nube de **3 m** que hace **50%** del daño base por segundo durante **6 s**. Hasta 10 stacks y **6 m** de radio. **La nube persiste aunque el enemigo muera.** | `PT_ASPHYXIATION` |
 | **Magnetic** | Cold + Electricity | `DT_MAGNETIC` | **Disrupt** — *enemigo:* **+100%** de daño a **escudos y Overguard** por **6 s**, hasta 10 stacks = **+325%**; **no regenera escudos**. Al romperse escudo/Overguard, recibe daño y status de **Electricity** igual al **3% del máximo por stack**, hasta **30%**. *Jugador:* +100% a escudos, sin regeneración, **20 de Energy Drain por segundo** y HUD alterado, 4 s. | `PT_MAGNETIZED` |
 | **Viral** | Cold + Toxin | `DT_VIRAL` | **Virus** — **+100%** de daño a la **salud** por **6 s**, hasta 10 stacks = **+325%**. | `PT_INFECTED` |
-| **Corrosive** | Electricity + Toxin | `DT_CORROSIVE` | **Corrosion** — **−26%** de la armadura **actual** por **8 s**; cada proc siguiente pela **+6%** más, hasta 10 stacks = **−80%**. | `PT_CAUSTIC_BURN` |
+| **Corrosive** | Electricity + Toxin | `DT_CORROSIVE` | **Corrosion** — **−26%** de la armadura **actual** por **8 s**, hasta 10 stacks = **−80%**. | `PT_CAUSTIC_BURN` |
+
+> El **paso por stack es +6%** (`26 + 9×6 = 80`), pero ese número sólo aparece en el patch history de
+> la **v27.2**, no en la tabla vigente.
 
 > **Un primario que se combinó deja de existir.** Un arma cuyo Blast salió de Cold + Heat **ya no
 > hace** daño Cold ni Heat, ni aplica Freeze ni Ignite.
