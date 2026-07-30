@@ -1,0 +1,213 @@
+:''Not to be confused with [[Accuracy]] which describes the spread between shots.''
+{{Infobox
+|Box title    = Recoil
+|image        = Recoil.png
+}}
+<section begin=intro />
+'''Recoil''' is described as the physical kick of a weapon when firing, represented by the target reticle and screen moving up a certain distance and/or shaking slightly. It is relevant to note that while gun [[Accuracy]] will not improve through modding for recoil reduction, the decreased recoil ''can'' make it easier to land shots onto enemies. 
+
+As a clear way to distinguish the two, accuracy is about how far from the reticle the weapon shoots its projectile, while recoil is the amount that the reticle moves after the weapon is shot.<section end=intro />
+
+==Reduce Camera Movement from Recoil==
+In the [[Settings]], players can turn off the recoil effect in the '''Accessibility''' tab:
+*Camera: Camera bounces with each shot. (default)
+*Reticle: A diamond represents the recoil, camera movement reduced.
+*Reduced: No recoil representation, camera movement reduced.
+
+==Sources of Recoil Reduction==
+{| style="margin-left: auto; margin-right: auto;"
+|[[File:Recoil_0_Percent.gif|thumb|Firing a {{Weapon|Secura Dual Cestra}} normally.]]
+|[[File:Recoil_-60_Percent.gif|thumb|Firing a {{Weapon|Secura Dual Cestra}} with {{M|Steady Hands}}.]]
+|}
+Recoil can be relieved with various mods. Fire rate also increases recoil in some weapons, such as the {{Weapon|Grakata}}, which require burst firing in order to counter heavy recoil without modding.
+
+{{clr}}
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none">
+StabilizerMod.png|link=Stabilizer|{{M|Stabilizer}} ({{M|Primed Stabilizer|Primed}})
+CounterbalanceMod.png|link=Counterbalance|{{M|Counterbalance}} ({{M|Primed Counterbalance|Primed}})
+SteadyHandsMod.png|link=Steady Hands|{{M|Steady Hands}} ({{M|Primed Steady Hands|Primed}})
+VilePrecisionMod.png|link=Vile Precision|{{M|Vile Precision}}
+TwitchMod.png|{{M|Twitch}}
+SoftHandsMod.png|{{M|Soft Hands}}
+ReflexDrawMod.png|{{M|Reflex Draw}}
+GunGlideMod.png|link=Gun Glide|{{M|Gun Glide}}
+Double-BarrelDriftMod.png|link=Double-Barrel Drift|{{M|Double-Barrel Drift}}
+StrafingSlideMod.png|link=Strafing Slide|{{M|Strafing Slide}}
+PrimaryDeadhead.png|link=Primary Deadhead|{{Arcane|Primary Deadhead}}
+SecondaryDeadhead.png|link=Secondary Deadhead|{{Arcane|Secondary Deadhead}}
+Afentis.png|link=Afentis|{{Weapon|Afentis}}'s effect when thrown on the ground
+</gallery>
+
+In addition, there are some {{Faction|Conclave}}-exclusive mods which affect recoil:
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none">
+LooseHatchMod.png|link=Loose Hatch|{{M|Loose Hatch}}
+LooseChamberMod.png|link=Loose Chamber|{{M|Loose Chamber}}
+LooseMagazineMod.png|link=Loose Magazine|{{M|Loose Magazine}}
+HydraulicGaugeMod.png|link=Hydraulic Gauge|{{M|Hydraulic Gauge}}
+HydraulicChamberMod.png|link=Hydraulic Chamber|{{M|Hydraulic Chamber}}
+HydraulicBarrelMod.png|link=Hydraulic Barrel|{{M|Hydraulic Barrel}}
+LieInWaitMod.png|link=Lie In Wait|{{M|Lie In Wait}}
+</gallery>
+
+==Weapons with High Recoil==
+These weapons are considered to have harder to manage recoil, and are prime candidates for recoil-reduction mods if available.
+
+<div class="tabber-borderless">{{#tag:tabber|Primary =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3">
+Boar.png|link=Boar|{{Weapon|Boar}}
+BoarPrime.png|link=Boar Prime|{{Weapon|Boar Prime}}
+Exergis.png|link=Exergis|{{Weapon|Exergis}}
+Felarx.png|link=Felarx|{{Weapon|Felarx}} in [[Incarnon]] Form
+Grakata.png|link=Grakata|{{Weapon|Grakata}}
+PrismaGrakata.png|link=Prisma Grakata|{{Weapon|Prisma Grakata}}
+Snipetron.png|link=Snipetron|{{Weapon|Snipetron}}
+SnipetronVandal.png|link=Snipetron Vandal|{{Weapon|Snipetron Vandal}}
+Supra.png|link=Supra|{{Weapon|Supra}}
+SupraVandal.png|link=Supra Vandal|{{Weapon|Supra Vandal}}
+Trumna.png|link=Trumna|{{Weapon|Trumna}}
+</gallery>
+{{!}}-{{!}}Secondary=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3">
+Cestra.png|link=Cestra|{{Weapon|Cestra}}
+DualCestra.png|link=Dual Cestra|{{Weapon|Dual Cestra}}
+SecuraDualCestra.png|link=Secura Dual Cestra|{{Weapon|Secura Dual Cestra}}
+Kraken.png|link=Kraken|{{Weapon|Kraken}}
+KuvaKraken.png|link=Kuva Kraken|{{Weapon|Kuva Kraken}}
+Lex.png|link=Lex|{{Weapon|Lex}}
+LexPrime.png|link=Lex Prime|{{Weapon|Lex Prime}}
+Aklex.png|link=Aklex|{{Weapon|Aklex}}
+Marelok.png|link=Marelok|{{Weapon|Marelok}}
+VaykorMarelok.png|link=Vaykor Marelok|{{Weapon|Vaykor Marelok}}
+Pandero.png|link=Pandero|{{Weapon|Pandero}}
+PanderoPrime.png|link=Pandero Prime|{{Weapon|Pandero Prime}}
+Pyrana.png|link=Pyrana|{{Weapon|Pyrana}}
+PyranaPrime.png|link=Pyrana Prime|{{Weapon|Pyrana Prime}}
+Quatz.png|link=Quatz|{{Weapon|Quatz}}
+Seer.png|link=Seer|{{Weapon|Seer}}
+Sicarus.png|link=Sicarus|{{Weapon|Sicarus}}
+SicarusPrime.png|link=Sicarus Prime|{{Weapon|Sicarus Prime}}
+Zakti.png|link=Zakti|{{Weapon|Zakti}}
+</gallery>
+{{!}}-{{!}}Arch-gun=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3">
+Velocitus.png|link=Velocitus|{{Weapon|Velocitus}}
+</gallery>
+{{!}}-{{!}}Kitgun=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3">
+Haymaker.png|link=Haymaker|Secondary kitguns made with [[Haymaker]] grip
+Lovetap.png|link=Lovetap|Secondary kitguns made with [[Lovetap]] grip
+Steadyslam.png|link=Steadyslam|Primary kitguns made with [[Steadyslam]] grip
+Tremor.png|link=Tremor|Primary kitguns made with [[Tremor]] grip
+</gallery>
+}}</div>
+
+==Internal Representation==
+{{Stub}}
+{{Speculation}}
+Internally, a weapon's recoil is stored in <code>/Lotus/Types/Game/WeaponProperties/Recoil/Weapon/</code> with additional details defined in their <code>LotusWeaponProjectileFireBehavior</code>. For {{Weapon|Attica}}, some relevant details on its recoil include:
+<syntaxhighlight lang="json">
+"fire:LotusWeaponProjectileFireBehavior": {
+    "AIMED_CAMERA_RECOIL": "/Lotus/Types/Game/WeaponProperties/Recoil/Weapon/TnoPrmryXbowWeaponAimRecoilInfo",
+    "AimProperties": {
+        "AttenuateRecoilByChargeAmount": 0,
+        "AttenuateRecoilBySpinUpAmount": 0,
+        "CameraRecoilCurve": "ET_LINEAR",
+        "CameraRecoilStrength": [0, 1],
+        "EyeBasedAimSource": 1,
+        "LocalPos": [0, 0, 0],
+        "LocalRot": [0, 0, 0, 1],
+        "NpcEyeBasedAimSource": 0,
+        "OverrideLaunchBone": 0,
+        "OverrideLaunchDir": 0,
+        "ScopedPlayerUsesCameraPos": 0,
+        "UsePrevResults": 0,
+        "UseWeaponAttachment": 0
+    },
+    "HIP_CAMERA_RECOIL": "/Lotus/Types/Game/WeaponProperties/Recoil/Weapon/TnoPrmryXbowWeaponHipRecoilInfo",
+    "aimMode": "AIM_MODE_IRON_SIGHTS",
+}
+</syntaxhighlight>
+
+==Notes==
+*Recoil decreasing mods have no effect on weapons with little to no recoil.
+*Having at least -100% recoil bonus will negate all recoil. This can be achieved by:
+**Equipping {{M|Stabilizer}}/{{M|Primed Stabilizer}} and {{M|Vile Precision}} or {{Arcane|Primary Deadhead}} on primary rifles.
+**Equipping {{M|Counterbalance}}/{{M|Primed Counterbalance}} and {{Arcane|Primary Deadhead}} on primary shotguns.
+**Equipping {{M|Steady Hands}}//{{M|Primed Steady Hands}} and {{Arcane|Secondary Deadhead}} on pistols.
+*Reducing fire rate with {{M|Critical Delay}}, {{M|Creeping Bullseye}} or {{M|Vile Precision}} can lessen the effect of recoil without needing to use a mod for recoil reduction.
+*Even if a weapon's accuracy is good, with rapid-firing weapons such as the {{Weapon|Dual Cestra}}, the recoil will cause shots to deviate largely from the point of aim as the reticle shakes around.
+*Most sniper rifles have heavy recoil, but their firerate allows the reticle to move back into position about the time when you can fire another shot, making recoil mods less important on these weapons. 
+*The {{Weapon|Boar}} shotguns have a high recoil, but is only noticed when increasing the fire rate.
+*The {{Weapon|Seer}} has the largest recoil of any pistol, and benefits greatly with {{M|Steady Hands}}.
+*Reducing recoil on the {{Weapon|Brakk}} or {{Weapon|Bronco}} pistols is not necessary, as they shoot a spray of pellets so accuracy is not a primary issue.
+
+==Trivia==
+*{{M|Heavy Caliber}} and {{M|Magnum Force}} used to add recoil to weapons, instead of reducing accuracy, which made recoil-less weapons gain a pure damage boost. This change however made less sense than recoil as a higher damage bullet would create a larger kick and not necessarily have a negative effect on accuracy. 
+
+==Media==
+{{VideoGallery
+|{{YouTube|c-i-vmTIpVE|size=250px|caption=Seer Pistol With Steady Hands}}
+|{{YouTube|DxY2Y3QmIBw|size=250px|caption=Recoil Improvement On Akjagara}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|40.0.3}}
+;Screen Shake and Recoil Changes&#58;
+The Vallis Undermind brought a change to our Screen Shake and Recoil system with accessibility in mind: toggling off Screen Shake removed Weapon Camera Movement and added a new diamond to the reticle that represented Weapon Recoil.
+
+While many Tenno benefitted from certain aspects of this change, a large amount of feedback reflected something that is core to Warframe’s experience: customization. Many players requested the ability to only apply certain elements of this Setting to their gameplay (i.e. separate these elements in a toggle), and we are acting on that request with this hotfix. 
+
+Due to the nature of this system, any adjustments requires changes to the game code, meaning we can only ship the following on PC. Console Tenno can look forward to these changes with our next Cert Update —  plus any additional tweaks that may come from feedback after this PC implementation.
+
+'''Updated Screen Shake and Recoil Settings:'''
+
+*Screenshake and Weapon Recoil are now separate Accessibility toggle options!
+**Toggles most screen shake effects with the exception of camera movement caused by recoil.
+**''This is what Screen Shake was defined as for the vast majority of Warframe’s history.''
+*Recoil now has its own Accessibility toggle with the following three options:
+**Camera: Camera bounces with each shot. (default)
+**Reticle: A diamond represents the recoil, camera movement reduced.
+**Reduced: No recoil representation, camera movement reduced.
+
+'''Other Changes & Fixes:'''
+*Fixed the recoil diamond not applying custom reticle HUD colors until you aimed at an enemy.
+
+{{ver|40}}
+;SCREEN SHAKE & RECOIL CHANGES
+
+Earlier in 2025, we unintentionally released a change where the Screen Shake toggle would also remove the screen movement tied to weapon recoil. For much of Warframe’s history, this toggle would remove Screen Shake, but retain screen movement tied to Weapon Recoil — i.e. depending on the weapon you were firing, the screen would jiggle to mirror the recoil. Upon reverting this change a month later, we started receiving feedback that this screen jiggle was causing players to experience motion sickness. 
+
+While weapon recoil was restored to its original state, the conversations that occurred after its return made us look closer at its accessibility for those prone to motion sickness. With that in mind, we have made the following changes for Tenno with the '''Screen Shake Toggle turned off''': 
+
+*Removed screen movement when firing guns.
+*Added a diamond to the Reticle, which will be representative of Gun Recoil patterns.
+**The original reticle dot will remain stationary
+**The new diamond will move to indicate recoil patterns when the gun is being fired
+
+'''Weapon Screenshake Changes:'''
+
+Tenno who keep their screenshake enabled in Accessibility Options may notice slight adjustments to the intensity of screenshake on some weapons. With our review of Screenshake, we felt that the following weapons had too strong of a recoil effect, so we have reduced screenshake for the following:
+
+*Titania’s Dex Pixia
+*Phantasma
+*MK-1 Braton
+*Twin Grakatas 
+*Pyrana
+*Trumna
+*Gorgon
+*Laetum
+*Dual Cestra
+*Buzlok
+*Bubonico
+*Larkspur
+}}
+
+==See Also==
+*[[Mods]]
+*[[Accuracy]], a related, but separate, mechanic.
+
+{{MechNav}}
+[[es:Retroceso]]
+[[Category:Mechanics]]
