@@ -11,7 +11,7 @@
  * no lo deriva ninguna contención.
  *
  * DEVUELVE UNA LISTA, NO UN VALOR. Hoy un canal resuelve a 0 o 1 entidad, pero la verdad del juego
- * es N: `references/wiki/archon-shards/archon-shards-table.md` dice, para los tres shards de
+ * es N: `references/wiki/archon-shards/archon-shard.md` dice, para los tres shards de
  * canal, *"Affects Exalted Weapons of the appropriate class"*. Las exaltadas no están modeladas
  * (`OQ-ENGINE-11`), y ese mismo OQ ya se comprometió a materializarlas como **arma de canal real**
  * para que "el ruteo agnóstico de buffs de C la alcance gratis". Con firma escalar ese "gratis" es
