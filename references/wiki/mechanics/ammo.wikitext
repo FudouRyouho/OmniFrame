@@ -1,0 +1,579 @@
+{{Infobox
+| Box title = Ammo
+| image = PistolAmmo.png
+| caption = A pistol ammo pickup
+}}
+{{tocright}}
+{{Quote|The number of ammo rounds a weapon's magazine holds.
+
+----
+
+> Reload Time: '''<nowiki>|AMOUNT|</nowiki>'''s
+
+> Ammo Maximum: '''<nowiki>|AMOUNT|</nowiki>'''
+
+> Ammo from Pickups: '''<nowiki>|AMOUNT|</nowiki>'''|In-Game Description}}
+'''Ammunition''' (or '''ammo''' for short) describes the variety of bullets, bolts, slugs, cartridges, batteries, and more that enable all [[Primary Weapon|Primary]] and [[Pistol|Secondary]] weapons to be fired. The only weapons that do not use ammo are [[Melee]] weapons.
+
+Remaining ammunition for the currently active weapon is indicated in the bottom right corner as two numbers with a divider between them. On the left side, the number indicates how much ammo is currently loaded inside the weapon's magazine. On the right side of that division, the number indicates how much more of that type of ammo the player is carrying.
+
+==Magazine Capacity==
+Weapons have a '''magazine capacity''' or '''clip size''' that limits their ammo expenditure. Weapons can load ammo up to their magazine size; after shooting the whole magazine, the weapon must be [[reload]]ed. Because reloading takes time, a low magazine size can significantly reduce the [[Wikipedia:Damage per second|sustained DPS]] of a weapon in relation to its expected [[Wikipedia:Damage per second|burst DPS]].
+
+Note that Magazine Capacity bonuses do not affect weapons that pull ammo directly from their reserve pool like [[Bow]]s and {{Weapon|Epitaph}}.
+
+Note that Ammo Maximum bonuses do not increase Magazine Capacity.
+
+===Increasing magazine capacity===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+AmmoStockMod.png|link=Ammo Stock|{{M|Ammo Stock}}|alt=Ammo Stock
+PrimedAmmoStockMod.png|link=Primed Ammo Stock|{{M|Primed Ammo Stock}}|alt=Primed Ammo Stock
+AtomicFalloutMod.png|link=Atomic Fallout|{{M|Atomic Fallout}}|alt=Atomic Fallout
+MagazineExtensionMod.png|link=Magazine Extension|{{M|Magazine Extension}}|alt=Magazine Extension
+MagazineWarpMod.png|link=Magazine Warp|{{M|Magazine Warp}}|alt=Magazine Warp
+PrimedMagazineWarpMod.png|link=Primed Magazine Warp|{{M|Primed Magazine Warp}}|alt=Primed Magazine Warp
+MagneticCapacityMod.png|link=Magnetic Capacity|{{M|Magnetic Capacity}}|alt=Magnetic Capacity
+ShotgunElementalistMod.png|link=Shotgun Elementalist|{{M|Shotgun Elementalist}}|alt=Shotgun Elementalist
+SlipMagazineMod.png|link=Slip Magazine|{{M|Slip Magazine}}|alt=Slip Magazine
+PrimedSlipMagazineMod.png|link=Primed Slip Magazine|{{M|Primed Slip Magazine}}|alt=Primed Slip Magazine
+WildfireMod.png|link=Wildfire|{{M|Wildfire}}|alt=Wildfire
+IceStormMod.png|link=Ice Storm|{{M|Ice Storm}}|alt=Ice Storm
+TaintedMagMod.png|link=Tainted Mag|{{M|Tainted Mag}}|alt=Tainted Mag
+TaintedClipMod.png|link=Tainted Clip|{{M|Tainted Clip}}|alt=Tainted Clip
+BurdenedMagazineMod.png|link=Burdened Magazine|{{M|Burdened Magazine}}|alt=Burdened Magazine
+StockpiledBlightMod.png|link=Stockpiled Blight|{{M|Stockpiled Blight}}|alt=Stockpiled Blight
+ComboFuryMod.png|link=Combo_Fury|{{M|Combo Fury}}|alt=Combo Fury
+</gallery>
+
+===Decreasing magazine capacity===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+DepletedReloadMod.png|link=Depleted Reload|{{M|Depleted Reload}}|alt=Depleted Reload
+</gallery>
+
+===Conclave mods===
+In addition, there are some [[File:Conclave Sigil Black.png|x14px|link=Conclave]][[PvP]]-exclusive mods which affect magazine size:
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+MaximumCapacityMod.png|link=Maximum Capacity|{{M|Maximum Capacity}}|alt=Maximum Capacity
+LoadedCapacityMod.png|link=Loaded Capacity|{{M|Loaded Capacity}}|alt=Loaded Capacity
+FullCapacityMod.png|link=Full Capacity|{{M|Full Capacity}}|alt=Full Capacity
+HydraulicGaugeMod.png|link=Hydraulic Gauge|{{M|Hydraulic Gauge}}|alt=Hydraulic Gauge
+HydraulicChamberMod.png|link=Hydraulic Chamber|{{M|Hydraulic Chamber}}|alt=Hydraulic Chamber
+HydraulicBarrelMod.png|link=Hydraulic Barrel|{{M|Hydraulic Barrel}}|alt=Hydraulic Barrel
+</gallery>
+
+==Ammo Maximum==
+{{For|a list of max ammo counts of all weapons|Weapon Comparison}}
+'''Ammo Maximum''' refers to the amount of maximum ammunition that can be carried. Enemies do not track or run out of ammunition, though their weapons do have a magazine size and they must reload accordingly.
+
+Ammo Maximum has no effect on weapons that lack an ammo pool, such as [[Battery Weapon]]s and [[Archgun]]s in [[Archwing]] or held by [[Necramech]]s.
+
+Ammo Maximum has no effect on Magazine Capacity.
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+AmmoCaseMod.png|link=Ammo Case|{{M|Ammo Case}}|alt=Ammo Case
+AmmoChainMod.png|link=Ammo Chain|{{M|Ammo Chain}}|alt=Ammo Chain
+PrimedAmmoChainMod.png|link=Primed Ammo Chain|{{M|Primed Ammo Chain}}|alt=Primed Ammo Chain
+AmmoDrumMod.png|link=Ammo Drum|{{M|Ammo Drum}}|alt=Ammo Drum
+TrickMagMod.png|link=Trick Mag|{{M|Trick Mag}}|alt=Trick Mag
+ShellCompressionMod.png|link=Shell Compression|{{M|Shell Compression}}|alt=Shell Compression
+</gallery>
+
+==Ammo Pickup==
+'''Ammo Pickup''' refers to how much ammo is obtained from [[pickups]].
+
+[[Area of Effect Weapons]] tend to have lower base Ammo Pickup than normal.
+
+===Drop Chances===
+Chance to drop Primary or Secondary Ammo scales with squad size:<ref>{{ver|32}} patch notes</ref>
+*1 player squad = 45% (60% in [[Landscape]]s)
+*2 player squad = 37.5% (52.5% in Landscapes)
+*3 player squad = 30% (45% in Landscapes)
+*4 player squad = 22.5% (37.5% in Landscape)
+
+For most enemies, each roll of their drop table will only result in a maximum of one Ammo Pickup.
+
+[[Eximus]] are guaranteed to drop either a Primary or Secondary Ammo, each having the same chance of dropping. This does not overwrite the enemies normal chance of dropping an Ammo pickup.
+
+===Primary===
+[[File:RifleAmmo.png|right|200px]]
+*Purple lighting.
+*Refills [[Primary Weapon]] ammo based on the weapon type:
+**'''80''' for [[Assault Rifle]]s, [[Continuous Weapon]]s, and [[Crossbow]]s.
+**'''60''' for [[Speargun]]s.
+**'''40''' for automatic [[Shotgun]]s.
+**'''15''' for semi-automatic shotguns, [[Sniper Rifle]]s, and [[Bow]]s.
+**'''Varies''' for [[Launcher]]s.
+{{clr}}
+
+===Secondary===
+[[File:PistolAmmo.png|right|200px]]
+*Orange lighting.
+*Refills [[Secondary Weapon]] ammo based on the weapon type:
+**'''40''' for most secondaries.
+**'''20''' for [[Shotgun Sidearm|shotgun sidearms]].
+
+{{clr}}
+
+===Heavy===
+{{UpdateMe|Drop chance may have changed in {{ver|32}}}}
+[[File:HeavyAmmo.png|right|200px]]
+
+*Yellow lighting.
+*Refills '''1000''' rounds of atmospheric [[Archgun]] ammo, or resets the [[Archweapon Deployer]] cooldown when not equipped.
+*Has a 5.01% chance to drop from [[Bombard]]s, [[Heavy Gunner]]s, [[Napalm]]s, [[Corpus Tech]], [[Fusion MOA]]s, [[Oxium Osprey]]s, and all [[Ancient]]s.<ref>https://forums.warframe.com/topic/1100191-ask-me-almost-anything-again/?do=findComment&comment=10814226</ref>
+*Guaranteed to drop by [[Terra Manker]]s that appear during [[Profit-Taker Orb]] fight.
+
+{{clr}}
+
+===Universal Ammo Pack===
+[[File:UniversalAmmo.png|right|200px]]
+*Blue lighting with red or blue accents.
+*Refills '''1x''' Ammo Pickup of all weapon types, but does '''not''' reset [[Archweapon Deployer]] cooldown.
+*This type of ammo is not encountered in standard gameplay and only available in [[Arena]] missions, the [[Conclave]] or the [[Simulacrum]]. In these situations, the pickup will have blue accents.
+**Exceptions are {{WF|Lavos}}'s {{A|Transmutation Probe}}, {{WF|Protea}}'s {{A|Dispensary}} and {{WF|Follie}}'s Universal Ammo {{A|Shadowgraph}}. These pickups are smaller and will have red accents.
+*Not to be confused with the [[Omni Ammo Box]] gear.
+
+{{clr}}
+
+===Increasing Ammo From Pickups===
+All ammo types have a corresponding [[Aura]] mod; these are the ''scavenger'' mods, which can be equipped to increase the amount of ammo received when picking up an ammo pack.
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+RifleScavengerMod.png|link=Rifle Scavenger|{{M|Rifle Scavenger}}|alt=Rifle Scavenger
+ShotgunScavengerMod.png|link=Shotgun Scavenger|{{M|Shotgun Scavenger}}|alt=Shotgun Scavenger
+SniperScavengerMod.png|link=Sniper Scavenger|{{M|Sniper Scavenger}}|alt=Sniper Scavenger
+PistolScavengerMod.png|link=Pistol Scavenger|{{M|Pistol Scavenger}}|alt=Pistol Scavenger
+</gallery>
+====Ammo Mutations====
+All weapons can equip a ''mutation'' mod for their respective ammo type. Ammo mutation mods convert the ammo packs of other weapon types into those for the active weapon, as long as the other ammo pool is full.
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+AmmoCaseMod.png|link=Ammo Case|{{M|Ammo Case}}|alt=Ammo Case
+RifleAmmoMutationMod.png|link=Rifle Ammo Mutation|{{M|Rifle Ammo Mutation}}|alt=Rifle Ammo Mutation
+ShotgunAmmoMutationMod.png|link=Shotgun Ammo Mutation|{{M|Shotgun Ammo Mutation}}|alt=Shotgun Ammo Mutation
+PistolAmmoMutationMod.png|link=Pistol Ammo Mutation|{{M|Pistol Ammo Mutation}}|alt=Pistol Ammo Mutation
+PrimedRifleAmmoMutationMod.png|link=Primed Rifle Ammo Mutation|{{M|Primed Rifle Ammo Mutation}}|alt=Primed Rifle Ammo Mutation
+PrimedShotgunAmmoMutationMod.png|link=Primed Shotgun Ammo Mutation|{{M|Primed Shotgun Ammo Mutation}}|alt=Primed Shotgun Ammo Mutation
+PrimedPistolAmmoMutationMod.png|link=Primed Pistol Ammo Mutation|{{M|Primed Pistol Ammo Mutation}}|alt=Primed Pistol Ammo Mutation
+PrimedSniperAmmoMutationMod.png|link=Primed Sniper Ammo Mutation|{{M|Primed Sniper Ammo Mutation}}|alt=Primed Sniper Ammo Mutation
+SniperAmmoMutationMod.png|link=Sniper Ammo Mutation|{{M|Sniper Ammo Mutation}}|alt=Sniper Ammo Mutation
+ArrowMutationMod.png|link=Arrow Mutation|{{M|Arrow Mutation}}|alt=Arrow Mutation
+VigilanteSuppliesMod.png|link=Vigilante Supplies|{{M|Vigilante Supplies}}|alt=Vigilante Supplies
+</gallery>
+
+===Sources of Ammo===
+{{:Dispensary}}
+{{:Resupply}}
+{{:Transmutation Probe}}
+{{:Shadowgraph#Universal_Ammo_}}
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+BloodForAmmoMod.png|link=Blood For Ammo|{{M|Blood For Ammo}}|alt=Blood For Ammo
+WildFrenzyMod.png|link=Wild Frenzy|{{M|Wild Frenzy}}|alt=Wild Frenzy
+TeamAmmoRestore.png|link=Squad Ammo Restore|{{Gear|Squad Ammo Restore (Small)}}|alt=Squad Ammo Restore (Small)
+AmmoTotemMediumBundle.png|link=Squad Ammo Restore|{{Gear|Squad Ammo Restore (Medium)}}|alt=Squad Ammo Restore (Medium)
+LargeTeamAmmoPack.png|link=Squad Ammo Restore|{{Gear|Squad Ammo Restore (Large)}}|alt=Squad Ammo Restore (Large)
+AmmoBox.png|link=Omni Ammo Box|{{Gear|Omni Ammo Box}}|alt=Omni Ammo Box
+CodexCommonGrineerStorageContainer.png|link=Storage Container|Most [[Storage Container]]s
+LancerDE.png|link=Category:Enemies|Most [[Enemies]]
+</gallery>
+
+==Battery==
+{{Main|:Category:Battery Weapons}}
+Certain weapons use an auto-recharging [[Battery Weapon|battery]] instead of magazine-fed reserve ammo. When a battery weapon stops firing, there is a small delay before they automatically regenerate ammo, without the need to manually reload.
+
+While they still benefit from magazine capacity, ammo maximum and ammo pickup have no effect on battery weapons.
+
+==Ammo Efficiency==
+'''Ammo Efficiency''' determines the number of shots that occur before consuming ammo, hence being more "ammo efficient". For example, if a weapon has 75% ammo efficiency and each shot originally costs one ammo, every four shots will use one ammo. Sources that grant no ammo consumption for the duration of its buff can essentially be treated as 100% ammo efficiency.
+
+:{{MathText|Number of shots per ammo consumption {{eql}} 1 / (1 - Ammo Efficiency Bonus)}}
+
+Sources of ammo efficiency stack additively with each other except for {{A|Energized Munitions}}, which stacks multiplicatively.
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+AkmagnusPrime.png|link=Amagnus Prime|{{Weapon|Akmagnus Prime}}<br />On hit, 4% chance for 100% ammo efficiency for 4 seconds|alt=Akmagnus PrimeOn hit, 4% chance for 100% ammo efficiency for 4 seconds
+Athodai.png|link=Athodai|{{Weapon|Athodai}}<br />On headshot kill, 100% ammo efficiency for 8 seconds|alt=AthodaiOn headshot kill, 100% ammo efficiency for 8 seconds
+AthodaiPrime.png|link=Athodai Prime|{{Weapon|Athodai Prime}}<br />On headshot kill, 100% ammo efficiency for 12 seconds|alt=Athodai PrimeOn headshot kill, 100% ammo efficiency for 12 seconds
+AX-52.png|link=AX-52|{{Weapon|AX-52}}<br />60% ammo efficiency from hip-fire|alt=AX-5260% ammo efficiency from hip-fire
+DualToxocyst.png|link=Dual Toxocyst|{{Weapon|Dual Toxocyst}}<br />On headshot, 100% ammo efficiency for 3 seconds|alt=Dual ToxocystOn headshot, 100% ammo efficiency for 3 seconds
+Knell.png|link=Knell|{{Weapon|Knell}}<br />On headshot, 100% ammo efficiency for 2 seconds|alt=KnellOn headshot, 100% ammo efficiency for 2 seconds
+KnellPrime.png|link=Knell Prime|{{Weapon|Knell Prime}}<br />On headshot, 100% ammo efficiency for 2 seconds|alt=Knell PrimeOn headshot, 100% ammo efficiency for 2 seconds
+MagnusPrime.png|link=Magnus Prime|{{Weapon|Magnus Prime}}<br />On hit, 4% chance for 100% ammo efficiency for 4 seconds|alt=Magnus PrimeOn hit, 4% chance for 100% ammo efficiency for 4 seconds
+Perigale.png|link=Perigale|{{Weapon|Perigale}}<br />On 4 consecutive headshots or headshot kill, 100% ammo efficiency for 4 seconds|alt=PerigaleOn 4 consecutive headshots or headshot kill, 100% ammo efficiency for 4 seconds
+Velox.png|link=Velox|{{Weapon|Velox}}<br />20% passive ammo efficiency (40% with {{WF|Protea}}/{{WF|Protea Prime}})|alt=Velox20% passive ammo efficiency (40% with  Protea/ Protea Prime)
+VeloxPrime.png|link=Velox Prime|{{Weapon|Velox Prime}}<br />20% passive ammo efficiency (40% with {{WF|Protea}}/{{WF|Protea Prime}})|alt=Velox Prime20% passive ammo efficiency (40% with  Protea/ Protea Prime)
+BrainStormMod.png|link=Brain Storm|{{M|Brain Storm}}|alt=Brain Storm
+SkullShotsMod.png|link=Skull Shots|{{M|Skull Shots}}|alt=Skull Shots
+Zazvat-KarMod.png|link=Zazvat-Kar|{{M|Zazvat-Kar}}|alt=Zazvat-Kar
+Vikla-SaforMod.png|link=Vikla-Safor|{{M|Vikla-Safor}}|alt=Vikla-Safor
+AkimboSlipShot.png|link=Akimbo Slip Shot|{{Arcane|Akimbo Slip Shot}}|alt=Akimbo Slip Shot
+PrimaryCompression.png|link=Primary Compression|{{Arcane|Primary Compression}}|alt=Primary Compression
+PrimaryCrux.png|link=Primary Crux|{{Arcane|Primary Crux}}|alt=Primary Crux
+ArcanePistoleer.png|link=Arcane Pistoleer|{{Arcane|Arcane Pistoleer}}|alt=Arcane Pistoleer
+EternalLogistics.png|link=Eternal Logistics|{{Arcane|Eternal Logistics}}|alt=Eternal Logistics
+Zid-AnHaras.png|link=Zid-An Haras|{{Arcane|Zid-An Haras}}|alt=Zid-An Haras
+VoidTearIcon b.png|link=Void Fissure#Reactant Buff|[[Void Fissure#Reactant Buff|Reactant buff]]
+FocusVoidFuel.png|link=Void Fuel|{{Focus|Void Fuel}}|alt=Void Fuel
+</gallery>
+
+{{:Energized Munitions}}
+
+==Ammo Economy==
+'''Ammo Economy''' is a [[Wikipedia:Metagaming|metagame]] measurement of how effective a weapon is in using its ammo to damage enemies. In many cases, ammo economy is considered irrelevant because a sufficient amount of ammo packs drop from fallen enemies—but there are a number of weapons with poor ammo economy which can easily cause a player to run out of ammo faster than they can replenish their stocks. It can be derived from the following calulations:
+
+<math>
+{
+\begin{aligned}
+\text{Time To Deplete Ammo} &= \frac{ \text{Modded Ammo Capacity} }{ \text{Modded Magazine Size} } \cdot ( { \text{Modded Reload Time} } + \frac{ \text{Modded Magazine Size} }{ \text{Modded Fire Rate} } )
+\end{aligned}
+}
+</math>
+
+<math>
+{
+\begin{aligned}
+\text{Average Shot} &= \text{Modded Multishot} \\
+&\qquad \cdot [ ( \text{Normal Shot} \cdot (1 - \text{Modded Crit Chance} \pmod{1} ) ) \\
+&\qquad + \text{Critical Shot} \cdot \text{Modded Crit Chance} \pmod{1} ] \\
+\end{aligned}
+}
+</math>
+:''Note that mod refers to the [[wikipedia:Modulo operation|modulo operation]]''
+:''See [[Damage#Gun Damage Per Second]] for full calculation''
+
+'''The longer it takes to deplete a weapon's ammo reserves and the higher the average damage per ammo, the better ammo economy it has.'''
+
+Ammo economy is most relevant on weapons with high [[Fire Rate]]. Modding a weapon with damage mods (like {{M|Serration}}) increases both damage per second and damage per ammo, while increasing fire rate (through {{M|Speed Trigger}}) only improves damage per second. When playing [[mission]]s against tough enemies that require many shots to be killed, players should consider eschewing fire rate for straight damage because of this reason.
+
+==Bugs==
+*[[Eidolon]] Synovia will still drop the pre-[[Update 32]] Rifle, Shotgun, Sniper, and Secondary ammo packs when destroyed.
+*[[Landscape]] storage containers and {{E|Aurax Atloc Raknoid}}s will drop what appear to be pre-Update 32 Primary and Secondary ammo packs. The Primary ammo packs will still restore ammo to all primary weapon types, however.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|33.5}}
+*Fixed the ammo pickup SFX playing repeatedly due to an interaction between Vacuum and Soma’s alt-fire.
+
+{{ver|32.2}}
+*Ammo pickups have a brand new look!
+*Fixed the notification for ‘Primary Weapon Ammo full’ not appearing when the player is in Archwing underwater.
+*Fixed several issues related to players spawnings ammo using the Gear wheel in mission.
+
+{{ver|32.1.2}}
+*More fixes towards ammo pickups hovering around Warframe when Spectre has more max ammo than player.
+
+{{ver|32.1.1}}
+*Fixes towards ammo pickups getting infinitely stuck to you after summoning a Specter while the Vacuum Mod is equipped. As reported here: https://www.reddit.com/r/Warframe/comments/yk9xlv/loot_lag_wouldnt_let_me_finish_the_mobile_defense/
+**''If you run into this issue, a temporary fix is to clear your ammo from your weapon by shooting to clear the hovering pickups with the same ammo type.''
+
+{{ver|32.1}}
+*Fixed Primary and Secondary ammo pickups only being picked up if the player presses reload while standing near them.
+
+{{ver|32.0.2}}
+;Ammo Changes & Review&#58;
+When we were reviewing ammo acquisition as a whole for Update 32, we felt weapons with Ammo Regen Rate Overrides, or “Battery,” in particular, needed a place within the ecosystem of change we had established. That said, upon review of feedback, we recognize we were a bit heavy-handed with the changes we made to Battery weapons. We have restored their original values for the time being while we reassess how we can better approach these weapons.
+
+We have restored the original values for the following weapons: 
+
+*Basmu: 
+**Returned ammo regen rate to 42/s from 10.5/s
+*Bubonico:
+**Returned ammo regen rate to 9/s from 4.5/s
+**Returned Alt fire ammo requirement to 3 from 9
+*Flux Rifle: 
+**Returned ammo regen rate to 40/s from 24/s
+*Fulmin: 
+**Returned ammo regen rate to 30/s from 20/s
+**Returned Alt fire ammo requirement to 10 from 15
+*Shedu: 
+**Returned ammo regen rate to 28/s from 3.5/s
+*Cycron: 
+**Returned ammo regen rate to 40/s from 20/s
+*Tenet Cycron: 
+**Returned ammo regen rate to 40/s from 20/s
+
+We also missed a note from Update 32, where applying Pax Charge to Kitguns was also applying Ammo Regen Rate Overrides. But similar to the above, we have since reverted that for review. 
+
+;Fixes&#58;
+*Fixed being unable to pick up universal ammo (such as ammo from ammo dispensers in the Simulacrum or Protea’s Dispensary) if the player only has a secondary weapon equipped.
+*Fixed PH tags appearing in the ammo stats in the Arsenal.
+
+{{ver|32}}
+;Ammo Changes
+
+We understand the power fantasy of these weapons is very popular for some, so our first approach was to keep them powerful, but limit how often they can be used by making changes to ammo pick-up. 
+
+'''Ammo Pick Up'''
+
+Ammo drop types have been simplified to Primary, Secondary and Heavy ammo. We have eliminated the Sniper and Shotgun ammo types. '''‘Ammo Pickup’''' is also a new property on every weapon, it indicates the amount of ammo you get when picking up an ammo box. 
+
+'''We also increased base ammo pickup values as follows:'''
+
+*Primary - from 60 to 80
+*Secondary - from 20 to 40 
+
+'''''Ammo Pickup Overrides'''''
+
+The following weapons now have ammo pickup overrides, meaning they gain less from picking up ammo. This mostly applies to AoE weapons, in hopes that players will become more deliberate with their aim to make the most of their Ammo pools. The following lists the specific ammo pick up overrides per weapon category. 
+
+Primary Weapon Ammo Pick Up Overrides 
+
+1 Ammo per Pick Up:
+
+*Kuva Bramma 
+*Kuva Ogris
+*Kuva Zarr
+*Lenz 
+*Proboscis Cernos
+
+3 Ammo per Pick Up:
+*Tonkor
+*Kuva Tonkor
+
+4 Ammo per Pick Up:
+
+*Tenet Envoy
+
+5 Ammo per Pick Up: 
+
+*Carmine Penta 
+*Penta
+*Secura Penta
+*Ogris
+
+9 Ammo per Pick Up:
+
+*Zarr
+
+10 Ammo per Pick Up: 
+
+*Torid
+
+15 Ammo per Pick Up: 
+
+*Arca Plasmor
+*Catchmoon (Primary) 
+*Cedo
+*Cernos
+*Cernos Prime
+*Corinth
+*Corinth Prime
+*Daikyu
+*Dread
+*Drakgoon
+*Exergis
+*Felarx
+*Hek
+*Komorex
+*Kuva Chakkhurr
+*Kuva Drakgoon
+*Kuva Hek
+*Lanka
+*MK1-Paris
+*MK1-Strun
+*Mutalist Cernos
+*Paris
+*Paris Prime
+*Phantasma
+*Rakta Cernos
+*Rubico
+*Rubico Prime
+*Sancti Tigris
+*Simulor
+*Sporothrix
+*Sporelacer (Primary) 
+*Snipetron
+*Snipetron Vandal
+*Sobek
+*Synoid Simulor
+*Strun
+*Strun Prime
+*Strun Wraith
+*Tenet Arca Plasmor
+*Tigris
+*Tigris Prime
+*Vaykor Hek
+*Vectis
+*Vectis Prime
+*Vulkar
+*Vulkar Wraith
+
+20 Ammo per Pick Up: 
+
+*Tombfinger (Primary) 
+
+40 Ammo per Pick Up:
+
+*Acceltra
+*Aeolak
+*Alternox
+*Astilla
+*Astilla Prime
+*Boar
+*Boar Prime
+*Gaze (Primary) 
+*Ignis
+*Ignis Wraith
+*Kohm
+*Kuva Kohm
+*Miter
+*Opticor
+*Opticor Vandal
+*Stahlta
+*Tenet Tetra
+*Vermisplicer (Primary) 
+
+60 Ammo per Pick up: 
+
+*Amprex
+*Javlok
+*Scourge
+*Scourge Prime
+*Trumna
+*Zhuge Prime
+
+'''Primary Weapons with Ammo Regen Rates Overrides:'''
+
+*Basmu: From 42/s to 10.5/s
+*Bubonico: From 9/s to 4.5/s
+*Flux Rifle: From 40/s to 24/s
+*Fulmin: From 30/s to 20/s
+*Shedu: From 28/s to 3.5/s
+
+'''Secondary Weapon Ammo Pick up Overrides:'''
+
+3 Ammo per Pick Up: 
+
+*Angstrum
+*Prisma Angstrum
+*Kulstar
+
+4 Ammo per Pick Up: 
+
+*Castanas
+*Sancti Castanas
+*Pox
+*Talons
+
+5 Ammo per Pick Up: 
+
+*Akarius
+
+9 Ammo per Pick Up:
+
+*Kuva Seer
+
+20 Ammo per Pick Up: 
+
+*Akbronco
+*Akbronco Prime
+*Atomos
+*Brakk 
+*Bronco
+*Bronco Prime
+*Catabolyst
+*Catchmoon (Secondary) 
+*Cyanex
+*Detron 
+*Epitaph
+*Euphona Prime
+*Gaze (Secondary) 
+*Kohmak
+*Twin Kohmak
+*Kompressa
+*Kuva Nukor 
+*Kuva Brakk
+*Mara Detron
+*Nukor
+*Pyrana 
+*Pyrana Prime
+*Sepulcrum
+*Sporelacer (Secondary) 
+*Sonicor
+*Staticor
+*Tenet Detron
+*Tombfinger (Secondary) 
+*Twin Rogga
+*Vermisplicer (Secondary) 
+*Zakti
+*Zakti Prime
+*Zymos
+
+'''Many weapons have also had their maximum ammo capacity adjusted.'''
+
+Primary Weapons:
+
+*Arca Plasmor: From 48 to 50 
+*Corinth: From 132 to 135
+*Gaze (Primary): From 400 to 200 
+*Kuva Zarr: From 15 to 5
+*Kuva Ogris: From 30 to 7
+*Kuva Tonkor: From 60 to 11 
+*Miter: From 72 to 80
+*Proboscis Cernos: From 9 to 7
+*Sporelacer (Primary): From 130 to 60 
+*Tenet Envoy: From 24 to 16 
+*Tombfinger (Primary): From 540 to 120
+*Vermisplicer (Primary): From 226 to 90 
+*Zarr: From 84 to 60 
+
+Secondary Weapons: 
+*Epitaph: From 60 to 40 
+*Gaze (Secondary): From 400 to 200 
+*Vermisplicer (Secondary): From 226 to 90
+
+Secondary Weapons with Ammo Regen Rates Overrides: 
+
+*Cycron: From 40/s to 20/s 
+*Tenet Cycron: From 40/s to 20/s
+
+'''We also reduced the frequency of ammo drops from enemies and made them scale with squad size.'''
+
+*Used to drop from 70% of regular enemies and 80% of Open World enemies, now they drop less frequently, with smaller squads getting more drops
+**1p squad {{eql}} 45%, or 60% in Open Worlds
+**2p squad {{eql}} 37.5%, or 52.5% in Open World
+**3p squad {{eql}} 30%, or 45% in Open Worlds
+**4p squad {{eql}} 22.5%, or 37.5% in Open Worlds
+
+On average you’ll be getting Ammo drops half as often, but most weapons with the aforementioned increase of pickup values receive twice as much. 
+
+Eximus will now have a guaranteed drop of either Primary OR Secondary Ammo in addition to existing base enemy ammo drops.
+
+*Increased the chance of a Riven Sliver dropping from Eximus Units.
+**Steel Path Eximus: changed from 1% to 2% drop chance
+**Regular Eximus: changed from 0.5% to 2% drop chance
+***Note that Riven Slivers still only have a chance to drop from Eximus level 30 and over  
+
+'''Made the following changes to Mods/Arcanes in light of the above ammo changes (stats shown at max rank):'''
+
+*Rifle Ammo Mutation: Now converts Secondary ammo pickups to 50% of Ammo Pick Up. 
+*Pistol Ammo Mutation: Now converts Primary ammo pickups to 50% of Ammo Pick Up. 
+*Shotgun Ammo Mutation: Now converts Secondary ammo pickups to 50% of Ammo Pick Up.
+*Sniper Ammo Mutation: Now converts Secondary ammo pickups to 50% of Ammo Pick Up. 
+*Primary/Secondary Merciless Arcane: Removed its +100% Ammo Maximum bonus. 
+*Vigilante Supplies Mod: Now converts Secondary ammo pickups to 30% of ammo pickup. 
+*Mirage’s Explosive Legerdemain Augment: Increased damage dealt from proximity mines created from Ammo and Orbs pickups from 500 to 1000. 
+
+Deployable Ammo Restores now restore 1x (for small), 2x (for medium), and 3x (for large) Primary and Secondary Ammo Pick up amounts every 15s for 60s.
+
+We’ll be keeping a close eye on how these ammo changes affect specific weapons’ performance and popularity. Expect more tweaks to these values in future updates!
+
+{{ver|25}}
+*Heavy Ammo now drops from Bombards, Heavy Gunners, Napalms, Corpus Tech, Fusion Moas, Oxium Ospreys, Ancients, Corrupted Ancients, and Corrupted Bombards.
+}}
+
+==References==
+{{Reflist}}
+
+==See Also==
+*[[Pickups]]
+*[[Squad Ammo Restore]]
+{{AmmoNav}}
+{{MechNav}}
+__NOTOC__
+[[es:Munición]]
+[[ru:Патроны]]
+[[fr:Munitions]]
+[[Category:Pickups]]
+[[Category:Mechanics]]
