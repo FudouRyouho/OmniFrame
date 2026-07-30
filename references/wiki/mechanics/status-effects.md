@@ -1,10 +1,10 @@
 # Status Effects (Procs)
 
 > Estado: activo
-> Rol: mecánicas de efectos de estado — aplicación, fórmulas de DoT, stacks de debuff, duración, CC
-> Fuente de verdad de: comportamiento de procs — aplicación por pellet, DoT, stacks de debuff, duración/ciclo de vida, CC
+> Rol: mecánicas de efectos de estado — aplicación y reparto, los status sin tipo de daño, fórmulas de DoT, stacks, duración, CC, y las tres defensas
+> Fuente de verdad de: comportamiento de procs — aplicación por pellet, **re-normalización del reparto por inmunidad del enemigo**, los **status independientes del daño** (y cuáles cuentan para CO), DoT, stacks, duración/ciclo de vida, CC, **Status Damage como stat**, y la partición inmunidad / cleansing / resistencia
 > No usar para: elección del tipo de proc por peso de daño — ver `damage-types.md` §Regla de elección de proc
-> Última actualización: 2026-07-15
+> Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Status_Effect
 > Fuente actualizada: 2026-07-02
 > Raw: status-effect.wikitext
@@ -20,24 +20,68 @@ Un **efecto de estado** (proc) es independiente del tipo de daño que lo activa.
 
 ## Tabla de tipos → procs
 
-| Tipo de daño | Proc | Categoría |
+| Tipo de daño | Proc | Interno | Categoría |
+|---|---|---|---|
+| `impact` | **Knockback** | `PT_KNOCKBACK` | CC |
+| `puncture` | Weakened | `PT_FRAILTY` | Debuff |
+| `slash` | Bleed | `PT_BLEEDING` | DoT |
+| `heat` | Ignite | `PT_IMMOLATION` | DoT + Debuff |
+| `cold` | Freeze | `PT_CHILLED` | CC |
+| `electricity` | Tesla Chain | `PT_ELECTROCUTION` | DoT (AoE) + CC |
+| `toxin` | Poison | `PT_POISONED` | DoT |
+| `blast` | **Detonate** | `PT_FLASHBANG` | DoT + AoE |
+| `corrosive` | Corrosion | `PT_CAUSTIC_BURN` | Stack Debuff |
+| `gas` | Gas Cloud | `PT_ASPHYXIATION` | DoT (AoE) |
+| `magnetic` | **Disrupt** | `PT_MAGNETIZED` | Stack Debuff |
+| `radiation` | Confusion | `PT_RAD_TOX` | CC |
+| `viral` | **Virus** | `PT_INFECTED` | Stack Debuff |
+| `void` | Bullet Attract | `PT_RADIANT` | CC |
+| `tau` | Status Vulnerability | — | Debuff |
+| `true` | — | — | — |
+
+> **Los nombres de la columna `Proc` son los visibles; los `PT_*` son los internos.** Una versión
+> anterior de esta tabla traducía los códigos —*Infection*, *Disruption*, *Detonation*— en vez de
+> usar los nombres reales. `Damage` y `Status_Effect` coinciden en los tres.
+
+**Un hit proca un solo tipo de daño**, salvo con status chance > 100% (ver abajo).
+
+---
+
+## Status que NO vienen de un tipo de daño
+
+> La wiki marca esta sección con **`{{Community}}`** y **`{{UpdateMe|Hidden status effects need more
+> research}}`**. Varias entradas llevan signo de interrogación de sus propios autores.
+
+Existen en paralelo a la tabla de arriba: los aplican armas, habilidades o mecánicas, **sin pasar por
+la distribución de daño**.
+
+| Status | Interno | Qué hace |
 |---|---|---|
-| `impact` | Stagger | CC |
-| `puncture` | Weakened | Debuff |
-| `slash` | Bleed | DoT |
-| `heat` | Ignite | DoT + Debuff |
-| `cold` | Freeze | CC |
-| `electricity` | Tesla Chain | CC |
-| `toxin` | Poison | DoT |
-| `blast` | Detonation | CC |
-| `corrosive` | Corrosion | Stack Debuff |
-| `gas` | Gas Cloud | DoT (AoE) |
-| `magnetic` | Disruption | Stack Debuff |
-| `radiation` | Confusion | CC |
-| `viral` | Infection | Stack Debuff |
-| `void` | Bullet Attraction | CC |
-| `tau` | Tau | Debuff |
-| `true` | — | — |
+| **Stagger** | `PT_STAGGERED` | *"Universal: players and enemies get staggered for a brief moment"* |
+| **Big Stagger** | `PT_BIG_STAGGER` | stagger más largo. Opticor, Opticor Vandal, Vulkar, Vulkar Wraith — y el techo de **5+ stacks de Impact** |
+| **Knockdown** | `PT_KNOCKED_DOWN` | jugadores y enemigos caen al suelo |
+| **Lifted** | `PT_LIFT_HIT` | suspende brevemente en el aire |
+| **Ragdoll** | `PT_RAGDOLL` | lanza el cuerpo por el aire, incapacitando |
+| **Microwave** | `PT_MICROWAVE_BURN` | agranda una parte del cuerpo al dispararle. **Duración infinita.** Exclusivo de **Nukor** y **Kuva Nukor** |
+| **Stun** | `PT_STUNNED` | inmoviliza y bloquea disparo; en enemigo, **abre a finishers de melee 3 s** |
+| **Sleep** | `PT_SLEEP` | duerme al enemigo temporalmente |
+| **Silence** | `PT_SILENCED` | desactiva habilidades activas e impide castear |
+| **Slow** | `PT_GLUE` | *(la wiki no lo describe)* |
+| **Disarmed** | `PT_DISARMED` | desarma al objetivo. Halikar y Halikar Wraith *(la wiki duda)* |
+| **Parried** | `PT_PARRIED` | abre a finishers *(la wiki duda; ¿vía Parry?)* |
+| **Impair** | `PT_ROOTS` | **sólo Conclave** — bloquea saltos y baja velocidad **2 s**; después, 2 s de inmunidad a lo mismo y a knockdowns |
+| ? | `PT_VOID` | sin describir |
+
+> ### Tres de ellos cuentan para Condition Overload
+>
+> **Knockdown, Lifted y Microwave** cuentan como *"individual status"* para **Condition Overload,
+> Galvanized Aptitude, Galvanized Savvy y Galvanized Shot** — la wiki lo declara **en la fila de cada
+> uno**, y `Condition Overload (Mechanic)` lo repite en su propia lista. Dos páginas coincidiendo.
+>
+> **Microwave es el caso extremo:** duración **infinita** y exclusivo de la familia Nukor — un stack
+> permanente para el multiplicador de CO.
+>
+> Lifted y Knockdown **no pueden coexistir** en el mismo objetivo (→ [`condition-overload.md`](condition-overload.md)).
 
 ---
 
@@ -89,6 +133,43 @@ Un **efecto de estado** (proc) es independiente del tipo de daño que lo activa.
 - ⚠️ **Era**: el peso ×4 de los físicos (Impact/Puncture/Slash) de Damage 2.0 **ya no existe**
   en la página actual — fuentes viejas que lo citen están desactualizadas.
 
+### La inmunidad del enemigo re-normaliza el reparto
+
+> *"Proc type chances are **not altered by enemy resistances or weaknesses** to the damage components
+> used in their computation; however, **they are modified by enemy status immunities**. When an attack
+> procs a status effect on an enemy which is immune to a particular proc type, **the respective damage
+> type is excluded from proc type chance calculations**."*
+
+O sea: la resistencia al **daño** no toca el reparto de procs; la inmunidad al **status** sí — saca ese
+tipo del denominador y reparte su peso entre los demás. Ejemplo de la wiki (20 Impact / 5 Puncture /
+10 Slash / 25 Heat / 50 Corrosive):
+
+| | Impact | Puncture | Slash | Heat | Corrosive |
+|---|---|---|---|---|---|
+| normal | 18.18% | 4.55% | 9.09% | 22.73% | 45.45% |
+| **inmune a Corrosion** | **33.33%** | **8.33%** | **16.67%** | **41.67%** | **N/A** |
+
+El 45.45% del Corrosive no se pierde: **se redistribuye**. Contra un enemigo inmune a un status, el
+resto de los tipos proca *más*, no igual.
+
+### Lo que NO cambia con el daño
+
+**Subir el daño de un tipo no alarga su proc.** Más Radiation no confunde por más tiempo — sólo
+aumenta la probabilidad de que salga Confusion.
+
+### Armas continuas
+
+> *"Despite Continuous Weapons firing only one beam after adding multishot (with damage instances
+> merged), it will **still proc status effects as if more than one projectile was visually present**."*
+
+El multishot beneficia el status de las continuas **como en cualquier otra arma**, aunque el daño se
+fusione en un solo tick (→ [`multishot.md`](multishot.md)).
+
+### Forced procs — la interacción con Tornado
+
+Los forced procs **no se aplican a los enemigos atrapados en los Tornados de Zephyr**: se aplican **al
+tornado**, que después proca sobre los enemigos el status con el que quedó afectado.
+
 ---
 
 ## Duración y ciclo de vida
@@ -110,10 +191,21 @@ Un **efecto de estado** (proc) es independiente del tipo de daño que lo activa.
 | Blast | 1.5 s de fusa por stack | subpágina (rework) |
 
 - Más duración = más ticks = más daño total en DoTs (los ticks son 1/s).
-- **Conteo de ticks — inconsistencia entre subpáginas, capturada literal (no unificar):**
-  Slash y Toxin: delay 1 s → ticks en s1..s6 = **6 ticks**. Gas: la tabla de su subpágina
-  muestra ticks en s0..s6 = **7 ticks** (el cloud tickea al instante). Heat: tick/s por 6 s
-  tras 1 s de delay. (La versión previa de este doc decía "7 ticks en 6s" para todos — corregido.)
+- **Conteo de ticks — la página general y las subpáginas no coinciden. Capturado literal, sin
+  unificar.** `Status_Effect` publica esta tabla, donde **todos dan 6 ticks** y lo que cambia es
+  *dónde caen*:
+
+  | Time from proc | 0s | 1s | 2s | 3s | 4s | 5s | 6s |
+  |---|---|---|---|---|---|---|---|
+  | Slash · Heat · Toxin | ❌ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+  | Electricity · Gas | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ❌ |
+
+  > *"**Area of effect** statuses (Electricity y Gas) **siempre empiezan a hacer daño en el momento**
+  > en que se procan, mientras que los de **objetivo único** (Slash, Heat, Toxin) tienen **1 segundo
+  > de retardo**."*
+
+  **Pero la subpágina `Damage/Gas_Damage` muestra ticks en s0..s6 = 7 ticks.** Un tick de diferencia
+  sobre la misma mecánica, entre la página general y la de su tipo. No se elige ganador acá.
 - **Status Duration (mods):** documentado por subpágina solo en: **Blast** (la fusa escala;
   excepción: la detonación ocurre igual aunque la duración total sea <0%), **Heat** (alarga
   los *intervalos* del ramp de armor strip — +100% duración = strip cada 1 s en vez de 0.5 s),
@@ -294,7 +386,7 @@ effective_armor  = base_armor × (1 − armor_strip(n))
   Contraste explícito con **Heat**, que sí tiene una rampa real por tiempo ("regains armor
   every 1.5s during 6s") porque consolida sus stacks en un pool compartido, no independiente.
 
-### Infection (Viral)
+### Virus (Viral)
 
 Multiplica el daño recibido en la capa de salud (health layer únicamente, no shields ni overguard).
 
@@ -335,7 +427,7 @@ multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
   usuario cita el caso real de escopetas + Corrosive metiendo hasta 10 stacks de un solo
   disparo (multishot con cada pellet como proc independiente).
 
-### Disruption (Magnetic)
+### Disrupt (Magnetic)
 
 Multiplica el daño recibido en la capa de shields (y Overguard). Misma fórmula de stacks
 que Infection (`2 + 0.25 × (n − 1)` → ×3.25 a 10 stacks).
@@ -388,8 +480,8 @@ Status Duration alarga los *intervalos* del ramp (+100% duración → strip cada
 
 | Proc | Tipo fuente | Efecto |
 |---|---|---|
-| Stagger | Impact | Flinch/recoil del enemigo (6 s, cap 5). Contra unidades pesadas: **+8% por proc al threshold de Parazon Mercy** (hasta 80%; 100% en Corpus/Eximus sin shields). Muerte por proc de Impact = ragdoll del cadáver. Inmunes: Ospreys, Bosses, Tenno. |
-| Detonation | Blast | Rework: cada stack = carga que explota tras 1.5 s de fusa haciendo **30% del base damage**; al 10º stack **o al morir el target**, todas detonan juntas: **300% del base damage por stack (máx. 3000%) en 5 m** + stagger a los alcanzados. La fusa escala con Status Duration (y detona incluso con duración total <0%). |
+| **Knockback** | Impact | Flinch/recoil del enemigo (6 s, cap 5). Contra unidades pesadas: **+8% por proc al threshold de Parazon Mercy** (hasta 80%; 100% en Corpus/Eximus sin shields). Muerte por proc de Impact = ragdoll del cadáver. Inmunes: Ospreys, Bosses, Tenno. |
+| **Detonate** | Blast | Rework: cada stack = carga que explota tras 1.5 s de fusa haciendo **30% del base damage**; al 10º stack **o al morir el target**, todas detonan juntas: **300% del base damage por stack (máx. 3000%) en 5 m** + stagger a los alcanzados. La fusa escala con Status Duration (y detona incluso con duración total <0%). |
 | Confusion | Radiation | El confundido ataca a sus aliados con **+100% de daño** (1er stack), **+50% por stack → +550% a 10**; slam attacks contra ex-aliados pasan de Knockdown a **Ragdoll**; al expirar, vuelve a su facción. 12 s, timer propio por stack. |
 | Bullet Attraction | Void | Campo de **2.5 m** por **3 s** centrado en el punto de impacto que atrae los proyectiles al target. El daño Void además **resetea la damage adaptation de los Sentients**. |
 | Tesla Chain / stun | Electricity | Ver §Electricity DoT — el stun (~3 s, fijo, solo target original) es la faceta CC. |
@@ -398,6 +490,78 @@ Status Duration alarga los *intervalos* del ramp (+100% duración → strip cada
 > Nota de modelado: varios de estos "CC" cargan facetas numéricas (Mercy threshold,
 > Confusion +550%, Blast 3000%) — la clasificación fina faceta-por-faceta es trabajo
 > de las fichas, no de esta captura.
+
+---
+
+## Status Damage — el stat, no el efecto
+
+**Status Damage** es *cualquier daño que llega por un tick de status*: **Slash, Heat, Toxin,
+Electricity, Gas — y Blast**.
+
+> **Los bonus de Status Damage son multiplicativos con los demás bonus de daño, y aditivos entre
+> sí.**
+>
+> - **Multiplicativo** con multiplicadores de facción: Bane of Grineer, Roar.
+> - **Aditivo** con otros de Status Damage: Emerald Archon Shard suma con los mods Elementalist.
+
+Fuentes: los cinco **Elementalist** (Galvanized, Melee, Pistol, Rifle, Shotgun) · Burning Hate ·
+Empowered Blades · Immunity Resistance · Boreal's Contempt · Conductive Sphere · Emerald Archon Shard
+· Ash.
+
+Tres son **de un solo tipo**: Emerald Archon Shard sólo **Toxin**, Ash sólo **Slash**, Conductive
+Sphere sólo **Electricity**.
+
+Los DoT **también reciben** los modificadores de headshot y de crítico
+(→ [`enemy-body-parts.md`](enemy-body-parts.md), [`critical-hits.md`](critical-hits.md)).
+
+---
+
+## Duración negativa — qué se anula y qué no
+
+Con Rivens se puede bajar la Status Duration **por debajo de −100%**. Entonces *"todos los efectos de
+proc que tienen duración o hacen daño en el tiempo quedan anulados; los procs instantáneos, o los que
+hacen daño instantáneo, ocurren igual"*.
+
+| Tipo | Se anula | Ocurre igual |
+|---|---|---|
+| Impact · Puncture · Slash · Cold · Toxin · Corrosive · Radiation | el proc entero | — |
+| **Electricity** | el stun | **Tesla Chain** |
+| **Heat** | Ignite | la **animación de pánico** (sin llama) |
+| **Blast** | — | el daño de expiración; **la explosión sólo si el hit que lo aplicó mata** |
+| **Gas** | la nube de Toxin | — |
+| **Magnetic** · **Viral** | el daño extra a escudos / salud | sólo los **efectos visuales** |
+
+> ⚠️ La wiki declara que esta tabla sale de **un post de foro** (EDFScout) y *"may need further
+> confirmation"*, y que ella misma ajustó las observaciones inconsistentes *"a lo más probable"*. Es
+> el bloque menos asentado de la página.
+
+---
+
+## Tres defensas distintas contra el status
+
+La wiki las separa en tres secciones, y **hacen cosas distintas**:
+
+| Mecánica | Qué hace |
+|---|---|
+| **Status Immunity** | **impide que se apliquen nuevos** status — pero **no remueve los que ya están activos** |
+| **Status Cleansing** | **remueve** los status activos |
+| **Status Resistance** | da un **porcentaje de chance de ignorar** un proc entrante |
+
+**Invulnerability y Overguard también protegen contra status** — cualquier cantidad de Overguard
+otorga inmunidad (→ [`overguard.md`](overguard.md)).
+
+Fuentes de **cleansing**: Bloodletting (Garuda), Pillage (Hildryn), Fire Walker (Nezha), Hallowed
+Ground (Oberon), Disometric Guard (Qorvex), Reave (Revenant), Molt (Saryn), Spellbind (Titania),
+Cloud Walker y Defy (Wukong).
+
+**Del lado enemigo**, la wiki separa **inmunidad total** de **inmunidad parcial** — la sección lleva
+`{{UpdateMe}}` y el catálogo está en el raw. La inmunidad parcial es la que dispara la
+re-normalización del reparto de procs descrita arriba.
+
+### Status Vulnerability
+
+El espejo: **aumenta el status chance recibido** de todas las demás fuentes, y **stackea con ellas**.
+Es lo que aplica el proc de Tau (+10% por stack, hasta +100% a 10 stacks).
 
 ---
 
