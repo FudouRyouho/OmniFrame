@@ -33,31 +33,27 @@
 - `https://wiki.warframe.com/w/Condition_Overload_(Mechanic)`
 - `https://wiki.warframe.com/w/Status_Effect`
 
-## Damage types
+## Damage types — el corte por familia, ya ejecutado
 
-### Página general
+La taxonomía general vive en `damage-types.md` (página `Damage`). El **detalle por tipo** vive en
+cuatro documentos por familia, capturados el 2026-07-30 desde las subpáginas `Damage/<Tipo>_Damage`:
 
-- `https://wiki.warframe.com/w/Damage`
+| Documento | Tipos |
+|---|---|
+| `damage-physical.md` | Impact · Puncture · Slash |
+| `damage-elemental-primary.md` | Heat · Cold · Electricity · Toxin |
+| `damage-elemental-combined.md` | Blast · Corrosive · Gas · Magnetic · Radiation · Viral |
+| `damage-unique.md` | Cinematic · True · Void · Tau · Shield Drain · Energy Drain |
 
-### Ejemplos verificados de páginas por tipo
+Dos cosas que hay que saber al volver acá:
 
-- `https://wiki.warframe.com/w/Damage_2.0/Heat_Damage`
-- `https://wiki.warframe.com/w/Damage_2.0/Corrosive_Damage`
-- `https://wiki.warframe.com/w/Damage_2.0/Tau_Damage`
+- **`Damage/Sentient Damage` es un redirect a `Damage/Tau Damage`** — son 19 páginas, no 20.
+- **Las subpáginas viejas `Damage_2.0/<Tipo>_Damage` ya no son la ruta vigente.** El prefijo actual
+  es `Damage/`.
 
-### Nota de extracción futura
-
-Cuando toque documentar physical, elemental primario, elemental secundario o special,
-conviene crear documentos separados por familia:
-
-- physical: impact, puncture, slash
-- elemental primario: heat, cold, electricity, toxin
-- elemental secundario: blast, corrosive, gas, magnetic, radiation, viral
-- special: tau, true, void
-
-## Candidatos iniciales
-
-- `damage-types.md`
+Las **21 subpáginas de facción/entidad** (`Damage/Grineer`, `Damage/Proto Shield`, `Damage/Narmer`…)
+**no** están capturadas: son la fuente per-facción de la matriz que `enemy-resistances.md` ya
+resolvió por `Damage/Overview_Table`. Decisión pendiente, no urgente.
 - `critical-hits.md`
 - `multishot.md`
 - `condition-overload.md`

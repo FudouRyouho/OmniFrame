@@ -1,0 +1,175 @@
+{{Infobox
+| Box title = Corrosive Damage
+| image     = EssentialCorrosiveGlyph.png
+| Row 1 title = Icon
+| Row 1 info  = [[File:Corrosive_b.png|class=icon]] [[File:Corrosive_w.png|class=icon]]
+}}{{for|the aura mod|Corrosive Projection}}
+{{Quote|'''DAMAGE EFFICACY'''<br/>
+'''{{text|green|x1.5}}''' damage to Grineer<br/>
+'''{{text|green|x1.5}}''' damage to Kuva Grineer<br/>
+'''{{text|green|x1.5}}''' damage to Scaldra<br/>
+'''{{text|red|x0.5}}''' damage to Sentient
+
+'''STATUS EFFECT'''<br/>
+Created by combining {{D|Toxin}} and {{D|Electricity}} damage.
+
+{{D|Corrosive}} temporarily removes up to 80% of the target's armor value with multiple stacks.|In-game Description}}
+'''{{D|Corrosive}} Damage''' is one of the six secondary elemental damage types, composed of {{D|Toxin}} and {{D|Electricity}} damage. Deals increased damage to {{D|Grineer}}, {{D|Kuva Grineer}}, and {{D|Scaldra}}, but reduced damage against {{D|Sentient}}. Its [[Status Effect]] temporarily degrades enemy [[Armor]].
+
+==[[Status Effect]]s==
+===General===
+The status effect of {{D|Corrosive}} damage is '''Corrosion'''. It temporarily degrades the [[armor]] of the afflicted target by '''26%''' for '''8''' seconds. Subsequent procs further reduce armor by '''6%''', culminating in a total armor reduction of '''80%''' at '''10''' stacks, with each stack having its own duration. Any stacks applied after the 10th will replace the oldest stack.
+
+{{Resource|Emerald Archon Shard}} can increase the maximum {{D|Corrosive}} status procs by '''+2''' ('''+3''' for {{Resource|Tauforged Emerald Archon Shard|Tauforged}}). Applying '''14''' stacks can fully remove all armor for the duration of the status.
+
+Against an enemy with capped armor, giving 90% [[Armor#Enemy Damage Reduction Formula|damage reduction]] (such as level 57 [[Heavy Gunner]]), one stack of '''Corrosion''' will give an effective damage increase of approximately '''x2.3''' (or '''+130%'''). Each subsequent stack will give a ranging incremental effective damage increase, starting at approximately '''+32%''', and ending at '''+56%'''. 10 stacks of '''Corrosion''' give an approximately '''x6''' (or '''+500%''') effective damage increase. In comparison to 10 stacks of '''Corrosion''', 14 stacks would give '''~x1.67''' relative effective damage increase.<ref>https://www.desmos.com/calculator/oqldvpbsuc</ref>
+
+{{WF|Hydroid}}'s [[Hydroid/Abilities#Passive|passive]] causes enemies damaged by him to be permanently more vulnerable to {{D|Corrosive}} status, with the first proc degrading '''50%''' of armor, allowing him to have '''100%''' armor reduction at 10 stacks. This vulnerability can come from any source of {{D|Corrosive}} procs, not just from Hydroid's weapons or abilities, as long as he has damaged the enemy.
+
+Enemies affected by a {{D|Corrosive}} proc will be covered in a faint green, electricity-like substance. Enemies killed while affected by a {{D|Corrosive}} proc will have their corpses partially corroded and dissolved.
+
+{{D|Corrosive}} status [[armor]] reduction is '''multiplicative''' with other armor reduction sources. This can be expressed as the following: <br/>
+{{MathText|Armor after reduction {{eql}} (1 - {{Tooltip|50%|Heat status max armor reduction of 50% after 2 seconds.}}) {{mul}} [1 - ({{Tooltip|20%|Innate Corrosive status armor reduction.}} + {{Tooltip|6%|Corrosive status armor reduction of 6% per stack.}} {{mul}} Number of Corrosive stacks)] {{mul}} (1 - {{Tooltip|18%|18% armor reduction from one max-rank Corrosive Projection.}} {{mul}} Number Corrosive Projections)}}
+
+{{CustomCollapsible|View  detailed examples|ARI|&nbsp;}}
+For example, a full 4-player squad with max-rank {{M|Corrosive Projection|Corrosive Projections}}, an active {{D|Heat}} proc, and max stacked {{D|Corrosive}} proc will result in an enemy's armor being reduced to:
+:{{Math| (1 - 50%) {{mul}} [1 - (20% + 6% {{mul}} 10)] {{mul}} (1 - 18% {{mul}} 4)|mt=y|p=y}}.
+
+If only one player has a max-rank {{M|Corrosive Projection}} with the above statuses, an enemy's armor would instead be reduced to:
+:{{Math| (1 - 50%) {{mul}} [1 - (20% + 6% {{mul}} 10)] {{mul}} (1 - 18%)|mt=y|p=y}}.
+
+An active {{D|Heat}} proc, and max stacked {{D|Corrosive}} proc ''without'' {{M|Corrosive Projection}} would result in an enemy's armor being reduced to:
+:{{Math| (1 - 50%) {{mul}} [1 - (20% + 6% {{mul}} 10)]|mt=y|p=y}}.
+
+Currently, the only non-[[Abilities|ability]] method to ''completely'' remove armor is to use {{M|Shattering Impact}}, {{M|Sharpened Claws}} or a [[dagger]] in tandem with {{M|Amalgam Argonak Metal Auger}}.
+{{CustomCollapsible/End}}
+
+===Railjack===
+{{D|Corrosive}} does not have a [[Railjack]] space counterpart and is thus not able to proc any status effect nor is it included in calculations for status proc weighting.
+
+==Corrosive Sources==
+{{Main|:Category:Corrosive Damage}}
+
+===Weapons===
+{{Main|:Category:Corrosive Damage Weapons}}
+{{DamageTypeTable|Corrosive}}
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+SanctiTigris.png|link=Sancti Tigris|{{Weapon|Sancti Tigris}} (Purity Effect)
+SanctiCastanas.png|link=Sancti Castanas|{{Weapon|Sancti Castanas}} (Purity Effect)
+GazalMachete.png|link=Gazal Machete|{{Weapon|Gazal Machete}}<br>(Added by {{M|Fatal Attraction}} bursts)
+</gallery>
+
+===Mods===
+{{#tag:tabber|Weapons = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+AcidShellsMod.png|link=Acid Shells|{{M|Acid Shells}}†
+BrightPurityMod.png|link=Bright Purity|{{M|Bright Purity}}
+DisarmingPurityMod.png|link=Disarming Purity|{{M|Disarming Purity}}
+LastingPurityMod.png|link=Lasting Purity|{{M|Lasting Purity}}
+WindsofPurityMod.png|link=Winds of Purity|{{M|Winds of Purity}}
+</gallery>
+†Denotes a source of corrosive damage that does not inflict the status effect on enemies.
+{{!}}-{{!}}
+Warframe =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArchonContinuityMod.png|link=Archon Continuity|{{M|Archon Continuity}}<br/> (On {{D|Toxin}} procs from abilities)
+</gallery>
+}}
+
+===Enemies===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+GrineerArtificer.png|link=Artificier|[[Artificer]] wielding the {{Weapon|Stug}}
+Juggernaut.png|link=Juggernaut|[[Juggernaut]]'s stomp attack creates a {{D|Corrosive}} web that spawns additional Infested
+ScytoRaknoid.png|link=Scyto Raknoid|[[Scyto Raknoid]]'s attacks, particularly its ability to launch a slowing web in front of it
+SlowInfestedMoa.png|link=Tar-Mutalist MOA|[[Tar-Mutalist MOA]] can launch puddles of {{D|Corrosive}} tar
+</gallery>
+
+===Abilities===
+{{#tag:tabber|Hydroid =
+{{#tag:tabber|
+Tempest Barrage =
+{{:Tempest Barrage}}
+{{!}}-{{!}}
+Tidal Surge =
+{{:Tidal Surge}}
+{{!}}-{{!}}
+Plunder =
+{{:Plunder}}
+{{!}}-{{!}}
+Tentacle Swarm =
+{{:Tentacle Swarm}}
+}}
+{{!}}-{{!}}
+Inaros =
+{{:Scarab Swarm}}
+{{!}}-{{!}}
+Revenant =
+{{:Danse Macabre}}
+Only applies {{D|Corrosive}} damage on [[armor]]ed enemies.
+{{!}}-{{!}}
+Saryn =
+{{:Spores}}
+}}
+
+==Additional Effects==
+Some mods add additional effects when a {{D|Corrosive}} occurs or dealing {{D|Corrosive}} damage.
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" captionalign="center">
+EmeraldArchonShard.png|link=Emerald Archon Shard|{{Resource|Emerald Archon Shard}}
+</gallery>
+
+==Notes==
+*If the final blow on an enemy dealt a corrosive proc the enemy will be dissolved by acid, causing their body to vanish after a couple seconds. This will cause {{A|Magnetize}} to stop pulling in more enemies but abilities like {{A|Desecrate}} may have time to loot the corpse. 
+
+==Tips==
+*{{D|Corrosive}} damage can be combined with {{D|Viral}} damage (when applicable) to create a deadly damage combo against enemies with armor, especially the [[Grineer]]. The reduction of armor will lessen the reduction of damage, while viral procs will increase damage dealt even further.
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+Screenshot_514.png|An enemy affected by a corrosive proc, the green electric like visuals can be seen, although faint
+Screenshot_513.png|Corrosive visual effects on death
+Screenshot_511.png|Corrosive visuals on a melee weapon
+CorrosiveOld.png|Old corrosive status icon.
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|42}}
+*Fixed Arcane Circumvent not fully stripping armor against enemies with Corrosive status.
+
+{{ver|36}}
+;Simplified Faction Resistances
+*Grineer: Vulnerable to '''Corrosive'''
+*Sentient:
+**Resistant to '''Corrosive'''
+*Kuva Grineer
+**Vulnerable to '''Corrosive'''
+
+{{ver|33.6}}
+*Fixed crash related to Corrosive procs.
+
+{{ver|33.5.3}}
+*Fixed crash related to Corrosive procs.
+
+{{ver|31.6}}
+*(Undocumented) Corrosive damage icon updated to match Essential Corrosive Glyph.
+
+{{ver|27.2}}
+*The first Corrosive Status Effect strips 26% Armor. Subsequent Corrosive Status Effects strip 6% more Armor, leading up to 80% Armor removal. Each Corrosive Status Effect lasts 8 seconds.
+**''Note: Corrosive was the '''only''' Status with infinite Duration and 100% Efficacy toward a defensive stat. This was necessary to some based on how Armor Scaled. We feel our rebalancing efforts need a differently behaving Corrosive to balance out all Status overall.''
+
+{{ver|11}}
+*Introduced.
+}}
+
+==See Also==
+*[[Purity]]
+
+{{DamageNav}}
+[[es:Daño Corrosivo]]
+[[fr:Dégâts/Dégâts Corrosif]]
+{{DISPLAYTITLE:Corrosive Damage}}
+[[Category:Corrosive Damage]]
+[[Category:Damage 3.0]]
+[[Category:Damage]]
+[[Category:Mechanics]]
+[[Category:Update 11]]
+[[Category:Armor Reduction]]

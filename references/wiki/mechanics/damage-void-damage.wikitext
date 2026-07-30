@@ -1,0 +1,97 @@
+{{Infobox
+| Box title = Void Damage
+| image     = EssentialVoidGlyph.png
+| Row 1 title = Icon
+| Row 1 info = [[File:VoidTearIcon_b.png|32px|class=icon]] [[File:VoidTearIcon_w.png|32px|class=icon]]
+}}
+{{Quote|'''DAMAGE EFFICACY'''<br/>
+'''{{text|green|x1.5}}''' damage to Zariman
+
+'''STATUS EFFECT'''<br/>
+Highly effective against enemies with Overguard Health and Sentients as it resets their damage adaptation.
+
+{{D|Void}} creates a bullet attractor sphere on the target that attracts and concentrates further attacks.|In-Game Description}}
+
+'''{{D|Void}} Damage''' is a special damage type that is almost exclusive to [[Operator]]s, their [[Amp]]s, and {{WF|Xaku}}. Deals increased damage to {{D|Overguard}} and {{D|Zariman}} Void manifestations, but is otherwise neutral to all other health types meaning its damage is neither increased or decreased against most targets. Its [[Status Effect]] creates a field on the target that attracts bullets.
+
+{{D|Void}} damage also provides unique advantages and uses, most notably against {{Faction|Sentient}} enemies (with the exception of Xaku's abilities):
+
+*Guarantees a stun against drone-type Sentients like [[Battalyst]]s and [[Conculyst]]s.
+*Nullifies any damage resistance developed by drone-type Sentients and the [[Shadow Stalker]].
+*Bypasses certain invulnerabilities possessed by [[Eidolon]]-type Sentient like the [[Eidolon Vomvalyst]], [[Eidolon Teralyst]], and the [[Ropalolyst]].
+*Destroy [[Kuva]] clouds in [[Kuva Siphon]] missions.
+*Force [[Profit-Taker Orb]]'s shields to adopt another damage type weakness.
+*Opens the [[Corpus Gas City#Secret Laboratories|Secret Laboratory]] doors in the [[Corpus Gas City]].
+*Activate a [[Cambion Drift#Requiem Obelisk|Requiem Obelisk]] in the [[Cambion Drift]].
+*Properly open an [[Isolation Vault]] in the Cambion Drift.
+**Restore [[Loid]] and [[Otak]]'s health.
+*Seal Void Rifts in [[Void Cascade]].
+*Kill the [[Thrax Centurion]]'s and [[Thrax Legatus]]' spectral forms.
+*Kill the [[Void Angel]]'s Ethereal form.
+
+==[[Status Effect]]s==
+The Status Effect of {{D|Void}} damage is '''Bullet Attractor''', which creates a small '''2.5''' meter radius field centered on where the target was shot for '''3''' seconds (e.g. proccing {{D|Void}} on the target's head creates the Bullet Attractor field centered on their head, proccing on their feet centers the field on their feet). Hit-scan bullets and projectiles that are shot into the field will be redirected towards the target.
+
+If the projectile has [[Punch Through]], the projectile will "orbit" in the field after hitting the main target, making them unlikely to hit the main target more than once. As such, the attractor is not as synergistic with Punch Through as the similar {{A|Magnetize}}, though tightly packed enemies can be damaged by the orbiting projectiles. If the status effect expires while projectiles are still in the field, they will shoot out in effectively random directions and might hit more enemies.
+
+Afflicted enemies will also have their own projectiles redirected, preventing them from properly shooting the player.
+
+==Void Sources==
+*{{D|Void}} damage can be found in the [[Operator]]'s Void powers, which include:
+**[[Void Beam]]/[[Amp]] (Operator attack)
+**[[Void Sling]]
+*{{D|Void}} damage is part of Warframe {{WF|Xaku}}'s Abilities:
+**{{A|Xata's Whisper}} ([[Helminth]] subsumable)
+**{{A|Grasp of Lohk}}
+**{{A|The Lost}} (Deny sub-ability)
+**{{A|The Vast Untime}}
+*{{M|Astral Bond}} allows [[Companion]]s to deal {{D|Void}} damage.
+*{{Resource|Nonono}}
+
+{{DamageTypeTable|Void}}
+
+==Notes==
+*{{D|Void}} damage is neither physical nor elemental; as such it receives no increases from {{Focus|Madurai}}'s {{Focus|Phoenix Talons}} and conversely it receives no penalties against resistances generated from [[Sortie]] conditions (Physical or Elemental Enhancements).
+*{{WF|Xaku}}'s {{D|Void}} damage is only capable of proccing its Bullet Attractor status and resetting Sentient resistances, and only {{A|Xata's Whisper}} and {{A|The Lost}}'s Deny can do this. It lacks all other benefits, including bypassing [[Eidolon]]-type Sentient invulnerabilities and changing [[Profit-Taker Orb]]'s shield weakness. However, all its abilities still deal bonus damage to {{D|Overguard}} and {{D|Zariman}}.
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+Screenshot_519.png|An enemy affected by a void proc
+</gallery>
+
+==Trivia==
+*{{D|Void}} damage was originally a placeholder type added in {{ver|18}}, before being formally named in {{ver|22}} with the inclusion of [[The Quills]] and [[Amp]]s.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|42}}
+*Added a new Void icon beside healthbars that require Void damage to destroy (ex: spectral versions of Vomvalysts, Eidolon shields, etc.).
+**We introduced this with Hunhullus’ vulnerability to Void damage in The Old Peace and are now applying it to all other enemies and bosses.
+
+{{ver|36}}
+*Added a Void Damage tooltip in the Operator stats UI to show its efficacy stat and Status Effect description. 
+**Now reads: “Damage Efficacy: X damage to Zariman.
+**:Status Effect: Highly effective against enemies with Overguard Health and Sentients as it resets their damage adaptation. Void creates a bullet attractor sphere on the target that attracts and concentrates further attacks.”.
+
+{{ver|29.5}}
+*Void damage’s Status Effect will now redirect projectiles to the body part it proc’d on. 
+**'''How it will work:''' If you shoot at an enemy’s head with Xata’s Whisper enabled and proc, the bubble will redirect all projectiles to the head. If you shoot at the feet, it’ll be redirected to the feet, etc.! It is however possible that even if you proc on the head but then shoot at the lower part of the bubble it might hit the body on the way up to being redirected to the head.
+**This is a game wide change to Void Status Effect! Now that we have a Warframe that can harness Void damage at the click of a button, it has brought much focus to and discussion around its Status Effect. For those of you who are unfamiliar, in its current state it creates a bullet attractor bubble that directs all projectiles to the center of the enemy’s torso regardless of where it procs. Since Xata’s Whisper applies Void damage to all of their weapons, it was increasingly noticeable to Xaku players that the bubble’s '''current redirecting position prevents any attempt at enemy headshots until its duration expires.''' This is one of the main reasons for this change. Headshot disruption ultimately limits your damage output by removing the opportunity for headshot multipliers while it is active. Now, you will be able to use your headshotting skills to greater benefit, while also having generally more options to focus projectiles where desired. Note that regardless of where the Status Effect occurs, it will continue to prevent enemies from being able to shoot at you without having their projectiles redirected back to the center of the bubble. 
+
+{{ver|29.1}}
+*We are making Void damage ‘True Neutral’ by removing the 50% resistance of Void damage on Cloned Flesh and Fossilized enemies - a long desired request for Void damage.
+**Currently, Void damage is relatively ineffective against Cloned Flesh and Fossilized enemies which greatly limits the use of Xata’s Whisper on Grineer and Infested enemies. In an effort to give it (and Void damage in general) more utility across enemy categories, we are removing this resistance so that it aligns with its neutral effectiveness against the other enemy types. It is important to note that Eidolons, Amalgams, and certain bosses will still maintain this resistance.
+
+{{ver|22}}
+*Introduced.
+}}
+{{DamageNav}}
+
+[[es:Daño Vacío]]
+{{DISPLAYTITLE:Void Damage}}
+[[Category:Operator]]
+[[Category:Update 22]]
+[[Category:Mechanics]]
+[[Category:Damage 3.0]]
+[[Category:Damage]]
+[[fr:Dégâts Néant]]
