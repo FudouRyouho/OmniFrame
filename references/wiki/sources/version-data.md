@@ -1,6 +1,7 @@
 # Module:Version/data — Catálogo de versiones del juego
 
 > Fuente: `https://wiki.warframe.com/w/Module:Version/data?action=raw`
+> Fuente actualizada: 2026-07-17
 > Extraído: 2026-07-30
 > Archivo raw: `version-data.lua`
 > Raw: version-data.lua

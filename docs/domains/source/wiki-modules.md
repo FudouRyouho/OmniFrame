@@ -1,6 +1,6 @@
 ---
 Estado: "referencia"
-Rol: "Los módulos Lua de la wiki como fuente de datos ajena — qué ofrecen, qué de eso el proyecto usa y qué no"
+Rol: "Los módulos Lua de la wiki como fuente ajena — cuáles siguen vivos, cuáles están congelados, y qué se puede apoyar en cada uno"
 Impacto_ID: "S-WikiMod"
 Fidelidad_Fisica: "references/wiki/sources/"
 Fecha_de_creacion: "2026-07-31"
@@ -9,45 +9,56 @@ Fecha_de_actualizacion: "2026-07-31"
 
 # Módulos Lua de la wiki
 
-La wiki publica sus datos en módulos Lua consultables. Están capturados en
-`references/wiki/sources/*.lua`, cada uno con su `.md` describiendo la **estructura del módulo**.
-Este documento es la contraparte: **qué nos ofrecen como fuente**, y qué de eso consumimos.
+La wiki publica datos en módulos Lua consultables, capturados en `references/wiki/sources/*.lua`.
+Cada uno tiene su `.md` al lado describiendo **la estructura del módulo**; este documento describe
+**la decisión sobre el módulo** — qué confianza merece y qué se apoya en él.
 
-> El `.md` de `references/` describe el módulo. Este describe **la decisión sobre el módulo**. Esa
-> es la línea: allá el dato, acá el criterio.
+## Lo primero: la mitad están muertos
+
+**Un módulo que "se actualiza" como familia no dice nada sobre si *ese* módulo se actualizó.** Medido
+contra `prop=revisions` de la API:
+
+| Módulo | Última edición | |
+|---|---|---|
+| `Maximization/data` | **2021-12-07** — y el contenido, 2021-05-15 | 🔴 **congelado** |
+| `Ability/data/stats` | **2022-07-01** | 🔴 **congelado** |
+| `TextIcons` | 2026-05-26 | 🟢 vivo |
+| `DamageTypes/data` | 2026-07-04 | 🟢 vivo |
+| `Version/data` | 2026-07-17 | 🟢 vivo |
+| `Mods/data` | 2026-07-21 | 🟢 vivo |
+
+**El corte no es aleatorio: los dos congelados son los de habilidades.** Los demás siguen mantenidos.
+
+Cuando `Maximization/data` dejó de tocarse, el juego estaba en **Hotfix 30.2.2**. Hoy va por
+**43.0.8**: **302 versiones publicadas después**, incluido el rework completo a Damage 3.0.
 
 ## Qué usamos, hoy
 
-**Casi nada — y es deliberado.** El proyecto no consume estos módulos en runtime: sus datos ya
-entran por el pipeline propio o están absorbidos en los schemas. Lo que sí se usa de la cosecha wiki
-son **imágenes** y la verificación manual contra la wiki local.
+**Casi nada, y es deliberado.** Ningún módulo se consume en runtime: sus datos entran por el
+pipeline propio o están absorbidos en los schemas. De la cosecha wiki se usan **imágenes** y la
+verificación manual contra la wiki local.
 
 | Módulo | Uso |
 |---|---|
-| `Maximization/data` | **candidato real** — ver abajo |
-| `Ability/data/stats` | ninguno · el schema de abilities cubre lo mismo con más profundidad |
+| `Ability/data/stats` | ninguno · el schema de abilities cubre lo mismo con más profundidad — **y además está congelado** |
 | `DamageTypes/data` | ninguno · absorbido en `semantic/` y en `references/wiki/mechanics/damage-types.md` |
 | `TextIcons` | ninguno · el render de `<DT_*>` lo resuelve la capa de presentación |
 | `Version/data` | resolver alias `{{ver|N}}` → fecha de parche, a mano |
+| `Maximization/data` | **pista, no fuente** — ver abajo |
 
-## `Module:Maximization/data` — el único con valor no absorbido
+## `Module:Maximization/data` — una pista de 2021, no un censo
 
-Es la **fuente de las fórmulas completas** de stats de habilidad, con todos sus modificadores — no
-sólo los valores base (eso es `Ability/data/stats`).
+Contiene las **fórmulas completas** de stats de habilidad (con sus modificadores), no sólo los
+valores base. Su forma:
 
-- Cada fórmula se evalúa **sustituyendo STR / DUR / RNG / EFF** del build.
-- `AUG = true` marca la entrada como de **augment**: exige el mod equipado.
-- El campo `Unit` define cómo se muestra el valor.
-- **Las fórmulas con `COMBO`, `HEALTH`, `SHIELDS`, `xARMOR`, `aARMOR` dependen de stats del warframe
+- cada fórmula se evalúa **sustituyendo STR / DUR / RNG / EFF** del build;
+- `AUG = true` marca la entrada como de **augment**;
+- el campo `Unit` define cómo se muestra el valor;
+- las fórmulas con `COMBO`, `HEALTH`, `SHIELDS`, `xARMOR`, `aARMOR` **dependen de stats del warframe
   o del estado de combate**, no sólo del build de mods.
 
-### Ese último punto responde parte de `OQ-ENGINE-24`
-
-Esa OQ está diferida esperando *"que del recorrido salga el conteo real de formas"* de derivación
-cross-stat. **El conteo no requiere recorrer warframes a mano: está en el módulo, y es chico.**
-
-En todo `maximization-data.lua`: **5 usos de `xARMOR`, 5 de `aARMOR`, 8 de `COMBO`, 1 de `HEALTH`,
-1 de `SHIELDS`**. Las fórmulas literales:
+Ese último punto es lo interesante para la derivación cross-stat de `OQ-ENGINE-24`. En todo el
+archivo hay **5 usos de `xARMOR`, 5 de `aARMOR`, 8 de `COMBO`, 1 de `HEALTH`, 1 de `SHIELDS`**:
 
 ```lua
 ATLAS   3750 + 5 * (450 * xARMOR * STR + aARMOR)                                      -- Health
@@ -58,18 +69,41 @@ NEZHA   (1000 + 2.5 * (190 * (1 + xARMOR) + aARMOR)) * STR                      
 RHINO   (1200 + (2.5 * ((190 + aARMOR) * (1 + xARMOR)) * (1 + existance(IRONCLAD_CHARGE)))) * STR
 ```
 
-Dos cosas que la tabla de `OQ-ENGINE-24` no tenía:
+### Qué se puede afirmar de esto, y qué no
 
-1. **Atlas no estaba catalogado** — y aporta tres entradas, una de ellas con una forma que no
-   aparece en ningún otro lado: `4 + HEALTH + SHIELDS + STR`, que lee **dos** capacity-stats como
-   términos aditivos de un multiplicador.
-2. **Rhino trae su augment dentro de la fórmula** (`existance(IRONCLAD_CHARGE)`), o sea que la
-   fuente ya modela el eje augment-condicional dentro de la misma expresión.
+> ⚠️ **Esto es un estado de 2021, no el estado del juego.** No sirve como censo de formas: sirve
+> como **lista de sospechosos a contrastar** contra la página de wiki de cada habilidad, que sí está
+> mantenida.
 
-> **Lo que esto NO dice.** Que las fórmulas sean legibles por máquina no las vuelve consumibles: son
-> strings Lua con su propio mini-lenguaje (`existance()`, nombres de mods embebidos). Sirven como
-> **censo y verificación**, no como fuente ejecutable. La decisión de mecanismo sigue siendo la de
-> `OQ-ENGINE-24`.
+**Corroborado por otra vía** — Iron Skin (Rhino), Snow Globe (Frost) y Warding Halo (Nezha) ya están
+en la tabla de `OQ-ENGINE-24`, verificados contra medición (`rhino.test.ts`) y contra las páginas
+vigentes. El módulo **coincide**, y esa coincidencia es lo que le da crédito: no al revés.
+
+**Sin corroborar — no asumir:**
+
+- **Atlas.** No estaba catalogado, y aporta tres entradas, una con una forma que no aparece en
+  ningún otro lado (`4 + HEALTH + SHIELDS + STR`, dos capacity-stats como términos aditivos). Pero
+  Atlas tuvo cambios de semi-exaltada que **el módulo nunca incorporó**. Tratarlo como caso nuevo
+  sin abrir su página de wiki sería construir sobre una fórmula de hace cinco años.
+- **Los augments.** `existance(IRONCLAD_CHARGE)` mete el augment dentro de la expresión. La wiki
+  modela los augments de forma irregular, así que la forma de esa entrada dice más del editor que
+  del juego. Verificar caso por caso, nunca por patrón.
+
+**Y aun corroborado, no es consumible:** son strings Lua con su propio mini-lenguaje (`existance()`,
+nombres de mods embebidos). Censo y verificación, no fuente ejecutable. La decisión de mecanismo
+sigue siendo la de `OQ-ENGINE-24`.
+
+## La exención que escondió todo esto
+
+`references/wiki/sources/` está **fuera del régimen de fechas** del corpus de wiki — no lleva
+`> Fuente actualizada:` y ninguna herramienta lo audita. Por eso nadie vio durante años que dos de
+sus módulos estaban muertos, y por eso se pudo escribir una página entera apoyada en uno de ellos
+antes de mirar su historial.
+
+El corpus **ya nombra esta patología** (`references/wiki/README.md` §Las tres fechas, "fuente
+estancada") pero no la mide en ningún lado. Traer `sources/` al régimen de fechas la volvería
+visible: la señal no es que la fuente se haya movido **después** de destilarla, sino que **no se
+mueve hace años**.
 
 ## Fuentes
 

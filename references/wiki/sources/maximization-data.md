@@ -1,6 +1,7 @@
 # Module:Maximization/data — Documentación extraída
 
 > Fuente: `https://wiki.warframe.com/w/Module:Maximization/data?action=raw`
+> Fuente actualizada: 2021-12-07  ← 🔴 CONGELADO — contenido de 2021-05-15, el juego iba por Hotfix 30.2.2
 > Extraído: 2026-03-20
 > Archivo raw: `maximization-data.lua`
 > Raw: maximization-data.lua

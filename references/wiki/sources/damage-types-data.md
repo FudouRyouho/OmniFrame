@@ -1,6 +1,7 @@
 # Module:DamageTypes/data — Documentación extraída
 
 > Fuente: `https://wiki.warframe.com/w/Module:DamageTypes/data?action=raw`
+> Fuente actualizada: 2026-07-04
 > Extraído: 2026-03-20
 > Archivo raw: `damage-types-data.lua`
 > Raw: damage-types-data.lua

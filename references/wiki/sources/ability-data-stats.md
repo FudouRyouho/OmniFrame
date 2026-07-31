@@ -1,6 +1,7 @@
 # Module:Ability/data/stats — Documentación extraída
 
 > Fuente: `https://wiki.warframe.com/w/Module:Ability/data/stats?action=raw`
+> Fuente actualizada: 2022-07-01  ← 🔴 CONGELADO
 > Extraído: 2026-03-20
 > Archivo raw: `ability-data-stats.lua` (175 KB / 7289 líneas)
 > Raw: ability-data-stats.lua

@@ -1,6 +1,7 @@
 # Module:TextIcons/data — Documentación extraída
 
 > Fuente: `https://wiki.warframe.com/w/Module:TextIcons/data?action=raw`
+> Fuente actualizada: 2026-05-26
 > Extraído: 2026-03-20
 > Archivos raw: `text-icons.lua` (renderer), `text-icons-data.lua` (datos)
 > Raw: text-icons-data.lua
