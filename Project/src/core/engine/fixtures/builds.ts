@@ -196,6 +196,8 @@ export function felarx(profile = 'base'): EnsembleIntention {
 
 export const BOLTOR_PRIME = '/Lotus/Weapons/Tenno/LongGuns/PrimeBoltor/PrimeBoltor';
 export const SERRATION    = '/Lotus/Upgrades/Mods/Rifle/WeaponDamageAmountMod';
+/** Heavy Caliber — +165% daño / −55% precisión. El mod emblemático del token `WEAPON_ADD_ACCURACY`. */
+export const HEAVY_CALIBER = '/Lotus/Upgrades/Mods/Rifle/DualStat/CorruptedDamageRecoilRifle';
 export const GALVANIZED_CHAMBER = '/Lotus/Upgrades/Mods/Rifle/WeaponFireIterationsSPMod'; // STACK_DECAY_BUFF (ladrillo #4)
 export const GALVANIZED_HELL = '/Lotus/Upgrades/Mods/Shotgun/WeaponFireIterationsSPMod'; // STACK_DECAY_BUFF (Cedo/Felarx)
 export const GALVANIZED_DIFFUSION = '/Lotus/Upgrades/Mods/Pistol/WeaponFireIterationsSPMod'; // STACK_DECAY_BUFF (Laetum)
@@ -234,6 +236,31 @@ export function soma(opts: { perks?: Record<number, string>; profile?: string } 
     items: {
       warframe:         { itemId: null, rank: 30, shards: [] },
       primary:          { itemId: SOMA_PRIME, rank: 30, active_profile: opts.profile ?? 'base', evolution_perks: opts.perks },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: null, rank: 30 },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: {},
+    environment: BASE_ENV,
+  };
+}
+
+// ─── Boar Prime (escopeta Incarnon — el par de dispersión más extremo del dataset) ─
+
+export const BOAR_PRIME = '/Lotus/Weapons/Tenno/Shotgun/PrimeBoar';
+
+/** Boar Prime, sin mods. Vehículo del contraste de dispersión: la escopeta abre {10, 30}
+ *  y su forma Incarnon no abre nada ({0, 0}) — dos extremos en la misma arma. */
+export function boar(profile = 'base'): EnsembleIntention {
+  return {
+    items: {
+      warframe:         { itemId: null, rank: 30, shards: [] },
+      primary:          { itemId: BOAR_PRIME, rank: 30, active_profile: profile },
       secondary:        { itemId: null, rank: 30 },
       melee:            { itemId: null, rank: 30 },
       companion:        { itemId: null, rank: 30 },

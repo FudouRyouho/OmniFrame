@@ -325,18 +325,30 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 - **(b) Dato base faltante** — de dónde sale el valor nato del arma (raw de `@wfcd/items`, override por-arma, o sintético). *Resuelta por molde.*
 - **(c) Resolución del ataque** — ¿el stat computa o es display-only? Es el **eje de fondo abierto**: los nodos computan valor en C1 (metros, m/s) pero su *efecto* es **C2** (geometría de penetración, falloff) — sin modelo todavía; `it.todo` en `lanka.test.ts`/`cedo-prime.test.ts`.
 
-**Qué hay:** 3 nodos materializados (2026-06-10), que fijan los **tres moldes de base reusables** para el resto de la capa — `punch_through` (override), `projectile_speed` (raw, gate `flight != null` = ausencia ≠ 0), `recoil` (sintético 100, nodo inerte). Detalle vivo de cada molde: [`gap-map.md §Capa 4`](../domains/engine/test/gap-map.md).
+**Qué hay:** 4 nodos materializados, que fijan los **cuatro moldes de base reusables** para el resto de la capa — `punch_through` (override), `projectile_speed` (raw, gate `flight != null` = ausencia ≠ 0), `recoil` (sintético 100, nodo inerte), `accuracy` (cascada par-de-ataque → escalar-de-arma → sin nodo). Detalle vivo de cada molde: [`gap-map.md §Capa 4`](../domains/engine/test/gap-map.md).
 **Qué falta:** el resto de los nodos (`zoom`, `ammo_max`/`ammo_efficiency`, `headshot_mult`, `combo_*`/`heavy_*`/`slam_*`) por su molde; `ammo` pausado (`ammo_max` = deuda de fuente, `@wfcd/items` no lo expone; `ammo_efficiency` = no encaja en los moldes, efecto `1/(1−eff)` es C2, espera caso Laetum); y sobre todo el **eje (c)/C2** — falloff, penetración, geometría balística — que decide si estos nodos son display-only o computan.
 
-**Caso vivo con consumidor real — `WEAPON_ADD_ACCURACY`:** dos perks incarnon lo emiten y **ninguno rinde**
-— `attuned_accuracy` (Felarx) y `hunters_mantra` (Boltor Prime). No es un hueco de dato: el raw trae
-`accuracy` en las dos armas (50 · 7.69), y `lib/format` ya tiene su presentación (`unit: '%'`). Falta sólo
-el nodo, o sea el molde (b) ya resuelto aplicado una vez más. Es el primer ítem de esta OQ que **un
-usuario nota**: el perk está equipado, cuesta una evolución, y no hace nada. Lo detecta el tripwire de
-modifiers sin aterrizar (`__tests__/unlanded-modifiers.test.ts`), que es lo que lo volvió visible.
+**`WEAPON_ADD_ACCURACY` — MATERIALIZADO, y con un molde (b) propio.** Las **32 fuentes** del stat
+rinden: 15 perks/arcanos que ya usaban el token, y 17 mods que hablaban `WEAPON_SPREAD` — misnomer
+DE-legacy que no estaba en `UPGRADES`, así que gritaban en hidratación y morían ahí. El rename fue
+puro: sus labels ya decían `% Accuracy` con el signo correcto (Heavy Caliber `−55`), o sea el token
+nombraba el mecanismo interno de DE, no un stat distinto. El caso obligó a un
+cuarto molde de base, distinto de los tres anteriores: **cascada de dos fuentes del mismo stat**, de
+la más fiel a la más pobre. La base sale del par `min_spread`/`max_spread` **por ataque** —
+`100 / ((min + max) / 2)`, cosechado de `Module:Weapons/data`— y sólo cae al escalar `accuracy` del
+arma cuando el par falta; sin ninguno, no hay nodo (ausencia ≠ 0).
+
+Por qué no alcanzaba el escalar: los dos consumidores son perks de **forma Incarnon**, y la forma
+tiene precisión propia que el promedio colapsado del export no puede expresar — Boltor Prime vale 50
+en su ataque normal y **10** en Incarnon. Con el escalar, `hunters_mantra` habría mejorado una base
+cinco veces equivocada: un número plausible y falso, peor que el silencio anterior. Contrato del dato
+en `data/schemas/weapons/weapons-attack-structure.md`; test en `__tests__/weapon-accuracy.test.ts`.
+
+Sigue abierto el **efecto**: cono → probabilidad de impacto es C2 y no tiene modelo. El nodo computa
+un valor honesto en C1 y ahí se detiene.
 
 **No bloquea:** captura de datos ni el vocabulario (tokens correctos y aplicados).
-**Gate:** el resto se materializa cuando el foco *weapons* retome Capa 4; el eje (c) se resuelve con consumidor C2, no antes. El caso `accuracy` **no está gateado por (c)**: tiene dato, molde y consumidor.
+**Gate:** el resto se materializa cuando el foco *weapons* retome Capa 4; el eje (c) se resuelve con consumidor C2, no antes.
 **Vínculo:** el mapa de gaps y el detalle de moldes viven en `gap-map.md §Capa 4` (SSoT vivo). Spec de falloff: [`damage-falloff.md`](../../references/wiki/mechanics/damage-falloff.md).
 **Fuente:** `gap-map.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,recoil,damage-falloff}.md`; `docs/semantic/upgrade-tokens.md`.
 

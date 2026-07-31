@@ -44,14 +44,28 @@ Grafo genérico de atributos (`SimulationEngine`): un pass topológico (Kahn) �
 ### Capa 3 — `condition` en perks de Incarnon — ✅ CERRADA
 `IncarnonRepository` ahora propaga el campo `condition` al `Modifier`, espejando a `ModRepository`. Antes los 175 perks de incarnon se aplicaban incondicionalmente. Fue el primer objetivo de la fase engine; cerró el drift.
 
-### Capa 4 — Modifiers de weapon que se evaporan por falta de nodo — 🚧 EN CONSTRUCCIÓN (3 nodos materializados)
-~18 tokens catalogados y mapeados que igual no aplican, porque el arma solo tiene los ~8 nodos que `ItemRepository` mapea. **Ya materializados (OQ-ENGINE-7):** `punch_through`, `projectile_speed`, `recoil`. **Siguen sin nodo:** `zoom`, `ammo_max`, `ammo_efficiency`, `range`, `beam_range`, `headshot_mult`, `finisher_damage`, `slam_damage`, familias `combo_*` / `heavy_*`. El modifier se produce; ningún nodo lo recibe. Toca solo `ItemRepository.getDNA()` — `createBaseEntity` ya materializa todo token `isUpgrade()` presente en el profile. Disparador documentado: **OQ-ENGINE-7**.
+### Capa 4 — Modifiers de weapon que se evaporan por falta de nodo — 🚧 EN CONSTRUCCIÓN (4 nodos materializados)
+~18 tokens catalogados y mapeados que igual no aplican, porque el arma solo tiene los ~8 nodos que `ItemRepository` mapea. **Ya materializados (OQ-ENGINE-7):** `punch_through`, `projectile_speed`, `recoil`, `accuracy`. **Siguen sin nodo:** `zoom`, `ammo_max`, `ammo_efficiency`, `range`, `beam_range`, `headshot_mult`, `finisher_damage`, `slam_damage`, familias `combo_*` / `heavy_*`. El modifier se produce; ningún nodo lo recibe. Toca solo `ItemRepository.getDNA()` — `createBaseEntity` ya materializa todo token `isUpgrade()` presente en el profile. Disparador documentado: **OQ-ENGINE-7**.
 
 > **`punch_through` materializado:** una clave en `getDNA()` (`override per-ataque ?? raw ?? 0`) + innatos en `weapon-stats.override.json` (mismo shape que multishot). El raw expone `punch_through` per-ataque pero vale 0 en todo el dataset — los innatos (Lanka 5.0m charged, Zenith, bows) van por override. Op `ADD_FLAT` (metros). Consumidor: `lanka.test.ts`.
 >
 > **`projectile_speed` materializado — dos diferencias respecto a punch:** (1) base = `flight` del raw **sin override** (el raw trae el valor real, m/s); (2) op `ADD` (% aditivo), no flat. **Patrón nuevo: gate `flight != null` → ausencia ≠ 0.** Hitscan = `flight` null en 274/274 (instantáneo, sin proyectil) → nodo **ausente**, no `base: 0` (un base 0 + mod % daría velocidad espuria). Primera stat Capa 4 donde la ausencia del dato es semánticamente significativa. Aserción negativa en `cedo-prime.test.ts`. Ref: `references/wiki/mechanics/projectile-speed.md`.
 >
 > **`recoil` materializado — tercer molde de base: SINTÉTICA.** Ni override (punch) ni raw (projectile): **no hay dato absoluto público** de recoil (interno de DE, oculto). Base sintética `100` incondicional en `getDNA()` (sin gate — todas las armas tienen recoil), op `ADD` (% bidireccional, −90% a +100%). El `final` es el **recoil relativo** (100 = nato, 10 = 10% del nato), mismo patrón que `WEAPON_ADD_RELOAD_SPEED: 100`. **Nodo inerte:** camera feel, no input de daño → computa pero queda "muerto" hasta definir modelado/UI (OQ-ENGINE-7). Clamp de sobre-reducción (`final < 0`) abierto. Consumidor `lanka.test.ts` (Vile Precision). Ref: `references/wiki/mechanics/recoil.md`.
+>
+> **`accuracy` materializado — cuarto molde: CASCADA de dos fuentes del mismo stat.** Los tres
+> moldes anteriores eligen *una* fuente; éste ordena dos por fidelidad. La base sale del par
+> `min_spread`/`max_spread` **del ataque** (`100 / ((min+max)/2)`, cosechado de `Module:Weapons/data`
+> por `omniframe-items`) y cae al escalar `accuracy` del arma sólo si el par falta; sin ninguno de
+> los dos, no hay nodo — gate `ausencia ≠ 0` heredado de projectile_speed, porque un base 0 sería
+> precisión nula. **Con una salvedad que el molde anterior no tenía:** `0/0` es dato, no ausencia
+> (cono nulo = puntería perfecta), y vale `100` —lo que publica la fuente— **sin caer al escalar**.
+> Caer ahí le daría al Incarnon del Boar Prime el 5 de la escopeta hermana. **Por qué la cascada y no el escalar solo:** los dos consumidores vivos son perks
+> de forma Incarnon, y la forma dispersa distinto que el ataque normal (Boltor Prime: 50 vs **10**).
+> El escalar del export es ese mismo promedio ya colapsado y no distingue perfiles: habría dado un
+> número plausible y falso. Op `ADD` (% aditivo). Consumidor: `__tests__/weapon-accuracy.test.ts`
+> (Felarx `attuned_accuracy`, Boltor Prime `hunters_mantra`). **El efecto sigue sin modelo:** cono →
+> probabilidad de impacto es C2; el nodo computa el valor en C1 y ahí se detiene.
 >
 > ⚠️ **Gap nuevo destapado — es C2, NO Capa 4:** hitscan-**con**-falloff (67 ataques, ej. Cedo, Baza) — los mods de projectile speed deberían escalar su rango de falloff. No es un "nodo faltante": **falloff es una mecánica C2 entera** (`daño(distancia)`, ver abajo), con projectile_speed como uno de sus inputs. El `%` de projectile speed no tiene dónde aterrizar en esas armas (gate `flight=null` → sin nodo de velocidad) — de dónde lo lee C2 es diseño abierto. Spec: [`damage-falloff.md`](../../../../references/wiki/mechanics/damage-falloff.md). `it.todo` en `cedo-prime.test.ts`.
 

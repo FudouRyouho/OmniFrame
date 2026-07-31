@@ -7,6 +7,13 @@ import type { MutatedDNA, CoBehavior } from "../../contracts";
 import { normalizeDamageType } from "@shared/types";
 import { damageTokenFromType } from "../../contracts/damage-logic";
 
+/**
+ * Precisión de un ataque sin dispersión (`min_spread == max_spread == 0`). No es un default
+ * inventado: es el valor que publica la propia fuente para ese caso, donde la identidad
+ * `100 / ((min+max)/2)` daría infinito.
+ */
+const PERFECT_ACCURACY = 100;
+
 export class ItemRepository {
   private static weaponItems: Map<string, any> = new Map();
   private static warframeItems: Map<string, any> = new Map();
@@ -175,6 +182,17 @@ export class ItemRepository {
         if (attack.flight != null) {
           profiles[profile_name].WEAPON_ADD_PROJECTILE_SPEED = attack.flight;
         }
+
+        // Accuracy: mismo gate por ausencia ≠ 0 (un base 0 daría precisión nula), pero la base
+        // sale del PAR de dispersión del ataque, no del escalar del arma. Los dos consumidores
+        // vivos del token son perks de forma Incarnon, y en ambos la forma tiene precisión propia
+        // que el escalar colapsado no puede expresar: Boltor Prime vale 50 en su ataque normal y
+        // 10 en Incarnon. Con el escalar, `hunters_mantra` mejoraría una base cinco veces
+        // equivocada. Ver data/schemas/weapons/weapons-attack-structure.md.
+        const accuracy = this.resolveAccuracy(raw, attack);
+        if (accuracy != null) {
+          profiles[profile_name].WEAPON_ADD_ACCURACY = accuracy;
+        }
       });
 
       if (!profiles['base'] && Object.keys(profiles).length > 0) {
@@ -199,6 +217,9 @@ export class ItemRepository {
         WEAPON_ADD_DAMAGE:       damage_sum_fallback || 100,
         ...damage_map_fallback
       };
+
+      const accuracy = this.resolveAccuracy(raw, null);
+      if (accuracy != null) profiles['base'].WEAPON_ADD_ACCURACY = accuracy;
     }
 
     if (minCombo !== undefined) {
@@ -287,6 +308,31 @@ export class ItemRepository {
       return override.attacks[attackName].punch_through;
     }
     return rawValue ?? 0;
+  }
+
+  /**
+   * Precisión base del ataque. Cascada de dos fuentes del MISMO stat, de la más fiel a la más
+   * pobre: el par de dispersión del ataque (`100 / ((min + max) / 2)`, la identidad que publica
+   * la wiki) y, si no está, el escalar del arma — que es ese mismo promedio ya colapsado por el
+   * export, y por eso no distingue entre ataques.
+   *
+   * Devuelve `null` cuando ninguna de las dos existe: ausencia ≠ 0, y 0 sería precisión nula.
+   * Las melee no lo tienen (salvo gunblades) y los modulares tampoco, por eso el gate.
+   *
+   * **Un par de ceros NO cae al escalar.** `0/0` es dato, no ausencia: significa cono nulo, o sea
+   * puntería perfecta, y la identidad daría infinito. La fuente resuelve ese caso publicando `100`
+   * (64 de las 66 armas cuyo único spread es `0/0` lo declaran así), y eso es lo que se usa.
+   * Caer al escalar del arma ahí sería un error silencioso y grave: en un arma multi-ataque el
+   * escalar pertenece al ataque que SÍ dispersa, y el Incarnon del Boar Prime —perfecto— heredaría
+   * el 5 de la escopeta base. Plausible y falso, que es peor que ausente.
+   */
+  private static resolveAccuracy(raw: any, attack: any | null): number | null {
+    const min = attack?.min_spread;
+    const max = attack?.max_spread;
+    if (typeof min === 'number' && typeof max === 'number') {
+      return min + max > 0 ? 100 / ((min + max) / 2) : PERFECT_ACCURACY;
+    }
+    return raw.stats?.accuracy ?? null;
   }
 
   public static getRawItem(uniqueName: string): any | null {

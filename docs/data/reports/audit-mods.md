@@ -35,11 +35,12 @@ Fecha_de_actualizacion: "2026-06-06"
 > AVATAR_DAMAGE_TAKEN: practicamente la gran mayoria merecen revision por contesxto de "+n% {damage_type} Resistence", el propio token no lo mapea, posiblemente ¿condition entre mejor que un token dedicado hacia el bucket? posiblemente no ahora que lo pienso mejor... merece debate.
 > — **Hogar:** `status.md §Mods` deuda `AVATAR_DAMAGE_TAKEN`. Ref creada `references/wiki/mechanics/damage-reduction.md` (DR multiplicativa, 3 sub-formas, **Adaptation** → OQ-DATA-4). Coinage diferido hasta consumidor de engine.
 
-> [!NOTE]
-> Discusion ya establecida sobre "WEAPON_SPREAD" vs "WEAPON_ADD_ACURACY", token herado de DE, no modelado, debemos debatir y contrastar documentos para tener mas certezas de como "modelar" esto correctamente, ya que el token "WEAPON_SPREAD" no entra dentro de nuestra taxonomia.
-> — **Hogar:** `status.md §Mods` deuda `WEAPON_SPREAD`. ✅ Confirmado = `WEAPON_ADD_ACCURACY` (ref `references/wiki/mechanics/accuracy.md`); dirección = unificar. Mecanismo de unión gateado (sin mods spread en overrides curados).
-
-> _Resueltos 2026-06-04 (sacados de triage, historial en git):_
+> _Resueltos (sacados de triage, historial en git):_
+> - `WEAPON_SPREAD` → **renombrado `WEAPON_ADD_ACCURACY`**; 17 mods. El token era el nombre
+>   interno de DE, no un stat distinto: los labels ya decían `% Accuracy` con el signo correcto,
+>   así que la unión fue un rename, no una conversión. El gate declarado ("sin mods spread en
+>   overrides curados") era falso — estaban los 17, invisibles porque el token no vivía en
+>   `UPGRADES` y morían en hidratación.
 > - `AVATAR_DAMAGE_POWER_MULTIPLIER` → **renombrado `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY`**, registrado en `UPGRADES[]`; 4 mods (premisa escudos→energía desmentida vs raw).
 
 ---

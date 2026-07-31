@@ -1896,7 +1896,7 @@
               -3,
               -4
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -3900,7 +3900,7 @@
               75,
               100
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming"
@@ -4014,7 +4014,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_sliding",
@@ -6402,7 +6402,7 @@
               45,
               60
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming"
@@ -6424,7 +6424,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming",
@@ -6461,7 +6461,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_sliding",
@@ -6709,7 +6709,7 @@
               -50,
               -55
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -8532,7 +8532,7 @@
               -1.5,
               -2
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -8766,7 +8766,7 @@
               -50,
               -55
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -9571,7 +9571,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming",
@@ -11131,7 +11131,7 @@
             "base_value": [
               100
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       },
@@ -13716,7 +13716,7 @@
               42,
               50
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming"
@@ -15439,7 +15439,7 @@
               -150,
               -180
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -15841,7 +15841,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_sliding",
@@ -16333,7 +16333,7 @@
               70,
               77
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       },
@@ -16417,7 +16417,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming",
@@ -17225,7 +17225,7 @@
               -50,
               -60
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
