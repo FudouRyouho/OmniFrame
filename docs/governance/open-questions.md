@@ -771,6 +771,36 @@ enemigos. Nadie midió eso. Censo pendiente: ítems no-`Enemy` cuyo `type` no cu
   Techrot/Scaldra (115 en el wiki, 0 match). Hay ley (coefs + bonus) sin dato contra el cual ejercerla;
   cerrarlo implica cosechar los stats base del wiki y emitir entradas wiki-only — decisión abierta.
 
+### Addendum — la wiki no trata "la facción" como un campo, sino como tres
+
+`Module:Enemies/infobox` (capturado en `references/wiki/sources/enemies-infobox.md`) lee **tres campos
+independientes** del enemigo, cada uno con su propio fallback a la etiqueta nominal:
+
+| Campo | Determina | Usos en 912 enemigos |
+|---|---|---|
+| `Faction` | la etiqueta mostrada, la categoría de la página | — |
+| `FactionScaling` | **qué coeficientes de scaling** aplican | **3** |
+| `FactionDamageOverride` | **qué fila de la matriz de resistencias** aplica | **152** |
+
+Eso valida el diagnóstico de esta OQ desde afuera —la facción **es** un eje partido— y a la vez acota
+dos huecos de la resolución adoptada:
+
+**1. "El submódulo de origen ES la facción" es cierto salvo para 3 enemigos, que lo declaran al revés.**
+`Jordas Golem` vive en la partición `infestation` y declara `FactionScaling = "Default"`; `H-09 Apex` y
+`H-09 Efervon Tank` viven en `techrot` y declaran `FactionScaling = "Corpus"`. Para esos tres, la
+cascada del generador asigna el grupo de scaling **equivocado** — son 3 de 912 y ninguno está en el
+data-set hoy, pero la regla que los produce sí está viva.
+
+**2. El eje de resistencias no está cubierto por la cascada.** `FactionDamageOverride` decide la fila de
+la matriz③, y **125 de sus 152 usos son la cadena vacía**: no redirigen a otra facción, **anulan** la
+matriz para ese enemigo. Un modelo que derive la fila de resistencias desde `faction` va a aplicar
+modificadores a enemigos que no los reciben. Los 27 restantes: 12 `Zariman` —una facción de
+resistencias que **no es** una de las 12 particiones de enemigos—, 5 `Grineer`, 2 `The Murmur`, 1
+`Corpus`, y **6 con paths de asset del juego** en el campo, que son datos rotos de la wiki.
+
+**Consecuencia para el residual "subfacciones":** `Zariman` aparecía como subfacción sin dato; ahora se
+sabe que es un valor legítimo de `FactionDamageOverride` con 12 usos, no una etiqueta huérfana.
+
 **No bloquea:** el engine corre. **Ya no degrada** el scaling por facción-basura.
 **Vínculo:** **OQ-ENGINE-21** (fidelidad de la LEY de scaling, hermana — ésta es el INPUT, aquélla la ley),
 **OQ-DATA-9** (borde de entrada "0" / normalización de datos), **OQ-ENGINE-15** (DR provisional, scaling
@@ -1131,8 +1161,11 @@ prosa. Ver: `curl -sS "https://wiki.warframe.com/w/Module:Enemies/infobox?action
 - **El resto de la tabla del proyecto MATCHEA el módulo** (transcripción validada): armor exacto
   (`0.005/1.75, 0.4/0.75`, fórmula única confirmada), health de Grineer/Scaldra/Corpus/Orokin/Techrot y el
   default para Sentient/Murmur/Unaffiliated, shields de Corpus/Orokin/Grineer.
-- **Delta menor:** Techrot shields `f1_expo` — proyecto `1.76`, módulo `1.75`. (Infested health `16.0998` vs
-  `16.100` = redondeo, el proyecto es más preciso.)
+- **Delta menor:** Techrot shields `f1_expo` — proyecto `1.76`, módulo `1.75`. Infested health `16.0998`
+  (proyecto) vs `16.100` (módulo). **Los dos son ahora conflictos marcados en las dos direcciones**
+  (`references/wiki/mechanics/enemy-level-scaling.md` ↔ `references/wiki/sources/enemies-infobox.md`), y
+  el segundo no es "el proyecto es más preciso": los números del calculador salen del módulo, así que
+  validar "exacto contra el calculador" con `16.0998` es validar contra otro número.
 
 **Fixes pendientes de aplicar (YELLOW, tocan `enemy-scaling.ts`):** agregar `Anarchs` a `HEALTH_COEF` (grupo
 Orokin) y a `SHIELDS_COEF` (grupo Corrupted); corregir Techrot shields a `1.75`.

@@ -83,7 +83,7 @@ Los tab-headers del wiki agrupan facciones que comparten coeficientes (`Corrupte
 |---|---|---|
 | Grineer / Scaldra | `1 + 0.015(Δx)^2.12` | `1 + 10.7332(Δx)^0.72` |
 | Corpus | `1 + 0.015(Δx)^2.12` | `1 + 13.4165(Δx)^0.55` |
-| Infested | `1 + 0.0225(Δx)^2.12` | `1 + 16.0998(Δx)^0.72` |
+| Infested | `1 + 0.0225(Δx)^2.12` | `1 + 16.0998(Δx)^0.72`‡ |
 | Anarchs / Corrupted (=Orokin) | `1 + 0.015(Δx)^2.1` | `1 + 10.7332(Δx)^0.685` |
 | Murmur / Sentient / **Unaffiliated (default)** | `1 + 0.015(Δx)^2` | `1 + 10.7332(Δx)^0.5` |
 | Techrot | `1 + 0.02(Δx)^2.12` | `1 + 15.0998(Δx)^0.7` |
@@ -95,6 +95,13 @@ Los tab-headers del wiki agrupan facciones que comparten coeficientes (`Corrupte
 > health y en shields.
 >
 > **Default para facción no reconocida = "Unaffiliated" → grupo `^2/^0.5` (el de Sentient), NO Grineer.**
+
+> ‡ **Infested, curva alta: la página dice `16.0998` y el módulo dice `16.100`.** La diferencia es
+> despreciable en el resultado, pero no en el método: los números del calculador salen del módulo, así
+> que validar un cálculo propio "exacto contra el calculador" usando `16.0998` es validar contra otro
+> número del que produce la referencia.
+>
+> ⚠️ Conflicto ↔ [`../sources/enemies-infobox.md`](../sources/enemies-infobox.md) §Dos desacuerdos con la página
 
 ## Shields por facción
 
@@ -109,11 +116,10 @@ Infested no lleva escudo (sin fila). El wiki no documenta grupo Unaffiliated par
 
 > † **Techrot shields — la página y el módulo de la propia wiki no coinciden.** La página dice
 > exponente **1.76** en la curva baja; `Module:Enemies/infobox` —el que la wiki **ejecuta** para
-> mostrar stats— dice **1.75**. La reescritura del 2026-07-28 no lo tocó.
+> poblar los infobox— dice **1.75**. Los otros tres valores de la fila coinciden, y el resto de la
+> tabla de shields de la página usa `1.75` salvo Corpus.
 >
-> Queda **sin marca**: el módulo no está capturado en el corpus, y una marca de conflicto exige las
-> dos partes presentes. Se reproduce con
-> `curl -sL "https://wiki.warframe.com/w/Module:Enemies/infobox?action=raw"`.
+> ⚠️ Conflicto ↔ [`../sources/enemies-infobox.md`](../sources/enemies-infobox.md) §Dos desacuerdos con la página
 
 ## Armor — fórmula única para todas las facciones
 

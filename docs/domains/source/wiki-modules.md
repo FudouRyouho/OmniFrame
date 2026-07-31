@@ -22,7 +22,9 @@ contra `prop=revisions` de la API:
 |---|---|---|
 | `Maximization/data` | **2021-12-07** — y el contenido, 2021-05-15 | 🔴 **congelado** |
 | `Ability/data/stats` | **2022-07-01** | 🔴 **congelado** |
+| `Enemies/data` | 2026-04-09 | 🟢 vivo |
 | `TextIcons` | 2026-05-26 | 🟢 vivo |
+| `Enemies/infobox` | 2026-06-25 | 🟢 vivo |
 | `DamageTypes/data` | 2026-07-04 | 🟢 vivo |
 | `Version/data` | 2026-07-17 | 🟢 vivo |
 | `Mods/data` | 2026-07-21 | 🟢 vivo |
@@ -45,6 +47,38 @@ verificación manual contra la wiki local.
 | `TextIcons` | ninguno · el render de `<DT_*>` lo resuelve la capa de presentación |
 | `Version/data` | resolver alias `{{ver|N}}` → fecha de parche, a mano |
 | `Maximization/data` | **pista, no fuente** — ver abajo |
+| `Enemies/infobox` | **árbitro de la ley de scaling** — ver abajo |
+| `Enemies/data` | el mapa de alias canónicos de facción; **no contiene enemigos** (es un router) |
+
+## `Module:Enemies/infobox` — el único módulo con autoridad sobre su página
+
+Es la excepción al patrón de arriba: no es apoyo ni pista, es **la forma ejecutable de una ley que
+también existe en prosa**. La página `Enemy_Level_Scaling` describe el escalado; este módulo es lo que
+la wiki **corre** para poblar cada infobox de enemigo. Cuando difieren, el módulo describe lo que la
+referencia realmente produce.
+
+Ya sirvió dos veces: resolvió la contradicción de Anarchs (`OQ-ENGINE-21`) y hoy sostiene **dos marcas
+de conflicto** contra la página —Techrot shields (`1.75` vs `1.76`) e Infested health (`16.100` vs
+`16.0998`)—. Destilado en `references/wiki/sources/enemies-infobox.md`.
+
+**Lo que no se capturó, a propósito:** las 12 particiones `Module:Enemies/data/<facción>` — 836 KB y
+912 enemigos. No hay consumidor (el data-set de enemigos es el fósil de [`gaps.md`](gaps.md) §G-2) y su
+volumen sería mantenimiento puro. Lo que sí se midió sobre ellas está en el `.md` del módulo, con el
+comando para reproducirlo.
+
+### La facción de un enemigo son tres campos, no uno
+
+El hallazgo con más consecuencias para `OQ-DATA-15`: el módulo lee **tres campos independientes**.
+
+| Campo | Determina | Usos medidos |
+|---|---|---|
+| `Faction` | la etiqueta mostrada y la categoría | — |
+| `FactionScaling` | qué coeficientes de scaling aplican | **3** de 912 |
+| `FactionDamageOverride` | qué fila de la matriz de resistencias aplica | **152** de 912 |
+
+De los 152, **125 son la cadena vacía**: no redirigen a otra facción, **anulan** la matriz para ese
+enemigo. Y 6 contienen **paths de asset del juego** en vez de un nombre de facción — datos rotos de la
+wiki, anotados sin corregir.
 
 ## `Module:Maximization/data` — una pista de 2021, no un censo
 
