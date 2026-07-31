@@ -14,8 +14,8 @@
 ally_health_bonus = 0.5 × trinity_energy_max
 ```
 
-- **Un solo input** (`AVATAR_ADD_ENERGY_MAX`, ya moddeado por Flow/Primed Flow/Archon Shard) → un solo
-  output (bonus flat de Health en OTRAS entidades — aliados en rango).
+- **Un solo input**: la Energy máxima de Trinity, ya moddeada por Flow / Primed Flow / Archon Shard.
+  **Un solo output**: bonus flat de Health en **otras** entidades — los aliados en rango.
 - **No escala con Ability Strength** — es pasiva, valor fijo (50%/25% Conclave), a diferencia de Iron
   Skin/Snow Globe que sí escalan por rank+strength. Sin bracket compuesto, sin absorbed-damage, sin cap.
 - **Lee un stat de Trinity y escribe en otras entidades**: la Energy máxima de ella determina el

@@ -63,6 +63,30 @@ Contenido que no viene de la wiki **sale** de `wiki/`, pero **nunca se borra en 
 preserva en `.working/` con su procedencia para rutearlo después. "No encuentro la fuente en *esta*
 página" no autoriza a purgar — puede estar en la página de la entidad y no en la de la mecánica.
 
+## Qué audita cada herramienta — y qué queda afuera a propósito
+
+Las dos herramientas cubren **sólo `wiki/`**, porque son las reglas de `wiki/` las que ejecutan:
+
+```bash
+node Project/scripts/references-layout.mjs   # layout, raw, marcas, fechas
+npm run validate:docs                        # links, imágenes, vocablo, encabezado
+```
+
+| Fuera del alcance | Por qué | Su contrato |
+|---|---|---|
+| `game-ui/` | formato propio, alimenta el parser del pipeline | `game-ui/README.md` |
+| `ingame-tests/` | mediciones del usuario, autoridad **sobre** la wiki | `ingame-tests/README.md` |
+| `visual/` | capturas y referencia de diseño, no hay `.md` que auditar | — |
+
+**No es un hueco: es que las reglas de la wiki no les corresponden.** Un `.md` de `game-ui/` no
+tiene `> Fuente:` ni raw porque no destila una página — la fuente es la UI del juego. Antes de
+"extender el validador" a estos directorios, hay que escribir **qué** se les exigiría.
+
+> ⚠️ **Lo que sí es un hueco:** `wiki/sources/` está exento del régimen de fechas, y eso escondió
+> durante años que dos de sus módulos Lua están congelados (`Maximization/data` en 2021,
+> `Ability/data/stats` en 2022). Los `.md` ya declaran su `> Fuente actualizada:` real a mano; la
+> detección automática de **fuente estancada** sigue pendiente.
+
 ## Cuándo consultar
 
 - `game-ui/<Warframe>.md` → fuente de verdad para poblar/corregir ability stats
