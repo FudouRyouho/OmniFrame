@@ -1,0 +1,84 @@
+{{UpdateMe}}
+'''{{D|Ragdoll}}''' is a [[Status Effect]]/physics state that causes enemies to be [[wikipedia:Ragdoll physics|ragdolled]]. During this state, enemies cannot move, attack or perform any actions, and become susceptible to [[Finisher|ground finisher]] attacks.
+
+* Enemies which are immune to (complete) crowd control are also immune to being ragdolled. These include [[bosses]], [[Acolytes]], and units protected by [[Overguard]].
+* Enemies that remain in ragdoll for an extended amount of time (excluding sources of slow that decrease enemy animation speed, such as {{A|Gloom}} or {{A|Rhino Stomp}}) are instantly killed after some time. This is to prevent potentially bugged enemies from taking up the enemy spawn pool.
+
+==Sources of Ragdoll==
+===Abilities===
+*{{WF|Atlas}}' {{A|Landslide}}
+*{{WF|Baruuk}}'s {{A|Serene Storm}}
+*{{WF|Frost}}'s {{A|Snow Globe}}
+*{{WF|Gara}}'s {{A|Shattered Lash}}
+*{{WF|Garuda}}'s {{A|Dread Mirror}}
+*{{WF|Gauss}}'s {{A|Mach Rush}} with {{M|Mach Crash}}
+*{{WF|Grendel}}'s {{A|Regurgitate}}
+*{{WF|Gyre}}'s {{A|Coil Horizon}}
+*{{WF|Hydroid}}'s {{A|Tidal Surge}} and {{A|Tentacle Swarm}}
+*{{WF|Khora}}'s {{A|Strangledome}}
+*{{WF|Mag}}'s {{A|Pull}}
+*{{WF|Nekros}}' {{A|Soul Punch}}
+*{{WF|Nezha}}'s {{A|Divine Spears}}
+*{{WF|Nidus}}' {{A|Larva}}
+*{{WF|Rhino}}'s {{A|Rhino Charge}}
+*{{WF|Sevagoth's Shadow}}'s {{A|Embrace}}
+*{{WF|Styanax}}'s {{A|Axios Javelin}}
+*{{WF|Titania}}'s {{A|Spellbind}}
+*{{WF|Vauban}}'s {{A|Bastille}}
+*{{WF|Valkyr}}'s {{A|Rip Line}}
+*{{WF|Volt}}'s {{A|Electric Shield}}
+*{{WF|Yareli}}'s {{A|Riptide}}
+*{{WF|Zephyr}}'s {{A|Tornado}}
+*[[Itzal]]'s {{A|Arch Line}}
+*[[Bonewidow]]'s {{A|Meathook}} and {{A|Exalted Ironbride}}
+
+
+===Weapons===
+*A Tenno's [[Maneuvers#Jump Kick|Jump Kick]]
+*{{Weapon|Sonicor}}, {{Weapon|Talons}}
+*{{Weapon|Sampotes}} Slam/Heavy Slam shockwaves
+*{{Weapon|Ceramic Dagger}}, {{Weapon|Dark Sword}}, {{Weapon|Dual Kamas}} ({{Weapon|Dual Kamas Prime|Prime}}), {{Weapon|Fang}} ({{Weapon|Fang Prime|Prime}}), {{Weapon|Fragor}}, {{Weapon|Furax}} ({{Weapon|Mk1-Furax|Mk1}}), {{Weapon|Galatine}}, {{Weapon|Glaive}} ({{Weapon|Glaive Prime|Prime}}), {{Weapon|Gram}}, {{Weapon|Hate}}, {{Weapon|Jat Kittag}}, {{Weapon|Kama}}, {{Weapon|Lecta}}, {{Weapon|Mios}}, {{Weapon|Silva & Aegis}}, and {{Weapon|Scindo}} ({{Weapon|Scindo Prime|Prime}}) with jump attacks
+*Charged shots from {{Weapon|Redeemer}}, {{Weapon|Redeemer Prime}}, {{Weapon|Sarpa}}, {{Weapon|Stropha}}, {{Weapon|Vastilok}}
+*{{Weapon|Pugil}}, [[Necramech]]s' melee attack
+*Corpses of enemies killed by {{Weapon|Boltor}}, {{Weapon|Boltor Prime}}, and {{Weapon|Telos Boltor}}
+*Anything that can apply {{D|Knockdown}} may also ragdoll enemies
+
+===Miscellaneous===
+*Falling off [[K-Drive]]s
+*[[Wyrm]]'s {{M|Crowd Dispersion}}
+*[[Void Sling]]
+*Summoning [[Archgun]]s with [[Archgun Deployer]]
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|42.0.2}}
+*Fixed a crash related to ragdolls.
+
+{{ver|40.0.2}}
+*Fixed ragdolled enemies sometimes instantly dying on uneven terrain.
+
+{{ver|40}}
+*Fixed enemies ragdolled in a pile instantly dying in certain locations.
+
+{{ver|37}}
+*Balefire Charger will now stagger enemies instead of ragdoll them when Hildryn has Overshields.
+*Ragdolled enemies now make a falling sound when they hit the ground.
+*Fixed enemies ragdolled by Mag’s Pull not properly displaying the context action for Ground Finishers.
+*Fixed Jade’s Light Judgement FX disappearing if cast on an enemy who is recovering from ragdoll.
+*Fixed auto-failing the mission if the Defense Operative were to ragdoll out of the playable area. This bug was most commonly experienced in an Archon Hunt mission with Chipper.
+
+{{ver|34}}
+*Fixed being able to push ragdolled enemies around with beam weapons.
+
+{{ver|Vanilla}}
+*Introduced.
+}}
+
+==See Also==
+*{{D|Lifted}}, a more specific type of ragdolling effect
+*{{D|Knockdown}}, a similar effect
+
+{{DamageNav}}
+[[Category:Mechanics]]
+[[Category:Status]]
+[[fr:Projection]]
