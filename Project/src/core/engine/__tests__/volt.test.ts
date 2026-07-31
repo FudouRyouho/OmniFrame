@@ -216,6 +216,45 @@ describe('Volt — Aim Glide/Wall Latch duration (base real, no sintética)', ()
   });
 });
 
+// ─── Sprint Speed — el carril que llega por DOS puertas ─────────────────────────────
+//
+// Cuarto stat de movimiento y el único cuyo corpus se equipa fuera del warframe: de sus 9 mods,
+// uno vive en un rifle (Amalgam Serration). Base sintética 100 porque el sprint no tiene valor
+// nato propio — se deriva del walk (`sprint = walk × 1.25 × (1 + Σ bonos)`), así que el nodo
+// acumula el `Σ bonos` y los m/s son una derivación cross-stat que nadie pide todavía.
+
+describe('Volt — Sprint Speed (mods del warframe y de un arma, al mismo nodo)', () => {
+  const RUSH    = '/Lotus/Upgrades/Mods/Warframe/AvatarSprintSpeedMod';
+  const AMALGAM = '/Lotus/Upgrades/Mods/DualSource/Rifle/SerratedRushMod';
+  const sprintCon = (mods: any) => {
+    const b: any = volt();
+    b.mods = mods;
+    return consume(b, { flags: {} }).weapon(VOLT).node('AVATAR_ADD_SPRINT_SPEED');
+  };
+
+  it('baseline: 100 = sin mods', () => {
+    expect(sprintCon({}).final).toBe(100);
+  });
+
+  it('Rush r5 (mod de warframe): +30%', () => {
+    expect(sprintCon({ warframe: { 0: { itemId: RUSH, rank: 5, level: 5 } } }).final).toBeCloseTo(130, 5);
+  });
+
+  // Éste es el que no funcionaba: el mod está en el RIFLE y su stat pertenece al warframe.
+  it('Amalgam Serration r10 (mod de rifle): +25% al warframe, no al rifle', () => {
+    expect(sprintCon({ primary: { 0: { itemId: AMALGAM, rank: 10, level: 10 } } }).final).toBeCloseTo(125, 5);
+  });
+
+  it('los dos suman ADITIVO: +55% — "most sources stack additively" [movement-speed.md]', () => {
+    const spd = sprintCon({
+      warframe: { 0: { itemId: RUSH, rank: 5, level: 5 } },
+      primary:  { 0: { itemId: AMALGAM, rank: 10, level: 10 } },
+    });
+    expect(spd.mods_add_pct).toBeCloseTo(55, 5);
+    expect(spd.final).toBeCloseTo(155, 5);
+  });
+});
+
 // ─── Borde — lo que Speed NO modela todavía (it.todo) ──────────────────────────────
 
 describe('Volt Speed — borde', () => {
@@ -230,8 +269,13 @@ describe('Volt Speed — borde', () => {
   // (movement-speed.md — Rush no afecta el walk) y su consumidor no está mapeado en el dataset.
   it.todo('AVATAR_ADD_SPRINT_SPEED — materializar cuando llegue Rush (¿display-only?)');
   // Lo que sigue afuera de los mods de esta familia es su TERCER stat: `AVATAR_PARKOUR_DAMAGE_ADDED`
-  // ("+X% Puncture on Bullet Jump" y sus 6 hermanos elementales). No es movilidad — el bullet jump
-  // ya emite 100 de Blast con proc garantizado en 3m, o sea es una FUENTE que emite instancia de
-  // daño. Va con el modelo de nodo-source (arch §15), no con un nodo de stat.
+  // ("+X% Puncture on Bullet Jump" y sus 6 hermanos elementales, con el tipo SÓLO en el label).
+  // No es movilidad — el bullet jump ya emite 100 de Blast con proc garantizado en 3m, o sea es una
+  // FUENTE que emite instancia de daño, hermana del heavy slam: consecuencia de una maniobra, no
+  // stat de una. Va con el modelo de nodo-source (arch §15).
+  //
+  // DIFERIDO POR DECISIÓN, no por dificultad: elegir la forma (7 tokens tipados vs 1 token + tipo
+  // estructurado) antes de saber cómo el nodo-source representa "fuente que emite instancia" es
+  // decidir sin conocer al consumidor — el mismo motivo por el que `co_ratio` sigue diferido.
   it.todo('AVATAR_PARKOUR_DAMAGE_ADDED — daño del bullet jump: 1 token para 7 tipos [arch §15]');
 });

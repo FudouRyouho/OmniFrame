@@ -119,7 +119,26 @@ Sirve cuando el stat es real y está en el dato, pero no hay base conocida contr
 (caso `AVATAR_ADD_SLIDE_*`). Acuñar es **darle lenguaje**, que es barato y reversible; materializar es
 comprometer un modelo. ⚠️ El estado del medio **es silencioso por construcción**
 (`SimulationEngine.resolveNode` hace `if (!node) return`), así que sólo se distingue del tercero si algo
-lo reporta — sin ese reporte, "conocido pero no modelado" es indistinguible de "perdido".
+lo reporta — el tripwire de `StaticHydrator` es ese reporte (`__tests__/unlanded-modifiers.test.ts`).
+
+**Acuñar no es gratis y no es el default.** Un token acuñado es algo que un lector futuro va a encontrar
+sin nodo y va a tener que re-preguntar. Se gana el lugar cuando el stat tiene corpus coherente y una
+mecánica clara; **no** cuando lo único que se sabe es que existe. El residuo del eje de movimiento
+—gravedad, altura de salto, recuperación de caída, 1 uso cada uno— **no** se acuñó por eso: su
+`console.warn` de token desconocido dice algo cierto, y qué les falta (dato o fórmula) es `OQ-ENGINE-30`.
+
+### `AVATAR_*` no significa "warframe" — significa el avatar del PORTADOR
+
+El vocabulario de DE usa `AVATAR_` para **lo que el jugador encarna** (warframe · archwing · necramech),
+y `VEHICLE_` para lo que **monta** (K-Drive) — Hyperion Thrusters (Archwing) lleva el mismo token crudo
+que Rush. La consecuencia para el ruteo es que la familia no basta por sí sola:
+
+- un mod **de arma** con token `AVATAR_*` buffea al warframe que la porta (Amalgam Serration → Sprint
+  Speed; Dispatch Overdrive → Movement Speed) — `StaticHydrator` lo sube por familia;
+- un mod **de compañero** con token `AVATAR_*` buffea al **compañero** (`Enhanced Vitality` →
+  `AVATAR_ADD_HEALTH_MAX` es vida del sentinel, no del warframe). Rutearlo al warframe sería un bug peor
+  que el que el salto arregla, así que el salto se limita a portador-arma y el caso compañero se decide
+  cuando existan esas entidades.
 
 ### Convención de resolución D-6 — el token **no** es el id de nodo
 
@@ -352,7 +371,7 @@ escrita en el propio dato normalizado.
 | `AVATAR_ADD_ARMOUR` | `C1` | Steel Fiber, Warcry (habilidad) |
 | `AVATAR_ADD_ENERGY_MAX` | `C1` | Flow, Primed Flow |
 | `AVATAR_ADD_MOVEMENT_SPEED` | `C1` | Volt Speed, Dispatch Overdrive, Wisp Reservoirs. **Nodo materializado**, base = `sprint_speed` del raw. El nombre del dato miente: la wiki declara que el stat base del arsenal *"is actually the Warframes base Movement Speed modifier"* — 1.0 = 6 m/s de walk. Es una **escala**, no un porcentaje. |
-| `AVATAR_ADD_SPRINT_SPEED` | `—` | Rush, Sprint Boost, Armored Agility. **Stat distinto del anterior, no un alias**: acelera sólo la animación de sprint y *"do not affect a Warframe's Movement Speed, even though they increase the listed Sprint Speed stat in the arsenal"*. Sin nodo: espera consumidor, y con él la pregunta de si es display-only. Ver [`../../references/wiki/mechanics/movement-speed.md`](../../references/wiki/mechanics/movement-speed.md). |
+| `AVATAR_ADD_SPRINT_SPEED` | `C1` | Rush, Armored Agility, Hastened Steps, Speed Drift, **Amalgam Serration** (mod de rifle). **Stat distinto del anterior, no un alias**: acelera sólo la animación de sprint y *"do not affect a Warframe's Movement Speed, even though they increase the listed Sprint Speed stat in the arsenal"*. **Base sintética 100**: el sprint no tiene valor nato propio, se deriva del walk (`sprint = walk × 1.25 × (1 + Σ bonos)`) — el nodo acumula el `Σ bonos`, y los m/s serían una derivación cross-stat sin consumidor hoy. **Único carril cuyo corpus se equipa fuera del warframe**: 4 de sus 9 mods viven en rifle, aura, Parazon y Archwing. Ver [`../../references/wiki/mechanics/movement-speed.md`](../../references/wiki/mechanics/movement-speed.md). |
 | `AVATAR_ADD_CASTING_SPEED` | `—` | Natural Talent. Velocidad de animación de cast; no afecta output del simulador simplificado. |
 | `AVATAR_ADD_SHIELD_RECHARGE_RATE` | `C1` | Fast Deflection |
 | `AVATAR_ADD_PARKOUR_VELOCITY` | `C1` | Amber Archon Shard (+15% / +22.5% tauforged), Arcane Agility, Arcane Consequence. **Tercer stat de movimiento**, distinto de los dos de arriba: gobierna bullet jump, double jump, rodar, sidespring y backspring. Movement Speed no lo toca. **Nodo materializado con base sintética 100** (100% = sin mods): a diferencia de `MOVEMENT_SPEED`, el raw no trae dato y no puede traerlo — el parkour no varía por warframe. Los 14 mods de la familia (Mobilize, Lightning Dash, Firewalker…) ya lo llevan en `mod-stats.override.json` y aterrizan; el `AVATAR_PARKOUR_BOOST` que se ve en `mods.json` es el token crudo de DE en el dataset generado, que el engine no lee. |

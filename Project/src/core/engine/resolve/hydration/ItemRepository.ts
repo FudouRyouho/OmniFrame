@@ -67,9 +67,16 @@ export class ItemRepository {
         // el arsenal muestra. Mismo patrón que `fire_rate` en melee: DE nombra una cosa y la
         // mecánica es otra, y el token declara la verdad, no el raw. Base 1.0 = 6 m/s de walk
         // speed; sprintar suma 25% aparte. Ver references/wiki/mechanics/movement-speed.md.
-        // `AVATAR_ADD_SPRINT_SPEED` es un stat DISTINTO y sigue sin nodo: existe como token y
-        // espera su consumidor (Rush, que el dataset todavía no trae mapeado).
         AVATAR_ADD_MOVEMENT_SPEED:    s.sprint_speed ?? 0,
+        // Sprint Speed: stat DISTINTO del de arriba pese al nombre del raw. Base sintética 100 —
+        // el sprint no tiene valor nato propio, se DERIVA del walk (`sprint = walk × 1.25 ×
+        // (1 + Σ bonos)`, movement-speed.md), así que lo que el nodo acumula es el `Σ bonos` y
+        // los `m/s` son una derivación cross-stat que hoy nadie pide.
+        // Sus 9 mods se equipan en cinco slots distintos y 3 no aplican al warframe: Sprint Boost
+        // es de aura y dice "Squad receives" (aliados, no modelados), Runtime es de Parazon (slot
+        // fuera de scope) e Hyperion Thrusters es de Archwing — ese último aterriza igual y es
+        // ruido aceptado, porque el token crudo de DE es el mismo que el de Rush (ver sus notes).
+        AVATAR_ADD_SPRINT_SPEED:      100,
         // Parkour Velocity (localizado *"Bullet Jump"*) gobierna bullet jump, double jump, rolling
         // y springs — ni movement ni sprint lo tocan. El raw NO trae dato base y no puede traerlo:
         // no hay parkour por-warframe, todos parten del mismo 100%. Base **sintética**, mismo molde

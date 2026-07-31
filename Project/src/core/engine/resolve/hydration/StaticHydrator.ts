@@ -9,7 +9,7 @@ import { ShardRepository } from "./ShardRepository";
 import { IncarnonRepository } from "./IncarnonRepository";
 import { ArcaneRepository } from "./ArcaneRepository";
 import { AbilityRepository } from "./AbilityRepository";
-import { resolveChannelEntities } from "./channel-routing";
+import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
@@ -221,8 +221,31 @@ export class StaticHydrator {
     // resolver. Un canal puede alcanzar N entidades (ver `channel-routing.ts`) ⇒ fan-out: un
     // modifier por entidad alcanzada, con id derivado para no colisionar en el trace.
     const routed: Modifier[] = [];
+    const entityById = new Map(entities.map(e => [e.id, e]));
     for (const m of modifiers) {
-      if (!m.target_channel) { routed.push(m); continue; }
+      if (!m.target_channel) {
+        // Sin canal, el modifier se quedó donde NACIÓ — que para un mod es la entidad en cuyo slot
+        // está montado. Eso alcanza mientras el token pertenezca a esa entidad, y **no siempre
+        // pertenece**: un puñado de mods de arma emiten stats del warframe que los porta (Amalgam
+        // Serration da Sprint Speed desde un rifle; Dispatch Overdrive, Movement Speed desde una
+        // melee). Un arma no tiene —ni puede tener— nodos `AVATAR_*`, así que sin este salto el
+        // buff muere en el arma: con el nodo YA materializado, Dispatch Overdrive no hacía nada.
+        //
+        // El salto se limita a **portador-arma**: un compañero también emite `AVATAR_*` (los 14
+        // mods de Sentinel: `Enhanced Vitality` → `AVATAR_ADD_HEALTH_MAX`) y ahí el avatar es ÉL,
+        // no el warframe — rutearlo sería un bug peor que el que esto arregla. Hoy no se
+        // construyen entidades de compañero, así que el caso no puede darse; cuando se construyan,
+        // la regla se decide con ese dato en la mano y no por anticipación.
+        const holder = entityById.get(m.target_entity);
+        if (holder?.domain === 'weapon' && m.target_attribute.startsWith('AVATAR_')) {
+          for (const id of resolveFamilyEntities('AVATAR', entities)) {
+            routed.push({ ...m, target_entity: id });
+          }
+          continue;
+        }
+        routed.push(m);
+        continue;
+      }
       const targetIds = resolveChannelEntities(m.target_channel, entities);
       // Canal vacío (sin arma equipada en ese slot) ⇒ se descarta, como hacía el loop de shards.
       for (const id of targetIds) {
