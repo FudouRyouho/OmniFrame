@@ -58,7 +58,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-24` | Derivación cross-stat (Iron Skin y su clase): fórmula dedicada ↔ grafo | engine / C1 | abierta — **diferida por decisión**: 1 de 1241 `upgrade_by` emite modifier; gap rojo-ejecutable |
 | `OQ-ENGINE-25` | Orden de `total_flat` vs `multiplicative` contra la referencia canónica | engine / formulas — fidelidad | abierta — **latente**: intersección vacía medida, no bloquea |
 | `OQ-ENGINE-26` | Composición entre fuentes de life steal: la fuente no lo declara | engine / C2 — sustain | abierta — hueco de la wiki, gated por medición |
-| `OQ-ENGINE-27` | La partición condition-scaled se cerró en 3 formas y hay al menos 5 | engine / C1 — vocabulario | abierta — no bloquea; exige releer `arch-decisions §10` |
+| `OQ-ENGINE-27` | El eje de *application* del CO no está modelado: 4 casos caen en el mismo bucket | engine / C1 — fidelidad CO | abierta — no bloquea; exige releer `arch-decisions §9/§10` |
 | `OQ-ENGINE-28` | Resistencias por entidad: capa aparte de la matriz por facción | engine / C2 — modelo de enemigo | abierta — diferida, sin consumidor |
 | `OQ-ENGINE-29` | ¿Los status sin ícono (`Lifted`/`Knockdown`/`Microwave`) cuentan para CO? | engine / C2 — población de status | abierta — gated por test propio, **diseño listo** |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
@@ -1441,37 +1441,59 @@ afirmación), `references/ingame-tests/pending.md`.
 
 ---
 
-## OQ-ENGINE-27 — La partición condition-scaled se cerró en tres formas y hay al menos cinco — **ABIERTO**
-**Dominio:** engine / C1 — vocabulario de composición
+## OQ-ENGINE-27 — El eje de *application* del CO no está modelado: cuatro casos caen en el mismo bucket — **ABIERTO**
+**Dominio:** engine / C1 — fidelidad de la mecánica CO
 
-**Contexto:** `arch-decisions §10` parte el corpus *condition-scaled* en tres formas según **cómo computan**:
-gate aditivo · escala aditiva per-N (Condition Overload / Galvanized) · exponencial (Catalyze). Las
-subpáginas `Damage/<Tipo>` —capturadas después de esa partición— traen dos formas que no entran en ninguna:
+**Contexto:** la wiki clasifica los bonus CO en **dos ejes ortogonales**
+(`references/wiki/mechanics/condition-overload.md` §Los cinco comportamientos):
 
-- **Secondary Shiver** — *"enemies take +45% damage per Cold Status"*. Escala aditiva per-N, pero sobre
-  **stacks de un status específico**. CO cuenta **tipos distintos** de status; Shiver cuenta **stacks de
-  uno solo**. La partición actual mete a los dos en el mismo bucket y ahí no se distinguen.
-- **Primary Frostbite** — `+3% Critical Damage` y `+2.25% Multishot` por 12 s, hasta 40 stacks, al
-  proccear Cold. Es un **acumulador con timer sobre el atacante**, disparado por un evento de proc: no
-  lee el estado del objetivo en absoluto. No es condition-scaled en el mismo sentido que las otras cuatro.
+- **Stacking** — cómo apila con Serration: multiplicativo o aditivo.
+- **Application** — cuánto del `+X%` listado aplica **realmente**: por encima, exacto, o por debajo.
 
-**La pregunta:** ¿el eje de la partición sigue siendo "cómo computa", o hace falta un segundo eje —**qué
-observa**: tipos-de-status vs stacks-de-un-status vs eventos-de-proc-sobre-el-atacante—? Con un solo eje,
-Shiver y CO son indistinguibles y Frostbite no tiene lugar.
+`arch-decisions §9/§10` modela **sólo el primero**. `co_behavior` es `'adding' | 'multiplying' | 'none'`,
+y `coBonusPct = coefBase × activeStacks × N` asume que el bonus aplica **exacto**. El segundo eje no
+tiene representación en ningún contrato.
 
-**Lo que NO se hace:** abrir un framework genérico. El criterio de la partición sigue vigente — la
-composición manda sobre el tema, y la estructura se construye cuando haya un caso que la exija.
+**Las cuatro filas de la wiki que el modelo colapsa en `adding`:**
 
-**Deuda separada, no incluida acá:** `arch-decisions §10` se decidió sobre un destilado de Condition
-Overload que había perdido un eje entero de la taxonomía de la wiki (*stacking* × *application* reducido a
-sólo *stacking*). Que la decisión se tomara sobre información incompleta **no la invalida por sí solo**,
-pero exige releerla. Esa relectura es trabajo propio, no parte de esta OQ.
+| # | Application | Ejemplos | Por qué difiere |
+|---|---|---|---|
+| 2 | **por encima** del X% | Kuva Bramma, Kulstar | los **proyectiles hijos** calculan el CO sobre el daño del **padre**, que suele ser mayor |
+| 3 | **exacto** | Braton, Latron, Paris sin cargar | el caso que el modelo asume para todos |
+| 4 | **por debajo** del X% | **Paris cargado**, arcos | el disparo cargado calcula el CO sobre el daño **sin cargar**, que es menor |
 
-**No bloquea:** nada hoy. **Degrada:** cerrar el vocabulario en tres formas sabiendo que hay cinco
-garantiza que la cuarta se modele como excepción de la tercera.
-**Vínculo:** `docs/domains/engine/design/arch-decisions.md` §10,
-`references/wiki/mechanics/condition-overload.md`, `references/wiki/mechanics/damage-elemental-primary.md`.
-**Fuente:** retrospectiva de las 19 subpáginas `Damage/<Tipo>` (residuo R-12).
+Las tres son `adding` en el eje modelado. **Nada en el contrato las distingue**, y la diferencia no es de
+bucket: es de **qué base usa el cálculo**.
+
+**La señal de que el hueco ya se sintió:** §9 declara que *"un override corrige la excepción (ej. Paris
+Charged Shot)"* — vía `co_behavior` en `weapon-stats.override.json`. Pero Paris cargado **no tiene otro
+bucket**: es aditivo como el Braton. Lo que tiene es otra **base de cálculo**. Se está corrigiendo un eje
+con el override del eje vecino, y eso funciona para un caso puntual y miente sobre la causa.
+
+**La pregunta:** ¿la base de cálculo del CO entra al contrato como dimensión propia (un `co_base` junto a
+`co_behavior`), o se sigue tratando caso por caso vía override mientras el corpus sea chico? Lo segundo es
+defendible —son pocas armas— pero hay que decidirlo sabiendo que es una decisión, no un descuido.
+
+**Origen de la duda, y su límite:** §10 se decidió sobre un destilado de CO al que le faltaba este eje
+entero (lo registra el residuo R-6 de la campaña de reconciliación). Que la decisión se tomara sobre
+información incompleta **no la invalida** — la partición por composición sigue siendo correcta y el eje
+de stacking está bien modelado. Lo que exige es releerla con la taxonomía completa a la vista.
+
+**Lo que NO es esta OQ — dos casos que ya tienen hogar:**
+
+- **Secondary Shiver** (`+45% por stack de Cold`) está **contemplado en §10**: aparece en su tabla y la
+  justificación generaliza *la fuente del factor* (`unique_status_count`, `freeze_stacks`, …) manteniendo
+  fijo el CÓMO. No es una forma nueva.
+- **Primary Frostbite** (`+3% CD por proc de Cold, 12 s, cap 40`) es la forma de **§11
+  `STACK_DECAY_BUFF`** —*evento discreto → +val por stack, cap Nx*, sin leer el status del target— que
+  ya está **ejecutada** con Galvanized Chamber.
+
+**No bloquea:** nada hoy — el modo estático replica el techo declarado. **Degrada:** la fidelidad de
+cualquier arma de las filas 2 y 4 en cuanto el CO se calcule en vez de declararse.
+**Vínculo:** `docs/domains/engine/design/arch-decisions.md` §9 (el contrato `co_behavior`) y §10 (la
+partición), `references/wiki/mechanics/condition-overload.md` §Los cinco comportamientos,
+`Project/src/core/engine/formulas/weapon/weapon-condition-overload.ts`.
+**Fuente:** reconciliación del corpus de CO (residuo R-6) — el eje perdido al destilar.
 
 ---
 
