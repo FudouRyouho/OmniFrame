@@ -28,6 +28,9 @@ contra `prop=revisions` de la API:
 | `DamageTypes/data` | 2026-07-04 | 🟢 vivo |
 | `Version/data` | 2026-07-17 | 🟢 vivo |
 | `Mods/data` | 2026-07-21 | 🟢 vivo |
+| `Weapons/data` (router) | 2026-06-30 | 🟢 vivo |
+| `Weapons/data/modular` | 2026-06-24 | 🟢 vivo |
+| `Weapons/data/{primary,secondary,companion}` | 2026-07-22 | 🟢 vivo |
 
 **El corte no es aleatorio: los dos congelados son los de habilidades.** Los demás siguen mantenidos.
 
@@ -49,6 +52,7 @@ verificación manual contra la wiki local.
 | `Maximization/data` | **pista, no fuente** — ver abajo |
 | `Enemies/infobox` | **árbitro de la ley de scaling** — ver abajo |
 | `Enemies/data` | el mapa de alias canónicos de facción; **no contiene enemigos** (es un router) |
+| `Weapons/data/*` | **el spread por ataque**, que ninguna otra fuente publica — ver abajo |
 
 ## `Module:Enemies/infobox` — el único módulo con autoridad sobre su página
 
@@ -79,6 +83,59 @@ El hallazgo con más consecuencias para `OQ-DATA-15`: el módulo lee **tres camp
 De los 152, **125 son la cadena vacía**: no redirigen a otra facción, **anulan** la matriz para ese
 enemigo. Y 6 contienen **paths de asset del juego** en vez de un nombre de facción — datos rotos de la
 wiki, anotados sin corregir.
+
+## `Module:Weapons/data` — el único lugar donde el spread está descompuesto
+
+**Qué le pedimos:** `MinSpread` y `MaxSpread` **por ataque**. Es el dato que el pipeline no tiene y
+que ninguna otra fuente publica: el Public Export y `weapons.json` traen un único `accuracy` por
+arma, que es el **promedio invertido** de ese par.
+
+```lua
+["AX-52"] = {
+    Accuracy = 133.33,                                    -- lo que ya tenemos
+    Attacks = { { AttackName = "Normal Attack",
+                  MinSpread = 0.5, MaxSpread = 1,         -- lo que no
+                  ShotType = "Hit-Scan", … } },
+}
+```
+
+**No es un stat nuevo: es el mismo, sin colapsar.** La wiki publica la identidad —
+`Base Accuracy = 100 / [(Min + Max)/2]` — y el arsenal mostró el promedio hasta la 35.5, cuando pasó
+a mostrar los dos extremos como *Deviation With Aim* / *Max Deviation*. El parche que lo hizo está
+marcado **`(Undocumented)`** y dice *"is now **shown**"*: cambió la presentación, no el modelo.
+
+**Por qué el par importa y el promedio no alcanza:**
+
+- **El promedio no reconstruye la categoría.** Las categorías de accuracy del wiki se definen por
+  `Deviation With Aim` (el mínimo), y desde el promedio caen corridas — medido: Akstiletto, Afuris y
+  Tigris quedan una categoría peor de la que la wiki les asigna.
+- **El spread es por ataque, no por arma.** **130 de 205** armas capturadas tienen más de un ataque con
+  spread propio (Acceltra Prime y Alternox Prime, cinco cada una). Un solo número por arma no puede
+  expresar eso, y es la razón de que el Zarr —Very Low en su modo Barrage— dé "Very High" al derivarlo
+  de nuestro `accuracy`.
+
+**Confianza — validado contra nuestro dato, no asumido:**
+
+| Verificación | Resultado |
+|---|---|
+| `Accuracy` del módulo == `accuracy` de `weapons.json` | **161 / 164** cruzables |
+| Coherencia interna del módulo (`100/avg == Accuracy`) | 125 / 135 medibles |
+| Armas con `Min/MaxSpread` capturadas | 205 · **565 ataques** |
+
+Las 3 divergencias (Stradavar Prime, Athodai Prime, Dual Coda Torxica) son armas **multi-modo**: el
+`Accuracy` a nivel arma corresponde a *uno* de sus ataques, y cuál no está declarado. Es el mismo
+límite del número colapsado, visto desde el otro lado.
+
+**Lo que esta captura NO cierra:** los **componentes** de armas modulares (kitgun chambers como
+Sporelacer o Vermisplicer) y las armas de sentinel sueltas (Deconstructor, Lacerten) no están — la
+wiki cataloga el arma **ensamblada**, nuestro dataset cataloga la pieza. Ese desencuentro es
+[`OQ-DATA-14`](../../governance/open-questions.md), no un hueco de este módulo.
+
+**Estado: capturado y validado, sin consumidor todavía.** Cómo aterriza —override, pipeline, o
+`attacks[]` derivado— es decisión abierta: `MinSpread`/`MaxSpread` no *corrige* un valor del export,
+lo **agrega**, y eso cambia lo que un override significa (precedente que sí lo hizo: la cosecha de
+`Module:Enemies/data` por `omniframe-items`). El debate del modelado vive en `OQ-ENGINE-7`
+(materialización de `WEAPON_ADD_ACCURACY`).
 
 ## `Module:Maximization/data` — una pista de 2021, no un censo
 

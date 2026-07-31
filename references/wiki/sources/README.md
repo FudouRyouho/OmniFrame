@@ -29,6 +29,11 @@ siete campos: llevan `> Fuente:` · `> Fuente actualizada:` · `> Extraído:` ·
 | `Module:Ability/data/stats` | `ability-data-stats.lua` | [`ability-data-stats.md`](ability-data-stats.md) | **2022-07-01** 🔴 |
 | `Module:Maximization/data` | `maximization-data.lua` | [`maximization-data.md`](maximization-data.md) | **2021-12-07** 🔴 |
 | `Module:Mods/data` | `mods-data.lua` | **sin destilar** — ver abajo | 2026-07-21 🟢 |
+| `Module:Weapons/data` | `weapons-data.lua` | *(router, fuente citada)* | 2026-06-30 🟢 |
+| `Module:Weapons/data/primary` | `weapons-data-primary.lua` | [`docs/domains/source/wiki-modules.md`](../../../docs/domains/source/wiki-modules.md) | 2026-07-22 🟢 |
+| `Module:Weapons/data/secondary` | `weapons-data-secondary.lua` | ídem | 2026-07-22 🟢 |
+| `Module:Weapons/data/modular` | `weapons-data-modular.lua` | ídem | 2026-06-24 🟢 |
+| `Module:Weapons/data/companion` | `weapons-data-companion.lua` | ídem | 2026-07-22 🟢 |
 | Public Export (DE) | `public-export.wikitext` | **sin destilar** — ver abajo | — |
 
 ### Los dos congelados son los de habilidades
@@ -41,11 +46,19 @@ incluido el rework completo a Damage 3.0.
 mantenidos. Un módulo Lua sirve como **pista a verificar** contra la página vigente, nunca como censo —
 y estos dos, ni siquiera como pista sin contrastar.
 
-### Los dos sin destilar
+### Los que no llevan `.md` propio
 
-- **`mods-data.lua` (930 KB)** — capturado, sin `.md` y sin consumidor conocido. No es defecto de
-  layout porque `sources/` está exento, pero **sí es un raw sin dueño**: nadie declara qué se le pide.
-  Antes de apoyarse en él hay que escribir su `.md`.
+El discriminador no es "tiene `.md` o no" sino **si alguien declara qué se le pide**. Un raw huérfano
+—capturado por si acaso, sin dueño— es deuda; un raw **citado** por un documento que declara su uso
+está completo sin `.md` hermano.
+
+- **`weapons-data-*.lua` (644 KB, 4 particiones + router)** — el dueño vive **del lado del proyecto**,
+  en [`docs/domains/source/wiki-modules.md`](../../../docs/domains/source/wiki-modules.md), por el
+  mismo criterio que `public-export.wikitext`: lo que hay que escribir no es *qué dice la wiki* (el
+  módulo es dato crudo, se lee solo) sino **qué le pedimos**. No se destila a `.md` a propósito — su
+  contenido es una tabla de números por arma, no prosa que perder.
+- **`mods-data.lua` (930 KB)** — capturado, sin `.md` y **sin consumidor conocido**. Éste sí es un raw
+  sin dueño: nadie declara qué se le pide. Antes de apoyarse en él hay que escribirlo.
 - **`public-export.wikitext`** — captura de la página que documenta el endpoint de DE. Su análisis vive
   en `docs/domains/source/public-export.md`, del lado del proyecto, porque describe **cómo lo
   consumimos**, no qué dice la wiki.
