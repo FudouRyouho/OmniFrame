@@ -258,11 +258,26 @@ export class StaticHydrator {
   private static reportUnlandedModifiers(entities: SimulationEntity[], modifiers: Modifier[]): void {
     const byEntity = new Map(entities.map(e => [e.id, e]));
     const unlanded = new Map<string, Set<string>>();
+    // Un buff ALL-scope se abre en N modifiers, uno por arma alcanzada: el reload de Volt Speed
+    // llega al rifle Y a la melee, y la melee **no tiene** nodo de recarga porque no recarga. Eso
+    // no es un hueco — es el fan-out haciendo su trabajo. Se reporta sólo si NINGUNA instancia
+    // encontró destino, que es cuando el buff realmente no rinde.
+    //
+    // La instancia se identifica por `source + atributo`, NO por el id: hay **dos** mecanismos de
+    // fan-out y cada uno lo codifica distinto (`StaticHydrator` sufija `@entidad`,
+    // `AbilityRepository` sufija `:targetId`). Parsear el id ataría este chequeo al formato de
+    // quien lo emite; el par source+atributo vale para los dos y para el que venga.
+    const landed = new Set(
+      modifiers
+        .filter(m => byEntity.get(m.target_entity)?.attributes[m.target_attribute])
+        .map(m => `${m.source_id ?? m.id}::${m.target_attribute}`),
+    );
 
     for (const m of modifiers) {
       const entity = byEntity.get(m.target_entity);
       // Entidad ausente = slot vacío, no es este caso: el ruteo ya descarta canales sin arma.
       if (!entity || entity.attributes[m.target_attribute]) continue;
+      if (landed.has(`${m.source_id ?? m.id}::${m.target_attribute}`)) continue;
       const key = `${m.target_attribute} en ${entity.id}`;
       if (!unlanded.has(key)) unlanded.set(key, new Set());
       unlanded.get(key)!.add(m.source_id ?? m.id);

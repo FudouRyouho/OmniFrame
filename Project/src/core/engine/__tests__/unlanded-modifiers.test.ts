@@ -14,7 +14,7 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { consume } from '../output/consume';
-import { volt, VOLT, voltChannelArcanes, rhinoRoar } from '../fixtures/builds';
+import { volt, voltSpeed, VOLT, TIBERON_PRIME, voltChannelArcanes, rhinoRoar } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
@@ -64,5 +64,20 @@ describe('Modifiers sin aterrizar — el engine declara lo que no modela', () =>
 
   it('los arcanos con canal cruzado tampoco lo disparan', () => {
     expect(unlanded(voltChannelArcanes())).toEqual([]);
+  });
+
+  // Fan-out PARCIAL: el reload de Volt Speed es ALL-scope y alcanza rifle + melee. La melee no
+  // tiene nodo de recarga porque no recarga — el buff igual rindió donde correspondía. Reportarlo
+  // sería confundir "el fan-out cubrió más de lo aplicable" con "esto no se modela".
+  //
+  // La instancia se identifica por `source + atributo` y no por el id justamente para que esto
+  // funcione: hay DOS mecanismos de fan-out (`StaticHydrator` sufija `@entidad`,
+  // `AbilityRepository` sufija `:targetId`) y parsear el id ataría el chequeo a uno de los dos.
+  it('un fan-out que aterrizó en UNA entidad no se reporta por las que no aplicaban', () => {
+    const conMelee = voltSpeed({ melee: true });
+    expect(unlanded(conMelee)).toEqual([]);
+    // …y el buff sí rindió donde correspondía:
+    const out = consume(conMelee, { flags: {} });
+    expect(out.weapon(TIBERON_PRIME).node('WEAPON_ADD_RELOAD_SPEED').final).toBeCloseTo(125, 5);
   });
 });

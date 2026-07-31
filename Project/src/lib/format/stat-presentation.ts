@@ -105,6 +105,12 @@ export const STAT_PRESENTATION: Partial<Record<Upgrade, PresentationMeta>> = {
   // como "1.8%". Mismo formato que ATTACK SPEED y FIRE RATE. Ver wiki/mechanics/movement-speed.md.
   AVATAR_ADD_MOVEMENT_SPEED:       { label: 'MOVEMENT SPEED',  category: 'utility', unit: '' },
   AVATAR_ADD_SPRINT_SPEED:         { label: 'SPRINT SPEED',    category: 'utility', unit: '%' },
+  // Porcentaje sobre base sintética 100 — al revés que MOVEMENT SPEED, que es escala. Los dos son
+  // stats de movimiento y **no** comparten unidad: el discriminador es de dónde sale la base.
+  AVATAR_ADD_PARKOUR_VELOCITY:     { label: 'PARKOUR VELOCITY', category: 'utility', unit: '%' },
+  // El único nodo del set cuya base es un TIEMPO real (3s de la fuente): sin la `s` el `3.6` se
+  // lee como porcentaje o multiplicador, que es justo lo que la unidad existe para evitar.
+  AVATAR_ADD_AIM_GLIDE_DURATION:   { label: 'AIM GLIDE',       category: 'utility', unit: 's' },
   AVATAR_ADD_CASTING_SPEED:        { label: 'CASTING SPEED',   category: 'utility', unit: '%' },
   AVATAR_ADD_SHIELD_RECHARGE_RATE: { label: 'SHIELD RECHARGE', category: 'utility', unit: '%' },
   AVATAR_ADD_HEALTH_REGEN:         { label: 'HEALTH REGEN',    category: 'utility', unit: '%' },

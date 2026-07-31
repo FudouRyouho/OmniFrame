@@ -327,8 +327,15 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 **Qué hay:** 3 nodos materializados (2026-06-10), que fijan los **tres moldes de base reusables** para el resto de la capa — `punch_through` (override), `projectile_speed` (raw, gate `flight != null` = ausencia ≠ 0), `recoil` (sintético 100, nodo inerte). Detalle vivo de cada molde: [`gap-map.md §Capa 4`](../domains/engine/test/gap-map.md).
 **Qué falta:** el resto de los nodos (`zoom`, `ammo_max`/`ammo_efficiency`, `headshot_mult`, `combo_*`/`heavy_*`/`slam_*`) por su molde; `ammo` pausado (`ammo_max` = deuda de fuente, `@wfcd/items` no lo expone; `ammo_efficiency` = no encaja en los moldes, efecto `1/(1−eff)` es C2, espera caso Laetum); y sobre todo el **eje (c)/C2** — falloff, penetración, geometría balística — que decide si estos nodos son display-only o computan.
 
+**Caso vivo con consumidor real — `WEAPON_ADD_ACCURACY`:** dos perks incarnon lo emiten y **ninguno rinde**
+— `attuned_accuracy` (Felarx) y `hunters_mantra` (Boltor Prime). No es un hueco de dato: el raw trae
+`accuracy` en las dos armas (50 · 7.69), y `lib/format` ya tiene su presentación (`unit: '%'`). Falta sólo
+el nodo, o sea el molde (b) ya resuelto aplicado una vez más. Es el primer ítem de esta OQ que **un
+usuario nota**: el perk está equipado, cuesta una evolución, y no hace nada. Lo detecta el tripwire de
+modifiers sin aterrizar (`__tests__/unlanded-modifiers.test.ts`), que es lo que lo volvió visible.
+
 **No bloquea:** captura de datos ni el vocabulario (tokens correctos y aplicados).
-**Gate:** el resto se materializa cuando el foco *weapons* retome Capa 4; el eje (c) se resuelve con consumidor C2, no antes.
+**Gate:** el resto se materializa cuando el foco *weapons* retome Capa 4; el eje (c) se resuelve con consumidor C2, no antes. El caso `accuracy` **no está gateado por (c)**: tiene dato, molde y consumidor.
 **Vínculo:** el mapa de gaps y el detalle de moldes viven en `gap-map.md §Capa 4` (SSoT vivo). Spec de falloff: [`damage-falloff.md`](../../references/wiki/mechanics/damage-falloff.md).
 **Fuente:** `gap-map.md §Capa 4`; `references/wiki/mechanics/{punch-through,projectile-speed,recoil,damage-falloff}.md`; `docs/semantic/upgrade-tokens.md`.
 
