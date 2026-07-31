@@ -2,34 +2,77 @@
 
 > Estado: activo
 > Rol: fórmulas de escalado de stats de enemigos por nivel
-> Fuente de verdad de: curva S post-Update 27.2, coeficientes por facción, EHP derivado
+> Fuente de verdad de: la interpolación de dos curvas (siempre evaluadas, nunca seleccionadas), los
+> bounds de transición **por stat**, el input de nivel **por stat**, los coeficientes por facción, el
+> régimen de precisión binary32 y el EHP derivado
 > No usar para: drops, afinidad de jugador o mecánicas de spawn
-> Última actualización: 2026-07-19 (re-captura vía `?action=raw` — corrige tablas health/shield stale:
-> grupos Murmur/Unaffiliated/Anarchs, coefs exactos 16.0998/15.0998, contradicción Anarchs del wiki)
-> Fuente: https://wiki.warframe.com/w/Enemy_Level_Scaling (raw en `raw/enemy-level-scaling.wikitext`)
+> Última actualización: 2026-07-31 (re-destilado — la página se reescribió el 2026-07-28/29: la curva
+> no se **elige**, se **interpola siempre**; bounds distintos por stat; Overguard usa otro input de
+> nivel y ahora publica sus coeficientes; precisión binary32 normativa; la contradicción de Anarchs
+> desapareció de la fuente)
+> Fuente: https://wiki.warframe.com/w/Enemy_Level_Scaling
 > Fuente actualizada: 2026-07-29
 > Raw: enemy-level-scaling.wikitext
 
-## Fórmula base universal
+## Fórmula base — una curva
+
+Cada **curva de extremo** (*endpoint curve*) tiene la misma forma:
 
 ```
-Stat Actual = Stat Base × (1 + Coeficiente × (Nivel Actual − Nivel Base)^Exponente)
+f_i(q) = 1 + C_i × q^(E_i)
 ```
 
-Donde `Δx = Nivel Actual − Nivel Base`.
+`C_i` y `E_i` son el coeficiente y el exponente de esa curva. **`q` no es el mismo para todos los
+stats:**
 
-## Curva S — Update 27.2
+| Stat | `q` |
+|---|---|
+| health · shields · armor · damage | `Nivel Actual − Nivel Base` |
+| **Overguard** | **`Nivel Actual − 1`** — ignora el nivel base de la unidad |
+| **Affinity** | **`Nivel Actual`** — directo, sin restar nada |
 
-Desde Update 27.2 el escalado sigue una **curva S**. La región se elige por **Δx = (Nivel Actual −
-Nivel Base)**, NO por nivel absoluto:
-- **Δx < 70**: `f1` — crecimiento rápido (exponente alto)
-- **Δx > 80**: `f2` — crecimiento lento (exponente bajo)
-- **70 ≤ Δx ≤ 80**: **smoothstep** entre `f1` y `f2` (no lineal):
-  ```
-  T = (Δx − 70) / 10        S = 3T² − 2T³        mult = f1 + (f2 − f1)·S
-  ```
+El valor final es `Valor Base × Multiplicador`.
 
-Cada facción tiene coeficientes distintos para las dos mitades de la curva.
+## Los stats con dos curvas **no eligen** — interpolan siempre
+
+Health, shields, armor, Overguard y el daño modificado de Corpus/Grineer/Techrot usan **dos** curvas.
+Y acá está el cambio de forma respecto de la lectura anterior:
+
+> *"**Both endpoint curves are evaluated at every level**, including when s=0 or s=1."*
+
+No hay región donde "manda `f1`" y otra donde "manda `f2`". **Siempre se evalúan las dos** y un peso
+smoothstep transporta el multiplicador de una a la otra. La wiki además **retiró** la afirmación de
+que las curvas se cruzan en x=80: *"the two curves do not necessarily intersect"*.
+
+```
+t    = clamp((q − L) / (U − L), 0, 1)
+s    = t² × (3 − 2t)
+mult = f1 + (f2 − f1) × s
+```
+
+**Los bounds `L`/`U` son por stat**, no universales:
+
+| Stat | `L` | `U` |
+|---|---|---|
+| health · shields · armor | 70 | 80 |
+| **Overguard** | **45** | **50** |
+| **damage modificado** (Corpus/Grineer/Techrot) | **1** | **25** |
+
+Cada facción tiene coeficientes distintos para las dos curvas.
+
+## Precisión: binary32 es normativa, y el orden también
+
+> *"The coefficients, exponents, power results, and intermediate arithmetic results **must be
+> evaluated in binary32 in the displayed order** when reproducing in-game values."*
+
+Cada paso —`f32(Base) × f32(Multiplicador)`, el `t`, el `s`, la resta `f2 − f1`— se evalúa y **se
+almacena** como IEEE 754 binary32 (precisión simple). Y la forma escrita es la única válida:
+
+> *"the expression **must not be rearranged** as `f1(x)(1−s) + f2(x)s`, and `f1` or `f2` **must not be
+> substituted directly** at either endpoint."*
+
+Las dos formas son algebraicamente idénticas y **numéricamente distintas** en precisión simple. Que
+la fuente lo prohíba explícitamente indica que la diferencia se observó al reproducir valores.
 
 ## Health por facción
 
@@ -41,18 +84,17 @@ Los tab-headers del wiki agrupan facciones que comparten coeficientes (`Corrupte
 | Grineer / Scaldra | `1 + 0.015(Δx)^2.12` | `1 + 10.7332(Δx)^0.72` |
 | Corpus | `1 + 0.015(Δx)^2.12` | `1 + 13.4165(Δx)^0.55` |
 | Infested | `1 + 0.0225(Δx)^2.12` | `1 + 16.0998(Δx)^0.72` |
-| Anarchs* / Corrupted (=Orokin) | `1 + 0.015(Δx)^2.1` | `1 + 10.7332(Δx)^0.685` |
-| Murmur / Sentient / **Unaffiliated (default)** / Anarchs* | `1 + 0.015(Δx)^2` | `1 + 10.7332(Δx)^0.5` |
+| Anarchs / Corrupted (=Orokin) | `1 + 0.015(Δx)^2.1` | `1 + 10.7332(Δx)^0.685` |
+| Murmur / Sentient / **Unaffiliated (default)** | `1 + 0.015(Δx)^2` | `1 + 10.7332(Δx)^0.5` |
 | Techrot | `1 + 0.02(Δx)^2.12` | `1 + 15.0998(Δx)^0.7` |
 
-> **⚠️ Anarchs (health): el wiki se contradice.** Aparece a la vez en el tab "Anarchs, Corrupted"
-> (`^2.1/^0.685`) y en la prosa del grupo "Murmur, Sentient, Anarchs, Unaffiliated" (`^2/^0.5`). Sin
-> resolver — adoptar lo más honesto y verificar por medición, como ya se hizo con la DR de armadura
-> enemiga. En **shields
-> no hay ambigüedad**: Anarchs = grupo Corrupted.
+> **La contradicción de Anarchs desapareció de la fuente.** Hasta la captura anterior, Anarchs
+> figuraba **a la vez** en el tab "Anarchs, Corrupted" (`^2.1/^0.685`) y en el grupo "Murmur, Sentient,
+> Anarchs, Unaffiliated" (`^2/^0.5`). El tab de la reescritura del 2026-07-28 se llama **"Murmur,
+> Sentient, and Unaffiliated"** — sin Anarchs. Queda un solo grupo para Anarchs, el de Corrupted, en
+> health y en shields.
 >
 > **Default para facción no reconocida = "Unaffiliated" → grupo `^2/^0.5` (el de Sentient), NO Grineer.**
-> Relevante porque el motor cae a Grineer por defecto (delta código↔fuente).
 
 ## Shields por facción
 
@@ -61,9 +103,17 @@ Los tab-headers del wiki agrupan facciones que comparten coeficientes (`Corrupte
 | Corpus | `1 + 0.02(Δx)^1.76` | `1 + 2(Δx)^0.76` |
 | Anarchs / Corrupted (=Orokin) | `1 + 0.02(Δx)^1.75` | `1 + 2(Δx)^0.75` |
 | Grineer / Sentient | `1 + 0.02(Δx)^1.75` | `1 + 1.6(Δx)^0.75` |
-| Techrot | `1 + 0.02(Δx)^1.76` | `1 + 3.5(Δx)^0.76` |
+| Techrot | `1 + 0.02(Δx)^1.76`† | `1 + 3.5(Δx)^0.76` |
 
 Infested no lleva escudo (sin fila). El wiki no documenta grupo Unaffiliated para shields.
+
+> † **Techrot shields — la página y el módulo de la propia wiki no coinciden.** La página dice
+> exponente **1.76** en la curva baja; `Module:Enemies/infobox` —el que la wiki **ejecuta** para
+> mostrar stats— dice **1.75**. La reescritura del 2026-07-28 no lo tocó.
+>
+> Queda **sin marca**: el módulo no está capturado en el corpus, y una marca de conflicto exige las
+> dos partes presentes. Se reproduce con
+> `curl -sL "https://wiki.warframe.com/w/Module:Enemies/infobox?action=raw"`.
 
 ## Armor — fórmula única para todas las facciones
 
@@ -79,6 +129,11 @@ if (armor > 0) { armor = min(armor, 2700); armor = max(armor, 200); }   // clamp
 ```
 El **floor de 200 aplica siempre** que `armor>0` — incluso a nivel base (Arid Butcher base 5 → 200; el 5 es
 nominal). Un enemigo con base armor 0 (sin armadura) NO recibe el floor (queda 0).
+
+> **El clamp es del valor inicial, no un piso permanente.** La aclaración es del 2026-07-29 y es
+> literal: *"This minimum cap is only for the **initial value** of their armor, i.e. their armor can
+> still be decreased below 200 through all normal means of armor removal."* El 200 no protege contra
+> el armor strip — es el punto de partida que el escalado produce, no un suelo de la unidad.
 
 **DR desde armor (⚠️ NO es `armor/(armor+300)` — esa está obsoleta):**
 ```
@@ -103,9 +158,30 @@ El health/shield BASE se modifica ANTES del escalado por nivel, en este orden ex
 6. **Empowered ×N** por player_count: 1→**2.5**, 2→**3.0**, 3→**3.5**, 4→**4.0** (health y shield).
 7. **Recién ahora** el escalado por nivel (curva-S `f1/f2/smoothstep`) sobre la base ya modificada.
 
-**Overguard:** misma forma que health pero con transición **45-50** (no 70-80): `1 + og_f1 + (og_f2−og_f1)·smoothstep(45,50,Δx)`.
-
 **Affinity:** `floor(base_affinity × (coef + √(NivelActual) × 0.1425))`, `coef = 1` normal / **3** Eximus.
+El redondeo hacia abajo lo confirma hoy la página, no sólo el gadget: *"62.7 affinity will be rounded
+down to 62"*.
+
+## Overguard — tres cosas propias, ninguna compartida con health
+
+Antes este bloque decía sólo *"misma forma que health, con transición 45-50"*. La página publica ahora
+sus coeficientes, y de las tres particularidades **dos no estaban documentadas acá**:
+
+```
+f1(q) = 1 + 0.0015 × q^4          curva baja
+f2(q) = 1 + 260    × q^0.9        curva alta
+q     = Nivel Actual − 1          ← NO el nivel base de la unidad
+L, U  = 45, 50                    ← NO 70-80
+```
+
+**Overguard base de todo Eximus = 12.** Unidades normales pueden tener Overguard en situaciones
+puntuales (ej. tras destruir un Overguard Exodamper en Void Armageddon).
+
+El exponente **4** de la curva baja es el más alto de cualquier stat del juego: entre nivel 1 y 45 el
+Overguard crece muchísimo más rápido que health, shields o armor.
+
+**Aviso de la propia wiki:** la sección de Overguard es la única del artículo cuya referencia es un
+hilo de Reddit de 2022 marcado *`[Confirmation needed]`*. Es la fórmula peor respaldada de la página.
 
 > Fuente autoritativa de TODO lo anterior: `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`
 > (el gadget del calculador del wiki). Diferido en el engine hasta abrir el frente Eximus/SP (gate de
@@ -113,14 +189,29 @@ El health/shield BASE se modifica ANTES del escalado por nivel, en este orden ex
 
 ## Damage (daño de enemigos)
 
+**Estándar — una sola curva, sin interpolación:**
 ```
-Estándar:              1 + 0.015(Δx)^1.55
-Corpus/Grineer/Techrot: transición suave de 1+0.015(Δx)^1.75 a 1+0.0075(Δx)^1.55
+1 + 0.015(Δx)^1.55
 ```
+
+**Corpus / Grineer / Techrot — dos curvas, y con los bounds más angostos del juego:**
+```
+f1(Δx) = 1 + 0.015 (Δx)^1.75
+f2(Δx) = 1 + 0.0075(Δx)^1.55
+L, U   = 1, 25
+```
+
+Que la transición termine en `Δx = 25` significa que **para casi todo el rango jugable estas tres
+facciones ya están sobre `f2`** — al revés que health/shields/armor, donde el 70-80 deja la mayor
+parte del juego en la curva baja.
 
 Multiplicadores adicionales por facción:
 - Corpus / Grineer / Techrot: ×2
 - Infested: ×3
+
+> El daño base de un enemigo es *"the damage dealt by this enemy to the player's Overguard when it is
+> at level 1"* — o sea que el número base se define por una medición contra Overguard, no contra
+> health o shields del jugador.
 
 ## Affinity (afinidad)
 

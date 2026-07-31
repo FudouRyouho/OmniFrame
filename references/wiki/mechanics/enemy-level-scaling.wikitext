@@ -10,43 +10,98 @@ Enemy levels are normally capped at the limit of 9999, but can be exceeded in [[
 Also visit [[Effects Scaling With Enemy Stats]] for a list of abilities and other effects that scale up as enemy level increases.
 
 == Common Features of Stat Scaling ==
-How scaling of fundamental enemy stats works in general is identical for all the stats: Each enemy type has a base value for this fundamental stat and a base level, the current value of the stat at the current level of the enemy is then calculated after a formula of the following structure:
+Most fundamental enemy stats are obtained by multiplying a base value by a level-dependent multiplier. Each endpoint curve has the following general structure:
 
-:<math>\text{Current Value} = \text{Base Value} \times (1 + \text{Coefficient}(\text{Current Level} - \text{Base Level})^\text{Exponent})</math>
+:<math>
+f_i(x)=1+C_iq^{E_i}
+</math>
 
-Exponent and coefficient are determined by the specific stat in question and differ across enemy faction. The base level and base value of the stat are determined by the enemy type. The current level is then the independent variable and the current value of the stat is the dependent variable of the formula.
+Here, <math>C_i</math> and <math>E_i</math> are the coefficient and exponent of endpoint curve <math>i</math>. For most stats,
 
-At lower levels the coefficient is normally less than one, so growth is not easily noticed until mid-level ranges. For high levels, the exponent has the most impact when comparing different scaling stats against each other. If the exponent is 1, the scaling of the stat would be linear with level, which means the increase in value as level grows would be constant. For exponents higher than 1, each successive level-up grants a larger increase than the previous one, and for exponents lower than one, each successive level-up grants a smaller increase than the previous one.
+:<math>
+q=\text{Current Level}-\text{Base Level}.
+</math>
 
-The only exception of this common structure is Affinity scaling, where the current level is used instead of the difference between the current and base level.
+Overguard ignores the enemy's individual base level and instead uses <math>q=\text{Current Level}-1</math>. Affinity is a separate case and uses the current level directly.
+
+For a stat that uses a single curve, that curve is the stat multiplier. For a stat that uses two endpoint curves, the multiplier is obtained using the interpolation procedure described below.
+
+The current stat value is then:
+
+:<math>
+\text{Current Value}
+=
+\operatorname{f32}
+\left(
+\operatorname{f32}(\text{Base Value})
+\times
+\operatorname{f32}(\text{Multiplier})
+\right)
+</math>
+
+In these formulae, <math>\operatorname{f32}(z)</math> means that <math>z</math> is evaluated and stored as an IEEE 754 binary32 value. The coefficients, exponents, power results, and intermediate arithmetic results must be evaluated in binary32 in the displayed order when reproducing in-game values.
 
 == Scaling of Fundamental Stats ==
 As mentioned, all fundamental stats scale by the above formula structure and common features apply. A standardized graph is shown for each stat. When comparing the graphs, the different Y-axis scaling has to be considered. As of {{ver|27.2}} health, shield, and armor scaling follow an "S"-like curve, where below a universal level range these stats grow quickly, and above this range, the stats grow slower and begin to plateau.
 
 [[File:StatScaling.png|thumb|center|660px|Showing scaling of health, shields, and armor between level 1-200. Note that shield scaling will surpass health above level 2025.]][[File:EximusStatScaling.png|thumb|center|660px|Showing scaling of Eximus health, shields, and armor between level 1-200.]]
 
-Health, shields, armor scaling formulae use two main functions to determine stat scaling at a particular level. One function is used when enemy level difference is below 70 and the other when enemy level difference is above 80. A common feature between the functions used is that they intersect at x=80. In other words, they produce the same value when the enemy level difference is 80.
+Health, shields, armor, Overguard, and the modified Corpus, Grineer, and Techrot damage scaling use two endpoint curves. The two curves do not necessarily intersect. Instead, a smoothstep weight transitions the multiplier from the lower endpoint curve <math>f_1</math> to the upper endpoint curve <math>f_2</math>.
 
-Stat scaling between 70-80 inclusive is interpolated from the two functions using [[wikipedia:Smoothstep|smoothstep]].
+For health, shields, and armor, the transition bounds are <math>L=70</math> and <math>U=80</math>. Overguard uses <math>L=45</math> and <math>U=50</math>. Modified Corpus, Grineer, and Techrot damage scaling uses <math>L=1</math> and <math>U=25</math>.
 
-:<math>
-T(x) = \frac{x - \text{Base Level} - 70}{10}
-</math>
-::''Finding out transition percentage from 70 to 80''
+Let <math>q</math> be the applicable level input defined above. The transition value is:
 
 :<math>
-S_1(x) = 
-\begin{cases}
-0,\; & x - \text{Base Level} < 70 \\
-3(T(x))^{2} - 2(T(x))^{3} ,\; & 70 \leq x - \text{Base Level} \leq 80 \\
-1,\; & x - \text{Base Level} > 80
-\end{cases}
+t=
+\operatorname{clamp}
+\left(
+\operatorname{f32}
+\left(
+\frac{
+\operatorname{f32}(q-L)
+}{
+\operatorname{f32}(U-L)
+}
+\right),
+0,1
+\right)
 </math>
-::''Smoothstep transitioning between functions''
 
-Note that while the growth at early levels is normally referred to as ''[[wikipedia:Exponential growth|exponential]]'' by the community, it is actually a ''[[wikipedia:Exponentiation#Power_functions|power growth]]'' of the form x<sup>n</sup>, which is an order less than exponential growth (i.e. x<sup>n</sup> ∈ O(n<sup>x</sup>) v. n<sup>x</sup> ∉ O(x<sup>n</sup>)).
+The smoothstep weight is evaluated as:
 
-'''Note that the following health, shield, armor, and overguard scaling formulae are derived from in-game testing and have not been confirmed or denied valid by [[Digital Extremes]] at this time. The accuracy of the following information is still under review.'''
+:<math>
+s=
+\operatorname{f32}
+\left(
+\operatorname{f32}(t\times t)
+\times
+\operatorname{f32}
+\left(
+3-\operatorname{f32}(2\times t)
+\right)
+\right)
+</math>
+
+The final multiplier is evaluated in the following exact order:
+
+:<math>
+\text{Multiplier}
+=
+\operatorname{f32}
+\left(
+f_1(x)
++
+\operatorname{f32}
+\left(
+\operatorname{f32}\left(f_2(x)-f_1(x)\right)
+\times s
+\right)
+\right)
+</math>
+
+Both endpoint curves are evaluated at every level, including when <math>s=0</math> or <math>s=1</math>. For exact binary32 results, the expression must not be rearranged as <math>f_1(x)(1-s)+f_2(x)s</math>, and <math>f_1</math> or <math>f_2</math> must not be substituted directly at either endpoint.
+
 
 === Health ===
 
@@ -57,51 +112,51 @@ For health, the ranges of level differences from base to current level at which 
 
 The formula by which Grineer and Scaldra health scales is as follows:
 :<math>f_1(x) = 1 + 0.015(x - \text{Base Level})^{2.12}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 10.7332(x - \text{Base Level})^{0.72}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 
 |-|Corpus=
 
 The formula by which Corpus health scales is as follows:
 :<math>f_1(x) = 1 + 0.015(x - \text{Base Level})^{2.12}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 13.4165(x - \text{Base Level})^{0.55}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 
 |-|Infested=
 
 The formula by which Infested health scales is as follows:
 :<math>f_1(x) = 1 + 0.0225(x - \text{Base Level})^{2.12}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 16.0998(x - \text{Base Level})^{0.72}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 |-|Anarchs, Corrupted=
 
 The formula by which Corrupted health scales is as follows:
 :<math>f_1(x) = 1 + 0.015(x - \text{Base Level})^{2.1}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 10.7332(x - \text{Base Level})^{0.685}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 
 |-|Murmur, Sentient, and Unaffiliated=
 
 The formula by which Murmur, Sentient, Anarchs, and Unaffiliated health scales is as follows:
 :<math>f_1(x) = 1 + 0.015(x - \text{Base Level})^2</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 10.7332(x - \text{Base Level})^{0.5}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 |-|Techrot=
 The formula by which Techrot health scales is as follows:
 :<math>f_1(x) = 1 + 0.02(x - \text{Base Level})^{2.12}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 15.0998(x - \text{Base Level})^{0.7}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 |-|Eximus=
 Eximus units use the health scaling of their respective factions, but have an additional, separate base health increase. This base health increase is dependent on level. Note that the health values listed in the [[Codex]] are <u>not</u> an Eximus unit's base health before this base health increase.
@@ -116,7 +171,7 @@ For Eximus units with Shields or Armor, the base health increase is as follows:
 \max{\left( \text{Base Health} \times 1.1,\quad 0.25 \times \left( \text{Base Health} + 900 \right) \times [ 1.25 + 0.125 \times (x - 25) ] \right)} ,\; & 25 < x \leq 35 \\
 \max{\left( \text{Base Health} \times 1.1,\quad 0.25 \times \left( \text{Base Health} + 900 \right) \times [ 2.5 + \frac{2}{15} \times (x - 35) ] \right)} ,\; & 35 < x \leq 50 \\
 \max{\left( \text{Base Health} \times 1.1,\quad 0.25 \times \left( \text{Base Health} + 900 \right) \times [ 4.5 + 0.03 \times (x - 50) ] \right)} \; & 50 < x \leq 100 \\
-\max{\left( \text{Base Health} \times 1.1,\quad 0.25 \times \left( \text{Base Health} + 900 \right) \times 6 \right)} ,\; & 100 > x \\
+\max{\left( \text{Base Health} \times 1.1,\quad 0.25 \times \left( \text{Base Health} + 900 \right) \times 6 \right)} ,\; & x > 100 \\
 \end{cases}
 }
 </math>
@@ -132,7 +187,7 @@ For Eximus units with '''No''' Shields or Armor, the base health increase is as 
 \max{\left( \text{Base Health} \times 1.1,\quad 0.375 \times \left( \text{Base Health} + 900 \right) \times [ 1.25 + 0.125 \times (x - 25) ] \right)} ,\; & 25 < x \leq 35 \\
 \max{\left( \text{Base Health} \times 1.1,\quad 0.375 \times \left( \text{Base Health} + 900 \right) \times [ 2.5 + \frac{2}{15} \times (x - 35) ] \right)} ,\; & 35 < x \leq 50 \\
 \max{\left( \text{Base Health} \times 1.1,\quad 0.375 \times \left( \text{Base Health} + 900 \right) \times [ 4.5 + 0.03 \times (x - 50) ] \right)} \; & 50 < x \leq 100 \\
-\max{\left( \text{Base Health} \times 1.1,\quad 0.375 \times \left( \text{Base Health} + 900 \right) \times 6 \right)} ,\; & 100 > x \\
+\max{\left( \text{Base Health} \times 1.1,\quad 0.375 \times \left( \text{Base Health} + 900 \right) \times 6 \right)} ,\; & x > 100 \\
 \end{cases}
 }
 </math>
@@ -151,36 +206,36 @@ For shields, the ranges of level differences at which scaling transitions is bet
 The formula by which Corpus shields scale is as follows:
 
 :<math>f_1(x) = 1 + 0.02(x - \text{Base Level})^{1.76}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 2(x - \text{Base Level})^{0.76}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 |-|Anarchs, Corrupted=
 
 The formula by which Corrupted shields scale is as follows:
 
 :<math>f_1(x) = 1 + 0.02(x - \text{Base Level})^{1.75}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 2(x - \text{Base Level})^{0.75}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 |-|Grineer and Sentient=
 
 The formula by which Grineer and Sentient shields scale is as follows:
 
 :<math>f_1(x) = 1 + 0.02(x - \text{Base Level})^{1.75}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 1.6(x - \text{Base Level})^{0.75}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 |-|Techrot=
 
 The formula by which Techrot shields scale is as follows:
 
 :<math>f_1(x) = 1 + 0.02(x - \text{Base Level})^{1.76}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 3.5(x - \text{Base Level})^{0.76}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 |-|Eximus=
 Eximus units use the Shield scaling of their respective factions, but have an additional, separate base Shield increase. This base Shield increase is dependent on level. Note that the Shield values listed in the [[Codex]] are <u>not</u> an Eximus unit's base Shields before this base Shield increase.
@@ -195,7 +250,7 @@ The base Shield increase is as follows:
 \max{\left( \text{Base Shield} \times 1.1,\quad \text{Base Shield} \times [ 1.25 + 0.125 \times (x - 25) ] \right)} ,\; & 25 < x \leq 35 \\
 \max{\left( \text{Base Shield} \times 1.1,\quad \text{Base Shield} \times [ 2.5 + \frac{2}{15} \times (x - 35) ] \right)} ,\; & 35 < x \leq 50 \\
 \max{\left( \text{Base Shield} \times 1.1,\quad \text{Base Shield} \times [ 4.5 + 0.03 \times (x - 50) ] \right)} \; & 50 < x \leq 100 \\
-\max{\left( \text{Base Shield} \times 1.1,\quad \text{Base Shield} \times 6 \right)} ,\; & 100 > x \\
+\max{\left( \text{Base Shield} \times 1.1,\quad \text{Base Shield} \times 6 \right)} ,\; & x > 100 \\
 \end{cases}
 }
 </math>
@@ -205,24 +260,34 @@ The base Shield increase is as follows:
 [[File:ShieldScaling.png|center|thumb|660px|Current shield scaling at Base Level = 1.]]
 
 === Armor ===
-Enemy armor is hard capped at '''2,700''', granting them '''90%''' [[Damage Reduction]].
+Enemy armor produced by level scaling is hard capped at '''2,700''', granting '''90%''' [[Damage Reduction]] under the standard enemy armor formula.
 
-Enemies that would spawn with less than '''200''' armor will have their armor value set to the minimum cap of '''200''' instead. This minimum cap is only for the ''initial value'' of their armor, i.e. their armor can still be decreased below '''200''' through all normal means of armor removal.
+Enemies whose level-scaled armor would be less than '''200''' have their initial armor value set to the minimum cap of '''200''' instead. This minimum cap is only for the ''initial value'' of their armor, i.e. their armor can still be decreased below '''200''' through all normal means of armor removal.
 
 For armor, the ranges of level differences at which scaling transitions is between '''70''' & '''80'''. The formula by which enemy armor scales is as follows:
 :<math>f_1(x) = 1 + 0.005(x - \text{Base Level})^{1.75}</math>
-::''When Current Level - Base Level < 70''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 0.4(x - \text{Base Level})^{0.75}</math>
-::''When Current Level - Base Level > 80''
+::''Upper endpoint curve''
 
 :<math>
-{
-\begin{align}
-\text{Armor Multiplier} = [f_1(\text{Current Level})\times(1 - S_1(\text{Current Level})] \\
-+ [f_2(\text{Current Level})\times S_1(\text{Current Level})]
-\end{align}
-}
+\text{Armor Multiplier}
+=
+\operatorname{f32}
+\left(
+f_1(\text{Current Level})
++
+\operatorname{f32}
+\left(
+\operatorname{f32}
+\left(
+f_2(\text{Current Level})-f_1(\text{Current Level})
+\right)
+\times s
+\right)
+\right)
 </math>
+
 
 ::''Where the Armor Multiplier is the value that multiplies an enemy's base armor to its current armor.''
 [[File:ArmorScaling.png|center|thumb|660px|Current armor scaling at Base Level = 1.]]
@@ -231,34 +296,28 @@ For armor, the ranges of level differences at which scaling transitions is betwe
 [[Overguard]] is a unique health buffer to Eximus, though normal units can get overguard in unique situations (like after a Overguard Exodamper is destroyed during [[Void Armageddon]]).<ref>{{Ref|title=[Confirmation needed]I did a little math on the Overguard, here is the result|author=chrookee|year=2022|month=5|day=2|publisher=Reddit|url=https://www.reddit.com/r/Warframe/comments/ugja1p/confirmation_neededi_did_a_little_math_on_the/|access-date=2022-05-03|archive-url=https://web.archive.org/web/20220503171029/https://www.reddit.com/r/Warframe/comments/ugja1p/confirmation_neededi_did_a_little_math_on_the/|archive-date=2022-05-03}}</ref> All Eximus units have a base Overguard of 12.
 
 :<math>f_1(x) = 1 + 0.0015(x - 1)^4</math>
-::''When Current Level - 1 < 45''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 260(x - 1)^{0.9}</math>
-::''When Current Level - 1 > 50''
+::''Upper endpoint curve''
 
 Stat scaling between 45-50 inclusive is interpolated from the two functions using [[wikipedia:Smoothstep|smoothstep]].
 
 :<math>
-T(x) = \frac{x - 1 - 45}{5}
-</math>
-::''Finding out transition percentage from 45 to 50''
-
-:<math>
-S_2(x) = 
-\begin{cases}
-0,\; & x - 1 < 45 \\
-3(T(x))^{2} - 2(T(x))^{3} ,\; & 45 \leq x - 1 \leq 50 \\
-1,\; & x - 1 > 50
-\end{cases}
-</math>
-::''Smoothstep transitioning between functions''
-
-:<math>
-{
-\begin{align}
-\text{Overguard Multiplier} = [f_1(\text{Current Level})\times(1 - S_2(\text{Current Level})] \\
-+ [f_2(\text{Current Level})\times S_2(\text{Current Level})]
-\end{align}
-}
+\text{Overguard Multiplier}
+=
+\operatorname{f32}
+\left(
+f_1(\text{Current Level})
++
+\operatorname{f32}
+\left(
+\operatorname{f32}
+\left(
+f_2(\text{Current Level})-f_1(\text{Current Level})
+\right)
+\times s
+\right)
+\right)
 </math>
 ::''Where the Overguard Multiplier is the value that multiplies an enemy's base overguard to its current overguard.''
 [[File:EximusOverguardScaling.png|center|thumb|660px|Current overguard scaling.]]
@@ -271,34 +330,28 @@ The formula by which enemy damage scales is as follows:
 {{Faction|Corpus}}, {{Faction|Grineer}}, and {{Faction|Techrot}} enemies have modified damage scaling, and use the following:
 
 :<math>f_1(x) = 1 + 0.015(x - \text{Base Level})^{1.75}</math>
-::''When Current Level - Base Level < 1''
+::''Lower endpoint curve''
 :<math>f_2(x) = 1 + 0.0075(x - \text{Base Level})^{1.55}</math>
-::''When Current Level - Base Level > 25''
+::''Upper endpoint curve''
 
 Stat scaling between 1-25 inclusive is interpolated from the two functions using [[wikipedia:Smoothstep|smoothstep]].
 
 :<math>
-T(x) = \frac{x - \text{Base Level} - 1}{24}
-</math>
-::''Finding out transition percentage from 1 to 25''
-
-:<math>
-S_2(x) = 
-\begin{cases}
-0,\; & x - \text{Base Level} < 1 \\
-3(T(x))^{2} - 2(T(x))^{3} ,\; & 1 \leq x - \text{Base Level} \leq 25 \\
-1,\; & x - \text{Base Level} > 25
-\end{cases}
-</math>
-::''Smoothstep transitioning between functions''
-
-:<math>
-{
-\begin{align}
-\text{Damage Multiplier} = [f_1(\text{Current Level})\times(1 - S_2(\text{Current Level})] \\
-+ [f_2(\text{Current Level})\times S_2(\text{Current Level})]
-\end{align}
-}
+\text{Damage Multiplier}
+=
+\operatorname{f32}
+\left(
+f_1(\text{Current Level})
++
+\operatorname{f32}
+\left(
+\operatorname{f32}
+\left(
+f_2(\text{Current Level})-f_1(\text{Current Level})
+\right)
+\times s
+\right)
+\right)
 </math>
 ::''Where the Damage Multiplier is the value that multiplies an enemy's base damage to its current damage.''
 

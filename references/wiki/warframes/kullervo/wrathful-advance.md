@@ -1,6 +1,7 @@
 # Wrathful Advance — Kullervo (habilidad 1)
 
-> Última actualización: 2026-07-24
+> Última actualización: 2026-07-31 (re-verificado: la edición del 2026-07-29 movió el bloque
+> *Ability Synergy* al parámetro `|synergies =` de la plantilla — cambio estructural, cero dato)
 > Fuente: https://wiki.warframe.com/w/Wrathful_Advance
 > Fuente actualizada: 2026-07-29
 > Raw: wrathful-advance.wikitext

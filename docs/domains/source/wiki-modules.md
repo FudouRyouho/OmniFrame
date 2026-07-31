@@ -105,6 +105,10 @@ estancada") pero no la mide en ningún lado. Traer `sources/` al régimen de fec
 visible: la señal no es que la fuente se haya movido **después** de destilarla, sino que **no se
 mueve hace años**.
 
+Cómo se vuelve ejecutable —y por qué la unidad correcta es *versiones del juego* y no meses de
+calendario— vive en [`../../governance/open-questions.md`](../../governance/open-questions.md)
+(`OQ-DOC-2`), que además separa este caso angosto del audit de frescura per-item.
+
 ## Fuentes
 
 - `references/wiki/sources/` — los `.lua` capturados y la estructura de cada uno

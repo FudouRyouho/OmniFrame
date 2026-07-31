@@ -66,7 +66,7 @@ Crouching lowers the Warframe to an average of about half height, reducing hitbo
 {{clr}}
 ====Sliding====
 {{Combo|While Moving + Crouch}}[[File:MovementSliding.gif|right]]
-Sliding is crouching while moving. This will bring a frame to a gradual stop because of ''Friction'', except when on slopes. Ranged weapons may be used while sliding and a melee attack creates a separate combat maneuver.
+Sliding is crouching while moving. This will bring a frame to a gradual stop because of ''Friction'', except when on slopes. Ranged weapons may be used while sliding. Using a melee weapon while sliding will perform a [[Melee#Slide_Attack|Slide Attack]], which often involves spinning the weapon in a wide arc.
 
 Sliding is helpful for going under obstacles quickly that would otherwise need to be crawled under by Crouching.
 
@@ -74,9 +74,9 @@ Sliding is helpful for going under obstacles quickly that would otherwise need t
 
 ====Jump Kick====
 {{Combo|While Moving Mid-Air + Crouch}}[[File:MovementJumpKick.gif|right]]
-This action is essentially the same as a crouch which has been initiated while midair. It will help maintain momentum and allow the frame to travel further. When landing on the ground, the Warframe will return to a slide. Like sliding, the frame's jump distance is also improved allowing to reach distant places. 
+This action is essentially the same as a crouch which has been initiated while midair. It will help maintain momentum and allow the frame to travel further. When landing on the ground, the Warframe will return to a slide. Like sliding, the frame's jump distance is also improved allowing to reach distant places. Using a melee weapon during a jump kick will also perform a [[Melee#Slide_Attack|Slide Attack]], but airborne.
 
-Jump Kicking will also [[knockdown]] most enemies on hit, as well as dealing pure {{D|Impact}} damage equal to 20 + 100% of equipped melee weapon base damage (including base damage mods). This damage cannot be increased by headshotting an enemy, but can be increased to 20 + 200% of melee base damage with {{M|Gale Kick}} equipped.
+Jump Kicking will also [[knockdown]] most enemies on hit, as well as dealing pure {{D|Impact}} damage equal to 20 + 100% of equipped melee weapon base damage (including base damage mods). This damage cannot be increased by headshotting an enemy, but can be increased to 20 + 200% of melee base damage with {{M|Gale Kick}} equipped. This can be useful for breaking through an environmental obstacle with low health, such as a [[Grate]] or a [[Fan]], when it is near the end of your jump.
 
 {{clr}}
 
@@ -96,7 +96,7 @@ Players can jump twice by tapping the jump button twice. Double jumping carries 
 {{Combo|While Crouching + Jump}}[[File:MovementJumpBullet.gif|right]]
 While crouching, pressing the jump button will cause the Warframe to quickly launch themselves towards the direction of the reticle, leaping into midair with a spiraling movement at a initial speed of 14.5 meters per second. This allows the Warframe to close a longer gap or reach a higher destination. 
 
-Bullet Jump deals 100 {{D|Blast}} damage and guaranteed proc within a 3-meter radius (damage falling off over distance) from where the user initiates the jump. This damage can be modified and amplified by some Exilus Mods such as {{M|Piercing Step}}.
+Bullet Jump deals 100 {{D|Blast}} damage and guaranteed proc within a 3-meter radius (damage falling off over distance) from where the user initiates the jump. This damage can be modified and amplified by some Exilus Mods such as {{M|Piercing Step}}. This can be useful for breaking through an environmental obstacle with low health, such as a [[Grate]] or a [[Fan]], when it is near the start of your jump.
 
 It is possible to bullet jump from a slide (crouching after moving), which will still propel the Warframe forward with extra speed.
 

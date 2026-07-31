@@ -24,19 +24,20 @@
 ***The teleport marker snaps to the nearest enemy on the reticle and plays a distinct sound to indicate its lock-on.
 **Teleport marker reaches up to the ability's modded distance and can be placed in any direction including toward the skybox to teleport Kullervo upward.
 **Kullervo does '''not''' become briefly invulnerable if teleporting by hold-cast.
-*'''Ability Synergy:'''
-**Kullervo's [[Kullervo/Abilities#Passive|Passive]] increases [[Heavy Attack Efficiency]] by <u>'''75%'''</u> and Heavy Attack Wind Up speed by <u>'''100%'''</u> to amplify Wrathful Advance's heavy attack.
-**{{A|Recompense}}, {{A|Collective Curse}}, and {{A|Storm of Ukko}} increase the [[Melee Combo Counter]] to amplify Wrathful Advance's heavy attack.
-**Wrathful Advance's heavy attack damage spreads through enemies under Collective Curse when striking a cursed target.
-**When {{M|Wrath of Ukko}} is equipped, Wrathful Advance will reposition an active Storm of Ukko to the teleport location while also adding extra duration to the ability.
 *Can be recast to refresh active melee critical chance buff duration to full.
 *Wrathful Advance's melee critical bonus is dispelled by Kullervo entering an ability nullification zone or by falling out of bounds.
 **Kullervo can only teleport up to the border of a [[Nullifier Crewman]]'s bubble. Hold-cast teleport marker is also obstructed by the bubble.
 *While active, whenever Kullervo performs a melee heavy attack on most melee weapon types, an aggressive growl can be heard on each swing.
+|helminth =
 *Subsuming Kullervo to the [[Helminth]] will offer Wrathful Advance and its augments to be used by other Warframes.
 **However, Subsumed Wrathful Advance's range is reduced to {{Stat|Ability Range|icon=only}}'''10 / 11 / 11.5 / 12.5''' meters and melee critical chance bonus reduced to {{Stat|Ability Strength|icon=only}}'''25% / 50% / 75% / 100%'''
 ***(only the targeting, the hold to teleport range is unchanged)
 **The bonus critical chance also applies to [[Exalted Weapon]]s, including formerly pseudo-exalted abilities such as {{A|Landslide}}, {{A|Slash Dash}}, {{A|Shattered Lash}} and {{A|Whipclaw}}.
+|synergies =
+**Kullervo's [[Kullervo/Abilities#Passive|Passive]] increases [[Heavy Attack Efficiency]] by <u>'''75%'''</u> and Heavy Attack Wind Up speed by <u>'''100%'''</u> to amplify Wrathful Advance's heavy attack.
+**{{A|Recompense}}, {{A|Collective Curse}}, and {{A|Storm of Ukko}} increase the [[Melee Combo Counter]] to amplify Wrathful Advance's heavy attack.
+**Wrathful Advance's heavy attack damage spreads through enemies under Collective Curse when striking a cursed target.
+**When {{M|Wrath of Ukko}} is equipped, Wrathful Advance will reposition an active Storm of Ukko to the teleport location while also adding extra duration to the ability.
 | augment = 
 | tips = *Changing the Tap/Hold setting for Wrathful Advance to Inverted (so that tap is instant teleport and hold is teleport + heavy attack) makes it a lot more flexible.
 **The tap-teleport is very fast with no casting animation.

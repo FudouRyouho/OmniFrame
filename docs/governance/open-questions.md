@@ -57,8 +57,13 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-23` | Rank de ítem (warframe/arma) sin consumidor; `mod.rank` vestigial | engine / A1-C1 | abierta — diferida, no bloquea, sin necesidad real hoy |
 | `OQ-ENGINE-24` | Derivación cross-stat (Iron Skin y su clase): fórmula dedicada ↔ grafo | engine / C1 | abierta — **diferida por decisión**: 1 de 1241 `upgrade_by` emite modifier; gap rojo-ejecutable |
 | `OQ-ENGINE-25` | Orden de `total_flat` vs `multiplicative` contra la referencia canónica | engine / formulas — fidelidad | abierta — **latente**: intersección vacía medida, no bloquea |
+| `OQ-ENGINE-26` | Composición entre fuentes de life steal: la fuente no lo declara | engine / C2 — sustain | abierta — hueco de la wiki, gated por medición |
+| `OQ-ENGINE-27` | La partición condition-scaled se cerró en 3 formas y hay al menos 5 | engine / C1 — vocabulario | abierta — no bloquea; exige releer `arch-decisions §10` |
+| `OQ-ENGINE-28` | Resistencias por entidad: capa aparte de la matriz por facción | engine / C2 — modelo de enemigo | abierta — diferida, sin consumidor |
+| `OQ-ENGINE-29` | ¿Los status sin ícono (`Lifted`/`Knockdown`/`Microwave`) cuentan para CO? | engine / C2 — población de status | abierta — gated por test propio, **diseño listo** |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
+| `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
 
 ---
 
@@ -1136,6 +1141,51 @@ Orokin) y a `SHIELDS_COEF` (grupo Corrupted); corregir Techrot shields a `1.75`.
 única ejecutable > prosa contradictoria) pero la tabla sigue siendo community-derived. La validación contra
 medición in-game no se cierra con esto.
 
+### La fuente se reescribió, y el punto 1 lo cierra ella misma
+
+La versión vigente de la página es una reescritura completa de las secciones Armor, Overguard, Damage,
+Shields y Health, ya reconciliada en `references/wiki/mechanics/enemy-level-scaling.md` (las fechas de
+fuente y destilado viven ahí, que es su régimen). Cuatro consecuencias:
+
+**1. El punto 1 se cierra desde la prosa, no sólo desde el módulo.** El tab que agrupaba a Anarchs con
+el default ahora se llama **"Murmur, Sentient, and Unaffiliated"** — sin Anarchs. La página y
+`Module:Enemies/infobox` ya coinciden: Anarchs = grupo Corrupted en health y en shields. **Los fixes de
+`enemy-scaling.ts` siguen sin aplicar y ahora no tienen contraparte que los discuta.**
+
+**2. La curva no se elige — se interpola siempre.** *"Both endpoint curves are evaluated at every level,
+including when s=0 or s=1."* Nuestra lectura previa ("`Δx<70` → `f1`, `Δx>80` → `f2`, en el medio
+smoothstep") describe una **selección de región**; la fuente describe un `clamp` + smoothstep aplicado
+siempre. Da el mismo número en aritmética exacta y **no** necesariamente en binary32 (ver punto 4).
+La wiki además retiró la afirmación de que las curvas se cruzan en x=80.
+
+**3. Overguard es un tercer punto de fidelidad, no un detalle.** Si el engine va a modelar Overguard
+enemigo, hereda tres divergencias respecto de health, y **dos no estaban documentadas**:
+
+| | Overguard | health / shields / armor |
+|---|---|---|
+| input de nivel | **`Nivel Actual − 1`** (ignora el base level de la unidad) | `Nivel Actual − Nivel Base` |
+| bounds `L`/`U` | **45 / 50** | 70 / 80 |
+| coeficientes | `f1 = 1 + 0.0015·q⁴` · `f2 = 1 + 260·q^0.9` | por facción |
+
+Base de todo Eximus = **12**. ⚠️ Es además **la fórmula peor respaldada de la página**: su única
+referencia es un hilo de Reddit de 2022 marcado `[Confirmation needed]`. Entra al engine con menos
+crédito que el resto de la tabla, no con el mismo.
+
+**4. Pregunta nueva — ¿reproducimos binary32?** La fuente ahora declara la precisión como **normativa**:
+*"coefficients, exponents, power results, and intermediate arithmetic results must be evaluated in
+**binary32** in the displayed order"*, y prohíbe explícitamente reescribir `f1 + (f2−f1)·s` como
+`f1(1−s) + f2·s`. Que se moleste en prohibir una identidad algebraica sugiere que la diferencia se
+observó. Tres caminos, ninguno obvio:
+
+- **Ignorarlo** — calcular en `number` (float64) y aceptar el delta. Barato; el delta no está medido.
+- **`Math.fround()` en cada paso** — reproduce binary32 en JS sin dependencias, al costo de que la
+  fórmula deje de leerse como fórmula.
+- **Medir primero** — cuantificar el delta contra el calculador del wiki en el rango jugable y decidir
+  con el número en la mano. Es lo consistente con cómo se resolvió el resto de esta OQ.
+
+**No bloquea:** el engine corre. **Bloquea:** cerrar el punto 2 con precisión defendible — hoy validamos
+"exacto" contra el gadget sin saber en qué precisión calcula él.
+
 **No bloquea:** el engine corre; Anarchs no está en la data todavía. **Bloquea:** scaling correcto de
 Anarchs (health y shields); confianza plena en la tabla de scaling.
 **Vínculo:** **OQ-DATA-15** (el INPUT `faction`, hermana), **OQ-ENGINE-15** (DR, mismo "provisional hasta
@@ -1329,6 +1379,150 @@ alguien modele el primer caso que cruce los dos buckets — y ese caso no va a a
 
 ---
 
+## OQ-ENGINE-26 — Composición entre fuentes de life steal: la fuente no lo declara — **ABIERTO**
+**Dominio:** engine / C2 — sustain
+
+**Contexto:** el corpus de wiki afirmaba *"las fuentes de life steal se acumulan aditivamente entre sí"*.
+La afirmación **no está en `Life_Steal`** —2 KB que definen la mecánica y listan fuentes, sin una palabra
+sobre composición— ni en `Exodia_Might`. Salió del corpus por eso.
+
+**Lo que sustenta la afirmación hoy:** experiencia de juego del usuario, sin medición. No es un dato que
+se nos escapó al destilar: **es un hueco de la fuente**. La wiki no dice que sea aditivo ni que no lo sea.
+
+**La pregunta:** cuando dos fuentes de life steal están activas a la vez (arcano + arma innata + habilidad),
+¿los porcentajes se suman antes de aplicarse al daño, se aplican en cadena, o se resuelven como instancias
+de curación independientes? Las tres dan números distintos y sólo una es cierta.
+
+**Por qué se registra sin consumidor:** `life_steal` no existe en `Project/src/` — el sustain no está en el
+eje de stats del engine. Se registra porque el modelado está previsto, y porque el hueco es de la **fuente**:
+volver a buscarlo en la wiki dentro de seis meses da el mismo resultado. Lo que falta es medición.
+
+**Método de cierre (barato):** dos fuentes conocidas de life steal, enemigo de health conocida, contar HP
+recuperado con cada una por separado y con las dos juntas. Si `AB = A + B` es aditivo; si `AB < A + B`,
+compone en cadena. Resultado → `references/ingame-tests/`, y de ahí el doc de wiki lleva
+`⚠️ Discrepancia →` sólo si contradice algo que la wiki sí afirme.
+
+**No bloquea:** nada. **Vínculo:** `references/wiki/mechanics/life-steal.md` (el doc destilado, hoy sin la
+afirmación), `references/ingame-tests/pending.md`.
+**Fuente:** reconciliación del corpus de wiki (residuo R-3).
+
+---
+
+## OQ-ENGINE-27 — La partición condition-scaled se cerró en tres formas y hay al menos cinco — **ABIERTO**
+**Dominio:** engine / C1 — vocabulario de composición
+
+**Contexto:** `arch-decisions §10` parte el corpus *condition-scaled* en tres formas según **cómo computan**:
+gate aditivo · escala aditiva per-N (Condition Overload / Galvanized) · exponencial (Catalyze). Las
+subpáginas `Damage/<Tipo>` —capturadas después de esa partición— traen dos formas que no entran en ninguna:
+
+- **Secondary Shiver** — *"enemies take +45% damage per Cold Status"*. Escala aditiva per-N, pero sobre
+  **stacks de un status específico**. CO cuenta **tipos distintos** de status; Shiver cuenta **stacks de
+  uno solo**. La partición actual mete a los dos en el mismo bucket y ahí no se distinguen.
+- **Primary Frostbite** — `+3% Critical Damage` y `+2.25% Multishot` por 12 s, hasta 40 stacks, al
+  proccear Cold. Es un **acumulador con timer sobre el atacante**, disparado por un evento de proc: no
+  lee el estado del objetivo en absoluto. No es condition-scaled en el mismo sentido que las otras cuatro.
+
+**La pregunta:** ¿el eje de la partición sigue siendo "cómo computa", o hace falta un segundo eje —**qué
+observa**: tipos-de-status vs stacks-de-un-status vs eventos-de-proc-sobre-el-atacante—? Con un solo eje,
+Shiver y CO son indistinguibles y Frostbite no tiene lugar.
+
+**Lo que NO se hace:** abrir un framework genérico. El criterio de la partición sigue vigente — la
+composición manda sobre el tema, y la estructura se construye cuando haya un caso que la exija.
+
+**Deuda separada, no incluida acá:** `arch-decisions §10` se decidió sobre un destilado de Condition
+Overload que había perdido un eje entero de la taxonomía de la wiki (*stacking* × *application* reducido a
+sólo *stacking*). Que la decisión se tomara sobre información incompleta **no la invalida por sí solo**,
+pero exige releerla. Esa relectura es trabajo propio, no parte de esta OQ.
+
+**No bloquea:** nada hoy. **Degrada:** cerrar el vocabulario en tres formas sabiendo que hay cinco
+garantiza que la cuarta se modele como excepción de la tercera.
+**Vínculo:** `docs/domains/engine/design/arch-decisions.md` §10,
+`references/wiki/mechanics/condition-overload.md`, `references/wiki/mechanics/damage-elemental-primary.md`.
+**Fuente:** retrospectiva de las 19 subpáginas `Damage/<Tipo>` (residuo R-12).
+
+---
+
+## OQ-ENGINE-28 — Resistencias por entidad: una capa aparte de la matriz por facción — **ABIERTO, DIFERIDO**
+**Dominio:** engine / C2 — modelo de enemigo
+
+**Contexto:** `enemy-resistances.md` sostiene la matriz de Damage 3.0, que es **por facción**. Las secciones
+`==Sources of X Resistances==` de las subpáginas `Damage/<Tipo>` traen otra capa: **resistencia de una
+unidad concreta, con número, independiente de su facción**.
+
+| Unidad | Resistencia |
+|---|---|
+| Hyekka Master | **80% a Heat** y **80% a Slash** |
+| Techrot Obsolyte | Electricity |
+| Toxic Ancient | Toxin |
+| The Fragmented | **inmune** a Cold y a Viral |
+| Leaping Thrasher · Scaldra TI-92 | **inmunes** a Viral |
+
+**La pregunta, cuando el modelo de enemigo llegue:** esta capa **se compone con** la matriz por facción —
+no la reemplaza. Falta decidir cómo: ¿multiplicativa sobre el resultado de la matriz, o reemplazo del valor
+de la matriz para ese tipo de daño en esa unidad? Una inmunidad (`The Fragmented` vs Viral) sugiere que
+al menos algunos casos son **override**, no factor.
+
+**Por qué se registra sin consumidor:** no hay modelo de resistencias por enemigo y no lo habrá pronto. Se
+registra porque el dato **se descubre una sola vez**: está esparcido en 19 subpáginas, y quien modele
+resistencias partiendo sólo de `enemy-resistances.md` va a construir una matriz por facción y descubrir la
+capa por unidad después de haberla cerrado.
+
+⚠️ El eje enemigo arrastra además el fósil de `Enemy.json` (`docs/domains/source/gaps.md` §G-2): las
+unidades nombradas acá **no están en el data-set**.
+
+**No bloquea:** nada. **Vínculo:** `references/wiki/mechanics/enemy-resistances.md`,
+`docs/domains/source/gaps.md` §G-2, `OQ-ENGINE-21` (scaling del mismo eje).
+**Fuente:** retrospectiva de las 19 subpáginas `Damage/<Tipo>` (residuo R-13).
+
+---
+
+## OQ-ENGINE-29 — ¿Los status sin ícono cuentan para Condition Overload? — **ABIERTO — gated por test propio**
+**Dominio:** engine / C2 — población de status
+
+**Contexto:** `condition-overload.md` §Qué cuenta como status effect lista `Lifted`, `Knockdown` y
+`Microwave` entre los que cuentan para el multiplicador. Son estados **sin ícono en la UI del enemigo**.
+La duda del usuario: eso se habría parcheado hace años, y Warframe arregla bugs sin anunciarlos.
+
+**Lo que la wiki sostiene, y lo que no:** los tres están en la página desde al menos 2024-06, y sobrevivieron
+25 ediciones recientes que afinaron listas vecinas sin tocarlos. Pero la página lleva `{{Community}}`,
+`{{UpdateMe}}` y `{{CleanUp}}` a la vez, y **`Condition Overload (Mechanic)/Testing` no los menciona** — es
+un checklist de armas, no de status. **Sobrevivir ediciones no es verificación:** nadie los miró.
+
+**Por qué importa:** es un stack del multiplicador. Si no aplican, el CO sale **sobreestimado** — y el error
+es silencioso, porque el número sigue pareciendo razonable.
+
+### Diseño del test — tres restricciones que lo hacen honesto
+
+**1. La métrica es un ratio, no un daño absoluto.** Dos disparos contra **el mismo enemigo**, con y sin el
+status en cuestión. Los stats del enemigo —health, armor, resistencias— **se cancelan en la división**. Esto
+es lo que vuelve el test inmune al fósil de `Enemy.json` (§G-2): no necesitamos que el data-set modele bien
+al enemigo, sólo que el enemigo sea el mismo en las dos mediciones.
+
+**2. El sujeto debe aislar el status.** Un arma que aplique el status escondido **junto con otro** no sirve:
+si el multiplicador se mueve, no se sabe cuál lo movió. Descarta a la Nukor para `Microwave` (Radiation
+innato → aplica los dos a la vez). `Lifted` (heavy slam) y `Knockdown` (jump kick) se inducen **sin aplicar
+ningún status elemental**, que es la propiedad que se necesita.
+
+**3. Enemigo sin armor.** Para no arrastrar la fórmula de DR, que sigue en conflicto de 3 vías
+(`OQ-ENGINE-15`). Sin armor, la cadena entre daño moddeado y daño aplicado tiene un eslabón menos.
+
+**Predicción falsable:** con CO activo y **cero** status normales sobre el enemigo, aplicar sólo un
+`Lifted` o un `Knockdown` debe mover el daño si la wiki tiene razón, y no moverlo si el parche existió.
+
+**Cierre:** si se mueve, el dato entra al engine como ley. Si no, es `⚠️ Discrepancia →` contra
+`references/ingame-tests/`, y el conteo de status del engine excluye los sin-ícono.
+
+**Mientras tanto:** el dato queda como la wiki lo dice —es lo que la fuente afirma— pero **no entra al
+motor como ley** sin la medición.
+
+**No bloquea:** nada hoy. **Bloquea:** fidelidad del conteo de status en cuanto el CO se modele.
+**Vínculo:** `references/wiki/mechanics/condition-overload.md`,
+`references/wiki/mechanics/crowd-control.md` (`Lifted` / `Knockdown`), `references/ingame-tests/pending.md`,
+`OQ-ENGINE-15` (por qué el enemigo va sin armor).
+**Fuente:** duda del usuario sobre el corpus de CO (residuo Q-3).
+
+---
+
 ## OQ-DOC-1 — Docs commiteados citan `.working/` (gitignored) como autoridad de razonamiento — **ABIERTO (2026-07-19)**
 **Dominio:** governance / higiene de documentación
 
@@ -1366,3 +1560,48 @@ sin el `.working/` (→ degradar puntero) o hoy **depende** de él (→ comprimi
 reproducibilidad del razonamiento fuera de esta máquina.
 **Vínculo:** `docs/CLAUDE.md` regla 1 (warrant pegado a la nota viva) + regla 4 (procedencia vive en git).
 **Fuente:** cierre de la campaña engine-fidelity F1–F5 (2026-07-19); inventario reproducible: `grep -rn '\.working/' docs/`.
+
+---
+
+## OQ-DOC-2 — Detección de fuente estancada: la señal que falta es la inversa de la que existe — **ABIERTO**
+**Dominio:** governance / higiene de fuentes ajenas
+
+**Contexto:** `references-layout.mjs` detecta **una** patología: *la fuente se movió después de que
+destilamos*. La opuesta —*la fuente no se mueve hace años*— está **nombrada** en
+`references/wiki/README.md` §Las tres fechas ("fuente estancada") y **no se mide en ningún lado**.
+
+El costo ya se pagó: `Module:Maximization/data` está congelado desde **2021-05** y
+`Module:Ability/data/stats` desde **2022-07**; cuando el primero dejó de tocarse el juego iba por Hotfix
+30.2.2 y hoy va por 43.0.8. `references/wiki/sources/` está exento del régimen de fechas, así que nada
+podía avisarlo — y se llegó a escribir un doc apoyado en un módulo de 2021 antes de mirar su historial.
+Los `.md` de `sources/` ya declaran su fecha real; **lo que falta es que sea ejecutable**.
+
+### Se parte en dos herramientas, no una
+
+**(a) `sources/` al régimen de fechas — angosto y ejecutable ya.** Cinco módulos Lua. La señal es la
+antigüedad de la última edición del módulo, y la unidad correcta **no es el calendario**: es **cuántas
+versiones del juego se publicaron desde entonces**, expresable con `version-data.lua`, que ya está
+capturado. *"302 parches después"* es un argumento; *"hace cuatro años"* es una anécdota.
+
+**(b) Frescura per-item — el trabajo grande.** Un umbral global miente en las dos direcciones: pueden
+pasar 70 versiones sin que una mecánica cambie en lo más mínimo. La pregunta correcta es **por ítem**:
+*¿cuándo se modificó esto por última vez → se actualizó en nuestro proyecto?* Es el mismo criterio que
+ya usa el audit de overrides, y el patch history está disponible por las dos vías (la API de la wiki y
+el raw que `omniframe-items` destila).
+
+### El límite que define el tier de salida
+
+**El patch history da un evento, no un alcance.** Que un warframe se haya tocado sólo en su pasiva **no
+descarta** que sus cuatro habilidades estén desactualizadas — el parche nombra lo que DE decidió nombrar.
+Por eso (b) **no puede emitir veredictos**: su salida es una **worklist de revisión**, tier informativo y
+ratcheteable. Un check de frescura que pretenda decir "esto está mal" se llena de falsos positivos y se
+aprende a ignorar, que es cómo mueren estas herramientas.
+
+**Nota de alcance:** (a) no puede usar el mecanismo de (b) — los módulos Lua **no tienen patch history del
+juego**, sólo historial de edición de la wiki. Son dos señales distintas sobre dos clases de fuente.
+
+**No bloquea:** nada. **Degrada:** una fuente muerta se detecta cuando alguien la recuerda, no cuando se
+muere. **Vínculo:** `references/wiki/README.md` §Las tres fechas, `references/CLAUDE.md` §Qué audita cada
+herramienta, `docs/domains/source/wiki-modules.md`, `Project/scripts/references-layout.mjs`.
+**Fuente:** los dos módulos congelados, encontrados por memoria del usuario y verificados con
+`prop=revisions` (residuo R-17).

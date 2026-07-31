@@ -4,7 +4,9 @@
 > Rol: separar los stats de movimiento del warframe — cuál es cuál, qué afecta cada uno, cómo componen
 > Fuente de verdad de: relación entre el stat base del arsenal y los upgrade types de movimiento
 > No usar para: catálogo completo de mods/arcanos por stat (la wiki los lista, acá solo los representativos)
-> Última actualización: 2026-07-29
+> Última actualización: 2026-07-31 (re-verificado: `Movement_Speed` y `Sprint_Speed` sin cambios;
+> `Maneuvers` sumó que Bullet Jump y Jump Kick rompen `Grate`/`Fan` y que el melee deslizándose es un
+> Slide Attack — utilidad de parkour, no toca la taxonomía de upgrade types que este doc destila)
 > Fuente: https://wiki.warframe.com/w/Movement_Speed · https://wiki.warframe.com/w/Sprint_Speed · https://wiki.warframe.com/w/Maneuvers
 > Fuente actualizada: 2026-07-30
 > Raw íntegro: `raw/movement-speed.wikitext`, `raw/sprint-speed.wikitext`, `raw/maneuvers.wikitext` (capturados vía `?action=raw`)

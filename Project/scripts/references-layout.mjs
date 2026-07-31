@@ -137,10 +137,19 @@ const campo = (doc, nombre) => {
   return (head.match(new RegExp(`^>\\s*${nombre}:\\s*(.+)$`, 'mi')) ?? [])[1]?.trim() ?? null;
 };
 
-/** Títulos de página wiki declarados en `> Fuente:`. Un doc puede destilar más de una. */
+/**
+ * Títulos de página wiki declarados en `> Fuente:`. Un doc puede destilar más de una.
+ *
+ * ⚠️ El `)` **no** puede excluirse: hay títulos que lo llevan dentro
+ * (`Condition_Overload_(Mechanic)`). Excluirlo truncaba el título, la API lo devolvía
+ * *missing*, `--fuente` nunca escribía la fecha y —peor— el doc quedaba **invisible** al
+ * check de fuente movida para siempre, porque su `> Fuente actualizada:` congelado en el
+ * pasado nunca puede superar al destilado. Se corta en `·` (separador de varias fuentes),
+ * en `?` (query string de los módulos Lua) y en la puntuación que cierra la línea.
+ */
 const titulosWiki = (doc) => [...(campo(doc, 'Fuente') ?? '')
-  .matchAll(/wiki\.warframe\.com\/w\/([^\s·,)?]+)/g)]
-  .map(m => decodeURIComponent(m[1]));
+  .matchAll(/wiki\.warframe\.com\/w\/([^\s·,?`]+)/g)]
+  .map(m => decodeURIComponent(m[1].replace(/[.]+$/, '')));
 
 const fuenteMovida = [], sinFechaFuente = [], sinFuente = [];
 /** El campo puede llevar comentario detrás de la fecha (`2026-07-19 (re-captura…)`). */

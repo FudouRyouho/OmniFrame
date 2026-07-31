@@ -20,3 +20,6 @@ un DoT elemental es armor-affected (el número observado ya está mitigado), un 
 - [`dot-scaling.md`](dot-scaling.md) — composición del `modded_base` del DoT (¿incluye mods de elemento?).
   **Cierra:** el `modded_base` del DoT **excluye** el daño de mods de elemento (Tiberon Prime, Slash DoT
   invariante al agregar Heat).
+- [`pending.md`](pending.md) — **preguntas que sólo se cierran midiendo**, cada una con el diseño del test.
+  No son resultados: son huecos formulados para no volver a descubrirlos. Una entrada sale de ahí cuando
+  se mide, y pasa a tener su propio `.md` en este directorio.
