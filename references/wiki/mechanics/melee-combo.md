@@ -3,7 +3,7 @@
 > Estado: activo
 > Rol: el sistema de combo melee — cómo se gana el contador, qué escala con el multiplicador y qué no, duración y decay, Heavy Attack Efficiency, Initial Combo y el Ability Combo Counter
 > Fuente de verdad de: que el multiplicador **no** multiplica el ataque normal · la tabla 2x–12x y sus dos excepciones por arma · ganancia de combo ∝ multiplicador de stance · duración base 5 s y su piso de 0.1 s · HAE aditivo con cap 90% · Initial Combo y su regeneración de 40/s · qué es y qué no es el Ability Combo Counter
-> No usar para: catálogo de mods por build (la wiki los agrupa por dimensión mecánica) · velocidad de wind-up del heavy (no está en esta página)
+> No usar para: catálogo de mods por build (la wiki los agrupa por dimensión mecánica) · el multiplicador fijo por clase y la velocidad de wind-up del heavy — ver [`heavy-attack.md`](heavy-attack.md)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Melee_Combo
 > Fuente actualizada: 2026-07-04
