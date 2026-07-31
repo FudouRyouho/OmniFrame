@@ -234,6 +234,16 @@ export const UPGRADES = [
   'AVATAR_ADD_CASTING_SPEED',
   'AVATAR_ADD_SHIELD_RECHARGE_RATE',
   'AVATAR_ADD_PARKOUR_VELOCITY',
+  // ── ACUÑADOS SIN NODO — el engine sabe QUÉ son, no los computa ────────────
+  // Estado deliberado, no un olvido: el token les da lenguaje (dejan de ser un `console.warn`
+  // de "no sé qué es esto") sin comprometer un modelo. La distinción que expresan es la del
+  // SUFFIX: `SPEED` es velocidad de deslizamiento, `FRICTION` la resistencia a frenar — dos
+  // facetas del mismo carril, que la wiki lista junto como "Slide & Friction" y que los 3 mods
+  // del corpus (Maglev, Cunning Drift, Streamlined Form) traen SIEMPRE apareadas. Entran o
+  // salen juntas: modelar una sola haría que esos mods computen la mitad de lo que dicen.
+  // No se materializan porque no hay base conocida de velocidad de slide en ninguna fuente.
+  'AVATAR_ADD_SLIDE_SPEED',
+  'AVATAR_ADD_SLIDE_FRICTION',
   'AVATAR_ADD_HEALTH_ORB_EFFICIENCY',
   'AVATAR_ADD_ENERGY_ORB_EFFICIENCY',
   // Regeneración de salud porcentual (%HP/s). Distinto de AVATAR_FLAT_HEALTH_REGEN (HP/s plano).

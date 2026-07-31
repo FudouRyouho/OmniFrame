@@ -188,8 +188,10 @@ describe('Volt Speed — borde', () => {
   // AVATAR_ADD_SPRINT_SPEED sigue siendo token sin nodo: es un stat DISTINTO de movement speed
   // (movement-speed.md — Rush no afecta el walk) y su consumidor no está mapeado en el dataset.
   it.todo('AVATAR_ADD_SPRINT_SPEED — materializar cuando llegue Rush (¿display-only?)');
-  // Los ~13 mods de parkour (Mobilize, Lightning Dash, Firewalker…) traen el token CRUDO de DE
-  // `AVATAR_PARKOUR_BOOST`, que no está en UPGRADE_MAP ni lo deriva resolveToken: el nodo ya los
-  // espera, falta el alias. Su hermano `AVATAR_PARKOUR_GLIDE` (aim glide/wall latch) no tiene nodo.
-  it.todo('alias AVATAR_PARKOUR_BOOST → AVATAR_ADD_PARKOUR_VELOCITY — 13 mods sin aterrizar');
+  // Los 14 mods de parkour (Mobilize, Lightning Dash, Firewalker…) YA aterrizan en este nodo: el
+  // override los trae en gramática canónica y `ModRepository` lee sólo el override. El
+  // `AVATAR_PARKOUR_BOOST` de `mods.json` es el token crudo de DE, que el engine no consulta.
+  // Lo que sigue sin nodo es el hermano que esos mismos mods traen en su segundo stat:
+  // `AVATAR_PARKOUR_GLIDE` (aim glide/wall latch, base 3s) → `AVATAR_ADD_AIM_GLIDE_DURATION`.
+  it.todo('AVATAR_ADD_AIM_GLIDE_DURATION — 12 mods esperando; base 3s [maneuvers.wikitext §Aim Glide]');
 });

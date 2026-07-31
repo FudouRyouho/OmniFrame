@@ -90,6 +90,37 @@ val      = (withMods + total_flat) × multiplicative
 
 Regla de derivación elemental: `{PREFIX}` = `DamageType` en mayúsculas (`heat` → `HEAT`).
 
+**El SUFFIX declara la NATURALEZA del stat; el PREFIX, la mecánica afectada.** No es cosmético:
+`SPEED` / `VELOCITY` / `DURATION` / `HEIGHT` / `DAMAGE` son unidades distintas que componen distinto,
+y dos tokens con el mismo PREFIX pueden no tener nada en común. El caso que lo fuerza es el
+movimiento: sobre **la misma maniobra** (el roll), Parkour Velocity mueve la *distancia* y Dodge Speed
+la *velocidad de la animación* — dos stats, dos SUFFIX, un solo PREFIX conceptual
+([`../../references/wiki/mechanics/maneuvers.wikitext`](../../references/wiki/mechanics/maneuvers.wikitext),
+§Rolling). Por eso el vocabulario **no necesita un campo de agrupación**: la naturaleza ya viaja en el
+nombre, y agrupar por PREFIX (`PARKOUR_*`) mezclaría velocidad, duración y daño en un mismo saco.
+
+Un token nombra el **stat como lo nombra el juego**, no la lista de mecánicas que afecta —
+`AVATAR_ADD_MOVEMENT_SPEED` cubre walk + aim-walk + crouch, y `AVATAR_ADD_AIM_GLIDE_DURATION` cubre
+también el wall latch (comparten timer). El alcance real lo fija un comentario en `modifier.ts`, no
+un nombre más largo.
+
+### Acuñado sin nodo — "el engine sabe QUÉ es, no lo computa"
+
+Un token puede estar en `UPGRADES` y **no** tener nodo en ninguna entidad. Es un estado **deliberado**
+y el tercero posible, no un intermedio hacia el modelado:
+
+| | El engine… | Cómo se ve |
+|---|---|---|
+| Token ausente | no sabe qué es | `console.warn` en hidratación, modifier descartado |
+| **Token acuñado, sin nodo** | **sabe qué es, declara que no lo modela** | modifier creado, sin dónde aterrizar |
+| Token + nodo | lo computa | aparece en la salida C→D |
+
+Sirve cuando el stat es real y está en el dato, pero no hay base conocida contra la cual verificarlo
+(caso `AVATAR_ADD_SLIDE_*`). Acuñar es **darle lenguaje**, que es barato y reversible; materializar es
+comprometer un modelo. ⚠️ El estado del medio **es silencioso por construcción**
+(`SimulationEngine.resolveNode` hace `if (!node) return`), así que sólo se distingue del tercero si algo
+lo reporta — sin ese reporte, "conocido pero no modelado" es indistinguible de "perdido".
+
 ### Convención de resolución D-6 — el token **no** es el id de nodo
 
 ```
@@ -324,7 +355,9 @@ escrita en el propio dato normalizado.
 | `AVATAR_ADD_SPRINT_SPEED` | `—` | Rush, Sprint Boost, Armored Agility. **Stat distinto del anterior, no un alias**: acelera sólo la animación de sprint y *"do not affect a Warframe's Movement Speed, even though they increase the listed Sprint Speed stat in the arsenal"*. Sin nodo: espera consumidor, y con él la pregunta de si es display-only. Ver [`../../references/wiki/mechanics/movement-speed.md`](../../references/wiki/mechanics/movement-speed.md). |
 | `AVATAR_ADD_CASTING_SPEED` | `—` | Natural Talent. Velocidad de animación de cast; no afecta output del simulador simplificado. |
 | `AVATAR_ADD_SHIELD_RECHARGE_RATE` | `C1` | Fast Deflection |
-| `AVATAR_ADD_PARKOUR_VELOCITY` | `C1` | Amber Archon Shard (+15% / +22.5% tauforged), Arcane Agility, Arcane Consequence. **Tercer stat de movimiento**, distinto de los dos de arriba: gobierna bullet jump, double jump, rodar, sidespring y backspring. Movement Speed no lo toca. **Nodo materializado con base sintética 100** (100% = sin mods): a diferencia de `MOVEMENT_SPEED`, el raw no trae dato y no puede traerlo — el parkour no varía por warframe. ⚠️ Los ~13 mods de la familia (Mobilize, Lightning Dash, Firewalker…) traen el token crudo de DE `AVATAR_PARKOUR_BOOST`, que no está aliasado: el nodo los espera, el mapeo no existe. |
+| `AVATAR_ADD_PARKOUR_VELOCITY` | `C1` | Amber Archon Shard (+15% / +22.5% tauforged), Arcane Agility, Arcane Consequence. **Tercer stat de movimiento**, distinto de los dos de arriba: gobierna bullet jump, double jump, rodar, sidespring y backspring. Movement Speed no lo toca. **Nodo materializado con base sintética 100** (100% = sin mods): a diferencia de `MOVEMENT_SPEED`, el raw no trae dato y no puede traerlo — el parkour no varía por warframe. Los 14 mods de la familia (Mobilize, Lightning Dash, Firewalker…) ya lo llevan en `mod-stats.override.json` y aterrizan; el `AVATAR_PARKOUR_BOOST` que se ve en `mods.json` es el token crudo de DE en el dataset generado, que el engine no lee. |
+| `AVATAR_ADD_SLIDE_SPEED` | `—` **acuñado sin nodo** | Maglev, Cunning Drift, Streamlined Form, Air Thrusters, Necramech Slipstream. Velocidad de deslizamiento — cuarto carril de movimiento. Sin nodo: **no hay base de velocidad de slide en ninguna fuente**, así que un nodo no sería verificable contra nada. |
+| `AVATAR_ADD_SLIDE_FRICTION` | `—` **acuñado sin nodo** | Maglev, Cunning Drift, Streamlined Form (valores negativos: `-5…-30`). Resistencia a frenar — la otra faceta del mismo carril (la wiki las lista junto como *"Slide & Friction"*). **Entra o sale con su par:** los 3 mods traen las dos, y modelar una sola los haría computar la mitad de lo que dicen. |
 | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | `C1` | Amber Archon Shard (+100/+150%). Multiplicador estático sobre valor del orb; C2 lo usa al modelar economía de recursos. |
 | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | `C1` | Amber Archon Shard (+50/+75%). Ídem. Equilibrium añade complejidad de conversión — fórmula a definir en C2. |
 | `AVATAR_ADD_HEALTH_REGEN` | `C1` | Arcane Grace, Arcane Victory. ⚠ **Hipótesis usuario**: toda regen de salud en Warframe es plana (HP/s), no porcentual — si fuera %, solo Nidus (con regen nata) tendría base relevante. Si se confirma: este token es duplicado de `AVATAR_FLAT_HEALTH_REGEN` y debe colapsarse. Requiere verificación de valor real de Arcane Grace rank 5 en juego |

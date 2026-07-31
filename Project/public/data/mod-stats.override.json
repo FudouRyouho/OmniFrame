@@ -278,7 +278,7 @@
               75,
               100
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
         ],
         "condition": "while_airborne",
@@ -3608,7 +3608,7 @@
               10,
               12
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
         ]
       },
@@ -3624,7 +3624,7 @@
               -25,
               -30
             ],
-            "upgrade_type": "AVATAR_SLIDE_FRICTION"
+            "upgrade_type": "AVATAR_ADD_SLIDE_FRICTION"
           }
         ]
       },
@@ -7236,6 +7236,9 @@
             ],
             "upgrade_type": "AVATAR_ADD_SPRINT_SPEED"
           }
+        ],
+        "notes": [
+          "engine:note · `AVATAR_*` en el vocabulario de DE agrupa lo que el jugador ENCARNA (warframe · archwing · necramech), no sólo el warframe: este mod lleva el MISMO token crudo que su par de warframe (Rush / Air Thrusters). El token es fiel a la fuente; lo que falta es que el engine modele la entidad portadora. `VEHICLE_*` sí es otra cosa — lo que el jugador MONTA (K-Drive)."
         ]
       }
     ]
@@ -8634,7 +8637,7 @@
               25,
               30
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
         ]
       },
@@ -8650,7 +8653,7 @@
               -25,
               -30
             ],
-            "upgrade_type": "AVATAR_SLIDE_FRICTION"
+            "upgrade_type": "AVATAR_ADD_SLIDE_FRICTION"
           }
         ]
       }
@@ -10073,8 +10076,11 @@
               50,
               60
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
+        ],
+        "notes": [
+          "engine:note · `AVATAR_*` en el vocabulario de DE agrupa lo que el jugador ENCARNA (warframe · archwing · necramech), no sólo el warframe: este mod lleva el MISMO token crudo que su par de warframe (Rush / Air Thrusters). El token es fiel a la fuente; lo que falta es que el engine modele la entidad portadora. `VEHICLE_*` sí es otra cosa — lo que el jugador MONTA (K-Drive)."
         ]
       }
     ]
@@ -15901,7 +15907,7 @@
               25,
               30
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
         ]
       },
@@ -15917,7 +15923,7 @@
               -25,
               -30
             ],
-            "upgrade_type": "AVATAR_SLIDE_FRICTION"
+            "upgrade_type": "AVATAR_ADD_SLIDE_FRICTION"
           }
         ]
       }
