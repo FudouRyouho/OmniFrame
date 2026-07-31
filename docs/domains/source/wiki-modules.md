@@ -109,7 +109,7 @@ marcado **`(Undocumented)`** y dice *"is now **shown**"*: cambió la presentaci�
 - **El promedio no reconstruye la categoría.** Las categorías de accuracy del wiki se definen por
   `Deviation With Aim` (el mínimo), y desde el promedio caen corridas — medido: Akstiletto, Afuris y
   Tigris quedan una categoría peor de la que la wiki les asigna.
-- **El spread es por ataque, no por arma.** **130 de 205** armas capturadas tienen más de un ataque con
+- **El spread es por ataque, no por arma.** **164 de 386** armas capturadas tienen más de un ataque con
   spread propio (Acceltra Prime y Alternox Prime, cinco cada una). Un solo número por arma no puede
   expresar eso, y es la razón de que el Zarr —Very Low en su modo Barrage— dé "Very High" al derivarlo
   de nuestro `accuracy`.
@@ -120,7 +120,8 @@ marcado **`(Undocumented)`** y dice *"is now **shown**"*: cambió la presentaci�
 |---|---|
 | `Accuracy` del módulo == `accuracy` de `weapons.json` | **161 / 164** cruzables |
 | Coherencia interna del módulo (`100/avg == Accuracy`) | 125 / 135 medibles |
-| Armas con `Min/MaxSpread` capturadas | 205 · **565 ataques** |
+| Armas con `Min/MaxSpread` capturadas (4 raws de `references/`) | 386 · **569 ataques** |
+| Lo que la cosecha baja (los 8 submódulos) | 421 armas · **620 ataques** |
 
 Las 3 divergencias (Stradavar Prime, Athodai Prime, Dual Coda Torxica) son armas **multi-modo**: el
 `Accuracy` a nivel arma corresponde a *uno* de sus ataques, y cuál no está declarado. Es el mismo
@@ -131,11 +132,19 @@ Sporelacer o Vermisplicer) y las armas de sentinel sueltas (Deconstructor, Lacer
 wiki cataloga el arma **ensamblada**, nuestro dataset cataloga la pieza. Ese desencuentro es
 [`OQ-DATA-14`](../../governance/open-questions.md), no un hueco de este módulo.
 
-**Estado: capturado y validado, sin consumidor todavía.** Cómo aterriza —override, pipeline, o
-`attacks[]` derivado— es decisión abierta: `MinSpread`/`MaxSpread` no *corrige* un valor del export,
-lo **agrega**, y eso cambia lo que un override significa (precedente que sí lo hizo: la cosecha de
-`Module:Enemies/data` por `omniframe-items`). El debate del modelado vive en `OQ-ENGINE-7`
-(materialización de `WEAPON_ADD_ACCURACY`).
+**Aterriza por pipeline, no por override.** `WeaponScraper` lo cosecha junto con `weaponClass` como
+mapa `AttackName → {min, max}` por arma; el pipeline de Project lo une a `attacks[]` por nombre y lo
+emite como `min_spread`/`max_spread` (`data/schemas/weapons/weapons-attack-structure.md`). La vía es
+la del precedente `Module:Enemies/data`: el par no *corrige* un valor del export, lo **agrega**, y 620
+valores mantenidos a mano no son un override — serían un dataset paralelo.
+
+El join se hace por `AttackName` porque es el único identificador que ambos lados comparten
+(verificado: **0** nombres duplicados dentro de un arma). Lo que sobra se denuncia al generar en vez
+de descartarse: hoy son 17 entradas, **todas** modulares (`attacks: []` de nuestro lado) — el mismo
+`OQ-DATA-14` de arriba, ahora con tripwire. De los 620 cosechados aterrizan **556**.
+
+El modelado del efecto es otra cosa y sigue abierto: qué nodo lo consume y cómo un `+X%` de precisión
+mueve el cono vive en `OQ-ENGINE-7` (materialización de `WEAPON_ADD_ACCURACY`).
 
 ## `Module:Maximization/data` — una pista de 2021, no un censo
 

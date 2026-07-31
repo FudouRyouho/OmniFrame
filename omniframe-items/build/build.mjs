@@ -30,7 +30,7 @@ async function harvest(label, file, scraper) {
 }
 
 await harvest('habilidades', 'abilities', new AbilityScraper())
-await harvest('armas (weaponClass)', 'weapons', new WeaponScraper())
+await harvest('armas (weaponClass/attackSpread)', 'weapons', new WeaponScraper())
 await harvest('mods (upgradeTypes…)', 'mods', new ModScraper())
 await harvest('warframes (playstyle…)', 'warframes', new WarframeScraper())
 await harvest('arcanos (upgradeTypes)', 'arcanes', new ArcaneScraper())

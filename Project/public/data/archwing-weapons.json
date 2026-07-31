@@ -49,7 +49,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "1st Attack Radial Attack",
@@ -70,7 +72,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "2nd Attack",
@@ -91,7 +95,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "2nd Attack Radial Attack",
@@ -112,7 +118,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "3rd Attack",
@@ -133,7 +141,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "3rd Attack Radial Attack",
@@ -154,7 +164,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "4th Attack",
@@ -175,7 +187,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "4th Attack Radial Attack",
@@ -196,7 +210,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "5th Attack",
@@ -217,7 +233,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "5th Attack Radial Attack",
@@ -238,7 +256,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "6th Attack",
@@ -259,7 +279,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         },
         {
           "name": "6th Attack Radial Attack",
@@ -280,7 +302,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 7,
+          "max_spread": 9
         }
       ]
     },
@@ -331,7 +355,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 10,
+          "max_spread": 14
         },
         {
           "name": "Grenade Impact",
@@ -348,7 +374,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         },
         {
           "name": "Radial Attack",
@@ -369,7 +397,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -424,7 +454,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         },
         {
           "name": "Charged Shot",
@@ -445,7 +477,9 @@
           },
           "slide": null,
           "charge_time": 0.5,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -502,7 +536,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         },
         {
           "name": "Charged Shot",
@@ -524,7 +560,9 @@
           },
           "slide": null,
           "charge_time": 0.5,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -583,7 +621,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 6
         }
       ]
     },
@@ -642,7 +682,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         }
       ]
     },
@@ -704,7 +746,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         }
       ]
     },
@@ -765,7 +809,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 5,
+          "max_spread": 7
         },
         {
           "name": "Explosion",
@@ -786,7 +832,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -847,7 +895,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 1,
+          "max_spread": 3
         }
       ]
     },
@@ -909,7 +959,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 1,
+          "max_spread": 3
         }
       ]
     },
@@ -967,7 +1019,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 4,
+          "max_spread": 4
         },
         {
           "name": "Explosion",
@@ -988,7 +1042,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1052,7 +1108,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 5,
+          "max_spread": 7
         },
         {
           "name": "Explosion",
@@ -1073,7 +1131,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1128,7 +1188,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 10,
+          "max_spread": 14
         },
         {
           "name": "Alt-Fire Projectile Impact",
@@ -1147,7 +1209,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": 0.5,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         },
         {
           "name": "Explosion",
@@ -1169,7 +1233,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1226,7 +1292,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 10,
+          "max_spread": 14
         },
         {
           "name": "Alt-Fire Projectile Impact",
@@ -1245,7 +1313,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": 0.5,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         },
         {
           "name": "Explosion",
@@ -1267,7 +1337,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1326,7 +1398,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         },
         {
           "name": "Charge",
@@ -1345,7 +1419,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": 1.5,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1406,7 +1482,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 1,
+          "max_spread": 1.5
         },
         {
           "name": "Auto Radial Attack",
@@ -1427,7 +1505,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         },
         {
           "name": "Charged Shot Laser",
@@ -1446,7 +1526,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": 0.8,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         },
         {
           "name": "Charged Shot Explosion",
@@ -1467,7 +1549,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1521,7 +1605,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 10,
+          "max_spread": 20
         },
         {
           "name": "Auto Burst Explosion",
@@ -1542,7 +1628,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         },
         {
           "name": "Charged Shot",
@@ -1559,7 +1647,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         },
         {
           "name": "Charged Shot Explosion",
@@ -1583,7 +1673,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1644,7 +1736,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 1,
+          "max_spread": 7
         }
       ]
     },
@@ -1707,7 +1801,9 @@
           },
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 0
         }
       ]
     },
@@ -1764,7 +1860,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": 0,
+          "max_spread": 7
         },
         {
           "name": "Charged Shot",
@@ -1784,7 +1882,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": 1,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1841,7 +1941,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1898,7 +2000,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -1955,7 +2059,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -2012,7 +2118,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -2069,7 +2177,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -2127,7 +2237,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -2184,7 +2296,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },
@@ -2241,7 +2355,9 @@
           "falloff": null,
           "slide": null,
           "charge_time": null,
-          "punch_through": 0
+          "punch_through": 0,
+          "min_spread": null,
+          "max_spread": null
         }
       ]
     },

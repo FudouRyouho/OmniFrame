@@ -66,6 +66,15 @@ interface SourceAttack {
   charge_time?: number | null
 }
 
+/**
+ * Mapa AttackName → dispersión, cosechado por omniframe-items de `Module:Weapons/data`.
+ * Viaja en el ítem, no dentro de `attacks[]`, porque el merge de omniframe-items es
+ * quirúrgico por campo de primer nivel: no sabe entrar en un array. El join contra los
+ * ataques lo hace `mapAttack`, por nombre — el único identificador que ambos lados
+ * comparten (verificado: 0 AttackName duplicados dentro de un arma).
+ */
+type SourceAttackSpread = Record<string, { min?: number | null; max?: number | null }>
+
 export interface SourceItem {
   category?: string | null
   productCategory?: string | null
@@ -124,6 +133,7 @@ export interface SourceItem {
   trigger?: string | null
   disposition?: number | null
   attacks?: SourceAttack[] | null
+  attackSpread?: SourceAttackSpread | null
   range?: number | null
   attackSpeed?: number | null
   comboDuration?: number | null
@@ -381,14 +391,22 @@ function sumDamage(damage: DamageMap): number {
   )
 }
 
-function mapAttack(raw: SourceAttack, weaponNormalizationState: WeaponNormalizationState): WeaponAttack {
+function mapAttack(
+  raw: SourceAttack,
+  weaponNormalizationState: WeaponNormalizationState,
+  spread?: SourceAttackSpread | null,
+): WeaponAttack {
   const damage = mapDamage(raw.damage)
   const total = isRecord(raw.damage) && typeof raw.damage.total === 'number'
     ? raw.damage.total
     : sumDamage(damage)
 
+  const name = raw.name ?? 'Attack'
+  const attackSpread = spread?.[name]
+  if (attackSpread) weaponNormalizationState.spreadApplied += 1
+
   return {
-    name: raw.name ?? 'Attack',
+    name,
     damage,
     total_damage: total,
     crit_chance: raw.crit_chance != null ? raw.crit_chance / 100 : null,
@@ -401,7 +419,35 @@ function mapAttack(raw: SourceAttack, weaponNormalizationState: WeaponNormalizat
     slide: raw.slide ?? null,
     charge_time: raw.charge_time ?? null,
     punch_through: 0, // Placeholder if needed, or source data
+    min_spread: attackSpread?.min ?? null,
+    max_spread: attackSpread?.max ?? null,
   }
+}
+
+/**
+ * Aplica la cosecha de spread sobre los ataques del arma y denuncia lo que sobra.
+ * Un `AttackName` que la wiki trae pero ningún ataque nuestro reclama queda registrado:
+ * puede ser un arma que la wiki modela con más ataques que el export, o una divergencia
+ * de nombres que hay que resolver — en ambos casos hay que verlo, no perderlo.
+ */
+function mapAttacks(
+  raw: SourceItem,
+  weaponNormalizationState: WeaponNormalizationState,
+): WeaponAttack[] {
+  const attacks = (raw.attacks ?? []).map((attack) =>
+    mapAttack(attack, weaponNormalizationState, raw.attackSpread),
+  )
+
+  if (raw.attackSpread) {
+    const nuestros = new Set(attacks.map((attack) => attack.name))
+    for (const key of Object.keys(raw.attackSpread)) {
+      if (!nuestros.has(key)) {
+        weaponNormalizationState.spreadUnmatched.push(`${resolveName(raw)} :: ${key}`)
+      }
+    }
+  }
+
+  return attacks
 }
 
 function buildBaseFields(
@@ -513,7 +559,7 @@ function mapWeapon(
       noise: raw.noise ?? undefined,
       trigger: raw.trigger ?? undefined,
       disposition: raw.disposition ?? undefined,
-      attacks: (raw.attacks ?? []).map((attack) => mapAttack(attack, weaponNormalizationState)),
+      attacks: mapAttacks(raw, weaponNormalizationState),
     },
     introduced: resolveIntroduced(raw.introduced),
     wikia_thumbnail: raw.wikiaThumbnail ?? null,
@@ -616,7 +662,7 @@ function mapArchwingWeapon(
       crit_chance: raw.criticalChance ?? 0,
       crit_mult: raw.criticalMultiplier ?? 0,
       status_chance: raw.procChance ?? 0,
-      attacks: (raw.attacks ?? []).map((attack) => mapAttack(attack, weaponNormalizationState)),
+      attacks: mapAttacks(raw, weaponNormalizationState),
     },
     introduced: resolveIntroduced(raw.introduced),
     wikia_thumbnail: raw.wikiaThumbnail ?? null,

@@ -290,4 +290,15 @@ export interface WeaponAttack {
   slide?: string | null
   charge_time?: number | null
   punch_through?: number | null
+  /**
+   * Dispersión del cono en grados, sin mods. El par —no el escalar `accuracy` del arma—
+   * es el dato del que sale todo: `accuracy = 100 / ((min + max) / 2)`, una media que
+   * pierde la dispersión (dos armas con el mismo `accuracy` pueden abrir muy distinto).
+   *
+   * Viene de `Module:Weapons/data` vía omniframe-items; el Public Export no lo publica.
+   * `null` = la fuente no lo trae para este ataque, y ausente ≠ 0 (0 sería puntería
+   * perfecta). Los AoE no lo llevan a propósito: no responden a modificadores de precisión.
+   */
+  min_spread?: number | null
+  max_spread?: number | null
 }

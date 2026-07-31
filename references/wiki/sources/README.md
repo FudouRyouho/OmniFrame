@@ -32,8 +32,12 @@ siete campos: llevan `> Fuente:` · `> Fuente actualizada:` · `> Extraído:` ·
 | `Module:Weapons/data` | `weapons-data.lua` | *(router, fuente citada)* | 2026-06-30 🟢 |
 | `Module:Weapons/data/primary` | `weapons-data-primary.lua` | [`docs/domains/source/wiki-modules.md`](../../../docs/domains/source/wiki-modules.md) | 2026-07-22 🟢 |
 | `Module:Weapons/data/secondary` | `weapons-data-secondary.lua` | ídem | 2026-07-22 🟢 |
+| `Module:Weapons/data/melee` | `weapons-data-melee.lua` | ídem | 2026-07-22 🟢 |
+| `Module:Weapons/data/archwing` | `weapons-data-archwing.lua` | ídem | 2026-07-22 🟢 |
+| `Module:Weapons/data/railjack` | `weapons-data-railjack.lua` | ídem | 2026-07-05 🟢 |
 | `Module:Weapons/data/modular` | `weapons-data-modular.lua` | ídem | 2026-06-24 🟢 |
 | `Module:Weapons/data/companion` | `weapons-data-companion.lua` | ídem | 2026-07-22 🟢 |
+| `Module:Weapons/data/misc` | `weapons-data-misc.lua` | ídem | 2026-03-30 🟡 |
 | Public Export (DE) | `public-export.wikitext` | **sin destilar** — ver abajo | — |
 
 ### Los dos congelados son los de habilidades
@@ -52,11 +56,16 @@ El discriminador no es "tiene `.md` o no" sino **si alguien declara qué se le p
 —capturado por si acaso, sin dueño— es deuda; un raw **citado** por un documento que declara su uso
 está completo sin `.md` hermano.
 
-- **`weapons-data-*.lua` (644 KB, 4 particiones + router)** — el dueño vive **del lado del proyecto**,
+- **`weapons-data-*.lua` (1,4 MB, 8 particiones + router)** — el dueño vive **del lado del proyecto**,
   en [`docs/domains/source/wiki-modules.md`](../../../docs/domains/source/wiki-modules.md), por el
   mismo criterio que `public-export.wikitext`: lo que hay que escribir no es *qué dice la wiki* (el
   módulo es dato crudo, se lee solo) sino **qué le pedimos**. No se destila a `.md` a propósito — su
   contenido es una tabla de números por arma, no prosa que perder.
+
+  **Las 8 particiones, no una selección.** El scraper de `omniframe-items` consume las ocho, así que
+  capturar sólo las de interés dejaba dato vivo sin raw que lo respalde — las gunblades salen de
+  `melee`, y su spread había entrado al dataset sin warrant. La regla que esto fija: **un raw se
+  captura por lo que el consumidor lee, no por lo que el tema sugiere.**
 - **`mods-data.lua` (930 KB)** — capturado, sin `.md` y **sin consumidor conocido**. Éste sí es un raw
   sin dueño: nadie declara qué se le pide. Antes de apoyarse en él hay que escribirlo.
 - **`public-export.wikitext`** — captura de la página que documenta el endpoint de DE. Su análisis vive
