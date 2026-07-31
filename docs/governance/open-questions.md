@@ -52,7 +52,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-18` | Status Duration en DoT: ¿más ticks o estirados? | engine / C1-timeline | abierta — gated por test in-game |
 | `OQ-ENGINE-19` | Generador discreto de N proc-slots a SC >100% | engine / C1-población | abierta — gated por dato in-game |
 | `OQ-ENGINE-20` | Snapshot vs live en el tick de DoT | engine / C2 | abierta — gated por test in-game |
-| `OQ-ENGINE-21` | Fidelidad de la ley de scaling: contradicción Anarchs + sin validar por DE | engine / C2 | abierta — gated por medición |
+| `OQ-ENGINE-21` | Fidelidad de la ley de scaling: la tabla no está validada por DE | engine / C2 | abierta — gated por medición; Anarchs cerrado |
 | `OQ-ENGINE-22` | Generalizar EHP/DR de `enemy/` a `entity/` (player/companion) | engine / formulas | abierta — diferida, sin consumidor real hoy |
 | `OQ-ENGINE-23` | Rank de ítem (warframe/arma) sin consumidor; `mod.rank` vestigial | engine / A1-C1 | abierta — diferida, no bloquea, sin necesidad real hoy |
 | `OQ-ENGINE-24` | Derivación cross-stat (Iron Skin y su clase): fórmula dedicada ↔ grafo | engine / C1 | abierta — **diferida por decisión**: 1 de 1241 `upgrade_by` emite modifier; gap rojo-ejecutable |
@@ -1135,63 +1135,48 @@ nativo de esta fase).
 
 ---
 
-## OQ-ENGINE-21 — Fidelidad de la ley de enemy-scaling: contradicción Anarchs + tabla sin validar por DE — **ABIERTO (2026-07-19) — Anarchs RESUELTO 2026-07-22 (fix sin aplicar); validación in-game sigue abierta**
+## OQ-ENGINE-21 — Fidelidad de la ley de enemy-scaling: la tabla no está validada por DE — **ABIERTO (2026-07-19), GATED POR MEDICIÓN**
 **Dominio:** engine / C2 (enemy scaling) — hermana de `OQ-ENGINE-15` (DR)
 
-**Contexto:** los coeficientes de `enemy-scaling.ts` se transcriben de `Enemy_Level_Scaling` (re-capturado
-raw 2026-07-19, `references/wiki/mechanics/enemy-level-scaling.wikitext`). El propio raw advierte que las
-fórmulas "are derived from in-game testing and have **not** been confirmed or denied valid by Digital
-Extremes… accuracy still under review". Dos puntos de fidelidad abiertos:
+**Contexto:** los coeficientes de `enemy-scaling.ts` se transcriben de `Enemy_Level_Scaling`
+(`references/wiki/mechanics/enemy-level-scaling.wikitext`). El propio raw advierte que las fórmulas
+"are derived from in-game testing and have **not** been confirmed or denied valid by Digital
+Extremes… accuracy still under review".
 
-1. **Contradicción Anarchs-health (el concreto):** el wiki lista Anarchs en **dos grupos de health a la vez**
-   — el tab "Anarchs, Corrupted" (`^2.1/^0.685`) y la prosa del grupo "Murmur, Sentient, Anarchs, Unaffiliated"
-   (`^2/^0.5`). En **shields no hay ambigüedad** (Anarchs = grupo Corrupted). El código deja Anarchs-health
-   **fuera** de `HEALTH_COEF` a propósito → cae al default (Unaffiliated, una de las dos opciones) hasta medir.
-2. **Validación general:** toda la tabla (coefs health/shield/armor, smoothstep, DR `√3a/100`) es
-   community-derived; hoy solo Arid Butcher @215 está validado contra el **calculador** del wiki (no contra el
-   juego — no muestra HP numérico). La DR ya es `OQ-ENGINE-15`.
+**Lo que queda abierto:** toda la tabla (coefs health/shield/armor, smoothstep, DR `√3a/100`) es
+community-derived; hoy solo Arid Butcher @215 está validado contra el **calculador** del wiki (no contra el
+juego — no muestra HP numérico). La DR ya es `OQ-ENGINE-15`. El módulo Lua de abajo es *del wiki*, no de DE:
+resuelve la **coherencia interna** de la fuente, no la fidelidad al juego.
 
-**Punto 1 RESUELTO (2026-07-22) — vía el módulo Lua propio del wiki.** `Module:Enemies/infobox` (el que la
+**La transcripción está validada contra el módulo Lua propio del wiki.** `Module:Enemies/infobox` (el que la
 propia wiki ejecuta para mostrar stats) contiene las tablas de scaling machine-readable, sin ambigüedad de
 prosa. Ver: `curl -sS "https://wiki.warframe.com/w/Module:Enemies/infobox?action=raw" | sed -n '15,160p'`.
-- **Anarchs = grupo Orokin/Corrupted en AMBAS capas:** health `f1 0.0150/2.10, f2 10.7332/0.685`;
-  shields `f1 0.0200/1.75, f2 2.0000/0.75`. El tab "Anarchs, Corrupted" tenía razón; la prosa que los agrupaba
-  con Murmur/Sentient/Unaffiliated está **mal**. → el código actual (Anarchs ausente → default Unaffiliated
-  `2.00/0.5` en health y fallback Grineer `1.6/0.75` en shields) usa **el grupo incorrecto en las dos**.
-- **El resto de la tabla del proyecto MATCHEA el módulo** (transcripción validada): armor exacto
-  (`0.005/1.75, 0.4/0.75`, fórmula única confirmada), health de Grineer/Scaldra/Corpus/Orokin/Techrot y el
-  default para Sentient/Murmur/Unaffiliated, shields de Corpus/Orokin/Grineer.
-- **Delta menor:** Techrot shields `f1_expo` — proyecto `1.76`, módulo `1.75`. Infested health `16.0998`
-  (proyecto) vs `16.100` (módulo). **Los dos son ahora conflictos marcados en las dos direcciones**
-  (`references/wiki/mechanics/enemy-level-scaling.md` ↔ `references/wiki/sources/enemies-infobox.md`), y
-  el segundo no es "el proyecto es más preciso": los números del calculador salen del módulo, así que
-  validar "exacto contra el calculador" con `16.0998` es validar contra otro número.
+- **`Anarchs` = grupo Orokin/Corrupted en AMBAS capas** (health `f1 0.0150/2.10, f2 10.7332/0.685`; shields
+  `f1 0.0200/1.75, f2 2.0000/0.75`) — el código lo declara así en las dos tablas. El tab "Anarchs, Corrupted"
+  tenía razón contra la prosa que los agrupaba con Murmur/Sentient/Unaffiliated, y esa prosa ya no existe: la
+  página vigente titula ese grupo "Murmur, Sentient, and Unaffiliated". Fuente y módulo coinciden.
+- **El resto de la tabla del proyecto MATCHEA el módulo:** armor exacto (`0.005/1.75, 0.4/0.75`, fórmula única
+  confirmada), health de Grineer/Scaldra/Corpus/Orokin/Techrot y el default para Sentient/Murmur/Unaffiliated,
+  shields de Corpus/Orokin/Grineer. Techrot shields `f1_expo` = `1.75` e Infested health `16.1` siguen al
+  módulo, no a la prosa: los números del calculador salen del módulo, así que validar "exacto contra el
+  calculador" con otro decimal es validar contra otro número.
+- **Ninguna de las dos facciones tiene enemigos en `enemies.json`** (las 9 vivas: Grineer, Corpus, Infested,
+  Corpus Amalgam, Unaffiliated, Orokin, Kuva Grineer, Sentient, Stalker). La fila existe para cuando el dato
+  llegue; hoy no cambia ningún número.
 
-**Fixes pendientes de aplicar (YELLOW, tocan `enemy-scaling.ts`):** agregar `Anarchs` a `HEALTH_COEF` (grupo
-Orokin) y a `SHIELDS_COEF` (grupo Corrupted); corregir Techrot shields a `1.75`.
-
-**Punto 2 sigue abierto:** el módulo es *del wiki*, no de DE — resuelve la **contradicción interna** (fuente
-única ejecutable > prosa contradictoria) pero la tabla sigue siendo community-derived. La validación contra
-medición in-game no se cierra con esto.
-
-### La fuente se reescribió, y el punto 1 lo cierra ella misma
+### Lo que trajo la reescritura de la fuente — tres frentes vivos
 
 La versión vigente de la página es una reescritura completa de las secciones Armor, Overguard, Damage,
 Shields y Health, ya reconciliada en `references/wiki/mechanics/enemy-level-scaling.md` (las fechas de
-fuente y destilado viven ahí, que es su régimen). Cuatro consecuencias:
+fuente y destilado viven ahí, que es su régimen). Tres consecuencias que el engine todavía no absorbe:
 
-**1. El punto 1 se cierra desde la prosa, no sólo desde el módulo.** El tab que agrupaba a Anarchs con
-el default ahora se llama **"Murmur, Sentient, and Unaffiliated"** — sin Anarchs. La página y
-`Module:Enemies/infobox` ya coinciden: Anarchs = grupo Corrupted en health y en shields. **Los fixes de
-`enemy-scaling.ts` siguen sin aplicar y ahora no tienen contraparte que los discuta.**
-
-**2. La curva no se elige — se interpola siempre.** *"Both endpoint curves are evaluated at every level,
+**1. La curva no se elige — se interpola siempre.** *"Both endpoint curves are evaluated at every level,
 including when s=0 or s=1."* Nuestra lectura previa ("`Δx<70` → `f1`, `Δx>80` → `f2`, en el medio
 smoothstep") describe una **selección de región**; la fuente describe un `clamp` + smoothstep aplicado
 siempre. Da el mismo número en aritmética exacta y **no** necesariamente en binary32 (ver punto 4).
 La wiki además retiró la afirmación de que las curvas se cruzan en x=80.
 
-**3. Overguard es un tercer punto de fidelidad, no un detalle.** Si el engine va a modelar Overguard
+**2. Overguard es un punto de fidelidad propio, no un detalle.** Si el engine va a modelar Overguard
 enemigo, hereda tres divergencias respecto de health, y **dos no estaban documentadas**:
 
 | | Overguard | health / shields / armor |
@@ -1204,7 +1189,7 @@ Base de todo Eximus = **12**. ⚠️ Es además **la fórmula peor respaldada de
 referencia es un hilo de Reddit de 2022 marcado `[Confirmation needed]`. Entra al engine con menos
 crédito que el resto de la tabla, no con el mismo.
 
-**4. Pregunta nueva — ¿reproducimos binary32?** La fuente ahora declara la precisión como **normativa**:
+**3. Pregunta nueva — ¿reproducimos binary32?** La fuente ahora declara la precisión como **normativa**:
 *"coefficients, exponents, power results, and intermediate arithmetic results must be evaluated in
 **binary32** in the displayed order"*, y prohíbe explícitamente reescribir `f1 + (f2−f1)·s` como
 `f1(1−s) + f2·s`. Que se moleste en prohibir una identidad algebraica sugiere que la diferencia se
@@ -1216,11 +1201,9 @@ observó. Tres caminos, ninguno obvio:
 - **Medir primero** — cuantificar el delta contra el calculador del wiki en el rango jugable y decidir
   con el número en la mano. Es lo consistente con cómo se resolvió el resto de esta OQ.
 
-**No bloquea:** el engine corre. **Bloquea:** cerrar el punto 2 con precisión defendible — hoy validamos
-"exacto" contra el gadget sin saber en qué precisión calcula él.
-
-**No bloquea:** el engine corre; Anarchs no está en la data todavía. **Bloquea:** scaling correcto de
-Anarchs (health y shields); confianza plena en la tabla de scaling.
+**No bloquea:** el engine corre — la transcripción es coherente con la fuente en toda la tabla.
+**Bloquea:** confianza plena en la ley, que exige medición in-game; y validar "exacto" con precisión
+defendible, que hoy se hace contra el gadget sin saber en qué precisión calcula él.
 **Vínculo:** **OQ-DATA-15** (el INPUT `faction`, hermana), **OQ-ENGINE-15** (DR, mismo "provisional hasta
 popup #1"), mirror `references/wiki/mechanics/enemy-level-scaling.md` (reconciliado 2026-07-19).
 **Fuente:** re-captura raw (`references/wiki/mechanics/enemy-level-scaling.wikitext`). Auditoría: F5-P2 (2026-07-19).

@@ -18,15 +18,17 @@ type SCoef = { below: { c: number; e: number }; above: { c: number; e: number } 
 // Coeficientes de HEALTH por grupo de facción (enemy-level-scaling.md §Health). Facciones que comparten
 // coef comparten valores. `Orokin` = grupo "Corrupted" del wiki (Corrupted es un tipo Void, no una
 // facción propia). `Unaffiliated` = default documentado del wiki para facción no reconocida (NO Grineer).
-// Anarchs-health queda FUERA a propósito: el wiki se contradice (tab "Anarchs, Corrupted" `^2.1/^0.685`
-// vs prosa "Murmur, Sentient, Anarchs, Unaffiliated" `^2/^0.5`) → `OQ-ENGINE-21`; hasta medir, cae al
-// default (Unaffiliated).
+// `Anarchs` comparte los coeficientes de `Orokin` en las DOS capas (health y shields), no por herencia
+// de subfacción sino porque el módulo Lua que la propia wiki ejecuta (`Module:Enemies/infobox`) le da
+// esos valores: la prosa que los agrupaba con Murmur/Sentient/Unaffiliated estaba mal y ya se retiró de
+// la página. Fuente única ejecutable > prosa. Ver `OQ-ENGINE-21`.
 const HEALTH_COEF: Record<string, SCoef> = {
   Grineer:      { below: { c: 0.015,  e: 2.12 }, above: { c: 10.7332, e: 0.72  } },
   Scaldra:      { below: { c: 0.015,  e: 2.12 }, above: { c: 10.7332, e: 0.72  } },
   Corpus:       { below: { c: 0.015,  e: 2.12 }, above: { c: 13.4165, e: 0.55  } },
-  Infested:     { below: { c: 0.0225, e: 2.12 }, above: { c: 16.0998, e: 0.72  } },
+  Infested:     { below: { c: 0.0225, e: 2.12 }, above: { c: 16.1,     e: 0.72  } },
   Orokin:       { below: { c: 0.015,  e: 2.1  }, above: { c: 10.7332, e: 0.685 } },
+  Anarchs:      { below: { c: 0.015,  e: 2.1  }, above: { c: 10.7332, e: 0.685 } },
   Sentient:     { below: { c: 0.015,  e: 2.0  }, above: { c: 10.7332, e: 0.5   } },
   Murmur:       { below: { c: 0.015,  e: 2.0  }, above: { c: 10.7332, e: 0.5   } },
   Unaffiliated: { below: { c: 0.015,  e: 2.0  }, above: { c: 10.7332, e: 0.5   } },
@@ -53,9 +55,10 @@ function coefFor(table: Record<string, SCoef>, faction: string, fallback: SCoef)
 const SHIELDS_COEF: Record<string, SCoef> = {
   Corpus:    { below: { c: 0.02, e: 1.76 }, above: { c: 2,   e: 0.76 } },
   Orokin:    { below: { c: 0.02, e: 1.75 }, above: { c: 2,   e: 0.75 } },
+  Anarchs:   { below: { c: 0.02, e: 1.75 }, above: { c: 2,   e: 0.75 } },
   Grineer:   { below: { c: 0.02, e: 1.75 }, above: { c: 1.6, e: 0.75 } },
   Sentient:  { below: { c: 0.02, e: 1.75 }, above: { c: 1.6, e: 0.75 } },
-  Techrot:   { below: { c: 0.02, e: 1.76 }, above: { c: 3.5, e: 0.76 } },
+  Techrot:   { below: { c: 0.02, e: 1.75 }, above: { c: 3.5, e: 0.76 } },
 };
 
 // Armadura: fórmula ÚNICA para todas las facciones (no depende de faction ni de armor_type).
