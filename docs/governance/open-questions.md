@@ -58,7 +58,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-24` | Derivación cross-stat (Iron Skin y su clase): fórmula dedicada ↔ grafo | engine / C1 | abierta — **diferida por decisión**: 1 de 1241 `upgrade_by` emite modifier; gap rojo-ejecutable |
 | `OQ-ENGINE-25` | Orden de `total_flat` vs `multiplicative` contra la referencia canónica | engine / formulas — fidelidad | abierta — **latente**: intersección vacía medida, no bloquea |
 | `OQ-ENGINE-26` | Composición entre fuentes de life steal: la fuente no lo declara | engine / C2 — sustain | abierta — hueco de la wiki, gated por medición |
-| `OQ-ENGINE-27` | El eje de *application* del CO no está modelado: 4 casos caen en el mismo bucket | engine / C1 — fidelidad CO | abierta — no bloquea; exige releer `arch-decisions §9/§10` |
+| `OQ-ENGINE-27` | `co_base`: la regla padre→hijo del CO, declarada en el schema y sin validar del todo | engine / C1 — fidelidad CO | abierta — **gated por investigación**; el qué ya está decidido en `arch-decisions §9` |
 | `OQ-ENGINE-28` | Resistencias por entidad: capa aparte de la matriz por facción | engine / C2 — modelo de enemigo | abierta — diferida, sin consumidor |
 | `OQ-ENGINE-29` | ¿Los status sin ícono (`Lifted`/`Knockdown`/`Microwave`) cuentan para CO? | engine / C2 — población de status | abierta — gated por test propio, **diseño listo** |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
@@ -1441,43 +1441,77 @@ afirmación), `references/ingame-tests/pending.md`.
 
 ---
 
-## OQ-ENGINE-27 — El eje de *application* del CO no está modelado: cuatro casos caen en el mismo bucket — **ABIERTO**
+## OQ-ENGINE-27 — `co_base`: la regla padre→hijo del CO, declarada en el schema y sin validar del todo — **ABIERTO, GATED POR INVESTIGACIÓN**
 **Dominio:** engine / C1 — fidelidad de la mecánica CO
 
-**Contexto:** la wiki clasifica los bonus CO en **dos ejes ortogonales**
-(`references/wiki/mechanics/condition-overload.md` §Los cinco comportamientos):
+**Estado:** el **qué** está decidido (`arch-decisions §9` pieza 3): la base de cálculo del CO entra como
+**puntero al ataque padre** (`co_base`), declarado en el schema del override y **sin contrato TS ni
+resolver**. Lo que queda abierto es el **warrant**: la regla no reproduce todavía el corpus completo, y
+poblar punteros sobre una regla que falla afirmaría más de lo medido.
 
-- **Stacking** — cómo apila con Serration: multiplicativo o aditivo.
-- **Application** — cuánto del `+X%` listado aplica **realmente**: por encima, exacto, o por debajo.
+**La regla:** un ataque que **deriva** de otro computa el CO sobre la base del **padre**, no sobre la
+propia — el radial sobre el impacto directo que lo genera, el disparo cargado sobre el sin cargar, el
+proyectil hijo sobre el que lo escupe. El ratio se **deriva** de `innate_dna.profiles`; el override sólo
+lleva el puntero.
 
-`arch-decisions §9/§10` modela **sólo el primero**. `co_behavior` es `'adding' | 'multiplying' | 'none'`,
-y `coBonusPct = coefBase × activeStacks × N` asume que el bonus aplica **exacto**. El segundo eje no
-tiene representación en ningún contrato.
+**Validación contra el dataset** (`base_padre / base_propia` vs la columna `CO Damage Bonus Relative To
+Base Damage` de la tabla ítem-por-ítem del wikitext):
 
-**Las cuatro filas de la wiki que el modelo colapsa en `adding`:**
+| Arma · ataque | padre | propia | derivado | wiki | |
+|---|---|---|---|---|---|
+| Ferrox · `Radial Attack` | Charged Shot 350 | 100 | 350% | 350% | ✅ |
+| Opticor Vandal · `Charged Shot AoE` | Charged Shot 400 | 200 | 200% | 200% | ✅ |
+| Trumna · `Auto AoE` | Auto 82 | 50 | 164% | 164% | ✅ |
+| Ambassador · `Charged AoE` | Charge 600 | 800 | 75% | 75% | ✅ |
+| Paris Prime · `Charged Shot` | Uncharged 180 | 360 | 50% | 50% | ✅ |
+| Lanka · `Charged Shot` | Partially Charged 200 | 525 | 38.1% | 38% | ✅ |
+| Kulstar · `Cluster Bombs` | Rocket Impact 200 | 75 | **266.7%** | 257% | ⚠️ la wiki mide bonus 200 sobre base 75 y publica mal el cociente — el derivado la corrige |
+| Braton Prime · `Incarnon Form AoE` | Incarnon Form 70 | 70 | 100% | 95% | ❌ la wiki usa base 74 para el radial; el dataset dice 70 |
+| Zylok Prime · `Incarnon Form Radial` | Incarnon Form 500 | 700 | 71.4% | 90% | ❌ la wiki usa 776/700; ninguna de las dos bases coincide |
 
-| # | Application | Ejemplos | Por qué difiere |
-|---|---|---|---|
-| 2 | **por encima** del X% | Kuva Bramma, Kulstar | los **proyectiles hijos** calculan el CO sobre el daño del **padre**, que suele ser mayor |
-| 3 | **exacto** | Braton, Latron, Paris sin cargar | el caso que el modelo asume para todos |
-| 4 | **por debajo** del X% | **Paris cargado**, arcos | el disparo cargado calcula el CO sobre el daño **sin cargar**, que es menor |
+**Lo que la investigación tiene que cerrar:**
 
-Las tres son `adding` en el eje modelado. **Nada en el contrato las distingue**, y la diferencia no es de
-bucket: es de **qué base usa el cálculo**.
+1. **Braton Prime y Zylok Prime** — ¿discrepa el dataset, la wiki, o la regla? Ambos son radiales de forma
+   incarnon, así que el fallo puede ser sistemático de esa clase y no de dos armas sueltas.
+2. **Qué ataque es el padre, cuando no es obvio.** Kuva Bramma tiene cuatro ataques (`Charged Shot`,
+   `Radial Attack`, `Cluster Bomb Contact`, `Cluster Bomb Explosion`) y la wiki **no le da fila** en la
+   tabla per-arma: el puntero de la bomba hija no está medido por nadie.
+3. **Ataques que la fuente nunca midió.** La tabla lista *sólo discrepancias conocidas*: un ataque ausente
+   no es un ataque exacto. Caso vivo: la Lex Incarnon — **ni la wiki ni el dataset le registran un radial**
+   (sólo `Normal Attack` e `Incarnon Form`), aunque en el juego el radial exista como consecuencia del
+   impacto. Si el dato upstream no trae el ataque, no hay padre al que apuntar ni base propia que corregir.
 
-**La señal de que el hueco ya se sintió:** §9 declara que *"un override corrige la excepción (ej. Paris
-Charged Shot)"* — vía `co_behavior` en `weapon-stats.override.json`. Pero Paris cargado **no tiene otro
-bucket**: es aditivo como el Braton. Lo que tiene es otra **base de cálculo**. Se está corrigiendo un eje
-con el override del eje vecino, y eso funciona para un caso puntual y miente sobre la causa.
+**Lo que `co_base` no puede expresar, y su complemento diferido** (además de la base congelada de arriba):
+los **11 incarnon de secundarias** donde
+el CO ignora el aumento de base damage de una Evolution (nota literal de la fuente: *"CO-bonus does not use
+base damage increase Evolution"* — Atomos, Bronco Prime, Cestra, Despair, Dual Toxocyst, Furis, Lato
+Vandal, Lex Prime, Vasto Prime, Zylok Prime). Ahí no hay ataque padre: hay un upgrade que el cálculo
+saltea, y el ratio queda **condicional a la build** (`100% or 81%`, `100% or 53%`, …). Ese eje lo cubre
+**`co_ratio`** —escalar medido por ataque—, **diferido con su propio gate**: se agrega, no hoy.
 
-**La pregunta:** ¿la base de cálculo del CO entra al contrato como dimensión propia (un `co_base` junto a
-`co_behavior`), o se sigue tratando caso por caso vía override mientras el corpus sea chico? Lo segundo es
-defendible —son pocas armas— pero hay que decidirlo sabiendo que es una decisión, no un descuido.
+**Lo que la relectura ya corrigió** (vive en `arch-decisions §9`, no acá): los dos ejes de la wiki **no son
+ortogonales entre sí**. El de *application* se concentra en `adding` —56 de 68 filas con ratio ≠ 100%,
+contra **2 de 90** en `multiplying`— y `none` es su caso degenerado (16 filas en 0%). La partición por
+composición de §10 sigue **correcta y fuera de discusión**: `co_base` refina la magnitud de un bucket que
+`co_behavior` ya eligió, no abre una familia hermana.
 
-**Origen de la duda, y su límite:** §10 se decidió sobre un destilado de CO al que le faltaba este eje
-entero (lo registra el residuo R-6 de la campaña de reconciliación). Que la decisión se tomara sobre
-información incompleta **no la invalida** — la partición por composición sigue siendo correcta y el eje
-de stacking está bien modelado. Lo que exige es releerla con la taxonomía completa a la vista.
+**Corpus completo del eje, más allá de los guns.** La regla padre→hijo se validó sobre primarias, pero las
+filas discrepantes cubren cinco secciones y **dos causas más** que ningún puntero expresa:
+
+| Clase | Ejemplos | Encaja en `co_base` |
+|---|---|---|
+| Radial ← impacto directo | Ferrox, Opticor Vandal, Trumna, Ambassador, Mausolon (archgun) | sí, validado |
+| Cargado ← sin cargar | Paris, Lanka, Cernos, Dread, Daikyu, Drakgoon | sí, validado |
+| Proyectil hijo ← padre | Kulstar, Kuva Bramma | plausible, sin medición que lo confirme |
+| **Melee derivado** | Innodem `Aerial Incarnon Wave 1/2` (360%/720%), Quassus Prime `Heavy Attack 1/2 Daggers` (40%/20%), Stropha `Heavy Attack Projectile` (25%), Tenet Agendus `Heavy Attack Wave 1/2` (20%, y son **`multiplying`**) | forma compatible, **sin validar** — §9 declara melee `adding` siempre y no dice nada de la base |
+| **Base congelada** | Noctua ×3 (*"CO scaling value of 200 does not scale with Ability Strength"*), Artemis Bow (*"scales off 100 base damage per projectile instead of 240, unaffected by Power Strength"*) | **no** — no hay ataque padre: hay un número que no escala con el build |
+
+La **base congelada de exaltadas** es una tercera causa junto a las Evolution: el ratio depende de la
+Ability Strength del jugador, así que tampoco la cubre un `co_ratio` fijo por ataque. Ambas comparten la
+forma *"el CO ignora una fuente de escalado que el ataque sí recibe"*, y si se modelan, se modelan juntas.
+
+**Gap de la propia fuente:** la sección `Robotic` (armas de compañero) está **vacía y marcada
+`{{UpdateMe}}`**. No es "sin discrepancias": es sin medir.
 
 **Lo que NO es esta OQ — dos casos que ya tienen hogar:**
 
@@ -1488,11 +1522,16 @@ de stacking está bien modelado. Lo que exige es releerla con la taxonomía comp
   `STACK_DECAY_BUFF`** —*evento discreto → +val por stack, cap Nx*, sin leer el status del target— que
   ya está **ejecutada** con Galvanized Chamber.
 
-**No bloquea:** nada hoy — el modo estático replica el techo declarado. **Degrada:** la fidelidad de
-cualquier arma de las filas 2 y 4 en cuanto el CO se calcule en vez de declararse.
-**Vínculo:** `docs/domains/engine/design/arch-decisions.md` §9 (el contrato `co_behavior`) y §10 (la
-partición), `references/wiki/mechanics/condition-overload.md` §Los cinco comportamientos,
-`Project/src/core/engine/formulas/weapon/weapon-condition-overload.ts`.
+**No bloquea:** nada hoy — el modo estático replica el techo declarado. **Degrada:** la fidelidad de todo
+ataque derivado en cuanto el CO se calcule en vez de declararse. El error es conocido y acotado, no
+silencioso: en los arcos cargados el bonus queda **al doble** del real, y Lanka ya está en el corpus de
+tests. `co_behavior` **no** lo corrige — pone el bucket bien y deja la magnitud mal.
+**Condición de cierre:** la investigación de los tres puntos de arriba. **No** es una campaña de tests
+in-game: el ratio se deriva del dataset que el pipeline ya carga, y la wiki queda de oráculo de contraste.
+**Vínculo:** `docs/domains/engine/design/arch-decisions.md` §9 (las tres piezas de CO) y §10 (la
+partición), `docs/data/schemas/weapons/weapons-attack-structure.md` (el campo declarado),
+`references/wiki/mechanics/condition-overload.md` + su `.wikitext` (la tabla ítem-por-ítem sólo vive en el
+crudo), `Project/src/core/engine/formulas/weapon/weapon-condition-overload.ts`.
 **Fuente:** reconciliación del corpus de CO (residuo R-6) — el eje perdido al destilar.
 
 ---
