@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/ShortRangeBeams.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/ShortRangeBeams.png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -27,7 +27,7 @@
 
 ### Reified Bane
 
-![reified_bane](../../../../../Project/public/assets/incarnon-evolutions/ReloadFromEmpty.png)
+![reified_bane](../../../Project/public/assets/incarnon-evolutions/ReloadFromEmpty.png)
 
 **Efectos:**
 - Increase Base Damage by **+10**.
@@ -44,7 +44,7 @@
 
 ### Fortress Salvo
 
-![fortress_salvo](../../../../../Project/public/assets/incarnon-evolutions/PunchThroughWithArmorAboveX.png)
+![fortress_salvo](../../../Project/public/assets/incarnon-evolutions/PunchThroughWithArmorAboveX.png)
 
 **Efectos:**
 - Increase Base Damage by **+16**.
@@ -63,7 +63,7 @@
 
 ### Ready Retaliation
 
-![ready_retaliation](../../../../../Project/public/assets/incarnon-evolutions/ReloadSpeedOnEmpty.png)
+![ready_retaliation](../../../Project/public/assets/incarnon-evolutions/ReloadSpeedOnEmpty.png)
 
 **Efectos:**
 - On Reload From Empty: **+100%** Reload Speed.
@@ -79,7 +79,7 @@
 
 ### Mercenary Chamber
 
-![mercenary_chamber](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool.png)
+![mercenary_chamber](../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool.png)
 
 **Efectos:**
 - Increase Base Ammo Capacity to **195**.
@@ -91,7 +91,7 @@
 
 ### Practiced Grip
 
-![practiced_grip](../../../../../Project/public/assets/incarnon-evolutions/MoreAccuracy.png)
+![practiced_grip](../../../Project/public/assets/incarnon-evolutions/MoreAccuracy.png)
 
 **Efectos:**
 - Increase Accuracy by **+50%**.
@@ -109,7 +109,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus.png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus.png)
 
 **Efectos:**
 - Increase Base Status Chance by **+12%** per projectile.
@@ -122,7 +122,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage.png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+20%**.
@@ -135,7 +135,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance.png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+10%**.

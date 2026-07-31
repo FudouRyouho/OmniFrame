@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/HeavyAttacksThrowSpectralDaggers(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/HeavyAttacksThrowSpectralDaggers(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -34,7 +34,7 @@
 
 ### Gun and Blade
 
-![gun_and_blade](../../../../../Project/public/assets/incarnon-evolutions/InitialComboPerKillWithPrimaryWeapon(xWhite).png)
+![gun_and_blade](../../../Project/public/assets/incarnon-evolutions/InitialComboPerKillWithPrimaryWeapon(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+100**.
@@ -50,7 +50,7 @@
 
 ### Breacher's Opportunity
 
-![breachers_opportunity](../../../../../Project/public/assets/incarnon-evolutions/DamageOnShieldBreak(xWhite).png)
+![breachers_opportunity](../../../Project/public/assets/incarnon-evolutions/DamageOnShieldBreak(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+120**.
@@ -68,7 +68,7 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+1** Range
@@ -79,7 +79,7 @@
 
 ### Adept Reflexes
 
-![adept_reflexes](../../../../../Project/public/assets/incarnon-evolutions/InitialComboCount(xWhite).png)
+![adept_reflexes](../../../Project/public/assets/incarnon-evolutions/InitialComboCount(xWhite).png)
 
 **Efectos:**
 - **+20** Initial Combo
@@ -90,7 +90,7 @@
 
 ### Rogue Readiness
 
-![rogue_readiness](../../../../../Project/public/assets/incarnon-evolutions/ChanceToReplenishMagOnHeadshot(xWhite).png)
+![rogue_readiness](../../../Project/public/assets/incarnon-evolutions/ChanceToReplenishMagOnHeadshot(xWhite).png)
 
 **Efectos:**
 - On Kill: **40%** chance for Instantly Reload Primary and Secondary weapons.
@@ -107,7 +107,7 @@
 
 ### Red Right Hand
 
-![red_right_hand](../../../../../Project/public/assets/incarnon-evolutions/CritDamageOnFirstAttackFromAGunEquipped(xWhite).png)
+![red_right_hand](../../../Project/public/assets/incarnon-evolutions/CritDamageOnFirstAttackFromAGunEquipped(xWhite).png)
 
 **Efectos:**
 - On First Attack With Primary Equipped: Increase Base Critical Damage Multiplier by **+2x**.
@@ -121,7 +121,7 @@
 
 ### Absolute Dominion
 
-![absolute_dominion](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![absolute_dominion](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+30%**.
@@ -132,7 +132,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+30%**.

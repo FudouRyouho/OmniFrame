@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormRicochetOnHittingEnemies(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormRicochetOnHittingEnemies(xWhite).png)
 
 **Descripción:**
 - Bullets ricochet.
@@ -27,7 +27,7 @@
 
 ### Feigned Retreat
 
-![feigned_retreat](../../../../../Project/public/assets/incarnon-evolutions/XDamageToEnemiesAtFullHealthAndBelowHalfHealth(xWhite).png)
+![feigned_retreat](../../../Project/public/assets/incarnon-evolutions/XDamageToEnemiesAtFullHealthAndBelowHalfHealth(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X.**
@@ -43,7 +43,7 @@
 
 ### King's Gambit
 
-![kings_gambit](../../../../../Project/public/assets/incarnon-evolutions/BodyShotsCantCritHeadshotsIncCritChance(xWhite).png)
+![kings_gambit](../../../Project/public/assets/incarnon-evolutions/BodyShotsCantCritHeadshotsIncCritChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X** (Sicarus) / **+X** (Prime)
@@ -67,7 +67,7 @@
 
 ### Void's Guidance
 
-![voids_guidance](../../../../../Project/public/assets/incarnon-evolutions/MoreAccuracy(xWhite).png)
+![voids_guidance](../../../Project/public/assets/incarnon-evolutions/MoreAccuracy(xWhite).png)
 
 **Efectos:**
 - **+40%** Accuracy.
@@ -79,7 +79,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Reload Speed.
@@ -91,7 +91,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+X.**
@@ -109,7 +109,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%.**
@@ -121,7 +121,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **X%.**
@@ -134,7 +134,7 @@
 
 ### Wiseman's Regard
 
-![wisemans_regard](../../../../../Project/public/assets/incarnon-evolutions/GainStatusChanceOfCritChance(xWhite).png)
+![wisemans_regard](../../../Project/public/assets/incarnon-evolutions/GainStatusChanceOfCritChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **30%** of current Critical Chance, up to **40%**

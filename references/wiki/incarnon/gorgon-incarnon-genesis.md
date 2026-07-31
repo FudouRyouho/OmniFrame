@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/ExplodingSpikes.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/ExplodingSpikes.png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Hunter's Mantra
 
-![hunters_mantra](../../../../../Project/public/assets/incarnon-evolutions/DamageAccuracyPunchThroughActiveChanAbility.png)
+![hunters_mantra](../../../Project/public/assets/incarnon-evolutions/DamageAccuracyPunchThroughActiveChanAbility.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -43,7 +43,7 @@
 
 ### Hoplite Virtue
 
-![hoplite_virtue](../../../../../Project/public/assets/incarnon-evolutions/DamageOnShieldBreak.png)
+![hoplite_virtue](../../../Project/public/assets/incarnon-evolutions/DamageOnShieldBreak.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -66,7 +66,7 @@
 
 ### Resonant Restore
 
-![resonant_restore](../../../../../Project/public/assets/incarnon-evolutions/ReloadOnEmptyGivesMagSize.png)
+![resonant_restore](../../../Project/public/assets/incarnon-evolutions/ReloadOnEmptyGivesMagSize.png)
 
 **Efectos:**
 - On Reload From Empty: Increase Base Magazine Capacity by **+15**. Stacks up to **3x**.
@@ -79,7 +79,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed.png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed.png)
 
 **Efectos:**
 - **+50%** Reload Speed
@@ -92,7 +92,7 @@
 
 ### Void's Guidance
 
-![voids_guidance](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
+![voids_guidance](../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
 
 **Efectos:**
 - **-50%** Weapon Recoil.
@@ -111,7 +111,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance.png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance.png)
 
 **Efectos:**
 - Increase Base Critical Chance by +X.
@@ -125,7 +125,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus.png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus.png)
 
 **Efectos:**
 - Increase Base Status Chance by +X
@@ -138,7 +138,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit.png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit.png)
 
 **Efectos:**
 - Increase Base Critical Chance by +X.

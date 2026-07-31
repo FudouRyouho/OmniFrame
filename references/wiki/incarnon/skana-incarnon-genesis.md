@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/RadialStunOnActivationFinisherKillsPulseStun(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/RadialStunOnActivationFinisherKillsPulseStun(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -30,7 +30,7 @@
 
 ### Guardian's Promise
 
-![guardians_promise](../../../../../Project/public/assets/incarnon-evolutions/DamageAndHeavyEfficiencyWithOvershield(xWhite).png)
+![guardians_promise](../../../Project/public/assets/incarnon-evolutions/DamageAndHeavyEfficiencyWithOvershield(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -44,7 +44,7 @@
 
 ### Wartime Nerve
 
-![wartime_nerve](../../../../../Project/public/assets/incarnon-evolutions/DamageAndComboGain(xWhite).png)
+![wartime_nerve](../../../Project/public/assets/incarnon-evolutions/DamageAndComboGain(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -68,7 +68,7 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+0.4** Range
@@ -81,7 +81,7 @@
 
 ### Resolute Force
 
-![resolute_force](../../../../../Project/public/assets/incarnon-evolutions/IncarnonComboTimer(xWhite).png)
+![resolute_force](../../../Project/public/assets/incarnon-evolutions/IncarnonComboTimer(xWhite).png)
 
 **Efectos:**
 - **+6s** Combo Duration
@@ -94,7 +94,7 @@
 
 ### Swift Break
 
-![swift_break](../../../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
+![swift_break](../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Heavy Attack Wind Up Speed.
@@ -113,7 +113,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -127,7 +127,7 @@
 
 ### Elemental Excess
 
-![elemental_excess](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_excess](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**.
@@ -140,7 +140,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.

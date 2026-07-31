@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/HeavyAtkVoidSpikesComboCt(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/HeavyAtkVoidSpikesComboCt(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -33,21 +33,21 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+1** Range
 
 ### Lethal Impetus
 
-![lethal_impetus](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAttackSpeed(xWhite).png)
+![lethal_impetus](../../../Project/public/assets/incarnon-evolutions/IncarnonAttackSpeed(xWhite).png)
 
 **Efectos:**
 - On Kill: **+15%** Attack Speed for **15s**. Stacks up to **3x**.
 
 ### Gathering Momentum
 
-![gathering_momentum](../../../../../Project/public/assets/incarnon-evolutions/MoveSpdComboMult(xWhite).png)
+![gathering_momentum](../../../Project/public/assets/incarnon-evolutions/MoveSpdComboMult(xWhite).png)
 
 **Efectos:**
 - Gain **+5%** Movement Speed per Melee Combo Multiplier
@@ -60,14 +60,14 @@
 
 ### Shockwave Synergy
 
-![shockwave_synergy](../../../../../Project/public/assets/incarnon-evolutions/IncarnonSlamDamage(xWhite).png)
+![shockwave_synergy](../../../Project/public/assets/incarnon-evolutions/IncarnonSlamDamage(xWhite).png)
 
 **Efectos:**
 - For each enemy hit by Slam radius, gain **4** Combo Count.
 
 ### Seismic Slam
 
-![seismic_slam](../../../../../Project/public/assets/incarnon-evolutions/IncarnonSlamRadius(xWhite).png)
+![seismic_slam](../../../Project/public/assets/incarnon-evolutions/IncarnonSlamRadius(xWhite).png)
 
 **Efectos:**
 - **+60%** Slam Radius
@@ -77,7 +77,7 @@
 
 ### Adept Reflexes
 
-![adept_reflexes](../../../../../Project/public/assets/incarnon-evolutions/InitialComboCount(xWhite).png)
+![adept_reflexes](../../../Project/public/assets/incarnon-evolutions/InitialComboCount(xWhite).png)
 
 **Efectos:**
 - **+20** Initial Combo
@@ -90,21 +90,21 @@
 
 ### Swift Transmute
 
-![swift_transmute](../../../../../Project/public/assets/incarnon-evolutions/HeavyAttackTransformAt6x(xWhite).png)
+![swift_transmute](../../../Project/public/assets/incarnon-evolutions/HeavyAttackTransformAt6x(xWhite).png)
 
 **Efectos:**
 - Reach **3x** Combo and Heavy Attack to activate Incarnon Form
 
 ### Ternary Vault
 
-![ternary_vault](../../../../../Project/public/assets/incarnon-evolutions/IncarnonTripleJump(xWhite).png)
+![ternary_vault](../../../Project/public/assets/incarnon-evolutions/IncarnonTripleJump(xWhite).png)
 
 **Efectos:**
 - Gain **+1** mid-air jumps
 
 ### Inspiring Execution
 
-![inspiring_execution](../../../../../Project/public/assets/incarnon-evolutions/ComboFromFinishers(xWhite).png)
+![inspiring_execution](../../../Project/public/assets/incarnon-evolutions/ComboFromFinishers(xWhite).png)
 
 **Efectos:**
 - **+30%** Combo Count Chance on Finishers for **20s**
@@ -117,14 +117,14 @@
 
 ### Brutal Efficiency
 
-![brutal_efficiency](../../../../../Project/public/assets/incarnon-evolutions/HeavyEffOnMultImpaled(xWhite).png)
+![brutal_efficiency](../../../Project/public/assets/incarnon-evolutions/HeavyEffOnMultImpaled(xWhite).png)
 
 **Efectos:**
 - Gain **+40%** Heavy Attack Efficiency for **20s** when impaling **5** or more enemies.
 
 ### Vulnerability Serum
 
-![vulnerability_serum](../../../../../Project/public/assets/incarnon-evolutions/ImpaledStatusVuln(xWhite).png)
+![vulnerability_serum](../../../Project/public/assets/incarnon-evolutions/ImpaledStatusVuln(xWhite).png)
 
 **Efectos:**
 - Impaled enemies are **+35%** more vulnerable to Status Chance
@@ -136,7 +136,7 @@
 
 ### Permanent Perforation
 
-![permanent_perforation](../../../../../Project/public/assets/incarnon-evolutions/ImpaledPuncProcCrit(xWhite).png)
+![permanent_perforation](../../../Project/public/assets/incarnon-evolutions/ImpaledPuncProcCrit(xWhite).png)
 
 **Efectos:**
 - Enemies suffer **5** <DT_PUNCTURE> Status while impaled

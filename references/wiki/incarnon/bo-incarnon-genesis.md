@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncreaseRangeAndHeavyAttackEfficiency(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncreaseRangeAndHeavyAttackEfficiency(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -28,7 +28,7 @@
 
 ### Stalwart Oak
 
-![stalwart_oak](../../../../../Project/public/assets/incarnon-evolutions/DmgAndIncreasedBlockAngleComboFromBlockedShotsWArmor(xWhite).png)
+![stalwart_oak](../../../Project/public/assets/incarnon-evolutions/DmgAndIncreasedBlockAngleComboFromBlockedShotsWArmor(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -44,7 +44,7 @@
 
 ### Swordsman's Flourish
 
-![swordsmans_flourish](../../../../../Project/public/assets/incarnon-evolutions/DamageAndComboGainInSwordAloneMode(xWhite).png)
+![swordsmans_flourish](../../../Project/public/assets/incarnon-evolutions/DamageAndComboGainInSwordAloneMode(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -68,7 +68,7 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+0.5** Range
@@ -81,7 +81,7 @@
 
 ### Overhand
 
-![overhand](../../../../../Project/public/assets/incarnon-evolutions/IncarnonHeavyEfficiency(xWhite).png)
+![overhand](../../../Project/public/assets/incarnon-evolutions/IncarnonHeavyEfficiency(xWhite).png)
 
 **Efectos:**
 - Base Heavy Attack Efficiency set at **20%**
@@ -94,7 +94,7 @@
 
 ### Swordsman's Celerity
 
-![swordsmans_celerity](../../../../../Project/public/assets/incarnon-evolutions/MovementSpeedWhileEquipped(xWhite).png)
+![swordsmans_celerity](../../../Project/public/assets/incarnon-evolutions/MovementSpeedWhileEquipped(xWhite).png)
 
 **Efectos:**
 - **+20%** Movement Speed
@@ -116,7 +116,7 @@
 
 ### Flashing Bleed
 
-![flashing_bleed](../../../../../Project/public/assets/incarnon-evolutions/ChanceForSlashOnImpact(xWhite).png)
+![flashing_bleed](../../../Project/public/assets/incarnon-evolutions/ChanceForSlashOnImpact(xWhite).png)
 
 **Efectos:**
 - **+40%** chance of <DT_SLASH> Status on <DT_IMPACT> Status Effect.
@@ -132,7 +132,7 @@
 
 ### Subtle Force
 
-![subtle_force](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![subtle_force](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -146,7 +146,7 @@
 
 ### Absolute Dominion
 
-![absolute_dominion](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![absolute_dominion](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**.

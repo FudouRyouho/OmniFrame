@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormPassThroughWaveProj(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormPassThroughWaveProj(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Hoplite Virtue
 
-![hoplite_virtue](../../../../../Project/public/assets/incarnon-evolutions/OnShieldLossDamage(xWhite).png)
+![hoplite_virtue](../../../Project/public/assets/incarnon-evolutions/OnShieldLossDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -39,7 +39,7 @@
 
 ### Trusty Sidearm
 
-![trusty_sidearm](../../../../../Project/public/assets/incarnon-evolutions/DamageAndMultishotWithActiveChanneledAbility(xWhite).png)
+![trusty_sidearm](../../../Project/public/assets/incarnon-evolutions/DamageAndMultishotWithActiveChanneledAbility(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -58,7 +58,7 @@
 
 ### Lex Talionis
 
-![lex_talionis](../../../../../Project/public/assets/incarnon-evolutions/OnHeadshotDecreaseRecoilIncreaseAccuracy(xWhite).png)
+![lex_talionis](../../../Project/public/assets/incarnon-evolutions/OnHeadshotDecreaseRecoilIncreaseAccuracy(xWhite).png)
 
 **Efectos:**
 - On Headshot: **-20%** Weapon Recoil and **+20%** Accuracy for **4s**. Stacks up to **4x**.
@@ -70,7 +70,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+10**.
@@ -82,7 +82,7 @@
 
 ### Ready Retaliation
 
-![ready_retaliation](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![ready_retaliation](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - On Reload From Empty: **+100%** Reload Speed.
@@ -100,7 +100,7 @@
 
 ### Executioner's Dawn
 
-![executioners_dawn](../../../../../Project/public/assets/incarnon-evolutions/HeadshotDamage(xWhite).png)
+![executioners_dawn](../../../Project/public/assets/incarnon-evolutions/HeadshotDamage(xWhite).png)
 
 **Efectos:**
 - On Equip: **+100%** Headshot Damage for **4s**.
@@ -112,7 +112,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**.
@@ -124,7 +124,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage(xWhite).png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.

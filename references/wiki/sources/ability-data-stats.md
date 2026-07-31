@@ -136,15 +136,3 @@ Incluye habilidades de:
 - Companions (Helminth Charger, etc.)
 
 Total aproximado: ~400 uniqueNames de habilidades.
-
----
-
-## Relevancia para el builder
-
-- Fuente de verdad para **valores base de stats de habilidades** (sin build)
-- `Modifier` define qué slider del builder afecta cada stat
-- `Max`/`Min` son los caps que el builder debe respetar al calcular
-- `HelminthValues` necesario si el builder soporta builds con habilidades subsumidas
-- `Label` puede usarse directamente como texto de UI (con interpolación de `|val1|`)
-- Complementa `Module:Maximization/data` que tiene las fórmulas completas — este módulo tiene los valores base y los caps
-- Los `uniqueName` de este módulo deben mapearse con los de `ability-stats.json` del proyecto

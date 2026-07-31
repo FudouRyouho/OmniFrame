@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/ExtremeRange(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/ExtremeRange(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -27,7 +27,7 @@
 
 ### Brigand's Frenzy
 
-![brigands_frenzy](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAttackSpeed(xWhite).png)
+![brigands_frenzy](../../../Project/public/assets/incarnon-evolutions/IncarnonAttackSpeed(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+80**.
@@ -39,7 +39,7 @@
 
 ### Master's Flourish
 
-![masters_flourish](../../../../../Project/public/assets/incarnon-evolutions/OnFinisherHealthRegen(xWhite).png)
+![masters_flourish](../../../Project/public/assets/incarnon-evolutions/OnFinisherHealthRegen(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+80**.
@@ -57,7 +57,7 @@
 
 ### Lone Blade
 
-![lone_blade](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![lone_blade](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - With Melee Weapon Equipped: Increase Base Follow Through by **+60%**
@@ -72,7 +72,7 @@
 
 ### Swift Break
 
-![swift_break](../../../../../Project/public/assets/incarnon-evolutions/IncarnonWindUp(xWhite).png)
+![swift_break](../../../Project/public/assets/incarnon-evolutions/IncarnonWindUp(xWhite).png)
 
 **Efectos:**
 - **+50%** Heavy Attack Windup Speed
@@ -83,7 +83,7 @@
 
 ### Resolute Force
 
-![resolute_force](../../../../../Project/public/assets/incarnon-evolutions/IncarnonComboTimer(xWhite).png)
+![resolute_force](../../../Project/public/assets/incarnon-evolutions/IncarnonComboTimer(xWhite).png)
 
 **Efectos:**
 - **+6s** Combo Duration
@@ -100,7 +100,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+21%**.
@@ -111,7 +111,7 @@
 
 ### Versatile Creed
 
-![versatile_creed](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![versatile_creed](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+14%**.
@@ -123,7 +123,7 @@
 
 ### Absolute Dominion
 
-![absolute_dominion](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![absolute_dominion](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+30%**.

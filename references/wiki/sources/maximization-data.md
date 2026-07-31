@@ -129,14 +129,3 @@ Types = {"Element", "Heat", "Electric", "Toxin", "Cold"}
 { Name = 'Primal Rage', AUG = true }
 -- Sin fórmulas: el augment no tiene stats numéricos propios
 ```
-
----
-
-## Relevancia para el builder
-
-- Este módulo es la fuente de verdad para **calcular stats de habilidades con un build específico**
-- Cada fórmula se evalúa sustituyendo STR/DUR/RNG/EFF del build actual
-- `AUG = true` indica que la entrada corresponde a un augment — requiere que el mod esté equipado
-- Las fórmulas con `COMBO`, `HEALTH`, `SHIELDS`, `xARMOR`, `aARMOR` dependen de stats del warframe o contexto de combate, no solo del build de mods
-- El campo `Unit` define cómo mostrar el valor en la UI
-- Complementa `Module:Ability/data/stats` que tiene los valores base — este módulo tiene las fórmulas completas con todos los modificadores

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormIncreaseDamageAndSizeOfProjectile(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormIncreaseDamageAndSizeOfProjectile(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Hitman's Opportunity
 
-![hitmans_opportunity](../../../../../Project/public/assets/incarnon-evolutions/DamageAndAdditionalDamageToEnemiesAtHalfHealth(xWhite).png)
+![hitmans_opportunity](../../../Project/public/assets/incarnon-evolutions/DamageAndAdditionalDamageToEnemiesAtHalfHealth(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+70**.
@@ -41,7 +41,7 @@
 
 ### Stalker's Resentment
 
-![stalkers_resentment](../../../../../Project/public/assets/incarnon-evolutions/IncreasedFireRateWithDespairAndHateEquipped(xWhite).png)
+![stalkers_resentment](../../../Project/public/assets/incarnon-evolutions/IncreasedFireRateWithDespairAndHateEquipped(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+50**.
@@ -62,7 +62,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+30%** Projectile Speed
@@ -73,7 +73,7 @@
 
 ### Marksman's Focus
 
-![marksmans_focus](../../../../../Project/public/assets/incarnon-evolutions/LowerFOV(xWhite).png)
+![marksmans_focus](../../../Project/public/assets/incarnon-evolutions/LowerFOV(xWhite).png)
 
 **Efectos:**
 - **-30%** Zoom
@@ -84,7 +84,7 @@
 
 ### Hitman's Hoard
 
-![hitmans_hoard](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool(xWhite).png)
+![hitmans_hoard](../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool(xWhite).png)
 
 **Efectos:**
 - Increase Base Ammo Capacity to **144**
@@ -104,7 +104,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+10%**
@@ -116,7 +116,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+24%**
@@ -127,7 +127,7 @@
 
 ### Zeroed In
 
-![zeroed_in](../../../../../Project/public/assets/incarnon-evolutions/CritDamage(xWhite).png)
+![zeroed_in](../../../Project/public/assets/incarnon-evolutions/CritDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Damage Multiplier by **+1x**

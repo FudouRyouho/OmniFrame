@@ -35,7 +35,7 @@ está en [`../../governance/open-questions.md`](../../governance/open-questions.
 |---|---|---|---|
 | **Public Export (DE)** | endpoint oficial de Digital Extremes; la capa-1 real de todo | vivo, versionado por hash | [`public-export.md`](public-export.md) |
 | **`warframe-items` (WFCD)** | repo hermano que consume el export y lo parsea a `data/json/*` | vivo en armas/mods; **muerto en enemigos** | [`warframe-items.md`](warframe-items.md) |
-| **Cosecha wiki propia** | `omniframe-items` baja módulos Lua que el export no expone | vivo, mantenido por nosotros | [`warframe-items.md`](warframe-items.md) §Cosecha |
+| **Cosecha wiki propia** | `omniframe-items` baja módulos Lua que el export no expone | vivo, mantenido por nosotros | [`warframe-items.md`](warframe-items.md) §Cosecha · [`wiki-modules.md`](wiki-modules.md) |
 
 La cadena real es `Public Export → warframe-items → omniframe-items → generate-data.ts → public/data`.
 Las dos primeras son ajenas; las dos últimas son nuestras.

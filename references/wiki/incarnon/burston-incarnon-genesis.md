@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/AutomaticKillsExplode.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/AutomaticKillsExplode.png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -28,7 +28,7 @@
 
 ### Forceful Finality
 
-![forceful_finality](../../../../../Project/public/assets/incarnon-evolutions/MultishotOnLastBurstInMag.png)
+![forceful_finality](../../../Project/public/assets/incarnon-evolutions/MultishotOnLastBurstInMag.png)
 
 **Efectos:**
 - Increase Base Damage by **+42**.
@@ -45,7 +45,7 @@
 
 ### Fortress Salvo
 
-![fortress_salvo](../../../../../Project/public/assets/incarnon-evolutions/PunchThroughWithArmorAboveX.png)
+![fortress_salvo](../../../Project/public/assets/incarnon-evolutions/PunchThroughWithArmorAboveX.png)
 
 **Efectos:**
 - Increase Base Damage by **+42**.
@@ -64,7 +64,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize.png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize.png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+21**.
@@ -76,7 +76,7 @@
 
 ### Kinetic Battle
 
-![kinetic_battle](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
+![kinetic_battle](../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
 
 **Efectos:**
 - **-50%** Weapon Recoil.
@@ -94,7 +94,7 @@
 
 ### Reaver's Rapture
 
-![reavers_rapture](../../../../../Project/public/assets/incarnon-evolutions/DamageIncreaseOnFullBurstHitResetOnReload.png)
+![reavers_rapture](../../../Project/public/assets/incarnon-evolutions/DamageIncreaseOnFullBurstHitResetOnReload.png)
 
 **Efectos:**
 - On Full Burst Hit: **+20%** Damage, resets on Reload.
@@ -111,7 +111,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit.png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+22%**.
@@ -123,7 +123,7 @@
 
 ### Fatal Affliction
 
-![fatal_affliction](../../../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus.png)
+![fatal_affliction](../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus.png)
 
 **Efectos:**
 - **+40%** Direct Damage per Status Type affecting the target.

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/SlideRangeSlashBias(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/SlideRangeSlashBias(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -29,7 +29,7 @@
 
 ### Edge of Justice
 
-![edge_of_justice](../../../../../Project/public/assets/incarnon-evolutions/AttackSpeedInSwordAloneMode(xWhite).png)
+![edge_of_justice](../../../Project/public/assets/incarnon-evolutions/AttackSpeedInSwordAloneMode(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+50**.
@@ -45,7 +45,7 @@
 
 ### Guardian's Promise
 
-![guardians_promise](../../../../../Project/public/assets/incarnon-evolutions/DamageAndHeavyEfficiencyWithOvershield(xWhite).png)
+![guardians_promise](../../../Project/public/assets/incarnon-evolutions/DamageAndHeavyEfficiencyWithOvershield(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+50**.
@@ -63,7 +63,7 @@
 
 ### Standoff
 
-![standoff](../../../../../Project/public/assets/incarnon-evolutions/ComboCounterPausedWhenHolstered(xWhite).png)
+![standoff](../../../Project/public/assets/incarnon-evolutions/ComboCounterPausedWhenHolstered(xWhite).png)
 
 **Efectos:**
 - Combo Timer paused when weapon is holstered.
@@ -74,7 +74,7 @@
 
 ### Swordsman's Celerity
 
-![swordsmans_celerity](../../../../../Project/public/assets/incarnon-evolutions/MovementSpeedWhileEquipped(xWhite).png)
+![swordsmans_celerity](../../../Project/public/assets/incarnon-evolutions/MovementSpeedWhileEquipped(xWhite).png)
 
 **Efectos:**
 - **+20%** Movement Speed
@@ -88,7 +88,7 @@
 
 ### Swift Break
 
-![swift_break](../../../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
+![swift_break](../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
 
 **Efectos:**
 - **+60%** Heavy Attack Wind Up Speed
@@ -105,7 +105,7 @@
 
 ### Absolute Dominion
 
-![absolute_dominion](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![absolute_dominion](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+20%**.
@@ -116,7 +116,7 @@
 
 ### Subtle Force
 
-![subtle_force](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![subtle_force](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+6%**.
@@ -128,7 +128,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+12%**.

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/VoidScytheTier0(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/VoidScytheTier0(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -44,21 +44,21 @@
 
 ### Dreadful Reach
 
-![dreadful_reach](../../../../../Project/public/assets/incarnon-evolutions/StatusProcIncreasesRange(xWhite).png)
+![dreadful_reach](../../../Project/public/assets/incarnon-evolutions/StatusProcIncreasesRange(xWhite).png)
 
 **Efectos:**
 - On Weapon Status Effect: **+0.1** Range for **8** seconds. Stacks **20x**
 
 ### Whirling Flurry
 
-![whirling_flurry](../../../../../Project/public/assets/incarnon-evolutions/EvolutionAttackSpeed(xWhite).png)
+![whirling_flurry](../../../Project/public/assets/incarnon-evolutions/EvolutionAttackSpeed(xWhite).png)
 
 **Efectos:**
 - **+20%** Attack Speed
 
 ### Raging Drift
 
-![raging_drift](../../../../../Project/public/assets/incarnon-evolutions/SlideAttackSpeed(xWhite).png)
+![raging_drift](../../../Project/public/assets/incarnon-evolutions/SlideAttackSpeed(xWhite).png)
 
 **Efectos:**
 - **+80%** Attack Speed while sliding
@@ -72,21 +72,21 @@
 
 ### Nimble Scythe
 
-![nimble_scythe](../../../../../Project/public/assets/incarnon-evolutions/ComboPointOnSlide(xWhite).png)
+![nimble_scythe](../../../Project/public/assets/incarnon-evolutions/ComboPointOnSlide(xWhite).png)
 
 **Efectos:**
 - For each enemy hit by Slide Attack, gain **+5** Combo Count
 
 ### Echoes of Rage
 
-![echoes_of_rage](../../../../../Project/public/assets/incarnon-evolutions/ComboCountonShardEcho(xWhite).png)
+![echoes_of_rage](../../../Project/public/assets/incarnon-evolutions/ComboCountonShardEcho(xWhite).png)
 
 **Efectos:**
 - **+1** Combo Count on Shard Damage
 
 ### Adept Reflexes
 
-![adept_reflexes](../../../../../Project/public/assets/incarnon-evolutions/EvolutionAdeptReflexes(xWhite).png)
+![adept_reflexes](../../../Project/public/assets/incarnon-evolutions/EvolutionAdeptReflexes(xWhite).png)
 
 **Efectos:**
 - **+20** Initial Combo
@@ -99,21 +99,21 @@
 
 ### Swift Transmute
 
-![swift_transmute](../../../../../Project/public/assets/incarnon-evolutions/HeavyAttackTransformAt3x(xWhite).png)
+![swift_transmute](../../../Project/public/assets/incarnon-evolutions/HeavyAttackTransformAt3x(xWhite).png)
 
 **Efectos:**
 - Reach **3x** Combo and Heavy Attack to activate Incarnon Form
 
 ### Vaulting Leap
 
-![vaulting_leap](../../../../../Project/public/assets/incarnon-evolutions/JumpHeight(xWhite).png)
+![vaulting_leap](../../../Project/public/assets/incarnon-evolutions/JumpHeight(xWhite).png)
 
 **Efectos:**
 - **+100%** Jump and Double Jump Height
 
 ### Devastating Mercy
 
-![devastating_mercy](../../../../../Project/public/assets/incarnon-evolutions/RadialAttackGroundFinisherKnockdown(xWhite).png)
+![devastating_mercy](../../../Project/public/assets/incarnon-evolutions/RadialAttackGroundFinisherKnockdown(xWhite).png)
 
 **Efectos:**
 - Ground Finishers knock enemies down in **6m** radius
@@ -126,7 +126,7 @@
 
 ### Explosive Growth
 
-![explosive_growth](../../../../../Project/public/assets/incarnon-evolutions/GrowingShards(xWhite).png)
+![explosive_growth](../../../Project/public/assets/incarnon-evolutions/GrowingShards(xWhite).png)
 
 **Efectos:**
 - Shards grow when a new shard is created, up to **3** times. Fully grown shards erupt out of the embedded enemy, dealing **x2** damage and impaling them on the spot.
@@ -142,7 +142,7 @@
 
 ### Chain Shatter
 
-![chain_shatter](../../../../../Project/public/assets/incarnon-evolutions/HeavyAttackDetonateShards(xWhite).png)
+![chain_shatter](../../../Project/public/assets/incarnon-evolutions/HeavyAttackDetonateShards(xWhite).png)
 
 **Efectos:**
 - Heavy attacks detonate shards. Shards caught within the blast radius will also detonate
@@ -163,7 +163,7 @@
 
 ### Void Splinters
 
-![void_splinters](../../../../../Project/public/assets/incarnon-evolutions/LongLastingShards(xWhite).png)
+![void_splinters](../../../Project/public/assets/incarnon-evolutions/LongLastingShards(xWhite).png)
 
 **Efectos:**
 - Shard duration is increased to **30s**. Shards become weak spots that have **+100%** Critical Chance when damaged. Shard damage is reduced by **-50%**.

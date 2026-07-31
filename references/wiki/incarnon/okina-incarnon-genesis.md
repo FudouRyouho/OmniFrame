@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/OkinaGhosts(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/OkinaGhosts(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -37,7 +37,7 @@
 
 ### Seeing Red
 
-![seeing_red](../../../../../Project/public/assets/incarnon-evolutions/5AdditionalCombosOnTargetsWithBleed(xWhite).png)
+![seeing_red](../../../Project/public/assets/incarnon-evolutions/5AdditionalCombosOnTargetsWithBleed(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -50,7 +50,7 @@
 
 ### Synergist Surety
 
-![synergist_surety](../../../../../Project/public/assets/incarnon-evolutions/OnCriticalHitGainXStatusDamage(xWhite).png)
+![synergist_surety](../../../Project/public/assets/incarnon-evolutions/OnCriticalHitGainXStatusDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -69,7 +69,7 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+1** Range
@@ -81,7 +81,7 @@
 
 ### Standoff
 
-![standoff](../../../../../Project/public/assets/incarnon-evolutions/ComboCounterPausedWhenHolstered(xWhite).png)
+![standoff](../../../Project/public/assets/incarnon-evolutions/ComboCounterPausedWhenHolstered(xWhite).png)
 
 **Efectos:**
 - Combo Timer pauses when weapon is holstered
@@ -93,7 +93,7 @@
 
 ### Swordsman's Celerity
 
-![swordsmans_celerity](../../../../../Project/public/assets/incarnon-evolutions/MovementSpeedWhileEquipped(xWhite).png)
+![swordsmans_celerity](../../../Project/public/assets/incarnon-evolutions/MovementSpeedWhileEquipped(xWhite).png)
 
 **Efectos:**
 - **+30%** Movement Speed
@@ -114,7 +114,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -126,7 +126,7 @@
 
 ### Alchemy of War
 
-![alchemy_of_war](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![alchemy_of_war](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**.
@@ -139,7 +139,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X**

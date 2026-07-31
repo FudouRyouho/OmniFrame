@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormExplosiveSlugs.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormExplosiveSlugs.png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Tenno Targeting
 
-![tenno_targeting](../../../../../Project/public/assets/incarnon-evolutions/PunchThroughWithOvershields_.png)
+![tenno_targeting](../../../Project/public/assets/incarnon-evolutions/PunchThroughWithOvershields_.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -44,7 +44,7 @@
 
 ### Blazing Barrel
 
-![blazing_barrel](../../../../../Project/public/assets/incarnon-evolutions/MultishotIncreasesOnEachShotResetsOnReload.png)
+![blazing_barrel](../../../Project/public/assets/incarnon-evolutions/MultishotIncreasesOnEachShotResetsOnReload.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -73,7 +73,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed.png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed.png)
 
 **Efectos:**
 - **+60%** Reload Speed.
@@ -90,7 +90,7 @@
 
 ### Galvanic Reload
 
-![galvanic_reload](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFallOff.png)
+![galvanic_reload](../../../Project/public/assets/incarnon-evolutions/IncarnonFallOff.png)
 
 **Efectos:**
 - On hitting a target affected by an <DT_ELECTRICITY> status, **40%** chance to restore 1 round in the magazine from ammo pool.
@@ -109,7 +109,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/HittingEnemyWElectricityStatusRestoresRound.png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/HittingEnemyWElectricityStatusRestoresRound.png)
 
 **Efectos:**
 - **+30%** Projectile Speed.
@@ -129,7 +129,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus.png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus.png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**.
@@ -144,7 +144,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit.png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -158,7 +158,7 @@
 
 ### Brutal Edge
 
-![brutal_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance.png)
+![brutal_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.

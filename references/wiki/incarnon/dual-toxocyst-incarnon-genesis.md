@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormRicochetOnHittingEnemies(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormRicochetOnHittingEnemies(xWhite).png)
 
 **Descripción:**
 - Gain an Auto Fire mode and Ricochet.
@@ -30,7 +30,7 @@
 
 ### Carnage Reign
 
-![carnage_reign](../../../../../Project/public/assets/incarnon-evolutions/DamagePerStatusOnEnemyWithEnergyPool(xWhite).png)
+![carnage_reign](../../../Project/public/assets/incarnon-evolutions/DamagePerStatusOnEnemyWithEnergyPool(xWhite).png)
 
 **Efectos:**
 - Increase Damage by **+60**.
@@ -45,7 +45,7 @@
 
 ### Fevered Frenzy
 
-![fevered_frenzy](../../../../../Project/public/assets/incarnon-evolutions/IncreasedFireRateOnAbilityUseStacks(xWhite).png)
+![fevered_frenzy](../../../Project/public/assets/incarnon-evolutions/IncreasedFireRateOnAbilityUseStacks(xWhite).png)
 
 **Efectos:**
 - Increase Damage by **+50**.
@@ -66,7 +66,7 @@
 
 ### Ready Retaliation
 
-![ready_retaliation](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![ready_retaliation](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - On Reload from Empty: **+100%** Reload Speed.
@@ -80,7 +80,7 @@
 
 ### Evolved Autoloader
 
-![evolved_autoloader](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![evolved_autoloader](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Magazine Reloaded/s when holstered.
@@ -91,7 +91,7 @@
 
 ### Marksman's Hand
 
-![marksmans_hand](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
+![marksmans_hand](../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
 
 **Efectos:**
 - **-50%** Weapon Recoil.
@@ -108,7 +108,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Critical Chance by **+20%**.
@@ -119,7 +119,7 @@
 
 ### Neurotoxin
 
-![neurotoxin](../../../../../Project/public/assets/incarnon-evolutions/AdditionalViralDamageInFrenziedState(xWhite).png)
+![neurotoxin](../../../Project/public/assets/incarnon-evolutions/AdditionalViralDamageInFrenziedState(xWhite).png)
 
 **Efectos:**
 - On Headshot: **+70%** <DT_TOXIN> for **3s**.
@@ -133,7 +133,7 @@
 
 ### Ripper Rounds
 
-![ripper_rounds](../../../../../Project/public/assets/incarnon-evolutions/OnKillPunchThrough(xWhite).png)
+![ripper_rounds](../../../Project/public/assets/incarnon-evolutions/OnKillPunchThrough(xWhite).png)
 
 **Efectos:**
 - On Kill: **+3** Punch Through for **7s**.

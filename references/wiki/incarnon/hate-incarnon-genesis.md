@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/NeutralStanceAttacksFlingSpinningBlades(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/NeutralStanceAttacksFlingSpinningBlades(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -36,7 +36,7 @@
 
 ### Swordsman's Flourish
 
-![swordsmans_flourish](../../../../../Project/public/assets/incarnon-evolutions/ComboGainInSwordAloneMode(xWhite).png)
+![swordsmans_flourish](../../../Project/public/assets/incarnon-evolutions/ComboGainInSwordAloneMode(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+30**.
@@ -52,7 +52,7 @@
 
 ### Stalker's Legacy
 
-![stalkers_legacy](../../../../../Project/public/assets/incarnon-evolutions/ComboAndHeavyEfficiencyWithDreadAndDespairEquipped(xWhite).png)
+![stalkers_legacy](../../../Project/public/assets/incarnon-evolutions/ComboAndHeavyEfficiencyWithDreadAndDespairEquipped(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+30**.
@@ -70,7 +70,7 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+0.8** Range
@@ -81,7 +81,7 @@
 
 ### Swift Break
 
-![swift_break](../../../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
+![swift_break](../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
 
 **Efectos:**
 - **+60%** Heavy Attack Wind Up Speed
@@ -92,7 +92,7 @@
 
 ### Resolute Force
 
-![resolute_force](../../../../../Project/public/assets/incarnon-evolutions/IncarnonComboTimer(xWhite).png)
+![resolute_force](../../../Project/public/assets/incarnon-evolutions/IncarnonComboTimer(xWhite).png)
 
 **Efectos:**
 - **+10s** Combo Duration
@@ -109,7 +109,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+10%**.
@@ -120,7 +120,7 @@
 
 ### Absolute Dominion
 
-![absolute_dominion](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![absolute_dominion](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+20%**.
@@ -131,7 +131,7 @@
 
 ### Subtle Force
 
-![subtle_force](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![subtle_force](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+6%**.

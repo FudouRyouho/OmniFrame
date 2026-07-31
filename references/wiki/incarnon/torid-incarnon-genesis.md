@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormLongRangeBeam(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormLongRangeBeam(xWhite).png)
 
 **Descripción:**
 - Direct shots charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -32,7 +32,7 @@
 
 ### Final Fusillade
 
-![final_fusillade](../../../../../Project/public/assets/incarnon-evolutions/DamageXMultishotOnLastShotInMag(xWhite).png)
+![final_fusillade](../../../Project/public/assets/incarnon-evolutions/DamageXMultishotOnLastShotInMag(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+51**.
@@ -44,7 +44,7 @@
 
 ### Plentiful Mayhem
 
-![plentiful_mayhem](../../../../../Project/public/assets/incarnon-evolutions/MultishotCostsAmmoTakenFromPoolAdditionalDamage(xWhite).png)
+![plentiful_mayhem](../../../Project/public/assets/incarnon-evolutions/MultishotCostsAmmoTakenFromPoolAdditionalDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+31**.
@@ -68,7 +68,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Projectile Speed
@@ -79,7 +79,7 @@
 
 ### Renewed Horror
 
-![renewed_horror](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![renewed_horror](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - On Reload from Empty: Lingering damage field duration doubles on first shot.
@@ -90,7 +90,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+9**.
@@ -110,7 +110,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+20%**.
@@ -121,7 +121,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+15%**.
@@ -133,7 +133,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+34%**.

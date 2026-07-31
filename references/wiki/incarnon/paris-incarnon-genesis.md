@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormIncreaseDamageAndSizeOfProjectile.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormIncreaseDamageAndSizeOfProjectile.png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Deadly Pace
 
-![deadly_pace](../../../../../Project/public/assets/incarnon-evolutions/DamageAndIncreasedFireRateWithSprint.png)
+![deadly_pace](../../../Project/public/assets/incarnon-evolutions/DamageAndIncreasedFireRateWithSprint.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -45,7 +45,7 @@
 
 ### Guardian's Might
 
-![guardians_might](../../../../../Project/public/assets/incarnon-evolutions/DamageAndIncreasedDamageWithOvershields.png)
+![guardians_might](../../../Project/public/assets/incarnon-evolutions/DamageAndIncreasedDamageWithOvershields.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -65,7 +65,7 @@
 
 ### Ardent Trigger
 
-![ardent_trigger](../../../../../Project/public/assets/incarnon-evolutions/HittingEnemyAfterPunchThroughEnvironment.png)
+![ardent_trigger](../../../Project/public/assets/incarnon-evolutions/HittingEnemyAfterPunchThroughEnvironment.png)
 
 **Efectos:**
 - On Punch Through Hit: **+40%** Fire Rate for **6s**.
@@ -82,7 +82,7 @@
 
 ### Markman's Focus
 
-![markmans_focus](../../../../../Project/public/assets/incarnon-evolutions/LowerFOV.png)
+![markmans_focus](../../../Project/public/assets/incarnon-evolutions/LowerFOV.png)
 
 **Efectos:**
 - **-30%** Zoom.
@@ -95,7 +95,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed.png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed.png)
 
 **Efectos:**
 - **+60%** Projectile Speed.
@@ -114,7 +114,7 @@
 
 ### Vicious Promise
 
-![vicious_promise](../../../../../Project/public/assets/incarnon-evolutions/CritChanceDamageToEnemiesAtFullHealth.png)
+![vicious_promise](../../../Project/public/assets/incarnon-evolutions/CritChanceDamageToEnemiesAtFullHealth.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+40%** on undamaged enemies.
@@ -132,7 +132,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus.png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus.png)
 
 **Efectos:**
 - Increase Base Status Chance by **+60%.**
@@ -145,7 +145,7 @@
 
 ### Striking Succession
 
-![striking_succession](../../../../../Project/public/assets/incarnon-evolutions/DamageIncreasesOnEachConsecutiveHit.png)
+![striking_succession](../../../Project/public/assets/incarnon-evolutions/DamageIncreasesOnEachConsecutiveHit.png)
 
 **Efectos:**
 - On Hit: Increase Base Damage by **+15** for **3s**. Stacks up to **4x**.

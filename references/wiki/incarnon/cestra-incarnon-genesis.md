@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/OnEquipCritChanceDamageOnFirstAttack(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/OnEquipCritChanceDamageOnFirstAttack(xWhite).png)
 
 **Descripción:**
 - Critical Chance increases with uninterrupted shots fired.
@@ -26,7 +26,7 @@
 
 ### Steadfast Grit
 
-![steadfast_grit](../../../../../Project/public/assets/incarnon-evolutions/OnShieldOverGuardbreakCritdamage(xWhite).png)
+![steadfast_grit](../../../Project/public/assets/incarnon-evolutions/OnShieldOverGuardbreakCritdamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+10.**
@@ -41,7 +41,7 @@
 
 ### Fortress Salvo
 
-![fortress_salvo](../../../../../Project/public/assets/incarnon-evolutions/ArmorAboveXMultishot(xWhite).png)
+![fortress_salvo](../../../Project/public/assets/incarnon-evolutions/ArmorAboveXMultishot(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+10.**
@@ -59,7 +59,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Reload Speed**.**
@@ -70,7 +70,7 @@
 
 ### Slayer's Nerve
 
-![slayers_nerve](../../../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
+![slayers_nerve](../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
 
 **Efectos:**
 - On Hit: **+6%** Accuracy and **-6%** Weapon Recoil for 6s. Stacks up to **10x**.
@@ -81,7 +81,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Projectile Speed.
@@ -98,7 +98,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+18%.**
@@ -109,7 +109,7 @@
 
 ### Deathtrap Trigger
 
-![deathtrap_trigger](../../../../../Project/public/assets/incarnon-evolutions/CritDamage(xWhite).png)
+![deathtrap_trigger](../../../Project/public/assets/incarnon-evolutions/CritDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Damage Multiplier by **+2x.**
@@ -120,7 +120,7 @@
 
 ### Wiseman's Regard
 
-![wisemans_regard](../../../../../Project/public/assets/incarnon-evolutions/GainStatusChanceOfCritChance(xWhite).png)
+![wisemans_regard](../../../Project/public/assets/incarnon-evolutions/GainStatusChanceOfCritChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **30%** of current Critical Chance, up to **40%.**

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/SeekingFireballs(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/SeekingFireballs(xWhite).png)
 
 **Descripción:**
 - Direct hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Haven Foray
 
-![haven_foray](../../../../../Project/public/assets/incarnon-evolutions/DamageAndIncreasedDamageWithOvershields(xWhite).png)
+![haven_foray](../../../Project/public/assets/incarnon-evolutions/DamageAndIncreasedDamageWithOvershields(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+50**.
@@ -39,7 +39,7 @@
 
 ### Paladin Virtue
 
-![paladin_virtue](../../../../../Project/public/assets/incarnon-evolutions/IncreasedCritWithEnergy(xWhite).png)
+![paladin_virtue](../../../Project/public/assets/incarnon-evolutions/IncreasedCritWithEnergy(xWhite).png)
 
 **Efectos:**
 - Increase Damage by **+75**.
@@ -58,7 +58,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+30%** Projectile Speed.
@@ -73,7 +73,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Reload Speed.
@@ -88,7 +88,7 @@
 
 ### Hitman's Hoard
 
-![hitmans_hoard](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool(xWhite).png)
+![hitmans_hoard](../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool(xWhite).png)
 
 **Efectos:**
 - Increase ammo maximum by **+9**.
@@ -109,7 +109,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/IncarnonCritChanceCritDamage(xWhite).png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/IncarnonCritChanceCritDamage(xWhite).png)
 
 **Efectos:**
 - Increase Critical Chance by **+X%.**
@@ -122,7 +122,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Critical Chance by **+X%.**
@@ -135,7 +135,7 @@
 
 ### Fatal Affliction
 
-![fatal_affliction](../../../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
+![fatal_affliction](../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
 
 **Efectos:**
 - **+40%** Direct Damage per Status Type affecting the target.

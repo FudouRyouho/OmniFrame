@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormFatBeamOfFire(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormFatBeamOfFire(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -28,7 +28,7 @@
 
 ### Haven Foray
 
-![haven_foray](../../../../../Project/public/assets/incarnon-evolutions/DamageAndIncreasedDamageWithOvershields(xWhite).png)
+![haven_foray](../../../Project/public/assets/incarnon-evolutions/DamageAndIncreasedDamageWithOvershields(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -41,7 +41,7 @@
 
 ### Stormburst
 
-![stormburst](../../../../../Project/public/assets/incarnon-evolutions/DamageAndOnHittingEnemyAffectedByElectricity(xWhite).png)
+![stormburst](../../../Project/public/assets/incarnon-evolutions/DamageAndOnHittingEnemyAffectedByElectricity(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -60,7 +60,7 @@
 
 ### Practiced Grip
 
-![practiced_grip](../../../../../Project/public/assets/incarnon-evolutions/MoreAccuracy(xWhite).png)
+![practiced_grip](../../../Project/public/assets/incarnon-evolutions/MoreAccuracy(xWhite).png)
 
 **Efectos:**
 - Increase Accuracy by **+50%**
@@ -72,7 +72,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+25**.
@@ -87,7 +87,7 @@
 
 ### Executioner's Fortune
 
-![executioners_fortune](../../../../../Project/public/assets/incarnon-evolutions/ChanceToReplenishMagOnHeadshot(xWhite).png)
+![executioners_fortune](../../../Project/public/assets/incarnon-evolutions/ChanceToReplenishMagOnHeadshot(xWhite).png)
 
 **Efectos:**
 - On Headshot: **10%** chance for Instant Reload
@@ -105,7 +105,7 @@
 
 ### Headcracker
 
-![headcracker](../../../../../Project/public/assets/incarnon-evolutions/OnHeadshotFireRateForXSecs(xWhite).png)
+![headcracker](../../../Project/public/assets/incarnon-evolutions/OnHeadshotFireRateForXSecs(xWhite).png)
 
 **Efectos:**
 - On Headshot: +**5%** Fire Rate for **2s**. Stacks up to **10x**.
@@ -117,7 +117,7 @@
 
 ### Prelude of Might
 
-![prelude_of_might](../../../../../Project/public/assets/incarnon-evolutions/CritDamageWhenCritChanceIsBelowX(xWhite).png)
+![prelude_of_might](../../../Project/public/assets/incarnon-evolutions/CritDamageWhenCritChanceIsBelowX(xWhite).png)
 
 **Efectos:**
 - With Critical Chance below **40%**: Increase Base Critical Damage Multiplier by **+3x**.
@@ -132,7 +132,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**.

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormEfficientHeavySlamsWithDamageField(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormEfficientHeavySlamsWithDamageField(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -36,7 +36,7 @@
 
 ### Swordsman's Flourish
 
-![swordsmans_flourish](../../../../../Project/public/assets/incarnon-evolutions/DamageAndComboGainInSwordAloneMode(xWhite).png)
+![swordsmans_flourish](../../../Project/public/assets/incarnon-evolutions/DamageAndComboGainInSwordAloneMode(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -54,7 +54,7 @@
 
 ### Kill Joy
 
-![kill_joy](../../../../../Project/public/assets/incarnon-evolutions/DamageAndAttackSpeedIncreased(xWhite).png)
+![kill_joy](../../../Project/public/assets/incarnon-evolutions/DamageAndAttackSpeedIncreased(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -74,7 +74,7 @@
 
 ### Moonrise Velocity
 
-![moonrise_velocity](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![moonrise_velocity](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+1** Range
@@ -87,7 +87,7 @@
 
 ### Overhand
 
-![overhand](../../../../../Project/public/assets/incarnon-evolutions/IncarnonHeavyEfficiency(xWhite).png)
+![overhand](../../../Project/public/assets/incarnon-evolutions/IncarnonHeavyEfficiency(xWhite).png)
 
 **Efectos:**
 - Heavy Attack Efficiency set at **20%**
@@ -100,7 +100,7 @@
 
 ### Standoff
 
-![standoff](../../../../../Project/public/assets/incarnon-evolutions/ComboCounterPausedWhenHolstered(xWhite).png)
+![standoff](../../../Project/public/assets/incarnon-evolutions/ComboCounterPausedWhenHolstered(xWhite).png)
 
 **Efectos:**
 - Combo Timer pauses when weapon is holstered.
@@ -119,7 +119,7 @@
 
 ### Flashing Bleed
 
-![flashing_bleed](../../../../../Project/public/assets/incarnon-evolutions/ChanceForSlashOnImpact(xWhite).png)
+![flashing_bleed](../../../Project/public/assets/incarnon-evolutions/ChanceForSlashOnImpact(xWhite).png)
 
 **Efectos:**
 - **+40%** chance of <DT_SLASH|BLEED> on <DT_IMPACT> Status Effect.
@@ -132,7 +132,7 @@
 
 ### Kinetic Killer
 
-![kinetic_killer](../../../../../Project/public/assets/incarnon-evolutions/CritDamageOnSlideAttacks(xWhite).png)
+![kinetic_killer](../../../Project/public/assets/incarnon-evolutions/CritDamageOnSlideAttacks(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Damage Multiplier to **4x** on Slide Attacks.
@@ -145,7 +145,7 @@
 
 ### Absolute Dominion
 
-![absolute_dominion](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![absolute_dominion](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**.

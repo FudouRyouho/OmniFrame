@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/EvolutionIncarnonFormGun.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/EvolutionIncarnonFormGun.png)
 
 **Descripción:**
 - Weakpoint Hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -30,21 +30,21 @@
 
 ### Marksman's Hand
 
-![marksmans_hand](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
+![marksmans_hand](../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
 
 **Efectos:**
 - **-30%** Recoil
 
 ### Rapid Wrath
 
-![rapid_wrath](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFireRate(xWhite).png)
+![rapid_wrath](../../../Project/public/assets/incarnon-evolutions/IncarnonFireRate(xWhite).png)
 
 **Efectos:**
 - **+25%** Fire Rate
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Projectile Speed
@@ -57,7 +57,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - **+10** Base Magazine Capacity
@@ -67,7 +67,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+30%** Reload Speed
@@ -77,7 +77,7 @@
 
 ### Hunter's Rearmament
 
-![hunters_rearmament](../../../../../Project/public/assets/incarnon-evolutions/OnKillChancetogetXAmmo.png)
+![hunters_rearmament](../../../Project/public/assets/incarnon-evolutions/OnKillChancetogetXAmmo.png)
 
 **Efectos:**
 - On Kill: **10%** chance to replenish **10** Ammo
@@ -94,7 +94,7 @@
 
 ### Lethal Lance
 
-![lethal_lance](../../../../../Project/public/assets/incarnon-evolutions/OnKillPunchThrough.png)
+![lethal_lance](../../../Project/public/assets/incarnon-evolutions/OnKillPunchThrough.png)
 
 **Efectos:**
 - On Kill: **+2.5** Punch Through for **20s**
@@ -104,7 +104,7 @@
 
 ### Incarnon Efficiency
 
-![incarnon_efficiency](../../../../../Project/public/assets/incarnon-evolutions/IncreaseChargeGainedOnKills.png)
+![incarnon_efficiency](../../../Project/public/assets/incarnon-evolutions/IncreaseChargeGainedOnKills.png)
 
 **Efectos:**
 - Headshots Build **+50%** more Incarnon Transmutation charge.
@@ -115,7 +115,7 @@
 
 ### Elemental Excess
 
-![elemental_excess](../../../../../Project/public/assets/incarnon-evolutions/XStatChanceNegYCritChance(xWhite).png)
+![elemental_excess](../../../Project/public/assets/incarnon-evolutions/XStatChanceNegYCritChance(xWhite).png)
 
 **Efectos:**
 - **+20%** Status Chance
@@ -132,14 +132,14 @@
 
 ### Sequential Skullbuster
 
-![sequential_skullbuster](../../../../../Project/public/assets/incarnon-evolutions/ConsecutivetHeadshotIncrDmg(xWhite).png)
+![sequential_skullbuster](../../../Project/public/assets/incarnon-evolutions/ConsecutivetHeadshotIncrDmg(xWhite).png)
 
 **Efectos:**
 - On Consecutive Weakpoint Hits: **+30%** Headshot Damage. Stacks up to **4x**
 
 ### Impaler's Ferocity
 
-![impalers_ferocity](../../../../../Project/public/assets/incarnon-evolutions/OnPunchThroughIncreaseDmg(xWhite).png)
+![impalers_ferocity](../../../Project/public/assets/incarnon-evolutions/OnPunchThroughIncreaseDmg(xWhite).png)
 
 **Efectos:**
 - On Punch Through Hit: **+200%** Damage for **10s**.
@@ -149,7 +149,7 @@
 
 ### Devastation Cascade
 
-![devastation_cascade](../../../../../Project/public/assets/incarnon-evolutions/ChargeBeamCritChanceDmg(xWhite).png)
+![devastation_cascade](../../../Project/public/assets/incarnon-evolutions/ChargeBeamCritChanceDmg(xWhite).png)
 
 **Efectos:**
 - Hitting enemies in Incarnon Form increases the Critical Chance and Critical Damage of the fully charged blast by **+5%**. Stacks up to **50** times.

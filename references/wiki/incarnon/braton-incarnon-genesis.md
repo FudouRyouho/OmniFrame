@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormAOEonHit.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormAOEonHit.png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -27,7 +27,7 @@
 
 ### Daring Reverie
 
-![daring_reverie](../../../../../Project/public/assets/incarnon-evolutions/DamageAmmoEfficiencyDuringActiveChannelledAbility.png)
+![daring_reverie](../../../Project/public/assets/incarnon-evolutions/DamageAmmoEfficiencyDuringActiveChannelledAbility.png)
 
 **Efectos:**
 - Increase Base Damage by +X.
@@ -45,7 +45,7 @@
 
 ### Munitions Grit
 
-![munitions_grit](../../../../../Project/public/assets/incarnon-evolutions/MultishotCostsAmmoTakenFromPoolNotClip.png)
+![munitions_grit](../../../Project/public/assets/incarnon-evolutions/MultishotCostsAmmoTakenFromPoolNotClip.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -72,7 +72,7 @@
 
 ### Mercenary Chamber
 
-![mercenary_chamber](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool.png)
+![mercenary_chamber](../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool.png)
 
 **Efectos:**
 - Increase Base Ammo Capacity to X.
@@ -89,7 +89,7 @@
 
 ### Void's Guidance
 
-![voids_guidance](../../../../../Project/public/assets/incarnon-evolutions/EvolutionVoid'sGuidance.png)
+![voids_guidance](../../../Project/public/assets/incarnon-evolutions/EvolutionVoid'sGuidance.png)
 
 **Efectos:**
 - **+60%** Accuracy
@@ -104,7 +104,7 @@
 
 ### Gunsmoke Pick Up
 
-![gunsmoke_pick_up](../../../../../Project/public/assets/incarnon-evolutions/RestoreAmmoPickUpAmountToCapacity.png)
+![gunsmoke_pick_up](../../../Project/public/assets/incarnon-evolutions/RestoreAmmoPickUpAmountToCapacity.png)
 
 **Efectos:**
 - On Punch Through Hit: **20%** chance for **10%** Ammo restored.
@@ -128,7 +128,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/IncarnonCritChanceCritDamage.png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/IncarnonCritChanceCritDamage.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X**.
@@ -143,7 +143,7 @@
 
 ### Prelude of Might
 
-![prelude_of_might](../../../../../Project/public/assets/incarnon-evolutions/CritDamageWhenCritChanceIsBelowX.png)
+![prelude_of_might](../../../Project/public/assets/incarnon-evolutions/CritDamageWhenCritChanceIsBelowX.png)
 
 **Efectos:**
 - With Critical Chance Below **50%**: Increase Base Critical Damage Multiplier by **+X**.
@@ -161,7 +161,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance.png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X**.

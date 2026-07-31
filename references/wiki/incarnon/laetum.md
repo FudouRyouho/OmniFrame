@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/EvolutionIncarnonFormGun.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/EvolutionIncarnonFormGun.png)
 
 **Descripción:**
 - Weakpoint Hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -27,21 +27,21 @@
 
 ### Marksman's Hand
 
-![marksmans_hand](../../../../../Project/public/assets/incarnon-evolutions/EvolutionReducedRecoil.png)
+![marksmans_hand](../../../Project/public/assets/incarnon-evolutions/EvolutionReducedRecoil.png)
 
 **Efectos:**
 - **-40%** Recoil
 
 ### Rapid Wrath
 
-![rapid_wrath](../../../../../Project/public/assets/incarnon-evolutions/EvolutionRapidWrath.png)
+![rapid_wrath](../../../Project/public/assets/incarnon-evolutions/EvolutionRapidWrath.png)
 
 **Efectos:**
 - **+20%** Fire Rate
 
 ### Raptor's Chase
 
-![raptors_chase](../../../../../Project/public/assets/incarnon-evolutions/EvolutionRaptor'sChase.png)
+![raptors_chase](../../../Project/public/assets/incarnon-evolutions/EvolutionRaptor'sChase.png)
 
 **Efectos:**
 - **+50%** Movement Speed while Aiming
@@ -54,7 +54,7 @@
 
 ### Lethal Rearmament
 
-![lethal_rearmament](../../../../../Project/public/assets/incarnon-evolutions/EvolutionLethalRearmament.png)
+![lethal_rearmament](../../../Project/public/assets/incarnon-evolutions/EvolutionLethalRearmament.png)
 
 **Efectos:**
 - On Headshot: **+30%** Reload Speed for **12** seconds. Stacks up to **3** times.
@@ -65,7 +65,7 @@
 
 ### Awakened Readiness
 
-![awakened_readiness](../../../../../Project/public/assets/incarnon-evolutions/EvolutionHolsterReload.png)
+![awakened_readiness](../../../Project/public/assets/incarnon-evolutions/EvolutionHolsterReload.png)
 
 **Efectos:**
 - **30%** Magazine Reloaded per second while Holstered
@@ -75,7 +75,7 @@
 
 ### Feather of Justice
 
-![feather_of_justice](../../../../../Project/public/assets/incarnon-evolutions/EvolutionFeatherOfJustice.png)
+![feather_of_justice](../../../Project/public/assets/incarnon-evolutions/EvolutionFeatherOfJustice.png)
 
 **Efectos:**
 - Gain **60%** Ammo Efficiency while Aim Gliding or Sliding.
@@ -91,7 +91,7 @@
 
 ### Caput Mortuum
 
-![caput_mortuum](../../../../../Project/public/assets/incarnon-evolutions/EvolutionCaputMortuum.png)
+![caput_mortuum](../../../Project/public/assets/incarnon-evolutions/EvolutionCaputMortuum.png)
 
 **Efectos:**
 - **+50%** Headshot damage
@@ -101,7 +101,7 @@
 
 ### Incarnon Efficiency
 
-![incarnon_efficiency](../../../../../Project/public/assets/incarnon-evolutions/EvolutionFastTransmutation.png)
+![incarnon_efficiency](../../../Project/public/assets/incarnon-evolutions/EvolutionFastTransmutation.png)
 
 **Efectos:**
 - Headshots Build **+50%** more Incarnon Transmutation charge.
@@ -112,7 +112,7 @@
 
 ### Elemental Excess
 
-![elemental_excess](../../../../../Project/public/assets/incarnon-evolutions/EvolutionTrade-Off.png)
+![elemental_excess](../../../Project/public/assets/incarnon-evolutions/EvolutionTrade-Off.png)
 
 **Efectos:**
 - **+20%** Status Chance
@@ -129,7 +129,7 @@
 
 ### Devastating Attrition
 
-![devastating_attrition](../../../../../Project/public/assets/incarnon-evolutions/EvolutionNon-Critical.png)
+![devastating_attrition](../../../Project/public/assets/incarnon-evolutions/EvolutionNon-Critical.png)
 
 **Efectos:**
 - **50%** chance to deal **+2000%** damage on non-critical hits
@@ -140,7 +140,7 @@
 
 ### Reaper's Plenty
 
-![reapers_plenty](../../../../../Project/public/assets/incarnon-evolutions/EvolutionReaper'sPlenty.png)
+![reapers_plenty](../../../Project/public/assets/incarnon-evolutions/EvolutionReaper'sPlenty.png)
 
 **Efectos:**
 - On Headshot: **+40%** Ammo Efficiency for **6** seconds.
@@ -150,7 +150,7 @@
 
 ### Overwhelming Attrition
 
-![overwhelming_attrition](../../../../../Project/public/assets/incarnon-evolutions/EvolutionOverwhelmingAttrition.png)
+![overwhelming_attrition](../../../Project/public/assets/incarnon-evolutions/EvolutionOverwhelmingAttrition.png)
 
 **Efectos:**
 - On Hit that is neither Critical nor applies a Status Effect: **+400%** damage for **10** seconds. Stacks up to **3** times.

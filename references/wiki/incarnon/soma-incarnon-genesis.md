@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormMultishotSlowerFireRate(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormMultishotSlowerFireRate(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -28,7 +28,7 @@
 
 ### Fortress Salvo
 
-![fortress_salvo](../../../../../Project/public/assets/incarnon-evolutions/PunchThroughWithArmorAboveX(xWhite).png)
+![fortress_salvo](../../../Project/public/assets/incarnon-evolutions/PunchThroughWithArmorAboveX(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+12**.
@@ -44,7 +44,7 @@
 
 ### Fortifying Bloodshed
 
-![fortifying_bloodshed](../../../../../Project/public/assets/incarnon-evolutions/OnKillSlashDamageAddOvershields(xWhite).png)
+![fortifying_bloodshed](../../../Project/public/assets/incarnon-evolutions/OnKillSlashDamageAddOvershields(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+10**.
@@ -67,7 +67,7 @@
 
 ### Kinetic Battle
 
-![kinetic_battle](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
+![kinetic_battle](../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
 
 **Efectos:**
 - **-50%** Weapon Recoil.
@@ -79,7 +79,7 @@
 
 ### Practiced Grip
 
-![practiced_grip](../../../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
+![practiced_grip](../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
 
 **Efectos:**
 - Increase Accuracy by **+50%**.
@@ -91,7 +91,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Reload Speed.
@@ -109,7 +109,7 @@
 
 ### Fresh Havoc
 
-![fresh_havoc](../../../../../Project/public/assets/incarnon-evolutions/ReloadFromEmpty(xWhite).png)
+![fresh_havoc](../../../Project/public/assets/incarnon-evolutions/ReloadFromEmpty(xWhite).png)
 
 **Efectos:**
 - On Reload From Empty: Increase Base Damage by **+6**. Stacks up to **2x**.
@@ -126,7 +126,7 @@
 
 ### Fatal Affliction
 
-![fatal_affliction](../../../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
+![fatal_affliction](../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
 
 **Efectos:**
 - **+40%** Direct Damage per Status Type affecting the target.
@@ -138,7 +138,7 @@
 
 ### Zeroed In
 
-![zeroed_in](../../../../../Project/public/assets/incarnon-evolutions/CritDamage(xWhite).png)
+![zeroed_in](../../../Project/public/assets/incarnon-evolutions/CritDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Damage Multiplier by **+0.6x**.

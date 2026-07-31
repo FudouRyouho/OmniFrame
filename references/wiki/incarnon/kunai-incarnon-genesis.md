@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/AddMultishotAndKunaiSeekHeads(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/AddMultishotAndKunaiSeekHeads(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -28,7 +28,7 @@
 
 ### Swift Conclusion
 
-![swift_conclusion](../../../../../Project/public/assets/incarnon-evolutions/DamageAndAdditionalDamageToEnemiesAtHalfHealth(xWhite).png)
+![swift_conclusion](../../../Project/public/assets/incarnon-evolutions/DamageAndAdditionalDamageToEnemiesAtHalfHealth(xWhite).png)
 
 **Efectos:**
 - Increase Damage by **+X**.
@@ -44,7 +44,7 @@
 
 ### Sage's Resolve
 
-![sages_resolve](../../../../../Project/public/assets/incarnon-evolutions/DamageAndMultishotWithActiveChanneledAbility(xWhite).png)
+![sages_resolve](../../../Project/public/assets/incarnon-evolutions/DamageAndMultishotWithActiveChanneledAbility(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**
@@ -63,7 +63,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+60%** Projectile Speed.
@@ -75,7 +75,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+10**.
@@ -87,7 +87,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%**  Reload Speed.
@@ -108,7 +108,7 @@
 
 ### Deathtrap Trigger
 
-![deathtrap_trigger](../../../../../Project/public/assets/incarnon-evolutions/OnEquipCritChanceDamageOnFirstAttack(xWhite).png)
+![deathtrap_trigger](../../../Project/public/assets/incarnon-evolutions/OnEquipCritChanceDamageOnFirstAttack(xWhite).png)
 
 **Efectos:**
 - On equip from Primary:
@@ -125,7 +125,7 @@
 
 ### Accelerating Volley
 
-![accelerating_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFireRate(xWhite).png)
+![accelerating_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonFireRate(xWhite).png)
 
 **Efectos:**
 - On Fire: **+20%** Fire Rate for **0.5s**. Stacks up to **5x.**
@@ -140,7 +140,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+12%**.

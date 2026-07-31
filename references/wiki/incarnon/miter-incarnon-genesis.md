@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormHomingBouncingExplodingProjectiles(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormHomingBouncingExplodingProjectiles(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -27,7 +27,7 @@
 
 ### Swift Sawblades
 
-![swift_sawblades](../../../../../Project/public/assets/incarnon-evolutions/IncreasedFireRateWithActiveChanneledAbility(xWhite).png)
+![swift_sawblades](../../../Project/public/assets/incarnon-evolutions/IncreasedFireRateWithActiveChanneledAbility(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+77**.
@@ -39,7 +39,7 @@
 
 ### Plentiful Mayhem
 
-![plentiful_mayhem](../../../../../Project/public/assets/incarnon-evolutions/MultishotCostsAmmoTakenFromPoolAdditionalDamage(xWhite).png)
+![plentiful_mayhem](../../../Project/public/assets/incarnon-evolutions/MultishotCostsAmmoTakenFromPoolAdditionalDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+57**.
@@ -62,7 +62,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Projectile Speed
@@ -73,7 +73,7 @@
 
 ### Ready Retaliation
 
-![ready_retaliation](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![ready_retaliation](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - On Reload from Empty: **+100%** Reload Speed
@@ -84,7 +84,7 @@
 
 ### Mercenary Chamber
 
-![mercenary_chamber](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool(xWhite).png)
+![mercenary_chamber](../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool(xWhite).png)
 
 **Efectos:**
 - Increase Base Ammo Capacity to **160**
@@ -104,7 +104,7 @@
 
 ### Sawblade Storm
 
-![sawblade_storm](../../../../../Project/public/assets/incarnon-evolutions/HoldChargedShotAOEonBounce(xWhite).png)
+![sawblade_storm](../../../Project/public/assets/incarnon-evolutions/HoldChargedShotAOEonBounce(xWhite).png)
 
 **Efectos:**
 - Hold charged shot for **1s** to increase area of effect.
@@ -125,7 +125,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+22%**
@@ -136,7 +136,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+12%**

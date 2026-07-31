@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/DespairExplodingKnives(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/DespairExplodingKnives(xWhite).png)
 
 **Descripción:**
 - Gain embedding projectiles that explode with <DT_HEAT> Damage.
@@ -26,7 +26,7 @@
 
 ### Fatal Affliction
 
-![fatal_affliction](../../../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
+![fatal_affliction](../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
 
 **Efectos:**
 - Increase Damage by **+50**.
@@ -38,7 +38,7 @@
 
 ### Stalker's Vendetta
 
-![stalkers_vendetta](../../../../../Project/public/assets/incarnon-evolutions/MultishotThatCostsAmmoWithDreadAndHateEquipped(xWhite).png)
+![stalkers_vendetta](../../../Project/public/assets/incarnon-evolutions/MultishotThatCostsAmmoWithDreadAndHateEquipped(xWhite).png)
 
 **Efectos:**
 - Increase Damage by **+60**.
@@ -63,7 +63,7 @@
 
 ### Marksman's Focus
 
-![marksmans_focus](../../../../../Project/public/assets/incarnon-evolutions/LowerFOV(xWhite).png)
+![marksmans_focus](../../../Project/public/assets/incarnon-evolutions/LowerFOV(xWhite).png)
 
 **Efectos:**
 - **-30%** Zoom**.**
@@ -74,7 +74,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Projectile Speed.
@@ -85,7 +85,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+100%** Reload Speed.
@@ -102,7 +102,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Status Chance by **+24%.**
@@ -113,7 +113,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Critical Chance by **+12%**
@@ -125,7 +125,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+18%**

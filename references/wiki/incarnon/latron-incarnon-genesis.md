@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormFiresWavesOfEnergyThatBounceOff.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormFiresWavesOfEnergyThatBounceOff.png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -33,7 +33,7 @@
 
 ### Riddled Target
 
-![riddled_target](../../../../../Project/public/assets/incarnon-evolutions/DamageAndOnPierce.png)
+![riddled_target](../../../Project/public/assets/incarnon-evolutions/DamageAndOnPierce.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -50,7 +50,7 @@
 
 ### Swift Punishment
 
-![swift_punishment](../../../../../Project/public/assets/incarnon-evolutions/DamageAndWithMoveSpeed.png)
+![swift_punishment](../../../Project/public/assets/incarnon-evolutions/DamageAndWithMoveSpeed.png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -74,7 +74,7 @@
 
 ### Marksman's Hand
 
-![marksmans_hand](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
+![marksmans_hand](../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
 
 **Efectos:**
 - **-60%** Weapon Recoil.
@@ -87,7 +87,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize.png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize.png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+15**.
@@ -100,7 +100,7 @@
 
 ### Marksman's Focus
 
-![marksmans_focus](../../../../../Project/public/assets/incarnon-evolutions/LowerFOV.png)
+![marksmans_focus](../../../Project/public/assets/incarnon-evolutions/LowerFOV.png)
 
 **Efectos:**
 - **-30%** Zoom.
@@ -119,7 +119,7 @@
 
 ### Flensing Spikes
 
-![flensing_spikes](../../../../../Project/public/assets/incarnon-evolutions/ArmourStrippedForEveryStackOfPierce.png)
+![flensing_spikes](../../../Project/public/assets/incarnon-evolutions/ArmourStrippedForEveryStackOfPierce.png)
 
 **Efectos:**
 - Remove **20%** of enemy Armor per <DT_PUNCTURE> Status.
@@ -136,7 +136,7 @@
 
 ### Deadhead
 
-![deadhead](../../../../../Project/public/assets/incarnon-evolutions/HeadshotDamage.png)
+![deadhead](../../../Project/public/assets/incarnon-evolutions/HeadshotDamage.png)
 
 **Efectos:**
 - **+100%** Headshot Damage.
@@ -152,7 +152,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage.png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage.png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.

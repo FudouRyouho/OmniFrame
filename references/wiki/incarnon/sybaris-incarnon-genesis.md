@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/4RoundInnateBlast.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/4RoundInnateBlast.png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Well Rehearsed
 
-![well_rehearsed](../../../../../Project/public/assets/incarnon-evolutions/ConsecutivetHeadshotIncrDmg.png)
+![well_rehearsed](../../../Project/public/assets/incarnon-evolutions/ConsecutivetHeadshotIncrDmg.png)
 
 **Efectos:**
 - Increase Base Damage by +**X**.
@@ -40,7 +40,7 @@
 
 ### Blazing Barrel
 
-![blazing_barrel](../../../../../Project/public/assets/incarnon-evolutions/MultishotCostsAmmoTakenFromPoolNotClip.png)
+![blazing_barrel](../../../Project/public/assets/incarnon-evolutions/MultishotCostsAmmoTakenFromPoolNotClip.png)
 
 **Efectos:**
 - Increase Base Damage by +**X**.
@@ -63,7 +63,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool.png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool.png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by +**X**.
@@ -76,7 +76,7 @@
 
 ### Ready Retaliation
 
-![ready_retaliation](../../../../../Project/public/assets/incarnon-evolutions/ReloadSpeedOnEmpty.png)
+![ready_retaliation](../../../Project/public/assets/incarnon-evolutions/ReloadSpeedOnEmpty.png)
 
 **Efectos:**
 - On Reload From Empty: **+60%** Reload Speed.
@@ -89,7 +89,7 @@
 
 ### Marksman's Hand
 
-![marksmans_hand](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
+![marksmans_hand](../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
 
 **Efectos:**
 - **-60%** Weapon Recoil.
@@ -108,7 +108,7 @@
 
 ### Elemental Dominance
 
-![elemental_dominance](../../../../../Project/public/assets/incarnon-evolutions/GainStatusChanceOfCritChance.png)
+![elemental_dominance](../../../Project/public/assets/incarnon-evolutions/GainStatusChanceOfCritChance.png)
 
 **Efectos:**
 - Increase Base Status Chance by +**X** Effect doubles in Incarnon Form.
@@ -124,7 +124,7 @@
 
 ### Reaver's Rapture
 
-![reavers_rapture](../../../../../Project/public/assets/incarnon-evolutions/DamageIncreaseOnFullBurstHitResetOnReload.png)
+![reavers_rapture](../../../Project/public/assets/incarnon-evolutions/DamageIncreaseOnFullBurstHitResetOnReload.png)
 
 **Efectos:**
 - On Full Burst Hit: **+20%** Damage, resets on Reload
@@ -141,7 +141,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/EvolutionCriticalStatusUp.png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/EvolutionCriticalStatusUp.png)
 
 **Efectos:**
 - Increase Critical Chance by +**X**.

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/EvolutionIncarnonFormGun.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/EvolutionIncarnonFormGun.png)
 
 **Descripción:**
 - Weakpoint Hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -29,21 +29,21 @@
 
 ### Void's Guidance
 
-![voids_guidance](../../../../../Project/public/assets/incarnon-evolutions/EvolutionVoid'sGuidance.png)
+![voids_guidance](../../../Project/public/assets/incarnon-evolutions/EvolutionVoid'sGuidance.png)
 
 **Efectos:**
 - **+50%** Accuracy and **+50%** less Recoil while Aiming
 
 ### Rapid Wrath
 
-![rapid_wrath](../../../../../Project/public/assets/incarnon-evolutions/EvolutionRapidWrath.png)
+![rapid_wrath](../../../Project/public/assets/incarnon-evolutions/EvolutionRapidWrath.png)
 
 **Efectos:**
 - **+20%** Fire Rate
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/EvolutionProjectileSpeed.png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/EvolutionProjectileSpeed.png)
 
 **Efectos:**
 - **+80%** Projectile Speed
@@ -56,7 +56,7 @@
 
 ### Retribution's Vessel
 
-![retributions_vessel](../../../../../Project/public/assets/incarnon-evolutions/EvolutionRetribution'sVessel.png)
+![retributions_vessel](../../../Project/public/assets/incarnon-evolutions/EvolutionRetribution'sVessel.png)
 
 **Efectos:**
 - **+50%** Magazine Capacity
@@ -66,7 +66,7 @@
 
 ### Ready Retaliation
 
-![ready_retaliation](../../../../../Project/public/assets/incarnon-evolutions/EvolutionReadyRetaliation.png)
+![ready_retaliation](../../../Project/public/assets/incarnon-evolutions/EvolutionReadyRetaliation.png)
 
 **Efectos:**
 - On Reload from Empty: **+100%** Reload Speed for **6** seconds
@@ -76,7 +76,7 @@
 
 ### Executioner's Fortune
 
-![executioners_fortune](../../../../../Project/public/assets/incarnon-evolutions/EvolutionExecutioner'sFortune.png)
+![executioners_fortune](../../../Project/public/assets/incarnon-evolutions/EvolutionExecutioner'sFortune.png)
 
 **Efectos:**
 - On Headshot kill: **20%** chance to instant Reload.
@@ -92,7 +92,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/EvolutionCriticalStatusUp.png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/EvolutionCriticalStatusUp.png)
 
 **Efectos:**
 - **+10%** Critical Chance
@@ -103,7 +103,7 @@
 
 ### Incarnon Efficiency
 
-![incarnon_efficiency](../../../../../Project/public/assets/incarnon-evolutions/EvolutionFastTransmutation.png)
+![incarnon_efficiency](../../../Project/public/assets/incarnon-evolutions/EvolutionFastTransmutation.png)
 
 **Efectos:**
 - Headshots Build **+50%** more Incarnon Transmutation charge.
@@ -114,7 +114,7 @@
 
 ### Elemental Excess
 
-![elemental_excess](../../../../../Project/public/assets/incarnon-evolutions/EvolutionTrade-Off.png)
+![elemental_excess](../../../Project/public/assets/incarnon-evolutions/EvolutionTrade-Off.png)
 
 **Efectos:**
 - **+20%** Status Chance
@@ -131,7 +131,7 @@
 
 ### Devastating Attrition
 
-![devastating_attrition](../../../../../Project/public/assets/incarnon-evolutions/EvolutionNon-Critical.png)
+![devastating_attrition](../../../Project/public/assets/incarnon-evolutions/EvolutionNon-Critical.png)
 
 **Efectos:**
 - **50%** chance to deal **+2000%** damage on non-critical hits
@@ -142,7 +142,7 @@
 
 ### Spiteful Defilement
 
-![spiteful_defilement](../../../../../Project/public/assets/incarnon-evolutions/EvolutionSpitefulDefilement.png)
+![spiteful_defilement](../../../Project/public/assets/incarnon-evolutions/EvolutionSpitefulDefilement.png)
 
 **Efectos:**
 - Enemies suffering from fewer than **3** Status Effects will receive: **+100%** Critical Damage
@@ -153,7 +153,7 @@
 
 ### Lingering Judgement
 
-![lingering_judgement](../../../../../Project/public/assets/incarnon-evolutions/EvolutionLingeringJudgement.png)
+![lingering_judgement](../../../Project/public/assets/incarnon-evolutions/EvolutionLingeringJudgement.png)
 
 **Efectos:**
 - On **2** headshots within **2** seconds: **+50%** Headshot damage for **8** seconds.

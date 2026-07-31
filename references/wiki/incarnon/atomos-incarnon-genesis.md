@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormNapalmGrenadeLauncher(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormNapalmGrenadeLauncher(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Paladin Virtue
 
-![paladin_virtue](../../../../../Project/public/assets/incarnon-evolutions/IncreasedCritWithEnergy(xWhite).png)
+![paladin_virtue](../../../Project/public/assets/incarnon-evolutions/IncreasedCritWithEnergy(xWhite).png)
 
 **Efectos:**
 - Increase Damage by **+24**.
@@ -38,7 +38,7 @@
 
 ### Hoplite Virtue
 
-![hoplite_virtue](../../../../../Project/public/assets/incarnon-evolutions/DamageOnShieldLoss(xWhite).png)
+![hoplite_virtue](../../../Project/public/assets/incarnon-evolutions/DamageOnShieldLoss(xWhite).png)
 
 **Efectos:**
 - Increase Damage by **+24**.
@@ -59,7 +59,7 @@
 
 ### Moonrise Velocity
 
-![moonrise_velocity](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![moonrise_velocity](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+7** Range.
@@ -74,7 +74,7 @@
 
 ### Mercenary Chamber
 
-![mercenary_chamber](../../../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool(xWhite).png)
+![mercenary_chamber](../../../Project/public/assets/incarnon-evolutions/IncarnonAmmoPool(xWhite).png)
 
 **Efectos:**
 - Increase ammo capacity to **560**.
@@ -88,7 +88,7 @@
 
 ### Resonant Restore
 
-![resonant_restore](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![resonant_restore](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - On Reload From Empty: Increase magazine capacity by **+5**. Stacks up to **7x**.
@@ -105,7 +105,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Status Chance by **+20%**.
@@ -116,7 +116,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Critical Chance by **+19%**.
@@ -127,7 +127,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Critical Chance by **+10%**.

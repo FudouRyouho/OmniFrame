@@ -87,7 +87,7 @@ resolvió por `Damage/Overview_Table`. Decisión pendiente, no urgente.
 - [enemy-resistances.md](./enemy-resistances.md) — modelo U36: matriz facción×elemento (±50%), bypasses de capa, DR de armor enemigo, discrepancia de era con `Enemy.json`
 - [faction-damage.md](./faction-damage.md) — mods Bane/Primed: multiplicador total, double-dip en DoTs (Slash/Heat/Toxin/Gas), excepciones de mapeo
 
-### Arcanos (residuo `upgrade_type:null`, barrido OQ-ENGINE-17)
+### Arcanos
 - [arcane-melee-afflictions.md](../arcanes/melee-afflictions.md) — fórmula de 4 pasos, tabla CC-state×enemy-state, exclusiones de mods elementales por tipo
 - [arcane-melee-duplicate.md](../arcanes/melee-duplicate.md) — chance por rank, reroll independiente de crit/status, exclusiones (Shield Gating, Seeking Talons)
 - [arcane-melee-influence.md](../arcanes/melee-influence.md) — chance fija 20%, Faction Damage Bonus ×2/×3, lista de status propagables/excluidos

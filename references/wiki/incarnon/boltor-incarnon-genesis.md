@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormShrapnelMultishotIncreasedSlash(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormShrapnelMultishotIncreasedSlash(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Hunter's Mantra
 
-![hunters_mantra](../../../../../Project/public/assets/incarnon-evolutions/DamageAccuracyPunchThroughActiveChanAbility(xWhite).png)
+![hunters_mantra](../../../Project/public/assets/incarnon-evolutions/DamageAccuracyPunchThroughActiveChanAbility(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -40,7 +40,7 @@
 
 ### Crimson Overture
 
-![crimson_overture](../../../../../Project/public/assets/incarnon-evolutions/DamageAmmoEfficiencyOnKill(xWhite).png)
+![crimson_overture](../../../Project/public/assets/incarnon-evolutions/DamageAmmoEfficiencyOnKill(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -60,7 +60,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/IncarnonProjectileSpeed(xWhite).png)
 
 **Efectos:**
 - **+60%** Projectile Speed.
@@ -73,7 +73,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+20**.
@@ -86,7 +86,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+60%** Reload Speed.
@@ -105,7 +105,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**
@@ -118,7 +118,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**
@@ -132,7 +132,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**

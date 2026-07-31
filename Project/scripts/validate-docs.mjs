@@ -296,9 +296,27 @@ if (!process.argv.includes('--update-baseline')) {
       }
     }
 
+    // Imágenes: la ruta tiene que resolver. 48 docs de `incarnon/` linkean a
+    // `Project/public/assets/` — contenido legítimo (el ícono ES el dato de la página),
+    // pero si esos assets se mueven, se rompen en silencio. El nombre puede traer
+    // paréntesis (`Foo(xWhite).png`), así que se corta en la extensión, no en el `)`.
+    for (const m of sinCercados(texto).matchAll(/!\[[^\]]*\]\((.+?\.(?:png|jpe?g|svg|gif|webp))\)/gi)) {
+      const src = m[1];
+      if (/^https?:/.test(src)) continue;
+      if (!fs.existsSync(path.resolve(path.dirname(f), src))) {
+        add('ERROR', 'ref-imagen-rota', f, `imagen no resuelve: ${src}`);
+      }
+    }
+
     // Vocablo del proyecto dentro de la wiki local.
+    //
+    // El README raíz de `wiki/` está exento porque **es el contrato**: enuncia la regla, y
+    // para enunciarla tiene que nombrar lo que prohíbe (igual que `docs/CLAUDE.md` no se
+    // audita contra sus propias reglas). Los demás README **no** — un índice sigue siendo
+    // un doc de la wiki, y eximirlos escondió una fuga en `mechanics/README.md`.
+    const esContrato = path.relative(REFS, f) === 'README.md';
     const propio = [...new Set((texto.match(VOCABLO_PROPIO) || []))];
-    if (propio.length && path.basename(f) !== 'README.md') {
+    if (propio.length && !esContrato) {
       add('ERROR', 'ref-vocablo', f, `vocablo del proyecto en wiki/: ${propio.join(', ')} (references/wiki/README.md §Regla — sin vocablo del proyecto)`);
     }
     const ambiguo = [...new Set((texto.match(VOCABLO_AMBIGUO) || []))];

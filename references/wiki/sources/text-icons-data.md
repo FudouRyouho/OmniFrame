@@ -86,13 +86,3 @@ Void/Tau no tienen token `DT_*` propio en este módulo.
 | `<UNAIRU_CLEAN>` | `IconFocusCleanUnairu.png` |
 | `<VAZARIN_CLEAN>` | `IconFocusCleanVazarin.png` |
 | `<ZENURIK_CLEAN>` | `IconFocusCleanZenurik.png` |
-
----
-
-## Relevancia para el builder
-
-- Los tokens `<DT_*>` aparecen en descripciones de habilidades del módulo `Ability/data/stats`
-- El mapeo `DT_FIRE` → Heat, `DT_FREEZE` → Cold, etc. conecta con `InternalName` de `DamageTypes/data`
-- `<ENERGY>`, `<HEALTH>`, `<SHIELD>` aparecen en descripciones de costos y efectos
-- `<POLARITY_*>` se usan en tooltips de mods — el builder ya tiene los SVG de polaridades en `src/assets/polarity/`
-- Para renderizar descripciones en el builder, reemplazar `<TOKEN>` con el componente/imagen correspondiente

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/SlamsCreateIceFields(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/SlamsCreateIceFields(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -30,7 +30,7 @@
 
 ### Master's Shatter
 
-![masters_shatter](../../../../../Project/public/assets/incarnon-evolutions/IncreasedComboGainOnTargetsWithFreeze(xWhite).png)
+![masters_shatter](../../../Project/public/assets/incarnon-evolutions/IncreasedComboGainOnTargetsWithFreeze(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+20**.
@@ -42,7 +42,7 @@
 
 ### Thane's Wrath
 
-![thanes_wrath](../../../../../Project/public/assets/incarnon-evolutions/DamageWithArmorAboveX(xWhite).png)
+![thanes_wrath](../../../Project/public/assets/incarnon-evolutions/DamageWithArmorAboveX(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+20**.
@@ -60,7 +60,7 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+1** Range
@@ -71,7 +71,7 @@
 
 ### Kinetic Harmony
 
-![kinetic_harmony](../../../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
+![kinetic_harmony](../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
 
 **Efectos:**
 - **+60%** Heavy Attack Wind Up Speed
@@ -82,7 +82,7 @@
 
 ### Resolute Force
 
-![resolute_force](../../../../../Project/public/assets/incarnon-evolutions/IncarnonComboTimer(xWhite).png)
+![resolute_force](../../../Project/public/assets/incarnon-evolutions/IncarnonComboTimer(xWhite).png)
 
 **Efectos:**
 - **+6s** Combo Duration
@@ -99,7 +99,7 @@
 
 ### Mounting Avalanche
 
-![mounting_avalanche](../../../../../Project/public/assets/incarnon-evolutions/KillingTargetStacksFreezeAddsOvershields(xWhite).png)
+![mounting_avalanche](../../../Project/public/assets/incarnon-evolutions/KillingTargetStacksFreezeAddsOvershields(xWhite).png)
 
 **Efectos:**
 - On Killing Enemy With **3+** <DT_COLD> Stacks: **+15** Initial Combo for **10s**. Stacks up to **4x**.
@@ -110,7 +110,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+25%**.
@@ -121,7 +121,7 @@
 
 ### Red Right Hand
 
-![red_right_hand](../../../../../Project/public/assets/incarnon-evolutions/CritDamageOnFirstAttackFromAGunEquipped(xWhite).png)
+![red_right_hand](../../../Project/public/assets/incarnon-evolutions/CritDamageOnFirstAttackFromAGunEquipped(xWhite).png)
 
 **Efectos:**
 - On First Attack With Primary Equipped: Increase Base Critical Damage Multiplier by **+2x**.

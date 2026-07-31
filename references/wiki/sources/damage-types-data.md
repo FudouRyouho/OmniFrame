@@ -160,14 +160,3 @@ Efectos de estado que aplican los tipos de daño.
 3. Does not affect MOAs.
 4. This Status Effect bypasses Shield protections as it consists of Toxin damage.
 5. The damage associated bypasses these secondary protections.
-
----
-
-## Relevancia para el builder
-
-- `Types[name].InternalName` → mapeo a `DT_*` para cálculos de daño
-- `Types[name].Positives/Negatives` → efectividad contra health types de enemigos
-- `Types[name].Types` → combinaciones de elementos (para UI de combinación)
-- `Health[name].Positives/Negatives` → vulnerabilidades de cada tipo de cuerpo (pre-U36)
-- `Procs[name].InternalName` → `PT_*` para identificar status effects
-- Los tipos de facción U36+ (`RK_CORPUS_FACTION`, etc.) reemplazaron el sistema granular — el builder debe soportar ambos si necesita retrocompatibilidad

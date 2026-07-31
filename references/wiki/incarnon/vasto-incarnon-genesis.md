@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/HammerFanBurstShotgun(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/HammerFanBurstShotgun(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Lone Gun
 
-![lone_gun](../../../../../Project/public/assets/incarnon-evolutions/DamageWithNoPrimaryOrMeleeEquipped(xWhite).png)
+![lone_gun](../../../Project/public/assets/incarnon-evolutions/DamageWithNoPrimaryOrMeleeEquipped(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -44,7 +44,7 @@
 
 ### Deathtrap Trigger
 
-![deathtrap_trigger](../../../../../Project/public/assets/incarnon-evolutions/CritChanceAndDmgOnFirstShot(xWhite).png)
+![deathtrap_trigger](../../../Project/public/assets/incarnon-evolutions/CritChanceAndDmgOnFirstShot(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -65,7 +65,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+6**.
@@ -80,7 +80,7 @@
 
 ### Marksman's Hand
 
-![marksmans_hand](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
+![marksmans_hand](../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
 
 **Efectos:**
 - **-50%** Weapon Recoil.
@@ -92,7 +92,7 @@
 
 ### Awakened Readiness
 
-![awakened_readiness](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![awakened_readiness](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+20%** Magazine Reloaded per second when Holstered.
@@ -113,7 +113,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -125,7 +125,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+10%**.
@@ -141,7 +141,7 @@
 
 ### Reaper's Plenty
 
-![reapers_plenty](../../../../../Project/public/assets/incarnon-evolutions/OnHeadshotAmmoEfficiency(xWhite).png)
+![reapers_plenty](../../../Project/public/assets/incarnon-evolutions/OnHeadshotAmmoEfficiency(xWhite).png)
 
 **Efectos:**
 - On Headshot: **+100%** Ammo Efficiency for **2s**.

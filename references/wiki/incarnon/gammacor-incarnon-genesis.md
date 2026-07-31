@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/ProjectileBombFreezeProc(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/ProjectileBombFreezeProc(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -26,7 +26,7 @@
 
 ### Sage's Resolve
 
-![sages_resolve](../../../../../Project/public/assets/incarnon-evolutions/DamageAndMultishotWithActiveChanneledAbility(xWhite).png)
+![sages_resolve](../../../Project/public/assets/incarnon-evolutions/DamageAndMultishotWithActiveChanneledAbility(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+10**.
@@ -39,7 +39,7 @@
 
 ### Infused Shots
 
-![infused_shots](../../../../../Project/public/assets/incarnon-evolutions/DamageWithEnergySpent(xWhite).png)
+![infused_shots](../../../Project/public/assets/incarnon-evolutions/DamageWithEnergySpent(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+6**.
@@ -61,7 +61,7 @@
 
 ### Evolved Autoloader
 
-![evolved_autoloader](../../../../../Project/public/assets/incarnon-evolutions/ReloadWhileHolstered(xWhite).png)
+![evolved_autoloader](../../../Project/public/assets/incarnon-evolutions/ReloadWhileHolstered(xWhite).png)
 
 **Efectos:**
 - **+50%** Magazine Reloaded/s when Holstered
@@ -73,7 +73,7 @@
 
 ### Moonrise Velocity
 
-![moonrise_velocity](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![moonrise_velocity](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+8** Range
@@ -85,7 +85,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+40**.
@@ -103,7 +103,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage(xWhite).png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -116,7 +116,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -129,7 +129,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/HighStatus(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**.

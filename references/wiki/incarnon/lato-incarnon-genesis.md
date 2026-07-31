@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormRicochetOnHittingEnemies(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormRicochetOnHittingEnemies(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -28,7 +28,7 @@
 
 ### Haven Foray
 
-![haven_foray](../../../../../Project/public/assets/incarnon-evolutions/DamagePlusXDamageWithOvershields(xWhite).png)
+![haven_foray](../../../Project/public/assets/incarnon-evolutions/DamagePlusXDamageWithOvershields(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -42,7 +42,7 @@
 
 ### Reified Bane
 
-![reified_bane](../../../../../Project/public/assets/incarnon-evolutions/ReloadFromEmpty(xWhite).png)
+![reified_bane](../../../Project/public/assets/incarnon-evolutions/ReloadFromEmpty(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -66,7 +66,7 @@
 
 ### Void's Guidance
 
-![voids_guidance](../../../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
+![voids_guidance](../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
 
 **Efectos:**
 - **+50%** Accuracy
@@ -80,7 +80,7 @@
 
 ### Marksman's Gain
 
-![marksmans_gain](../../../../../Project/public/assets/incarnon-evolutions/OnHeadshotKillAmmoEff(xWhite).png)
+![marksmans_gain](../../../Project/public/assets/incarnon-evolutions/OnHeadshotKillAmmoEff(xWhite).png)
 
 **Efectos:**
 - On Headshot: **20%** chance for **+50%** Ammo Efficiency for 6s.
@@ -97,7 +97,7 @@
 
 ### Exact Penance
 
-![exact_penance](../../../../../Project/public/assets/incarnon-evolutions/ChanceToReplenishMagOnHeadshot(xWhite).png)
+![exact_penance](../../../Project/public/assets/incarnon-evolutions/ChanceToReplenishMagOnHeadshot(xWhite).png)
 
 **Efectos:**
 - On Kill: **50%** chance for Instant Reload.
@@ -120,7 +120,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -134,7 +134,7 @@
 
 ### Deathtrap Trigger
 
-![deathtrap_trigger](../../../../../Project/public/assets/incarnon-evolutions/OnEquipCritChanceDamageOnFirstAttack(xWhite).png)
+![deathtrap_trigger](../../../Project/public/assets/incarnon-evolutions/OnEquipCritChanceDamageOnFirstAttack(xWhite).png)
 
 **Efectos:**
 - On Equip from Primary:
@@ -149,7 +149,7 @@
 
 ### Carnage Reign
 
-![carnage_reign](../../../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
+![carnage_reign](../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
 
 **Efectos:**
 - **+40%** Direct Damage per Status Type affecting the target.

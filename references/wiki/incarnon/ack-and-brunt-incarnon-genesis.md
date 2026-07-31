@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/HeavyAttacksSendOutSpectralAxeAndShield(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/HeavyAttacksSendOutSpectralAxeAndShield(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -35,7 +35,7 @@
 
 ### Templar's Wrath
 
-![templars_wrath](../../../../../Project/public/assets/incarnon-evolutions/HeavyEfficiencyWithArmour(xWhite).png)
+![templars_wrath](../../../Project/public/assets/incarnon-evolutions/HeavyEfficiencyWithArmour(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+150**.
@@ -47,7 +47,7 @@
 
 ### Shieldmaiden's Rush
 
-![shieldmaidens_rush](../../../../../Project/public/assets/incarnon-evolutions/OnShieldBreakComboGainFromBlockedHits(xWhite).png)
+![shieldmaidens_rush](../../../Project/public/assets/incarnon-evolutions/OnShieldBreakComboGainFromBlockedHits(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+150**.
@@ -65,7 +65,7 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+0.7** Range
@@ -76,7 +76,7 @@
 
 ### Abiding Hold
 
-![abiding_hold](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFireRate(xWhite).png)
+![abiding_hold](../../../Project/public/assets/incarnon-evolutions/IncarnonFireRate(xWhite).png)
 
 **Efectos:**
 - Combo Timer pauses when weapon is holstered.
@@ -87,7 +87,7 @@
 
 ### Swift Break
 
-![swift_break](../../../../../Project/public/assets/incarnon-evolutions/ComboCounterPausedWhenHolstered(xWhite).png)
+![swift_break](../../../Project/public/assets/incarnon-evolutions/ComboCounterPausedWhenHolstered(xWhite).png)
 
 **Efectos:**
 - **+70%** Heavy Attack Windup Speed
@@ -104,7 +104,7 @@
 
 ### Rogue Readiness
 
-![rogue_readiness](../../../../../Project/public/assets/incarnon-evolutions/ChanceToReplenishMagOnHeadshot(xWhite).png)
+![rogue_readiness](../../../Project/public/assets/incarnon-evolutions/ChanceToReplenishMagOnHeadshot(xWhite).png)
 
 **Efectos:**
 - On Kill: **50%** chance for Primary and Secondary weapons instantly reload.
@@ -115,7 +115,7 @@
 
 ### Absolute Valor
 
-![absolute_valor](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![absolute_valor](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+17%**.
@@ -126,7 +126,7 @@
 
 ### Versatile Creed
 
-![versatile_creed](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![versatile_creed](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+9%**.

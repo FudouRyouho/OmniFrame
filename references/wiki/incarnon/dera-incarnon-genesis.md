@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/ShortRangeBeams(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/ShortRangeBeams(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -27,7 +27,7 @@
 
 ### Crimson Overture
 
-![crimson_overture](../../../../../Project/public/assets/incarnon-evolutions/DamageAmmoEfficiencyOnKill(xWhite).png)
+![crimson_overture](../../../Project/public/assets/incarnon-evolutions/DamageAmmoEfficiencyOnKill(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -40,7 +40,7 @@
 
 ### Paragon Essence
 
-![paragon_essence](../../../../../Project/public/assets/incarnon-evolutions/WeaponStatusProcFireRate(xWhite).png)
+![paragon_essence](../../../Project/public/assets/incarnon-evolutions/WeaponStatusProcFireRate(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -59,7 +59,7 @@
 
 ### Swift Deliverance
 
-![swift_deliverance](../../../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
+![swift_deliverance](../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
 
 **Efectos:**
 - **+50%** Projectile Speed
@@ -71,7 +71,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+X**
@@ -86,7 +86,7 @@
 
 ### Evolved Autoloader
 
-![evolved_autoloader](../../../../../Project/public/assets/incarnon-evolutions/RestoreAmmoPickUpAmountToCapacity(xWhite).png)
+![evolved_autoloader](../../../Project/public/assets/incarnon-evolutions/RestoreAmmoPickUpAmountToCapacity(xWhite).png)
 
 **Efectos:**
 - **+50%** Magazine Reloaded per second when Holstered.
@@ -104,7 +104,7 @@
 
 ### Deathtrap Trigger
 
-![deathtrap_trigger](../../../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage(xWhite).png)
+![deathtrap_trigger](../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+14%**
@@ -117,7 +117,7 @@
 
 ### High Ground
 
-![high_ground](../../../../../Project/public/assets/incarnon-evolutions/CritDamageWhenCritChanceIsBelowX(xWhite).png)
+![high_ground](../../../Project/public/assets/incarnon-evolutions/CritDamageWhenCritChanceIsBelowX(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **25%** of current Status Chance, up to **35%**.
@@ -133,7 +133,7 @@
 
 ### Elemental Balance
 
-![elemental_balance](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![elemental_balance](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Status Chance by **+X%**

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormEfficientSlidingHeavyAttacksFasterWindUp(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormEfficientSlidingHeavyAttacksFasterWindUp(xWhite).png)
 
 **Descripción:**
 - Reach **6x** Combo and then Heavy Attack to activate Incarnon Form.
@@ -28,7 +28,7 @@
 
 ### Crushing Verdict
 
-![crushing_verdict](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFallOff(xWhite).png)
+![crushing_verdict](../../../Project/public/assets/incarnon-evolutions/IncarnonFallOff(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -41,7 +41,7 @@
 
 ### Edge Of Justice
 
-![edge_of_justice](../../../../../Project/public/assets/incarnon-evolutions/AttackSpeedInSwordAloneMode(xWhite).png)
+![edge_of_justice](../../../Project/public/assets/incarnon-evolutions/AttackSpeedInSwordAloneMode(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -60,7 +60,7 @@
 
 ### Seismic Slam
 
-![seismic_slam](../../../../../Project/public/assets/incarnon-evolutions/IncarnonSlamRadius(xWhite).png)
+![seismic_slam](../../../Project/public/assets/incarnon-evolutions/IncarnonSlamRadius(xWhite).png)
 
 **Efectos:**
 - **+100%** Slam Radius.
@@ -72,7 +72,7 @@
 
 ### Orokin Reach
 
-![orokin_reach](../../../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
+![orokin_reach](../../../Project/public/assets/incarnon-evolutions/MoreRange(xWhite).png)
 
 **Efectos:**
 - **+1.4** Range
@@ -84,7 +84,7 @@
 
 ### Swift Break
 
-![swift_break](../../../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
+![swift_break](../../../Project/public/assets/incarnon-evolutions/IncarnonWindUpSpeed(xWhite).png)
 
 **Efectos:**
 - **+30%** Heavy Attack Wind Up Speed.
@@ -102,7 +102,7 @@
 
 ### Flashing Bleed
 
-![flashing_bleed](../../../../../Project/public/assets/incarnon-evolutions/ChanceForSlashOnImpact(xWhite).png)
+![flashing_bleed](../../../Project/public/assets/incarnon-evolutions/ChanceForSlashOnImpact(xWhite).png)
 
 **Efectos:**
 - **+50%** Chance of <DT_SLASH|BLEED> on <DT_IMPACT> Status Effect.
@@ -114,7 +114,7 @@
 
 ### Subtle Force
 
-![subtle_force](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![subtle_force](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+8%**.
@@ -127,7 +127,7 @@
 
 ### Critical Parallel
 
-![critical_parallel](../../../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage(xWhite).png)
+![critical_parallel](../../../Project/public/assets/incarnon-evolutions/CritChanceCritDamage(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.

@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/EvolutionIncarnonFormGun.png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/EvolutionIncarnonFormGun.png)
 
 **Descripción:**
 - Weakpoint Hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -29,14 +29,14 @@
 
 ### Attuned Accuracy
 
-![attuned_accuracy](../../../../../Project/public/assets/incarnon-evolutions/MoreAccuracy.png)
+![attuned_accuracy](../../../Project/public/assets/incarnon-evolutions/MoreAccuracy.png)
 
 **Efectos:**
 - **+40%** Accuracy when Aiming.
 
 ### Kinetic Baffle
 
-![kinetic_baffle](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
+![kinetic_baffle](../../../Project/public/assets/incarnon-evolutions/LessRecoil.png)
 
 **Efectos:**
 - **-50%** Weapon Recoil
@@ -46,7 +46,7 @@
 
 ### Frictionless Flight
 
-![frictionless_flight](../../../../../Project/public/assets/incarnon-evolutions/EvolutionProjectileSpeed.png)
+![frictionless_flight](../../../Project/public/assets/incarnon-evolutions/EvolutionProjectileSpeed.png)
 
 **Efectos:**
 - **+50%** Projectile Speed
@@ -62,7 +62,7 @@
 
 ### Dual-Mode
 
-![dual_mode](../../../../../Project/public/assets/incarnon-evolutions/ToggleBetweenProjectileSpeedAndPunchThrough.png)
+![dual_mode](../../../Project/public/assets/incarnon-evolutions/ToggleBetweenProjectileSpeedAndPunchThrough.png)
 
 **Efectos:**
 - Reload toggles the weapon between **+100%** Projectile Speed and **+4m** Punch Through.
@@ -75,14 +75,14 @@
 
 ### Evolved Autoloader
 
-![evolved_autoloader](../../../../../Project/public/assets/incarnon-evolutions/ReloadWhileHolstered.png)
+![evolved_autoloader](../../../Project/public/assets/incarnon-evolutions/ReloadWhileHolstered.png)
 
 **Efectos:**
 - **+50%** Magazine Reloaded/s when Holstered
 
 ### Mounting Momentum
 
-![mounting_momentum](../../../../../Project/public/assets/incarnon-evolutions/FireRateIncreasesPerShellReloaded.png)
+![mounting_momentum](../../../Project/public/assets/incarnon-evolutions/FireRateIncreasesPerShellReloaded.png)
 
 **Efectos:**
 - Reload increases Fire Rate by **+10%** per shell. Resets on reload.
@@ -105,7 +105,7 @@
 
 ### Brutal Edge
 
-![brutal_edge](../../../../../Project/public/assets/incarnon-evolutions/EvolutionCriticalStatusUp.png)
+![brutal_edge](../../../Project/public/assets/incarnon-evolutions/EvolutionCriticalStatusUp.png)
 
 **Efectos:**
 - **+10%** Critical Chance
@@ -117,7 +117,7 @@
 
 ### Incarnon Catalyst
 
-![incarnon_catalyst](../../../../../Project/public/assets/incarnon-evolutions/IncreaseChargeGainedOnKills.png)
+![incarnon_catalyst](../../../Project/public/assets/incarnon-evolutions/IncreaseChargeGainedOnKills.png)
 
 **Efectos:**
 - Headshots Build **+50%** more Incarnon Transmutation charge.
@@ -128,7 +128,7 @@
 
 ### Racking Wrath
 
-![racking_wrath](../../../../../Project/public/assets/incarnon-evolutions/EvolutionTrade-Off.png)
+![racking_wrath](../../../Project/public/assets/incarnon-evolutions/EvolutionTrade-Off.png)
 
 **Efectos:**
 - **+20%** Status Chance
@@ -146,7 +146,7 @@
 
 ### Devastating Attrition
 
-![devastating_attrition](../../../../../Project/public/assets/incarnon-evolutions/EvolutionNon-Critical.png)
+![devastating_attrition](../../../Project/public/assets/incarnon-evolutions/EvolutionNon-Critical.png)
 
 **Efectos:**
 - **50%** chance to deal **+2000%** damage on *non-critical* hits
@@ -157,14 +157,14 @@
 
 ### Ruptured Plentitude
 
-![ruptured_plentitude](../../../../../Project/public/assets/incarnon-evolutions/Hit3EnemiesAmmoEff.png)
+![ruptured_plentitude](../../../Project/public/assets/incarnon-evolutions/Hit3EnemiesAmmoEff.png)
 
 **Efectos:**
 - On Punch Through **3** enemies: **+70%** Ammo Efficiency for **20s**
 
 ### Agile Executor
 
-![agile_executor](../../../../../Project/public/assets/incarnon-evolutions/MultishotWhileGlidingAndSliding.png)
+![agile_executor](../../../Project/public/assets/incarnon-evolutions/MultishotWhileGlidingAndSliding.png)
 
 **Efectos:**
 - Gain **50%** Ammo Efficiency while Aim Gliding and Sliding

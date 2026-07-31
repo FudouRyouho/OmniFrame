@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/SingleShotChargeExplosiveHit(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/SingleShotChargeExplosiveHit(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -27,7 +27,7 @@
 
 ### Precision's Payoff
 
-![precisions_payoff](../../../../../Project/public/assets/incarnon-evolutions/OnHeadshotFromFullBurst(xWhite).png)
+![precisions_payoff](../../../Project/public/assets/incarnon-evolutions/OnHeadshotFromFullBurst(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -45,7 +45,7 @@
 
 ### Mauler's Magazine
 
-![maulers_magazine](../../../../../Project/public/assets/incarnon-evolutions/CritDamageOnReloadFromEmpty(xWhite).png)
+![maulers_magazine](../../../Project/public/assets/incarnon-evolutions/CritDamageOnReloadFromEmpty(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -67,7 +67,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+X**.
@@ -82,7 +82,7 @@
 
 ### Rapid Reinforcement
 
-![rapid_reinforcement](../../../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
+![rapid_reinforcement](../../../Project/public/assets/incarnon-evolutions/IncarnonReloadSpeed(xWhite).png)
 
 **Efectos:**
 - **+50%** Reload Speed.
@@ -94,7 +94,7 @@
 
 ### Void's Guidance
 
-![voids_guidance](../../../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
+![voids_guidance](../../../Project/public/assets/incarnon-evolutions/LessRecoilMoreAccuracy(xWhite).png)
 
 **Efectos:**
 - **+60%** Accuracy
@@ -113,7 +113,7 @@
 
 ### Survivor's Edge
 
-![survivors_edge](../../../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
+![survivors_edge](../../../Project/public/assets/incarnon-evolutions/XCritChanceYStatChance(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -126,7 +126,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+X%**.
@@ -138,7 +138,7 @@
 
 ### Fatal Affliction
 
-![fatal_affliction](../../../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
+![fatal_affliction](../../../Project/public/assets/incarnon-evolutions/DamagePerActiveStatus(xWhite).png)
 
 **Efectos:**
 - **+40%** Direct Damage per Status Type affecting the target.

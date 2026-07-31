@@ -9,7 +9,7 @@
 
 ## EVO 1 — Incarnon Form
 
-![incarnon_form](../../../../../Project/public/assets/incarnon-evolutions/IncarnonFormIncreasedRangeAndRicochet(xWhite).png)
+![incarnon_form](../../../Project/public/assets/incarnon-evolutions/IncarnonFormIncreasedRangeAndRicochet(xWhite).png)
 
 **Descripción:**
 - Weakpoint hits charge Incarnon Transmutation; Alt Fire transmutes. Switching back will expend any remaining charge.
@@ -30,7 +30,7 @@
 
 ### Speeding Bullet
 
-![speeding_bullet](../../../../../Project/public/assets/incarnon-evolutions/DamageIncreasedFallOffRangeWithSprintSpeedLowerThanX(xWhite).png)
+![speeding_bullet](../../../Project/public/assets/incarnon-evolutions/DamageIncreasedFallOffRangeWithSprintSpeedLowerThanX(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -46,7 +46,7 @@
 
 ### Infused Shots
 
-![infused_shots](../../../../../Project/public/assets/incarnon-evolutions/DamageWithEnergySpent(xWhite).png)
+![infused_shots](../../../Project/public/assets/incarnon-evolutions/DamageWithEnergySpent(xWhite).png)
 
 **Efectos:**
 - Increase Base Damage by **+X**.
@@ -65,7 +65,7 @@
 
 ### Kinetic Battle
 
-![kinetic_battle](../../../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
+![kinetic_battle](../../../Project/public/assets/incarnon-evolutions/LessRecoil(xWhite).png)
 
 **Efectos:**
 - **-50%** Weapon Recoil.
@@ -77,7 +77,7 @@
 
 ### Practised Grip
 
-![practised_grip](../../../../../Project/public/assets/incarnon-evolutions/MoreAccuracy(xWhite).png)
+![practised_grip](../../../Project/public/assets/incarnon-evolutions/MoreAccuracy(xWhite).png)
 
 **Efectos:**
 - Increase Accuracy by **+30%**.
@@ -89,7 +89,7 @@
 
 ### Extended Volley
 
-![extended_volley](../../../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
+![extended_volley](../../../Project/public/assets/incarnon-evolutions/IncarnonClipSize(xWhite).png)
 
 **Efectos:**
 - Increase Base Magazine Capacity by **+2**.
@@ -107,7 +107,7 @@
 
 ### Enough for Everyone
 
-![enough_for_everyone](../../../../../Project/public/assets/incarnon-evolutions/AmmoEffWhenAimGlidingOrSliding(xWhite).png)
+![enough_for_everyone](../../../Project/public/assets/incarnon-evolutions/AmmoEffWhenAimGlidingOrSliding(xWhite).png)
 
 **Efectos:**
 - **+80%** Ammo efficiency when **6** enemies are within **6m**.
@@ -119,7 +119,7 @@
 
 ### Commodore's Fortune
 
-![commodores_fortune](../../../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
+![commodores_fortune](../../../Project/public/assets/incarnon-evolutions/HighCrit(xWhite).png)
 
 **Efectos:**
 - Increase Base Critical Chance by **+20%**.
@@ -131,7 +131,7 @@
 
 ### Rain of Lead
 
-![rain_of_lead](../../../../../Project/public/assets/incarnon-evolutions/IncarnonMultishot(xWhite).png)
+![rain_of_lead](../../../Project/public/assets/incarnon-evolutions/IncarnonMultishot(xWhite).png)
 
 **Efectos:**
 - **+2** Base Multishot.
