@@ -21,7 +21,7 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import { volt, voltSpeed, VOLT, TIBERON_PRIME, NIKANA_PRIME } from '../fixtures/builds';
+import { volt, voltSpeed, voltParkour, VOLT, VOLT_SPEED, TIBERON_PRIME, NIKANA_PRIME } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
@@ -128,6 +128,53 @@ describe('Volt Speed — melee attack speed (el buff alcanza sólo la melee)', (
   });
 });
 
+// ─── Parkour Velocity — el tercer carril de movimiento, y su primer consumidor ──────
+//
+// `movement-speed.md` separa CINCO stats de movimiento que la UI del juego no distingue.
+// Movement Speed (arriba) y Parkour Velocity son dos de ellos y **ninguno deriva del otro**:
+// el primero gobierna walk/aim-walk/crouch, el segundo bullet jump, double jump, rolling y
+// springs. Volt Speed toca el primero y no el segundo — verificado abajo.
+//
+// El nodo no existía: `AVATAR_ADD_PARKOUR_VELOCITY` era token sin nodo, así que el shard
+// ámbar se hidrataba, resolvía su token y se perdía sin aterrizar. Su base es **sintética**
+// (100 = sin mods, molde de `WEAPON_ADD_RELOAD_SPEED`) porque el raw no trae dato y no puede
+// traerlo: el parkour no varía por warframe, a diferencia de `sprint_speed`.
+
+const parkourOf = (intention: ReturnType<typeof volt>) =>
+  consume(intention, { flags: {} }).weapon(VOLT).node('AVATAR_ADD_PARKOUR_VELOCITY');
+
+describe('Volt — Parkour Velocity (shard ámbar sobre base sintética)', () => {
+  it('baseline: el nodo existe sin shard y vale 100 (100% = sin mods)', () => {
+    const parkour = parkourOf(volt());
+    expect(parkour.base).toBe(100);
+    expect(parkour.mods_add_pct).toBe(0);
+    expect(parkour.final).toBe(100);
+  });
+
+  it('con el shard ámbar: +15% → 115', () => {
+    const parkour = parkourOf(voltParkour());
+    expect(parkour.mods_add_pct).toBeCloseTo(15, 5);
+    expect(parkour.final).toBeCloseTo(115, 5);
+  });
+
+  it('tauforjado: +22.5% → 122.5 (el segundo valor del array, no un múltiplo del primero)', () => {
+    const parkour = parkourOf(voltParkour({ tau: true }));
+    expect(parkour.mods_add_pct).toBeCloseTo(22.5, 5);
+    expect(parkour.final).toBeCloseTo(122.5, 5);
+  });
+
+  // Los tres carriles son stats distintos: la wiki lo dice literal ("Sprint Speed bonuses do not
+  // affect Movement Speed") y el bullet jump no lo toca ninguno de los dos.
+  it('Speed no toca el parkour, y el shard no toca el movement — carriles separados', () => {
+    const conAmbos = { ...voltSpeed(), items: { ...voltParkour().items, warframe: {
+      ...voltParkour().items.warframe, abilities: [{ id: VOLT_SPEED }],
+    } } };
+    const out = consume(conAmbos, { flags: {} });
+    expect(out.weapon(VOLT).node('AVATAR_ADD_PARKOUR_VELOCITY').final).toBeCloseTo(115, 5);
+    expect(out.weapon(VOLT).node('AVATAR_ADD_MOVEMENT_SPEED').final).toBeCloseTo(1.75, 5);
+  });
+});
+
 // ─── Borde — lo que Speed NO modela todavía (it.todo) ──────────────────────────────
 
 describe('Volt Speed — borde', () => {
@@ -138,9 +185,11 @@ describe('Volt Speed — borde', () => {
   // Los aliados pueden hacer backflip para quitarse el buff: opt-out por entidad receptora,
   // no modelable en C1 estático (la ability es asumida-activa, arch §15).
   it.todo('opt-out del buff por backflip del aliado — requiere source-state vivo (gate G-a)');
-  // AVATAR_ADD_SPRINT_SPEED y AVATAR_ADD_PARKOUR_VELOCITY existen como token sin nodo. Son
-  // stats DISTINTOS de movement speed (movement-speed.md): Rush no afecta el walk, y parkour
-  // velocity gobierna bullet jump/rodar. El shard ámbar ya declara el segundo en el dato.
+  // AVATAR_ADD_SPRINT_SPEED sigue siendo token sin nodo: es un stat DISTINTO de movement speed
+  // (movement-speed.md — Rush no afecta el walk) y su consumidor no está mapeado en el dataset.
   it.todo('AVATAR_ADD_SPRINT_SPEED — materializar cuando llegue Rush (¿display-only?)');
-  it.todo('AVATAR_ADD_PARKOUR_VELOCITY — consumidor de dato ya vivo: shard ámbar +15%/+22.5%');
+  // Los ~13 mods de parkour (Mobilize, Lightning Dash, Firewalker…) traen el token CRUDO de DE
+  // `AVATAR_PARKOUR_BOOST`, que no está en UPGRADE_MAP ni lo deriva resolveToken: el nodo ya los
+  // espera, falta el alias. Su hermano `AVATAR_PARKOUR_GLIDE` (aim glide/wall latch) no tiene nodo.
+  it.todo('alias AVATAR_PARKOUR_BOOST → AVATAR_ADD_PARKOUR_VELOCITY — 13 mods sin aterrizar');
 });

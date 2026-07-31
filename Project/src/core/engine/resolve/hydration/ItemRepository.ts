@@ -67,9 +67,16 @@ export class ItemRepository {
         // el arsenal muestra. Mismo patrón que `fire_rate` en melee: DE nombra una cosa y la
         // mecánica es otra, y el token declara la verdad, no el raw. Base 1.0 = 6 m/s de walk
         // speed; sprintar suma 25% aparte. Ver references/wiki/mechanics/movement-speed.md.
-        // `AVATAR_ADD_SPRINT_SPEED` y `AVATAR_ADD_PARKOUR_VELOCITY` son stats DISTINTOS (existen
-        // como token, sin nodo): esperan su consumidor — Rush y el shard ámbar respectivamente.
+        // `AVATAR_ADD_SPRINT_SPEED` es un stat DISTINTO y sigue sin nodo: existe como token y
+        // espera su consumidor (Rush, que el dataset todavía no trae mapeado).
         AVATAR_ADD_MOVEMENT_SPEED:    s.sprint_speed ?? 0,
+        // Parkour Velocity (localizado *"Bullet Jump"*) gobierna bullet jump, double jump, rolling
+        // y springs — ni movement ni sprint lo tocan. El raw NO trae dato base y no puede traerlo:
+        // no hay parkour por-warframe, todos parten del mismo 100%. Base **sintética**, mismo molde
+        // que `WEAPON_ADD_RELOAD_SPEED` y los 4 stats de habilidad: 100 = sin mods, y el `+15%` del
+        // shard ámbar lee `115`. El discriminador contra `MOVEMENT_SPEED` (base 1.0, escala) es que
+        // aquél SÍ tiene dato en el raw y varía por frame (Gauss 1.4 · Volt 1.0).
+        AVATAR_ADD_PARKOUR_VELOCITY:  100,
         AVATAR_ADD_ABILITY_STRENGTH:   100,
         AVATAR_ADD_ABILITY_RANGE:      100,
         AVATAR_ADD_ABILITY_DURATION:   100,

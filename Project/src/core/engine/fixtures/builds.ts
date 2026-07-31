@@ -516,6 +516,35 @@ export function voltSpeed(opts: { strength?: boolean, melee?: boolean } = {}): E
   };
 }
 
+// Cristal ámbar (Nira), efecto Parkour Velocity: `AVATAR_ADD_PARKOUR_VELOCITY` +15% (+22.5%
+// tauforjado). A diferencia del azul de Rhino —que es FLAT sobre armadura— éste es porcentual
+// y compone en `mods_add_pct` sobre una base sintética de 100.
+const AMBER_PARKOUR = {
+  shardType: '/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalNira',
+  effectId: 'amber-parkour-velocity',
+  isTauforged: false,
+};
+
+/**
+ * Volt + un shard ámbar de Parkour Velocity. No lleva la habilidad: el eje que ejerce es el
+ * nodo `AVATAR_ADD_PARKOUR_VELOCITY`, que existía como token sin nodo materializado — o sea
+ * un dato del juego que el motor cargaba y perdía en silencio, porque el modifier resolvía y
+ * no tenía dónde aterrizar. Es el mismo modo de falla que el ruteo por canal (`voltChannelArcanes`),
+ * visto desde el otro lado: allá faltaba el canal, acá falta el nodo.
+ *
+ * @param tau si se pasa, el cristal es tauforjado (+22.5% en vez de +15%).
+ */
+export function voltParkour(opts: { tau?: boolean } = {}): EnsembleIntention {
+  const base = volt();
+  return {
+    ...base,
+    items: {
+      ...base.items,
+      warframe: { ...base.items.warframe, shards: [{ ...AMBER_PARKOUR, isTauforged: opts.tau ?? false }] },
+    },
+  };
+}
+
 // ─── Arcanos de WARFRAME con canal (ruteo por sub-familia, S2-A/S2-B) ────────────────
 
 export const ARCANE_RAGE          = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunDamageOnHeadshot';
@@ -563,6 +592,8 @@ export const BUILDS: Record<string, () => EnsembleIntention> = {
   volt_speed: () => voltSpeed(),
   volt_speed_str: () => voltSpeed({ strength: true }),
   volt_speed_melee: () => voltSpeed({ melee: true }),
+  volt_parkour:     () => voltParkour(),
+  volt_parkour_tau: () => voltParkour({ tau: true }),
   tiberon:      () => tiberon(false),
   tiberon_heat: () => tiberon(true),
   lanka:  () => lanka('charged_shot'),

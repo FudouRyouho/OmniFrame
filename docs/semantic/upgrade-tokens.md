@@ -4,7 +4,7 @@ Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-07-31"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -324,7 +324,7 @@ escrita en el propio dato normalizado.
 | `AVATAR_ADD_SPRINT_SPEED` | `—` | Rush, Sprint Boost, Armored Agility. **Stat distinto del anterior, no un alias**: acelera sólo la animación de sprint y *"do not affect a Warframe's Movement Speed, even though they increase the listed Sprint Speed stat in the arsenal"*. Sin nodo: espera consumidor, y con él la pregunta de si es display-only. Ver [`../../references/wiki/mechanics/movement-speed.md`](../../references/wiki/mechanics/movement-speed.md). |
 | `AVATAR_ADD_CASTING_SPEED` | `—` | Natural Talent. Velocidad de animación de cast; no afecta output del simulador simplificado. |
 | `AVATAR_ADD_SHIELD_RECHARGE_RATE` | `C1` | Fast Deflection |
-| `AVATAR_ADD_PARKOUR_VELOCITY` | `—` | Mobilize (aura), Amber Archon Shard (+15% / +22.5% tauforged). **Tercer stat de movimiento**, distinto de los dos de arriba: gobierna bullet jump, double jump, rodar, sidespring y backspring. Movement Speed no lo toca. Sin nodo, pero el shard ya lo declara en `archon-shards.json` — consumidor de dato vivo esperando. |
+| `AVATAR_ADD_PARKOUR_VELOCITY` | `C1` | Amber Archon Shard (+15% / +22.5% tauforged), Arcane Agility, Arcane Consequence. **Tercer stat de movimiento**, distinto de los dos de arriba: gobierna bullet jump, double jump, rodar, sidespring y backspring. Movement Speed no lo toca. **Nodo materializado con base sintética 100** (100% = sin mods): a diferencia de `MOVEMENT_SPEED`, el raw no trae dato y no puede traerlo — el parkour no varía por warframe. ⚠️ Los ~13 mods de la familia (Mobilize, Lightning Dash, Firewalker…) traen el token crudo de DE `AVATAR_PARKOUR_BOOST`, que no está aliasado: el nodo los espera, el mapeo no existe. |
 | `AVATAR_ADD_HEALTH_ORB_EFFICIENCY` | `C1` | Amber Archon Shard (+100/+150%). Multiplicador estático sobre valor del orb; C2 lo usa al modelar economía de recursos. |
 | `AVATAR_ADD_ENERGY_ORB_EFFICIENCY` | `C1` | Amber Archon Shard (+50/+75%). Ídem. Equilibrium añade complejidad de conversión — fórmula a definir en C2. |
 | `AVATAR_ADD_HEALTH_REGEN` | `C1` | Arcane Grace, Arcane Victory. ⚠ **Hipótesis usuario**: toda regen de salud en Warframe es plana (HP/s), no porcentual — si fuera %, solo Nidus (con regen nata) tendría base relevante. Si se confirma: este token es duplicado de `AVATAR_FLAT_HEALTH_REGEN` y debe colapsarse. Requiere verificación de valor real de Arcane Grace rank 5 en juego |
