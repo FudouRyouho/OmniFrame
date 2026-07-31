@@ -1,33 +1,35 @@
 # Snow Globe — Frost (habilidad 3)
 
-> Última actualización: 2026-07-24
+> Estado: activo
+> Rol: la mecánica de Snow Globe — su fórmula de Health, los valores por rank y que el Health es de una entidad desplegada
+> Fuente de verdad de: que la fórmula es **idéntica** a la de Iron Skin · el cap de 1.000.000 recasteable · la sinergia con la pasiva de Frost
+> No usar para: el modelado hacia el motor
+> Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Snow_Globe
 > Fuente actualizada: 2025-12-09
 > Raw: snow-globe.wikitext
 
-## Tercer caso confirmado de la MISMA fórmula que Iron Skin
+## La misma fórmula que Iron Skin
 
 ```
 Modified Health = { Base Health + Armor Multiplier × [Frost's Base Armor × (1 + Base Armor Bonus) + Additional Armor] } × (1 + Ability Strength) + Absorbed Damage
 ```
 
-Compará con Iron Skin (`../../Rhino/Iron-Skin/Iron-Skin.md`):
+Compará con Iron Skin (`../rhino/iron-skin.md`):
 ```
 Overguard = ([Base Overguard + (Armor Multiplier × Total Armor)] × Ability Strength) + Absorbed Damage
 ```
 
 **Estructuralmente idéntica** — mismo bracket `(Base + Mult×TotalArmor) × Strength + Absorbed`. Solo
 cambian los números y el recurso de salida (Health de un objeto desplegado, no Overguard del
-warframe). Es el **tercer caso con la misma forma exacta**, junto a Iron Skin e Icy Avalanche
-(parcial).
+warframe). La misma forma exacta aparece también en Icy Avalanche (parcial).
 
-## La diferencia arquitectónica real — no es el warframe, es OTRA entidad
+## El Health no es de Frost — es del globo
 
-El Health de Snow Globe **no es un stat de Frost** — es el health de un **objeto desplegado** (el
-globo), una entidad que hoy no existe en el modelo del engine (no es weapon, no es warframe). Iron
-Skin escribe en la MISMA entidad que castea (Rhino); Snow Globe escribe en una entidad **nueva y
-efímera** que Frost crea. Mismo cross-stat armor×strength, pero el "dónde aterriza" es un problema
-distinto y más grande — anotado, no resuelto acá.
+Aunque la fórmula sea idéntica a la de Iron Skin, **el recurso de salida no vive en la misma
+entidad**. Iron Skin da Overguard a Rhino, que es quien castea. **Snow Globe crea un objeto
+desplegado** —el globo— y el Health es de ese objeto, no de Frost. Es una entidad efímera y separada
+del warframe.
 
 ## Valores por rank
 
@@ -38,11 +40,10 @@ distinto y más grande — anotado, no resuelto acá.
 | Break damage | 50 | 100 | 125 | **150** |
 | Invulnerability duration | 1s | 2s | 3s | **4s** |
 
-- Cap: **1.000.000** health combinado (recasteable dentro del propio globo — mismo patrón de
-  acumulación con cap que Light Verse, pero para Health, no Overguard, y de OTRA entidad).
-- Sinergia: la pasiva de Frost da +50 armor por enemigo con Cold status en rango — un input más
-  (evento de combate) que alimenta el mismo bracket de armor. Multiplica la complejidad, no la
-  cambia de forma.
+- Cap: **1.000.000** de health combinado, recasteable dentro del propio globo — mismo patrón de
+  acumulación con tope que Light Verse, pero sobre Health y sobre el objeto, no sobre el warframe.
+- Sinergia: la pasiva de Frost da **+50 armor por enemigo con Cold status en rango** — y como la
+  fórmula lee el armor total, ese bonus entra al mismo bracket.
 
 ## Fuentes
 

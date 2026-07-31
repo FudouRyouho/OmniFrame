@@ -5,13 +5,11 @@
 > Fuente actualizada: 2026-07-10
 > Raw: nourish.wikitext
 
-## Descartada del eje cross-stat "propio" — depende del TARGET, no del warframe
+## Cómo funciona — el bono depende del elemento elegido
 
-Confirma la sospecha del usuario. Nourish imbuye a un aliado/arma con un elemento y otorga bonos
-condicionados al elemento elegido (vida/daño/status/energía según Heat/Cold/Electricity/Toxin) — el
-input relevante es una **elección de elemento** (condición discreta, vocabulario de `condition`), no
-un capacity-stat de Trinity leído como número. Mismo eje que Elemental Ward de Chroma (`Chroma.md`),
-no el eje "leer armor/health/shield/energy propio" que motiva este barrido.
+Nourish imbuye a un aliado o a un arma con un elemento, y el bono que otorga **depende de cuál se
+eligió**: vida, daño, status o energía según sea Heat, Cold, Electricity o Toxin. La entrada no es
+un número de Trinity — es una **elección discreta**. Mismo esquema que Elemental Ward de Chroma.
 
 ## Fuentes
 

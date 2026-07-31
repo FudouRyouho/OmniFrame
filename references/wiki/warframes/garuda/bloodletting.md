@@ -1,11 +1,15 @@
 # Bloodletting — Garuda (habilidad 3)
 
-> Última actualización: 2026-07-24
+> Estado: activo
+> Rol: la mecánica de Bloodletting — cuánta energía devuelve, qué la limita y qué no la dispara
+> Fuente de verdad de: la fórmula de ganancia con su clamp por vida disponible · que la eficiencia entra **dividiendo** · la exclusión de los mods de daño→energía
+> No usar para: el modelado hacia el motor
+> Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Bloodletting
 > Fuente actualizada: 2024-05-19
 > Raw: bloodletting.wikitext
 
-## Cuarta forma: cross-stat de DOS capacity-stats (Health Y Energy), sin bracket de armor
+## Cómo funciona
 
 ```
 Total Energy Gain = Base Energy Gain ÷ (2 − Ability Efficiency)
@@ -13,7 +17,7 @@ Base Energy Gain  = (18/22/30/40% por rank) × Max Energy × min(1, health_dispo
 ```
 
 - Sacrifica hasta 50% del **Max Health** (con mods) para restaurar hasta 18-40% del **Max Energy** (con
-  mods/Helminth/shards) — **lee dos capacity-stats distintos**, ninguno es Strength.
+  mods/Helminth/shards). **Ninguno de los dos inputs es Ability Strength.**
 - Si Garuda tiene menos del 50% de vida disponible, la ganancia de energía se reduce proporcional
   (ejemplo verbatim: 25% HP restante → mitad de energía) — el input real es `min(50%, hp_actual/hp_max)`,
   no un flat.
@@ -23,14 +27,7 @@ Base Energy Gain  = (18/22/30/40% por rank) × Max Energy × min(1, health_dispo
 - No dispara mods de "daño→energía" (Rage/Hunter Adrenaline) — exclusión explícita, anotar si se
   modela para no duplicar la conversión.
 
-## Relevancia para el debate §4
-
-Ni bracket de armor ni Overguard/Overshield — pero es el **segundo caso confirmado de leer 2
-capacity-stats distintos del propio warframe** (Health Y Energy), después de Trinity (que solo lee
-Energy). Suma evidencia de que "leer capacity-stats propios" es un patrón real y no aislado a
-Overguard — más argumento para no diseñar el mecanismo solo alrededor de Iron Skin/Overguard.
-
 ## Fuentes
 
 - https://wiki.warframe.com/w/Bloodletting
-- [`../../Trinity/Passive/Passive.md`](../trinity/passive.md) — otro caso de 1 capacity-stat leído
+- [`../trinity/passive.md`](../trinity/passive.md) — la pasiva de Trinity, que también lee un stat propio

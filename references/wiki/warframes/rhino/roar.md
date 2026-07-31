@@ -1,6 +1,6 @@
 # Roar — Rhino (habilidad 3)
 
-> No usar para: el modelado de Roar hacia el engine — vive en `.working/rhino-roar-prototype.md`
+> No usar para: el modelado de Roar hacia el motor
 > Última actualización: 2026-07-16
 > Fuente: https://wiki.warframe.com/w/Roar#Info
 > Fuente actualizada: 2026-07-10

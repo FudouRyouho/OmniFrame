@@ -18,9 +18,9 @@ Overguard = ([Base Overguard + (Armor Multiplier × Total Armor)] × Ability Str
 Total Armor = (Base Armor × [1 + Armor Mods]) + Additive Armor
 ```
 
-- **Cross-stat real:** el bracket `[Base Overguard + Armor Multiplier × Total Armor]` combina DOS
-  fuentes (un valor fijo por rank + la armadura total del propio warframe, YA modificada por sus
-  propios mods de armadura) — y el resultado completo se escala por Ability Strength.
+- El bracket `[Base Overguard + Armor Multiplier × Total Armor]` combina **dos fuentes**: un valor
+  fijo por rank y la armadura total del propio warframe —**ya modificada** por sus mods de armadura—.
+  El resultado completo se escala después por Ability Strength.
 - **Armadura por variante:** Rhino base = 240 armor; Rhino Prime = 290 armor — mismo Iron Skin,
   Overguard inicial distinto solo por este dato base.
 
@@ -33,8 +33,7 @@ Total Armor = (Base Armor × [1 + Armor Mods]) + Additive Armor
 | Invulnerability Duration | 1.5s | 2s | 3s | **3s** |
 
 - **Energía:** 50 (`× Efficiency`).
-- El engine modela solo **rank máximo** (convención ya vigente para toda ability-stats — ver
-  `docs/domains/engine/status.md`), por eso `Armor Multiplier` rank 0 (`?`) no bloquea nada.
+- La wiki no publica el `Armor Multiplier` de rank 0 (`?`); sólo el de rank máximo es dato firme.
 
 ## Ejemplo verificado (verbatim)
 

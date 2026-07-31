@@ -24,7 +24,7 @@ con los mods del mismo stat.
 - **Energía:** 25 (`× Efficiency`).
 - **Augment:** Shocking Speed.
 
-## La composición (verbatim, el punto clave para el engine)
+## La composición (verbatim)
 
 La wiki declara explícitamente el bucket de los tres buffs — **aditivo con los mods del mismo stat**,
 con ejemplos numéricos:
@@ -36,8 +36,8 @@ reload:    Speed(25%) × Intensify(1.3) + Quickdraw(48%)
 ```
 
 *"The movement speed buff stacks **additively** with other movement speed modifiers."* (ídem attack
-y reload.) Es la misma forma que Roar: el valor de la habilidad escala por Strength y **aterriza en
-el pool aditivo** del stat destino. No hay bracket, no hay lectura cross-stat, no hay fórmula propia.
+y reload.) Misma forma que Roar: el valor escala por Strength y **entra al pool aditivo** del stat
+destino, sin fórmula propia.
 
 ## Propiedades relevantes (anotadas para no asumir)
 

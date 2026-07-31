@@ -22,8 +22,7 @@ Shield normal siguen aplicando si algo los alcanza fuera de la mecánica del das
 - **Energía:** 25 (`× Efficiency`). **Combo window:** 1s (`× Duration`).
 - **Dash speed = 40/42/44/48 m/s por rank — NO escala con ningún mod.** La wiki lo dice explícito:
   *"Dash speed is not able to be modified"*. Confirmado consistente con `Rhino.md` (línea `Speed:
-  48m/s` sin ningún token `$`) — el engine ya lo trata bien como no-escalable, no hace falta tocar
-  nada.
+  48m/s`, sin modificador).
 
 ## Recast dentro del combo window (NO modelado)
 

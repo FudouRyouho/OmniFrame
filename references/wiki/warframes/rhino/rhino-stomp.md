@@ -23,8 +23,7 @@ un slow fuerte.
 - **Energía:** 100 (`× Efficiency`). El radio de la onda **corta** (inicial) está sin documentar
   para rank 0-2 en la wiki (`?/?/?/5m`) — solo rank 3 = 5m es dato firme.
 - **`Slow` no lleva token `$` en la wiki** (no escala con Ability Strength) — consistente con
-  `Rhino.md` (línea `Speed Decrease: 97,5%` sin modificador). El engine ya lo modela bien como valor
-  fijo por rank, no escalable.
+  `Rhino.md` (línea `Speed Decrease: 97,5%`, sin modificador). Es un valor fijo por rank.
 
 ## No afecta objetivos con Overguard
 

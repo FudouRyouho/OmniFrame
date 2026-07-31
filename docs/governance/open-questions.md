@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-07-31"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -19,7 +19,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 
 | OQ | Tema | Dominio | Estado |
 |---|---|---|---|
-| `OQ-W-5` | Semántica de `ENERGY_COST` / `ENERGY_DRAIN` | data / ability-stats → engine | abierta — no bloquea |
+| `OQ-W-5` | Semántica de los canales de costo: `ENERGY_COST` / `ENERGY_DRAIN`, la forma invertida como ganancia, y el costo en Health | data / ability-stats → engine | abierta — no bloquea |
 | `OQ-W-6` | Vocabulary gap: `upgrade_by` para stats base de warframe | data / ability-stats | abierta |
 | `OQ-W-7` | Double-scaling y semántica especial de `upgrade_by` | data / ability-stats → formulas | abierta — no bloquea |
 | `OQ-SEM-1` | Conditions de abilities y augments | data / semantic / ability-stats | abierta — no bloquea |
@@ -79,8 +79,27 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 **Fórmulas conocidas:**
 - `ENERGY_COST` → `(2 − efficiency) × base_cost`
 - `ENERGY_DRAIN` → `((2 − efficiency) × base_drain) / duration_multiplier`
+
+**La misma forma aparece invertida, como ganancia.** Bloodletting (Garuda) restaura energía con
+`÷ (2 − efficiency)` — mismo factor, división en vez de multiplicación, ganancia en vez de costo.
+No es una fórmula nueva: es el mismo primitivo leído al revés. Si `ENERGY_COST` se implementa, el
+caso de ganancia sale casi gratis. (Bloodletting **no** dispara mods de daño→energía tipo Rage /
+Hunter Adrenaline — exclusión explícita, anotar al modelar para no duplicar la conversión.)
+
+**Hay al menos un canal de costo que no es energía.** Scarab Shell (Inaros, 3ª) se paga en
+**Health**: 25 HP por cada 1% de armor generado, ramp de 4.67 s, hasta 2.500 HP para carga completa,
+y **se puede detener a medio cargar**. El vocabulario actual (`ENERGY_COST` / `ENERGY_DRAIN`) no
+cubre ese eje.
+
+> ⚠️ **No asumir que es el mismo mecanismo con otro recurso.** Que ambos sean "costo de activación"
+> no dice que compartan forma: el de energía es un factor sobre un costo puntual, el de Inaros es un
+> **drenaje progresivo con estado intermedio** (carga parcial) y tope. Colapsarlos en `HEALTH_COST`
+> por analogía sería afirmar algo que no está medido. Se resuelve cuando aparezca un segundo caso de
+> costo-no-energía con el que comparar la forma — criterio `D-20`, no antes.
+
 **Estado:** deuda legítima. No bloquea el pipeline de datos ni el schema.
 **Condición:** cuando el engine necesite resolver valores de energía para habilidades activas.
+**Fuente:** `references/wiki/warframes/garuda/bloodletting.md` · `references/wiki/warframes/inaros/scarab-shell.md`
 
 ---
 
@@ -137,6 +156,12 @@ esas dependencias en prosa ("Armor Multiplier × Total Armor"), no en formato de
 la forma que se elija, el dato hay que **escribirlo a mano** — lo que empuja la decisión hacia dónde
 es verificable (código tipado y testeado) y no hacia el JSON.
 **Bloquea:** Anotar correctamente Inaros Scarab Swarm. Extensión del vocabulario `AbilityUpgradeBy` en `shared/types/ability.ts`.
+
+> ⚠️ **Al barrer, no capturar la habilidad equivocada.** Esta OQ habla de **Scarab Swarm**, la **1ª**
+> de Inaros (daño que escala con Max Health). **Scarab Shell** es la **3ª** — armor a cambio de
+> Health— y **no** es un caso de esta OQ: su bonus escala sólo con Strength, no lee ningún capacity
+> stat como input. Lo que aporta es un **canal de costo**, y vive en `OQ-W-5`. Nombres parecidos,
+> habilidades distintas.
 
 **Precisión (2026-07-09, debate de `source_attribute`):** Inaros Scarab Swarm es **composición
 cross-stat con fórmula dedicada** (`rhino.test.ts:72`, "Iron Skin overguard = (1200×str) +
@@ -1180,6 +1205,21 @@ pre-pipeline):
 
 **3 casos de UNA forma + 2 formas de un caso cada una.**
 
+**Casos mirados y DESCARTADOS del eje** — parte del "conteo real de formas" que la condición de
+retomar pide, y el resultado más útil del barrido: el eje es **más angosto** de lo que parecía.
+
+| Caso | Por qué no es de este eje |
+|---|---|
+| Grendel (pasiva) | el input es **cuántos enemigos tiene tragados** —estado de combate en vivo—, no un capacity-stat. El capacity-stat (Armor) es el **output**. Dirección opuesta. Su bucket (`+250 flat` después de los multiplicativos) ya está resuelto |
+| Nourish (Trinity) | el input es una **elección de elemento** — vocabulario de `condition`, no un número leído. Mismo eje que Elemental Ward (Chroma) |
+| Speed (Volt) | `base × Strength` y **aditivo al pool del stat destino**. Sin bracket, sin leer ningún nodo |
+| Rhino Charge · Rhino Stomp | dash speed y speed decrease son **valores fijos que no escalan con nada**; el engine ya los trata bien |
+
+**Candidato para prototipar el mecanismo: la pasiva de Trinity, no Iron Skin.** Es el mismo problema
+base —leer un capacity-stat ya resuelto y escribir en otra entidad— pero **sin bracket compuesto, sin
+absorbed damage, sin cap y sin Strength**: un solo término. Iron Skin agrega tres capas encima de eso.
+Encaja con la condición de retomar, que pide recorrer las **simples** primero.
+
 **Evidencia medida** (`Project/src/core/engine/__tests__/cross-stat-derivation.test.ts`, fixtures
 sintéticos hand-built al molde de `rhino.test.ts` Fase 1a):
 - **`× Strength` es estructuralmente inexpresable** por el acumulador actual: resolver
@@ -1222,12 +1262,19 @@ habilidades simples (Volt Speed, Ember Fireball) invierte el orden de construcci
 de ese recorrido salga el conteo real de formas — con esa evidencia se decide si la familia se recorta
 angosta (sólo "bracket de armadura × strength", 3 casos) o más ancha. **No antes.**
 
+**Segundo eje, no cubierto por el enunciado de arriba: DÓNDE aterriza el resultado.** Iron Skin
+escribe en la **misma entidad** que castea (Rhino). **Snow Globe escribe en otra**: el Health del
+globo no es un stat de Frost, es el de un **objeto desplegado** —ni weapon ni warframe— que Frost
+crea y que hoy no existe en el modelo. Misma fórmula letra por letra, destino estructuralmente
+distinto. Resolver "cómo una fórmula lee otro nodo" **no** resuelve "a qué entidad escribe" — son dos
+problemas, y el segundo es más grande. Anotado, no atacado.
+
 **Bloquea:** Iron Skin, Snow Globe, Icy Avalanche, Trinity (pasiva), Bloodletting. `formulas/warframe/`
 sigue vacío a propósito.
 **Vínculo:** `Project/src/core/engine/contracts/primitives.ts` (`source_attribute` singular),
 `Project/src/core/engine/resolve/SimulationEngine.ts` (`rebuildGraph`, `FAMILY_RESOLVERS`),
 `Project/src/core/engine/__tests__/cross-stat-derivation.test.ts` (`it.fails` = el gap, ejecutable).
-**Fuente:** `references/wiki/abilities/{Rhino/Iron-Skin,Frost/Snow-Globe,Trinity/Passive,Garuda/Bloodletting}`.
+**Fuente:** `references/wiki/warframes/{rhino/iron-skin,frost/snow-globe,trinity/passive,garuda/bloodletting}.md`.
 
 ---
 
