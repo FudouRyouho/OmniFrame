@@ -234,6 +234,14 @@ export const UPGRADES = [
   'AVATAR_ADD_CASTING_SPEED',
   'AVATAR_ADD_SHIELD_RECHARGE_RATE',
   'AVATAR_ADD_PARKOUR_VELOCITY',
+  // Duración del Aim Glide — y del Wall Latch, que **comparte su timer** (`maneuvers §Aim Glide`),
+  // por eso los 12 mods lo etiquetan `Aim Glide/Wall Latch Duration` y el token nombra sólo el
+  // primero: la convención es nombrar el stat como lo nombra el juego, no listar las mecánicas que
+  // toca (igual que MOVEMENT_SPEED cubre walk+aim-walk+crouch). Base **3 segundos**, dato de la
+  // fuente, no sintético — cross-check del propio wiki: con un Archgun desplegado la duración cae
+  // ~70% a "0.9 segundos sin aumentos" (= 3 × 0.3). El SUFFIX `DURATION` lo separa de los tokens
+  // de velocidad: es tiempo, no desplazamiento.
+  'AVATAR_ADD_AIM_GLIDE_DURATION',
   // ── ACUÑADOS SIN NODO — el engine sabe QUÉ son, no los computa ────────────
   // Estado deliberado, no un olvido: el token les da lenguaje (dejan de ser un `console.warn`
   // de "no sé qué es esto") sin comprometer un modelo. La distinción que expresan es la del

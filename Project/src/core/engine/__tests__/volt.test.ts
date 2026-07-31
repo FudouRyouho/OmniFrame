@@ -21,7 +21,7 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import { volt, voltSpeed, voltParkour, VOLT, VOLT_SPEED, TIBERON_PRIME, NIKANA_PRIME } from '../fixtures/builds';
+import { volt, voltSpeed, voltParkour, voltMobilize, VOLT, VOLT_SPEED, TIBERON_PRIME, NIKANA_PRIME } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
@@ -175,6 +175,47 @@ describe('Volt — Parkour Velocity (shard ámbar sobre base sintética)', () =>
   });
 });
 
+// ─── Aim Glide / Wall Latch — el segundo stat que traen los mismos 12 mods ──────────
+//
+// `AVATAR_ADD_AIM_GLIDE_DURATION` es el otro carril que Mobilize y sus 11 hermanos declaran.
+// Dos cosas lo separan de todo lo de arriba:
+//   1. su base **no es sintética**: son 3 segundos, dato de `maneuvers §Aim Glide`. El nodo lee en
+//      su unidad real, no en "porcentaje de sí mismo";
+//   2. el SUFFIX `DURATION` declara esa naturaleza — es tiempo, no desplazamiento.
+// El token nombra sólo el Aim Glide aunque el Wall Latch comparta su timer, por la misma
+// convención que hace que MOVEMENT_SPEED cubra walk+aim-walk+crouch sin decirlo en el nombre.
+
+describe('Volt — Aim Glide/Wall Latch duration (base real, no sintética)', () => {
+  const glideOf = (intention: ReturnType<typeof volt>) =>
+    consume(intention, { flags: {} }).weapon(VOLT).node('AVATAR_ADD_AIM_GLIDE_DURATION');
+
+  it('baseline: 3 segundos, el número del juego', () => {
+    const glide = glideOf(volt());
+    expect(glide.base).toBe(3);
+    expect(glide.final).toBe(3);
+  });
+
+  it('un mismo +20% da 120 en parkour y 3.6s en glide — la unidad la fija la base, no el mod', () => {
+    const out = consume(voltMobilize(), { flags: {} });
+    const parkour = out.weapon(VOLT).node('AVATAR_ADD_PARKOUR_VELOCITY');
+    const glide   = out.weapon(VOLT).node('AVATAR_ADD_AIM_GLIDE_DURATION');
+
+    expect(parkour.mods_add_pct).toBeCloseTo(20, 5);
+    expect(glide.mods_add_pct).toBeCloseTo(20, 5);
+    expect(parkour.final).toBeCloseTo(120, 5);    // base sintética 100
+    expect(glide.final).toBeCloseTo(3.6, 5);      // base real 3s
+  });
+
+  // Mobilize declara los dos stats en el MISMO mod: si el segundo no aterrizara, el mod computaría
+  // la mitad de lo que dice y nada lo delataría (el tripwire de `unlanded-modifiers.test.ts` es lo
+  // que hoy convierte ese silencio en un aviso).
+  it('el mod entrega sus dos stats, no uno', () => {
+    const out = consume(voltMobilize(), { flags: {} });
+    expect(out.weapon(VOLT).node('AVATAR_ADD_PARKOUR_VELOCITY').final).toBeGreaterThan(100);
+    expect(out.weapon(VOLT).node('AVATAR_ADD_AIM_GLIDE_DURATION').final).toBeGreaterThan(3);
+  });
+});
+
 // ─── Borde — lo que Speed NO modela todavía (it.todo) ──────────────────────────────
 
 describe('Volt Speed — borde', () => {
@@ -188,10 +229,9 @@ describe('Volt Speed — borde', () => {
   // AVATAR_ADD_SPRINT_SPEED sigue siendo token sin nodo: es un stat DISTINTO de movement speed
   // (movement-speed.md — Rush no afecta el walk) y su consumidor no está mapeado en el dataset.
   it.todo('AVATAR_ADD_SPRINT_SPEED — materializar cuando llegue Rush (¿display-only?)');
-  // Los 14 mods de parkour (Mobilize, Lightning Dash, Firewalker…) YA aterrizan en este nodo: el
-  // override los trae en gramática canónica y `ModRepository` lee sólo el override. El
-  // `AVATAR_PARKOUR_BOOST` de `mods.json` es el token crudo de DE, que el engine no consulta.
-  // Lo que sigue sin nodo es el hermano que esos mismos mods traen en su segundo stat:
-  // `AVATAR_PARKOUR_GLIDE` (aim glide/wall latch, base 3s) → `AVATAR_ADD_AIM_GLIDE_DURATION`.
-  it.todo('AVATAR_ADD_AIM_GLIDE_DURATION — 12 mods esperando; base 3s [maneuvers.wikitext §Aim Glide]');
+  // Lo que sigue afuera de los mods de esta familia es su TERCER stat: `AVATAR_PARKOUR_DAMAGE_ADDED`
+  // ("+X% Puncture on Bullet Jump" y sus 6 hermanos elementales). No es movilidad — el bullet jump
+  // ya emite 100 de Blast con proc garantizado en 3m, o sea es una FUENTE que emite instancia de
+  // daño. Va con el modelo de nodo-source (arch §15), no con un nodo de stat.
+  it.todo('AVATAR_PARKOUR_DAMAGE_ADDED — daño del bullet jump: 1 token para 7 tipos [arch §15]');
 });

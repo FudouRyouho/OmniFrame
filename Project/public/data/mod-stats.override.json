@@ -1591,7 +1591,7 @@
               15,
               18
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -2031,7 +2031,7 @@
               50,
               60
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -5142,7 +5142,7 @@
               22,
               24.2
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -7317,7 +7317,7 @@
               22,
               24.2
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -8145,7 +8145,7 @@
               22,
               24.2
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -9391,7 +9391,7 @@
               15,
               20
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -10252,7 +10252,7 @@
               12.5,
               15
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -10593,7 +10593,7 @@
               75,
               90
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -10761,7 +10761,7 @@
               15,
               18
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -13616,7 +13616,7 @@
               15,
               18
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -15671,7 +15671,7 @@
               10,
               12
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -16668,7 +16668,7 @@
               22,
               24.2
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },

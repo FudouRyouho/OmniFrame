@@ -4,7 +4,7 @@ Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline 
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-07-31"
 ---
 
 # Data Domain — Estado Operativo
@@ -28,7 +28,7 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 | `arcanes/condition` | ~80% (140/175) | ⚠️ | normalizar tokens inconsistentes |
 | `arcanes/upgrade_type` | ~43% (83/193) | ❌ | Gate 2a auditado: 1 token corregido (Melee Exposure), 9 stacking/formula con `note`, 2 condiciones faltantes corregidas; data:class:cat/d fuera del modelo actual |
 | `mods/condition` | ~5% (43/669 con token real) | ❌ | exilus ✅ → galvanizados ✅ → resto |
-| `mods/upgrade_type` | ~18% (119/669 verificadas usuario) | ❌ | Gate 2c.i+ii auditados: 14 correcciones D-6 + 6 renames non-D6 + notas Condition Overload family (cross-schema con incarnon); ~255 non-D6 restantes clasificados como out-of-model/deuda-documentada |
+| `mods/upgrade_type` | ~18% (119/669 verificadas usuario) | ❌ | Gate 2c.i+ii auditados: 14 correcciones D-6 + 6 renames non-D6 + notas Condition Overload family (cross-schema con incarnon); 218 non-D6 restantes clasificados como out-of-model / deuda-documentada / acuñables-sin-nodo |
 | `incarnon/condition` | ~24.5% (175 tokens / 714 stats) | ⚠️ | 4 conditions pendientes (G3/tokens nuevos) |
 | `incarnon/upgrade_type` | ~49.8% (348/699 engine-ready) | ⚠️ | G3 debate + trabajo manual usuario |
 | `archon/upgrade_type` | ~74% (20/27) | ⚠️ | Gate 2b auditado: sin issues nuevos; 4 entradas ⚠ heredadas de Gate 1 (AVATAR_ADD_ABILITY_DAMAGE / GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE); 7 nulos (3 out-of-model, 1 token deuda, 3 recovery events) |
@@ -51,7 +51,7 @@ Decisión activa: condiciones son tracking-only en Fase 0 (D-15). La integració
 | Entradas totales en override | 669 |
 | Revisadas y verificadas (usuario) | 119 |
 | Pendientes de revisión (upgrade_type) | ~550 |
-| Tokens en UPGRADES[] | 78 |
+| Tokens en UPGRADES[] | 104 |
 | Con entrada en UPGRADE_MAP (explícito) | 35 |
 | Weapon exilus cubiertos | 80/80 (100%) |
 | Galvanizados cubiertos | 12/12 (100%) |
@@ -65,10 +65,10 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
 - `data:debt` `WEAPON_ADD_COMBO_COUNT_CHANCE` — token definido; Guardian Derision pendiente de mapeo en override `[empirical]`
 - `[PIPE semantic:debt` `WEAPON_SPREAD` — confirmado **misma mecánica que `WEAPON_ADD_ACCURACY`** (spread = nombre interno DE, accuracy = stat visible, inversos; Narrow Barrel / Tainted Shell llevan token `WEAPON_SPREAD` pero label "+% Accuracy"). Dirección: unificar bajo `WEAPON_ADD_ACCURACY`; spread de shotgun = contexto de arma. Pendiente: mecanismo (alias en `UPGRADE_MAP` vs mapeo en pipeline); sin mods `WEAPON_SPREAD` en overrides curados aún. `[ref: references/wiki/mechanics/accuracy.md]`
 - `[SEM data:debt` `AVATAR_DAMAGE_TAKEN` — DR **multiplicativa** (op MULT). Bucket sobrecargado, 3 sub-formas: (a) resistencia estática por tipo, (b) DR genérica condicional (`while_airborne`), (c) DR adaptativa/stacking (**Adaptation** → OQ-DATA-4). Taxonomía sin cerrar (per-elemento, precedente `AVATAR_CHANCE_RESIST_*`, vs genérico+condition); coinage diferido hasta consumidor de engine. Drift cerrado: `references/wiki/mechanics/damage-reduction.md` creado. `[ref: references/wiki/mechanics/damage-reduction.md]`
-- `semantic:debt` `AVATAR_PARKOUR_GLIDE` — duración de aim glide/wall latch. Candidato: `AVATAR_ADD_AIM_GLIDE_DURATION`. Mix de mods legítimos (Patagium, Mobilize) y conclave `[empirical]`
+- ✅ `AVATAR_PARKOUR_GLIDE` → **`AVATAR_ADD_AIM_GLIDE_DURATION`**, acuñado y con nodo (base 3s). Los 12 usos del override migrados. El ruido de mods de conclave sigue sin filtrar — es el `pipeline:debt` de `conclave?: boolean`, no un problema de este token `[ref: references/wiki/mechanics/maneuvers.wikitext]`
 - `[SEM data:debt` `AVATAR_HEAL_RATE` — mezcla de companion scope y warframe scope (Rejuvenation, Recuperate). Requiere revisión de auras y separación de contextos antes de definir token `[empirical]`
 - `pipeline:debt` `conclave?: boolean` — campo no preservado en `GeneratedMod`. Sin este campo no es posible filtrar mods PVP desde la data base. Fix: `GeneratedMod` + `generate-data.ts` `[ref: @wfcd/items API]`
-- `data:debt` ~255 entradas con token no-D-6 clasificadas: deuda documentada (WEAPON_SPREAD, AVATAR_DAMAGE_TAKEN, AVATAR_PARKOUR_GLIDE, AVATAR_HEAL_RATE, etc.) o out-of-model (sindicatos, vehículos, compañero, stamina removida). 8 renames aplicados (detalle por token en `upgrade-tokens.md` + git history).
+- `data:debt` **218 entradas / 91 tokens** con token fuera de `UPGRADES` (medido sobre `mod-stats.override.json`): deuda documentada (`WEAPON_SYNDICATE_POWER` 24, `WEAPON_SPREAD` 17, `AVATAR_DAMAGE_TAKEN` 13, `AVATAR_HEAL_RATE`, …) u out-of-model (sindicatos, vehículos, compañero, stamina removida). Detalle por token en `upgrade-tokens.md` + git history. **El destino no es siempre un nodo:** un token puede acuñarse *sin* modelarse (`upgrade-tokens.md §Acuñado sin nodo`) — eso lo saca del warn de "no sé qué es" sin comprometer un modelo.
 - `[ENGINE data:debt` Condition Overload family (`WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE`) — fórmula `damage × (1 + n_status_types × val%)`. Notas añadidas en 4 mods. Cross-schema con incarnon evolutions: verificar si la fórmula es idéntica antes de implementar `[empirical]`
 - `[SEM data:debt` Faction damage target (`GAMEPLAY_MULT_FACTION_DAMAGE`, 42 mods Bane/Expel/Cleanse/Smite × facción) — la facción objetivo vive solo en el `label`, sin estructura. Dirección registrada: expresar como token de `condition` (`damage_<faccion>`, spelling diferido), sin campo nuevo. Latente, gateado por madurez de taxonomía condition (`conditions.md §Altitud`). Engine: el modelo "un nodo aditivo `faction_damage_bonus`" (`attribute-node-contract.md §5`) es lossy en multi-facción → anotado para debate de engine. Ver `audit-mods.md §F.5` `[empirical]`
 - `pipeline:debt` Set Mods Gap A — pertenencia al set no materializada. **No hay que derivarla:** upstream trae `modSet` explícito en los 72 miembros, y los 19 portadores (`type: "Mod Set Mod"`, discriminador limpio) traen `numUpgradesInSet`. Fix: propagar el campo. Análogo a `conclave?: boolean` `[empirical]`

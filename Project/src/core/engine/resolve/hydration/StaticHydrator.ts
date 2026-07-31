@@ -235,9 +235,43 @@ export class StaticHydrator {
       }
     }
 
+    this.reportUnlandedModifiers(entities, routed);
     return { entities, modifiers: routed };
   }
 
+  /**
+   * Tripwire del estado **"acuñado sin nodo"** (`semantic/upgrade-tokens.md`): un token puede vivir
+   * en `UPGRADES` y no tener nodo en ninguna entidad. Sin este reporte ese estado es
+   * **indistinguible de un bug**: `SimulationEngine.resolveNode` hace `if (!node) return`, así que un
+   * modifier bien formado, con token válido y entidad correcta, se descarta sin dejar rastro.
+   *
+   * Es el complemento del warn de `ModRepository` y dice lo contrario: aquél reporta *"no sé qué es
+   * este token"*, éste *"sé qué es y no lo modelo"*. Los dos son **feedback del token**, no
+   * conocimiento del engine sobre la mecánica — el motor no infiere ni inventa el nodo faltante.
+   *
+   * Corre **después del ruteo por canal** a propósito: antes, todo buff cross-entity (Roar, arcanos
+   * con canal) está transitoriamente apuntando a una entidad que no tiene su nodo, y el reporte
+   * gritaría en falso sobre el caso legítimo.
+   *
+   * Agrupa por `entidad + nodo` para que N mods hacia el mismo hueco sean un renglón y no N.
+   */
+  private static reportUnlandedModifiers(entities: SimulationEntity[], modifiers: Modifier[]): void {
+    const byEntity = new Map(entities.map(e => [e.id, e]));
+    const unlanded = new Map<string, Set<string>>();
+
+    for (const m of modifiers) {
+      const entity = byEntity.get(m.target_entity);
+      // Entidad ausente = slot vacío, no es este caso: el ruteo ya descarta canales sin arma.
+      if (!entity || entity.attributes[m.target_attribute]) continue;
+      const key = `${m.target_attribute} en ${entity.id}`;
+      if (!unlanded.has(key)) unlanded.set(key, new Set());
+      unlanded.get(key)!.add(m.source_id ?? m.id);
+    }
+
+    for (const [key, sources] of unlanded) {
+      console.warn(`[Hydration] Token conocido sin nodo: ${key} — ${sources.size} modifier(s) sin aterrizar: ${[...sources].join(', ')}`);
+    }
+  }
 
   private static createBaseEntity(dna: MutatedDNA, profile_id: string = "base"): SimulationEntity {
     const attributes: Record<string, AttributeNode> = {};

@@ -545,6 +545,23 @@ export function voltParkour(opts: { tau?: boolean } = {}): EnsembleIntention {
   };
 }
 
+export const MOBILIZE = '/Lotus/Upgrades/Mods/Warframe/ParkourTwoMod';
+
+/**
+ * Volt + Mobilize (rank 3, máximo). El mod canónico de la familia parkour, y el caso que ejerce
+ * los DOS nodos de movimiento en un solo modifier-set: `+20% Parkour Velocity` y
+ * `+20% Aim Glide/Wall Latch Duration`. Sus 12 hermanos (Lightning Dash, Firewalker, Piercing
+ * Step…) traen exactamente el mismo par.
+ *
+ * Interesa porque los dos stats **no comparten unidad**: uno es porcentaje sobre base sintética
+ * 100, el otro segundos sobre una base real de 3 (`maneuvers §Aim Glide`). El mismo `+20%` produce
+ * `120` y `3.6`.
+ */
+export function voltMobilize(): EnsembleIntention {
+  const base = volt();
+  return { ...base, mods: { warframe: { 0: { itemId: MOBILIZE, rank: 3, level: 3 } } } };
+}
+
 // ─── Arcanos de WARFRAME con canal (ruteo por sub-familia, S2-A/S2-B) ────────────────
 
 export const ARCANE_RAGE          = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunDamageOnHeadshot';
@@ -594,6 +611,7 @@ export const BUILDS: Record<string, () => EnsembleIntention> = {
   volt_speed_melee: () => voltSpeed({ melee: true }),
   volt_parkour:     () => voltParkour(),
   volt_parkour_tau: () => voltParkour({ tau: true }),
+  volt_mobilize:    () => voltMobilize(),
   tiberon:      () => tiberon(false),
   tiberon_heat: () => tiberon(true),
   lanka:  () => lanka('charged_shot'),
