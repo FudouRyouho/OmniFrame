@@ -1,0 +1,48 @@
+<onlyinclude>{{AbilityU10.3
+| name = Penance
+| gameimage = HarrowPenance.png
+| cardimage = Penance.png
+| hotkey = 2
+| energy = 50
+| description = Sacrifice shields to boost reload, and fire rate while converting damage inflicted on enemies into health for Harrow and nearby allies. 
+<br>'''Shield Cost''': '''100%''' of shields & overshields on cast
+| strength = 50% (initial heal)<br>5% (lifesteal on hit)<br>??% / ??% / ??% / ??% (attack speed bonus)<br>20% / 25% / 30% / 35% (fire rate bonus)<br>40% / 50% / 60% / 70% (reload speed bonus)
+| duration = 4 s (base time)<br>1.25 / 1.33 / 1.43 / 1.54 s (bonus per 100 shields)
+| misc = 50 m (affinity range)<br>120 s (max duration)
+| cardonly = {{{1|}}}
+| info = *Harrow expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to flagellate himself twice with his thurible, sacrificing all of his shields and Overshields to gain {{Stat|Ability Strength|icon=only}}'''??% / ??% / ??% / ??%''' melee '''Attack Speed''', {{Stat|Ability Strength|icon=only}}'''20% / 25% / 30% / 35%''' weapon [[Fire Rate]], and {{Stat|Ability Strength|icon=only}}'''40% / 50% / 60% / 70%''' [[Reload Speed]] while restoring his [[Health]] by {{Stat|Ability Strength|icon=only}}'''50%''' of the amount of shields and overshields sacrificed. While active, {{Stat|Ability Strength|icon=only}}'''5%''' of any damage dealt '''by Harrow''' to enemies converts into health for Harrow and allies within his [[Affinity#Acquisition|Affinity Range]]. Penance has a base duration of {{Stat|Ability Duration|icon=only}}'''4''' seconds, plus extra duration of {{Stat|Ability Duration|icon=only}}'''1.25 / 1.33 / 1.43 / 1.54''' seconds for every '''100''' [[Shield]] and [[Overshields]] points drained, up to a maximum of <u>'''120'''</u> seconds.
+**Affinity Range is '''not''' affected by {{Stat|Ability Range}} but is affected by [[Fosfor]] and {{Focus|Vazarin}}'s {{Focus|Mending Unity}}.
+**The amount of shields to be drained is determined on activation. Shield points from {{A|Condemn}} will '''not''' be drained if gained during Penance's casting animation.
+**Each time Harrow flagellates himself, 50% of the total shield points are subtracted.
+*Can be recast while active to stack extra duration to the remaining time.
+**Recasting will always use the strength value of the initial cast.
+*Allies affected by the lifesteal include all Warframes, [[Companions]], [[Eidolon Lure]]s, summoned allied units such as [[Specter]]s, allied [[Invasion]] units, [[Rescue|Hostages]], [[Kavor Defector]]s, [[Sortie]] and [[Arbitrations]] Defense Operatives, and [[Defense Objects]].
+**On Defense Objects, Penance restores up to '''50''' health per second.
+*While active, stylized art appears beneath the aiming reticle; when a player is healed by Penance, colored text denoting the amount of health healed from damage dealt briefly replaces the art for several seconds. Both visuals are affected by Harrow's Warframe energy color.
+*Harrow's wounds on his back from flagellation emit piercing light in his chosen Warframe energy color.
+*Casting Penance stops all of Harrow's movement and actions.
+**If casted while airborne, Harrow will retain his momentum and [[Aim Glide]] can still be used while casting.
+| augment = 
+| tips = * Mod for a higher shield pool to gain more extra duration for Penance by default.
+* Harrow can opt to choose to build Penance over Ability Strength for quick bursts of fire rate and lifesteal, or Ability Duration for sustained fire rate and reduced need to deplete Shields to recast. While the former is useful in quick missions and [[Assassination]] runs, the latter can be useful in endless missions such as [[Survival]], considering the added protection afforded by a Duration-based {{A|Covenant}}.
+* Use {{A|Condemn}} to quickly replenish shields and Overshields to fuel Penance' extra duration.
+* Build up your shield and Overshield pool again after casting Penance, then recast Penance to stack extra duration onto your remaining time to keep the ability active much longer.
+* {{M|Guardian}}, {{M|Protect}}, {{M|Brief Respite}} & {{Arcane|Arcane Barrier}} are useful for this ability as they are capable of restoring Harrow's shields.
+* Cast {{A|Covenant}} before or after using Penance to protect yourself from damage when you are at your most vulnerable state.
+* Can reduce recharge delay for {{Weapon|Cycron}} or a [[Kitgun]] equipped with {{Arcane|Pax Charge}}, however, it does '''not''' affect recharge rate.
+<noinclude>
+|max = {{WFmax|main|harrow2}}
+</noinclude>
+| bugs = 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Harrow}}
+[[es:Penitencia]]
+[[fr:Pénitence]]
+__NOTOC__
+[[Category:Harrow]]
+[[Category:Warframe Abilities]]
+[[Category:Update 21]]
+[[Category:Two-Handed Abilities]]
+[[uk:Спокута]]

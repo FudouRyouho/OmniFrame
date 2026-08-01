@@ -57,6 +57,12 @@ siquiera se llama `Target` sino `Type`, con los mismos valores. Se transcribe ta
 **Attack Speed Bonus** · `User/Ally`
 Gauss *Redline* · Harrow *Penance* · Octavia *Metronome* · Titania *Razorwing Blitz* · Valkyr *Warcry* · Volt *Speed* · Wisp *Reservoirs* (Haste mote)
 
+> ⚠️ Conflicto ↔ [`../warframes/octavia/metronome.md`](../warframes/octavia/metronome.md)
+
+Harrow *Penance* aparece acá y también en *Fire Rate Bonus*: su página da los dos, pero **el valor
+del attack speed lo consigna como `??%`** y la descripción oficial de la habilidad no lo menciona —
+ver [`../warframes/harrow/penance.md`](../warframes/harrow/penance.md).
+
 **Critical Chance Bonus** · `Player`
 - *Todas las armas:* Harrow *Covenant* · Adarza Kavat *Cat's Eye* · Smeeta Kavat *Charm* · arcano *Arcane Avenger*
 - *Primarias no-escopeta:* *Argon Scope* · *Galvanized Scope* · *Hata-Satya* (Soma Prime) · *Proton Jet* · set Vigilante
