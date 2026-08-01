@@ -97,10 +97,24 @@ export class AbilityRepository {
         // Solo el verbo muta-state: sin `upgrade_type`, el stat es display (§15).
         if (!stat.upgrade_type) return;
 
-        // Valor crudo. Si viniera como serie min-max, tomamos el máximo (1b: Roar asumido-max, CP1b).
-        const raw = Array.isArray(stat.base_value)
-          ? stat.base_value[stat.base_value.length - 1]
-          : stat.base_value;
+        // Un `base_value` array es el RANGO min-max que publica la UI (`"Fire Rate: 15 - 75%"`),
+        // NO una serie por rank como en mods y arcanos. Dónde cae el valor dentro del rango lo
+        // decide un recurso de la entidad que castea —la batería de Gauss, el Immolation de Ember,
+        // los enemigos tragados de Grendel—, y ese estado de la FUENTE el motor no lo modela.
+        //
+        // Elegir un extremo sería emitir un número plausible y falso en silencio, y el orden del
+        // par ni siquiera es (min, max): hay rangos descendentes en el corpus (`Fire Blast` drain
+        // `[75, 25]`, `Gyre Sphere` frequency `[4, 0.25]`). Así que no se emite: se avisa y se
+        // omite, como un token sin mapeo. Hoy no lo ejerce nadie —28 rangos en el override,
+        // ninguno con `upgrade_type`—; el primero que se anote va a hacer ruido en vez de mentir.
+        //
+        // ⚠️ No confundir con CP1b (`ensemble.ts`), que es "Roar entra por su valor de rank
+        // máximo": eso es la serie por rank, y es un eje distinto de este.
+        if (Array.isArray(stat.base_value)) {
+          console.warn(`[Hydration] Rango sin estado que lo resuelva: ${abilityId} — "${stat.label}" = ${JSON.stringify(stat.base_value)}, stat omitido`);
+          return;
+        }
+        const raw = stat.base_value;
         if (raw === undefined) return;
         const value = toAdditivePercent(raw, stat.label);
 

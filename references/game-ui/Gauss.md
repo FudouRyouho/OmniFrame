@@ -35,6 +35,9 @@ Duration: 30s $DURATION
 
 ## /Lotus/Powersuits/PowersuitAbilities/RunnerRedlineAbility
 // 4 - REDLINE
+// Do NOT add $$ tokens to the four speed buffs below: they are min-max ranges and the
+// battery level (passive) decides where inside the range each one lands. Annotating them
+// would emit one extreme silently. Deferred on purpose — see wiki/warframes/gauss/redline.md
 Drain: <ENERGY> 100 $EFFICIENCY
 Duration: 30s $DURATION
 Fire Rate: 15-75% $DURATION
