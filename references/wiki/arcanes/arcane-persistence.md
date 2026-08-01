@@ -4,7 +4,7 @@
 > Rol: arcano warframe — remueve todos los shields y, con Armor ≥ 700, capea el daño recibido por segundo
 > Fuente de verdad de: cap por rank, umbral de armor y qué lo baja, efectos que desactivan el arcano
 > No usar para: interacción con múltiples hits por segundo bajo Overguard (la wiki sólo describe el primer hit)
-> Última actualización: 2026-07-29
+> Última actualización: 2026-08-01
 > Fuente: https://wiki.warframe.com/w/Arcane_Persistence
 > Fuente actualizada: 2026-07-31
 > Raw: arcane-persistence.wikitext
@@ -48,8 +48,8 @@ armor hace falta para aguantar cada caso:
 
 - **No funciona sobre daño autoinfligido**: el drenaje de vida de Bloodletting (Garuda) no se reduce.
 - **Hijack** pasa a drenar **health** en vez de shields, ya que estos no existen.
-- **Perjudicial en Archwing**: ningún Archwing alcanza los 700 de armor, así que el arcano quita los
-  shields sin dar nada a cambio.
+- **Perjudicial en Archwing**: ningún Archwing alcanza los 700 de armor —salvo recurriendo a
+  **Azure Archon Shards**—, así que el arcano deshabilita los shields sin dar nada a cambio.
 
 ## Bugs conocidos
 

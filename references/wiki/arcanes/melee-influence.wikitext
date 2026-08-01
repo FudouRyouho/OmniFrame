@@ -30,6 +30,7 @@
 
 ==Notes==
 *Damage is affected by {{M|Condition Overload}} and [[Critical Hit#Critical Multiplier|critical multiplier]].
+**Damage spread by Melee Influence receives a damage bonus from Condition Overload based on the number of status effects on the original target; the number of status effects on enemies being damaged by Melee Influence is not part of the Condition Overload calculation.
 *Eligible status effects that can be spread by Melee Influence include:
 **Primary Elemental ({{D|Cold}}, {{D|Electricity}}, {{D|Heat}}, {{D|Toxin}})
 **Secondary Elemental ({{D|Blast}}, {{D|Corrosive}}, {{D|Gas}}, {{D|Magnetic}}, {{D|Radiation}}, {{D|Viral}})

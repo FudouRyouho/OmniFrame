@@ -4,7 +4,7 @@
 > Rol: arcano melee — un proc de Electricity concede un buff temporal que propaga los status elementales del melee a los enemigos alrededor del golpeado
 > Fuente de verdad de: escalado por rank, status propagables, cálculo del daño propagado, armas con proc eléctrico forzado, bugs
 > No usar para: catálogo de armas compatibles fuera de la lista de proc eléctrico forzado
-> Última actualización: 2026-07-29
+> Última actualización: 2026-08-01
 > Fuente: https://wiki.warframe.com/w/Melee_Influence
 > Fuente actualizada: 2026-08-01
 > Raw: melee-influence.wikitext
@@ -89,7 +89,9 @@ hacen **353** de daño.
 
 ## Sinergias
 
-- El daño está afectado por **Condition Overload** y por el **multiplicador de crítico**.
+- El daño está afectado por **Condition Overload** y por el **multiplicador de crítico**. El bonus de
+  CO se cuenta sobre los status del **objetivo original golpeado**; los status que tengan los enemigos
+  alcanzados por la propagación **no** entran en ese cálculo.
 - El daño elemental ganado por habilidades (p. ej. Smite Infusion) **también se propaga**.
 
 ## Armas con proc eléctrico forzado

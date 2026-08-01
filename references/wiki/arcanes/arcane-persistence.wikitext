@@ -35,8 +35,7 @@
 *Does not work on self-inflicted sources of damage;
 **{{WF|Garuda}}'s {{A|Bloodletting}} will not reduce the health drain. 
 *Changes [[Hijack]]'s [[Shield]] drain to [[Health]] drain.
-*This Arcane is detrimental for [[Archwing|Archwings]] , since no Archwing can reach the minimum treshold of 700{{Stat|Armor}} ,it will deprave the player of his shields without granting any benefits , leaving him vulnerable.
-  <!-- (outside of using {{Resource|Azure Archon Shard}}s) --> 
+*This Arcane is detrimental for [[Archwing|Archwings]]; since no Archwing can reach the minimum threshold of 700 {{Stat|Armor}} (outside of using {{Resource|Azure Archon Shard}}s), it will disable the player's shields without granting any benefits, leaving them vulnerable.
 
 ==Tips==
 *{{M|Health Conversion}} allows any Warframe to meet the 700 {{Stat|Armor}} condition.
@@ -45,7 +44,7 @@
 *{{WF|Inaros}} can easily keep {{Arcane|Arcane Persistence}} active by healing with {{A|Sandstorm}}, and gaining enough {{Stat|Armor}} and [[Status Immunity]] with {{A|Scarab Shell}}.
 *{{WF|Nidus}} also greatly benefit from {{Arcane|Arcane Persistence}} especially when combined with {{M|Parasitic Vitality}} .
 **With {{A|Ravenous}} he can easily outheal the maximum of 500 damage/sec all while being protected from negative status effects .
-**{{A|Parasitic Link}} when casted on an ennemy , will redirect all negatives status effects towards the target , offering {{WF|Nidus}} another way to protect himself from a potential {{Arcane|Arcane Persistence}} deactivation .
+**{{A|Parasitic Link}} when casted on an enemy, will redirect all negative status effects towards the target , offering {{WF|Nidus}} another way to protect himself from a potential {{Arcane|Arcane Persistence}} deactivation.
 
 ==Bugs==
 *Works with {{D|Overguard}} from any source, but only caps the damage of the first hit every '''1''' second to 500.
