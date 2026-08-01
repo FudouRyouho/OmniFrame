@@ -691,8 +691,70 @@ export function valkyrWarcry(opts: { strength?: boolean } = {}): EnsembleIntenti
   };
 }
 
+// ─── Harrow ──────────────────────────────────────────────────────────────────────────
+
+export const HARROW         = '/Lotus/Powersuits/Priest/Priest';
+export const HARROW_PENANCE = '/Lotus/Powersuits/PowersuitAbilities/PriestPenanceAbility';
+
+/** Harrow limpio + Tiberon Prime sin mods. Baseline para aislar el aporte de Penance. */
+export function harrow(): EnsembleIntention {
+  return {
+    items: {
+      warframe:         { itemId: HARROW, rank: 30 },
+      primary:          { itemId: TIBERON_PRIME, rank: 30, active_profile: 'base' },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: null, rank: 30 },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: { warframe: {} },
+    environment: BASE_ENV,
+  };
+}
+
+/**
+ * Harrow + Penance activa. Cuarta habilidad por hidratación real, y la que **estrena
+ * `WEAPON_ADD_FIRE_RATE`**: el nodo existía materializado y ninguna habilidad lo había ejercido
+ * — sólo mods. El reload (+70%) reusa el mismo nodo que Volt Speed, así que la build también
+ * contrasta dos fuentes distintas cayendo en el mismo bucket.
+ *
+ * Los dos buffs van a la MISMA entidad (el arma), a diferencia de Warcry —que reparte entre
+ * warframe y melee— y de Speed, que reparte entre tres.
+ *
+ * ⚠️ Lo que la fuente NO da: la wiki atribuye a Penance un tercer buff de **melee attack speed**
+ * y consigna su valor como `??%` en los cuatro rangos; la descripción oficial de la habilidad no
+ * lo menciona y la UI del juego tampoco lo publica. Sin número no hay qué anotar
+ * (`references/wiki/warframes/harrow/penance.md`).
+ *
+ * El resto de Penance —costo del shield entero, curación inicial, life steal en Affinity Range,
+ * duración derivada del shield drenado— no tiene nodo: son efectos de sustain y de duración, que
+ * C1 no computa.
+ *
+ * @param strength si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
+ */
+export function harrowPenance(opts: { strength?: boolean } = {}): EnsembleIntention {
+  const base = harrow();
+  return {
+    ...base,
+    items: {
+      ...base.items,
+      warframe: { ...base.items.warframe, abilities: [{ id: HARROW_PENANCE }] },
+    },
+    ...(opts.strength
+      ? { mods: { warframe: { 0: { itemId: RHINO_MOD.BLIND_RAGE, rank: 30, level: 10 } } } }
+      : {}),
+  };
+}
+
 export const BUILDS: Record<string, () => EnsembleIntention> = {
   volt_channel_arcanes: () => voltChannelArcanes(),
+  harrow:             () => harrow(),
+  harrow_penance:     () => harrowPenance(),
+  harrow_penance_str: () => harrowPenance({ strength: true }),
   valkyr:            () => valkyr(),
   valkyr_warcry:     () => valkyrWarcry(),
   valkyr_warcry_str: () => valkyrWarcry({ strength: true }),

@@ -6086,12 +6086,14 @@
           {
             "label": "Fire Rate: |val1|%",
             "base_value": 35,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
+            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
           },
           {
             "label": "Reload Speed: |val1|%",
             "base_value": 70,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
+            "upgrade_type": "WEAPON_ADD_RELOAD_SPEED"
           }
         ]
       }
