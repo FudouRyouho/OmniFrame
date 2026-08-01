@@ -4,12 +4,17 @@ Rol: "Mapa sistemático de lo que el engine ignora o procesa a medias — el ter
 Impacto_ID: "E-GapMap"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-06-10"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-08-01"
 ---
 
 # Mapa de gaps del engine
 
-Inventario de **lo que el engine NO construye todavía** — a propósito: no se modela a ciegas. Es el complemento de [`catalog-current.md`](catalog-current.md) (lo que ya se resuelve y testea): aquí está el territorio que los consumidores derivados —vía el clic, ver [`test-workflow.md`](test-workflow.md)— van convirtiendo en cobertura, caso por caso. **Cada gap es un objetivo de construcción**; los `it.todo` de los tests apuntan a estas capas, y el roadmap de fixtures que las ataca vive en [`catalog-future.md`](catalog-future.md).
+Inventario de **lo que el engine NO construye todavía** — a propósito: no se modela a ciegas. Es el complemento de [`catalog-current.md`](catalog-current.md) (lo que ya se resuelve y testea): aquí está el territorio que los consumidores derivados —vía el clic, ver [`test-workflow.md`](test-workflow.md)— van convirtiendo en cobertura, caso por caso. **Cada gap es un objetivo de construcción**, y los `it.todo` de los tests apuntan a estas capas.
+
+> **Gap ≠ fuera de scope.** Un gap es algo que el engine debería resolver por su propio contrato y no
+> resuelve. Lo que queda *deliberadamente afuera* —C2 cuando el consumidor es C1, la entidad que
+> genera un buff cuando lo modelable es el buff— no entra acá: se difiere y se marca como `it.todo`
+> en el test que lo toca, que es donde el motor lo grita al correr.
 
 > Origen: barrido datos↔código (snapshot `.working/` purgado tras promover). Conteos **indicativos** (remapeos `UPGRADE_MAP`/`resolveToken` no siempre 1:1); el patrón es sólido, los números se mueven ±pocos por caso.
 
@@ -34,12 +39,17 @@ Grafo genérico de atributos (`SimulationEngine`): un pass topológico (Kahn) �
 
 > **`arcane-stats` v0:** `ArcaneRepository` activo (`DataLoader` lo carga; clave = uniqueName). Slot dedicado `arcanes` en la intención (hermano de `mods`, top-level por canal — heterogéneo: warframe=2, armas=1, Zaw/archgun varios). Resuelve a `Modifier` directo, **sin `DamageCombiner`** (el daño de arcano no se combina con el del arma — naturaleza distinta, como shards). Fluye solo el subset con `base_value` + `upgrade_type` poblados (siempre-activos + condicionales con token); se omiten `base_value:null` (stacking, OQ-DATA-4) y `upgrade_type:null` (status resists, fórmulas per-stat, operador/amp). Clamp de rank (no todos 0-5). Consumidor: `__tests__/arcane.test.ts`. Fuera de v0: stacking, weapon-type gate (OQ-DATA-5), cross-entity warframe→arma (OQ-DATA-1).
 
-> **`archon-shards` ya NO es gap:** `ShardRepository` está activo (resuelve shards, emite `Modifier` con `target_entity`; ver `status.md` y el Tier 1 de Rhino en `catalog-future.md`).
+> **`archon-shards` ya NO es gap:** `ShardRepository` está activo (resuelve shards, emite `Modifier` con `target_entity`; ver `status.md` y `rhino.test.ts`).
 
-### Capa 2 — Warframes: base + mods + ability cross-entity — 🚧 Tier 1 resuelto, cross-stat pendiente
+### Capa 2 — Warframes: base + mods + ability cross-entity — 🚧 resuelto salvo cross-stat
 `ItemRepository.normalizeWarframe()` emite los nodos `AVATAR_*` (health/shield/armor/energy + ability strength/range/duration/efficiency) desde el raw de `warframes.json` — un warframe **es** una entidad receptora, no hay evaporación. Mods (%) y shards (flat) componen (`Total = Base × (1 + Mods%) + Flat`), y el derive cross-entity source→target (Roar, vía `AbilityRepository`) hidrata un buff real de habilidad al pool de facción del arma. Validado end-to-end en `rhino.test.ts` (fixture_01 base+mods, fixture_03/04 Roar cross-entity).
 
-**Sigue abierto:** composición cross-stat con fórmula dedicada (Iron Skin `overguard = (1200 + armor×2.5) × strength`, fixture_02, `it.todo`) y el double-dip de Condition Overload en C2 (fixture_05). No hace falta una clase repositorio separada — el mismo molde de `ItemRepository` alcanza; `formulas/warframe/` sigue vacío porque todavía no hay una fórmula dedicada escrita (Iron Skin la ocupará primero). Roadmap: [`catalog-future.md §Rhino`](catalog-future.md).
+**Sigue abierto:** composición cross-stat con fórmula dedicada (Iron Skin `overguard = (1200 + armor×2.5) × strength`, `it.todo` en `rhino.test.ts`) y el double-dip de Condition Overload en C2. No hace falta una clase repositorio separada — el mismo molde de `ItemRepository` alcanza; `formulas/warframe/` sigue vacío porque todavía no hay una fórmula dedicada escrita (Iron Skin la ocupará primero — antes de escribirla, leer [`formula-patterns.md`](../../../data/schemas/abilities/formula-patterns.md): Iron Skin es cross-stat).
+
+> **Hilo testigo — un stat inerte puede ser load-bearing.** Los shards de armadura **no** tocan
+> strength, y sin embargo sostienen a Iron Skin (`overguard` compone `armor × strength`). Un test que
+> solo mira `final` no lo ve; uno sobre buckets sí. Es el argumento de `attribute-node-contract.md`
+> §Validación aplicado a un caso donde la omisión sería silenciosa.
 
 ### Capa 3 — `condition` en perks de Incarnon — ✅ CERRADA
 `IncarnonRepository` ahora propaga el campo `condition` al `Modifier`, espejando a `ModRepository`. Antes los 175 perks de incarnon se aplicaban incondicionalmente. Fue el primer objetivo de la fase engine; cerró el drift.
@@ -78,6 +88,18 @@ El vocabulario del dato es cerrado y homogéneo — 5 valores, **ninguno un capa
 
 ---
 
+## Arquetipo de disparo — por qué C1 no tiene un baseline por tipo
+
+El engine **no lee `shot_type`**: C1 es value-driven, lo maneja el valor de multishot y no el tipo de
+arma. "Hitscan puro" y "shotgun puro" recorren el mismo code-path con `multishot` distinto, así que un
+baseline por arquetipo en C1 sería horizontal — la misma prueba N veces.
+
+**El arquetipo deja de ser redundante en C2**, donde Projectile / AoE / Beam sí son code-paths
+distintos (`rollPellets` vs detección por radio vs multiplicador continuo). Una cobertura por
+arquetipo es, en rigor, validación de C2 — no una extensión de C1.
+
+---
+
 ## Ability-like (predicción confirmada por el dato)
 
 35 tokens WEAPON + 48 AVATAR fuera del catálogo en `mod-stats`. Los weapon revelan su naturaleza: `parry_counter_chance`, `corpse_explode_damage`, `proc_damage`, `life_steal`, `slash_proc_on_crit_chance`, `damage_over_distance`, etc. → categoría **"ability-like → fórmula dedicada"**: el dato ya marca cuáles no entran al mecanismo genérico.
@@ -92,6 +114,6 @@ El vocabulario del dato es cerrado y homogéneo — 5 valores, **ninguno un capa
 |---|---|---|---|
 | ✅ hecho | Capa 3 (condition incarnon) | bajo | cerró drift |
 | 1 — 🚧 | Capa 4 (nodos faltantes) | bajo por stat (patrón validado con `punch_through`) | toca solo `ItemRepository.getDNA()` |
-| 2 | Capa 2 (warframes) — resta cross-stat (Iron Skin) + CO double-dip C2 | medio (lo que resta; Tier 1 ya resuelto) | fórmula dedicada `formulas/warframe/`, net-new |
+| 2 | Capa 2 (warframes) — resta cross-stat (Iron Skin) + CO double-dip C2 | medio (base + mods + shards + cross-entity ya resuelven) | fórmula dedicada `formulas/warframe/`, net-new |
 | 3 — 🚧 | Capa 1 parcial (arcanes) | medio | v0 hecho (subset mapeado, `ArcaneRepository`); resto = stacking/null/operador, gateado |
 | diferido (RED) | Capa 5 (scaling) + ability-like | alto | requiere contrato de ruteo genérico vs dedicado |

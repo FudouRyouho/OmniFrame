@@ -4,7 +4,7 @@ Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en l
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-08-01"
 Dependencias:
   - "docs/domains/engine/design/vocabulary.md"
   - "docs/domains/engine/design/arch-decisions.md"
@@ -164,11 +164,12 @@ Ambos son `AttributeNode` **sintéticos** inyectados por `StaticHydrator` en tod
 
 ## Validación: el nodo como superficie de aserción (prototipo VIGENTE)
 
-> **Estado de esta sección:** prototipo en desarrollo con base documentada. Evolvable (VIGENTE) — se ajusta
-> con el primer uso real. El workflow de testing derivado y el lineaje de decisión (D12–D16) viven en
-> [`test/test-workflow.md`](test/test-workflow.md); las builds de referencia (Rhino, standard-set) en
-> [`test/catalog-future.md`](test/catalog-future.md). Ya ejercido sobre 4 consumidores de arma (ver
-> [`test/catalog-current.md`](test/catalog-current.md)); la validación con warframes sigue abierta.
+> **Estado de esta sección:** VIGENTE, evolvable. El workflow de testing derivado y el lineaje de
+> decisión (D12–D16) viven en [`test/test-workflow.md`](test/test-workflow.md); el índice de
+> consumidores, en [`test/catalog-current.md`](test/catalog-current.md). Ejercido sobre consumidores
+> de arma **y** de warframe: las habilidades que buffean (Roar, Speed, Warcry, Penance) se asertan por
+> bucket, y ahí es donde se ve que un `+50%` de habilidad y un `+50%` de mod caen en el mismo
+> `mods_add_pct` en vez de en escalones propios.
 
 Los campos nombrados de `AttributeNode` (`base` + los **4 buckets** + `final`) **son la superficie de aserción de los tests**, no solo el insumo de `final`.
 

@@ -4,14 +4,14 @@ Rol: "Workflow de testing derivado del engine: el CÓMO (clic + gramática ✓/f
 Impacto_ID: "E-TestWorkflow"
 Fidelidad_Fisica: "Project/src/core/engine/output/consume.ts"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-08-01"
 ---
 
 # Test workflow — testing derivado del engine
 
-Este documento define **cómo** se testea el engine y **hacia dónde** va ese testing. Los catálogos
-acompañan: [`catalog-current.md`](catalog-current.md) (índice de los consumidores que existen) y
-[`catalog-future.md`](catalog-future.md) (builds y modelos por construir).
+Este documento define **cómo** se testea el engine y **hacia dónde** va ese testing.
+[`catalog-current.md`](catalog-current.md) indexa los consumidores que existen;
+[`gap-map.md`](gap-map.md) inventaría lo que el engine todavía no construye.
 
 ---
 
@@ -111,9 +111,10 @@ de que D exista) es prematuro.
   asertar buckets dice *dónde*. → Graduado a [`attribute-node-contract.md`](../attribute-node-contract.md) §Validación.
 - **D14 — Base del linaje incondicional.** Lo condicional/stacking sale de la base y entra como peldaño
   posterior con su supuesto registrado.
-- **D15 — La build real es el plan de estudios.** Estratificación por modelabilidad (ver `catalog-future.md`, Rhino).
+- **D15 — RETIRADA.** Sostenía que *la build real es el plan de estudios*: se elegía una build completa
+  del usuario, se la estratificaba por modelabilidad y se derivaba de ahí un linaje de fixtures. No
+  prosperó — el linaje quedó a medias y el trabajo se detenía cada vez que una pieza de la build no
+  era modelable. La unidad de trabajo **no es la build, es la habilidad** (o el arma): se modela la
+  parte derivable, el resto se difiere marcado en el test. El número se conserva porque D16 y el
+  lineaje lo citan.
 - **D16 — Generalización.** La primera referencia no es la única; coverage deliberado, no "más builds".
-
-**Primer fallo predicho:** `ModRepository` emite todo como `ADD`; Roar debería ser `MULTIPLICATIVE`
-(ver [`attribute-node-contract.md`](../attribute-node-contract.md) §Implicaciones) — el peldaño Roar fallará
-por mis-bucketing, gap real que el test progresivo captura.
