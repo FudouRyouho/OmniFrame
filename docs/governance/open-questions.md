@@ -61,7 +61,6 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-27` | `co_base`: la regla padre→hijo del CO, declarada en el schema y sin validar del todo | engine / C1 — fidelidad CO | abierta — **gated por investigación**; el qué ya está decidido en `arch-decisions §9` |
 | `OQ-ENGINE-28` | Resistencias por entidad: capa aparte de la matriz por facción | engine / C2 — modelo de enemigo | abierta — diferida, sin consumidor |
 | `OQ-ENGINE-29` | ¿Los status sin ícono (`Lifted`/`Knockdown`/`Microwave`) cuentan para CO? | engine / C2 — población de status | abierta — gated por test propio, **diseño listo** |
-| `OQ-ENGINE-30` | Física del movimiento (gravedad, salto, fricción): ¿falta el dato o falta la fórmula? | engine / C1 — vocabulario | abierta — **gated por investigación de fuentes** |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -1617,50 +1616,6 @@ motor como ley** sin la medición.
 `references/wiki/mechanics/crowd-control.md` (`Lifted` / `Knockdown`), `references/ingame-tests/pending.md`,
 `OQ-ENGINE-15` (por qué el enemigo va sin armor).
 **Fuente:** duda del usuario sobre el corpus de CO (residuo Q-3).
-
----
-
-## OQ-ENGINE-30 — Física del movimiento: ¿falta el dato o falta la fórmula? — **ABIERTO — gated por investigación de fuentes**
-**Dominio:** engine / C1 — vocabulario de movimiento
-
-**Contexto:** el barrido del eje de movilidad cerró los cuatro carriles de **velocidad**
-(`MOVEMENT`/`SPRINT`/`PARKOUR_VELOCITY` con nodo · `SLIDE_SPEED`+`SLIDE_FRICTION` acuñados sin nodo) y la
-**duración** (`AIM_GLIDE_DURATION`, base 3s). Queda un residuo de **8 usos / 6 tokens** que no entró por
-ningún criterio, y conviene decir **por qué** en vez de dejarlo como silencio:
-
-| Token | Usos | Mods |
-|---|---|---|
-| `AVATAR_PARKOUR_GRAVITY` | 3 | Aero Vantage, Air Time, Boreal's Anguish |
-| `AVATAR_EVADE_NPC_BULLET` | 1 | Agility Drift |
-| `AVATAR_KNOCKDOWN_RECOVERY_SPEED` | 1 | Constitution |
-| `AVATAR_MELEE_DAMAGE_TO_JUMP_KICK` | 1 | Gale Kick |
-| `AVATAR_HEAVY_LAND_SPEED` | 1 | Kavat's Grace |
-| `AVATAR_JUMP_HEIGHT` | 1 | Necramech Hydraulics |
-
-**La pregunta, y es previa a cualquier modelado:** ¿lo que falta es el **dato** (la fuente tiene la fórmula
-y no la cosechamos) o la **fórmula** (nadie la publicó y habría que medirla)? Hoy están todos en el mismo
-saco de "no pasan el criterio 2-de-3" (*fácil · consumible · información clara*) por fallar en
-**información clara** — pero eso es un diagnóstico sin verificar contra la fuente.
-
-**Por qué importa:** el diagnóstico decide el costo. Si la wiki publica la constante de gravedad y el
-multiplicador de `Aero Vantage` sobre ella, esto es tan barato como lo fue `AIM_GLIDE_DURATION` (base 3s
-del `maneuvers`, un renglón). Si hay que medir in-game, es el mismo régimen que `OQ-ENGINE-15`/`-21` y
-espera. **La sospecha es que está más cerca de lo primero de lo que asumimos** — el precedente del aim
-glide es exactamente eso: el número estaba en un raw capturado y sin destilar.
-
-**Método (no re-litigar el scope, sólo mirar la fuente):** `maneuvers.wikitext` (561 líneas, capturado y
-**sin destilar** — ver el hueco de destilación abajo) ya cubre Hard Landing (20 m/s), Knockdown Recovery
-(ventana de 70ms, y que Handspring la *empeora*) y Jump Kick. Es el primer lugar donde mirar, y el mismo
-que tiene el warrant del `3s` que el engine ya consume.
-
-**No bloquea:** nada — los 8 usos dan `console.warn` de token desconocido, que es información honesta
-mientras el diagnóstico no exista.
-**Bloquea:** decidir si estos tokens se acuñan, se modelan o se declaran fuera de scope **con razón**, en
-vez de por omisión.
-**Vínculo:** `semantic/upgrade-tokens.md §Acuñado sin nodo` (el estado intermedio que podrían ocupar),
-`references/wiki/mechanics/{movement-speed.md,maneuvers.wikitext}`, `OQ-ENGINE-7` (mismo patrón:
-token válido sin nodo), `data/status.md` (censo de tokens fuera del vocabulario).
-**Fuente:** barrido del eje de movilidad; residuo declarado en vez de descartado en silencio.
 
 ---
 

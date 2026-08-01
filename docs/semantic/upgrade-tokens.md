@@ -124,8 +124,10 @@ lo reporta — el tripwire de `StaticHydrator` es ese reporte (`__tests__/unland
 **Acuñar no es gratis y no es el default.** Un token acuñado es algo que un lector futuro va a encontrar
 sin nodo y va a tener que re-preguntar. Se gana el lugar cuando el stat tiene corpus coherente y una
 mecánica clara; **no** cuando lo único que se sabe es que existe. El residuo del eje de movimiento
-—gravedad, altura de salto, recuperación de caída, 1 uso cada uno— **no** se acuñó por eso: su
-`console.warn` de token desconocido dice algo cierto, y qué les falta (dato o fórmula) es `OQ-ENGINE-30`.
+—gravedad (3 usos), altura de salto, recuperación de caída, daño del jump kick, hard landing, evasión de
+balas enemigas— **no se acuña**, y ya no por falta de diagnóstico: `DC-OQ-ENGINE-30` lo resuelve contra la
+fuente token por token, y **este** criterio aplicado a ese diagnóstico es lo que los deja afuera. Su
+`[Hydration] No se pudo mapear upgrade_type:` dice algo cierto, y nombra la fuente que lo trajo.
 
 ### `AVATAR_*` no significa "warframe" — significa el avatar del PORTADOR
 

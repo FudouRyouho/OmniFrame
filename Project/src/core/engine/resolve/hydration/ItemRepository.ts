@@ -91,11 +91,13 @@ export class ItemRepository {
         // shard ámbar lee `115`. El discriminador contra `MOVEMENT_SPEED` (base 1.0, escala) es que
         // aquél SÍ tiene dato en el raw y varía por frame (Gauss 1.4 · Volt 1.0).
         AVATAR_ADD_PARKOUR_VELOCITY:  100,
-        // Aim Glide / Wall Latch: base **3 segundos**, y acá el 3 NO es sintético — sale de la
-        // fuente (`maneuvers §Aim Glide`). El discriminador con el 100 de arriba es ése: cuando la
+        // Aim Glide: base **3 segundos**, y acá el 3 NO es sintético — sale de la fuente
+        // (`maneuvers §Aim Glide`). El discriminador con el 100 de arriba es ése: cuando la
         // fuente da la base, se usa y el nodo lee en su unidad real (segundos); cuando no la hay
         // ni puede haberla, base 100 = "sin mods". El resultado se lee `3 → 3.6s` con un +20%,
         // no `100 → 120`.
+        // El token gobierna **dos** duraciones ("Aim Glide/Wall Latch Duration") con bases
+        // distintas: aim glide 3s, wall latch 6s, timer compartido. El nodo modela la primera.
         AVATAR_ADD_AIM_GLIDE_DURATION: 3,
         AVATAR_ADD_ABILITY_STRENGTH:   100,
         AVATAR_ADD_ABILITY_RANGE:      100,

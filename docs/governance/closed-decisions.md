@@ -371,3 +371,36 @@ El contrato vive en `@core/engine/output/combat-metrics.ts`, **separado del prod
 
 **Condición para reabrir:** ninguna para el contrato de métricas — el catálogo crece aditivo sin reabrir esta decisión.
 **Ref:** `output/combat-metrics.ts` (contrato), `CombatCalculator`/`TimelineSimulator` (productores), `scripts/oracle/oracle.ts` (consumidor D2); `DC-OQ-ENGINE-10` (E descartada), `OQ-DATA-10` (borde de salida display, par vecino).
+
+---
+
+## DC-OQ-ENGINE-30 — Física del movimiento: los 6 tokens del residuo — **NINGUNO SE ACUÑA**
+
+**Dominio:** engine / C1 — vocabulario de movimiento
+
+**Decisión:** los 6 tokens que quedaron fuera del barrido de movilidad **no se acuñan** y **no reciben nodo**. Su `console.warn` de hidratación es el estado correcto, no una deuda.
+
+**El diagnóstico —¿falta el dato o falta la fórmula?— está hecho contra la fuente**, y la respuesta no es uniforme. Es el valor que sobrevive al cierre: sin él, un lector futuro vuelve a preguntarse por qué estos 6 no entraron.
+
+| Token | Usos · Mods | Qué falta realmente |
+|---|---|---|
+| `AVATAR_MELEE_DAMAGE_TO_JUMP_KICK` | 1 · Gale Kick | **nada del dato** — `maneuvers §Jump Kick` publica `20 Impact + 100%` del daño base del melee, y el `+25/50/75/100%` del mod verifica exacto contra el `20 + 200%` del rango máximo. Falta el **consumidor**: es un ataque del warframe cuya base sale del arma equipada, y esa entidad no existe |
+| `AVATAR_KNOCKDOWN_RECOVERY_SPEED` | 1 · Constitution | la **duración de la animación** de knockdown, que el `+40%` acelera. Ninguna página la publica; la ventana de recuperación (433 ms) es otra cosa, y `maneuvers` documenta que Handspring la encoge acelerando la animación —relación inversa, sin cuantificar |
+| `AVATAR_PARKOUR_GRAVITY` | 3 · Aero Vantage, Air Time, Boreal's Anguish | la **constante de gravedad** —la palabra no aparece en las 561 líneas del raw— y un integrador de trayectoria que el motor no tiene. Sólo 2 de los 3 usos son del corpus: Air Time es K-Drive, fuera de scope |
+| `AVATAR_HEAVY_LAND_SPEED` | 1 · Kavat's Grace | la **fórmula**, no el dato: el umbral (20 m/s) está publicado, la relación token→umbral no. El token dice `SPEED` y el mod dice *"less likely"* — cualquier número acá elige un bando sin fuente |
+| `AVATAR_EVADE_NPC_BULLET` | 1 · Agility Drift | las **curvas `AimGraph`**: la fuente publica el mecanismo (rango→P(acierto) por arma enemiga), lo marca `{{Speculation}}` y las curvas sólo existen como imágenes. Único de los 6 cuyo sujeto es el **enemigo**, no el portador |
+| `AVATAR_JUMP_HEIGHT` | 1 · Necramech Hydraulics | la altura base, en ninguna parte — y el portador es **Necramech**, entidad que el corpus no arma. La fuente declara su propio hueco con `{{UpdateMe}}` |
+
+**Por qué no se acuñan — el costo es real y está en el código.** Acuñar no es "una línea en `UPGRADES`": `resolveUpgradeEntry` es `isUpgrade(token)` **y** `UPGRADE_MAP[token] ?? resolveToken(token)`, y `resolveToken` exige que el segundo segmento del token sea `ADD`/`FLAT`/`BASE`/`MULT`. Los 6 tokens crudos de DE no llevan operación en el nombre, así que agregarlos al array los deja resolviendo `undefined` igual. Acuñar de verdad exige **elegirles operación** (nombre canónico `AVATAR_ADD_*`/`AVATAR_MULT_*`) y migrar sus 8 usos en `mod-stats.override.json` — el mismo trabajo que `AVATAR_PARKOUR_GLIDE` → `AVATAR_ADD_AIM_GLIDE_DURATION` y sus 12 usos. **Elegir la operación es comprometerse con un modelo, que es exactamente lo que la fuente no sostiene para 5 de los 6.**
+
+Aplica tal cual el criterio de `semantic/upgrade-tokens.md` §*Acuñar no es gratis y no es el default*: se gana el lugar con corpus coherente **y** mecánica clara.
+
+**Lo que el motor dice hoy, y está bien que lo diga:** `[Hydration] No se pudo mapear upgrade_type: <token> para el mod: <unique_name>` — nombra el token y su fuente, y sólo se emite con el mod equipado en la build, no al cargar el catálogo. Es información honesta y no invasiva. Es un aviso **distinto** del tripwire de `StaticHydrator` (`Token conocido sin nodo`): aquél mide cobertura de **vocabulario**, éste de **modelado**.
+
+**Condición para reabrir — dos, ambas concretas:**
+1. **Aparece el consumidor del jump kick** (un ataque del warframe con base derivada del arma equipada). Es el único de los 6 sin hueco de dato: el día que exista la entidad, entra con base real de la fuente, sin inventar nada.
+2. **Necramech entra al corpus.** Desbloquea `AVATAR_JUMP_HEIGHT` y sólo a ése.
+
+Los otros cuatro **no los desbloquea un dato que llegue**: `HEAVY_LAND_SPEED` está trabado por conflicto semántico entre el token y su mod, `EVADE_NPC_BULLET` por sujeto (el enemigo no es el portador), `KNOCKDOWN_RECOVERY_SPEED` y `PARKOUR_GRAVITY` por falta de base medida in-game (régimen `OQ-ENGINE-15`/`-21`).
+
+**Ref:** `references/wiki/mechanics/{maneuvers.md,accuracy.md}` (la fuente destilada), `semantic/upgrade-tokens.md` §*Acuñado sin nodo* + §*Acuñar no es gratis*, `shared/types/modifier.ts` (`resolveUpgradeEntry`/`resolveToken`/`UPGRADES`), `__tests__/unlanded-modifiers.test.ts` (el tripwire del otro aviso), `OQ-ENGINE-7` (mismo patrón: token válido sin nodo).
