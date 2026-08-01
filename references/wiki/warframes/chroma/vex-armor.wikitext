@@ -1,0 +1,72 @@
+<onlyinclude>{{AbilityU10.3
+| name = Vex Armor
+| gameimage = VexArmorIcon.png
+| cardimage = VexArmor.png
+| hotkey = 3
+| energy = 75
+| description = Chroma fortifies squad Armor when his Shields are damaged or he kills an enemy with a melee weapon. He increases squad Weapon Damage when he loses Health or kills an enemy with a ranged weapon, double the effect on weak point kills.
+| strength = 0.5 / 0.625 / 0.75 / 0.875 %/SP (Scorn armor bonus per shield point lost)<br>7 / 10 / 12 / 15% (Scorn armor bonus per melee weapon kill)<br>200 / 250 / 300 / 350 % (Scorn max armor bonus)<br>2 / 2.25 / 2.5 / 2.75 %/HP (Fury damage bonus per health point lost)<br>7 / 10 / 12 / 15% (Fury damage bonus per ranged weapon kill)<br>200 / 225 / 250 / 275 % (Fury max damage bonus)
+| range = 8 / 10 / 15 / 18 m
+| duration = 10 / 15 / 20 / 25 s
+| cardonly = {{{1|}}}
+| info = *Chroma expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[Energy]] and enters a state of primal rage, sustaining an [[Armor]] and damage buffing aura with a radius of {{Stat|Ability Range|icon=only}}'''8 / 10 / 15 / 18''' meters for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds. While active, Chroma and his allies within aura range gain the '''Scorn''' armor buff once Chroma's [[Shields]] are hit or performs a melee kill, and the '''Fury''' damage buff once his [[Health]] is damaged or performs a ranged weapon kill.
+**Scorn increases Warframe [[Armor]] by {{Stat|Ability Strength|icon=only}}'''0.5% / 0.625% / 0.75% / 0.875%''' for every point of shields lost or {{Stat|Ability Strength|icon=only}}'''7% / 10% / 12% / 15%''' per melee kill, up to a maximum of {{Stat|Ability Strength|icon=only}}'''200% / 250% / 300% / 350%'''.
+**Fury increases weapon and Chroma's abilities' ''base damage'' by {{Stat|Ability Strength|icon=only}}'''2% / 2.25% / 2.5% / 2.75%''' for every point of health lost or {{Stat|Ability Strength|icon=only}}'''7% / 10% / 12% / 15%''' per ranged weapon kill ('''<u>doubled</u>''' for weakspot kills), up to a maximum of {{Stat|Ability Strength|icon=only}}'''200% / 225% / 250% / 275%'''.
+**Scorn, Fury, and conversion percentages are linearly affected by {{Stat|Ability Strength}}.
+***E.g., with {{M|Intensify}}, {{M|Steel Fiber}} and maximum Scorn at rank 3, Chroma's armor will be at:
+***:{{MathText|Base Armor {{mul}} (1 + Armor Mods + Scorn Modifier {{mul}} (1 + Strength Mods)) {{eql}}}}
+***:{{Math|370 {{mul}} (1 + 1 + 3.5 {{mul}} (1 + 0.3))|mt=y}}.
+***E.g., with {{M|Intensify}}, {{M|Serration}} and maximum Fury at rank 3, a weapon with 100 base damage will be at:
+***:{{MathText|Base Damage {{mul}} (1 + Damage Mods + Fury Modifier {{mul}} (1 + Strength Mods)) {{eql}}}}
+***:{{Math|100 {{mul}} (1 + 1.65 + 2.75 {{mul}} (1 + 0.3))|mt=y}}.
+***Both Scorn and Fury are ''additive'' multipliers that function the same as (and add together with) mods like {{M|Steel Fiber}} and base-damage-increasing mods like {{M|Serration}}. If these mods are present, all the multipliers are '''added''' together ''before'' any further calculations such as elemental damage mods, critical hit mods, or multishot mods.
+**Scorn and Fury are tracked from '''0%''' to their maximum ''increase'' in the HUD next to Chroma's shield and health indicators.
+***Scorn and Fury will gradually increase each time shields or health are hit, and each time Chroma gets a melee or ranged weapon kill, until they reach their maximum percentages. '''400''' shield points must be lost to maximize Scorn, and '''100''' health points must be lost to maximize Fury. 
+***Alternatively, '''24''' Enemies must be killed with Melee to maximize Scorn, and '''19''' Enemies must be killed with Ranged Weapons to maximize Fury.
+**Hits on [[Shields#Overshields|overshields]] count towards Scorn accumulation.
+**Shield drain from a [[Hijack]] payload counts towards Scorn accumulation.
+**Multiple Chromas' Scorn and Fury buffs will stack together.
+* Casting Vex Armor is a [[One-Handed Action]]. As such, it can be used while performing various maneuvers and actions without interruption.
+* Vex Armor can be recast while active, retaining the existing buffs.
+** When recast with a higher power strength than the current active buff, the max Scorn and Fury limits will only be increased if Chroma has not already reached their respective limits.
+**E.g., If Vex Armor is casted with 100% power strength, then recast while it's still active with the Energy Conversion buff, the Scorn and Fury buffs max limit will be increased to 525% (350 * 1.5) and 412% (275 * 1.5) only if the buffs weren't at the existing limit of 350% and 275% respectively. If Scorn has reached the limit but Fury has not when recast with a higher power strength, then only Fury will benefit from the increased power strength, and vice versa.
+*'''Ability Synergy:''' 
+**{{A|Spectral Scream}} and other abilities will increase the '''Scorn''' buff on kills. The '''Fury''' aspect of Vex Armor boosts the damage output of {{A|Spectral Scream}}, {{A|Effigy}}, and other abilities that scale from weapon damage increases.
+**{{A|Effigy}} will only maintain the damage increase from '''Fury''' so long as Chroma's {{A|Effigy}} is within range of Vex Armor.
+| tips = *Equipping a rank 4 or higher {{M|Vigor}} mod will allow you to maximize Scorn armor bonus without requiring shields to recharge, as well as provide additional health.
+*Using an electric element {{A|Elemental Ward}} will allow you to maximize the Scorn armor bonus without having to equip any mods increasing your shields.
+*Equipping a [[Decaying Dragon Key]] to lower your shields can increase the likelihood of health damage at the loss of some of the Scorn Armor bonus due to the reduction of your shields.
+*Using Energy to Shield conversion mods, like {{M|Brief Respite}} and [[Set_Mods#Augur_Mod_Set|Augur]] mod set effect, to generate shields/overshields when casting Vex Armor will help you maximize the Scorn armor bonus without having to equip any mods increasing your shields.
+*Armor increase applies to defense objectives.
+<noinclude>
+|max = {{WFmax|main|chroma3}}
+</noinclude>
+| bugs = 
+| augment = [[File:VexingRetaliationMod.png|200px|left]]
+{{main|Vexing Retaliation}}
+{{#lst:Vexing Retaliation|intro}}
+{{#lsth:Vexing Retaliation|Stats}}
+
+----
+
+[[File:GuardianArmorMod.png|200px|left]]
+{{main|Guardian Armor}}
+{{#lst:Guardian Armor|intro}}
+{{#lsth:Guardian Armor|Stats}}
+{{clr}}|
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Chroma}}
+
+__NOTOC__
+[[de:Vex-Rüstung]]
+[[es:Armadura de vejación]]
+[[ru:Дразнящая Броня]]
+[[fr:Armure Vex]]
+[[Category:One-Handed Abilities]]
+[[Category:Warframe Abilities]]
+[[Category:Update 16]]
+[[Category:Chroma]]
+[[uk:Броня презирства]]

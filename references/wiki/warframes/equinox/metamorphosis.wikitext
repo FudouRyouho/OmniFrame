@@ -1,0 +1,60 @@
+{{For|the [[Helminth]] rank|Helminth#Metamorphosis}}
+<onlyinclude>{{AbilityU10.3
+| cardonly = {{{1|}}}
+| name = Metamorphosis
+| gameimage = MetamorphosisIcon.png
+| cardimage = Metamorphosis.png
+| hotkey = 1
+| energy = 25
+| description = Switch forms, temporarily gaining bonus shields and armor in Night-Form, or bonus damage and speed in Day-Form.
+| sub = {{AbilityU10.3/Tabber|Night Form
+| strength = 100 / 150 / 200 / 250 (armor bonus)<br>50 / 75 / 100 / 150 (shield bonus)
+| duration = 10 / 15 / 20 / 25 s
+| range = N/A
+}}
+{{AbilityU10.3/Tabber|Day Form
+| strength = 10% / 15% / 20% / 25% (damage bonus)<br>5% / 10% / 12% / 15% (movement speed bonus)
+| duration = 10 / 15 / 20 / 25 s
+| range = N/A
+}}
+| info = *Equinox expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[Energy]] to transform between her night or day forms. She acquires abilities exclusive to each form and gains bonuses that diminish over {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds.
+*These bonuses decay linearly every second until they equal zero on ability expiration. 
+*The bonuses differ depending on Equinox's form:
+<div class="tabber-borderless" ><tabber> 
+|-|Night Form=
+<div style="display:none;">'''Night form'''<br></div>
+*Upon switching to Night Form, Equinox can use {{A|Rest & Rage|Rest}}, {{A|Pacify & Provoke|Pacify}}, and {{A|Mend & Maim|Mend}}.
+*She gains {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' [[armor]] and {{Stat|Ability Strength|icon=only}}'''50 / 75 / 100 / 150''' [[shield]] capacity.
+**Both are ''additive'' with Equinox's current armor and shield capacity. E.g., a rank-30 Equinox with a maxed {{M|Redirection}}, {{M|Steel Fiber}} and {{M|Intensify}} will have {{Math|{{WF|Equinox|370}} {{mul}} (1 + {{M|Redirection|100%}}) + {{Stat|Ability Strength|icon=only}}150 {{mul}} (1 + {{M|Intensify|30%}})|mt=y}} shields and {{Math|{{WF|Equinox|135}} {{mul}} (1 + {{M|Steel Fiber|100%}}) + {{Stat|Ability Strength|icon=only}}250 {{mul}} (1 + {{M|Intensify|30%}})|mt=y}} armor within the first second of a rank-3 Metamorphosis after the initial transformation is complete.
+**On missions with ice hazards, the shield decay rate is halved. When the ability ends, Equinox will be left with [[Shields#Overshield|overshields]] equal to '''50%''' of the listed maximum shield bonuses.
+|-|Day Form=
+<div style="display:none;">'''Day form'''<br></div>
+*Upon switching to Day Form, Equinox can use {{A|Rest & Rage|Rage}}, {{A|Pacify & Provoke|Provoke}}, and {{A|Mend & Maim|Maim}}.
+*She gains {{Stat|Ability Strength|icon=only}}'''10% / 15% / 20% / 25%''' weapon damage and {{Stat|Ability Strength|icon=only}}'''5% / 10% / 12% / 15%''' [[Movement Speed]].
+**The damage buff is ''additive'' with other base damage modifiers. E.g., with a maxed {{M|Serration}} and {{M|Intensify}}, a weapon that inflicts 100 base damage will be increased to {{Math|100 {{mul}} (1 + {{M|Serration|165%}} + {{Stat|Ability Strength|icon=only}}25% {{mul}} (1 +  {{M|Intensify|30%}}))|mt=y}} within the first second of a rank-3 Metamorphosis after the initial transformation is complete.
+***Does not work on melee weapons.
+**The movement speed buff is ''additive'' with other movement speed modifiers. E.g., with a maxed {{M|Rush}} and {{M|Intensify}}, a rank-3 Metamorphosis will increase Equinox's move speed to {{Math|{{WF|Equinox|1.15}} {{mul}} (1 + {{M|Rush|30%}} + {{Stat|Ability Strength|icon=only}}25% {{mul}} (1 +  {{M|Intensify|30%}}))|mt=y}} within the first second after the initial transformation is complete).
+</tabber></div>
+<hr />
+*Form switch takes about '''1''' second to complete.
+*Switching between forms removes any bonuses granted by the previous form. Only a single set of Metamorphosis buffs can be active at any given time.
+*Casting Metamorphosis is a [[One-Handed Action]].
+*{{A|Pacify & Provoke}} and {{A|Mend & Maim}} are deactivated upon casting Metamorphosis. However, casting Metamorphosis in Day Form while Provoke is active will increase the armor and shield bonuses for Equinox's Night Form. 
+*During the transformation, Equinox momentarily becomes whole with her night and day features merged together, then separates into the opposite form.
+| augment = [[File:DualityMod.png|200px|left]]
+{{main|Duality}}
+{{#lst:Duality|intro}}
+{{#lsth:Duality|Stats}}
+{{clr}}
+| tips = <noinclude>
+| max            = {{WFmax|equinox|equinox1}}
+</noinclude>
+| bugs = |
+}}</onlyinclude>
+[[Category:One-Handed Abilities]]
+[[de:Metamorphose]]
+[[es:Metamorfosis]]
+[[ru:Метаморфоза]]
+[[fr:Métamorphose]]
+[[Category:Equinox]]
+[[uk:Перевтілення]]

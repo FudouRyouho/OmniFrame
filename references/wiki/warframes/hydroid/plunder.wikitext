@@ -1,0 +1,39 @@
+{{Successor
+|precededby=Undertow
+|precededbysince={{ver|34}} 
+}}
+<onlyinclude>{{AbilityU10.3
+| name = Plunder
+| gameimage = PlunderIcon.png
+| cardimage = Plunder.png
+| hotkey = 3
+| energy = 75
+| cost = 
+| description = Plunder Armor from nearby enemies and increase {{D|Corrosive}} Damage on your Abilities and weapons. Enemies affected by {{D|Corrosive|Corrosion}} Status offer a greater increase.
+| strength = 20 / 25 / 30 / 40 (armor per enemy)<br>20 / 25 / 30 / 40 (armor per {{D|Corrosive}} status)<br>750 (armor cap)<br>5% / 6% / 7.5% / 10% ({{D|Corrosive}} bonus damage per enemy)<br>5% / 6% / 7.5% / 10% ({{D|Corrosive}} bonus damage per enemy per {{D|Corrosive}} status)<br>200% ({{D|Corrosive}} bonus damage cap)
+| range = 25 m (range)
+| duration = 10 / 15 / 20 / 25 s (duration)
+| misc = 
+| cardonly = {{{1|}}}
+| subsumable = 
+| info = *Hydroid expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to siphon the armor from all on-screen enemies within {{Stat|Ability Range|icon=only}}'''25''' meters, {{D|Stagger|Staggering}} them and consuming any active {{D|Corrosive}} status to permanently remove their [[armor]]. For {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds, Hydroid gains a {{Stat|Ability Strength|icon=only}}'''20 / 25 / 30 / 40''' bonus armor per enemy and per consumed {{D|Corrosive}} status effect to a cap of {{Stat|Ability Strength|icon=only}}'''750''' bonus armor, and a {{D|Corrosive}} damage bonus to all abilities and weapons by {{Stat|Ability Strength|icon=only}}'''5% / 6% / 7.5% / 10%''' per enemy and per consumed {{D|Corrosive}} status effect to a cap of {{Stat|Ability Strength|icon=only}}'''200%''' {{D|Corrosive}} damage bonus.
+**Does not require [[Line of Sight]] from Hydroid; enemies only need to be within view of the camera to be affected.
+***An enemy that has line of sight but is off-screen will '''not''' be hit.
+**While the bonus is active, a stylized armor and damage bonus counter appears above the ability icons.
+**If Plunder affects enemies on recast, the bonus values are replaced by the new values. If no enemies are affected, the bonus values will not change but the duration will not be refreshed.
+**Damage increase does not apply to [[Helminth#Ability Replacement|Helminth infused abilities]].
+*'''Ability Synergy:'''
+**[[Hydroid/Abilities#Passive|Passive]] allows 10 {{D|Corrosive}} stacks to fully and permanently remove all enemy armor.
+**{{A|Tempest Barrage}}, {{A|Tidal Surge}}, and {{A|Tentacle Swarm}} all inflict {{D|Corrosive}} status for Plunder to apply its effects.
+**{{A|Plunder}}'s {{D|Corrosive}} damage buff increases the damage of Hydroid's other abilities.
+| augment = 
+| bugs = 
+| tips = |Plunder
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Hydroid}}
+__NOTOC__
+[[Category:Hydroid]]
+[[Category:Line Of Sight Abilities]]
+[[Category:Update 34]]
