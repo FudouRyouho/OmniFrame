@@ -177,6 +177,8 @@ Incluye efectos físicos: staggers, stuns y knockdowns.
 
 **Holster Speed Bonus** · `Player` — Chroma *Elemental Ward* (Toxin) · Gauss *Redline*
 
+> ⚠️ Conflicto ↔ [`../warframes/gauss/redline.md`](../warframes/gauss/redline.md)
+
 **Mod Drop Rate Bonus** · `Player` — cualquier fuente de *Rerolling Loot Drop* · Mod Drop Chance Booster · The Steel Path
 
 **Reload Speed Bonus** · `Player` — ver [`reload.md`](reload.md)
