@@ -3,8 +3,8 @@ Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
-Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_creacion: ""
+Fecha_de_actualizacion: ""
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -16,8 +16,6 @@ Este documento existe para evitar que decisiones ya evaluadas y cerradas sean tr
 ---
 
 ## DC-1 — No hay soporte i18n / multi-locale
-
-**Fecha de cierre:** Estimado Q1 2026 (confirmado 2026-04-18).
 
 **Decisión:** El proyecto no soporta multi-locale ni internacionalización real. El idioma operativo es **inglés exclusivo**. No existe selector de idioma ni existe infraestructura i18n en runtime.
 
@@ -51,10 +49,10 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 | **DC-OQ-9** | Damage Taxonomy | Taxonomía canónica única para damage types (estabilizada). |
 | **DC-OQ-10** | Naming Conventions | Naming semántico por capa: PascalCase (Tipos), camelCase (Funciones), snake_case (Raw). |
 | **DC-OQ-11** | TextFormatter | Pertenencia a Presentation, consume semántica resuelta sin inferirla. |
-| **DC-OQ-STATE-1** | Contrato de estado del usuario | `EnsembleIntention` (EnsembleStore) es el SSoT canónico. `LoadoutContext` eliminado (2026-05-19). `LoadoutState` y `loadout.ts` eliminados (2026-05-21). |
+| **DC-OQ-STATE-1** | Contrato de estado del usuario | `EnsembleIntention` (EnsembleStore) es el SSoT canónico. `LoadoutContext` eliminado. `LoadoutState` y `loadout.ts` eliminados. |
 | **DC-OQ-STATE-2** | Conexión Arsenal → Motor | Escritura: `EnsembleStore.setItem/setMod/setShard`. Lectura: `useSimulation()` con `entity.channel` como clave estable. |
-| **DC-OQ-STATE-3** | Ciclo de vida de LoadoutContext | Eliminado físicamente (2026-05-19). Sin remanentes del sistema legacy. |
-| **DC-OQ-STATE-4** | Rol de EnsembleAdapter | Eliminado (2026-05-19). Lógica absorbida por `MutatorBridge`. Una sola ruta: `simulateFromIntention`. |
+| **DC-OQ-STATE-3** | Ciclo de vida de LoadoutContext | Eliminado físicamente. Sin remanentes del sistema legacy. |
+| **DC-OQ-STATE-4** | Rol de EnsembleAdapter | Eliminado. Lógica absorbida por `MutatorBridge`. Una sola ruta: `simulateFromIntention`. |
 | **DC-OQ-2** | Rol del LoadoutProvider | Abandonado. Arquitectura Sim-v2: MutatorBridge + EnsembleStore serializable. |
 | **DC-OQ-5** | Migración hidratación build time | No aplica. `StaticHydrator` + overrides JSON = funcionalmente equivalente a build-time. |
 | **DC-OQ-12** | Contrato de Proyección B4 | Projection Snapshot inmutable y serializable. Reactividad via Selective UI Reactive Bridge externo. |
@@ -62,10 +60,10 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 | **DC-OQ-ENGINE-1** | Patrón de nodo de daño global | Nodo `WEAPON_ADD_DAMAGE`, `base = damage_sum` del perfil activo. `final/base` como multiplicador global (= el pool ADITIVO expresado como factor, Step 1 de `calculating-bonuses.md` — **no un hack**). Detalle ↓. |
 | **DC-OQ-ENGINE-3** | Label parsing en ModRepository | No aplica en v2. Consume `upgrade_type` directamente vía `isUpgrade()` + UPGRADE_MAP/`resolveToken()`. |
 | **DC-OQ-ENGINE-4** | DNA Mutation (Archon Shards) | `StaticHydrator.hydrate()` consume shards vía `ShardRepository`. Shards = mods en slots especiales. Helminth sin implementar. |
-| **DC-OQ-ENGINE-5** | Fórmulas legacy desconectadas | `weapon-core.ts` y `warframe-core.ts` purgados (2026-05-27). `formulas/` conectado a `AtomicSimulator` + `SimulationEngine`. |
+| **DC-OQ-ENGINE-5** | Fórmulas legacy desconectadas | `weapon-core.ts` y `warframe-core.ts` purgados. `formulas/` conectado a `AtomicSimulator` + `SimulationEngine`. |
 | **DC-OQ-ENGINE-6** | WEAPON_FIRE_ITERATIONS sin mapear | Alias añadido en UPGRADE_MAP → `WEAPON_ADD_MULTISHOT`. 3 mods Galvanized añadidos manualmente al override. |
 | **DC-OQ-W-4** | Sub-familia en D-6 | Patrón: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`. Sub-familias activas: PRIMARY, SECONDARY, MELEE, **sólo bajo `WEAPON`** (verificado en `resolveToken`). El filtrado por canal está implementado (`resolve/hydration/channel-routing.ts`, firma `→ EntityId[]`). |
-| **DC-OQ-UI-1** | Unificación de infraestructura UI en @shared | `shared/components/items/` activo: views por entidad (WarframesView/WeaponsView/etc.), cards, specs/detail-views, ItemsGrid. `shared/hooks/data/use-items.ts` + `use-performance-debug.ts`. Dominios actúan como smart wrappers. Implementado (2026-04-23). Ref: `docs/decisions/ui-unification.md` (histórico). |
+| **DC-OQ-UI-1** | Unificación de infraestructura UI en @shared | `shared/components/items/` activo: views por entidad (WarframesView/WeaponsView/etc.), cards, specs/detail-views, ItemsGrid. `shared/hooks/data/use-items.ts` + `use-performance-debug.ts`. Dominios actúan como smart wrappers. Implementado. Ref: `docs/decisions/ui-unification.md` (histórico). |
 
 ---
 
@@ -88,11 +86,11 @@ una alternativa: no la reabre.** Lo que no se re-debate es el patrón `final/bas
 
 ---
 
-## DC-OQ-ENGINE-9 — Reestructura interna de `@core` (capas/cortes) + ruling `@providers → @core` — **EJECUTADO (2026-06-12)**
+## DC-OQ-ENGINE-9 — Reestructura interna de `@core` (capas/cortes) + ruling `@providers → @core` — **EJECUTADO**
 
 **Dominio:** engine / arquitectura de `@core`
 
-**Contexto:** `@core` creció sin estructura interna deliberada (ver `OQ-ENGINE-9`): Capa A co-ubicada en `providers/`, `bridge/`+`combat/`+`resolution/`+`hydration/` planos bajo `engine/`, contratos y primitivos mezclados en un `contracts/index.ts`. Plan validado y blast-radius medido (2026-06-11/12); ejecutado desde Linux en la rama `refactor/core-stage0-restructure`, commit por slice, gate `tsc -b` CLEAN + 95 tests verde en cada uno.
+**Contexto:** `@core` creció sin estructura interna deliberada (ver `OQ-ENGINE-9`): Capa A co-ubicada en `providers/`, `bridge/`+`combat/`+`resolution/`+`hydration/` planos bajo `engine/`, contratos y primitivos mezclados en un `contracts/index.ts`. Plan validado y blast-radius medido ; ejecutado desde Linux en la rama `refactor/core-stage0-restructure`, commit por slice, gate `tsc -b` CLEAN + 95 tests verde en cada uno.
 
 **Ejecutado (Stage 0 — reorg interno de `engine/`, blast externo 0):**
 - `contracts/index.ts` → split en `contracts.ts` (cortes de frontera / DTOs) + `primitives.ts` (vocabulario no-corte: `AttributeNode`, `Modifier`, `GameLaws`, ids); `index.ts` queda como barrel.
@@ -104,13 +102,13 @@ una alternativa: no la reabre.** Lo que no se re-debate es el patrón `final/bas
 - `ensemble.types.ts` (gemelo-de-entrada: `EnsembleChannel`/`EnsembleIntention`/`INITIAL_INTENTION`) → `@shared/types/ensemble.ts` (único corte domain-visible). De paso cerró un smell de Restricción 1: 4 dominios importaban `@providers/Ensemble/ensemble.types` (no permitido).
 - `ensemble-store.ts` (A1, `ensembleStore`) → `@core/intention/`. `EnsembleProvider.tsx` (binding React) se queda en `@providers/Ensemble/`.
 
-**Ruling `@providers → @core` = PERMITIDO (2026-06-12):** `EnsembleProvider` (capa de composición / adapter) importa `@core/intention/ensemble-store`. Adapter→core es la dirección correcta de Ports&Adapters; la Restricción 1 protege a los **dominios de feature** entre sí y de `@core`, **no** a la capa de composición. **No contradice** "los dominios no importan `@core`" (sigue NO; `domains/* → @core` es drift): `@providers` no es un dominio de feature. Esto resuelve la **simetría de entrada** de `OQ-ENGINE-FUTURE` (contrato de intención en `@shared` ↔ store en `@core`).
+**Ruling `@providers → @core` = PERMITIDO:** `EnsembleProvider` (capa de composición / adapter) importa `@core/intention/ensemble-store`. Adapter→core es la dirección correcta de Ports&Adapters; la Restricción 1 protege a los **dominios de feature** entre sí y de `@core`, **no** a la capa de composición. **No contradice** "los dominios no importan `@core`" (sigue NO; `domains/* → @core` es drift): `@providers` no es un dominio de feature. Esto resuelve la **simetría de entrada** de `OQ-ENGINE-FUTURE` (contrato de intención en `@shared` ↔ store en `@core`).
 
-**Cierre del eje (b) — por solución mejor (2026-07-17).** El eje (b) de `OQ-ENGINE-9` preguntaba "dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`)", gated por "esperar a la Capa D real". **Se disolvió al ejecutarse el eje (a):** el harness dejó de ser una cosa — `bootstrap/` se graduó a producción (lo llama `main.tsx`) y `fixtures/builds.ts` quedó como el **catálogo de builds compartido tests↔CLI**, consumido por el oráculo D2 (`scripts/oracle/oracle.ts`) y por las suites. Es el harness compartido que el Contexto original pedía: cumple su función y hace crecer el CLI y D1/D2. El gate además nunca fue el correcto — D consume `output/`, nunca `fixtures/`, así que esperar a D no iba a informar esta ubicación. Cerrado sin reorganizar: no hay consumidor que pida moverlo.
+**Cierre del eje (b) — por solución mejor.** El eje (b) de `OQ-ENGINE-9` preguntaba "dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`)", gated por "esperar a la Capa D real". **Se disolvió al ejecutarse el eje (a):** el harness dejó de ser una cosa — `bootstrap/` se graduó a producción (lo llama `main.tsx`) y `fixtures/builds.ts` quedó como el **catálogo de builds compartido tests↔CLI**, consumido por el oráculo D2 (`scripts/oracle/oracle.ts`) y por las suites. Es el harness compartido que el Contexto original pedía: cumple su función y hace crecer el CLI y D1/D2. El gate además nunca fue el correcto — D consume `output/`, nunca `fixtures/`, así que esperar a D no iba a informar esta ubicación. Cerrado sin reorganizar: no hay consumidor que pida moverlo.
 
 **Pendiente (verificado contra código 2026-07-17):**
 - **A2** — `SimulationContext` (`contracts/contracts.ts`) sigue mezclando intención (`active_profile_id`/`flags`/`variables`) + leyes (`laws`) + dato (`target`).
-- **Shape de la Capa A** (backlog del usuario, 2026-06-16; pariente de A2): la estructura de las **intenciones** huele incoherente — `EnsembleIntention` mezcla `slots`+`arcanes` y la forma de los intents pide una estructura más coherente → revisión de la Capa A. Encaja con una fase futura del saneamiento de `@core`. No bloquea.
+- **Shape de la Capa A** (backlog del usuario, ; pariente de A2): la estructura de las **intenciones** huele incoherente — `EnsembleIntention` mezcla `slots`+`arcanes` y la forma de los intents pide una estructura más coherente → revisión de la Capa A. Encaja con una fase futura del saneamiento de `@core`. No bloquea.
 - **Lift de `contracts/`/`primitives/` a nivel `@core`** — siguen en `engine/contracts/`; la ubicación de `damage-logic`/`damage-multipliers`/`mod-overrides` = decisión nueva.
 
 De la lista original de Stage 2 ya no queda nada más: `engine/hooks/` se purgó (era cluster muerto, no se extrajo), el bootstrap se separó de `fixtures/` (`bootstrap/engine-data.ts`; `fixtures/` solo aloja `builds.ts`) y `ProjectionSnapshot` fue reemplazado por `ViewModelContract` (consumido por D1 `use-view-model`, D2 oráculo y `UpgradeView`).
@@ -119,13 +117,13 @@ De la lista original de Stage 2 ya no queda nada más: `engine/hooks/` se purgó
 
 ---
 
-## DC-OQ-DATA-3 — DataLoader singleton: contrato de consumo de overrides — **DIRECCIÓN ELEGIDA (2026-05-29)**
+## DC-OQ-DATA-3 — DataLoader singleton: contrato de consumo de overrides — **DIRECCIÓN ELEGIDA**
 
 **Dominio:** data / pipeline / engine / UI
 
 **Dirección elegida:** Runtime-universal con DataLoader singleton. Todos los overrides se cargan en runtime por un DataLoader singleton que expone cada par `JSON base + override` ya mergeado. El pipeline (`generate-data.ts`) no toca los overrides. Cada repositorio delega al DataLoader en vez de implementar su propio loader.
 
-**Corrección ya aplicada (2026-05-29):** `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`. El pipeline produce solo datos de fuente externa. Gestión de overrides = responsabilidad de scripts manuales/agente.
+**Corrección ya aplicada:** `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`. El pipeline produce solo datos de fuente externa. Gestión de overrides = responsabilidad de scripts manuales/agente.
 
 **Patrón objetivo:**
 ```
@@ -141,11 +139,11 @@ DataLoader.getIncarnonData() → incarnon-evolutions.override.json            (d
 
 ---
 
-## DC-OQ-DATA-2 — Ubicación de vocabularios que son simultáneamente semantic + data — **DIRECCIÓN ELEGIDA (2026-06-05)**
+## DC-OQ-DATA-2 — Ubicación de vocabularios que son simultáneamente semantic + data — **DIRECCIÓN ELEGIDA**
 
 **Dominio:** data / semantic
 
-**Contexto:** vocabularios como polaridad, tipos de daño y facciones son a la vez **significado canónico** (token del juego) y **estructura de datos materializada** (campos en `mods.json`, `warframes.json`, etc.). La auditoría 2026-05-25 los reportó como huérfanos documentales (0 links entrantes), planteando si debían moverse fuera de `semantic/`.
+**Contexto:** vocabularios como polaridad, tipos de daño y facciones son a la vez **significado canónico** (token del juego) y **estructura de datos materializada** (campos en `mods.json`, `warframes.json`, etc.). La auditoría los reportó como huérfanos documentales (0 links entrantes), planteando si debían moverse fuera de `semantic/`.
 
 **Dirección elegida: opción (a) — vocabulario en `semantic/`, visibilidad del grafo por link al consumidor.**
 El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.md`: *"si un documento define qué SIGNIFICA algo → `semantic/`; si define cómo se ESTRUCTURA en JSON → `data/schemas/`."* Un vocabulario que es significado canónico vive en `semantic/` aunque se materialice en datos.
@@ -178,7 +176,7 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 ---
 
-## DC-OQ-ENGINE-10 — Capa E DESCARTADA: D se lee por dos lentes de salida, no por una capa intermedia — **CERRADO (2026-07-17)**
+## DC-OQ-ENGINE-10 — Capa E DESCARTADA: D se lee por dos lentes de salida, no por una capa intermedia — **CERRADO**
 
 **Dominio:** engine / arquitectura de capas + ui-ux / presentación
 
@@ -188,7 +186,7 @@ C → D → salida cruda → D2 (CLI/oracle)
 C → D → salida cruda → E (enriquece + hidrata) → UI
 ```
 
-**Por qué NO (decisión 2026-07-17):** E era un pasamanos con dos trabajos, y ambos ya tienen mejor hogar:
+**Por qué NO (decisión):** E era un pasamanos con dos trabajos, y ambos ya tienen mejor hogar:
 - **La hidratación de chrome** (nombre/imagen/desc) la provee el **piso "0"** — la capa **horizontal** de datos (`DataRegistry`, OQ-DATA-9). Que la UI lea el chrome de 0 directo es más sólido que una capa vertical E que lo re-hidrate: 0 ya es el SSoT de datos y la UI (como los DetailViews) ya lee de ahí.
 - **El formateo** (labels/unidades/números) lo provee `lib/format` (estrato de utilidad, `DC-OQ-ENGINE-10-A`), consumido por igual por CLI y UI.
 - Sin esos dos trabajos, E no queda con nada propio: **D se divide en sus dos lentes de salida** — **D1** (`use-view-model`, binding reactivo UI, aún prematuro) y **D2** (`oracle`, CLI). Ambas consumen el mismo `project()` (cut C→D); no hace falta una capa entre medio.
@@ -204,7 +202,7 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 
 ---
 
-## DC-OQ-ENGINE-10-A — `lib/*` = suite de utilidad de presentación, no capa ni orquestador — **CERRADO (2026-06-13)**
+## DC-OQ-ENGINE-10-A — `lib/*` = suite de utilidad de presentación, no capa ni orquestador — **CERRADO**
 
 **Dominio:** ui-ux / presentación + arquitectura de capas
 
@@ -219,7 +217,7 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 
 ---
 
-## DC-OQ-STUB-1 — Principio de stub honesto: un placeholder no simula conexión — **CERRADO (2026-06-13)**
+## DC-OQ-STUB-1 — Principio de stub honesto: un placeholder no simula conexión — **CERRADO**
 
 **Dominio:** ui-ux / disciplina de implementación
 
@@ -234,7 +232,7 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 
 ---
 
-## DC-OQ-UI-SPEC-1 — La UI de arsenal no es spec del flujo; derivar contratos de D2 + dominio — **CERRADO (2026-06-13)**
+## DC-OQ-UI-SPEC-1 — La UI de arsenal no es spec del flujo; derivar contratos de D2 + dominio — **CERRADO**
 
 **Dominio:** ui-ux / arquitectura de contratos
 
@@ -247,11 +245,11 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 
 ---
 
-## DC-OQ-ENGINE-10-C — Modelo de 2 canales de lectura + ejes ortogonales — **CERRADO (2026-06-13; reencuadrado 2026-07-17 tras descartar E)**
+## DC-OQ-ENGINE-10-C — Modelo de 2 canales de lectura + ejes ortogonales — **CERRADO — reencuadrado tras descartar E**
 
 **Dominio:** ui-ux / arquitectura de estado + capas
 
-> ⚠️ **Reencuadre (2026-07-17):** este DC nombraba el canal de presentación como "Capa E". E se descartó (`DC-OQ-ENGINE-10`). El **modelo de 2 canales sigue vigente** — solo que el canal de presentación es **D1 + `lib/format` + chrome de 0 leído directo**, no una capa E. Léase "`E`" abajo como "canal de presentación". La sub-decisión *"`E` no es block stage"* se vuelve trivial: no hay E que secuenciar.
+> ⚠️ **Reencuadre:** este DC nombraba el canal de presentación como "Capa E". E se descartó (`DC-OQ-ENGINE-10`). El **modelo de 2 canales sigue vigente** — solo que el canal de presentación es **D1 + `lib/format` + chrome de 0 leído directo**, no una capa E. Léase "`E`" abajo como "canal de presentación". La sub-decisión *"`E` no es block stage"* se vuelve trivial: no hay E que secuenciar.
 
 **Decisión (modelo de 2 canales hacia la UI):** la UI consume de **dos canales distintos**, no tres:
 - **Canal 1 — espejo de intención (`useEnsemble`):** un **puntero** a A (itemId, rank, slots). Responsabilidad única: leer + mutar intención. **NO pasa por el canal de presentación.** No es un flujo de datos, es un espejo.
@@ -278,13 +276,11 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 
 ## DC-OQ-DATA-12 — Carga de runtime del engine: `import` estático → `fetch` (lado engine de "0")
 
-**Fecha de cierre:** 2026-07-02 (migrada desde `open-questions.md` el 2026-07-03).
-
 **Decisión:** cerrado el mecanismo de carga del engine en runtime. El `loadEngineData` que hacía `DataLoader.init` con `import` estático de los 7 JSON (cableado en `main.tsx`, bundleaba los datos: chunk ~2.3 MB) se migró a `fetch` lazy y se reubicó fuera de `fixtures/`.
 
 **Cómo cerró (dos pendientes):**
-- **`fetch` lazy** → Fase 1 (2026-06-12/13, saneamiento `@core`): `BrowserAdapter` reemplaza el `import` estático; bundle 2.3 MB→565 kB (gzip 431→171 kB); `DataRegistry` comparte la instancia `browserSource`, sin doble-fetch.
-- **Ubicación** → Fase 2 Slice E (2026-07-02): `loadEngineData` movido a `@core/engine/bootstrap/engine-data.ts`; `fixtures/` ya solo aloja `builds.ts`.
+- **`fetch` lazy** → Fase 1 (saneamiento `@core`): `BrowserAdapter` reemplaza el `import` estático; bundle 2.3 MB→565 kB (gzip 431→171 kB); `DataRegistry` comparte la instancia `browserSource`, sin doble-fetch.
+- **Ubicación** → Fase 2 Slice E: `loadEngineData` movido a `@core/engine/bootstrap/engine-data.ts`; `fixtures/` ya solo aloja `builds.ts`.
 
 **Reencuadre clave (por qué NO fue "mover el loader a fetch"):** la opción barata de un fetch engine-privado de los 7 JSON se descartó — 5 son overrides = **dato canónico compartido**, no proyección privada del engine (un loader propio reconstruiría la isla que "0" venía a cerrar). El `import` estático se queda como provisional solo para tests/CLI en Node.
 
@@ -295,8 +291,6 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 ---
 
 ## DC-OQ-ENGINE-13 — ¿Los buffs de habilidad tipo Roar/Xata double-dipean en DoTs? — SÍ, confirmado
-
-**Fecha de cierre:** 2026-07-08 (migrada desde `open-questions.md` el 2026-07-09).
 
 **Decisión:** confirmado empíricamente (test in-game, Akvasto Prime vs Arid Butcher/Charger,
 `damage-status-model.md §Evidencia`). Roar **sí** double-dipea en DoTs, igual que el faction bonus —
@@ -320,8 +314,6 @@ facción×elemento) es un mecanismo **aparte** y single-dipea — no se confunde
 ---
 
 ## DC-OQ-ENGINE-17 — Fórmula de arcanos ability-like: ¿por-arcano o por-familia? — NO BINARIO, ambos caminos coexisten
-
-**Fecha de cierre:** 2026-07-09 (barrido completo del corpus, migrada desde `open-questions.md`).
 
 **Decisión:** la hipótesis original ("varios arcanos comparten forma → familia, no N fórmulas")
 **se confirma solo parcialmente.** El barrido completo del corpus `upgrade_type:null` de
@@ -351,7 +343,7 @@ wiki) vive en `docs/data/reports/audit-arcane-sweep.md` (tier referencia).
 
 ---
 
-## DC-OQ-ENGINE-8 — Contrato de salida de C: `CombatMetrics` cristalizado + vocabulario neutro — **CERRADO (2026-07-19)**
+## DC-OQ-ENGINE-8 — Contrato de salida de C: `CombatMetrics` cristalizado + vocabulario neutro — **CERRADO**
 
 **Dominio:** engine / contrato de salida de C2 + vocabulario de capas
 
