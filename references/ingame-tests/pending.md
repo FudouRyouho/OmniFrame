@@ -106,3 +106,24 @@ recuperado con cada una por separado y con las dos activas. Si `AB = A + B`, es 
 
 Detalle: es un hueco de la wiki, así que el resultado **no** genera marca de discrepancia contra
 ningún doc — no hay nada que contradecir. Va a `OQ-ENGINE-26`.
+
+---
+
+## P-5 · ¿Los buffs de warframe alcanzan al compañero?
+
+**Estado:** hueco del corpus — no hay página de compañeros en `wiki/`, y la de la habilidad no lo dice.
+
+`Speed` (Volt) describe su efecto sobre *"allies"* y *"affected players"*, **sin mencionar
+compañeros ni sentinels**. Que el buff le caiga también al compañero es experiencia de juego del
+usuario, sin medición y sin fuente que lo respalde.
+
+**Cómo se mide:** Volt con un sentinel armado. Medir la cadencia o el tiempo de recarga del arma del
+sentinel —el stat que Speed toca en las armas— con la habilidad inactiva y activa. Si cambia, el buff
+propaga al compañero; si no, la propagación se detiene en el portador.
+
+**Vale la pena separar dos preguntas** que el mismo test responde: si propaga **el buff de movement**
+(el sentinel no camina, así que puede no aplicar) y si propaga **el de arma** (reload / attack speed),
+que es el que tiene lectura directa.
+
+Va a `OQ-ENGINE-31`: define si la entidad compañero nace necesitando recibir efectos de otra entidad,
+que es lo que decide la forma del modelo.

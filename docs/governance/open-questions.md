@@ -61,6 +61,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-27` | `co_base`: la regla padre→hijo del CO, declarada en el schema y sin validar del todo | engine / C1 — fidelidad CO | abierta — **gated por investigación**; el qué ya está decidido en `arch-decisions §9` |
 | `OQ-ENGINE-28` | Resistencias por entidad: capa aparte de la matriz por facción | engine / C2 — modelo de enemigo | abierta — diferida, sin consumidor |
 | `OQ-ENGINE-29` | ¿Los status sin ícono (`Lifted`/`Knockdown`/`Microwave`) cuentan para CO? | engine / C2 — población de status | abierta — gated por test propio, **diseño listo** |
+| `OQ-ENGINE-31` | ¿Qué le falta a una entidad para ser modelable? — el compañero como forcing-case | engine / modelo de entidades | abierta — **gated por medición** (P-5) y por capacidad de propagación |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -1616,6 +1617,62 @@ motor como ley** sin la medición.
 `references/wiki/mechanics/crowd-control.md` (`Lifted` / `Knockdown`), `references/ingame-tests/pending.md`,
 `OQ-ENGINE-15` (por qué el enemigo va sin armor).
 **Fuente:** duda del usuario sobre el corpus de CO (residuo Q-3).
+
+---
+
+## OQ-ENGINE-31 — ¿Qué le falta a una entidad para ser modelable? — **ABIERTO — gated por medición y por capacidad**
+**Dominio:** engine / modelo de entidades
+
+**La pregunta no es en qué orden se modelan las entidades.** Un ranking no tiene forcing-case y se
+discute sin cerrar. La pregunta es **qué le falta a una entidad para entrar**, y si ese faltante es el
+mismo para todas — el orden cae después, como consecuencia.
+
+**El eje es la propagación de efectos, no el origen de la entidad.** Warframe, compañero, objeto de
+habilidad y minion son todos **portadores y receptores** de buffs, propios y de aliados. Que una nazca
+del loadout y otra de una habilidad es **consecuencia de dónde nace, y se hereda** — no una frontera
+que las separe "en el espacio". Tratarlas como cajones distintos es el error a evitar: lleva a
+construir un mecanismo por cajón cuando el problema real —a quién le llega un efecto y cómo— es uno
+solo.
+
+**Los datos ya están, y eso descarta el criterio fácil.** `companions.json` trae **83** entidades con
+stats de supervivencia (45 pet · 21 moa · 17 sentinel) y `shared/types/companion.ts` ya define
+`Companion` + `CompanionWeapon`; `vehicles.json` trae **150** (148 archwing · 2 necramech). "Hay datos"
+no discrimina: los hay para casi todas. Lo único sin dataset son los **minions**, que tampoco entran
+por loadout.
+
+**El forcing-case es el compañero, y tiene un gate ya declarado por escrito.**
+`semantic/upgrade-tokens.md` §*`AVATAR_` = el portador* dice que un mod de compañero con token
+`AVATAR_*` buffea **al compañero** (`Enhanced Vitality` → vida del sentinel, no del warframe), que
+rutearlo al warframe sería un bug peor que el que el salto por familia arregla, y que **el caso
+compañero se decide cuando existan esas entidades**. Ese es el consumidor: no es abstracción
+especulativa, es un ruteo resuelto sólo para armas con el otro lado esperando.
+
+**Hipótesis que ancla el eje, y hoy NO tiene warrant:** que los buffs de warframe alcanzan al
+compañero — *Speed* de Volt cayéndole al sentinel es el caso concreto. `speed.wikitext` habla de
+*"allies"* y *"affected players"*, **sin mencionar compañeros ni sentinels**, y no existe corpus de
+compañeros en `references/wiki/`. Es experiencia de juego del usuario sin medición, mismo régimen que
+`OQ-ENGINE-26` → se mide (**`ingame-tests/pending.md` P-5**). Si el buff no propaga, el forcing-case
+cambia de forma; si propaga, la entidad compañero nace ya necesitando recibir efectos de otra.
+
+**La progresión que esto sugiere no es de entidades sino de capacidades del motor** — una entidad se
+gana el lugar cuando el motor ya sabe propagarle lo que le llega: warframe → habilidades de buff
+simples → habilidades de daño simples → sentinel como entidad → reevaluar. Los escalones intermedios
+**no son entidades**, y ése es justamente el punto.
+
+**Residuo declarado, sin OQ propia:** el dataset clasifica **necramech dentro de `vehicles.json`**
+mientras el vocabulario de DE lo pone del lado del avatar (`AVATAR_` = warframe · archwing · necramech;
+`VEHICLE_` = lo que se monta). Dos cortes distintos sobre la misma entidad. Se resuelve cuando el
+horizonte llegue ahí — está lejos y no gatea nada de lo de arriba.
+
+**No bloquea:** nada hoy. **Bloquea:** el ruteo de mods `AVATAR_*` de compañero, que hoy no tiene
+lado al que aterrizar, y cualquier decisión sobre entidades derivadas de habilidad.
+**Vínculo:** `semantic/upgrade-tokens.md` §*`AVATAR_` = el portador* (el gate declarado),
+`OQ-ENGINE-22` (EHP/DR de `enemy/` a `entity/` — la misma generalización desde otra cara),
+`OQ-ENGINE-11` (exaltadas: entidad derivada de habilidad ya con OQ),
+`data/reports/audit-arcane-ability-like.md` (minions como *entidad generada*, y por qué no abrir OQ
+para eso), `__tests__/volt.test.ts` (los `it.todo` de cap-para-aliados y opt-out: el modelo no tiene
+aliados como entidad), `references/ingame-tests/pending.md` P-5.
+**Fuente:** criterio del usuario sobre qué entidades son modelables y en qué orden, reencuadrado.
 
 ---
 
