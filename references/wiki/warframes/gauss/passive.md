@@ -2,8 +2,8 @@
 
 > Estado: activo
 > Rol: pasiva de Gauss — la batería electrocinética, un medidor de 0 a 100% que carga y drena por lo que Gauss hace, y cuyo nivel parametriza cuatro de sus habilidades
-> Fuente de verdad de: qué carga y qué drena la batería, con su tasa · el techo de 80% por defecto y su liberación a 100% · el bonus de recarga de shields y su linealidad · qué habilidades leen el nivel de batería
-> No usar para: los stats base de Gauss · los valores de sus habilidades (ver el `.md` de cada una) · la aceleración base de un warframe cualquiera (ver [`../../mechanics/movement-speed.md`](../../mechanics/movement-speed.md))
+> Fuente de verdad de: qué carga y qué drena la batería, con su tasa · el techo de 80% por defecto y su liberación a 100% · **cuánto bonus de recarga de shields da la batería** y que escala lineal · qué habilidades leen el nivel de batería
+> No usar para: los stats base de Gauss · los valores de sus habilidades (ver el `.md` de cada una) · cómo funcionan la tasa y el delay de recarga de shields en general (ver [`../../mechanics/shield.md`](../../mechanics/shield.md)) · la aceleración base de un warframe cualquiera (ver [`../../mechanics/movement-speed.md`](../../mechanics/movement-speed.md))
 > Última actualización: 2026-08-01
 > Fuente: https://wiki.warframe.com/w/Gauss/Abilities/Passive
 > Fuente actualizada: 2026-05-17
