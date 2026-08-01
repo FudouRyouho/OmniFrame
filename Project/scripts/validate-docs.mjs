@@ -51,14 +51,9 @@ const hallazgos = [];
 const add = (sev, check, file, msg) =>
   hallazgos.push({ sev, check, file: path.relative(REPO, file), msg });
 
-// Los directorios que empiezan con `.` quedan fuera: `.working/` es andamio gitignored —
-// borradores que se reescriben sin costo y se tiran al destilar. Exigirle el régimen del corpus
-// (frontmatter, tier, citas entrantes) a algo que ni siquiera entra a git es incoherente, y el
-// precio sería contaminar el andamio con ceremonia para callar al validador.
 function walk(dir, ext) {
   const out = [];
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (e.name.startsWith('.')) continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) out.push(...walk(p, ext));
     else if (ext.some((x) => e.name.endsWith(x))) out.push(p);
