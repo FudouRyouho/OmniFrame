@@ -208,6 +208,8 @@ No se pueden apilar dos habilidades de la misma clase para producir más de un d
 - *Usuario y aliados:* Nova *Escape Velocity* · Octavia *Metronome* · **Volt *Speed*** · Zephyr *Jet Stream* · Wisp *Reservoirs* (Haste mote)
 - *Enemigo:* Nova *Molecular Prime* si Ability Strength < 70% · Equinox *Rest & Rage* (forma día)
 
+> ⚠️ Desactualizado → [`../warframes/nova/molecular-prime.md`](../warframes/nova/molecular-prime.md)
+
 ## Misc
 
 > Raw: `buff-debuff-buffs-misc.wikitext`
@@ -268,6 +270,8 @@ Excalibur *Radial Blind* · pasiva de Gara · Inaros *Desiccation* · Mesa *Muzz
 **Sleep** · `Enemy` — de pie y sin actuar. Baruuk *Lull* · Equinox *Rest & Rage* (Rest) · Ivara *Quiver* (Sleep) · set Aero · golpes normales de Cobra & Crane si la porta Baruuk · arcano *Magus Lockdown*
 
 **Slowed** · `Enemy` — Chroma *Spectral Scream*, *Elemental Ward* y *Effigy* (Cold) · Equinox *Peaceful Provocation* · Frost *Freeze*, *Ice Wave*, *Ice Wave Impedance* y *Snow Globe* · Nekros *Creeping Terrify* · Nova *Molecular Prime* · Sevagoth *Gloom* · Titania *Tribute* (Entangle) · Valkyr *Warcry* · Xaku *The Vast Untime* · proc de Cold · *Coolant Leak* · *Endoparasitic Vector* · Artax.
+
+> ⚠️ Desactualizado → [`../warframes/valkyr/paralysis.md`](../warframes/valkyr/paralysis.md)
 **Cuentan como *time disruption*, que el Overguard no previene:** Rhino *Rhino Stomp* · Zenurik *Temporal Drag*
 
 **Slowed** · `Player` — Ghouls al morir (nubes que procan Cold) · enemigos con Glaxion · orbes de energía del Denial Bursa · Scyto Raknoid · el alquitrán del Tar Mutalist MOA · Maggot · proc de Cold · Hobbled Dragon Key

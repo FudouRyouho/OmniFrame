@@ -1,0 +1,51 @@
+<onlyinclude>{{AbilityU10.3
+| name = Paralysis
+| gameimage = ParalysisPanel.png
+| cardimage = ParalysisModU15.jpeg
+| hotkey = 3
+| energy = 25
+| description = Unleash a damaging blast, slowing its victims while increasing their Melee Damage Vulnerability.
+| strength = 100 / 200 / 300 / 400 {{D|Impact}} damage<br>15% / 20% / 25% / 30% {{D|Slow}}<br>20% / 30% / 40% / 50% Melee [[Damage Vulnerability]]
+| range = 5 / 7 / 8 / 10 m
+| duration = 15s
+| misc = 75% {{D|Slow}} cap
+| cardonly = {{{1|}}}
+| info = * Valkyr expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to release a paralyzing wave within {{Stat|Ability Range|icon=only}}'''5 / 7 / 8 / 10''' meters around her, inflicting enemies within direct [[Line of Sight]] with {{Stat|Ability Strength|icon=only}}'''100 / 200 / 300 / 400''' {{D|Impact}} damage, {{Stat|Ability Strength|icon=only}}'''15% / 20% / 25% / 30%''' {{D|Slow}}, and {{Stat|Ability Strength|icon=only}}'''20% / 30% / 40% / 50%''' Melee [[Damage Vulnerability]] for {{Stat|Ability Duration|icon=only}}'''15''' seconds.
+**Slow is capped at <u>'''75%'''</u>.
+**Enemies struck are stunned for 3 seconds (unaffected by Ability Duration), which leaves them open to [[Finisher]] attacks.
+***If an enemy is already affected by a similar stun (e.g. {{D|Heat||Heat's}} panic effect, {{D|Electricity|Electricity's}} stun, being {{D|Cold|Frozen}}), this effect will not trigger, and the target will not be vulnerable to Finisher attacks.
+***If the enemy cannot be attacked with a Finisher (either due to positioning or the enemy type), it will be susceptible to [[Stealth#Damage_Multipliers|Stealth Damage Multipliers]] from melee attacks for the duration of the stun. As with other stealth attacks, coming into physical contact with the enemy while attacking will temporarily remove the damage bonus.
+**Line of sight checks come from camera position, rather than Valkyr's position.
+**Can destroy [[Objects]], which does '''not''' require line of sight.
+| synergies =
+* Paralysis enables Finisher attacks, which provides the biggest increase to [[Valkyr/Abilities#Passive|Rage]].
+| augment = [[File:ProlongedParalysisMod.png|200px|left]]
+{{main|Prolonged Paralysis}}
+{{#lst:Prolonged Paralysis|intro}}
+{{#lsth:Prolonged Paralysis|Stats}}
+{{clr}}
+| tips =
+* The way Paralysis is treated is similar to {{WF|Banshee}}'s {{A|Sonic Boom}}, dealing a blast with tremendous knockback, but doing a full 360 angle of damage with half of the original range.
+* A single use of Paralysis is typically sufficient to destroy all the fuel injectors in a [[Sabotage]] mission.
+* Paralysis's ability to enable reliable Finishers synergizes well with {{Arcane|Arcane Trickery}}, allowing Valkyr to benefit from stealth attacks and {{Arcane|Arcane Crepuscular}}.
+<noinclude>
+|max = {{WFmax|main|valkyr3}}
+</noinclude>
+| bugs = *When Paralysis is used repeatably, Valkyr's accompanying scream may sometimes skip over itself and not play. This is merely an auditory bug.
+*Enemies don't get opened to Finishers if they are animation-locked (e.g. under {{D|Heat|Heat's}} panic effect, {{D|Cold|Frozen}}, {{D|Electricity|Electricuted}}).
+*Paralysis can slow enemies that have {{D|Overguard}}.|
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Valkyr}}
+__NOTOC__
+[[de:Paralyse]]
+[[es:Parálisis]]
+[[fr:Paralysie]]
+[[ru:Паралич]]
+[[Category:Valkyr]]
+[[Category:Update 11]]
+[[Category:Warframe Abilities]]
+[[Category:Slow]]
+[[Category:Line Of Sight Abilities]]
+[[uk:Параліч]]
