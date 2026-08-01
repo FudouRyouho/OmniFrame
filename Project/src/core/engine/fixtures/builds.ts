@@ -628,8 +628,74 @@ export function voltChannelArcanes(): EnsembleIntention {
   };
 }
 
+// ─── Valkyr ──────────────────────────────────────────────────────────────────────────
+
+export const VALKYR        = '/Lotus/Powersuits/Berserker/Berserker';
+export const VALKYR_WARCRY = '/Lotus/Powersuits/PowersuitAbilities/BerserkerScreamAbility';
+
+/**
+ * Valkyr limpia + Nikana Prime, sin mods. Baseline para aislar el aporte de Warcry.
+ *
+ * Trae la melee de entrada porque los DOS ejes de Warcry la necesitan o la rozan: el attack
+ * speed aterriza en ella, y el armor es el único stat base que participa de la aritmética que
+ * el test verifica (855 — el más alto del juego, contra 240 de Rhino y 105 de Volt).
+ */
+export function valkyr(): EnsembleIntention {
+  return {
+    items: {
+      warframe:         { itemId: VALKYR, rank: 30 },
+      primary:          { itemId: null, rank: 30 },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: NIKANA_PRIME, rank: 30, active_profile: 'base' },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: { warframe: {} },
+    environment: BASE_ENV,
+  };
+}
+
+/**
+ * Valkyr + Warcry activo. Tercera habilidad que el motor consume por hidratación real
+ * (Roar, Speed, Warcry) y la primera que toca **dos entidades distintas con dos ejes
+ * distintos**: el armor vuelve al warframe que castea, el attack speed alcanza la melee.
+ *
+ * Lo que agrega sobre Speed —y la razón de que sea el candidato siguiente— es el eje de
+ * **armadura porcentual desde una habilidad**. Rhino ya ejerce `AVATAR_ADD_ARMOUR`, pero
+ * sólo con shards FLAT: su `mods_add_pct` queda en `0`. Warcry es la primera fuente que lo
+ * puebla, y la wiki precisa que compone ahí y no en un bucket propio — el `+50%` "stackea
+ * aditivamente con mods como Steel Fiber", o sea multiplica la base junto a ellos
+ * (`references/wiki/mechanics/buff-debuff.md` §Defense · `armor.md`).
+ *
+ * Los dos stats salen de DOS renglones del `.md` de la UI, sin colapso: a diferencia del
+ * `Speed Multiplier: 1,75x` de Volt —un renglón, dos stats—, acá el juego ya los muestra
+ * separados.
+ *
+ * @param strength si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
+ */
+export function valkyrWarcry(opts: { strength?: boolean } = {}): EnsembleIntention {
+  const base = valkyr();
+  return {
+    ...base,
+    items: {
+      ...base.items,
+      warframe: { ...base.items.warframe, abilities: [{ id: VALKYR_WARCRY }] },
+    },
+    ...(opts.strength
+      ? { mods: { warframe: { 0: { itemId: RHINO_MOD.BLIND_RAGE, rank: 30, level: 10 } } } }
+      : {}),
+  };
+}
+
 export const BUILDS: Record<string, () => EnsembleIntention> = {
   volt_channel_arcanes: () => voltChannelArcanes(),
+  valkyr:            () => valkyr(),
+  valkyr_warcry:     () => valkyrWarcry(),
+  valkyr_warcry_str: () => valkyrWarcry({ strength: true }),
   nikana:      () => nikana(false),
   nikana_fury: () => nikana(false, 'base', false, false, true),
   volt:       () => volt(),

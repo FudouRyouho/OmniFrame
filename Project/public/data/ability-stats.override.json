@@ -1041,12 +1041,14 @@
           {
             "label": "Armor Increase: |val1|%",
             "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
+            "upgrade_type": "AVATAR_ADD_ARMOUR"
           },
           {
             "label": "Attack Speed: |val1|%",
             "base_value": 50,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       },
