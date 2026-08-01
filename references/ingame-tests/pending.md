@@ -109,21 +109,22 @@ ningún doc — no hay nada que contradecir. Va a `OQ-ENGINE-26`.
 
 ---
 
-## P-5 · ¿Los buffs de warframe alcanzan al compañero?
+## P-5 · ¿Qué determina que un buff propague al compañero y no se detenga en el portador?
 
-**Estado:** hueco del corpus — no hay página de compañeros en `wiki/`, y la de la habilidad no lo dice.
+**Estado:** hueco de la fuente — la regla no está publicada en ningún lado.
 
-`Speed` (Volt) describe su efecto sobre *"allies"* y *"affected players"*, **sin mencionar
-compañeros ni sentinels**. Que el buff le caiga también al compañero es experiencia de juego del
-usuario, sin medición y sin fuente que lo respalde.
+Que los buffs de warframe alcancen al compañero **no está en duda**: los compañeros son *allies*, y
+las habilidades que afectan *"all allies in range"* los incluyen. Lo que no se sabe es **el borde**:
+la mayoría le llega, pero no todos, y ninguna página dice qué los separa — `Companion` no trata el
+tema y las páginas de habilidad describen el caso jugador.
 
-**Cómo se mide:** Volt con un sentinel armado. Medir la cadencia o el tiempo de recarga del arma del
-sentinel —el stat que Speed toca en las armas— con la habilidad inactiva y activa. Si cambia, el buff
-propaga al compañero; si no, la propagación se detiene en el portador.
+**Cómo se mide:** Volt con un sentinel armado, midiendo la cadencia del arma del sentinel con *Speed*
+inactiva y activa. Conviene separar las dos facetas que el mismo test expone: el buff de **arma**
+(reload / attack speed), que tiene lectura directa, y el de **movement**, que a un sentinel puede no
+aplicarle por no caminar. Esa diferencia —si existe— es la primera pista del criterio.
 
-**Vale la pena separar dos preguntas** que el mismo test responde: si propaga **el buff de movement**
-(el sentinel no camina, así que puede no aplicar) y si propaga **el de arma** (reload / attack speed),
-que es el que tiene lectura directa.
+**Qué se busca, más allá del sí/no:** un buff que **no** propague, para contrastarlo con los que sí.
+Un solo contraejemplo bien elegido vale más que confirmar diez casos positivos: es lo que convierte
+"la mayoría propaga" en una regla que el motor pueda aplicar sin enumerar excepciones.
 
-Va a `OQ-ENGINE-31`: define si la entidad compañero nace necesitando recibir efectos de otra entidad,
-que es lo que decide la forma del modelo.
+Va a `OQ-ENGINE-31`: define si el modelo puede tener una regla de propagación o necesita una tabla.

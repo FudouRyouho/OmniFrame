@@ -1647,12 +1647,17 @@ rutearlo al warframe sería un bug peor que el que el salto por familia arregla,
 compañero se decide cuando existan esas entidades**. Ese es el consumidor: no es abstracción
 especulativa, es un ruteo resuelto sólo para armas con el otro lado esperando.
 
-**Hipótesis que ancla el eje, y hoy NO tiene warrant:** que los buffs de warframe alcanzan al
-compañero — *Speed* de Volt cayéndole al sentinel es el caso concreto. `speed.wikitext` habla de
-*"allies"* y *"affected players"*, **sin mencionar compañeros ni sentinels**, y no existe corpus de
-compañeros en `references/wiki/`. Es experiencia de juego del usuario sin medición, mismo régimen que
-`OQ-ENGINE-26` → se mide (**`ingame-tests/pending.md` P-5**). Si el buff no propaga, el forcing-case
-cambia de forma; si propaga, la entidad compañero nace ya necesitando recibir efectos de otra.
+**Que los buffs de warframe alcanzan al compañero está asentado:** los compañeros **son *allies***
+—como los NPC de misión—, así que el *"affects all allies in range"* de `speed.wikitext` ya los
+cubre; su *"affected players"* describe el caso jugador, no delimita el conjunto. La entidad compañero
+nace, entonces, **ya necesitando recibir efectos de otra entidad**, y eso fija la forma del modelo:
+un compañero no es un portador aislado con su propio grafo, es un receptor.
+
+**Lo que sí está abierto es el borde:** la mayoría de los buffs le llegan al compañero, **pero no
+todos**, y qué los separa no lo publica ninguna página —`Companion` no trata el tema. No es una
+pregunta de "¿propaga?" sino de **qué determina que un efecto propague o se detenga en el portador**,
+y sin esa regla el modelo tendría que enumerar excepciones a mano. Se releva midiendo
+(**`ingame-tests/pending.md` P-5**), mismo régimen que `OQ-ENGINE-26`.
 
 **La progresión que esto sugiere no es de entidades sino de capacidades del motor** — una entidad se
 gana el lugar cuando el motor ya sabe propagarle lo que le llega: warframe → habilidades de buff
