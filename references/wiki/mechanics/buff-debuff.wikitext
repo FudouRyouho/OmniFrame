@@ -1,0 +1,28 @@
+{{UpdateMe}}
+{{Community}}
+{{Spoiler|Please complete [[The Second Dream]] before continuing.}}
+<code>Buffs</code> and <code>Debuffs</code> are effects that can positively or negatively affect a target during a mission.<br/> 
+They are given temporarily, conditionally, incrementally, or they affect multiple entities, i.e. {{M|Ready Steel}} is a team wide <code>Buff</code> whereas {{M|Corrupt Charge}} is a straightforward improvement of your selected weapon.<br/>
+The effect of buffs is often not visible in the [[Arsenal]], given that many of them apply conditionally or don't have a dedicated stats field.<br/>
+Some buffs and debuffs may present an icon right next to the player's health and shields. In-game, blue icons denote buffs and red icons denote debuffs. Active buffs and debuffs can be viewed in the pause menu.<br/>
+
+For more kinds of stat improvements see [[Upgrade]]. 
+
+<tabber>
+Buffs={{:Buff_&_Debuff/Buffs}}
+|-|Debuffs={{:Buff_&_Debuff/Debuffs}}
+|-|Icons={{:Buff_&_Debuff/Icons}}
+</tabber>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|34}}
+;Buffs and Debuffs in Pause Menu
+
+The meme of players giving their squadmates enough buff indicators to look like an MMORPG screen is real and valid. Worry not! We have not changed the buffs you get, we’re simply adding the ability to see what the actual Buff and Debuff Icons mean when entering your Pause Menu:
+
+As you can see in the screenshot above, hovering over the icon will show you the effect’s name and possibly the description. We've done our best to add descriptions for Arcanes, Mods, Decrees, Focus Abilities, and Weapon Abilities in time for this update. As the majority of descriptions are still being added, we ask that any bug reporting is done on incorrect or incomplete descriptions instead of missing ones! 
+}}
+
+{{MechNav}}
+[[Category:Mechanics]]

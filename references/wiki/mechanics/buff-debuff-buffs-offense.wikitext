@@ -1,0 +1,282 @@
+===Offensive Buffs===
+Buffs that boost offensive capabilities by increasing damage, damage per second, Ability Strength, or a weapon's stats.
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Target
+! Description
+|-
+| Ability Duration Bonus || User ||align="left"|
+User get a bonus in [[Ability Duration]].<br />
+'''Additive''':
+*{{A|Vengeful Rush}}
+*{{Arcane|Molt Efficiency}}
+|-
+| Ability Strength Bonus || User/Ally ||align="left"|
+User and/or ally get a bonus in [[Ability Strength]].<br />
+'''Additive''':
+*{{WF|Ember}}'s passive
+*{{WF|Equinox}} day form's {{A|Pacify & Provoke}} and its augment {{M|Peaceful Provocation}}
+*{{WF|Protea}}'s passive
+*{{WF|Khora}}'s {{M|Accumulating Whipclaw}} (to her 1st ability only)
+*{{M|Growing Power}}
+*{{M|Power Donation}} when used by a teammate
+*{{Arcane|Molt Vigor}}
+*{{Arcane|Pax Bolt}}
+*Madurai's {{Focus|Sling Strength}}
+*Zenurik's {{Focus|Hardened Wellspring}}
+*[[Arbitrations]] when the suggested Warframe is picked
+<hr />
+'''Multiplicative''':
+*{{WF|Nidus}}' {{A|Parasitic Link}}
+*Warframe [[Buff & Debuff#Corruption|Corruption]]
+|-
+| Attack Speed Bonus || User/Ally ||align="left"|
+Attack Speed increase caused by:
+*{{WF|Gauss}}' {{A|Redline}}
+*{{WF|Harrow}}'s {{A|Penance}}
+*{{WF|Octavia}}'s {{A|Metronome}}
+*{{WF|Titania}}'s {{M|Razorwing Blitz}} augment
+*{{WF|Valkyr}}'s {{A|Warcry}}
+*{{WF|Volt}}'s {{A|Speed}}
+*{{WF|Wisp}}'s {{A|Reservoirs}} (Haste mote)
+|-
+| Critical Chance Bonus || Player ||align="left"|
+Weapon [[Critical Hit|critical chance]] is increased by the following sources:
+;All weapons
+*{{WF|Harrow}}'s {{A|Covenant}}
+*{{Companion|Adarza Kavat}}'s {{M|Cat's Eye}}
+*{{Companion|Smeeta Kavat}}'s {{M|Charm}} (Critical Chance Bonus buff)
+*{{Arcane|Arcane Avenger}}
+
+;Non-shotgun primaries only
+*{{M|Argon Scope}}
+*{{M|Galvanized Scope}}
+*{{M|Hata-Satya}} (only for {{Weapon|Soma Prime}})
+*{{M|Proton Jet}}
+*[[Set Mods#Vigilante Mod Set|Vigilante Mod Set]] bonus (Primaries only)
+
+;Primary shotguns only
+*{{M|Laser Sight}}
+*{{M|Motus Setup}}
+
+;Secondaries only
+*{{M|Hydraulic Crosshairs}}
+*{{M|Galvanized Crosshairs}}
+*{{Arcane|Cascadia Accuracy}}
+*{{Arcane|Cascadia Overcharge}}
+
+;Melee only
+*[[Set Mods#Gladiator Mod Set|Gladiator Mod Set]] bonus
+*{{M|Blood Rush}}
+*{{M|Maiming Strike}}
+*Naramon's {{Focus|Killer's Rush}}
+
+;Misc
+*{{WF|Ivara}}'s {{M|Piercing Navigator}} (only a single projectile) and {{M|Concentrated Arrow}} ({{Weapon|Artemis Bow}} only)
+*{{WF|Nidus}}' {{M|Teeming Virulence}} (Primaries only)
+*{{WF|Wukong}}'s {{M|Primal Rage}} ({{Weapon|Iron Staff}} only)
+*{{WF|Wisp}}'s {{M|Critical Surge}} (Primaries only)
+*{{WF|Zephyr}}'s Passive (In-air only)
+*{{M|Critical Focus}} (Arch-guns only)
+*{{M|Exposing Harpoon}} ({{Weapon|Harpak}} only)
+*{{M|Hunter Synergy}} (Beast companions only)
+*{{M|Hydraulic Crosshairs}} (Secondary weapons only)
+*{{Weapon|Arca Scisco}}'s passive (flat bonus)
+*({{Weapon|Silva & Aegis Prime|Prime}}) {{Weapon|Silva & Aegis}}'s passive
+*{{Arcane|Virtuos Shadow}} (Operator amps only)
+|-
+| Critical Damage Multiplier Bonus || Player ||align="left"|
+Weapon [[Critical Hit|critical damage multiplier]] is increased by the following sources:
+*{{WF|Ivara}}'s {{M|Empowered Quiver}}
+*{{WF|Volt}}'s {{A|Electric Shield}} (Non-melees only)
+*{{M|Bladed Rounds}} (Non-shotgun primaries only)
+*{{M|Critical Focus}} (Arch-guns only)
+*{{M|Shrapnel Shot}} (Shotgun primaries only)
+*{{M|Sharpened Bullets}} (Secondaries only)
+*{{M|Strain Infection}} (Melee only)
+*{{M|Tek Collateral}}
+*{{Weapon|Knell}}'s passive
+*{{Arcane|Virtuos Strike}} (Operator amp only)
+*{{Arcane|Virtuos Shadow}} (Operator amp only)
+*Madurai's {{Focus|Power Transfer}} (Operator amp only)
+|-
+| Total Damage Bonus || User/Ally ||align="left"|
+'''Additive''' damage increase is added before other calculations. Bonus acts like and stacks additively with damage mods such as {{M|Serration}}.
+*{{WF|Chroma}}'s {{A|Vex Armor}}
+*{{WF|Equinox}}'s {{A|Metamorphosis}} (Night form)
+*{{WF|Gauss}}' {{A|Kinetic Plating}} while {{A|Redline}} is active (Melee only)
+*{{WF|Limbo}}'s {{M|Rift Torrent}}
+*{{WF|Mesa}}'s {{A|Shooting Gallery}}
+*{{WF|Nyx}}'s {{A|Absorb}}
+*{{WF|Octavia}}'s {{A|Metronome}} (Forte buff, Melee only) and {{A|Amp}}
+*{{WF|Titania}}'s {{A|Tribute}} (Full Moon buff, Companions only)
+*{{M|Ambush}}
+*{{M|Condition Overload}} (Melee only)
+*{{M|Dead Eye}} (Sniper rifles only)
+*{{M|Deadly Efficiency}} (Arch-guns only)
+*{{M|Galvanized Aptitude}} (Primary rifles only, direct hit damage only)
+*{{M|Galvanized Savvy}} (Primary shotguns only, direct hit damage only)
+*{{M|Galvanized Shot}} (Secondaries only, direct hit damage only)
+*{{M|Hunter's Bonesaw}} ({{Weapon|Ripkas}} only)
+*{{M|Pistol Amp}} (Secondaries only)
+*{{M|Provoked}} (Secondaries only while in [[Bleedout]])
+*{{M|Rifle Amp}} (Non-shotgun and non-sniper primaries only)
+*{{M|Seismic Wave}} (Melee only)
+*{{M|Shotgun Amp}} (Primary shotguns only)
+*{{M|Strain Fever}} ({{Companion|Helminth Charger}} only)
+*{{M|Vigorous Swap}} (Primaries and secondaries only)
+*{{Arcane|Arcane Arachne}}
+*{{Arcane|Arcane Awakening}} (Secondaries only)
+*{{Arcane|Arcane Blade Charger}} (Melee only)
+*{{Arcane|Arcane Fury}} (Melee only)
+*{{Arcane|Arcane Precision}} (Secondaries only)
+*{{Arcane|Arcane Primary Charger}} (Primary only)
+*{{Arcane|Arcane Rage}} (Primary only)
+*{{Arcane|Eternal Eradicate}} (Operator amp only)
+*{{Arcane|Primary Deadhead}} (Primaries only)
+*{{Arcane|Primary Dexterity}} (Primaries only)
+*{{Arcane|Primary Merciless}} (Primaries only)
+*{{Arcane|Secondary Deadhead}} (Secondaries only)
+*{{Arcane|Secondary Dexterity}} (Secondaies only)
+*{{Arcane|Secondary Merciless}} (Secondaies only)
+*{{Arcane|Virtuos Fury}} (Operator amp only)
+*Madurai's {{Focus|Phoenix Talons}} (Physical damage only for Warframes but any source of damage for Operator)
+*Madurai's {{Focus|Void Strike}}
+*Naramon's {{Focus|Amp Spike}} (Operator amp only)
+*Naramon's {{Focus|Lethal Levitation}}
+*Unairu's {{Focus|Unairu Wisp}} (Operator only)
+*Unairu's {{Focus|Vengeance}} (Operator only)
+<hr />
+'''Multiplicative''' damage increase is multiplied after certain calculations (like damage mods such as {{M|Serration}}).
+*{{WF|Banshee}}'s {{M|Savage Silence}} (Finisher damage only)
+*{{WF|Excalibur}}'s {{M|Radiant Finish}} (Finisher damage only) and {{M|Furious Javelin}}
+*{{WF|Ivara}}'s {{A|Prowl}} (headshots only)
+*{{WF|Mirage}}'s {{A|Eclipse}} and {{M|Hall of Malevolence}} augment
+*{{WF|Rhino}}'s {{A|Roar}}
+*{{WF|Vauban}}'s {{A|Minelayer}} (Overdriver)
+*{{Companion|Sahasa Kubrow}}'s {{M|Ferocity}} (Finisher damage only)
+*{{Companion|Sunika Kubrow}}'s {{M|Savagery}} (Finisher damage only)
+*{{M|Charged Chamber}} (Sniper rifles only)
+*{{M|Mecha Empowered}}
+*{{M|Meticulous Aim}} ({{Weapon|Vulkar}} and headshots only)
+*{{M|Primed Chamber}} (Sniper rifles only)
+*{{M|Synth Charge}}
+*{{Weapon|Arca Titron}}'s passive
+*Naramon's {{Focus|Sling Stun}} (Finisher damage only)
+<hr />
+'''Flat damage''' increase adds a set amount of damage to your weapon under certain conditions.
+*{{WF|Mesa}}'s {{A|Ballistic Battery}}
+*{{M|Energy Channel}} (Melee only)
+|-
+| [[Damage Reflection]] || Player ||align="left"|
+Damage taken will be reflected or redirected towards enemies.
+*{{WF|Chroma}}'s {{A|Elemental Ward}} when the element is {{D|Electricity}} or {{D|Cold}}
+*{{WF|Mesa}}'s {{A|Shatter Shield}}
+*{{WF|Nidus}}' {{A|Parasitic Link}}
+*{{WF|Revenant}}'s {{A|Mesmer Skin}}
+*{{WF|Titania}}'s {{A|Tribute}} (Thorns buff)
+*{{WF|Trinity}}'s {{A|Link}}
+*{{Companion|Adarza Kavat}}'s {{M|Reflect}}
+*{{M|Reflection}}
+|-
+| Elemental Damage Bonus || Self/Ally ||align="left"|
+Increases the damage of weapons and certain abilities. This bonus is multiplicative after damage mods such as {{M|Serration}}, but before elemental mods such as {{M|Hellfire}} (i.e. stacks additively with elemental mods). The elemental bonus will not combine with elements already present on the weapon (e.g. using {{M|Fireball Frenzy}} on a {{D|Cold}} weapon makes it deal both {{D|Cold}}  and {{D|Heat}} damage, and does not combine into {{D|Blast}}). This allows weapons that have modded or innate elemental damage to gain additional damage types that would not be accessible under normal conditions (e.g. using {{M|Shock Trooper}} on a weapon with modded or innate {{D|Radiation}}  will add additional {{D|Electricity}}  damage, instead of combining both elements into pure {{D|Radiation}}).
+
+Some elemental damage bonuses can be applied to [[Companions]], [[Specter]]s, {{A|Mind Control|Mind Controlled}} enemies, {{A|Shadows of the Dead|Shadows}}, {{WF|Saryn}}'s {{A|Molt}}, {{WF|Loki}}'s {{A|Decoy}}, [[Invasion|Invasion allies]] and clones created from {{A|Blade Storm}}. Bonuses cannot be applied to allies suffering from a {{D|Radiation}} proc.
+
+Elemental damage bonuses are granted by:
+; Caster and allies
+*{{WF|Grendel}}'s {{A|Nourish}} (Nourished Strike buff), adds {{D|Viral}}
+*{{M|Energy Field}}, adds {{D|Heat}} (bonus can be applied if allies shoot through shield)
+*{{M|Fireball Frenzy}}, adds {{D|Heat}}
+*{{M|Freeze Force}}, adds {{D|Cold}}
+*{{M|Shock Trooper}}, adds {{D|Electricity}}
+*{{M|Smite Infusion}}, adds {{D|Radiation}}
+*{{M|Venom Dose}}, adds {{D|Corrosive}}
+*{{M|Thermal Transfer}}, adds {{D|Heat}}, {{D|Cold}} or {{D|Blast}}
+
+; Caster only
+*{{WF|Wukong}}'s passive (Primal Forces buff)
+*{{Weapon|Ack & Brunt}}'s passive, adds the type of damage blocked to boost next attack
+*{{Weapon|Dual Toxocyst}}'s passive, adds bonus {{D|Toxin}} to its attacks
+*{{Weapon|Lesion}}'s passive, adds bonus {{D|Toxin}} to its attacks
+*{{Arcane|Magus Melt}}, adds {{D|Heat}} (Operator amp only)
+|-
+| Extra Hit || Player ||align="left"|
+Players under this effect will have their weapons inflict an extra hit per damage instance that is based on the percentage of total weapon damage. This extra hit is counted as a separate damage instance and will not affect the initial damage distribution nor will it affect proc type chance calculations.
+*{{WF|Saryn}}'s {{A|Toxic Lash}}, adds an extra hit of {{D|Toxin}} damage
+*{{WF|Xaku}}'s {{A|Xata's Whisper}}, adds an extra hit of {{D|Void}} damage
+*{{WF|Cyte-09}}' {{A|Resupply}}, adds an extra hit of selected damage type
+|-
+| Faction Damage Bonus || Player ||align="left"|
+Players gain '''multiplicative''' damage bonus against a particular faction when equipped with the mods below in order of primary rifle, primary shotgun, secondary, and melee. This damage bonus stacks on top of base damage and any elemental mods added on a weapon.
+;All
+*{{WF|Rhino}}'s {{A|Roar}}
+;Grineer
+*({{M|Primed Bane of Grineer|Primed}}) {{M|Bane of Grineer}}
+*({{M|Primed Cleanse Grineer|Primed}}) {{M|Cleanse Grineer}}
+*({{M|Primed Expel Grineer|Primed}}) {{M|Expel Grineer}}
+*({{M|Primed Smite Grineer|Primed}}) {{M|Smite Grineer}}
+
+;Corpus
+*({{M|Primed Bane of Corpus|Primed}}) {{M|Bane of Corpus}}
+*({{M|Primed Cleanse Corpus|Primed}}) {{M|Cleanse Corpus}}
+*({{M|Primed Expel Corpus|Primed}}) {{M|Expel Corpus}}
+*({{M|Primed Smite Corpus|Primed}}) {{M|Smite Corpus}}
+
+;Infested
+*({{M|Primed Bane of Infested|Primed}}) {{M|Bane of Infested}}
+*({{M|Primed Cleanse Infested|Primed}}) {{M|Cleanse Infested}}
+*({{M|Primed Expel Infested|Primed}}) {{M|Expel Infested}}
+*({{M|Primed Smite Infested|Primed}}) {{M|Smite Infested}}
+
+;Orokin
+*({{M|Primed Bane of Orokin|Primed}}) {{M|Bane of Orokin}}
+*({{M|Primed Cleanse Orokin|Primed}}){{M|Cleanse Orokin}}
+*({{M|Primed Expel Orokin|Primed}}) {{M|Expel Orokin}}
+*({{M|Primed Smite Orokin|Primed}}) {{M|Smite Orokin}}
+
+;Sentient
+*{{M|Sacrificial Pressure}} (Melee only)
+*{{M|Sacrificial Steel}} (Melee only)
+*Max rank {{Weapon|Paracesis}}
+|-
+| Fire Rate Bonus || Player ||align="left"|
+Sources of weapon fire rate increase are:
+*{{WF|Gauss}}' {{A|Redline}}
+*{{WF|Harrow}}'s {{A|Penance}}
+*{{WF|Mesa}}'s passive (Dual secondaries only)
+*{{WF|Wisp}}'s {{A|Reservoirs}} (Haste mote)
+*{{M|Pressurized Magazine}} (Secondaries only)
+*{{M|Repeater Clip}} (Shotgun primaries only)
+*{{M|Spring-Loaded Chamber}} (Non-shotgun primaries only)
+|-
+| Status Chance Bonus || Player ||align="left"|
+Weapons gain increased [[Status Effect|status chance]] under these effects:
+*{{M|Catalyzer Link}} (Non-shotgun primaries only)
+*{{M|Chromatic Blade}} ({{Weapon|Exalted Blade}} only)
+*{{M|Embedded Catalyzer}} (Secondaries only)
+*{{M|Hunter's Bonesaw}} ({{Weapon|Ripkas}} only)
+*{{M|Marked Target}} (Arch-guns only)
+*{{M|Mecha Overdrive}} (Beast companions only)
+*{{M|Motus Setup}} (Shotgun primaries only)
+*{{M|Nano-Applicator}} (Shotgun primaries only)
+*{{WF|Citrine}}'s {{A|Prismatic Gem}}
+*{{M|Proton Jet}} (Non-shotgun primaries only)
+*{{M|Proton Snap}} (Melee only)
+*{{M|Reactive Storm}} ({{Weapon|Desert Wind}} only)
+*{{M|Weeping Wounds}} (Melee only)
+*{{Weapon|Arca Scisco}}'s passive (flat bonus)
+*{{Weapon|Knell}}'s passive
+*{{Weapon|Sibear}}'s passive
+*({{Weapon|Silva & Aegis Prime|Prime}}) {{Weapon|Silva & Aegis}}'s passive
+*{{Arcane|Virtuos Ghost}} (Operator amp only)
+|-
+| Status Duration Bonus  || User/Ally ||align="left"|
+Weapons gain increased [[Status Effect|status duration]] under these effects:
+*{{WF|Citrine}}'s {{A|Prismatic Gem}}
+*{{WF|Lavos}}'s passive
+|-
+|}
+[[Category:Mechanics]]

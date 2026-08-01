@@ -1,0 +1,51 @@
+===Miscellaneous Debuffs===
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Type
+! Description
+|-
+| Dispel || Player ||align="left"|
+The player's active abilities will be deactivated.
+*[[Zanuka]]
+*([[Shadow Stalker|Shadow]]) [[Stalker]]
+|-
+| Disarmed || Enemy ||align="left"|
+The target has firearms disarmed, forcing them to use melee.
+*{{WF|Baruuk}}'s {{A|Desolate Hands}}
+*{{WF|Khora}}'s {{A|Venari}} (Protect posture)
+*{{WF|Loki}}'s {{A|Radial Disarm}}
+*{{WF|Mag}}'s {{M|Magnetized Discharge}}
+*{{WF|Titania}}'s {{A|Spellbind}}
+*{{WF|Xaku}}'s {{A|Grasp of Lohk}}
+*{{Companion|Chesa Kubrow}}'s {{M|Neutralize}}
+*{{Companion|Dorma Hound}}'s {{M|Repo Audit}}
+*{{Weapon|Desert Wind}}'s attacks
+*{{Weapon|Halikar}}'s charged attack
+*{{M|Disarming Purity}}
+*Zenurik's {{Focus|Disarming Sling}}
+*[[Void Sling|Void Slinging]] through [[Kuva Guardian]]s
+|-
+| Disarmed || Player ||align="left"|
+The player has their current gun disarmed, forcing them to switch to their primary/secondary or melee.
+*[[Drahk Master]]
+|-
+| [[Eximus]] Aura || Enemy ||align="left"|
+([[Mind Control|Mind controlled]] enemies and [[Specter|syndicate specters]] will grant debuff to enemies of the [[Tenno]])<br />
+*Arctic Eximus units project a {{D|Cold}} aura that emits a {{D|Cold}} status effect to enemies within '''15''' meters, slowing their movement and attack speed.
+*Venomous Eximus units project a {{D|Toxin}} aura that emits a {{D|Toxin}} status effect to enemies within a '''3-4''' meter radius, inflicting a '''8''' second {{D|Toxin}} status effect that deals damage over time.
+|-
+| Reset [[Sentient]] Resistances || [[Sentient]] Enemy ||align="left"|
+Resets Sentient damage resistances.
+*{{WF|Excalibur Umbra}}'s {{A|Radial Howl}}
+*{{WF|Xaku}}'s {{A|Xata's Whisper}} and {{A|The Lost}} (Deny sub-ability)
+*[[Amp]]s
+*{{Weapon|Paracesis}} at Rank 40
+*{{Weapon|Shedu}}
+*[[Void Beam]]
+|-
+| Status Effects || Enemy ||align="left"|
+[[Status Effect]]s are additional effects that are inflicted by Warframe abilities and weapons. Each [[Damage]] type has an associated status effect that could proc when damaging an enemy.
+|-
+|}
+[[Category:Mechanics]]

@@ -1,0 +1,317 @@
+==Crowd Control Debuffs==
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Target
+! Description
+|-
+| Blinded || Enemy ||align="left"|
+The target is temporarily stuck in a [[blind]]ed state, staggering backwards and with smoke emitting from their eyes. [[Finisher]]s can be performed on blinded enemies.
+*{{WF|Excalibur}}'s {{A|Radial Blind}}
+*{{WF|Gara}}'s passive
+*{{WF|Inaros}}'s {{A|Desiccation}}
+*{{WF|Mesa}}'s {{M|Muzzle Flash}}
+*{{WF|Mirage}}'s {{A|Sleight of Hand}} and {{A|Prism}}
+*{{WF|Oberon}}'s {{A|Reckoning}}
+*{{WF|Revenant}}'s {{M|Blinding Reave}}
+*{{WF|Wisp}}'s {{A|Breach Surge}} (does not enable Finishers)
+*{{M|Out Of Sight}}
+*{{Weapon|Exalted Blade}}'s slide attack
+*{{Weapon|Vaykor Sydon}}'s passive
+*While holding [[Narmer Deacon]]'s [[Narmer Veil]] during [[Archon Hunt]]
+|-
+| Blinded || Player ||align="left"|
+The player is temporarily stuck in a [[blind]]ed state, their HUD is flashed white.
+*[[Denial Bursa]]'s flash beams
+|-
+| Confusion || Enemy ||align="left"|
+The target will become confused and indiscriminately attack its enemies and allies.
+*{{WF|Nyx}}'s {{A|Chaos}}
+*{{D|Radiation}} proc
+|-
+| Converted || Enemy ||align="left"|
+The target will change side, being friendly to the [[Tenno]] and start attacking their own faction. Note that this does not guarantee them being invulnerable to friendly fire by allied Tenno. 
+*{{WF|Nyx}}'s {{A|Mind Control}}
+*{{WF|Revenant}}'s {{A|Enthrall}}
+*{{WF|Xaku}}'s {{A|The Lost}} (Accuse sub-ability)
+|-
+| Disarmed || Enemy ||align="left"|
+The target permanently loses its currently equipped weapon, with slight differences depending on the unit affected.
+*{{WF|Baruuk}}'s {{A|Desolate Hands}} and most attacks of {{A|Serene Storm}}
+*{{WF|Khora}}'s {{A|Venari}} when set to Protect posture
+*{{WF|Loki}}'s {{A|Radial Disarm}}
+*{{WF|Mag}}'s {{M|Magnetized Discharge}}
+*{{WF|Titania}}'s {{A|Spellbind}}
+*{{WF|Xaku}}'s {{A|Grasp of Lohk}}
+*{{Weapon|Halikar}} ({{Weapon|Halikar Wraith|Wraith}}) when thrown
+*{{M|Disarming Purity}} mod for the {{Weapon|Panthera}}/{{Weapon|Panthera Prime}}
+*[[Chesa Kubrow]]'s {{M|Neutralize}}
+*{{M|Repo Audit}} for [[Hound (Companion)|Hounds]]
+*{{Focus|Zenurik}}'s {{Focus|Disarming Sling}}
+|-
+| Disarmed || Player ||align="left"|
+Applied to players, Disarm removes the weapon currently held by the Warframe. The player can still switch to any remaining weapons they may be carrying. The Warframe's disarmed weapon will be dropped on the ground, indicated by a yellow waypoint, and can be retrieved. Players will not lose their disarmed weapon should they fail to retrieve it before completing the mission.
+*[[Grineer]] [[Drahk Master]]s, who use the Halikar
+|-
+| Jammed || Enemy ||align="left"|
+The target's guns are jammed, forcing them into an animation where they try to unjam their guns.
+*{{WF|Mag}}'s {{M|Counter Pulse}}
+*{{WF|Mesa}}'s {{A|Shooting Gallery}}
+|-
+| Knockdown || Enemy ||align="left"|
+The target is knocked off their feet and falls on their back. Ground [[Finisher]]s can be performed on these enemies.
+*{{WF|Atlas}}' {{M|Titanic Rumbler}}
+*{{WF|Banshee}}'s {{A|Sonic Boom}}
+*{{WF|Excalibur}}'s {{A|Slash Dash}}
+*{{WF|Gauss}}' {{A|Mach Rush}}
+*{{WF|Garuda}}'s {{A|Dread Mirror}}
+*{{WF|Gyre}}'s rolling {{A|Coil Horizon}}
+*{{WF|Hydroid}}'s {{A|Tempest Barrage}}
+*{{WF|Khora}}'s {{A|Venari}} (Protect posture)
+*{{WF|Limbo}}'s {{A|Banish}}
+*{{WF|Mag}}'s {{A|Magnetize}}
+*{{WF|Nezha}}'s {{A|Divine Spears}}
+*{{WF|Nova}}'s passive, {{M|Neutron Star}}, and {{A|Molecular Prime}}
+*{{WF|Oberon}}'s {{A|Smite}} and {{A|Reckoning}}
+*{{WF|Revenant}}'s passive
+*{{WF|Rhino}}'s passive
+*{{WF|Zephyr}}'s {{A|Tail Wind}} (Dive bomb)
+*{{M|Heavy Impact}}
+*[[Sunika Kubrow]]'s [[Savagery]]
+*{{Companion|Lambeo Moa}}'s {{M|Shockwave Actuators}}
+*{{Arcane|Arcane Eruption}}
+*Jumping + sliding into an enemy
+*[[Maneuvers#Hard Landing|Hard Landing]]s
+*{{Weapon|Cobra & Crane}} air attacks
+*{{Gear|Archgun Deployer}}
+|-
+| Knockdown || Player ||align="left"|
+The player is knocked off their feet and falls on their back.
+;Grineer
+{{Column|2|
+*[[Commander]]
+*([[Elite Shield Lancer]]) [[Shield Lancer]]
+*[[Scorpion]]
+*[[Hellion]]
+*[[Bailiff]]
+*[[Bombard]]
+*[[Heavy Gunner]]
+*[[Napalm]]
+*[[Nox]]
+*[[Ghoul Devourer]]
+*[[Turret#Grineer Turrets|Mordda Turret]]
+}}
+;Corpus
+{{Column|2|
+*[[Shockwave MOA]]
+*[[Anti MOA]]
+*[[Railgun MOA]]
+*[[Mine Osprey]]
+*[[Amalgam Satyr]]
+*[[Laser Barrier]]
+}}
+;Infested
+{{Column|2|
+*[[Leaper]]
+*[[Swarm Mutalist MOA]]
+*[[Tar Mutalist MOA]]
+*[[Ancient Disruptor]]
+*[[Ancient Healer]]
+*[[Toxic Ancient]]
+*[[Juggernaut]] ([[Juggernaut Behemoth|Behemoth]])
+}}
+;Other
+*[[Conculyst]]
+|-
+| Paralyzed, Disabled, Stuck || Enemy ||align="left"|
+The target is stuck in a particular position.
+*{{WF|Atlas}}' {{M|Path of Statues}}, {{A|Petrify}} and {{A|Rumblers}}' initial cast
+*{{WF|Frost}}'s passive, {{A|Freeze}}'s direct hit, {{A|Snow Globe}} if the target is inside the bubble when the ability is activated, {{M|Chilling Globe}} and {{A|Avalanche}}.
+*{{WF|Gara}}'s {{A|Mass Vitrify}}'s expansion phase.
+*{{WF|Garuda}}'s {{A|Blood Altar}}
+*{{WF|Harrow}}'s {{A|Condemn}}
+*{{WF|Hildryn}}'s {{A|Aegis Storm}}
+*{{WF|Inaros}}' {{A|Scarab Swarm}} <!--Enemies can still attack while being swarmed-->
+*{{WF|Khora}}'s {{A|Ensnare}}
+*{{WF|Limbo}}'s {{A|Stasis}}
+*{{WF|Mag}}'s {{M|Fracturing Crush}}
+*{{WF|Nidus}}' {{A|Parasitic Link}}
+*{{WF|Rhino}}'s {{A|Rhino Stomp}} <!--Technically it slows down enemies while they are midair-->
+*{{WF|Vauban}}'s {{A|Bastille}}
+*{{WF|Volt}}'s {{A|Discharge}}
+*{{WF|Wukong}}'s {{M|Celestial Stomp}}
+*{{WF|Xaku}}'s {{A|The Lost}} (Gaze sub-ability)
+*{{Companion|Sahasa Kubrow}}'s {{M|Ferocity}}
+*{{Companion|Sunika Kubrow}}'s {{M|Savagery}} and {{M|Unleashed}}
+*{{Arcane|Exodia Epidemic}}
+*{{Weapon|Vitrica}}'s glassing ability
+|-
+| Paralyzed, Disabled || Player ||align="left"|
+The player is stuck in a particular position.
+*[[Manic]]
+*[[Nauseous Crawler]]
+*[[Void Angel]]'s impaling ground slam, also forcing the [[Operator]]/[[Drifter]] out of their Warframe
+|-
+| Ragdolled || Enemy ||align="left"|
+The target is immediately sent to a ragdoll state.
+*{{WF|Atlas}}' {{A|Landslide}} (every third sucessive strike) and {{A|Tectonics}}
+*{{WF|Banshee}}'s {{A|Sonic Boom}}
+*{{WF|Gauss}}' {{A|Mach Rush}} and {{A|Redline}}
+*{{WF|Gyre}}'s detonated {{A|Coil Horizon}}
+*{{WF|Hydroid}}'s {{A|Tidal Surge}}
+*{{WF|Khora}}'s {{A|Whipclaw}}
+*{{WF|Mag}}'s {{A|Pull}}
+*{{WF|Nekros}}' {{A|Soul Punch}}
+*{{WF|Rhino}}'s {{A|Rhino Charge}}
+*{{WF|Valkyr}}'s {{A|Rip Line}}
+*{{WF|Vauban}}'s {{A|Minelayer}} (Tether coil)
+*{{WF|Yareli}}'s {{A|Riptide}}
+*{{WF|Zephyr}}'s {{A|Airburst}}
+*{{Companion|Wyrm}}'s {{M|Crowd Dispersion}}
+*{{Weapon|Harpak}}'s alt fire
+*{{Weapon|Paracyst}}'s alt fire
+*{{Weapon|Sonicor}}
+*{{Weapon|Kestrel}}'s charged attack
+*Any melee ground slam attack
+*[[Void Sling]]
+*{{Focus|Vazarin}}'s {{Focus|Void Snare}}
+|-
+| Sleep || Enemy ||align="left"|
+The target is in a standing sleeping state and will not perform any action.
+*{{WF|Baruuk}}'s {{A|Lull}}
+*{{WF|Equinox}}'s {{A|Rest & Rage}} (Rest) 
+*{{WF|Ivara}}'s {{A|Quiver}} (Sleep arrow)
+*[[Set Mods#Aero Mod Set|Aero Mod Set]] bonus
+*Normal hits from {{Weapon|Cobra & Crane}} if wielded by {{WF|Baruuk}}
+*{{Arcane|Magus Lockdown}}
+|-
+| Slowed || Enemy ||align="left"|
+The target's movement and actions are slowed.
+*{{WF|Chroma}}'s {{A|Spectral Scream}}, {{A|Elemental Ward}}, and {{A|Effigy}} (Cold)
+*{{WF|Equinox}}'s {{M|Peaceful Provocation}}
+*{{WF|Frost}}'s {{A|Freeze}}, {{A|Ice Wave}}, {{M|Ice Wave Impedance}}, and {{A|Snow Globe}}
+*{{WF|Nekros}}' {{M|Creeping Terrify}}
+*{{WF|Nova}}'s {{A|Molecular Prime}}
+*{{WF|Sevagoth}}'s {{A|Gloom}}
+*{{WF|Titania}}'s {{A|Tribute}} (Entangle buff)
+*{{WF|Valkyr}}'s {{A|Warcry}}
+*{{WF|Xaku}}'s {{A|The Vast Untime}}
+*{{D|Cold}} proc
+*{{M|Coolant Leak}}
+*{{M|Endoparasitic Vector}}
+*{{Weapon|Artax}}
+In addition, the following slows count as ''time disruption'', which is not prevented by [[Overguard]]:
+*{{WF|Rhino}}'s {{A|Rhino Stomp}}
+*Zenurik's {{Focus|Temporal Drag}}
+|-
+| Slowed || Player ||align="left"|
+The player's movement and actions are slowed.
+*All [[Ghoul]] enemies upon death (Toxic clouds that proc {{D|Cold}})
+*Any enemy wielding a {{Weapon|Glaxion}} like some [[Corpus Target]]s
+*[[Denial Bursa]]'s energy orbs
+*[[Scyto Raknoid]]
+*[[Tar Mutalist MOA]]'s thick tar
+*[[Maggot]]
+*{{D|Cold}} proc
+*Equipping a [[Dragon Key|Hobbled Dragon Key]]
+|-
+| Stagger || Enemy ||align="left"|
+The target is momentarily staggered, interrupting their current action.
+*{{WF|Ash}}'s {{A|Smoke Screen}}
+*{{WF|Banshee}}'s {{A|Sound Quake}}
+*{{WF|Chroma}}'s {{A|Elemental Ward}} (Electric) and {{A|Effigy}}
+*{{WF|Equinox}}'s {{A|Mend & Maim}} (Maim)
+*{{WF|Excalibur}}'s {{A|Radial Javelin}}
+*{{WF|Garuda}}'s {{A|Dread Mirror}}, {{A|Blood Altar}}, and {{A|Seeking Talons}}
+*{{WF|Gauss}}' {{A|Kinetic Plating}} while {{A|Redline}} is active
+*{{WF|Hildryn}}'s {{A|Haven}}
+*{{WF|Loki}}'s {{A|Decoy}} (when decoy shoots at enemies), {{A|Switch Teleport}}, and {{A|Radial Disarm}}
+*{{WF|Mesa}}'s {{M|Staggering Shield}}
+*{{WF|Nezha}}'s {{A|Warding Halo}}
+*{{WF|Nidus}}' {{A|Virulence}}
+*{{WF|Nyx}}'s {{M|Pacifying Bolts}} and {{A|Chaos}}
+*{{WF|Octavia}}'s {{A|Resonator}}
+*{{WF|Revenant}}'s {{A|Mesmer Skin}} <!--Stun animation looks like sleeping animation FYI-->
+*{{WF|Rhino}}'s {{M|Piercing Roar}}
+*{{WF|Saryn}}'s {{A|Miasma}}
+*{{WF|Trinity}}'s {{A|Energy Vampire}}
+*{{WF|Vauban}}'s {{A|Tesla Nervos}}
+*{{WF|Volt}}'s {{A|Shock}} and {{M|Shocking Speed}}
+*{{WF|Wisp}}'s {{A|Reservoirs}} (Shock mote)
+*{{WF|Xaku}}'s {{A|The Lost}} (Accuse sub-ability)
+*{{WF|Yareli}}'s {{A|Aquablades}}
+*{{M|Acidic Spittle}} <!--Classified as a stun even though mod card says blinded-->
+*{{M|Live Wire}}
+*{{M|Pounce}}
+*{{Weapon|Opticor}} ({{Weapon|Opticor Vandal}})
+*{{D|Electricity}} proc
+*{{D|Impact}} proc
+|-
+| Stagger || Player ||align="left"|
+The player is momentarily staggered, interrupting their current action.
+*[[Commander]]
+*[[Roller]]
+*Melee parries by [[Bailiff]] and [[Guardsman]]
+*[[Volatile Runner]]
+*[[Kyta Raknoid]]
+*Upon breaking [[Reinforced Glass]] on [[Corpus Ship]] tilesets
+|-
+<!--May need more testing-->
+| Stun || Enemy ||align="left"|
+The target is momentarily stunned, interrupting their current action. Players can perform front/back [[Finisher]]s on stunned enemies.
+*{{WF|Ash}}'s {{A|Teleport}}
+*{{WF|Banshee}}'s {{A|Silence}}
+*{{WF|Valkyr}}'s {{A|Paralysis}}
+*{{WF|Wukong}}'s {{A|Cloud Walker}}
+*{{M|Paralytic Spores}}
+*{{M|Retribution}}
+*{{Weapon|Caustacyst}}'s charged attack
+*{{Weapon|Sigma & Octantis}}'s air attack
+*{{Weapon|Tatsu}}'s seeking projectiles (passive)
+*{{Weapon|Zakti}}'s dart's explosion
+*Charged attacks with any [[Sparring]] melee
+*Naramon's {{Focus|Sling Stun}}
+*[[Justice]] effect from [[Steel Meridian]] weapons/mods
+|-
+| Suspended, Incapacitated || Enemy ||align="left"|
+The target stays in an extended ragdoll state midair (or underwater) and it is unable to move.
+*{{WF|Hydroid}}'s {{A|Undertow}} and {{A|Tentacle Swarm}}
+*{{WF|Inaros}}' {{A|Sandstorm}}
+*{{WF|Khora}}'s {{A|Strangledome}}
+*{{WF|Mag}}'s {{A|Crush}}
+*{{WF|Nidus}}' {{A|Larva}}
+*{{WF|Titania}}'s {{A|Spellbind}} and {{A|Lantern}}
+*{{WF|Trinity}}'s {{A|Well of Life}}
+*{{WF|Vauban}}'s {{A|Bastille}}
+*{{WF|Zephyr}}'s {{A|Tornado}}
+*{{Weapon|Desert Wind}}'s slide attack
+*{{Weapon|Orvius}}'s charged attack
+|-
+| Taunt/Attracted || Enemy ||align="left"|
+The enemy will have its attention diverted towards the target with the higher [[Threat Level]].
+*{{WF|Atlas}}' {{M|Titanic Rumbler}}
+*{{WF|Gara}}'s {{A|Spectrorage}}
+*{{WF|Khora}}'s {{A|Strangledome}}
+*{{WF|Loki}}'s {{A|Decoy}}
+*{{WF|Mirage}}'s {{A|Hall of Mirrors}}
+*{{WF|Nekros}}' {{A|Shadows of the Dead}}
+*{{WF|Nidus}}' {{A|Ravenous}}
+*{{WF|Nyx}}'s {{A|Chaos}} and {{A|Absorb}}
+*{{WF|Octavia}}'s {{A|Mallet}}
+*{{WF|Saryn}}'s {{A|Molt}}
+*{{WF|Titania}}'s {{A|Razorwing}}
+*{{WF|Wukong}}'s {{A|Defy}}
+*{{M|Guardian Derision}}
+
+The target will halt its current action and mindlessly move towards a point.
+*{{WF|Ivara}}'s {{A|Quiver}} (Noise arrow when enemies are unalerted)
+*{{WF|Titania}}'s {{A|Lantern}}
+*{{Companion|Djinn}}'s {{M|Fatal Attraction}}
+|-
+| Terrified || Enemy ||align="left"|
+The target is terrified and tries to run away from the caster.
+*{{WF|Nekros}}' {{A|Terrify}}
+*{{Companion|Raksa Kubrow}}'s {{M|Howl}}
+|-
+|}
+[[Category:Mechanics]]

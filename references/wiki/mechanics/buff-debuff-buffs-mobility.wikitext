@@ -1,0 +1,88 @@
+===Mobility Buffs===
+Buffs that increase movement speed, parkour velocity, and general maneuverability.
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Target
+! Description
+|-
+| [[Maneuvers|Maneuver]] Bonus || User/Ally ||align="left"|
+[[Maneuvers|Maneuver Bonuses]] caused by:<br />
+;Aim Glide and Wall Latch
+*{{M|Patagium}}
+*{{M|Stealth Drift}}
+*{{Arcane|Pax Soar}}
+
+;Bullet Jump, Aim Glide, and Wall Latch
+*{{M|Battering Maneuver}}
+*{{M|Firewalker}}
+*{{M|Hit And Run}}
+*{{M|Ice Spring}}
+*{{M|Lightning Dash}}
+*{{M|Mobilize}}
+*{{M|Piercing Step}}
+*{{M|Rending Turn}}
+*{{M|Toxic Flight}}
+*While holding {{Weapon|Telos Boltace}}
+
+;Slide
+*{{M|Cunning Drift}}
+*{{M|Maglev}}
+*{{M|Streamlined Form}}
+
+;Misc
+*{{WF|Loki}}'s passive
+**Wall Latch lasts 10 times longer (60 second duration)
+*{{WF|Mirage}}'s passive
+**+25% faster Bullet Jump speed
+**+50% faster Maneuver speed
+*{{WF|Titania}}'s [[Titania/Abilities#Dust Bloom|Dust Bloom]] passive
+**+25% Bullet Jump and rolling distance
+**Bullet jumping also creates a trampoline that lasts 5 seconds and grants the Upsurge buff, giving the same +25% distance to Bullet Jump and rolling maneuvers performed in the area.
+*{{M|Aerodynamic}} (increased Aim Glide duration)
+*{{M|Amalgam Barrel Diffusion}} (increased roll speed)
+*{{M|Endurance Drift}} (increased parkour velocity)
+*{{M|Hit And Run}} (increased parkour velocity)
+*{{M|Motus Signal}} (increased Double Jump strength)
+*{{M|Proton Pulse}} (increased Bullet Jump speed)
+*{{M|Tractor Beam}} (increased Aim Glide duration)
+*{{Arcane|Arcane Agility}} (increased parkour velocity)
+*{{Arcane|Arcane Consequence}} (increased parkour velocity)
+*{{Weapon|Praedos}} (if '''Drifting Grace''', '''Evolved Ascension''', or '''Vaulting Leap''' perks are selected)
+|-
+| [[Movement Speed]] Bonus || All ||align="left"|
+Movement Speed increase caused by:
+;User only
+*{{WF|Chroma}}'s {{A|Effigy}}
+*{{WF|Equinox}}'s {{A|Metamorphosis}} (Night form)
+*{{WF|Gauss}}' {{A|Mach Rush}}
+*{{WF|Ivara}}'s {{M|Infiltrate}}
+*{{WF|Khora}}'s {{A|Venari}}
+*{{WF|Nezha}}'s {{A|Fire Walker}}
+*{{WF|Saryn}}'s {{A|Molt}}
+*{{WF|Titania}}'s {{M|Razorwing Blitz}}
+*{{WF|Xaku}}'s {{A|The Vast Untime}}
+*Helminth's {{A|Infested Mobility}}
+*{{M|Amalgam Serration}}
+*{{M|Dispatch Overdrive}}
+*{{M|Runtime}}
+*{{M|Sprint Boost}}
+*{{Arcane|Arcane Phantasm}}
+*{{Arcane|Magus Cadence}}
+*{{Weapon|Kogake Prime}}'s passive
+*{{Weapon|Praedos}} (if '''Drifting Grace''' perk is selected)
+*Naramon's {{Focus|Mind Step}} (Operator only)
+
+;User & Ally
+*{{WF|Nova}}'s {{M|Escape Velocity}} augment
+*{{WF|Octavia}}'s {{A|Metronome}}
+*{{WF|Volt}}'s {{A|Speed}}
+*{{WF|Zephyr}}'s {{M|Jet Stream}} augment
+*{{WF|Wisp}}'s {{A|Reservoirs}} (Haste mote)
+
+'''Enemy''':
+*{{WF|Nova}}'s {{A|Molecular Prime}} if [[Ability Strength]] is below 70%
+*{{WF|Equinox}}'s day form {{A|Rest & Rage}}
+|-
+|}
+[[Category:Mechanics]]

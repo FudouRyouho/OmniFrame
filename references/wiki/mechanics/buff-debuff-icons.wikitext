@@ -1,0 +1,210 @@
+==Buff & Debuff Icons==
+Comprehensive list of all of the buff & debuff icons in the game. Please feel free to update this chart as needed. Note that some sources/conditions share the same buff/debuff icon.
+
+===Named Icons===
+<!--Alphabetical order-->
+<!--Ability Icons need a black colored version for visibility purposes-->
+{| class="listtable sortable"
+|-
+!width="20%" |Name
+!width="10%" |Icon
+!width="15%" |Type
+!width="10%" |Target
+!width="45%" |Source(s)/Conditions
+|-
+| [[Ability Strength]] || {{Icon|Buff|Ability Strength}} || Buff || User ||
+{{M|Growing Power}} • {{M|Power Drain}}
+|-
+| [[Accuracy]] || {{Icon|Buff|Accuracy}} || Buff || User || {{M|Guided Ordnance}} • {{M|Targeting Subsystem}}
+|-
+| [[Affinity]] Range || {{Icon|Buff|Affinity Range}} || Buff || Squad ||
+[[Fosfor]] gear item
+|-
+| [[Arcane]] || Depends on Arcane || Buff || User ||
+Any [[Arcane Enhancement]] equipped while meeting Arcane proc conditions
+|-
+| Armor || {{Icon|Buff|Armor}} || Buff || User/Ally || 
+Warframes affected by {{WF|Oberon}}'s {{A|Renewal}} while standing on {{A|Hallowed Ground}} • {{M|Mecha Pulse}}
+|-
+| Berserker || [[File:Berserker w.png|class=icon]] || Buff || User ||
+{{M|Berserker Fury}}
+|-
+| Blast || [[File:Blast_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Blast}} proc / {{D|Blast}} damage resistance from {{M|Adaptation}}
+|-
+| [[Dragon Key|Bleeding Key]] || [[File:BleedingKeyIcon w.png|class=icon]] || Debuff || User ||
+Equipping a [[Dragon Key|Bleeding Dragon Key]] in the [[Equipment#Gear|Gear]] slot
+|-
+| [[Maneuvers|Bullet Jump]] || {{Icon|Buff|Bullet Jump}} || Buff || User ||
+{{M|Proton Pulse}} • {{M|Hit And Run}}
+|-
+| Cold || [[File:Cold_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Cold}} proc / {{D|Cold}} damage resistance from {{M|Adaptation}}
+|-
+| Cooldown || {{Icon|Buff|Ability Duration}} || Debuff || User ||
+{{Weapon|Telos Boltace}}'s Stormpath passive cooldown
+|-
+| Corrosive || [[File:Corrosive_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Corrosive}} proc / {{D|Corrosive}} damage resistance from {{M|Adaptation}}/{{D|True}} damage resistance from {{M|Adaptation}}
+|-
+| Corruption || [[File:VoidTearIcon_w.png|class=icon]] || Buff || User ||
+Obtaining 10 Reactant in a [[Void Fissure]]
+|-
+| [[Critical Hit|Critical Hit Chance]] || {{Icon|Buff|Critical Chance}} || Buff || User || 
+{{M|Argon Scope}} • {{M|Blood Rush}} • {{M|Cat's Eye}} • {{M|Hydraulic Crosshairs}} • [[Set Mods#Gladiator Mod Set|Gladiator Mod Set Bonus]] • {{Arcane|Virtuos Shadow}} 
+|-
+| [[Critical Hit|Critical Damage Multiplier]] || {{Icon|Buff|Critical Multiplier}} || Buff || User ||
+{{M|Bladed Rounds}} • {{M|Sharpened Bullets}} • {{M|Tek Collateral}} • {{Arcane|Virtuos Strike}} • Upon getting headshots with {{Weapon|Knell}} • {{Weapon|Tatsu}}'s Soul Swarm passive <!--Doesn't actually grant increased critical damage multipler-->
+|-
+| Damage || {{Icon|Buff|Damage}} || Buff || User ||
+{{M|Deadly Efficiency}} • {{M|Proton Snap}} • {{M|Vigorous Swap}} • {{Arcane|Virtuos Fury}} • {{WF|Octavia}}'s {{A|Metronome}} buff (Forte)
+|-
+| Damage Reduction || {{Icon|Buff|Damage Reduction}} || Buff || User ||
+[[Set Mods#Proton Mod Set|Proton Mod Set]] bonus
+|-
+| [[Dragon Key|Decaying Key]] || [[File:DecayingKeyIcon w.png|class=icon]] || Debuff || User ||
+Equipping a [[Dragon Key|Decaying Dragon Key]] in the [[Equipment#Gear|Gear]] slot
+|-
+| Elemental Ward || [[File:ElementalWardIcon(xWhite).png|class=icon]] || Ability Buff || User/Ally ||
+{{WF|Chroma}}'s {{A|Elemental Ward}} ability
+|-
+| [[Dragon Key|Extinguished Key]] || [[File:ExtinguishedKeyIcon w.png|class=icon]] || Debuff || User ||
+Equipping an [[Dragon Key|Extinguished Dragon Key]] in the [[Equipment#Gear|Gear]] slot
+|-
+| Financial Stress || [[File:TheIndexSigil.png|class=icon]] || Debuff || User ||
+Picking up Index Points in [[The Index]]
+|-
+| Fireball Frenzy || [[File:FireballIcon(xWhite).png|class=icon]] || Ability Buff || Ally ||
+{{WF|Ember}}'s [[Fireball Frenzy]] augment
+|-
+| Furious Javelin || [[File:RadialJavelinIcon(xWhite).png|class=icon]] || Ability Buff || User || 
+{{WF|Excalibur}}'s {{M|Furious Javelin}} augment
+|-
+| Fury || [[File:ChromaFuryBuffBlack.png|class=icon]]|| Ability Buff || User ||
+{{WF|Chroma}}'s {{A|Vex Armor}} ability
+|-
+| Gas || [[File:Gas_w.png|class=icon]] || Buff || User ||
+{{D|Gas}} damage resistance from {{M|Adaptation}}
+|-
+| Health Conversion || {{Icon|Buff|Health Conversion}} || Buff || User ||
+{{M|Health Conversion}}
+|-
+| Heat || [[File:Heat_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Heat}} proc / {{D|Heat}} damage resistance from {{M|Adaptation}}
+|-
+| [[Dragon Key|Hobbled Key]] || [[File:HobbledKeyIcon w.png|class=icon]] || Debuff || User ||
+Equipping a [[Dragon Key|Hobbled Dragon Key]] in the [[Equipment#Gear|Gear]] slot
+|-
+| Impact || [[File:Impact_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Impact}} proc / {{D|Impact}} damage resistance from {{M|Adaptation}}
+|-
+| Impair || [[File:Impaired w.png|class=icon]] || Status Debuff || Target ||
+{{D|Impair}} proc ([[Conclave]] only)
+|-
+| Inspiration || {{Icon|Buff|Energy Regen}} || Passive Buff || User/Ally ||
+{{WF|Octavia}}'s passive
+|-
+| Invigorated || <!--Icon here--> || Buff || User ||
+Critical hits dealt by {{Weapon|Hirudo}}
+|-
+| Ironclad Charge || [[File:RhinoChargeIcon(xWhite).png|class=icon]] || Ability Buff || User ||
+{{WF|Rhino}}'s [[Ironclad Charge]] augment
+|-
+| Magnetic || [[File:Magnetic_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Magnetic}} proc / {{D|Magnetic}} damage resistance from {{M|Adaptation}}
+|-
+| Metamorphosis || [[File:MetamorphosisIcon(xWhite).png|class=icon]] || Ability Buff || User ||
+{{WF|Equinox}}'s {{A|Metamorphosis}} and {{M|Duality}}
+|-
+| Movement Speed || || Buff || User ||
+{{M|Dispatch Overdrive}} • {{Arcane|Magus Cadence}}
+|-
+| Puncture || [[File:Puncture_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Puncture}} proc / {{D|Puncture}} damage resistance from {{M|Adaptation}}
+|-
+| Radiation || [[File:Radiation_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Radiation}} proc / {{D|Radiation}} damage resistance from {{M|Adaptation}}
+|-
+| Range || {{Icon|Buff|Ability Range}} || Buff || User ||
+{{M|Spring-Loaded Blade}} • Kills with {{Weapon|Arca Titron}}
+|-
+| Ravenous || {{Icon|Buff|Health Regen}} || Buff || User/Ally ||
+{{WF|Nidus}}'s {{A|Ravenous}} ability
+|-
+| Roar || [[File:RoarIcon(xWhite).png|class=icon]] || Ability Buff || User/Ally ||
+{{WF|Rhino}}'s {{A|Roar}} ability
+|-
+| Rolling Guard || || Debuff || User || 
+{{M|Rolling Guard}} cooldown
+|-
+| Scorn || [[File:VexArmorIcon(xWhite).png|class=icon]] || Ability Buff || User ||
+{{WF|Chroma}}'s {{A|Vex Armor}} ability
+|-
+| Shock Trooper || [[File:ShockIcon(xWhite).png|class=icon]] || Ability Buff || Ally ||
+{{WF|Volt}}'s {{M|Shock Trooper}} augment
+|-
+| Shield of Shadows || [[File:ShadowsOfTheDeadIcon(xWhite).png|class=icon]] || Ability Buff || User ||
+{{WF|Nekros}}' {{M|Shield of Shadows}} augment
+|-
+| Slash || [[File:Slash_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Slash}} proc / {{D|Slash}} damage resistance from {{M|Adaptation}}
+|-
+| Smoke Shadow || [[File:SmokeScreenIcon(xWhite).png|class=icon]] || Ability Buff || Ally ||
+{{WF|Ash}}'s {{M|Smoke Shadow}} augment
+|-
+| Speed || [[File:SpeedIcon(xWhite).png|class=icon]] || Ability Buff || User/Ally ||
+{{WF|Volt}}'s {{A|Speed}} ability
+|-
+| [[Status Effect#Status Chance|Status Chance]] || {{Icon|Buff|Status Chance}} || Buff || User ||
+{{M|Catalyzer Link}} • {{M|Embedded Catalyzer}} • {{M|Nano-Applicator}} • {{M|Proton Jet}} • {{M|Weeping Wounds}} • {{Arcane|Virtuos Ghost}} • Damaging enemies with {{Weapon|Arca Scisco}}
+|-
+| Tau || [[File:Tau_w.png|class=icon]] || Buff || User ||
+{{D|Tau}} damage resistance from {{M|Adaptation}}
+|-
+| Tenno [[Affinity]] || <!--Icon here--> || External Buff || Any Warframe ||
+Nearby [[squad]]mates 
+|-
+| Electricity || [[File:Electricity_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Electricity}} proc / {{D|Electricity}} damage resistance from {{M|Adaptation}}
+|-
+| Toxin || [[File:Toxin_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Toxin}} proc / {{D|Toxin}} damage resistance from {{M|Adaptation}}
+|-
+| Unairu Wisp || [[File:FocusUnairuWisp.png|class=icon]] || Buff || User/Ally ||
+{{Focus|Unairu Wisp}} active way
+|-
+| Upsurge || <!--Icon here--> || External Buff || User/Ally || {{WF|Titania}}'s passive
+|-
+| Viral || [[File:Viral_w.png|class=icon]] || Status Debuff / Buff || Target / User ||
+{{D|Viral}} proc / {{D|Viral}} damage resistance from {{M|Adaptation}} • {{M|Strain Infection}}
+|-
+|}
+
+===Unnamed Icons===
+These icons are shared by multiple unrelated buffs and/or debuffs.
+
+{| class="listtable sortable"
+|-
+!width="10%" |Icon
+!width="15%" |Type
+!width="10%" |Target
+!width="65%" |Source(s)/Conditions
+|-
+| || Buff || User ||
+{{M|Laser Sight}} • {{M|Odomedic}}
+|-
+| || Buff || User ||
+{{M|Energy Conversion}} • {{M|Motus Setup}} • {{M|Narrow Barrel}}
+|-
+| || Buff || User ||
+{{Weapon|Dual Toxocyst}} and {{Weapon|Lesion}} passives
+|-
+|}
+
+==Media==
+[[File:WhatIsThisIcon.png|thumb|center|200px]]
+
+==External links==
+*[https://semlar.com/buffs List of buff icons from Semlar] (Note that it doesn't contain all of them)
+*[https://www.behance.net/gallery/42964973/Warframe-Buff-Icons Buff icons designed by former DE employee Janice Chu]
+[[Category:Mechanics]]

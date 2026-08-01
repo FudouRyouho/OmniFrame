@@ -1,0 +1,118 @@
+===Utility and Loot Buffs===
+Buffs that provide quality of life improvements or loot bonuses.
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Target
+! Description
+|-
+| Ability Efficiency || User ||align="left"|
+Warframe Abilities cost less energy under these effects.
+*{{Arcane|Pax Bolt}}
+|-
+| Affinity Bonus || User ||align="left"|
+[[Affinity]] gain is increased.
+*{{Companion|Smeeta Kavat}}'s {{M|Charm}} (Doubled Pickups and Affinity buff)
+*Naramon's {{Focus|Affinity Spike}} (equipped melee weapon only)
+*[[Affinity Booster]]
+*[[Dark Sectors]] missions (for only a specific weapon class, differs per mission)
+*[[Stealth]] Kill Affinity bonus
+*[[Void Fissure]] endless missions
+|-
+| Ammo Efficiency || User ||align="left"|
+For every shot fired from a gun, there is a chance that shot will not consume ammo, as determined by the [[Ammo Efficiency]] percentage:
+*{{Arcane|Arcane Pistoleer}}
+*Madurai's {{Focus|Void Fuel}}
+*{{M|Brain Storm}} ({{Weapon|Grakata}} and {{Weapon|Prisma Grakata}} only)
+*{{M|Skull Shots}} ({{Weapon|Viper}} and {{Weapon|Viper Wraith}} only)
+*{{M|Zazvat-Kar}} ({{Weapon|Akstiletto Prime}} only)
+|-
+| Ammo Mutation || User ||align="left"|
+Ammo [[pickups]] are converted to match held weapon type.
+*{{M|Ammo Case}}
+*{{M|Arrow Mutation}} (for arrows)
+*{{M|Pistol Ammo Mutation}} (for pistol ammo)
+*{{M|Rifle Ammo Mutation}} (for rifle ammo)
+*{{M|Shotgun Ammo Mutation}} (for shotgun ammo)
+*{{M|Sniper Ammo Mutation}} (for sniper ammo)
+*{{M|Vigilante Supplies}} (for primary weapon ammo)
+|-
+| Ammo Pickup Bonus || User ||align="left"|
+Ammo gained per pickup is increased.
+*{{M|Amalgam Daikyu Target Acquired}} (for arrows)
+*{{M|Pistol Scavenger}} (for pistol ammo)
+*{{M|Rifle Scavenger}} (for rifle ammo)
+*{{M|Shotgun Scavenger}} (for shotgun ammo)
+*{{M|Sniper Scavenger}} (for sniper ammo)
+|-
+| Credits Bonus || User/Ally ||align="left"|
+Players will gain more {{Resource|Credits}} from killed enemies while under these effects:
+*{{WF|Chroma}}'s {{A|Effigy}}
+*{{Weapon|Secura Lecta}}
+*[[Credit Booster]]
+*[[Void Fissure]] endless missions
+|-
+| Holster Speed Bonus || Player ||align="left"|
+The player switches weapons faster.
+*{{WF|Chroma}}'s {{A|Elemental Ward}} when the element is {{D|Toxin}}
+*{{WF|Gauss}}' {{A|Redline}}
+|-
+| Mod Drop Rate Bonus || Player ||align="left"|
+Players will get an increased chance for mods to drop from dead enemies.
+*Any sources of Rerolling Loot Drop buff.
+*[[Mod Drop Chance Booster]]
+*[[The Steel Path]] missions
+|-
+| Reload Speed Bonus || Player ||align="left"|
+Reload speed for weapons is increased.
+; Decreasing reload time
+*{{WF|Chroma}}'s {{A|Elemental Ward}} when the element is {{D|Toxin}}
+*{{WF|Gauss}}' {{A|Redline}}
+*{{WF|Harrow}}'s {{A|Penance}}
+*{{WF|Mesa}}'s passive (Secondaries only)
+*{{WF|Volt}}'s {{A|Speed}}
+*{{M|Aero Agility}}
+*{{Arcane|Arcane Momentum}} (Sniper rifles only)
+*{{Arcane|Fractalized Reset}}
+*{{Arcane|Primary Merciless}} (at max rank)
+*{{Arcane|Secondary Merciless}} (at max rank)
+
+; Instant reload
+*{{WF|Garuda}}'s {{M|Blood Forge}}
+*{{Companion|Smeeta Kavat}}'s {{M|Charm}} (Instant Reload buff)
+*{{M|Blood For Ammo}}
+|-
+| Rerolling Loot Drop || Player ||align="left"|
+Players will gain another chance at rerolling the loot [[Drop Table]] of a particular enemy that is affected by the abilities below. These abilities may act on the same enemy more than once to produce multiple loot drops. However, you cannot stack abilities of the same class (i.e. {{M|Pilfering Swarm}} and {{M|Pilfering Strangledome}}) to produce more than one loot drop.
+
+;On Live Enemies
+*{{WF|Ivara}}'s {{A|Prowl}}
+
+;On Petrified Enemies
+*{{WF|Atlas}}' {{M|Ore Gaze}}
+
+;On Enemy Kill
+*{{WF|Hydroid}}'s {{M|Pilfering Swarm}}
+*{{WF|Khora}}'s {{M|Pilfering Strangledome}}
+*{{WF|Wukong}}'s passive (Monkey Luck buff)
+
+;On Enemy Corpses
+*{{WF|Nekros}}' {{A|Desecrate}}
+*{{Companion|Chesa Kubrow}}'s {{M|Retrieve}}
+|-
+| Resource Bonus || Player ||align="left"|
+Players get more resources per pickup while under these effects.
+*[[Dark Sectors]] missions
+*[[Resource Booster]]
+*{{Companion|Smeeta Kavat}}'s {{M|Charm}} (Doubled Pickups and Affinity buff)
+*[[Void Fissure]] endless missions
+|-
+| Resource Drop Rate Bonus || Player ||align="left"|
+Players will get an increased chance for resources to drop from dead enemies.
+*Any sources of Rerolling Loot Drop buff.
+*[[Resource Drop Chance Booster]]
+*[[Void Fissure]] endless missions
+*[[The Steel Path]] missions
+|-
+|}
+[[Category:Mechanics]]

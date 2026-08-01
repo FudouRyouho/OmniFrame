@@ -1,0 +1,24 @@
+==Buffs&nbsp;==
+<!--General order of items
+1. Warframe Abilities/Passives
+2. Mods/Precepts
+3. Weapons
+4. Arcanes
+5. Focus nodes
+6. Misc
+-->
+<tabber>
+|-|Offense = 
+{{:Buff_&_Debuff/Buffs/Offense}}
+|-|Defense = 
+{{:Buff_&_Debuff/Buffs/Defense}}
+|-|Healing = 
+{{:Buff_&_Debuff/Buffs/Healing}}
+|-|Utility = 
+{{:Buff_&_Debuff/Buffs/Utility}}
+|-|Mobility = 
+{{:Buff_&_Debuff/Buffs/Mobility}}
+|-|Misc = 
+{{:Buff_&_Debuff/Buffs/Misc}}
+</tabber>
+[[Category:Mechanics]]

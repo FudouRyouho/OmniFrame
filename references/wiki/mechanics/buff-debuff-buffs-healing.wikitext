@@ -1,0 +1,237 @@
+==Healing and Restoration Buffs==
+Related to restoration of health, shields, and energy.
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Target
+! Description
+|-
+| [[Energy Restoration]] || Player ||align="left"|
+Players will have their [[Energy]] restored while under these effects:
+;Instantaneous
+
+*{{WF|Caliban}}'s {{A|Razor Gyre}}
+*{{WF|Chroma}}'s {{M|Guided Effigy}}
+*{{WF|Dagath}}'s passive
+*{{WF|Equinox}}'s passive
+*{{WF|Garuda}}'s {{A|Bloodletting}}
+*{{WF|Gauss}}' {{A|Kinetic Plating}}
+*{{WF|Harrow}}'s {{A|Thurible}}
+*{{WF|Nidus}}' {{A|Virulence}}
+*{{WF|Nokko}}'s {{A|Brightbonnet}}
+*{{WF|Titania}}'s {{M|Spellbound Harvest}}
+*{{WF|Trinity}}'s {{A|Energy Vampire}}
+*{{Companion|Smeeta Kavat}}'s {{M|Charm}} (Energy Refund buff)
+*[[Amesha]]'s {{A|Vengeful Rush}}
+*{{M|Equilibrium}}
+*{{M|Hunter Adrenaline}}
+*{{M|Kinetic Diversion}} ([[Archwing]] only)
+*{{M|Rage}}
+*{{M|Sharpshooter}}
+*{{Arcane|Arcane Energize}}
+*{{Arcane|Emergence Dissipate}}
+*[[Blight]] effect from [[Red Veil]]'s Syndicate weapons/mods
+*[[Entropy]] effect from [[Cephalon Suda]]'s Syndicate weapons/mods
+*[[Squad Energy Restore]]
+
+;Over-time
+*Any Warframe in {{WF|Limbo}}'s [[Rift Plane]]
+*{{WF|Gyre}}'s {{A|Cathode Grace}}
+*{{WF|Octavia}}'s passive (Inspiration buff)
+*{{WF|Styanax}}'s {{A|Rally Point}}
+*{{A|Voracious Metastasis}}
+*{{M|Energy Siphon}}
+*{{Arcane|Exodia Brave}}
+*{{Arcane|Emergence Renewed}}
+*[[Anspatha Brace]] (increased energy regen for Operators only)
+*Zenurik's {{Focus|Energy Pulse}} (after picking up an Energy Orb)
+*Zenurik's {{Focus|No Quarter}} (increased Operator energy regen)
+*Zenurik's {{Focus|Wellspring}}
+*Zenurik's {{Focus|Void Siphon}} (increased Operator energy regen)
+
+;Indirectly (through spawning Energy Orbs)
+*{{WF|Atlas}}' {{M|Ore Gaze}}
+*{{WF|Citrine}}'s {{A|Fractured Blast}}
+*{{WF|Ember}}'s {{M|Exothermic}}
+*{{WF|Gara}}'s {{M|Spectrosiphon}}
+*{{WF|Hildryn}}'s {{A|Aegis Storm}}
+*{{WF|Hydroid}}'s {{M|Pilfering Swarm}}
+*{{WF|Ivara}}'s {{A|Prowl}}
+*{{WF|Khora}}'s {{M|Pilfering Strangledome}}
+*{{WF|Mag}}'s {{A|Pull}}
+*{{WF|Nekros}}' {{A|Desecrate}}
+*{{WF|Nezha}}'s {{A|Blazing Chakram}}
+*{{WF|Nova}}'s passive
+*{{WF|Oraxia}}'s {{A|Mercy's Kiss}}
+*{{WF|Protea}}'s {{A|Dispensary}}
+*{{WF|Trinity}}'s {{M|Pool of Life}}
+*{{WF|Uriel}}'s passive (Gulphagor)
+*{{WF|Voruna}}'s {{A|Lycath's Hunt}}
+*{{WF|Wukong}}'s passive (Monkey Luck)
+*{{Companion|Chesa Kubrow}}'s {{M|Retrieve}}
+*{{Companion|Sahasa Kubrow}}'s {{M|Dig}}
+*{{M|Blood For Energy}}
+*{{M|Energy Generator}}
+*{{Weapon|Broken Scepter}}'s passive
+|-
+| [[Healing|Health Restoration]] || Player ||align="left"|
+Players will have their [[Health]] restored while under these effects:
+;Instantaneous
+*{{WF|Atlas}}' passive (Rubble pickups)
+*{{WF|Caliban}}'s {{A|Razor Gyre}}
+*{{WF|Chroma}}'s {{A|Elemental Ward}} when element is {{D|Heat}}
+*{{WF|Cyte-09}}'s {{A|Evade}}
+*{{WF|Dante}}'s {{A|Light Verse}}
+*{{WF|Ember}}'s {{M|Healing Flame}}
+*{{WF|Equinox}}'s passive and {{A|Mend & Maim}} (Night form)
+*{{WF|Grendel}}'s {{A|Nourish}}
+*{{WF|Harrow}}'s {{A|Penance}}
+*{{WF|Inaros}}' passive and {{A|Desiccation}}
+*{{WF|Jade}}'s {{A|Light's Judgment}}
+*{{WF|Koumei}}'s {{A|Omamori}}
+*{{WF|Kullervo}}'s {{A|Recompense}}
+*{{WF|Lavos}}' {{A|Ophidian Bite}}
+*{{WF|Limbo}}'s {{M|Rift Haven}}
+*{{WF|Nekros}}' passive
+*{{WF|Nokko}}'s {{A|Reroot}} (Fungal Spores pickups)
+*{{WF|Oberon}}'s {{A|Renewal}}
+*{{WF|Oraxia}}'s {{A|Silken Stride}}
+*{{WF|Sevagoth}}'s {{A|Gloom}}
+*{{WF|Styanax}}'s {{A|Tharros Strike}}
+*{{WF|Temple}}'s {{A|Ripper's Wail}}
+*{{WF|Trinity}}'s {{A|Well of Life}} and {{A|Blessing}}
+*{{WF|Uriel}}'s {{A|Remedium}}
+*{{WF|Valkyr}}'s {{A|Hysteria}}
+*{{WF|Voruna}}'s {{A|Ulfrun's Descent}}
+*{{WF|Xaku}}'s {{M|Vampiric Grasp}}
+*{{A|Master's Summons}} (companions only)
+*[[Amesha]]'s {{A|Benevolent Decoy}}
+*{{M|Amalgam Daikyu Target Acquired}}
+*{{M|Bhisaj-Bal}}
+*{{M|Combat Discipline}}
+*{{M|Equilibrium}}
+*{{M|Healing Return}}
+*{{M|Hunter Recovery}}
+*{{M|Life Strike}}
+*{{M|Pack Leader}} (Beast companions only)
+*{{M|Strain Consume}}
+*{{M|Winds of Purity}} ({{Weapon|Furis}} only)
+*{{Weapon|Hema}}'s passive
+*{{Weapon|Hirudo}}'s passive
+*{{Arcane|Arcane Bodyguard}} (Companions only)
+*{{Arcane|Arcane Pulse}}
+*{{Arcane|Emergence Savior}} (Operator only)
+*{{Arcane|Exodia Might}}
+*{{Arcane|Magus Elevate}}
+*{{Arcane|Magus Replenish}} (Operator only)
+*{{Arcane|Magus Revert}} (Operator only)
+*{{Arcane|Molt Reconstruct}}
+*{{Weapon|Sancti Magistar}} (on charge attacks)
+*{{Weapon|Hema}} (on headshots)
+*Vazarin's {{Focus|Void Snare}}
+*[[Health Restore]]s
+*[[Justice]] effect from [[Steel Meridian]]'s Syndicate weapons/mods
+*[[Purity]] effect from [[New Loka]]'s Syndicate weapons/mods
+*[[Squad Health Restore]]s
+*[[Truth]] effect from [[Arbiters of Hexis]]'s Syndicate weapons/mods
+*[[Sentient]] cores after killing a Sentient enemy
+
+;Over-time
+*{{WF|Citrine}}'s passive
+*{{WF|Gara}}'s {{M|Mending Splinters}}
+*{{WF|Garuda}}'s {{A|Blood Altar}}
+*{{WF|Khora}}'s {{A|Venari}} (Heal posture)
+*{{WF|Nidus}}' passive and {{A|Ravenous}}
+*{{WF|Nokko}}'s {{A|Reroot}}
+*{{WF|Oberon}}'s {{A|Renewal}}
+*{{WF|Saryn}}'s {{M|Regenerative Molt}}
+*{{WF|Sirius}}' {{A|Light's Sanctuary}}
+*{{WF|Titania}}'s passive
+*{{WF|Wisp}}'s {{A|Reservoirs}} (Vitality Mote)
+*{{WF|Wukong}}'s {{A|Cloud Walker}} (restores health per distance traveled)
+*{{A|Voracious Metastasis}}
+*{{M|Iatric Mycelium}}
+*{{M|Medi-Pet Kit}} (Beast companions only)
+*{{M|Medi-Ray}}
+*{{M|Odomedic}}
+*{{M|Rejuvenation}}
+*{{M|Repair Kit}} (Robotic companions only)
+*{{Arcane|Arcane Grace}}
+*{{Arcane|Arcane Victory}}
+*{{Arcane|Magus Nourish}}
+*{{Arcane|Magus Repair}}
+*Vazarin's {{Focus|Protective Sling}}
+*Vazarin's {{Focus|Rejuvenating Tides}} (Operator only)
+*Vazarin's {{Focus|Void Regen}} (Operator only)
+*Vazarin's {{Focus|Squad Regen}} 
+
+;Indirectly (through spawning Health Orbs)
+*{{WF|Atlas}}' {{M|Ore Gaze}}
+*{{WF|Citrine}}'s {{A|Fractured Blast}}
+*{{WF|Dagath}}'s {{A|Grave Spirit}}
+*{{WF|Hydroid}}'s {{M|Pilfering Swarm}}
+*{{WF|Ivara}}'s {{A|Prowl}}
+*{{WF|Khora}}'s {{M|Pilfering Strangledome}}
+*{{WF|Nekros}}' {{A|Desecrate}}
+*{{WF|Nezha}}'s {{A|Blazing Chakram}}
+*{{WF|Oberon}}'s {{A|Reckoning}}
+*{{WF|Oraxia}}'s {{A|Mercy's Kiss}}
+*{{WF|Protea}}'s {{A|Dispensary}}
+*{{WF|Trinity}}'s {{M|Pool of Life}}
+*{{WF|Uriel}}'s passive (Gulphagor)
+*{{WF|Voruna}}'s {{A|Lycath's Hunt}}
+*{{WF|Wukong}}'s passive (Monkey Luck)
+*{{Companion|Chesa Kubrow}}'s {{M|Retrieve}}
+*{{Companion|Sahasa Kubrow}}'s {{M|Dig}}
+*{{M|Blood For Life}}
+*{{M|Synth Deconstruct}}
+*{{Weapon|Broken Scepter}}'s passive
+|-
+| Shield Restoration || Player ||align="left"|
+Players will have their [[Shield]]s restored while under these effects:<br />
+'''Instantenous''':
+*{{WF|Caliban}}'s {{A|Razor Gyre}}
+*{{WF|Chroma}}'s {{A|Elemental Ward}} when element is {{D|Electricity}}
+*{{WF|Equinox}}'s {{A|Mend & Maim}} (Night form)
+*{{WF|Excalibur}}'s {{M|Purging Slash}}
+*{{WF|Harrow}}'s {{A|Condemn}}
+*{{WF|Hildryn}}'s {{M|Balefire Surge}}, {{A|Pillage}}, {{M|Blazing Pillage}}, and {{A|Haven}}
+*{{WF|Koumei}}'s {{A|Omamori}} (when health is full)
+*{{WF|Mag}}'s {{A|Polarize}} and {{A|Crush}}
+*{{WF|Nokko}}'s {{A|Reroot}} (Fungal Spores pickups)
+*{{WF|Nyx}}'s {{A|Psychic Bolts}}
+*{{WF|Revenant}}'s {{A|Reave}} and {{A|Danse Macabre}}
+*{{WF|Styanax}}'s {{A|Rally Point}}
+*{{WF|Temple}}'s {{A|Ripper's Wail}}
+*{{WF|Trinity}}'s {{M|Vampire Leech}} and {{A|Blessing}}
+*{{WF|Uriel}}'s {{A|Remedium}}
+*{{WF|Valkyr}}'s {{M|Hysterical Fixation}}
+*{{WF|Volt}}'s {{M|Recharge Barrier}} and {{M|Capacitance}}
+*{{WF|Voruna}}'s {{A|Ulfrun's Descent}}
+*{{A|Master's Summons}} (companions only)
+*{{A|Rebuild Shields}}
+*{{Companion|Smeeta Kavat}}'s {{M|Charm}} (Reinforced Shields buff)
+*[[Set Mods#Augur Mod Set|Augur Mod Set]] bonus
+*{{M|Brief Respite}}
+*{{M|Guardian}}
+*{{M|Molecular Conversion}}
+*{{M|Protect}}
+*{{Weapon|Rakta Dark Dagger}}'s passive
+*{{Arcane|Arcane Barrier}}
+*[[Sequence]] effect from [[The Perrin Sequence]]'s Syndicate weapons/mods
+*[[Squad Shield Restore]]
+*[[Sentient]] cores after killing a Sentient enemy
+
+'''Over-time''':
+*{{WF|Caliban}}'s {{A|Lethal Progeny}}
+*{{WF|Jade}}'s {{A|Symphony of Mercy}}
+*{{WF|Nokko}}'s {{A|Reroot}}
+*{{WF|Protea}}'s {{A|Grenade Fan}}
+
+*{{M|Shield Charger}}
+*{{Arcane|Arcane Aegis}}
+*Vazarin's {{Focus|Guardian Break}}
+*Allied [[Shield Osprey]]s
+|-
+|}
+[[Category:Mechanics]]
