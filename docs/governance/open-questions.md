@@ -65,6 +65,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-32` | ¿Los estados físicos de CC forman un eje ordenado o son cuatro independientes? | engine / modelo de status | abierta — **sin medición posible**; sin consecuencia numérica mientras no se simule comportamiento |
 | `OQ-ENGINE-33` | ¿El proc deja de ser un campo del tipo de daño? | engine / vocabulario + contrato core | abierta — **sin convergencia**; arrastra el bug `DT_RADIANT` |
 | `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **gated por múltiples objetivos**; hoy se derivan de la procedencia |
+| `OQ-ENGINE-35` | ¿Cuánta geometría necesita el escenario? — declara quiénes existen, no dónde están | engine / Capa A — escenario | abierta — **gated por consumidor**; ya hay distancia sin espacio donde medirla |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -1855,7 +1856,45 @@ No hay forma de observar si la decisión fue correcta: cualquier modelo y su con
 número. **No es postergar por comodidad** — es que el caso que discriminaría no existe todavía.
 
 **Condición de reapertura:** múltiples objetivos simultáneos en el escenario. Ahí los dos conjuntos se
-separan y la decisión pasa a ser observable.
+separan y la decisión pasa a ser observable. **Su upstream es `OQ-ENGINE-35`:** múltiples objetivos piden
+un lugar donde ubicarlos.
+
+---
+
+## OQ-ENGINE-35 — ¿Cuánta geometría necesita el escenario? — **ABIERTA — gated por consumidor**
+**Dominio:** engine / Capa A — escenario
+
+**La pregunta.** El escenario declara **quiénes existen** y no **dónde están**
+(`../domains/engine/design/simulation-architecture.md` §*Qué contiene A*). ¿Cuánta geometría hace falta
+para que eso deje de ser un hueco — un escalar de distancia por participante, un plano con posiciones, o
+nada porque un calculador de builds no lo necesita?
+
+**Por qué no es especulativa: ya hay distancia sin espacio donde medirla.** El motor computa
+`falloff_mult` en cada corrida de métricas —un multiplicador por distancia contra un rango que nadie
+declara— y el modelado melee arrastra *"slam-por-distancia (falta dato)"* (`OQ-ENGINE-14`). Son dos
+consumidores de geometría operando sobre un escenario que no la tiene.
+
+**Qué queda gateado detrás.** El concepto de Capa A admite N participantes por grupo (`Squad` = uno o
+más jugadores, `Hostil` = uno o más enemigos de uno o más tipos) y la construcción declara uno de cada
+lado. **No es simplificación perezosa: poblar N sin un lugar donde ubicarlos repite el error que la
+partición del escenario vino a corregir** — construir los pobladores antes que el lugar donde pueblan.
+Tres unidades idénticas sin posición son tres clones que ningún cómputo distingue; el problema nunca fue
+la cantidad sino dónde está cada una.
+
+### Lo que la pregunta NO asume
+
+**No asume que haga falta un plano.** El rango de respuestas va de *un escalar de distancia declarado
+por participante* (barato, y suficiente para falloff y slam) hasta *posiciones reales* (que un calculador
+de builds probablemente no necesita nunca). Cerrarla con "hay que construir el espacio" sería elegir el
+extremo caro sin caso que lo fuerce.
+
+**Condición de cierre:** una mecánica que dependa de la posición **relativa entre dos participantes** —
+no de la distancia a un objetivo único, que es lo que falloff necesita y podría resolverse con un
+escalar. AoE con solapamiento parcial es el candidato natural.
+
+**Vínculo:** `OQ-ENGINE-34` (relaciones entre entidades — su gate de múltiples objetivos cuelga de
+ésta), `OQ-ENGINE-14` (slam-por-distancia), `OQ-ENGINE-7` (falloff),
+`../domains/engine/design/simulation-architecture.md` §*El plano*.
 
 ⚠️ **Riesgo si se decide antes:** construir un mecanismo de relaciones sin caso que lo fuerce es el
 patrón que esta campaña viene desarmando — `GameLaws` nació igual. La alternativa barata (derivar de la

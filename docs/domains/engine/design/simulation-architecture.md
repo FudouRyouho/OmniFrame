@@ -121,6 +121,13 @@ con qué forma.**
 las mecánicas, no del mundo). Lo que el usuario declara son los participantes y sus condiciones — la
 partición de §*Las dos intenciones del usuario*.
 
+⚠️ **El contrato todavía no lo refleja.** `EnsembleIntention.environment` lleva `targetLevel`,
+`targetFaction` e `isSteelPath` como campos del escenario — los tres que esta tabla le asigna al
+participante. Ninguno de los tres tiene lector; el único campo de `environment` que alguien lee es el
+`itemId` del objetivo. Y `targetFaction` ni siquiera se declara: se deriva de qué enemigo elegiste. La
+reconciliación es que cada uno se vaya con su dueño y **`environment` desaparezca** — no se reemplaza
+por otro campo, porque el escenario es el todo, no un rincón adentro del todo.
+
 ##### El cero: **un origen declarado, N ventanas derivadas, todas en el mismo reloj**
 
 El caso que lo prueba es el que parecía complicarlo: *si Roar está activo durante el DoT da un número;
@@ -172,26 +179,76 @@ mismo árbol de [`arch-decisions.md`](arch-decisions.md) §18.
 > **`A1` y `A2` no son capas** y no existen en el código como tales. Sobreviven sólo como nombres de
 > conveniencia para hablar de **dos pobladores**.
 
-##### Los dos pobladores son **asimétricos** — y eso es el modelo, no una carencia
+##### Los dos pobladores **no son espejos** — y ninguno declara menos que el otro
 
-No son composiciones gemelas: **el squad declara un loadout, el bando hostil no.** Un jugador declara
-qué warframe, qué armas y qué mods; un objetivo se declara nombrando cuál es y a qué nivel. Forzar que
-todo participante entre por la misma forma es de donde salen los `if` que
-[`arch-decisions.md`](arch-decisions.md) §18 prohíbe — se termina inventando un loadout vacío para el
-enemigo o un nivel para el arma.
+Los grupos son **bandos**: `Squad` y `Hostil`. Dentro de un grupo todos son aliados, entre grupos son
+enemigos. El grupo es lo que impide que un warframe y un enemigo se mezclen — no por un `if` que los
+separe después, sino porque **nacen de puertas distintas del escenario**.
 
-De la asimetría sale una consecuencia operativa que el ruteo aprovecha: **en este modelo emite un solo
-bando.** El objetivo no porta mods ni fuentes propias, así que el portador de cualquier modifier es del
-squad. Por eso un efecto que cruza bandos **no necesita computar el bando del emisor**: la familia del
-token ya declara el destino (`ENEMY_*` va al otro lado, y ninguna otra familia cruza). Es lo que hace
-innecesaria una tabla `alcance × bando`, que con un solo emisor tendría una sola fila útil.
+Cada uno declara con la forma que su naturaleza pide, y eso no los hace desiguales:
 
-⚠️ **Es una simplificación deliberada, atada al objetivo del proyecto** —simular builds, daño y
-sinergias desde la perspectiva del jugador—, **no una ley del juego.** Cae el día que un participante
-del otro bando **emita**: un aliado NPC con loadout propio, o una entidad bajo mind control que además
-porte fuentes. Que la marca de bando cambie ya está resuelto (es una marca, §*Qué es un participante*);
-lo que no está resuelto es que el **emisor** pueda no ser del squad. Registrado, no construido —
-`OQ-ENGINE-31` lleva el eje.
+| Grupo | Qué declara el usuario | Qué produce |
+|---|---|---|
+| **Squad** | un loadout: warframe, armas, mods, arcanos, compañero | participantes con composición interna |
+| **Hostil** | qué enemigo, a qué nivel, si es Steel Path | participantes con **su propia** cadena de composición |
+
+La cadena del hostil no es la pobre: [`enemy-level-scaling.md`](../../../../references/wiki/mechanics/enemy-level-scaling.md)
+la tiene entera y con orden de operaciones — base de la unidad → Steel Path flat → Empowered flat →
+Eximus → Steel Path ×2.5 → Empowered ×N → **recién ahí** la curva de nivel. Siete pasos, tan
+estructurados como el `Base × (1 + Mods%) + Flat` del jugador. **Espejar sería inventarle un loadout
+vacío al enemigo o un nivel al arma** — de ahí salen los `if` que [`arch-decisions.md`](arch-decisions.md)
+§18 prohíbe. Derivar es que los dos entren por la misma puerta con el contenido que les toca.
+
+De ahí que **nacer sea estar compuesto**: un enemigo no se escala después de existir, igual que un
+warframe no nace desnudo para que le pongan los mods encima. Su nivel y su Steel Path son parte del
+frame-0, no una capa posterior.
+
+**El grupo provee la marca.** Un participante nace con la marca de su bando puesta por el grupo del que
+salió, no inferida después. No compite con el ruteo por familia de §18: el grupo declara **de quién es**
+un participante, el token declara **a dónde va** un efecto. Pertenencia ⊥ destino.
+
+**Consecuencia operativa: emite un solo bando.** Ningún participante hostil porta mods ni fuentes
+propias, así que el portador de cualquier modifier es del Squad. Por eso un efecto que cruza bandos **no
+necesita computar el bando del emisor**: la familia del token ya declara el destino (`ENEMY_*` cruza,
+ninguna otra). Es lo que hace innecesaria una tabla `alcance × bando`, que con un solo emisor tendría
+una sola fila útil.
+
+⚠️ **Eso no sale de que el hostil declare menos** — sale de que **no modelamos el daño hacia el
+jugador**. Es un recorte de alcance del proyecto (simular builds, daño y sinergias desde la perspectiva
+del jugador), no una propiedad del modelo de entidades ni una ley del juego. Cae el día que un
+participante del otro bando **emita**: un aliado NPC con loadout propio, o una entidad bajo mind control
+que además porte fuentes. Que la marca de bando cambie ya está resuelto (es una marca,
+§*Qué es un participante*); lo que no está resuelto es que el **emisor** pueda no ser del Squad.
+Registrado, no construido — `OQ-ENGINE-31` lleva el eje.
+
+##### El plano: **cuántos hay depende de dónde están** (`OQ-ENGINE-35`)
+
+El concepto admite N participantes por grupo —`Squad` = uno o más jugadores, `Hostil` = uno o más
+enemigos de uno o más tipos— y la construcción declara uno de cada lado. No es simplificación perezosa:
+**poblar N sin un lugar donde ubicarlos repite el error que esta partición vino a corregir**, construir
+los pobladores antes que el lugar donde pueblan. Tres Bombards sin posición son tres clones que ningún
+cómputo puede distinguir; el problema nunca fue la cantidad sino *dónde está cada uno*.
+
+El hueco tiene rastro medible: el motor ya computa **distancia sin espacio donde medirla** — el
+`falloff_mult` sale en cada corrida de métricas, y el modelado melee arrastra *"slam-por-distancia
+(falta dato)"* (`OQ-ENGINE-14`). La forma de la declaración no debe impedir el segundo participante;
+poblarlo espera al plano. Registrado, no construido.
+
+##### El escenario consolidado: **la foto de t=0**
+
+A termina en un mundo resuelto y quieto: todos los participantes existen, cada uno con sus números ya
+compuestos, y lo que cruza entre ellos ya aplicado. Nadie disparó, no pasó un segundo.
+
+**De esa foto nace el estado.** Lo que evoluciona en el tiempo no es "el enemigo": es el escenario
+consolidado dejado correr. Por eso el contenedor de estado resulta **entidad-neutral por consecuencia**
+y no por un refactor aparte — nace de un participante resuelto, y un participante resuelto ya es neutral.
+
+⚠️ **Declarado, no construido.** Hoy la foto no se toma. El flujo produce la lista de entidades
+resueltas y, cuando arranca el tiempo, se construye un objetivo **nuevo** por otro camino
+(`EnemyRepository.scale`) que nunca vio el escenario ni lo que le cayó encima. Medible con el override
+real: con Corrosive Projection equipada el nodo `ENEMY_ADD_ARMOUR` resuelve **410**, y el daño se computa
+contra la armadura escalada que ese −18% nunca tocó. El examen que lo cierra ya es escribible — el mismo
+build con y sin el aura debe dar **distinto** `total_damage`, y hoy da idéntico.
 
 ---
 
@@ -274,8 +331,10 @@ OmniFrame opera como un motor de juego simplificado. Todo objeto en el sistema e
 
 **Principio rector — desacople emergente, no capas preventivas.** Una etapa/separación se agrega **sólo
 cuando una mecánica real la fuerza**, nunca para prevenir. Separar sobre dato-sin-modelar *genera* drift
-(lo contrario del objetivo). Y el costo es asimétrico: **desacoplar después es barato** (`scale()` es una
-función pura, se reubica en un move), **refactorizar lo enredado es caro** — `simulateAttack` (que fusiona
+(lo contrario del objetivo). Y el costo es asimétrico: **desacoplar después es barato mientras lo que se
+mueve sea una función pura** (`scaleHealth`/`scaleArmor` se reubican en un move; su **orquestador**
+`EnemyRepository.scale` no, porque alimenta un camino paralelo entero y arrastra a `ScaledEnemy`,
+`EnemyState` y sus tests), **refactorizar lo enredado es caro** — `simulateAttack` (que fusiona
 ejecución del Hit + ② + invocación de ③ + elección de paradigma en una god-function, abajo) es la evidencia
 viva de lo segundo.
 

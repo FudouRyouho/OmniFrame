@@ -227,9 +227,11 @@ export class StaticHydrator {
         // bando): para el juego el enemigo también es un avatar; para nosotros no, y el token lo
         // dice. Por eso esto es la regla ejecutándose, no un `if` que parchea un caso.
         //
-        // Vale porque en este modelo **emite un solo bando**: el objetivo no porta fuentes propias,
-        // así que el portador siempre es del squad y no hay bando de emisor contra el cual cruzar
-        // (`simulation-architecture.md` §Los dos pobladores son asimétricos).
+        // Vale porque en este modelo **emite un solo bando**: ningún participante hostil porta fuentes
+        // propias, así que el portador siempre es del Squad y no hay bando de emisor contra el cual
+        // cruzar. No es que el hostil declare menos —declara tanto, con otra forma— sino que no
+        // modelamos el daño hacia el jugador (`simulation-architecture.md` §Los dos pobladores no son
+        // espejos, que lleva el alcance y su fecha de caducidad).
         //
         // Sólo cruza `ENEMY_*`. Rutear por familia SIEMPRE rompería la contención: `Vitality`
         // (`AVATAR_ADD_HEALTH_MAX`, montado en el warframe) aterrizaría también en el compañero,

@@ -880,9 +880,11 @@ que hace falta una tabla `alcance × bando`:
 raw de DE tokeniza como `AVATAR_ARMOUR` lo que nosotros acuñamos `ENEMY_ADD_ARMOUR`, porque para el juego
 el enemigo también es un avatar. **Acuñar `ENEMY_*` fue declarar el bando destino**, y volver a
 declararlo en un campo del modifier sería guardar el mismo dato dos veces. Se sostiene además porque en
-este modelo **emite un solo bando** — el objetivo no porta fuentes propias
-([`simulation-architecture.md`](simulation-architecture.md) §*Los dos pobladores son asimétricos*), así
-que el bando del emisor es constante y no hay nada que cruzar contra él.
+este modelo **emite un solo bando** — ningún participante hostil porta fuentes propias, así que el bando
+del emisor es constante y no hay nada que cruzar contra él. Ese piso no sale de que el hostil declare
+menos que el Squad (declara tanto, con otra forma) sino de que **no modelamos el daño hacia el jugador**:
+[`simulation-architecture.md`](simulation-architecture.md) §*Los dos pobladores no son espejos* lleva el
+alcance y su fecha de caducidad.
 
 ⚠️ **Y no alcanza para el segundo, deliberadamente.** Rutear por familia *siempre* rompería la
 contención: `Vitality` (mod de warframe, `AVATAR_ADD_HEALTH_MAX`) aterrizaría también en el compañero,

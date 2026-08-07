@@ -13,9 +13,16 @@ import { damageTokenFromType } from "../../contracts/damage-logic";
  * comportamiento de cada efecto — lo delega a su fórmula; solo itera, y resuelve las emisiones (ticks)
  * por el mismo camino que un hit directo (`resolveDamageEvent`).
  *
- * DEUDA DE NORTE (O1, decision-frontier.md): el ESTADO es portado-por-entidad — el contenedor debería
- * ser entidad-neutral cuando una entidad no-enemigo porte status. La LEY (`formulas/status/`) YA es
- * agnóstica a source/target; falta relocalizar solo este contenedor, cuando el gate se abra.
+ * DEUDA DE NORTE (O1, decision-frontier.md): el ESTADO es portado-por-entidad. La LEY
+ * (`formulas/status/`) YA es agnóstica a source/target — cada behavior modela su `S` sin saber quién lo
+ * porta. Lo que amarra este contenedor a "enemigo" es `base: ScaledEnemy`, y de ahí salen sus cuatro
+ * únicos usos (health/shields/armor actuales + faction), **los cuatro ya presentes en la entidad
+ * resuelta de C1**.
+ *
+ * Por eso no es "relocalizar cuando una entidad no-enemigo porte status": la neutralidad cae por
+ * consecuencia de que el estado nazca del escenario consolidado en vez de un `ScaledEnemy` que C1 nunca
+ * vio (`simulation-architecture.md` §El escenario consolidado). Hoy nace del segundo, y eso es medible:
+ * un debuff `ENEMY_*` compuesto en C1 no llega al daño.
  */
 export class EnemyState {
   public current_health: number;
