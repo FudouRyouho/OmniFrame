@@ -1,0 +1,16 @@
+# LF estricto en todo el repo.
+#
+# Es una regla dura del proyecto (`.claude/CLAUDE.md` §Entorno) que hasta ahora no tenía
+# ejecutor: el mismo origin se clona en Linux y en Windows, y sin esto el checkout en
+# Windows reintroduce CRLF sin que nada lo señale. Ya pasó — 63 de los 64 `.md` de
+# `references/game-ui/` quedaron en CRLF, y ninguno de los dos validadores mira ese
+# directorio por decisión declarada.
+#
+# `text=auto` deja que git detecte qué es texto; `eol=lf` fija el final de línea tanto en
+# el índice como en el working tree, en cualquier sistema operativo.
+* text=auto eol=lf
+
+# Binarios: nunca normalizar ni difear como texto.
+*.png  binary
+*.woff binary
+*.psd  binary
