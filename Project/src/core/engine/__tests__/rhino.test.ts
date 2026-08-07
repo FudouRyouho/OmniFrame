@@ -74,9 +74,9 @@ describe('Rhino fixture_01 — base + mods Tier 1 (flujo A→B→C, entidad warf
 //
 // SINTÉTICO a nivel engine (2 entidades + modifier hand-built): NO pasa por la hidratación de ability
 // (eso es Fase 1b, con dato real). Prueba la CAPACIDAD (arista del grafo vía `source_entity`), no el
-// adaptador. Guardrail (arch §15/§16, .working/ability-model-debate §11): SOLO el HIT directo, Roar
-// asumido-activo. NO toca el DoT (dotModdedBase lee solo WEAPON_ADD_DAMAGE → double-dip = OQ-20). NO
-// pasa por ModRepository → el shim C2F_FACTION_TOKENS_DEFERRED no lo afecta.
+// adaptador. Guardrail (arch-decisions §15/§16): SOLO el HIT directo, Roar asumido-activo. NO toca el
+// DoT (dotModdedBase lee solo WEAPON_ADD_DAMAGE → double-dip = OQ-20). NO pasa por ModRepository → el
+// shim C2F_FACTION_TOKENS_DEFERRED no lo afecta.
 
 const node = (base: number, mods_add_pct = 0): AttributeNode => ({
   base, base_flat: 0, mods_add_pct, total_flat: 0, multiplicative: 1.0, final: base,

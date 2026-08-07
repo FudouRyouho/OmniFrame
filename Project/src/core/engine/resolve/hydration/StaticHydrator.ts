@@ -214,8 +214,34 @@ export class StaticHydrator {
     // modifier por entidad alcanzada, con id derivado para no colisionar en el trace.
     const routed: Modifier[] = [];
     const entityById = new Map(entities.map(e => [e.id, e]));
+    // Cruces de bando que no encontraron a quién cruzar. §18 exige descartar **y reportar**: el
+    // tripwire de `reportUnlandedModifiers` no puede verlos porque recorre los modifiers YA ruteados,
+    // y éstos desaparecen antes de llegar ahí.
+    const crossBandDiscarded: Modifier[] = [];
     for (const m of modifiers) {
       if (!m.target_channel) {
+        // ── Cruce de bando ──────────────────────────────────────────────────────────────
+        // Lo declara la FAMILIA DEL TOKEN, no el portador — y esa es la diferencia con la
+        // excepción de abajo. Acuñar `ENEMY_*` sobre el `AVATAR_ARMOUR` del raw de DE **fue**
+        // declarar el destino (`arch-decisions §18` §La familia del token resuelve el cruce de
+        // bando): para el juego el enemigo también es un avatar; para nosotros no, y el token lo
+        // dice. Por eso esto es la regla ejecutándose, no un `if` que parchea un caso.
+        //
+        // Vale porque en este modelo **emite un solo bando**: el objetivo no porta fuentes propias,
+        // así que el portador siempre es del squad y no hay bando de emisor contra el cual cruzar
+        // (`simulation-architecture.md` §Los dos pobladores son asimétricos).
+        //
+        // Sólo cruza `ENEMY_*`. Rutear por familia SIEMPRE rompería la contención: `Vitality`
+        // (`AVATAR_ADD_HEALTH_MAX`, montado en el warframe) aterrizaría también en el compañero,
+        // que porta la misma marca `avatar`.
+        if (m.target_attribute.startsWith('ENEMY_')) {
+          const targets = resolveFamilyEntities('ENEMY', entities);
+          if (targets.length === 0) { crossBandDiscarded.push(m); continue; }
+          for (const id of targets) {
+            routed.push({ ...m, id: targets.length > 1 ? `${m.id}@${id}` : m.id, target_entity: id });
+          }
+          continue;
+        }
         // Sin canal, el modifier se quedó donde NACIÓ — que para un mod es la entidad en cuyo slot
         // está montado. Eso alcanza mientras el token pertenezca a esa entidad, y **no siempre
         // pertenece**: un puñado de mods de arma emiten stats del warframe que los porta (Amalgam
@@ -225,9 +251,15 @@ export class StaticHydrator {
         //
         // El salto se limita a **portador-arma**: un compañero también emite `AVATAR_*` (los 14
         // mods de Sentinel: `Enhanced Vitality` → `AVATAR_ADD_HEALTH_MAX`) y ahí el avatar es ÉL,
-        // no el warframe — rutearlo sería un bug peor que el que esto arregla. Hoy no se
-        // construyen entidades de compañero, así que el caso no puede darse; cuando se construyan,
-        // la regla se decide con ese dato en la mano y no por anticipación.
+        // no el warframe — rutearlo sería un bug peor que el que esto arregla.
+        //
+        // ⚠️ El compañero YA es una entidad del espacio, así que el caso se da. Hoy sale bien pero
+        // **por la guarda, no por decisión**: `domain === 'companion'` no matchea `'weapon'`, cae a
+        // contención y se queda donde debe. Es el mismo `if` que `arch-decisions §18` señala como
+        // *"el `if` que convierte un error detectable en uno invisible"*, y sobrevive a propósito:
+        // resuelve el destino DENTRO del bando, y ese eje no tiene forcing-case todavía
+        // (`OQ-ENGINE-31`). El cruce de bando, que sí lo tenía, ya salió de acá: lo declara la
+        // familia del token, arriba.
         const holder = entityById.get(m.target_entity);
         if (holder?.domain === 'weapon' && m.target_attribute.startsWith('AVATAR_')) {
           for (const id of resolveFamilyEntities('AVATAR', entities)) {
@@ -248,6 +280,17 @@ export class StaticHydrator {
           target_channel: undefined,
         });
       }
+    }
+
+    // El alcance existía y estaba vacío — distinto de "el token no tiene nodo". Se reporta acá y no
+    // en `reportUnlandedModifiers` porque estos modifiers no llegan a `routed`: se descartan al
+    // rutear. El mensaje nombra el bando que faltó, no el nodo, porque el nodo nunca estuvo en juego.
+    if (crossBandDiscarded.length > 0) {
+      const sources = new Set(crossBandDiscarded.map(m => m.source_id ?? m.id));
+      console.warn(
+        `[Hydration] Cruce de bando sin destino: no hay participante hostil declarado — ` +
+        `${sources.size} modifier(s) descartado(s): ${[...sources].join(', ')}`,
+      );
     }
 
     this.reportUnlandedModifiers(entities, routed);

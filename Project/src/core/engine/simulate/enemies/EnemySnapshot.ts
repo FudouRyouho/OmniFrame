@@ -2,7 +2,7 @@
  * @domain Simulation-v2 / Logic / Combat
  * @status en-desarrollo
  *
- * Primer forcing-case del eje sujeto (T5, `.working/c1-simulation-doctrine.md` §4-T5 + §5):
+ * Primer forcing-case del **eje sujeto** —qué entidad lee un `condition`, el portador o el objetivo—:
  * el objeto de contexto "congelado" (`snapshot`, nombre de trabajo) que un pull-read del
  * target lee para derivar flags de `condition`. Deliberadamente MÍNIMO — dos campos, lo que
  * el caso `while_enemy_below_half_health` fuerza — no una abstracción de snapshot general

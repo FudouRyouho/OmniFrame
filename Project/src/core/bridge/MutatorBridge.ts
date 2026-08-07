@@ -30,9 +30,8 @@ export class MutatorBridge {
     context?: Partial<SimulationContext>,
     options?: SimulateOptions
   ): SimulationResult {
-    const channelMap = this.buildChannelMap(intention);
     const ensemble = this.ensembleFromIntention(intention);
-    return this.runSimulation(ensemble, context, channelMap, options);
+    return this.runSimulation(ensemble, context, options);
   }
 
   // ---------------------------------------------------------------------------
@@ -42,7 +41,6 @@ export class MutatorBridge {
   private runSimulation(
     ensemble: Ensemble,
     context?: Partial<SimulationContext>,
-    channelMap: Record<string, string> = {},
     options?: SimulateOptions
   ): SimulationResult {
     const dnas = this.hydrateDnas(ensemble);
@@ -65,9 +63,13 @@ export class MutatorBridge {
     if (options?.trace) newEngine.enableTrace();
     newEngine.resolve(fullContext);
 
+    // El canal NO se re-escribe acá. Ya viene estampado desde el espacio (`space.ts` → `StaticHydrator`),
+    // que es la única lista de participantes y la que el ruteo por canal consume ANTES de resolver.
+    // Escribirlo de nuevo post-resolve era destructivo: se armaba desde `intention.items[…]`, así que
+    // todo participante que no entre por el loadout —el objetivo, que entra por `environment`— recibía
+    // `undefined` encima del canal que el espacio ya le había puesto.
     const resolvedEntities = entities.map(e => ({
       ...e,
-      channel: channelMap[e.id],
       attributes: this.mapCalculatedStats(e, newEngine)
     }));
 
@@ -77,19 +79,6 @@ export class MutatorBridge {
   // ---------------------------------------------------------------------------
   // Traducción: EnsembleIntention → Ensemble (vía canónica)
   // ---------------------------------------------------------------------------
-
-  private buildChannelMap(intention: EnsembleIntention): Record<string, string> {
-    const map: Record<string, string> = {};
-    const channels: EquipmentChannel[] = [
-      "warframe", "primary", "secondary", "melee",
-      "companion", "companion_weapon", "archwing", "archgun", "archmelee", "necramech"
-    ];
-    for (const ch of channels) {
-      const itemId = intention.items[ch]?.itemId;
-      if (itemId) map[itemId] = ch;
-    }
-    return map;
-  }
 
   private ensembleFromIntention(intention: EnsembleIntention): Ensemble {
     const warframeSlot = intention.items.warframe;

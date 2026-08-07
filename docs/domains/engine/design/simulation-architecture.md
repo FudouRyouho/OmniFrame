@@ -4,7 +4,7 @@ Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-08-06"
+Fecha_de_actualizacion: "2026-08-07"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -171,6 +171,27 @@ mismo árbol de [`arch-decisions.md`](arch-decisions.md) §18.
 
 > **`A1` y `A2` no son capas** y no existen en el código como tales. Sobreviven sólo como nombres de
 > conveniencia para hablar de **dos pobladores**.
+
+##### Los dos pobladores son **asimétricos** — y eso es el modelo, no una carencia
+
+No son composiciones gemelas: **el squad declara un loadout, el bando hostil no.** Un jugador declara
+qué warframe, qué armas y qué mods; un objetivo se declara nombrando cuál es y a qué nivel. Forzar que
+todo participante entre por la misma forma es de donde salen los `if` que
+[`arch-decisions.md`](arch-decisions.md) §18 prohíbe — se termina inventando un loadout vacío para el
+enemigo o un nivel para el arma.
+
+De la asimetría sale una consecuencia operativa que el ruteo aprovecha: **en este modelo emite un solo
+bando.** El objetivo no porta mods ni fuentes propias, así que el portador de cualquier modifier es del
+squad. Por eso un efecto que cruza bandos **no necesita computar el bando del emisor**: la familia del
+token ya declara el destino (`ENEMY_*` va al otro lado, y ninguna otra familia cruza). Es lo que hace
+innecesaria una tabla `alcance × bando`, que con un solo emisor tendría una sola fila útil.
+
+⚠️ **Es una simplificación deliberada, atada al objetivo del proyecto** —simular builds, daño y
+sinergias desde la perspectiva del jugador—, **no una ley del juego.** Cae el día que un participante
+del otro bando **emita**: un aliado NPC con loadout propio, o una entidad bajo mind control que además
+porte fuentes. Que la marca de bando cambie ya está resuelto (es una marca, §*Qué es un participante*);
+lo que no está resuelto es que el **emisor** pueda no ser del squad. Registrado, no construido —
+`OQ-ENGINE-31` lleva el eje.
 
 ---
 

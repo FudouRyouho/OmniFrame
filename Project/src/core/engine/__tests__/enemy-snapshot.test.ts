@@ -1,6 +1,6 @@
 /**
- * EnemySnapshot — ladrillo #2 del roadmap C1 (forcing-case eje sujeto, T5/§5 de
- * `.working/c1-simulation-doctrine.md`). Primer pull-read real: un `condition` que lee el
+ * EnemySnapshot — forcing-case del **eje sujeto** (qué entidad lee un `condition`; doctrina en
+ * `docs/domains/engine/design/arch-decisions.md` §8). Primer pull-read real: un `condition` que lee el
  * estado del ENEMIGO (no del jugador/loadout) contra un flag derivado de un snapshot congelado.
  *
  * Vehículo: Sicarus Prime, perk incarnon "Feigned Retreat" (`while_enemy_below_half_health`,

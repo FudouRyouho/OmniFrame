@@ -18,9 +18,11 @@ import type { Ensemble } from "../../contracts";
 export interface EntityIntent {
   entity_id: string;
   /**
-   * Canal del ensemble ('warframe' | 'primary' | 'secondary' | 'melee'). Se estampa en la entidad y
-   * es lo que consulta el ruteo por canal (`channel-routing.ts`). El bridge también lo escribe, pero
-   * POST-resolve y sólo para la salida — demasiado tarde para que C lo use.
+   * Canal del ensemble ('warframe' | 'primary' | 'secondary' | 'melee' | 'companion' | 'enemy').
+   * Se estampa en la entidad acá y **no se vuelve a escribir**: es lo que consulta el ruteo por canal
+   * (`channel-routing.ts`) antes de resolver, y lo que llega a la salida. El bridge lo re-escribía
+   * post-resolve desde `intention.items[…]`, lo que borraba el canal de todo participante que no
+   * entrara por el loadout — el objetivo, que entra por `environment`.
    */
   channel: string;
   /**

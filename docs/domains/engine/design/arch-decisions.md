@@ -774,8 +774,11 @@ Cita: `references/ingame-tests/status-stack-caps.md`,
 **contención** (el efecto se queda en quien porta el mod, default silencioso, `ModRepository`),
 **taxonomía** (el token declara la familia destino, `channel-routing.ts`) y **excepción**
 (`portador === arma && token.startsWith('AVATAR_')`, `StaticHydrator`). El drift es medible: Corrosive
-Projection (portador warframe, token `ENEMY_*`) no matchea ninguna excepción, cae a contención y **muere
-en el warframe** — el motor grita `Token conocido sin nodo: ENEMY_ADD_ARMOUR`.
+Projection —portador warframe, token `ENEMY_*`— no matchea ninguna excepción y cae a contención, o sea
+**muere en quien lo porta**; el motor lo grita (`Token conocido sin nodo: ENEMY_ADD_ARMOUR`), que es lo
+correcto pero no lo arregla. **Ese caso ya está cerrado** por §*La familia del token resuelve el cruce de
+bando* (abajo), y el examen que lo fija es `enemy.test.ts` — *−18% de armadura al enemigo: 500 → 410*.
+El resto de la partición sigue en pie.
 
 **Tres ejes, no dos.** Un solo modifier involucra tres entidades que pueden diferir, y confundirlas es
 de donde nacen las excepciones:
@@ -849,13 +852,44 @@ resuelto — **es un emisor que no existe**. `OQ-DATA-6`.
 
 El contrato ya está escrito en
 [`../../../semantic/upgrade-tokens.md`](../../../semantic/upgrade-tokens.md) §Frontera negativa, y el
-código no lo cumple. **El criterio de aceptación es externo:**
+código lo cumple **a medias**. **El criterio de aceptación es externo:**
 
-| `upgrade-tokens.md` declara | El código hace |
-|---|---|
-| `AVATAR_*` = el avatar del portador (**relativo**) | `FAMILY_ROUTE: { AVATAR: 'avatar' }` — clase **absoluta** |
-| el token declara tres cosas y sólo tres | tres reglas de ruteo + una excepción por dominio |
-| *"un `if` … convierte un error detectable en uno invisible"* | `if (holder?.domain === 'weapon' && token.startsWith('AVATAR_'))` |
+| `upgrade-tokens.md` declara | El código hace | Estado |
+|---|---|---|
+| el token declara tres cosas y sólo tres | el **cruce de bando** lo declara la familia del token, sin `if` ni campo nuevo | ✅ |
+| `AVATAR_*` = el avatar del portador (**relativo**) | `FAMILY_ROUTE: { AVATAR: 'avatar' }` — clase **absoluta** | ⚠️ abierto |
+| *"un `if` … convierte un error detectable en uno invisible"* | `if (holder?.domain === 'weapon' && token.startsWith('AVATAR_'))` | ⚠️ abierto |
+
+**Lo que cerró y lo que queda son dos tramos distintos, no medio problema cada uno** (ver abajo): el
+cruce entre bandos ya se resuelve por regla; elegir **dentro** del bando sigue con la excepción por
+dominio. Y hoy el compañero **es** una entidad del espacio, así que el caso que esa excepción evitaba
+puede darse — sale bien por la guarda (`domain === 'companion'` no matchea `'weapon'`, cae a contención
+y se queda donde debe), no por decisión. Su eje es `OQ-ENGINE-31`.
+
+### La familia del token resuelve **el cruce de bando, y sólo eso**
+
+La regla de arriba se ejecuta en dos tramos con dueños distintos, y confundirlos es lo que hace parecer
+que hace falta una tabla `alcance × bando`:
+
+| Tramo | Pregunta | Quién la contesta |
+|---|---|---|
+| **cruzar el bando** | ¿el efecto sale del squad hacia el otro lado? | **la familia del token** — `ENEMY_*` cruza, ninguna otra |
+| **elegir dentro del bando** | ¿el warframe o el compañero? ¿cuál de las tres armas? | **el portador**, por el árbol de propiedad |
+
+**Por qué la familia alcanza para el primero, y no es un atajo.** El vocabulario ya hizo ese trabajo: el
+raw de DE tokeniza como `AVATAR_ARMOUR` lo que nosotros acuñamos `ENEMY_ADD_ARMOUR`, porque para el juego
+el enemigo también es un avatar. **Acuñar `ENEMY_*` fue declarar el bando destino**, y volver a
+declararlo en un campo del modifier sería guardar el mismo dato dos veces. Se sostiene además porque en
+este modelo **emite un solo bando** — el objetivo no porta fuentes propias
+([`simulation-architecture.md`](simulation-architecture.md) §*Los dos pobladores son asimétricos*), así
+que el bando del emisor es constante y no hay nada que cruzar contra él.
+
+⚠️ **Y no alcanza para el segundo, deliberadamente.** Rutear por familia *siempre* rompería la
+contención: `Vitality` (mod de warframe, `AVATAR_ADD_HEALTH_MAX`) aterrizaría también en el compañero,
+que porta la misma marca `avatar`. Adentro del bando sigue mandando el portador, y el `if` de
+`StaticHydrator` sobrevive **a propósito** hasta que ese caso tenga forcing-case propio — el eje es
+`OQ-ENGINE-31`, que ya lo plantea mejor: *"el eje es la propagación de efectos, no el origen de la
+entidad"*.
 
 **Enlaza con** §19 (el ruteo lleva el token; el nodo lo compone — el mismo test los exige a los dos),
 §17 (el ruteo decide a quién llega un desvío).
@@ -918,9 +952,15 @@ stacks de Corrosive (emergente)?"*. Con la frontera, el nodo resuelve el `final`
 la ley aplica sus multiplicadores sobre ese `final` — cada uno en su tramo, una sola vez. Vale igual
 para `ENEMY_ADD_HEALTH_MAX` y `ENEMY_ADD_SHIELD_MAX` (Magnetic sobre escudos).
 
-**Examen ejecutable:** `__tests__/enemy.test.ts` — `it.todo('−18% de armadura al enemigo: 500 → 410')`.
-Exige las dos mitades: que §18 lleve el token al enemigo y que el nodo lo componga. Cuando pase a verde
-**sin excepciones hardcodeadas**, la frontera está construida.
+**Examen ejecutable — ✅ EN VERDE:** `__tests__/enemy.test.ts` — *−18% de armadura al enemigo: 500 → 410*.
+Exige las dos mitades y ninguna lo pasa sola: que §18 lleve el token al enemigo (el cruce de bando por
+familia) y que el nodo lo componga (el tramo 2 de esta tabla). Pasa **sin excepciones hardcodeadas** —
+el `if` que sobrevive resuelve el destino *dentro* del bando y no participa de este caso.
+
+**La frontera está construida para el armor.** Lo que queda es extenderla a `ENEMY_ADD_HEALTH_MAX` y
+`ENEMY_ADD_SHIELD_MAX`, que no tienen fuente declarada todavía: el corpus da **un solo** mod con token
+`ENEMY_*` en todo el override (Corrosive Projection), así que el segundo caso llega con el modelado de
+habilidades, no con más mods.
 
 **Enlaza con** §18 (la otra mitad del mismo examen), §14 (LEY/ESTADO/RESOLUCIÓN), §16 (pools).
 

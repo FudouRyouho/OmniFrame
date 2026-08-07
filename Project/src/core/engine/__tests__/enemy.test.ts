@@ -9,8 +9,9 @@
  *
  * Lo que estos tests fijan es el frame-0: el objetivo entra al espacio por `environment` (A2, "contra
  * qué comparo"), materializa sus tres stats vitales bajo la familia `ENEMY_*`, y **no recibe lo que
- * no le corresponde**. La evolución temporal sigue siendo de C2 y no se toca acá
- * (`.working/enemy-node-law-frontier.md`).
+ * no le corresponde**. La evolución temporal sigue siendo de C2 y no se toca acá: la frontera está en
+ * `docs/domains/engine/design/arch-decisions.md` §19 — *el nodo lleva el frame-0, la ley lleva el
+ * tiempo*.
  *
  * Valores verificados con `npm run oracle -- nodes <build>` ANTES de asertar.
  */
@@ -39,6 +40,21 @@ describe('Enemigo — la entidad', () => {
     expect(target().node('ENEMY_ADD_HEALTH_MAX').base).toBe(300);
     expect(target().node('ENEMY_ADD_ARMOUR').base).toBe(500);
     expect(target().node('ENEMY_ADD_SHIELD_MAX').base).toBe(0);
+  });
+
+  /**
+   * El canal lo estampa el ESPACIO y nadie lo vuelve a escribir. Lo fija acá porque el objetivo es
+   * el único participante que no entra por el loadout, así que es el único que detecta una segunda
+   * escritura armada desde `intention.items[…]`: al bridge le daba `undefined` y lo ponía encima.
+   * El resto del espacio sobrevivía a ese pisado por casualidad —sus ids sí están en `items`—, que
+   * es por qué el drift aguantó sin que ningún test lo notara.
+   */
+  it('conserva el canal que le estampó el espacio — nadie lo re-escribe post-resolve', () => {
+    const espacio = consume(valkyrWarcryTarget(), { flags: {} }).snapshot();
+    expect(espacio.find(e => e.id === BOMBARD)!.channel).toBe('enemy');
+    // Y los del loadout siguen con el suyo: el arreglo no cambia lo que ya funcionaba.
+    expect(espacio.find(e => e.id === VALKYR)!.channel).toBe('warframe');
+    expect(espacio.every(e => e.channel !== undefined)).toBe(true);
   });
 
   it('no porta taxonomía de arsenal — un enemigo no es un ítem que se equipa', () => {
@@ -98,24 +114,36 @@ describe('Corrosive Projection — el debuff que sale del warframe hacia el enem
   });
 
   /**
-   * LA RUPTURA — el modifier se queda donde nació.
+   * LA RUPTURA QUE ESTOS TESTS CIERRAN — el modifier se quedaba donde nació.
    *
    * `ModRepository.getModifiers(mod_id, dna.entity_id, ...)` hornea el portador como `target_entity`,
-   * y la pasada de ruteo de `StaticHydrator` sólo lo mueve bajo **una condición hardcodeada**:
+   * y la pasada de ruteo de `StaticHydrator` sólo lo movía bajo **una condición hardcodeada**:
    * `holder.domain === 'weapon' && token.startsWith('AVATAR_')` — el parche de Amalgam Serration y
    * Dispatch Overdrive. Corrosive Projection no matchea (portador warframe, token `ENEMY_*`), así
-   * que cae al `routed.push(m)` y muere en el warframe, que no tiene ese nodo.
+   * que caía al `routed.push(m)` y moría en el warframe, que no tiene ese nodo.
    *
-   * El motor lo grita, que es lo correcto:
+   * El motor lo gritaba, que era lo correcto:
    *   `[Hydration] Token conocido sin nodo: ENEMY_ADD_ARMOUR en .../Berserker`
    *
-   * No es un gap de modelado: el nodo destino EXISTE y el valor es conocido. Es que el ruteo
-   * cross-entity de mods está escrito como caso especial en vez de como regla.
+   * Nunca fue un gap de modelado: el nodo destino EXISTE y el valor es conocido. Era que el ruteo
+   * cross-entity estaba escrito como caso especial en vez de como regla.
+   *
+   * **Lo que lo cierra:** el cruce de bando lo declara la FAMILIA DEL TOKEN. Acuñar `ENEMY_*` sobre
+   * el `AVATAR_ARMOUR` del raw de DE ya era esa declaración, así que no hace falta que el modifier
+   * lleve un campo de alcance ni que la entidad lleve un bando (`arch-decisions §18`).
    */
-  it('hoy NO aterriza en el enemigo — el ruteo cross-entity de mods es un caso especial', () => {
-    expect(target(corrosiveProjectionTarget()).node('ENEMY_ADD_ARMOUR').mods_add_pct).toBe(0);
+  it('aterriza en el enemigo — el cruce de bando lo declara la familia del token', () => {
+    expect(target(corrosiveProjectionTarget()).node('ENEMY_ADD_ARMOUR').mods_add_pct).toBe(-18);
   });
 
-  // Objetivo: 500 × (1 − 0.18) = 410. Gated por la regla de ruteo, no por el dato ni por el nodo.
-  it.todo('−18% de armadura al enemigo: 500 → 410');
+  // 500 × (1 − 0.18) = 410. El examen final del Doc 2: exige las DOS mitades —que §18 lleve el token
+  // al enemigo y que §19 lo componga como nodo—, y ninguna lo pasa sola.
+  it('−18% de armadura al enemigo: 500 → 410', () => {
+    expect(target(corrosiveProjectionTarget()).node('ENEMY_ADD_ARMOUR').final).toBeCloseTo(410, 10);
+  });
+
+  it('no se desvía al warframe que lo porta — el aura sale del squad, no se queda', () => {
+    const wf = consume(corrosiveProjectionTarget(), { flags: {} }).weapon(VALKYR);
+    expect(wf.node('AVATAR_ADD_ARMOUR').mods_add_pct).toBe(50);  // sólo Warcry, sin rastro del aura
+  });
 });
