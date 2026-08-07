@@ -96,7 +96,7 @@ export class CombatSimulator {
 
     const hitsShields = hasShields && !bypassesShields(damageToken);            // Toxin bypasea shields
     const stateMultiplier = targetState.getDamageMultiplier(hitsShields, currentTime);
-    const typeMultiplier = bypassArmorMatrix ? 1 : targetFactionMult(damageToken, targetState.base.dna.faction);
+    const typeMultiplier = bypassArmorMatrix ? 1 : targetFactionMult(damageToken, targetState.faction);
     const dr = (!bypassArmorMatrix && !hitsShields && effectiveArmor > 0) ? damageReductionFromArmor(effectiveArmor) : 0;
 
     return { hitsShields, finalDamage: damage * stateMultiplier * typeMultiplier * (1 - dr) };

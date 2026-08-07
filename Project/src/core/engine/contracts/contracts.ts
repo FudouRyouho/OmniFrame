@@ -24,6 +24,15 @@ export interface SimulationEntity {
   kind?: ItemKind;
   family?: ItemFamily;
 
+  /**
+   * Facción canónica (`docs/semantic/factions.md`) — el ESPEJO de `domain`/`kind`/`family` del lado
+   * hostil: un ítem del arsenal no tiene facción, un enemigo no tiene domain. La lee `resolveHit`
+   * vía `targetFactionMult` (matriz ③), y por eso es **campo y no tag**: `tags` contesta *qué es*
+   * esto en una lista de strings, mientras que ésta se consulta POR VALOR (`FACTION_BONUS[token][f]`).
+   * Vivía como `tags[1]`, donde leerla obligaba a confiar en una posición.
+   */
+  faction?: string;
+
   persistence: 'PE' | 'TE'; // Pure Entity | Transient Entity
   tags: string[];
   /**
@@ -65,6 +74,8 @@ export interface MutatedDNA {
   domain?: ItemDomain;
   kind?: ItemKind;
   family?: ItemFamily;
+  /** Ver `SimulationEntity.faction`: el espejo del lado hostil de `domain`/`kind`/`family`. */
+  faction?: string;
   tags: string[];
   profiles: Record<string, Record<AttributeId, number>>; // 'base', 'alt', 'incarnon'
   // Keyed por profile_name (igual que profiles) — el behavior es por-ataque, no por-arma.

@@ -3,8 +3,9 @@
  * @SSoT references/wiki/mechanics/enemy-level-scaling.md
  *
  * Ley de escalado de enemigos por nivel (curva-S post Update 27.2). Matemática pura: números→números,
- * sin acoplamiento a tipos de dominio (`EnemyDNA`/`ScaledEnemy`). La composición vs. la entidad (leer
- * `dna`, ensamblar `ScaledEnemy`) es responsabilidad del orquestador `EnemyRepository.scale`.
+ * sin acoplamiento a tipos de dominio. Leer el dato crudo y ensamblar el participante es del
+ * orquestador, que es `ItemRepository.normalizeEnemy` — el **frame-0**: los tres vitales nacen ya
+ * escalados y no se escalan después (`arch-decisions §19`).
  *
  * Los coeficientes son **parámetros intrínsecos de la ley** (de references/wiki/mechanics/
  * enemy-level-scaling.md), NO datos de un dominio externo → co-locados con la fórmula (precedente:

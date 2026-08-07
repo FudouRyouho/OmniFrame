@@ -4,6 +4,7 @@
  * Ver `docs/domains/oracle/design/architecture.md` §2-2.1.
  */
 import { toStatEntries } from '@lib/format/stat-entry';
+import { hostileVitals } from '@core/engine/simulate/enemies/EnemyState';
 import type { AcquiredResult, Format, MetricsResult, EnemyResult, TraceResult } from './types';
 
 export function present(result: AcquiredResult, format: Format): void {
@@ -36,12 +37,12 @@ function jsonView(r: AcquiredResult): unknown {
     case 'enemy':
       return {
         lens: r.lens,
-        enemy: r.scaled.dna.name ?? r.scaled.dna.unique_name,
-        faction: r.scaled.dna.faction,
+        enemy: r.name,
+        faction: r.entity.faction ?? null,
         level: r.level,
-        health: r.scaled.current_health,
-        armor: r.scaled.current_armor,
-        shields: r.scaled.current_shields,
+        health: r.vitals.health,
+        armor: r.vitals.armor,
+        shields: r.vitals.shields,
         damage_reduction: r.dr,
         ehp: r.ehp,
       };
@@ -91,21 +92,15 @@ function text(r: AcquiredResult): void {
 }
 
 function targetSummary(r: MetricsResult) {
-  return {
-    name: r.target.dna.name ?? r.target.dna.unique_name,
-    level: r.target.current_level,
-    health: r.target.current_health,
-    armor: r.target.current_armor,
-    shields: r.target.current_shields,
-  };
+  return { name: r.targetName, level: r.targetLevel, ...hostileVitals(r.target) };
 }
 
 function textMetrics(r: MetricsResult): void {
   const { target_agnostic: ta, vs_target: vt } = r.metrics;
-  const name = r.target.dna.name ?? r.target.dna.unique_name;
-  console.log(`\n######## METRICS: ${r.build} vs ${name} @lvl ${r.target.current_level} (dur ${r.duration}s) ########`);
+  const v = hostileVitals(r.target);
+  console.log(`\n######## METRICS: ${r.build} vs ${r.targetName} @lvl ${r.targetLevel} (dur ${r.duration}s) ########`);
   console.log(`=== [${r.weapon.channel ?? '—'}] ${r.weapon.unique_name}  (${r.weapon.domain}/${r.weapon.kind}) ===`);
-  console.log(`  target: health ${r.target.current_health.toFixed(0)}  armor ${r.target.current_armor.toFixed(0)}  shields ${r.target.current_shields.toFixed(0)}`);
+  console.log(`  target: health ${v.health.toFixed(0)}  armor ${v.armor.toFixed(0)}  shields ${v.shields.toFixed(0)}`);
 
   console.log(`\n  target_agnostic (C1 suelo — sin target):`);
   console.log(`    burst_dps      : ${ta.burst_dps.toFixed(1)}`);
@@ -139,10 +134,9 @@ function textTrace(r: TraceResult): void {
 }
 
 function textEnemy(r: EnemyResult): void {
-  const dna = r.scaled.dna;
-  console.log(`\n######## ENEMY: ${dna.name ?? dna.unique_name} @ lvl ${r.level} (base ${dna.base_level}, facción ${dna.faction}) ########`);
-  console.log(`  health : ${r.scaled.current_health.toFixed(2)}`);
-  console.log(`  armor  : ${r.scaled.current_armor}  → DR ${(r.dr * 100).toFixed(2)}%  [√3a/100, provisional OQ-ENGINE-15]`);
-  console.log(`  shields: ${r.scaled.current_shields.toFixed(2)}`);
+  console.log(`\n######## ENEMY: ${r.name} @ lvl ${r.level} (facción ${r.entity.faction ?? '—'}) ########`);
+  console.log(`  health : ${r.vitals.health.toFixed(2)}`);
+  console.log(`  armor  : ${r.vitals.armor}  → DR ${(r.dr * 100).toFixed(2)}%  [√3a/100, provisional OQ-ENGINE-15]`);
+  console.log(`  shields: ${r.vitals.shields.toFixed(2)}`);
   console.log(`  EHP    : ${r.ehp.toFixed(2)}  (health/(1−DR)+shields)`);
 }

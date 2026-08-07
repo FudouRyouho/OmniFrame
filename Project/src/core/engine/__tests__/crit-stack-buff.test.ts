@@ -11,7 +11,7 @@ import { consume } from '../output/consume';
 import { deriveInstance } from '../simulate/combat/damage-instance';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
 import { EnemyState } from '../simulate/enemies/EnemyState';
-import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
+import { hostileEntity } from './hostile-entity';
 import { BASELINE_GAME_LAWS } from '../contracts';
 import { lanka } from '../fixtures/builds';
 import type { SimulationEntity } from '../contracts';
@@ -21,8 +21,7 @@ await loadEngineData(new NodeAdapter());
 
 const DUMMY_HIT: HitContext = { moddedBase: 0, statusDamageBonusPct: 0, elementBonusPct: {} };
 const laws = { ...BASELINE_GAME_LAWS };
-const scaled = () => EnemyRepository.scale(EnemyRepository.find('Arid Butcher')!, 100);
-const freshState = () => new EnemyState(scaled(), laws);
+const freshState = () => new EnemyState(hostileEntity('Arid Butcher', 100), laws);
 
 describe('getCritBonuses — LEY de crit-buff por stack (OQ-ENGINE-12)', () => {
   it('Weakened: +5% crit chance por stack, cap +25 a 5 stacks', () => {

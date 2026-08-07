@@ -20,12 +20,20 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
+import { computeCombatMetrics } from '../output/combat-metrics';
+import { BASELINE_GAME_LAWS } from '../contracts';
+import type { SimulationContext } from '../contracts';
+import type { EnsembleIntention } from '@shared/types/ensemble';
 import {
   valkyrWarcryTarget, valkyrWarcryCompanion, corrosiveProjectionTarget, rhinoRoarTarget,
   BOMBARD, VALKYR,
 } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
+
+const BASE_CONTEXT: SimulationContext = {
+  active_profile_id: 'base', flags: {}, variables: {}, laws: { ...BASELINE_GAME_LAWS },
+};
 
 const target = (b = valkyrWarcryTarget()) => consume(b, { flags: {} }).weapon(BOMBARD);
 
@@ -45,9 +53,10 @@ describe('Enemigo — la entidad', () => {
    * Un enemigo no existe primero y se escala después, igual que un warframe no nace desnudo para que
    * le pongan los mods encima (`simulation-architecture.md` §Los dos pobladores no son espejos).
    *
-   * Los tres coinciden al decimal con `EnemyRepository.scale`, que llega al mismo número por el otro
-   * camino: el escalado se movió al frame-0 sin que la ley cambiara. Lo que ese otro camino NO tiene
-   * es lo de abajo — los modifiers.
+   * Estos números salieron de un orquestador paralelo (`EnemyRepository.scale`) que ya no existe: al
+   * moverse al frame-0 coincidieron AL DECIMAL con los de acá, y esa coincidencia fue la prueba de
+   * que el escalado cambió de capa sin que la ley se moviera. Lo que ese camino no tenía —y por eso
+   * murió— es lo de más abajo: los modifiers del escenario.
    */
   it('materializa sus stats vitales ESCALADOS: el nivel es frame-0, no una capa posterior', () => {
     expect(target().node('ENEMY_ADD_HEALTH_MAX').base).toBeCloseTo(86416.38, 2);  // 300 @ lvl 4 → 100
@@ -124,9 +133,10 @@ describe('Enemigo — el buff del jugador no se filtra', () => {
  *                   lvl 200 → ENEMY_ADD_HEALTH_MAX 144270.94
  *     sale:         los DOS → 144270.94
  *
- * El arreglo tiene precedente en este mismo repo: el ruteo cross-banda de `StaticHydrator`
- * desambigua con `targets.length > 1 ? `${m.id}@${id}` : m.id` — sufijo sólo cuando hay más
- * de uno. Mismo criterio acá preserva `consume().weapon(VALKYR)` en todos los tests.
+ * El arreglo NO es el sufijo condicional del ruteo cross-banda de `StaticHydrator`
+ * (`targets.length > 1 ? `${m.id}@${id}` : m.id`): esa clave cambia de forma según cuántos haya, y es
+ * deuda propia registrada en `OQ-ENGINE-36`, no autoridad a imitar. Lo que corresponde es que el
+ * `entity_id` deje de ser el molde y pase a ser la coordenada del participante en la escena.
  */
 it.todo('dos hostiles del mismo tipo a niveles distintos resuelven cada uno el suyo');
 
@@ -173,12 +183,29 @@ describe('Corrosive Projection — el debuff que sale del warframe hacia el enem
 
   // 2700 × (1 − 0.18) = 2214. Exige TRES cosas y ninguna lo pasa sola: que el nivel componga el
   // frame-0 (2700, no 500), que §18 lleve el token al enemigo, y que §19 lo componga como nodo.
-  //
-  // ⚠️ Este número todavía NO llega al daño: `EnemyState` nace de `EnemyRepository.scale`, que computa
-  // el mismo 2700 por otro camino y no ve ningún modifier. El examen que cierra eso es de C2 —
-  // `corrosive_projection_tgt` tiene que hacer MENOS daño que la misma build sin el aura.
   it('−18% de armadura al enemigo: 2700 → 2214', () => {
     expect(target(corrosiveProjectionTarget()).node('ENEMY_ADD_ARMOUR').final).toBeCloseTo(2214, 10);
+  });
+
+  /**
+   * …Y ESE NÚMERO LLEGA AL DAÑO. Es el cierre del recorrido: el aura sale del squad, cruza de bando,
+   * compone el nodo del enemigo, y el estado que C2 golpea nace de ESE nodo.
+   *
+   * Mientras `EnemyState` nacía de un `ScaledEnemy` paralelo, este test era imposible: las dos builds
+   * daban EXACTAMENTE el mismo número (1716 las dos), porque C2 medía contra el enemigo del `--vs`
+   * —un Arid Butcher que nunca vio el aura— en vez de contra el que el escenario declaró.
+   *
+   * Menos armadura ⇒ menos DR ⇒ MÁS daño. El sentido importa: un test que exigiera "menos daño"
+   * pasaría con la armadura yendo para el lado equivocado.
+   */
+  it('el −18% llega al daño: la misma build con el aura pega MÁS fuerte', () => {
+    const dmg = (b: EnsembleIntention) => {
+      const scene = consume(b, { flags: {} }).snapshot();
+      const weapon = scene.find(e => e.domain === 'weapon')!;
+      const enemy = scene.find(e => e.tags.includes('enemy'))!;
+      return computeCombatMetrics(weapon, enemy, BASE_CONTEXT, 6).vs_target.total_damage;
+    };
+    expect(dmg(corrosiveProjectionTarget())).toBeGreaterThan(dmg(valkyrWarcryTarget()));
   });
 
   it('no se desvía al warframe que lo porta — el aura sale del squad, no se queda', () => {

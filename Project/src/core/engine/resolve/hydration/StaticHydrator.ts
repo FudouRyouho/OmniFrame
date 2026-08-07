@@ -393,6 +393,7 @@ export class StaticHydrator {
       domain: dna.domain,
       kind: dna.kind,
       family: dna.family,
+      faction: dna.faction,
       // PE = entidad poseída/equipada (arma o warframe); TE = transitoria (proc, proyectil).
       persistence: (dna.tags.includes('weapon') || isWarframe) ? 'PE' : 'TE',
       tags: dna.tags,

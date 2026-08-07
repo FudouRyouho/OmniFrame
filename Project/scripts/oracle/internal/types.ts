@@ -8,7 +8,6 @@
  */
 import type { SimulationEntity, TraceStep } from '@core/engine/contracts';
 import type { CombatMetrics } from '@core/engine/output/combat-metrics';
-import type { ScaledEnemy } from '@core/engine/simulate/enemies/EnemyRepository';
 import type { ViewModelContract } from '@shared/view-model';
 
 /** Lente de observación del pipeline. `intention` (salida de B) queda declarada pero no
@@ -51,7 +50,15 @@ export interface MetricsResult {
   lens: 'metrics';
   build: string;
   weapon: SimulationEntity;
-  target: ScaledEnemy;
+  /** El objetivo tal como el ESCENARIO lo consolidó — la misma entidad que C1 resolvió, no un paralelo. */
+  target: SimulationEntity;
+  /** Display del catálogo: la entidad lleva su `unique_name`, no el nombre legible. */
+  targetName: string;
+  /**
+   * Nivel del objetivo. Sale de la DECLARACIÓN y no de la entidad: el nivel entra al frame-0 y se
+   * consume ahí (`nacer es estar compuesto`), así que el participante resuelto ya no lo lleva encima.
+   */
+  targetLevel: number;
   metrics: CombatMetrics;
   duration: number;
 }
@@ -66,7 +73,9 @@ export interface EnemyResult {
   lens: 'enemy';
   query: string;
   level: number;
-  scaled: ScaledEnemy;
+  entity: SimulationEntity;
+  name: string;
+  vitals: { health: number; armor: number; shields: number };
   dr: number;
   ehp: number;
 }

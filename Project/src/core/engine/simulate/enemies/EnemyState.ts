@@ -1,5 +1,4 @@
-import type { ScaledEnemy } from "./EnemyRepository";
-import type { GameLaws } from "../../contracts";
+import type { GameLaws, SimulationEntity } from "../../contracts";
 import type { StatusEffect } from "@shared/types";
 import { EFFECT_BEHAVIORS } from "../../formulas/status/behaviors";
 import type { EffectBehavior, HitContext, Layer, Resolucion } from "../../formulas/status/effect-behavior";
@@ -13,32 +12,67 @@ import { damageTokenFromType } from "../../contracts/damage-logic";
  * comportamiento de cada efecto — lo delega a su fórmula; solo itera, y resuelve las emisiones (ticks)
  * por el mismo camino que un hit directo (`resolveDamageEvent`).
  *
- * DEUDA DE NORTE (O1, decision-frontier.md): el ESTADO es portado-por-entidad. La LEY
- * (`formulas/status/`) YA es agnóstica a source/target — cada behavior modela su `S` sin saber quién lo
- * porta. Lo que amarra este contenedor a "enemigo" es `base: ScaledEnemy`, y de ahí salen sus cuatro
- * únicos usos (health/shields/armor actuales + faction), **los cuatro ya presentes en la entidad
- * resuelta de C1**.
+ * EL ESTADO NACE DE LA FOTO DE t=0 (`simulation-architecture.md` §El escenario consolidado): recibe la
+ * **entidad resuelta de C1**, no un objeto paralelo. Antes recibía un `ScaledEnemy` que C1 nunca vio, y
+ * eso era medible — un debuff `ENEMY_*` compuesto en el escenario no llegaba al daño: C1 resolvía un
+ * Bombard con armadura 2214 (Corrosive Projection) mientras C2 medía contra el enemigo del `--vs`.
  *
- * Por eso no es "relocalizar cuando una entidad no-enemigo porte status": la neutralidad cae por
- * consecuencia de que el estado nazca del escenario consolidado en vez de un `ScaledEnemy` que C1 nunca
- * vio (`simulation-architecture.md` §El escenario consolidado). Hoy nace del segundo, y eso es medible:
- * un debuff `ENEMY_*` compuesto en C1 no llega al daño.
+ * DEUDA DE NORTE (O1, decision-frontier.md) — CERRADA POR CONSECUENCIA: el ESTADO era portado-por-entidad
+ * mientras la LEY (`formulas/status/`) ya era agnóstica a source/target. Lo que amarraba este contenedor
+ * a "enemigo" era `base: ScaledEnemy`; de sus cuatro únicos usos (health/shields/armor + facción) los
+ * cuatro estaban ya en la entidad resuelta. Al leerlos de ahí, lo único que queda de "enemigo" en la
+ * clase es el nombre: cualquier participante con esos nodos puede portar estado. El rename espera a que
+ * haya un segundo portador real (`OQ-ENGINE-8`) — hoy sería vocabulario sin caso.
  */
+/** Valor resuelto de un nodo, o 0 si el participante no lo tiene (sin shields, sin armadura). */
+const nodeFinal = (entity: SimulationEntity, id: string): number => entity.attributes[id]?.final ?? 0;
+
+/**
+ * Los tres vitales de un participante, tal como el escenario los consolidó. SSoT de **qué nodos son
+ * los vitales**: el estado los lee para arrancar y la salida los lee para presentar, y si cada uno
+ * nombrara los suyos podrían divergir sin que nada lo note.
+ */
+export function hostileVitals(entity: SimulationEntity): { health: number; armor: number; shields: number } {
+  return {
+    health:  nodeFinal(entity, "ENEMY_ADD_HEALTH_MAX"),
+    armor:   nodeFinal(entity, "ENEMY_ADD_ARMOUR"),
+    shields: nodeFinal(entity, "ENEMY_ADD_SHIELD_MAX"),
+  };
+}
+
 export class EnemyState {
   public current_health: number;
   public current_shields: number;
   /** Estado de proc por efecto — opaco a core (cada behavior modela su `S` distinto). */
   public effectStates: Map<StatusEffect, unknown>;
 
-  public base: ScaledEnemy;
+  /** El participante tal como el escenario lo consolidó. Reemplaza al `ScaledEnemy` paralelo. */
+  public entity: SimulationEntity;
   public laws: GameLaws;
 
-  constructor(base: ScaledEnemy, laws: GameLaws) {
-    this.base = base;
+  /**
+   * Armadura de la foto de t=0 — el piso sobre el que los efectos aplican su `armorMult`. Se congela
+   * en el constructor y NO se relee: lo que compuso el escenario (mods, auras) es frame-0, y lo que
+   * pasa DURANTE es de los efectos. Es la misma línea que `arch-decisions §19` traza entre las dos.
+   */
+  private readonly base_armor: number;
+
+  constructor(entity: SimulationEntity, laws: GameLaws) {
+    this.entity = entity;
     this.laws = laws;
-    this.current_health = base.current_health;
-    this.current_shields = base.current_shields;
+    const vitals = hostileVitals(entity);
+    this.current_health  = vitals.health;
+    this.current_shields = vitals.shields;
+    this.base_armor      = vitals.armor;
     this.effectStates = new Map();
+  }
+
+  /**
+   * Facción canónica del portador, para la matriz ③. Sale del campo de la entidad y no de `tags`:
+   * ver `SimulationEntity.faction`. Vacía = sin bonus (`targetFactionMult` devuelve 1).
+   */
+  public get faction(): string {
+    return this.entity.faction ?? "";
   }
 
   /** Aplica un proc de un efecto (o `amount` fraccional, EV). Rutea a su behavior; efecto sin modelar = no-op. */
@@ -101,7 +135,7 @@ export class EnemyState {
 
   /** Armor efectivo = base × producto de los `armorMult` de los efectos activos (Corrosion, Heat-ramp). */
   public getEffectiveArmor(currentTime: number): number {
-    let armor = this.base.current_armor;
+    let armor = this.base_armor;
     for (const [effect, behavior] of this.activeBehaviors()) {
       const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime, this.laws).armorMult;
       if (m !== undefined) armor *= m;
@@ -127,7 +161,7 @@ export class EnemyState {
   }
 
   public clone(): EnemyState {
-    const c = new EnemyState(this.base, this.laws);
+    const c = new EnemyState(this.entity, this.laws);
     c.current_health = this.current_health;
     c.current_shields = this.current_shields;
     // Los estados son inmutables (copy-on-write en applyProc/advance) → copiar el Map alcanza.

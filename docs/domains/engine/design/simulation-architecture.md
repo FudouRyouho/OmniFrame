@@ -243,15 +243,18 @@ compuestos, y lo que cruza entre ellos ya aplicado. Nadie disparó, no pasó un 
 consolidado dejado correr. Por eso el contenedor de estado resulta **entidad-neutral por consecuencia**
 y no por un refactor aparte — nace de un participante resuelto, y un participante resuelto ya es neutral.
 
-⚠️ **La foto se compone y todavía no se usa.** El frame-0 ya está completo —los participantes hostiles
-nacen escalados por su nivel y componen los modifiers que les llegan—, pero cuando arranca el tiempo se
-construye un objetivo **nuevo** por otro camino (`EnemyRepository.scale`) que nunca vio el escenario.
+**Y la foto es lo que el tiempo golpea.** `EnemyState` recibe el participante resuelto y lee de él sus
+tres vitales; no hay un objetivo paralelo. El camino que había —un orquestador que componía un
+`ScaledEnemy` desde el dato crudo— **no existe más**: coincidía con el frame-0 al decimal porque usaba
+las mismas primitivas, y divergía en lo único que importaba, que es lo que el escenario agregó encima.
 
-Los dos caminos coinciden en el frame-0 al decimal (Bombard a nivel 100: `armor 2700`,
-`health 86416.38` por los dos lados — las primitivas son las mismas). **Divergen en lo que el escenario
-agregó:** con Corrosive Projection equipada el nodo resuelve `2700 → 2214`, y el daño se computa contra
-`2700` porque ese camino no ve modifiers. El examen que lo cierra ya es escribible — el mismo build con
-y sin el aura debe dar **distinto** `total_damage`, y hoy da idéntico.
+La medición que lo cierra es el mismo build con y sin Corrosive Projection, contra el Bombard que
+declara: `armor 2700 → total_damage 227` sin el aura, `armor 2214 → 421` con ella. Por el camino viejo
+los dos daban **exactamente 1716**, midiendo contra un enemigo que el escenario nunca declaró.
+
+De ahí caen dos cosas que no hubo que construir aparte: el contenedor de estado quedó **entidad-neutral**
+(lo único que lo ataba a "enemigo" era el objeto paralelo), y el nivel dejó de poder divergir entre las
+capas — antes un build que declaraba 100 corrido con `--lvl 50` daba C1 a 100 y C2 a 50.
 
 ---
 
@@ -335,9 +338,10 @@ OmniFrame opera como un motor de juego simplificado. Todo objeto en el sistema e
 **Principio rector — desacople emergente, no capas preventivas.** Una etapa/separación se agrega **sólo
 cuando una mecánica real la fuerza**, nunca para prevenir. Separar sobre dato-sin-modelar *genera* drift
 (lo contrario del objetivo). Y el costo es asimétrico: **desacoplar después es barato mientras lo que se
-mueve sea una función pura** (`scaleHealth`/`scaleArmor` se reubican en un move; su **orquestador**
-`EnemyRepository.scale` no, porque alimenta un camino paralelo entero y arrastra a `ScaledEnemy`,
-`EnemyState` y sus tests), **refactorizar lo enredado es caro** — `simulateAttack` (que fusiona
+mueve sea una función pura** (`scaleHealth`/`scaleArmor` se reubicaron en un move; su viejo orquestador
+no, porque alimentaba un camino paralelo entero y arrastraba a `EnemyState` y sus tests — lo que
+terminó de resolverlo no fue moverlo sino **borrarlo**, una vez que el estado nació del escenario),
+**refactorizar lo enredado es caro** — `simulateAttack` (que fusiona
 ejecución del Hit + ② + invocación de ③ + elección de paradigma en una god-function, abajo) es la evidencia
 viva de lo segundo.
 

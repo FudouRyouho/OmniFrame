@@ -20,7 +20,7 @@ import { CombatSimulator, type HitResolution } from "../../simulate/combat/Comba
 import { BASELINE_GAME_LAWS } from "../../contracts";
 import type { GameLaws } from "../../contracts";
 import type { StatusEffect } from "@shared/types";
-import type { ScaledEnemy } from "../../simulate/enemies/EnemyRepository";
+import { syntheticHostile } from "../hostile-entity";
 import { dotTickValue, type DotType } from "../../formulas/status/dot-tick";
 import type { DotPulse } from "../../formulas/status/dot-timeline";
 
@@ -42,25 +42,15 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EnemyState {
   const armor = spec.armor ?? 0;
   const shields = spec.shields ?? 0;
 
-  const scaled: ScaledEnemy = {
-    dna: {
-      unique_name: "isolated-target",
-      base_level: 1,
-      health,
-      health_type: "Health",
-      armor,
-      armor_type: "None",
-      shields,
-      shield_type: shields > 0 ? "Shields" : "None",
-      faction: ISOLATED_FACTION,
-    },
-    current_level: 1,
-    current_health: health,
-    current_armor: armor,
-    current_shields: shields,
-  };
+  // Objetivo SINTÉTICO: no pasa por el catálogo. Un test de ley que dependiera del dato del juego se
+  // rompería cuando ese dato cambie, y acá lo que se ejerce es el behavior, no el enemigo.
+  const entity = syntheticHostile({
+    uniqueName: "isolated-target",
+    faction: ISOLATED_FACTION,
+    health, armor, shields,
+  });
 
-  const state = new EnemyState(scaled, spec.laws ?? BASELINE_GAME_LAWS);
+  const state = new EnemyState(entity, spec.laws ?? BASELINE_GAME_LAWS);
   // Status pre-declarado (C1): materializa el estado de proc del modelo unificado directamente.
   // corrosion/infection/disruption = `{ count }`; ignite (Heat) = su estado de pool + ignite stacks.
   if (spec.stacks) {

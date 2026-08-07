@@ -17,7 +17,6 @@
  * no lo posee.
  */
 import type { SimulationEntity, SimulationContext } from '../contracts';
-import type { ScaledEnemy } from '../simulate/enemies/EnemyRepository';
 import { CombatCalculator } from '../simulate/combat/CombatCalculator';
 import { TimelineSimulator } from '../simulate/combat/TimelineSimulator';
 
@@ -56,7 +55,7 @@ export interface CombatMetrics {
  */
 export function computeCombatMetrics(
   weapon: SimulationEntity,
-  target: ScaledEnemy,
+  target: SimulationEntity,
   context: SimulationContext,
   duration: number,
 ): CombatMetrics {

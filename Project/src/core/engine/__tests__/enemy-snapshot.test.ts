@@ -7,8 +7,8 @@
  * +40% Damage — additive a mods, como Hornet Strike). `upgrade_type: WEAPON_ADD_DAMAGE` poblado
  * 2026-07-09 (antes ausente → el perk se omitía en silencio, `data:class:cat/e`).
  *
- * El flag NO se declara a mano (a diferencia de CO estático) — se DERIVA de
- * `EnemyRepository.scale()` (real, pipeline "0") + un `health_pct` C1-declarado por el test
+ * El flag NO se declara a mano (a diferencia de CO estático) — se DERIVA del participante que el
+ * ESCENARIO resolvió (pipeline "0" → C1) + un `health_pct` C1-declarado por el test
  * (T3: "asumo que el enemigo está a X% de salud cuando este hit conecta"). Cero cambios a
  * `SimulationContext`/`SimulationEngine`/`MutatorBridge` — el consumidor arma `context.flags`
  * con `deriveEnemyFlags()`, mismo patrón que ya usan los tests de CO estático.
@@ -18,16 +18,17 @@ import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { sicarus, SICARUS_PRIME } from '../fixtures/builds';
-import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
 import { snapshotEnemy, deriveEnemyFlags } from '../simulate/enemies/EnemySnapshot';
+import { hostileEntity } from './hostile-entity';
+import { hostileVitals } from '../simulate/enemies/EnemyState';
 
 await loadEngineData(new NodeAdapter());
 
-const ARID_BUTCHER = EnemyRepository.find('/Lotus/Types/Enemies/Grineer/Desert/Avatars/BladeSawmanAvatar')!;
-const scaled = EnemyRepository.scale(ARID_BUTCHER, 50); // current_health ≈ 2922.6 (validado en enemy-scaling.test.ts)
+const ARID_BUTCHER = '/Lotus/Types/Enemies/Grineer/Desert/Avatars/BladeSawmanAvatar';
+const arid50 = hostileEntity(ARID_BUTCHER, 50); // health ≈ 2922.6 (validado en enemy-scaling.test.ts)
 
 const probe = (healthPct: number) => {
-  const snapshot = snapshotEnemy(scaled, healthPct);
+  const snapshot = snapshotEnemy(arid50, healthPct);
   const flags = deriveEnemyFlags(snapshot);
   return { snapshot, flags, w: consume(sicarus({ perks: { 2: 'feigned_retreat' } }), { flags }).weapon(SICARUS_PRIME) };
 };
@@ -66,8 +67,10 @@ describe('Sicarus / Feigned Retreat — el perk responde al flag derivado, no a 
   });
 
   it('el mismo enemigo a otro nivel cambia el umbral: @215 (max≈25612) con current fijo en el valor absoluto de @50 → ahora SÍ está bajo la mitad', () => {
-    const scaled215 = EnemyRepository.scale(ARID_BUTCHER, 215);
-    const snapshot = { max_health: scaled215.current_health, current_health: scaled.current_health * 0.8 };
+    const snapshot = {
+      max_health: hostileVitals(hostileEntity(ARID_BUTCHER, 215)).health,
+      current_health: hostileVitals(arid50).health * 0.8,
+    };
     expect(deriveEnemyFlags(snapshot).while_enemy_below_half_health).toBe(true);
   });
 });

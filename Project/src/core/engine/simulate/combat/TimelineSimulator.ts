@@ -6,7 +6,6 @@ import { BASELINE_GAME_LAWS } from "../../contracts";
 import { CombatSimulator } from "./CombatSimulator";
 import { RngProvider } from "./RngProvider";
 import { EnemyState } from "../enemies/EnemyState";
-import type { ScaledEnemy } from "../enemies/EnemyRepository";
 import { effectOfDamageType } from "@shared/types";
 import { expectedProcEvents } from "../../formulas/status/proc-population";
 import type { HitContext } from "../../formulas/status/effect-behavior";
@@ -37,7 +36,7 @@ export class TimelineSimulator {
    */
   public static simulateBurst(
     weapon: SimulationEntity,
-    target: ScaledEnemy,
+    target: SimulationEntity,
     simDuration: number,
     burstDuration: number = simDuration,
     context?: Partial<SimulationContext>,

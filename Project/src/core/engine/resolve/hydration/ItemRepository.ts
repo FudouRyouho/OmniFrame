@@ -159,8 +159,12 @@ export class ItemRepository {
     if (raw.health  != null) p.ENEMY_ADD_HEALTH_MAX = scaleHealth(raw.health, raw.faction, dx);
     if (raw.armor   != null) p.ENEMY_ADD_ARMOUR     = scaleArmor(raw.armor, dx);
     if (raw.shields != null) p.ENEMY_ADD_SHIELD_MAX = scaleShields(raw.shields, raw.faction, dx);
+    // La facción va como CAMPO y no dentro de `tags`: la resolución del daño la consulta por valor
+    // (`FACTION_BONUS[token][faction]`), y como segundo elemento de una lista sólo se podía leer
+    // confiando en la posición. `tags` se queda con lo que sí es taxonomía legible.
     return this.normalizeEntity(raw, { base: p }, {
-      tags: ['enemy', raw.faction].filter(Boolean),
+      tags: ['enemy'],
+      ...(raw.faction ? { faction: raw.faction } : {}),
     });
   }
 

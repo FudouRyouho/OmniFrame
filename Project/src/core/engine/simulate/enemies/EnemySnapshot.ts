@@ -14,7 +14,8 @@
  * ("asumo que el enemigo está a X% de su salud máxima cuando este hit conecta"), no un valor
  * que emerge de una timeline. Sin RNG, sin frames.
  */
-import type { ScaledEnemy } from './EnemyRepository';
+import type { SimulationEntity } from '../../contracts';
+import { hostileVitals } from './EnemyState';
 
 export interface EnemySnapshot {
   max_health: number;
@@ -22,14 +23,18 @@ export interface EnemySnapshot {
 }
 
 /**
- * Congela el estado de salud de un enemigo YA escalado (`EnemyRepository.scale`) contra un
- * `health_pct` declarado (0-1). Write-once: el llamador decide el momento del golpe, esta
- * función no muta nada ni conoce tiempo.
+ * Congela el estado de salud del participante tal como el escenario lo consolidó, contra un
+ * `health_pct` declarado (0-1). Write-once: el llamador decide el momento del golpe, esta función
+ * no muta nada ni conoce tiempo.
+ *
+ * El `max_health` sale del nodo resuelto y no de un objeto paralelo: lo que el escenario le hizo al
+ * enemigo (un debuff de vida máxima, si algún día existe) entra acá por el mismo camino que todo.
  */
-export function snapshotEnemy(scaled: ScaledEnemy, healthPct: number): EnemySnapshot {
+export function snapshotEnemy(entity: SimulationEntity, healthPct: number): EnemySnapshot {
+  const maxHealth = hostileVitals(entity).health;
   return {
-    max_health: scaled.current_health,
-    current_health: scaled.current_health * healthPct,
+    max_health: maxHealth,
+    current_health: maxHealth * healthPct,
   };
 }
 

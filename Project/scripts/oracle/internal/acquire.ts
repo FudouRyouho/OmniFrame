@@ -8,6 +8,8 @@ import { consume } from '@core/engine/output/consume';
 import { computeCombatMetrics } from '@core/engine/output/combat-metrics';
 import { project } from '@shared/view-model';
 import { EnemyRepository } from '@core/engine/simulate/enemies/EnemyRepository';
+import { hostileVitals } from '@core/engine/simulate/enemies/EnemyState';
+import { hostileOnly } from '@core/engine/fixtures/builds';
 import { damageReductionFromArmor } from '@core/engine/formulas/enemy/armor-mitigation';
 import { effectiveHealthVsEnemy } from '@core/engine/formulas/enemy/effective-health';
 import { BASELINE_GAME_LAWS } from '@core/engine/contracts';
@@ -36,17 +38,27 @@ export function acquire(q: OracleQuery): AcquiredResult {
       };
 
     case 'metrics': {
-      // ⚠️ DOS ENEMIGOS, DOS NIVELES. `consume(...)` resuelve el escenario entero —donde el grupo
-      // Hostil ya trae su nivel compuesto y los modifiers aplicados— y la línea de abajo lo DESCARTA:
-      // `firstWeapon` se queda con el arma y construye un objetivo nuevo desde `--lvl`, que nunca vio
-      // el escenario. Si el build declara nivel 100 y se pasa `--lvl 50`, C1 usa 100 y C2 usa 50.
-      // No es del oracle: es que el estado todavía no nace de la foto de t=0
-      // (`simulation-architecture.md` §El escenario consolidado). Estas dos líneas colapsan en una
-      // cuando eso se cierre.
-      const weapon = firstWeapon(consume(resolveSubject(q.subject), { flags: {} }).snapshot(), q.subject);
-      const target = EnemyRepository.scale(findEnemy(q.a2.enemy), q.a2.level);
+      // UN SOLO ESCENARIO. `consume` resuelve el mundo entero —el hostil con su nivel ya compuesto y
+      // los modifiers del escenario encima— y de ahí salen LAS DOS puntas: el arma y el objetivo.
+      // Antes esta lente descartaba el objetivo resuelto y construía uno nuevo desde `--vs`/`--lvl`,
+      // que nunca había visto el escenario: un build que declaraba nivel 100 corrido con `--lvl 50`
+      // daba C1 a 100 y C2 a 50, y un debuff `ENEMY_*` compuesto en C1 no llegaba al daño.
+      const intention = resolveSubject(q.subject);
+      const scene = consume(intention, { flags: {} }).snapshot();
+      const weapon = firstWeapon(scene, q.subject);
+
+      // Si el build DECLARA su hostil, ése es el objetivo — con lo que el escenario le hizo. Si no
+      // declara ninguno, los flags `--vs`/`--lvl` lo declaran y se resuelve por el mismo camino.
+      const declared = scene.find((e) => e.tags.includes('enemy'));
+      const target = declared ?? hostileEntity(q.a2.enemy, q.a2.level);
+      const targetLevel = declared ? (intention.hostile[0]?.level ?? q.a2.level) : q.a2.level;
+
       const metrics = computeCombatMetrics(weapon, target, baseContext(), q.a2.duration);
-      return { lens: 'metrics', build: q.subject, weapon, target, metrics, duration: q.a2.duration };
+      return {
+        lens: 'metrics', build: q.subject, weapon, target,
+        targetName: displayName(target), targetLevel,
+        metrics, duration: q.a2.duration,
+      };
     }
 
     case 'trace': {
@@ -59,10 +71,16 @@ export function acquire(q: OracleQuery): AcquiredResult {
     }
 
     case 'enemy': {
-      const scaled = EnemyRepository.scale(findEnemy(q.subject), q.a2.level);
-      const dr = damageReductionFromArmor(scaled.current_armor);
-      const ehp = effectiveHealthVsEnemy(scaled.current_health, scaled.current_armor, scaled.current_shields);
-      return { lens: 'enemy', query: q.subject, level: q.a2.level, scaled, dr, ehp };
+      // Por el mismo camino que cualquier participante: se declara un escenario con este hostil solo
+      // y se lee lo que C1 resolvió. Es lo que hace que esta lente y `metrics` no puedan divergir.
+      const entity = hostileEntity(q.subject, q.a2.level);
+      const vitals = hostileVitals(entity);
+      const dr = damageReductionFromArmor(vitals.armor);
+      const ehp = effectiveHealthVsEnemy(vitals.health, vitals.armor, vitals.shields);
+      return {
+        lens: 'enemy', query: q.subject, level: q.a2.level,
+        entity, name: displayName(entity), vitals, dr, ehp,
+      };
     }
 
     default:
@@ -97,8 +115,23 @@ function entityWithNode(entities: SimulationEntity[], node: string, build: strin
   return hit;
 }
 
-function findEnemy(query: string) {
+/**
+ * El hostil como PARTICIPANTE resuelto: declara un escenario con él solo y devuelve lo que C1
+ * compuso. Reemplaza al `EnemyRepository.scale(dna, level)` que armaba un objeto paralelo — el
+ * objetivo entra al cálculo por el mismo camino que todos los demás, o no entra.
+ *
+ * `EnemyRepository.find` sobrevive porque hace otra cosa: resolver un nombre display ("Arid Butcher")
+ * al `unique_name` canónico. Eso es búsqueda, no composición.
+ */
+function hostileEntity(query: string, level: number): SimulationEntity {
   const dna = EnemyRepository.find(query);
   if (!dna) throw new OracleError(`enemigo "${query}" no encontrado (probá el name display o el unique_name).`);
-  return dna;
+  const entity = consume(hostileOnly(dna.unique_name, level), { flags: {} }).snapshot()[0];
+  if (!entity) throw new OracleError(`el enemigo "${query}" no resolvió a ninguna entidad.`);
+  return entity;
+}
+
+/** Nombre legible de un participante: el display del catálogo si existe, si no su `unique_name`. */
+function displayName(entity: SimulationEntity): string {
+  return EnemyRepository.find(entity.unique_name)?.name ?? entity.unique_name;
 }

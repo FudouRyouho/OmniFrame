@@ -720,6 +720,32 @@ export const BOMBARD = '/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RocketBombar
 export const CORROSIVE_PROJECTION = '/Lotus/Upgrades/Mods/Aura/EnemyArmorReductionAuraMod';
 
 /**
+ * Un escenario que declara SÓLO un hostil, sin nada del lado del Squad.
+ *
+ * Es el camino corto para los tests de C2 que necesitan un objetivo real del catálogo y no un
+ * loadout alrededor. Se puede escribir porque B dejó de inventar participantes: sin ítems
+ * declarados, el escenario tiene exactamente uno.
+ */
+export function hostileOnly(uniqueName: string, level: number): EnsembleIntention {
+  return {
+    items: {
+      warframe:         { itemId: null, rank: 30, shards: [] },
+      primary:          { itemId: null, rank: 30 },
+      secondary:        { itemId: null, rank: 30 },
+      melee:            { itemId: null, rank: 30 },
+      companion:        { itemId: null, rank: 30 },
+      companion_weapon: { itemId: null, rank: 30 },
+      archwing:         { itemId: null, rank: 30 },
+      archgun:          { itemId: null, rank: 30 },
+      archmelee:        { itemId: null, rank: 30 },
+      necramech:        { itemId: null, rank: 30 },
+    },
+    mods: {},
+    hostile: [{ itemId: uniqueName, level }],
+  };
+}
+
+/**
  * Valkyr + Warcry + compañero + un enemigo declarado.
  *
  * El objetivo entra por `hostile` —A2, el grupo Hostil— y no por `items`, que es A1: un enemigo se

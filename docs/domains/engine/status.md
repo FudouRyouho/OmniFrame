@@ -57,7 +57,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 | `CombatCalculator` · `CombatSimulator` | **Activo** |
 | `AtomicSimulator` | **Activo** — conectado a `formulas/common/crit-base` |
 | `TimelineSimulator` · `RngProvider` | **Activo** — generación de procs unificada (`expectedProcEvents` → `effectOfDamageType` → `applyProc`); `StatusEngine` **eliminado** (ver Nota C2) |
-| `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `scale()` = **curva-S real** + `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`); validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
+| `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `EnemyRepository` es catálogo: **carga y búsqueda**, no compone participantes — la curva-S la orquesta el frame-0 (`ItemRepository.normalizeEnemy`) y `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`) resuelve el hit. `EnemyState` nace de la **entidad resuelta de C1**, así que lo que el escenario compuso encima del enemigo llega al daño. Validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
 
 > **El status de C2 usa el modelo unificado de proc:** un contenedor único `Map<StatusEffect, S>` +
 > `EffectBehavior` por efecto. `EnemyState` itera el registro `EFFECT_BEHAVIORS`; `resolveDamageEvent`
