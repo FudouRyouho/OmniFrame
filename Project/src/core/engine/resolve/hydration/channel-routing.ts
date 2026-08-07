@@ -37,6 +37,22 @@ export function resolveChannelEntities(
 }
 
 /**
+ * La familia del token → la marca de ruteo que la entidad debe portar para recibirlo.
+ *
+ * Es el único lugar donde el vocabulario de tokens (D-6, mayúsculas) se cruza con el de marcas
+ * (minúsculas). Que sean dos vocabularios es a propósito: el token declara **de qué habla el
+ * efecto**, la marca declara **quién lo recibe**, y una entidad puede portar marcas que su
+ * taxonomía no le daría (un compañero que recibe `AVATAR_*`).
+ */
+const FAMILY_ROUTE: Record<string, string> = {
+  AVATAR:   'avatar',
+  MELEE:    'melee',
+  WEAPON:   'weapon',
+  GAMEPLAY: 'weapon',
+  ENEMY:    'enemy',
+};
+
+/**
  * Entidades que alcanza la FAMILIA de un token — el `{dónde}` cuando no hay sub-familia.
  *
  * Segundo eje del mismo `{cuál}` de arriba, para el cruce cross-entity. `resolveToken` sólo emite
@@ -58,16 +74,14 @@ export function resolveFamilyEntities(
   family: string,
   entities: SimulationEntity[],
 ): EntityId[] {
-  switch (family) {
-    case 'AVATAR':   return entities.filter(e => e.domain === 'warframe').map(e => e.id);
-    case 'MELEE':    return entities.filter(e => e.channel === 'melee').map(e => e.id);
-    // `WEAPON` y `GAMEPLAY` comparten destino y NO por conveniencia: el pool global de daño
-    // (`GAMEPLAY_MULT_FACTION_DAMAGE`, el de Roar) vive en el arma igual que un stat de arma
-    // — `arch-decisions §16`. La familia dice "pool global", el dominio sigue siendo el arma.
-    case 'WEAPON':
-    case 'GAMEPLAY': return entities.filter(e => e.domain === 'weapon').map(e => e.id);
-    // Sin caso ⇒ el buff no aterriza. Deliberado: una familia nueva debe declarar su destino
-    // acá, no heredar el de las armas por descarte. El censo del override cubre las cuatro.
-    default:         return [];
-  }
+  // `WEAPON` y `GAMEPLAY` comparten destino y NO por conveniencia: el pool global de daño
+  // (`GAMEPLAY_MULT_FACTION_DAMAGE`, el de Roar) vive en el arma igual que un stat de arma
+  // — `arch-decisions §16`. La familia dice "pool global", el destino sigue siendo el arma.
+  //
+  // Sin entrada ⇒ el buff no aterriza. Deliberado: una familia nueva debe declarar su destino
+  // acá, no heredar el de las armas por descarte. El censo del override cubre las cuatro.
+  const route = FAMILY_ROUTE[family];
+  if (!route) return [];
+
+  return entities.filter(e => e.routes?.includes(route)).map(e => e.id);
 }

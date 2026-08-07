@@ -132,5 +132,4 @@ D-7 comprimido), drift cerrado contra código real (`engine/status.md` reescrito
 archivado, cluster `engine/design/` 7 docs traído al presente), tier referencia/reports confirmado limpio
 (nada archivable, todo con ≥1 cita).
 
-El detalle por tanda (versiones bumpeadas, líneas exactas) vive en git. Tracker efímero
-`.working/docs-review-pass.md` descartado al cerrar la campaña.
+El detalle por tanda (versiones bumpeadas, líneas exactas) vive en git.

@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-08-06"
 ---
 
 # Engine Status
@@ -204,6 +204,33 @@ el bucket correcto); el gap es de **observabilidad**, no de cálculo.
 
 - `engine:debt` — emitir `source_id` en `IncarnonRepository` (p. ej. `Perk:<nombre>`), espejando `ModRepository`.
   [empirical: trace de `__tests__/boltor-prime-incarnon.test.ts`]
+
+### 🔴 `DT_RADIANT` resuelve al tipo equivocado — Void queda sin puente
+
+`DAMAGE_TYPE_DEFINITIONS` en `Project/src/shared/types/damage.ts` declara:
+
+```ts
+radiation: { rawTags: ['DT_RADIATION', 'DT_RADIANT'], … }   // ← DT_RADIANT es Void, no Radiation
+void:      { rawTags: ['DT_VOID'],                    … }   // ← DT_VOID: 0 ocurrencias en el dataset
+```
+
+**La fuente y el vocabulario están bien; el mapeo del código está mal.**
+`references/wiki/sources/damage-types-data.md` declara `Void | DT_RADIANT | PT_RADIANT`, y lo confirma
+**nuestro propio dataset** con texto in-game de DE: *"enemies suffering from `<DT_RADIANT_COLOR>`
+**Void** Status Effect"* — `mods.json` ×14 (Xaku *Vast Untime*), `arcanes.json` ×16,
+`ability-stats.override.json` ×2: **32 ocurrencias vivas en `public/data/`, y `DT_VOID` no aparece
+ninguna vez.**
+
+Efecto: todo `DT_RADIANT` entrante resuelve como Radiación (`damage.ts:155`) → facción, proc
+(`PT_RAD_TOX` en vez de `PT_RADIANT`) y resistencias equivocadas. Y `void` (`damage.ts:173`) queda con
+un `rawTag` que **el dataset no usa nunca**, o sea sin puente válido de entrada.
+
+⚠️ **Es la misma confusión Void↔Radiation en los dos niveles** (`DT_` y `PT_`): sistémico, no typo.
+
+- `engine:debt` — mover `DT_RADIANT` de `radiation` a `void`, y verificar qué entra hoy por `DT_VOID`
+  antes de retirarlo. Toca vocabulario, dataset y las tablas de facción/resistencia a la vez, así que
+  **se ejecuta dentro del saneamiento de la campaña de recomposición**, no como fix aislado.
+  [empirical: `grep DT_RADIANT` sobre `public/data/` + `references/wiki/sources/damage-types-data.lua:1275`]
 
 ---
 

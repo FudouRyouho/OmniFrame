@@ -9,7 +9,7 @@ Fecha_de_actualizacion: "2026-07-09"
 
 # Auditoría manual — corpus arcane ability-like (`upgrade_type:null`)
 
-**Estado:** barrido completo (2 pases). Migrado desde `.working/arcane-corpus-sweep.md` al cerrar
+**Estado:** barrido completo (2 pases). Promovido al cerrar
 `DC-OQ-ENGINE-17` (`docs/governance/closed-decisions.md`). Residuo-tabla crudo — consulta bajo
 demanda, no lectura obligatoria de sesión. Precedente/hermano: `audit-arcane.md` (auditoría del
 corpus completo con `condition`, 2026-06-02) y `audit-mods.md`.

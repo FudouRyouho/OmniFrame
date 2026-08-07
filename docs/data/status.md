@@ -4,7 +4,7 @@ Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline 
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-07-31"
+Fecha_de_actualizacion: "2026-08-06"
 ---
 
 # Data Domain — Estado Operativo
@@ -129,6 +129,9 @@ Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (refere
 - `semantic:debt` `AVATAR_HEALTH` scaling (Inaros 4) — scaling con Max Health, sin token canónico. `//!` registrado. Candidato: `AVATAR_ADD_HEALTH_MAX` como eje de upgrade_by `[empirical]`
 - `semantic:debt` Lavos — `$EFFICIENCY` mapea a cooldown (no a energy cost). Datos con mejor token disponible + `//!`. `[empirical]`
 - `engine:debt` OQ-W-5 — fórmulas de `ENERGY_COST`/`ENERGY_DRAIN` no implementadas en engine. Ver `docs/governance/open-questions.md#OQ-W-5` `[ref: docs/governance/open-questions.md]`
+- `data:debt` **Anotaciones de escalado faltantes en la captura** — 42 stats sin `$STRENGTH`/`$RANGE`/`$DURATION` en `references/game-ui/`, con el grueso concentrado en cuatro archivos (`Sevagoth`, `Wisp`, `Zephyr`, `Excalibur Umbra`), donde hay habilidades enteras sin ninguna anotación. El override quedó en 1.199 entradas y la reparación nunca se hizo. `[empirical]`
+- `data:debt` **59 huérfanos** — entradas con dato en el override y **sin `.md` de `game-ui/` que las respalde** (Xaku, Wukong, Voruna, Yareli, Dante, necramechs, Excalibur base). Sin fuente que las regenere, no son reproducibles. `[empirical]`
+- `data:debt` **`references/game-ui/` está fuera del alcance de los dos validadores** por decisión declarada (`references/CLAUDE.md` §*Qué audita cada herramienta*: formato propio, alimenta el parser). Consecuencia medida: la regla dura de **LF estricto** no tiene ahí quién la haga cumplir — llegó a haber 63 de 64 `.md` en CRLF sin que nada lo señalara. **El parser es inmune** (`parse-ability-md.ts` hace `split('\n')` + `trimEnd()`), así que es higiene, no bug. **Ejecutable que falta:** `.gitattributes` con `eol=lf`, que cubre el repo entero sin extender el validador. `[empirical]`
 
 ---
 

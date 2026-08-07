@@ -691,6 +691,63 @@ export function valkyrWarcry(opts: { strength?: boolean } = {}): EnsembleIntenti
   };
 }
 
+/** Adarza Kavat — compañero de armadura 300, el primer participante que no sale del loadout. */
+export const ADARZA_KAVAT = '/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerSuit';
+
+/**
+ * Valkyr + Warcry + un compañero equipado. Ejerce el ruteo por MARCA: el compañero no es un
+ * warframe (`domain: 'companion'`) y aun así porta `avatar`, así que el buff de armadura le llega
+ * — que es lo que la fuente declara (`references/wiki/warframes/valkyr/warcry.md`).
+ */
+export function valkyrWarcryCompanion(): EnsembleIntention {
+  const base = valkyrWarcry();
+  return {
+    ...base,
+    items: { ...base.items, companion: { itemId: ADARZA_KAVAT, rank: 30 } },
+  };
+}
+
+/** Bombard Grineer — el objetivo como PARTICIPANTE del espacio, no como parámetro del cálculo. */
+export const BOMBARD = '/Lotus/Types/Enemies/Grineer/AIWeek/Avatars/RocketBombardAvatar';
+
+/** Corrosive Projection — aura de warframe que le quita armadura al ENEMIGO (−18% a rank 5). */
+export const CORROSIVE_PROJECTION = '/Lotus/Upgrades/Mods/Aura/EnemyArmorReductionAuraMod';
+
+/**
+ * Valkyr + Warcry + compañero + un enemigo declarado.
+ *
+ * El objetivo entra por `environment` —A2, "contra qué comparo"— y no por `items`, que es A1: un
+ * enemigo se declara, no se equipa.
+ */
+export function valkyrWarcryTarget(): EnsembleIntention {
+  const base = valkyrWarcryCompanion();
+  return { ...base, environment: { ...base.environment, target: { itemId: BOMBARD } } };
+}
+
+/**
+ * Rhino + Roar + un enemigo declarado. Contra-caso del anterior: Roar buffea el pool GLOBAL de
+ * daño (`GAMEPLAY_MULT_FACTION_DAMAGE`, ALL-scope) y el enemigo **materializa ese mismo nodo**
+ * (`createBaseEntity` lo siembra en todo lo que no sea warframe). Ejerce que la marca de ruteo, y
+ * no la ausencia de nodo, sea lo que impide que un buff del jugador aterrice sobre el objetivo.
+ */
+export function rhinoRoarTarget(): EnsembleIntention {
+  const base = rhinoRoar();
+  return { ...base, environment: { ...base.environment, target: { itemId: BOMBARD } } };
+}
+
+/**
+ * La misma build con Corrosive Projection en el aura del warframe: un debuff que sale de UNA
+ * entidad y tiene que aterrizar en OTRA de familia distinta. Forcing-case del ruteo cross-entity
+ * hacia `ENEMY_*`.
+ */
+export function corrosiveProjectionTarget(): EnsembleIntention {
+  const base = valkyrWarcryTarget();
+  return {
+    ...base,
+    mods: { ...base.mods, warframe: { ...(base.mods.warframe ?? {}), 0: { itemId: CORROSIVE_PROJECTION, rank: 30, level: 5 } } },
+  };
+}
+
 // ─── Harrow ──────────────────────────────────────────────────────────────────────────
 
 export const HARROW         = '/Lotus/Powersuits/Priest/Priest';
@@ -758,6 +815,10 @@ export const BUILDS: Record<string, () => EnsembleIntention> = {
   valkyr:            () => valkyr(),
   valkyr_warcry:     () => valkyrWarcry(),
   valkyr_warcry_str: () => valkyrWarcry({ strength: true }),
+  valkyr_warcry_pet:  () => valkyrWarcryCompanion(),
+  valkyr_warcry_tgt:  () => valkyrWarcryTarget(),
+  corrosive_projection_tgt: () => corrosiveProjectionTarget(),
+  rhino_roar_tgt: () => rhinoRoarTarget(),
   nikana:      () => nikana(false),
   nikana_fury: () => nikana(false, 'base', false, false, true),
   volt:       () => volt(),

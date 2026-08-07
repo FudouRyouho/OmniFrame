@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useEnsemble } from "@providers/Ensemble/EnsembleProvider";
-import type { EnsembleChannel } from "@shared/types/ensemble";
+import type { EquipmentChannel } from "@shared/types/ensemble";
 import { Registry } from "@shared/data/DataRegistry";
 import BaseItemCard from "../items/cards/BaseItemCard";
 
 interface ModSlotProps {
-  channel: EnsembleChannel;
+  channel: EquipmentChannel;
   index: number;
   className?: string;
   isAura?: boolean;

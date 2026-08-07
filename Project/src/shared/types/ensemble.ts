@@ -44,7 +44,20 @@ export interface ArcaneIntention {
   rank: number; // 0..max_rank, varía por arcano
 }
 
-export type EnsembleChannel =
+/**
+ * Slots de EQUIPAMIENTO — el vocabulario de A1, "qué tengo".
+ *
+ * Es **total y cerrado**: el arsenal tiene exactamente estos diez slots, y `items` los declara todos
+ * (vacíos con `itemId: null`). Esa totalidad no es un accidente que convenga aflojar — se probó
+ * relajarla a `Partial<Record<...>>` y el resultado fue peor (de 18 sitios a 38 errores, tocando
+ * `rhino.test.ts` y `volt.test.ts`): todo el motor asume que `items.warframe` está presente, y lo
+ * está de verdad.
+ *
+ * NO es el vocabulario de "quién participa de la simulación". Un enemigo participa y no se equipa;
+ * una exaltada participa y no ocupa slot. Ese otro vocabulario vive en el espacio
+ * (`EntityIntent.channel`, abierto) — ver `resolve/hydration/space.ts`.
+ */
+export type EquipmentChannel =
   | 'warframe'
   | 'primary'
   | 'secondary'
@@ -56,23 +69,38 @@ export type EnsembleChannel =
   | 'archmelee'
   | 'necramech';
 
+/**
+ * El objetivo declarado, como PARTICIPANTE y no como parámetro suelto.
+ *
+ * Vive en `environment` porque `environment` ya **es** A2 ("contra qué comparo"): `targetLevel` y
+ * `targetFaction` siempre describieron un enemigo, sólo que desarmado en campos sueltos que ninguna
+ * entidad podía portar. Darle un `itemId` lo vuelve algo que el espacio puede poblar.
+ */
+export interface TargetIntention {
+  /** `unique_name` del enemigo en el catálogo. `null` = sin objetivo declarado (el default). */
+  itemId: string | null;
+}
+
 const EMPTY_SHARD: ArchonShardIntent = { shardType: null, effectId: null, isTauforged: false };
 
 /**
  * La Receta Completa (Intención del Usuario)
  */
 export interface EnsembleIntention {
-  items: Record<EnsembleChannel, SlotIntention>;
+  /** A1 — "qué tengo". */
+  items: Record<EquipmentChannel, SlotIntention>;
   mods: Record<string, Record<number, ModIntention>>;
   // Espejo de `mods`: capacidad de arcanos por canal. Heterogénea (warframe=2,
   // armas=1, Zaw/archgun varios de distinto tipo) → un canal puede tener 0..N
   // slots, o estar ausente. Validación de cuántos/cuáles = OQ-DATA-1 (diferida).
   // Opcional: las builds-fixture sin arcanos no necesitan declararlo.
   arcanes?: Record<string, Record<number, ArcaneIntention>>;
+  /** A2 — "contra qué comparo". */
   environment: {
     targetLevel: number;
     targetFaction: string | null;
     isSteelPath: boolean;
+    target?: TargetIntention;
   };
 }
 

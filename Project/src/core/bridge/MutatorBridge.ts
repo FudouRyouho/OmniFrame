@@ -4,7 +4,8 @@
  * @status en-desarrollo
  */
 import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../engine/contracts";
-import type { EnsembleIntention, EnsembleChannel } from "@shared/types/ensemble";
+import type { EnsembleIntention, EquipmentChannel } from "@shared/types/ensemble";
+import { populateFromLoadout } from "../engine/resolve/hydration/space";
 import { BASELINE_GAME_LAWS } from "../engine/contracts";
 import { DnaRepository } from "../engine/resolve/hydration/DnaRepository";
 import { SimulationEngine } from "../engine/resolve/SimulationEngine";
@@ -79,7 +80,7 @@ export class MutatorBridge {
 
   private buildChannelMap(intention: EnsembleIntention): Record<string, string> {
     const map: Record<string, string> = {};
-    const channels: EnsembleChannel[] = [
+    const channels: EquipmentChannel[] = [
       "warframe", "primary", "secondary", "melee",
       "companion", "companion_weapon", "archwing", "archgun", "archmelee", "necramech"
     ];
@@ -111,12 +112,24 @@ export class MutatorBridge {
         secondary: this.intentionWeapon(intention, "secondary"),
         melee:     this.intentionWeapon(intention, "melee"),
       },
+      ...(intention.items.companion?.itemId
+        ? { companion: {
+              id: intention.items.companion.itemId,
+              slots: this.intentionSlots(intention, "companion"),
+            } }
+        : {}),
+      // El objetivo sale de `environment` — A2, "contra qué comparo" — y NO de `items`, que es A1.
+      // Un enemigo se declara, no se equipa. Es el mismo lugar donde ya vivían `targetLevel` y
+      // `targetFaction`: lo único que cambia es que ahora hay algo que puede portar atributos.
+      ...(intention.environment.target?.itemId
+        ? { enemy: { id: intention.environment.target.itemId } }
+        : {}),
       focus: { school_id: "zenurik", nodes: [] }
     };
   }
 
   private intentionWeapon(intention: EnsembleIntention, channel: string): WeaponIntent | undefined {
-    const item = intention.items[channel as EnsembleChannel];
+    const item = intention.items[channel as EquipmentChannel];
     if (!item?.itemId) return undefined;
     return {
       id: item.itemId,
@@ -169,12 +182,11 @@ export class MutatorBridge {
 
   private hydrateDnas(ensemble: Ensemble): Record<string, MutatedDNA> {
     const dnas: Record<string, MutatedDNA> = {};
-    const ids = [
-      ensemble.warframe.id,
-      ensemble.weapons.primary?.id,
-      ensemble.weapons.secondary?.id,
-      ensemble.weapons.melee?.id
-    ].filter((id): id is string => !!id);
+    // Los ids salen del ESPACIO, no de una segunda lista del loadout. Estaban duplicados —
+    // `StaticHydrator` armaba su conjunto de participantes y esto armaba el suyo—, y esa copia
+    // era invisible: un participante declarado allá y ausente acá se descartaba en silencio en
+    // `if (!dna) return`, sin error ni warn.
+    const ids = populateFromLoadout(ensemble).map(i => i.entity_id);
 
     ids.forEach(id => {
       const dna = DnaRepository.findByUniqueName(id);

@@ -4,7 +4,7 @@ Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-31"
+Fecha_de_actualizacion: "2026-08-07"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -139,8 +139,15 @@ que Rush. La consecuencia para el ruteo es que la familia no basta por sí sola:
   Speed; Dispatch Overdrive → Movement Speed) — `StaticHydrator` lo sube por familia;
 - un mod **de compañero** con token `AVATAR_*` buffea al **compañero** (`Enhanced Vitality` →
   `AVATAR_ADD_HEALTH_MAX` es vida del sentinel, no del warframe). Rutearlo al warframe sería un bug peor
-  que el que el salto arregla, así que el salto se limita a portador-arma y el caso compañero se decide
-  cuando existan esas entidades.
+  que el que el salto arregla.
+
+**El caso compañero está resuelto por la regla, no por una excepción.** El `{dónde}` se resuelve
+**relativo al portador**, subiendo por el árbol de propiedad `Jugador → {warframe · compañeros · armas}`
+hasta la primera entidad de esa clase (`../domains/engine/design/arch-decisions.md` §18). El warframe
+**no** es padre del compañero: cuelgan del mismo nodo, así que un `AVATAR_*` montado en el compañero
+resuelve **en el compañero** sin necesidad de un eje de rol. El salto limitado a portador-arma que hoy
+implementa `StaticHydrator` (`holder?.domain === 'weapon'`) es la forma vieja — el propio §Frontera
+negativa la nombra: *"un `if` … convierte un error detectable en uno invisible"*.
 
 ### Convención de resolución D-6 — el token **no** es el id de nodo
 
@@ -468,15 +475,20 @@ el desvío convierte un error detectable en uno invisible.
 
 Lo que el vocabulario **no** puede decir hoy, con su motivo y su condición de reapertura. Existe
 porque el modo de falla real de este sistema no es el token equivocado: es el **descarte silencioso**.
-De **1446** `upgrade_type` no-nulos en los overrides, **252 (17%) no resuelven**, repartidos en **107
+De **1451** `upgrade_type` no-nulos en los overrides, **216 (14,9%) no resuelven**, repartidos en **104
 tokens distintos**. El objetivo declarado **no es cero descartes**: es **cero descartes sin nombre**.
-Las filas de abajo cubren los 252 — cada una con la medición que la sostiene, no con el razonamiento
+Las filas de abajo cubren los 216 — cada una con la medición que la sostiene, no con el razonamiento
 que la sugirió.
 
-> **Reproducible: `npm run measure:tokens`.** No copiar los números a mano — la herramienta parsea el
-> vocabulario desde `modifier.ts`, así que no puede driftear respecto del código. Mide **una** de las
-> dos compuertas (que el token resuelva); la otra —que el modifier **aterrice** en un nodo existente—
-> vive en `__tests__/channel-routing.test.ts`, y sin ella este conteo puede bajar sin que nada compute.
+> **El oráculo es `npm run measure:tokens`, no esta página.** La herramienta parsea el vocabulario
+> desde `modifier.ts`, así que ella no puede driftear respecto del código; **los números de arriba son
+> una foto suya, y una foto envejece**. Se refrescan corriéndola, nunca editándolos a mano — y quien
+> los use para decidir algo la corre primero. Al leer su salida: el `107` de la cabecera es el **tamaño
+> del vocabulario**, no la cuenta de tokens descartados; confundirlos es fácil y ya pasó.
+>
+> Mide **una** de las dos compuertas (que el token resuelva); la otra —que el modifier **aterrice** en
+> un nodo existente— vive en `__tests__/channel-routing.test.ts`, y sin ella este conteo puede bajar
+> sin que nada compute.
 
 | caso | por qué no es expresable | reapertura |
 |---|---|---|
@@ -488,8 +500,9 @@ que la sugirió.
 | swing time por stance | Gap de **fuente**, no de vocabulario: ninguna ley de cadencia melee es expresable sin ese dato, y el dato no está en ninguna fuente que consumimos. | Que la cosecha wiki lo cubra. |
 | Toxic Lash / `Extra-hit Buffs` | No son modificadores: son **instancias** de daño extra. No pasan por ningún nodo, así que ningún token puede describirlos. | C2 — verificar antes si la Instancia admite N por hit (multishot las multiplica). |
 | `AVATAR_CHANCE_RESIST_*` — **10 tokens / 11 usos** | Los tokens **existen en `UPGRADES`** y son regulares (`{dónde}_{qué}`), pero `resolveToken` no los resuelve: su segmento 1 es `CHANCE`, no una operación. Desviación D-6 declarada. | Gated por modelar **DR**: hasta entonces no hay bucket al que apuntar. |
-| **90 tokens / 201 usos** fuera de `UPGRADES` | Stats reales del juego que el proyecto no modela (`WEAPON_SYNDICATE_POWER` 24, `AVATAR_DAMAGE_TAKEN` 13, `WEAPON_DAMAGE_TYPE_BIAS` 12, `WEAPON_CONVERT_AMMO` 10, …). Cola larguísima: **64 con 1 uso**. Hoy son **invisibles** — ése es el defecto que este registro corrige. | Caso por caso, con el criterio de D-20. |
-| 2 tokens de **basura de dato** | `"Slash Damage"` y `"Slash Damage Duration?"` — texto libre donde va un token. No es un gap de vocabulario: es un defecto del override. | Corregir el dato. |
+| **7 tokens `AVATAR_*` que no son tokens** — los 5 `AVATAR_SENTINEL_{ARMOUR,CRIT,HEALTH,SHIELD,STATUS}_LINK` (Link Vitality, Link Fiber, Hunter Synergy, Mecha Overdrive, Hunter Recovery) + `AVATAR_NPC_HIT_CHANCE` (Emp Aura) y `AVATAR_MARKED_DAMAGE_AMOUNT` (Mecha Empowered), 1 uso cada uno | Fallan el **test del eje nuevo** de arriba, por dos motivos distintos. Los `*_LINK` meten el eje **leer de otra entidad** —[`../data/rules/overrides.md`](../data/rules/overrides.md) lo clasifica como **relacional → fórmula dedicada**—, y el mecanismo para eso ya existe (`source_entity` + `source_attribute`, el de Roar): no es un valor nuevo del eje, es un eje que el token no puede portar. Los otros dos ponen un efecto **contra el enemigo** bajo prefijo `AVATAR_`: el `{dónde}` miente sobre el sujeto. | **No es migración** —ya están fuera de `UPGRADES` y gritan en hidratación—: es **darles nombre**. Fórmula dedicada para los `*_LINK`; para los dos hostiles, decidir su sujeto real antes de acuñar nada. |
+| **84 tokens / 195 usos** fuera de `UPGRADES` | Stats reales del juego que el proyecto no modela (`WEAPON_SYNDICATE_POWER` 24, `AVATAR_DAMAGE_TAKEN` 13, `WEAPON_DAMAGE_TYPE_BIAS` 12, `WEAPON_CONVERT_AMMO` 10, …). Cola larga dominada por tokens de **un solo uso**. Hoy son **invisibles** — ése es el defecto que este registro corrige. | Caso por caso, con el criterio de D-20. |
+| 3 tokens de **basura de dato** | `"Slash Damage"` y `"Slash Damage Duration?"` —texto libre donde va un token— más un **array donde va un string** (`["AVATAR_ADD_MOVEMENT_SPEED","MELEE_ADD_ATTACK_SPEED"]`). No es un gap de vocabulario: es un defecto del override. | Corregir el dato. |
 
 > **Cómo se lee un descarte.** Que un modifier **no aporte** no significa que se haya descartado.
 > Un modifier con `condition` que no se cumple **sí aterriza** en su nodo y aporta 0 — eso es el gate

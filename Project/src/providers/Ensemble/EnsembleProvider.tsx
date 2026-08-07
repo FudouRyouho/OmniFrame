@@ -1,6 +1,6 @@
 import { useSyncExternalStore, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
-import type { EnsembleIntention, EnsembleChannel, ArchonShardIntent } from '@shared/types/ensemble';
+import type { EnsembleIntention, EquipmentChannel, ArchonShardIntent } from '@shared/types/ensemble';
 import { ensembleStore } from '@core/intention/ensemble-store';
 
 /**
@@ -37,10 +37,10 @@ export function useEnsembleActions() {
     setShard: (slotIndex: number, intent: ArchonShardIntent | null) =>
       ensembleStore.setShard(slotIndex, intent),
 
-    setEvolutionPerk: (channel: EnsembleChannel, tier: number, perkId: string | null) =>
+    setEvolutionPerk: (channel: EquipmentChannel, tier: number, perkId: string | null) =>
       ensembleStore.setEvolutionPerk(channel, tier, perkId),
 
-    setActiveProfile: (channel: EnsembleChannel, profileId: string) =>
+    setActiveProfile: (channel: EquipmentChannel, profileId: string) =>
       ensembleStore.setActiveProfile(channel, profileId),
 
     clear: () => ensembleStore.clear()

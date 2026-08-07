@@ -10,6 +10,7 @@ import { IncarnonRepository } from "./IncarnonRepository";
 import { ArcaneRepository } from "./ArcaneRepository";
 import { AbilityRepository } from "./AbilityRepository";
 import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing";
+import { populateFromLoadout } from "./space";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
@@ -27,21 +28,9 @@ export class StaticHydrator {
     const entities: SimulationEntity[] = [];
     const modifiers: Modifier[] = [];
 
-    // `channel` viaja en el intent y se estampa en la entidad al construirla: es la clave que el
-    // ruteo por canal consulta (`channel-routing.ts`). El bridge también lo escribe, pero POST-resolve
-    // y solo para la salida — demasiado tarde para que C lo use.
-    const intents: { entity_id: string, channel: string, slots: Record<number, { mod_id?: string; level?: number }>, profile_id: string, evolution_perks?: Record<number, string>, arcanes?: Record<number, { arcane_id: string; rank: number }> }[] = [];
-
-    intents.push({
-      entity_id: ensemble.warframe.id,
-      channel: "warframe",
-      slots: ensemble.warframe.slots,
-      profile_id: "base",
-      arcanes: ensemble.warframe.arcanes
-    });
-    if (ensemble.weapons.primary) intents.push({ entity_id: ensemble.weapons.primary.id, channel: "primary", slots: ensemble.weapons.primary.slots, profile_id: ensemble.weapons.primary.active_profile_id, evolution_perks: ensemble.weapons.primary.evolution_perks, arcanes: ensemble.weapons.primary.arcanes });
-    if (ensemble.weapons.secondary) intents.push({ entity_id: ensemble.weapons.secondary.id, channel: "secondary", slots: ensemble.weapons.secondary.slots, profile_id: ensemble.weapons.secondary.active_profile_id, evolution_perks: ensemble.weapons.secondary.evolution_perks, arcanes: ensemble.weapons.secondary.arcanes });
-    if (ensemble.weapons.melee) intents.push({ entity_id: ensemble.weapons.melee.id, channel: "melee", slots: ensemble.weapons.melee.slots, profile_id: ensemble.weapons.melee.active_profile_id, evolution_perks: ensemble.weapons.melee.evolution_perks, arcanes: ensemble.weapons.melee.arcanes });
+    // Quién participa lo decide el ESPACIO, no el hidratador (`space.ts`). Hoy el único poblador es
+    // el loadout; el punto de la separación es que pueda no serlo.
+    const intents = populateFromLoadout(ensemble);
 
     // 2. Hydrate Entities and Modifiers
     intents.forEach(intent => {
@@ -50,6 +39,9 @@ export class StaticHydrator {
 
       const entity = this.createBaseEntity(dna, intent.profile_id);
       entity.channel = intent.channel;
+      // Las marcas las declara el ESPACIO (`space.ts`), no el ítem: quién recibe qué es una
+      // propiedad de participar, no de la taxonomía del arsenal.
+      entity.routes = [...intent.routes];
       const combination_mods: ElementalMod[] = [];
       
       Object.entries(intent.slots).forEach(([index_str, slot]) => {

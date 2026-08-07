@@ -228,6 +228,10 @@ export const UPGRADES = [
   'AVATAR_ADD_HEALTH_MAX',
   'AVATAR_ADD_SHIELD_MAX',
   'AVATAR_ADD_ARMOUR',
+  // Familia ENEMY — el objetivo como participante con atributos, no como parámetro del cálculo.
+  'ENEMY_ADD_ARMOUR',
+  'ENEMY_ADD_HEALTH_MAX',
+  'ENEMY_ADD_SHIELD_MAX',
   'AVATAR_ADD_ENERGY_MAX',
   'AVATAR_ADD_MOVEMENT_SPEED',
   'AVATAR_ADD_SPRINT_SPEED',

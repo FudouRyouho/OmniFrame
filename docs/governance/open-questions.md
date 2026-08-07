@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-07-31"
+Fecha_de_actualizacion: "2026-08-07"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -59,9 +59,12 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-25` | Orden de `total_flat` vs `multiplicative` contra la referencia canónica | engine / formulas — fidelidad | abierta — **latente**: intersección vacía medida, no bloquea |
 | `OQ-ENGINE-26` | Composición entre fuentes de life steal: la fuente no lo declara | engine / C2 — sustain | abierta — hueco de la wiki, gated por medición |
 | `OQ-ENGINE-27` | `co_base`: la regla padre→hijo del CO, declarada en el schema y sin validar del todo | engine / C1 — fidelidad CO | abierta — **gated por investigación**; el qué ya está decidido en `arch-decisions §9` |
-| `OQ-ENGINE-28` | Resistencias por entidad: capa aparte de la matriz por facción | engine / C2 — modelo de enemigo | abierta — diferida, sin consumidor |
+| `OQ-ENGINE-28` | Resistencias por entidad: capa aparte de la matriz por facción | engine / C2 — modelo de enemigo | abierta — campo nullable + test con dato a mano |
 | `OQ-ENGINE-29` | ¿Los status sin ícono (`Lifted`/`Knockdown`/`Microwave`) cuentan para CO? | engine / C2 — población de status | abierta — gated por test propio, **diseño listo** |
 | `OQ-ENGINE-31` | ¿Qué le falta a una entidad para ser modelable? — el compañero como forcing-case | engine / modelo de entidades | abierta — **gated por medición** (P-5) y por capacidad de propagación |
+| `OQ-ENGINE-32` | ¿Los estados físicos de CC forman un eje ordenado o son cuatro independientes? | engine / modelo de status | abierta — **sin medición posible**; sin consecuencia numérica mientras no se simule comportamiento |
+| `OQ-ENGINE-33` | ¿El proc deja de ser un campo del tipo de daño? | engine / vocabulario + contrato core | abierta — **sin convergencia**; arrastra el bug `DT_RADIANT` |
+| `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **gated por múltiples objetivos**; hoy se derivan de la procedencia |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -580,6 +583,18 @@ era "una DR incorrecta" sin más — era la fórmula de Tenno aplicada a un targ
 
 **Manifestación en código:** `formulas/enemy/ehp.ts` (`EHP = Health×(Armor+300)/300`, huérfana) computa exactamente la DR "era vieja"/Tenno de esta tabla, mal ubicada bajo `enemy/`. El CLI oráculo (lente `enemy`) usa la DR adoptada vía la primitiva correcta `formulas/enemy/effective-health.ts`. `ehp.ts` queda disponible (sin consumidor) para cuando exista EHP de jugador, con docstring corregido para no confundir.
 
+**⭐ Cuarta fuente, y coincide con la adoptada.** `references/wiki/mechanics/damage-calculation.wikitext`
+da el damage modifier canónico como `DM = 1 − 0.9·√(AR/2700)`, que es **algebraicamente idéntica** a
+`√(3·AR)/100` (`0.9/√2700 = √3/100 = 0.017320`). No es una cuarta vía del conflicto: es la misma ley
+escrita de otra forma, en una página que ninguna de las tres capturas previas citaba.
+
+**Qué cambia y qué no.** La adoptada deja de ser *"la del gadget"* y pasa a estar respaldada por la
+**página de cálculo de daño de la wiki**, que es fuente de mecánica y no herramienta de comunidad —
+sube el piso de confianza sin cerrar la OQ. **La condición para resolver sigue siendo el contraste #1**
+(popup de daño real): dos fuentes que coinciden entre sí no son el juego, y `enemy-resistances.md`
+sigue sosteniendo la lineal. Lo que sí queda descartado es que la adoptada fuera la opción *menos*
+respaldada de las tres.
+
 **Vínculo:** `references/wiki/mechanics/{enemy-level-scaling.md §Armor, enemy-resistances.md §DR, armor.md, damage-reduction.md}`, `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`, `Project/src/core/engine/formulas/enemy/{armor-mitigation.ts (movido de EnemyRepository.ts en P1, 2026-07-09), effective-health.ts, ehp.ts}`.
 **Fuente:** eje enemigo / contraste #0 (2026-07-06); verificación de estabilidad pre-C1 (2026-07-09).
 
@@ -598,9 +613,32 @@ era "una DR incorrecta" sin más — era la fórmula de Tenno aplicada a un targ
 
 **Caso hermano — NO fusionar:** el buff-on-event con cap (Merciless/Deadhead/Galvanized, `STACK_DECAY_BUFF`, `arch-decisions.md §11`) comparte la tensión (¿N declarado sin timer es fiel?) pero **es otro mecanismo** que el clúster `c2/stack`=42 de status: buff propio on-event vs. procs del target, fórmulas y fuentes de N distintas. Se ejecutó C1-declarado puro (sin timer) — dejó esta OQ **donde estaba a propósito**. Capturar por separado (precaución explícita del usuario).
 
+### ⭐ El caso real llegó — y no por donde esta OQ lo esperaba
+
+El método pedía *"un caso real estresado con dato, no teorizando"*. Apareció, pero **no por fidelidad de
+decay**: por **dos emisores con caps distintos** (`references/ingame-tests/status-stack-caps.md`, medido
+con dos jugadores, caps 19 y 10).
+
+La regla medida —`count < cap` suma · `count ≥ cap` **refresca el más viejo**— **obliga a operar sobre
+instancias**, y el estado no las tiene:
+
+| Familia | Estado hoy | ¿Puede expresar "el más viejo"? |
+|---|---|---|
+| stack-debuff | `StackState { count: number }` — **escalar** | ❌ |
+| DoT | `DotState { pulses: DotPulse[] }` — instancias | ✅ |
+
+**La asimetría vive dentro del mismo archivo**, y el lado que ya modela instancias es el que nadie
+discutió. Eso reencuadra la OQ: el paso a instancias **deja de estar gated por la pregunta de fidelidad
+del N declarado** —que sigue abierta— y pasa a estar exigido por una regla ya medida. Son dos razones
+independientes para el mismo cambio.
+
+🔴 **Y el bug que lo acompaña ya está diagnosticado:** `min(cap, count+1)` en `formulas/status/behaviors.ts`
+colapsa el contador hacia abajo donde el juego lo mantiene (`../domains/engine/design/arch-decisions.md`
+§17). Latente, no activo: sólo diverge con **dos** emisores.
+
 **No bloquea:** el modo-input declarado es válido como techo donde el consumidor acepta "asumido, no simulado" (mismo espíritu que CO estático). Bloquea sólo la confianza en la FIDELIDAD del número para el clúster de 42 casos.
 **Vínculo:** `damage-status-model.md` (timers independientes, brecha `processDots`), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).
-**Fuente:** debate 2026-07-08 (`.working/c1-simulation-doctrine.md §4-T1`); cristalizada en la verificación de estabilidad pre-C1 (2026-07-09).
+**Fuente:** debate 2026-07-08; cristalizada en la verificación de estabilidad pre-C1 (2026-07-09).
 
 ## OQ-ENGINE-18 — Status Duration en DoT: ¿más ticks o ticks estirados? (A vs B) — **ABIERTO (2026-07-10)**
 **Dominio:** engine / C1-timeline (ancho del pulso de DoT) — depende de dato in-game
@@ -852,6 +890,20 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
    `generate-enemies.mjs` lee `Enemy.json` del export del juego, no de la wiki.
 3. **Drift corregido:** `../domains/source/warframe-items.md` §Lo que la promoción a pristino nos costó sobreatribuía al fork (`weaponClass`, `upgradeTypes[]`,
    `modClass`, taxonomía = son upstream). Corregido en la misma sesión.
+
+**⚠️ Corrección a la premisa: `compatName` no se replica tal cual — replicarlo hereda su defecto.**
+Medido sobre los 1.803 mods, el campo mezcla **cinco naturalezas** en un `string | null`: clase de arma
+(`Melee` 143, `Pistol` 139, `Rifle`/`Shotgun` 119 c/u), clase de entidad (`WARFRAME` 198, `COMPANION` 26,
+`Sentinel`/`Moa`/`Hound`/`Kavat`/`BEAST`/`ROBOTIC`), **slot** (`AURA` 36, `PRIMARY` 10, `ANY` 22),
+vehículo (`Necramech`, `K-Drive`, `Arch*`) y **nombre propio de warframe** (los augments) — más **223
+`null`**. No expresa clase de entidad, así que no responde *"¿este mod es de arma o de compañero?"* sin
+una matriz `compat_name → clase` que el proyecto **deliberadamente no tiene**
+(`UpgradeView.tsx:80`: *"data-driven, no matriz hardcodeada"*).
+
+El contraste vive adentro del propio repo: los **arcanos** sí tienen vocabulario cerrado
+(`ArcaneCompatName`, 11 valores a granularidad de canal); los **mods**, `compat_name?: string | null`.
+Por eso el hueco **es del dato, no de la lectura**: inventar la matriz project-side sería cerrar
+semántica declarada abierta, en el consumidor y sin fuente. Es la fuente la que debe emitir la clase.
 
 **Dirección (investigada, NO decidida — sigue en debate):** no es "fuente propia vs fork" como binario, sino
 un **repo-superset de cosecha**: mismo ingest de upstream (capa-1 intacta, dependencia dura), exprimiendo N
@@ -1149,6 +1201,24 @@ nativo de esta fase).
 - **Investigar "cositas"** que el usuario vio en `warframe-items` pristino (fuera del modelado actual, sin
   urgencia).
 
+**Dirección candidata para el contrato — NO comprometida, con gate: un paquete de tipos compartido
+`Project` ↔ `omniframe-items`.** Si la fuente debe emitir la clase de entidad (arriba), hace falta un
+contrato común: hoy `Project` define los tipos y `omniframe-items` emite a ciegas, así que el mapeo se
+decidiría dos veces o ninguna. Extraer `@shared/types` como paquete invierte esa dirección — la fuente
+emite contra el contrato del consumidor.
+
+**El costo está medido y es menor de lo que la impresión sugiere:** `@shared/types` son **18 archivos y
+ninguno importa React ni componentes**; sus imports son todos relativos internos. No hay que separar
+tipado de UI — ya está separado. Lo caro no es la extracción.
+
+**Y el paquete es el vehículo, no la respuesta.** Compartir el `type` no decide si `Claws` es arma de
+compañero, si `Tome` es de warframe, ni qué son los 223 `null`. Esa decisión hay que tomarla igual, con
+paquete o sin él; amalgamarlas arriesga construir la infraestructura y dejar la pregunta semántica sin
+dueño — el patrón **mover-no-eliminar** del que esta misma OQ ya advierte citando a `OQ-DATA-9`.
+
+**Gate:** campaña de recomposición del engine cerrada y el motor estable. Antes no — reorganizar el
+borde de tipos mientras el consumidor todavía se está reacomodando invierte el orden de construcción.
+
 **No bloquea:** nada.
 **Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../domains/source/warframe-items.md` (qué aporta el fork actual).
 **Fuente:** reflexión del usuario, cierre de sesión 2026-07-20; investigación 2026-07-22.
@@ -1347,6 +1417,13 @@ habilidades simples (Volt Speed, Ember Fireball) invierte el orden de construcci
 **Condición para retomar:** haber recorrido warframes modelando habilidades **simples** primero, y que
 de ese recorrido salga el conteo real de formas — con esa evidencia se decide si la familia se recorta
 angosta (sólo "bracket de armadura × strength", 3 casos) o más ancha. **No antes.**
+
+**Dos candidatos concretos para ese recorrido, con su costo previo medido:**
+
+| Caso | Veredicto |
+|---|---|
+| **Light Verse (Dante)** | **Entra.** Overguard de **un solo término** — sin bracket compuesto, sin cap, sin Absorbed: del mismo eje que Iron Skin y más simple, hermano de la pasiva de Trinity. **Costo previo:** `AVATAR_ADD_OVERGUARD` **no está acuñado** — cero apariciones en `modifier.ts` y en [`../semantic/upgrade-tokens.md`](../semantic/upgrade-tokens.md); hoy existe sólo dentro del fixture sintético de `cross-stat-derivation.test.ts`. No es conectar un consumidor a un token: es **acuñar y recién después consumir**, dos pasos |
+| **Brief Respite** | **No entra**, y delimita el eje igual que los cuatro descartados de arriba. Su entrada de override —`AVATAR_ABILITY_ENERGY_TO_SHIELD`, *"Squad converts \|val1\|% of Energy **spent** to Shields while Overshields are inactive"*— pide un hook de **gasto de energía**, no de cast, y en `@core` no existe ninguno de los dos. Arrastra otros dos gaps: el token es uno de los 201/90 fuera de `UPGRADES` que registra [`../data/status.md`](../data/status.md), y su alcance es **squad** — el mismo tercer destino que `AVATAR_HEAL_RATE` tiene declarado fuera de scope |
 
 **Segundo eje, no cubierto por el enunciado de arriba: DÓNDE aterriza el resultado.** Iron Skin
 escribe en la **misma entidad** que castea (Rhino). **Snow Globe escribe en otra**: el Health del
@@ -1567,8 +1644,30 @@ capa por unidad después de haberla cerrado.
 ⚠️ El eje enemigo arrastra además el fósil de `Enemy.json` (`docs/domains/source/gaps.md` §G-2): las
 unidades nombradas acá **no están en el data-set**.
 
+### 🔄 Re-encuadre: no es "diferida sin consumidor" — es **campo nullable + test con dato a mano**
+
+La salida deja de estar gated por un modelo de resistencias: es **un campo opcional en el contrato de
+enemigo**, poblado a mano en el test hasta que exista la fuente. **El campo declarado ES el aviso** que
+esta OQ dice querer dejar, y no hay que esperar nada para ponerlo.
+
+Dos precedentes vivos en el mismo schema: `eximus_health?` (283 entradas) y `weakpoints?` (407) **ya se
+emiten sin consumidor, por fidelidad**. Mismo patrón que `ExtraHeadshotDmg`.
+
+**Lo que esta OQ hereda de `Damage Vulnerability`** (cerrada por medición): el **método** —medir para
+decidir composición— y el **default**: *multiplica; lo aditivo es excepción enumerada*.
+**Lo que NO hereda: la respuesta.** Son dos filas distintas del lado receptor
+(`../domains/engine/design/arch-decisions.md` §21), separadas por el discriminador de §20 —
+resistencia por unidad = **clase/identidad**, DV = **estado**.
+
+⚠️ **Y el Kuva Grineer es la contraprueba de que "capa extra" no es la única salida:**
+`../data/schemas/enemy/schema.md` documenta que *"comparte vulnerabilidades con Grineer pero resiste
+Heat"*, y eso se resolvió **como facción propia**. `The Fragmented` inmune a Viral con la matriz en ×1.0
+es indistinguible entre `×0` y `override`; **contra Zariman/Void —matriz en ×1.5— sí se distinguiría**.
+Ese es el caso que decide la forma, y es medible.
+
 **No bloquea:** nada. **Vínculo:** `references/wiki/mechanics/enemy-resistances.md`,
-`docs/domains/source/gaps.md` §G-2, `OQ-ENGINE-21` (scaling del mismo eje).
+`docs/domains/source/gaps.md` §G-2, `OQ-ENGINE-21` (scaling del mismo eje),
+`../domains/engine/design/arch-decisions.md` §21 (el lado receptor completo).
 **Fuente:** retrospectiva de las 19 subpáginas `Damage/<Tipo>` (residuo R-13).
 
 ---
@@ -1617,6 +1716,155 @@ motor como ley** sin la medición.
 `references/wiki/mechanics/crowd-control.md` (`Lifted` / `Knockdown`), `references/ingame-tests/pending.md`,
 `OQ-ENGINE-15` (por qué el enemigo va sin armor).
 **Fuente:** duda del usuario sobre el corpus de CO (residuo Q-3).
+
+---
+
+## OQ-ENGINE-32 — ¿Los estados físicos de CC forman un eje ordenado, o son cuatro independientes? — **ABIERTO — sin medición posible**
+**Dominio:** engine / modelo de status
+
+**Dos lecturas del mismo corpus, y el corpus no las separa.** Al barrer qué puede portar una entidad
+apareció una lectura —*el eje `postura` es una escalera ordenada por severidad, un solo slot con un
+ganador*— que **contradice a un documento vivo de `references/`**:
+
+| Lectura | Sostiene |
+|---|---|
+| **escalera ordenada** | `stagger < knockdown < lifted < ragdoll` ocupan **un slot**; la exclusión mutua es *consecuencia* de que sea uno solo, no una regla aparte |
+| **`references/wiki/mechanics/crowd-control.md`** | *"**No forman una escala.** Son cuatro estados con fuentes propias. La única escalada declarada es stagger → knockdown, y sólo en el self-stagger de las AoE."* |
+
+**Las citas compartidas no deciden.** *Lifted ×2 → Ragdoll* y la exclusión mutua Lifted ↔ Knockdown
+están en las dos lecturas. Lo que difiere es qué se concluye de ellas.
+
+**Lo que la evidencia restante sostiene, y lo que no.** *"Lifted, a more specific type of ragdolling
+effect"* es **subsunción taxonómica**; *"anything that can apply Knockdown may also ragdoll enemies"*
+es **correlación de fuentes**; `{{ver|43}}` habla de **animaciones compartidas** y `{{ver|27.2}}` de
+**resistencia compartida**. Ninguna afirma reemplazo por severidad — que es lo que un slot ordenado
+exigiría.
+
+⚠️ **Un dato adyacente sí quedó resuelto y no forma parte de esta duda:** la rampa *Impact ×5 →
+Knockdown/Ragdoll* murió en `{{ver|27.3}}` y el escalón quedó **dentro de la familia stagger** (*"will
+now result in a 'big stagger'"*, declarado textual en el raw de Impact). Eso está en
+`../semantic/damage-types.md`.
+
+### Por qué no se resuelve: no hay medición replicable
+
+A diferencia del resto del corpus de status, esto **no tiene test**. Observar el orden exigiría
+provocar dos estados en el mismo objetivo y determinar cuál "gana" a partir de la animación — sin
+número que leer, sin popup de daño, y con un resultado que depende del timing exacto de dos
+aplicaciones. **No es un test que produzca una restricción falsable**, que es el requisito para cerrar.
+
+### Por qué no bloquea nada: el orden no tiene consecuencia numérica
+
+**El motor no simula el comportamiento del enemigo, y esa exclusión es de diseño, no un pendiente.**
+Modelar que un enemigo esté tambaleándose, tumbado o suspendido sólo cambia números si algo depende de
+lo que el enemigo **hace** — su movimiento, su puntería, su ciclo de ataque. Eso es simulación de
+comportamiento (IA), **descartada por complejidad de diseño**, y su costo no es la regla: es toda la
+infraestructura para ejecutarla con fidelidad.
+
+Lo único que hoy tiene consecuencia numérica de esta familia **ya está modelado por otra vía**:
+`Lifted`, `Knockdown` y `Microwave` cuentan para Condition Overload, y CO **cuenta presencia de marca,
+no orden** (`../domains/engine/design/damage-status-model.md` §*El criterio de pertenencia*). Un eje
+ordenado no cambiaría ese conteo.
+
+**Se registra, entonces, para que no se vuelva a descubrir:** el cruce de `ragdoll` / `knockdown` /
+`lifted` / `stagger` produce esta lectura con facilidad, y sin esta entrada el próximo barrido la va a
+derivar de nuevo y a chocar otra vez contra `crowd-control.md`.
+
+**Condición de reapertura:** que aparezca un efecto cuyo **valor numérico** dependa del estado físico
+del target (no de su presencia como marca) — o que el proyecto revierta la exclusión de simular
+comportamiento.
+
+**No bloquea:** nada. **Vínculo:** `references/wiki/mechanics/{crowd-control.md, condition-overload.md}`,
+`../domains/engine/design/arch-decisions.md` §20 (`is_cc` deliberadamente no acuñado — misma familia,
+misma razón), `../domains/engine/design/damage-status-model.md` §*El proc y su primitiva*.
+**Fuente:** barrido de qué puede portar una entidad (campaña de recomposición del engine, 2026-08).
+
+---
+
+## OQ-ENGINE-33 — ¿El proc deja de ser un campo del tipo de daño? — **ABIERTO — sin convergencia**
+**Dominio:** engine / vocabulario + contrato core
+
+**La estructura actual hace que todo proc tenga tipo de daño por construcción.** `statusEffect` es un
+**campo dentro** de la definición del `DamageType` (`Project/src/shared/types/damage.ts`), y
+`effectOfDamageType(type) → StatusEffect | null` es la **única puerta** de entrada. La inversión
+propuesta: **el proc existe por sí mismo, y el tipo de origen pasa a ser un campo suyo, nullable**.
+
+**Qué la fuerza.** El corpus mide **38 procs, 29 con token, y sólo 15 con `DT_` de origen**
+(`../../references/wiki/sources/damage-types-data.md`). `Lifted`, `Knockdown`, `Microwave`, `Sleep`,
+`Slow` y `Blind` **no cuelgan de ningún tipo, así que hoy no tienen fila donde existir** — y los tres
+primeros **cuentan para Condition Overload**, que sí está implementado. El motor cuenta status y no
+puede contar tres de los que el juego cuenta.
+
+**Qué NO la fuerza, y por eso no es urgente.** La relación `DT → PT` no se pierde con la inversión:
+cambia de lugar. Y el patrón para alojar el token ya existe (`DAMAGE_TYPE_DEFINITIONS` ancla el canónico
+al nombre de DE y admite N alias), así que **no hay que renombrar nada**
+(`../semantic/damage-types.md`).
+
+### Por qué está abierta y no decidida
+
+1. **Sin convergencia.** Es una sola vía —el barrido de vocabulario—; ningún censo de código ni
+   medición in-game apunta al mismo objeto de forma independiente.
+2. **Toca `docs/semantic/`**, que es SSoT de vocabulario, y el contrato de `@shared`.
+3. **Unificar el vocabulario no unifica el mecanismo de entrada.** Un `PT_*` sin `DT_*` llega por otra
+   vía (heavy attack, arma específica, habilidad); tener fila donde existir **no le construye la
+   puerta**. La inversión es condición necesaria, no suficiente, y la segunda mitad no está diseñada.
+4. **Arrastra un bug de vocabulario ya registrado** —`DT_RADIANT` mapeado a Radiación debiendo ser Void,
+   32 ocurrencias vivas (`../domains/engine/status.md`)— cuya corrección el usuario decidió ejecutar
+   **dentro de este saneamiento**, no antes ni por separado.
+
+**Ortogonal al canal de desvío del portador** (`arch-decisions.md` §17), que es la otra mitad de la
+misma descomposición y **sí** está cerrada: aquella cambia *quién resuelve los parámetros*, ésta cambia
+*qué es un proc*. Se separaron a propósito para que la segunda no bloquee a la primera.
+
+**Condición de cierre:** una segunda vía independiente que pida el mismo objeto — el candidato natural
+es que el modelo de Condition Overload necesite contar los tres procs sin tipo.
+
+**No bloquea:** el canal de desvío (§17), ni el corte proc ⊥ primitiva
+(`../domains/engine/design/damage-status-model.md`).
+**Vínculo:** `../semantic/damage-types.md`, `../../references/wiki/sources/damage-types-data.md`,
+`../domains/engine/status.md` (deuda `DT_RADIANT`), `arch-decisions.md` §20.
+**Fuente:** descomposición B (campaña de recomposición del engine, 2026-08).
+
+---
+
+## OQ-ENGINE-34 — ¿Las relaciones entre entidades necesitan ser un bloque propio? — **ABIERTO — gated por múltiples objetivos**
+**Dominio:** engine / modelo de entidades
+
+**La pregunta.** ¿Hace falta modelar *"esta entidad apunta a **esa** otra"* como estructura, o alcanza
+con derivar las relaciones de lo que ya existe?
+
+**Lo que se encontró al barrer el corpus:** el caso que parecía pedirlas **argumenta en contra**. Los
+Peacemakers de Mesa **no** apuntan a nullifiers, drones de arbitration ni la mayoría de bosses. Eso no
+es *"le disparo a ese enemigo"* — es *"a todos los que no sean de estas clases"*. **Es una condición
+sobre marcas**, no una relación.
+
+**Y del lado del jugador no existe el ruteo dirigido a un individuo.** Lo que parece serlo es ruteo por
+categoría: *Covenant* de Harrow buffea el crítico de armas primarias y secundarias — **token + alcance**
+(`../domains/engine/design/arch-decisions.md` §18), no una relación con un destinatario. Los únicos
+candidatos a uno-a-uno apuntan al enemigo (Nyx, Sonar).
+
+**La única relación que el motor necesita hoy no es *"le pego a ese"* sino *"esto es de aquel"*** — y
+ésa se **deriva de la procedencia** (quién trajo a quién, §*pobladores ⊥ derivación* en
+`simulation-architecture.md`), sin declararla como campo.
+
+### Por qué está gated y no cerrada
+
+> **Mientras haya un solo objetivo en el escenario, *"este"* y *"todos los hostiles"* son el mismo
+> conjunto.**
+
+No hay forma de observar si la decisión fue correcta: cualquier modelo y su contrario producen el mismo
+número. **No es postergar por comodidad** — es que el caso que discriminaría no existe todavía.
+
+**Condición de reapertura:** múltiples objetivos simultáneos en el escenario. Ahí los dos conjuntos se
+separan y la decisión pasa a ser observable.
+
+⚠️ **Riesgo si se decide antes:** construir un mecanismo de relaciones sin caso que lo fuerce es el
+patrón que esta campaña viene desarmando — `GameLaws` nació igual. La alternativa barata (derivar de la
+procedencia) ya cubre todo lo que el corpus pide hoy.
+
+**No bloquea:** nada. **Vínculo:** `../domains/engine/design/arch-decisions.md` §18 (ruteo por token +
+alcance, que es lo que absorbe los falsos casos), `../domains/engine/design/simulation-architecture.md`
+§*De dónde salen los participantes*, `OQ-ENGINE-31` (qué le falta a una entidad para ser modelable).
+**Fuente:** Parte I del barrido de definiciones (campaña de recomposición del engine, 2026-08).
 
 ---
 
@@ -1684,40 +1932,54 @@ aliados como entidad), `references/ingame-tests/pending.md` P-5.
 ## OQ-DOC-1 — Docs commiteados citan `.working/` (gitignored) como autoridad de razonamiento — **ABIERTO (2026-07-19)**
 **Dominio:** governance / higiene de documentación
 
-**Contexto:** ~2 docenas de líneas en docs commiteados referencian archivos de `.working/` (scratch de
-campaña, gitignored). Para cualquier clon que no sea la máquina donde se escribió el scratch, el archivo **no
-existe**. La mayoría es **procedencia honesta** (Clase-1, abajo): la oración se entiende sin el scratch, el
-puntero solo nombra historia. El defecto real es el subconjunto donde el doc **depende** del scratch vivo para
-entenderse (Clase-2) — ahí el warrant es inalcanzable. Choca con `docs/CLAUDE.md` regla 1 ("un doc activo nunca
-es la única copia de un warrant del que depende una nota viva").
+**Contexto:** líneas en docs commiteados referencian archivos de `.working/` (scratch de campaña,
+gitignored). El archivo **no existe** fuera de la máquina donde se escribió, y —cuando el scratch se
+purga— tampoco existe ahí. Choca con `docs/CLAUDE.md` regla 1 ("un doc activo nunca es la única copia
+de un warrant del que depende una nota viva").
 
-**Dos clases — solo una es defecto:**
-- **Procedencia honesta (se quedan):** la cita nombra un scratch **ya purgado/graduado/extinto** como historia
-  ("migrado desde `.working/X` al cerrar la campaña", "`.working/Y` descartado", "`.working/` *no SSoT*").
-  Equivale a un puntero a git-history; no promete un archivo vivo, la oración se entiende sin él. Ej.:
-  `data/reports/audit-arcane-ability-like.md`, `governance/doc-map.md`, `docs/CLAUDE.md` (usa `.working/*-sweep.md`
-  como *ejemplo de patrón*); `data/decisions.md` (nombra su `.working/` como **extinto**);
-  `governance/closed-decisions.md` DC-OQ-ENGINE-10 (`.working/` marcado **no SSoT**, plan de la E descartada).
-- **Warrant roto (a remediar):** la cita apunta a un archivo `.working/` **vivo** como SSoT del razonamiento
-  (plan de implementación con §-anchor, tabla de corpus). Inventario — **cada uno gateado por el horizonte de
-  diseño que su `.working/` está debatiendo**, por eso su núcleo no puede graduar a doc todavía:
-  - `governance/decision-frontier.md` + `current-state.md` + `domains/engine/design/arch-decisions.md` (×3)
-    → `.working/ability-model-debate.md` / `c1-simulation-doctrine` — gate: horizontes **habilidades** +
-    **source-state / peso-de-status (T1)**
-  - `domains/ui-ux/decisions.md` (×2) → `.working/consolidation-map.md` — gate: refactors **UI U-2**
+**La regla es única: ningún doc commiteado apunta a `.working/`.** Antes se toleraba una "Clase-1 de
+procedencia honesta" con el argumento de que *equivalía a un puntero a git-history*. **Ese argumento
+es falso:** `.working/` es gitignored, así que sus archivos **nunca estuvieron en git**. Un puntero a
+un scratch purgado no lleva a un commit viejo — no lleva a ningún lado. Es una referencia muerta con
+forma de cita, y se borra igual que cualquier otra.
 
-**El gate real (corrige el "circular" aparente):** estas citas parecen atascadas —el `.working/` no madura a
-docs, y las decisiones que lo desbloquearían están diferidas— pero la regla dura pide solo que **el doc no
-dependa del `.working/` para entenderse**, NO que el diseño esté cerrado. Por eso la remediación **no es (a)
-graduar** (ésa sí la bloquea el horizonte), sino **(c/b): hacer la oración commiteada auto-suficiente sobre lo
-YA decidido + degradar el puntero a "en diseño (local, en progreso)"**. Eso es ungated, editorial, por cita —
-independiente de habilidades/source-state. **Pregunta operativa:** por cada cita, ¿la oración ya se sostiene
-sin el `.working/` (→ degradar puntero) o hoy **depende** de él (→ comprimir lo decidido inline primero)?
+Único caso que no aplica: nombrar `.working/` como **concepto del flujo** (`docs/CLAUDE.md` lo hace al
+explicar el ruteo docs↔scratch). Eso no promete un archivo.
+
+**Remediación por cita — dos formas:**
+- **Puntero de procedencia** → se borra y la oración se reescribe auto-suficiente. **Ejecutado** en
+  `doc-map.md`, `test-workflow.md`, `audit-arcane-ability-like.md`, `gap-map.md`, `data/decisions.md`,
+  `closed-decisions.md` y `arch-decisions.md §13`.
+- **Warrant vivo** — el doc **depende** del scratch para entenderse (plan de implementación con
+  §-anchor, tabla de corpus). Requiere comprimir lo decidido inline **antes** de borrar el puntero.
+  Pendiente:
+  - `governance/decision-frontier.md` + `current-state.md` + `arch-decisions.md:533`
+    → `.working/ability-model-debate.md §9` (plan de implementación por fases, ~28 líneas)
+  - `domains/ui-ux/decisions.md` (×2) + `doc-map.md:114` → `.working/consolidation-map.md` — gate:
+    refactors **UI U-2**
+  - `data/reports/audit-arcane-ability-like.md:505` → `.working/c1-corpus-roadmap.md §1`
+
+**El gate real (corrige el "circular" aparente):** las citas que quedan parecen atascadas —el `.working/`
+no madura a docs, y las decisiones que lo desbloquearían están diferidas— pero la regla dura pide solo que
+**el doc no dependa del `.working/` para entenderse**, NO que el diseño esté cerrado. Por eso la remediación
+**no es graduar** (ésa sí la bloquea el horizonte), sino **hacer la oración commiteada auto-suficiente sobre
+lo YA decidido y borrar el puntero**. Eso es ungated y editorial, por cita — independiente de
+habilidades/source-state. **Pregunta operativa:** ¿la oración ya se sostiene sin el `.working/` (→ borrar el
+puntero) o hoy **depende** de él (→ comprimir lo decidido inline primero)?
+
+**El alcance es todo lo commiteado, no sólo `docs/`.** `references/` también entra a git y también
+tiene citas — 8, ninguna hasta ahora inventariada: `CLAUDE.md` (×2), `wiki/README.md` (×2),
+`wiki/mechanics/{calculating-bonuses,status-effects}.md`, `ingame-tests/double-dip.md`. Se parten en
+las mismas dos formas: las de `CLAUDE.md`/`wiki/README.md` nombran `.working/` como **destino del
+flujo** ("se preserva en `.working/` con su procedencia") — el caso exento, no prometen archivo; las
+de `calculating-bonuses.md`, `status-effects.md` y `double-dip.md` son **punteros de procedencia** y
+se borran reescribiendo la oración.
 
 **No bloquea:** cada doc afectado es legible; el puntero roto solo se nota en otra máquina. **Degrada:**
 reproducibilidad del razonamiento fuera de esta máquina.
 **Vínculo:** `docs/CLAUDE.md` regla 1 (warrant pegado a la nota viva) + regla 4 (procedencia vive en git).
-**Fuente:** cierre de la campaña engine-fidelity F1–F5 (2026-07-19); inventario reproducible: `grep -rn '\.working/' docs/`.
+**Fuente:** cierre de la campaña engine-fidelity F1–F5 (2026-07-19); inventario reproducible:
+`grep -rn '\.working/' docs/ references/`.
 
 ---
 

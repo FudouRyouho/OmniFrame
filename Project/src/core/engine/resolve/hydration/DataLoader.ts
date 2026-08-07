@@ -26,6 +26,7 @@ export interface DataLoaderInput {
   arcaneOverrides:       Record<string, any>;
   abilityOverrides:      Record<string, any>;
   archonShards:          Record<string, any>;
+  companions:            any[];
   enemies:               RawEnemyEntry[];
   enemyOverrides:        EnemyOverride;
 }
@@ -38,6 +39,9 @@ export class DataLoader {
     // pero en Maps separados desde Fase 2 Slice C (segmentación storage+normalize).
     ItemRepository.loadWeapons(input.weapons);
     ItemRepository.loadWarframes(input.warframes);
+    // Un compañero no es un ítem del loadout de armas, pero SÍ es un participante con stats
+    // propios; entra al mismo repositorio porque comparte los cuatro pilares y el molde de avatar.
+    ItemRepository.loadCompanions(input.companions);
     ItemRepository.loadWeaponAttackOverrides(input.weaponAttackOverrides);
     ModRepository.loadOverrides(input.modOverrides);
     IncarnonRepository.load(input.incarnon);
@@ -45,6 +49,9 @@ export class DataLoader {
     AbilityRepository.load(input.abilityOverrides);
     ShardRepository.load(input.archonShards);
     EnemyRepository.load(input.enemies, input.enemyOverrides);
+    // Doble carga a propósito: EnemyRepository lo escala para C2, ItemRepository lo hidrata como
+    // participante de C1. Son dos usos del mismo raw, no una duplicación de la fuente.
+    ItemRepository.loadEnemies(input.enemies);
     DataLoader._initialized = true;
   }
 

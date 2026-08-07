@@ -4,7 +4,7 @@ Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-08-06"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -84,9 +84,93 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 - **Responsabilidad**: Almacenar la intención del usuario como datos puros. No contiene lógica de juego ni fórmulas.
 - **Contrato**: `EnsembleIntention` — ver `@shared/types/ensemble.ts` (gemelo-de-entrada).
 - **No conoce**: fórmulas del engine, contexto de simulación, cómo la UI se renderiza.
-- **Físico**: store `ensembleStore` en `@core/intention/ensemble-store.ts` (A1); binding React `EnsembleProvider` en `providers/Ensemble/` (composición).
+- **Físico**: store `ensembleStore` en `@core/intention/ensemble-store.ts`; binding React `EnsembleProvider` en `providers/Ensemble/` (composición).
 
 > **Edge cases (ej: armas exaltadas):** Cuando una habilidad activa un arma exaltada (Excalibur, Valkyr), la intención debe reflejar ese cambio de estado sin que sea una selección directa del usuario. Este caso no está resuelto hoy — es una preocupación de diseño pendiente en Capa A.
+
+#### Qué contiene A: **el escenario y los participantes**
+
+Lo de arriba describe **cómo** vive A (contenedor + contrato). Esto describe **qué** hay adentro, que es
+un eje distinto.
+
+**A entrega un mundo completo; B lo hidrata; C computa.** No hay paso intermedio: meter una capa entre
+A y B convertiría `A → B` en delegación en vez de hidratación.
+
+##### El escenario es **el cero y el contexto de instanciación**. Nada más.
+
+Criterio, aplicable sin discutir:
+
+> **Sacá todos los participantes. Lo que queda es el escenario.**
+> Pero preguntá por **la regla, no por su número**: si el número cambia según quién actúa, es del actor.
+
+| Cosa | ¿Sobrevive sin participantes? | Dónde vive |
+|---|---|---|
+| *Que exista* un cap de stacks | sí | la mecánica ([`arch-decisions.md`](arch-decisions.md) §17) |
+| *Cuánto vale* ese cap | **no** | el participante (§17) |
+| El instante cero | sí | **escenario** |
+| Qué loadout se instancia (archwing ⊥ misión normal) | sí | **escenario** |
+| Nivel · facción del objetivo | no | el participante |
+| **Steel Path** | **no** | el participante |
+
+*Steel Path parece del ambiente y no lo es: sólo modifica stats del enemigo — sin enemigo no significa
+nada.* En cambio un archgun **no es el mismo** desplegado desde el warframe que entrando por
+railjack/archwing: **el escenario no lleva parámetros de mecánica — decide qué participantes existen y
+con qué forma.**
+
+**Al escenario no le queda nada que el usuario declare directamente, y tampoco le quedan leyes** (son de
+las mecánicas, no del mundo). Lo que el usuario declara son los participantes y sus condiciones — la
+partición de §*Las dos intenciones del usuario*.
+
+##### El cero: **un origen declarado, N ventanas derivadas, todas en el mismo reloj**
+
+El caso que lo prueba es el que parecía complicarlo: *si Roar está activo durante el DoT da un número;
+si se desactiva a mitad, otro*. Esa pregunta **sólo tiene respuesta si el cero es único** — con un cero
+por entidad son dos escalas sin conversión posible.
+
+Lo que cada cosa tiene no es un cero propio sino una **ventana** (cuándo empieza, cuánto dura),
+expresada en el reloj común y **derivada** por composición (duración × mods), no declarada. *"El
+proyectil llegó en 1,2 s"* no es el cero de la habilidad: es un evento a los 1,2 s del único reloj.
+
+> **El stat de duración es un nodo. La ventana que produce, no.** El `+X% Ability Duration` compone
+> buckets como cualquier atributo; la ventana resultante es el producto de aplicarlo, y vive en el reloj.
+
+**Está en A aunque hoy sólo lo consuma C2**, y eso no es una excepción: C1 no lo usa porque no construye
+timeline, no porque no lo tenga. Para C1 su presencia significa *"el escenario está cargado"* y nada
+más. Hoy C2 lo improvisa con un `let currentTime = 0` local.
+
+##### Qué es un participante: **declarado ⊥ derivado**
+
+| Declarado *(lo único que el usuario dice)* | Derivado *(todo lo demás)* |
+|---|---|
+| **qué entidad es** — una referencia | su composición: nodos, atributos, valores |
+| **en qué estado está** — Roar activo, a media vida, a 30 m | sus **marcas**: de qué lado está, de quién es · lo que recibe y lo que emite |
+
+La distinción no admite excepción: *"este mod funciona así"* o *"Roar alcanza al arma"* **no lo declara
+nadie** — lo resuelve el motor. Las marcas son derivadas igual que el resto: que el warframe lleve
+*mío* sale de haber entrado por el loadout; que un enemigo bajo mind control cambie de bando sale de una
+habilidad.
+
+**Por qué "participante" y no clases por especie.** Una entidad **no *es* un bando: lo porta como
+marca**. El caso que lo decide es el mind control — con estructuras separadas, Nyx obligaría a migrar
+una entidad de una a otra en mitad del cálculo; con marcas cambia una etiqueta y no se movió de lugar.
+Y está medido que la herencia por especie produce miembros falsos: cuando el compañero se normalizaba
+*"igual que un warframe"*, un Kavat tenía fuerza y eficiencia de habilidad en 100.
+
+*(Eje ortogonal al de §2.1 `PE`/`TE`, que clasifica por **ciclo de vida**, no por qué se declara.
+Conviven.)*
+
+##### De dónde salen los participantes: **pobladores ⊥ derivación**
+
+- **Pobladores** — traen participantes declarados. El loadout del jugador es uno; el catálogo de
+  enemigos es otro. Son las puertas de entrada.
+- **Derivación** — un participante trae a otro: una invocación, un specter, el compañero. No es una
+  puerta nueva: **cuelga de alguien que ya está**.
+
+En una escuadra cada jugador es poblador de lo suyo, y lo que invoca cuelga de él por propiedad — el
+mismo árbol de [`arch-decisions.md`](arch-decisions.md) §18.
+
+> **`A1` y `A2` no son capas** y no existen en el código como tales. Sobreviven sólo como nombres de
+> conveniencia para hablar de **dos pobladores**.
 
 ---
 
@@ -126,6 +210,7 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
   - Emite métricas de combate (DPS, TTK, status weights). *(Las métricas fluyen a `CombatMetrics` — el contrato de salida único cristalizado (`output/combat-metrics.ts`, particionado `target_agnostic`/`vs_target`), ver `DC-OQ-ENGINE-8`. El modelo de daño/status de C2 vive en `design/damage-status-model.md`.)*
 - **No conoce**: UI, intención del usuario, cómo se presentan los resultados.
 - **Distinción clave con C1**: C1 resuelve *qué vale cada atributo*. C2 resuelve *qué pasa en el juego con esos valores*.
+- ⚠️ **C1 → C2 no es una línea de capa: es `C1 → C1 + C2`.** C2 **no puede trabajar sin C1** — no son piezas desacopladas que se comuniquen por un contrato reemplazable, es el mismo cómputo extendido con tiempo, target y RNG. Consecuencia práctica: **lo que la Capa A carga para C2 también está cargado para C1**; que C1 no lo use (el cero, por ejemplo) no lo vuelve ajeno a C1 — significa que C1 no construye timeline, no que el dato no esté.
 - **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EnemyState}.ts`. (El proc/DoT lo modelan los `EffectBehavior` sobre `EnemyState`.)
 
 ---
@@ -194,9 +279,11 @@ viva de lo segundo.
                       resolveCritTier) = eje §2.5 (Expected/Atómico) + arch-decisions §8 (input→simulado).
                       El modo NO cambia la etapa.
         │
-③ RESUELVE-VS-TARGET  física INTRÍNSECA del target-entidad, source-agnostic, keyed en el TARGET (no en el
-                      trayecto): bonificación de facción · DR de armadura · ruteo/bypass de capa
-                      (shields/health, Toxin bypass, Slash=True) · multiplicadores de stacks de status · caps/floors.
+③ RESUELVE-VS-TARGET  física del target-entidad EN `t` — target-keyed, NO innata: buena parte de ③ es
+                      estado temporal. Source-agnostic, keyed en el TARGET (no en el trayecto):
+                      bonificación de facción · DR de armadura (post-strip) · ruteo/bypass de capa
+                      (shields/health, Toxin bypass, Slash=True) · multiplicadores de stacks de status ·
+                      Damage Vulnerability · caps/floors.
 ```
 
 **Fronteras que el trazado clarifica:**
@@ -207,7 +294,10 @@ viva de lo segundo.
   stat. Se separan los dos órdenes (deshace el muddle histórico).
 - **② vs ③ = trayecto vs contexto-target.** ② es lo que la instancia acumula/lleva hasta llegar
   (instance-keyed); ③ es lo que el target le hace (target-keyed). Una "sinergia sobre el target" (ej. el
-  target tiene Viral → recibe más) es **③**, no ②.
+  target tiene Viral → recibe más) es **③**, no ②. **El criterio es operativo y está medido:** en el tick
+  de DoT ② se eleva al cuadrado y ③ no — Roar `×1.6²` contra Reap `×2.00` en la misma tirada
+  (`references/ingame-tests/damage-buckets.md` Test 7). Dos efectos con la misma forma `+X% daño` caen en
+  buckets distintos; la pertenencia **se mide**, no se infiere de cómo se lee el efecto.
 - **③ vive como auxiliares de la ENTIDAD-target**, source-agnostic — cualquier fuente (arma, habilidad, tick)
   llama las mismas. DR es entidad-level (con variantes: enemigo `√3a/100`, jugador `armor/(armor+300)`);
   encerrarla por tipo de entidad fue el origen del bug de `resolveHit` (usa la DR del jugador sobre enemigos).
@@ -256,7 +346,8 @@ recalculado) es **deuda de re-implementación**: el fix sube a lo que C1 emite, 
   **Target-agnóstica**; **congela valores, no refs** (lo "vivo" se lee como *pull* keyed por stamp, `OQ-ENGINE-20`).
 - **Schedule** — la cadencia/fire-mode (auto/charge/beam/burst) que **produce** Instancias en el tiempo
   (`fire_rate`/`mag`/`reload`). Multishot = 1 Instancia · N Hits; burst-x3 = N Instancias.
-- **Target** — la física intrínseca del enemigo (③): facción/DR/capa/stacks. **Input propio de C2**, no de C1.
+- **Target** — la física del enemigo **en `t`** (③): facción/DR/capa/stacks/`Damage Vulnerability`. **Input
+  propio de C2**, no de C1.
 
 **Consecuencias estructurales:**
 - La Instancia target-agnóstica **ya habilitó** la separación ②③: la física del target vive en
@@ -290,12 +381,24 @@ Para mantener el motor ligero y determinista, las entidades se dividen por su ci
   - **Jerarquía de Generación** *(TE-como-entidad-en-cola: diseñado, no implementado)*: la idea era que una TE genere TEs hijas (Impacto → Proc). Hoy los procs/DoT son **proyecciones matemáticas** de los `EffectBehavior` sobre `EnemyState` (modelo unificado de proc), no TEs reales en una cola (sin límite de profundidad ni energía de tick). El **double-dip** sí se modela como regla de composición aritmética — ver [`damage-status-model.md`](damage-status-model.md) §Reglas de composición (faction sobre DoTs, `OQ-ENGINE-13`).
   - **Ejemplos**: Proyectiles, Procs de Estado, Invocaciones temporales.
 
-### 2.2 El Escenario: Espacio Abstracto (Buckets de Estado)
-La simulación no utiliza coordenadas físicas (X, Y, Z), sino un **Escenario Abstracto** basado en condiciones lógicas:
+### 2.2 Condiciones en vez de coordenadas
+La simulación **no utiliza coordenadas físicas (X, Y, Z)**: expresa la situación como condiciones
+lógicas. Ese es el principio, y no cambia.
 
-- **Buckets de Distancia**: Rangos discretos que afectan el Falloff o el AoE (ej: `0-10m`, `10-20m`). *(Falloff parametrizado; el bucketing por distancia como variable de C2 sigue en diseño — ver `references/wiki/mechanics/damage-falloff.md` y OQ-ENGINE-7.)*
-- **Puntos de Impacto** *(diseñado, no implementado)*: zona de impacto (`Head`, `Body`, `Weakpoint`) — sin multiplicador por zona en `CombatSimulator.resolveHit()` todavía.
-- **Estados de Entorno**: Flags que describen el espacio físico sin geometría (ej: `Inside Magnetize Bubble`, `In Air`, `Sliding`).
+⚠️ **Lo que sí cambió: esto no es "el escenario".** Los tres ítems de abajo tienen **tres dueños
+distintos**, y agruparlos bajo un nombre único hacía parecer que pertenecían al mundo. El discriminador
+es el de §2.2.1: *sacá todos los participantes y mirá qué queda*.
+
+| Condición | Ejemplos | De quién es |
+|---|---|---|
+| **Buckets de distancia** | `0-10m`, `10-20m` — falloff, AoE | **la relación** source ↔ target, no el mundo |
+| **Punto de impacto** | `Head`, `Body`, `Weakpoint` | **la instancia** — es el slot ③ de [`arch-decisions.md`](arch-decisions.md) §21 |
+| **Estados de postura** | `In Air`, `Sliding` | **el participante** — sacás al jugador y desaparecen |
+| **Zonas de efecto** | `Inside Magnetize Bubble` | **otra entidad** — la habilidad que las creó |
+
+*(Falloff parametrizado; el bucketing por distancia como variable de C2 sigue en diseño — ver
+`references/wiki/mechanics/damage-falloff.md` y `OQ-ENGINE-7`. El multiplicador por punto de impacto
+sigue sin aplicarse en `CombatSimulator.resolveHit()`.)*
 
 ### 2.3 El Acumulador de Atributos (Stat Accumulator v3 - "The Audited Formula")
 Estructura de cálculo blindada para evitar ambigüedades en la suma y escalados cruzados.

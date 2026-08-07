@@ -1,10 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
-Impacto_ID: "E-OQ-FORMULAS"
+Impacto_ID: "E-Formulas"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-08-06"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -46,11 +46,33 @@ consumidor de producción hoy; su modelado se retoma por otro eje (`damage-statu
 
 ## 2. Duplicación vigente
 
-**Ninguna.** La única que hubo — CO inline vs. `weapon-condition-overload.ts` (introducida al
-implementar el modo estático de CO sin revisar que la fórmula ya existía) — se **reconcilió**:
-el motor consume `coBonusPct` (SSoT), el enum `CoBehavior` es único en
-`@shared/types/modifier`, y `applyConditionOverload` (terminal) queda reservada para C2. Es el
-patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
+**Una: la partición entero/fracción del multishot, escrita dos veces.**
+
+| Dónde | Qué hace |
+|---|---|
+| `simulate/combat/AtomicSimulator.calculatePelletCount` | `{ base: floor(m), extra_prob: m − floor(m) }` — lo consume el roll RNG del propio `AtomicSimulator` |
+| `formulas/weapon/weapon-multishot.ts` | `calculateMultishot` produce `guaranteed`/`chanceExtra` con **la misma operación**, y antes **recompone** `base × (1 + pct)` — que ya es trabajo del grafo (`WEAPON_ADD_MULTISHOT` → `instance.multishot`) |
+
+Es **drift convergente**, no copia: dos implementaciones nacidas de necesidades distintas, y por eso el
+origen no dice cuál sobrevive. Hoy la duplicación es **latente, no activa** — `weapon-multishot.ts` no
+tiene ningún consumidor (`weapon-crit.ts` tampoco), así que las dos ramas todavía no pueden divergir en
+producción.
+
+**No confundir con el eje esperado-vs-RNG.** Que `AtomicSimulator` parta el valor para tirar el dado y
+que `CombatCalculator` use `instance.multishot` como valor esperado **no** es duplicación: son los dos
+modos legítimos del mismo dato.
+
+**Cómo se reconcilia:** con el molde de §4 — una fórmula terminal no se enchufa entera al grafo, se
+extrae su primitiva componible y la composición final queda en el grafo. Aplicado acá sobrevive **una**
+primitiva —partir entero/fracción, lo único que el grafo no hace—; la composición no vuelve, e
+`isContinuous` es dato del arma, no fórmula. Mismo corte para `weapon-crit.ts`, wrapper sobre un
+`crit-base` que `AtomicSimulator` ya consume directo. **Gate:** el mismo de §6 — un consumidor C2 de
+producción.
+
+El caso CO —inline vs. `weapon-condition-overload.ts`— **no** es duplicación: el motor consume
+`coBonusPct` (SSoT), el enum `CoBehavior` es único en `@shared/types/modifier`, y
+`applyConditionOverload` (terminal) queda reservada para C2. Es el patrón de referencia grafo↔fórmula
+(ver §4 y `arch-decisions.md §9`).
 
 > Las duplicaciones históricas de crit (`AtomicSimulator`) y escala aditiva (`SimulationEngine`) ya
 > se resolvieron al conectar `crit-base` y `scaling-base`.
@@ -85,15 +107,15 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 
 ---
 
-## 3. Inventario (24 archivos)
+## 3. Inventario (25 archivos)
 
 | Archivo | Contenido | Vocabulario | Estado / acción |
 |---|---|---|---|
 | `common/crit-base.ts` | crit chance, tier, avg multiplier | agnóstico | ✅ consumido por `AtomicSimulator` |
 | `common/scaling-base.ts` | `applyAdditiveBonus`, `round2`, `clamp` | agnóstico | ✅ consumido (transitivo) vía `stat-accumulator` ← `SimulationEngine` |
 | `common/status-base.ts` | `PRIMARY_ELEMENTS`, `ELEMENT_COMBINATIONS`, `procWeightByType` | `DamageType` (pre-D-6: "heat", "cold") | migrar vocab a D-6 (§5) |
-| `weapon/weapon-crit.ts` | `calculateWeaponCrit` (delega a crit-base) | agnóstico | conectar cuando C2 tenga consumidor |
-| `weapon/weapon-multishot.ts` | `calculateMultishot`, `beamTickScaleFactor` | agnóstico | conectar cuando C2 tenga consumidor |
+| `weapon/weapon-crit.ts` | `calculateWeaponCrit` (delega a crit-base) | agnóstico | sin consumidor; **no basta con conectarlo** — es un wrapper sobre un `crit-base` que `AtomicSimulator` ya consume directo (§2) |
+| `weapon/weapon-multishot.ts` | `calculateMultishot`, `expectedHitInstances`, `beamTickScaleFactor` | agnóstico | sin consumidor; **duplica la partición entero/fracción de `AtomicSimulator` y recompone lo que el grafo ya compuso — colapsar antes de conectar (§2)** |
 | `weapon/weapon-condition-overload.ts` | `applyConditionOverload`, `coBonusPct` | agnóstico | ✅ `coBonusPct` consumido por `SimulationEngine` (§4); `applyConditionOverload` reservado para C2 |
 | `weapon/melee-combo.ts` | `meleeComboMult` (combo melee heavy) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
 | `weapon/sniper-combo.ts` | `sniperComboMult` (combo sniper) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
@@ -110,9 +132,10 @@ patrón de referencia grafo↔fórmula (ver §4 y `arch-decisions.md §9`).
 | `status/behaviors.ts` | fórmulas-estrategia por efecto + registro `EFFECT_BEHAVIORS` (reusa `dot-tick`/`dot-timeline`/`stack-debuff`) | `StatusEffect`/`DamageType` | ✅ **wired** ← `EnemyState` itera (los 6 efectos con LEY) |
 | `enemy/enemy-scaling.ts` | `scaleHealth`, `scaleArmor`, `scaleMult` + coefs curva-S | agnóstico (`faction: string`) | ✅ consumido por `EnemyRepository.scale` (orquestador); **movido de `EnemyRepository` (P1)** |
 | `enemy/armor-mitigation.ts` | `damageReductionFromArmor` (√3a/100) | agnóstico | ✅ consumido por `resolveHit` (checkpoint 2 de la reconciliación) además de `EnemyRepository.scale`; ⚠️ **migrar a scope `entity/`** con 2º consumidor DR (player/companion) — ver §7 |
-| `enemy/ehp.ts` | `effectiveHealthFromArmor` — `Health×(Armor+300)/300` (EHP lineal, diminishing sólo en el DR%) | agnóstico | primitiva DISPONIBLE (piso wiki); sin consumidor en el motor todavía |
-| `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | integrar con Ability System (inexistente) |
-| `ability/ability-status.ts` | `describeAbilityStatus`, `formatAbilityStatusLabel` | `DamageType` | integrar con Ability System (inexistente) |
+| `enemy/effective-health.ts` | `effectiveHealthVsEnemy` — `Health/(1−DR) + Shields`, componiendo la DR adoptada | **enemigo** | primitiva pura (el llamador aporta los tres números); **sin consumidor** |
+| `enemy/ehp.ts` | `effectiveHealthFromArmor` — `Health×(Armor+300)/300` (EHP lineal, diminishing sólo en el DR%) | **jugador** — mal ubicada bajo `enemy/`, y su docstring lo declara (`@domain … / Player / EHP`) | primitiva DISPONIBLE (piso wiki); **sin consumidor**; migración en §7 |
+| `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | **no es fórmula genérica**: es la excepción de **una** warframe (Gyre) y la matemática la delega a `crit-base`. **Se queda como está** — lo propio es dato de un caso, no una ley |
+| `ability/ability-status.ts` | `describeAbilityStatus`, `formatAbilityStatusLabel` | `DamageType` | ⚠️ **destino no definido** — mitad tipos vivos (compone vía `status-base`, wired) y mitad **presentación** (`formatAbilityStatusLabel`), cuyo hogar natural es el proyector (`lib/format`). No lo bloquea nada; nadie le asignó lugar |
 
 `enemy/` es el primer scope de **entidad-target** (el resto son `common` agnóstico + fuentes del
 atacante: `weapon`/`ability`). Las tablas de coeficientes de la curva-S se co-locan con su ley (son
@@ -177,13 +200,18 @@ con la capa de fórmulas muerta, §6), no de pasada.
 
 ## 6. Bloqueado por datos / sistemas ausentes
 
-- `ability/*` — requiere el Ability System (no implementado).
+- `ability/*` — **no está bloqueado por el Ability System.** El verbo **muta-state está construido**:
+  `AbilityRepository` (`resolve/hydration/`) consume el `upgrade_type` de una habilidad activa y emite
+  el buff cross-entity sobre la arista `source_entity` — `rhino.test.ts` verde al decimal (Roar
+  `+127% = 50×2.54`), `volt.test.ts` repartiendo tres buffs a tres destinos. Lo que falta son sus fases
+  siguientes (F2 corpus por verbo, F3 emite-instancia), y **ninguna bloquea a estos dos archivos**:
+  sus destinos están en la tabla de arriba. Ver `../../../governance/current-state.md`.
 - Conexión de `weapon-crit` / `weapon-multishot` — requiere un consumidor C2 de producción (hoy
   `combat/` está fuera del pipeline).
 
 ---
 
-## 7. Migración pendiente: DR a scope `entity/` (gate = 2º consumidor)
+## 7. Migración pendiente: DR y EHP a scope `entity/` (gate = 2º consumidor)
 
 `enemy/armor-mitigation.ts::damageReductionFromArmor` vive bajo `enemy/` sólo porque el único caso
 ejercitado hoy es el enemigo (`√3a/100`). Conceptualmente **DR no es enemy-specific**: es una
@@ -192,6 +220,23 @@ de DR (player `armor/(armor+300)`, companion, …) se verifica si sube a un scop
 por entidad (`entity → player | enemy | companion`), y si el primitivo debe componer una tabla de
 datos intrínseca como los coeficientes de `enemy-scaling`. **Sin framework polimórfico hasta
 entonces (YAGNI).** El nombre `damageReductionFromArmor` se conserva por ahora.
+
+**El mismo eje ya está partido en EHP — y ahí las dos leyes están escritas.** `enemy/` contiene las dos
+primitivas de Effective Health, con fórmula distinta por entidad:
+
+| Archivo | Ley | Entidad |
+|---|---|---|
+| `ehp.ts` | `Health × (Armor+300)/300` — equivale a `DR = Armor/(Armor+300)` | **jugador** |
+| `effective-health.ts` | `Health/(1−DR) + Shields`, con la DR adoptada `√3a/100` | enemigo |
+
+`ehp.ts` está mal ubicada y su propio docstring lo declara. **Ninguna de las dos tiene consumidor**, así
+que la divergencia es latente: el riesgo no es un número mal hoy, es que el primer consumidor de EHP
+tome la primitiva equivocada por el nombre de la carpeta — que es exactamente lo que el docstring de
+`ehp.ts` advierte (*"NO usar esto para EHP de enemigo"*).
+
+Por eso el veredicto no es "conectar" sino **EHP como primitiva de entidad: compone igual y despacha a
+la ley de DR de quien la pide.** Es la aplicación directa de *neutral en composición ≠ neutral en
+fórmula* (`arch-decisions.md §20`), y comparte el gate de arriba — el 2º consumidor.
 
 ---
 

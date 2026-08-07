@@ -4,7 +4,7 @@ Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT,
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-08-06"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/status-effects.md"
@@ -30,11 +30,37 @@ Dos principios de modelado gobiernan los verdictos de abajo:
 
 **Comportamiento:**
 - N stacks activos, cada uno con **timer independiente** (duración propia por tipo — tabla en `status-effects.md` §Duración).
-- Cap K por tipo (10 para la mayoría; 5 para Impact/Puncture; 4 en bosses/Overguard para Cold).
-- Sobre-cap: **reemplaza al stack más viejo**.
+- **Cap K por tipo** en el caso general: 10 para la mayoría, 5 para Impact/Puncture.
+- Sobre-cap: **reemplaza al stack más viejo** — el proc siempre entra; el cap decide si suma o reemplaza.
 - El modificador resultante es `f(stacks_activos_en_este_instante)`.
 
 Confirmado como el mismo mecanismo en Viral, Magnetic y Corrosive (detalle y citas en `status-effects.md` §Stacks e §Infection).
+
+### El cap no siempre es "por tipo": tres receptores traen **su propia tabla**
+
+No son desvíos de un parámetro — son **overrides parciales de la tabla entera de caps**, y cada uno
+trae la suya:
+
+| Receptor | Alcance | Excepción | Fuente |
+|---|---|---|---|
+| **Acolyte** | 4 para ***cualquier*** status | **Impact → 3** | *"can only receive up to 4 stacks of any Status Effect with the exception of Impact which can stack up to 3 times"* |
+| **Kuva Lich / boss** | 4 para ***cualquier*** status | **Impact → 6** | *"No Status Effect will exceed a maximum of 4 stacks, with the exception of Impact which can stack up to 6 times"* |
+| **Overguard** | **sólo Cold** | — | *"Cold — máximo 4 procs"* |
+
+**`Impact` es la prueba de que no alcanza un cap único desviable:** es el único que *no* se colapsa a 4,
+y toma **tres valores para el mismo parámetro** — default `5`, Acolyte `3`, Lich `6`. Un `cap + desvío`
+no puede expresar eso; una tabla por portador sí.
+
+**Las dos primeras filas son el mismo tratamiento con distinto valor**, y la fuente lo declara: los
+Acolytes recibieron *"the same Status Effect eligibility treatment that Liches received in Update
+27.3"*. Comparten la forma; el número difiere.
+
+⚠️ **Y el Lich trae un parámetro que ninguna otra fila tiene:** *"there is a **cooldown** to how quickly
+you can stack up Impact Status Effects to avoid stunlocking the Kuva Lich"*. Es una **tasa**, no un
+tope — no lo expresa ni un cap ni una tabla de caps. Sin modelar; se registra para que no se descubra
+dos veces.
+
+Quién resuelve estas tablas y con qué precedencia: `arch-decisions.md` §17.
 
 **Excepción — Heat:** consolida sus procs en un **pool único compartido**, no instancias independientes. No usa este primitivo (ver §Heat).
 
@@ -49,6 +75,12 @@ Confirmado como el mismo mecanismo en Viral, Magnetic y Corrosive (detalle y cit
 1. **True Damage bypasa la reducción de armor, NO los multiplicadores de capa.** "Ignora armor" ≠ "inmune a todo lo demás": el tick True de Bleed sigue siendo daño de capa-salud a efectos de Viral, que lo amplifica. (Evidencia: `status-effects.md` §Bleed.)
 2. **El faction bonus double-dipea en 5 DoTs**: Slash, Heat, Toxin, Gas, Electricity — `(1+faction)²` efectivo. La lista "afectados" de la página general de Faction Bonus estaba incompleta; no tratar ninguna lista de wiki como exhaustiva sin cruzarla. (Evidencia: `faction-damage.md`, `status-effects.md` §Electricity DoT.)
 3. **El crit se apila limpio con los multiplicadores de stack** — factores independientes, sin interacción rara.
+4. **"Vulnerable" nombra sólo a `Damage Vulnerability`.** Es la mecánica del **target** con página propia
+   (Molecular Prime, Reap, Petrify, y los procs de Viral/Magnetic): aplicada por un emisor, temporal,
+   filtrable por tipo/capa/clase de ataque. La matriz facción×elemento (③) se nombra **matriz** — es
+   innata y fija por facción. Son dos slots distintos del receptor y componen distinto; la wiki advierte
+   contra la confusión (`damage-vulnerability.md`: *"is not same as positive Damage Type Modifiers"*). Y
+   `Status Vulnerability` (Tau, §abajo) es un tercer sentido: vulnerabilidad a **status chance**, no a daño.
 
 > **Roar double-dipea — CONFIRMADO (2026-07-08, test in-game; ver §Evidencia).** `OQ-ENGINE-13` respondida:
 > los buffs de daño-final tipo Roar caen en el **mismo bucket aditivo** que los mods de facción (Expel/Bane)
@@ -59,7 +91,7 @@ Confirmado como el mismo mecanismo en Viral, Magnetic y Corrosive (detalle y cit
 Tests in-game (Akvasto Prime, Slash 169.4; hit **no-crit** al cuerpo; Roar +112.8%; Expel rank 5 +30%;
 target **lvl 215 normal**, sin Steel Path). Formato de celda: `Slash directo → tick de DoT`.
 
-| Condición | vs Arid Butcher (Grineer, Slash-neutral) | vs Charger (Infested, Slash-vulnerable ×1.5) |
+| Condición | vs Arid Butcher (Grineer, Slash-neutral) | vs Charger (Infested, Slash ×1.5 por matriz) |
 |---|---|---|
 | base (sin buffs) | 160 → **39**  | 287 → **39**  |
 | + Expel          | 208 → **66**  | 373 → **66**  |
@@ -83,10 +115,10 @@ buffs de habilidad, aditivos entre sí), no a "faction" a secas ni a la matriz �
 es el caso particular "bucket = sólo faction"; la lectura general es **`(1 + Σ pool②)²`**.
 
 **Eje ③ CERRADO (2026-07-08, DoT no-True).** Tests con Akvasto Prime (mods 60/60 → elemento 66, Slash 77,
-total 176) vs **Charger (Infested)**: Toxin es **neutral ×1.0**, Heat **vulnerable ×1.5** — misma base y
+total 176) vs **Charger (Infested)**: Toxin es **neutral ×1.0**, Heat **×1.5 por matriz** — misma base y
 coeficiente (0.5), así que el ratio Heat/Toxin **aísla la matriz**. Charger sin armadura → sin confound de DR.
 
-| Buffs | Toxin DoT (neutral) | Heat DoT (vuln ×1.5) | Heat / Toxin |
+| Buffs | Toxin DoT (neutral) | Heat DoT (matriz ×1.5) | Heat / Toxin |
 |---|---|---|---|
 | base   | 89  | 133 | ×1.49 |
 | +Expel | 150 | 225 | ×1.50 |
@@ -98,15 +130,31 @@ coeficiente (0.5), así que el ratio Heat/Toxin **aísla la matriz**. Charger si
 - **El pool ② sigue doblando** en ambos (Toxin y Heat: ×1.69 / ×4.53 / ×5.90 sobre su base).
 
 **Modelo completo — lo ÚNICO que double-dipea es el pool ②.** La matriz ③ single-dipea cuando aplica; True
-la bypasea (Slash bleed); la DR single-aplica (no-True) o se bypasea (True). Fórmula general del tick:
+la bypasea (Slash bleed); la DR single-aplica (no-True) o se bypasea (True); **`Damage Vulnerability`
+single-dipea y no se bypasea nunca**. Fórmula general del tick:
 
 ```
-DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σpool②)²
-DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × (1+Σpool②)²
+DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × DV(target,t) × (1+Σpool②)²
+DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × DV(target,t) × (1+Σpool②)²
 ```
 
 Los `(1+faction)²` de §Detalle se leen bajo esto: `faction` = el **pool ②** (mods de facción + buffs), que
 sí se dobla; la **matriz del target es aparte** y single-dipea. Datos crudos de todos los tests: `references/ingame-tests/double-dip.md`.
+
+> **`DV(target,t)` no es un término a implementar — es un término que faltaba escribir.**
+> `CombatSimulator.ts:98` computa `stateMultiplier = targetState.getDamageMultiplier(...)` y lo aplica
+> **siempre**, fuera del branch de `bypassArmorMatrix`, así que el tick ya lo paga. Se enumera acá
+> porque una fórmula que omite un factor que el código sí aplica es drift silencioso: invita a
+> "implementarlo" dos veces.
+>
+> **Es el mismo slot del receptor de `arch-decisions.md` §21**, y su comportamiento en el tick está
+> **medido**: `×2.000` exacto — single-dip —, contra el pool② que en la misma tirada dio `1.6² = 2.56`
+> (`references/ingame-tests/damage-buckets.md`, Test 7, error máximo 0.13%). **Ese contraste es el
+> criterio operativo de la frontera ②/③:** si se dobla en el DoT es del emisor; si no, del target.
+>
+> ⚠️ **Sin medir: `DV` sobre un DoT True (Slash bleed).** El Test 7 midió sobre Ignite (no-True). El
+> código lo aplica —`stateMultiplier` va antes del bypass— y esa es la posición vigente, coherente con
+> que DV sea un slot **independiente** de la matriz. **No está verificado contra el juego.**
 
 ### Reconciliación de `resolveHit` — Checkpoint 1
 
@@ -142,7 +190,7 @@ reemplazó al viejo `StatusEngine`: el tick se computa en `dot-tick.ts` (`dotTic
 el target vía `resolveDamageEvent`** (el mismo átomo agnóstico-al-origen que comparte con el hit directo).
 Contra la fórmula objetivo, el código de hoy **ya aplica**: `coef`, `modded_base` (innato × Serration, vía
 `dotModdedBase`), `(1+own_element)` y `(1+status_damage)` — los cuatro en `dotTickValue` — más la **matriz③
-(elem×facción) + DR + bypass de True** en `resolveDamageEvent`. **Lo único ausente es el `(1+Σpool②)²`**: el
+(elem×facción) + DR + bypass de True + `DV(target,t)`** en `resolveDamageEvent`. **Lo único ausente es el `(1+Σpool②)²`**: el
 double-dip del bucket de facción/buffs del source, elevado al cuadrado. Y hoy es no-op incluso
 estructuralmente — `dotModdedBase` lee solo `WEAPON_ADD_DAMAGE`, y el pool② (`GAMEPLAY_MULT_FACTION_DAMAGE`)
 está **sin miembros**: facción diferida (shim C2·F, `arch-decisions §16`), Roar sin wired.
@@ -152,8 +200,8 @@ no una incógnita — pero su implementación está **gated aguas arriba** por p
 incondicional (wireable hoy), los mods de facción son C2·F (RED). Fórmula objetivo:
 
 ```
-DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × (1+Σpool②)²
-DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × (1+Σpool②)²
+DoT no-True (Toxin/Heat/Gas/Elec):  0.5  × modded_base × (1+status_damage) × matriz(elem,facción) × DV(target,t) × (1+Σpool②)²
+DoT True (Slash bleed):             0.35 × modded_base × (1+status_damage) ×          [bypass ③]     × DV(target,t) × (1+Σpool②)²
 ```
 
 Datos crudos: `references/ingame-tests/double-dip.md` (**PROVISIONAL** — pendiente re-medición). Al
@@ -537,6 +585,118 @@ de **Heat sobrevive como su propia fórmula** (Heat ≠ Toxin), no como contened
 generación del proc (§Población/RNG; dedup chance×peso reconciliado en `formulas-integration.md §2`),
 crit (OQ-12), split snapshot/live fino (OQ-20), duración del proc en `HitContext` (source-side,
 `OQ-ENGINE-18`), efectos sin modelar, frontera 3.
+
+---
+
+## El proc y su primitiva — un nivel que la Ontología no nombra
+
+> **No redefine el Proc.** La Ontología (LOCKED) sigue intacta: `Instancia → Resolución → Proc → Tick`,
+> y el Proc sigue siendo *"efecto de estado aplicado al target, persistente, con ciclo de vida"*. Lo que
+> esta sección nombra vive **debajo** del Proc: **qué hace**, que puede ser más de una cosa y filtrarse
+> por separado.
+>
+> **Estado: no cerrado.** Se pliega a la Ontología —o se descarta— cuando un stage lo consuma.
+
+### La prueba es de runtime, no de diseño
+
+`references/wiki/mechanics/overguard.wikitext:37` —
+
+> *"On enemies, **they can receive Status Effects but** while their Overguard is active they will
+> completely ignore **the crowd control effects of** Stagger, Knockdown, Stun, Mind Control, Confusion
+> (including Radiation procs), Slow, Ragdoll, Blind, and Lifted"*
+
+Ese `but` es el corte operando en el juego: **el proc entra; una parte de lo que hace se apaga.** Y el
+caso que lo prueba sin ambigüedad es un proc **con daño** — `damage-heat-damage.wikitext:73`:
+*"Ospreys, Bosses, Tenno, and enemies with Overguard are immune to **this crowd controlling effect**"*.
+
+**Heat contra Overguard: el DoT entra, la reducción de armadura entra, el panic no.** Un proc, tres
+efectos, uno filtrado. El modelo actual —`EffectBehavior.effect: StatusEffect`, singular— no puede
+expresarlo: sólo puede aceptar o rechazar el proc entero.
+
+Y hay una **categoría transversal**: nueve efectos de familias distintas (postura, conciencia,
+movilidad, percepción) filtrados **como grupo**. Eso no es una lista de procs — es un atributo que el
+motor del juego consulta. Overguard está en **todos los Eximus**, así que no es un borde raro.
+
+### La fuente ya lo separa: `Name` ⊥ `Status[]`
+
+`references/wiki/sources/damage-types-data.md` §*`Name` es el proc · `Status` es la primitiva* — cada
+entrada del módulo trae `Name` (el proc) y `Status` (**array**, qué hace), y **varios procs comparten
+primitiva**: `Freeze` y `Slow` declaran los dos *slow*; `Knockback` y `Stagger`, los dos *stagger*. Es
+la distinción *"Freeze **usa** slow, no **es** slow"* declarada por la fuente, no derivada acá.
+
+⚠️ **Pero `Status[]` es prosa, no vocabulario.** DE no publica tokens de primitiva, así que la lista
+cerrada de primitivas es **endógena** —nace del label auditado, como `condition` en
+`../../../semantic/conditions.md`— mientras `DT_`/`PT_` son exógenos. No se miden con la misma vara.
+
+Un caso ya inexpresable hoy: `PT_KNOCKBACK` trae `{ "Stagger", "Increased health threshold for Mercy
+finisher" }` — el proc de Impact hace **dos cosas sin relación entre sí**, y `statusEffect: 'stagger'`
+sólo nombra la primera.
+
+### El criterio de pertenencia no lo elegimos nosotros
+
+> **¿Lo cuenta Condition Overload?**
+
+CO **no cuenta "procs": lee una lista cerrada y enumerada de 18** y la enumera **por tipo de daño**, no
+por nombre de proc (`condition-overload.wikitext` §*What Counts As A Status Effect?*): los 3 físicos +
+los 10 elementales + los 2 únicos (Void, Tau) + **3 "hidden" sin tipo de daño: Lifted · Knockdown ·
+Microwave**. Corroborado por segunda vía independiente: en `status-effect.wikitext` §*Independent from
+Damage* **sólo esas tres** dicen *"Counts as an individual status for Condition Overload, Galvanized…"*.
+
+`Damage Vulnerability` **no** está en la lista.
+
+### El corte: qué se modela y qué queda simbólico
+
+| Entra al motor porque… | Quiénes |
+|---|---|
+| **hace daño** | los 15 con `DT_ → PT_` |
+| **cuenta para CO sin hacer daño** | Lifted · Knockdown · Microwave |
+| **altera el eje temporal** | la primitiva `slow` (Freeze, Gloom, Nova, Molecular Prime) |
+| **nada de lo anterior → símbolo** | Stagger · Big Stagger · Stun · Ragdoll · Sleep · Silence · Impair *(PvP)* · Parried · Disarmed · `PT_VOID` · `PT_GLUE` |
+
+**El corte separa procs, no primitivas.** Que `PT_STAGGERED` sea simbólico no hace simbólica a la
+categoría CC: Overguard **la lee** para apagar el panic de Heat sin tocar su DoT. Es carga útil.
+
+> **"Simbólico" es el efecto físico, no la presencia de la marca.** Entra al motor: **si la marca está
+> o no**. Queda simbólico: **que el enemigo efectivamente vuele, caiga o se tambalee.** Son dos
+> preguntas, no una — y colapsarlas lleva a *"CC es simbólico ⇒ la inmunidad a CC es simbólica"*, que es
+> falso: CO **cuenta presencia**, y las tres que cuentan sin hacer daño dependen de inmunidad física.
+
+| Proc | Quién lo aplica | Si el target es inmune |
+|---|---|---|
+| **Microwave** | **exclusivo** de Nukor / Kuva Nukor | esa arma pierde un stack de CO |
+| **Lifted** | heavy attacks · **todos los heavy slams** · Void Levitation · Bonewidow · Sevagoth *Embrace* · Mausolon · Telos Boltace — **melee casi entero** | el slam pierde su aporte a CO |
+| **Knockdown** | Sonicor · Mag *Pull* · Rhino · Zephyr · Vazarin… | ídem |
+
+🔴 **Y un tercer mecanismo, más caro que los dos anteriores** — `status-effect.wikitext` §*Status
+Immunity Interactions*: *"When an attack procs a status effect on an enemy which is immune to a
+particular proc type, **the respective damage type is excluded from proc type chance calculations**"*.
+**La inmunidad no resta una: redistribuye la chance a las demás.** Cambia la distribución entera de
+procs, que es la entrada de todo §Población/RNG.
+
+### Tres mecanismos eran uno
+
+*proc type immunity* (en el sorteo) · *Status Immunity* (al nacer) · *CC suppression* (en cada lectura)
+son **la misma forma muestreada en tres `t` distintos**. Como el motor muestrea estado igual en los tres
+(`arch-decisions.md` §20), *"cuándo"* deja de ser una distinción estructural: son un filtro, no tres.
+
+### Lo que cuantifica el corte — Acolyte vs Eximus a nivel cap
+
+| | Reducción de armadura |
+|---|---|
+| 1 stack de Corrosion | 26% |
+| **4 stacks** (tope de Acolyte/Lich) | 26 + 6×3 = **44%** |
+| 10 stacks (normal) | **80%** |
+
+Contra armadura al cap, `damage-corrosive-damage:25` pone 10 stacks en **×6 de daño efectivo**. El
+Acolyte se queda a menos de la mitad de la reducción → **el build de daño directo le gana al build de
+status con CO**. Eso **invierte qué arquetipo gana**, que es para lo que existe el proyecto — no es un
+número más grande.
+
+Lo que constituye un caso de prueba distinto no es la entidad sino su **juego de reglas**:
+`{ cap_status, inmunidades_por_proc[], armadura, capas, facción, modificadores_por_tipo }`. **El valor
+está en las reglas; la entidad es el envase** — bosses, Liches y Acolytes entran como preset, sin
+modelar fases ni habilidades. *(Contra-presión registrada, no resuelta: queda abierto si un preset
+alcanza siempre.)*
 
 ---
 

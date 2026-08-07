@@ -102,8 +102,6 @@ de que D exista) es prematuro.
 
 ## Lineaje de decisión (D12–D16)
 
-> Origen: `.working/` purgado tras graduar.
-
 - **D12 — Test progresivo = diagonal.** Un consumidor, linaje de aserciones en orden de dependencia (no N
   fixtures horizontales). El linaje puede vivir dentro de un mismo test como secuencia de aserciones.
 - **D13 — Test de lógica ≠ test de estabilidad.** El fixture trae una cadena de derivación esperada por nodo

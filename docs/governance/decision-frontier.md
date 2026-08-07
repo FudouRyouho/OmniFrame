@@ -4,7 +4,7 @@ Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-08-06"
 ---
 
 # Decision Frontier
@@ -23,6 +23,7 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **Frontera de dominios**: los dominios (`domains/*`) **no importan `@core`** (reafirma Restricción 1 de `Project/CLAUDE.md`). `@core` = dominio de lógica A/B/C; la UI y la Capa D (consumo derivado, `ViewModelContract`) cruzan por `@shared`. `consume()` = **salida de C** en `@core`, consumida por scripts/tests (no-dominios); **no es Capa D**. Oráculo de verificación = **CLI, no MCP** (MCP diferido). Ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7.
 - **`@providers → @core` PERMITIDO**: la capa de composición (`@providers`, adapter) **sí** importa `@core` — `EnsembleProvider` → `@core/intention/ensemble-store`. Adapter→core = dirección correcta de Ports&Adapters; la Restricción 1 protege a los dominios de feature, **no** a la capa de composición. **No contradice** la frontera anterior (`@providers` no es un dominio de feature). Ver `closed-decisions.md` (DC-OQ-ENGINE-9).
 - **Estructura interna de `@core`**: `@core/{bridge (B), intention (A1), engine/{resolve (C1), simulate (C2), formulas, output, contracts, bootstrap, fixtures}}`; gemelo-de-entrada en `@shared/types/ensemble.ts`. Residual gated por D: eje (b) armonía harness/`output` (split de `fixtures/` hecho en Slice E). Ver `closed-decisions.md` (DC-OQ-ENGINE-9) y `open-questions.md` (OQ-ENGINE-9).
+- **El motor NO simula el comportamiento del enemigo** — su movimiento, su puntería, su ciclo de ataque, su reacción al control de masas. El target es una **entidad que recibe daño y porta estado**, no un agente. La exclusión es de diseño: el costo no es la regla de comportamiento sino toda la infraestructura para ejecutarla con fidelidad, y **ninguna mecánica modelada hoy depende de lo que el enemigo hace** — los estados físicos que sí tienen consecuencia numérica (`Lifted`, `Knockdown`, `Microwave`) la tienen por **presencia de marca**, que Condition Overload cuenta sin mirar comportamiento. Consecuencia registrada en `open-questions.md` (`OQ-ENGINE-32`).
 
 **Abierto**:
 - Umbrales de conmutación para el **Modo Probabilístico** (Energy Threshold).

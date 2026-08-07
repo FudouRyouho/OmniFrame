@@ -14,7 +14,7 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { consume } from '../output/consume';
-import { volt, voltSpeed, VOLT, TIBERON_PRIME, voltChannelArcanes, rhinoRoar } from '../fixtures/builds';
+import { volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 

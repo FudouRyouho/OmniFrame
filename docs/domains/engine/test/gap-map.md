@@ -4,7 +4,7 @@ Rol: "Mapa sistemático de lo que el engine ignora o procesa a medias — el ter
 Impacto_ID: "E-GapMap"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-06-10"
-Fecha_de_actualizacion: "2026-08-01"
+Fecha_de_actualizacion: "2026-08-06"
 ---
 
 # Mapa de gaps del engine
@@ -16,7 +16,7 @@ Inventario de **lo que el engine NO construye todavía** — a propósito: no se
 > genera un buff cuando lo modelable es el buff— no entra acá: se difiere y se marca como `it.todo`
 > en el test que lo toca, que es donde el motor lo grita al correr.
 
-> Origen: barrido datos↔código (snapshot `.working/` purgado tras promover). Conteos **indicativos** (remapeos `UPGRADE_MAP`/`resolveToken` no siempre 1:1); el patrón es sólido, los números se mueven ±pocos por caso.
+> Origen: barrido datos↔código. Conteos **indicativos** (remapeos `UPGRADE_MAP`/`resolveToken` no siempre 1:1); el patrón es sólido, los números se mueven ±pocos por caso.
 
 ---
 
@@ -35,9 +35,17 @@ Grafo genérico de atributos (`SimulationEngine`): un pass topológico (Kahn) �
 |---|---|---|
 | `arcane-stats.override` | 102 `upgrade_type` + 145 condition | 🚧 **v0 cargado** — subset mapeado (ver abajo) |
 | `ability-stats.override` | 1236 `upgrade_by` (scaling) | No cargado → ver Capa 5 |
-| `passives-stats`, `companions`, `vehicles`, `archwing-weapons` | varios | No cargados |
+| `passives-stats`, `vehicles`, `archwing-weapons` | varios | No cargados |
+| `companions`, `enemies` | varios | ✅ **cargados como participantes** — ver nota |
 
 > **`arcane-stats` v0:** `ArcaneRepository` activo (`DataLoader` lo carga; clave = uniqueName). Slot dedicado `arcanes` en la intención (hermano de `mods`, top-level por canal — heterogéneo: warframe=2, armas=1, Zaw/archgun varios). Resuelve a `Modifier` directo, **sin `DamageCombiner`** (el daño de arcano no se combina con el del arma — naturaleza distinta, como shards). Fluye solo el subset con `base_value` + `upgrade_type` poblados (siempre-activos + condicionales con token); se omiten `base_value:null` (stacking, OQ-DATA-4) y `upgrade_type:null` (status resists, fórmulas per-stat, operador/amp). Clamp de rank (no todos 0-5). Consumidor: `__tests__/arcane.test.ts`. Fuera de v0: stacking, weapon-type gate (OQ-DATA-5), cross-entity warframe→arma (OQ-DATA-1).
+
+> **`companions` y `enemies` son participantes, no fuentes pendientes.** `DataLoader` los carga:
+> `ItemRepository.loadCompanions()` guarda al compañero en su propio índice —el motivo declarado es que
+> comparte los cuatro pilares y el molde de avatar, así que no necesita repositorio aparte—, y `enemies`
+> se carga **dos veces a propósito**: `EnemyRepository` lo escala para C2 (`ScaledEnemy`),
+> `ItemRepository` lo hidrata como participante de C1. Son dos usos del mismo raw, no una duplicación de
+> la fuente. Consumidores: `__tests__/companion.test.ts`, `__tests__/enemy.test.ts`.
 
 > **`archon-shards` ya NO es gap:** `ShardRepository` está activo (resuelve shards, emite `Modifier` con `target_entity`; ver `status.md` y `rhino.test.ts`).
 

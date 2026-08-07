@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-07-31"
+Fecha_de_actualizacion: "2026-08-07"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -417,8 +417,8 @@ heredar sin que alguien escriba la línea que la llama. Mismo estatus que `clamp
 
 ## 13. `EnemySnapshot`: primer pull-read C1-declarado sobre el estado del target
 
-**Decisión:** primer primitivo para `condition` cuyo **sujeto** (§8-adyacente, eje "quién" de
-`.working/c1-simulation-doctrine.md` §4-T5) es el **target**, no el jugador/loadout. Un objeto
+**Decisión:** primer primitivo para `condition` cuyo **sujeto** (§8-adyacente, el eje "quién":
+self / target / ally) es el **target**, no el jugador/loadout. Un objeto
 congelado de dos campos — `EnemySnapshot { max_health, current_health }` — derivado de
 `EnemyRepository.scale()` (pipeline "0", ya existente) contra un `health_pct` que el **consumidor
 declara explícitamente** (C1-declarado, §8.1 escalón 2 — sin timeline, sin RNG). `deriveEnemyFlags(snapshot)`
@@ -451,8 +451,8 @@ proyecta el snapshot a los flags de `condition` que activa (hoy: `while_enemy_be
 - Test end-to-end real (`enemy-snapshot.test.ts`): Arid Butcher escalado (pipeline "0") + Sicarus
   Prime/Feigned Retreat, `health_pct` declarado en 0.3/0.5/0.8 — confirma que el flag responde al
   snapshot derivado, no a un valor a mano.
-- Cierra la primera instancia concreta de `.working/c1-simulation-doctrine.md` §5 (concepto
-  `snapshot`, antes "no formalizado, pendiente de casos") y resuelve `while_enemy_below_half_health`
+- Cierra la primera instancia concreta del concepto `snapshot` (antes "no formalizado, pendiente
+  de casos") y resuelve `while_enemy_below_half_health`
   en `conditions.md` G3 (perfil Sicarus únicamente).
 - Enlaza con **§8** (modo asumido primero, C1 como suelo de C2) y **§9/§10/§11/§12** (mismo patrón:
   primitivo mínimo, consumido explícitamente, sin ruteo implícito heredado). Cita cruzada:
@@ -498,9 +498,11 @@ de qué hace un status es **agnóstica al eje source/target** — no es "fórmul
   (snake_case). Esto resuelve la confusión de vocabulario del marco §1 (una habilidad que aplica Corrosion
   sin daño corrosivo ahora cae limpio) — mismo cambio, dos problemas.
 - `EnemyState.getDamageMultiplier`/`getEffectiveArmor` → **orquestadores** (leen stacks, llaman la LEY;
-  ya no la contienen). Coeficientes de `GameLaws` (configurables, override vía `MutatorBridge`) → parámetros
-  de las fórmulas per-efecto. El armor-strip por tiempo de Heat (Ignite) NO es Familia A (rampa temporal) —
-  se queda inline como excepción documentada.
+  ya no la contienen). Los coeficientes que las fórmulas per-efecto reciben son **parámetros**, y su
+  dueño lo fija **§17**: el default vive con la fórmula, el desvío en el portador. `GameLaws` como tabla
+  global —y su override vía `MutatorBridge.extractLaws`— **no sobrevive a esa partición**: un valor plano
+  no tiene dónde poner su procedencia. El armor-strip por tiempo de Heat (Ignite) NO es Familia A (rampa
+  temporal) — se queda inline como excepción documentada.
 - `procWeightByType` (ley de SELECCIÓN de proc) migrada `common/status-base.ts → formulas/status/proc-selection.ts`.
   `ELEMENT_COMBINATIONS` (ley de TIPO de daño) se queda en `common/` — eje ortogonal.
 - **Partición por composición (damage-flow-model §5):** Familia A (extraída), Familia B (`stackDecayBonusPct`,
@@ -610,3 +612,671 @@ real** — Roar, *wired* vía `AbilityRepository`: el buff incondicional del war
 **Enlaza con §9/§10** (CO/Combo, multiplicadores
 independientes), **§14** (facción-en-DoT = ③; double-dip steady-state = build-debt, transitorio = OQ-20), **§15** (Roar = miembro incondicional del
 pool). Cita: `calculating-bonuses.md`, `faction-damage.md`, `condition-overload.md`, `melee-combo.md`.
+
+---
+
+## 17. Ley ⊥ parámetro: `GameLaws` no es una ley, y su forma no admite la respuesta
+
+**La definición, falsable.**
+
+> **Ley = la forma de la mecánica.** Qué existe, qué compone con qué, en qué orden. Es la fórmula: no
+> se configura, se escribe.
+> **Parámetro = un número de esa forma.** Tiene un default y puede desviarse desde el emisor o desde
+> el receptor.
+
+**Test:** cambialo. ¿Sigue siendo la misma mecánica? *Corrosive con 12 stacks en vez de 10* → sí →
+**parámetro**. *Corrosive que no reduce armadura* → no → **ley**. Las leyes pertenecen al **concepto**:
+*"la toxina ignora escudos"* no es propiedad del enemigo, es lo que la toxina **es**. Por eso ya viven
+donde deben — `formulas/status/stack-debuff.ts` lo declara textual: *"constantes de ley fija"*.
+
+**Por qué `GameLaws` se cae — estructural, no por casos.** Es una tabla plana de valores, y **un valor
+plano no tiene dónde poner su procedencia**. `corrosive_initial_strip: 0.26` no puede expresar *"0,26
+por defecto · 0,50 si el receptor lleva la marca de Hydroid · +2 al cap si el emisor tiene esmeralda ·
+salvo que el receptor sea un boss"*. `MutatorBridge.extractLaws` escanea entidades buscando
+`law_corrosive_*` — **el escaneo era correcto; aplanar la procedencia era lo que había que no hacer.**
+
+**Dos dueños, no tres.** El escenario **no lleva parámetros de mecánica** (§18 de
+[`simulation-architecture.md`](simulation-architecture.md) — decide qué participantes existen y con
+qué forma):
+
+| Qué | Dueño |
+|---|---|
+| **Ley** — la forma | el **concepto**, con su fórmula |
+| **Default del parámetro** | el **concepto**, junto a su fórmula |
+| **Desvío del parámetro** | el **portador** |
+
+Los ocho números de configuración de status —los seis de `GameLaws` más `WEAKENED_MAX_STACKS` /
+`FREEZE_MAX_STACKS`— pertenecen al mismo lugar donde `WEAKENED_CRIT_LAW` ya vive. **`GameLaws` baja a
+`formulas/`, no al revés.**
+
+### La cadena de resolución — cuatro eslabones de entidad, y no es aritmética
+
+```
+default                              ← del concepto, con la fórmula
+  → ¿el EMISOR modifica la salida?      desvío del source de la instancia
+  → ¿el RECEPTOR modifica la entrada?   marca portada por el target
+  → ¿el RECEPTOR fuerza?                cap — límite, no valor
+```
+
+**`modifica` ⊥ `fuerza` — dos verbos.** `modifica` cambia el **valor** (pasiva de Hydroid: `26% → 50%`);
+`fuerza` pone un **límite** sin tocar la fórmula (Acolyte: `N ≤ 4`). Son parámetros distintos del mismo
+efecto: un receptor puede forzar el cap sin tocar el coeficiente — de ahí que cinco fragmentos esmeralda
+(`+10` al cap) no rindan nada contra un Acolyte.
+
+**No compiten y por eso el orden es indiferente:** cada desvío conocido toca un parámetro **distinto**.
+Cuando el receptor declara sobre uno, el desvío del emisor sobre **ese mismo** no llega. La regla no es
+*"el receptor gana"* —si lo fuera el esmeralda no funcionaría nunca—: es **precedencia, no dominancia**.
+El receptor gana **cuando habla**; si calla, rige el emisor.
+
+**No hay circularidad.** Las dos declaraciones son independientes (el shard dice `+2` sin mirar nada; el
+Acolyte dice `4` sin mirar nada) y la instancia las compara: **función de dos argumentos, no recursión**.
+La cadena `receptor → cap → N → strip → armor → DR → daño` es acíclica.
+
+**El parámetro resuelto es de la INSTANCIA, no del receptor.** Con dos emisores de cap distinto, el
+enemigo tiene **un** contador pero el cap efectivo difiere por jugador. Mismo patrón que
+`elegible(m, instancia)` en la resolución de `Damage Vulnerability`.
+
+### La aplicación de un proc sobre-cap: **suma o reemplaza; nunca se rechaza**
+
+```
+count <  cap_del_que_aplica  →  count++                      (SUMA)
+count ≥  cap_del_que_aplica  →  refresca el stack más viejo   (REEMPLAZA — count no cambia)
+```
+
+Es el *"sobre-cap: reemplaza al stack más viejo"* del primitivo de stack tracker
+([`damage-status-model.md`](damage-status-model.md)), redactado para un emisor y **válido sin cambios
+para dos**. Medido con dos jugadores de caps 19 y 10 en
+`references/ingame-tests/status-stack-caps.md`: *mantener es refrescar, subir es sumar* — el cap sólo
+bloquea lo segundo.
+
+🔴 **`min(cap, count + 1)` no implementa esta regla.** Colapsa el contador hacia abajo (`count=19`,
+`cap=10` → da 10; el juego da 19) y coincide con la regla real sólo mientras haya **un** emisor. Es el
+`applyProc` vigente de los stack-debuff en `formulas/status/behaviors.ts` — bug latente, no activo.
+
+⚠️ **Y arrastra el estado:** `StackState { count: number }` es escalar, y *"reemplaza el más viejo"*
+opera sobre **instancias**. Es el caso real que `OQ-ENGINE-16` pedía estresar con dato.
+
+### Tres regímenes de composición, y la línea los separa por naturaleza
+
+| Régimen | Qué | Ejemplo |
+|---|---|---|
+| **componen** | cantidades del daño | `Damage Vulnerability`, buckets — `∏(1 + Σ)` |
+| **se resuelven** | parámetros de la forma | caps, coeficientes — precedencia |
+| **recencia** | instancias de la misma fuente | Sonar: *"gana el cast más reciente, aunque sea menor"* |
+
+**No hay test *a priori* que prediga si un desvío reemplaza o compone** — Hydroid dice *"50% **rather
+than** 26%"* (reemplaza) y `Damage Vulnerability` dice *"**multiply** the damage"* (compone), y ambos son
+"el receptor modifica un número". Se lee de la fuente, no se deduce. Correlación útil: página de
+mecánica propia con reglas declaradas → compone; *"X rather than Y"* / *"does not increase"* / *"can
+only receive up to N"* → reemplaza o fuerza.
+
+### Un portador puede traer una **tabla**, no sólo un desvío
+
+Tres receptores no desvían un cap: **overridean parcialmente la tabla entera de caps**
+([`damage-status-model.md`](damage-status-model.md) §*El cap no siempre es "por tipo"*). `Impact` lo
+prueba — toma **tres valores para el mismo parámetro**: default `5`, Acolyte `3`, Lich `6`.
+
+**Consecuencia para el canal de desvío:** su unidad no puede ser *"un número con su override"*. El
+portador declara **sobre qué parámetros habla**, y para los que no nombra rige el default del concepto.
+Es la misma precedencia de arriba aplicada a un conjunto en vez de a un escalar — *gana cuando habla*
+sigue valiendo, sólo que ahora "hablar" es tener fila en su tabla.
+
+### La fórmula **pregunta**; el portador no trae fórmula propia
+
+Que un efecto rinda distinto según quién lo recibe **no multiplica las leyes**. Hay una sola que
+ramifica:
+
+| Caso | Qué cambia |
+|---|---|
+| DoT de Heat en jugador vs enemigo | los números, no la ley |
+| `Radiation` en Acolyte (*"sólo amplifica el daño de unidades aliadas"*) vs en Lich (*"no cambia la facción; aumenta el daño recibido de los que se volvieron contra él"*) | la rama, no la ley |
+
+`resolutionModifier(state, t, …)` **ya ramifica** — lo que hoy no puede es preguntarle nada útil al
+portador, porque sólo recibe un objeto plano de números.
+
+> **Y de ahí sale un prerequisito, no un desbloqueo:** si la fórmula ramifica por tipo de portador,
+> **el tipo tiene que ser legible**. El canal de desvío *necesita* que la entidad tenga clase — no
+> alcanza con que se la habilite después.
+
+### El escenario **no** es un quinto eslabón de la cadena
+
+El único candidato —*"Bosses are immune to Hydroid's passive, **except in the Simulacrum**"*— no es el
+escenario resolviendo un parámetro: en Simulacrum el boss **se instancia sin su marca de boss**. El
+escenario actúa **antes** de la cadena, decidiendo qué participantes existen y con qué forma (§1 del
+modelo de capas), no dentro de ella. La cadena queda en cuatro eslabones.
+
+### Este canal es el gate común de cuatro pendientes
+
+Cuatro ítems de `open-questions.md` están parados **por la misma razón**, y ninguno lo declara: todos
+esperan que el portador pueda llevar datos propios y resolverlos al ser consultado.
+
+| Ítem | Cómo lo dice hoy |
+|---|---|
+| `OQ-ENGINE-12` | *"falta el flag `boss`/`overguard` en el DNA del enemigo"* |
+| **Overguard como capa de entidad** | *"se retoman si un consumidor las pide"* |
+| `OQ-ENGINE-22` (EHP/DR `enemy/`→`entity/`) | *"sin consumidor real hoy"* |
+| `OQ-ENGINE-28` (resistencias por entidad) | *"sin consumidor"* |
+
+**No son cuatro gates: es uno.** Y el dato ya está esperando en el contrato — `eximus_health?` se emite
+hoy *"sin consumidor todavía"*.
+
+**Enlaza con** §14 (LEY/ESTADO/RESOLUCIÓN), §16 (pools), §18 (el ruteo decide **a quién** llega el
+desvío), §20 (la entidad se lee como `f(estado en t)` — este canal es lo que hace legible su clase).
+Cita: `references/ingame-tests/status-stack-caps.md`,
+`references/wiki/mechanics/{damage-corrosive-damage,acolytes,bosses,overguard}.wikitext`,
+`references/wiki/archon-shards/emerald-archon-shard.wikitext`.
+
+---
+
+## 18. El ruteo: una regla, no tres — el token declara el nodo, el alcance declara a quién
+
+**El estado que reemplaza:** tres reglas para una sola pregunta, ninguna declarada como principal —
+**contención** (el efecto se queda en quien porta el mod, default silencioso, `ModRepository`),
+**taxonomía** (el token declara la familia destino, `channel-routing.ts`) y **excepción**
+(`portador === arma && token.startsWith('AVATAR_')`, `StaticHydrator`). El drift es medible: Corrosive
+Projection (portador warframe, token `ENEMY_*`) no matchea ninguna excepción, cae a contención y **muere
+en el warframe** — el motor grita `Token conocido sin nodo: ENEMY_ADD_ARMOUR`.
+
+**Tres ejes, no dos.** Un solo modifier involucra tres entidades que pueden diferir, y confundirlas es
+de donde nacen las excepciones:
+
+| Eje | Pregunta | Ejemplo donde difiere |
+|---|---|---|
+| **Portador** | ¿dónde está montado? | Amalgam Serration, en el rifle |
+| **Sujeto leído** | ¿de quién se lee el estado que evalúa su condición? | un mod de arma cuya condición lee la armadura del warframe |
+| **Alcance** | ¿a quién le aterriza el efecto? | al warframe |
+
+El eje del medio **no lo ve un barrido de tokens** — un token declara el atributo, no la condición. Su
+descomposición (**QUIÉN** self/target/ally ⊥ **QUÉ** status-type/stat/count) vive en
+[`../../../semantic/condition-nature.md`](../../../semantic/condition-nature.md) §Eje 2.
+
+### La regla
+
+> **El token declara qué nodo toca. El alcance declara a quién.**
+> Si el portador no materializa el token, se rutea **dentro del alcance**; si dentro del alcance no hay
+> destino, **se descarta y se reporta** — nunca se va al vecino.
+
+**Su forma precisa, y cómo se rompe:**
+
+> **El `{dónde}` del token se resuelve relativo al portador, subiendo por el árbol de propiedad hasta la
+> primera entidad de esa clase.**
+> **Restricción:** el destino se decide por el token **relativo al portador**, nunca por *ausencia de
+> nodo*. Donde el destino llega y el nodo no existe, no pasa nada **y se reporta**.
+> Se rompe con: un token que necesite un `if` en el engine para llegar a donde va.
+
+**El árbol es `Jugador → {warframe · compañeros · armas} → instancias`.** El warframe **no** es padre
+del compañero — cuelgan del mismo nodo, y por eso la ambigüedad *"warframe o compañero"* desaparece sin
+necesidad de un eje de rol. La propiedad **se deriva del poblador**, que ya la conoce y hoy la descarta.
+
+**El alcance tiene tres niveles**, y se deriva del **bando** (una marca), no de qué nodos porta la
+entidad:
+
+| Alcance | Qué alcanza | Casos |
+|---|---|---|
+| **propio** | el conjunto del dueño | Amalgam Serration → mi warframe · Bite → mis garras |
+| **aliado** | el squad y todo lo que lo compone | Roar, Warcry, las auras (*"Squad receives…"*) |
+| **hostil** | el otro bando | Corrosive Projection |
+
+El nivel *aliado* lo fuerzan las auras y Warcry: alcanzan *"otros Warframes, compañeros, rehenes,
+objetivos de Defense, Shadows y Specters"*. Un objetivo de Defense recibe Warcry y **no es el avatar de
+nadie** — así que el alcance no puede derivarse de la clase de nodos de la entidad.
+
+⚠️ Las `routes` vigentes (`avatar`, `weapon`, `melee`, `enemy`) **son taxonomía disfrazada**: describen
+qué nodos porta la entidad, no de qué lado está. Funcionan por la misma razón que funcionaba
+`!isWarframe` — con la población actual, coinciden.
+
+**Verificación — los tres corpus, sin truncar:** mods 887 pares / 45 desalineados · arcanos 100 / 21 +
+13 de operador-amp · fragmentos de arconte 27 / 6 + 7 sin token. **Ningún caso refuta la regla**; uno la
+acota, por dos caminos independientes. La regla resuelve ~37 (`warframe → WEAPON_`, `warframe →
+ENEMY_`); la **propiedad** resuelve ~19 (`arma → AVATAR_`, `melee → AVATAR_` — sin ella serían ambiguos
+entre warframe y compañero, que llevan la misma marca).
+
+**La cláusula de descarte es regla, no parche.** La fuerzan **dos familias independientes** con el mismo
+defecto —*el portador pertenece a un conjunto cuya entidad-destino no existe en el motor*—: garras de
+Kavat/Kubrow (7 mods, 12 tokens) y amp/arcanos de operador (13). Que aparezca dos veces por separado es
+lo que la vuelve regla.
+
+⚠️ **Precisión: la cláusula es preventiva, no correctiva.** Hoy esos mods **no llegan al rifle** — la
+excepción de `StaticHydrator` exige `holder.domain === 'weapon'`, el compañero no lo es, así que
+Bite/Maul/Frost Jaw mueren montados en el gato (lo reporta el tripwire). Irían al rifle **si se aplicara
+ruteo por familia sin la cláusula**.
+
+**Lo que queda fuera de la regla: los set mods no tienen emisor individual.** 58 mods en 19 sets, con las
+piezas repartidas en dos o tres entidades y magnitud dependiente del loadout completo. No es ruteo mal
+resuelto — **es un emisor que no existe**. `OQ-DATA-6`.
+
+### El drift a reconciliar — no es diseño abierto
+
+El contrato ya está escrito en
+[`../../../semantic/upgrade-tokens.md`](../../../semantic/upgrade-tokens.md) §Frontera negativa, y el
+código no lo cumple. **El criterio de aceptación es externo:**
+
+| `upgrade-tokens.md` declara | El código hace |
+|---|---|
+| `AVATAR_*` = el avatar del portador (**relativo**) | `FAMILY_ROUTE: { AVATAR: 'avatar' }` — clase **absoluta** |
+| el token declara tres cosas y sólo tres | tres reglas de ruteo + una excepción por dominio |
+| *"un `if` … convierte un error detectable en uno invisible"* | `if (holder?.domain === 'weapon' && token.startsWith('AVATAR_'))` |
+
+**Enlaza con** §19 (el ruteo lleva el token; el nodo lo compone — el mismo test los exige a los dos),
+§17 (el ruteo decide a quién llega un desvío).
+
+---
+
+## 19. La frontera nodo ↔ ley: el nodo lleva el frame-0, la ley lleva el tiempo
+
+**El riesgo que cierra:** el **doble camino** — que un armor strip entre por el nodo *y* por la ley de
+stacks sin que nadie sepa cuál manda.
+
+**La cadena vigente, verificada en código:**
+
+```
+enemies.json → EnemyRepository.load()  → EnemyDNA (armor crudo)
+                    ↓ scale(dna, level)                 ← f(nivel), curva-S, FUERA del grafo
+             ScaledEnemy { current_armor, … }
+                    ↓ new EnemyState(base, laws)
+             getEffectiveArmor(t) = base.current_armor × Π armorMult(t)   ← f(t), multiplicativo
+```
+
+Dos hechos que fija el código: `getEffectiveArmor(currentTime)` **es f(t) por construcción** y
+multiplicativo entre efectos (Corrosive, rampa de Heat); y `EnemyRepository.scale` **ya es una
+transformación pre-grafo**, igual que el `rank` de un warframe.
+
+**Los tres tramos:**
+
+| # | Tramo | Ejemplo | Dueño | ¿Existe? |
+|---|---|---|---|---|
+| 1 | Dato al nivel declarado | curva-S de `scaleArmor` | molde de normalización (pre-grafo) | sí |
+| 2 | Composición estática declarada | Abating Link −60%, Plunder | **nodo C1** `ENEMY_ADD_ARMOUR` | **no — el hueco** |
+| 3 | Evolución temporal emergente | N stacks de Corrosive, rampa de Heat | **ley C2** `getEffectiveArmor(t)` | sí |
+
+> **El nodo lleva el frame-0. La ley lleva el tiempo.**
+> `this.base.current_armor` deja de venir del `ScaledEnemy` y pasa a ser el `final` del nodo.
+> `getEffectiveArmor(t)` no cambia una línea.
+
+Es *"C1 compone, C2 realiza"* aplicado al target — la mitad que nunca se construyó porque el enemigo
+nunca fue entidad de C1.
+
+**El test de la frontera — se aplica por VALOR, no por fuente.** Ante un valor nuevo: **¿depende de
+`t`?** No → nodo. Sí → ley. Lo que la frontera prohíbe es que **un mismo valor** se resuelva por los dos
+caminos — ése es el doble camino, y ahí sigue sin haber tercer caso.
+
+**Lo que NO prohíbe: que una fuente aporte a los dos tramos.** Es lo normal, no la excepción, y la tabla
+de arriba ya lo parte así. Abating Link declara un `−60%` (tramo 2, nodo) y está vigente mientras el
+link dure (tramo 3, ley): son dos preguntas distintas sobre el mismo efecto — *cuánto vale* y *cuándo
+cuenta*—, y cada una vive en su tramo una sola vez.
+
+**El caso que lo fuerza a decirse: `Damage Vulnerability`** (§21). Su vigencia depende de `t` —es el
+único de los cinco slots receptores que varía en el tiempo—, y su magnitud compone como bucket:
+`(1 + Σ bucket_add) × ∏(1 + magnitud)`, con los 8 miembros aditivos enumerados por la fuente y el resto
+multiplicativo (medido: Paralysis × MP = `×1.5 × 2.0` → 1001 contra 1002 predicho). Leerlo como
+contradicción —*"tiene duración luego es ley, pero compone como buckets luego es nodo"*— es aplicar el
+test a la fuente en vez de al valor. **La composición no es un tramo: es ortogonal a los tres.** Una ley
+también compone; `getEffectiveArmor(t)` lo hace con `Π`, `Damage Vulnerability` con `(1+Σ) × ∏`.
+
+**Lo que desbloquea:** hoy no hay respuesta para *"¿cómo compone Abating Link (−60%, declarado) con 8
+stacks de Corrosive (emergente)?"*. Con la frontera, el nodo resuelve el `final` con el strip adentro y
+la ley aplica sus multiplicadores sobre ese `final` — cada uno en su tramo, una sola vez. Vale igual
+para `ENEMY_ADD_HEALTH_MAX` y `ENEMY_ADD_SHIELD_MAX` (Magnetic sobre escudos).
+
+**Examen ejecutable:** `__tests__/enemy.test.ts` — `it.todo('−18% de armadura al enemigo: 500 → 410')`.
+Exige las dos mitades: que §18 lleve el token al enemigo y que el nodo lo componga. Cuando pase a verde
+**sin excepciones hardcodeadas**, la frontera está construida.
+
+**Enlaza con** §18 (la otra mitad del mismo examen), §14 (LEY/ESTADO/RESOLUCIÓN), §16 (pools).
+
+---
+
+## 20. Cómo se lee una entidad: `f(estado en t)`, sin lectura privilegiada
+
+> **Todo lo que una entidad tiene se lee igual: como función de su estado en `t`.** La entidad guarda
+> **marcas** (dato puro) y **capas** (números). **Nada derivado.** Marca, armadura, vida y overguard
+> son la misma clase de cosa al componer.
+
+Hoy no es así: cada parte del proyecto lee la entidad a su manera, y el enemigo tiene maquinaria
+temporal que el jugador no tiene (§2 de la Capa A no distingue bandos; el código sí).
+
+### La prueba de que es muestreo y no eventos
+
+`references/wiki/mechanics/damage-heat-damage.wikitext:73` —
+
+> *"the effect will also trigger **as soon as an enemy's Overguard breaks**, even if new Heat procs are
+> not being actively applied"*
+
+La marca entró entera (cuenta CO, corre el DoT); una parte de su efecto queda suprimida mientras
+Overguard vive; al caer Overguard, se expresa **sin instancia nueva**. **No hay evento que detectar —
+hay muestreo**, igual que `armadura@t`. El precedente ya está construido: el armor strip de
+Ignite/Corrosion se evalúa así.
+
+### No hay circularidad
+
+`marca` (dato) y `portador` (capas) **no se consultan entre sí**; sólo la **expresión** los consulta a
+los dos. El ciclo aparece únicamente si la expresión **se materializa** — porque entonces hay que
+invalidarla, y la invalidación es lo que cierra el lazo. Mientras la expresión sea una lectura, la
+dependencia es un árbol.
+
+### Los tres verbos del portador
+
+Cierran como **forma**, no como vocabulario — son los tres modos en que un portador desvía lo que
+recibe, y los tres son del **lado receptor** de §17:
+
+| Verbo | Ejemplo | Forma | Momento |
+|---|---|---|---|
+| **ignora** | Overguard vs los efectos CC | conjunto ∩ conjunto | continuo |
+| **topea** | Overguard: *"maximum of 4 Cold procs"* | cap sobre cantidad | continuo |
+| **escala** | `Damage Vulnerability` | multiplicador con filtros | continuo |
+
+El régimen **difiere por portador**, y eso es fidelidad, no caso especial: en jugadores Overguard
+*"will negate **all** Status Effects, including Stagger and Knockdown"* (la marca entera); en enemigos
+filtra sólo el CC (la marca entra, una parte de su efecto no).
+
+**No hay un cuarto verbo, y el candidato obvio se descompone.** `Radiation` en un Kuva Lich *"no cambia
+la facción; aumenta el daño recibido de los que se volvieron contra él"* — parece que el portador
+**sustituyera** el efecto por otro. No lo hace: es `ignora` (la primitiva *cambio de facción* no se
+expresa) más `modifica` (la primitiva de daño lee otro sujeto), **encadenados**. Es la misma forma que
+Overguard apagando el panic de Heat sin tocar su DoT.
+
+> **Por qué no hace falta más:** la resolución **no es una tabla estática que el portador reescriba** —
+> es una **cadena de preguntas que la instancia evalúa** (§17). La tabla es el *default*; el receptor
+> declara sobre ella, y quien compara es la instancia. Un verbo `sustituye` sólo haría falta si el
+> portador trajera fórmula propia, y §17 ya cerró que **la fórmula pregunta, el portador no la trae**.
+
+Esto es lo mismo que midió el caso de los 19 stacks de Corrosive: el receptor **declara** (`cap 10`), no
+**reescribe** — el contador siguió en 19 y lo que cambió fue qué podía hacer cada emisor con él.
+
+### ⛔ `is_cc` no se acuña — y el motivo es el criterio de la campaña
+
+El concepto queda —hay un cruce, el portador lo condiciona, se muestrea con el resto del estado— pero
+**el término no se materializa**: ni como marca, ni como nombre propio, ni como tag.
+
+**Por qué:** el corpus todavía **no lee entidades de forma sincronizada**, y acuñar el término antes de
+que exista esa sincronización produce **`GameLaws` 2.0** — un nombre con autoridad prestada, sin la
+estructura que lo sostenga. §17 documenta cómo termina eso. El término se gana el lugar cuando haya una
+sola lectura de entidad, no antes.
+
+### La neutralidad es de la **marca**, no de la entidad
+
+La marca es neutral, y eso la fuente ya lo declara: `status-effect.wikitext` §*Independent from Damage*
+dice **"Universal:"** en 11 de 14 filas (*"**Players and enemies** get staggered"*). No hay que inventar
+esa parte: hay que leerla.
+
+⚠️ **Lo que NO se sigue de ahí es que la entidad se defina por sus capas.** Una sola página del corpus
+lo refuta — `references/wiki/mechanics/overguard.md`:
+
+| Qué manda | Evidencia |
+|---|---|
+| **la clase** | *"Only **Warframes, Companions, Specters, and Eidolon Lures** are able to receive Overguard. Consequently, it **cannot** be given to **Defense Objects**"* |
+| **no el bando** | Defense Object y Warframe **están del mismo lado y no comparten la regla** |
+| **ni la capa sola** | *"On **players**… negate **all** Status Effects"* ↔ *"On **enemies**… ignore the **crowd control** effects"* — **misma capa, dos reglas** |
+
+**Una entidad con las capas vacías no es "neutra": es una entidad de la que todavía no sabemos la
+clase.** El principio `f(estado en t)` se sostiene, pero su argumento no es sólo el estado — la lectura
+de una marca depende de **qué clase la porta**, y esa clase es dato de la entidad, no de sus capas.
+
+> **Consecuencia:** este principio **exige que la clase sea legible**, igual que §17 lo exige para el
+> canal de desvío. Son dos vías independientes pidiendo lo mismo.
+
+### El límite del principio: **neutral en composición ≠ neutral en fórmula**
+
+*"Todo se lee igual"* vale para **cómo se compone**, no para **con qué ley se resuelve**. Una entidad
+puede componer sus nodos por el mismo molde y resolverlos por leyes distintas — y el caso está en el
+código, escrito por triplicado:
+
+| Entidad | Ley de DR | Dónde |
+|---|---|---|
+| **jugador** | `DR = Armor / (Armor + 300)` | `formulas/enemy/ehp.ts` — *la primitiva del jugador viviendo bajo `enemy/`* |
+| **enemigo** | `DR = √(3·Armor) / 100` | `formulas/enemy/armor-mitigation.ts` |
+
+**Misma composición** (armor sale del grafo igual para los dos), **distinta resolución**. Confundirlo es
+el riesgo de la neutralidad ingenua: generalizar el contenedor y arrastrar la ley del caso que se
+ejercitó primero.
+
+> **La forma correcta:** EHP como **primitiva de entidad** que compone igual y **despacha a la ley de
+> quien la pide**. Las dos leyes ya están escritas; **falta el despacho.**
+
+Y el propio código lo pide desde los dos lados, en docstrings independientes:
+`armor-mitigation.ts` — *"DR **NO es enemy-specific**: es una primitiva del ciclo de la entidad"*;
+`ehp.ts` — *"**NO usar esto para EHP de enemigo**"*. Esa segunda advertencia existe porque el lente
+`enemy` del oráculo iba a conectarse ahí y **habría revertido en silencio a la fórmula equivocada**.
+
+⚠️ **Deuda que arrastra, y es de ubicación, no de cálculo:** `ehp.ts` está **roto declarativamente** —
+es la primitiva del jugador bajo `enemy/`, sin consumidor. `OQ-ENGINE-22` es su eje.
+
+### Un booleano no alcanza — hay dos gatings observablemente distintos
+
+| Gating | Caso | Qué pasa si esperás |
+|---|---|---|
+| **supresión** | Overguard vs el panic de Heat — la marca corre, la expresión no | **se agota** |
+| **congelamiento** | Equinox *Rest*: *"unable to recover… until they wake"* — la marca no corre | **no pasa nada** |
+
+Un flag `suprimido: bool` colapsa los dos, aunque se lo ponga en tres capas distintas.
+
+### C1 no se fractura
+
+C1 **no tiene `t`, tiene escenario**: responde el régimen **estacionario**; C2 responde la
+**transición**. Es la diferencia normal C1/C2, no una fractura nueva que este principio introduzca.
+
+### Lo que el motor no puede hacer hoy — medido
+
+- **`StatusEffect` (15 entradas) cubre sólo los procs con origen de daño.** Lifted, Knockdown, Microwave
+  y Slow **no existen en el código**, y los tres primeros **cuentan para Condition Overload**, que sí
+  está implementado. **El motor cuenta status y no puede contar tres de los que el juego cuenta.**
+- **`effectOfDamageType(type) → StatusEffect | null` es la única puerta.** Un proc sin tipo de daño no
+  tiene por dónde entrar. (Ver `../../../semantic/damage-types.md` §*La Arista 1 es 1:1 en una sola
+  dirección*.)
+- **`SimulationEngine` cuenta sin padrón:** `context.variables[status_count_var] ?? 0`. El juego lee una
+  **lista cerrada y enumerada de 18** (`condition-overload.wikitext` §*What Counts As A Status
+  Effect?*); nosotros contamos lo que haya.
+- **`ResolutionModifier` sólo expresa `armorMult` y `layerMult`** — no el filtro por tipo de daño ni por
+  vía de entrega, que `Damage Vulnerability` sí necesita (§16, y la medición en
+  `references/ingame-tests/damage-buckets.md`).
+
+### Tercera llegada independiente a la misma forma
+
+> **La marca es neutral y sólo dice qué. El par (marca, portador) dice qué hace. El lado
+> (propio/hostil) dice cómo compone.**
+
+§18 llegó a *"token neutral, destino relativo al portador"* desde el ruteo; el barrido de qué porta una
+entidad llegó a *"marca neutral, significado según quién la porta"*; este principio, a *"marca neutral,
+expresión función del portador"*. **Tres caminos separados, una estructura** — la señal más fuerte que
+produjo la campaña.
+
+**Enlaza con** §17 (el lado receptor: `ignora`/`topea`/`escala` son sus desvíos), §18 (misma forma desde
+el ruteo), §13 (`EnemySnapshot`, el pull-read sobre el estado del target).
+
+---
+
+## 21. El lado receptor: cinco slots, y `Damage Vulnerability` es el único que varía en `t`
+
+Hoy `resolveDamageEvent` resuelve `damage × stateMultiplier × typeMultiplier × (1 − dr)`. El lado
+receptor completo —que nunca había estado escrito junto— tiene **cinco** slots:
+
+| Slot | Qué es | De dónde sale | ¿Varía en `t`? | Estado en código |
+|---|---|---|---|---|
+| matriz facción × elemento | ×1.5 / ×0.5 uniforme | `FACTION_BONUS` (15 facciones) | no | ✅ `targetFactionMult` |
+| **resistencia por unidad** | Hyekka Master 80% a Heat | **la fila de esa unidad** | no | ❌ ni dato ni código |
+| **`Damage Vulnerability`** | Molecular Prime, Reap, Petrify… | **aplicada por un emisor** | **sí** | ⚠️ parcial |
+| multiplicador de parte | ×3 cabeza `+ ExtraHeadshotDmg` | `weakpoints[]` (407) + el arma | no | ❌ dato sí, consumidor no |
+| DR de armadura | `1 − √(3·AR)/100` | `armor` − strips | sí | ✅ `damageReductionFromArmor` |
+
+**Son cinco filas distintas, no capas de lo mismo**, y el discriminador es §20: la resistencia por
+unidad responde *"¿está en la fila del dato de la unidad?"* → **clase/identidad**; `Damage
+Vulnerability` responde *"¿es condición temporal?"* → **estado**. Fusionarlas colapsaría esa partición.
+
+> **Y no choca con §19.** `Damage Vulnerability` varía en `t` (→ ley) **y** compone como bucket
+> (`(1+Σ) × ∏`), que parece meterlo en los dos tramos. No lo hace: el test de §19 se aplica **por
+> valor**, y acá hay dos valores distintos —*cuánto vale* la marca y *cuándo está vigente*—, cada uno
+> en su tramo una sola vez. La composición es ortogonal a la frontera: una ley también compone.
+
+La fuente lo dice con la frase exacta —`references/wiki/mechanics/damage-vulnerability.md`—:
+*"Damage Vulnerability is **not same as** positive Damage Type Modifiers which is an **innate
+property** to enemy health"*. `innate` es el discriminador, textual.
+
+### El engine ya implementa `Damage Vulnerability` — dos veces, sin nombrarla
+
+`EnemyState.getDamageMultiplier` es *"el producto de los `layerMult` de los efectos activos
+(Viral/Magnetic)"*, y la fuente clasifica **exactamente esas dos** como fuentes de DV. **Es el mismo
+mecanismo, ya construido y ya poblado.**
+
+Lo que falta no es el mecanismo: es **su canal de entrada**. Hoy la única puerta es **ser un
+`StatusEffect`** (itera `activeBehaviors()`), y Molecular Prime no es un proc, Reap no es un proc,
+Petrify no es un proc. **Ninguna de las ~30 fuentes restantes puede entrar.**
+
+```
+hoy:      getDamageMultiplier → activeBehaviors()             → sólo procs
+después:  getDamageMultiplier → portadores de DV en el target → procs ∪ debuffs ∪ mods ∪ arcanos
+```
+
+**Y `layerMult` no se deriva a primitiva: se reclasifica.** No es un mecanismo — es la implementación
+de **un filtro (por capa) de un slot (DV)**. Al generalizar deja de ser campo de `EffectBehavior` y pasa
+a ser un caso del predicado de elegibilidad. Cierra sin pérdida: Viral y Magnetic siguen siendo
+miembros, con su filtro expresado en el vocabulario general en vez de en un campo dedicado.
+
+### Elegibilidad ⊥ composición
+
+`bucket_id` no estaba mal — estaba **incompleto**. Son dos preguntas, y ninguna implica la otra:
+
+| Pregunta | Quién responde | Naturaleza |
+|---|---|---|
+| ¿**participa** este DV en esta instancia? | el **filtro** | predicado booleano, **previo** |
+| ¿**cómo** compone con los que sí participan? | `bucket_id` | aritmética, **posterior** |
+
+**Demostrado en las dos direcciones por las fuentes primarias.** El bucket aditivo (8/8 verificados)
+mezcla **5 sin filtro** (Atomi-Barrage · Containment Wall · Petrify · Jade's Judgments · Prey of Dynar)
+con **3 filtradas por tipo** (Magus Accelerant · Magus Destruct · Theorem Contagion). Y del lado
+multiplicativo, **Paralysis** (melee) convive con **Molecular Prime** (sin filtro) y **Lull**
+(Finisher). **El filtro no reparte buckets.**
+
+```
+DV(instancia, target, t) =  (1 + Σ   magnitud)  ×  ∏  (1 + magnitud)
+                              m ∈ bucket_add       m ∉ bucket_add
+                              elegible(m, inst)    elegible(m, inst)
+```
+
+Otra vez `∏(1 + Σ)` — la forma canónica de cualquier stat (§16). **Ambas etapas son producto/suma, así
+que conmutan: no hay orden de composición que decidir.** Lo único que no conmuta es `elegible()`, que
+no es una operación aritmética.
+
+**El filtro es un predicado, no un peso** — medido: un rifle contra un enemigo con `Melee Damage
+Vulnerability` activa da **el mismo número exacto** (25 → 25). No aporta poco: **no entra al producto**.
+
+**Cuarto filtro, que las fuentes destaparon solas: el estado del target.** Petrify — *"tied to being
+petrified; enemies that cannot be petrified will not have it applied"*; Bonewidow *Firing Line* —
+*"receive 1.5x Damage Vulnerability from all sources **while Lifted**"*. Es el cruce que §20 cerró como
+concepto y decidió **no** acuñar (`is_cc`); que aparezca sin ir a buscarlo valida esa decisión.
+
+### 🔴 El hueco que bloquea: la Instancia no declara de qué clase de ataque viene
+
+`elegible(m, instancia)` necesita tres datos. **Dos existen:**
+
+| Dato | Estado |
+|---|---|
+| tipo de daño | ✅ `damageToken`; `Resolucion.as` ya lo declara explícito |
+| capa golpeada | ⚠️ `hitsShields` **binario** — `effect-behavior.ts:15`: `type Layer = "health" \| "shields"` |
+| **clase de ataque** (melee · finisher · weapon · ability) | ❌ **no existe** |
+
+**Sin el tercero, Paralysis y Lull son inmodelables** — no por su magnitud, sino porque nadie puede
+preguntar si aplican. `Resolucion` declara `as` (*con qué tipo resuelve*) y le falta el hermano: **de
+qué viene**. La Instancia nace target-agnóstica y llega al target sin procedencia de arsenal.
+
+Y **la capa no es binaria**: la fuente nombra `overguard` tres veces, y `enemy-resistances.md` registra
+que Magnetic es *"el único status con stacking propio contra Overguard"*. El `(overguard: futuro.)` del
+código es el mismo hueco visto desde el otro lado.
+
+### Lo que la medición ya validó de la arquitectura vigente
+
+`resolveDamageEvent` aplica `stateMultiplier` **una vez**, y el tick de DoT resuelve por ahí →
+**single-dip por construcción**, correcto antes de que lo midiéramos (`×2.000` medido).
+
+> 🔴 **Restricción dura:** `Damage Vulnerability` **no puede** entrar a `GAMEPLAY_MULT_FACTION_DAMAGE`
+> (§16). Es la tentación obvia —Reap y Roar tienen la misma forma `+X% daño`— y daría **`×4` donde el
+> juego da `×2`: 100% de error en el tick.** Era inferencia desde el hit; ahora es **dato medido en el
+> tick mismo** (`references/ingame-tests/damage-buckets.md`, Test 7).
+
+**Enlaza con** §20 (clase ⊥ estado, el discriminador de la tabla), §16 (pools y el bucket del emisor),
+§14 (LEY/ESTADO/RESOLUCIÓN), `../../../semantic/damage-types.md` (los procs que sí son fuente de DV).
+
+---
+
+## 22. Qué es una entidad: `capa` ⊥ `estado` ⊥ `clase`
+
+§20 dice que todo se lee como `f(estado en t)`, y §17 que el portador resuelve sus parámetros. **Los dos
+necesitan saber qué clase de entidad es** — y hasta acá "clase" se venía usando sin definir. Esta sección
+la define, y separa tres cosas que el corpus lista juntas.
+
+### El test de tres vías
+
+Ante cualquier propiedad de una entidad, **una sola pregunta la clasifica**:
+
+| Pregunta | Es… | Ejemplos |
+|---|---|---|
+| ¿tiene **cantidad que se agota**? | **capa** | overguard · overshield · shield · health |
+| ¿es **condición temporal**? | **estado** | procs · `Damage Vulnerability` · invulnerabilidad |
+| ¿está en **la fila del dato de la unidad**? | **clase / identidad** | eximus · acolyte · warframe · compañero |
+
+Las tres son excluyentes y ninguna propiedad conocida entra en dos. §21 ya lo usa para separar la
+**resistencia por unidad** (clase) de `Damage Vulnerability` (estado); acá queda declarado en vez de
+prestado.
+
+⚠️ **La invulnerabilidad no es una capa**, aunque se dibuje en la misma barra: no tiene cantidad, tiene
+**duración**. Es el único ítem de la cadena `health → shield → overshield → overguard` que es estado, y
+confundirlo lleva a intentar "restarle" daño.
+
+### `capa` ⊥ `clase` — Eximus **otorga** una capa, no **es** una capa
+
+**Prueba pedida:** ¿existe algo que sea Eximus y no se explique por lo que Eximus otorga?
+
+> `eximus.wikitext:116` — *"Unlike typical Eximus, **Prosecutors have 10x base Health rather than
+> Overguard**"*
+> `:121` — *"Unlike typical Eximus, **Warden Eximus have +1.2 base Health rather than Overguard**"*
+
+**Existen Eximus sin Overguard.** Ser Eximus no es reducible a lo que porta → **no es estado, es clase.**
+Y eso reinterpreta la lista de excepciones de `overguard.md`: no es *"el tipo sobrescribe a la clase"* —
+es que **Overguard es una propiedad que la clase suele otorgar y no la define**.
+
+Refuerzo de la misma fuente: *"Almost any base unit type (Osprey, Lancer, MOA, etc.) **can spawn as** an
+Eximus"* y *"over their **normal counterpart**"*. **Se decide al instanciar, no en runtime** — que es la
+firma de una clase, no de un estado.
+
+**Y la prueba independiente, in-game:** un Eximus bajo *Mind Control* **no deja de ser Eximus** al pasar
+al bando aliado. El bando cambia, la clase no.
+
+### La lectura de una marca depende de la clase, no del bando
+
+`references/wiki/mechanics/overguard.md` lo ejercita en una sola página:
+
+- *"Only **Warframes, Companions, Specters, and Eidolon Lures** are able to receive Overguard.
+  Consequently, it **cannot** be given to **Defense Objects**"* — Defense Object y Warframe **están del
+  mismo lado y no comparten la regla**.
+- *"On **players**… negate **all** Status Effects"* ↔ *"On **enemies**… ignore the **crowd control**
+  effects"* — **misma capa, dos reglas**.
+
+La wiki escribió *"on players / on enemies"* porque esos conjuntos son disjuntos en la práctica, **pero
+el discriminador real es la clase**. Consecuencia verificable: un compañero con Overguard lee **como un
+warframe**, y un Eximus mind-controlled sigue leyendo **como Eximus**.
+
+**Y el jugador no está en la lista:** portan el warframe y sus hermanos. **El jugador es nodo de
+propiedad, no portador** — cierra el árbol de §18 sin retoques.
+
+### 🔴 `Boss` no pasa el test — no es una cosa sola
+
+A diferencia de `Eximus` y `Acolyte`, `Boss` mezcla **cuatro registros**:
+
+| Registro | Evidencia | Qué es |
+|---|---|---|
+| **rol de misión** | *"There are **seven types** of bosses"*: Normal · Field · Hardmode · Assassin · Adversary · Quest · Event — clasificados por **dónde aparecen** | ❌ no es propiedad de la entidad |
+| **inmunidad a CC** | declarada en `ragdoll` y `stagger`, **no en la página de Bosses** | ✅ clase, mal ubicada |
+| **exclusiones por habilidad** | `{{ver|18.5}}`: *"Zephyr's Tornado will no longer ragdoll boss-type enemies"*, ídem Valkyr *Paralysis*, Volt *Shock* | ⚠️ lista enumerada patch a patch |
+| **tope de status** | `{{ver|27.3}}`: sólo **Kuva Liches**, y DE lo declara *"our **first step**… we work towards applying this to other Bosses/VIPS"* | ⚠️ **rollout incompleto por declaración de la fuente** |
+
+**`Acolyte` sí pasa:** familia cerrada y nombrada (Angst · Malice · Mania · Misery · Torment · Violence)
+con reglas propias que **no son reducibles a lo que porta** — no hay capa ni marca que explique su tope
+de status.
+
+⚠️ **Y las exclusiones de 18.5 están escritas del lado del emisor** (*"la habilidad X ya no hace Y a
+bosses"*), no del receptor (*"bosses ignoran Y"*). **El fraseo de la fuente no dice dónde vive la
+regla** — misma asimetría emisor/receptor de §17, y motivo suficiente para no derivar la clase `Boss`
+de esa lista.
+
+**Enlaza con** §17 (el canal de desvío necesita esta clase), §20 (`f(estado en t)` la necesita para
+leer una marca), §21 (el test separa la resistencia por unidad de `Damage Vulnerability`).
+Cita: `references/wiki/mechanics/{overguard,eximus,acolytes,bosses}` + los raws hermanos.

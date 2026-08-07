@@ -270,7 +270,7 @@ C → D → salida cruda → E (enriquece + hidrata) → UI
 **Pendiente de verificación (checkpoint, no decisión):** ¿los componentes de arsenal ya tienen acceso directo a `DataRegistry`/`0`, o reciben chrome **solo** vía la sombra? Si es lo segundo, purgar fuerza lecturas-de-`0` nuevas (más caro). Confirmar con el código en mano antes de cantar "barato".
 
 **Condición para reabrir:** el eje 2 (centralización en `E`) se retoma al estabilizar `A→D→UI` + `A=UI`; el mapa de candidatos es el gate. El modelo de 2 canales y la separación de ejes no se reabren sin evidencia nueva.
-**Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-ENGINE-10), `DC-OQ-ENGINE-10-A/-B`, `DC-OQ-STUB-1`. Plan de stages: `.working/` (scratchpad, no SSoT).
+**Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-ENGINE-10), `DC-OQ-ENGINE-10-A/-B`, `DC-OQ-STUB-1`.
 
 ---
 

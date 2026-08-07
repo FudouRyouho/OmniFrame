@@ -9,8 +9,7 @@ Fecha_de_actualizacion: "2026-07-29"
 
 # Data Domain — Decisiones (D-series)
 
-Registro de decisiones del dominio `data/` y su pipeline. Reemplaza el extinto
-`.working/engine-semantic-foundation.md` con un formato formal y evolutivo.
+Registro de decisiones del dominio `data/` y su pipeline, en formato formal y evolutivo.
 
 ## Estados de decisión
 

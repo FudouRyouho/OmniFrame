@@ -17,6 +17,8 @@ const PERFECT_ACCURACY = 100;
 export class ItemRepository {
   private static weaponItems: Map<string, any> = new Map();
   private static warframeItems: Map<string, any> = new Map();
+  private static companionItems: Map<string, any> = new Map();
+  private static enemyItems: Map<string, any> = new Map();
 
   private static loadInto(target: Map<string, any>, data: any[]) {
     if (!Array.isArray(data)) return;
@@ -37,6 +39,16 @@ export class ItemRepository {
     this.loadInto(this.warframeItems, data);
   }
 
+  /** Carga un bloque de enemigos en el repositorio (sólo para participar del espacio). */
+  public static loadEnemies(data: any[]) {
+    this.loadInto(this.enemyItems, data);
+  }
+
+  /** Carga un bloque de compañeros en el repositorio. */
+  public static loadCompanions(data: any[]) {
+    this.loadInto(this.companionItems, data);
+  }
+
   /**
    * Obtiene el ADN de un item mapeado desde el dataset. No conoce el kind de
    * antemano (mismo vocabulario de ids para arma/warframe) — prueba ambos Maps.
@@ -48,72 +60,147 @@ export class ItemRepository {
     const warframe = this.warframeItems.get(uniqueName);
     if (warframe) return this.normalizeWarframe(warframe);
 
+    const companion = this.companionItems.get(uniqueName);
+    if (companion) return this.normalizeCompanion(companion);
+
+    const enemy = this.enemyItems.get(uniqueName);
+    if (enemy) return this.normalizeEnemy(enemy);
+
     return null;
   }
 
   /**
-   * Merge raw→DNA de un warframe: stats base de avatar (no tiene ataques). El raw
-   * expone health/shield/armor/energy reales (mismo molde que `flight` de
-   * projectile_speed — dato en fuente, sin override). Cada nodo usa el attr del
-   * token ADD como id, para que mods (%) y shards (flat) compongan sobre la misma
-   * base — fórmula `Total = Base × (1 + Mods%) + Flat` (ver armor.md, UPGRADE_MAP).
+   * IDENTIDAD DE UNA ENTIDAD — la parte del DNA que no depende de qué clase de cosa sea.
+   *
+   * POR QUÉ EXISTE. `normalizeWarframe` y `normalizeWeapon` terminaban con el MISMO epílogo copiado,
+   * y `normalizeEnemy` con una tercera variante escrita a mano que ya divergía (armaba `tags` con
+   * otro criterio). Eran tres respuestas distintas a una pregunta que no depende de la entidad:
+   * *cómo se llama, qué taxonomía porta, qué la etiqueta*. Lo que SÍ depende de la entidad es qué
+   * nodos materializa — y eso es el `profiles` que cada molde le pasa.
+   *
+   * `domain`/`kind`/`family` quedan ausentes si el raw no los trae: un enemigo no es un ítem del
+   * arsenal y no se le inventa una taxonomía que el pipeline no le dio.
+   */
+  private static normalizeEntity(
+    raw: any,
+    profiles: Record<string, Record<string, number>>,
+    extra: Partial<MutatedDNA> = {},
+  ): MutatedDNA {
+    return {
+      entity_id: raw.unique_name,
+      ...(raw.domain ? { domain: raw.domain } : {}),
+      ...(raw.kind   ? { kind:   raw.kind   } : {}),
+      ...(raw.family ? { family: raw.family } : {}),
+      tags: [raw.domain, raw.kind, raw.family, ...(raw.tags || [])].filter(Boolean),
+      profiles,
+      ...extra,
+    };
+  }
+
+  /**
+   * NÚCLEO VITAL — los stats que porta cualquier cosa del lado del jugador que puede morir.
+   *
+   * Warframe y compañero comparten los tres, y el token declara el dominio del STAT, no la
+   * naturaleza de quien lo porta: la armadura de un Kavat se acumula igual que la de un warframe
+   * (`references/wiki/warframes/valkyr/warcry.md`).
+   *
+   * **Gate por presencia, no `?? 0`.** Un stat ausente NO se materializa. La diferencia importa: un
+   * nodo con base 0 acepta un buff porcentual y devuelve 0, que es un número falso presentado como
+   * verdadero; sin nodo, el buff no aterriza y el tripwire de `StaticHydrator` lo grita. Es el mismo
+   * criterio que el gate `flight != null` de projectile speed — ausencia ≠ 0.
+   */
+  private static vitalsProfile(s: any): Record<string, number> {
+    const p: Record<string, number> = {};
+    if (s.health != null) p.AVATAR_ADD_HEALTH_MAX = s.health;
+    if (s.shield != null) p.AVATAR_ADD_SHIELD_MAX = s.shield;
+    if (s.armor  != null) p.AVATAR_ADD_ARMOUR     = s.armor;
+    return p;
+  }
+
+  /**
+   * Merge raw→DNA de un compañero: núcleo vital y nada más.
+   *
+   * Antes reusaba `normalizeWarframe` entero, y eso le daba al Kavat cuatro nodos de habilidad con
+   * base 100 y un `AVATAR_ADD_ENERGY_MAX` de 0. Ninguno es real —un compañero no tiene fuerza de
+   * habilidad ni gasta energía— y los cuatro aceptaban modifiers en silencio. Derivar por molde en
+   * vez de heredar el del warframe es lo que corrige eso.
+   */
+  private static normalizeCompanion(raw: any): MutatedDNA {
+    return this.normalizeEntity(raw, { base: this.vitalsProfile(raw.stats ?? {}) });
+  }
+
+  /**
+   * Merge raw→DNA de un enemigo. Mismos tres stats vitales, **otra familia de token**: esa
+   * distinción es la que impide que un buff `AVATAR_*` de warframe aterrice sobre un enemigo por
+   * parecido de nombre.
+   *
+   * El raw de `enemies.json` los expone planos (`raw.health`), no bajo `stats`. Mismo gate por
+   * presencia que el núcleo vital.
+   */
+  private static normalizeEnemy(raw: any): MutatedDNA {
+    const p: Record<string, number> = {};
+    if (raw.health  != null) p.ENEMY_ADD_HEALTH_MAX = raw.health;
+    if (raw.armor   != null) p.ENEMY_ADD_ARMOUR     = raw.armor;
+    if (raw.shields != null) p.ENEMY_ADD_SHIELD_MAX = raw.shields;
+    return this.normalizeEntity(raw, { base: p }, {
+      tags: ['enemy', raw.faction].filter(Boolean),
+    });
+  }
+
+  /**
+   * Merge raw→DNA de un warframe: núcleo vital + lo que es exclusivo de un avatar de jugador
+   * (energía, los cuatro stats de habilidad, movilidad). No tiene ataques.
+   *
+   * Cada nodo usa el attr del token ADD como id, para que mods (%) y shards (flat) compongan sobre
+   * la misma base — fórmula `Total = Base × (1 + Mods%) + Flat` (ver armor.md, UPGRADE_MAP).
    * Los 4 stats de habilidad nacen con base 100 (100% = sin mods); no conozco excepción.
    */
   private static normalizeWarframe(raw: any): MutatedDNA {
     const s = raw.stats ?? {};
-    const profiles: Record<string, Record<string, number>> = {
-      base: {
-        AVATAR_ADD_HEALTH_MAX:        s.health ?? 0,
-        AVATAR_ADD_SHIELD_MAX:        s.shield ?? 0,
-        AVATAR_ADD_ARMOUR:            s.armor  ?? 0,
-        AVATAR_ADD_ENERGY_MAX:        s.energy ?? 0,
-        // `sprint_speed` del raw NO es velocidad de sprint: es el modificador base de MOVEMENT
-        // speed. La wiki lo dice literal — *"A Warframe's base Sprint Speed Stat is not a direct
-        // modifier to its sprint speed, but is actually the Warframes base Movement Speed
-        // modifier"* — y los bonos de Sprint Speed (Rush) no lo tocan aunque suban el número que
-        // el arsenal muestra. Mismo patrón que `fire_rate` en melee: DE nombra una cosa y la
-        // mecánica es otra, y el token declara la verdad, no el raw. Base 1.0 = 6 m/s de walk
-        // speed; sprintar suma 25% aparte. Ver references/wiki/mechanics/movement-speed.md.
-        AVATAR_ADD_MOVEMENT_SPEED:    s.sprint_speed ?? 0,
-        // Sprint Speed: stat DISTINTO del de arriba pese al nombre del raw. Base sintética 100 —
-        // el sprint no tiene valor nato propio, se DERIVA del walk (`sprint = walk × 1.25 ×
-        // (1 + Σ bonos)`, movement-speed.md), así que lo que el nodo acumula es el `Σ bonos` y
-        // los `m/s` son una derivación cross-stat que hoy nadie pide.
-        // Sus 9 mods se equipan en cinco slots distintos y 3 no aplican al warframe: Sprint Boost
-        // es de aura y dice "Squad receives" (aliados, no modelados), Runtime es de Parazon (slot
-        // fuera de scope) e Hyperion Thrusters es de Archwing — ese último aterriza igual y es
-        // ruido aceptado, porque el token crudo de DE es el mismo que el de Rush (ver sus notes).
-        AVATAR_ADD_SPRINT_SPEED:      100,
-        // Parkour Velocity (localizado *"Bullet Jump"*) gobierna bullet jump, double jump, rolling
-        // y springs — ni movement ni sprint lo tocan. El raw NO trae dato base y no puede traerlo:
-        // no hay parkour por-warframe, todos parten del mismo 100%. Base **sintética**, mismo molde
-        // que `WEAPON_ADD_RELOAD_SPEED` y los 4 stats de habilidad: 100 = sin mods, y el `+15%` del
-        // shard ámbar lee `115`. El discriminador contra `MOVEMENT_SPEED` (base 1.0, escala) es que
-        // aquél SÍ tiene dato en el raw y varía por frame (Gauss 1.4 · Volt 1.0).
-        AVATAR_ADD_PARKOUR_VELOCITY:  100,
-        // Aim Glide: base **3 segundos**, y acá el 3 NO es sintético — sale de la fuente
-        // (`maneuvers §Aim Glide`). El discriminador con el 100 de arriba es ése: cuando la
-        // fuente da la base, se usa y el nodo lee en su unidad real (segundos); cuando no la hay
-        // ni puede haberla, base 100 = "sin mods". El resultado se lee `3 → 3.6s` con un +20%,
-        // no `100 → 120`.
-        // El token gobierna **dos** duraciones ("Aim Glide/Wall Latch Duration") con bases
-        // distintas: aim glide 3s, wall latch 6s, timer compartido. El nodo modela la primera.
-        AVATAR_ADD_AIM_GLIDE_DURATION: 3,
-        AVATAR_ADD_ABILITY_STRENGTH:   100,
-        AVATAR_ADD_ABILITY_RANGE:      100,
-        AVATAR_ADD_ABILITY_DURATION:   100,
-        AVATAR_ADD_ABILITY_EFFICIENCY: 100,
-      },
+    const base: Record<string, number> = {
+      ...this.vitalsProfile(s),
+      AVATAR_ADD_ENERGY_MAX:        s.energy ?? 0,
+      // Sprint Speed: stat DISTINTO de MOVEMENT pese al nombre del raw. Base sintética 100 —
+      // el sprint no tiene valor nato propio, se DERIVA del walk (`sprint = walk × 1.25 ×
+      // (1 + Σ bonos)`, movement-speed.md), así que lo que el nodo acumula es el `Σ bonos` y
+      // los `m/s` son una derivación cross-stat que hoy nadie pide.
+      // Sus 9 mods se equipan en cinco slots distintos y 3 no aplican al warframe: Sprint Boost
+      // es de aura y dice "Squad receives" (aliados, no modelados), Runtime es de Parazon (slot
+      // fuera de scope) e Hyperion Thrusters es de Archwing — ese último aterriza igual y es
+      // ruido aceptado, porque el token crudo de DE es el mismo que el de Rush (ver sus notes).
+      AVATAR_ADD_SPRINT_SPEED:      100,
+      // Parkour Velocity (localizado *"Bullet Jump"*) gobierna bullet jump, double jump, rolling
+      // y springs — ni movement ni sprint lo tocan. El raw NO trae dato base y no puede traerlo:
+      // no hay parkour por-warframe, todos parten del mismo 100%. Base **sintética**, mismo molde
+      // que `WEAPON_ADD_RELOAD_SPEED` y los 4 stats de habilidad: 100 = sin mods, y el `+15%` del
+      // shard ámbar lee `115`. El discriminador contra `MOVEMENT_SPEED` (base 1.0, escala) es que
+      // aquél SÍ tiene dato en el raw y varía por frame (Gauss 1.4 · Volt 1.0).
+      AVATAR_ADD_PARKOUR_VELOCITY:  100,
+      // Aim Glide: base **3 segundos**, y acá el 3 NO es sintético — sale de la fuente
+      // (`maneuvers §Aim Glide`). El discriminador con el 100 de arriba es ése: cuando la
+      // fuente da la base, se usa y el nodo lee en su unidad real (segundos); cuando no la hay
+      // ni puede haberla, base 100 = "sin mods". El resultado se lee `3 → 3.6s` con un +20%,
+      // no `100 → 120`.
+      // El token gobierna **dos** duraciones ("Aim Glide/Wall Latch Duration") con bases
+      // distintas: aim glide 3s, wall latch 6s, timer compartido. El nodo modela la primera.
+      AVATAR_ADD_AIM_GLIDE_DURATION: 3,
+      AVATAR_ADD_ABILITY_STRENGTH:   100,
+      AVATAR_ADD_ABILITY_RANGE:      100,
+      AVATAR_ADD_ABILITY_DURATION:   100,
+      AVATAR_ADD_ABILITY_EFFICIENCY: 100,
     };
 
-    return {
-      entity_id: raw.unique_name,
-      domain: raw.domain,
-      kind: raw.kind,
-      family: raw.family,
-      tags: [raw.domain, raw.kind, raw.family, ...(raw.tags || [])].filter(Boolean),
-      profiles,
-    };
+    // `sprint_speed` del raw NO es velocidad de sprint: es el modificador base de MOVEMENT
+    // speed. La wiki lo dice literal — *"A Warframe's base Sprint Speed Stat is not a direct
+    // modifier to its sprint speed, but is actually the Warframes base Movement Speed
+    // modifier"* — y los bonos de Sprint Speed (Rush) no lo tocan aunque suban el número que
+    // el arsenal muestra. Mismo patrón que `fire_rate` en melee: DE nombra una cosa y la
+    // mecánica es otra, y el token declara la verdad, no el raw. Base 1.0 = 6 m/s de walk
+    // speed; sprintar suma 25% aparte. Ver references/wiki/mechanics/movement-speed.md.
+    // Gate por presencia (ausencia ≠ 0): sin dato, un buff de movimiento daría 0 en vez de gritar.
+    if (s.sprint_speed != null) base.AVATAR_ADD_MOVEMENT_SPEED = s.sprint_speed;
+
+    return this.normalizeEntity(raw, { base });
   }
 
   /** Merge raw→DNA de un arma: combina `attacks[]` + overrides + fallback en los perfiles finales. */
@@ -228,15 +315,8 @@ export class ItemRepository {
       Object.values(profiles).forEach(p => { p.min_combo = minCombo; });
     }
 
-    return {
-      entity_id: raw.unique_name,
-      domain: raw.domain,
-      kind: raw.kind,
-      family: raw.family,
-      tags: [raw.domain, raw.kind, raw.family, ...(raw.tags || [])].filter(Boolean),
-      profiles,
-      ...(Object.keys(co_behavior).length > 0 ? { co_behavior } : {}),
-    };
+    return this.normalizeEntity(raw, profiles,
+      Object.keys(co_behavior).length > 0 ? { co_behavior } : {});
   }
 
   private static mapDamage(damage: any): Record<string, number> {

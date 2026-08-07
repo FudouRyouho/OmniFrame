@@ -15,15 +15,28 @@ export type { CoBehavior };
 export interface SimulationEntity {
   id: EntityId;
   unique_name: string;
-  channel?: string; // EnsembleChannel name ('warframe' | 'primary' | 'secondary' | 'melee' | ...)
+  channel?: string; // EquipmentChannel name ('warframe' | 'primary' | 'secondary' | 'melee' | ...)
 
-  // Taxonomía (Sincronizada con SSoT)
-  domain: ItemDomain;
-  kind: ItemKind;
+  // Taxonomía (Sincronizada con SSoT) — SÓLO para participantes que son ítems del arsenal.
+  // Un enemigo no tiene ninguna de las tres: no está en el vocabulario `ItemDomain` y no debería
+  // estarlo (agregar 'enemy' ahí sería declarar que un enemigo es un ítem del pipeline).
+  domain?: ItemDomain;
+  kind?: ItemKind;
   family?: ItemFamily;
 
   persistence: 'PE' | 'TE'; // Pure Entity | Transient Entity
   tags: string[];
+  /**
+   * Marcas de ruteo — **a qué destinos responde** la entidad, no qué es. Distinto de `tags`, que
+   * arrastra la taxonomía del ítem (`[domain, kind, family, …]`) y por eso sólo puede contestar
+   * "qué es esto"; una marca la puede portar cualquier participante, venga o no del loadout.
+   *
+   * POR QUÉ EXISTE. `resolveFamilyEntities` ruteaba por `domain`: un buff `AVATAR_*` alcanzaba a
+   * `domain === 'warframe'` y nada más. Un compañero, un specter o un objetivo de defensa nunca
+   * podrían recibirlo — no por una decisión, sino porque no son ítems del loadout. El ruteo
+   * preguntaba *qué es* la entidad cuando la pregunta del juego es *a quién alcanza* el efecto.
+   */
+  routes?: string[];
   attributes: Record<AttributeId, AttributeNode>;
   // Ruteo CO/GunCO YA RESUELTO al perfil activo de ESTA entidad (StaticHydrator lo baja
   // de innate_dna.co_behavior[perfil]). El motor lo consume directo — no vuelve a mirar el
@@ -48,8 +61,9 @@ export interface SimulationEntity {
 
 export interface MutatedDNA {
   entity_id: EntityId;
-  domain: ItemDomain;
-  kind: ItemKind;
+  /** Ver `SimulationEntity.domain`: sólo los participantes que son ítems del arsenal la tienen. */
+  domain?: ItemDomain;
+  kind?: ItemKind;
   family?: ItemFamily;
   tags: string[];
   profiles: Record<string, Record<AttributeId, number>>; // 'base', 'alt', 'incarnon'
@@ -102,6 +116,14 @@ export interface Ensemble {
     secondary?: WeaponIntent;
     melee?: WeaponIntent;
   };
+  /**
+   * Participante que NO es pieza del loadout de armas. Ranura propia y no un cuarto `weapons.*`
+   * porque el discriminador no es el slot sino qué recibe: un compañero porta la marca `avatar`
+   * (armadura, salud) y no la de arma. Ver `space.ts` y `channel-routing.ts`.
+   */
+  companion?: { id: string; slots: Record<number, { mod_id?: string; level?: number }> };
+  /** El objetivo, como participante del espacio — no como parámetro del cálculo. */
+  enemy?: { id: string };
   focus?: { school_id: string; nodes: string[] };
 }
 
