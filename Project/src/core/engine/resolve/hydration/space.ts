@@ -55,14 +55,18 @@ export interface EntityIntent {
 export function populateFromLoadout(ensemble: Ensemble): EntityIntent[] {
   const intents: EntityIntent[] = [];
 
-  intents.push({
-    entity_id: ensemble.warframe.id,
-    channel: "warframe",
-    routes: ["avatar"],
-    slots: ensemble.warframe.slots,
-    profile_id: "base",
-    arcanes: ensemble.warframe.arcanes,
-  });
+  // El warframe puebla SÓLO si se declaró — el ensemble ya no lo trae siempre. Un arma medida
+  // sola es caso real del CLI, y antes entraba igual un participante fantasma.
+  if (ensemble.warframe) {
+    intents.push({
+      entity_id: ensemble.warframe.id,
+      channel: "warframe",
+      routes: ["avatar"],
+      slots: ensemble.warframe.slots,
+      profile_id: "base",
+      arcanes: ensemble.warframe.arcanes,
+    });
+  }
 
   const weapons = [
     ['primary',   ensemble.weapons.primary]  as const,

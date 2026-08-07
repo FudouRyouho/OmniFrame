@@ -108,6 +108,28 @@ describe('Enemigo — el buff del jugador no se filtra', () => {
   it.todo('el enemigo no debería materializar WEAPON_ADD_DAMAGE ni el pool de facción');
 });
 
+// ─── Dos participantes del mismo ítem: el segundo pisa al primero ──────────────────
+
+/**
+ * BUG MEDIDO, no hipotético — alcanzable desde que el grupo Hostil es una lista.
+ *
+ * `hydrateDnas` indexa por `dnas[intent.entity_id]`, y el `entity_id` **es el `uniqueName`**
+ * (`space.ts`). Dos participantes del mismo ítem escriben la misma clave: la segunda DNA pisa
+ * a la primera y **las dos entidades se construyen desde ella**. `SimulationEngine.entities`
+ * es un `Map<EntityId, …>` y colapsaría igual, pero el daño ya está hecho antes.
+ *
+ * Reproducido con el oráculo declarando dos Bombards a niveles distintos:
+ *
+ *     corresponde:  lvl 100 → ENEMY_ADD_HEALTH_MAX  86416.38
+ *                   lvl 200 → ENEMY_ADD_HEALTH_MAX 144270.94
+ *     sale:         los DOS → 144270.94
+ *
+ * El arreglo tiene precedente en este mismo repo: el ruteo cross-banda de `StaticHydrator`
+ * desambigua con `targets.length > 1 ? `${m.id}@${id}` : m.id` — sufijo sólo cuando hay más
+ * de uno. Mismo criterio acá preserva `consume().weapon(VALKYR)` en todos los tests.
+ */
+it.todo('dos hostiles del mismo tipo a niveles distintos resuelven cada uno el suyo');
+
 // ─── El debuff cross-entity: hasta dónde llega hoy ─────────────────────────────────
 
 describe('Corrosive Projection — el debuff que sale del warframe hacia el enemigo', () => {

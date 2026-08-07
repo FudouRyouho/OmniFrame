@@ -102,7 +102,18 @@ export interface TraceResponse {
 }
 
 export interface Ensemble {
-  warframe: {
+  /**
+   * OPCIONAL, y no por comodidad: B no inventa participantes. Antes era obligatorio y el bridge lo
+   * rellenaba con un `"warframe/excalibur"` que **no existe en ningún dataset** (el Excalibur real es
+   * `/Lotus/Powersuits/Excalibur/Excalibur`) — un participante fantasma que la hidratación descartaba
+   * en silencio en 157 corridas de la suite. Es el mismo criterio que esta interfaz ya aplica a
+   * `weapons.*`, `companion` y `hostiles`: lo que no se declara, no participa.
+   *
+   * NB: el que sigue siendo total y cerrado es `EnsembleIntention.items` (A1, los diez slots del
+   * arsenal, vacíos con `itemId: null`). Eso declara **qué tengo**; esto declara **quién participa**,
+   * y son dos vocabularios distintos — ver `@shared/types/ensemble.ts` §EquipmentChannel.
+   */
+  warframe?: {
     id: string;
     rank: number;
     slots: Record<number, { mod_id?: string; level?: number }>;

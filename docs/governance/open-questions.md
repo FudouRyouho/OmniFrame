@@ -37,6 +37,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-DATA-14` | Armas modulares: ensamblaje de DNA desde piezas | data / hidratación | abierta — no bloquea |
 | `OQ-DATA-15` | Campo `faction` contaminado del enemigo (scaling + FACTION_BONUS) | data / "0" → engine | abierta — síntoma resuelto en el consumidor (cascada); **causa raíz en el parser de upstream**, alcance fuera del enemigo sin medir |
 | `OQ-DATA-16` | Fuente de datos propia (estructura a medida) vs el fork `@wfcd/items` | data / pipeline / fuente | abierta — el raw es propio y Project lo consume; las **imágenes** siguen saliendo del clon de upstream (605 MB) y los iconos de habilidades no existen en ninguna fuente resuelta; no bloquea |
+| `OQ-DATA-17` | Escuelas de enfoque: cero dato, y antes hay que decidir si el operador es un participante | data / fuente + engine / Capa A | abierta — **gated por cosecha**; hoy el bridge fabrica `zenurik` hardcodeado |
 | `OQ-UI-2` | Dónde vive el estado de sesión/UI | ui-ux / arquitectura de estado | abierta — no bloquea |
 | `OQ-UI-3` | Footer: acciones contextuales + confirmación | ui-ux / interacción | abierta — **bloquea flujo BUILD** |
 | `OQ-UI-4` | Profile como "utility hub" | ui-ux / producto | abierta — no bloquea |
@@ -66,6 +67,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-33` | ¿El proc deja de ser un campo del tipo de daño? | engine / vocabulario + contrato core | abierta — **sin convergencia**; arrastra el bug `DT_RADIANT` |
 | `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **gated por múltiples objetivos**; hoy se derivan de la procedencia |
 | `OQ-ENGINE-35` | ¿Cuánta geometría necesita el escenario? — declara quiénes existen, no dónde están | engine / Capa A — escenario | abierta — **gated por consumidor**; ya hay distancia sin espacio donde medirla |
+| `OQ-ENGINE-36` | Claves derivadas que colisionan sin chequeo — dos apariciones medidas, ambas silenciosas | engine / traducción A→B | abierta — **gated por la mudanza de la hidratación a B**; guardas puestas, forma pendiente |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -1226,6 +1228,60 @@ borde de tipos mientras el consumidor todavía se está reacomodando invierte el
 
 ---
 
+## OQ-DATA-17 — Escuelas de enfoque: cero dato, y una pregunta de modelo antes que la de cosecha — **ABIERTA — gated por cosecha**
+**Dominio:** data / fuente + engine / Capa A
+
+**La pregunta, y son dos en orden.** Antes de *"¿de dónde sacamos el dato de focus?"* está *"¿el
+operador es un participante del escenario?"*. La respuesta cambia qué dato hace falta: si el operador
+participa, lo suyo cuelga de él en el árbol de propiedad
+(`../domains/engine/design/arch-decisions.md` §18); si no, todo lo que aporte aterriza en el warframe y
+el operador nunca se materializa.
+
+**Y la respuesta no es una sola, porque el operador hace tres cosas distintas** (relevamiento del
+usuario — el "da energía" es la versión de hace diez años, no la actual):
+
+| Qué hace | Naturaleza | Qué implica |
+|---|---|---|
+| **Porta un amp** | arma modular — **sin mods, sólo arcanos** | es un portador con reglas propias: el único que no acepta mods |
+| **Lanza habilidades** | 2 slots, más un **3.º que habilita un artefacto** | las habilidades varían por escuela |
+| **Movimientos del vacío** | modo vacío (Ctrl) + onda del vacío (salto-bala que atraviesa entidades) | el efecto **depende de la escuela**: curarse, ganar armadura, volver inmune al warframe, quitarle resistencias a un enemigo |
+
+**El artefacto es una entidad aparte, no un stat.** Es un potenciador del amp que depende de tener la
+escuela (¿sólo Zenurik? entonces sólo ahí existe esa ranura), habilita la 3.ª habilidad, y **lleva build
+propia** — tiene sus propios mods. Un portador colgando de otro portador.
+
+**Las pasivas sí son estadísticas y no exigen al operador en combate** — ésas son las que aterrizarían
+en el warframe. Lo que varía por escuela son los nodos y la habilidad que el artefacto habilita; las
+estadísticas base no.
+
+O sea: **hay de las dos**, y por eso decidir antes de cosechar no es un rodeo. Un modelo que asuma
+"focus = buffs pasivos al warframe" no tiene dónde poner el amp, el artefacto ni sus builds.
+
+**Medido — no hay dato, ni parcial:**
+
+| Rastro | Qué es |
+|---|---|
+| `Ensemble.focus?: { school_id, nodes[] }` | contrato **sin dataset**. Su único escritor es `MutatorBridge`, con `{ school_id: "zenurik", nodes: [] }` **hardcodeado**. Cero lectores |
+| 20 mods con `mod_class` ∈ {Madurai, Zenurik, Vazarin, Naramon, Unairu} | **falso positivo**: son `Tektolyst Artifact Mod`. El `mod_class` marca afinidad de escuela de un artefacto, no un nodo del árbol de focus |
+| `public/data/` | ningún dataset de focus / escuelas / nodos |
+
+**Por qué se abre ahora.** La reestructura de Capa A borra `Ensemble.focus`: es un campo fabricado por B
+que ninguna estructura declara y ningún consumidor lee. Borrarlo sin registrar la ausencia sería
+postergar sin dejar rastro — el modo de falla que esta campaña vino a corregir.
+
+**Lo que haría falta, en orden:** (1) decidir qué del operador se materializa como participante y qué
+aterriza como pasiva en el warframe; (2) cosechar — la wiki tiene las páginas de cada escuela con sus
+nodos y valores, y el patrón de captura ya está probado (`references/wiki/`, `action=raw`); (3) recién
+ahí, schema y override. El amp (arma modular sin mods) y el artefacto (portador con build propia que
+cuelga del amp) son los dos que más presionan el modelo de portadores, no el catálogo de nodos.
+
+**No bloquea:** nada. Ningún cálculo del motor depende de focus hoy.
+**Vínculo:** `OQ-DATA-16` (fuente de datos propia — de dónde saldría el dataset),
+`OQ-ENGINE-31` (qué le falta a una entidad para ser modelable — el operador es un caso),
+`../domains/engine/design/arch-decisions.md` §18 (el árbol de propiedad donde colgaría).
+
+---
+
 ## OQ-ENGINE-21 — Fidelidad de la ley de enemy-scaling: la tabla no está validada por DE — **ABIERTO (2026-07-19), GATED POR MEDICIÓN**
 **Dominio:** engine / C2 (enemy scaling) — hermana de `OQ-ENGINE-15` (DR)
 
@@ -1904,6 +1960,84 @@ procedencia) ya cubre todo lo que el corpus pide hoy.
 alcance, que es lo que absorbe los falsos casos), `../domains/engine/design/simulation-architecture.md`
 §*De dónde salen los participantes*, `OQ-ENGINE-31` (qué le falta a una entidad para ser modelable).
 **Fuente:** Parte I del barrido de definiciones (campaña de recomposición del engine, 2026-08).
+
+---
+
+## OQ-ENGINE-36 — ¿Cómo se identifica lo que la intención declara? — **ABIERTA — gated por la mudanza de la hidratación a B**
+**Dominio:** engine / traducción A→B
+
+**La pregunta.** La traducción de la intención al ensemble deriva claves a partir del contenido —el
+`unique_name` para un participante, el índice parseado para un slot— y **ninguna de las dos escrituras
+chequea si la clave ya existe**. El patrón es el mismo en ambos casos: *clave derivada que puede
+colisionar, sin chequeo de colisión*. ¿La identidad se declara, se deriva de la posición, o el problema
+desaparece cuando la hidratación cambie de capa?
+
+### Las dos apariciones, medidas
+
+**Participantes homónimos** — `hydrateDnas` escribe `dnas[intent.entity_id]` y el `entity_id` es el
+`unique_name`, que dice **qué es** un participante y no **quién es**. Dos Bombards declarados a niveles
+distintos escriben la misma clave y nacen de la misma DNA:
+
+```
+corresponde:  nivel 100 → health  86 416,38      sale:  los DOS → 144 270,94
+              nivel 200 → health 144 270,94             (gana el último)
+```
+
+`SimulationEngine.entities` es un `Map<EntityId, …>` y colapsaría igual, pero llega tarde.
+
+**Slots con clave no entera** — `Record<number, …>` no existe en runtime: JavaScript pasa toda clave de
+objeto a string y JSON no tiene cómo escribir otra cosa. Con una clave no entera, `result[parseInt(k)]`
+resuelve a `result[NaN]` y todos los slots escriben la misma propiedad. Sobre un `.json` parcial con los
+cuatro elementales de rifle:
+
+| claves | resultado |
+|---|---|
+| `"0"`…`"3"` | `BLAST` + `CORROSIVE` — correcto |
+| `"s0"`…`"s3"` | `ELECTRICITY` — tres mods desaparecidos |
+| las mismas al revés | `HEAT` — gana el último escrito |
+
+Sin error y sin warning. Lo grave no es el bug: es que **el resultado tiene cara de válido**. El oráculo
+es el instrumento con el que se valida el motor contra el juego, así que un número plausible y falso no
+corrompe código — corrompe una medición, y el modelo podría ajustarse para explicarlo.
+
+### Por qué no se resuelve ahora
+
+**Las dos viven en la traducción A→B, que es exactamente la capa que cambia de dueño.** `Ensemble` lleva
+sólo ids y ni un stat: B no dereferencia, **re-shapea a A**, y la dereferencia real ocurre en C
+(`DnaRepository`, `ModRepository`). El `parseInt` que produce el `NaN` es parte de ese re-shape — un
+no-op ceremonial que existe para satisfacer al tipo, no para convertir nada. Elegir hoy la forma
+definitiva de las claves es escribir con cuidado en código que la mudanza reescribe.
+
+**Y las dos formas candidatas dependen de decisiones que la mudanza toma.** Que la identidad sea la
+posición vale para el squad —cuatro puestos, ley del juego— pero **no se traslada a los slots**: ahí la
+posición absoluta es de la UI (quién decide "acá van sólo exilus"), y la cantidad varía con el portador
+— Jade lleva dos auras y un exilus. Lo que el motor necesita de un slot **no es el hueco sino el orden**:
+el orden de la grilla determina la combinación elemental
+(`../../references/wiki/mechanics/damage-types.md` §*Jerarquía de combinación*).
+
+### Lo que ya está hecho, y lo que no
+
+**Las guardas están puestas: el silencio no sobrevive al gate.** `MutatorBridge.slotIndex` tira sobre una
+clave no entera nombrando canal y clave; `unlanded-modifiers.test.ts` fija ese grito y `enemy.test.ts`
+lleva la colisión de participantes como test pendiente con sus números.
+
+Gritar es dejar de mentir, no resolver: **la forma que hace el estado imposible sigue pendiente**, y es lo
+que esta pregunta gatea.
+
+⚠️ **El precedente que NO se imita.** El ruteo cross-banda de `StaticHydrator` desambigua condicionalmente
+(`targets.length > 1 ? id@entidad : id`). Es una clave que **cambia de forma según cuántos haya**: el caso
+de uno y el de varios dejan de leerse igual, y la colisión reaparece en cuanto algo compare claves entre
+escenarios. Es deuda propia, no autoridad.
+
+**Condición de cierre:** la bajada de la estructura de Capa A y la mudanza de la dereferencia de C a B. La
+pregunta se responde **con** esa mudanza, no antes y no por separado — abrir los dos frentes a la vez es
+no cerrar ninguno.
+
+**No bloquea:** el modelado de mecánicas ni la medición contra el juego, mientras las guardas estén. **Vínculo:**
+`OQ-DATA-9` (el plano "0": A declara punteros, B/UI dereferencian — es la pregunta madre de la mudanza),
+`../domains/engine/design/simulation-architecture.md` §*El escenario consolidado: la foto de t=0*,
+`../domains/engine/design/arch-decisions.md` §18 (ruteo por token, que consume el `entity_id`).
+**Fuente:** cierre del concepto de Capa A (campaña de recomposición del engine, 2026-08).
 
 ---
 

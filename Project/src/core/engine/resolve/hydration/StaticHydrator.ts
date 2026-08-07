@@ -172,7 +172,7 @@ export class StaticHydrator {
     // sub-familia, el `target_channel` lo redirige en la pasada de ruteo de abajo — igual que un
     // arcano o un mod. Acá ya no se resuelve el canal: hacerlo era la razón de que el ruteo
     // existiera una sola vez y solo para shards.
-    ensemble.warframe.shards.forEach(shard => {
+    (ensemble.warframe?.shards ?? []).forEach(shard => {
       const resolved = ShardRepository.resolve(shard.type, shard.stat, shard.is_tau ?? false);
       if (!resolved) return;
 
@@ -180,7 +180,7 @@ export class StaticHydrator {
         {
           id: `shard:${shard.type}:${shard.stat}`,
           source_id: `Shard:${shard.type}`,
-          target_entity: ensemble.warframe.id,
+          target_entity: ensemble.warframe!.id,
           target_channel: resolved.target_channel,
           target_attribute: resolved.attr,
         },
@@ -199,8 +199,8 @@ export class StaticHydrator {
     // lo resuelve contra las entidades construidas (`channel-routing`). Un buff de habilidad puede
     // aterrizar en el warframe mismo (`AVATAR_ADD_MOVEMENT_SPEED`), en una sola arma
     // (`MELEE_ADD_ATTACK_SPEED`) o en todas (`WEAPON_ADD_RELOAD_SPEED` — el ALL-scope de Roar).
-    (ensemble.warframe.abilities || []).forEach(ability => {
-      modifiers.push(...AbilityRepository.getModifiers(ability.ability_id, ensemble.warframe.id, entities));
+    (ensemble.warframe?.abilities || []).forEach(ability => {
+      modifiers.push(...AbilityRepository.getModifiers(ability.ability_id, ensemble.warframe!.id, entities));
     });
 
     // ── Ruteo por canal — pasada ÚNICA sobre todos los modifiers ────────────────────────
