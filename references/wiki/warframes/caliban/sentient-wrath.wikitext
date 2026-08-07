@@ -1,0 +1,41 @@
+<onlyinclude>{{AbilityU10.3
+| name = Sentient Wrath
+| gameimage = SentientWrath130xWhite.png
+| cardimage = SentientWrathModx256.png
+| hotkey = 2
+| energy = 50
+| cost = 
+| description = Smash the ground sending out a radial wave of destruction. Those not killed by the initial blast are helplessly raised into the air, where they take amplified damage for a short time.
+| strength = 500 / 1,000 / 1,500 / 2,000 ({{D|Tau}} damage)<br>15 / 20 / 25 / 35 % (damage vulnerability)
+| range = 10 / 14 / 18 / 22 m
+| duration = 4 / 6 / 8 / 10 s
+| misc = 1 {{D|Tau}} status effect
+| subsumable = true
+| cardonly = {{{1|}}}
+| info = 
+*Caliban expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to stomp the ground to unleash a shockwave of Tau energy that travels {{Stat|Ability Range|icon=only}}'''10 / 14 / 18 / 22''' meters, inflicting enemies in range and [[Line of Sight]] {{Stat|Ability Strength|icon=only}}'''500 / 1,000 / 1,500 / 2,000''' {{D|Tau}} damage and <u>'''1'''</u> {{D|Tau}} [[Status Effect]], raising them in aerial stasis, and applying {{Stat|Ability Strength|icon=only}}'''15% / 20% / 25% / 35%''' [[Damage Vulnerability]] for {{Stat|Ability Duration|icon=only}}'''4 / 6 / 8 / 10''' seconds.
+**The shockwave expands from Caliban and has travel time, requiring enemies to be in sight as it passes through them.
+**Enemy [[Overguard]] prevents Sentient Wrath's raising, but its other ability effects persist. Once Overguard is removed from an enemy affected by this ability, it will be raised into aerial stasis.
+*'''Ability Synergy:'''
+**{{A|Razor Gyre}} inflicts {{Stat|Ability Strength|icon=only}}'''400 / 600 / 800 / 1,000''' {{D|Tau}} total damage per second to enemies raised by Sentient Wrath.
+**Sentient Wrath's Damage Vulnerability increases Razor Gyre, {{A|Lethal Progeny}}, and {{A|Fusion Strike}}'s damage.
+*If cast in midair, Caliban will instantly drop to the ground to perform this ability.
+*Can be recast, with the shockwave hitting a raised target refreshing its duration.
+*Casting Sentient Wrath is a full-body animation that stops other actions and displaces Caliban to the nearest horizontal surface.
+*Subsuming Caliban to the [[Helminth]] will offer Sentient Wrath and its augments to be used by other Warframes.
+**However, subsumed Sentient Wrath only strikes in a frontal cone and does not inflict {{D|Tau}} status effects.
+| augment = 
+| tips = 
+| bugs = 
+|
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Caliban}}
+__NOTOC__
+[[fr:Fureur Sentient]]
+[[Category:Caliban]]
+[[Category:Impact Damage]]
+[[Category:Damage Vulnerability]]
+[[uk:Лють свідомого]]
+[[Category:Line Of Sight Abilities]]

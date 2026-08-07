@@ -1,0 +1,49 @@
+{{ResourceInfobox}}
+The '''Emerald Archon Shard''' is an [[Archon Shard]] that adds one of these effects:
+* {{D|Toxin}} Status Effects deal more damage
+* [[Healing|Recover Health]] each time enemies are damaged by a {{D|Toxin}} Status Effect 
+* Gain [[Ability Damage]] bonus on enemies affected by {{D|Corrosion}} Status ({{D|Corrosive}})
+* Increase max stacks of {{D|Corrosion}} Status
+
+'''Tauforged Emerald Archon Shards''' are a rarer variant of the Emerald Archon Shard that provide a larger bonus to the same stats.
+
+==Acquisition==
+See [[Archon Shard#Fusion]] for more details:
+*Combining {{Resource|Amber Archon Shard|Amber}} and {{Resource|Azure Archon Shard|Azure}} creates an {{Resource|Emerald Archon Shard}}.
+**Combining {{Resource|Tauforged Amber Archon Shard|Tauforged Amber}} and {{Resource|Tauforged Azure Archon Shard|Tauforged Azure}} creates a {{Resource|Tauforged Emerald Archon Shard}}.
+*Combining three {{Resource|Emerald Archon Shard|Emeralds}} creates a {{Resource|Tauforged Emerald Archon Shard}}.
+
+{{Transclude|Archon Shard#Acquisition}}
+
+==Shard Buffs==
+{| class="wikitable sortable" width="100%"
+|-
+! width="20%" class="unsortable" | Shard
+! class="unsortable" | Buff
+! class="unsortable" | Notes
+|-
+{{#lst:Archon Shard|emerald_archon_shard_buffs}}
+|}
+
+==Tips and Interactions==
+{{Stub}}
+=== Toxin Status Effects deal additional damage ===
+
+=== Recover Health each time enemies are damaged by a Toxin Status Effect ===
+
+* Effect caps out at '''10''' stacks, or '''20''' health per second ('''30''' for Tauforged shards), per affected enemy.
+
+* Any companion can proc the effect if modded for toxin. Duplex bond clones can also trigger it.
+
+=== Ability Damage bonus on enemies affected by Corrosion Status (Corrosive) ===
+
+=== Increase max stacks of Corrosion Status ===
+*Does not increase the stack limit for bosses that cap status stacks at 4.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|35}}
+*Introduced.
+}}
+
+{{ResourceNav}}

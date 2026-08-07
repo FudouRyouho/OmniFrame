@@ -1,0 +1,48 @@
+<onlyinclude>{{AbilityU10.3
+| name        = Lull
+| gameimage   = Lull130xWhite.png
+| cardimage   = LullModx256.png
+| hotkey      = 2
+| energy      = 50
+| description = A calming wave slows enemies until they fall into a slumber. Enemies woken by damage will be confused and disoriented. Short-term amnesia means all waking enemies forget anything that happened before the lull.
+| range       = 10 / 15 / 20 / 25 m
+| duration    = 2 / 3 / 4 / 5 s (wave duration)<br> 10 / 13 / 18 / 20 s (sleep duration)
+| misc        = 0.80% (Restraint erosion per enemy lulled)<br/>+100% (finisher damage vulnerability)<br/>alertness reset
+| subsumable  = true
+| cardonly    = {{{1|}}}
+| info        = 
+*Baruuk expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to cast a calming wave over an area of {{Stat|Ability Range|icon=only}}'''10 / 15 / 20 / 25''' meters that lingers for {{Stat|Ability Duration|icon=only}}'''2 / 3 / 4 / 5 ''' seconds. Enemies in sight or aware of Baruuk's presence that enter the area will gradually slow and then enter {{D|Sleep}} for {{Stat|Ability Duration|icon=only}}'''10 / 13 / 18 / 20''' seconds. Sleeping enemies have '''+100%''' [[Damage Vulnerability]] to {{D|Finisher}} damage, but awaken early when damaged, suffering disorientation for a brief moment, along with amnesia causing their [[Stealth#Alertness|alertness]] level to reset.
+**Sleeping enemies are open to [[Melee#Finishers|melee finishers]].
+**Enemies that awaken early from damage, while still inside the Lull field, will be put back to sleep.
+*Cannot be recast while Lull field is active.
+*Casting Lull is a full-body animation that stops Baruuk's grounded movement and other actions.
+| helminth =
+*Subsuming Baruuk to the [[Helminth]] will offer Lull and its augments to be used by other Warframes.
+| synergies = 
+**Baruuk's [[Baruuk/Abilities#Passive|Restraint]] erodes by <u>'''0.80%'''</u> for each enemy affected.
+**Damage dealt by {{A|Desolate Hands}} daggers does '''not''' awaken sleeping enemies.
+|augment      =
+[[File:EndlessLullabyMod.png|200px|left]]
+{{main|Endless Lullaby}}
+{{#lst:Endless Lullaby|intro}}
+{{#lsth:Endless Lullaby|Stats}}
+{{clr}}
+|tips         = 
+*Lowering duration allows Lull to be used more often, eroding Restraint more quickly.
+*Can be used in a choke point to cause enemies to slow down and sleep as they pass through. 
+*As the ability resets aggression on enemies, it can be used to obtain easy stealth kills during mission.
+*Modded for range, Lull can be used to great effect for [[Conservation]], as putting wildlife to sleep with it has the same effect as hitting them with the [[Tranq Rifle]].
+<noinclude>
+|max          = {{WFmax|main|baruuk2}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Baruuk}}
+__NOTOC__
+[[es:Arrullar]]
+[[fr:Accalmie]]
+[[Category:Warframe Abilities]]
+[[Category:Baruuk]]
+[[Category:Slow]]
+[[uk:Присипляння]]

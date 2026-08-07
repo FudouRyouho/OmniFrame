@@ -56,6 +56,11 @@ Tipos de daño que pueden aplicar armas y habilidades. Campos relevantes:
 | Shield Drain | DT_SHIELD_DRAIN | — | — | — | — | — |
 | Finisher | — | — | — | — | — | — |
 
+> ⚠️ **Conflicto ↔ el módulo se contradice en `Tau`.** La fila está destilada fiel: `Types.Tau` declara
+> literalmente `InternalName = "PT_SENTIENT"` — **un token de proc en el campo del tipo de daño**. Tau
+> es el único tipo sin `DT_*` propio en el módulo. No se corrige acá: `wiki/` guarda datos, no
+> opiniones.
+
 ---
 
 ## Health — Tipos de salud/escudo/armadura
@@ -111,31 +116,142 @@ Mantenidos en el módulo para compatibilidad con templates de la wiki.
 
 Efectos de estado que aplican los tipos de daño.
 
-| Proc | InternalName | Tipo de daño | Efecto |
-|---|---|---|---|
-| Freeze | PT_CHILLED | Cold | Slower movement and attack speed |
-| Ignite | PT_IMMOLATION | Heat | Fire DoT, Panic, Armor reduction |
-| Tesla Chain | PT_ELECTROCUTION | Electricity | Tesla Chain DoT, Stun |
-| Corrosion | PT_CAUSTIC_BURN | Corrosive | Armor reduction |
-| Gas Cloud | PT_ASPHYXIATION | Gas | Gas Cloud DoT |
-| Disrupt | PT_MAGNETIZED | Magnetic | Extra Shield/Overguard damage, Electricity DoT on break |
-| Confusion | PT_RAD_TOX | Radiation | Friendly fire |
-| Bleed | PT_BLEEDING | Slash | Bleed DoT (True damage) |
-| Poison | PT_POISONED | Toxin | Poison DoT |
-| Virus | PT_INFECTED | Viral | Increased Health damage |
-| Bullet Attractor | PT_RADIANT | Void | Bullet attraction field |
-| Status Vulnerability | PT_SENTIENT | Tau | Increased status proc chance |
-| Knockback | PT_KNOCKBACK | Impact | Stagger, Mercy Kill threshold + |
-| Weakened | PT_FRAILTY | Puncture | Target deals reduced damage |
-| Sleep | PT_SLEEP | — | Puts enemy to sleep |
-| Stagger | PT_STAGGERED | — | Staggers enemy |
-| Knockdown | PT_KNOCKED_DOWN | — | Knocks down enemy |
-| Lifted | PT_LIFT_HIT | — | Immobilized mid-air |
-| Silence | PT_SILENCED | — | Deafens, disables abilities |
-| Slow | PT_GLUE | — | Slows enemy |
-| Ragdoll | PT_RAGDOLL | — | Ragdolls enemy |
-| Disarmed | PT_DISARMED | — | Disarms weapon |
-| Impair | PT_ROOTS | — | Disables jump/sprint |
+> ⚠️ **Esta tabla se reextrajo el 2026-08-06** contra `damage-types-data.lua`. La versión previa tenía
+> **24 de 38** entradas y destilaba el campo `Status` de `Types`, que es **más pobre** que el de
+> `Procs` — ver *Dos copias de `Status`* abajo. No era wiki desactualizada: era pérdida de destilación.
+
+**38 entradas · 29 con `InternalName` · 9 sin token.**
+
+### `Name` es el proc · `Status` es la **primitiva** — y es un array
+
+El módulo separa las dos cosas por estructura, no por convención:
+
+```lua
+["Ignite"] = { InternalName = "PT_IMMOLATION",
+               Status = { "Fire DoT as Heat damage", "Panic", "Armor reduction" } }
+```
+
+**Un proc, tres primitivas.** Y varios procs distintos comparten primitiva —`Freeze` (`PT_CHILLED`) y
+`Slow` (`PT_GLUE`) declaran los dos *slow*; `Knockback` (`PT_KNOCKBACK`) y `Stagger` (`PT_STAGGERED`),
+los dos *stagger*. Es la distinción *"Freeze **usa** slow, no **es** slow"* declarada por la fuente.
+
+⚠️ **`Status[]` es prosa, no vocabulario** (*"Increased health threshold for Mercy finisher"* es una
+oración). DE **no publica tokens de primitiva**: quien quiera una lista cerrada de primitivas la tiene
+que derivar del label, no leerla.
+
+### Con token — 29
+
+| Proc (`Name`) | `InternalName` | `Status[]` (primitivas) |
+|---|---|---|
+| Freeze | `PT_CHILLED` | Slower movement and attack speed |
+| Ignite | `PT_IMMOLATION` | Fire DoT as Heat damage · **Panic** · Armor reduction |
+| Tesla Chain | `PT_ELECTROCUTION` | Tesla Chain · Stun · Electric DoT as Electricity damage |
+| Corrosion | `PT_CAUSTIC_BURN` | Armor reduction |
+| Gas Cloud | `PT_ASPHYXIATION` | Gas Cloud that deals DoT as Gas damage |
+| Disrupt | `PT_MAGNETIZED` | Additional damage against Shields and Overguard · **Delays natural shield regeneration** · Electricity DoT on Shield/Overguard break |
+| Confusion | `PT_RAD_TOX` | Friendly fire |
+| Bleed | `PT_BLEEDING` | Bleed DoT as True damage |
+| Poison | `PT_POISONED` | Poison DoT as Toxin damage |
+| Virus | `PT_INFECTED` | Increased damage against Health |
+| Bullet Attractor | `PT_RADIANT` | Spawn a bullet attraction field on target |
+| Status Vulnerability | `PT_SENTIENT` | Increased likelihood of Status procs on target |
+| Knockback | `PT_KNOCKBACK` | Stagger · **Increased health threshold for Mercy finisher** |
+| Weakened | `PT_FRAILTY` | Target deals reduced damage |
+| Inaccuracy | `PT_FLASHBANG` | Accuracy reduction |
+| Microwave | `PT_MICROWAVE_BURN` | Enlarged body parts |
+| Lifted | `PT_LIFT_HIT` | Immobilized in mid-air |
+| Knockdown | `PT_KNOCKED_DOWN` | Knock down enemy, opening them up to ground finishers |
+| Stagger | `PT_STAGGERED` | Staggers the enemy, interrupting many actions |
+| Big Stagger | `PT_BIG_STAGGER` | Longer stagger effect |
+| Stun | `PT_STUNNED` | Stuns the enemy, interrupting many actions for a time |
+| Ragdoll | `PT_RAGDOLL` | Ragdolls the enemy |
+| Sleep | `PT_SLEEP` | Puts enemy to sleep, preserving their alert state and opening them to finishers |
+| Silence | `PT_SILENCED` | Deafens the enemy and disables most active abilities |
+| Disarmed | `PT_DISARMED` | Equipped weapon is disarmed |
+| Parried | `PT_PARRIED` | Opens enemy up to a counter-finisher |
+| Slow | `PT_GLUE` | Slows the enemy |
+| Impair | `PT_ROOTS` | Disables jumping, bullet jump, and sprinting — **`(PvP only)` / Conclave** |
+| — | `PT_VOID` | *"Unknown; may be old version of bullet attractor (`PT_RADIANT`)"* — **el `Name` es el propio token** |
+
+### Sin token — 9
+
+**Seis son de Railjack/Empyrean**, y no reusan tokens de tierra: tienen entrada propia con
+`InternalName = ""`.
+
+| Proc (`Name`) | `Status[]` | Contexto |
+|---|---|---|
+| **Tear** | ⭐ *"Increase damage vulnerability on target"* | — |
+| Blind | Enemy is in a blinded state, opening them up to front/back finishers | — |
+| Detonate | Mini explosion | — |
+| Concuss | Enemy crew have reduced accuracy and damage | **Railjack** |
+| Immobilize | Disable ship weaponry · Slow ship movement to complete stop · Ice Hazard · Disables interactive elements | **Railjack** |
+| Scramble | Disable enemy weaponry · Spiral enemy ship out of control · Electricity Hazard · Scrambles minimap · Disable Tactical Menu | **Railjack** |
+| Sear | Fire DoT as Heat damage · Fire Hazard · Railjack Armaments overheat faster and cool slower | **Railjack** |
+| Decompress | Reduce target ship's Shields and Armor | **Railjack** |
+| Intoxicate | Change Faction of afflicted target · Enable friendly fire | **Railjack** |
+
+⭐ **`Tear` es `Damage Vulnerability` nombrada por DE como proc**, y no tiene `InternalName`. Es el
+único lugar del módulo donde el concepto aparece con nombre propio.
+
+### Dos copias de `Status`, y no coinciden
+
+El mismo proc trae `Status` en **dos bloques**: en `Types.<tipo>` (junto a `ProcInternalName`) y en
+`Procs.<Name>`. **La de `Procs` es más rica** — medido:
+
+| Proc | En `Types` | En `Procs` |
+|---|---|---|
+| `PT_MAGNETIZED` | 2 primitivas | **3** — suma *"Delays natural shield regeneration"* |
+| `PT_ELECTROCUTION` | 2 (*"Tesla Chain DoT", "Stun"*) | **3** — separa el DoT del efecto |
+| `PT_ASPHYXIATION` | *"Gas Cloud DoT"* | *"Gas Cloud that deals DoT as Gas damage"* |
+
+**Al destilar, leer `Procs`.** `Types.Status` sirve para el mapeo `DT_ → PT_`, no para saber qué hace.
+
+### El mapeo `DT_ → PT_` lo declara `ProcInternalName` — 13 filas
+
+`Impact→PT_KNOCKBACK` · `Puncture→PT_FRAILTY` · `Slash→PT_BLEEDING` · `Heat(DT_FIRE)→PT_IMMOLATION` ·
+`Cold(DT_FREEZE)→PT_CHILLED` · `Electricity→PT_ELECTROCUTION` · `Toxin(DT_POISON)→PT_POISONED` ·
+`Gas→PT_ASPHYXIATION` · `Corrosive→PT_CAUSTIC_BURN` · `Magnetic→PT_MAGNETIZED` ·
+`Radiation→PT_RAD_TOX` · `Viral→PT_INFECTED` · `Void(DT_RADIANT)→PT_RADIANT`.
+
+🔴 **`DT_EXPLOSION` (Blast) declara `ProcInternalName = ""`** — el módulo dice explícitamente que Blast
+**no tiene proc token**, y `Inaccuracy`/`PT_FLASHBANG` vive como entrada suelta. Tau tampoco lo trae.
+Los dos los cierra `mechanics/status-effect.wikitext` (`Blast → PT_FLASHBANG`, `Tau → PT_SENTIENT`):
+**dos fuentes independientes, 15 filas**. *True* es el único tipo sin proc.
+
+⚠️ **`Inaccuracy` es descripción legacy, no token legacy.** `damage-blast-damage:19-23` dice que Blast
+hace **daño**: mecha de 1.5s por stack, 30% del daño base cada uno; a 10 stacks detonan → 300% al
+objetivo + AoE de 5m a 300% por stack (máx 3000%). `PT_FLASHBANG` sigue siendo el identificador; *"Accuracy
+reduction"* es lo viejo.
+
+---
+
+## Cómo envejece cada campo de este módulo
+
+Los tres campos no tienen la misma vida útil, y confundirlos hace leer datos viejos como vigentes:
+
+| Campo | Qué es | Cómo envejece |
+|---|---|---|
+| `InternalName` (`PT_*`) | **token de DE** — sobrevive los reworks | ✅ estable · ❌ **no dice qué hace** |
+| `Status[]` (prosa) | mantenida por la comunidad | ⚠️ **se queda vieja** — caso Blast |
+| **página del tipo de daño** (`mechanics/damage-*.md`) | mantenida por mecánica | ✅ **la más al día para comportamiento** |
+
+Es `references/CLAUDE.md` §*DE desconecta fuentes, no borra tokens* visto **desde adentro del módulo**:
+lo que se desconecta acá no es el token, es su descripción.
+
+### Legacy declarado por el propio módulo
+
+| Token | Estado | Qué murió |
+|---|---|---|
+| `PT_VOID` | `Name = "PT_VOID"`, se autodeclara *"Unknown"* | todo. Void **sí** tiene proc vigente: `PT_RADIANT` (*bullet attraction*), que aplican Xaku *Xata's Whisper* y el amp del operador |
+| `PT_GLUE` (Slow) | en tabla, sin fuente conocida | el proc — **sobrevivió la primitiva** `slow`, usada por Freeze, Gloom, Nova, Paralysis |
+| `PT_RAD_TOX` (Confusion) | Radiation lo declara | el uso que Nyx *Chaos* le daba sin radiación |
+| `PT_ROOTS` (Impair) | `(PvP only)` / Conclave | fuera de alcance **por definición de la fuente**, no por decisión nuestra |
+| `PT_BIG_STAGGER` · `PT_DISARMED` · `PT_PARRIED` | la tabla los marca con `?` | la fuente declara su propia incertidumbre |
+
+⚠️ **Procedencia:** los 29 `PT_*` salen **sólo de este módulo** — cero ocurrencias en
+`sources/public-export.wikitext`. Su tabla se autodeclara `{{Community}}` + `{{UpdateMe|Hidden status
+effects need more research}}`. Los `DT_*` sí están en el export y filtran en texto in-game. **Ambos se
+usan; no soportan el mismo peso.** (`references/CLAUDE.md` §*Cómo leer un token*.)
 
 ---
 

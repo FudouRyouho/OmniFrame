@@ -1,0 +1,46 @@
+<onlyinclude>{{AbilityU10.3
+| name = Containment Wall
+| gameimage = ContainmentWallIcon.png
+| cardimage = ContainmentWall.png
+| hotkey = 1
+| energy = 50
+| cost = 
+| description = 
+| strength = 125 / 150 / 175 / 200 {{D|Radiation}} damage per tick<br>2,000 / 2,500 / 3,000 / 3,500 {{D|Impact}} damage on smash<br>+25% damage vulnerability
+| range = 14 / 16 / 18 / 20 m walls length
+| duration = 
+| misc = 2 parallel walls<br>2 m placement distance<br>10 m walls gap<br>3m length x 1m width x 3m height segment dimensions<br>Light {{D|Stagger}} on segment creation<br>1 s assembly time<br>{{D|Radiation}} status per hit<br>0.125 s damage interval<br>7 {{D|Radiation}} damage ticks<br>Enemy linear displacement on smash<br>Large {{D|Stagger}} on smash<br>Melee finisher prompt<br>&infin; damage vuln. debuff duration
+| cardonly = {{{1|}}}
+| subsumable = 
+| info = *Qorvex expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[Energy]] to construct then collapse <u>'''2'''</u> Containment Walls comprised of numerous irradiated concrete segments. On cast, Qorvex takes a step forward as the concrete segments solidify into existence one-by-one simultaneously for both walls; the starting segments are placed <u>'''2'''</u> meters in front of Qorvex, and positioned parallel to each other leaving a <u>'''10'''</u> meter wide gap in between. Each '''Concrete Segment''' is an intangible stationary object <u>'''3'''</u> meters long, <u>'''1'''</u> meter wide, and <u>'''3'''</u> meters tall. Enemies standing inside a solidifying concrete segment will receive a light {{D|Stagger}} effect.
+**On cast while airborne, Qorvex descends diagonally toward the nearest horizontal surface, similar to a [[Melee#Slam Attack|Melee Slam Attack]]. The Containment Wall only begins construction upon landing.
+**Concrete segments will attempt to adhere to the changes in terrain elevation as the walls assemble, by forming on top of horizontal surfaces several meters above or below the open space where the next segment connects to the previous. If no solid surface is available, the next segment forms connected to the previous segment.
+**Concrete segments allow allied entities and attacks to phase through them. Segments can form inside obstacles in the environment and phase through when the walls compress.
+*Qorvex fully assembles the Containment Walls in the span of <u>'''1'''</u> second to reach their full length of {{Stat|Ability Range|icon=only}}'''14 / 16 / 18 / 20''' meters. During assembly, radioactive waves leak into the gap between every pair of parallel concrete segments, inflicting {{Stat|Ability Strength|icon=only}}'''125 / 150 / 175 / 200''' {{D|Radiation}} damage with a guaranteed [[Status Effect]] every <u>'''0.125'''</u> seconds, up to <u>'''7'''</u> instances of damage and status to all enemies inside.
+**The corresponding concrete segments from each wall will always spawn parallel to each other. Each segment has its own individual hitbox to compress enemies inward, and the empty space in between also has a large invisible hitbox to inflict damage per tick.
+**Containment Wall's radioactive waves damage and break destructible [[Objects]] such as crates and resource caches.
+*On the eighth damage interval, Qorvex forcibly compresses the walls together until they collide and collapse away, while violently pushing enemies toward the collision point and inflicting {{Stat|Ability Strength|icon=only}}'''2,000 / 2,500 / 3,000 / 3,500''' {{D|Impact}} damage with a guaranteed {{D|Radiation}} status on the smashed enemies. Smashed enemies also receive a large {{D|Stagger}} effect that causes a longer recovery animation, prompt [[Finisher|Melee Finisher Attack]] (default {{Keybind|X}}), and have a {{Stat|Ability Strength|icon=only}}'''+25%''' [[Damage Vulnerability]] debuff applied <u>permanently</u>.
+**Damage vulnerability does '''not''' stack against debuffed enemies on repeated casts.
+*'''Ability Synergy:'''
+**Qorvex's Core Exposure [[Qorvex/Abilities|Passive]] benefits from Containment Wall aligning enemies into a straight line.
+**Empower {{A|Chyrinka Pillar}} by compressing Containment Wall on it. Affected pillars remain empowered for {{Stat|Ability Duration|icon=only}}'''5''' seconds, during which their radioactive cores glow brightly and the pulses hasten to emit once every <u>'''0.75'''</u> seconds.
+**Containment Wall's <u>'''8'''</u> stacks of {{D|Radiation}} status effects drastically increase {{A|Disometric Guard}}'s chance to gain status immunity stacks on kills and assists, as well as amplify {{A|Crucible Blast}}'s explosion damage per {{D|Radiation}} status.
+| augment = [[File:WreckingWallMod.png|200px|left]]
+{{main|Wrecking Wall}}
+{{#lst:Wrecking Wall|intro}}
+{{#lsth:Wrecking Wall|Stats}}
+{{clr}}
+| bugs = 
+| tips = *Use Containment Wall's long reach to irradiate and align far away enemies into a narrow queue, then attack with guns amplified by Qorvex's Core Exposure [[Qorvex/Abilities|Passive]] or {{A|Crucible Blast}} to utilize their [[Punch Through]] properties.
+*Cast from the air to descend quickly. If aiming straight down, the walls construct toward where Qorvex's model is facing on landing.
+*Among Qorvex's abilities, Containment Wall and Crucible Blast both stack {{D|Radiation}} procs rapidly. Use this quick accumulation to make irradiated enemies deal more damage to their former allies, raise the status immunity stack chance for {{A|Disometric Guard}}, and amplify Crucible Blast's explosion damage.
+
+|Containment Wall
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Qorvex}}
+__NOTOC__
+[[es:Muro de contención]]
+[[Category:Qorvex]]
+[[Category:Grouping]]

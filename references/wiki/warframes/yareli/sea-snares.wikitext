@@ -1,0 +1,66 @@
+<onlyinclude>{{AbilityU10.3
+| name = Sea Snares
+| gameimage = SeaSnares130xWhite.png
+| cardimage = SeaSnaresModx256.png
+| hotkey = 1
+| energy = 25
+| cost = 
+| description = Form five water globules that seek out enemies and expand on contact, simultaneously damaging and immobilizing their victims. Enemies hit by the globules take increased damage from all sources.
+| strength = 100 / 150 / 200 / 250 /s ({{D|Cold}} damage per second)<br/>+ 50 / 75 / 100 / 125 /s ({{D|Cold}} damage increase per second)<br/>25 / 50 / 75 / 100 % (damage vulnerability)
+| range = 15 / 20 / 25 / 30 m (seek range)
+| duration = 6 / 8 / 10 / 12 s (ensnare duration)
+| misc = 5 (globules per cast)<br/>5 m (placement distance)<br/>12.8 m/s (globule speed)<br/>15 (active globules cap)<br/>20 s (globule lifetime)<br/>10 m (globule target radius)<br/>&infin; (snared enemy count)
+| cardonly = {{{1|}}}
+| info = 
+*Yareli expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to fling out a cluster of <u>'''5'''</u> water globules that spread apart in front of her, then settle and float in place from <u>'''5'''</u> meters away. When cast with enemies in direct line-of-sight and within {{Stat|Ability Range|icon=only}}'''15 / 20 / 25 / 30''' meters in the direction of the aiming reticle, the globules travel at a speed of <u>'''12.8'''</u> meters per second to [[homing|home]] in on individual targets. Yareli may produce up to <u>'''15'''</u> globules with subsequent casts, with the new instances popping the oldest globules when past the limit.
+**Sea Snares without acquired targets are placed horizontally from Yareli's position. Globules will rebound away from walls before they settle in place.
+**If the acquired targets die before their globules reach them, those globules will stop moving and lay in wait for other enemies.
+**Sea Snares from the same cast will attempt to home into different targets. Globules from subsequent casts can home into targets of a previous cast.
+**Globules will '''not''' home into enemies already ensnared by Sea Snares.
+**Enemies protected by [[Overguard]] are still targeted by Sea Snares, which inflicts all of its effects except crowd control immobilization.
+*'''Sea Snares''' are floating proximity traps with a lifetime of <u>'''20'''</u> seconds that detect and respond to enemy presence in direct line-of-sight and within a radius of <u>'''10'''</u> meters around them; upon acquiring a target, each globule rapidly floats toward and splashes onto the nearest enemy in range. Once splashed onto an enemy, the globule bursts apart releasing bubbles that envelop the snared enemy to suspend it in aerial cryostasis for {{Stat|Ability Duration|icon=only}}'''6 / 8 / 10 / 12''' seconds, while chilling it with lowering temperature that inflicts {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Cold}} damage per second, which further increases by {{Stat|Ability Strength|icon=only}}'''50 / 75 / 100 / 125''' {{D|Cold}} damage for each second spent ensnared, and {{Stat|Ability Strength|icon=only}}'''25% / 50% / 75% / 100%''' [[Damage Vulnerability]].
+**When at least one enemy is ensnared by Sea Snares, the timer of the newest target appears on the ability icon.
+**Sea Snares' damage and damage increase per second benefit from Ability Strength and Ability Duration using the following expression:
+**:{{MathText|Total Damage {{eql}} (Ensnare DUR {{mul}} Ability DUR {{mul}} Cold Base DMG Per Sec {{mul}} Ability STR) + (Modded DUR² - Modded DUR) {{mul}} Cold DMG Increase Per Sec {{mul}} Ability STR {{div}} 2}}
+***At max ability rank with a rank 5 {{M|Intensify}} and {{M|Continuity}} equipped, Sea Snares will deal {{Math|[12 {{mul}} (1 + {{M|Continuity|30%}}) {{mul}} 250 {{mul}} (1 + {{M|Intensify|30%}})] + [(12 {{mul}} (1 + {{M|Continuity|30%}}))<sup>2</sup> - 12 {{mul}} (1 + {{M|Intensify|30%}})] {{mul}} 125 {{mul}} (1 + {{M|Intensify|30%}}) {{div}} 2|mt=y}} {{D|Cold}} damage.
+**Damage vulnerability applies to damage from {{A|Aquablades}} and {{A|Riptide}}, but does '''not''' apply to Sea Snares' innate {{D|Cold}} damage per second and damage increase per second.
+**Globules are untargetable and intangible to entities, allowing allies to move through them unhindered, and causing attacks from friend and foe alike to phase through them.
+**Globules still experience collision with terrain geometry and certain objects, such as Arctic [[Eximus]] globes, causing the globules to bounce away and ping-pong against physical obstacles in their path several times until they acquire a new target or harmlessly burst.
+**Each enemy can only be snared by a single globule at a time.
+**Upon ensnaring an enemy, that globule is considered destroyed and removed from the active globule count. Yareli can capture an <u>'''unlimited'''</u> amount of enemies with her Sea Snares.
+*'''Ability Synergy:'''
+**Sea Snares' casting animation is faster while aboard {{A|Merulina}}.
+**Killing enemies affected by Sea Snares with {{M|Merulina Guardian}} heals Merulina while increasing secondary fire rate and reload speed for a duration.
+**Sea Snares prevent snared enemies struck by {{A|Aquablades}} from being staggered away, allowing the blades to strike rapidly stacking multiple {{D|Slash}} status effects.
+**{{A|Riptide}} drags in and damages enemies ensnared by Sea Snares.
+*Can be recast while active to create new globules. Sea Snares has no delay between recasts.
+*Casting Sea Snares plays an upper-body animation whilst moving, or a full-body animation whilst standing, both allowing Yareli to continue movement but restricting other actions.
+*Sea Snares floating as proximity traps are '''not''' dispelled by entering an ability nullifying sphere from special enemies such as the [[Nullifier Crewman]]; the globules merely float in place unable to detect and hone into nearby enemies, but can be harmlessly popped if they collide with enemies.
+**Snared enemies will be released by the null sphere if they enter it.
+**Globules will rebound away if cast by Yareli standing near the null sphere.
+**Thrown globules cannot acquire nor hone into enemies within the coverage of a null sphere.
+*Yareli visually flails her left arm to the side to fling out the globules, as her right leg lifts briefly for balance. Water and bubbles spew forth along with Void energy.
+**Sea Snares globule visually resembles a large translucent water-filled bubble that glows brightly with Void energy and pulsates constantly to maintain its spherical shape, with water leaking from below. On contact with an enemy, the globule splashes water and splits into numerous other globules that move in constant fluctuating positions around the target, producing scores of smaller suds and bubbles.
+**Over the course of the ensnarement, the cloned globules gradually shrink and speed up in their movement until they pop one by one.
+**If the snared target is displaced away from their location, the cloned globules will quickly follow them and wrap around their target again.
+**Targets are immobilized and lifted airborne emitting an upward stream of energy that resembles the {{D|Lifted}} status effect, while liquid globs similar to the [[Ephemera#Bleeding_Body|Bleeding Body Ephemera]] drip off from the targets' bodies.
+| augment = 
+| tips = 
+*With high energy reserves and good [[Ability Efficiency]], Sea Snares is a relatively cheap means of disabling a group of enemies quickly and thus provides decent crowd control.
+*As Sea Snares pin enemies in place, landing headshots becomes easier. It therefore synergizes with effects that are triggered by headshots such as with {{WF|Ivara}}'s {{M|Concentrated Arrow}} or {{WF|Harrow}}'s {{A|Covenant}}.
+| bugs = 
+*More than one globule can hone in on the same enemy and pop on contact, potentially wasting globules due to a single enemy can only be ensnared by one globule.
+**Globules will frequently pop and dissolve away if they collide into environmental obstacles (e.g. walls) or splash into an already snared enemy.
+*Sea Snares' visual effect on snared enemies sometimes linger for a while after their victims died.
+*[[Nautilus]]' {{M|Cordon}} causes snared enemies to launch high into the air as they are pulled together.
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Yareli}}
+__NOTOC__
+[[es:Trampas marinas]]
+[[Category:Yareli]]
+[[Category:Cold Damage]]
+[[Category:Line Of Sight Abilities]]
+[[Category:Damage Vulnerability]]
+[[uk:Морські пастки]]

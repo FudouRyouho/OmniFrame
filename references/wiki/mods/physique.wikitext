@@ -1,0 +1,102 @@
+{{ModBox}}
+'''Physique''' is an ''[[:Category:Auras|aura mod]]'' that increases maximum [[health]].
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect
+! [[Mod#Attributes|Cost]] *
+|-
+| 0 || +3% || -2
+|-
+| 1 || +7% || -3
+|-
+| 2 || +10% || -4
+|-
+| 3 || +13% || -5
+|-
+| 4 || +17% || -6
+|-
+| 5 || +20% || -7
+|}
+<small>''* Aura mods '''increase '''the amount of Mod Capacity''</small>
+
+==Acquisition==
+*Available for {{Nc|20}} creds from the [[Nightwave#Cred Offerings|Nightwave Cred Offerings]] store on a rotational basis.
+*Rewarded after completing the [[Junction]] to [[Europa]] on [[Jupiter]].
+
+==Notes==
+*This can be stacked with other teammates' to increase the team's health by +{{Math|4 * 20%|bf-a=y|p=y}} of their base health.
+*{{WF|Inaros Prime}} receives the largest bonus as his base health at rank 30 is 2415, giving him {{Math|2415*0.2|bf-a = y}} bonus health per aura. This can be further increased with {{M|Coaction Drift}} to {{Math|2415*0.2*1.15*1.15|bf-a = y}} health per aura.
+*This mod does not affect [[Necramech|Necramechs]].
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38}}
+*Fixed Clients not benefiting from each other’s Physique Aura in Duviri.
+
+{{ver|34}}
+;Base vs Final Stats in Modding - Health / Energy / Shield / Armor Stat Overhaul
+
+If you’ve spent any time invested in the deeper nuances of Modding, you may be familiar with “Warframe Math” - math that upon first glance doesn’t really make sense, but once you learn the inner workings of the game, it all comes together. While we can appreciate the value that complex systems offer to a certain subsect of players, there are other aspects of the game that should have clear and understandable outcomes. Namely: Shield, Health, Energy, and Armor Modding. 
+
+'''<u>Pop quiz:</u>''' what is 300 + 440%? If you answered 740, you may just be an Excalibur player.
+
+Vitality (+440% Heath), Redirection (+440% Shields), Flow (+150% Energy), and Steel Fiber (+110% Armor) come with large modifier values that don’t seem to match their outcome in-game. '''This is because these Mods apply their multiplier to the base stats of the Warframe - i.e., the stats you have at Rank 0.''' In the Excalibur example, a Rank 30 Excalibur’s Health stat of 300 earns an additional 440 Health from max rank Vitality (+440% Heath) since it applies to his base rank Health stat of 100, resulting in 740 total health.
+
+In this update, we have removed this obfuscation by having '''Health, Shield, Energy, and Armor Mods apply to the stats of Warframes at their current rank.''' Continuing our Excalibur example, instead of Vitality always applying to Excalibur’s base rank 100 Health, it would apply to his Health stat based on his rank - namely, '''the stat you can actually see in your Arsenal.''' If your Excalibur were Rank 30, his Health stat would be 300, which means Vitality’s multiplier would be calculated off of 300.
+
+With previous Health and Mod values, additional adjustments are needed to make this revision work while maintaining game balance. By only changing where the multiplier applies, a Rank 30 Excalibur would receive an extra 1,320 Health from max rank Vitality, resulting in a total health stat of 1,600. This outcome is a significant buff, which is not the intention of this system change. 
+
+To remedy this, we approached this problem in two ways:
+
+'''1 - We reduced the overall multiplier for Health, Shield, Energy, and Armor Mods.'''<br/>
+Since these now affect Max Rank Warframe stats, these Mods need to scale differently to maintain the status quo. Additionally, we wanted these new values to be as clear and understandable to all players as possible! Here are a few examples of these value changes:
+
+* ''Vitality:'' Reduced from +440% to +100% Health
+* ''Redirection:'' Reduced from +440% to +100% Shield Capacity
+* ''Steel Fiber:'' Reduced from +110% to +100% Armor
+* ''Flow:'' Reduced from +150% to +100% Energy Max
+
+Doing some quick math, this means that a Rank 30 Excalibur (300 Health) with a reworked Vitality Mod (+100% Health, applied to the final Health stat) would receive 300 extra Health, for a total of 600. That, in contrast, is a nerf, which we also don’t want to do. 
+
+So, our next step:
+
+'''2 - We adjusted Warframe Health, Shield, Energy, and Armor values to keep the end result of the revised Mods as close to the original values as possible.'''
+
+With this change, Excalibur’s Rank 30 Health stat is 370. With +100% Health from a max Vitality Mod, his resulting Health stat would be 740, which matches what it was originally. 
+
+While this path to the same result may seem a little complicated, the outcome matches our intention: '''we want players to be able to look at their Health, Shield, and Armor Mods, and be able to understand ''how'' they affect the stats they see in their Arsenal.'''
+
+In addition to everything above, '''we also increased the base stat values for Warframes so that these revised Mods offer similar value for lower-ranked Frames.''' To do so, we reduced the amount of Health/Shield/Energy that Warframes earn per rank in half, and transferred the sum of that value to their base stats.
+
+'''Warframe Mod Changes:'''
+*Physique: +20% Health (was +90%)
+
+{{ver|31.5}}
+*Fixed Warframe Health stats not updating in the Arsenal when equipping the Physique Aura Mod.
+
+{{ver|24.2.10}}
+*Increased the Physique Aura Mod from providing +18% Health to +90% Health (at max rank).
+
+{{ver|12.0}}
+*Reduced health bonus from 60% to 18%.
+
+{{ver|9}}
+*Became an [[Aura]] mod.
+
+{{ver|5}}
+*Introduced as an [[Artifact]].
+}}
+{{AuraNav}}
+[[de:Physis]]
+[[es:Físico]]
+[[fr:Physique]]
+[[ru:Излучение Жизни]]
+[[Category:Mods]]
+[[Category:Warframe Mods]]
+[[Category:Auras]]
+[[Category:Uncommon Mods]]
+[[Category:Vazarin Mods]]
+[[uk:Постать]]

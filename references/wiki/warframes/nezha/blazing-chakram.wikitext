@@ -1,0 +1,64 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly = {{{1|}}}
+| name = Blazing Chakram
+| gameimage = BlazingChakramIcon.png
+| cardimage = BlazingChakram.png
+| hotkey = 2
+| energy = 25
+| description = Hurl a flaming ring that sets enemies ablaze making them vulnerable to any damage. Flaming enemies drop Restorative Orbs on death. Charge to amplify the power of the ring, and reactivate to instantly travel to the ring's location.
+| strength = 100 / 150 / 200 / 250 ({{D|Heat}} damage)<br>400 / 600 / 800 / 1000 (boosted {{D|Heat}} damage)<br>+60% / +75% / +85% / +100% (damage vulnerability)
+| range = 
+| duration = 10 / 11 / 13 / 15 s
+| misc = 50% / 65% / 80% / 100% (health orb chance)<br>20% / 25% / 30% / 35% (energy orb chance)<br>30 m (uncharged throw distance)<br>70 m (charged throw distance)
+| info = *Nezha expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to throw his Universe Ring <u>'''30'''</u> meters towards the target aim, which will ricochet off enemies or objects before returning, hitting up to <u>'''6'''</u> enemies. The chakram deals {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Heat}} damage to enemies it touches and marks them for {{Stat|Ability Duration|icon=only}}'''10 / 11 / 13 / 15''' seconds, with guaranteed {{D|Heat}} [[Status Effect|status effect]]. Marked enemies receive {{Stat|Ability Strength|icon=only}}'''+60% / +75% / +85% / +100%''' [[Damage Vulnerability]] and have a <u>'''50% / 65% / 80% / 100%'''</u> chance to drop a [[Health Orb]], and a <u>'''20% / 25% / 30% / 35%'''</u> chance to drop an [[Energy Orb]], upon death.
+**Casting animation of '''~0.75''' seconds, affected by [[Casting Speed]].
+***Can be cast while moving but will interrupt any other action.
+*Holding down the ability key (default {{Keybind|2}}) will charge the chakram to increase its damage, up to {{Stat|Ability Strength|icon=only}}'''400 / 600 / 800 / 1000''' {{D|Heat}} damage while {{D|Ragdoll|Ragdolling}} enemies, and make it fly <u>'''~70'''</u> meters in a straight line forward and backward hitting all enemies in its path.
+**Charging animation is '''not''' affected by [[Casting Speed]].
+**A charged Blazing Chakram loses its ability to ricochet off walls and enemies.
+*If Blazing Chakram is activated again by pressing the ability key (default {{Keybind|2}}) while the chakram is in flight, Nezha will teleport to its current location at no energy cost.
+**Nezha '''cannot''' teleport to the chakram if it is inside or too close to a wall.
+*Bouncing from surfaces can extend the chakram's travel distance.
+*The chakram's position is indicated as a waypoint onscreen and as a circular icon on the minimap.
+*Both uncharged and charged throws are capable of hitting the same enemy multiple times.
+*Blazing Chakram can be detonated mid-flight similarly to a throwing weapon
+**This does not appear to deal damage—its primary function appears to be to force the early return of the Chakram.
+**This requires a melee weapon to be equipped. Pressing the heavy attack key while a melee weapon is equipped and the Chakram is still on an outbound path will cause the Chakram to "explode", then return to Nezha.
+*'''Ability Synergy:'''
+**If {{A|Fire Walker}} is active when using Blazing Chakram's teleportation, Fire Walker will overheat at the destination and deal {{Stat|Ability Strength|icon=only}}'''500 / 750 / 1000 / 1250''' {{D|Heat}} damage, with a <u>'''10% / 25% / 50% / ?'''</u> {{D|Heat}} [[status chance]], within a radius of {{Stat|Ability Range|icon=only}}'''3 / 4 / 5 / 6''' meters, as well as leaving a lingering ring of Fire Walker's flames.
+***Damage does '''not''' bypass obstacles in the environment and diminishes with distance.
+**Blazing Chakram striking an enemy impaled by {{A|Divine Spears}} produces a second chakram, which fires at a nearby enemy.
+***Secondary chakrams can create additional ones off of speared enemies.
+***A charged throw will also produce charged chakrams, which will not seek out enemies or bounce, and often fly off in random directions. Therefore, uncharged throws are much more well-suited to generate many chakrams and ramp up {{M|Reaping Chakram}}'s bonus damage.
+| augment = [[File:ReapingChakramMod.png|200px|left]]
+{{main|Reaping Chakram}}
+{{#lst:Reaping Chakram|intro}}
+{{#lsth:Reaping Chakram|Stats}}
+{{clr}}
+| tips = *Using {{M|Reaping Chakram}} with {{M|Equilibrium}} significantly enhances energy return chances. This allows high strength builds with low (45%) efficiency to still be able to cast this power almost infinitely.
+*{{M|Archon Vitality}} guarantees a double Fire Proc on each target hit, each target hit in chain taking significantly more damage-over-time as chained targets face increased damage multiplication. Charging this ability and using {{M|Archon Vitality}} creates even more powerful damage-over-time dual Fire Procs.
+*The applied vulnerability mark is independent of the ring's damage and '''can''' be applied to enemies immune to Blazing Chakram's damage.
+*The mark is removed in nullifier fields, however its duration is '''not''' decreased by effects such as Ancient Disruptor auras or the Executioner's natural debuff reduction.
+*After activating Divine Spears and throwing a Chakram at impaled enemies, 2 additional rings are created and will bounce off enemies. If the Chakram is charged, the extra rings will have similarly increased damage and behavior.
+*The two different Restorative Orb drop chances are calculated separately from each other and from the enemies standard drop table, as such it is possible for a single enemy to drop multiple orbs, even several of the same type.
+*Enemies killed instantly by the Chakram's damage will still benefit from the additional restorative orb drop chances, even though the vulnerability mark is applied after the initial damage instance.
+<noinclude>
+|max             = {{WFmax|main|nezha2}}
+</noinclude>
+| bugs = *In games with moderately high latency, the chakram may veer wildly off-course or be seen shaking in midair while moving slowly, then disappear before striking an enemy.  This is likely caused by the ring's position being calculated host-side, rather than client-side.
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Nezha}}
+
+[[es:Chakram en llamas]]
+[[fr:Chakram Flamboyant]]
+[[Category:Nezha]]
+[[Category:Warframe Abilities]]
+[[Category:Toggled Abilities]]
+[[Category:Update 18]]
+[[Category:Healing]]
+[[Category:Heat Damage]]
+[[Category:Damage Vulnerability]]
+[[Category:Energy Restoration]]
+[[uk:Вогняна чакра]]

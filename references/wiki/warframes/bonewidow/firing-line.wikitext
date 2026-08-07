@@ -1,0 +1,23 @@
+<onlyinclude>{{AbilityU10.3
+| gameimage = ThanomechRepulse.png
+| cardimage = ThanomechRepulse.png
+| name = Firing Line
+| energy = 50
+| hotkey = 3
+| description = Sweep surrounding enemies into the line of fire with a force beam.
+| strength = 
+| range = 10 / 15 / 20 / 25 m
+| duration = 5 s ({{D|Lifted}} duration)
+| misc = 180 / 240 / 300/ 360 °/s (speed)<br/>1.5 x ({{D|Lifted}} [[Damage Vulnerability]])
+| cardonly = {{{1|}}}
+| info = *Bonewidow expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to emit two force beams from its body which converge toward the direction it faces. The force beams each span a length of {{Stat|Ability Range|icon=only}}'''10 / 15 / 20 / 25''' meters and a height of <u>'''?'''</u> meters, originating from Bonewidow's body to encompass a <u>'''180 / 240 / 300 / 360'''</u> degrees area as the beams completely converge in <u>'''1'''</u> second. Enemies hit by the force beams are pushed toward the point of convergence, inflicted with the {{D|Lifted}} status effect for {{Stat|Ability Duration|icon=only}}'''5''' seconds, and receive <u>'''1.5x'''</u> [[Damage Vulnerability]] from all sources while Lifted.
+*Cannot be cast while in the air.
+}}</onlyinclude>
+
+==See Also==
+*[[Bonewidow]]
+[[fr:Ligne de Tir]]
+[[Category:Update 29]]
+[[Category:Bonewidow]]
+[[Category:Damage Vulnerability]]
+[[uk:Лінія вогню]]

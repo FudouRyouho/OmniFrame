@@ -1,0 +1,975 @@
+{{Spoiler}}
+{{UpdateMe|
+A lot of mini bosses are missing. For example bounty-required bosses or field bosses spawned by high alert leves.
+}}
+{{Infobox
+|Box title = Bosses
+|image     = CaptainVorFK.png
+|caption   = Captain Vor, one of the first bosses the player will encounter.
+}}
+'''Bosses''' are a unique enemy class outfitted with superior weapons, high health, rechargeable shields, special abilities, and other traits. They are far stronger than regular units as they will use varying strategies to deal damage and avoid taking it.
+
+There are seven types of bosses in the game:
+*[[#Normal Bosses|Normal Boss]] - Bosses which can be mostly found as the target of [[Assassination]] missions, AKA '''Grand Boss'''.
+*[[#Field Bosses|Field Boss]] - Bosses that can be encountered on non-Assassination mission types, though not usually the main objective.
+*[[#Hardmode Bosses|Hardmode Boss]] - Significantly harder bosses activated through additional steps.
+*[[#Assassin Bosses|Assassin]] - Bosses that actively hunt down players who possess their respective [[Death Mark]]s.
+*[[#Adversaries|Adversary]] - Randomized nemesis-style bosses with Warframe-like abilities that attempt to take control of the [[Star Chart]] or [[Höllvania]].
+*[[#Quest Bosses|Quest Boss]] - Bosses that appear in [[Quests]] ('''not''' [[Events]]), are generally '''not''' farmable, and are '''not''' seen again in normal gameplay.
+*[[#Event Bosses|Event Boss]] - Bosses that appear in [[Events]] ('''not''' [[Quests]]), are generally farmable, and are seen either once or periodically (depending on the event).
+
+==Normal Bosses==
+These Bosses are found mostly on [[Assassination]] missions (with a few exceptions), and are <u>unavoidable main objectives</u>. Each boss usually has a set of lines to "taunt" the Tenno sent to kill them. They generally drop [[mods]] and [[resources]] upon death. Depending on which boss the player is fighting, [[Blueprints]] of [[Warframe]] parts and special [[Weapon]] parts will often be rewarded upon mission completion.
+
+===Grineer Faction===
+<tabber>
+Captain Vor=
+[[File:CaptainVorFK.png|x200px|left]]
+{{main|Captain Vor}}
+{{#lst:Captain_Vor|vorintro}}
+{{clr}}
+
+|-|Councilor Vay Hek=
+[[File:VayHekPortrait.png|x200px|left]]
+{{main|Councilor Vay Hek}}
+{{#lst:Councilor Vay Hek|hekintro}}
+{{clr}}
+
+|-|Lieutenant Lech Kril=
+[[File:LechKril.png|x200px|left]]
+{{main|Lieutenant Lech Kril}}
+{{#lst:Lieutenant Lech Kril|krilintro}}
+{{clr}}
+
+|-|General Sargas Ruk=
+[[File:GeneralSargasRukFK.png|x200px|left]]
+{{main|General Sargas Ruk}}
+{{#lst:General Sargas Ruk|rukintro}}
+{{clr}}
+
+|-|Tyl Regor=
+[[File:TylRegor.png|x200px|left]]
+{{main|Tyl Regor}}
+{{#lst:Tyl Regor|tylintro}}
+{{clr}}
+
+|-|Kela De Thaym=
+[[File:KelaDeThaym.png|x200px|left]]
+{{main|Kela De Thaym}}
+{{#lst:Kela De Thaym|kelaintro}}
+{{clr}}
+</tabber>
+
+===Corpus Faction===
+<tabber>
+Jackal=
+[[File:JackalDE.png|x200px|left]]
+{{main|Jackal}}
+{{#lst:Jackal|jackalintro}}
+{{clr}}
+
+|-|The Sergeant=
+[[File:NefAnyoDE.png|x200px|left]]
+{{main|The Sergeant}}
+{{#lst:The Sergeant|intro}}
+{{clr}}
+
+|-|Alad V=
+[[File:DEAlad V.png|x200px|left]]
+{{main|Alad V}}
+{{#lst:Alad V|aladintro}}
+{{clr}}
+
+|-|Raptors=
+[[File:RaptorSeries.png|x200px|left]]
+{{main|Raptors}}
+{{#lst:Raptors|raptorintro}}
+{{clr}}
+
+|-|Hyena Pack=
+[[File:DEHyenacombine.png|x200px|left]]
+{{main|Hyena Pack}}
+{{#lst:Hyena Pack|hyenaintro}}
+{{clr}}
+
+|-|Ambulas=
+[[File:CodexAmbulas.png|x200px|left]]
+{{main|Ambulas}}
+{{#lst:Ambulas|ambulasintro}}
+{{clr}}
+</tabber>
+
+===Infested Faction===
+<tabber>
+|-|Lephantis=
+[[File:GolemFullAvatar.png|x200px|left]]
+{{main|Lephantis}}
+{{#lst:Lephantis|lephantisintro}}
+{{clr}}
+
+|-|Juggernaut Behemoth=
+[[File:JuggernautBoss.png|x200px|left]]
+{{main|Juggernaut Behemoth}}
+{{#lst:Juggernaut Behemoth|juggernbehemintro}}
+{{clr}}
+
+|-|Jordas Golem=
+[[File:Golem2.png|x200px|left]]
+{{main|Jordas Golem}}
+{{#lst:Jordas Golem|j3golemintro}}
+{{clr}}
+
+|-|Mutalist Alad V=
+[[File:InfestedAladV2.png|x200px|left]]
+{{main|Mutalist Alad V}}
+{{#lst:Mutalist Alad V|mutalistaladvintro}}
+{{clr}}
+
+|-|Zealoid Prelate=
+[[File:Zealot prelate.png|x200px|left]]
+{{main|Zealoid Prelate}}
+{{#lst:Zealoid Prelate|zealoidprelateintro}}
+{{clr}}
+
+|-|Infested Oni=
+[[File:AshenBigAvatar.png|x200px|left]]
+{{main|Infested Oni}}
+{{#lst:Infested Oni|intro}}
+{{clr}}
+</tabber>
+
+===Orokin Empire Faction===
+<tabber>
+|-|Nihil=
+[[File:Nihil-mug.jpg|x200px|left]]
+{{main|Nihil}}
+{{#lst:Nihil|nihilintro}}
+{{clr}}
+
+|-|Roathe=
+[[File:RoatheInfobox.png|x200px|left]]
+{{main|Roathe (Boss)}}
+{{#lst:Roathe (Boss)|intro}}
+{{clr}}
+</tabber>
+
+===Orokin (Corrupted) Faction===
+<tabber>
+|-|Junction Guardians=
+[[File:Junction.jpg|x200px|left]]
+{{main|Junction#Mechanics}}
+{{#lst:Junction|intro}}
+{{clr}}
+</tabber>
+
+===Sentient Faction===
+<tabber>
+|-|Ropalolyst=
+[[File:Ropalolyst.png|x200px|left]]
+{{main|Ropalolyst}}
+{{#lst:Ropalolyst|ropalolystintro}}
+{{clr}}
+
+|-|Hunhullus=
+[[File:Hunhullus.png|x200px|left]]
+{{main|Hunhullus}}
+{{#lst:Hunhullus|intro}}
+{{clr}}
+
+|-|Dactolyst=
+[[File:Dactolyst.png|x200px|left]]
+{{main|Dactolyst}}
+{{#lst:Dactolyst|intro}}
+{{clr}}
+</tabber>
+
+===Narmer + Sentient Faction===
+<tabber>
+|-|Archon Amar=
+[[File:ArchonAmar.png|x200px|left]]
+{{main|Archon Amar}}
+{{#lst:Archon Amar|intro}}
+{{clr}}
+
+|-|Archon Boreal=
+[[File:ArchonBoreal.png|x200px|left]]
+{{main|Archon Boreal}}
+{{#lst:Archon Boreal|intro}}
+{{clr}}
+
+|-|Archon Nira=
+[[File:ArchonNira.png|x200px|left]]
+{{main|Archon Nira}}
+{{#lst:Archon Nira|intro}}
+{{clr}}
+</tabber>
+
+===Duviri Faction===
+<tabber>
+|-|Orowyrm=
+[[File:Orowyrm.jpg|x200px|left]]
+{{main|Orowyrm}}
+{{#lst:Orowyrm|intro}}
+{{clr}}
+</tabber>
+
+===Murmur Faction===
+<tabber>
+|-|The Fragmented=
+[[File:TheFragmentedSuzerain.png|x200px|left]]
+{{main|The Fragmented}}
+{{#lst:The Fragmented|intro}}
+{{clr}}
+</tabber>
+
+===Scaldra + Techrot Faction===
+<tabber>
+|-|H-09 Efervon Tank=
+[[File:LasrianTank.png|x200px|left]]
+{{main|H-09 Efervon Tank}}
+{{#lst:H-09 Efervon Tank|intro}}
+{{clr}}
+</tabber>
+
+===Anarchs Faction===
+<tabber>
+|-|Commandeered Ash Prime=
+[[File:AshPrime Thumb.png|x200px|left]]
+{{main|Commandeered Ash Prime}}
+{{#lst:Commandeered Ash Prime|intro}}
+{{clr}}
+
+|-|Commandeered Caliban Prime=
+[[File:CalibanPrime Thumb.png|x200px|left]]
+{{main|Commandeered Caliban Prime}}
+{{#lst:Commandeered Caliban Prime|intro}}
+{{clr}}
+
+|-|Commandeered Ember Prime=
+[[File:EmberPrime Thumb.png|x200px|left]]
+{{main|Commandeered Ember Prime}}
+{{#lst:Commandeered Ember Prime|intro}}
+{{clr}}
+
+|-|Commandeered Mesa Prime=
+[[File:MesaPrime Thumb.png|x200px|left]]
+{{main|Commandeered Mesa Prime}}
+{{#lst:Commandeered Mesa Prime|intro}}
+{{clr}}
+
+|-|Commandeered Protea Prime=
+[[File:ProteaPrime Thumb.png|x200px|left]]
+{{main|Commandeered Protea Prime}}
+{{#lst:Commandeered Protea Prime|intro}}
+{{clr}}
+
+|-|Commandeered Volt Prime=
+[[File:VoltPrime Thumb.png|x200px|left]]
+{{main|Commandeered Volt Prime}}
+{{#lst:Commandeered Volt Prime|intro}}
+{{clr}}
+</tabber>
+
+==Field Bosses==
+'''Field Bosses''' are boss-like enemies that may spawn in a certain set of missions, or at a certain time, or with some interval, or repeatedly under some conditions. While some Field Bosses may be required to be killed to progress the objective, oftentimes they are not the main objective of the mission. The value of rewards varies greatly between bosses.<br/>
+
+===Obligatory===
+These bosses are <u>unavoidable side objectives</u>, always required to complete the mission. They may act as secundants of the [[Grand Boss]] in an [[Assassination]] mission, or be the only boss in a different mission type in which a boss is '''not''' the ultimate goal.
+<tabber>
+|-|Narmer Deacon=
+[[File:NarmerDeaconicon.png|x200px|left]]
+{{main|Narmer Deacon}}
+{{#lst:Narmer Deacon|intro}}
+{{clr}}
+|-|Oraxia=
+[[File:OraxiaSplash.png|x200px|left]]
+{{main|Oraxia (Boss)}}
+{{#lst:Oraxia (Boss)|intro}}
+{{clr}}
+|-|Legacyte=
+[[File:Legacyte.png|x200px|left]]
+{{main|Legacyte}}
+{{#lst:Legacyte|intro}}
+{{clr}}
+|-|Ravenous Void Angel=
+[[File:VoidAngel.png|x200px|left]]
+{{main|Void Armageddon#Void Angel}}
+{{#lst:Void Armageddon|angelintro}}
+{{clr}}
+|-|Void Key Guardians=
+[[File:Orokin_Sabotage.png|x200px|left]]
+{{main|Orokin Sabotage}}
+{{#lst:Orokin Sabotage|intro}}
+{{clr}}<hr/>
+[[File:Venkra.png|x200px|left]]
+{{main|Ven'kra Tel}}
+{{#lst:Ven'kra Tel|venkraintro}}
+{{clr}}
+[[File:Sprag.png|x200px|left]]
+{{main|Sprag}}
+{{#lst:Sprag|spragintro}}
+{{clr}}
+[[File:CrpMiniJackal.png|x200px|left]]
+{{main|Lynx}}
+{{#lst:Lynx|intro}}
+{{clr}}
+|-|Break Narmer=
+[[File:Veilbreaker.png|x200px|left]]
+{{main|Break Narmer}}
+{{#lst:Break Narmer|intro}}
+{{clr}}<hr/>
+[[File:WolfStalker.png|x200px|left]]
+{{main|Wolf of Saturn Six}}
+{{#lst:Wolf of Saturn Six|wolfintro}}
+{{clr}}
+[[File:TuskThumper.png|x200px|left]]
+{{main|Tusk Thumper}}
+{{#lst:Tusk Thumper|intro}}
+{{clr}}
+[[File:ScytoRaknoid.png|x200px|left]]
+{{main|Scyto Raknoid}}
+{{#lst:Scyto Raknoid|intro}}
+{{clr}}
+</tabber>
+
+===Occasional===
+These bosses may become main '''mission''' or '''bounty''' objectives by chance, or once you take a bounty, or once you provoke them. Many bosses can be safely disengaged without failing the mission.<br/>
+Some bosses appear only for specific bounty objectives. Some bosses block '''mission''' or '''bounty''' progression until dealt with.
+<tabber>
+|-|Profit-Taker Orb=
+[[File:ProfitTakerOrb.png|x200px|left]]
+{{main|Profit-Taker Orb}}
+{{#lst:Profit-Taker Orb|intro}}
+{{clr}}
+
+|-|Exploiter Orb=
+[[File:ExploiterOrb.png|x200px|left]]
+{{main|Exploiter Orb}}
+{{#lst:Exploiter Orb|intro}}
+{{clr}}
+
+|-|Void Angels=
+[[File:VoidAngel.png|x200px|left]]
+{{main|Void Angel}}
+{{#lst:Void Angel|intro}}
+{{clr}}
+
+|-|Corrupted Jackal=
+[[File:Jackal.png|x200px|left]]
+{{main|Corrupted Jackal}}
+{{#lst:Corrupted Jackal|corruptedjackalintro}}
+{{clr}}
+
+|-|Commandeered Primes=
+[[File:IconAnarchs.png|x200px|left]]
+{{main|Commandeered Prime}}
+{{#lst:Commandeered Prime|intro}}
+{{clr}}
+
+|-|Duviri Stages=
+[[File:DuviriMoodSpirals.png|x200px|left]]
+{{main|Duviri#Stage Types}}
+{{#lst:Duviri|stagesintro}}
+{{clr}}<hr/>
+[[File:Kullervo_Thumb.png|x200px|left]]
+{{main|Kullervo (Boss)}}
+{{#lst:Kullervo (Boss)|intro}}
+{{clr}}
+[[File:DaxEquitem.png|x200px|left]]
+{{main|Dax Equitem}}
+{{#lst:Dax Equitem|intro}}
+{{clr}}
+
+|-|Faceoff (Assassination)=
+[[File:U38Faceoff.png|x200px|left]]
+{{main|Faceoff}}
+{{#lst:Faceoff|intro}}
+{{clr}}<hr/>
+[[File:TechrotScaart.png|x200px|left]]
+{{main|Techrot Scaart}}
+{{#lst:Techrot Scaart|intro}}
+{{clr}}
+[[File:InfestedBabau.png|x200px|left]]
+{{main|Techrot Babau}}
+{{#lst:Techrot Babau|intro}}
+{{clr}}
+
+|-|Albrecht's Laboratories Bounties=
+[[File:Albrecht's Labs promo.jpg|x200px|left]]
+{{main|Bounty#Sanctum_Anatomica_Bounties_(Albrecht's_Laboratories)}}
+{{#lst:Albrecht's Laboratories|intro}}
+{{clr}}<hr/>
+[[File:Bound Whisper Tome.jpg|x200px|left]]
+{{main|Whisper}}
+{{#lst:Whisper|intro}}
+{{clr}}
+[[File:Voidrig.png|x200px|left]]
+{{main|Rogue Voidrig}}
+{{#lst:Rogue Voidrig|intro}}
+{{clr}}
+
+|-|Eidolons=
+[[File:ArticulaTeralyst.png|x200px|left]]
+{{main|Eidolon}}
+{{#lst:Eidolon|intro}}
+{{clr}}<hr/>
+[[File:Teralyst.png|x200px|left]]
+{{main|Eidolon Teralyst}}
+{{#lst:Eidolon Teralyst|teralystintro}}
+{{clr}}
+[[File:TeralystBig.png|x200px|left]]
+{{main|Eidolon Gantulyst}}
+{{#lst:Eidolon Gantulyst|gantulystintro}}
+{{clr}}
+[[File:TeralystRain.png|x200px|left]]
+{{main|Eidolon Hydrolyst}}
+{{#lst:Eidolon Hydrolyst|hydrolystintro}}
+{{clr}}
+
+|-|Plains of Eidolon Bounties=
+[[File:Plains of Eidolon.png|x200px|left]]
+{{main|Bounty#Mission_Types}}
+{{#lst:Plains of Eidolon|poeintro}}
+{{clr}}<hr/>
+[[File:EidolonVipGrunt.png|x200px|left]]
+{{main|Plains Commander}}
+{{#lst:Plains Commander|intro}}
+{{clr}}
+[[File:EidolonVipPilot.png|x200px|left]]
+{{main|Aerial Commander}}
+{{#lst:Aerial Commander|intro}}
+{{clr}}
+[[File:EidolonVipSniper.png|x200px|left]]
+{{main|Recon Commander}}
+{{#lst:Recon Commander|intro}}
+{{clr}}
+[[File:NarmerBossLancer.png|x200px|left]]
+{{main|Narmer Commander}}
+{{#lst:Narmer Commander|intro}}
+{{clr}}
+
+|-|Cambion Drift Bounties=
+[[File:CambionDrift.jpg|x200px|left]]
+{{main|Cambion Drift#Bounties}}
+{{#lst:Cambion Drift|bountyintro}}
+{{clr}}<hr/>
+[[File:FemurAssassinateTargetAvatar.png|x200px|left]]
+{{main|Deimos Saxum#Rex}}
+{{#lst:Deimos Saxum|intro}}
+{{clr}}
+[[File:AshenBigAvatar.png|x200px|left]]
+{{main|Deimos Carnis#Rex}}
+{{#lst:Deimos Carnis|intro}}
+{{clr}}
+[[File:MitosidRex.png|x200px|left]]
+{{main|Mitosid#Rex}}
+{{#lst:Mitosid|intro}}
+{{clr}}
+[[File:JuggernautMicroPlanetAvatar.png|x200px|left]]
+{{main|Juggernaut#Polyp-Hog}}
+{{#lst:Juggernaut|juggernautintro}}
+{{clr}}
+[[File:Voidrig.png|x200px|left]]
+{{main|Rogue Voidrig}}
+{{#lst:Rogue Voidrig|intro}}
+{{clr}}
+[[File:Bonewidow.png|x200px|left]]
+{{main|Rogue Bonewidow}}
+{{#lst:Rogue Bonewidow|intro}}
+{{clr}}
+</tabber>
+
+===Optional===
+<span id="Acolytes"></span> <!-- DO NOT remove, needed to support old links -->
+These bosses are completely optional, you should never find yourself in a situation where you '''have to''' fight them to complete the mission.<br/>
+<tabber>
+|-|Juggernauts=
+[[File:Juggernaut.png|x200px|left]]
+{{main|Juggernaut}}
+{{#lst:Juggernaut|juggernautintro}}
+{{clr}}
+|-|Skittergirl=
+[[File:Skittergirl.png|x200px|left]]
+{{main|Skittergirl}}
+{{#lst:Skittergirl|intro}}
+{{clr}}
+|-|Jugulus Rex=
+[[File:BoneBladeBossAvatar.png|x200px|left]]
+{{main|Deimos Jugulus#Rex}}; <code>''Hidden boss''</code>
+{{#lst:Deimos Jugulus|intro}}
+{{clr}}
+|-|Sister of Parvos (Ascension)=
+[[File:Sister_hound_ephemera_sshot_edit.webp|x200px|left]]
+{{main|Ascension}}
+{{#lst:Sisters of Parvos/Main|intro}}
+{{clr}}
+|-|Corrupted Vor=
+[[File:VorTwo.png|x200px|left]]
+{{main|Corrupted Vor}}
+{{#lst:Corrupted Vor|corruptedvorintro}}
+{{clr}}
+|-|John Prodman=
+[[File:JohnProdman.png|x200px|left]]
+{{main|John Prodman}}
+{{#lst:John Prodman|johnprodmanintro}}
+{{clr}}
+|-|Treasurer=
+[[File:Treasurer.png|x200px|left]]
+{{main|Treasurer}}
+{{#lst:Treasurer|intro}}
+{{clr}}
+|-|Tusk Thumpers=
+[[File:TuskThumper.png|x200px|left]]
+{{main|Tusk Thumper}}
+{{#lst:Tusk Thumper|intro}}
+{{clr}}
+|-|Ambulas (Dispatch)=
+[[File:CodexAmbulas.png|x200px|left]]
+{{main|Ambulas#Animo Beacons}}
+{{#lst:Ambulas|ambulasintro}}
+{{clr}}
+|-|Silver Grove Specters=
+[[File:TheSilverGrove.png|x200px|left]]
+{{main|Silver Grove Shrine}}
+{{#lst:Silver Grove Shrine|intro}}
+{{clr}}<hr/>
+[[File:LokiKnave.png|x200px|left]]
+{{main|Knave Specter}}
+{{#lst:Knave Specter|intro}}
+{{clr}}
+[[File:OrphidSaryn.png|x200px|left]]
+{{main|Orphid Specter}}
+{{#lst:Orphid Specter|intro}}
+{{clr}}
+[[File:FeyarchOberon.png|x200px|left]]
+{{main|Feyarch Specter}}
+{{#lst:Feyarch Specter|intro}}
+{{clr}}
+|-|Acolytes=
+[[File:Acolytes.png|x200px|left]]
+{{Main|Acolytes}}
+{{#lst:Acolytes|intro}}
+{{clr}}<hr/>
+[[File:AreaCasterAcolyte.png|x200px|left]]
+{{main|Misery}}
+{{#lst:Misery|intro}}
+{{clr}}
+[[File:StrikerAcolyte.png|x200px|left]]
+{{main|Angst}}
+{{#lst:Angst|intro}}
+{{clr}}
+[[File:HeavyAcolyte.png|x200px|left]]
+{{main|Malice}}
+{{#lst:Malice|intro}}
+{{clr}}
+[[File:RogueAcolyte.png|x200px|left]]
+{{main|Mania}}
+{{#lst:Mania|intro}}
+{{clr}}
+[[File:ControlAcolyte.png|x200px|left]]
+{{main|Torment}}
+{{#lst:Torment|intro}}
+{{clr}}
+[[File:DuellistAcolyte.png|x200px|left]]
+{{main|Violence}}
+{{#lst:Violence|intro}}
+{{clr}}
+|-|Break Narmer Challenges=
+[[File:Veilbreaker.png|x200px|left]]
+{{main|Break Narmer}}
+{{#lst:Break Narmer|intro}}
+{{clr}}<hr/>
+[[File:Venkra.png|x200px|left]]
+{{main|Ven'kra Tel}}
+{{#lst:Ven'kra Tel|venkraintro}}
+{{clr}}
+[[File:Sprag.png|x200px|left]]
+{{main|Sprag}}
+{{#lst:Sprag|spragintro}}
+{{clr}}
+|-|Albrecht's Laboratories Security=
+[[File:Voidrig.png|x200px|left]]
+{{main|Necramech (Enemy)#Albrecht's Laboratories}}
+{{#lst:Necramech (Enemy)|necramechintro}}
+{{clr}}
+|-|Grineer Data Vault Security=
+[[File:CrpMiniJackal.png|x200px|left]]
+{{main|Lynx}}
+{{#lst:Lynx|intro}}
+{{clr}}
+</tabber>
+
+===Adversaries===
+{{main|Adversary System}}
+{{#lst:Adversary System|intro}}<br/>
+<tabber>
+|-|Kuva Larvling=
+[[File:WolfGangster.png|x200px|left]]
+{{main|Kuva Larvling}}
+{{#lst:Kuva Larvling|intro}}
+{{clr}}
+|-|Kuva Lich=
+[[File:KuvaLiches.jpg|x200px|left]]
+{{main|Kuva Lich}}
+{{#lst:Kuva Lich/Main|kuvalichintro}}
+{{clr}}
+|-|Candidate=
+[[File:FemaleTreasurer.png|x200px|left]]
+{{main|Candidate}}
+{{#lst:Candidate|intro}}
+{{clr}}
+|-|Sisters of Parvos=
+[[File:SistersOfParvosTeaser2.jpg|x200px|left]]
+{{main|Sisters of Parvos}}
+{{#lst:Sisters of Parvos/Main|intro}}
+{{clr}}
+|-|Technocyte Coda=
+[[File:TechnocyteCodaPoster.png|x200px|left]]
+{{main|Technocyte Coda}}
+{{#lst:Technocyte Coda/Main|codaintro}}
+{{clr}}
+</tabber>
+
+==Hardmode Bosses==
+'''Hardmode Bosses''' (commonly referred in the community as '''Superbosses''', '''Accolade Bosses''' or '''Secret Bosses''') are significantly harder variants of existing bosses, summoned during the Steel Path version of their respective missions by performing optional extra steps beyond summoning the normal variant. Each Hardmode Boss grants an additional reward for going above and beyond to defeat them, such as a [[Sumdali]] upon defeating them for the first time, and [[Accolade Glyphs]] when beating them alone with specific warframes.
+
+<tabber>
+|-|Janus Captain Vor=
+[[File:CaptainVorFK.png|x200px|left]]
+{{main|Janus Captain Vor}}
+{{#lst:Janus Captain Vor|januscaptainvorintro}}
+{{clr}}
+|-|The Fragmented One=
+[[File:TheFragmentedSuzerain.png|x200px|left]]
+{{main|The Fragmented One}}
+{{#lst:The Fragmented One|TheFragmentedOneIntro}}
+{{clr}}
+|-|H-09 Apex=
+[[File:H-09ApexTank.png|x200px|left]]
+{{main|H-09 Apex}}
+{{#lst:H-09 Apex|ApexIntro}}
+{{clr}}
+|-|The Guilty=
+[[File:PeritaHardModeImageWide.png|x200px|left]]
+{{main|The Guilty}}
+{{#lst:The Guilty|TheGuiltyIntro}}
+{{clr}}
+</tabber>
+
+==Assassin Bosses==
+'''Assassins''' are rare bosses that randomly hunt players down outside of Assassination missions. They can be spawned by players who have earned [[Death Mark]]s through various means. Defeating these rare enemies may yield rare resources, parts, and blueprints. A death mark can be obtained from killing a boss or by completing 3 invasion missions on the opposing side of the assassin's faction. They can also be spawned using beacons.
+
+Though they can spawn in most of the game, they cannot spawn in:
+*[[Syndicate]] and [[Assassination]] standard missions
+*[[Archwing]], [[Landscape|Free Roam]] and [[Arena]] special game modes
+** Also includes Quest and Mastery Test solo-exclusive missions
+*[[Sanctuary Onslaught]] and Elite Sanctuary Onslaught
+*Non-combat hub "missions" ([[Relay]]s, [[Dojo]]s)
+*Any mission that has already been "chosen" for the spawn of another Assassin or is forced due to beacons
+
+<tabber>
+|-|Stalker=
+[[File:Stalker d.png|x200px|left]]
+{{main|Stalker}}
+{{#lst:Stalker|stalkerintro}}
+{{clr}}
+|-|Shadow Stalker=
+[[File:SentientStalker.png|x200px|left]]
+{{main|Shadow Stalker}}
+{{#lst:Shadow Stalker|shadowstalkerintro}}
+{{clr}}
+|-|Protector Stalker=
+[[File:ProtectorStalker.png|x200px|left]]
+{{main|Protector Stalker}}
+{{#lst:Protector Stalker|protectorstalkerintro}}
+{{clr}}
+|-|Zanuka Hunter=
+[[File:DEHarvester.png|x200px|left]]
+{{main|Zanuka Hunter}}
+{{#lst:Zanuka Hunter|harvesterintro}}
+{{clr}}
+|-|The Grustrag Three=
+[[File:GrineerDeathSquad+Sentinel.png|x200px|left]]
+{{main|The Grustrag Three}}
+{{#lst:The Grustrag Three|grustragintro}}
+{{clr}}<hr/>
+[[File:DELeekter.png|x200px|left]]
+{{main|Leekter}}
+{{#lst:The_Grustrag_Three/Leekter|leekterintro}}
+{{clr}}
+[[File:DEShik.png|x200px|left]]
+{{main|Shik Tal}}
+{{#lst:The_Grustrag_Three/Shik Tal|shiktalintro}}
+{{clr}}
+[[File:DETabook.png|x200px|left]]
+{{main|Vem Tabook}}
+{{#lst:The_Grustrag_Three/Vem Tabook|vemtabookintro}}
+{{clr}}
+|-|Wolf of Saturn Six=
+[[File:WolfStalker.png|x200px|left]]
+{{main|Wolf of Saturn Six}}
+{{#lst:Wolf of Saturn Six|wolfintro}}
+{{clr}}
+</tabber>
+
+==Quest Bosses==
+These bosses appear in [[Quests]] ('''not''' [[Events]]), are generally '''not''' farmable, and are '''not''' seen again in normal gameplay.<br/>
+*Some quest bosses are normal enemies that appear as a boss in a quest, they ''may'' be altered.
+Many [[#Normal Bosses]] and [[#Field Bosses]] are introduced with a quest, for brevity - they will '''not''' be mentioned here.
+<tabber>
+|-|Teshin=
+[[File:Teshin.png|x200px|left]]
+{{main|Teshin}}; ''Quest: [[The Teacher]]''
+{{#lst:Teshin|intro}} 
+During [[The Teacher]] quest, he trains the Tenno with a few short battles against him, teaching them the basics of [[Mods|modding]].
+{{clr}}
+
+|-|Ballas (Narmer)=
+[[File:NarmerBallas.jpg|x200px|left]]
+{{main|Ballas}}; ''Quest: [[The New War]]''
+{{#lst:Ballas|intro}}
+{{clr}}
+
+|-|Suda-Hunhow=
+[[File:WarframeHunhowFullBody.png|x200px|left]]
+{{main|Hunhow}}; ''Quest: [[Octavia's Anthem]]''
+{{#lst:Hunhow|intro}}
+{{clr}}
+
+|-|Infested Mesa=
+[[File:InfestedMesa.png|x200px|left]]
+{{main|Infested Mesa}}; ''Quest: [[Patient Zero]]''
+{{#lst:Infested Mesa|infestedmesaintro}}
+{{clr}}
+
+|-|Infested Chroma=
+[[File:InfestedChroma.png|x200px|left]]
+{{main|Infested Chroma}}; ''Quest: [[The New Strange]]''
+{{#lst:Infested Chroma|infestedchromaintro}}
+{{clr}}
+
+|-|Protea Specter=
+[[File:Protea_Thumb.png|x200px|left]]
+{{main|Protea Specter}}; ''Quest: [[The Deadlock Protocol]]''
+{{#lst:Protea Specter|intro}}
+{{clr}}
+
+|-|Elder Queen=
+[[File:ElderQueen.jpg|x200px|left]]
+{{main|Elder Queen}}; ''Quest: [[The War Within]]''
+{{#lst:Grineer Queens|elderintro}}
+{{clr}}
+
+|-|Vault Guardian=
+[[File:Voidrig.png|x200px|left]]
+{{main|Rogue Voidrig}}; ''Quest: [[Heart of Deimos]]''
+{{#lst:Rogue Voidrig|intro}}
+{{clr}}
+
+|-|Typholyst=
+[[File:Clotholyst.png|x200px|left]]
+{{main|Typholyst}}; ''Quest: [[The New War]]''
+{{#lst:Typholyst|intro}}
+{{clr}}
+
+|-|H-04 Efervon Tank=
+[[File:LasrianTank.png|x200px|left]]
+{{main|H-04 Efervon Tank}}; ''Quest: [[The Hex]]''
+{{#lst:H-04 Efervon Tank|intro}}
+{{clr}}
+
+|-|Major Neci Rusalka=
+[[File:Major Neci Rusalka.png|x200px|left]]
+{{main|Major Neci Rusalka}}; ''Quest: [[The Hex (Quest)]]''
+{{#lst:Major Neci Rusalka|intro}}<br/>
+During [[The Hex (Quest)|The Hex]] quest, Rusalka intercepts the Scaldra convoy that carries Entrati, prompting the Tenno to stop her in a tunnel chase with a {{Gear|Thermian RPG}} as she rides on her [[Atomicycle]].
+{{clr}}
+
+|-|Techrot Babau=
+[[File:InfestedBabau.png|x200px|left]]
+{{main|Techrot Babau}}; ''Quest: [[The Hex (Quest)]]''
+{{#lst:Techrot Babau|intro}}<br/>
+During the climax of [[The Hex (Quest)|The Hex]] quest, [[Arthur]] fights a {{E|Techrot Babau}} which can summon {{E|Shuffling Fragment}}s to aid it in battle.
+{{clr}}
+
+|-|God-King Inaros=
+[[File:SandsofInaros.png|x200px|left]]
+{{main|Sands of Inaros}}
+{{#lst:Sands of Inaros|intro}}
+{{clr}}<hr/>
+[[File:SandmanBoss.png|x200px|left]]
+{{main|Tomb Protector}}
+{{#lst:Tomb Protector|intro}}
+{{clr}}
+[[File:InarosGolem.png|x200px|left]]
+{{main|Tomb Protector Effigy}}
+{{#lst:Tomb Protector Effigy|intro}}
+{{clr}}
+</tabber>
+
+==Event Bosses==
+These bosses appear in [[Events]] ('''not''' [[Quests]]), are generally farmable, and are seen either once or periodically (depending on the event).
+<tabber>
+|-|Balor Fomorian=
+[[File:DEGrineerFomorian.png|x200px|left]]
+{{main|Balor Fomorian}}; ''Alert: [[Fomorian Sabotage]]
+{{#lst:Balor Fomorian|balorintro}}
+{{clr}}
+
+|-|Razorback=
+[[File:ArmoredJackal.png|x200px|left]]
+{{main|Razorback}}; ''Alert: [[Razorback Armada]]''
+{{#lst:Razorback|razorbintro}}
+{{clr}}
+
+|-|Phorid=
+[[File:PhoridIcon.png|x200px|left]]
+{{main|Phorid}}; ''Alert: [[Invasion#Infestation Outbreaks]]''
+{{#lst:Phorid|phoridintro}}
+{{clr}}
+
+|-|Hemocyte=
+[[File:EidolonLephantis.png|x200px|left]]
+{{main|Hemocyte}}; ''Event: [[Operation: Plague Star]]''
+{{#lst:Hemocyte|hemocyteintro}}
+{{clr}}
+
+|-|Jack O'Naut=
+[[File:Jack_O%27_Naut.png|x200px|left]]
+{{main|Juggernaut#Jack_O'Naut}}; ''Event: [[Hallowed Nightmares]]''
+{{#lst:Juggernaut|juggernautintro}}
+{{clr}}
+
+|-|Condrix=
+[[File:Condrix.png|x200px|left]]
+{{main|Condrix}}; ''Event: [[Operation: Scarlet Spear]]''
+{{#lst:Condrix|condrixintro}}
+{{clr}}
+
+|-|Exploiter Orb (Thermia)=
+[[File:ExploiterOrb.png|x200px|left]]
+{{main|Exploiter Orb}}; ''Event: [[Thermia Fractures]]''
+{{#lst:Exploiter Orb|intro}}
+{{clr}}
+</tabber>
+
+==Retired Bosses==
+These bosses have been removed from the game.
+<tabber>
+|-|Arn Etina=
+[[File:MarketIconDarvo2.png|x200px|left]]
+{{main|Arn Etina}}
+{{#lst:Arn Etina|intro}}
+{{clr}}
+
+|-|J3-Golem=
+[[File:CBJ3.jpg|x200px|left]]
+{{main|J3-Golem}}
+'''J3-Golem''' was the final boss of the planet [[Jupiter]]. It was found on the [[mission]] Themisto. After defeating it and finishing the mission, players received a {{WF|Volt}} Helmet, Chassis or Systems blueprint. As of [[Update 11]], Volt blueprints no longer drops from Golem, but are now built in the clan dojo. Upon death, J3-Golem had a chance of dropping [[Neural Sensors]].
+{{clr}}
+</tabber>
+
+==Notes==
+*All bosses and assassins have a rare chance to drop an [[Orokin Cell]] upon death. This chance is fully separate from the planet's resource drop rate.
+**As such, it is possible for [[General Sargas Ruk]] and [[Lieutenant Lech Kril]] to drop two instances of Orokin Cells, the first instance coming from the planet's rare drop and the second instance coming from the rare chance.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|42}}
+*Increased the number of Status Effects per line on Boss Health Bars.
+*Fixed boss fights with multiple targets (ie. Prime Vanguard) sharing the same Overguard bar and Status Effects in their HUD health indicators, instead being visually distinct from one another. 
+**Also fixed vertical alignment issues between bosses’ health bars when changing resolution.
+
+{{ver|39}}
+*Fixed reticles not changing colors when targeting bosses.
+**Reticles are tinted red when an enemy is in your sight, but this didn’t apply to bosses with a special health bar (ex: Acolytes, Vor). 
+
+{{ver|33.6}}
+*Removed a feature where certain bosses scaled their level based on your equipped Mods.
+**This is a remnant of an older Warframe system that scaled difficulty based on your Mod loadout. As a result, enemies like Captain Vor might be anywhere from level 10 to 30, depending on how “powerful” your equipped Mods were during your encounter. 
+**With this feature removed, now all bosses will always spawn at a consistent level on the regular Star Chart.
+
+{{ver|31.6}}
+*Invulnerability icons on boss health bars will now only appear on health segments that have not been depleted. 
+**Before: All segments got the icon no matter what.
+**Now: Only segments that still have health get the icon.
+
+{{ver|29.5.4}}
+*Stalker and Acolytes have been given the fancy “boss Health bar” treatment!
+
+{{ver|27.3}}
+;Kuva Lich Changes&#58;
+Based on feedback with the recent overhaul to Status Effects in Warframe Revised 27.2.0, the conversation of how Status Effects should react with Bosses or VIPS has started. Our first step down this road is starting with Kuva Liches. Currently, there are two special rules to this “Boss Status enabling”:
+*No Status Effect will exceed a maximum of 4 stacks, with the exception of Impact which can stack up to 6 times.
+**''Keep in mind there is a cooldown to how quickly you can stack up Impact Status Effects to avoid stunlocking the Kuva Lich.''
+*Radiation does not change the enemy’s Faction, and instead of increasing Damage done to enemies with stacks, it increases the Damage taken from enemies who have turned on him/her.
+
+We look forward to your constructive feedback and we work towards applying this to other Bosses/VIPS.
+
+{{ver|26}}
+*Added new boss health bar introduced in the Emissary boss fight to all bosses except Jackal, Vor and Lech Kril, the Raptor, Hyena Pack, Ambulas and Lephantis.
+
+{{ver|25.7}}
+*Fixed abusing Host migrations to get multiple Beacon assassin spawns. Beacons will be ineligible to place after a Host migration if someone had already summoned an assassin previously.
+
+{{ver|18.5}}
+;Warframe Resistance and Immunity Changes
+The following changes have been made to Warframe Ability powers when used against boss-type enemies. These changes do not affect the damage each Ability.
+
+{{CustomCollapsible|Ability Changes}}
+*Zephyr’s Tornado and Dive Bomb will no longer ragdoll boss-type enemies.
+*Zephyr’s Tailwind will no longer be able to knockdown boss-type enemies.
+*Valkyr’s Paralysis will no longer be able to stun boss-type enemies.
+*Valkyr’s Warcry now has diminishing returns against boss-type enemies.
+*Saryn’s Venom will be able to properly spread and receive spores from nearby boss-type enemies.
+*Volt’s Shock and Overload will no longer be able to electrocute boss-type enemies.
+*Hydroid’s Tidal Wave will no longer ragdoll boss-type enemies.
+*Hydroid’s Undertow will no longer pull in boss-type enemies.
+*Tentacle Swarm will no longer be able to grab boss-type enemies unless they’ve died.
+*Ivara’s Sleep Arrow now has diminishing returns against boss-type enemies.
+*Ivara’s Prowl will no longer be able to steal from boss-type enemies.
+*Limbo’s Banish will no longer be able to ragdoll or move boss-type enemies into the Rift.
+*Loki’s Radial Disarm will no longer be able to disarm, stun or dismember boss-type enemies.
+*Loki’s Irradiating Disarm Augment will no longer be able to confuse boss-type enemies.
+*Mag’s Pull will no longer move boss-type enemies.
+*Mag’s Crush will no longer lift or ragdoll boss-type enemies.
+*Mag’s Fracturing Crush Augment will no longer stop boss-type enemies.
+*Banshee’s Sonic Boom, Silence, and Sound Quake will no longer be able to push, stun, or stagger boss-type enemies.
+*Ember’s Accelerant will no longer be able to stun boss-type enemies.
+*Ember’s World on Fire will no longer be able to knockdown boss-type enemies.
+*Equinox’s Rest & Rage will now slow boss-type enemies instead of putting them to sleep.
+*Excalibur’s Radial Blind and Radial Javelin will no longer stagger boss-type enemies.
+*Frost’s Freeze and Avalanche will no longer freeze boss-type enemies.
+*Frost’s Snow Globe will no longer freeze or push boss-type enemies.
+*Rhino’s Charge will no longer ragdoll boss-type enemies.
+*Rhino’s Stomp will no longer put boss-type enemies in stasis.
+*Mesa’s Shooting Gallery will no longer jam or stun boss-type enemies.
+*Mesa’s Muzzle Flash Augment will no longer blind boss-type enemies.
+*Oberon’s Smite will no longer ragdoll boss-type enemies.
+*Oberon’s Reckoning will no longer put lift boss-type enemies.
+*Nyx’s Mind Control and Chaos now have diminishing returns against boss-type enemies.
+*Nekros’ Terrify will no longer fear boss-type enemies, but will continue to apply an armor reduction debuff.
+*Nekros’ Shadows of the Dead will no longer be able to summon boss-type enemies.
+*Nezha’s Divine Spears will no longer pin or ragdoll boss-type enemies.
+*Vauban’s Bounce will no longer bounce boss-type enemies.
+*Vauban’s Bastille will slow boss-type enemies instead of lifting and placing them in stasis.
+{{CustomCollapsible/End}}
+
+{{ver|10.3}}
+*Bosses now have their blueprint drops as end-mission rewards (like Lephantis) instead of physical orbs in the level.
+{{PatchHistoryNeeded}}
+}}
+
+==See Also==
+*[[Planets]]
+*[[Factions]]
+
+{{BossNav}}
+[[de:Bosse]]
+[[es:Jefe]]
+[[uk:Боси]]
+[[Category:Characters]]
+[[Category:Enemies]]
+[[Category:Boss]]
+[[Category:Outline Pages]]
+[[fr:Boss]]

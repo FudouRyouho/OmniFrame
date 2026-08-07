@@ -1,0 +1,375 @@
+{{ModBox}}
+{{M|Archon Stretch}} is an [[Archon Mods|Archon mod]] for [[Warframes]] that increases {{Stat|Ability Range}} and briefly grants [[Energy]] Regeneration when an ability deals {{D|Electricity}} damage.
+
+==Stats==
+{| class="emodtable"
+|+
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Range}}
+! Capacity Cost
+|-
+| 0 || +4.1% || 6
+|-
+| 1 || +8.2% || 7
+|-
+| 2 || +12.3% || 8
+|-
+| 3 || +16.4% || 9
+|-
+| 4 || +20.5% || 10
+|-
+| 5 || +24.5% || 11
+|-
+| 6 || +28.6% || 12
+|-
+| 7 || +32.7% || 13
+|-
+| 8 || +36.8% || 14
+|-
+| 9 || +40.9% || 15
+|-
+| 10 || +45% || 16
+|}
+
+==Acquisition==
+{{M|Archon Stretch}} is available from [[Chipper]] of {{Faction|Kahl's Garrison}} for 40 {{Resource|Stock (Kahl)}}, requiring players to be at '''Rank 3 - Fort''' to purchase.
+
+==Notes==
+*'''[[Abilities]]''' from Warframes or companions that deal {{D|Electricity}} '''damage''' will grant the {{M|Archon Stretch}} buff, regenerating '''2''' Energy per second for '''5''' seconds, for a total of '''10''' energy restored.
+**Does not stack or refresh; only 1 buff can be active at any time
+**Casting an ability will stop the energy generation for '''1''' second.
+***This includes abilities that activate the buff.
+***[[Channeled Abilities]] that drain energy over time, such as {{A|Immolation}}, {{A|Sound Quake}}, and {{A|Renewal}} will completely prevent energy generation for as long as they are active.
+**Does not scale with mod rank, so the mod can optionally be left unranked to save capacity
+**{{D|Electricity}} status effects from abilities can trigger the buff.
+***Including the forced {{D|Electricity}} status effect created from {{D|Magnetic}} status effects.
+
+====Warframe Abilities====
+*The following Warframe abilities can trigger the buff:
+
+{| class="wikitable" width="100%"
+|-
+!Warframe
+!Ability
+!Notes
+|-
+|{{WF|Ash}} 
+|{{A|Blade Storm}} 
+|
+*Only qualifies when {{Weapon|Shadow Clones}} is modded with {{D|Electricity}}.
+|-
+|{{WF|Atlas}}
+|{{A|Landslide}}<br />{{M|Rumbled}}
+|
+*Only qualifies when {{Weapon|Landslide Fists}} is modded with {{D|Electricity}}.
+|-
+|{{WF|Baruuk}} 
+|{{A|Serene Storm}} 
+|
+*Only qualifies when {{Weapon|Desert Wind}} is modded with {{D|Electricity}}.
+|-
+| rowspan="2" |{{WF|Chroma}}
+|{{A|Spectral Scream}} 
+|
+* Must be deactivated for the buff to restore energy.
+|-
+|{{A|Elemental Ward}}
+|
+*Helminth-transferable.
+|-
+| {{WF|Caliban}}
+|{{A|Razor Gyre}}
+|
+*Only qualifies when {{M|Razor Mortar}} is used.
+|-
+| {{WF|Citrine}}
+|{{A|Prismatic Gem}}
+|
+|-
+|{{WF|Cyte-09}}
+|{{A|Neutralize}}
+|
+*Only qualifies when {{Weapon|Neutralizer}} is directly modded with {{D|Electricity}} or if {{D|Electricity}} is applied to {{Weapon|Neutralizer}} via {{A|Resupply}}.
+|-
+| rowspan="2" |{{WF|Dante}}
+| {{A|Noctua}}
+|
+*Only qualifies when {{Weapon|Noctua}} is modded with {{D|Electricity}}.
+|-
+|{{A|Final Verse}}
+| 
+*Wordwarden only qualifies when {{Weapon|Noctua}} is modded with {{D|Electricity}}.
+|-
+| rowspan="2" |{{WF|Excalibur}} 
+|{{A|Slash Dash}}
+|
+*When {{Weapon|Exalted Blade}} is not replaced with helminth. Follows the same rules as the weapon.
+|-
+|{{A|Exalted Blade}}
+|
+*Only qualifies when {{Weapon|Exalted Blade}} is modded with {{D|Electricity}}.
+*Must be deactivated for the buff to restore energy.
+|-
+|{{WF|Gara}}
+|{{A|Shattered Lash}}
+|
+*Only qualifies when {{Weapon|Shattered Lash}} is modded with {{D|Electricity}}.
+|-
+|{{WF|Garuda}}
+|[[Garuda/Abilities/Passive#Garuda's_Talons|Passive]]
+|
+*Only qualifies when {{Weapon|Garuda Talons}}/{{Weapon|Garuda Prime Talons}} are modded with {{D|Electricity}}.<ref>[[https://wiki.warframe.com/w/File:GarudaTalonsArchonStretchActivation.png]]</ref>
+|-
+| rowspan="3" |{{WF|Gyre}}
+|{{A|Arcsphere}}
+|
+|-
+|{{A|Coil Horizon}}
+|
+*Helminth-transferable.
+|-
+|{{A|Rotorswell}}
+|
+|-
+|{{WF|Inaros}}
+|{{A|Sandstorm}}
+|
+*Only qualifies when {{M|Elemental Sandstorm}} is used with a melee weapon modded with {{D|Electricity}}.
+|-
+|{{WF|Ivara}}
+|{{A|Artemis Bow}}
+|
+*Only qualifies when {{Weapon|Artemis Bow}} is modded with {{D|Electricity}}.
+|-
+|{{WF|Jade}}
+| {{A|Glory on High}}
+|
+*Only qualifies when {{Weapon|Glory}} is modded with {{D|Electricity}}.
+*Must be deactivated for the buff to restore energy.
+|-
+| rowspan="2" |{{WF|Khora}}
+|{{A|Whipclaw}}
+|
+*Only qualifies when {{Weapon|Whipclaw}} is modded with {{D|Electricity}}.
+|-
+|{{A|Venari}}
+|
+*Only qualifies when {{Companion|Venari}}'s claws are modded with {{D|Electricity}}.
+*Works even if {{A|Venari}} is replaced with another ability via the Helminth.
+|-
+| rowspan="2" | {{WF|Koumei}}
+|{{A|Kumihimo}}
+|
+|-
+|{{A|Bunraku}} 
+|
+|-
+|{{WF|Loki}}
+|{{A|Decoy}}
+|
+*Only qualifies when equipped with {{M|Damage Decoy}} and it rolls at least one {{D|Electricity}} proc.
+|-
+| {{WF|Mesa}}
+|{{A|Peacemaker}}
+|
+*Only qualifies when {{Weapon|Regulators}} are modded with {{D|Electricity}}.
+*Must be deactivated for the buff to restore energy.
+|-
+|{{WF|Mirage}}
+|{{A|Sleight of Hand}}
+|
+*Only qualifies if {{M|Explosive Legerdemain}} is used.
+|-
+|{{WF|Nekros}}
+|{{A|Shadows of the Dead}}
+|
+*Only qualifies when summoning a Shadow of a [[Eximus#Shock_/_Bioelectric_/_Galvanic|Shock Eximus]]. Normal attacks from Shadows which deal {{D|Electricity}} damage does '''not''' qualify.
+|-
+|{{WF|Revenant}} 
+|{{A|Mesmer Skin}}
+|
+*Only qualifies when reflecting {{D|Electricity}} damage.
+|-
+| {{WF|Sevagoth}} 
+|{{A|Exalted Shadow}}
+|
+* Only qualifies when {{Weapon|Shadow Claws}} are modded with {{D|Electricity}}.
+|-
+|{{WF|Temple}} 
+|{{A|Exalted Solo}} 
+|
+*Only qualifies when {{Weapon|Lizzie}} is modded with {{D|Electricity}}.
+*Can indirectly trigger it via {{D|Magnetic}} damage of alt fire.
+|-
+|{{WF|Titania}}
+|{{A|Razorwing}}
+|
+*Only qualifies when {{Weapon|Dex Pixia}} or {{Weapon|Diwata}} are modded with {{D|Electricity}}.
+*Must be deactivated for the buff to restore energy.
+|-
+|{{WF|Trinity}}
+|{{A|Link}}
+|
+* Only qualifies when reflecting {{D|Electricity}} damage to a linked enemy.
+|-
+|{{WF|Vauban}}
+|{{A|Tesla Nervos}}
+| 
+*Helminth-transferable.
+|-
+|{{WF|Valkyr}}
+| {{A|Hysteria}}
+|
+*Only qualifies when {{Weapon|Valkyr Talons}} are modded with {{D|Electricity}}.
+*Must be deactivated for the buff to restore energy.
+|-
+| rowspan="4" | {{WF|Volt}}
+|{{A|Shock}}
+|
+*Helminth-transferable.
+|-
+|{{A|Speed}} 
+|
+*Only qualifies when {{M|Shocking Speed}} is used.
+|-
+| {{A|Electric Shield}}
+|
+*Only qualifies when an enemy passes through the shield.
+|-
+|{{A|Discharge}}
+|
+|-
+|{{WF|Voruna}}
+|{{A|Fangs of Raksh}}
+|
+|-
+|{{WF|Wisp}}
+|{{A|Reservoirs}}
+|
+*Only qualifies when Shock Mote is used
+*Allies carrying a Shock Mote can activate the buff
+|-
+| rowspan="2" |{{WF|Wukong}}
+|{{A|Celestial Twin}}
+|
+*Only qualifies when using {{Weapon|Iron Staff}} modded with {{D|Electricity}}.
+|-
+|{{A|Primal Fury}}
+|
+*Only qualifies when {{Weapon|Iron Staff}} is modded with {{D|Electricity}}.
+*{{A|Celestial Twin}} can activate the buff
+*Must be deactivated for the buff to restore energy
+|-
+|{{WF|Zephyr}}
+| {{A|Tornado}}
+| 
+*Only qualifies when {{D|Electricity}} damages the tornado and get applied to a caught enemy
+|}
+
+*Although {{WF|Lavos}} and {{WF|Hildryn}}'s {{Weapon|Balefire Charger}} can proc {{D|Electricity}}, they do not benefit from energy regeneration.
+
+==== Mods ====
+* The following mods can trigger the buff:
+
+{| class="wikitable" width="100%"
+|-
+! Platform
+!Mod
+!Notes
+|-
+|{{Companion|Adarza Kavat}}
+|{{M|Reflect}}
+|
+*Only qualifies when reflecting {{D|Electricity}} damage
+|-
+| {{Companion|Dethcube}}
+|{{M|Vaporize}}
+|
+* Only qualifies when using a companion weapon modded with {{D|Electricity}}
+|-
+|{{Companion|Diriga}}
+|{{M|Arc Coil}}
+|
+|-
+| rowspan="2" |{{Companion|Helminth Charger}}
+| {{M|Proboscis}}
+|
+*Only qualifies when using claws modded with {{M|Shocking Claws}}
+|-
+| {{M|Trample}}
+| 
+*Only qualifies when using claws modded with {{M|Shocking Claws}}  
+|-
+| rowspan="2" |[[Hound (Companion)|Hound]] 
+|{{M|Null Audit}}
+|
+*Only qualifies when copying a Shock [[Eximus]]
+|-
+|{{M|Synergized Prospectus}}
+|
+|-
+|{{Companion|Panzer Vulpaphyla}}
+|{{M|Viral Quills}}
+|
+*Only qualifies when using claws modded with {{M|Shocking Claws}}
+|-
+|{{Companion|Pharaoh Predasite}}
+|{{M|Endoparasitic Vector}} 
+|
+*Only qualifies when using claws modded with {{M|Shocking Claws}}
+|-
+|[[Robotic]]
+|{{M|Manifold Bond}}
+|
+*Only qualifies when using a damaging companion ability and a companion weapon modded with {{D|Electricity}}
+|-
+|{{Companion|Vizier Predasite}}
+|{{M|Acidic Spittle}}
+|
+*Only qualifies when using claws modded with {{M|Shocking Claws}}
+|-
+|[[Companions]]
+|{{M|Contagious Bond}}
+|
+*Only qualifies when spreading {{D|Electricity}}
+|-
+|[[Warframes]]
+| {{M|Retribution}} 
+|
+|}
+
+==Trivia==
+*{{M|Archon Stretch}} is currently the only Archon mod whose standard counterpart doesn't have a legendary variant (Primed or Umbra version). And similar to {{M|Archon Intensify}}, it takes its maxed stat from its standard counterpart rather than its legendary variant.
+
+==See also==
+*{{M|Stretch}}, the normal version of this mod with much lower capacity cost.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39.1}}
+*Fixed Caliban's Razor Mortar Augment not properly triggering Archon Stretch.
+
+{{ver|32.0.9}}
+*Fixed Atlas’ Landslide ability triggering Archon Mod effects.
+
+{{ver|32.0.5}}
+*Fixed using Archon Stretch with Volt’s Discharge causing FPS to plummet for Host.
+*(Undocumented) Buff can no longer refresh.
+
+{{ver|32.0.1}}
+;Removed Trading and Transmuting functionality for the new Archon Warframe Mods 
+*The intended path to earning these Mods is through Kahl’s Garrison, and not through Transmutation. While Transmutation will remain disabled, we will re-enable Trading again once these Mods have officially been released next week with Kahl’s Garrison.
+
+{{ver|32.0}}
+*Introduced.
+}}
+{{WarframeMods}}
+[[es:Estiramiento Arconte]]
+[[fr:Allonge Archonte]]
+[[ru:Архонтовое Растяжение]]
+[[uk:Архонтове простягнення]]
+[[Category:Archon Mods]]
+[[Category:Update 32]]
+[[Category:Warframe Mods]]
+[[Category:Untransmutable Mods]]

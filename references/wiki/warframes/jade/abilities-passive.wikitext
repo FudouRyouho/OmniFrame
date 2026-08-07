@@ -1,0 +1,15 @@
+Where sacred light shines the song of life begins, as the shadow of time marches evermore toward deathly silence. As The Anointed, Jade possesses two passives:
+
+<div class="tabber-borderless" >
+{{#tag:tabber|
+{{!-!}}Aura=
+*Jade possesses <u>'''2'''</u> [[Aura]] mod slots in her [[Arsenal]] loadouts to assist herself and her squadmates.
+**This also includes increased mod capacity from both Auras (+28 from two maxed Auras, or +32 / +36 with {{M|Steel Charge}} and/or {{M|Power Donation}}), allowing Jade more modding space with less need for [[Polarization]], as well as granting her more potential [[Energy Capacity#Starting Energy|Starting Energy]].
+
+{{!-!}}Judgments=
+*Enemies that enter {{A|Light's Judgment}} well and {{A|Glory on High}}'s primary fire at a <u>'''10%'''</u> chance afflict enemies with the '''Judgements''' debuff as an overhead icon visual, applying <u>'''50%'''</u> [[Damage Vulnerability]] lasting for <u>'''10'''</u> seconds.
+**Enemies killed while debuffed by Judgments extends {{A|Symphony of Mercy}}'s duration by <u>'''2'''</u> seconds.
+**Glory on High's [[Alternate Fire]] can detonate Judgments, with increased damage and range.
+***Detonated Judgments have an increased '''<u>1.5x</u>''' explosion radius while inside Light's Judgment.
+}}</div>
+{{clr}}

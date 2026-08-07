@@ -63,6 +63,30 @@ Contenido que no viene de la wiki **sale** de `wiki/`, pero **nunca se borra en 
 preserva en `.working/` con su procedencia para rutearlo después. "No encuentro la fuente en *esta*
 página" no autoriza a purgar — puede estar en la página de la entidad y no en la de la mecánica.
 
+## Cómo leer un token: **DE desconecta fuentes, no borra tokens**
+
+*"El token existe"* y *"la mecánica está vigente"* son **dos afirmaciones distintas** y hay que
+sostenerlas por separado. Warframe casi nunca elimina un vocablo: le desconecta fuentes, una por una,
+y el token sobrevive en datos, assets y tablas de la wiki mucho después de que ninguna entidad lo
+aplique.
+
+| Token | Vive | Lo que murió |
+|---|---|---|
+| `PT_KNOCKED_DOWN` | lo aplican ~30 fuentes | la rampa de Impact hacia él (`{{ver|27.3}}`) |
+| `PT_RAD_TOX` (Confusion) | en la tabla | el uso que Nyx *Chaos* le daba |
+| `PT_GLUE` (Slow) | en la tabla, **descripción vacía** | toda fuente conocida — sobrevivió la primitiva, no el proc |
+
+**Síntoma barato de detectarlo: prosa vacía o con `?`.** La fuente marca su propia incertidumbre
+cuando la tiene — leerla es gratis y evita darle a un residuo la veracidad de un dato vivo.
+
+**Y no todo el corpus tiene la misma procedencia.** Medido 2026-08-05: los prefijos `DT_*` aparecen en
+`wiki/sources/public-export.wikitext` y filtran en descripciones in-game; los `PT_*` aparecen **sólo**
+en el módulo Lua de la wiki —cero en el export— y su tabla se autodeclara `{{Community}}` +
+`{{UpdateMe}}`. Ambos se usan; **no soportan el mismo peso**, y al citarlos se dice cuál es cuál.
+
+La wiki no es culpable de esto: es muchísima información y muchos editores, y actualizar una página
+no actualiza los punteros que dependían de ella. Nosotros somos dos y podemos cruzar.
+
 ## Qué audita cada herramienta — y qué queda afuera a propósito
 
 Las dos herramientas cubren **sólo `wiki/`**, porque son las reglas de `wiki/` las que ejecutan:

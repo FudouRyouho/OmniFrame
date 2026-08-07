@@ -1,0 +1,31 @@
+{{WarframeTopNav}}
+==Passive==
+{{Transclude|Jade/Abilities/Passive}}
+
+==Abilities==
+{{WarframePage/Abilities
+|Light's Judgment|Symphony of Mercy|Ophanim Eyes|Glory on High|
+
+| ability1          = Light's Judgment
+| ability1icon      = Light'sJudgment130xWhite.png
+| ability1strength  = true
+| ability1duration  = true
+| ability1range     = true
+| ability2          = Symphony of Mercy
+| ability2icon      = SymphonyofMercy130xWhite.png
+| ability2strength  = true
+| ability2duration  = true
+| ability2range     = 
+| ability3          = Ophanim Eyes
+| ability3icon      = OphanimEyes130xWhite.png
+| ability3strength  = true
+| ability3duration  = true
+| ability3range     = true
+| ability4          = Glory on High
+| ability4icon      = GloryonHigh130xWhite.png
+| ability4strength  = true
+| ability4duration  = true
+| ability4range     = true
+}}
+
+[[Category:Jade]]

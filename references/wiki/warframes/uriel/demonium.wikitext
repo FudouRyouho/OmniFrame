@@ -1,0 +1,64 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Demonium
+| gameimage      = 
+| cardimage      = 
+| hotkey         = 3
+| energy         = 75
+| description    = Uriel rips out the souls of his demons, draining their health, and sends them in search of new victims. Souls explode on contact with an enemy, rendering it vulnerable to Damage.
+| strength       = 100 / 150 / 200 / 250 {{D|Heat}} damage<br>35% / 40% / 45% / 50% [[Damage Vulnerability]]<br>30% Vythelas Rune [[Fire Rate]]<br>30% Vythelas Rune Bonus {{D|Heat}} Damage
+| range          = 3m / 4m / 5m / 6m Explosion Range
+| duration       = 5 s Projectile Duration<br>10 s Vythelas Rune Duration
+| misc           = 10% Demon Health Drain<br>1 Minimum Projectile<br>3 Maximum Projectiles<br>3 Max Vythelas Runes<br>12m/s Projectile Speed
+| subsumable     = true
+| cardonly       = {{{1|}}}
+|info = 
+*{{WF|Uriel}} expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to split the souls of his currently living [[Uriel/Abilities/Passive|Passive]] Demons, draining <u>'''10%'''</u> of their max [[Health]], then hurling <u>'''1'''</u> soul per demon forward as [[homing]] projectiles with a lifespan of {{Stat|Ability Duration|icon=only}}'''5''' seconds. Demonic souls seek enemies as they travel, bouncing between targets and exploding on contact with each enemy in a {{Stat|Ability Range|icon=only}}'''3 / 4 / 5 / 6''' meter radius to deal {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Heat}} damage and apply {{Stat|Ability Strength|icon=only}}'''35% / 40% / 45% / 50%''' [[Damage Vulnerability]] lasting '''indefinitely''' until death.
+**On cast, split souls manifest <u>'''5m'''</u> in front of Uriel for a few seconds before flying forward at <u>'''12m/s'''</u>. During manifestation, Uriel can change his reticle direction to aim the split souls.
+***If cast while on the ground, the souls will always be sent horizontally in the direction of the reticle. However if cast while airborne, the angle can be freely adjusted up and down.
+**Split souls travel toward the reticle direction, have infinite [[Punch Through]] against terrain, and home into nearby enemies in their flight path.
+**Explosions require '''line of sight''' to damage enemies.
+**Can be recast while active to launch more split souls.
+**Demonium's health drain alone cannot kill Uriel's Demons.
+**Cannot be cast without at least one living Demon.
+*When casting this ability, Uriel says "'''''KANUMMU!'''''" ([[Voidtongue]]).
+----
+| synergies =
+**[[Uriel/Abilities/Passive|Passive]] - Demonium unlocks his passive demon '''Vythelas'''. He approaches individual corpses to perform a ritual every <u>'''12'''</u> seconds, converting them into a floating collectible Demonium Rune that increases [[Fire Rate]] by {{Stat|Ability Strength|icon=only}}'''30%''' and grants an [[Extra Hit|extra hit]] of {{Stat|Ability Strength|icon=only}}'''30%''' {{D|Heat}} damage, lasting for {{Stat|Ability Duration|icon=only}}'''10''' seconds. If no corpses are nearby and no Demonium Runes are active on the map, Vythelas conjures <u>'''1'''</u> Demonium Rune where he floats. Up to <u>'''3'''</u> Demonium Runes may be active at once. Uriel's allies may collect Demonium Runes to gain their buffs.
+***Rune buff is shown as a Demonium buff icon beside Uriel's hitpoints indicator.
+***Runes are tracked on the minimap using a unique runic icon.
+***The strength of the buff is determined by the current {{Stat|Ability Strength|icon=only}} when picking up the rune, including conditional buffs like {{M|Archon Intensify}}.
+***Enemies killed with {{D|Blast}} or affected by {{A|Molecular Prime}} will '''not''' produce Demonium Rune.
+***Replacing Demonium through the [[Helminth]] will '''not''' remove Vythelas. However, if Demonium  is replaced, Vythelas will no longer be affected by modded ability stats and will use the default values.
+**{{A|Infernalis}} - While active, souls projectiles from Demonium are set ablaze, emitting a ring of fire that inflicts {{D|Heat}} damage and status effect per second to nearby enemies.
+**{{A|Brimstone}} - Attacking enemies with Demonium will fill the Brimstone gauge.
+| tips = 
+*While {{A|Infernalis}} is active, the demons will have a {{D|Heat}} aura around them, and their souls will apply that aura to enemies.
+**Approaching affected enemies and {{E|Arbitration Shield Drone}}s themselves will burn, exposing their location through walls.
+*The extra instance of heat damage functions similarly to warframes such as {{WF|Oraxia}}, {{WF|Saryn}}, and {{WF|Cyte-09}}, allowing for Uriel to make effective use of mods like {{M|Acid Shells}} or {{M|Combustion Beam}} to chain kill enemies with a single kill. 
+**Striking enemies with Demonium while using {{A|Infernalis}} will cause a {{D|Heat}} [[proc]], resulting in [[Heat Inherit]] ruining the chain reaction. However, you can still use Demonium without Infernalis to obtain the damage vulnerability debuff and make the chaining more effective since Demonium by itself cannot cause a heat proc. 
+| bugs =
+*Demonium can target and debuff {{E|Arbitration Shield Drone}}s (dealing '''0''' damage hits).
+*While normally incarnons only receive the fire rate bonus of the rune, if at least two incarnons of any type (primary, secondary, or melee) are equipped and have charge for activation, activating one incarnon and then swapping to a second incarnon and activating it will apply the extra heat hit from the rune as well onto the incarnon swapped to. While melees can be used to trigger the effect on primaries or secondaries, they naturally receive no benefit from the rune.
+| augment = 
+| max = 
+| localization =
+{{AutoLocalizationTable
+| path=/Lotus/Language/Suits/DemonFrameDemoniumAbilityName
+| ja_roman =
+| ko_roman = Demonium
+| ru_roman = Demonium
+| tc_roman = Móshù
+| th_roman =
+| uk_roman = Demonariy
+| zh_roman = Mó qún
+}}
+{{AutoLocalizationTable|path=/Lotus/Language/Suits/DemonFrameDemoniumAbilityDesc}}
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Uriel}}
+
+__NOTOC__
+[[Category:Warframe Abilities]]
+[[Category:Update 41]]

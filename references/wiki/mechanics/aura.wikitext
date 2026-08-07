@@ -1,0 +1,370 @@
+{{Successor
+|precededby=Artifact
+|precededbysince={{ver|9}}
+}}
+{{infobox
+|Box title    = Aura
+|image        = IconAura.png
+|caption      = Aura icon
+}}
+<section begin="intro" />
+'''Auras''' are a type of [[Mod]] that provides a passive beneficial effect to the entire [[squad]] rather than the [[Warframe]] it is equipped on exclusively. If several players in a squad carry copies of the same Aura, the Auras' effects will stack additively. Additionally, Auras ''add'' to your total mod capacity (rather than deduct from it like regular mods), hence higher rank Aura mods are typically more desirable to maximize mod capacity for other mods without the need of {{Resource|Forma}}.
+<section end=intro />
+They can only be equipped in the dedicated Aura slot and only one Aura mod can be equipped to a Warframe, or two with {{WF|Jade}}. They can normally be obtained from [[Nightwave]] Cred offerings, but some drop from [[The Silver Grove]] specters, [[Nox]]es and [[Arbitrations]]. They are untransmutable.
+
+==Mechanics==
+[[File:Aura mech.png|left|x200px|thumb|An Aura slot with a {{Pol|Naramon}} polarity, from top to bottom, without any Auras equipped, with an aura of the same polarity equipped (in this case, {{M|Energy Siphon}}) and an aura with a different polarity equipped (in this case, {{M|Steel Charge}} which has a {{Pol|Madurai}} polarity)]]
+
+Aura effects are '''map-wide''', except specific auras that are explicitly limited on the effect within a player's range like {{M|Enemy Radar}}, {{M|Infested Impedance}} and {{M|Loot Detector}}.
+
+Furthermore, equipping an Aura with a matching polarity increases mod capacity even more, specifically by double of the Aura's "drain" parameter (e.g. an Aura with a drain of 5 equipped in a matching polarity slot generates an additional mod capacity of 10). In a slot without a polarity, the capacity is the same as the listed drain, and in a slot of a different polarity, the additional capacity is 80% of listed drain, rounded down (e.g. a drain of 5 generates a capacity of 4, a drain of 9 generates a capacity of 7, and so on).
+
+The Aura slot can be polarized, either (just as a regular mod slot) with a {{Resource|Forma}} for a specific polarity, or with a special {{Icon|Item|Omni Forma|text}} to be universally compatible with any Aura Mod [[Polarity]].
+
+===Aura Effectiveness===
+'''Aura Effectiveness''' is an [[upgrade]] that increases the effect of other players' Auras on the player themselves by a percent bonus. As of {{ver|32}}, it is only provided through {{M|Coaction Drift}}.
+
+===Aura Strength===
+'''Aura Strength''' is an [[upgrade]] that increases the effect of the player's Aura mod on other players in the squad by a percent bonus. As of {{ver|32}}, it is only provided through {{M|Coaction Drift}}.
+
+==Acquisition==
+Auras are primarily obtained as a [[Nightwave#Cred Offerings|Cred Offering]], though some Auras are obtained as enemy drops, from [[The Silver Grove]] [[Specter (Enemy)|Specters]], or as rewards from [[Arbitrations]].
+
+The following Auras are only dropped from Grove Specters:
+*{{M|Empowered Blades}}
+*{{M|Growing Power}}
+*{{M|Brief Respite}}
+*{{M|Pistol Amp}}
+*{{M|Stand United}}
+*{{M|Shotgun Amp}}
+
+==List of Aura Mods==
+{| class="wikitable sortable"
+|-
+! width=15%|Name
+! width=35%|Description
+! width=10%|Polarity
+! width=10%|Rarity
+! width=10%|Subcategory
+|-
+| {{M|Aerodynamic}}
+| {{text|var(--positive-text-color)|Increases}} '''Aim Glide/Wall Latch duration''' <br/> {{text|var(--positive-text-color)|Reduces}} '''damage taken while Airborne'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Rare
+| None
+|-
+| {{M|Brief Respite}}
+| {{text|var(--positive-text-color)|Grants shields}} '''equal to a % of energy spent'''
+| data-sort-value="Zenurik"|{{Pol|Zenurik}}
+| Uncommon
+| None
+|-
+| {{M|Combat Discipline}}
+| '''Allies''' {{text|var(--positive-text-color)|gain}} '''Health on kill''' <br/> '''Aura bearer''' {{text|var(--negative-text-color)|loses}} '''Health on kill'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Rare
+| None
+|-
+| {{M|Corrosive Projection}}
+| {{text|var(--positive-text-color)|Reduces}} '''enemy armor'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Dead Eye}}
+| {{text|var(--positive-text-color)|Increases}} '''sniper rifle damage'''
+| data-sort-value="Madurai"|{{Pol|Madurai}}
+| Uncommon
+| None
+|-
+| {{M|Dreamer's Bond}}
+| Provides '''constant energy regeneration'''<br />Provides '''constant health regeneration'''
+| data-sort-value="Aura"|{{Pol|Aura}}
+| Uncommon
+| None
+|-
+| {{M|EMP Aura}}
+| {{text|var(--positive-text-color)|Reduces}} '''{{Faction|Corpus}} enemies' accuracy'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Uncommon
+| None
+|-
+| {{M|Empowered Blades}}
+| {{text|var(--positive-text-color)|Increases}} '''status chance and status damage of Heavy Attacks''' <br/> {{text|var(--negative-text-color)|Reduces}} '''shields per hit'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Rare
+| None
+|-
+| {{M|Enemy Radar}}
+| Pinpoints '''enemy locations on mini-map'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Energy Siphon}}
+| Provides '''constant energy regeneration'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Growing Power}}
+| {{text|var(--positive-text-color)|Increases}} '''Ability Strength after status proc'''
+| data-sort-value="Madurai"|{{Pol|Madurai}}
+| Rare
+| None
+|-
+| {{M|Holster Amp}}
+| {{text|var(--positive-text-color)|Increases}} '''weapon damage''' on weapon swap
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Infested Impedance}}
+| {{text|var(--positive-text-color)|Reduces}} '''speed of nearby {{Faction|Infested}} units'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Uncommon
+| None
+|-
+| {{M|Loot Detector}}
+| Displays location of '''containers and resources on minimap''' and makes '''modifications visible through walls'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Mecha Empowered}}
+| {{text|var(--positive-text-color)|Increases}} '''damage''' against marked enemies
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Rare
+| [[Set Mods|Set Mod]]
+|-
+| {{M|Melee Guidance}}
+| {{text|var(--negative-text-color)|Reduces}} '''Melee Combo duration on self''' <br/> {{text|var(--positive-text-color)|Increases}} '''Melee Combo duration on allies'''
+| data-sort-value="Madurai"|{{Pol|Madurai}}
+| Rare
+| None
+|-
+| {{M|Physique}}
+| {{text|var(--positive-text-color)|Increases}} '''maximum health'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Uncommon
+| None
+|-
+| {{M|Pistol Amp}}
+| {{text|var(--positive-text-color)|Increases}} '''secondary weapon damage'''
+| data-sort-value="Madurai"|{{Pol|Madurai}}
+| Uncommon
+| None
+|-
+| {{M|Pistol Scavenger}}
+| {{text|var(--positive-text-color)|Increases}} '''ammo recovery''' for '''pistols'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Power Donation}}
+| {{text|var(--positive-text-color)|Increases}} allies' '''Ability Strength''' <br /> {{text|var(--negative-text-color)|Reduces}} player's '''Ability Strength''' 
+| data-sort-value="Madurai"|{{Pol|Madurai}}
+| Rare
+| None
+|-
+| {{M|Ready Steel}}
+| {{text|var(--positive-text-color)|Increases}} '''Initial Combo'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Uncommon
+| None
+|-
+| {{M|Rejuvenation}}
+| Provides '''constant health regeneration'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Uncommon
+| None
+|-
+| {{M|Rifle Amp}}
+| {{text|var(--positive-text-color)|Increases}} '''assault rifle damage'''
+| data-sort-value="Madurai"|{{Pol|Madurai}}
+| Uncommon
+| None
+|-
+| {{M|Rifle Scavenger}}
+| {{text|var(--positive-text-color)|Increases}} '''ammo recovery''' for '''assault rifles'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Shepherd}}
+| {{text|var(--positive-text-color)|Increases}} '''Companion Armor and Health'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Rare
+| None
+|-
+| {{M|Shield Disruption}}
+| {{text|var(--positive-text-color)|Reduces}} '''enemy shields'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Shotgun Amp}}
+| {{text|var(--positive-text-color)|Increases}} '''shotgun damage'''
+| data-sort-value="Madurai"|{{Pol|Madurai}}
+| Uncommon
+| None
+|-
+| {{M|Shotgun Scavenger}}
+| {{text|var(--positive-text-color)|Increases}} '''ammo recovery''' for '''shotguns'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Sniper Scavenger}}
+| {{text|var(--positive-text-color)|Increases}} '''ammo recovery''' for '''sniper rifles'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Sprint Boost}}
+| {{text|var(--positive-text-color)|Increases}} '''sprinting speed'''
+| data-sort-value="Naramon"|{{Pol|Naramon}}
+| Uncommon
+| None
+|-
+| {{M|Stand United}}
+| {{text|var(--positive-text-color)|Increases}} '''armor'''
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+| Uncommon
+| None
+|-
+| {{M|Steel Charge}}
+| {{text|var(--positive-text-color)|Increases}} '''melee weapon damage'''
+| data-sort-value="Madurai"|{{Pol|Madurai}}
+| Uncommon
+| None
+|-
+|{{M|Summoner's Wrath}}
+|{{text|var(--positive-text-color)|Increases}} '''companion and summon damage'''
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Uncommon
+|None
+|-
+|{{M|Swift Momentum}}
+|{{text|var(--positive-text-color)|Increases}} '''Heavy Attack wind-up speed''' <br/> {{text|var(--positive-text-color)|Increases}} '''Melee Combo duration'''
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|None
+|-
+|{{M|Toxin Resistance}}
+|{{text|var(--positive-text-color)|Reduces}} '''toxin damage'''
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Uncommon
+|None
+|-
+|{{M|Worthy Comradery}}
+|{{text|var(--positive-text-color)|Increases}} Weak Point critical chance
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Uncommon
+|None
+|}
+
+==Default Aura Polarities==
+{| class="wikitable"
+|+
+!Polarity
+!Warframes
+|-
+|'''{{Pol|Madurai}}'''
+|{{WF|Ash}}, {{WF|Atlas}}, {{WF|Banshee}}, {{WF|Chroma}}, {{WF|Cyte-09}}, {{WF|Ember}}, {{WF|Excalibur Prime}}/{{WF|Excalibur Umbra}}, {{WF|Garuda}}, {{WF|Koumei}}, {{WF|Mag}}, {{WF|Mesa}}, {{WF|Nidus}}, {{WF|Nokko}}, {{WF|Oberon}}, {{WF|Oraxia}}, {{WF|Rhino}}, {{WF|Sevagoth's Shadow}}, {{WF|Titania}}, {{WF|Uriel}}, {{WF|Valkyr}}, {{WF|Volt}}, {{WF|Wukong}}, {{WF|Yareli}}
+|-
+|{{Pol|Vazarin}}
+|{{WF|Follie}}, {{WF|Frost}}, {{WF|Gara}}, {{WF|Jade}}, {{WF|Khora}}, {{WF|Qorvex}}, {{WF|Saryn}}, {{WF|Trinity}}, {{WF|Voruna}}, {{WF|Zephyr}}
+|-
+|{{Pol|Naramon}}
+|{{WF|Baruuk}}, {{WF|Caliban}}, {{WF|Citrine}}, {{WF|Equinox}}, {{WF|Gauss}}, {{WF|Grendel}}, {{WF|Gyre}}, {{WF|Harrow}}, {{WF|Hildryn}}, {{WF|Hydroid}}, {{WF|Inaros}}, {{WF|Ivara}},  {{WF|Kullervo}}, {{WF|Lavos}}, {{WF|Limbo}}, {{WF|Loki}}, {{WF|Mirage}}, {{WF|Nezha}}, {{WF|Nova}}, {{WF|Nyx}}, {{WF|Octavia}}, {{WF|Revenant}}, {{WF|Styanax}}, {{WF|Temple}}, {{WF|Vauban}}, {{WF|Wisp}}, {{WF|Xaku}}
+|-
+|{{Pol|Aura}}
+|{{WF|Dante}}, {{WF|Jade}}, {{WF|Protea}}
+|-
+|{{Pol|Zenurik}}
+|{{WF|Dagath}}
+|-
+|(None)
+|{{WF|Excalibur}}, {{WF|Nekros}}, {{WF|Sevagoth}}
+|}
+Unless otherwise noted, Prime frames share the same polarity as their non-Prime forms.
+
+== Notes ==
+
+*Teammates will not benefit from a player's aura during a mission if that player is dead.
+*Sometimes if a game is lagging, the aura effect may not occur or may be delayed.
+
+==Tips==
+
+*{{M|Steel Charge}} and {{M|Power Donation}} have the highest capacity increase.
+*{{M|Coaction Drift}} increases the effectiveness of both you and your teammates' aura mods.
+** Boosts the strength of all auras in the squad by 15%. Also boosts the strength of all auras applied to yourself by an extra 15% (stacking multiplicatively).
+** Does not work with {{M|Combat Discipline}}.
+
+==Trivia==
+*Aura Mod cards were converted from user's [[Artifact]]s as of {{ver|9}}, including additional copies if the user obtained more than one artifact before the update.
+*For a short time after {{ver|10.6}}, some Auras (as well as some mods) could have been acquired via transmutation.<sup>[https://forums.warframe.com/index.php?/topic/126550-psa-unintended-modaura-inclusion/]</sup> This was due to a bug where all mods (including the unreleased ones) became obtainable through transmutation. This has been fixed, though some Auras (such as {{M|Dead Eye}}) have since been released. The list of retrieved auras can be found in [[:Category: Retrieved Content]].
+*{{WF|Excalibur}} is the only frame to have variants with a different aura polarity; default Excalibur has no polarity while both {{WF|Excalibur Umbra}} and {{WF|Excalibur Prime}} have the Madurai polarity.
+*{{WF|Dante}}<span data-darkreader-inline-color="" data-darkreader-inline-bgcolor="">, </span>{{WF|Jade}} <span data-darkreader-inline-color="" data-darkreader-inline-bgcolor="">and </span>{{WF|Protea}} <span data-darkreader-inline-color="" data-darkreader-inline-bgcolor="">(</span>{{WF|Protea Prime|Prime}}<span data-darkreader-inline-color="" data-darkreader-inline-bgcolor="">)</span> are the only [[Warframes]] with an innate {{Pol|Aura}} Universal polarity; all others can have their polarities changed to universal by use of an {{Icon|Item|Omni Forma|text}}.
+*[[Jade]] is the first Warframe to possess two mod aura slots. 
+*As of {{ver|37}}, {{Pol|Naramon}} Naramon is the most common default aura with 26 unique frames, followed by {{Pol|Madurai}} Madurai with 20.
+*Oddly enough, players can polarize [[Aura Mods|Aura mod]] slots with the {{Pol|Unairu}} Unairu polarity, despite there currently being no Aura mods with that polarity.
+**Similarly, players can also polarize mod slots belonging to non-melee weapons with said polarity as well.
+**For more flexibility it is possible to use an {{Icon|Item|Omni Forma|text}}, which grants {{Pol|Aura}} as a universal polarity.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.0.8}}
+*Fixed cases of Aura Mod effectiveness doubling in Duviri and in the Simulacrum.
+
+{{ver|28.3}}
+*Fixed Warframe Mod capacity percentage bar not showing the correct drain when a Universal Aura Slot is equipped with an Aura Mod.
+
+{{ver|25.7.6}}<br>
+'''New Arbitration Rewards:'''<br>
+The following rewards have been added to the Arbitrations drop tables:<br>
+''Stats shown at max rank*''
+
+*'''New Aura Mods:'''
+**'''Aerodynamic:''' 6 seconds added to Aim Glide/Wall Latch time, decreases damage taken while Airborne by 24%*
+**'''Swift Momentum:''' 30% faster Charge Attack speed, 6 seconds added to  Melee Combo time*
+**'''Shepherd:''' Increases Companion Armor by 180 and Companion Health by 300*
+**'''Combat Discipline:''' Allies gain 20 Health when they make a kill, but the aura bearer loses 10 Health when the bearer makes a kill.*
+**'''Melee Guidance:''' Reduces Melee Combo timer on Self by 6 seconds, increases Melee Combo timer for Allies by 12 seconds*
+
+{{ver|25.7.2}}
+*Fixed Aura Mods not functioning.
+
+{{ver|25.2.3}}
+*Fixed Aura Mods stacking twice while using Operator mode with Umbra.
+
+{{ver|24.8.0}}
+;Arbitrations ‘Iteration 1’ Changes
+
+A new Arbitrations reward has been added: The elusive Aura Forma Blueprint! Craft an Aura Forma to modify an Aura slot on a Warframe to be compatible with any Mod Polarity.
+
+{{ver|15.1}}
+*The aura slot's polarity can no longer be swapped with another slot's one.
+
+{{ver|9.1.4}}
+*Aura mods now *boost* your mod capacity rather than drain it.
+
+{{ver|9.0}}
+;Introduced
+*Aura mod system is here! The Artifacts system has transformed into a new system and has merged with the Arsenal UI. The new “Auras” can be fused just like mods, and they have their own slot! Auras are powerful, but also come at a cost to equip.}}
+
+==See also==
+*[[Warframes Comparison]]
+*[[Stance]], the Melee counterpart
+*[[Posture]], the Beast [[Companion]] counterpart
+*[[Aura Mods]]
+
+{{AuraNav}}
+{{ModNav}}
+[[es:Aura]]
+[[Category:Mods]]
+[[Category:Warframe Mods]]
+[[Category:Mechanics]]
+[[Category:Auras]]
+[[Category:Update 9]]
