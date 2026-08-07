@@ -121,12 +121,12 @@ con qué forma.**
 las mecánicas, no del mundo). Lo que el usuario declara son los participantes y sus condiciones — la
 partición de §*Las dos intenciones del usuario*.
 
-⚠️ **El contrato todavía no lo refleja.** `EnsembleIntention.environment` lleva `targetLevel`,
-`targetFaction` e `isSteelPath` como campos del escenario — los tres que esta tabla le asigna al
-participante. Ninguno de los tres tiene lector; el único campo de `environment` que alguien lee es el
-`itemId` del objetivo. Y `targetFaction` ni siquiera se declara: se deriva de qué enemigo elegiste. La
-reconciliación es que cada uno se vaya con su dueño y **`environment` desaparezca** — no se reemplaza
-por otro campo, porque el escenario es el todo, no un rincón adentro del todo.
+**Y el contrato lo refleja.** `EnsembleIntention` declara `hostile: HostileIntention[]` —el grupo, con
+el nivel adentro de cada participante— y **`environment` no existe**: no se reemplazó por otro campo,
+porque el escenario es el todo y no un rincón adentro del todo. `targetFaction` no sobrevivió (se
+deriva de qué enemigo elegiste) y **`isSteelPath` tampoco**: el dataset no trae su bonus —0 de 638
+enemigos—, y declarar un campo sin dato es fabricar el mismo campo mudo que esta partición vino a
+eliminar. Que Steel Path sea del participante ya está decidido; entra cuando el dato exista.
 
 ##### El cero: **un origen declarado, N ventanas derivadas, todas en el mismo reloj**
 
@@ -243,12 +243,15 @@ compuestos, y lo que cruza entre ellos ya aplicado. Nadie disparó, no pasó un 
 consolidado dejado correr. Por eso el contenedor de estado resulta **entidad-neutral por consecuencia**
 y no por un refactor aparte — nace de un participante resuelto, y un participante resuelto ya es neutral.
 
-⚠️ **Declarado, no construido.** Hoy la foto no se toma. El flujo produce la lista de entidades
-resueltas y, cuando arranca el tiempo, se construye un objetivo **nuevo** por otro camino
-(`EnemyRepository.scale`) que nunca vio el escenario ni lo que le cayó encima. Medible con el override
-real: con Corrosive Projection equipada el nodo `ENEMY_ADD_ARMOUR` resuelve **410**, y el daño se computa
-contra la armadura escalada que ese −18% nunca tocó. El examen que lo cierra ya es escribible — el mismo
-build con y sin el aura debe dar **distinto** `total_damage`, y hoy da idéntico.
+⚠️ **La foto se compone y todavía no se usa.** El frame-0 ya está completo —los participantes hostiles
+nacen escalados por su nivel y componen los modifiers que les llegan—, pero cuando arranca el tiempo se
+construye un objetivo **nuevo** por otro camino (`EnemyRepository.scale`) que nunca vio el escenario.
+
+Los dos caminos coinciden en el frame-0 al decimal (Bombard a nivel 100: `armor 2700`,
+`health 86416.38` por los dos lados — las primitivas son las mismas). **Divergen en lo que el escenario
+agregó:** con Corrosive Projection equipada el nodo resuelve `2700 → 2214`, y el daño se computa contra
+`2700` porque ese camino no ve modifiers. El examen que lo cierra ya es escribible — el mismo build con
+y sin el aura debe dar **distinto** `total_damage`, y hoy da idéntico.
 
 ---
 

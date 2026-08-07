@@ -6,6 +6,7 @@
 import type { MutatedDNA, CoBehavior } from "../../contracts";
 import { normalizeDamageType } from "@shared/types";
 import { damageTokenFromType } from "../../contracts/damage-logic";
+import { scaleHealth, scaleArmor, scaleShields } from "../../formulas/enemy/enemy-scaling";
 
 /**
  * Precisión de un ataque sin dispersión (`min_spread == max_spread == 0`). No es un default
@@ -52,8 +53,13 @@ export class ItemRepository {
   /**
    * Obtiene el ADN de un item mapeado desde el dataset. No conoce el kind de
    * antemano (mismo vocabulario de ids para arma/warframe) — prueba ambos Maps.
+   *
+   * `level` es la parte de la intención que compone el frame-0 y que el raw no puede saber. Sólo la
+   * declara el grupo Hostil; para el resto de los moldes no significa nada y no se pasa. No hay caché
+   * que colisione: cada llamada normaliza desde el raw, así que el mismo enemigo a dos niveles son
+   * dos composiciones y no dos entradas peleando por una clave.
    */
-  public static getDNA(uniqueName: string): MutatedDNA | null {
+  public static getDNA(uniqueName: string, level?: number): MutatedDNA | null {
     const weapon = this.weaponItems.get(uniqueName);
     if (weapon) return this.normalizeWeapon(weapon);
 
@@ -64,7 +70,7 @@ export class ItemRepository {
     if (companion) return this.normalizeCompanion(companion);
 
     const enemy = this.enemyItems.get(uniqueName);
-    if (enemy) return this.normalizeEnemy(enemy);
+    if (enemy) return this.normalizeEnemy(enemy, level);
 
     return null;
   }
@@ -136,12 +142,23 @@ export class ItemRepository {
    *
    * El raw de `enemies.json` los expone planos (`raw.health`), no bajo `stats`. Mismo gate por
    * presencia que el núcleo vital.
+   *
+   * **NACER ES ESTAR COMPUESTO.** Con `level` declarado, los tres nacen ya escalados por la curva-S:
+   * un enemigo no existe primero y se escala después, igual que un warframe no nace desnudo para que
+   * le pongan los mods encima. El nivel es frame-0, no una capa posterior
+   * (`simulation-architecture.md` §*Los dos pobladores no son espejos*).
+   *
+   * Es el paso **7** de la cadena del hostil (`references/wiki/mechanics/enemy-level-scaling.md`), y
+   * el único modelado: Steel Path (2 y 5), Empowered (3 y 6) y Eximus (4) van ANTES de la curva y no
+   * tienen dato en el corpus — el orden importa y por eso está nombrado acá, aunque hoy sólo se
+   * ejecute un paso.
    */
-  private static normalizeEnemy(raw: any): MutatedDNA {
+  private static normalizeEnemy(raw: any, level?: number): MutatedDNA {
+    const dx = level != null ? Math.max(0, level - (raw.base_level ?? 1)) : 0;
     const p: Record<string, number> = {};
-    if (raw.health  != null) p.ENEMY_ADD_HEALTH_MAX = raw.health;
-    if (raw.armor   != null) p.ENEMY_ADD_ARMOUR     = raw.armor;
-    if (raw.shields != null) p.ENEMY_ADD_SHIELD_MAX = raw.shields;
+    if (raw.health  != null) p.ENEMY_ADD_HEALTH_MAX = scaleHealth(raw.health, raw.faction, dx);
+    if (raw.armor   != null) p.ENEMY_ADD_ARMOUR     = scaleArmor(raw.armor, dx);
+    if (raw.shields != null) p.ENEMY_ADD_SHIELD_MAX = scaleShields(raw.shields, raw.faction, dx);
     return this.normalizeEntity(raw, { base: p }, {
       tags: ['enemy', raw.faction].filter(Boolean),
     });

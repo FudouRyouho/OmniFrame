@@ -22,7 +22,7 @@ export interface EntityIntent {
    * Se estampa en la entidad acá y **no se vuelve a escribir**: es lo que consulta el ruteo por canal
    * (`channel-routing.ts`) antes de resolver, y lo que llega a la salida. El bridge lo re-escribía
    * post-resolve desde `intention.items[…]`, lo que borraba el canal de todo participante que no
-   * entrara por el loadout — el objetivo, que entra por `environment`.
+   * entrara por el loadout — los del grupo Hostil, que no se equipan.
    */
   channel: string;
   /**
@@ -35,6 +35,14 @@ export interface EntityIntent {
   profile_id: string;
   evolution_perks?: Record<number, string>;
   arcanes?: Record<number, { arcane_id: string; rank: number }>;
+  /**
+   * Nivel del participante, cuando su grupo lo declara. Viaja por el mismo canal que `slots` y
+   * `profile_id` —la intención que compone al participante— porque es lo mismo: entra a la
+   * composición de su frame-0, no la modifica después.
+   *
+   * Sólo lo declara el grupo Hostil. Un arma no tiene nivel y no se le inventa uno.
+   */
+  level?: number;
 }
 
 /**
@@ -90,14 +98,17 @@ export function populateFromLoadout(ensemble: Ensemble): EntityIntent[] {
     });
   }
 
-  // El objetivo, si se declaró. Entra por la misma lista: es un participante más.
-  if (ensemble.enemy) {
+  // El grupo Hostil. Entra por la misma lista que el loadout: son participantes más, no parámetros.
+  // Es lista porque el grupo es "uno o más enemigos de uno o más tipos"; hoy se declara uno y poblar
+  // varios espera al plano (`OQ-ENGINE-35`).
+  for (const hostile of ensemble.hostiles ?? []) {
     intents.push({
-      entity_id: ensemble.enemy.id,
+      entity_id: hostile.id,
       channel: "enemy",
       routes: ["enemy"],
       slots: {},
       profile_id: "base",
+      level: hostile.level,
     });
   }
 

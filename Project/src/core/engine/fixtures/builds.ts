@@ -12,8 +12,14 @@
  */
 import type { EnsembleIntention } from '@shared/types/ensemble';
 
-/** Entorno base compartido (target nivel 1, sin Steel Path). */
-export const BASE_ENV = { targetLevel: 1, targetFaction: null, isSteelPath: false };
+/**
+ * Sin grupo Hostil declarado — el default de una build que sólo mide su propio lado.
+ *
+ * Es una constante y no un `[]` inline para que se lea como una **decisión** ("esta build no declara
+ * contra qué comparo") y no como un descuido. Reemplaza al viejo `BASE_ENV`, que declaraba un nivel y
+ * una facción de un objetivo que no existía.
+ */
+export const NO_HOSTILE: EnsembleIntention['hostile'] = [];
 
 // ─── Lanka (sniper de carga, proyectil) ──────────────────────────────────────────
 
@@ -45,7 +51,7 @@ export function lanka(profile: string): EnsembleIntention {
       1: { itemId: LANKA_MOD.TERMINAL_VELOCITY, rank: 30, level: 3 },
       2: { itemId: LANKA_MOD.VILE_PRECISION,    rank: 30, level: 5 },
     } },
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -91,7 +97,7 @@ export function cedo(withGH = false, profile = 'base'): EnsembleIntention {
       necramech:        { itemId: null, rank: 30 },
     },
     mods: { primary: mods },
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -138,7 +144,7 @@ export function laetum(profile = 'base'): EnsembleIntention {
         7: { itemId: LAETUM_MOD.PRIMED_HEATED_CHARGE, rank: 30, level: 10 },
       },
     },
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -189,7 +195,7 @@ export function felarx(profile = 'base'): EnsembleIntention {
     6: { itemId: FELARX_MOD.PRIMED_AMMO_STOCK,  rank: 30, level: 10 },
     7: { itemId: FELARX_MOD.PRIMED_POINT_BLANK, rank: 30, level: 10 },
   };
-  return { items: felarxItems(profile), mods: { primary: mods }, environment: BASE_ENV };
+  return { items: felarxItems(profile), mods: { primary: mods }, hostile: NO_HOSTILE };
 }
 
 // ─── Boltor Prime (proyectil single, Incarnon Genesis) ────────────────────────────
@@ -222,7 +228,7 @@ export function boltor(opts: { perks?: Record<number, string>; mods?: Record<num
     mods: opts.mods
       ? { primary: Object.fromEntries(Object.entries(opts.mods).map(([s, id]) => [s, { itemId: id, rank: 30, level: 10 }])) }
       : {},
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -246,7 +252,7 @@ export function soma(opts: { perks?: Record<number, string>; profile?: string } 
       necramech:        { itemId: null, rank: 30 },
     },
     mods: {},
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -271,7 +277,7 @@ export function boar(profile = 'base'): EnsembleIntention {
       necramech:        { itemId: null, rank: 30 },
     },
     mods: {},
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -325,7 +331,7 @@ export function nikana(
       necramech:        { itemId: null, rank: 30 },
     },
     mods: Object.keys(mods).length > 0 ? { melee: mods } : {},
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -395,7 +401,7 @@ export function rhino(): EnsembleIntention {
       2: { itemId: RHINO_MOD.PRIMED_CONTINUITY,   rank: 30, level: 10 },
       3: { itemId: RHINO_MOD.STRETCH,             rank: 30, level: 5  },
     } },
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -419,7 +425,7 @@ export function sicarus(opts: { perks?: Record<number, string>; profile?: string
       necramech:        { itemId: null, rank: 30 },
     },
     mods: {},
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -451,7 +457,7 @@ export function tiberon(heat = false): EnsembleIntention {
       necramech:        { itemId: null, rank: 30 },
     },
     mods: { primary: mods },
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -502,7 +508,7 @@ export function volt(): EnsembleIntention {
       necramech:        { itemId: null, rank: 30 },
     },
     mods: { warframe: {} },
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -655,7 +661,7 @@ export function valkyr(): EnsembleIntention {
       necramech:        { itemId: null, rank: 30 },
     },
     mods: { warframe: {} },
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 
@@ -716,12 +722,12 @@ export const CORROSIVE_PROJECTION = '/Lotus/Upgrades/Mods/Aura/EnemyArmorReducti
 /**
  * Valkyr + Warcry + compañero + un enemigo declarado.
  *
- * El objetivo entra por `environment` —A2, "contra qué comparo"— y no por `items`, que es A1: un
- * enemigo se declara, no se equipa.
+ * El objetivo entra por `hostile` —A2, el grupo Hostil— y no por `items`, que es A1: un enemigo se
+ * declara, no se equipa. Declara **nivel 100**, que es lo que compone su frame-0: sus tres vitales
+ * nacen escalados por la curva-S, no en el valor de catálogo.
  */
 export function valkyrWarcryTarget(): EnsembleIntention {
-  const base = valkyrWarcryCompanion();
-  return { ...base, environment: { ...base.environment, target: { itemId: BOMBARD } } };
+  return { ...valkyrWarcryCompanion(), hostile: [{ itemId: BOMBARD, level: 100 }] };
 }
 
 /**
@@ -731,8 +737,7 @@ export function valkyrWarcryTarget(): EnsembleIntention {
  * no la ausencia de nodo, sea lo que impide que un buff del jugador aterrice sobre el objetivo.
  */
 export function rhinoRoarTarget(): EnsembleIntention {
-  const base = rhinoRoar();
-  return { ...base, environment: { ...base.environment, target: { itemId: BOMBARD } } };
+  return { ...rhinoRoar(), hostile: [{ itemId: BOMBARD, level: 100 }] };
 }
 
 /**
@@ -769,7 +774,7 @@ export function harrow(): EnsembleIntention {
       necramech:        { itemId: null, rank: 30 },
     },
     mods: { warframe: {} },
-    environment: BASE_ENV,
+    hostile: NO_HOSTILE,
   };
 }
 

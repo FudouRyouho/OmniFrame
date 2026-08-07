@@ -777,7 +777,7 @@ Cita: `references/ingame-tests/status-stack-caps.md`,
 Projection —portador warframe, token `ENEMY_*`— no matchea ninguna excepción y cae a contención, o sea
 **muere en quien lo porta**; el motor lo grita (`Token conocido sin nodo: ENEMY_ADD_ARMOUR`), que es lo
 correcto pero no lo arregla. **Ese caso ya está cerrado** por §*La familia del token resuelve el cruce de
-bando* (abajo), y el examen que lo fija es `enemy.test.ts` — *−18% de armadura al enemigo: 500 → 410*.
+bando* (abajo), y el examen que lo fija es `enemy.test.ts` — *−18% de armadura al enemigo: 2700 → 2214*.
 El resto de la partición sigue en pie.
 
 **Tres ejes, no dos.** Un solo modifier involucra tres entidades que pueden diferir, y confundirlas es
@@ -954,10 +954,18 @@ stacks de Corrosive (emergente)?"*. Con la frontera, el nodo resuelve el `final`
 la ley aplica sus multiplicadores sobre ese `final` — cada uno en su tramo, una sola vez. Vale igual
 para `ENEMY_ADD_HEALTH_MAX` y `ENEMY_ADD_SHIELD_MAX` (Magnetic sobre escudos).
 
-**Examen ejecutable — ✅ EN VERDE:** `__tests__/enemy.test.ts` — *−18% de armadura al enemigo: 500 → 410*.
-Exige las dos mitades y ninguna lo pasa sola: que §18 lleve el token al enemigo (el cruce de bando por
-familia) y que el nodo lo componga (el tramo 2 de esta tabla). Pasa **sin excepciones hardcodeadas** —
-el `if` que sobrevive resuelve el destino *dentro* del bando y no participa de este caso.
+**Examen ejecutable — ✅ EN VERDE:** `__tests__/enemy.test.ts` — *−18% de armadura al enemigo: 2700 → 2214*.
+Exige **tres** cosas y ninguna lo pasa sola: que el nivel componga el frame-0 (`2700`, no el `500` del
+catálogo), que §18 lleve el token al enemigo (el cruce de bando por familia) y que el nodo lo componga
+(el tramo 2 de esta tabla). Pasa **sin excepciones hardcodeadas** — el `if` que sobrevive resuelve el
+destino *dentro* del bando y no participa de este caso.
+
+**Y el nivel es el caso que fija de qué lado cae qué.** Un enemigo de nivel 215 tiene el mismo EHP en
+`t=0` y en `t=100`: no sube con el reloj, así que **el nivel es frame-0 y no ley**, por más que su
+maquinaria haya vivido en C2 (`EnemyRepository.scale`). La curva se ejecuta al nacer, en el molde, y el
+nodo arranca ya escalado. Lo que la ley lleva es lo que cambia *durante*: procs, decay, strip temporal.
+⚠️ **Esto NO significa que el escalado deje de ser una fórmula pura** — `scaleHealth`/`scaleArmor`
+siguen en `formulas/enemy/`; lo que se movió es **quién las orquesta y cuándo**.
 
 **La frontera está construida para el armor.** Lo que queda es extenderla a `ENEMY_ADD_HEALTH_MAX` y
 `ENEMY_ADD_SHIELD_MAX`, que no tienen fuente declarada todavía: el corpus da **un solo** mod con token

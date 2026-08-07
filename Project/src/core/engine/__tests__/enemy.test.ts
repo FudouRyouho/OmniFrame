@@ -7,11 +7,12 @@
  * Plunder) no tenía dónde aterrizar, y por eso la pregunta *"¿cómo compone un strip declarado con
  * N stacks de Corrosive?"* no tenía respuesta posible — faltaba el frame-0.
  *
- * Lo que estos tests fijan es el frame-0: el objetivo entra al espacio por `environment` (A2, "contra
- * qué comparo"), materializa sus tres stats vitales bajo la familia `ENEMY_*`, y **no recibe lo que
- * no le corresponde**. La evolución temporal sigue siendo de C2 y no se toca acá: la frontera está en
- * `docs/domains/engine/design/arch-decisions.md` §19 — *el nodo lleva el frame-0, la ley lleva el
- * tiempo*.
+ * Lo que estos tests fijan es el frame-0: el objetivo entra al espacio por `hostile` (A2, el grupo
+ * Hostil), materializa sus tres stats vitales bajo la familia `ENEMY_*` **ya escalados por su nivel**,
+ * y **no recibe lo que no le corresponde**. La evolución temporal sigue siendo de C2 y no se toca acá:
+ * la frontera está en `docs/domains/engine/design/arch-decisions.md` §19 — *el nodo lleva el frame-0,
+ * la ley lleva el tiempo*. El nivel cae del lado del nodo: un enemigo de nivel 215 tiene el mismo EHP
+ * en `t=0` y en `t=100`.
  *
  * Valores verificados con `npm run oracle -- nodes <build>` ANTES de asertar.
  */
@@ -31,15 +32,27 @@ const target = (b = valkyrWarcryTarget()) => consume(b, { flags: {} }).weapon(BO
 // ─── El objetivo existe ────────────────────────────────────────────────────────────
 
 describe('Enemigo — la entidad', () => {
-  it('entra al espacio declarado en `environment`, no equipado en `items`', () => {
+  it('entra al espacio declarado en `hostile`, no equipado en `items`', () => {
     expect(consume(valkyrWarcryCompanion(), { flags: {} }).snapshot()).toHaveLength(3);
     expect(consume(valkyrWarcryTarget(),    { flags: {} }).snapshot()).toHaveLength(4);
   });
 
-  it('materializa sus stats vitales bajo la familia ENEMY_*', () => {
-    expect(target().node('ENEMY_ADD_HEALTH_MAX').base).toBe(300);
-    expect(target().node('ENEMY_ADD_ARMOUR').base).toBe(500);
-    expect(target().node('ENEMY_ADD_SHIELD_MAX').base).toBe(0);
+  /**
+   * NACER ES ESTAR COMPUESTO — el `base` del nodo ya trae el nivel adentro.
+   *
+   * El fixture declara `{ itemId: BOMBARD, level: 100 }` y el catálogo dice `health 300 · armor 500`
+   * a `base_level 4`. Lo que se materializa NO son esos valores: son los de la curva-S a nivel 100.
+   * Un enemigo no existe primero y se escala después, igual que un warframe no nace desnudo para que
+   * le pongan los mods encima (`simulation-architecture.md` §Los dos pobladores no son espejos).
+   *
+   * Los tres coinciden al decimal con `EnemyRepository.scale`, que llega al mismo número por el otro
+   * camino: el escalado se movió al frame-0 sin que la ley cambiara. Lo que ese otro camino NO tiene
+   * es lo de abajo — los modifiers.
+   */
+  it('materializa sus stats vitales ESCALADOS: el nivel es frame-0, no una capa posterior', () => {
+    expect(target().node('ENEMY_ADD_HEALTH_MAX').base).toBeCloseTo(86416.38, 2);  // 300 @ lvl 4 → 100
+    expect(target().node('ENEMY_ADD_ARMOUR').base).toBe(2700);                    // 500, capeado
+    expect(target().node('ENEMY_ADD_SHIELD_MAX').base).toBe(0);                   // sin escudo: 0 escala a 0
   });
 
   /**
@@ -71,8 +84,8 @@ describe('Enemigo — la entidad', () => {
 describe('Enemigo — el buff del jugador no se filtra', () => {
   it('Warcry sube la armadura del warframe y no toca la del enemigo', () => {
     const wf = consume(valkyrWarcryTarget(), { flags: {} }).weapon(VALKYR);
-    expect(wf.node('AVATAR_ADD_ARMOUR').final).toBe(1282.5);   // 855 × 1.5
-    expect(target().node('ENEMY_ADD_ARMOUR').final).toBe(500); // intacta
+    expect(wf.node('AVATAR_ADD_ARMOUR').final).toBe(1282.5);    // 855 × 1.5
+    expect(target().node('ENEMY_ADD_ARMOUR').final).toBe(2700); // intacta: su frame-0, sin buff ajeno
   });
 
   /**
@@ -136,10 +149,14 @@ describe('Corrosive Projection — el debuff que sale del warframe hacia el enem
     expect(target(corrosiveProjectionTarget()).node('ENEMY_ADD_ARMOUR').mods_add_pct).toBe(-18);
   });
 
-  // 500 × (1 − 0.18) = 410. El examen final del Doc 2: exige las DOS mitades —que §18 lleve el token
-  // al enemigo y que §19 lo componga como nodo—, y ninguna lo pasa sola.
-  it('−18% de armadura al enemigo: 500 → 410', () => {
-    expect(target(corrosiveProjectionTarget()).node('ENEMY_ADD_ARMOUR').final).toBeCloseTo(410, 10);
+  // 2700 × (1 − 0.18) = 2214. Exige TRES cosas y ninguna lo pasa sola: que el nivel componga el
+  // frame-0 (2700, no 500), que §18 lleve el token al enemigo, y que §19 lo componga como nodo.
+  //
+  // ⚠️ Este número todavía NO llega al daño: `EnemyState` nace de `EnemyRepository.scale`, que computa
+  // el mismo 2700 por otro camino y no ve ningún modifier. El examen que cierra eso es de C2 —
+  // `corrosive_projection_tgt` tiene que hacer MENOS daño que la misma build sin el aura.
+  it('−18% de armadura al enemigo: 2700 → 2214', () => {
+    expect(target(corrosiveProjectionTarget()).node('ENEMY_ADD_ARMOUR').final).toBeCloseTo(2214, 10);
   });
 
   it('no se desvía al warframe que lo porta — el aura sale del squad, no se queda', () => {

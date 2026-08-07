@@ -34,8 +34,16 @@ export interface EntityViewModel {
   channel?: string;
   /** Token de identidad (path del juego). El nombre legible lo resuelve i18n/data en el borde. */
   unique_name: string;
-  domain: ItemDomain;
-  kind: ItemKind;
+  /**
+   * Taxonomía de arsenal — **sólo la portan los participantes que son ítems del loadout**. Un enemigo
+   * participa del espacio sin ser un ítem del pipeline y entra con las tres ausentes (espejo de
+   * `SimulationEntity.domain`, que ya era opcional).
+   *
+   * Eran obligatorias y el contrato quedó **más estricto que sus consumidores**: el único lector real
+   * (`UpgradeView.tsx`) ya usaba optional chaining.
+   */
+  domain?: ItemDomain;
+  kind?: ItemKind;
   family?: ItemFamily;
   stats: StatViewModel[];
 }

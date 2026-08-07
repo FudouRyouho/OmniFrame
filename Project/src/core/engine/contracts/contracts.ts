@@ -122,8 +122,11 @@ export interface Ensemble {
    * (armadura, salud) y no la de arma. Ver `space.ts` y `channel-routing.ts`.
    */
   companion?: { id: string; slots: Record<number, { mod_id?: string; level?: number }> };
-  /** El objetivo, como participante del espacio — no como parámetro del cálculo. */
-  enemy?: { id: string };
+  /**
+   * El grupo **Hostil**, como participantes del espacio — no como parámetros del cálculo. El `level`
+   * viaja con cada uno porque es suyo: compone su frame-0, no lo modifica después.
+   */
+  hostiles?: { id: string; level: number }[];
   focus?: { school_id: string; nodes: string[] };
 }
 

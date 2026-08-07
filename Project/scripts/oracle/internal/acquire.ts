@@ -36,6 +36,13 @@ export function acquire(q: OracleQuery): AcquiredResult {
       };
 
     case 'metrics': {
+      // ⚠️ DOS ENEMIGOS, DOS NIVELES. `consume(...)` resuelve el escenario entero —donde el grupo
+      // Hostil ya trae su nivel compuesto y los modifiers aplicados— y la línea de abajo lo DESCARTA:
+      // `firstWeapon` se queda con el arma y construye un objetivo nuevo desde `--lvl`, que nunca vio
+      // el escenario. Si el build declara nivel 100 y se pasa `--lvl 50`, C1 usa 100 y C2 usa 50.
+      // No es del oracle: es que el estado todavía no nace de la foto de t=0
+      // (`simulation-architecture.md` §El escenario consolidado). Estas dos líneas colapsan en una
+      // cuando eso se cierre.
       const weapon = firstWeapon(consume(resolveSubject(q.subject), { flags: {} }).snapshot(), q.subject);
       const target = EnemyRepository.scale(findEnemy(q.a2.enemy), q.a2.level);
       const metrics = computeCombatMetrics(weapon, target, baseContext(), q.a2.duration);

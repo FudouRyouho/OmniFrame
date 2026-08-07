@@ -66,8 +66,8 @@ export class MutatorBridge {
     // El canal NO se re-escribe acá. Ya viene estampado desde el espacio (`space.ts` → `StaticHydrator`),
     // que es la única lista de participantes y la que el ruteo por canal consume ANTES de resolver.
     // Escribirlo de nuevo post-resolve era destructivo: se armaba desde `intention.items[…]`, así que
-    // todo participante que no entre por el loadout —el objetivo, que entra por `environment`— recibía
-    // `undefined` encima del canal que el espacio ya le había puesto.
+    // todo participante que no entre por el loadout —los del grupo Hostil, que se declaran y no se
+    // equipan— recibía `undefined` encima del canal que el espacio ya le había puesto.
     const resolvedEntities = entities.map(e => ({
       ...e,
       attributes: this.mapCalculatedStats(e, newEngine)
@@ -107,11 +107,11 @@ export class MutatorBridge {
               slots: this.intentionSlots(intention, "companion"),
             } }
         : {}),
-      // El objetivo sale de `environment` — A2, "contra qué comparo" — y NO de `items`, que es A1.
-      // Un enemigo se declara, no se equipa. Es el mismo lugar donde ya vivían `targetLevel` y
-      // `targetFaction`: lo único que cambia es que ahora hay algo que puede portar atributos.
-      ...(intention.environment.target?.itemId
-        ? { enemy: { id: intention.environment.target.itemId } }
+      // El grupo Hostil sale de `hostile` — A2 — y NO de `items`, que es A1: un enemigo se declara,
+      // no se equipa. Traducción 1:1, sin default inventado: si el usuario no declaró a quién
+      // enfrentar, no hay participantes hostiles, y `space.ts` puebla cero.
+      ...(intention.hostile.length > 0
+        ? { hostiles: intention.hostile.map(h => ({ id: h.itemId, level: h.level })) }
         : {}),
       focus: { school_id: "zenurik", nodes: [] }
     };
@@ -175,11 +175,11 @@ export class MutatorBridge {
     // `StaticHydrator` armaba su conjunto de participantes y esto armaba el suyo—, y esa copia
     // era invisible: un participante declarado allá y ausente acá se descartaba en silencio en
     // `if (!dna) return`, sin error ni warn.
-    const ids = populateFromLoadout(ensemble).map(i => i.entity_id);
-
-    ids.forEach(id => {
-      const dna = DnaRepository.findByUniqueName(id);
-      if (dna) dnas[id] = dna;
+    // Se recorre el intent entero y no sólo su id: el `level` es parte de la intención que COMPONE al
+    // participante (frame-0), así que tiene que llegar al molde, no aplicarse encima después.
+    populateFromLoadout(ensemble).forEach(intent => {
+      const dna = DnaRepository.findByUniqueName(intent.entity_id, intent.level);
+      if (dna) dnas[intent.entity_id] = dna;
     });
     return dnas;
   }

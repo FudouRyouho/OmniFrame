@@ -23,7 +23,7 @@ import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import type { EnsembleIntention } from '@shared/types/ensemble';
-import { felarx, felarxItems, FELARX, GALVANIZED_SAVVY, GALVANIZED_HELL, galvanizedStacksVar, TOXIC_BARRAGE, BASE_ENV } from '../fixtures/builds';
+import { felarx, felarxItems, FELARX, GALVANIZED_SAVVY, GALVANIZED_HELL, galvanizedStacksVar, TOXIC_BARRAGE, NO_HOSTILE } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
@@ -33,7 +33,7 @@ type Slots = Record<number, { itemId: string; rank: number; level: number }>;
 
 /** Solo perks + los status mods dados — aísla la fórmula per-pellet (micro-fixture del test). */
 function felarxStatus(statusMods: Slots): EnsembleIntention {
-  return { items: felarxItems('base'), mods: { primary: statusMods }, environment: BASE_ENV };
+  return { items: felarxItems('base'), mods: { primary: statusMods }, hostile: NO_HOSTILE };
 }
 
 const fullBase   = (profile = 'base') => consume(felarx(profile), { flags: {} }).weapon(FELARX);

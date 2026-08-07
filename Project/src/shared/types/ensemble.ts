@@ -70,15 +70,23 @@ export type EquipmentChannel =
   | 'necramech';
 
 /**
- * El objetivo declarado, como PARTICIPANTE y no como parámetro suelto.
+ * A2 — la declaración de **un participante del grupo Hostil**.
  *
- * Vive en `environment` porque `environment` ya **es** A2 ("contra qué comparo"): `targetLevel` y
- * `targetFaction` siempre describieron un enemigo, sólo que desarmado en campos sueltos que ninguna
- * entidad podía portar. Darle un `itemId` lo vuelve algo que el espacio puede poblar.
+ * No es el espejo de un `SlotIntention`: el Squad declara un loadout, el Hostil declara qué enemigo y
+ * a qué nivel. Ninguno de los dos declara menos que el otro — declaran cosas distintas, y forzar la
+ * simetría es de donde salen los `if` (`simulation-architecture.md` §*Los dos pobladores no son
+ * espejos*).
+ *
+ * **El nivel vive acá y no en un "escenario"**: sacá todos los participantes y un nivel de enemigo no
+ * significa nada. Mismo criterio que Steel Path, que **todavía no se declara** — el dataset no trae el
+ * bonus (0 de 638 enemigos), y un campo sin dato es exactamente el campo mudo que esta partición vino
+ * a eliminar.
  */
-export interface TargetIntention {
-  /** `unique_name` del enemigo en el catálogo. `null` = sin objetivo declarado (el default). */
-  itemId: string | null;
+export interface HostileIntention {
+  /** `unique_name` del enemigo en el catálogo. */
+  itemId: string;
+  /** Nivel al que se enfrenta. Compone su frame-0 (curva-S), no lo modifica después. */
+  level: number;
 }
 
 const EMPTY_SHARD: ArchonShardIntent = { shardType: null, effectId: null, isTauforged: false };
@@ -95,13 +103,19 @@ export interface EnsembleIntention {
   // slots, o estar ausente. Validación de cuántos/cuáles = OQ-DATA-1 (diferida).
   // Opcional: las builds-fixture sin arcanos no necesitan declararlo.
   arcanes?: Record<string, Record<number, ArcaneIntention>>;
-  /** A2 — "contra qué comparo". */
-  environment: {
-    targetLevel: number;
-    targetFaction: string | null;
-    isSteelPath: boolean;
-    target?: TargetIntention;
-  };
+  /**
+   * A2 — el grupo **Hostil**. Lista vacía = sin objetivo declarado (el default).
+   *
+   * Es lista y no un objeto único porque el grupo es *"uno o más enemigos de uno o más tipos"*.
+   * **Poblar** N espera al plano (`OQ-ENGINE-35`) — sin un lugar donde ubicarlos, N unidades idénticas
+   * son clones que ningún cómputo distingue. Lo que la lista evita es tener que rehacer la forma el
+   * día que ese gate se abra.
+   *
+   * Reemplaza a `environment`, que llevaba `targetLevel`/`targetFaction`/`isSteelPath` como campos de
+   * un escenario que no es dueño de ninguno: **A es el escenario entero, no un campo adentro**. Los
+   * tres estaban sin lector, y `targetFaction` además se deriva de qué enemigo elegiste.
+   */
+  hostile: HostileIntention[];
 }
 
 export const INITIAL_INTENTION: EnsembleIntention = {
@@ -129,9 +143,5 @@ export const INITIAL_INTENTION: EnsembleIntention = {
   },
   mods: {},
   arcanes: {},
-  environment: {
-    targetLevel: 100,
-    targetFaction: null,
-    isSteelPath: false
-  }
+  hostile: [],
 };
