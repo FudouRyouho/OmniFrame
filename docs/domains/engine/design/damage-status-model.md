@@ -715,6 +715,6 @@ Ambas en `docs/governance/open-questions.md`.
 
 - `references/wiki/mechanics/status-effects.md` — fórmulas, duración, caps, verificación empírica completa
 - `references/wiki/mechanics/damage-types.md` — familias, combinación elemental, regla de elección de proc
-- `references/wiki/mechanics/enemy-resistances.md` — matriz facción×elemento y DR de armor enemigo (**fuera del scope de esta campaña**; el escalado del enemigo existe — `EnemyRepository.scale()` produce `ScaledEnemy` real, validado contra el calculador del wiki, ver `enemy-scaling.test.ts` — pero el **consumo en el pipeline de daño** (facción × DR × capa) sigue pendiente del contraste #1; la DR adoptada es provisional, `OQ-ENGINE-15`)
+- `references/wiki/mechanics/enemy-resistances.md` — matriz facción×elemento y DR de armor enemigo (**fuera del scope de esta campaña**; el escalado del enemigo existe — la curva-S corre en el molde (`ItemRepository.normalizeEnemy`) y compone el frame-0 del participante, validada contra el calculador del wiki, ver `enemy-scaling.test.ts` — pero el **consumo en el pipeline de daño** (facción × DR × capa) sigue pendiente del contraste #1; la DR adoptada es provisional, `OQ-ENGINE-15`)
 - `references/wiki/mechanics/faction-damage.md` — faction bonus, double-dip
 - `docs/domains/engine/test/gap-map.md` — Capa 5 (scaling de habilidades), contexto de por qué el sourcing de buffs como Roar queda fuera

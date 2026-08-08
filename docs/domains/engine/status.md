@@ -73,7 +73,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 > **Fuera del behavior-set:** Electricity/Gas (frontera 3, emisión multi-target de daño — cadena/nube; NO recursión de procs, descartada in-game 2026-07-14)
 > y los efectos sin LEY (puncture/impact/cold/… — no-op). Pool②/faction² del tick = gated (`OQ-ENGINE-20`,
 > mitad live). `stacks` de N-timers reales = fidelidad diferida (`OQ-ENGINE-16`). El consumo del
-> `ScaledEnemy` en el pipeline de daño (facción × DR × capa) está resuelto: `resolveDamageEvent`/`resolveHit`
+> **objetivo resuelto** en el pipeline de daño (facción × DR × capa) está resuelto: `resolveDamageEvent`/`resolveHit`
 > consumen `targetFactionMult` (matriz③) + `damageReductionFromArmor` (DR), ver
 > `damage-status-model.md §Reconciliación de resolveHit`. **Ojo:** esto es acoplamiento *dentro* de C2
 > (`TimelineSimulator`/`CombatSimulator`) — C2 en sí sigue **fuera** del pipeline de producción
@@ -143,6 +143,38 @@ Suite de **consumidores derivados** vía el "clic" (`output/consume.ts`). Índic
 ---
 
 ## Deudas de implementación
+
+### El paso de muestreo se filtra al resultado — y lo elige la cadencia del arma
+
+`TimelineSimulator` fija `timeStep = 1 / fireRate`: **`dt` no es una perilla del observador, lo declara el
+arma**. Eso sería inocuo si el estado fuera invariante al paso, y hay una parte que no lo es.
+
+`decayCount(count, dt) = count − (count/6)·dt` (`formulas/status/behaviors.ts`) re-aplica el sangrado
+sobre el resultado anterior, así que N pasos chicos ≠ un paso grande. Medido — 10 stacks de corrosión a
+los 3 s:
+
+| `dt` | 3.0 | 1.0 | 0.5 | 0.25 | 1/15 | límite `dt→0` |
+|---|---|---|---|---|---|---|
+| count | 5.0000 | 5.7870 | 5.9329 | 6.0007 | 6.0484 | 6.0653 (`10·e^(−½)`) |
+
+**Ningún paso da la respuesta correcta** — la da el límite. Compuesto con el `1/fireRate`: la armadura de
+un enemigo se despega a distinta velocidad según qué arma tenga enfrente. No es redondeo, es forma.
+
+El DoT y la rampa de armor de `ignite`, en cambio, **sí** son invariantes: declaran su ventana en términos
+absolutos (`firstTick`, `firstProcTime`) y la muestra sólo pregunta. Las cuatro nociones de "cuándo" que
+conviven en el motor, y cuáles cumplen, están tabuladas en el tripwire.
+
+**Tripwire ejecutable:** `__tests__/status/dt-invariance.test.ts` — 2 ✓ (DoT, ignite) + 1 `it.fails` con
+los números de arriba + 1 `todo` (el lado source, que no tiene reloj que preguntar).
+
+**Distinto de `OQ-ENGINE-16` y no lo subsume:** aquélla pregunta si un N declarado es *fiel* —cuestión de
+dato, gated por medición in-game—; ésta mide que el modelo no es consistente **consigo mismo**, y se
+cierra sin dato nuevo. La cura es la misma en los dos casos y por eso conviene no separarlas al ejecutar:
+que el estado deje de ser un escalar que sangra y lleve instancias con ventana propia — lo único que
+además puede contestar *"cuál es el más viejo"* (`references/ingame-tests/status-stack-caps.md`).
+
+**Vínculo:** `design/arch-decisions.md §20` (muestreo, no eventos — la decisión que esta invariante
+sostiene), `§19` (el nodo lleva el frame-0, la ley lleva el tiempo), `OQ-ENGINE-16`.
 
 ### `GAMEPLAY_MULT_FACTION_DAMAGE` — consumo C2 incompleto (pool② en DoT ticks)
 

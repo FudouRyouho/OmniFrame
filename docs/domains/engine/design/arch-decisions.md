@@ -419,9 +419,9 @@ heredar sin que alguien escriba la línea que la llama. Mismo estatus que `clamp
 
 **Decisión:** primer primitivo para `condition` cuyo **sujeto** (§8-adyacente, el eje "quién":
 self / target / ally) es el **target**, no el jugador/loadout. Un objeto
-congelado de dos campos — `EnemySnapshot { max_health, current_health }` — derivado de
-`EnemyRepository.scale()` (pipeline "0", ya existente) contra un `health_pct` que el **consumidor
-declara explícitamente** (C1-declarado, §8.1 escalón 2 — sin timeline, sin RNG). `deriveEnemyFlags(snapshot)`
+congelado de dos campos — `EnemySnapshot { max_health, current_health }` — derivado del **nodo resuelto
+del participante** (`hostileVitals`, la misma lectura que usa el estado) contra un `health_pct` que el
+**consumidor declara explícitamente** (C1-declarado, §8.1 escalón 2 — sin timeline, sin RNG). `deriveEnemyFlags(snapshot)`
 proyecta el snapshot a los flags de `condition` que activa (hoy: `while_enemy_below_half_health`).
 
 **Justificación:**
@@ -955,31 +955,33 @@ stacks sin que nadie sepa cuál manda.
 **La cadena vigente, verificada en código:**
 
 ```
-enemies.json → EnemyRepository.load()  → EnemyDNA (armor crudo)
-                    ↓ scale(dna, level)                 ← f(nivel), curva-S, FUERA del grafo
-             ScaledEnemy { current_armor, … }
-                    ↓ new EnemyState(base, laws)
-             getEffectiveArmor(t) = base.current_armor × Π armorMult(t)   ← f(t), multiplicativo
+enemies.json → EnemyRepository.load()  → EnemyDNA (armor crudo)      ← cargar y buscar, nada más
+                    ↓ ItemRepository.normalizeEnemy(raw, level)      ← f(nivel), curva-S, EN EL MOLDE
+             perfil base { ENEMY_ADD_ARMOUR: 2700, … }
+                    ↓ C1 compone (mods, auras, cruce de bando §18)
+             nodo ENEMY_ADD_ARMOUR.final = 2214                      ← el frame-0
+                    ↓ new EnemyState(entidad, laws)
+             getEffectiveArmor(t) = base_armor × Π armorMult(t)      ← f(t), multiplicativo
 ```
 
 Dos hechos que fija el código: `getEffectiveArmor(currentTime)` **es f(t) por construcción** y
-multiplicativo entre efectos (Corrosive, rampa de Heat); y `EnemyRepository.scale` **ya es una
-transformación pre-grafo**, igual que el `rank` de un warframe.
+multiplicativo entre efectos (Corrosive, rampa de Heat); y la curva-S **es una transformación
+pre-grafo**, igual que el `rank` de un warframe — se ejecuta en el molde, no en el grafo.
 
 **Los tres tramos:**
 
 | # | Tramo | Ejemplo | Dueño | ¿Existe? |
 |---|---|---|---|---|
 | 1 | Dato al nivel declarado | curva-S de `scaleArmor` | molde de normalización (pre-grafo) | sí |
-| 2 | Composición estática declarada | Abating Link −60%, Plunder | **nodo C1** `ENEMY_ADD_ARMOUR` | **no — el hueco** |
+| 2 | Composición estática declarada | Corrosive Projection −18%, Abating Link | **nodo C1** `ENEMY_ADD_ARMOUR` | sí |
 | 3 | Evolución temporal emergente | N stacks de Corrosive, rampa de Heat | **ley C2** `getEffectiveArmor(t)` | sí |
 
 > **El nodo lleva el frame-0. La ley lleva el tiempo.**
-> `this.base.current_armor` deja de venir del `ScaledEnemy` y pasa a ser el `final` del nodo.
-> `getEffectiveArmor(t)` no cambia una línea.
+> El piso de `getEffectiveArmor(t)` es el `final` del nodo, no un objeto paralelo; se congela en el
+> constructor y no se relee. La ley no conoce la composición y la composición no conoce el reloj.
 
-Es *"C1 compone, C2 realiza"* aplicado al target — la mitad que nunca se construyó porque el enemigo
-nunca fue entidad de C1.
+Es *"C1 compone, C2 realiza"* aplicado al target — la mitad que faltaba mientras el enemigo no era
+entidad de C1, y que hoy existe porque lo es.
 
 **El test de la frontera — se aplica por VALOR, no por fuente.** Ante un valor nuevo: **¿depende de
 `t`?** No → nodo. Sí → ley. Lo que la frontera prohíbe es que **un mismo valor** se resuelva por los dos
@@ -1011,8 +1013,8 @@ destino *dentro* del bando y no participa de este caso.
 
 **Y el nivel es el caso que fija de qué lado cae qué.** Un enemigo de nivel 215 tiene el mismo EHP en
 `t=0` y en `t=100`: no sube con el reloj, así que **el nivel es frame-0 y no ley**, por más que su
-maquinaria haya vivido en C2 (`EnemyRepository.scale`). La curva se ejecuta al nacer, en el molde, y el
-nodo arranca ya escalado. Lo que la ley lleva es lo que cambia *durante*: procs, decay, strip temporal.
+maquinaria haya vivido en C2. La curva se ejecuta al nacer, en el molde (`ItemRepository.normalizeEnemy`),
+y el nodo arranca ya escalado. Lo que la ley lleva es lo que cambia *durante*: procs, decay, strip temporal.
 ⚠️ **Esto NO significa que el escalado deje de ser una fórmula pura** — `scaleHealth`/`scaleArmor`
 siguen en `formulas/enemy/`; lo que se movió es **quién las orquesta y cuándo**.
 

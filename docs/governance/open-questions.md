@@ -795,7 +795,7 @@ rol de IA/allegiance (`Neutral`, `Predator`, `Prey`), u otros (`Orbiter`, `Warfr
 un campo de la fuente (`@wfcd/items`) que el engine trata como input vivo pero que mezcla ejes.
 
 **Dos consumidores lo keyean — ambos degradados en silencio:**
-- **Scaling** (`enemy-scaling.ts` vía `EnemyRepository.scale`): `HEALTH_COEF[faction]` / `SHIELDS_COEF[faction]`
+- **Scaling** (`enemy-scaling.ts` vía `ItemRepository.normalizeEnemy`): `HEALTH_COEF[faction]` / `SHIELDS_COEF[faction]`
   → facción no reconocida cae al **default** (health: grupo Unaffiliated tras el fix F5; shields: Grineer,
   elección de código). El enemigo escala con una curva que no es la de su facción real.
 - **FACTION_BONUS** (`targetFactionMult(token, dna.faction)`, matriz③ de `resolveHit`): `FACTION_BONUS[token]?.[faction] ?? 0`

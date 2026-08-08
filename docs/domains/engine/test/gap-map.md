@@ -43,9 +43,9 @@ Grafo genérico de atributos (`SimulationEngine`): un pass topológico (Kahn) �
 > **`companions` y `enemies` son participantes, no fuentes pendientes.** `DataLoader` los carga:
 > `ItemRepository.loadCompanions()` guarda al compañero en su propio índice —el motivo declarado es que
 > comparte los cuatro pilares y el molde de avatar, así que no necesita repositorio aparte—, y `enemies`
-> se carga **dos veces a propósito**: `EnemyRepository` lo escala para C2 (`ScaledEnemy`),
-> `ItemRepository` lo hidrata como participante de C1. Son dos usos del mismo raw, no una duplicación de
-> la fuente. Consumidores: `__tests__/companion.test.ts`, `__tests__/enemy.test.ts`.
+> se carga **dos veces a propósito**: `EnemyRepository` lo indexa para buscarlo por nombre display,
+> `ItemRepository` lo hidrata como participante de C1 (y ahí se ejecuta la curva-S). Son dos usos del
+> mismo raw —búsqueda y composición—, no una duplicación de la fuente. Consumidores: `__tests__/companion.test.ts`, `__tests__/enemy.test.ts`.
 
 > **`archon-shards` ya NO es gap:** `ShardRepository` está activo (resuelve shards, emite `Modifier` con `target_entity`; ver `status.md` y `rhino.test.ts`).
 
