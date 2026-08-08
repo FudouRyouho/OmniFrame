@@ -15,7 +15,7 @@
  * que emerge de una timeline. Sin RNG, sin frames.
  */
 import type { SimulationEntity } from '../../contracts';
-import { hostileVitals } from './EnemyState';
+import { vitalsOf } from './EnemyState';
 
 export interface EnemySnapshot {
   max_health: number;
@@ -31,7 +31,7 @@ export interface EnemySnapshot {
  * enemigo (un debuff de vida máxima, si algún día existe) entra acá por el mismo camino que todo.
  */
 export function snapshotEnemy(entity: SimulationEntity, healthPct: number): EnemySnapshot {
-  const maxHealth = hostileVitals(entity).health;
+  const maxHealth = vitalsOf(entity).health;
   return {
     max_health: maxHealth,
     current_health: maxHealth * healthPct,

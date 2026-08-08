@@ -4,7 +4,7 @@
  * Ver `docs/domains/oracle/design/architecture.md` §2-2.1.
  */
 import { toStatEntries } from '@lib/format/stat-entry';
-import { hostileVitals } from '@core/engine/simulate/enemies/EnemyState';
+import { vitalsOf } from '@core/engine/simulate/enemies/EnemyState';
 import type { AcquiredResult, Format, MetricsResult, EnemyResult, TraceResult } from './types';
 
 export function present(result: AcquiredResult, format: Format): void {
@@ -95,12 +95,12 @@ function text(r: AcquiredResult): void {
 }
 
 function targetSummary(r: MetricsResult) {
-  return { name: r.targetName, level: r.targetLevel, ...hostileVitals(r.target) };
+  return { name: r.targetName, level: r.targetLevel, ...vitalsOf(r.target) };
 }
 
 function textMetrics(r: MetricsResult): void {
   const { target_agnostic: ta, vs_target: vt } = r.metrics;
-  const v = hostileVitals(r.target);
+  const v = vitalsOf(r.target);
   console.log(`\n######## METRICS: ${r.build} vs ${r.targetName} @lvl ${r.targetLevel} (dur ${r.duration}s) ########`);
   console.log(`=== [${r.weapon.channel ?? '—'}] ${r.weapon.unique_name}  (${r.weapon.domain}/${r.weapon.kind}) ===`);
   console.log(`  target: health ${v.health.toFixed(0)}  armor ${v.armor.toFixed(0)}  shields ${v.shields.toFixed(0)}`);

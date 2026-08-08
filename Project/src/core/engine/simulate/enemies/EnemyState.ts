@@ -17,26 +17,54 @@ import { damageTokenFromType } from "../../contracts/damage-logic";
  * eso era medible — un debuff `ENEMY_*` compuesto en el escenario no llegaba al daño: C1 resolvía un
  * Bombard con armadura 2214 (Corrosive Projection) mientras C2 medía contra el enemigo del `--vs`.
  *
- * DEUDA DE NORTE (O1, decision-frontier.md) — CERRADA POR CONSECUENCIA: el ESTADO era portado-por-entidad
- * mientras la LEY (`formulas/status/`) ya era agnóstica a source/target. Lo que amarraba este contenedor
- * a "enemigo" era `base: ScaledEnemy`; de sus cuatro únicos usos (health/shields/armor + facción) los
- * cuatro estaban ya en la entidad resuelta. Al leerlos de ahí, lo único que queda de "enemigo" en la
- * clase es el nombre: cualquier participante con esos nodos puede portar estado. El rename espera a que
- * haya un segundo portador real (`OQ-ENGINE-8`) — hoy sería vocabulario sin caso.
+ * DEUDA DE NORTE (O1, decision-frontier.md) — CERRADA EN LA FORMA, NO EN EL VOCABULARIO: el ESTADO era
+ * portado-por-entidad mientras la LEY (`formulas/status/`) ya era agnóstica a source/target. Lo que
+ * amarraba este contenedor a "enemigo" era `base: ScaledEnemy`; de sus cuatro únicos usos
+ * (health/shields/armor + facción) los cuatro estaban ya en la entidad resuelta, así que hoy la clase
+ * no sabe de qué lado está su portador. El **rename** de la clase espera un segundo portador real
+ * (`OQ-ENGINE-8`) — hoy sería vocabulario sin caso.
  */
 /** Valor resuelto de un nodo, o 0 si el participante no lo tiene (sin shields, sin armadura). */
 const nodeFinal = (entity: SimulationEntity, id: string): number => entity.attributes[id]?.final ?? 0;
+
+export interface Vitals { health: number; armor: number; shields: number }
+
+/**
+ * Los tres vitales POR FAMILIA de token. Un participante no nombra sus vitales igual según de qué lado
+ * esté: el hostil los lleva `ENEMY_*` y el avatar `AVATAR_*` — y son los mismos tres vitales, no stats
+ * distintos. La familia la resuelve la **marca de ruteo** que el espacio ya le puso (`arch-decisions §18`):
+ * es el mecanismo de `familyRoute` en la dirección inversa — allá el token declara a quién alcanza, acá
+ * el participante declara con qué nombres se lo lee. Un arma no figura, y es correcto: no tiene vitales.
+ */
+const VITAL_TOKENS: Record<string, { health: string; armor: string; shields: string }> = {
+  enemy:  { health: "ENEMY_ADD_HEALTH_MAX",  armor: "ENEMY_ADD_ARMOUR",  shields: "ENEMY_ADD_SHIELD_MAX"  },
+  avatar: { health: "AVATAR_ADD_HEALTH_MAX", armor: "AVATAR_ADD_ARMOUR", shields: "AVATAR_ADD_SHIELD_MAX" },
+};
 
 /**
  * Los tres vitales de un participante, tal como el escenario los consolidó. SSoT de **qué nodos son
  * los vitales**: el estado los lee para arrancar y la salida los lee para presentar, y si cada uno
  * nombrara los suyos podrían divergir sin que nada lo note.
+ *
+ * Leía la familia `ENEMY_*` fija, y eso hacía que la neutralidad del contenedor fuera de forma y no de
+ * vocabulario: un warframe —que declara `AVATAR_ADD_HEALTH_MAX`— devolvía `0/0/0` y nacía `isDead()`,
+ * **en silencio**. Ahora una familia sin entrada **tira**: un participante que no puede portar vitales
+ * no debe llegar acá, y si llega es un bug que tiene que sonar.
  */
-export function hostileVitals(entity: SimulationEntity): { health: number; armor: number; shields: number } {
+export function vitalsOf(entity: SimulationEntity): Vitals {
+  const family = entity.routes?.find((r) => r in VITAL_TOKENS);
+  if (!family) {
+    throw new Error(
+      `[estado] el participante "${entity.id}" (${entity.unique_name}) no declara ninguna familia de ` +
+        `vitales — marcas: [${entity.routes?.join(", ") ?? "ninguna"}]. Familias conocidas: ` +
+        `${Object.keys(VITAL_TOKENS).join(", ")}.`,
+    );
+  }
+  const t = VITAL_TOKENS[family];
   return {
-    health:  nodeFinal(entity, "ENEMY_ADD_HEALTH_MAX"),
-    armor:   nodeFinal(entity, "ENEMY_ADD_ARMOUR"),
-    shields: nodeFinal(entity, "ENEMY_ADD_SHIELD_MAX"),
+    health:  nodeFinal(entity, t.health),
+    armor:   nodeFinal(entity, t.armor),
+    shields: nodeFinal(entity, t.shields),
   };
 }
 
@@ -60,7 +88,7 @@ export class EnemyState {
   constructor(entity: SimulationEntity, laws: GameLaws) {
     this.entity = entity;
     this.laws = laws;
-    const vitals = hostileVitals(entity);
+    const vitals = vitalsOf(entity);
     this.current_health  = vitals.health;
     this.current_shields = vitals.shields;
     this.base_armor      = vitals.armor;

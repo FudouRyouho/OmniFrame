@@ -20,7 +20,7 @@ import { consume } from '../output/consume';
 import { sicarus, SICARUS_PRIME } from '../fixtures/builds';
 import { snapshotEnemy, deriveEnemyFlags } from '../simulate/enemies/EnemySnapshot';
 import { hostileEntity } from './hostile-entity';
-import { hostileVitals } from '../simulate/enemies/EnemyState';
+import { vitalsOf } from '../simulate/enemies/EnemyState';
 
 await loadEngineData(new NodeAdapter());
 
@@ -68,8 +68,8 @@ describe('Sicarus / Feigned Retreat — el perk responde al flag derivado, no a 
 
   it('el mismo enemigo a otro nivel cambia el umbral: @215 (max≈25612) con current fijo en el valor absoluto de @50 → ahora SÍ está bajo la mitad', () => {
     const snapshot = {
-      max_health: hostileVitals(hostileEntity(ARID_BUTCHER, 215)).health,
-      current_health: hostileVitals(arid50).health * 0.8,
+      max_health: vitalsOf(hostileEntity(ARID_BUTCHER, 215)).health,
+      current_health: vitalsOf(arid50).health * 0.8,
     };
     expect(deriveEnemyFlags(snapshot).while_enemy_below_half_health).toBe(true);
   });

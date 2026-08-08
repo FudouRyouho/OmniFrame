@@ -19,7 +19,7 @@ import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
 import { damageReductionFromArmor } from '../formulas/enemy/armor-mitigation';
 import { scaleHealth } from '../formulas/enemy/enemy-scaling';
 import { hostileEntity } from './hostile-entity';
-import { hostileVitals } from '../simulate/enemies/EnemyState';
+import { vitalsOf } from '../simulate/enemies/EnemyState';
 
 /**
  * Los vitales de un enemigo del catálogo a un nivel dado, POR EL CAMINO VIVO: se declara un escenario
@@ -27,7 +27,7 @@ import { hostileVitals } from '../simulate/enemies/EnemyState';
  * un orquestador paralelo que el motor ya no usa — un test que siguiera midiéndolo estaría validando
  * un camino muerto y podría quedar verde mientras el camino real se rompe.
  */
-const vitalsAt = (uniqueName: string, level: number) => hostileVitals(hostileEntity(uniqueName, level));
+const vitalsAt = (uniqueName: string, level: number) => vitalsOf(hostileEntity(uniqueName, level));
 
 // Fase 1: el enemigo entra por el pipeline "0" (enemies.json normalizado), no por fixture a mano.
 await loadEngineData(new NodeAdapter());

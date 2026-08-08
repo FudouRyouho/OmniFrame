@@ -8,7 +8,7 @@ import { consume } from '@core/engine/output/consume';
 import { computeCombatMetrics } from '@core/engine/output/combat-metrics';
 import { project } from '@shared/view-model';
 import { EnemyRepository } from '@core/engine/simulate/enemies/EnemyRepository';
-import { hostileVitals } from '@core/engine/simulate/enemies/EnemyState';
+import { vitalsOf } from '@core/engine/simulate/enemies/EnemyState';
 import { hostileOnly } from '@core/engine/fixtures/builds';
 import { damageReductionFromArmor } from '@core/engine/formulas/enemy/armor-mitigation';
 import { effectiveHealthVsEnemy } from '@core/engine/formulas/enemy/effective-health';
@@ -78,7 +78,7 @@ export function acquire(q: OracleQuery): AcquiredResult {
       // Por el mismo camino que cualquier participante: se declara un escenario con este hostil solo
       // y se lee lo que C1 resolvió. Es lo que hace que esta lente y `metrics` no puedan divergir.
       const entity = hostileEntity(q.subject, q.a2.level);
-      const vitals = hostileVitals(entity);
+      const vitals = vitalsOf(entity);
       const dr = damageReductionFromArmor(vitals.armor);
       const ehp = effectiveHealthVsEnemy(vitals.health, vitals.armor, vitals.shields);
       return {
