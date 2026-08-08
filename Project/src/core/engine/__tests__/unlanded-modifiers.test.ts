@@ -15,7 +15,7 @@ import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { scene, onPlayer, withBearer, withMods } from '@shared/types/scene-compose';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { consume } from '../output/consume';
-import { volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar, ADARZA_KAVAT } from '../fixtures/builds';
+import { volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar, ADARZA_KAVAT, DECONSTRUCTOR_PRIME, RHINO, AMALGAM_SERRATION } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
@@ -102,6 +102,82 @@ describe('Modifiers sin aterrizar — el engine declara lo que no modela', () =>
 // el oráculo es el instrumento con el que se valida el motor contra el juego, así que un número
 // plausible y falso no corrompe código — corrompe una medición.
 
+// ════════════════════════════════════════════════════════════════════════════════════════
+//  LO QUE NACE EN EL WARFRAME Y TIENE QUE BAJAR AL ARMA — bug conocido
+// ════════════════════════════════════════════════════════════════════════════════════════
+//
+// El ruteo es ASIMÉTRICO y sólo una de las dos direcciones existe:
+//
+//   arma → warframe   ✅ el salto de `StaticHydrator` (`holder.domain === 'weapon'` + `AVATAR_*`)
+//   warframe → arma   ❌ NO HAY REGLA
+//
+// El mecanismo está en `resolveToken` (`modifier.ts`): `target_channel` se emite **sólo si el token
+// trae sub-familia**. Un `WEAPON_ADD_DAMAGE` liso no lo tiene, así que cae a contención — se queda
+// donde nació— y el warframe no materializa nodos de arma. El tripwire lo grita, que es lo único que
+// hoy impide que sea invisible.
+//
+// POR QUÉ LAS HABILIDADES SÍ FUNCIONAN, que es lo que hace esto confuso: `AbilityRepository` resuelve
+// el destino **él mismo** (`resolveFamilyEntities`) y emite el modifier ya apuntando al arma. `Mod`
+// y `Arcane` no: estampan al portador y delegan el ruteo al canal, que para estos tokens no existe.
+// Roar baja porque su repositorio lo baja, no porque el ruteo sepa bajarlo.
+//
+// ALCANCE MEDIDO — no es un caso, es una clase de 15 fuentes vivas:
+//   · 8 arcanos de warframe (`compat_name: warframe`) con token de arma sin canal —
+//     Arachne · Avenger · Crepuscular · Fury · Hot Shot · Pistoleer · Strike · Theorem Demulcent
+//   · 7 mods de warframe — Dead Eye · Provoked · Ready Steel · Reflex Guard · **Rifle Amp** ·
+//     **Pistol Amp** · **Steel Charge** (los tres últimos son AURAS)
+//
+// ⚠️ Y LA CLASE SE PARTE EN DOS, con arreglos distintos:
+//   (a) destino = TODAS las armas (Arachne, Provoked, Dead Eye, y `Vigorous Swap`) → falta la REGLA
+//       simétrica en el ruteo: `holder.domain === 'warframe'` + `WEAPON_*` ⇒ fan-out por familia.
+//   (b) destino = UNA clase (Rifle Amp → primaria, Pistol Amp → secundaria, Steel Charge → melee) →
+//       falta el DATO: el token debe declarar la sub-familia (`WEAPON_PRIMARY_ADD_DAMAGE`), que es
+//       exactamente lo que D-6 pide para un modifier que no reside en el nodo de su target. Con eso,
+//       el ruteo por canal que YA existe los aterriza sin tocar el motor.
+//
+// El override de Arachne ya sabía la mitad del problema y lo dejó anotado — *"dos canales simultáneos
+// no expresables con un solo target_channel. Se mantiene WEAPON_ADD_DAMAGE genérico"*. Lo que nadie
+// midió es que el genérico no aterriza en NINGÚN lado.
+//
+// `Vigorous Swap` (`/Lotus/Upgrades/Mods/Warframe/AvatarHolsterDamageMod`) es el caso hermano y falla
+// **antes**: existe en `mods.json` con `upgrade_types: []` y **no tiene entrada en el override**, así
+// que ni siquiera emite. Fuente: `references/wiki/mods/vigorous-swap.wikitext` — mod de Warframe,
+// +165% de daño de arma por 3s al holstear, *"stacks additively with Serration and Hornet Strike"*
+// (mismo pool) y la propia wiki aclara que es daño de proyectil, no de melee.
+
+const ARCANE_ARACHNE = '/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneBonusDamageOnWallLatch';
+
+describe('Ruteo warframe → arma — asimétrico, y el lado que falta', () => {
+  const conArachne = () => scene({
+    kind: 'onfoot',
+    warframe: { uniqueName: RHINO, rank: 30, arcanes: { 0: { uniqueName: ARCANE_ARACHNE, rank: 5 } } },
+    weapons: { primary: { uniqueName: TIBERON_PRIME, rank: 30 } },
+  });
+
+  it.fails('un arcano de warframe con token de arma debería aterrizar en el arma — hoy muere en el warframe', () => {
+    const out = consume(conArachne(), { flags: { on_wall_latch: true } });
+    // Arachne rank 5 = +150% (`arcane-stats.override.json`).
+    expect(out.weapon(TIBERON_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(150);
+  });
+
+  // La contracara, que SÍ funciona y por eso el hueco es fácil de no ver: la dirección inversa tiene
+  // su regla, y la ejerce un mod real (Amalgam Serration → `AVATAR_ADD_SPRINT_SPEED` desde un rifle).
+  it('la dirección inversa (arma → warframe) sí compone', () => {
+    const build = scene({
+      kind: 'onfoot',
+      warframe: { uniqueName: RHINO, rank: 30 },
+      weapons: { primary: { uniqueName: TIBERON_PRIME, rank: 30, mods: { 0: { uniqueName: AMALGAM_SERRATION, level: 10 } } } },
+    });
+    expect(consume(build, { flags: {} }).weapon(RHINO).node('AVATAR_ADD_SPRINT_SPEED').mods_add_pct).toBe(25);
+  });
+
+  // ⚠️ Y el mismo salto DESCARTA EN SILENCIO cuando no hay a quién saltar. Es el mismo patrón que el
+  // cruce de bando, que sí reporta (`crossBandDiscarded`): acá el `for` sobre una lista vacía no
+  // empuja nada y el `continue` se lleva el modifier sin dejar rastro. Medir un arma sola es caso
+  // soportado del CLI —tiene su propio test acá arriba—, así que es alcanzable, no hipotético.
+  it.todo('un `AVATAR_*` de arma sin warframe declarado se reporta en vez de evaporarse');
+});
+
 describe('Slots — una clave que no es índice no se come los mods en silencio', () => {
   it('una clave de slot no entera falla ruidosamente', () => {
     // La clave rota se escribe a mano: el tipo `SlotMap` no la deja pasar, y de eso se trata —
@@ -167,41 +243,79 @@ describe('Participantes — lo declarado no se evapora', () => {
     expect(out.snapshot().map((e: { id: string }) => e.id)).toEqual([TIBERON_PRIME]);
   });
 
-  // ─── El silencio que NO tiene dónde gritar ────────────────────────────────────
+  // ─── El vehículo declarado: de "no lo modelamos" a "falta cargar el dataset" ──
   //
-  // La forma vieja declaraba DIEZ canales y `MutatorBridge` traducía CINCO. Los otros cinco no se
-  // leían: el participante no llegaba ni a pedirse, así que la guarda de hidratación no lo podía
-  // agarrar. La unión discriminada de la Capa A cerró cuatro de golpe — `archwing`, `archgun`,
-  // `archmelee` y `necramech` cuelgan de una variante que el `switch` exhaustivo del bridge TIRA, así
-  // que declararlos ya no evapora nada: grita.
+  // La forma vieja declaraba DIEZ canales y el bridge traducía CINCO; los otros cinco no se leían y
+  // el participante no llegaba ni a pedirse. La unión discriminada cerró el silencio, pero el primer
+  // arreglo tiró desde la TRADUCCIÓN diciendo *"el engine todavía no lo modela: `Ensemble` no tiene
+  // dónde ponerlo"* — y eso era **falso sobre el engine y verdadero sólo sobre la forma intermedia**.
   //
-  // QUEDABA UNO, y era el que la variante no alcanza porque no es una variante. `CompanionIntent`
-  // declara `weapon` y `arcanes`; `squadToEnsemble` traducía el compañero como `{ id, slots }` y
-  // descartaba los dos sin decir nada — `Ensemble.companion` no tiene dónde ponerlos. Medido con un
-  // Boltor Prime montado en un Adarza Kavat: la salida traía UNA entidad (el kavat) y cero menciones
-  // del arma, aunque el arma existe en los datasets.
+  // Sin esa forma, el archgun entra al espacio como cualquier otro participante y muere donde
+  // corresponde: en la hidratación, nombrando el dataset. Ese es el bloqueante real y es chico —
+  // `archwing-weapons.json` (28 ítems) y `vehicles.json` existen en `public/data/` y `DataLoader` no
+  // los lee.
   //
-  // Ahora grita, por la misma razón que el archwing: el destino no existe y traducir a medias sería
-  // devolver un escenario incompleto reportando éxito. La diferencia es POR QUÉ hizo falta escribir
-  // la guarda — **la unión discriminada protege variantes, no campos**. Adentro de un caso, la
-  // traducción es un literal que nombra lo que quiere; un campo sin nombrar no le da a TypeScript de
-  // qué quejarse (el excess property check mira propiedades de más en el literal, nunca propiedades
-  // sin leer en el origen). El eje de las variantes lo cierra el tipo; este necesitaba un `if`.
-
-  it('el arma de un compañero declarada no se evapora — grita', () => {
+  // ⚠️ Este test se pone rojo el día que ese dataset se cargue. Es lo que se busca: el rojo es la
+  // señal de que el hueco se cerró y hay que reescribir el examen, no de que algo se rompió.
+  it('un archgun declarado llega a la hidratación y muere nombrando el dataset, no la forma', () => {
     const build = scene({
-      kind: 'onfoot',
-      companion: { uniqueName: ADARZA_KAVAT, rank: 30, weapon: { uniqueName: TIBERON_PRIME, rank: 30 } },
+      kind: 'archwing',
+      archgun: { uniqueName: '/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun', rank: 30 },
     });
-    expect(() => consume(build, { flags: {} })).toThrow(/el compañero declara weapon/);
+    expect(() => consume(build, { flags: {} })).toThrow(/canal "archgun".*no tiene DNA en los datasets cargados/s);
   });
 
-  it('los arcanos de un compañero tampoco', () => {
+  // ─── El campo que la variante no alcanza ──────────────────────────────────────
+  //
+  // `CompanionIntent` declara `weapon` y `arcanes`; el bridge traducía el compañero como
+  // `{ id, slots }` y descartaba los dos sin decir nada. Medido con un Boltor Prime montado en un
+  // Adarza Kavat: la salida traía UNA entidad (el kavat) y cero menciones del arma, aunque el arma
+  // existe en los datasets.
+  //
+  // POR QUÉ HIZO FALTA UNA GUARDA ESCRITA, y al archgun no: **la unión discriminada protege
+  // variantes, no campos**. Adentro de un caso, la traducción es un literal que nombra lo que quiere;
+  // un campo sin nombrar no le da a TypeScript de qué quejarse (el excess property check mira
+  // propiedades de más en el literal, nunca propiedades sin leer en el origen).
+  //
+  // YA NO GRITA: **es un participante propio**. Sin la forma intermedia que no tenía dónde ponerla,
+  // el arma entra al espacio con canal propio y se hidrata como cualquier otra — el dato siempre
+  // estuvo (`Deconstructor Prime` es `domain: weapon` con `unique_name` propio en `weapons.json`).
+
+  it('el arma de un compañero entra al espacio como participante propio', () => {
+    const build = scene({
+      kind: 'onfoot',
+      companion: { uniqueName: ADARZA_KAVAT, rank: 30, weapon: { uniqueName: DECONSTRUCTOR_PRIME, rank: 30 } },
+    });
+    const out = consume(build, { flags: {} });
+
+    expect(out.snapshot().map((e: { id: string }) => e.id)).toEqual([ADARZA_KAVAT, DECONSTRUCTOR_PRIME]);
+    // …y no entra vacía: hidrata sus propios stats, no los del compañero que la porta.
+    expect(out.weapon(DECONSTRUCTOR_PRIME).node('WEAPON_ADD_IMPACT_DAMAGE').base).toBe(160);
+  });
+
+  // El canal separa "el arma primaria del jugador" de "el arma del sentinel", y la marca `weapon` la
+  // mete en el fan-out ALL-scope. Lo segundo lo decide la fuente, no la simetría: Roar *"applied to
+  // Rhino, allied Warframes, **Companions**… increases the damage any ally deals from any source, so
+  // weapon damage as well"* (`references/wiki/warframes/rhino/roar.md`).
+  it('Roar alcanza el arma del sentinel igual que la primaria', () => {
+    const build = onPlayer(rhinoRoar(), p =>
+      withBearer(p, 'companion', { uniqueName: ADARZA_KAVAT, rank: 30, weapon: { uniqueName: DECONSTRUCTOR_PRIME, rank: 30 } }),
+    );
+    const pool = (id: string) => consume(build, { flags: {} }).weapon(id).node('GAMEPLAY_MULT_FACTION_DAMAGE').final;
+
+    expect(pool(DECONSTRUCTOR_PRIME)).toBe(pool(TIBERON_PRIME));
+    expect(pool(DECONSTRUCTOR_PRIME)).toBeGreaterThan(100);
+  });
+
+  // Un compañero NO tiene slots de arcano en el juego. El campo lo hereda de `Bearer` y sobra.
+  // ⚠️ La forma correcta es que no se pueda escribir (`CompanionIntent` excluyendo `arcanes`); el
+  // throw es lo que hay mientras tanto, y este test es lo que impide que vuelva a ignorarse.
+  it('un compañero con arcanos se rechaza — no tiene ese slot', () => {
     const build = scene({
       kind: 'onfoot',
       companion: { uniqueName: ADARZA_KAVAT, rank: 30, arcanes: { 0: { uniqueName: 'arc:x', rank: 5 } } },
     });
-    expect(() => consume(build, { flags: {} })).toThrow(/el compañero declara arcanes/);
+    expect(() => consume(build, { flags: {} })).toThrow(/no tiene slots de arcano/);
   });
 
   // El `rank` NO entra en la guarda aunque también se declare y no se lea: ese eje es `OQ-ENGINE-23`

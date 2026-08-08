@@ -4,7 +4,7 @@ Rol: "Definición de macro y micro arquitectura del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/simulation-blueprint.md"
 Dependidos:
@@ -29,7 +29,7 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 │  B — COMUNICACIÓN                               │
 │  MutatorBridge                                  │
 └───────────────────┬─────────────────────────────┘
-                    │ Ensemble (contrato del engine)
+                    │ MoldedIntent[] (el espacio con sus moldes)
 ┌───────────────────▼─────────────────────────────┐
 │  C1 — ENGINE (resolve/)   C2 — SIMULATION       │
 │  SimulationEngine         CombatCalculator      │
@@ -261,14 +261,16 @@ capas — antes un build que declaraba 100 corrido con `--lvl 50` daba C1 a 100 
 
 ### Capa B: Comunicación (MutatorBridge)
 
-- **Naturaleza**: Capa de traducción unidireccional. Solo baja (intención → engine). No sube.
-- **Dos entradas:** recibe la `Scene` desde Capa A **y** `SimulationContext` desde Arsenal State (UI). No construye el contexto — lo recibe ya formado y lo reenvía al engine junto con el Ensemble traducido.
-- **Responsabilidad**:
-  - Escucha el snapshot de la `Scene`.
-  - **DNA Mutation Step**: Aplica mutaciones fijas (Archon Shards, Helminth) sobre los valores base del dataset. Entrega `MutatedDNA` al engine. *(Archon Shards implementados — OQ-ENGINE-4 cerrado: `StaticHydrator.hydrate()` consume `ensemble.warframe.shards` vía `ShardRepository`. Helminth sigue sin implementar.)*
-  - **Positional Mapping**: Preserva el orden de slots de mods para el Elemental System de C1.
+- **Naturaleza**: unidireccional — solo baja (intención → engine), no sube. **Y ya no traduce**: la `Scene` no se re-shapea en el camino.
+- **Dos entradas:** recibe la `Scene` desde Capa A **y** `SimulationContext` desde Arsenal State (UI). No construye el contexto — lo recibe ya formado y lo reenvía al engine junto con los participantes.
+- **Responsabilidad — una sola cosa, en un solo recorrido:** `attachMolds(scene)` → `MoldedIntent[]`.
+  - **Quién participa** lo decide el espacio (`resolve/hydration/space.ts`, `populateFromScene`): recorre los dos grupos y emite un intent por participante, con su canal y sus marcas de ruteo.
+  - **Qué ES cada uno** lo dereferencia B: `DnaRepository` → `MutatedDNA`, colgado del intent. Un participante declarado que no se puede hidratar **tira**, nombrando el dataset que falta.
+  - **Positional Mapping**: el orden de slots de mods se conserva tal cual para el Elemental System de C1; la guarda `assertSlotKeys` rechaza una clave que no sea índice entero.
+- **Lo que dejó de hacer, y por qué importa.** Construía un `Ensemble` intermedio que —medido campo por campo— **no computaba nada**: renombraba (`uniqueName`→`id`, `mods`→`slots`, `{uniqueName,effectId,isTauforged}`→`{type,stat,is_tau}`) y arrastraba cuatro campos que nadie leía (`warframe.rank` con un `?? 30` inventado, `abilities[].rank`, `helminth`, `focus`). Su costo no era el código: **hacía pasar por *"el engine no lo modela"* cosas que el engine sí modelaba** pero que esa forma no tenía dónde poner — el arma de compañero (hoy poblada, canal `companion_weapon`) y el archgun (al que sólo le falta que `DataLoader` lea un `.json` que ya está en `public/data/`).
+- **DNA Mutation Step**: Archon Shards implementados (OQ-ENGINE-4 cerrado) — viajan en el intent y `StaticHydrator` los resuelve vía `ShardRepository`. Helminth sigue sin implementar.
 - **No conoce**: React, UI, cómo las fórmulas funcionan internamente. No decide qué condiciones están activas.
-- **Físico**: `Project/src/core/bridge/MutatorBridge.ts` (fuera de `engine/` — B no es C).
+- **Físico**: `Project/src/core/bridge/MutatorBridge.ts` (fuera de `engine/` — B no es C). ⚠️ El poblador vive en `engine/resolve/hydration/space.ts`, o sea **físicamente adentro de C**. Es ubicación heredada, no decisión: `@core` sólo tiene `bridge/` con un archivo e `intention/` con otro, así que todo lo demás creció en `engine/`.
 
 ---
 
@@ -276,7 +278,7 @@ capas — antes un build que declaraba 100 corrido con `--lvl 50` daba C1 a 100 
 
 - **Naturaleza**: Motor matemático funcional y determinista. No tiene estado mutable.
 - **Responsabilidad**:
-  - Recibe el `Ensemble` de Capa B y el `SimulationContext`.
+  - Recibe de Capa B los participantes ya poblados y con su molde (`MoldedIntent[]`) más el `SimulationContext`.
   - Construye el grafo reactivo de atributos (`AttributeNode` por entidad).
   - Resuelve el grafo mediante Topological Sort + Fixed-Point fallback.
   - Emite entidades con atributos completamente resueltos.

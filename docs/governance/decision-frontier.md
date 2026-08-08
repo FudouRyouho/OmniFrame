@@ -4,7 +4,7 @@ Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 ---
 
 # Decision Frontier
@@ -17,7 +17,7 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 **Decidido**:
 - **Cierre del Modelo Lineal (B1-B4)**: Se abandona el modelo manual de 3 capas en favor de un **Motor de Simulación Sistémica** (Sim-v2).
 - **Agnosticismo Total**: El motor es una pieza funcional, determinista y serializable (apto para Web Workers), completamente desacoplada de React.
-- **Flujo A->B->C**: La jerarquía es **Intención (Ensemble) → Hidratación (Mutator Bridge) → Simulación (Engine)**.
+- **Flujo A->B->C**: La jerarquía es **Intención (`Scene`) → Espacio + moldes (MutatorBridge) → Simulación (Engine)**. B no re-shapea la intención: puebla los participantes y les cuelga su `MutatedDNA`. La forma intermedia que hubo (`Ensemble`) no computaba nada y ya no existe.
 - **Salida Única**: El motor emite un snapshot inmutable vía `consume().snapshot(): SimulationEntity[]` (salida de C).
 - **Eliminación de `LoadoutProvider`**: `EnsembleStore` es el único SSoT de estado del usuario. Ver DC-OQ-STATE-1..4 en `closed-decisions.md`.
 - **Frontera de dominios**: los dominios (`domains/*`) **no importan `@core`** (reafirma Restricción 1 de `Project/CLAUDE.md`). `@core` = dominio de lógica A/B/C; la UI y la Capa D (consumo derivado, `ViewModelContract`) cruzan por `@shared`. `consume()` = **salida de C** en `@core`, consumida por scripts/tests (no-dominios); **no es Capa D**. Oráculo de verificación = **CLI, no MCP** (MCP diferido). Ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7.

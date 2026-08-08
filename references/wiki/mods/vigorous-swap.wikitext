@@ -1,0 +1,115 @@
+{{ModBox}}
+'''Vigorous Swap''' is a [[:Category:Warframe Mods|Warframe mod]] that increases weapon damage for 3 seconds upon [[holster]]ing a weapon.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Damage Bonus
+! [[Mods#Mod Power Cost|Cost]]
+|-
+| 0 || +15% || 2
+|-
+| 1 || +30% || 3
+|-
+| 2 || +45% || 4
+|-
+| 3 || +60% || 5
+|-
+| 4 || +75% || 6
+|-
+| 5 || +90% || 7
+|-
+| 6 || +105% || 8
+|-
+| 7 || +120% || 9
+|-
+| 8 || +135% || 10
+|-
+| 9 || +150% || 11
+|-
+| 10 || +165% || 12
+|}
+
+==Acquisition==
+Obtainable from the [[Arbitrations]] vendor in the {{Faction|Arbiters of Hexis}} room in [[Relay]]s for 20 {{Resource|Vitus Essence}}.
+
+==Notes==
+*Stacks additively with mods like {{M|Serration}} and {{M|Hornet Strike}}, as well as {{M|Holster Amp}} and {{Arcane|Arcane Arachne}}.
+*If a weapon is swapped while the buff is active, duration will be refreshed.
+*Triggers on manual and automatic weapon swaps.
+**Manual
+***Switching between guns or melee (default {{Keybind|F}})
+***Quick swap by:
+****holding a gun, then using a light melee attack (default {{Keybind|E}})
+****holding a melee, then firing a gun (default {{Keybind|LMB}}) or aiming (default {{Keybind|RMB}})
+**Automatic
+***By enabling the "Auto Swap Weapon On Empty" toggle in the Keyboard/Mouse tab.
+***Also triggered after a [[Mercy]] kill.
+*The buff is applied at the end of the swapping animation. 
+**Archwing weapons can trigger the mod, and are affected by its buff.
+
+===Special Interactions===
+{{Transclude|Arcane Arachne#Special Interactions}}
+*{{A|Peacemaker}} cannot trigger Vigorous Swap, but can benefit from its buff (additive with base damage mods).
+*After swapping to melee to trigger Vigorous Swap, Titania can refresh it while it's active by activating Razorwing.
+*Swapping between Dex Pixia and Diwata in Razorwing does not trigger Vigorous Swap.
+
+==Tips== 
+*Use Vigorous Swap with the [[Set Mods#Synth Mod Set|Synth mod set]] so that your weapon reloads while it is holstered, thus removing downtime between weapon swaps by needing to reload. Similar effects from the Conclave mods {{m|Tactical Reload}}, {{m|Lock and Load}}, or {{m|Eject Magazine}} can be used to replace or stack with the passive reloading of the Synth mods.
+
+==Bugs==
+*The buff is not deactivated by ability weapons. It also affects any non-melee ability weapon.
+*Reads as though to imply applying to all damage. Should say "Projectile Damage" instead of "Damage."
+
+==Media==
+{{VideoGallery
+|{{YouTube|q4MKpgY9uTw|size=300px}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|33.6.7}}
+*Fixed the Vigorous Swap Mod applying in Dog Days when switching between the Soaktron and Lob Blobs. 
+**''With the inclusion of the Lob Blobs Secondary, this Mod just slipped by the “no Mods, Buffs, Companions, or Abilities” rules of Dog Days.''
+
+{{ver|32}}
+;1. b) Holster Speed Buffs & Mod Changes
+
+These changes to Ammo encourage swapping between weapons, so we’ve taken the opportunity to dramatically increase the swapping speed between Primary and Secondary. The real purpose of your Secondary weapon is for it to be a backup to your Primary, but with the holster speeds the way they were before that vision was not realized - until now!
+
+In light of the overall speed buff to holster speed, we have made the following changes to the mods and Arcanes that offered holster speed stat increases:
+
+'''''(All stats below are shown at max rank)'''''
+
+Vigorous Swap: 
+
+*Removed its 100% Holster Speed” bonus on equip - but maintained its +165% Damage for 3s.
+
+{{ver|26.0}}
+*Moved from Arbitration Rotations to the Arbitration Honors.
+
+{{ver|25.2.3}}
+*Fixed Vigorous Swap sometimes ceasing to function if Gear tools are used.
+
+{{ver|23.10.5}}
+*Vigorous Swap will now deactivate when an Ability weapon is active (Mesa’s Peacemaker, Valkyr’s Hysteria, etc).
+
+{{ver|23.10}}
+*Introduced.
+}}
+{{WarframeMods}}
+
+==See also==
+*[[Mods]]
+
+
+[[de:Vigorous Swap]]
+[[es:Cambio vigoroso]]
+[[pt:Vigorous Swap]]
+[[ru:Стремительная Смена]]
+[[Category:Update 23]]
+[[Category:Warframe Mods]]
+[[Category:Rare Mods]]
+[[Category:Naramon Mods]]
+[[uk:Бурхлива зміна]]

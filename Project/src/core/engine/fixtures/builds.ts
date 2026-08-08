@@ -270,6 +270,14 @@ export function lankaArcane(profile = 'charged_shot'): Scene {
 
 export const RHINO = '/Lotus/Powersuits/Rhino/Rhino';
 
+/**
+ * Amalgam Serration — mod de RIFLE que emite un token de warframe (`AVATAR_ADD_SPRINT_SPEED`)
+ * además del suyo. Es el caso real que justifica el salto arma→warframe del ruteo; sin él, ese
+ * salto sería una regla sin ejercicio. Cuatro hermanos de PvE en el dataset (el otro Amalgam,
+ * Dispatch Overdrive, Resolute Focus) más doce de Conclave.
+ */
+export const AMALGAM_SERRATION = '/Lotus/Upgrades/Mods/DualSource/Rifle/SerratedRushMod';
+
 const RHINO_MOD = {
   BLIND_RAGE:         '/Lotus/Upgrades/Mods/Warframe/DualStat/CorruptedPowerEfficiencyWarframe',           // +99% str / −55% eff (lvl 10)
   TRANSIENT_FORTITUDE:'/Lotus/Upgrades/Mods/Warframe/DualStat/CorruptedPowerStrengthPowerDurationWarframe', // +55% str / −27.5% dur (lvl 10)
@@ -507,6 +515,13 @@ export function valkyrWarcry(opts: { strength?: boolean } = {}): Scene {
 
 /** Adarza Kavat — compañero de armadura 300, el primer participante que no sale del loadout. */
 export const ADARZA_KAVAT = '/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerSuit';
+
+/**
+ * Deconstructor Prime — el arma de un sentinel. Participante propio del espacio (canal
+ * `companion_weapon`), no un campo del compañero: es `domain: weapon` en `weapons.json`, con sus
+ * propios slots de mod y su propio daño.
+ */
+export const DECONSTRUCTOR_PRIME = '/Lotus/Types/Sentinels/SentinelWeapons/DeconstructorPrime/PrimeHeliosGlaiveWeapon';
 
 /**
  * Valkyr + Warcry + un compañero equipado. Ejerce el ruteo por MARCA: el compañero no es un

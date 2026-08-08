@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -859,6 +859,27 @@ código lo cumple **a medias**. **El criterio de aceptación es externo:**
 | el token declara tres cosas y sólo tres | el **cruce de bando** lo declara la familia del token, sin `if` ni campo nuevo | ✅ |
 | `AVATAR_*` = el avatar del portador (**relativo**) | `FAMILY_ROUTE: { AVATAR: 'avatar' }` — clase **absoluta** | ⚠️ abierto |
 | *"un `if` … convierte un error detectable en uno invisible"* | `if (holder?.domain === 'weapon' && token.startsWith('AVATAR_'))` | ⚠️ abierto |
+| **el portador que no materializa el token rutea dentro del alcance** (`warframe → WEAPON_*`) | **no se rutea**: `resolveToken` emite `target_channel` **sólo si el token trae sub-familia**, así que un `WEAPON_ADD_DAMAGE` liso cae a contención y muere en el warframe | 🔴 **abierto, con forcing-case** |
+| *"si dentro del alcance no hay destino, se descarta **y se reporta**"* | el cruce de bando reporta (`crossBandDiscarded`); el salto `AVATAR_*` y el canal vacío **descartan sin reportar** | 🔴 **abierto, con forcing-case** |
+
+🔴 **Las dos filas nuevas son drift que este documento no declaraba, y su forcing-case ya existe** — no
+es proyección. Medido sobre los datasets: **15 fuentes vivas montadas en el warframe emiten token de
+arma sin sub-familia** y mueren en el tripwire — 8 arcanos (`Arachne` · `Avenger` · `Crepuscular` ·
+`Fury` · `Hot Shot` · `Pistoleer` · `Strike` · `Theorem Demulcent`) y 7 mods (`Dead Eye` · `Provoked` ·
+`Ready Steel` · `Reflex Guard` · `Rifle Amp` · `Pistol Amp` · `Steel Charge`), **tres de ellos auras**.
+Son un subconjunto de los ~37 que el censo de arriba ya contaba como *resueltos por la regla*.
+
+**Y la clase se parte en dos, con dueños distintos:**
+
+| Destino real | Ejemplos | Qué falta |
+|---|---|---|
+| **todas las armas** | Arcane Arachne, Provoked, Dead Eye, `Vigorous Swap` | **la regla**: el espejo del salto que ya existe — `holder.domain === 'warframe'` + `WEAPON_*` ⇒ fan-out por familia |
+| **una clase de arma** | Rifle Amp → primaria · Pistol Amp → secundaria · Steel Charge → melee | **el dato**: el token debe declarar la sub-familia (`WEAPON_PRIMARY_ADD_DAMAGE`), que es D-6 aplicado — un modifier que no reside en el nodo de su target lleva sub-familia. Con eso, el ruteo por canal que **ya existe** los aterriza sin tocar el motor |
+
+⚠️ Por qué el hueco es difícil de ver: **las habilidades sí bajan**, y no por el ruteo —
+`AbilityRepository` resuelve el destino él mismo (`resolveFamilyEntities`) y emite el modifier ya
+apuntando al arma. Mod y arcano estampan al portador y delegan al canal. Roar baja porque su
+repositorio lo baja. Examen escrito: `unlanded-modifiers.test.ts` §*Ruteo warframe → arma*.
 
 **Lo que cerró y lo que queda son dos tramos distintos, no medio problema cada uno** (ver abajo): el
 cruce entre bandos ya se resuelve por regla; elegir **dentro** del bando sigue con la excepción por

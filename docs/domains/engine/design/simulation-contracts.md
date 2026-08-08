@@ -4,7 +4,7 @@ Rol: "Contratos técnicos base del motor de simulación v2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
 Dependidos:
@@ -18,27 +18,20 @@ Este documento fija las definiciones conceptuales mínimas para `Entity`, `Attri
 ### Capa A: Intención (The Ensemble Store)
 - **Naturaleza**: Estado mutable del usuario que define el "Sistema de Sistemas".
 - **Responsabilidad**: Almacena los punteros de configuración de toda la build.
-- **Contrato (Ensemble)**:
+- **Contrato (`Scene`)** — SSoT en [`@shared/types/scene.ts`](../../../../Project/src/shared/types/scene.ts), que lleva el porqué de cada decisión de forma. Lo esencial:
   ```typescript
-  {
-    warframe: {
-      id: string,
-      rank: number,
-      slots: Record<number, Slot>, // Posicional (0-7 + Exilus + Aura)
-      shards: ArchonShard[],       // Mutaciones de ADN
-      helminth: { ability_id?: string, slot?: number, invigoration?: boolean }
-    },
-    weapons: {
-      primary: WeaponIntent,
-      secondary: WeaponIntent,
-      melee: WeaponIntent
-    },
-    focus: { school_id: string, nodes: string[] },
-    companion: { id: string, slots: Record<number, Slot> },
-    operator: { arcanes: string[] }
+  Scene {
+    squad: [PlayerIntent, PlayerIntent?, PlayerIntent?, PlayerIntent?]  // 4 = ley del juego; el 0 sos vos
+    hostile: HostileIntent[]
   }
+  PlayerIntent = onfoot | archwing | necramech        // unión discriminada
+  Bearer { uniqueName, rank?, mods?, arcanes? }       // lo montado vive ADENTRO del portador
   ```
-- **Regla de Oro**: El campo `slots` es **estrictamente posicional**. El motor de la Capa C procesa los slots en orden (0 -> N) para determinar la jerarquía de combinación elemental.
+  Las tres reglas que la sostienen: **la identidad es la posición** y sale de la estructura (nadie declara ids); **el portador contiene lo que se le monta** (mata el `mods.primary` que podía existir con el slot vacío); **lo imposible no se puede escribir** (un arma de compañero sin compañero es irrepresentable).
+
+  ⚠️ **No hay una segunda forma entre A y C.** Hubo un `Ensemble` intermedio que B construía; medido campo por campo no computaba nada —era un diccionario de sinónimos con cuatro campos muertos, entre ellos el `operator` y el `focus` que este documento llegó a especificar y que **nunca existieron en el código**. B pasa la `Scene` a los pobladores y entrega participantes (`MoldedIntent[]`), no una forma traducida.
+
+- **Regla de Oro**: la clave de `mods` es **estrictamente posicional**. El motor de la Capa C procesa los slots en orden (0 → N) para determinar la jerarquía de combinación elemental — por eso `assertSlotKeys` rechaza una clave que no sea índice entero: con una rota el orden queda indefinido y el emparejamiento de elementos sale plausible y falso.
 
 ---
 

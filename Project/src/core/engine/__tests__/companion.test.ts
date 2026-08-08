@@ -77,11 +77,17 @@ describe('Compañero — borde', () => {
     expect(() => pet().node('AVATAR_ADD_ABILITY_STRENGTH')).toThrow();
     expect(() => pet().node('AVATAR_ADD_MOVEMENT_SPEED')).toThrow();
   });
-  // El compañero tiene su propia arma y sus propios mods; hoy sólo se le hidratan los stats de
-  // avatar. `CompanionIntent.weapon` se puede declarar y el bridge **tira**: `Ensemble.companion` es
-  // `{ id, slots }` y no tiene dónde ponerla (la guarda y su medición, en `unlanded-modifiers.test.ts`).
-  // Lo que falta no es leer el campo — es que el destino exista.
-  it.todo('arma del compañero y sus mods — declarable y no modelada; el destino no existe en `Ensemble`');
+  // El arma del compañero YA es un participante propio del espacio (canal `companion_weapon`): se
+  // declara adentro del compañero —no existe sin él— y se hidrata como cualquier arma, con sus
+  // propios mods y su propio daño. Cobertura en `unlanded-modifiers.test.ts`, incluido que el
+  // fan-out ALL-scope de Roar la alcanza igual que a la primaria.
+  //
+  // Lo que este archivo mide es OTRA cosa y sigue abierto: **el compañero como portador**, no su
+  // arma. Un pet muerde y ese daño no está modelado — no tiene nodo de daño propio, así que el pool
+  // que `createBaseEntity` le siembra (`GAMEPLAY_MULT_FACTION_DAMAGE`, base 100) nunca recibe nada.
+  // Es un nodo mudo preexistente y la fuente dice que no debería serlo: Roar *"increases the damage
+  // any ally deals from any source"* incluye a los compañeros mismos.
+  it.todo('el daño propio de un pet — hoy sin nodo, con un pool sembrado que nadie alimenta');
   // Qué buffs propagan y cuáles no es un hueco de la FUENTE, no del modelo: Eclipse declara que
   // NO alcanza a compañeros sin su augment. Medición pendiente en `ingame-tests/pending.md` P-5.
   it.todo('qué buffs NO propagan al compañero — gated por medición (P-5)');

@@ -18,10 +18,12 @@
  * falso —la exaltada le pisaría el slot al arma equipada, o quedaría fuera—; con lista, aterriza sin
  * volver a tocar esta función.
  *
- * POR QUÉ FILTRA ENTIDADES Y NO LEE EL `Ensemble`. `Ensemble.weapons` tiene **un slot por canal**:
- * una exaltada no entra ahí sin cambiarle la forma. Las entidades ya construidas sí admiten N por
- * canal, y `StaticHydrator` estampa `channel` al construirlas. Filtrar la lista de entidades es la
- * única de las dos vías que cumple la promesa de arriba.
+ * POR QUÉ FILTRA ENTIDADES Y NO LA INTENCIÓN. Un canal de la `Scene` es **un slot**: `weapons.melee`
+ * es uno solo, y una exaltada no entra ahí sin cambiarle la forma a la Capa A. Las entidades ya
+ * construidas sí admiten N por canal, porque el espacio puede poblar varios participantes con la
+ * misma marca — que es exactamente lo que hace el arma de compañero (`companion_weapon` es un
+ * participante propio, no un cuarto slot de `weapons.*`). Filtrar la lista de entidades es la única
+ * de las dos vías que cumple la promesa de arriba.
  */
 import type { EntityId, SimulationEntity } from "../../contracts";
 

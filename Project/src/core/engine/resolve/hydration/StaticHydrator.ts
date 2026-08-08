@@ -3,7 +3,7 @@
  * @status en-desarrollo
  */
 
-import { makeModifier, type Ensemble, type MutatedDNA, type SimulationEntity, type AttributeNode, type Modifier } from "../../contracts";
+import { makeModifier, type MutatedDNA, type SimulationEntity, type AttributeNode, type Modifier } from "../../contracts";
 import { ModRepository } from "./ModRepository";
 import { ShardRepository } from "./ShardRepository";
 import { IncarnonRepository } from "./IncarnonRepository";
@@ -23,14 +23,16 @@ export class StaticHydrator {
    *
    * **NO recorre el espacio.** Quién participa lo decide `space.ts` y el molde lo cuelga B
    * (`MutatorBridge.attachMolds`); acá llegan los `MoldedIntent` ya poblados. Antes esta función
-   * llamaba `populateFromLoadout` por su cuenta —segunda pasada sobre el mismo `ensemble`— y leía los
-   * moldes de un `Record<string, MutatedDNA>` que el bridge había llenado en la primera. El mapa
-   * existía sólo para cruzar de una pasada a la otra, y su clave era colisionable (`OQ-ENGINE-36`).
+   * llamaba al poblador por su cuenta —segunda pasada sobre el mismo escenario— y leía los moldes de
+   * un `Record<string, MutatedDNA>` que el bridge había llenado en la primera. El mapa existía sólo
+   * para cruzar de una pasada a la otra, y su clave era colisionable (`OQ-ENGINE-36`).
    *
-   * Sigue recibiendo el `ensemble` por los shards y las habilidades del warframe, que **no viajan en
-   * el intent**: son la asimetría que queda del espacio y están marcadas más abajo.
+   * **Y ya no recibe un `Ensemble`.** Lo necesitaba por dos campos —los shards y las habilidades del
+   * warframe— que eran lo único que no viajaba en el intent. Ahora viajan, y con eso la forma
+   * intermedia se quedó sin su último consumidor y dejó de existir: acá se leen los nombres de la
+   * `Scene` (`uniqueName`, `mods`, `effectId`…) porque son los únicos que hay.
    */
-  public static hydrate(ensemble: Ensemble, intents: MoldedIntent[]): {
+  public static hydrate(intents: MoldedIntent[]): {
     entities: SimulationEntity[],
     modifiers: Modifier[]
   } {
@@ -50,14 +52,16 @@ export class StaticHydrator {
       entity.routes = [...intent.routes];
       const combination_mods: ElementalMod[] = [];
       
-      Object.entries(intent.slots).forEach(([index_str, slot]) => {
-        if (!slot.mod_id) return;
+      // La clave del slot ordena la combinación elemental (ver `index` abajo). Que sea un índice
+      // entero lo garantiza `assertSlotKeys` en el poblador; acá se lee, no se valida.
+      Object.entries(intent.mods).forEach(([index_str, slot]) => {
+        if (!slot.uniqueName) return;
         const index = parseInt(index_str);
-        const mod_modifiers = ModRepository.getModifiers(slot.mod_id, dna.entity_id, slot.level || 0);
-        
+        const mod_modifiers = ModRepository.getModifiers(slot.uniqueName, dna.entity_id, slot.level || 0);
+
         mod_modifiers.forEach(m => {
           // Add source info for Audit Trace
-          const enriched_mod = { ...m, source_id: `Mod:${slot.mod_id}` };
+          const enriched_mod = { ...m, source_id: `Mod:${slot.uniqueName}` };
 
           const isCombat = isWeaponDamageToken(m.target_attribute);
 
@@ -118,17 +122,20 @@ export class StaticHydrator {
          };
       });
       
-      // Incarnon evolution perks
-      if (intent.evolution_perks) {
-        const perk_mods = IncarnonRepository.getModifiers(intent.entity_id, intent.evolution_perks, dna.entity_id);
+      // Incarnon evolution perks. La clave del map ES el tier (`entry.evolutions[tierStr]`) —
+      // `assertSlotKeys` la valida en el poblador, porque una clave rota no matchea y el perk
+      // desaparecería sin decir nada.
+      if (intent.evolutionPerks) {
+        const perk_mods = IncarnonRepository.getModifiers(intent.entity_id, intent.evolutionPerks, dna.entity_id);
         modifiers.push(...perk_mods);
       }
 
       // Arcanos: directo a modifiers[], SIN pasar por DamageCombiner (su daño no se
       // combina con el del arma — naturaleza distinta, como los shards). Ver ArcaneRepository.
+      // Se leen por `Object.values`: la clave no participa de nada, por eso el poblador no la valida.
       if (intent.arcanes) {
         Object.values(intent.arcanes).forEach(arc => {
-          modifiers.push(...ArcaneRepository.getModifiers(arc.arcane_id, arc.rank, dna.entity_id));
+          modifiers.push(...ArcaneRepository.getModifiers(arc.uniqueName, arc.rank, dna.entity_id));
         });
       }
 
@@ -174,37 +181,38 @@ export class StaticHydrator {
       entities.push(entity);
     });
 
-    // ⚠️ ASIMETRÍA DEL ESPACIO — lo único que todavía se lee del `ensemble` y no del intent.
+    // ── Lo que sale del PORTADOR y no de su slot ────────────────────────────────────────
     //
-    // `EntityIntent` lleva slots, arcanos, perks y perfil, pero NO shards ni habilidades: esos dos se
-    // sacan de `ensemble.warframe` acá abajo. Es la misma forma que la doble pasada que se acaba de
-    // colapsar —dos fuentes para poblar un mismo participante— sólo que más chica, y es lo que impide
-    // que esta función deje de recibir el `ensemble`.
+    // Shards y habilidades corren POST-loop porque necesitan todas las entidades construidas, y
+    // salen del intent como todo lo demás. Antes se leían de `ensemble.warframe` — eran los dos
+    // únicos campos que no viajaban en el intent, y por eso esta función recibía un `Ensemble`.
     //
-    // No se arregla en este paso a propósito: subir shards/abilities al intent cambia lo que el
-    // ESPACIO declara (hoy: "quién está y con qué viene"), y eso toca el poblador, no la hidratación.
-    // Va con el paso que escriba la secuencia completa. Marcado para que no muera en silencio.
+    // Se recorren los intents en vez de asumir el warframe: hoy sólo él los declara (`WarframeIntent`
+    // es el único que tiene esos campos), así que el resultado es idéntico — pero quién los porta lo
+    // dice la escena, no una constante escrita acá.
 
-    // OQ-ENGINE-4: Consumer loop de Archon Shards. El shard nace en el warframe; si su token trae
+    // OQ-ENGINE-4: Consumer loop de Archon Shards. El shard nace en su portador; si su token trae
     // sub-familia, el `target_channel` lo redirige en la pasada de ruteo de abajo — igual que un
     // arcano o un mod. Acá ya no se resuelve el canal: hacerlo era la razón de que el ruteo
     // existiera una sola vez y solo para shards.
-    (ensemble.warframe?.shards ?? []).forEach(shard => {
-      const resolved = ShardRepository.resolve(shard.type, shard.stat, shard.is_tau ?? false);
-      if (!resolved) return;
+    for (const intent of intents) {
+      for (const shard of intent.shards ?? []) {
+        const resolved = ShardRepository.resolve(shard.uniqueName, shard.effectId, shard.isTauforged);
+        if (!resolved) continue;
 
-      modifiers.push(makeModifier(
-        {
-          id: `shard:${shard.type}:${shard.stat}`,
-          source_id: `Shard:${shard.type}`,
-          target_entity: ensemble.warframe!.id,
-          target_channel: resolved.target_channel,
-          target_attribute: resolved.attr,
-        },
-        resolved.op,
-        resolved.value,
-      ));
-    });
+        modifiers.push(makeModifier(
+          {
+            id: `shard:${shard.uniqueName}:${shard.effectId}`,
+            source_id: `Shard:${shard.uniqueName}`,
+            target_entity: intent.entity_id,
+            target_channel: resolved.target_channel,
+            target_attribute: resolved.attr,
+          },
+          resolved.op,
+          resolved.value,
+        ));
+      }
+    }
 
     // Habilidades activas del warframe (verbo muta-state, arch §15). Fan-out cross-entity:
     // el buff nace en el warframe (source, de donde se lee el scaling × Ability Strength) y
@@ -216,9 +224,11 @@ export class StaticHydrator {
     // lo resuelve contra las entidades construidas (`channel-routing`). Un buff de habilidad puede
     // aterrizar en el warframe mismo (`AVATAR_ADD_MOVEMENT_SPEED`), en una sola arma
     // (`MELEE_ADD_ATTACK_SPEED`) o en todas (`WEAPON_ADD_RELOAD_SPEED` — el ALL-scope de Roar).
-    (ensemble.warframe?.abilities || []).forEach(ability => {
-      modifiers.push(...AbilityRepository.getModifiers(ability.ability_id, ensemble.warframe!.id, entities));
-    });
+    for (const intent of intents) {
+      for (const ability of intent.abilities ?? []) {
+        modifiers.push(...AbilityRepository.getModifiers(ability.uniqueName, intent.entity_id, entities));
+      }
+    }
 
     // ── Ruteo por canal — pasada ÚNICA sobre todos los modifiers ────────────────────────
     // El `{cuál}` se resuelve acá, en un solo lugar y agnóstico a la fuente (shard, arcano, mod).

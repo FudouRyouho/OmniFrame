@@ -4,7 +4,7 @@ Rol: "Diseño de la organización del Oracle"
 Impacto_ID: "O-Arch"
 Fidelidad_Fisica: "Project/scripts/oracle/"
 Fecha_de_creacion: "2026-07-24"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 ---
 
 # Oracle — Arquitectura de la organización
@@ -31,7 +31,7 @@ Lentes **sobre una build** (sujeto A1):
 | `display` | **C1** proyectado | el `ViewModelContract` (`project()` → `token·value·unit`) | implementada |
 | `metrics` | **C2** | `CombatMetrics` (DPS/TTK/status weights) vs un target | implementada |
 | `trace` | **C1** (procedencia) | el trace por modifier de un nodo (source·op·impact) | implementada |
-| `intention` | salida de **B** | la intención hidratada (qué produjo el bridge desde A) | **diferida**: el bridge no expone el `Ensemble`/`MutatedDNA` intermedio → requiere abrir `@core` |
+| `intention` | salida de **B** | el espacio con sus moldes (qué produjo el bridge desde A) | **diferida** — pero su premisa cambió: ya no hay `Ensemble` intermedio que exponer. Lo que B produce hoy es `MoldedIntent[]`, que es **mejor** que lo que esta lente pedía: quién participa, con qué canal y marcas, y con qué molde. Lo único que falta es decidir si ese tipo cruza la frontera de `@core` |
 
 Lente **utilitaria** (no observa el pipeline de una build):
 
@@ -126,8 +126,9 @@ consulta que C2 ya espera. Por eso son flags de la lente que los consume, no un 
   un jugador a pie sin nada equipado y sin hostiles) vía merge profundo. `DeepPartial` tipa el input; el
   merge lo completa (TypeScript no regenera solo — es type-erased). Es, para el CLI, el equivalente
   stateless del hook que en la UI mantiene el ensemble: acá sólo completa, no mantiene estado.
-  Sólo hay que declarar lo que importa —`{ items: { primary: { itemId, active_profile } }, mods: … }`—;
-  el resto sale del skeleton. `rank` en mods es omitible (el bridge sólo lee `itemId`+`level`).
+  Sólo hay que declarar lo que importa —`{ squad: [{ kind: 'onfoot', weapons: { primary: { uniqueName,
+  activeProfile, mods: { 0: { uniqueName, level } } } } }] }`—; el resto sale del skeleton. El portador
+  contiene lo que se le monta, así que no hay tabla paralela que sincronizar.
 
 ---
 
@@ -136,7 +137,7 @@ consulta que C2 ya espera. Por eso son flags de la lente que los consume, no un 
 - **Flags componibles** (`--weapon`/`--mod`/`--profile` → intención) como capa ergonómica sobre la boca
   JSON: se retoma si un caso real la pide (la boca JSON ya cubre el destino canónico).
 - **Validación robusta del JSON externo**: hoy laxa (function-first) — parse + guarda de objeto, y se
-  deja que el motor falle ruidoso ante un `itemId` inexistente. Endurecer es trabajo futuro.
+  deja que el motor falle ruidoso ante un `uniqueName` inexistente. Endurecer es trabajo futuro.
 - **Saneamiento del vocabulario de la intención** (`rank`/`level` inconsistente en mods — `ModIntent`
   lleva `level`, `ArcaneIntent` lleva `rank`): frente aparte, toca contrato core (RED) → se abre su OQ
   y no se mezcla con esta reorganización.

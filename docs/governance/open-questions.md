@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -1261,13 +1261,15 @@ O sea: **hay de las dos**, y por eso decidir antes de cosechar no es un rodeo. U
 
 | Rastro | Qué es |
 |---|---|
-| `Ensemble.focus?: { school_id, nodes[] }` | contrato **sin dataset**. Su único escritor es `MutatorBridge`, con `{ school_id: "zenurik", nodes: [] }` **hardcodeado**. Cero lectores |
+| ~~`Ensemble.focus?: { school_id, nodes[] }`~~ | era un contrato **sin dataset, sin escritor y sin lectores** — un campo declarado en la forma intermedia que B construía. Se fue con ella. **La ausencia sigue siendo la misma:** hoy `Scene` no declara nada de focus, que es lo honesto mientras no haya dato |
 | 20 mods con `mod_class` ∈ {Madurai, Zenurik, Vazarin, Naramon, Unairu} | **falso positivo**: son `Tektolyst Artifact Mod`. El `mod_class` marca afinidad de escuela de un artefacto, no un nodo del árbol de focus |
 | `public/data/` | ningún dataset de focus / escuelas / nodos |
 
-**Por qué se abre ahora.** La reestructura de Capa A borra `Ensemble.focus`: es un campo fabricado por B
-que ninguna estructura declara y ningún consumidor lee. Borrarlo sin registrar la ausencia sería
-postergar sin dejar rastro — el modo de falla que esta campaña vino a corregir.
+**Por qué se abre ahora.** `Ensemble.focus` **ya se borró** — cayó con la forma intermedia entera, que no
+computaba nada. Era un campo fabricado por B que ninguna estructura declaraba y ningún consumidor leía.
+Esta OQ es lo que impide que ese borrado sea postergar sin dejar rastro: el campo se fue, la ausencia
+queda registrada, y el modo de falla que esta campaña vino a corregir —desaparecer algo en silencio— no
+se repite.
 
 **Lo que haría falta, en orden:** (1) decidir qué del operador se materializa como participante y qué
 aterriza como pasiva en el warframe; (2) cosechar — la wiki tiene las páginas de cada escuela con sus
@@ -1392,10 +1394,13 @@ escribió desde lo que el motor lee y no desde lo que la vieja declaraba. Sigue 
 estacionada (`@shared/types/ensemble.ts`, `@deprecated`).
 
 **Lo que queda es el rank de ítem, y no tiene consumidor.** `Bearer.rank` lo declaran los cuatro
-portadores de la `Scene` y muere en tres lugares distintos, ninguno ruidoso: el del arma y el del
-compañero en el bridge (el `WeaponIntent` del contrato del engine no declara `rank`, y `Ensemble.companion`
-tampoco), y el del warframe una capa más abajo — llega a `Ensemble.warframe.rank` con un `?? 30` que B
-inventa, y `populateFromLoadout` no lo lee. Hoy un ítem rank-0 y uno rank-30 computan idéntico.
+portadores de la `Scene` y **nadie lo lee**: `EntityIntent` no lo lleva, así que muere en el poblador
+para los cuatro por igual. Hoy un ítem rank-0 y uno rank-30 computan idéntico.
+
+Antes moría en tres lugares distintos y ninguno ruidoso —el del arma y el del compañero en la
+traducción, el del warframe una capa más abajo con un `?? 30` que B inventaba—; la forma intermedia se
+fue y con ella el default fabricado. Que ahora muera **en un solo lugar** no lo arregla, pero vuelve la
+pregunta contestable de una sola vez.
 
 **Se va a usar, pero no hoy:** por simplicidad, hoy no hay consumidor real ni necesidad de modelarlo. Esta
 OQ existe para no dejarlo acoplado a "código real" implícito — no para forzar diseño ahora.
@@ -1403,7 +1408,7 @@ OQ existe para no dejarlo acoplado a "código real" implícito — no para forza
 **Condición para retomar:** un consumidor real (que el rank de ítem escale algo). Purgar `Bearer.rank`
 es la otra salida y es RED por radio: lo declaran los fixtures y el corpus de parciales del oráculo.
 
-**Vínculo:** `Project/src/core/bridge/MutatorBridge.ts` (`squadToEnsemble`, `weaponToIntent`), `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `Project/src/shared/types/scene.ts` (`Bearer.rank`).
+**Vínculo:** `Project/src/core/engine/resolve/hydration/space.ts` (el poblador, donde `rank` deja de viajar), `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `Project/src/shared/types/scene.ts` (`Bearer.rank`).
 **Fuente:** debate de organización del CLI oráculo (Trabajo 1/2, dominio `oracle`).
 
 ---
@@ -1993,8 +1998,8 @@ los indexe por ahí los colapsa. Medido con el oráculo sobre `ENEMY_ADD_HEALTH_
 
 La columna del medio era `dnas[intent.entity_id]`, el `Record<string, MutatedDNA>` con el que el bridge
 le pasaba los moldes al hidratador: las dos entidades nacían de la misma DNA. **Ese mapa ya no existe** —
-no era un defecto de la clave sino el precio de recorrer el espacio dos veces (`MutatorBridge.hydrateDnas`
-y `StaticHydrator.hydrate` llamaban cada uno a `populateFromLoadout` sobre el mismo `ensemble`). Con una
+no era un defecto de la clave sino el precio de recorrer el espacio dos veces (el bridge y el hidratador
+llamaban cada uno al poblador sobre el mismo escenario, y el mapa cruzaba de una pasada a la otra). Con una
 sola pasada el molde viaja sobre el intent (`MoldedIntent`) y no queda nada que indexar.
 
 Lo que quedó a la vista es la aparición de fondo: **`SimulationEngine.entities` es un
@@ -2005,31 +2010,40 @@ ser silencioso: dos números plausibles e iguales no se distinguen de una medici
 con los cuatro buckets en cero no se puede leer como otra cosa.
 
 **Slots con clave no entera** — `Record<number, …>` no existe en runtime: JavaScript pasa toda clave de
-objeto a string y JSON no tiene cómo escribir otra cosa. Con una clave no entera, `result[parseInt(k)]`
-resuelve a `result[NaN]` y todos los slots escriben la misma propiedad. Sobre un `.json` parcial con los
-cuatro elementales de rifle:
+objeto a string y un `.json` no tiene cómo escribir otra cosa, así que el tipo no atrapa nada de lo que
+entra desde afuera. **Y rompe cosas distintas según quién lea la clave**, ninguna ruidosa por sí sola:
 
-| claves | resultado |
-|---|---|
-| `"0"`…`"3"` | `BLAST` + `CORROSIVE` — correcto |
-| `"s0"`…`"s3"` | `ELECTRICITY` — tres mods desaparecidos |
-| las mismas al revés | `HEAT` — gana el último escrito |
+| dónde | qué es la clave | qué pasa con una no entera |
+|---|---|---|
+| `mods` | el orden de combinación elemental (`DamageCombiner` hace `sort((a,b) => a.index - b.index)`) | el comparador devuelve `NaN`, el sort no ordena y **el emparejamiento de elementos queda arbitrario** |
+| `evolutionPerks` | **el tier** (`entry.evolutions[tierStr]`) | no matchea y el perk se omite sin decir nada |
+| `arcanes` | nada — se leen por `Object.values` | no se pierde dato; por eso el poblador no los valida |
 
-Sin error y sin warning. Lo grave no es el bug: es que **el resultado tiene cara de válido**. El oráculo
-es el instrumento con el que se valida el motor contra el juego, así que un número plausible y falso no
-corrompe código — corrompe una medición, y el modelo podría ajustarse para explicarlo.
+Hubo un tercer modo de falla, peor y ya extinto: la traducción re-indexaba (`result[parseInt(k)] = v`),
+así que las cuatro claves rotas escribían la propiedad `"NaN"` y **tres de cuatro mods desaparecían**.
+Medido con el oráculo sobre un parcial con los cuatro elementales de rifle: `"0"`…`"3"` daba
+`BLAST + CORROSIVE`; `"s0"`…`"s3"` daba sólo `ELECTRICITY`, y al revés sólo `HEAT` — ganaba el último
+escrito. Ese `parseInt` era un no-op ceremonial que existía para satisfacer al tipo, y murió con la forma
+intermedia; hoy la guarda (`assertSlotKeys`, en el poblador) **sólo valida**.
+
+Sin error y sin warning en ninguno de los casos. Lo grave no es el bug: es que **el resultado tiene cara
+de válido**. El oráculo es el instrumento con el que se valida el motor contra el juego, así que un
+número plausible y falso no corrompe código — corrompe una medición, y el modelo podría ajustarse para
+explicarlo.
 
 ### Por qué no se resuelve ahora
 
-**Viven en la traducción A→B, que es exactamente la capa que cambia de dueño.** `Ensemble` lleva sólo ids
-y ni un stat: lo que B hace es **re-shapear a A**. Dereferencia el molde (`DnaRepository`, desde el
-bridge) pero no los efectos —`ModRepository`, `ArcaneRepository`, `IncarnonRepository` se llaman desde
-`StaticHydrator`, que vive en C—, y el `entity_id` que todos reciben nace de ese re-shape. El `parseInt`
-que produce el `NaN` es de la misma cosecha: un no-op ceremonial que existe para satisfacer al tipo, no
-para convertir nada. Elegir hoy la forma definitiva de las claves es escribir con cuidado en código que
-la mudanza reescribe.
+**Porque lo que queda es identidad, y la identidad es lo último que se decide.** La traducción A→B que
+alojaba a las dos apariciones ya no existe: B dejó de re-shapear y pasó a poblar. Con eso murió la mitad
+ceremonial del problema —el `parseInt` que producía el `NaN`, y el mapa de moldes que colapsaba
+participantes homónimos— sin negociar la forma de ninguna clave.
 
-**Y las dos formas candidatas dependen de decisiones que la mudanza toma.** Que la identidad sea la
+Lo que sobrevive es lo que **no era ceremonia**: que `entity_id` sea el `unique_name`, o sea el molde y
+no la instancia. Eso lo consumen `SimulationEngine.entities`, el `entityById` del ruteo, los ids de
+modifier, y los tests que seleccionan por molde (`espacio.find(e => e.id === BOMBARD)`, 3 veces en
+`enemy.test.ts`). Cambiarlo es tocar la identidad de todo participante, no una función de traducción.
+
+**Y la forma candidata no es una sola.** Que la identidad sea la
 posición vale para el squad —cuatro puestos, ley del juego— pero **no se traslada a los slots**: ahí la
 posición absoluta es de la UI (quién decide "acá van sólo exilus"), y la cantidad varía con el portador
 — Jade lleva dos auras y un exilus. Lo que el motor necesita de un slot **no es el hueco sino el orden**:
@@ -2038,15 +2052,17 @@ el orden de la grilla determina la combinación elemental
 
 ### Lo que ya está hecho, y lo que no
 
-**Las guardas están puestas: el silencio no sobrevive al gate.** `MutatorBridge.slotIndex` tira sobre una
-clave no entera nombrando canal y clave; `unlanded-modifiers.test.ts` fija ese grito y `enemy.test.ts`
-lleva la colisión de participantes como test pendiente con sus números.
+**Las guardas están puestas: el silencio no sobrevive al gate.** `assertSlotKeys` (en el poblador del
+espacio) tira sobre una clave no entera nombrando el portador y la clave; `unlanded-modifiers.test.ts`
+fija ese grito y `enemy.test.ts` lleva la colisión de participantes como test pendiente con sus números.
 
-**Y una de las apariciones murió sin negociar la forma.** El mapa de moldes se fue al colapsar la doble
-pasada sobre el espacio — un cambio que no decide nada de lo que esta pregunta gatea. Es el patrón que
-vale la pena registrar: *una clave derivada puede no ser una decisión de identidad sino el precio de
-computar algo dos veces*, y en ese caso desaparece sola cuando la duplicación se cierra. La que queda
-—`Map<EntityId, …>`— sí es identidad, y esa sigue gateada.
+**Y dos de las apariciones murieron sin negociar la forma.** El mapa de moldes se fue al colapsar la doble
+pasada sobre el espacio; el `parseInt` que producía el `NaN` se fue con la forma intermedia entera.
+Ninguno de los dos cambios decidió nada de lo que esta pregunta gatea. Es el patrón que vale la pena
+registrar: **una clave derivada puede no ser una decisión de identidad sino el precio de una duplicación
+o de una traducción**, y en ese caso desaparece sola cuando se cierra lo que la generaba. Antes de
+rediseñar una clave, conviene preguntar si existe porque algo se hace dos veces o se re-shapea sin
+necesidad. Lo que queda —`Map<EntityId, …>`— sí es identidad, y esa sigue gateada.
 
 Gritar es dejar de mentir, no resolver: **la forma que hace el estado imposible sigue pendiente**, y es lo
 que esta pregunta gatea.
@@ -2056,9 +2072,11 @@ que esta pregunta gatea.
 de uno y el de varios dejan de leerse igual, y la colisión reaparece en cuanto algo compare claves entre
 escenarios. Es deuda propia, no autoridad.
 
-**Condición de cierre:** la bajada de la estructura de Capa A y la mudanza de la dereferencia de C a B. La
-pregunta se responde **con** esa mudanza, no antes y no por separado — abrir los dos frentes a la vez es
-no cerrar ninguno.
+**Condición de cierre:** que `entity_id` deje de ser el molde. Las dos condiciones anteriores —bajar la
+estructura de Capa A y sacar la forma intermedia del medio— **ya se cumplieron**, y lo que enseñaron es
+que buena parte de esta pregunta no era suya: se disolvió al cerrar la duplicación y la traducción. Lo
+que queda es una sola decisión y no está gateada por ningún refactor pendiente, sino por su propio radio:
+toca la identidad de todo participante y los tests que seleccionan por molde.
 
 **No bloquea:** el modelado de mecánicas ni la medición contra el juego, mientras las guardas estén. **Vínculo:**
 `OQ-DATA-9` (el plano "0": A declara punteros, B/UI dereferencian — es la pregunta madre de la mudanza),

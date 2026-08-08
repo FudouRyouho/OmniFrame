@@ -10,9 +10,13 @@
  * `items.primary.itemId === null`, un arma de compañero sin compañero, un `archgun` declarado que
  * ninguna capa leía. Lo que las ata acá es la ESTRUCTURA, no una convención.
  *
- * ⚠️ NAMING PROVISIONAL. `Scene` / `PlayerIntent` / `Bearer` conviven con el `Ensemble` de
- * `@core/engine/contracts`, que es lo que B produce hoy. Cuál sobrevive se decide con la mudanza de
- * la dereferencia (`OQ-DATA-9` / `OQ-ENGINE-36`), no antes.
+ * **Y es la única forma en el camino.** Hubo una segunda —el `Ensemble` que B construía a partir de
+ * esto y le pasaba a C— y no computaba nada: era un diccionario de sinónimos (`uniqueName`→`id`,
+ * `mods`→`slots`, `{uniqueName,effectId,isTauforged}`→`{type,stat,is_tau}`) con cuatro campos que
+ * nadie leía. Su costo real no era el código sino lo que ocultaba: **hacía pasar por *"el engine no
+ * lo modela"* cosas que el engine sí modelaba** — el arma de compañero, que hoy se puebla, y el
+ * archgun, al que sólo le falta que se cargue un `.json` que ya está en `public/data/`. Lo que se
+ * declara acá es lo que el motor lee.
  */
 
 // ════════════════════════════════════════════════════════════════════════════════════════
@@ -148,12 +152,18 @@ export interface HostileIntent {
  * no.** Eso, y no la elegancia, es lo que la unión discriminada arregla.
  *
  * ⚠️ **Y hasta dónde llega, medido: cuatro de los cinco.** `archwing`/`archgun`/`archmelee`/`necramech`
- * son variantes y el `switch` exhaustivo del bridge los agarra. `companion_weapon` no lo era —es un
- * campo adentro de una variante que sí se lee— y siguió evaporándose hasta que se le escribió una
- * guarda. **La unión discriminada protege variantes, no campos:** adentro de un caso la traducción es
- * un literal que nombra lo que quiere, y una propiedad sin leer en el origen no le da a TypeScript de
- * qué quejarse (el *excess property check* sólo mira propiedades de más en el literal). El eje que el
- * tipo cierra y el que necesita un `if` son distintos, y conviene no confundirlos al agregar campos.
+ * son variantes y el `switch` exhaustivo del poblador los agarra — agregar una sin caso no compila.
+ * `companion_weapon` NO lo era: es un campo adentro de una variante que sí se lee, y siguió
+ * evaporándose después de que el resto dejara de hacerlo. **La unión discriminada protege variantes,
+ * no campos:** adentro de un caso, quien construye nombra los campos que quiere, y una propiedad sin
+ * leer en el origen no le da a TypeScript de qué quejarse (el *excess property check* sólo mira
+ * propiedades de más en el literal). Los dos ejes son distintos y conviene no confundirlos al agregar
+ * campos: uno lo cierra el tipo, el otro pide un test o una guarda.
+ *
+ * Hoy los cinco están cerrados y **por caminos distintos**: los cuatro vehículos entran al espacio y
+ * mueren en la hidratación nombrando su dataset (`archwing-weapons.json` y `vehicles.json` existen y
+ * no se cargan — el bloqueante es esa carga, no el modelo); el arma de compañero **se puebla**, con
+ * canal propio, porque su dato siempre estuvo completo.
  *
  * Las variantes sin dataset se declaran igual, y NO es lo mismo que un campo mudo:
  *   · campo mudo (`isSteelPath`, `focus`) → se declara, se llena, y MIENTE en silencio
@@ -212,9 +222,19 @@ export interface WeaponIntent extends Bearer {
 
 /**
  * El arma cuelga del compañero, y no es una decisión de ruteo: **un arma de compañero NO PUEDE
- * EXISTIR SIN COMPAÑERO**. Acá es imposible de escribir; como canal hermano (`companion_weapon`) era
- * perfectamente escribible y absurdo. Quién puede portar qué (sentinela ⊥ hound ⊥ kavat) NO es de A;
- * "no hay arma sin portador" sí, y es estructural.
+ * EXISTIR SIN COMPAÑERO**. Acá es imposible de escribir; como canal hermano de A era perfectamente
+ * escribible y absurdo. Quién puede portar qué (sentinela ⊥ hound ⊥ kavat) NO es de A; "no hay arma
+ * sin portador" sí, y es estructural.
+ *
+ * ⚠️ No confundir con el canal `companion_weapon` del ESPACIO. Colgar ⊥ participar: el arma se
+ * DECLARA adentro del compañero (no existe sin él) y PARTICIPA como entidad propia (dispara, tiene
+ * sus mods, y el fan-out ALL-scope de Roar la alcanza — `references/wiki/warframes/rhino/roar.md`).
+ * Son dos preguntas distintas y cada capa contesta la suya.
+ *
+ * ⚠️ **`arcanes` sobra acá, heredado de `Bearer`: un compañero no tiene slots de arcano en el juego.**
+ * El poblador lo rechaza con un throw, que es lo que hay mientras tanto — **la forma correcta es que
+ * no se pueda escribir** (`extends Omit<Bearer, 'arcanes'>`). Sin cerrar porque la pregunta real es
+ * más ancha que el compañero: *qué portadores admiten arcanos*, y `Bearer` se los da a los cuatro.
  */
 export interface CompanionIntent extends Bearer {
   weapon?: WeaponIntent;
@@ -242,7 +262,9 @@ export interface ShardIntent { uniqueName: string; effectId: string; isTauforged
  * PREEXISTENTE: JavaScript pasa toda clave de objeto a string y JSON no tiene cómo escribir otra
  * cosa. Se deja como está A PROPÓSITO: la forma correcta depende de decisiones que toma la mudanza
  * de la hidratación, y elegirla hoy es escribir con cuidado en código condenado. La guarda que lo
- * hace ruidoso (`MutatorBridge.slotIndex`) ya existe.
+ * hace ruidoso (`assertSlotKeys`, en el poblador del espacio) ya existe — y sólo **valida**: la
+ * versión que además re-indexaba (`result[parseInt(k)] = v`) era la que hacía desaparecer tres de
+ * cuatro mods cuando la clave estaba rota, y murió con la forma intermedia.
  *
  * ⚠️ LO QUE NO SE TRASLADA DEL SQUAD: allá la posición ES la identidad (cuatro puestos, ley del
  * juego). Acá NO — el hueco absoluto ("acá van sólo exilus") es de la UI, y la cantidad varía con el
