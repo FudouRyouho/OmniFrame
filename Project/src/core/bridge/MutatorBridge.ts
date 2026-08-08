@@ -108,10 +108,13 @@ export class MutatorBridge {
    */
   private attachMolds(scene: Scene): MoldedIntent[] {
     return populateFromScene(scene).map(intent => {
-      const dna = DnaRepository.findByUniqueName(intent.entity_id, intent.level);
+      // Se dereferencia por el PUNTERO, no por la identidad: `entity_id` es dónde está parado el
+      // participante en la escena y el catálogo no sabe nada de eso. Mientras los dos campos fueron
+      // el mismo string esta distinción no existía, y era la conflación que colapsaba homónimos.
+      const dna = DnaRepository.findByUniqueName(intent.unique_name, intent.level);
       if (!dna) {
         throw new Error(
-          `[hidratación] el participante ${JSON.stringify(intent.entity_id)} (canal "${intent.channel}") ` +
+          `[hidratación] el participante ${JSON.stringify(intent.unique_name)} (${intent.entity_id}) ` +
           `se declaró y no tiene DNA en los datasets cargados. O el unique_name no existe, o su dataset ` +
           `no está en los que el engine carga.`
         );

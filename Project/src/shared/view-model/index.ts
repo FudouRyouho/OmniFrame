@@ -28,11 +28,17 @@ export interface StatViewModel {
 }
 
 export interface EntityViewModel {
-  /** EntityId del motor (clave estable; la usa `consume().weapon(id)`). */
+  /**
+   * **Quién es**: la coordenada del participante en la escena (`squad.0.primary`, `hostile.1`). Es la
+   * clave estable para apuntar a UNO en particular, y la que consume `consume().at(id)`.
+   *
+   * ⚠️ NO es lo que toma `consume().weapon(…)`, que selecciona por molde — la distinción importa
+   * desde que dos participantes pueden compartir `unique_name` (`OQ-ENGINE-36`).
+   */
   id: string;
   /** Canal del ensemble — lookup estable para la UI ('warframe' | 'primary' | …). */
   channel?: string;
-  /** Token de identidad (path del juego). El nombre legible lo resuelve i18n/data en el borde. */
+  /** **Qué es**: el puntero al catálogo. El nombre legible lo resuelve i18n/data en el borde. */
   unique_name: string;
   /**
    * Taxonomía de arsenal — **sólo la portan los participantes que son ítems del loadout**. Un enemigo

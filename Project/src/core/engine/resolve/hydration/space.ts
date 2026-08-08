@@ -28,7 +28,39 @@ import type {
  * repositorio. Sólo dice quién está y con qué viene.
  */
 export interface EntityIntent {
+  /**
+   * **QUIÉN ES** este participante: su coordenada en la escena (`squad.0.primary`, `hostile.1`).
+   *
+   * La acuña el poblador, que es el único que sabe dónde está parado. No la declara nadie y no sale
+   * del catálogo: la estructura de la `Scene` ya la contiene —tupla de cuatro puestos para el squad,
+   * lista para el hostil— y hasta acá se descartaba al aplanar.
+   *
+   * POR QUÉ NO PUEDE SER EL `uniqueName`. Un `unique_name` dice **qué es** un participante, no quién:
+   * dos Bombards declarados a niveles distintos son "el Bombard", y toda estructura que los indexe
+   * por ahí los colapsa —`SimulationEngine.entities` es un `Map<EntityId, …>`, así que el segundo
+   * pisaba al primero y los dos recibían los stats del sobreviviente. Es la conflación
+   * molde/instancia metida en la clave (`OQ-ENGINE-36`).
+   *
+   * ⚠️ La coordenada **no cambia de forma según cuántos haya**. Un participante único se nombra igual
+   * que uno de varios; el caso de uno y el de N se leen igual. Es lo contrario del sufijo condicional
+   * del ruteo cross-banda (`targets.length > 1 ? id@entidad : id`), que es deuda propia y no
+   * autoridad a imitar.
+   *
+   * ⚠️ Su límite, anotado y no construido: si algún día una escena persistida llevara referencias
+   * entre participantes ("este debuff va sobre `hostile.2`") y se insertara uno en el medio, las
+   * referencias se correrían. Hoy nada apunta a un participante individual, y la `Scene` ya prohíbe
+   * el `splice` que lo provocaría (los huecos se preservan como `undefined`). Cuando aparezca el
+   * primer consumidor de esas referencias, es ESE consumidor el que decide si hace falta un id
+   * declarado.
+   */
   entity_id: string;
+  /**
+   * **QUÉ ES**: el puntero al catálogo, tal como lo declaró la `Scene`. Es lo que B dereferencia para
+   * traer el molde (`attachMolds`), y lo que sobrevive en la entidad como `unique_name`.
+   *
+   * Viaja separado de `entity_id` porque son dos preguntas distintas que hasta acá compartían campo.
+   */
+  unique_name: string;
   /**
    * Canal del participante ('warframe' | 'primary' | 'secondary' | 'melee' | 'companion' | 'enemy' |
    * 'archwing' | 'archgun' | 'archmelee' | 'necramech'). Se estampa en la entidad acá y **no se
@@ -97,9 +129,9 @@ export interface EntityIntent {
  * (`dnas[intent.entity_id]`) que dos participantes del mismo ítem escriben sin que nadie chequee. No
  * era un defecto de la clave — era el precio de computar el espacio dos veces.
  *
- * ⚠️ Esto **no cierra** `OQ-ENGINE-36`: la identidad sigue siendo el `unique_name`, así que dos
- * participantes del mismo ítem siguen colapsando aguas abajo (`SimulationEngine.entities` es
- * `Map<EntityId, …>`, y el `entityById` del ruteo también). Mata una aparición de tres.
+ * El molde y la identidad viajan juntos y **son cosas distintas**: `dna` es qué es el participante,
+ * `entity_id` es quién es. Mientras el `id` de la entidad salía del `dna`, dos participantes del
+ * mismo ítem nacían con la misma identidad y el `Map<EntityId, …>` del motor los colapsaba.
  *
  * Declarar el tipo acá no es dereferenciar acá: los pobladores siguen sin tocar un repositorio.
  * Quien pone el molde es B (`MutatorBridge.attachMolds`), que es el que sabe buscarlo.
@@ -156,12 +188,13 @@ function assertSlotKeys(map: SlotMap<unknown> | undefined, kind: string): void {
  * entidades completo).
  *
  * ⚠️ **Sólo puebla `squad[0]`.** Los aliados se pueden declarar y no entran: el motor no modela un
- * segundo loadout, y poblarlos sin eso los haría colapsar contra el jugador por `entity_id`
- * (`OQ-ENGINE-36`). Es el mismo alcance que tenía antes de que `Scene` bajara; la estructura lo
- * permite y el motor todavía no.
+ * segundo loadout. Ya no es la identidad lo que lo impide —la coordenada distingue `squad.0.primary`
+ * de `squad.1.primary` sin ambigüedad, y el prefijo del poblador está listo para recibir el índice—
+ * sino que nadie definió qué hace un aliado en la simulación. Es el mismo alcance que tenía antes de
+ * que `Scene` bajara; la estructura lo permite y el motor todavía no.
  */
 export function populateFromScene(scene: Scene): EntityIntent[] {
-  return [...populateFromSquad(scene.squad[0]), ...populateFromHostile(scene.hostile)];
+  return [...populateFromSquad(scene.squad[0], 'squad.0'), ...populateFromHostile(scene.hostile)];
 }
 
 /**
@@ -175,17 +208,17 @@ export function populateFromScene(scene: Scene): EntityIntent[] {
  * nombra no se lee, y TypeScript no tiene de qué quejarse. Por eso el compañero necesita una guarda
  * escrita (abajo) y el archwing no.
  */
-function populateFromSquad(player: PlayerIntent): EntityIntent[] {
+function populateFromSquad(player: PlayerIntent, at: string): EntityIntent[] {
   switch (player.kind) {
     case 'onfoot':
       return [
-        ...(player.warframe ? [warframeIntent(player.warframe)] : []),
-        ...weaponIntents([
+        ...(player.warframe ? [warframeIntent(player.warframe, at)] : []),
+        ...weaponIntents(at, [
           ['primary',   player.weapons?.primary],
           ['secondary', player.weapons?.secondary],
           ['melee',     player.weapons?.melee],
         ]),
-        ...(player.companion ? companionIntents(player.companion) : []),
+        ...(player.companion ? companionIntents(player.companion, at) : []),
       ];
 
     // Los vehículos pueblan como cualquier otro participante. NO se traducen a medias ni se
@@ -196,8 +229,8 @@ function populateFromSquad(player: PlayerIntent): EntityIntent[] {
     // modelaba, lo cual era falso: lo que no tenía dónde ponerlo era la forma intermedia.
     case 'archwing':
       return [
-        ...(player.archwing  ? [bearerIntent(player.archwing,  'archwing',  ['avatar'])] : []),
-        ...weaponIntents([
+        ...(player.archwing  ? [bearerIntent(player.archwing,  'archwing',  ['avatar'], at)] : []),
+        ...weaponIntents(at, [
           ['archgun',   player.archgun],
           ['archmelee', player.archmelee],
         ]),
@@ -205,8 +238,8 @@ function populateFromSquad(player: PlayerIntent): EntityIntent[] {
 
     case 'necramech':
       return [
-        ...(player.necramech ? [bearerIntent(player.necramech, 'necramech', ['avatar'])] : []),
-        ...weaponIntents([['archgun', player.archgun]]),
+        ...(player.necramech ? [bearerIntent(player.necramech, 'necramech', ['avatar'], at)] : []),
+        ...weaponIntents(at, [['archgun', player.archgun]]),
       ];
 
     default: {
@@ -219,12 +252,14 @@ function populateFromSquad(player: PlayerIntent): EntityIntent[] {
 /**
  * El grupo Hostil. Entra por la misma lista que el Squad: son participantes más, no parámetros.
  *
- * Es lista porque el grupo es "uno o más enemigos de uno o más tipos"; hoy se declara uno y poblar
- * varios espera al plano (`OQ-ENGINE-35`) y a la identidad (`OQ-ENGINE-36`).
+ * Es lista porque el grupo es "uno o más enemigos de uno o más tipos", y **poblar varios ya
+ * resuelve**: cada uno entra con su coordenada (`hostile.0`, `hostile.1`) y su propio frame-0. Lo que
+ * sigue esperando es el plano (`OQ-ENGINE-35`) — dónde está cada uno, que es otra pregunta.
  */
 function populateFromHostile(hostiles: HostileIntent[]): EntityIntent[] {
-  return hostiles.map(h => ({
-    entity_id: h.uniqueName,
+  return hostiles.map((h, i) => ({
+    entity_id: `hostile.${i}`,
+    unique_name: h.uniqueName,
     channel: "enemy",
     routes: ["enemy"],
     mods: {},
@@ -235,11 +270,17 @@ function populateFromHostile(hostiles: HostileIntent[]): EntityIntent[] {
 
 // ─── Constructores de intent, por naturaleza de portador ────────────────────────────────
 
-/** Base común: lo que todo portador aporta al espacio. */
-function bearerIntent(bearer: Bearer, channel: string, routes: string[]): EntityIntent {
+/**
+ * Base común: lo que todo portador aporta al espacio.
+ *
+ * `at` es dónde está parado el portador dentro de la escena; el canal completa la coordenada. Los dos
+ * juntos son la identidad, y ninguno de los dos sale del catálogo.
+ */
+function bearerIntent(bearer: Bearer, channel: string, routes: string[], at: string): EntityIntent {
   assertSlotKeys(bearer.mods, `mods de "${channel}"`);
   return {
-    entity_id: bearer.uniqueName,
+    entity_id: `${at}.${channel}`,
+    unique_name: bearer.uniqueName,
     channel,
     routes,
     mods: bearer.mods ?? {},
@@ -249,9 +290,9 @@ function bearerIntent(bearer: Bearer, channel: string, routes: string[]): Entity
 }
 
 /** El warframe suma lo que sólo un avatar de jugador porta: shards y habilidades activas. */
-function warframeIntent(warframe: WarframeIntent): EntityIntent {
+function warframeIntent(warframe: WarframeIntent, at: string): EntityIntent {
   return {
-    ...bearerIntent(warframe, "warframe", ["avatar"]),
+    ...bearerIntent(warframe, "warframe", ["avatar"], at),
     ...(warframe.shards    ? { shards:    warframe.shards }    : {}),
     ...(warframe.abilities ? { abilities: warframe.abilities } : {}),
   };
@@ -265,6 +306,7 @@ function warframeIntent(warframe: WarframeIntent): EntityIntent {
  * familia — las dos portan la marca `weapon`.
  */
 function weaponIntents(
+  at: string,
   slots: ReadonlyArray<readonly [string, WeaponIntent | undefined]>,
   owner?: string,
 ): EntityIntent[] {
@@ -274,7 +316,7 @@ function weaponIntents(
     assertSlotKeys(weapon.evolutionPerks, `perks de "${channel}"`);
     intents.push({
       // `MELEE_*` apunta al arma cuerpo a cuerpo *equipada*: es propiedad del slot, no del ítem.
-      ...bearerIntent(weapon, channel, channel === 'melee' ? ['weapon', 'melee'] : ['weapon']),
+      ...bearerIntent(weapon, channel, channel === 'melee' ? ['weapon', 'melee'] : ['weapon'], at),
       profile_id: weapon.activeProfile ?? "base",
       ...(weapon.evolutionPerks ? { evolutionPerks: weapon.evolutionPerks } : {}),
       ...(owner ? { owner } : {}),
@@ -306,7 +348,7 @@ function weaponIntents(
  * ⚠️ Su `kind` viene del pipeline y hoy es `primary` para todas; en el juego varía según el
  * compañero. Es normalización de la fuente, no del motor — no se corrige acá.
  */
-function companionIntents(companion: CompanionIntent): EntityIntent[] {
+function companionIntents(companion: CompanionIntent, at: string): EntityIntent[] {
   // Un compañero NO lleva arcanos. El campo lo hereda de `Bearer` y sobra: es un slot que el juego
   // no tiene. Se rechaza en vez de ignorarse —un campo que se declara, se llena y no hace nada es el
   // campo mudo que esta campaña viene eliminando— y la forma correcta es que no se pueda escribir:
@@ -319,10 +361,15 @@ function companionIntents(companion: CompanionIntent): EntityIntent[] {
   }
 
   return [
-    bearerIntent(companion, "companion", ["avatar"]),
+    bearerIntent(companion, "companion", ["avatar"], at),
     // El compañero es el dueño de su arma — colgar ⊥ participar: entra como participante propio y
     // sigue siendo suya. Sin esto, un buff de alcance propio del warframe (Provoked, "+daño durante
     // bleedout") aterriza también acá, porque la marca `weapon` no distingue de quién es el arma.
-    ...weaponIntents([['companion_weapon', companion.weapon]], companion.uniqueName),
+    //
+    // El dueño se nombra por COORDENADA y no por su `uniqueName`, por la misma razón que el
+    // participante: el molde no distingue instancias. Con dos jugadores llevando el mismo compañero,
+    // un `owner` por molde vuelve a hacer que el buff propio de uno alcance el arma del otro — el
+    // mismo bug que este campo vino a cerrar, un nivel más arriba.
+    ...weaponIntents(at, [['companion_weapon', companion.weapon]], `${at}.companion`),
   ];
 }

@@ -42,8 +42,23 @@ export interface NodeProbe {
 }
 
 export interface Consumption {
-  /** Selecciona una entidad por su unique_name (id) — superficie de aserción de a un nodo. */
-  weapon(entityId: string): NodeProbe;
+  /**
+   * Selecciona un participante por su **molde** (`unique_name`) — la lente cómoda, y la que usa casi
+   * toda la suite: quien mide un build sabe qué arma equipó, no en qué coordenada quedó.
+   *
+   * ⚠️ Con varios participantes del mismo molde devuelve **el primero declarado**. Es una decisión,
+   * no un descuido: el caso vive del lado hostil (dos enemigos iguales) y ahí lo que se mide son
+   * habilidades, no armas. Cuando haga falta apuntar a uno en particular, la lente es `at()`.
+   */
+  weapon(uniqueName: string): NodeProbe;
+  /**
+   * Selecciona por **coordenada en la escena** (`squad.0.primary`, `hostile.1`) — la lente precisa.
+   *
+   * Existe desde el día uno de la identidad por posición y no cuando aparezca el primer caso: la
+   * alternativa era que `weapon()` cambiara de significado según cuántos participantes haya, que es
+   * exactamente la clave-que-cambia-de-forma que `OQ-ENGINE-36` registra como deuda a no imitar.
+   */
+  at(coordinate: string): NodeProbe;
   /**
    * Volcado crudo: todas las entidades resueltas con sus `AttributeNode` completos (finales + 4 buckets).
    * Es la **forma nativa de C** sin shaping — el consumidor (CLI/script) selecciona/formatea en su borde.
@@ -73,20 +88,32 @@ export function consume(
     snapshot(): SimulationEntity[] {
       return result.entities;
     },
-    weapon(entityId: string): NodeProbe {
-      const entity = result.entities.find(e => e.id === entityId);
-      if (!entity) throw new Error(`consume: entidad "${entityId}" no encontrada en el resultado`);
-
-      return {
-        node(attribute: AttributeId): AttributeNode {
-          const n = entity.attributes[attribute];
-          if (!n) throw new Error(`consume: nodo "${attribute}" ausente en "${entityId}"`);
-          return n;
-        },
-        trace(attribute: AttributeId): TraceStep[] {
-          return result.engine.getTrace(entityId, attribute).trace;
-        },
-      };
+    weapon(uniqueName: string): NodeProbe {
+      const entity = result.entities.find(e => e.unique_name === uniqueName);
+      if (!entity) throw new Error(`consume: entidad "${uniqueName}" no encontrada en el resultado`);
+      return probe(entity);
+    },
+    at(coordinate: string): NodeProbe {
+      const entity = result.entities.find(e => e.id === coordinate);
+      if (!entity) {
+        const habia = result.entities.map(e => e.id).join(', ');
+        throw new Error(`consume: coordenada "${coordinate}" no existe en la escena. Participantes: ${habia}`);
+      }
+      return probe(entity);
     },
   };
+
+  /** El probe es el mismo para las dos lentes: cambia cómo se elige la entidad, no qué se lee de ella. */
+  function probe(entity: SimulationEntity): NodeProbe {
+    return {
+      node(attribute: AttributeId): AttributeNode {
+        const n = entity.attributes[attribute];
+        if (!n) throw new Error(`consume: nodo "${attribute}" ausente en "${entity.id}"`);
+        return n;
+      },
+      trace(attribute: AttributeId): TraceStep[] {
+        return result.engine.getTrace(entity.id, attribute).trace;
+      },
+    };
+  }
 }

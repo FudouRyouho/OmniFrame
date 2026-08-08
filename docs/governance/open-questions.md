@@ -67,7 +67,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-33` | ¿El proc deja de ser un campo del tipo de daño? | engine / vocabulario + contrato core | abierta — **sin convergencia**; arrastra el bug `DT_RADIANT` |
 | `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **acotada**: *"esto es de aquel"* se declara y costó un campo (`owner`); las relaciones dirigidas siguen sin caso |
 | `OQ-ENGINE-35` | ¿Cuánta geometría necesita el escenario? — declara quiénes existen, no dónde están | engine / Capa A — escenario | abierta — **gated por consumidor**; ya hay distancia sin espacio donde medirla |
-| `OQ-ENGINE-36` | Claves derivadas que colisionan sin chequeo — dos de tres apariciones muertas | engine / identidad del participante | abierta — **sin gate**: la mudanza ya pasó; queda una decisión de radio ancho (la identidad de todo participante) |
+| `OQ-ENGINE-36` | Claves derivadas que colisionan sin chequeo — 3 de 4 apariciones muertas | engine / identidad de participante y de slot | abierta **sólo en slots** — el participante se identifica por su coordenada en la escena; la clave de slot sigue siendo `Record<number,T>` con guarda y sin forma |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -1994,8 +1994,8 @@ alcance, que es lo que absorbe los falsos casos), `../domains/engine/design/simu
 
 ---
 
-## OQ-ENGINE-36 — ¿Cómo se identifica lo que la intención declara? — **ABIERTA — gated por la mudanza de la hidratación a B**
-**Dominio:** engine / traducción A→B
+## OQ-ENGINE-36 — ¿Cómo se identifica lo que la intención declara? — **ABIERTA en su eje de SLOTS; el participante ya está cerrado**
+**Dominio:** engine / identidad del participante
 
 **La pregunta.** La traducción de la intención al ensemble deriva claves a partir del contenido —el
 `unique_name` para un participante, el índice parseado para un slot— y **ninguna de las dos escrituras
@@ -2003,29 +2003,42 @@ chequea si la clave ya existe**. El patrón es el mismo en ambos casos: *clave d
 colisionar, sin chequeo de colisión*. ¿La identidad se declara, se deriva de la posición, o el problema
 desaparece cuando la hidratación cambie de capa?
 
+✅ **Para el participante está contestado: se deriva de la posición, y la respuesta no costó una
+decisión de forma sino un cambio de cableado.** `EntityIntent` separa `entity_id` (la coordenada:
+`squad.0.primary`, `hostile.1`) de `unique_name` (el puntero al catálogo), y `createBaseEntity` —que
+recibe el molde— dejó de escribir el `id`. Eso era la causa: **el catálogo describe qué es algo, no
+quién es**, así que mientras la identidad salía de ahí, dos participantes del mismo ítem nacían
+iguales. Lo que sigue abierto es el eje de los slots (abajo).
+
 ### Las apariciones, medidas
 
-**Participantes homónimos** — el `entity_id` es el `unique_name`, que dice **qué es** un participante y
-no **quién es**. Dos Bombards declarados a niveles distintos comparten identidad, y toda estructura que
-los indexe por ahí los colapsa. Medido con el oráculo sobre `ENEMY_ADD_HEALTH_MAX`:
+**Participantes homónimos — ✅ CERRADO.** El `entity_id` era el `unique_name`, que dice **qué es** un
+participante y no **quién es**. Dos Bombards declarados a niveles distintos compartían identidad, y toda
+estructura que los indexara por ahí los colapsaba. Medido con el oráculo sobre `ENEMY_ADD_HEALTH_MAX`:
 
-| | corresponde | con el mapa de moldes | hoy |
-|---|---|---|---|
-| nivel 100 | base/final 86 416,38 | base 144 270,94 · final 144 270,94 | **base 86 416,38** · final 144 270,94 |
-| nivel 200 | base/final 144 270,94 | base 144 270,94 · final 144 270,94 | base 144 270,94 · final 144 270,94 |
+| | corresponde | con el mapa de moldes | con `id` = molde | hoy |
+|---|---|---|---|---|
+| nivel 100 | base/final 86 416,38 | base/final 144 270,94 | **base 86 416,38** · final 144 270,94 | **86 416,38 / 86 416,38** ✅ |
+| nivel 200 | base/final 144 270,94 | base/final 144 270,94 | base/final 144 270,94 | **144 270,94 / 144 270,94** ✅ |
 
-La columna del medio era `dnas[intent.entity_id]`, el `Record<string, MutatedDNA>` con el que el bridge
-le pasaba los moldes al hidratador: las dos entidades nacían de la misma DNA. **Ese mapa ya no existe** —
-no era un defecto de la clave sino el precio de recorrer el espacio dos veces (el bridge y el hidratador
-llamaban cada uno al poblador sobre el mismo escenario, y el mapa cruzaba de una pasada a la otra). Con una
-sola pasada el molde viaja sobre el intent (`MoldedIntent`) y no queda nada que indexar.
+Las dos columnas del medio son las dos causas que fueron cayendo, y **ninguna de las dos era una decisión
+de identidad**: `dnas[intent.entity_id]` era el precio de recorrer el espacio dos veces (murió al colapsar
+la doble pasada — el molde viaja sobre el intent), y el `id` sacado del molde era el precio de que **nadie
+tuviera asignado el trabajo de acuñar identidad**. Por descarte lo terminaba haciendo el catálogo, que es
+justamente el único que no puede: describe moldes.
 
-Lo que quedó a la vista es la aparición de fondo: **`SimulationEngine.entities` es un
-`Map<EntityId, SimulationEntity>`.** El segundo Bombard pisa al primero al registrarse y
-`mapCalculatedStats` le devuelve a ambos los stats del sobreviviente — de ahí el nodo de hoy, con `base`
-de un participante y `final` de otro sin un solo modifier que explique la diferencia. Sigue roto y dejó de
-ser silencioso: dos números plausibles e iguales no se distinguen de una medición correcta, `base ≠ final`
-con los cuatro buckets en cero no se puede leer como otra cosa.
+**Quién lo hace ahora:** el poblador (`space.ts`), que es el único que sabe dónde está parado cada
+participante. La coordenada ya estaba en la estructura de la `Scene` —tupla de cuatro puestos, lista para
+el hostil— y se descartaba al aplanar. Es el mismo patrón que `owner`: información que el poblador tiene y
+tiraba. El molde sobrevive como `unique_name`, y con eso la salida gana dos lentes: `weapon(molde)` para
+el caso 1:1 (la que usa casi toda la suite) y `at(coordenada)` cuando hay más de uno.
+
+**Estresado, no sólo arreglado:** dos hostiles a niveles distintos resuelven cada uno el suyo; al mismo
+nivel siguen siendo dos participantes (el caso traicionero, donde los números iguales hacían el colapso
+indistinguible de lo correcto); Corrosive Projection alcanza a los dos con `−18%` cada uno; y **el mismo
+molde con dos dueños** —el Deconstructor como primaria del jugador y como arma del compañero a la vez—
+son dos participantes de los que sólo el propio recibe el buff. Exámenes en `enemy.test.ts` §*Dos
+participantes del mismo ítem* y `unlanded-modifiers.test.ts`.
 
 **Slots con clave no entera** — `Record<number, …>` no existe en runtime: JavaScript pasa toda clave de
 objeto a string y un `.json` no tiene cómo escribir otra cosa, así que el tipo no atrapa nada de lo que
@@ -2049,24 +2062,20 @@ de válido**. El oráculo es el instrumento con el que se valida el motor contra
 número plausible y falso no corrompe código — corrompe una medición, y el modelo podría ajustarse para
 explicarlo.
 
-### Por qué no se resuelve ahora
+### Por qué el eje de slots no se cierra con el mismo movimiento
 
-**Porque lo que queda es identidad, y la identidad es lo último que se decide.** La traducción A→B que
-alojaba a las dos apariciones ya no existe: B dejó de re-shapear y pasó a poblar. Con eso murió la mitad
-ceremonial del problema —el `parseInt` que producía el `NaN`, y el mapa de moldes que colapsaba
-participantes homónimos— sin negociar la forma de ninguna clave.
-
-Lo que sobrevive es lo que **no era ceremonia**: que `entity_id` sea el `unique_name`, o sea el molde y
-no la instancia. Eso lo consumen `SimulationEngine.entities`, el `entityById` del ruteo, los ids de
-modifier, y los tests que seleccionan por molde (`espacio.find(e => e.id === BOMBARD)`, 3 veces en
-`enemy.test.ts`). Cambiarlo es tocar la identidad de todo participante, no una función de traducción.
-
-**Y la forma candidata no es una sola.** Que la identidad sea la
-posición vale para el squad —cuatro puestos, ley del juego— pero **no se traslada a los slots**: ahí la
-posición absoluta es de la UI (quién decide "acá van sólo exilus"), y la cantidad varía con el portador
-— Jade lleva dos auras y un exilus. Lo que el motor necesita de un slot **no es el hueco sino el orden**:
-el orden de la grilla determina la combinación elemental
+**Porque la forma que sirvió para el participante no se traslada.** Que la identidad sea la posición vale
+para el squad —cuatro puestos, ley del juego— y para el hostil —una lista sin tope—, pero **no para los
+slots**: ahí la posición absoluta es de la UI (quién decide "acá van sólo exilus"), y la cantidad varía
+con el portador — Jade lleva dos auras y un exilus. Lo que el motor necesita de un slot **no es el hueco
+sino el orden**: el orden de la grilla determina la combinación elemental
 (`../../references/wiki/mechanics/damage-types.md` §*Jerarquía de combinación*).
+
+Y el costo que se temía para el participante **no apareció**, por una razón que conviene registrar: el
+contrato ya llevaba los dos campos (`id` y `unique_name`) cableados al mismo origen, así que separarlos
+dejó las ~109 selecciones por molde de la suite intactas — sólo cambió qué campo consulta la lente. Lo
+que sí hubo que reapuntar fueron los **modifiers**, que estampaban el molde como `target_entity`: eso
+compila igual y no aterriza en nada, o sea que el typecheck no lo habría atrapado.
 
 ### Lo que ya está hecho, y lo que no
 
@@ -2074,27 +2083,23 @@ el orden de la grilla determina la combinación elemental
 espacio) tira sobre una clave no entera nombrando el portador y la clave; `unlanded-modifiers.test.ts`
 fija ese grito y `enemy.test.ts` lleva la colisión de participantes como test pendiente con sus números.
 
-**Y dos de las apariciones murieron sin negociar la forma.** El mapa de moldes se fue al colapsar la doble
-pasada sobre el espacio; el `parseInt` que producía el `NaN` se fue con la forma intermedia entera.
-Ninguno de los dos cambios decidió nada de lo que esta pregunta gatea. Es el patrón que vale la pena
-registrar: **una clave derivada puede no ser una decisión de identidad sino el precio de una duplicación
-o de una traducción**, y en ese caso desaparece sola cuando se cierra lo que la generaba. Antes de
-rediseñar una clave, conviene preguntar si existe porque algo se hace dos veces o se re-shapea sin
-necesidad. Lo que queda —`Map<EntityId, …>`— sí es identidad, y esa sigue gateada.
+**Tres de las cuatro apariciones murieron sin que nadie negociara una forma.** El mapa de moldes se fue al
+colapsar la doble pasada sobre el espacio; el `parseInt` que producía el `NaN` se fue con la forma
+intermedia; y la identidad del participante se resolvió leyendo una estructura que **ya existía en A** en
+vez de inventar una clave. Es el patrón que vale la pena registrar: **una clave derivada puede no ser una
+decisión de identidad sino el precio de una duplicación, de una traducción, o de un trabajo que nadie
+tiene asignado** — y en los tres casos desaparece cuando se cierra lo que la generaba. Antes de rediseñar
+una clave, conviene preguntar si existe porque algo se hace dos veces, se re-shapea sin necesidad, o
+porque una etapa está haciendo el trabajo de otra.
 
-Gritar es dejar de mentir, no resolver: **la forma que hace el estado imposible sigue pendiente**, y es lo
-que esta pregunta gatea.
+⚠️ **El precedente que NO se imita, y que ahora tiene contraejemplo propio.** El ruteo cross-banda de
+`StaticHydrator` desambigua condicionalmente (`targets.length > 1 ? id@entidad : id`): es una clave que
+**cambia de forma según cuántos haya**, y la colisión reaparece en cuanto algo compare claves entre
+escenarios. La coordenada hace lo contrario — un participante único se nombra igual que uno de varios.
 
-⚠️ **El precedente que NO se imita.** El ruteo cross-banda de `StaticHydrator` desambigua condicionalmente
-(`targets.length > 1 ? id@entidad : id`). Es una clave que **cambia de forma según cuántos haya**: el caso
-de uno y el de varios dejan de leerse igual, y la colisión reaparece en cuanto algo compare claves entre
-escenarios. Es deuda propia, no autoridad.
-
-**Condición de cierre:** que `entity_id` deje de ser el molde. Las dos condiciones anteriores —bajar la
-estructura de Capa A y sacar la forma intermedia del medio— **ya se cumplieron**, y lo que enseñaron es
-que buena parte de esta pregunta no era suya: se disolvió al cerrar la duplicación y la traducción. Lo
-que queda es una sola decisión y no está gateada por ningún refactor pendiente, sino por su propio radio:
-toca la identidad de todo participante y los tests que seleccionan por molde.
+**Condición de cierre del eje que queda:** que la clave de slot deje de ser un `Record<number, T>`, o que
+se decida explícitamente que la guarda alcanza. Hoy `assertSlotKeys` la vuelve ruidosa y el `it.todo` de
+`unlanded-modifiers.test.ts` lleva la forma pendiente.
 
 **No bloquea:** el modelado de mecánicas ni la medición contra el juego, mientras las guardas estén. **Vínculo:**
 `OQ-DATA-9` (el plano "0": A declara punteros, B/UI dereferencian — es la pregunta madre de la mudanza),

@@ -25,7 +25,8 @@ export class StaticHydrator {
    * (`MutatorBridge.attachMolds`); acá llegan los `MoldedIntent` ya poblados. Antes esta función
    * llamaba al poblador por su cuenta —segunda pasada sobre el mismo escenario— y leía los moldes de
    * un `Record<string, MutatedDNA>` que el bridge había llenado en la primera. El mapa existía sólo
-   * para cruzar de una pasada a la otra, y su clave era colisionable (`OQ-ENGINE-36`).
+   * para cruzar de una pasada a la otra, y su clave era el molde — colisionable entre participantes
+   * del mismo ítem (`OQ-ENGINE-36`).
    *
    * **Y ya no recibe un `Ensemble`.** Lo necesitaba por dos campos —los shards y las habilidades del
    * warframe— que eran lo único que no viajaba en el intent. Ahora viajan, y con eso la forma
@@ -46,6 +47,9 @@ export class StaticHydrator {
       const dna = intent.dna;
 
       const entity = this.createBaseEntity(dna, intent.profile_id);
+      // La identidad la trae el intent, no el molde: `createBaseEntity` construye lo que el
+      // participante ES y el espacio dice QUIÉN es (`space.ts` §`entity_id`).
+      entity.id = intent.entity_id;
       entity.channel = intent.channel;
       // Las marcas las declara el ESPACIO (`space.ts`), no el ítem: quién recibe qué es una
       // propiedad de participar, no de la taxonomía del arsenal.
@@ -58,7 +62,7 @@ export class StaticHydrator {
       Object.entries(intent.mods).forEach(([index_str, slot]) => {
         if (!slot.uniqueName) return;
         const index = parseInt(index_str);
-        const mod_modifiers = ModRepository.getModifiers(slot.uniqueName, dna.entity_id, slot.level || 0);
+        const mod_modifiers = ModRepository.getModifiers(slot.uniqueName, intent.entity_id, slot.level || 0);
 
         mod_modifiers.forEach(m => {
           // Add source info for Audit Trace
@@ -127,7 +131,7 @@ export class StaticHydrator {
       // `assertSlotKeys` la valida en el poblador, porque una clave rota no matchea y el perk
       // desaparecería sin decir nada.
       if (intent.evolutionPerks) {
-        const perk_mods = IncarnonRepository.getModifiers(intent.entity_id, intent.evolutionPerks, dna.entity_id);
+        const perk_mods = IncarnonRepository.getModifiers(intent.unique_name, intent.evolutionPerks, intent.entity_id);
         modifiers.push(...perk_mods);
       }
 
@@ -136,7 +140,7 @@ export class StaticHydrator {
       // Se leen por `Object.values`: la clave no participa de nada, por eso el poblador no la valida.
       if (intent.arcanes) {
         Object.values(intent.arcanes).forEach(arc => {
-          modifiers.push(...ArcaneRepository.getModifiers(arc.uniqueName, arc.rank, dna.entity_id));
+          modifiers.push(...ArcaneRepository.getModifiers(arc.uniqueName, arc.rank, intent.entity_id));
         });
       }
 
@@ -151,9 +155,9 @@ export class StaticHydrator {
       const isHeavyProfile = intent.profile_id.startsWith('heavy') && !!dna.profiles?.[intent.profile_id];
       if (dna.kind === 'melee' && isHeavyProfile) {
         modifiers.push({
-          id: `melee-combo:${dna.entity_id}`,
+          id: `melee-combo:${intent.entity_id}`,
           source_id: 'Intrinsic:MeleeCombo',
-          target_entity: dna.entity_id,
+          target_entity: intent.entity_id,
           target_attribute: 'WEAPON_ADD_DAMAGE',
           operation: 'MELEE_COMBO_MULT',
           melee_combo_factors: { count_var: 'melee_combo_count' },
@@ -169,9 +173,9 @@ export class StaticHydrator {
         const minCombo = prof?.min_combo;
         if (minCombo !== undefined) {
           modifiers.push({
-            id: `sniper-combo:${dna.entity_id}`,
+            id: `sniper-combo:${intent.entity_id}`,
             source_id: 'Intrinsic:SniperCombo',
-            target_entity: dna.entity_id,
+            target_entity: intent.entity_id,
             target_attribute: 'WEAPON_ADD_DAMAGE',
             operation: 'SNIPER_COMBO_MULT',
             sniper_combo_factors: { count_var: 'sniper_combo_count', min_combo: minCombo },
@@ -471,8 +475,14 @@ export class StaticHydrator {
     }
 
     return {
-      id: dna.entity_id,
-      unique_name: dna.entity_id,
+      // ⚠️ `id` NO se escribe acá y el molde no lo sabe. Esta función recibe un `MutatedDNA` —el
+      // catálogo— y el catálogo describe **qué es** algo, no **quién es**: dos participantes del
+      // mismo molde nacen del mismo DNA. Mientras el `id` salía de acá, la identidad de todo
+      // participante era su `unique_name` y el `Map<EntityId, …>` del motor los colapsaba.
+      // Quién es lo acuña el poblador (`space.ts`, la coordenada en la escena) y lo estampa
+      // `hydrate` sobre la entidad ya construida.
+      id: '',
+      unique_name: dna.unique_name,
       domain: dna.domain,
       kind: dna.kind,
       family: dna.family,

@@ -57,7 +57,10 @@ function text(r: AcquiredResult): void {
       for (const b of r.builds) {
         console.log(`\n######## NODES: ${b.name} — ${b.entities.length} entidad(es) ########`);
         for (const e of b.entities) {
-          console.log(`\n=== [${e.channel ?? '—'}] ${e.id}  (${e.domain}/${e.kind}) ===`);
+          // Las dos caras del participante: QUIÉN es (la coordenada) y QUÉ es (el molde). Mostrar
+          // sólo una deja el volcado ilegible en cuanto hay dos participantes del mismo ítem — que
+          // es justamente el caso que la coordenada vino a hacer posible.
+          console.log(`\n=== [${e.channel ?? '—'}] ${e.id} → ${e.unique_name}  (${e.domain}/${e.kind}) ===`);
           console.dir(e.attributes, { depth: null, maxArrayLength: null });
         }
       }

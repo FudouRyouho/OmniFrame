@@ -29,7 +29,7 @@ export function hostileEntity(query: string, level: number): SimulationEntity {
   if (!dna) throw new Error(`hostileEntity: "${query}" no existe en el catálogo de enemigos.`);
   const found = consume(hostileOnly(dna.unique_name, level), { flags: {} })
     .snapshot()
-    .find(e => e.id === dna.unique_name);
+    .find(e => e.unique_name === dna.unique_name);
   if (!found) throw new Error(`hostileEntity: "${query}" no resolvió a ninguna entidad.`);
   return found;
 }

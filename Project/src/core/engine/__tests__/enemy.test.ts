@@ -73,15 +73,24 @@ describe('Enemigo — la entidad', () => {
    */
   it('conserva el canal que le estampó el espacio — nadie lo re-escribe post-resolve', () => {
     const espacio = consume(valkyrWarcryTarget(), { flags: {} }).snapshot();
-    expect(espacio.find(e => e.id === BOMBARD)!.channel).toBe('enemy');
+    // Se busca por MOLDE (`unique_name`), no por `id`: el id es la coordenada en la escena
+    // (`hostile.0`, `squad.0.warframe`) y el molde es lo que el test sabe — qué enemigo declaró.
+    expect(espacio.find(e => e.unique_name === BOMBARD)!.channel).toBe('enemy');
     // Y los del loadout siguen con el suyo: el arreglo no cambia lo que ya funcionaba.
-    expect(espacio.find(e => e.id === VALKYR)!.channel).toBe('warframe');
+    expect(espacio.find(e => e.unique_name === VALKYR)!.channel).toBe('warframe');
     expect(espacio.every(e => e.channel !== undefined)).toBe(true);
+  });
+
+  /** La coordenada es la otra cara del mismo participante: quién es, no qué es. */
+  it('la identidad es la posición en la escena, no el molde', () => {
+    const espacio = consume(valkyrWarcryTarget(), { flags: {} }).snapshot();
+    expect(espacio.find(e => e.unique_name === BOMBARD)!.id).toBe('hostile.0');
+    expect(espacio.find(e => e.unique_name === VALKYR)!.id).toBe('squad.0.warframe');
   });
 
   it('no porta taxonomía de arsenal — un enemigo no es un ítem que se equipa', () => {
     const enemy = consume(valkyrWarcryTarget(), { flags: {} })
-      .snapshot().find(e => e.id === BOMBARD)!;
+      .snapshot().find(e => e.unique_name === BOMBARD)!;
     expect(enemy.domain).toBeUndefined();
     expect(enemy.kind).toBeUndefined();
     expect(enemy.tags).toContain('enemy');
@@ -120,37 +129,71 @@ describe('Enemigo — el buff del jugador no se filtra', () => {
 // ─── Dos participantes del mismo ítem: el segundo pisa al primero ──────────────────
 
 /**
- * BUG MEDIDO, no hipotético — alcanzable desde que el grupo Hostil es una lista.
+ * La conflación molde/instancia, cerrada — `OQ-ENGINE-36`.
  *
- * El `entity_id` **es el `uniqueName`** (`space.ts`): dice **qué es** un participante, no **quién es**.
- * Dos participantes del mismo ítem comparten identidad, y toda estructura que los indexe por ahí los
- * colapsa con el último ganando.
+ * **Qué la causaba, en una línea:** `createBaseEntity` recibía el `MutatedDNA` y escribía
+ * `id: dna.unique_name`. El catálogo describe **qué es** algo, no **quién es**, así que dos
+ * participantes del mismo ítem nacían con la misma identidad y `SimulationEngine.entities`
+ * —un `Map<EntityId, …>`— los colapsaba: el segundo pisaba al primero al registrarse y
+ * `mapCalculatedStats` le devolvía a AMBOS los stats del sobreviviente.
  *
- * Reproducido con el oráculo declarando dos Bombards, lvl 100 y lvl 200 (`ENEMY_ADD_HEALTH_MAX`):
+ * Medido con el oráculo, dos Bombards a lvl 100 y 200 (`ENEMY_ADD_HEALTH_MAX`):
  *
- *            corresponde        cuando el molde se leía de un mapa      HOY
- *   lvl 100  base/final 86416   base 144270 · final 144270              base  86416 · final 144270
- *   lvl 200  base/final 144270  base 144270 · final 144270              base 144270 · final 144270
+ *            corresponde        el molde de un mapa compartido   con id = molde   HOY
+ *   lvl 100  base/final 86416   base/final 144270                base 86416 · final 144270   ✅
+ *   lvl 200  base/final 144270  base/final 144270                base/final 144270           ✅
  *
- * La columna del medio era el `Record<string, MutatedDNA>` que el bridge llenaba para el hidratador:
- * las dos entidades nacían de la MISMA DNA. Ese mapa ya no existe —el molde viaja sobre el intent, una
- * sola pasada— y por eso el frame-0 de cada participante ahora es el suyo.
+ * Las dos columnas del medio son las dos apariciones que ya habían muerto: el
+ * `Record<string, MutatedDNA>` que hacía nacer a los dos de la misma DNA (era el precio de recorrer
+ * el espacio dos veces) y la identidad por molde (era el precio de que nadie acuñara identidad).
  *
- * **Lo que queda es la resolución.** `SimulationEngine.entities` es un `Map<EntityId, …>`: el segundo
- * Bombard pisa al primero al registrarse, y `mapCalculatedStats` le devuelve a AMBOS los stats del que
- * sobrevivió. De ahí el resultado de hoy — un nodo con `base` de un participante y `final` de otro, sin
- * un solo modifier que explique la diferencia.
+ * **Quién la acuña ahora:** el poblador, con la coordenada en la escena — la estructura de la
+ * `Scene` ya la contenía y se descartaba al aplanar. El molde sigue disponible como `unique_name`.
  *
- * Que sea inconsistente es **mejor que antes**, y no por elegancia: dos números plausibles e iguales no
- * se distinguen de una medición correcta; `base ≠ final` con los cuatro buckets en cero no se puede
- * leer como otra cosa que un bug. Sigue roto, dejó de ser silencioso.
- *
- * El arreglo NO es el sufijo condicional del ruteo cross-banda de `StaticHydrator`
- * (`targets.length > 1 ? `${m.id}@${id}` : m.id`): esa clave cambia de forma según cuántos haya, y es
- * deuda propia registrada en `OQ-ENGINE-36`, no autoridad a imitar. Lo que corresponde es que el
- * `entity_id` deje de ser el molde y pase a ser la coordenada del participante en la escena.
+ * ⚠️ La coordenada NO imita el sufijo condicional del ruteo cross-banda
+ * (`targets.length > 1 ? id@entidad : id`): esa clave cambia de forma según cuántos haya. Un
+ * participante único se nombra igual que uno de varios.
  */
-it.todo('dos hostiles del mismo tipo a niveles distintos resuelven cada uno el suyo');
+describe('Dos participantes del mismo ítem — la identidad es la posición', () => {
+  const dosBombards = (lvlA: number, lvlB: number) => ({
+    squad: [{ kind: 'onfoot' as const, warframe: { uniqueName: VALKYR, rank: 30 } }] as const,
+    hostile: [{ uniqueName: BOMBARD, level: lvlA }, { uniqueName: BOMBARD, level: lvlB }],
+  });
+
+  it('a niveles distintos, cada uno resuelve el suyo — y `base === final` sin modifiers', () => {
+    const out = consume(dosBombards(100, 200) as never, { flags: {} });
+
+    const a = out.at('hostile.0').node('ENEMY_ADD_HEALTH_MAX');
+    const b = out.at('hostile.1').node('ENEMY_ADD_HEALTH_MAX');
+    expect(a.base).toBeCloseTo(86416.38, 2);
+    expect(a.final).toBeCloseTo(86416.38, 2);   // ← era 144270: el final del sobreviviente
+    expect(b.base).toBeCloseTo(144270.94, 2);
+    expect(b.final).toBeCloseTo(144270.94, 2);
+  });
+
+  /**
+   * El caso traicionero: al MISMO nivel los dos números son idénticos, así que el resultado colapsado
+   * era indistinguible de uno correcto. Lo que se afirma acá no es el valor — es que existan DOS.
+   */
+  it('al mismo nivel siguen siendo dos participantes, no uno', () => {
+    const espacio = consume(dosBombards(100, 100) as never, { flags: {} }).snapshot();
+    const hostiles = espacio.filter(e => e.unique_name === BOMBARD);
+    expect(hostiles).toHaveLength(2);
+    expect(hostiles.map(e => e.id)).toEqual(['hostile.0', 'hostile.1']);
+  });
+
+  /** La lente por molde es ambigua acá y devuelve el primero — decisión declarada, no descuido. */
+  it('`weapon()` con molde repetido devuelve el primero; `at()` desambigua', () => {
+    const out = consume(dosBombards(100, 200) as never, { flags: {} });
+    expect(out.weapon(BOMBARD).node('ENEMY_ADD_HEALTH_MAX').final)
+      .toBe(out.at('hostile.0').node('ENEMY_ADD_HEALTH_MAX').final);
+  });
+
+  it('una coordenada que no existe nombra las que sí — no devuelve `undefined` en silencio', () => {
+    const out = consume(dosBombards(100, 200) as never, { flags: {} });
+    expect(() => out.at('hostile.7')).toThrow(/hostile\.7.*Participantes:.*hostile\.1/s);
+  });
+});
 
 // ─── El debuff cross-entity: hasta dónde llega hoy ─────────────────────────────────
 
@@ -173,7 +216,7 @@ describe('Corrosive Projection — el debuff que sale del warframe hacia el enem
   /**
    * LA RUPTURA QUE ESTOS TESTS CIERRAN — el modifier se quedaba donde nació.
    *
-   * `ModRepository.getModifiers(mod_id, dna.entity_id, ...)` hornea el portador como `target_entity`,
+   * `ModRepository.getModifiers(mod_id, intent.entity_id, ...)` hornea el portador como `target_entity`,
    * y la pasada de ruteo de `StaticHydrator` sólo lo movía bajo **una condición hardcodeada**:
    * `holder.domain === 'weapon' && token.startsWith('AVATAR_')` — el parche de Amalgam Serration y
    * Dispatch Overdrive. Corrosive Projection no matchea (portador warframe, token `ENEMY_*`), así

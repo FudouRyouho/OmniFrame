@@ -264,6 +264,31 @@ describe('Ruteo warframe → arma — la baja, su acotación y lo que queda sin 
     expect(out.weapon(DECONSTRUCTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
   });
 
+  /**
+   * El caso que estresa identidad y propiedad a la vez: **el mismo molde en dos dueños distintos**.
+   * El Deconstructor entra como primaria del jugador Y como arma del compañero — dos participantes,
+   * un solo `unique_name`. Mientras la identidad fue el molde, esto colapsaba a una sola entidad y
+   * la pregunta ni se podía formular.
+   */
+  it('el mismo molde con dos dueños son dos participantes, y sólo el propio recibe el buff', () => {
+    const build = scene({
+      kind: 'onfoot',
+      warframe: { uniqueName: RHINO, rank: 30, mods: { 0: { uniqueName: PROVOKED, level: 10 } } },
+      weapons: { primary: { uniqueName: DECONSTRUCTOR_PRIME, rank: 30 } },
+      companion: {
+        uniqueName: ADARZA_KAVAT, rank: 30,
+        weapon: { uniqueName: DECONSTRUCTOR_PRIME, rank: 30 },
+      },
+    });
+    const out = consume(build, { flags: {} });
+
+    expect(out.at('squad.0.primary').node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(110);
+    expect(out.at('squad.0.companion_weapon').node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
+    // Y el molde sigue siendo el mismo en las dos: lo que cambia es quién es cada una.
+    const iguales = out.snapshot().filter(e => e.unique_name === DECONSTRUCTOR_PRIME);
+    expect(iguales.map(e => e.id)).toEqual(['squad.0.primary', 'squad.0.companion_weapon']);
+  });
+
   // ─── Caso (c): el dato declara el gap en vez de dejar que la regla mida de más ────────
   //
   // Rifle Amp es el que prueba por qué (c) no se puede "aproximar al slot": con la regla espejo
@@ -391,7 +416,10 @@ describe('Participantes — lo declarado no se evapora', () => {
     // Sin warframe declarado: en la forma nueva no hay "slot vacío" que poner en null — se omite.
     const build = scene({ kind: 'onfoot', weapons: { primary: { uniqueName: TIBERON_PRIME, rank: 30 } } });
     const out = consume(build, { flags: {} });
-    expect(out.snapshot().map((e: { id: string }) => e.id)).toEqual([TIBERON_PRIME]);
+    // El id es la COORDENADA: el arma quedó en el slot de primaria del jugador 0. El molde sigue
+    // disponible como atributo, y es lo que la lente `weapon()` consulta.
+    expect(out.snapshot().map((e: { id: string }) => e.id)).toEqual(['squad.0.primary']);
+    expect(out.snapshot().map((e: { unique_name: string }) => e.unique_name)).toEqual([TIBERON_PRIME]);
   });
 
   // ─── El vehículo declarado: de "no lo modelamos" a "falta cargar el dataset" ──
@@ -413,7 +441,7 @@ describe('Participantes — lo declarado no se evapora', () => {
       kind: 'archwing',
       archgun: { uniqueName: '/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun', rank: 30 },
     });
-    expect(() => consume(build, { flags: {} })).toThrow(/canal "archgun".*no tiene DNA en los datasets cargados/s);
+    expect(() => consume(build, { flags: {} })).toThrow(/squad\.0\.archgun.*no tiene DNA en los datasets cargados/s);
   });
 
   // ─── El campo que la variante no alcanza ──────────────────────────────────────
@@ -439,7 +467,10 @@ describe('Participantes — lo declarado no se evapora', () => {
     });
     const out = consume(build, { flags: {} });
 
-    expect(out.snapshot().map((e: { id: string }) => e.id)).toEqual([ADARZA_KAVAT, DECONSTRUCTOR_PRIME]);
+    expect(out.snapshot().map((e: { id: string }) => e.id))
+      .toEqual(['squad.0.companion', 'squad.0.companion_weapon']);
+    expect(out.snapshot().map((e: { unique_name: string }) => e.unique_name))
+      .toEqual([ADARZA_KAVAT, DECONSTRUCTOR_PRIME]);
     // …y no entra vacía: hidrata sus propios stats, no los del compañero que la porta.
     expect(out.weapon(DECONSTRUCTOR_PRIME).node('WEAPON_ADD_IMPACT_DAMAGE').base).toBe(160);
   });

@@ -65,9 +65,13 @@ export function acquire(q: OracleQuery): AcquiredResult {
       const c = consume(resolveSubject(q.subject), { flags: {} }, { trace: true });
       const node = q.node as string; // dispatch garantiza --node presente para trace
       // Sobre la entidad que POSEE el nodo (no la primera weapon): traza warframes (AVATAR_*)
-      // igual que armas, y desambigua builds multi-entidad. `weapon()` selecciona por id, cualquier domain.
+      // igual que armas, y desambigua builds multi-entidad.
+      //
+      // Se selecciona con `at()` y no con `weapon()`: acá ya se tiene la entidad, así que lo que
+      // corresponde es su coordenada. `weapon()` busca por molde y con dos participantes del mismo
+      // ítem devolvería el primero — que no es necesariamente el que tiene el nodo.
       const entity = entityWithNode(c.snapshot(), node, q.subject);
-      return { lens: 'trace', build: q.subject, entityId: entity.id, node, steps: c.weapon(entity.id).trace(node) };
+      return { lens: 'trace', build: q.subject, entityId: entity.id, node, steps: c.at(entity.id).trace(node) };
     }
 
     case 'enemy': {

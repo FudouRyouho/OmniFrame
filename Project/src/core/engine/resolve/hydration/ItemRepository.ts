@@ -93,7 +93,7 @@ export class ItemRepository {
     extra: Partial<MutatedDNA> = {},
   ): MutatedDNA {
     return {
-      entity_id: raw.unique_name,
+      unique_name: raw.unique_name,
       ...(raw.domain ? { domain: raw.domain } : {}),
       ...(raw.kind   ? { kind:   raw.kind   } : {}),
       ...(raw.family ? { family: raw.family } : {}),

@@ -76,7 +76,13 @@ export interface SimulationEntity {
 }
 
 export interface MutatedDNA {
-  entity_id: EntityId;
+  /**
+   * El **puntero al catálogo**, no una identidad de participante. Se llamaba `entity_id` y estaba
+   * tipado `EntityId`, y las dos cosas mentían: un molde describe *qué es* algo y por definición no
+   * distingue dos instancias suyas. Mientras la entidad copiaba este campo como su `id`, dos
+   * participantes del mismo ítem nacían iguales (`OQ-ENGINE-36`). Quién es lo acuña el espacio.
+   */
+  unique_name: string;
   /** Ver `SimulationEntity.domain`: sólo los participantes que son ítems del arsenal la tienen. */
   domain?: ItemDomain;
   kind?: ItemKind;

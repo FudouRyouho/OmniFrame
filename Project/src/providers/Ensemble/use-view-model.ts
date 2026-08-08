@@ -36,7 +36,9 @@
  *
  * ── CONDICIÓN DE REANUDACIÓN (no una fecha) ─────────────────────────────────────────────
  *
- * `ViewModelContract` estable, después de que la dereferencia se mude de C a B (`OQ-ENGINE-36`).
+ * `ViewModelContract` estable y el store escribiendo `Scene`. La condición que citaba a
+ * `OQ-ENGINE-36` ya no aplica: la dereferencia se mudó y la identidad del participante es su
+ * coordenada en la escena. Lo que falta es la migración del store, que es trabajo de A→D1.
  * D es el borde por el que la UI debe reconectarse — **no el store**. Reconectarla contra `Scene`
  * directamente sería repetir el salto de capa que la dejó así.
  */
@@ -56,7 +58,7 @@ export function useViewModel(): ViewModelContract {
     'La Capa A es `Scene` (@shared/types/scene) y el store todavía escribe `EnsembleIntention`.\n' +
     'Pero el motivo no es la migración: la UI nunca consumió D — `HudHeader` lee `intention.items`\n' +
     'crudo, saltándose `project()`. Reconectar antes de cerrar A y B es reescribir ese salto dos veces.\n\n' +
-    'Reanudar cuando `ViewModelContract` sea estable, tras mudar la dereferencia de C a B\n' +
-    '(OQ-ENGINE-36). El motor se opera mientras tanto por el oráculo (D2): `npm run oracle`.',
+    'Reanudar cuando `ViewModelContract` sea estable y el store escriba `Scene`.\n' +
+    'El motor se opera mientras tanto por el oráculo (D2): `npm run oracle`.',
   );
 }
