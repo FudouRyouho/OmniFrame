@@ -17,6 +17,7 @@
  */
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
+import { scene, player, withBearer } from '@shared/types/scene-compose';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { valkyr, valkyrWarcry, valkyrWarcryCompanion, ADARZA_KAVAT, VALKYR } from '../fixtures/builds';
@@ -56,7 +57,7 @@ describe('Warcry sobre el compañero — el ruteo por marca', () => {
   });
 
   it('sin la habilidad, el compañero no se mueve', () => {
-    const sinWarcry = { ...valkyr(), items: { ...valkyr().items, companion: { itemId: ADARZA_KAVAT, rank: 30 } } };
+    const sinWarcry = scene(withBearer(player(valkyr()), 'companion', { uniqueName: ADARZA_KAVAT, rank: 30 }));
     expect(pet(sinWarcry).node('AVATAR_ADD_ARMOUR').final).toBe(300);
   });
 });

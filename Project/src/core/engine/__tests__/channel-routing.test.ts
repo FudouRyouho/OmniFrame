@@ -20,6 +20,7 @@
  */
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
+import { onPlayer, withMods } from '@shared/types/scene-compose';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { voltChannelArcanes, VOLT, TIBERON_PRIME, NIKANA_PRIME } from '../fixtures/builds';
@@ -130,16 +131,14 @@ describe('familia — un mod de arma cuyo token pertenece al warframe', () => {
   const AMALGAM  = '/Lotus/Upgrades/Mods/DualSource/Rifle/SerratedRushMod';
 
   it('Dispatch Overdrive (melee) sube su Movement Speed al warframe', () => {
-    const build: any = voltChannelArcanes();
-    build.mods = { melee: { 0: { itemId: DISPATCH, rank: 5, level: 5 } } };
+    const build = onPlayer(voltChannelArcanes(), p => withMods(p, 'melee', { 0: { uniqueName: DISPATCH, level: 5 } }));
     const mov = consume(build, ON).weapon(VOLT).node('AVATAR_ADD_MOVEMENT_SPEED');
     expect(mov.mods_add_pct).toBeCloseTo(60, 5);
     expect(mov.final).toBeCloseTo(1.6, 5);
   });
 
   it('la melee NO se queda el nodo de avatar (el salto mueve, no copia)', () => {
-    const build: any = voltChannelArcanes();
-    build.mods = { melee: { 0: { itemId: DISPATCH, rank: 5, level: 5 } } };
+    const build = onPlayer(voltChannelArcanes(), p => withMods(p, 'melee', { 0: { uniqueName: DISPATCH, level: 5 } }));
     const out = consume(build, ON);
     expect(() => out.weapon(NIKANA_PRIME).node('AVATAR_ADD_MOVEMENT_SPEED')).toThrow(/ausente/);
   });
@@ -147,8 +146,7 @@ describe('familia — un mod de arma cuyo token pertenece al warframe', () => {
   // Amalgam Serration es el caso de doble destino: su daño se queda en el rifle y su sprint
   // sube. Que el salto NO se lleve puesto el stat que sí pertenece al arma es el punto.
   it('un mod de dos stats reparte: el daño queda en el arma, el avatar sube', () => {
-    const build: any = voltChannelArcanes();
-    build.mods = { primary: { 0: { itemId: AMALGAM, rank: 10, level: 10 } } };
+    const build = onPlayer(voltChannelArcanes(), p => withMods(p, 'primary', { 0: { uniqueName: AMALGAM, level: 10 } }));
     const out = consume(build, ON);
     // el arcano de la fixture ya aporta 180 al rifle; el Amalgam suma sus 155 encima
     expect(out.weapon(TIBERON_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBeCloseTo(335, 5);

@@ -22,18 +22,20 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import type { EnsembleIntention } from '@shared/types/ensemble';
-import { felarx, felarxItems, FELARX, GALVANIZED_SAVVY, GALVANIZED_HELL, galvanizedStacksVar, TOXIC_BARRAGE, NO_HOSTILE } from '../fixtures/builds';
+import type { Scene } from '@shared/types/scene';
+import { felarx, onfoot, modSlots, FELARX, FELARX_PERKS, GALVANIZED_SAVVY, GALVANIZED_HELL, galvanizedStacksVar, TOXIC_BARRAGE } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
 const GH_STACKS = galvanizedStacksVar(GALVANIZED_HELL);
 
-type Slots = Record<number, { itemId: string; rank: number; level: number }>;
+type Slots = Record<number, { itemId: string; level: number }>;
 
 /** Solo perks + los status mods dados — aísla la fórmula per-pellet (micro-fixture del test). */
-function felarxStatus(statusMods: Slots): EnsembleIntention {
-  return { items: felarxItems('base'), mods: { primary: statusMods }, hostile: NO_HOSTILE };
+function felarxStatus(statusMods: Slots): Scene {
+  return onfoot({
+    primary: { uniqueName: FELARX, rank: 30, activeProfile: 'base', evolutionPerks: FELARX_PERKS, mods: modSlots(statusMods) },
+  });
 }
 
 const fullBase   = (profile = 'base') => consume(felarx(profile), { flags: {} }).weapon(FELARX);
@@ -99,13 +101,13 @@ describe('Felarx — status per-pellet (flat ÷ multishot en total_flat)', () =>
     expect(n.final).toBeCloseTo(10.5, 1);
   });
   it('+Toxic Barrage +60%: mods_add_pct 60, total_flat 5 → 13.8', () => {
-    const n = statusOnly({ 0: { itemId: TOXIC_BARRAGE, rank: 30, level: 3 } }).node('WEAPON_ADD_STATUS_CHANCE');
+    const n = statusOnly({ 0: { itemId: TOXIC_BARRAGE, level: 3 } }).node('WEAPON_ADD_STATUS_CHANCE');
     expect(n.mods_add_pct).toBeCloseTo(60, 1);
     expect(n.total_flat).toBeCloseTo(5, 1);
     expect(n.final).toBeCloseTo(13.8, 1);
   });
   it('+Galvanized Savvy +80%: mods_add_pct 80, total_flat 5 → 14.9 (coincide con Arsenal)', () => {
-    const n = statusOnly({ 0: { itemId: GALVANIZED_SAVVY, rank: 30, level: 10 } }).node('WEAPON_ADD_STATUS_CHANCE');
+    const n = statusOnly({ 0: { itemId: GALVANIZED_SAVVY, level: 10 } }).node('WEAPON_ADD_STATUS_CHANCE');
     expect(n.mods_add_pct).toBeCloseTo(80, 1);
     expect(n.total_flat).toBeCloseTo(5, 1);
     expect(n.final).toBeCloseTo(14.9, 1);

@@ -1,19 +1,19 @@
 /**
- * Boca de intención parcial (Trabajo 2a): un `EnsembleIntention` a medias se completa mergeándolo
- * sobre `INITIAL_INTENTION` (el skeleton canónico compartido con el EnsembleStore). El equivalente,
+ * Boca de escena parcial (Trabajo 2a): una `Scene` a medias se completa mergeándola
+ * sobre `EMPTY_SCENE` (el skeleton canónico compartido con el EnsembleStore). El equivalente,
  * para el CLI, del hook que en la UI mantiene y completa el ensemble — acá es stateless/one-shot.
  * Ver `docs/domains/oracle/design/architecture.md` §2 y §4.
  *
  * Nota de type-erasure: `DeepPartial` es guía de compilación; el JSON externo entra `unknown` y se
  * castea laxo (validación robusta diferida — function-first). El completado lo hace el merge, no el tipo.
  */
-import { INITIAL_INTENTION, type EnsembleIntention } from '@shared/types/ensemble';
+import { EMPTY_SCENE, type Scene } from '@shared/types/scene';
 
 export type DeepPartial<T> = T extends object ? { [K in keyof T]?: DeepPartial<T[K]> } : T;
 
-/** Completa un parcial sobre el skeleton canónico. No muta `INITIAL_INTENTION`. */
-export function ensembleFromPartial(patch: DeepPartial<EnsembleIntention>): EnsembleIntention {
-  return deepMerge(structuredClone(INITIAL_INTENTION), patch) as EnsembleIntention;
+/** Completa un parcial sobre el skeleton canónico. No muta `EMPTY_SCENE`. */
+export function sceneFromPartial(patch: DeepPartial<Scene>): Scene {
+  return deepMerge(structuredClone(EMPTY_SCENE), patch) as Scene;
 }
 
 /** Merge profundo: objetos plano → recursivo; array/primitivo/null del patch → reemplaza; `undefined` → base gana. */

@@ -14,11 +14,11 @@
  * es genérico: una sola implementación sirve a todos los consumidores. Un test
  * dedicado = una intención distinta + sus aserciones.
  *
- *   const dmg = consume(intention).weapon(BOLTOR).node('WEAPON_ADD_DAMAGE');
+ *   const dmg = consume(scene).weapon(BOLTOR).node('WEAPON_ADD_DAMAGE');
  *   expect(dmg.base_flat).toBe(4);        // qué/dónde (lógica)
  *   expect(dmg.final).toBeCloseTo(132.5); // resultado (estabilidad)
  *   // ...al final, por debug (nota el { trace: true } — opt-in, Fase 3):
- *   console.table(consume(intention, undefined, { trace: true }).weapon(BOLTOR).trace('WEAPON_ADD_DAMAGE'));
+ *   console.table(consume(scene, undefined, { trace: true }).weapon(BOLTOR).trace('WEAPON_ADD_DAMAGE'));
  *
  * (i)  `node()`  → el AttributeNode completo: base + 4 buckets + final. Superficie de aserción limpia.
  * (ii) `trace()` → el trace por modifier (source, op, impact). Procedencia para debug;
@@ -29,7 +29,7 @@
  */
 import { MutatorBridge, type SimulateOptions } from '../../bridge/MutatorBridge';
 import type { AttributeNode, AttributeId, SimulationContext, TraceStep, SimulationEntity } from '../contracts';
-import type { EnsembleIntention } from '@shared/types/ensemble';
+import type { Scene } from '@shared/types/scene';
 
 export interface NodeProbe {
   /** (i) El nodo decompuesto: base, base_flat, mods_add_pct, total_flat, multiplicative, final. */
@@ -62,12 +62,12 @@ export interface Consumption {
  *                 apagado por default (Fase 3: opt-in, el path UI nunca lo lee).
  */
 export function consume(
-  intention: EnsembleIntention,
+  scene: Scene,
   context?: Partial<SimulationContext>,
   options?: SimulateOptions
 ): Consumption {
   const bridge = new MutatorBridge();
-  const result = bridge.simulateFromIntention(intention, context, options);
+  const result = bridge.simulateFromScene(scene, context, options);
 
   return {
     snapshot(): SimulationEntity[] {

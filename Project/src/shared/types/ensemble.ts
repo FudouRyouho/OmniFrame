@@ -1,7 +1,18 @@
 /**
  * @domain Shared / Providers / Ensemble
- * @description Contrato de "Intención" para el EnsembleStore.
- * Solo almacena IDs y estados mínimos de configuración, no datos de items.
+ * @deprecated FORMA ESTACIONADA — el contrato vivo de Capa A es `Scene` (`./scene.ts`).
+ *
+ * Sobrevive porque el **store y la UI** todavía la escriben, y esa reconexión está gated
+ * (`use-view-model.ts` §Condición de reanudación). El motor entero —bridge, fixtures, oráculo,
+ * tests— ya consume `Scene`: nadie del lado del cálculo lee esto.
+ *
+ * NO ES una forma alternativa que convivan dos capas: es la forma vieja de un consumidor
+ * desconectado, esperando su turno. Lo que la mata es reconectar la UI por D, no por el store.
+ *
+ * Lo que `Scene` corrige y esto no puede:
+ *   · `mods[canal]` podía existir con `items[canal].itemId === null` — nada las ataba
+ *   · el bridge leía 5 de los 10 canales; los otros 5 desaparecían en silencio
+ *   · `ModIntention extends SlotIntention` arrastraba un `rank` vacío para mods
  */
 
 export interface ArchonShardIntent {

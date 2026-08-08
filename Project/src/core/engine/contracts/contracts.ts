@@ -120,9 +120,9 @@ export interface Ensemble {
    * en silencio en 157 corridas de la suite. Es el mismo criterio que esta interfaz ya aplica a
    * `weapons.*`, `companion` y `hostiles`: lo que no se declara, no participa.
    *
-   * NB: el que sigue siendo total y cerrado es `EnsembleIntention.items` (A1, los diez slots del
-   * arsenal, vacíos con `itemId: null`). Eso declara **qué tengo**; esto declara **quién participa**,
-   * y son dos vocabularios distintos — ver `@shared/types/ensemble.ts` §EquipmentChannel.
+   * NB: `Scene` declara **quién participa**; esto es lo que B produce a partir de eso. La tabla de
+   * diez canales que declaraba **qué tengo** murió con `EnsembleIntention` — una tabla se puede
+   * recorrer a medias (el bridge leía 5 de 10), una unión discriminada no.
    */
   warframe?: {
     id: string;

@@ -14,12 +14,12 @@ import { deriveInstance } from '../simulate/combat/damage-instance';
 import { damageTypeFromToken } from '../contracts/damage-logic';
 import { cedo, lanka, BUILDS } from '../fixtures/builds';
 import type { SimulationEntity } from '../contracts';
-import type { EnsembleIntention } from '@shared/types/ensemble';
+import type { Scene } from '@shared/types/scene';
 
 await loadEngineData(new NodeAdapter());
 
-function weaponOf(intention: EnsembleIntention): SimulationEntity {
-  const e = consume(intention, { flags: {} }).snapshot().find((x) => x.domain === 'weapon');
+function weaponOf(s: Scene): SimulationEntity {
+  const e = consume(s, { flags: {} }).snapshot().find((x) => x.domain === 'weapon');
   if (!e) throw new Error('seam test: el build no tiene entidad de arma');
   return e;
 }

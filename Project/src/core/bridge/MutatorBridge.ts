@@ -4,7 +4,7 @@
  * @status en-desarrollo
  */
 import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../engine/contracts";
-import type { EnsembleIntention, EquipmentChannel } from "@shared/types/ensemble";
+import type { Scene, PlayerIntent, WeaponIntent as SceneWeapon, Bearer, SlotMap, ModIntent, ArcaneIntent } from "@shared/types/scene";
 import { populateFromLoadout } from "../engine/resolve/hydration/space";
 import { BASELINE_GAME_LAWS } from "../engine/contracts";
 import { DnaRepository } from "../engine/resolve/hydration/DnaRepository";
@@ -24,13 +24,13 @@ export interface SimulateOptions {
 
 export class MutatorBridge {
 
-  /** Vía canónica — acepta EnsembleIntention tipada desde EnsembleStore. */
-  public simulateFromIntention(
-    intention: EnsembleIntention,
+  /** Vía canónica — acepta la `Scene` (Capa A). */
+  public simulateFromScene(
+    scene: Scene,
     context?: Partial<SimulationContext>,
     options?: SimulateOptions
   ): SimulationResult {
-    const ensemble = this.ensembleFromIntention(intention);
+    const ensemble = this.ensembleFromScene(scene);
     return this.runSimulation(ensemble, context, options);
   }
 
@@ -77,62 +77,101 @@ export class MutatorBridge {
   }
 
   // ---------------------------------------------------------------------------
-  // Traducción: EnsembleIntention → Ensemble (vía canónica)
+  // Traducción: Scene → Ensemble
   // ---------------------------------------------------------------------------
 
-  private ensembleFromIntention(intention: EnsembleIntention): Ensemble {
-    const warframeSlot = intention.items.warframe;
-    const shards = (warframeSlot.shards || [])
-      .filter(s => s.effectId !== null && s.shardType !== null)
-      .map(s => ({ type: s.shardType as string, stat: s.effectId as string, is_tau: s.isTauforged }));
-
+  private ensembleFromScene(scene: Scene): Ensemble {
     return {
-      // Sin default inventado, igual que las armas, el compañero y los hostiles: si no se declaró
-      // warframe, no hay participante warframe. El `|| "warframe/excalibur"` que vivía acá era un id
-      // que NO EXISTE en `warframes.json` (ni como `id` ni como `unique_name`) — se hidrataba a nada
-      // y el descarte silencioso lo tapaba. Medir un arma sola es caso real del CLI, no un borde.
-      ...(warframeSlot.itemId
-        ? { warframe: {
-              id: warframeSlot.itemId,
-              rank: warframeSlot.rank,
-              slots: this.intentionSlots(intention, "warframe"),
-              shards,
-              arcanes: this.intentionArcanes(intention, "warframe"),
-              abilities: (warframeSlot.abilities || []).map(a => ({ ability_id: a.id, rank: a.rank })),
-              helminth: undefined
-            } }
+      ...this.squadToEnsemble(scene.squad[0]),
+      // El grupo Hostil se DECLARA, no se equipa — por eso viaja aparte del loadout. Traducción 1:1
+      // y sin default inventado: si no se declaró contra quién, no hay participantes hostiles.
+      ...(scene.hostile.length > 0
+        ? { hostiles: scene.hostile.map(h => ({ id: h.uniqueName, level: h.level })) }
         : {}),
-      weapons: {
-        primary:   this.intentionWeapon(intention, "primary"),
-        secondary: this.intentionWeapon(intention, "secondary"),
-        melee:     this.intentionWeapon(intention, "melee"),
-      },
-      ...(intention.items.companion?.itemId
-        ? { companion: {
-              id: intention.items.companion.itemId,
-              slots: this.intentionSlots(intention, "companion"),
-            } }
-        : {}),
-      // El grupo Hostil sale de `hostile` — A2 — y NO de `items`, que es A1: un enemigo se declara,
-      // no se equipa. Traducción 1:1, sin default inventado: si el usuario no declaró a quién
-      // enfrentar, no hay participantes hostiles, y `space.ts` puebla cero.
-      ...(intention.hostile.length > 0
-        ? { hostiles: intention.hostile.map(h => ({ id: h.itemId, level: h.level })) }
-        : {}),
-      focus: { school_id: "zenurik", nodes: [] }
     };
   }
 
-  private intentionWeapon(intention: EnsembleIntention, channel: string): WeaponIntent | undefined {
-    const item = intention.items[channel as EquipmentChannel];
-    if (!item?.itemId) return undefined;
+  /**
+   * El jugador, por su variante. El `switch` es EXHAUSTIVO por tipo: agregar una variante a
+   * `PlayerIntent` rompe la compilación acá, que es exactamente lo que la tabla de diez canales no
+   * podía hacer — de sus diez claves el bridge leía cinco y las otras cinco desaparecían en silencio.
+   *
+   * Las variantes sin soporte TIRAN. No es un hueco a llenar después: `Ensemble` no tiene dónde
+   * poner un archwing, así que traducirlo a medias sería devolver un escenario incompleto reportando
+   * éxito. Que grite es lo que crea la demanda del dato (`archwing-weapons.json` existe y el engine
+   * no lo carga).
+   */
+  private squadToEnsemble(player: PlayerIntent): Omit<Ensemble, 'hostiles'> {
+    switch (player.kind) {
+      case 'onfoot':
+        return {
+          ...(player.warframe
+            ? { warframe: {
+                  id: player.warframe.uniqueName,
+                  rank: player.warframe.rank ?? 30,
+                  slots: this.bearerSlots(player.warframe),
+                  shards: (player.warframe.shards ?? []).map(sh => ({
+                    type: sh.uniqueName, stat: sh.effectId, is_tau: sh.isTauforged,
+                  })),
+                  arcanes: this.bearerArcanes(player.warframe),
+                  abilities: (player.warframe.abilities ?? []).map(a => ({ ability_id: a.uniqueName, rank: a.rank })),
+                  helminth: undefined,
+                } }
+            : {}),
+          weapons: {
+            primary:   this.weaponToIntent(player.weapons?.primary),
+            secondary: this.weaponToIntent(player.weapons?.secondary),
+            melee:     this.weaponToIntent(player.weapons?.melee),
+          },
+          ...(player.companion
+            ? { companion: { id: player.companion.uniqueName, slots: this.bearerSlots(player.companion) } }
+            : {}),
+        };
+
+      case 'archwing':
+      case 'necramech':
+        throw new Error(
+          `[escena] el loadout "${player.kind}" se puede declarar y el engine todavía no lo modela: ` +
+          `\`Ensemble\` no tiene dónde ponerlo y los datasets de vehículos no se cargan. ` +
+          `La estructura existe para que esta falta se vea; no se traduce a medias.`
+        );
+
+      default: {
+        // Exhaustividad: si aparece una variante nueva sin caso, esto no compila.
+        const _never: never = player;
+        throw new Error(`[escena] variante de loadout no contemplada: ${JSON.stringify(_never)}`);
+      }
+    }
+  }
+
+  private weaponToIntent(weapon?: SceneWeapon): WeaponIntent | undefined {
+    if (!weapon) return undefined;
     return {
-      id: item.itemId,
-      slots: this.intentionSlots(intention, channel),
-      active_profile_id: item.active_profile || "base",
-      ...(item.evolution_perks ? { evolution_perks: item.evolution_perks } : {}),
-      arcanes: this.intentionArcanes(intention, channel)
+      id: weapon.uniqueName,
+      slots: this.bearerSlots(weapon),
+      active_profile_id: weapon.activeProfile ?? "base",
+      ...(weapon.evolutionPerks ? { evolution_perks: this.reindex(weapon.evolutionPerks, "perks", v => v) } : {}),
+      arcanes: this.bearerArcanes(weapon),
     };
+  }
+
+  /** Los mods de un portador. Viven ADENTRO: ya no hay tabla paralela que pueda quedar huérfana. */
+  private bearerSlots(bearer: Bearer): Record<number, { mod_id?: string; level?: number }> {
+    return this.reindex(bearer.mods ?? {}, "mods", (m: ModIntent) => ({ mod_id: m.uniqueName, level: m.level }));
+  }
+
+  private bearerArcanes(bearer: Bearer): Record<number, { arcane_id: string; rank: number }> {
+    return this.reindex(bearer.arcanes ?? {}, "arcanos", (a: ArcaneIntent) => ({ arcane_id: a.uniqueName, rank: a.rank }));
+  }
+
+  /** Re-indexa un `SlotMap` validando sus claves. Ver `slotIndex`. */
+  private reindex<T, R>(map: SlotMap<T>, kind: string, project: (value: T) => R): Record<number, R> {
+    const result: Record<number, R> = {};
+    Object.entries(map).forEach(([key, value]) => {
+      const slot = this.slotIndex(key, kind);
+      if (value != null) result[slot] = project(value as T);
+    });
+    return result;
   }
 
   /**
@@ -152,40 +191,15 @@ export class MutatorBridge {
    * imposible (el índice del array en lugar de una clave derivada) está gated en `OQ-ENGINE-36`,
    * junto con la otra aparición del mismo patrón. Esta guarda muere con ese cambio.
    */
-  private slotIndex(key: string, channel: string, kind: string): number {
+  private slotIndex(key: string, kind: string): number {
     if (!/^\d+$/.test(key)) {
       throw new Error(
-        `[intención] ${kind} de "${channel}": la clave de slot ${JSON.stringify(key)} no es un índice ` +
-        `entero. Los slots se declaran con claves numéricas ("0", "1", …); con una clave no entera ` +
-        `todos colapsan en un solo slot y se pierden en silencio.`
+        `[escena] ${kind}: la clave de slot ${JSON.stringify(key)} no es un índice entero. Los slots ` +
+        `se declaran con claves numéricas ("0", "1", …); con una clave no entera todos colapsan en un ` +
+        `solo slot y se pierden en silencio.`
       );
     }
     return parseInt(key, 10);
-  }
-
-  private intentionSlots(intention: EnsembleIntention, channel: string): Record<number, { mod_id?: string; level?: number }> {
-    const result: Record<number, { mod_id?: string; level?: number }> = {};
-    const channelMods = intention.mods[channel] || {};
-    Object.entries(channelMods).forEach(([index, mod]) => {
-      const slot = this.slotIndex(index, channel, "mods");
-      if (mod?.itemId) {
-        result[slot] = { mod_id: mod.itemId, level: mod.level };
-      }
-    });
-    return result;
-  }
-
-  /** Espejo de intentionSlots para el canal de arcanos (rank = índice de la serie base_value). */
-  private intentionArcanes(intention: EnsembleIntention, channel: string): Record<number, { arcane_id: string; rank: number }> {
-    const result: Record<number, { arcane_id: string; rank: number }> = {};
-    const channelArcanes = intention.arcanes?.[channel] || {};
-    Object.entries(channelArcanes).forEach(([index, arc]) => {
-      const slot = this.slotIndex(index, channel, "arcanos");
-      if (arc?.itemId) {
-        result[slot] = { arcane_id: arc.itemId, rank: arc.rank };
-      }
-    });
-    return result;
   }
 
   // ---------------------------------------------------------------------------

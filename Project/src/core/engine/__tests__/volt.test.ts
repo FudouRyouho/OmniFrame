@@ -19,6 +19,8 @@
  */
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
+import { scene, player, onPlayer, withBearer, withMods, withAbilities } from '@shared/types/scene-compose';
+import type { SlotMap, ModIntent } from '@shared/types/scene';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { volt, voltSpeed, voltParkour, voltMobilize, VOLT, VOLT_SPEED, TIBERON_PRIME, NIKANA_PRIME } from '../fixtures/builds';
@@ -55,8 +57,7 @@ describe('Volt Speed — buff cross-entity a un nodo de utilidad del arma', () =
   });
 
   it('aislamiento: quitar la ability de la intención devuelve el nodo a su base', () => {
-    const sinSpeed = voltSpeed();
-    delete sinSpeed.items.warframe.abilities;
+    const sinSpeed = onPlayer(voltSpeed(), p => withAbilities(p, []));
     expect(reloadOf(sinSpeed).final).toBe(100);
   });
 });
@@ -166,9 +167,8 @@ describe('Volt — Parkour Velocity (shard ámbar sobre base sintética)', () =>
   // Los tres carriles son stats distintos: la wiki lo dice literal ("Sprint Speed bonuses do not
   // affect Movement Speed") y el bullet jump no lo toca ninguno de los dos.
   it('Speed no toca el parkour, y el shard no toca el movement — carriles separados', () => {
-    const conAmbos = { ...voltSpeed(), items: { ...voltParkour().items, warframe: {
-      ...voltParkour().items.warframe, abilities: [{ id: VOLT_SPEED }],
-    } } };
+    // Parkour (shard) + Speed (ability) sobre el mismo Volt: se COMPONE, no se fusionan dos escenas.
+    const conAmbos = onPlayer(voltParkour(), p => withAbilities(p, [{ uniqueName: VOLT_SPEED }]));
     const out = consume(conAmbos, { flags: {} });
     expect(out.weapon(VOLT).node('AVATAR_ADD_PARKOUR_VELOCITY').final).toBeCloseTo(115, 5);
     expect(out.weapon(VOLT).node('AVATAR_ADD_MOVEMENT_SPEED').final).toBeCloseTo(1.75, 5);
@@ -226,10 +226,15 @@ describe('Volt — Aim Glide/Wall Latch duration (base real, no sintética)', ()
 describe('Volt — Sprint Speed (mods del warframe y de un arma, al mismo nodo)', () => {
   const RUSH    = '/Lotus/Upgrades/Mods/Warframe/AvatarSprintSpeedMod';
   const AMALGAM = '/Lotus/Upgrades/Mods/DualSource/Rifle/SerratedRushMod';
-  const sprintCon = (mods: any) => {
-    const b: any = volt();
-    b.mods = mods;
-    return consume(b, { flags: {} }).weapon(VOLT).node('AVATAR_ADD_SPRINT_SPEED');
+  /** Volt + los mods declarados por portador. El rifle se declara sólo si algo se le monta. */
+  const sprintCon = (mods: { warframe?: SlotMap<ModIntent>; primary?: SlotMap<ModIntent> }) => {
+    let p = player(volt());
+    if (mods.warframe) p = withMods(p, 'warframe', mods.warframe);
+    if (mods.primary) {
+      p = withBearer(p, 'primary', { uniqueName: TIBERON_PRIME, rank: 30 });
+      p = withMods(p, 'primary', mods.primary);
+    }
+    return consume(scene(p), { flags: {} }).weapon(VOLT).node('AVATAR_ADD_SPRINT_SPEED');
   };
 
   it('baseline: 100 = sin mods', () => {
@@ -237,18 +242,18 @@ describe('Volt — Sprint Speed (mods del warframe y de un arma, al mismo nodo)'
   });
 
   it('Rush r5 (mod de warframe): +30%', () => {
-    expect(sprintCon({ warframe: { 0: { itemId: RUSH, rank: 5, level: 5 } } }).final).toBeCloseTo(130, 5);
+    expect(sprintCon({ warframe: { 0: { uniqueName: RUSH, level: 5 } } }).final).toBeCloseTo(130, 5);
   });
 
   // Éste es el que no funcionaba: el mod está en el RIFLE y su stat pertenece al warframe.
   it('Amalgam Serration r10 (mod de rifle): +25% al warframe, no al rifle', () => {
-    expect(sprintCon({ primary: { 0: { itemId: AMALGAM, rank: 10, level: 10 } } }).final).toBeCloseTo(125, 5);
+    expect(sprintCon({ primary: { 0: { uniqueName: AMALGAM, level: 10 } } }).final).toBeCloseTo(125, 5);
   });
 
   it('los dos suman ADITIVO: +55% — "most sources stack additively" [movement-speed.md]', () => {
     const spd = sprintCon({
-      warframe: { 0: { itemId: RUSH, rank: 5, level: 5 } },
-      primary:  { 0: { itemId: AMALGAM, rank: 10, level: 10 } },
+      warframe: { 0: { uniqueName: RUSH, level: 5 } },
+      primary:  { 0: { uniqueName: AMALGAM, level: 10 } },
     });
     expect(spd.mods_add_pct).toBeCloseTo(55, 5);
     expect(spd.final).toBeCloseTo(155, 5);

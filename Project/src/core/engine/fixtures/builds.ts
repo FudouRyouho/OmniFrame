@@ -1,5 +1,5 @@
 /**
- * Catálogo de build-fixtures: intenciones (`EnsembleIntention`) verificadas en partida,
+ * Catálogo de build-fixtures: escenas (`Scene`) verificadas en partida,
  * hogar único de los builds del engine. Consumidas por dos adaptadores hermanos sobre la
  * MISMA entrada: los tests (que les adosan expectativas y asertan) y el CLI oráculo (que
  * las inspecciona e imprime). Mismo input, distinto acto — ninguno invade el rol del otro.
@@ -10,16 +10,41 @@
  * Las factories quedan verbatim de sus tests (migración fiel, sin re-abstraer el skeleton de
  * slots). Ubicación provisional (`fixtures/` mezcla bootstrap + builds) — ver `DC-OQ-ENGINE-9` §Pendiente.
  */
-import type { EnsembleIntention } from '@shared/types/ensemble';
+import type { Scene, HostileIntent, WarframeIntent, WeaponIntent, CompanionIntent, SlotMap, ModIntent, ArcaneIntent } from '@shared/types/scene';
+import { NO_HOSTILE } from '@shared/types/scene';
+import { scene, player, onPlayer, withBearer, withMods, withArcanes, withAbilities, withShards } from '@shared/types/scene-compose';
 
-/**
- * Sin grupo Hostil declarado — el default de una build que sólo mide su propio lado.
- *
- * Es una constante y no un `[]` inline para que se lea como una **decisión** ("esta build no declara
- * contra qué comparo") y no como un descuido. Reemplaza al viejo `BASE_ENV`, que declaraba un nivel y
- * una facción de un objetivo que no existía.
- */
-export const NO_HOSTILE: EnsembleIntention['hostile'] = [];
+
+
+// ─── Construcción de escenas ─────────────────────────────────────────────────────
+
+type OnfootParts = {
+  warframe?: WarframeIntent; primary?: WeaponIntent; secondary?: WeaponIntent;
+  melee?: WeaponIntent; companion?: CompanionIntent;
+};
+
+/** Una escena de un jugador a pie. Lo que no se declara, no existe — sin slots vacíos que llenar. */
+export function onfoot(parts: OnfootParts, hostile: HostileIntent[] = NO_HOSTILE): Scene {
+  const { warframe, primary, secondary, melee, companion } = parts;
+  const weapons = { ...(primary && { primary }), ...(secondary && { secondary }), ...(melee && { melee }) };
+  return scene({
+    kind: 'onfoot',
+    ...(warframe && { warframe }),
+    ...(Object.keys(weapons).length > 0 && { weapons }),
+    ...(companion && { companion }),
+  }, hostile);
+}
+
+/** `{0: {itemId, level}}` → `SlotMap<ModIntent>`. El `rank` de los mods nunca llegaba al engine. */
+export function modSlots(raw: Record<number, { itemId: string; level: number }>): SlotMap<ModIntent> {
+  return Object.fromEntries(Object.entries(raw).map(([k, m]) => [k, { uniqueName: m.itemId, level: m.level }])) as SlotMap<ModIntent>;
+}
+
+/** Espejo para arcanos (`rank` SÍ es semántico: indexa `base_value[rank]`). */
+export function arcaneSlots(raw: Record<number, { itemId: string; rank: number }>): SlotMap<ArcaneIntent> {
+  return Object.fromEntries(Object.entries(raw).map(([k, a]) => [k, { uniqueName: a.itemId, rank: a.rank }])) as SlotMap<ArcaneIntent>;
+}
+
 
 // ─── Lanka (sniper de carga, proyectil) ──────────────────────────────────────────
 
@@ -32,27 +57,14 @@ const LANKA_MOD = {
 };
 
 /** Lanka. `profile` = `'charged_shot'` | `'partially_charged_shot'`. */
-export function lanka(profile: string): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: LANKA, rank: 30, active_profile: profile },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { primary: {
-      0: { itemId: LANKA_MOD.SHRED,             rank: 30, level: 5 },
-      1: { itemId: LANKA_MOD.TERMINAL_VELOCITY, rank: 30, level: 3 },
-      2: { itemId: LANKA_MOD.VILE_PRECISION,    rank: 30, level: 5 },
-    } },
-    hostile: NO_HOSTILE,
-  };
+export function lanka(profile: string): Scene {
+  return onfoot({
+    primary: { uniqueName: LANKA, rank: 30, activeProfile: profile, mods: modSlots({
+      0: { itemId: LANKA_MOD.SHRED, level: 5 },
+      1: { itemId: LANKA_MOD.TERMINAL_VELOCITY, level: 3 },
+      2: { itemId: LANKA_MOD.VILE_PRECISION, level: 5 },
+    }) },
+  }, NO_HOSTILE);;
 }
 
 // ─── Cedo Prime (escopeta multi-pellet, flag on_kill) ─────────────────────────────
@@ -72,33 +84,20 @@ const CEDO_MOD = {
 
 /** Cedo Prime. `withGH` añade Galvanized Hell (on_kill multishot). `profile` = perfil de
  *  ataque: 'base'/'normal_attack' (Hit-Scan), 'alt-fire_glaive' (Projectile), 'glaive_radial_attack' (AoE). */
-export function cedo(withGH = false, profile = 'base'): EnsembleIntention {
-  const mods: Record<number, { itemId: string; rank: number; level: number }> = {
-    0: { itemId: CEDO_MOD.TOXIC_BARRAGE,      rank: 30, level: 3  },
-    1: { itemId: CEDO_MOD.SHOTGUN_BARRAGE,    rank: 30, level: 5  },
-    2: { itemId: CEDO_MOD.CRITICAL_DECEL,     rank: 30, level: 5  },
-    3: { itemId: CEDO_MOD.PRIMED_CHILLING,    rank: 30, level: 10 },
-    4: { itemId: CEDO_MOD.PRIMED_POINT_BLANK, rank: 30, level: 10 },
-    5: { itemId: CEDO_MOD.GALVANIZED_SAVVY,   rank: 30, level: 10 },
-    7: { itemId: CEDO_MOD.PRIMED_RAVAGE,      rank: 30, level: 10 },
+export function cedo(withGH = false, profile = 'base'): Scene {
+  const mods: Record<number, { itemId: string; level: number }> = {
+    0: { itemId: CEDO_MOD.TOXIC_BARRAGE, level: 3  },
+    1: { itemId: CEDO_MOD.SHOTGUN_BARRAGE, level: 5  },
+    2: { itemId: CEDO_MOD.CRITICAL_DECEL, level: 5  },
+    3: { itemId: CEDO_MOD.PRIMED_CHILLING, level: 10 },
+    4: { itemId: CEDO_MOD.PRIMED_POINT_BLANK, level: 10 },
+    5: { itemId: CEDO_MOD.GALVANIZED_SAVVY, level: 10 },
+    7: { itemId: CEDO_MOD.PRIMED_RAVAGE, level: 10 },
   };
-  if (withGH) mods[6] = { itemId: CEDO_MOD.GALVANIZED_HELL, rank: 30, level: 10 };
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: CEDO_PRIME, rank: 30, active_profile: profile },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { primary: mods },
-    hostile: NO_HOSTILE,
-  };
+  if (withGH) mods[6] = { itemId: CEDO_MOD.GALVANIZED_HELL, level: 10 };
+  return onfoot({
+    primary: { uniqueName: CEDO_PRIME, rank: 30, activeProfile: profile, mods: modSlots(mods) },
+  }, NO_HOSTILE);;
 }
 
 // ─── Laetum (pistola single + radial, perk condicional) ───────────────────────────
@@ -118,34 +117,19 @@ const LAETUM_MOD = {
 const LAETUM_PERKS = { 2: 'rapid_wrath', 3: 'lethal_rearmament', 4: 'elemental_excess', 5: 'devouring_attrition' };
 
 /** Laetum. `profile` = `'base'` | `'incarnon_form'` | `'auto_radial_attack'`. */
-export function laetum(profile = 'base'): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      secondary:        { itemId: LAETUM, rank: 30, active_profile: profile, evolution_perks: LAETUM_PERKS },
-      primary:          { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: {
-      secondary: {
-        0: { itemId: LAETUM_MOD.PISTOL_PESTILENCE,    rank: 30, level: 10 },
-        1: { itemId: LAETUM_MOD.ICE_STORM,            rank: 30, level: 10 },
-        2: { itemId: LAETUM_MOD.GALVANIZED_SHOT,      rank: 30, level: 10 },
-        3: { itemId: LAETUM_MOD.GALVANIZED_DIFFUSION, rank: 30, level: 10 },
-        4: { itemId: LAETUM_MOD.LETHAL_TORRENT,       rank: 30, level: 10 },
-        5: { itemId: LAETUM_MOD.HORNET_STRIKE,        rank: 30, level: 10 },
-        6: { itemId: LAETUM_MOD.GUNSLINGER,           rank: 30, level: 10 },
-        7: { itemId: LAETUM_MOD.PRIMED_HEATED_CHARGE, rank: 30, level: 10 },
-      },
-    },
-    hostile: NO_HOSTILE,
-  };
+export function laetum(profile = 'base'): Scene {
+  return onfoot({
+    secondary: { uniqueName: LAETUM, rank: 30, activeProfile: profile, evolutionPerks: LAETUM_PERKS, mods: modSlots({
+        0: { itemId: LAETUM_MOD.PISTOL_PESTILENCE, level: 10 },
+        1: { itemId: LAETUM_MOD.ICE_STORM, level: 10 },
+        2: { itemId: LAETUM_MOD.GALVANIZED_SHOT, level: 10 },
+        3: { itemId: LAETUM_MOD.GALVANIZED_DIFFUSION, level: 10 },
+        4: { itemId: LAETUM_MOD.LETHAL_TORRENT, level: 10 },
+        5: { itemId: LAETUM_MOD.HORNET_STRIKE, level: 10 },
+        6: { itemId: LAETUM_MOD.GUNSLINGER, level: 10 },
+        7: { itemId: LAETUM_MOD.PRIMED_HEATED_CHARGE, level: 10 },
+      }) },
+  }, NO_HOSTILE);;
 }
 
 // ─── Felarx (escopeta multi-pellet + incarnon, flat ÷ multishot) ──────────────────
@@ -165,37 +149,24 @@ const FELARX_MOD = {
   PRIMED_AMMO_STOCK:  '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponClipMaxModExpert',
   PRIMED_POINT_BLANK: '/Lotus/Upgrades/Mods/Shotgun/Expert/WeaponDamageAmountModExpert',
 };
-const FELARX_PERKS = { 2: 'attuned_accuracy', 3: 'evolved_autoloader', 4: 'racking_wrath', 5: 'devastating_attrition' };
+export const FELARX_PERKS = { 2: 'attuned_accuracy', 3: 'evolved_autoloader', 4: 'racking_wrath', 5: 'devastating_attrition' };
 
 /** Skeleton de canales de Felarx (primary + perks). Reusado por `felarx()` y por el `felarxStatus` del test. */
-export function felarxItems(profile: string) {
-  return {
-    warframe:         { itemId: null, rank: 30, shards: [] },
-    primary:          { itemId: FELARX, rank: 30, active_profile: profile, evolution_perks: FELARX_PERKS },
-    secondary:        { itemId: null, rank: 30 },
-    melee:            { itemId: null, rank: 30 },
-    companion:        { itemId: null, rank: 30 },
-    companion_weapon: { itemId: null, rank: 30 },
-    archwing:         { itemId: null, rank: 30 },
-    archgun:          { itemId: null, rank: 30 },
-    archmelee:        { itemId: null, rank: 30 },
-    necramech:        { itemId: null, rank: 30 },
-  };
-}
-
 /** Felarx — build completa verificada. `profile` = `'base'` | `'incarnon_form'`. */
-export function felarx(profile = 'base'): EnsembleIntention {
+export function felarx(profile = 'base'): Scene {
   const mods = {
-    0: { itemId: FELARX_MOD.PRIMED_CHILLING,    rank: 30, level: 10 },
-    1: { itemId: FELARX_MOD.CONTAGIOUS_SPREAD,  rank: 30, level: 5  },
-    2: { itemId: FELARX_MOD.GALVANIZED_HELL,    rank: 30, level: 10 },
-    3: { itemId: FELARX_MOD.GALVANIZED_SAVVY,   rank: 30, level: 10 },
-    4: { itemId: FELARX_MOD.PRIMED_CHARGED,     rank: 30, level: 10 },
-    5: { itemId: FELARX_MOD.PRIMED_CLEANSE,     rank: 30, level: 10 },
-    6: { itemId: FELARX_MOD.PRIMED_AMMO_STOCK,  rank: 30, level: 10 },
-    7: { itemId: FELARX_MOD.PRIMED_POINT_BLANK, rank: 30, level: 10 },
+    0: { itemId: FELARX_MOD.PRIMED_CHILLING, level: 10 },
+    1: { itemId: FELARX_MOD.CONTAGIOUS_SPREAD, level: 5  },
+    2: { itemId: FELARX_MOD.GALVANIZED_HELL, level: 10 },
+    3: { itemId: FELARX_MOD.GALVANIZED_SAVVY, level: 10 },
+    4: { itemId: FELARX_MOD.PRIMED_CHARGED, level: 10 },
+    5: { itemId: FELARX_MOD.PRIMED_CLEANSE, level: 10 },
+    6: { itemId: FELARX_MOD.PRIMED_AMMO_STOCK, level: 10 },
+    7: { itemId: FELARX_MOD.PRIMED_POINT_BLANK, level: 10 },
   };
-  return { items: felarxItems(profile), mods: { primary: mods }, hostile: NO_HOSTILE };
+  return onfoot({
+    primary: { uniqueName: FELARX, rank: 30, activeProfile: profile, evolutionPerks: FELARX_PERKS, mods: modSlots(mods) },
+  });
 }
 
 // ─── Boltor Prime (proyectil single, Incarnon Genesis) ────────────────────────────
@@ -211,25 +182,10 @@ export const GALVANIZED_DIFFUSION = '/Lotus/Upgrades/Mods/Pistol/WeaponFireItera
 export const galvanizedStacksVar = (uniqueName: string) => `stack_decay:${uniqueName}`;
 
 /** Boltor Prime con perks/mods/perfil variables. Perfil por defecto: `'base'`. */
-export function boltor(opts: { perks?: Record<number, string>; mods?: Record<number, string>; profile?: string } = {}): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: BOLTOR_PRIME, rank: 30, active_profile: opts.profile ?? 'base', evolution_perks: opts.perks },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: opts.mods
-      ? { primary: Object.fromEntries(Object.entries(opts.mods).map(([s, id]) => [s, { itemId: id, rank: 30, level: 10 }])) }
-      : {},
-    hostile: NO_HOSTILE,
-  };
+export function boltor(opts: { perks?: Record<number, string>; mods?: Record<number, string>; profile?: string } = {}): Scene {
+  return onfoot({
+    primary: { uniqueName: BOLTOR_PRIME, rank: 30, activeProfile: opts.profile ?? 'base', evolutionPerks: opts.perks, mods: modSlots(Object.fromEntries(Object.entries(opts.mods ?? {}).map(([s, id]) => [s, { itemId: id, level: 10 }]))) },
+  }, NO_HOSTILE);;
 }
 
 // ─── Soma Prime (rifle Incarnon, perk CO fatal_affliction) ────────────────────────
@@ -237,23 +193,10 @@ export function boltor(opts: { perks?: Record<number, string>; mods?: Record<num
 export const SOMA_PRIME = '/Lotus/Weapons/Tenno/LongGuns/PrimeSoma/PrimeSomaRifle';
 
 /** Soma Prime con perks de evolución variables. Vehículo del perk CO incarnon (fatal_affliction). */
-export function soma(opts: { perks?: Record<number, string>; profile?: string } = {}): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: SOMA_PRIME, rank: 30, active_profile: opts.profile ?? 'base', evolution_perks: opts.perks },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: {},
-    hostile: NO_HOSTILE,
-  };
+export function soma(opts: { perks?: Record<number, string>; profile?: string } = {}): Scene {
+  return onfoot({
+    primary: { uniqueName: SOMA_PRIME, rank: 30, activeProfile: opts.profile ?? 'base', evolutionPerks: opts.perks },
+  }, NO_HOSTILE);;
 }
 
 // ─── Boar Prime (escopeta Incarnon — el par de dispersión más extremo del dataset) ─
@@ -262,23 +205,10 @@ export const BOAR_PRIME = '/Lotus/Weapons/Tenno/Shotgun/PrimeBoar';
 
 /** Boar Prime, sin mods. Vehículo del contraste de dispersión: la escopeta abre {10, 30}
  *  y su forma Incarnon no abre nada ({0, 0}) — dos extremos en la misma arma. */
-export function boar(profile = 'base'): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: BOAR_PRIME, rank: 30, active_profile: profile },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: {},
-    hostile: NO_HOSTILE,
-  };
+export function boar(profile = 'base'): Scene {
+  return onfoot({
+    primary: { uniqueName: BOAR_PRIME, rank: 30, activeProfile: profile },
+  }, NO_HOSTILE);;
 }
 
 // ─── Nikana Prime (MELEE — hit-base determinista, OQ-ENGINE-14 ladrillo 1) ────────
@@ -305,34 +235,21 @@ export function nikana(
   withCO = false,
   withBloodRush = false,
   withFury = false,
-): EnsembleIntention {
-  const mods: Record<number, { itemId: string; rank: number; level: number }> = withMods ? {
-    0: { itemId: NIKANA_MOD.PRIMED_PRESSURE_POINT, rank: 30, level: 10 },
-    1: { itemId: NIKANA_MOD.TRUE_STEEL,            rank: 30, level: 10 },
-    2: { itemId: NIKANA_MOD.ORGAN_SHATTER,         rank: 30, level: 10 },
-    3: { itemId: NIKANA_MOD.MELEE_PROWESS,         rank: 30, level: 10 },
+): Scene {
+  const mods: Record<number, { itemId: string; level: number }> = withMods ? {
+    0: { itemId: NIKANA_MOD.PRIMED_PRESSURE_POINT, level: 10 },
+    1: { itemId: NIKANA_MOD.TRUE_STEEL, level: 10 },
+    2: { itemId: NIKANA_MOD.ORGAN_SHATTER, level: 10 },
+    3: { itemId: NIKANA_MOD.MELEE_PROWESS, level: 10 },
   } : {};
-  if (withCO) mods[4] = { itemId: NIKANA_MOD.CONDITION_OVERLOAD, rank: 30, level: 5 };
-  if (withBloodRush) mods[5] = { itemId: NIKANA_MOD.BLOOD_RUSH, rank: 30, level: 10 };
+  if (withCO) mods[4] = { itemId: NIKANA_MOD.CONDITION_OVERLOAD, level: 5 };
+  if (withBloodRush) mods[5] = { itemId: NIKANA_MOD.BLOOD_RUSH, level: 10 };
   // Fury: el mod que motivó separar el token — su label dice "Attack Speed" pero su
   // `upgrade_type` decía `WEAPON_ADD_FIRE_RATE`. Vehículo de la separación (familia MELEE).
-  if (withFury) mods[6] = { itemId: NIKANA_MOD.FURY, rank: 30, level: 5 };
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: null, rank: 30 },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: NIKANA_PRIME, rank: 30, active_profile: profile },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: Object.keys(mods).length > 0 ? { melee: mods } : {},
-    hostile: NO_HOSTILE,
-  };
+  if (withFury) mods[6] = { itemId: NIKANA_MOD.FURY, level: 5 };
+  return onfoot({
+    melee: { uniqueName: NIKANA_PRIME, rank: 30, activeProfile: profile, mods: modSlots(mods) },
+  }, NO_HOSTILE);;
 }
 
 // ─── Arcano v0: Primary Merciless sobre Lanka (siempre-activo + guarda de null + clamp) ─
@@ -345,11 +262,8 @@ export const PRIMARY_MERCILESS = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/Pr
  *   - parte `On Kill +5% Damage` con base_value:null + upgrade_type:null → OMITIDA (stacking, OQ-DATA-4);
  *   - rank:5 sobre serie de 1 valor → clampado a idx 0 (los arcanos no son todos 0-5).
  */
-export function lankaArcane(profile = 'charged_shot'): EnsembleIntention {
-  return {
-    ...lanka(profile),
-    arcanes: { primary: { 0: { itemId: PRIMARY_MERCILESS, rank: 5 } } },
-  };
+export function lankaArcane(profile = 'charged_shot'): Scene {
+  return scene(withArcanes(player(lanka(profile)), 'primary', arcaneSlots({ 0: { itemId: PRIMARY_MERCILESS, rank: 5 } })));
 }
 
 // ─── Rhino (warframe net-new, fixture_01 Tier 1: base + mods + shards) ─────────────
@@ -367,7 +281,7 @@ const RHINO_MOD = {
 // shardType = uniqueName del cristal (la clave real del catálogo); el mapeo color→cristal
 // es asunto de UI, no del engine. effectId = id del stat dentro del cristal.
 const AZURE_ARMOR_TAU = {
-  shardType: '/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalBoreal',
+  uniqueName: '/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalBoreal',
   effectId: 'azure-armor',
   isTauforged: true,
 };
@@ -378,31 +292,15 @@ const AZURE_ARMOR_TAU = {
  * Esperado (a verificar con el oráculo): str 254%, range 145%, dur 127.5%, eff 45%,
  * armor = 240 × (1 + 0%) + 2×225 = 690 (sin mod % de armadura en Tier 1; shards = flat).
  */
-export function rhino(): EnsembleIntention {
-  return {
-    items: {
-      warframe: {
-        itemId: RHINO, rank: 30,
-        shards: [{ ...AZURE_ARMOR_TAU }, { ...AZURE_ARMOR_TAU }],
-      },
-      primary:          { itemId: null, rank: 30 },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { warframe: {
-      0: { itemId: RHINO_MOD.BLIND_RAGE,          rank: 30, level: 10 },
-      1: { itemId: RHINO_MOD.TRANSIENT_FORTITUDE, rank: 30, level: 10 },
-      2: { itemId: RHINO_MOD.PRIMED_CONTINUITY,   rank: 30, level: 10 },
-      3: { itemId: RHINO_MOD.STRETCH,             rank: 30, level: 5  },
-    } },
-    hostile: NO_HOSTILE,
-  };
+export function rhino(): Scene {
+  return onfoot({
+    warframe: { uniqueName: RHINO, rank: 30, shards: [{ ...AZURE_ARMOR_TAU }, { ...AZURE_ARMOR_TAU }], mods: modSlots({
+      0: { itemId: RHINO_MOD.BLIND_RAGE, level: 10 },
+      1: { itemId: RHINO_MOD.TRANSIENT_FORTITUDE, level: 10 },
+      2: { itemId: RHINO_MOD.PRIMED_CONTINUITY, level: 10 },
+      3: { itemId: RHINO_MOD.STRETCH, level: 5  },
+    }) },
+  }, NO_HOSTILE);;
 }
 
 // ─── Sicarus Prime (perk incarnon Feigned Retreat — vehículo de EnemySnapshot, ladrillo #2) ─
@@ -410,23 +308,10 @@ export function rhino(): EnsembleIntention {
 export const SICARUS_PRIME = '/Lotus/Weapons/Tenno/Pistols/PrimeSicarus/PrimeSicarusPistol';
 
 /** Sicarus Prime con perks de evolución variables. Vehículo de `while_enemy_below_half_health`. */
-export function sicarus(opts: { perks?: Record<number, string>; profile?: string } = {}): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: null, rank: 30 },
-      secondary:        { itemId: SICARUS_PRIME, rank: 30, active_profile: opts.profile ?? 'base', evolution_perks: opts.perks },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: {},
-    hostile: NO_HOSTILE,
-  };
+export function sicarus(opts: { perks?: Record<number, string>; profile?: string } = {}): Scene {
+  return onfoot({
+    secondary: { uniqueName: SICARUS_PRIME, rank: 30, activeProfile: opts.profile ?? 'base', evolutionPerks: opts.perks },
+  }, NO_HOSTILE);;
 }
 
 // ─── Registro de builds para el oráculo (`npm run oracle -- <name>` | `all`) ───────
@@ -438,27 +323,14 @@ const THERMITE_ROUNDS = '/Lotus/Upgrades/Mods/Rifle/DualStat/FireEventRifleMod';
 
 /** Tiberon Prime + Serration. `heat=true` agrega Thermite Rounds (+Heat). Rifle Aptitude se omite:
  *  es status chance, no cambia el valor del tick de DoT (que se computa determinista de la Instancia). */
-export function tiberon(heat = false): EnsembleIntention {
-  const mods: Record<number, { itemId: string; rank: number; level: number }> = {
-    0: { itemId: SERRATION, rank: 30, level: 10 },
+export function tiberon(heat = false): Scene {
+  const mods: Record<number, { itemId: string; level: number }> = {
+    0: { itemId: SERRATION, level: 10 },
   };
-  if (heat) mods[1] = { itemId: THERMITE_ROUNDS, rank: 30, level: 10 };
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: TIBERON_PRIME, rank: 30 },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { primary: mods },
-    hostile: NO_HOSTILE,
-  };
+  if (heat) mods[1] = { itemId: THERMITE_ROUNDS, level: 10 };
+  return onfoot({
+    primary: { uniqueName: TIBERON_PRIME, rank: 30, mods: modSlots(mods) },
+  }, NO_HOSTILE);;
 }
 
 // ─── Rhino + Roar (Fase 1b — habilidad real, verbo muta-state cross-entity) ───────
@@ -472,16 +344,10 @@ export const RHINO_ROAR = '/Lotus/Powersuits/PowersuitAbilities/RhinoRoarAbility
  * pero por HIDRATACIÓN REAL — el modifier lo produce `AbilityRepository` desde el
  * `ability-stats.override` (upgrade_type poblado), NO hand-built. Cierra Fase 1b.
  */
-export function rhinoRoar(): EnsembleIntention {
-  const base = rhino();
-  return {
-    ...base,
-    items: {
-      ...base.items,
-      warframe: { ...base.items.warframe, abilities: [{ id: RHINO_ROAR }] },
-      primary:  { itemId: TIBERON_PRIME, rank: 30, active_profile: 'base' },
-    },
-  };
+export function rhinoRoar(): Scene {
+  let p = withAbilities(player(rhino()), [{ uniqueName: RHINO_ROAR }]);
+  p = withBearer(p, 'primary', { uniqueName: TIBERON_PRIME, rank: 30, activeProfile: 'base' });
+  return scene(p);
 }
 
 // ─── Volt + Speed (2ª habilidad hidratada — buff a un nodo de arma YA materializado) ──
@@ -493,23 +359,11 @@ export const VOLT_SPEED = '/Lotus/Powersuits/PowersuitAbilities/SpeedAbility';
  * Volt limpio (sin mods → strength 100%) + Tiberon Prime sin mods. Baseline para aislar
  * el aporte de Speed: `WEAPON_ADD_RELOAD_SPEED` queda en su base 100 (no-op).
  */
-export function volt(): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: VOLT, rank: 30 },
-      primary:          { itemId: TIBERON_PRIME, rank: 30, active_profile: 'base' },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { warframe: {} },
-    hostile: NO_HOSTILE,
-  };
+export function volt(): Scene {
+  return onfoot({
+    warframe: { uniqueName: VOLT, rank: 30, mods: modSlots({}) },
+    primary: { uniqueName: TIBERON_PRIME, rank: 30, activeProfile: 'base' },
+  }, NO_HOSTILE);;
 }
 
 /**
@@ -532,28 +386,18 @@ export function volt(): EnsembleIntention {
  * @param strength si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
  * @param melee    si se pasa, equipa la Nikana Prime — necesario para ejercer el buff `MELEE_*`.
  */
-export function voltSpeed(opts: { strength?: boolean, melee?: boolean } = {}): EnsembleIntention {
-  const base = volt();
-  return {
-    ...base,
-    items: {
-      ...base.items,
-      warframe: { ...base.items.warframe, abilities: [{ id: VOLT_SPEED }] },
-      ...(opts.melee
-        ? { melee: { itemId: NIKANA_PRIME, rank: 30, active_profile: 'base' } }
-        : {}),
-    },
-    ...(opts.strength
-      ? { mods: { warframe: { 0: { itemId: RHINO_MOD.BLIND_RAGE, rank: 30, level: 10 } } } }
-      : {}),
-  };
+export function voltSpeed(opts: { strength?: boolean, melee?: boolean } = {}): Scene {
+  let p = withAbilities(player(volt()), [{ uniqueName: VOLT_SPEED }]);
+  if (opts.melee) p = withBearer(p, 'melee', { uniqueName: NIKANA_PRIME, rank: 30, activeProfile: 'base' });
+  if (opts.strength) p = withMods(p, 'warframe', modSlots({ 0: { itemId: RHINO_MOD.BLIND_RAGE, level: 10 } }));
+  return scene(p);
 }
 
 // Cristal ámbar (Nira), efecto Parkour Velocity: `AVATAR_ADD_PARKOUR_VELOCITY` +15% (+22.5%
 // tauforjado). A diferencia del azul de Rhino —que es FLAT sobre armadura— éste es porcentual
 // y compone en `mods_add_pct` sobre una base sintética de 100.
 const AMBER_PARKOUR = {
-  shardType: '/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalNira',
+  uniqueName: '/Lotus/Types/Gameplay/NarmerSorties/ArchonCrystalNira',
   effectId: 'amber-parkour-velocity',
   isTauforged: false,
 };
@@ -567,15 +411,8 @@ const AMBER_PARKOUR = {
  *
  * @param tau si se pasa, el cristal es tauforjado (+22.5% en vez de +15%).
  */
-export function voltParkour(opts: { tau?: boolean } = {}): EnsembleIntention {
-  const base = volt();
-  return {
-    ...base,
-    items: {
-      ...base.items,
-      warframe: { ...base.items.warframe, shards: [{ ...AMBER_PARKOUR, isTauforged: opts.tau ?? false }] },
-    },
-  };
+export function voltParkour(opts: { tau?: boolean } = {}): Scene {
+  return scene(withShards(player(volt()), [{ ...AMBER_PARKOUR, isTauforged: opts.tau ?? false }]));
 }
 
 export const MOBILIZE = '/Lotus/Upgrades/Mods/Warframe/ParkourTwoMod';
@@ -590,9 +427,8 @@ export const MOBILIZE = '/Lotus/Upgrades/Mods/Warframe/ParkourTwoMod';
  * 100, el otro segundos sobre una base real de 3 (`maneuvers §Aim Glide`). El mismo `+20%` produce
  * `120` y `3.6`.
  */
-export function voltMobilize(): EnsembleIntention {
-  const base = volt();
-  return { ...base, mods: { warframe: { 0: { itemId: MOBILIZE, rank: 3, level: 3 } } } };
+export function voltMobilize(): Scene {
+  return scene(withMods(player(volt()), 'warframe', modSlots({ 0: { itemId: MOBILIZE, level: 3 } })));
 }
 
 // ─── Arcanos de WARFRAME con canal (ruteo por sub-familia, S2-A/S2-B) ────────────────
@@ -617,21 +453,13 @@ export const ARCANE_BLADE_CHARGER = '/Lotus/Upgrades/CosmeticEnhancers/Offensive
  * Roar (`arch-decisions §15`); el `condition` viaja en el modifier sin evaluarse. La fidelidad
  * del *cuándo* es otro eje — ver el registro de inexpresables.
  */
-export function voltChannelArcanes(): EnsembleIntention {
-  const base = volt();
-  return {
-    ...base,
-    items: {
-      ...base.items,
-      melee: { itemId: NIKANA_PRIME, rank: 30, active_profile: 'base' },
-    },
-    arcanes: {
-      warframe: {
-        0: { itemId: ARCANE_RAGE,          rank: 5 },
-        1: { itemId: ARCANE_BLADE_CHARGER, rank: 5 },
-      },
-    },
-  };
+export function voltChannelArcanes(): Scene {
+  let p = withBearer(player(volt()), 'melee', { uniqueName: NIKANA_PRIME, rank: 30, activeProfile: 'base' });
+  p = withArcanes(p, 'warframe', arcaneSlots({
+    0: { itemId: ARCANE_RAGE,          rank: 5 },
+    1: { itemId: ARCANE_BLADE_CHARGER, rank: 5 },
+  }));
+  return scene(p);
 }
 
 // ─── Valkyr ──────────────────────────────────────────────────────────────────────────
@@ -646,23 +474,11 @@ export const VALKYR_WARCRY = '/Lotus/Powersuits/PowersuitAbilities/BerserkerScre
  * speed aterriza en ella, y el armor es el único stat base que participa de la aritmética que
  * el test verifica (855 — el más alto del juego, contra 240 de Rhino y 105 de Volt).
  */
-export function valkyr(): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: VALKYR, rank: 30 },
-      primary:          { itemId: null, rank: 30 },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: NIKANA_PRIME, rank: 30, active_profile: 'base' },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { warframe: {} },
-    hostile: NO_HOSTILE,
-  };
+export function valkyr(): Scene {
+  return onfoot({
+    warframe: { uniqueName: VALKYR, rank: 30, mods: modSlots({}) },
+    melee: { uniqueName: NIKANA_PRIME, rank: 30, activeProfile: 'base' },
+  }, NO_HOSTILE);;
 }
 
 /**
@@ -683,18 +499,10 @@ export function valkyr(): EnsembleIntention {
  *
  * @param strength si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
  */
-export function valkyrWarcry(opts: { strength?: boolean } = {}): EnsembleIntention {
-  const base = valkyr();
-  return {
-    ...base,
-    items: {
-      ...base.items,
-      warframe: { ...base.items.warframe, abilities: [{ id: VALKYR_WARCRY }] },
-    },
-    ...(opts.strength
-      ? { mods: { warframe: { 0: { itemId: RHINO_MOD.BLIND_RAGE, rank: 30, level: 10 } } } }
-      : {}),
-  };
+export function valkyrWarcry(opts: { strength?: boolean } = {}): Scene {
+  let p = withAbilities(player(valkyr()), [{ uniqueName: VALKYR_WARCRY }]);
+  if (opts.strength) p = withMods(p, 'warframe', modSlots({ 0: { itemId: RHINO_MOD.BLIND_RAGE, level: 10 } }));
+  return scene(p);
 }
 
 /** Adarza Kavat — compañero de armadura 300, el primer participante que no sale del loadout. */
@@ -705,12 +513,8 @@ export const ADARZA_KAVAT = '/Lotus/Types/Game/CatbrowPet/MirrorCatbrowPetPowerS
  * warframe (`domain: 'companion'`) y aun así porta `avatar`, así que el buff de armadura le llega
  * — que es lo que la fuente declara (`references/wiki/warframes/valkyr/warcry.md`).
  */
-export function valkyrWarcryCompanion(): EnsembleIntention {
-  const base = valkyrWarcry();
-  return {
-    ...base,
-    items: { ...base.items, companion: { itemId: ADARZA_KAVAT, rank: 30 } },
-  };
+export function valkyrWarcryCompanion(): Scene {
+  return scene(withBearer(player(valkyrWarcry()), 'companion', { uniqueName: ADARZA_KAVAT, rank: 30 }));
 }
 
 /** Bombard Grineer — el objetivo como PARTICIPANTE del espacio, no como parámetro del cálculo. */
@@ -726,23 +530,8 @@ export const CORROSIVE_PROJECTION = '/Lotus/Upgrades/Mods/Aura/EnemyArmorReducti
  * loadout alrededor. Se puede escribir porque B dejó de inventar participantes: sin ítems
  * declarados, el escenario tiene exactamente uno.
  */
-export function hostileOnly(uniqueName: string, level: number): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: null, rank: 30, shards: [] },
-      primary:          { itemId: null, rank: 30 },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: {},
-    hostile: [{ itemId: uniqueName, level }],
-  };
+export function hostileOnly(uniqueName: string, level: number): Scene {
+  return { squad: [{ kind: 'onfoot' }], hostile: [{ uniqueName, level }] };
 }
 
 /**
@@ -752,8 +541,8 @@ export function hostileOnly(uniqueName: string, level: number): EnsembleIntentio
  * declara, no se equipa. Declara **nivel 100**, que es lo que compone su frame-0: sus tres vitales
  * nacen escalados por la curva-S, no en el valor de catálogo.
  */
-export function valkyrWarcryTarget(): EnsembleIntention {
-  return { ...valkyrWarcryCompanion(), hostile: [{ itemId: BOMBARD, level: 100 }] };
+export function valkyrWarcryTarget(): Scene {
+  return { ...valkyrWarcryCompanion(), hostile: [{ uniqueName: BOMBARD, level: 100 }] };
 }
 
 /**
@@ -762,8 +551,8 @@ export function valkyrWarcryTarget(): EnsembleIntention {
  * (`createBaseEntity` lo siembra en todo lo que no sea warframe). Ejerce que la marca de ruteo, y
  * no la ausencia de nodo, sea lo que impide que un buff del jugador aterrice sobre el objetivo.
  */
-export function rhinoRoarTarget(): EnsembleIntention {
-  return { ...rhinoRoar(), hostile: [{ itemId: BOMBARD, level: 100 }] };
+export function rhinoRoarTarget(): Scene {
+  return { ...rhinoRoar(), hostile: [{ uniqueName: BOMBARD, level: 100 }] };
 }
 
 /**
@@ -771,12 +560,9 @@ export function rhinoRoarTarget(): EnsembleIntention {
  * entidad y tiene que aterrizar en OTRA de familia distinta. Forcing-case del ruteo cross-entity
  * hacia `ENEMY_*`.
  */
-export function corrosiveProjectionTarget(): EnsembleIntention {
-  const base = valkyrWarcryTarget();
-  return {
-    ...base,
-    mods: { ...base.mods, warframe: { ...(base.mods.warframe ?? {}), 0: { itemId: CORROSIVE_PROJECTION, rank: 30, level: 5 } } },
-  };
+export function corrosiveProjectionTarget(): Scene {
+  return onPlayer(valkyrWarcryTarget(), p =>
+    withMods(p, 'warframe', modSlots({ 0: { itemId: CORROSIVE_PROJECTION, level: 5 } })));
 }
 
 // ─── Harrow ──────────────────────────────────────────────────────────────────────────
@@ -785,23 +571,11 @@ export const HARROW         = '/Lotus/Powersuits/Priest/Priest';
 export const HARROW_PENANCE = '/Lotus/Powersuits/PowersuitAbilities/PriestPenanceAbility';
 
 /** Harrow limpio + Tiberon Prime sin mods. Baseline para aislar el aporte de Penance. */
-export function harrow(): EnsembleIntention {
-  return {
-    items: {
-      warframe:         { itemId: HARROW, rank: 30 },
-      primary:          { itemId: TIBERON_PRIME, rank: 30, active_profile: 'base' },
-      secondary:        { itemId: null, rank: 30 },
-      melee:            { itemId: null, rank: 30 },
-      companion:        { itemId: null, rank: 30 },
-      companion_weapon: { itemId: null, rank: 30 },
-      archwing:         { itemId: null, rank: 30 },
-      archgun:          { itemId: null, rank: 30 },
-      archmelee:        { itemId: null, rank: 30 },
-      necramech:        { itemId: null, rank: 30 },
-    },
-    mods: { warframe: {} },
-    hostile: NO_HOSTILE,
-  };
+export function harrow(): Scene {
+  return onfoot({
+    warframe: { uniqueName: HARROW, rank: 30, mods: modSlots({}) },
+    primary: { uniqueName: TIBERON_PRIME, rank: 30, activeProfile: 'base' },
+  }, NO_HOSTILE);;
 }
 
 /**
@@ -824,21 +598,13 @@ export function harrow(): EnsembleIntention {
  *
  * @param strength si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
  */
-export function harrowPenance(opts: { strength?: boolean } = {}): EnsembleIntention {
-  const base = harrow();
-  return {
-    ...base,
-    items: {
-      ...base.items,
-      warframe: { ...base.items.warframe, abilities: [{ id: HARROW_PENANCE }] },
-    },
-    ...(opts.strength
-      ? { mods: { warframe: { 0: { itemId: RHINO_MOD.BLIND_RAGE, rank: 30, level: 10 } } } }
-      : {}),
-  };
+export function harrowPenance(opts: { strength?: boolean } = {}): Scene {
+  let p = withAbilities(player(harrow()), [{ uniqueName: HARROW_PENANCE }]);
+  if (opts.strength) p = withMods(p, 'warframe', modSlots({ 0: { itemId: RHINO_MOD.BLIND_RAGE, level: 10 } }));
+  return scene(p);
 }
 
-export const BUILDS: Record<string, () => EnsembleIntention> = {
+export const BUILDS: Record<string, () => Scene> = {
   volt_channel_arcanes: () => voltChannelArcanes(),
   harrow:             () => harrow(),
   harrow_penance:     () => harrowPenance(),

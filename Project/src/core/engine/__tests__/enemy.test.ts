@@ -23,7 +23,7 @@ import { consume } from '../output/consume';
 import { computeCombatMetrics } from '../output/combat-metrics';
 import { BASELINE_GAME_LAWS } from '../contracts';
 import type { SimulationContext } from '../contracts';
-import type { EnsembleIntention } from '@shared/types/ensemble';
+import type { Scene } from '@shared/types/scene';
 import {
   valkyrWarcryTarget, valkyrWarcryCompanion, corrosiveProjectionTarget, rhinoRoarTarget,
   BOMBARD, VALKYR,
@@ -199,10 +199,10 @@ describe('Corrosive Projection — el debuff que sale del warframe hacia el enem
    * pasaría con la armadura yendo para el lado equivocado.
    */
   it('el −18% llega al daño: la misma build con el aura pega MÁS fuerte', () => {
-    const dmg = (b: EnsembleIntention) => {
-      const scene = consume(b, { flags: {} }).snapshot();
-      const weapon = scene.find(e => e.domain === 'weapon')!;
-      const enemy = scene.find(e => e.tags.includes('enemy'))!;
+    const dmg = (b: Scene) => {
+      const entities = consume(b, { flags: {} }).snapshot();
+      const weapon = entities.find(e => e.domain === 'weapon')!;
+      const enemy = entities.find(e => e.tags.includes('enemy'))!;
       return computeCombatMetrics(weapon, enemy, BASE_CONTEXT, 6).vs_target.total_damage;
     };
     expect(dmg(corrosiveProjectionTarget())).toBeGreaterThan(dmg(valkyrWarcryTarget()));

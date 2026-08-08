@@ -12,6 +12,7 @@
  */
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
+import { scene, onPlayer, withBearer, withMods } from '@shared/types/scene-compose';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { consume } from '../output/consume';
 import { volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar } from '../fixtures/builds';
@@ -40,8 +41,7 @@ describe('Modifiers sin aterrizar — el engine declara lo que no modela', () =>
   });
 
   it('Maglev reporta sus DOS facetas por separado — el par SLIDE está acuñado, no modelado', () => {
-    const build: any = volt();
-    build.mods = { warframe: { 0: { itemId: MAGLEV, rank: 5, level: 5 } } };
+    const build = onPlayer(volt(), p => withMods(p, 'warframe', { 0: { uniqueName: MAGLEV, level: 5 } }));
     const avisos = unlanded(build);
 
     expect(avisos).toHaveLength(2);
@@ -103,15 +103,15 @@ describe('Modifiers sin aterrizar — el engine declara lo que no modela', () =>
 // plausible y falso no corrompe código — corrompe una medición.
 
 describe('Slots — una clave que no es índice no se come los mods en silencio', () => {
-  it('una clave de slot no entera falla ruidosamente y nombra el canal', () => {
-    const build: any = volt();
-    build.mods = { warframe: { s0: { itemId: MAGLEV, rank: 5, level: 5 } } };
-    expect(() => consume(build, { flags: {} })).toThrow(/mods de "warframe".*"s0" no es un índice entero/s);
+  it('una clave de slot no entera falla ruidosamente', () => {
+    // La clave rota se escribe a mano: el tipo `SlotMap` no la deja pasar, y de eso se trata —
+    // lo que llega desde un `.json` NO pasa por el tipo, y es ahí donde la guarda hace falta.
+    const build = onPlayer(volt(), p => withMods(p, 'warframe', { s0: { uniqueName: MAGLEV, level: 5 } } as never));
+    expect(() => consume(build, { flags: {} })).toThrow(/"s0" no es un índice entero/);
   });
 
   it('la guarda no le cobra peaje al caso normal', () => {
-    const build: any = volt();
-    build.mods = { warframe: { 0: { itemId: MAGLEV, rank: 5, level: 5 } } };
+    const build = onPlayer(volt(), p => withMods(p, 'warframe', { 0: { uniqueName: MAGLEV, level: 5 } }));
     expect(() => consume(build, { flags: {} })).not.toThrow();
   });
 
@@ -147,8 +147,7 @@ describe('Slots — una clave que no es índice no se come los mods en silencio'
 
 describe('Participantes — lo declarado no se evapora', () => {
   it('un participante sin DNA revienta en vez de descartarse', () => {
-    const build: any = volt();
-    build.items.primary = { itemId: '/Lotus/Weapons/Tenno/LongGuns/NoExisteEsteArma', rank: 30 };
+    const build = onPlayer(volt(), p => withBearer(p, 'primary', { uniqueName: '/Lotus/Weapons/Tenno/LongGuns/NoExisteEsteArma', rank: 30 }));
     expect(() => consume(build, { flags: {} })).toThrow(/no tiene DNA en los datasets cargados/);
   });
 
@@ -157,16 +156,15 @@ describe('Participantes — lo declarado no se evapora', () => {
     // `unique_name` (el real es `/Lotus/Powersuits/Excalibur/Excalibur`). Se hidrataba a nada en
     // 157 corridas de esta suite y el descarte silencioso lo tapaba. Medir un arma sola es caso
     // real del CLI: el escenario tiene que quedarse con un participante, no con dos.
-    const build: any = volt();
-    build.items.warframe = { itemId: null, rank: 30, shards: [] };
-    build.mods = {};
+    // Sin warframe declarado: en la forma nueva no hay "slot vacío" que poner en null — se omite.
+    const build = scene({ kind: 'onfoot', weapons: { primary: { uniqueName: TIBERON_PRIME, rank: 30 } } });
     const out = consume(build, { flags: {} });
     expect(out.snapshot().map((e: { id: string }) => e.id)).toEqual([TIBERON_PRIME]);
   });
 
   // ─── El silencio que NO tiene dónde gritar ────────────────────────────────────
   //
-  // `EnsembleIntention` declara DIEZ canales y `MutatorBridge` traduce CINCO (warframe, primary,
+  // La forma vieja declaraba DIEZ canales y `MutatorBridge` traducía CINCO (warframe, primary,
   // secondary, melee, companion). Los otros cinco —companion_weapon, archwing, archgun, archmelee,
   // necramech— no se leen: el participante no llega ni a pedirse, así que la guarda de hidratación
   // no lo puede agarrar. Medido con `/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun`,

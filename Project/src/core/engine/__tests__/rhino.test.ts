@@ -12,6 +12,7 @@
  */
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
+import { onPlayer, withAbilities } from '@shared/types/scene-compose';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { rhino, RHINO, rhinoRoar, TIBERON_PRIME } from '../fixtures/builds';
@@ -183,8 +184,9 @@ describe('Rhino Fase 1b — Roar (hidratación real: AbilityRepository → pool 
   });
 
   it('aislamiento: sin la ability declarada, el pool de facción es no-op (100)', () => {
-    const noRoar = rhinoRoar();
-    delete noRoar.items.warframe.abilities; // misma build, sin el verbo muta-state
+    // Misma build, sin el verbo muta-state. Declararlo vacío en vez de `delete`-ar un campo:
+    // la ausencia es una decisión de la escena, no una mutación sobre su estructura.
+    const noRoar = onPlayer(rhinoRoar(), p => withAbilities(p, []));
     const faction = consume(noRoar, { flags: {} }).weapon(TIBERON_PRIME).node('GAMEPLAY_MULT_FACTION_DAMAGE');
     expect(faction.final).toBe(100);
   });
