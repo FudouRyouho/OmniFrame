@@ -4,7 +4,7 @@ Rol: "Micro-arquitectura interna de C2 — modelo de daño elemental/status/DoT,
 Impacto_ID: "E-C2-Damage"
 Fidelidad_Fisica: "Project/src/core/engine/simulate/"
 Fecha_de_creacion: "2026-07-02"
-Fecha_de_actualizacion: "2026-08-06"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/status-effects.md"
@@ -215,7 +215,7 @@ implementar: **seguir el patrón de `resolveHit`** (accessor dedicado por natura
 |---|---|---|
 | **Núcleo, completo** | Slash, Toxin, Viral, Corrosive | Todas sus facetas, sin recortes |
 | **Multiplicador/bonus, mismo primitivo** | Magnetic (multiplicador shields/Overguard), Puncture (crit chance +5%/stack), Cold (crit damage +0.1×/+0.05× por stack) | El primitivo de stack ya existe; estos lo consumen desde un punto distinto del pipeline (crit calc en vez de resolución por capa) |
-| **Tick sí, faceta cross-cutting deferida** | Heat (DoT sí; rampa de armor strip diferida — necesita timeline real, pool consolidado) | |
+| **Tick sí, faceta cross-cutting parcial** | Heat (DoT sí; rampa de armor strip **aproximada** — lineal donde la fuente da escalones, sin vuelta y sin terminación: `../status.md §Deudas`) | |
 | **Completo, sin gate** | Electricity (tick + cadena), Gas (tick + nube) | Multi-objetivo = filtro espacial trivial (ver primitivo) |
 | **Diferido completo, necesita timeline real** | Blast (10 fusas independientes con timing propio + AoE) | Complejidad genuina, no espacial |
 | **Diferido, cross-cutting de baja prioridad** | Tau (modifica el status chance efectivo de todos los demás procs contra el target) | Fuente muy restringida (Sentients/Archons) |
@@ -257,7 +257,7 @@ Entra: +5%/stack de crit chance del jugador contra el target (hasta +25% a 5 sta
 Entra: bonus de crit damage recibido, +0.1× (1er stack) +0.05×/stack (hasta +0.5× a 9). Behavior `freeze`, mismo canal `critModifier` que Puncture. **Ausencias vivas (OQ-ENGINE-12):** cap especial de 4 stacks en bosses/Overguard (falta el flag boss en el DNA — v1 usa 9); freeze sólido al 10º stack (+1.0×, 3 residuales, CC). Diferido: slow (survivability).
 
 ### Heat — Ignite
-Entra: tick DoT, `0.5 × modded_base × (1+heat) × (1+faction)² × (1+status_damage)`, **pool consolidado compartido** (única excepción al primitivo). Diferido: rampa de armor strip (0.5s→15%…2s→50%, reversión gradual) — única mecánica de las 16 que necesita timeline real genuino. Fuera de scope: Panic (CC).
+Entra: tick DoT, `0.5 × modded_base × (1+heat) × (1+faction)² × (1+status_damage)`, **pool consolidado compartido** (única excepción al primitivo); y la **rampa de armor strip**, como aproximación lineal `f(t − primer proc)` (0.5 s → 0% … 2 s → 50%). Lo que la aproximación no reproduce son los **escalones** (15/30/40/50 cada 0.5 s) ni la **vuelta**, y el strip **no termina** — las tres facetas y su medición están en [`../status.md §Deudas`](../status.md). Es la única de las 16 que necesita timeline real genuino. Fuera de scope: Panic (CC).
 
 ### Electricity — Tesla Chain
 Entra completo: tick DoT (double-dip) + cadena a enemigos en radio 3m (filtro espacial, ver primitivo). El tick propagado a los encadenados usa el daño base del hit, no hereda la instancia crítica. Fuera de scope: stun (CC fijo, sin número).
@@ -484,7 +484,7 @@ Incoherencia raíz actual: en el mismo loop, el **hit directo** ya es consecuenc
 
 ### Gated — nombrado, no cerrado (no predecir cómo el modelo lo aplica)
 
-- **ref-viva vs snapshot-congelado** (el *split* de `snapshot × live`) → `OQ-ENGINE-20`, dato empírico. El lenguaje admite ambos; el dato reparte.
+- **La frontera de congelación** (qué le pertenece a la base del proc y qué evalúa el tick al emitir) → `OQ-ENGINE-20`. El eje ya está repartido por medición; lo que falta es dónde cae la línea, y el caso testigo es el combo de melee.
 - **Forced proc** (Hunter Munitions, Kunai) = **"extensión" de la instancia source**, no consecuencia de un roll — otra naturaleza de Aplicación (`origen: forced`). Existe, no modelada.
 - **Frontera 3** (Gas/Electricity: emisión multi-target de daño a vecinos, sin re-proc — no recursión, verificado in-game) → cross-entity en la Resolución, ver §Frontera 3.
 
@@ -509,8 +509,9 @@ Emisor → INSTANCIA → ┬─ RESOLUCIÓN (hit)
                                                         └─ modifica RESOLUCIÓN futura
 ```
 
-- **Instancia** — evento de daño externo; resuelve su hit una vez; al generar un proc **snapshotea su
-  contexto resuelto** en él. El hit muere; su snapshot vive en el proc.
+- **Instancia** — evento de daño externo; resuelve su hit una vez; al generar un proc le **fija su
+  base**. Esa base **no es el hit resuelto** (`dot-scaling.md` Test 1: el hit se mueve y el DoT no): sale
+  del arma por una regla propia del tipo de DoT. El hit muere; la base que el proc fijó vive en él.
 - **Resolución** (código: `resolveDamageEvent`, renombrado de `resolveDamageInstance`) — el
   átomo "daño de tipo T vs las capas del target". **Agnóstica al origen**: hit y tick la comparten (por
   eso se conflaba; el nombre lavaba la diferencia).
@@ -519,15 +520,23 @@ Emisor → INSTANCIA → ┬─ RESOLUCIÓN (hit)
 
 Instancia y tick comparten la **resolución**, NO el **origen ni el ciclo de vida**.
 
-### La composición snapshot × live
+### El proc determina la base; el tick evalúa al emitir
 
-`tick = snapshot(hit resuelto, buffs source horneados al aplicar) × live(re-aplicación en el tick)`. El
-**double-dip** (§Evidencia: Roar ×2.128 → DoT ×4.53 = 2.128²) es la huella: el mismo multiplicador vive
-en las dos mitades. Heat Inherit = la mitad snapshot; un buff que cae mid-DoT = la mitad live. El proc =
-`{ snapshot, refs-live }`; delegar lo live dentro del snapshot del target **rompe la agnosticidad source
-a propósito** (fidelidad, no accidente). El `DotPulse.value` actual ya es la mitad snapshot (compute-once,
-§frame); falta —gated— la re-aplicación live del source (faction², pool②). El split fino snapshot/live
-y el comportamiento bajo drop de buff = **`OQ-ENGINE-20`** (data actual solo steady-state).
+`tick = base(la que el proc fijó al nacer) × contexto(evaluado en el instante de la emisión)`.
+
+El **double-dip** (§Evidencia: Roar ×2.128 → DoT ×4.53 = 2.128²) **no** prueba que el multiplicador viva
+en dos mitades, una congelada y una viva: el mismo número sale de **una sola evaluación con exponente 2**,
+que es lo que la fórmula declara (`× (1+faction)²`). Y la premisa contraria está medida falsa — el DoT
+**no hereda el hit resuelto**: en `dot-scaling.md` Test 1 el hit sube `114 → 171` y el DoT no se mueve
+de 45. **Heat Inherit** es la huella más nítida del lado base: el pool consolidado conserva la base que
+fijó el **primer** proc aunque después lo refresquen otras armas
+(`../../../references/wiki/mechanics/damage-heat-damage.wikitext` §Heat Inherit — de ahí que el efecto de
+*Secondary Fortifier* se "herede" si el primer Heat vino de la secundaria).
+
+Consecuencia: el aporte del emisor vive **entero** del lado evaluado, así que al caer el buff cae entero.
+El `DotPulse.value` actual ya es la base (compute-once, §frame); falta —gated— la evaluación del contexto
+source en el tick (faction², pool②), que **rompe la agnosticidad source a propósito** (fidelidad, no
+accidente). Dónde cae exactamente esa frontera —el caso testigo es el combo de melee— = **`OQ-ENGINE-20`**.
 
 ### La interfaz
 
@@ -704,7 +713,7 @@ alcanza siempre.)*
 
 - **OQ-ENGINE-12** — el gancho de crit (Puncture/Cold) se **construyó** (canal `critModifier`); la OQ sigue **viva por AUSENCIAS de fidelidad** (Cold cap-4-boss = falta flag boss en DNA; 10º stack sin modelar), no por el gancho.
 - **OQ-ENGINE-19** — generador discreto exacto de N proc-slots cuando el Status Chance de un pellet supera 100% (§Población/RNG arriba). No bloqueante — el total y la curva esperados no dependen de él.
-- **OQ-ENGINE-20** — split fino snapshot vs. live del tick de DoT y su comportamiento temporal bajo drop de buff (§Modelo unificado / composición snapshot × live). Gated por data (nuestra evidencia de double-dip es solo steady-state); un test de drop-mid-DoT lo cierra.
+- **OQ-ENGINE-20** — la frontera de congelación: qué le pertenece a la base que el proc fija y qué evalúa el tick al emitir (§Modelo unificado / El proc determina la base). El reparto grueso está medido; el caso que ubica la línea es el combo de melee (`references/ingame-tests/pending.md` P-10).
 - **OQ-ENGINE-18** — Status Duration en DoT (§Modelo de timeline, hueco de dato): más ticks vs. ticks estirados — decide la duración que `HitContext` debe cargar.
 
 (OQ-ENGINE-13, Roar/Xata double-dip en DoTs, quedó **RESUELTA** — ver §Evidencia empírica arriba — y migró a `closed-decisions.md`.)

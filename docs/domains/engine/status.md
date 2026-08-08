@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 ---
 
 # Engine Status
@@ -71,8 +71,8 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 > sobrevive como su propia fórmula (`ignite`: pool + rampa de armor por tiempo), no como contenedor
 > compartido; Corrosion/Infection/Disruption son behaviors con estado `{count}` + decay (Familia A).
 > **Fuera del behavior-set:** Electricity/Gas (frontera 3, emisión multi-target de daño — cadena/nube; NO recursión de procs, descartada in-game 2026-07-14)
-> y los efectos sin LEY (puncture/impact/cold/… — no-op). Pool②/faction² del tick = gated (`OQ-ENGINE-20`,
-> mitad live). `stacks` de N-timers reales = fidelidad diferida (`OQ-ENGINE-16`). El consumo del
+> y los efectos sin LEY (puncture/impact/cold/… — no-op). Pool②/faction² del tick = **build-debt**
+> (`DC-OQ-ENGINE-13`, gated por poblar el pool②): es contexto que el tick evalúa al emitir. `stacks` de N-timers reales = fidelidad diferida (`OQ-ENGINE-16`). El consumo del
 > **objetivo resuelto** en el pipeline de daño (facción × DR × capa) está resuelto: `resolveDamageEvent`/`resolveHit`
 > consumen `targetFactionMult` (matriz③) + `damageReductionFromArmor` (DR), ver
 > `damage-status-model.md §Reconciliación de resolveHit`. **Ojo:** esto es acoplamiento *dentro* de C2
@@ -116,7 +116,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 |---|---|
 | `common/` | `crit-base` (→ `AtomicSimulator`), `scaling-base`, `status-base` |
 | `weapon/` | `weapon-crit`, `weapon-multishot`, `weapon-condition-overload`, `melee-combo`, `sniper-combo` |
-| `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado; los 6 efectos con LEY). `dot-population` quedó **huérfano** (el pulso se arma inline en `behaviors.makeDotBehavior`; solo test-consumido — deuda G3). Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
+| `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado; los 6 efectos con LEY). `dot-population` es el **único constructor genérico de `evento → ventana`** y no tiene llamador de producción: `behaviors.makeDotBehavior` arma el **mismo** `DotPulse` inline, con el par `(timestamp, expected)` desarmado en `(t, amount)`. La copia es el inline, no el archivo — deuda G3. Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
 | `ability/` | `ability-crit`, `ability-status` |
 | `arcane/` · `warframe/` | **vacíos** (reservados) |
 
@@ -176,6 +176,50 @@ además puede contestar *"cuál es el más viejo"* (`references/ingame-tests/sta
 **Vínculo:** `design/arch-decisions.md §20` (muestreo, no eventos — la decisión que esta invariante
 sostiene), `§19` (el nodo lleva el frame-0, la ley lleva el tiempo), `OQ-ENGINE-16`.
 
+### El efecto de Heat no sabe terminar — y terminar incluye su consecuencia
+
+El armor strip de Heat no es un efecto con ventana: es un **nivel que vive en el portador**, y el proc
+sólo elige hacia dónde se mueve. La fuente lo declara como una escalera recorrida en los dos sentidos
+(`../../../references/wiki/mechanics/damage-heat-damage.wikitext` §Armor Stripping):
+
+```
+sube   15 → 30 → 40 → 50    cada 0.5 s   (2 s de ida)
+baja   50 → 40 → 30 → 15 → 0  cada 1.5 s (6 s de vuelta)
+```
+
+Mismos cuatro valores, 3× más lento al bajar. **La regla de cierre es leer el nivel, no componer
+ventanas:** si un proc nuevo entra a mitad de la vuelta, no cancela nada ni abre nada — el nivel deja
+de bajar y sube desde donde está (`… 40 → 30 → [proc] → 40 → 50`). Por eso no hace falta decidir
+"quién gana": hay un solo valor. Tres facetas del motor se apartan de eso, medidas con un solo proc en
+`t=0` sobre armor base 1000:
+
+| | motor | fuente |
+|---|---|---|
+| `armor` a `t=60` | **500** (idéntico con `dt=1` y `dt=1/15`) | 1000 — el strip ya revirtió |
+| `armor` a `t=1` | 833.33 (16.67% — rampa **lineal**) | 700 (30% — segundo **escalón**) |
+| la vuelta | no existe | `50→40→30→15→0` cada 1.5 s |
+
+- **No termina.** El gate es `state.ignite > 0` y `decayCount` es exponencial (`count − (count/6)·dt`):
+  vale `1.78e-5` a los 60 s y nunca cruza cero. Los dos pasos dan el mismo armor → **no es la fuga de
+  `dt`, es el mismo escalar por otra vía**. La misma raíz deja el `pool` de daño emitiendo `8.9e-4/s` a
+  los 60 s sobre un DoT que dura 6 s. Radio hoy: sólo `getEffectiveArmor` (`CombatSimulator`,
+  `TimelineSimulator`); Condition Overload no lee `effectStates`, así que la presencia eterna todavía no
+  lo contamina.
+- **No vuelve.** `igniteBehavior.resolutionModifier` es monótona creciente: sube y se queda.
+- **Sube mal.** `rampProgress` es continuo donde la fuente da escalones. Converge sólo en meseta — y es
+  justo el tramo que `../../../references/ingame-tests/damage-buckets.md` §Test 7 evita al medir el
+  último tick.
+
+**Fix gateado por el modelo de tiempo**, no por dato: las tres piden que el nivel guarde **el instante
+del cambio de régimen** (`{nivel, at, dirección}` → `f(t − at)`) y no progreso acumulado — que es la
+misma cura que la deuda de arriba. **Predicción que el modelo hace y nadie midió:** la cadencia de bajada
+no puede venir del emisor, porque cuando la vuelta ocurre el emisor ya no existe; entonces Status
+Duration —que sí alarga la ida— **no** debería tocar la vuelta. Si la tocara, la cadencia sería una
+cuarta cosa que el suceso congela, junto a magnitud, duración y cap.
+
+**Tripwire ejecutable:** `__tests__/status/heat-armor-ramp.test.ts` — 3 `it.fails` con los targets de la
+fuente.
+
 ### `GAMEPLAY_MULT_FACTION_DAMAGE` — consumo C2 incompleto (pool② en DoT ticks)
 
 El token está **mapeado** (`UPGRADE_MAP`: `op: ADD, toPercent: true`); 42 mods Bane/Expel/Cleanse/Smite lo
@@ -189,10 +233,10 @@ matriz(elem, facción) × (1+Σpool②)²` (no-True) / con `[bypass ③]` (True)
 que **el DoT lea el pool②** — hoy `dotModdedBase` solo lee `WEAPON_ADD_DAMAGE`, no la facción. El pool②
 ya tiene su primer miembro **para el HIT** (Roar, wired vía `AbilityRepository`), pero **no alimenta
 el DoT**; la facción por mods sigue diferida (shim C2·F, RED). **NO** por
-`OQ-ENGINE-20`. `OQ-ENGINE-20` gobierna solo el **transitorio** (buff cae a mitad del DoT: ¿la mitad live
-baja de pool²²→pool² o muere todo?) — el split fino `snapshot × live` que NO bloquea el build steady-state.
-La re-aplicación live NO está horneada aún en el `HitContext` snapshot (que hoy solo carga `moddedBase` +
-status/element).
+`OQ-ENGINE-20`, que hoy pregunta otra cosa (dónde cae la frontera de congelación). El transitorio —qué
+pasa cuando el buff cae a mitad del DoT— no es pregunta: el pool② es **contexto que el tick evalúa al
+emitir**, así que cae entero. Lo que falta construir es esa evaluación: el `HitContext` hoy sólo carga
+`moddedBase` + status/element.
 
 **Vínculo:** `design/damage-status-model.md §Evidencia` + `§Reconciliación de resolveHit`,
 `governance/closed-decisions.md#DC-OQ-ENGINE-13` (confirma que el double-dip es del pool②, no de

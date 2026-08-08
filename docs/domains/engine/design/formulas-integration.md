@@ -4,7 +4,7 @@ Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
 Impacto_ID: "E-Formulas"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-08-06"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -127,7 +127,7 @@ El caso CO —inline vs. `weapon-condition-overload.ts`— **no** es duplicació
 | `status/dot-base-scaling.ts` | `scaleDotBase` — `modded_base` del DoT = innato × factor Serration (evita el double-count del compuesto) | `DamageType` | ✅ consumido por `deriveInstance` (seam C1→C2; fix `dot_scaling` validado in-game) |
 | `status/dot-timeline.ts` | `tickTimes` — usado por el `advance` de los DoT behaviors; `pulseTotal`/`damageInWindow` aún sin consumidor de producción | `DotPulse` | ✅ **wired** — `behaviors.makeDotBehavior` (bleed/poison) usa `tickTimes` en su `advance`; Electricity/Gas fuera a propósito (frontera 3) |
 | `status/proc-population.ts` | `expectedProcEvents` — generador de eventos esperados (Población/RNG) | `ProcEvent`/`DamageType` | ✅ **wired** ← `TimelineSimulator` + **`CombatCalculator.project`** (la ley única de `chance×peso`); overlap con `weapon-status.ts` **reconciliado** (ver §2) |
-| `status/dot-population.ts` | `dotPulseFromProcEvent` — glue `ProcEvent → DotPulse` pre-escalado | `DotPulse` | ⚠️ **huérfano** — `behaviors.makeDotBehavior` arma el pulso inline; solo test-consumido (doble camino, deuda G3) |
+| `status/dot-population.ts` | `dotPulseFromProcEvent` — glue `ProcEvent → DotPulse` pre-escalado | `DotPulse` | ⚠️ **sin llamador de producción, pero es el que sobrevive** (deuda G3): `behaviors.makeDotBehavior` construye el **mismo** pulso inline —`(t, amount)` donde éste lee `(event.timestamp, event.expected)`—, así que la copia es el inline. El colapso pide **generalizar la firma**: `ProcEvent` entero exige más de lo que el constructor usa (`type` viaja sin leerse) |
 | `status/effect-behavior.ts` | `EffectBehavior<S>` (interfaz del modelo unificado) + `HitContext`/`Resolucion`/`ResolutionModifier`/`Layer` | `StatusEffect`/`DamageType` | ✅ **wired** — contrato consumido por `behaviors` + `EnemyState` (rediseño) |
 | `status/behaviors.ts` | fórmulas-estrategia por efecto + registro `EFFECT_BEHAVIORS` (reusa `dot-tick`/`dot-timeline`/`stack-debuff`) | `StatusEffect`/`DamageType` | ✅ **wired** ← `EnemyState` itera (los 6 efectos con LEY) |
 | `enemy/enemy-scaling.ts` | `scaleHealth`, `scaleArmor`, `scaleMult` + coefs curva-S | agnóstico (`faction: string`) | ✅ consumido por `ItemRepository.normalizeEnemy` (el orquestador del frame-0); **movido de `EnemyRepository` (P1)** |
@@ -253,5 +253,5 @@ recibió dos checkpoints de reconciliación:
   se **sunseteó** (sin evidencia post-U36, artefacto del modelo per-clase muerto).
 
 Detalle completo y evidencia en `damage-status-model.md §Reconciliación de resolveHit`. El pool②/faction²
-en DoT ya no cuelga de `StatusEngine` (eliminado): es la **mitad live** del tick del modelo
-unificado, gated por `OQ-ENGINE-20` (ver `status.md §Deudas`).
+en DoT ya no cuelga de `StatusEngine` (eliminado): es el **contexto que el tick evalúa al emitir** en el
+modelo unificado, gated por poblar el pool② (ver `status.md §Deudas`).

@@ -237,3 +237,67 @@ lee como warframe; si sólo filtra el CC, lee como enemigo.
 
 **Qué decide:** si manda el bando, la clase deja de ser el argumento de la lectura y §17/§20/§22
 pierden su prerequisito común. Es el test más barato que puede tirar abajo tres secciones a la vez.
+
+---
+
+## P-10 · ¿Dónde está la frontera de congelación? — el combo de melee contra el tick de un DoT
+
+**Estado:** el eje está decidido por medición (el proc determina la base, el tick evalúa al emitir); lo
+que falta es **dónde cae exactamente la línea**, y el combo es el caso que la ubica.
+
+Lo que ya está medido reparte así:
+
+| | Qué entra | Fuente |
+|---|---|---|
+| **Congelado en la base** | `modded_base` físico, `own_element`, `status_damage` | [`dot-scaling.md`](dot-scaling.md) Test 1 — el hit subió `114 → 171` y el DoT **no se movió** de 45 |
+| **Evaluado al emitir** | pool② (al cuadrado), DV (single), matriz③/armor | [`damage-buckets.md`](damage-buckets.md) Test 7 |
+
+El **combo** no está en ninguna de las dos, y es el que decide si la línea corre por *"lo que entró al
+hit"* o por *"lo que pertenece al arma"*: el multiplicador de combo entra al hit del heavy attack, pero
+no es un stat del arma.
+
+### Paso 0 — ¿el combo entra al DoT, siquiera?
+
+Antes de preguntar *cuándo* se evalúa hay que saber si participa. **Bleed de un ataque normal vs. bleed
+de un heavy attack** con combo alto, mismo arma y mismo enemigo.
+
+- **Iguales** → el combo no entra al DoT. La pregunta muere acá, y de paso generaliza el Test 1 de
+  `dot-scaling.md` a melee: el DoT se deriva del **arma**, no del hit resuelto.
+- **El del heavy es mayor** → el combo entra, y recién ahí importa cuándo se lo evalúa. El ratio dice
+  además con qué multiplicador entró.
+
+### Paso 1 — ¿congelado o vivo? El par que lo aísla lo dan los mods de **Tennokai**
+
+Un heavy attack normal **gasta el 100% del contador**; con Tennokai (ícono en la retícula, 2 s de
+ventana) el heavy **no consume nada** — ver [`../wiki/mechanics/heavy-attack.md`](../wiki/mechanics/heavy-attack.md) §Tennokai. Eso da dos
+tiradas idénticas salvo en **una** variable: si el combo sigue vivo mientras el DoT corre.
+
+| Tirada | Combo durante los ticks | |
+|---|---|---|
+| **A** — heavy normal | se gastó al ejecutar (0 / Initial Combo) | el hit salió con combo alto igual |
+| **B** — heavy con Tennokai | intacto | control |
+
+Se compara **el mismo tick** (p. ej. el tercero) entre A y B:
+
+```
+tick_A == tick_B          → el combo quedó CONGELADO en la base    (la línea corre por "lo que entró al hit")
+tick_A <  tick_B, ratio ≈ multiplicador de combo   → el tick lo EVALÚA al emitir
+```
+
+**Cuanto más alto el combo, más contundente:** el multiplicador va de **2x** (20 hits) a **12x** (220),
+así que la separación no es fina en ningún caso.
+
+### Modos de falla a evitar (salen del corpus, no de la intuición)
+
+- **Sin Initial Combo en la build.** Los heavy attacks lo gastan pero **se regenera a 40 puntos/s**
+  ([`../wiki/mechanics/melee-combo.md`](../wiki/mechanics/melee-combo.md) §Initial Combo): en la tirada A el combo dejaría de ser 0 justo
+  durante los ticks, que es el tramo que se está midiendo.
+- **No golpear nada mientras corre el DoT** — reconstruye combo y contamina A por el otro lado.
+- **En B el combo no decae solo:** el heavy resetea el timer de duración *aunque no golpee* (mismo doc,
+  §Combo Duration), así que la ventana cubre los ~6 s del bleed sin cuidados extra.
+- **Heavy Attack Efficiency no reemplaza a Tennokai:** está capeada en 90%, así que el heavy sigue
+  gastando 10% del contador — es *casi* el control, no el control.
+
+**Qué decide:** la forma de la Instancia. Si el combo se congela, lo que el suceso guarda es *"el
+resultado del hit"*; si se evalúa, es *"un puntero al emisor"* — y eso ya no es un detalle de DoT, es
+qué lleva adentro el objeto que C1 le pasa a C2. Va a `OQ-ENGINE-20`.

@@ -433,7 +433,8 @@ recalculado) es **deuda de re-implementación**: el fix sube a lo que C1 emite, 
 **Tres entradas, no una** (el átomo separado del throughput separado del target):
 - **Instancia** — potencial de UN disparo (①②): daño por tipo (congelado), spec de crit, spec de status
   `{chance, forced}`, multishot, bonus por elemento, snapshot del source + **stamp** de procedencia.
-  **Target-agnóstica**; **congela valores, no refs** (lo "vivo" se lee como *pull* keyed por stamp, `OQ-ENGINE-20`).
+  **Target-agnóstica**; **congela valores, no refs** — lo que queda del lado vivo lo evalúa el tick al
+  emitir, y dónde cae exactamente esa frontera es `OQ-ENGINE-20`.
 - **Schedule** — la cadencia/fire-mode (auto/charge/beam/burst) que **produce** Instancias en el tiempo
   (`fire_rate`/`mag`/`reload`). Multishot = 1 Instancia · N Hits; burst-x3 = N Instancias.
 - **Target** — la física del enemigo **en `t`** (③): facción/DR/capa/stacks/`Damage Vulnerability`. **Input

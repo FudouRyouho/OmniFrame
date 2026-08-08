@@ -1,6 +1,6 @@
 {
   "_nota": "Baseline del ratchet de changelog-en-doc-vivo (docs/CLAUDE.md §Ruteo #3/#5). El conteo por archivo NO puede subir; bajar es progreso. Regenerar SOLO tras purga o adición justificada (tripwire/auditoría). No editar a mano para subir un techo.",
-  "generado": "2026-08-01",
+  "generado": "2026-08-08",
   "archivos": {
     "docs/data/decisions.md": {
       "fecha": 51,
@@ -71,7 +71,7 @@
       "agudo": 0
     },
     "docs/governance/open-questions.md": {
-      "fecha": 105,
+      "fecha": 104,
       "agudo": 0
     }
   }

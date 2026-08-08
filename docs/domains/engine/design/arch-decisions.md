@@ -594,7 +594,9 @@ Total = base × (1 + Σ_aditivo) × (1 + Σ_facción) × ∏(independientes)
   multiplicadores **independientes** que multiplican, NO entran al pool de facción. (§9/§10.)
 - **Facción NO alimenta el DoT** (`dotModdedBase` lee solo `WEAPON_ADD_DAMAGE`). El double-dip ×²
   **steady-state** es build-debt decidido (`DC-OQ-ENGINE-13`; `status.md §Deudas`), gated por poblar el
-  pool②; el **transitorio** (buff mid-DoT) = `OQ-ENGINE-20`.
+  pool②. El **transitorio** (buff mid-DoT) no es pregunta: el pool② es contexto que el tick evalúa al
+  emitir, así que cae entero. Lo que `OQ-ENGINE-20` pregunta hoy es **dónde cae la frontera de
+  congelación** (qué le pertenece a la base que el proc fija).
 
 **Facción es C2·F — su gate vive en RESOLUCIÓN, no en C1 (hallazgo Felarx/Primed Cleanse).** El bonus de
 facción (Bane/Cleanse) solo aplica si el target es de esa facción, y **`targetFaction` NO está en el
@@ -643,7 +645,13 @@ qué forma):
 |---|---|
 | **Ley** — la forma | el **concepto**, con su fórmula |
 | **Default del parámetro** | el **concepto**, junto a su fórmula |
-| **Desvío del parámetro** | el **portador** |
+| **Desvío del parámetro** | **quien lo declara** — emisor *o* receptor, y no son el mismo parámetro |
+
+⚠️ **"Portador" no alcanza para nombrar al dueño del desvío**, porque en el resto del corpus portador es
+quien porta el *estado* — o sea el receptor — y el desvío mejor medido que tenemos es del **emisor**: el
+cap `19` de `../../../references/ingame-tests/status-stack-caps.md` sale de `3 × Tauforged Emerald` del
+jugador que aplica (`+9` sobre el default 10), y ese jugador no porta el contador. Los dos orígenes están
+en la cadena de abajo desde el principio; lo que faltaba era que la tabla no los colapsara.
 
 Los ocho números de configuración de status —los seis de `GameLaws` más `WEAKENED_MAX_STACKS` /
 `FREEZE_MAX_STACKS`— pertenecen al mismo lugar donde `WEAKENED_CRIT_LAW` ya vive. **`GameLaws` baja a

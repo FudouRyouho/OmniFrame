@@ -4,7 +4,7 @@ Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en l
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/vocabulary.md"
   - "docs/domains/engine/design/arch-decisions.md"
@@ -132,7 +132,7 @@ Ambos son `AttributeNode` **sintéticos** inyectados por `StaticHydrator` en tod
 | Nodo | Base | Alimentado por | Consumido por |
 |---|---|---|---|
 | `WEAPON_ADD_DAMAGE` | 100 | Serration/Heavy Caliber… (op `ADD`) | `calculateCurrentValue()` — multiplica todos los daño-tokens de la entidad |
-| `GAMEPLAY_MULT_FACTION_DAMAGE` | 100 | Roar (op `ADD`, cross-entity vía `source_entity`) | `calculateCurrentValue()` — ídem. **NO** alimenta el DoT (double-dip = `OQ-ENGINE-20`) |
+| `GAMEPLAY_MULT_FACTION_DAMAGE` | 100 | Roar (op `ADD`, cross-entity vía `source_entity`) | `calculateCurrentValue()` — ídem. **NO** alimenta el DoT (double-dip = `DC-OQ-ENGINE-13`, build-debt) |
 
 **Flujo (Serration):**
 1. `StaticHydrator` inyecta `WEAPON_ADD_DAMAGE { base: 100 }`

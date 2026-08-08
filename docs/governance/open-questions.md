@@ -52,7 +52,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-16` | N-declarado vs timers reales de stacks | engine / C1 + C2 | abierta — no bloquea |
 | `OQ-ENGINE-18` | Status Duration en DoT: ¿más ticks o estirados? | engine / C1-timeline | abierta — gated por test in-game |
 | `OQ-ENGINE-19` | Generador discreto de N proc-slots a SC >100% | engine / C1-población | abierta — gated por dato in-game |
-| `OQ-ENGINE-20` | Snapshot vs live en el tick de DoT | engine / C2 | abierta — gated por test in-game |
+| `OQ-ENGINE-20` | Frontera de congelación: qué determina el proc, qué evalúa el tick | engine / C2 | abierta — eje medido; falta el caso del combo (P-10) |
 | `OQ-ENGINE-21` | Fidelidad de la ley de scaling: la tabla no está validada por DE | engine / C2 | abierta — gated por medición; Anarchs cerrado |
 | `OQ-ENGINE-22` | Generalizar EHP/DR de `enemy/` a `entity/` (player/companion) | engine / formulas | abierta — diferida, sin consumidor real hoy |
 | `OQ-ENGINE-23` | Rank de ítem (warframe/arma) sin consumidor; `mod.rank` vestigial | engine / A1-C1 | abierta — diferida, no bloquea, sin necesidad real hoy |
@@ -714,42 +714,59 @@ multi-stack, no confirma el conteo exacto).
 
 ---
 
-## OQ-ENGINE-20 — Snapshot vs. live en el tick de DoT: frontera temporal bajo buffs dinámicos — **ABIERTO (2026-07-13)**
-**Dominio:** engine / C2 (modelo de proc/DoT) — depende de test in-game
+## OQ-ENGINE-20 — La frontera de congelación: qué determina el proc, qué evalúa el tick — **ABIERTO (2026-07-13)**
+**Dominio:** engine / C2 (modelo de proc/DoT) — el eje está medido; falta ubicar la línea
 
-**Contexto.** La data de double-dip (`references/ingame-tests/double-dip.md`) prueba que el tick de un DoT
-compone **dos mitades**: `tick = snapshot(daño del hit resuelto, con buffs source YA horneados al
-aplicar) × live(re-aplicación del contexto source en el tick)`. La huella dura es el double-dip:
-Roar (×2.128, pool②) aparece **al cuadrado** en el DoT (`DoT÷base = 4.53 ≈ 2.128²`) pero ×1 en el
-hit — solo posible si el mismo multiplicador vive en las **dos mitades** a la vez. **Toda la data es
-steady-state** (el buff está activo en TODAS las tiradas).
+**Contexto.** El tick de un DoT compone dos cosas de naturaleza distinta: una **base que el proc
+determina al nacer** y un **contexto que el tick evalúa al emitir**. Lo que la evidencia ya reparte:
 
-**Pregunta.** Bajo cambio del buff **a mitad** del DoT (ej. Roar cae en el tick 4 de 6), ¿qué mitad
-responde? (i) solo cae la mitad **live** — el tick baja de Roar² a Roar¹, el snapshot persiste; (ii)
-**muere todo** el aporte del buff; (iii) otra. Esto decide qué contexto del source es **snapshot**
-(congelado en el proc) vs. **live-ref** (re-evaluado por tick) en el modelo de proc.
+| Lado | Qué le pertenece | Medición |
+|---|---|---|
+| **Base** — la determina el proc | `modded_base` físico del arma, `own_element`, `status_damage` | `references/ingame-tests/dot-scaling.md` Test 1: el hit subió `114 → 171` al agregar Heat y el Slash DoT **no se movió** de 45 |
+| **Contexto** — lo evalúa el tick al emitir | pool② del emisor (al cuadrado), `Damage Vulnerability` (single), matriz③/armor | `references/ingame-tests/damage-buckets.md` Test 7: seis razones independientes, error máximo 0.13% |
 
-**Hipótesis del usuario, no confirmada:** "muere completo" — por experiencia de juego (usa mucho estas
-sinergias), pero **explícitamente sin verificar** (no spamea la habilidad al terminar el DoT, así que
-la sensación no distingue (i) de (ii)).
+**Lo que se cayó, y hay que dejarlo escrito para no re-derivarlo.** Esta pregunta era *"bajo drop del
+buff, ¿cae sólo la mitad live o muere todo?"*, sobre la premisa de que el tick fuera `snapshot(hit
+resuelto, con buffs source horneados) × live(re-aplicación)`. La premisa no se sostiene por tres lados
+independientes:
 
-**Por qué importa.** Define la estructura del proc: `{ snapshot, refs-live }`. El proc **referencia
-estado del emisor** (congelado y/o vivo) → **rompe la agnosticidad source** — aceptado deliberadamente
-como *fidelidad*, no como accidente (decisión 2026-07-13). No bloquea construir el modelo con la
-premisa conocida (snapshot × live); bloquea **cerrar el split exacto** por multiplicador.
+1. **El DoT no hereda el hit resuelto** — Test 1 de `dot-scaling.md` (arriba): el hit se movió y el DoT
+   no. La base sale del arma por una regla propia del tipo de DoT.
+2. **La "huella dura" era una inferencia no forzada.** De `DoT ÷ base = 4.53 = 2.128²` se concluía que
+   *"el mismo multiplicador vive en las dos mitades"*. El mismo número sale de **una sola evaluación con
+   exponente 2** — que es lo que la fórmula autoritativa declara literalmente: `× (1+faction)²`.
+3. **El código tampoco lo congela:** `dotModdedBase` lee sólo `WEAPON_ADD_DAMAGE`. No hay un solo lugar
+   —evidencia, fórmula ni implementación— donde el buff del emisor esté congelado.
+
+**Posición vigente:** el factor del emisor vive **entero** del lado que se evalúa al emitir, así que al
+caer el buff **cae entero** — el tick vuelve al valor sin buff, no a un intermedio. No es una de dos
+opciones empíricas: es consecuencia de la fórmula. Concuerda con la observación replicada del usuario
+(ver el DoT caer exactamente al número sin buff, nunca a uno intermedio), que es discriminante porque el
+intermedio estaría `×1.6`–`×2.13` más arriba: no es un margen fino que la vista pueda confundir.
+
+**Lo que sigue abierto: dónde cae exactamente la línea.** El **combo de melee** es el caso que la ubica,
+porque cae justo en el medio: entra al hit del heavy attack pero **no es un stat del arma**. Decide si la
+frontera corre por *"lo que entró al hit"* o por *"lo que pertenece al arma"* — y las dos lecturas
+sobreviven a todo lo medido hasta hoy.
+
+**Por qué importa.** Define qué lleva adentro la Instancia que C1 le pasa a C2: si lo que el suceso
+guarda es *"el resultado del hit"* o *"un puntero al emisor"*. Lo primero conserva la agnosticidad
+source; lo segundo la rompe a propósito — *fidelidad*, no accidente.
 
 **Alcance (de-conflación).** El double-dip **steady-state** `(1+Σpool②)²` (toda la data medida) NO es parte
 de este OQ: es **(A)**, decidido (`DC-OQ-ENGINE-13`) y **build-debt** gated por poblar el pool②
-(`../domains/engine/status.md §Deudas`). ESTE OQ es solo el **transitorio** — qué mitad responde al drop del buff.
+(`../domains/engine/status.md §Deudas`). Esta pregunta no lo bloquea.
 
-**Test que lo cierra:** dropear un buff (Roar) a mitad de un DoT largo y medir ticks post-drop vs.
-pre-drop. Un solo experimento discrimina (i)/(ii).
+**Test que lo cierra:** `references/ingame-tests/pending.md` **P-10** — con su paso previo (¿el combo
+entra al DoT, siquiera?) y el par que lo aísla: heavy attack normal (gasta el 100% del contador) vs.
+heavy attack con **Tennokai** (no consume nada), comparando el mismo tick.
 
-**Vínculo:** `references/ingame-tests/double-dip.md` (data steady-state), `../domains/engine/design/damage-status-model.md §Modelo unificado de proc`, `../domains/engine/design/damage-status-model.md §Evidencia`, frontera
-"coupling Viral-en-vivo/snapshot" (5 fronteras del timeline, `decision-frontier.md §4`), `OQ-ENGINE-16`
-(mismo eje de fidelidad temporal: N-declarado vs. timers reales), pool② gating.
-**Fuente:** debate 2026-07-13 (ontología instancia/proc + composición snapshot×live); data double-dip
-pre-existente (no cubre el transitorio).
+**Vínculo:** `references/ingame-tests/pending.md` **P-10** (la tirada), `dot-scaling.md` + `damage-buckets.md`
+§Test 7 (las dos mediciones que reparten), `../domains/engine/design/damage-status-model.md §Modelo unificado de proc`,
+frontera "coupling Viral-en-vivo/snapshot" (5 fronteras del timeline, `decision-frontier.md §4`),
+`OQ-ENGINE-16` (mismo eje de fidelidad temporal: N-declarado vs. timers reales), pool② gating.
+**Fuente:** debate 2026-07-13 (ontología instancia/proc); re-scopeada al medir que la premisa
+`snapshot(hit resuelto) × live` era una inferencia no forzada sobre `4.53 = 2.128²`.
 
 ---
 
