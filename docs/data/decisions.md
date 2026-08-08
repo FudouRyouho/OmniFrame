@@ -4,7 +4,7 @@ Rol: "Registro de decisiones D-series del dominio data/ con estado de evolución
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -118,11 +118,16 @@ no norma — **no citarlos como precedente**. Migración pendiente, scope propio
 
 **Condición que activó la extensión:** ≥3 casos en overrides reales — Crimson Archon Shards: `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`. Estos tres son los únicos casos cross-entity confirmados.
 
-**Estado del dato:** los overrides no contienen ningún token de sub-familia inválido. Los **10 usos**
-existentes son todos legítimos y están en `UPGRADES` — los arcanos de warframe que buffean un arma
-(`WEAPON_PRIMARY_ADD_DAMAGE` ×3, `WEAPON_PRIMARY_ADD_FIRE_RATE` ×2, `WEAPON_SECONDARY_ADD_DAMAGE` ×2,
-`WEAPON_PRIMARY_ADD_RELOAD_SPEED`, `WEAPON_SECONDARY_ADD_FIRE_RATE`, `WEAPON_MELEE_ADD_DAMAGE`), más
-los 3 de shards que viven en `archon-shards.json`. La forma intra-entity con sub-familia indebida
+**Estado del dato:** los overrides no contienen ningún token de sub-familia inválido, y todos los usos
+están en `UPGRADES`. Los portadores son de dos clases: **arcanos de warframe que buffean un arma**
+(`WEAPON_PRIMARY_ADD_DAMAGE` ×3, `WEAPON_PRIMARY_ADD_FIRE_RATE` ×2, `WEAPON_SECONDARY_ADD_DAMAGE`,
+`WEAPON_PRIMARY_ADD_RELOAD_SPEED`, `WEAPON_SECONDARY_ADD_FIRE_RATE`, `WEAPON_MELEE_ADD_DAMAGE` ×2,
+`WEAPON_SECONDARY_ADD_AMMO_EFFICIENCY`) y **mods/auras de warframe con destino de arma**
+(`WEAPON_MELEE_ADD_DAMAGE` — Steel Charge · `WEAPON_SECONDARY_ADD_DAMAGE` — Pistol Amp ·
+`WEAPON_MELEE_BASE_COMBO_INITIAL` — Ready Steel · `WEAPON_MELEE_ADD_COMBO_COUNT_CHANCE` — Reflex
+Guard), más los 3 de shards que viven en `archon-shards.json`. La segunda clase es la que fuerza el
+criterio: **sin sub-familia el modifier muere montado en el warframe**, que no materializa nodos de
+arma. La forma intra-entity con sub-familia indebida
 (`WEAPON_MELEE_HEAVY_CHARGE_SPEED` → canónico `WEAPON_ADD_HEAVY_CHARGE_SPEED`, mismo stat que el
 "Heavy Attack Wind Up Speed" de los perks incarnon) ya no aparece en el dato.
 

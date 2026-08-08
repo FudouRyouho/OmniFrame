@@ -278,6 +278,31 @@ export const RHINO = '/Lotus/Powersuits/Rhino/Rhino';
  */
 export const AMALGAM_SERRATION = '/Lotus/Upgrades/Mods/DualSource/Rifle/SerratedRushMod';
 
+/**
+ * Fuentes montadas en el WARFRAME cuyo efecto es de un ARMA — la dirección que el ruteo no sabe
+ * bajar por sí solo (`arch-decisions §18`). Las tres primeras declaran su destino en la
+ * sub-familia del token y llegan; las dos últimas no tienen cómo declararlo y siguen muriendo en
+ * el portador, cada una por un motivo distinto.
+ *
+ * `STEEL_CHARGE` / `PISTOL_AMP` son AURAS: alcance *aliado*, y su destino es una clase de arma.
+ * `RIFLE_AMP` es su hermana **sin vía**: "Rifle" no es un slot — una escopeta es primaria y no lo
+ * recibe (`Shotgun Amp` existe aparte en el dataset), así que `WEAPON_PRIMARY_*` la mediría mal.
+ * `PROVOKED` tampoco la tiene, pero por el otro extremo: su destino son TODAS las armas, y eso no
+ * es una sub-familia sino la regla espejo que falta.
+ */
+export const STEEL_CHARGE = '/Lotus/Upgrades/Mods/Aura/PlayerMeleeAuraMod';
+export const PISTOL_AMP   = '/Lotus/Upgrades/Mods/Aura/PlayerPistolDamageAuraMod';
+export const RIFLE_AMP    = '/Lotus/Upgrades/Mods/Aura/PlayerRifleDamageAuraMod';
+export const PROVOKED     = '/Lotus/Upgrades/Mods/Warframe/AvatarGroundFireDmgMod';
+
+/**
+ * Arcanos de warframe con destino de arma. `ARCANE_FURY` viaja por sub-familia
+ * (`WEAPON_MELEE_ADD_DAMAGE`); `ARCANE_STRIKE` no necesitaba canal sino el token correcto
+ * (`MELEE_ADD_ATTACK_SPEED` — el nodo que la melee sí materializa), y esa familia ya rutea sola.
+ */
+export const ARCANE_FURY   = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/GolemArcaneMeleeDamageOnCrit';
+export const ARCANE_STRIKE = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/MeleeSpeedOnHit';
+
 const RHINO_MOD = {
   BLIND_RAGE:         '/Lotus/Upgrades/Mods/Warframe/DualStat/CorruptedPowerEfficiencyWarframe',           // +99% str / −55% eff (lvl 10)
   TRANSIENT_FORTITUDE:'/Lotus/Upgrades/Mods/Warframe/DualStat/CorruptedPowerStrengthPowerDurationWarframe', // +55% str / −27.5% dur (lvl 10)

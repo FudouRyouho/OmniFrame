@@ -15,7 +15,11 @@ import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { scene, onPlayer, withBearer, withMods } from '@shared/types/scene-compose';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { consume } from '../output/consume';
-import { volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar, ADARZA_KAVAT, DECONSTRUCTOR_PRIME, RHINO, AMALGAM_SERRATION } from '../fixtures/builds';
+import {
+  volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar, ADARZA_KAVAT, DECONSTRUCTOR_PRIME,
+  RHINO, AMALGAM_SERRATION, STEEL_CHARGE, PISTOL_AMP, RIFLE_AMP, ARCANE_FURY, ARCANE_STRIKE,
+  BOLTOR_PRIME, LAETUM, NIKANA_PRIME,
+} from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
@@ -127,13 +131,30 @@ describe('Modifiers sin aterrizar — el engine declara lo que no modela', () =>
 //   · 7 mods de warframe — Dead Eye · Provoked · Ready Steel · Reflex Guard · **Rifle Amp** ·
 //     **Pistol Amp** · **Steel Charge** (los tres últimos son AURAS)
 //
-// ⚠️ Y LA CLASE SE PARTE EN DOS, con arreglos distintos:
-//   (a) destino = TODAS las armas (Arachne, Provoked, Dead Eye, y `Vigorous Swap`) → falta la REGLA
-//       simétrica en el ruteo: `holder.domain === 'warframe'` + `WEAPON_*` ⇒ fan-out por familia.
-//   (b) destino = UNA clase (Rifle Amp → primaria, Pistol Amp → secundaria, Steel Charge → melee) →
-//       falta el DATO: el token debe declarar la sub-familia (`WEAPON_PRIMARY_ADD_DAMAGE`), que es
-//       exactamente lo que D-6 pide para un modifier que no reside en el nodo de su target. Con eso,
-//       el ruteo por canal que YA existe los aterriza sin tocar el motor.
+// ⚠️ Y LA CLASE SE PARTE EN TRES — el destino lo declara el `label` de cada fuente, que es dato:
+//   (a) TODAS las armas — Avenger, Crepuscular, Hot Shot, Theorem Demulcent, Provoked (+`Vigorous
+//       Swap`, que además no tiene entrada en el override). Falta la REGLA espejo:
+//       `holder.domain === 'warframe'` + `WEAPON_*` ⇒ fan-out por familia. **Y no puede ser bruta**:
+//       el arma de compañero porta `routes:['weapon']`, así que un fan-out sin eje de propiedad
+//       mete Provoked —alcance propio— en el Deconstructor del Helios. §18 ya lo dice: la propiedad
+//       la conoce el poblador y hoy la descarta.
+//   (b) UNA clase que ES un slot — Arcane Fury, Arcane Strike, Ready Steel, Steel Charge, Reflex
+//       Guard (melee) · Arcane Pistoleer, Pistol Amp (secundaria). **RESUELTO por el dato**: el
+//       token declara la sub-familia y el ruteo por canal que ya existía los aterriza. Es D-6
+//       aplicado, sin tocar el motor.
+//   (c) UNA clase que NO es un slot — Rifle Amp (rifle ⊊ primaria: `Shotgun Amp` existe aparte) y
+//       Dead Eye (sniper ⊊ rifle); más Arcane Arachne, que apunta a DOS slots a la vez
+//       ("Primary and Secondary"). Ninguna tiene vía hoy y **queda diferido a propósito**: el eje
+//       es la clase de compatibilidad del arma, y ese campo no existe sano en el schema —
+//       `compat_name` trae 236 valores mezclando clase (`Rifle`, `Assault Rifle`, `Bow`), entidad
+//       (`WARFRAME`, `AURA`) y warframe individual. Se reabre con la revisión de schema
+//       (`omniframe-items`), no antes.
+//
+// ⚠️ Arcane Strike no era ni (a) ni (b): **le faltaba el token**. Su efecto es
+// `MELEE_ADD_ATTACK_SPEED` —el nodo que la melee sí materializa— y estaba acuñado como
+// `WEAPON_ADD_FIRE_RATE`, que la melee no tiene. La familia `MELEE` ya rutea sola por
+// `FAMILY_ROUTE`, así que llega sin sub-familia. Un token mal acuñado se ve igual que un hueco de
+// ruteo desde el tripwire; sólo el `label` de la fuente los distingue.
 //
 // El override de Arachne ya sabía la mitad del problema y lo dejó anotado — *"dos canales simultáneos
 // no expresables con un solo target_channel. Se mantiene WEAPON_ADD_DAMAGE genérico"*. Lo que nadie
@@ -154,10 +175,90 @@ describe('Ruteo warframe → arma — asimétrico, y el lado que falta', () => {
     weapons: { primary: { uniqueName: TIBERON_PRIME, rank: 30 } },
   });
 
+  // Caso (c): Arachne apunta a DOS slots y el token no lo puede decir. Queda rojo a propósito —
+  // ⚠️ y verde tampoco sería la respuesta: la regla espejo bruta lo haría pasar aterrizando TAMBIÉN
+  // en la melee, que el label excluye. Un test que pasa por el destino equivocado es peor que uno
+  // rojo, así que el examen se queda como está hasta que el eje de clase se decida.
   it.fails('un arcano de warframe con token de arma debería aterrizar en el arma — hoy muere en el warframe', () => {
     const out = consume(conArachne(), { flags: { on_wall_latch: true } });
     // Arachne rank 5 = +150% (`arcane-stats.override.json`).
     expect(out.weapon(TIBERON_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(150);
+  });
+
+  // ─── Caso (b): la sub-familia baja el efecto, y el canal lo CONTIENE ──────────────────
+  //
+  // Las dos mitades importan igual. Que Steel Charge llegue a la melee prueba que el ruteo baja;
+  // que NO llegue a la primaria ni a la secundaria prueba que baja *al lugar correcto* — un
+  // fan-out por familia también haría pasar la primera mitad.
+  const conAuras = () => scene({
+    kind: 'onfoot',
+    warframe: {
+      uniqueName: RHINO, rank: 30,
+      mods: { 0: { uniqueName: STEEL_CHARGE, level: 5 }, 1: { uniqueName: PISTOL_AMP, level: 5 } },
+    },
+    weapons: {
+      primary:   { uniqueName: BOLTOR_PRIME, rank: 30 },
+      secondary: { uniqueName: LAETUM, rank: 30 },
+      melee:     { uniqueName: NIKANA_PRIME, rank: 30 },
+    },
+  });
+
+  it('un aura de melee montada en el warframe aterriza en la melee — y sólo en ella', () => {
+    const out = consume(conAuras(), { flags: {} });
+    // Steel Charge rank 5 = +60%. Nikana Prime base 198 → 316.8.
+    expect(out.weapon(NIKANA_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(60);
+    expect(out.weapon(BOLTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
+  });
+
+  it('un aura de pistola aterriza en la secundaria — y no cruza a la melee', () => {
+    const out = consume(conAuras(), { flags: {} });
+    // Pistol Amp rank 5 = +27%. Laetum base 160 → 203.2.
+    expect(out.weapon(LAETUM).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(27);
+    expect(out.weapon(NIKANA_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(60);
+  });
+
+  it('un arcano de warframe con destino de melee baja por sub-familia', () => {
+    const build = scene({
+      kind: 'onfoot',
+      warframe: { uniqueName: RHINO, rank: 30, arcanes: { 0: { uniqueName: ARCANE_FURY, rank: 5 } } },
+      weapons: { primary: { uniqueName: BOLTOR_PRIME, rank: 30 }, melee: { uniqueName: NIKANA_PRIME, rank: 30 } },
+    });
+    const out = consume(build, { flags: { on_critical_hit: true } });
+    // Arcane Fury rank 5 = +180%.
+    expect(out.weapon(NIKANA_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(180);
+    expect(out.weapon(BOLTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
+  });
+
+  // Arcane Strike tenía DOS defectos, no uno, y el segundo sólo se ve una vez corregido el primero:
+  // con `MELEE_ADD_ATTACK_SPEED` el token ya nombra el nodo que la melee materializa —y sigue
+  // muriendo en el warframe—, porque **el ruteo no consulta la familia del token**. `FAMILY_ROUTE`
+  // tiene cinco entradas y desde mods/arcanos se usan dos, ambas hardcodeadas (`'ENEMY'` para el
+  // cruce de bando, `'AVATAR'` para el salto arma→warframe). `MELEE`, `WEAPON` y `GAMEPLAY` son
+  // letra muerta por ese camino.
+  //
+  // Y la regla que falta ya está escrita, aplicada a otra fuente: `AbilityRepository.ts:137` hace
+  // `resolveFamilyEntities(token.split('_')[0], entities)` — la familia del token, dinámica. Eso es
+  // exactamente lo que las habilidades tienen y los mods no.
+  it.fails('un token de familia MELEE llega al arma sin sub-familia ninguna', () => {
+    const build = scene({
+      kind: 'onfoot',
+      warframe: { uniqueName: RHINO, rank: 30, arcanes: { 0: { uniqueName: ARCANE_STRIKE, rank: 5 } } },
+      weapons: { melee: { uniqueName: NIKANA_PRIME, rank: 30 } },
+    });
+    // Arcane Strike rank 5 = +60% attack speed.
+    expect(consume(build, { flags: { on_hit: true } }).weapon(NIKANA_PRIME).node('MELEE_ADD_ATTACK_SPEED').mods_add_pct).toBe(60);
+  });
+
+  // ─── Caso (c): sin vía, y el tripwire es el único que lo dice ─────────────────────────
+  it('Rifle Amp sigue muriendo en el warframe — "Rifle" no es un slot y el token no lo puede declarar', () => {
+    const build = scene({
+      kind: 'onfoot',
+      warframe: { uniqueName: RHINO, rank: 30, mods: { 0: { uniqueName: RIFLE_AMP, level: 5 } } },
+      weapons: { primary: { uniqueName: BOLTOR_PRIME, rank: 30 } },
+    });
+    const avisos = unlanded(build);
+    expect(avisos.some(w => w.includes('WEAPON_ADD_DAMAGE') && w.includes(RHINO))).toBe(true);
+    expect(consume(build, { flags: {} }).weapon(BOLTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
   });
 
   // La contracara, que SÍ funciona y por eso el hueco es fácil de no ver: la dirección inversa tiene

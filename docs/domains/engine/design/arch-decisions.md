@@ -859,22 +859,46 @@ código lo cumple **a medias**. **El criterio de aceptación es externo:**
 | el token declara tres cosas y sólo tres | el **cruce de bando** lo declara la familia del token, sin `if` ni campo nuevo | ✅ |
 | `AVATAR_*` = el avatar del portador (**relativo**) | `FAMILY_ROUTE: { AVATAR: 'avatar' }` — clase **absoluta** | ⚠️ abierto |
 | *"un `if` … convierte un error detectable en uno invisible"* | `if (holder?.domain === 'weapon' && token.startsWith('AVATAR_'))` | ⚠️ abierto |
-| **el portador que no materializa el token rutea dentro del alcance** (`warframe → WEAPON_*`) | **no se rutea**: `resolveToken` emite `target_channel` **sólo si el token trae sub-familia**, así que un `WEAPON_ADD_DAMAGE` liso cae a contención y muere en el warframe | 🔴 **abierto, con forcing-case** |
+| **el portador que no materializa el token rutea dentro del alcance** (`warframe → WEAPON_*`) | **no se rutea**: el ruteo baja sólo cuando el **dato** trae sub-familia (`resolveToken` emite `target_channel` únicamente ahí). Un token liso cae a contención y muere en el warframe — y con la familia declarada tampoco baja: `FAMILY_ROUTE` se consulta con dos constantes, nunca con la familia del token | 🔴 **abierto, con forcing-case** — 7 de las 15 fuentes cerraron poblando la sub-familia; las que quedan no pueden declararla |
 | *"si dentro del alcance no hay destino, se descarta **y se reporta**"* | el cruce de bando reporta (`crossBandDiscarded`); el salto `AVATAR_*` y el canal vacío **descartan sin reportar** | 🔴 **abierto, con forcing-case** |
 
 🔴 **Las dos filas nuevas son drift que este documento no declaraba, y su forcing-case ya existe** — no
 es proyección. Medido sobre los datasets: **15 fuentes vivas montadas en el warframe emiten token de
-arma sin sub-familia** y mueren en el tripwire — 8 arcanos (`Arachne` · `Avenger` · `Crepuscular` ·
-`Fury` · `Hot Shot` · `Pistoleer` · `Strike` · `Theorem Demulcent`) y 7 mods (`Dead Eye` · `Provoked` ·
-`Ready Steel` · `Reflex Guard` · `Rifle Amp` · `Pistol Amp` · `Steel Charge`), **tres de ellos auras**.
-Son un subconjunto de los ~37 que el censo de arriba ya contaba como *resueltos por la regla*.
+arma sin sub-familia** — 8 arcanos (`Arachne` · `Avenger` · `Crepuscular` · `Fury` · `Hot Shot` ·
+`Pistoleer` · `Strike` · `Theorem Demulcent`) y 7 mods (`Dead Eye` · `Provoked` · `Ready Steel` ·
+`Reflex Guard` · `Rifle Amp` · `Pistol Amp` · `Steel Charge`), **tres de ellos auras**. Son un
+subconjunto de los ~37 que el censo de arriba ya contaba como *resueltos por la regla*.
 
-**Y la clase se parte en dos, con dueños distintos:**
+**Y la clase se parte en TRES, no en dos.** El destino real lo declara el `label` de cada fuente —
+dato, no lectura nuestra — y por eso el reparto no se puede derivar del token:
 
-| Destino real | Ejemplos | Qué falta |
-|---|---|---|
-| **todas las armas** | Arcane Arachne, Provoked, Dead Eye, `Vigorous Swap` | **la regla**: el espejo del salto que ya existe — `holder.domain === 'warframe'` + `WEAPON_*` ⇒ fan-out por familia |
-| **una clase de arma** | Rifle Amp → primaria · Pistol Amp → secundaria · Steel Charge → melee | **el dato**: el token debe declarar la sub-familia (`WEAPON_PRIMARY_ADD_DAMAGE`), que es D-6 aplicado — un modifier que no reside en el nodo de su target lleva sub-familia. Con eso, el ruteo por canal que **ya existe** los aterriza sin tocar el motor |
+| Destino real | Fuentes | Qué falta | Estado |
+|---|---|---|---|
+| **una clase que ES un slot** | Arcane Fury · Arcane Strike · Ready Steel · Steel Charge · Reflex Guard (melee) · Arcane Pistoleer · Pistol Amp (secundaria) | nada: el token declara la sub-familia y el ruteo por canal que **ya existe** los aterriza | ✅ **cerrado** — D-6 aplicado, sin tocar el motor |
+| **todas las armas** | Arcane Avenger · Crepuscular · Hot Shot · Theorem Demulcent · Provoked (+`Vigorous Swap`, que ni entrada de override tiene) | **la regla** espejo del salto que ya existe — `holder.domain === 'warframe'` + `WEAPON_*` ⇒ fan-out por familia | 🔴 abierto |
+| **una clase que NO es un slot** | Rifle Amp (rifle) · Dead Eye (sniper) · Arcane Arachne (primaria **+** secundaria) | **el schema**: el eje es la clase de compatibilidad, y hoy no existe sano | ⏸️ diferido a `OQ-DATA-16` |
+
+⚠️ **Por qué el tercer grupo se difiere y no se aproxima.** `Rifle` no es `primary`: una escopeta es
+primaria y no recibe `Rifle Amp` — `Shotgun Amp` existe aparte en el dataset, y los cuatro
+`Scavenger` (Rifle/Shotgun/Sniper/Pistol) repiten el mismo eje. Mapearlos al slot mediría de más.
+El campo que los expresaría, `compat_name`, trae **236 valores** mezclando clase (`Rifle`,
+`Assault Rifle`, `Bow`), entidad (`WARFRAME`, `AURA`) y warframe individual; del lado del arma,
+`kind`/`category`/`type`/`family` se solapan (`category` ≈ `kind` + `Misc`; `family` mezcla clase con
+linaje). **El diferimiento es del schema, no del vocabulario.**
+
+⚠️ **Y la regla que falta no puede ser un fan-out bruto.** El arma de compañero porta
+`routes: ['weapon']` (warrant: Roar la alcanza), así que fan-out por familia sin eje de propiedad
+mete `Provoked` —alcance **propio**— en el arma del sentinel. La propiedad la conoce el poblador y
+hoy la descarta: `EntityIntent` no lleva dueño, aunque `companionIntents` construya el arma dentro
+del compañero.
+
+⚠️ **Un token mal acuñado se ve igual que un hueco de ruteo.** `Arcane Strike` emitía
+`WEAPON_ADD_FIRE_RATE` para un efecto que la fuente llama *"Attack Speed to Melee Weapons"*: el nodo
+correcto es `MELEE_ADD_ATTACK_SPEED`, que la melee sí materializa. Corregido el token, **sigue sin
+llegar** — y ahí aparece el hueco real: `FAMILY_ROUTE` declara cinco entradas y el ruteo de
+mods/arcanos usa dos, ambas hardcodeadas (`'ENEMY'`, `'AVATAR'`). `MELEE`, `WEAPON` y `GAMEPLAY` son
+letra muerta por ese camino. La regla que falta **ya está escrita** en `AbilityRepository`:
+`resolveFamilyEntities(token.split('_')[0], entities)` — la familia del token, dinámica.
 
 ⚠️ Por qué el hueco es difícil de ver: **las habilidades sí bajan**, y no por el ruteo —
 `AbilityRepository` resuelve el destino él mismo (`resolveFamilyEntities`) y emite el modifier ya

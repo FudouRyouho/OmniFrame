@@ -216,6 +216,17 @@ export const UPGRADES = [
   // El hermano cruzado `Arcane Primary Charger` (on_melee_kill) usa WEAPON_PRIMARY_ADD_DAMAGE.
   // Los tres ejes viven separados en el dato: destino = token · cuál = canal · cuándo = condition.
   'WEAPON_MELEE_ADD_DAMAGE',
+  // Auras y mods de warframe cuyo destino es UNA clase de arma. Antes emitían el token liso
+  // (`WEAPON_ADD_DAMAGE` desde el warframe) y morían montados en él: el warframe no materializa
+  // nodos de arma y el ruteo sólo baja con sub-familia. Portadores: Ready Steel (aura),
+  // Reflex Guard, Arcane Pistoleer.
+  //
+  // ⚠️ Los dos de combo llegan al arma correcta y **el nodo no existe** (combo no modelado); ammo
+  // efficiency, ídem. Eso es progreso igual: el tripwire deja de reportar el hueco en el warframe
+  // —donde el nodo nunca podía estar— y lo reporta en la melee/secundaria, que es donde falta.
+  'WEAPON_MELEE_BASE_COMBO_INITIAL',
+  'WEAPON_MELEE_ADD_COMBO_COUNT_CHANCE',
+  'WEAPON_SECONDARY_ADD_AMMO_EFFICIENCY',
   // ── AVATAR — habilidades ─────────────────────────────────────────────────
   'AVATAR_ADD_ABILITY_STRENGTH',
   'AVATAR_ADD_ABILITY_RANGE',
@@ -464,6 +475,11 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
   WEAPON_BASE_HEAVY_EFFICIENCY:     { attr: 'WEAPON_ADD_HEAVY_EFFICIENCY',      op: 'BASE_FLAT' },
   WEAPON_BASE_COMBO_DURATION:       { attr: 'WEAPON_ADD_COMBO_DURATION',        op: 'BASE_FLAT' },
   WEAPON_BASE_COMBO_INITIAL:        { attr: 'WEAPON_ADD_COMBO_INITIAL',         op: 'BASE_FLAT' },
+  // Única sub-familia con entrada explícita, y no por excepción: el par ADD de este token **no se
+  // deriva del segmento** (`BASE_COMBO_INITIAL` → nodo `ADD_COMBO_INITIAL`, no `BASE_COMBO_INITIAL`),
+  // así que el fallback de `resolveToken` acertaría el canal y erraría el atributo. Donde el nombre
+  // del nodo sí se deriva, el fallback alcanza y no hay entrada.
+  WEAPON_MELEE_BASE_COMBO_INITIAL:  { attr: 'WEAPON_ADD_COMBO_INITIAL',         op: 'BASE_FLAT', target_channel: 'melee' },
   AVATAR_FLAT_HEALTH_MAX:           { attr: 'AVATAR_ADD_HEALTH_MAX',            op: 'ADD_FLAT' },
   AVATAR_FLAT_SHIELD_MAX:           { attr: 'AVATAR_ADD_SHIELD_MAX',            op: 'ADD_FLAT' },
   AVATAR_FLAT_ENERGY_MAX:           { attr: 'AVATAR_ADD_ENERGY_MAX',            op: 'ADD_FLAT' },

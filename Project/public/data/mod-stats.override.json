@@ -10819,8 +10819,11 @@
               22.5,
               27
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_SECONDARY_ADD_DAMAGE"
           }
+        ],
+        "notes": [
+          "engine:note — la sub-familia la declara el label de la fuente: \"Pistol Damage\", no \"Weapon Damage\". Montada en el warframe, sin canal el modifier moría en el portador."
         ]
       }
     ]
@@ -13302,8 +13305,11 @@
               20,
               24
             ],
-            "upgrade_type": "WEAPON_BASE_COMBO_INITIAL"
+            "upgrade_type": "WEAPON_MELEE_BASE_COMBO_INITIAL"
           }
+        ],
+        "notes": [
+          "engine:note — el combo es de la melee; el aura se monta en el warframe. Con la sub-familia llega al arma, y ahí el nodo WEAPON_ADD_COMBO_INITIAL todavía no se materializa (combo no modelado): el tripwire reporta el hueco donde realmente está."
         ]
       }
     ]
@@ -13499,10 +13505,13 @@
               90.9,
               100
             ],
-            "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE"
+            "upgrade_type": "WEAPON_MELEE_ADD_COMBO_COUNT_CHANCE"
           }
         ],
-        "condition": "while_blocking"
+        "condition": "while_blocking",
+        "notes": [
+          "engine:note — bloquear es acción de melee y el combo es suyo; el mod se monta en el warframe. Mismo caso que Ready Steel: con la sub-familia llega al arma, el nodo todavía no existe."
+        ]
       }
     ]
   },
@@ -15692,8 +15701,11 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_MELEE_ADD_DAMAGE"
           }
+        ],
+        "notes": [
+          "engine:note — \"Melee Damage\" en el label es el destino, no el tema. Aura montada en el warframe: sin sub-familia el token liso moría en el portador junto con Pistol Amp y Rifle Amp, los tres apilados en un nodo que el warframe no tiene."
         ]
       }
     ]

@@ -4,7 +4,7 @@ Rol: "Contrato + catálogo de cobertura de arcane-stats.override.json — defini
 Impacto_ID: "data-arcane"
 Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-08-08"
 ---
 
 # Arcane Stats Override — Schema y mapa semántico
@@ -79,15 +79,22 @@ probabilidad, no una magnitud). Pendiente: estructurar como campos cuando se dis
 
 **Estado de cobertura actual:** 83 mapeados / 193 totales (~43%)
 
+⚠️ **Deuda: los `N` de las tablas de abajo son censo manual y no cuadran con el dato.** No sólo
+envejecieron contra los overrides — varias filas **no cuadran con su propia lista de nombres**
+(`WEAPON_ADD_CRIT_CHANCE` dice 10 y enumera 9). Las filas que un cambio toca se recalculan contra
+`arcane-stats.override.json`; el resto sigue sin verificar. El arreglo de fondo es **derivar la
+tabla**, no re-contarla a mano.
+
 ### WEAPON
 
 | Token | N | Arcanes representativos | Estado |
 |---|---|---|---|
-| `WEAPON_ADD_DAMAGE` | 12 | Arcane Fury, Arcane Awakening, Arcane Precision, Arcane Rage, Arcane Rise, Arcane Blade Charger, Arcane Primary Charger, Arcane Arachne, Longbow Sharpshot, Virtuos Fury, Theorem Demulcent, Eternal Eradicate | ✅ válidos; scope weapon-type es limitación del modelo |
+| `WEAPON_ADD_DAMAGE` | 5 | Arcane Arachne⚠, Eternal Eradicate, Longbow Sharpshot, Theorem Demulcent, Virtuos Fury | ⚠ Arachne apunta a primaria **+** secundaria y el token no lo puede decir: montado en el warframe **no aterriza en ninguna** — ver `semantic/upgrade-tokens.md` §sub-familia clase |
+| `WEAPON_MELEE_ADD_DAMAGE` | 2 | Arcane Blade Charger, Arcane Fury | ✅ el destino viaja en la sub-familia |
 | `WEAPON_ADD_CORROSIVE_DAMAGE` | 1 | Melee Exposure | ✅ corregido en Gate 2a |
 | `WEAPON_ADD_CRIT_CHANCE` | 10 | Arcane Avenger, Arcane Hot Shot⚠, Cascadia Accuracy, Cascadia Overcharge, Eternal Onslaught, Melee Animosity⚠, Secondary Kinship⚠, Secondary Outburst⚠, Virtuos Shadow | ⚠ stacking en Hot Shot, Animosity, Kinship, Outburst — ver `notes[]` |
 | `WEAPON_ADD_CRIT_MULT` | 5 | Arcane Crepuscular val1⚠, Magus Aggress, Primary Blight, Primary Frostbite, Virtuos Strike | ⚠ Crepuscular val1 = Final Critical Damage (bucket multiplicativo separado) — ver semantic gap |
-| `WEAPON_ADD_FIRE_RATE` | 5 | Arcane Acceleration, Arcane Strike, Arcane Tempo, Arcane Velocity, Virtuos Tempo | ✅ |
+| `WEAPON_ADD_FIRE_RATE` | 1 | Virtuos Tempo | ✅ — Acceleration/Tempo/Velocity llevan sub-familia; **Arcane Strike** salió de acá: su efecto es attack speed de melee (`MELEE_ADD_ATTACK_SPEED`), no cadencia de arma de fuego |
 | `WEAPON_ADD_MULTISHOT` | 5 | Conjunction Voltage, Primary Blight, Primary Frostbite, Primary Overcharge⚠, Shotgun Vendetta | ⚠ Overcharge = val es cap, no multishot directo — ver `notes[]` |
 | `WEAPON_ADD_RELOAD_SPEED` | 4 | Arcane Momentum, Conjunction Voltage, Fractalized Reset, Shotgun Vendetta | ✅ |
 | `WEAPON_ADD_STATUS_CHANCE` | 2 | Primary Crux, Virtuos Ghost | ✅ |

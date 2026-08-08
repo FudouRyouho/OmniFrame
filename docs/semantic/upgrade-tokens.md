@@ -4,7 +4,7 @@ Rol: "Taxonomía de UpgradeType — vocabulario canónico OmniFrame D-6"
 Impacto_ID: "semantic-upgrade-tokens"
 Fidelidad_Fisica: "Project/src/shared/types/modifier.ts"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "Project/src/shared/types/damage.ts"
   - "docs/data/schemas/mods/mods-schema.md"
@@ -309,8 +309,18 @@ Patrón extendido: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`.
 Sin entrada en UPGRADE_MAP — `resolveToken()` los deriva automáticamente, emitiendo `target_channel`.
 El ruteo por canal **está implementado**: `resolve/hydration/channel-routing.ts` resuelve `target_channel` → entidad(es) en una pasada única al final de la hidratación, agnóstica a la fuente (shard, arcano, mod). Devuelve **lista**, no valor: un canal puede alcanzar N entidades (`OQ-ENGINE-11`, exaltadas).
 
-> **Canales válidos:** solo `PRIMARY`/`SECONDARY`/`MELEE` — no hay `SNIPER`/`SHOTGUN` (son subtipos de
-> primary: mapean a `primary` + nota de restricción).
+> **Canales válidos:** solo `PRIMARY`/`SECONDARY`/`MELEE`. **La sub-familia es el SLOT, no la clase
+> del arma**, y no son lo mismo: `Rifle Amp` dice *"Rifle Damage"* y una escopeta —que es primaria—
+> no lo recibe (`Shotgun Amp` existe aparte en el dataset); `Dead Eye` dice *"Sniper Rifle Damage"*,
+> más angosto todavía. Mapear esos a `primary` no es aproximar: mide de más.
+>
+> **El eje de clase queda diferido**, y el motivo no es el vocabulario sino el schema que tendría que
+> alimentarlo: `compat_name` trae 236 valores que mezclan clase de arma (`Rifle`, `Assault Rifle`,
+> `Bow`), entidad (`WARFRAME`, `AURA`, `COMPANION`) y warframe individual (`Volt`, `Nezha`), y del
+> lado del arma `kind`/`category`/`type`/`family` se solapan entre sí (`category` ≈ `kind` + `Misc`;
+> `family` mezcla clase con linaje `prime`/`wraith`/`kuva`). Se reabre con la revisión de schema de
+> `omniframe-items` (`OQ-DATA-16`), no antes. Sin vía hoy: `Rifle Amp`, `Dead Eye` y `Arcane Arachne`
+> (que además apunta a dos slots a la vez).
 >
 > Evidencia por defecto: `[empirical]` — fuente Archon Shards, verificada en juego.
 
@@ -322,9 +332,17 @@ El ruteo por canal **está implementado**: `resolve/hydration/channel-routing.ts
 | `WEAPON_PRIMARY_ADD_DAMAGE` | `primary` | `C1` | Arcane Rage, Arcane Rise (arcanos de **warframe**) |
 | `WEAPON_PRIMARY_ADD_FIRE_RATE` | `primary` | `C1` | Arcane Acceleration, Arcane Tempo |
 | `WEAPON_PRIMARY_ADD_RELOAD_SPEED` | `primary` | `C1` | Arcane Momentum |
-| `WEAPON_SECONDARY_ADD_DAMAGE` | `secondary` | `C1` | Arcane Awakening, Arcane Precision |
+| `WEAPON_SECONDARY_ADD_DAMAGE` | `secondary` | `C1` | Arcane Awakening, Arcane Precision, **Pistol Amp** (aura) |
 | `WEAPON_SECONDARY_ADD_FIRE_RATE` | `secondary` | `C1` | Arcane Velocity |
-| `WEAPON_MELEE_ADD_DAMAGE` | `melee` | `C1` | Arcane Blade Charger — **cruzado**: el trigger es un kill con rifle, el destino es el melee |
+| `WEAPON_SECONDARY_ADD_AMMO_EFFICIENCY` | `secondary` | `C1` | Arcane Pistoleer — ⚠️ llega al arma y el nodo `WEAPON_ADD_AMMO_EFFICIENCY` no se materializa |
+| `WEAPON_MELEE_ADD_DAMAGE` | `melee` | `C1` | Arcane Blade Charger — **cruzado**: el trigger es un kill con rifle, el destino es el melee · Arcane Fury · **Steel Charge** (aura) |
+| `WEAPON_MELEE_ADD_COMBO_COUNT_CHANCE` | `melee` | `C1` | Reflex Guard — ⚠️ nodo no materializado (combo) |
+| `WEAPON_MELEE_BASE_COMBO_INITIAL` | `melee` | `C1` | Ready Steel (aura) — ⚠️ nodo no materializado (combo). **Única sub-familia con entrada en `UPGRADE_MAP`**: su par ADD no se deriva del segmento (`BASE_COMBO_INITIAL` → nodo `ADD_COMBO_INITIAL`), así que el fallback acertaría el canal y erraría el atributo |
+
+⚠️ **Que el token llegue no garantiza que el nodo exista, y esa diferencia es útil.** Tres de estos
+apuntan a nodos que el motor todavía no materializa (combo, ammo efficiency). Antes el tripwire
+reportaba el hueco **en el warframe** —donde el nodo nunca podía estar, porque el problema era el
+ruteo— y ahora lo reporta en la melee o la secundaria, que es donde falta de verdad.
 
 ### MELEE — atributos propios del dominio melee
 
@@ -333,7 +351,16 @@ la OPERATION y el attr queda igual al token).
 
 | Tipo OmniFrame D-6 | Evidencia | Modelo | Ejemplo de mod |
 | :--- | :--- | :--- | :--- |
-| `MELEE_ADD_ATTACK_SPEED` | `[empirical]` | `C1` | Fury, Primed Fury, Berserker Fury, Quickening, Spoiled Strike (−), Gladiator Vice, Furor, Necramech Fury, Martial Fury |
+| `MELEE_ADD_ATTACK_SPEED` | `[empirical]` | `C1` | Fury, Primed Fury, Berserker Fury, Quickening, Spoiled Strike (−), Gladiator Vice, Furor, Necramech Fury, Martial Fury, **Arcane Strike** |
+
+⚠️ **`Arcane Strike` es el caso que prueba que la separación no es cosmética.** Estaba acuñado
+`WEAPON_ADD_FIRE_RATE` —el token del arma de fuego— para un efecto que la fuente describe como
+*"Attack Speed to Melee Weapons"*. Con el token correcto nombra el nodo que la melee sí materializa;
+sigue sin llegar, pero ahora por un motivo distinto y visible: **el ruteo no consulta la familia del
+token**. `FAMILY_ROUTE` declara cinco entradas y desde mods/arcanos se usan dos, ambas hardcodeadas
+(`ENEMY` para el cruce de bando, `AVATAR` para el salto arma→warframe); `MELEE`, `WEAPON` y
+`GAMEPLAY` sólo las alcanza `AbilityRepository`, que sí rutea por la familia del token. Es el mismo
+hueco que `arch-decisions.md` §18 lleva como drift 🔴.
 
 **Por qué está separado de `WEAPON_ADD_FIRE_RATE`.** DE emite un único token upstream
 (`WEAPON_FIRE_RATE`) tanto para Fury como para Gunslinger, pero son stats distintos:

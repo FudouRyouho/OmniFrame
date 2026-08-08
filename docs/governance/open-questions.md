@@ -908,6 +908,16 @@ El contraste vive adentro del propio repo: los **arcanos** sí tienen vocabulari
 Por eso el hueco **es del dato, no de la lectura**: inventar la matriz project-side sería cerrar
 semántica declarada abierta, en el consumidor y sin fuente. Es la fuente la que debe emitir la clase.
 
+**Y ese hueco ya tiene consumidor en el motor, no sólo en la UI.** Tres fuentes vivas no se pueden
+modelar hasta que exista la clase: `Rifle Amp` (*"Rifle Damage"* — una escopeta es primaria y no lo
+recibe; `Shotgun Amp` existe aparte), `Dead Eye` (*"Sniper Rifle Damage"*, más angosto todavía) y los
+cuatro `Scavenger`, que repiten el eje. La sub-familia del token D-6 es el **slot**, y mapearlos a
+`primary` mediría de más — el detalle y su examen viven en
+[`../semantic/upgrade-tokens.md`](../semantic/upgrade-tokens.md) §*sub-familia clase* y en
+`arch-decisions.md` §18. El eje falta además del lado del arma: `kind`/`category`/`type`/`family` se
+solapan entre sí (`category` ≈ `kind` + `Misc`; `family` mezcla clase con linaje `prime`/`kuva`) y
+ninguno es la clase de compatibilidad — `type: Bow` y `type: Rifle` comparten mods de rifle.
+
 **Dirección (investigada, NO decidida — sigue en debate):** no es "fuente propia vs fork" como binario, sino
 un **repo-superset de cosecha**: mismo ingest de upstream (capa-1 intacta, dependencia dura), exprimiendo N
 módulos Lua de la wiki que `@wfcd` deja sobre la mesa (opt-in — cada módulo es superficie de mantenimiento
