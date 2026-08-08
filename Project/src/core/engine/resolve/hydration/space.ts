@@ -1,4 +1,4 @@
-import type { Ensemble } from "../../contracts";
+import type { Ensemble, MutatedDNA } from "../../contracts";
 
 /**
  * EL ESPACIO — quiénes participan de una simulación, antes de hidratar a ninguno.
@@ -43,6 +43,31 @@ export interface EntityIntent {
    * Sólo lo declara el grupo Hostil. Un arma no tiene nivel y no se le inventa uno.
    */
   level?: number;
+}
+
+/**
+ * El mismo intent del espacio, **con su molde puesto**.
+ *
+ * POR QUÉ EXISTE. El espacio dice quién participa; el molde (`MutatedDNA`) es lo que ese participante
+ * ES antes de que nadie le monte nada. Eran dos pasadas separadas sobre el mismo escenario: el bridge
+ * recorría el espacio para dereferenciar los moldes y los dejaba en un `Record<string, MutatedDNA>`, y
+ * el hidratador **volvía a recorrer el espacio** para leer ese mapa. Mismo input, mismo recorrido, dos
+ * veces — y el mapa existía sólo para cruzar de una pasada a la otra.
+ *
+ * Ese mapa era una de las apariciones del patrón de `OQ-ENGINE-36`: una clave derivada
+ * (`dnas[intent.entity_id]`) que dos participantes del mismo ítem escriben sin que nadie chequee. No
+ * era un defecto de la clave — era el precio de computar el espacio dos veces. Con el molde viajando
+ * SOBRE el intent no hay mapa, no hay clave y no hay nada que colisionar.
+ *
+ * ⚠️ Esto **no cierra** `OQ-ENGINE-36`: la identidad sigue siendo el `unique_name`, así que dos
+ * participantes del mismo ítem siguen colapsando aguas abajo (`SimulationEngine.entities` es
+ * `Map<EntityId, …>`, y el `entityById` del ruteo también). Mata una aparición de tres.
+ *
+ * Declarar el tipo acá no es dereferenciar acá: `populateFromLoadout` sigue sin tocar un repositorio.
+ * Quien pone el molde es B (`MutatorBridge.attachMolds`), que es el que sabe buscarlo.
+ */
+export interface MoldedIntent extends EntityIntent {
+  dna: MutatedDNA;
 }
 
 /**

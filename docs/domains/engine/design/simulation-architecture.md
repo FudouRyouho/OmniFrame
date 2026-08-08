@@ -22,7 +22,7 @@ Capas horizontales con comunicación vertical estricta: cada capa es completa en
 ```
 ┌─────────────────────────────────────────────────┐
 │  A — INTENCIÓN                                  │
-│  EnsembleStore + EnsembleIntention              │
+│  Scene — el escenario y sus grupos              │
 └───────────────────┬─────────────────────────────┘
                     │ snapshot de intención
 ┌───────────────────▼─────────────────────────────┐
@@ -59,12 +59,12 @@ El sistema recibe dos tipos de intención del usuario, con ciclos de vida indepe
 
 | Intención | Contrato | Quién la produce | Destino |
 |---|---|---|---|
-| **Equipamiento** | `EnsembleIntention` | `EnsembleStore` (Capa A) | B → C1/C2 |
+| **Equipamiento** | `Scene` | quien arma el escenario (fixtures, CLI; la UI aún no) | B → C1/C2 |
 | **Contexto de simulación** | `SimulationContext` | Arsenal State (UI) | B → C1/C2, D |
 
-**`EnsembleIntention`** responde "¿qué tengo equipado?". No cambia si el usuario activa o desactiva una condición.
+**`Scene`** responde "¿quiénes participan y con qué?". No cambia si el usuario activa o desactiva una condición.
 
-**`SimulationContext`** responde "¿cómo quiero ver el resultado?". Arsenal State lo construye derivando las condiciones disponibles del propio `EnsembleIntention`: si Galvanized Savvy está equipada, Arsenal State sabe que existe la condición asociada y la incluye en `flags`. El engine no infiere condiciones — las recibe ya construidas.
+**`SimulationContext`** responde "¿cómo quiero ver el resultado?". Arsenal State lo construye derivando las condiciones disponibles de la propia `Scene`: si Galvanized Savvy está equipada, Arsenal State sabe que existe la condición asociada y la incluye en `flags`. El engine no infiere condiciones — las recibe ya construidas.
 
 **Estado inicial (simplificación estática):** `flags` = todas las condiciones derivadas del equipamiento en `true`, `variables` = todos los stacks al máximo. A medida que el modelo evolucione, el usuario podrá controlar condiciones individuales y cantidad de stacks desde la UI.
 
@@ -80,9 +80,10 @@ La capa, el contrato y el flujo son idénticos en ambos casos.
 
 - **Naturaleza**: Dos preocupaciones horizontales bajo el mismo concepto:
   - **EnsembleStore** — contenedor reactivo (observable agnóstico de framework). Reacciona a acciones explícitas del usuario (equipar ítem, asignar mod). Es proactivamente reactivo: no sabe de UI interna, pero emite snapshots cuando el usuario actúa.
-  - **EnsembleIntention** — contrato de datos puro (POJO tipado). Define qué tiene equipado el usuario en cada canal y bajo qué condiciones de entorno.
+  - **Scene** — contrato de datos puro (POJO tipado). Declara **quién participa** en dos grupos (`squad` ⊥ `hostile`) y qué porta cada uno; el portador contiene lo que se le monta.
 - **Responsabilidad**: Almacenar la intención del usuario como datos puros. No contiene lógica de juego ni fórmulas.
-- **Contrato**: `EnsembleIntention` — ver `@shared/types/ensemble.ts` (gemelo-de-entrada).
+- **Contrato**: `Scene` — ver `@shared/types/scene.ts` (+ `scene-compose.ts`, las primitivas que derivan un participante de otro).
+- ⚠️ **El store todavía escribe la forma vieja** (`EnsembleIntention`, `@shared/types/ensemble.ts` — marcada `@deprecated FORMA ESTACIONADA`). El motor consume `Scene`; quien la arma hoy son los fixtures y el CLI. Ese desfase **es** la razón por la que D1 está desconectada (`providers/Ensemble/use-view-model.ts`) y se cierra con la mudanza de la hidratación (`OQ-ENGINE-36`).
 - **No conoce**: fórmulas del engine, contexto de simulación, cómo la UI se renderiza.
 - **Físico**: store `ensembleStore` en `@core/intention/ensemble-store.ts`; binding React `EnsembleProvider` en `providers/Ensemble/` (composición).
 
@@ -121,7 +122,7 @@ con qué forma.**
 las mecánicas, no del mundo). Lo que el usuario declara son los participantes y sus condiciones — la
 partición de §*Las dos intenciones del usuario*.
 
-**Y el contrato lo refleja.** `EnsembleIntention` declara `hostile: HostileIntention[]` —el grupo, con
+**Y el contrato lo refleja.** `Scene` declara `hostile: HostileIntent[]` —el grupo, con
 el nivel adentro de cada participante— y **`environment` no existe**: no se reemplazó por otro campo,
 porque el escenario es el todo y no un rincón adentro del todo. `targetFaction` no sobrevivió (se
 deriva de qué enemigo elegiste) y **`isSteelPath` tampoco**: el dataset no trae su bonus —0 de 638
@@ -261,9 +262,9 @@ capas — antes un build que declaraba 100 corrido con `--lvl 50` daba C1 a 100 
 ### Capa B: Comunicación (MutatorBridge)
 
 - **Naturaleza**: Capa de traducción unidireccional. Solo baja (intención → engine). No sube.
-- **Dos entradas:** recibe `EnsembleIntention` desde Capa A **y** `SimulationContext` desde Arsenal State (UI). No construye el contexto — lo recibe ya formado y lo reenvía al engine junto con el Ensemble traducido.
+- **Dos entradas:** recibe la `Scene` desde Capa A **y** `SimulationContext` desde Arsenal State (UI). No construye el contexto — lo recibe ya formado y lo reenvía al engine junto con el Ensemble traducido.
 - **Responsabilidad**:
-  - Escucha el snapshot de `EnsembleIntention`.
+  - Escucha el snapshot de la `Scene`.
   - **DNA Mutation Step**: Aplica mutaciones fijas (Archon Shards, Helminth) sobre los valores base del dataset. Entrega `MutatedDNA` al engine. *(Archon Shards implementados — OQ-ENGINE-4 cerrado: `StaticHydrator.hydrate()` consume `ensemble.warframe.shards` vía `ShardRepository`. Helminth sigue sin implementar.)*
   - **Positional Mapping**: Preserva el orden de slots de mods para el Elemental System de C1.
 - **No conoce**: React, UI, cómo las fórmulas funcionan internamente. No decide qué condiciones están activas.

@@ -4,7 +4,7 @@ Rol: "Vocabulario canónico de anotaciones JSDoc en Project/src/"
 Impacto_ID: "G-Naming"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-05-18"
-Fecha_de_actualizacion: "2026-05-18"
+Fecha_de_actualizacion: "2026-08-07"
 ---
 
 # Estándar JSDoc — `Project/src/`
@@ -56,7 +56,7 @@ Exactamente 5 valores permitidos. Sin variantes libres, sin compuestos con `/`.
 @status en-desarrollo
 @status stub
 @status bloqueado — Pendiente resolución OQ-STATE-1
-@status deprecado — Reemplazar por MutatorBridge.simulateFromIntention()
+@status deprecado — Reemplazar por MutatorBridge.simulateFromScene()
 
 // ❌ Incorrecto
 @status stub / en desarrollo          // No usar compuestos con /

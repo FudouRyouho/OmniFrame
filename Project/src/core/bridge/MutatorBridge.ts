@@ -3,9 +3,9 @@
  * @SSoT docs/domains/engine/design/simulation-architecture.md
  * @status en-desarrollo
  */
-import type { Ensemble, WeaponIntent, MutatedDNA, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../engine/contracts";
-import type { Scene, PlayerIntent, WeaponIntent as SceneWeapon, Bearer, SlotMap, ModIntent, ArcaneIntent } from "@shared/types/scene";
-import { populateFromLoadout } from "../engine/resolve/hydration/space";
+import type { Ensemble, WeaponIntent, SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../engine/contracts";
+import type { Scene, PlayerIntent, WeaponIntent as SceneWeapon, CompanionIntent, Bearer, SlotMap, ModIntent, ArcaneIntent } from "@shared/types/scene";
+import { populateFromLoadout, type MoldedIntent } from "../engine/resolve/hydration/space";
 import { BASELINE_GAME_LAWS } from "../engine/contracts";
 import { DnaRepository } from "../engine/resolve/hydration/DnaRepository";
 import { SimulationEngine } from "../engine/resolve/SimulationEngine";
@@ -43,10 +43,13 @@ export class MutatorBridge {
     context?: Partial<SimulationContext>,
     options?: SimulateOptions
   ): SimulationResult {
-    const dnas = this.hydrateDnas(ensemble);
+    // Una sola pasada sobre el espacio. El molde viaja SOBRE el intent hasta el hidratador; antes se
+    // recorría dos veces (acá y adentro de `StaticHydrator.hydrate`) y un `Record<string, MutatedDNA>`
+    // keyed por `entity_id` cruzaba de una pasada a la otra. Ver `MoldedIntent` en `space.ts`.
+    const intents = this.attachMolds(ensemble);
 
     const newEngine = new SimulationEngine();
-    const { entities, modifiers } = StaticHydrator.hydrate(ensemble, dnas);
+    const { entities, modifiers } = StaticHydrator.hydrate(ensemble, intents);
 
     entities.forEach(e => newEngine.addEntity(e));
     modifiers.forEach(m => newEngine.addModifier(m));
@@ -124,7 +127,7 @@ export class MutatorBridge {
             melee:     this.weaponToIntent(player.weapons?.melee),
           },
           ...(player.companion
-            ? { companion: { id: player.companion.uniqueName, slots: this.bearerSlots(player.companion) } }
+            ? { companion: { id: this.companionId(player.companion), slots: this.bearerSlots(player.companion) } }
             : {}),
         };
 
@@ -142,6 +145,45 @@ export class MutatorBridge {
         throw new Error(`[escena] variante de loadout no contemplada: ${JSON.stringify(_never)}`);
       }
     }
+  }
+
+  /**
+   * El compañero, con guarda sobre lo que se declara y no se traduce.
+   *
+   * `Ensemble.companion` es `{ id, slots }`: el arma y los arcanos del compañero **no tienen dónde
+   * ir**. Se descartaban en silencio — medido con un Boltor Prime montado en un Adarza Kavat, la
+   * salida traía UNA entidad y cero menciones del arma, aunque el arma existe en los datasets.
+   *
+   * Es el mismo hueco que el archwing y se trata igual: el `switch` exhaustivo de arriba agarra las
+   * variantes que faltan, pero **la unión discriminada protege variantes, no campos**. Adentro de un
+   * caso, la traducción es un literal que nombra lo que quiere, y un campo sin nombrar no le da a
+   * TypeScript de qué quejarse: el excess property check mira propiedades de más en el literal, nunca
+   * propiedades sin leer en el origen. Por eso este eje necesita una guarda escrita y aquél no.
+   *
+   * ⚠️ **`rank` NO entra acá.** También se declara y no se lee, pero ese eje es `OQ-ENGINE-23` y tiene
+   * otra disposición: *"se va a usar, pero no hoy"*. Lo declaran todos los fixtures y el corpus de
+   * parciales del oráculo; gritarlo sería convertir una espera deliberada en un error.
+   *
+   * ⚠️ Lo que este mensaje NO afirma: que un compañero o su arma **puedan** llevar arcanos en el
+   * juego. El corpus local no lo cubre (`references/wiki/arcanes/` tiene arcanos sueltos, no la
+   * página general de slots) y sin fuente no se escribe una regla del juego en un throw. Lo que
+   * afirma es lo medido: `Ensemble` no tiene dónde ponerlos. Si resulta que el juego tampoco, lo que
+   * sobra es el campo en `Scene` — y eso se decide con la forma, no acá.
+   */
+  private companionId(companion: CompanionIntent): string {
+    const huerfanos = [
+      companion.weapon  ? 'weapon'  : null,
+      companion.arcanes ? 'arcanes' : null,
+    ].filter(Boolean);
+
+    if (huerfanos.length > 0) {
+      throw new Error(
+        `[escena] el compañero declara ${huerfanos.join(' y ')} y el engine todavía no lo modela: ` +
+        `\`Ensemble.companion\` es \`{ id, slots }\` y no tiene dónde ponerlo. La estructura existe ` +
+        `para que esta falta se vea; no se traduce a medias ni se descarta en silencio.`
+      );
+    }
+    return companion.uniqueName;
   }
 
   private weaponToIntent(weapon?: SceneWeapon): WeaponIntent | undefined {
@@ -219,21 +261,27 @@ export class MutatorBridge {
     return baseline;
   }
 
-  private hydrateDnas(ensemble: Ensemble): Record<string, MutatedDNA> {
-    const dnas: Record<string, MutatedDNA> = {};
-    // Los ids salen del ESPACIO y no de una segunda lista del loadout: `StaticHydrator` armaba su
-    // conjunto de participantes y esto armaba el suyo, y esa copia era invisible.
-    //
-    // Se recorre el intent entero y no sólo su id: el `level` es parte de la intención que COMPONE al
-    // participante (frame-0), así que tiene que llegar al molde, no aplicarse encima después.
-    //
-    // UN PARTICIPANTE DECLARADO QUE NO SE PUEDE HIDRATAR TIRA. Antes se descartaba con un `if (dna)`
-    // sin `else` y el motor devolvía un escenario a medias reportando éxito: declarar un arma
-    // inexistente daba `0 entidad(es)` con exit 0, sin forma de distinguir "esta build no tiene nodos"
-    // de "el ítem que pediste no existe". Al poner la guarda, 157 corridas de la suite fallaron — y
-    // TODAS sobre el mismo participante: el `"warframe/excalibur"` que el bridge inventaba y que no
-    // existe en ningún dataset. Que B dejara de inventarlo las puso en verde sin mover un número.
-    populateFromLoadout(ensemble).forEach(intent => {
+  /**
+   * EL ESPACIO CON SUS MOLDES — la única pasada que puebla la simulación.
+   *
+   * Quién participa lo decide el espacio (`populateFromLoadout`); qué ES cada uno lo dereferencia
+   * esto. Son dos cosas distintas y por eso viven en dos módulos, pero **un solo recorrido**: el molde
+   * se cuelga del intent y viaja con él. Antes el hidratador volvía a recorrer el espacio para leer un
+   * `Record<string, MutatedDNA>` que esta función llenaba — ver `MoldedIntent` en `space.ts` para por
+   * qué ese mapa era una de las apariciones de `OQ-ENGINE-36`.
+   *
+   * Se recorre el intent entero y no sólo su id: el `level` es parte de la intención que COMPONE al
+   * participante (frame-0), así que tiene que llegar al molde, no aplicarse encima después.
+   *
+   * UN PARTICIPANTE DECLARADO QUE NO SE PUEDE HIDRATAR TIRA. Antes se descartaba con un `if (dna)`
+   * sin `else` y el motor devolvía un escenario a medias reportando éxito: declarar un arma
+   * inexistente daba `0 entidad(es)` con exit 0, sin forma de distinguir "esta build no tiene nodos"
+   * de "el ítem que pediste no existe". Al poner la guarda, 157 corridas de la suite fallaron — y
+   * TODAS sobre el mismo participante: el `"warframe/excalibur"` que el bridge inventaba y que no
+   * existe en ningún dataset. Que B dejara de inventarlo las puso en verde sin mover un número.
+   */
+  private attachMolds(ensemble: Ensemble): MoldedIntent[] {
+    return populateFromLoadout(ensemble).map(intent => {
       const dna = DnaRepository.findByUniqueName(intent.entity_id, intent.level);
       if (!dna) {
         throw new Error(
@@ -242,9 +290,8 @@ export class MutatorBridge {
           `no está en los que el engine carga.`
         );
       }
-      dnas[intent.entity_id] = dna;
+      return { ...intent, dna };
     });
-    return dnas;
   }
 
   /** Modo estático: activa todas las condiciones presentes en el equipamiento. */

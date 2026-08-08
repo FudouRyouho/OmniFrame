@@ -4,7 +4,7 @@ Rol: "Registro de decisiones D-series del dominio data/ con estado de evolución
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-08-07"
 ---
 
 # Data Domain — Decisiones (D-series)
@@ -212,11 +212,11 @@ no el motor.
 
 ---
 
-## D-10 — Única ruta canónica: `simulateFromIntention` (path legacy eliminado)
+## D-10 — Una única ruta canónica al motor (path legacy eliminado)
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-21
-**Decisión:** `MutatorBridge` expone una única ruta: `simulateFromIntention(EnsembleIntention)`. El path `simulate(LoadoutState)` y sus dependencias fueron eliminados.
+**Decisión:** `MutatorBridge` expone **una sola** entrada. Lo invariante es la unicidad, no el nombre: hoy es `simulateFromScene(Scene)`, tras la bajada de la Capa A. El path `simulate(LoadoutState)` y sus dependencias fueron eliminados.
 
 ---
 

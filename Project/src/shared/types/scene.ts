@@ -147,6 +147,14 @@ export interface HostileIntent {
  * porque el canal ni se miraba. **Una tabla de diez claves se puede recorrer a medias; una variante
  * no.** Eso, y no la elegancia, es lo que la unión discriminada arregla.
  *
+ * ⚠️ **Y hasta dónde llega, medido: cuatro de los cinco.** `archwing`/`archgun`/`archmelee`/`necramech`
+ * son variantes y el `switch` exhaustivo del bridge los agarra. `companion_weapon` no lo era —es un
+ * campo adentro de una variante que sí se lee— y siguió evaporándose hasta que se le escribió una
+ * guarda. **La unión discriminada protege variantes, no campos:** adentro de un caso la traducción es
+ * un literal que nombra lo que quiere, y una propiedad sin leer en el origen no le da a TypeScript de
+ * qué quejarse (el *excess property check* sólo mira propiedades de más en el literal). El eje que el
+ * tipo cierra y el que necesita un `if` son distintos, y conviene no confundirlos al agregar campos.
+ *
  * Las variantes sin dataset se declaran igual, y NO es lo mismo que un campo mudo:
  *   · campo mudo (`isSteelPath`, `focus`) → se declara, se llena, y MIENTE en silencio
  *   · variante sin catálogo               → se declara y NO SE PUEDE LLENAR: no hay `uniqueName`

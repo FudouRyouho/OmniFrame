@@ -423,7 +423,7 @@ un valor honesto en C1 y ahí se detiene.
 ## OQ-UI-2 — Estado de sesión/UI del usuario: ¿dónde encaja en A→B→C→D→UI + 0? — **ABIERTA (2026-06-13; re-scopeada 2026-07-17 contra código)**
 **Dominio:** ui-ux / arquitectura de estado (cruza 0, A, B, D)
 
-**Contexto:** hay un estado que el modelo de capas (`simulation-architecture.md`) **no nombra**: el *estado de sesión de la UI* — qué slot está seleccionado, selección de shard en curso, foco/navegación transitoria. Es distinto de la intención de build (`EnsembleIntention`/`ensemble-store`, A1 = *qué está equipado*): esto es *en qué está el usuario ahora mismo en la UI*. Hoy vive en `domains/arsenal/arsenal-ui-session.ts` (store `useSyncExternalStore` module-level).
+**Contexto:** hay un estado que el modelo de capas (`simulation-architecture.md`) **no nombra**: el *estado de sesión de la UI* — qué slot está seleccionado, selección de shard en curso, foco/navegación transitoria. Es distinto de la intención de build (`Scene`/`ensemble-store`, A1 = *qué está equipado*): esto es *en qué está el usuario ahora mismo en la UI*. Hoy vive en `domains/arsenal/arsenal-ui-session.ts` (store `useSyncExternalStore` module-level).
 
 **Pregunta abierta (el eje de fondo):** ¿dónde encaja el estado de sesión UI en el flujo? ¿Es un plano ortogonal (como 0 lo es para datos) que ni A ni B poseen, o React-state local sin lugar en el modelo de capas? El *qué* (nombre, hogar físico) ya está resuelto; falta el *encaje conceptual*.
 
@@ -449,7 +449,7 @@ un valor honesto en C1 y ahí se detiene.
 
 **Preguntas abiertas:**
 - **Patrón de confirmación de pérdida de progreso** como primitiva de UI reutilizable (no solo footer): ¿dónde vive, cómo se dispara, qué estado consulta ("¿build guardada/sucia?" → OQ-UI-2)?
-- **Sistema de guardado de builds** — inexistente, es el bloqueante real. ¿Persistencia local? ¿shape? ¿relación con `EnsembleIntention`/A?
+- **Sistema de guardado de builds** — inexistente, es el bloqueante real. ¿Persistencia local? ¿shape? ¿relación con la `Scene`/A?
 - **Modelo de navegación del footer**: contrato de qué acciones expone por zona (item-details vs arsenal vs …) — hoy ad-hoc.
 
 La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domains/ui-ux/` tiene status/decisions/workflow activos) — pero el **footer y el modelo de interacción siguen sin consolidar**, que es lo que esta OQ cubre. Principio: derivar de **D2 (oráculo/CLI)** + dominio, **no** anclar contratos al stub actual.
@@ -1384,18 +1384,26 @@ existe — el CLI oráculo solo ejerce el eje enemigo). No se construye por cons
 **Dominio:** engine / A1→C1 (intención → hidratación)
 
 **Contexto:** `mod.level`/`arcane.rank` ya se autodescriben (índice sobre el `base_value[]` propio del ítem,
-clamp al último valor — `ModRepository`/`ArcaneRepository`). El resto de `rank` en `EnsembleIntention` no
-tiene consumidor: `mod.rank` (heredado de `SlotIntention`) nunca se lee; `item.rank` de warframe/arma (el
-0-30) no engancha a ningún nodo — `WeaponIntent` ni siquiera lo declara, `ensemble.warframe.rank` se pasa
-y no se lee. Hoy un ítem rank-0 y uno rank-30 computan idéntico.
+clamp al último valor — `ModRepository`/`ArcaneRepository`).
+
+**La mitad vestigial ya cayó, y sin decidir nada acá:** `ModIntent` es `{ uniqueName, level }` — el
+`mod.rank` heredado de `SlotIntention` no sobrevivió a la bajada de la Capa A, porque la forma nueva se
+escribió desde lo que el motor lee y no desde lo que la vieja declaraba. Sigue vivo sólo en la forma
+estacionada (`@shared/types/ensemble.ts`, `@deprecated`).
+
+**Lo que queda es el rank de ítem, y no tiene consumidor.** `Bearer.rank` lo declaran los cuatro
+portadores de la `Scene` y muere en tres lugares distintos, ninguno ruidoso: el del arma y el del
+compañero en el bridge (el `WeaponIntent` del contrato del engine no declara `rank`, y `Ensemble.companion`
+tampoco), y el del warframe una capa más abajo — llega a `Ensemble.warframe.rank` con un `?? 30` que B
+inventa, y `populateFromLoadout` no lo lee. Hoy un ítem rank-0 y uno rank-30 computan idéntico.
 
 **Se va a usar, pero no hoy:** por simplicidad, hoy no hay consumidor real ni necesidad de modelarlo. Esta
 OQ existe para no dejarlo acoplado a "código real" implícito — no para forzar diseño ahora.
 
-**Condición para retomar:** un consumidor real (rank de ítem escala algo; o se purga `mod.rank` de
-`EnsembleIntention` — toca contrato core, RED, radio ancho por UI de producción).
+**Condición para retomar:** un consumidor real (que el rank de ítem escale algo). Purgar `Bearer.rank`
+es la otra salida y es RED por radio: lo declaran los fixtures y el corpus de parciales del oráculo.
 
-**Vínculo:** `Project/src/core/bridge/MutatorBridge.ts` (`intentionSlots`, `intentionWeapon`), `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `Project/src/shared/types/ensemble.ts`.
+**Vínculo:** `Project/src/core/bridge/MutatorBridge.ts` (`squadToEnsemble`, `weaponToIntent`), `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `Project/src/shared/types/scene.ts` (`Bearer.rank`).
 **Fuente:** debate de organización del CLI oráculo (Trabajo 1/2, dominio `oracle`).
 
 ---
@@ -1972,18 +1980,29 @@ chequea si la clave ya existe**. El patrón es el mismo en ambos casos: *clave d
 colisionar, sin chequeo de colisión*. ¿La identidad se declara, se deriva de la posición, o el problema
 desaparece cuando la hidratación cambie de capa?
 
-### Las dos apariciones, medidas
+### Las apariciones, medidas
 
-**Participantes homónimos** — `hydrateDnas` escribe `dnas[intent.entity_id]` y el `entity_id` es el
-`unique_name`, que dice **qué es** un participante y no **quién es**. Dos Bombards declarados a niveles
-distintos escriben la misma clave y nacen de la misma DNA:
+**Participantes homónimos** — el `entity_id` es el `unique_name`, que dice **qué es** un participante y
+no **quién es**. Dos Bombards declarados a niveles distintos comparten identidad, y toda estructura que
+los indexe por ahí los colapsa. Medido con el oráculo sobre `ENEMY_ADD_HEALTH_MAX`:
 
-```
-corresponde:  nivel 100 → health  86 416,38      sale:  los DOS → 144 270,94
-              nivel 200 → health 144 270,94             (gana el último)
-```
+| | corresponde | con el mapa de moldes | hoy |
+|---|---|---|---|
+| nivel 100 | base/final 86 416,38 | base 144 270,94 · final 144 270,94 | **base 86 416,38** · final 144 270,94 |
+| nivel 200 | base/final 144 270,94 | base 144 270,94 · final 144 270,94 | base 144 270,94 · final 144 270,94 |
 
-`SimulationEngine.entities` es un `Map<EntityId, …>` y colapsaría igual, pero llega tarde.
+La columna del medio era `dnas[intent.entity_id]`, el `Record<string, MutatedDNA>` con el que el bridge
+le pasaba los moldes al hidratador: las dos entidades nacían de la misma DNA. **Ese mapa ya no existe** —
+no era un defecto de la clave sino el precio de recorrer el espacio dos veces (`MutatorBridge.hydrateDnas`
+y `StaticHydrator.hydrate` llamaban cada uno a `populateFromLoadout` sobre el mismo `ensemble`). Con una
+sola pasada el molde viaja sobre el intent (`MoldedIntent`) y no queda nada que indexar.
+
+Lo que quedó a la vista es la aparición de fondo: **`SimulationEngine.entities` es un
+`Map<EntityId, SimulationEntity>`.** El segundo Bombard pisa al primero al registrarse y
+`mapCalculatedStats` le devuelve a ambos los stats del sobreviviente — de ahí el nodo de hoy, con `base`
+de un participante y `final` de otro sin un solo modifier que explique la diferencia. Sigue roto y dejó de
+ser silencioso: dos números plausibles e iguales no se distinguen de una medición correcta, `base ≠ final`
+con los cuatro buckets en cero no se puede leer como otra cosa.
 
 **Slots con clave no entera** — `Record<number, …>` no existe en runtime: JavaScript pasa toda clave de
 objeto a string y JSON no tiene cómo escribir otra cosa. Con una clave no entera, `result[parseInt(k)]`
@@ -2002,11 +2021,13 @@ corrompe código — corrompe una medición, y el modelo podría ajustarse para 
 
 ### Por qué no se resuelve ahora
 
-**Las dos viven en la traducción A→B, que es exactamente la capa que cambia de dueño.** `Ensemble` lleva
-sólo ids y ni un stat: B no dereferencia, **re-shapea a A**, y la dereferencia real ocurre en C
-(`DnaRepository`, `ModRepository`). El `parseInt` que produce el `NaN` es parte de ese re-shape — un
-no-op ceremonial que existe para satisfacer al tipo, no para convertir nada. Elegir hoy la forma
-definitiva de las claves es escribir con cuidado en código que la mudanza reescribe.
+**Viven en la traducción A→B, que es exactamente la capa que cambia de dueño.** `Ensemble` lleva sólo ids
+y ni un stat: lo que B hace es **re-shapear a A**. Dereferencia el molde (`DnaRepository`, desde el
+bridge) pero no los efectos —`ModRepository`, `ArcaneRepository`, `IncarnonRepository` se llaman desde
+`StaticHydrator`, que vive en C—, y el `entity_id` que todos reciben nace de ese re-shape. El `parseInt`
+que produce el `NaN` es de la misma cosecha: un no-op ceremonial que existe para satisfacer al tipo, no
+para convertir nada. Elegir hoy la forma definitiva de las claves es escribir con cuidado en código que
+la mudanza reescribe.
 
 **Y las dos formas candidatas dependen de decisiones que la mudanza toma.** Que la identidad sea la
 posición vale para el squad —cuatro puestos, ley del juego— pero **no se traslada a los slots**: ahí la
@@ -2020,6 +2041,12 @@ el orden de la grilla determina la combinación elemental
 **Las guardas están puestas: el silencio no sobrevive al gate.** `MutatorBridge.slotIndex` tira sobre una
 clave no entera nombrando canal y clave; `unlanded-modifiers.test.ts` fija ese grito y `enemy.test.ts`
 lleva la colisión de participantes como test pendiente con sus números.
+
+**Y una de las apariciones murió sin negociar la forma.** El mapa de moldes se fue al colapsar la doble
+pasada sobre el espacio — un cambio que no decide nada de lo que esta pregunta gatea. Es el patrón que
+vale la pena registrar: *una clave derivada puede no ser una decisión de identidad sino el precio de
+computar algo dos veces*, y en ese caso desaparece sola cuando la duplicación se cierra. La que queda
+—`Map<EntityId, …>`— sí es identidad, y esa sigue gateada.
 
 Gritar es dejar de mentir, no resolver: **la forma que hace el estado imposible sigue pendiente**, y es lo
 que esta pregunta gatea.

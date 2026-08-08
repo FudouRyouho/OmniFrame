@@ -10,7 +10,7 @@ import { IncarnonRepository } from "./IncarnonRepository";
 import { ArcaneRepository } from "./ArcaneRepository";
 import { AbilityRepository } from "./AbilityRepository";
 import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing";
-import { populateFromLoadout } from "./space";
+import type { MoldedIntent } from "./space";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
@@ -19,23 +19,29 @@ import type { DamageType } from "@shared/types";
 
 export class StaticHydrator {
   /**
-   * Convierte un Ensemble y sus ADN Mutados en entidades listas para el motor.
+   * Convierte los participantes del espacio —ya con su molde— en entidades listas para el motor.
+   *
+   * **NO recorre el espacio.** Quién participa lo decide `space.ts` y el molde lo cuelga B
+   * (`MutatorBridge.attachMolds`); acá llegan los `MoldedIntent` ya poblados. Antes esta función
+   * llamaba `populateFromLoadout` por su cuenta —segunda pasada sobre el mismo `ensemble`— y leía los
+   * moldes de un `Record<string, MutatedDNA>` que el bridge había llenado en la primera. El mapa
+   * existía sólo para cruzar de una pasada a la otra, y su clave era colisionable (`OQ-ENGINE-36`).
+   *
+   * Sigue recibiendo el `ensemble` por los shards y las habilidades del warframe, que **no viajan en
+   * el intent**: son la asimetría que queda del espacio y están marcadas más abajo.
    */
-  public static hydrate(ensemble: Ensemble, dnas: Record<string, MutatedDNA>): { 
-    entities: SimulationEntity[], 
-    modifiers: Modifier[] 
+  public static hydrate(ensemble: Ensemble, intents: MoldedIntent[]): {
+    entities: SimulationEntity[],
+    modifiers: Modifier[]
   } {
     const entities: SimulationEntity[] = [];
     const modifiers: Modifier[] = [];
 
-    // Quién participa lo decide el ESPACIO, no el hidratador (`space.ts`). Hoy el único poblador es
-    // el loadout; el punto de la separación es que pueda no serlo.
-    const intents = populateFromLoadout(ensemble);
-
     // 2. Hydrate Entities and Modifiers
     intents.forEach(intent => {
-      const dna = dnas[intent.entity_id];
-      if (!dna) return;
+      // El molde viene con el participante. El `if (!dna) return` que había acá era un descarte
+      // silencioso YA INALCANZABLE: `attachMolds` tira sobre el mismo recorrido antes de llegar.
+      const dna = intent.dna;
 
       const entity = this.createBaseEntity(dna, intent.profile_id);
       entity.channel = intent.channel;
@@ -167,6 +173,17 @@ export class StaticHydrator {
 
       entities.push(entity);
     });
+
+    // ⚠️ ASIMETRÍA DEL ESPACIO — lo único que todavía se lee del `ensemble` y no del intent.
+    //
+    // `EntityIntent` lleva slots, arcanos, perks y perfil, pero NO shards ni habilidades: esos dos se
+    // sacan de `ensemble.warframe` acá abajo. Es la misma forma que la doble pasada que se acaba de
+    // colapsar —dos fuentes para poblar un mismo participante— sólo que más chica, y es lo que impide
+    // que esta función deje de recibir el `ensemble`.
+    //
+    // No se arregla en este paso a propósito: subir shards/abilities al intent cambia lo que el
+    // ESPACIO declara (hoy: "quién está y con qué viene"), y eso toca el poblador, no la hidratación.
+    // Va con el paso que escriba la secuencia completa. Marcado para que no muera en silencio.
 
     // OQ-ENGINE-4: Consumer loop de Archon Shards. El shard nace en el warframe; si su token trae
     // sub-familia, el `target_channel` lo redirige en la pasada de ruteo de abajo — igual que un

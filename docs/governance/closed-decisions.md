@@ -4,7 +4,7 @@ Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin e
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: ""
-Fecha_de_actualizacion: ""
+Fecha_de_actualizacion: "2026-08-07"
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -49,10 +49,10 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 | **DC-OQ-9** | Damage Taxonomy | Taxonomía canónica única para damage types (estabilizada). |
 | **DC-OQ-10** | Naming Conventions | Naming semántico por capa: PascalCase (Tipos), camelCase (Funciones), snake_case (Raw). |
 | **DC-OQ-11** | TextFormatter | Pertenencia a Presentation, consume semántica resuelta sin inferirla. |
-| **DC-OQ-STATE-1** | Contrato de estado del usuario | `EnsembleIntention` (EnsembleStore) es el SSoT canónico. `LoadoutContext` eliminado. `LoadoutState` y `loadout.ts` eliminados. |
+| **DC-OQ-STATE-1** | Contrato de estado del usuario | El contrato de intención del EnsembleStore es el SSoT canónico (hoy `Scene`, `@shared/types/scene.ts`). `LoadoutContext` eliminado. `LoadoutState` y `loadout.ts` eliminados. |
 | **DC-OQ-STATE-2** | Conexión Arsenal → Motor | Escritura: `EnsembleStore.setItem/setMod/setShard`. Lectura: `useSimulation()` con `entity.channel` como clave estable. |
 | **DC-OQ-STATE-3** | Ciclo de vida de LoadoutContext | Eliminado físicamente. Sin remanentes del sistema legacy. |
-| **DC-OQ-STATE-4** | Rol de EnsembleAdapter | Eliminado. Lógica absorbida por `MutatorBridge`. Una sola ruta: `simulateFromIntention`. |
+| **DC-OQ-STATE-4** | Rol de EnsembleAdapter | Eliminado. Lógica absorbida por `MutatorBridge`. Una sola ruta (hoy `simulateFromScene`). |
 | **DC-OQ-2** | Rol del LoadoutProvider | Abandonado. Arquitectura Sim-v2: MutatorBridge + EnsembleStore serializable. |
 | **DC-OQ-5** | Migración hidratación build time | No aplica. `StaticHydrator` + overrides JSON = funcionalmente equivalente a build-time. |
 | **DC-OQ-12** | Contrato de Proyección B4 | Projection Snapshot inmutable y serializable. Reactividad via Selective UI Reactive Bridge externo. |
@@ -108,7 +108,7 @@ una alternativa: no la reabre.** Lo que no se re-debate es el patrón `final/bas
 
 **Pendiente (verificado contra código 2026-07-17):**
 - **A2** — `SimulationContext` (`contracts/contracts.ts`) sigue mezclando intención (`active_profile_id`/`flags`/`variables`) + leyes (`laws`) + dato (`target`).
-- **Shape de la Capa A** (backlog del usuario, ; pariente de A2): la estructura de las **intenciones** huele incoherente — `EnsembleIntention` mezcla `slots`+`arcanes` y la forma de los intents pide una estructura más coherente → revisión de la Capa A. Encaja con una fase futura del saneamiento de `@core`. No bloquea.
+- ~~**Shape de la Capa A**~~ — **resuelto**: la Capa A es `Scene` (`@shared/types/scene.ts`), donde el portador contiene lo que se le monta y la identidad es la posición. La incoherencia que este punto señalaba (tablas paralelas `slots`/`arcanes` colgando de canales) desapareció con la forma. Residual: el store todavía escribe la forma vieja, y eso lo lleva `OQ-ENGINE-36`.
 - **Lift de `contracts/`/`primitives/` a nivel `@core`** — siguen en `engine/contracts/`; la ubicación de `damage-logic`/`damage-multipliers`/`mod-overrides` = decisión nueva.
 
 De la lista original de Stage 2 ya no queda nada más: `engine/hooks/` se purgó (era cluster muerto, no se extrajo), el bootstrap se separó de `fixtures/` (`bootstrap/engine-data.ts`; `fixtures/` solo aloja `builds.ts`) y `ProjectionSnapshot` fue reemplazado por `ViewModelContract` (consumido por D1 `use-view-model`, D2 oráculo y `UpgradeView`).

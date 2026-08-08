@@ -4,7 +4,7 @@ Rol: "Identidad y estado del dominio Oracle (CLI / D2)"
 Impacto_ID: "O-Status"
 Fidelidad_Fisica: "Project/scripts/oracle/"
 Fecha_de_creacion: "2026-07-24"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-08-07"
 ---
 
 # Oracle — Estado del dominio
@@ -35,7 +35,8 @@ internas (dispatch/adquisición/presentación en [`scripts/oracle/internal/`](..
 el seam adquisición↔presentación como órgano de crecimiento— **ya aterrizó en código**, espejando
 [`design/architecture.md`](design/architecture.md). Diferido con hogar (no incompletitud, decisión
 explícita): la lente `intention` (requiere exponer la salida de B desde `@core`), flags componibles,
-validación robusta del JSON externo, saneamiento de `EnsembleIntention` (RED, toca contrato core) — ver
+validación robusta del JSON externo, saneamiento del vocabulario de la intención (`rank`/`level` en
+mods vs arcanos — RED, toca contrato core) — ver
 `design/architecture.md §4`.
 
 ## Punteros

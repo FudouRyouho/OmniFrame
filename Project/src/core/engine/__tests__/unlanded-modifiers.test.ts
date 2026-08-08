@@ -15,7 +15,7 @@ import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { scene, onPlayer, withBearer, withMods } from '@shared/types/scene-compose';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { consume } from '../output/consume';
-import { volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar } from '../fixtures/builds';
+import { volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar, ADARZA_KAVAT } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
@@ -118,16 +118,21 @@ describe('Slots — una clave que no es índice no se come los mods en silencio'
   // ─── Lo que la guarda NO arregla ──────────────────────────────────────────────
   //
   // Gritar es dejar de mentir, no resolver. El patrón es UNA CLAVE DERIVADA QUE PUEDE COLISIONAR
-  // SIN NINGÚN CHEQUEO DE COLISIÓN, y tiene dos apariciones vivas en el motor, las dos silenciosas
-  // y las dos con el último ganando:
+  // SIN NINGÚN CHEQUEO DE COLISIÓN, y sus apariciones son las dos silenciosas y las dos con el
+  // último ganando:
   //
-  //   dnas[intent.entity_id]     dos participantes del mismo ítem → misma clave  (`enemy.test.ts`)
-  //   result[parseInt(index)]    cuatro mods con clave rota       → misma clave  (acá)
+  //   result[parseInt(index)]         cuatro mods con clave rota → misma clave    (acá, con guarda)
+  //   SimulationEngine.entities       dos participantes del mismo ítem → misma    (`enemy.test.ts`)
+  //   Map<EntityId, SimulationEntity> entrada; el segundo pisa al primero
   //
-  // No se arregla ahora a propósito: las dos viven en la traducción A→B, que es exactamente la capa
-  // que cambia de dueño cuando `scene.draft` baje y la hidratación se mude de C a B. Arreglar la
-  // forma hoy es escribir con cuidado en código condenado, y abrir los dos frentes a la vez es no
-  // cerrar ninguno. El gate está declarado en `OQ-ENGINE-36`.
+  // Hubo una tercera —`dnas[intent.entity_id]`, el mapa con el que el bridge le pasaba los moldes al
+  // hidratador— y **ya no existe**: no era un defecto de la clave sino el precio de recorrer el
+  // espacio dos veces. Con una sola pasada el molde viaja sobre el intent y no hay nada que indexar.
+  // Lo que quedó a la vista es que la identidad sigue siendo el `unique_name`.
+  //
+  // Lo que queda no se arregla ahora a propósito: vive en la identidad del participante, que es lo que
+  // cambia cuando la hidratación termine de mudarse. Abrir los dos frentes a la vez es no cerrar
+  // ninguno. El gate está declarado en `OQ-ENGINE-36`.
   it.todo('los slots se declaran por posición, sin clave derivada que pueda colisionar (OQ-ENGINE-36)');
 });
 
@@ -164,15 +169,49 @@ describe('Participantes — lo declarado no se evapora', () => {
 
   // ─── El silencio que NO tiene dónde gritar ────────────────────────────────────
   //
-  // La forma vieja declaraba DIEZ canales y `MutatorBridge` traducía CINCO (warframe, primary,
-  // secondary, melee, companion). Los otros cinco —companion_weapon, archwing, archgun, archmelee,
-  // necramech— no se leen: el participante no llega ni a pedirse, así que la guarda de hidratación
-  // no lo puede agarrar. Medido con `/Lotus/Weapons/Tenno/Archwing/Primary/NokkoArchGun/NokkoArchGun`,
-  // que EXISTE en `archwing-weapons.json` (28 ítems, el pipeline los genera): la salida trae 1
-  // entidad y CERO menciones del archgun.
+  // La forma vieja declaraba DIEZ canales y `MutatorBridge` traducía CINCO. Los otros cinco no se
+  // leían: el participante no llegaba ni a pedirse, así que la guarda de hidratación no lo podía
+  // agarrar. La unión discriminada de la Capa A cerró cuatro de golpe — `archwing`, `archgun`,
+  // `archmelee` y `necramech` cuelgan de una variante que el `switch` exhaustivo del bridge TIRA, así
+  // que declararlos ya no evapora nada: grita.
   //
-  // No se arregla con un throw porque no hay dónde ponerlo — hay que leer el canal. Es la unión
-  // discriminada de la Capa A la que lo hace imposible: con `archgun` colgando de la variante en vez
-  // de vivir en una tabla de diez claves, no queda nadie a quien "olvidársele" recorrerlo.
-  it.todo('un canal declarado que el bridge no traduce no se evapora — archgun/archwing/archmelee/necramech/companion_weapon');
+  // QUEDABA UNO, y era el que la variante no alcanza porque no es una variante. `CompanionIntent`
+  // declara `weapon` y `arcanes`; `squadToEnsemble` traducía el compañero como `{ id, slots }` y
+  // descartaba los dos sin decir nada — `Ensemble.companion` no tiene dónde ponerlos. Medido con un
+  // Boltor Prime montado en un Adarza Kavat: la salida traía UNA entidad (el kavat) y cero menciones
+  // del arma, aunque el arma existe en los datasets.
+  //
+  // Ahora grita, por la misma razón que el archwing: el destino no existe y traducir a medias sería
+  // devolver un escenario incompleto reportando éxito. La diferencia es POR QUÉ hizo falta escribir
+  // la guarda — **la unión discriminada protege variantes, no campos**. Adentro de un caso, la
+  // traducción es un literal que nombra lo que quiere; un campo sin nombrar no le da a TypeScript de
+  // qué quejarse (el excess property check mira propiedades de más en el literal, nunca propiedades
+  // sin leer en el origen). El eje de las variantes lo cierra el tipo; este necesitaba un `if`.
+
+  it('el arma de un compañero declarada no se evapora — grita', () => {
+    const build = scene({
+      kind: 'onfoot',
+      companion: { uniqueName: ADARZA_KAVAT, rank: 30, weapon: { uniqueName: TIBERON_PRIME, rank: 30 } },
+    });
+    expect(() => consume(build, { flags: {} })).toThrow(/el compañero declara weapon/);
+  });
+
+  it('los arcanos de un compañero tampoco', () => {
+    const build = scene({
+      kind: 'onfoot',
+      companion: { uniqueName: ADARZA_KAVAT, rank: 30, arcanes: { 0: { uniqueName: 'arc:x', rank: 5 } } },
+    });
+    expect(() => consume(build, { flags: {} })).toThrow(/el compañero declara arcanes/);
+  });
+
+  // El `rank` NO entra en la guarda aunque también se declare y no se lea: ese eje es `OQ-ENGINE-23`
+  // y su disposición es "se va a usar, pero no hoy". Lo declaran todos los fixtures — gritarlo sería
+  // convertir una espera deliberada en un error.
+  it('un compañero normal —con rank y mods— sigue pasando', () => {
+    const build = scene({
+      kind: 'onfoot',
+      companion: { uniqueName: ADARZA_KAVAT, rank: 30, mods: { 0: { uniqueName: MAGLEV, level: 5 } } },
+    });
+    expect(() => consume(build, { flags: {} })).not.toThrow();
+  });
 });

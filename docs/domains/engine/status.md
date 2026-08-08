@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-08-06"
+Fecha_de_actualizacion: "2026-08-07"
 ---
 
 # Engine Status
@@ -27,13 +27,13 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 
 | Componente | Ruta | Estado |
 |---|---|---|
-| `MutatorBridge` | `core/bridge/MutatorBridge.ts` | **Activo** — orquesta la simulación desde `EnsembleIntention`; única ruta `simulateFromIntention`. Vive **fuera** de `engine/` (es B, no C). |
+| `MutatorBridge` | `core/bridge/MutatorBridge.ts` | **Activo** — orquesta la simulación desde la `Scene`; única ruta `simulateFromScene`. Vive **fuera** de `engine/` (es B, no C). |
 
 ### Capa C1 — Hidratación (`engine/resolve/hydration/`)
 
 | Componente | Estado |
 |---|---|
-| `StaticHydrator` | **Activo** — construye `SimulationContext` desde `EnsembleIntention`; consume todos los repositories. |
+| `StaticHydrator` | **Activo** — construye entidades y modifiers desde los participantes **ya poblados** (`MoldedIntent[]`, con su molde puesto por B); consume todos los repositories. No recorre el espacio: eso es de `space.ts` y el molde lo cuelga `MutatorBridge.attachMolds`. |
 | `ItemRepository` | **Activo** — **segmentado** (Slice C): Maps `weaponItems`/`warframeItems`, `loadWeapons`/`loadWarframes`, `normalizeWeapon`/`normalizeWarframe`. Emite los nodos de daño como token canónico `WEAPON_ADD_*_DAMAGE`. |
 | `ModRepository` | **Activo** — resuelve mods vía `resolveUpgradeEntry()` (helper compartido, Slice A = `isUpgrade` + `UPGRADE_MAP`/`resolveToken`). Dueño de `modOverrides` (Slice D). |
 | `ArcaneRepository` | **Activo** — resuelve `arcane-stats.override.json` con rank clamping. |

@@ -77,9 +77,11 @@ describe('Compañero — borde', () => {
     expect(() => pet().node('AVATAR_ADD_ABILITY_STRENGTH')).toThrow();
     expect(() => pet().node('AVATAR_ADD_MOVEMENT_SPEED')).toThrow();
   });
-  // El compañero tiene su propia arma (`companion_weapon` ya existe en EquipmentChannel) y sus
-  // propios mods; hoy sólo se le hidratan los stats de avatar.
-  it.todo('arma del compañero y sus mods — el canal existe en la intención, el poblador no');
+  // El compañero tiene su propia arma y sus propios mods; hoy sólo se le hidratan los stats de
+  // avatar. `CompanionIntent.weapon` se puede declarar y el bridge **tira**: `Ensemble.companion` es
+  // `{ id, slots }` y no tiene dónde ponerla (la guarda y su medición, en `unlanded-modifiers.test.ts`).
+  // Lo que falta no es leer el campo — es que el destino exista.
+  it.todo('arma del compañero y sus mods — declarable y no modelada; el destino no existe en `Ensemble`');
   // Qué buffs propagan y cuáles no es un hueco de la FUENTE, no del modelo: Eclipse declara que
   // NO alcanza a compañeros sin su augment. Medición pendiente en `ingame-tests/pending.md` P-5.
   it.todo('qué buffs NO propagan al compañero — gated por medición (P-5)');

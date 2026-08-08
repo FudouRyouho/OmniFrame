@@ -122,16 +122,28 @@ describe('Enemigo — el buff del jugador no se filtra', () => {
 /**
  * BUG MEDIDO, no hipotético — alcanzable desde que el grupo Hostil es una lista.
  *
- * `hydrateDnas` indexa por `dnas[intent.entity_id]`, y el `entity_id` **es el `uniqueName`**
- * (`space.ts`). Dos participantes del mismo ítem escriben la misma clave: la segunda DNA pisa
- * a la primera y **las dos entidades se construyen desde ella**. `SimulationEngine.entities`
- * es un `Map<EntityId, …>` y colapsaría igual, pero el daño ya está hecho antes.
+ * El `entity_id` **es el `uniqueName`** (`space.ts`): dice **qué es** un participante, no **quién es**.
+ * Dos participantes del mismo ítem comparten identidad, y toda estructura que los indexe por ahí los
+ * colapsa con el último ganando.
  *
- * Reproducido con el oráculo declarando dos Bombards a niveles distintos:
+ * Reproducido con el oráculo declarando dos Bombards, lvl 100 y lvl 200 (`ENEMY_ADD_HEALTH_MAX`):
  *
- *     corresponde:  lvl 100 → ENEMY_ADD_HEALTH_MAX  86416.38
- *                   lvl 200 → ENEMY_ADD_HEALTH_MAX 144270.94
- *     sale:         los DOS → 144270.94
+ *            corresponde        cuando el molde se leía de un mapa      HOY
+ *   lvl 100  base/final 86416   base 144270 · final 144270              base  86416 · final 144270
+ *   lvl 200  base/final 144270  base 144270 · final 144270              base 144270 · final 144270
+ *
+ * La columna del medio era el `Record<string, MutatedDNA>` que el bridge llenaba para el hidratador:
+ * las dos entidades nacían de la MISMA DNA. Ese mapa ya no existe —el molde viaja sobre el intent, una
+ * sola pasada— y por eso el frame-0 de cada participante ahora es el suyo.
+ *
+ * **Lo que queda es la resolución.** `SimulationEngine.entities` es un `Map<EntityId, …>`: el segundo
+ * Bombard pisa al primero al registrarse, y `mapCalculatedStats` le devuelve a AMBOS los stats del que
+ * sobrevivió. De ahí el resultado de hoy — un nodo con `base` de un participante y `final` de otro, sin
+ * un solo modifier que explique la diferencia.
+ *
+ * Que sea inconsistente es **mejor que antes**, y no por elegancia: dos números plausibles e iguales no
+ * se distinguen de una medición correcta; `base ≠ final` con los cuatro buckets en cero no se puede
+ * leer como otra cosa que un bug. Sigue roto, dejó de ser silencioso.
  *
  * El arreglo NO es el sufijo condicional del ruteo cross-banda de `StaticHydrator`
  * (`targets.length > 1 ? `${m.id}@${id}` : m.id`): esa clave cambia de forma según cuántos haya, y es

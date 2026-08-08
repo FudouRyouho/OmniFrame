@@ -4,7 +4,7 @@ Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en l
 Impacto_ID: "E-AttributeNode"
 Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-08-01"
+Fecha_de_actualizacion: "2026-08-07"
 Dependencias:
   - "docs/domains/engine/design/vocabulary.md"
   - "docs/domains/engine/design/arch-decisions.md"
@@ -180,7 +180,8 @@ Los campos nombrados de `AttributeNode` (`base` + los **4 buckets** + `final`) *
   `mods_add_pct` del pool `GAMEPLAY_MULT_FACTION_DAMAGE` — **pools distintos, por eso multiplican entre sí**;
   distinguibles a nivel nodo, no a nivel `final`.
 
-**Forma del fixture:** una `EnsembleIntention` escrita a mano + la **cadena de derivación esperada por
+**Forma del fixture:** una `Scene` escrita a mano (o derivada con las primitivas de
+`scene-compose.ts`) + la **cadena de derivación esperada por
 nodo** (bucket → valor + fuente del juego: wiki / `references/`), nunca un valor terminal suelto.
 
 **Progresión:** un solo consumidor cuyo fixture crece en intenciones en orden de dependencia

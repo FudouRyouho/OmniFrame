@@ -4,7 +4,7 @@ Rol: "Diseño de la organización del Oracle"
 Impacto_ID: "O-Arch"
 Fidelidad_Fisica: "Project/scripts/oracle/"
 Fecha_de_creacion: "2026-07-24"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-08-07"
 ---
 
 # Oracle — Arquitectura de la organización
@@ -68,8 +68,8 @@ argv ──▶ [1] Dispatch ──▶ OracleQuery ──▶ [2] Adquisición ─
 2. **Adquisición** (motor-facing) — `OracleQuery → AcquiredResult`. Llama a `consume()` /
    `computeCombatMetrics` / `getTrace` / el bridge según la lente. Produce **estructuras nativas del
    motor, sin formatear**. Un único punto de resolución de sujeto (`resolveSubject`) traduce A1 a
-   `EnsembleIntention` desde dos fuentes: el catálogo (`BUILDS[name]`, por nombre) o un archivo JSON
-   parcial (por path, completado sobre `INITIAL_INTENTION`; ver §4).
+   `Scene` desde dos fuentes: el catálogo (`BUILDS[name]`, por nombre) o un archivo JSON
+   parcial (por path, completado sobre `EMPTY_SCENE`; ver §4).
 
 3. **Presentación** — `AcquiredResult × format → stdout`. `text` (humano) | `json` (máquina/IA).
    **Desechable y específica del Oracle**: no es un contrato, es el borde de impresión.
@@ -116,14 +116,14 @@ consulta que C2 ya espera. Por eso son flags de la lente que los consume, no un 
 
 ### 3.1. Fuentes de sujeto (A1)
 
-`resolveSubject` traduce un sujeto a `EnsembleIntention` desde dos fuentes; la discrimina por forma
+`resolveSubject` traduce un sujeto a `Scene` desde dos fuentes; la discrimina por forma
 (un path contiene `/` o termina en `.json`, un nombre de build no):
 
 - **Catálogo** — `BUILDS[name]` por nombre (`lanka`, `cedo`, …), o `all` (sólo `nodes`/`display`).
   Input compartido con los tests (§5).
-- **Archivo JSON parcial** — un `.json` con un `EnsembleIntention` a medias, **completado sobre
-  `INITIAL_INTENTION`** (el skeleton canónico de [`@shared/types/ensemble.ts`](../../../../Project/src/shared/types/ensemble.ts),
-  el mismo default que consume el EnsembleStore) vía merge profundo. `DeepPartial` tipa el input; el
+- **Archivo JSON parcial** — un `.json` con una `Scene` a medias, **completado sobre
+  `EMPTY_SCENE`** (el skeleton canónico de [`@shared/types/scene.ts`](../../../../Project/src/shared/types/scene.ts):
+  un jugador a pie sin nada equipado y sin hostiles) vía merge profundo. `DeepPartial` tipa el input; el
   merge lo completa (TypeScript no regenera solo — es type-erased). Es, para el CLI, el equivalente
   stateless del hook que en la UI mantiene el ensemble: acá sólo completa, no mantiene estado.
   Sólo hay que declarar lo que importa —`{ items: { primary: { itemId, active_profile } }, mods: … }`—;
@@ -137,8 +137,9 @@ consulta que C2 ya espera. Por eso son flags de la lente que los consume, no un 
   JSON: se retoma si un caso real la pide (la boca JSON ya cubre el destino canónico).
 - **Validación robusta del JSON externo**: hoy laxa (function-first) — parse + guarda de objeto, y se
   deja que el motor falle ruidoso ante un `itemId` inexistente. Endurecer es trabajo futuro.
-- **Saneamiento de `EnsembleIntention`** (vocabulario `rank`/`level` inconsistente en mods): frente
-  aparte, toca contrato core (RED) → se abre su OQ y no se mezcla con esta reorganización.
+- **Saneamiento del vocabulario de la intención** (`rank`/`level` inconsistente en mods — `ModIntent`
+  lleva `level`, `ArcaneIntent` lleva `rank`): frente aparte, toca contrato core (RED) → se abre su OQ
+  y no se mezcla con esta reorganización.
 - **Error-handling del borde A→B** ante input no-confiable: se **observa cómo falla** primero
   (function-first), se endurece después. Abrir la boca de intención parcial (Trabajo 2) es lo que lo
   expondrá.
