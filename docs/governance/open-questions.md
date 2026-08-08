@@ -65,9 +65,9 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-31` | ¿Qué le falta a una entidad para ser modelable? — el compañero como forcing-case | engine / modelo de entidades | abierta — **gated por medición** (P-5) y por capacidad de propagación |
 | `OQ-ENGINE-32` | ¿Los estados físicos de CC forman un eje ordenado o son cuatro independientes? | engine / modelo de status | abierta — **sin medición posible**; sin consecuencia numérica mientras no se simule comportamiento |
 | `OQ-ENGINE-33` | ¿El proc deja de ser un campo del tipo de daño? | engine / vocabulario + contrato core | abierta — **sin convergencia**; arrastra el bug `DT_RADIANT` |
-| `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **gated por múltiples objetivos**; hoy se derivan de la procedencia |
+| `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **acotada**: *"esto es de aquel"* se declara y costó un campo (`owner`); las relaciones dirigidas siguen sin caso |
 | `OQ-ENGINE-35` | ¿Cuánta geometría necesita el escenario? — declara quiénes existen, no dónde están | engine / Capa A — escenario | abierta — **gated por consumidor**; ya hay distancia sin espacio donde medirla |
-| `OQ-ENGINE-36` | Claves derivadas que colisionan sin chequeo — dos apariciones medidas, ambas silenciosas | engine / traducción A→B | abierta — **gated por la mudanza de la hidratación a B**; guardas puestas, forma pendiente |
+| `OQ-ENGINE-36` | Claves derivadas que colisionan sin chequeo — dos de tres apariciones muertas | engine / identidad del participante | abierta — **sin gate**: la mudanza ya pasó; queda una decisión de radio ancho (la identidad de todo participante) |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -1923,8 +1923,16 @@ categoría: *Covenant* de Harrow buffea el crítico de armas primarias y secunda
 candidatos a uno-a-uno apuntan al enemigo (Nyx, Sonar).
 
 **La única relación que el motor necesita hoy no es *"le pego a ese"* sino *"esto es de aquel"*** — y
-ésa se **deriva de la procedencia** (quién trajo a quién, §*pobladores ⊥ derivación* en
-`simulation-architecture.md`), sin declararla como campo.
+ésa **ya no se deriva: se declara**. El poblador la conocía (`companionIntents` construye el arma
+adentro del compañero) y la descartaba al aplanar; hoy viaja como `EntityIntent.owner` porque el
+ruteo la necesita — sin ella, un buff de alcance propio del warframe aterriza en el arma del
+compañero, que porta la misma marca `weapon`. Ausente = cuelga del Jugador, la raíz que no se
+materializa.
+
+**Eso acota la pregunta en vez de cerrarla, y en la dirección útil:** *"esto es de aquel"* costó **un
+campo escalar**, no un bloque de relaciones. Lo que sigue abierto es si las relaciones *dirigidas*
+(las que apuntan a un individuo) necesitan estructura propia — y para ésas el corpus sigue sin dar
+un caso del lado del jugador.
 
 ### Por qué está gated y no cerrada
 

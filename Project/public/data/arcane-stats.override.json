@@ -116,12 +116,12 @@
               125,
               150
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_wall_latch",
         "notes": [
-          "engine:note — Aplica a Primary Y Secondary (no Melee): dos canales simultáneos no expresables con un solo target_channel. El genérico WEAPON_ADD_DAMAGE que se mantiene no aterriza en NINGUNA de las dos —montado en el warframe, muere en el portador—, así que la restricción dual no es una aproximación: es cero. Sigue abierto (análogo al problema OR de condition).",
+          "engine:note — gap DECLARADO, no olvido: aplica a Primary Y Secondary (no Melee), y un target_channel no expresa dos. Con WEAPON_ADD_DAMAGE el ruteo lo baja a las TRES armas, o sea que acierta dos y regala la melee — medir de más es peor que no aterrizar. El token se repone cuando el destino múltiple sea expresable (análogo al problema OR de condition; eje de clase en OQ-DATA-16).",
           "engine:note — duration:30s"
         ]
       }

@@ -319,8 +319,13 @@ El ruteo por canal **está implementado**: `resolve/hydration/channel-routing.ts
 > `Bow`), entidad (`WARFRAME`, `AURA`, `COMPANION`) y warframe individual (`Volt`, `Nezha`), y del
 > lado del arma `kind`/`category`/`type`/`family` se solapan entre sí (`category` ≈ `kind` + `Misc`;
 > `family` mezcla clase con linaje `prime`/`wraith`/`kuva`). Se reabre con la revisión de schema de
-> `omniframe-items` (`OQ-DATA-16`), no antes. Sin vía hoy: `Rifle Amp`, `Dead Eye` y `Arcane Arachne`
-> (que además apunta a dos slots a la vez).
+> `omniframe-items` (`OQ-DATA-16`), no antes.
+>
+> Las cuatro fuentes sin vía —`Rifle Amp`, `Dead Eye`, `Arcane Arachne` y `Vigorous Swap`— llevan
+> **`upgrade_type: null`**, que es el contrato del schema para *"no mapeado"*. No es olvido: con un
+> token liso, la regla de ruteo las baja a **las tres armas**, y acertar dos regalando la tercera es
+> peor que no aterrizar — un número plausible y falso no corrompe código, corrompe una medición. El
+> `notes[]` de cada una lleva el destino real y la condición de reposición.
 >
 > Evidencia por defecto: `[empirical]` — fuente Archon Shards, verificada en juego.
 
@@ -355,12 +360,10 @@ la OPERATION y el attr queda igual al token).
 
 ⚠️ **`Arcane Strike` es el caso que prueba que la separación no es cosmética.** Estaba acuñado
 `WEAPON_ADD_FIRE_RATE` —el token del arma de fuego— para un efecto que la fuente describe como
-*"Attack Speed to Melee Weapons"*. Con el token correcto nombra el nodo que la melee sí materializa;
-sigue sin llegar, pero ahora por un motivo distinto y visible: **el ruteo no consulta la familia del
-token**. `FAMILY_ROUTE` declara cinco entradas y desde mods/arcanos se usan dos, ambas hardcodeadas
-(`ENEMY` para el cruce de bando, `AVATAR` para el salto arma→warframe); `MELEE`, `WEAPON` y
-`GAMEPLAY` sólo las alcanza `AbilityRepository`, que sí rutea por la familia del token. Es el mismo
-hueco que `arch-decisions.md` §18 lleva como drift 🔴.
+*"Attack Speed to Melee Weapons"*. Con el token correcto nombra el nodo que la melee sí materializa,
+y llega **sin sub-familia**: la familia `MELEE` declara su destino y el ruteo la consulta. Un token
+mal acuñado se ve igual que un hueco de ruteo desde el tripwire, y sólo el `label` de la fuente los
+distingue — acá eran los dos a la vez, y el segundo sólo se vio una vez corregido el primero.
 
 **Por qué está separado de `WEAPON_ADD_FIRE_RATE`.** DE emite un único token upstream
 (`WEAPON_FIRE_RATE`) tanto para Fury como para Gunslinger, pero son stats distintos:

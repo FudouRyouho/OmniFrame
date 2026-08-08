@@ -46,6 +46,13 @@ export interface SimulationEntity {
    * preguntaba *qué es* la entidad cuando la pregunta del juego es *a quién alcanza* el efecto.
    */
   routes?: string[];
+  /**
+   * De quién cuelga este participante (`arch-decisions §18`, árbol de propiedad). Ausente = de la
+   * raíz —el Jugador, que no se materializa—. Lo declara el espacio, viaja en el intent y **el motor
+   * no lo lee**: es del ruteo, que necesita separar "las armas del warframe" de "el arma del
+   * compañero" cuando ambas portan la marca `weapon`.
+   */
+  owner?: EntityId;
   attributes: Record<AttributeId, AttributeNode>;
   // Ruteo CO/GunCO YA RESUELTO al perfil activo de ESTA entidad (StaticHydrator lo baja
   // de innate_dna.co_behavior[perfil]). El motor lo consume directo — no vuelve a mirar el

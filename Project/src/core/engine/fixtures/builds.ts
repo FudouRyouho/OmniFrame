@@ -279,16 +279,16 @@ export const RHINO = '/Lotus/Powersuits/Rhino/Rhino';
 export const AMALGAM_SERRATION = '/Lotus/Upgrades/Mods/DualSource/Rifle/SerratedRushMod';
 
 /**
- * Fuentes montadas en el WARFRAME cuyo efecto es de un ARMA — la dirección que el ruteo no sabe
- * bajar por sí solo (`arch-decisions §18`). Las tres primeras declaran su destino en la
- * sub-familia del token y llegan; las dos últimas no tienen cómo declararlo y siguen muriendo en
- * el portador, cada una por un motivo distinto.
+ * Fuentes montadas en el WARFRAME cuyo efecto es de un ARMA (`arch-decisions §18`), una por cada
+ * vía de la partición:
  *
- * `STEEL_CHARGE` / `PISTOL_AMP` son AURAS: alcance *aliado*, y su destino es una clase de arma.
- * `RIFLE_AMP` es su hermana **sin vía**: "Rifle" no es un slot — una escopeta es primaria y no lo
- * recibe (`Shotgun Amp` existe aparte en el dataset), así que `WEAPON_PRIMARY_*` la mediría mal.
- * `PROVOKED` tampoco la tiene, pero por el otro extremo: su destino son TODAS las armas, y eso no
- * es una sub-familia sino la regla espejo que falta.
+ * - `STEEL_CHARGE` / `PISTOL_AMP` — AURAS cuyo destino es **una clase que ES un slot**: lo declaran
+ *   en la sub-familia del token y el ruteo por canal las aterriza.
+ * - `PROVOKED` — destino **todas las armas**: token liso, lo baja la regla por familia. Es el
+ *   ejercicio del eje de propiedad, porque su alcance es propio y no debe alcanzar al compañero.
+ * - `RIFLE_AMP` — destino **una clase que NO es un slot**: "Rifle" no es primaria (una escopeta lo
+ *   es y no lo recibe; `Shotgun Amp` existe aparte). Lleva `upgrade_type: null` —gap declarado—
+ *   porque con un token liso la regla lo bajaría también a la secundaria y la melee.
  */
 export const STEEL_CHARGE = '/Lotus/Upgrades/Mods/Aura/PlayerMeleeAuraMod';
 export const PISTOL_AMP   = '/Lotus/Upgrades/Mods/Aura/PlayerPistolDamageAuraMod';

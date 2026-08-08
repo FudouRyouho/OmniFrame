@@ -3708,8 +3708,11 @@
               43.8,
               52.5
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
+        ],
+        "notes": [
+          "engine:note — gap DECLARADO, no olvido: el destino es la clase \"Sniper Rifle\", más angosta que el slot primaria. Con WEAPON_ADD_DAMAGE el ruteo la baja a las TRES armas del jugador, que mide de más — peor que no aterrizar. El token se repone cuando exista el eje de clase (OQ-DATA-16)."
         ]
       }
     ]
@@ -13801,8 +13804,11 @@
               22.5,
               27
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
+        ],
+        "notes": [
+          "engine:note — gap DECLARADO, no olvido: \"Rifle\" no es el slot primaria — una escopeta es primaria y no lo recibe (Shotgun Amp existe aparte). Con WEAPON_ADD_DAMAGE el ruteo lo baja también a la secundaria y la melee. El token se repone cuando exista el eje de clase (OQ-DATA-16)."
         ]
       }
     ]
@@ -17402,6 +17408,38 @@
             ],
             "upgrade_type": "AVATAR_ADD_HEALTH_MAX"
           }
+        ]
+      }
+    ]
+  },
+  "/Lotus/Upgrades/Mods/Warframe/AvatarHolsterDamageMod": {
+    "name": "Vigorous Swap",
+    "stats": [
+      {
+        "label": "On Equip: +|val1|% Damage for 3s",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60,
+              75,
+              90,
+              105,
+              120,
+              135,
+              150,
+              165
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_equip",
+        "notes": [
+          "engine:note — duration:3s",
+          "engine:note — gap DECLARADO: el destino son las armas NO-melee (primaria + secundaria), no todas. La propia wiki lo marca como bug de texto: \"Reads as though to imply applying to all damage. Should say 'Projectile Damage' instead of 'Damage.'\" Un target_channel no expresa dos slots — mismo caso que Arcane Arachne. Fuente: references/wiki/mods/vigorous-swap.wikitext",
+          "engine:note — cuando el token exista, el bucket es aditivo: \"Stacks additively with mods like Serration and Hornet Strike, as well as Holster Amp and Arcane Arachne\" — mismo pool que WEAPON_ADD_DAMAGE"
         ]
       }
     ]

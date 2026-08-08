@@ -9,7 +9,7 @@ import { ShardRepository } from "./ShardRepository";
 import { IncarnonRepository } from "./IncarnonRepository";
 import { ArcaneRepository } from "./ArcaneRepository";
 import { AbilityRepository } from "./AbilityRepository";
-import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing";
+import { resolveChannelEntities, resolveFamilyEntities, familyRoute } from "./channel-routing";
 import type { MoldedIntent } from "./space";
 import { isUpgrade } from "@shared/types/modifier";
 
@@ -50,6 +50,7 @@ export class StaticHydrator {
       // Las marcas las declara el ESPACIO (`space.ts`), no el ítem: quién recibe qué es una
       // propiedad de participar, no de la taxonomía del arsenal.
       entity.routes = [...intent.routes];
+      if (intent.owner) entity.owner = intent.owner;
       const combination_mods: ElementalMod[] = [];
       
       // La clave del slot ordena la combinación elemental (ver `index` abajo). Que sea un índice
@@ -241,10 +242,14 @@ export class StaticHydrator {
     // modifier por entidad alcanzada, con id derivado para no colisionar en el trace.
     const routed: Modifier[] = [];
     const entityById = new Map(entities.map(e => [e.id, e]));
-    // Cruces de bando que no encontraron a quién cruzar. §18 exige descartar **y reportar**: el
-    // tripwire de `reportUnlandedModifiers` no puede verlos porque recorre los modifiers YA ruteados,
-    // y éstos desaparecen antes de llegar ahí.
-    const crossBandDiscarded: Modifier[] = [];
+    // Alcances que existían y estaban vacíos. §18 exige descartar **y reportar**, y hasta acá el
+    // reporte era de uno solo de los cuatro caminos: el cruce de bando gritaba y los otros tres se
+    // llevaban el modifier sin dejar rastro. El tripwire de `reportUnlandedModifiers` no los puede
+    // ver porque recorre los modifiers YA ruteados, y éstos desaparecen antes de llegar ahí.
+    //
+    // El motivo se guarda con el modifier porque el mensaje **no es el mismo**: nombra el alcance que
+    // faltó, no el nodo — el nodo nunca llegó a estar en juego.
+    const discarded: { m: Modifier; motivo: string }[] = [];
     for (const m of modifiers) {
       if (!m.target_channel) {
         // ── Cruce de bando ──────────────────────────────────────────────────────────────
@@ -265,7 +270,10 @@ export class StaticHydrator {
         // que porta la misma marca `avatar`.
         if (m.target_attribute.startsWith('ENEMY_')) {
           const targets = resolveFamilyEntities('ENEMY', entities);
-          if (targets.length === 0) { crossBandDiscarded.push(m); continue; }
+          if (targets.length === 0) {
+            discarded.push({ m, motivo: 'no hay participante hostil declarado' });
+            continue;
+          }
           for (const id of targets) {
             routed.push({ ...m, id: targets.length > 1 ? `${m.id}@${id}` : m.id, target_entity: id });
           }
@@ -291,8 +299,51 @@ export class StaticHydrator {
         // familia del token, arriba.
         const holder = entityById.get(m.target_entity);
         if (holder?.domain === 'weapon' && m.target_attribute.startsWith('AVATAR_')) {
-          for (const id of resolveFamilyEntities('AVATAR', entities)) {
-            routed.push({ ...m, target_entity: id });
+          const targets = resolveFamilyEntities('AVATAR', entities);
+          if (targets.length === 0) {
+            discarded.push({ m, motivo: 'no hay avatar al que subir' });
+            continue;
+          }
+          for (const id of targets) routed.push({ ...m, target_entity: id });
+          continue;
+        }
+
+        // ── La baja: del warframe a SUS armas ───────────────────────────────────────────
+        // El espejo del salto de arriba, y el que `arch-decisions §18` prescribía sin que el código
+        // lo hiciera. Mismo principio: el portador no materializa el token, así que el destino lo
+        // declara la familia. Lo ejercen 5 fuentes vivas cuyo efecto es de TODAS las armas
+        // (`Arcane Avenger`, `Crepuscular`, `Hot Shot`, `Theorem Demulcent`, `Provoked`) — las que
+        // apuntan a una sola clase ya bajan por sub-familia, que es dato y no regla.
+        //
+        // ⚠️ ACOTADO A LA PROPIEDAD, y no por prudencia: sin el filtro por `owner`, `Provoked`
+        // —alcance propio— aterriza en el arma del compañero, que porta la misma marca `weapon`.
+        //
+        // ⚠️ Y ACOTADO AL WARFRAME COMO PORTADOR, que es lo que lo separa de "rutear por familia
+        // siempre". Los 7 mods de garras de Kavat/Kubrow (`Bite`, `Maul`, `Frost Jaw`…) emiten
+        // `WEAPON_*` montados en el compañero: su destino son las garras, que **no son una entidad
+        // del motor**. Con ruteo por familia sin esta guarda irían al rifle del jugador — §18 lo
+        // llama la cláusula de descarte y la declara regla, no parche, porque la fuerzan dos
+        // familias independientes (garras y amp/arcanos de operador). Acá se cumple por omisión:
+        // caen a contención y el tripwire los reporta montados donde están.
+        //
+        // Que sean dos `if` y no una regla sola es deliberado: unificarlos es elegir **dentro** del
+        // bando por familia, y eso rompería la contención de `Vitality` (el compañero porta la misma
+        // marca `avatar` que el warframe). Ese eje sigue sin forcing-case — `OQ-ENGINE-31`.
+        const family = m.target_attribute.split('_')[0];
+        const route  = familyRoute(family);
+        // La condición es la de §18 al pie de la letra: **el portador no materializa el token**. Se
+        // pregunta por la MARCA, no por si el nodo existe — un warframe porta `avatar`, así que
+        // `Vitality` (`AVATAR_*`) cae a contención acá mismo y no se va al compañero, que porta la
+        // misma marca. Familia sin ruta declarada ⇒ tampoco baja: se queda donde nació.
+        if (holder?.domain === 'warframe' && route && !holder.routes?.includes(route)) {
+          const targets = resolveFamilyEntities(family, entities)
+            .filter(id => entityById.get(id)?.owner === holder.owner);
+          if (targets.length === 0) {
+            discarded.push({ m, motivo: `el portador no tiene armas propias que reciban \`${family}\`` });
+            continue;
+          }
+          for (const id of targets) {
+            routed.push({ ...m, id: targets.length > 1 ? `${m.id}@${id}` : m.id, target_entity: id });
           }
           continue;
         }
@@ -300,7 +351,10 @@ export class StaticHydrator {
         continue;
       }
       const targetIds = resolveChannelEntities(m.target_channel, entities);
-      // Canal vacío (sin arma equipada en ese slot) ⇒ se descarta, como hacía el loop de shards.
+      if (targetIds.length === 0) {
+        discarded.push({ m, motivo: `el canal \`${m.target_channel}\` no tiene participante` });
+        continue;
+      }
       for (const id of targetIds) {
         routed.push({
           ...m,
@@ -313,11 +367,13 @@ export class StaticHydrator {
 
     // El alcance existía y estaba vacío — distinto de "el token no tiene nodo". Se reporta acá y no
     // en `reportUnlandedModifiers` porque estos modifiers no llegan a `routed`: se descartan al
-    // rutear. El mensaje nombra el bando que faltó, no el nodo, porque el nodo nunca estuvo en juego.
-    if (crossBandDiscarded.length > 0) {
-      const sources = new Set(crossBandDiscarded.map(m => m.source_id ?? m.id));
+    // rutear. El mensaje nombra el alcance que faltó, no el nodo, porque el nodo nunca estuvo en
+    // juego. Agrupado por motivo: cuatro caminos distintos terminan acá y confundirlos al leer sería
+    // volver al estado que esto arregla.
+    for (const motivo of new Set(discarded.map(d => d.motivo))) {
+      const sources = new Set(discarded.filter(d => d.motivo === motivo).map(d => d.m.source_id ?? d.m.id));
       console.warn(
-        `[Hydration] Cruce de bando sin destino: no hay participante hostil declarado — ` +
+        `[Hydration] Alcance sin destino: ${motivo} — ` +
         `${sources.size} modifier(s) descartado(s): ${[...sources].join(', ')}`,
       );
     }

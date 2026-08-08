@@ -55,6 +55,18 @@ const FAMILY_ROUTE: Record<string, string> = {
 };
 
 /**
+ * La marca que exige la familia de un token, o `undefined` si esa familia no declara destino.
+ *
+ * Es la pregunta *"¿el portador materializa este token?"* hecha sin mirar si el nodo existe —
+ * `arch-decisions §18` prohíbe decidir el destino por **ausencia de nodo**, porque eso rutea por
+ * accidente: el día que dos entidades materialicen el mismo token, el buff aterriza en las dos sin
+ * que nadie lo haya declarado. La marca sí es una declaración.
+ */
+export function familyRoute(family: string): string | undefined {
+  return FAMILY_ROUTE[family];
+}
+
+/**
  * Entidades que alcanza la FAMILIA de un token — el `{dónde}` cuando no hay sub-familia.
  *
  * Segundo eje del mismo `{cuál}` de arriba, para el cruce cross-entity. `resolveToken` sólo emite

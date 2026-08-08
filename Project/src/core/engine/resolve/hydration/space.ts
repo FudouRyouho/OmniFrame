@@ -45,6 +45,22 @@ export interface EntityIntent {
    * arsenal del cual derivarlas, y el mismo ítem puede entrar con marcas distintas según el rol.
    */
   routes: string[];
+  /**
+   * **De quién cuelga este participante** — el árbol de propiedad de `arch-decisions §18`
+   * (`Jugador → {warframe · compañeros · armas} → instancias`).
+   *
+   * Ausente = cuelga del Jugador, que es la raíz y **no se materializa como entidad**: no tiene
+   * stats, no recibe modifiers, no hay nada que resolver en él. Lo declaran sólo los participantes
+   * que cuelgan de otro participante — hoy, el arma de compañero.
+   *
+   * POR QUÉ HACE FALTA. El ruteo baja un buff del warframe a "sus armas", y sin este eje "sus"
+   * no significa nada: el arma de compañero porta la misma marca `weapon` (warrant: Roar la
+   * alcanza), así que un fan-out por familia le entrega también los mods de alcance propio del
+   * warframe. §18 ya lo decía —*"la propiedad se deriva del poblador, que ya la conoce y hoy la
+   * descarta"*— y era literal: `companionIntents` construye el arma **adentro** del compañero y esa
+   * relación se perdía en el camino.
+   */
+  owner?: string;
   /** Lo montado, con los nombres de la `Scene`. Sin re-indexar: ver `assertSlotKeys`. */
   mods: SlotMap<ModIntent>;
   profile_id: string;
@@ -241,8 +257,17 @@ function warframeIntent(warframe: WarframeIntent): EntityIntent {
   };
 }
 
-/** Las armas equipadas, en el orden en que se declaran los canales. */
-function weaponIntents(slots: ReadonlyArray<readonly [string, WeaponIntent | undefined]>): EntityIntent[] {
+/**
+ * Las armas equipadas, en el orden en que se declaran los canales.
+ *
+ * `owner` es de quién son: ausente para las del jugador (cuelgan de la raíz), el compañero para la
+ * suya. Es el único dato que separa "mis armas" de "el arma de mi sentinel" cuando un buff baja por
+ * familia — las dos portan la marca `weapon`.
+ */
+function weaponIntents(
+  slots: ReadonlyArray<readonly [string, WeaponIntent | undefined]>,
+  owner?: string,
+): EntityIntent[] {
   const intents: EntityIntent[] = [];
   for (const [channel, weapon] of slots) {
     if (!weapon) continue;
@@ -252,6 +277,7 @@ function weaponIntents(slots: ReadonlyArray<readonly [string, WeaponIntent | und
       ...bearerIntent(weapon, channel, channel === 'melee' ? ['weapon', 'melee'] : ['weapon']),
       profile_id: weapon.activeProfile ?? "base",
       ...(weapon.evolutionPerks ? { evolutionPerks: weapon.evolutionPerks } : {}),
+      ...(owner ? { owner } : {}),
     });
   }
   return intents;
@@ -294,6 +320,9 @@ function companionIntents(companion: CompanionIntent): EntityIntent[] {
 
   return [
     bearerIntent(companion, "companion", ["avatar"]),
-    ...weaponIntents([['companion_weapon', companion.weapon]]),
+    // El compañero es el dueño de su arma — colgar ⊥ participar: entra como participante propio y
+    // sigue siendo suya. Sin esto, un buff de alcance propio del warframe (Provoked, "+daño durante
+    // bleedout") aterriza también acá, porque la marca `weapon` no distingue de quién es el arma.
+    ...weaponIntents([['companion_weapon', companion.weapon]], companion.uniqueName),
   ];
 }

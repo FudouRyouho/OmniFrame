@@ -18,7 +18,7 @@ import { consume } from '../output/consume';
 import {
   volt, voltSpeed, TIBERON_PRIME, voltChannelArcanes, rhinoRoar, ADARZA_KAVAT, DECONSTRUCTOR_PRIME,
   RHINO, AMALGAM_SERRATION, STEEL_CHARGE, PISTOL_AMP, RIFLE_AMP, ARCANE_FURY, ARCANE_STRIKE,
-  BOLTOR_PRIME, LAETUM, NIKANA_PRIME,
+  BOLTOR_PRIME, LAETUM, NIKANA_PRIME, PROVOKED, ARCANE_RAGE,
 } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
@@ -107,82 +107,70 @@ describe('Modifiers sin aterrizar — el engine declara lo que no modela', () =>
 // plausible y falso no corrompe código — corrompe una medición.
 
 // ════════════════════════════════════════════════════════════════════════════════════════
-//  LO QUE NACE EN EL WARFRAME Y TIENE QUE BAJAR AL ARMA — bug conocido
+//  LO QUE NACE EN EL WARFRAME Y BAJA AL ARMA — el ruteo en sus dos direcciones
 // ════════════════════════════════════════════════════════════════════════════════════════
 //
-// El ruteo es ASIMÉTRICO y sólo una de las dos direcciones existe:
+// El ruteo cruza en ambas direcciones, y cada una tiene su propia guarda:
 //
-//   arma → warframe   ✅ el salto de `StaticHydrator` (`holder.domain === 'weapon'` + `AVATAR_*`)
-//   warframe → arma   ❌ NO HAY REGLA
+//   arma → warframe   `holder.domain === 'weapon'` + `AVATAR_*` ⇒ sube por familia
+//   warframe → arma   el portador no porta la marca de la familia ⇒ baja por familia, ACOTADO
+//                     a las entidades del mismo `owner`
 //
-// El mecanismo está en `resolveToken` (`modifier.ts`): `target_channel` se emite **sólo si el token
-// trae sub-familia**. Un `WEAPON_ADD_DAMAGE` liso no lo tiene, así que cae a contención — se queda
-// donde nació— y el warframe no materializa nodos de arma. El tripwire lo grita, que es lo único que
-// hoy impide que sea invisible.
+// Son dos `if` y no una regla sola **a propósito**: unificarlos es elegir *dentro* del bando por
+// familia, y eso rompe la contención de `Vitality` —el compañero porta la misma marca `avatar` que
+// el warframe—. Ese eje sigue sin forcing-case (`OQ-ENGINE-31`); el de acá sí lo tenía.
 //
-// POR QUÉ LAS HABILIDADES SÍ FUNCIONAN, que es lo que hace esto confuso: `AbilityRepository` resuelve
-// el destino **él mismo** (`resolveFamilyEntities`) y emite el modifier ya apuntando al arma. `Mod`
-// y `Arcane` no: estampan al portador y delegan el ruteo al canal, que para estos tokens no existe.
-// Roar baja porque su repositorio lo baja, no porque el ruteo sepa bajarlo.
+// POR QUÉ EL HUECO ERA INVISIBLE, que es lo que lo hacía confuso: `AbilityRepository` resuelve el
+// destino **él mismo** (`resolveFamilyEntities` con la familia del token) y emite el modifier ya
+// apuntando al arma. Roar bajaba porque su repositorio lo bajaba, no porque el ruteo supiera bajar.
+// `Mod` y `Arcane` estampan al portador y delegan — y por ese camino `FAMILY_ROUTE` se consultaba
+// con dos constantes (`'ENEMY'`, `'AVATAR'`), así que `MELEE`, `WEAPON` y `GAMEPLAY` eran letra
+// muerta.
 //
-// ALCANCE MEDIDO — no es un caso, es una clase de 15 fuentes vivas:
-//   · 8 arcanos de warframe (`compat_name: warframe`) con token de arma sin canal —
-//     Arachne · Avenger · Crepuscular · Fury · Hot Shot · Pistoleer · Strike · Theorem Demulcent
-//   · 7 mods de warframe — Dead Eye · Provoked · Ready Steel · Reflex Guard · **Rifle Amp** ·
-//     **Pistol Amp** · **Steel Charge** (los tres últimos son AURAS)
+// ALCANCE MEDIDO — 15 fuentes vivas montadas en el warframe con token de arma, partidas en TRES por
+// su destino real, que lo declara el `label` de cada una (dato, no lectura nuestra):
 //
-// ⚠️ Y LA CLASE SE PARTE EN TRES — el destino lo declara el `label` de cada fuente, que es dato:
-//   (a) TODAS las armas — Avenger, Crepuscular, Hot Shot, Theorem Demulcent, Provoked (+`Vigorous
-//       Swap`, que además no tiene entrada en el override). Falta la REGLA espejo:
-//       `holder.domain === 'warframe'` + `WEAPON_*` ⇒ fan-out por familia. **Y no puede ser bruta**:
-//       el arma de compañero porta `routes:['weapon']`, así que un fan-out sin eje de propiedad
-//       mete Provoked —alcance propio— en el Deconstructor del Helios. §18 ya lo dice: la propiedad
-//       la conoce el poblador y hoy la descarta.
-//   (b) UNA clase que ES un slot — Arcane Fury, Arcane Strike, Ready Steel, Steel Charge, Reflex
-//       Guard (melee) · Arcane Pistoleer, Pistol Amp (secundaria). **RESUELTO por el dato**: el
-//       token declara la sub-familia y el ruteo por canal que ya existía los aterriza. Es D-6
-//       aplicado, sin tocar el motor.
-//   (c) UNA clase que NO es un slot — Rifle Amp (rifle ⊊ primaria: `Shotgun Amp` existe aparte) y
-//       Dead Eye (sniper ⊊ rifle); más Arcane Arachne, que apunta a DOS slots a la vez
-//       ("Primary and Secondary"). Ninguna tiene vía hoy y **queda diferido a propósito**: el eje
-//       es la clase de compatibilidad del arma, y ese campo no existe sano en el schema —
+//   (a) TODAS las armas — Arcane Avenger, Crepuscular, Hot Shot, Theorem Demulcent, Provoked.
+//       ✅ **las baja la regla espejo**, acotada por `owner`: sin ese eje, `Provoked` —alcance
+//       propio— aterriza en el arma del compañero, que porta la misma marca `weapon` y tiene que
+//       portarla (Roar la alcanza).
+//   (b) UNA clase que ES un slot — Arcane Fury, Ready Steel, Steel Charge, Reflex Guard (melee) ·
+//       Arcane Pistoleer, Pistol Amp (secundaria). ✅ **las baja el dato**: el token declara la
+//       sub-familia y el ruteo por canal que ya existía las aterriza. D-6 aplicado.
+//   (c) UNA clase que NO es un slot — Rifle Amp (rifle ⊊ primaria: `Shotgun Amp` existe aparte),
+//       Dead Eye (sniper ⊊ rifle), Arcane Arachne y Vigorous Swap (primaria **+** secundaria).
+//       ⏸️ **`upgrade_type: null` — gap declarado.** Con la regla espejo activa, un token liso las
+//       bajaría a las TRES armas: Rifle Amp entraría en la secundaria y la melee. Medir de más es
+//       peor que no medir, porque un número plausible y falso no corrompe código sino una medición.
+//       El eje que las resolvería es la clase de compatibilidad, y no existe sano en el schema —
 //       `compat_name` trae 236 valores mezclando clase (`Rifle`, `Assault Rifle`, `Bow`), entidad
-//       (`WARFRAME`, `AURA`) y warframe individual. Se reabre con la revisión de schema
-//       (`omniframe-items`), no antes.
+//       (`WARFRAME`, `AURA`) y warframe individual. Se reabre con `OQ-DATA-16`.
 //
-// ⚠️ Arcane Strike no era ni (a) ni (b): **le faltaba el token**. Su efecto es
-// `MELEE_ADD_ATTACK_SPEED` —el nodo que la melee sí materializa— y estaba acuñado como
-// `WEAPON_ADD_FIRE_RATE`, que la melee no tiene. La familia `MELEE` ya rutea sola por
-// `FAMILY_ROUTE`, así que llega sin sub-familia. Un token mal acuñado se ve igual que un hueco de
+// ⚠️ Arcane Strike no era ninguno de los tres: **le faltaba el token**. Su efecto es
+// `MELEE_ADD_ATTACK_SPEED` —el nodo que la melee sí materializa— y estaba acuñado
+// `WEAPON_ADD_FIRE_RATE`, que la melee no tiene. Un token mal acuñado se ve igual que un hueco de
 // ruteo desde el tripwire; sólo el `label` de la fuente los distingue.
 //
-// El override de Arachne ya sabía la mitad del problema y lo dejó anotado — *"dos canales simultáneos
-// no expresables con un solo target_channel. Se mantiene WEAPON_ADD_DAMAGE genérico"*. Lo que nadie
-// midió es que el genérico no aterriza en NINGÚN lado.
-//
-// `Vigorous Swap` (`/Lotus/Upgrades/Mods/Warframe/AvatarHolsterDamageMod`) es el caso hermano y falla
-// **antes**: existe en `mods.json` con `upgrade_types: []` y **no tiene entrada en el override**, así
-// que ni siquiera emite. Fuente: `references/wiki/mods/vigorous-swap.wikitext` — mod de Warframe,
-// +165% de daño de arma por 3s al holstear, *"stacks additively with Serration and Hornet Strike"*
-// (mismo pool) y la propia wiki aclara que es daño de proyectil, no de melee.
+// ⚠️ Y llegar no es aterrizar: Ready Steel, Reflex Guard y Arcane Pistoleer alcanzan el arma
+// correcta y mueren ahí, porque combo y ammo efficiency no tienen nodo. El tripwire los reporta en
+// la melee y la secundaria — antes los reportaba en el warframe, donde el nodo nunca podía estar.
 
 const ARCANE_ARACHNE = '/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneBonusDamageOnWallLatch';
 
-describe('Ruteo warframe → arma — asimétrico, y el lado que falta', () => {
+describe('Ruteo warframe → arma — la baja, su acotación y lo que queda sin vía', () => {
   const conArachne = () => scene({
     kind: 'onfoot',
     warframe: { uniqueName: RHINO, rank: 30, arcanes: { 0: { uniqueName: ARCANE_ARACHNE, rank: 5 } } },
     weapons: { primary: { uniqueName: TIBERON_PRIME, rank: 30 } },
   });
 
-  // Caso (c): Arachne apunta a DOS slots y el token no lo puede decir. Queda rojo a propósito —
-  // ⚠️ y verde tampoco sería la respuesta: la regla espejo bruta lo haría pasar aterrizando TAMBIÉN
-  // en la melee, que el label excluye. Un test que pasa por el destino equivocado es peor que uno
-  // rojo, así que el examen se queda como está hasta que el eje de clase se decida.
-  it.fails('un arcano de warframe con token de arma debería aterrizar en el arma — hoy muere en el warframe', () => {
+  // Caso (c): Arachne apunta a DOS slots ("Primary and Secondary") y un `target_channel` no expresa
+  // dos. La regla espejo lo bajaría a las TRES armas — acertaría dos y regalaría la melee. Por eso
+  // su `upgrade_type` es `null`: **gap declarado**, no olvido. Medir de más es peor que no medir,
+  // porque un número plausible y falso no corrompe código sino una medición.
+  it('un destino que el token no puede expresar no emite — y el dato dice por qué', () => {
     const out = consume(conArachne(), { flags: { on_wall_latch: true } });
-    // Arachne rank 5 = +150% (`arcane-stats.override.json`).
-    expect(out.weapon(TIBERON_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(150);
+    expect(out.weapon(TIBERON_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
   });
 
   // ─── Caso (b): la sub-familia baja el efecto, y el canal lo CONTIENE ──────────────────
@@ -229,17 +217,11 @@ describe('Ruteo warframe → arma — asimétrico, y el lado que falta', () => {
     expect(out.weapon(BOLTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
   });
 
-  // Arcane Strike tenía DOS defectos, no uno, y el segundo sólo se ve una vez corregido el primero:
-  // con `MELEE_ADD_ATTACK_SPEED` el token ya nombra el nodo que la melee materializa —y sigue
-  // muriendo en el warframe—, porque **el ruteo no consulta la familia del token**. `FAMILY_ROUTE`
-  // tiene cinco entradas y desde mods/arcanos se usan dos, ambas hardcodeadas (`'ENEMY'` para el
-  // cruce de bando, `'AVATAR'` para el salto arma→warframe). `MELEE`, `WEAPON` y `GAMEPLAY` son
-  // letra muerta por ese camino.
-  //
-  // Y la regla que falta ya está escrita, aplicada a otra fuente: `AbilityRepository.ts:137` hace
-  // `resolveFamilyEntities(token.split('_')[0], entities)` — la familia del token, dinámica. Eso es
-  // exactamente lo que las habilidades tienen y los mods no.
-  it.fails('un token de familia MELEE llega al arma sin sub-familia ninguna', () => {
+  // Arcane Strike tenía DOS defectos, no uno, y el segundo sólo se vio una vez corregido el primero:
+  // con `MELEE_ADD_ATTACK_SPEED` el token ya nombraba el nodo correcto **y seguía sin llegar**,
+  // porque el ruteo no consultaba la familia. Este test es el ejercicio de la familia `MELEE`, que
+  // por ese camino era letra muerta: no lleva sub-familia ni la necesita.
+  it('un token de familia MELEE llega al arma sin sub-familia ninguna', () => {
     const build = scene({
       kind: 'onfoot',
       warframe: { uniqueName: RHINO, rank: 30, arcanes: { 0: { uniqueName: ARCANE_STRIKE, rank: 5 } } },
@@ -249,16 +231,56 @@ describe('Ruteo warframe → arma — asimétrico, y el lado que falta', () => {
     expect(consume(build, { flags: { on_hit: true } }).weapon(NIKANA_PRIME).node('MELEE_ADD_ATTACK_SPEED').mods_add_pct).toBe(60);
   });
 
-  // ─── Caso (c): sin vía, y el tripwire es el único que lo dice ─────────────────────────
-  it('Rifle Amp sigue muriendo en el warframe — "Rifle" no es un slot y el token no lo puede declarar', () => {
+  // ─── Caso (a): la regla espejo, y su acotación ────────────────────────────────────────
+  //
+  // Provoked es el ejercicio limpio de la regla: token de arma **liso** —sin sub-familia— montado en
+  // el warframe, destino "todas las armas". Antes moría en el portador; ahora baja por la familia
+  // del token, que es lo que `arch-decisions §18` prescribía.
+  const conProvoked = () => scene({
+    kind: 'onfoot',
+    warframe: { uniqueName: RHINO, rank: 30, mods: { 0: { uniqueName: PROVOKED, level: 10 } } },
+    weapons: {
+      primary: { uniqueName: BOLTOR_PRIME, rank: 30 },
+      melee:   { uniqueName: NIKANA_PRIME, rank: 30 },
+    },
+    companion: {
+      uniqueName: ADARZA_KAVAT, rank: 30,
+      weapon: { uniqueName: DECONSTRUCTOR_PRIME, rank: 30 },
+    },
+  });
+
+  it('un token de arma liso montado en el warframe baja a TODAS sus armas', () => {
+    const out = consume(conProvoked(), { flags: {} });
+    // Provoked lvl 10 = +110%.
+    expect(out.weapon(BOLTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(110);
+    expect(out.weapon(NIKANA_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(110);
+  });
+
+  // ⚠️ La mitad que hace que la regla no sea un fan-out bruto. El arma de compañero porta la misma
+  // marca `weapon` que las del jugador —y tiene que portarla, porque Roar la alcanza—, así que sin
+  // el eje de propiedad un mod de alcance PROPIO del warframe aterrizaría en el Deconstructor.
+  it('…y NO cruza al arma del compañero, que tiene otro dueño', () => {
+    const out = consume(conProvoked(), { flags: {} });
+    expect(out.weapon(DECONSTRUCTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
+  });
+
+  // ─── Caso (c): el dato declara el gap en vez de dejar que la regla mida de más ────────
+  //
+  // Rifle Amp es el que prueba por qué (c) no se puede "aproximar al slot": con la regla espejo
+  // activa y `WEAPON_ADD_DAMAGE`, un aura de rifle aterriza también en la secundaria y en la melee.
+  // Pasa de morir gritando a componer mal en silencio, que es estrictamente peor.
+  it('un aura de clase no emite mientras el eje de clase no exista', () => {
     const build = scene({
       kind: 'onfoot',
       warframe: { uniqueName: RHINO, rank: 30, mods: { 0: { uniqueName: RIFLE_AMP, level: 5 } } },
-      weapons: { primary: { uniqueName: BOLTOR_PRIME, rank: 30 } },
+      weapons: {
+        primary: { uniqueName: BOLTOR_PRIME, rank: 30 },
+        melee:   { uniqueName: NIKANA_PRIME, rank: 30 },
+      },
     });
-    const avisos = unlanded(build);
-    expect(avisos.some(w => w.includes('WEAPON_ADD_DAMAGE') && w.includes(RHINO))).toBe(true);
-    expect(consume(build, { flags: {} }).weapon(BOLTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
+    const out = consume(build, { flags: {} });
+    expect(out.weapon(BOLTOR_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
+    expect(out.weapon(NIKANA_PRIME).node('WEAPON_ADD_DAMAGE').mods_add_pct).toBe(0);
   });
 
   // La contracara, que SÍ funciona y por eso el hueco es fácil de no ver: la dirección inversa tiene
@@ -272,11 +294,39 @@ describe('Ruteo warframe → arma — asimétrico, y el lado que falta', () => {
     expect(consume(build, { flags: {} }).weapon(RHINO).node('AVATAR_ADD_SPRINT_SPEED').mods_add_pct).toBe(25);
   });
 
-  // ⚠️ Y el mismo salto DESCARTA EN SILENCIO cuando no hay a quién saltar. Es el mismo patrón que el
-  // cruce de bando, que sí reporta (`crossBandDiscarded`): acá el `for` sobre una lista vacía no
-  // empuja nada y el `continue` se lleva el modifier sin dejar rastro. Medir un arma sola es caso
-  // soportado del CLI —tiene su propio test acá arriba—, así que es alcanzable, no hipotético.
-  it.todo('un `AVATAR_*` de arma sin warframe declarado se reporta en vez de evaporarse');
+  // ─── Descartar Y reportar — los cuatro caminos, un solo mensaje ───────────────────────
+  //
+  // §18 lo pide para todos y el código lo hacía para uno: el cruce de bando gritaba, y el salto
+  // `AVATAR_*` sin avatar, el canal vacío y la baja sin armas se llevaban el modifier sin dejar
+  // rastro. Medir un arma sola es caso soportado del CLI, así que ninguno es hipotético.
+  it('un `AVATAR_*` de arma sin warframe declarado se reporta en vez de evaporarse', () => {
+    const build = scene({
+      kind: 'onfoot',
+      weapons: { primary: { uniqueName: TIBERON_PRIME, rank: 30, mods: { 0: { uniqueName: AMALGAM_SERRATION, level: 10 } } } },
+    });
+    const avisos = warningsOf(build).filter(w => w.includes('Alcance sin destino'));
+    expect(avisos.some(w => w.includes('no hay avatar al que subir') && w.includes(AMALGAM_SERRATION))).toBe(true);
+  });
+
+  it('un buff del warframe sin armas equipadas se reporta en vez de evaporarse', () => {
+    const build = scene({
+      kind: 'onfoot',
+      warframe: { uniqueName: RHINO, rank: 30, mods: { 0: { uniqueName: PROVOKED, level: 10 } } },
+    });
+    const avisos = warningsOf(build).filter(w => w.includes('Alcance sin destino'));
+    expect(avisos.some(w => w.includes('armas propias') && w.includes(PROVOKED))).toBe(true);
+  });
+
+  it('un canal que no tiene participante se reporta en vez de evaporarse', () => {
+    // Arcane Rage apunta a `primary` por sub-familia; el build no equipa primaria.
+    const build = scene({
+      kind: 'onfoot',
+      warframe: { uniqueName: RHINO, rank: 30, arcanes: { 0: { uniqueName: ARCANE_RAGE, rank: 5 } } },
+      weapons: { melee: { uniqueName: NIKANA_PRIME, rank: 30 } },
+    });
+    const avisos = warningsOf(build).filter(w => w.includes('Alcance sin destino'));
+    expect(avisos.some(w => w.includes('`primary`') && w.includes(ARCANE_RAGE))).toBe(true);
+  });
 });
 
 describe('Slots — una clave que no es índice no se come los mods en silencio', () => {
