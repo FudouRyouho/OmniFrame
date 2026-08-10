@@ -8,9 +8,8 @@
 import { describe, it, expect } from 'vitest';
 import { makeIsolatedTarget, resolveIsolated } from './harness';
 import { stackDebuffValue, infectionLaw } from '../../formulas/status/stack-debuff';
-import { BASELINE_GAME_LAWS } from '../../contracts';
+import { STATUS_INITIAL_BONUS_PCT as SIB, STATUS_STACK_BONUS_PCT as SSB } from '../../formulas/status/stack-debuff';
 
-const { status_initial_bonus: SIB, status_stack_bonus: SSB } = BASELINE_GAME_LAWS;
 
 describe('Infection — multiplicador a la capa salud (MODELADO)', () => {
   it.each([

@@ -148,20 +148,12 @@ export function makeModifier(
   return { ...base, operation: op, value };
 }
 
-export interface GameLaws {
-  corrosive_max_stacks: number;
-  corrosive_initial_strip: number;
-  corrosive_stack_strip: number;
-  status_max_stacks: number;
-  status_initial_bonus: number;
-  status_stack_bonus: number;
-}
-
-export const BASELINE_GAME_LAWS: GameLaws = {
-  corrosive_max_stacks: 10,
-  corrosive_initial_strip: 26,
-  corrosive_stack_strip: 6,
-  status_max_stacks: 10,
-  status_initial_bonus: 100, // +100% Viral/Mag (2.0x)
-  status_stack_bonus: 25     // +25% por stack extra
-};
+// `GameLaws` / `BASELINE_GAME_LAWS` — RETIRADOS (`arch-decisions §17`). Eran una tabla plana de seis
+// parámetros que el contexto transportaba hasta cada behavior de status. §17 la desarma por estructural,
+// no por ubicación: un valor plano **no tiene dónde poner su procedencia**, así que no puede expresar el
+// caso que sí está medido (`status-stack-caps.md`) — dos jugadores contra el MISMO enemigo, uno con cap
+// 19 por tres Tauforged Emerald y otro con cap 10, y cada proc usando el cap del que lo aplica. Una tabla
+// global le daría 19 a los dos.
+//
+// Los seis parámetros viven ahora con su fórmula, en `formulas/status/stack-debuff.ts`. La cadena de
+// desvíos (default → emisor → receptor) es `CV-3` y entra por ahí, no reabriendo la tabla.

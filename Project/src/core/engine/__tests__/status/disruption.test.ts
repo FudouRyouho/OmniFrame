@@ -6,9 +6,8 @@
 import { describe, it, expect } from 'vitest';
 import { makeIsolatedTarget, resolveIsolated } from './harness';
 import { stackDebuffValue, disruptionLaw } from '../../formulas/status/stack-debuff';
-import { BASELINE_GAME_LAWS } from '../../contracts';
+import { STATUS_INITIAL_BONUS_PCT as SIB, STATUS_STACK_BONUS_PCT as SSB } from '../../formulas/status/stack-debuff';
 
-const { status_initial_bonus: SIB, status_stack_bonus: SSB } = BASELINE_GAME_LAWS;
 
 describe('Disruption — multiplicador a la capa shields (MODELADO, provisional O4)', () => {
   it.each([

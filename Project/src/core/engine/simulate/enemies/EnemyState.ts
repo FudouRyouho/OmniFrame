@@ -1,4 +1,4 @@
-import type { GameLaws, SimulationEntity } from "../../contracts";
+import type { SimulationEntity } from "../../contracts";
 import type { StatusEffect } from "@shared/types";
 import { EFFECT_BEHAVIORS } from "../../formulas/status/behaviors";
 import type { EffectBehavior, HitContext, Layer, Resolucion } from "../../formulas/status/effect-behavior";
@@ -86,7 +86,6 @@ export class EnemyState {
 
   /** El participante tal como el escenario lo consolidó. Reemplaza al `ScaledEnemy` paralelo. */
   public entity: SimulationEntity;
-  public laws: GameLaws;
 
   /**
    * Armadura de la foto de t=0 — el piso sobre el que los efectos aplican su `armorMult`. Se congela
@@ -95,9 +94,8 @@ export class EnemyState {
    */
   private readonly base_armor: number;
 
-  constructor(entity: SimulationEntity, laws: GameLaws) {
+  constructor(entity: SimulationEntity) {
     this.entity = entity;
-    this.laws = laws;
     const vitals = vitalsOf(entity);
     this.current_health  = vitals.health;
     this.current_shields = vitals.shields;
@@ -234,7 +232,7 @@ export class EnemyState {
   }
 
   public clone(): EnemyState {
-    const c = new EnemyState(this.entity, this.laws);
+    const c = new EnemyState(this.entity);
     c.current_health = this.current_health;
     c.current_shields = this.current_shields;
     // Los estados son inmutables (copy-on-write en applyProc/advance) → copiar el Map alcanza.

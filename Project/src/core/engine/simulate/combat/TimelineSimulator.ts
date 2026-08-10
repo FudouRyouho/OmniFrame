@@ -2,7 +2,6 @@
  * @domain Simulation-v2 / Logic / Simulator
  */
 import type { SimulationEntity, SimulationContext } from "../../contracts";
-import { BASELINE_GAME_LAWS } from "../../contracts";
 import { CombatSimulator } from "./CombatSimulator";
 import { RngProvider } from "./RngProvider";
 import { EnemyState } from "../enemies/EnemyState";
@@ -34,23 +33,26 @@ export interface SimulationResult {
 export class TimelineSimulator {
   /**
    * Simula una ráfaga y luego observa el sangrado post-disparo.
+   *
+   * ⚠️ `context` NO TIENE UN SOLO LECTOR acá. Al retirar `laws` (§17) quedó visible que ese parámetro
+   * existía únicamente para transportarlas: `flags`, `variables` y `active_profile_id` no se leen en
+   * ninguna línea de la timeline. No es un hueco — es el corte C1→C2 funcionando: los flags gatean
+   * modificadores durante la RESOLUCIÓN, y C2 recibe los nodos ya resueltos (`.final`). Lo que llega
+   * acá es el resultado, no la condición.
+   *
+   * Se conserva la firma en vez de purgarla porque el caller (`combat-metrics.ts`) la propaga desde su
+   * propio contrato, y decidir si C2 debe o no ver el contexto es una pregunta de diseño abierta —
+   * la reversión del strip y las ventanas de tiempo pueden necesitarlo. Queda declarado, no disimulado.
    */
   public static simulateBurst(
     weapon: SimulationEntity,
     target: SimulationEntity,
     simDuration: number,
     burstDuration: number = simDuration,
-    context?: Partial<SimulationContext>,
+    _context?: Partial<SimulationContext>,
     rng: RngProvider = new RngProvider()
   ): SimulationResult {
-    const fullContext: SimulationContext = { 
-      active_profile_id: context?.active_profile_id || "base",
-      flags: context?.flags || {}, 
-      variables: context?.variables || {}, 
-      laws: context?.laws || { ...BASELINE_GAME_LAWS }
-    };
-
-    const state = new EnemyState(target, fullContext.laws);
+    const state = new EnemyState(target);
     const events: TimelineEvent[] = [];
     
     const fireRate = weapon.attributes["WEAPON_ADD_FIRE_RATE"]?.final || 1;

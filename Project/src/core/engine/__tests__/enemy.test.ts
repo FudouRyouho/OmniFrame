@@ -21,7 +21,6 @@ import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { computeCombatMetrics } from '../output/combat-metrics';
-import { BASELINE_GAME_LAWS } from '../contracts';
 import type { SimulationContext } from '../contracts';
 import type { Scene } from '@shared/types/scene';
 import {
@@ -32,7 +31,7 @@ import {
 await loadEngineData(new NodeAdapter());
 
 const BASE_CONTEXT: SimulationContext = {
-  active_profile_id: 'base', flags: {}, variables: {}, laws: { ...BASELINE_GAME_LAWS },
+  active_profile_id: 'base', flags: {}, variables: {},
 };
 
 const target = (b = valkyrWarcryTarget()) => consume(b, { flags: {} }).weapon(BOMBARD);

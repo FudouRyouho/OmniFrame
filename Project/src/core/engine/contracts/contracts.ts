@@ -8,7 +8,7 @@
 import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
 import type { CoBehavior } from '@shared/types/modifier';
 import type { DamageType } from '@shared/types';
-import type { EntityId, AttributeId, AttributeNode, GameLaws } from './primitives';
+import type { EntityId, AttributeId, AttributeNode } from './primitives';
 
 export type { CoBehavior };
 
@@ -102,7 +102,8 @@ export interface SimulationContext {
   active_profile_id: string; // 'base' | 'alt' | 'incarnon'
   flags: Record<string, boolean>;
   variables: Record<string, number>;
-  laws: GameLaws;
+  // `laws` RETIRADO (§17, ver `primitives.ts`). La Escena ya lo excluía; el contexto lo transportaba
+  // cuatro saltos hasta un campo que —tras mover los parámetros junto a su fórmula— nadie leía.
   target?: {
     id: string;
     attributes: Record<string, number>;

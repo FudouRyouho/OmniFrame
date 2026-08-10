@@ -104,7 +104,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 | Archivo | Estado |
 |---|---|
 | `contracts.ts` | **Activo** — cortes/DTOs. |
-| `primitives.ts` | **Activo** — `AttributeNode`, `Modifier`, `GameLaws`, ids. |
+| `primitives.ts` | **Activo** — `AttributeNode`, `Modifier`, ids. **`GameLaws` retirado** (§17): los seis parámetros de status viven con su fórmula en `formulas/status/stack-debuff.ts`. |
 | `damage-logic.ts` · `damage-multipliers.ts` · `mod-overrides.ts` · `index.ts` (barrel) | **Activo** |
 | `layers.ts` | **Activo** — la pila defensiva (`overguard → overshield → shield → health`) y **la tabla de quién la atraviesa, que es de la capa y no del daño**. Declara la LEY; el origen de dos de las cuatro no existe todavía. |
 

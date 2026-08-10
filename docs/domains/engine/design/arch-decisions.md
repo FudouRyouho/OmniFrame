@@ -768,6 +768,28 @@ esperan que el portador pueda llevar datos propios y resolverlos al ser consulta
 **No son cuatro gates: es uno.** Y el dato ya está esperando en el contrato — `eximus_health?` se emite
 hoy *"sin consumidor todavía"*.
 
+### Estado de ejecución — la mitad de arriba está hecha; la cadena no
+
+Esta sección era prescriptiva entera. Hoy se parte en dos, y sólo una está construida:
+
+| Qué | Estado |
+|---|---|
+| **`GameLaws` baja a `formulas/`** | ✅ **EJECUTADO.** Los seis parámetros viven en `formulas/status/stack-debuff.ts` como constantes con su fórmula, y las firmas de los behaviors ya no reciben `laws`. |
+| **La tabla plana se retira** | ✅ **EJECUTADO.** `GameLaws`, `BASELINE_GAME_LAWS`, `SimulationContext.laws`, `EnemyState.laws` y `MutatorBridge.extractLaws` no existen más. |
+| **La cadena de cuatro eslabones** (default → emisor → receptor → cap) | ❌ **NO EXISTE.** Es `CV-3`. |
+
+⚠️ **El sunset no removió una capacidad — removió su apariencia.** Al mover los parámetros junto a su
+fórmula, el pase de `laws` quedó sin lectores: pasar un `laws` custom ya **no cambiaba nada**, en
+silencio. La tabla siguió viajando cuatro saltos hasta un campo que nadie leía. Lo que se retiró fue ese
+transporte, no un canal de override funcionando.
+
+**Los tres tokens quedan RESERVADOS, no descartados.** `law_corrosive_max_stacks`,
+`law_corrosive_initial_strip` y `law_corrosive_stack_strip` no los produce ningún dataset ni override
+(verificado). El escaneo era la mitad correcta —§17 lo dice arriba— así que el vocabulario es el material
+de entrada de `CV-3`, y su revisión token por token está pendiente ahí: cada uno tiene que declarar **de
+quién** es el desvío antes de volver, y al menos uno (`max_stacks`) ya sabe la respuesta — es del
+**emisor** (el cap 19 por `3 × Tauforged Emerald`), que es justamente lo que la tabla plana no podía decir.
+
 **Enlaza con** §14 (LEY/ESTADO/RESOLUCIÓN), §16 (pools), §18 (el ruteo decide **a quién** llega el
 desvío), §20 (la entidad se lee como `f(estado en t)` — este canal es lo que hace legible su clase).
 Cita: `references/ingame-tests/status-stack-caps.md`,

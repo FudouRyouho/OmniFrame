@@ -12,7 +12,6 @@ import { vitalsOf } from '@core/engine/simulate/enemies/EnemyState';
 import { hostileOnly } from '@core/engine/fixtures/builds';
 import { damageReductionFromArmor } from '@core/engine/formulas/enemy/armor-mitigation';
 import { effectiveHealthVsEnemy } from '@core/engine/formulas/enemy/effective-health';
-import { BASELINE_GAME_LAWS } from '@core/engine/contracts';
 import type { SimulationContext, SimulationEntity } from '@core/engine/contracts';
 import { resolveSubject, subjectNames } from './subject';
 import { OracleError, type OracleQuery, type AcquiredResult } from './types';
@@ -98,7 +97,7 @@ export function acquire(q: OracleQuery): AcquiredResult {
 /** ⚠️ Limitación heredada: `active_profile_id='base'` no propaga el perfil real del build
  *  (ej. Lanka 'charged_shot'); afecta sólo el lookup de reload_time (fidelidad menor). */
 function baseContext(): SimulationContext {
-  return { active_profile_id: 'base', flags: {}, variables: {}, laws: { ...BASELINE_GAME_LAWS } };
+  return { active_profile_id: 'base', flags: {}, variables: {} };
 }
 
 /** La primera arma del build. Multi-arma: toma la primera (selección explícita = trabajo futuro). */

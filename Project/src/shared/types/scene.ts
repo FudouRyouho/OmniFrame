@@ -63,7 +63,8 @@ export interface Scene {
 
   // NO va:
   //   laws    — §17: "el default vive con la fórmula, el desvío en el portador". `GameLaws` como
-  //             tabla global no sobrevive: un valor plano no tiene dónde poner su procedencia.
+  //             tabla global no sobrevivió: un valor plano no tiene dónde poner su procedencia. La
+  //             Escena lo excluyó primero; el resto de la cadena se retiró después (§17, acta).
   //   timeSet — el t=0 es del escenario, pero nadie lo consume hasta que algo del lado Squad tenga
   //             duración. Campo sin lector.
   //   plano   — dónde está cada uno. `OQ-ENGINE-35`.

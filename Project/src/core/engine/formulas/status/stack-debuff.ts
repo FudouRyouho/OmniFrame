@@ -38,7 +38,8 @@ export function stackDebuffValue(law: StackDebuffLaw, n: number): number {
 /**
  * LEYES de crit-buff-por-stack (`OQ-ENGINE-12`, status-effects.md §Weakened/§Cold). El target
  * debilitado sube el crit del ATACANTE — misma forma Familia A, aplicada al crit en vez del daño.
- * Constantes de ley fija (no config per-sim); si algún día se vuelven ajustables, migran a `GameLaws`.
+ * Constantes de ley fija: el default vive acá, con su fórmula. Si algún día algo las desvía, el desvío
+ * entra por su procedencia (emisor/receptor, `CV-3`) — no por una tabla de config paralela.
  */
 /** Weakened (Puncture): +5% crit chance/stack, cap +25% a 5 stacks. */
 export const WEAKENED_CRIT_LAW: StackDebuffLaw = { first: 5, perAdditional: 5, cap: 25 };

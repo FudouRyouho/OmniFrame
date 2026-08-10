@@ -19,7 +19,6 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { EnemyState, vitalsOf } from '../simulate/enemies/EnemyState';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
-import { BASELINE_GAME_LAWS } from '../contracts';
 import { consume } from '../output/consume';
 import { volt } from '../fixtures/builds';
 import { hostileEntity, syntheticHostile } from './hostile-entity';
@@ -49,7 +48,7 @@ describe('El estado se lee por familia de token, no por bando', () => {
   });
 
   it('[avatar] un warframe que porta estado NO nace muerto — el síntoma exacto que esto cierra', () => {
-    const state = new EnemyState(participante((e) => e.domain === 'warframe'), BASELINE_GAME_LAWS);
+    const state = new EnemyState(participante((e) => e.domain === 'warframe'));
     expect(state.isDead()).toBe(false);
     expect(state.current_health).toBeGreaterThan(0);
   });
@@ -84,7 +83,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
   const avatar = () => participante((e) => e.domain === 'warframe');
 
   it('[estado] el proc corre sobre el avatar igual que sobre un hostil — la mecánica SÍ es neutral', () => {
-    const s = new EnemyState(avatar(), BASELINE_GAME_LAWS);
+    const s = new EnemyState(avatar());
     const shields0 = s.current_shields;
     s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 1, 0);
     for (let t = 0; t < 8; t += 0.5) advanceAndResolve(s, t, 0.5);
@@ -94,7 +93,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
   });
 
   it('[ley] el avatar mitiga con la fórmula del Tenno, no con la del hostil', () => {
-    const s = new EnemyState(avatar(), BASELINE_GAME_LAWS);
+    const s = new EnemyState(avatar());
     s.current_shields = 0;                    // el armor sólo protege la salud: hay que llegar a ella
     const armor = s.getEffectiveArmor(0);
     const { health_damage } = CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 1000 }, s, 0);
@@ -113,13 +112,12 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
   it('[ley] ⭐ misma armadura, dos portadores, dos leyes — el contraste directo', () => {
     // Un hostil sintético con EXACTAMENTE la armadura del avatar: lo único que cambia entre las dos
     // resoluciones es de quién es la armadura, así que la diferencia sólo puede venir de la ley.
-    const wf = new EnemyState(avatar(), BASELINE_GAME_LAWS);
+    const wf = new EnemyState(avatar());
     wf.current_shields = 0;
     const armor = wf.getEffectiveArmor(0);
 
     const hostil = new EnemyState(
       syntheticHostile({ health: 1_000_000, armor, faction: 'Isolated' }),
-      BASELINE_GAME_LAWS,
     );
 
     const dañoAlAvatar = CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 1000 }, wf, 0).health_damage;
@@ -132,14 +130,14 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
 
   it('[ley] un participante sin familia conocida tira en vez de mitigar con la ley de otro', () => {
     const sinMarca = { ...syntheticHostile({ armor: 100 }), routes: ['weapon'] };
-    const s = new EnemyState(syntheticHostile({ armor: 100 }), BASELINE_GAME_LAWS);
+    const s = new EnemyState(syntheticHostile({ armor: 100 }));
     s.entity = sinMarca;
     expect(() => CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 100 }, s, 0))
       .toThrow(/no declara ninguna familia con ley de mitigación/);
   });
 
   it.fails('[capas] el daño que rompe los shields del avatar no debería pasar a la salud en el mismo evento', () => {
-    const s = new EnemyState(avatar(), BASELINE_GAME_LAWS);
+    const s = new EnemyState(avatar());
     const health0 = s.current_health;
     // Pulso deliberadamente mayor que los shields: en un hostil desborda, en un avatar el shield gate
     // lo corta y abre una ventana de invulnerabilidad que este contenedor no tiene dónde poner. Su

@@ -14,10 +14,11 @@ import {
   corrosionLaw,
 } from '../../formulas/status/stack-debuff';
 import { effectOfDamageType } from '@shared/types';
-import { BASELINE_GAME_LAWS } from '../../contracts';
+import {
+  STATUS_INITIAL_BONUS_PCT as SIB, STATUS_STACK_BONUS_PCT as SSB,
+  CORROSIVE_INITIAL_STRIP_PCT as CIS, CORROSIVE_STACK_STRIP_PCT as CSS,
+} from '../../formulas/status/stack-debuff';
 
-const { status_initial_bonus: SIB, status_stack_bonus: SSB } = BASELINE_GAME_LAWS;
-const { corrosive_initial_strip: CIS, corrosive_stack_strip: CSS } = BASELINE_GAME_LAWS;
 
 describe('Familia A — primitiva pura f(n) = first + perAdd × max(0, n−1)', () => {
   it('n=1 devuelve first exacto (max(0,0)=0)', () => {

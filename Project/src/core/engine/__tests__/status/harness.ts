@@ -17,8 +17,6 @@
  */
 import { EnemyState } from "../../simulate/enemies/EnemyState";
 import { CombatSimulator, type HitResolution } from "../../simulate/combat/CombatSimulator";
-import { BASELINE_GAME_LAWS } from "../../contracts";
-import type { GameLaws } from "../../contracts";
 import type { StatusEffect } from "@shared/types";
 import { syntheticHostile } from "../hostile-entity";
 import { dotTickValue, type DotType } from "../../formulas/status/dot-tick";
@@ -40,7 +38,6 @@ export interface IsolatedTargetSpec {
   overshield?: number;
   /** Status pre-declarado (C1): el consumidor fija N stacks por efecto, sin timeline. */
   stacks?: Partial<Record<StatusEffect, number>>;
-  laws?: GameLaws;   // default BASELINE_GAME_LAWS
 }
 
 /** Construye un `EnemyState` aislado, faction-neutral, con status declarado. */
@@ -57,7 +54,7 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EnemyState {
     health, armor, shields,
   });
 
-  const state = new EnemyState(entity, spec.laws ?? BASELINE_GAME_LAWS);
+  const state = new EnemyState(entity);
   state.current_overguard  = spec.overguard ?? 0;
   state.current_overshield = spec.overshield ?? 0;
   // Status pre-declarado (C1): materializa el estado de proc del modelo unificado directamente.

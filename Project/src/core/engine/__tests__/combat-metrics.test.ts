@@ -15,7 +15,6 @@ import { hostileEntity } from './hostile-entity';
 
 /** Arid Butcher — el objetivo de referencia de esta suite (por display name, lo resuelve el catálogo). */
 const ARID = 'Arid Butcher';
-import { BASELINE_GAME_LAWS } from '../contracts';
 import { lanka } from '../fixtures/builds';
 import type { SimulationEntity, SimulationContext } from '../contracts';
 
@@ -25,7 +24,6 @@ const ctx: SimulationContext = {
   active_profile_id: 'base',
   flags: {},
   variables: {},
-  laws: { ...BASELINE_GAME_LAWS },
 };
 
 const weapon = () =>

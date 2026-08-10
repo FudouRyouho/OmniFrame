@@ -22,7 +22,6 @@
 import { describe, it, expect } from 'vitest';
 import { SimulationEngine } from '../resolve/SimulationEngine';
 import { resolveStatValue } from '../formulas/weapon/stat-accumulator';
-import { BASELINE_GAME_LAWS } from '../contracts';
 import type { SimulationEntity, AttributeNode, AccumulatorModifier, SimulationContext } from '../contracts';
 
 const node = (base: number): AttributeNode => ({
@@ -30,7 +29,7 @@ const node = (base: number): AttributeNode => ({
 });
 
 const CTX: SimulationContext = {
-  active_profile_id: 'base', flags: {}, variables: {}, laws: BASELINE_GAME_LAWS,
+  active_profile_id: 'base', flags: {}, variables: {},
 };
 
 const TRINITY_ENERGY_BASE = 175;  // warframes.json

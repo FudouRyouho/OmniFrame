@@ -17,7 +17,6 @@ import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { rhino, RHINO, rhinoRoar, TIBERON_PRIME } from '../fixtures/builds';
 import { SimulationEngine } from '../resolve/SimulationEngine';
-import { BASELINE_GAME_LAWS } from '../contracts';
 import type { SimulationEntity, AttributeNode, AccumulatorModifier, SimulationContext } from '../contracts';
 
 await loadEngineData(new NodeAdapter());
@@ -84,7 +83,7 @@ const node = (base: number, mods_add_pct = 0): AttributeNode => ({
 });
 
 const CTX: SimulationContext = {
-  active_profile_id: 'base', flags: {}, variables: {}, laws: BASELINE_GAME_LAWS,
+  active_profile_id: 'base', flags: {}, variables: {},
 };
 
 /** Warframe sintético (Rhino-like): strength 254% (base 100 + mods 154, como fixture_01). */

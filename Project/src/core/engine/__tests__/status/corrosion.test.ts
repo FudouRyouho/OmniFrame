@@ -8,10 +8,9 @@
 import { describe, it, expect } from 'vitest';
 import { makeIsolatedTarget, resolveIsolated, ISOLATED_FACTION } from './harness';
 import { stackDebuffValue, corrosionLaw } from '../../formulas/status/stack-debuff';
-import { BASELINE_GAME_LAWS } from '../../contracts';
+import { CORROSIVE_INITIAL_STRIP_PCT as CIS, CORROSIVE_STACK_STRIP_PCT as CSS } from '../../formulas/status/stack-debuff';
 import { targetFactionMult } from '../../contracts/damage-multipliers';
 
-const { corrosive_initial_strip: CIS, corrosive_stack_strip: CSS } = BASELINE_GAME_LAWS;
 
 describe('harness — invariante de aislamiento', () => {
   it('la facción sentinela neutraliza la matriz③ (×1.0 para todo tipo)', () => {

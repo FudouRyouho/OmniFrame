@@ -35,7 +35,7 @@ Dependencias:
 | Stat Accumulator v3 — fórmula maestra | `calculateCurrentValue()` | Fórmula idéntica a la diseñada. `AttributeNode` tiene los 6 buckets exactos. |
 | Elemental System — Factor Order | `DamageCombiner.combine()` | Ordenamiento por índice de slot, consolidación de duplicados, combinación por pares. Fiel al diseño. |
 | MutatorBridge — ruta única | `simulateFromIntention(EnsembleIntention)` | Ruta legacy `simulate(LoadoutState)` eliminada (2026-05-21). Una sola entrada canónica. |
-| GameLaws centralizadas | `BASELINE_GAME_LAWS` en `contracts/index.ts` | SSoT para corrosive, viral, status stacks. |
+| ~~GameLaws centralizadas~~ | ~~`BASELINE_GAME_LAWS` en `contracts/index.ts`~~ | **RETIRADO** (`arch-decisions §17`) — la SSoT de los seis parámetros son las constantes de `formulas/status/stack-debuff.ts`, con su fórmula. Una tabla plana no tiene dónde poner la procedencia del desvío. |
 | ~~SimulationAuditor (AI-Ready)~~ | ~~`audit/SimulationAuditor.ts`~~ | **ELIMINADO** — directorio `engine/audit/` purgado junto con `TraceObserver.ts`. Funcionalidad no migrada. |
 | Hybrid Simulation (Atómico vs Bulk) | `CombatSimulator.simulateAttack()` | `HYBRID_THRESHOLD = 20` perdigones. Modo atómico bajo ≤20, EV bulk sobre 20. Alineado. |
 | SimulationContext (flags, variables, active_profile_id, laws, target) | `contracts/index.ts` | Contrato materializado correctamente. |

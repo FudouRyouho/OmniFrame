@@ -18,10 +18,9 @@
  * (`attachMolds`), y después orquestar. Quién participa lo decide `space.ts`; qué ES cada uno lo
  * dereferencia esto, que es el único de los dos que sabe buscar en un repositorio.
  */
-import type { SimulationEntity, SimulationContext, GameLaws, AttributeId, AttributeNode, Modifier } from "../engine/contracts";
+import type { SimulationEntity, SimulationContext, AttributeId, AttributeNode, Modifier } from "../engine/contracts";
 import type { Scene } from "@shared/types/scene";
 import { populateFromScene, type MoldedIntent } from "../engine/resolve/hydration/space";
-import { BASELINE_GAME_LAWS } from "../engine/contracts";
 import { DnaRepository } from "../engine/resolve/hydration/DnaRepository";
 import { SimulationEngine } from "../engine/resolve/SimulationEngine";
 import { StaticHydrator } from "../engine/resolve/hydration/StaticHydrator";
@@ -56,13 +55,10 @@ export class MutatorBridge {
     entities.forEach(e => newEngine.addEntity(e));
     modifiers.forEach(m => newEngine.addModifier(m));
 
-    const laws = this.extractLaws(entities);
-
     const fullContext: SimulationContext = {
       active_profile_id: context?.active_profile_id || "base",
       flags: context?.flags !== undefined ? context.flags : this.deriveStaticFlags(modifiers),
-      variables: context?.variables || {},
-      laws: { ...laws, ...context?.laws }
+      variables: context?.variables || {}
     };
 
     if (options?.trace) newEngine.enableTrace();
@@ -127,18 +123,16 @@ export class MutatorBridge {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  private extractLaws(entities: SimulationEntity[]): GameLaws {
-    const baseline: GameLaws = { ...BASELINE_GAME_LAWS };
-    entities.forEach(entity => {
-      if (entity.attributes["law_corrosive_max_stacks"])
-        baseline.corrosive_max_stacks = entity.attributes["law_corrosive_max_stacks"].final;
-      if (entity.attributes["law_corrosive_initial_strip"])
-        baseline.corrosive_initial_strip = entity.attributes["law_corrosive_initial_strip"].final;
-      if (entity.attributes["law_corrosive_stack_strip"])
-        baseline.corrosive_stack_strip = entity.attributes["law_corrosive_stack_strip"].final;
-    });
-    return baseline;
-  }
+  // `extractLaws` RETIRADO junto con `GameLaws` (§17). Escaneaba tres tokens —`law_corrosive_max_stacks`,
+  // `law_corrosive_initial_strip`, `law_corrosive_stack_strip`— sobre TODAS las entidades y aplanaba el
+  // hallazgo en una tabla global. §17: *"el escaneo era correcto; aplanar la procedencia era lo que había
+  // que no hacer"* — el último que escribía ganaba, y el resultado no sabía de quién venía.
+  //
+  // Ningún dato producía esos tokens (verificado: no aparecen en ningún dataset ni override). El
+  // vocabulario queda RESERVADO —no descartado— para revisión token por token en `CV-3`: es el material
+  // de entrada del canal de desvío, y cada uno tiene que declarar de QUIÉN es antes de volver. Uno ya
+  // sabe la respuesta: `max_stacks` es del **emisor** (cap 19 por `3 × Tauforged Emerald`). Acta en
+  // `arch-decisions §17`; el caso, en `__tests__/status/stack-cap-ownership.test.ts`.
 
   /** Modo estático: activa todas las condiciones presentes en el equipamiento. */
   private deriveStaticFlags(modifiers: Modifier[]): Record<string, boolean> {
