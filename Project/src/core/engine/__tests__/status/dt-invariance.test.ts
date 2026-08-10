@@ -22,20 +22,22 @@
  * sólo pregunta**. Las dos que fallan guardan el tiempo como *progreso acumulado*, que es otra forma de
  * decir que el reloj es del observador.
  *
- * ⚠️ **Y `dt` no es libre:** `TimelineSimulator` lo fija en `1 / fireRate`. El paso de muestreo lo
- * elige la cadencia del arma, así que la fuga de abajo se expresa como *"el estado del enemigo decae
- * distinto según qué arma tengas en la mano"*. Registrado como deuda en `../../../../../docs/domains/engine/status.md`.
+ * ⚠️ **Y `dt` no es libre:** `TimelineSimulator` avanza con `step = 0.1` **fijo** — el paso no es una
+ * perilla del observador, es una constante enterrada en el bucle, y la fuga de abajo la vuelve parte
+ * del resultado. (`1/fireRate` NO es el paso: gobierna la detección de disparos y el piso del `ttk`,
+ * con problemas propios registrados aparte.) Deuda en `../../../../../docs/domains/engine/status.md`.
  *
  * **Distinto de `OQ-ENGINE-16`** (N-declarado vs timers reales), y no lo subsume: aquélla pregunta si un
  * N declarado es FIEL —cuestión de dato, gated por medición in-game—; ésta mide que el modelo actual no
  * es consistente **consigo mismo**, sin opinar sobre fidelidad. Se cierra sin dato nuevo.
  */
 import { describe, it, expect } from 'vitest';
+import { advanceAndResolve } from '../../simulate/advance';
 import { makeIsolatedTarget } from './harness';
 
 /** Avanza un estado de `0` a `hasta` en pasos de `dt`. El épsilon evita un paso final espurio. */
 function correr(state: ReturnType<typeof makeIsolatedTarget>, hasta: number, dt: number): void {
-  for (let t = 0; t < hasta - 1e-9; t += dt) state.processDots(t, dt);
+  for (let t = 0; t < hasta - 1e-9; t += dt) advanceAndResolve(state, t, dt);
 }
 
 /** Los pasos que se barren. Incluye `1/15` = la cadencia de un arma rápida (el `dt` real del motor). */

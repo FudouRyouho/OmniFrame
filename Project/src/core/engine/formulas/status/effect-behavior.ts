@@ -5,14 +5,15 @@
  * La interfaz del modelo unificado de proc: un contenedor de instancias de proc en el target + una
  * fórmula-estrategia por efecto. `EnemyState` itera las fórmulas (registro `EFFECT_BEHAVIORS`); cada
  * efecto posee su acumulación, su ciclo de vida y su contribución. Ver el doc para la ontología
- * (instancia/resolución/proc/tick) y la composición `snapshot × live`.
+ * (instancia/resolución/proc/tick) y el corte «el proc fija la base, el tick evalúa al emitir».
  */
 
 import type { DamageType, StatusEffect } from "@shared/types";
-import type { GameLaws } from "../../contracts";
 
-/** Capa del target contra la que resuelve un daño. (overguard: futuro.) */
-export type Layer = "health" | "shields";
+// La pila de capas y la tabla de quién la atraviesa son contrato del PORTADOR, no de una fórmula de
+// status: viven en `contracts/layers.ts`. Acá sólo se re-exporta el tipo para los `layerMult`.
+import type { Layer } from "../../contracts/layers";
+export type { Layer };
 
 /**
  * El contexto FROZEN de la instancia que generó el proc (source-side, compute-once). El efecto
@@ -60,15 +61,21 @@ export interface CritModifier {
  * como quiera: lista de pulsos, contador, pool). El comportamiento —acumulación, ciclo de vida,
  * contribución— vive en la fórmula, no en core (que solo itera y resuelve).
  */
+/**
+ * **Sin `laws` en las firmas.** Los coeficientes de cada ley viven con su fórmula
+ * (`stack-debuff.ts`), que es lo que `arch-decisions §17` fija: el *default* es del concepto; sólo el
+ * *desvío* es del portador, y un desvío no viaja como tabla plana — necesita decir de quién es. El
+ * estado transportaba `GameLaws` hasta acá y ese pase era, en los seis casos, un default disfrazado
+ * de configuración.
+ */
 export interface EffectBehavior<S> {
   readonly effect: StatusEffect;
-  /** Aplica un proc (o `amount` fraccional, EV): computa snapshot + acumula. Generaliza `addStacks`.
-   *  `laws` = config de juego per-simulación (caps de stacks). */
-  applyProc(state: S | undefined, hit: HitContext, amount: number, t: number, laws: GameLaws): S;
+  /** Aplica un proc (o `amount` fraccional, EV): computa snapshot + acumula. Generaliza `addStacks`. */
+  applyProc(state: S | undefined, hit: HitContext, amount: number, t: number): S;
   /** Evoluciona el estado en `[t, t+dt)`: decae/expira, y EMITE las resoluciones de DoT del intervalo. */
   advance(state: S, t: number, dt: number): { state: S; damage: Resolucion[] };
-  /** Modificador de resolución actual (armor/capa). Ausente = no modifica. `laws` = coeficientes de LEY. */
-  resolutionModifier?(state: S, t: number, laws: GameLaws): ResolutionModifier;
+  /** Modificador de resolución actual (armor/capa). Ausente = no modifica. */
+  resolutionModifier?(state: S, t: number): ResolutionModifier;
   /** Modificador de crit del atacante (Weakened/Freeze, `OQ-ENGINE-12`). Ausente = no toca el crit. */
-  critModifier?(state: S, t: number, laws: GameLaws): CritModifier;
+  critModifier?(state: S, t: number): CritModifier;
 }

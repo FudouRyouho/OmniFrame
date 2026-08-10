@@ -1,0 +1,490 @@
+{{Infobox
+| Box title=Exalted Weapon
+| image=ExaltedBladeWeapon.png
+| caption=Exalted Blade, the first exalted weapon
+}}
+'''Exalted Weapons''' are special weapons exclusive to certain Warframes that can only be summoned and used upon activating their corresponding Warframe's ability. Exalted Weapons will take the place of the weapon in the corresponding weapon slot when activated (e.g. {{WF|Excalibur}}'s {{A|Exalted Blade}} replacing his melee, {{WF|Hildryn}}'s {{A|Balefire}} replacing her secondary), with the exception of {{WF|Jade}}'s {{A|Glory on High}}, {{WF|Mesa}}'s {{A|Peacemaker}}, {{WF|Titania}}'s {{A|Razorwing}}, and {{WF|Voidrig}}'s {{A|Guard Mode}} which disables all other weapons.
+
+The stats and performances of these weapons are affected by [[mods]] equipped on the weapons themselves and also by certain mods equipped on the Warframe, such as {{Stat|Ability Duration}} mods, depending on the weapon. Certain mods, such as [[Weapon Augments]], cannot be equipped on Exalted Weapons and [[Riven Mods]] are not generated for them. These weapons do not utilize ammunition and instead consume energy (with the exception of {{WF|Cyte-09}}'s {{A|Neutralize}} which uses both), either per shot or continuously, while active. To see which specific mods affect which weapon, visit their ability pages.
+
+All Exalted Weapons come pre-built with an {{Resource|Orokin Catalyst}}, regardless of whether the Warframe has an equipped {{Resource|Orokin Reactor}} or not, and can be [[Polarization|Polarized]] with {{Resource|Forma}}.
+
+==List of Exalted Weapons==
+===Warframe===
+
+==== Primary ====
+{| class="wikitable sortable" data-tableid="Warframe Exalted Primary"
+|-
+! Warframe !! Ability !! Weapon
+|-
+| {{WF|Cyte-09}} || {{A|Neutralize}} || {{Weapon|Neutralizer}}
+|-
+| {{WF|Ivara}} ({{WF|Ivara Prime|Prime}}) || {{A|Artemis Bow}} || {{Weapon|Artemis Bow}} ({{Weapon|Artemis Bow Prime|Prime}})
+|-
+| {{WF|Temple}} || {{A|Exalted Solo}} || {{Weapon|Lizzie}}
+|}
+
+==== Secondary ====
+{| class="wikitable sortable" data-tableid="Warframe Exalted Secondary"
+|-
+! Warframe !! Ability !! Weapon
+|-
+| {{WF|Dante}} || {{A|Noctua}} || {{Weapon|Noctua}}
+|-
+| {{WF|Hildryn}} ({{WF|Hildryn Prime|Prime}}) || {{A|Balefire}}<br />{{A|Aegis Storm}} || {{Weapon|Balefire Charger}} ({{Weapon|Balefire Charger Prime|Prime}})
+|-
+| {{WF|Jade}} || {{A|Glory on High}} || {{Weapon|Glory}}
+|-
+| {{WF|Mesa}} ({{WF|Mesa Prime|Prime}}) || {{A|Peacemaker}} || {{Weapon|Regulators}} ({{Weapon|Regulators Prime|Prime}})
+|-
+| {{WF|Titania}} ({{WF|Titania Prime|Prime}}) || {{A|Razorwing}} || {{Weapon|Dex Pixia}} ({{Weapon|Dex Pixia Prime|Prime}})
+|}
+
+==== Melee ====
+{| class="wikitable sortable" data-tableid="Warframe Exalted Melee"
+|-
+! Warframe !! Ability !! Weapon
+|-
+| {{WF|Baruuk}} ({{WF|Baruuk Prime|Prime}}) || {{A|Serene Storm}} || {{Weapon|Desert Wind}} ({{Weapon|Desert Wind Prime|Prime}})
+|-
+| {{WF|Excalibur}} ({{WF|Excalibur Prime|Prime}}, {{WF|Excalibur Umbra|Umbra}}) || {{A|Slash Dash}} (will use Exalted Blade's equipped mods)<br />{{A|Exalted Blade}} || {{Weapon|Exalted Blade}} ({{Weapon|Exalted Prime Blade|Prime}}, {{Weapon|Exalted Umbra Blade|Umbra}})
+|-
+| {{WF|Garuda}} ({{WF|Garuda Prime|Prime}}) || [[Garuda/Abilities/Passive#Garuda's_Talons|Passive]] — Garuda Talons are equipped '''as long as she does not have a melee weapon equipped''', rather than being channeled through an ability. || {{Weapon|Garuda Talons}} ({{Weapon|Garuda Prime Talons|Prime}})
+|-
+| {{WF|Sevagoth}} ({{WF|Sevagoth Prime|Prime}}) || {{A|Exalted Shadow}} || {{Weapon|Shadow Claws}} ({{Weapon|Shadow Claws Prime|Prime}})
+|-
+| {{WF|Titania}} ({{WF|Titania Prime|Prime}}) || {{A|Razorwing}} || {{Weapon|Diwata}} ({{Weapon|Diwata Prime|Prime}})
+|-
+| {{WF|Valkyr}} ({{WF|Valkyr Prime|Prime}}) || {{A|Hysteria}} || {{Weapon|Valkyr Talons}} ({{Weapon|Valkyr Prime Talons|Prime}})
+|-
+| {{WF|Wukong}} ({{WF|Wukong Prime|Prime}}) || {{A|Primal Fury}} || {{Weapon|Iron Staff}} ({{Weapon|Iron Staff Prime|Prime}})
+|}
+
+===Necramech===
+{| class="wikitable sortable" data-tableid="Necramech Exalted"
+|-
+! Necramech !! Ability !! Weapon
+|-
+| {{WF|Voidrig}} || {{A|Guard Mode}} || {{Weapon|Arquebex}}
+|-
+| {{WF|Bonewidow}} || {{A|Exalted Ironbride}} || {{Weapon|Ironbride}}
+|}
+
+==Pseudo-Exalted==
+Pseudo-Exalted refers to abilities that can be modded like a weapon, but do not actually summon a usable weapon. 
+
+{| class="wikitable sortable" data-tableid="Warframe Pseudo-Exalted"
+|-
+! Warframe !! Ability !! Weapon
+|-
+| {{WF|Ash}} ({{WF|Ash Prime|Prime}}) || {{A|Blade Storm}} || {{Weapon|Shadow Clones}} ({{Weapon|Shadow Clones Prime|Prime}})
+|-
+| {{WF|Atlas}} ({{WF|Atlas Prime|Prime}}) || {{A|Landslide}} || {{Weapon|Landslide Fists}} ({{Weapon|Landslide Fists Prime|Prime}})
+|-
+| {{WF|Excalibur}} ({{WF|Excalibur Prime|Prime}}, {{WF|Excalibur Umbra|Umbra}}) || {{A|Slash Dash}} || {{Weapon|Exalted Blade}} ({{Weapon|Exalted Prime Blade|Prime}}, {{Weapon|Exalted Umbra Blade|Umbra}})
+|-
+| {{WF|Gara}} ({{WF|Gara Prime|Prime}}) || {{A|Shattered Lash}} || {{Weapon|Shattered Lash}} ({{Weapon|Shattered Lash Prime|Prime}})
+|-
+| {{WF|Khora}} ({{WF|Khora Prime|Prime}}) || {{A|Whipclaw}} || {{Weapon|Whipclaw}} ({{Weapon|Whipclaw Prime|Prime}})
+|}
+
+Note that '''Slash Dash''' does use an actual exalted weapon, but is separate from summoning it for use normally using {{A|Exalted Blade}}.
+
+==Notes==
+*All Melee Exalted Weapons have a {{Pol|Zenurik}} stance polarity and associated stance mod that cannot be removed.
+**{{Weapon|Garuda Talons}} and {{Weapon|Garuda Prime Talons}} are an exception, which instead have the {{Pol|Madurai}} stance polarity and can use any Claw stance mod.
+*Melee Pseudo-Exalteds are unable to perform [[Melee#Blocking|blocking]] or [[Melee#Heavy Attack|heavy attacks]], and as such cannot equip related mods (e.g. {{M|Parry}}, {{M|Mentor's Legacy}}) and does not have an Exilus Slot.
+*Kills with Exalted Weapons grant 100% of their [[Affinity]], as well as kill and assist stats, to their respective Warframes, as they count as ability kills.
+**Exalted Weapons always gain the same amount of Affinity as their Warframe, but level faster due to the lower Affinity requirements for weapons.
+**[[Focus Lens]]es cannot be installed on Exalted Weapons, but they feed a Warframe's Lens as described.
+**This is also true for Garuda Talons, as an exception to their non-exalted status.
+*While Exalted Weapons gain rank, they do not contribute towards a player's [[Mastery Rank]].
+**This is also true for Garuda Talons, as an exception to their non-exalted status.
+*Exalted Weapons can be used and will benefit from equipped mods in weapon-specific [[Sortie]] missions.
+*Damage dealt by Exalted Weapons depends on the rank of the weapon's ability. The weapon's rank only affects mod capacity.
+*On a newly built Warframe, Exalted Weapons cannot be modded until the corresponding ability has been unlocked. Until the required level is reached, the Weapon does not appear in the Arsenal at all. This can however be bypassed by accessing the Exalted Weapon from the Navigation screen, where they will appear regardless of level.
+*[[Riven Mods]] are not generated for Exalted Weapons.
+**This is also true for Garuda Talons, as an exception to their non-exalted status.
+*Though not explicitly weapons, some Warframes have their own "Exalted" equipment, which may or may not be separately moddable.
+**{{WF|Khora}}/{{WF|Khora Prime}}'s {{Companion|Venari}}/{{Companion|Venari Prime}} functions as an active "Exalted" [[Companion]] that is separately moddable.
+**{{WF|Sevagoth}}/{{WF|Sevagoth Prime}}'s {{A|Exalted Shadow}} doubles as an Exalted Weapon in {{Weapon|Shadow Claws}}/{{Weapon|Shadow Claws Prime}} and an "Exalted" Warframe in {{WF|Sevagoth's Shadow}}/{{WF|Sevagoth Prime's Shadow}} both of which are separately moddable.
+**{{WF|Sirius}} and {{WF|Orion}} functions as an "Exalted" Warframe of each other that is separately moddable.
+**{{WF|Titania}}/{{WF|Titania Prime}}'s {{A|Razorwing}} functions as an "Exalted" [[Archwing]], however it cannot be modded and does not provide any seperate abilities from Titania. Razorwings's [[Archgun]] {{Weapon|Dex Pixia}}/{{Weapon|Dex Pixia Prime}} and [[Archmelee]] {{Weapon|Diwata}}/{{Weapon|Diwata Prime}} act like normal Exalted Weapons on the other hand.
+**{{WF|Yareli}}'s {{A|Merulina}} functions as an "Exalted" [[K-Drive]], however it cannot be modded.
+*Multiple instances of the same Warframe share the same Exalted Weapons ([[Prime|Prime Warframes]] are considered as different Warframes, since they have the Prime version of that particular Exalted Weapon).
+**This also makes it such that the Exalted Weapons do not have to be ranked up after the first time; They show up when that Exalted Weapon ability is unlocked on that Warframe.
+**When you change the modifications or appearance of the Exalted weapon on one Warframe, that change is reflected on all the others.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43.0.7}}
+*Fixed swapping to Sirius & Orion from a Warframe with an Exalted weapon resulting in that Exalted Weapon's icon appearing next to the Secondary Son's name in the Arsenal.
+
+{{ver|42}}
+*Fixed two Exalted Blades appearing in the final cinematic of The Sacrifice Quest if you have it active when it begins.
+*Ranged Exalted Weapons (ex: Cyte 09’s Neutralizer, Ivara’s Artemis Bow, etc.) now use regular damage numbers with ability damage colors for non-critical hits. 
+**Previously, Exalted damage could get very noisy when used on fast firing weapons so we’ve changed the numbers to improve readability. 
+*Fixed Ivara’s Artemis Bow and Cyte-09’s Neutralizer not benefitting from Spectral Serration if their invisibility ability (Prowl and Evade) is cast before their Exalted Weapon.
+**Known Issue: the HUD Buff Icon for Spectral Serration appears inconsistently depending on the order you cast the Exalted and the invisibility abilities.
+
+{{ver|41.0.3}}
+*Fixed Zid-An Uskos' heat buff not applying to Exalted Secondary Weapons.
+
+{{ver|39.1.2}}
+*Fixed a script error related to the Heavy Attack teleport from the Amar set mod bonus on Exalted Weapons.
+
+{{ver|39.1}}
+*Fixed the Amar Mod set bonus not triggering from Exalted Melee Weapons.
+**Now, Heavy Attacks will properly teleport players if performed with an Exalted Melee Weapon.
+*Fixed no Arcanes being available when attempting to equip an Arcane to an Exalted Weapon via the Loadout screen in Navigation.
+*Fixed the Arcane Slot on Exalted Melee Weapons becoming unlocked if hovering over it via the Loadout menu in Navigation.
+
+{{ver|39.0.6}}
+*Fixed an extra Mod Slot appearing when attempting to Polarize an Exalted secondary weapon via the Loadout screen in the Navigation menu, preventing players from actually being able to install Forma.
+**Now, players can properly Polarize their Exalted secondaries via this Loadout screen.
+
+{{ver|39.0.4}}
+*Fixed all Mods being unequipped after Upgrading a Mod equipped on an Exalted Weapon via the Loadout sidebar in Navigation.
+
+{{ver|38.6}}
+*Exalted Weapons can now equip Energizing Shot (excluding Jade’s Glory, Hildryn’s Balefire and Dante’s Noctua since they are AOE weapons).
+*Made improvements towards how Auto-Install functions on pseudo-exalted weapons.
+*Fixed Coda Motovore inheriting physical damage Mods from Exalted Melee Weapons with Melee Doughty equipped.
+*Fixed Initial Combo (from Corrupt Charge, Covert Lethality, etc.) not triggering while Mesa’s or Jade’s Exalted ability is active.
+*Fixed cases of Violence causing function loss if they use Silence on a Warframe with an Exalted Weapon active.
+*Fixed Heavy Attack mods not being triggered by Exalted Blade’s energy blades for Clients.
+*Fixed Excalibur’s Exalted Blade remaining visible after using Arthur’s Gemini Emote.
+
+{{ver|38.5.11}}
+*Mods incorrectly placed in Arcane and Exilus slots are now removed.
+**These Mods could be put into the incorrect slots when duplicating a Config on Exalted Weapons. We fixed this in 38.5.10 but the Mods were not removed in that patch.
+*Fixed an issue when using Auto-Install on "indirect" Exalted weapons (ex: Venari's Claws).
+**This also fixes a soft-lock when Auto-Installing Mods on the Necramech.
+
+{{ver|38.5.10}}
+*Fixed cases of some Mods not being copied over when duplicating a Mod Config on Exalted weapons.
+
+{{ver|38.5.7}}
+*Fixed having mismatched Tennokai Mods on your Melee and Exalted Melee resulting in Tennokai never proc'ing on your Exalted Melee weapon.
+
+{{ver|38.5.3}}
+*Rauta's unique trait now gives combo to your Exalted Melee if it's your Active Melee Weapon.
+*Melee Crescendo specific changes:
+**Ash's Bladestorm now benefits from Melee Crescendo!
+**Removed the ability to equip Melee Crescendo on Whipclaw, Shattered Lash, and Landslide Fists as they cannot perform Finishers.
+**Channelled Exalted Melee Weapons (ex: Exalted Blade) will still only be able to stack up Melee Crescendo while they are active. Melee Crescendo stacks will persist while the Exalted Weapon is inactive but new stacks can't be gained until it is Channelled once more.
+*Ash’s Blade Storm:
+**Fixed Ash's Blade Storm sometimes not properly tracking already-dead enemies, resulting in function loss.
+**Fixed killing targets Marked by Ash's Blade Storm not properly refunding Energy.
+**Fixed Combat Discipline not triggering from Ash's Blade Storm kills.
+**Fixed Blade Storm's Ability Combo Counter not always appearing for Clients.
+**Fixed broken enemy perception if players used Transference while Ash's Teleport and Blade Storm are being cast.
+*Baruuk’s Serene Storm:
+**Baruuk's Reactive Storm Augment will now prioritize Desert Wind's dominant damage type if it matches an enemy's weakness. 
+***If there are no matches, it will now prioritize the Combined Elemental damage type (Viral, Corrosive, etc.)
+**Fixed Baruuk's Serene Storm waves not triggering Melee Influence.
+*Mesa’s Peacemaker:
+**Fixed a very short delay after deactivating Mesa's Peacemaker that prevented player input.
+**Fixed Mesa not equipping your last-equipped weapon after disabling Peacemaker.
+*Titania’s Diwata and Dex Pixia:
+**Re-enabled Exilus Slot on Titania's Diwata to allow players to use Parry or Block Mods.
+**Fixed Ratka Dark Dagger's unique trait triggering when swapping between Titania's Dex Pixia and Diwata while in Razonwing.
+*Gara’s Shattered Lash:
+**Fixed Melee Doughty not applying to Shattered Lash in-mission.
+**Fixed Melee Doughty applying to the Arc version of the attack in the Simulacrum, despite it having no Puncture status.
+***Now this Arcane works as one would expect, only applying the increased Critical Damage when using the pure Puncture version of the attack.
+***Also fixed Melee Doughty appearing to affect the Critical Multiplier of the Arcing Damage in the Update Screen. 
+***This was mostly UI only, as it only applied in Simualcrum missions.
+**Added safeguards to prevent the ability erroneously doing negative damage.
+
+{{ver|38.5.2}}
+*Arcane Hotshot and Arcane Universal Fallout now apply to Exalted Weapon status effects —  notably Mesa's Peacemaker.
+*Fixed players being able to swap the Stance Polarity of their Exalted Melee Weapon.
+**Pre-Techrot Encore, Stances did not give Capacity to Exalted Melee weapons, meaning some players may have swapped its Polarity to another slot. Now that Stances do offer Capacity, we are removing this Ability since the Polarity is designed to match the associated Stance. 
+**Those who had swapped their Polarity before this hotfix should now see it returned, and have the Stance properly give Capacity to their Exalted Melee.
+
+'''Missed Note from 38.5.0:'''
+
+*Newly Exalted Abilities (specifically Landslide, Shattered Lash, and Whipclaw) will now break invisibility from Stalk and Ghost, since they are considered weapons.
+
+{{ver|38.5.1}}
+*Fixed text string appearing when attempting to equip Arcanes on an Exalted Weapon that you don't have applicable Arcanes for.
+*Fixed "Installed Mod exceeds capacity" pop-up appearing for Exalted Melee Weapons when upgrading a Mod in the Mod Menu when it reduces the total capacity below 10 (instead of actually exceeding it).
+
+{{ver|38.5}}
+;EXALTED WEAPON CHANGES
+
+History lesson time! In Update 23 we introduced moddable Exalted weapons for six Warframes. Exalted Weapons are unique weapons summoned by a Warframe’s ability —  giving them access to an additional separately moddable weapon in the Arsenal. Exalted Weapons benefit both from its own equipped Mods and the Mods on the Warframe itself! 
+
+In addition to Exalted Weapons, certain Warframes Abilities summoned weapons that did not have the Exalted treatment (i.e. be separately moddable in the Arsenal), but received bonuses from other moddable sources: your equipped Melee weapon! These are what we call “Pseudo-Exalted” weapons.
+
+With these changes, we want to officially make “Pseudo-Exalted” weapons into Exalted Weapons! This ensures parity with how players interact with summoned weapons on Warframes. For fans of affected Warframes (Ash, Atlas, Khora, and Gara), your Arsenal may look a little different to accommodate these new Exalted Weapons, but our hope is to keep the end-result relatively unchanged on the battlefield.
+
+'''Changes to Current Exalted Weapons:'''
+
+Before we go over what is happening to “Pseudo-Exalted” weapons, Exalted Weapons as a whole are getting some changes —  let’s dive into the three major adjustments shipping with Techrot Encore: 
+
+#Arcane slots on Exalted Weapons.
+#Exilus Mod Slot on Primary & Secondary Exalted weapons.
+#Acolyte, Amalgam, and Melee Combo Counter Mods enabled for Exalted Weapons.
+
+'''Arcane Slots on Exalted Weapons'''
+
+Our first major change is the addition of Arcane slots to all Exalted weapons! 
+
+''<nowiki>*</nowiki>While Garuda’s Talons are part of her passive ability, and therefore not an Exalted Weapon, we are adding an Arcane slot to them nonetheless!''
+
+*“Pseudo-Exalted” could achieve the effects of certain Arcanes on Exalted weapons by equipping them on corresponding regular weapons. With the changes above, these interactions have been removed.
+
+Specific Warframes that benefitted from these effects will be receiving a new Exalted Weapon, which is outlined in the “New Exalted Weapons” section below!
+
+'''Exilus Mod Slot on Primary & Secondary Exalted Weapons'''
+
+Additionally, we have introduced Exilus slots to all Primary and Secondary Exalted weapons. This now matches functionality with existing melee Exalted weapons.
+
+'''Acolyte, Amalgam, and Melee Combo Counter Mods Enabled for Exalted Weapons'''
+
+Next, we are re-enabling mods that were previously disabled for Exalted Weapons. This means Acolyte, Amalgam and Melee Combo Counter mods can now be equipped on all Exalted weapons:
+
+*Primary:
+**Amalgam Serration
+**Argon Scope (Galvanized Scope)
+**Bladed Rounds
+**Catalyzer Link
+*Secondary:
+**Amalgam Barrel Diffusion
+**Embedded Catalyzer
+**Hydraulic Crosshairs
+**Pressurized Magazine
+**Sharpened Bullets
+**Targeting Subsystem
+*Melee:
+**Amalgam Organ Shatter
+**Blood Rush
+**Body Count
+**Dispatch Overdrive
+**Gladiator Rush
+**Maiming Strike
+**Weeping Wounds
+
+''Note: If the Exalted weapon is unable to trigger the requirements for the mod, such as “when aiming”, “for Slide Attack” etc, you will not be able to equip that mod for that specific Exalted weapon. Example: Hydraulic Crosshairs on Mesa’s Regulators.''
+
+'''Other changes to Exalted Weapons include:'''
+
+*All Exalted Stances now grant Mod Capacity just like regular Stances. Additionally, we have applied the Zenurik Polarity to all Exalted Stances and their corresponding Melee Stance slots, providing a +10 capacity boost. 
+*Removed the restriction preventing Set Mods equipped on Exalted weapons from contributing to or benefiting from Set Bonuses.
+**With this change, Set Bonuses are now calculated based on the '''Active Weapo'''n. This means that if you have three Set Mods equipped on your Warframe, three on your Melee weapon, and none on your Exalted Melee, then you will only benefit from the three Set mods on your Warframe while your Exalted Melee weapon is active.
+*Removed the interaction that caused the Combo Counter to reset when using the Xoris, Tenet Livia, or Tenet Grigori alongside an Exalted weapon.
+**This interaction was added in Update 28.1.0 due to it being an overly dominant mechanic that offered infinite Combo on Exalted Weapons when used with Gladiator Mods. Now that Set Mods only apply to the current Active Weapon, this restriction is no longer needed. 
+*Excalibur’s Exalted Blade and Baruuk’s Serene Storm abilities can now gain Melee Combo Counter and trigger Tennokai from their Exalted weapon’s wind/energy waves, instead of only from direct hits.
+**For balance reasons, Desert Wind’s Critical Chance has been reduced from 50% to 35% to accommodate the above buff. In testing, Serene Storm was overperforming when used with Blood Rush.
+**Tennokai will only count one hit per wave, regardless if multiple enemies were struck. 
+*Fixed Baruuk’s Serene Storm wind waves not benefiting from Condition Overload.
+*Increased the projectile speed of Excalibur’s Exalted Blade energy waves. 
+*Excalibur's Slash Dash now scales with Mods equipped on his Exalted Blade instead of Mods equipped on his regular melee weapon.
+*Excalibur's Heavy Attacks with Exalted Blade now release a cross-shaped projectile, dealing Heavy Attack Damage.
+**Also fixed Exalted Blade Heavy Attacks not applying Lifted status. 
+*Removed the interaction of Razorflies scaling with Melee Mods equipped on Diwata. This interaction was never intended, alongside only a few mods working with it.
+**To balance this change, we’ve increased Razorflies flight speed, '''made them invulnerable''', and added Damage Vulnerability to their attacks, reinforcing their Support role rather than their damage potential. 
+**We’ve also increased the flight speed of her Razorflies so they should be around 2x faster when chasing her foes.
+*Removed the ability to equip Tennokai and Finisher Mods on Diwata since it is unable to use either of those mechanics. 
+**Since the Diwata has no usable Exilus Mods, we’ll be removing its Exilus Slot and refunding any used Exilus Adapters in a future hotfix.
+*Increased the Follow Through on Diwata from 70% to 100% to match other Exalted Melee Weapons
+*Enabled Harkonar Scope on Cyte-09’s Neutralizer.
+
+'''New Exalted Weapons:'''
+
+As mentioned above, we are adding new Exalted Weapons to the following Warframes:
+
+*Atlas
+*Gara
+*Khora
+*Ash (more details in the Ash Changes section!)
+
+If you own a max rank version of any of these four Warframes when the update is released, a max rank version of the corresponding Exalted weapon will be added to your account.
+
+With their new Exalted status, these weapons are now separately Moddable and will benefit from Mods that were unavailable to them previously (namely Condition Overload, Melee Elementalist, and Smite Faction Mods). These new Exalted weapons will receive the same treatment as the changes mentioned above, and should function like all other Exalted Weapons — with a few exceptions we’ll go over below. 
+
+*Note: these new Exalted Weapons will not include an Exilus slot, as the relevant abilities can not perform Heavy Attacks,Tennokai, Parry or Block.
+
+<u>Atlas:</u>
+
+Atlas now wields a Moddable Exalted weapon —  '''Landslide Fists'''. 
+
+*Landslide Fists have a pre-installed Orokin Catalyst, along with two Madurai polarities.
+*Landslide Fists' Critical Chance has increased from '''5% to 35%''', and its Status Chance from '''5% to 15%'''.
+*Landslide retains its unique Combo Counter mechanic instead of using traditional Melee Combo —  learn more about this in the Ability Combo Counter Changes section.
+*Increased the attack radius of Landslides three-punch Combo to 4m, 6m, 8m, this can also be enhanced with Melee mods like Reach.  
+*The Boulder attack from Atlas’ Rumbled Augment now scales with mods equipped on Landslide Fists. 
+*Updated Landslide’s description to clarify its effects. Now reads: “Bash enemies with an explosive sliding punch, repeat up to three times for a combo attack. Each hit in the three-punch combo increases the radius of the attack. Energy cost is reduced with each hit of Landslide. Install mods on the Landslide Fists to boost stats.”
+
+<u>Gara:</u>
+
+Gara has received an upgradeable Exalted weapon called '''Shattered Lash'''. 
+
+*Shattered Lash has a pre-installed Orokin Catalyst, along with one Madurai and one Naramon polarity. 
+*Shattered Lash now has a Critical Chance of '''20%''', a Critical Multiplier of '''2x''' and a status chance of '''30%''', while its base damage was reduced from '''800 to 400 damage.*''' 
+*Increased Shattered Lash’s range from 10m to 12m, this can also be enhanced with Melee mods like Reach.
+*Increased its sweep radius from 0.75m to 1.75m to better target enemies when there is a small elevation difference between Gara and them. This range does not scale with Mods.
+*Unlike traditional Exalted Melee Weapons, Shattered Lash uses the same Combo Counter mechanic as Landslide. Learn more about this in the Ability Combo Counter Changes section below. 
+
+''<nowiki>*</nowiki>These are balancing adjustments for added strength with new Combo changes. More about this in the Ability Combo Counter Changes section below.''
+
+<u>Khora:</u>
+
+Khora’s new Exalted weapon is aptly named '''Whipclaw'''!
+
+*Whipclaw comes with a pre-installed Orokin Catalyst, along with one Madurai and one Vazarin polarity.
+*Whipclaw’s base damage has been reduced from from '''300 to 150 damage.*'''
+*Whipclaws' attack radius can also be enhanced with Melee mods like Reach.
+*Unlike traditional Exalted Melee Weapons, Whipclaw uses the same Combo Counter mechanic as Landslide. Learn more about this in the Ability Combo Counter Changes section below. 
+
+''<nowiki>*</nowiki>These are balancing adjustments for added strength with new Combo changes. More about this in the Ability Combo Counter Changes section below.''
+
+'''Ability Combo Counter Changes:'''
+
+Since Blade Storm, Landslide, Shattered Lash, and Whipclaw are not channelled Exalted Melee Weapons, we have devised a new Ability Combo System specific to these weapons, based off of Altas’ existing Combo mechanic. Recasting their respective Abilities within 5 seconds of the previous cast will grant you 20 combo points which will increase the Combo Multiplier by 1x. 
+
+We’ve also increased the Ability Combo Counter cap from 4x to 12x to align with the Melee Combo Counter — meaning subsequent casts can be buffed up to 12x the damage! By increasing your Ability Combo Counter, your Exalted Weapon will receive increased Damage based on the Ability Combo Multiplier.
+
+Ability Damage now scales 1:1 with this new Ability Combo Counter, instead of 0.25x the Melee Combo Multiplier with “Pseudo-exalted” weapons. As a result, we have reduced the base damage of '''Shatter Lash''' and '''Whipclaw''' to balance with the ability to scale higher with the new Combo system. These balance adjustments increase the overall damage output when combined with the new Combo changes.
+
+Mods like Blood Rush, Weeping Wounds, and Body Count as well as Focus abilities like Naramon’s Power Spike now work with this new system.
+
+'''Ash Changes:'''
+
+We felt Ash needed a boost to compete with stronger choices. Below are changes that retain the core theme of Ash, but should help to bring him up to speed.
+
+<u>Ability 4: Blade Storm:</u>
+
+Blade Storm now scales off an '''Exalted Weapon''' called '''Shadow Clones'''.
+
+*It comes with a pre-installed Orokin Catalyst, along with two Madurai polarities.
+*Shadow Clones is considered a Dagger, allowing you to equip weapon-specific mods like Covert Lethality.
+*Shadow Clones has a Critical Chance of 5%, a Critical Multiplier of 1.2x and a Status Chance of 5%
+**Before Blade Storm could neither crit nor apply statuses (outside of the forced slash proc), since finisher damage is already very strong, Blade Storm received a nominal increase for balance.
+*Shadow Clones base damage has been reduced from 2000 to 1500 Finisher damage.
+*Shadow Clones has an Attack Speed of 1, increasing your Attack Speed increases your Shadow Clones attack animation
+
+{{ver|38}}
+*Fixed Excalibur, Ivara, Valkyr, Baruuk, Wukong, and Dante not re-equipping their last-equipped weapon after disabling their Exalted Weapon. 
+*Fixed “The Old Ways” Nightwave Act not completing if you enter extraction using an Exalted weapon.
+
+{{ver|37.0.9}}
+*Fixed being able to apply Forma to Exalted Stance slots.
+**If you had applied a Forma onto an Exalted Stance Slot, you can submit a ticket to support.warframe.com to have it reverted.
+
+{{ver|37}}
+*Fixed cases of Excalibur Prime on a Linked Cross Platform Save account not having Exalted Prime Blade.
+**Founders who Linked a Console account and chose the Console as their Primary Account retained access to their Excalibur Prime with launch. Exalted Prime Blade was not included in this special case. Those who were missing this Exalted weapon should now see it in their accounts after downloading Koumei & the Five Fates.
+*Fixed Stackable Rivens appearing in the upgrade screen for Exalted weapons.
+
+{{ver|35.5}}
+*Fixed Disclipline’s Merit’s “Opportunities [for Tennokai] occur every 4 melee hits” not counting all the hits from an Exalted Melee Weapon and standard Melee Weapon when equipped on both.
+
+{{ver|35.1}}
+*Fixed Exalted Weapons losing their progress after merging accounts. 
+**''Since a Warframe can only have a singular Exalted Weapon, the Primary account would override the Secondary’s Exalted Weapon progress, regardless of its state. Now, when accounts are merged, the account with the Exalted Weapon that has more Forma and Rank/Affinity will be prioritized.''
+*Fixed Excalibur Umbra’s Exalted Blade not draining Energy after being disarmed while dual wielding with Glaive. 
+*Fixed Exalted Melee weapons (ex: Excalibur’s Exalted Blade) experiencing animation issues if they were deactivated after parrying. 
+*Fixed being unable to switch back to Secondary weapon after hitting the “Switch Weapon” binding while Exalted Melee weapon is active and you don’t have a Primary weapon equipped. 
+
+{{ver|35.0.9}}
+*Fixed cases where Exalted Weapons could be unmodded in Duviri.
+**''Exalted Weapons use the Mods in the Config you select for your Warframe in Teshin’s Cave, but in the case where a Config didn’t have Mods equipped onto the Exalted Weapon, there was no fallback system to ensure you didn’t go into Duviri with it unmodded. Now, if a Warframe Mod Config is selected that doesn’t have any Mods equipped for the Exalted Weapon, the game will choose the Exalted Mod Config that uses the most Mod Capacity (as is the case with other equipment in Teshin’s Cave) to prevent players from going into Duviri with a bare bones Exalted Weapon.''
+
+{{ver|34}}
+*Fixed a large hitch that could occur during specific cutscenes in The Sacrifice Quest.
+
+{{ver|33}}
+*Fixed many mods that previously worked on Exalted Weapons not correctly applying, for example (but not exclusively) Internal Bleeding and Hunter Munitions when installed on Ivara’s Artemis Bow, or Life Strike not working when installed on Exalted Melee Weapons. Valkyr's Hysteria not having life steal was in the same category.
+
+{{ver|32.3}}
+*Fixed multiple issues with entering a mission  with no Melee weapon equipped and then using an Exalted Melee weapon: 
+**Fixed being able to Parazon Mercy Kill with an invisible weapon (normally disabled when you have no melee weapon).
+**Fixed Parazon Mercy Kills being disabled.
+**Fixed cooperative emotes (like handshakes) being disabled.
+
+{{ver|31.6}}
+*Fixed being able to stack the effects of certain mods (notably the Galvanized set) when equipped on Exalted weapons that are cast multiple times back to back as Client.
+
+{{ver|31.5.8}}
+*Fixed some skins for Exalted Weapons’ descriptions in Inventory stating that you do not own the weapon despite the fact that you do.
+
+{{ver|29.7}}
+*Fixed hearing multiple equip sounds with increasing volume when equipping a Warframe with an Exalted weapon.
+
+{{ver|29.5}}
+*Fixed de-equipping a Scanner not returning you to your active Exalted weapon if one was equipped prior.
+*Fixed the Carnis, Jugulus, and Saxum Mod Sets not being equippable on Exalted Melee.
+
+{{ver|28.3}}
+*Fixed switching back and forth between Melee weapon and Exalted Melee weapon causing the Arsenal stats to stack indefinitely.
+
+{{ver|28.2.1}}
+*Fixed inability to Melee block with your Exalted weapon until the normal weapon's combo times out.
+
+{{ver|28.1}}
+;Xoris Interaction Changes:
+Certain Warframe Abilities and Exalted weapons will now reset the Melee Combo Counter only if the Xoris is being used. The overwhelming Damage output of certain Warframe Abilities was not our intention with an infinite Melee Combo weapon, and the conversation of ‘Xoris or you’re doing it wrong’ is greatly restrictive in terms of player choice.
+
+'''''Warframe Abilities / Exalted Warframe weapons affected by this are:'''''
+*Baruuk Serene Storm
+*Excalibur Exalted Blade
+*Valkyr Talons
+*Wukong Iron Staff
+
+The full breakdown can be read [https://forums.warframe.com/topic/1204417-xoris-interactions-with-warframe-abilities-exalted-weapons/ here].
+
+{{ver|27.4.2}}
+*Removed Stance Forma eligibility on Exalted weapons due to Stance Forma providing no benefit to these weapons.
+
+{{ver|24.6}}
+*Amalgam Mods can no longer be equipped on Exalted weapons.
+
+{{ver|24.4}}
+;MELEE REVISIT - PHASE 1 - "Flow"
+
+;Let The Gun & Blade Flow
+Swap between your gun and melee at the press of a button, no holstering required!
+
+;Keybinds!
+Notable Keybind changes:
+
+*Your left mouse button is gun fire, always, instantly.
+*Your right mouse button is now aim, always, instantly.
+
+;Additional Information and Changes:
+*Exalted weapons will also benefit from the uninterrupted swaps! Be aware that Energy will still drain, even when swapping between weapons!
+
+{{ver|23}}
+;MODDABLE ‘EXALTED’ WEAPONS!
+
+Warframes with unique Ability-driven (Exalted) Weapons can now be separately Modded in your Arsenal! This includes the ability to customize their appearance too!
+
+'''If you own any of the following Warframes, their “Exalted” Weapon have been added to your Arsenal:'''
+*Excalibur/Prime’s Exalted Blade 
+**We gave the Blade a partial physical design (hilt) so that you can customize its appearance (Energy color is still determined by Excalibur’s)! 
+*Ivara’s Artemis Bow 
+*Mesa’s Regulators 
+**If you own or purchase the Mesa Presidio Skin, you will automatically receive the  Presidio Regulators skin to equip onto Mesa’s Regulators.
+*Titania’s Dex Pixia + Diwata
+*Valkyr/Prime’s Talons
+**No customizing since her Talons’ design is all Energy-based!
+*Wukong’s Iron Staff
+
+Exalted Weapons work in the following ways:
+*They appear in your Arsenal as an unranked moddable Weapon option once you’ve unlocked the Ability.
+*All Exalted weapons use the Mod classes expected for the class of weapon.
+*Melee Exalted Weapons have their Stance Mod permanently displayed in the modding UI with access to Combos!
+*Titania’s Dex Pixia now uses Secondary Mods! More on that in the https://forums.warframe.com/topic/966164-titanias-exalted-weapons-limbo-a-quick-workshop/ Titania Exalted Weapons Dev Workshop] we posted at the beginning of this week.
+*While Exalted Weapons can be ranked, they do not count towards Mastery Rank (with the exception of Khora’s Venari).
+*Riven Mods are not generated for Exalted Weapons.
+}}
+
+{{MechNav}}
+[[es:Arma exaltada]]
+[[de:Erhabene Waffe]]
+[[Category:Mechanics]]
+[[Category:Weapons]]
+[[Category:Exalted Weapon]]

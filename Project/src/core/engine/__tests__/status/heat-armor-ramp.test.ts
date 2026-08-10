@@ -25,13 +25,14 @@
  * parche de `igniteBehavior`. Registrado en `../../../../../docs/domains/engine/status.md §Deudas`.
  */
 import { describe, it, expect } from 'vitest';
+import { advanceAndResolve } from '../../simulate/advance';
 import { makeIsolatedTarget } from './harness';
 
 const hit = { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} };
 
 /** Avanza el estado de `0` a `hasta` en pasos de `dt`. El épsilon evita un paso final espurio. */
 function correr(state: ReturnType<typeof makeIsolatedTarget>, hasta: number, dt: number): void {
-  for (let t = 0; t < hasta - 1e-9; t += dt) state.processDots(t, dt);
+  for (let t = 0; t < hasta - 1e-9; t += dt) advanceAndResolve(state, t, dt);
 }
 
 /** Un solo proc en `t=0` y nada más: el caso mínimo donde la terminación es toda la pregunta. */

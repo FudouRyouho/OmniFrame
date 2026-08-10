@@ -2,15 +2,17 @@ import type { GameLaws, SimulationEntity } from "../../contracts";
 import type { StatusEffect } from "@shared/types";
 import { EFFECT_BEHAVIORS } from "../../formulas/status/behaviors";
 import type { EffectBehavior, HitContext, Layer, Resolucion } from "../../formulas/status/effect-behavior";
-import { CombatSimulator } from "../combat/CombatSimulator";
-import { damageTokenFromType } from "../../contracts/damage-logic";
+// NO importa `CombatSimulator`: el estado ya no invoca al resolvedor de lo que él mismo emite. La
+// composición «avanzar → resolver → recibir» vive en `../advance.ts`, que es el dueño del bucle.
+import { LAYER_STACK } from "../../contracts/layers";
 
 /**
  * EnemyState — estado dinámico de un enemigo durante la simulación temporal. **Modelo unificado de
  * proc** (`damage-status-model.md §Modelo unificado de proc`): un contenedor único `effectStates`
  * (Map por efecto, OPACO a core) + iteración sobre el registro `EFFECT_BEHAVIORS`. Core no conoce el
- * comportamiento de cada efecto — lo delega a su fórmula; solo itera, y resuelve las emisiones (ticks)
- * por el mismo camino que un hit directo (`resolveDamageEvent`).
+ * comportamiento de cada efecto — lo delega a su fórmula; solo itera. **Y ya no resuelve**: `advance`
+ * devuelve las emisiones y quien es dueño del bucle las resuelve y se las devuelve por `receive`
+ * (`../advance.ts`).
  *
  * EL ESTADO NACE DE LA FOTO DE t=0 (`simulation-architecture.md` §El escenario consolidado): recibe la
  * **entidad resuelta de C1**, no un objeto paralelo. Antes recibía un `ScaledEnemy` que C1 nunca vio, y
@@ -71,6 +73,14 @@ export function vitalsOf(entity: SimulationEntity): Vitals {
 export class EnemyState {
   public current_health: number;
   public current_shields: number;
+  /**
+   * Las dos capas que la pila declara y que **todavía no tienen origen modelado** (`contracts/layers.ts`).
+   * Existen con su número en cero porque lo que no existe no se puede componer: el Overguard nace de la
+   * clase (Eximus) o de una habilidad (Iron Skin) y el Overshield de una restauración que excede el
+   * máximo, y ninguno de esos tres caminos está construido. La LEY de cómo se consumen sí está.
+   */
+  public current_overguard = 0;
+  public current_overshield = 0;
   /** Estado de proc por efecto — opaco a core (cada behavior modela su `S` distinto). */
   public effectStates: Map<StatusEffect, unknown>;
 
@@ -107,39 +117,74 @@ export class EnemyState {
   public applyProc(effect: StatusEffect, hit: HitContext, amount: number, currentTime: number = 0) {
     const behavior = EFFECT_BEHAVIORS[effect];
     if (!behavior) return;
-    this.effectStates.set(effect, behavior.applyProc(this.effectStates.get(effect), hit, amount, currentTime, this.laws));
+    this.effectStates.set(effect, behavior.applyProc(this.effectStates.get(effect), hit, amount, currentTime));
   }
 
-  /** Avanza el estado en `[currentTime, +dt)`: cada behavior decae/expira y EMITE; core resuelve. */
-  public processDots(currentTime: number, dt: number) {
+  /**
+   * Avanza el estado en `[currentTime, +dt)` y **devuelve** lo que los efectos emitieron. No resuelve
+   * ni escribe capas: eso lo hace quien es dueño del bucle (`simulate/advance.ts`).
+   *
+   * Antes esta misma función resolvía adentro, pasándose a sí misma al resolvedor —que a su vez la
+   * volvía a leer para mitigar y elegir capa—. La causa y el efecto quedaban en el mismo lugar. Que
+   * `advance` de un behavior ya devolviera `{state, damage}` mostraba la forma correcta desde abajo:
+   * acá se extiende al contenedor.
+   */
+  public advance(currentTime: number, dt: number): Resolucion[] {
+    const emitido: Resolucion[] = [];
     for (const [effect, behavior] of this.activeBehaviors()) {
       const { state, damage } = behavior.advance(this.effectStates.get(effect), currentTime, dt);
       this.effectStates.set(effect, state);
-      for (const res of damage) this.applyResolucion(res, currentTime);
+      emitido.push(...damage);
     }
+    return emitido;
+  }
+
+  /**
+   * Cuánto queda en cada capa — lo que `layerFor` necesita para elegir a quién le toca. Las capas sin
+   * origen modelado valen 0 y por eso nunca son elegidas: existir no es lo mismo que participar.
+   */
+  public get layerAmounts(): Record<Layer, number> {
+    return {
+      overguard:  this.current_overguard,
+      overshield: this.current_overshield,
+      shield:     this.current_shields,
+      health:     this.current_health,
+    };
+  }
+
+  /**
+   * Recibe un daño **ya resuelto** desde `layer` hacia abajo, derramando el excedente a la capa
+   * siguiente que lo admita. El estado no computa el número: lo recibe.
+   *
+   * **El derrame es la ley del hostil**: el gate del jugador (shield gate, y el de 0.5 s al agotarse
+   * el Overguard — `overguard.md §Jugador y enemigo se comportan distinto`) corta el derrame y abre
+   * una ventana de invulnerabilidad. Eso NO está acá: es una ley por clase y el `it.fails` que lo
+   * mide vive en `__tests__/state-neutrality.test.ts`.
+   */
+  public clampVitals() {
     if (this.current_health < 0) this.current_health = 0;
   }
 
-  /** Resuelve una emisión de proc (tick) por el MISMO camino que un hit directo, y la aplica a las capas. */
-  private applyResolucion(res: Resolucion, currentTime: number) {
-    const { hitsShields, finalDamage } = CombatSimulator.resolveDamageEvent(
-      damageTokenFromType(res.as), res.value, this, currentTime,
-    );
-    if (hitsShields) {
-      const toShields = Math.min(this.current_shields, finalDamage);
-      this.current_shields -= toShields;
-      this.current_health -= (finalDamage - toShields);
-    } else {
-      this.current_health -= finalDamage;
+  public receive(layer: Layer, damage: number) {
+    let restante = damage;
+    for (const l of LAYER_STACK.slice(LAYER_STACK.indexOf(layer))) {
+      if (restante <= 0) return;
+      if (l === "health") { this.current_health -= restante; return; }
+      const disponible = this.layerAmounts[l];
+      if (disponible <= 0) continue;
+      const absorbido = Math.min(disponible, restante);
+      if (l === "overguard")  this.current_overguard  -= absorbido;
+      if (l === "overshield") this.current_overshield -= absorbido;
+      if (l === "shield")     this.current_shields    -= absorbido;
+      restante -= absorbido;
     }
   }
 
   /** Multiplicador de la capa golpeada = producto de los `layerMult` de los efectos activos (Viral/Magnetic). */
-  public getDamageMultiplier(hitsShields: boolean, currentTime: number = 0): number {
-    const layer: Layer = hitsShields ? "shields" : "health";
+  public getDamageMultiplier(layer: Layer, currentTime: number = 0): number {
     let mult = 1.0;
     for (const [effect, behavior] of this.activeBehaviors()) {
-      const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime, this.laws).layerMult?.[layer];
+      const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime).layerMult?.[layer];
       if (m !== undefined) mult *= m;
     }
     return mult;
@@ -154,7 +199,7 @@ export class EnemyState {
     let critChanceAdd = 0;
     let critMultAdd = 0;
     for (const [effect, behavior] of this.activeBehaviors()) {
-      const c = behavior.critModifier?.(this.effectStates.get(effect), currentTime, this.laws);
+      const c = behavior.critModifier?.(this.effectStates.get(effect), currentTime);
       if (c?.critChanceAdd) critChanceAdd += c.critChanceAdd;
       if (c?.critMultAdd) critMultAdd += c.critMultAdd;
     }
@@ -165,7 +210,7 @@ export class EnemyState {
   public getEffectiveArmor(currentTime: number): number {
     let armor = this.base_armor;
     for (const [effect, behavior] of this.activeBehaviors()) {
-      const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime, this.laws).armorMult;
+      const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime).armorMult;
       if (m !== undefined) armor *= m;
     }
     return Math.max(0, armor);

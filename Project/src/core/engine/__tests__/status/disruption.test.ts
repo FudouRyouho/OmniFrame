@@ -29,7 +29,7 @@ describe('Disruption — multiplicador a la capa shields (MODELADO, provisional 
   });
 
   it('sin stacks: multiplicador neutro', () => {
-    expect(makeIsolatedTarget({ shields: 500 }).getDamageMultiplier(true)).toBe(1.0);
+    expect(makeIsolatedTarget({ shields: 500 }).getDamageMultiplier("shield")).toBe(1.0);
   });
 
   // Lo que NO tenemos hoy:

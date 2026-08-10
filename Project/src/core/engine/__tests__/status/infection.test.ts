@@ -42,7 +42,7 @@ describe('Infection — multiplicador a la capa salud (MODELADO)', () => {
   it('sin stacks: multiplicador neutro', () => {
     const damage = { WEAPON_ADD_IMPACT_DAMAGE: 100 };
     const target = makeIsolatedTarget({});
-    expect(target.getDamageMultiplier(false)).toBe(1.0);
+    expect(target.getDamageMultiplier("health")).toBe(1.0);
     expect(resolveIsolated(damage, target).health_damage).toBeCloseTo(100, 5);
   });
 

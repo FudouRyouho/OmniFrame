@@ -46,12 +46,30 @@ export const WEAKENED_CRIT_LAW: StackDebuffLaw = { first: 5, perAdditional: 5, c
 export const COLD_CRIT_LAW: StackDebuffLaw = { first: 0.1, perAdditional: 0.05, cap: 0.5 };
 
 /**
+ * **Los parámetros de las leyes de status viven acá, con su fórmula** (`arch-decisions §17`: el default
+ * es del concepto, junto a su fórmula; sólo el *desvío* es del portador). Antes viajaban en `GameLaws`,
+ * una tabla plana que el estado transportaba hasta cada behavior — y §17 la desarma por estructural: un
+ * valor plano **no tiene dónde poner su procedencia**, así que no puede expresar *"0.26 por defecto ·
+ * 0.50 si el receptor lleva la marca de Hydroid · +2 al cap si el emisor tiene esmeralda"*.
+ *
+ * Estos seis quedan como las constantes que siempre fueron. La cadena de desvíos (emisor/receptor) es
+ * otra cosa y no está construida: cuando lo esté, entra por acá — no reabriendo la tabla plana.
+ */
+export const CORROSIVE_MAX_STACKS = 10;
+export const CORROSIVE_INITIAL_STRIP_PCT = 26;
+export const CORROSIVE_STACK_STRIP_PCT = 6;
+export const STATUS_MAX_STACKS = 10;
+export const STATUS_INITIAL_BONUS_PCT = 100;  // +100% Viral/Magnetic al 1er stack (×2.0)
+export const STATUS_STACK_BONUS_PCT = 25;     // +25% por stack extra
+
+/**
  * Infection (Viral) — multiplicador al daño recibido en la capa de salud.
  * `2 + 0.25 × (n−1)`, cap ×4.25 a 10 stacks (status-effects.md §Infection, verificado in-game).
- * Los coeficientes vienen de GameLaws (configurables, override vía MutatorBridge);
- * `initialBonusPct=100` → first=2.0, `stackBonusPct=25` → perAdd=0.25.
  */
-export function infectionLaw(initialBonusPct: number, stackBonusPct: number): StackDebuffLaw {
+export function infectionLaw(
+	initialBonusPct: number = STATUS_INITIAL_BONUS_PCT,
+	stackBonusPct: number = STATUS_STACK_BONUS_PCT,
+): StackDebuffLaw {
 	return { first: 1 + initialBonusPct / 100, perAdditional: stackBonusPct / 100, cap: 4.25 };
 }
 
@@ -62,7 +80,10 @@ export function infectionLaw(initialBonusPct: number, stackBonusPct: number): St
  * O4 (damage-flow-model §8): "verificar contra /w/Magnetic_Damage ANTES de instanciar 3.25;
  * hipótesis: 100% a Overguard cruza el dato". Hasta cerrarlo, Disruption hereda Infection.
  */
-export function disruptionLaw(initialBonusPct: number, stackBonusPct: number): StackDebuffLaw {
+export function disruptionLaw(
+	initialBonusPct: number = STATUS_INITIAL_BONUS_PCT,
+	stackBonusPct: number = STATUS_STACK_BONUS_PCT,
+): StackDebuffLaw {
 	return infectionLaw(initialBonusPct, stackBonusPct);
 }
 
@@ -71,6 +92,9 @@ export function disruptionLaw(initialBonusPct: number, stackBonusPct: number): S
  * `min(0.26 + 0.06 × (n−1), 0.80)` (status-effects.md §Corrosion: 1→26%, 5→50%, 10→80% máximo).
  * `initialStripPct=26` → first=0.26, `stackStripPct=6` → perAdd=0.06; cap 0.80 = strip máximo.
  */
-export function corrosionLaw(initialStripPct: number, stackStripPct: number): StackDebuffLaw {
+export function corrosionLaw(
+	initialStripPct: number = CORROSIVE_INITIAL_STRIP_PCT,
+	stackStripPct: number = CORROSIVE_STACK_STRIP_PCT,
+): StackDebuffLaw {
 	return { first: initialStripPct / 100, perAdditional: stackStripPct / 100, cap: 0.8 };
 }

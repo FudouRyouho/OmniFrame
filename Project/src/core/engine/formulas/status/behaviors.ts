@@ -15,9 +15,12 @@ import type { DamageType, StatusEffect } from "@shared/types";
 import type { EffectBehavior, Resolucion } from "./effect-behavior";
 import { dotTickValue, type DotType } from "./dot-tick";
 import { tickTimes, type DotPulse } from "./dot-timeline";
-import { stackDebuffValue, infectionLaw, disruptionLaw, corrosionLaw, WEAKENED_CRIT_LAW, COLD_CRIT_LAW } from "./stack-debuff";
+import {
+  stackDebuffValue, infectionLaw, disruptionLaw, corrosionLaw, WEAKENED_CRIT_LAW, COLD_CRIT_LAW,
+  CORROSIVE_MAX_STACKS, STATUS_MAX_STACKS,
+} from "./stack-debuff";
 
-/** Duración fija del decay lineal (el `duration = 6.0` del viejo `processDots`). */
+/** Duración declarada del decay: 6 s. ⚠️ La fórmula de abajo NO la implementa — ver `status.md §Deudas`. */
 const DECAY_DURATION = 6.0;
 const DOT_SHAPE = { ticks: 6, procDelay: 1, interval: 1 } as const;
 
@@ -70,44 +73,47 @@ function decayCount(count: number, dt: number): number {
 
 const corrosionBehavior: EffectBehavior<StackState> = {
   effect: "corrosion",
-  applyProc(state, _hit, amount, _t, laws) {
-    return { count: Math.min(laws.corrosive_max_stacks, (state?.count ?? 0) + amount) };
+  applyProc(state, _hit, amount) {
+    return { count: Math.min(CORROSIVE_MAX_STACKS, (state?.count ?? 0) + amount) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
   },
-  resolutionModifier(state, _t, laws) {
+  resolutionModifier(state) {
     if (state.count <= 0) return {};
-    const strip = stackDebuffValue(corrosionLaw(laws.corrosive_initial_strip, laws.corrosive_stack_strip), state.count);
+    const strip = stackDebuffValue(corrosionLaw(), state.count);
     return { armorMult: 1 - strip };
   },
 };
 
 const infectionBehavior: EffectBehavior<StackState> = {
   effect: "infection",
-  applyProc(state, _hit, amount, _t, laws) {
-    return { count: Math.min(laws.status_max_stacks, (state?.count ?? 0) + amount) };
+  applyProc(state, _hit, amount) {
+    return { count: Math.min(STATUS_MAX_STACKS, (state?.count ?? 0) + amount) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
   },
-  resolutionModifier(state, _t, laws) {
+  resolutionModifier(state) {
     if (state.count <= 0) return {};
-    return { layerMult: { health: stackDebuffValue(infectionLaw(laws.status_initial_bonus, laws.status_stack_bonus), state.count) } };
+    return { layerMult: { health: stackDebuffValue(infectionLaw(), state.count) } };
   },
 };
 
 const disruptionBehavior: EffectBehavior<StackState> = {
   effect: "disruption",
-  applyProc(state, _hit, amount, _t, laws) {
-    return { count: Math.min(laws.status_max_stacks, (state?.count ?? 0) + amount) };
+  applyProc(state, _hit, amount) {
+    return { count: Math.min(STATUS_MAX_STACKS, (state?.count ?? 0) + amount) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
   },
-  resolutionModifier(state, _t, laws) {
+  resolutionModifier(state) {
     if (state.count <= 0) return {};
-    return { layerMult: { shields: stackDebuffValue(disruptionLaw(laws.status_initial_bonus, laws.status_stack_bonus), state.count) } };
+    // Magnetic amplifica shields Y overguard (`overguard.md`: 100% al 1er stack, +25%/stack, hasta
+    // 325%). El overguard NO está acá: su ley es otra tabla y `OQ-ENGINE-O4` sigue abierta sobre el
+    // ×3.25 vs ×4.25 — declararlo con la ley de shields sería inventar el número.
+    return { layerMult: { shield: stackDebuffValue(disruptionLaw(), state.count) } };
   },
 };
 

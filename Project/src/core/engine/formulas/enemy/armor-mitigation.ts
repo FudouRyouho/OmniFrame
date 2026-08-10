@@ -6,13 +6,13 @@
  *
  * Ley de mitigación por armadura (Damage Reduction). Matemática pura: número→número.
  *
- * ⚠️ MIGRACIÓN PENDIENTE (gate = 2º consumidor de DR): hoy vive bajo `enemy/` porque el único
- * caso ejercitado es el enemigo (`√3a/100`), pero DR NO es enemy-specific — es una **primitiva del
- * ciclo de la entidad, indiferente a dónde aplica**. Cuando existan consumidores de DR
- * (player/companion), verificar si esto sube a scope `entity/` derivando por entidad
- * (`entity → player | enemy | companion`), p.ej. `player = armor/(armor+300)`. En ese momento se
- * decide también si el primitivo debe componer una tabla de datos intrínseca (como los coeficientes
- * de `enemy-scaling.ts`). Sin framework polimórfico hasta entonces (YAGNI).
+ * **El gate de migración se cumplió, y la respuesta fue NO subir a `entity/`.** Apareció el segundo
+ * consumidor (un avatar portando estado, medido mitigando con esta ley cuando le corresponde la del
+ * Tenno) y lo que mostró es que las dos no son la misma fórmula con otro parámetro: `a/(a+300)` y
+ * `0.9·√(a/2700)` no comparten forma algebraica. Un scope `entity/` compartido no tendría qué
+ * compartir. Así que **cada clase conserva su primitiva en su carpeta** —la del Tenno vive en
+ * `formulas/warframe/armor-mitigation.ts`— y **quién elige es el borde de resolución**, el único que
+ * sabe de quién es la armadura. Cierra el eje de forma de `OQ-ENGINE-22`.
  */
 
 /**

@@ -54,7 +54,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-19` | Generador discreto de N proc-slots a SC >100% | engine / C1-población | abierta — gated por dato in-game |
 | `OQ-ENGINE-20` | Frontera de congelación: qué determina el proc, qué evalúa el tick | engine / C2 | abierta — eje medido; falta el caso del combo (P-10) |
 | `OQ-ENGINE-21` | Fidelidad de la ley de scaling: la tabla no está validada por DE | engine / C2 | abierta — gated por medición; Anarchs cerrado |
-| `OQ-ENGINE-22` | Generalizar EHP/DR de `enemy/` a `entity/` (player/companion) | engine / formulas | abierta — diferida, sin consumidor real hoy |
+| `OQ-ENGINE-22` | Generalizar EHP/DR de `enemy/` a `entity/` (player/companion) | engine / formulas | abierta **sólo en EHP** — el eje DR se resolvió: primitiva por clase, selección en el borde |
 | `OQ-ENGINE-23` | Rank de ítem (warframe/arma) sin consumidor; `mod.rank` vestigial | engine / A1-C1 | abierta — diferida, no bloquea, sin necesidad real hoy |
 | `OQ-ENGINE-24` | Derivación cross-stat (Iron Skin y su clase): fórmula dedicada ↔ grafo | engine / C1 | abierta — **diferida por decisión**: 1 de 1241 `upgrade_by` emite modifier; gap rojo-ejecutable |
 | `OQ-ENGINE-25` | Orden de `total_flat` vs `multiplicative` contra la referencia canónica | engine / formulas — fidelidad | abierta — **latente**: intersección vacía medida, no bloquea |
@@ -640,7 +640,7 @@ colapsa el contador hacia abajo donde el juego lo mantiene (`../domains/engine/d
 §17). Latente, no activo: sólo diverge con **dos** emisores.
 
 **No bloquea:** el modo-input declarado es válido como techo donde el consumidor acepta "asumido, no simulado" (mismo espíritu que CO estático). Bloquea sólo la confianza en la FIDELIDAD del número para el clúster de 42 casos.
-**Vínculo:** `damage-status-model.md` (timers independientes, brecha `processDots`), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).
+**Vínculo:** `damage-status-model.md` (timers independientes, brecha del decay escalar), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).
 **Fuente:** debate 2026-07-08; cristalizada en la verificación de estabilidad pre-C1 (2026-07-09).
 
 ## OQ-ENGINE-18 — Status Duration en DoT: ¿más ticks o ticks estirados? (A vs B) — **ABIERTO (2026-07-10)**
@@ -1401,8 +1401,17 @@ cada tipo tenga su propia primitiva en su propia carpeta, sin scope compartido? 
 fórmula y en caps propios — no está garantizado que unificar la ubicación ahorre algo más que
 organización.
 
-**Condición para abrir el trabajo:** un consumidor real de EHP/DR de jugador o compañero (hoy ninguno
-existe — el CLI oráculo solo ejerce el eje enemigo). No se construye por consumidor hipotético.
+**El eje DR está resuelto, y la respuesta fue NO generalizar.** La condición de apertura —un consumidor
+real de DR de jugador— se cumplió: un avatar que porta estado mitigaba con `√(3a)/100` donde le toca
+`a/(a+300)`, coincidencia al sexto decimal con la fórmula equivocada (`__tests__/state-neutrality.test.ts`).
+Y lo que el consumidor mostró es que **las dos no comparten forma algebraica**: ningún coeficiente
+convierte una en la otra, así que un scope `entity/` compartido no tendría qué compartir. Cada clase
+conserva su primitiva en su carpeta (`formulas/{enemy,warframe}/armor-mitigation.ts`) y **quién elige es
+el borde de resolución**, por la marca de ruteo del portador — el mismo mecanismo de `vitalsOf`.
+
+**Lo que sigue abierto es el otro término: EHP.** `effectiveHealthVsEnemy` no tiene consumidor del lado
+jugador, y su generalización arrastra además la **pila de capas** (`contracts/layers.ts`), que hoy declara
+cuatro y sólo dos tienen origen modelado. No se construye por consumidor hipotético.
 
 **Vínculo:** `OQ-ENGINE-15` (DR de enemigo, la mitad ya resuelta de este eje), `Project/src/core/engine/formulas/enemy/armor-mitigation.ts` (declara el gate), `docs/domains/oracle/design/architecture.md` (lente `enemy`, el consumidor actual de la mitad enemigo).
 **Fuente:** debate de organización del CLI oráculo (Trabajo 1/2, dominio `oracle`).

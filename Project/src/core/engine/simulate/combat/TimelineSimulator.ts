@@ -6,6 +6,7 @@ import { BASELINE_GAME_LAWS } from "../../contracts";
 import { CombatSimulator } from "./CombatSimulator";
 import { RngProvider } from "./RngProvider";
 import { EnemyState } from "../enemies/EnemyState";
+import { advanceAndResolve } from "../advance";
 import { effectOfDamageType } from "@shared/types";
 import { expectedProcEvents } from "../../formulas/status/proc-population";
 import type { HitContext } from "../../formulas/status/effect-behavior";
@@ -78,7 +79,7 @@ export class TimelineSimulator {
     const step = 0.1;
     while (currentTime <= simDuration + 0.001 && !state.isDead()) {
       // 1. Procesar DoTs del intervalo previo
-      state.processDots(currentTime, step);
+      advanceAndResolve(state, currentTime, step);
 
       // 2. ¿Hay disparo en este momento? 
       // Calculado como: ¿El tiempo actual coincide con un múltiplo del intervalo de disparo?

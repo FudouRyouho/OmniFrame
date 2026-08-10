@@ -242,13 +242,13 @@ Detalle en `references/wiki/mechanics/status-effects.md`.
 `tick = 0.5 × modded_base_damage × (1+toxin) × (1+faction)² × (1+status_damage)`, bypasa shields no Overguard (rama `isBypassingShields` ya en `CombatSimulator`), timer independiente sin cap.
 
 ### Viral — Infection
-`multiplier = 2+0.25×(n-1)` sobre daño de capa-salud, incluye True. Seam ya funcionando: `getDamageMultiplier(hitsShields=false)`. Orden de resolución: ver primitivo.
+`multiplier = 2+0.25×(n-1)` sobre daño de capa-salud, incluye True. Seam ya funcionando: `getDamageMultiplier("health")`. Orden de resolución: ver primitivo.
 
 ### Corrosive — Corrosion
 `strip(n) = min(0.26+0.06×(n-1), 0.80)`, timer de 8s por stack, sin rampa de reversión (discreto: un stack expira, se recalcula con `n-1`). `EnemyState.getEffectiveArmor()` ya combina parcialmente Corrosive+Heat.
 
 ### Magnetic — Disruption
-Entra: `multiplier = 2+0.25×(n-1)` sobre daño a shields/Overguard, mismo seam que Viral (`getDamageMultiplier(hitsShields=true)`). Diferido: negación de recarga de shields (no simulamos regen), bonus Electricity al romper Overguard (evento puntual), extra-efectividad vs Nullifiers (nicho).
+Entra: `multiplier = 2+0.25×(n-1)` sobre daño a shields/Overguard, mismo seam que Viral (`getDamageMultiplier("shield")`). Diferido: negación de recarga de shields (no simulamos regen), bonus Electricity al romper Overguard (evento puntual), extra-efectividad vs Nullifiers (nicho).
 
 ### Puncture — Weakened
 Entra: +5%/stack de crit chance del jugador contra el target (hasta +25% a 5 stacks). Behavior `weakened`, enganchado en el cálculo de crit chance vía `critModifier` (canal aparte del de resolución por capa — OQ-ENGINE-12). Diferido: gate no-AoE/habilidades (irrelevante hoy, sin AoE); reducción de daño saliente del enemigo (eje fuera de scope).
@@ -565,7 +565,7 @@ interface ResolutionModifier { armorMult?: number; layerMult?: Partial<Record<La
   el opt ad-hoc `bypassArmorAndMatrix`.
 - Cruces (Viral amplifica un bleed) → viven en la resolución de core, no en las fórmulas (corte fórmula ≠
   resolución). `EnemyState` colapsa a `Map<StatusEffect, S>` + registro `EFFECT_BEHAVIORS`; los 3 caminos
-  de `processDots` + `getDamageMultiplier` + `getEffectiveArmor` → una sola iteración.
+  de `advance` + `getDamageMultiplier` + `getEffectiveArmor` → una sola iteración.
 
 ### Frontera 3 = emisión multi-target (NO recursión)
 

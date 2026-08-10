@@ -6,6 +6,7 @@
  * asserta que la resolución de cada tick deriva del canónico (bypass/True/DR/capa).
  */
 import { describe, it, expect } from "vitest";
+import { advanceAndResolve } from "../../simulate/advance";
 import { makeIsolatedTarget } from "./harness";
 import { CombatSimulator } from "../../simulate/combat/CombatSimulator";
 import type { HitContext } from "../../formulas/status/effect-behavior";
@@ -19,7 +20,7 @@ describe("poison (Toxin) — bypassa shields, paga DR (as: 'toxin')", () => {
   it("armor=200 aplica DR por tick; shields intactos", () => {
     const state = makeIsolatedTarget({ health: 1000, armor: 200, shields: 500 });
     state.applyProc("poison", HIT_200, 1, 0); // pulse value = 100, 6 ticks (firstTick 1..6)
-    state.processDots(0, 7);
+    advanceAndResolve(state, 0, 7);
 
     const perTick = 100 * (1 - damageReductionFromArmor(200)); // DR 24.49% → 75.5051
     expect(state.current_health).toBeCloseTo(1000 - 6 * perTick, 3);
@@ -31,7 +32,7 @@ describe("bleed (Slash) — True: bypassa armor/matriz, NO el multiplicador de c
   it("armor=200 NO reduce el tick (True bypasea DR)", () => {
     const state = makeIsolatedTarget({ health: 1000, armor: 200 });
     state.applyProc("bleed", HIT_200, 1, 0); // tick = 0.35 × 200 = 70
-    state.processDots(0, 7);
+    advanceAndResolve(state, 0, 7);
     expect(state.current_health).toBeCloseTo(1000 - 6 * 70, 5); // sin DR pese a armor=200
   });
 
@@ -54,8 +55,8 @@ describe("resolveDamageEvent — reglas derivadas del canónico por `as`", () =>
 
   it("Toxin paga DR y bypasea shields (va a salud) — contraste con True", () => {
     const state = makeIsolatedTarget({ armor: 200, shields: 500 });
-    const { hitsShields, finalDamage } = CombatSimulator.resolveDamageEvent("WEAPON_ADD_TOXIN_DAMAGE", 100, state, 0);
-    expect(hitsShields).toBe(false); // bypasea shields
+    const { layer, finalDamage } = CombatSimulator.resolveDamageEvent("WEAPON_ADD_TOXIN_DAMAGE", 100, state, 0);
+    expect(layer).toBe("health"); // el shield lo deja pasar
     expect(finalDamage).toBeCloseTo(100 * (1 - damageReductionFromArmor(200)), 4);
   });
 });

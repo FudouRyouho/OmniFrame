@@ -380,10 +380,12 @@ declarara `label: "+X% Attack Speed"` con `upgrade_type: WEAPON_ADD_FIRE_RATE` �
 escrita en el propio dato normalizado.
 
 > ⚠️ **Deuda destapada por esta separación (no resuelta acá):** `CombatCalculator` y
-> `TimelineSimulator` consumen la cadencia como disparos/segundo (`timeStep = 1 / speed`,
-> `weaponDps({fireRate})`). Aplicado a melee eso interpreta un **multiplicador** como cadencia
-> absoluta. El bug es anterior a la separación; ésta solo lo hace visible. Una ley de cadencia melee
-> necesita el swing time base por stance, que **no existe en ninguna fuente del pipeline**.
+> `TimelineSimulator` consumen la cadencia como disparos/segundo, y la leen de `WEAPON_ADD_FIRE_RATE`
+> **fijo** — un nodo que una melee no materializa. No llegan a interpretar mal el multiplicador: caen
+> antes, al default `|| 1`, y simulan **1 golpe/s en silencio**. El bug es anterior a la separación;
+> ésta sólo lo hace visible. Y no se arregla leyendo el token de la familia melee: `MELEE_ADD_ATTACK_SPEED`
+> es un multiplicador sobre la animación del stance, y el **swing time base por stance no existe en
+> ninguna fuente del pipeline** — así que lo correcto es **fallar**, no estimar.
 
 ### AVATAR — habilidades
 

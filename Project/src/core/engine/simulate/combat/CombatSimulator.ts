@@ -6,12 +6,46 @@ import type { EnemyState } from "../enemies/EnemyState";
 import type { DamageInstance } from "./damage-instance";
 import { targetFactionMult } from "../../contracts/damage-multipliers";
 import { damageReductionFromArmor } from "../../formulas/enemy/armor-mitigation";
+import { tennoDamageReductionFromArmor } from "../../formulas/warframe/armor-mitigation";
 import { AtomicSimulator, type AtomicRoll } from "./AtomicSimulator";
 import { RngProvider } from "./RngProvider";
-import { bypassesShields, bypassesArmorAndMatrix } from "../../contracts/damage-logic";
+import { bypassesArmorAndMatrix } from "../../contracts/damage-logic";
+import { layerFor, type Layer } from "../../contracts/layers";
+
+/**
+ * La ley de mitigación por armadura **por clase de portador**. Las dos fórmulas conviven publicadas
+ * en `references/wiki/mechanics/armor.md` y no comparten forma algebraica, así que esto es una
+ * selección, no un parámetro. La familia la resuelve la **marca de ruteo** del participante — el
+ * mismo mecanismo con el que `vitalsOf` resuelve con qué nombres leer sus vitales (`§18` en
+ * dirección inversa).
+ */
+const ARMOR_MITIGATION_BY_FAMILY: Record<string, (armor: number) => number> = {
+  enemy:  damageReductionFromArmor,          // `0.9·√(a/2700)` ≡ `√(3a)/100` — provisional, `OQ-ENGINE-15`
+  avatar: tennoDamageReductionFromArmor,     // `a/(a+300)`
+};
+
+/**
+ * Elige la ley de mitigación del portador. Una familia sin entrada **tira**: mitigar con la ley
+ * equivocada devuelve un número creíble y falso —exactamente el modo de falla que ya costó una
+ * medición— y un participante que llega hasta acá sin declarar su clase es un bug que tiene que sonar.
+ */
+function armorMitigationFor(target: EnemyState): (armor: number) => number {
+  const family = target.entity.routes?.find((r) => r in ARMOR_MITIGATION_BY_FAMILY);
+  if (!family) {
+    throw new Error(
+      `[resolución] el participante "${target.entity.id}" no declara ninguna familia con ley de ` +
+        `mitigación — marcas: [${target.entity.routes?.join(", ") ?? "ninguna"}]. ` +
+        `Familias conocidas: ${Object.keys(ARMOR_MITIGATION_BY_FAMILY).join(", ")}.`,
+    );
+  }
+  return ARMOR_MITIGATION_BY_FAMILY[family];
+}
 
 export interface HitResolution {
   total_damage: number;
+  /** Daño por capa de la pila — la partición completa (`contracts/layers.ts`). */
+  by_layer: Partial<Record<Layer, number>>;
+  /** Atajos de las dos capas con origen modelado. Derivados de `by_layer`, no fuentes propias. */
   shield_damage: number;
   health_damage: number;
   breakdown: Record<string, number>;
@@ -41,7 +75,7 @@ export class CombatSimulator {
       // Modo Atómico: Cada perdigón es independiente
       const pellets = AtomicSimulator.rollPellets(multishot, critChance, rng);
       
-      const aggregated: HitResolution = { total_damage: 0, shield_damage: 0, health_damage: 0, breakdown: {} };
+      const aggregated: HitResolution = { total_damage: 0, by_layer: {}, shield_damage: 0, health_damage: 0, breakdown: {} };
 
       pellets.forEach((p: AtomicRoll) => {
         const pCritMult = 1 + p.tier * (critMult - 1);
@@ -52,9 +86,12 @@ export class CombatSimulator {
 
         const res = this.resolveHit(pDamageMap, targetState, currentTime);
         aggregated.total_damage += res.total_damage;
-        aggregated.shield_damage += res.shield_damage;
-        aggregated.health_damage += res.health_damage;
-        
+        for (const [layer, dmg] of Object.entries(res.by_layer) as Array<[Layer, number]>) {
+          aggregated.by_layer[layer] = (aggregated.by_layer[layer] ?? 0) + dmg;
+        }
+        aggregated.shield_damage = aggregated.by_layer.shield ?? 0;
+        aggregated.health_damage = aggregated.by_layer.health ?? 0;
+
         Object.entries(res.breakdown).forEach(([type, dmg]) => {
           aggregated.breakdown[type] = (aggregated.breakdown[type] || 0) + dmg;
         });
@@ -88,18 +125,23 @@ export class CombatSimulator {
     damage: number,
     targetState: EnemyState,
     currentTime: number = 0,
-  ): { hitsShields: boolean; finalDamage: number } {
+  ): { layer: Layer; finalDamage: number } {
     const effectiveArmor = targetState.getEffectiveArmor(currentTime);
-    const hasShields = targetState.current_shields > 0;
     // True (ej. el token `WEAPON_ADD_TRUE_DAMAGE` del bleed): bypasea armor/matriz③, NO el layer-mult.
     const bypassArmorMatrix = bypassesArmorAndMatrix(damageToken);
 
-    const hitsShields = hasShields && !bypassesShields(damageToken);            // Toxin bypasea shields
-    const stateMultiplier = targetState.getDamageMultiplier(hitsShields, currentTime);
+    // La capa la elige la PILA, preguntándole a cada una si deja pasar este daño — no el token
+    // declarando qué saltea (`contracts/layers.ts`: la tabla es de la capa).
+    const layer = layerFor(damageToken, targetState.layerAmounts);
+    const stateMultiplier = targetState.getDamageMultiplier(layer, currentTime);
     const typeMultiplier = bypassArmorMatrix ? 1 : targetFactionMult(damageToken, targetState.faction);
-    const dr = (!bypassArmorMatrix && !hitsShields && effectiveArmor > 0) ? damageReductionFromArmor(effectiveArmor) : 0;
+    // El armor sólo mitiga la salud: no toca shields (`damage-calculation.md`) ni Overguard, al que
+    // *"no le aplica la DR del armor"* (`overguard.md §Qué reducción de daño le aplica — y cuál no`).
+    const dr = (!bypassArmorMatrix && layer === "health" && effectiveArmor > 0)
+      ? armorMitigationFor(targetState)(effectiveArmor)
+      : 0;
 
-    return { hitsShields, finalDamage: damage * stateMultiplier * typeMultiplier * (1 - dr) };
+    return { layer, finalDamage: damage * stateMultiplier * typeMultiplier * (1 - dr) };
   }
 
   /**
@@ -108,25 +150,21 @@ export class CombatSimulator {
    */
   public static resolveHit(damageMap: Record<string, number>, targetState: EnemyState, currentTime: number = 0): HitResolution {
     const breakdown: Record<string, number> = {};
-    let totalShieldDamage = 0;
-    let totalHealthDamage = 0;
+    const by_layer: Partial<Record<Layer, number>> = {};
+    let total = 0;
 
     Object.entries(damageMap).forEach(([type, damage]) => {
-      const { hitsShields, finalDamage } = this.resolveDamageEvent(type, damage, targetState, currentTime);
-
-      if (hitsShields) {
-        totalShieldDamage += finalDamage;
-      } else {
-        totalHealthDamage += finalDamage;
-      }
-
+      const { layer, finalDamage } = this.resolveDamageEvent(type, damage, targetState, currentTime);
+      by_layer[layer] = (by_layer[layer] ?? 0) + finalDamage;
+      total += finalDamage;
       breakdown[type] = finalDamage;
     });
 
     return {
-      total_damage: totalShieldDamage + totalHealthDamage,
-      shield_damage: totalShieldDamage,
-      health_damage: totalHealthDamage,
+      total_damage: total,
+      by_layer,
+      shield_damage: by_layer.shield ?? 0,
+      health_damage: by_layer.health ?? 0,
       breakdown
     };
   }

@@ -60,22 +60,20 @@ export const GLOBAL_DAMAGE_POOLS = ['WEAPON_ADD_DAMAGE', 'GAMEPLAY_MULT_FACTION_
  * instancia porque el token de origen —slash— no bastaba para distinguir). Ver `status-effects.md §Bleed`.
  */
 export interface DamageResolutionRule {
-  /** Bypasea shields y pega directo a salud (Toxin). `enemy-resistances.md` / `status-effects.md`. */
-  bypassesShields?: boolean;
   /** Bypasea armor (DR) + matriz③ facción×elemento (True — ej. el bleed de Slash). NO bypasea el
    *  multiplicador de capa: Viral SÍ amplifica un tick True (regla de composición #1). */
   bypassesArmorAndMatrix?: boolean;
 }
 
+/**
+ * ⚠️ **Acá NO va qué capas saltea un daño.** Eso es propiedad de la **capa**, no del token, y vive en
+ * `layers.ts`: el mismo Toxin atraviesa el shield y NO atraviesa el Overguard, así que un booleano
+ * por token no puede expresarlo. Lo que queda es lo que sí es del daño: `bypassesArmorAndMatrix` no
+ * depende de contra qué capa cae.
+ */
 export const DAMAGE_RESOLUTION_BY_TOKEN: Readonly<Record<string, DamageResolutionRule>> = {
-  'WEAPON_ADD_TOXIN_DAMAGE': { bypassesShields: true },
-  'WEAPON_ADD_TRUE_DAMAGE':  { bypassesArmorAndMatrix: true },
+  'WEAPON_ADD_TRUE_DAMAGE': { bypassesArmorAndMatrix: true },
 };
-
-/** Layer-targeting: ¿este token bypasea shields? (default false — pega a shields si están arriba). */
-export function bypassesShields(token: string): boolean {
-  return DAMAGE_RESOLUTION_BY_TOKEN[token]?.bypassesShields ?? false;
-}
 
 /** ¿Este token bypasea armor (DR) + matriz③? (True). Default false. */
 export function bypassesArmorAndMatrix(token: string): boolean {

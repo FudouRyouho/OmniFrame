@@ -31,6 +31,13 @@ export interface IsolatedTargetSpec {
   health?: number;   // default 1000
   armor?: number;    // default 0 (sin armor → sin DR)
   shields?: number;  // default 0 (sin shields → todo hit va a salud)
+  /**
+   * Las dos capas que la pila declara sin origen modelado (`contracts/layers.ts`). Se declaran acá
+   * como cualquier otro número del banco de pruebas: lo que se ejerce es la LEY de consumo, no de
+   * dónde sale la cantidad — que es justamente lo que todavía no existe.
+   */
+  overguard?: number;
+  overshield?: number;
   /** Status pre-declarado (C1): el consumidor fija N stacks por efecto, sin timeline. */
   stacks?: Partial<Record<StatusEffect, number>>;
   laws?: GameLaws;   // default BASELINE_GAME_LAWS
@@ -51,6 +58,8 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EnemyState {
   });
 
   const state = new EnemyState(entity, spec.laws ?? BASELINE_GAME_LAWS);
+  state.current_overguard  = spec.overguard ?? 0;
+  state.current_overshield = spec.overshield ?? 0;
   // Status pre-declarado (C1): materializa el estado de proc del modelo unificado directamente.
   // corrosion/infection/disruption = `{ count }`; ignite (Heat) = su estado de pool + ignite stacks.
   if (spec.stacks) {

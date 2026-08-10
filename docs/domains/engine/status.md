@@ -56,6 +56,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 |---|---|
 | `CombatCalculator` · `CombatSimulator` | **Activo** |
 | `AtomicSimulator` | **Activo** — conectado a `formulas/common/crit-base` |
+| `advance.ts` | **Activo** — `advanceAndResolve`: la composición «avanzar → resolver → recibir». Vive fuera del estado a propósito: el contenedor no invoca al resolvedor de lo que él mismo emite. |
 | `TimelineSimulator` · `RngProvider` | **Activo** — generación de procs unificada (`expectedProcEvents` → `effectOfDamageType` → `applyProc`); `StatusEngine` **eliminado** (ver Nota C2) |
 | `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `EnemyRepository` es catálogo: **carga y búsqueda**, no compone participantes — la curva-S la orquesta el frame-0 (`ItemRepository.normalizeEnemy`) y `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`) resuelve el hit. `EnemyState` nace de la **entidad resuelta de C1**, así que lo que el escenario compuso encima del enemigo llega al daño. Validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
 
@@ -66,8 +67,9 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 > `DotType`/`DOT_COEF` sin disolver (deuda G2).
 >
 > **Nota C2:** los 6 efectos con LEY (bleed/poison/ignite/corrosion/infection/disruption) viven en
-> `EFFECT_BEHAVIORS`; `EnemyState.processDots` itera cada behavior (decae/expira + emite `Resolucion`), y
-> cada emisión resuelve por `CombatSimulator.resolveDamageEvent` (mismo camino que un hit directo). Heat
+> `EFFECT_BEHAVIORS`; `EnemyState.advance` itera cada behavior (decae/expira) y **devuelve** las
+> `Resolucion` emitidas — resolverlas es de `simulate/advance.ts`, no del contenedor. Cada emisión
+> resuelve por `CombatSimulator.resolveDamageEvent` (mismo camino que un hit directo). Heat
 > sobrevive como su propia fórmula (`ignite`: pool + rampa de armor por tiempo), no como contenedor
 > compartido; Corrosion/Infection/Disruption son behaviors con estado `{count}` + decay (Familia A).
 > **Fuera del behavior-set:** Electricity/Gas (frontera 3, emisión multi-target de daño — cadena/nube; NO recursión de procs, descartada in-game 2026-07-14)
@@ -104,6 +106,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 | `contracts.ts` | **Activo** — cortes/DTOs. |
 | `primitives.ts` | **Activo** — `AttributeNode`, `Modifier`, `GameLaws`, ids. |
 | `damage-logic.ts` · `damage-multipliers.ts` · `mod-overrides.ts` · `index.ts` (barrel) | **Activo** |
+| `layers.ts` | **Activo** — la pila defensiva (`overguard → overshield → shield → health`) y **la tabla de quién la atraviesa, que es de la capa y no del daño**. Declara la LEY; el origen de dos de las cuatro no existe todavía. |
 
 > La Capa D se cablea vía `useViewModel` (`@providers`) + `ViewModelContract`
 > (`@shared/view-model`), **fuera** de `@core`.
@@ -118,7 +121,8 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 | `weapon/` | `weapon-crit`, `weapon-multishot`, `weapon-condition-overload`, `melee-combo`, `sniper-combo` |
 | `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado; los 6 efectos con LEY). `dot-population` es el **único constructor genérico de `evento → ventana`** y no tiene llamador de producción: `behaviors.makeDotBehavior` arma el **mismo** `DotPulse` inline, con el par `(timestamp, expected)` desarmado en `(t, amount)`. La copia es el inline, no el archivo — deuda G3. Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
 | `ability/` | `ability-crit`, `ability-status` |
-| `arcane/` · `warframe/` | **vacíos** (reservados) |
+| `arcane/` | **vacío** (reservado) |
+| `warframe/` | `armor-mitigation` (DR del Tenno, `a/(a+300)`) — la selección por clase vive en el borde de ③, no acá |
 
 Cada primitiva cita su autoridad matemática en su propio `@SSoT`, apuntando a la fuente real (`references/wiki/mechanics/*`: `critical-hits`, `multishot`, `condition-overload`, `calculating-bonuses`, `armor`, `enemy-level-scaling`…). El **idioma** con el que se describen vive en [`design/vocabulary.md`](design/vocabulary.md); el **estado de integración**, en [`design/formulas-integration.md`](design/formulas-integration.md).
 
@@ -144,10 +148,7 @@ Suite de **consumidores derivados** vía el "clic" (`output/consume.ts`). Índic
 
 ## Deudas de implementación
 
-### El paso de muestreo se filtra al resultado — y lo elige la cadencia del arma
-
-`TimelineSimulator` fija `timeStep = 1 / fireRate`: **`dt` no es una perilla del observador, lo declara el
-arma**. Eso sería inocuo si el estado fuera invariante al paso, y hay una parte que no lo es.
+### El paso de muestreo se filtra al resultado — la fórmula no implementa el criterio que declara
 
 `decayCount(count, dt) = count − (count/6)·dt` (`formulas/status/behaviors.ts`) re-aplica el sangrado
 sobre el resultado anterior, así que N pasos chicos ≠ un paso grande. Medido — 10 stacks de corrosión a
@@ -157,8 +158,18 @@ los 3 s:
 |---|---|---|---|---|---|---|
 | count | 5.0000 | 5.7870 | 5.9329 | 6.0007 | 6.0484 | 6.0653 (`10·e^(−½)`) |
 
-**Ningún paso da la respuesta correcta** — la da el límite. Compuesto con el `1/fireRate`: la armadura de
-un enemigo se despega a distinta velocidad según qué arma tenga enfrente. No es redondeo, es forma.
+**Ningún paso da la respuesta correcta** — la da el límite. Y no es una decisión de modelado: el propio
+código declara el criterio en su constante —*"duración fija del decay **lineal**"*, `DECAY_DURATION = 6.0`—
+y la fórmula no lo implementa. Lineal usaría el valor **inicial** como tasa; ésta usa el **actual**:
+
+```
+lo declarado   count₀ · (1 − t/6)   → llega a 0 en t=6,  invariante a dt
+lo escrito     count₀ · e^(−t/6)    → nunca llega a 0,   depende de dt
+```
+
+**Un solo renglón, siete consumidores:** `decayCount` tiene 6 llamadores (corrosion · infection ·
+disruption · weakened · freeze · el `ignite` de Heat) y el `pool` de Heat **repite la fórmula inline**
+en vez de llamarla. Por eso el mismo error se lee como dos deudas distintas — ésta y la de Heat.
 
 El DoT y la rampa de armor de `ignite`, en cambio, **sí** son invariantes: declaran su ventana en términos
 absolutos (`firstTick`, `firstProcTime`) y la muestra sólo pregunta. Las cuatro nociones de "cuándo" que
@@ -175,6 +186,27 @@ además puede contestar *"cuál es el más viejo"* (`references/ingame-tests/sta
 
 **Vínculo:** `design/arch-decisions.md §20` (muestreo, no eventos — la decisión que esta invariante
 sostiene), `§19` (el nodo lleva el frame-0, la ley lleva el tiempo), `OQ-ENGINE-16`.
+
+### 🔴 El reloj del timeline no es el que el corpus decía, y reconstruye los disparos adivinando
+
+`TimelineSimulator` **no** deriva su paso de la cadencia: `step = 0.1` **fijo** es lo que recibe
+`processDots`. `timeStep = 1/fireRate` se usa sólo para decidir si hay disparo, y el piso del `ttk`.
+Tres cosas se apartan de eso:
+
+- **El disparo se detecta por módulo, con tolerancia.** `currentTime % timeStep < 0.01` sobre un reloj
+  que avanza de a `0.1` sólo acierta cuando el período es múltiplo exacto del paso. Medido sobre la
+  condición literal, ráfaga de 6 s: `fireRate` 1 · 2 · 2.5 · 5 · 10 → exacto; **3 → 6 de 16** (0.375);
+  **7.5 → 13 de 38** (0.342); **12 → 11 de 61** (**0.18**). `total_damage`, `ttk` y `shots_to_kill`
+  heredan el faltante.
+- **Todo melee corre a `fireRate = 1`.** La lectura es `WEAPON_ADD_FIRE_RATE` fija, con fallback `|| 1`;
+  un melee declara `MELEE_ADD_ATTACK_SPEED`. Es **la misma clase de bug que `vitalsOf` ya cerró para los
+  vitales** —familia de token leída fija en vez de resuelta por la marca de ruteo del portador— y falla
+  igual: a un valor creíble, en silencio. El build del catálogo resuelve `1.62` y se simula a `1.0`.
+- **Los dos se tapan entre sí en el único banco que miramos:** como el melee cae a `fireRate = 1` y
+  `1/1` sí es múltiplo de `0.1`, el error de módulo no aparece ahí. Ningún test de la suite ve ninguno.
+
+La cura de fondo no es afinar la tolerancia: es que **el disparo declare su instante** en vez de que el
+reloj lo adivine — el mismo principio que ya separa lo invariante de lo que no (`§20`, muestreo).
 
 ### El efecto de Heat no sabe terminar — y terminar incluye su consecuencia
 

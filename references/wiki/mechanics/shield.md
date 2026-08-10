@@ -4,7 +4,7 @@
 > Rol: fórmula de shields, DR inherente, recarga con sus dos delays, shield gating (jugador y enemigo) y overshields
 > Fuente de verdad de: cálculo de Total Shields, quién recibe el 50% de DR, delays y tasa de recarga, la **fórmula** de duración del shield gate, el gate del enemigo, caps de overshield
 > No usar para: escalado de shields de enemigos por nivel (→ `enemy-level-scaling.md`) · el catálogo completo de fuentes de restauración (está en el raw)
-> Última actualización: 2026-07-29
+> Última actualización: 2026-08-08 (re-destilado §Overshields contra el raw: faltaban el orden de consumo, las sinergias gateadas por presencia y la cláusula de Brief Respite)
 > Fuente: https://wiki.warframe.com/w/Shield
 > Fuente actualizada: 2026-07-05
 > Raw: shield.wikitext · ../arcanes/arcane-aegis.wikitext · ../mods/brief-respite.wikitext
@@ -155,7 +155,21 @@ Puntos de shield **por encima** del máximo normal, que se obtienen cuando una r
 capacidad. Los NPC aliados (objetivos de Rescue, Defense Objects) **no** pueden ganarlos.
 
 - **No regeneran.** Se apilan sobre el shield normal.
+- **Se consumen primero:** *"an extra layer of protection on your existing shield that **must be
+  destroyed before your Warframe's shields can be damaged**"*. El contador cambia de azul a violeta
+  mientras hay overshields.
 - Cap: **1.200** para warframes, **600** para companions.
+
+### Tenerlos activos es una condición que otras cosas leen
+
+No son sólo puntos: varias mecánicas se gatean por su **presencia** (o su ausencia).
+
+| Fuente | Qué condiciona |
+|---|---|
+| *Guardian's Promise* (Incarnon) | **+80%** Heavy Attack Efficiency **con** overshields |
+| *Haven Foray* · *Guardian's Might* (Incarnon) | más daño de arma **con** overshields |
+| *Fortifying Bloodshed* (Incarnon) | al matar con proc de {{Slash}}: **+100** overshields |
+| **Brief Respite** (aura) | convierte energía en escudo **mientras los overshields están inactivos** |
 
 El cap sólo lo suben tres fuentes:
 
@@ -171,7 +185,9 @@ Se obtienen de Squad Shield Restores, Lethal Progeny (Caliban), Mend & Maim (Equ
 ### Brief Respite
 
 El aura **Brief Respite** otorga escudos **iguales a un porcentaje de la energía gastada** cada vez
-que se lanza una habilidad — la vía más directa para generar overshield a voluntad.
+que se lanza una habilidad — la vía más directa para generar overshield a voluntad. ⚠️ Con una
+condición que la descripción del mod declara y es fácil perder: sólo convierte **mientras los
+overshields están inactivos**.
 
 | Rango | 0 | 1 | 2 | 3 | 4 | 5 |
 |---|---|---|---|---|---|---|
