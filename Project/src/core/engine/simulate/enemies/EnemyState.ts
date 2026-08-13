@@ -163,6 +163,14 @@ export class EnemyState {
     if (this.current_health < 0) this.current_health = 0;
   }
 
+  /** Escribe una capa por su nombre. El espejo de `layerAmounts`, que sólo lee. */
+  public setLayer(layer: Layer, value: number) {
+    if (layer === "overguard")  this.current_overguard  = value;
+    if (layer === "overshield") this.current_overshield = value;
+    if (layer === "shield")     this.current_shields    = value;
+    if (layer === "health")     this.current_health     = value;
+  }
+
   public receive(layer: Layer, damage: number) {
     let restante = damage;
     for (const l of LAYER_STACK.slice(LAYER_STACK.indexOf(layer))) {
@@ -171,9 +179,7 @@ export class EnemyState {
       const disponible = this.layerAmounts[l];
       if (disponible <= 0) continue;
       const absorbido = Math.min(disponible, restante);
-      if (l === "overguard")  this.current_overguard  -= absorbido;
-      if (l === "overshield") this.current_overshield -= absorbido;
-      if (l === "shield")     this.current_shields    -= absorbido;
+      this.setLayer(l, disponible - absorbido);
       restante -= absorbido;
     }
   }
@@ -231,10 +237,18 @@ export class EnemyState {
     return this.current_health <= 0;
   }
 
+  /**
+   * ⚠️ **Copia LAS CUATRO capas, no dos.** Cuando la pila pasó de `{shields, health}` a las cuatro de
+   * `contracts/layers.ts`, este método siguió copiando las dos viejas: un clon nacía con el Overguard
+   * y el Overshield en cero. No era un bug activo —no tiene llamadores— pero sí una trampa cargada
+   * para el primero que lo usara, y del tipo que no falla: devuelve un estado plausible.
+   *
+   * Se recorre `LAYER_STACK` en vez de listar los campos, para que agregar una capa no vuelva a
+   * dejar este método atrás.
+   */
   public clone(): EnemyState {
     const c = new EnemyState(this.entity);
-    c.current_health = this.current_health;
-    c.current_shields = this.current_shields;
+    for (const l of LAYER_STACK) c.setLayer(l, this.layerAmounts[l]);
     // Los estados son inmutables (copy-on-write en applyProc/advance) → copiar el Map alcanza.
     c.effectStates = new Map(this.effectStates);
     return c;

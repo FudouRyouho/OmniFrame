@@ -18,6 +18,7 @@
 import { describe, it, expect } from 'vitest';
 import { advanceAndResolve } from '../../simulate/advance';
 import { makeIsolatedTarget, resolveIsolated } from './harness';
+import type { Layer } from '../../contracts/layers';
 import { CombatSimulator } from '../../simulate/combat/CombatSimulator';
 import { LAYER_STACK, layerFor } from '../../contracts/layers';
 import { damageReductionFromArmor } from '../../formulas/enemy/armor-mitigation';
@@ -77,6 +78,47 @@ describe('La pila declara el orden; cada capa declara qué la atraviesa', () => 
     expect(s.current_overguard).toBe(0);
     expect(s.current_shields).toBe(0);
     expect(s.current_health).toBeCloseTo(1000 - 10, 6);
+  });
+
+  /**
+   * LA INVARIANTE QUE FALTABA — y su ausencia dejó una ley escrita dos veces.
+   *
+   * El DoT escribía por `receive()` (conoce las cuatro capas) y el hit directo tenía su propio
+   * derrame a mano en `TimelineSimulator`, que sólo conocía shield y health. Medido: 210 de daño
+   * contra `overguard 500` lo absorbía el Overguard por un camino y **lo atravesaba** por el otro.
+   *
+   * No alcanza con arreglar el llamador: lo que hay que fijar es que **haya un solo camino**, y eso
+   * se prueba comparando los dos contra el mismo estado inicial.
+   */
+  it('[regresión] el hit directo y el DoT escriben IGUAL — un solo derrame, no dos', () => {
+    const DMG = 210;
+    const inicial = { overguard: 500, shields: 300, health: 1000, armor: 0 } as const;
+
+    // Camino del DoT: `advance` emite → `advanceAndResolve` resuelve → `receive` escribe.
+    const viaDot = makeIsolatedTarget({ ...inicial });
+    viaDot.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 1, 0);
+    for (let t = 0; t < 8; t += 0.5) advanceAndResolve(viaDot, t, 0.5);
+
+    // Camino del hit: `resolveHit` particiona → `receive` escribe. Es lo que hace `simulateBurst`.
+    const viaHit = makeIsolatedTarget({ ...inicial });
+    const res = resolveIsolated({ [IMPACT]: DMG }, viaHit);
+    for (const [layer, dmg] of Object.entries(res.by_layer)) {
+      if (dmg > 0) viaHit.receive(layer as Layer, dmg);
+    }
+    viaHit.clampVitals();
+
+    // El bleed total de un pulso a moddedBase 100 son exactamente 210 — el mismo número por los dos
+    // caminos, así que las cuatro capas tienen que quedar idénticas.
+    expect(viaHit.layerAmounts).toEqual(viaDot.layerAmounts);
+    // Y no de forma trivial: el Overguard absorbió y la salud quedó intacta.
+    expect(viaHit.current_overguard).toBe(500 - DMG);
+    expect(viaHit.current_health).toBe(1000);
+  });
+
+  it('[regresión] `clone()` copia LAS CUATRO capas', () => {
+    const s = makeIsolatedTarget({ overguard: 500, overshield: 200, shields: 300, health: 1000 });
+    // Copiaba dos y las otras dos nacían en cero: un clon plausible, silenciosamente equivocado.
+    expect(s.clone().layerAmounts).toEqual(s.layerAmounts);
   });
 
   it.todo('¿Toxin atraviesa también el OVERshield? la fuente dice "normal shields" y no lo aclara — hoy se asume que sí');

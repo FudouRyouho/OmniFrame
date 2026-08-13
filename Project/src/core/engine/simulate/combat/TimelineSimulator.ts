@@ -2,6 +2,7 @@
  * @domain Simulation-v2 / Logic / Simulator
  */
 import type { SimulationEntity, SimulationContext } from "../../contracts";
+import type { Layer } from "../../contracts/layers";
 import { CombatSimulator } from "./CombatSimulator";
 import { RngProvider } from "./RngProvider";
 import { EnemyState } from "../enemies/EnemyState";
@@ -100,22 +101,23 @@ export class TimelineSimulator {
         const resolution = CombatSimulator.simulateAttack(instance, state, currentTime, rng);
         const pellets = instance.multishot;
 
-        const hitShieldDamage = resolution.shield_damage;
-        const hitHealthDamage = resolution.health_damage;
-
-        // Aplicar daño a escudos (con desbordamiento simple a salud si se agotan)
-        // Nota: En Warframe el desbordamiento es más complejo, pero esto es v2.8 fidelidad media-alta
-        let remainingShieldDamage = hitShieldDamage;
-        if (state.current_shields > 0) {
-          const appliedToShields = Math.min(state.current_shields, remainingShieldDamage);
-          state.current_shields -= appliedToShields;
-          remainingShieldDamage -= appliedToShields;
+        // EL HIT ESCRIBE POR EL MISMO CAMINO QUE EL DoT: `state.receive(capa, daño)`.
+        //
+        // Acá vivía un segundo derrame, escrito a mano (`if (state.current_shields > 0)` … y el
+        // excedente a `current_health`), y **conocía sólo dos de las cuatro capas de la pila**. La
+        // divergencia era medible: 210 de daño contra un target con `overguard 500` lo absorbía el
+        // Overguard por el camino del DoT y **lo atravesaba** por éste, pegando a la salud. No era un
+        // bug activo —ningún build del catálogo tiene Overguard— pero sí una ley escrita dos veces, y
+        // las leyes duplicadas divergen: es cuestión de cuándo, no de si.
+        //
+        // La resolución ya devuelve la partición completa (`by_layer`); `receive` es dueño del
+        // derrame. `shield_damage`/`health_damage` quedan como atajos de lectura, no como el camino.
+        for (const [layer, dmg] of Object.entries(resolution.by_layer) as Array<[Layer, number]>) {
+          if (dmg > 0) state.receive(layer, dmg);
         }
-        
-        // El daño que sobrepasa escudos + el daño directo a salud (Toxin/Armor-hit)
-        state.current_health -= (hitHealthDamage + remainingShieldDamage);
-        
-        totalDamage += (hitShieldDamage + hitHealthDamage);
+        state.clampVitals();
+
+        totalDamage += resolution.total_damage;
 
         // Generación de procs UNIFICADA (colapsa las 3 ramas viejas): un solo loop para todos los
         // efectos modelados. `expectedProcEvents` da los procs esperados por tipo (chance×peso); el
