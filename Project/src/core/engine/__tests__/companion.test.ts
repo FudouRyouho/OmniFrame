@@ -92,3 +92,39 @@ describe('Compañero — borde', () => {
   // NO alcanza a compañeros sin su augment. Medición pendiente en `ingame-tests/pending.md` P-5.
   it.todo('qué buffs NO propagan al compañero — gated por medición (P-5)');
 });
+
+/**
+ * Los frentes abiertos del compañero, anclados. Los tres primeros son las direcciones que
+ * `OQ-ENGINE-31` §El corpus deja **sin dueño**: el corpus de 158 mods se parte por hacia dónde va el
+ * efecto, y de las cinco direcciones sólo las dos de entrada están resueltas.
+ *
+ * Cada `it.todo` de acá nombra un gate que hoy vive únicamente en un documento. Sin este anclaje el
+ * frente se pierde hasta que un caso lo cruza por accidente — que es como se descubrió que el
+ * compañero heredaba tres leyes del warframe.
+ */
+describe('Compañero — los frentes abiertos', () => {
+  // Dirección 3 (`arch-decisions §18`, nivel `dueño`): Shield Charger, Guardian, Medi-Ray, Ambush.
+  // El nivel está NOMBRADO y nada lo emite; hoy un `AVATAR_*` montado en el compañero acierta la
+  // marca y erra el sujeto sin que el tripwire lo reporte.
+  it.todo('el compañero ESCRIBE en su dueño (Shield Charger: +Max Shields al warframe) — nivel `dueño` sin emisor');
+  // El destino no es la entidad sino su subárbol: Ambush buffea "the owner's WEAPON damage".
+  it.todo('el alcance `dueño` llega al ARMA del dueño, no sólo al dueño (Ambush, aditivo con Serration)');
+  // Dirección 4: Cat's Eye alcanza "allies within 25m", incluidas torretas emplazadas.
+  it.todo('el compañero escribe en ALIADOS más allá del dueño (Cat\'s Eye: +60pp de crit absoluto) — sin aliados como entidad');
+  // Dirección 5: los 14 `*Bond`. Bidireccionales, y la condición lee estado de OTRA entidad.
+  it.todo('un `*Bond` gatea por el estado del compañero y aplica en el jugador (Reinforced Bond: shields > 1200 → +fire rate)');
+
+  // El recurso que 6 de los 14 `*Bond` manipulan. La base son 60 s, iguales para todos
+  // (`[empirical]`, criterio del usuario) — o sea NO es gap de dataset sino constante de mecánica,
+  // del tipo de `ENEMY_GATE_DURATION`. Lo que falta es el ciclo de muerte que la consuma.
+  it.todo('Companion Recovery Timer: base 60 s + deltas (−15 Medi-Pet, −35 Primed Regen, +15 Sacrifice) — sin ciclo de muerte');
+  // `[empirical]`: revivir antes de que expire el cooldown de un precept lo deja disponible. Es un
+  // cierre de ventana por EVENTO, no por tiempo (`time-model.md` §3, `until` conjuntivo).
+  it.todo('el revive resetea los cooldowns de los precepts — cierre de ventana por evento');
+
+  // `mod_class` viene `null` en los 158: el motor no puede distinguir un precept (habilidad, con
+  // ventana) de un stat mod (modifier). La fuente son las 10 tablas que `companion-mods.wikitext`
+  // transcluye. Sin esta partición, `AVATAR_ADD_ABILITY_DURATION` sobre un kavat no tiene sujeto.
+  it.todo('precept ⊥ stat mod: `mod_class` null en los 158 — el eje sólo existe en la wiki');
+  it.todo('`AVATAR_ADD_ABILITY_DURATION` sobre un compañero escala PRECEPTS, no las 4 del warframe (Tek Enhance → uptime de Cat\'s Eye)');
+});

@@ -73,4 +73,23 @@ describe('simulateAttack LEE el bonus de crit del target (el gancho)', () => {
     const buffed = CombatSimulator.simulateAttack(inst, frozen, 0).total_damage;
     expect(buffed).toBeGreaterThan(clean);
   });
+
+  /**
+   * El término POST-escala de la fórmula de crit —`base × (1 + relativo) + absoluto`— existe
+   * construido en `formulas/common/crit-base.ts` como parámetro `absoluteCritBonus` **y no tiene
+   * emisor**: falta el token `WEAPON_FLAT_CRIT_CHANCE`, mientras su hermano
+   * `WEAPON_FLAT_STATUS_CHANCE` sí está en `UPGRADES` y en `UPGRADE_MAP`.
+   *
+   * `semantic/upgrade-tokens.md` §Registro de lo inexpresable lo declaraba *"no resoluble con el
+   * corpus local — requiere test in-game"*. **Ya no:** `references/wiki/mods/cats-eye.wikitext`
+   * §Notes da la fórmula textual con las dos fuentes del pool absoluto —
+   * `25% × (1 + 120% + 40%×(4−1)) + 60% + 45%` — donde el 60 es Cat's Eye y el 45 **Arcane Avenger**,
+   * hoy clasificado en el pool RELATIVO (`WEAPON_ADD_CRIT_CHANCE`) en `arcane-stats.override.json`.
+   *
+   * ⚠️ La bifurcación a resolver ANTES de tocar nada: el término entra por el **nodo** (bucket
+   * `total_flat`, que la fórmula general ya suma post-escala) o por la **fórmula** — no por los dos,
+   * o el bonus se duplica en silencio. Es la frontera de `arch-decisions §19`.
+   */
+  it.todo('el pool ABSOLUTO de crit tiene emisor: acuñar `WEAPON_FLAT_CRIT_CHANCE` — Cat\'s Eye (60pp) · Arcane Avenger (45pp)');
+  it.todo('el término absoluto entra por el NODO o por la FÓRMULA, no por los dos — §19, riesgo de doble conteo');
 });

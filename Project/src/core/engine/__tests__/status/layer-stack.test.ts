@@ -124,4 +124,20 @@ describe('La pila declara el orden; cada capa declara qué la atraviesa', () => 
   });
 
   it.todo('¿Toxin atraviesa también el OVERshield? la fuente dice "normal shields" y no lo aclara — hoy se asume que sí');
+
+  // El tercer verbo está construido para el escudo (`shield-gate.ts` + `receive`), los dos lados.
+  // Falta el del Overguard, que la fuente declara asimétrico: 0.5 s del lado jugador y NINGUNO del
+  // lado enemigo (`overguard.md:61`). Es el caso que prueba que la ventana es de la CAPA y no del
+  // daño — `time-model.md §9 #3`.
+  it.todo('el Overguard emite su propia ventana al agotarse: 0.5 s, y SÓLO del lado jugador');
+
+  // La ley del gate enemigo está construida (5% de fuga, 0.1 s); esta excepción no. Necesita que la
+  // Resolución sepa qué parte del cuerpo golpeó — `weakpoints[]` trae 407 entradas SIN consumidor.
+  // Los AoE no se benefician (su instancia se bloquea entera) pero el daño asociado sí pasa.
+  it.todo('apuntar a un weak point BYPASEA el gate del enemigo — `weakpoints[]` (407) sin consumidor · `time-model.md §9 #11`');
+
+  // La asunción que el DR de escudo dejó declarada y hoy es INOBSERVABLE: del lado jugador la fuga
+  // del gate es 0, así que el derrame nunca ocurre; del lado enemigo no hay DR de escudo que
+  // arrastrar. Se vuelve medible con Decaying Dragon Key (cap 0.33 s) o un build sin escudos.
+  it.todo('¿el derrame arrastra la mitigación del EVENTO? — asunción vigente, inobservable hasta que un portador derrame Y mitigue');
 });

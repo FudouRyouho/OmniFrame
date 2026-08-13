@@ -95,6 +95,16 @@ describe('Cap de stacks — el cap es del que APLICA, el contador es del recepto
   it.todo('el EMISOR desvía su propio cap (3 × Tauforged Emerald: 10 → 19) — CV-3, canal de desvío');
   it.todo('dos emisores con caps distintos sobre UN contador: el cap efectivo difiere por instancia');
   it.todo('el RECEPTOR fuerza el cap (Acolyte: N ≤ 4) — `fuerza` ⊥ `modifica`, §17');
+  // Y antes que eso: **"Acolyte" no es una clase que el dato declare.** Medido sobre `enemies.json`:
+  // los 6 comparten `faction: "Stalker"` CON Stalker y Shadow Stalker, que no lo son, y su canal es
+  // `enemy` como cualquier hostil. Sólo el path `/Lotus/Types/Enemies/Acolytes/` los separa, y
+  // derivar una ley de parsear un `unique_name` es frágil. Gap de schema, no de vocabulario.
+  it.todo('de dónde sale "esto es un Acolyte": ni `faction` ni `channel` lo declaran — sólo el path');
+  // El bloqueo estructural detrás de los tres primeros eslabones: la instancia lleva el OUTPUT del
+  // emisor (`moddedBase`, `statusDamageBonusPct`, `elementBonusPct`) y NO sus desvíos de ley, así que
+  // `applyProc` toma el cap de una constante de módulo. ⚠️ No lo cierra el descarte de `stamp`
+  // (`time-model.md`): lo refutado es que el ESTADO persista al emisor; esto es un ARGUMENTO.
+  it.todo('la instancia lleva los desvíos de ley del emisor, no sólo su output — persistencia ⊥ argumento');
   // `StackState { count }` es escalar; "refresca el más viejo" opera sobre instancias con timer
   // propio. El DoT ya modela instancias (`DotState { pulses }`) — la asimetría es interna al módulo.
   it.todo('refrescar el stack más viejo requiere instancias con timer, no un contador — OQ-ENGINE-16');
