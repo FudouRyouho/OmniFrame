@@ -183,12 +183,6 @@ export class EnemyState {
    * otros números — la fuente los declara como mecánicas distintas.**
    */
   private gateUntil: number | null = null;
-  /**
-   * `S` — shields repuestos desde el último gate, el argumento de la duración del lado jugador.
-   * **No es el shield máximo**: la ventana escala con cuánto se logró rellenar, así que este número
-   * se acumula entre dos gates y se reinicia al abrirse uno.
-   */
-  private shieldsReplenished = 0;
 
   /** ¿Hay ventana de gate abierta en `t`? Lectura por MUESTREO, no por evento (`§20`). */
   public isGated(currentTime: number): boolean {
@@ -196,17 +190,19 @@ export class EnemyState {
   }
 
   /**
-   * Repone shields. Existe para alimentar `S`, no como conveniencia: sin él, la duración del gate
-   * del jugador no es computable y la ventana sería un número inventado.
+   * Repone shields, y con eso trae el **cierre conjuntivo** de `time-model.md §3`: la ventana cierra
+   * por tiempo **o** porque se repuso shield, lo que ocurra primero — *"recuperar shields durante la
+   * invulnerabilidad la termina de inmediato: cualquier cantidad, de cualquier fuente, incluida la
+   * regeneración natural"*.
    *
-   * Y trae el **cierre conjuntivo** de `time-model.md §3`: la ventana cierra por tiempo **o** porque
-   * se repuso shield, lo que ocurra primero — *"recuperar shields durante la invulnerabilidad la
-   * termina de inmediato: cualquier cantidad, de cualquier fuente, incluida la regeneración natural"*.
+   * **Ya no acumula un contador.** Existía un `shieldsReplenished` para alimentar la duración del
+   * gate, siguiendo la prosa de la wiki (*"repuestos desde el último gate"*); la fuente primaria dice
+   * otra cosa —*"the amount of Shields you had **upon Shield Break**"*— y esa no necesita estado: el
+   * número está en la capa, justo antes de restarlo.
    */
   public replenishShields(amount: number, currentTime = 0) {
     if (amount <= 0) return;
     this.current_shields += amount;
-    this.shieldsReplenished += amount;
     if (this.isGated(currentTime)) this.gateUntil = null;
   }
 
@@ -226,9 +222,10 @@ export class EnemyState {
       restante -= absorbido;
 
       // La capa se AGOTÓ en este evento (tenía algo, quedó en cero) → cierra, y el exceso no derrama.
+      // La duración la fija `disponible`: el shield que había **al romperse**, que es el argumento
+      // que la fuente primaria declara. Por eso no hace falta estado acumulado.
       if (law && restante > 0 && l === "shield") {
-        this.gateUntil = currentTime + law.duration(this.shieldsReplenished);
-        this.shieldsReplenished = 0;
+        this.gateUntil = currentTime + law.duration(disponible);
         restante *= law.leakFraction;
       }
     }

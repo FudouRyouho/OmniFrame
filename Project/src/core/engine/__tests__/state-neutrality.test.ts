@@ -152,17 +152,27 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
   });
 
   it('[capas] …pero la ventana EXPIRA, y el tick siguiente sí llega a la salud', () => {
-    // Lo que el `it.fails` anterior pedía —salud intacta tras 8 s— **no es lo que el juego hace**. El
-    // gate mínimo dura 1/3 s (`playerGateDuration(0)`, sin shields repuestos): cubre el evento que lo
-    // abrió y nada más. Sostener lo contrario convertía una ventana en invulnerabilidad permanente.
+    // Lo que el `it.fails` anterior pedía —salud intacta tras 8 s— **no es lo que el juego hace**: la
+    // ventana cubre el evento que la abrió y un poco más, no el bleed entero. Sostener lo contrario
+    // convertía una ventana en invulnerabilidad permanente.
+    //
+    // La duración sale del shield que había AL ROMPERSE (455) → `t(455) ≈ 1.5193 s`, así que la
+    // ventana va de t=1 a t≈2.52 y se come el tick de t=2. Con la formulación vieja —"repuestos desde
+    // el último gate", que arranca en 0— habría durado el mínimo (0.33 s) y el tick de t=2 habría
+    // matado: **un warframe con 455 de shield recibía la protección de uno con 0**.
     const s = new EnemyState(avatar());
+    const shieldsAlRomperse = s.current_shields;
     s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 200, 0);
     advanceAndResolve(s, 1, 0.5);
+
     expect(s.isGated(1)).toBe(true);
-    expect(s.isGated(2)).toBe(false);      // 1 + 0.333 < 2
+    expect(s.isGated(2)).toBe(true);                                    // 1 + 1.5193 > 2
+    expect(s.isGated(1 + playerGateDuration(shieldsAlRomperse))).toBe(false);
 
     advanceAndResolve(s, 2, 0.5);
-    expect(s.current_health).toBe(0);
+    expect(s.current_health).toBe(270);                                 // el tick de t=2 no pasa
+    advanceAndResolve(s, 3, 0.5);
+    expect(s.current_health).toBe(0);                                   // el de t=3 sí
   });
 
   it('[capas] reponer shields durante la ventana la CIERRA — el `until` conjuntivo, ejecutable', () => {

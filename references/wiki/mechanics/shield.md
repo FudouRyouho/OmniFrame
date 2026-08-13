@@ -105,15 +105,24 @@ La duración **tiene fórmula**, y su argumento **no es el shield máximo del wa
 > *"Invulnerability duration will scale based on the maximum shields **replenished since the last
 > shield gate occurred**."*
 
+⚠️ **Conflicto ↔** [`shield.wikitext`](shield.wikitext) §*Part 1 / Part 2* — las notas de la
+actualización definen el argumento distinto: *"the amount of Shields you had **upon Shield Break**"*, y
+**Part 2** lo dice sin ambigüedad: *"**Partially Depleted Shields do not have a separate Shield Gate
+Duration** […] si tenías max 1200 pero se rompieron con sólo 350 disponibles, recibirías ~1.3 s"*. Las
+dos formulaciones coinciden salvo en el **primer** gate, donde "repuesto desde el gate anterior" vale 0.
+
 ```text
               ⎧ S/180 + 1/3               si S < 53
 t(S)       =  ⎨ (S/350)^0.65 + 1/3        si 53 ≤ S ≤ 1150
               ⎩ 2.5                       si S > 1150
-
-donde S = shields REPUESTOS desde el último shield gate
 ```
 
-De **0.33 s** como mínimo hasta **2.5 s** al reponer 1.150 o más.
+De **0.33 s** como mínimo hasta **2.5 s**.
+
+**El extremo bajo se confunde con la ausencia, y eso explica una discusión conocida** sin postular dos
+mecánicas: con **1** de shield al romperse la ventana dura **0.3389 s**, apenas 5.6 milésimas sobre el
+mínimo absoluto. *"Repuse poco y no gateé"* y *"repuse poco y gateé un instante"* no se distinguen
+jugando. La regla no tiene umbral de activación — tiene una cola plana.
 
 **La consecuencia práctica:** en el modo por defecto, la duración del gate es **proporcional a
 cuánto shield lograste rellenar**. Rellenar poco da una ventana corta.
@@ -124,7 +133,7 @@ Excepciones y modificadores:
 |---|---|
 | Hildryn, y aliados bajo su Haven | **3.5 s** |
 | Grenade Fan (Protea) | **duplica** el mínimo — rango de 0.66 a 5 s |
-| **Catalyzing Shields** | **rompe la proporcionalidad**: fija la ventana en **1.33 s** *"upon recovering **any amount** of shields"*, a costa de −80% de shield máximo |
+| **Catalyzing Shields** | ⚠️ **Conflicto ↔** [`shield.wikitext`](shield.wikitext) §*Part 3* — la prosa dice que **fija** la ventana en **1.33 s** *"upon recovering **any amount** of shields"*; las notas de la actualización dicen *"scales from **0.33 to 1.33** based on your maximum Shield values"* con tabla (100→1.33 · 75→1.0 · 50→0.67 · 25→0.34 · 10→0.33), o sea que 1.33 es su **techo**. A costa de −80% de shield máximo |
 | Decaying Dragon Key | **capa** la ventana a 0.33 s sin importar el shield máximo; anula por completo a Catalyzing Shields |
 
 > **Catalyzing Shields cambia la naturaleza de la mecánica, no sólo su número.** Sin él, el gate es

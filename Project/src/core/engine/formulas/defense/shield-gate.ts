@@ -30,22 +30,36 @@
 export interface GateLaw {
   /** Fracción del exceso que **igual** llega a la capa siguiente. `0` = invulnerabilidad total. */
   leakFraction: number;
-  /** Duración de la ventana, en segundos, dado `S` = shields repuestos desde el último gate. */
-  duration: (replenishedShields: number) => number;
+  /** Duración de la ventana, dado `S` = el shield que había **al romperse**. */
+  duration: (shieldOnBreak: number) => number;
 }
 
 /**
- * Duración del gate del jugador. **Su argumento no es el shield máximo** — es cuánto shield se
- * repuso desde el gate anterior, que es lo que hace de esta ventana un caso aparte: no sale de un
- * snapshot del emisor (como el DoT) ni de una constante del receptor (como Adaptation), sino de
- * **integrar un evento del receptor entre dos ocurrencias del mismo hecho**.
+ * Duración del gate del jugador. **Su argumento no es el shield MÁXIMO sino el que había al
+ * romperse**, y la distinción es de la fuente primaria — las notas del rework, `shield.wikitext`:
+ *
+ * > *"Part 1 — Shield Gate Duration will scale with the amount of Shields you had **upon Shield
+ * > Break**."*
+ * > *"Part 2 — **Partially Depleted Shields do not have a separate Shield Gate Duration**. Si tenías
+ * > max 1200 pero se rompieron con sólo 350 disponibles, recibirías ~1.3 s."*
  *
  *     S < 53          →  S/180 + 1/3
  *     53 ≤ S ≤ 1150   →  (S/350)^0.65 + 1/3
  *     S > 1150        →  2.5
+ *
+ * ⚠️ **La prosa de la wiki dice otra cosa** —*"scale based on the maximum shields **replenished since
+ * the last shield gate**"*— y esa formulación exigiría acumular estado entre gates. Se sigue a las
+ * notas de DE por ser la fuente primaria, y porque las dos coinciden salvo en el **primer** gate: ahí
+ * "repuesto desde el gate anterior" vale 0 y daría el mínimo, cuando el portador tenía sus shields
+ * llenos. Un warframe con 455 de shield recibiría 0.33 s en vez de 1.52 s.
+ *
+ * **Y esto explica una confusión conocida sin necesidad de dos mecánicas:** con 1 de shield al
+ * romperse la ventana dura `0.3389 s` — **5.6 milésimas** sobre el mínimo absoluto. Indistinguible de
+ * *"no gateó"* en juego. La regla no tiene un umbral de activación: tiene un extremo bajo que se
+ * confunde con la ausencia.
  */
-export function playerGateDuration(replenishedShields: number): number {
-  const s = Math.max(0, replenishedShields);
+export function playerGateDuration(shieldOnBreak: number): number {
+  const s = Math.max(0, shieldOnBreak);
   if (s < 53) return s / 180 + 1 / 3;
   if (s <= 1150) return Math.pow(s / 350, 0.65) + 1 / 3;
   return 2.5;
@@ -82,6 +96,12 @@ export function gateLawFor(routes: readonly string[] | undefined): GateLaw | und
 export const RECEIVER_DEVIATIONS = [
   { fuente: "Hildryn (y aliados con Haven)", verbo: "modifica", efecto: "duración = 3.5 s" },
   { fuente: "Grenade Fan (Protea)",          verbo: "modifica", efecto: "duplica el mínimo → 0.66–5 s" },
-  { fuente: "Catalyzing Shields",            verbo: "modifica", efecto: "1.33 s por CUALQUIER cantidad repuesta — rompe la proporcionalidad" },
+  // ⚠️ CONFLICTO EN LA FUENTE, marcado en `shield.md`: la prosa dice "1.33 s por CUALQUIER cantidad
+  // recuperada" (fijo) y las notas de DE dicen "scales from 0.33 to 1.33 based on your maximum Shield
+  // values", con tabla (100→1.33 · 75→1.0 · 50→0.67 · 25→0.34 · 10→0.33). O sea el 1.33 sería su
+  // TECHO, no un valor fijo. Las dos lecturas están escritas en la misma página — de ahí que sea una
+  // confusión conocida. No se elige ganador acá: cuando `CV-3` lo aplique, el conflicto tiene que
+  // estar resuelto antes.
+  { fuente: "Catalyzing Shields",            verbo: "modifica", efecto: "⚠️ conflicto: 1.33 s fijo (prosa) vs escala 0.33→1.33 con techo en 1.33 (notas de DE)" },
   { fuente: "Decaying Dragon Key",           verbo: "fuerza",   efecto: "cap 0.33 s" },
 ] as const;
