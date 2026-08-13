@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-08-08"
+Fecha_de_actualizacion: "2026-08-13"
 ---
 
 # Engine Status
@@ -106,6 +106,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 | `contracts.ts` | **Activo** — cortes/DTOs. |
 | `primitives.ts` | **Activo** — `AttributeNode`, `Modifier`, ids. **`GameLaws` retirado** (§17): los seis parámetros de status viven con su fórmula en `formulas/status/stack-debuff.ts`. |
 | `damage-logic.ts` · `damage-multipliers.ts` · `mod-overrides.ts` · `index.ts` (barrel) | **Activo** |
+| `unit-class.ts` | **Activo** — la **clase de unidad** como llave de las leyes físicas, separada de `routes` (que queda sólo para ruteo de modifiers; `arch-decisions §18`). La llave es el `channel`, sin campo nuevo. **No expone una constante "lado jugador"**: el compañero comparte vitales y gate con el Tenno y no comparte el DR — las tres agrupaciones difieren y eso queda visible. |
 | `layers.ts` | **Activo** — la pila defensiva (`overguard → overshield → shield → health`) y **la tabla de quién la atraviesa, que es de la capa y no del daño**. Declara la LEY; el origen de dos de las cuatro no existe todavía. ⚠️ Su tabla tiene **un eje donde la realidad tiene una pregunta**: `Toxin vs shields` no discrimina por clase pero `Overguard vs status` sí (jugador los niega, enemigo los recibe) — ver `time-model.md §8`. |
 
 > La Capa D se cablea vía `useViewModel` (`@providers`) + `ViewModelContract`
@@ -123,7 +124,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 | `ability/` | `ability-crit`, `ability-status` |
 | `arcane/` | **vacío** (reservado) |
 | `warframe/` | `armor-mitigation` (DR del Tenno, `a/(a+300)`) — la selección por clase vive en el borde de ③, no acá |
-| `defense/` | `shield-gate` — **el tercer verbo de la capa**: la LEY (*al agotarse, corta y abre ventana*) con sus parámetros resueltos por clase (jugador 0% · enemigo 5% / 0.1 s) y la fórmula `t(S)`, cuyo argumento son los shields **repuestos desde el último gate**. Los 4 desvíos del receptor (Hildryn · Protea · Catalyzing · Decaying Dragon Key) quedan como **dato declarado sin canal** — son `CV-3` |
+| `defense/` | `shield-gate` — **el tercer verbo de la capa**: la LEY (*al agotarse, corta y abre ventana*) con sus parámetros resueltos por clase (jugador 0 % · enemigo 5 % / 0.1 s) y la fórmula `t(S)`, cuyo argumento es el escudo **que había al romperse**. Los 4 desvíos del receptor (Hildryn · Protea · Catalyzing · Decaying Dragon Key) quedan como **dato declarado sin canal** — los aplicaría la cadena de cuatro eslabones de `design/arch-decisions.md` §17, no construida. · `shield-mitigation` — la **DR inherente del escudo** (50 % al Tenno, **nada** al compañero ni al enemigo) y `damageToDeplete`, que mide la capa en puntos y el evento en daño para que el derrame no arrastre la mitigación de la capa que atravesó |
 
 Cada primitiva cita su autoridad matemática en su propio `@SSoT`, apuntando a la fuente real (`references/wiki/mechanics/*`: `critical-hits`, `multishot`, `condition-overload`, `calculating-bonuses`, `armor`, `enemy-level-scaling`…). El **idioma** con el que se describen vive en [`design/vocabulary.md`](design/vocabulary.md); el **estado de integración**, en [`design/formulas-integration.md`](design/formulas-integration.md).
 

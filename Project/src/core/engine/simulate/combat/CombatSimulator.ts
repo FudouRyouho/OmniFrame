@@ -11,34 +11,41 @@ import { AtomicSimulator, type AtomicRoll } from "./AtomicSimulator";
 import { RngProvider } from "./RngProvider";
 import { bypassesArmorAndMatrix } from "../../contracts/damage-logic";
 import { layerFor, type Layer } from "../../contracts/layers";
+import { TENNO_CHANNELS, byChannel, forChannels } from "../../contracts/unit-class";
 
 /**
- * La ley de mitigación por armadura **por clase de portador**. Las dos fórmulas conviven publicadas
+ * La ley de mitigación por armadura **por clase de unidad**. Las dos fórmulas conviven publicadas
  * en `references/wiki/mechanics/armor.md` y no comparten forma algebraica, así que esto es una
- * selección, no un parámetro. La familia la resuelve la **marca de ruteo** del participante — el
- * mismo mecanismo con el que `vitalsOf` resuelve con qué nombres leer sus vitales (`§18` en
- * dirección inversa).
+ * selección, no un parámetro. La clase la resuelve el **canal** del participante, no su marca de
+ * ruteo — `contracts/unit-class.ts` explica por qué son dos preguntas distintas.
  */
-const ARMOR_MITIGATION_BY_FAMILY: Record<string, (armor: number) => number> = {
-  enemy:  damageReductionFromArmor,          // `0.9·√(a/2700)` ≡ `√(3a)/100` — provisional, `OQ-ENGINE-15`
-  avatar: tennoDamageReductionFromArmor,     // `a/(a+300)`
+/**
+ * ⚠️ **El compañero NO tiene entrada, y es deliberado.** `references/wiki/mechanics/armor.md` no dice
+ * qué fórmula de DR le corresponde —lo menciona sólo como fuente de mods—, así que darle la del Tenno
+ * sería inventar la ley, que es justo lo que este `throw` existe para impedir. Hoy no lo alcanza nadie:
+ * sólo se pregunta por el **target**, y no modelamos daño hacia el lado jugador
+ * (`simulation-architecture.md` §Los dos pobladores no son espejos). Cuando se modele, tiene que sonar.
+ */
+const ARMOR_MITIGATION_BY_CLASS: Record<string, (armor: number) => number> = {
+  enemy: damageReductionFromArmor,                              // `0.9·√(a/2700)` ≡ `√(3a)/100` — provisional, `OQ-ENGINE-15`
+  ...forChannels(TENNO_CHANNELS, tennoDamageReductionFromArmor), // `a/(a+300)`
 };
 
 /**
- * Elige la ley de mitigación del portador. Una familia sin entrada **tira**: mitigar con la ley
+ * Elige la ley de mitigación del portador. Una clase sin entrada **tira**: mitigar con la ley
  * equivocada devuelve un número creíble y falso —exactamente el modo de falla que ya costó una
  * medición— y un participante que llega hasta acá sin declarar su clase es un bug que tiene que sonar.
  */
 function armorMitigationFor(target: EnemyState): (armor: number) => number {
-  const family = target.entity.routes?.find((r) => r in ARMOR_MITIGATION_BY_FAMILY);
-  if (!family) {
+  const law = byChannel(ARMOR_MITIGATION_BY_CLASS, target.entity.channel);
+  if (!law) {
     throw new Error(
-      `[resolución] el participante "${target.entity.id}" no declara ninguna familia con ley de ` +
-        `mitigación — marcas: [${target.entity.routes?.join(", ") ?? "ninguna"}]. ` +
-        `Familias conocidas: ${Object.keys(ARMOR_MITIGATION_BY_FAMILY).join(", ")}.`,
+      `[resolución] el participante "${target.entity.id}" no declara ninguna clase con ley de ` +
+        `mitigación — canal: ${target.entity.channel ?? "ninguno"}. ` +
+        `Clases conocidas: ${Object.keys(ARMOR_MITIGATION_BY_CLASS).join(", ")}.`,
     );
   }
-  return ARMOR_MITIGATION_BY_FAMILY[family];
+  return law;
 }
 
 export interface HitResolution {

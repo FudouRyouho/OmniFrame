@@ -5,7 +5,9 @@ import type { EffectBehavior, HitContext, Layer, Resolucion } from "../../formul
 // NO importa `CombatSimulator`: el estado ya no invoca al resolvedor de lo que él mismo emite. La
 // composición «avanzar → resolver → recibir» vive en `../advance.ts`, que es el dueño del bucle.
 import { LAYER_STACK } from "../../contracts/layers";
+import { PLAYER_VITAL_CHANNELS, byChannel, forChannels } from "../../contracts/unit-class";
 import { gateLawFor } from "../../formulas/defense/shield-gate";
+import { damageToDeplete, shieldDamageReductionFor } from "../../formulas/defense/shield-mitigation";
 
 /**
  * EnemyState — estado dinámico de un enemigo durante la simulación temporal. **Modelo unificado de
@@ -33,15 +35,20 @@ const nodeFinal = (entity: SimulationEntity, id: string): number => entity.attri
 export interface Vitals { health: number; armor: number; shields: number }
 
 /**
- * Los tres vitales POR FAMILIA de token. Un participante no nombra sus vitales igual según de qué lado
+ * Los tres vitales POR CLASE DE UNIDAD. Un participante no nombra sus vitales igual según de qué lado
  * esté: el hostil los lleva `ENEMY_*` y el avatar `AVATAR_*` — y son los mismos tres vitales, no stats
- * distintos. La familia la resuelve la **marca de ruteo** que el espacio ya le puso (`arch-decisions §18`):
- * es el mecanismo de `familyRoute` en la dirección inversa — allá el token declara a quién alcanza, acá
- * el participante declara con qué nombres se lo lee. Un arma no figura, y es correcto: no tiene vitales.
+ * distintos. La clase la resuelve el **canal** que el espacio ya le puso, no la marca de ruteo:
+ * `contracts/unit-class.ts` explica por qué son dos preguntas distintas. Un arma no figura, y es
+ * correcto: no tiene vitales.
+ *
+ * **El compañero SÍ entra acá** —lleva los mismos `AVATAR_*` y el test lo fija (300 de armor base)—,
+ * a diferencia de la mitigación, donde la fuente no dice qué ley le toca.
  */
 const VITAL_TOKENS: Record<string, { health: string; armor: string; shields: string }> = {
-  enemy:  { health: "ENEMY_ADD_HEALTH_MAX",  armor: "ENEMY_ADD_ARMOUR",  shields: "ENEMY_ADD_SHIELD_MAX"  },
-  avatar: { health: "AVATAR_ADD_HEALTH_MAX", armor: "AVATAR_ADD_ARMOUR", shields: "AVATAR_ADD_SHIELD_MAX" },
+  enemy: { health: "ENEMY_ADD_HEALTH_MAX", armor: "ENEMY_ADD_ARMOUR", shields: "ENEMY_ADD_SHIELD_MAX" },
+  ...forChannels(PLAYER_VITAL_CHANNELS, {
+    health: "AVATAR_ADD_HEALTH_MAX", armor: "AVATAR_ADD_ARMOUR", shields: "AVATAR_ADD_SHIELD_MAX",
+  }),
 };
 
 /**
@@ -55,15 +62,14 @@ const VITAL_TOKENS: Record<string, { health: string; armor: string; shields: str
  * no debe llegar acá, y si llega es un bug que tiene que sonar.
  */
 export function vitalsOf(entity: SimulationEntity): Vitals {
-  const family = entity.routes?.find((r) => r in VITAL_TOKENS);
-  if (!family) {
+  const t = byChannel(VITAL_TOKENS, entity.channel);
+  if (!t) {
     throw new Error(
-      `[estado] el participante "${entity.id}" (${entity.unique_name}) no declara ninguna familia de ` +
-        `vitales — marcas: [${entity.routes?.join(", ") ?? "ninguna"}]. Familias conocidas: ` +
+      `[estado] el participante "${entity.id}" (${entity.unique_name}) no declara ninguna clase con ` +
+        `vitales — canal: ${entity.channel ?? "ninguno"}. Clases conocidas: ` +
         `${Object.keys(VITAL_TOKENS).join(", ")}.`,
     );
   }
-  const t = VITAL_TOKENS[family];
   return {
     health:  nodeFinal(entity, t.health),
     armor:   nodeFinal(entity, t.armor),
@@ -207,18 +213,30 @@ export class EnemyState {
   }
 
   public receive(layer: Layer, damage: number, currentTime = 0) {
-    const law = gateLawFor(this.entity.routes);
+    const law = gateLawFor(this.entity.channel);
 
     // Ventana abierta: sólo pasa la fracción que la clase declare (jugador 0, enemigo 5%).
     let restante = this.isGated(currentTime) && law ? damage * law.leakFraction : damage;
+
+    // La DR de escudo es del PORTADOR y sólo de las capas de escudo (`shield.md`: el Tenno la tiene,
+    // el compañero **no**, el enemigo tampoco). El Overguard no la comparte: es otra capa con sus
+    // propias reglas.
+    const shieldDR = shieldDamageReductionFor(this.entity.channel);
 
     for (const l of LAYER_STACK.slice(LAYER_STACK.indexOf(layer))) {
       if (restante <= 0) return;
       if (l === "health") { this.current_health -= restante; return; }
       const disponible = this.layerAmounts[l];
       if (disponible <= 0) continue;
-      const absorbido = Math.min(disponible, restante);
-      this.setLayer(l, disponible - absorbido);
+
+      // **Un DR de capa protege a esa capa, no a la siguiente.** Por eso la capa se mide en puntos y
+      // el evento en daño: `costo` es cuánto daño cuesta vaciarla, y lo que sobra sigue de largo
+      // **sin** arrastrar esta mitigación. Con DR 0 (enemigo, compañero, Overguard) `costo ===
+      // disponible` y el camino es el de siempre.
+      const dr = (l === "shield" || l === "overshield") ? shieldDR : 0;
+      const costo = damageToDeplete(disponible, dr);
+      const absorbido = Math.min(costo, restante);
+      this.setLayer(l, disponible - absorbido * (1 - dr));
       restante -= absorbido;
 
       // La capa se AGOTÓ en este evento (tenía algo, quedó en cero) → cierra, y el exceso no derrama.

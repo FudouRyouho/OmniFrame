@@ -21,7 +21,8 @@ import { EnemyState, vitalsOf } from '../simulate/enemies/EnemyState';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
 import { consume } from '../output/consume';
 import { volt } from '../fixtures/builds';
-import { hostileEntity, syntheticHostile } from './hostile-entity';
+import { hostileEntity, syntheticAvatar, syntheticHostile } from './hostile-entity';
+import type { SimulationEntity } from '../contracts';
 import { advanceAndResolve } from '../simulate/advance';
 import { playerGateDuration } from '../formulas/defense/shield-gate';
 
@@ -63,10 +64,10 @@ describe('El estado se lee por familia de token, no por bando', () => {
     expect(v.armor).toBeCloseTo(200, 6); // Arid Butcher @215 — el ancla ya validada en `enemy-scaling`
   });
 
-  it('[weapon] un arma no tiene vitales: tira nombrando sus marcas, no devuelve ceros', () => {
+  it('[weapon] un arma no tiene vitales: tira nombrando su clase, no devuelve ceros', () => {
     const arma = participante((e) => e.domain === 'weapon');
-    expect(() => vitalsOf(arma)).toThrow(/no declara ninguna familia de vitales/);
-    // El mensaje nombra al participante y sus marcas — un cero silencioso no era diagnosticable.
+    expect(() => vitalsOf(arma)).toThrow(/no declara ninguna clase con vitales/);
+    // El mensaje nombra al participante y su canal — un cero silencioso no era diagnosticable.
     expect(() => vitalsOf(arma)).toThrow(new RegExp(arma.id));
   });
 });
@@ -83,14 +84,21 @@ describe('El estado se lee por familia de token, no por bando', () => {
 describe('La neutralidad termina donde empieza la ley — un avatar mitiga como hostil', () => {
   const avatar = () => participante((e) => e.domain === 'warframe');
 
-  it('[estado] el proc corre sobre el avatar igual que sobre un hostil — la mecánica SÍ es neutral', () => {
-    const s = new EnemyState(avatar());
-    const shields0 = s.current_shields;
-    s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 1, 0);
-    for (let t = 0; t < 8; t += 0.5) advanceAndResolve(s, t, 0.5);
+  it('[estado] el proc EMITE lo mismo sobre el avatar que sobre un hostil — la emisión SÍ es neutral', () => {
+    const correr = (e: SimulationEntity) => {
+      const s = new EnemyState(e);
+      const antes = s.current_shields;
+      s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 1, 0);
+      for (let t = 0; t < 8; t += 0.5) advanceAndResolve(s, t, 0.5);
+      return antes - s.current_shields;
+    };
 
-    // 6 ticks × (0.35 × 100) = 210, el bleed exacto: el behavior no sabe a quién se lo está haciendo.
-    expect(shields0 - s.current_shields).toBeCloseTo(210, 6);
+    // 6 ticks × (0.35 × 100) = 210 de DAÑO en los dos casos: el behavior no sabe a quién se lo hace.
+    // Lo que difiere es cuántos PUNTOS de escudo cuesta ese daño, y eso ya es ley del receptor: el
+    // avatar tiene 50% de DR de escudo (`shield.md`) y el hostil no. **La emisión es neutral, la
+    // absorción no** — que es exactamente dónde este archivo pone el corte.
+    expect(correr(syntheticHostile({ shields: 10_000, faction: 'Isolated' }))).toBeCloseTo(210, 6);
+    expect(correr(avatar())).toBeCloseTo(105, 6);
   });
 
   it('[ley] el avatar mitiga con la fórmula del Tenno, no con la del hostil', () => {
@@ -129,12 +137,51 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     expect(dañoAlAvatar).not.toBeCloseTo(dañoAlHostil, 3);
   });
 
-  it('[ley] un participante sin familia conocida tira en vez de mitigar con la ley de otro', () => {
-    const sinMarca = { ...syntheticHostile({ armor: 100 }), routes: ['weapon'] };
+  it('[ley] un participante sin clase conocida tira en vez de mitigar con la ley de otro', () => {
+    const sinClase = { ...syntheticHostile({ armor: 100 }), channel: 'primary' };
     const s = new EnemyState(syntheticHostile({ armor: 100 }));
-    s.entity = sinMarca;
+    s.entity = sinClase;
     expect(() => CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 100 }, s, 0))
-      .toThrow(/no declara ninguna familia con ley de mitigación/);
+      .toThrow(/no declara ninguna clase con ley de mitigación/);
+  });
+
+  it('[ley] el escudo del Tenno aguanta el DOBLE de su valor — 50% de DR inherente', () => {
+    const s = new EnemyState(syntheticAvatar({ shields: 100 }));
+    s.receive('shield', 150, 0);
+    // 150 de daño contra 100 de escudo con DR 0.5: cuesta 75 puntos, no 150. Quedan 25.
+    expect(s.current_shields).toBeCloseTo(25, 6);
+    expect(s.current_health).toBe(1000);   // no derrama: el escudo no se agotó
+  });
+
+  it('[ley] el COMPAÑERO no recibe la DR de escudo — `shield.md` lo excluye por nombre', () => {
+    // El caso que motiva partir la llave: los dos portan `routes: ['avatar']` —y el compañero la
+    // NECESITA, para que `Enhanced Vitality` le aterrice— pero la fuente da el 50% a "Warframes ·
+    // Operators · Archwings · Railjacks · Necramechs" y NO a "Companions". Misma marca, otra ley.
+    const pet = new EnemyState(syntheticAvatar({ shields: 100, channel: 'companion' }));
+    pet.receive('shield', 150, 0);
+    expect(pet.current_shields).toBe(0);   // 150 > 100: el escudo cae entero, sin mitigar
+
+    const tenno = new EnemyState(syntheticAvatar({ shields: 100 }));
+    tenno.receive('shield', 150, 0);
+    expect(tenno.current_shields).toBeCloseTo(25, 6);
+  });
+
+  it('[ley] el Overguard NO comparte la DR del escudo — es otra capa, no un escudo más', () => {
+    const s = new EnemyState(syntheticAvatar({}));
+    s.current_overguard = 100;
+    s.receive('overguard', 60, 0);
+    expect(s.current_overguard).toBeCloseTo(40, 6);   // 1:1, no 70
+  });
+
+  it('[ley] el COMPAÑERO no hereda la mitigación del Tenno — la fuente no dice cuál le toca', () => {
+    // El caso que motiva partir la llave: porta `avatar` (y debe portarlo, para que `Enhanced
+    // Vitality` le aterrice) pero `armor.md` no declara su ley de DR. Heredarla en silencio era
+    // producir un número creíble y falso; ahora suena.
+    const pet = { ...syntheticHostile({ armor: 300 }), routes: ['avatar'], channel: 'companion' };
+    const s = new EnemyState(syntheticHostile({ armor: 300 }));
+    s.entity = pet;
+    expect(() => CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 100 }, s, 0))
+      .toThrow(/no declara ninguna clase con ley de mitigación/);
   });
 
   it('[capas] el daño que rompe los shields del avatar NO pasa a la salud en el mismo evento', () => {

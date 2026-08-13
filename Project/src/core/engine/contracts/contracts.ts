@@ -44,6 +44,10 @@ export interface SimulationEntity {
    * `domain === 'warframe'` y nada más. Un compañero, un specter o un objetivo de defensa nunca
    * podrían recibirlo — no por una decisión, sino porque no son ítems del loadout. El ruteo
    * preguntaba *qué es* la entidad cuando la pregunta del juego es *a quién alcanza* el efecto.
+   *
+   * **SOLO RUTEO.** Las leyes físicas (vitales, mitigación, gate) se eligen por `channel`, que es la
+   * clase de unidad — ver `contracts/unit-class.ts`. Consultar `routes` para eso hacía que el
+   * compañero heredara la física del warframe por portar la marca que **necesita** para el ruteo.
    */
   routes?: string[];
   /**

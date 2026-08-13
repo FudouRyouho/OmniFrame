@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-08-08"
+Fecha_de_actualizacion: "2026-08-13"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -776,7 +776,36 @@ Esta sección era prescriptiva entera. Hoy se parte en dos, y sólo una está co
 |---|---|
 | **`GameLaws` baja a `formulas/`** | ✅ **EJECUTADO.** Los seis parámetros viven en `formulas/status/stack-debuff.ts` como constantes con su fórmula, y las firmas de los behaviors ya no reciben `laws`. |
 | **La tabla plana se retira** | ✅ **EJECUTADO.** `GameLaws`, `BASELINE_GAME_LAWS`, `SimulationContext.laws`, `EnemyState.laws` y `MutatorBridge.extractLaws` no existen más. |
-| **La cadena de cuatro eslabones** (default → emisor → receptor → cap) | ❌ **NO EXISTE.** Es `CV-3`. |
+| **La cadena de cuatro eslabones** (default → emisor → receptor → cap) | ❌ **NO EXISTE.** Es el trabajo que esta sección especifica y nadie construyó. |
+
+**El cuarto eslabón tiene dos casos vivos, y son el mismo problema.** *"El receptor fuerza"* aparece por
+dos vías independientes, en dos frentes que parecían separados:
+
+| Caso | Qué fuerza el receptor | Dónde está declarado |
+|---|---|---|
+| **Acólito** | cap de stacks `N ≤ 4` | `it.todo` en `__tests__/status/stack-cap-ownership.test.ts` |
+| **Compañero** | **no** recibe el 50 % de DR de shield (`shield.md`: la lista lo excluye por nombre) | `OQ-ENGINE-31` |
+
+Los dos son **derivación por clase**, no por marca de ruteo — y por eso ninguno se resuelve sin partir
+antes la llave `routes` (§18, *una llave, dos trabajos*). Que aparezca dos veces por separado es lo que
+lo vuelve pieza y no excepción: el mismo argumento que ya justificó la cláusula de descarte en §18.
+
+⚠️ **Pero no piden lo mismo, y confundirlos sobredimensiona el trabajo.** El compañero es un
+**parámetro por clase** —tabla, ya resuelto por `contracts/unit-class.ts`—; el Acolyte es la **cadena
+entera**. Sólo el segundo necesita esta sección construida.
+
+🔴 **Y el Acolyte está bloqueado por dos huecos, ninguno de decisión:**
+
+1. **La instancia no lleva los desvíos de ley del emisor.** Lleva su *output* (`moddedBase`,
+   `statusDamageBonusPct`, `elementBonusPct`) y nada más, así que `applyProc` toma el cap de una
+   constante de módulo (`CORROSIVE_MAX_STACKS`). Los tres primeros eslabones no tienen por dónde
+   entrar. ⚠️ **No lo cierra el descarte de `stamp`** (`time-model.md` §*Evaluado y descartado*): lo
+   refutado es que el **estado persista** el emisor; esto es un **argumento de la aplicación**.
+2. **"Acolyte" no es una clase que el dato declare.** Medido sobre `enemies.json`: los 6 acólitos
+   comparten `faction: "Stalker"` **con Stalker y Shadow Stalker, que no lo son**, y su canal es
+   `enemy` como cualquier hostil. Lo único que los separa es el path `/Lotus/Types/Enemies/Acolytes/`
+   — derivar una ley de parsear un `unique_name` es frágil. Mismo molde que `mod_class` ausente para
+   los precepts (`OQ-ENGINE-31`): **gap de schema, no de vocabulario**.
 
 ⚠️ **El sunset no removió una capacidad — removió su apariencia.** Al mover los parámetros junto a su
 fórmula, el pase de `laws` quedó sin lectores: pasar un `laws` custom ya **no cambiaba nada**, en
@@ -786,8 +815,8 @@ transporte, no un canal de override funcionando.
 **Los tres tokens quedan RESERVADOS, no descartados.** `law_corrosive_max_stacks`,
 `law_corrosive_initial_strip` y `law_corrosive_stack_strip` no los produce ningún dataset ni override
 (verificado). El escaneo era la mitad correcta —§17 lo dice arriba— así que el vocabulario es el material
-de entrada de `CV-3`, y su revisión token por token está pendiente ahí: cada uno tiene que declarar **de
-quién** es el desvío antes de volver, y al menos uno (`max_stacks`) ya sabe la respuesta — es del
+de entrada de la cadena, y su revisión token por token es parte de construirla: cada uno tiene que
+declarar **de quién** es el desvío antes de volver, y al menos uno (`max_stacks`) ya sabe la respuesta — es del
 **emisor** (el cap 19 por `3 × Tauforged Emerald`), que es justamente lo que la tabla plana no podía decir.
 
 **Enlaza con** §14 (LEY/ESTADO/RESOLUCIÓN), §16 (pools), §18 (el ruteo decide **a quién** llega el
@@ -847,6 +876,7 @@ entidad:
 | Alcance | Qué alcanza | Casos |
 |---|---|---|
 | **propio** | el conjunto del dueño | Amalgam Serration → mi warframe · Bite → mis garras |
+| **dueño** | quien me porta, y su subárbol — **excluyendo a mis pares** | Shield Charger, Guardian, Medi-Ray, Ambush |
 | **aliado** | el squad y todo lo que lo compone | Roar, Warcry, las auras (*"Squad receives…"*) |
 | **hostil** | el otro bando | Corrosive Projection |
 
@@ -854,9 +884,67 @@ El nivel *aliado* lo fuerzan las auras y Warcry: alcanzan *"otros Warframes, com
 objetivos de Defense, Shadows y Specters"*. Un objetivo de Defense recibe Warcry y **no es el avatar de
 nadie** — así que el alcance no puede derivarse de la clase de nodos de la entidad.
 
+**El nivel *dueño* lo fuerza el compañero, y la fuente lo declara por exclusión.**
+[`shield-charger.wikitext`](../../../../references/wiki/mods/shield-charger.wikitext) §Notes:
+*"**Sentinels, Companions**, Rescue Targets, Operatives, Specters o Factional Allies **cannot benefit**
+from this mod"* — el efecto sale del compañero, llega al warframe y **a nadie más**. No es *propio*
+(incluiría al compañero portador, que es justo el excluido) ni *aliado* (los nombra para excluirlos).
+Tres precisiones que lo hacen un nivel y no un caso:
+
+- **No es una entidad, es un subárbol.** [`ambush.wikitext`](../../../../references/wiki/mods/ambush.wikitext)
+  buffea *"the owner's **weapon** damage"*, aditivo con Serration: el destino es el arma del dueño, no
+  el dueño. El nivel nombra a quién se sube, y adentro sigue mandando la familia del token.
+- **El ocupante del rol cambia en runtime.**
+  [`guardian.wikitext`](../../../../references/wiki/mods/guardian.wikitext) §Patch History `ver|42`
+  corrige *"**Sevagoth's Shadow** not benefitting from […] Guardian"* — el dueño puede ser una entidad
+  derivada de habilidad. *Dueño* es un **rol**, no una clase; ata con `OQ-ENGINE-11`.
+- **La fuente ya lo categoriza:** Guardian y Shield Charger comparten `[[Category:Shield Restoration]]`
+  con Pillage, agrupando por lo que el efecto **hace** y no por qué stat toca.
+
+⚠️ **Sigue sin construirse.** Nada emite hoy este alcance, y el compañero porta la marca `avatar`, así
+que un `AVATAR_*` montado en él **acierta la marca y erra el sujeto** sin que el tripwire lo reporte —
+el modo de falla silencioso que esta sección nombra. El eje es `OQ-ENGINE-31`.
+
 ⚠️ Las `routes` vigentes (`avatar`, `weapon`, `melee`, `enemy`) **son taxonomía disfrazada**: describen
 qué nodos porta la entidad, no de qué lado está. Funcionan por la misma razón que funcionaba
 `!isWarframe` — con la población actual, coinciden.
+
+✅ **Lo que sí se cerró: `routes` era una llave con dos trabajos.** Se consultaba para dos preguntas
+que no tienen por qué dar la misma respuesta, y hoy cada una tiene su llave:
+
+| Trabajo | Llave | Consumidores |
+|---|---|---|
+| **ruteo de modifiers** — *¿este token aterriza acá?* | `routes` | `channel-routing.ts` (`resolveFamilyEntities`) · `StaticHydrator` |
+| **selección de ley** — *¿qué física se le aplica?* | **`channel`** | `gateLawFor` · `armorMitigationFor` (`CombatSimulator`) · `vitalsOf` (`EnemyState`) |
+
+**No hizo falta campo nuevo:** el espacio ya declaraba el canal por participante y ya distinguía las
+cinco clases que las leyes necesitan (`warframe · archwing · necramech · companion · enemy`).
+Declararla otra vez habría guardado el mismo dato dos veces — lo mismo que esta sección rechaza para
+el cruce de bando. La tabla vive en
+[`contracts/unit-class.ts`](../../../../Project/src/core/engine/contracts/unit-class.ts), y **no expone
+una constante "todo el lado jugador" a propósito**: cada ley agrupa distinto, y ése es el hecho que
+tiene que quedar visible.
+
+**El compañero es donde divergen, y por eso parecía una contradicción semántica.** Porta `avatar` y
+**debe** portarlo para el primer trabajo —`Enhanced Vitality` (`AVATAR_ADD_HEALTH_MAX`) es vida del
+sentinel y aterriza bien—, pero para el segundo la fuente lo excluye: `shield.md` da el 50 % de DR a
+*"Warframes · Operators · Archwings · Railjacks · Necramechs"* y **no** a *"Companions"*, mientras el
+shield gate sí lo alcanza. **Las dos listas de la fuente no coinciden**, así que ninguna marca única
+puede contestar las dos preguntas.
+
+La consecuencia práctica es que **`AVATAR_*` como token y `avatar` como marca de ruteo siguen siendo
+correctos** —por eso `COMPANION_*` no se acuña (§*Lo que el eje NO es* en `OQ-ENGINE-31`)— y lo que
+estaba mal era elegir la ley con ellos. Con las llaves partidas, el compañero queda:
+
+| | |
+|---|---|
+| vitales `AVATAR_*` | ✅ los comparte — el test los fija (300 de armor base, ×1.5 con Warcry) |
+| shield gate del jugador | ✅ `shield.md`: *"Aplica a warframes, **companions**, archwings…"* |
+| mitigación por armor | ❌ **sin entrada, y tira** — `armor.md` no declara qué ley le toca, y heredarla en silencio producía un número creíble y falso |
+| DR de shield del 50 % | pendiente, y ahora tiene dónde declararse por separado |
+
+Esto es requisito de la cadena de §17: sin llaves partidas, el eslabón *"el receptor fuerza"* forzaría
+desde la llave equivocada.
 
 **Verificación — los tres corpus, sin truncar:** mods 887 pares / 45 desalineados · arcanos 100 / 21 +
 13 de operador-amp · fragmentos de arconte 27 / 6 + 7 sin token. **Ningún caso refuta la regla**; uno la

@@ -66,7 +66,40 @@ export function syntheticHostile(spec: SyntheticHostileSpec = {}): SimulationEnt
     unique_name: spec.uniqueName ?? 'synthetic-hostile',
     persistence: 'TE',
     tags: ['enemy'],
-    routes: ['enemy'],
+    routes: ['enemy'],   // a qué destinos responde — el ruteo de modifiers
+    channel: 'enemy',    // qué ES — la clase de unidad, llave de las leyes (`contracts/unit-class.ts`)
+    ...(spec.faction ? { faction: spec.faction } : {}),
+    attributes,
+  };
+}
+
+/**
+ * El espejo del anterior **del lado jugador**: mismos tres vitales, familia `AVATAR_*` y el canal que
+ * elija el caso. Existe porque las leyes se eligen por **clase de unidad** y no por marca de ruteo
+ * (`contracts/unit-class.ts`), así que un test de ley del lado jugador necesita un portador cuyos
+ * nodos y cuyo canal concuerden — pisarle el `channel` a un hostil deja los vitales en 0 en silencio.
+ *
+ * `routes: ['avatar']` en los dos casos, y eso **es el punto**: el compañero porta la misma marca de
+ * ruteo que el warframe —la necesita, para recibir `AVATAR_*`— y recibe otra ley.
+ */
+export function syntheticAvatar(
+  spec: SyntheticHostileSpec & { channel?: string } = {},
+): SimulationEntity {
+  const health = spec.health ?? 1000;
+  const armor = spec.armor ?? 0;
+  const shields = spec.shields ?? 0;
+
+  const attributes: Record<string, AttributeNode> = { AVATAR_ADD_HEALTH_MAX: flat(health) };
+  if (armor > 0) attributes.AVATAR_ADD_ARMOUR = flat(armor);
+  if (shields > 0) attributes.AVATAR_ADD_SHIELD_MAX = flat(shields);
+
+  return {
+    id: spec.uniqueName ?? `synthetic-${spec.channel ?? 'warframe'}`,
+    unique_name: spec.uniqueName ?? `synthetic-${spec.channel ?? 'warframe'}`,
+    persistence: 'TE',
+    tags: [spec.channel ?? 'warframe'],
+    routes: ['avatar'],
+    channel: spec.channel ?? 'warframe',
     ...(spec.faction ? { faction: spec.faction } : {}),
     attributes,
   };

@@ -25,6 +25,7 @@
  *
  * Fuente: `references/wiki/mechanics/shield.md` §Shield Gating + §El gate del enemigo es otra mecánica.
  */
+import { PLAYER_VITAL_CHANNELS, byChannel, forChannels } from "../../contracts/unit-class";
 
 /** Los dos parámetros que la clase del portador resuelve. */
 export interface GateLaw {
@@ -69,23 +70,28 @@ export function playerGateDuration(shieldOnBreak: number): number {
 export const ENEMY_GATE_LEAK = 0.05;
 export const ENEMY_GATE_DURATION = 0.1;
 
-const GATE_BY_FAMILY: Readonly<Record<string, GateLaw>> = {
-  avatar: { leakFraction: 0,                duration: playerGateDuration },
-  enemy:  { leakFraction: ENEMY_GATE_LEAK,  duration: () => ENEMY_GATE_DURATION },
+/**
+ * **El compañero SÍ gatea** — `shield.md` §Shield Gating: *"Aplica a warframes, **companions**,
+ * archwings, necramechs y railjacks"*. Es el caso que prueba que esta lista y la del DR de shield
+ * **no son la misma**: aquella lo excluye por nombre. Por eso la llave es la clase de unidad y no una
+ * marca única (`contracts/unit-class.ts`).
+ */
+const GATE_BY_CLASS: Readonly<Record<string, GateLaw>> = {
+  ...forChannels(PLAYER_VITAL_CHANNELS, { leakFraction: 0, duration: playerGateDuration }),
+  enemy: { leakFraction: ENEMY_GATE_LEAK, duration: () => ENEMY_GATE_DURATION },
 };
 
 /**
- * La ley del gate para una familia, o `undefined` si esa familia no gatea.
+ * La ley del gate para una clase de unidad, o `undefined` si esa clase no gatea.
  *
- * **`undefined` no es un hueco**: una familia sin entrada **no tiene gate**, que es una respuesta
+ * **`undefined` no es un hueco**: una clase sin entrada **no tiene gate**, que es una respuesta
  * legítima (el Overguard del enemigo es justamente eso — `overguard.md`: *"Gate al agotarse: 0.5 s
  * del lado jugador · **ninguno** del lado enemigo"*). Distinto de `armorMitigationFor`, que **tira**
- * cuando no encuentra familia: allá la ausencia significa "no sé mitigar" y produce un número falso;
+ * cuando no encuentra clase: allá la ausencia significa "no sé mitigar" y produce un número falso;
  * acá significa "no gatea" y produce el comportamiento correcto.
  */
-export function gateLawFor(routes: readonly string[] | undefined): GateLaw | undefined {
-  const family = routes?.find((r) => r in GATE_BY_FAMILY);
-  return family ? GATE_BY_FAMILY[family] : undefined;
+export function gateLawFor(channel: string | undefined): GateLaw | undefined {
+  return byChannel(GATE_BY_CLASS, channel);
 }
 
 /**

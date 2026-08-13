@@ -4,7 +4,7 @@ Rol: "Modelo de tiempo del engine — el vocabulario (reloj · línea · ventana
 Impacto_ID: "E-TimeModel"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-08-12"
-Fecha_de_actualizacion: "2026-08-12"
+Fecha_de_actualizacion: "2026-08-13"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "docs/domains/engine/design/damage-status-model.md"
@@ -265,11 +265,10 @@ Tres ejes salieron del corpus, son reales, y **no son tiempo** — usan una vent
 
 **El criterio que los separa:** si sacarlo del modelo deja el *cuándo* intacto, no era tiempo.
 
-⚠️ **El dueño de `absorber` cubre la mitad de abajo, no la de arriba.**
-[`.working/defensive-layers-model.md §4.6`](../../../../.working/defensive-layers-model.md) ya resolvió
-**dónde aterriza** el término: *"`+ Absorbed` → `total_flat`, **fuera** del `× Strength`"*, con la
-precedencia verificada contra la wiki al número. Lo que **nadie** tiene es **de dónde sale ese número**
-— que es integrar los eventos que entran durante la ventana, y eso sí lo aporta este modelo.
+⚠️ **El dueño de `absorber` cubre la mitad de abajo, no la de arriba.** Dónde aterriza el término ya
+está resuelto —**`+ Absorbed` → `total_flat`, *fuera* del `× Strength`**, con la precedencia verificada
+contra la wiki al número. Lo que **nadie** tiene es **de dónde sale ese número** — que es integrar los
+eventos que entran durante la ventana, y eso sí lo aporta este modelo.
 
 > **La regla que estos tres ruteos dejan escrita, y que costó descubrir:** el dueño de un eje es la
 > **OQ o el doc de diseño** que lo va a resolver, nunca el archivo de `references/wiki/` donde vive el
@@ -383,6 +382,22 @@ su tabla `BYPASSED_BY` tiene **un eje donde la realidad tiene una pregunta**. No
 *"calla"*, que es el común. Pero no puede expresar `Overguard × jugador`, y el `⚠️ asunción` que ya
 lleva sobre el overshield es el síntoma del mismo hueco.
 
+### El derrame entre capas — lo resuelto y lo asumido
+
+Cuando una capa no alcanza a absorber el evento, lo que sobra sigue de largo. Tres cuestiones, con
+distinto estatus:
+
+| | Estado |
+|---|---|
+| **Un DR de capa protege a esa capa, no a la siguiente** | ✅ **resuelto y construido.** Por eso `receive` mide la capa en puntos y el evento en daño: `damageToDeplete(puntos, dr)` dice cuánto daño cuesta vaciarla, y el sobrante **no** arrastra esa mitigación. La lectura alternativa —mitigar al entrar, de modo que el derrame llegue reducido— se descartó por incoherente con la ley |
+| ⚠️ **El derrame arrastra la mitigación del EVENTO** | **asunción vigente, ahora declarada.** La DR de armadura se aplica en `resolveHit`, **antes** de que el evento entre a las capas, así que una sola mitigación rige todo el recorrido. Nada en la fuente la confirma ni la desmiente; es la forma que el pipeline ya tenía |
+| ⚠️ **`gate` ⊥ `one-shot`** | **sin resolver, y hoy inobservable.** Reporte in-game: un enemigo de nivel bajo mata de un golpe a través del escudo en condiciones donde no debería. Tres lecturas —(i) el derrame no paga la DR de armadura, (ii) el gate no llegó a abrirse, (iii) la instancia fue una sola y el gate nunca aplicó—. **No se distinguen con el modelo actual**: del lado jugador la fuga del gate es 0, así que el derrame nunca ocurre y las tres predicen lo mismo |
+
+**Por qué la asunción del medio no bloquea:** su única consecuencia observable sería el derrame, y hoy
+el derrame del jugador está cortado por el gate (`leakFraction 0`) mientras el del enemigo no tiene DR
+de escudo que arrastrar. **Se vuelve medible el día que exista un portador que derrame y mitigue** — el
+candidato declarado es `Decaying Dragon Key` (cap de 0.33 s) o un build sin escudos.
+
 **Lo que sí es estático y lo que no:**
 
 | | Cuándo se resuelve |
@@ -406,13 +421,28 @@ lleva sobre el overshield es el síntoma del mismo hueco.
 | 8 | **Cierre conjuntivo** (`until` con varias condiciones) | ✅ **ejecutable en un caso**: el shield gate cierra por tiempo **o** por `replenishShields`, lo que ocurra primero. Sigue sin forma **genérica** — hoy es un `if` dentro del método, no un conjunto de condiciones que un hecho declare |
 | 10 | 🔴 **Las emisiones pierden su instante** | `Resolucion {value, as}` **no lleva `at`**: los ticks de un intervalo se agregan en un evento. Invisible mientras nadie dependía del evento; **el gate es el primero que sí**. Medido: 105.25 → 72.00 → 38.75 según `dt`. `it.fails` en `dt-invariance.test.ts`. No activo (`step = 0.1`) |
 | 9 | **La duración de Ragdoll** | *"variable · auto-kill si dura demasiado"* — **ni la wiki la declara**. Hueco de fuente, no del modelo; su dueño es `crowd-control.md` |
+| 11 | **El weak point bypasea el gate del enemigo** | `shield.md`: *"Apuntar a un weak point **bypasea por completo** el shield gate enemigo"*, y los ataques de área **no** se benefician (*"su instancia de daño se bloquea entera"*), aunque el daño asociado —status, Xata's Whisper— sí pasa. La ley del gate está construida (`ENEMY_GATE_LEAK = 0.05`); **esta excepción no**, y necesita que la Resolución sepa qué parte del cuerpo golpeó — dato que `weakpoints[]` (407 entradas) ya trae **sin consumidor** |
 
 ### Evaluado y descartado — no re-abrir sin caso nuevo
 
 | Qué se evaluó | Por qué cayó |
 |---|---|
 | **El escenario como dueño de una ventana** | barrido completo de `references/`: **un solo caso** (`Corruption`, `30 s × tier de misión`) y está fuera de alcance. La cadena de §17 queda en cuatro eslabones — el escenario actúa **antes**, no dentro |
-| **`stamp`** — la identidad del emisor en la instancia | refutado in-game: *"Nada en el estado recuerda quién puso cada stack — no hace falta"* (`status-stack-caps.md`) |
+| **`stamp`** — la identidad del emisor **guardada en el estado** | refutado in-game: *"Nada en el estado recuerda quién puso cada stack — no hace falta"* (`status-stack-caps.md`) |
+
+⚠️ **El descarte de `stamp` es más angosto de lo que su nombre sugiere, y confundirlo cierra una puerta
+que sigue abierta.** Lo refutado es que **el estado persista** quién puso cada stack: el contador es
+uno y no lleva procedencia. Lo que **no** está refutado —y `arch-decisions §17` lo exige— es que la
+**operación de aplicar** reciba los desvíos de ley del emisor: *"el parámetro resuelto es de la
+INSTANCIA, no del receptor. Con dos emisores de cap distinto, el enemigo tiene **un** contador pero el
+cap efectivo difiere por jugador"*. Persistencia ⊥ argumento.
+
+🔴 **Y ahí hay un hueco estructural, no un parámetro que falta.** La instancia hoy lleva el **output**
+del emisor (`moddedBase`, `statusDamageBonusPct`, `elementBonusPct`) y **no** sus **desvíos de ley**.
+Por eso puede resolver el desvío del receptor y no el del emisor: el del emisor nunca llegó.
+`applyProc` toma el cap de una constante de módulo (`CORROSIVE_MAX_STACKS`), así que los tres primeros
+eslabones de §17 no tienen por dónde entrar. El caso que lo fuerza —el cap 19 por `3 × Tauforged
+Emerald` contra el cap 4 que el Acolyte impone— **no es modelable hoy**, y no por falta de decisión.
 
 🔴 **El gate del substrato sigue partido.** `decision-frontier §4` lo enumera con 5 fronteras. Este
 documento contesta *"¿cómo modelamos el tiempo?"*; sigue gateada *"¿hace falta un substrato steppeado
