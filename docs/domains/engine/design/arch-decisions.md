@@ -1063,6 +1063,10 @@ habilidades, no con más mods.
 > **marcas** (dato puro) y **capas** (números). **Nada derivado.** Marca, armadura, vida y overguard
 > son la misma clase de cosa al componer.
 
+> 📄 **Qué es ese `t`** lo destila [`time-model.md`](time-model.md): una palabra nombraba tres niveles
+> —**reloj** (coordenada de nadie) · **línea** (el reloj de una entidad, con sus pausas) · **ventana**
+> (el `{at, until}` de un hecho, con su dueño)— y esta sección asumía el primero sin decirlo.
+
 Hoy no es así: cada parte del proyecto lee la entidad a su manera, y el enemigo tiene maquinaria
 temporal que el jugador no tiene (§2 de la Capa A no distingue bandos; el código sí).
 

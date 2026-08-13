@@ -184,8 +184,11 @@ cierra sin dato nuevo. La cura es la misma en los dos casos y por eso conviene n
 que el estado deje de ser un escalar que sangra y lleve instancias con ventana propia — lo único que
 además puede contestar *"cuál es el más viejo"* (`references/ingame-tests/status-stack-caps.md`).
 
-**Vínculo:** `design/arch-decisions.md §20` (muestreo, no eventos — la decisión que esta invariante
-sostiene), `§19` (el nodo lleva el frame-0, la ley lleva el tiempo), `OQ-ENGINE-16`.
+**Vínculo:** [`design/time-model.md`](design/time-model.md) — **el modelo que estas tres deudas
+comparten**: el vocabulario (reloj · línea · ventana · anclaje), las cuatro formas del estado y el
+corpus de siete mecánicas que las produjo. `design/arch-decisions.md §20` (muestreo, no eventos — la
+decisión que esta invariante sostiene), `§19` (el nodo lleva el frame-0, la ley lleva el tiempo),
+`OQ-ENGINE-16`.
 
 ### 🔴 El reloj del timeline no es el que el corpus decía, y reconstruye los disparos adivinando
 

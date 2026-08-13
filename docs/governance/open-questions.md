@@ -68,6 +68,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **acotada**: *"esto es de aquel"* se declara y costó un campo (`owner`); las relaciones dirigidas siguen sin caso |
 | `OQ-ENGINE-35` | ¿Cuánta geometría necesita el escenario? — declara quiénes existen, no dónde están | engine / Capa A — escenario | abierta — **gated por consumidor**; ya hay distancia sin espacio donde medirla |
 | `OQ-ENGINE-36` | Claves derivadas que colisionan sin chequeo — 3 de 4 apariciones muertas | engine / identidad de participante y de slot | abierta **sólo en slots** — el participante se identifica por su coordenada en la escena; la clave de slot sigue siendo `Record<number,T>` con guarda y sin forma |
+| `OQ-ENGINE-37` | `evitar` ⊥ `mitigar` ⊥ `acortar` ⊥ `limpiar` — cuatro verbos que el corpus llama "resistencia" | engine / defensa del portador | **abierta, recién planteada** — el eje tiene ≥4 casos y **cero implementación**; `AVATAR_INJURY_BLOCK_CHANCE` es un token sin consumidor |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -2292,3 +2293,83 @@ muere. **Vínculo:** `references/wiki/README.md` §Las tres fechas, `references/
 herramienta, `docs/domains/source/wiki-modules.md`, `Project/scripts/references-layout.mjs`.
 **Fuente:** los dos módulos congelados, encontrados por memoria del usuario y verificados con
 `prop=revisions` (residuo R-17).
+
+---
+
+## OQ-ENGINE-37 — `evitar` ⊥ `mitigar` ⊥ `acortar` ⊥ `limpiar`: cuatro verbos bajo un solo nombre — **ABIERTA, recién planteada**
+**Dominio:** engine / defensa del portador
+
+**Cómo se abrió.** Escribiendo [`time-model.md`](../domains/engine/design/time-model.md) apareció
+*Primed Sure Footed*, que **impide que el hecho nazca** — no acorta su ventana ni baja su número. Ese
+caso no era de tiempo, y al buscarle dueño **no había ninguno**. Los otros dos ejes que el modelo de
+tiempo ruteó afuera sí lo tenían (`OQ-ENGINE-29`, `OQ-ENGINE-24`); éste es el que faltaba.
+
+**La pregunta.** El corpus llama *"resistencia"* a cuatro operaciones que actúan en momentos distintos
+sobre cosas distintas. ¿Son cuatro verbos irreducibles, o algunos colapsan? Y para cada uno: **¿dónde
+vive** —anclaje, resolución, ventana o estado— y **cómo componen entre sí**.
+
+| Verbo | Qué hace | Cuándo actúa | Casos |
+|---|---|---|---|
+| **evitar** | el efecto **no nace** | antes de que exista | *Primed Sure Footed*, *Sure Footed*, *Power Drift*, *Fortitude*, *Resolute Focus*, *Cautious Shot* · Overguard **del jugador** (*"niega todos los status"*) · toda la lista *Inmunidad real* |
+| **mitigar** | el número **baja** | al resolver | *Adaptation* (cap 90%, por tipo) · armor · shields · la DR de habilidades |
+| **acortar** | la ventana **dura menos** | durante | *Pain Threshold*, *Constitution*, *Handspring* |
+| **limpiar** | el efecto ya nació y **se remueve** | después | Excalibur *Purging Slash* · Hildryn *Pillage* · Revenant *Reave* · Saryn *Molt* · Wyrm *Negate* |
+
+### Lo que ya está medido y no hay que re-derivar
+
+**La fuente misma los separa, y en dos lugares distintos.**
+`crowd-control.md` §*Resistencia ≠ velocidad de recuperación*: *"Son dos ejes distintos, y la wiki los
+lista en secciones separadas"* — o sea `evitar` ⊥ `acortar` está declarado, no inferido.
+`buff-debuff.md` §Status Immunity parte la lista en *"**Inmunidad real**"* vs *"**Sólo limpia (no
+inmuniza)**"* — `evitar` ⊥ `limpiar`, también declarado.
+
+⚠️ **Y la fuente se contradice en un punto:** *Constitution* y *Handspring* aparecen en **ambas** listas
+—resistencia bajo `Knockdown`, velocidad de recuperación bajo `Stagger`—. La partición es real; su
+adjudicación caso por caso, no.
+
+**Dos familias de mitigación con reglas de composición distintas** (`buff-debuff.md` §Defense):
+
+| Familia | Entre sí | Con las otras |
+|---|---|---|
+| **Damage Reduction** | multiplicativo | multiplicativo con armor |
+| **Damage Type Modifier** (*Adaptation*, *Aviator*, resistencias elementales, **los shields**) | **aditivo** | multiplicativo con DR |
+
+⇒ `mitigar` **no es un verbo con una regla**: son dos pools que componen distinto, y la línea entre
+ellos la declara la fuente, no una taxonomía nuestra.
+
+**El eje cruza la clase del portador.** El Overguard *evita* del lado del jugador y **no hace nada** del
+lado del enemigo (`overguard.md` §*Jugador y enemigo se comportan distinto*). Y *Adaptation* declara que
+su DR **no aplica a Overguard**. Es la misma pregunta local de `time-model.md §8` (*toda regla de
+anclaje se resuelve local; algunas no discriminan por clase*), sobre otro material.
+
+### Estado de la implementación: **cero**
+
+| Qué | Estado |
+|---|---|
+| `AVATAR_INJURY_BLOCK_CHANCE` (resistir knockdown/stagger) | **token declarado, sin consumidor** — `shared/types/modifier.ts:292` lo anota como *"un token distinto, no D-6"* |
+| *Adaptation* | no modelada |
+| `evitar` / `limpiar` | no existen como concepto en el motor |
+| `stagger` | está en el vocabulario (`shared/types/damage.ts`) y **no tiene behavior** |
+
+### Hipótesis a estresar (no elegir todavía)
+
+- **H1 — son cuatro y viven en capas distintas.** `evitar` es **anclaje** (§8 de `time-model`: la
+  entidad declara qué le llega) · `mitigar` es **resolución** · `acortar` es **ventana** · `limpiar` es
+  **estado**. Si se sostiene, el eje no necesita módulo propio: se reparte entre mecanismos que ya
+  existen o están planteados.
+- **H2 — `evitar` y `limpiar` son el mismo verbo en distinto `t`.** *"No nace"* y *"nace y muere ya"*
+  dan el mismo resultado observable en la mayoría de los casos. Falsable: buscar un efecto donde
+  **haber nacido deje rastro** (un contador que subió, un trigger que disparó).
+- **H3 — `acortar` no es un verbo sino un desvío de parámetro.** Sería `arch-decisions §17` aplicado a
+  la duración: el **receptor modifica** el parámetro `until` del hecho. Si se sostiene, `acortar`
+  desaparece y queda cubierto por la cadena de desvíos (`CV-3`).
+
+**Gate para cerrarla:** ninguna. **No la abre un consumidor** — la abre que cuatro operaciones distintas
+compartan nombre y que el proyecto no tenga dónde ponerlas. Lo que sí está gateado es *construir*: hoy
+no hay un solo consumidor de defensa del portador en el motor.
+
+**Vínculo:** [`time-model.md`](../domains/engine/design/time-model.md) §*Lo que vive SOBRE el tiempo*
+(de dónde salió) y §8 (la pregunta local) · `OQ-ENGINE-29` (el payload del CC, eje hermano) ·
+`arch-decisions §17` (la cadena de desvíos, que H3 reusaría) · `§22` (capa ⊥ estado ⊥ clase).
+**Fuente:** `references/wiki/mechanics/{crowd-control,buff-debuff,overguard,damage-reduction}.md`,
+`references/wiki/mechanics/adaptation.wikitext`.
