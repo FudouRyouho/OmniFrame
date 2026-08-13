@@ -1,0 +1,91 @@
+{{ModBox}}
+'''Reinforced Bond''' is a [[Companion]] [[mod]] that increases the owner's [[Fire Rate]] when the companion's maximum [[Shields]] or current Shields (including [[Overshield]]) exceed 1200. Reloading will also restore shields to the companion.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Fire Rate
+! Shield Gain
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || +10% || +25 || 4
+|-
+| 1 || +20% || +50 || 5
+|-
+| 2 || +30% || +75 || 6
+|-
+| 3 || +40% || +100 || 7
+|-
+| 4 || +50% || +125 || 8
+|-
+| 5 || +60% || +150 || 9
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[The Business]] for {{sc|20,000}} after reaching '''Rank 3 - Doer''' with [[Solaris United]].
+
+==Notes==
+* As noted above, the buff activates if the companion possesses over 1200 maximum shields through modding, and will remain active regardless of their actual moment-to-moment shield strength. However, the buff will temporarily deactivate if the companion is incapacitated.
+* Alternatively, as reloading restores up to 150 shields, maintaining companion’s shields (including Overshield) over 1200 will activate the buff. Note that Battery Weapons won’t restore shields.
+* In order to get at least 1200 maximum shields with the {{M|Calculated Redirection}} mod at maximum rank, your companion will need a minimum 343 base shield. This can only be accomplished by the following companions:
+**{{Companion|Wyrm Prime}}
+**{{Companion|Nautilus Prime}}
+**{{Companion|Huras Kubrow}}
+**{{Companion|Raksa Kubrow}}
+**{{Companion|Sunika Kubrow}}
+**Any breed of [[Vulpaphyla]] or [[Predasite]]
+**Any [[MOA (Companion)|MOA]] or [[Hound (Companion)|Hound]] with the right modular components. See [[MOA_(Companion)#Final_Stats|Final MOA Stats]] and [[Hound_(Companion)#Stats|Final Hound Stats]].
+* Using a max-rank {{M|Link Redirection}} to reach the required 1200 maximum shields on beast companions is heavily dependent on your selected Warframe's maximum shields. Because different beasts have differing shield values, this can range from needing at least 568 maximum shields on your Warframe for {{Companion|Huras Kubrow}} to needing at least 776 maximum shields on your Warframe for {{Companion|Adarza Kavat}} and {{Companion|Smeeta Kavat}}.
+** For {{WF|Khora}} specifically, she will need at least 960 maximum shields on herself to reach at least 1200 shields on {{Companion|Venari}}, who has 0 base shields.
+* Weapons that reload per shell, such as the {{Weapon|Strun}}, will generate Overshields for each shell loaded in.
+* [[Bow]]s and [[Battery Weapon]]s cannot generate overshield.
+* As long as a [[Vulpaphyla]]'s beast form reaches the 1200 shield threshold, the fire rate buff stays activated in their larval forms, even though the larvae don't have enough shields.
+*Unlike most fire rate mods, the buff does ''not'' count double for [[Bow]]s
+*Switching to the incarnon mode of a firearm counts as reloading. Switching back to the regular mode ''Does not.''
+
+==Bugs==
+
+* Despite stating to have been fixed in the Update 38.0 patch notes, the mods effect is still bugged for clients.
+** Passive (automatic) reloads will only trigger the effect when playing as the host.
+** Manually reloading may or may not trigger the effect.
+** The equipped companion dying and reviving may fix the effect, but it is inconsistent.
+** Experiencing a host migration will fix it, even if you do not become the host.
+* This Mod has no effect on [[Archgun|Archguns]] even when wielded by the Warframe.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38}}
+*Fixed instances where Companion Mod effects wouldn’t function for Clients, such as “Reinforced Bond” not granting Shields upon reload. 
+
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|34.0.4}}
+*Fixed Reinforced Bond’s fire rate buff unintentionally applying to Melee attack speed. 
+*Fixed Reinforced Bond’s fire rate buff remaining active in the Simulacrum after changing weapons in the Arsenal.
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+
+{{ver|34.0.1}}
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]
+[[fr:Lien Renforcé]]
+[[ru:Усиленная Связь]]

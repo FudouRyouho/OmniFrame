@@ -1,0 +1,63 @@
+{{ModBox}}
+'''Cat's Eye''' is a precept [[mod]] for the {{Companion|Adarza Kavat}} to temporarily increase the [[Critical Hit#Critical Hit Chance|critical chance]] of nearby allies.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! [[Critical Hit#Critical Hit Chance|Critical Chance]]
+! Duration
+! Range
+! Cooldown
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +15% || 4s || 15m || 50s || 0
+|-
+| 1 || +30% || 6s || 20m || 40s || 1
+|-
+| 2 || +45% || 8s || 22m || 30s || 2
+|-
+| 3 || +60% || 10s || 25m || 20s || 3
+|}
+
+==Acquisition==
+Cat's Eye is automatically acquired upon obtaining a {{Companion|Adarza Kavat}}.
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+*Despite its description, '''Cat's Eye''' adds 60 ''percentage points'' to a weapon's critical chance after other bonuses, similar to  {{Arcane|Arcane Avenger}}. This type of buff is commonly referred to as an ''absolute'' or ''final'' bonus.
+*'''Cat's Eye''' stacks additively with other percentage point bonuses, such as {{Arcane|Arcane Avenger}}. For example, an {{Weapon|Atterax}} with a max rank {{M|True Steel}}, {{M|Blood Rush}} at a 4.0x combo multiplier, '''Cat's Eye''', and Arcane Avenger will have a {{Math|25% {{mul}} (1 + 120% + 40%{{mul}}(4 - 1)) + 60% + 45%|t = y|p = y}} critical chance.
+**Highly effective with weapons with high critical damage multipliers.
+*Emplaced [[turret]]s (i.e. the Grineer [[Rampart]]) gain the ability to critically strike while under the effect of Cat's Eye.
+**While this also applies to weapons that cannot critically strike, these weapons often have a [[critical multiplier]] of 1.0x which yields no change in damage dealt.
+*Multiple instances of Cat's Eye do '''not''' stack.
+*The ability triggers when an enemy is within at least 25 meters.
+*The cooldown of 20 seconds starts when Cat's Eye's duration stops. This leads to an effective uptime of {{Math|10 {{div}} (10 + 20)|round=0.01|p=y|t=y}}.
+**The effective uptime with {{M|Tek Enhance}} will be {{Math|(10 {{mul}} (1+30%)) {{div}} (10 {{mul}} (1+30%) + 20)|round=0.01|p=y|t=y}}.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|29.2.2}}
+*Fixed a script error when a Kavat uses Cat’s Eye.
+
+{{ver|19.6}}
+*Changed ‘Tenno’ to ‘allies’ in the Cat’s Eye Mod description.
+
+{{ver|Specters of the Rail}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[de:Katzenauge]]
+[[es:Ojo de gato]]
+[[ru:Кошачий Глаз]]
+[[Category:Kavat Mods]]
+[[Category:Mods]]
+[[Category:Penjaga Mods]]
+[[Category:Rare Mods]]
+[[Category:Update 19]]
+[[uk:Котяче око]]
+[[fr:Oeil de Chat]]
+__FORCETOC__

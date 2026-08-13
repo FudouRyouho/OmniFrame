@@ -1,0 +1,78 @@
+{{ModBox}}
+'''Link Redirection''' is a [[Companion]] mod that increases its [[Shield]]s based on a percentage of the player's shields. The player's own shields are unaffected by this mod.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Effect
+! [[Mods#Mod Power Cost|Cost]]
+|-
+| 0 || +11% || 4
+|-
+| 1 || +23% || 5
+|-
+| 2 || +34% || 6
+|-
+| 3 || +45% || 7
+|-
+| 4 || +57% || 8
+|-
+| 5 || +68% || 9
+|-
+| 6 || +80% || 10
+|-
+| 7 || +91% || 11
+|-
+| 8 || +102% || 12
+|-
+| 9 || +114% || 13
+|-
+| 10 || +125% || 14
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+*Link Redirection can be equipped on [[Kubrow]]s, [[Kavat]]s, [[MOA (Companion)|MOAs]], and [[Hound (Companion)|Hounds]], but '''not''' on [[Sentinels]].
+*Link Redirection cannot be equipped simultaneously with {{M|Calculated Redirection}}.
+*{{M|Redirection}}, {{M|Primed Vigor}}, and {{M|Augur Accord}} can help drastically improve a Beast's maximum shields, as this mod uses the player's maximum shields as the base.
+*Link Redirection will allow most direct forms of shield recovery to apply to the pet, including {{WF|Harrow}}'s {{A|Condemn}}, {{WF|Hildryn}}'s {{A|Pillage}}, the {{Weapon|Rakta Dark Dagger}}'s passive, {{WF|Volt}}'s {{M|Capacitance}}, and {{WF|Protea}}'s {{A|Grenade Fan}}.
+**Link Redirection does '''not''' create overshields.
+**Link Redirection does not share passive shield regeneration effects such as {{Arcane|Arcane Aegis}}.
+**Link Redirection does not apply shield generation or overshields from the [[Augur Set]] or {{M|Brief Respite}}.
+*With a fully ranked copy of Link Redirection, the Warframe's minimal required shield value to activate {{M|Reinforced Bond}}'s fire rate bonus depends on the base shield value of the equipped companion:
+**{{Companion|Adarza Kavat}} and {{Companion|Smeeta Kavat}} have the lowest base shield value of 230. The equipped Warframe needs at least 776 shields.
+**A [[Hound (Companion)|Hound]] with [[Core (Component)#Adlet|Adlet]] and [[Bracket#Cela|Cela]] has the highest base shield value of 585. The equipped Warframe needs at least 492 shields.
+**{{WF|Khora}} needs at least 960 shields, as {{Companion|Venari}} does not have any base shields, but can still equip Link Redirection to gain shields.
+
+==Trivia==
+*Prior to {{ver|34}}, this mod was named '''Link Shields'''.
+
+==Gallery==
+<gallery>
+LinkShieldsMod.png|Link Shields
+LinkShieldsModOld.png|Old appearance
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|34}}
+*Link Shields has been renamed to Link Redirection, and changed from max 110% of your Warframe's Shield shared with Companion, to max 125% shared Shield.
+}}
+
+{{CompanionModNav}}
+[[de:Verbinde Schilde]]
+[[es:Enlace de redirección]]
+[[fr:Lien-Redirection]]
+[[ru:Перенаправляющая Связь]]
+[[uk:Зв’язок щитів]]
+[[Category:Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Uncommon Mods]]
+[[Category:Update 14]]
+[[Category:Vazarin Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Companion Mods]]

@@ -211,7 +211,7 @@ Sirve para detectar dos patologías opuestas, y la segunda es la que se pasa por
 | Naturaleza | Directorios |
 |---|---|
 | una **ley** del juego — cómo se computa algo | `mechanics/` |
-| una **entidad** — algo que existe y tiene stats | `warframes/` · `arcanes/` · `mods/` · `incarnon/` · `archon-shards/` |
+| una **entidad** — algo que existe y tiene stats | `warframes/` · `companions/` · `arcanes/` · `mods/` · `incarnon/` · `archon-shards/` |
 | una **fuente de datos** — de dónde viene el dato, no qué dice el juego | `sources/` |
 
 - **El tema manda sobre la mecánica.** Un arcano va en `arcanes/` por más rara que sea su mecánica.

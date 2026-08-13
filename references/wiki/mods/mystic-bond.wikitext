@@ -1,0 +1,643 @@
+{{ModBox}}
+'''{{BASEPAGENAME}}''' is a [[Companion]] [[mod]] that allow the owner to cast an [[Ability]] at no cost after the companion has used its abilities a certain number of times.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Ability Uses
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || 10 || 4
+|-
+| 1 || 9 || 5
+|-
+| 2 || 8 || 6
+|-
+| 3 || 7 || 7
+|-
+| 4 || 6 || 8
+|-
+| 5 || 5 || 9
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[Master Teasonai]] for {{sc|20,000}} after reaching '''Rank 3 - Trusted''' with the [[Ostron]]s.
+
+==Companion Ability List==
+
+{| class="wikitable sortable"
+|-
+! class="sortable" | Companion Name
+! class="sortable" | Ability Name
+! class="sortable" | Triggers Mystic Bond?
+! class="sortable" | Ability Cooldown
+! class="unsortable" | Notes
+|-
+| rowspan=1 | Non-Sentinel [[Companion]]
+| {{M|Loyal Companion}}
+| Yes
+| 60s
+| 
+* 
+|-
+| rowspan=4 | [[Kavat]]
+| {{M|Fear Sense}}
+| Yes
+| 10s
+|
+* 
+|-
+| {{M|Pounce}}
+| Yes
+| ?
+| 
+* 
+|-
+| {{M|Sharpened Claws}}
+| Yes
+| 4s
+|
+* 
+|-
+| {{M|Territorial Aggression}}
+| Yes
+| ~20s
+| 
+A stack is given when the zone is created, but not when shadow kavats are summoned.
+|-
+| rowspan=2 | {{Companion|Adarza Kavat}}
+| {{M|Cat's Eye}}
+| Yes
+| 30s - 33s
+|The buff has a 20 second cooldown which begins after the buff ends. Its base duration is 
+
+10 seconds, increased to 13 seconds with Tek Enhance at max rank.
+|-
+| {{M|Reflect}}
+| No
+| N/A
+|
+* 
+|-
+| rowspan=2 | {{Companion|Smeeta Kavat}}
+| {{M|Charm}}
+| Yes
+| 27s
+|
+Gives a stack every 27s regardless of whether Charm successfully triggers a buff or not.
+|-
+| {{M|Mischief}}
+| Yes
+| ~7s - 18s
+|Has a 7 second cooldown that begins after the decoy is killed, or after its base 9 second
+
+duration expires.
+
+Testing demonstrates an almost perfect 18 second cooldown, even with the decoy being 
+
+killed.
+|-
+| rowspan=2 | {{Companion|Vasca Kavat}}
+| {{M|Draining Bite}}
+| Yes
+| 20s
+|
+* 
+|-
+| {{M|Transfusion}}
+| Yes
+| 120s
+|
+* 
+|-
+| rowspan=1 | {{Companion|Venari}}
+| {{A|Venari}} Posture Abilities
+| Yes
+| ?
+|
+'''Heal''' only gives a stack when a target is switched manually.
+|-
+| rowspan=1 | [[Vulpaphyla]]
+| {{M|Martyr Symbiosis}}
+| No
+| N/A
+|
+* 
+|-
+| rowspan=2 | {{Companion|Crescent Vulpaphyla}}
+| {{M|Crescent Charge}}
+| Yes
+| 10s
+|
+* 
+|-
+| {{M|Crescent Devolution}}
+| No
+| N/A
+|
+* 
+|-
+| rowspan=2 | {{Companion|Sly Vulpaphyla}}
+| {{M|Survival Instinct}}
+| No
+| 5s
+|
+* 
+|-
+| {{M|Sly Devolution}}
+| No
+| N/A
+|
+* 
+|-
+| rowspan=2 | {{Companion|Panzer Vulpaphyla}}
+| {{M|Viral Quills}}
+| Yes
+| 4s
+|
+* 
+|-
+| {{M|Panzer Devolution}}
+| No
+| N/A
+|
+* 
+|-
+| rowspan=1 | [[Kubrow]]
+| [[Mecha Set]]
+| Yes
+| 60/45/30/15 seconds
+|
+Gives a stack when an enemy is marked.
+|-
+| rowspan=2 | {{Companion|Chesa Kubrow}}
+| {{M|Neutralize}}
+| Yes
+| 15s
+|
+* 
+|-
+| {{M|Retrieve}}
+| Yes
+| ~10s
+|Gives a stack even when looting fails.
+
+Seems to have reduced cooldown when looting fails, giving full 5 mystic bond stacks
+
+within ~30-40 seconds on average.
+
+Requires corpses or loot containers nearby to activate.
+|-
+| rowspan=2 | {{Companion|Huras Kubrow}}
+| {{M|Hunt}}
+| Yes
+| 10s
+|
+* 
+|-
+| {{M|Stalk}}
+| Yes
+| ?
+|
+* 
+|-
+| rowspan=2 | {{Companion|Raksa Kubrow}}
+| {{M|Howl}}
+| Yes
+| 40s
+|
+* 
+|-
+| {{M|Protect}}
+| Yes
+| ?
+|
+* 
+|-
+| rowspan=2 | {{Companion|Sahasa Kubrow}}
+| {{M|Dig}}
+| Yes
+| ~20s
+|Requires at least a few meters of movement between casts in order to cast again.
+
+Will not cast in-combat while low on hp.
+|-
+| {{M|Ferocity}}
+| Yes
+| ?
+|
+* 
+|-
+| rowspan=2 | {{Companion|Sunika Kubrow}}
+| {{M|Savagery}}
+| Yes
+| ~20s
+|
+* 
+|-
+| {{M|Unleashed}}
+| Yes
+| ?
+|
+* 
+|-
+| rowspan=3 | {{Companion|Helminth Charger}}
+| {{M|Proboscis}}
+| Yes
+| ~10s
+|
+* 
+|-
+| {{M|Trample}}
+| Yes
+| ~8s
+|
+* 
+|-
+| [[Strain Set]]
+| No
+| ?
+|
+* 
+|-
+| rowspan=1 | [[Predasite]]
+| {{M|Volatile Parasite}}
+| No
+| 15s
+|
+* 
+|-
+| rowspan=2 | {{Companion|Medjay Predasite}}
+| {{M|Infectious Bite}}
+| Yes
+| ?
+|
+* 
+|-
+| {{M|Paralytic Spores}}
+| Yes
+| ~20s
+|Due to companion AI, it may choose not to use the ability for some seconds after cooldown.
+
+Testing demonstrates an average ~22s effective cooldown.
+|-
+| rowspan=2 | {{Companion|Pharaoh Predasite}}
+| {{M|Anabolic Pollination}}
+| Yes
+| 16s
+|
+* 
+|-
+| {{M|Endoparasitic Vector}}
+| Yes
+| ~11s
+|
+* 
+|-
+| rowspan=2 | {{Companion|Vizier Predasite}}
+| {{M|Acidic Spittle}}
+| Yes
+| 5s
+|
+* 
+|-
+| {{M|Iatric Mycelium}}
+| Yes
+| ~23s
+|Seems to cast every 23 seconds out of combat, even though the mod lists 8 seconds at 
+
+max rank.
+|-
+| rowspan=5 | [[Robotic]]
+| {{M|Coolant Leak}}
+| Yes
+| 10s
+|Requires at least 2 enemies within 10 meters, which may lead to a longer expected cooldown.
+|-
+| {{M|Guardian}}
+| Yes
+| 30s
+|Affected by Manifold Bond, which may reduce the cooldown.
+
+Will only cast if owner's shields are reduced to 0. Not applicable for frames with no shields.
+|-
+| {{M|Medi-Ray}}
+| Yes
+| 60s
+|Affected by Manifold Bond, which may reduce the cooldown.
+|-
+| {{M|Shield Charger}}
+| Yes
+| 30s
+|Affected by Manifold Bond, which may reduce the cooldown.
+
+Not applicable for frames with no shields.
+|-
+| {{M|Spare Parts}}
+| Yes
+| 15s
+|Affected by Manifold Bond, which may reduce the cooldown.
+|-
+| rowspan=2 | {{Companion|Carrier}}
+| {{M|Ammo Case}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Looter}}
+| Yes
+| 1s
+|Has a short delay (~1 second) and a strict line of sight requirement to activate the ability.
+|-
+| rowspan=2 | {{Companion|Dethcube}}
+| {{M|Energy Generator}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Vaporize}}
+| Yes
+| 10s
+|
+* 
+|-
+| rowspan=2 | {{Companion|Diriga}}
+| {{M|Arc Coil}}
+| Yes
+| ~1s
+|
+* 
+|-
+| {{M|Electro Pulse}}
+| Yes
+| 5s
+|Only activates when enemies are attacking you.
+* 
+|-
+| rowspan=2 | {{Companion|Djinn}}
+| {{M|Fatal Attraction}}
+| Yes
+| 30s
+|
+* 
+|-
+| {{M|Reawaken}}
+| No
+| ?
+|
+* 
+|-
+| rowspan=2 | {{Companion|Helios}}
+| {{M|Detect Vulnerability}}
+| No
+| 10s
+|
+* 
+|-
+| {{M|Investigator}}
+| No
+| 10s
+|
+* 
+|-
+| rowspan=2 | {{Companion|Nautilus}}
+| {{M|Auto Omni}}
+| Yes
+| 20s
+|
+* 
+|-
+| {{M|Cordon}}
+| Yes
+| 15s
+|Affected by Manifold Bond, which may reduce the cooldown.
+|-
+| rowspan=3 | {{Companion|Oxylus}}
+| {{M|Botanist}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Scan Aquatic Lifeforms}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Scan Matter}}
+| No
+| 3s
+|
+* 
+|-
+| rowspan=2 | {{Companion|Shade}}
+| {{M|Ambush}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Ghost}}
+| Yes
+| ~8s
+|The 8 second cooldown begins as soon as any source of invisibility ends.
+
+Reportedly inconsistent in giving Mystic Bond stacks.
+|-
+| rowspan=1 | {{Companion|Taxon}}
+| {{M|Molecular Conversion}}
+| Yes
+| ~12s
+|
+* 
+|-
+| rowspan=2 | {{Companion|Wyrm}}
+| {{M|Crowd Dispersion}}
+| Yes
+| 15s
+|Only activates when there are 2 or more enemies within 10 meters.
+|-
+| {{M|Negate}}
+| No
+| 5s
+|
+* 
+|-
+| rowspan=9 | [[Hound (Companion)]]
+| {{M|Equilibrium Audit}}
+| Yes
+| 30s
+|
+* 
+|-
+| {{M|Null Audit}}
+| Yes
+| 60s
+|
+Copied eximus abilities performed by the Hound will give a stack.
+
+Arson/Caustic, Shock/Bio-electric, Blitz, Sanguine/Leech, Energy Leech/Parasitic, and Jade Light
+
+eximus abilities have ~10s cooldowns while copied. (Testing Required)
+
+Arctic/Frozen, Venomous, and Guardian eximus abilities do not have an active cast. (Testing
+
+Required)
+|-
+| {{M|Repo Audit}}
+| Yes
+| 20s
+|
+* 
+|-
+| {{M|Diversified Denial}}
+| Yes
+| 15s
+|Other Precepts will not activate while the specters are deployed, which may reduce total Mystic
+
+Bond stacks being gained.
+
+Hound must be within ~40m of an enemy to cast.
+|-
+| {{M|Evasive Denial}}
+| Yes
+| 15s
+|Requires the Hound to lose ~25% of its HP in a short period of time to cast.
+|-
+| {{M|Reflex Denial}}
+| Yes
+| 10s
+|
+* 
+|-
+| {{M|Aerial Prospectus}}
+| Yes
+| ~10s
+|
+* 
+|-
+| {{M|Focused Prospectus}}
+| Yes
+| 15s
+|
+* 
+|-
+| {{M|Synergized Prospectus}}
+| Yes
+| 10s
+|
+* 
+|-
+| rowspan=8 | [[MOA (Companion)]]
+| {{M|Anti-Grav Grenade}}
+| Yes
+| ~20s
+|
+* 
+|-
+| {{M|Blast Shield}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Hard Engage}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Security Override}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Shockwave Actuators}}
+| No
+| 10s
+|
+* 
+|-
+| {{M|Stasis Field}}
+| Yes
+| 45s
+|
+* 
+|-
+| {{M|Tractor Beam}}
+| No
+| ?
+|
+* 
+|-
+| {{M|Whiplash Mine}}
+| Yes
+| ~20s
+|
+* 
+|-
+|}
+
+==Notes==
+
+* The number of companion abilities used is '''not''' tracked with a buff icon on the UI, however a buff icon '''is''' shown when a free ability is ready.
+** Only one free ability use can be stored at a time.
+** Companion ability counter is '''not''' reset on companion death.
+* Other miscellaneous mods that '''do not''' trigger the effect include:
+** '''All Companions''': [[Bond Mods]], {{M|Synth Deconstruct}}, {{M|Synth Fiber}}
+** '''Beast Companions''': {{M|Hunter Command}}, {{M|Scavenge}}
+** '''Kavats''': {{M|Swipe}}, {{M|Tek Assault}} 
+** '''Robotic''': {{M|Odomedic}}, {{M|Self Destruct}}
+
+==Bugs==
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43.0.7}}
+*Fixed a script error related to Mystic Bond.
+
+{{ver|38}}
+*Fixed Mystic Bond not triggering when equipped on a Client’s Panzer Vulpaphyla (using Viral Quills.)
+
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|35}}
+*Fixed subsequent casts of Xaku's The Lost and The Vast Untime Abilities not consuming Mystic Bond charges, allowing them to be cast for free repeatedly.
+
+{{ver|34.0.5}}
+*Fixed Viral Quills quill launch ability not triggering Mystic Bond’s “Companion uses Abilities with cooldowns 5 times” condition.
+
+{{ver|34.0.4}}
+*Fixed Mystic Bond’s chance at a free Warframe ability cast triggering every 5 seconds instead of the intended “after Companion uses abilities with cooldowns 5 times” when equipped with the Strain Mod on a Helminth Charger.
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+
+{{ver|34.0.1}}
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[es:Vínculo místico]]
+[[fr:Lien Mystique]]
+[[ru:Мистическая Связь]]
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]

@@ -1,0 +1,94 @@
+{{ModBox}}
+'''Link Vitality''' is a [[Companions|Companion]] mod that increases its [[Health]] based on a percentage of the player's health. The player's own health is unaffected by this mod.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Effect
+! [[Mods#Mod Power Cost|Cost]]
+|-
+| 0 || +11% || 2
+|-
+| 1 || +23% || 3
+|-
+| 2 || +34% || 4
+|-
+| 3 || +45% || 5
+|-
+| 4 || +57% || 6
+|-
+| 5 || +68% || 7
+|-
+| 6 || +80% || 8
+|-
+| 7 || +91% || 9
+|-
+| 8 || +102% || 10
+|-
+| 9 || +114% || 11
+|-
+| 10 || +125% || 12
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+*Link Vitality can be equipped on [[Kubrow]]s, [[Kavat]]s, [[MOA (Companion)|MOAs]], and [[Hound (Companion)|Hounds]], but '''not''' on [[Sentinels]].
+*Link Vitality cannot be equipped simultaneously with {{M|Enhanced Vitality}}.
+*Link Vitality uses the player's maximum health as the base, which means using {{M|Umbral Vitality}} with the full set bonus, {{M|Primed Vigor}}, {{M|Gladiator Resolve}}, {{M|Saxum Carapace}}, {{M|Jugulus Carapace}}, {{M|Carnis Carapace}}, and {{M|Physique}} (with {{M|Coaction Drift}}) can further increase a companion's maximum health.
+**Health buffs from other sources, including {{WF|Chroma}}'s {{A|Elemental Ward}}, {{WF|Wisp}}'s {{A|Reservoirs}}, or {{Arcane|Arcane Blessing}} also apply.
+**With Link Vitality on a {{Companion|Sahasa Kubrow}} or {{Companion|Chesa Kubrow}}, a maximum health value of '''{{Math|((1+7.7+2.2+1.8+0.9+0.9+0.9+(0.18*1.3))*550+1725)*1.65+375*2}}''' can be achieved using the above health mods with an {{WF|Inaros Prime}}.
+
+==Trivia==
+*Prior to {{ver|34}}, this mod was named '''Link Health'''.
+
+==Gallery==
+<gallery>
+LinkHealthMod.png|Link Health
+ModLinkHealth.png|Old appearance
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|34}}
+;CONSISTENCY IN COMPANION HEALING
+
+Previously, the Mod “Link Health” could cause your Companions to gain some of the healing that your Warframe did. This invisible feature was not indicated by the card, and it was never explained what forms of healing worked or why. Additionally, Companions were using some of the same mechanics that things like mission objectives did, which limited the effects of some healing or defensive powers. We've decided to remove both of these obscure mechanics and restrictions.
+
+Companions will no longer gain Health when your Warframe does if using certain Health-absorbing powers together with the Mod '''“Link Vitality”''' (formerly Link Health). The restrictions of the following abilities and features, as they apply to granting Health, Shields, or Damage Resistance to Companions have been removed:
+
+*Nezha’s Warding Halo
+*Trinity’s Blessing
+*Ember’s Immolation
+*Garuda’s Blood Altar
+*Gara’s Splinter Storm
+*Styanax’ Intrepid Stand
+*Mirage’s Eclipse
+*Volt’s Discharge
+*Baruuk’s Desolate Hands
+*Harrow’s Penance
+*Harrow’s Thurible
+*Equinox’ Mend & Maim
+*Sancti Magistar’s Heavy Attack Heal
+*Vazarin’s Protective Sling
+
+'''Companion Survivability Mod Changes:'''
+*Link Health has been renamed to Link Vitality, and changed from max 165% of your Warframe's Health shared with Companion, to max 125% shared Health.
+}}
+
+{{CompanionModNav}}
+[[de:Verbinde Leben]]
+[[fr:Lien-Vitalité]]
+[[es:Enlace de vitalidad]]
+[[ru:Живучая Связь]]
+[[uk:Зв’язок здоров’я]]
+[[Category:Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Uncommon Mods]]
+[[Category:Update 14]]
+[[Category:Vazarin Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Companion Mods]]

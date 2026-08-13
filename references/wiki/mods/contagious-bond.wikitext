@@ -1,0 +1,133 @@
+{{ModBox}}
+'''{{BASEPAGENAME}}''' is a [[Companion]] [[mod]] that causes enemies killed by the companion to spread a fraction of their [[Status Effect]]s to nearby enemies.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Status Effects spread
+! Radius
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || 8% || 1.5 || 4
+|-
+| 1 || 17% || 3m || 5
+|-
+| 2 || 25% || 4.5m || 6
+|-
+| 3 || 33% || 6m || 7
+|-
+| 4 || 42% || 7.5m || 8
+|-
+| 5 || 50% || 9m || 9
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[Son]] for {{sc|20,000}} after reaching '''Rank 3 - Associate''' with the [[Entrati]].
+
+==Damage Calculation==
+#For each Status proc find the Modded Base Damage of every Status proc on the enemy for each [[Status Effect]] type. 
+#*<math>{
+\begin{aligned}
+&\qquad \\
+\text{Proc MBD (Modded Base Damage)} &= 
+\qquad \text {Weapon Base Damage} \\
+&\qquad \times ( 1 + \text {Weapon Base Damage Bonus} ) \\
+&\qquad \times ( 1 + \text {Weapon Faction Damage Bonus} ) \\
+&\qquad \times ( 1 + \text {Weapon Status Damage Bonus} ) \\
+&\qquad \times \text {(Additional Multipliers)} \\
+&\qquad \\
+\end{aligned}
+}</math>
+#*''Additional Multipliers include modded critical multiplier on [[Critical Hit]] and multipliers on [[Enemy Body Parts]]; these stack multiplicatively with each other.''
+#*Note that [[Faction Damage Bonus|Faction Damage Bonuses]] only apply once from the source weapon of the status. The "double dip" is not counted.
+#For each [[Status Effect]] type, sum the damage of same all [[Status Effect]] procs and divide that by the number of stacks of that status effect to find the averaged damage.
+#*<math>{
+\begin{aligned}
+&\qquad \\
+\text {Status Effect Average Damage} &= 
+\left [ \frac{ \text {Sum Of All Proc MBDs} }{ \text {Number Of Status Procs} } \right ]\\
+&\qquad \\
+\end{aligned}
+}</math>
+# Contagious bond does not do the "afflictions hit" step and plugs the summed damage into step 4. There is no initial damage instance with contagious bond. Faction Damage is not applied to this step.
+#*<math>{
+\begin{aligned}
+\text{Contagious Bond Summed Average Damage} &= 
+\qquad ( \text {Slash Status Effect Average Damage} \\
+&\qquad + \text {Heat Status Effect Average Damage} \\
+&\qquad + \text {Toxic Status Effect Average Damage} \\
+&\qquad + \text {Electricity Status Effect Average Damage} \\
+&\qquad + \text {Gas Status Effect Average Damage} ) \\
+\end{aligned}
+}</math>
+#Status Effect Average Damage is used to find the Damage Over Time of all [[Status Effect]] types present. Modifiers that are consider are the same as the normal calculation for respective [[Status Effect]] types. [[Faction Damage Bonus|Faction Damage Bonuses]] that are present on the companion(and not its weapon) are applied to [[Status Effect|Status Effects]]. 
+#*<math>{
+\begin{aligned}
+&\qquad \\
+\text{Contagious Bond Damage Tick of Status Effect} &= 
+\qquad \text {Contagious Bond Summed Average Damage} \\ 
+&\qquad \times \text {Status Effect Multiplier} \\
+&\qquad \times ( 1 + \text {Faction Damage Bonus} ) \\
+&\qquad \times ( 1 + \text {Status Damage Bonus} ) \\
+&\qquad \times ( 1 + \text {Elemental on companion of Status Effect} ) \\
+&\qquad \times (\text {Amount of status stacks transferred} ) \\ 
+&\qquad \\
+\end{aligned}
+}</math>
+#* Status effects spread is the amount of stacks on the target that died divided by 2 and rounded down for each different status effect.
+#*Only {{D|Toxin}} and {{D|Electricity}} statuses can benefit from Elemental Damage Bonuses.
+#*{{D|Heat}} damage will not benefit from Elemental and Faction Damage [[Faction Damage Bonus|Faction Damage Bonuses]] on the companion, unless the companion was the source of the first heat status on the enemy. See [[Heat Inherit]].
+
+==Notes==
+* At max rank, 50% of the number of status procs present on the target will be spread, rounded down.
+** Transferable Status Effects are capped at x100 Status Effects.
+** Requires 2 or more stacks of the proc for it to be spread
+
+==Bugs==
+*Contagious Bond cannot spread through units on a '''{{D|Ragdoll}}''' condition (for example, enemies trapped on {{A|Strangledome}})
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|35}}
+*To address severe performance issues caused by the unlimited amount of Status Effects stacks that could be transferred by Contagion Bond, we have added a 100x stacks total cap to the Mod.
+**Enemies can still be inflicted with Status Effect stacks even after hitting this cap. In other words, if 100x stacks have been transferred to an enemy from Contagion Mod, they can still receive more stacks from different sources. 
+*Fixed Clients being unable to see the Status Effects spread from Contagious Bond in the UI.
+
+{{ver|34.0.8}}
+*Fixed a script error in Contagious Bond that would cause the mod to cease function.
+
+{{ver|34.0.7}}
+*Contagious Bond: Enemies inflicted by damage over time Status Effects will now spread 50% of the tick damage when killed to other enemies. 
+**''Prior to this change, damage over time procs would only tick 1 damage on enemies it spread to. Now, it’ll apply 50% (at max rank) of the tick damage originating from the killed enemy.''
+*Fixed enemies killed by Contagious Bond’s spread Status Effects not granting Affinity. 
+*Fixed damage dealt to enemies from Contagious Bond’s spread Status Effects not registering for other Companion mod triggers (e.g. Energy Generator, Synth Deconstruct, etc.).
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+
+{{ver|34.0.1}}
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]
+
+[[fr:Lien Contagieux]]
+[[ru:Заразная Связь]]

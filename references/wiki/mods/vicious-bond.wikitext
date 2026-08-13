@@ -1,0 +1,73 @@
+{{ModBox}}
+'''{{BASEPAGENAME}}''' is a [[Companion]] [[mod]] that allows the companion's melee attacks to reduce enemy [[armor]]. Damaging enemies with [[abilities]] will also reduce the armor of nearby targets.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Armor Reduction
+! Radius
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || -2.5% || 1.5m || 2
+|-
+| 1 || -5% || 3m || 3
+|-
+| 2 || -7.5% || 4.5m || 4
+|-
+| 3 || -10% || 6m || 5
+|-
+| 4 || -12.5% || 7.5m || 6
+|-
+| 5 || -15% || 9m || 7
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[Son]] for {{sc|20,000}} after reaching '''Rank 3 - Associate''' with the [[Entrati]].
+
+==Notes==
+*Each hit will remove '''15%''' armor from the hit enemy. If the enemy was damaged by an ability within the past '''10''' seconds, each melee hit by the companion will also cause enemies within '''9''' meters of the hit enemy to have 15% of their armor removed.
+*The only [[Sentinel]] weapon that counts as a melee attack is {{Weapon|Deconstructor}} and {{Weapon|Deconstructor Prime}}, but it can only be used by {{Companion|Helios}} and {{Companion|Helios Prime}}.
+*Shockwaves from {{M|Seismic Bond}} will not trigger the armor strip. 
+*"Abilities" refers to those used by either your Warframe or operator/drifter.
+**Damage from [[Exalted Weapon|Exalted weapons]] does not count.
+**Damage from Companion precept abilities do not count.
+
+
+==Tips==
+*Synergizes well with {{M|Swipe}}, as the armor stripping effects will trigger for each target.
+
+==Bugs==
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|35}}
+*Fixed performance issues caused by interactions between Wisp’s Shock Mote and Saryn’s Spores with a companion with Vicious Bond equipped.
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+
+{{ver|34.0.1}}
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]
+[[es:Vínculo vicioso]]
+[[fr:Lien Vicieux]]
+[[ru:Порочная Связь]]

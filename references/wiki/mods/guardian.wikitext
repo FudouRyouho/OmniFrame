@@ -1,0 +1,73 @@
+{{For|the [[Grineer]] [[Kuva]] unit|Kuva Guardian}} {{For|the [[Arcane Enhancement]] for [[Warframes]]|Arcane Guardian}} {{For|the [[Eximus]] unit type|Guardian Eximus}}
+{{ModBox}}
+'''Guardian''' is a [[mod]] that grants a [[Sentinel]], [[MOA (Companion)|MOA]], or [[Hound (Companion)|Hound]] the ability to replenish its owner's shield when depleted.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect 
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +58% || 2
+|-
+| 1 || +67% || 3
+|-
+| 2 || +75% || 4
+|-
+| 3 || +83% || 5
+|-
+| 4 || +92% || 6
+|-
+| 5 || +100% || 7
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+* Has a '''30''' second cooldown.
+**{{M|Manifold Bond|Manifold Bond}} can be used to reduce the cooldown, allowing it to be ready to activate sooner.
+* Gives '''25''' affinity to the Companion for activating this ability.
+* Activates instantaneously when shields are depleted. However, activation can be delayed if a sentinel is occupied by other actions.
+** Should be put in the top-left mod slot. Not doing so may cause a sentinel to prioritize other actions before replenishing shields, creating a significant delay, which might prove lethal to squishy warframes.
+** The Companion will still recharge its master's shields while under the effects of an [[Ancient Disruptor]]'s energy drain which results in wasting the recharge.
+** Does '''not''' provide any shields in the [[Nightmare Mode]] with "No Shields" modifier, although the Companion still receives the '''25''' affinity for activating the ability.
+
+==Trivia==
+*Prior to [[Update 12]], this mod shared its image with {{M|Sanctuary|Sanctuary}}.
+
+==Gallery==
+<gallery>
+GuardianMod.png|Old appearance
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|42}}
+*Fixed Sevagoth’s Shadow not benefitting from the following Companion Mods: Guardian.
+
+{{ver|7}}
+*Introduced.
+}}
+
+==See also==
+*[[Mods]]
+*[[Sentinels]]
+*{{M|Protect}}, the [[Raksa Kubrow]] counterpart of this mod.
+
+{{CompanionModNav}}
+
+[[de:Beschützer]]
+[[es:Guardián]]
+[[ru:Защитник]]
+[[Category:Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Common Mods]]
+[[Category:Update 7]]
+[[Category:Penjaga Mods]]
+[[Category:Shield Restoration]]
+[[Category:MOA Mods]]
+[[Category:Robotic Mods]]
+[[uk:Захисник]]
+[[fr:Gardien (mod)]]

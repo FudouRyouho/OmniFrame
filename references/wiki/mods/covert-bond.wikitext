@@ -1,0 +1,62 @@
+{{ModBox}}
+'''{{BASEPAGENAME}}''' is a [[Companion]] [[mod]] that grants uninterruptible stealth to the  companion when performing [[Finisher]] and [[Mercy]] kills, up to a maximum of 60 seconds.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Duration
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || +1s || 2
+|-
+| 1 || +3s || 3
+|-
+| 2 || +5s || 4
+|-
+| 3 || +6s || 5
+|-
+| 4 || +8s || 6
+|-
+| 5 || +10s || 7
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[Master Teasonai]] for {{sc|20,000}} after reaching '''Rank 3 - Trusted''' with the [[Ostron]]s.
+
+==Notes==
+
+* Direct finisher kills performed by {{WF|Ash}}'s {{A|Blade Storm}} (ability itself must kill, <u>'''NOT'''</u> the {{D|Slash}} proc) can trigger this mod's invisibility effect.
+
+==Bugs==
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+
+{{ver|34.0.1}}
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+__NOTOC__
+[[es:Vínculo encubierto]]
+[[fr:Lien Secret]]
+[[ru:Тайная Связь]]
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]

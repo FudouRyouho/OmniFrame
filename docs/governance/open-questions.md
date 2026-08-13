@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-08-08"
+Fecha_de_actualizacion: "2026-08-13"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -62,7 +62,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-27` | `co_base`: la regla padre→hijo del CO, declarada en el schema y sin validar del todo | engine / C1 — fidelidad CO | abierta — **gated por investigación**; el qué ya está decidido en `arch-decisions §9` |
 | `OQ-ENGINE-28` | Resistencias por entidad: capa aparte de la matriz por facción | engine / C2 — modelo de enemigo | abierta — campo nullable + test con dato a mano |
 | `OQ-ENGINE-29` | ¿Los status sin ícono (`Lifted`/`Knockdown`/`Microwave`) cuentan para CO? | engine / C2 — población de status | abierta — gated por test propio, **diseño listo** |
-| `OQ-ENGINE-31` | ¿Qué le falta a una entidad para ser modelable? — el compañero como forcing-case | engine / modelo de entidades | abierta — **gated por medición** (P-5) y por capacidad de propagación |
+| `OQ-ENGINE-31` | ¿Qué le falta a una entidad para ser modelable? — el compañero como forcing-case | engine / modelo de entidades | abierta — corpus partido en **5 direcciones** (3 sin dueño); **gated por medición** (P-5) y por capacidad de propagación |
 | `OQ-ENGINE-32` | ¿Los estados físicos de CC forman un eje ordenado o son cuatro independientes? | engine / modelo de status | abierta — **sin medición posible**; sin consecuencia numérica mientras no se simule comportamiento |
 | `OQ-ENGINE-33` | ¿El proc deja de ser un campo del tipo de daño? | engine / vocabulario + contrato core | abierta — **sin convergencia**; arrastra el bug `DT_RADIANT` |
 | `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **acotada**: *"esto es de aquel"* se declara y costó un campo (`owner`); las relaciones dirigidas siguen sin caso |
@@ -2170,10 +2170,154 @@ nace, entonces, **ya necesitando recibir efectos de otra entidad**, y eso fija l
 un compañero no es un portador aislado con su propio grafo, es un receptor.
 
 **Lo que sí está abierto es el borde:** la mayoría de los buffs le llegan al compañero, **pero no
-todos**, y qué los separa no lo publica ninguna página —`Companion` no trata el tema. No es una
-pregunta de "¿propaga?" sino de **qué determina que un efecto propague o se detenga en el portador**,
-y sin esa regla el modelo tendría que enumerar excepciones a mano. Se releva midiendo
-(**`ingame-tests/pending.md` P-5**), mismo régimen que `OQ-ENGINE-26`.
+todos**, y qué los separa no lo publica la página `Companion`. No es una pregunta de "¿propaga?" sino
+de **qué determina que un efecto propague o se detenga en el portador**, y sin esa regla el modelo
+tendría que enumerar excepciones a mano. Se releva midiendo (**`ingame-tests/pending.md` P-5**), mismo
+régimen que `OQ-ENGINE-26`. Lo que el barrido del corpus corrige es la **forma** de la pregunta: no es
+una dirección con excepciones, son **cinco direcciones**, y la página de cada mod sí las declara
+aunque la de la mecánica no.
+
+### El corpus: 158 mods, cinco direcciones
+
+`mods.json` trae **158** `Companion Mod`; **29** tienen override curado y **37** conservan el token
+crudo de DE. El censo de
+[`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §18 se hizo
+sobre los overrides —sus *"garras: 7 mods, 12 tokens"* reproducen exacto contando overrides, y son
+**24** contando `compat_name`—, así que **el 82 % de este corpus no entró a ningún censo previo**. El
+eje que lo parte es **hacia dónde va el efecto**, y el `label` lo declara en **60 de 158**:
+
+| Dirección | Casos | Estado |
+|---|---|---|
+| **1 · self** — el compañero se modifica | Enhanced Vitality · Metal Fiber · Calculated Redirection · Bite · Maul | resuelta por §18 |
+| **2 · lee del warframe** | los 3 `Link *` · Hunter Synergy · Mecha Overdrive | `../semantic/upgrade-tokens.md` §Registro de lo inexpresable |
+| **3 · escribe en el dueño** | Shield Charger · Guardian · Medi-Ray · Molecular Conversion · Anti-Grav Array · Hunter Recovery · Negate · Protect · Transfusion · Sacrifice | **sin dueño** |
+| **4 · escribe en aliados** | Cat's Eye · Iatric Mycelium | **sin dueño** |
+| **5 · trigger cruzado** — los `*Bond` | **16 mods**, `[[Category:Bond Mods]]` de la fuente | **sin dueño** |
+
+**El eje no lo inventamos nosotros: DE lo declara en el token crudo.** Mismo stat, dos sujetos, dos
+tokens — `AVATAR_BLEEDOUT_MODIFIER` (Medi-Pet Kit, el propio) vs
+`AVATAR_SENTINEL_MASTER_BLEEDOUT_MODIFIER` (Loyal Companion, el del maestro);
+`AVATAR_SENTINEL_PACK_LEADER` vs su `_REVERSE` (Hunter Recovery). Los infijos `SENTINEL_` / `MASTER_` /
+`_REVERSE` **son** el eje del sujeto, y la normalización a D-6 los tira. Que `Tandem Bond` lleve las dos
+direcciones dentro del mismo mod cierra la lectura:
+[`tandem-bond.wikitext`](../../references/wiki/mods/tandem-bond.wikitext) §Patch History registra como
+**bug corregido** que el trigger se contara del jugador —*"intended to have a fixed Combo increase of 6
+originating from your Companion's melee hits, **not your own**"*—, o sea que DE trata el sujeto como
+contrato, no como detalle.
+
+### Lo que la fuente refuta del modelo vigente
+
+Tres hechos medidos contra los que ninguna pieza actual se sostiene:
+
+| Refuta | Fuente | Qué rompe |
+|---|---|---|
+| **Los tres niveles de alcance de §18 no expresan la dirección 3** | [`shield-charger.wikitext`](../../references/wiki/mods/shield-charger.wikitext): *"**Sentinels, Companions**, Rescue Targets, Operatives, Specters o Factional Allies **cannot benefit** from this mod"* | el destino es **el warframe del dueño y sólo él**: no es *propio* (incluiría al compañero portador) ni *aliado* (los excluye por nombre). Falta un cuarto nivel — **dueño** |
+| ~~La dirección 2 necesitaría un vínculo de **estado**~~ — **no**: son dos mecanismos superpuestos | [`link-vitality.wikitext`](../../references/wiki/mods/link-vitality.wikitext) §Patch History `ver\|34`, replicada en [`companion.wikitext`](../../references/wiki/companions/companion.wikitext) | el mod es vínculo de **máximo** (`source_entity` + `source_attribute` alcanza); que las restauraciones puntuales lleguen al pet es la **vía general de aliados** abierta en `ver\|34` al levantar las restricciones de 14 habilidades *"as they apply to granting Health, **Shields**, or Damage Resistance to Companions"*. El mod aporta el **contenedor**, no el contenido — de ahí que no cree overshields ni comparta regen pasiva |
+| **El gate por presencia de `vitalsProfile` tiene contraejemplo** | *"Khora needs at least 960 shields, as **Venari does not have any base shields, but can still equip Link Redirection to gain shields**"* | `ItemRepository` declara *"un stat ausente NO se materializa"*; acá el vínculo **crea** el nodo donde la entidad no lo tenía |
+
+**El "dueño" es un rol, no una clase de entidad.**
+[`guardian.wikitext`](../../references/wiki/mods/guardian.wikitext) §Patch History `ver|42` corrige
+*"**Sevagoth's Shadow** not benefitting from the following Companion Mods: Guardian"* — o sea que el
+receptor de la dirección 3 puede ser una **entidad derivada de habilidad**, no el warframe. Eso ata
+esta OQ con `OQ-ENGINE-11` por el mismo nudo: quien ocupa el rol *dueño* cambia en runtime.
+
+**Y la dirección ya está categorizada por la fuente:** Guardian y Shield Charger comparten
+`[[Category:Shield Restoration]]`, igual que los `*Bond` comparten `[[Category:Bond Mods]]`. La wiki
+agrupa por lo que hace el efecto, no por qué stat toca.
+
+**La dirección 5 lee estado ajeno con tres predicados distintos.**
+[`reinforced-bond.wikitext`](../../references/wiki/mods/reinforced-bond.wikitext): el buff de fire rate
+del jugador se gatea por el **máximo** de shields del compañero (estático, *"regardless of their actual
+moment-to-moment shield strength"*), **o** por su shield **actual** incluyendo overshield (dinámico),
+**y** se desactiva si el compañero está *incapacitated* — un estado que no es ningún atributo. Es el eje
+2 de §18 (*sujeto leído*) en forma pura, y ninguno de los tres predicados es del portador del mod.
+Su forma más difícil: en un Vulpaphyla el gate *"stays activated in their larval forms, **even though the
+larvae don't have enough shields**"* — la condición se evalúa contra una forma que la entidad ya no tiene.
+
+**Confirmación externa de una separación nuestra:** `ver|34.0.4` corrige *"Reinforced Bond's fire rate
+buff unintentionally applying to **Melee attack speed**"*. DE trata `fire rate` ≠ `attack speed` como
+bug cuando se cruzan — el mismo corte que `../semantic/upgrade-tokens.md` §MELEE sostiene contra el
+token único de DE.
+
+**Y `AVATAR_ADD_ABILITY_DURATION` sobre un compañero no es el mismo stat.** `Tek Enhance` lo lleva con
+label *"+30% Kavat Ability Duration"*, y [`cats-eye.wikitext`](../../references/wiki/mods/cats-eye.wikitext)
+lo computa: el uptime del precept pasa de `10/(10+20)` a `(10×1.3)/(10×1.3+20)`. El token nombra la
+duración de los **precepts**, no la de las cuatro habilidades del warframe — mismo nombre, otro nodo.
+
+### El precept es el eje que el dataset no tiene
+
+[`companion.wikitext`](../../references/wiki/companions/companion.wikitext) lo define: *"precepts are
+mods which **alter the behavior** of a Companion, and are effectively the companion's **'abilities'**"*,
+específicos por tipo y **otorgados al adquirir** el compañero. Es una partición real —comportamiento vs. atributo— y **`mod_class` viene `null` en los
+158**, así que el motor no puede distinguirlos. Su única fuente es la columna `Precept` de las diez
+tablas que [`companion-mods.wikitext`](../../references/wiki/mods/companion-mods.wikitext) transcluye;
+en la tabla universal que esa página sí trae, los **26** mods son `Precept: No`, o sea que en ese tramo
+la partición coincide con universal ↔ específico-por-tipo.
+
+**Lo que el precept aporta al modelo no son sus efectos —daño y CC de una entidad no modelada— sino su
+forma: es una habilidad con ventana, no un modifier.** Cat's Eye `10 s / cd 20 s` · Shield Charger
+`10 s / cd 30 s` · Guardian `cd 30 s`. ⚠️ El cooldown **no** es parte de la forma:
+[`ambush.wikitext`](../../references/wiki/mods/ambush.wikitext) dura 3 s sin cooldown y se gatea por
+**otro precept del mismo compañero** (`Ghost`), no por tiempo. Y es lo que le da sujeto a
+`AVATAR_ADD_ABILITY_DURATION` sobre un compañero: `Tek Enhance` escala **el conjunto de precepts**, que
+es lo que `cats-eye.wikitext` computa al pasar el uptime de `10/(10+20)` a `(10×1.3)/(10×1.3+20)`.
+
+### Los `*Bond`: la fuente ya tiene el vocabulario del eje
+
+**`[[Category:Bond Mods]]` los agrupa a los 14, y sólo a ellos.** Los dos homónimos —`Deceptive Bond`
+(augment de Loki) y `Dreamer's Bond` (aura)— **no** la llevan: el nombre es coincidencia léxica, la
+categoría es exacta. El corpus de los 14 está capturado en
+[`references/wiki/mods/`](../../references/wiki/mods/) como `*-bond.wikitext`; abajo se citan los que
+sostienen una afirmación, el resto queda disponible para el barrido por página.
+
+**Su forma es dos cláusulas que cruzan la frontera en direcciones opuestas** — el mod *es* el vínculo,
+no un efecto con un destino:
+
+| Mod | Una dirección | La otra |
+|---|---|---|
+| [`astral-bond`](../../references/wiki/mods/astral-bond.wikitext) | daño del **Operador/Drifter** → Void a los ataques del compañero | Void del compañero → eficiencia de **Amp y Transferencia** |
+| [`seismic-bond`](../../references/wiki/mods/seismic-bond.wikitext) | ability canalizada activa → shockwaves del compañero | ataques del compañero → **Ability Efficiency al dueño** |
+| [`tenacious-bond`](../../references/wiki/mods/tenacious-bond.wikitext) | headshot kills → baja el recovery del compañero | CC del compañero > 50 % → **Crit Damage al arma del dueño** |
+| [`mystic-bond`](../../references/wiki/mods/mystic-bond.wikitext) | — | el compañero usa N habilidades → **el dueño castea sin energía** |
+| [`covert-bond`](../../references/wiki/mods/covert-bond.wikitext) | finisher/mercy **del dueño** → stealth al compañero | — |
+
+Tres cosas que fija este corpus:
+
+- **Ninguno alcanza al squad.** Los 14 operan estrictamente sobre el par dueño ↔ compañero. La
+  dirección 4 es de los **precepts** (Cat's Eye, Iatric Mycelium), no de los Bond: los dos ejes no se
+  mezclan, y eso los vuelve separables.
+- **El recurso que más manipulan no existe en el modelo:** el *Companion Recovery Timer* aparece en
+  **6 de 14** (Aerial, Momentous, Restorative, Tenacious, Duplex, más Medi-Pet Kit fuera de la familia).
+  Es la economía de la familia y no hay nodo que lo represente. **Su base son 60 s, iguales para todos
+  los compañeros** —`[empirical]`, criterio del usuario; la wiki no lo publica—, así que **no es un gap
+  de dataset**: es una constante de mecánica del mismo tipo que `ENEMY_GATE_DURATION`, y vive en
+  `formulas/`, no en el molde. `companions.json` trae sólo `health`/`shield`/`armor` en las 83 entidades
+  y no necesita traer más. Lo que le falta no es el número sino **el ciclo de muerte que lo consuma**.
+- ⚠️ **El revive resetea los cooldowns de los precepts** `[empirical]`: si el compañero cae y vuelve
+  antes de que expire el cooldown de una habilidad, puede reactivarla — *"no tienen CD luego de
+  revivir"*. Es un **cierre de ventana por evento, no por tiempo**, la misma forma que
+  [`../domains/engine/design/time-model.md`](../domains/engine/design/time-model.md) §3 llama `until`
+  conjuntivo. Sin verificar contra la wiki, que puede no declararlo; el registro con autoridad sería
+  `references/ingame-tests/`.
+- **El "dueño" puede no ser el warframe:** [`astral-bond`](../../references/wiki/mods/astral-bond.wikitext) nombra Operador/Drifter/Amp **15** veces y al
+  warframe **cero**. Segunda evidencia independiente de que *dueño* es un rol — la primera es Sevagoth's
+  Shadow en `arch-decisions §18`.
+
+⚠️ **Y el vocabulario de sujeto de la prosa no es un campo:** los 14 nombran al receptor con `owner`,
+`you`/`your` o `Warframe` según la página, sin término canónico. Sirve para partir el corpus, no para
+alimentar un modelo.
+
+**Hallazgo lateral, fuera del alcance de esta OQ:** `../semantic/upgrade-tokens.md` §Registro de lo
+inexpresable declara `absoluteCritBonus` *"no resoluble con el corpus local — requiere test in-game"*.
+`cats-eye.wikitext` §Notes lo resuelve con corpus local: da la segunda fuente del pool absoluto y su
+fórmula textual —`25% × (1 + 120% + 40%×(4−1)) + 60% + 45%`—, donde el `45%` es **Arcane Avenger**, hoy
+clasificado en el pool relativo (`WEAPON_ADD_CRIT_CHANCE`) en `arcane-stats.override.json`. El término
+ya existe construido en `formulas/common/crit-base.ts` y no tiene emisor.
+
+**Lo que el eje NO es: una familia de token.** Un `COMPANION_ADD_SHIELD_MAX` diría *"el nodo de shield
+del compañero"*, que es lo mismo que `AVATAR_ADD_SHIELD_MAX` sobre un portador compañero — y ese caso
+(`Calculated Redirection`) **ya cae bien** por §18. El faltante no es `{dónde}` vive el nodo sino a
+quién le llega el efecto, y por eso se resuelve en el alcance, no en el vocabulario.
 
 **La progresión que esto sugiere no es de entidades sino de capacidades del motor** — una entidad se
 gana el lugar cuando el motor ya sabe propagarle lo que le llega: warframe → habilidades de buff
@@ -2362,7 +2506,7 @@ anclaje se resuelve local; algunas no discriminan por clase*), sobre otro materi
   **haber nacido deje rastro** (un contador que subió, un trigger que disparó).
 - **H3 — `acortar` no es un verbo sino un desvío de parámetro.** Sería `arch-decisions §17` aplicado a
   la duración: el **receptor modifica** el parámetro `until` del hecho. Si se sostiene, `acortar`
-  desaparece y queda cubierto por la cadena de desvíos (`CV-3`).
+  desaparece y queda cubierto por la cadena de desvíos de `arch-decisions §17`.
 
 **Gate para cerrarla:** ninguna. **No la abre un consumidor** — la abre que cuatro operaciones distintas
 compartan nombre y que el proyecto no tenga dónde ponerlas. Lo que sí está gateado es *construir*: hoy

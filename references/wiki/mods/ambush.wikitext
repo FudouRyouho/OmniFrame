@@ -1,0 +1,52 @@
+{{ModBox}}
+'''Ambush''' is a precept [[mod]] for {{Companion|Shade}}, {{Companion|Prisma Shade}}, and {{Companion|Shade Prime}} that temporarily buffs the owner's weapon [[damage]] after breaking invisibility granted by {{M|Ghost}}.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Damage increase
+! Duration
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || 60% || 3s || 6
+|-
+| 1 || 120% || 3s || 7
+|-
+| 2 || 180% || 3s || 8
+|-
+| 3 || 240% || 3s || 9
+|}
+
+==Acquisition==
+*This mod can be acquired from [[Cephalon Simaris]] for {{sc|75,000}}.
+
+==Notes==
+*Gives a damage buff additive to mods like {{M|Serration}} to the player's equipped weapon.
+
+{{clr}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|32.3}}
+*Increased the weapon damage bonus from Shade’s “Ambush” augment from 120% to 240%, for 3 seconds when you break out of invisibility.
+
+{{ver|23.10.7}}
+*Fixed the Ambush Mod having an inaccurate description. Now it mentions that the extra damage is granted specifically to weapons.
+
+{{ver|23.10}}
+*Introduced.
+}}
+{{ver/Lu|24.1.5}}
+{{CompanionModNav}}
+__NOTOC__
+[[es:Emboscada]]
+[[ru:Засада]]
+[[Category:Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Cephalon Simaris]]
+[[Category:Penjaga Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Update 23]]
+[[uk:Засідка]]
+[[fr:Embuscade]]
