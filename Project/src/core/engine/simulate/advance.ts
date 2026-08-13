@@ -28,7 +28,7 @@ export function advanceAndResolve(state: EnemyState, currentTime: number, dt: nu
     const { layer, finalDamage } = CombatSimulator.resolveDamageEvent(
       damageTokenFromType(res.as), res.value, state, currentTime,
     );
-    state.receive(layer, finalDamage);
+    state.receive(layer, finalDamage, currentTime);
   }
   state.clampVitals();
 }

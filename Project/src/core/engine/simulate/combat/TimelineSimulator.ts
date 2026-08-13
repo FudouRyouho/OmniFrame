@@ -113,7 +113,7 @@ export class TimelineSimulator {
         // La resolución ya devuelve la partición completa (`by_layer`); `receive` es dueño del
         // derrame. `shield_damage`/`health_damage` quedan como atajos de lectura, no como el camino.
         for (const [layer, dmg] of Object.entries(resolution.by_layer) as Array<[Layer, number]>) {
-          if (dmg > 0) state.receive(layer, dmg);
+          if (dmg > 0) state.receive(layer, dmg, currentTime);
         }
         state.clampVitals();
 

@@ -99,3 +99,53 @@ describe('Invariancia al paso de muestreo — `dt` es perilla de costo, no de re
 
   it.todo('[source] la misma invariante del lado emisor — hoy no hay reloj que preguntar (`context.variables` es un número)');
 });
+
+describe('El gate expone que las emisiones pierden su instante', () => {
+  /**
+   * 🔴 **CONOCIDO-ROTO, y la causa no es el gate.**
+   *
+   * `Resolucion { value, as }` **no lleva `at`**: el behavior del DoT suma todos los ticks que caen
+   * en `[t, t+dt)` en un solo `value`, y `advanceAndResolve` los resuelve como **un evento** en
+   * `currentTime`. Los ticks declaran su instante (`DotPulse.firstTick` + `interval`) y la emisión lo
+   * tira — que es exactamente lo que este archivo llama *"el reloj es del observador"*.
+   *
+   * Hasta ahora no importaba: el TOTAL es invariante (el primer test de este archivo lo fija en 210)
+   * y ningún consumidor dependía del evento individual. **El gate es el primero que sí**, porque
+   * corta por evento: dos ticks agrupados encuentran shield una sola vez.
+   *
+   * MEDIDO — daño que llega a la salud, shield 100, bleed de 210 en 6 ticks de 35 espaciados 1 s:
+   *
+   * | `dt`   | 0.1 | 0.5 | 0.9 | 1.0 | 1.1 | **1.5** | 2.0 | **3.0** |
+   * |--------|-----|-----|-----|-----|-----|---------|-----|---------|
+   * | perdido|105.25|105.25|105.25|105.25|105.25| **72.00** |105.25| **38.75** |
+   *
+   * Diverge **cuando `dt` supera el intervalo entre ticks**, y `dt=2` vuelve a coincidir por
+   * casualidad (agrupa de a dos, en fase). **No está activo en producción**: `TimelineSimulator`
+   * avanza con `step = 0.1` fijo.
+   *
+   * LA CURA es que `Resolucion` lleve su `at` y que cada emisión se resuelva en SU instante, no en el
+   * del muestreo. Eso además arregla algo que hoy nadie mide: el armor y los multiplicadores de capa
+   * se leen con `currentTime`, así que un tick que ocurrió a mitad del intervalo se resuelve contra
+   * el estado del borde.
+   */
+  it.fails('[gate] la ventana no debería depender de `dt` — se mueve 105.25 → 72.00 → 38.75', () => {
+    const medido = PASOS.map((dt) => {
+      const s = makeIsolatedTarget({ shields: 100, health: 10_000 });
+      s.applyProc('bleed', hit, 1, 0);
+      correr(s, 8, dt);
+      return s.current_health;
+    });
+    for (const hp of medido) expect(hp).toBeCloseTo(medido[0], 9);
+  });
+
+  it('el gate SÍ es invariante mientras `dt` no agrupe ticks — el rango que el motor usa', () => {
+    // Con el `step = 0.1` real y todo lo que no agrupe, el resultado es estable. Esto no disimula el
+    // `it.fails` de arriba: acota dónde vale hoy, para que la cura se mida contra algo.
+    for (const dt of [0.1, 0.25, 0.5, 1]) {
+      const s = makeIsolatedTarget({ shields: 100, health: 10_000 });
+      s.applyProc('bleed', hit, 1, 0);
+      correr(s, 8, dt);
+      expect(10_000 - s.current_health).toBeCloseTo(105.25, 9);
+    }
+  });
+});

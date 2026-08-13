@@ -67,17 +67,19 @@ describe('La pila declara el orden; cada capa declara qué la atraviesa', () => 
     expect(res.total_damage).toBe(150);
   });
 
-  it('el consumo derrama hacia abajo: lo que una capa no absorbe pasa a la siguiente que lo admita', () => {
+  it('el consumo derrama hacia abajo — y al agotarse el SHIELD el gate corta el derrame', () => {
     const s = makeIsolatedTarget({ overguard: 100, shields: 100, health: 1000 });
-    // El derrame es la ley del HOSTIL. Del lado jugador el gate lo corta y abre invulnerabilidad
-    // (`overguard.md`: 0.5 s al agotarse el Overguard) — medido como `it.fails` en `state-neutrality`.
     s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 1, 0);
     for (let t = 0; t < 8; t += 0.5) advanceAndResolve(s, t, 0.5);
 
-    // 210 de bleed: 100 se los come el overguard, 100 el shield, 10 llegan a la salud.
+    // 210 de bleed en 6 ticks de 35, trazado: el Overguard se come 100 y **derrama** (el gate de
+    // Overguard es del lado jugador; del lado enemigo `overguard.md` declara "ninguno"). El shield se
+    // come otros 100 y al agotarse **sí** gatea: de los 10 restantes pasa el 5% del gate enemigo.
+    //
+    // Antes llegaban los 10 enteros a la salud, porque no había gate de ningún lado.
     expect(s.current_overguard).toBe(0);
     expect(s.current_shields).toBe(0);
-    expect(s.current_health).toBeCloseTo(1000 - 10, 6);
+    expect(s.current_health).toBeCloseTo(1000 - 10 * 0.05, 6);   // 999.5, no 990
   });
 
   /**

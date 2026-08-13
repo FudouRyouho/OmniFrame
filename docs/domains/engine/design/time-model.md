@@ -345,7 +345,9 @@ mire sólo la salud. Pero el gate no entra:
 ```
 absorber    la capa toma el daño y derrama el resto      ← receive() lo hace
 atravesar   el daño ignora la capa y sigue               ← layers.ts lo declara
-cerrar      la capa se agota y EMITE UNA VENTANA         ← no existe
+cerrar      la capa se agota y EMITE UNA VENTANA         ← receive() lo hace para el SHIELD
+                                                            (`formulas/defense/shield-gate.ts`);
+                                                            el gate del Overguard sigue sin existir
 ```
 
 **Un gate no extiende la salud: la protege absolutamente.** Es el verbo que conecta este documento con
@@ -396,12 +398,13 @@ lleva sobre el overshield es el síntoma del mismo hueco.
 |---|---|---|
 | 1 | **La línea** (reloj por entidad) | declarada, **no construida**. Un solo caso (combo, 6 armas) |
 | 2 | **`until` como predicado** | declarado. Sin implementación — las canalizadas no están modeladas |
-| 3 | **El tercer verbo (`cerrar`)** | sin lugar. `it.fails` vivo en `state-neutrality.test.ts` |
+| 3 | **El tercer verbo (`cerrar`)** | ✅ **construido para el shield** (`formulas/defense/shield-gate.ts` + `receive`), los dos lados. Falta el gate del **Overguard** (0.5 s, sólo jugador) |
 | 4 | **`StackState` → instancias** | la cura de 2 bugs independientes. Sin ejecutar |
 | 5 | **snapshot ⊥ live** | `OQ-ENGINE-20`. Ahora con caso (Hildryn) y con tirada definida |
 | 6 | **¿Status Duration alarga la vuelta del strip?** | ⚠️ derivado. Power Spike da precedente **a favor**; **falta medición in-game** |
 | 7 | **Los 4 tokens `*_DURATION`** | **medido**: 2 se componen con valor real; `WEAPON_ADD_STATUS_DURATION` no tiene portador en el catálogo (sí 9 en datasets). `DECAY_DURATION = 6.0` sigue constante |
-| 8 | **Cierre conjuntivo** (`until` con varias condiciones) | declarado en §3, **sin implementación**. El shield gate lo necesita entero |
+| 8 | **Cierre conjuntivo** (`until` con varias condiciones) | ✅ **ejecutable en un caso**: el shield gate cierra por tiempo **o** por `replenishShields`, lo que ocurra primero. Sigue sin forma **genérica** — hoy es un `if` dentro del método, no un conjunto de condiciones que un hecho declare |
+| 10 | 🔴 **Las emisiones pierden su instante** | `Resolucion {value, as}` **no lleva `at`**: los ticks de un intervalo se agregan en un evento. Invisible mientras nadie dependía del evento; **el gate es el primero que sí**. Medido: 105.25 → 72.00 → 38.75 según `dt`. `it.fails` en `dt-invariance.test.ts`. No activo (`step = 0.1`) |
 | 9 | **La duración de Ragdoll** | *"variable · auto-kill si dura demasiado"* — **ni la wiki la declara**. Hueco de fuente, no del modelo; su dueño es `crowd-control.md` |
 
 ### Evaluado y descartado — no re-abrir sin caso nuevo

@@ -5,6 +5,7 @@ import type { EffectBehavior, HitContext, Layer, Resolucion } from "../../formul
 // NO importa `CombatSimulator`: el estado ya no invoca al resolvedor de lo que él mismo emite. La
 // composición «avanzar → resolver → recibir» vive en `../advance.ts`, que es el dueño del bucle.
 import { LAYER_STACK } from "../../contracts/layers";
+import { gateLawFor } from "../../formulas/defense/shield-gate";
 
 /**
  * EnemyState — estado dinámico de un enemigo durante la simulación temporal. **Modelo unificado de
@@ -151,13 +152,13 @@ export class EnemyState {
   }
 
   /**
-   * Recibe un daño **ya resuelto** desde `layer` hacia abajo, derramando el excedente a la capa
-   * siguiente que lo admita. El estado no computa el número: lo recibe.
+   * Piso de la salud. El derrame y el corte viven en `receive`; esto sólo evita que el contenedor
+   * arrastre un negativo que nadie declaró.
    *
-   * **El derrame es la ley del hostil**: el gate del jugador (shield gate, y el de 0.5 s al agotarse
-   * el Overguard — `overguard.md §Jugador y enemigo se comportan distinto`) corta el derrame y abre
-   * una ventana de invulnerabilidad. Eso NO está acá: es una ley por clase y el `it.fails` que lo
-   * mide vive en `__tests__/state-neutrality.test.ts`.
+   * ⚠️ **El derrame ya NO es "la ley del hostil"** —como decía este comentario hasta que se midió—:
+   * los dos lados gatean, con mecánicas distintas. El jugador corta entero; el enemigo deja pasar el
+   * 5% durante 0.1 s (`shield.md §El gate del enemigo es otra mecánica`). Lo que sigue faltando es el
+   * gate del **Overguard**, que existe sólo del lado jugador (0.5 s) y no está implementado.
    */
   public clampVitals() {
     if (this.current_health < 0) this.current_health = 0;
@@ -171,8 +172,50 @@ export class EnemyState {
     if (layer === "health")     this.current_health     = value;
   }
 
-  public receive(layer: Layer, damage: number) {
-    let restante = damage;
+  /**
+   * EL TERCER VERBO DE LA CAPA. Absorber y atravesar ya estaban; **cerrar** no: la capa se agota y
+   * en vez de derramar el exceso, **abre una ventana** (`time-model.md §7`). Un gate no extiende la
+   * salud —que es lo que las capas hacen—, la protege absolutamente, y por eso no entraba en el
+   * modelo de derrame.
+   *
+   * Se implementa como LEY con parámetros resueltos por clase (`formulas/defense/shield-gate.ts`):
+   * el jugador corta entero, el enemigo deja pasar el 5% durante 0.1 s. **No es el mismo gate con
+   * otros números — la fuente los declara como mecánicas distintas.**
+   */
+  private gateUntil: number | null = null;
+  /**
+   * `S` — shields repuestos desde el último gate, el argumento de la duración del lado jugador.
+   * **No es el shield máximo**: la ventana escala con cuánto se logró rellenar, así que este número
+   * se acumula entre dos gates y se reinicia al abrirse uno.
+   */
+  private shieldsReplenished = 0;
+
+  /** ¿Hay ventana de gate abierta en `t`? Lectura por MUESTREO, no por evento (`§20`). */
+  public isGated(currentTime: number): boolean {
+    return this.gateUntil !== null && currentTime < this.gateUntil;
+  }
+
+  /**
+   * Repone shields. Existe para alimentar `S`, no como conveniencia: sin él, la duración del gate
+   * del jugador no es computable y la ventana sería un número inventado.
+   *
+   * Y trae el **cierre conjuntivo** de `time-model.md §3`: la ventana cierra por tiempo **o** porque
+   * se repuso shield, lo que ocurra primero — *"recuperar shields durante la invulnerabilidad la
+   * termina de inmediato: cualquier cantidad, de cualquier fuente, incluida la regeneración natural"*.
+   */
+  public replenishShields(amount: number, currentTime = 0) {
+    if (amount <= 0) return;
+    this.current_shields += amount;
+    this.shieldsReplenished += amount;
+    if (this.isGated(currentTime)) this.gateUntil = null;
+  }
+
+  public receive(layer: Layer, damage: number, currentTime = 0) {
+    const law = gateLawFor(this.entity.routes);
+
+    // Ventana abierta: sólo pasa la fracción que la clase declare (jugador 0, enemigo 5%).
+    let restante = this.isGated(currentTime) && law ? damage * law.leakFraction : damage;
+
     for (const l of LAYER_STACK.slice(LAYER_STACK.indexOf(layer))) {
       if (restante <= 0) return;
       if (l === "health") { this.current_health -= restante; return; }
@@ -181,6 +224,13 @@ export class EnemyState {
       const absorbido = Math.min(disponible, restante);
       this.setLayer(l, disponible - absorbido);
       restante -= absorbido;
+
+      // La capa se AGOTÓ en este evento (tenía algo, quedó en cero) → cierra, y el exceso no derrama.
+      if (law && restante > 0 && l === "shield") {
+        this.gateUntil = currentTime + law.duration(this.shieldsReplenished);
+        this.shieldsReplenished = 0;
+        restante *= law.leakFraction;
+      }
     }
   }
 

@@ -23,6 +23,7 @@ import { consume } from '../output/consume';
 import { volt } from '../fixtures/builds';
 import { hostileEntity, syntheticHostile } from './hostile-entity';
 import { advanceAndResolve } from '../simulate/advance';
+import { playerGateDuration } from '../formulas/defense/shield-gate';
 
 await loadEngineData(new NodeAdapter());
 
@@ -136,19 +137,67 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
       .toThrow(/no declara ninguna familia con ley de mitigación/);
   });
 
-  it.fails('[capas] el daño que rompe los shields del avatar no debería pasar a la salud en el mismo evento', () => {
+  it('[capas] el daño que rompe los shields del avatar NO pasa a la salud en el mismo evento', () => {
     const s = new EnemyState(avatar());
     const health0 = s.current_health;
-    // Pulso deliberadamente mayor que los shields: en un hostil desborda, en un avatar el shield gate
-    // lo corta y abre una ventana de invulnerabilidad que este contenedor no tiene dónde poner. Su
-    // duración **no** escala con el shield máximo sino con los shields REPUESTOS desde el gate anterior
-    // (`references/wiki/mechanics/shield.md §Shield Gating`: 0.33 s → 2.5 s, con excepciones que
-    // cambian la naturaleza — Catalyzing Shields fija 1.33 s por *cualquier* cantidad repuesta).
+    // Pulso deliberadamente mayor que los shields: en un hostil el exceso derrama al 5% (su gate es
+    // otra mecánica); en un avatar el gate corta entero. Trazado: a t=1 se van los 455 de shield y la
+    // salud queda intacta.
     s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 200, 0);
-    for (let t = 0; t < 8; t += 0.5) advanceAndResolve(s, t, 0.5);
+    advanceAndResolve(s, 1, 0.5);
 
     expect(s.current_shields).toBe(0);
     expect(s.current_health).toBe(health0);
+    expect(s.isGated(1)).toBe(true);
+  });
+
+  it('[capas] …pero la ventana EXPIRA, y el tick siguiente sí llega a la salud', () => {
+    // Lo que el `it.fails` anterior pedía —salud intacta tras 8 s— **no es lo que el juego hace**. El
+    // gate mínimo dura 1/3 s (`playerGateDuration(0)`, sin shields repuestos): cubre el evento que lo
+    // abrió y nada más. Sostener lo contrario convertía una ventana en invulnerabilidad permanente.
+    const s = new EnemyState(avatar());
+    s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 200, 0);
+    advanceAndResolve(s, 1, 0.5);
+    expect(s.isGated(1)).toBe(true);
+    expect(s.isGated(2)).toBe(false);      // 1 + 0.333 < 2
+
+    advanceAndResolve(s, 2, 0.5);
+    expect(s.current_health).toBe(0);
+  });
+
+  it('[capas] reponer shields durante la ventana la CIERRA — el `until` conjuntivo, ejecutable', () => {
+    // `shield.md`: *"recuperar shields durante la invulnerabilidad la termina de inmediato — cualquier
+    // cantidad, de cualquier fuente, incluida la regeneración natural"*. La ventana cierra por tiempo
+    // **o** por este predicado, lo que ocurra primero (`time-model.md §3`).
+    const s = new EnemyState(avatar());
+    s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 200, 0);
+    advanceAndResolve(s, 1, 0.5);
+    expect(s.isGated(1.1)).toBe(true);
+
+    s.replenishShields(1, 1.1);            // un solo punto alcanza: no depende de la magnitud
+    expect(s.isGated(1.1)).toBe(false);
+  });
+
+  it('[capas] la ventana escala con los shields REPUESTOS, no con el máximo', () => {
+    // El argumento de la duración es `S` = repuesto desde el último gate. Un avatar que no repuso nada
+    // recibe el mínimo (1/3 s) aunque tenga 455 de shield máximo — que es justo la trampa que el
+    // comentario viejo advertía y el test no ejercía.
+    expect(playerGateDuration(0)).toBeCloseTo(1 / 3, 9);               // piso declarado: 0.33 s
+    expect(playerGateDuration(455)).toBeCloseTo(Math.pow(455 / 350, 0.65) + 1 / 3, 9);
+    expect(playerGateDuration(2000)).toBe(2.5);                        // techo declarado
+    expect(playerGateDuration(53)).toBeGreaterThan(playerGateDuration(52));
+  });
+
+  it('[capas] ⚠️ la fórmula de la fuente NO es monótona en su propio corte', () => {
+    // Medido: la rama continua evaluada en su último punto da 2.500086 — **por encima del cap de
+    // 2.5**, así que un punto más de shield repuesto ACORTA la ventana en 0.86 décimas de milésima.
+    //
+    // Es artefacto de los coeficientes de la wiki (0.65 y /350 son ajustes, no álgebra exacta), no un
+    // bug del port: reproducirlo fiel es lo correcto. Queda fijado para que nadie lo "arregle"
+    // creyendo que es un error de transcripción, y para que se note si la fuente se corrige.
+    expect(playerGateDuration(1150)).toBeCloseTo(2.500086, 6);
+    expect(playerGateDuration(1151)).toBe(2.5);
+    expect(playerGateDuration(1150)).toBeGreaterThan(playerGateDuration(1151));
   });
 
   it.todo('[clase] la ley la elige la marca de ruteo del portador, como `vitalsOf` con el vocabulario — sin forma todavía [OQ-ENGINE-22]');
