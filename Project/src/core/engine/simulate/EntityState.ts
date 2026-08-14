@@ -1,13 +1,13 @@
-import type { SimulationEntity } from "../../contracts";
+import type { SimulationEntity } from "../contracts";
 import type { StatusEffect } from "@shared/types";
-import { EFFECT_BEHAVIORS } from "../../formulas/status/behaviors";
-import type { EffectBehavior, HitContext, Layer, ProcContext, ReceiverContext, Resolucion } from "../../formulas/status/effect-behavior";
+import { EFFECT_BEHAVIORS } from "../formulas/status/behaviors";
+import type { EffectBehavior, HitContext, Layer, ProcContext, ReceiverContext, Resolucion } from "../formulas/status/effect-behavior";
 // NO importa `CombatSimulator`: el estado ya no invoca al resolvedor de lo que él mismo emite. La
 // composición «avanzar → resolver → recibir» vive en `../advance.ts`, que es el dueño del bucle.
-import { LAYER_STACK } from "../../contracts/layers";
-import { PLAYER_VITAL_CHANNELS, byChannel, forChannels } from "../../contracts/unit-class";
-import { gateLawFor } from "../../formulas/defense/shield-gate";
-import { damageToDeplete, shieldDamageReductionFor } from "../../formulas/defense/shield-mitigation";
+import { LAYER_STACK } from "../contracts/layers";
+import { PLAYER_VITAL_CHANNELS, byChannel, forChannels } from "../contracts/unit-class";
+import { gateLawFor } from "../formulas/defense/shield-gate";
+import { damageToDeplete, shieldDamageReductionFor } from "../formulas/defense/shield-mitigation";
 
 /**
  * EntityState — estado dinámico de un enemigo durante la simulación temporal. **Modelo unificado de
@@ -40,9 +40,17 @@ import { damageToDeplete, shieldDamageReductionFor } from "../../formulas/defens
  * la extensión es por **portador**, allá por **rol en el flujo del daño**. En aquella propuesta esta
  * clase figura como uno de los derivados, no como la base.
  *
- * ⚠️ **El archivo sigue en `simulate/enemies/`**, con `EnemyRepository` y `EnemySnapshot`, que sí son
- * de enemigo. Mover la clase es reorganización estructural, otro corte — el nombre se arregló, la
- * ubicación no.
+ * **Y por eso vive en la raíz de `simulate/`, no en `enemies/`.** Esa carpeta particiona por
+ * **entidad** y `combat/` por **proceso** — dos ejes, y este archivo no entra en ninguno: es la
+ * maquinaria de C2 que no pertenece a ninguna entidad, igual que `advance.ts`, el bucle que lo
+ * avanza. La regla de la carpeta queda legible sin nota al pie: **la raíz de `simulate/` es lo que no
+ * es de nadie**; `enemies/` es lo que sí es del enemigo (`EnemyRepository`, cuyo dato es
+ * `enemies.json`; `EnemySnapshot`, que hoy lee el target).
+ *
+ * ⚠️ Y no contradice a `formulas/{enemy,warframe}/`, que particiona por entidad **a propósito**: allá
+ * `DC-OQ-ENGINE-22` midió que las leyes de mitigación *"no comparten forma algebraica"*, así que cada
+ * clase conserva la suya. Acá el contenedor **es uno solo y lo comparten tres portadores**. Misma
+ * medición, conclusión opuesta — y es la conclusión la que decide dónde va cada archivo.
  */
 /** Valor resuelto de un nodo, o 0 si el participante no lo tiene (sin shields, sin armadura). */
 const nodeFinal = (entity: SimulationEntity, id: string): number => entity.attributes[id]?.final ?? 0;

@@ -20,7 +20,7 @@
 import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
-import { EntityState, vitalsOf } from '../simulate/enemies/EntityState';
+import { EntityState, vitalsOf } from '../simulate/EntityState';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
 import { consume } from '../output/consume';
 import { volt } from '../fixtures/builds';

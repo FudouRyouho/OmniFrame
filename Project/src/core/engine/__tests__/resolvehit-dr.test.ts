@@ -16,7 +16,7 @@ import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { hostileEntity } from './hostile-entity';
-import { EntityState } from '../simulate/enemies/EntityState';
+import { EntityState } from '../simulate/EntityState';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
 
 await loadEngineData(new NodeAdapter());

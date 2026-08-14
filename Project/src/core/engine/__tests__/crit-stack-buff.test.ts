@@ -10,7 +10,7 @@ import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { deriveInstance } from '../simulate/combat/damage-instance';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
-import { EntityState } from '../simulate/enemies/EntityState';
+import { EntityState } from '../simulate/EntityState';
 import { hostileEntity } from './hostile-entity';
 import { lanka } from '../fixtures/builds';
 import type { SimulationEntity } from '../contracts';

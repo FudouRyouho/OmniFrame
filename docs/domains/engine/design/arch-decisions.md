@@ -435,7 +435,7 @@ proyecta el snapshot a los flags de `condition` que activa (hoy: `while_enemy_be
   candidato inmediato son los `while_enemy_*` restantes de `conditions.md` G3
   (`while_enemy_undamaged`, `while_enemy_status_count_below_3`), sin construirlos por anticipación.
 - **Separado de `EntityState` a propósito.** `EntityState` es maquinaria C2 (estado por-efecto
-  `Map<StatusEffect,S>`: stacks/pools, timeline). `EnemySnapshot` vive en el mismo directorio (`simulate/enemies/`) pero es C1 puro —
+  `Map<StatusEffect,S>`: stacks/pools, timeline). `EnemySnapshot` vive en `simulate/enemies/` —donde `EntityState` ya no está— pero es C1 puro —
   mezclar los dos types haría parecer C2-listo algo que es solo un input declarado.
 - **Vehículo real, no sintético.** El corpus trajo el gap: `while_enemy_below_half_health` existe en
   3 armas (Dread/Kunai/Sicarus, perks incarnon tier 2) pero solo Sicarus (Feigned Retreat) tiene

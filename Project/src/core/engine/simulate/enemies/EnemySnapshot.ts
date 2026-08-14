@@ -15,7 +15,7 @@
  * que emerge de una timeline. Sin RNG, sin frames.
  */
 import type { SimulationEntity } from '../../contracts';
-import { vitalsOf } from './EntityState';
+import { vitalsOf } from '../EntityState';
 
 export interface EnemySnapshot {
   max_health: number;

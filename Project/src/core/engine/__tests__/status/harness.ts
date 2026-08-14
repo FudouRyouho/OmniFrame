@@ -15,7 +15,7 @@
  * (instance medio-nacido, §14/O5). Lo que el harness NO puede inyectar aún se registra como `todo`
  * en los per-effect tests; el harness expone el hueco, no lo esconde.
  */
-import { EntityState } from "../../simulate/enemies/EntityState";
+import { EntityState } from "../../simulate/EntityState";
 import { CombatSimulator, type HitResolution } from "../../simulate/combat/CombatSimulator";
 import type { StatusEffect } from "@shared/types";
 import type { UnitClass } from "../../contracts/unit-class";

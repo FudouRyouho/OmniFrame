@@ -21,7 +21,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { hostileEntity } from '../hostile-entity';
-import { EntityState } from '../../simulate/enemies/EntityState';
+import { EntityState } from '../../simulate/EntityState';
 import { curateEnemies } from '../../simulate/enemies/EnemyRepository';
 import { RECEIVER_MAX_STACKS, receiverMaxStacks } from '../../formulas/status/stack-debuff';
 import { UNIT_CLASSES } from '../../contracts/unit-class';

@@ -19,7 +19,7 @@ import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
 import { damageReductionFromArmor } from '../formulas/enemy/armor-mitigation';
 import { scaleHealth } from '../formulas/enemy/enemy-scaling';
 import { hostileEntity } from './hostile-entity';
-import { vitalsOf } from '../simulate/enemies/EntityState';
+import { vitalsOf } from '../simulate/EntityState';
 
 /**
  * Los vitales de un enemigo del catálogo a un nivel dado, POR EL CAMINO VIVO: se declara un escenario

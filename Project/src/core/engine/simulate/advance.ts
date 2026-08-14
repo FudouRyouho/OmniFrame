@@ -14,7 +14,7 @@
  * Lo que queda del lado del estado es leer y escribirse **desde afuera**. Lo que queda acá es el
  * único lugar donde el ciclo de vida de un tick se compone entero.
  */
-import type { EntityState } from "./enemies/EntityState";
+import type { EntityState } from "./EntityState";
 import { CombatSimulator } from "./combat/CombatSimulator";
 import { damageTokenFromType } from "../contracts/damage-logic";
 

@@ -4,7 +4,7 @@
  * Ver `docs/domains/oracle/design/architecture.md` §2-2.1.
  */
 import { toStatEntries } from '@lib/format/stat-entry';
-import { vitalsOf } from '@core/engine/simulate/enemies/EntityState';
+import { vitalsOf } from '@core/engine/simulate/EntityState';
 import type { AcquiredResult, Format, MetricsResult, EnemyResult, TraceResult } from './types';
 
 export function present(result: AcquiredResult, format: Format): void {

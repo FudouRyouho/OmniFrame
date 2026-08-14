@@ -50,7 +50,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 |---|---|
 | `SimulationEngine` | **Activo** — grafo de atributos con topological sort (Kahn, un pass; DAG → punto fijo). Ciclo real → alerta fail-loud (convergencia iterativa = Opción B, diferida). Trace de procedencia **opt-in** (`enableTrace()`/`getTrace()`). |
 
-### Capa C2 — Combate (`engine/simulate/combat/` + `engine/simulate/enemies/`)
+### Capa C2 — Combate (`engine/simulate/`: raíz + `combat/` + `enemies/`)
 
 | Componente | Estado |
 |---|---|
@@ -58,7 +58,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 | `AtomicSimulator` | **Activo** — conectado a `formulas/common/crit-base` |
 | `advance.ts` | **Activo** — `advanceAndResolve`: la composición «avanzar → resolver → recibir». Vive fuera del estado a propósito: el contenedor no invoca al resolvedor de lo que él mismo emite. |
 | `TimelineSimulator` · `RngProvider` | **Activo** — generación de procs unificada (`expectedProcEvents` → `effectOfDamageType` → `applyProc`); `StatusEngine` **eliminado** (ver Nota C2) |
-| `EnemyRepository` · `EntityState` | **Activo** (`simulate/enemies/`). `EnemyRepository` es catálogo: **carga y búsqueda**, no compone participantes — la curva-S la orquesta el frame-0 (`ItemRepository.normalizeEnemy`) y `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`) resuelve el hit. `EntityState` nace de la **entidad resuelta de C1**, así que lo que el escenario compuso encima del enemigo llega al daño. Validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
+| `EnemyRepository` · `EntityState` | **Activo**. `EntityState` vive en la **raíz** de `simulate/` (junto a `advance.ts`) y `EnemyRepository` en `enemies/`: la raíz es lo que **no es de ninguna entidad**, `combat/` particiona por proceso y `enemies/` por entidad. `EnemyRepository` es catálogo: **carga y búsqueda**, no compone participantes — la curva-S la orquesta el frame-0 (`ItemRepository.normalizeEnemy`) y `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`) resuelve el hit. `EntityState` nace de la **entidad resuelta de C1**, así que lo que el escenario compuso encima del enemigo llega al daño. Validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
 
 > **El status de C2 usa el modelo unificado de proc:** un contenedor único `Map<StatusEffect, S>` +
 > `EffectBehavior` por efecto. `EntityState` itera el registro `EFFECT_BEHAVIORS`; `resolveDamageEvent`

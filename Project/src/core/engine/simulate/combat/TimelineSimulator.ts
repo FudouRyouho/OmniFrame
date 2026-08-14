@@ -5,7 +5,7 @@ import type { SimulationEntity, SimulationContext } from "../../contracts";
 import type { Layer } from "../../contracts/layers";
 import { CombatSimulator } from "./CombatSimulator";
 import { RngProvider } from "./RngProvider";
-import { EntityState } from "../enemies/EntityState";
+import { EntityState } from "../EntityState";
 import { advanceAndResolve } from "../advance";
 import { effectOfDamageType } from "@shared/types";
 import { expectedProcEvents } from "../../formulas/status/proc-population";

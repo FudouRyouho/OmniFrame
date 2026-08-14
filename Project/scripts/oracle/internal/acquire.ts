@@ -8,7 +8,7 @@ import { consume } from '@core/engine/output/consume';
 import { computeCombatMetrics } from '@core/engine/output/combat-metrics';
 import { project } from '@shared/view-model';
 import { EnemyRepository } from '@core/engine/simulate/enemies/EnemyRepository';
-import { vitalsOf } from '@core/engine/simulate/enemies/EntityState';
+import { vitalsOf } from '@core/engine/simulate/EntityState';
 import { hostileOnly } from '@core/engine/fixtures/builds';
 import { damageReductionFromArmor } from '@core/engine/formulas/enemy/armor-mitigation';
 import { effectiveHealthVsEnemy } from '@core/engine/formulas/enemy/effective-health';

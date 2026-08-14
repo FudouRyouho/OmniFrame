@@ -2,7 +2,7 @@
  * @domain Simulation-v2 / Logic / Combat
  * @status en-desarrollo
  */
-import type { EntityState } from "../enemies/EntityState";
+import type { EntityState } from "../EntityState";
 import type { DamageInstance } from "./damage-instance";
 import { targetFactionMult } from "../../contracts/damage-multipliers";
 import { damageReductionFromArmor } from "../../formulas/enemy/armor-mitigation";

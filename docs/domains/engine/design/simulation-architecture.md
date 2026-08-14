@@ -298,7 +298,7 @@ capas — antes un build que declaraba 100 corrido con `--lvl 50` daba C1 a 100 
 - **No conoce**: UI, intención del usuario, cómo se presentan los resultados.
 - **Distinción clave con C1**: C1 resuelve *qué vale cada atributo*. C2 resuelve *qué pasa en el juego con esos valores*.
 - ⚠️ **C1 → C2 no es una línea de capa: es `C1 → C1 + C2`.** C2 **no puede trabajar sin C1** — no son piezas desacopladas que se comuniquen por un contrato reemplazable, es el mismo cómputo extendido con tiempo, target y RNG. Consecuencia práctica: **lo que la Capa A carga para C2 también está cargado para C1**; que C1 no lo use (el cero, por ejemplo) no lo vuelve ajeno a C1 — significa que C1 no construye timeline, no que el dato no esté.
-- **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EntityState}.ts`. (El proc/DoT lo modelan los `EffectBehavior` sobre `EntityState`.)
+- **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/EntityState.ts` + `engine/simulate/enemies/{EnemyRepository, EnemySnapshot}.ts`. (El proc/DoT lo modelan los `EffectBehavior` sobre `EntityState`.)
 
 ---
 
