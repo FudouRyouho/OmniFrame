@@ -8,7 +8,6 @@ Fecha_de_actualizacion: "2026-07-19"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/design/simulation-contracts.md"
-  - "docs/domains/engine/design/simulation-roadmap.md"
 ---
 
 # Auditoría Fase 3 — Sim-v2: Diseño vs. Implementación

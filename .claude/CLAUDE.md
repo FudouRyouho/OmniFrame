@@ -14,9 +14,13 @@ Antes de actuar, declarar: `[FASE: X | IMPACTO: RED/YELLOW/GREEN | ACCIÓN: halt
 
 ## Entorno
 
-- Sistema operativo: Linux.
+- Sistema operativo: Linux (único entorno; no hay dual-boot ni paridad con Windows).
 - Line endings: estrictamente LF.
-- El proyecto se ejecuta vía Docker para no instalar dependencias directamente en el sistema host.
+- **Docker corre la app y los tests; el host corre el tooling.** La regla existe para no instalar
+  *dependencias* en el host, no para prohibir ejecutar ahí. El compose monta sólo `./Project`, así que
+  `docs/`, `references/`, `.git` y los repos hermanos **no existen dentro del contenedor**: los
+  comandos de §Verificación que los leen (`validate:docs`, `references-layout.mjs`) sólo pueden correr
+  en el host, y ahí ya hay un `node_modules` Linux funcional.
 
 ## Enrutamiento
 

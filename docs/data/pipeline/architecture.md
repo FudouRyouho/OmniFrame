@@ -129,7 +129,6 @@ El motor de generación (`Project/scripts/generate-data.ts`) transforma el raw d
 ## Documentos relacionados
 
 - [`ability-pipeline.md`](ability-pipeline.md) — pipeline específico de ability stats (`apply-ability-md.ts`)
-- [`mods-triage.md`](mods-triage.md) — registro de rechazos del parser de mods
 - [`companion-compatibility.md`](companion-compatibility.md) — semántica de `compatName` jerárquico
 - [`../../domains/source/`](../../domains/source/) — las fuentes ajenas que alimentan este pipeline, y su [catálogo de gaps](../../domains/source/gaps.md)
 - [`../rules/overrides.md`](../rules/overrides.md) — gobernanza del SSoT manual

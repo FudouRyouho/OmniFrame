@@ -4,7 +4,7 @@ Rol: "Ledger de decisiones de arquitectura de UI (serie U-N) — espejo de data/
 Impacto_ID: "UI-UX-Decisions"
 Fidelidad_Fisica: "Project/src/"
 Fecha_de_creacion: "2026-06-14"
-Fecha_de_actualizacion: "2026-06-16"
+Fecha_de_actualizacion: "2026-08-14"
 Dependencias:
   - "./workflow.md"
   - "docs/governance/open-questions.md"
@@ -26,7 +26,7 @@ adelante, y los referencia como historia.
 
 ---
 
-## U-1 — Espina de auditoría de UI = DOMINIO + 2 ejes como lente — **VIGENTE (2026-06-14)**
+## U-1 — Espina de auditoría de UI = DOMINIO + 2 ejes como lente — **VIGENTE**
 
 **Decisión:** la campaña de documentación/auditoría de UI se enumera por **DOMINIO**
 (code-domains de `Project/src/domains/` + shell/shared), con los **2 ejes ortogonales**
@@ -38,16 +38,15 @@ las carpetas y del cluster OQ-UI ya particionado así → reusa el corte existen
 
 **Alternativas rechazadas:**
 - **PROVIDER** (seguir la maraña de anclaje): audita solo el eje-1; la presentación no es
-  provider-shaped → quedaría huérfana, re-fragmentando el trabajo de Pre-E (`lib/format`).
+  provider-shaped → quedaría huérfana, re-fragmentando el trabajo ya consolidado en `lib/format`.
 - **VIEW** (vista por vista): nivel de hojas → loop dentro de una vista compleja
   (`ArsenalView`/`UpgradeView`) + riesgo de consagrar el stub function-first como spec.
 
-**Detalle del flujo:** ver [`./workflow.md`](./workflow.md). **Fuente:** debate Stage 0 de la
-campaña de docs de UI, 2026-06-14 (`doc-map.md` §6).
+**Detalle del flujo:** ver [`./workflow.md`](./workflow.md).
 
 ---
 
-## U-2 — ui-ux adopta el trío operativo; "construir" queda fuera del mandato de la campaña — **VIGENTE (2026-06-14)**
+## U-2 — ui-ux adopta el trío operativo; "construir" queda fuera del mandato de la campaña — **VIGENTE**
 
 **Decisión:** la campaña dota a ui-ux del esqueleto operativo que le faltaba —`status.md` +
 `workflow.md` + `decisions.md`— igual que todo dominio funcional. El mandato de la campaña es
@@ -60,11 +59,11 @@ esa asimetría sin entrar a reescribir UI (anti-reescritura); construir sin cons
 repetiría el ciclo motor-reescrito-3x.
 
 **Implicación:** `status.md` se construye a medida que cada dominio pasa por el loop (requiere
-leer código); no se crea en Stage 0. **Fuente:** debate Stage 0, 2026-06-14.
+leer código).
 
 ---
 
-## U-3 — `SLOT_DEFINITIONS` = 3 ejes de V1 fusionados (intención→A · estructura→contexto · presentación→E) — **VIGENTE (2026-06-16)**
+## U-3 — `SLOT_DEFINITIONS` = 3 ejes de V1 fusionados (intención→A · estructura→contexto · presentación→chrome) — **VIGENTE**
 
 **Decisión:** la tabla literal `SLOT_DEFINITIONS` (chrome de slots del arsenal, hardcodeada inline
 en `ArsenalView`) es un **vestigio de V1 que funde 3 ejes ortogonales**, a separar hacia 3 destinos:
@@ -72,7 +71,9 @@ en `ArsenalView`) es un **vestigio de V1 que funde 3 ejes ortogonales**, a separ
 - **intención** (`actions`, `showAbilityNodes`) → **A** (Ensemble / acciones del dispatch).
 - **estructura** (`id`, `surface` = qué slots existen y su contexto de aplicación) → **contexto de
   aplicación** (capa estructural de A; su forma *derivada/dinámica* es exaltadas, `OQ-ENGINE-11`).
-- **presentación** (`slotLabel`, `defaultName`, `icon`, `description`) → **E** (chrome, `f(snapshot)`).
+- **presentación** (`slotLabel`, `defaultName`, `icon`, `description`) → **chrome**: el dato lo entrega
+  el piso **"0"** y el formateo `lib/format`; lo consume **D1** directo. No hay capa intermedia — la
+  Capa E está descartada (`DC-OQ-ENGINE-10`).
 
 El `domain` (vocabulario de "0") **NO** vive en `SLOT_DEFINITIONS` — está en `slot-channel.ts`
 (binding `canal↔slot`); su filtración a tablas divergentes (`CHANNELS` en `HudHeader`,
@@ -90,11 +91,9 @@ ejes no nombra.
 **Downstream:** la materialización del eje *estructura* (slots derivados dinámicamente, p. ej. la
 exaltada que otorga un warframe) = **`OQ-ENGINE-11`** (derivación de intención estructural en A1).
 
-**Fuente:** debate de la campaña ui-ux; cruce de consolidación 2026-06-16 (`.working/consolidation-map.md`).
-
 ---
 
-## U-4 — Honestidad de la UI: false-affordance vs placeholder inerte honesto — **VIGENTE (2026-06-16)**
+## U-4 — Honestidad de la UI: false-affordance vs placeholder inerte honesto — **VIGENTE**
 
 **Decisión:** distinguir dos cosas que se ven parecidas en una UI function-first:
 
@@ -106,13 +105,11 @@ exaltada que otorga un warframe) = **`OQ-ENGINE-11`** (derivación de intención
   **sin documentación** = **el problema** → volver honesto (inerte visible) o cablear; nunca dejar
   fingiendo.
 
-**Afinado por §E (cruce 2026-06-16):** el problema **no es el stub** — es el **stub que pretende
-simular lo que no puede, sin doc**. Eso es, literalmente, gran parte de la UI hoy (HD3
-`active_channel_count=0`, HD5 botones sin handler, los 5 popover-stubs hand-rolleando stats inline).
-El default al tocar ese código = **stub honesto**, no "purgar" ni "dejar fingiendo".
+**El problema no es el stub** — es el **stub que pretende simular lo que no puede, sin doc**. Eso es,
+literalmente, gran parte de la UI hoy (HD3 `active_channel_count=0`, HD5 botones sin handler, los 5
+popover-stubs hand-rolleando stats inline). El default al tocar ese código = **stub honesto**, no
+"purgar" ni "dejar fingiendo".
 
 **Por qué:** resuelve en general "scaffolding ¿se purga o queda?" y da el criterio para el barrido
 de §E sin caso-por-caso. Alinea con `DC-OQ-UI-SPEC-1` (UI no es spec / no consagrar el stub).
 
-**Antecedente:** principio H1 del micro-debate de arsenal (2026-06-14), aquí formalizado y afinado.
-**Fuente:** cruce de consolidación 2026-06-16 (`.working/consolidation-map.md`).

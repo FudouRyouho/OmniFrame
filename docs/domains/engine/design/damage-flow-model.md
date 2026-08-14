@@ -1,6 +1,6 @@
 ---
 Estado: "referencia"
-Rol: "Marco de propiedad y flujo del daño (instancia→daño→estado) — RATIFICADO + Familia A extraída (2026-07-10). Núcleo promovido a arch-decisions §14; gated a decision-frontier §4. Este doc conserva el casework que informa el trabajo gated."
+Rol: "Casework del marco de propiedad y flujo del daño (instancia→daño→estado). El núcleo normativo vive en arch-decisions §14; lo gated, en decision-frontier §4."
 Impacto_ID: "E-DamageFlow"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/status/"
 Fecha_de_creacion: "2026-07-10"
@@ -12,13 +12,11 @@ Dependencias:
 
 # Modelo de flujo del daño
 
-> ✅ **RATIFICADO + IMPLEMENTADO.** El marco se estresó con 3 casos reales (Toxic Lash,
-> Xata) + 2 conceptuales, salió más preciso de cada golpe, y su núcleo se **promovió a
-> [`arch-decisions.md`](./arch-decisions.md) §14** (SSoT ahora). Lo gated viaja a
-> [`../../../governance/decision-frontier.md`](../../../governance/decision-frontier.md) §4. Este doc
-> se **condensó** tras cumplir su cometido de gate del debate — la narrativa completa del debate vive en
-> git (commit del *final trace*). Lo que queda acá: el **casework** que informará el trabajo gated cuando
-> su gate se abra (§O5: primer daño-de-habilidad). **No duplicar §14** — si el marco evoluciona, se edita §14.
+> **El SSoT del marco es [`arch-decisions.md`](./arch-decisions.md) §14**; lo gated vive en
+> [`../../../governance/decision-frontier.md`](../../../governance/decision-frontier.md) §4. Acá queda
+> el **casework** —el marco estresado contra casos reales (Toxic Lash, Xata) y conceptuales— que
+> informa el trabajo gated cuando su gate se abra (§O5: primer daño-de-habilidad). **No duplicar §14**:
+> si el marco evoluciona, se edita §14.
 
 ## El marco en una línea
 

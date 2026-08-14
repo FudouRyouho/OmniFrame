@@ -113,8 +113,17 @@ Schema estabilizado (D-11 `upgrade_by` opcional, D-12 `AbilityStatEntry` plano).
 
 ### Estado de los .md
 
-Cobertura: ~25 warframes anotados, ~10 pendientes (Mag → ...), 5 marcados `//! UPDATE NEEDED`, Kullervo sin acceso.
-Detalle por warframe: `docs/data/schemas/abilities/annotation-status.md` (referencia).
+La cobertura **no se escribe acá**: es un conteo que driftea en silencio (D-16) y el filesystem ya la
+tiene exacta. Se deriva:
+
+```bash
+# warframes con al menos una habilidad anotada
+grep -lc "^## /Lotus/Powersuits/PowersuitAbilities/" references/game-ui/*.md | wc -l
+# los que piden revisión en juego
+grep -rl "UPDATE NEEDED" references/game-ui/
+```
+
+`Augment.md` no es un warframe: es el archivo de augments, sin bloques de habilidad por diseño.
 **Formato de anotaciones:** `references/game-ui/README.md`.
 
 ### Herramienta de visualización

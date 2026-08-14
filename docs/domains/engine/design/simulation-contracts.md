@@ -8,7 +8,6 @@ Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
 Dependidos:
-  - "docs/domains/engine/design/simulation-roadmap.md"
 ---
 
 # OmniFrame Simulation Contracts

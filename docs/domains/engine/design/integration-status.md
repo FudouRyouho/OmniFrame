@@ -17,7 +17,7 @@ Este documento registra el estado técnico y las brechas detectadas durante la f
 | Capa | Estado Actual | Limitación para Integración |
 | :--- | :--- | :--- |
 | **Capa A (`Scene`)** | Estructura de intención tipada: el portador contiene sus mods, arcanos, shards e incarnon. | Incarnon Genesis: perks estáticos implementados vía `IncarnonRepository` (D-13). Perks dinámicos (on-kill, condicionales, stacking) y Helminth sin implementar. |
-| **UI (estado de sesión de arsenal)** | La mitad `arsenalMetadata` mock (catálogos Shards/Evoluciones mock) fue **purgada** (Stage 1, `DC-OQ-STUB-1`); el store quedó como `arsenal-ui-session` (estado UI-local honesto). Los catálogos reales (archon/incarnon) se leen vía `Registry.getCatalog`/`useCatalog`. | La intención va por `useEnsemble`; el chrome de slots aún se hidrata ad-hoc (eje-2 diferido, `OQ-UI-2`). |
+| **UI (estado de sesión de arsenal)** | El store es `arsenal-ui-session`: estado UI-local honesto, sin catálogos mock (`DC-OQ-STUB-1`). Los catálogos reales (archon/incarnon) se leen vía `Registry.getCatalog`/`useCatalog`. | La intención va por `useEnsemble`; el chrome de slots aún se hidrata ad-hoc (eje-2 diferido, `OQ-UI-2`). |
 | **Bridge (MutatorBridge)** | Activo — traduce `Scene` → contratos del engine. Absorbe la lógica que `EnsembleAdapter` (eliminado) tenía como stub. | Archon Shards viajan en `WarframeIntent.shards` y llegan al `ShardRepository` (OQ-STATE-2 ✅). **Helminth sigue sin implementar** — `helminth: undefined` hardcodeado en el bridge. Ver `../engine-audit.md §3`. |
 
 ## 2. Inventario de Dependencias y Bloqueos
@@ -33,6 +33,3 @@ Este documento registra el estado técnico y las brechas detectadas durante la f
 ## 3. Estado
 
 La Capa D se materializó como **`ViewModelContract` v0** (display-only/C1) en `@shared/view-model`; el Arsenal (`UpgradeView`) la consume vía `useViewModel` (`@providers`, D1), y el oráculo CLI vía `project()` (D2) — dos lentes del mismo contrato. Pendiente: versión reactiva completa — ver `simulation-architecture.md §Capa D`. *(La Capa E intermedia se descartó — `DC-OQ-ENGINE-10`.)*
-
----
-*Documento generado para soporte de toma de decisiones en la Fase de Integración.*

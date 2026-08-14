@@ -48,9 +48,9 @@ no un pendiente.
 | Estrato | Archivo / función | Qué hace |
 | :--- | :--- | :--- |
 | **0** | `core/engine/resolve/hydration/ItemRepository.ts:68` `getDNA()` | escribe el token canónico `WEAPON_ADD_CRIT_CHANCE = crit_chance × 100` |
-| **C1** | `core/engine/resolve/hydration/StaticHydrator.ts` `createBaseEntity` | crea el `AttributeNode` **puro** (Fase 4: ya NO spread de `getAttributeMetadata` — leak β muerto) |
+| **C1** | `core/engine/resolve/hydration/StaticHydrator.ts` `createBaseEntity` | crea el `AttributeNode` **puro** — sin metadata de presentación (leak β muerto) |
 | **C** | `core/engine/formulas/weapon/weapon-crit.ts` | resuelve `node.final` |
-| **D** | `core/engine/output/consume.ts` `snapshot()` → `shared/view-model/index.ts:51` `project()` | tira los 4 buckets; adjunta `unit`+`category` por lookup (Fase 4) → `{ id, value: final, unit, category }` (`StatViewModel` = contrato **neutro**) |
+| **D** | `core/engine/output/consume.ts` `snapshot()` → `shared/view-model/index.ts:51` `project()` | tira los 4 buckets; adjunta `unit`+`category` por lookup → `{ id, value: final, unit, category }` (`StatViewModel` = contrato **neutro**) |
 | **D1** | `providers/Ensemble/use-view-model.ts:23` `useViewModel` | binding reactivo |
 | **(E)** | **no existe** — inline en `domains/arsenal/view/UpgradeView.tsx:69-74` | `label = id.replace(/_/g," ").toUpperCase()`; `value = final.toFixed(1)+unit` |
 | **UI** | `shared/components/items/specs/StatPanel.tsx` | render |
@@ -68,25 +68,22 @@ vocabularios humanos divergentes. Resultado: tres tablas para el mismo stat, **n
 
 | Fuente | Keyed por | Label de crit chance | Unit |
 | :--- | :--- | :--- | :--- |
-| `lib/presentation/attribute-registry.ts` | **tokens D-6** (Fase 4; antes nombres humanos) | (label fuera del dict) | `%` |
+| `lib/presentation/attribute-registry.ts` | **tokens D-6** | (label fuera del dict) | `%` |
 | `lib/i18n/stat-labels.ts` | claves de catálogo (`crit_chance`) | `"CRIT CHANCE"` | (implícito en formateador) |
 | inline en `UpgradeView.tsx` | id de engine, des-slugificado | `"WEAPON ADD CRIT CHANCE"` | el `unit` del nodo |
 
-### Síntomas verificados que esto produce
+### Síntomas que esto produce
 
-1. **✅ RESUELTO (Fase 4) — El leak β estaba roto, no solo feo.** `StaticHydrator` (el motor, C1)
-   llamaba `getAttributeMetadata("WEAPON_ADD_CRIT_CHANCE")`, pero `attribute-registry` estaba keyed
-   por `"critical_chance"` → caía al fallback en silencio (solo `WEAPON_ADD_DAMAGE` coincidía). Ahora
-   el registry está keyed por token D-6 y el motor no lo consume.
-2. **✅ RESUELTO (Fase 4) — La unidad se perdía en el número.** Por el mismatch de claves crit chance
-   salía `25.0` sin `%`, categoría `utility`. Re-keyado → vuelve a renderizar `%` y `category: primary`.
-3. **`project()` no reenvía la label — y es correcto (Fase 4).** La label NO es del contrato neutro:
-   es i18n (`stat-labels`), se compone en el borde. `project()` adjunta `unit`+`category` (meta
-   estructural). Lo que falta es que `UpgradeView` deje su label inline y consuma i18n por el token.
-4. **Dos convenciones numéricas** para la misma cifra: catálogo `Intl('es-ES')` → `"25%"`;
-   engine `toFixed(1)` → `"25.0"`. Labels en inglés + números en locale `es-ES`. **(SIGUE ABIERTO — OQ-DATA-10.)**
-5. **✅ RESUELTO (Fase 4) — Dependencia invertida.** El motor ya no importa de `lib/presentation`; la
-   proyección de la salida del motor vive en `project()` (borde C→D), dirección correcta `@shared → @lib`.
+1. **Dos convenciones numéricas** para la misma cifra: catálogo `Intl('es-ES')` → `"25%"`;
+   engine `toFixed(1)` → `"25.0"`. Labels en inglés + números en locale `es-ES`. **(ABIERTO — OQ-DATA-10.)**
+2. **`project()` no reenvía la label — y es correcto.** La label NO es del contrato neutro: es i18n
+   (`stat-labels`) y se compone en el borde; `project()` adjunta `unit`+`category` (meta estructural).
+   Lo que falta es que `UpgradeView` deje su label inline y consuma i18n por el token.
+
+Tres síntomas de esta misma familia **ya no ocurren**, porque el registry está keyed por token D-6 y
+el motor no lo consume: el leak β roto (`StaticHydrator` pedía metadata contra claves que no existían
+y caía al fallback en silencio), la unidad perdida en el número (`25.0` sin `%`, categoría `utility`)
+y la dependencia invertida motor→`lib/presentation`.
 
 ### La excepción que confirma la regla
 
@@ -100,7 +97,7 @@ Todo `lib/*` es el **plano de formateo** (utilidad ortogonal, espejo de "0" en l
 `DC-OQ-ENGINE-10-A`), no un eslabón de la cadena. Piezas:
 
 - `lib/i18n/` — tablas de labels/nombres fijos (`stat-labels`, `damage-labels`). Vocabulario catálogo.
-- `lib/presentation/attribute-registry.ts` — `category`+`unit` keyed por token D-6 (`Partial<Record<Upgrade>>`; **Fase 4: re-keyado + label fuera**). Consumido por `project()` en el borde, no por el motor.
+- `lib/presentation/attribute-registry.ts` — `category`+`unit` keyed por token D-6 (`Partial<Record<Upgrade>>`, sin label). Consumido por `project()` en el borde, no por el motor.
 - `lib/presentation/FormattedText.tsx` + `icons/` — tags semánticos → íconos (anclado a semantic, sano).
 - `lib/item-details.ts` — proyector → `StatEntry[]` de la ruta catálogo (~13 consumidores, vivo).
 - `lib/image-url.ts` — straddlea dos bordes (chrome de entrada + URL display de salida); ver `OQ-DATA-10`.
@@ -111,8 +108,8 @@ Todo `lib/*` es el **plano de formateo** (utilidad ortogonal, espejo de "0" en l
   las 2/4 convenciones numéricas → una). **DIFERIDO** por function-first.
 - **Capa E — DESCARTADA** (`DC-OQ-ENGINE-10`): la confluencia info+chrome no es una capa; la resuelve
   la UI leyendo D + 0 directo. El estrato `lib/format` que E iba a consumir sigue vivo como utilidad
-  (`DC-OQ-ENGINE-10-A`); su **Fase 4 ✅** re-keyó `attribute-registry` por tokens D-6 y lo desenchufó
-  del motor. El payload de métricas de salida ya cristalizó (`CombatMetrics`, `DC-OQ-ENGINE-8`); el rename
+  (`DC-OQ-ENGINE-10-A`), con `attribute-registry` keyed por tokens D-6 y desenchufado del motor. El
+  payload de métricas de salida ya cristalizó (`CombatMetrics`, `DC-OQ-ENGINE-8`); el rename
   residual de `ViewModelContract` (cut C→D display) queda diferido, bajo valor.
 - **`OQ-DATA-13`** — render de íconos de habilidad/shard duplicado (ruta chrome sin SSoT).
 

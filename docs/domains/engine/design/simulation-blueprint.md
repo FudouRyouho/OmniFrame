@@ -11,7 +11,6 @@ Dependidos:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/design/simulation-contracts.md"
   - "docs/domains/engine/design/arch-decisions.md"
-  - "docs/domains/engine/design/simulation-roadmap.md"
 ---
 
 # 🛸 Simulation Blueprint: El Motor de Verdad
@@ -26,7 +25,6 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 - **Arquitectura**: [simulation-architecture.md](./simulation-architecture.md)
 - **Contratos**: [simulation-contracts.md](./simulation-contracts.md)
 - **Decisiones Arquitectónicas**: [arch-decisions.md](./arch-decisions.md)
-- **Roadmap**: [simulation-roadmap.md](./simulation-roadmap.md)
 - **Modelo de daño/status C2**: [damage-status-model.md](./damage-status-model.md)
 - **Integración formulas/ como SSoT**: [formulas-integration.md](./formulas-integration.md)
 - **Auditoría Diseño vs Código (histórica, congelada)**: [../engine-audit.md](../engine-audit.md)
@@ -38,8 +36,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 1. **[Arquitectura](./simulation-architecture.md)**: Cómo fluye la verdad (A->B->C).
 2. **[Contratos](./simulation-contracts.md)**: El lenguaje matemático del motor.
 3. **[Decisiones Arquitectónicas](./arch-decisions.md)**: Invariantes y resoluciones críticas.
-4. **[Roadmap](./simulation-roadmap.md)**: Pasos de ejecución.
-5. **[Estado real del código](../status.md)**: `engine/status.md` (vivo). La [auditoría](../engine-audit.md) es un snapshot **histórico congelado**, no el estado actual.
+4. **[Estado real del código](../status.md)**: `engine/status.md` (vivo). La [auditoría](../engine-audit.md) es un snapshot **histórico congelado**, no el estado actual.
 
 ---
 

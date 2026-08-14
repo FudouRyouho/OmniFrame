@@ -27,6 +27,12 @@ Necesita una jerarquia de pertenencia.
 
 ## Estado
 
-- el dato ya esta preservado
-- la explotacion correcta en runtime sigue pendiente
+El dato está preservado (`compat_name` en `mods.json`) y la explotación jerárquica **sigue
+pendiente**: los dos consumidores en runtime comparan por igualdad plana —
+`use-items-filters.ts` (`compat === filterStr`, con tres agrupaciones hardcodeadas) y
+`UpgradeView.tsx` (`compat_name?.toLowerCase() !== compatToken`). Un mod `ROBOTIC` no matchea
+cuando el usuario tiene un Sentinel seleccionado.
+
+Los grupos existen declarados en `lib/i18n/category-icons.ts` (`robotic`, `beast`), pero sólo para
+elegir el ícono — nadie los usa como relación de pertenencia.
 

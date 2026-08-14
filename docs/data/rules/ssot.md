@@ -6,7 +6,6 @@ Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"
 Fecha_de_actualizacion: "2026-05-22"
 Dependencias:
-  - "docs/data/rules/roles.md"
   - "docs/data/rules/overrides.md"
 ---
 
@@ -36,5 +35,4 @@ Los tests del engine DEBEN importar sus dependencias desde `Project/public/data/
 
 Ver:
 
-- `roles.md`
 - `overrides.md`

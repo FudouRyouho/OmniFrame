@@ -896,367 +896,85 @@ vecino). Realización: `enemy-scaling.ts` (fallback + comentarios), `contracts/d
 
 **Dominio:** data / pipeline / fuente
 
-**Contexto:** hoy el pipeline consume `@wfcd/items` como un **fork local** (`file:../warframe-items`, submódulo). El fork impone su estructura; `generate-data.ts` la **re-mapea** entera a los contratos del engine (`normalization/*`). Fricciones acumuladas: mantener el submódulo sincronizado, re-mapear todo en cada campo nuevo, y una estructura upstream que **no es la que el proyecto necesita** (de ahí el volumen de normalización). Nota de sesión 2026-07-20 (semilla de esta OQ): *"empezando a pensar en hacer mi propio warframe-items con la estructura que necesito, en vez del fork — qué paja"*.
+**Contexto:** el pipeline consumía `@wfcd/items` como **fork local**, con la estructura de upstream re-mapeada entera a los contratos del engine. Hoy el raw lo emite **`omniframe-items`** (cosecha propia) y `warframe-items` es el upstream **pristino**, traído en build. Lo que sigue abierto es **hasta dónde llega la fuente propia**: qué se cosecha, qué se deriva y qué sigue apoyado en upstream.
 
-**Pregunta (a INVESTIGAR, no a resolver):**
-- ¿Qué aporta hoy el fork que habría que **replicar** para no perderlo? Al menos: la data cruda del juego, `patchlogs` (→ `versionTag`, base del audit `OQ-DATA-9`), categorías/kinds, `compatName`. Inventario real en [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).
-- ¿De dónde saldría la data sin el fork? (misma fuente que `@wfcd`: export/worldstate de Warframe) — ¿costo de mantener ese ingest propio vs. el re-mapeo actual?
-- ¿La "estructura a medida" elimina normalización, o solo **mueve** el trabajo aguas arriba? (mismo patrón que el debate de `OQ-DATA-9`: cuidado con mover-no-eliminar).
+**Pregunta (a INVESTIGAR, no a resolver):** ¿la "estructura a medida" **elimina** normalización o sólo la **mueve** aguas arriba? (mismo riesgo que `OQ-DATA-9`: mover-no-eliminar). ¿Qué del fork hay que replicar para no perderlo, y qué **no** conviene replicar?
 
-**Investigación (2026-07-22) — hallazgos (medidos contra git, no inspección visual):**
-1. **El fork es liviano.** Su delta genuino sobre el merge-base de `WFCD/warframe-items` es ~117 líneas,
-   casi todo aditivo sobre el patrón de plugin propio de upstream (`build/wikia/scrapers/*`): un
-   `AbilityScraper` (cosecha `Module:Ability/data`) + `transformAbility` + ~19 líneas de hook en
-   `parser.mjs`/`scraper.mjs`. No es un fork pesado de sincronizar; la capa-1 (ingest/scraper de upstream)
-   está intacta. Detalle en `../domains/source/warframe-items.md` §2.
-2. **La maquinaria Lua es genérica y reusable.** `getLuaData(url)` baja cualquier `Module:X/data?action=edit`;
-   `convertLuaDataToJson` lo pasa a JSON. Cosechar módulos que upstream ignora (enemigos + otros) = un scraper
-   con la receta de `AbilityScraper`, sin reconstruir capa-1. El módulo Lua de enemigos hoy no lo toca nadie:
-   `generate-enemies.mjs` lee `Enemy.json` del export del juego, no de la wiki.
-3. **Drift corregido:** `../domains/source/warframe-items.md` §Lo que la promoción a pristino nos costó sobreatribuía al fork (`weaponClass`, `upgradeTypes[]`,
-   `modClass`, taxonomía = son upstream). Corregido en la misma sesión.
+### Lo ya medido — no re-medir
 
-**⚠️ Corrección a la premisa: `compatName` no se replica tal cual — replicarlo hereda su defecto.**
-Medido sobre los 1.803 mods, el campo mezcla **cinco naturalezas** en un `string | null`: clase de arma
-(`Melee` 143, `Pistol` 139, `Rifle`/`Shotgun` 119 c/u), clase de entidad (`WARFRAME` 198, `COMPANION` 26,
-`Sentinel`/`Moa`/`Hound`/`Kavat`/`BEAST`/`ROBOTIC`), **slot** (`AURA` 36, `PRIMARY` 10, `ANY` 22),
-vehículo (`Necramech`, `K-Drive`, `Arch*`) y **nombre propio de warframe** (los augments) — más **223
-`null`**. No expresa clase de entidad, así que no responde *"¿este mod es de arma o de compañero?"* sin
-una matriz `compat_name → clase` que el proyecto **deliberadamente no tiene**
-(`UpgradeView.tsx:80`: *"data-driven, no matriz hardcodeada"*).
+1. **La capa-1 de upstream es reusable y no hay que reconstruirla.** El delta genuino del fork sobre su merge-base eran ~117 líneas, casi todo aditivo sobre el patrón de plugin de upstream. La maquinaria Lua es genérica (`getLuaData` baja cualquier `Module:X/data`, `convertLuaDataToJson` lo pasa a JSON): cosechar un módulo que upstream ignora = **un scraper con la receta del `AbilityScraper`**. Anatomía del build en [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).
+2. **Upstream pristino no es "lean": dejó de cosechar del wiki.** Los campos que faltaban (`weaponClass`, `upgradeTypes`, `maxRank`, `incompatibilityTags`, los de warframe) tenían 0 referencias en su código — todos venían de wiki-scrapers, por eso son **re-cosechables** desde `omniframe-items`. Eso es exactamente el caso de uso que motivó el repo.
+3. **⚠️ `compat_name` no se replica tal cual — replicarlo hereda su defecto.** Sobre 1.803 mods mezcla **cinco naturalezas** en un `string | null`: clase de arma, clase de entidad, **slot**, vehículo y nombre propio de warframe, más **223 `null`**. No expresa clase de entidad, así que no responde *"¿este mod es de arma o de compañero?"* sin una matriz `compat_name → clase` que el proyecto **deliberadamente no tiene** (`UpgradeView.tsx`: *"data-driven, no matriz hardcodeada"*). El contraste vive en el repo: los arcanos sí tienen vocabulario cerrado (`ArcaneCompatName`, 11 valores). **El hueco es del dato, no de la lectura: es la fuente la que debe emitir la clase.**
+4. **Ese hueco ya tiene consumidor en el motor, no sólo en la UI.** Tres fuentes vivas no se pueden modelar hasta que exista la clase: `Rifle Amp` (*"Rifle Damage"* — una escopeta es primaria y no lo recibe), `Dead Eye` (*"Sniper Rifle Damage"*) y los cuatro `Scavenger`. La sub-familia del token D-6 es el **slot**, y mapearlos a `primary` mediría de más — examen en [`../semantic/upgrade-tokens.md`](../semantic/upgrade-tokens.md) §*sub-familia clase* y `arch-decisions.md` §18. El eje falta también del lado del arma: `kind`/`category`/`type`/`family` se solapan y ninguno es la clase de compatibilidad.
 
-El contraste vive adentro del propio repo: los **arcanos** sí tienen vocabulario cerrado
-(`ArcaneCompatName`, 11 valores a granularidad de canal); los **mods**, `compat_name?: string | null`.
-Por eso el hueco **es del dato, no de la lectura**: inventar la matriz project-side sería cerrar
-semántica declarada abierta, en el consumidor y sin fuente. Es la fuente la que debe emitir la clase.
+### Dirección (investigada, NO decidida)
 
-**Y ese hueco ya tiene consumidor en el motor, no sólo en la UI.** Tres fuentes vivas no se pueden
-modelar hasta que exista la clase: `Rifle Amp` (*"Rifle Damage"* — una escopeta es primaria y no lo
-recibe; `Shotgun Amp` existe aparte), `Dead Eye` (*"Sniper Rifle Damage"*, más angosto todavía) y los
-cuatro `Scavenger`, que repiten el eje. La sub-familia del token D-6 es el **slot**, y mapearlos a
-`primary` mediría de más — el detalle y su examen viven en
-[`../semantic/upgrade-tokens.md`](../semantic/upgrade-tokens.md) §*sub-familia clase* y en
-`arch-decisions.md` §18. El eje falta además del lado del arma: `kind`/`category`/`type`/`family` se
-solapan entre sí (`category` ≈ `kind` + `Misc`; `family` mezcla clase con linaje `prime`/`kuva`) y
-ninguno es la clase de compatibilidad — `type: Bow` y `type: Rifle` comparten mods de rifle.
+No es "fuente propia vs fork" como binario, sino un **repo-superset de cosecha**: mismo ingest de upstream (capa-1 intacta, dependencia dura), exprimiendo N módulos Lua que `@wfcd` deja sobre la mesa (opt-in — cada módulo es superficie de mantenimiento propia), emitiendo sólo lo que OmniFrame necesita.
 
-**Dirección (investigada, NO decidida — sigue en debate):** no es "fuente propia vs fork" como binario, sino
-un **repo-superset de cosecha**: mismo ingest de upstream (capa-1 intacta, dependencia dura), exprimiendo N
-módulos Lua de la wiki que `@wfcd` deja sobre la mesa (opt-in — cada módulo es superficie de mantenimiento
-propia, mini-treadmill dimensionado a conciencia), emitiendo solo lo que OmniFrame necesita.
-**Dos motivaciones a NO amalgamar:** (a) cosecha-superset = lo que carga la decisión del repo; (b) reducir peso
-del output (`mods.json` 2.9MB, `weapons.json` 1.6MB) se resuelve HOY project-side en los builders de
-`generate-data`, NO justifica repo nuevo por sí solo. La frontera "raw sellado vs. normalizado" queda diferida
-(el usuario no la ve necesaria hoy) — cae bajo `OQ-DATA-9`.
+**Dos motivaciones a NO amalgamar:** (a) cosecha-superset = lo que carga la decisión del repo; (b) reducir peso del output se resuelve HOY project-side en los builders de `generate-data` y **no** justifica repo nuevo por sí solo.
 
-**Forma acordada — tres hermanos** (organización interna de `omniframe-items` diferida a propósito):
+**Forma — tres hermanos** (organización interna de `omniframe-items` diferida a propósito):
+
 ```
 OmniFrame/  Project/  ←  omniframe-items/  ←  warframe-items/ (upstream PRISTINO)
 flujo:   warframe-items (upstream puro) ─► omniframe-items (cosecha) ─► Project (consume)
 ```
-- `warframe-items` **no se sube** al repo → se trae en build (`git clone --depth=1`, **pin diferido**: HEAD por
-  ahora, endurecer a tag/SHA cuando muerda o cuando aparezca el futuro-biblioteca del punto 3). Precedente de
-  fetch shallow: el propio fork ya usa `--depth=1` para evitar `data/img` (~913 MB).
 
-**Superficies que Project apoya en `warframe-items` hoy:** ninguna en el dato — `generate-data.ts` importa
-`omniframe-items`, que lee su propio `data/json`. Quedan dos apoyos indirectos: `get-img.mjs` lee
-`warframe-items/data/img` (605 MB, asimetría aceptada mientras el raw propio use el `parser` de upstream y
-por tanto el mismo `imageName`), y el passthrough del fósil `Enemy.json`. El `package.json` de Project aún
-declara `@wfcd/items`, pero sólo lo usa un script archivado (ver residual de limpieza).
+`warframe-items` **no se sube** al repo: se trae en build (`git clone --depth=1`; **pin diferido**, HEAD por ahora). El pipeline de datos corre en **HOST, no en Docker** (necesita salida a `origin.warframe.com`, wiki y GitHub).
 
----
+**Estado:** el raw propio y la cosecha de enemigos ya están (`AbilityScraper` y `EnemyScraper` viven en `omniframe-items`; `generate-data`/`generate-enemies` lo consumen). Decisiones tomadas al promover, para no re-litigarlas: **stats base de warframe = core del export**, no wiki (diferían en 2 warframes); la pérdida de `tags` en Dark Split-Sword y los campos `wikia_*` de arma (muertos, sin consumidor) quedaron **aceptados**.
 
-### Ejecución 2026-07-22 — fase-1 HECHA + el swap a pristino resultó un major bump
+### Fase-3 — `omniframe-items` genera su propio raw (planificada, no arrancada)
 
-**Fase-1 ejecutada y verificada** (golden-master `git diff public/data` vacío en cada paso):
-- `omniframe-items/` creado como tercer hermano, consumido por Project (`generate-data.ts` importa
-  `omniframe-items`, no `@wfcd/items`). Resolución de symlink: omniframe-items tiene su propio
-  `node_modules/@wfcd/items`.
-- `AbilityScraper` + `transformAbility` + `getLuaData`/`convertLuaDataToJson` propios + `JSON.lua`
-  **relocalizados** a `omniframe-items/build/wikia/`, con un mini-build (`omniframe-items build` → cache
-  `data/abilities.json`, gitignored) y merge por `uniqueName` en `index.mjs`. Verificado: 327 habilidades
-  cosechadas, merge OK. **El pipeline de datos corre en HOST, no en Docker** (el Dockerfile stubbea
-  `@wfcd/items`); `lua` en `/usr/bin`, wiki/github/game-export alcanzables.
-- **Hallazgo:** el enriquecimiento de habilidades del fork **no llega a `public/data`** (generate-data toma
-  sólo `ability.uniqueName`; las ability-stats reales salen de `references/game-ui/*.md`). Se relocó igual
-  (decisión del usuario) como plantilla viva del patrón scraper para fase-2. Invariante: no filtra a `public/data`.
+**Tesis: enriquecer no alcanza, el gap se traslada.** Hoy `omniframe-items` no genera nada propio — enriquece en memoria el output de upstream, sin artefacto en disco que mirar. Sirve para lo **ausente**, no para lo **mal derivado**: cuando el defecto nace en la construcción del raw sólo se parchea el síntoma en cada consumidor. Caso testigo: el `type` contaminado del enemigo (`OQ-DATA-15`), cuya cascada vive en un consumidor y cualquier otro la hereda.
 
-**El paso 3 (swap a pristino) NO es un refresh limpio — es un major bump breaking.** El fork salió de un
-upstream viejo; el `master` actual (`WFCD/warframe-items`) migró a TS y **re-scopeó el enriquecimiento wiki**.
-Diagnóstico (grep en `build/` de pristino): los campos faltan porque **pristino dejó de cosecharlos del wiki**
-(0 referencias en su código), NO porque su `data/json` sea "lean". Todos venían de wiki-scrapers del fork
-(`parser.mjs` + `transformMod`/`transformWarframe`/WeaponScraper) → **re-cosechables vía `omniframe-items`**,
-mismo patrón que el AbilityScraper. Inventario ratificado (barrido sobre 17k+ ítems):
-- **Perdidos que Project consume:** `weaponClass` (todas las armas → **Restricción 3**), `upgradeTypes` +
-  `maxRank` + `incompatibilityTags` (mods), `energy`/`initialEnergy`/`maxRank`/`playstyle`/`progenitor`/
-  `subsumed`/`tactical`/`themes`/`wikiaThumbnail` (warframes), ídem Archwing. Railjack pierde mucho
-  (`attacks`/`tags`/`weaponClass`) — verificar si Project consume armamento Railjack.
-- **Perdidos NO consumidos (ruido):** `modClass`, `isWeaponAugment`, `isFlawed`, `incompatible`,
-  `wikiaCategory`, `*Rank30`, `itemCount`, `parents`, `releaseDate`, `wikiAvailable`.
-- **NUEVOS relevantes:** arcanos GANARON `wikiaThumbnail`/`wikiaUrl`/`introduced` (consumidos); Pets ganó
-  `isPrime`; nuevos no-consumidos: `exilusPolarity` (armas/warframes), `excludeFromCodex`, `exaltedSlot`.
-- **Caveat:** `energy`/`initialEnergy` de warframes — verificar si eran wiki o core (si core, es otro fix).
-
-**Scope de la migración a pristino-master (MAJOR_RED, gated a autorización explícita):** relocar los
-wiki-scrapers que Project consume a `omniframe-items` (patrón AbilityScraper ×4: Weapon, Mod, Warframe,
-Arcane) + resolver el nuevo esquema de `image_name` (internal-name vs slug-hash, afecta assets/`get-img`) +
-auditar campos core-vs-wiki + adaptar `normalization/*`. **Esto valida la tesis de la OQ:** upstream adelgazó,
-`omniframe-items` re-cosecha — es el caso de uso que motivó el repo. Estado sano: todo revertido al fork,
-`public/data` intacto; `warframe-items.pristine/` clonado local (~605 MB, untracked) para el trabajo.
-
-**Snapshot retrospectivo del fork (qué relocar, cómo).** Matcheo wiki↔game = por **`uniqueName`**
-(determinístico, no fuzzy; armas suman check de `slot`). Dispatch por categoría (`Upgrades→mods`,
-`Archwing→archwings`, `Sentinels→companions`).
-
-| Scraper | Módulo wiki | Campos LOST que Project consume |
-|---|---|---|
-| Weapon | `Module:Weapons/data` | `weaponClass` (el hook además *pisa* attacks/tags/polarities con wiki) |
-| Mod | `Module:Mods/data` | `upgradeTypes`, `maxRank`, `incompatibilityTags` |
-| Warframe | `Module:Warframes/data` (+Blueprints) | `energy`, `initialEnergy`, `maxRank`, `playstyle`, `progenitor`, `subsumed`, `themes`, `tactical` |
-| Arcane | `Module:Arcane/data` | `upgradeTypes` (pristino ya agregó wikia*/introduced para arcanos) |
-
-Auxiliar: **VersionScraper** (`introduced`/`releaseDate`).
-
-**Dos decisiones que el snapshot destapa (resolver con el diff aislado real):**
-1. **Quirúrgico vs replicar** — los hooks del fork *sobrescriben* campos que pristino ya trae de su core
-   (weapon `attacks`/`tags`/`polarities`). ¿Recuperar solo lo perdido (quirúrgico) o dejar que el wiki pise
-   todo (replicar-fork)?
-2. **💣 Fidelidad de stats base de warframe** — el hook toma `health`/`shield`/`armor`/`energy` del **WIKI**
-   (parser.mjs:984-988), pisando el game-export. Pristino usa **core**. Migrar sin re-cosechar = las stats base
-   de warframe cambian de fuente (valores pueden diferir). Decisión: ¿wiki o core como verdad?
-
-**Bonus de frescura (a auditar en la promoción).** La cosecha vía omniframe-items es del wiki **fresco**
-(julio), más completa que el fork **stale** (abril). Detectado al probar: el fork trae `incompatibilityTags ==
-null` en **1660/1801 mods**; la cosecha fresca los llena (152 mods con tags reales). Hoy Project emite `[]`
-para esos mods vía `incompatibility_tags: raw.incompatibilityTags ?? []`
-([runtime-data-artifacts.ts:510](../../Project/scripts/pipeline/runtime-data-artifacts.ts)) — **no es un
-override, es un default defensivo que emite vacío donde el wiki tiene verdad**. Al promover a pristino
-(`fields:true`) esos huecos se llenan solos. **A auditar en la promoción:** qué defaults `?? []`/normalizaciones
-compensaban la incompletitud del fork y quedan redundantes al entrar el dato fresco (aplica a
-`incompatibilityTags` y potencialmente a otros campos re-cosechados). No es override que remover — es normalización
-a revisar.
-
-**Estado del árbitro (regresiones a cerrar antes de promover; el refresh de datos lo audita el
-source-change-report, no se enumera acá):**
-- **mods / warframes / arcanes / companions: sin regresión.** `ModScraper` ampliado al set completo
-  (`incompatible`, `modClass`, isExilus/isFlawed/isWeaponAugment). 💣 **Fidelidad de stats de warframe
-  DEFUSADA:** wiki-vs-core difieren en solo 2 warframes → **decisión: core de pristino**.
-- **weapons — 2 regresiones, ambas ACEPTADAS:**
-  1. `tags` — 1 pérdida total real: **Dark Split-Sword** (melé modular sword+dagger). Aceptado.
-  2. weapon **wikia-meta** (`wikia_thumbnail`/`wikia_url`) — **campos muertos** (solo en types, cero uso en
-     UI). Aceptado, no se recuperan.
-- **`image_name` (todos los ítems): NO-ISSUE.** Verificado: el `imageName` de pristino matchea su
-  `data/img` al **100%** en todas las categorías (esquema auto-consistente). Tras el swap +
-  `get-img --clean`, las imágenes resuelven solas. Costo = diff cosmético de rutas + re-copia de assets.
-
-**→ PROMOCIÓN EJECUTADA (2026-07-22).** Swap de nombres hecho (`warframe-items` = upstream pristino,
-`warframe-items.backup` = fork viejo, gitignored). `omniframe-items` con `fields:true`. `public/data`
-regenerado (refresh abril→julio + campos re-cosechados), `source-change-report` re-baselineado, `enemies.json`
-sin cambios (pristino trae `Enemy.json`). Árbitro final verde salvo las regresiones aceptadas. Commit del
-refresh hecho.
-
-**Fase-2 (enemigos) — cerrada.** `EnemyScraper` cosecha los 12 submódulos de `Module:Enemies/data` (1000
-enemigos: facción + `BaseLevel`/`EximusHealth`/`Multis`); `enrich.mjs` los mergea **por nombre** (no por
-`uniqueName`: el wiki indexa el *Agent*, el export el *Avatar* — 2.4% vs 86.5% de match) sobre los ítems
-`category: 'Enemy'`; `generate-enemies.mjs` consume `omniframe-items`. Contrato y gaps:
-[`../data/schemas/enemy/schema.md`](../data/schemas/enemy/schema.md).
-
----
-
-### Fase-3 — `omniframe-items` genera su propio raw (PLANIFICADA, no arrancada)
-
-**Tesis: enriquecer no alcanza, el gap se traslada.** `omniframe-items` hoy **no genera** nada propio —
-enriquece en memoria el output de upstream (`enrichItems` muta objetos dentro del constructor; no hay
-artefacto en disco que mirar). Sirve para lo **ausente**, pero no para lo **mal derivado**: cuando el
-defecto nace en la construcción del raw, sólo se puede parchear el síntoma aguas abajo, en cada
-consumidor. Caso testigo: el `type` contaminado del enemigo (`OQ-DATA-15`) — la cascada de `faction`
-vive en un consumidor y cualquier otro que lea enemigos hereda el defecto de nuevo.
-
-**Forma:**
 ```
 warframe-items ──► omniframe-items ──► generate-data.ts ──► dataset final
   capa raw           build propio        normalización
-  (caja negra)       (scrapers propios,  (sin cambio de rol,
-                      categorías          toma el source de
-                      elegidas, gaps      omniframe-items)
-                      de derivación
-                      corregidos)
+  (caja negra)       (scrapers propios,  (sin cambio de rol)
+                      gaps de derivación corregidos)
 ```
 
-Cada capa mantiene su objetivo: `warframe-items` aporta ingest/tipado/estructura y **no se modifica**;
-`omniframe-items` **recompone** con ese tipado (no inventa uno nuevo) y emite el raw a disco;
-`generate-data.ts` normaliza como siempre. Materializar el raw hace **diffeable cada frontera**:
-upstream → omniframe → normalizado, y un breakage se bisecta en un paso en vez de ejecutar código.
+Materializar el raw hace **diffeable cada frontera**: un breakage se bisecta en un paso en vez de ejecutar código.
 
-**Build propio, NO wrapper sobre el `data/json` de upstream.** El wrapper es lo que ya tenemos y es lo
-que **no** protegió: el incidente que costó la migración fue un cambio de **contenido** (upstream dejó de
-cosechar campos del wiki), no de forma — un wrapper lo recibe idéntico, un build propio con scrapers
-propios lo absorbe. El riesgo de mantenimiento existe en ambas variantes (upstream puede cambiar
-estructura, código o tipado en cualquier momento), así que no es el discriminador; el discriminador es
-el **control de acción**: elegir qué se genera (no emitir `Gear`/`Fish`/`Node`), corregir derivaciones,
-aligerar el raw. Eso el wrapper no lo da por construcción.
+**Build propio, NO wrapper.** El wrapper es lo que ya teníamos y es lo que **no** protegió: el incidente que costó la migración fue un cambio de **contenido** (upstream dejó de cosechar campos), no de forma — un wrapper lo recibe idéntico. El discriminador no es el riesgo de mantenimiento (existe en ambas) sino el **control de acción**: elegir qué se genera, corregir derivaciones, aligerar el raw.
 
-**Sin pin de versión, a propósito.** Un pin sin política de bump es deuda que driftea en silencio — el
-mismo patrón por el que se retiró el campo `Version` de los docs. El criterio sano es **por versión del
-juego**, y exige maquinaria (¿qué build del juego? ¿qué commit de upstream le corresponde?) que hoy
-sería over-engineering. El **sello de versión nativo** que habilita el ingest propio (`OQ-DATA-9`) es
-justamente su insumo: **el pin es consecuencia de esta fase, no requisito.** Mientras tanto el árbitro
-es el golden-master (`git diff public/data` vacío), que ya existe: detección, no prevención.
-
-**Secuencia y árbitro por fase:**
+**Sin pin de versión, a propósito.** Un pin sin política de bump es deuda que driftea en silencio (mismo patrón por el que se retiró el campo `Version` de los docs). El criterio sano es por versión del juego y exige maquinaria que hoy sería over-engineering. **El pin es consecuencia de esta fase, no requisito**: el sello de versión nativo (`.export.json`) es su insumo. Mientras tanto el árbitro es el golden-master — detección, no prevención.
 
 | # | Paso | Árbitro |
 |---|---|---|
-| 0 | **Fusión del pipeline.** `generate-enemies.mjs` → `buildEnemiesArtifacts` en `runtime-data-artifacts.ts` (tipado contra `RawEnemyEntry`); `enemies.json` se emite desde `generate-data`; los enemigos entran a `generatedEntries` del `source-change-audit`. Independiente del source: **se puede hacer ya** | `git diff public/data/enemies.json` vacío; un solo `new Items()` |
-| 1 | **Build propio passthrough.** Orquestador en `omniframe-items` que emite `data/json/*` reutilizando la capa-1 de upstream; Project consume ese raw | `git diff public/data` vacío. Si no da vacío, no se avanza |
-| 2 | **Control de acción.** Elegir categorías **y locales**: el fetch baja los **15** (`en de fr it ko es zh ja pl pt ru th tc tr uk`, 225 chunks) y Project instancia `new Items()` sin opciones — default `i18n: false`, así que **14 no los consume nadie**. Dejar de emitir lo que nadie usa | diff vacío en lo consumido + peso del output |
-| 3 | **Las correcciones suben de capa.** Censo del matcher por substring (`OQ-DATA-15`) → corregir `type` en el raw → **borrar la cascada de `faction`** del builder | diff **no** vacío: esperado y explicado ítem por ítem |
+| 0 | **Fusión del pipeline.** `generate-enemies.mjs` → `buildEnemiesArtifacts`; `enemies.json` se emite desde `generate-data` y entra al `source-change-audit`. Independiente del source: **se puede hacer ya** | `git diff public/data/enemies.json` vacío; un solo `new Items()` |
+| 1 | **Build propio passthrough.** Orquestador en `omniframe-items` que emite `data/json/*` reutilizando la capa-1 de upstream | `git diff public/data` vacío. Si no da vacío, no se avanza |
+| 2 | **Control de acción.** Elegir categorías **y locales** (el fetch baja los 15; Project consume 1) | diff vacío en lo consumido + peso del output |
+| 3 | **Las correcciones suben de capa.** Censo del matcher por substring (`OQ-DATA-15`) → corregir `type` en el raw → **borrar la cascada de `faction`** | diff **no** vacío: esperado y explicado ítem por ítem |
 
-**Por qué la fase 0 va primero:** hoy hay **dos** consumidores independientes del source (`generate-data.ts`
-y `generate-enemies.mjs`, cada uno con su `new Items()`), y `enemies.json` **está fuera del ciclo de
-regeneración** — no lo dispara ningún script de `package.json`, así que queda stale en silencio cuando el
-resto de `public/data` se actualiza. Fusionar deja **un** punto de contacto y hace la fase 1 más barata.
+**Por qué la fase 0 va primero:** hoy hay **dos** consumidores independientes del source, cada uno con su `new Items()`, y `enemies.json` está **fuera del ciclo de regeneración** — no lo dispara ningún script, así que queda stale en silencio. Fusionar deja un punto de contacto.
 
-**Forma de la fase 1 (resuelta — medida sobre el `build/` de upstream y validada ejecutándolo):**
+**Forma de la fase 1 (resuelta y validada ejecutándola):** el parser **no se copia, se importa** — la orquestación de upstream son ~30 líneas y el músculo vive en módulos importables; el build propio es importar `scraper`+`parser` y escribir el `saveJson` propio (ahí vive el control de acción). `saveImages` se salta. Consecuencias asumidas: el clon **hay que instalarlo** (11 de sus 54 deps, ninguna pesada), su caché incremental y `.export.json` **viven en el directorio de upstream**, y `omniframe-items` **replica el layout** (`data/json/` + `data/cache/.export.json` + `i18n.json`) porque la clase `Items` resuelve su ruta relativa a sí misma — así **Project no cambia una línea** y el árbitro de diff vacío sigue siendo viable. Formulación precisa: *orquesta el build con la maquinaria de upstream in-situ y materializa la salida en su propio layout*. Costo asumido a conciencia: `parser`/`scraper` no están en los `exports` de upstream → se importan por ruta relativa.
 
-*Cuánto se reutiliza:* `build/build.ts` son 447 líneas pero la **orquestación son ~30**; el músculo vive
-en módulos importables — `scraper` (fetch del export + manifest/drops/patchlogs/wikia) y `parser`
-(1435 líneas). **El parser no se copia, se importa.** El build propio = importar esos dos + escribir
-nuestro `saveJson` (~20 líneas, donde vive el control de acción: qué categorías se emiten). **`saveImages`
-se salta** — es lo caro del build (`imagemin`/`sharp`, descarga por ítem) y las imágenes ya vienen del
-`data/img` del clon de upstream (605 MB), que es lo que `get-img.mjs` lee. Verificado: los tres módulos
-(`scraper`/`parser`/`hashManager`) cargan e exponen su API importados por ruta desde fuera del paquete.
+**Diferido con gate:** normalización dentro de `omniframe-items` (gated por sacar el tipado de `@shared` a un paquete reusable) · frontera source/normalizado en dos carpetas con `generate-data` reducido a comprobar/copiar/auditar (`OQ-DATA-9`) · pin y maquinaria de versión.
 
-*⚠️ El clon deja de ser solo-datos: hay que instalarlo.* Hoy `warframe-items/node_modules` está **vacío**
-— nunca corrió `npm install`, porque sólo consumimos su `data/json` commiteado. El build propio lo exige,
-y las dependencias **van dentro del clon, no en `omniframe-items`**: Node resuelve por la ubicación del
-*importador*, y los archivos importados viven en `warframe-items/build/`. Traer el clon pasa a ser
-`git clone --depth=1` **+** install. De sus **54 deps declaradas la cadena `scraper`+`parser` necesita 11**
-(`chalk`, `cheerio`, `https-proxy-agent`, `lodash.clonedeep`, `lzma`, `node-fetch`, `progress`,
-`sanitize-filename`, `socks5-http-client`, `@wfcd/patchlogs`, `@wfcd/relics`) — `sharp`/`imagemin*`, las
-pesadas, **no** están entre ellas: son de `saveImages`, que se salta.
+### Residuales abiertos
 
-*⚠️ El estado del build vive en el directorio de upstream.* No es sólo lectura de `config/`: el parser
-mantiene un **caché incremental** anclado por `import.meta.url` a su propio directorio —
-`previousBuild ← ../data/json/All.json` (reusa drops y patchlogs del build anterior cuando el hash no
-cambió, "takes a lot of cpu time"), y `hashManager` **lee y escribe** `../data/cache/.export.json`. O sea:
-el build propio reutiliza el `All.json` *de upstream* como caché y sus escrituras de cache caen *allí*.
-Funciona —el clon es descartable y regenerable— pero la formulación precisa no es "omniframe-items genera
-su raw de punta a punta" sino: **orquesta el build con la maquinaria de upstream in-situ y materializa la
-salida en su propio layout.**
+- **Imágenes — la asimetría que sostiene el clon.** El raw es propio pero las imágenes salen de `warframe-items/data/img` (605 MB) vía `get-img.mjs`. El manifest de DE (19.690 entradas) las cubriría y haría innecesaria esa dependencia. Coherente mientras el build propio use el `parser` de upstream (mismo `imageName`); si esa derivación se toca, `get-img` es el primer damnificado.
+- **Los iconos de habilidad no son el mismo problema, y no se resuelven por ahora** (ningún consumidor los reclama). Las 507 referencias de `ability-stats.override.json` **no están en el manifest de DE**: son **títulos de wiki**, no nombres de archivo — y el título real lleva paréntesis que la normalización del wiki oculta, así que no matchean ni contra un directorio local. El mecanismo existe (API MediaWiki `imageinfo`, verificada), pero el consumidor real es `DataRegistry.hydrateAbility` leyendo el override: arreglarlo toca **tres** piezas (scraper + override + resolver), no una.
+- **Locales.** El fetch baja los 15 idiomas aunque se consuma `en`; `locales` se lee a nivel de módulo del clon, así que recortarlo exige tocar upstream o reimplementar `fetchResources`. **Diferido:** no es rentable por ahorro (29 MB de raw contra 1,7 GB del clon), sí lo será por **control** cuando haga falta el pin.
+- **`wikia_thumbnail` sin consumidor.** Nadie lo lee y ensucia el árbitro del dataset (scrape en vivo). Se conserva como único puntero a la imagen remota. Cobertura: 73% armas, 49% companions, 0% warframes/mods/arcanes.
+- **El stub de `@wfcd/items` del Dockerfile no es removible todavía:** `omniframe-items` declara `file:../warframe-items` por los tipos, así que el `prepare` con husky se dispara igual. Muere cuando el tipado salga de `@wfcd/items`.
+- **Entradas wiki-only:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en el wiki). Emitirlas exige cosechar también sus stats base del wiki → **cambia la procedencia del stat base** (hoy siempre export). Ver `OQ-DATA-15`.
+- **Dependencias estáticas de upstream sin auditar:** su `warnings.json` (de donde sale `failedImage`) y su `data/img`. Si upstream deja de publicarlas, envejecen en silencio igual que `Enemy.json`.
+- **Normalizaciones `?? []` a auditar:** compensaban la incompletitud del fork (ej. `incompatibility_tags`, vacío en 1660/1801 mods) y el dato fresco las puede volver innecesarias. No son overrides a remover: son defaults defensivos a revisar.
 
-*Precondición validada:* `origin.warframe.com` es alcanzable (451 ms) y `scraper.fetchResources()`
-completa en **~27 s trayendo ~158 MB**. Los endpoints traen el **hash embebido**
-(`ExportCustoms_en.json!00_ZJIc6+…`) — es el insumo directo de `.export.json` y, con él, del sello de
-versión. Sin correr aún: `parser.parse()`, que exige además manifest/drops/patchlogs/wikia/relics — eso
-ya *es* la fase 1 y tiene su árbitro de diff vacío.
+### Dirección candidata para el contrato — NO comprometida
 
-*Cómo expone el raw:* **`omniframe-items` replica el layout de upstream** — `data/json/` propio + loader
-propio. No es elección estética: la clase `Items` resuelve su `data/json` **relativo a su propio archivo**
-(`dirname(fileURLToPath(import.meta.url))`, sin parámetro), así que no se la puede re-apuntar — hoy
-`omniframe-items` la extiende y por eso lee el `data/json` de *upstream*. Con layout propio, **Project no
-cambia una línea**: `generate-data.ts` sigue haciendo `new Items()` y el swap es transparente, que es lo
-que hace viable el árbitro de diff vacío.
+Si la fuente debe emitir la clase de entidad, hace falta un **contrato común**: hoy `Project` define los tipos y `omniframe-items` emite a ciegas, así que el mapeo se decidiría dos veces o ninguna. Extraer `@shared/types` como paquete compartido invierte la dirección — la fuente emite contra el contrato del consumidor. **El costo está medido y es menor de lo que parece:** son 18 archivos, ninguno importa React, imports todos relativos internos; lo caro no es la extracción.
 
-*Satélites del layout (no alcanza con `data/json/<Category>.json`):* el loader **exige**
-`data/cache/.export.json` (hashes por archivo del export ⇒ `Items.versions`) y lee `data/json/i18n.json`;
-el build lee `data/warnings.json`. Replicar el layout es replicar esos también. **`.export.json` es además
-el insumo del sello de versión** que habilita el pin futuro (`OQ-DATA-9`).
+**Y el paquete es el vehículo, no la respuesta.** Compartir el `type` no decide si `Claws` es arma de compañero, si `Tome` es de warframe, ni qué son los 223 `null`. Esa decisión hay que tomarla igual — amalgamarlas arriesga construir la infraestructura y dejar la pregunta semántica sin dueño: el patrón **mover-no-eliminar** del que esta misma OQ advierte.
 
-*Consecuencia estructural:* el enriquecimiento pasa de **dos tiempos a uno**. Hoy hay build → cache
-(`data/*.json`) y luego runtime → `enrichItems` mutando en memoria dentro del constructor; con raw propio
-los scrapers corren dentro del build y el resultado queda en el `data/json` emitido. `enrich.mjs` y el
-`index.mjs` actual (que extiende la clase de upstream) mueren ahí. Elimina de raíz la clase de bug "la
-cache existe pero no está wired".
-
-*Costos aceptados, explícitos:*
-- `parser`/`scraper` **no están en los `exports`** del `package.json` de upstream (sólo `"."` y
-  `"./utilities"`) → se importan **por ruta relativa** al clon. Es el acoplamiento a internos que (a)
-  asume a conciencia, no un accidente. La anatomía del build que lo hace viable vive en
-  [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md); acá queda la decisión.
-- **El build propio corre en HOST, no en Docker** — como el resto del pipeline de datos: necesita salida a
-  `origin.warframe.com`, a la wiki y a GitHub.
-- El build de upstream es TS (`tsx ./build/build.ts`); `omniframe-items` es `.mjs` plano → suma `tsx`.
-- **Asimetría a sostener:** el raw JSON viene de `omniframe-items`, las **imágenes** siguen viniendo de
-  `warframe-items/data/img` vía `get-img.mjs`. Coherente mientras el build propio use el `parser` de
-  upstream (mismo `imageName`); si esa derivación se toca, `get-img` es el primer damnificado.
-- El **stub de `@wfcd/items` del Dockerfile** asume la forma actual del paquete → revisar al cambiarla.
-
-**Diferido con gate explícito:** normalización dentro de `omniframe-items` (gated por sacar el tipado de
-`@shared` a un paquete reusable) · frontera source/normalizado en dos carpetas, con `generate-data`
-reducido a comprobar/copiar/auditar (`OQ-DATA-9`) · pin + maquinaria de versión (habilitado por el sello
-nativo de esta fase).
-
----
-
-**Residuales abiertos:**
-- **Locales.** El fetch baja los 15 idiomas (~5 min de build) aunque el proyecto consuma `en`.
-  `locales` se lee del `config/locales.json` del clon **a nivel de módulo**: recortarlo exige tocar
-  upstream pristino o reimplementar `fetchResources`. **Diferido con criterio de reapertura:** no es
-  rentable por ahorro —el raw propio son 29 MB contra 1,7 GB del clon— pero sí lo será por **control**
-  el día que haga falta pin de versión del export.
-- **Imágenes: dos fuentes, ninguna resuelta en `omniframe-items`.** El raw es propio pero las imágenes
-  salen de `warframe-items/data/img` (605 MB) vía `get-img.mjs` — la asimetría que sostiene el clon.
-  El manifest de DE (19.690 entradas) cubre los ítems y haría innecesaria esa dependencia.
-- **Los iconos de habilidades no son el mismo problema.** Las 507 referencias de
-  `ability-stats.override.json` (`Catalyze130xWhite.png`, `AmpIcon.png`) **no están en el manifest de
-  DE** (cero entradas con `130xWhite`): son títulos de la **wiki**, no nombres de archivo. La
-  distinción importa — los ítems guardan nombre de archivo, las habilidades guardan título de wiki, y
-  tratarlos igual es lo que mantuvo el gap invisible. Nunca tuvieron icono.
-
-  **No se resuelve por ahora (decisión 2026-07-23):** ningún consumidor lo reclama y el arreglo toca
-  tres piezas, no una. Lo investigado, para no volver a pagarlo:
-  - El mecanismo **existe y funciona**: el fork resolvía nombre→URL con la API MediaWiki
-    (`api.php?action=query&titles=File:X&prop=imageinfo&iiprop=url`, lotes de 50) en `getImageUrls`.
-    Verificado hoy contra la wiki: responde 50/50.
-  - `omniframe-items/build/wikia/AbilityScraper.mjs` lo perdió al relocalizarse — llama
-    `transformAbility(raw, {})` con el mapa vacío, así que `icon` cae al fallback del nombre crudo.
-    El consumidor del mapa sigue intacto.
-  - **El scraper no es el consumidor real:** `DataRegistry.hydrateAbility` lee el icono de
-    `ability-stats.override.json`, no de la cosecha. Arreglarlo exige scraper + override + resolver.
-  - Los nombres **no son nombres de archivo**: el título real lleva paréntesis
-    (`AntimatterDrop130(xWhite).png`) que la normalización del wiki oculta. Contra un directorio local
-    no matchean ni bajando los archivos.
-- **`wikia_thumbnail` se mantiene sin consumidor.** Ningún componente lo lee y ensucia el árbitro del
-  dataset (~13 armas por regeneración, es scrape del wiki en vivo). Se conserva como único puntero a
-  la imagen remota. Cobertura: 73% de armas, 49% de companions, 0% de warframes/mods/arcanes.
-- **El stub del Dockerfile no es removible todavía.** `omniframe-items` declara
-  `file:../warframe-items` para los tipos de `index.d.ts`, así que el `prepare` con husky se dispara
-  igual. Muere cuando el tipado salga de `@wfcd/items`.
-- **Entradas wiki-only:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en
-  el wiki). Emitirlas exige cosechar también sus stats base del wiki → cambia la procedencia del stat base
-  (hoy siempre export). No ejecutado; ver `OQ-DATA-15` (residual) y el §6 del schema.
-- **Dependencias estáticas de upstream sin auditar:** su `warnings.json` (de donde sale `failedImage`, que
-  alimenta `dedupImageNames`) y su `data/img` (605 MB). Si upstream deja de publicarlas, envejecen en
-  silencio igual que `Enemy.json`. Ver [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md).
-- **Auditar normalizaciones `?? []` redundantes** que compensaban la incompletitud del fork (ej.
-  `incompatibility_tags`) — ahora el dato fresco las puede volver innecesarias.
-- **`warframe-items.backup`** (el fork viejo) movido fuera del repo a `/HDD/Development/Warframe/Lib/`
-  pendiente de lectura del usuario; borrado definitivo a su criterio.
-- **Investigar "cositas"** que el usuario vio en `warframe-items` pristino (fuera del modelado actual, sin
-  urgencia).
-
-**Dirección candidata para el contrato — NO comprometida, con gate: un paquete de tipos compartido
-`Project` ↔ `omniframe-items`.** Si la fuente debe emitir la clase de entidad (arriba), hace falta un
-contrato común: hoy `Project` define los tipos y `omniframe-items` emite a ciegas, así que el mapeo se
-decidiría dos veces o ninguna. Extraer `@shared/types` como paquete invierte esa dirección — la fuente
-emite contra el contrato del consumidor.
-
-**El costo está medido y es menor de lo que la impresión sugiere:** `@shared/types` son **18 archivos y
-ninguno importa React ni componentes**; sus imports son todos relativos internos. No hay que separar
-tipado de UI — ya está separado. Lo caro no es la extracción.
-
-**Y el paquete es el vehículo, no la respuesta.** Compartir el `type` no decide si `Claws` es arma de
-compañero, si `Tome` es de warframe, ni qué son los 223 `null`. Esa decisión hay que tomarla igual, con
-paquete o sin él; amalgamarlas arriesga construir la infraestructura y dejar la pregunta semántica sin
-dueño — el patrón **mover-no-eliminar** del que esta misma OQ ya advierte citando a `OQ-DATA-9`.
-
-**Gate:** campaña de recomposición del engine cerrada y el motor estable. Antes no — reorganizar el
-borde de tipos mientras el consumidor todavía se está reacomodando invierte el orden de construcción.
+**Gate:** campaña de recomposición del engine cerrada y motor estable. Antes no — reorganizar el borde de tipos mientras el consumidor se reacomoda invierte el orden de construcción.
 
 **No bloquea:** nada.
-**Vínculo:** `OQ-DATA-9` (madurez de datos / tracking de sincronización — un ingest propio podría llevar el sello de versión nativo, cerrando la mitad-override que hoy falta; y aloja la frontera raw-vs-normalizado diferida) · deuda de formato de `writeJson` (§Audit reports del pipeline) · `../domains/source/warframe-items.md` (qué aporta el fork actual).
-**Fuente:** reflexión del usuario, cierre de sesión 2026-07-20; investigación 2026-07-22.
+**Vínculo:** `OQ-DATA-9` (un ingest propio llevaría el sello de versión nativo, cerrando la mitad-override que falta; y aloja la frontera raw-vs-normalizado diferida) · `OQ-DATA-15` (el `type` contaminado que la fase 3 corrige en el raw) · [`../domains/source/warframe-items.md`](../domains/source/warframe-items.md) (qué aporta upstream y anatomía de su build).
 
 ---
 
@@ -2028,52 +1746,13 @@ alcance, que es lo que absorbe los falsos casos), `../domains/engine/design/simu
 ## OQ-ENGINE-36 — ¿Cómo se identifica lo que la intención declara? — **ABIERTA en su eje de SLOTS; el participante ya está cerrado**
 **Dominio:** engine / identidad del participante
 
-**La pregunta.** La traducción de la intención al ensemble deriva claves a partir del contenido —el
-`unique_name` para un participante, el índice parseado para un slot— y **ninguna de las dos escrituras
-chequea si la clave ya existe**. El patrón es el mismo en ambos casos: *clave derivada que puede
-colisionar, sin chequeo de colisión*. ¿La identidad se declara, se deriva de la posición, o el problema
-desaparece cuando la hidratación cambie de capa?
+**La pregunta.** La traducción de la intención al ensemble deriva claves a partir del contenido —el `unique_name` para un participante, el índice parseado para un slot— y **ninguna de las dos escrituras chequea si la clave ya existe**. Mismo patrón en ambos casos: *clave derivada que puede colisionar, sin chequeo de colisión*. ¿La identidad se declara, se deriva de la posición, o el problema desaparece cuando la hidratación cambie de capa?
 
-✅ **Para el participante está contestado: se deriva de la posición, y la respuesta no costó una
-decisión de forma sino un cambio de cableado.** `EntityIntent` separa `entity_id` (la coordenada:
-`squad.0.primary`, `hostile.1`) de `unique_name` (el puntero al catálogo), y `createBaseEntity` —que
-recibe el molde— dejó de escribir el `id`. Eso era la causa: **el catálogo describe qué es algo, no
-quién es**, así que mientras la identidad salía de ahí, dos participantes del mismo ítem nacían
-iguales. Lo que sigue abierto es el eje de los slots (abajo).
+✅ **Para el participante está contestado: se deriva de la posición.** `EntityIntent` separa `entity_id` (la coordenada: `squad.0.primary`, `hostile.1`) de `unique_name` (el puntero al catálogo), y `createBaseEntity` dejó de escribir el `id`. Esa era la causa: **el catálogo describe qué es algo, no quién es**, así que mientras la identidad saliera de ahí, dos participantes del mismo ítem nacían iguales. Quien la acuña ahora es el **poblador** (`space.ts`), el único que sabe dónde está parado cada participante — la coordenada ya estaba en la `Scene` y se descartaba al aplanar, mismo patrón que `owner`. La salida gana dos lentes: `weapon(molde)` para el caso 1:1 y `at(coordenada)` cuando hay más de uno. Estresado en `enemy.test.ts` §*Dos participantes del mismo ítem* y `unlanded-modifiers.test.ts`: dos hostiles a niveles distintos resuelven cada uno el suyo, al mismo nivel siguen siendo dos, Corrosive Projection alcanza a ambos, y el mismo molde con dos dueños (Deconstructor como primaria y como arma del compañero) son dos participantes de los que sólo el propio recibe el buff.
 
-### Las apariciones, medidas
+### El eje abierto: la clave de slot
 
-**Participantes homónimos — ✅ CERRADO.** El `entity_id` era el `unique_name`, que dice **qué es** un
-participante y no **quién es**. Dos Bombards declarados a niveles distintos compartían identidad, y toda
-estructura que los indexara por ahí los colapsaba. Medido con el oráculo sobre `ENEMY_ADD_HEALTH_MAX`:
-
-| | corresponde | con el mapa de moldes | con `id` = molde | hoy |
-|---|---|---|---|---|
-| nivel 100 | base/final 86 416,38 | base/final 144 270,94 | **base 86 416,38** · final 144 270,94 | **86 416,38 / 86 416,38** ✅ |
-| nivel 200 | base/final 144 270,94 | base/final 144 270,94 | base/final 144 270,94 | **144 270,94 / 144 270,94** ✅ |
-
-Las dos columnas del medio son las dos causas que fueron cayendo, y **ninguna de las dos era una decisión
-de identidad**: `dnas[intent.entity_id]` era el precio de recorrer el espacio dos veces (murió al colapsar
-la doble pasada — el molde viaja sobre el intent), y el `id` sacado del molde era el precio de que **nadie
-tuviera asignado el trabajo de acuñar identidad**. Por descarte lo terminaba haciendo el catálogo, que es
-justamente el único que no puede: describe moldes.
-
-**Quién lo hace ahora:** el poblador (`space.ts`), que es el único que sabe dónde está parado cada
-participante. La coordenada ya estaba en la estructura de la `Scene` —tupla de cuatro puestos, lista para
-el hostil— y se descartaba al aplanar. Es el mismo patrón que `owner`: información que el poblador tiene y
-tiraba. El molde sobrevive como `unique_name`, y con eso la salida gana dos lentes: `weapon(molde)` para
-el caso 1:1 (la que usa casi toda la suite) y `at(coordenada)` cuando hay más de uno.
-
-**Estresado, no sólo arreglado:** dos hostiles a niveles distintos resuelven cada uno el suyo; al mismo
-nivel siguen siendo dos participantes (el caso traicionero, donde los números iguales hacían el colapso
-indistinguible de lo correcto); Corrosive Projection alcanza a los dos con `−18%` cada uno; y **el mismo
-molde con dos dueños** —el Deconstructor como primaria del jugador y como arma del compañero a la vez—
-son dos participantes de los que sólo el propio recibe el buff. Exámenes en `enemy.test.ts` §*Dos
-participantes del mismo ítem* y `unlanded-modifiers.test.ts`.
-
-**Slots con clave no entera** — `Record<number, …>` no existe en runtime: JavaScript pasa toda clave de
-objeto a string y un `.json` no tiene cómo escribir otra cosa, así que el tipo no atrapa nada de lo que
-entra desde afuera. **Y rompe cosas distintas según quién lea la clave**, ninguna ruidosa por sí sola:
+**`Record<number, …>` no existe en runtime.** JavaScript pasa toda clave de objeto a string y un `.json` no tiene cómo escribir otra cosa, así que el tipo no atrapa nada de lo que entra desde afuera. **Y rompe cosas distintas según quién lea la clave**, ninguna ruidosa por sí sola:
 
 | dónde | qué es la clave | qué pasa con una no entera |
 |---|---|---|
@@ -2081,114 +1760,41 @@ entra desde afuera. **Y rompe cosas distintas según quién lea la clave**, ning
 | `evolutionPerks` | **el tier** (`entry.evolutions[tierStr]`) | no matchea y el perk se omite sin decir nada |
 | `arcanes` | nada — se leen por `Object.values` | no se pierde dato; por eso el poblador no los valida |
 
-Hubo un tercer modo de falla, peor y ya extinto: la traducción re-indexaba (`result[parseInt(k)] = v`),
-así que las cuatro claves rotas escribían la propiedad `"NaN"` y **tres de cuatro mods desaparecían**.
-Medido con el oráculo sobre un parcial con los cuatro elementales de rifle: `"0"`…`"3"` daba
-`BLAST + CORROSIVE`; `"s0"`…`"s3"` daba sólo `ELECTRICITY`, y al revés sólo `HEAT` — ganaba el último
-escrito. Ese `parseInt` era un no-op ceremonial que existía para satisfacer al tipo, y murió con la forma
-intermedia; hoy la guarda (`assertSlotKeys`, en el poblador) **sólo valida**.
+Hubo un tercer modo de falla, peor y ya extinto: la traducción re-indexaba (`result[parseInt(k)] = v`), así que las claves rotas escribían la propiedad `"NaN"` y **tres de cuatro mods desaparecían**, ganando el último escrito. Lo grave nunca fue el bug sino que **el resultado tiene cara de válido**: el oráculo es el instrumento con el que se valida el motor contra el juego, y un número plausible y falso no corrompe código — corrompe una medición, y el modelo podría ajustarse para explicarlo.
 
-Sin error y sin warning en ninguno de los casos. Lo grave no es el bug: es que **el resultado tiene cara
-de válido**. El oráculo es el instrumento con el que se valida el motor contra el juego, así que un
-número plausible y falso no corrompe código — corrompe una medición, y el modelo podría ajustarse para
-explicarlo.
+**Por qué no se cierra con el mismo movimiento que el participante.** Que la identidad sea la posición vale para el squad (cuatro puestos, ley del juego) y para el hostil (lista sin tope), pero **no para los slots**: ahí la posición absoluta es de la UI (quién decide "acá van sólo exilus") y la cantidad varía con el portador — Jade lleva dos auras y un exilus. Lo que el motor necesita de un slot **no es el hueco sino el orden**, porque el orden de la grilla determina la combinación elemental (`../../references/wiki/mechanics/damage-types.md` §*Jerarquía de combinación*).
 
-### Por qué el eje de slots no se cierra con el mismo movimiento
+### El patrón durable
 
-**Porque la forma que sirvió para el participante no se traslada.** Que la identidad sea la posición vale
-para el squad —cuatro puestos, ley del juego— y para el hostil —una lista sin tope—, pero **no para los
-slots**: ahí la posición absoluta es de la UI (quién decide "acá van sólo exilus"), y la cantidad varía
-con el portador — Jade lleva dos auras y un exilus. Lo que el motor necesita de un slot **no es el hueco
-sino el orden**: el orden de la grilla determina la combinación elemental
-(`../../references/wiki/mechanics/damage-types.md` §*Jerarquía de combinación*).
+**Tres de las cuatro apariciones murieron sin que nadie negociara una forma:** el mapa de moldes se fue al colapsar la doble pasada sobre el espacio; el `parseInt` que producía el `NaN` se fue con la forma intermedia; y la identidad del participante se resolvió leyendo una estructura que **ya existía en A**. De ahí la lección: **una clave derivada puede no ser una decisión de identidad sino el precio de una duplicación, de una traducción, o de un trabajo que nadie tiene asignado** — y en los tres casos desaparece cuando se cierra lo que la generaba. Antes de rediseñar una clave, preguntar si existe porque algo se hace dos veces, se re-shapea sin necesidad, o porque una etapa está haciendo el trabajo de otra.
 
-Y el costo que se temía para el participante **no apareció**, por una razón que conviene registrar: el
-contrato ya llevaba los dos campos (`id` y `unique_name`) cableados al mismo origen, así que separarlos
-dejó las ~109 selecciones por molde de la suite intactas — sólo cambió qué campo consulta la lente. Lo
-que sí hubo que reapuntar fueron los **modifiers**, que estampaban el molde como `target_entity`: eso
-compila igual y no aterriza en nada, o sea que el typecheck no lo habría atrapado.
+⚠️ **El precedente que NO se imita.** El ruteo cross-banda de `StaticHydrator` desambigua condicionalmente (`targets.length > 1 ? id@entidad : id`): una clave que **cambia de forma según cuántos haya**, así que la colisión reaparece en cuanto algo compare claves entre escenarios. La coordenada hace lo contrario — un participante único se nombra igual que uno de varios.
 
-### Lo que ya está hecho, y lo que no
+**Condición de cierre del eje que queda:** que la clave de slot deje de ser un `Record<number, T>`, o que se decida explícitamente que la guarda alcanza. Hoy `assertSlotKeys` (en el poblador) tira sobre una clave no entera nombrando portador y clave, `unlanded-modifiers.test.ts` fija ese grito y lleva la forma pendiente como `it.todo`.
 
-**Las guardas están puestas: el silencio no sobrevive al gate.** `assertSlotKeys` (en el poblador del
-espacio) tira sobre una clave no entera nombrando el portador y la clave; `unlanded-modifiers.test.ts`
-fija ese grito y `enemy.test.ts` lleva la colisión de participantes como test pendiente con sus números.
-
-**Tres de las cuatro apariciones murieron sin que nadie negociara una forma.** El mapa de moldes se fue al
-colapsar la doble pasada sobre el espacio; el `parseInt` que producía el `NaN` se fue con la forma
-intermedia; y la identidad del participante se resolvió leyendo una estructura que **ya existía en A** en
-vez de inventar una clave. Es el patrón que vale la pena registrar: **una clave derivada puede no ser una
-decisión de identidad sino el precio de una duplicación, de una traducción, o de un trabajo que nadie
-tiene asignado** — y en los tres casos desaparece cuando se cierra lo que la generaba. Antes de rediseñar
-una clave, conviene preguntar si existe porque algo se hace dos veces, se re-shapea sin necesidad, o
-porque una etapa está haciendo el trabajo de otra.
-
-⚠️ **El precedente que NO se imita, y que ahora tiene contraejemplo propio.** El ruteo cross-banda de
-`StaticHydrator` desambigua condicionalmente (`targets.length > 1 ? id@entidad : id`): es una clave que
-**cambia de forma según cuántos haya**, y la colisión reaparece en cuanto algo compare claves entre
-escenarios. La coordenada hace lo contrario — un participante único se nombra igual que uno de varios.
-
-**Condición de cierre del eje que queda:** que la clave de slot deje de ser un `Record<number, T>`, o que
-se decida explícitamente que la guarda alcanza. Hoy `assertSlotKeys` la vuelve ruidosa y el `it.todo` de
-`unlanded-modifiers.test.ts` lleva la forma pendiente.
-
-**No bloquea:** el modelado de mecánicas ni la medición contra el juego, mientras las guardas estén. **Vínculo:**
-`OQ-DATA-9` (el plano "0": A declara punteros, B/UI dereferencian — es la pregunta madre de la mudanza),
-`../domains/engine/design/simulation-architecture.md` §*El escenario consolidado: la foto de t=0*,
-`../domains/engine/design/arch-decisions.md` §18 (ruteo por token, que consume el `entity_id`).
-**Fuente:** cierre del concepto de Capa A (campaña de recomposición del engine, 2026-08).
+**No bloquea:** el modelado de mecánicas ni la medición contra el juego, mientras las guardas estén.
+**Vínculo:** `OQ-DATA-9` (el plano "0": A declara punteros, B/UI dereferencian — la pregunta madre) · [`simulation-architecture.md`](../domains/engine/design/simulation-architecture.md) §*El escenario consolidado: la foto de t=0* · [`arch-decisions.md`](../domains/engine/design/arch-decisions.md) §18 (ruteo por token, que consume el `entity_id`).
 
 ---
 
 ## OQ-ENGINE-31 — ¿Qué le falta a una entidad para ser modelable? — **ABIERTO — gated por medición y por capacidad**
 **Dominio:** engine / modelo de entidades
 
-**La pregunta no es en qué orden se modelan las entidades.** Un ranking no tiene forcing-case y se
-discute sin cerrar. La pregunta es **qué le falta a una entidad para entrar**, y si ese faltante es el
-mismo para todas — el orden cae después, como consecuencia.
+**La pregunta no es en qué orden se modelan las entidades** — un ranking no tiene forcing-case y se discute sin cerrar. Es **qué le falta a una entidad para entrar**, y si ese faltante es el mismo para todas; el orden cae después, como consecuencia.
 
-**El eje es la propagación de efectos, no el origen de la entidad.** Warframe, compañero, objeto de
-habilidad y minion son todos **portadores y receptores** de buffs, propios y de aliados. Que una nazca
-del loadout y otra de una habilidad es **consecuencia de dónde nace, y se hereda** — no una frontera
-que las separe "en el espacio". Tratarlas como cajones distintos es el error a evitar: lleva a
-construir un mecanismo por cajón cuando el problema real —a quién le llega un efecto y cómo— es uno
-solo.
+**El eje es la propagación de efectos, no el origen de la entidad.** Warframe, compañero, objeto de habilidad y minion son todos **portadores y receptores** de buffs. Que una nazca del loadout y otra de una habilidad es consecuencia de dónde nace, no una frontera que las separe. Tratarlas como cajones distintos lleva a construir un mecanismo por cajón cuando el problema real —a quién le llega un efecto y cómo— es uno solo.
 
-**Los datos ya están, y eso descarta el criterio fácil.** `companions.json` trae **83** entidades con
-stats de supervivencia (45 pet · 21 moa · 17 sentinel) y `shared/types/companion.ts` ya define
-`Companion` + `CompanionWeapon`; `vehicles.json` trae **150** (148 archwing · 2 necramech). "Hay datos"
-no discrimina: los hay para casi todas. Lo único sin dataset son los **minions**, que tampoco entran
-por loadout.
+**"Hay datos" no discrimina:** `companions.json` trae 83 entidades con stats de supervivencia (45 pet · 21 moa · 17 sentinel) y `shared/types/companion.ts` ya define `Companion` + `CompanionWeapon`; `vehicles.json` trae 150. Lo único sin dataset son los **minions**, que tampoco entran por loadout.
 
-**El forcing-case es el compañero, y tiene un gate ya declarado por escrito.**
-`semantic/upgrade-tokens.md` §*`AVATAR_` = el portador* dice que un mod de compañero con token
-`AVATAR_*` buffea **al compañero** (`Enhanced Vitality` → vida del sentinel, no del warframe), que
-rutearlo al warframe sería un bug peor que el que el salto por familia arregla, y que **el caso
-compañero se decide cuando existan esas entidades**. Ese es el consumidor: no es abstracción
-especulativa, es un ruteo resuelto sólo para armas con el otro lado esperando.
+**El forcing-case es el compañero, con un gate ya declarado por escrito:** `semantic/upgrade-tokens.md` §*`AVATAR_` = el portador* fija que un mod de compañero con token `AVATAR_*` buffea **al compañero** (`Enhanced Vitality` → vida del sentinel), que rutearlo al warframe sería peor bug que el que arregla el salto por familia, y que **el caso compañero se decide cuando existan esas entidades**. Es un ruteo resuelto sólo para armas, con el otro lado esperando.
 
-**Que los buffs de warframe alcanzan al compañero está asentado:** los compañeros **son *allies***
-—como los NPC de misión—, así que el *"affects all allies in range"* de `speed.wikitext` ya los
-cubre; su *"affected players"* describe el caso jugador, no delimita el conjunto. La entidad compañero
-nace, entonces, **ya necesitando recibir efectos de otra entidad**, y eso fija la forma del modelo:
-un compañero no es un portador aislado con su propio grafo, es un receptor.
+**Que los buffs de warframe alcanzan al compañero está asentado:** los compañeros **son *allies*** —como los NPC de misión—, así que el *"affects all allies in range"* ya los cubre. La entidad compañero nace **ya necesitando recibir efectos de otra entidad**: no es un portador aislado con su propio grafo, es un receptor.
 
-**Lo que sí está abierto es el borde:** la mayoría de los buffs le llegan al compañero, **pero no
-todos**, y qué los separa no lo publica la página `Companion`. No es una pregunta de "¿propaga?" sino
-de **qué determina que un efecto propague o se detenga en el portador**, y sin esa regla el modelo
-tendría que enumerar excepciones a mano. Se releva midiendo (**`ingame-tests/pending.md` P-5**), mismo
-régimen que `OQ-ENGINE-26`. Lo que el barrido del corpus corrige es la **forma** de la pregunta: no es
-una dirección con excepciones, son **cinco direcciones**, y la página de cada mod sí las declara
-aunque la de la mecánica no.
+**Lo abierto es el borde:** la mayoría de los buffs le llegan, **pero no todos**, y qué los separa no lo publica la página `Companion`. No es "¿propaga?" sino **qué determina que un efecto propague o se detenga en el portador** — sin esa regla el modelo enumera excepciones a mano. Se releva midiendo (**`ingame-tests/pending.md` P-5**), mismo régimen que `OQ-ENGINE-26`.
 
 ### El corpus: 158 mods, cinco direcciones
 
-`mods.json` trae **158** `Companion Mod`; **29** tienen override curado y **37** conservan el token
-crudo de DE. El censo de
-[`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §18 se hizo
-sobre los overrides —sus *"garras: 7 mods, 12 tokens"* reproducen exacto contando overrides, y son
-**24** contando `compat_name`—, así que **el 82 % de este corpus no entró a ningún censo previo**. El
-eje que lo parte es **hacia dónde va el efecto**, y el `label` lo declara en **60 de 158**:
+`mods.json` trae **158** `Companion Mod`; 29 tienen override curado y 37 conservan el token crudo de DE. El censo de [`arch-decisions.md`](../domains/engine/design/arch-decisions.md) §18 se hizo sobre los overrides, así que **el 82 % de este corpus no entró a ningún censo previo**. El eje que lo parte es **hacia dónde va el efecto**, y el `label` lo declara en **60 de 158**:
 
 | Dirección | Casos | Estado |
 |---|---|---|
@@ -2198,160 +1804,62 @@ eje que lo parte es **hacia dónde va el efecto**, y el `label` lo declara en **
 | **4 · escribe en aliados** | Cat's Eye · Iatric Mycelium | **sin dueño** |
 | **5 · trigger cruzado** — los `*Bond` | **16 mods**, `[[Category:Bond Mods]]` de la fuente | **sin dueño** |
 
-**El eje no lo inventamos nosotros: DE lo declara en el token crudo.** Mismo stat, dos sujetos, dos
-tokens — `AVATAR_BLEEDOUT_MODIFIER` (Medi-Pet Kit, el propio) vs
-`AVATAR_SENTINEL_MASTER_BLEEDOUT_MODIFIER` (Loyal Companion, el del maestro);
-`AVATAR_SENTINEL_PACK_LEADER` vs su `_REVERSE` (Hunter Recovery). Los infijos `SENTINEL_` / `MASTER_` /
-`_REVERSE` **son** el eje del sujeto, y la normalización a D-6 los tira. Que `Tandem Bond` lleve las dos
-direcciones dentro del mismo mod cierra la lectura:
-[`tandem-bond.wikitext`](../../references/wiki/mods/tandem-bond.wikitext) §Patch History registra como
-**bug corregido** que el trigger se contara del jugador —*"intended to have a fixed Combo increase of 6
-originating from your Companion's melee hits, **not your own**"*—, o sea que DE trata el sujeto como
-contrato, no como detalle.
+**El eje no lo inventamos nosotros: DE lo declara en el token crudo.** Mismo stat, dos sujetos, dos tokens — `AVATAR_BLEEDOUT_MODIFIER` (el propio) vs `AVATAR_SENTINEL_MASTER_BLEEDOUT_MODIFIER` (el del maestro); `AVATAR_SENTINEL_PACK_LEADER` vs su `_REVERSE`. Los infijos `SENTINEL_` / `MASTER_` / `_REVERSE` **son** el eje del sujeto, y la normalización a D-6 los tira. `tandem-bond.wikitext` §Patch History registra como **bug corregido** que el trigger se contara del jugador (*"originating from your Companion's melee hits, **not your own**"*): DE trata el sujeto como contrato, no como detalle.
 
 ### Lo que la fuente refuta del modelo vigente
-
-Tres hechos medidos contra los que ninguna pieza actual se sostiene:
 
 | Refuta | Fuente | Qué rompe |
 |---|---|---|
 | **Los tres niveles de alcance de §18 no expresan la dirección 3** | [`shield-charger.wikitext`](../../references/wiki/mods/shield-charger.wikitext): *"**Sentinels, Companions**, Rescue Targets, Operatives, Specters o Factional Allies **cannot benefit** from this mod"* | el destino es **el warframe del dueño y sólo él**: no es *propio* (incluiría al compañero portador) ni *aliado* (los excluye por nombre). Falta un cuarto nivel — **dueño** |
-| ~~La dirección 2 necesitaría un vínculo de **estado**~~ — **no**: son dos mecanismos superpuestos | [`link-vitality.wikitext`](../../references/wiki/mods/link-vitality.wikitext) §Patch History `ver\|34`, replicada en [`companion.wikitext`](../../references/wiki/companions/companion.wikitext) | el mod es vínculo de **máximo** (`source_entity` + `source_attribute` alcanza); que las restauraciones puntuales lleguen al pet es la **vía general de aliados** abierta en `ver\|34` al levantar las restricciones de 14 habilidades *"as they apply to granting Health, **Shields**, or Damage Resistance to Companions"*. El mod aporta el **contenedor**, no el contenido — de ahí que no cree overshields ni comparta regen pasiva |
-| **El gate por presencia de `vitalsProfile` tiene contraejemplo** | *"Khora needs at least 960 shields, as **Venari does not have any base shields, but can still equip Link Redirection to gain shields**"* | `ItemRepository` declara *"un stat ausente NO se materializa"*; acá el vínculo **crea** el nodo donde la entidad no lo tenía |
+| **La dirección 2 no necesita vínculo de estado: son dos mecanismos superpuestos** | [`link-vitality.wikitext`](../../references/wiki/mods/link-vitality.wikitext) §Patch History `ver\|34` | el mod es vínculo de **máximo** (`source_entity` + `source_attribute` alcanza); que las restauraciones puntuales lleguen al pet es la **vía general de aliados** abierta en `ver\|34`. El mod aporta el **contenedor**, no el contenido — de ahí que no cree overshields ni comparta regen pasiva |
+| **El gate por presencia de `vitalsProfile` tiene contraejemplo** | *"Venari **does not have any base shields, but can still equip Link Redirection to gain shields**"* | `ItemRepository` declara *"un stat ausente NO se materializa"*; acá el vínculo **crea** el nodo donde la entidad no lo tenía |
 
-**El "dueño" es un rol, no una clase de entidad.**
-[`guardian.wikitext`](../../references/wiki/mods/guardian.wikitext) §Patch History `ver|42` corrige
-*"**Sevagoth's Shadow** not benefitting from the following Companion Mods: Guardian"* — o sea que el
-receptor de la dirección 3 puede ser una **entidad derivada de habilidad**, no el warframe. Eso ata
-esta OQ con `OQ-ENGINE-11` por el mismo nudo: quien ocupa el rol *dueño* cambia en runtime.
+**El "dueño" es un rol, no una clase de entidad.** `guardian.wikitext` §Patch History `ver|42` corrige *"**Sevagoth's Shadow** not benefitting from […] Guardian"*: el receptor de la dirección 3 puede ser una **entidad derivada de habilidad**. Segunda evidencia independiente: `astral-bond` nombra Operador/Drifter/Amp **15** veces y al warframe **cero**. Eso ata esta OQ con `OQ-ENGINE-11` por el mismo nudo — quién ocupa el rol *dueño* cambia en runtime.
 
-**Y la dirección ya está categorizada por la fuente:** Guardian y Shield Charger comparten
-`[[Category:Shield Restoration]]`, igual que los `*Bond` comparten `[[Category:Bond Mods]]`. La wiki
-agrupa por lo que hace el efecto, no por qué stat toca.
+**La dirección 5 lee estado ajeno con tres predicados distintos.** En `reinforced-bond.wikitext` el buff de fire rate del jugador se gatea por el **máximo** de shields del compañero (estático), **o** por su shield **actual** con overshield (dinámico), **y** se desactiva si el compañero está *incapacitated* — un estado que no es ningún atributo. Es el eje 2 de §18 (*sujeto leído*) en forma pura, y ninguno de los tres predicados es del portador del mod. Su forma más difícil: en un Vulpaphyla el gate *"stays activated in their larval forms, **even though the larvae don't have enough shields**"* — la condición se evalúa contra una forma que la entidad ya no tiene.
 
-**La dirección 5 lee estado ajeno con tres predicados distintos.**
-[`reinforced-bond.wikitext`](../../references/wiki/mods/reinforced-bond.wikitext): el buff de fire rate
-del jugador se gatea por el **máximo** de shields del compañero (estático, *"regardless of their actual
-moment-to-moment shield strength"*), **o** por su shield **actual** incluyendo overshield (dinámico),
-**y** se desactiva si el compañero está *incapacitated* — un estado que no es ningún atributo. Es el eje
-2 de §18 (*sujeto leído*) en forma pura, y ninguno de los tres predicados es del portador del mod.
-Su forma más difícil: en un Vulpaphyla el gate *"stays activated in their larval forms, **even though the
-larvae don't have enough shields**"* — la condición se evalúa contra una forma que la entidad ya no tiene.
-
-**Confirmación externa de una separación nuestra:** `ver|34.0.4` corrige *"Reinforced Bond's fire rate
-buff unintentionally applying to **Melee attack speed**"*. DE trata `fire rate` ≠ `attack speed` como
-bug cuando se cruzan — el mismo corte que `../semantic/upgrade-tokens.md` §MELEE sostiene contra el
-token único de DE.
-
-**Y `AVATAR_ADD_ABILITY_DURATION` sobre un compañero no es el mismo stat.** `Tek Enhance` lo lleva con
-label *"+30% Kavat Ability Duration"*, y [`cats-eye.wikitext`](../../references/wiki/mods/cats-eye.wikitext)
-lo computa: el uptime del precept pasa de `10/(10+20)` a `(10×1.3)/(10×1.3+20)`. El token nombra la
-duración de los **precepts**, no la de las cuatro habilidades del warframe — mismo nombre, otro nodo.
+**`AVATAR_ADD_ABILITY_DURATION` sobre un compañero no es el mismo stat.** `Tek Enhance` lo lleva con label *"+30% Kavat Ability Duration"* y `cats-eye.wikitext` lo computa sobre el uptime del precept (`10/(10+20)` → `(10×1.3)/(10×1.3+20)`): el token nombra la duración de los **precepts**, no la de las cuatro habilidades del warframe. Mismo nombre, otro nodo.
 
 ### El precept es el eje que el dataset no tiene
 
-[`companion.wikitext`](../../references/wiki/companions/companion.wikitext) lo define: *"precepts are
-mods which **alter the behavior** of a Companion, and are effectively the companion's **'abilities'**"*,
-específicos por tipo y **otorgados al adquirir** el compañero. Es una partición real —comportamiento vs. atributo— y **`mod_class` viene `null` en los
-158**, así que el motor no puede distinguirlos. Su única fuente es la columna `Precept` de las diez
-tablas que [`companion-mods.wikitext`](../../references/wiki/mods/companion-mods.wikitext) transcluye;
-en la tabla universal que esa página sí trae, los **26** mods son `Precept: No`, o sea que en ese tramo
-la partición coincide con universal ↔ específico-por-tipo.
+`companion.wikitext` lo define: *"precepts are mods which **alter the behavior** of a Companion, y son efectivamente sus **'abilities'**"*, específicos por tipo y otorgados al adquirir el compañero. Es una partición real —comportamiento vs. atributo— y **`mod_class` viene `null` en los 158**, así que el motor no puede distinguirlos. Su única fuente es la columna `Precept` de las diez tablas que `companion-mods.wikitext` transcluye.
 
-🔴 **Y el atajo que el dataset parece ofrecer ya se midió: no sirve.** El `unique_name` parte los 158 en
-dos con un corte sospechosamente limpio —**105** bajo `/Lotus/Types/…` con `Precept` en el path y **53**
-bajo `/Lotus/Upgrades/Mods/…` sin él, 158 exactos—, y **no es esta partición**. Cruzado contra la columna
-`Precept` de la tabla universal: **12 desacuerdos sobre 26 filas**, todos los `*Bond` presentes ahí
-(Aerial, Astral, Contagious, Covert, Duplex, Momentous, Mystic, Reinforced, Restorative, Seismic,
-Tenacious, Vicious). Viven en `/Lotus/Types/Sentinels/SentinelPrecepts/VoidBond/…` y la wiki los declara
-`Precept: No`. El path agrupa por **cómo DE implementa el mod** —un Bond se implementa como precepto de
-sentinel— no por comportamiento ⊥ atributo. **46 % de desacuerdo en el único tramo verificable**, así que
-el barrido va por página y no por path.
+🔴 **El atajo que el dataset parece ofrecer ya se midió: no sirve.** El `unique_name` parte los 158 con un corte sospechosamente limpio (105 bajo `/Lotus/Types/…` con `Precept` en el path, 53 bajo `/Lotus/Upgrades/Mods/…`, 158 exactos) y **no es esta partición**: contra la columna `Precept` de la tabla universal hay **12 desacuerdos sobre 26 filas**, todos los `*Bond` presentes ahí. El path agrupa por **cómo DE implementa el mod** —un Bond se implementa como precepto de sentinel— no por comportamiento ⊥ atributo. **46 % de desacuerdo en el único tramo verificable → el barrido va por página, no por path.**
 
-**Lo que el precept aporta al modelo no son sus efectos —daño y CC de una entidad no modelada— sino su
-forma: es una habilidad con ventana, no un modifier.** Cat's Eye `10 s / cd 20 s` · Shield Charger
-`10 s / cd 30 s` · Guardian `cd 30 s`. ⚠️ El cooldown **no** es parte de la forma:
-[`ambush.wikitext`](../../references/wiki/mods/ambush.wikitext) dura 3 s sin cooldown y se gatea por
-**otro precept del mismo compañero** (`Ghost`), no por tiempo. Y es lo que le da sujeto a
-`AVATAR_ADD_ABILITY_DURATION` sobre un compañero: `Tek Enhance` escala **el conjunto de precepts**, que
-es lo que `cats-eye.wikitext` computa al pasar el uptime de `10/(10+20)` a `(10×1.3)/(10×1.3+20)`.
+**Lo que el precept aporta al modelo no son sus efectos sino su forma: es una habilidad con ventana, no un modifier.** Cat's Eye `10 s / cd 20 s` · Shield Charger `10 s / cd 30 s` · Guardian `cd 30 s`. ⚠️ El cooldown **no** es parte de la forma: `ambush.wikitext` dura 3 s sin cooldown y se gatea por **otro precept del mismo compañero** (`Ghost`), no por tiempo.
 
 ### Los `*Bond`: la fuente ya tiene el vocabulario del eje
 
-**`[[Category:Bond Mods]]` los agrupa a los 14, y sólo a ellos.** Los dos homónimos —`Deceptive Bond`
-(augment de Loki) y `Dreamer's Bond` (aura)— **no** la llevan: el nombre es coincidencia léxica, la
-categoría es exacta. El corpus de los 14 está capturado en
-[`references/wiki/mods/`](../../references/wiki/mods/) como `*-bond.wikitext`; abajo se citan los que
-sostienen una afirmación, el resto queda disponible para el barrido por página.
+**`[[Category:Bond Mods]]` agrupa a los 14, y sólo a ellos** — los homónimos `Deceptive Bond` (augment de Loki) y `Dreamer's Bond` (aura) no la llevan: el nombre es coincidencia léxica, la categoría es exacta. El corpus está capturado en [`references/wiki/mods/`](../../references/wiki/mods/) como `*-bond.wikitext`.
 
-**Su forma es dos cláusulas que cruzan la frontera en direcciones opuestas** — el mod *es* el vínculo,
-no un efecto con un destino:
+**Su forma es dos cláusulas que cruzan la frontera en direcciones opuestas** — el mod *es* el vínculo, no un efecto con destino:
 
 | Mod | Una dirección | La otra |
 |---|---|---|
-| [`astral-bond`](../../references/wiki/mods/astral-bond.wikitext) | daño del **Operador/Drifter** → Void a los ataques del compañero | Void del compañero → eficiencia de **Amp y Transferencia** |
-| [`seismic-bond`](../../references/wiki/mods/seismic-bond.wikitext) | ability canalizada activa → shockwaves del compañero | ataques del compañero → **Ability Efficiency al dueño** |
-| [`tenacious-bond`](../../references/wiki/mods/tenacious-bond.wikitext) | headshot kills → baja el recovery del compañero | CC del compañero > 50 % → **Crit Damage al arma del dueño** |
-| [`mystic-bond`](../../references/wiki/mods/mystic-bond.wikitext) | — | el compañero usa N habilidades → **el dueño castea sin energía** |
-| [`covert-bond`](../../references/wiki/mods/covert-bond.wikitext) | finisher/mercy **del dueño** → stealth al compañero | — |
+| `astral-bond` | daño del **Operador/Drifter** → Void a los ataques del compañero | Void del compañero → eficiencia de **Amp y Transferencia** |
+| `seismic-bond` | ability canalizada activa → shockwaves del compañero | ataques del compañero → **Ability Efficiency al dueño** |
+| `tenacious-bond` | headshot kills → baja el recovery del compañero | CC del compañero > 50 % → **Crit Damage al arma del dueño** |
+| `mystic-bond` | — | el compañero usa N habilidades → **el dueño castea sin energía** |
+| `covert-bond` | finisher/mercy **del dueño** → stealth al compañero | — |
 
 Tres cosas que fija este corpus:
 
-- **Ninguno alcanza al squad.** Los 14 operan estrictamente sobre el par dueño ↔ compañero. La
-  dirección 4 es de los **precepts** (Cat's Eye, Iatric Mycelium), no de los Bond: los dos ejes no se
-  mezclan, y eso los vuelve separables.
-- **El recurso que más manipulan no existe en el modelo:** el *Companion Recovery Timer* aparece en
-  **6 de 14** (Aerial, Momentous, Restorative, Tenacious, Duplex, más Medi-Pet Kit fuera de la familia).
-  Es la economía de la familia y no hay nodo que lo represente. **Su base son 60 s, iguales para todos
-  los compañeros** —`[empirical]`, criterio del usuario; la wiki no lo publica—, así que **no es un gap
-  de dataset**: es una constante de mecánica del mismo tipo que `ENEMY_GATE_DURATION`, y vive en
-  `formulas/`, no en el molde. `companions.json` trae sólo `health`/`shield`/`armor` en las 83 entidades
-  y no necesita traer más. Lo que le falta no es el número sino **el ciclo de muerte que lo consuma**.
-- ⚠️ **El revive resetea los cooldowns de los precepts** `[empirical]`: si el compañero cae y vuelve
-  antes de que expire el cooldown de una habilidad, puede reactivarla — *"no tienen CD luego de
-  revivir"*. Es un **cierre de ventana por evento, no por tiempo**, la misma forma que
-  [`../domains/engine/design/time-model.md`](../domains/engine/design/time-model.md) §3 llama `until`
-  conjuntivo. Sin verificar contra la wiki, que puede no declararlo; el registro con autoridad sería
-  `references/ingame-tests/`.
-- **El "dueño" puede no ser el warframe:** [`astral-bond`](../../references/wiki/mods/astral-bond.wikitext) nombra Operador/Drifter/Amp **15** veces y al
-  warframe **cero**. Segunda evidencia independiente de que *dueño* es un rol — la primera es Sevagoth's
-  Shadow en `arch-decisions §18`.
+- **Ninguno alcanza al squad.** Los 14 operan estrictamente sobre el par dueño ↔ compañero; la dirección 4 es de los **precepts**, no de los Bond. Los dos ejes no se mezclan, y eso los vuelve separables.
+- **El recurso que más manipulan no existe en el modelo:** el *Companion Recovery Timer* aparece en **6 de 14**. **Su base son 60 s, iguales para todos** `[empirical]` — no es un gap de dataset sino una **constante de mecánica** del tipo de `ENEMY_GATE_DURATION`, y vive en `formulas/`. Lo que falta no es el número sino **el ciclo de muerte que lo consuma**.
+- ⚠️ **El revive resetea los cooldowns de los precepts** `[empirical]`: es un **cierre de ventana por evento, no por tiempo** — la forma que [`time-model.md`](../domains/engine/design/time-model.md) §3 llama `until` conjuntivo. Sin verificar contra la wiki; el registro con autoridad sería `references/ingame-tests/`.
 
-⚠️ **Y el vocabulario de sujeto de la prosa no es un campo:** los 14 nombran al receptor con `owner`,
-`you`/`your` o `Warframe` según la página, sin término canónico. Sirve para partir el corpus, no para
-alimentar un modelo.
+⚠️ **El vocabulario de sujeto de la prosa no es un campo:** los 14 nombran al receptor con `owner`, `you`/`your` o `Warframe` según la página, sin término canónico. Sirve para partir el corpus, no para alimentar un modelo.
 
-**Hallazgo lateral, fuera del alcance de esta OQ:** `../semantic/upgrade-tokens.md` §Registro de lo
-inexpresable declara `absoluteCritBonus` *"no resoluble con el corpus local — requiere test in-game"*.
-`cats-eye.wikitext` §Notes lo resuelve con corpus local: da la segunda fuente del pool absoluto y su
-fórmula textual —`25% × (1 + 120% + 40%×(4−1)) + 60% + 45%`—, donde el `45%` es **Arcane Avenger**, hoy
-clasificado en el pool relativo (`WEAPON_ADD_CRIT_CHANCE`) en `arcane-stats.override.json`. El término
-ya existe construido en `formulas/common/crit-base.ts` y no tiene emisor.
+**Hallazgo lateral, fuera del alcance de esta OQ:** `../semantic/upgrade-tokens.md` §Registro de lo inexpresable declara `absoluteCritBonus` *"no resoluble con el corpus local"*. `cats-eye.wikitext` §Notes lo resuelve **con** corpus local: da la segunda fuente del pool absoluto y su fórmula textual, donde el `45%` es **Arcane Avenger**, hoy clasificado en el pool relativo (`WEAPON_ADD_CRIT_CHANCE`). El término ya existe construido en `formulas/common/crit-base.ts` y no tiene emisor.
 
-**Lo que el eje NO es: una familia de token.** Un `COMPANION_ADD_SHIELD_MAX` diría *"el nodo de shield
-del compañero"*, que es lo mismo que `AVATAR_ADD_SHIELD_MAX` sobre un portador compañero — y ese caso
-(`Calculated Redirection`) **ya cae bien** por §18. El faltante no es `{dónde}` vive el nodo sino a
-quién le llega el efecto, y por eso se resuelve en el alcance, no en el vocabulario.
+**Lo que el eje NO es: una familia de token.** Un `COMPANION_ADD_SHIELD_MAX` diría *"el nodo de shield del compañero"*, que es lo mismo que `AVATAR_ADD_SHIELD_MAX` sobre un portador compañero — y ese caso ya cae bien por §18. El faltante no es `{dónde}` vive el nodo sino **a quién le llega el efecto**: se resuelve en el alcance, no en el vocabulario.
 
-**La progresión que esto sugiere no es de entidades sino de capacidades del motor** — una entidad se
-gana el lugar cuando el motor ya sabe propagarle lo que le llega: warframe → habilidades de buff
-simples → habilidades de daño simples → sentinel como entidad → reevaluar. Los escalones intermedios
-**no son entidades**, y ése es justamente el punto.
+**La progresión que esto sugiere no es de entidades sino de capacidades del motor** — una entidad se gana el lugar cuando el motor ya sabe propagarle lo que le llega: warframe → habilidades de buff simples → habilidades de daño simples → sentinel como entidad → reevaluar. Los escalones intermedios **no son entidades**, y ése es el punto.
 
-**Residuo declarado, sin OQ propia:** el dataset clasifica **necramech dentro de `vehicles.json`**
-mientras el vocabulario de DE lo pone del lado del avatar (`AVATAR_` = warframe · archwing · necramech;
-`VEHICLE_` = lo que se monta). Dos cortes distintos sobre la misma entidad. Se resuelve cuando el
-horizonte llegue ahí — está lejos y no gatea nada de lo de arriba.
+**Residuo declarado, sin OQ propia:** el dataset clasifica **necramech dentro de `vehicles.json`** mientras el vocabulario de DE lo pone del lado del avatar (`AVATAR_` = warframe · archwing · necramech; `VEHICLE_` = lo que se monta). Dos cortes distintos sobre la misma entidad; se resuelve cuando el horizonte llegue ahí.
 
-**No bloquea:** nada hoy. **Bloquea:** el ruteo de mods `AVATAR_*` de compañero, que hoy no tiene
-lado al que aterrizar, y cualquier decisión sobre entidades derivadas de habilidad.
-**Vínculo:** `semantic/upgrade-tokens.md` §*`AVATAR_` = el portador* (el gate declarado),
-`OQ-ENGINE-22` (EHP/DR de `enemy/` a `entity/` — la misma generalización desde otra cara),
-`OQ-ENGINE-11` (exaltadas: entidad derivada de habilidad ya con OQ),
-`data/reports/audit-arcane-ability-like.md` (minions como *entidad generada*, y por qué no abrir OQ
-para eso), `__tests__/volt.test.ts` (los `it.todo` de cap-para-aliados y opt-out: el modelo no tiene
-aliados como entidad), `references/ingame-tests/pending.md` P-5.
-**Fuente:** criterio del usuario sobre qué entidades son modelables y en qué orden, reencuadrado.
+**No bloquea:** nada hoy. **Bloquea:** el ruteo de mods `AVATAR_*` de compañero, que hoy no tiene lado al que aterrizar, y cualquier decisión sobre entidades derivadas de habilidad.
+**Vínculo:** `semantic/upgrade-tokens.md` §*`AVATAR_` = el portador* (el gate declarado) · `OQ-ENGINE-22` (EHP/DR de `enemy/` a `entity/`, la misma generalización desde otra cara) · `OQ-ENGINE-11` (exaltadas) · `data/reports/audit-arcane-ability-like.md` (minions como *entidad generada*) · `__tests__/volt.test.ts` (los `it.todo` de cap-para-aliados y opt-out) · `references/ingame-tests/pending.md` P-5.
 
 ---
 

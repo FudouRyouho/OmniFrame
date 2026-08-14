@@ -1,5 +1,5 @@
 ---
-Estado: activo
+Estado: "referencia"
 Rol: auditoria-manual
 Impacto_ID: "D-18"
 Fidelidad_Fisica: "Project/public/data/mod-stats.override.json"
@@ -214,16 +214,9 @@ Fecha_de_actualizacion: "2026-06-06"
 >   **Mismo shape que `OQ-DATA-5`** (restricción/parámetro que hoy vive solo en `label`; OQ-DATA-5
 >   ya anticipa "¿aplica también a mods?"). Vocabulario destino: `semantic/factions.md`.
 >
-> **Dirección registrada (2026-06-03, decisión del usuario):** la facción objetivo se expresa como
-> **token de `condition`** (ej. `damage_corpus` / `vs_corpus` / `while_target_is_corpus` — **spelling
-> diferido**), **no** como campo `target_faction` nuevo. Motivo: `condition` ya es campo por-stat
-> (`string | null`) → **sin cambio de schema ni edición del contrato de engine**. Captura el target
-> estructurado ahora; difiere (a) el spelling del token y (b) el rediseño de engine "un nodo aditivo →
-> nodo por facción" (el problema de corrección multi-facción queda anotado para el debate de engine).
-> Naturaleza: sub-clase de "estado/identidad del target" (familia `while_target_*`/`while_enemy_*`,
-> eje `OQ-SEM-2`). Acuñación del token formal **gateada** por madurez de la taxonomía de condition
-> (post-ingesta completa de overrides; `conditions.md §Altitud de los debates`). No aplicar a los 42
-> mods todavía. **Latente, no en debate activo.**
+> **Dirección registrada → [`D-21`](../decisions.md).** La facción objetivo se expresa como token de
+> `condition`, no como campo `target_faction` nuevo; el spelling del token y el rediseño de engine
+> "un nodo aditivo → nodo por facción" quedan gated ahí. **Latente, no en debate activo.**
 
 ### F.6 — Parazon
 

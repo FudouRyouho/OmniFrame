@@ -203,7 +203,6 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_killing_enemies_with_3_toxin_stacks` | "On killing an enemy with 3+ Toxin Stacks" — ídem, Toxin. Fuente: Dual Ichor Incarnon Genesis | `engine:class:c2/stack` | incarnon |
 | `on_enemy_frozen` | "On Enemy Frozen" | `engine:class:c2/event` | arcanes |
 | `on_shield_break` | "On Shield Break" | `engine:class:c2/event` | incarnon |
-| ~~`on_shield_or_overguard_break`~~ | "On Shield/Overguard break" — OR de break de Shield O de Overguard. **migrado (Fase 4)** → `{any:["on_shield_break","on_overguard_break"]}`. | `—` | incarnon |
 | `on_bleed_proc` | "On Bleed proc" — DoT de Slash *tickea* sobre un target. Semánticamente distinto de `on_slash_status_effect` (que es la *aplicación* del proc al hit). Patrón extensible: `on_heat_proc`, `on_toxin_proc`, etc., solo se registran con evidencia en fuentes | `engine:class:c2/event` | mods Hunter/Vigilante |
 
 ### Acciones del jugador
@@ -278,10 +277,6 @@ fuerza aquí para no pre-juzgar. El token vive literal; la consolidación ocurre
   `arcane-stats.override.json`.
   **No confundir con `on_headshot`:** eso *no* es diferencia de redacción sino de mecánica, y no
   colapsan (ver la tabla del stub `on_hit_incarnon_form`).
-- ~~`while_aim_gliding_or_sliding`~~ — **resuelto (Fase 3b):** los dos labels que cubría
-  (el "and" coloquial de Agile Executor y el "or" de Feather of Justice) son mecánicamente **OR**
-  (aim-gliding y sliding se excluyen). Migrados a `{any:["while_aim_gliding","while_sliding"]}` — el
-  "and" del label **no** derivó el operador; lo fijó la mecánica de co-ocurrencia. Mismo destino que el paraguas de arcanes.
 
 ### G2 — `while_target_affected_by_*` (requieren análisis propio)
 
@@ -330,7 +325,6 @@ Eventos nuevos:
 | `on_slam_hit` | "per enemy hit by Slam radius, gain Combo" | per-enemy; ¿variante de `on_ground_slam`? — diferido |
 | `on_slide_attack_hit` | "per enemy hit by Slide Attack, gain Combo" | per-enemy; ¿variante de `on_slide_attack`? — diferido |
 | `on_hit_incarnon_form` **(stub)** | "On Hit (Incarnon Form): +CC/CD... Stacks 50x" | compuesto evento∧estado; **catalogado como stub** (granularidad de hit incierta — ver §Gate 1). NO migrado a `{all}`. |
-| ~~`on_hit_while_target_affected_by_electricity`~~ | "On hitting target affected by Electricity, 40% chance restore round" | **migrado (Fase 4)** → `{all:["on_hit","while_target_affected_by_electricity"]}` |
 
 ### G4 — prefijo `per_` (naturaleza nueva)
 
@@ -375,16 +369,10 @@ condición latente. Tokens **nuevos** acuñados (captura literal, naturaleza dif
 | `on_ability_inflicts_heat_status` | "when using abilities to inflict Heat Status" (Arcane Hot Shot) | evento: una habilidad aplica Heat status. Distinto de `on_heat_status_effect` (fuente = arma). |
 | `while_reviving` | "Damage Taken During Revive" (Arcane Temperance) | estado: jugador en animación de revive. |
 | `on_magnetic_status_kill` | "Kill an enemy affected by Magnetic Status" (Melee Vortex) | kill de enemigo con Magnetic status activo. Familia de `on_*_status_kill` (cf. `on_heat_status_kill`). |
-| ~~`on_parkour_maneuver`~~ | "per Dodge, Double Jump and Bullet Jump" (Arcane Double Back) | **migrado (Fase 4)** → `{any:["on_dodge","on_double_jump","on_bullet_jump"]}`. |
 
 Tokens existentes reutilizados (eran huecos): `while_airborne` (Pax Soar ×2), `with_armor_over_700`
 (Arcane Persistence), `while_channeled_ability_active` (Arcane Intention), `while_target_affected_by_cold`
 (Secondary Shiver).
-
-Token **pre-existente** en el override que faltaba documentar (detectado en el contraste inicial):
-| Token | Label / fuente | Nota |
-|---|---|---|
-| ~~`on_bullet_jump_or_double_jump`~~ | "After a Bullet Jump or Double Jump" (Exodia Contagion/Epidemic) | **migrado (Fase 4)** → `{any:["on_bullet_jump","on_double_jump"]}` (subconjunto de los átomos de `on_parkour_maneuver`; ya no hay paraguas que consolidar). Exodia sigue ability-like — solo el gatillo se estructura. |
 
 > **Huecos `null` compuestos (5, merecen revisión manual):** Primary Debilitate (combined status 10
 > stacks + reinflict), Melee Careen (frozen + on_roll, multi-efecto → split), Arcane Camisado (summon +

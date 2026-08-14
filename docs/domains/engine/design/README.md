@@ -12,7 +12,6 @@ Documentación de diseño del motor de simulación v2. `engine/` (el dominio fun
 | [`simulation-architecture.md`](simulation-architecture.md) | Macro y micro arquitectura del motor |
 | [`simulation-contracts.md`](simulation-contracts.md) | Contratos técnicos base |
 | [`arch-decisions.md`](arch-decisions.md) | Decisiones arquitectónicas críticas (invariantes vigentes) |
-| [`simulation-roadmap.md`](simulation-roadmap.md) | Hoja de ruta de implementación |
 | [`integration-status.md`](integration-status.md) | Estado de integración con el Arsenal |
 
 ## Estado de sincronización (saneado 2026-07-03)
