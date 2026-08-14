@@ -395,6 +395,18 @@ status-effects.md §Aplicación` (mecanismo confirmado con cita literal + nota d
    tiene fórmula confirmada en la wiki — `OQ-ENGINE-19`, no bloqueante: para el total y la curva
    esperados el valor exacto de N es irrelevante (identidad de Wald, `E[N]=chance` alcanza).
 
+🔴 **El extremo bajo del eje no está gateado: con chance 0 el estado NACE, inerte.** `expectedProcEvents`
+filtra por **peso de daño** (`if (!weight) continue`), no por chance, así que un emisor sin status chance
+igual produce un evento por tipo con `expected: 0`, y `applyProc` lo aplica: el contenedor queda con
+`{ ignite: {pool:0, …}, corrosion: {count:0} }`. **Ningún número se mueve** —el armor queda entero— así
+que es latente, igual que lo fueron `min(cap, count + 1)` y la fuga de curación del override. Lo que sí
+cambia: `activeBehaviors()` los itera en cada `advance` y en cada `getDamageMultiplier`, y
+`effectStates.has(...)` contesta que sí a un efecto que nunca ocurrió — la primera pregunta de un
+consumidor que sea *"¿qué estados tiene este target?"* recibe una respuesta falsa. ⚠️ **Dónde se arregla
+no es obvio y por eso no se arregló:** gatear en `expectedProcEvents` (no emitir con chance 0) o en
+`applyProc` (no crear estado con amount 0) son dos leyes con dos dueños, y la segunda recibe `amount`
+fraccionales legítimos. Medido en rojo en `__tests__/ability-emission.test.ts`.
+
 ⚠️ **"Forced Procs"** (término de la fórmula del promedio de la wiki, `Multishot × (Forced Procs +
 Status Chance por proyectil)`) **NO es la porción garantizada de un SC>100%** — es un mecanismo de
 arma/mod aparte (Hunter Munitions, Kunai con Slash forzado innato), independiente del valor de SC. Para

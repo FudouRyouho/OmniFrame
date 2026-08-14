@@ -54,12 +54,15 @@ export function lawParamOf(token: string): LawParam | undefined {
  * habilidad que aplique Corrosive debería ver el mismo cap.
  *
  * El sesgo **es preexistente y del ruteo**, no de este índice: `roar.wikitext` declara *"bonus damage
- * to all weapons and abilities"* y el motor aterriza Roar sólo en las armas. Hoy es inalcanzable
- * —ninguna habilidad emite instancia ni aplica proc— y por eso no se rediseña por anticipado.
+ * to all weapons and abilities"* y el motor aterriza Roar sólo en las armas.
  *
- * **Se dispara cuando una habilidad emita instancia de daño o aplique un proc.** Ahí la decisión es
- * entre duplicar el nodo en cada destino o dejarlo donde nace y que cada instancia lo lea subiendo por
- * el árbol de propiedad. Anclado en `__tests__/status/stack-cap-ownership.test.ts`.
+ * 🔴 **La condición de disparo se cumplió: ya hay un segundo emisor.** `__tests__/ability-instance.ts`
+ * declara instancias que no salen de un arma, y la suite mide que el desvío rinde igual venga de donde
+ * venga (19 con los tres Tauforged, 10 sin ellos, 4 contra un acólito). Lo que el banco **no** puede
+ * hacer es sacarlo del grafo: una habilidad no tiene nodo `GAMEPLAY_*`, así que ahí el desvío se
+ * **declara**. La decisión pendiente es la que estaba escrita — duplicar el nodo en cada destino ⊥
+ * dejarlo donde nace y que cada instancia lo lea subiendo por el árbol de propiedad
+ * (`arch-decisions §18`) — y ya no es hipotética. Anclada en `__tests__/ability-emission.test.ts`.
  */
 
 /**

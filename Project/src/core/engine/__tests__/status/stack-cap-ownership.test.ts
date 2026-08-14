@@ -283,14 +283,16 @@ describe('El desvío del emisor, extremo a extremo', () => {
    * from **any source**"*, mientras `FAMILY_ROUTE.GAMEPLAY = 'weapon'` lo aterriza sólo en las armas.
    * O sea el límite **es preexistente**, no lo introdujo este canal.
    *
-   * Hoy es inalcanzable —ninguna habilidad emite instancia ni aplica proc: `ability-status.ts` y
-   * `ability-crit.ts` existen sin consumidores, y `applyProc` tiene un solo llamador, sobre
-   * `deriveInstance(weapon)`—, o sea es latente igual que lo era `min(cap, count+1)`.
+   * ✅ **La condición de disparo se cumplió y la mitad de LEY ya corre.** El segundo emisor existe
+   * (`__tests__/ability-instance.ts`) y `ability-emission.test.ts` mide que una habilidad con el
+   * desvío del jugador topea en **19** igual que el arma, en **10** sin él, y en **4** contra un
+   * acólito: el cap viaja con la **instancia**, no con el portador.
    *
-   * **Condición de disparo, verificable:** cuando una habilidad emita instancia de daño o aplique un
-   * proc. Ahí hay que decidir entre duplicar el nodo en cada destino o dejarlo donde nace (el
-   * warframe) y que cada instancia lo lea subiendo por el árbol de propiedad — la opción que se
-   * descartó **porque el ruteo ya resolvía el caso arma**, y que vuelve con el segundo emisor.
+   * 🔴 **Lo que sigue abierto es de dónde sale ese número**, y ahí el banco es honesto: lo **declara**,
+   * porque una habilidad no tiene el nodo `GAMEPLAY_*` —vive en el arma por `FAMILY_ROUTE`—. La
+   * decisión que vuelve con el segundo emisor: duplicar el nodo en cada destino ⊥ dejarlo donde nace
+   * y que cada instancia lo lea subiendo por el árbol de propiedad (`arch-decisions §18`). Anclada en
+   * `ability-emission.test.ts`, que es donde el caso vive.
    */
-  it.todo('una habilidad que aplique Corrosive ve el mismo cap 19 que el arma — el nodo vive en el arma y ninguna habilidad emite instancia');
+  it.todo('el desvío de una habilidad SALE del grafo y no se declara — nodo duplicado ⊥ leído por el árbol');
 });

@@ -533,6 +533,17 @@ pool② viaja con la instancia, matriz③ es del encuentro — prueba dura de qu
 > primer verbo). El resto (simetría ②/③, sub-source, key-por-verbo, source-state VIVO con duración) se
 > **refuerza o cae** con el corpus (Fase 2 — primero procesar datos) y el emite-instancia (Fase 3). Origen:
 > debate (`.working/ability-model-debate.md`, gitignored). **No colgar más código que el eslabón ya sostenido por un test.**
+>
+> 🟡 **Fase 3 abrió por el banco, no por el pipeline** — y respetando esa misma regla. `__tests__/ability-instance.ts`
+> declara una `DamageInstance` **sin build**: el contrato real del seam C1→C2, no un gemelo, así que si
+> ese contrato cambia el banco no compila. Lo que se ejerce con él son las leyes de producción
+> —`expectedProcEvents`, `effectOfDamageType`, `describeAbilityStatus`, `applyProc`—, no una copia.
+> **Qué destrabó, medido:** el desvío de ley del emisor rinde igual venga de un arma o de una habilidad
+> (19 · 10 · 4 contra un acólito), `describeAbilityStatus` tiene su primer consumidor, y el eje
+> *un proc · varios · ninguno* pasa a estar ejercido en vez de tipado.
+> **Qué NO:** el daño de la instancia se declara ya escalado —el puente `upgrade_by → nodo` sólo existe
+> para el verbo muta-state (`AbilityRepository.ABILITY_SCALE_NODE`)—, `ability-crit.ts` sigue cubriendo
+> sólo su excepción, y de dónde sale el desvío cuando el emisor no es un arma es la decisión de §17.
 
 **Planteo (refina §2).** "Ability no tiene modelo ontológico único" (§2) se precisaría así: no hay modelo
 único de *efecto*, pero sí **anatomía única de source**. Toda fuente —arma, habilidad, minion, objeto— sería
@@ -827,10 +838,17 @@ arma es donde el desvío tiene que estar disponible, y el ruteo que lo baja **ya
 (`FAMILY_ROUTE.GAMEPLAY = 'weapon'`, el camino de Roar). Un desvío del emisor no necesita saber de quién
 es *mientras* se aplica; necesita estar en la instancia que lo aplica.
 
-⚠️ **Vale mientras el arma sea el único emisor.** Cuando una habilidad emita instancia, el nodo que hoy
-vive en el arma no la alcanza — y ahí sí vuelve la pregunta, en la forma *duplicar el nodo* ⊥ *leerlo
-subiendo por el árbol*. Anclado en `__tests__/ability-emission.test.ts` y en `contracts/law-params.ts`,
-con su condición de disparo.
+✅ **Y ya no vale sólo para el arma: hay un segundo emisor.** `__tests__/ability-instance.ts` declara
+instancias que no salen de una build, y la suite mide que el desvío rinde igual venga de donde venga —
+**19** con los tres Tauforged, **10** sin ellos, **4** contra un acólito. O sea la cadena de esta
+sección no dependía del arma: **el parámetro se resuelve por instancia**, que es lo que decía arriba y
+ahora tiene dos emisores que lo prueban en vez de uno.
+
+🔴 **Lo que el segundo emisor destrabó es la otra mitad: de dónde SALE el número.** En el arma sale del
+grafo (shard → ruteo `GAMEPLAY→weapon` → nodo → `deriveInstance`); una habilidad **no tiene ese nodo**,
+así que el banco lo declara. La decisión vuelve en la forma que estaba escrita —*duplicar el nodo en
+cada destino* ⊥ *dejarlo donde nace y que cada instancia lo lea subiendo por el árbol* (§18)— y ya no es
+hipotética. Anclada en `__tests__/ability-emission.test.ts` y en `contracts/law-params.ts`.
 
 **El cuarto eslabón tiene dos casos vivos, y son el mismo problema.** *"El receptor fuerza"* aparece por
 dos vías independientes, en dos frentes que parecían separados:
