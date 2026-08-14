@@ -2,7 +2,7 @@
  * @domain Engine / C2 — la composición «avanzar → resolver → recibir»
  * @SSoT docs/domains/engine/design/damage-status-model.md §Modelo unificado de proc
  *
- * **Por qué esto no vive dentro del estado.** Antes sí: `EnemyState.processDots` avanzaba los
+ * **Por qué esto no vive dentro del estado.** Antes sí: `EntityState.processDots` avanzaba los
  * efectos, resolvía lo emitido pasándose a sí mismo al resolvedor —que volvía a leerlo para mitigar
  * y elegir capa— y se escribía el resultado. Causa y efecto en el mismo lugar, y un ciclo de imports
  * real entre el contenedor y el resolvedor.
@@ -14,7 +14,7 @@
  * Lo que queda del lado del estado es leer y escribirse **desde afuera**. Lo que queda acá es el
  * único lugar donde el ciclo de vida de un tick se compone entero.
  */
-import type { EnemyState } from "./enemies/EnemyState";
+import type { EntityState } from "./enemies/EntityState";
 import { CombatSimulator } from "./combat/CombatSimulator";
 import { damageTokenFromType } from "../contracts/damage-logic";
 
@@ -23,7 +23,7 @@ import { damageTokenFromType } from "../contracts/damage-logic";
  * emisión por el **mismo camino que un hit directo** (`resolveDamageEvent`) — un tick de DoT no es
  * una excepción del pipeline, es una instancia más que nace del target.
  */
-export function advanceAndResolve(state: EnemyState, currentTime: number, dt: number): void {
+export function advanceAndResolve(state: EntityState, currentTime: number, dt: number): void {
   for (const res of state.advance(currentTime, dt)) {
     const { layer, finalDamage } = CombatSimulator.resolveDamageEvent(
       damageTokenFromType(res.as), res.value, state, currentTime,

@@ -5,13 +5,13 @@
  * LEY de Familia A (arch-decisions §14, damage-flow-model §5): "primer stack especial +
  * incremento lineal, con techo" — `f(n) = first + perAdd × max(0, n−1)`, clamp opcional.
  * Función pura número→número, agnóstica a source/target (es ley del juego, no "fórmula de
- * enemigo"): el orquestador (EnemyState) lee los stacks y llama acá. Keyeada por EFECTO
+ * enemigo"): el orquestador (EntityState) lee los stacks y llama acá. Keyeada por EFECTO
  * (Infection/Disruption/Corrosion), NO por tipo de daño — un efecto puede aplicarse sin su
  * tipo de daño homónimo (Arista 1, damage-flow-model §2).
  *
  * Familia C (DoT-tick dependiente del daño del arma) NO vive acá — tiene su propio plan
  * (damage-status-model.md §Checkpoint 3). El armor-strip por tiempo de Heat (Ignite) tampoco
- * es Familia A (rampa por tiempo transcurrido, no por stacks) — se queda inline en EnemyState.
+ * es Familia A (rampa por tiempo transcurrido, no por stacks) — se queda inline en EntityState.
  */
 
 import type { StatusEffect } from "@shared/types";

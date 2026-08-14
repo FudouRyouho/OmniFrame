@@ -216,7 +216,7 @@ Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (
 
 1. **`co_behavior` — topología, agnóstica al modo.** Metadata cualitativa POR ATAQUE (no por arma, no por mod): a qué bucket compone el bonus. `'adding'` (junto a Serration, `mods_add_pct`), `'multiplying'` (multiplicador final aparte) o `'none'` (no aplica, ej. AoE radial). El dato normalizado vive en `MutatedDNA.co_behavior: Record<profile, CoBehavior>` (mapa por perfil); StaticHydrator lo **baja resuelto al perfil activo** de cada entidad en `SimulationEntity.co_behavior` — el motor lo consume directo, sin mirar un `active_profile_id` global (que es único para toda la sim y no modela el perfil por-arma). Resolución en `ItemRepository`: override (`weapon-stats.override.json`, campo `co_behavior`) **terminal** → **`kind=melee` → adding SIEMPRE** (el CO melee es aditivo pase lo que pase — comunidad: "con CO, Pressure Point está de más"; va ANTES del switch: el `AoE→none` es regla de guns, el heavy slam melee es AoE pero NO gun-radial — el slam ya no cae en `AoE→none`) → default por `shot_type` para guns (Hit-Scan→adding, Projectile→multiplying, AoE→none) → **ausente = gap** (no se asume). La tabla `shot_type` es señal, no ley: un override corrige la excepción. Lo que ese override **no** corrige es la base de cálculo (pieza 3): Paris Charged Shot necesita las dos piezas, y con sólo el bucket el bonus queda al doble del real. `CoBehavior` es SSoT única en `@shared/types/modifier`. Reemplaza el muerto `behaviors: string[]` (engine v1, purgado — granularidad y tipo inversos).
 
-2. **`CONDITION_OVERLOAD` — mecánica, disparador del ruteo.** Es una `ModifierOperation` de **familia** (no una composición genérica): el valor lo calcula `coBonusPct` (SSoT en `formulas/weapon/weapon-condition-overload.ts`) = `coefBase × activeStacks × N`; el **bucket lo decide `co_behavior`, no la operación**. Las dos dimensiones viajan **nombradas** en `Modifier.co_factors` (`{stacks_var, status_count_var}`), resueltas del contexto. **No se bakea el producto** — la separación es lo que permite que §8 opere: en **modo estático/techo** el consumidor las declara (perfect-clic, replica el número de overframe.gg como *input*, no como ley); en **modo dinámico** emergen (stacks de kills en el tiempo, N del `EnemyState`) — misma mecánica, misma topología, distinta fuente. El motor es idéntico en ambos modos.
+2. **`CONDITION_OVERLOAD` — mecánica, disparador del ruteo.** Es una `ModifierOperation` de **familia** (no una composición genérica): el valor lo calcula `coBonusPct` (SSoT en `formulas/weapon/weapon-condition-overload.ts`) = `coefBase × activeStacks × N`; el **bucket lo decide `co_behavior`, no la operación**. Las dos dimensiones viajan **nombradas** en `Modifier.co_factors` (`{stacks_var, status_count_var}`), resueltas del contexto. **No se bakea el producto** — la separación es lo que permite que §8 opere: en **modo estático/techo** el consumidor las declara (perfect-clic, replica el número de overframe.gg como *input*, no como ley); en **modo dinámico** emergen (stacks de kills en el tiempo, N del `EntityState`) — misma mecánica, misma topología, distinta fuente. El motor es idéntico en ambos modos.
 
 3. **`co_base` — base de cálculo, ortogonal al bucket. DECLARADO EN EL SCHEMA, SIN CÓDIGO.** Metadata por ataque: **sobre qué base** se computa el `+X%` que `coBonusPct` produce. Default = la base del propio ataque. Los ataques que **derivan** de otro lo computan sobre la base del **padre**: el radial sobre el impacto directo que lo genera, el disparo cargado sobre el sin cargar, el proyectil hijo sobre el proyectil que lo escupe. El bonus resultante queda por encima o por debajo del `X%` listado según cuál de las dos bases sea mayor — no es otro bucket, es otra base. Como el CO aterriza en el pool porcentual `WEAPON_ADD_DAMAGE`, la corrección se expresa como un **factor sobre el valor** (`mods_add_pct += coBonusPct × base_padre / base_propia`) y la aritmética de `resolveStatValue` no cambia. El ratio **se deriva, no se declara**: las dos bases ya viven en `innate_dna.profiles`, que `StaticHydrator` baja entero a la entity — el override sólo lleva el **puntero** al ataque padre. `co_base` **no** hereda el `co_behavior` del padre: los dos ejes son independientes (la bomba hija de la Kuva Bramma es `adding` con padre `multiplying`).
 
@@ -234,7 +234,7 @@ Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (
 - Cálculo: el motor **consume `coBonusPct`** (`formulas/weapon`), no lo duplica. `applyConditionOverload` (fórmula terminal escalar-cerrada) queda reservada para C2 (daño final), no la llama el grafo de buckets. Cierra la deuda de reconciliación con `formulas/` (ver [`formulas-integration.md`](formulas-integration.md)).
 - Primer arma: Cedo Prime (`cedo-co-static.test.ts`) — sus 3 `shot_type` en un arma validan los 3 buckets **end-to-end**: `adding` (Normal Attack, techo N=3/stacks=2: `84.8 → 161.6`, +240%), `multiplying` (Alt-Fire Glaive → `multiplicative`, **fidelidad confirmada en juego**), `none` (Radial AoE, no aplica).
 - **Diferido (base de cálculo):** el motor computa el CO sobre la base del propio ataque **siempre** — el eje `co_base` no tiene resolver, así que los ataques derivados quedan sobre- o sub-estimados (los arcos cargados, al doble). Es error conocido y acotado, no gap silencioso: la magnitud por arma está medida en `OQ-ENGINE-27`. Complemento diferido con su propio gate: **`co_ratio`** —escalar medido por ataque— para lo que un puntero no puede expresar, que son los casos sin ataque padre al que apuntar (11 incarnon de secundarias donde el CO ignora el aumento de base damage de una Evolution, con ratio condicional a la build: `100% or 81%`). Se llama `co_ratio` y no `co_rate` porque es un cociente entre dos bases, no una tasa.
-- **Diferido (modo dinámico):** `activeStacks` y `N` reales requieren `EnemyState`/timeline (misma brecha del decay escalar de §8). El `maxStacks` por mod y la abstracción del contador aún **no** se diseñan — emergen con más casos (rifle/secondary/melee/incarnon: solo verificar datos, no re-map — ver `../../../data/decisions.md` D-17).
+- **Diferido (modo dinámico):** `activeStacks` y `N` reales requieren `EntityState`/timeline (misma brecha del decay escalar de §8). El `maxStacks` por mod y la abstracción del contador aún **no** se diseñan — emergen con más casos (rifle/secondary/melee/incarnon: solo verificar datos, no re-map — ver `../../../data/decisions.md` D-17).
 - Enlaza con **§8** (es su primer caso concreto) y **§1** (el `co_behavior` por perfil respeta "el arma es el nodo canónico, `attacks[]` sus subestructuras").
 
 ---
@@ -434,7 +434,7 @@ proyecta el snapshot a los flags de `condition` que activa (hoy: `while_enemy_be
   armor/shields/status hasta que OTRO caso real lo fuerce (mismo principio anti-pozo de §8) — el
   candidato inmediato son los `while_enemy_*` restantes de `conditions.md` G3
   (`while_enemy_undamaged`, `while_enemy_status_count_below_3`), sin construirlos por anticipación.
-- **Separado de `EnemyState` a propósito.** `EnemyState` es maquinaria C2 (estado por-efecto
+- **Separado de `EntityState` a propósito.** `EntityState` es maquinaria C2 (estado por-efecto
   `Map<StatusEffect,S>`: stacks/pools, timeline). `EnemySnapshot` vive en el mismo directorio (`simulate/enemies/`) pero es C1 puro —
   mezclar los dos types haría parecer C2-listo algo que es solo un input declarado.
 - **Vehículo real, no sintético.** El corpus trajo el gap: `while_enemy_below_half_health` existe en
@@ -473,12 +473,12 @@ defensas + estado (`simulateAttack(entity, targetState)` → `resolveHit`).
 **Corolario que corrige el error de ubicación:** como cualquier entidad instancia Y recibe daño, la **LEY**
 de qué hace un status es **agnóstica al eje source/target** — no es "fórmula de enemigo", es ley del juego.
 
-**Tres capas que antes estaban fundidas en `EnemyState`:**
+**Tres capas que antes estaban fundidas en `EntityState`:**
 
 | Capa | Qué es | Naturaleza | Dónde vive (post-extracción) |
 |---|---|---|---|
 | **LEY** | qué hace N stacks (función pura) | atemporal, C1-able | `formulas/status/` |
-| **ESTADO** | este target tiene N stacks ahora | acumulativo (C2) / declarado (C1) | portador = la entidad-target (`EnemyState.stacks`) |
+| **ESTADO** | este target tiene N stacks ahora | acumulativo (C2) / declarado (C1) | portador = la entidad-target (`EntityState.stacks`) |
 | **RESOLUCIÓN** | este hit contra este estado + defensas | puntual, instante congelado | el *pairing* source×target (`resolveHit`) |
 
 **El vínculo tipo↔efecto se parte en dos aristas** (colapsarlas es el error):
@@ -497,7 +497,7 @@ de qué hace un status es **agnóstica al eje source/target** — no es "fórmul
   `damage_corrosive→corrosion`, `damage_viral→infection`, `damage_heat→ignite`, `damage_magnetic→disruption`
   (snake_case). Esto resuelve la confusión de vocabulario del marco §1 (una habilidad que aplica Corrosion
   sin daño corrosivo ahora cae limpio) — mismo cambio, dos problemas.
-- `EnemyState.getDamageMultiplier`/`getEffectiveArmor` → **orquestadores** (leen stacks, llaman la LEY;
+- `EntityState.getDamageMultiplier`/`getEffectiveArmor` → **orquestadores** (leen stacks, llaman la LEY;
   ya no la contienen). Los coeficientes que las fórmulas per-efecto reciben son **parámetros**, y su
   dueño lo fija **§17**: el default vive con la fórmula, el desvío en el portador. `GameLaws` como tabla
   global —y su override vía `MutatorBridge.extractLaws`— **no sobrevive a esa partición**: un valor plano
@@ -600,7 +600,7 @@ Total = base × (1 + Σ_aditivo) × (1 + Σ_facción) × ∏(independientes)
 
 **Facción es C2·F — su gate vive en RESOLUCIÓN, no en C1 (hallazgo Felarx/Primed Cleanse).** El bonus de
 facción (Bane/Cleanse) solo aplica si el target es de esa facción, y **`targetFaction` NO está en el
-`SimulationContext`** — vive en `EnemyState`, se usa en ③ (`targetFactionMult`). Por eso NO se puede gatear
+`SimulationContext`** — vive en `EntityState`, se usa en ③ (`targetFactionMult`). Por eso NO se puede gatear
 en el grafo C1. Aplicarlo incondicional sobre-cuenta (Felarx: ×1.55 sin target faction).
 
 **Shim FLAGGED (temporal, `ModRepository.C2F_FACTION_TOKENS_DEFERRED`):** los tokens de facción C2·F **no
@@ -805,7 +805,7 @@ todavía"*.
 | Qué | Estado |
 |---|---|
 | **`GameLaws` baja a `formulas/`** | ✅ **EJECUTADO.** Los seis parámetros viven en `formulas/status/stack-debuff.ts` como constantes con su fórmula, y las firmas de los behaviors ya no reciben `laws`. |
-| **La tabla plana se retira** | ✅ **EJECUTADO.** `GameLaws`, `BASELINE_GAME_LAWS`, `SimulationContext.laws`, `EnemyState.laws` y `MutatorBridge.extractLaws` no existen más. |
+| **La tabla plana se retira** | ✅ **EJECUTADO.** `GameLaws`, `BASELINE_GAME_LAWS`, `SimulationContext.laws`, `EntityState.laws` y `MutatorBridge.extractLaws` no existen más. |
 | **La cadena de cuatro eslabones** (default → emisor → receptor → cap) | ✅ **CORRE ENTERA.** La primitiva vive en [`formulas/common/param-deviation.ts`](../../../../Project/src/core/engine/formulas/common/param-deviation.ts) con los 10 casos del corpus en su suite. **Emisor:** shard en el warframe → ruteo `GAMEPLAY→weapon` → nodo en el arma → instancia → `applyProc`. **Receptor:** clase en `enemy-stats.override.json` → curación → entidad → `ReceiverContext` → `applyProc`. Un caso vivo por lado, y el mismo emisor rinde `19` contra un hostil común y `4` contra un acólito. |
 
 **Los dos lados llegan al behavior en idiomas distintos, y ahí se encuentran.** El emisor declara por
@@ -986,7 +986,7 @@ que no tienen por qué dar la misma respuesta, y hoy cada una tiene su llave:
 | Trabajo | Llave | Consumidores |
 |---|---|---|
 | **ruteo de modifiers** — *¿este token aterriza acá?* | `routes` | `channel-routing.ts` (`resolveFamilyEntities`) · `StaticHydrator` |
-| **selección de ley** — *¿qué física se le aplica?* | **`channel`** | `gateLawFor` · `armorMitigationFor` (`CombatSimulator`) · `vitalsOf` (`EnemyState`) |
+| **selección de ley** — *¿qué física se le aplica?* | **`channel`** | `gateLawFor` · `armorMitigationFor` (`CombatSimulator`) · `vitalsOf` (`EntityState`) |
 | **desvío de parámetro del receptor** — *¿qué unidad ES?* | **`unit_class`** | `receiverMaxStacks` (`stack-debuff.ts`) — §17 |
 
 **Para la selección de ley no hizo falta campo nuevo:** el espacio ya declaraba el canal por
@@ -1158,7 +1158,7 @@ enemies.json → EnemyRepository.load()  → EnemyDNA (armor crudo)      ← car
              perfil base { ENEMY_ADD_ARMOUR: 2700, … }
                     ↓ C1 compone (mods, auras, cruce de bando §18)
              nodo ENEMY_ADD_ARMOUR.final = 2214                      ← el frame-0
-                    ↓ new EnemyState(entidad, laws)
+                    ↓ new EntityState(entidad, laws)
              getEffectiveArmor(t) = base_armor × Π armorMult(t)      ← f(t), multiplicativo
 ```
 
@@ -1416,7 +1416,7 @@ property** to enemy health"*. `innate` es el discriminador, textual.
 
 ### El engine ya implementa `Damage Vulnerability` — dos veces, sin nombrarla
 
-`EnemyState.getDamageMultiplier` es *"el producto de los `layerMult` de los efectos activos
+`EntityState.getDamageMultiplier` es *"el producto de los `layerMult` de los efectos activos
 (Viral/Magnetic)"*, y la fuente clasifica **exactamente esas dos** como fuentes de DV. **Es el mismo
 mecanismo, ya construido y ya poblado.**
 

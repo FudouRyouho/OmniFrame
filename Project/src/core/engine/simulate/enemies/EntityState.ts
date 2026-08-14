@@ -10,7 +10,7 @@ import { gateLawFor } from "../../formulas/defense/shield-gate";
 import { damageToDeplete, shieldDamageReductionFor } from "../../formulas/defense/shield-mitigation";
 
 /**
- * EnemyState — estado dinámico de un enemigo durante la simulación temporal. **Modelo unificado de
+ * EntityState — estado dinámico de un enemigo durante la simulación temporal. **Modelo unificado de
  * proc** (`damage-status-model.md §Modelo unificado de proc`): un contenedor único `effectStates`
  * (Map por efecto, OPACO a core) + iteración sobre el registro `EFFECT_BEHAVIORS`. Core no conoce el
  * comportamiento de cada efecto — lo delega a su fórmula; solo itera. **Y ya no resuelve**: `advance`
@@ -22,23 +22,27 @@ import { damageToDeplete, shieldDamageReductionFor } from "../../formulas/defens
  * eso era medible — un debuff `ENEMY_*` compuesto en el escenario no llegaba al daño: C1 resolvía un
  * Bombard con armadura 2214 (Corrosive Projection) mientras C2 medía contra el enemigo del `--vs`.
  *
- * DEUDA DE NORTE (O1, decision-frontier.md) — CERRADA EN LA FORMA, NO EN EL VOCABULARIO: el ESTADO era
- * portado-por-entidad mientras la LEY (`formulas/status/`) ya era agnóstica a source/target. Lo que
- * amarraba este contenedor a "enemigo" era `base: ScaledEnemy`; de sus cuatro únicos usos
- * (health/shields/armor + facción) los cuatro estaban ya en la entidad resuelta, así que hoy la clase
- * no sabe de qué lado está su portador.
+ * DEUDA DE NORTE (O1, decision-frontier.md) — CERRADA: el ESTADO era portado-por-entidad mientras la
+ * LEY (`formulas/status/`) ya era agnóstica a source/target. Lo que amarraba este contenedor a
+ * "enemigo" era `base: ScaledEnemy`; de sus cuatro únicos usos (health/shields/armor + facción) los
+ * cuatro estaban ya en la entidad resuelta. Hoy la clase no sabe de qué lado está su portador **y su
+ * nombre tampoco lo dice** — `EnemyState` lo decía, y era la mitad de vocabulario que faltaba
+ * (`vocabulary.md §2`, `L-12`).
  *
- * 🔴 **EL NOMBRE MIENTE, Y YA NO POR ANTICIPACIÓN.** Este docblock decía que el rename *"espera un
- * segundo portador real"* — y el segundo portador ya estaba, en el archivo que repetía la misma frase:
- * `__tests__/state-neutrality.test.ts` construye `new EnemyState(…)` sobre un **warframe del catálogo
- * por el camino real** (escena → C1), sobre un **compañero** y sobre un hostil, y contrasta las tres
- * leyes entre ellos (vitales · mitigación · gate · capas). Medido: **15 construcciones, 3 clases de
- * portador, y 11 de las 15 no son hostiles.** La espera no era del caso: era de que alguien cruzara el
- * dato.
+ * **Es el estado base de UNA ENTIDAD**, y esa es la carga del nombre: si un portador trae una
+ * particularidad, extiende este conjunto en vez de fundar otro. La suite lo ejerce con tres clases a
+ * la vez (`__tests__/state-neutrality.test.ts`): un warframe del catálogo por el camino real, un
+ * compañero y un hostil, **recibiendo leyes distintas del mismo contenedor**.
  *
- * ⚠️ **El rename es RED (contrato de `@core`) y lo que falta es elegir el nombre** — el resto es un
- * regex sobre 67 identificadores. Vive en `vocabulary.md §7` como **`L-12`**, con la medición, los
- * candidatos y por qué la procedencia que se le atribuía era falsa.
+ * ⚠️ **No confundir con `NeutralState`**, que el corpus reserva para otra cosa: la base de la que
+ * derivarían los estados **por naturaleza del nodo** —source / target / minion / object— y que sigue
+ * sin construir (`decision-frontier §4` G-b, `arch-decisions §15`). Los dos ejes son ortogonales: acá
+ * la extensión es por **portador**, allá por **rol en el flujo del daño**. En aquella propuesta esta
+ * clase figura como uno de los derivados, no como la base.
+ *
+ * ⚠️ **El archivo sigue en `simulate/enemies/`**, con `EnemyRepository` y `EnemySnapshot`, que sí son
+ * de enemigo. Mover la clase es reorganización estructural, otro corte — el nombre se arregló, la
+ * ubicación no.
  */
 /** Valor resuelto de un nodo, o 0 si el participante no lo tiene (sin shields, sin armadura). */
 const nodeFinal = (entity: SimulationEntity, id: string): number => entity.attributes[id]?.final ?? 0;
@@ -88,7 +92,7 @@ export function vitalsOf(entity: SimulationEntity): Vitals {
   };
 }
 
-export class EnemyState {
+export class EntityState {
   public current_health: number;
   public current_shields: number;
   /**
@@ -342,8 +346,8 @@ export class EnemyState {
    * Se recorre `LAYER_STACK` en vez de listar los campos, para que agregar una capa no vuelva a
    * dejar este método atrás.
    */
-  public clone(): EnemyState {
-    const c = new EnemyState(this.entity);
+  public clone(): EntityState {
+    const c = new EntityState(this.entity);
     for (const l of LAYER_STACK) c.setLayer(l, this.layerAmounts[l]);
     // Los estados son inmutables (copy-on-write en applyProc/advance) → copiar el Map alcanza.
     c.effectStates = new Map(this.effectStates);

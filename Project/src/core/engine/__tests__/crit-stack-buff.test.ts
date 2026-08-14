@@ -10,7 +10,7 @@ import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
 import { deriveInstance } from '../simulate/combat/damage-instance';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
-import { EnemyState } from '../simulate/enemies/EnemyState';
+import { EntityState } from '../simulate/enemies/EntityState';
 import { hostileEntity } from './hostile-entity';
 import { lanka } from '../fixtures/builds';
 import type { SimulationEntity } from '../contracts';
@@ -19,7 +19,7 @@ import type { HitContext } from '../formulas/status/effect-behavior';
 await loadEngineData(new NodeAdapter());
 
 const DUMMY_HIT: HitContext = { moddedBase: 0, statusDamageBonusPct: 0, elementBonusPct: {} };
-const freshState = () => new EnemyState(hostileEntity('Arid Butcher', 100));
+const freshState = () => new EntityState(hostileEntity('Arid Butcher', 100));
 
 describe('getCritBonuses — LEY de crit-buff por stack (OQ-ENGINE-12)', () => {
   it('Weakened: +5% crit chance por stack, cap +25 a 5 stacks', () => {

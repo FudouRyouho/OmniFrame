@@ -69,5 +69,5 @@ describe('end-to-end — expectedProcEvents → dotPulseFromProcEvent → pulseT
 describe('Población/RNG — residuos gated', () => {
 	it.todo('OQ-ENGINE-19: generador discreto exacto de N proc-slots a SC>100% — no bloquea (Wald)');
 	it.todo('cronograma real de disparos (fireRate × multishot → timestamps) — tramo (c), integración de arma real; hoy solo forcedFiringPulses (harness, sintético) o timestamp manual');
-	it.todo('generalización a stack-debuff (mismo generador, distinto consumidor) — gated por la brecha del decay escalar de `behaviors.ts` (§Estado real de EnemyState.ts)');
+	it.todo('generalización a stack-debuff (mismo generador, distinto consumidor) — gated por la brecha del decay escalar de `behaviors.ts` (§Estado real de EntityState.ts)');
 });

@@ -3,7 +3,7 @@
  * @SSoT docs/domains/engine/design/damage-status-model.md §Modelo unificado de proc
  *
  * La interfaz del modelo unificado de proc: un contenedor de instancias de proc en el target + una
- * fórmula-estrategia por efecto. `EnemyState` itera las fórmulas (registro `EFFECT_BEHAVIORS`); cada
+ * fórmula-estrategia por efecto. `EntityState` itera las fórmulas (registro `EFFECT_BEHAVIORS`); cada
  * efecto posee su acumulación, su ciclo de vida y su contribución. Ver el doc para la ontología
  * (instancia/resolución/proc/tick) y el corte «el proc fija la base, el tick evalúa al emitir».
  */

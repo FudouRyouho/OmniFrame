@@ -24,7 +24,7 @@ Dependencias:
 
 El daño **no pertenece** a weapon ni a enemy — **viaja**: `instancia (source) → daño → tipo de daño →
 estado del daño (target)`. Source y target son agnósticos entre sí hasta el punto de **resolución**. Tres
-capas antes fundidas en `EnemyState`: **LEY** (qué hace N stacks, pura, `formulas/status/`) · **ESTADO**
+capas antes fundidas en `EntityState`: **LEY** (qué hace N stacks, pura, `formulas/status/`) · **ESTADO**
 (este target tiene N stacks, portado-por-entidad) · **RESOLUCIÓN** (este hit contra ese estado + defensas,
 el *pairing*). El vínculo tipo↔efecto se parte en **Arista 1** (identidad tipo→proc, 1:1, vocabulario) y
 **Arista 2** (aplicación ¿proquea?, NO 1:1, mayormente C2). Detalle y consecuencias: **§14**.
@@ -32,7 +32,7 @@ el *pairing*). El vínculo tipo↔efecto se parte en **Arista 1** (identidad tip
 ## Qué se implementó (§6-SÍ)
 
 Extracción de **Familia A** (`f(n) = first + perAdd × max(0, n−1)`, clamp opcional) a
-`formulas/status/stack-debuff.ts`; `EnemyState` → orquestador; LEY + ESTADO keyeados por **efecto**
+`formulas/status/stack-debuff.ts`; `EntityState` → orquestador; LEY + ESTADO keyeados por **efecto**
 (corrosion/infection/ignite/disruption). Tests falsables en `status-family-a.test.ts` (función pura +
 regresión + suite enumerada vs wiki + key-por-efecto). Ver §14 para el detalle completo.
 

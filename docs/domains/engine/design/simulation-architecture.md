@@ -244,7 +244,7 @@ compuestos, y lo que cruza entre ellos ya aplicado. Nadie disparó, no pasó un 
 consolidado dejado correr. Por eso el contenedor de estado resulta **entidad-neutral por consecuencia**
 y no por un refactor aparte — nace de un participante resuelto, y un participante resuelto ya es neutral.
 
-**Y la foto es lo que el tiempo golpea.** `EnemyState` recibe el participante resuelto y lee de él sus
+**Y la foto es lo que el tiempo golpea.** `EntityState` recibe el participante resuelto y lee de él sus
 tres vitales; no hay un objetivo paralelo. El camino que había —un orquestador que componía un
 `ScaledEnemy` desde el dato crudo— **no existe más**: coincidía con el frame-0 al decimal porque usaba
 las mismas primitivas, y divergía en lo único que importaba, que es lo que el escenario agregó encima.
@@ -298,7 +298,7 @@ capas — antes un build que declaraba 100 corrido con `--lvl 50` daba C1 a 100 
 - **No conoce**: UI, intención del usuario, cómo se presentan los resultados.
 - **Distinción clave con C1**: C1 resuelve *qué vale cada atributo*. C2 resuelve *qué pasa en el juego con esos valores*.
 - ⚠️ **C1 → C2 no es una línea de capa: es `C1 → C1 + C2`.** C2 **no puede trabajar sin C1** — no son piezas desacopladas que se comuniquen por un contrato reemplazable, es el mismo cómputo extendido con tiempo, target y RNG. Consecuencia práctica: **lo que la Capa A carga para C2 también está cargado para C1**; que C1 no lo use (el cero, por ejemplo) no lo vuelve ajeno a C1 — significa que C1 no construye timeline, no que el dato no esté.
-- **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EnemyState}.ts`. (El proc/DoT lo modelan los `EffectBehavior` sobre `EnemyState`.)
+- **Físico**: `engine/simulate/combat/{CombatCalculator, CombatSimulator, AtomicSimulator, TimelineSimulator, RngProvider}.ts` + `engine/simulate/enemies/{EnemyRepository, EntityState}.ts`. (El proc/DoT lo modelan los `EffectBehavior` sobre `EntityState`.)
 
 ---
 
@@ -342,7 +342,7 @@ OmniFrame opera como un motor de juego simplificado. Todo objeto en el sistema e
 cuando una mecánica real la fuerza**, nunca para prevenir. Separar sobre dato-sin-modelar *genera* drift
 (lo contrario del objetivo). Y el costo es asimétrico: **desacoplar después es barato mientras lo que se
 mueve sea una función pura** (`scaleHealth`/`scaleArmor` se reubicaron en un move; su viejo orquestador
-no, porque alimentaba un camino paralelo entero y arrastraba a `EnemyState` y sus tests — lo que
+no, porque alimentaba un camino paralelo entero y arrastraba a `EntityState` y sus tests — lo que
 terminó de resolverlo no fue moverlo sino **borrarlo**, una vez que el estado nació del escenario),
 **refactorizar lo enredado es caro** — `simulateAttack` (que fusiona
 ejecución del Hit + ② + invocación de ③ + elección de paradigma en una god-function, abajo) es la evidencia
@@ -447,7 +447,7 @@ recalculado) es **deuda de re-implementación**: el fix sube a lo que C1 emite, 
 - El **contrato C1→C2** (qué emite C1 para consumo de C2, no solo para display) es el cimiento **simétrico al
   contrato de salida C2→D** (`DC-OQ-ENGINE-8`, ya cristalizado): ambos = *emitir rico para el consumidor*. Diseñarlo mata la re-implementación.
 - **Hueco estructural único que esto deja abierto:** el **`source-state` vivo** (buffs con duración, combo)
-  contra el que la Instancia se deriva **no existe** todavía — el target tiene su columna (`EnemyState`), el
+  contra el que la Instancia se deriva **no existe** todavía — el target tiene su columna (`EntityState`), el
   source no. Para arma sin buffs live, `source-state = la entity estática de C1` (funciona hoy). Propuesta de
   horizonte (`decision-frontier §4`): un **`NeutralState` base (objeto-de-estado)** del que derivan los estados
   por naturaleza del nodo (source/target/minion/object); **consumidor-puente = la cadena `warframe→weapon→enemy`**
@@ -469,7 +469,7 @@ Para mantener el motor ligero y determinista, las entidades se dividen por su ci
 
 - **TE (Transient Entities)**:
   - **Definición**: Entidades efímeras generadas por una acción o comportamiento.
-  - **Jerarquía de Generación** *(TE-como-entidad-en-cola: diseñado, no implementado)*: la idea era que una TE genere TEs hijas (Impacto → Proc). Hoy los procs/DoT son **proyecciones matemáticas** de los `EffectBehavior` sobre `EnemyState` (modelo unificado de proc), no TEs reales en una cola (sin límite de profundidad ni energía de tick). El **double-dip** sí se modela como regla de composición aritmética — ver [`damage-status-model.md`](damage-status-model.md) §Reglas de composición (faction sobre DoTs, `DC-OQ-ENGINE-13`).
+  - **Jerarquía de Generación** *(TE-como-entidad-en-cola: diseñado, no implementado)*: la idea era que una TE genere TEs hijas (Impacto → Proc). Hoy los procs/DoT son **proyecciones matemáticas** de los `EffectBehavior` sobre `EntityState` (modelo unificado de proc), no TEs reales en una cola (sin límite de profundidad ni energía de tick). El **double-dip** sí se modela como regla de composición aritmética — ver [`damage-status-model.md`](damage-status-model.md) §Reglas de composición (faction sobre DoTs, `DC-OQ-ENGINE-13`).
   - **Ejemplos**: Proyectiles, Procs de Estado, Invocaciones temporales.
 
 ### 2.2 Condiciones en vez de coordenadas
@@ -596,7 +596,7 @@ Resuelve el problema de habilidades como Iron Skin de Rhino.
 
 ### C2 — Simulation Modules
 - **Combat Simulator**: Resolución de daño final contra un Target (`CombatCalculator`, `CombatSimulator`).
-- **Modelo de proc (DoT/status)**: proyecciones de DoT y procs vía `EffectBehavior` por efecto sobre `EnemyState` (`StatusEngine` eliminado con el rediseño unificado).
+- **Modelo de proc (DoT/status)**: proyecciones de DoT y procs vía `EffectBehavior` por efecto sobre `EntityState` (`StatusEngine` eliminado con el rediseño unificado).
 - **Ability System**: Escalado de poderes por contexto de simulación.
 - **Time-Window Simulator (Timeline)**:
   - Sistema híbrido que proyecta el comportamiento del loadout en una ventana de tiempo (ej: 0s a 10s).

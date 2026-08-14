@@ -4,7 +4,7 @@
  *
  * Las fórmulas-estrategia por efecto (`EffectBehavior`), + el registro `EFFECT_BEHAVIORS`. Cada una
  * posee su acumulación, su ciclo de vida y su contribución; reusa la LEY ya extraída (`dot-tick`,
- * `dot-timeline`, `stack-debuff`). `EnemyState` las itera; no las conoce por dentro.
+ * `dot-timeline`, `stack-debuff`). `EntityState` las itera; no las conoce por dentro.
  *
  * Fidelidad: bleed/poison/corrosion/infection/disruption son wraps FIELES del comportamiento actual.
  * `ignite` (Heat) cambia: su tick ahora RESUELVE como `heat` (matriz③/DR/capa) en vez de ser un pool

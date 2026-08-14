@@ -11,16 +11,16 @@
  * nombres se lo lee. Un arma no tiene entrada y es correcto — no tiene vitales—, así que llegar ahí
  * **tira** en vez de devolver ceros creíbles.
  *
- * Esto NO renombra `EnemyState`, y el motivo **ya no es que falte el caso**: este archivo ES el caso.
- * De sus 15 construcciones de `EnemyState`, **11 no son hostiles** — un warframe del catálogo por el
+ * Esto NO renombra `EntityState`, y el motivo **ya no es que falte el caso**: este archivo ES el caso.
+ * De sus 15 construcciones de `EntityState`, **11 no son hostiles** — un warframe del catálogo por el
  * camino real, un compañero y avatares sintéticos—, y lo que contrasta es justamente que el mismo
- * contenedor recibe **leyes distintas** según quién lo porta. El rename queda pendiente porque es un
- * contrato de `@core` (RED) al que le falta elegir nombre — `vocabulary.md §7` `L-12`.
+ * contenedor recibe **leyes distintas** según quién lo porta — y por eso la clase se llama
+ * `EntityState` y no `EnemyState` (`vocabulary.md §2`). Este archivo es el caso que lo sostiene.
  */
 import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
-import { EnemyState, vitalsOf } from '../simulate/enemies/EnemyState';
+import { EntityState, vitalsOf } from '../simulate/enemies/EntityState';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
 import { consume } from '../output/consume';
 import { volt } from '../fixtures/builds';
@@ -53,7 +53,7 @@ describe('El estado se lee por familia de token, no por bando', () => {
   });
 
   it('[avatar] un warframe que porta estado NO nace muerto — el síntoma exacto que esto cierra', () => {
-    const state = new EnemyState(participante((e) => e.domain === 'warframe'));
+    const state = new EntityState(participante((e) => e.domain === 'warframe'));
     expect(state.isDead()).toBe(false);
     expect(state.current_health).toBeGreaterThan(0);
   });
@@ -89,7 +89,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
 
   it('[estado] el proc EMITE lo mismo sobre el avatar que sobre un hostil — la emisión SÍ es neutral', () => {
     const correr = (e: SimulationEntity) => {
-      const s = new EnemyState(e);
+      const s = new EntityState(e);
       const antes = s.current_shields;
       s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 1, 0);
       for (let t = 0; t < 8; t += 0.5) advanceAndResolve(s, t, 0.5);
@@ -105,7 +105,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
   });
 
   it('[ley] el avatar mitiga con la fórmula del Tenno, no con la del hostil', () => {
-    const s = new EnemyState(avatar());
+    const s = new EntityState(avatar());
     s.current_shields = 0;                    // el armor sólo protege la salud: hay que llegar a ella
     const armor = s.getEffectiveArmor(0);
     const { health_damage } = CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 1000 }, s, 0);
@@ -124,11 +124,11 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
   it('[ley] ⭐ misma armadura, dos portadores, dos leyes — el contraste directo', () => {
     // Un hostil sintético con EXACTAMENTE la armadura del avatar: lo único que cambia entre las dos
     // resoluciones es de quién es la armadura, así que la diferencia sólo puede venir de la ley.
-    const wf = new EnemyState(avatar());
+    const wf = new EntityState(avatar());
     wf.current_shields = 0;
     const armor = wf.getEffectiveArmor(0);
 
-    const hostil = new EnemyState(
+    const hostil = new EntityState(
       syntheticHostile({ health: 1_000_000, armor, faction: 'Isolated' }),
     );
 
@@ -142,14 +142,14 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
 
   it('[ley] un participante sin clase conocida tira en vez de mitigar con la ley de otro', () => {
     const sinClase = { ...syntheticHostile({ armor: 100 }), channel: 'primary' };
-    const s = new EnemyState(syntheticHostile({ armor: 100 }));
+    const s = new EntityState(syntheticHostile({ armor: 100 }));
     s.entity = sinClase;
     expect(() => CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 100 }, s, 0))
       .toThrow(/no declara ninguna clase con ley de mitigación/);
   });
 
   it('[ley] el escudo del Tenno aguanta el DOBLE de su valor — 50% de DR inherente', () => {
-    const s = new EnemyState(syntheticAvatar({ shields: 100 }));
+    const s = new EntityState(syntheticAvatar({ shields: 100 }));
     s.receive('shield', 150, 0);
     // 150 de daño contra 100 de escudo con DR 0.5: cuesta 75 puntos, no 150. Quedan 25.
     expect(s.current_shields).toBeCloseTo(25, 6);
@@ -160,17 +160,17 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     // El caso que motiva partir la llave: los dos portan `routes: ['avatar']` —y el compañero la
     // NECESITA, para que `Enhanced Vitality` le aterrice— pero la fuente da el 50% a "Warframes ·
     // Operators · Archwings · Railjacks · Necramechs" y NO a "Companions". Misma marca, otra ley.
-    const pet = new EnemyState(syntheticAvatar({ shields: 100, channel: 'companion' }));
+    const pet = new EntityState(syntheticAvatar({ shields: 100, channel: 'companion' }));
     pet.receive('shield', 150, 0);
     expect(pet.current_shields).toBe(0);   // 150 > 100: el escudo cae entero, sin mitigar
 
-    const tenno = new EnemyState(syntheticAvatar({ shields: 100 }));
+    const tenno = new EntityState(syntheticAvatar({ shields: 100 }));
     tenno.receive('shield', 150, 0);
     expect(tenno.current_shields).toBeCloseTo(25, 6);
   });
 
   it('[ley] el Overguard NO comparte la DR del escudo — es otra capa, no un escudo más', () => {
-    const s = new EnemyState(syntheticAvatar({}));
+    const s = new EntityState(syntheticAvatar({}));
     s.current_overguard = 100;
     s.receive('overguard', 60, 0);
     expect(s.current_overguard).toBeCloseTo(40, 6);   // 1:1, no 70
@@ -181,14 +181,14 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     // Vitality` le aterrice) pero `armor.md` no declara su ley de DR. Heredarla en silencio era
     // producir un número creíble y falso; ahora suena.
     const pet = { ...syntheticHostile({ armor: 300 }), routes: ['avatar'], channel: 'companion' };
-    const s = new EnemyState(syntheticHostile({ armor: 300 }));
+    const s = new EntityState(syntheticHostile({ armor: 300 }));
     s.entity = pet;
     expect(() => CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 100 }, s, 0))
       .toThrow(/no declara ninguna clase con ley de mitigación/);
   });
 
   it('[capas] el daño que rompe los shields del avatar NO pasa a la salud en el mismo evento', () => {
-    const s = new EnemyState(avatar());
+    const s = new EntityState(avatar());
     const health0 = s.current_health;
     // Pulso deliberadamente mayor que los shields: en un hostil el exceso derrama al 5% (su gate es
     // otra mecánica); en un avatar el gate corta entero. Trazado: a t=1 se van los 455 de shield y la
@@ -210,7 +210,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     // ventana va de t=1 a t≈2.52 y se come el tick de t=2. Con la formulación vieja —"repuestos desde
     // el último gate", que arranca en 0— habría durado el mínimo (0.33 s) y el tick de t=2 habría
     // matado: **un warframe con 455 de shield recibía la protección de uno con 0**.
-    const s = new EnemyState(avatar());
+    const s = new EntityState(avatar());
     const shieldsAlRomperse = s.current_shields;
     s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 200, 0);
     advanceAndResolve(s, 1, 0.5);
@@ -229,7 +229,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     // `shield.md`: *"recuperar shields durante la invulnerabilidad la termina de inmediato — cualquier
     // cantidad, de cualquier fuente, incluida la regeneración natural"*. La ventana cierra por tiempo
     // **o** por este predicado, lo que ocurra primero (`time-model.md §3`).
-    const s = new EnemyState(avatar());
+    const s = new EntityState(avatar());
     s.applyProc('bleed', { moddedBase: 100, statusDamageBonusPct: 0, elementBonusPct: {} }, 200, 0);
     advanceAndResolve(s, 1, 0.5);
     expect(s.isGated(1.1)).toBe(true);

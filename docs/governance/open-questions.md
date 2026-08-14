@@ -68,7 +68,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **acotada**: *"esto es de aquel"* se declara y costó un campo (`owner`); las relaciones dirigidas siguen sin caso |
 | `OQ-ENGINE-35` | ¿Cuánta geometría necesita el escenario? — declara quiénes existen, no dónde están | engine / Capa A — escenario | abierta — **gated por consumidor**; ya hay distancia sin espacio donde medirla |
 | `OQ-ENGINE-36` | Claves derivadas que colisionan sin chequeo — 3 de 4 apariciones muertas | engine / identidad de participante y de slot | abierta **sólo en slots** — el participante se identifica por su coordenada en la escena; la clave de slot sigue siendo `Record<number,T>` con guarda y sin forma |
-| `OQ-ENGINE-37` | `evitar` ⊥ `mitigar` ⊥ `acortar` ⊥ `limpiar` — cuatro verbos que el corpus llama "resistencia" | engine / defensa del portador | abierta — 3 verbos sin caso construido; **`mitigar` ya no**: `Adaptation` tiene dato entero (11 rangos, `upgrade_types: []`), la ley (Familia A) y el portador (`EnemyState` sobre warframe real). Falta token + hook de *"when damaged"* + DR por tipo |
+| `OQ-ENGINE-37` | `evitar` ⊥ `mitigar` ⊥ `acortar` ⊥ `limpiar` — cuatro verbos que el corpus llama "resistencia" | engine / defensa del portador | abierta — 3 verbos sin caso construido; **`mitigar` ya no**: `Adaptation` tiene dato entero (11 rangos, `upgrade_types: []`), la ley (Familia A) y el portador (`EntityState` sobre warframe real). Falta token + hook de *"when damaged"* + DR por tipo |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -265,7 +265,7 @@ Hoy esta restricción vive únicamente en el campo `label` como texto libre y en
 
 ## OQ-SEM-2 — Eje organizador del mapa de clasificación de condition: ¿mecánica de juego o modelo de engine? — **ABIERTO (2026-06-03)**
 **Dominio:** semantic / conditions → engine
-**Contexto:** `conditions.md` clasifica los tokens con `engine:class:c2/*` (binary / derived / event / stack / —). Ese eje describe qué debería computar el C2. Cuando la OQ se abrió (2026-06-03) ese engine no existía y el eje era puramente especulativo; hoy el C2 se materializó parcialmente (`SimulationContext`, `EnemyState`, `behaviors`, stacks) — el eje ya **se puede contrastar** contra el engine real en vez de contra uno hipotético. Aun así el criterio organizador sigue anclado al modelo de evaluación, no a la mecánica del juego.
+**Contexto:** `conditions.md` clasifica los tokens con `engine:class:c2/*` (binary / derived / event / stack / —). Ese eje describe qué debería computar el C2. Cuando la OQ se abrió (2026-06-03) ese engine no existía y el eje era puramente especulativo; hoy el C2 se materializó parcialmente (`SimulationContext`, `EntityState`, `behaviors`, stacks) — el eje ya **se puede contrastar** contra el engine real en vez de contra uno hipotético. Aun así el criterio organizador sigue anclado al modelo de evaluación, no a la mecánica del juego.
 
 **Pregunta:** ¿El mapa de clasificación de condition debe organizarse por **naturaleza/mecánica real del juego** —qué *es* la condición en el juego: estado del jugador, estado del target, evento de combate, maniobra de parkour, umbral de recurso, restricción de loadout— en vez de por el modelo de evaluación del engine? Bajo esta dirección, `engine:class:c2/*` pasa a ser una **proyección derivada** del mapa de naturaleza, no el eje primario.
 
@@ -533,7 +533,7 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 
 **Resuelto — el gancho (la pregunta original "¿dónde/cuándo se construye el punto de enganche?"):** construido 2026-07-20. Puncture (efecto `weakened`) y Cold (efecto `freeze`) buffean el crit del **atacante** según sus stacks en el target, por un canal separado del de mitigación:
 - Contrato `CritModifier { critChanceAdd?, critMultAdd? }` + `EffectBehavior.critModifier?` (`effect-behavior.ts`) — stage del **hit**, no de la mitigación (canal aparte de `resolutionModifier` a propósito).
-- `EnemyState.getCritBonuses(t)` suma los aportes (espejo de `getEffectiveArmor`); `CombatSimulator.simulateAttack` lo lee **LIVE** y lo suma a critChance/critMult antes de resolver el crit (ambos modos, atómico y bulk).
+- `EntityState.getCritBonuses(t)` suma los aportes (espejo de `getEffectiveArmor`); `CombatSimulator.simulateAttack` lo lee **LIVE** y lo suma a critChance/critMult antes de resolver el crit (ambos modos, atómico y bulk).
 - Behaviors `weakened`/`freeze` (molde de `corrosion` + `critModifier`); leyes `WEAKENED_CRIT_LAW {first:5,perAdd:5,cap:25}` (chance) / `COLD_CRIT_LAW {0.1,0.05,cap:0.5}` (mult) vía `stackDebuffValue`. Test: `crit-stack-buff.test.ts`.
 
 **Sigue vivo — AUSENCIAS de fidelidad (no simplificaciones: es dato/mecánica que hoy NO existe):**
@@ -708,7 +708,7 @@ efecto stack-debuff (Corrosive, Viral, etc.) nacen del mismo hit simultáneament
 N-timers/cap-K (`damage-status-model.md §primitivo reusable`) los pliega secuencial (cada uno chequeando
 el estado ya actualizado por los anteriores del mismo hit) o hay una regla especial para eventos
 co-instantáneos? Sin evidencia in-game ni wiki que lo distinga. Gated por la brecha YA existente de
-`EnemyState.processDots()` (pool lineal, no N-timers) — no es un gate nuevo, solo se vuelve relevante
+`EntityState.processDots()` (pool lineal, no N-timers) — no es un gate nuevo, solo se vuelve relevante
 cuando esa brecha se resuelva.
 
 **Vínculo:** `../domains/engine/design/damage-status-model.md §Población/RNG` (debate destilado; scratch `.working/` purgado), `OQ-ENGINE-18` (mismo patrón de hueco —
@@ -2483,7 +2483,7 @@ y el texto completo — *"When Damaged: +5% Resistance to that Damage Type for 1
 
 **Y su forma ya está construida.** `+X% por instancia recibida, cap 90%` es Familia A
 (`stackDebuffValue` + `applyStackProc`), la misma que resuelven los cinco behaviors de stack. El
-portador tampoco falta: `EnemyState` ya corre sobre un warframe del catálogo por el camino real
+portador tampoco falta: `EntityState` ya corre sobre un warframe del catálogo por el camino real
 (`__tests__/state-neutrality.test.ts` — 11 de sus 15 construcciones no son hostiles) y ya contrasta
 mitigación del Tenno vs del hostil sobre la misma armadura.
 

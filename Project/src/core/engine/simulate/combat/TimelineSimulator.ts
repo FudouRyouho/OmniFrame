@@ -5,7 +5,7 @@ import type { SimulationEntity, SimulationContext } from "../../contracts";
 import type { Layer } from "../../contracts/layers";
 import { CombatSimulator } from "./CombatSimulator";
 import { RngProvider } from "./RngProvider";
-import { EnemyState } from "../enemies/EnemyState";
+import { EntityState } from "../enemies/EntityState";
 import { advanceAndResolve } from "../advance";
 import { effectOfDamageType } from "@shared/types";
 import { expectedProcEvents } from "../../formulas/status/proc-population";
@@ -53,7 +53,7 @@ export class TimelineSimulator {
     _context?: Partial<SimulationContext>,
     rng: RngProvider = new RngProvider()
   ): SimulationResult {
-    const state = new EnemyState(target);
+    const state = new EntityState(target);
     const events: TimelineEvent[] = [];
     
     const fireRate = weapon.attributes["WEAPON_ADD_FIRE_RATE"]?.final || 1;

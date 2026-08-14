@@ -249,7 +249,7 @@ Detalle en `references/wiki/mechanics/status-effects.md`.
 `multiplier = 2+0.25×(n-1)` sobre daño de capa-salud, incluye True. Seam ya funcionando: `getDamageMultiplier("health")`. Orden de resolución: ver primitivo.
 
 ### Corrosive — Corrosion
-`strip(n) = min(0.26+0.06×(n-1), 1.00)`, timer de 8s por stack, sin rampa de reversión (discreto: un stack expira, se recalcula con `n-1`). El techo es **físico** —no se saca más armadura de la que hay—: el 80 % que la fuente cita es `f(10)`, o sea lo que da el **cap de stacks** por defecto, y la misma página declara que 14 stacks (alcanzables con Emerald Archon Shard) la quitan entera. `EnemyState.getEffectiveArmor()` ya combina parcialmente Corrosive+Heat, y su `max(0, …)` es lo que sostiene el piso cuando varios `armorMult` se multiplican — ninguno de ellos ve el producto.
+`strip(n) = min(0.26+0.06×(n-1), 1.00)`, timer de 8s por stack, sin rampa de reversión (discreto: un stack expira, se recalcula con `n-1`). El techo es **físico** —no se saca más armadura de la que hay—: el 80 % que la fuente cita es `f(10)`, o sea lo que da el **cap de stacks** por defecto, y la misma página declara que 14 stacks (alcanzables con Emerald Archon Shard) la quitan entera. `EntityState.getEffectiveArmor()` ya combina parcialmente Corrosive+Heat, y su `max(0, …)` es lo que sostiene el piso cuando varios `armorMult` se multiplican — ninguno de ellos ve el producto.
 
 ### Magnetic — Disruption
 Entra: `multiplier = 2+0.25×(n-1)` sobre daño a shields/Overguard, mismo seam que Viral (`getDamageMultiplier("shield")`). Diferido: negación de recarga de shields (no simulamos regen), bonus Electricity al romper Overguard (evento puntual), extra-efectividad vs Nullifiers (nicho).
@@ -304,7 +304,7 @@ pulsos estén **declarados** y de **amplitud constante**:
 Es el suelo C1 del timeline (`arch-decisions §8.1`, peldaño 2→3): con pulsos declarados, "cuánto daño
 hace un DoT aislado" se **evalúa**, no se simula. Tanto el valor del tick (`formulas/status/dot-tick.ts`)
 como el fold de superposición (`formulas/status/dot-timeline.ts`: `pulseTotal` + `timelineByTick`)
-**ya existen** (Slice 3a), sin tocar el substrato de `EnemyState`. La curva canónica de test
+**ya existen** (Slice 3a), sin tocar el substrato de `EntityState`. La curva canónica de test
 es la tabla de dos pulsos fasados (`__tests__/status/timeline.test.ts`).
 
 **Las cinco fronteras — dónde la superposición cerrada se rompe** y hay que steppear (substrato C2) o ir
@@ -420,7 +420,7 @@ una sola llamada con `statusChance` crudo. `formulas/status/dot-population.ts`
 (`dotPulseFromProcEvent`): glue DoT-específico, `ProcEvent → DotPulse` con `value` pre-escalado, sin
 tocar `dot-timeline.ts`. Tests en `__tests__/status/population.test.ts`. **Sigue gated:** el
 cronograma real de disparos que alimenta `timestamp` (tramo c, integración de arma) y el cableado a
-`EnemyState`/`CombatSimulator` (resuelto por el modelo unificado, §Modelo unificado de proc).
+`EntityState`/`CombatSimulator` (resuelto por el modelo unificado, §Modelo unificado de proc).
 
 ---
 
@@ -470,7 +470,7 @@ INSTANCIA ─ejecutar─► HIT ─┬─ consecuencia inmediata ──► ⟨RE
 | Estación | Código hoy | Estado |
 |---|---|---|
 | Resolución (átomo) | `CombatSimulator.resolveDamageEvent` | ✅ ya transversal (hit + tick) |
-| Estado | `EnemyState.effectStates: Map<StatusEffect,S>` | ✅ existe, muta dentro |
+| Estado | `EntityState.effectStates: Map<StatusEffect,S>` | ✅ existe, muta dentro |
 | Efecto — modificador | `EffectBehavior.resolutionModifier` (stacks) | ✅ ya es "consecuencia del estado" |
 | Efecto — emisión | `dot-tick` / `behaviors` (DoT) | ⚠️ desviado (SSoT propio: `DotType`, `dot-population`) |
 | **Aplicación** | diluida en `expectedProcEvents` (predictivo) | 🔴 **la brecha estructural** — no existe como objeto, no consume el peso |
@@ -560,7 +560,7 @@ interface ResolutionModifier { armorMult?: number; layerMult?: Partial<Record<La
 
 - Un canal de **emisión** + un **modificador de resolución** genérico (armor + layer). Armor NO es canal
   privilegiado; crit-vs-target (cold/puncture) es un 2º canal del stage atacante (hits-only) — **construido**
-  (`EffectBehavior.critModifier` → `EnemyState.getCritBonuses` → `simulateAttack`), con efecto real
+  (`EffectBehavior.critModifier` → `EntityState.getCritBonuses` → `simulateAttack`), con efecto real
   (behaviors `weakened`/`freeze`). Fidelidad de suelo; las ausencias (cap-boss, 10º stack) siguen en `OQ-ENGINE-12`.
 - La emisión declara `as: DamageType` (bleed→`'true'`, poison→`'toxin'`…); **core deriva las reglas del
   canónico** (bypass shields, bypass armor/matriz de True, DR, layer-mult). Único dato per-efecto = `as`
@@ -568,7 +568,7 @@ interface ResolutionModifier { armorMult?: number; layerMult?: Partial<Record<La
   (paga DR), bleed emite `as:'true'` — sin ambigüedad, `true` lleva su perfil en el canónico y se retira
   el opt ad-hoc `bypassArmorAndMatrix`.
 - Cruces (Viral amplifica un bleed) → viven en la resolución de core, no en las fórmulas (corte fórmula ≠
-  resolución). `EnemyState` colapsa a `Map<StatusEffect, S>` + registro `EFFECT_BEHAVIORS`; los 3 caminos
+  resolución). `EntityState` colapsa a `Map<StatusEffect, S>` + registro `EFFECT_BEHAVIORS`; los 3 caminos
   de `advance` + `getDamageMultiplier` + `getEffectiveArmor` → una sola iteración.
 
 ### Frontera 3 = emisión multi-target (NO recursión)

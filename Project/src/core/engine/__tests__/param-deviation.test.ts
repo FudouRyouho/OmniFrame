@@ -5,7 +5,7 @@
  *
  * Este archivo mide la LEY pura (altitud 1: número→número). Que el desvío **llegue** desde un shard o
  * desde la clase del enemigo es otro tramo (2b/2c) y no se duplica acá — igual que `stack-debuff-law`
- * mide la Familia A sin pasar por `EnemyState`.
+ * mide la Familia A sin pasar por `EntityState`.
  *
  * Los 10 casos no son una lista elegida: son **todos** los que el corpus documenta hoy, sobre 3
  * parámetros y 2 mecánicas. Si aparece un caso nuevo que la primitiva no expresa, es la primitiva la

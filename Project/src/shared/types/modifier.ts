@@ -358,7 +358,7 @@ export function getUpgradeFamily(upgrade: Upgrade): UpgradeFamily {
 
 export interface CoFactors {
   // Nombres de las variables de contexto que aportan cada dimensión de la fórmula CO.
-  // Se resuelven en modo estático (declaradas) o dinámico (emergentes del EnemyState).
+  // Se resuelven en modo estático (declaradas) o dinámico (emergentes del EntityState).
   stacks_var: string;        // activeStacks (dimensión temporal del buff)
   status_count_var: string;  // N tipos de status en el target
 }

@@ -25,7 +25,7 @@
  *
  * ⚠️ **El canal mezcla slot con clase** (`primary`, `melee` son slots, no clases de unidad) y eso es
  * deuda real del vocabulario — la misma que `semantic/upgrade-tokens.md` documenta para `Rifle Amp`.
- * **No la toca este uso:** las tres tablas se consultan sólo sobre `EnemyState`, que sólo se construye
+ * **No la toca este uso:** las tres tablas se consultan sólo sobre `EntityState`, que sólo se construye
  * para participantes con vitales (`TimelineSimulator`). Un arma nunca llega a preguntar por su ley.
  *
  * **Por qué no hay una constante "todo el lado jugador":** porque no existe. Cada ley agrupa distinto

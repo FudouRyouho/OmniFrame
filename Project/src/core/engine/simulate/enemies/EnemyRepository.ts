@@ -110,7 +110,7 @@ export function curateEnemies(entries: RawEnemyEntry[], overrides: EnemyOverride
  *
  * Ya no compone participantes. Tenía un `scale(dna, level)` que orquestaba las primitivas de
  * `formulas/enemy/enemy-scaling` y devolvía un `ScaledEnemy` — un objeto paralelo que C1 nunca veía,
- * del que nacía `EnemyState`, y por el que un debuff `ENEMY_*` compuesto en el escenario no llegaba
+ * del que nacía `EntityState`, y por el que un debuff `ENEMY_*` compuesto en el escenario no llegaba
  * al daño. Esa composición vive ahora en el frame-0 (`ItemRepository.normalizeEnemy`) y el estado
  * nace de la entidad resuelta (`simulation-architecture.md` §El escenario consolidado).
  *

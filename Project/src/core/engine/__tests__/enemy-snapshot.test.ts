@@ -20,7 +20,7 @@ import { consume } from '../output/consume';
 import { sicarus, SICARUS_PRIME } from '../fixtures/builds';
 import { snapshotEnemy, deriveEnemyFlags } from '../simulate/enemies/EnemySnapshot';
 import { hostileEntity } from './hostile-entity';
-import { vitalsOf } from '../simulate/enemies/EnemyState';
+import { vitalsOf } from '../simulate/enemies/EntityState';
 
 await loadEngineData(new NodeAdapter());
 

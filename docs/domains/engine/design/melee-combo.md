@@ -74,7 +74,7 @@ Ciclo (todo **(b)**, salvo lo indicado):
 | Initial combo | innato en algunas armas (Synoid Heliocor 20, Fragor Prime 30); regen 40 pts/s | |
 
 > **C2 del combo ≠ C2 de CO.** El counter es **estado del lado jugador que se escribe** (el heavy lo
-> consume, §5 HAE); el C2 de CO (`EnemyState.advance`) es lado enemigo y read-only. Son dos máquinas
+> consume, §5 HAE); el C2 de CO (`EntityState.advance`) es lado enemigo y read-only. Son dos máquinas
 > de estado distintas — **no colapsar** en "el sistema temporal".
 
 ## 3 — Bucket 2 · Derivación / tabla (`combo_mult`)

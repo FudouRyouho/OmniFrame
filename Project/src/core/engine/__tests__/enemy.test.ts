@@ -1,7 +1,7 @@
 /**
  * El enemigo como PARTICIPANTE de C1 — la mitad de "C1 compone, C2 realiza" que nunca se construyó.
  *
- * Hasta acá el objetivo existía sólo en C2 (`EnemyState`, `ScaledEnemy`) y en A2 como parámetros
+ * Hasta acá el objetivo existía sólo en C2 (`EntityState`, `ScaledEnemy`) y en A2 como parámetros
  * sueltos (`targetLevel`/`targetFaction`). No era una entidad: no tenía nodos, así que **ninguna
  * fuente declarada podía componer sobre él**. Un armor strip de habilidad (Abating Link −60%,
  * Plunder) no tenía dónde aterrizar, y por eso la pregunta *"¿cómo compone un strip declarado con
@@ -245,7 +245,7 @@ describe('Corrosive Projection — el debuff que sale del warframe hacia el enem
    * …Y ESE NÚMERO LLEGA AL DAÑO. Es el cierre del recorrido: el aura sale del squad, cruza de bando,
    * compone el nodo del enemigo, y el estado que C2 golpea nace de ESE nodo.
    *
-   * Mientras `EnemyState` nacía de un `ScaledEnemy` paralelo, este test era imposible: las dos builds
+   * Mientras `EntityState` nacía de un `ScaledEnemy` paralelo, este test era imposible: las dos builds
    * daban EXACTAMENTE el mismo número (1716 las dos), porque C2 medía contra el enemigo del `--vs`
    * —un Arid Butcher que nunca vio el aura— en vez de contra el que el escenario declaró.
    *

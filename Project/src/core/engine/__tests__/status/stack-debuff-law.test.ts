@@ -3,7 +3,7 @@
  * `f(n) = first + perAdd × max(0, n−1)`, clamp opcional. arch-decisions §14 / damage-flow-model §5.
  *
  * Acá se asserta que la ARITMÉTICA es correcta contra references/wiki/mechanics/status-effects.md.
- * El cableado a-través-de-`EnemyState` (altitud 2) vive en los per-effect tests (corrosion/infection/
+ * El cableado a-través-de-`EntityState` (altitud 2) vive en los per-effect tests (corrosion/infection/
  * disruption), vía el harness de aislamiento — NO se duplica la ley acá.
  */
 import { describe, it, expect } from 'vitest';

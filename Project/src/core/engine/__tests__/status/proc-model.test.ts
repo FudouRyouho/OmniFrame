@@ -1,7 +1,7 @@
 /**
  * Modelo unificado de proc — verificación end-to-end del camino nuevo (`damage-status-model.md
  * §Modelo unificado de proc`). Reemplaza a los tests de reconciliación Toxin/Slash (API vieja
- * `addPulse`/`dot_pools`, concepto superado): acá se aplica un proc vía `EnemyState.applyProc` (que
+ * `addPulse`/`dot_pools`, concepto superado): acá se aplica un proc vía `EntityState.applyProc` (que
  * rutea al behavior, que computa su snapshot del `HitContext`), se avanza con `processDots`, y se
  * asserta que la resolución de cada tick deriva del canónico (bypass/True/DR/capa).
  */

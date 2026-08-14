@@ -16,7 +16,7 @@ import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { hostileEntity } from './hostile-entity';
-import { EnemyState } from '../simulate/enemies/EnemyState';
+import { EntityState } from '../simulate/enemies/EntityState';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
 
 await loadEngineData(new NodeAdapter());
@@ -24,7 +24,7 @@ const ARID_BUTCHER = '/Lotus/Types/Enemies/Grineer/Desert/Avatars/BladeSawmanAva
 
 describe('resolveHit — DR de armadura (Arid Butcher @215)', () => {
   it('DR = 24.49% (√3a/100, P1) — 100 dmg Toxin → 75.51 de daño a salud (NO 60, que sería la vieja fórmula 40%)', () => {
-    const state = new EnemyState(hostileEntity(ARID_BUTCHER, 215)); // armor=200 (validado en P1)
+    const state = new EntityState(hostileEntity(ARID_BUTCHER, 215)); // armor=200 (validado en P1)
 
     const hit = CombatSimulator.resolveHit({ WEAPON_ADD_TOXIN_DAMAGE: 100 }, state);
 

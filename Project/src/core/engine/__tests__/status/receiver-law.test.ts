@@ -21,7 +21,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { hostileEntity } from '../hostile-entity';
-import { EnemyState } from '../../simulate/enemies/EnemyState';
+import { EntityState } from '../../simulate/enemies/EntityState';
 import { curateEnemies } from '../../simulate/enemies/EnemyRepository';
 import { RECEIVER_MAX_STACKS, receiverMaxStacks } from '../../formulas/status/stack-debuff';
 import { UNIT_CLASSES } from '../../contracts/unit-class';
@@ -53,7 +53,7 @@ describe('La clase de unidad llega al receptor — el canal, no la ley', () => {
     // Y el canal sigue siendo `enemy`: la clase NO lo reemplaza. Sin esto el acólito perdería sus
     // vitales, que es lo que hace que refinar el canal no fuera una opción.
     expect(entity.channel ?? 'enemy').toBe('enemy');
-    expect(new EnemyState(entity).receiverContext().unit_class).toEqual(['acolyte']);
+    expect(new EntityState(entity).receiverContext().unit_class).toEqual(['acolyte']);
   });
 
   /** Un hostil cualquiera **calla** — ausente, no lista vacía (`vocabulary.md §6`). */

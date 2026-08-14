@@ -18,7 +18,7 @@ describe('Toxin → Poison', () => {
   it.todo('valor del tick: dotTickValue("toxin", ...) YA existe — falta graduar a toxin.test + bypass shields/no-Overguard en aplicación');
 });
 describe('Heat → Ignite', () => {
-  it.todo('armor strip por TIEMPO (rampa 2s, cap 50%): MODELADO inline en EnemyState (excepción, no Familia A) — falta harness temporal');
+  it.todo('armor strip por TIEMPO (rampa 2s, cap 50%): MODELADO inline en EntityState (excepción, no Familia A) — falta harness temporal');
   it.todo('valor del tick: dotTickValue("heat", ...) YA existe — falta graduar + stacks consolidados en 1 tick/s (timeline)');
   it.todo('FRONTERA 1: Heat NO es pulsos independientes — un pulso consolidado que crece + refresca duración (damage-status-model §Modelo de timeline)');
 });

@@ -15,7 +15,7 @@
  * (instance medio-nacido, §14/O5). Lo que el harness NO puede inyectar aún se registra como `todo`
  * en los per-effect tests; el harness expone el hueco, no lo esconde.
  */
-import { EnemyState } from "../../simulate/enemies/EnemyState";
+import { EntityState } from "../../simulate/enemies/EntityState";
 import { CombatSimulator, type HitResolution } from "../../simulate/combat/CombatSimulator";
 import type { StatusEffect } from "@shared/types";
 import type { UnitClass } from "../../contracts/unit-class";
@@ -46,8 +46,8 @@ export interface IsolatedTargetSpec {
   unitClass?: readonly UnitClass[];
 }
 
-/** Construye un `EnemyState` aislado, faction-neutral, con status declarado. */
-export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EnemyState {
+/** Construye un `EntityState` aislado, faction-neutral, con status declarado. */
+export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EntityState {
   const health = spec.health ?? 1000;
   const armor = spec.armor ?? 0;
   const shields = spec.shields ?? 0;
@@ -61,7 +61,7 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EnemyState {
     ...(spec.unitClass ? { unitClass: spec.unitClass } : {}),
   });
 
-  const state = new EnemyState(entity);
+  const state = new EntityState(entity);
   state.current_overguard  = spec.overguard ?? 0;
   state.current_overshield = spec.overshield ?? 0;
   // Status pre-declarado (C1): materializa el estado de proc del modelo unificado directamente.
@@ -84,7 +84,7 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EnemyState {
  */
 export function resolveIsolated(
   damage: Record<string, number>,
-  target: EnemyState,
+  target: EntityState,
   currentTime = 0,
 ): HitResolution {
   return CombatSimulator.resolveHit(damage, target, currentTime);

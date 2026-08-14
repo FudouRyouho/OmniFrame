@@ -2,7 +2,7 @@
  * @domain Simulation-v2 / Logic / Combat
  * @status en-desarrollo
  */
-import type { EnemyState } from "../enemies/EnemyState";
+import type { EntityState } from "../enemies/EntityState";
 import type { DamageInstance } from "./damage-instance";
 import { targetFactionMult } from "../../contracts/damage-multipliers";
 import { damageReductionFromArmor } from "../../formulas/enemy/armor-mitigation";
@@ -36,7 +36,7 @@ const ARMOR_MITIGATION_BY_CLASS: Record<string, (armor: number) => number> = {
  * equivocada devuelve un número creíble y falso —exactamente el modo de falla que ya costó una
  * medición— y un participante que llega hasta acá sin declarar su clase es un bug que tiene que sonar.
  */
-function armorMitigationFor(target: EnemyState): (armor: number) => number {
+function armorMitigationFor(target: EntityState): (armor: number) => number {
   const law = byChannel(ARMOR_MITIGATION_BY_CLASS, target.entity.channel);
   if (!law) {
     throw new Error(
@@ -66,7 +66,7 @@ export class CombatSimulator {
    * Simula un ataque completo (incluyendo Multishot) contra un objetivo.
    * Utiliza el Modo Híbrido (Atómico vs Bulk) basado en la densidad de perdigones.
    */
-  public static simulateAttack(instance: DamageInstance, targetState: EnemyState, currentTime: number = 0, rng: RngProvider = new RngProvider()): HitResolution {
+  public static simulateAttack(instance: DamageInstance, targetState: EntityState, currentTime: number = 0, rng: RngProvider = new RngProvider()): HitResolution {
     // La Instancia (①②) ya trae el potencial modded por tipo + crit spec + multishot — C2 la CONSUME,
     // no re-extrae de `attributes` (seam C1→C2, `damage-instance.ts`). Multishot/crit se ejecutan acá (Hit).
     const { multishot, critChance: baseCritChance, critMult: baseCritMult, damageByToken: baseDamageMap } = instance;
@@ -120,7 +120,7 @@ export class CombatSimulator {
   /**
    * Resuelve UN evento de daño (un token D-6) contra el estado actual de un enemigo — el átomo de
    * RESOLUCIÓN, **AGNÓSTICO AL ORIGEN**: lo comparten el hit directo (`resolveHit`, una vez por tipo)
-   * y el tick de un proc DoT (`EnemyState`, que emite `Resolucion{value, as}` → token). Todas las
+   * y el tick de un proc DoT (`EntityState`, que emite `Resolucion{value, as}` → token). Todas las
    * reglas se derivan del CANÓNICO keyeadas por el token: bypass de shields (Toxin), bypass de
    * armor/matriz③ de True (`as:'true'` del bleed), DR, y el multiplicador de capa (Viral/Magnetic).
    * La emisión declara CON QUÉ tipo resuelve — sin opt ad-hoc. Ver `contracts/damage-logic.ts`.
@@ -130,7 +130,7 @@ export class CombatSimulator {
   public static resolveDamageEvent(
     damageToken: string,
     damage: number,
-    targetState: EnemyState,
+    targetState: EntityState,
     currentTime: number = 0,
   ): { layer: Layer; finalDamage: number } {
     const effectiveArmor = targetState.getEffectiveArmor(currentTime);
@@ -155,7 +155,7 @@ export class CombatSimulator {
    * Resuelve un único impacto (todos los tipos de daño de un hit) contra el estado actual de un
    * enemigo. Delega la resolución por-tipo a `resolveDamageEvent`.
    */
-  public static resolveHit(damageMap: Record<string, number>, targetState: EnemyState, currentTime: number = 0): HitResolution {
+  public static resolveHit(damageMap: Record<string, number>, targetState: EntityState, currentTime: number = 0): HitResolution {
     const breakdown: Record<string, number> = {};
     const by_layer: Partial<Record<Layer, number>> = {};
     let total = 0;

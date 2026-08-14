@@ -58,16 +58,16 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 | `AtomicSimulator` | **Activo** — conectado a `formulas/common/crit-base` |
 | `advance.ts` | **Activo** — `advanceAndResolve`: la composición «avanzar → resolver → recibir». Vive fuera del estado a propósito: el contenedor no invoca al resolvedor de lo que él mismo emite. |
 | `TimelineSimulator` · `RngProvider` | **Activo** — generación de procs unificada (`expectedProcEvents` → `effectOfDamageType` → `applyProc`); `StatusEngine` **eliminado** (ver Nota C2) |
-| `EnemyRepository` · `EnemyState` | **Activo** (`simulate/enemies/`). `EnemyRepository` es catálogo: **carga y búsqueda**, no compone participantes — la curva-S la orquesta el frame-0 (`ItemRepository.normalizeEnemy`) y `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`) resuelve el hit. `EnemyState` nace de la **entidad resuelta de C1**, así que lo que el escenario compuso encima del enemigo llega al daño. Validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
+| `EnemyRepository` · `EntityState` | **Activo** (`simulate/enemies/`). `EnemyRepository` es catálogo: **carga y búsqueda**, no compone participantes — la curva-S la orquesta el frame-0 (`ItemRepository.normalizeEnemy`) y `damageReductionFromArmor` (`√3a/100`, provisional `OQ-ENGINE-15`) resuelve el hit. `EntityState` nace de la **entidad resuelta de C1**, así que lo que el escenario compuso encima del enemigo llega al daño. Validado contra el calculador del wiki (`enemy-scaling.test.ts`, contraste #0 del eje enemigo). |
 
 > **El status de C2 usa el modelo unificado de proc:** un contenedor único `Map<StatusEffect, S>` +
-> `EffectBehavior` por efecto. `EnemyState` itera el registro `EFFECT_BEHAVIORS`; `resolveDamageEvent`
+> `EffectBehavior` por efecto. `EntityState` itera el registro `EFFECT_BEHAVIORS`; `resolveDamageEvent`
 > deriva las reglas del canónico por `as: DamageType`. Diseño y SSoT en
 > [`design/damage-status-model.md §Modelo unificado de proc`](design/damage-status-model.md). Residual:
 > `DotType`/`DOT_COEF` sin disolver (deuda G2).
 >
 > **Nota C2:** los 6 efectos con LEY (bleed/poison/ignite/corrosion/infection/disruption) viven en
-> `EFFECT_BEHAVIORS`; `EnemyState.advance` itera cada behavior (decae/expira) y **devuelve** las
+> `EFFECT_BEHAVIORS`; `EntityState.advance` itera cada behavior (decae/expira) y **devuelve** las
 > `Resolucion` emitidas — resolverlas es de `simulate/advance.ts`, no del contenedor. Cada emisión
 > resuelve por `CombatSimulator.resolveDamageEvent` (mismo camino que un hit directo). Heat
 > sobrevive como su propia fórmula (`ignite`: pool + rampa de armor por tiempo), no como contenedor
@@ -120,7 +120,7 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 |---|---|
 | `common/` | `crit-base` (→ `AtomicSimulator`), `scaling-base`, `status-base` |
 | `weapon/` | `weapon-crit`, `weapon-multishot`, `weapon-condition-overload`, `melee-combo`, `sniper-combo` |
-| `status/` | `stack-debuff` (**wired** → `behaviors`/`EnemyState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EnemyState`/`TimelineSimulator`, modelo unificado; los 6 efectos con LEY). `dot-population` es el **único constructor genérico de `evento → ventana`** y no tiene llamador de producción: `behaviors.makeDotBehavior` arma el **mismo** `DotPulse` inline, con el par `(timestamp, expected)` desarmado en `(t, amount)`. La copia es el inline, no el archivo — deuda G3. Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
+| `status/` | `stack-debuff` (**wired** → `behaviors`/`EntityState`, Familia A), `dot-tick`+`dot-timeline`+`proc-selection`+`proc-population` (**wired** vía `behaviors` → `EntityState`/`TimelineSimulator`, modelo unificado; los 6 efectos con LEY). `dot-population` es el **único constructor genérico de `evento → ventana`** y no tiene llamador de producción: `behaviors.makeDotBehavior` arma el **mismo** `DotPulse` inline, con el par `(timestamp, expected)` desarmado en `(t, amount)`. La copia es el inline, no el archivo — deuda G3. Electricity/Gas esperan frontera 3 — ver `design/formulas-integration.md §3` |
 | `ability/` | `ability-crit`, `ability-status` |
 | `arcane/` | **vacío** (reservado) |
 | `warframe/` | `armor-mitigation` (DR del Tenno, `a/(a+300)`) — la selección por clase vive en el borde de ③, no acá |

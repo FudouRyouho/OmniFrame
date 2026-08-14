@@ -193,7 +193,7 @@ no el motor.
 
 **Rationale durable:** D-7 es el **prerequisito del SSoT de presentación** — el dict se cuelga del vocabulario canónico `Upgrade` (key-typed → un typo en una clave es error de compilador), no de strings sueltos. El bug visible (crit sin `%`) era `attribute-registry` keyed por nombres pre-Fase-1 que el motor ya no emite (relic, no deuda nueva). La convergencia de la `label` + `lib/format` + ruta-catálogo continúa en **OQ-DATA-10** (no es D-7 — es la suite de presentación que D-7 desbloqueó).
 
-**Fuera de scope — N2** (claves proc/stack de `EnemyState`, `damage_*`): NO es D-7 (vocabulario runtime C2, no attr-ids). Resuelto en la Fase 3 de la campaña de saneamiento `@core` (2026-07-02: rename `_proc`→`_dot` + fix del bug de `getDamageMultiplier`). Detalle en [`../domains/engine/design/damage-status-model.md`](../domains/engine/design/damage-status-model.md).
+**Fuera de scope — N2** (claves proc/stack de `EntityState`, `damage_*`): NO es D-7 (vocabulario runtime C2, no attr-ids). Resuelto en la Fase 3 de la campaña de saneamiento `@core` (2026-07-02: rename `_proc`→`_dot` + fix del bug de `getDamageMultiplier`). Detalle en [`../domains/engine/design/damage-status-model.md`](../domains/engine/design/damage-status-model.md).
 
 **Vínculo:** `OQ-DATA-10` (borde de salida / suite de presentación), `DC-OQ-ENGINE-8` (contrato de salida `CombatMetrics`; rename de `ViewModelContract` residual). *(El estrato `lib/format` que la extinta Capa E iba a consumir sigue vivo como utilidad — `DC-OQ-ENGINE-10-A`; E se descartó, `DC-OQ-ENGINE-10`.)*
 **Refs:** `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/semantic/upgrade-tokens.md`
