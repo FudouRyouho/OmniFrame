@@ -40,6 +40,29 @@ El cierre de sesión es **colaborativo y deliberado** (el usuario lo inicia o lo
 4. **Re-proponer lo no cerrado.** Si en la sesión quedó una propuesta sin confirmar (nota de gap, candidato a `docs-archive/`), no se asume ni se descarta — se re-propone la próxima vez que ese punto vuelva a ser relevante (default acordado: sin memoria de sesión previa, sin OQ intermedia).
 5. **`docs-archive/` nunca se escribe por inferencia.** Si algo del cierre parece racional-personal "por qué NO" (arquitectura muerta, decisión de diseño ya no legítima), **proponer** guardarlo ahí o descartarlo del todo — la elección es del usuario, no del agente.
 
+## Verificación — los comandos, y por qué estos
+
+Se corren desde `Project/`, salvo el de layout. **Un comando que no se corre no verifica, y uno que
+reporta verde sin mirar es peor que no correrlo**: por eso cada uno lleva acá su alcance real.
+
+| Comando | Qué verifica | Gate |
+|---|---|---|
+| `npx vitest run` | la suite. `expected fail` y `todo` son gates abiertos **a propósito** — no son fallas | ✅ binario |
+| `npx tsc -b --noEmit` | tipos de los **tres** proyectos (app · node · scripts) | ✅ binario |
+| `npm run validate:docs` | frontmatter, links, `@SSoT`, hashes, citas a OQ cerrada, tamaño de dominio | ✅ binario |
+| `node Project/scripts/references-layout.mjs` | layout de `references/wiki/`, raw hermano, marcas, fechas | ✅ binario |
+| `npm run audit:data` | integridad de los datasets — sólo si se tocó `public/data/` | ✅ binario |
+| `npx eslint .` | lint | ⚠️ **no binario** — ~100 errores preexistentes en la UI (`no-explicit-any`). Se compara **contra baseline**, no contra cero |
+
+🔴 **`npx tsc --noEmit` sin `-b` NO VERIFICA NADA.** `tsconfig.json` es solution-style (`"files": []`
+\+ `references`), así que sin build-mode tsc no compila un solo archivo y **sale limpio siempre**.
+Comprobado inyectando `const x: number = "no soy un número"` en `@core`: silencio total, y
+`tsc -b --noEmit` lo reporta. Si un protocolo o un doc vuelve a nombrar la forma sin `-b`, es un
+error, no una variante.
+
+⚠️ **`npm run check` (`tsc -b --noEmit && eslint .`) sale `exit=1` siempre** por la deuda de lint de
+arriba, así que **no sirve como gate binario** — usar los comandos por separado.
+
 ## Cuando hay drift (doc vs código)
 
 - ¿Afecta la tarea actual? → Comportamiento RED sin importar el scope.

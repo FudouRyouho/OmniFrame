@@ -15,7 +15,7 @@
  * De sus 15 construcciones de `EnemyState`, **11 no son hostiles** — un warframe del catálogo por el
  * camino real, un compañero y avatares sintéticos—, y lo que contrasta es justamente que el mismo
  * contenedor recibe **leyes distintas** según quién lo porta. El rename queda pendiente porque es un
- * contrato de `@core` (RED), no por vocabulario sin caso.
+ * contrato de `@core` (RED) al que le falta elegir nombre — `vocabulary.md §7` `L-12`.
  */
 import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '../bootstrap/engine-data';

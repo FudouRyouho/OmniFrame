@@ -36,10 +36,9 @@ import { damageToDeplete, shieldDamageReductionFor } from "../../formulas/defens
  * portador, y 11 de las 15 no son hostiles.** La espera no era del caso: era de que alguien cruzara el
  * dato.
  *
- * ⚠️ **El rename es RED (contrato de `@core`) y no tiene hogar documental.** La procedencia que se le
- * atribuía era falsa: `DC-OQ-ENGINE-8` está cerrada y su residual es el rename de `ViewModelContract`,
- * otro contrato — nunca dijo nada de esta clase. Hasta que se decida, el nombre queda como está y
- * **esta nota es lo único que impide volver a leerlo como "todavía no hay caso"**.
+ * ⚠️ **El rename es RED (contrato de `@core`) y lo que falta es elegir el nombre** — el resto es un
+ * regex sobre 67 identificadores. Vive en `vocabulary.md §7` como **`L-12`**, con la medición, los
+ * candidatos y por qué la procedencia que se le atribuía era falsa.
  */
 /** Valor resuelto de un nodo, o 0 si el participante no lo tiene (sin shields, sin armadura). */
 const nodeFinal = (entity: SimulationEntity, id: string): number => entity.attributes[id]?.final ?? 0;
