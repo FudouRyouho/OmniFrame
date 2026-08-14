@@ -119,7 +119,7 @@ export const UPGRADES = [
   'WEAPON_ADD_MULTISHOT',
   // Alias del pipeline @wfcd/items → mapea al mismo atributo que WEAPON_ADD_MULTISHOT.
   // Los mods del override JSON usan este token (Hell's Chamber, Galvanized Hell, etc.).
-  // Resolución: OQ-ENGINE-6.
+  // Resolución: `DC-OQ-ENGINE-6`.
   'WEAPON_FIRE_ITERATIONS',
   'WEAPON_ADD_CRIT_CHANCE',
   'WEAPON_ADD_CRIT_MULT',
@@ -306,6 +306,25 @@ export const UPGRADES = [
   // Daño de status de Toxina +N% (global: armas y habilidades, no compañeros).
   // Instancias apiladas aditivamente. Fuente: Archon Shard Emerald.
   'GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE',
+  // Cap de stacks de Corrosive, +N planos (Emerald Archon Shard: +2, +3 Tauforged).
+  //
+  // ES UN PARÁMETRO DE LEY, NO UN ATRIBUTO — y por eso vive en `GAMEPLAY_`, la única familia que no
+  // nombra una clase de entidad (*"reglas generales"*). Las otras dos candidatas mienten sobre el
+  // sujeto: `AVATAR_*` pondría bajo el avatar un número cuyo contador vive en el enemigo (el defecto
+  // ya diagnosticado de `AVATAR_MARKED_DAMAGE_AMOUNT`), y `ENEMY_*` lo haría propiedad del receptor,
+  // cuando la medición dice lo contrario — *"el cap es del que aplica"* (`status-stack-caps.md`): con
+  // dos jugadores el enemigo tiene UN contador y el cap efectivo difiere por instancia.
+  //
+  // ACUÑADO SIN NODO, deliberadamente (`upgrade-tokens.md` §Acuñado sin nodo): el engine sabe qué es
+  // y declara que no lo computa. Antes se descartaba en silencio en `ShardRepository.resolve`
+  // (`upgrade_type: null` → `return null`), que es el modo de falla que el vocabulario existe para
+  // evitar. Lo que falta para computarlo no es este token: es el canal que lleve el desvío del EMISOR
+  // hasta `applyProc`, que hoy toma el cap de una constante de módulo (`arch-decisions §17`).
+  //
+  // ⚠️ El DUEÑO del desvío (emisor ⊥ receptor) NO está en el nombre y no se deriva del portador: el
+  // Emerald y la `Decaying Dragon Key` se equipan los dos en el jugador y desvían lados opuestos de
+  // la misma cadena. Es una cuarta cosa, y el token declara tres.
+  'GAMEPLAY_FLAT_CORROSIVE_MAX_STACKS',
 ] as const
 
 export type Upgrade = (typeof UPGRADES)[number]

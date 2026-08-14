@@ -198,6 +198,68 @@ if (fs.existsSync(SRC)) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Pasada 2b — citas a una OQ cerrada (docs/CLAUDE.md §Frontera OQ↔DC)
+//
+// La regla ya existía en prosa —*"al mover, re-apuntar las citas entrantes de `OQ-X` a `DC-OQ-X`"*—
+// y no tenía quién la ejecutara, así que se cumplía a mano y se dejaba de cumplir en silencio. El
+// modo de falla no es cosmético: una cita a `OQ-X` presenta la pregunta como **viva**, y quien la
+// busca en `open-questions.md` no la encuentra — o peor, hereda un pendiente que ya se decidió.
+//
+// SEIS EXENCIONES, todas medidas contra el corpus antes de escribir esto (37 candidatos crudos → 12
+// reales). Cada una nombra un caso donde citar `OQ-X` es CORRECTO:
+//   1. `closed-decisions.md` — el registro de cierres cita su propio origen por diseño ("Ref: OQ-X").
+//   2. `Estado: histórico` — dice el nombre de su época, y eso es lo que un registro debe hacer.
+//   3. la oración ya declara el cierre ("cerrada", "resuelta", "migró", "lápida", "renumerada").
+//   4. metadata y plantillas (`Impacto_ID:`, `@status`, `Ref:`).
+//   5. marca de resuelto en la línea (`✅`, `[x]`).
+//   6. dentro de un bloque de código — es un ejemplo, no una cita.
+//
+// WARN y no ERROR: no rompe nada funcional, y el juicio de si re-apuntar o reescribir la oración es
+// de quien lee. Un gate que bloquea por esto empujaría a silenciarlo.
+// ─────────────────────────────────────────────────────────────────────────────
+const OQ_CERRADAS = new Set(
+  [...(fs.existsSync(path.join(DOCS, 'governance/closed-decisions.md'))
+    ? fs.readFileSync(path.join(DOCS, 'governance/closed-decisions.md'), 'utf-8')
+    : '').matchAll(/DC-(OQ-[A-Z]+-\d+)/g)].map((m) => m[1]),
+);
+const OQ_VIVAS = new Set(
+  [...(fs.existsSync(path.join(DOCS, 'governance/open-questions.md'))
+    ? fs.readFileSync(path.join(DOCS, 'governance/open-questions.md'), 'utf-8')
+    : '').matchAll(/^\| `(OQ-[A-Z]+-\d+)`/gm)].map((m) => m[1]),
+);
+
+const OQ_DICE_CIERRE = /cerrad|resuelt|respondida|migró|lápida|renumerad|purgad/i;
+const OQ_METADATA = /^\s*\*?\s*(Impacto_ID|@status|\*\*Ref:\*\*|Ref:)/;
+const OQ_MARCA_HECHO = /✅|\[x\]/;
+
+if (OQ_CERRADAS.size > 0) {
+  const archivos = [
+    ...docs.map((f) => ({ f, md: true })),
+    ...(fs.existsSync(SRC) ? walk(SRC, ['.ts', '.tsx']).map((f) => ({ f, md: false })) : []),
+  ];
+  for (const { f, md } of archivos) {
+    if (path.basename(f) === 'closed-decisions.md') continue;                       // exención 1
+    const texto = fs.readFileSync(f, 'utf-8');
+    if (meta.get(f)?.Estado?.valor === 'histórico') continue;                       // exención 2
+    const lineas = texto.split('\n');
+    let fence = false;
+    for (let i = 0; i < lineas.length; i++) {
+      const linea = lineas[i];
+      if (md && linea.trimStart().startsWith('```')) { fence = !fence; continue; }
+      if (fence) continue;                                                         // exención 6
+      if (OQ_DICE_CIERRE.test(linea)) continue;                                    // exención 3
+      if (OQ_METADATA.test(linea)) continue;                                       // exención 4
+      if (OQ_MARCA_HECHO.test(linea)) continue;                                    // exención 5
+      for (const m of linea.matchAll(/(?<!DC-)\b(OQ-[A-Z]+-\d+)\b/g)) {
+        const oq = m[1];
+        if (!OQ_CERRADAS.has(oq) || OQ_VIVAS.has(oq)) continue;
+        add('WARN', 'cita-oq-cerrada', f, `linea ${i + 1}: cita \`${oq}\`, que cerro como \`DC-${oq}\` — re-apuntar o reescribir (docs/CLAUDE.md §Frontera open-questions↔closed-decisions)`);
+      }
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Pasada 3 — in-degree (doc-map.md §2: archivable ⟺ ningún doc activo lo cita)
 // ─────────────────────────────────────────────────────────────────────────────
 const corpus = docs.map((f) => ({ f, texto: fs.readFileSync(f, 'utf-8') }));

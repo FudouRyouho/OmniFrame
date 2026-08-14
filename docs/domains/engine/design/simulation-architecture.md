@@ -469,7 +469,7 @@ Para mantener el motor ligero y determinista, las entidades se dividen por su ci
 
 - **TE (Transient Entities)**:
   - **Definición**: Entidades efímeras generadas por una acción o comportamiento.
-  - **Jerarquía de Generación** *(TE-como-entidad-en-cola: diseñado, no implementado)*: la idea era que una TE genere TEs hijas (Impacto → Proc). Hoy los procs/DoT son **proyecciones matemáticas** de los `EffectBehavior` sobre `EnemyState` (modelo unificado de proc), no TEs reales en una cola (sin límite de profundidad ni energía de tick). El **double-dip** sí se modela como regla de composición aritmética — ver [`damage-status-model.md`](damage-status-model.md) §Reglas de composición (faction sobre DoTs, `OQ-ENGINE-13`).
+  - **Jerarquía de Generación** *(TE-como-entidad-en-cola: diseñado, no implementado)*: la idea era que una TE genere TEs hijas (Impacto → Proc). Hoy los procs/DoT son **proyecciones matemáticas** de los `EffectBehavior` sobre `EnemyState` (modelo unificado de proc), no TEs reales en una cola (sin límite de profundidad ni energía de tick). El **double-dip** sí se modela como regla de composición aritmética — ver [`damage-status-model.md`](damage-status-model.md) §Reglas de composición (faction sobre DoTs, `DC-OQ-ENGINE-13`).
   - **Ejemplos**: Proyectiles, Procs de Estado, Invocaciones temporales.
 
 ### 2.2 Condiciones en vez de coordenadas

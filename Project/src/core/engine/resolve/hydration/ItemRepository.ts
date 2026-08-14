@@ -165,6 +165,9 @@ export class ItemRepository {
     return this.normalizeEntity(raw, { base: p }, {
       tags: ['enemy'],
       ...(raw.faction ? { faction: raw.faction } : {}),
+      // Qué unidad es, cuando eso cambia qué ley recibe. Mismo criterio que `faction` —campo y no
+      // tag, porque se consulta por valor— y mismo gate por presencia: ausente ≠ lista vacía.
+      ...(raw.unit_class ? { unit_class: raw.unit_class } : {}),
     });
   }
 

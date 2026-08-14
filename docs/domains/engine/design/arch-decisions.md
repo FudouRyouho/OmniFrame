@@ -163,7 +163,7 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 - **`@providers` (capa de composición / adapter) SÍ importa `@core`**. `@providers` **no es un dominio de feature**; esta frontera y la Restricción 1 aplican a `domains/*`, no a la capa que compone adapters. `EnsembleProvider → @core/intention/ensemble-store` es válido (adapter→core, dirección correcta de Ports&Adapters). Ver `closed-decisions.md` DC-OQ-ENGINE-9.
 - `ViewModelContract` debe ser **consumer-shaped** (un ViewModel de MVVM, alimentado por `lib/*` como ingredientes), nunca *producer-laundered* (la salida cruda re-exportada por `@shared` solo para legalizar el import).
 
-**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. La **simetría de entrada está realizada**: `ensemble.types` → `@shared/types/ensemble.ts`, `ensembleStore` (A1) → `@core/intention/`; `@core` reestructurado (Stage 0+1, DC-OQ-ENGINE-9). Ver `OQ-ENGINE-FUTURE`/`OQ-ENGINE-9` en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).
+**Estado:** `C→D→UI` es **prototipo en revisión**. `A→B→C` es coherente. La **simetría de entrada está realizada**: `ensemble.types` → `@shared/types/ensemble.ts`, `ensembleStore` (A1) → `@core/intention/`; `@core` reestructurado (Stage 0+1, DC-OQ-ENGINE-9). Ver `OQ-ENGINE-FUTURE` (y `DC-OQ-ENGINE-9`, cerrada) en [`../../../governance/open-questions.md`](../../../governance/open-questions.md).
 
 ---
 
@@ -491,7 +491,7 @@ de qué hace un status es **agnóstica al eje source/target** — no es "fórmul
 **Consecuencia — Familia A extraída (esta sesión, el paso §6-SÍ que 3 casos reales fuerzan):**
 - LEY de **Familia A** ("primer stack especial + incremento lineal con techo": `f(n) = first + perAdd ×
   max(0, n−1)`, clamp opcional) → `formulas/status/stack-debuff.ts`, función pura citada contra
-  `status-effects.md`. Instancia Infection (Viral, ×2→×4.25) y Corrosion (strip 0.26→0.80 cap) con valores
+  `status-effects.md`. Instancia Infection (Viral, ×2→×4.25) y Corrosion (strip 0.26→1.00 cap) con valores
   verificados; Disruption (Magnetic) **provisional = Infection** hasta cerrar la frontera O4.
 - **LEY + ESTADO keyeados por EFECTO, no por tipo de daño.** `EnemyStatusState` renombrado
   `damage_corrosive→corrosion`, `damage_viral→infection`, `damage_heat→ignite`, `damage_magnetic→disruption`
@@ -627,7 +627,10 @@ pool). Cita: `calculating-bonuses.md`, `faction-damage.md`, `condition-overload.
 > el receptor.
 
 **Test:** cambialo. ¿Sigue siendo la misma mecánica? *Corrosive con 12 stacks en vez de 10* → sí →
-**parámetro**. *Corrosive que no reduce armadura* → no → **ley**. Las leyes pertenecen al **concepto**:
+**parámetro**. *Corrosive que no reduce armadura* → no → **ley**. El vocabulario de este eje —**ley**,
+**parámetro**, **desviación de parámetro** y sus dos verbos— está sentenciado en
+[`vocabulary.md`](vocabulary.md) §6, con las reglas de dónde vive el complemento y por qué el dueño no se
+deriva del portador. Las leyes pertenecen al **concepto**:
 *"la toxina ignora escudos"* no es propiedad del enemigo, es lo que la toxina **es**. Por eso ya viven
 donde deben — `formulas/status/stack-debuff.ts` lo declara textual: *"constantes de ley fija"*.
 
@@ -697,12 +700,37 @@ para dos**. Medido con dos jugadores de caps 19 y 10 en
 `references/ingame-tests/status-stack-caps.md`: *mantener es refrescar, subir es sumar* — el cap sólo
 bloquea lo segundo.
 
-🔴 **`min(cap, count + 1)` no implementa esta regla.** Colapsa el contador hacia abajo (`count=19`,
-`cap=10` → da 10; el juego da 19) y coincide con la regla real sólo mientras haya **un** emisor. Es el
-`applyProc` vigente de los stack-debuff en `formulas/status/behaviors.ts` — bug latente, no activo.
+✅ **La regla está implementada**, y en un solo lugar: `applyStackProc`
+([`stack-debuff.ts`](../../../../Project/src/core/engine/formulas/status/stack-debuff.ts)), que consumen
+los cinco behaviors de stack. `min(cap, count + amount)` es la forma equivocada — colapsa el contador
+hacia abajo (`count=19`, `cap=10` → da 10; el juego da 19) y coincide con la regla real sólo mientras
+haya **un** emisor.
 
-⚠️ **Y arrastra el estado:** `StackState { count: number }` es escalar, y *"reemplaza el más viejo"*
-opera sobre **instancias**. Es el caso real que `OQ-ENGINE-16` pedía estresar con dato.
+✅ **Y el `cap` ya tiene dueño por los dos lados:** `applyStackProc` lo recibe de
+`resolveParam(CORROSIVE_MAX_STACKS, { emitter, receiver })` en vez de leer la constante, así que fue el
+**punto de entrada** de la cadena y no su reemplazo.
+
+⚠️ **Y el estado sigue escalar:** `StackState { count: number }` no puede expresar *"reemplaza el más
+viejo"*, que opera sobre **instancias**. Lo que un contador sí expresa —que un proc sobre-cap no lo
+baja— es lo que la suite fija; el resto es el caso real que `OQ-ENGINE-16` pedía estresar con dato.
+
+**Los tres pasos sólo son observables juntos, y por eso el orden importó.** La regla de aplicación y el
+techo de la ley (`cap: 1.0`, ver abajo) no movían ningún número por sí solos: con el contador topado en
+10 el strip máximo era el 80 % de siempre. Eran **precondiciones** — sin la primera el canal entrega un
+cap 19 y `min()` colapsa el contador a 10; sin la segunda el strip da 80 % con y sin shards y el canal
+parece funcionar sin cambiar nada. Con los tres puestos, un emisor de cap 19 stripea el 100 % donde uno
+de cap 10 stripea el 80 %, y **eso** es lo que la suite mide. Un canal que funciona y no se nota sería
+el mismo modo de falla que el `laws` sin lectores.
+
+⚠️ **El techo de la ley era el cap de stacks escrito dos veces.** `corrosionLaw` clampeaba en `0.80`,
+que es exactamente `f(10)`: el mismo parámetro en dos ejes, y el segundo **sin dueño posible** —con dos
+emisores de caps distintos el contador es uno y `resolutionModifier` sólo ve el estado del receptor, así
+que un techo derivado del cap tendría que elegir de qué emisor. El techo correcto es físico (`1.0`: no se
+saca más armadura de la que hay) y lo fijan dos casos de la fuente por caminos independientes —14 stacks
+con Emerald Archon Shard, y la pasiva de Hydroid a 10—. Con `0.80` los dos daban 80 % y contradecían a la
+fuente en silencio. **Los otros tres caps de la familia tienen la misma forma** (`4.25 = f(10)`,
+`25 = f(5)`, `0.5 = f(9)`) y quedan marcados sin tocar: ninguna fuente conocida sube sus caps de stacks,
+y el único desvío declarado va hacia abajo (Freeze a 4 en bosses), donde un clamp no interviene.
 
 ### Tres regímenes de composición, y la línea los separa por naturaleza
 
@@ -739,12 +767,12 @@ ramifica:
 | DoT de Heat en jugador vs enemigo | los números, no la ley |
 | `Radiation` en Acolyte (*"sólo amplifica el daño de unidades aliadas"*) vs en Lich (*"no cambia la facción; aumenta el daño recibido de los que se volvieron contra él"*) | la rama, no la ley |
 
-`resolutionModifier(state, t, …)` **ya ramifica** — lo que hoy no puede es preguntarle nada útil al
-portador, porque sólo recibe un objeto plano de números.
+`resolutionModifier(state, t, …)` **ya ramifica** — lo que todavía no puede es preguntarle nada al
+portador, porque sólo recibe el estado del efecto. `applyProc` sí: recibe `ProcContext`, que lleva los
+dos dueños en dos campos.
 
-> **Y de ahí sale un prerequisito, no un desbloqueo:** si la fórmula ramifica por tipo de portador,
-> **el tipo tiene que ser legible**. El canal de desvío *necesita* que la entidad tenga clase — no
-> alcanza con que se la habilite después.
+> **Y de ahí salía un prerequisito, no un desbloqueo:** si la fórmula ramifica por tipo de portador,
+> **el tipo tiene que ser legible**. ✅ Lo es — `SimulationEntity.unit_class` (`contracts/unit-class.ts`).
 
 ### El escenario **no** es un quinto eslabón de la cadena
 
@@ -753,37 +781,63 @@ escenario resolviendo un parámetro: en Simulacrum el boss **se instancia sin su
 escenario actúa **antes** de la cadena, decidiendo qué participantes existen y con qué forma (§1 del
 modelo de capas), no dentro de ella. La cadena queda en cuatro eslabones.
 
-### Este canal es el gate común de cuatro pendientes
+### Este canal era el gate común de cuatro pendientes — y la mitad del gate ya no está
 
-Cuatro ítems de `open-questions.md` están parados **por la misma razón**, y ninguno lo declara: todos
-esperan que el portador pueda llevar datos propios y resolverlos al ser consultado.
+Cuatro ítems de `open-questions.md` estaban parados **por la misma razón**, y ninguno lo declaraba:
+todos esperan que el portador pueda llevar datos propios y resolverlos al ser consultado. Esa mitad
+existe: la entidad declara clase y el behavior la recibe. Lo que queda de cada uno **ya no es este
+canal**:
 
-| Ítem | Cómo lo dice hoy |
+| Ítem | Lo que queda, y por qué no es este canal |
 |---|---|
-| `OQ-ENGINE-12` | *"falta el flag `boss`/`overguard` en el DNA del enemigo"* |
-| **Overguard como capa de entidad** | *"se retoman si un consumidor las pide"* |
-| `OQ-ENGINE-22` (EHP/DR `enemy/`→`entity/`) | *"sin consumidor real hoy"* |
-| `OQ-ENGINE-28` (resistencias por entidad) | *"sin consumidor"* |
+| `OQ-ENGINE-12` | el cap de Cold a `4` no depende de qué unidad es sino de que el **Overguard esté presente en `t`** — capa, no clase (§22), y sin origen modelado |
+| **Overguard como capa de entidad** | ídem: falta de dónde **sale** la capa, no cómo se lee |
+| `OQ-ENGINE-22` (EHP/DR `enemy/`→`entity/`) | sigue sin consumidor — el gate era real pero el residual es de demanda |
+| `OQ-ENGINE-28` (resistencias por entidad) | ídem |
 
-**No son cuatro gates: es uno.** Y el dato ya está esperando en el contrato — `eximus_health?` se emite
-hoy *"sin consumidor todavía"*.
+**No eran cuatro gates: era uno, y se partió en dos.** La parte *"el portador no puede llevar datos
+propios"* está resuelta; la que sobrevive es *"la capa no tiene de dónde nacer"*, que es otra cosa y
+tiene otro dueño. El dato sigue esperando en el contrato — `eximus_health?` se emite *"sin consumidor
+todavía"*.
 
-### Estado de ejecución — la mitad de arriba está hecha; la cadena no
-
-Esta sección era prescriptiva entera. Hoy se parte en dos, y sólo una está construida:
+### Estado de ejecución — la cadena corre entera con un caso por lado
 
 | Qué | Estado |
 |---|---|
 | **`GameLaws` baja a `formulas/`** | ✅ **EJECUTADO.** Los seis parámetros viven en `formulas/status/stack-debuff.ts` como constantes con su fórmula, y las firmas de los behaviors ya no reciben `laws`. |
 | **La tabla plana se retira** | ✅ **EJECUTADO.** `GameLaws`, `BASELINE_GAME_LAWS`, `SimulationContext.laws`, `EnemyState.laws` y `MutatorBridge.extractLaws` no existen más. |
-| **La cadena de cuatro eslabones** (default → emisor → receptor → cap) | ❌ **NO EXISTE.** Es el trabajo que esta sección especifica y nadie construyó. |
+| **La cadena de cuatro eslabones** (default → emisor → receptor → cap) | ✅ **CORRE ENTERA.** La primitiva vive en [`formulas/common/param-deviation.ts`](../../../../Project/src/core/engine/formulas/common/param-deviation.ts) con los 10 casos del corpus en su suite. **Emisor:** shard en el warframe → ruteo `GAMEPLAY→weapon` → nodo en el arma → instancia → `applyProc`. **Receptor:** clase en `enemy-stats.override.json` → curación → entidad → `ReceiverContext` → `applyProc`. Un caso vivo por lado, y el mismo emisor rinde `19` contra un hostil común y `4` contra un acólito. |
+
+**Los dos lados llegan al behavior en idiomas distintos, y ahí se encuentran.** El emisor declara por
+**parámetro de ley** (`corrosive.maxStacks`, vía token y nodo); el receptor por **status** (`'*' → 4`,
+`stagger → 3`, vía clase de unidad). No se unificaron: quien traduce es el behavior, que ya conoce su
+efecto y su default — preguntarle a cada lado en su propio idioma es simétrico con eso, y resolverlo
+afuera obligaría al contenedor a conocer las leyes, que es justo lo que esta sección le saca.
+
+⚠️ **El contexto del receptor llega a `applyProc` y no a `resolutionModifier`/`critModifier`.** Ningún
+desvío conocido entra por ahí; el primero que lo haga es el cap de Cold a `4` con Overguard presente
+(`OQ-ENGINE-12`), que **no es clase sino capa en `t`**. Anclado en `__tests__/status/receiver-law.test.ts`.
+
+**Quién ocupa el rol de EMISOR: la instancia — y por eso el Jugador-raíz sigue sin materializarse.** La
+pregunta parecía estar entre el warframe (donde está el shard) y el Jugador (a quien el desvío
+pertenece), y las dos respuestas costaban lo mismo: subir por el árbol de propiedad hasta una entidad
+que el espacio **no materializa** a propósito (§18). No hace falta ninguna, porque esta sección ya lo
+contestaba — *"el parámetro resuelto es de la **INSTANCIA**"*: la instancia sale del arma, así que el
+arma es donde el desvío tiene que estar disponible, y el ruteo que lo baja **ya existía**
+(`FAMILY_ROUTE.GAMEPLAY = 'weapon'`, el camino de Roar). Un desvío del emisor no necesita saber de quién
+es *mientras* se aplica; necesita estar en la instancia que lo aplica.
+
+⚠️ **Vale mientras el arma sea el único emisor.** Cuando una habilidad emita instancia, el nodo que hoy
+vive en el arma no la alcanza — y ahí sí vuelve la pregunta, en la forma *duplicar el nodo* ⊥ *leerlo
+subiendo por el árbol*. Anclado en `__tests__/ability-emission.test.ts` y en `contracts/law-params.ts`,
+con su condición de disparo.
 
 **El cuarto eslabón tiene dos casos vivos, y son el mismo problema.** *"El receptor fuerza"* aparece por
 dos vías independientes, en dos frentes que parecían separados:
 
-| Caso | Qué fuerza el receptor | Dónde está declarado |
+| Caso | Qué fuerza el receptor | Estado |
 |---|---|---|
-| **Acólito** | cap de stacks `N ≤ 4` | `it.todo` en `__tests__/status/stack-cap-ownership.test.ts` |
+| **Acólito** | cap de stacks `N ≤ 4` (y `stagger → 3`) | ✅ construido — `__tests__/status/{stack-cap-ownership,receiver-law}.test.ts` |
 | **Compañero** | **no** recibe el 50 % de DR de shield (`shield.md`: la lista lo excluye por nombre) | `OQ-ENGINE-31` |
 
 Los dos son **derivación por clase**, no por marca de ruteo — y por eso ninguno se resuelve sin partir
@@ -794,18 +848,35 @@ lo vuelve pieza y no excepción: el mismo argumento que ya justificó la cláusu
 **parámetro por clase** —tabla, ya resuelto por `contracts/unit-class.ts`—; el Acolyte es la **cadena
 entera**. Sólo el segundo necesita esta sección construida.
 
-🔴 **Y el Acolyte está bloqueado por dos huecos, ninguno de decisión:**
+**Los dos huecos que bloqueaban al Acolyte, y cómo se cerró cada uno:**
 
-1. **La instancia no lleva los desvíos de ley del emisor.** Lleva su *output* (`moddedBase`,
-   `statusDamageBonusPct`, `elementBonusPct`) y nada más, así que `applyProc` toma el cap de una
-   constante de módulo (`CORROSIVE_MAX_STACKS`). Los tres primeros eslabones no tienen por dónde
-   entrar. ⚠️ **No lo cierra el descarte de `stamp`** (`time-model.md` §*Evaluado y descartado*): lo
-   refutado es que el **estado persista** el emisor; esto es un **argumento de la aplicación**.
-2. **"Acolyte" no es una clase que el dato declare.** Medido sobre `enemies.json`: los 6 acólitos
-   comparten `faction: "Stalker"` **con Stalker y Shadow Stalker, que no lo son**, y su canal es
-   `enemy` como cualquier hostil. Lo único que los separa es el path `/Lotus/Types/Enemies/Acolytes/`
-   — derivar una ley de parsear un `unique_name` es frágil. Mismo molde que `mod_class` ausente para
-   los precepts (`OQ-ENGINE-31`): **gap de schema, no de vocabulario**.
+1. ✅ **La instancia lleva los desvíos de ley del emisor.** Además de su *output* (`moddedBase`,
+   `statusDamageBonusPct`, `elementBonusPct`) trae `lawDeviations`, y `applyProc` resuelve el cap con
+   `resolveParam(CORROSIVE_MAX_STACKS, { emitter })` en vez de leer la constante. ⚠️ **Y no lo cerró el
+   descarte de `stamp`** (`time-model.md` §*Evaluado y descartado*): lo refutado es que el **estado
+   persista** el emisor, y esto viaja como **argumento** — muere con la aplicación del proc, el
+   contador sigue sin procedencia.
+2. ✅ **La entidad declara qué unidad es** — `SimulationEntity.unit_class`, campo y no tag por el mismo
+   motivo que `faction`: se consulta **por valor**. El canal (`channel`) no servía y no por error suyo:
+   contesta la pregunta gruesa —qué física base le toca, 5 valores— y el acólito lleva `enemy` como
+   cualquier Lancer porque **lo necesita** para tener vitales. Refinarlo a `'acolyte'` lo habría dejado
+   sin ellos. Dos preguntas, dos campos, igual que `routes` ⊥ `channel` un nivel más arriba (§18).
+
+**Y el valor sale del override, no del path.** Los 6 acólitos comparten `faction: "Stalker"` con Stalker
+y Shadow Stalker, que no lo son; sólo el path `/Lotus/Types/Enemies/Acolytes/` los separa. Derivar una
+ley de parsear un `unique_name` es la clase de inferencia que `OQ-ENGINE-31` ya midió fallar —12
+desacuerdos sobre 26 en los precepts—, así que las 6 filas se escriben a mano en
+`enemy-stats.override.json`, que es donde el contrato ya dice *"curación manual: gana sobre lo
+cosechado"*. **El path queda como tripwire y no como fuente:** un test verifica que los 6 del override
+son exactamente los 6 del path, así el día que DE agregue un acólito lo dice en vez de que el dato se
+desincronice callado.
+
+🔴 **Y ese camino tenía una fuga que sólo se veía al usarlo.** `enemies.json` se consumía **dos veces**
+—`EnemyRepository` para resolver nombres, `ItemRepository` para hidratar al participante— y el override
+se aplicaba dentro de la primera, así que **no alcanzaba a la entidad que se simula**. Con el archivo en
+`{}` no movía ningún número: latente, igual que lo era `min(cap, count + 1)`. El seam correcto no era
+pasarle el override también a la otra rama — es que **curar no es cargar**: `curateEnemies` corre una
+vez y las dos ramas leen lo mismo.
 
 ⚠️ **El sunset no removió una capacidad — removió su apariencia.** Al mover los parámetros junto a su
 fórmula, el pase de `laws` quedó sin lectores: pasar un `laws` custom ya **no cambiaba nada**, en
@@ -916,14 +987,23 @@ que no tienen por qué dar la misma respuesta, y hoy cada una tiene su llave:
 |---|---|---|
 | **ruteo de modifiers** — *¿este token aterriza acá?* | `routes` | `channel-routing.ts` (`resolveFamilyEntities`) · `StaticHydrator` |
 | **selección de ley** — *¿qué física se le aplica?* | **`channel`** | `gateLawFor` · `armorMitigationFor` (`CombatSimulator`) · `vitalsOf` (`EnemyState`) |
+| **desvío de parámetro del receptor** — *¿qué unidad ES?* | **`unit_class`** | `receiverMaxStacks` (`stack-debuff.ts`) — §17 |
 
-**No hizo falta campo nuevo:** el espacio ya declaraba el canal por participante y ya distinguía las
-cinco clases que las leyes necesitan (`warframe · archwing · necramech · companion · enemy`).
-Declararla otra vez habría guardado el mismo dato dos veces — lo mismo que esta sección rechaza para
-el cruce de bando. La tabla vive en
+**Para la selección de ley no hizo falta campo nuevo:** el espacio ya declaraba el canal por
+participante y ya distinguía las cinco clases que esas leyes necesitan (`warframe · archwing ·
+necramech · companion · enemy`). Declararla otra vez habría guardado el mismo dato dos veces — lo mismo
+que esta sección rechaza para el cruce de bando. La tabla vive en
 [`contracts/unit-class.ts`](../../../../Project/src/core/engine/contracts/unit-class.ts), y **no expone
 una constante "todo el lado jugador" a propósito**: cada ley agrupa distinto, y ése es el hecho que
 tiene que quedar visible.
+
+**La tercera fila sí lo necesitó, y no porque el canal estuviera mal: porque es otra pregunta.** El
+canal es de grano grueso a propósito —cinco valores, toda entidad tiene uno— y el acólito lleva `enemy`
+como cualquier Lancer **debiendo llevarlo**: sin él `vitalsOf` no le encuentra vitales. Refinarlo a
+`'acolyte'` habría roto la segunda fila para arreglar la tercera. `unit_class` se puebla **sólo donde
+hay regla propia** (hoy 6 entidades de 638) y su ausencia es la respuesta normal, mientras que un canal
+ausente es un bug que tira. Es la misma partición que esta sección ya hizo entre `routes` y `channel`,
+un nivel más abajo — y por tercera vez el síntoma fue idéntico: una llave contestando dos preguntas.
 
 **El compañero es donde divergen, y por eso parecía una contradicción semántica.** Porta `avatar` y
 **debe** portarlo para el primer trabajo —`Enhanced Vitality` (`AVATAR_ADD_HEALTH_MAX`) es vida del
@@ -1494,7 +1574,28 @@ A diferencia de `Eximus` y `Acolyte`, `Boss` mezcla **cuatro registros**:
 
 **`Acolyte` sí pasa:** familia cerrada y nombrada (Angst · Malice · Mania · Misery · Torment · Violence)
 con reglas propias que **no son reducibles a lo que porta** — no hay capa ni marca que explique su tope
-de status.
+de status. Es la única clase construida: `SimulationEntity.unit_class`, poblada desde
+`enemy-stats.override.json` y consumida por §17.
+
+### La clase no siempre es una fila del catálogo
+
+El test dice *"¿está en la fila del dato de la unidad?"* y las dos clases que pasan lo contestan
+distinto — medido sobre `enemies.json` (638 entradas):
+
+| Clase | Cómo aparece en el dato | Qué implica |
+|---|---|---|
+| **Acolyte** | **6 filas dedicadas**, y ninguna otra unidad puede serlo | identidad del registro → la declara el dato |
+| **Eximus** | **283 filas traen `eximus_health`** y ninguna *es* un Eximus | variante instanciable → la elige quien instancia |
+
+*"Almost any base unit type can spawn as an Eximus"* no es una frase suelta: es la forma en que el dato
+lo guarda. Un Kuva Bombard Eximus es **dos clases a la vez**, y por eso `unit_class` es conjunto y no
+escalar — un escalar tendría que elegir. ⚠️ **La forma va por delante de su caso** (hoy ninguna entidad
+porta dos) y queda marcada para revisión: si Eximus termina entrando como elección del escenario en vez
+de como identidad del dato, el conjunto es forma sin caso y baja a escalar.
+
+**Y el segundo origen no está construido.** El escenario decide qué participantes existen y con qué
+forma (§17, *el escenario no es un quinto eslabón*); elegir *"éste spawnea como Eximus"* es exactamente
+eso, y hoy no hay por dónde. Anclado en `__tests__/status/receiver-law.test.ts`.
 
 ⚠️ **Y las exclusiones de 18.5 están escritas del lado del emisor** (*"la habilidad X ya no hace Y a
 bosses"*), no del receptor (*"bosses ignoran Y"*). **El fraseo de la fuente no dice dónde vive la

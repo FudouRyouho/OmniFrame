@@ -3,7 +3,7 @@
 > Rol: test in-game sobre **de quién es el cap de stacks** cuando dos jugadores con caps distintos
 > aplican el mismo status al mismo enemigo.
 > Fuente de verdad de: la regla de aplicación de un proc sobre-cap, y el dueño del cap.
-> Última actualización: 2026-08-06
+> Última actualización: 2026-08-13
 >
 > **Corrige:** la formulación *"el cap gatea la escritura"*, y la lectura de que la barrera del emisor
 > **rechaza** un proc que llega sobre-cap — no lo rechaza: **refresca**.
@@ -58,18 +58,25 @@ aplicar**. Nada en el estado recuerda quién puso cada stack — no hace falta.
 
 `3 × (+3) = +9`. El wikitext del Emerald Archon Shard es un `{{Stub}}` y no lo dice; acá queda medido.
 
-### 🔴 `min(cap, count + 1)` es la implementación equivocada
-
-```ts
-// Project/src/core/engine/formulas/status/behaviors.ts
-return { count: Math.min(laws.corrosive_max_stacks, (state?.count ?? 0) + amount) };
-```
+### `min(cap, count + 1)` no implementa la regla — y es lo que el motor tenía
 
 Con `count = 19` y el cap de B (`10`): `min(10, 20)` → **10**. El juego da **19**.
 
 `min()` **colapsa el contador hacia abajo** cuando ya está por encima del cap; la regla real **nunca lo
 baja**. Las dos funciones coinciden sólo mientras `count ≤ cap` — es decir, **mientras haya un solo
-emisor**. Es un bug latente, no activo: hoy el motor no modela dos emisores.
+emisor**, que es la única población que el motor modela.
+
+Lo que esta medición corrigió (`Project/src/core/engine/formulas/status/stack-debuff.ts`, consumido por
+los cinco behaviors de stack):
+
+```ts
+export function applyStackProc(count: number, amount: number, cap: number): number {
+  return count >= cap ? count : Math.min(cap, count + amount);
+}
+```
+
+⚠️ El `cap` sigue llegando como constante de módulo: **de quién es** ese número —el `+9` de los tres
+esmeralda que este test mide— es la cadena de `arch-decisions §17`, que no está construida.
 
 ### El estado escalar no alcanza — dato para `OQ-ENGINE-16`
 

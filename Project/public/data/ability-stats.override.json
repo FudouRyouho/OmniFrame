@@ -5946,7 +5946,7 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Extra Damage: <DT_CORRISVE> |val1|%",
+            "label": "Extra Damage: <DT_CORROSIVE> |val1|%",
             "base_value": 100,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
@@ -6229,7 +6229,7 @@
             "upgrade_by": "AVATAR_ABILITY_RANGE"
           },
           {
-            "label": "Damage: <DT_MAGMETOC> |val1|",
+            "label": "Damage: <DT_MAGNETIC> |val1|",
             "base_value": 300,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
@@ -11017,7 +11017,7 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
-            "label": "Damage / <DT_COSSORIVE> Status Effect: |val1|%",
+            "label": "Damage / <DT_CORROSIVE> Status Effect: |val1|%",
             "base_value": 10,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
@@ -11084,7 +11084,7 @@
             "base_value": 4
           },
           {
-            "label": "Damage / Second: <DT_HEAD> |val1|",
+            "label": "Damage / Second: <DT_HEAT> |val1|",
             "base_value": 200
           },
           {
@@ -11162,7 +11162,7 @@
             "base_value": 15
           },
           {
-            "label": "Damage: <DT_HEAD> |val1|",
+            "label": "Damage: <DT_HEAT> |val1|",
             "base_value": 20
           },
           {

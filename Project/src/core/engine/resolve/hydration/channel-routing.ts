@@ -92,6 +92,14 @@ export function resolveFamilyEntities(
   // (`GAMEPLAY_MULT_FACTION_DAMAGE`, el de Roar) vive en el arma igual que un stat de arma
   // — `arch-decisions §16`. La familia dice "pool global", el destino sigue siendo el arma.
   //
+  // ⚠️ Y ese "sigue siendo el arma" es **lo que el motor modela, no lo que la fuente declara**.
+  // `roar.wikitext` dice *"bonus damage to all weapons AND ABILITIES"* y *"increases the damage any
+  // ally deals from ANY SOURCE"*: el destino real de la familia son **todas las instancias del
+  // portador**, y hoy el arma es la única que existe. Vale para los dos miembros —el pool de facción
+  // y el cap de Corrosive del Emerald (`contracts/law-params.ts`)—, así que no es un caso: es el
+  // sesgo de la familia. Se dispara cuando una habilidad emita instancia; anclado en
+  // `__tests__/status/stack-cap-ownership.test.ts`.
+  //
   // Sin entrada ⇒ el buff no aterriza. Deliberado: una familia nueva debe declarar su destino
   // acá, no heredar el de las armas por descarte. El censo del override cubre las cuatro.
   const route = FAMILY_ROUTE[family];

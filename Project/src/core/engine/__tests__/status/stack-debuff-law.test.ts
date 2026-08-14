@@ -44,11 +44,40 @@ describe('Suite enumerada — cada efecto × su LEY contra status-effects.md', (
     expect(stackDebuffValue(infectionLaw(SIB, SSB), n)).toBeCloseTo(expected, 5);
   });
 
-  // Corrosion (Corrosive): strip = min(0.26 + 0.06×(n−1), 0.80) (§Corrosion tabla 1/5/10).
+  // Corrosion (Corrosive): strip = min(0.26 + 0.06×(n−1), 1.00) (§Corrosion tabla 1/5/10).
   it.each([
     [1, 0.26], [5, 0.50], [10, 0.80],
   ])('Corrosion n=%i → strip %f', (n, expected) => {
     expect(stackDebuffValue(corrosionLaw(CIS, CSS), n)).toBeCloseTo(expected, 5);
+  });
+
+  /**
+   * EL 80 % ES `f(10)`, NO EL TECHO — y los dos casos que lo prueban vienen de la misma página.
+   *
+   * `damage-corrosive-damage.wikitext` declara *"80% **at 10 stacks**"* y, dos líneas después, que el
+   * Emerald Archon Shard sube el máximo de procs y que *"Applying **14** stacks can **fully remove all
+   * armor**"*. Los 14 no son una regla aparte: son dónde la fórmula cruza el 100 % (`f(13) = 0.98`).
+   *
+   * Con un techo de 0.80 los dos casos devolvían 80 % — un número creíble que contradice a la fuente
+   * sin que nada lo señale, y que además vuelve **inobservable** el desvío del emisor que
+   * `references/ingame-tests/status-stack-caps.md` mide (cap 10 → 19 por 3 × Tauforged Emerald).
+   */
+  it.each([
+    [13, 0.98], [14, 1.00], [19, 1.00],
+  ])('Corrosion sobre el cap de stacks por defecto: n=%i → strip %f', (n, expected) => {
+    expect(stackDebuffValue(corrosionLaw(CIS, CSS), n)).toBeCloseTo(expected, 5);
+  });
+
+  /**
+   * El segundo caso, por un camino independiente: la pasiva de Hydroid **modifica** `first` a 50 %
+   * (§17, `modifica` ⊥ `fuerza`) y la fuente declara *"100% armor reduction **at 10 stacks**"*.
+   *
+   * `corrosionLaw` ya acepta ese parámetro, así que el desvío del RECEPTOR es verificable hoy, antes
+   * de que exista el canal que lo emita — lo que falta es quién lo declare, no la ley que lo aplique.
+   */
+  it('Hydroid (first=50%) llega a 100% de strip en 10 stacks, no a 80%', () => {
+    expect(stackDebuffValue(corrosionLaw(50, CSS), 10)).toBeCloseTo(1.0, 5);
+    expect(stackDebuffValue(corrosionLaw(50, CSS), 1)).toBeCloseTo(0.5, 5);
   });
 
   // Disruption (Magnetic): PROVISIONAL = Infection (O4: wiki dice ×3.25 a 10, sin verificar).

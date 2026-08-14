@@ -6,7 +6,7 @@
 // 1 - PULL
 Drain: <ENERGY> 25 $EFFICIENCY
 Range: 25m $RANGE
-Damage: <DT_MAGMETOC> 300 $STRENGTH
+Damage: <DT_MAGNETIC> 300 $STRENGTH
 #### GREEDY PULL
 Success Chance: 100%
 

@@ -18,6 +18,7 @@
 import { EnemyState } from "../../simulate/enemies/EnemyState";
 import { CombatSimulator, type HitResolution } from "../../simulate/combat/CombatSimulator";
 import type { StatusEffect } from "@shared/types";
+import type { UnitClass } from "../../contracts/unit-class";
 import { syntheticHostile } from "../hostile-entity";
 import { dotTickValue, type DotType } from "../../formulas/status/dot-tick";
 import type { DotPulse } from "../../formulas/status/dot-timeline";
@@ -38,6 +39,11 @@ export interface IsolatedTargetSpec {
   overshield?: number;
   /** Status pre-declarado (C1): el consumidor fija N stacks por efecto, sin timeline. */
   stacks?: Partial<Record<StatusEffect, number>>;
+  /**
+   * Qué unidad es — la llave de los desvíos de ley del **receptor** (`arch-decisions §17`). Se declara
+   * igual que todo lo demás del banco: lo que se ejerce es la ley, no de dónde salió la clase.
+   */
+  unitClass?: readonly UnitClass[];
 }
 
 /** Construye un `EnemyState` aislado, faction-neutral, con status declarado. */
@@ -52,6 +58,7 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EnemyState {
     uniqueName: "isolated-target",
     faction: ISOLATED_FACTION,
     health, armor, shields,
+    ...(spec.unitClass ? { unitClass: spec.unitClass } : {}),
   });
 
   const state = new EnemyState(entity);

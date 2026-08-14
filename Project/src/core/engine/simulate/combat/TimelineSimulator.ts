@@ -76,6 +76,9 @@ export class TimelineSimulator {
       moddedBase: instance.dotModdedBase,
       statusDamageBonusPct: instance.statusDamageBonusPct,
       elementBonusPct: instance.ownElementBonusPct,
+      // Lo único del contexto que no es output del emisor: sus desvíos de ley. Viaja con la instancia
+      // porque el cap es **del que aplica** — con dos emisores, un mismo contador y caps distintos.
+      lawDeviations: instance.lawDeviations,
     };
 
     // Bucle Temporal

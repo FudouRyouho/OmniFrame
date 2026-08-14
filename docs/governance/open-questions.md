@@ -68,7 +68,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-34` | ¿Las relaciones entre entidades necesitan ser un bloque propio? | engine / modelo de entidades | abierta — **acotada**: *"esto es de aquel"* se declara y costó un campo (`owner`); las relaciones dirigidas siguen sin caso |
 | `OQ-ENGINE-35` | ¿Cuánta geometría necesita el escenario? — declara quiénes existen, no dónde están | engine / Capa A — escenario | abierta — **gated por consumidor**; ya hay distancia sin espacio donde medirla |
 | `OQ-ENGINE-36` | Claves derivadas que colisionan sin chequeo — 3 de 4 apariciones muertas | engine / identidad de participante y de slot | abierta **sólo en slots** — el participante se identifica por su coordenada en la escena; la clave de slot sigue siendo `Record<number,T>` con guarda y sin forma |
-| `OQ-ENGINE-37` | `evitar` ⊥ `mitigar` ⊥ `acortar` ⊥ `limpiar` — cuatro verbos que el corpus llama "resistencia" | engine / defensa del portador | **abierta, recién planteada** — el eje tiene ≥4 casos y **cero implementación**; `AVATAR_INJURY_BLOCK_CHANCE` es un token sin consumidor |
+| `OQ-ENGINE-37` | `evitar` ⊥ `mitigar` ⊥ `acortar` ⊥ `limpiar` — cuatro verbos que el corpus llama "resistencia" | engine / defensa del portador | abierta — 3 verbos sin caso construido; **`mitigar` ya no**: `Adaptation` tiene dato entero (11 rangos, `upgrade_types: []`), la ley (Familia A) y el portador (`EnemyState` sobre warframe real). Falta token + hook de *"when damaged"* + DR por tipo |
 | `OQ-ENGINE-FUTURE` | Features de evolución del motor | engine / simulation-v2 | abierta — backlog |
 | `OQ-DOC-1` | Docs commiteados citan `.working/` (gitignored) como autoridad | governance / higiene-docs | abierta — no bloquea |
 | `OQ-DOC-2` | Fuente estancada: falta la señal inversa (no se mueve hace años) | governance / higiene de fuentes | abierta — (a) ejecutable ya, (b) worklist per-item |
@@ -537,7 +537,7 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 - Behaviors `weakened`/`freeze` (molde de `corrosion` + `critModifier`); leyes `WEAKENED_CRIT_LAW {first:5,perAdd:5,cap:25}` (chance) / `COLD_CRIT_LAW {0.1,0.05,cap:0.5}` (mult) vía `stackDebuffValue`. Test: `crit-stack-buff.test.ts`.
 
 **Sigue vivo — AUSENCIAS de fidelidad (no simplificaciones: es dato/mecánica que hoy NO existe):**
-- **Cold cap 4 stacks en bosses/Overguard** — falta el flag `boss`/`overguard` en el DNA del enemigo; v1 usa el cap normal (9). El behavior lo consumirá cuando el DNA lo tenga.
+- **Cold cap 4 stacks con Overguard presente** — v1 usa el cap normal (9). **El gate cambió de naturaleza:** ya no falta el canal (el receptor desvía parámetros de ley por `ReceiverContext`, y `receiverMaxStacks` es el consumidor vivo) sino la **capa**: el Overguard no es clase sino cantidad presente en `t` (`arch-decisions §22`), y `current_overguard` nace en 0 sin que nada lo suba. Falta además que el contexto llegue a `resolutionModifier`/`critModifier`, que hoy sólo reciben el estado del efecto. "Bosses" queda afuera por otra razón: `arch-decisions §22` veta la clase — mezcla cuatro registros y no pasa el test de tres vías.
 - **Cold 10º stack** (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — mecánica compleja sin modelar.
 - **Puncture no aplica a AoE / habilidades de warframe** — gate ausente pero irrelevante hoy (el modelo de combate son hits de arma, no hay AoE); se gatea cuando exista AoE.
 
@@ -607,7 +607,7 @@ respaldada de las tres.
 ## OQ-ENGINE-16 — Fidelidad de N-declarado vs. timers reales para stacks de status (C1) — **ABIERTA (2026-07-09)**
 **Dominio:** engine / C1 (input declarado) + C2 (timers de status)
 
-**Contexto.** Doctrina §8 (`arch-decisions.md`): toda mecánica C2 se modela primero en modo **input declarado** ("asumo N stacks") antes que simulado (el valor emerge de una timeline). Para el clúster de status-stacks (Viral/Magnetic/Corrosive — `c2/stack`=42 del roadmap, Galvanized-like) **las fórmulas del multiplicador ya están cross-validadas** contra `references/wiki/mechanics/status-effects.md` (verificado in-game): viven en `formulas/status/stack-debuff.ts` (Viral/Magnetic `first + perAdd×(n−1)`, Corrosive `min(0.26+0.06×(n−1),0.80)`). **No es la fórmula lo que falta.**
+**Contexto.** Doctrina §8 (`arch-decisions.md`): toda mecánica C2 se modela primero en modo **input declarado** ("asumo N stacks") antes que simulado (el valor emerge de una timeline). Para el clúster de status-stacks (Viral/Magnetic/Corrosive — `c2/stack`=42 del roadmap, Galvanized-like) **las fórmulas del multiplicador ya están cross-validadas** contra `references/wiki/mechanics/status-effects.md` (verificado in-game): viven en `formulas/status/stack-debuff.ts` (Viral/Magnetic `first + perAdd×(n−1)`, Corrosive `min(0.26+0.06×(n−1),1.00)`). **No es la fórmula lo que falta.**
 
 **Lo que falta:** el comportamiento real de cada stack es **timer independiente por instancia, con decay/reemplazo propio** (confirmado empíricamente, `damage-status-model.md`). Declarar N estáticamente asume un snapshot fijo, pero el juego tiene stacks entrando y venciendo escalonados. **¿Hasta qué punto un N declarado es fiel** antes de que el número mienta (infle/desinfle)? El clúster trae además **2 modelos de decay divergentes** ("expiran juntos" vs "incremental 1-stack") sin resolver cuál aplica a qué caso.
 
@@ -636,9 +636,11 @@ discutió. Eso reencuadra la OQ: el paso a instancias **deja de estar gated por 
 del N declarado** —que sigue abierta— y pasa a estar exigido por una regla ya medida. Son dos razones
 independientes para el mismo cambio.
 
-🔴 **Y el bug que lo acompaña ya está diagnosticado:** `min(cap, count+1)` en `formulas/status/behaviors.ts`
-colapsa el contador hacia abajo donde el juego lo mantiene (`../domains/engine/design/arch-decisions.md`
-§17). Latente, no activo: sólo diverge con **dos** emisores.
+✅ **La mitad que un contador SÍ puede expresar ya está construida:** `applyStackProc`
+(`formulas/status/stack-debuff.ts`) mantiene el contador donde el juego lo mantiene, en vez del
+`min(cap, count+1)` que lo colapsaba hacia abajo (`../domains/engine/design/arch-decisions.md` §17).
+Lo que queda exigido por esta OQ es lo que un escalar **no** puede expresar: *"refresca el más viejo"*
+opera sobre instancias con timer propio, y un `count` sólo puede no moverse.
 
 **No bloquea:** el modo-input declarado es válido como techo donde el consumidor acepta "asumido, no simulado" (mismo espíritu que CO estático). Bloquea sólo la confianza en la FIDELIDAD del número para el clúster de 42 casos.
 **Vínculo:** `damage-status-model.md` (timers independientes, brecha del decay escalar), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).
@@ -664,7 +666,9 @@ Lean del equipo = **(A)** (Status Duration es multiplicador de daño conocido en
 correría si fuera B), pero **sin verificar cuantitativamente**.
 
 **Ramificación a los stack-debuffs (no confundir):** para Viral/Corrosive (capeados) "más duración" NO
-sube el techo (Corrosive tope 80% sigue igual) — sube el **uptime** (los stacks decaen más lento). Es una
+sube el techo — el strip que dan sus stacks es el mismo; sube el **uptime** (los stacks decaen más
+lento). Lo que sí mueve el techo es otro eje, y por eso no se confunden: el cap de **stacks** (Emerald
+Archon Shard) sube cuántos caben, y con 14 el strip de Corrosive llega al 100 %. Es una
 consecuencia distinta del eje A/B del DoT; testear por separado (DoT → ¿sube el total? / debuff → ¿sube el
 uptime?).
 
@@ -2254,6 +2258,16 @@ tablas que [`companion-mods.wikitext`](../../references/wiki/mods/companion-mods
 en la tabla universal que esa página sí trae, los **26** mods son `Precept: No`, o sea que en ese tramo
 la partición coincide con universal ↔ específico-por-tipo.
 
+🔴 **Y el atajo que el dataset parece ofrecer ya se midió: no sirve.** El `unique_name` parte los 158 en
+dos con un corte sospechosamente limpio —**105** bajo `/Lotus/Types/…` con `Precept` en el path y **53**
+bajo `/Lotus/Upgrades/Mods/…` sin él, 158 exactos—, y **no es esta partición**. Cruzado contra la columna
+`Precept` de la tabla universal: **12 desacuerdos sobre 26 filas**, todos los `*Bond` presentes ahí
+(Aerial, Astral, Contagious, Covert, Duplex, Momentous, Mystic, Reinforced, Restorative, Seismic,
+Tenacious, Vicious). Viven en `/Lotus/Types/Sentinels/SentinelPrecepts/VoidBond/…` y la wiki los declara
+`Precept: No`. El path agrupa por **cómo DE implementa el mod** —un Bond se implementa como precepto de
+sentinel— no por comportamiento ⊥ atributo. **46 % de desacuerdo en el único tramo verificable**, así que
+el barrido va por página y no por path.
+
 **Lo que el precept aporta al modelo no son sus efectos —daño y CC de una entidad no modelada— sino su
 forma: es una habilidad con ventana, no un modifier.** Cat's Eye `10 s / cd 20 s` · Shield Charger
 `10 s / cd 30 s` · Guardian `cd 30 s`. ⚠️ El cooldown **no** es parte de la forma:
@@ -2458,6 +2472,33 @@ vive** —anclaje, resolución, ventana o estado— y **cómo componen entre sí
 | **mitigar** | el número **baja** | al resolver | *Adaptation* (cap 90%, por tipo) · armor · shields · la DR de habilidades |
 | **acortar** | la ventana **dura menos** | durante | *Pain Threshold*, *Constitution*, *Handspring* |
 | **limpiar** | el efecto ya nació y **se remueve** | después | Excalibur *Purging Slash* · Hildryn *Pillage* · Revenant *Reave* · Saryn *Molt* · Wyrm *Negate* |
+
+### `Adaptation` es el forcing-case de `mitigar`, y está más cerca de lo que parece
+
+**El dato está entero y muere en la hidratación** — mismo modo de falla que el Emerald Archon Shard
+antes de que se le acuñara token. Medido sobre `mods.json`: dos entradas
+(`/Lotus/Upgrades/Mods/Warframe/AvatarResistanceOnDamageMod` y su gemela Nemesis) con los **11 rangos**
+y el texto completo — *"When Damaged: +5% Resistance to that Damage Type for 10s. Stacks up to 90%"*
+(rango 10: `+10%` / `20s`) — y **`upgrade_types: []`**. No falta fuente: falta token.
+
+**Y su forma ya está construida.** `+X% por instancia recibida, cap 90%` es Familia A
+(`stackDebuffValue` + `applyStackProc`), la misma que resuelven los cinco behaviors de stack. El
+portador tampoco falta: `EnemyState` ya corre sobre un warframe del catálogo por el camino real
+(`__tests__/state-neutrality.test.ts` — 11 de sus 15 construcciones no son hostiles) y ya contrasta
+mitigación del Tenno vs del hostil sobre la misma armadura.
+
+**Lo que sí falta, medido:**
+
+| Pieza | Estado |
+|---|---|
+| token `AVATAR_*` para la resistencia por tipo | ausente — los `AVATAR_CHANCE_RESIST_*` son **chance de resistir un proc**, otro verbo (`evitar`) |
+| el disparo *"when damaged"* | `applyProc` lo llama el **emisor**; esto nace de **recibir** — no hay hook en la resolución sobre el portador |
+| un `resolutionModifier` **por tipo de daño** | hoy el contrato ofrece `armorMult` y `layerMult` (por capa); la DR por tipo no tiene canal |
+| `ReceiverContext` en `resolutionModifier` | ✅ existe el contexto, ❌ no llega a ese método (`arch-decisions §17`) |
+
+**Ninguna de las cuatro es de decisión** — son construcción, y las cuatro se pueden estresar contra
+dato real hoy. Esto no cierra la OQ (los otros tres verbos siguen sin caso construido), pero saca a
+`mitigar` de *"cero implementación"*: tiene el dato, la ley y el portador.
 
 ### Lo que ya está medido y no hay que re-derivar
 

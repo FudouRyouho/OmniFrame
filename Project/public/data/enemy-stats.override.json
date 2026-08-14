@@ -1,1 +1,8 @@
-{}
+{
+  "/Lotus/Types/Enemies/Acolytes/StrikerAcolyteAvatar": { "unit_class": ["acolyte"] },
+  "/Lotus/Types/Enemies/Acolytes/HeavyAcolyteAvatar": { "unit_class": ["acolyte"] },
+  "/Lotus/Types/Enemies/Acolytes/RogueAcolyteAvatar": { "unit_class": ["acolyte"] },
+  "/Lotus/Types/Enemies/Acolytes/AreaCasterAcolyteAvatar": { "unit_class": ["acolyte"] },
+  "/Lotus/Types/Enemies/Acolytes/ControlAcolyteAvatar": { "unit_class": ["acolyte"] },
+  "/Lotus/Types/Enemies/Acolytes/DuellistAcolyteAvatar": { "unit_class": ["acolyte"] }
+}

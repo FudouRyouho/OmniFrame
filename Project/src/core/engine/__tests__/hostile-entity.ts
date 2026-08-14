@@ -15,6 +15,7 @@
  * cambia, y uno de dato que use números inventados no prueba nada.
  */
 import type { SimulationEntity, AttributeNode } from '../contracts';
+import type { UnitClass } from '../contracts/unit-class';
 import { consume } from '../output/consume';
 import { hostileOnly } from '../fixtures/builds';
 import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
@@ -45,6 +46,12 @@ export interface SyntheticHostileSpec {
   shields?: number;   // default 0 — sin escudos, todo hit va a salud
   faction?: string;
   uniqueName?: string;
+  /**
+   * Qué unidad es (`contracts/unit-class.ts`) — la llave de los desvíos de ley del receptor. Se
+   * **declara**, igual que los vitales y que los stacks del harness: lo que se ejerce es la ley, no de
+   * dónde salió la clase. Que en el dato real venga de `enemy-stats.override.json` es otro test.
+   */
+  unitClass?: readonly UnitClass[];
 }
 
 /**
@@ -67,8 +74,11 @@ export function syntheticHostile(spec: SyntheticHostileSpec = {}): SimulationEnt
     persistence: 'TE',
     tags: ['enemy'],
     routes: ['enemy'],   // a qué destinos responde — el ruteo de modifiers
-    channel: 'enemy',    // qué ES — la clase de unidad, llave de las leyes (`contracts/unit-class.ts`)
+    channel: 'enemy',    // qué física base le toca (`contracts/unit-class.ts`)
     ...(spec.faction ? { faction: spec.faction } : {}),
+    // Qué unidad ES, cuando eso cambia qué ley recibe. Grano distinto del canal, no un duplicado: un
+    // acólito lleva `channel: 'enemy'` —lo necesita para tener vitales— y otra ley de status.
+    ...(spec.unitClass ? { unit_class: spec.unitClass } : {}),
     attributes,
   };
 }

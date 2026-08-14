@@ -15,7 +15,7 @@ import { IncarnonRepository } from './IncarnonRepository';
 import { ArcaneRepository } from './ArcaneRepository';
 import { AbilityRepository } from './AbilityRepository';
 import { ShardRepository } from './ShardRepository';
-import { EnemyRepository, type RawEnemyEntry, type EnemyOverride } from '../../simulate/enemies/EnemyRepository';
+import { EnemyRepository, curateEnemies, type RawEnemyEntry, type EnemyOverride } from '../../simulate/enemies/EnemyRepository';
 
 export interface DataLoaderInput {
   weapons:               any[];
@@ -48,10 +48,14 @@ export class DataLoader {
     ArcaneRepository.load(input.arcaneOverrides);
     AbilityRepository.load(input.abilityOverrides);
     ShardRepository.load(input.archonShards);
-    EnemyRepository.load(input.enemies, input.enemyOverrides);
-    // Doble carga a propósito: EnemyRepository lo escala para C2, ItemRepository lo hidrata como
-    // participante de C1. Son dos usos del mismo raw, no una duplicación de la fuente.
-    ItemRepository.loadEnemies(input.enemies);
+    // La curación se aplica UNA VEZ, antes del reparto: las dos ramas leen el mismo raw y tienen que
+    // leerlo igual. Aplicarla dentro de `EnemyRepository.load` dejaba a `ItemRepository` —y por lo
+    // tanto a la entidad que se simula— con el dato crudo (ver `curateEnemies`).
+    const enemies = curateEnemies(input.enemies, input.enemyOverrides);
+    // Doble carga a propósito: EnemyRepository resuelve nombres para C2, ItemRepository lo hidrata
+    // como participante de C1. Son dos usos del mismo dato, no una duplicación de la fuente.
+    EnemyRepository.load(enemies);
+    ItemRepository.loadEnemies(enemies);
     DataLoader._initialized = true;
   }
 

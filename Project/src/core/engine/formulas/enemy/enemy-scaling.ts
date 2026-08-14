@@ -62,7 +62,7 @@ const SHIELDS_COEF: Record<string, SCoef> = {
   Techrot:   { below: { c: 0.02, e: 1.75 }, above: { c: 3.5, e: 0.76 } },
 };
 
-// Armadura: fórmula ÚNICA para todas las facciones (no depende de faction ni de armor_type).
+// Armadura: fórmula ÚNICA para todas las facciones (no depende de la facción ni de clase de capa).
 const ARMOR_COEF: SCoef = { below: { c: 0.005, e: 1.75 }, above: { c: 0.4, e: 0.75 } };
 
 const ARMOR_CAP = 2700;   // tope duro (√(3·2700)/100 = 90% DR).

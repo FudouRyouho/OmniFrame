@@ -169,7 +169,7 @@ efecto, y esa pregunta no tiene sentido en otra familia. `resolveToken()` lo ver
 
 | Token | Motivo |
 | :--- | :--- |
-| `WEAPON_FIRE_ITERATIONS` | Alias del pipeline @wfcd/items — resolución OQ-ENGINE-6 |
+| `WEAPON_FIRE_ITERATIONS` | Alias del pipeline @wfcd/items — resolución `DC-OQ-ENGINE-6` |
 | `WEAPON_BASE_DAMAGE` | Perk Incarnon: BASE_FLAT del atributo raíz |
 | `WEAPON_BASE_CRIT_CHANCE` | Perk Incarnon: BASE_FLAT de CC |
 | `WEAPON_BASE_STATUS_CHANCE` | Perk Incarnon: BASE_FLAT de SC |
@@ -239,7 +239,7 @@ confirmar un mod o mecánica que lo requiera.
 | :--- | :--- | :--- | :--- |
 | `WEAPON_ADD_FIRE_RATE` | `[empirical]` | `C1` | Speed Trigger, Shred, Gunslinger — **solo armas de fuego**; el melee usa `MELEE_ADD_ATTACK_SPEED` |
 | `WEAPON_ADD_MULTISHOT` | `[ref: multishot.md]` | `C1` | Split Chamber, Galvanized Chamber |
-| `WEAPON_FIRE_ITERATIONS` | `[ref: multishot.md]` | `C1` | Hell's Chamber, Galvanized Hell, Barrel Diffusion — alias pipeline `@wfcd/items`; resolución formal en OQ-ENGINE-6 |
+| `WEAPON_FIRE_ITERATIONS` | `[ref: multishot.md]` | `C1` | Hell's Chamber, Galvanized Hell, Barrel Diffusion — alias pipeline `@wfcd/items`; resolución formal en `DC-OQ-ENGINE-6` |
 | `WEAPON_ADD_CRIT_CHANCE` | `[ref: critical-hits.md]` | `C1` | Point Strike, True Steel |
 | `WEAPON_ADD_DAMAGE_PER_STATUS_TYPE` | `[ref: condition-overload.md]` | `C1·F` | Condition Overload, Galvanized Savvy/Aptitude/Shot, 8 perks incarnon. **Única op de familia alcanzable por token** — entrada propia en `UPGRADE_MAP` con op `CONDITION_OVERLOAD` y `co_factors`. El valor no es el efecto: lo computa `coBonusPct(coefBase × stacks × N)` y el bucket lo elige el `co_behavior` del ataque. Cumple la regla de frontera (su disparador ES el token); las otras 4 ops de familia se sintetizan. |
 | `WEAPON_ADD_CRIT_MULT` | `[ref: critical-hits.md]` | `C1` | Vital Sense, True Steel |
@@ -472,6 +472,22 @@ Tokens de familia `AVATAR_CHANCE_RESIST_*` no siguen D-6 estrictamente (CHANCE n
 | :--- | :--- | :--- | :--- |
 | `GAMEPLAY_MULT_FACTION_DAMAGE` | `[empirical]` | `C2·F` | Bane/Expel/Cleanse y familia. **Pool de facción** (`arch-decisions §16`): op `ADD` = los miembros **SUMAN** en su nodo global propio (Roar+Bane aditivos, ×2.428 verificado `faction-damage.md`). ⚠️ **El segmento `_MULT_` es incorrecto** — por §OPERATION (mapeo 1:1) `MULT` ⇒ op `MULTIPLICATIVE`, pero la op real es `ADD` (`UPGRADE_MAP` la pisa). Por D-6 debería ser `GAMEPLAY_ADD_FACTION_DAMAGE`. **No se renombra todavía**: sale junto con la normalización del token que el shim ya declara ↓. Ver `../domains/engine/design/vocabulary.md` §4 (L-8). **C2·F**: el gate depende de la facción del target, que vive en `EnemyState`/③ (NO en `SimulationContext`/C1). ⚠️ **Shim FLAGGED** (`ModRepository.C2F_FACTION_TOKENS_DEFERRED`): NO se emite en C1 hasta normalizar la semántica del token (facción + gate) y migrar a resolución. El pool C1 queda para bonos incondicionales (Roar, §15). |
 | `GAMEPLAY_ADD_TOXIN_STATUS_DAMAGE` | `[needs-verification]` | `C2·F` | Archon Shard Emerald. Instancias aditivas. ⚠ Scope real sin confirmar. Afecta proc de Toxin en C2. |
+| `GAMEPLAY_FLAT_CORROSIVE_MAX_STACKS` | `[empirical]` | **acuñado sin nodo** | Archon Shard Emerald: **+2** planos al cap de stacks de Corrosive, **+3** Tauforged. Es un **parámetro de ley**, no un atributo — ver abajo. Sin nodo a propósito: falta el canal que lleve el desvío hasta la aplicación del proc (`../domains/engine/design/arch-decisions.md` §17). Medición: `../../references/ingame-tests/status-stack-caps.md` (cap 19 = 10 + 3×3). |
+
+> **Por qué un parámetro de ley entra por `GAMEPLAY_` y no por otra familia.** `GAMEPLAY_` es la única
+> que **no nombra una clase de entidad** —*"reglas generales"*—, y eso es exactamente lo que hace falta:
+> el cap de stacks no es un atributo de nadie. Las dos alternativas violan la frontera negativa de este
+> mismo doc. `AVATAR_*` haría que el `{dónde}` **mienta sobre el sujeto** —el contador vive en el
+> enemigo—, el defecto que ya se le imputa a `AVATAR_MARKED_DAMAGE_AMOUNT`. Y `ENEMY_*` lo volvería
+> propiedad del **receptor**, cuando la medición dice lo contrario: *"el cap es del que aplica"*, y con
+> dos jugadores el enemigo tiene **un** contador con cap efectivo distinto por instancia.
+>
+> ⚠️ **Lo que este token NO puede declarar es de quién es el desvío** (emisor ⊥ receptor). Es una
+> **cuarta** cosa, y el token declara tres — pero además **no se deriva del portador**, que sería la
+> salida fácil: el Emerald (desvía al **emisor**) y la `Decaying Dragon Key` (desvía al **receptor**) se
+> equipan las dos en el jugador y apuntan a lados opuestos de la misma cadena. El dueño y el verbo
+> (`modifica` ⊥ `fuerza`) viven en el registro, no en el nombre — igual que `target_channel` en
+> `UPGRADE_MAP`.
 
 > `toPercent: true` en UPGRADE_MAP — el JSON almacena el valor como `1.30` (+30%); el engine lo convierte a `30` para `mods_add_pct`.
 
@@ -507,7 +523,7 @@ el desvío convierte un error detectable en uno invisible.
 
 Lo que el vocabulario **no** puede decir hoy, con su motivo y su condición de reapertura. Existe
 porque el modo de falla real de este sistema no es el token equivocado: es el **descarte silencioso**.
-De **1451** `upgrade_type` no-nulos en los overrides, **216 (14,9%) no resuelven**, repartidos en **104
+De **1448** `upgrade_type` no-nulos en los overrides, **216 (14,9%) no resuelven**, repartidos en **104
 tokens distintos**. El objetivo declarado **no es cero descartes**: es **cero descartes sin nombre**.
 Las filas de abajo cubren los 216 — cada una con la medición que la sostiene, no con el razonamiento
 que la sugirió.
@@ -515,12 +531,19 @@ que la sugirió.
 > **El oráculo es `npm run measure:tokens`, no esta página.** La herramienta parsea el vocabulario
 > desde `modifier.ts`, así que ella no puede driftear respecto del código; **los números de arriba son
 > una foto suya, y una foto envejece**. Se refrescan corriéndola, nunca editándolos a mano — y quien
-> los use para decidir algo la corre primero. Al leer su salida: el `107` de la cabecera es el **tamaño
+> los use para decidir algo la corre primero. Al leer su salida: el `111` de la cabecera es el **tamaño
 > del vocabulario**, no la cuenta de tokens descartados; confundirlos es fácil y ya pasó.
 >
 > Mide **una** de las dos compuertas (que el token resuelva); la otra —que el modifier **aterrice** en
 > un nodo existente— vive en `__tests__/channel-routing.test.ts`, y sin ella este conteo puede bajar
 > sin que nada compute.
+>
+> ⚠️ **Y su universo son los `*.override.json`, no todo el dato con `upgrade_type`.**
+> `archon-shards.json` **queda afuera**, así que sus **7 stats con `upgrade_type: null`** nunca
+> aparecieron en ningún conteo — ni siquiera el del Emerald que hoy declara
+> `GAMEPLAY_FLAT_CORROSIVE_MAX_STACKS`, que pasó de nulo a acuñado **sin mover un solo número de la
+> foto**. No es que la herramienta esté mal: es que *"cero descartes sin nombre"* se mide sobre los
+> overrides, y hay `upgrade_type` viviendo fuera de ellos.
 
 | caso | por qué no es expresable | reapertura |
 |---|---|---|

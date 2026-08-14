@@ -146,7 +146,13 @@ angosto). Son dos archivos, no dos copias.
 - **Cierre genuino → mover entero a DC + borrar de OQ** (cuerpo *y* fila del índice). **No dejar
   lápidas** (`"cerrada → closed-decisions.md"`) en OQ: inflan el archivo con registro que ya es
   competencia de DC. Git tiene la historia; DC tiene la sentencia. Al mover, **re-apuntar las citas
-  entrantes** de `OQ-X` a `DC-OQ-X`.
+  entrantes** de `OQ-X` a `DC-OQ-X`. Ejecutable: `npm run validate:docs` — check `cita-oq-cerrada`
+  (WARN sobre `docs/` **y** `Project/src/`). Una cita a `OQ-X` presenta la pregunta como **viva**, y
+  quien la busca en OQ no la encuentra — o hereda un pendiente que ya se decidió. **Seis exenciones**,
+  todas por casos donde citar `OQ-X` es correcto: `closed-decisions.md` (cita su propio origen),
+  `Estado: histórico`, la oración que ya declara el cierre, metadata/plantillas, marca de resuelto
+  (`✅`/`[x]`), y bloques de código. ⚠️ **Que la cita apunte bien no valida lo que afirma:** el check
+  ve el puntero, no si el acta sostiene lo que se le atribuye.
 - **Antes de cerrar, verificar que no haya consumidor vivo:** un test rojo (`it.fails`/`it.todo` que
   cita la OQ), una cita `SIGUE ABIERTO` en otro doc, o un gate-por-consumidor con residuo real. Si lo
   hay, **no es cierre genuino** → la OQ se queda. Un re-scope que descarta *un* camino no cierra la OQ

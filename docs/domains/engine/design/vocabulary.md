@@ -4,7 +4,7 @@ Rol: "SSoT del vocabulario interno del engine — el idioma con el que @core se 
 Impacto_ID: "E-Vocabulary"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-07-17"
-Fecha_de_actualizacion: "2026-07-29"
+Fecha_de_actualizacion: "2026-08-13"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/calculating-bonuses.md"
@@ -23,7 +23,7 @@ el idioma. (Ruteo codificado en `docs/CLAUDE.md` §"Regla de enrutamiento".) Los
 
 **Por qué existe.** Un vocabulario que crece sin SSoT **colisiona** — el mismo concepto termina nombrado dos
 veces por ejes que crecieron por separado (`bucket②` fue el "pool de facción" hasta el LOCK L-2 — resuelto en §2), y la misma palabra cubriendo
-conceptos sin relación (§6). En un flujo donde cada sesión arranca fría, eso no genera una duda: genera que
+conceptos sin relación (§7). En un flujo donde cada sesión arranca fría, eso no genera una duda: genera que
 cada sesión lo **re-derive**.
 
 ---
@@ -156,7 +156,48 @@ realización — **compatible** con `DC-OQ-ENGINE-1`, no una alternativa a ella.
 
 ---
 
-## 6. Colisiones abiertas (NO resueltas — no asumir)
+## 6. La desviación de parámetro — el idioma de `ley ⊥ parámetro`
+
+El eje que [`arch-decisions.md`](arch-decisions.md) §17 abre tiene vocabulario propio, y hasta ahora vivía
+**sólo ahí y en una constante local** (`RECEIVER_DEVIATIONS`, `formulas/defense/shield-gate.ts`, sin
+consumidores). Deja de ser local porque deja de ser un caso: el censo da **10 casos sobre 3 parámetros en 2
+mecánicas** (caps de stack y ventana del gate), con los dos verbos y los dos dueños. Un nombre que se repite
+en dos mecánicas y una primitiva compartida es vocabulario, no una constante.
+
+| Término | Qué es | Criterio |
+|---|---|---|
+| **ley** | La **forma** de la mecánica: qué existe, qué compone con qué, en qué orden. Se escribe, no se configura. | Cambialo y dejá de reconocer la mecánica ⇒ ley. *Corrosive que no reduce armadura.* |
+| **parámetro** | Un **número** de esa forma, con su default. | Cambialo y sigue siendo la misma mecánica ⇒ parámetro. *Corrosive con 12 stacks en vez de 10.* |
+| **desviación de parámetro** | Lo que un **portador declara** sobre el parámetro de una ley **ajena**. | Lleva **dueño** (quién declara) y **verbo** (cómo entra). Sin los dos es una tabla plana — el defecto estructural que hundió `GameLaws`. |
+| **modifica** | Verbo: cambia el **valor**. | Hydroid `26% → 50%` · Emerald `+2` al cap · Protea `×2` a la ventana. |
+| **fuerza** | Verbo: pone un **límite** sin tocar la fórmula. | Acolyte `N ≤ 4` · Decaying Dragon Key `cap 0.33 s`. |
+
+**No se acuña un sustantivo para el género por encima de "desviación".** El corpus ya reparte los dos roles
+y §17 los usa emparejados en la misma fila — *"**Desvío del parámetro** | **quien lo declara**"*: *desviación*
+es la cosa, *declarar* es el verbo. Ascender el verbo a sustantivo dejaría a la cosa sin nombre y chocaría
+además con `C1-declarado` / `input declarado`, que es otro eje (modelado declarado ⊥ simulado).
+
+### Las reglas duras que se derivan
+
+1. **El complemento es parte del término cuando el contexto no lo aporta.** *Desviación* sola no dice de qué,
+   y ése es su único punto débil. Se resuelve por altura: el **tipo compartido** lo lleva en el nombre
+   (`ParamDeviation` — desviación *de un parámetro*), y las **constantes locales** no lo necesitan porque
+   viven junto a su ley (`RECEIVER_DEVIATIONS` dentro de `shield-gate.ts` ya se lee *sobre la duración del
+   gate*, igual que `WEAKENED_CRIT_LAW` no aclara de qué es la ley). ⇒ El patrón es `{DUEÑO}_DEVIATIONS`
+   **junto a la ley que desvía**; un registro central volvería el nombre ambiguo *y* replicaría la tabla plana.
+2. **El dueño no se deriva del portador.** El Emerald Archon Shard desvía al **emisor** y la Decaying Dragon
+   Key al **receptor**, y las dos se equipan en el mismo jugador. Derivarlo de dónde está montado el ítem da
+   el resultado exacto al revés en uno de los dos casos.
+3. **Una desviación existe aunque no muerda.** Un techo de `4` sobre un default de `3` es una declaración
+   válida de efecto nulo. Hoy no hay caso medido —los defaults conocidos son 5, 5, 9 y 10, y todos los techos
+   quedan por debajo—, pero el término nombra **el efecto**, y el efecto a veces es cero.
+4. **La unidad es una tabla, no un escalar.** Lo fuerzan Acolyte y Lich, que declaran *"4 para cualquier
+   status, **excepto** Impact"* (`{'*': 4, impact: 3}` y `{'*': 4, impact: 6}`), y Overguard, que sólo habla
+   de Cold. *"Gana cuando habla"* (§17) pasa de ser sobre un número a ser sobre **tener fila**.
+
+---
+
+## 7. Colisiones abiertas (NO resueltas — no asumir)
 
 Alcance de este LOCK = **L-1 + L-2**. Lo demás está inventariado y **pendiente**:
 
@@ -168,6 +209,7 @@ Alcance de este LOCK = **L-1 + L-2**. Lo demás está inventariado y **pendiente
 | **L-7** | **`base`/`final` sin nombre propio.** "Input"/"output" son demasiado genéricos, y **`final` ya se malinterpreta**: es el target de la *inicialización* (`resolve()` paso 1: `final = base`), se recomputa por pass (no es terminal), significa cosas distintas por rol (valor del stat vs numerador del factor `final/base` de un pool global). (El op `SET` roto —que escribía `final` para que el recompute lo pisara— era su víctima; ya purgado.) Bautizarlos si vuelve a morder. | diferida |
 | **L-8** | **El token de facción miente** (`MULT` vs op `ADD`) — ver §4. **Parkeado** tras el shim C2·F; su salida ya está declarada en el propio shim. | parkeada |
 | **L-9** | **Semántica de operaciones: CERRADA salvo un residuo nombrado.** El enunciado viejo (*"sin terminar, cerrarla exige el corpus real"*) ya tiene su corpus: los 1446 `upgrade_type` medidos. Resultado: **4 ops de acumulador ↔ 4 buckets ↔ 4 segmentos `OPERATION`, 1:1 y sin huecos** (`BASE_ADD_PCT` purgado por inalcanzable, `SET` por muerto). El residuo no es una indefinición sino **un hecho del corpus**: ningún token usa legítimamente el segmento `MULT` — el único que lo lleva es el de facción, cuya op real es `ADD` y cuyo nombre está mal (§4). ⇒ el bucket `multiplicative` se escribe **sólo por ops de familia** (CO-`multiplying`, melee/sniper combo), nunca por un token. Eso es **la frontera acumulador↔familia funcionando**, no una puerta rota: lo multiplicativo-independiente es mecánica, no mod. Se reabre si aparece un mod real cuyo efecto sea un multiplicador independiente declarado. ⚠️ **Warrant:** normalizar `OPERATION→ADD` en `resolveToken()` **ya se descartó** — fusionaría `AVATAR_FLAT_HEALTH_REGEN` (HP/s plano) con `AVATAR_ADD_HEALTH_REGEN` (%), **stats distintos**. No re-proponerlo. | cerrada con residuo |
+| **L-11** | **`desviación` sobrecargado**: (a) **de un parámetro** — lo que un portador declara sobre una ley ajena (§6) vs (b) **de una convención** — apartarse de una norma declarada: *"CHANCE-family, desviación D-6"* (`upgrade-tokens.md` ×2, `modifier.ts:290`), *"siempre una desviación de la norma"* (`data/rules/overrides.md:80`), *"Implementado con Desviación"* (`engine-audit.md:49`). **5 usos del sentido (b) en 3 dominios**, todos anteriores al LOCK de §6. | **acotada, no abierta** — la regla dura 1 de §6 ya las separa: ninguna aparece sin complemento, y los complementos no se solapan (*de parámetro* ⊥ *D-6* / *de la norma*). Se registra para que no se re-descubra; se reabre sólo si aparece un `*_DEVIATIONS` del sentido (b), donde el módulo dejaría de desambiguar. |
 | **L-10** | **`WEAPON_DAMAGE` = nombre pre-rename del nodo global** (hoy `WEAPON_ADD_DAMAGE`, token D-6 — D-7 Fase 2b). **0 líneas de código, 19 en 8 docs.** **Corregir (5):** `upgrade-tokens.md`, `incarnon/schema.md`, `simulation-contracts.md`, `data/decisions.md`, y **`engine/test/test-workflow.md:27` — `consume(…).node('WEAPON_DAMAGE')` TIRA** (`consume.ts` lanza si el nodo está ausente). **NO tocar:** `engine-audit.md §4.1` — `Estado: histórico`, dice el nombre de su época y es correcto *como registro*. | fix mecánico |
 
 ## Ligado a

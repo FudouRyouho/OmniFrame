@@ -4,7 +4,7 @@
 > Rol: mecánicas de efectos de estado — aplicación y reparto, los status sin tipo de daño, fórmulas de DoT, stacks, duración, CC, y las tres defensas
 > Fuente de verdad de: comportamiento de procs — aplicación por pellet, **re-normalización del reparto por inmunidad del enemigo**, los **status independientes del daño** (y cuáles cuentan para CO), DoT, stacks, duración/ciclo de vida, CC, **Status Damage como stat**, y la partición inmunidad / cleansing / resistencia
 > No usar para: elección del tipo de proc por peso de daño — ver `damage-types.md` §Regla de elección de proc
-> Última actualización: 2026-07-30
+> Última actualización: 2026-08-13
 > Fuente: https://wiki.warframe.com/w/Status_Effect
 > Fuente actualizada: 2026-07-02
 > Raw: status-effect.wikitext
@@ -379,11 +379,11 @@ tick_damage = 0.5 × modded_base_damage × (1 + gas_bonuses) × (1 + faction) ×
 
 ### Corrosion (Corrosive)
 
-Reduce el armor del enemigo **temporalmente** por stack (corregido: la versión previa decía
-"permanente"; la subpágina es explícita — "temporarily degrades... for 8 seconds").
+Reduce el armor del enemigo **temporalmente**, no de forma permanente — la subpágina es explícita:
+*"temporarily degrades… for 8 seconds"*.
 
 ```
-armor_strip(n)   = min(0.26 + 0.06 × (n − 1), 0.80)
+armor_strip(n)   = min(0.26 + 0.06 × (n − 1), 1.00)
 effective_armor  = base_armor × (1 − armor_strip(n))
 ```
 
@@ -391,7 +391,17 @@ effective_armor  = base_armor × (1 − armor_strip(n))
 |---|---|
 | 1 | 26% |
 | 5 | 50% |
-| 10 | 80% (máximo) |
+| 10 | 80% — el máximo **con el cap de stacks por defecto**, no el de la fórmula |
+| 14 | 100% — la armadura entera |
+
+**El 80 % es `f(10)`, no el techo.** Esta página los da pegados en una sola oración —*"Stacks up to 10
+times, with subsequent procs reducing armor by 6% to a total of 80%"*— y quien los desacopla es la
+página del tipo de daño ([`damage-corrosive-damage.wikitext`](damage-corrosive-damage.wikitext)): el
+Emerald Archon Shard sube el máximo de procs (**+2**, **+3** Tauforged) y *"Applying **14** stacks can
+**fully remove all armor**"*. `f(13) = 98%` y `f(14) = 104%`, así que los 14 salen de la fórmula y no de
+una regla aparte. El techo real es **físico** —no se saca más armadura de la que hay— y un segundo caso
+lo confirma por otro camino: la pasiva de Hydroid lleva el primer proc a 50 % y la fuente declara
+*"100% armor reduction at 10 stacks"*, que es `f(10)` con ese desvío.
 
 - ✅ **Cerrado por analogía estructural (2026-07-02), no requiere test propio.** El texto
   "replace the oldest stack" es idéntico al de Viral/Magnetic/Radiation — mismo modelo de

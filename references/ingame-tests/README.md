@@ -35,9 +35,9 @@ un DoT elemental es armor-affected (el número observado ya está mitigado), un 
   **Cierra:** el cap es **del que aplica**, el contador es **del receptor**, y un proc sobre-cap
   **refresca el stack más viejo en vez de rechazarse** — *"el proc siempre entra; el cap decide si suma
   o reemplaza"*. Confirma sin cambios el *"sobre-cap: reemplaza al más viejo"* del primitivo de stack
-  tracker, escrito para un solo emisor. 🔴 **Destapa un bug latente:** `min(cap, count+1)` colapsa el
-  contador hacia abajo donde el juego lo mantiene, y el estado escalar `{count}` no puede expresar
-  "el más viejo" (dato para `OQ-ENGINE-16`).
+  tracker, escrito para un solo emisor. **Corrigió el motor:** `min(cap, count+1)` colapsaba el
+  contador hacia abajo donde el juego lo mantiene; hoy lo mantiene (`applyStackProc`). Queda que el
+  estado escalar `{count}` no puede expresar "el más viejo" (dato para `OQ-ENGINE-16`).
 - [`pending.md`](pending.md) — **preguntas que sólo se cierran midiendo**, cada una con el diseño del test.
   No son resultados: son huecos formulados para no volver a descubrirlos. Una entrada sale de ahí cuando
   se mide, y pasa a tener su propio `.md` en este directorio.

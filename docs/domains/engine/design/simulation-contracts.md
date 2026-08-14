@@ -187,7 +187,7 @@ interface AuditResponse {
 ```
 
 ### 6.3 La Trinidad del Arsenal (Contextos de Uso)
-El motor debe ser agnóstico a la UI. `EnsembleAdapter` eliminado (OQ-STATE-4) — lógica absorbida por `MutatorBridge`. Los tres flujos que debe garantizar `MutatorBridge`:
+El motor debe ser agnóstico a la UI. `EnsembleAdapter` eliminado (`DC-OQ-STATE-4`) — lógica absorbida por `MutatorBridge`. Los tres flujos que debe garantizar `MutatorBridge`:
 1. **Arsenal (Equipado)**: Sincronización bidireccional con el estado persistente del usuario.
 2. **Swap (Intercambio)**: Proyección efímera comparativa (Ensemble Actual vs Ensemble con Cambio).
 3. **Upgrade (Builder/Overframe)**: Manipulación total de slots y variables de contexto para optimización.

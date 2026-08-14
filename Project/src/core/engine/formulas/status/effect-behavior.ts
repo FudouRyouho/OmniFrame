@@ -15,6 +15,8 @@ import type { DamageType, StatusEffect } from "@shared/types";
 import type { Layer } from "../../contracts/layers";
 export type { Layer };
 
+import type { EmitterDeviations } from "../../contracts/law-params";
+
 /**
  * El contexto FROZEN de la instancia que generó el proc (source-side, compute-once). El efecto
  * computa su snapshot de acá al aplicar. La re-aplicación LIVE del source (faction², pool②) NO va
@@ -27,6 +29,58 @@ export interface HitContext {
   statusDamageBonusPct: number;
   /** Bonus del propio elemento por tipo (%) — ej. +Toxin% amplifica el tick de Toxin. */
   elementBonusPct: Partial<Record<DamageType, number>>;
+  /**
+   * Los **desvíos de ley del emisor**, si declara alguno. Los tres campos de arriba son su *output*;
+   * éste no — es lo que `arch-decisions §17` pedía para que los primeros eslabones de la cadena
+   * tuvieran por dónde entrar.
+   *
+   * ⚠️ **Es un argumento, no persistencia.** El estado del receptor sigue sin recordar quién puso cada
+   * stack: el contador es uno y no lleva procedencia (`status-stack-caps.md`, *"nada en el estado
+   * recuerda quién puso cada stack — no hace falta"*). Lo que viaja acá muere con la aplicación del
+   * proc, que es exactamente la distinción que `time-model.md` marca al acotar el descarte de `stamp`.
+   */
+  lawDeviations?: EmitterDeviations;
+}
+
+/**
+ * Lo que el **receptor** aporta a la aplicación de un proc — el otro lado de `HitContext`.
+ *
+ * `arch-decisions §17` da la cadena de cuatro eslabones y los dos últimos son suyos (*"¿el RECEPTOR
+ * modifica la entrada? ¿el RECEPTOR fuerza?"*). Hasta acá no tenía por dónde entrar: el behavior
+ * recibía el estado del efecto y el contexto del hit, y el receptor —que es literalmente quien
+ * invoca— no se pasaba a sí mismo.
+ *
+ * **Lleva identidad, no desvíos ya resueltos**, y esa es la decisión de diseño. El emisor declara por
+ * parámetro de ley (`corrosive.maxStacks`); el Acolyte declara por status (*"4 de cualquiera, salvo
+ * Impact que 3"*). Son ejes distintos y **el punto donde se encuentran es el behavior**, que ya conoce
+ * su efecto y su default — preguntarle a cada lado en su propio idioma es simétrico con eso.
+ * Resolverlos afuera obligaría al contenedor a conocer las leyes, que es lo que §17 le saca.
+ *
+ * ⚠️ **Se computa al aplicar, no se congela** (`arch-decisions §20`, `f(estado en t)`). Hoy sólo lleva
+ * clase —que no cambia en `t`— pero el próximo campo sí: el cap de Cold a 4 stacks depende de que el
+ * Overguard esté **presente en ese instante** (`OQ-ENGINE-12`), no de qué es la unidad.
+ */
+export interface ReceiverContext {
+  /** Qué unidad es (`contracts/unit-class.ts`). Ausente = sin regla propia. */
+  unit_class?: readonly string[];
+}
+
+/**
+ * El contexto completo de una aplicación de proc: **los dos dueños de `arch-decisions §17`, cada uno
+ * en su campo**.
+ *
+ * Reemplaza al `hit` suelto que la firma llevaba. Sumar un parámetro más habría alcanzado para el
+ * único consumidor de hoy, y es lo que se descartó: el receptor va a entrar también en
+ * `resolutionModifier` y en `critModifier` —el cap de Cold en Overguard es ese caso, ya escrito en
+ * `OQ-ENGINE-12`—, y la forma que sostiene tres sitios es un contexto, no tres parámetros sueltos.
+ * Meterlo dentro de `HitContext` no era opción: ese tipo se declara *source-side*, y colapsar los dos
+ * dueños en un objeto es exactamente lo que §17 le reprocha a `GameLaws`.
+ */
+export interface ProcContext {
+  /** Lo que trae el emisor: el output de la instancia + sus desvíos de ley. */
+  hit: HitContext;
+  /** Lo que trae el receptor. Ausente = no aporta nada, y entonces rige lo que el emisor declare. */
+  receiver?: ReceiverContext;
 }
 
 /** Una emisión de daño de un proc: `value` crudo + `as` = el tipo con el que RESUELVE (bleed→'true'). */
@@ -71,10 +125,17 @@ export interface CritModifier {
 export interface EffectBehavior<S> {
   readonly effect: StatusEffect;
   /** Aplica un proc (o `amount` fraccional, EV): computa snapshot + acumula. Generaliza `addStacks`. */
-  applyProc(state: S | undefined, hit: HitContext, amount: number, t: number): S;
+  applyProc(state: S | undefined, ctx: ProcContext, amount: number, t: number): S;
   /** Evoluciona el estado en `[t, t+dt)`: decae/expira, y EMITE las resoluciones de DoT del intervalo. */
   advance(state: S, t: number, dt: number): { state: S; damage: Resolucion[] };
-  /** Modificador de resolución actual (armor/capa). Ausente = no modifica. */
+  /**
+   * Modificador de resolución actual (armor/capa). Ausente = no modifica.
+   *
+   * ⚠️ **No recibe el `ReceiverContext`, y va a necesitarlo.** No se le pasó por anticipado porque
+   * ningún desvío conocido del receptor entra por acá; el primero que lo haga (`OQ-ENGINE-12`) lo
+   * agrega — el contexto ya existe y llega hasta el contenedor, así que es un argumento más, no una
+   * forma nueva. Anclado en `__tests__/status/receiver-law.test.ts`.
+   */
   resolutionModifier?(state: S, t: number): ResolutionModifier;
   /** Modificador de crit del atacante (Weakened/Freeze, `OQ-ENGINE-12`). Ausente = no toca el crit. */
   critModifier?(state: S, t: number): CritModifier;

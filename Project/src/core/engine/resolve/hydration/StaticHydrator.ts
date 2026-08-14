@@ -15,6 +15,7 @@ import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
 import { isWeaponDamageToken, damageTypeFromToken, GLOBAL_DAMAGE_POOLS } from "../../contracts/damage-logic";
+import { lawParamOf } from "../../contracts/law-params";
 import type { DamageType } from "@shared/types";
 
 export class StaticHydrator {
@@ -196,7 +197,7 @@ export class StaticHydrator {
     // es el único que tiene esos campos), así que el resultado es idéntico — pero quién los porta lo
     // dice la escena, no una constante escrita acá.
 
-    // OQ-ENGINE-4: Consumer loop de Archon Shards. El shard nace en su portador; si su token trae
+    // `DC-OQ-ENGINE-4`: Consumer loop de Archon Shards. El shard nace en su portador; si su token trae
     // sub-familia, el `target_channel` lo redirige en la pasada de ruteo de abajo — igual que un
     // arcano o un mod. Acá ya no se resuelve el canal: hacerlo era la razón de que el ruteo
     // existiera una sola vez y solo para shards.
@@ -382,6 +383,26 @@ export class StaticHydrator {
       );
     }
 
+    // ── Nodo de parámetro de ley: nace SÓLO si alguien lo declara ───────────────────────
+    // Un desvío de parámetro no es un atributo, así que no viene en el molde de ninguna entidad y
+    // `resolveNode` (`if (!node) return`) lo descartaría. Se siembra acá, en la entidad que el ruteo
+    // ya eligió, y con base 0 — el neutro de un `add`.
+    //
+    // ⚠️ **Condicional a propósito, y es la diferencia con `GLOBAL_DAMAGE_POOLS`.** Aquéllos se
+    // siembran en toda arma porque el pool existe siempre (vacío ⇒ ×1.0). Un parámetro de ley no:
+    // `vocabulary.md §6` fija que **callar ≠ declarar un valor neutro**, y un nodo sembrado en cero
+    // en las tres armas diría *"declaro que no desvío"* en vez de *"no hablo"*. Hoy la diferencia no
+    // se nota con `add` (0 es neutro); el día que un portador declare un `replace` o un techo por
+    // nodo, sembrar de más cambia el resultado.
+    for (const m of routed) {
+      if (!lawParamOf(m.target_attribute)) continue;
+      const target = entityById.get(m.target_entity);
+      if (!target || target.attributes[m.target_attribute]) continue;
+      target.attributes[m.target_attribute] = {
+        base: 0, base_flat: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 0,
+      };
+    }
+
     this.reportUnlandedModifiers(entities, routed);
     return { entities, modifiers: routed };
   }
@@ -487,6 +508,7 @@ export class StaticHydrator {
       kind: dna.kind,
       family: dna.family,
       faction: dna.faction,
+      unit_class: dna.unit_class,
       // PE = entidad poseída/equipada (arma o warframe); TE = transitoria (proc, proyectil).
       persistence: (dna.tags.includes('weapon') || isWarframe) ? 'PE' : 'TE',
       tags: dna.tags,

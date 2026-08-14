@@ -17,7 +17,7 @@ Reset Decay: 20% $STRENGTH
 Radius: 40m $RANGE
 #### VENOM DOSE
 Radius: 15m $RANGE
-Extra Damage: <DT_CORRISVE> 100% $STRENGTH
+Extra Damage: <DT_CORROSIVE> 100% $STRENGTH
 Duration: 40s $DURATION
 
 ## /Lotus/Powersuits/PowersuitAbilities/ShedAbility

@@ -776,7 +776,7 @@ function buildArchwingWeaponsArtifacts(
 // en omniframe-items). Contrato y rarezas de la fuente: `docs/data/schemas/enemy/schema.md`.
 //
 // NO se emiten, a propósito:
-//   · `resistances` y los `health_type`/`armor_type`/`shield_type` que derivaba — modelo per-clase
+//   · `resistances` y las clases per-capa que derivaba (`health`/`armor`/`shield` type) — modelo
 //     **pre-U36**, era muerta: desde U36 el daño-vs-target es por FACCIÓN (`FACTION_BONUS`).
 //     `EnemyRepository.load` los rellena con defaults inertes; son sunset candidato del contrato.
 //   · `wikiInternalName` (trazabilidad de la cosecha, no dato de dominio) y `wikiType` (taxonomía de

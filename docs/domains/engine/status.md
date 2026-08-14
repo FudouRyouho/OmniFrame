@@ -293,20 +293,17 @@ C2 real, no se reconcilia todavía (gate = consumidor, no ausencia de plan).
 - `engine:debt` — descomponer `project()` en piezas por naturaleza cuando `combat/` tenga un consumidor
   de producción. [verificación de estabilidad pre-C1]
 
-### Campos `*_type` de `EnemyDNA` — muertos, candidatos a sunset (revisión pendiente)
+### El enemigo no declara clase per-capa — y `RawEnemyEntry` deja de restar
 
-`EnemyDNA` declara `health_type`/`armor_type`/`shield_type` (`EnemyRepository.ts`), pero son **inertes**: se
-sintetizan como constantes (`'Health'/'None'/'None'`), `RawEnemyEntry` los **omite** del `enemies.json`, y
-`resolveHit` no los lee (la ley de armadura es **única para todas las facciones** — no depende de `armor_type`,
-ver `enemy-scaling.ts`). Son un artefacto del modelo per-clase muerto (mismo linaje que el `armorBypass`-por-elemento
-ya sunseteado en `resolveHit`).
+`EnemyDNA` no tiene `health_type`/`armor_type`/`shield_type`. Eran el modelo per-clase **pre-U36**, muerto
+desde que el daño-vs-target es por facción (`FACTION_BONUS`), y sobrevivían como **contrato obligatorio**
+que ninguna fórmula leía: el generador no los emitía, `load()` los fabricaba con constantes inertes y
+`RawEnemyEntry` existía **sólo para omitirlos** — el tipo del dato real desmentía al tipo del contrato.
+Hoy `RawEnemyEntry = EnemyDNA` y el alias sólo nombra un rol (lo que llega del disco, antes de curar).
 
-Sunset **candidato pero NO ejecutado**: el radio de impacto no está cerrado — además de los 3 campos toca las
-uniones `HealthType`/`ArmorType`/`ShieldType` y hay que confirmar si algún override de `enemies.json` los carga
-(el grep dice que no, pero es lo que la revisión debe verificar antes de borrar). RED — GO/NO-GO del usuario.
-
-- `engine:debt` — decidir sunset de `*_type` tras auditar las uniones de tipo + la cobertura real en `enemies.json`.
-  [empirical: `EnemyRepository.ts:30-32,78-80` synth constante; `RawEnemyEntry` Omit; `resolveHit` no los lee]
+La ley de armadura sigue siendo **única para todas las facciones** (`enemy-scaling.ts`): no dependía de
+`armor_type` ni cuando el campo existía. Mismo linaje que el `armorBypass`-por-elemento ya retirado de
+`resolveHit`, y que `DAMAGE_EFFICIENCY`.
 
 ### Procedencia de perks de Incarnon — `source_id` ausente
 
@@ -356,10 +353,9 @@ Ver [`../../governance/open-questions.md`](../../governance/open-questions.md):
 - **OQ-ENGINE-12** — Timing del pipeline de crit condicional para Puncture/Cold (C2).
 - **OQ-ENGINE-15** — Fórmula de DR de armor enemigo: conflicto de 3 vías.
 - **OQ-ENGINE-16** — Fidelidad de N-declarado vs. timers reales para stacks de status (C1).
-- **OQ-ENGINE-17** — Fórmula de arcanos ability-like: ¿por-arcano o por-familia?
 - **OQ-ENGINE-FUTURE** — Web Worker, Rewind, y estado del Gold Standard testing.
 
-Las OQs cerradas (STATE-1..4, ENGINE-1/3/4/5/6/13, DATA-12) están en [`../../governance/closed-decisions.md`](../../governance/closed-decisions.md).
+Las OQs cerradas (STATE-1..4, ENGINE-1/3/4/5/6/8/9/13/17, DATA-3/12) están en [`../../governance/closed-decisions.md`](../../governance/closed-decisions.md).
 
 ## Contratos del motor
 

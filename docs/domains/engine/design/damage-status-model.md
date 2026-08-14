@@ -41,15 +41,19 @@ Confirmado como el mismo mecanismo en Viral, Magnetic y Corrosive (detalle y cit
 No son desvíos de un parámetro — son **overrides parciales de la tabla entera de caps**, y cada uno
 trae la suya:
 
-| Receptor | Alcance | Excepción | Fuente |
-|---|---|---|---|
-| **Acolyte** | 4 para ***cualquier*** status | **Impact → 3** | *"can only receive up to 4 stacks of any Status Effect with the exception of Impact which can stack up to 3 times"* |
-| **Kuva Lich / boss** | 4 para ***cualquier*** status | **Impact → 6** | *"No Status Effect will exceed a maximum of 4 stacks, with the exception of Impact which can stack up to 6 times"* |
-| **Overguard** | **sólo Cold** | — | *"Cold — máximo 4 procs"* |
+| Receptor | Alcance | Excepción | Fuente | Estado |
+|---|---|---|---|---|
+| **Acolyte** | 4 para ***cualquier*** status | **Impact → 3** | *"can only receive up to 4 stacks of any Status Effect with the exception of Impact which can stack up to 3 times"* | ✅ `RECEIVER_MAX_STACKS.acolyte` |
+| **Kuva Lich / boss** | 4 para ***cualquier*** status | **Impact → 6** | *"No Status Effect will exceed a maximum of 4 stacks, with the exception of Impact which can stack up to 6 times"* | **sin portador** — cero Liches en `enemies.json`; `Boss` vetado por `arch-decisions §22` |
+| **Overguard** | **sólo Cold** | — | *"Cold — máximo 4 procs"* | **no es clase sino capa en `t`** — sin origen modelado (`OQ-ENGINE-12`) |
 
 **`Impact` es la prueba de que no alcanza un cap único desviable:** es el único que *no* se colapsa a 4,
 y toma **tres valores para el mismo parámetro** — default `5`, Acolyte `3`, Lich `6`. Un `cap + desvío`
 no puede expresar eso; una tabla por portador sí.
+
+⚠️ **Y en el engine se llama `stagger`, no `impact`:** el tipo de daño y el efecto que produce no
+comparten nombre en `shared/types/damage.ts`. La primera fila del receptor se escribió con el nombre de
+la fuente y la atrapó el compilador — al traducir una tabla de la wiki, el nombre del efecto se traduce.
 
 **Las dos primeras filas son el mismo tratamiento con distinto valor**, y la fuente lo declara: los
 Acolytes recibieron *"the same Status Effect eligibility treatment that Liches received in Update
@@ -245,7 +249,7 @@ Detalle en `references/wiki/mechanics/status-effects.md`.
 `multiplier = 2+0.25×(n-1)` sobre daño de capa-salud, incluye True. Seam ya funcionando: `getDamageMultiplier("health")`. Orden de resolución: ver primitivo.
 
 ### Corrosive — Corrosion
-`strip(n) = min(0.26+0.06×(n-1), 0.80)`, timer de 8s por stack, sin rampa de reversión (discreto: un stack expira, se recalcula con `n-1`). `EnemyState.getEffectiveArmor()` ya combina parcialmente Corrosive+Heat.
+`strip(n) = min(0.26+0.06×(n-1), 1.00)`, timer de 8s por stack, sin rampa de reversión (discreto: un stack expira, se recalcula con `n-1`). El techo es **físico** —no se saca más armadura de la que hay—: el 80 % que la fuente cita es `f(10)`, o sea lo que da el **cap de stacks** por defecto, y la misma página declara que 14 stacks (alcanzables con Emerald Archon Shard) la quitan entera. `EnemyState.getEffectiveArmor()` ya combina parcialmente Corrosive+Heat, y su `max(0, …)` es lo que sostiene el piso cuando varios `armorMult` se multiplican — ninguno de ellos ve el producto.
 
 ### Magnetic — Disruption
 Entra: `multiplier = 2+0.25×(n-1)` sobre daño a shields/Overguard, mismo seam que Viral (`getDamageMultiplier("shield")`). Diferido: negación de recarga de shields (no simulamos regen), bonus Electricity al romper Overguard (evento puntual), extra-efectividad vs Nullifiers (nicho).

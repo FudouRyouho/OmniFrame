@@ -16,9 +16,10 @@ import type { EffectBehavior, Resolucion } from "./effect-behavior";
 import { dotTickValue, type DotType } from "./dot-tick";
 import { tickTimes, type DotPulse } from "./dot-timeline";
 import {
-  stackDebuffValue, infectionLaw, disruptionLaw, corrosionLaw, WEAKENED_CRIT_LAW, COLD_CRIT_LAW,
-  CORROSIVE_MAX_STACKS, STATUS_MAX_STACKS,
+  stackDebuffValue, applyStackProc, receiverMaxStacks, infectionLaw, disruptionLaw, corrosionLaw,
+  WEAKENED_CRIT_LAW, COLD_CRIT_LAW, CORROSIVE_MAX_STACKS, STATUS_MAX_STACKS,
 } from "./stack-debuff";
+import { resolveParam } from "../common/param-deviation";
 
 /** Duración declarada del decay: 6 s. ⚠️ La fórmula de abajo NO la implementa — ver `status.md §Deudas`. */
 const DECAY_DURATION = 6.0;
@@ -33,7 +34,7 @@ interface DotState { pulses: DotPulse[]; }
 function makeDotBehavior(effect: StatusEffect, dotType: DotType, as: DamageType): EffectBehavior<DotState> {
   return {
     effect,
-    applyProc(state, hit, amount, t) {
+    applyProc(state, { hit }, amount, t) {
       const ownElement = hit.elementBonusPct[dotType] ?? 0;   // dot-tick fuerza 0 para slash internamente
       const tickValue = dotTickValue(dotType, hit.moddedBase, ownElement, hit.statusDamageBonusPct);
       const pulse: DotPulse = {
@@ -65,6 +66,11 @@ function makeDotBehavior(effect: StatusEffect, dotType: DotType, as: DamageType)
 // Stack-debuff — contador + decay fluido (corrosion, infection, disruption).
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * ⚠️ **Escalar, y `arch-decisions §17` lo marca como arrastre:** *"reemplaza el más viejo"* opera
+ * sobre instancias con timer propio, no sobre un contador. Lo que un contador puede expresar —que el
+ * proc sobre-cap **no lo baja**— lo cubre `applyStackProc`; lo que no, es `OQ-ENGINE-16`.
+ */
 interface StackState { count: number; }
 
 function decayCount(count: number, dt: number): number {
@@ -73,8 +79,19 @@ function decayCount(count: number, dt: number): number {
 
 const corrosionBehavior: EffectBehavior<StackState> = {
   effect: "corrosion",
-  applyProc(state, _hit, amount) {
-    return { count: Math.min(CORROSIVE_MAX_STACKS, (state?.count ?? 0) + amount) };
+  applyProc(state, { hit, receiver }, amount) {
+    // LA CADENA DE §17, ENTERA Y EN UNA LÍNEA. El cap es **del que aplica**
+    // (`status-stack-caps.md`), así que sale de la instancia y no de la constante: el default del
+    // concepto, desviado por lo que el emisor declare — salvo que el receptor hable sobre este mismo
+    // parámetro, en cuyo caso el del emisor no llega (precedencia, no dominancia).
+    //
+    // Los dos lados llegan en su propio idioma: el emisor por parámetro de ley, el receptor por
+    // status. Traducirlos es de acá, que es el único punto que sabe cuál es su efecto.
+    const cap = resolveParam(CORROSIVE_MAX_STACKS, {
+      emitter: hit.lawDeviations?.["corrosive.maxStacks"],
+      receiver: receiverMaxStacks(receiver, "corrosion"),
+    });
+    return { count: applyStackProc(state?.count ?? 0, amount, cap) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
@@ -88,8 +105,8 @@ const corrosionBehavior: EffectBehavior<StackState> = {
 
 const infectionBehavior: EffectBehavior<StackState> = {
   effect: "infection",
-  applyProc(state, _hit, amount) {
-    return { count: Math.min(STATUS_MAX_STACKS, (state?.count ?? 0) + amount) };
+  applyProc(state, _ctx, amount) {
+    return { count: applyStackProc(state?.count ?? 0, amount, STATUS_MAX_STACKS) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
@@ -102,8 +119,8 @@ const infectionBehavior: EffectBehavior<StackState> = {
 
 const disruptionBehavior: EffectBehavior<StackState> = {
   effect: "disruption",
-  applyProc(state, _hit, amount) {
-    return { count: Math.min(STATUS_MAX_STACKS, (state?.count ?? 0) + amount) };
+  applyProc(state, _ctx, amount) {
+    return { count: applyStackProc(state?.count ?? 0, amount, STATUS_MAX_STACKS) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
@@ -123,19 +140,22 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 // (stage del hit) en vez de `resolutionModifier` (stage de mitigación).
 //
 // ⚠️ AUSENCIAS DIFERIDAS (no simplificaciones — dato/mecánica que hoy NO existe, OQ-ENGINE-12):
-//   · Freeze cap 4 stacks en bosses/Overguard — falta el flag boss/overguard en el DNA del enemigo.
+//   · Freeze cap 4 stacks en Overguard — el canal del receptor ya existe (`receiverMaxStacks`) y la
+//     entidad ya puede declarar clase; lo que falta es el **Overguard**, que no es clase sino capa
+//     presente en `t` y no tiene origen modelado (`current_overguard` nace en 0 y nada lo sube).
+//     "Bosses" queda afuera por otra razón: `arch-decisions §22` lo veta — no pasa el test de tres vías.
 //   · Freeze 10º stack (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — sin modelar.
 //   · Puncture no aplica a AoE / habilidades de warframe — gratis hoy (el modelo son hits de arma).
 // El decay fluido (compartido con corrosion) vs los N-timers reales es SIMPLIFICACIÓN → OQ-ENGINE-16.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const WEAKENED_MAX_STACKS = 5;
-const FREEZE_MAX_STACKS = 9; // ⚠️ 4 en bosses/Overguard (ausente: sin flag boss) — OQ-ENGINE-12.
+const FREEZE_MAX_STACKS = 9; // ⚠️ 4 con Overguard presente (ausente: la capa no tiene origen) — OQ-ENGINE-12.
 
 const weakenedBehavior: EffectBehavior<StackState> = {
   effect: "weakened",
-  applyProc(state, _hit, amount) {
-    return { count: Math.min(WEAKENED_MAX_STACKS, (state?.count ?? 0) + amount) };
+  applyProc(state, _ctx, amount) {
+    return { count: applyStackProc(state?.count ?? 0, amount, WEAKENED_MAX_STACKS) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
@@ -148,8 +168,8 @@ const weakenedBehavior: EffectBehavior<StackState> = {
 
 const freezeBehavior: EffectBehavior<StackState> = {
   effect: "freeze",
-  applyProc(state, _hit, amount) {
-    return { count: Math.min(FREEZE_MAX_STACKS, (state?.count ?? 0) + amount) };
+  applyProc(state, _ctx, amount) {
+    return { count: applyStackProc(state?.count ?? 0, amount, FREEZE_MAX_STACKS) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
@@ -168,7 +188,7 @@ interface HeatState { pool: number; ignite: number; firstProcTime: number | null
 
 const igniteBehavior: EffectBehavior<HeatState> = {
   effect: "ignite",
-  applyProc(state, hit, amount, t) {
+  applyProc(state, { hit }, amount, t) {
     const s = state ?? { pool: 0, ignite: 0, firstProcTime: null };
     const tickValue = dotTickValue("heat", hit.moddedBase, hit.elementBonusPct.heat ?? 0, hit.statusDamageBonusPct);
     return {

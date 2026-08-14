@@ -17,6 +17,8 @@
 import type { SimulationEntity } from "../../contracts";
 import { isWeaponDamageToken, damageTypeFromToken } from "../../contracts/damage-logic";
 import { scaleDotBase } from "../../formulas/status/dot-base-scaling";
+import { LAW_PARAM_TOKENS, type EmitterDeviations } from "../../contracts/law-params";
+import { modifies, type ParamDeviation } from "../../formulas/common/param-deviation";
 import type { DamageType } from "@shared/types";
 
 export interface DamageInstance {
@@ -42,6 +44,15 @@ export interface DamageInstance {
   statusChance: number;
   statusDamageBonusPct: number;
   multishot: number;
+  /**
+   * Los **desvíos de ley del emisor** — lo único de esta interfaz que no es output.
+   *
+   * `arch-decisions §17` lo nombraba como el hueco estructural del cuarto eslabón: la instancia
+   * llevaba *"el **output** del emisor y **no** sus desvíos de ley"*, y por eso podía resolver el
+   * desvío del receptor y no el del emisor — *"el del emisor nunca llegó"*. Ausente = el emisor no
+   * declara nada y rige el default del concepto.
+   */
+  lawDeviations?: EmitterDeviations;
 }
 
 /**
@@ -68,12 +79,25 @@ export function deriveInstance(entity: SimulationEntity): DamageInstance {
   const dotModdedBase = dot ? scaleDotBase(dot.innateBaseTotal, attrs["WEAPON_ADD_DAMAGE"]) : moddedBase;
   const ownElementBonusPct = dot?.ownElementBonusPct ?? {};
 
+  // Los desvíos de ley que el emisor declara. **Ya compuestos por el grafo**: tres Tauforged Emerald
+  // son tres modifiers `ADD_FLAT` sobre el mismo nodo, así que el `+9` sale del acumulador —el mismo
+  // que suma Serration— y no de aritmética escrita acá. El nodo existe **sólo si alguien lo declaró**
+  // (`contracts/law-params.ts`): ausente ⇒ el emisor calla, que no es lo mismo que declarar 0.
+  const lawDeviations: EmitterDeviations = {};
+  for (const [token, param] of Object.entries(LAW_PARAM_TOKENS)) {
+    const node = attrs[token];
+    if (!node) continue;
+    const declared: ParamDeviation[] = [modifies.add(node.final)];
+    lawDeviations[param] = declared;
+  }
+
   return {
     damageByToken,
     damageByType,
     moddedBase,
     dotModdedBase,
     ownElementBonusPct,
+    ...(Object.keys(lawDeviations).length > 0 ? { lawDeviations } : {}),
     critChance: attrs["WEAPON_ADD_CRIT_CHANCE"]?.final || 0,
     critMult: attrs["WEAPON_ADD_CRIT_MULT"]?.final || 1.0,
     statusChance: (attrs["WEAPON_ADD_STATUS_CHANCE"]?.final || 0) / 100,

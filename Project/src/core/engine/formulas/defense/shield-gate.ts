@@ -95,9 +95,20 @@ export function gateLawFor(channel: string | undefined): GateLaw | undefined {
 }
 
 /**
- * DATO, NO TABLA VIVA — los cuatro desvíos del receptor sobre la duración, con su verbo de §17.
- * Ninguno se aplica hoy: el canal que los resolvería es `CV-3`. Se declaran acá para que el stage
+ * DATO, NO TABLA VIVA — las cuatro desviaciones del receptor sobre la duración, con su verbo.
+ * Ninguna se aplica hoy: el canal que las resolvería es `CV-3`. Se declaran acá para que el stage
  * arranque del corpus medido y no de cero.
+ *
+ * **Por qué el nombre no dice de qué son desviaciones:** el módulo lo aporta. El vocabulario lo fija en
+ * `vocabulary.md §6` — `{DUEÑO}_DEVIATIONS` vive **junto a la ley que desvía**, y el complemento sólo
+ * viaja en el nombre cuando el tipo es compartido (`ParamDeviation`). Mismo criterio por el que
+ * `WEAKENED_CRIT_LAW` no aclara de qué es la ley.
+ *
+ * ⚠️ **Sigue en prosa a propósito, aunque la primitiva ya exista.** `formulas/common/param-deviation.ts`
+ * podría tipar estas cuatro filas hoy —los cuatro casos están en su suite—, pero tiparlas es **elegir
+ * los números**, y uno está en disputa: el `1.33` de Catalyzing tiene `⚠️ CONFLICTO` declarado abajo.
+ * Este módulo ya fijó la precondición y sigue valiendo: *"cuando `CV-3` lo aplique, el conflicto tiene
+ * que estar resuelto antes"*.
  */
 export const RECEIVER_DEVIATIONS = [
   { fuente: "Hildryn (y aliados con Haven)", verbo: "modifica", efecto: "duración = 3.5 s" },

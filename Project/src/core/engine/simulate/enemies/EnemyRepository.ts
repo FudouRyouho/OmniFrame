@@ -3,9 +3,7 @@
  * @status en-desarrollo
  */
 
-export type HealthType = "Health" | "Flesh" | "ClonedFlesh" | "Fossilized" | "Robotic" | "Infested" | "InfestedFlesh" | "InfestedSinew" | "Machinery";
-export type ArmorType = "None" | "FerriteArmor" | "AlloyArmor";
-export type ShieldType = "None" | "Shields" | "ProtoShield";
+import { UNIT_CLASSES, type UnitClass } from "../../contracts/unit-class";
 
 /**
  * Punto débil de un enemigo: multiplicador de daño por parte del cuerpo (`Multis` del wiki,
@@ -28,6 +26,12 @@ export interface EnemyDNA {
   armor: number;
   shields: number;
   /**
+   * Qué unidad es, cuando eso cambia qué ley recibe (`contracts/unit-class.ts`). **No lo trae la
+   * cosecha**: el wiki declara la regla del Acolyte en su página de mecánica, no en la fila del
+   * enemigo, así que el único origen hoy es el override. Ver `SimulationEntity.unit_class`.
+   */
+  unit_class?: readonly UnitClass[];
+  /**
    * Facción canónica (`docs/semantic/factions.md`), resuelta en cascada por el generador
    * (export → wiki → `type` → `Unaffiliated`): keyea el scaling y `FACTION_BONUS`. Ya NO llega
    * contaminada con categorías de arma / roles de IA (`OQ-DATA-15`); lo que no es facción real
@@ -38,30 +42,68 @@ export interface EnemyDNA {
   eximus_health?: number;
   /** Multiplicadores por parte. Sin consumidor todavía; fidelidad del dato. */
   weakpoints?: Weakpoint[];
-  /**
-   * @deprecated Clases per-capa **pre-U36** — ya no rigen (daño-vs-target = por facción, ver
-   * `FACTION_BONUS`). El generador **NO las emite**; `load()` las rellena con **defaults inertes**
-   * (`'Health'`/`'None'`/`'None'`). `resolveHit` ya resuelve la matriz③ por facción (`targetFactionMult`,
-   * checkpoint-1) y **NO lee estos campos** → son un **sunset candidato del contrato** (separado del de
-   * `DAMAGE_EFFICIENCY`, ya purgado): borrarlos toca `EnemyDNA` + `enemies.json` + `load()`.
-   */
-  health_type: HealthType;
-  armor_type: ArmorType;
-  shield_type: ShieldType;
 }
 
 /**
- * Forma del enemigo tal como sale del generador (`public/data/enemies.json`): EnemyDNA MENOS los
- * `*_type` deprecados (ver arriba), que `load()` rellena con defaults inertes. `base_level` YA
- * viene en el dato (cosecha wiki vía omniframe-items) — dejó de ser un seam.
+ * Forma del enemigo tal como sale del generador (`public/data/enemies.json`).
+ *
+ * **Es `EnemyDNA` sin restar nada**, y eso es la novedad: era un `Omit` de tres campos que el
+ * contrato exigía y el dato nunca trajo — `health_type`/`armor_type`/`shield_type`, clases per-capa
+ * **pre-U36** que dejaron de regir cuando el daño-vs-target pasó a ser por facción (`FACTION_BONUS`).
+ * El alias existía **sólo para desmentir al contrato**: ninguna fórmula los leía, `load()` los
+ * fabricaba con constantes inertes y el generador no los emitía. Medido antes de cortar: **0
+ * apariciones** en `enemies.json` (638 entradas) y **0** en el override.
+ *
+ * Se conserva el nombre porque nombra un rol distinto —lo que **llega del disco**, antes de curar—
+ * aunque hoy la forma coincida: `curateEnemies` produce `RawEnemyEntry[]` y `load()` los registra.
  */
-export type RawEnemyEntry = Omit<EnemyDNA, 'health_type' | 'armor_type' | 'shield_type'>;
+export type RawEnemyEntry = EnemyDNA;
 
 /**
- * Override fino de enemigo (hoy sólo `base_level`; keyed por unique_name). Sembrado, casi vacío.
- * El override es curación manual: **gana** sobre el `base_level` cosechado.
+ * Override fino de enemigo, keyed por unique_name. El override es **curación manual: gana sobre lo
+ * cosechado**, y para `unit_class` es la única fuente — el wiki declara la regla del Acolyte en su
+ * página de mecánica, no en la fila del enemigo.
  */
-export type EnemyOverride = Record<string, { base_level?: number }>;
+export type EnemyOverride = Record<string, { base_level?: number; unit_class?: readonly UnitClass[] }>;
+
+/**
+ * LA CURACIÓN, APLICADA UNA VEZ Y ANTES DEL REPARTO.
+ *
+ * Vivía dentro de `load()`, y ahí sólo llegaba a **una** de las dos ramas que consumen el mismo raw:
+ * `EnemyRepository` la recibía curada y `ItemRepository.loadEnemies` cruda, así que el override no
+ * alcanzaba a la entidad resuelta —que es la que se simula—. Con `enemy-stats.override.json` en `{}`
+ * la fuga no movía ningún número; era latente igual que lo era `min(cap, count + 1)`, y se activaba
+ * con la primera fila escrita.
+ *
+ * El seam correcto no era pasarle el override también a la otra rama: es que **curar no es cargar**.
+ * La fuente se cura una vez y las dos ramas leen lo mismo. La justificación vieja de la doble carga
+ * (*"EnemyRepository lo escala para C2"*) ya era drift: `scale()` no existe más.
+ *
+ * 🔴 **Una clase desconocida TIRA.** Un valor que ningún `RECEIVER_*` reconoce no rendiría nada y no
+ * habría cómo notarlo — el enemigo pelearía con las leyes default y el número sería creíble y falso.
+ * Mismo criterio que el `throw` de dos `replace` en `applyDeviations`.
+ */
+export function curateEnemies(entries: RawEnemyEntry[], overrides: EnemyOverride = {}): RawEnemyEntry[] {
+  for (const [uniqueName, o] of Object.entries(overrides)) {
+    for (const cls of o.unit_class ?? []) {
+      if (!UNIT_CLASSES.includes(cls)) {
+        throw new Error(
+          `[enemy-override] "${uniqueName}" declara la clase de unidad "${cls}", que no existe. ` +
+            `Conocidas: ${UNIT_CLASSES.join(", ")} (contracts/unit-class.ts).`,
+        );
+      }
+    }
+  }
+  return entries.map((e) => {
+    const o = overrides[e.unique_name];
+    if (!o) return e;
+    return {
+      ...e,
+      base_level: o.base_level ?? e.base_level,
+      ...(o.unit_class ? { unit_class: o.unit_class } : {}),
+    };
+  });
+}
 
 /**
  * Catálogo de enemigos: CARGA Y BÚSQUEDA, nada más.
@@ -83,21 +125,13 @@ export class EnemyRepository {
   }
 
   /**
-   * Puebla el registro desde el dato normalizado (`enemies.json`). El `base_level` viene en el
-   * dato; el override sólo lo pisa donde cura a mano. Reemplaza el `register()` de los fixtures.
+   * Puebla el registro desde el dato **ya curado** (`curateEnemies`). No aplica overrides: hacerlo acá
+   * los dejaba fuera de la otra rama que lee el mismo raw — ver `curateEnemies`.
    */
-  public static load(entries: RawEnemyEntry[], overrides: EnemyOverride = {}): void {
+  public static load(entries: RawEnemyEntry[]): void {
     this.registry.clear();
     for (const e of entries) {
-      this.register({
-        ...e,
-        base_level: overrides[e.unique_name]?.base_level ?? e.base_level ?? 1,
-        // Defaults inertes de los `*_type` deprecados (ver EnemyDNA): `resolveHit` ya usa la matriz③ por
-        // facción (`targetFactionMult`) y no lee estos campos. Sunset candidato del contrato (ver EnemyDNA).
-        health_type: 'Health',
-        armor_type: 'None',
-        shield_type: 'None',
-      });
+      this.register({ ...e, base_level: e.base_level ?? 1 });
     }
   }
 

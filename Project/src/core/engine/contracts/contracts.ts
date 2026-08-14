@@ -33,6 +33,29 @@ export interface SimulationEntity {
    */
   faction?: string;
 
+  /**
+   * Qué unidad ES, cuando eso cambia qué ley recibe (`contracts/unit-class.ts`). **Campo y no tag**,
+   * por el mismo motivo que `faction`: se consulta POR VALOR (`RECEIVER_MAX_STACKS[clase]`), no por
+   * presencia en una lista. Ausente = no tiene regla propia, que es el caso de casi toda entidad.
+   *
+   * **Es distinto de `channel`**, que declara qué física base le toca: el acólito lleva
+   * `channel: 'enemy'` y **debe** llevarlo —sin él no tiene vitales— mientras recibe otra ley de
+   * status. Dos preguntas, dos campos.
+   *
+   * ⚠️ **CONJUNTO Y NO ESCALAR — marcado para revisión.** Hoy ninguna entidad porta dos clases, así
+   * que la forma va por delante de su caso. El warrant es medido y no anticipado: `arch-decisions §22`
+   * fija que Eximus es **clase** (*"existen Eximus sin Overguard"*) y que *"cualquier unidad base puede
+   * spawnear como Eximus"*, y el dato lo confirma —`eximus_health` está en **283 de 638** entradas de
+   * `enemies.json`, o sea Eximus es variante del mismo registro y no fila propia—. Un Kuva Bombard
+   * Eximus es dos clases y un escalar tendría que elegir.
+   *
+   * **Qué lo revisa:** cuando Eximus se construya, o al segundo miembro de `UnitClass`. Si para
+   * entonces sigue sin haber portador de dos clases —porque Eximus terminó entrando por otro canal,
+   * p. ej. como elección del escenario y no como identidad del dato— el array es forma sin caso y baja
+   * a escalar, que es un regex.
+   */
+  unit_class?: readonly string[];
+
   persistence: 'PE' | 'TE'; // Pure Entity | Transient Entity
   tags: string[];
   /**
@@ -93,6 +116,8 @@ export interface MutatedDNA {
   family?: ItemFamily;
   /** Ver `SimulationEntity.faction`: el espejo del lado hostil de `domain`/`kind`/`family`. */
   faction?: string;
+  /** Ver `SimulationEntity.unit_class`: qué unidad es, cuando eso cambia qué ley recibe. */
+  unit_class?: readonly string[];
   tags: string[];
   profiles: Record<string, Record<AttributeId, number>>; // 'base', 'alt', 'incarnon'
   // Keyed por profile_name (igual que profiles) — el behavior es por-ataque, no por-arma.

@@ -1,7 +1,7 @@
 import type { SimulationEntity } from "../../contracts";
 import type { StatusEffect } from "@shared/types";
 import { EFFECT_BEHAVIORS } from "../../formulas/status/behaviors";
-import type { EffectBehavior, HitContext, Layer, Resolucion } from "../../formulas/status/effect-behavior";
+import type { EffectBehavior, HitContext, Layer, ProcContext, ReceiverContext, Resolucion } from "../../formulas/status/effect-behavior";
 // NO importa `CombatSimulator`: el estado ya no invoca al resolvedor de lo que él mismo emite. La
 // composición «avanzar → resolver → recibir» vive en `../advance.ts`, que es el dueño del bucle.
 import { LAYER_STACK } from "../../contracts/layers";
@@ -26,8 +26,20 @@ import { damageToDeplete, shieldDamageReductionFor } from "../../formulas/defens
  * portado-por-entidad mientras la LEY (`formulas/status/`) ya era agnóstica a source/target. Lo que
  * amarraba este contenedor a "enemigo" era `base: ScaledEnemy`; de sus cuatro únicos usos
  * (health/shields/armor + facción) los cuatro estaban ya en la entidad resuelta, así que hoy la clase
- * no sabe de qué lado está su portador. El **rename** de la clase espera un segundo portador real
- * (`OQ-ENGINE-8`) — hoy sería vocabulario sin caso.
+ * no sabe de qué lado está su portador.
+ *
+ * 🔴 **EL NOMBRE MIENTE, Y YA NO POR ANTICIPACIÓN.** Este docblock decía que el rename *"espera un
+ * segundo portador real"* — y el segundo portador ya estaba, en el archivo que repetía la misma frase:
+ * `__tests__/state-neutrality.test.ts` construye `new EnemyState(…)` sobre un **warframe del catálogo
+ * por el camino real** (escena → C1), sobre un **compañero** y sobre un hostil, y contrasta las tres
+ * leyes entre ellos (vitales · mitigación · gate · capas). Medido: **15 construcciones, 3 clases de
+ * portador, y 11 de las 15 no son hostiles.** La espera no era del caso: era de que alguien cruzara el
+ * dato.
+ *
+ * ⚠️ **El rename es RED (contrato de `@core`) y no tiene hogar documental.** La procedencia que se le
+ * atribuía era falsa: `DC-OQ-ENGINE-8` está cerrada y su residual es el rename de `ViewModelContract`,
+ * otro contrato — nunca dijo nada de esta clase. Hasta que se decida, el nombre queda como está y
+ * **esta nota es lo único que impide volver a leerlo como "todavía no hay caso"**.
  */
 /** Valor resuelto de un nodo, o 0 si el participante no lo tiene (sin shields, sin armadura). */
 const nodeFinal = (entity: SimulationEntity, id: string): number => entity.attributes[id]?.final ?? 0;
@@ -118,11 +130,31 @@ export class EnemyState {
     return this.entity.faction ?? "";
   }
 
-  /** Aplica un proc de un efecto (o `amount` fraccional, EV). Rutea a su behavior; efecto sin modelar = no-op. */
+  /**
+   * Lo que este portador aporta a la resolución de un parámetro de ley — el lado receptor de
+   * `arch-decisions §17`.
+   *
+   * **Se computa al llamar, no se guarda.** Hoy sólo devuelve identidad, que no cambia en `t`, así que
+   * congelarlo daría lo mismo; el próximo campo no —el cap de Cold a 4 depende de que el Overguard
+   * esté presente **en ese instante** (`OQ-ENGINE-12`)— y para entonces la forma ya es la correcta.
+   */
+  public receiverContext(): ReceiverContext {
+    return { unit_class: this.entity.unit_class };
+  }
+
+  /**
+   * Aplica un proc de un efecto (o `amount` fraccional, EV). Rutea a su behavior; efecto sin modelar
+   * = no-op.
+   *
+   * **El contenedor se pasa a sí mismo y sigue sin conocer ninguna ley:** arma el contexto de los dos
+   * dueños y el behavior resuelve. Antes recibía el `hit` y lo reenviaba tal cual, con lo que el
+   * receptor —que es quien invoca— era el único de los dos lados que no llegaba.
+   */
   public applyProc(effect: StatusEffect, hit: HitContext, amount: number, currentTime: number = 0) {
     const behavior = EFFECT_BEHAVIORS[effect];
     if (!behavior) return;
-    this.effectStates.set(effect, behavior.applyProc(this.effectStates.get(effect), hit, amount, currentTime));
+    const ctx: ProcContext = { hit, receiver: this.receiverContext() };
+    this.effectStates.set(effect, behavior.applyProc(this.effectStates.get(effect), ctx, amount, currentTime));
   }
 
   /**

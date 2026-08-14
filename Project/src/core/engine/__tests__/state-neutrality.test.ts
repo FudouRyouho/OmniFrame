@@ -11,8 +11,11 @@
  * nombres se lo lee. Un arma no tiene entrada y es correcto — no tiene vitales—, así que llegar ahí
  * **tira** en vez de devolver ceros creíbles.
  *
- * Esto NO renombra `EnemyState`: el rename de la clase espera un segundo portador real
- * (`OQ-ENGINE-8`). Lo que se arregla acá es una falla medida, no vocabulario sin caso.
+ * Esto NO renombra `EnemyState`, y el motivo **ya no es que falte el caso**: este archivo ES el caso.
+ * De sus 15 construcciones de `EnemyState`, **11 no son hostiles** — un warframe del catálogo por el
+ * camino real, un compañero y avatares sintéticos—, y lo que contrasta es justamente que el mismo
+ * contenedor recibe **leyes distintas** según quién lo porta. El rename queda pendiente porque es un
+ * contrato de `@core` (RED), no por vocabulario sin caso.
  */
 import { describe, it, expect } from 'vitest';
 import { loadEngineData } from '../bootstrap/engine-data';

@@ -45,8 +45,32 @@ interface Weakpoint {
 }
 ```
 
-Consumidor: `EnemyRepository.load` (`RawEnemyEntry` = este contrato). `load()` agrega `base_level` del
-override si existe y los `*_type` deprecados con defaults inertes.
+Consumidor: `EnemyRepository.load` (`RawEnemyEntry` = este contrato + lo que el override agregue).
+`load()` sólo registra: no sintetiza ningún campo.
+
+### El override — curación manual, y el único origen de `unit_class`
+
+```ts
+type EnemyOverride = Record<string, {
+  base_level?: number;
+  unit_class?: readonly UnitClass[];   // hoy: 'acolyte' (6 filas)
+}>;
+```
+
+**`unit_class` no lo trae la cosecha y no va a traerlo:** el wiki declara la regla del Acolyte en su
+página de mecánica (*"can only receive up to 4 stacks of any Status Effect"*), no en la fila del
+enemigo. Se escribe a mano, y el engine la consume como llave de los desvíos de ley del receptor
+(`arch-decisions §17`).
+
+⚠️ **Derivarla del `unique_name` se descartó.** El path `/Lotus/Types/Enemies/Acolytes/` parte los 6
+exacto, pero es la clase de inferencia que `OQ-ENGINE-31` ya midió fallar en los precepts (12
+desacuerdos sobre 26). El path queda como **tripwire**: un test verifica que los 6 del override son
+exactamente los 6 del path, así un acólito nuevo se nota en vez de desincronizar el dato en silencio.
+
+🔴 **La curación corre ANTES del reparto, y no es un detalle de orden.** `enemies.json` se consume dos
+veces —`EnemyRepository` para resolver nombres, `ItemRepository` para hidratar al participante que se
+simula—. Mientras el override se aplicaba dentro de `load()`, sólo la primera rama lo veía y la entidad
+simulada nacía con el dato crudo. `curateEnemies` corre una vez y las dos ramas leen lo mismo.
 
 **Procedencia por campo:**
 
@@ -60,8 +84,9 @@ override si existe y los `*_type` deprecados con defaults inertes.
 
 **No se emiten:** `resistances` y los `health_type`/`armor_type`/`shield_type` que derivaba — modelo
 per-clase **pre-U36**, era muerta: desde U36 el daño-vs-target es por facción (`FACTION_BONUS`).
-`EnemyDNA` todavía declara los `*_type` como sunset candidato. Tampoco `wikiInternalName` (es
-trazabilidad de la cosecha, no dato de dominio), ni `drops`/`patchlogs`/`regionBits`/`imageName`.
+`EnemyDNA` tampoco los declara ya: eran contrato obligatorio sin un solo lector, y `RawEnemyEntry`
+existía sólo para restarlos. Tampoco `wikiInternalName` (es trazabilidad de la cosecha, no dato de
+dominio), ni `drops`/`patchlogs`/`regionBits`/`imageName`.
 
 ---
 

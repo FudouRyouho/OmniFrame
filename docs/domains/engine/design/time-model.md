@@ -437,12 +437,17 @@ uno y no lleva procedencia. Lo que **no** está refutado —y `arch-decisions §
 INSTANCIA, no del receptor. Con dos emisores de cap distinto, el enemigo tiene **un** contador pero el
 cap efectivo difiere por jugador"*. Persistencia ⊥ argumento.
 
-🔴 **Y ahí hay un hueco estructural, no un parámetro que falta.** La instancia hoy lleva el **output**
-del emisor (`moddedBase`, `statusDamageBonusPct`, `elementBonusPct`) y **no** sus **desvíos de ley**.
-Por eso puede resolver el desvío del receptor y no el del emisor: el del emisor nunca llegó.
-`applyProc` toma el cap de una constante de módulo (`CORROSIVE_MAX_STACKS`), así que los tres primeros
-eslabones de §17 no tienen por dónde entrar. El caso que lo fuerza —el cap 19 por `3 × Tauforged
-Emerald` contra el cap 4 que el Acolyte impone— **no es modelable hoy**, y no por falta de decisión.
+✅ **Ese hueco estructural está cerrado del lado del emisor, y la distinción de arriba es lo que lo
+permitió.** La instancia lleva ahora `lawDeviations` además de su *output*, y `applyProc` resuelve el
+cap con `resolveParam(default, { emitter })` en vez de leer `CORROSIVE_MAX_STACKS`. Lo que viaja es un
+**argumento**: muere con la aplicación del proc y el contador del receptor sigue sin recordar quién
+puso cada stack — exactamente el reparto que este descarte fijaba.
+
+✅ **Y la otra mitad del caso también:** el cap `4` que el Acolyte impone entra por el mismo `applyProc`,
+como **argumento** y por el campo del otro dueño (`ProcContext.receiver`). Que los dos lados viajen así
+—y no como estado persistido— es lo que hace que tres Tauforged rindan `19` contra un hostil común y `4`
+contra un acólito **con el mismo contador**: el cap se resuelve por instancia, el contador no recuerda
+nada. La distinción de arriba es exactamente la que lo permite, y ahora la ejercen los dos sentidos.
 
 🔴 **El gate del substrato sigue partido.** `decision-frontier §4` lo enumera con 5 fronteras. Este
 documento contesta *"¿cómo modelamos el tiempo?"*; sigue gateada *"¿hace falta un substrato steppeado
