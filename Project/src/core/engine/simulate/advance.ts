@@ -16,17 +16,21 @@
  */
 import type { EntityState } from "./EntityState";
 import { CombatSimulator } from "./combat/CombatSimulator";
-import { damageTokenFromType } from "../contracts/damage-logic";
 
 /**
  * Avanza el estado en `[currentTime, +dt)` y aplica lo que sus efectos emitieron, resolviendo cada
  * emisión por el **mismo camino que un hit directo** (`resolveDamageEvent`) — un tick de DoT no es
  * una excepción del pipeline, es una instancia más que nace del target.
+ *
+ * ⚠️ Acá había un `damageTokenFromType(res.as)`: la emisión **ya declaraba su tipo** y tenía que
+ * disfrazarlo de token de arma para que el resolvedor la aceptara — un DoT que nace del target
+ * hablando en vocabulario de arma. Con la resolución keyeada por tipo, `res.as` pasa directo. El
+ * envoltorio no era un detalle de estilo: era la traducción que ocultaba que la llave tenía dueño.
  */
 export function advanceAndResolve(state: EntityState, currentTime: number, dt: number): void {
   for (const res of state.advance(currentTime, dt)) {
     const { layer, finalDamage } = CombatSimulator.resolveDamageEvent(
-      damageTokenFromType(res.as), res.value, state, currentTime,
+      res.as, res.value, state, currentTime,
     );
     state.receive(layer, finalDamage, currentTime);
   }

@@ -23,8 +23,8 @@ import { CombatSimulator } from '../../simulate/combat/CombatSimulator';
 import { LAYER_STACK, layerFor } from '../../contracts/layers';
 import { damageReductionFromArmor } from '../../formulas/enemy/armor-mitigation';
 
-const TOXIN = 'WEAPON_ADD_TOXIN_DAMAGE';
-const IMPACT = 'WEAPON_ADD_IMPACT_DAMAGE';
+const TOXIN = 'toxin';
+const IMPACT = 'impact';
 
 describe('La pila declara el orden; cada capa declara qué la atraviesa', () => {
   it('el orden es `overguard → overshield → shield → health`', () => {

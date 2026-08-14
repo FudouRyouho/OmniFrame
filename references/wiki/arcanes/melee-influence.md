@@ -6,7 +6,7 @@
 > No usar para: catálogo de armas compatibles fuera de la lista de proc eléctrico forzado
 > Última actualización: 2026-08-01
 > Fuente: https://wiki.warframe.com/w/Melee_Influence
-> Fuente actualizada: 2026-08-01
+> Fuente actualizada: 2026-08-02
 > Raw: melee-influence.wikitext
 
 ## Qué es

@@ -26,6 +26,9 @@
 import { describe, it, expect } from 'vitest';
 import { abilityInstance, hitContextOf } from './ability-instance';
 import { makeIsolatedTarget } from './status/harness';
+import { syntheticHostile } from './hostile-entity';
+import { EntityState } from '../simulate/EntityState';
+import { CombatSimulator } from '../simulate/combat/CombatSimulator';
 import { describeAbilityStatus } from '../formulas/ability/ability-status';
 import { expectedProcEvents } from '../formulas/status/proc-population';
 import { CORROSIVE_MAX_STACKS } from '../formulas/status/stack-debuff';
@@ -99,44 +102,41 @@ describe('Mismo emisor, distinto estado por instancia — el eje del banco', () 
    * NINGUNO — el caso que no se probaba en ningún lado: **emitir daño y no proquear**. Es el
    * `AbilityProcBehavior.none` de `ability-status.ts`, expresado donde vive: en la instancia.
    *
-   * Y al escribirlo apareció que **la ley no gatea por chance**: `expectedProcEvents` filtra por
-   * *peso de daño* (`if (!weight) continue`), así que con `statusChance: 0` emite el evento igual,
-   * con `expected: 0`. Los números salen bien —lo que el test fija— y el gap está abajo.
+   * Escribirlo destapó que la ley gateaba sólo por **peso de daño** (`if (!weight) continue`), así que
+   * con `statusChance: 0` emitía un evento por tipo con `expected: 0`. Cerrado: un evento de esperanza
+   * cero no es un evento (`proc-population.ts`, **ausencia ≠ 0**). Callar y declarar cero son cosas
+   * distintas, y el motor decía la segunda donde correspondía la primera.
    */
-  it('ninguno — el daño sigue ahí y el efecto no rinde nada', () => {
+  it('ninguno — el daño sigue ahí y no hay un solo evento de proc', () => {
     const sinProc = abilityInstance({ damageByType: { heat: FIREBALL_HEAT }, statusChance: 0 });
     expect(sinProc.moddedBase).toBe(800);
 
-    const eventos = expectedProcEvents(sinProc.damageByType, sinProc.statusChance, 0);
-    expect(eventos.map((e) => e.expected)).toEqual([0]);   // el evento existe, su peso esperado es 0
+    expect(expectedProcEvents(sinProc.damageByType, sinProc.statusChance, 0)).toEqual([]);
   });
 
   /**
-   * 🔴 PERO EL ESTADO NACE, Y NACE INERTE.
+   * Y EL RECEPTOR NO GUARDA NADA — el consumidor de la ley de arriba, del otro lado del seam.
    *
-   * Medido: aplicar los eventos de una instancia con `statusChance: 0` deja
-   * `{ ignite: {pool:0, ignite:0, …}, corrosion: {count:0} }` en el contenedor. Ningún número cambia
-   * —el armor queda entero— así que es **latente**, exactamente igual que lo eran `min(cap, count+1)`
-   * y la fuga del override de enemigo.
-   *
-   * Por qué importa igual: `activeBehaviors()` los itera en **cada** `advance` y en cada
-   * `getDamageMultiplier`, y `effectStates.has('corrosion')` contesta que sí a un efecto que nunca
-   * ocurrió. La primera pregunta de un consumidor que sea *"¿qué estados tiene este target?"* recibe
+   * Antes esto era rojo medido: el estado nacía **inerte** (`{ignite:{pool:0,…}, corrosion:{count:0}}`).
+   * Ningún número se movía —el armor quedaba entero, así que era latente igual que `min(cap, count+1)`
+   * y la fuga del override de enemigo— pero `activeBehaviors()` los iteraba en cada `advance` y en cada
+   * `getDamageMultiplier`, y `effectStates.has('corrosion')` contestaba que sí a un efecto que nunca
+   * ocurrió. La primera pregunta de un consumidor que fuera *"¿qué estados tiene este target?"* recibía
    * una respuesta falsa.
    *
-   * Rojo medido en vez de anotado. Dónde se arregla —gatear en `expectedProcEvents` (no emitir con
-   * chance 0) o en `applyProc` (no crear estado con amount 0)— **no es obvio**: son dos leyes con dos
-   * dueños, y la segunda también recibe `amount` fraccionales legítimos.
+   * El gate quedó en el **poblador** y no en `applyProc`: la pregunta *"¿hubo proc?"* es de quien
+   * conoce la chance. `applyProc` sigue aplicando lo que le den —el modelo EV le pasa `expected`
+   * fraccionales legítimos y no tiene con qué distinguir un 0 válido de uno espurio—.
    */
-  it.fails('un emisor sin status chance no debería dejar estado en el receptor', () => {
+  it('un emisor sin status chance no deja estado en el receptor', () => {
     const sinProc = abilityInstance({ damageByType: { heat: FIREBALL_HEAT, corrosive: 200 }, statusChance: 0 });
     const t = makeIsolatedTarget({ armor: 1000 });
     for (const ev of expectedProcEvents(sinProc.damageByType, sinProc.statusChance, 0)) {
       const effect = effectOfDamageType(ev.type);
       if (effect) t.applyProc(effect, hitContextOf(sinProc), ev.expected, 0);
     }
-    expect(t.getEffectiveArmor(0)).toBe(1000);   // ✅ esto ya vale: ningún número se movió
-    expect([...t.effectStates.keys()]).toEqual([]);  // ❌ hay `ignite` y `corrosion` en 0
+    expect(t.getEffectiveArmor(0)).toBe(1000);
+    expect([...t.effectStates.keys()]).toEqual([]);
   });
 });
 
@@ -212,16 +212,71 @@ describe('⭐ La habilidad ve el mismo cap desviado que el arma — cierra el l�
   });
 });
 
+/**
+ * ⭐ LAS LEYES DE RESOLUCIÓN ALCANZAN A LA HABILIDAD — el corte del token-space, medido.
+ *
+ * **Qué se rompía.** Las tres leyes de resolución (matriz de facción, bypass de capa, bypass de armor)
+ * se keyeaban por el token `WEAPON_ADD_<TIPO>_DAMAGE`, así que respondían *"¿de qué tipo es este
+ * daño?"* con una llave que además nombra **de qué familia de emisor sale**. Un emisor que no fuera un
+ * arma las perdía **sin un throw y sin un warn** — números creíbles y falsos. Medido antes del corte,
+ * cambiando SÓLO el prefijo y dejando el tipo y el target iguales:
+ *
+ *     Heat 1000 vs Infested       WEAPON_ 1500        AVATAR_ 1000       (matriz perdida)
+ *     Toxin 200 vs shields 500    WEAPON_ {health}    AVATAR_ {shield}   (capa equivocada)
+ *     True 1000 vs armor 2700     WEAPON_ 1000        AVATAR_ 99.99      (DR aplicada de más)
+ *
+ * **Qué se hizo.** No se acuñó ningún token nuevo —y en particular NO existe `AVATAR_ADD_<TIPO>_DAMAGE`
+ * en el dato real de DE— sino que se partió la llave en sus dos trabajos: el **bucket de upgrade**
+ * sigue siendo del arma (y ahí `WEAPON_` es fiel, incluidas las habilidades que el juego trata como
+ * armas) y el **tipo de la instancia** pasó a `DamageType`, que no tiene dueño. Detalle en
+ * `contracts/damage-logic.ts` §los dos trabajos.
+ *
+ * Lo que estos tests fijan es que **la instancia de una habilidad recibe la misma física que la de un
+ * arma**, y que eso ya no depende de con qué prefijo viaje.
+ */
+describe('⭐ la física del target no pregunta quién emitió', () => {
+  const hostilDe = (faction: string, opts: { armor?: number; shields?: number } = {}) =>
+    new EntityState(syntheticHostile({ faction, health: 100_000, ...opts }));
+
+  it('la matriz de facción alcanza a una habilidad: Heat vs Infested paga ×1.5', () => {
+    const fireball = abilityInstance({ damageByType: { heat: 1000 } });
+    const hit = CombatSimulator.resolveHit(fireball.damageByType, hostilDe('Infested'));
+    expect(hit.total_damage).toBe(1500);
+  });
+
+  it('…y la resistencia también: el mismo Heat contra Kuva Grineer paga ×0.5', () => {
+    const fireball = abilityInstance({ damageByType: { heat: 1000 } });
+    const hit = CombatSimulator.resolveHit(fireball.damageByType, hostilDe('Kuva Grineer'));
+    expect(hit.total_damage).toBe(500);
+  });
+
+  it('el Toxin de una habilidad atraviesa el shield igual que el de un arma', () => {
+    const toxica = abilityInstance({ damageByType: { toxin: 200 } });
+    const hit = CombatSimulator.resolveHit(toxica.damageByType, hostilDe('Isolated', { shields: 500 }));
+    expect(hit.by_layer).toEqual({ health: 200 });
+  });
+
+  /**
+   * El caso que cierra el eje: la ley se pregunta por el TIPO, así que la respuesta no puede cambiar
+   * porque el emisor cambie. Dos instancias con el mismo tipo y el mismo número —una nacida del banco
+   * de habilidades, otra escrita a mano como lo haría cualquier otro emisor— resuelven idéntico.
+   */
+  it('mismo tipo y mismo número ⇒ mismo resultado, venga de donde venga', () => {
+    const target = () => hostilDe('Infested', { armor: 2700, shields: 300 });
+    const desdeHabilidad = CombatSimulator.resolveHit(abilityInstance({ damageByType: { heat: 750 } }).damageByType, target());
+    const desdeCualquiera = CombatSimulator.resolveHit({ heat: 750 }, target());
+    expect(desdeHabilidad.total_damage).toBe(desdeCualquiera.total_damage);
+    expect(desdeHabilidad.by_layer).toEqual(desdeCualquiera.by_layer);
+  });
+});
+
 describe('Lo que el banco EXPONE y no resuelve', () => {
   // El desvío del emisor se declara acá porque una habilidad no tiene el nodo `GAMEPLAY_*` — vive en
   // el arma por el ruteo (`FAMILY_ROUTE.GAMEPLAY = 'weapon'`). Con el segundo emisor construido, la
   // decisión deja de ser hipotética: duplicar el nodo en cada destino ⊥ dejarlo donde nace y que cada
   // instancia lo lea subiendo por el árbol de propiedad (`arch-decisions §18`).
   it.todo('de dónde lee sus `lawDeviations` una instancia que no sale de un arma — nodo duplicado ⊥ leído por el árbol');
-  // 🔴 `damageTokenFromType('heat')` da `WEAPON_ADD_HEAT_DAMAGE`: una habilidad emite su daño con
-  // tokens de arma. No bloquea —el motor rutea por TIPO— pero es el mismo sesgo de `GAMEPLAY_ → weapon`
-  // visto desde el otro lado, y ahora es visible en vez de teórico.
-  it.todo('el token de daño dice `WEAPON_` aunque el emisor sea una habilidad — sesgo de vocabulario, no de ruteo');
+  // El sesgo del token de daño **se cerró** — ver el bloque ⭐ de abajo, que lo mide en verde.
   // `calculateGyreCrit` sigue sin consumidor: es la EXCEPCIÓN (una warframe con crit de habilidad),
   // no la regla, y la regla —¿una habilidad critea por default?— no está medida.
   it.todo('`ability-crit.ts` tiene su primer consumidor — hoy sólo cubre la excepción (Gyre), no la ley');

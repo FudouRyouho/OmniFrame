@@ -15,9 +15,9 @@ import { damageReductionFromArmor } from '../../formulas/enemy/armor-mitigation'
 
 describe('harness — invariante de aislamiento', () => {
   it('la facción sentinela neutraliza la matriz③ (×1.0 para todo tipo)', () => {
-    expect(targetFactionMult('WEAPON_ADD_CORROSIVE_DAMAGE', ISOLATED_FACTION)).toBe(1);
-    expect(targetFactionMult('WEAPON_ADD_IMPACT_DAMAGE', ISOLATED_FACTION)).toBe(1);
-    expect(targetFactionMult('WEAPON_ADD_VIRAL_DAMAGE', ISOLATED_FACTION)).toBe(1);
+    expect(targetFactionMult('corrosive', ISOLATED_FACTION)).toBe(1);
+    expect(targetFactionMult('impact', ISOLATED_FACTION)).toBe(1);
+    expect(targetFactionMult('viral', ISOLATED_FACTION)).toBe(1);
   });
 });
 
@@ -32,7 +32,7 @@ describe('Corrosion — armor strip (MODELADO)', () => {
   });
 
   it('el strip llega a la resolución: más stacks de Corrosion → más daño a salud (menos DR)', () => {
-    const damage = { WEAPON_ADD_IMPACT_DAMAGE: 100 }; // no-toxin, target sin shields → capa salud
+    const damage = { impact: 100 }; // no-toxin, target sin shields → capa salud
     const noStrip = resolveIsolated(damage, makeIsolatedTarget({ armor: 1000, health: 100000 }));
     const strip5 = resolveIsolated(damage, makeIsolatedTarget({ armor: 1000, health: 100000, stacks: { corrosion: 5 } }));
     const strip10 = resolveIsolated(damage, makeIsolatedTarget({ armor: 1000, health: 100000, stacks: { corrosion: 10 } }));
@@ -70,7 +70,7 @@ describe('Corrosion — estrés del techo', () => {
   });
 
   it('armadura totalmente stripeada ≡ target sin armadura — el daño no se pasa de pleno', () => {
-    const damage = { WEAPON_ADD_IMPACT_DAMAGE: 100 };
+    const damage = { impact: 100 };
     const stripeado = resolveIsolated(damage, makeIsolatedTarget({ armor: 1000, health: 100000, stacks: { corrosion: 14 } }));
     const sinArmor = resolveIsolated(damage, makeIsolatedTarget({ armor: 0, health: 100000 }));
     expect(stripeado.health_damage).toBeCloseTo(sinArmor.health_damage, 10);

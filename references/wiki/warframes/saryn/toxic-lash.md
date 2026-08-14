@@ -2,7 +2,7 @@
 
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Toxic_Lash
-> Fuente actualizada: 2026-07-15
+> Fuente actualizada: 2026-08-09
 > Raw: toxic-lash.wikitext
 
 ## Identidad de la mecánica: NO es un buff de nodo

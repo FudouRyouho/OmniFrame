@@ -15,7 +15,7 @@ describe('Infection — multiplicador a la capa salud (MODELADO)', () => {
   it.each([
     [1, 2.0], [3, 2.5], [10, 4.25],
   ])('n=%i multiplica el daño a salud ×%f', (n, mult) => {
-    const damage = { WEAPON_ADD_IMPACT_DAMAGE: 100 }; // target sin shields → capa salud
+    const damage = { impact: 100 }; // target sin shields → capa salud
     const base = resolveIsolated(damage, makeIsolatedTarget({}));
     const withInfection = resolveIsolated(damage, makeIsolatedTarget({ stacks: { infection: n } }));
     expect(withInfection.health_damage).toBeCloseTo(base.health_damage * mult, 5);
@@ -24,7 +24,7 @@ describe('Infection — multiplicador a la capa salud (MODELADO)', () => {
   });
 
   it('Toxin bypassa shields y su daño a salud recibe el multiplicador de Infection', () => {
-    const damage = { WEAPON_ADD_TOXIN_DAMAGE: 100 }; // bypass shields → salud aun con shields presentes
+    const damage = { toxin: 100 }; // bypass shields → salud aun con shields presentes
     const base = resolveIsolated(damage, makeIsolatedTarget({ shields: 500 }));
     const withInfection = resolveIsolated(damage, makeIsolatedTarget({ shields: 500, stacks: { infection: 1 } }));
     expect(base.shield_damage).toBe(0);            // toxin no toca shields
@@ -32,14 +32,14 @@ describe('Infection — multiplicador a la capa salud (MODELADO)', () => {
   });
 
   it('Infection NO afecta la capa shields (solo salud)', () => {
-    const damage = { WEAPON_ADD_IMPACT_DAMAGE: 100 }; // no-toxin → golpea shields si existen
+    const damage = { impact: 100 }; // no-toxin → golpea shields si existen
     const base = resolveIsolated(damage, makeIsolatedTarget({ shields: 500 }));
     const withInfection = resolveIsolated(damage, makeIsolatedTarget({ shields: 500, stacks: { infection: 10 } }));
     expect(withInfection.shield_damage).toBeCloseTo(base.shield_damage, 5); // sin cambio en shields
   });
 
   it('sin stacks: multiplicador neutro', () => {
-    const damage = { WEAPON_ADD_IMPACT_DAMAGE: 100 };
+    const damage = { impact: 100 };
     const target = makeIsolatedTarget({});
     expect(target.getDamageMultiplier("health")).toBe(1.0);
     expect(resolveIsolated(damage, target).health_damage).toBeCloseTo(100, 5);

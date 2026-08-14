@@ -6,7 +6,7 @@
 > No usar para: la lista completa de mods por eje (galerías del raw) · la **velocidad base de movimiento y su composición** (`movement-speed.md`, que la publica con tabla y fórmula) · la velocidad de sprint por warframe (`sprint-speed.wikitext`) · las leyes de Knockdown en sí (`knockdown.wikitext`) · movimiento de Necramech — la página lo declara pendiente con `{{UpdateMe}}`
 > Última actualización: 2026-07-31
 > Fuente: https://wiki.warframe.com/w/Maneuvers · https://wiki.warframe.com/w/Knockdown
-> Fuente actualizada: 2026-07-30
+> Fuente actualizada: 2026-08-13
 > Raw: maneuvers.wikitext · knockdown.wikitext
 
 ## Definición

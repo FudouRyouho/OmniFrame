@@ -6,7 +6,7 @@
 > No usar para: elección del tipo de proc por peso de daño — ver `damage-types.md` §Regla de elección de proc
 > Última actualización: 2026-08-13
 > Fuente: https://wiki.warframe.com/w/Status_Effect
-> Fuente actualizada: 2026-07-02
+> Fuente actualizada: 2026-08-13
 > Raw: status-effect.wikitext
 
 ## Distinción fundamental

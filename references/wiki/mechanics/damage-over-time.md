@@ -6,7 +6,7 @@
 > No usar para: el efecto de cada status por separado (→ `status-effects.md`) · el double-dip de facción en particular (→ `faction-damage.md`)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage_over_Time
-> Fuente actualizada: 2026-07-18
+> Fuente actualizada: 2026-08-04
 > Raw: damage-over-time.wikitext
 
 ## Cuántos ticks

@@ -24,6 +24,8 @@
  * que lo esté para que la capa exista con su número en cero.
  */
 
+import type { DamageType } from "@shared/types";
+
 /** Las capas del portador, por el test de §22 (*cantidad que se agota*). */
 export type Layer = "overguard" | "overshield" | "shield" | "health";
 
@@ -43,16 +45,23 @@ export const LAYER_STACK: readonly Layer[] = ["overguard", "overshield", "shield
  * qué pasa con los overshields. Es un hueco de la fuente, no de nuestra captura; queda marcado acá y
  * como `todo` en la suite en vez de resolverse inventando.
  */
-const BYPASSED_BY: Readonly<Record<Layer, readonly string[]>> = {
-  overguard:  [],                              // neutral a todo tipo: nada la atraviesa (Void/Magnetic la AMPLIFICAN, que es otra cosa)
-  overshield: ["WEAPON_ADD_TOXIN_DAMAGE"],     // ⚠️ asunción — ver arriba
-  shield:     ["WEAPON_ADD_TOXIN_DAMAGE"],
-  health:     [],                              // la última: nada la atraviesa porque no hay debajo
+const BYPASSED_BY: Readonly<Record<Layer, readonly DamageType[]>> = {
+  overguard:  [],           // neutral a todo tipo: nada la atraviesa (Void/Magnetic la AMPLIFICAN, que es otra cosa)
+  overshield: ["toxin"],    // ⚠️ asunción — ver arriba
+  shield:     ["toxin"],
+  health:     [],           // la última: nada la atraviesa porque no hay debajo
 };
 
-/** ¿Esta capa deja pasar este daño sin absorberlo? */
-export function layerBypassedBy(layer: Layer, damageToken: string): boolean {
-  return BYPASSED_BY[layer].includes(damageToken);
+/**
+ * ¿Esta capa deja pasar este daño sin absorberlo?
+ *
+ * ⚠️ **Se preguntaba por token y ahora por tipo.** *"Toxin atraviesa el shield"* es una ley del **tipo**
+ * —la fuente habla de Toxin, no de `WEAPON_ADD_TOXIN_DAMAGE`—, así que keyearla por token la ataba al
+ * emisor. Medido: `Toxin 200` contra un target con `shields 500` caía en `{health: 200}` con el token
+ * del arma y en **`{shield: 200}`** con cualquier otra familia. La capa equivocada, sin ruido.
+ */
+export function layerBypassedBy(layer: Layer, type: DamageType): boolean {
+  return BYPASSED_BY[layer].includes(type);
 }
 
 /**
@@ -60,10 +69,10 @@ export function layerBypassedBy(layer: Layer, damageToken: string): boolean {
  * Si ninguna califica cae en `health`, que es el piso — un portador sin capas sigue teniendo dónde
  * recibir, y que su salud esté en cero es una lectura, no un caso a resolver acá.
  */
-export function layerFor(damageToken: string, amounts: Readonly<Partial<Record<Layer, number>>>): Layer {
+export function layerFor(type: DamageType, amounts: Readonly<Partial<Record<Layer, number>>>): Layer {
   for (const layer of LAYER_STACK) {
     if ((amounts[layer] ?? 0) <= 0) continue;
-    if (layerBypassedBy(layer, damageToken)) continue;
+    if (layerBypassedBy(layer, type)) continue;
     return layer;
   }
   return "health";

@@ -6,7 +6,7 @@
 > No usar para: los stats base de Harrow · el resto de sus habilidades · qué mods de shield convienen
 > Última actualización: 2026-08-01
 > Fuente: https://wiki.warframe.com/w/Penance
-> Fuente actualizada: 2026-07-27
+> Fuente actualizada: 2026-08-12
 > Raw: penance.wikitext
 
 ## Qué es

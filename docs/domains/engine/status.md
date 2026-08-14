@@ -213,6 +213,14 @@ Tres cosas se apartan de eso:
 La cura de fondo no es afinar la tolerancia: es que **el disparo declare su instante** en vez de que el
 reloj lo adivine — el mismo principio que ya separa lo invariante de lo que no (`§20`, muestreo).
 
+⚠️ **Eje agregado 2026-08-14 — el reloj también asume que el emisor es un arma.** El censo de leyes
+escritas del lado-arma (`arch-decisions §18`, cuarta aparición) lo encontró desde otro ángulo: `1/fireRate`
+no es una cadencia que una habilidad tenga. Una habilidad tiene **cast time, cooldown y duración**, y
+ninguno de los tres se deriva de `WEAPON_ADD_FIRE_RATE`. Hoy no muerde porque ninguna habilidad emite en
+producción —el emisor no-arma vive sólo en el banco (`__tests__/ability-instance.ts`)— pero el fallback
+`|| 1` le daría una cadencia inventada de 1/s en vez de sonar, que es la **tercera** vez que este mismo
+`|| 1` aparece en la lista de arriba. Refuerza la cura de fondo: quien emite declara **cuándo**.
+
 ### El efecto de Heat no sabe terminar — y terminar incluye su consecuencia
 
 El armor strip de Heat no es un efecto con ventana: es un **nivel que vive en el portador**, y el proc

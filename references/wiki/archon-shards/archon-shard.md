@@ -6,7 +6,7 @@
 > No usar para: adquisición y drops (está en el raw) · el modelado de estos buffs hacia el motor
 > Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Archon_Shard
-> Fuente actualizada: 2026-07-28
+> Fuente actualizada: 2026-08-13
 > Raw: archon-shard.wikitext
 
 Los valores **entre paréntesis** son los de la variante **Tauforged**.

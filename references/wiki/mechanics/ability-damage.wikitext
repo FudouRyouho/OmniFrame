@@ -1,0 +1,26 @@
+{{Stub}}
+'''Ability Damage''' is an [[upgrade]] for [[Abilities]] that increases [[damage]] dealt. Not to be confused with [[Ability Strength]] which is a separate stat.
+
+Ability Damage from Archon Shards do not work on Exalted Weapons, and while Shattering Frost works, it is additive to [[Condition_Overload_(Mechanic)#Sources_of_Condition_Overload-Style_Bonuses|Condition Overload style bonuses]] (e.g., {{M|Galvanized Aptitude}}).
+
+==Sources of Increasing Ability Damage==
+<gallery>
+EmeraldArchonShard.png|link=Emerald Archon Shard|{{Resource|Emerald Archon Shard}}<br />+10% Ability Damage on enemies affected by {{D|Corrosive}} status. 
+TauforgedEmeraldArchonShard.png|link=Tauforged Emerald Archon Shard|{{Resource|Tauforged Emerald Archon Shard}}<br />+15% Ability Damage on enemies affected by {{D|Corrosive}} status.
+TopazArchonShard.png|link=Topaz Archon Shard|{{Resource|Topaz Archon Shard}}<br />+10% Ability Damage on enemies affected by {{D|Radiation}} status. 
+TauforgedTopazArchonShard.png|link=Tauforged Topaz Archon Shard|{{Resource|Tauforged Topaz Archon Shard}}<br />+15% Ability Damage on enemies affected by {{D|Radiation}} status.
+VioletArchonShard.png|link=Violet Archon Shard|{{Resource|Violet Archon Shard}}<br />+10% Ability Damage on enemies affected by {{D|Electricity}} status. 
+TauforgedVioletArchonShard.png|link=Tauforged Violet Archon Shard|{{Resource|Tauforged Violet Archon Shard}}<br />+15% Ability Damage on enemies affected by {{D|Electricity}} status.
+DecreeShatteringFrost.png|link=Shattering Frost|[[Decree#Shattering Frost|Shattering Frost]]<br />Deal '''+80/160/240%''' damage to enemies affected by {{D|Cold}} Status.
+RadialBlast.png|link=Roar|[[Roar]]<br>User and affected allies gain '''10% / 15% / 25% / 50%''' bonus damage to all weapons and abilities.
+</gallery>
+
+== Sources of Ability Damage Resistance ==
+<gallery>
+DisrupterAncientDE.png|link=Ancient Disruptor|{{E|Ancient Disruptor}}<br />90% ability damage resistance, reduces the duration of all abilities that affect them by 75%.
+</gallery>
+
+==See Also==
+*[[Universal Weapon Bonuses]] - a related mechanic that applies to some Warframe Abilities coded as "weapons".
+
+{{MechNav}}

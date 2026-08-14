@@ -40,7 +40,20 @@ export function expectedProcEvents(
 	const events: ProcEvent[] = [];
 	for (const [type, weight] of Object.entries(weights) as Array<[DamageType, number | undefined]>) {
 		if (!weight) continue;
-		events.push({ type, timestamp, expected: statusChance * weight });
+		const expected = statusChance * weight;
+		// **Ausencia ≠ 0** — la misma ley que gatea `flight != null` en projectile speed y que
+		// `vocabulary.md §6` fija para los parámetros (*callar ≠ declarar un valor neutro*), acá del
+		// lado del estado. Sin esto el filtro era sólo por peso, así que un emisor con `statusChance:
+		// 0` emitía un evento por cada tipo presente **con esperanza cero**, y `applyProc` los aplicaba:
+		// el receptor terminaba con `{ignite:{pool:0,…}, corrosion:{count:0}}` sin que ningún número se
+		// moviera. Latente en la aritmética y **falso en la lectura** — `activeBehaviors()` los itera en
+		// cada `advance` y `effectStates.has(...)` contestaba que sí a un efecto que nunca ocurrió.
+		//
+		// Se gatea acá y **no** en `applyProc` a propósito: la pregunta *"¿hubo proc?"* es del poblador,
+		// que es quien conoce la chance; `applyProc` aplica lo que le den —incluidos los `expected`
+		// fraccionales que este mismo modelo EV produce— y no tiene con qué distinguir un 0 legítimo.
+		if (expected === 0) continue;
+		events.push({ type, timestamp, expected });
 	}
 	return events;
 }

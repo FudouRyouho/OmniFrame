@@ -3,6 +3,8 @@
  * @status en-desarrollo
  */
 
+import type { DamageType } from "@shared/types";
+
 /**
  * Bonificación de facción (**Update 36.0**) — el modelo vigente de daño-vs-target. Post-U36 las 13 clases
  * de capa del modelo viejo (Ferrite Armor / Cloned Flesh / Proto Shield / …) **ya no rigen**: el daño-vs-
@@ -11,28 +13,34 @@
  * ausente (0). Convención = delta de eficiencia para `typeMultiplier = 1 + bonus`.
  * SSoT: `references/wiki/mechanics/enemy-resistances.md §Matriz facción×elemento` (verificada por el usuario).
  *
- * Keyed `[damageToken][faction]`. **Consumida por `resolveHit` vía `targetFactionMult` (matriz③, checkpoint-1).**
+ * Keyed **`[DamageType][faction]`**. **Consumida por `resolveHit` vía `targetFactionMult` (matriz③, checkpoint-1).**
  * Facción canónica = vocabulario raw (`semantic/factions.md`: Orokin, NO "Corrupted").
+ *
+ * ⚠️ **Se keyeaba por token `WEAPON_*`, y eso era una ley del daño escrita con el nombre de un emisor.**
+ * La matriz es física del target: no le importa de dónde salió el Heat. Medido con el prefijo cambiado
+ * y todo lo demás igual — `Heat 1000 vs Infested`: `1500` con `WEAPON_ADD_HEAT_DAMAGE`, **`1000`** con
+ * cualquier otra familia, sin un throw. Un emisor que no fuera un arma perdía la matriz en silencio.
+ * El token sigue siendo correcto para el **bucket de upgrade** (`damage-logic.ts` §los dos trabajos).
  *
  * ⚠️ Incluye **subfacciones** (Kuva Grineer, Corpus Amalgam, Narmer, The Murmur, Infested Deimos, Techrot,
  * Scaldra, Anarchs, Zariman) que el `enemies.json` actual NO distingue (sólo bases) → esos bonus quedan
  * latentes hasta poder resolver subfacción en el dato (gap conocido).
  */
-export const FACTION_BONUS: Record<string, Record<string, number>> = {
-  "WEAPON_ADD_IMPACT_DAMAGE":      { "Grineer": 0.5, "Kuva Grineer": 0.5, "Scaldra": 0.5, "Anarchs": 0.5 },
-  "WEAPON_ADD_PUNCTURE_DAMAGE":    { "Corpus": 0.5, "Orokin": 0.5 },
-  "WEAPON_ADD_SLASH_DAMAGE":       { "Infested": 0.5, "Narmer": 0.5 },
-  "WEAPON_ADD_HEAT_DAMAGE":        { "Infested": 0.5, "Kuva Grineer": -0.5 },
-  "WEAPON_ADD_COLD_DAMAGE":        { "Sentient": 0.5, "Techrot": -0.5 },
-  "WEAPON_ADD_ELECTRICITY_DAMAGE": { "Corpus Amalgam": 0.5, "The Murmur": 0.5, "Anarchs": 0.5 },
-  "WEAPON_ADD_TOXIN_DAMAGE":       { "Narmer": 0.5 },
-  "WEAPON_ADD_BLAST_DAMAGE":       { "Infested Deimos": 0.5, "Corpus Amalgam": -0.5 },
-  "WEAPON_ADD_CORROSIVE_DAMAGE":   { "Grineer": 0.5, "Kuva Grineer": 0.5, "Scaldra": 0.5, "Sentient": -0.5 },
-  "WEAPON_ADD_GAS_DAMAGE":         { "Infested Deimos": 0.5, "Techrot": 0.5, "Scaldra": -0.5 },
-  "WEAPON_ADD_MAGNETIC_DAMAGE":    { "Corpus": 0.5, "Corpus Amalgam": 0.5, "Techrot": 0.5, "Narmer": -0.5 },
-  "WEAPON_ADD_RADIATION_DAMAGE":   { "Sentient": 0.5, "The Murmur": 0.5, "Anarchs": -0.5 },
-  "WEAPON_ADD_VIRAL_DAMAGE":       { "Orokin": 0.5, "Infested Deimos": -0.5, "The Murmur": -0.5 },
-  "WEAPON_ADD_VOID_DAMAGE":        { "Zariman": 0.5 },
+export const FACTION_BONUS: Partial<Record<DamageType, Record<string, number>>> = {
+  impact:      { "Grineer": 0.5, "Kuva Grineer": 0.5, "Scaldra": 0.5, "Anarchs": 0.5 },
+  puncture:    { "Corpus": 0.5, "Orokin": 0.5 },
+  slash:       { "Infested": 0.5, "Narmer": 0.5 },
+  heat:        { "Infested": 0.5, "Kuva Grineer": -0.5 },
+  cold:        { "Sentient": 0.5, "Techrot": -0.5 },
+  electricity: { "Corpus Amalgam": 0.5, "The Murmur": 0.5, "Anarchs": 0.5 },
+  toxin:       { "Narmer": 0.5 },
+  blast:       { "Infested Deimos": 0.5, "Corpus Amalgam": -0.5 },
+  corrosive:   { "Grineer": 0.5, "Kuva Grineer": 0.5, "Scaldra": 0.5, "Sentient": -0.5 },
+  gas:         { "Infested Deimos": 0.5, "Techrot": 0.5, "Scaldra": -0.5 },
+  magnetic:    { "Corpus": 0.5, "Corpus Amalgam": 0.5, "Techrot": 0.5, "Narmer": -0.5 },
+  radiation:   { "Sentient": 0.5, "The Murmur": 0.5, "Anarchs": -0.5 },
+  viral:       { "Orokin": 0.5, "Infested Deimos": -0.5, "The Murmur": -0.5 },
+  void:        { "Zariman": 0.5 },
   // Tau, True → sin bonificación de facción (matriz vacía).
 };
 
@@ -47,6 +55,6 @@ export const FACTION_BONUS: Record<string, Record<string, number>> = {
  * en DoT). Post-U36 la matriz NO distingue capa (shields/armor/salud) — mismo valor sin importar dónde
  * pega el hit (`enemy-resistances.md`, "el modelo de resistencias es por facción, no por clase de capa").
  */
-export function targetFactionMult(damageToken: string, faction: string): number {
-  return 1 + (FACTION_BONUS[damageToken]?.[faction] ?? 0);
+export function targetFactionMult(type: DamageType, faction: string): number {
+  return 1 + (FACTION_BONUS[type]?.[faction] ?? 0);
 }

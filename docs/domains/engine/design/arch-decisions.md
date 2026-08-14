@@ -1006,6 +1006,7 @@ que no tienen por qué dar la misma respuesta, y hoy cada una tiene su llave:
 | **ruteo de modifiers** — *¿este token aterriza acá?* | `routes` | `channel-routing.ts` (`resolveFamilyEntities`) · `StaticHydrator` |
 | **selección de ley** — *¿qué física se le aplica?* | **`channel`** | `gateLawFor` · `armorMitigationFor` (`CombatSimulator`) · `vitalsOf` (`EntityState`) |
 | **desvío de parámetro del receptor** — *¿qué unidad ES?* | **`unit_class`** | `receiverMaxStacks` (`stack-debuff.ts`) — §17 |
+| **tipo del daño** — *¿de qué tipo es esta instancia?* | **`DamageType`** | `targetFactionMult` · `layerFor` · `bypassesArmorAndMatrix` — ver abajo |
 
 **Para la selección de ley no hizo falta campo nuevo:** el espacio ya declaraba el canal por
 participante y ya distinguía las cinco clases que esas leyes necesitan (`warframe · archwing ·
@@ -1022,6 +1023,52 @@ como cualquier Lancer **debiendo llevarlo**: sin él `vitalsOf` no le encuentra 
 hay regla propia** (hoy 6 entidades de 638) y su ausencia es la respuesta normal, mientras que un canal
 ausente es un bug que tira. Es la misma partición que esta sección ya hizo entre `routes` y `channel`,
 un nivel más abajo — y por tercera vez el síntoma fue idéntico: una llave contestando dos preguntas.
+
+#### Cuarta aparición: el token de daño — *y acá la partición fue por trabajo, no por entidad*
+
+`WEAPON_ADD_HEAT_DAMAGE` nombraba **el bucket de upgrade** (*dónde suma Hellfire*) y **el tipo de la
+instancia** (*estos 400 puntos son Heat*) con la misma string. El primero es del arma y el prefijo es
+**fiel**; el segundo **no es de nadie**. Las tres leyes de resolución usaban la llave del primero para
+responder al segundo, así que un emisor que no fuera un arma las perdía. Medido cambiando sólo el
+prefijo, con el tipo y el target iguales:
+
+| | `WEAPON_` | otra familia | qué se perdió |
+|---|---|---|---|
+| Heat 1000 vs Infested | **1500** | **1000** | matriz de facción |
+| Toxin 200 vs `shields 500` | `{health: 200}` | `{shield: 200}` | bypass — capa equivocada |
+| True 1000 vs `armor 2700` | **1000** | **99.99** | bypass de armor |
+| `deriveInstance` | — | `{}` · `moddedBase: 0` | la instancia no existe |
+
+**Sin un throw y sin un warn** — el mismo modo de falla que `armorMitigationFor` sí bloquea del lado
+del receptor. Se cerró keyeando las tres leyes por `DamageType`; el token quedó en hidratación. La
+señal de que la partición era la correcta: `advance.ts` llamaba `damageTokenFromType(res.as)` — el DoT
+**ya declaraba su tipo** y tenía que disfrazarlo de token de arma para entrar al resolvedor.
+
+⚠️ **Y acá el eje NO se resolvió con una marca nueva, a diferencia de las tres anteriores.** No se
+acuñó ningún token: sobre 116 tokens `AVATAR_*` del dato real de DE **ninguno tipa daño emitido** —los
+únicos tipados del lado avatar son `AVATAR_CHANCE_RESIST_*` (recibir) y el único emisor es
+`AVATAR_ADD_ABILITY_DAMAGE`, sin tipo—, así que un `AVATAR_ADD_HEAT_DAMAGE` habría sido un vocablo que
+el juego no tiene. Lo que sí necesitó marca es **la elegibilidad del emisor**, que es otra pregunta:
+ver §*La clase del emisor* abajo.
+
+#### La clase del emisor — `Weapon Damage Ability`
+
+El juego tiene una clase que el motor no tenía: habilidades **codificadas como armas**.
+[`universal-weapon-bonuses.md`](../../../../references/wiki/mechanics/universal-weapon-bonuses.md) la
+nombra — *"often referred to as **"Weapon Damage Abilities"**, as the game treats them like weapons for
+the purposes of which buffs they are eligible for"* — y `Ability_Damage` la repite: *"some Warframe
+Abilities **coded as "weapons""***. Así que `WEAPON_ADD_*` sobre una habilidad **no siempre es un
+error**: para esas 26 es literalmente lo que el juego hace.
+
+Es el hermano de `unit_class` del lado source (*qué unidad ES el receptor* ⊥ *qué clase de emisor es*),
+y vive en [`contracts/emitter-class.ts`](../../../../Project/src/core/engine/contracts/emitter-class.ts)
+como **lista importada, no regla derivada**: la fuente insinúa un criterio (*"usually projectile-based"*)
+y su propia tabla lo desmiente con campos persistentes. La verifica contra el catálogo
+`weapon-damage-abilities.test.ts`, que es lo que impide que una entrada muera en silencio.
+
+La partición completa son **cuatro** clases, no dos — y **Exalted** es la que rompe cualquier binario:
+se llama arma, pesa como habilidad, y `Ability_Damage` declara que los shards *"do not work on Exalted
+Weapons"* mientras los augments elementales tampoco la alcanzan. Sin forcing-case propio todavía.
 
 **El compañero es donde divergen, y por eso parecía una contradicción semántica.** Porta `avatar` y
 **debe** portarlo para el primer trabajo —`Enhanced Vitality` (`AVATAR_ADD_HEALTH_MAX`) es vida del

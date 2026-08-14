@@ -6,7 +6,7 @@
 > No usar para: la taxonomía y los códigos `DT_*`/`PT_*` — ver [`damage-types.md`](damage-types.md) · la ley general de DoT — ver [`damage-over-time.md`](damage-over-time.md) · el comportamiento genérico de un proc — ver [`status-effects.md`](status-effects.md) · el catálogo de armas/mods/habilidades que aplican cada tipo (son cientos de líneas en cada raw)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage/Impact_Damage · https://wiki.warframe.com/w/Damage/Puncture_Damage · https://wiki.warframe.com/w/Damage/Slash_Damage
-> Fuente actualizada: 2026-07-17
+> Fuente actualizada: 2026-08-12
 > Raw: damage-impact-damage.wikitext · damage-puncture-damage.wikitext · damage-slash-damage.wikitext
 
 ## Resumen

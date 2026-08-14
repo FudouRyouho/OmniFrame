@@ -13,7 +13,7 @@ describe('Disruption — multiplicador a la capa shields (MODELADO, provisional 
   it.each([
     [1, 2.0], [10, 4.25],
   ])('n=%i multiplica el daño a shields ×%f (provisional = Infection)', (n, mult) => {
-    const damage = { WEAPON_ADD_IMPACT_DAMAGE: 100 }; // no-toxin → capa shields
+    const damage = { impact: 100 }; // no-toxin → capa shields
     const base = resolveIsolated(damage, makeIsolatedTarget({ shields: 100000 }));
     const withDisruption = resolveIsolated(damage, makeIsolatedTarget({ shields: 100000, stacks: { disruption: n } }));
     expect(withDisruption.shield_damage).toBeCloseTo(base.shield_damage * mult, 5);
@@ -21,7 +21,7 @@ describe('Disruption — multiplicador a la capa shields (MODELADO, provisional 
   });
 
   it('Disruption NO afecta la capa salud (solo shields)', () => {
-    const damage = { WEAPON_ADD_IMPACT_DAMAGE: 100 }; // sin shields → capa salud
+    const damage = { impact: 100 }; // sin shields → capa salud
     const base = resolveIsolated(damage, makeIsolatedTarget({}));
     const withDisruption = resolveIsolated(damage, makeIsolatedTarget({ stacks: { disruption: 10 } }));
     expect(withDisruption.health_damage).toBeCloseTo(base.health_damage, 5); // sin cambio en salud

@@ -6,7 +6,7 @@
 > No usar para: la ley general de DoT — ver [`damage-over-time.md`](damage-over-time.md) · la taxonomía y jerarquía de combinación — ver [`damage-types.md`](damage-types.md) · el catálogo de fuentes por tipo (son cientos de líneas en cada raw)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage/Blast_Damage · https://wiki.warframe.com/w/Damage/Corrosive_Damage · https://wiki.warframe.com/w/Damage/Gas_Damage · https://wiki.warframe.com/w/Damage/Magnetic_Damage · https://wiki.warframe.com/w/Damage/Radiation_Damage · https://wiki.warframe.com/w/Damage/Viral_Damage
-> Fuente actualizada: 2026-07-17
+> Fuente actualizada: 2026-08-06
 > Raw: damage-blast-damage.wikitext · damage-corrosive-damage.wikitext · damage-gas-damage.wikitext · damage-magnetic-damage.wikitext · damage-radiation-damage.wikitext · damage-viral-damage.wikitext
 
 ## Resumen

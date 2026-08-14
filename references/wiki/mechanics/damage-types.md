@@ -6,7 +6,7 @@
 > No usar para: fórmulas de proc y stacking detallado — ver [`status-effects.md`](status-effects.md) · la matriz de multiplicadores por facción — ver [`faction-damage.md`](faction-damage.md) y [`enemy-resistances.md`](enemy-resistances.md)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage
-> Fuente actualizada: 2026-07-13
+> Fuente actualizada: 2026-08-09
 > Raw: damage-types.wikitext
 
 ## Damage 3.0 — qué cambió respecto de 2.0

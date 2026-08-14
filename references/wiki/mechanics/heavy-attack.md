@@ -6,7 +6,7 @@
 > No usar para: el contador de combo, su duración y Heavy Attack Efficiency — ver [`melee-combo.md`](melee-combo.md)
 > Última actualización: 2026-07-31
 > Fuente: https://wiki.warframe.com/w/Melee
-> Fuente actualizada: 2026-06-17
+> Fuente actualizada: 2026-08-11
 > Raw: melee.wikitext
 
 ## Qué es

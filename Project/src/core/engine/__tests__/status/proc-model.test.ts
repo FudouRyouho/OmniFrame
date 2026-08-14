@@ -39,7 +39,7 @@ describe("bleed (Slash) — True: bypassa armor/matriz, NO el multiplicador de c
   it("Viral (Infection) SÍ amplifica un tick True — capa salud (resolución directa)", () => {
     // A nivel resolución, sin `processDots` (que decae los stacks): un tick True con Infection=5.
     const state = makeIsolatedTarget({ health: 1000, stacks: { infection: 5 } });
-    const { finalDamage } = CombatSimulator.resolveDamageEvent("WEAPON_ADD_TRUE_DAMAGE", 100, state, 0);
+    const { finalDamage } = CombatSimulator.resolveDamageEvent("true", 100, state, 0);
     const mult = stackDebuffValue(infectionLaw(100, 25), 5); // ×3.0
     expect(mult).toBeCloseTo(3.0, 5);
     expect(finalDamage).toBeCloseTo(100 * mult, 5); // True bypasea armor/matriz, Viral SÍ amplifica
@@ -47,15 +47,15 @@ describe("bleed (Slash) — True: bypassa armor/matriz, NO el multiplicador de c
 });
 
 describe("resolveDamageEvent — reglas derivadas del canónico por `as`", () => {
-  it("True (WEAPON_ADD_TRUE_DAMAGE) bypasea DR — 100 se queda en 100", () => {
+  it("True bypasea DR — 100 se queda en 100", () => {
     const state = makeIsolatedTarget({ armor: 200 });
-    const { finalDamage } = CombatSimulator.resolveDamageEvent("WEAPON_ADD_TRUE_DAMAGE", 100, state, 0);
+    const { finalDamage } = CombatSimulator.resolveDamageEvent("true", 100, state, 0);
     expect(finalDamage).toBeCloseTo(100, 5);
   });
 
   it("Toxin paga DR y bypasea shields (va a salud) — contraste con True", () => {
     const state = makeIsolatedTarget({ armor: 200, shields: 500 });
-    const { layer, finalDamage } = CombatSimulator.resolveDamageEvent("WEAPON_ADD_TOXIN_DAMAGE", 100, state, 0);
+    const { layer, finalDamage } = CombatSimulator.resolveDamageEvent("toxin", 100, state, 0);
     expect(layer).toBe("health"); // el shield lo deja pasar
     expect(finalDamage).toBeCloseTo(100 * (1 - damageReductionFromArmor(200)), 4);
   });

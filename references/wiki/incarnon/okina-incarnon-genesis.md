@@ -2,7 +2,7 @@
 
 > **Variantes:** Okina · Okina Prime
 > Fuente: https://wiki.warframe.com/w/Okina_Incarnon_Genesis
-> Fuente actualizada: 2026-05-02
+> Fuente actualizada: 2026-08-11
 > Raw: okina-incarnon-genesis.wikitext
 
 ---

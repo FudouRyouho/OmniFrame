@@ -16,7 +16,7 @@
  * en los per-effect tests; el harness expone el hueco, no lo esconde.
  */
 import { EntityState } from "../../simulate/EntityState";
-import { CombatSimulator, type HitResolution } from "../../simulate/combat/CombatSimulator";
+import { CombatSimulator, type HitResolution, type DamageByType } from "../../simulate/combat/CombatSimulator";
 import type { StatusEffect } from "@shared/types";
 import type { UnitClass } from "../../contracts/unit-class";
 import { syntheticHostile } from "../hostile-entity";
@@ -79,11 +79,15 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EntityState {
 }
 
 /**
- * Resuelve una instancia de daño aislada (damageMap keyeado por token D-6) contra el target.
+ * Resuelve una instancia de daño aislada (damageMap keyeado por `DamageType`) contra el target.
  * Delega en `CombatSimulator.resolveHit` — el punto de resolución real del motor.
+ *
+ * ⚠️ Recibía `Record<string, number>`, que es asignable al tipo estricto y por lo tanto **compilaba
+ * igual** tras el corte: el banco podía seguir declarando llaves que ninguna instancia real produce.
+ * La firma estrecha existe para que el compilador rechace eso acá también.
  */
 export function resolveIsolated(
-  damage: Record<string, number>,
+  damage: DamageByType,
   target: EntityState,
   currentTime = 0,
 ): HitResolution {

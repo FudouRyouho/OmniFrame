@@ -11,6 +11,7 @@ import { AtomicSimulator, type AtomicRoll } from "./AtomicSimulator";
 import { RngProvider } from "./RngProvider";
 import { bypassesArmorAndMatrix } from "../../contracts/damage-logic";
 import { layerFor, type Layer } from "../../contracts/layers";
+import type { DamageType } from "@shared/types";
 import { TENNO_CHANNELS, byChannel, forChannels } from "../../contracts/unit-class";
 
 /**
@@ -48,6 +49,9 @@ function armorMitigationFor(target: EntityState): (armor: number) => number {
   return law;
 }
 
+/** El daño de un hit, particionado por tipo — la forma que `resolveHit` consume. */
+export type DamageByType = Partial<Record<DamageType, number>>;
+
 export interface HitResolution {
   total_damage: number;
   /** Daño por capa de la pila — la partición completa (`contracts/layers.ts`). */
@@ -55,7 +59,8 @@ export interface HitResolution {
   /** Atajos de las dos capas con origen modelado. Derivados de `by_layer`, no fuentes propias. */
   shield_damage: number;
   health_damage: number;
-  breakdown: Record<string, number>;
+  /** Daño final por tipo. Keyeado por `DamageType` — no tiene consumidores fuera de este módulo. */
+  breakdown: Partial<Record<DamageType, number>>;
 }
 
 /**
@@ -69,7 +74,9 @@ export class CombatSimulator {
   public static simulateAttack(instance: DamageInstance, targetState: EntityState, currentTime: number = 0, rng: RngProvider = new RngProvider()): HitResolution {
     // La Instancia (①②) ya trae el potencial modded por tipo + crit spec + multishot — C2 la CONSUME,
     // no re-extrae de `attributes` (seam C1→C2, `damage-instance.ts`). Multishot/crit se ejecutan acá (Hit).
-    const { multishot, critChance: baseCritChance, critMult: baseCritMult, damageByToken: baseDamageMap } = instance;
+    // Se consume `damageByType`, no `damageByToken`: los dos llevan la misma información, pero el que
+    // la resolución necesita es el que **no tiene dueño** (`damage-logic.ts` §los dos trabajos).
+    const { multishot, critChance: baseCritChance, critMult: baseCritMult, damageByType: baseDamageMap } = instance;
 
     // Gancho OQ-ENGINE-12: el target debilitado buffea el crit del atacante — Weakened (Puncture) → +crit
     // chance, Freeze (Cold) → +crit damage. Leído LIVE del estado del target; ambos modos lo heredan.
@@ -86,8 +93,8 @@ export class CombatSimulator {
 
       pellets.forEach((p: AtomicRoll) => {
         const pCritMult = 1 + p.tier * (critMult - 1);
-        const pDamageMap: Record<string, number> = {};
-        Object.entries(baseDamageMap).forEach(([type, dmg]) => {
+        const pDamageMap: DamageByType = {};
+        (Object.entries(baseDamageMap) as Array<[DamageType, number]>).forEach(([type, dmg]) => {
           pDamageMap[type] = dmg * pCritMult;
         });
 
@@ -99,8 +106,8 @@ export class CombatSimulator {
         aggregated.shield_damage = aggregated.by_layer.shield ?? 0;
         aggregated.health_damage = aggregated.by_layer.health ?? 0;
 
-        Object.entries(res.breakdown).forEach(([type, dmg]) => {
-          aggregated.breakdown[type] = (aggregated.breakdown[type] || 0) + dmg;
+        (Object.entries(res.breakdown) as Array<[DamageType, number]>).forEach(([type, dmg]) => {
+          aggregated.breakdown[type] = (aggregated.breakdown[type] ?? 0) + dmg;
         });
       });
 
@@ -108,8 +115,8 @@ export class CombatSimulator {
     } else {
       // Modo Bulk: Usar Valor Esperado (EV)
       const avgCrit = AtomicSimulator.calculateAverageMultiplier(critChance, critMult);
-      const bulkDamageMap: Record<string, number> = {};
-      Object.entries(baseDamageMap).forEach(([type, dmg]) => {
+      const bulkDamageMap: DamageByType = {};
+      (Object.entries(baseDamageMap) as Array<[DamageType, number]>).forEach(([type, dmg]) => {
         bulkDamageMap[type] = dmg * avgCrit * multishot;
       });
 
@@ -118,30 +125,35 @@ export class CombatSimulator {
   }
 
   /**
-   * Resuelve UN evento de daño (un token D-6) contra el estado actual de un enemigo — el átomo de
+   * Resuelve UN evento de daño (un `DamageType`) contra el estado actual del target — el átomo de
    * RESOLUCIÓN, **AGNÓSTICO AL ORIGEN**: lo comparten el hit directo (`resolveHit`, una vez por tipo)
-   * y el tick de un proc DoT (`EntityState`, que emite `Resolucion{value, as}` → token). Todas las
-   * reglas se derivan del CANÓNICO keyeadas por el token: bypass de shields (Toxin), bypass de
-   * armor/matriz③ de True (`as:'true'` del bleed), DR, y el multiplicador de capa (Viral/Magnetic).
+   * y el tick de un proc DoT (`EntityState`, que emite `Resolucion{value, as}`). Todas las reglas se
+   * derivan del CANÓNICO keyeadas por el **tipo**: bypass de shields (Toxin), bypass de armor/matriz③
+   * de True (`as:'true'` del bleed), DR, y el multiplicador de capa (Viral/Magnetic).
    * La emisión declara CON QUÉ tipo resuelve — sin opt ad-hoc. Ver `contracts/damage-logic.ts`.
+   *
+   * ⚠️ **Recibía un token y ahora recibe un tipo**, que es lo que "agnóstico al origen" quería decir y
+   * no cumplía: mientras la llave llevara el nombre de una familia de emisor, las tres leyes de acá
+   * abajo fallaban en silencio para cualquier emisor que no fuera un arma. Ver la partición de los dos
+   * trabajos en `damage-logic.ts`.
    * GAP deliberado: NO se modela la **cuantización** (`escala = base/32`, redondeo pre-multiplicadores;
    * `enemy-resistances.md §Orden de composición`) — error < 1 dígito %, no vale la complejidad hoy.
    */
   public static resolveDamageEvent(
-    damageToken: string,
+    type: DamageType,
     damage: number,
     targetState: EntityState,
     currentTime: number = 0,
   ): { layer: Layer; finalDamage: number } {
     const effectiveArmor = targetState.getEffectiveArmor(currentTime);
-    // True (ej. el token `WEAPON_ADD_TRUE_DAMAGE` del bleed): bypasea armor/matriz③, NO el layer-mult.
-    const bypassArmorMatrix = bypassesArmorAndMatrix(damageToken);
+    // True (el tipo con el que emite el tick de bleed): bypasea armor/matriz③, NO el layer-mult.
+    const bypassArmorMatrix = bypassesArmorAndMatrix(type);
 
-    // La capa la elige la PILA, preguntándole a cada una si deja pasar este daño — no el token
+    // La capa la elige la PILA, preguntándole a cada una si deja pasar este daño — no el daño
     // declarando qué saltea (`contracts/layers.ts`: la tabla es de la capa).
-    const layer = layerFor(damageToken, targetState.layerAmounts);
+    const layer = layerFor(type, targetState.layerAmounts);
     const stateMultiplier = targetState.getDamageMultiplier(layer, currentTime);
-    const typeMultiplier = bypassArmorMatrix ? 1 : targetFactionMult(damageToken, targetState.faction);
+    const typeMultiplier = bypassArmorMatrix ? 1 : targetFactionMult(type, targetState.faction);
     // El armor sólo mitiga la salud: no toca shields (`damage-calculation.md`) ni Overguard, al que
     // *"no le aplica la DR del armor"* (`overguard.md §Qué reducción de daño le aplica — y cuál no`).
     const dr = (!bypassArmorMatrix && layer === "health" && effectiveArmor > 0)
@@ -155,12 +167,12 @@ export class CombatSimulator {
    * Resuelve un único impacto (todos los tipos de daño de un hit) contra el estado actual de un
    * enemigo. Delega la resolución por-tipo a `resolveDamageEvent`.
    */
-  public static resolveHit(damageMap: Record<string, number>, targetState: EntityState, currentTime: number = 0): HitResolution {
-    const breakdown: Record<string, number> = {};
+  public static resolveHit(damageMap: DamageByType, targetState: EntityState, currentTime: number = 0): HitResolution {
+    const breakdown: Partial<Record<DamageType, number>> = {};
     const by_layer: Partial<Record<Layer, number>> = {};
     let total = 0;
 
-    Object.entries(damageMap).forEach(([type, damage]) => {
+    (Object.entries(damageMap) as Array<[DamageType, number]>).forEach(([type, damage]) => {
       const { layer, finalDamage } = this.resolveDamageEvent(type, damage, targetState, currentTime);
       by_layer[layer] = (by_layer[layer] ?? 0) + finalDamage;
       total += finalDamage;

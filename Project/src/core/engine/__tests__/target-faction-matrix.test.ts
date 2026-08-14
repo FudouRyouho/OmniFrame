@@ -38,8 +38,8 @@ describe('resolveHit — matriz ③ (Heat vulnerable ×1.5 vs Toxin neutral ×1.
   it('ratio Heat/Toxin = 1.5 exacto (damage-status-model.md: medido ×1.49–1.50 in-game)', () => {
     const state = new EntityState(hostileEntity(CHARGER_ID, CHARGER.base_level));
 
-    const heatHit = CombatSimulator.resolveHit({ WEAPON_ADD_HEAT_DAMAGE: 100 }, state);
-    const toxinHit = CombatSimulator.resolveHit({ WEAPON_ADD_TOXIN_DAMAGE: 100 }, state);
+    const heatHit = CombatSimulator.resolveHit({ heat: 100 }, state);
+    const toxinHit = CombatSimulator.resolveHit({ toxin: 100 }, state);
 
     expect(heatHit.health_damage / toxinHit.health_damage).toBeCloseTo(1.5, 5);
   });

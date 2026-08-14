@@ -108,7 +108,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     const s = new EntityState(avatar());
     s.current_shields = 0;                    // el armor sólo protege la salud: hay que llegar a ella
     const armor = s.getEffectiveArmor(0);
-    const { health_damage } = CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 1000 }, s, 0);
+    const { health_damage } = CombatSimulator.resolveHit({ impact: 1000 }, s, 0);
     const drAplicada = 1 - health_damage / 1000;
 
     // `references/wiki/mechanics/armor.md` publica las dos, una al lado de la otra:
@@ -132,8 +132,8 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
       syntheticHostile({ health: 1_000_000, armor, faction: 'Isolated' }),
     );
 
-    const dañoAlAvatar = CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 1000 }, wf, 0).health_damage;
-    const dañoAlHostil = CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 1000 }, hostil, 0).health_damage;
+    const dañoAlAvatar = CombatSimulator.resolveHit({ impact: 1000 }, wf, 0).health_damage;
+    const dañoAlHostil = CombatSimulator.resolveHit({ impact: 1000 }, hostil, 0).health_damage;
 
     expect(1 - dañoAlAvatar / 1000).toBeCloseTo(armor / (armor + 300), 6);
     expect(1 - dañoAlHostil / 1000).toBeCloseTo(Math.sqrt(3 * armor) / 100, 6);
@@ -144,7 +144,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     const sinClase = { ...syntheticHostile({ armor: 100 }), channel: 'primary' };
     const s = new EntityState(syntheticHostile({ armor: 100 }));
     s.entity = sinClase;
-    expect(() => CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 100 }, s, 0))
+    expect(() => CombatSimulator.resolveHit({ impact: 100 }, s, 0))
       .toThrow(/no declara ninguna clase con ley de mitigación/);
   });
 
@@ -183,7 +183,7 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     const pet = { ...syntheticHostile({ armor: 300 }), routes: ['avatar'], channel: 'companion' };
     const s = new EntityState(syntheticHostile({ armor: 300 }));
     s.entity = pet;
-    expect(() => CombatSimulator.resolveHit({ WEAPON_ADD_IMPACT_DAMAGE: 100 }, s, 0))
+    expect(() => CombatSimulator.resolveHit({ impact: 100 }, s, 0))
       .toThrow(/no declara ninguna clase con ley de mitigación/);
   });
 

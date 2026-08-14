@@ -70,13 +70,17 @@ export interface AbilityInstanceSpec {
  * descontar— así que hoy coinciden. Si aparece el equivalente para habilidades (Ability Strength sobre
  * el tick), esta línea es donde se nota.
  *
- * 🔴 **Y expone un hueco de vocabulario que este banco no inventa: el token de daño dice `WEAPON_`.**
- * `damageTokenFromType('heat')` da `WEAPON_ADD_HEAT_DAMAGE`, así que una habilidad emite su daño con
- * tokens de arma. No se corrige acá —sería compensar dato en el consumidor— y no bloquea: el motor
- * rutea el daño por **tipo**, y el token es la llave con la que ese tipo viaja. Pero es el mismo sesgo
- * preexistente que `channel-routing` ya tenía (`GAMEPLAY_ → weapon`), visto desde el otro lado, y
- * ahora tiene un segundo emisor que lo hace visible en vez de teórico. Anclado en
- * `ability-emission.test.ts`.
+ * 🔴 **Y acá el banco COMPENSA un sesgo en vez de exponerlo — sépalo quien lea.**
+ * `damageTokenFromType('heat')` da `WEAPON_ADD_HEAT_DAMAGE`: una habilidad emite su daño con tokens de
+ * arma, y **la suite pasa por eso**, no porque el motor sea agnóstico al emisor. Escribir el token con
+ * cualquier otra familia rompe tres leyes de resolución en silencio (medido: matriz de facción
+ * `1500 → 1000`, Toxin cayendo en `shield` en vez de `health`, True `1000 → 99.99`, y `deriveInstance`
+ * devolviendo `{}`). El detalle y su reproducción están en `ability-emission.test.ts`.
+ *
+ * Se conserva el prefijo **a propósito y con fecha**: cambiarlo acá sería compensar al revés —el banco
+ * fingiendo un contrato que el motor no tiene—. Lo que corresponde es que las leyes de resolución dejen
+ * de keyearse por token (`DamageType` no tiene dueño; el bucket de upgrade sí, y ahí `WEAPON_` es
+ * fiel). Cuando ese corte esté, esta función deriva `damageByToken` sólo para el lado hidratación.
  */
 export function abilityInstance(spec: AbilityInstanceSpec): DamageInstance {
   const damageByToken: Record<string, number> = {};

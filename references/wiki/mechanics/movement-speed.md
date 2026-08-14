@@ -8,7 +8,7 @@
 > `Maneuvers` sumó que Bullet Jump y Jump Kick rompen `Grate`/`Fan` y que el melee deslizándose es un
 > Slide Attack — utilidad de parkour, no toca la taxonomía de upgrade types que este doc destila)
 > Fuente: https://wiki.warframe.com/w/Movement_Speed · https://wiki.warframe.com/w/Sprint_Speed · https://wiki.warframe.com/w/Maneuvers
-> Fuente actualizada: 2026-07-30
+> Fuente actualizada: 2026-08-13
 > Raw íntegro: `raw/movement-speed.wikitext`, `raw/sprint-speed.wikitext`, `raw/maneuvers.wikitext` (capturados vía `?action=raw`)
 > Raw: movement-speed.wikitext · sprint-speed.wikitext · maneuvers.wikitext
 

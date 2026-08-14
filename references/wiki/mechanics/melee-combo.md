@@ -6,7 +6,7 @@
 > No usar para: catálogo de mods por build (la wiki los agrupa por dimensión mecánica) · el multiplicador fijo por clase y la velocidad de wind-up del heavy — ver [`heavy-attack.md`](heavy-attack.md)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Melee_Combo
-> Fuente actualizada: 2026-07-04
+> Fuente actualizada: 2026-08-06
 > Raw: melee-combo.wikitext
 
 ## Qué es

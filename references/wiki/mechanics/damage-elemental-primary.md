@@ -6,7 +6,7 @@
 > No usar para: la ley general de DoT y qué lo escala — ver [`damage-over-time.md`](damage-over-time.md) · la taxonomía y las combinaciones — ver [`damage-types.md`](damage-types.md) · el catálogo de fuentes y de resistencias por tipo (son cientos de líneas en cada raw)
 > Última actualización: 2026-07-30
 > Fuente: https://wiki.warframe.com/w/Damage/Heat_Damage · https://wiki.warframe.com/w/Damage/Cold_Damage · https://wiki.warframe.com/w/Damage/Electricity_Damage · https://wiki.warframe.com/w/Damage/Toxin_Damage
-> Fuente actualizada: 2026-07-24
+> Fuente actualizada: 2026-08-13
 > Raw: damage-heat-damage.wikitext · damage-cold-damage.wikitext · damage-electricity-damage.wikitext · damage-toxin-damage.wikitext
 
 ## Resumen

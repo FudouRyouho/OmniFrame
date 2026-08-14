@@ -10,6 +10,28 @@ import { DAMAGE_TYPES, isDamageType, type DamageType } from "@shared/types";
 // adapta `DamageCombiner` vía el puente token↔type de abajo — sin duplicar la tabla.
 
 /**
+ * ─── LOS DOS TRABAJOS DE UNA LLAVE, Y POR QUÉ SE SEPARARON ────────────────────────────────────────
+ *
+ * `WEAPON_ADD_HEAT_DAMAGE` nombraba dos cosas distintas al mismo tiempo:
+ *
+ *   ① **el bucket de upgrade** — *dónde suma Hellfire*. Es del **arma**, y el prefijo es **fiel**: los
+ *      mods de elemento sólo aterrizan en armas, y en las habilidades que el juego trata como armas
+ *      (*"Weapon Damage Abilities" […] coded as "weapons"*, `references/wiki/mechanics/universal-weapon-bonuses.md`).
+ *   ② **el tipo de la instancia** — *estos 400 puntos son Heat*. Eso **no es de nadie**: es del daño.
+ *
+ * Las leyes de RESOLUCIÓN (matriz de facción, bypass de capa, bypass de armor) usaban ① para responder
+ * ②, así que un emisor que no fuera un arma las perdía **en silencio**. Medido cambiando sólo el
+ * prefijo, mismo tipo y mismo target: Heat vs Infested `1500 → 1000`; Toxin vs `shields 500`
+ * `{health} → {shield}`; True vs `armor 2700` `1000 → 99.99`. Ningún throw, ningún warn.
+ *
+ * ⇒ Las tres leyes se keyean por **`DamageType`** (`@shared/types`, sin dueño). El token queda para ①:
+ * hidratación de nodos (`ItemRepository`, `DamageCombiner`, `StaticHydrator`). Es `arch-decisions §18`
+ * —*una llave, dos trabajos*— resuelto por partición, no por renombre: **no se acuñó ningún token
+ * nuevo**, y en particular NO existe `AVATAR_ADD_<TIPO>_DAMAGE` (0 de 116 tokens `AVATAR_*` del dato
+ * real tipan daño emitido; DE tipa el daño del avatar sólo para **resistirlo**, `AVATAR_CHANCE_RESIST_*`).
+ *
+ * ─────────────────────────────────────────────────────────────────────────────────────────────────
+ *
  * Puente token D-6 ↔ tipo semántico. El engine representa cada tipo de daño como un atributo
  * `WEAPON_ADD_<TYPE>_DAMAGE` (token D-6); el vocabulario CANÓNICO de tipos vive en
  * `@shared/types/damage.ts` (`docs/semantic/damage-types.md`). Estas dos funciones son la ÚNICA
@@ -52,12 +74,12 @@ export function isWeaponDamageToken(value: string): boolean {
 export const GLOBAL_DAMAGE_POOLS = ['WEAPON_ADD_DAMAGE', 'GAMEPLAY_MULT_FACTION_DAMAGE'] as const;
 
 /**
- * SSoT de RESOLUCIÓN por tipo de daño: cómo un token resuelve contra las capas del objetivo.
+ * SSoT de RESOLUCIÓN por tipo de daño: cómo un tipo resuelve contra las capas del objetivo.
  * La lee `CombatSimulator.resolveDamageEvent`. La emisión (hit o tick de DoT) declara CON QUÉ tipo
  * resuelve (`Resolucion.as`) y core deriva las reglas de acá — sin ambigüedad: el hit directo de
  * Slash resuelve como `slash` (paga DR), el tick de bleed emite como `true` (bypass). Por eso
- * `bypassesArmorAndMatrix` SÍ puede vivir acá keyeado por el token `true` (antes era un opt de
- * instancia porque el token de origen —slash— no bastaba para distinguir). Ver `status-effects.md §Bleed`.
+ * `bypassesArmorAndMatrix` SÍ puede vivir acá keyeado por `true` (antes era un opt de instancia
+ * porque el tipo de origen —slash— no bastaba para distinguir). Ver `status-effects.md §Bleed`.
  */
 export interface DamageResolutionRule {
   /** Bypasea armor (DR) + matriz③ facción×elemento (True — ej. el bleed de Slash). NO bypasea el
@@ -71,11 +93,11 @@ export interface DamageResolutionRule {
  * por token no puede expresarlo. Lo que queda es lo que sí es del daño: `bypassesArmorAndMatrix` no
  * depende de contra qué capa cae.
  */
-export const DAMAGE_RESOLUTION_BY_TOKEN: Readonly<Record<string, DamageResolutionRule>> = {
-  'WEAPON_ADD_TRUE_DAMAGE': { bypassesArmorAndMatrix: true },
+export const DAMAGE_RESOLUTION_BY_TYPE: Partial<Record<DamageType, DamageResolutionRule>> = {
+  true: { bypassesArmorAndMatrix: true },
 };
 
-/** ¿Este token bypasea armor (DR) + matriz③? (True). Default false. */
-export function bypassesArmorAndMatrix(token: string): boolean {
-  return DAMAGE_RESOLUTION_BY_TOKEN[token]?.bypassesArmorAndMatrix ?? false;
+/** ¿Este tipo bypasea armor (DR) + matriz③? (True). Default false. */
+export function bypassesArmorAndMatrix(type: DamageType): boolean {
+  return DAMAGE_RESOLUTION_BY_TYPE[type]?.bypassesArmorAndMatrix ?? false;
 }
