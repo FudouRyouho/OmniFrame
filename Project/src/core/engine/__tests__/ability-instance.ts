@@ -44,10 +44,17 @@ export interface AbilityInstanceSpec {
    */
   damageByType: Partial<Record<DamageType, number>>;
   /**
-   * 0..1. Default **1**: una habilidad que aplica estado lo aplica garantizado
-   * (`AbilityProcBehavior.guaranteed`), a diferencia de un arma que tira los dados. El `"none"` de esa
-   * misma unión se expresa acá con `0` — y ése es el caso que hoy no se prueba en ningún lado: emitir
-   * daño y **no** proquear.
+   * 0..1. Default **1** — *"todo es status 100% salvo que se diga lo contrario"*: si el dato del juego
+   * declara que la habilidad hace `<DT_HEAT>`, hace daño de fuego y proquea fuego. Una habilidad no
+   * tira los dados como un arma; el estado es parte de lo que la habilidad **es**. Es la misma regla
+   * que ejecuta `AbilityRepository.getEmissions`, y el banco la comparte para no probar contra un
+   * default propio.
+   *
+   * ⚠️ `1` **no es** el eje del proc forzado, aunque acá coincidan. El corpus los separa
+   * (`damage-status-model.md`: *forced proc ≠ la porción garantizada de un SC>100%*) y la diferencia
+   * muerde cuando el efecto forzado **no sale del daño** o cuando hay que decidir si un buff lo toca.
+   * Con emisiones mono-tipo las dos formas dan el mismo número, así que el eje separado sigue sin
+   * forcing-case. El `"none"` se expresa con `0`.
    */
   statusChance?: number;
   /** Desvíos de ley del emisor. Ausente = calla, que no es declarar 0 (`vocabulary.md §6`). */

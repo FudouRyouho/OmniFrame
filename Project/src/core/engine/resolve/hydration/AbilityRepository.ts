@@ -25,6 +25,8 @@
 import { makeModifier, type Modifier, type EntityId, type SimulationEntity } from "../../contracts";
 import { resolveUpgradeEntry } from "@shared/types/modifier";
 import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing";
+import { makeInstance, type DamageInstance } from "../../simulate/combat/damage-instance";
+import { resolveDamageTypeTag } from "@shared/types";
 
 // Puente vocabulario-de-carta → nodo del grafo para el eje de scaling (`upgrade_by`).
 // La carta de habilidad expresa "escala con Ability Strength" como el token D-3
@@ -69,6 +71,19 @@ function toAdditivePercent(raw: number, label: string | undefined): number {
 }
 type AbilityGroupRaw = { stats?: AbilityStatRaw[] };
 type AbilityEntry = { name?: string; groups?: AbilityGroupRaw[] };
+
+/**
+ * Una emisión de daño de una habilidad — la instancia **y de qué renglón salió**.
+ *
+ * El `label` no es decoración: es la identidad de la emisión dentro de la habilidad, y lo único que
+ * distingue el impacto directo del área cuando las dos son Heat. No se interpreta más allá del tipo
+ * de daño — que `"Damage / Second"` sea un DoT y `"Explosion Damage"` un AoE es un eje aparte que
+ * este módulo no decide (`arch-decisions §15`: la partición es por verbo, no por renglón de UI).
+ */
+export interface AbilityEmission {
+  label: string;
+  instance: DamageInstance;
+}
 
 export class AbilityRepository {
   private static index: Map<string, AbilityEntry> = new Map();
@@ -156,4 +171,116 @@ export class AbilityRepository {
 
     return modifiers;
   }
+
+  /**
+   * EL SEGUNDO VERBO — **emite-instancia** (`arch-decisions §15`, Fase 3).
+   *
+   * ⚠️ **Devuelve una LISTA, y ése es el hallazgo del pase.** El primer diseño devolvía una instancia
+   * por habilidad, acumulando los tipos en un solo `damageByType`. Medido: **6 de 21** habilidades
+   * marcadas declaran más de un stat de daño —Fireball `Damage` + `Area Damage` + `Extra Damage`,
+   * Axios Javelin `Damage` + `Explosion Damage`, Tesla Nervos `Damage` + `Damage / Second`— y
+   * fusionarlas era falso, no impreciso: la fuente le da a cada una **status chance propio** (Fireball
+   * directo `0%`, área `100%`) y Tesla Nervos mezcla un impacto con un DoT. Un emisor **emite N
+   * instancias**; cuántas y de qué naturaleza lo dice su carta, no esta función.
+   *
+   * `getModifiers` cubre *muta-state*: los stats con `upgrade_type`, que aterrizan en un nodo ajeno.
+   * Éste cubre el otro: los stats que **son daño**, y que no aterrizan en ningún nodo porque no
+   * modifican nada — nacen como instancia. Se reconocen por el label, que es donde el dato declara el
+   * tipo (`"Damage: <DT_HEAT> |val1|"`); `upgrade_type` está vacío en los 28, y **eso es correcto**:
+   * un stat de daño de habilidad no tiene nodo destino.
+   *
+   * ⚠️ **El escalado se DECLARA, no se lee del grafo.** `upgrade_by: AVATAR_ABILITY_STRENGTH` dice
+   * *con qué* escala, y `ABILITY_SCALE_NODE` ya sabe a qué nodo corresponde — pero ese puente hoy sólo
+   * lo cruza `getModifiers`, que tiene un `source_entity` del cual leerlo. Acá el caller pasa el
+   * `strength` resuelto. Es la mitad honesta: el eje queda ejercido con dato real y el puente queda
+   * anclado sin fingirse construido.
+   *
+   * ─── LOS CUATRO GATES, MEDIDOS SOBRE LAS 28 MARCADAS ──────────────────────────────────────────
+   *
+   * De 28 stats con `<DT_*>`: **18 limpios** · 4 multi-tipo · 2 rango · 2 comodín · 2 porcentuales.
+   * Los diez que no pasan **se omiten y avisan**, nunca se aproximan:
+   *
+   *   - **rango** `[400, 800]` — misma regla que `getModifiers`: dónde cae dentro del rango lo decide
+   *     un recurso de quien castea (la batería de Gauss, el Immolation de Ember) que no modelamos, y
+   *     el par ni siquiera es siempre (min, max). Elegir un extremo es un número plausible y falso.
+   *   - **comodín** `<DT_*>` — Spectral Scream: el tipo es *el elemento elegido*, estado del source.
+   *   - **multi-tipo** `<DT_SLASH> <DT_IMPACT> <DT_PUNCTURE>` — el override da UN total y **no la
+   *     proporción**. La fuente muestra que asumir partes iguales sería falso: Redline es
+   *     `81.25% Impact / 18.75% Puncture`, no mitad y mitad.
+   *   - **porcentual** `|val1|%` — no es daño absoluto sino un multiplicador sobre otra cosa
+   *     (Dread Mirror: *"100% del daño guardado"*).
+   */
+  public static getEmissions(abilityId: string, opts: { strength?: number } = {}): AbilityEmission[] {
+    const entry = this.index.get(abilityId);
+    if (!entry?.groups) return [];
+
+    const strength = opts.strength ?? 1;
+    const emissions: AbilityEmission[] = [];
+
+    for (const group of entry.groups) {
+      for (const stat of group.stats ?? []) {
+        const label = stat.label ?? '';
+        const tags = label.match(/<DT_[A-Z*]+>/g);
+        if (!tags) {
+          // ⚠️ **El stat dice "Damage" y no declara de qué tipo.** No es lo mismo que "no es un stat
+          // de daño": un stat con `upgrade_type` es un buff y lo cubre `getModifiers`; uno sin él que
+          // se llame Damage es una **emisión muda**, y saltarla en silencio la volvería invisible.
+          // Medido: 3 de las 28 marcadas (Radial Javelin, Breach Surge, Minelayer). El caso de Radial
+          // Javelin muestra que es hueco de captura y no del juego — la entrada de Umbra, que es la
+          // MISMA habilidad, sí declara `<DT_SLASH> <DT_IMPACT> <DT_PUNCTURE>` sobre el mismo 1000.
+          if (!stat.upgrade_type && /damage/i.test(label)) {
+            console.warn(`[Emisión] ${abilityId} — "${label}": declara daño sin tipo, stat omitido`);
+          }
+          continue;
+        }
+
+        const gate = emissionGate(stat, tags, label);
+        if (gate) {
+          console.warn(`[Emisión] ${abilityId} — "${label}": ${gate}, stat omitido`);
+          continue;
+        }
+
+        const type = resolveDamageTypeTag(tags[0].slice(1, -1));
+        if (!type) continue;                                   // tag fuera del canónico → gap, como token sin mapeo
+        const base = stat.base_value as number;
+        // El escalado sólo se aplica donde el dato dice que escala. Un stat sin `upgrade_by` es plano
+        // por declaración de la carta, no por falta de información.
+        const value = stat.upgrade_by ? base * strength : base;
+
+        // ─── STATUS: 100% SALVO QUE SE DIGA LO CONTRARIO ─────────────────────────────────────────
+        //
+        // **Regla de la casa, no inferencia de la wiki.** Si el dato del juego declara que la
+        // habilidad hace `<DT_HEAT>`, hace daño de fuego — y proquea fuego. Una habilidad no tira los
+        // dados como un arma: el estado es parte de lo que la habilidad ES. El default es garantizado
+        // y lo contrario se declara; ninguna captura nueva hace falta para sostenerlo.
+        //
+        // Se expresa como `statusChance: 1` y **no** como un eje de "proc forzado" aparte. El corpus
+        // distingue los dos (`damage-status-model.md`: *forced proc ≠ la porción garantizada de un
+        // SC>100%*, `origen: forced`, existe y no está modelado) y la distinción es real — un proc
+        // forzado no se buffea y no sale del peso de daño. Pero **hoy no hay caso que la fuerce**: los
+        // stats que emiten son todos mono-tipo (el multi-tipo está gateado arriba), así que repartir
+        // por peso sobre un solo tipo da exactamente un proc de ese tipo. Cuando aparezca una emisión
+        // que fuerce un efecto **ausente de su propio daño**, ahí el eje separado se gana el lugar.
+        //
+        // Crit **sí** queda en 0, y es distinto: el override no publica crit de habilidad, así que es
+        // un hueco del dato, no una ley. No se transcribe de la tabla de la wiki.
+        emissions.push({
+          label,
+          instance: makeInstance({ damageByType: { [type]: value }, statusChance: 1 }),
+        });
+      }
+    }
+
+    return emissions;
+  }
+}
+
+/** El motivo por el que un stat de daño no puede volverse instancia, o `null` si puede. */
+function emissionGate(stat: AbilityStatRaw, tags: string[], label: string): string | null {
+  if (tags.some(t => t === '<DT_*>')) return 'tipo comodín — lo elige un estado del source';
+  if (Array.isArray(stat.base_value)) return `rango sin estado que lo resuelva ${JSON.stringify(stat.base_value)}`;
+  if (tags.length > 1) return `${tags.length} tipos y una sola magnitud — el override no da la proporción`;
+  if (/\|val\d+\|\s*%/.test(label)) return 'porcentual — multiplicador sobre otra cosa, no daño absoluto';
+  if (typeof stat.base_value !== 'number') return 'sin `base_value` numérico';
+  return null;
 }

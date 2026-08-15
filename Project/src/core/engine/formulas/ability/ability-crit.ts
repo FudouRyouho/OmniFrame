@@ -5,9 +5,12 @@
  * En Warframe, la gran mayoria de habilidades NO pueden hacer crit. Las habilidades
  * por defecto tienen 0% de crit chance y no se benefician de mods de crit de armas.
  *
- * ⚠️ **ESA PREMISA ES MÁS GRUESA QUE LA FUENTE — declarado, no corregido acá.**
- * `references/wiki/mechanics/universal-weapon-bonuses.md` (capturada 2026-08-14) parte el eje en tres
- * estados, no dos, y este módulo sólo conoce el primero:
+ * ⚠️ **ESA PREMISA ES MÁS GRUESA DE LO QUE SE PUEDE SOSTENER — declarado, no corregido acá.**
+ * `references/wiki/mechanics/universal-weapon-bonuses.md` parte el eje en tres estados, no dos, y este
+ * módulo sólo conoce el primero. ⚠️ Los **números** de abajo son de esa página y **no** de la SSoT: el
+ * stat de habilidad lo fija `ability-stats.override.json` (`docs/data/rules/ssot.md`), que no publica
+ * crit. Lo que se toma acá es la **forma del eje** —que existen tres estados—, no las magnitudes.
+ * Cerrarlo pide medición propia o que el override lo traiga, nunca transcribir la tabla.
  *
  *   - **`N/A`** — *"completely incapable of landing critical hits, **even when buffed with flat
  *     critical chance bonuses**"*. Es el caso que este archivo describe.

@@ -21,13 +21,19 @@ import { WEAPON_DAMAGE_ABILITIES, isWeaponDamageAbility } from '../contracts/emi
 
 const overrides = (await new NodeAdapter().read('ability-stats.override')) as Record<string, { name?: string }>;
 
-/** Los warframes que la tabla de la fuente enumera — leídos del `.md`, no transcritos. */
+/**
+ * Los warframes que la tabla de la fuente enumera — leídos del `.md`, no transcritos.
+ *
+ * Se ancla al **header de la tabla**, no a la sección: la sección puede ganar prosa y otras tablas
+ * (ya pasó — la marca de discrepancia agregó una), y anclar al `##` contaba filas ajenas.
+ */
 const warframesEnLaFuente = (): string[] => {
   const md = readFileSync('../references/wiki/mechanics/universal-weapon-bonuses.md', 'utf8');
-  const tabla = md.split('## Habilidades afectadas')[1]?.split('### Casos que rompen')[0] ?? '';
-  const nombres = tabla
+  const desdeHeader = md.split(/^\| Warframe \| Habilidad \|.*$/m)[1] ?? '';
+  const nombres = desdeHeader
+    .split(/^(?!\|)/m)[0]                       // hasta la primera línea que no sea de tabla
     .split('\n')
-    .filter((l) => l.startsWith('| ') && !l.includes('---') && !l.startsWith('| Warframe'))
+    .filter((l) => l.startsWith('| ') && !l.includes('---'))
     .map((l) => l.split('|')[1]?.trim())
     .filter((n): n is string => Boolean(n));
   return [...new Set(nombres)];

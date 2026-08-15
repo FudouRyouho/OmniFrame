@@ -2,8 +2,8 @@
 
 > Estado: activo
 > Rol: qué buffs alcanzan a "casi toda arma" y a qué habilidades, la clase **Weapon Damage Ability**, y la tabla de habilidades afectadas con sus stats de emisión
-> Fuente de verdad de: la partición arma ↔ habilidad-tratada-como-arma ↔ habilidad normal ↔ exalted; qué bonus universal existe por categoría; base damage / tipos / status chance / crit de las habilidades elegibles
-> No usar para: fórmulas de daño (→ `damage-calculation.md`) · combinación elemental (→ `damage-types.md` en `docs/semantic/`) · Ability Strength, que es un stat separado
+> Fuente de verdad de: la partición arma ↔ habilidad-tratada-como-arma ↔ habilidad normal ↔ exalted; **qué habilidades** son elegibles para bonus universales; qué bonus existe por categoría y con qué exclusiones
+> No usar para: **los valores de daño de una habilidad** — la fuente primaria es `ability-stats.override.json` vía `references/game-ui/` (`docs/data/rules/ssot.md`) · fórmulas de daño (→ `damage-calculation.md`) · combinación elemental (→ `damage-types.md` en `docs/semantic/`) · Ability Strength, que es un stat separado
 > Última actualización: 2026-08-14
 > Fuente: https://wiki.warframe.com/w/Universal_Weapon_Bonuses
 > Fuente actualizada: 2026-08-11
@@ -108,7 +108,28 @@ habilidades normalmente no afectadas** por estos bonus.
 
 ## Habilidades afectadas
 
-Base damage, tipos, status y crit tal como la fuente los publica.
+⚠️ Discrepancia → **de esta tabla vale QUIÉNES están, no CUÁNTO pegan.** Los valores divergen de
+[`ability-stats.override.json`](../../../Project/public/data/ability-stats.override.json), que es la
+fuente primaria del stat de habilidad (`docs/data/rules/ssot.md`: captura de la UI del juego vía
+`references/game-ui/`). Medido sobre los 10 comparables — 5 coinciden y 5 no, **dos de ellas en el
+tipo de daño**:
+
+| | override (juego) | esta tabla |
+|---|---|---|
+| Soul Punch | Impact 500 | Impact 50 |
+| Axios Javelin | Puncture 500 | Puncture 1250 |
+| Final Stand | Slash 1000 | Slash 1500 |
+| **Polarize** | **Magnetic** 400 | **Puncture + Slash** |
+| **Pyrotechnics** | **Heat** 550 | **I/P/S** |
+
+No hay factor único, así que no es rank-base vs rank-máximo. **La causa no está establecida** y no se
+infiere acá: esta tabla es editorial de la página, no un transclude de `Module:Ability/data/stats`, así
+que el congelamiento de ese módulo no la explica por sí solo.
+
+La lista de **qué** habilidades son elegibles sí se sostiene — es la parte estructural de la página, y
+la página está mantenida.
+
+Base damage, tipos, status y crit tal como esta página los publica.
 
 | Warframe | Habilidad | Base | Tipo(s) | SC | Status garantizado | CC | CM |
 |---|---|---|---|---|---|---|---|

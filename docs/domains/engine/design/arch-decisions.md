@@ -534,7 +534,14 @@ pool② viaja con la instancia, matriz③ es del encuentro — prueba dura de qu
 > **refuerza o cae** con el corpus (Fase 2 — primero procesar datos) y el emite-instancia (Fase 3). Origen:
 > debate (`.working/ability-model-debate.md`, gitignored). **No colgar más código que el eslabón ya sostenido por un test.**
 >
-> 🟡 **Fase 3 abrió por el banco, no por el pipeline** — y respetando esa misma regla. `__tests__/ability-instance.ts`
+> 🟢 **Fase 3 abrió por el banco y hoy también por el pipeline.** `AbilityRepository.getEmissions` es el
+> verbo emite-instancia leyendo el override —hermano de `getModifiers`, que es muta-state— y devuelve
+> **una lista**: 6 de 21 habilidades marcadas declaran más de un stat de daño, con status chance propio
+> por renglón, así que la unidad es la emisión y no la habilidad. De 28 stats con `<DT_*>` emiten 18; los
+> 10 restantes se omiten **avisando** por cinco gates medidos (multi-tipo sin proporción declarada, rango
+> sin estado que lo resuelva, tipo comodín, porcentual, y el daño que no declara su tipo).
+>
+> El banco sigue siendo el otro lado del mismo eje: `__tests__/ability-instance.ts`
 > declara una `DamageInstance` **sin build**: el contrato real del seam C1→C2, no un gemelo, así que si
 > ese contrato cambia el banco no compila. Lo que se ejerce con él son las leyes de producción
 > —`expectedProcEvents`, `effectOfDamageType`, `describeAbilityStatus`, `applyProc`—, no una copia.

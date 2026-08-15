@@ -15,7 +15,7 @@
  * = double-count, bug). Fuente: `references/wiki/mechanics/status-effects.md §DoT` + `ingame-tests/dot-scaling.md`.
  */
 import type { SimulationEntity } from "../../contracts";
-import { isWeaponDamageToken, damageTypeFromToken } from "../../contracts/damage-logic";
+import { isWeaponDamageToken, damageTypeFromToken, damageTokenFromType } from "../../contracts/damage-logic";
 import { scaleDotBase } from "../../formulas/status/dot-base-scaling";
 import { LAW_PARAM_TOKENS, type EmitterDeviations } from "../../contracts/law-params";
 import { modifies, type ParamDeviation } from "../../formulas/common/param-deviation";
@@ -56,28 +56,83 @@ export interface DamageInstance {
 }
 
 /**
+ * Lo que un emisor tiene que aportar para que exista una instancia. **Sin nada del emisor adentro**:
+ * ni su identidad, ni su familia de tokens, ni de qué capa salió.
+ */
+export interface InstanceContent {
+  /** El daño por tipo. Es lo único obligatorio: una instancia sin daño no es una instancia. */
+  damageByType: Partial<Record<DamageType, number>>;
+  /** Default `moddedBase` (Σ del daño). Un arma lo baja porque su DoT no ve los mods de elemento. */
+  dotModdedBase?: number;
+  ownElementBonusPct?: Partial<Record<DamageType, number>>;
+  critChance?: number;
+  critMult?: number;
+  /** 0..1. Default **0**: quien no declara chance, no proquea (`ausencia ≠ 0` — no es "siempre"). */
+  statusChance?: number;
+  statusDamageBonusPct?: number;
+  /** Default 1. Un emisor sin multishot emite una vez, que no es lo mismo que emitir cero. */
+  multishot?: number;
+  lawDeviations?: EmitterDeviations;
+}
+
+/**
+ * EL CONSTRUCTOR DE LA INSTANCIA — **el punto donde el emisor deja de importar**.
+ *
+ * Antes esto no existía como función: fabricar una instancia y *leer los nodos `WEAPON_*` de un arma*
+ * eran el mismo bloque de código, así que "poder emitir" y "ser un arma" eran la misma cosa. Medido:
+ * `deriveInstance` con cualquier otra familia devolvía `{}` y `moddedBase: 0`, en silencio.
+ *
+ * El corte de `damage-logic.ts` volvió agnóstica la **resolución**; éste vuelve agnóstica la
+ * **construcción**. Lo que queda atado al arma es sólo `deriveInstance`, que es donde corresponde:
+ * leer nodos `WEAPON_*` **es** el trabajo del camino del arma.
+ *
+ * `damageByToken` se deriva acá por la tabla canónica y existe para el consumidor que todavía habla
+ * en tokens; la resolución ya no lo usa.
+ */
+export function makeInstance(content: InstanceContent): DamageInstance {
+  const damageByToken: Record<string, number> = {};
+  for (const [type, value] of Object.entries(content.damageByType) as Array<[DamageType, number]>) {
+    damageByToken[damageTokenFromType(type)] = value;
+  }
+  const moddedBase = Object.values(content.damageByType).reduce((sum, v) => sum + (v ?? 0), 0);
+
+  return {
+    damageByToken,
+    damageByType: content.damageByType,
+    moddedBase,
+    dotModdedBase: content.dotModdedBase ?? moddedBase,
+    ownElementBonusPct: content.ownElementBonusPct ?? {},
+    critChance: content.critChance ?? 0,
+    critMult: content.critMult ?? 1,
+    statusChance: content.statusChance ?? 0,
+    statusDamageBonusPct: content.statusDamageBonusPct ?? 0,
+    multishot: content.multishot ?? 1,
+    ...(content.lawDeviations ? { lawDeviations: content.lawDeviations } : {}),
+  };
+}
+
+/**
  * Deriva la Instancia desde la entidad resuelta de C1. Función **pura**; sin target, sin cadencia.
  * Reemplaza la re-extracción inline que hoy hacen `CombatSimulator`/`CombatCalculator`/`TimelineSimulator`.
+ *
+ * **Es el camino del ARMA, y ahora lo dice.** Lee nodos `WEAPON_*` y delega el ensamblado a
+ * `makeInstance`. Que una entidad sin esos nodos produzca una instancia vacía dejó de ser el
+ * comportamiento del motor para pasar a ser el comportamiento de *esta función* — hay otro camino.
  */
 export function deriveInstance(entity: SimulationEntity): DamageInstance {
   const attrs = entity.attributes;
-  const damageByToken: Record<string, number> = {};
   const damageByType: Partial<Record<DamageType, number>> = {};
+  let moddedBase = 0;
 
   for (const [token, node] of Object.entries(attrs)) {
     if (!isWeaponDamageToken(token)) continue;
-    damageByToken[token] = node.final;
     const type = damageTypeFromToken(token);
-    if (type) damageByType[type] = node.final;
+    if (type) { damageByType[type] = node.final; moddedBase += node.final; }
   }
-
-  const moddedBase = Object.values(damageByToken).reduce((sum, v) => sum + v, 0);
 
   // `modded_base` del DoT = base innato × factor de base-damage (Serration), NO el compuesto — el DoT no
   // cuenta el daño de mods de elemento (empírico, `ingame-tests`). Primitiva `scaleDotBase` (P3, §16).
   const dot = entity.dot_scaling;
-  const dotModdedBase = dot ? scaleDotBase(dot.innateBaseTotal, attrs["WEAPON_ADD_DAMAGE"]) : moddedBase;
-  const ownElementBonusPct = dot?.ownElementBonusPct ?? {};
 
   // Los desvíos de ley que el emisor declara. **Ya compuestos por el grafo**: tres Tauforged Emerald
   // son tres modifiers `ADD_FLAT` sobre el mismo nodo, así que el `+9` sale del acumulador —el mismo
@@ -91,17 +146,15 @@ export function deriveInstance(entity: SimulationEntity): DamageInstance {
     lawDeviations[param] = declared;
   }
 
-  return {
-    damageByToken,
+  return makeInstance({
     damageByType,
-    moddedBase,
-    dotModdedBase,
-    ownElementBonusPct,
+    dotModdedBase: dot ? scaleDotBase(dot.innateBaseTotal, attrs["WEAPON_ADD_DAMAGE"]) : moddedBase,
+    ownElementBonusPct: dot?.ownElementBonusPct ?? {},
     ...(Object.keys(lawDeviations).length > 0 ? { lawDeviations } : {}),
     critChance: attrs["WEAPON_ADD_CRIT_CHANCE"]?.final || 0,
     critMult: attrs["WEAPON_ADD_CRIT_MULT"]?.final || 1.0,
     statusChance: (attrs["WEAPON_ADD_STATUS_CHANCE"]?.final || 0) / 100,
     statusDamageBonusPct: attrs["WEAPON_ADD_STATUS_DAMAGE"]?.final ?? 0,
     multishot: attrs["WEAPON_ADD_MULTISHOT"]?.final || 1.0,
-  };
+  });
 }
