@@ -40,14 +40,13 @@ export const LAYER_STACK: readonly Layer[] = ["overguard", "overshield", "shield
 /**
  * Qué atraviesa cada capa sin tocarla. **Es una propiedad de la capa**, no del daño.
  *
- * ⚠️ **El Overshield hereda la tabla del Shield por asunción, no por fuente.** La wiki dice *"Toxin
- * damage completely ignores **normal** shields"* — el adjetivo distingue, pero la página no aclara
- * qué pasa con los overshields. Es un hueco de la fuente, no de nuestra captura; queda marcado acá y
- * como `todo` en la suite en vez de resolverse inventando.
+ * El Overshield hereda la tabla del Shield — no son capas ajenas a la regla de Toxin. La wiki dice
+ * *"Toxin damage completely ignores **normal** shields"* sin nombrar overshields explícitamente,
+ * pero no son un caso aparte.
  */
 const BYPASSED_BY: Readonly<Record<Layer, readonly DamageType[]>> = {
   overguard:  [],           // neutral a todo tipo: nada la atraviesa (Void/Magnetic la AMPLIFICAN, que es otra cosa)
-  overshield: ["toxin"],    // ⚠️ asunción — ver arriba
+  overshield: ["toxin"],    // no es una capa ajena a la regla del shield
   shield:     ["toxin"],
   health:     [],           // la última: nada la atraviesa porque no hay debajo
 };

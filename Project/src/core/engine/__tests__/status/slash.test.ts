@@ -28,7 +28,7 @@ describe('Slash/Bleed — valor del tick (MODELADO, prototipo)', () => {
 
   // Lo que NO tenemos hoy (frontera del prototipo — no assertar contra maquinaria ausente):
   it.todo('aplicación: el tick es True → bypassa armor (resolución vs target, no el valor) — Slice 3');
-  it.todo('double-dip de faction: × (1 + faction)² — eje faction diferido');
+  it.todo('double-dip de faction: × (1 + faction)² — ver references/ingame-tests/double-dip.md, DC-OQ-ENGINE-13');
   it.todo('timeline: 6 ticks en 6s (delay 1s), timer independiente por stack, sin cap — pulso declarado (C2)');
   it.todo('FRONTERA 2: Viral amplifica el bleed EN VIVO (capa salud) → con Viral fluctuante la amplitud del pulso NO es constante — Viral+Slash es meta (damage-status-model §Modelo de timeline)');
   it.todo('Status Duration ensancha el pulso: (A) más ticks vs (B) estirado — SIN VERIFICAR; test = sumar total con/sin');

@@ -81,13 +81,7 @@ describe('Compañero — borde', () => {
   // declara adentro del compañero —no existe sin él— y se hidrata como cualquier arma, con sus
   // propios mods y su propio daño. Cobertura en `unlanded-modifiers.test.ts`, incluido que el
   // fan-out ALL-scope de Roar la alcanza igual que a la primaria.
-  //
-  // Lo que este archivo mide es OTRA cosa y sigue abierto: **el compañero como portador**, no su
-  // arma. Un pet muerde y ese daño no está modelado — no tiene nodo de daño propio, así que el pool
-  // que `createBaseEntity` le siembra (`GAMEPLAY_MULT_FACTION_DAMAGE`, base 100) nunca recibe nada.
-  // Es un nodo mudo preexistente y la fuente dice que no debería serlo: Roar *"increases the damage
-  // any ally deals from any source"* incluye a los compañeros mismos.
-  it.todo('el daño propio de un pet — hoy sin nodo, con un pool sembrado que nadie alimenta');
+  it.todo('el daño propio del compañero como portador, no su arma — #13');
   // Qué buffs propagan y cuáles no es un hueco de la FUENTE, no del modelo: Eclipse declara que
   // NO alcanza a compañeros sin su augment. Medición pendiente en `ingame-tests/pending.md` P-5.
   it.todo('qué buffs NO propagan al compañero — gated por medición (P-5)');
@@ -114,17 +108,11 @@ describe('Compañero — los frentes abiertos', () => {
   // Dirección 5: los 14 `*Bond`. Bidireccionales, y la condición lee estado de OTRA entidad.
   it.todo('un `*Bond` gatea por el estado del compañero y aplica en el jugador (Reinforced Bond: shields > 1200 → +fire rate)');
 
-  // El recurso que 6 de los 14 `*Bond` manipulan. La base son 60 s, iguales para todos
-  // (`[empirical]`, criterio del usuario) — o sea NO es gap de dataset sino constante de mecánica,
-  // del tipo de `ENEMY_GATE_DURATION`. Lo que falta es el ciclo de muerte que la consuma.
-  it.todo('Companion Recovery Timer: base 60 s + deltas (−15 Medi-Pet, −35 Primed Regen, +15 Sacrifice) — sin ciclo de muerte');
+  it.todo('Companion Recovery Timer: base 60s + deltas — sin ciclo de muerte que la consuma — #14');
   // `[empirical]`: revivir antes de que expire el cooldown de un precept lo deja disponible. Es un
   // cierre de ventana por EVENTO, no por tiempo (`time-model.md` §3, `until` conjuntivo).
   it.todo('el revive resetea los cooldowns de los precepts — cierre de ventana por evento');
 
-  // `mod_class` viene `null` en los 158: el motor no puede distinguir un precept (habilidad, con
-  // ventana) de un stat mod (modifier). La fuente son las 10 tablas que `companion-mods.wikitext`
-  // transcluye. Sin esta partición, `AVATAR_ADD_ABILITY_DURATION` sobre un kavat no tiene sujeto.
-  it.todo('precept ⊥ stat mod: `mod_class` null en los 158 — el eje sólo existe en la wiki');
-  it.todo('`AVATAR_ADD_ABILITY_DURATION` sobre un compañero escala PRECEPTS, no las 4 del warframe (Tek Enhance → uptime de Cat\'s Eye)');
+  it.todo('precept ⊥ stat mod: `mod_class` null en los 158 — #15');
+  it.todo('`AVATAR_ADD_ABILITY_DURATION` sobre un compañero escala PRECEPTS, no las 4 del warframe — #15');
 });

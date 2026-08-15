@@ -34,6 +34,31 @@ Antes de actuar, declarar: `[FASE: X | IMPACTO: RED/YELLOW/GREEN | ACCIÓN: halt
 
 **SSoT de decisiones abiertas:** `docs/governance/open-questions.md` — consultar ante cualquier cambio de arquitectura.
 
+## Flujo de GitHub
+
+Cada unidad de trabajo operativa nace como Issue, no como nota suelta en `.working/` o comentario de
+código. `open-questions.md` es debate de arquitectura; Issues es "qué hacer" — ver
+`docs/CLAUDE.md` §Frontera `open-questions.md` ↔ GitHub Issues.
+
+**Flujo:** issue → rama `<n>-slug` desde `master` (una por issue) → commits con footer `Refs #N`
+mientras está en curso → PR con `Closes #N` en la descripción → merge commit (nunca squash, los
+commits llevan razonamiento) → borrar rama.
+
+**Labels:** `bug`, `enhancement`, `documentation` (default de GitHub) + `deuda-tecnica` (residuo,
+decisión ya tomada sin documentar) + `data-gap` (hueco o inconsistencia de dato).
+
+**`it.todo` no es tracker de "qué hacer" — Issues sí.** Conflacionarlos fue el problema que generó la
+campaña de auditoría de 2026-08-15: `it.todo` cargando razonamiento denso y evidencia, invisible
+fuera del código, re-descubierto sesión tras sesión. Para trabajo genuinamente nuevo, el Issue nace
+primero, con el razonamiento completo. El `it.todo` (si llega a existir) es sólo el marcador técnico
+de que falta un test — no el lugar donde se documenta por qué.
+
+**El cuerpo del issue es donde vive el razonamiento** — ya no es puntero fino, porque el código no lo
+sostiene más. El `it.todo`/comentario en código se recorta a lo mínimo + una cita `— #N`: es la
+única forma de que el marcador siga siendo legible sin duplicar la razón que ahora vive en GitHub.
+
+**Al cerrar un issue:** el `it.todo` se vuelve test real; el marcador recortado desaparece con él.
+
 ## Cierre de sesión
 
 El cierre de sesión es **colaborativo y deliberado** (el usuario lo inicia o lo confirma), no un paso automático de fin de turno. Cuando se cierra, desamalgamar en acciones distintas — no todas aplican siempre:

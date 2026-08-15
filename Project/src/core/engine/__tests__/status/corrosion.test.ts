@@ -47,7 +47,7 @@ describe('Corrosion — armor strip (MODELADO)', () => {
   // Lo que NO tenemos hoy (frontera explícita — no assertar números contra maquinaria ausente):
   it.todo('decay/timeline real de Corrosion (8s, timer por stack) — C2, processDots N-timers');
   it.todo('sobre-cap: el 11º stack reemplaza al más viejo (replace-oldest) — C2');
-  it.todo('Corrosion sobre el JUGADOR: misma LEY, distinto portador — gate O1 (contenedor entidad-neutral)');
+  it.todo('Corrosion sobre el JUGADOR: misma LEY, distinto portador — #16');
 });
 
 /**

@@ -46,7 +46,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-ENGINE-2` | Profile switching en runtime (Incarnon/Alt-fire) | engine / simulation-context | re-scopeada — path dinámico sin consumidor |
 | `OQ-ENGINE-7` | Nodos de arma faltantes (Capa 4): resta el eje (c)/C2 | engine / hydration | abierta — no bloquea |
 | `OQ-ENGINE-11` | Exaltadas: intención estructural en A1 | engine / Capa A | abierta — diferida |
-| `OQ-ENGINE-12` | Crit condicional (Puncture/Cold): gancho hecho, fidelidad pendiente | engine / C2 | re-scopeada — ausencias vivas (cap-boss / 10º stack) |
+| `OQ-ENGINE-12` | Puncture (crit condicional) no aplica a AoE/habilidades de warframe | engine / C2 | gateada — sin AoE modelado, gancho cerrado (`DC-OQ-ENGINE-12`) |
 | `OQ-ENGINE-14` | Alcance del modelado melee | engine / C1 + C2 | promovida a diseño |
 | `OQ-ENGINE-15` | DR de armor enemigo: conflicto de 3 vías | engine / C2 | abierta — `√3a/100` provisional |
 | `OQ-ENGINE-16` | N-declarado vs timers reales de stacks | engine / C1 + C2 | abierta — no bloquea |
@@ -138,7 +138,7 @@ cubre ese eje.
 |---|---|---|
 | **Web Worker compatibility** | API serializable del motor para mover la simulación a un Worker | Performance bajo simulaciones extensas |
 | **Rewind / Time Travel** | Historial de cambios para deshacer/rehacer; aprovecha que el motor es determinista | UX de comparación de builds |
-| **Overguard como capa de entidad** (2026-07-22) | Modelar overguard **para entidades en general**, no solo enemigos (hoy sólo aparece como "futuro" en `effect-behavior.ts` y como flag faltante en `OQ-ENGINE-12`). Dato disponible: coeficientes de scaling en `Module:Enemies/infobox` (`f1 0.0015/4.00, f2 260.00/0.90`) | Capa de mitigación propia + caps de status (Freeze 4 stacks en Overguard) |
+| **Overguard como capa de entidad** (2026-07-22) | Modelar overguard **para entidades en general**, no solo enemigos (hoy sólo aparece como "futuro" en `effect-behavior.ts`; el caso puntual de Cold-cap-4 se destiló a Issue, ver `DC-OQ-ENGINE-12`). Dato disponible: coeficientes de scaling en `Module:Enemies/infobox` (`f1 0.0015/4.00, f2 260.00/0.90`) | Capa de mitigación propia + caps de status (Freeze 4 stacks en Overguard) |
 
 **Estado:** la condición-gate original ("cuando la Capa D se materialice y haya un cliente real") **ya se cumplió** — `ViewModelContract` v0 existe, consumido por D1 (`use-view-model`) y D2 (`oracle`). Aun así ninguna de las dos features tiene demanda: se retoman si un consumidor las pide. Nada en código todavía (verificado 2026-07-17).
 
@@ -528,24 +528,20 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 
 ---
 
-## OQ-ENGINE-12 — Crit condicional (Puncture/Cold): gancho RESUELTO, fidelidad pendiente por ausencia de dato — **RE-SCOPEADA (2026-07-20)**
+## OQ-ENGINE-12 — Puncture (crit condicional) no aplica a AoE/habilidades de warframe — **ABIERTA, gateada**
 **Dominio:** engine / C2 (micro-arquitectura de daño y status)
 
-**Resuelto — el gancho (la pregunta original "¿dónde/cuándo se construye el punto de enganche?"):** construido 2026-07-20. Puncture (efecto `weakened`) y Cold (efecto `freeze`) buffean el crit del **atacante** según sus stacks en el target, por un canal separado del de mitigación:
-- Contrato `CritModifier { critChanceAdd?, critMultAdd? }` + `EffectBehavior.critModifier?` (`effect-behavior.ts`) — stage del **hit**, no de la mitigación (canal aparte de `resolutionModifier` a propósito).
-- `EntityState.getCritBonuses(t)` suma los aportes (espejo de `getEffectiveArmor`); `CombatSimulator.simulateAttack` lo lee **LIVE** y lo suma a critChance/critMult antes de resolver el crit (ambos modos, atómico y bulk).
-- Behaviors `weakened`/`freeze` (molde de `corrosion` + `critModifier`); leyes `WEAKENED_CRIT_LAW {first:5,perAdd:5,cap:25}` (chance) / `COLD_CRIT_LAW {0.1,0.05,cap:0.5}` (mult) vía `stackDebuffValue`. Test: `crit-stack-buff.test.ts`.
+**Lo único que sigue vivo de esta OQ:** el gancho de crit condicional (Puncture/Cold) cerró — ver
+`DC-OQ-ENGINE-12`. Las ausencias de fidelidad que sostenía (Cold cap 4 con Overguard presente, freeze
+sólido al 10º stack) eran "qué hacer" ya sabido, no debate — se destilaron a Issues de GitHub
+(`docs/CLAUDE.md` §Frontera `open-questions.md` ↔ GitHub Issues).
 
-**Sigue vivo — AUSENCIAS de fidelidad (no simplificaciones: es dato/mecánica que hoy NO existe):**
-- **Cold cap 4 stacks con Overguard presente** — v1 usa el cap normal (9). **El gate cambió de naturaleza:** ya no falta el canal (el receptor desvía parámetros de ley por `ReceiverContext`, y `receiverMaxStacks` es el consumidor vivo) sino la **capa**: el Overguard no es clase sino cantidad presente en `t` (`arch-decisions §22`), y `current_overguard` nace en 0 sin que nada lo suba. Falta además que el contexto llegue a `resolutionModifier`/`critModifier`, que hoy sólo reciben el estado del efecto. "Bosses" queda afuera por otra razón: `arch-decisions §22` veta la clase — mezcla cuatro registros y no pasa el test de tres vías.
-- **Cold 10º stack** (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — mecánica compleja sin modelar.
-- **Puncture no aplica a AoE / habilidades de warframe** — gate ausente pero irrelevante hoy (el modelo de combate son hits de arma, no hay AoE); se gatea cuando exista AoE.
+**Lo que queda:** Puncture no aplica su buff de crit a daño de área (AoE) ni a habilidades de
+warframe — el gate está ausente en el código, pero es irrelevante hoy porque el modelo de combate son
+hits de arma y no hay AoE modelado todavía. Se gatea cuando exista AoE.
 
-**No es de esta OQ (SIMPLIFICACIÓN, no ausencia):** el decay de los stacks es **fluido** (`count` fraccional, compartido con Corrosion/Viral), no los N-timers discretos reales — su fidelidad es `OQ-ENGINE-16` (gated por medición).
-
-**Por qué NO cierra a DC:** el gancho cerró, pero las ausencias son deuda viva real — la aproximación es un **suelo aceptable, no completo**. Se queda como OQ hasta que el dato (flag boss) y la mecánica (10º stack) existan.
 **No bloquea:** el núcleo; Puncture/Cold ya entran a v1 con fidelidad de suelo.
-**Vínculo:** `damage-status-model.md` (modelo + primitivo), `OQ-ENGINE-16` (decay N-timers), `references/wiki/mechanics/status-effects.md §Weakened/§Cold`.
+**Vínculo:** `DC-OQ-ENGINE-12` (el gancho), `damage-status-model.md`.
 **Fuente:** debate de modelado C2 (2026-07-02); implementación del gancho + re-scope 2026-07-20.
 
 ---
@@ -617,30 +613,12 @@ respaldada de las tres.
 
 **Caso hermano — NO fusionar:** el buff-on-event con cap (Merciless/Deadhead/Galvanized, `STACK_DECAY_BUFF`, `arch-decisions.md §11`) comparte la tensión (¿N declarado sin timer es fiel?) pero **es otro mecanismo** que el clúster `c2/stack`=42 de status: buff propio on-event vs. procs del target, fórmulas y fuentes de N distintas. Se ejecutó C1-declarado puro (sin timer) — dejó esta OQ **donde estaba a propósito**. Capturar por separado (precaución explícita del usuario).
 
-### ⭐ El caso real llegó — y no por donde esta OQ lo esperaba
-
-El método pedía *"un caso real estresado con dato, no teorizando"*. Apareció, pero **no por fidelidad de
-decay**: por **dos emisores con caps distintos** (`references/ingame-tests/status-stack-caps.md`, medido
-con dos jugadores, caps 19 y 10).
-
-La regla medida —`count < cap` suma · `count ≥ cap` **refresca el más viejo**— **obliga a operar sobre
-instancias**, y el estado no las tiene:
-
-| Familia | Estado hoy | ¿Puede expresar "el más viejo"? |
-|---|---|---|
-| stack-debuff | `StackState { count: number }` — **escalar** | ❌ |
-| DoT | `DotState { pulses: DotPulse[] }` — instancias | ✅ |
-
-**La asimetría vive dentro del mismo archivo**, y el lado que ya modela instancias es el que nadie
-discutió. Eso reencuadra la OQ: el paso a instancias **deja de estar gated por la pregunta de fidelidad
-del N declarado** —que sigue abierta— y pasa a estar exigido por una regla ya medida. Son dos razones
-independientes para el mismo cambio.
-
-✅ **La mitad que un contador SÍ puede expresar ya está construida:** `applyStackProc`
-(`formulas/status/stack-debuff.ts`) mantiene el contador donde el juego lo mantiene, en vez del
-`min(cap, count+1)` que lo colapsaba hacia abajo (`../domains/engine/design/arch-decisions.md` §17).
-Lo que queda exigido por esta OQ es lo que un escalar **no** puede expresar: *"refresca el más viejo"*
-opera sobre instancias con timer propio, y un `count` sólo puede no moverse.
+**Destilado a Issue, no resuelve esta OQ:** el caso real de dos emisores con caps
+distintos (`references/ingame-tests/status-stack-caps.md`) exigió que `StackState { count: number }`
+pase a instancias —espejo de `DotState { pulses: DotPulse[] }`— por una razón **independiente** de la
+fidelidad del N declarado, que sigue abierta acá (dos razones distintas para el mismo cambio). El
+refactor por sí solo no contesta esta OQ — ver el Issue de `StackState`→instancias
+(`docs/CLAUDE.md` §Frontera `open-questions.md` ↔ GitHub Issues).
 
 **No bloquea:** el modo-input declarado es válido como techo donde el consumidor acepta "asumido, no simulado" (mismo espíritu que CO estático). Bloquea sólo la confianza en la FIDELIDAD del número para el clúster de 42 casos.
 **Vínculo:** `damage-status-model.md` (timers independientes, brecha del decay escalar), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).

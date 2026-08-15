@@ -396,3 +396,27 @@ Aplica tal cual el criterio de `semantic/upgrade-tokens.md` §*Acuñar no es gra
 Los otros cuatro **no los desbloquea un dato que llegue**: `HEAVY_LAND_SPEED` está trabado por conflicto semántico entre el token y su mod, `EVADE_NPC_BULLET` por sujeto (el enemigo no es el portador), `KNOCKDOWN_RECOVERY_SPEED` y `PARKOUR_GRAVITY` por falta de base medida in-game (régimen `OQ-ENGINE-15`/`-21`).
 
 **Ref:** `references/wiki/mechanics/{maneuvers.md,accuracy.md}` (la fuente destilada), `semantic/upgrade-tokens.md` §*Acuñado sin nodo* + §*Acuñar no es gratis*, `shared/types/modifier.ts` (`resolveUpgradeEntry`/`resolveToken`/`UPGRADES`), `__tests__/unlanded-modifiers.test.ts` (el tripwire del otro aviso), `OQ-ENGINE-7` (mismo patrón: token válido sin nodo).
+
+---
+
+## DC-OQ-ENGINE-12 — Crit condicional (Puncture/Cold): el gancho — CONSTRUIDO Y VALIDADO
+
+**Decisión:** el crit condicional de Puncture/Cold se resuelve por un canal separado del de
+mitigación por capa. Contrato `CritModifier { critChanceAdd?, critMultAdd? }` +
+`EffectBehavior.critModifier?` (`effect-behavior.ts`), consumido en el stage del **hit** (no de la
+mitigación, a propósito). `EntityState.getCritBonuses(t)` suma los aportes —espejo de
+`getEffectiveArmor`— y `CombatSimulator.simulateAttack` lo lee **LIVE**, sumándolo a
+critChance/critMult antes de resolver el crit (ambos modos, atómico y bulk). Behaviors `weakened`
+(Puncture, +crit chance del atacante) / `freeze` (Cold, +crit mult del atacante) vía
+`stackDebuffValue`, leyes `WEAKENED_CRIT_LAW` (`{first:5,perAdd:5,cap:25}`) / `COLD_CRIT_LAW`
+(`{0.1,0.05,cap:0.5}`). Está construido y validado, con `crit-stack-buff.test.ts`.
+
+**Lo que NO cierra esta decisión:** las ausencias de fidelidad que la OQ original sostenía (Cold cap
+4 stacks con Overguard presente, freeze sólido al 10º stack) no eran pregunta abierta — eran "qué
+hacer" ya sabido, y se destilaron a Issues de GitHub en vez de quedar en OQ (`docs/CLAUDE.md`
+§Frontera `open-questions.md` ↔ GitHub Issues). Puncture en AoE/habilidades de warframe
+sigue gateado, sin dueño hasta que exista AoE — se queda en `OQ-ENGINE-12`, ahora angostada a sólo
+ese punto.
+
+**Ref:** `damage-status-model.md §Weakened/§Cold`, `crit-stack-buff.test.ts`,
+`references/wiki/mechanics/status-effects.md §Weakened/§Cold`, `OQ-ENGINE-12` (residual).

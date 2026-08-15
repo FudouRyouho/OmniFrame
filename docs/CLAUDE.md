@@ -158,6 +158,24 @@ angosto). Son dos archivos, no dos copias.
   hay, **no es cierre genuino** → la OQ se queda. Un re-scope que descarta *un* camino no cierra la OQ
   si otro eje sigue vivo.
 
+## Frontera `open-questions.md` ↔ GitHub Issues
+
+`open-questions.md` se angosta a **exclusivamente** debate de arquitectura/diseño — algo que todavía
+no se decidió cómo debe funcionar. Un ítem que ya sabe **qué** hacer y sólo falta ejecutarlo no es
+una OQ, es un Issue.
+
+La destilación **no es un barrido programado** — se aplica cada vez que se toca una OQ por otro
+motivo (ej. auditando `it.todo`/JSDoc que la citan). El test: *¿esta OQ es una decisión de diseño
+pendiente, o ya se sabe qué construir?* Si es lo segundo, se destila.
+
+- **No es cierre genuino** (no va a `closed-decisions.md` — nada se decidió). Es reclasificación:
+  mover entero a un Issue de GitHub + borrar de OQ (cuerpo y fila del índice) — mismo criterio de
+  "no dejar lápidas" que rige para DC.
+- **Re-apuntar las citas entrantes.** Código que cita `OQ-X` (en `it.todo`, comentarios) se actualiza
+  o se limpia — no queda apuntando a una entrada que ya no existe en OQ.
+- **Antes de destilar, verificar que no haya consumidor vivo** que dependa de la OQ como debate
+  abierto (mismo chequeo que ya rige para cierre genuino).
+
 ## Post-flight: después de cambios de arquitectura o contratos
 
 Si el cambio afecta arquitectura o contratos, en la misma sesión:

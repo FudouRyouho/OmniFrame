@@ -1,7 +1,7 @@
 /**
  * Disruption (Magnetic) — caso mínimo aislado (altitud 2). MODELADO hoy: multiplicador al daño
- * recibido en la capa de SHIELDS (y Overguard). Familia A, PROVISIONAL = Infection (O4: la wiki dice
- * ×3.25 a 10, sin verificar contra /w/Magnetic_Damage). Ver status-effects.md §Disruption.
+ * recibido en la capa de SHIELDS (y Overguard). Familia A, PROVISIONAL = Infection — #17 (verificar
+ * contra /w/Magnetic_Damage). Ver status-effects.md §Disruption.
  */
 import { describe, it, expect } from 'vitest';
 import { makeIsolatedTarget, resolveIsolated } from './harness';
@@ -32,9 +32,9 @@ describe('Disruption — multiplicador a la capa shields (MODELADO, provisional 
   });
 
   // Lo que NO tenemos hoy:
-  it.todo('O4: verificar ×3.25 a 10 stacks contra /w/Magnetic_Damage (hipótesis: 100% a Overguard cruza el dato)');
-  it.todo('al romper Overguard: daño Electricity = 3% del Overguard máximo por stack — faceta aparte, no modelada');
+  it.todo('verificar la curva de Disruption contra /w/Magnetic_Damage — #17');
+  it.todo('Electricity al romper Overguard: 3% del máximo por stack — #18');
   it.todo('Disruption niega la recarga natural de shields durante el proc — C2');
   it.todo('decay/timeline real de Disruption (6s, timer por stack) — C2');
-  it.todo('Disruption sobre el JUGADOR: misma LEY, distinto portador — gate O1');
+  it.todo('Disruption sobre el JUGADOR: misma LEY, distinto portador — #16');
 });

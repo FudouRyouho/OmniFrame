@@ -123,7 +123,9 @@ describe('La pila declara el orden; cada capa declara qué la atraviesa', () => 
     expect(s.clone().layerAmounts).toEqual(s.layerAmounts);
   });
 
-  it.todo('¿Toxin atraviesa también el OVERshield? la fuente dice "normal shields" y no lo aclara — hoy se asume que sí');
+  it('Toxin también atraviesa el Overshield — no es una capa ajena a la regla del shield', () => {
+    expect(layerFor(TOXIN, { overshield: 500, health: 1000 })).toBe('health');
+  });
 
   // El tercer verbo está construido para el escudo (`shield-gate.ts` + `receive`), los dos lados.
   // Falta el del Overguard, que la fuente declara asimétrico: 0.5 s del lado jugador y NINGUNO del
