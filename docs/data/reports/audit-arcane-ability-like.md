@@ -502,6 +502,5 @@ Storm.
 - `docs/governance/open-questions.md` — `OQ-ENGINE-16`, `OQ-DATA-14`
 - `docs/domains/engine/design/arch-decisions.md` §11 (`STACK_DECAY_BUFF`), §12
   (`linearThresholdScale` + `source_attribute`)
-- `.working/c1-corpus-roadmap.md` §1 — tabla de corpus que este barrido alimenta
 - `Project/public/data/arcane-stats.override.json` — fuente del corpus
 - `references/wiki/arcanes/arcane-*.md` — los 6 `references/*` creados en este barrido

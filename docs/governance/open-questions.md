@@ -1864,9 +1864,10 @@ explicar el ruteo docs↔scratch). Eso no promete un archivo.
   `closed-decisions.md` y `arch-decisions.md §13`.
 - **Warrant vivo** — el doc **depende** del scratch para entenderse (plan de implementación con
   §-anchor, tabla de corpus). Requiere comprimir lo decidido inline **antes** de borrar el puntero.
+  **Ejecutado:** `governance/decision-frontier.md` + `current-state.md` + `arch-decisions.md:535` → el
+  plan de fases de `.working/ability-model-debate.md §9` se comprimió inline (estado real, verificado
+  contra código: Fases 0/0.5/1a/1b ejecutadas, Fase 3 adelantada fuera de secuencia y ya construida).
   Pendiente:
-  - `governance/decision-frontier.md` + `current-state.md` + `arch-decisions.md:533`
-    → `.working/ability-model-debate.md §9` (plan de implementación por fases, ~28 líneas)
   - `domains/ui-ux/decisions.md` (×2) + `doc-map.md:114` → `.working/consolidation-map.md` — gate:
     refactors **UI U-2**
   - `data/reports/audit-arcane-ability-like.md:505` → `.working/c1-corpus-roadmap.md §1`

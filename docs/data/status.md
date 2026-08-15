@@ -76,6 +76,7 @@ Ver `docs/semantic/upgrade-tokens.md` para el breakdown completo.
   - **`slamAttack` (impacto directo del slam)** — `3×` en 170 armas, `2×` en 53: tampoco derivable. Lo que servimos hoy es el **radial** (`2×`/`3×`, constante en las 223 — ese sí derivable, no se perdía nada). Falta saber si el directo se suma al radial: necesita partida.
   - **`minEnemyLevel`/`maxEnemyLevel`/`factionIndex`** — los 269 nodos del Star Chart, sin huecos. Único dato de enemigos fresco que sobrevive al fósil de 2019; permitiría anclar el nivel de simulación a misiones reales. **Oportunidad, no gap** — no abrir sin decisión de producto.
   - **`resistances`** en los 638 enemigos (⚠️ datos de 2019) — el eje daño-vs-facción se modeló con la matriz `FACTION_BONUS` sin haber mirado si el fósil traía resistencias per-unidad.
+  - **`image_name` ausente en los 638 enemigos (0/638)** — el fósil no lo incluye (no es descarte del pipeline, falta en la fuente). No es problema hoy: no hay vista de enemigos en la UI (`domains/` = arsenal, equipment, hud, options, profile), sólo se usan en el oracle (CLI). Reaparece si el eje enemigo llega a la UI.
   - `fusionLimit` (1.784 mods) · `isAugment` (454) · `isUtility` (194) · `transmutable` — clasificación de mods que no tenemos.
   - `exilusPolarity` (330 armas) · `stancePolarity` (223) — polaridades de slot especial; tenemos `polarities`, no estas.
   - `excludeFromCodex` (2.890 ítems) — DE diciendo qué no es contenido real; mejor filtro de entidades que el `ExcludedFromSimulacrum` del wiki.

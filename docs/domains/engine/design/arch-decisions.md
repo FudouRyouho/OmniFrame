@@ -531,8 +531,7 @@ pool② viaja con la instancia, matriz③ es del encuentro — prueba dura de qu
 > hidratación real: warframe strength → pool de facción del arma (`rhino.test.ts` `rhino_roar`,
 > `GAMEPLAY_MULT_FACTION_DAMAGE` +127% = 50×2.54, al decimal vs `Roar.md`). Esto responde **"¿el motor consume habilidades?"** (sí, el
 > primer verbo). El resto (simetría ②/③, sub-source, key-por-verbo, source-state VIVO con duración) se
-> **refuerza o cae** con el corpus (Fase 2 — primero procesar datos) y el emite-instancia (Fase 3). Origen:
-> debate (`.working/ability-model-debate.md`, gitignored). **No colgar más código que el eslabón ya sostenido por un test.**
+> **refuerza o cae** con el corpus (Fase 2 — primero procesar datos) y el emite-instancia (Fase 3). **No colgar más código que el eslabón ya sostenido por un test.**
 >
 > 🟢 **Fase 3 abrió por el banco y hoy también por el pipeline.** `AbilityRepository.getEmissions` es el
 > verbo emite-instancia leyendo el override —hermano de `getModifiers`, que es muta-state— y devuelve
@@ -579,6 +578,30 @@ general aún no esté probada** — es disciplina de clasificación, no una afir
 
 **Gates (nombrados, no construidos):** source-state vivo (G-a, 1er buff con duración = Rhino+Roar) ·
 `NeutralState` base (G-b, 2ª columna) · recursión/sub-source (G-c). Ver `decision-frontier §4`.
+
+### La arquitectura del dato — el plano (forks abiertos, gated por G-a/G-b)
+
+Cómo el dato se estructura y se mueve desde que nace el node hasta que sale a D. Tres vistas del mismo
+grafo, que no compiten: **objeto-con-referencias** (C1 ya es un grafo de nodos que referencian nodos,
+pull) · **árbol de resolución** (ese grafo visto como forma) · **línea transversal** (el orden de
+recorrido por frame). Dos regímenes de referencia: **estructurales** (aristas del DAG, 1 pasada) vs
+**cross-tiempo/entidad** (stamps).
+
+El **STATE plane** es el mismo patrón que "0": `STATE plane : stamp : frame-read ≡ "0" : puntero :
+dereferencia`. El stamp ES un puntero al plano; el frame-read ES la deref. El engine tiene **dos
+memorias** (`0` = dato estático, STATE = estado runtime); el FLOW hilvana entre las dos.
+
+El plano, 4 piezas: **(1) DAG de composición** (C1) — refs estructurales, pull, estático por config.
+**(2) STATE plane** — tipo "0", matrix-indexado (entity×effect); stamps + pull + push. **(3) FLOW**
+(río, por frame) — re-resuelve el DAG contra el snapshot de STATE. **(4) Frame loop** — el eje TIEMPO.
+
+**Forks abiertos (gated por la construcción del source-state — no se debaten en abstracto):**
+- ¿El DAG se re-resuelve ENTERO cada frame, o **incremental** (solo nodos que dependen de un STATE que
+  cambió)? Cuestión de performance; toca `HYBRID_THRESHOLD`.
+- ¿STATE es UN plano o **DOS** (source-tree vs target: lifecycle y escritor distintos)?
+- ⭐ **¿El FLOW corre por PULL (lazy) o por PUSH (dataflow reactivo)?** — probable punto de inflexión
+  que decide el resto. No se debate en abstracto: el build del source-state (Rhino+Roar) le da forma
+  empírica. Se re-abre cuando el frame-loop lo fuerce.
 
 **Enlaza con §2** (lo refinaría), **§3** (exaltada = sub-source), **§14** (el daño que la instancia emite
 viaja), **§2.0/§2.0.1** (el trazado y el seam C1→C2).
