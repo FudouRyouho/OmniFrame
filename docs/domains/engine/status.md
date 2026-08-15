@@ -358,7 +358,7 @@ Ver [`../../governance/open-questions.md`](../../governance/open-questions.md):
 - **OQ-ENGINE-2** — Profile switching en runtime (Incarnon/Alt-fire): re-hidratar vs. conmutar durante `resolve()`.
 - **OQ-ENGINE-7** — Materialización de nodos de atributo de arma faltantes (Capa 4).
 - **OQ-ENGINE-11** — Exaltadas: derivación de intención estructural en A1.
-- **OQ-ENGINE-12** — Timing del pipeline de crit condicional para Puncture/Cold (C2).
+- **OQ-ENGINE-12** — Puncture (crit condicional) no aplica a AoE/habilidades de warframe — gateada hasta que exista AoE.
 - **OQ-ENGINE-15** — Fórmula de DR de armor enemigo: conflicto de 3 vías.
 - **OQ-ENGINE-16** — Fidelidad de N-declarado vs. timers reales para stacks de status (C1).
 - **OQ-ENGINE-FUTURE** — Web Worker, Rewind, y estado del Gold Standard testing.

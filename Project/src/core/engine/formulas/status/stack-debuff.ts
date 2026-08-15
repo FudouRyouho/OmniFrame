@@ -132,7 +132,7 @@ export function receiverMaxStacks(
 }
 
 /**
- * LEYES de crit-buff-por-stack (`OQ-ENGINE-12`, status-effects.md §Weakened/§Cold). El target
+ * LEYES de crit-buff-por-stack (`DC-OQ-ENGINE-12`, status-effects.md §Weakened/§Cold). El target
  * debilitado sube el crit del ATACANTE — misma forma Familia A, aplicada al crit en vez del daño.
  * Constantes de ley fija: el default vive acá, con su fórmula. Si algún día algo las desvía, el desvío
  * entra por su procedencia (emisor/receptor, `CV-3`) — no por una tabla de config paralela.

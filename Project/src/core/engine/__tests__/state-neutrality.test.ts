@@ -73,6 +73,16 @@ describe('El estado se lee por familia de token, no por bando', () => {
     // El mensaje nombra al participante y su canal — un cero silencioso no era diagnosticable.
     expect(() => vitalsOf(arma)).toThrow(new RegExp(arma.id));
   });
+
+  it('[companion] comparte AVATAR_* con el warframe por `channel`, no por `routes` (`unit-class.ts`)', () => {
+    // `routes: ['avatar']` es idéntico al del warframe —el compañero lo necesita, para que
+    // `Enhanced Vitality` le aterrice— pero lo que resuelve acá es el `channel: 'companion'`.
+    // Contraste: la MISMA marca de ruteo NO le da la ley de mitigación (`[ley] el COMPAÑERO no
+    // recibe la DR de escudo`, más abajo) — dos tablas, cada una con su propia entrada por canal,
+    // no una regla derivada de `routes`.
+    const pet = syntheticAvatar({ health: 300, channel: 'companion' });
+    expect(vitalsOf(pet).health).toBe(300);
+  });
 });
 
 /**
@@ -260,6 +270,5 @@ describe('La neutralidad termina donde empieza la ley — un avatar mitiga como 
     expect(playerGateDuration(1150)).toBeGreaterThan(playerGateDuration(1151));
   });
 
-  it.todo('[clase] la ley la elige la marca de ruteo del portador, como `vitalsOf` con el vocabulario — sin forma todavía [OQ-ENGINE-22]');
   it.todo('[caído] el bleedout del avatar es un hecho con ventana, no una capa — fuera de scope, sin medición');
 });

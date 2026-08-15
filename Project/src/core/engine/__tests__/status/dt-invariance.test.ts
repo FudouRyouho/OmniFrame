@@ -93,7 +93,7 @@ describe('Invariancia al paso de muestreo — `dt` es perilla de costo, no de re
     // La cura NO es integrar mejor. Es que el estado deje de ser un escalar que sangra y pase a llevar
     // instancias con su propia ventana — que es, además, lo único que puede contestar "cuál es el más
     // viejo" (la regla `count ≥ cap` → refresca el más viejo, medida en `references/ingame-tests/
-    // status-stack-caps.md`). Dos razones independientes para el mismo cambio; ver `OQ-ENGINE-16`.
+    // status-stack-caps.md`). Dos razones independientes para el mismo cambio (#10); ver `OQ-ENGINE-16`.
     for (const count of medido) expect(count).toBeCloseTo(medido[0], 9);
   });
 

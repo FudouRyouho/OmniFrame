@@ -135,22 +135,23 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Crit-buff-por-stack — el target debilitado sube el crit del ATACANTE (OQ-ENGINE-12).
+// Crit-buff-por-stack — el target debilitado sube el crit del ATACANTE (`DC-OQ-ENGINE-12`).
 // Mismo molde que corrosion (StackState + decay fluido), pero contribuye vía `critModifier`
 // (stage del hit) en vez de `resolutionModifier` (stage de mitigación).
 //
-// ⚠️ AUSENCIAS DIFERIDAS (no simplificaciones — dato/mecánica que hoy NO existe, OQ-ENGINE-12):
+// ⚠️ AUSENCIAS DIFERIDAS (no simplificaciones — dato/mecánica que hoy NO existe):
 //   · Freeze cap 4 stacks en Overguard — el canal del receptor ya existe (`receiverMaxStacks`) y la
 //     entidad ya puede declarar clase; lo que falta es el **Overguard**, que no es clase sino capa
-//     presente en `t` y no tiene origen modelado (`current_overguard` nace en 0 y nada lo sube).
+//     presente en `t` y no tiene origen modelado (`current_overguard` nace en 0 y nada lo sube) — #11.
 //     "Bosses" queda afuera por otra razón: `arch-decisions §22` lo veta — no pasa el test de tres vías.
-//   · Freeze 10º stack (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — sin modelar.
-//   · Puncture no aplica a AoE / habilidades de warframe — gratis hoy (el modelo son hits de arma).
+//   · Freeze 10º stack (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — sin modelar — #12.
+//   · Puncture no aplica a AoE / habilidades de warframe — gratis hoy (el modelo son hits de arma),
+//     gateado hasta que exista AoE (`OQ-ENGINE-12`).
 // El decay fluido (compartido con corrosion) vs los N-timers reales es SIMPLIFICACIÓN → OQ-ENGINE-16.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const WEAKENED_MAX_STACKS = 5;
-const FREEZE_MAX_STACKS = 9; // ⚠️ 4 con Overguard presente (ausente: la capa no tiene origen) — OQ-ENGINE-12.
+const FREEZE_MAX_STACKS = 9; // ⚠️ 4 con Overguard presente (ausente: la capa no tiene origen) — #11.
 
 const weakenedBehavior: EffectBehavior<StackState> = {
   effect: "weakened",
@@ -227,7 +228,7 @@ const igniteBehavior: EffectBehavior<HeatState> = {
  * Registro de behaviors — PARCIAL sobre los 15 `StatusEffect`: los que tienen LEY hoy. Los demás
  * (impact/… ; gas/electricity = frontera 3) no tienen behavior aún. `<any>` en el estado: el registro
  * es heterogéneo (cada efecto modela su `S` distinto), opaco a core. `weakened`/`freeze` acumulan
- * stacks pero NO emiten daño — solo buffean el crit del atacante vía `critModifier` (`OQ-ENGINE-12`).
+ * stacks pero NO emiten daño — solo buffean el crit del atacante vía `critModifier` (`DC-OQ-ENGINE-12`).
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const EFFECT_BEHAVIORS: Partial<Record<StatusEffect, EffectBehavior<any>>> = {
@@ -237,6 +238,6 @@ export const EFFECT_BEHAVIORS: Partial<Record<StatusEffect, EffectBehavior<any>>
   corrosion: corrosionBehavior,
   infection: infectionBehavior,
   disruption: disruptionBehavior,
-  weakened: weakenedBehavior, // Puncture → +crit chance del atacante (OQ-ENGINE-12)
-  freeze: freezeBehavior,     // Cold → +crit damage del atacante (OQ-ENGINE-12)
+  weakened: weakenedBehavior, // Puncture → +crit chance del atacante (`DC-OQ-ENGINE-12`)
+  freeze: freezeBehavior,     // Cold → +crit damage del atacante (`DC-OQ-ENGINE-12`)
 };

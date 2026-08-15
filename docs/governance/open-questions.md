@@ -1828,7 +1828,7 @@ Tres cosas que fija este corpus:
 
 ⚠️ **El vocabulario de sujeto de la prosa no es un campo:** los 14 nombran al receptor con `owner`, `you`/`your` o `Warframe` según la página, sin término canónico. Sirve para partir el corpus, no para alimentar un modelo.
 
-**Hallazgo lateral, fuera del alcance de esta OQ:** `../semantic/upgrade-tokens.md` §Registro de lo inexpresable declara `absoluteCritBonus` *"no resoluble con el corpus local"*. `cats-eye.wikitext` §Notes lo resuelve **con** corpus local: da la segunda fuente del pool absoluto y su fórmula textual, donde el `45%` es **Arcane Avenger**, hoy clasificado en el pool relativo (`WEAPON_ADD_CRIT_CHANCE`). El término ya existe construido en `formulas/common/crit-base.ts` y no tiene emisor.
+**Hallazgo lateral, fuera del alcance de esta OQ, destilado a Issue:** `../semantic/upgrade-tokens.md` §Registro de lo inexpresable declara `absoluteCritBonus` *"no resoluble con el corpus local"*. `cats-eye.wikitext` §Notes lo resuelve **con** corpus local: da la segunda fuente del pool absoluto y su fórmula textual, donde el `45%` es **Arcane Avenger**, hoy clasificado en el pool relativo (`WEAPON_ADD_CRIT_CHANCE`). El término ya existe construido en `formulas/common/crit-base.ts` y no tiene emisor — ver Issue #27 (`__tests__/crit-stack-buff.test.ts`).
 
 **Lo que el eje NO es: una familia de token.** Un `COMPANION_ADD_SHIELD_MAX` diría *"el nodo de shield del compañero"*, que es lo mismo que `AVATAR_ADD_SHIELD_MAX` sobre un portador compañero — y ese caso ya cae bien por §18. El faltante no es `{dónde}` vive el nodo sino **a quién le llega el efecto**: se resuelve en el alcance, no en el vocabulario.
 

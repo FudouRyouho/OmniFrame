@@ -103,7 +103,7 @@ describe('Warcry — borde', () => {
   // Warcry alcanza a los aliados ("bolsters Armor and Attack Speed for allies", descripción
   // oficial; `buff-debuff.md` lo lista como `User/Ally`). El modelo no tiene aliados como
   // entidad — mismo hueco que el cap-para-aliados de Volt Speed. Ver `OQ-ENGINE-31`.
-  it.todo('el buff alcanza a los aliados en Affinity Range — requiere aliados como entidad');
+  it.todo('el buff alcanza a los aliados en Affinity Range — requiere aliados como entidad [OQ-ENGINE-31]');
   // El slow a enemigos cercanos existe en el juego (`buff-debuff.md` §Crowd Control lo lista
   // bajo `Slowed`/`Enemy`) pero NO aparece en la UI de la habilidad, así que no hay stat que
   // anotar. Además es un debuff sobre el enemigo: territorio C2, sin nodo hoy.
@@ -111,5 +111,5 @@ describe('Warcry — borde', () => {
   // ETERNAL WAR extiende la duración por kill (2s/kill, tope 40s). Es duración condicionada a
   // un evento; C1 proyecta la habilidad como siempre-activa (`arch-decisions §15`), así que la
   // duración no se computa y el augment no tiene dónde aterrizar.
-  it.todo('augment ETERNAL WAR — duración por kill, y C1 no computa duración');
+  it.todo('augment ETERNAL WAR — duración por kill, y C1 no computa duración [arch-decisions §15]');
 });

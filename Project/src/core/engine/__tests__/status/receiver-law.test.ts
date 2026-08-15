@@ -16,7 +16,7 @@
  *
  * `ReceiverContext` llega hasta `applyProc` y **no** hasta `resolutionModifier`/`critModifier`. Es
  * deliberado —ningún desvío conocido del receptor entra por ahí— y tiene consumidor nombrado: el cap de
- * Cold a 4 stacks en Overguard (`OQ-ENGINE-12`), que no es clase sino **capa presente en `t`**. Va como
+ * Cold a 4 stacks en Overguard (#11), que no es clase sino **capa presente en `t`**. Va como
  * `todo` en vez de como parámetro construido de antemano.
  */
 import { describe, it, expect } from 'vitest';
@@ -158,7 +158,7 @@ describe('El portador trae una TABLA, no un cap', () => {
     }
   });
 
-  // El cap de Cold a 4 stacks en Overguard (`OQ-ENGINE-12`) es el próximo consumidor, y NO es clase:
+  // El cap de Cold a 4 stacks en Overguard (#11) es el próximo consumidor, y NO es clase:
   // depende de que la capa esté presente en `t`. Entra por `ReceiverContext` sin cambiarle la forma —
   // un campo más—, pero exige que el contexto llegue a los otros dos métodos del behavior.
   it.todo('`resolutionModifier` y `critModifier` reciben el `ReceiverContext` — hoy sólo `applyProc`');

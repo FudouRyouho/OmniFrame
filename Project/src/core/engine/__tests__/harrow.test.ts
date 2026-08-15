@@ -92,7 +92,7 @@ describe('Penance — borde', () => {
   // El costo es el shield entero y la duración se DERIVA de cuánto se drenó (4s base + 1.25/1.33/
   // 1.43/1.54s por cada 100 de shield, tope 120s). C1 proyecta la habilidad como siempre-activa
   // (`arch-decisions §15`), así que no computa duración ni consume el pool de shields.
-  it.todo('costo del shield entero y duración derivada del shield drenado — C1 no computa duración');
+  it.todo('costo del shield entero y duración derivada del shield drenado — C1 no computa duración [arch-decisions §15]');
   // 5% del daño hecho POR Harrow se convierte en salud para él y los aliados en Affinity Range
   // (50m, no afectado por Ability Range). Sustain sobre entidades que el modelo no tiene.
   it.todo('life steal en Affinity Range — sustain, y sin aliados como entidad (`OQ-ENGINE-31`)');

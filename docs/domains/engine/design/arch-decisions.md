@@ -831,7 +831,7 @@ canal**:
 
 | Ítem | Lo que queda, y por qué no es este canal |
 |---|---|
-| `OQ-ENGINE-12` | el cap de Cold a `4` no depende de qué unidad es sino de que el **Overguard esté presente en `t`** — capa, no clase (§22), y sin origen modelado |
+| Cold cap 4 stacks (#11) | el cap de Cold a `4` no depende de qué unidad es sino de que el **Overguard esté presente en `t`** — capa, no clase (§22), y sin origen modelado |
 | **Overguard como capa de entidad** | ídem: falta de dónde **sale** la capa, no cómo se lee |
 | `OQ-ENGINE-22` (EHP/DR `enemy/`→`entity/`) | sigue sin consumidor — el gate era real pero el residual es de demanda |
 | `OQ-ENGINE-28` (resistencias por entidad) | ídem |
@@ -857,7 +857,7 @@ afuera obligaría al contenedor a conocer las leyes, que es justo lo que esta se
 
 ⚠️ **El contexto del receptor llega a `applyProc` y no a `resolutionModifier`/`critModifier`.** Ningún
 desvío conocido entra por ahí; el primero que lo haga es el cap de Cold a `4` con Overguard presente
-(`OQ-ENGINE-12`), que **no es clase sino capa en `t`**. Anclado en `__tests__/status/receiver-law.test.ts`.
+(#11), que **no es clase sino capa en `t`**. Anclado en `__tests__/status/receiver-law.test.ts`.
 
 **Quién ocupa el rol de EMISOR: la instancia — y por eso el Jugador-raíz sigue sin materializarse.** La
 pregunta parecía estar entre el warframe (donde está el shard) y el Jugador (a quien el desvío

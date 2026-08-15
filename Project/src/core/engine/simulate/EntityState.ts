@@ -147,7 +147,7 @@ export class EntityState {
    *
    * **Se computa al llamar, no se guarda.** Hoy sólo devuelve identidad, que no cambia en `t`, así que
    * congelarlo daría lo mismo; el próximo campo no —el cap de Cold a 4 depende de que el Overguard
-   * esté presente **en ese instante** (`OQ-ENGINE-12`)— y para entonces la forma ya es la correcta.
+   * esté presente **en ese instante** (#11)— y para entonces la forma ya es la correcta.
    */
   public receiverContext(): ReceiverContext {
     return { unit_class: this.entity.unit_class };
@@ -303,7 +303,7 @@ export class EntityState {
   }
 
   /**
-   * Bonos al crit del ATACANTE según los efectos presentes en este target (`OQ-ENGINE-12`).
+   * Bonos al crit del ATACANTE según los efectos presentes en este target (`DC-OQ-ENGINE-12`).
    * Suma los `critModifier` de los efectos activos: Weakened (Puncture) → +crit chance (%),
    * Freeze (Cold) → +crit damage (×). Se lee LIVE por hit en `simulateAttack`.
    */

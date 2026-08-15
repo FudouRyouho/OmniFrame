@@ -58,7 +58,7 @@ export interface HitContext {
  *
  * ⚠️ **Se computa al aplicar, no se congela** (`arch-decisions §20`, `f(estado en t)`). Hoy sólo lleva
  * clase —que no cambia en `t`— pero el próximo campo sí: el cap de Cold a 4 stacks depende de que el
- * Overguard esté **presente en ese instante** (`OQ-ENGINE-12`), no de qué es la unidad.
+ * Overguard esté **presente en ese instante**, no de qué es la unidad — #11.
  */
 export interface ReceiverContext {
   /** Qué unidad es (`contracts/unit-class.ts`). Ausente = sin regla propia. */
@@ -71,8 +71,8 @@ export interface ReceiverContext {
  *
  * Reemplaza al `hit` suelto que la firma llevaba. Sumar un parámetro más habría alcanzado para el
  * único consumidor de hoy, y es lo que se descartó: el receptor va a entrar también en
- * `resolutionModifier` y en `critModifier` —el cap de Cold en Overguard es ese caso, ya escrito en
- * `OQ-ENGINE-12`—, y la forma que sostiene tres sitios es un contexto, no tres parámetros sueltos.
+ * `resolutionModifier` y en `critModifier` —el cap de Cold en Overguard es ese caso, #11—, y la
+ * forma que sostiene tres sitios es un contexto, no tres parámetros sueltos.
  * Meterlo dentro de `HitContext` no era opción: ese tipo se declara *source-side*, y colapsar los dos
  * dueños en un objeto es exactamente lo que §17 le reprocha a `GameLaws`.
  */
@@ -98,7 +98,7 @@ export interface ResolutionModifier {
 }
 
 /**
- * Cómo un efecto altera el CRIT del atacante según su presencia en el target (`OQ-ENGINE-12`).
+ * Cómo un efecto altera el CRIT del atacante según su presencia en el target (`DC-OQ-ENGINE-12`).
  * Stage ANTERIOR a la resolución de daño: se aplica en el cálculo de crit del hit (`simulateAttack`),
  * no en la mitigación por capa. Aditivo. Canal separado de `ResolutionModifier` a propósito — son
  * dos momentos distintos del pipeline (crit del hit vs mitigación del target).
@@ -132,11 +132,11 @@ export interface EffectBehavior<S> {
    * Modificador de resolución actual (armor/capa). Ausente = no modifica.
    *
    * ⚠️ **No recibe el `ReceiverContext`, y va a necesitarlo.** No se le pasó por anticipado porque
-   * ningún desvío conocido del receptor entra por acá; el primero que lo haga (`OQ-ENGINE-12`) lo
-   * agrega — el contexto ya existe y llega hasta el contenedor, así que es un argumento más, no una
-   * forma nueva. Anclado en `__tests__/status/receiver-law.test.ts`.
+   * ningún desvío conocido del receptor entra por acá; el primero que lo haga (#11) lo agrega — el
+   * contexto ya existe y llega hasta el contenedor, así que es un argumento más, no una forma nueva.
+   * Anclado en `__tests__/status/receiver-law.test.ts`.
    */
   resolutionModifier?(state: S, t: number): ResolutionModifier;
-  /** Modificador de crit del atacante (Weakened/Freeze, `OQ-ENGINE-12`). Ausente = no toca el crit. */
+  /** Modificador de crit del atacante (Weakened/Freeze, `DC-OQ-ENGINE-12`). Ausente = no toca el crit. */
   critModifier?(state: S, t: number): CritModifier;
 }

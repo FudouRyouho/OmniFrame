@@ -1,5 +1,5 @@
 /**
- * Crit-buff-por-stack (OQ-ENGINE-12): el target debilitado sube el crit del ATACANTE.
+ * Crit-buff-por-stack (`DC-OQ-ENGINE-12`): el target debilitado sube el crit del ATACANTE.
  *   - Weakened (Puncture) → +crit chance (%): +5×n, cap +25 a 5 stacks.
  *   - Freeze (Cold)       → +crit damage (×): +0.1+0.05(n−1), cap +0.5.
  * Verifica la LEY (getCritBonuses) + que `simulateAttack` LEE el bonus (el gancho).
@@ -21,7 +21,7 @@ await loadEngineData(new NodeAdapter());
 const DUMMY_HIT: HitContext = { moddedBase: 0, statusDamageBonusPct: 0, elementBonusPct: {} };
 const freshState = () => new EntityState(hostileEntity('Arid Butcher', 100));
 
-describe('getCritBonuses — LEY de crit-buff por stack (OQ-ENGINE-12)', () => {
+describe('getCritBonuses — LEY de crit-buff por stack (DC-OQ-ENGINE-12)', () => {
   it('Weakened: +5% crit chance por stack, cap +25 a 5 stacks', () => {
     const s = freshState();
     s.applyProc('weakened', DUMMY_HIT, 1, 0);
@@ -90,6 +90,6 @@ describe('simulateAttack LEE el bonus de crit del target (el gancho)', () => {
    * `total_flat`, que la fórmula general ya suma post-escala) o por la **fórmula** — no por los dos,
    * o el bonus se duplica en silencio. Es la frontera de `arch-decisions §19`.
    */
-  it.todo('el pool ABSOLUTO de crit tiene emisor: acuñar `WEAPON_FLAT_CRIT_CHANCE` — Cat\'s Eye (60pp) · Arcane Avenger (45pp)');
-  it.todo('el término absoluto entra por el NODO o por la FÓRMULA, no por los dos — §19, riesgo de doble conteo');
+  it.todo('el pool ABSOLUTO de crit tiene emisor: acuñar `WEAPON_FLAT_CRIT_CHANCE` — #27');
+  it.todo('el término absoluto entra por el NODO o por la FÓRMULA, no por los dos — §19, riesgo de doble conteo — #27');
 });

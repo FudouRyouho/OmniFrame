@@ -122,7 +122,7 @@ describe('Enemigo — el buff del jugador no se filtra', () => {
     expect(enemy.node('GAMEPLAY_MULT_FACTION_DAMAGE').multiplicative).toBe(1);
   });
 
-  it.todo('el enemigo no debería materializar WEAPON_ADD_DAMAGE ni el pool de facción');
+  it.todo('el enemigo no debería materializar WEAPON_ADD_DAMAGE ni el pool de facción — #26');
 });
 
 // ─── Dos participantes del mismo ítem: el segundo pisa al primero ──────────────────

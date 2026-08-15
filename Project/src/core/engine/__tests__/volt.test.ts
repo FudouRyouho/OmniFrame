@@ -266,10 +266,10 @@ describe('Volt Speed — borde', () => {
   // Cap asimétrico (wiki): el movement speed capea a 150% para ALIADOS y no capea para
   // el propio Volt. Depende de quién recibe, no de la fuente — eje distinto a los caps
   // por-fuente (Icy Avalanche, Recompense). El modelo no tiene aliados como entidad.
-  it.todo('cap de movement speed 150% sólo para aliados (no para el caster)');
+  it.todo('cap de movement speed 150% sólo para aliados (no para el caster) [OQ-ENGINE-31]');
   // Los aliados pueden hacer backflip para quitarse el buff: opt-out por entidad receptora,
   // no modelable en C1 estático (la ability es asumida-activa, arch §15).
-  it.todo('opt-out del buff por backflip del aliado — requiere source-state vivo (gate G-a)');
+  it.todo('opt-out del buff por backflip del aliado — requiere source-state vivo (gate G-a) [OQ-ENGINE-31]');
   // AVATAR_ADD_SPRINT_SPEED sigue siendo token sin nodo: es un stat DISTINTO de movement speed
   // (movement-speed.md — Rush no afecta el walk) y su consumidor no está mapeado en el dataset.
   it.todo('AVATAR_ADD_SPRINT_SPEED — materializar cuando llegue Rush (¿display-only?)');

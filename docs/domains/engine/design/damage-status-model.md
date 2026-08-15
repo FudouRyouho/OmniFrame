@@ -45,7 +45,7 @@ trae la suya:
 |---|---|---|---|---|
 | **Acolyte** | 4 para ***cualquier*** status | **Impact → 3** | *"can only receive up to 4 stacks of any Status Effect with the exception of Impact which can stack up to 3 times"* | ✅ `RECEIVER_MAX_STACKS.acolyte` |
 | **Kuva Lich / boss** | 4 para ***cualquier*** status | **Impact → 6** | *"No Status Effect will exceed a maximum of 4 stacks, with the exception of Impact which can stack up to 6 times"* | **sin portador** — cero Liches en `enemies.json`; `Boss` vetado por `arch-decisions §22` |
-| **Overguard** | **sólo Cold** | — | *"Cold — máximo 4 procs"* | **no es clase sino capa en `t`** — sin origen modelado (`OQ-ENGINE-12`) |
+| **Overguard** | **sólo Cold** | — | *"Cold — máximo 4 procs"* | **no es clase sino capa en `t`** — sin origen modelado (#11) |
 
 **`Impact` es la prueba de que no alcanza un cap único desviable:** es el único que *no* se colapsa a 4,
 y toma **tres valores para el mismo parámetro** — default `5`, Acolyte `3`, Lich `6`. Un `cap + desvío`
@@ -255,10 +255,10 @@ Detalle en `references/wiki/mechanics/status-effects.md`.
 Entra: `multiplier = 2+0.25×(n-1)` sobre daño a shields/Overguard, mismo seam que Viral (`getDamageMultiplier("shield")`). Diferido: negación de recarga de shields (no simulamos regen), bonus Electricity al romper Overguard (evento puntual), extra-efectividad vs Nullifiers (nicho).
 
 ### Puncture — Weakened
-Entra: +5%/stack de crit chance del jugador contra el target (hasta +25% a 5 stacks). Behavior `weakened`, enganchado en el cálculo de crit chance vía `critModifier` (canal aparte del de resolución por capa — OQ-ENGINE-12). Diferido: gate no-AoE/habilidades (irrelevante hoy, sin AoE); reducción de daño saliente del enemigo (eje fuera de scope).
+Entra: +5%/stack de crit chance del jugador contra el target (hasta +25% a 5 stacks). Behavior `weakened`, enganchado en el cálculo de crit chance vía `critModifier` (canal aparte del de resolución por capa — `DC-OQ-ENGINE-12`). Diferido: gate no-AoE/habilidades (irrelevante hoy, sin AoE, `OQ-ENGINE-12`); reducción de daño saliente del enemigo (eje fuera de scope).
 
 ### Cold — Freeze
-Entra: bonus de crit damage recibido, +0.1× (1er stack) +0.05×/stack (hasta +0.5× a 9). Behavior `freeze`, mismo canal `critModifier` que Puncture. **Ausencias vivas (OQ-ENGINE-12):** cap especial de 4 stacks en bosses/Overguard (falta el flag boss en el DNA — v1 usa 9); freeze sólido al 10º stack (+1.0×, 3 residuales, CC). Diferido: slow (survivability).
+Entra: bonus de crit damage recibido, +0.1× (1er stack) +0.05×/stack (hasta +0.5× a 9). Behavior `freeze`, mismo canal `critModifier` que Puncture (`DC-OQ-ENGINE-12`). **Ausencias vivas:** cap especial de 4 stacks en bosses/Overguard (falta el flag boss en el DNA — v1 usa 9, #11); freeze sólido al 10º stack (+1.0×, 3 residuales, CC, #12). Diferido: slow (survivability).
 
 ### Heat — Ignite
 Entra: tick DoT, `0.5 × modded_base × (1+heat) × (1+faction)² × (1+status_damage)`, **pool consolidado compartido** (única excepción al primitivo); y la **rampa de armor strip**, como aproximación lineal `f(t − primer proc)` (0.5 s → 0% … 2 s → 50%). Lo que la aproximación no reproduce son los **escalones** (15/30/40/50 cada 0.5 s) ni la **vuelta**, y el strip **no termina** — las tres facetas y su medición están en [`../status.md §Deudas`](../status.md). Es la única de las 16 que necesita timeline real genuino. Fuera de scope: Panic (CC).
@@ -573,7 +573,8 @@ interface ResolutionModifier { armorMult?: number; layerMult?: Partial<Record<La
 - Un canal de **emisión** + un **modificador de resolución** genérico (armor + layer). Armor NO es canal
   privilegiado; crit-vs-target (cold/puncture) es un 2º canal del stage atacante (hits-only) — **construido**
   (`EffectBehavior.critModifier` → `EntityState.getCritBonuses` → `simulateAttack`), con efecto real
-  (behaviors `weakened`/`freeze`). Fidelidad de suelo; las ausencias (cap-boss, 10º stack) siguen en `OQ-ENGINE-12`.
+  (behaviors `weakened`/`freeze`, `DC-OQ-ENGINE-12`). Fidelidad de suelo; las ausencias (cap-Overguard #11,
+  10º stack #12) se destilaron a Issues; Puncture/AoE sigue gateado en `OQ-ENGINE-12`.
 - La emisión declara `as: DamageType` (bleed→`'true'`, poison→`'toxin'`…); **core deriva las reglas del
   canónico** (bypass shields, bypass armor/matriz de True, DR, layer-mult). Único dato per-efecto = `as`
   (sucesor de `DOT_TYPE_IS_TRUE`, NO tabla-sombra). **Cierra el cabo:** hit Slash resuelve `as:'slash'`
@@ -727,7 +728,7 @@ alcanza siempre.)*
 
 ## Preguntas abiertas
 
-- **OQ-ENGINE-12** — el gancho de crit (Puncture/Cold) se **construyó** (canal `critModifier`); la OQ sigue **viva por AUSENCIAS de fidelidad** (Cold cap-4-boss = falta flag boss en DNA; 10º stack sin modelar), no por el gancho.
+- **OQ-ENGINE-12** — el gancho de crit (Puncture/Cold) se **construyó** (`DC-OQ-ENGINE-12`, canal `critModifier`); lo único que sigue vivo es Puncture/AoE-habilidades, gateado hasta que exista AoE. Cold cap-4-Overguard (#11) y freeze 10º stack (#12) se destilaron a Issues.
 - **OQ-ENGINE-19** — generador discreto exacto de N proc-slots cuando el Status Chance de un pellet supera 100% (§Población/RNG arriba). No bloqueante — el total y la curva esperados no dependen de él.
 - **OQ-ENGINE-20** — la frontera de congelación: qué le pertenece a la base que el proc fija y qué evalúa el tick al emitir (§Modelo unificado / El proc determina la base). El reparto grueso está medido; el caso que ubica la línea es el combo de melee (`references/ingame-tests/pending.md` P-10).
 - **OQ-ENGINE-18** — Status Duration en DoT (§Modelo de timeline, hueco de dato): más ticks vs. ticks estirados — decide la duración que `HitContext` debe cargar.

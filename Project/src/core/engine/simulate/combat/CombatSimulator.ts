@@ -78,7 +78,7 @@ export class CombatSimulator {
     // la resolución necesita es el que **no tiene dueño** (`damage-logic.ts` §los dos trabajos).
     const { multishot, critChance: baseCritChance, critMult: baseCritMult, damageByType: baseDamageMap } = instance;
 
-    // Gancho OQ-ENGINE-12: el target debilitado buffea el crit del atacante — Weakened (Puncture) → +crit
+    // Gancho DC-OQ-ENGINE-12: el target debilitado buffea el crit del atacante — Weakened (Puncture) → +crit
     // chance, Freeze (Cold) → +crit damage. Leído LIVE del estado del target; ambos modos lo heredan.
     const critBonus = targetState.getCritBonuses(currentTime);
     const critChance = baseCritChance + critBonus.critChanceAdd;
