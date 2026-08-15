@@ -15,10 +15,23 @@
  * una ley que los consuma — hoy `ability-instance.ts` declara los que su eje necesita.
  */
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { WEAPON_DAMAGE_ABILITIES, isWeaponDamageAbility } from '../contracts/emitter-class';
 
 const overrides = (await new NodeAdapter().read('ability-stats.override')) as Record<string, { name?: string }>;
+
+/** Los warframes que la tabla de la fuente enumera — leídos del `.md`, no transcritos. */
+const warframesEnLaFuente = (): string[] => {
+  const md = readFileSync('../references/wiki/mechanics/universal-weapon-bonuses.md', 'utf8');
+  const tabla = md.split('## Habilidades afectadas')[1]?.split('### Casos que rompen')[0] ?? '';
+  const nombres = tabla
+    .split('\n')
+    .filter((l) => l.startsWith('| ') && !l.includes('---') && !l.startsWith('| Warframe'))
+    .map((l) => l.split('|')[1]?.trim())
+    .filter((n): n is string => Boolean(n));
+  return [...new Set(nombres)];
+};
 
 describe('Weapon Damage Abilities — la marca contra el dato real', () => {
   it('cada `unique_name` declarado existe en el catálogo de habilidades', () => {
@@ -33,6 +46,27 @@ describe('Weapon Damage Abilities — la marca contra el dato real', () => {
 
   it('no hay duplicados: la lista es un conjunto', () => {
     expect(new Set(WEAPON_DAMAGE_ABILITIES).size).toBe(WEAPON_DAMAGE_ABILITIES.length);
+  });
+
+  /**
+   * ⚠️ **LA DIRECCIÓN QUE FALTABA — y que dejó pasar un miss.**
+   *
+   * Los tests de arriba verifican que *lo declarado existe en el catálogo*. Ninguno verificaba que *lo
+   * que la fuente enumera esté declarado*, así que **Uriel se omitió en silencio** en el primer pase:
+   * la lista compilaba, resolvía y pasaba los tres tests, con un warframe menos.
+   *
+   * Una lista importada tiene dos modos de falla, no uno — sobra (entrada muerta) y **falta** (fuente
+   * que creció). Éste cubre el segundo: si la wiki agrega un warframe a la tabla, el conteo se mueve y
+   * hay que mirarlo. No compara ids porque el `unique_name` no dice de qué warframe es
+   * (`DemonFrameCloneAbility` no menciona a Uriel), y derivarlo sería la misma inferencia que esta
+   * campaña viene sacando del engine.
+   */
+  it('la tabla de la fuente no creció sin que lo miráramos', () => {
+    const warframes = warframesEnLaFuente();
+    // 23 al 2026-08-14. Todos declarados salvo Sirius, que el catálogo todavía no trae.
+    expect(warframes.length).toBe(23);
+    expect(warframes).toContain('Uriel');
+    expect(warframes).toContain('Sirius');
   });
 
   /**

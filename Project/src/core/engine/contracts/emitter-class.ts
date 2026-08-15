@@ -63,6 +63,13 @@ export const WEAPON_DAMAGE_ABILITIES: readonly string[] = [
   "/Lotus/Powersuits/PowersuitAbilities/HopliteImpaleAbility",       // Styanax — Axios Javelin
   "/Lotus/Powersuits/PowersuitAbilities/HopliteArmyAbility",         // Styanax — Final Stand
   "/Lotus/Powersuits/PowersuitAbilities/TempleShredAbility",         // Temple — Pyrotechnics
+  // Uriel — el círculo de fuego que Gulphagor deja al hacer latch. ⚠️ La correspondencia NO es 1:1:
+  // la fuente lista el **campo**, y la habilidad del catálogo es la que invoca a la criatura. Entra
+  // igual porque la elegibilidad es del warframe y la fuente lo dice sin ambigüedad — *"buffs must be
+  // applied to **Uriel himself** […] buffs on Gulphagor will have no effect"*. Es el rol *dueño* con
+  // una entidad derivada de habilidad en el medio (`OQ-ENGINE-11`), y el primer caso de la lista donde
+  // la marca viaja más lejos que la habilidad que la porta.
+  "/Lotus/Powersuits/PowersuitAbilities/DemonFrameCloneAbility",     // Uriel — Demonium (Gulphagor)
   "/Lotus/Powersuits/PowersuitAbilities/WerewolfHowlAbility",        // Voruna — Ulfrun's Descent
   "/Lotus/Powersuits/PowersuitAbilities/WispHarnessAbility",         // Wisp — Breach Surge (+ Cataclysmic Gate)
   "/Lotus/Powersuits/PowersuitAbilities/TenguBurstAbility",          // Zephyr — Airburst

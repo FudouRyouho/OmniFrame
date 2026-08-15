@@ -52,6 +52,15 @@ export function expectedProcEvents(
 		// Se gatea acá y **no** en `applyProc` a propósito: la pregunta *"¿hubo proc?"* es del poblador,
 		// que es quien conoce la chance; `applyProc` aplica lo que le den —incluidos los `expected`
 		// fraccionales que este mismo modelo EV produce— y no tiene con qué distinguir un 0 legítimo.
+		//
+		// ⚠️ **El gate es `=== 0`, no `<= 0`, y eso deja pasar el negativo — medido y deliberado.**
+		// Barrido: `sc=0` mono y multi → 0 eventos ✅ · `sc=1e-12` → 1 evento (correcto: declaró algo) ·
+		// `peso 0` → 0 ✅ · **`sc=-0.5` → 1 evento con `expected: -0.5`**, que llegaría a `applyProc` como
+		// amount negativo. Hoy **no es alcanzable**: cero mods del dataset restan `WEAPON_ADD_STATUS_CHANCE`
+		// (medido sobre `mod-stats.override.json`), y los Rivens —única fuente plausible— no están
+		// modelados. No se clampa porque un SC negativo sería un bug de composición río arriba, y
+		// silenciarlo acá lo volvería un número creíble y falso: exactamente el modo de falla que este
+		// gate vino a cerrar. Si aparece, tiene que sonar.
 		if (expected === 0) continue;
 		events.push({ type, timestamp, expected });
 	}
