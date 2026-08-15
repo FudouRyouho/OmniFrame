@@ -1,0 +1,58 @@
+{{ArcaneBox}}
+'''Magus Destruct''' is an [[Arcane Enhancement]] for the [[Operator]]. Whenever the Operator performs a [[Void Sling]] on an enemy, they will become more vulnerable to {{D|Puncture}} damage.
+
+==Effect==
+{| class="emodtable"
+|-
+! Rank
+! % Reduced resistance
+|-
+| 0 || 12%
+|-
+| 1 || 25%
+|-
+| 2 || 37%
+|-
+| 3 || 50%
+|-
+| 4 || 60%
+|-
+| 5 || 65%
+|}
+
+==Acquisition==
+Can be bought from [[Vox Solaris (Syndicate)|Vox Solaris]] for {{sc|10,000}} upon reaching the rank of '''Instrument'''.
+
+==Notes==
+*The effect will apply a permanent stacking [[Damage Vulnerability]] debuff for all {{D|Puncture}} damage done to an enemy.
+**Can be applied multiple times with no limit, with each application stacking additively with each other.
+**For example, using an {{Weapon|AX-52}} modded with {{M|Serration}} and {{M|Piercing Caliber}} against an enemy affected with '''3''' stacks of a max rank Magus Destruct will deal:
+:::{{Math|40 * (1 + {{M|Serration|165%}}) * (1 + {{M|Piercing Caliber|120%}}) * (1 + 3 * {{Arcane|Magus Destruct|65%}})|t=y|bf-a=y}} damage before any damage reduction or resistances.
+*Has no effect on [[Eidolon]]s.
+
+==Tips==
+*Synergizes with {{Arcane|Virtuos Spike}}.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|31.5}}
+*Fixed the Magus Destruct Arcane increasing enemy resistance to Puncture damage, not decreasing like intended.
+
+{{ver|27.2}}
+*Magus Destruct<br />On Rank 5: On Void Blast:<br />Reduce Enemy Resistance to Puncture Damage by 65% 
+
+{{ver|24.2}}
+*Introduced.
+}}
+
+{{ArcaneNav}}
+
+[[es:Destrucción del mago]]
+[[Category:Components]]
+[[Category:Arcane Enhancements]]
+[[Category:Operator]]
+[[Category:Syndicate Offerings]]
+[[Category:Update 24]]
+[[Category:Damage Type Modifier]]
+[[uk:Маґус «Нищення»]]
+[[Category:Magus Arcanes]]

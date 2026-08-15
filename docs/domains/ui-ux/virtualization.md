@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Documentar el comportamiento de la virtualización de listas en la interfaz"
-Version: "v0.0.2"
 Impacto_ID: "UI-UX-Performance"
 Fidelidad_Fisica: "Project/src/shared/components/items/ItemsGrid.tsx"
 Fecha_de_creacion: "2026-04-18"
@@ -10,24 +9,28 @@ Fecha_de_actualizacion: "2026-04-23"
 
 # UI Virtualization
 
-## Estrategia: Virtualización Localizada
+## Estrategia: un umbral genérico, con override por vista
 
-El proyecto utiliza una estrategia de virtualización **por vista**, en lugar de una abstracción global rígida en el grid. Esto permite adaptar el threshold de rendimiento a la complejidad de las cards de cada dominio.
+`ItemsGrid` es el único punto donde se decide virtualizar. No hay tabla de thresholds por dominio:
+la regla es **un solo número** — `items.length > 200` — y la vista puede forzar cualquiera de los
+dos modos pasando la prop `virtualized`.
 
-### Componente: `ItemsGrid` (Virtualización Integrada)
+- **Ubicación**: `Project/src/shared/components/items/ItemsGrid.tsx` (implementa con
+  `useVirtualizer` de `@tanstack/react-virtual`; no existe un componente `VirtualizedItemsGrid` aparte).
+- **Contrato**: recibe `items`, `isLoading`, callbacks de acción, y las opcionales `virtualized`
+  y `overscan` (default 5).
+- **Resolución**: `virtualizedProp ?? items.length > 200`.
 
-- **Ubicación**: `Project/src/shared/components/items/ItemsGrid.tsx`
-- **Uso**: El componente `ItemsGrid` encapsula la lógica de virtualización y decide cuándo activarla basado en la densidad de datos y la configuración del dominio.
-- **Contrato**: Recibe `items`, `isLoading` y callbacks de acción, centralizando el comportamiento de scroll infinito y renderizado por batches.
+## Quién fuerza el modo
 
-## Thresholds de Activación
+| Vista | Modo | Cómo |
+|---|---|---|
+| **Mods** | Grilla simple | `virtualized={false}` **explícito** en `ModsView.tsx` — es el dataset más grande y aun así se desactiva a mano |
+| **Resto** | Automático | Sin prop: virtualiza si supera 200 ítems, si no grilla simple |
 
-| Vista         | Comportamiento | Criterio                                                |
-| :------------ | :------------- | :------------------------------------------------------ |
-| **Weapons**   | Virtualizado   | +200 items (Primary, Secondary, Melee combinados).      |
-| **Mods**      | Virtualizado   | Por defecto (Dataset extenso > 1000 items).             |
-| **Warframes** | Grilla Simple  | Cantidad reducida (< 100). Prioriza simplicidad de DOM. |
-| **Resto**     | Grilla Simple  | Layouts transicionales o datasets pequeños.             |
+⚠️ **Mods es la excepción declarada, no el caso testigo.** El dataset de mods es el que más se
+beneficiaría del umbral automático y es el único que lo apaga; si esa desactivación tiene un motivo
+(salto de scroll, altura variable de `ModCard`), no está escrito en el código ni acá.
 
 ## Limitaciones Técnicas
 
@@ -38,4 +41,4 @@ El proyecto utiliza una estrategia de virtualización **por vista**, en lugar de
 
 ### Notas de Mantenimiento
 
-Cualquier cambio en el aspecto de las cards (`aspect-ratio`) requiere coordinar el ajuste en el cálculo de filas de `VirtualizedItemsGrid` para evitar saltos visuales en el scroll.
+Cualquier cambio en el aspecto de las cards (`aspect-ratio`) requiere coordinar el ajuste en el cálculo de filas de `ItemsGrid` para evitar saltos visuales en el scroll.

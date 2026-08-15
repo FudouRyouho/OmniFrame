@@ -1,0 +1,73 @@
+{{ModBox}}
+'''Shield Charger''' is a [[Sentinel]] and [[MOA (Companion)|MOA]] [[Mods|Mod]] that periodically increases your [[Warframe]]'s Max [[Shields]] and regenerates them for a certain amount of time.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Increased Max Shields & Shield Regen
+! Duration
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || 10% || 5s || 0
+|-
+| 1 || 20% || 6s || 1
+|-
+| 2 || 30% || 7s || 2
+|-
+| 3 || 40% || 8s || 3
+|-
+| 4 || 50% || 9s || 4
+|-
+| 5 || 60% || 10s || 5
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+*Shield bonus is additive with bonuses such as {{M|Redirection}}.
+*Shield Recharge Rate bonus is additive with bonuses such as {{M|Fast Deflection}}.
+*Unlike [[Arcane Aegis]], Shield Recharge Rate can be interrupted by damage, but with a greatly reduced Shield Recharge Delay.
+*Once the ability duration ends, shields will go back to normal, leaving excess shields as [[Shield#Overshield|overshields]].
+*Has a cooldown of '''30''' seconds.
+*Will not grant shields if the user does not possess base shields of their own.
+*Unlike [[Shield Osprey]], it does not instantly recharge shields.
+*[[Sentinels]], [[Companions]], [[Rescue|Rescue Targets]], [[Syndicate]] [[Operative]]s [[Syndicate#Rank1|Syndicate Specters]] or [[Invasion|Factional Allies]] cannot benefit from this mod.
+
+==Media==
+{{VideoGallery
+|{{YouTube|YyLt05tS7BU|size=350px}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|35.5.7}}
+*Fixed Shield Charger's Russian description not displaying Regen correctly.
+
+{{ver|The Index Preview 3|Fix}}
+*Fixed any Overshields being wiped out when the Shield Charger Mod was equipped.
+
+{{ver|The Index Preview 2|Fix}}
+*Fixed the Shield Charger Mod not having its correct image.
+
+{{ver|Specters of the Rail}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[de:Schildlader]]
+[[es:Cargador de escudo]]
+[[ru:Зарядник Щита]]
+[[Category:Rare Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Penjaga Mods]]
+[[Category:Index Mods]]
+[[Category:Update 19]]
+[[Category:Dual Stat Mods]]
+[[Category:The Index]]
+[[Category:MOA Mods]]
+[[Category:Robotic Mods]]
+[[Category:Shield Restoration]]
+[[uk:Зарядник щитів]]
+[[fr:Chargeur de Bouclier]]

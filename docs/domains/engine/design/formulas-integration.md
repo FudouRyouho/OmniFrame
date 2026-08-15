@@ -1,161 +1,257 @@
 ---
-Estado: "activo"
-Rol: "Auditoría y plan de integración de formulas/ como SSoT matemático del engine"
-Version: "v0.3.0"
-Impacto_ID: "E-OQ-FORMULAS"
+Estado: "referencia"
+Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
+Impacto_ID: "E-Formulas"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
-  - "docs/domains/engine/formula-overview.md"
+  - "docs/domains/engine/design/vocabulary.md"
 Dependidos: []
 ---
 
-# Auditoría: formulas/ como SSoT Matemático del Engine
+# formulas/ — SSoT matemático del engine: estado e integración
 
-**Sesión**: 2026-05-27  
-**Alcance**: `Project/src/core/engine/formulas/` y su relación con el resto del engine  
-**Hallazgo principal**: `formulas/` contiene lógica matemática correcta y bien estructurada que **nunca es consumida** por ningún módulo del engine de producción.
+`core/engine/formulas/` es la **matemática pura** del motor: funciones deterministas, sin estado
+ni dependencias del engine. El diseño (`simulation-architecture.md §C1`) es que `resolve/` y
+`simulate/combat/` la **orquesten**, no que reimplementen la matemática.
 
----
-
-## 1. El principio que no se cumplió
-
-La arquitectura en `simulation-architecture.md §C1` establece que el engine debe ser:
-
-> "Motor matemático funcional y determinista. No tiene estado mutable."
-
-El diseño pretendido era:
-
-```
-formulas/    → matemática pura, determinista, sin dependencias del engine
-hydration/   → traducción de datos crudos → tipos engine
-resolution/  → orquesta formulas/ para resolver el grafo
-combat/      → orquesta formulas/ para simulación temporal
-```
-
-El código en `formulas/` materializa exactamente este principio. El problema: durante la construcción de v2, `resolution/` y `combat/` reimplementaron la matemática inline en lugar de consumir `formulas/`. El resultado es dos sistemas paralelos donde debería haber uno.
+**Deuda estructural:** durante v2, `resolve/` y `combat/` reimplementaron parte de la matemática
+inline en vez de consumir `formulas/`. La meta es **conectar, no reescribir** — el código de
+`formulas/` es correcto; el trabajo es reemplazar cada copia inline por una llamada.
 
 ---
 
-## 2. Hallazgos de la auditoría (2026-05-27)
+## 1. Consumo actual (estado real)
 
-### 2.1 formulas/ — Cero consumidores externos *(estado al momento de la auditoría)*
-
-```
-grep -rn "from.*engine/formulas" Project/src → (sin resultados)
-```
-
-Los 13 archivos de `formulas/` exportan funciones que nadie llama fuera del propio directorio. Son código muerto.
-
-> **⚠️ Resuelto en Fase 2 (2026-05-27):** `crit-base.ts` ← `AtomicSimulator`; `scaling-base.ts` ← `SimulationEngine`. Dos archivos activamente consumidos.
-
-### 2.2 combat/ — Desconectado del pipeline de producción *(estado al momento de la auditoría)*
-
-```
-grep -rn "import.*CombatCalculator|TimelineSimulator|CombatSimulator" Project/src
-→ solo imports dentro de combat/ entre sí
-```
-
-Todo `combat/` (hoy `simulate/combat/`) era el motor de `SimulationLab.tsx` (eliminado). El pipeline de producción actual es:
-
-```
-useViewModel → consume(intention) → MutatorBridge → StaticHydrator + SimulationEngine → { entities, engine }
-```
-
-El entry-point de UI es `useViewModel` (`@providers`) → `consume()` (salida de C). `MutatorBridge` no llama a `CombatCalculator` ni a `TimelineSimulator` en el path de producción — el engine display-only (C1) solo resuelve atributos, no calcula DPS/TTK/procs. (El `useSimulation` original y su gemelo `useSimulationMetrics` fueron **purgados** 2026-06-16.)
-
-> **⚠️ Actualizado (2026-07-03):** el hook `useSimulationMetrics` que consumía `CombatCalculator.project()` fue **purgado** (2026-06-16, cluster muerto). C2 no tiene consumidor de producción hoy; su modelado se retomó en la campaña de daño/status ([`damage-status-model.md`](damage-status-model.md), 2026-07-02) con los primeros tests reales (`enemy-state-status-multiplier`, `cedo-prime` `it.todo`). `TimelineSimulator` sigue sin consumidor.
-
-### 2.3 Duplicación matemática confirmada
-
-| Fórmula | SSoT en formulas/ (sin consumidores) | Copia inline en combat/ |
+| Fórmula (`formulas/`) | Consumidor | Estado |
 |---|---|---|
-| Multiplicador crit promedio | `crit-base::averageCritMultiplier()` | `AtomicSimulator.calculateAverageMultiplier()` |
-| Resolución de tier de crit | `crit-base::resolveCritTier()` | `AtomicSimulator.calculateCritDistribution()` |
-| Fórmula aditiva base×bonus | `scaling-base::applyAdditiveBonus()` | inline en `SimulationEngine.calculateCurrentValue()` |
-| Pesos de proc por tipo de daño | `status-base::procWeightByType()` | inline en `CombatCalculator.project()` |
+| `weapon/stat-accumulator::resolveStatValue` (envuelve `common/scaling-base::applyAdditiveBonus`) | `resolve/SimulationEngine.calculateCurrentValue` | ✅ integrado — **pipeline de producción vivo (C1)** |
+| `common/crit-base::{resolveCritTier, averageCritMultiplier}` | `simulate/combat/AtomicSimulator` | ✅ integrado — pero `combat/` está **fuera del pipeline de producción** (ver abajo) |
+| resto de `formulas/` | — | sin consumir |
 
-El gap no es de corrección — la matemática en `combat/` es mayormente correcta. El gap es de trazabilidad: si una fórmula cambia, hay que actualizar N lugares. Con `formulas/` como SSoT, se actualiza 1.
+**`combat/` está desconectado del pipeline de producción.** El path vivo es display-only (C1):
 
----
+```
+useViewModel → consume(intention) → MutatorBridge → StaticHydrator + SimulationEngine → { entities }
+```
 
-## 3. Inventario de formulas/ — Estado y clasificación
-
-| Archivo | Contenido | Estado | Vocabulario | Acción |
-|---|---|---|---|---|
-| `common/crit-base.ts` | Crit chance, tier, avg multiplier | ✅ Correcto, SSoT real | Agnóstico | ✅ **Conectado (Fase 2)** ← `AtomicSimulator` |
-| `common/scaling-base.ts` | applyAdditiveBonus, round2, clamp | ✅ Correcto, SSoT real | Agnóstico | ✅ **Conectado (Fase 2)** ← `SimulationEngine` |
-| `common/status-base.ts` | PRIMARY_ELEMENTS, ELEMENT_COMBINATIONS, procWeightByType | ✅ Correcto | DamageType (vocab antiguo: "heat", "cold") | Migrar a D-6 en Fase 4 |
-| ~~`weapon/weapon-core.ts`~~ | ~~calculateWeaponStats~~ | ~~⚠️ D-3 legacy~~ | ~~D-3~~ | ✅ **PURGADO (Fase 1)** |
-| ~~`warframe/warframe-core.ts`~~ | ~~calculateWarframeStats~~ | ~~⚠️ D-3 legacy~~ | ~~D-3~~ | ✅ **PURGADO (Fase 1)** — directorio eliminado |
-| `weapon/weapon-crit.ts` | calculateWeaponCrit delegando a crit-base | ✅ Correcto | Agnóstico | Evaluar en Fase 3 |
-| `weapon/weapon-status.ts` | calculateWeaponStatus | ✅ Correcto | DamageType (antiguo) | Migrar en Fase 4 |
-| `weapon/weapon-multishot.ts` | calculateMultishot, beamTickScaleFactor | ✅ Correcto | Agnóstico | Conectar en Fase 3 |
-| `weapon/weapon-condition-overload.ts` | applyConditionOverload (CO/Galvanized) | ✅ Correcto | Agnóstico | Integrar cuando CO sea feature |
-| `arcane/arcane-core.ts` | collectArcaneBonuses | ⚠️ Bloqueado por override JSON | Agnóstico | Defer hasta Fase 5 |
-| `ability/ability-crit.ts` | calculateGyreCrit, hasAbilityCritException | ✅ Bien documentado | Agnóstico | Integrar con Ability System |
-| `ability/ability-status.ts` | describeAbilityStatus, formatAbilityStatusLabel | ✅ Bien documentado | DamageType | Integrar con Ability System |
+`MutatorBridge` no llama a `CombatCalculator` ni a `TimelineSimulator`. C2 (DPS/TTK/procs) no tiene
+consumidor de producción hoy; su modelado se retoma por otro eje (`damage-status-model.md`). Por eso
+`AtomicSimulator` consume `crit-base` pero el propio `AtomicSimulator` no está en el path vivo.
 
 ---
 
-## 4. Plan de integración iterativo
+## 2. Duplicación vigente
 
-**Principio**: no reescribir, conectar. El código de `formulas/` es correcto — el trabajo es reemplazar las copias inline por llamadas a `formulas/`.
+**Una: la partición entero/fracción del multishot, escrita dos veces.**
 
-### Fase 1 + 2 ✅ 2026-05-27
+| Dónde | Qué hace |
+|---|---|
+| `simulate/combat/AtomicSimulator.calculatePelletCount` | `{ base: floor(m), extra_prob: m − floor(m) }` — lo consume el roll RNG del propio `AtomicSimulator` |
+| `formulas/weapon/weapon-multishot.ts` | `calculateMultishot` produce `guaranteed`/`chanceExtra` con **la misma operación**, y antes **recompone** `base × (1 + pct)` — que ya es trabajo del grafo (`WEAPON_ADD_MULTISHOT` → `instance.multishot`) |
 
-`weapon-core.ts` / `warframe-core.ts` purgados. `crit-base.ts` ← `AtomicSimulator`; `scaling-base.ts` ← `SimulationEngine`. `DamageCombiner` movido a `hydration/`.
+Es **drift convergente**, no copia: dos implementaciones nacidas de necesidades distintas, y por eso el
+origen no dice cuál sobrevive. Hoy la duplicación es **latente, no activa** — `weapon-multishot.ts` no
+tiene ningún consumidor (`weapon-crit.ts` tampoco), así que las dos ramas todavía no pueden divergir en
+producción.
 
-### Fase 3 — Estabilización C1 antes de avanzar a combat/ (DECISIÓN 2026-05-27)
+**No confundir con el eje esperado-vs-RNG.** Que `AtomicSimulator` parta el valor para tirar el dado y
+que `CombatCalculator` use `instance.multishot` como valor esperado **no** es duplicación: son los dos
+modos legítimos del mismo dato.
 
-**Decisión:** No avanzar a C2/C3/C4 hasta que C1 esté estable y con cobertura de datos suficiente. Razón: cada capa depende de los atributos resueltos por C1 — sin formulas, overrides y mods correctos, las capas superiores propagan errores silenciosamente.
+**Cómo se reconcilia:** con el molde de §4 — una fórmula terminal no se enchufa entera al grafo, se
+extrae su primitiva componible y la composición final queda en el grafo. Aplicado acá sobrevive **una**
+primitiva —partir entero/fracción, lo único que el grafo no hace—; la composición no vuelve, e
+`isContinuous` es dato del arma, no fórmula. Mismo corte para `weapon-crit.ts`, wrapper sobre un
+`crit-base` que `AtomicSimulator` ya consume directo. **Gate:** el mismo de §6 — un consumidor C2 de
+producción.
 
-**Estado actual de C2:**
-- `CombatCalculator.project()` ya tiene consumidor: `useSimulationMetrics` hook (Opción B implementada)
-- `TimelineSimulator` bloqueado: requiere `ScaledEnemy` con health/armor/faction escalados — datos no disponibles en pipeline
-- No hay urgencia de wiring adicional
+El caso CO —inline vs. `weapon-condition-overload.ts`— **no** es duplicación: el motor consume
+`coBonusPct` (SSoT), el enum `CoBehavior` es único en `@shared/types/modifier`, y
+`applyConditionOverload` (terminal) queda reservada para C2. Es el patrón de referencia grafo↔fórmula
+(ver §4 y `arch-decisions.md §9`).
 
-**Pre-condiciones para avanzar a C2/C3 activamente:**
-- Arcanos modelados en override JSON (`arcane-stats.override.json` — Fase 5)
-- ~~Evoluciones Incarnon mapeadas en `EnsembleIntention` + pipeline de hydration~~ → **Completado (2026-05-27):** `IncarnonRepository` + `incarnon-evolutions.override.json` (85 armas, tokens `WEAPON_BASE_*`)
-- Cobertura de mods al ≥70-80% en override
-- Tests C1 cubriendo los casos de la capa de formulas (status, multishot, elemental combine)
+> Las duplicaciones históricas de crit (`AtomicSimulator`) y escala aditiva (`SimulationEngine`) ya
+> se resolvieron al conectar `crit-base` y `scaling-base`.
 
-### Fase 4 — Migrar vocabulario de status-base (YELLOW, medio riesgo)
+**Reconciliación — `chance × peso` unificado sobre `expectedProcEvents`.** El "3×" era
+1 canónica + 1 muerta + 1 inline:
+- `status/proc-population.ts::expectedProcEvents` = la **ley única** (usa `procWeightByType`), ya wired
+  vía `TimelineSimulator`.
+- `CombatCalculator.project` **reconciliado**: el loop inline (`status_map[id] = chance × dmg/total`,
+  keyed por token) se reemplazó por `expectedProcEvents(instance.damageByType, instance.statusChance, 0)`
+  — ahora ambos proyectores consumen la misma ley, alimentada por la Instancia (seam C1→C2). **Fix de
+  paso:** el inline dividía por `total_base_damage` (falloff-scaled) con numeradores crudos → los pesos
+  sumaban >1 a `falloff<1`; la ley los deriva de `damageByType` crudo (falloff-independiente, correcto —
+  el falloff escala daño, no la chance de proc). `status_map` pasa a keyed por `DamageType`; sin
+  consumidor downstream ni test → seguro.
+- `weapon-status.ts::calculateWeaponStatus` = **código muerto** (0 llamadores) → **ELIMINADO**.
 
-`status-base.ts` usa `DamageType` ("heat", "cold") — vocabulario pre-D-6. Hay dos `PRIMARY_ELEMENTS` paralelos:
-- `formulas/common/status-base.ts::PRIMARY_ELEMENTS` — `Set<DamageType>`
-- `contracts/damage-logic.ts::PRIMARY_ELEMENTS` — `string[]` con tokens D-6
-
-A largo plazo hay una sola SSoT. Opciones:
-- **A**: Migrar `status-base.ts` a D-6 tokens (rompe las ability formulas que usan DamageType)
-- **B**: Agregar un adapter en la frontera entre `formulas/` y `combat/`
-- **C**: Mantener `status-base.ts` con DamageType para las ability formulas y usar `contracts/damage-logic.ts` para el engine
-
-*Relacionado con D-7 Fase 3 (proc vocabulary de EnemyState). Debatir en conjunto.*
-
-### Fase 5 — Integrar arcanes y abilities (PENDIENTE de datos)
-
-Bloqueado por:
-- `arcane-stats.override.json` no existe todavía
-- Diseño del Ability System no está implementado
-- Evoluciones Incarnon no mapeadas en EnsembleIntention
-
-*Defer hasta que los datos estén disponibles. No tocar.*
+> **SUGERENCIA (trazabilidad, NO ejecutada) — materializar el status-spec en la Instancia.** Hoy ambos
+> proyectores derivan el `chance×peso` on-the-fly llamando a `expectedProcEvents(instance.damageByType,…)`.
+> Un campo `procWeights`/`statusSpec` materializado **una vez en `deriveInstance`** haría el seam
+> **observable/asertable** — un punto de inspección único donde vive el spec, en vez de recomputarse
+> transitorio dentro de cada proyector. Motivo = **trazabilidad interna, no caching**: un fallo silencioso
+> en la derivación (como el bug de falloff que vivió enterrado en el loop inline de `CombatCalculator`, sin
+> artefacto contra el cual contrastar) tendría dónde saltar. **Condición para que valga:** el campo debe ser
+> el **único camino** (los proyectores LEEN el campo, no recomputan al lado) — si no, es cache que puede
+> driftar y da falsa confianza. **Diferido — consumidor conocido, HOW no.** La ley ya es **única** (`expectedProcEvents`, ambos proyectores
+> la llaman — sin duplicación-de-ley que prevenir) → el valor es **solo observabilidad**, no arquitectura. El
+> consumidor nace en el **oráculo/CLI (D2)**: cuando D necesite la distribución de proc por tipo como salida
+> (WHERE conocido, HOW no), el campo `procWeights` en `deriveInstance` se materializa **ahí**, como parte de
+> cablear ese consumo — no antes, no como test. El `HitContext` re-empacado a mano en `TimelineSimulator`
+> (subset de la Instancia) viaja con el mismo trigger.
 
 ---
 
-## 5. Lo que NO se toca en este plan
+## 3. Inventario (25 archivos)
 
-- `EnemyState`, `EnemyRepository` — correctos, fuera de scope
-- `SimulationEngine` — correcto; `calculateCurrentValue()` se refina en Fase 2 cuando haya SSoT estable
-- ~~Vocabulary de `EnemyState` proc identifiers (`damage_slash_proc`, etc.) — es D-7 Fase 3~~ — **corregido (2026-07-02):** NO era D-7 (ver `data/decisions.md` N2, que ya marcaba esta atribución como colisión de nombre). Renombrado `_proc`→`_dot` + bug de `getDamageMultiplier` corregido en la Fase 3 de la campaña de saneamiento `@core` (distinta de la Fase 3 de D-7/UPGRADE_MAP) — ver `governance/current-state.md`.
+| Archivo | Contenido | Vocabulario | Estado / acción |
+|---|---|---|---|
+| `common/crit-base.ts` | crit chance, tier, avg multiplier | agnóstico | ✅ consumido por `AtomicSimulator` |
+| `common/scaling-base.ts` | `applyAdditiveBonus`, `round2`, `clamp` | agnóstico | ✅ consumido (transitivo) vía `stat-accumulator` ← `SimulationEngine` |
+| `common/status-base.ts` | `PRIMARY_ELEMENTS`, `ELEMENT_COMBINATIONS`, `procWeightByType` | `DamageType` (pre-D-6: "heat", "cold") | migrar vocab a D-6 (§5) |
+| `weapon/weapon-crit.ts` | `calculateWeaponCrit` (delega a crit-base) | agnóstico | sin consumidor; **no basta con conectarlo** — es un wrapper sobre un `crit-base` que `AtomicSimulator` ya consume directo (§2) |
+| `weapon/weapon-multishot.ts` | `calculateMultishot`, `expectedHitInstances`, `beamTickScaleFactor` | agnóstico | sin consumidor; **duplica la partición entero/fracción de `AtomicSimulator` y recompone lo que el grafo ya compuso — colapsar antes de conectar (§2)** |
+| `weapon/weapon-condition-overload.ts` | `applyConditionOverload`, `coBonusPct` | agnóstico | ✅ `coBonusPct` consumido por `SimulationEngine` (§4); `applyConditionOverload` reservado para C2 |
+| `weapon/melee-combo.ts` | `meleeComboMult` (combo melee heavy) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
+| `weapon/sniper-combo.ts` | `sniperComboMult` (combo sniper) | agnóstico | ✅ consumido por `SimulationEngine`/`StaticHydrator` |
+| `weapon/stat-accumulator.ts` | `resolveStatValue` (fórmula de referencia D-6 / §4.1) + `globalDamageBucketFactor` | agnóstico (`node`/`base`/`bucket`/`pool`) | ✅ consumido por `SimulationEngine.calculateCurrentValue` — **pipeline de producción vivo (C1)**; extraído P2a (identidad) |
+| `weapon/dps.ts` | `averageShot`, `weaponDps` (burst/sustained), `finalReloadTime` | agnóstico | ✅ consumido por `CombatCalculator` (combat/, **fuera** del pipeline vivo — §1) |
+| `status/stack-debuff.ts` | Familia A (`stackDebuffValue`, `infectionLaw`/`disruptionLaw`/`corrosionLaw`) **+ la ley de aplicación** (`applyStackProc`: sobre-cap suma o reemplaza, nunca rechaza — `arch-decisions §17`) | efecto (snake_case: corrosion/infection/ignite/disruption) | ✅ el valor lo consume `EntityState.getDamageMultiplier`/`getEffectiveArmor` (`arch-decisions §14`); la aplicación, los cinco behaviors de stack |
+| `status/proc-selection.ts` | `procWeightByType` (LEY de selección, migrada de `common/status-base.ts`) | `DamageType` (D-6) | ✅ **wired** vía `proc-population.ts` ← `TimelineSimulator` + `CombatCalculator` (modelo unificado; overlap `weapon-status` reconciliado + eliminado, §2) |
+| `status/dot-tick.ts` | `dotTickValue`, valor de un tick DoT (Familia C, parte no-faction/no-timeline) | `DotType` (⊂ `DamageType`, sin disolver — deuda G2) | ✅ **wired** vía `behaviors` (bleed/poison/ignite computan `tickValue`); `StatusEngine.projectHeatTick` **eliminado** con el rediseño |
+| `status/dot-base-scaling.ts` | `scaleDotBase` — `modded_base` del DoT = innato × factor Serration (evita el double-count del compuesto) | `DamageType` | ✅ consumido por `deriveInstance` (seam C1→C2; fix `dot_scaling` validado in-game) |
+| `status/dot-timeline.ts` | `tickTimes` — usado por el `advance` de los DoT behaviors; `pulseTotal`/`damageInWindow` aún sin consumidor de producción | `DotPulse` | ✅ **wired** — `behaviors.makeDotBehavior` (bleed/poison) usa `tickTimes` en su `advance`; Electricity/Gas fuera a propósito (frontera 3) |
+| `status/proc-population.ts` | `expectedProcEvents` — generador de eventos esperados (Población/RNG) | `ProcEvent`/`DamageType` | ✅ **wired** ← `TimelineSimulator` + **`CombatCalculator.project`** (la ley única de `chance×peso`); overlap con `weapon-status.ts` **reconciliado** (ver §2) |
+| `status/dot-population.ts` | `dotPulseFromProcEvent` — glue `ProcEvent → DotPulse` pre-escalado | `DotPulse` | ⚠️ **sin llamador de producción, pero es el que sobrevive** (deuda G3): `behaviors.makeDotBehavior` construye el **mismo** pulso inline —`(t, amount)` donde éste lee `(event.timestamp, event.expected)`—, así que la copia es el inline. El colapso pide **generalizar la firma**: `ProcEvent` entero exige más de lo que el constructor usa (`type` viaja sin leerse) |
+| `status/effect-behavior.ts` | `EffectBehavior<S>` (interfaz del modelo unificado) + `HitContext`/`Resolucion`/`ResolutionModifier`/`Layer` | `StatusEffect`/`DamageType` | ✅ **wired** — contrato consumido por `behaviors` + `EntityState` (rediseño) |
+| `status/behaviors.ts` | fórmulas-estrategia por efecto + registro `EFFECT_BEHAVIORS` (reusa `dot-tick`/`dot-timeline`/`stack-debuff`) | `StatusEffect`/`DamageType` | ✅ **wired** ← `EntityState` itera (los 6 efectos con LEY) |
+| `enemy/enemy-scaling.ts` | `scaleHealth`, `scaleArmor`, `scaleMult` + coefs curva-S | agnóstico (`faction: string`) | ✅ consumido por `ItemRepository.normalizeEnemy` (el orquestador del frame-0); **movido de `EnemyRepository` (P1)** |
+| `enemy/armor-mitigation.ts` | `damageReductionFromArmor` (√3a/100) | agnóstico | ✅ consumido por `resolveHit` (checkpoint 2 de la reconciliación) y por la lente `enemy` del oráculo; ⚠️ **migrar a scope `entity/`** con 2º consumidor DR (player/companion) — ver §7 |
+| `enemy/effective-health.ts` | `effectiveHealthVsEnemy` — `Health/(1−DR) + Shields`, componiendo la DR adoptada | **enemigo** | primitiva pura (el llamador aporta los tres números); **sin consumidor** |
+| `enemy/ehp.ts` | `effectiveHealthFromArmor` — `Health×(Armor+300)/300` (EHP lineal, diminishing sólo en el DR%) | **jugador** — mal ubicada bajo `enemy/`, y su docstring lo declara (`@domain … / Player / EHP`) | primitiva DISPONIBLE (piso wiki); **sin consumidor**; migración en §7 |
+| `ability/ability-crit.ts` | `calculateGyreCrit`, `hasAbilityCritException` | agnóstico | **no es fórmula genérica**: es la excepción de **una** warframe (Gyre) y la matemática la delega a `crit-base`. **Se queda como está** — lo propio es dato de un caso, no una ley |
+| `ability/ability-status.ts` | `describeAbilityStatus`, `formatAbilityStatusLabel` | `DamageType` | ⚠️ **destino no definido** — mitad tipos vivos (compone vía `status-base`, wired) y mitad **presentación** (`formatAbilityStatusLabel`), cuyo hogar natural es el proyector (`lib/format`). No lo bloquea nada; nadie le asignó lugar |
+
+`enemy/` es el primer scope de **entidad-target** (el resto son `common` agnóstico + fuentes del
+atacante: `weapon`/`ability`). Las tablas de coeficientes de la curva-S se co-locan con su ley (son
+parámetros intrínsecos, no datos de un dominio externo — mismo criterio que `status-base`).
 
 ---
 
-## 6. Open Questions
+## 4. Patrón de referencia: cómo el grafo consume una fórmula (CO, resuelto)
 
-OQ-ENGINE-5/6 cerradas. **OQ-ENGINE-7** (`status-base.ts` migra a D-6 o mantiene DamageType) — ABIERTO, bloquea Fase 4.
+CO es el ejemplo canónico de integración grafo↔fórmula, útil como molde para las pendientes. La
+tensión: `applyConditionOverload` es una **fórmula terminal** (recibe daño base + aditivos +
+behavior, devuelve daño final), mientras el grafo de `SimulationEngine` es **bucket-incremental**.
+No encaja como `applyAdditiveBonus` (primitiva componible de un paso).
+
+La resolución partió la fórmula en dos niveles y consumió solo el que sirve al grafo C1:
+
+- **`coBonusPct(mod, N)` — primitiva** (`perStatusBonus × stacks × N`): el grafo la consume
+  (reemplazó el `Π` inline). Componible.
+- **`applyConditionOverload(...)` — fórmula terminal**: reservada para C2/combat (daño cerrado); el
+  grafo de buckets **no** la llama.
+- El **ruteo de bucket** (`adding`→`mods_add_pct` / `multiplying`→`multiplicative` / `none`→no
+  aplica) es responsabilidad del grafo (`co_behavior` de la entidad), no de la fórmula.
+
+Además se cerró el vocabulario duplicado: `CoBehavior` quedó **SSoT única** en
+`@shared/types/modifier` (consumida por el contrato del engine y por la fórmula pura). La primera
+versión usaba un `CONTEXT_SCALE` genérico + `context_variables: string[]` posicional; se reemplazó
+por una operation de familia (`CONDITION_OVERLOAD`) con factores nombrados (`co_factors`). Detalle
+en `arch-decisions.md §9`.
+
+**Lección para las integraciones pendientes:** una fórmula terminal no se enchufa entera al grafo —
+se extrae su primitiva componible; la composición final es del grafo, no de la fórmula.
+
+---
+
+## 5. Vocabulario: token D-6 ↔ `DamageType` canónico
+
+**Dirección resuelta (trazabilidad del dato):** el vocabulario CANÓNICO de tipos de daño
+es `@shared/types/damage.ts` (`DAMAGE_TYPES`/`isDamageType`/`normalizeDamageType`; SSoT =
+`docs/semantic/damage-types.md`). El espacio-token del engine (`WEAPON_ADD_*_DAMAGE`) pasa a ser una
+**proyección derivada**, no una sombra mantenida a mano:
+
+- `contracts/damage-logic.ts` deriva `WEAPON_DAMAGE_TOKENS` de `DAMAGE_TYPES` y expone el par puro
+  invertible `damageTokenFromType`/`damageTypeFromToken`. La tabla `WEAPON_DAMAGE_TOKEN_TO_TYPE`
+  (17 entradas) fue **retirada**; `DOT_TYPE_TOKEN` (EntityState) también (se deriva, `DotType ⊂ DamageType`).
+- `ItemRepository.mapDamage` (NACE) consume `normalizeDamageType` (valida + resuelve alias fire→heat) en
+  vez del transform a ciegas — una key no-`DamageType` (`cinematic`/`shieldDrain`) ya no genera token
+  fantasma que inflaba `damage_sum`.
+
+**Deduplicación de la ley elemental — RESUELTA.** La LEY de combinación elemental vive **una sola vez**:
+`ELEMENT_COMBINATIONS`/`PRIMARY_ELEMENTS`/`resolveElementalCombination` en `common/status-base.ts`
+(type-space, SSoT). `DamageCombiner` (`resolve/hydration/`, token-space, camino VIVO) la **consume** vía el
+puente token↔type de `contracts/damage-logic.ts` — ya no re-declara la tabla. `status-base.ts` deja de
+estar huérfano: es la fuente que alimenta el path vivo (además del muerto `ability-status`).
+
+**Residual (Tier C, NO duplicación — extracción):** el **algoritmo** de combinación
+(`DamageCombiner.combine`, pairing por slots) sigue inline en una clase de hydration, no como primitiva
+citada de `formulas/`; y `PHYSICAL_TYPES` (token-space) vive en `DamageCombiner.ts` en vez de derivarse del
+`family` del canónico (`DAMAGE_TYPE_DEFINITIONS`). Extraerlo es debate propio (entrelazado con qué se hace
+con la capa de fórmulas muerta, §6), no de pasada.
+
+---
+
+## 6. Bloqueado por datos / sistemas ausentes
+
+- `ability/*` — **no está bloqueado por el Ability System.** El verbo **muta-state está construido**:
+  `AbilityRepository` (`resolve/hydration/`) consume el `upgrade_type` de una habilidad activa y emite
+  el buff cross-entity sobre la arista `source_entity` — `rhino.test.ts` verde al decimal (Roar
+  `+127% = 50×2.54`), `volt.test.ts` repartiendo tres buffs a tres destinos. Lo que falta son sus fases
+  siguientes (F2 corpus por verbo, F3 emite-instancia), y **ninguna bloquea a estos dos archivos**:
+  sus destinos están en la tabla de arriba. Ver `../../../governance/current-state.md`.
+- Conexión de `weapon-crit` / `weapon-multishot` — requiere un consumidor C2 de producción (hoy
+  `combat/` está fuera del pipeline).
+
+---
+
+## 7. Migración pendiente: DR y EHP a scope `entity/` (gate = 2º consumidor)
+
+`enemy/armor-mitigation.ts::damageReductionFromArmor` vive bajo `enemy/` sólo porque el único caso
+ejercitado hoy es el enemigo (`√3a/100`). Conceptualmente **DR no es enemy-specific**: es una
+primitiva del **ciclo de la entidad, indiferente a dónde aplica**. Cuando exista un 2º consumidor
+de DR (player `armor/(armor+300)`, companion, …) se verifica si sube a un scope `entity/` derivando
+por entidad (`entity → player | enemy | companion`), y si el primitivo debe componer una tabla de
+datos intrínseca como los coeficientes de `enemy-scaling`. **Sin framework polimórfico hasta
+entonces (YAGNI).** El nombre `damageReductionFromArmor` se conserva por ahora.
+
+**El mismo eje ya está partido en EHP — y ahí las dos leyes están escritas.** `enemy/` contiene las dos
+primitivas de Effective Health, con fórmula distinta por entidad:
+
+| Archivo | Ley | Entidad |
+|---|---|---|
+| `ehp.ts` | `Health × (Armor+300)/300` — equivale a `DR = Armor/(Armor+300)` | **jugador** |
+| `effective-health.ts` | `Health/(1−DR) + Shields`, con la DR adoptada `√3a/100` | enemigo |
+
+`ehp.ts` está mal ubicada y su propio docstring lo declara. **Ninguna de las dos tiene consumidor**, así
+que la divergencia es latente: el riesgo no es un número mal hoy, es que el primer consumidor de EHP
+tome la primitiva equivocada por el nombre de la carpeta — que es exactamente lo que el docstring de
+`ehp.ts` advierte (*"NO usar esto para EHP de enemigo"*).
+
+Por eso el veredicto no es "conectar" sino **EHP como primitiva de entidad: compone igual y despacha a
+la ley de DR de quien la pide.** Es la aplicación directa de *neutral en composición ≠ neutral en
+fórmula* (`arch-decisions.md §20`), y comparte el gate de arriba — el 2º consumidor.
+
+---
+
+## 8. Reconciliación de `resolveHit` (Checkpoint 1) — nota cruzada
+
+`resolveHit` (`simulate/combat/CombatSimulator.ts`, sigue **fuera** del pipeline de producción, ver §1)
+recibió dos checkpoints de reconciliación:
+
+- **Checkpoint 1** — la matriz ③ (facción×elemento) pasó del lookup muerto `DAMAGE_EFFICIENCY` al
+  accessor `targetFactionMult` sobre el dato `FACTION_BONUS` (`contracts/damage-multipliers.ts` — **no**
+  `formulas/`, es lookup no cómputo).
+- **Checkpoint 2** — la DR pasó de la vieja `netArmor/(netArmor+300)` a `formulas/enemy/
+  armor-mitigation.ts::damageReductionFromArmor` (la misma `√3a/100` de P1); el `armorBypass`-por-elemento
+  se **sunseteó** (sin evidencia post-U36, artefacto del modelo per-clase muerto).
+
+Detalle completo y evidencia en `damage-status-model.md §Reconciliación de resolveHit`. El pool②/faction²
+en DoT ya no cuelga de `StatusEngine` (eliminado): es el **contexto que el tick evalúa al emitir** en el
+modelo unificado, gated por poblar el pool② (ver `status.md §Deudas`).

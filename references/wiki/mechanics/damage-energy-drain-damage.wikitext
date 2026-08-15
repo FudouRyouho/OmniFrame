@@ -1,0 +1,27 @@
+{{Stub}}
+{{UpdateMe}}
+{{DEFAULTSORT:Damage/Energy Drain Damage}}
+{{DISPLAYTITLE:Energy Drain Damage}}
+{{Infobox
+| Box title = Energy Drain Damage
+| image     = UnidentifiedItem.png
+| Row 1 title = Icon
+| Row 1 info  = [[File:UnidentifiedItem.png|class=icon]]
+}}
+'''Energy Drain Damage''' is a hidden, unique damage type which has neutral damage modifiers against all health types.
+
+==Mechanics==
+
+==Status Effects==
+
+==Type Effectiveness==
+{{DamageModifierTable|Energy Drain}}
+
+==Notes== 
+*The term "Energy Drain Damage" is in reference to the internal damage type name <code>DT_ENERGY_DRAIN</code>.
+
+{{DamageNav}}
+[[Category:Damage 3.0]]
+[[Category:Damage]]
+[[Category:Mechanics]]
+[[Category:Update 11]]

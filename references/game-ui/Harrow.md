@@ -19,8 +19,8 @@ Initial Heal: 50% $STRENGTH
 Duration / 100 Shields: <SHIELD> 1,54s $DURATION
 Life Steal: 5% $STRENGTH
 Base Duration: 4s $DURATION
-Fire Rate: 35% $STRENGTH
-Reload Speed: 70% $STRENGTH
+Fire Rate: 35% $STRENGTH $$WEAPON_ADD_FIRE_RATE
+Reload Speed: 70% $STRENGTH $$WEAPON_ADD_RELOAD_SPEED
 
 ## /Lotus/Powersuits/PowersuitAbilities/PriestRavageAbility
 // 3 - THURIBLE

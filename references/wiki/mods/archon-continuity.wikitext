@@ -1,0 +1,100 @@
+{{ModBox}}
+{{M|Archon Continuity}} is an [[:Category:Archon Mods|Archon mod]] for [[Warframes]] that increases {{Stat|Ability Duration}} and causes {{D|Toxin}}-proccing abilities to also proc {{D|Corrosive}}.
+
+==Stats==
+{| class="emodtable"
+|+
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Duration}}
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +5%
+|6
+|-
+| 1 || +10%
+|7
+|-
+| 2 || +15%
+|8
+|-
+| 3 || +20%
+|9
+|-
+| 4 || +25%
+|10
+|-
+| 5 || +30%
+|11
+|-
+| 6 || +35%
+|12
+|-
+| 7 || +40%
+|13
+|-
+| 8 || +45%
+|14
+|-
+| 9 || +50%
+|15
+|-
+| 10 || +55%
+|16
+|}
+
+==Acquisition==
+{{M|Archon Continuity}} is available from [[Chipper]] of {{Faction|Kahl's Garrison}} for 40 {{Resource|Stock (Kahl)}}, requiring players to be at '''Rank 3 - Fort''' to purchase.
+
+==Notes==
+*'''[[Abilities]]''' that '''proc''' a {{D|Toxin}} status effect will also proc a {{D|Corrosive}} status proc.
+**Abilities that inflict multiple {{D|Toxin}} procs at once (such as one of {{WF|Oraxia}}'s {{A|Widow's Brood}}'s darts) will only inflict a single {{D|Corrosive}} status proc.
+**Effect does not scale with mod rank. The mod can optionally be left unranked to save capacity.
+**Only some Warframes can inflict {{D|Toxin}} procs with abilities.
+***{{WF|Chroma}}'s {{A|Spectral Scream}}, and {{A|Elemental Ward}} which can be transferred via [[Helminth]]. Note that if only using Elemental Ward, because it will not reapply its Toxin procs while an enemy is still affected, this mod has little value.
+***{{WF|Citrine}}'s {{A|Prismatic Gem}}.
+***{{WF|Dante}}'s  {{A|Final Verse}}'s '''Wordwarden''' Noctua copies can '''proc''' {{D|Toxin}} status provided that {{A|Noctua}} itself is modded for {{D|Toxin}}.
+***{{WF|Grendel}}'s {{A|Feast}} and {{A|Regurgitate}}
+***{{WF|Inaros}}'s {{A|Sandstorm}} with {{M|Elemental Sandstorm}} with modded {{D|Toxin}} on a melee weapon.
+***{{WF|Koumei}}'s {{A|Kumihimo}} and {{A|Bunraku}}.
+***{{WF|Lavos}}'s {{A|Ophidian Bite}} can imbue {{D|Toxin}} to all other abilities. Toxin-imbued {{A|Ophidian Bite}} will only proc {{D|Corrosive}} once however, and these {{D|Corrosive}} procs are not influenced by Lavos' trend of tripling non-damage status effects on abilities.
+***{{WF|Mirage}}'s {{A|Sleight of Hand}} with {{M|Explosive Legerdemain}}.
+***{{WF|Nidus}}'s {{A|Larva}} with {{M|Larva Burst}}, which can be transferred via Helminth.
+***{{WF|Nokko}}'s {{A|Sporespring}}.
+***{{WF|Oraxia}}'s {{A|Webbed Embrace}}, {{A|Widow's Brood}}'s darts and Scuttlers, and {{A|Silken Stride}}'s explosion on death.
+****Silken Stride's {{D|Toxin}} weapon damage bonus does '''not''' work.
+***{{WF|Trinity}}'s {{A|Link}} will add a {{D|Corrosive}} proc to any incoming  {{D|Toxin}} proc that gets redirected to linked enemies.
+***{{WF|Voruna}}'s{{A|Fangs of Raksh}}.
+***{{WF|1=Wukong}}'s {{A|Celestial Twin}} when equipped with {{A|1=Primal Fury}} modded for{{D|Toxin}}.
+***{{WF|Zephyr}}'s {{A|Tornado}} will adopt weapon elements when damaged.
+*** {{WF|Saryn}}'s {{A|Molt}}, which can be transferred via Helminth.
+****{{A|Toxic Lash}} and {{M|Contagion Cloud}} do '''not''' work.
+***All [[Exalted Weapon]]s when modded with {{D|Toxin}}, or when triggering a {{D|Toxin}} proc via Arcanes, such as {{Arcane|Secondary Encumber}}.
+*Compared to {{M|Primed Continuity}}, this mod requires slightly more mod capacity, and its secondary effect cannot be utilized by every Warframe. However, it has the advantage of being readily available from [[Chipper]], as opposed to being a periodic offer from [[Baro Ki'Teer]].
+*[[Nekros]]'s [[Shadows of the Dead]] in combination with [[Theorem Infection]] and [[Residual Viremia]] are granted [[Damage/Toxin Damage|Toxin]] Damage but will not proc [[Damage/Corrosive Damage|Corrosive]] when [[Damage/Toxin Damage|Toxin]] does. It is unknown whether this is a bug or not considered part of the ability.
+
+==See also==
+*{{M|Continuity}}, the normal version of this mod.
+*{{M|Primed Continuity}}, an alternative version with slightly lower capacity cost.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|32.0.9}}
+*Fixed Atlas’ Landslide ability triggering Archon Mod effects.
+
+{{ver|32.0.1}}
+;Removed Trading and Transmuting functionality for the new Archon Warframe Mods 
+*The intended path to earning these Mods is through Kahl’s Garrison, and not through Transmutation. While Transmutation will remain disabled, we will re-enable Trading again once these Mods have officially been released next week with Kahl’s Garrison.
+
+{{ver|32.0}}
+*Introduced.
+}}
+{{WarframeMods}}
+[[es:Continuidad Arconte]]
+[[fr:Continuité Archonte]]
+[[ru:Архонтовая Непрерывность]]
+[[uk:Архонтова безперервність]]
+[[Category:Archon Mods]]
+[[Category:Update 32]]
+[[Category:Warframe Mods]]
+[[Category:Untransmutable Mods]]

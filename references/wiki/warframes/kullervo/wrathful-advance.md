@@ -1,0 +1,27 @@
+# Wrathful Advance — Kullervo (habilidad 1)
+
+> Última actualización: 2026-07-31 (re-verificado: la edición del 2026-07-29 movió el bloque
+> *Ability Synergy* al parámetro `|synergies =` de la plantilla — cambio estructural, cero dato)
+> Fuente: https://wiki.warframe.com/w/Wrathful_Advance
+> Fuente actualizada: 2026-07-29
+> Raw: wrathful-advance.wikitext
+
+## No genera Overguard — se anotó por relación indirecta con Recompense
+
+Wrathful Advance es teleport + heavy attack + buff de crit chance de melee. **No otorga Overguard en
+sí misma.** Se investigó porque el override la listaba junto a Recompense (misma sinergia), pero su
+única relación con Overguard es pasiva: su invulnerabilidad durante el wind-up **protege** el
+Overguard que Recompense ya haya generado (no lo crea).
+
+## Valores por rank (referencia, sin relación a Overguard)
+
+| Rank | 0 | 1 | 2 | 3 (max) |
+|---|---|---|---|---|
+| Melee final crit chance | +50% | +100% | +150% | **+200%** |
+| Teleport distance | 20m | 22m | 23m | **25m** |
+| Buff duration | 7s | 8s | 9s | **10s** |
+
+## Fuentes
+
+- https://wiki.warframe.com/w/Wrathful_Advance
+- [`../Recompense/Recompense.md`](recompense.md)

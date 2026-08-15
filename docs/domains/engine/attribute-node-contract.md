@@ -1,22 +1,24 @@
 ---
 Estado: "activo"
 Rol: "Definir el contrato de AttributeNode: qué modela cada campo, su capa en la fórmula de Warframe y la operación de modificador que lo alimenta"
-Version: "v0.2.0"
 Impacto_ID: "E-AttributeNode"
-Fidelidad_Fisica: "Project/src/core/engine/contracts/index.ts"
+Fidelidad_Fisica: "Project/src/core/engine/contracts/primitives.ts"
 Fecha_de_creacion: "2026-05-19"
-Fecha_de_actualizacion: "2026-06-08"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
-  - "references/wiki/mechanics/damage-types.md"
+  - "docs/domains/engine/design/vocabulary.md"
+  - "docs/domains/engine/design/arch-decisions.md"
+  - "references/wiki/mechanics/calculating-bonuses.md"
   - "references/wiki/mechanics/critical-hits.md"
-  - "references/wiki/mechanics/condition-overload.md"
 ---
 
 # Contrato de AttributeNode
 
 ## Por qué existe este documento
 
-`AttributeNode` no fue diseñado de forma explícita — emergió orgánicamente de la estructura multiplicativa de las fórmulas de Warframe. Sus campos mapean directamente a las capas de acumulación del juego. Este documento formaliza esa correspondencia.
+`AttributeNode` no fue diseñado de forma explícita — emergió orgánicamente de la estructura multiplicativa de las fórmulas de Warframe. Sus campos mapean directamente a las capas de acumulación del juego. Este documento formaliza esa correspondencia: **campo por campo, qué modela y qué operación lo alimenta**.
+
+**Alcance — qué NO es.** Este doc es el **contrato del tipo**. El **idioma** (qué significan *node*, *bucket*, *pool*, *flat*, *multiplicador independiente*) es SSoT de [`design/vocabulary.md`](design/vocabulary.md) — no se redefine acá. Este doc **usa** ese vocabulario.
 
 **Base empírica:** `references/wiki/mechanics/` contiene las fórmulas verificadas del juego. Este documento define cómo el engine las modela, sin reemplazar esa fuente.
 
@@ -25,74 +27,81 @@ Dependencias:
 ## La fórmula maestra del engine
 
 ```
-scaledBase = (base + base_flat) × (1 + base_add_pct / 100)
-withMods   = scaledBase × (1 + mods_add_pct / 100)
-final      = (withMods + total_flat) × multiplicative
+withMods = (base + base_flat) × (1 + mods_add_pct / 100)
+final    = (withMods + total_flat) × multiplicative
 ```
 
-Para atributos `damage_*` en entidades `domain: weapon`, se aplica una capa adicional:
+(Implementación: `formulas/weapon/stat-accumulator.ts::resolveStatValue`.)
+
+Para los **daño-tokens** (`WEAPON_ADD_<TYPE>_DAMAGE`) de una entidad arma se aplican además los factores de los **pools globales** (`arch-decisions §16`):
 
 ```
-final      = final × (WEAPON_DAMAGE.final / 100)
+final = final × poolFactor(WEAPON_ADD_DAMAGE) × poolFactor(GAMEPLAY_MULT_FACTION_DAMAGE)
 ```
 
-Ver §5 para la explicación de `WEAPON_DAMAGE`.
+donde `poolFactor(n) = n.final / n.base` (= `1 + Σ` del pool). Ver §5.
 
 ---
 
 ## Tabla de campos
 
-| Campo | Capa de la fórmula de Warframe | `Modifier.operation` | Ejemplo de fuente |
-|---|---|---|---|
-| `base` | Valor base del item (del dataset) | — inyectado en hidratación | Stat del arma, armor del warframe |
-| `base_flat` | Adición plana al base, antes de mods porcentuales | `BASE_FLAT` | Arcane con bonus flat a stat base |
-| `base_add_pct` | Bonus relativo al base (escala sobre el base, no apila con mods de daño) | `BASE_ADD_PCT` | Mods de crit chance relativo (Pointstrike) |
-| `mods_add_pct` | Stack aditivo principal — todos los mods de este tipo se suman entre sí | `ADD` | Serration, Heavy Caliber, Hornet Strike, Pressure Point |
-| `multiplicative` | Capa multiplicativa independiente — cada fuente multiplica por separado | `MULTIPLICATIVE` | Faction damage, Roar (Rhino), Eclipse (Mirage)¹ |
-| `total_flat` | Adición plana post-mods, antes del multiplicativo | `ADD_FLAT` | Arcane Dexterity (daño flat absoluto) |
-| `final` | Resultado resuelto — solo lectura | — calculado | Lo que lee la UI |
+`base` y `final` **no son buckets** — son el **input** y el **output** del nodo (criterio y reductio en [`design/vocabulary.md §1`](design/vocabulary.md)). Los **4 buckets** son los acumuladores: lo único que se llena con contribuciones y lo único que resetea `resetAccumulators()`.
 
-¹ Eclipse: ver nota en §4.
+| Campo | Rol | Capa de la fórmula de Warframe | `Modifier.operation` | Ejemplo de fuente |
+|---|---|---|---|---|
+| `base` | **input** | Valor base del item (del dataset) | — inyectado en hidratación | Stat del arma, armor del warframe |
+| `base_flat` | bucket (flat) | Adición plana al base, antes de mods porcentuales | `BASE_FLAT` | Arcane con bonus flat a stat base |
+| `mods_add_pct` | bucket (pool) | Pool aditivo principal — sus miembros suman entre sí | `ADD` | Serration, Heavy Caliber, Hornet Strike, Pressure Point |
+| `total_flat` | bucket (flat) | Adición plana post-mods, antes del multiplicativo | `ADD_FLAT` | Arcane Dexterity (daño flat absoluto) |
+| `multiplicative` | bucket (independientes) | Multiplicadores **independientes** — cada fuente multiplica por separado, no suman entre sí | `MULTIPLICATIVE` | CO "Multiplying", melee/sniper combo, Eclipse (Mirage)¹ |
+| `final` | **output** | Resultado resuelto — solo lectura | — calculado | Lo que lee la UI |
+
+¹ Eclipse: ver §4.
+
+> ⚠️ No hay op de override terminal. `SET` fue **purgado** (F1-C) por muerto: escribía `final` y el recompute de cierre de `resolveNode` lo pisaba, sin productores. Si un mecanismo futuro necesita override terminal, su forma correcta depende del modelo de resolución — re-proponer entonces (ver [`design/vocabulary.md`](design/vocabulary.md) L-7).
+>
+> ⚠️ **Tampoco hay un segundo pool porcentual.** `base_add_pct` (op `BASE_ADD_PCT`) fue **purgado** por el mismo criterio que `SET`, y su caso es más nítido: nació en este contrato —no en código— motivado por el crit chance relativo de Point Strike, y ese caso lo resuelve `mods_add_pct`. Nunca tuvo emisor y **no podía tenerlo**: `OPERATION_MAP` deriva la op del segmento D-6 del token (`ADD`/`FLAT`/`BASE`/`MULT`) y ninguno produce `BASE_ADD_PCT`. **Condición de reapertura:** un mecanismo real que necesite un pool porcentual que componga **multiplicativamente** con `mods_add_pct` — `(1+a)×(1+b)`, no `(1+a+b)`. El aditivo ya existe; lo que se purgó es el multiplicativo-entre-pools, y ése es el único que justifica traerlo de vuelta.
 
 ---
 
 ## Semántica por capa
 
-### `mods_add_pct` — el stack aditivo
+### `mods_add_pct` — el pool aditivo principal
 
 Todos los mods de daño global (+X% de daño) se acumulan en este bucket:
 
 ```
-WEAPON_DAMAGE.mods_add_pct = Serration(165) + HeavyCaliber(165) = 330
-→ multiplicador efectivo: 1 + 330/100 = 4.30×
+WEAPON_ADD_DAMAGE.mods_add_pct = Serration(165) + HeavyCaliber(165) = 330
+→ factor del pool: 1 + 330/100 = 4.30×
 ```
 
 Los mods de Condition Overload con comportamiento **"Adding"** también apilan aquí. Ver `references/wiki/mechanics/condition-overload.md §Behavior types`.
 
-### `multiplicative` — capas independientes
+### `multiplicative` — multiplicadores independientes
 
-Cada fuente multiplicativa se aplica por separado (no apilan aditivamente entre sí):
+Cada fuente multiplica por separado (no apila aditivamente con nadie):
 
 ```
-final = ... × (1 + roar%) × (1 + eclipse%) × ...
+final = … × (1 + co_mult%) × comboMult × …
 ```
 
-Esto es lo que en Warframe se llama informalmente "multiplicar fuera del grupo aditivo". Los mods de Condition Overload con comportamiento **"Multiplying"** van aquí.
+Los mods de Condition Overload con comportamiento **"Multiplying"** van acá, igual que el multiplicador de combo (melee/sniper). Ver `arch-decisions §9/§10`.
+> **Faction damage y Roar NO van en `multiplicative`.** Son un **pool** (`GAMEPLAY_MULT_FACTION_DAMAGE`): sus miembros usan op **`ADD`** y **suman entre sí** (`×(1 + roar + bane)`, no `×(1+roar)×(1+bane)` — verificado in-game, `references/ingame-tests/double-dip.md`). ⚠️ El `_MULT_` del token es un **error de nombre** (por D-6 la op sería `MULTIPLICATIVE`; la real es `ADD`) — **no** una señal de que el pool se aplique multiplicativamente: eso vale para todo pool global, y el de Serration se llama `_ADD_`. Ver §5, `arch-decisions §16` y `design/vocabulary.md` L-8.
 
-**Nota sobre faction damage:** Expel Grineer / Bane of Grineer NO van en este bucket. Apilan aditivamente entre sí en un nodo sintético `faction_damage_bonus` (mismo patrón que `WEAPON_DAMAGE`). `CombatCalculator` aplica ese nodo como multiplier de combate cuando la facción del objetivo coincide. Ver §5.
 
-### `base_add_pct` vs `mods_add_pct`
+### El crit chance y sus dos términos
 
-La distinción sigue la fórmula de critical hits documentada en `references/wiki/mechanics/critical-hits.md`:
+La fórmula de critical hits (`references/wiki/mechanics/critical-hits.md`) tiene **un** término relativo y **uno** absoluto:
 
 ```
 totalCritChance = baseCritChance × (1 + relativeCritBonus) + absoluteCritBonus
 ```
 
-- `relativeCritBonus` → `base_add_pct` (escala sobre el base, se multiplica con él)
-- `absoluteCritBonus` → `base_flat` (se suma al resultado del base, no se multiplica)
+- `baseCritChance` → **`base` + `base_flat`**. Lo que llena `base_flat` es `WEAPON_BASE_CRIT_CHANCE`, cuyos 66 emisores son perks incarnon cuyo texto de juego dice literal *"Increase **Base** Critical Chance"*. Se amplifica con los mods relativos, que es exactamente lo que `(base + base_flat) × (1 + mods_add_pct)` modela. **Correcto.**
+- `relativeCritBonus` → **`mods_add_pct`**. `WEAPON_ADD_CRIT_CHANCE` con op `ADD`. Point Strike entra por acá.
+- `absoluteCritBonus` → **sin token**. Es el término post-escala, así que su bucket sería `total_flat` y su segmento D-6 sería `FLAT` — pero **`WEAPON_FLAT_CRIT_CHANCE` no existe**, mientras su hermano `WEAPON_FLAT_STATUS_CHANCE` sí. La asimetría es real y verificable en `UPGRADES`.
 
-Para daño de armas, `base_add_pct` es raro — casi todos los bonos de daño son aditivos entre sí (`mods_add_pct`) o multiplicativos independientes (`multiplicative`).
+> El `⚠️ sin verificar` que este párrafo arrastraba planteaba mal el problema: no había un mapeo equivocado de `absoluteCritBonus`, había **dos términos distintos leídos como uno**. `base_flat` nunca modeló el término absoluto — modela el aditivo-al-base, y lo hace bien. Lo que queda abierto es más chico y más preciso: **el término absoluto no tiene puerta de vocabulario**, y clasificar qué fuentes reales le pertenecen (candidato: Arcane Avenger, hoy en `WEAPON_ADD_CRIT_CHANCE`/relativo) **no se puede resolver con el corpus local** — `references/wiki/mechanics/critical-hits.md` da la fórmula pero no enumera qué fuente cae en cada término. Requiere test in-game. Registrado como inexpresable en [`../../semantic/upgrade-tokens.md`](../../semantic/upgrade-tokens.md).
 
 ---
 
@@ -100,82 +109,79 @@ Para daño de armas, `base_add_pct` es raro — casi todos los bonos de daño so
 
 ### ¹ Eclipse (Mirage)
 
-Eclipse provee hasta `STR × 200%` de bonus de daño (fuente: `references/wiki/modules/raw/maximization-data.lua`). Está expresado como porcentaje y se aplica **fuera** del stack aditivo de Serration — lo que lo ubica en `multiplicative`, no en `mods_add_pct`.
+Eclipse provee hasta `STR × 200%` de bonus de daño (fuente: `references/wiki/sources/maximization-data.lua`). Está expresado como porcentaje y se aplica **fuera** del pool aditivo de Serration — lo que lo ubicaría en `multiplicative`.
 
-⚠️ **Pendiente de verificación**: confirmar contra la wiki si Eclipse es `(1 + bonus%)` multiplicativo puro o si tiene interacción especial con el stack aditivo bajo ciertas condiciones de luz/sombra.
+⚠️ **Pendiente de verificación**: confirmar contra la wiki si Eclipse es `(1 + bonus%)` multiplicativo puro, o si comparte pool con facción (como Roar), o si tiene interacción especial con luz/sombra. **Sin consumidor real hoy** — no modelado.
 
 ---
 
 ## Mods elementales — caso especial
 
-Los mods elementales (Heat, Cold, Electricity, etc.) **no** modifican un `damage_*` existente vía bucket. En su lugar, `DamageCombiner` los procesa en hidratación para crear o combinar tipos de daño en la entidad.
+Los mods elementales (Heat, Cold, Electricity, etc.) **no** modifican un daño-token existente vía bucket. En su lugar, `DamageCombiner` los procesa en hidratación para crear o combinar tipos de daño en la entidad.
 
-El ordenamiento de slots de mods determina qué elementos se combinan primero (Heat + Cold = Blast, etc.). Ver `references/wiki/mechanics/damage-types.md §Reglas de combinación`.
+El ordenamiento de slots de mods determina qué elementos se combinan primero (Heat + Cold = Blast, etc.). La ley de combinación es SSoT única en `formulas/common/status-base.ts` (deduplicada). Ver `references/wiki/mechanics/damage-types.md §Reglas de combinación`.
 
-Una vez que `DamageCombiner` produce el breakdown final de daño, cada tipo resultante se inyecta como un `AttributeNode` nuevo en la entidad. Desde ese punto, sí participan en el sistema de buckets como cualquier otro atributo.
+Una vez que `DamageCombiner` produce el breakdown final de daño, cada tipo resultante se inyecta como un `AttributeNode` nuevo (`base` = el valor combinado). Desde ese punto participan en el sistema de buckets como cualquier otro atributo.
 
 ---
 
-## Nodos sintéticos — patrón compartido
+## 5. Los pools globales — `WEAPON_ADD_DAMAGE` y `GAMEPLAY_MULT_FACTION_DAMAGE`
 
-`WEAPON_DAMAGE` y `faction_damage_bonus` siguen el mismo patrón: nodo inyectado por `StaticHydrator` con `base: 100`, modificado por mods aditivos, interpretado por capas superiores como `final / 100`.
+Ambos son `AttributeNode` **sintéticos** inyectados por `StaticHydrator` en toda entidad **no-warframe**, con `base: 100`, alimentados por mods op `ADD`, y consumidos por `calculateCurrentValue()` como **factor** (`final / base`) sobre cada daño-token.
 
 | Nodo | Base | Alimentado por | Consumido por |
 |---|---|---|---|
-| `WEAPON_DAMAGE` | 100 | `WEAPON_DAMAGE_AMOUNT`, `WEAPON_MELEE_DAMAGE` | `calculateCurrentValue()` — multiplica todos los `damage_*` de la entidad |
-| `faction_damage_bonus` | 100 | `GAMEPLAY_FACTION_DAMAGE` | `CombatCalculator` — aplica como multiplier cuando `target.faction` coincide |
+| `WEAPON_ADD_DAMAGE` | 100 | Serration/Heavy Caliber… (op `ADD`) | `calculateCurrentValue()` — multiplica todos los daño-tokens de la entidad |
+| `GAMEPLAY_MULT_FACTION_DAMAGE` | 100 | Roar (op `ADD`, cross-entity vía `source_entity`) | `calculateCurrentValue()` — ídem. **NO** alimenta el DoT (double-dip = `DC-OQ-ENGINE-13`, build-debt) |
 
-`faction_damage_bonus` está mapeado en `ModRepository` pero pendiente de inicialización en `StaticHydrator` y wiring en `CombatCalculator`.
+**Flujo (Serration):**
+1. `StaticHydrator` inyecta `WEAPON_ADD_DAMAGE { base: 100 }`
+2. Serration genera `Modifier { target_attribute: "WEAPON_ADD_DAMAGE", operation: "ADD", value: 165 }`
+3. El grafo resuelve los pools **antes** que los daño-tokens (arista estructural en `rebuildGraph`)
+4. `calculateCurrentValue()` aplica `poolFactor` de cada pool a cada daño-token
 
----
+**Restricción de dominio:** ninguno de los dos se inyecta en entidades `kind: warframe` — Serration no afecta daño de habilidades en el juego.
 
-## `WEAPON_DAMAGE` — capa de multiplicador global
+**Estado de facción (`arch-decisions §16`):** los mods de facción (Bane/Expel/Cleanse) son **`C2·F`** — su gate depende de la facción del target, que vive en `EntityState`/③, **no** en el `SimulationContext` de C1 → no se pueden gatear en el grafo. Por eso hay un **shim FLAGGED** (`ModRepository.C2F_FACTION_TOKENS_DEFERRED`): **no se emiten como modifier C1**. El pool C1 de facción queda para bonos **incondicionales** (Roar, que no gatea por facción). Borrar el shim al normalizar la semántica del token y migrar el bonus a resolución.
+> **Token ≠ attr.** `WEAPON_ADD_DAMAGE` es a la vez el **token** ("% aditivo al daño global" — lo llevan Serration/Hornet Strike) y el nombre del **attr** (el **daño global**, raíz de la familia). Su `base` es un **dato real** (`damage_sum` innato, vía `ItemRepository`); el `100` de `StaticHydrator` es solo **fallback**. `GAMEPLAY_MULT_FACTION_DAMAGE`, en cambio, sí tiene base sintética `100` (no hay dato). Ver [`design/vocabulary.md §3`](design/vocabulary.md).
+>
+> **Estructura (DECIDIDO):** que un pool global se aplique leyendo el **ratio `final/base` de un nodo designado** es **`DC-OQ-ENGINE-1`** — decisión **cerrada**, no un hack: expresa el pool **aditivo** (Step 1 de `calculating-bonuses.md`) como factor. Realizada en §16, ratificada in-game por la Fase 1a (facción con la misma primitiva). **No re-debatir** — ver [`design/vocabulary.md §5`](design/vocabulary.md) y `governance/closed-decisions.md`.
 
-`WEAPON_DAMAGE` es un `AttributeNode` sintético inyectado por `StaticHydrator` en toda entidad `domain: weapon`. Modela los mods de "daño global" como Serration — que en Warframe aumentan todo el daño del arma proporcionalmente.
-
-**Flujo:**
-1. `StaticHydrator` inyecta `WEAPON_DAMAGE { base: 100 }` en la entidad
-2. Serration genera `Modifier { target_attribute: "WEAPON_DAMAGE", operation: "ADD", value: 165 }`
-3. El grafo resuelve `WEAPON_DAMAGE` primero (todos los `damage_*` dependen de él)
-4. `calculateCurrentValue()` aplica `WEAPON_DAMAGE.final / 100` a cada `damage_*`
-
-**Restricción de dominio:** `WEAPON_DAMAGE` solo se inyecta en entidades `domain: weapon`. Las habilidades de warframe que usen atributos `damage_*` no deben recibir este multiplicador — Serration no afecta daño de habilidades en el juego.
 
 ---
 
 ## Implicaciones para `ModRepository`
 
-El contrato actual de `ModRepository` produce **todos** los modificadores con `operation: "ADD"`. Esto es incorrecto para:
-
-| Tipo de mod | Operation correcta | Actualmente |
+| Tipo de mod | Operation correcta | Estado |
 |---|---|---|
-| Daño global (Serration) | `ADD` sobre `WEAPON_DAMAGE` | ✅ Correcto |
-| Faction damage (Expel Grineer) | `ADD` sobre `faction_damage_bonus` (nodo sintético base 100, como `WEAPON_DAMAGE`) | ✅ Mapeado — pendiente inicialización en `StaticHydrator` y wiring en `CombatCalculator` |
-| GunCO "Multiplying" | `MULTIPLICATIVE` | ❌ Requiere registro manual |
-| Crit chance relativo | `ADD` sobre `critical_chance` | ⚠️ Correcto por casualidad (solo hay un bucket de crit hoy) |
-
-La corrección de estas operaciones es el paso siguiente después de definir este contrato.
+| Daño global (Serration) | `ADD` sobre `WEAPON_ADD_DAMAGE` | ✅ Correcto |
+| Faction damage (Bane/Expel/Cleanse) | `ADD` sobre `GAMEPLAY_MULT_FACTION_DAMAGE` | ⚠️ **Diferido** — `C2·F`, no se emite en C1 (shim FLAGGED). Ver §5 |
+| Roar (habilidad, no mod) | `ADD` sobre `GAMEPLAY_MULT_FACTION_DAMAGE`, cross-entity (`source_entity`) | ✅ Construido — `AbilityRepository` lo produce desde el dato real (`upgrade_type` poblado); incondicional, esquiva el shim C2·F |
+| GunCO "Multiplying" | `MULTIPLICATIVE` | ✅ Ruteado por `co_behavior` (`arch-decisions §9`) |
+| Crit chance relativo | `ADD` sobre el nodo de crit | ⚠️ Correcto por casualidad (solo hay un bucket de crit hoy) |
 
 ---
 
 ## Validación: el nodo como superficie de aserción (prototipo VIGENTE)
 
-> **Estado de esta sección:** prototipo en desarrollo con base documentada. Evolvable (VIGENTE) — se ajusta
-> con el primer uso real. El workflow de testing derivado y el lineaje de decisión (D12–D16) viven en
-> [`test/test-workflow.md`](test/test-workflow.md); las builds de referencia (Rhino, standard-set) en
-> [`test/catalog-future.md`](test/catalog-future.md). Ya ejercido sobre 4 consumidores de arma (ver
-> [`test/catalog-current.md`](test/catalog-current.md)); la validación con warframes sigue abierta.
+> **Estado de esta sección:** VIGENTE, evolvable. El workflow de testing derivado y el lineaje de
+> decisión (D12–D16) viven en [`test/test-workflow.md`](test/test-workflow.md); el índice de
+> consumidores, en [`test/catalog-current.md`](test/catalog-current.md). Ejercido sobre consumidores
+> de arma **y** de warframe: las habilidades que buffean (Roar, Speed, Warcry, Penance) se asertan por
+> bucket, y ahí es donde se ve que un `+50%` de habilidad y un `+50%` de mod caen en el mismo
+> `mods_add_pct` en vez de en escalones propios.
 
-Las capas nombradas de `AttributeNode` (`base`, `base_add_pct`, `mods_add_pct`, `multiplicative`,
-`total_flat`, `final`) **son la superficie de aserción de los tests**, no solo el insumo de `final`.
+Los campos nombrados de `AttributeNode` (`base` + los **4 buckets** + `final`) **son la superficie de aserción de los tests**, no solo el insumo de `final`.
 
 - **Test de estabilidad** — asierta solo `final`. Dice *que* un resultado cambió; no localiza la causa.
 - **Test de lógica** — asierta los **buckets intermedios**. Dice *dónde*: si cambió el `n` de una
   dependencia (mismo bucket, otro valor) o si el grafo ganó/perdió una dependencia (bucket nuevo o vacío).
-  Ejemplo directo de §Semántica: Roar entra en `multiplicative`, Serration en `mods_add_pct` —
+  Ejemplo directo de §Semántica: Serration entra en `mods_add_pct` del pool `WEAPON_ADD_DAMAGE`; Roar en
+  `mods_add_pct` del pool `GAMEPLAY_MULT_FACTION_DAMAGE` — **pools distintos, por eso multiplican entre sí**;
   distinguibles a nivel nodo, no a nivel `final`.
 
-**Forma del fixture:** una `EnsembleIntention` escrita a mano + la **cadena de derivación esperada por
+**Forma del fixture:** una `Scene` escrita a mano (o derivada con las primitivas de
+`scene-compose.ts`) + la **cadena de derivación esperada por
 nodo** (bucket → valor + fuente del juego: wiki / `references/`), nunca un valor terminal suelto.
 
 **Progresión:** un solo consumidor cuyo fixture crece en intenciones en orden de dependencia
@@ -187,7 +193,9 @@ stacks) entra como peldaño posterior con su supuesto explícito, nunca en la ba
 
 ## Lo que este documento no cubre
 
-- Fórmulas de DoT (Slash, Heat, Toxin ticks) — ver `references/wiki/mechanics/damage-types.md §Status relevantes`
-- Resolución de crit tiers — ver `references/wiki/mechanics/critical-hits.md`
-- Lógica de combinación elemental — ver `DamageCombiner.ts` + `references/wiki/mechanics/damage-types.md`
-- Profile switching (Incarnon/base) — pendiente OQ-ENGINE-2
+- **El idioma** (node/bucket/pool/flat/independiente) — [`design/vocabulary.md`](design/vocabulary.md).
+- El **modelo de pools** y su deuda de estructura — [`design/arch-decisions.md §16`](design/arch-decisions.md).
+- Fórmulas de DoT (Slash, Heat, Toxin ticks) — `references/wiki/mechanics/status-effects.md §DoT` + `design/damage-status-model.md`
+- Resolución de crit tiers — `references/wiki/mechanics/critical-hits.md`
+- Lógica de combinación elemental — `formulas/common/status-base.ts` (SSoT) + `references/wiki/mechanics/damage-types.md`
+- Profile switching (Incarnon/base) — pendiente `OQ-ENGINE-2`

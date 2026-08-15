@@ -1,0 +1,10 @@
+==Debuffs&nbsp;==
+<tabber>
+|-|Crowd Control = 
+{{:Buff_&_Debuff/Debuffs/CC}}
+|-|Curse = 
+{{:Buff_&_Debuff/Debuffs/Curse}}
+|-|Misc = 
+{{:Buff_&_Debuff/Debuffs/Misc}}
+</tabber>
+[[Category:Mechanics]]

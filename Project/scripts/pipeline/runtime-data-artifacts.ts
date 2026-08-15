@@ -66,6 +66,15 @@ interface SourceAttack {
   charge_time?: number | null
 }
 
+/**
+ * Mapa AttackName → dispersión, cosechado por omniframe-items de `Module:Weapons/data`.
+ * Viaja en el ítem, no dentro de `attacks[]`, porque el merge de omniframe-items es
+ * quirúrgico por campo de primer nivel: no sabe entrar en un array. El join contra los
+ * ataques lo hace `mapAttack`, por nombre — el único identificador que ambos lados
+ * comparten (verificado: 0 AttackName duplicados dentro de un arma).
+ */
+type SourceAttackSpread = Record<string, { min?: number | null; max?: number | null }>
+
 export interface SourceItem {
   category?: string | null
   productCategory?: string | null
@@ -86,6 +95,16 @@ export interface SourceItem {
   health?: number | null
   shield?: number | null
   armor?: number | null
+  /**
+   * Facción del export. Sólo la traen los ~33 enemigos cuyo `type` quedó contaminado por el matcher
+   * por substring de upstream (`RifleLancerAvatar` → `type: 'Rifle'`); ver `OQ-DATA-15`.
+   */
+  faction?: string | null
+  /** Cosecha wiki (omniframe-items, merge por nombre): `Module:Enemies/data`. Ver schema de enemy. */
+  wikiFaction?: string | null
+  baseLevel?: number | null
+  eximusHealth?: number | null
+  multis?: string[] | null
   power?: number | null
   sprintSpeed?: number | null
   passiveDescription?: string | null
@@ -114,6 +133,7 @@ export interface SourceItem {
   trigger?: string | null
   disposition?: number | null
   attacks?: SourceAttack[] | null
+  attackSpread?: SourceAttackSpread | null
   range?: number | null
   attackSpeed?: number | null
   comboDuration?: number | null
@@ -150,7 +170,9 @@ export interface SourceItem {
 interface GeneratedBaseFields {
   id: string
   name: string
-  image: string | null
+  // Sin campo `image`: la URL la resuelve la capa de presentación (`resolveLocalImageUrl` sobre
+  // `image_name`), y `DataRegistry` la inyecta al hidratar. Emitirla acá duplicaba esa
+  // responsabilidad — y la copia se corrompió sin que nadie lo notara, porque nadie la leía.
   image_name: string
   unique_name: string
   domain: ItemDomain
@@ -252,6 +274,31 @@ interface GeneratedVehicle extends GeneratedBaseFields {
 }
 
 
+/** Punto débil: multiplicador de daño por parte del cuerpo. Consumidor: `Weakpoint` del engine. */
+export interface GeneratedWeakpoint {
+  part: string
+  multiplier: number
+}
+
+/**
+ * Enemigo emitido a `enemies.json`. Consumidor: `RawEnemyEntry` (`EnemyRepository.load`).
+ * Contrato, procedencia por campo y gaps: `docs/data/schemas/enemy/schema.md`.
+ *
+ * No comparte los cuatro pilares (`domain`/`kind`/`family`/`stats`) del resto de los artefactos: el
+ * enemigo no es un ítem de arsenal y nunca los tuvo — es plano por diseño.
+ */
+export interface GeneratedEnemy {
+  unique_name: string
+  name: string | null
+  faction: string
+  base_level: number
+  health: number
+  armor: number
+  shields: number
+  eximus_health?: number
+  weakpoints?: GeneratedWeakpoint[]
+}
+
 export interface RuntimeDataArtifacts {
   warframes: GeneratedWarframe[]
   passivesDb: PassivesDb
@@ -261,8 +308,18 @@ export interface RuntimeDataArtifacts {
   companions: GeneratedCompanion[]
   archwingWeapons: GeneratedWeapon[]
   vehicles: GeneratedVehicle[]
+  enemies: GeneratedEnemy[]
   necramechCount: number
   archwingCount: number
+}
+
+/** Descartes de la cosecha wiki que el builder reporta en vez de tragarse (ver `buildEnemiesArtifacts`). */
+export interface EnemyBuildState {
+  droppedMultis: string[]
+}
+
+export function createEnemyBuildState(): EnemyBuildState {
+  return { droppedMultis: [] }
 }
 
 
@@ -334,14 +391,22 @@ function sumDamage(damage: DamageMap): number {
   )
 }
 
-function mapAttack(raw: SourceAttack, weaponNormalizationState: WeaponNormalizationState): WeaponAttack {
+function mapAttack(
+  raw: SourceAttack,
+  weaponNormalizationState: WeaponNormalizationState,
+  spread?: SourceAttackSpread | null,
+): WeaponAttack {
   const damage = mapDamage(raw.damage)
   const total = isRecord(raw.damage) && typeof raw.damage.total === 'number'
     ? raw.damage.total
     : sumDamage(damage)
 
+  const name = raw.name ?? 'Attack'
+  const attackSpread = spread?.[name]
+  if (attackSpread) weaponNormalizationState.spreadApplied += 1
+
   return {
-    name: raw.name ?? 'Attack',
+    name,
     damage,
     total_damage: total,
     crit_chance: raw.crit_chance != null ? raw.crit_chance / 100 : null,
@@ -354,7 +419,35 @@ function mapAttack(raw: SourceAttack, weaponNormalizationState: WeaponNormalizat
     slide: raw.slide ?? null,
     charge_time: raw.charge_time ?? null,
     punch_through: 0, // Placeholder if needed, or source data
+    min_spread: attackSpread?.min ?? null,
+    max_spread: attackSpread?.max ?? null,
   }
+}
+
+/**
+ * Aplica la cosecha de spread sobre los ataques del arma y denuncia lo que sobra.
+ * Un `AttackName` que la wiki trae pero ningún ataque nuestro reclama queda registrado:
+ * puede ser un arma que la wiki modela con más ataques que el export, o una divergencia
+ * de nombres que hay que resolver — en ambos casos hay que verlo, no perderlo.
+ */
+function mapAttacks(
+  raw: SourceItem,
+  weaponNormalizationState: WeaponNormalizationState,
+): WeaponAttack[] {
+  const attacks = (raw.attacks ?? []).map((attack) =>
+    mapAttack(attack, weaponNormalizationState, raw.attackSpread),
+  )
+
+  if (raw.attackSpread) {
+    const nuestros = new Set(attacks.map((attack) => attack.name))
+    for (const key of Object.keys(raw.attackSpread)) {
+      if (!nuestros.has(key)) {
+        weaponNormalizationState.spreadUnmatched.push(`${resolveName(raw)} :: ${key}`)
+      }
+    }
+  }
+
+  return attacks
 }
 
 function buildBaseFields(
@@ -374,7 +467,6 @@ function buildBaseFields(
   return {
     id: resolveId(raw),
     name: resolveName(raw),
-    image: raw.imageName ? `/assets/items/${raw.imageName}.png` : null,
     image_name: resolveImageName(raw),
     unique_name: resolveUniqueName(raw),
     domain: taxonomy.domain,
@@ -467,7 +559,7 @@ function mapWeapon(
       noise: raw.noise ?? undefined,
       trigger: raw.trigger ?? undefined,
       disposition: raw.disposition ?? undefined,
-      attacks: (raw.attacks ?? []).map((attack) => mapAttack(attack, weaponNormalizationState)),
+      attacks: mapAttacks(raw, weaponNormalizationState),
     },
     introduced: resolveIntroduced(raw.introduced),
     wikia_thumbnail: raw.wikiaThumbnail ?? null,
@@ -570,7 +662,7 @@ function mapArchwingWeapon(
       crit_chance: raw.criticalChance ?? 0,
       crit_mult: raw.criticalMultiplier ?? 0,
       status_chance: raw.procChance ?? 0,
-      attacks: (raw.attacks ?? []).map((attack) => mapAttack(attack, weaponNormalizationState)),
+      attacks: mapAttacks(raw, weaponNormalizationState),
     },
     introduced: resolveIntroduced(raw.introduced),
     wikia_thumbnail: raw.wikiaThumbnail ?? null,
@@ -679,6 +771,104 @@ function buildArchwingWeaponsArtifacts(
     .map((item) => mapArchwingWeapon(item, weaponNormalizationState, polarityState))
 }
 
+// ─── Enemigos ──────────────────────────────────────────────────────────────────────
+// Fuente doble: stats base del export + cosecha wiki de `Module:Enemies/data` (mergeada por NOMBRE
+// en omniframe-items). Contrato y rarezas de la fuente: `docs/data/schemas/enemy/schema.md`.
+//
+// NO se emiten, a propósito:
+//   · `resistances` y las clases per-capa que derivaba (`health`/`armor`/`shield` type) — modelo
+//     **pre-U36**, era muerta: desde U36 el daño-vs-target es por FACCIÓN (`FACTION_BONUS`).
+//     `EnemyRepository.load` los rellena con defaults inertes; son sunset candidato del contrato.
+//   · `wikiInternalName` (trazabilidad de la cosecha, no dato de dominio) y `wikiType` (taxonomía de
+//     rol del wiki: candidato al filtro de entidades, todavía sin consumidor).
+//   · el `health`/`armor`/`shield` de la cosecha wiki: existen para **censar** el conflicto de fuente
+//     wiki↔export (22%/16%/38% divergentes), no para emitirse. El export gana hoy — por omisión de
+//     `fill-if-missing`, no por decisión: es una OQ nombrada, ver schema §6.
+
+// @wfcd usa "Infestation"; el vocabulario canónico (`semantic/factions.md`) usa "Infested". El resto
+// pasa literal (Orokin se mantiene Orokin — NO se aliasa a Corrupted).
+const ENEMY_FACTION_ALIAS: Record<string, string> = { Infestation: 'Infested' }
+
+// Facciones reconocidas — incluye SUBFACCIONES: son facciones propias, no etiquetas (Kuva Grineer
+// comparte vulnerabilidades con Grineer pero resiste Heat), y `FACTION_BONUS` ya las keyea. Agruparlas
+// para el escalado es trabajo de la LEY (`enemy-scaling.ts`), no del dato. Lo que no está acá NO es
+// facción: es categoría de arma, rol de IA o basura del wiki (`?`, `Unknown`, `Objects`).
+const VALID_FACTIONS = new Set([
+  'Grineer', 'Kuva Grineer',
+  'Corpus', 'Corpus Amalgam',
+  'Infested', 'Infested Deimos',
+  'Orokin', 'Sentient', 'Stalker',
+  'Narmer', 'The Murmur', 'Techrot', 'Scaldra', 'Anarchs', 'Unaffiliated',
+])
+
+// `Murmur` → `The Murmur` (canónico de FACTION_BONUS). NO se aliasa `Anarch` (3 entradas) a `Anarchs`
+// (26): parece el mismo label mal escrito, pero las 3 son Specters y no hay evidencia de que sean la
+// misma facción — sin verificar, el candidato se descarta y la cascada sigue.
+const WIKI_FACTION_ALIAS: Record<string, string> = { Murmur: 'The Murmur' }
+
+/** `"Head: 3.0x"` → `{ part: 'Head', multiplier: 3 }`. Tolera `3.0` sin `x` y `Body:3x` sin espacio. */
+const MULTI_RE = /^(.+?)\s*:\s*([0-9]+(?:\.[0-9]+)?)x?$/
+
+/**
+ * Cascada de facción (`OQ-DATA-15`), **validando cada nivel por separado**: un candidato inválido no
+ * consume el turno, porque el wiki también trae basura y taparía un `type` bueno del export.
+ *   1. `faction` del export — lo trae justo cuando `type` está contaminado.
+ *   2. `wikiFaction` — `General.Faction`, única fuente con subfacciones.
+ *   3. `type` si es facción válida — el caso normal.
+ *   4. `Unaffiliated` — default del wiki; caen acá las entidades que el proyecto no modela (fauna).
+ */
+function resolveEnemyFaction(raw: SourceItem): string {
+  const wikiRaw = raw.wikiFaction ?? undefined
+  const wiki = wikiRaw ? (WIKI_FACTION_ALIAS[wikiRaw] ?? ENEMY_FACTION_ALIAS[wikiRaw] ?? wikiRaw) : undefined
+  const type = raw.type ? (ENEMY_FACTION_ALIAS[raw.type] ?? raw.type) : undefined
+  for (const candidate of [raw.faction ?? undefined, wiki, type]) {
+    if (candidate && VALID_FACTIONS.has(candidate)) return candidate
+  }
+  return 'Unaffiliated'
+}
+
+/**
+ * `Multis` del wiki → weakpoints, con parseo ESTRICTO del patrón canónico. Lo que no matchea se
+ * descarta y queda en `state.droppedMultis` (censo visible, no silencio): valores desconocidos
+ * (`"Thruster: ?"`) y entradas que NO son multiplicador de daño (`"Head: +2 Crit Tier, 3x Critical
+ * Damage"` — ese `3x` es crit damage; parsearlo daría un número falso). Vacío/`None` = ausencia.
+ */
+function resolveWeakpoints(raw: SourceItem, state: EnemyBuildState): GeneratedWeakpoint[] | undefined {
+  if (!Array.isArray(raw.multis)) return undefined
+  const out: GeneratedWeakpoint[] = []
+  for (const entry of raw.multis) {
+    const s = String(entry).trim()
+    if (!s || s === 'None') continue
+    const m = MULTI_RE.exec(s)
+    if (!m) {
+      state.droppedMultis.push(`${raw.name ?? raw.uniqueName} · ${s}`)
+      continue
+    }
+    out.push({ part: m[1]!.trim(), multiplier: Number(m[2]) })
+  }
+  return out.length ? out : undefined
+}
+
+function buildEnemiesArtifacts(sourceItems: SourceItem[], state: EnemyBuildState): GeneratedEnemy[] {
+  return sourceItems
+    .filter((item) => item.category === 'Enemy' && item.uniqueName && typeof item.health === 'number')
+    .map((item) => {
+      const enemy: GeneratedEnemy = {
+        unique_name: item.uniqueName!,
+        name: item.name ?? null,
+        faction: resolveEnemyFaction(item),
+        base_level: item.baseLevel ?? 1,
+        health: item.health!,
+        armor: item.armor ?? 0,
+        shields: item.shield ?? 0,
+      }
+      if (typeof item.eximusHealth === 'number') enemy.eximus_health = item.eximusHealth
+      const weakpoints = resolveWeakpoints(item, state)
+      if (weakpoints) enemy.weakpoints = weakpoints
+      return enemy
+    })
+}
+
 function buildVehiclesArtifacts(sourceItems: SourceItem[], polarityState: PolarityNormalizationState): {
   vehicles: GeneratedVehicle[]
   necramechCount: number
@@ -707,6 +897,7 @@ export function buildRuntimeDataArtifacts(params: {
   arcaneNormalizationState: ArcaneNormalizationState
   weaponNormalizationState: WeaponNormalizationState
   polarityNormalizationState: PolarityNormalizationState
+  enemyBuildState: EnemyBuildState
 }): RuntimeDataArtifacts {
   const warframesArtifacts = buildWarframesArtifacts(
     params.sourceItems,
@@ -730,6 +921,7 @@ export function buildRuntimeDataArtifacts(params: {
     params.polarityNormalizationState,
   )
   const vehiclesArtifacts = buildVehiclesArtifacts(params.sourceItems, params.polarityNormalizationState)
+  const enemies = buildEnemiesArtifacts(params.sourceItems, params.enemyBuildState)
 
   return {
     warframes: warframesArtifacts.warframes,
@@ -740,6 +932,7 @@ export function buildRuntimeDataArtifacts(params: {
     companions,
     archwingWeapons,
     vehicles: vehiclesArtifacts.vehicles,
+    enemies,
     necramechCount: vehiclesArtifacts.necramechCount,
     archwingCount: vehiclesArtifacts.archwingCount,
   }

@@ -1,0 +1,31 @@
+{{DEFAULTSORT:Damage/Cinematic_Damage}}
+{{DISPLAYTITLE:Cinematic Damage}}
+{{Infobox
+| Box title = Cinematic Damage
+| image     = UnidentifiedItem.png
+| Row 1 title = Icon
+| Row 1 info  = [[File:UnidentifiedItem.png|class=icon]]
+}}
+'''Cinematic Damage''' is a hidden, unique damage type which has no [[Damage Type Modifier|damage modifier]] against any [[Factions|faction]]. This damage type applies to [[health]], [[shield]] and [[overguard]], and bypasses armor's [[Damage Reduction|damage reduction]]. It is applied as the [[Status Effect|status effect]] of {{D|Slash}} Damage.
+
+==Mechanics==
+*Bypasses armor's [[Damage Reduction|damage reduction]].
+**Does not bypass [[Damage Reduction|damage reduction]] provided by sources that are not armor.
+*Is not increased by buffs to physical or elemental damage.
+*[[Sentient]] enemies do not adapt to Cinematic Damage.
+
+==Status Effects ==
+Cinematic Damage does not possess any applicable status procs on its own.
+
+== Notes== 
+*The term "Cinematic Damage" is in reference to the internal damage type name <code>DT_CINEMATIC_DAMAGE</code>.
+**Prior to its discovery, the term "Finishing Damage" was used, often leading to confusion with [[Finisher]] attacks.
+
+{{DamageNav}}
+__NOTOC__
+[[de:Schaden/Finishingschaden]]
+[[es:Daño Verdadero]]
+[[fr:Dégâts/Dégâts Brut]]
+[[Category:Damage]]
+[[Category:Mechanics]]
+[[Category:Update 11]]

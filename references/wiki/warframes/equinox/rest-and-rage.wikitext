@@ -1,0 +1,90 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly       = {{{1|}}}
+| name           = Rest & Rage
+| gameimage      = RestRageIcon.png
+| cardimage      = RestRage.png
+| hotkey         = 2
+| energy         = 25
+| description    = In Night Form targets are put to sleep. In Day Form targets become more vulnerable to damage.
+<!--
+| damage         = 20 / 30 / 40 / 50 % (Rage damage vulnerability)<br>5 / 10 / 15 / 20 % (Rage enemy speed bonus)
+| duration       = 10 / 14 / 18 / 22 s
+| range          = 1 / 3 / 3 / 5 m (area radius)<br>20 / 30 / 40 / 50 m (cast range)
+| misc           = 80 / 70 / 60 / 50 % (Rest wakeup health threshold)
+| subsumable     = true
+-->
+| sub            =
+{{AbilityU10.3/Tabber|Rest
+| strength = N/A
+| duration = 10 / 14 / 18 / 22 s
+| range = 1 / 3 / 3 / 5 m (area radius)<br>20 / 30 / 40 / 50 m (cast range)
+| misc = 80 / 70 / 60 / 50 % (wakeup health threshold)
+}}
+{{AbilityU10.3/Tabber|Rage
+| strength = 20 / 30 / 40 / 50 % (damage vulnerability)<br>5 / 10 / 15 / 20 % (enemy speed bonus)
+| duration = 10 / 14 / 18 / 22 s
+| range = 1 / 3 / 3 / 5 m (area radius)<br>20 / 30 / 40 / 50 m (cast range)
+}}
+| info           = 
+*Equinox expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[Energy]] to hypnotize a target up to {{Stat|Ability Range|icon=only}}'''20 / 30 / 40 / 50''' meters away, also affecting enemies within {{Stat|Ability Range|icon=only}}'''1 / 3 / 3 / 5''' meters of the initial target, for {{Stat|Ability Duration|icon=only}}'''10 / 14 / 18 / 22''' seconds.
+*Night Equinox lulls enemies into sleep, Day Equinox spurs them into hyperactivity.
+<div class="tabber-borderless"><tabber> 
+|-|Night Form=
+<div style="display:none;">'''Night Form'''<br></div>
+*Affected enemies are forced to {{D|Sleep}}. They automatically wake up when the duration expires or their health reaches '''<u>80% / 70% / 60% / 50%</u>''' of their current values.
+*Sleeping enemies are:
+**Open to [[Melee#Finishers|Melee Finisher]] attack prompts (default {{Keybind|X}});
+**Susceptible to [[Stealth#Melee Damage Multiplier|Stealth Damage Multipliers]];
+**Ragdolled in a sleeping posture when dealt damage;
+**Unable to recover from {{D|Stagger}}, {{D|Knockdown}}, and {{D|Ragdoll}} effects until they wake.
+*Enemies retain their current [[Stealth#Alertness|alertness]] state on cast (i.e., unaware enemies put to sleep will remain unaware for this duration, while alerted enemies will remain alert). Enemies under the effects of Rest will always be susceptible to melee finishers and stealth damage multipliers; however, affected enemies that were previously alerted will '''not''' grant [[Stealth#Affinity Bonus|Stealth Kill Affinity Bonuses]].
+*Energy threads will visually strike enemies in the targeted area to indicate affected targets.
+|-|Day Form=
+<div style="display:none;">'''Day Form'''<br></div>
+*Affected enemies are enraged. They receive {{Stat|Ability Strength|icon=only}}'''20% / 30% / 40% / 50%''' [[Damage Vulnerability]], and {{Stat|Ability Strength|icon=only}}'''5% / 10% / 15% / 20%''' movement speed and attack speed bonuses.
+**The damage vulnerability adds ''multiplicatively'' to the original damage the affected enemy would receive (e.g., with a maxed {{M|Intensify}}, an enemy that would receive 250 damage will be dealt {{Math|250 {{mul}} (1 + 0.5 {{mul}} 1.3)|mt=y}} damage under the effects of a rank-3 Rage).
+*Casting Rage while {{A|Pacify & Provoke|Provoke}} is active will increase the percentage of damage vulnerability.
+*Enraged enemies visually emit a ribbon of energy and energy particles.
+*Energy threads will visually emit from Day Equinox to strike enemies in the targeted area.
+</tabber></div>
+<hr />
+*Rest and Rage's sleep and enrage effects can overlap on targets already affected by either version of the ability.
+*Recasting on the same target will '''not''' refresh Rest or Rage effects; however, unaffected enemies can be acquired within the targeted area.
+*Subsuming Equinox to the [[Helminth]] will offer Rest & Rage and its augments to be used by other Warframes. The Rest or Rage versions are determined by the Warframe's primary emission color.
+| augment        = 
+[[File:Calm&FrenzyMod.png|200px|left]]
+{{main|Calm & Frenzy}}
+{{#lst:Calm & Frenzy|intro}}
+{{#lsth:Calm & Frenzy|Stats}}
+{{clr}}
+
+| tips           = 
+*Rest can be used for crowd control by using it on a large group of enemies, doing this will let you use stealth attacks on them while they are affected.
+*Rest is not effective against [[Eximus]] units with active [[Overguard]] and thus cannot be put to sleep. If the active [[Overguard]] is removed, then the unit can be put to sleep.
+*Rage can be used make Maim more effective by having the aura of {{D|Slash}} damage do more and acquire more charge for a more powerful release.
+*It is possible to activate [[Stealth#Affinity Bonus|stealth kill affinity bonuses]] on enemies using low-damage automatic weapons (ex. {{Weapon|Grakata}}) by casting Rest on an unaware enemy. Affected enemies can then be shot repeatedly and then killed without changing their unaware state, allowing for the affinity multiplier to activate.
+*When combined with awareness of nearby enemies and sufficient duration on the ability, Rest can be paired with {{M|Covert Lethality}} to great effect. Casting the ability on otherwise-hard-to-kill enemies -- single targets, or small-to-medium-sized groups -- opens them up to stealth attacks and finisher moves.
+**''Note that this combination is only effective if the targeted enemies are actually vulnerable to stealth finishers. Some enemies, (such as certain infested units or robotic enemies), are either frequently troublesome to target with a finisher move (due to hitbox detection issues) -- such as the Infested Ancients -- or they are completely immune to finisher moves at the time of this writing ({{ver|18.1.4}}), because they do not trigger the finisher prompts.''
+***Units which are immune to stealth finishers are -- [[Roller]]s, all [[Regulator]] variants, all [[Osprey]] variants (including [[Mutalist Osprey]]s), [[Security Camera]]s, [[Corpus Turret]]s, [[Orokin Drone]]s,  all [[Sentient]] enemies, and all [[Eximus]] units with active [[Overguard]] as of ({{ver|31.5}}).
+**Except for the enemies immune to stealth finishers listed above, this combination works against all enemies, regardless of their alertness level prior to becoming a target of Rest.
+**Note that mods that affect melee attack-speed will also affect the speed of Finisher animations, so using attack-speed mods in conjunction with {{M|Covert Lethality}} -- rather than just using damage mods -- is advised. (If your strategy is to consistently kill with stealth finishers, it doesn't really matter how much damage your normal attacks would otherwise do.)
+*In the same way that {{WF|Ivara}}'s {{A|Quiver}} ability's Sleep Arrow puts beasts to sleep, Rest can also be used to put beasts to sleep for [[Conservation]].
+<noinclude>
+| max            = {{WFmax|equinox|equinox2}}
+</noinclude>
+| bugs           = 
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Equinox}}
+[[de:Ruhe & Rage]]
+[[es:Descansar & Enfurecer]]
+[[ru:Покой И Ярость]]
+[[fr:Obnubilation & Fulmination]]
+__NOTOC__
+[[Category:Equinox]]
+[[Category:Update 17]]
+[[Category:Warframe Abilities]]
+[[Category:Stealth Abilities]]
+[[Category:Damage Vulnerability]]
+[[uk:Відпочинок і гнів]]

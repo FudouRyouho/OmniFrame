@@ -1,0 +1,184 @@
+{{Infobox
+| Box title = Viral Damage
+| image = EssentialViralGlyph.png
+| Row 1 title = Icon
+| Row 1 info  = [[File:Viral_b.png|class=icon]] [[File:Viral_w.png|class=icon]]
+}}
+{{Quote|'''DAMAGE EFFICACY'''<br/>
+'''{{text|green|x1.5}}''' damage to Orokin<br/>
+'''{{text|red|x0.5}}''' damage to Infested Deimos<br/>
+'''{{text|red|x0.5}}''' damage to The Murmur
+
+'''STATUS EFFECT'''<br/>
+Created by combining {{D|Cold}} and {{D|Toxin}} damage.
+
+{{D|Viral}} increases damage to health up to 325% with multiple stacks for a short duration.|In-game Description}}
+'''{{D|Viral}} Damage''' is one of the six secondary elemental damage types, composed of {{D|Cold}} and {{D|Toxin}} elements. Deals increased damage to {{D|Orokin}}, but reduced damage to {{D|Infested Deimos}} and {{D|The Murmur}}, with some Deimos units being outright immune. Its [[Status Effect]] increases damage dealt to [[Health]].
+
+==[[Status Effect]]==
+===General===
+The status effect of {{D|Viral}} damage is '''Virus'''. It amplifies damage to the [[health]] of the afflicted target by '''100%''' for '''6''' seconds. Subsequent procs add '''25%''' increased damage to health up to '''325%''' in total after '''10''' stacks, with each stack having their own duration. Any stacks applied after the 10th will replace the oldest stack. This effect will work even when the health is protected by [[armor]] ("yellow health"); only [[shield]]s and [[overguard]]s are not affected.
+
+<math>
+{
+\begin{aligned}
+\text{Resultant Damage to Health} &= \text{Modded Damage} \times [2 + (0.25 \times (\text{Number of Viral Stacks} - 1) ) ]
+\end{aligned}
+}
+</math>
+::''Calculating resultant damage if at least one Viral proc is on target. [[Damage Vulnerability]] provided by Viral procs are multiplicative with other damage bonuses.''
+
+For status effects that apply damage over time (e.g. {{D|Slash}}, {{D|Toxin}}, {{D|Heat}}, {{D|Gas}}), the damage dealt by the proc throughout its duration is calculated based on whether or not a {{D|Viral}} proc is active when the DoT tick deals damage. For example, a weapon with 100 damage that applies a {{D|Slash}} proc, if the target has 1 {{D|Viral}} proc, will deal 200 damage, then '''70''' damage per second from {{D|Slash}}'s '''Bleed''' until the {{D|Viral}} effect ends, when it will go down to '''35''' per second. If the target does not have a {{D|Viral}} proc initially, the '''Bleed''' damage will be '''35''' per second until the target takes a {{D|Viral}} proc, which will then multiply the DoT accordingly to '''70''' per second. This means that the multiplier is ''not'' applied twice to DoTs, unlike [[Faction Damage Mods|faction damage multipliers]].
+
+Enemies afflicted by a {{D|Viral}} proc are coated in a flowing, leaking miasma of the Energy color of the weapon that inflicted it.
+
+*The following enemies are immune to {{D|Viral}} status:
+**[[Ambulas]]
+**[[Deimos Carnis]]
+**[[Deimos Carnis#Variants|Deimos Carnis Rex]]
+**[[Deimos Genetrix]]
+**[[Deimos Jugulus]]
+**[[Leaping Thrasher#Variants|Deimos Leaping Thrasher]]
+**[[Deimos Therid]]
+**[[Deimos Saxum]]
+**[[Deimos Saxum#Variants|Deimos Saxum Rex]]
+**[[Demolisher Boiler]]
+**[[Demolisher Thrasher]]
+**[[Tusk Bolkor]]
+**[[Tusk Firbolg]]
+**[[Techrot Babau]]
+*The following enemies are completely immune to {{D|Viral}}:
+**[[Demolisher Charger]]
+**[[Demolisher Juggernaut]]
+
+===Railjack===
+{{D|Viral}} does not have a [[Railjack]] space counterpart and is thus not able to proc any status effect nor is it included in calculations for status proc weighting.
+
+==Viral Sources==
+{{Main|:Category:Viral Damage}}
+
+===Weapons===
+{{Main|:Category:Viral Damage Weapons}}
+{{DamageTypeTable|Viral}}
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF" columns="4">
+Bubonico.png|link=Bubonico|{{Weapon|Bubonico}}<br />(Alternate Fire)|alt=Bubonico(Alternate Fire)
+Komorex.png|link=Komorex|{{Weapon|Komorex}}<br>(2nd Zoom Explosion)|alt=Komorex(2nd Zoom Explosion)
+PlagueKeewar.png|link=Plague Keewar|[[Plague Keewar]]<br>([[Zaw]] Strike)
+PlagueKripath.png|link=Plague Kripath|[[Plague Kripath]]<br>([[Zaw]] Strike)
+RaktaBallistica.png|link=Rakta Ballistica|{{Weapon|Rakta Ballistica}}<br>(Blight Effect)|alt=Rakta Ballistica(Blight Effect)
+RaktaCernos.png|link=Rakta Cernos|{{Weapon|Rakta Cernos}}<br>(Blight Effect)|alt=Rakta Cernos(Blight Effect)
+Sporothrix.png|link=Sporothrix|{{Weapon|Sporothrix}}<br>(AoE)|alt=Sporothrix(AoE)
+</gallery>
+
+===Mods===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+Damzav-VatiMod.png|link=Damzav-Vati|{{M|Damzav-Vati}}|alt=Damzav-Vati
+ErodingBlightMod.png|link=Eroding Blight|{{M|Eroding Blight}}|alt=Eroding Blight
+GleamingBlightMod.png|link=Gleaming Blight|{{M|Gleaming Blight}}|alt=Gleaming Blight
+StockpiledBlightMod.png|link=Stockpiled Blight|{{M|Stockpiled Blight}}|alt=Stockpiled Blight
+ToxicBlightMod.png|link=Toxic Blight|{{M|Toxic Blight}}|alt=Toxic Blight
+ViralQuillsMod.png|link=Viral Quills|{{M|Viral Quills}}|alt=Viral Quills
+BioticRoundsMod.png|link=Biotic Rounds|{{M|Biotic Rounds}} (on Weak Point Kill)|alt=Biotic Rounds (on Weak Point Kill)
+</gallery>
+
+===Abilities===
+{{#tag:tabber|Dagath=
+{{#tag:tabber|Wyrd Scythes=
+{{:Wyrd Scythes}}
+{{!}}-{{!}}Doom=
+{{:Doom}}
+{{!}}-{{!}}Rakhali's Cavalry=
+{{:Rakhali's Cavalry}}
+}}
+{{!}}-{{!}}
+Grendel=
+{{#tag:tabber|
+Nourish=
+{{:Nourish}}
+}}
+{{!}}-{{!}}
+Nokko =
+{{#tag:tabber|
+Stinkbrain =
+{{:Stinkbrain}}
+}}
+{{!}}-{{!}}
+Saryn=
+{{#tag:tabber|
+Miasma=
+{{:Miasma}}
+}}
+}}
+
+===Arcanes===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArcaneTruculence.png|link=Arcane Truculence|{{Arcane|Arcane Truculence}}|alt=Arcane Truculence
+</gallery>
+
+===Enemies===
+<div class="mw-collapsible-content"><gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" captionalign="center">
+AmalgamHeqet.png|[[Amalgam Heqet]] armed with a [[Komorex]]|link=Amalgam Heqet
+InfestedBabau.png|[[Techrot Babau]]'s Tentacle Flail, Rolling Rot and Underground Attack all deal {{D|Viral}} damage|link=Techrot Babau
+InfestedHiveC.png|The destruction of [[Infested Hive|Infested Gas Hives]]|link=Infested Hive
+PowerfistDE.png|[[Powerfist]] can perform {{D|Viral}} uppercut with {{Weapon|Furax}}|link=Powerfist
+</gallery>
+
+==Sources of Viral Resistances==
+===Enemies===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+TheFragmentedSuzerain.png|link=The Fragmented|[[The Fragmented]] (Immune)
+LeapingThrasher.png|link=Leaping Thrasher|[[Leaping Thrasher]] (Immune)
+LasrianAPC.png|link=Scaldra TI-92|[[Scaldra TI-92]] (Immune)
+</gallery>
+
+==Trivia==
+*The icon for Viral damage more closely resembles the microscopic image of a bacterium rather than a virus.
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+Screenshot_523.png|An enemy affected by viral procs
+Screenshot_524.png|Viral visuals on a melee weapon
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|36}}
+;Simplified Faction Resistances
+*Orokin:
+**Vulnerable to '''Viral'''
+*The Murmur:
+**Resistant to '''Viral'''
+*Deimos Infested:
+**Resistant to '''Viral'''
+
+{{ver|33}}
+*Fixed exposing an enemy to a Viral Status Effect just as the last Viral Status Effect on the enemy is about to expire, and while there is a Heat Status Effect on the enemy, can lead to the enemy becoming invincible.
+
+{{ver|31.6}}
+*Fixed Overguard counting as Health and taking damage from Viral Status Effect.
+**''Overguard situates itself in a new category of “protection”. It differs from Shields, Armor, and Health. That said, Viral Status Effects affecting Overguard was unintentional and has been changed to not only fit the original design for Viral damage, but also Overguard.''
+***''We originally mentioned in the [https://forums.warframe.com/topic/1305472-eximus-reborn-dev-workshop/ Eximus Reborn Dev Workshop] that the only Status Effect that would work on Eximus while Overguard is present is Cold Status Effects (up to 4 stacks!).''
+
+{{ver|27.2}}
+*New Status Effect entirely: enhanced Damage! First Viral Status Effect deals 100% additional Health damage, subsequent Viral Status add +25% for a total of 325% (capped).
+**''Note: Before Viral would halve a target’s health pool and simply refresh the duration. Now it deals 2x Damage to Health, and can scale up to 4.5x Damage on repeat Status Effects.''
+
+{{ver|11}}
+*Introduced.
+}}
+
+==See Also==
+
+*[[Blight]]
+
+{{DamageNav}}
+
+[[es:Daño Viral]]
+[[fr:Dégâts/Dégâts Viral]]
+{{DISPLAYTITLE:Viral Damage}}</div>
+[[Category:Viral Damage]]
+[[Category:Damage 3.0]]
+[[Category:Damage]]
+[[Category:Mechanics]]
+[[Category:Update 11]]
+[[Category:Damage Vulnerability]]

@@ -1,0 +1,132 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly = {{{1|}}}
+| name = Molecular Prime
+| gameimage = NovaAbility4.png
+| cardimage = MolecularPrimeModU15.jpeg
+| hotkey = 4
+| energy = 100
+| description = Primes all enemies in an expanding radius with volatile antimatter. Press the ability to slow down enemy movement, hold the ability to speed them up.
+| strength = 150 / 300 / 500 / 800 (explosion {{D|Blast}} damage)<br>35% / 40% / 45% / 50% (slow/speed-up)
+| range = 6 / 7 / 8 / 10 m (explosion radius)
+| duration = 2 / 3 / 4 / 6 s (wave duration)<br>10 / 15 / 20 / 30 s (prime duration)
+| misc = 5 m (starting wave radius)<br>5 m/s (wave speed)<br>20% ({{D|Blast}} status chance)<br>+100% ([[Damage Vulnerability]])<br>75% (slow/speed cap)
+| info = *Nova expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to unleash a radial wave of antimatter particles. The wave starts <u>'''5'''</u> meters from Nova and propagates at a speed of <u>'''5'''</u> meters per second for {{Stat|Ability Duration|icon=only}}'''2 / 3 / 4 / 6''' seconds before dissipating. All enemies in range are coated in antimatter that destabilizes their molecular structure for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 30''' seconds.
+**Wave Radius is calculated as:
+**:{{MathText|Wave Radius {{eql}} 5 + (5 {{mul}} (Wave Duration {{mul}} Ability Duration))}}
+***For example, Molecular Prime at rank 3 with 150% Ability Duration will have wave radius of:
+***:{{Math|5 + (5 {{mul}} (6 {{mul}} 150%))|mt=y}} meters
+**If Nova dies or leaves the mission, enemies will immediately lose their primed state.
+**A maximum of <u>'''5'''</u> Molecular Prime waves can exist at a time. Recasting the ability will remove the oldest wave.
+*'''Tap''' the ability key to unleash a '''{{D|Slow}}''' wave. '''Hold''' the ability key to unleash a '''Speed-Up''' wave. Primed enemies have their action speed increased or decreased by {{Stat|Ability Strength|icon=only}}'''35% / 40% / 45% / 50%''', receive <u>'''+100%'''</u> [[Damage Vulnerability]], and detonate upon death dealing {{Stat|Ability Strength|icon=only}}'''150 / 300 / 500 / 800''' {{D|Blast}} damage with <u>'''20%'''</u> [[Status Chance]] to enemies within {{Stat|Ability Range|icon=only}}'''6 / 7 / 8 / 10''' meters.
+**Slow/speed-up debuff is capped at <u>'''75%'''</u>, achievable with 150% {{Stat|Ability Strength}}.
+**Explosion damage has <u>'''60%'''</u> linear [[Damage Falloff]].
+**Each explosion can cause the subsequent death and detonation of nearby enemies, resulting in a chain reaction.
+*'''Ability Synergy:''' Enemies killed by Nova while slowed [[Nova/Abilities#Passive|passively]] have a <u>'''15%'''</u> chance to drop a [[Pickup#Orbs|Health Orb]], while enemies killed while sped-up have a <u>'''15%'''</u> chance to drop an [[Pickups#Orb|Energy Orb]].
+*Molecular Prime does '''not''' stack from multiple Novas.
+<div class="mw-collapsible mw-collapsed">
+<div style="font-weight:bold;line-height:2;">Unique Interactions With Explosions</div>
+<div class="mw-collapsible-content">
+*Due to Molecular Prime explosions counting as a [[Weapons|Weapon Hit]],  it can cause the ability to inherit certain traits from the [[Weapon]]/[[Ability]] that dealt the killing blow to the primed enemy which can all be propagated through chain reactions of explosions. Some such effects are:
+**Killing a primed enemy with {{A|Demonium}} Runes, {{A|Resupply}} Ammo Packs, {{A|Silken Stride}}, {{A|Toxic Lash}}, {{A|Xata's Whisper}} active will cause the explosion to do another instance of damage.
+**Molecular Prime explosions from Melee Kills will be able to [[Stealth|Stealth Hit]], thus benefitting from the [[Stealth|Stealth Damage Bonus]] (+700%)
+**Killing a primed enemy can cause the explosion to trigger equipped [[Arcanes|Weapon Arcanes]].
+***On melee kill, the explosion benefits from {{Arcane|Melee Influence}} while it is active.
+***On secondary kill, the explosion can deal increased Overguard Damage if {{Arcane|Secondary Fortifier}} is equipped.
+***On Molecular Prime hit that causes Status with {{Arcane|Secondary Encumber}} equipped, you have a 24% chance to proc another random Status Effect.
+***The explosion from killing a primed enemy with a your Primary/Secondary/Melee will cause Molecular Prime kills to stack Merciless Arcanes ({{Arcane|Primary Merciless|Primary}}/{{Arcane|Secondary Merciless|Secondary}}) as well as Dexterity Arcanes({{Arcane|Primary Dexterity|Primary}}/{{Arcane|Secondary Dexterity|Secondary}}) Respectively.
+***Kills from your Primary/Secondary will cause Molecular Prime Headshot Kills to stack Deadhead Arcanes ({{Arcane|Primary Deadhead|Primary}}/{{Arcane|Secondary Deadhead|Secondary}}) Respectively.
+**The explosions can also benefit from select [[Mods|Weapon Mods]]. Some such mods that apply are:
+***[[Faction Damage Bonus|Faction Damage Bonuses]] from the killing [[Weapon]] will apply to explosion damage.
+***[[Elementalist Mods|Elementalist Mods]] will apply to the Molecular Prime explosions {{D|Blast}} procs.
+*** {{M|Combustion Beam}} will trigger on Molecular Prime kills.
+*** {{M|Energizing Shot|Energizing}}/{{M|Mending Shot}} will trigger on Molecular Prime hitting the respective orb type.
+*On Kill with the [[Weapon]], Molecular Prime explosions gain the following [[Weapon]] traits:
+**[[Weapon Augment Mods]]:
+***{{Weapon|Argonak}}: While using a [[Dagger]] with an {{Weapon|Argonak}} equipped with {{M|Amalgam Argonak Metal Auger}}, the resulting explosions will strip 6 armor from every enemy it hits.
+***{{Weapon|Daikyu}}({{Weapon|Daikyu Prime|Prime}}): While using a [[Nikana]] with a {{Weapon|Daikyu}}({{Weapon|Daikyu Prime|Prime}}) equipped with {{M|Amalgam Daikyu Target Acquired}}, the resulting explosions will gain 3% lifesteal.
+***{{Weapon|Hate}}: While {{M|Burning Hate}} is equipped, the explosions will cause Status Vulnerability when hitting enemies affected by {{D|Heat}}.
+***{{Weapon|Sobek}}/{{Weapon|Jat Kittag}}/{{Weapon|Detron}}({{Weapon|Mara Detron|Mara}}/{{Weapon|Tenet Detron|Tenet}}): Kills from Molecular Prime will trigger the following mods for the respective [[Weapons]]: {{M|Acid Shells}}, {{M|Vulcan Blitz}}, {{M|Thermagnetic Shells}}
+***{{Weapon|Furax}}({{Weapon|Mk1-Furax|Mk1}}/{{Weapon|Furax Wraith|Wraith}}): Kills from Molecular Prime with {{M|Amalgam Furax Body Count}} equipped will prime {{D|Blast}} and stagger enemies.
+***{{Weapon|Bronco}}({{Weapon|Bronco Prime|Prime}}): Explosion hits with {{M|Dizzying Rounds}} equipped will stagger enemies and open them up to finishers.
+***{{Weapon|Furis}}({{Weapon|Mk1-Furis|Mk1}}): Explosion hits with {{M|Winds of Purity}} equipped will gain 20% lifesteal.
+***{{Weapon|Catabolyst}}({{Weapon|Coda Catabolyst|Coda}}): Explosion kills while {{M|Critical Mutation}} is equipped will stack Critical Chance & Damage Buffs.
+**[[Passives/Weapon|Weapon Passives]]:
+***{{Weapon|Enkaus}}: Molecular Prime hits on enemies within the insta-kill threshold will instakill them. Additionally, when Molecular Prime hits inked enemies, {{Weapon|Enkaus}} will regain ammo.
+***{{Weapon|Pathocyst}}({{Weapon|Coda Pathocyst|Coda}}): Molecular Prime Hits spawn Maggots/Miasmites respectively.
+***{{Weapon|Reconifex}}: Perfectly timed reloads give a {{D|Heat}} Magazine, allowing Molecular Prime to additionally proc {{D|Heat}} Status.
+***{{Weapon|Venato Prime}}: Molecular Prime Status Effects will inflict {{D|Tau}} Status.
+***{{Weapon|Spinnerex}}: Molecular Prime hits grant the enemies a 10% chance per {{D|Toxin}} Stack to detonate on death.
+***{{Weapon|Rakta Dark Dagger}}: Damage on enemies affected by {{D|Radiation}} status generates shields.
+***{{Weapon|Secura Lecta}}: Explosion kills will yield 2x [[Credits]].
+***{{Weapon|Heliocor}}({{Weapon|Synoid Heliocor|Synoid}}): Explosion kills will perform a [[Codex|Codex Scan]] on enemies.
+***{{Weapon|Amanata}}: Explosion benefits from Status Damage, additive to [[Elementalist Mods]]
+***{{Weapon|Dorrclave}}: Explosion guarantees status on initial enemy hit, not to surrounding enemies, removes stacks of buff.
+***{{Weapon|Evensong}}: Explosion inflicts 7 stacks of {{D|Puncture}} on enemies (bypassing the normal limit of 5), making them deal 0 damage to you.
+***{{Weapon|Trumna}}({{Weapon|Trumna Prime|Prime}}): Explosion kills generate charges for the Alternate Fire and can generate Alternate Fire from its own kills as long as you bounce the projectile once.
+***{{Weapon|Pyrana Prime}}: 3 Rapid explosion kills will activate the Akimbo Mode.
+***{{Weapon|Tatsu}}({{Weapon|Tatsu Prime|Prime}}): Molecular Prime kills originating from the Tatsu Prime will stack the charges.
+**[[Incarnon|Incarnon Evolutions]]:
+***{{Weapon|Phenmor}}:
+**** Evolution III (Executioner's Fortune) equipped will cause the [[Weapon]] to have a chance to refill its magazine. Seen as it is a refill and not a reload, it will keep Elemental Ammo Packs from {{A|Resupply}}
+**** Evolution V (Devouring Attrition) equipped will cause the explosion to have a 50% chance to deal +2000% damage on non-critical hits.
+**** Explosion Headshots with Evolution V (Lingering Judgment) equipped will cause the explosion to deal 50% Headshot Damage for 8s.
+***{{Weapon|Laetum}}:
+**** Hits with Evolution IV (Caput Mortuum) equipped will cause the explosion to deal 50% more Headshot Damage.
+**** Kills with Evolution V (Devouring Attrition) equipped will cause the explosion to have a 50% chance to deal +2000% damage on non-critical hits.
+**** Hits with Evolution V (Overwhelming Attrition) equipped will stack the perk.
+***{{Weapon|Felarx}}:
+**** Kills with Evolution V (Devastating Attrition) equipped will cause the explosions ot have a 50% chance to deal +2000% damage on non-critical hits.
+***{{Weapon|Dual Ichor}}:
+**** Evolution I will cause the explosions to create a Toxin Damage field while Incarnon Form is active.
+**** Evolution II will cause the explosions to generate combo if hitting enemies affected by {{D|Toxin}}.
+***{{Weapon|Okina}}({{Weapon|Okina Prime|Prime}}):
+**** Evolution I will cause the explosions to generate spectral daggers while Incarnon Form is active.
+**** Evolution II (Seeing Red) will cause the explosions to generate combo if hitting enemies affected by {{D|Slash}}
+***{{Weapon|Lato}}({{Weapon|Lato Vandal|Vandal}}/{{Weapon|Lato Prime|Prime}}):
+**** Evolution III (Exact Penance) will cause the explosions to have a 50% chance to reload the [[Weapon]].
+***{{Weapon|Ceramic Dagger}}({{Weapon|Ack & Brunt}}):
+**** Evolution III/IV (Rogue Readiness) will cause the explosions to have a 50% chance to reload your Primary and Secondary [[Weapon|Weapons]].
+*Misc:
+**Explosion radius is '''not''' affected by mods such as {{M|Fulmination}}.
+</div></div>|}
+| augment = [[File:MolecularFissionMod.png|200px|left]]
+{{main|Molecular Fission}}
+{{#lst:Molecular Fission|intro}}
+{{#lsth:Molecular Fission|Stats}}
+{{clr}}
+| tips = *Enemies that spawn after the initial cast but are within the expanding wave are immediately primed.
+*Speed-Up (hold cast) is particularly useful in [[Defense]] missions to force enemy waves to come out faster.
+*Recasting the ability while it is still active will allow a wider average coverage, as by the time the first cast collapses, the recast will have already spread some distance.
+*Speed-Up works on Eximus and other units protected by [[Overguard]], although the slow does not.
+*Molecular Prime works incredibly well in conjunction with {{A|Antimatter Drop}}, weakening a boss, or killing entire legions of enemies by triggering an explosion.
+*It should be noted that the slow effect for Molecular Prime stacks with other abilities that slow. When used alongside {{WF|Frost}}'s {{A|Snow Globe}}, or other effects such as {{D|Cold}} elemental mods, this ability is also capable of bringing enemies and bosses to a grinding halt, dramatically slowing them and easing the capability of landing headshots for the whole team.
+*Synergizes well with {{WF|Nyx}}'s {{A|Chaos}} as units will attack each other dealing double damage, weakening every individual until someone dies and causes a series of chain explosions that can kill the entire group.
+*Synergizes well with {{WF|Saryn}}'s {{A|Spores}} {{D|Corrosive}} proc by first spreading and weakening every individual armored unit, then causing a series of chain explosions when a single one dies.
+*Synergizes well with {{WF|Loki}}'s augment mod {{M|Irradiating Disarm}} for his fourth ability {{A|Radial Disarm}} which creates an AoE disarm and {{D|Radiation}} proc as units will attack each other dealing double damage, weakening every individual until someone dies and causes a series of chain explosions that can kill the entire group.
+*Primed enemies' bodies visibly dissolve after death by detonation, but they are actually hidden and not yet removed, thus allowing {{WF|Nekros}} to cast {{A|Desecrate}}.
+*Speed alteration does not affect the interval between tick damage of status effect nor their duration. 
+<noinclude>
+| max = {{WFmax|main|nova4}}
+</noinclude>
+| bugs = *Casting Molecular Prime then having a {{WF|Trinity}} cast {{A|Blessing}} before executing a target will cause the explosion to be the color of the Trinity's energy, rather than your own.|
+}}
+
+</onlyinclude>
+
+==Gallery==
+<gallery>
+MoP.jpg|Older Card
+</gallery>
+
+==See Also==
+*{{WF|Nova}}
+__NOTOC__
+[[de:Molekulare Sättigung]]
+[[es:Impregnación molecular]]
+[[fr:Amorce Moléculaire]]
+[[ru:Молекулярный Заряд]]
+[[Category:Nova]]
+[[Category:Blast Damage]]
+[[Category:Damage Vulnerability]]
+[[Category:Slow]]
+[[uk:Молекулярне заряджання]]

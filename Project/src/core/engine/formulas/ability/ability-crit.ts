@@ -5,6 +5,27 @@
  * En Warframe, la gran mayoria de habilidades NO pueden hacer crit. Las habilidades
  * por defecto tienen 0% de crit chance y no se benefician de mods de crit de armas.
  *
+ * ⚠️ **ESA PREMISA ES MÁS GRUESA DE LO QUE SE PUEDE SOSTENER — declarado, no corregido acá.**
+ * `references/wiki/mechanics/universal-weapon-bonuses.md` parte el eje en tres estados, no dos, y este
+ * módulo sólo conoce el primero. ⚠️ Los **números** de abajo son de esa página y **no** de la SSoT: el
+ * stat de habilidad lo fija `ability-stats.override.json` (`docs/data/rules/ssot.md`), que no publica
+ * crit. Lo que se toma acá es la **forma del eje** —que existen tres estados—, no las magnitudes.
+ * Cerrarlo pide medición propia o que el override lo traiga, nunca transcribir la tabla.
+ *
+ *   - **`N/A`** — *"completely incapable of landing critical hits, **even when buffed with flat
+ *     critical chance bonuses**"*. Es el caso que este archivo describe.
+ *   - **`0%`** — puede critear, pero **requiere** una fuente *absoluta* (Arcane Avenger 45%, Charm
+ *     200%, Covenant). "0% de crit chance" no implica "no puede critear".
+ *   - **crit base propio** — cinco habilidades listadas lo traen sin ningún buff: Sporespring
+ *     `75% / 2.0x`, Breach Surge `100% / 1.5x`, Tether-Flechette Orb `50% / 2.0x`, Ulfrun's Descent
+ *     `20% / 1.5x`, Enthrall `5% / 1.5x`.
+ *
+ * Y hay una exclusión medida que tampoco está modelada: el crit damage absoluto universal **no aplica
+ * a ninguna habilidad de Gyre** — justo el caso que este módulo sí cubre.
+ *
+ * No se reescribe en este pase: sigue sin consumidor (`ability-emission.test.ts` lo ancla), y hacerlo
+ * pide antes decidir de dónde sale el crit base de una habilidad, que es dato de la tabla y no ley.
+ *
  * Excepciones canonicas confirmadas por wiki (unicas soportadas en v1):
  *
  *   1. **Gyre** (Warframe):

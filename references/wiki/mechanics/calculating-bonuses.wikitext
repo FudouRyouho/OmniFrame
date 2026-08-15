@@ -1,0 +1,290 @@
+{{Community}}
+{{Infobox
+| Box title=Calculating Bonuses
+| image=ExampleModConfigs.jpg
+| caption=Showcasing that mod order does not affect resultant stats
+}}
+When modding anything in [[WARFRAME]], the order in which bonuses are applied follows a pattern. With the exception of mods that provide elemental damage bonuses, the order in which mods are installed '''does not matter'''; the resultant stats will always be the same regardless of the mod configuration.<ref>{{Ref|title=Apparently moving mods around has a negative effect on stats|author=GreatBaldung|year=2016|month=5|day=11|publisher=Reddit|url=https://www.reddit.com/r/Warframe/comments/4itdof/apparently_moving_mods_around_has_a_negative/|access-date=2022-09-19|extra=In rare instances, the UI may have rounding differences that are not reflective of gameplay performance when swapping positions of two mods. Image: https://imgur.com/a/ivHA1#XxsMw8F}}</ref> The same goes for temporary or conditional [[Buff & Debuff|buffs and debuffs]] from [[abilities]], mods, [[Arcane Enhancement]]s, and enemies.
+{{LatestEdit}}
+==Semantics==
+===Percent Bonuses vs. Multipliers===
+In most cases in WARFRAME, percent bonuses to stats (not to be confused with flat percentage points) can also be represented as stat multipliers using the following conversion:
+
+<math>
+\begin{aligned}
+\text{Net Multiplier} = 1 + \frac{\text{Net Percent Bonus as a percentage}}{100} = 1 + \text{Net Percent Bonus as a decimal}
+\end{aligned}
+</math>
+:''Converting percent bonuses to multipliers.''
+
+For simplicity, calculations in this article (and throughout the wiki) will represent percent bonuses as decimals and will use {{MathText|1 + Net Percent Bonus as a decimal}} expression instead.
+
+===Complementary Percentages===
+Many stat modifiers in WARFRAME are expressed in terms of percentages, but there may be more than one way to describe the same stat modifier.
+
+For example, [[Damage Vulnerability]] can be expressed in terms of [[Damage Reduction]]. If an enemy is 25% more vulnerable to {{D|Impact}} damage (e.g. +25% {{D|Impact}} damage bonus), one can also say that the enemy:
+*Receives 25% more {{D|Impact}} damage
+*Is 125% vulnerable (100% + 25%) to {{D|Impact}} damage (notice "more" is omitted)
+*Has -25% resistance to incoming {{D|Impact}} damage (negative resistance is equivalent to vulnerability)
+*Has a 1.25x multiplier (100% + 25%) to incoming {{D|Impact}} damage
+
+==Overview==
+{| class="wikitable"
+|+ Types of Bonuses
+|-
+! Operation On Base Stat !! Bonus Stacking Behavior !! Internal Name<br />(<code>OperationType</code>) !! Typical Context !! Example(s)
+|-
+| Addition || Additive Stacking || <code>ADD</code> || Flat value or ''percentage point'' bonuses:
+*±X [[Energy Rate]]
+*±X [[Health]]
+*±X [[Punch Through]]
+*Etc.
+|{{M|Entropy Burst}}'s status chance bonus
+:{{MathText|Final Status Chance {{eql}} Base Status Chance + {{M|Entropy Burst|20}}}}
+
+{{Weapon|Laetum}}'s Elemental Excess perk (-10 critical chance percentage points)
+:{{MathText|Final Critical Chance {{eql}} Base Critical Chance + {{Weapon|Laetum|-10}}}}
+|-
+| Multiplication || Additive Stacking || <code>STACKING_MULTIPLY</code> || Most common bonus, applies to almost all percentage-based bonuses:
+*±X% [[Ability Strength]]
+*±X% [[Armor]]
+*±X% [[Energy Max]]
+*±X% [[Fire Rate]]
+*±X% [[Health]]
+*Etc.
+|{{M|Serration}}'s and {{M|Heavy Caliber}}'s damage bonus
+:{{MathText|Final Damage {{eql}} Base Damage {{mul}} (1 + {{M|Serration|1.65}} + {{M|Heavy Caliber|1.65}})}}
+|-
+| Multiplication || Multiplicative Stacking || <code>MULTIPLY</code> ||
+*[[Damage Reduction]] bonuses
+*[[Affinity]] bonus
+*[[Resource]] Drop Chance bonus
+|{{M|Antitoxin}}'s and {{M|Toxin Resistance}}'s damage resistance to {{D|Toxin}}
+:{{MathText|Damage Taken {{eql}} Initial Toxin Damage {{mul}} ({{M|Antitoxin|0.55}} {{mul}} {{M|Toxin Resistance|0.85}})}}
+
+Affinity bonuses
+:{{MathText|Total Affinity {{eql}} Initial Affinity {{mul}} {{Resource|Affinity Booster|2}} {{mul}} {{Text|hover=Dark Sector bonus||1.3}} {{mul}} {{Text|hover=True Master's Font bonus||1.25}}}}
+|-
+| Override || N/A, does not stack || <code>SET</code> || Very rare bonus type used to set a stat at a particular value, ignoring all negative or positive modifiers
+|
+*{{M|No Current Leap}} disables energy rate by setting it to 0
+*{{M|Volatile Quick Return}} sets Punch Through to 0m
+*{{M|Semi-Rifle Cannonade}} and {{M|Semi-Shotgun Cannonade}} sets the Fire Rate to the weapon's base Fire Rate
+*{{M|Primary Acuity}} and {{M|Pistol Acuity}} sets the Multishot to the weapon's base Multishot
+|-
+|}
+*Note that there are known instances where a particular stat can have flat value and percentage-based bonuses. For example, {{M|Stinging Truth}} provides a flat increase to Magazine Capacity for the {{Weapon|Viper}} while {{M|Slip Magazine}} provides a +30% Magazine Capacity bonus at max rank. In these scenarios, typically percentage-based bonuses are applied to the base stat first then flat value increases. For example:
+::{{MathText|Final Magazine Capacity {{eql}} {{Weapon|Viper|14}} {{mul}} (1 + {{M|Slip Magazine|0.3}}) + {{M|Stinging Truth|40}}}}
+
+==Additive Stacking==
+===Percent Bonuses===
+<math>
+\begin{aligned}
+\text{Resultant Stat Value} = \text{Base Stat Value} \times (1 + \text{Additive Stat Bonus 1} + \text{Additive Stat Bonus 2} + \cdots)
+\end{aligned}
+</math>
+:''Generic formula for additive stacking percent bonuses.''
+
+All sources that add a percent bonus of the same type will ''typically'' have their bonuses added together. This commonly referred to as '''additive stacking''' (internally represented as <code>STACKING_MULTIPLY</code> operation type). For example, if a primary weapon has {{M|Serration}} (+165% damage) and {{M|Heavy Caliber}} (+165% damage) installed, it will receive a total of +330% bonus base damage or 4.3x the base damage.
+
+This is true of all percent bonuses, not just damage. For example, combining {{M|Speed Trigger}} (+60% fire rate) and {{M|Shred}} (+30% fire rate, +1.2 punch-through) will give a total of +90% bonus fire rate.
+
+===Flat Value and Percentage Point Bonuses===
+<math>
+\begin{aligned}
+\text{Resultant Stat Value} = \text{Base Stat Value} + (\text{Additive Stat Bonus 1} + \text{Additive Stat Bonus 2} + \cdots)
+\end{aligned}
+</math>
+:''Generic formula for additive stacking flat value and percentage point bonuses.''
+
+Sources that grant flat value or percentage point increases are ''typically'' applied ''after'' all other bonuses are applied (internally represented as <code>ADD</code> operation type). For example, say a melee weapon with 20% critical chance and {{M|True Steel}} equipped has {{Math|0.2 {{mul}} (1 + 1.2)|p=y|mt=y}} critical chance. Since a max ranked {{Arcane|Arcane Avenger}} grants a flat 45% critical chance when triggered, the melee weapon will have {{Math|0.44 + 0.45|p=y|mt=y}} critical chance as a result.
+
+Note that flat bonuses are additive with each other. Using the previous example, if the player's [[Adarza Kavat]]'s {{M|Cat's Eye}} buff triggers (adding a flat 60% critical chance), then the resultant critical chance will be {{Math|0.44 + 0.45 + 0.6|p=y|mt=y}}.
+
+;Exceptions
+*{{M|Piercing Navigator}} - applied ''before'' other bonuses are applied, effectively increasing the base stat
+*{{A|Ballistic Battery}} - applied ''after'' base damage bonuses but ''before'' other bonuses/multipliers
+*{{WF|Volt}}'s passive - applied ''after'' base damage and elemental bonuses but ''before'' critical damage multiplier and [[Sniper Rifle]] combo counter
+*{{M|Energy Channel}} - applied ''after'' the critical damage multiplier
+
+==Multiplicative Stacking==
+<math>
+\begin{aligned}
+\text{Resultant Stat Value} = \text{Base Stat Value} \times (1 + \text{Multiplicative Stat Bonus 1}) \times (1 + \text{Multiplicative Stat Bonus 2}) \times \cdots
+\end{aligned}
+</math>
+:''Generic formula for multiplicative stacking bonuses.''
+
+Sources that affect the same fundamental stat but have different conditions for granting its bonuses will ''typically'' have their bonuses multiplied together (but not always such as {{WF|Chroma}}'s {{A|Vex Armor}} additively stacking with base damage mods). This is commonly referred to as '''multiplicative stacking'''. For example, a primary weapon with {{M|Serration}} (+165% damage) and {{M|Bane of Grineer}} (+30% damage to [[Grineer]]) would result in a {{Math|[(1 + 1.65) {{mul}} (1 + 0.3) - 1]|p=y|mt=y}} bonus in base damage against Grineer enemies. Note that multiplicative stacking effects grant greater bonuses than additive stacking. For example, if {{M|Serration}} and {{M|Bane of Grineer}} were to additively stack, it would only grant {{Math|1.65 + 0.3|p=y|mt=y}} bonus base damage.
+
+Examples of sources of damage bonuses/multipliers that will multiplicatively stack with each other:
+*{{M|Serration}} (2.65x base damage in all situations)
+*{{M|Cryo Rounds}} (1.9x {{D|Cold}} elemental damage on top of base damage)
+*{{D|Viral}} procs (up to 4.25x damage on health)
+*{{M|Bane of Infested}} (1.3x damage against Infested)
+*{{M|Lasting Purity}} (1.6x damage on aiming)
+*{{M|Primed Chamber}} (2x damage on first shot)
+*{{A|Eclipse}} (3x damage)
+*[[Enemy Body Parts|Headshots]] (2x damage on headshot)
+*[[Damage Reduction]] from [[Armor]]
+
+:
+
+==Opportunity Cost In Modding==
+===Additive Stacking===
+Players may refer to additive stacking having "'''diminishing returns'''" (despite being linear increases; a more accurate term would be "'''[[wikipedia:Opportunity cost|opportunity cost]]'''"), meaning that at higher percent bonuses, the additional value gained per additional percent bonuses is less, relatively speaking. '''Because of this, sometimes it is better to not equip mods that provide relatively lower additive bonuses due to opportunity cost. That mod slot is better reserved for bonuses that multiplicatively stack with other bonuses.'''
+
+For instance, if one were to equip a secondary that dealt 100 base damage:
+#Adding a maxed rank {{M|Hornet Strike}} (+220%), it would deal 320 base damage, a '''{{Math|{{M|Hornet Strike|2.2}} / 1|p=y|mt=y}}''' relative increase in base damage.
+#Adding a maxed rank {{M|Magnum Force}} (+165%), it will deal 485 base damage, a '''{{Math|{{M|Magnum Force|1.65}} / (1 + {{M|Hornet Strike|2.2}})|p=y|mt=y}}''' relative increase in base damage over just equipping {{M|Hornet Strike}}.
+#Adding a maxed rank {{M|Augur Pact}} (+90%), it will deal 575 base damage, a '''{{Math|{{M|Augur Pact|0.9}} / (1 + {{M|Hornet Strike|2.2}} + {{M|Magnum Force|1.65}})|p=y|mt=y}}''' relative increase in base damage over just equipping {{M|Hornet Strike}} and {{M|Magnum Force}}.
+#Adding an unmodded Rank 3 {{A|Vex Armor}} at max buff (+275%), it will deal 850 base damage, a '''{{Math|{{A|Vex Armor|2.75}} / (1 + {{M|Hornet Strike|2.2}} + {{M|Magnum Force|1.65}} + {{M|Augur Pact|0.9}})|p=y|mt=y}}''' relative increase in base damage over just equipping {{M|Hornet Strike}}, {{M|Magnum Force}}, and {{M|Augur Pact}}.
+#*Notice that despite the larger base damage bonus of +275%, {{A|Vex Armor}} only provided a smaller relative increase in base damage.
+#Adding a maxed rank {{M|Anemic Agility}} (-15%), it will deal 835 base damage, a '''{{Math|{{M|Anemic Agility|-0.15}} / (1 + {{M|Hornet Strike|2.2}} + {{M|Magnum Force|1.65}} + {{M|Augur Pact|0.9}} + {{A|Vex Armor|2.75}})|p=y|mt=y}}''' relative increase (or '''{{Math|0.15 / (1 + 2.2 + 1.65 + 0.9 + 2.75)|p=y}}''' relative decrease) in base damage over just equipping {{M|Hornet Strike}}, {{M|Magnum Force}}, {{M|Augur Pact}}, and with {{A|Vex Armor}} active.
+#*Notice that base damage bonus penalties are also relatively low at higher base damage bonuses.
+
+====Armor====
+[[File:REH.jpg|center]]
+Although most [[Armor]] bonuses are percentage based (thus having "diminishing returns" strictly speaking on relative armor point increases) and that the relative increase of [[Damage Reduction]] percentage is smaller at higher armor values (e.g. the difference between 100 and 200 armor is {{Math|200/(200+300) - 100/(100+300)|p=y}} while the difference between 400 and 500 is {{Math|500/(500+300) - 400/(400+300)|p=y}}), the actual number of [[Health#Effective Health|effective health points]] (EHP) gained per additional point of armor does '''not''' have diminishing returns and remains constant (linear change). Every 300 armor points added will provide an additional 100% nominal health to EHP. This means that at higher armor values, the difference between EHP and nominal health is greater as seen in the above graph.
+
+<math>
+{
+\begin{aligned}
+\text{EHP} &= \text{Nominal Health} \cdot \frac{\text{Net Armor} + 300}{300} \\
+&= \text{Nominal Health} \cdot \frac{(\text{Base Armor} * \text{Armor Bonus Multiplier}) + 300}{300} \\
+&= \text{Nominal Health} \cdot \text{Nominal Health Multiplier}
+\end{aligned}
+}
+</math>
+:''Nominal health refers to listed health points as displayed in-game; in other words, it is the total health after mods and buffs are applied''
+:''Simplified EHP calculation to demonstrate how damage reduction from armor can be expressed as a multiplier to nominal health. Every 300 armor points gained will increase the health multiplier by 1.''
+
+===Multiplicative Stacking===
+Note that multiplicative stacking does '''not''' have "diminishing returns". For example, for a secondary that deals 100 base damage:
+#Adding a maxed rank {{M|Hornet Strike}} (+220%), it would deal 320 base damage, a '''220%''' relative increase in base damage or '''3.2x''' base damage.
+#Adding a maxed rank {{M|Bane of Infested}} (+30%), it will deal {{Math|100 * (1 + {{M|Hornet Strike|2.2}}) * (1 + {{M|Bane of Infested|0.3}})}} base damage (against Infested enemies), a '''30%''' relative increase in base damage over just equipping {{M|Hornet Strike}} or '''1.3x''' the previous damage.
+#On a headshot (2x), it will deal {{Math|100 * (1 + {{M|Hornet Strike|2.2}}) * (1 + {{M|Bane of Infested|0.3}}) * 2}} base damage, a '''100%''' relative increase in base damage over just equipping {{M|Hornet Strike}} and {{M|Bane of Infested}} or '''2x''' the previous damage.
+#Adding a Rank 3 {{A|Eclipse}} at max buff (3x), it will deal {{Math|100 * (1 + {{M|Hornet Strike|2.2}}) * (1 + {{M|Bane of Infested|0.3}}) * 2 * {{A|Eclipse|3}}}} base damage, a '''200%''' relative increase in base damage over just equipping {{M|Hornet Strike}}, {{M|Bane of Infested}}, and on a headshot or '''3x''' the previous damage.
+
+==Order of Operations==
+To summarize, the order in which bonuses for the same fundamental stat applies as follows:
+# Bonuses that additively stack with each other
+#* For example, {{M|Serration}} and {{M|Heavy Caliber}} will additively stack separately from {{M|Bane of Orokin}} and {{WF|Rhino}}'s {{A|Roar}} despite affecting the same damage stat.
+# Bonuses that multiplicatively stack with each other and the previous additive bonuses
+#* For example, bonus from {{M|Serration}} and {{M|Heavy Caliber}} will multiplicatively stack with the bonus from {{M|Bane of Orokin}} and {{WF|Rhino}}'s {{A|Roar}}
+#Bonuses that grant a flat number or percentage points, additively stacking with each other
+
+<math>
+{
+\begin{aligned}
+\text{Resultant Stat} &= [ \text{Base Stat Value} \times (1 + \text{Add Bonus 1} + \text{Add Bonus 2} ) \times \\
+&\qquad(1 + \text{Separate Add Bonus 1} + \text{Separate Add Bonus 2} ) ] + \text{Flat Bonus 1} + \text{Flat Bonus 2}
+\end{aligned}
+}
+</math>
+::''Example equation demonstrating the above order.''
+
+<math>
+{
+\begin{aligned}
+\text{Resultant Stat} &= [ \text{Base Stat Value} \times \prod (1 + \sum \text{Additive Stacking Bonuses} ) ] + \sum \text{Flat Bonuses}
+\end{aligned}
+}
+</math>
+::''Expressing above equation as a product of summations since multiplicatively stacking bonuses can have additively stacking components.''
+
+==Weapons==
+{{UpdateMe|Not accounting for Kuva/Tenet weapons with an innate primary damage type that can also have a primary elemental progenitor bonus}}
+{{UpdateMe|Also missing elemental damage bonus from non-Mod sources like Warframe abilities (readers may ask what is the element type priority in these cases)}}
+===Types of Damage Bonuses===
+Mods primarily increase damage in one of four different ways:
+#Some mods increase the base damage of the weapon. This is usually written as simply "+X% damage". For example, {{M|Hornet Strike}} and {{M|Serration}}.
+#Some mods increase physical damage types: {{D|Slash}}, {{D|Impact}}, and {{D|Puncture}}. For example, {{M|Fanged Fusillade}} or {{M|Piercing Caliber}}.
+#Some mods increase primary elemental damage types: {{D|Heat}}, {{D|Electricity}}, {{D|Cold}}, and {{D|Toxin}}. For example, {{M|Pathogen Rounds}} or {{M|Hellfire}}.
+#Some mods increase damage against enemies of a certain faction (i.e. [[Faction Damage Bonus]]). For example, {{M|Bane of Corpus}} or {{M|Bane of Infested}}.
+
+===The Damage Application Order===
+#When calculating damage, first base damage bonuses are added together and applied. For example, the {{Weapon|Karak}} has a base damage of 29. Equipping a max rank {{M|Serration}} (+165% base damage) adds {{Math|1.65 {{mul}} 29|mt=y}} additional damage for a total of {{Math|29 * (1 + 1.65)}} damage (the arsenal will round this number to 76.9). The added damage will be of the same damage type distribution the weapon innately deals.
+#Then, all elemental and physical damage bonuses are calculated based on the modified base damage. For example, adding a {{M|Hellfire}} (+90% {{D|Heat}} damage) to a Karak that already has {{M|Serration}} equipped will add 90% of {{Math|29 * (1 + 1.65)}} for a total of {{Math|29 * (1 + 1.65) * 0.9}} {{D|Heat}} damage. This damage is added to the base, and the Karak now deals a total of {{Math|29 * (1 + 1.65) * (1 + 0.9)}} damage if you add together all damage types.
+#After that, faction damage bonuses are applied to all damage types. Note that faction damage bonuses will not be accounted for in the arsenal stats. A Karak equipped with {{M|Serration}}, {{M|Hellfire}}, and {{M|Bane of Corpus}} (+30% damage against [[Corpus]]) will deal an extra {{Math|0.3 {{mul}} 76.85|mt=y}} physical damage and an extra {{Math|0.3 {{mul}} 69.165|mt=y}} {{D|Heat}} damage for a total of {{Math|29 * (1 + 1.65) * (1 + 0.9) * (1 + 0.3)}} damage of all types.
+
+Once damage is calculated, it may be affected by [[Critical Hit]] mechanics or modified based on the opponent's [[armor]] or sources of [[Damage Reduction|damage reduction]]. For detailed calculations of how various damage types affect different types of enemies, see [[Damage#Damage_Calculation|the Damage page]].
+
+===Multishot===
+For weapons that fire multiple projectiles like [[:Category:Shotgun|shotguns]] or {{Weapon|Cernos Prime}}, the damage calculated is the damage dealt by each projectile. In other words, if the weapon only fires one projectile at a time, all of the damage is the base damage per projectile.
+
+If the weapon has [[multishot]] from a mod like {{M|Split Chamber}}, it will have a percent chance to fire additional projectiles per shot, each of which will deal the full modded damage as if one projectile was shot. The arsenal will display multishot bonuses as percent increases in total damage when in fact this is not true in reality. The total damage stat shown in the arsenal actually reflects the ''average'' damage dealt per shot in this case. For example, a {{Weapon|Karak}} with only {{M|Split Chamber}} equipped will see a {{Math|29 {{mul}} 0.9|mt=y}} increase in damage for an average of 55.1 damage per shot.
+
+For weapons that only fire a single projectile, {{M|Split Chamber}}'s 90% multishot will cause each shot to randomly have a 90% chance to fire two projectiles instead of one. Since {{Weapon|Cernos Prime}} already fires 3 arrows per shot, adding {{M|Split Chamber}} will make it fire {{Math|3 {{mul}} 0.9|mt=y}} additional arrows, so each shot will fire at least 5 arrows, and 70% of shots will fire 6.
+
+On [[:Category:Continuous Weapons|continuous beam weapons]] like the {{Weapon|Glaxion}}, multishot adds a chance to increase damage on a tick. For example, adding {{M|Split Chamber}} to a {{Weapon|Glaxion}} will give a 90% chance for a damage tick to double as if two projectiles were shot.
+
+===Calculating Physical Damage===
+Physical damage mods apply only to base damage of the same type. For example, at max rank {{M|Fanged Fusillade}} increases {{D|Slash}} damage by +120%. The {{Weapon|Karak}} does 29 damage split into 13 {{D|Impact}}, 8.7 {{D|Puncture}}, and 7.3 {{D|Slash}}. A Karak equipped a max rank Fanged Fusillade will gain {{Math|7.3 {{mul}} 1.2|mt=y}} additional {{D|Slash}} damage for a total of {{Math|7.3 * (1 + 1.2)}}  {{D|Slash}} and {{Math|29 + (7.3 * (1 * 1.2))}} total damage.
+
+If a physical damage mod is added to a weapon that does no physical damage of the corresponding type, '''the mod will have no effect'''. For example, the {{Weapon|Amprex}} does entirely {{D|Electricity}} damage when unmodded, so {{M|Fanged Fusillade}} will provide no {{D|Slash}} damage bonuses.
+
+===Calculating Elemental Damage===
+Elemental damage mods apply to all damage done by a weapon. For example, a max rank {{M|Hellfire}} adds 90% {{D|Heat}} damage to a rifle. If a Karak was equipped with a max rank Hellfire, it would gain {{Math|29 {{mul}} 0.9|mt=y}} {{D|Heat}} damage.
+
+Each two different elemental mods will be added up into a secondary element, with has different [[Damage Type Modifier|damage type modifiers]] against certain enemy health, shields, and armor classes. For combined elements, the slots are ordered from left to right, top row then bottom row, with any inherent elemental damage (from the weapon) added last.
+
+For example, if both {{M|Hellfire}} (+{{D|Heat}} damage) and {{M|Cryo Rounds}} (+{{D|Cold}} damage) are equipped on an {{Weapon|Amprex}}, they will combine to add {{D|Blast}} damage to the weapon's base {{D|Electricity}} damage. If only Hellfire is used, it will combine with the Amprex's base {{D|Electricity}} damage to make {{D|Radiation}} damage instead.
+
+If multiple mods of the same element are added, only the first is used when making combinations. For example, if Hellfire, Cryo Rounds, and {{M|Thermite Rounds}} are added to an {{Weapon|Amprex}}, no matter what the order is the weapon will deal {{D|Blast}} and {{D|Electricity}} damage since the {{D|Heat}} element has already combined with {{D|Cold}}, so the second {{D|Heat}} mod simply increases the amount of {{D|Blast}} damage dealt.
+
+===Combining Physical and Elemental Damage===
+Both physical and elemental damage are combined in the same step and are based only on the weapon's base damage and any mods that effect base damage. 
+
+In terms of raw damage, this makes a +90% elemental damage bonus superior to +90% physical damage bonus unless the weapon deals all of its damage as a single physical damage type. In reality, the total effect varies based on the health, shields, and armor classes of enemy being damaged due to damage type vulnerabilities and resistances.
+
+==Damage Calculations==
+{{Transclude|Damage/Calculation#Final Calculations}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|34}}
+;Base vs Final Stats in Modding - Health / Energy / Shield / Armor Stat Overhaul
+
+If you’ve spent any time invested in the deeper nuances of Modding, you may be familiar with “Warframe Math” - math that upon first glance doesn’t really make sense, but once you learn the inner workings of the game, it all comes together. While we can appreciate the value that complex systems offer to a certain subsect of players, there are other aspects of the game that should have clear and understandable outcomes. Namely: Shield, Health, Energy, and Armor Modding. 
+
+'''<u>Pop quiz:</u>''' what is 300 + 440%? If you answered 740, you may just be an Excalibur player.
+
+Vitality (+440% Heath), Redirection (+440% Shields), Flow (+150% Energy), and Steel Fiber (+110% Armor) come with large modifier values that don’t seem to match their outcome in-game. '''This is because these Mods apply their multiplier to the base stats of the Warframe - i.e., the stats you have at Rank 0.''' In the Excalibur example, a Rank 30 Excalibur’s Health stat of 300 earns an additional 440 Health from max rank Vitality (+440% Heath) since it applies to his base rank Health stat of 100, resulting in 740 total health.
+
+In this update, we have removed this obfuscation by having '''Health, Shield, Energy, and Armor Mods apply to the stats of Warframes at their current rank.''' Continuing our Excalibur example, instead of Vitality always applying to Excalibur’s base rank 100 Health, it would apply to his Health stat based on his rank - namely, '''the stat you can actually see in your Arsenal.''' If your Excalibur were Rank 30, his Health stat would be 300, which means Vitality’s multiplier would be calculated off of 300.
+
+With previous Health and Mod values, additional adjustments are needed to make this revision work while maintaining game balance. By only changing where the multiplier applies, a Rank 30 Excalibur would receive an extra 1,320 Health from max rank Vitality, resulting in a total health stat of 1,600. This outcome is a significant buff, which is not the intention of this system change. 
+
+To remedy this, we approached this problem in two ways:
+
+'''1 - We reduced the overall multiplier for Health, Shield, Energy, and Armor Mods.'''<br/>
+Since these now affect Max Rank Warframe stats, these Mods need to scale differently to maintain the status quo. Additionally, we wanted these new values to be as clear and understandable to all players as possible! Here are a few examples of these value changes:
+
+* ''Vitality:'' Reduced from +440% to +100% Health
+* ''Redirection:'' Reduced from +440% to +100% Shield Capacity
+* ''Steel Fiber:'' Reduced from +110% to +100% Armor
+* ''Flow:'' Reduced from +150% to +100% Energy Max
+
+'''''Note: These are not all of the Mods affected by this change. We share the comprehensive list further down in this section of the update notes.'''''
+
+Doing some quick math, this means that a Rank 30 Excalibur (300 Health) with a reworked Vitality Mod (+100% Health, applied to the final Health stat) would receive 300 extra Health, for a total of 600. That, in contrast, is a nerf, which we also don’t want to do. 
+
+So, our next step:
+
+'''2 - We adjusted Warframe Health, Shield, Energy, and Armor values to keep the end result of the revised Mods as close to the original values as possible.'''<br/>
+
+With this change, Excalibur’s Rank 30 Health stat is 370. With +100% Health from a max Vitality Mod, his resulting Health stat would be 740, which matches what it was originally. 
+
+While this path to the same result may seem a little complicated, the outcome matches our intention: '''we want players to be able to look at their Health, Shield, and Armor Mods, and be able to understand ''how'' they affect the stats they see in their Arsenal.'''
+
+In addition to everything above, '''we also increased the base stat values for Warframes so that these revised Mods offer similar value for lower-ranked Frames.''' To do so, we reduced the amount of Health/Shield/Energy that Warframes earn per rank in half, and transferred the sum of that value to their base stats.
+
+For '''Armor''', this is the one stat that does not increase with your Warframe’s level (with some exceptions). Armor values across the board have been slightly increased to compensate for the Mod changes.
+
+Not to beat a dead Kaithe, but Mods will now be applying to the Max Rank stat instead of the Base Rank. '''You may look at these numbers and think “nerf” or “buff” depending, but the outcome is that total Modded values are the same, if not a little higher in some cases.'''
+}}
+
+{{MechNav}}
+[[Category:Mechanics]]
+[[Category:Real-World References]]

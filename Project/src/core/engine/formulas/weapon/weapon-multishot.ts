@@ -1,6 +1,6 @@
 /**
  * @domain Engine / Formulas / Weapon / Multishot
- * @SSoT docs/domains/engine/formula-overview.md
+ * @SSoT references/wiki/mechanics/multishot.md
  */
 
 export type AttackDeliveryType =

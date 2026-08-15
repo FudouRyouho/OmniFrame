@@ -1,0 +1,193 @@
+{{Infobox
+| Box title=Knockdown
+| image=
+}}
+{{D|Knockdown}} is a [[Status Effect]] that causes enemies to be knocked prone to the ground, leaving them vulnerable.
+
+*Against enemies, [[Finisher#Ground Finisher|Ground Finishers]] will prompt.
+*Against players, they become staggered into a backward roll animation.
+**Right after being knocked down, the Warframe will flash in their energy colors briefly. Jumping or rolling during the flash will allow the Warframe to stand up or roll more quickly, allowing players to act earlier.
+**A player's open {{Keybind|Esc}} menu will be abruptly closed if knocked down.
+
+[[File:U272StaggerVideo.mp4|400px|right|Demonstrating self-stagger mechanics]]
+Knockdown and stagger animations will not be played when a player successfully resists a knockdown or stagger. Knockdown resistance can be obtained through any of the means mentioned in the section on [[Knockdown#Sources of Knockdown Resistance|sources of knockdown resistance]].
+
+==Sources of Knockdown==
+<section begin=knockdownbyplayer />
+====Abilities====
+
+{{#tag:tabber|
+Banshee=
+{{:Sonic Boom|cardonly}}
+{{!}}-{{!}}
+Dagath=
+{{:Grave Spirit|cardonly}}
+*When entering spectral form
+{{!}}-{{!}}
+Excalibur=
+{{:Exalted Blade|cardonly}}
+*Slam Attacks
+{{!}}-{{!}}
+Garuda=
+{{:Dread Mirror|cardonly}}
+*Initial Dread Mirror pounce
+{{!}}-{{!}}
+Hydroid=
+{{:Tempest Barrage|cardonly}}
+{{:Tidal Surge|cardonly}}
+{{!}}-{{!}}
+Loki=
+{{:Radial Disarm|cardonly}}
+*Against [[Infested]] enemies
+{{!}}-{{!}}
+Mag=
+{{:Pull|cardonly}}
+{{:Crush|cardonly}}
+{{!}}-{{!}}
+Nyx=
+{{:Absorb|cardonly}}
+{{!}}-{{!}}
+Oberon=
+{{:Smite|cardonly}}
+*One target is knocked down
+{{:Reckoning|cardonly}}
+{{!}}-{{!}}
+Rhino=
+{{:Iron Skin|cardonly}}
+*With [[Iron Shrapnel]] augment
+{{:Roar|cardonly}}
+*With [[Piercing Roar]] augment
+{{!}}-{{!}}
+Valkyr=
+{{:Paralysis|cardonly}}
+*With [[Prolonged Paralysis]] augment
+{{:Hysteria|cardonly}}
+*With slam attacks
+{{!}}-{{!}}
+Yareli=
+{{:Merulina|cardonly}}
+*K-Drive direct landing impact and slam shockwave
+{{:Riptide|cardonly}}
+*Burst
+{{!}}-{{!}}
+Zephyr=
+{{:Tailwind|cardonly}}
+{{!}}-{{!}}
+
+}}
+<hr />
+
+'''Focus Schools'''
+
+{{Transclude|Focus/Vazarin#Void Snare}}
+
+====Weapons====
+<gallery bordercolor="transparent" bordersize="none" captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center">
+IconClanObstacleCourse(xWhite).png |link=[[Maneuvers#Jump Kick|Jump Kick]] | [[Maneuvers#Jump Kick|Jump Kick]]<br>A Tenno's jump kick
+Sonicor.png|link=[[Sonicor]]|[[Sonicor]]
+Talons.png|link=[[Talons]]|[[Talons]]
+JatKittag.png|link=[[Jat Kittag]]| [[Jat Kittag]]<br>Slam Attack
+</gallery>
+
+==== Arcanes ====
+<gallery bordercolor="transparent" bordersize="none" captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center">
+ArcaneEruption.png|link=Arcane Eruption|[[Arcane Eruption]]<br>Enemies can be knocked down when picking up Energy orbs.
+</gallery>
+
+<section end=knockdownbyplayer />
+
+===Enemies===
+*[[Ancient Healer]], [[Ancient Disruptor]], [[Toxic Ancient]] (swing attack), and [[Scorpion]]'s harpoon
+*[[Anti MOA]]'s, [[Amalgam Satyr]], [[Amalgam Swarm Satyr]], [[Ambulas]], [[Shockwave MOA]], [[Swarm-Mutalist MOA]], and [[Tar-Mutalist MOA]]'s [[Rippling Shockwave]]
+*[[Bombard]], [[Heavy Gunner]], and [[Napalm]]'s [[Seismic Shockwave]]
+*Bombard's [[AT Ogris]]
+*[[Hellion]]'s missiles
+*[[Leaper]]'s tackle
+*[[Shield Lancer]]'s shield
+*[[Mine Osprey]]
+*[[Bailiff]]'s charge
+*Blitz and Arson [[Eximus]] knockdown
+*[[Juggernaut]]'s slam attack
+
+==Sources of Knockdown Resistance==
+===Status Immunity===
+Any source of [[Status Effect#Status Immunity|Status Immunity]] will prevent knockdown. This includes [[Invulnerability]] and {{D|Overguard}}.
+{{Transclude|Status Effect#Sources of Status Immunity}}
+
+===Passives===
+{{#tag:tabber|
+Atlas =
+{{Transclude|Atlas/Abilities/Passive}}
+{{!}}-{{!}}
+
+Valkyr = 
+{{Transclude|Valkyr/Abilities/Passive}}
+{{!}}-{{!}}
+}}
+
+===Abilities===
+{{#tag:tabber|
+Garuda = 
+{{:Dread Mirror}}
+{{!}}-{{!}}
+
+Gauss =
+{{:Kinetic Plating}}
+{{!}}-{{!}}
+
+Yareli = 
+{{:Merulina}}
+{{!}}-{{!}}
+}}
+
+===Mods===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3">
+PrimedSureFootedMod.png|link=Primed Sure Footed|{{M|Primed Sure Footed}}
+SureFootedMod.png|link=Sure Footed|{{M|Sure Footed}}
+PowerDriftMod.png|link=Power Drift|{{M|Power Drift}}
+FortitudeMod.png|link=Fortitude|{{M|Fortitude}}
+MotusImpactMod.png|link=Motus Impact|{{M|Motus Impact}}
+MotusSetupMod.png|link=Motus Setup|{{M|Motus Setup}}
+MotusSignalMod.png|link=Motus Signal|{{M|Motus Signal}}
+ResoluteFocusMod.png|link=Resolute Focus|{{M|Resolute Focus}}
+HandspringMod.png|link=Handspring|{{M|Handspring|}}
+ConstitutionMod.png|link=Constitution|{{M|Constitution}}
+</gallery>
+
+===Miscellaneous===
+*{{Focus|Poise}}
+*{{Decree|Stable Stance}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43}}
+;Knockdown System Improvements
+
+*Knockdowns from enemies now use the same animations as the self-stagger system — meaning you’ll no longer be knocked straight on your back from a Grineer Heavy Gunner’s slam.
+*Increased the Knockdown recovery window from 70ms to 433ms.
+**Jumping or rolling during this window will allow you to recover from the knockdown more quickly. 
+*Warframes will now flash briefly if they have successfully recovered from a knockdown.
+
+{{ver|38.5.11}}
+*Fixed staggers and knockdowns causing temporary function loss for Yareli while on Merulina.
+
+{{ver|32}}
+*Increased recovery window for self-knockdowns and self-staggers.
+
+{{ver|27.2}}
+*(Undocumented) Removed the blocking animation that used to occur when resisting a knockdown.
+*(Undocumented) Knockdown resistance now also works against staggers.
+
+{{ver|9.4.1}}
+*Fixes for Constitution mod and Fortitude mod not working as intended.
+
+{{ver|9.0}}
+*Introduced
+}}
+
+{{DamageNav}}
+[[es:Derribo]]
+[[fr:Renversement]]
+[[ru:Опрокидывание]]
+[[Category:Mechanics]]
+[[Category:Status]]

@@ -1,15 +1,13 @@
 ---
 Estado: "referencia"
 Rol: "Contratos técnicos base del motor de simulación v2"
-Version: "v0.1.2"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-08-08"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
 Dependidos:
-  - "docs/domains/engine/design/simulation-roadmap.md"
 ---
 
 # OmniFrame Simulation Contracts
@@ -19,27 +17,20 @@ Este documento fija las definiciones conceptuales mínimas para `Entity`, `Attri
 ### Capa A: Intención (The Ensemble Store)
 - **Naturaleza**: Estado mutable del usuario que define el "Sistema de Sistemas".
 - **Responsabilidad**: Almacena los punteros de configuración de toda la build.
-- **Contrato (Ensemble)**:
+- **Contrato (`Scene`)** — SSoT en [`@shared/types/scene.ts`](../../../../Project/src/shared/types/scene.ts), que lleva el porqué de cada decisión de forma. Lo esencial:
   ```typescript
-  {
-    warframe: {
-      id: string,
-      rank: number,
-      slots: Record<number, Slot>, // Posicional (0-7 + Exilus + Aura)
-      shards: ArchonShard[],       // Mutaciones de ADN
-      helminth: { ability_id?: string, slot?: number, invigoration?: boolean }
-    },
-    weapons: {
-      primary: WeaponIntent,
-      secondary: WeaponIntent,
-      melee: WeaponIntent
-    },
-    focus: { school_id: string, nodes: string[] },
-    companion: { id: string, slots: Record<number, Slot> },
-    operator: { arcanes: string[] }
+  Scene {
+    squad: [PlayerIntent, PlayerIntent?, PlayerIntent?, PlayerIntent?]  // 4 = ley del juego; el 0 sos vos
+    hostile: HostileIntent[]
   }
+  PlayerIntent = onfoot | archwing | necramech        // unión discriminada
+  Bearer { uniqueName, rank?, mods?, arcanes? }       // lo montado vive ADENTRO del portador
   ```
-- **Regla de Oro**: El campo `slots` es **estrictamente posicional**. El motor de la Capa C procesa los slots en orden (0 -> N) para determinar la jerarquía de combinación elemental.
+  Las tres reglas que la sostienen: **la identidad es la posición** y sale de la estructura (nadie declara ids); **el portador contiene lo que se le monta** (mata el `mods.primary` que podía existir con el slot vacío); **lo imposible no se puede escribir** (un arma de compañero sin compañero es irrepresentable).
+
+  ⚠️ **No hay una segunda forma entre A y C.** Hubo un `Ensemble` intermedio que B construía; medido campo por campo no computaba nada —era un diccionario de sinónimos con cuatro campos muertos, entre ellos el `operator` y el `focus` que este documento llegó a especificar y que **nunca existieron en el código**. B pasa la `Scene` a los pobladores y entrega participantes (`MoldedIntent[]`), no una forma traducida.
+
+- **Regla de Oro**: la clave de `mods` es **estrictamente posicional**. El motor de la Capa C procesa los slots en orden (0 → N) para determinar la jerarquía de combinación elemental — por eso `assertSlotKeys` rechaza una clave que no sea índice entero: con una rota el orden queda indefinido y el emparejamiento de elementos sale plausible y falso.
 
 ---
 
@@ -78,18 +69,17 @@ Un nodo en el grafo que gestiona su propio valor acumulado mediante buckets segr
 - **Schema**:
   - `base`: Valor inicial (ADN).
   - `base_flat`: Suma fija a la base (ej: +900 Armor).
-  - `base_add_pct`: Escala de la base previa a mods.
   - `mods_add_pct`: Acumulador de mods (ej: +165%).
   - `total_flat`: Suma fija final.
   - `multiplicative`: Producto de multiplicadores.
-- **Fórmula de Resolución**: `((base + base_flat) * (1 + base_add_pct/100) * (1 + mods_add_pct/100) + total_flat) * multiplicative`.
+- **Fórmula de Resolución**: `((base + base_flat) * (1 + mods_add_pct/100) + total_flat) * multiplicative`.
 
 ### 5.3 El Modificador (Modifier)
 La instrucción que altera un Atributo.
 - **Source**: Entidad que lo origina (ej: Mod `Serration`).
-- **Target**: Atributo al que afecta (ej: `WEAPON_DAMAGE`).
-- **Operation**: `ADD` | `MUL` | `SET` | **`CONTEXT_SCALE`**.
-- **Context Link**: (Para `CONTEXT_SCALE`) Clave del contexto a consultar (ej: `target.uniqueStatusCount`) y multiplicador base.
+- **Target**: Atributo al que afecta (ej: `WEAPON_ADD_DAMAGE`).
+- **Operation**: discriminante de la union. **Acumulador** (`value` ES el efecto, la op ES el bucket): `ADD` | `ADD_FLAT` | `BASE_FLAT` | `MULTIPLICATIVE`. **Familia** (el efecto lo computa una fórmula desde el contexto, cada una con sus factores): `CONDITION_OVERLOAD` | `MELEE_COMBO_MULT` | `SNIPER_COMBO_MULT` | `COMBO_SCALED_ADD` | `STACK_DECAY_BUFF`.
+- **co_factors**: (Solo `CONDITION_OVERLOAD`) nombres de las dos dimensiones de contexto (`stacks_var`, `status_count_var`). El valor lo calcula `coBonusPct`; el bucket lo decide el `co_behavior` del ataque. Ver `arch-decisions.md §9`.
 - **Condition**: (Opcional) Contexto bajo el cual se activa.
 
 ### 5.4 El Contexto de Simulación (Simulation Context)
@@ -114,7 +104,7 @@ Es el entorno efímero inyectado en cada corrida de simulación.
 
 ### 5.5 La Proyección (Projection Snapshot)
 
-> **⚠️ Diseño mayormente NO implementado (2026-07-03).** El tipo `ProjectionSnapshot` fue **purgado** (2026-06-16, sin productor/consumidor). Hoy la salida cruda de C es `consume().snapshot(): SimulationEntity[]` (valores `final` + buckets por nodo); las métricas de combate viven en `CombatMetrics` (C2) y aún no fluyen a un contrato único (deuda, `OQ-ENGINE-8`). El **Differential Timeline Stream**, las **Area Metrics** y la **capa de Diagnostics rica** de abajo son **diseño futuro**, no código actual. El modelo de daño/status de C2 se aterrizó en [`damage-status-model.md`](damage-status-model.md).
+> **⚠️ Diseño mayormente NO implementado.** El tipo `ProjectionSnapshot` fue **purgado** (sin productor/consumidor). Hoy la salida cruda de C es `consume().snapshot(): SimulationEntity[]` (valores `final` + buckets por nodo); las métricas de combate fluyen al contrato único ya cristalizado `CombatMetrics` (`output/combat-metrics.ts`, particionado `target_agnostic`/`vs_target` — `DC-OQ-ENGINE-8`). El **Differential Timeline Stream**, las **Area Metrics** y la **capa de Diagnostics rica** de abajo son **diseño futuro**, no código actual. El modelo de daño/status de C2 se aterrizó en [`damage-status-model.md`](damage-status-model.md).
 
 El reporte final serializable generado tras el `Resolve`. Es lo que la UI consume para pintar.
 
@@ -148,7 +138,7 @@ El reporte final serializable generado tras el `Resolve`. Es lo que la UI consum
 
 ## 6. Diagnóstico Detallado (The Traceability Contract)
 
-> **⚠️ Renombrado + parcialmente implementado (2026-07-03):** los tipos `AuditStep`/`AuditResponse`/`audit_session` se renombraron a **`TraceStep`/`TraceResponse`/`trace_log`** (Fase 3 saneamiento — "trace" describe *qué es*, no *quién lo consume*). El trace es **opt-in** (`enableTrace()`/`getTrace()`), no siempre-on. El `AuditQuery` con `filter` (§6.2) **no está implementado** — `getTrace()` devuelve la traza completa. Los nombres de abajo son el diseño original; el código usa `Trace*`.
+> **⚠️ Renombrado + parcialmente implementado:** los tipos `AuditStep`/`AuditResponse`/`audit_session` se renombraron a **`TraceStep`/`TraceResponse`/`trace_log`** (Fase 3 saneamiento — "trace" describe *qué es*, no *quién lo consume*). El trace es **opt-in** (`enableTrace()`/`getTrace()`), no siempre-on. El `AuditQuery` con `filter` (§6.2) **no está implementado** — `getTrace()` devuelve la traza completa. Los nombres de abajo son el diseño original; el código usa `Trace*`.
 
 Cada atributo en la proyección puede opcionalmente incluir un `TraceNode` o ser consultado vía una `AuditSession`:
 
@@ -159,9 +149,9 @@ interface TraceNode {
   final_value: number;
   steps: {
     source: string; // "Mod:Serration", "Arcane:Fury", "DNA:Base"
-    bucket: "base" | "base_flat" | "base_add_pct" | "mods_add_pct" | "total_flat" | "multiplicative";
+    bucket: "base" | "base_flat" | "mods_add_pct" | "total_flat" | "multiplicative";
     value: number;
-    op: "ADD" | "MUL" | "SET";
+    op: "ADD" | "MUL";
   }[];
 }
 ```
@@ -196,7 +186,7 @@ interface AuditResponse {
 ```
 
 ### 6.3 La Trinidad del Arsenal (Contextos de Uso)
-El motor debe ser agnóstico a la UI. `EnsembleAdapter` eliminado (OQ-STATE-4, 2026-05-19) — lógica absorbida por `MutatorBridge`. Los tres flujos que debe garantizar `MutatorBridge`:
+El motor debe ser agnóstico a la UI. `EnsembleAdapter` eliminado (`DC-OQ-STATE-4`) — lógica absorbida por `MutatorBridge`. Los tres flujos que debe garantizar `MutatorBridge`:
 1. **Arsenal (Equipado)**: Sincronización bidireccional con el estado persistente del usuario.
 2. **Swap (Intercambio)**: Proyección efímera comparativa (Ensemble Actual vs Ensemble con Cambio).
 3. **Upgrade (Builder/Overframe)**: Manipulación total de slots y variables de contexto para optimización.

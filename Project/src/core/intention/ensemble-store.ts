@@ -1,6 +1,6 @@
 import {
   type EnsembleIntention,
-  type EnsembleChannel,
+  type EquipmentChannel,
   type ModIntention,
   type ArcaneIntention,
   type ArchonShardIntent,
@@ -50,7 +50,7 @@ class EnsembleStore {
   /**
    * Equipar/Desequipar un item en un canal específico.
    */
-  setItem(channel: EnsembleChannel, itemId: string | null) {
+  setItem(channel: EquipmentChannel, itemId: string | null) {
     if (!channel) {
       console.error("[EnsembleStore] Intento de setItem sin canal.");
       return;
@@ -74,7 +74,7 @@ class EnsembleStore {
   /**
    * Actualizar el rango de un item.
    */
-  setItemRank(channel: EnsembleChannel, rank: number) {
+  setItemRank(channel: EquipmentChannel, rank: number) {
     if (this.state.items[channel].rank === rank) return;
 
     this.state = {
@@ -167,7 +167,7 @@ class EnsembleStore {
   /**
    * Selecciona o deselecciona un perk de evolución incarnon en un tier específico.
    */
-  setEvolutionPerk(channel: EnsembleChannel, tier: number, perkId: string | null) {
+  setEvolutionPerk(channel: EquipmentChannel, tier: number, perkId: string | null) {
     const current = this.state.items[channel];
     const currentPerks = { ...(current.evolution_perks ?? {}) };
 
@@ -190,7 +190,7 @@ class EnsembleStore {
   /**
    * Cambia el perfil activo de un canal (ej: 'base' | 'incarnon_form').
    */
-  setActiveProfile(channel: EnsembleChannel, profileId: string) {
+  setActiveProfile(channel: EquipmentChannel, profileId: string) {
     const current = this.state.items[channel];
     if (current.active_profile === profileId) return;
 

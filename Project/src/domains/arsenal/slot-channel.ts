@@ -8,10 +8,10 @@
  * un consumidor que se arme su propio mapa diverge (drift) — fue el bug del
  * channel routing de UpgradeView, cerrado al centralizar acá.
  */
-import type { EnsembleChannel } from "@shared/types/ensemble";
+import type { EquipmentChannel } from "@shared/types/ensemble";
 
 export interface SlotChannelConfig {
-  channel: EnsembleChannel;
+  channel: EquipmentChannel;
   domain: string;
 }
 

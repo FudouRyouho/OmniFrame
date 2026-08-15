@@ -1,0 +1,155 @@
+{{ModBox}}
+'''Manifold Bond''' is a [[Robotic]] [[Companion]] [[mod]] that allows the companion's abilities to inflict [[Status Effect]]s from their equipped weapon. In addition, killing enemies afflicted by a certain number of status effects will reduce the cooldown of the companion's abilities.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Required Status Effects
+! Cooldown Reduction
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || 6+ || -0.5s || 4
+|-
+| 1 || 5+ || -1s || 5
+|-
+| 2 || 5+ || -1.5s || 6
+|-
+| 3 || 4+ || -2s || 7
+|-
+| 4 || 4+ || -2.5s || 8
+|-
+| 5 || 3+ || -3s || 9
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[Master Teasonai]] for {{sc|20,000}} after reaching '''Rank 3 - Trusted''' with the [[Ostron]]s.
+
+
+== Notes ==
+
+* Companion Ability cooldown reduction can be triggered by the player or companion killing enemies affected by 3 or more unique Status Effects.
+* When a Companion uses a Precept that hits an enemy, all [[Damage#Damage_Types|Damage Types]], modded or innate, are inflicted as Status Effects on the enemy at one stack.
+** For example, a MOA is equipped with {{M|Shockwave Actuators}} and a {{Weapon|Deth Machine Rifle}} modded for {{D|Gas}} and {{D|Cold}}. When it uses Shockwave Actuators, all enemies hit by the shockwave are inflicted with one stack of {{D|Gas}}, {{D|Cold}}, {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}}.
+** Only whether an element is on the weapon is taken into account, not weighting or status duration. Mods such as {{M|Lasting Sting}} have no effect.
+** Elements generated via {{M|Momentous Bond}} will also apply to Companion Precepts.
+* Requires Precepts to deal damage or apply status in order to trigger the companion weapon's status effects - this excludes Precepts that affect enemies in other ways, such as {{M|Cordon}}, while Precepts with delayed damage such as {{M|Fatal Attraction}} or {{M|Anti-Grav Grenade}} will likewise only trigger status application on the damage instance.
+** Not all damaging Precepts mention dealing any damaging hits in their descriptions; these include {{M|Whiplash Mine}}, {{M|Shockwave Actuators}}, and {{M|Repo Audit}}.
+** Precepts that apply innate status without dealing damage include {{M|Coolant Leak}} and {{M|Electro Pulse}}.
+* Applied status effects that can deal damage are not affected by mods or the base damage of the companion weapon. They will deal 1 damage per damage tick.
+** Due to the [[Heat_Damage#Heat_Inherit|Heat Inherit]] mechanic, when utilizing Heat based weaponry, it is not recommended to mod {{D|Heat}} on your companion weapon as to avoid lowering your Heat DoT output if your companion precepts inflict Heat before you.
+*** This may be beneficial when using {{M|Contagious Bond}} because if the first heat proc is from a companion all subsequent heat procs will be counted as damage from that companion.
+*** However, despite only adding{{D|Heat}} damage of weapon hits, the increased {{D|Heat}} from {{M|Fired Up}} can be [[Heat Inherit|Heat Inherited]] from applied procs from abilities.
+** [[Faction Damage Mods]] are still applied once if applied on a target with a heat proc from Manifold Bond
+* Works with every hit of [[Eximus]] auras copied by {{M|Null Audit}}.
+* The cooldown reduction of companion abilities does '''not''' include:
+** The cooldown on cloaking on {{M|Ghost}} from {{Companion|Shade}}.
+* Manifold Bond will trigger on {{WF|Wisp}} {{A|Reservoirs}} Shock Mote.
+
+== Compatible Mods ==
+
+The following is a list of companion precepts that inflict Status Effects with {{PAGENAME}} equipped.
+
+{| class="wikitable" style="width:40%;"
+|+
+! Companion
+! Mods
+|-
+| style="text-align:center" | All
+|
+* {{M|Coolant Leak}}
+|-
+| style="text-align:center" | {{Companion|Dethcube}}
+|
+* {{M|Vaporize}}
+|-
+| style="text-align:center" | {{Companion|Diriga}}
+|
+* {{M|Arc Coil}}
+* {{M|Electro Pulse}}
+|-
+| style="text-align:center" | {{Companion|Djinn}}
+|
+* {{M|Fatal Attraction}}
+|-
+| style="text-align:center" | {{Companion|Taxon}}
+|
+* {{M|Molecular Conversion}}
+|-
+| style="text-align:center" | {{Companion|Wyrm}}
+|
+* {{M|Crowd Dispersion}}
+|-
+| style="text-align:center" | [[Hound_(Companion)|Hound]]
+|
+* {{M|Aerial Prospectus}}
+* {{M|Equilibrium Audit}}
+* {{M|Focused Prospectus}}
+* {{M|Null Audit}}<ref>Only applies to the damage dealt by the stolen eximus aura. Does not apply to stolen Energy Leech or Arctic Eximus auras.</ref>
+* {{M|Reflex Denial}}
+* {{M|Repo Audit}}
+* {{M|Synergized Prospectus}}
+|-
+| style="text-align:center" | [[MOA (Companion)|MOA]]
+|
+* {{M|Anti-Grav Grenade}}
+* {{M|Blast Shield}}
+* {{M|Shockwave Actuators}}
+|-
+| style="text-align:center" | [[Sentinel]]
+|
+* {{M|Self Destruct}}
+|}
+
+==Bugs==
+*Impact status effect may not be inflicted even if it is present on the Companion's weapon.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|37}}
+;Changes to Companion Precepts
+
+Many Companion Precept effects are currently too small or too brief to be really beneficial. We want your choice of companion to feel more meaningful and for your Companion to contribute in a more visible way, so there are a whole lot of buffs to get through.
+
+*Negate (WYRM Sentinel): 
+**Allowed Manifold Bond's cooldown reduction to apply to Negate's cooldown timer
+
+{{ver|36.0.3}}
+*Fixed Manifold Bond triggering from Status damage instead of from killing enemies as intended. 
+
+{{ver|35.5.2}}
+*Fixed a script error occurring from a combination of the Manifold Bond and Electro Pulse Mods.
+
+{{ver|34.0.7}}
+*The following Companion Precept Mods now benefit from Manifold Bond: 
+**Diriga’s Electro Pulse 
+**Djinn’s Fatal Attraction 
+**''The ability cooldown effect from Manifold Bond already applied to Fatal Attraction, but not its Status Effect application to Companion weapons, so now it properly and wholly benefits from the Mod.''
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+
+{{ver|34.0.1}}
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Robotic Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]
+
+[[fr:Lien Multiple]]
+[[ru:Разнородная Связь]]

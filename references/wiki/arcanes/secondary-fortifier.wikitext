@@ -1,0 +1,73 @@
+{{ArcaneBox}}
+'''Secondary Fortifier''' is a [[Arcane Enhancement|Secondary Arcane]] that steals '''1''' point of {{D|Overguard}} per '''100''' damage and deals increased damage to {{D|Overguard}}.
+
+==Effect==
+{| class="emodtable"
+|-
+!Rank
+!Overguard Damage Buff
+|-
+|0
+|x3
+|-
+|1
+|x4
+|-
+|2
+|x5
+|-
+|3
+|x6
+|-
+|4
+|x7
+|-
+|5
+|x8
+|-
+|}
+
+{{Acquisition|*Secondary Fortifier can be obtained from [[Ascension]]'s optional [[Sisters of Parvos (Ascension Mode)|Sister of Parvos]], summoned by acquiring 3 Sister Beacons during the elevator ride. 
+*Purchaseable from [[Ordis]] in the [[Drifter's Camp]] for 10 {{Resource|Vestigial Motes}}, for a total of 210 for max rank.
+*Possible reward from [[Bounty#Deepmines Bounties|Deepmines Bounties]] from [[Nightcap]].
+*Purchaseable from [[Nightcap]] in [[Fortuna]] at '''Rank 3: Seeker''', for 10 {{Resource|Fergolyte}} each, with a total of 210 for max rank.}}
+
+==Notes==
+*{{D|Overguard}} cap is '''15,000''' at all ranks.
+*[[DoT]]s will also steal {{D|Overguard}}, [[AoE]] DoTs (e.g. {{D|Electricity}}, {{D|Gas}}) and weapons (e.g. {{Weapon|Aegrit}}) are great at improving crowd control over [[Eximus]].
+*The {{D|Overguard}} steal effect can be "[[Heat Inherit|inherited]]" if the first source of {{D|Heat}} status applied to an enemy was from a secondary with this Arcane active.
+**Extra damage to {{D|Overguard}} is not inheritable and is dynamically applied, so the effect is lost entirely after depleting the {{D|Overguard}} from an enemy.
+*Since {{D|Overguard}}'s immunity period is 0.5 seconds, any secondary with a firing rate >2.0 can maintain functional immortality as long as you can keep firing and there's overguard to steal.
+**This can be accomplished with {{Weapon|Grimoire}} and {{M|Lethal Torrent}} by providing a 2.4 Fire Rate with its infinite ammo.
+
+==Bugs==
+*Damage dealt during {{WF|Hildryn}}'s {{A|Aegis Storm}} can steal {{D|Overguard}} at the end of the ability.
+*{{WF|Mirage}}'s {{A|Hall of Mirrors}} ability doesn't activate Secondary Fortifier, but seems to take priority making you receive zero {{D|Overguard}} whilst the ability is active.
+*Damage dealt by [[Aim Glide]] and [[Bullet Jump]] can steal {{D|Overguard}}.
+*Damage dealt by dying {{E|Arbitration Shield Drone}}s can steal {{D|Overguard}}.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|40}}
+*Trade in Fergolyte rewarded from completing Deepmines Bounties for wares offered by Nightcap! Access to items requires you unlock Nightcap’s Ranks, which is done by making progress in the Field Guide.
+**Rank 3: Seeker
+***Arcanes
+****Secondary Fortifier 
+*Completing Deepmines Bounties has a chance to reward the following items: 
+**Arcanes:
+***Secondary Fortifier
+*The following Arcane Collections are now available for Vosfor in Loid’s Arcane Dissolution: 
+**Cavia Arcane Collection (includes the Cavia and Ascension Arcanes) 
+***Secondary Fortifier
+
+{{ver|36.0.2}}
+*Fixed the Secondary Fortifier Arcane overwriting existing Overguard values if they are over the Arcane’s 15k cap.
+
+{{ver|36}}
+*Introduced.
+}}
+
+{{ArcaneNav}}
+[[es:Fortificador secundario]]
+[[Category:Ascension Arcanes]]
+[[fr:Fortifiant Secondaire]]

@@ -1,0 +1,192 @@
+{{Infobox
+| Box title=Sniper Rifle
+| image=RubicoPrimeLevel1Zoom.jpg 
+| caption=Sample zoom UI with [[Rubico Prime]]
+}}
+'''Sniper Rifles''' (referred to in-game as '''Precision Rifles''') are a type of [[:category:Primary Weapons|Primary Weapon]] designed to fire high-damage shots with high accuracy at very long ranges.
+
+==Characteristics==
+The primary feature of Sniper Rifles is their sniper scopes, which allows them to [[zoom]] in further than other ranged weapons when aiming (default {{Keybind|RMB}}), allowing for precise shots when firing at long range. Sniper Rifles can adjust the magnification of their zoom by tapping the alt fire key (default {{Keybind|MMB}}), making it cycle between zoom levels. The current zoom level and final zoom magnification are displayed on the right side of the scope while a rangefinder indicating distance to the target is displayed on the left side.
+
+===Zoom Buffs===
+Each zoom level also has a corresponding buff to one of the Sniper Rifle's stats, with higher magnifications granting greater bonuses, though leading to a corresponding decrease in field of view. The type of buff granted, which is displayed just below the current zoom magnification, is dependent upon the individual model of Sniper Rifle, ranging from increased [[critical chance]], [[critical multiplier]], or [[Enemy Body Parts|headshot damage]]. These zoom buffs, which are intrinsic to the weapon and cannot be modified, generally stack additively with similar buffs from [[mods]]. (The zoom bonuses of the {{Weapon|Lanka}} and {{Weapon|Komorex}} are exceptions to the rule.)
+
+===Shot Combo Counter===
+Another feature unique to Sniper Rifles as ranged weapons is their '''Shot Combo Counter''', which gives them a bonus to their total damage if they successfully hit their shots multiple times in succession (affected by [[Multishot]] mods). Each Sniper Rifle requires a minimum number of shots, referred to as ''Minimum Combo'', before the Shot Combo Counter activates, starting with a damage bonus of 1.5x. Another 0.5x damage is added to the counter each time the Shot Combo Counter reaches a number of hits three times the amount needed for the previous damage bonus milestone (for example, a Sniper Rifle with a Minimum Combo of 4 would require 4/12/36/108/324/... combo for a 1.5x/2.0x/2.5x/3.0x/3.5x/... damage multiplier). While a shot combo is active, the current combo count and damage multiplier (if combo count is at least Minimum Combo) is displayed below the aiming reticle while zoomed in.
+
+<math>
+{
+\begin{aligned}
+\text{Combo Required} &= \text{Minimum Combo} \times 3^{ [ 2(\text{Damage Multiplier}) - 3 ] }
+\end{aligned}
+}
+</math>
+::''Formula for determining minimum combo required to reach a certain damage multiplier from shot combo counter.''
+
+<math>
+{
+\begin{aligned}
+\text{Damage Multiplier} &= 1.5 + 0.5 \lfloor \log_3(\frac{\text{Combo Count} }{\text{Minimum Combo}}) \rfloor
+\end{aligned}
+}
+</math>
+
+::''Approximate formula for determining resultant damage multiplier from shot combo counter depending on minimum shot counter.''
+<!-- Continuous function \frac{ \ln \frac{27 \times \text{Combo Count} }{ \text{Minimum Combo} } }{ 2\ln3 } -->
+
+The Shot Combo Counter takes into account successful multiple hits achieved via [[Punch Through]], [[ricochet]], and weapons with [[Multishot]] will count each successful hit from the same shot as multiple shot instances, ex. if two bullets from a single Multishot hit the same target, then the Shot Combo Counter will register that as two hits. The Shot Combo Counter will be reduced by 1 after a short period of time that no successful hits have been made, or if the player misses a shot. All sniper rifles have a '''2''' second combo duration, with the exception of the {{Weapon|Lanka}}, which has a '''6''' second combo duration. This duration can only be extended with {{M|Harkonar Scope}}.
+
+* Area-of-effect and damage over time do not affect the Shot Combo Counter.
+* Building combo and benefiting from its multiplier requires being scoped in.
+** The exception is {{A|Collective Curse}}, which considers linked damage as scoped sniper shots.
+
+==Sniper Rifles==
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+Komorex.png|{{Weapon|Komorex}}|alt=Komorex
+Lanka.png|{{Weapon|Lanka}}|alt=Lanka
+Perigale.png|{{Weapon|Perigale}}|alt=Perigale
+PerigalePrime.png|{{Weapon|Perigale Prime}}|alt=Perigale Prime
+Rubico.png|{{Weapon|Rubico}}|alt=Rubico
+RubicoPrime.png|{{Weapon|Rubico Prime}}|alt=Rubico Prime
+Snipetron.png|{{Weapon|Snipetron}}|alt=Snipetron
+SnipetronVandal.png|{{Weapon|Snipetron Vandal}}|alt=Snipetron Vandal
+Sporothrix.png|{{Weapon|Sporothrix}}|alt=Sporothrix
+CodaSporothrix.png|{{Weapon|Coda Sporothrix}}|alt=Coda Sporothrix
+VadaryaPrime.png|{{Weapon|Vadarya Prime}}|alt=Vadarya Prime
+Vectis.png|{{Weapon|Vectis}}|alt=Vectis
+VectisPrime.png|{{Weapon|Vectis Prime}}|alt=Vectis Prime
+Vulkar.png|{{Weapon|Vulkar}}|alt=Vulkar
+VulkarWraith.png|{{Weapon|Vulkar Wraith}}|alt=Vulkar Wraith
+</gallery>
+
+{{GunCategory|Primary|Sniper Rifle}}
+
+==Zoom and Minimum Combo Stats==
+{| class="wikitable sortable" style="text-align: center;"
+|-
+!Sniper Rifle
+!Zoom Level
+!Buff
+!Minimum Combo
+|-
+| colspan="1" rowspan="2" |{{Weapon|Komorex}}
+| data-sort-value="2.0" | 2.0x
+| data-sort-value="1" | -50% Recoil, +2m [[Punch Through]]
+| colspan="1" rowspan="2" data-sort-value="5" | 5 shots
+|-
+| data-sort-value="3.5" | 3.5x
+| data-sort-value="2" | +100% Damage, +3m Explosion Radius, -75% Fire Rate
+|-
+| colspan="1" rowspan="3" |{{Weapon|Lanka}}
+| data-sort-value="3" | 3x
+| data-sort-value="20" | +20% Critical Chance
+| colspan="1" rowspan="3" data-sort-value="2" | 2 shots
+|-
+| data-sort-value="5" | 5x
+| data-sort-value="30" | +30% Critical Chance
+|-
+| data-sort-value="8" | 8x
+| data-sort-value="50" | +50% Critical Chance
+|-
+| colspan="1" rowspan="2" |{{Weapon|Perigale}}<br />{{Weapon|Perigale Prime}}
+| data-sort-value="2" | 2x
+| data-sort-value="1" | +20% Critical Multiplier
+| colspan="1" rowspan="2" data-sort-value="1" | 1 shot
+|-
+| data-sort-value="4" | 4x
+| data-sort-value="2" | +40% Critical Multiplier
+|-
+| colspan="1" rowspan="2" |{{Weapon|Rubico}}
+| data-sort-value="3.5" | 3.5x
+| data-sort-value="1" | +35% Critical Multiplier
+| colspan="1" rowspan="2" data-sort-value="1" | 1 shot
+|-
+| data-sort-value="6" | 6x
+| data-sort-value="2" | +50% Critical Multiplier
+|-
+| colspan="1" rowspan="2" |{{Weapon|Rubico Prime}}
+| data-sort-value="2.5" | 2.5x
+| data-sort-value="1" | +35% Critical Multiplier
+| colspan="1" rowspan="2" data-sort-value="1" | 1 shot
+|-
+| data-sort-value="5" | 5.0x
+| data-sort-value="2" | +50% Critical Multiplier
+|-
+| colspan="1" rowspan="2" |{{Weapon|Snipetron}}<br />{{Weapon|Snipetron Vandal}}
+| data-sort-value="2.5" | 2.5x
+| data-sort-value="1" | +30% Headshot Damage
+| colspan="1" rowspan="2" data-sort-value="3" | 3 shots
+|-
+| data-sort-value="6" | 6x
+| data-sort-value="2" | +50% Headshot Damage
+|-
+| colspan="1" |{{Weapon|Sporothrix}}<br />{{Weapon|Coda Sporothrix}}
+| data-sort-value="2.7" | 2.7x
+| data-sort-value="1" | +50% Headshot Damage
+| colspan="1" rowspan="1" data-sort-value="1" | 1 shot
+|-
+| colspan="1" rowspan="2" |{{Weapon|Vadarya Prime}}
+| data-sort-value="2.5" | 2.5x
+| data-sort-value="1" | N/A
+| colspan="1" rowspan="2" data-sort-value="3" | 3 shots
+|-
+| data-sort-value="8" | 8x
+| data-sort-value="2" | +50% Critical Multiplier
+|-
+| colspan="1" rowspan="2" |{{Weapon|Vectis}}
+| data-sort-value="3" | 3x
+| data-sort-value="1" | +30% Headshot Damage
+| colspan="1" rowspan="2" data-sort-value="1" | 1 shot
+|-
+| data-sort-value="4.5" | 4.5x
+| data-sort-value="2" | +50% Headshot Damage
+|-
+| colspan="1" rowspan="2" |{{Weapon|Vectis Prime}}
+| data-sort-value="3.5" | 3.5x
+| data-sort-value="1" | +40% Headshot Damage
+| colspan="1" rowspan="2" data-sort-value="5" | 5 shots
+|-
+| data-sort-value="6" | 6x
+| data-sort-value="2" | +60% Headshot Damage
+|-
+| colspan="1" rowspan="3" |{{Weapon|Vulkar}}<br />{{Weapon|Vulkar Wraith}}
+| data-sort-value="2.5" | 2.5x
+| data-sort-value="1" | +35% Headshot Damage
+| colspan="1" rowspan="3" data-sort-value="2" | 2 shots
+|-
+| data-sort-value="4" | 4x
+| data-sort-value="2" | +55% Headshot Damage
+|-
+| data-sort-value="8" | 8x
+| data-sort-value="3" | +70% Headshot Damage
+|}
+
+==List of Sniper Mods==
+In addition to being able to equip [[Rifle Mods]], [[Primary Mods]] and any applicable weapon-specific mods, all Sniper Rifles can be upgraded with the following [[Sniper Mods]]:
+
+{{Transclude|Sniper Mods#List of Sniper Mods}}
+
+==Trivia==
+
+* The max combo count is [[wikipedia:4,294,967,295|4,294,967,295]] which is the maximum value for [[wikipedia:Integer (computer science)|32-bit unsigned integer]].
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|27.4}}
+*Added a ‘click’ sound when cycling through zoom options with Sniper Rifles.
+
+{{ver|22}}
+*Reticle sway removed from all zoom levels!
+*1 meter punch through added to all snipers without any to start with (snipers with innate punch through unchanged).
+*1 combo count removed at a time when duration runs out instead of all of them (decay vs. cooldown).
+*1 combo count removed on miss instead of all of them.
+*Additional bullets from multishot will each count as their own hits and misses in the combo counter.
+*Combo duration reduced to 2 seconds for all snipers apart from Lanka which is reduced to 6.
+*Damage fall off begins at 400 meters and ends at 600 meters with damage reduced to 50% past 600 meters.
+*All trace fire weapons trace distance reduced to 300m apart from Sniper Rifles which stay at 1000m.
+}}
+
+{{WeaponNav}}
+[[es:Rifle de francotirador]]
+[[Category:Weapons]]
+[[Category:Sniper Rifle]]

@@ -1,0 +1,230 @@
+{{Community}}
+{{Infobox
+| Box title=Universal Weapon Bonuses
+| image=HolsterAmpMod.png
+| caption=''Holster Amp,'' one of the mods that grants a universal weapon damage buff.
+}}
+
+While most buffs in [[WARFRAME]] only apply to the [[Warframe]] or to a certain category of [[weapons]], '''Universal Bonuses''' are special in that they apply to a broad variety of weapons. They affect almost all ranged weapons, including all [[Primary Weapon|primary]] and [[Pistol|secondary weapons]], some [[melee]] weapon projectiles, and even a small selection of Warframe abilities (usually ones that are [[projectile]]-based). These affected abilities are often referred to as "Weapon Damage Abilities," as the game treats them like weapons for the purposes of which buffs they are eligible for.
+
+==Sources of Universal Bonuses==
+
+===Damage===
+{{Main|Damage}}
+Sometimes these sources explicitly mention "Weapon Damage":
+* {{Arcane|Arcane Arachne}} - '''150%''' (does not work with "normal" melee attacks)
+* {{M|Holster Amp}} - '''60%''' per squadmate with the mod equipped
+* {{M|Provoked}} - '''110%'''
+* {{M|Vigorous Swap}} - '''165%'''
+* {{Focus|Naramon}}'s {{Focus|Lethal Levitation}} - Up to '''200%'''
+* {{WF|Chroma}}'s {{A|Elemental Ward|Toxin Elemental Ward}} - {{Stat|Ability Strength|icon=only}}'''35%'''
+* {{WF|Chroma}}'s {{A|Vex Armor}} - {{Stat|Ability Strength|icon=only}}'''275%'''
+* {{WF|Equinox}}'s {{A|Metamorphosis}} Day Form swap - {{Stat|Ability Strength|icon=only}}'''25%''' (decays over its duration)
+* {{WF|Jade}}'s {{A|Symphony of Mercy|Deathbringer}} - {{Stat|Ability Strength|icon=only}}'''100%'''
+* {{WF|Limbo}}'s {{A|Rift Surge}} with the {{M|Rift Torrent}} augment - {{Stat|Ability Strength|icon=only}}'''30%''' per affected enemy
+* {{WF|Mesa}}'s {{A|Shooting Gallery}} - {{Stat|Ability Strength|icon=only}}'''25%'''
+* {{WF|Nyx}}'s {{A|Absorb}} deactivation buff - Up to '''400%''' based on absorbed damage
+* {{WF|Octavia}}'s {{A|Amp}} - {{Stat|Ability Strength|icon=only}}'''25% - {{Stat|Ability Strength|icon=only}}200%''' based on environmental sound level
+
+===Punch Through===
+{{Main|Punch Through}}
+* {{WF|Cyte-09}}'s {{A|Seek}} - {{Stat|Ability Range|icon=only}}'''10m'''
+* {{WF|Qorvex}}'s Passive - '''3m'''
+
+===Critical Chance===
+{{Main|Critical Chance}}
+Abilities affected by universal critical chance often have a base critical chance of 0%, and so will not always be affected by sources of crit that are not "flat". Because of this, many abilities will only be affected by absolute sources of crit such as {{Arcane|Arcane Avenger}}.
+
+====Absolute Critical Chance====
+* {{Arcane|Arcane Avenger}} - '''45%'''
+* {{Companion|Smeeta Kavat}}'s {{M|Charm}} - '''200%'''
+** {{Companion|Adarza Kavat}}'s {{M|Cat's Eye}} does '''not''' work, however.
+* {{WF|Harrow}}'s {{A|Covenant}} - Up to '''50%''' ('''200%''' on [[headshot]]s)
+** Both the headshot crit and the normal crit apply to abilities affected by universal boosts, depending on where the ability hits.
+
+====Modded Critical Chance====
+* {{Arcane|Arcane Hot Shot}} - Up to '''300%'''
+** Does not apply to {{A|Breach Surge}}, but does apply to {{A|Minelayer|Flechette Orb}}.
+* {{WF|Frost}}'s {{M|Biting Frost}} Augment - '''200%'''
+
+====Weakpoint Critical Chance====
+* {{M|Worthy Comradery}} - '''75%''' per squadmate with the mod equipped
+* {{WF|Cyte-09}}'s Passive - Up to '''300%'''
+
+===Critical Damage===
+{{Main|Critical Damage}}
+
+====Absolute Critical Damage====
+Universal Absolute Crit Damage does not apply to any of {{WF|Gyre}}'s abilities. 
+* {{Arcane|Arcane Crepuscular}} - '''+3.0x''' multiplier
+* {{M|Tenacious Bond}} - '''+1.2x''' multiplier
+** Does not apply to {{A|Breach Surge}}.
+
+====Modded Critical Damage====
+* {{M|Tek Collateral}} - '''100%'''
+* {{WF|Dagath}}'s {{A|Grave Spirit}} - {{Stat|Ability Strength|icon=only}}'''50%'''
+* {{WF|Frost}}'s {{M|Biting Frost}} Augment - '''200%'''
+* {{WF|Ivara}}'s {{M|Empowered Quiver}} Augment - {{Stat|Ability Strength|icon=only}}'''100%'''
+
+===Elemental Damage===
+While many [[Warframe Augment Mods]] will give the user an elemental damage buff, such as {{M|Fireball Frenzy}}, most ability augments that provide an elemental damage buff apply to neither exalted weapons nor Universal buff-able abilities such as the ones on this page. 
+
+====Any====
+* {{WF|Lavos}}'s {{M|Valence Formation}} - '''200%'''
+** Also increases DoT damage by '''200%''' for the selected element (if applicable), due to how elemental damage increases DoT damage. This DoT damage increase applies to any source of status application.
+
+====Viral====
+* {{WF|Grendel}}'s {{A|Nourish}} - {{Stat|Ability Strength|icon=only}}'''75%''' ({{Stat|Ability Strength|icon=only}}'''45%''' on the subsumed version)
+
+====Corrosive====
+* {{WF|Hydroid}}'s {{A|Plunder}} - Up to {{Stat|Ability Strength|icon=only}}'''200%'''
+
+===Status Chance===
+{{Main|Status Chance}}
+Status chance bonuses only work on abilities with actual status chance. Guaranteed status procs are '''not''' increased.
+* {{WF|Citrine}}'s {{A|Prismatic Gem}} - {{Stat|Ability Strength|icon=only}}'''100%'''
+** Despite gaining the status chance bonus like a weapon would, affected abilities still '''cannot''' trigger prismatic beam attacks like a weapon can.
+* '''Vazarin Initiative Buff''' (only in [[The Perita Rebellion]]) - '''25%''' per completed Order
+
+===Status Duration===
+* {{WF|Ash}}'s Passive - '''50%''' (slash procs only)
+* {{WF|Citrine}}'s {{A|Prismatic Gem}} - {{Stat|Ability Duration|icon=only}}'''100%'''
+* {{WF|Lavos}}'s Passive - {{Stat|Ability Duration|icon=only}}'''100%'''
+* {{WF|Saryn}}'s Passive - '''25%'''
+* {{Weapon|Harmony}}'s Harmonic Resonance - '''30%''' for '''30''' seconds to all allies within [[Affinity Range]] on heavy attack kill.
+
+===Other Bonuses===
+
+====Faction Damage Bonus====
+{{Main|Faction Damage Bonus}}
+Bonuses which apply like [[Faction Damage Mods]], giving a total damage multiplier which also applies twice to status effect damage. These bonuses stack additively with faction damage mods.
+* {{WF|Rhino}}'s {{A|Roar}}'s - {{Stat|Ability Strength|icon=only}}'''50%''' ({{Stat|Ability Strength|icon=only}}'''30%''' for the subsumed version)
+** Roar applies to all ability damage, even outside of ones that can receive Universal bonuses. 
+* [[True Master's Font]] Damage Blessing - '''25%'''
+
+====Damage Multipliers====
+All sources are multiplicative to each other and to base damage bonuses, unless stated otherwise.
+* {{WF|Garuda}}'s Passive - Up to '''100%'''
+* {{WF|Mirage}}'s {{A|Eclipse}} - {{Stat|Ability Strength|icon=only}}'''200%''' ({{Stat|Ability Strength|icon=only}}'''30%''' for the subsumed version)
+* {{WF|Nidus}}'s {{A|Parasitic Link}} - {{Stat|Ability Strength|icon=only}}'''25%'''
+** Also gives a {{Stat|Ability Strength|icon=only}}'''25%''' multiplier to Ability Strength, further increasing the damage of most weapon damage abilities.
+* {{WF|Vauban}}'s Passive - '''25%'''
+* {{WF|Vauban}}'s {{A|Minelayer|Overdriver}} - {{Stat|Ability Strength|icon=only}}'''25%'''
+* {{WF|Ivara}}'s {{A|Navigator}} Damage Multiplier - {{Stat|Ability Strength|icon=only}}'''5x'''
+** Works by assuming control of already airborne projectiles. Will not work if you press Navigator First and ''then'' activate the projectile. Does not work on hitscan projectiles.
+
+====Buffing Fields====
+{{Main|Buffing Fields}}
+{{#lst:Buffing Fields|intro}}
+====Extra Hits====
+{{Main|Extra Hit}}
+The following [[Decree|Decrees]] can apply Extra Hits to abilities, including ones normally unaffected by Universal Weapon Bonuses.
+* {{Decree|Cloak and Dagger}} - also applies self-damage and {{D|Slash}} status as normal.
+* {{Decree|Critical Frost}} - usable through e.g. {{Arcane|Arcane Avenger}} or {{WF|Gyre}}'s passive.
+
+
+==List of Abilities Affected by Universal Bonuses==
+{| class="wikitable sortable"
+|+
+|-
+! Warframe !! Ability !! Base Damage !! Damage Type(s) !! Status Chance !! Guaranteed Status(es) !! Critical Chance !! Critical Multiplier !! Notes
+|-
+| {{WF|Ash}} || {{A|Shuriken}} || 750 || {{D|Slash}} ||10% ||1 {{D|Slash}}||0% ||1.0x || -
+|-
+| {{WF|Baruuk}} || {{A|Desolate Hands}} || 250 || {{D|Blast}} ||0% ||- ||N/A ||- || -
+|-
+| rowspan=2 | {{WF|Chroma}}
+| {{A|Spectral Scream}} || 400 per second || {{D|Heat}}, {{D|Cold}}, {{D|Electricity}}, or {{D|Toxin}} ||0% ||1 per second (selected element) ||N/A ||- || Not affected by elemental damage bonuses like Nourish. Is affected by base damage bonuses like Arcane Arachne and Vex Armor, and damage multipliers like Eclipse.
+|-
+| {{M|Afterburn}} || 0 - 500 || {{D|Heat}}, {{D|Cold}}, {{D|Electricity}}, or {{D|Toxin}} ||0% || - || 0% || 1.0x || Damage gradually builds up from 0 to 500 (scaling with strength) over 5 seconds of {{A|Spectral Scream}} being used. Is affected by elemental damage bonuses, unlike {{A|Spectral Scream}}.
+
+|-
+| rowspan=2 | {{WF|Ember}} || rowspan=2 | {{A|Fireball}}
+| 800 - 5200 direct hit damage || {{D|Heat}} || 0% || - ||N/A ||- || -
+|-
+| 300 - 1950 AoE damage || {{D|Heat}} || 100% || - ||N/A ||- || -
+
+|-
+| {{WF|Excalibur}} || {{A|Radial Javelin}} || 1000 || Evenly split between {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}} ||10% ||1 {{D|Slash}}||0% ||1.0x || -
+|-
+| rowspan=2 | {{WF|Garuda}}
+| {{A|Dread Mirror}}'s explosion damage || '''<u>100%</u>''' of stored damage || {{D|Impact}} || 100% || - ||0% ||1.0x || -
+|-
+| {{A|Seeking Talons}}'s contact damage || 300 || {{D|Slash}} || 100% ||- ||0% ||1.0x || Seeking Talons enemy debuff can give guaranteed slash statuses, but this does not occur on the same hit as a natural slash proc (possibly a bug).
+
+|-
+| {{WF|Gauss}} || {{A|Redline}}'s bolts || 400 || 81.25% {{D|Impact}} and 18.75% {{D|Puncture}} ||25% ||- ||0% ||1.0x || -
+|-
+| {{WF|Koumei}} || {{A|Kumihimo}}'s threads || 25 * dice roll || Evenly split between {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}} ||0% ||1 (Random primary or secondary element) ||N/A ||- || -
+|-
+| {{WF|Mag}} || {{A|Polarize}}'s shard damage || 50 plus <u>'''25%'''</u> total [[Shield|shields]] or [[armor]] drained || Evenly split between {{D|Puncture}} and {{D|Slash}} ||100% ||- ||0% ||1.0x || -
+|-
+
+| rowspan=2 | {{WF|Nekros}} || rowspan=2 | {{A|Soul Punch}} 
+| 50 projectile direct hit || {{D|Impact}} ||~10% || - || 0% || 1.0x || Damage does '''not''' scale with Ability Strength, but doubles after each enemy directly hit by the projectile.
+|-
+| 200 projectile AoE || {{D|Impact}} || ~10% || - || 0% || 1.0x || Damage does '''not''' scale with Ability Strength, but doubles after each enemy directly hit by the projectile.
+|-
+
+| {{WF|Nezha}} || {{A|Warding Halo}}'s damage || 125 per second || {{D|Slash}} ||0% ||- ||N/A ||- || -
+|-
+
+| {{WF|Nokko}} || {{A|Sporespring}} || 2500 in a 3m AoE, scales exponentially with each bounce || {{D|Toxin}} || 0% || 1 {{D|Toxin}}|| 75% || 2.0x || Affected by {{Arcane|Arcane Crepuscular}} but no other bonuses. Crit chance and multiplier scale with bounces as default ability behavior. 
+|-
+
+| rowspan=2 | {{WF|Nova}}
+| {{A|Null Star}} || 300 || {{D|Blast}} ||100% ||- ||0% ||1.0x || -
+|-
+| {{M|Neutron Star}} || 240 || {{D|Heat}} ||0% ||1 {{D|Heat}}||0% ||1.0x || AoE Heat damage is a separate, additional damage instance from normal Null Star damage. Also adds an extra AoE instance of Null Star's {{D|Blast}} status and damage ('''bug''').
+|-
+
+| {{WF|Oraxia}} || {{A|Widow's Brood}}'s darts || 750 || {{D|Toxin}} || 0% || 4 {{D|Toxin}}|| 0% || 1.0x || -
+|-
+| {{WF|Revenant}} || {{A|Enthrall}}'s homing projectiles || 1000 || {{D|Impact}} || 50% || - || 5% || 1.5x || -
+|-
+
+| {{WF|Sirius}} || {{A|Jade Stars}} || 500 || {{D|Heat}} || {{Stat|Ability Strength|icon=only}}100% || - || 0% || 1.0x || '''Is''' affected by elemental bonuses like {{A|Nourish}}, as well as flat critical bonuses. Is '''not''' affected by damage bonuses like {{Arcane|Arcane Arachne}} or damage multipliers like {{A|Eclipse}}. 
+|-
+
+| rowspan=3 | {{WF|Styanax}}
+| {{A|Axios Javelin}} direct hit || 1250 || {{D|Puncture}} || 10% || - || 0% || 1.0x || Only the direct hit damage benefits from universal weapon bonuses, not the AoE. Also works on extra spears from {{M|Axios Javelineers}}.
+|-
+| rowspan=2 | {{A|Final Stand}} 
+| 1500 direct hit || {{D|Slash}} || 50% || - || N/A || - || -
+|-
+| 1500 AoE || {{D|Blast}} || 0% || 1 {{D|Slash}} || N/A || - || -
+|-
+
+| {{WF|Temple}} || {{A|Pyrotechnics}} || 1000 || Evenly split between {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}} ||0% ||1 {{D|Heat}}|| N/A || - || -
+|-
+
+| {{WF|Uriel}} || Gulphagor latch circle of fire || 200 per half second || {{D|Heat}} || 500% || - || N/A || - || Buffs must be applied to Uriel himself in order to affect the fire field. Buffs on Gulphagor will have no effect.
+|-
+
+| rowspan=2 | {{WF|Vauban}}
+| Orb direct hit damage for all 4 of Vauban's abilities || 15 || {{D|Blast}} || 10% || - || 0% || 1.0x || -
+|-
+| {{A|Minelayer|Tether-Flechette Orb}} || 300 * level scaling multiplier || {{D|Puncture}} ||5% ||1 {{D|Puncture}}|| 50% || 2.0x || -
+|-
+
+| {{WF|Voruna}} || {{A|Ulfrun's Descent}} || 5000 || {{D|Slash}} || 0% ||{{D|Slash}} and {{D|Knockdown}}|| 20% || 1.5x || Affected by {{Arcane|Arcane Crepuscular}} but no other bonuses. Damage, crit chance and crit multiplier scale with kills as default ability behavior. 
+|-
+
+| rowspan=2 | {{WF|Wisp}} 
+| {{A|Breach Surge}} sparks || {{Stat|Ability Strength|icon=only}}2.0x the proccing hit's damage || {{D|Radiation}} || {{Stat|Ability Strength|icon=only}}20% || - || 100% || 1.5x || -
+|-
+| {{M|Cataclysmic Gate}} Sun Portal damage per half second || 500 per half second || Evenly split between {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}} || 0% || 1 {{D|Heat}}, 1 {{D|Radiation}}, and 1 {{D|Corrosive}} (with Haste Mote active) per half second || N/A || - || Initial 5000 AoE damage is not affected, only the damage per half second. Ability deals IPS damage instead of Heat damage like the mod card states (bug).
+|-
+
+| {{WF|Zephyr}} || {{A|Airburst}} direct hits || 500 (+'''<u>35%</u>''' per enemy hit) || 18.75% {{D|Impact}}, 12.75% {{D|Puncture}}, and 67.5% {{D|Slash}} || 50% || - || 0% || 1.0x || -
+|-
+|}
+
+=== Notes ===
+* Abilities with "N/A" as their listed critical chance are completely incapable of landing critical hits, even when buffed with flat critical chance bonuses like {{Arcane|Arcane Avenger}}.
+** Most listed abilities have 0% critical chance, meaning they '''require''' a flat critical chance bonus in order to be able to critically hit.
+* If an ability affected by universal weapon bonuses has status chance greater than 0%, it can apply elements that are added via elemental buffs ({{M|Valence Formation}}, {{A|Nourish}}, and {{A|Plunder}}). The added element will compete with the base element of the ability for which element will be proc'd when a status is applied.
+** Guaranteed status procs on the other hand '''cannot''' be changed by these elemental buffs.
+
+{{MechNav}}
+[[Category:Mechanics]]

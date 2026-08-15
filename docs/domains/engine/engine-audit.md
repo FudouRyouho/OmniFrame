@@ -1,15 +1,13 @@
 ---
 Estado: "histórico"
 Rol: "Snapshot congelado de la auditoría diseño↔código de Sim-v2 (2026-05-18) — superado, no se refresca. Estado vivo: engine/status.md"
-Version: "v0.1.0"
 Impacto_ID: "E-01"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-05-18"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-19"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/design/simulation-contracts.md"
-  - "docs/domains/engine/design/simulation-roadmap.md"
 ---
 
 # Auditoría Fase 3 — Sim-v2: Diseño vs. Implementación
@@ -36,7 +34,7 @@ Dependencias:
 | Stat Accumulator v3 — fórmula maestra | `calculateCurrentValue()` | Fórmula idéntica a la diseñada. `AttributeNode` tiene los 6 buckets exactos. |
 | Elemental System — Factor Order | `DamageCombiner.combine()` | Ordenamiento por índice de slot, consolidación de duplicados, combinación por pares. Fiel al diseño. |
 | MutatorBridge — ruta única | `simulateFromIntention(EnsembleIntention)` | Ruta legacy `simulate(LoadoutState)` eliminada (2026-05-21). Una sola entrada canónica. |
-| GameLaws centralizadas | `BASELINE_GAME_LAWS` en `contracts/index.ts` | SSoT para corrosive, viral, status stacks. |
+| ~~GameLaws centralizadas~~ | ~~`BASELINE_GAME_LAWS` en `contracts/index.ts`~~ | **RETIRADO** (`arch-decisions §17`) — la SSoT de los seis parámetros son las constantes de `formulas/status/stack-debuff.ts`, con su fórmula. Una tabla plana no tiene dónde poner la procedencia del desvío. |
 | ~~SimulationAuditor (AI-Ready)~~ | ~~`audit/SimulationAuditor.ts`~~ | **ELIMINADO** — directorio `engine/audit/` purgado junto con `TraceObserver.ts`. Funcionalidad no migrada. |
 | Hybrid Simulation (Atómico vs Bulk) | `CombatSimulator.simulateAttack()` | `HYBRID_THRESHOLD = 20` perdigones. Modo atómico bajo ≤20, EV bulk sobre 20. Alineado. |
 | SimulationContext (flags, variables, active_profile_id, laws, target) | `contracts/index.ts` | Contrato materializado correctamente. |
@@ -126,7 +124,7 @@ No conectado a ningún dato real.
 | Concepto | Archivo diseñado | Estado |
 | :--- | :--- | :--- |
 | Casting Snapshot (ADN Dinámico) | `simulation-architecture.md §2.7` | No existe. El behavior `CAST` → snapshot parcial del padre → InjectedDNA en TE no está implementado. |
-| Transient Entity Queue (Anti-recursión) | `simulation-architecture.md §Capa C` | Los procs (Slash, Heat, Toxin) son proyecciones matemáticas de `StatusEngine`, no TEs reales en una cola. No hay límite de profundidad ni energía de tick. |
+| Transient Entity Queue (Anti-recursión) | `simulation-architecture.md §Capa C` | Los procs (Slash, Heat, Toxin) son proyecciones matemáticas del modelo unificado de proc (`design/damage-status-model.md §Modelo unificado de proc`), no TEs reales en una cola. No hay límite de profundidad ni energía de tick. |
 | Logic Decorator Layers (6 capas) | `simulation-architecture.md §2.6` | No existen. El engine resuelve todos los modificadores en un solo bloque sin capas ordenadas (`INITIAL_OVERRIDE` → `FINAL_CLIP`). |
 | AuditQuery con filtros | `simulation-contracts.md §6.2` | La interfaz `AuditQuery` (`filter: "all" \| "only_changes" \| "last_pass"`) no está implementada. `SimulationAuditor.getAudit()` devuelve siempre la traza completa. |
 | Hit Location (Head / Body / Weakpoint) | `simulation-architecture.md §2.2` | No implementado en `CombatSimulator.resolveHit()`. No hay multiplicador por zona de impacto. |

@@ -1,0 +1,889 @@
+{{DISPLAYTITLE:Companions}}
+{{Infobox
+| Box title = Companion
+| image     = Companion.png
+}}{{Tocright}}
+'''Companions''' are loyal personal allies to the [[Tenno]]. They will use their own unique precepts, [[weapons]] and abilities to assist their owners in their missions at any cost, even going so far as going directly into harms way to protect them. Companions are not a one-time-use ally gear like [[Specter]]s, but rather equipped in their own slot in the user's loadout via the [[Arsenal]]. Users can only equip one companion at any time. A companion's stats, abilities, and behaviors can be upgraded and manipulated via their own set of [[mod]]s. Modding companions is similar to modding [[Warframes]].
+
+There are currently seven classes of companions: robotic [[Sentinel]]s, living [[Kubrow]]s and [[Kavat]]s, the modular [[MOA_(Companion)|MOA]]s, the infested [[Predasite]]s and [[Vulpaphyla]]s, and the advanced [[Hound (Companion)|Hound]]s. There are many differences between these classes ranging from combat and movement behaviors to acquisition to possible maintenance requirements. Most classes also have their own distinct subclasses, each with dedicated mods and other specifications.
+
+==Robotics==
+<tabber>
+|-|Sentinels=
+[[File:Dethcube.png|left|150px|link=Sentinels]]
+{{main|Sentinels}}
+{{#lst:Sentinels|intro}}
+{{clr}}
+|-|MOA=
+[[File:Moa_Pet.jpg|left|150px|link=MOA (Companion)]]
+{{main|MOA (Companion)}}
+{{#lst:MOA (Companion)|intro}}
+{{clr}}
+|-|Hound=
+[[File:Hounds.PNG|left|150px|link=Hound (Companion)]]
+{{main|Hound (Companion)}}
+{{#lst:Hound (Companion)|intro}}
+{{clr}}
+</tabber>
+
+==Beasts==
+<tabber>
+|-|Kubrow=
+[[File:Kubrow.png|left|145x145px|link=Kubrow]]
+{{main|Kubrow}}
+{{#lst:Kubrow|intro}}
+{{Clr}}
+|-|Kavat=
+[[File:SmeetaKavat.png|left|thumb|157x157px]]
+{{main|Kavat}}
+{{#lst:Kavat|intro}}
+{{Clr}}
+</tabber>
+
+==Deimos Infested Beasts==
+<tabber>
+|-|Predasite=
+[[File:VizierPredasite.png|left|thumb|150px|]]
+{{main|Predasite}}
+{{#lst:Predasite|intro}}
+{{Clr}}
+|-|Vulpaphyla=
+[[File:CrescentVulpaphyla.png|left|thumb|150px|]]
+{{main|Vulpaphyla}}
+{{#lst:Vulpaphyla|intro}}
+{{Clr}}
+</tabber>
+
+==Precept Mods==
+[[File:Precept System Priority.png|right|frame|Priority for precept usage (1 is highest priority and 10 is lowest).]]
+In general, precepts are mods which alter the behavior of a Companion, and are effectively the companion's "abilities". Every type of Companion has their own specific precepts that cannot be used by the other type (For example: The [[Djinn]] Sentinel cannot use the [[Helios]] Sentinel's {{M|Investigator}} precept). However, there are precepts that are universal within a class of companions. Upon acquiring a companion, the user is automatically granted its respective specific precept mods.
+
+Companions will use their precepts in a prioritized order, where the top left slot is the highest priority and the bottom right slot is the lowest. Precept mods do '''not''' need to be installed in the respective polarized slot to be used.
+
+Companions will check to see if the conditions to use the highest priority precept are fulfilled, and will continue to use that precept until the conditions are no longer met. Then they will check each other precept in priority order. Companions will also interrupt the usage of lower priority precepts to use higher priority precepts.{{cite}}
+
+==Notes==
+*Active pet companions can roam and/or follow their owners around the [[Orbiter]], excluding Sentinels, MOAs, and Hounds.
+**They can interact and play with Roller Floofs in the Orbiter.
+*For modular companions (MOAs, Hounds, Predasites, Vulpaphyla), Mastery Rank will not be gained unless Gilded.
+*Companions do not attack [[Feral Kubrow]]s, [[Feral Kavat]]s, or [[Desert Skate]]s.
+
+{{clr}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43}}
+*Warframes and Companions now will share full affinity for a kill if they dealt damage to the enemy shortly before it was killed by the other party.
+**i.e. if you dealt damage to a Corpus Crewman and then your Kavat killed him a moment later, you would both earn full affinity for that kill.
+
+{{ver|40.0.5}}
+*Removed screen shake caused by your Companion’s melee attacks.
+
+{{ver|40}}
+*Companions now share their Warframe’s (and Operator’s) invisibility status. 
+**This wasapplied inconsistently across Abilities, so we have standardized the expected behaviour.
+*Fixed some Companion attachments not following body movement when using TAA Anti-Aliasing.
+**Note: this issue persists on Vulpaphylas.  
+*Fixed energy color selection for Companions not updating in real time.
+*Fixed Companions attacking when toggling on “Friendly Fire” in the Simulacrum and Transfering to Operator/Drifter. 
+*Fixed hovering on colors not previewing them on Beast Companions.
+*Fixed Companions disappearing from the Arsenal when opening their weapon select menu.
+*Fixed a script error that could occur when a Client’s Vulpaphyla respawned while they were using Transference and the Companion had a Precept granted by a Set Mod.
+
+{{ver|39}}
+*Added “Randomize Colors” and “Default Colors” options to Beast Companion customization screens. 
+*Fixed randomizing attachment colors on Beast Companions causing their fur to change instead of attachments.
+*Fixed Companion flickering when changing the color of its collar.
+*Fixed randomizing colors for Companions selecting colors that you do not own.
+
+{{ver|38.6}}
+*Companions will no longer target Neutral wildlife (Wild Kubrows, Desert Skates, or Feral Kavats) even if players have attacked them.
+*Fixed some of the Companion Mod ability SFX not playing.
+
+{{ver|38.5.3}}
+*Fixed cases of Companions not using attack Precepts (ex: Sharpened Claws) when perfectly attackable enemies are nearby.
+*Fixed several Beast Precepts that involve running up to any enemy to do a special attack (ex: Sharpened Claws, Crescent Charge) putting your Companion into a brief "brain off" state.
+
+{{ver|38.0.3}}
+*Fixed case where baby Beast Companions could get scaled up to the size of an adult.
+
+{{ver|38.0.1}}
+*Fixed claiming incubated Companion causing game to become unresponsive.
+
+{{ver|38}}
+*All Companions and Summons will now show damage numbers for their attacks. These originally appeared on a case-by-case basis, but now it is standardized. 
+**Players who do not want to see Companion and Summon damage numbers can turn them off with the new “Show Damage Numbers for Non-Player Allies” toggle in your settings.
+*Fixed an issue where you’d be unable to mature a Kubrow if you have multiple full grown Companions.  
+**Known issue: You may still get an "Unknown Error” popup when swapping to/from your previous Companion. 
+*Fixed instances where Companion Mod effects wouldn’t function for Clients, such as “Reinforced Bond” not granting Shields upon reload. 
+*Fixed “[Hc] Beast Companion” appearing in Arsenal UI after maturing Beast Companion for combat.
+*Fixed Companions alerting Rogue Necramechs in the “Descent to the Heart” stage of the Heart of Deimos Quest, making it increasingly more difficult to complete.
+**Companions are now hidden during this stage to prevent this from occurring.
+*Fixed equipping Arcane Battery causing Companion previews to not work properly in the Arsenal.
+*Fixed Companions attacking you as the Operator when enabling “Friendly Fire” in the Simulacrum.
+
+{{ver|37.0.8}}
+*Fixed Kubrow fur disappearing if they didn’t have armor equipped.
+*Fixed the Elusive Posture mod preventing Beast Companions with the Scavenge mod from unlocking lockers when enemies are nearby.
+
+{{ver|37.0.7}}
+*Fixed Loyal Retriever and Resourceful Retriever not working while playing as Operator.
+*Fixed Pharaoh and Medjay Claws having the wrong Status Chance stats:
+**Pharaoh Claws: Increased from 5% to 25% 
+**Medjay Claws: Increased from 5% to 20%
+*Fixed Pharaoh Claws not having the correct Damage Types (was using Slash instead of Puncture and Gas). 
+*Fixed Sahasa Kubrow’s not digging while enemies are around when they have the Elusive Posture mod equipped. 
+*Fixes towards Kubrow fur clipping through their Armor.
+**Known issue: On your more fluffier pals this is still an issue for certain armors (Bruja, Harka, and Amphatz Kubrow Armor).
+
+{{ver|37.0.6}}
+*Fixed the end of mission UI showing that Beast Claws gained Affinity when they are already max rank.
+
+{{ver|37.0.4}}
+*Fixed the Savagery Precept causing Sunika Kubrow to become frozen when attacking flying enemies – this would prevent it from following you and attacking enemies.
+*Fixed being able to apply Stance Forma to Beast Claw weapons. 
+**Beast Claw Stance Mods and Slots all use the Penjaga Polarity, so there is no need to change it with Stance Forma. If you have used a Stance Forma on a Beast Claw weapon, you can submit a ticket to support.warframe.com to have that undone.
+*Fixed Vulpaphyla/Predasite with multiple Mutagens/Antigens not having them properly displayed in the Incubator, Inventory, Navigation Loadout and Experimental Procedures UIs. 
+**Known issue: These still show incorrectly in the Trading UI – this requires code to fix so it will be resolved in a future update. 
+*Fixed Scan Matter not revealing Resource Deposits on map for Clients.
+*Fixed the “2x” tag missing in the UI for Ores/Gems, Fish, and Conservation Tags to indicate that Resourceful Retriever has successfully doubled these pickups.
+*Fixed rare Client issue where Savagery would freeze enemies indefinitely.  
+*Fixed Chesa Kubrows with Retrieve equipped missing their sound effect for Clients when successfully stealing loot from a corpse.
+*Fixed Metal Fiber, Calculated Redirection, Enhanced Vitality and Medi-Pet Kit mods having their stats appearing incorrect in the Arsenal UI after exiting the Companion upgrade screen (UI-only issue, stats were working as intended).
+*Fixed Artax missing its “Unique Trait” tooltip in its upgrade screen.
+*Fixed Beast Claw weapons not appearing in the mission progress and end of mission screens. 
+**As a reminder, Beast weapons gain Affinity and rank up, but they do not contribute towards your overall Mastery.
+*Fixed the smash VFX created after Sunika Kubrow attacks with “Unleashed” following the targeted Eximus unit instead of staying on the ground. 
+*Fixed Sunika Kubrows Savagery’s VFX (dash and ghost effects) not being visible to Clients. 
+*Fixed Oxylus’ Scan Matter revealing Mining locations near all players in the Squad, instead of just those near the player with the Sentinel and Mod equipped. 
+*Fixed script error caused by MOA’s Shockwave Actuators.
+*Fixed script error caused by Sly Vulpaphyla’s Survival Instinct.
+*Fixed script error caused by Vizier Predasite’s Acidic Spittle.
+*Fixed several script errors caused by Kavat’s Territorial Aggression.
+*Fixed script error caused by Crescent Vulpahpyla’s Crescent Charge.
+*Fixed script error caused by Maggots spawned from the Strain Set Mods.
+*Fixed script error caused by Medjay Predasite’s Paralytic Spores.
+*Fixed script error caused by Medjay Predasite’s Infectious Bite.
+*Fixed crash caused by Volatile Parasite.
+*Fixed script error caused by Pharaoh Predasite’s Endoparasitic Vector.
+
+{{ver|37.0.2}}
+*Fixed being able to apply an Umbra Forma to Beast Claw weapons. 
+**Beast Companions cannot use Umbra Mods, so there is no need for the Umbra polarity. If you have done so and would like your Umbra Forma returned to your account, you can submit a ticket to support.warframe.com.
+*Fixed issue where Beast Weapons would appear in the Arsenal as a blank tab.
+*Fixed multiple Beast/Claw weapon mods having incorrect icons.
+
+{{ver|37.0.1}}
+;Companion Changes & Fixes:
+*Updated Paralytic Spores’ description to make it clearer that spores affect nearby enemies.
+**Now reads: “Charges at an enemy within 30m dealing 160 damage. This releases spores that affect enemies within 15m, opening them to Melee Finishers, and slowing them by 50% for 10s.” 
+*Fixed Unleashed’s description being incorrect and still stating that Sunika will grapple the target.
+**As a reminder from the Companion rework, Unleashed now targets all Eximus units instead of just “VIPs”, which was a rather restrictive category (ie. Capture targets). It also deals 300% damage against Overguard, making it far more useful overall compared to its previous version. 
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods (Momentous Bond, Tenacious Bond, etc.) are equipped. 
+*Fixed issues with Territorial Aggression’s spawn/despawn VFX. 
+*Fixed several crashes caused by Sunika’s Savagery. 
+*Fixed script error with Companion Mods in UI. 
+*Fixed script error caused by Scan Matter. 
+
+{{ver|37}}
+;COMPANION REWORK (PHASE 2)
+
+Phase 2 of the Companion Rework is here! Your Companions all cheer! 
+
+Our overall goal with this update is to address Quality of Life and Balance problems that have become apparent over the last few years with Companions. 
+
+So let’s dive in!
+
+'''Beast Companions Gain a Moddable Weapon'''<br/>
+First up, we've added a separate weapon slot to all your Beast Companions (except for Hounds, who already have one). 
+
+A common complaint that we have heard is that there's not enough Mod slots for Beast Companions that don't have a separate weapon, because the same slots are used by Precept Mods, survivability mods, and damaging mods. We absolutely agree that this was a problem! 
+
+Here’s what you can expect:
+
+*When you login you will automatically receive a Beast-specific weapon for each of your Beast Companions. This does not take inventory space or cost you any resources.
+*Beast weapons gain Affinity and rank up, but they do not contribute towards your overall Mastery.
+*Posture Mod slot for Beast melee weapon alters overall behavior, gives extra capacity for modding.
+
+As a result of this change, different Beast Companions now have updated unique weapon stats based on their individual type instead of being identical:
+
+*Kubrows: Previously ALL types of Kubrows: Damage 304, Status 5%, Critical 10%/3x. 
+**Chesa Kubrow: Damage 275, Status 15%, Critical 15%/1.5x
+**Huras Kubrow: Damage 350, Status 5%, Critical 20%/3.5x
+**Raksa Kubrow: Damage 250, Status 20%, Critical 7.5%/2.5x
+**Sahasa Kubrow: Damage 300, Status 5%, Critical 10%/3x
+**Sunika Kubrow: Damage 550, Status 7.5%, Critical 7.5%/3.5x
+*Predasites: Previously ALL types of Predasites: Damage 304, Status 5%, Critical 10%/3x
+**Medjay Predasite: Damage 350, Status 20%, Critical 10%/3x
+**Pharaoh Predasite: Damage 325, Status 25%, Critical 7.5%/2.5x
+**Vizier Predasite: Damage 300, Status 30%, Critical 5%/2x
+*Kavats: Previously ALL types of Kavats: Damage 80, Status 7.5%, Critical 20%/2x
+**Adarza Kavat: Damage 90, Status 5%, Critical 30%/2.5x
+**Smeeta Kavat: Damage 80, Status 7.5%, Critical 20%/2x
+**Vasca Kavat: Damage 110, Status 25%, Critical 15%/2x
+**Vulpaphyla: Previously ALL types of Vulpaphyla: Damage 80, Status 7.5%, Critical 20%/2x
+**Crescent Vulphaphyla: Damage 100, Status 17.5%, Critical 22.5%/2x
+**Panzer Vulpaphyla: Damage 90, Status 12.5%, Critical 25%/2x
+**Sly Vulpaphyla: Damage 80, Status 20%, Critical 20%/2x
+*Helminth Charger: Previously 350 Damage, now 200 Slash damage plus an additional non-combining 50 Toxin damage. Increased Status Chance from 5% to 25%. 
+*Hounds: Hound companions already had a moddable weapon, but we rebalanced these from a base of 152 Damage to a base of 300 Damage.
+
+Please note that, while these weapons are now moddable, we did not add them to the Riven system nor do we have current plans to. With so many extreme changes to Companions all at the same time, we want to let the dust settle a bit before evaluating.
+
+'''AI changes'''
+*Beast Companions would previously follow behind you while moving, which made it harder to notice them around and put them further away from enemies when combat started. They will now try to lead you instead, staying a few meters ahead while you are moving so they are ready to attack when combat starts.
+*Beast Companions would previously choose targets in a complete circle around the player. This means that when using their abilities or making attacks, they weren't even on screen so it was hard to appreciate them being useful. This has been tuned so that Beast Companions will prefer to choose targets that are near you and in your field of view.
+*When selecting a new target to attack, Beast Companions now gain a speed boost on their way to the target while off-screen (to reduce the time it takes them to engage).
+*Improved animations while following the player through bullet jumps and double jumps so that they animate more quickly and fluidly.
+*Decreased the required distance from Beast Companions to their owner to trigger a teleport and reduced the minimum time between teleports so they can more easily keep up with you if you’re bullet jumping at mach speed! They will also now disengage from enemies faster if you are moving quickly through the map.
+*Improved Beast Companion targeting logic to better match their combat behavior and prevent cases of them “stalling” when trying to decide on their next target. Also tweaked the range at which they’ll attack enemies to ensure they’ll actually hit them!
+
+'''Note:''' While Hounds are not technically Beast Companions, they will also benefit from the AI changes listed above!
+
+'''Changes to Companion Precepts'''
+
+Many Companion Precept effects are currently too small or too brief to be really beneficial. We want your choice of companion to feel more meaningful and for your Companion to contribute in a more visible way, so there are a whole lot of buffs to get through.
+
+There is one notable precept that will need some special explanation. Out of respect for our readers, let's get that out of the way first:
+
+*Charm (SMEETA Kavat)*: The resource pickup multiplier has been removed from Charm and promoted to being its own separate precept Mod (Loyal Retriever), equippable on all Beasts. Charm's chance to provide a buff on activation has been increased to 40%. The available buffs are:
+**25% chance of Reinforced Shield
+**25% chance of Instant Reload (re-rolled if your current weapon doesn't need to reload)
+**10% chance of Bonus Critical Chance buff
+**20% chance of Free Ability Casts
+**10% chance of Bonus Affinity. (Affinity bonus has been increased to 3x)
+**10% chance to receive a Rare resource of the current mission location
+*Loyal Retriever (Beast companions): Provides a passive 13% chance that each resource or credit pickup will be doubled. This effect is always active: there is no cooldown, no duration, no waiting for it to be ready.
+**If you already own a Smeeta then you will receive Loyal Retriever for free automatically. In the future, this will be purchased with conservation tags from the Earth conservation vendor.
+**We chose 13% as being the statistical average of what amount of time Charm's resource bonus would be active.
+**Loyal Retriever and its variants are NOT compatible with Khora's Venari. While we definitely understand the comments asking for this, it wouldn't be in line with our goals to diversify the meta and steer away from a single "must have" looting loadout. If we were to allow this, Khora would essentially step into Smeeta's previous domination due to her unique ability to have two pets each with their own Retriever Mod.
+
+<nowiki>*</nowiki>We know Smeeta is very popular so it's important we explain why this change is happening. There are two reasons:
+#In a game with so much variety, we never want a specific choice of equipment to dominate our community. For some players, collecting loot is the most important part of any mission so anything that contributes to giving you MORE loot is so important that no alternatives can compete. Our intent is that opening the resource boosting part of Charm to all Beasts will increase your freedom in Companion selection.
+#Charm’s randomness encouraged players to “wait for buff” in a way that was counter to Warframe’s speed and fluidity. It was advantageous to allow resources to pile up in the level, deliberately NOT picking them up until Charm gives the resource buff, which could take minutes. The resource buff could even stack, creating random chances on top of random chances, slowing down the game even more. In our fast-paced game about space ninjas, we want to reward players who are mobile and actively engaging with enemies, so we have reengineered the effect to be always active.
+
+There are many other Precepts to get through but none that need so much explanation. On with the list!
+*Acidic Spittle (VIZIER Predasite): 
+**Increased the projectile speed and accuracy, and always applies Corrosion status to its target now. The projectile will now home-in on its target slightly to ensure it hits more reliably.
+**Fixed Acidic Spittle projectile having collision with Allies and their Companions. Now, your Predasite’s vomit will sail through them safely to blind your foes!
+**Also fixed blinded VFX not appearing on affected targets.
+*Anabolic Pollination (PHARAOH Predasite): 
+**Increased the lifetime of the spore clouds from 6 seconds to 10 seconds, and increased the duration of the damage buff from 10 seconds to 15 seconds.
+**This Precept’s description has also been updated to include the damage buff’s duration. 
+*Anti-Grav Grenade (MOAs): 
+**Effect radius doubled from 3M to 6M, effect duration doubled from 3 seconds to 6 seconds. 
+**Fixed the math which was not giving the correct damage bonus based on the mod's rank, nor was it considering damage against shields
+*Coolant Leak (Robotic Companions):
+**Formerly slowed enemies down by 10% when they were within 3 meters as a constant aura. 
+**Now hits enemies within 10 meters with 40 damage and 3 stacks of Cold status, with a 10 second cooldown. 
+**Changed from cost of 4 Mod points and no ranks, to having a base of 2 Mod points and 3 ranks.
+**Crescent Charge (CRESCENT Vulpaphyla): 
+**Lifts target into the air, and throws that target at another nearby enemy doing damage of 20% of its Max Health plus the Vulpaphyla's weapon damage in a 5 meter radius.
+**Removed the Vulnerability effect since it becomes much harder to capitalize on when the enemy is getting thrown around, and replaced with 5 stacks of Puncture status on affected enemies.
+*Detect Vulnerability (HELIOS Sentinel):
+**If the marked target dies, chooses a new target 2 seconds later
+*Dig (SAHASA Kubrow):
+**Your Kubrow can now dig up Heavy Weapon ammo packs if you need them.
+*Draining Bite (VASCA Kavat):
+**Inflicts 5 stacks of Slash stats on the victims, based on 150% of your Vasca's weapon damage.
+*Endoparasitic Vector (PHARAOH Predasite): 
+**Projectile now homes in on its target and creates visible tentacles attaching to the held victims. 
+**Can now attach to enemies that enter the radius after the projectile connects. 
+**Tentacle grab range doubled from 5m to 10m. 
+**Fixed the precept being able to apply Slow to VIP enemies that should be immune to Slow, fixed being able to Slow allies if they were in range, fixed the damage type being incorrect, fixed the precept failing to attach to targets sometimes.
+*Ferocity (SAHASA Kubrow):
+**Greatly reduced cooldown, but now can only target enemies open to finishers.
+**If the enemy gets killed by the finisher, they’ll explode. Nearby enemies have a 30% of being knocked down and opened to finishers for 5s. 
+*Ghost (SHADE Sentinel): 
+**When you move out of range of enemies, there is now a 3 seconds grace period before the invisibility effect ends. 
+**If you move back within range of enemies, invisibility will be sustained.
+*Iatric Mycellium (VIZIER Predasite):
+**Doubled the size of the spore trail so it's easier to collect the healing buff.
+*Infectious Bite (MEDJAY Predasite): 
+**Spores now explode immediately if they absorb more damage than the victim has Health, and inflict a portion of the absorbed damage in a 3 meter radius (100% at max rank).
+*Looter (CARRIER Sentinel): 
+**Maximum range increased from 12 meters to 22 meters, and the description updated to clarify that it functions as a wave rather than the sentinel shooting each crate individually.
+*Hunt (HURAS Kubrow):
+**Now drags enemies within 2 meters of its charge and staggers within 3 meters, and uses the pet's weapon damage.
+*Mischief (SMEETA Kavat): 
+**In addition to its previous effects, Mischief's decoy now Blinds enemies within 8 meters when the decoy is destroyed.
+*Negate (WYRM Sentinel): 
+**Allowed Manifold Bond's cooldown reduction to apply to Negate's cooldown timer
+**Neutralize (CHESA Kubrow): 
+**Instead of disarming a single enemy, it now disarms and staggers in a 10m radius. 
+*Paralytic Spores (MEDJAY Predasite): 
+**The initial damage now scales off the pet's equipped weapon. 
+**In addition to staggering enemies, now applies 5 seconds of 50% slow, and enemies are open to melee finishers.
+*Reflex Denial (Hounds):
+**The absorb bubble will now ignore projectiles and attacks of the Hound's own faction.
+**Known issue: This is currently only working for Host, we are investigating for a fix. 
+*Retrieve (CHESA Kubrow):
+**Tightened up the timings while looking for targets so the Kubrow will choose a new body quicker if its first choice is invalid.
+*Savagery (SUNIKA Kubrow): 
+**'''Previously:''' would enable Kubrow to make a high damage Finisher on a single enemy
+**'''Now:''' Kubrow will rapidly teleport between up to 8 enemies in a 10m radius, doing damage and briefly immobilizing them. All victims are knocked down at the end of Savagery.
+*Scan Matter (OXYLUS Sentinel): 
+**The duration and cooldown time for showing resources containers and mining locations has been removed, the effect is continuous now. 
+Additionally it now breaks open one container within 60 meters every 3 seconds and automatically collects the contents.
+*Sense Danger (Kavats):  
+**Title changed to "Sense Weakness" because the Kavat is now the danger. 
+**Kavat gains 200% bonus damage against highlighted enemies and Kavat attacks have a 30% chance to knock highlighted enemies down.
+*Shockwave Actuators (MOAs): 
+**Reduced cooldown times to 25/20/15/10 seconds based on rank.
+*Spare Parts (Robotic Companions):
+**Now compatible with all Robotic companion types (Sentinels, Hounds, and MOAs).
+**Marks enemy for extra loot drops for 15 seconds, up from 5 seconds.
+**Will try to choose an enemy that you can see on-screen instead of totally at random.
+*Survival Instinct (SLY Vulpaphyla): This precept has been completely reworked.
+**Formerly reduced enemy accuracy against your Warframe until your next attack. 
+**Now, when you bullet jump it creates a decoy which draws enemy fire for 1.5 seconds. 5 second cooldown time after creating a decoy.
+*Stalk (HURAS Kubrow): 
+**When you move out of range of enemies, there is now a 3 seconds grace period before the invisibility effect ends. 
+**If you move back within range of enemies, invisibility will be sustained.
+*Stasis Field (MOAs):
+**Increased the radius of the Stasis from 5 meters to 10 meters, and made the visual effect more obvious.
+**Now also works on reducing the damage of hitscan weapons that hit you inside the bubble instead of only projectiles.
+*Territorial Aggression (Kavats): 
+**Changed the effect from "pacifying wild creatures", to causing damage. 
+**Your Kavat creates a 6 meter circle that lasts 15 seconds: enemies inside the circle have a 30% chance each second to be hit by a ghostly Kavat that does the same damage as your real Kavat.
+*Trample (HELMINTH Charger): 
+**Leaves a trail of Virulence behind when charging that applies damage to enemies that touch the spikes. 
+**Trample knocks down and applies Toxin to any enemies struck. 
+**Helminth Charger also gains bonuses to health, armor, and damage for each enemy struck while charging. Damage now properly scales with the effect of the Strain Fever Mod.
+*Unleashed (SUNIKA Kubrow): 
+**Instead of targeting "VIP" enemies, a category which is somewhat poorly defined and doesn't come up very often, this will now target Eximus units, doing 300% damage against Overguard.
+*Volatile Parasite (Predasites): 
+**In addition to its built in damage, Volatile Parasite now explodes for 100% of the damage absorbed while it is attached to the victim, with an additional 1.4x multiplier if the victim dies before the Volatile Parasite expires.
+*Vacuum (Robotic Companions):
+**Increased range from 11.5m to 13.5m to match Fetch.
+*Whiplash Mine (MOAs): 
+**Increased the speed of the projectile in flight, and made the MOA more intelligently choose its target to maximize the number of enemies in the tether radius.
+
+;New & Updated Companion Mods
+
+Now that Companions have moddable weapons, they will need Mods to install in them.  Some of the existing Beast Mods have been changed, and we have introduced a few new Mods to acquire.
+
+*'''Beast melee Postures!''' Have you ever wished to have a little more control over specifically how your pet chooses to engage with enemies? Then check out these new melee Posture Mods that shape the behavior of your Beasts:
+**Balanced Posture: This Posture causes your Beast companion to stagger nearby enemies while it is moving.  
+***Every new Kubrow owner will gain this Mod by default on completing the quest "Howl of the Kubrow".  If you've already completed this quest, we will add it to your account automatically. It is also available from Master Teasonai’s “Trade Tags” menu in Cetus, Earth in the case where players may accidentally sell the one they receive from the Quest. 
+**Protector Posture: Your pet will prioritize attacking enemies that are within 15 meters of your warframe. Also applies 4 stacks of Puncture on hit. 
+***Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus. 
+**Elusive Posture: Your pet will not attack enemies unless they strike it with a melee weapon first. Useful if you value your pet's supporting features rather than its claws and teeth. Also applies 4 stacks of Puncture on hit. 
+***Can be acquired with Conservation tags from Master Teasonai’s “Trade Tags” menu in Cetus, Earth. 
+**Persistent Posture: Your pet will prefer to keep attacking one target until it's down. Also increases the pet's damage.
+***Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus. 
+**Assassin Posture: Your pet will prefer to attack Eximus and VIP enemies. Increases damage to Overguard done by your pet by 300%.
+***Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus. 
+**Frenzied Posture: Your pet will prefer to hit an enemy once and then switch targets to affect as many different enemies as possible.
+***Increases Status Duration by 80%. 
+***Can be acquired with Conservation tags from Son’s “Trade Tags” menu in the Necralisk, Deimos.
+*'''New Damage Conversion Mods!''' Equipping these powerful upgrades on their Claws will give your Beast type companion a large bonus of a specific damage type, as well as converting other physical or elemental (depending on the Mod) damage on the weapon into that type. For example if you equip Frost Jaw and Venom Teeth then normally this would combine into Viral damage, but if you also equip Incendiary Inclination then it will all elemental damage be converted to Heat damage instead.
+**Chilling Claws: 300% Cold Damage, +300% Status Chance, elemental damage converted to Cold
+***Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus. 
+**Burning Claws: 300% Heat Damage, +300% Status Chance, elemental damage converted to Heat. 
+***Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus. 
+**Sepsis Claws: 300% Toxin Damage, +300% Status Chance, elemental damage converted to Toxin. 
+***Can be acquired with Conservation tags from Son’s “Trade Tags” menu in the Necralisk, Deimos. 
+**Shocking Claws: 300% Electric Damage, +300% Status Chance, elemental damage converted to Electric
+***Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus. 
+**Precision Conditioning: +140% Melee Damage, physical damage converted to Slash. 
+***Can be acquired with Conservation tags from Master Teasonai’s “Trade Tags” menu in Cetus, Earth. 
+**Brute Conditioning: +140% Melee Damage, physical damage converted to Impact.
+***Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus. 
+**Disabling Conditioning: +140% Melee Damage, physical damage converted to Puncture.
+**Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus.
+*Prosperous Retriever (Beast companions): An alternative to Loyal Companion for players looking for a more focused looting experience, this variant provides a passive 18% chance that each credit pickup will be doubled. This version does not have a chance to double resources. 
+**Can be acquired with Conservation tags from The Business’ “Trade Tags” menu in Fortuna, Venus. 
+*Resourceful Retriever (Beast companions): Another specialized alternative, this variant provides a passive 18% chance that each resource pickup will be doubled. This version does not have a chance to double credits. 
+**Can be acquired with Conservation tags from Son’s “Trade Tags” menu in the Necralisk, Deimos. 
+*Immunity Resistance (Beast Claws): +50% Status Damage.
+**Can be acquired with Conservation tags from Son’s “Trade Tags” menu in the Necralisk, Deimos.
+*Magnetic Strike (Beast Claws): 100% chance to inflict an additional Magnetic status on the target when applying Impact status.
+**Can be acquired with Conservation tags from Son’s “Trade Tags” menu in the Necralisk, Deimos.
+*Bell Ringer (Beast Claws): Attacks knock down targets and apply 4 stacks of Impact.
+**Can be acquired with Conservation tags from Son’s “Trade Tags” menu in the Necralisk, Deimos.
+*Cull the Weak (Beast Claws): +60% melee damage per Status type affecting the target, and +240% damage for non-critical hits.  
+**Can be acquired with Conservation tags from Master Teasonai’s “Trade Tags” menu in Cetus, Earth. 
+*Bloodthirst (Beast Claws): 100 Health stolen on hit per stack of Slash status on the target.
+**Can be acquired with Conservation tags from Master Teasonai’s “Trade Tags” menu in Cetus, Earth.
+
+These Mods have changed from being compatible with Beasts to being compatible with their weapons instead. Remember to update your builds!
+
+*Bite
+*Maul
+*Frost Jaw
+*Venom Teeth
+*Shock Collar
+*Flame Gland
+*Hunter Synergy
+*Mecha Overdrive (Kubrows only)
+*Swipe (Kavats only)
+*Strain Fever (Helminth Charger only)
+
+*Strain set effect: Maggots are now created with their AI fully aware, which removes a pause they needed to wake up.
+*Strain Consume: Increases your maximum Health by 4% and regenerates 2 Health per second, per Maggot that dies within 10 meters. Buff lasts 45 seconds.
+*Strain Eruption: Now always applies Corrosive status to enemies in range when Maggots explode. 
+*Strain Fever: Fixed this effect not actually giving extra damage per cyst, it was stuck at a flat 40%. Now properly gives +40% damage per each cyst, and has a HUD buff for visibility.
+**Also fixed the Mod description listing the buff as +30%, when it actually was +40%. 
+
+'''Rebalance of Sentinel weapons'''
+
+The Origin system never stops developing the most exotic and destructive weapons known to Tenno-kind, and the weapons mounted to our Sentinels are no exception. The gap between the top and the bottom has gotten wider than we would like to see, so please enjoy these changes bringing up some of the weaker weapons. Not all weapons will focus on damage, some will get new utility features instead.
+
+*Artax
+**'''Previously:''' Cold based beam weapon, always applies Cold status (Damage 5, Status 3%, Fire Rate 1, Magazine 100/Reload 1.5, Critical 2%/1.5x)
+**'''Now:''' Changed Artax math from old "Chance of status per second", to newer "Chance of status per firing interval" that other beam weapons use, and buffed the status chance. (Damage 5, Status 35%, Fire Rate 1, Magazine 100/Reload 1.5, Critical 2%/1.5x)
+*Burst Laser
+**'''Previously:''' Fires a short burst of laser bolts. (Damage 7, Status 2%, Fire Rate 1.61, Magazine 15/Reload 0, Critical 2.5%/1.3x)
+**'''Now:''' Improved accuracy and improved stats. (Damage 20, Status 10%, Fire Rate 1.5, Magazine 15/Reload 0, Critical 15%/2x)
+*Prisma Burst Laser
+**'''Previously:''' Fires a short burst of prisma laser bolts. (Damage 10, Status 10%, Fire Rate 1.5, Magazine 15/Reload 0, Critical 5%/2x)
+**'''Now:''' Improved accuracy and burst rate, improved stats. (Damage 22, Status 10%, Fire Rate 1.5, Magazine 15/Reload 0, Critical 18%/2.2x)
+*Burst Laser Prime
+**'''Previously:''' Fires a short burst primed laser bolts. (Damage 12, Status 14%, Fire Rate 1.5, Magazine 15/Reload 0, Critical 6.2%/2.3x)
+**'''Now:''' Improved accuracy and burst rate, improved stats. (Damage 25, Status 15%, Fire Rate 1.5, Magazine 15/Reload 0, Critical 20%/2.3x)
+*Cryotra
+**'''Previously:''' Cold based beam weapon (Damage 10, Status 35%, Fire Rate 1, Magazine 80/Reload 4, Critical 5%/2x)
+**'''Now:''' Fires volleys of icy grenades that persistently chill the area around them (Damage 30, Status 10%, Fire Rate 0.667, Magazine 3/Reload 5, Critical 10%/1.8x)
+*Deconstructor:
+**'''Previously:''' Helios Sentinel attacks enemies using pieces of itself (Damage 50, Status 25%, Fire Rate 1.33, Magazine 6/Reload 3, Critical 0%/1x)
+**'''Now:''' Increased the seeking cone for choosing a secondary victim on bounce to 90 degrees; damage increased. (Damage 130, Status 25%, Fire Rate 1.33, Magazine 6/Reload 3, Critical 0%/1x) 
+*Deconstructor Prime:
+**'''Previously:''' Helios Sentinel attacks enemies using pieces of itself (Damage 75, Status 25%, Fire Rate 1.33, Magazine 6/Reload 3, Critical 0%/1x)
+**'''Now:''' Behavior unchanged but damage increased. (Damage 160, Status 25%, Fire Rate 1.33, Magazine 6/Reload 3, Critical 0%/1x)
+*Deth Machine Rifle:
+**'''Previously:''' Rapid fire Sentinel machine gun with a large magazine capacity and spool-up time. (Damage 5, Status 1%, Fire Rate 8.3, Magazine 100/Reload 2, Critical 5%/2x)
+**'''Now:''' Behavior unchanged but damage increased. (Damage 15, Status 1%, Fire Rate 8.3, Magazine 100/Reload 2, Critical 5%/2x)
+*Deth Machine Rifle Prime:
+**'''Previously:''' Rapid fire Sentinel machine gun with a large magazine capacity and spool-uptime. (Damage 7, Status 4%, Fire Rate 10, Magazine 100/Reload 2, Critical 10%/2x
+**'''Now:''' Behavior unchanged but damage increased. (Damage 20, Status 4%, Fire Rate 10, Magazine 100/Reload 2, Critical 10%/2x
+*Helstrum:
+**'''Previously:''' Launch a swarm of micro-missiles. (Damage 9.1 On target + 5 Radial, Status 30%, Fire Rate 0.91, Magazine 80/Reload 2, Critical 5%/1.5x)
+**'''Now:''' Behavior unchanged but damage increased. (Damage 10 On target + 30 Radial, Status 30%, Fire Rate 0.91, Magazine 80/Reload 2, 5%/1.5x)
+*Laser Rifle
+**'''Previously:''' Automatic gun that shoots laser bolts. (Damage 8, Status 2%, Fire Rate 1.67, Magazine 5/Reload 1.2, Critical 2.5%/1.3x)
+**'''Now:''' Behavior unchanged but damage increased. (Damage 45, Status 7.5%, Fire Rate 2.5, Magazine 5/Reload 1.2, Critical 17%/1.8x)
+*Laser Rifle Prime:
+**'''Previously:''' Automatic gun that shoots primed laser bolts. (Damage 12, Status 5%, Fire Rate 10, Magazine 5/Reload 1.2, Critical 15%/1.5x)
+**'''Now:''' Behavior unchanged but stats increased. (Damage 55, Status 10%, Fire Rate 3, Magazine 15/Reload 1.2, Critical 20%/2x)
+*Multron:
+**'''Previously:''' Projectile gun with very low damage and small amount of punch through (Damage 5, Status 5%, Fire Rate 3.33, Magazine 60/Reload 3, Critical 12.5%/1.8x)
+**'''Now:''' Fires a volley of powerful explosive darts that explodes in a large area shortly after embedding into something  (Damage 100, Radial distance 3.5M, Status 22%, ROF 1.56, Magazine 3/Reload 3, Critical 15%/2x)
+*Stinger
+**'''Previously:''' Dart gun that always applies Toxin status on impact (Damage 15, Status 5%, Fire Rate 3.3, Magazine 4/Reload 1.2, Critical 2.5%/1.5x)
+**'''Now:''' Always applies Toxin status on impact, then continues to hit the target once per second for 3 seconds with Stinger's modded damage types. This can stack.  (Damage 15, Status 20%, Fire Rate 3.33, Magazine 4/Reload 1.2, Critical 2.5%/1.5x)
+*Sweeper
+**'''Previously:''' Sentinel shotgun with short effective range. (Damage 7x6, Status 2.33%, Fire Rate 1, Magazine 10/Reload 2.3, Critical 5%/1.5x)
+**'''Now:''' Behavior unchanged but stats increased. (Damage 35x6, Status 4.5%, Fire Rate 1, Magazine 10/Reload 2.3, Critical 10%/1.8x)
+*Sweeper Prime
+**'''Previously:''' Sentinel shotgun with short effective range. (Damage 10x6, Status 2.5%, Fire Rate 1, Magazine 20/Reload 2, Critical 5%/2x)
+**'''Now:''' Behavior unchanged but stats increased. (Damage 45x6, Status 5%, Fire Rate 1, Magazine 20/Reload 2, Critical 10%/2.2x)
+*Tazicor:
+**'''Previously:''' Projectile gun that shoots short bursts of Electric bullets. (Damage 8, Status 15%, Fire Rate 8.33, Magazine 4/Reload 2.5, Critical 2%/1.5x)
+**'''Now:''' Fires a chaining beam of electricity that can incapacitate several enemies. (Damage 5, Status 25%, Fire Rate 12, Magazine 40/Reload 2.0, Critical 5%/1.5x)
+*Vulcax:
+**'''Previously:''' Charge-up beam weapon that reloads after every shot (Damage 35, Status 10%, Fire Rate 1, Magazine 1/Reload 6, Critical 20%/2.5x, Punchthrough 1M)
+**'''Now:''' Damage has been significantly improved to help the Vulcax's viability as a heavy weapon, along with better Accuracy, Reload and twice the Punchthrough. (Damage 500, Status 10%, Fire Rate 1, Magazine 1/Reload 3, Critical 20%/2.5x, Punchthrough 2M)
+*Vulklok:
+**'''Previously:''' Slow, high damage, high accuracy sniper rifle (Damage 85, Status 25%, Fire Rate 0.15, Magazine 10/Reload 2, Critical 35%/2.5x)
+**'''Now:''' Increased damage and gained Punchthrough  (Damage 175, Status 25%, Fire Rate 0.15, Magazine 10/Reload 2,Critical 35%/2.5x, Punchthrough 1.5M)
+
+;TOP FIXES
+*Fixed being unable to swap a Companion’s Polarity if you entered their Upgrade screen via the Star Chart UI.
+
+;FIXES
+'''General Fixes:'''
+*Fixed Eximus enemies being considered low-priority foes by Companions and other allied NPCs in Sanctuary Onslaught.
+*Fixed unmatured versions of the Helminth Charger turning into a normal Kubrow when set to “Roam the Orbiter”. Since the unmatured version of this Companion is a Cyst, it will remain a Cyst when given the option to roam. It may not move physically, but rest assured its heart is roaming free!
+*Fixed the Genetic Tools tab not appearing when a Helminth Charger is set to Roaming.
+
+{{ver|36}}
+*Fixed Companions not gaining Affinity from player kills while riding Merulina or K-Drive.
+*Fixed stats not updating in the UI while modding Companions in a Relay/Town/Dojo/etc.
+*Fixed the Pack Leader Mod reducing the amount of Overguard on a Companion if they already have the Mod's max amount  (+1200).
+*Fixed being unable see Mirage’s Hall of Mirrors clones in Grendel Locator missions if you have a Companion equipped. 
+**Also fixed being unable to Melee Attack after casting Hall of Mirrors under the same conditions. 
+*Fixed a noticeable hitch caused by modular Companions that would happen in the following scenarios:
+**Equipping them in the Arsenal.
+**Panzer Vulpaphylas when respawning from their larvae form (Panzer Devolution Mod).
+**Loading into missions with them equipped.
+*Fixed a hitch in the Arsenal when equipping a Companion with the Kavasa Prime Kubrow Collar. 
+**This also fixes hitches when clones of Companions with the Kavasa Prime Kubrow Collar are spawned by Duplex Bond. 
+*Fixed spot-loading issues when previewing Companion cosmetics in the Market.
+*Fixed Companion Kubrows in Look Link previews not having the updated fur texture released with Dante Unbound.
+*Fixed several issues with downed sounds not playing: 
+**Fixed being unable to hear your own non-Kubrow Companion get downed. 
+**Fixed Host being unable to hear Client’s Companion get downed. 
+*Fixed Companion’s revive percentage resetting if another player also starts reviving them.
+*Fixed Sentinels and Companions remaining highlighted in the Arsenal with the Ally Highlights setting enabled. 
+*Fixed Companion UI stretching if you're dead when the mission fails.
+
+{{ver|35.1}}
+*Fixed having both an incubating and equipped Companion active at the same time after merging an account that is Incubating a Companion with an account that has a Companion equipped. 
+**''Now, when merging accounts in these states, the equipped Companion will be unequipped.''
+
+{{ver|35}}
+*Fixed being unable to chat link certain Companion fur colors.
+
+{{ver|34}}
+;COMPANION REWORK (PHASE 1)
+
+'''This section covers the following topics (in order):'''
+*Companion Immortality 
+*Companion Stat Changes
+*Companion Healing 
+*Companion Mod Changes & Additions
+*And more! 
+
+Your furry, robotic, fleshy, and everything in between pals have received a rework! Read on to learn how the way you use, Mod, and interact with your Companions has changed in this first phase of the Companion system overhaul. 
+ 
+'''Our high-level objectives for this Companion rework are:'''
+
+'''1. Make Companions more viable in high-level gameplay by making them immortal.'''<br/>
+Companions can no longer die! This avoids frustrating scenarios where you are relying on your Companion to provide some feature or bonus only to have them get removed from play. The base stats of Companions have also been increased significantly to help them in difficult missions.
+
+'''2. Introduce more interactive Mods that offer ways to play alongside your Companion instead of it being mostly autonomous like a specter.'''
+
+'''3. Changes to many Companion Mods, mostly to support the first two goals of removing death states and improving basic survivability.'''<br/>
+Some Mods were inconsistent in their naming or stats, and we have improved this. We have rebalanced some Mods that players felt were not good enough, or ones that we've observed are SO good that they are considered "essential."
+
+;COMPANION IMMORTALITY
+We've all seen the memes with people giving their Companions funny names, only to see the message over and over every few minutes: "Your Companion is down!"  Dying Kavats and Kubrows have been demanding attention on your HUD, and spontaneously combusting Sentinels have been robbing you of your Vacuum and Animal Instinct for years.
+
+All that changes with this update. Going forward, Companions will still have Health and Shield values, and they can be knocked out, but they will not die if you fail to revive them. When they reach zero Health, Companions will instead become '''Incapacitated''' for a base duration of 60 seconds. All Companions will automatically revive at the end of their Incapacitate period, and there is no limit to the number of times this can happen. Upon reviving all Companions have 5 seconds of invulnerability to get back on their feet safely!
+
+'''Here are the specifics to how each Companion behaves while Incapacitation:'''
+*Kavats, Kubrows, MOAs, and Predasites will now collapse on the ground and can be, optionally, manually revived to get them back into action quicker.
+*Sentinels cannot be manually revived, but they will fly along with you in a damaged state while performing their automatic self-revive.
+*Vulpaphylas still have their usual tricks instead, where they morph into a Sentinel-like state for a short period and then recover.
+*Khora's Venari still uses its usual behavior of temporarily disappearing if defeated, but you can override its time-out by spending Energy to cast her Venari Ability.
+*Worth noting that Vacuum and Animal Instinct work while the Companion is Incapacitated.
+*With Incapacitation, Companions can now recover from being downed in Arbitration missions, instead of staying dead for the duration of the mission. 
+
+Several Mods have been modified or introduced that also change when or how your Companion deals with Incapacitation - see the “Companion Mod Changes & Additions” section below for specifics.
+
+;COMPANION STAT CHANGES
+Two broad changes have been made with regard to your Companion's base stats to increase their staying power: 
+
+'''1. Health, Shields and Armor have been refactored across the board.'''<br/>
+This simple numeric buff was made with the goal of increasing Companion survivability. This also means that the choice of whether to use, for example, Enhanced Vitality or Linked Vitality, will depend on your Warframe choice instead of the Linked Mod always being strictly superior.
+
+'''2. Non-Sentinel Companions now gain their full Health and Shield values immediately when you acquire them.'''<br/>
+Historically Health and Shield values would increase as your Companion ranked up, which you could see as "Rank Bonuses" in the Upgrades screen. We've removed this behavior and simply given Companions what would end up being their Rank 30 values at Rank 0. This should let you immediately take your Companions on more difficult missions after earning them!
+
+'''Revised Kubrow Stats:
+*Huras Kubrow: 560 Health (from 150),  490 Shield (from 125), 200 Armor (from 50)
+*Raksa Kubrow: 750 Health (from 200), 390 Shield (from 100), 200 Armor (from 50)
+*Sahasa Kubrow: 940 Health (from 250), 290 Shield (from 75), 200 Armor (from 50)
+*Sunika Kubrow: 830 Health (from 220), 350 Shield (from 90), 200 Armor (from 50)
+*Chesa Kubrow: 940 Health (from 250), 290 Shield (from 75), 200 Armor (from 50)
+*Helminth Charger: 710 Health (from 190), 330 Shield (from 85), 200 Armor (from 50)
+
+'''Revised Predasite Stats (all types):'''
+*710 Health (from 190), 350 Shield (from 90), 200 Armor (from 50)
+
+'''Revised Vulpaphyla Stats (all types):'''
+*680 Health (from 180), 370 Shield (from 95), 200 Armor (from 50)
+
+'''Revised MOA Stats (all types):'''
+*350 Health (from 100), 350 Shield (from 100), 350 Armor (from 100)
+*MOA base stats can be modified further by their components and via Gilding
+
+'''Revised Kavat Stats:'''
+*Adarza Kavat: 310 Health (from 80), 270 Shield (from 70), 200 Armor (from 50)
+*Smeeta Kavat: 390 Health (from 100), 230 Shield (from 60), 200 Armor (from 50)
+*Vasca Kavat: 310 Health (from 80), 270 Shield (from 70), 200 Armor (from 50)
+*Venari: 900 Health (from 300), 350 Armor (from 350)
+*Venari Prime: 1050 Health (from 350),  450 Armor (from 450)
+
+'''Revised Hound Stats:'''
+*Adlet Hound: 350 Health (from 100), 450 Shield (from 150), 350 Armor (from 100)
+*Garmr Hound: 350 Health (from 100), 350 Shield (from 100), 450 Armor (from 150)
+*Raiju Hound: 450 Health (from 150), 350 Shield (from 100),  350 Armor (from 100)
+*Hound base stats can be modified further by their components and via Gilding
+
+'''Revised Sentinel Stats:'''
+*Carrier: 560 Health (from 200), 250 Shield (from 100), 80 Armor (from 50)
+*Carrier Prime: 650 Health (from 400), 200 Shield (from 100), 150 Armor (from 150)
+*Dethcube: 560 Health (from 200), 250 Shield (from 100), 80 Armor (from 50)
+*Dethcube Prime: 600 Health (from 300), 200 Shield (from 100), 150 Armor (from 150)
+*Diriga: 700 Health (from 350), 150 Shield (from 50), 80 Armor (from 50)
+*Djinn: 560 Health (from 200), 250 Shield (from 100), 80 Armor (from 50)
+*Helios: 560 Health (from 200), 250 Shield (from 100), 80 Armor (from 50)
+*Helios Prime: 700 Health (from 250), 200 Shield (from 100), 100 Armor (from 100)
+*Nautilus: 560 Health (from 200), 250 Shield (from 100), 80 Armor (from 50)
+*Oxylus: 560 Health (from 200), 250 Shield (from 100), 80 Armor (from 50)
+*Shade: 600 Health (from 350), 130 Shield (from 50), 80 Armor (from 50)
+*Shade Prime: 700 Health (from 350), 200 Shield (from 100), 100 Armor (from 100)
+*Prisma Shade: 600 Health (from 300), 130 Shield (from 50), 80 Armor (from 50)
+*Taxon: 560 Health (from 200), 250 Shield (from 100), 80 Armor (from 50)
+*Wyrm: 560 Health (from 200), 250 Shield (from 100), 80 Armor (from 50)
+*Wyrm Prime: 450 Health (from 225), 600 Shield (from 300), 150 Armor (from 150)
+
+;CONSISTENCY IN COMPANION HEALING
+
+Previously, the Mod “Link Health” could cause your Companions to gain some of the healing that your Warframe did. This invisible feature was not indicated by the card, and it was never explained what forms of healing worked or why. Additionally, Companions were using some of the same mechanics that things like mission objectives did, which limited the effects of some healing or defensive powers. We've decided to remove both of these obscure mechanics and restrictions.
+
+Companions will no longer gain Health when your Warframe does if using certain Health-absorbing powers together with the Mod '''“Link Vitality”''' (formerly Link Health). The restrictions of the following abilities and features, as they apply to granting Health, Shields, or Damage Resistance to Companions have been removed:
+*Nezha’s Warding Halo
+*Trinity’s Blessing
+*Ember’s Immolation
+*Garuda’s Blood Altar
+*Gara’s Splinter Storm
+*Styanax’ Intrepid Stand
+*Mirage’s Eclipse
+*Volt’s Discharge
+*Baruuk’s Desolate Hands
+*Harrow’s Penance
+*Harrow’s Thurible
+*Equinox’ Mend & Maim
+*Sancti Magistar’s Heavy Attack Heal
+*Vazarin’s Protective Sling
+
+;COMPANION MOD CHANGES & ADDITIONS
+
+'''Changes To Existing Mods'''<br/>
+Several Mods have been modified to interact with how your Companion deals with Incapacitation. 
+
+''Stats below are shown at Max Rank.''
+
+'''Sentinel Survivability Mod Changes:'''
+*Calculated Redirection changed from max 275% Shields to max 250% Shields
+*Enhanced Vitality changed from max 220% Health to max 250% Health
+*Metal Fiber changed from max 110% Armor to max 250% Armor
+*Regen has been changed significantly. Because your Sentinels no longer die after reaching zero Health, Regen instead reduces the Incapacitation time of your Sentinel by 20 seconds, and provides 10 seconds of Invulnerability after reviving.
+*Primed Regen provides a greater benefit: Incapacitation time is reduced by 35 seconds, and provides 10 seconds of Invulnerability after reviving.
+*Sacrifice still allows your Sentinel to automatically revive you; however, the Sentinel now goes into Incapacitation instead of being destroyed. Adds 15 seconds to your Sentinel's Incapacitation time.
+*Repair Kit has been changed from providing your Sentinel with 6 Health per second to 18 Health per second.
+
+'''Companion Survivability Mod Changes:'''
+*Link Health has been renamed to Link Vitality, and changed from max 165% of your Warframe's Health shared with Companion, to max 125% shared Health.
+*Link Shields has been renamed to Link Redirection, and changed from max 110% of your Warframe's Shield shared with Companion, to max 125% shared Shield.
+*Link Armor has been renamed to Link Fiber, and changed from max 110% of your Warframe's Armor shared with Companion, to max 125% shared Armor.
+*Medi-Pet Kit has been changed from providing your Companion with 6 Health per second and 72% Bleedout Reduction, to providing 12 Health per second and reducing Incapacitation time by 15 seconds.
+*Accelerated Deflection (+90% Shield Recharge) has been changed from being only equipped on Sentinels, to the Robotic category, which means it is now also compatible with Hounds and MOAs. Additionally, it also provides -45% Shield Recharge Delay.
+
+'''Other Companion Mod Changes:'''
+
+*Djinn's "Reawaken" has been changed. Now it will reduce Djinn's Incapacitation time by 6 seconds for each Energy Orb you pick up. Djinn will also revive with 300 points of Overshield for each collected Orb. Djinn’s max Overshields increase by 900. 
+**''Since every Sentinel now has a free immortality feature, Djinn needed something to be special again.  ''
+*Pack Leader has been changed. Instead of healing your Companion by 36% of melee damage inflicted, it now restores 100 Health per melee hit. Excess healing becomes Overguard instead, with a maximum of 1200 Overguard.
+*Primed Pack Leader increases Pack Leader effect to 183 Health restored per hit, and increases Overguard cap to 2200.
+**''Pack Leader's healing was so strong that, functionally, any upgraded melee weapon would fully heal your Companion in a single hit. You would hit an enemy for several thousand damage, and your Companion would proportionately receive thousands of Health. This change tries to make the healing values more sensible so that you can heal your Companion efficiently but not *instantly*. By letting you overflow into Overguard, it also provides some extra ability to tank large hits.''
+*Sentinel Sanctuary and Companion Shelter Mods have been improved. The shield globe, while the player is performing a revive, has been increased from 600 Health to 1800 Health.
+*Self Destruct has been modified. Formerly this would cause Sentinels to cause 600 Blast damage in an 18-meter radius on death. Now Sentinels cause radial damage on Incapacitation instead.
+*Loyal Companion has been reworked entirely. Formerly it provided a 90% Bleedout-Link so that your Companion had a longer period of time where it could be revived. Since Companion death is no longer a factor: Loyal Companion applies 75% Damage Resistance to your Warframe for 10 seconds, and causes your Companion to become invulnerable and taunt enemies to draw fire to itself for 30 seconds, if your Warframe falls below 35% Health. There is a 60-second cooldown between activations.
+*(Parazon) Hard Reset: Changed from instantly reviving your Companion if you achieved 3 Mercy Kills within 40 seconds, to reducing your Companion's Incapacitation time by 15 seconds on each Mercy Kill.
+**''We found that this was fairly difficult to achieve. Changing it to allow incremental progress makes it more reliably beneficial to use this.''
+*Fired Up has been both improved and simplified. Previously this would require that your Sentinel has been shooting continuously for some period of time, and then added a Heat damage multiplier. This has been changed so that the Sentinel gains a 5% bonus Heat damage on every weapon hit up to 100%. The bonus resets after 5 seconds if the Sentinel has not landed a hit during that time. 
+**''This Mod was difficult to understand and only worked if the Sentinel weapon already did some amount of Heat damage. The mechanics are now more intuitive and the bonus applies the same way adding a Mod would, so your Sentinel's weapon doesn't need to already do Heat damage to benefit.''
+*Spare Parts: Previously Spare Parts would cause Sentinels to drop rare materials on death. This Mod now causes your Sentinel to mark an enemy for 5 seconds, choosing a new target every 15 seconds. Killing the marked enemy increases their loot drop chance by 200%.
+**''Since Companions no longer die, we wanted to change their resource drop to something that was more interactive and rewards combat instead of your Sentinel randomly exploding.''
+
+;New Companion Mods
+Referring back to the introduction, one of our goals with the Companion rework is to add opportunities for the player to work together with the Companion. Instead of a Mod that only affects your Companion, we looked for ways that you and your Companion could amplify each other.
+
+The following new Mods aim to do just that!
+
+These Mods are available to acquire at the Conservation vendors in Cetus (Master Teasonai), Fortuna (The Business), and the Necralisk (Son).
+
+''<nowiki>*</nowiki>Stats below are shown at Max Rank.''
+
+<u>Available In Master Teasonai’s Offerings (Cetus):</u>
+
+'''Tandem Bond'''<br/>
+Companion melee hits increase your combo by 6. Heavy Attacks increase Companion melee damage by 30% of melee damage multiplied by your combo multiplier for 30s.
+
+'''Covert Bond'''<br/>
+Finisher and Mercy Kills grant your Companion 10s of stealth that attacks will not disrupt, up to 60s.
+
+'''Mystic Bond'''<br/>
+After your Companion uses Abilities with cooldowns 5 times, you may cast a Warframe Ability without expending Energy. 
+
+'''Restorative Bond'''<br/>
+Health Orbs restore 60 more Health and reduce Companion Recovery by 3s.
+
+'''Manifold Bond (Robotic)*'''<br/>
+
+Companion Precept Mods apply Status Effects from Companion weapons. Killing enemies with 3 or more unique Status Effects reduces Companion Ability cooldowns by 3s.
+
+''<nowiki>*</nowiki>Work is still ongoing for this mod, we are aware of some Robotic Companion Precepts which do not trigger the bonus Status Effects.''
+
+<u>Available In The Business’ Offerings (Fortuna):</u>
+
+'''Aerial Bond'''<br/>
+Airborne kills decrease Companion Recovery timer by 3s and 9s for headshot kills. Companion creates a field of Cold that increases up to 35% Status chance and 10m radius while Warframe is airborne, lasting for 3s after returning to the ground.
+
+'''Astral Bond'''<br/>
+Damage dealt by Operator or Drifter grants 120% Void damage to your Companion’s attacks for 10s. Companion Void damage adds +30% Amp and Energy Efficiency to Operator or Drifter for 5s.
+
+'''Momentous Bond'''<br/>
+Killing Eximus enemies grants 120% bonus of a random Elemental Damage to your Companion for 30s and reduces Companion Recovery by 12s. 
+
+'''Reinforced Bond'''<br/>
+If the Companion exceeds 1200 maximum shields or Overshields, then your fire rate is increased by 60%. Reloading restores 150 Overshields to your Companion.
+
+'''Tenacious Bond'''<br/>
+Headshot kills reduce Companion Recovery timer by 3s. If the Companion’s Critical Chance is over 50% then you gain +0.6x Final Critical Damage Multiplier. 
+
+<u>Available In Son’s Offerings (Necralisk):</u>
+
+'''Duplex Bond'''<br/>
+Companion will clone itself each time you expend 100 Energy, up to 3 Clones. Clones live for 30s and their kills have a 50% chance of dropping Energy Orbs.
+
+'''Seismic Bond'''<br/>
+While a channeled Ability is active, Companion melee attacks create a 4m shockwave for 30% of their melee damage. Damage dealt by your Companion increases your Ability Efficiency by 3% for 12 seconds. Max 10 stacks.
+
+'''Vicious Bond'''<br/>
+Companion melee attacks strip 15% of enemy armor. Melee attacks on enemies recently damaged by Abilities apply the effect in a 9m radius.
+
+'''Contagious Bond'''<br/>
+When your Companion kills an enemy afflicted with a Status Effect, 50% of the Status Effect spreads to other enemies within 9m.
+
+;FURTHER COMPANION QUALITY-OF-LIFE CHANGES
+
+A few further changes that are worth mentioning:
+
+*Sentinels now avoid damage from Arson Eximus explosions if you also avoid damage with a successful dodge.
+*The improvement to Shield Gating where it now scales with maximum Shield strength and fully resets as long as you have any Shield charge at all, also applies to Companions.
+*Companions can now gain Overguard (behaves the same as player Overguard) and Overshield. 
+*Health and Energy conversion will now enable picking up Orbs at max capacity. This applies to the Equilibrium Mod as well. 
+*Added map icons for each Companion type to help identify their location. 
+*Reduced the amount of Alloy Plates required to craft the Kavat Incubator Upgrade Segment from 120,000 to 60,000. 
+*Improved Companion HUD information: 
+**Removed notifications for when other players’ Companions are downed (Incapacitated) to reduce HUD noise. You will now only get notified for your own Companion. 
+**Your Companion now has its very own icon in the HUD. 
+*Updated the Imprints error message to be more accurate: 
+**Was: "Cannot make imprints of pets when they have not yet matured. Wait for active pet to become an adult before creating imprint."
+**Now: "Cannot make imprints of pets when they have not yet matured. Mature to an adult before creating imprint."
+*Oberon's Passive now applies to all Companion Types.
+**''Previously only Kavats, Kubrows, Predasites, and Vulpaphylas would receive +25% Health, Armor, and Shield links, plus the 1 instant revive per mission.''
+*Companions are no longer able to be staggered! 
+**''Because staggering would often stop your pets in-place, it opened them up to being re-staggered, which then often led to their swift demise. This should fix that issue, and allow your furry and not-so-furry friends to have more impact in-mission.''
+
+{{ver|33.5}}
+*Fixed swapping between Companion types (ie. Sentinel to Kubrow) and attempting to purchase an Appearance Config Slot for their Companion resulting in the player being charged the Platinum cost but not  receiving the Slot. 
+**''The team is reviewing a script or support path for those affected by this issue!''
+
+{{ver|31.0.10}}
+*Fixed a Companion weapon not applying all equipped Upgrades if they are valid for the weapon's current configuration but the weapon has a capacity upgrade and the Companion does not.
+
+{{ver|31.0.2}}
+*Fixed a script error when Maturing a Companion.
+
+{{ver|31}}
+*Companions will now receive 100% of the Affinity from kills you make. This matches shared Affinity functionality (you receive 100%, Companion receives 100%).
+
+{{ver|30.9.3}}
+*Fixed further issues with Kuva LIches and certain power combinations when cast on player Companions.
+
+{{ver|30.9}}
+*Added sneezing animations to Companions - time to start carrying around tissue, Tenno!
+*Fixed HUD issues with Companion Health and Shield stats that would occur whenever a player is revived.
+
+{{ver|30.5}}
+*Fixed Companions stopping mid-animation when loading in and out of Deimos.
+
+{{ver|30.3.2}}
+*Fixed visual flicker when equipping a Pet immediately after Maturing.
+
+{{ver|30.1}}
+*Fixed rare case of an inability to acquire a Pet.
+
+{{ver|29.10.8}}
+*Fixed Pet Companions being overly fixated on finishing combat before they are capable of switching to follow/teleport behaviors.
+
+{{ver|29.10.2}}
+*Fixed Shared Affinity not counting towards Companions/Sentinels.
+
+{{ver|29.10}}
+*Fixed Companions targeting Condrocs, Kuakas & Mergoo in the Plains of Eidolon, thus eliminating any chances for Conservation.
+*Fixed inability to open the Upgrades window for Companions/Sentinels and getting a “Select item has not yet been loaded. Please wait a moment and try again” error.
+*Fixed Companions not respawning when Titania runs out of Energy in Razorwing form while Transferring to Operator.
+
+{{ver|29.6.5}}
+*Modified the Pet Incubation screen to allow you to purchase Companion Inventory Slots for Platinum if you need them, thus removing the extra step of having to leave and use the Market. (I.e. behaves like when you try to claim a weapon from the Foundry but have no free Slots).
+
+{{ver|29.5}}
+*Fixed Companions teleporting during Helminth interaction if you swap to a different furry friend in the Arsenal.
+*Fixed companion UI not updating properly while in Necramech, as reported here: https://forums.warframe.com/topic/1222078-pet-went-down-on-cabria-drift-while-in-mech-but-hud-still-showed-pet-with-100-health/
+*Fixed Companions that are “released” to vendors still following you after you’ve done so.
+*Fixed getting an "Unknown Error" when you try to start a Companion Incubation while already Imprinting.
+*Fixed visual issues caused by maturing Companions in the Orbiter. 
+*Fixed the Incubator dome animation playing after selecting new companions or maturing them. Swapping will be instantaneous and no animation will be played as intended.
+*Fixed choosing “none” as a companion in the Railjack Arsenal causing the camera to clip into the Arsenal itself. This also fixes the same thing happening when switching back and forth from the companion tab.
+*Fixed a case of Companions Moas spawning in the Arsenal floor and then falling when equipped.
+
+{{ver|29.2}}
+*Fixed default Pet being shown for a quick second when swapping Pets quickly in the Arsenal.
+
+{{ver|29.0}}
+*Introduced Infested Companions.
+
+{{ver|28.3.3}}
+*Fixed a nonfunctional option in the Companion Customization screen.
+
+{{ver|28.1}}
+*Fixed Pets facing backwards when interacting with the Incubator.
+*Fixed Pets using the wrong skeleton and appearing mutated when swapping to a loadout of a different Pet (Kubrow vs Kavat) before claiming your Incubated Pet when using a controller.
+*Fixed being able to interact with Pets that haven't yet been named/claimed which could cause a functionality loss.
+*Fixed flickering/invisible issues with Pets when accessing an Arsenal outside the Orbiter (Cetus, Captura, etc).
+*Fixed Incubated/unnamed Pets showing up in your Inventory as an unnamed level 0 Kubrow.
+
+{{ver|28.0.6}}
+*Shield Gating now applies to Companions the same way it does to Warframes!
+**''Blocks 100% of Damage for 1000ms on first break, reduced to 300ms if Shields break again without fully recharging.''
+*Fixed Pets using the wrong skeleton and appearing mutated when swapping to a loadout of a different Pet (Kubrow vs Kavat) before claiming your Incubated Pet.
+*Fixed receiving a weird error when attempting to equip a Pet while another one is being Imprinted.
+**''You’ll now receive a less confusing error message indicating “Cannot switch to a new Pet while imprinting”.''
+
+{{ver|28.0.5}}
+*Fixed cases where Companion inventory slots were not counted correctly if you didn’t own any Kavats or Kubrows, leading to the game giving you an error when you tried to look at your Inventory, Trade, or Craft a new Companion.
+
+{{ver|28.0.2}}
+*Fixed a crash that could occur when quickly selecting and previewing Companions while not having any Companions previously roaming the ship.
+*Fixed Pets appearing with Default colours at first.
+*Fixed a script error when trying to claim a Pet after previewing other Pets in the Arsenal.
+
+{{ver|27.3.13}}
+*Fixed Companions trying to attack enemies that are in Inaros’ Devour trap, which we don’t want cause we wish to snack on said enemy.
+
+{{ver|27.3.3}}
+*Fixed certain Armor pieces not fitting correctly on Companions.
+
+{{ver|27.1}}
+*Fixed Pet Companions struggling to path ziplines. As reported here: https://www.reddit.com/r/Warframe/comments/ev3ekk/first_mission_of_my_kubrow/
+
+{{ver|26.0}}
+*Introduced Vasca Kavat.
+
+{{ver|24.0}}
+*Introduced MOA Companions.
+
+{{ver|19.5.5}}
+*(Undocumented) Introduced Helminth Charger.
+
+{{ver|Specters of the Rail}}
+*Introduced Kavats.
+
+{{ver|17.0}}
+*Introduced Chesa Kubrow.
+ 
+{{ver|14.0}}
+*Introduced Kubrows.
+
+{{ver|7.0}}
+*Introduced Sentinels.}}
+
+==See Also==
+
+*[[Specter]]s, one-time-use allies.
+
+{{CompanionNav}}
+[[de:Begleiter]]
+[[es:Compañero]]
+[[it:Compagni]]
+[[fr:Compagnons]]
+[[Category:Companion]]
+[[Category:Outline Pages]]
+[[Category:HomePage]]

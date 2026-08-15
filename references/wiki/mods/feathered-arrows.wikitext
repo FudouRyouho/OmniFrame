@@ -1,0 +1,54 @@
+{{PvPItem}}
+{{ModBox}}
+'''Feathered Arrows''' is a [[Conclave]]-exclusive Bow mod which provides faster projectile [[Projectile Speed]] at the cost of reduced damage.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! [[Projectile Speed]]
+! Damage
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +15% || -5% || 6
+|-
+| 1 || +30% || -10% || 7
+|-
+| 2 || +45% || -15% || 8
+|-
+| 3 || +60% || -20% || 9
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+*Can be used with the {{Weapon|Attica}} and {{Weapon|Zhuge}} crossbows and {{WF|Ivara}}'s {{Weapon|Artemis Bow}}.
+*Cannot be used with the {{M|Lucky Shot}} mod.
+
+{{clr}}
+==Patch History==
+{{Scrollbox/Article|
+{{ver|17}}
+*Introduced.
+}}
+
+==See also==
+*{{M|Lucky Shot}}, a similar rifle version of this mod that reduces accuracy instead of damage.
+*{{M|Blind Shot}}, a similar sidearm version of this mod that reduces accuracy instead of damage.
+
+{{ConclaveMods}}
+__NOTOC__
+[[de:Gefederte Pfeile]]
+[[es:Flechas emplumadas]]
+[[fr:Flèches Empennées]]
+[[ru:Оперённые Стрелы]]
+[[Category:PvP Mods]]
+[[Category:Mods]]
+[[Category:Uncommon Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Update 17]]
+[[Category:Madurai Mods]]
+[[Category:Bow Mods]]
+[[Category:Damage Mods]]
+[[uk:Оперені стріли]]

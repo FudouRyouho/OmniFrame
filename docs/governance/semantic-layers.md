@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Frontera obligatoria para la interpretación y transformación de datos"
-Version: "v0.0.4"
 Impacto_ID: "G-Semantic"
 Fidelidad_Fisica: "Project/src/shared/types/"
 Fecha_de_creacion: "2026-04-18"

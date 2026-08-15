@@ -1,0 +1,77 @@
+==Miscellaneous Buffs==
+Buffs that fall under multiple categories or don't fit in any of the existing ones.
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Target
+! Description
+|-
+| [[Ancient Disruptor]] Aura || Enemy ||align="left"|
+([[Mind Control|Mind controlled]] enemies will grant bonus to allies; note that some of the bonuses may not apply to players)
+*Reduces damaged recieved from Warframe abilities by 90%
+*Energy from Warframes are drained proportionally to the damage dealt by enemies under the aura
+*Reduces crowd control effects of certain Warframe abilities (effect varies from ability to ability)
+**Multiple Ancient Disruptor auras can stack, causing a greater reduction effect
+|-
+| [[Ancient Healer]] Aura || Enemy ||align="left"|
+([[Mind Control|Mind controlled]] enemies will grant bonus to allies)
+*Grants [[Overguard]] health to nearby enemies that is 9x the Ancient Healer's health.
+**Status and knockdown immunity to all under the aura because of Overguard health.
+*Damage done to protected allies will heal the [[Ancient Healer]] for up to 150% of its health
+|-
+| Arcane Enhancements || User ||align="left"|
+''See [[Arcane Enhancement]] for more details.''
+|-
+| Convergence || Player ||align="left"|
+Multiplies the amount of [[Affinity]] converted to [[Focus]] points by some multiplier for either a period of '''45 seconds''', until death, or when the daily Focus cap has been reached, whichever is shortest.
+*Picking up [[Focus#Convergence|Convergence Orbs]] (8x conversion)
+*After entering a new zone in [[Sanctuary Onslaught]] (8-16x, scaling with zones completed)
+|-
+| Corruption || All ||align="left"|
+Obtainable during [[Void Fissure]]s, the effect varies for enemies and Tennos.<br />
+'''Enemies''': The target will be stunned temporarily, granting invulnerability during that time frame.
+'''Tenno''': After collecting '''10''' Reactants, a buff will be randomly given to either the Warframe or a weapon. The buffed equipment will have a corrupted texture effect and emit lighting bolts for the duration of the buff. The buff duration is based on the tier of the Void Fissure, following the formula: {{MathText|Buff Duration {{eql}} 30s {{mul}} Mission Tier}}.
+*[[Warframe]]: Two times multiplier to [[Ability Range]] and [[Ability Strength|Strength]].
+**This affects the total value.
+**For example, with a maxed {{M|Intensify}} Ability Strength becomes {{Math|(1 + 0.3) {{mul}} 2|mt=y|percent=y}} while the buff is active.
+*[[Primary Weapon|Primary]] and [[Secondary Weapon]]s: No [[Ammo]] will be consumed.
+*[[Melee 2.0|Melee]] Weapons: [[Channeling]] cost is reduced to '''1''' point of [[Energy]] per enemy hit.
+|-
+| Invisibility || Player ||align="left"|
+The player becomes visually undetectable by any enemy. Enemies won't be alerted upon entering their line of sight.
+*{{WF|Ash}}'s {{A|Smoke Screen}} and {{M|Smoke Shadow}}
+*{{WF|Cyte-09}}'s {{A|Evade}}
+*{{WF|Ivara}}'s {{A|Quiver}} (Cloak arrow) and {{A|Prowl}}
+*{{WF|Loki}}'s {{A|Invisibility}}
+*{{WF|Nokko}}'s {{A|Reroot}}
+*{{WF|Octavia}}'s {{A|Metronome}} (Nocturne buff)
+*{{WF|Oraxia}}'s passive
+*{{WF|Voruna}}'s {{A|Shroud of Dynar}}
+*{{WF|Wisp}}'s passive and {{A|Wil-O-Wisp}}
+*{{WF|Wukong}}'s passive (Heavenly Cloak buff), {{A|Cloud Walker}}, and {{M|Enveloping Cloud}}
+*{{Companion|Shade}}'s {{M|Ghost}}
+*{{Companion|Huras Kubrow}}'s {{M|Stalk}}
+*[[Itzal]]'s {{A|Penumbra}}
+*{{M|Untraceable}}
+*{{Weapon|Skiajati}}'s passive
+*{{Arcane|Arcane Trickery}}
+*[[Void Mode]]
+|-
+| {{Weapon|Mutalist Quanta}}'s Orbs || User/Ally ||align="left"|
+Shots fired through the {{Weapon|Mutalist Quanta}}'s infested orbs gain additional {{D|Electricity}} damage, [[Critical Hit|critical]] chance and damage.
+*Damage bonus stacks with the amount of stacks the orbs have when the shots go through them.
+|-
+| [[Swarm Mutalist MOA]]'s Swarm Clouds || Enemy ||align="left"|
+*Swarm clouds caused by projectiles fired by [[Swarm Mutalist MOA]]s grant allied infested units that carry them a {{D|Ferrite Armor}} buff that scales with enemy level.
+|-
+| [[Toxic Ancient]] Aura || Enemy ||align="left"|
+([[Mind Control|Mind controlled]] enemies will grant bonus to allies)
+*Grants nearby infested units {{D|Toxin}} damage
+*Grants 100% damage reduction to {{D|Toxin}} damage and 80% damage reduction to {{D|Gas}} damage
+|-
+| Volt's {{A|Electric Shield}} || User/Ally ||align="left"|
+Shots fired through {{WF|Volt}}'s {{A|Electric Shield}} gain an additive '''50%''' {{D|Electricity}} damage and have their [[Critical Hit|critical]] damage multiplied by '''200%'''.
+*{{D|Electricity}} damage bonus stacks with the amount of shields while the critical chance boost does '''not'''.
+|-
+|}
+[[Category:Mechanics]]

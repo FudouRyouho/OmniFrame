@@ -39,6 +39,9 @@ export const STAT_PRESENTATION: Partial<Record<Upgrade, PresentationMeta>> = {
 
   // ── WEAPON — offensive ──────────────────────────────────────────────────────
   WEAPON_ADD_FIRE_RATE:       { label: 'FIRE RATE',       category: 'offensive', unit: '' },
+  // Melee: stat propio, no un alias de FIRE RATE. Antes una espada se proyectaba con el
+  // label 'FIRE RATE' porque compartía nodo — la UI mostraba el nombre equivocado.
+  MELEE_ADD_ATTACK_SPEED:     { label: 'ATTACK SPEED',    category: 'offensive', unit: '' },
   WEAPON_ADD_MULTISHOT:       { label: 'MULTISHOT',       category: 'offensive', unit: '' },
   WEAPON_ADD_MAGAZINE_MAX:    { label: 'MAGAZINE',        category: 'offensive', unit: '' },
   WEAPON_ADD_AMMO_MAX:        { label: 'AMMO MAX',        category: 'offensive', unit: '' },
@@ -97,8 +100,17 @@ export const STAT_PRESENTATION: Partial<Record<Upgrade, PresentationMeta>> = {
   AVATAR_ADD_ABILITY_DAMAGE:     { label: 'ABILITY DAMAGE',     category: 'offensive', unit: '%' },
 
   // ── AVATAR — utility ────────────────────────────────────────────────────────
-  AVATAR_ADD_MOVEMENT_SPEED:       { label: 'MOVEMENT SPEED',  category: 'utility', unit: '%' },
+  // Escala, no porcentaje: el nodo nace del `sprint_speed` del raw (1.0 = 6 m/s de walk) y los
+  // buffs lo multiplican — 1.0 × Volt Speed = 1.75, que el arsenal muestra como un `1,75x`, no
+  // como "1.8%". Mismo formato que ATTACK SPEED y FIRE RATE. Ver wiki/mechanics/movement-speed.md.
+  AVATAR_ADD_MOVEMENT_SPEED:       { label: 'MOVEMENT SPEED',  category: 'utility', unit: '' },
   AVATAR_ADD_SPRINT_SPEED:         { label: 'SPRINT SPEED',    category: 'utility', unit: '%' },
+  // Porcentaje sobre base sintética 100 — al revés que MOVEMENT SPEED, que es escala. Los dos son
+  // stats de movimiento y **no** comparten unidad: el discriminador es de dónde sale la base.
+  AVATAR_ADD_PARKOUR_VELOCITY:     { label: 'PARKOUR VELOCITY', category: 'utility', unit: '%' },
+  // El único nodo del set cuya base es un TIEMPO real (3s de la fuente): sin la `s` el `3.6` se
+  // lee como porcentaje o multiplicador, que es justo lo que la unidad existe para evitar.
+  AVATAR_ADD_AIM_GLIDE_DURATION:   { label: 'AIM GLIDE',       category: 'utility', unit: 's' },
   AVATAR_ADD_CASTING_SPEED:        { label: 'CASTING SPEED',   category: 'utility', unit: '%' },
   AVATAR_ADD_SHIELD_RECHARGE_RATE: { label: 'SHIELD RECHARGE', category: 'utility', unit: '%' },
   AVATAR_ADD_HEALTH_REGEN:         { label: 'HEALTH REGEN',    category: 'utility', unit: '%' },

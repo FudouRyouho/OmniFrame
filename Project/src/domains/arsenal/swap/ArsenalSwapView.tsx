@@ -4,7 +4,7 @@ import { FilterProvider } from "@shared/components/filters/context";
 import OmniToolbar from "@shared/components/filters/OmniToolbar";
 import OmniView from "@shared/components/items/views/OmniView";
 import { useEnsembleActions } from "@providers/Ensemble/EnsembleProvider";
-import type { EnsembleChannel } from "@shared/types/ensemble";
+import type { EquipmentChannel } from "@shared/types/ensemble";
 
 // Toolbars específicas (reutilizadas)
 import WarframesToolbar from "@shared/components/filters/toolbars/WarframesToolbar";
@@ -21,7 +21,7 @@ const ArsenalSwapContent = () => {
   const { setItem } = useEnsembleActions();
 
   // Mapeo de categorías de URL a Canales del Ensemble
-  const channelMap: Record<string, EnsembleChannel> = {
+  const channelMap: Record<string, EquipmentChannel> = {
     warframe: "warframe",
     primary_weapon: "primary",
     secondary_weapon: "secondary",

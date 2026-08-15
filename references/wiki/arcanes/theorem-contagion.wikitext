@@ -1,0 +1,68 @@
+{{ArcaneBox}}
+'''Theorem Contagion''' is an [[Arcane Enhancement]] for [[Warframes]] that grants them the ability to spawn orbiting globes upon contact with the area of effect caused by {{Arcane|Residual Boils}}, {{Arcane|Residual Malodor}}, {{Arcane|Residual Shock}}, or {{Arcane|Residual Viremia}}. These globes will target the closest enemy within 15 meters, dealing damage and increasing their vulnerability to the globe's damage type.
+
+Can be sold for {{cc|1,000}}.
+
+==Effect==
+{| class="emodtable"
+|-
+! Rank
+! Damage
+! Vulnerability
+! Debuff Duration
+! Globe Duration
+|-
+| 0 || 150 || +25% || 6s || 30s
+|-
+| 1 || 150 || +50% || 6s || 30s
+|-
+| 2 || 150 || +75% || 6s || 30s
+|-
+| 3 || 150 || +100% || 6s || 30s
+|-
+| 4 || 150 || +150% || 6s || 30s
+|-
+| 5 || 150 || +200% || 6s || 30s
+|-
+|}
+
+==Acquisition==
+Theorem Contagion can be acquired from Rotation A of [[Isolation Vault|Isolation Vault Bounties]] (normal and [[Isolation Vault#Arcana|Arcana]]).
+{{Acquisition|name=Theorem Contagion|header=n}}
+
+==Notes==
+*Activates using Residual Arcanes.
+**Stacks are gained on time with the area's damage ticks, and multiple areas increase the rate of stacking.
+**Different elemental Residual areas will result in separate stacks.
+*Orbiting globes resemble {{WF|Nova}}'s {{A|Null Star}} particles with trail colors matching the Residual's element.
+*Multiple globe stack additively.
+*Globe damage is considered ability damage, triggering [[Arcane Impetus]] and the respective [[Archon Mods]].
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|31.6}}
+;ARCANE STAT CHANGES PER RANK
+
+We’ve adjusted the values of older Arcanes with the goal of making lower rank Arcanes more viable, and more desirable while collecting as a result. In short, there are three stats that each Arcane tends to have (speaking generally) -- for example, a percentage chance, a stat buff, and the duration of the buff.
+
+Certain Arcanes increase all of these stats per rank (making them scale exponentially), but we are changing it so that only one stat is affected by rank (making it scale linearly). The other stats will now be at the max-rank value regardless of the Arcane Rank, thereby buffing lower-rank Arcanes as a result.
+
+;Theorem Contagion
+Standing in a zone created by a Residual Arcane creates a globe that orbits the player every 2s. The globe will strike the nearest enemy within 15m dealing 150 (was 25) damage increasing their vulnerability to the globe’s damage type by 25%/200% for 6s (was 1s). Globes will persist for 30s (was 5s) upon leaving the zone.
+
+{{ver|30.8}}
+*Fixed incorrect duration/debuff percent values being used for Theorem Contagion.
+
+{{ver|29.5}}
+*Introduced.
+}}
+
+{{ArcaneNav}}
+
+[[Category:Update 29]]
+[[Category:Arcane Enhancements]]
+[[Category:Damage Type Modifier]]
+[[es:Teorema de contagio]]
+[[uk:Теорема «Зараження»]]
+[[Category:Theorem Arcanes]]
+[[Category:Isolation Vault Arcanes]]

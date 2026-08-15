@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
-Rol: "Captura de conocimiento de Set Mods — bonus de conjunto ausente en @wfcd/items"
-Version: "v0.2.0"
+Rol: "Set Mods — el bonus de conjunto: dónde está el dato, qué falta modelar"
 Impacto_ID: "REF-SetMods"
 Fidelidad_Fisica: "Project/public/data/mods.json"
 Fecha_de_creacion: "2026-06-03"
@@ -17,21 +16,40 @@ Fuente: "https://wiki.warframe.com/w/Set_Mods"
 
 ## Por qué este doc existe
 
-`@wfcd/items` (fork warframe-items) expone cada **mod miembro** de un set con su stat propio,
-pero **no expone los valores del bonus de conjunto**. Modificar el fork no vale la pena: es más
-rápido y reversible documentar acá + modelar vía estructura propia cuando exista consumidor.
+Porque el bonus de conjunto no está en `public/data/mods.json` y hace falta para simular un loadout.
+La tabla de valores de más abajo se capturó del wiki en 2026-06-03, cuando se creía que la fuente no
+lo traía.
 
-## Tres hallazgos sobre la estructura del dato (2026-06-03)
+## 🚨 El dato SÍ está en la fuente — se pierde en nuestro pipeline
 
-- **Gap A — pertenencia al set:** derivable del `unique_name` (`/Lotus/Upgrades/Mods/Sets/<Set>/...`).
-  19 sets, 72 mods miembro + 19 portadores. → `pipeline:debt`, bajo riesgo.
-- **Portador del bonus existe pero vacío:** cada set tiene una entrada `<Codename>setmod` con
-  `type: "Mod Set Mod"` (ej. `Gladiatorsetmod`) — **`description: ""`, `stats` sin tokens**. Es el
-  slot natural del bonus, pero el dato no está. Discriminador limpio: `type === "Mod Set Mod"`
-  (mejor que parsear el path).
-- **Gap B — los valores del bonus:** ausentes. El bonus es un efecto del *set*, parametrizado por
-  nº de piezas equipadas (stack) + condition propia. No cabe en `mod-stats.override.json`
-  (shape per-mod). → `OQ-DATA-6`.
+`warframe-items/data/json/Mods.json` trae, hoy y verificado:
+
+- **`modSet`** — puntero al portador, en los **72 mods miembro**.
+- **Los 19 portadores** `type: "Mod Set Mod"`, con `numUpgradesInSet` y el `stats[]` completo: un
+  escalón por cantidad de piezas equipadas.
+
+```
+/Lotus/Upgrades/Mods/Sets/Vigilante/VigilanteSetMod · numUpgradesInSet: 6
+  stats: ["5% chance to enhance Critical Hits from Primary Weapons.", … 6 escalones …]
+```
+
+`generate-data.ts` no lee ninguno de esos campos. Por eso los portadores llegan a nuestro dataset con
+`description: ""` y sin `stats`, y ningún mod lleva su `modSet`. La lectura anterior —"el portador
+existe pero está vacío"— describía **nuestra salida**, no la fuente.
+
+Reencuadre de los dos gaps:
+
+- **Gap A — pertenencia al set:** no hay que derivarla del `unique_name`; viene explícita en `modSet`.
+  Sigue siendo `pipeline:debt`, ahora trivial: propagar el campo.
+- **Gap B — los valores del bonus:** **no están ausentes**. Vienen como **texto libre**, así que hay
+  que tokenizarlos (mismo problema que `levelStats`), y el bonus sigue sin caber en
+  `mod-stats.override.json` (shape per-mod): es un efecto del *set*, parametrizado por piece-count +
+  condition propia. Eso —el modelado, no la captura— es lo que sigue gateado en `OQ-DATA-6`.
+
+Ver [`../../domains/source/gaps.md`](../../domains/source/gaps.md) §G-4.
+
+El discriminador `type === "Mod Set Mod"` sigue siendo la clave natural para colgar el bonus, y es
+más limpio que parsear el path.
 
 ## Puente codename interno ↔ nombre de set (wiki)
 
@@ -48,8 +66,9 @@ Algunos codenames no coinciden con el nombre display; resuelto vía nombres de m
 
 ## Bonus de conjunto — tabla (wiki, 2026-06-03)
 
-> Valores por nº de piezas equipadas. `[verify]` = revisar in-game antes de prototipar (la wiki es
-> fuente secundaria; valores y condition pueden tener matices de versión).
+> **Fuente secundaria, ya no primaria.** Con el hallazgo de arriba, el `stats[]` del portador es el
+> dato canónico. Esta tabla sirve como **contraste** (validar el tokenizado contra ella) y porque
+> trae la lectura de *condition* que el texto plano no explicita.
 
 | Set (codename) | Piezas | Bonus (texto) | Escala 1→max | Condition |
 |---|---|---|---|---|
@@ -85,3 +104,7 @@ Algunos codenames no coinciden con el nombre display; resuelto vía nombres de m
 - La noción "nº de piezas equipadas" requiere el loadout completo → cercano a `OQ-DATA-1`.
 - El portador `type: "Mod Set Mod"` es la **clave natural** para colgar el bonus (override o
   entidad `sets`), sin tocar los mods miembro.
+- El `stats[]` del portador es **texto libre** (`"5% chance to enhance Critical Hits from Primary
+  Weapons."`): el escalado por piezas ya está resuelto —un elemento por escalón—, pero el valor y su
+  token hay que extraerlos. Es el mismo parseo que ya se hace sobre `levelStats` de los mods, con la
+  ventaja de que acá el eje es piece-count y no rank.

@@ -1,18 +1,17 @@
 ---
 Estado: "referencia"
 Rol: "Workflow de testing derivado del engine: el CÓMO (clic + gramática ✓/fails/todo) y el registro de dirección (provenance, invariante, disparadores de graduación)"
-Version: "v0.2.0"
 Impacto_ID: "E-TestWorkflow"
 Fidelidad_Fisica: "Project/src/core/engine/output/consume.ts"
 Fecha_de_creacion: "2026-06-09"
-Fecha_de_actualizacion: "2026-06-11"
+Fecha_de_actualizacion: "2026-08-01"
 ---
 
 # Test workflow — testing derivado del engine
 
-Este documento define **cómo** se testea el engine y **hacia dónde** va ese testing. Los catálogos
-acompañan: [`catalog-current.md`](catalog-current.md) (índice de los consumidores que existen) y
-[`catalog-future.md`](catalog-future.md) (builds y modelos por construir).
+Este documento define **cómo** se testea el engine y **hacia dónde** va ese testing.
+[`catalog-current.md`](catalog-current.md) indexa los consumidores que existen;
+[`gap-map.md`](gap-map.md) inventaría lo que el engine todavía no construye.
 
 ---
 
@@ -20,12 +19,13 @@ acompañan: [`catalog-current.md`](catalog-current.md) (índice de los consumido
 
 El harness vive en `Project/src/core/engine/output/consume.ts` (módulo de salida de C, fuera de `__tests__/`). Un test impersona **A** (datos,
 ya cargados), **B** (hidratación, vía el bridge) y **D** (mete la intención, lee la proyección). **C** (el
-motor) es lo único bajo prueba. Como el motor es auto-auditable por construcción (cada nodo carga sus 6
-buckets + audit trace), el clic es genérico: una implementación sirve a todos los consumidores.
+motor) es lo único bajo prueba. Como el motor es auto-auditable por construcción (cada nodo carga sus 5
+buckets + trace), el clic es genérico: una implementación sirve a todos los consumidores.
 
 ```ts
-consume(intention).weapon(id).node('WEAPON_DAMAGE')  // (i) los 6 buckets + final
-consume(intention).weapon(id).audit('WEAPON_DAMAGE') // (ii) trace de procedencia (debug)
+consume(intention).weapon(id).node('WEAPON_ADD_DAMAGE')   // (i) los 4 buckets + base + final
+consume(intention, undefined, { trace: true })
+  .weapon(id).trace('WEAPON_ADD_DAMAGE')                   // (ii) procedencia (debug, opt-in)
 ```
 
 Un `consume()` = un `resolve`. Desde ese único consumo se sondean N nodos: estabilidad (`.final`) y lógica
@@ -59,7 +59,7 @@ modelo documentado). Su valor real es **mapear el borde de C1**. Tres marcadores
 El archivo de test **se lee como el mapa del borde**. Es pregunta **y** respuesta: la capa-respuesta es la
 red de regresión; la capa-pregunta (`todo`) es la brújula de construcción. Ejemplo vivo —
 `cedo-prime.test.ts` (shotgun pura, baseline): 12 ✓ + 5 todo, los `todo` marcando lo que es C2
-(`AtomicSimulator`/`StatusEngine`) o gap de mapeo. Referencia para acuñar los `todo`:
+(`AtomicSimulator`/`EffectBehavior`) o gap de mapeo. Referencia para acuñar los `todo`:
 [`hit-mechanic.md`](../../../../references/wiki/mechanics/hit-mechanic.md) §Relevancia para el engine.
 
 ---
@@ -93,7 +93,7 @@ red de regresión; la capa-pregunta (`todo`) es la brújula de construcción. Ej
 | 2 — **dominio de docs** transversal | una carpeta propia | **primer consumidor fuera del engine** (primer test de ability con esta gramática) |
 | 3 — **capacidad** (capa debug/observabilidad, ≈ `observer/`) | una *capa real del sistema*: tracing por frontera con payload de buckets | **que exista D (UI)** que consuma los taps |
 
-**C2 no dispara la graduación.** `CombatSimulator`/`AtomicSimulator`/`StatusEngine` son capas del engine:
+**C2 no dispara la graduación.** `CombatSimulator`/`AtomicSimulator`/`TimelineSimulator` son capas del engine:
 C2 hace crecer el workflow *hacia adentro*, sigue siendo engine. Lo que gradúa es lo *transversal*
 (abilities → Futuro 2) o lo *runtime* (D existe → Futuro 3). Construir taps sin consumidor (p. ej. C→D antes
 de que D exista) es prematuro.
@@ -102,8 +102,6 @@ de que D exista) es prematuro.
 
 ## Lineaje de decisión (D12–D16)
 
-> Origen: sesión 2026-06-08 (`.working/` purgado tras graduar).
-
 - **D12 — Test progresivo = diagonal.** Un consumidor, linaje de aserciones en orden de dependencia (no N
   fixtures horizontales). El linaje puede vivir dentro de un mismo test como secuencia de aserciones.
 - **D13 — Test de lógica ≠ test de estabilidad.** El fixture trae una cadena de derivación esperada por nodo
@@ -111,9 +109,10 @@ de que D exista) es prematuro.
   asertar buckets dice *dónde*. → Graduado a [`attribute-node-contract.md`](../attribute-node-contract.md) §Validación.
 - **D14 — Base del linaje incondicional.** Lo condicional/stacking sale de la base y entra como peldaño
   posterior con su supuesto registrado.
-- **D15 — La build real es el plan de estudios.** Estratificación por modelabilidad (ver `catalog-future.md`, Rhino).
+- **D15 — RETIRADA.** Sostenía que *la build real es el plan de estudios*: se elegía una build completa
+  del usuario, se la estratificaba por modelabilidad y se derivaba de ahí un linaje de fixtures. No
+  prosperó — el linaje quedó a medias y el trabajo se detenía cada vez que una pieza de la build no
+  era modelable. La unidad de trabajo **no es la build, es la habilidad** (o el arma): se modela la
+  parte derivable, el resto se difiere marcado en el test. El número se conserva porque D16 y el
+  lineaje lo citan.
 - **D16 — Generalización.** La primera referencia no es la única; coverage deliberado, no "más builds".
-
-**Primer fallo predicho:** `ModRepository` emite todo como `ADD`; Roar debería ser `MULTIPLICATIVE`
-(ver [`attribute-node-contract.md`](../attribute-node-contract.md) §Implicaciones) — el peldaño Roar fallará
-por mis-bucketing, gap real que el test progresivo captura.

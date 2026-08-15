@@ -28,7 +28,7 @@ Duration: 25s $DURATION
 Armor / Enemy: 40 $STRENGTH
 Max Armor: 750 $STRENGTH
 Damage / Enemy: <DT_CORROSIVE> 10% $STRENGTH
-Damage / <DT_COSSORIVE> Status Effect: 10% $STRENGTH
+Damage / <DT_CORROSIVE> Status Effect: 10% $STRENGTH
 Max <DT_CORROSIVE> Corrosive Damage: 200% $STRENGTH
 #### ROUSING PLUNDER
 Health: 50

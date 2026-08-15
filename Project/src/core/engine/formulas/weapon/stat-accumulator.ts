@@ -1,0 +1,36 @@
+/**
+ * @domain Engine / Formulas / Weapon / Stat Accumulator
+ * @SSoT docs/semantic/upgrade-tokens.md (§fórmula de referencia) + references/wiki/mechanics/calculating-bonuses.md
+ *
+ * El acumulador de un stat (fórmula de referencia D-6 / §4.1) + el factor del bucket de daño global.
+ * Extraído de `SimulationEngine.calculateCurrentValue` (P2a, **identidad** — comportamiento idéntico).
+ *
+ * Vocabulario (`docs/domains/engine/design/vocabulary.md`): `base` = input · los **4 buckets** = las
+ * ranuras acumuladoras · `pool` = grupo de apilado aditivo `(1+Σ)` · `final` = output.
+ *
+ * Que un pool GLOBAL se aplique leyendo el ratio `final/base` de un nodo designado es `DC-OQ-ENGINE-1`
+ * (decisión CERRADA, `governance/closed-decisions.md`) — **no un hack**: expresa el pool ADITIVO (Step 1 de
+ * `calculating-bonuses.md`) como factor. Realización en `arch-decisions §16`; contexto en `vocabulary.md §5`.
+ */
+import type { AttributeNode } from "../../contracts";
+import { applyAdditiveBonus } from "../common/scaling-base";
+
+/**
+ * Valor resuelto de un nodo (genérico, cualquier stat): `(Base+base_flat)` escalado por
+ * `mods_add_pct`, más `total_flat` post-escala, todo por `multiplicative`. La fórmula que
+ * `upgrade-tokens.md §fórmula de referencia` declara y que `SimulationEngine` calculaba inline.
+ */
+export function resolveStatValue(node: AttributeNode): number {
+  const withMods = applyAdditiveBonus(node.base + node.base_flat, node.mods_add_pct);
+  return (withMods + node.total_flat) * node.multiplicative;
+}
+
+/**
+ * Factor del bucket de daño global (Serration/`WEAPON_ADD_DAMAGE`): `final / base`. Es el bucket
+ * **ADITIVO** (Step 1 de `calculating-bonuses.md`) expresado como multiplicador para aplicarlo a los
+ * nodos de daño por-tipo — NO un bucket multiplicativo. Renombra el engañoso `globalDmgMult` (el olor
+ * semántico que motivó la extracción, `arch-decisions §16`). `1.0` si no hay nodo de daño global.
+ */
+export function globalDamageBucketFactor(weaponDamageNode: AttributeNode | undefined): number {
+  return weaponDamageNode ? weaponDamageNode.final / (weaponDamageNode.base || 100) : 1.0;
+}

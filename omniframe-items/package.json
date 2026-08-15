@@ -1,0 +1,27 @@
+{
+  "name": "omniframe-items",
+  "version": "0.0.0",
+  "description": "Capa de cosecha de OmniFrame sobre warframe-items (@wfcd/items). Punto medio warframe-items -> Project. Ver OQ-DATA-16.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs"
+    }
+  },
+  "main": "index.mjs",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "node build/build.mjs",
+    "build:raw": "tsx build/raw-build.ts",
+    "diff:raw": "node build/diff-raw.mjs",
+    "census": "node build/census-fields.mjs"
+  },
+  "dependencies": {
+    "@wfcd/items": "file:../warframe-items",
+    "cheerio": "^1.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.1"
+  }
+}

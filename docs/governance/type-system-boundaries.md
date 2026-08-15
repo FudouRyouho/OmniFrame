@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Documentar el rol de src/shared/types/ y sus límites"
-Version: "v0.1.0"
 Impacto_ID: "G-Types"
 Fidelidad_Fisica: "Project/src/shared/types/"
 Fecha_de_creacion: "2026-04-17"

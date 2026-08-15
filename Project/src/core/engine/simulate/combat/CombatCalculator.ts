@@ -2,26 +2,20 @@
  * @domain Simulation-v2 / Logic / Projector
  * @status en-desarrollo
  */
-import { StatusEngine, type StatusEffectProjection } from "./StatusEngine";
 import { AtomicSimulator } from "./AtomicSimulator";
 import type { SimulationEntity, SimulationContext } from "../../contracts";
-import { isWeaponDamageToken } from "../../contracts/damage-logic";
-
-export interface CombatMetrics {
-  average_crit_multiplier: number;
-  burst_dps: number;
-  sustained_dps: number;
-  status_map: Record<string, number>; 
-  status_projections: StatusEffectProjection[];
-  crit_distribution: Record<number, number>;
-  pellet_count: number;
-  falloff_multiplier: number;
-}
+import { deriveInstance } from "./damage-instance";
+import { expectedProcEvents } from "../../formulas/status/proc-population";
+import { averageShot, weaponDps, finalReloadTime } from "../../formulas/weapon/dps";
+import type { TargetAgnosticMetrics } from "../../output/combat-metrics";
 
 export class CombatCalculator {
-  public static project(entity: SimulationEntity, context: SimulationContext): CombatMetrics {
+  public static project(entity: SimulationEntity, context: SimulationContext): TargetAgnosticMetrics {
     const attrs = entity.attributes;
-    
+    // La Instancia (①②): C2 consume el potencial que C1 compuso, no re-extrae. Falloff (②contextual),
+    // cadencia/mag/reload (Schedule) NO son de la Instancia — se leen aparte (§2.0.1).
+    const instance = deriveInstance(entity);
+
     // 0. Cálculo de Falloff (Distancia)
     const dist = context.variables["distance"] || 0;
     const fStart = attrs["falloff_start"]?.final || 1000; // Por defecto sin falloff
@@ -36,64 +30,42 @@ export class CombatCalculator {
       falloffMult = 1.0 - (ratio * (1.0 - minMult));
     }
 
-    // 1. Resolver Daño Total Base (Afectado por Falloff)
-    const total_base_damage = Object.entries(attrs)
-      .filter(([id]) => isWeaponDamageToken(id))
-      .reduce((acc, [_, node]) => acc + node.final, 0) * falloffMult;
+    // 1. Daño total = potencial de la Instancia × falloff
+    const total_base_damage = instance.moddedBase * falloffMult;
 
-    // 2. Lógica de Críticos Atómica (Distribución de Tiers)
-    const crit_chance = (attrs["WEAPON_ADD_CRIT_CHANCE"]?.final || 0);
-    const crit_mult = attrs["WEAPON_ADD_CRIT_MULT"]?.final || 1.0;
-    
-    const crit_distribution = AtomicSimulator.calculateCritDistribution(crit_chance);
-    const avg_crit_mult = AtomicSimulator.calculateAverageMultiplier(crit_chance, crit_mult);
+    // 2. Lógica de Críticos Atómica (spec de crit de la Instancia; el EV es realización de C2)
+    const crit_distribution = AtomicSimulator.calculateCritDistribution(instance.critChance);
+    const avg_crit_mult = AtomicSimulator.calculateAverageMultiplier(instance.critChance, instance.critMult);
 
-    // 3. Proyección de Estados Proactivos (Capa C+)
-    const projections: StatusEffectProjection[] = [];
-    if (attrs["WEAPON_ADD_SLASH_DAMAGE"]) {
-      projections.push(StatusEngine.projectSlashTick(entity, avg_crit_mult));
-    }
-    if (attrs["WEAPON_ADD_HEAT_DAMAGE"]) {
-      projections.push(StatusEngine.projectHeatTick(entity, avg_crit_mult));
-    }
-    if (attrs["WEAPON_ADD_TOXIN_DAMAGE"]) {
-      projections.push(StatusEngine.projectToxinTick(entity, avg_crit_mult));
-    }
-
-    // 4. Lógica de Estado (Probability Weighting)
-    const status_chance = (attrs["WEAPON_ADD_STATUS_CHANCE"]?.final || 0) / 100;
+    // 4. Lógica de Estado (Probability Weighting): peso = daño del tipo / daño total.
+    // Consume la ÚNICA ley `expectedProcEvents` (chance×peso), alimentada por la Instancia —
+    // misma función que `TimelineSimulator` (seam C1→C2), en vez de reinventar `dmg/total` inline.
+    // El peso es falloff-independiente (falloff escala daño, no la chance de proc) → se deriva de
+    // `damageByType` crudo, no de `total_base_damage` (que sí lleva falloff). Keyed por `DamageType`.
     const status_map: Record<string, number> = {};
-    
-    if (total_base_damage > 0) {
-      Object.entries(attrs)
-        .filter(([id]) => isWeaponDamageToken(id))
-        .forEach(([id, node]) => {
-          // Probabilidad = StatusChance * (Weight del elemento / Daño Total)
-          const weight = node.final / total_base_damage;
-          status_map[id] = status_chance * weight;
-        });
+    for (const ev of expectedProcEvents(instance.damageByType, instance.statusChance, 0)) {
+      status_map[ev.type] = ev.expected;
     }
 
-    // 5. Lógica de DPS y Multishot
+    // 5. Lógica de DPS y Multishot (multishot de la Instancia; cadencia/mag = Schedule)
     const fire_rate = attrs["WEAPON_ADD_FIRE_RATE"]?.final || 1.0;
-    const multishot = attrs["WEAPON_ADD_MULTISHOT"]?.final || 1.0;
+    const multishot = instance.multishot;
     const mag_size  = attrs["WEAPON_ADD_MAGAZINE_MAX"]?.final || 1.0;
 
-    // Ley de Recarga: TiempoFinal = Base / (1 + ReloadSpeedBonus / 100)
+    // Ley de Recarga: TiempoFinal = Base / (ReloadTotal / 100) — reload_bonus es el TOTAL ya sumado
+    // (`.final`, default 100 = sin bonus), no el delta; sin `1 +` (double-contaría).
     // reload_time es dato puro del arma — vive en innate_dna, no en AttributeNode.
     const base_reload = entity.innate_dna?.profiles?.[context.active_profile_id]?.['reload_time']
       ?? entity.innate_dna?.profiles?.['base']?.['reload_time']
       ?? 1.0;
     const reload_bonus = attrs["WEAPON_ADD_RELOAD_SPEED"]?.final ?? 100;
-    const final_reload_time = base_reload / (reload_bonus / 100);
+    const final_reload_time = finalReloadTime(base_reload, reload_bonus);
 
-    const damage_per_shot = total_base_damage * avg_crit_mult * multishot;
-    const burst_dps = damage_per_shot * fire_rate;
-
-    // Sustained = TotalMagDamage / (Time_to_empty + Reload)
-    const shots_in_mag = mag_size / multishot;
-    const time_to_empty = shots_in_mag / fire_rate;
-    const sustained_dps = (damage_per_shot * shots_in_mag) / (time_to_empty + final_reload_time);
+    // DPS del Arsenal (primitivas `formulas/weapon/dps.ts`, P4).
+    const damage_per_shot = averageShot(total_base_damage, avg_crit_mult, multishot);
+    const { burst: burst_dps, sustained: sustained_dps } = weaponDps({
+      damagePerShot: damage_per_shot, fireRate: fire_rate, magSize: mag_size, multishot, reloadTime: final_reload_time,
+    });
 
     return {
       average_crit_multiplier: avg_crit_mult,
@@ -102,7 +74,6 @@ export class CombatCalculator {
       status_map,
       crit_distribution,
       pellet_count: multishot,
-      status_projections: projections,
       falloff_multiplier: falloffMult
     };
   }

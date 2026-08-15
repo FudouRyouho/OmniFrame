@@ -1,0 +1,75 @@
+{{Top|Enemy|Coda|Coda|Weapon|Weapons|Weapons}}
+{{WeaponInfoboxAutomatic}}
+{{Codex|Get the job done right with a pair of spore flinging terror tools. Inflicts a spore that spreads to nearby enemies on death causing Cold Status Effect and increased vulnerability to damage, especially from the Torxica.}}
+'''Dual Coda Torxica''' are unique [[Coda]] dual pistols that tags enemies to release {{D|Cold}} spores upon their death, applying [[Damage Vulnerability]].
+
+==Characteristics==
+*This weapon primarily deals {{D|Slash}} damage.
+*Enemies hit by Dual Coda Torxica and then killed from any source will spread spores to '''3''' enemies within '''20''' meters with the closest being prioritized, inflicting guaranteed {{D|Cold}} status per second and '''50%''' [[Damage Vulnerability]] lasting for '''20''' seconds. 
+**Damage Vulnerability only applies to damage inflicted by the Dual Coda Torxica, not any other source.
+*Adversary Weapon:
+**Comes with an additional bonus {{D|Impact}}, {{D|Heat}}, {{D|Cold}}, {{D|Electricity}}, {{D|Toxin}}, {{D|Magnetic}}, or {{D|Radiation}} damage, which increases the listed base damage of the weapon by 25%-60%.
+***[[Valence Fusion]] can optionally change the resulting output damage type, and can upgrade the bonus increase (up to 60%).
+**[[Polarization|Polarizing]] the weapon increases its max [[rank]] by '''2''', capping at rank '''40''' after '''5''' polarizations, granting the weapon additional mod capacity.
+**{{Resource|Elemental Vice}} can be applied to the weapon after it has reached rank 40, allowing the bonus damage type to be swapped freely.
+**Unlike [[Kuva (Variant)|Kuva]] and [[Tenet]] weapons directly acquired from a [[Kuva Lich]] or [[Sisters of Parvos]], the listed [[Mastery Rank]] requirement '''is''' enforced.
+
+{{Advantages|
+}}
+
+{{Disadvantages|
+}}
+
+==Acquisition==
+{{Transclude|Adversary System/Weapons#Coda Acquisition}}
+
+==Notes==
+*When an enemy is killed by the Dual Coda Torxica, they spread '''3''' spores to nearby enemies within '''20''' meters. Enemies affected by spores will suffer '''50%''' [[Damage Vulnerability]] for '''20''' seconds, while also suffering from a guaranteed {{D|Cold}} proc each second.
+**Spores will prioritize enemies closest to the target, and enemies can only suffer from '''1''' spore at a time.
+***Affected enemies will glow based on the location the spore hit them, which serves purely as a visual indicator and has no effect on damage received (unlike similar indicators from {{A|Sonar}} or {{M|Detect Vulnerability}}). 
+**{{D|Cold}} procs can build up over time, but as they use the standard 6-second [[Status Duration]], which can be modified if the player desires, affected enemies can only suffer up to 6 Cold procs at a time before the earliest proc expires. The spores' duration cannot be changed.
+**Spores will '''only''' inflict {{D|Cold}} procs, which deal no additional damage and cannot have additional status effects forced upon them via [[Abilities]].
+***{{Arcane|Secondary Encumber}} is an exception to this, as spore procs can trigger this Arcane and, assuming a fully-ranked Arcane, generate one additional status effect on average.
+**The damage vulnerability behaves like a faction damage mod as it is applied '''twice''' to status effects. It is however a unique modifier and multiplicative to faction damage mods or other damage vulnerability sources.  
+*The Dual Coda Torxica sports a unique reticle that changes when the player is aiming at a target affected by spores, gaining 3 asymmetrical growths.
+{{Transclude|Adversary System#Notes}}
+
+==Tips==
+
+==Trivia==
+*On [[Devstream 184]], the weapon was named '''Dual Coda Nicardia'''.
+*Instead of using the same prefix arrangement as other akimbo weapons like {{Weapon|Kuva Twin Stubbas}} and {{Weapon|Prisma Twin Gremlins}} with variant prefix (Kuva/Prisma/Coda) before akimbo prefix (Twin/Dual) as ''Coda Dual'' Torxica, Dual Coda Torxica goes the other way around with akimbo prefix before variant prefix.
+*The Dual Coda Torxica's reload, like all Coda weapons, has a unique animation. This one is designed around the Torxica's mutated handles, where the Warframe feeds the guns by tossing two small glowing sacks into it's mouths.
+*Torx (which the weapon might derive its name from) is a brand of screw drive characterized by a 6-point star-shaped pattern. This appears to be alluding to the weapons being Infested power drills.
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+</gallery>
+
+{{SkinGallery}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.6}}
+*Fixes towards Dual Torxica’s spores causing enemies to get yeeted into the air.
+*Fixed script error after Polarizing a Coda Weapon and then swapping to another weapon in the Arsenal.
+
+{{ver|38.5.11}}
+*Fixed the Dual Coda Torxica's reticles not scaling with HUD scale.
+
+{{ver|38.5.10}}
+*Fixed the Dual Coda Torxica reticles persisting in Captura.
+
+{{ver|38.5.7}}
+*Coda weapons now have a Coda icon next to their name in the Arsenal, to match their Kuva and Tenet counterparts.
+
+{{ver|38.5.2}}
+*Fixed a script error caused by the Dual Coda Torxica.
+
+{{ver|38.5}}
+*Introduced.
+}}
+
+{{WeaponNav}}
+
+[[ru:Парные Торксики Кода]]

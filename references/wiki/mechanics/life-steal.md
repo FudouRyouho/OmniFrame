@@ -2,28 +2,44 @@
 
 > Estado: activo
 > Rol: mecánica de recuperación de vida por daño infligido — alcance ranged y melee
-> Fuente de verdad de: definición, cálculo post-DR, fuentes (no exclusivo de melee)
-> No usar para: valores exactos de % por fuente
-> Última actualización: 2026-06-10
+> Fuente de verdad de: definición, sobre qué daño se calcula, y el catálogo de fuentes por categoría
+> No usar para: valores exactos de % por fuente — están en la página de cada mod/arma/habilidad
+> Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Life_Steal
+> Fuente actualizada: 2026-01-28
+> Raw: life-steal.wikitext · ../arcanes/exodia-might.wikitext
 
-## Definición
+## Qué es
 
-Life Steal convierte un porcentaje del daño infligido en recuperación de HP. El cálculo se aplica
-**después** de la reducción de daño del enemigo (sobre el daño efectivo, no el bruto).
+Un porcentaje del daño infligido a los enemigos cura al jugador.
 
-## Alcance — ranged y melee
+**Se calcula sobre el daño posterior a cualquier Damage Reduction que el enemigo tenga** — sobre el
+daño efectivo, no el bruto.
 
-Life Steal **no es exclusivo de melee**:
+## Fuentes
 
-| Fuente | Tipo | Notas |
-|--------|------|-------|
-| Life Strike | Mod melee | fuente canónica principal |
-| Amalgam Daikyu Target Acquired | Mod rifle (Daikyu) | ranged |
-| Winds of Purity | Mod pistola (Furis) | ranged |
-| Exodia Might | Arcano Zaw | melee — on finisher kill, 50% proc, 8s |
-| Lohk Surge (Xaku) | Habilidad | — |
-| Penance (Harrow) | Habilidad | % escalado por rank |
-| Gloom (Sevagoth) | Habilidad | % escalado por rank |
+`Life Steal` no es exclusivo de melee: hay mods de rifle y de pistola en la lista.
 
-Las fuentes de life steal se acumulan aditivamente entre sí.
+| Categoría | Fuentes |
+|---|---|
+| **Habilidades** | Penance (Harrow) · Ophidian Bite (Lavos) · Gloom (Sevagoth) · Consume (Sevagoth's Shadow) |
+| **Armas** | Hema · Coda Hema · Hirudo · Coda Hirudo · Sancti Magistar |
+| **Mods** | Life Strike (melee) · Amalgam Daikyu Target Acquired (rifle) · Winds of Purity (pistola) |
+| **Arcanos** | Exodia Might (Zaw) |
+| **Otros** | Lohk Surge |
+
+## Exodia Might — el caso con condición
+
+Es el único de la lista cuyo life steal es un **buff con trigger** en vez de un efecto continuo, así
+que su comportamiento no se deduce del resto:
+
+- **50% de chance** de otorgar Life Steal **al hacer un Finisher**, por **8 segundos**.
+- Mientras el buff está activo, **sólo el daño melee** roba vida — incluidos los DoT de Slash, Toxin,
+  Gas y Heat.
+- Los **ground finishers no** otorgan el buff.
+- El finisher que dispara el buff sólo cura si el jugador es **host**.
+
+## Fuentes
+
+- https://wiki.warframe.com/w/Life_Steal
+- https://wiki.warframe.com/w/Exodia_Might

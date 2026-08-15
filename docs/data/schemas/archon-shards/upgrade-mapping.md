@@ -1,11 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Mapeo de upgrade_type por stat de Archon Shard — catálogo de tokens D-6 y bloqueos"
-Version: "v0.2.0"
 Impacto_ID: "data-archon-mapping"
 Fidelidad_Fisica: "Project/public/data/archon-shards.json"
 Fecha_de_creacion: "2026-05-25"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Archon Shards — Mapeo upgrade_type
@@ -15,7 +14,7 @@ Entry point operativo: `docs/data/status.md`.
 
 **Archivo:** `Project/public/data/archon-shards.json` ✅ — 6 entradas, 27 stats totales
 **Schema:** `docs/data/schemas/archon-shards/schema.md`
-**Estado:** 20 mapeados / 7 nulos (auditado Gate 2b 2026-05-31 contra JSON real)
+**Estado:** 20 mapeados / 7 nulos (auditado Gate 2b contra JSON real)
 
 ---
 
@@ -44,8 +43,8 @@ Entry point operativo: `docs/data/status.md`.
 | Azure | `azure-armor` | `AVATAR_FLAT_ARMOUR` | ADD_FLAT |
 | Azure | `azure-health-regeneration` | `AVATAR_FLAT_HEALTH_REGEN` | ADD_FLAT |
 
-> Tokens de sub-familia (`WEAPON_MELEE_*`, `WEAPON_PRIMARY_*`, `WEAPON_SECONDARY_*`) resueltos en OQ-W-4 (2026-05-26).
-> Azure usa `AVATAR_FLAT_*` (ADD_FLAT) — planos post-escala. `AVATAR_BASE_ARMOUR` eliminado de la taxonomía (2026-05-26).
+> Tokens de sub-familia (`WEAPON_MELEE_*`, `WEAPON_PRIMARY_*`, `WEAPON_SECONDARY_*`) resueltos en OQ-W-4.
+> Azure usa `AVATAR_FLAT_*` (ADD_FLAT) — planos post-escala. `AVATAR_BASE_ARMOUR` eliminado de la taxonomía.
 
 ---
 
@@ -77,7 +76,7 @@ Efectos que no encajan en el modelo de atributos continuo:
 
 | Deuda | Descripción |
 |---|---|
-| Violet stacking bonus | `violet-primary-electricity-damage` tiene bonus adicional de `+10%`/`+15%` por cada shard Crimson/Azure/Violet equipado. Requiere `context_variable` en `Modifier`. |
+| Violet stacking bonus | `violet-primary-electricity-damage` tiene bonus adicional de `+10%`/`+15%` por cada shard Crimson/Azure/Violet equipado. Necesita escalado por conteo en `Modifier` — no hay `context_variable` genérico (el único escalado-por-contexto es `CONDITION_OVERLOAD`/`co_factors`, específico de CO). Mecanismo propio pendiente. |
 | `WEAPON_PRIMARY_ADD_ELECTRICITY_DAMAGE` | Token sub-familia de daño elemental — no en UPGRADES[]. Añadir cuando se trabaje gap §2 de Incarnon o se necesite para shards. |
 | Valores tauforged sin verificar | La mayoría usa estimación 1.5x. `topaz-health-on-blast-kill: [1, 2]` único confirmado. |
 
@@ -87,6 +86,6 @@ Efectos que no encajan en el modelo de atributos continuo:
 
 | Componente | Estado |
 |---|---|
-| `useArchonShardCatalog.ts` | ✅ implementado (2026-05-21) |
+| `useArchonShardCatalog.ts` | ✅ implementado |
 | `ArchonShardSelectionView.tsx` | ✅ implementado — selector de tipo, tauforged toggle, lista de stats |
 | `ArsenalView.tsx` (sección shards) | ✅ iconos resueltos vía `resolveLocalImageUrl` |

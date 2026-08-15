@@ -1,11 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin evidencia nueva"
-Version: "v0.0.10"
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
-Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-06-13"
+Fecha_de_creacion: ""
+Fecha_de_actualizacion: "2026-08-07"
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -17,8 +16,6 @@ Este documento existe para evitar que decisiones ya evaluadas y cerradas sean tr
 ---
 
 ## DC-1 — No hay soporte i18n / multi-locale
-
-**Fecha de cierre:** Estimado Q1 2026 (confirmado 2026-04-18).
 
 **Decisión:** El proyecto no soporta multi-locale ni internacionalización real. El idioma operativo es **inglés exclusivo**. No existe selector de idioma ni existe infraestructura i18n en runtime.
 
@@ -52,29 +49,48 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 | **DC-OQ-9** | Damage Taxonomy | Taxonomía canónica única para damage types (estabilizada). |
 | **DC-OQ-10** | Naming Conventions | Naming semántico por capa: PascalCase (Tipos), camelCase (Funciones), snake_case (Raw). |
 | **DC-OQ-11** | TextFormatter | Pertenencia a Presentation, consume semántica resuelta sin inferirla. |
-| **DC-OQ-STATE-1** | Contrato de estado del usuario | `EnsembleIntention` (EnsembleStore) es el SSoT canónico. `LoadoutContext` eliminado (2026-05-19). `LoadoutState` y `loadout.ts` eliminados (2026-05-21). |
+| **DC-OQ-STATE-1** | Contrato de estado del usuario | El contrato de intención del EnsembleStore es el SSoT canónico (hoy `Scene`, `@shared/types/scene.ts`). `LoadoutContext` eliminado. `LoadoutState` y `loadout.ts` eliminados. |
 | **DC-OQ-STATE-2** | Conexión Arsenal → Motor | Escritura: `EnsembleStore.setItem/setMod/setShard`. Lectura: `useSimulation()` con `entity.channel` como clave estable. |
-| **DC-OQ-STATE-3** | Ciclo de vida de LoadoutContext | Eliminado físicamente (2026-05-19). Sin remanentes del sistema legacy. |
-| **DC-OQ-STATE-4** | Rol de EnsembleAdapter | Eliminado (2026-05-19). Lógica absorbida por `MutatorBridge`. Una sola ruta: `simulateFromIntention`. |
+| **DC-OQ-STATE-3** | Ciclo de vida de LoadoutContext | Eliminado físicamente. Sin remanentes del sistema legacy. |
+| **DC-OQ-STATE-4** | Rol de EnsembleAdapter | Eliminado. Lógica absorbida por `MutatorBridge`. Una sola ruta (hoy `simulateFromScene`). |
 | **DC-OQ-2** | Rol del LoadoutProvider | Abandonado. Arquitectura Sim-v2: MutatorBridge + EnsembleStore serializable. |
 | **DC-OQ-5** | Migración hidratación build time | No aplica. `StaticHydrator` + overrides JSON = funcionalmente equivalente a build-time. |
 | **DC-OQ-12** | Contrato de Proyección B4 | Projection Snapshot inmutable y serializable. Reactividad via Selective UI Reactive Bridge externo. |
 | **DC-OQ-13** | Frontera Arsenal / Builder | No hay frontera de cálculo. Mismo engine, distinto SimulationContext (Target vs Baseline). |
-| **DC-OQ-ENGINE-1** | Patrón WEAPON_DAMAGE global | `base = damage_sum` del perfil activo. `final/base` como multiplicador global. Validado en 33 tests gold standard (2026-05-27). |
+| **DC-OQ-ENGINE-1** | Patrón de nodo de daño global | Nodo `WEAPON_ADD_DAMAGE`, `base = damage_sum` del perfil activo. `final/base` como multiplicador global (= el pool ADITIVO expresado como factor, Step 1 de `calculating-bonuses.md` — **no un hack**). Detalle ↓. |
 | **DC-OQ-ENGINE-3** | Label parsing en ModRepository | No aplica en v2. Consume `upgrade_type` directamente vía `isUpgrade()` + UPGRADE_MAP/`resolveToken()`. |
 | **DC-OQ-ENGINE-4** | DNA Mutation (Archon Shards) | `StaticHydrator.hydrate()` consume shards vía `ShardRepository`. Shards = mods en slots especiales. Helminth sin implementar. |
-| **DC-OQ-ENGINE-5** | Fórmulas legacy desconectadas | `weapon-core.ts` y `warframe-core.ts` purgados (2026-05-27). `formulas/` conectado a `AtomicSimulator` + `SimulationEngine`. |
+| **DC-OQ-ENGINE-5** | Fórmulas legacy desconectadas | `weapon-core.ts` y `warframe-core.ts` purgados. `formulas/` conectado a `AtomicSimulator` + `SimulationEngine`. |
 | **DC-OQ-ENGINE-6** | WEAPON_FIRE_ITERATIONS sin mapear | Alias añadido en UPGRADE_MAP → `WEAPON_ADD_MULTISHOT`. 3 mods Galvanized añadidos manualmente al override. |
-| **DC-OQ-W-4** | Sub-familia en D-6 | Patrón: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`. Sub-familias activas: PRIMARY, SECONDARY, MELEE. Deuda D-7 en pipeline de filtrado. |
-| **DC-OQ-UI-1** | Unificación de infraestructura UI en @shared | `shared/components/items/` activo: views por entidad (WarframesView/WeaponsView/etc.), cards, specs/detail-views, ItemsGrid. `shared/hooks/data/use-items.ts` + `use-performance-debug.ts`. Dominios actúan como smart wrappers. Implementado (2026-04-23). Ref: `docs/decisions/ui-unification.md` (histórico). |
+| **DC-OQ-W-4** | Sub-familia en D-6 | Patrón: `{FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}`. Sub-familias activas: PRIMARY, SECONDARY, MELEE, **sólo bajo `WEAPON`** (verificado en `resolveToken`). El filtrado por canal está implementado (`resolve/hydration/channel-routing.ts`, firma `→ EntityId[]`). |
+| **DC-OQ-UI-1** | Unificación de infraestructura UI en @shared | `shared/components/items/` activo: views por entidad (WarframesView/WeaponsView/etc.), cards, specs/detail-views, ItemsGrid. `shared/hooks/data/use-items.ts` + `use-performance-debug.ts`. Dominios actúan como smart wrappers. Implementado. |
 
 ---
 
-## DC-OQ-ENGINE-9 — Reestructura interna de `@core` (capas/cortes) + ruling `@providers → @core` — **EJECUTADO (2026-06-12)**
+## DC-OQ-ENGINE-1 — patrón de nodo de daño global
+
+**Dominio:** engine / pools globales de daño
+
+**Evidencia** (nombrada, no contada — un conteo caduca solo):
+- `formulas/weapon/stat-accumulator.ts::globalDamageBucketFactor` — la primitiva.
+- `__tests__/lanka.test.ts` + `__tests__/nikana-melee.test.ts` — la propagación del pool global a los nodos
+  por-tipo (525→787.5 / 594→2376).
+- `__tests__/tiberon-dot.test.ts` — el mismo factor vía `formulas/status/dot-base-scaling.ts`, **validado
+  contra medición in-game** (`references/ingame-tests/`).
+- `__tests__/rhino.test.ts` — la **misma primitiva aplicada a un segundo pool global** (facción), verificada
+  in-game (Roar+Expel suman, `×2.428`). Ver `../domains/engine/design/arch-decisions.md` §16.
+
+**Frontera:** la *colección* de pools globales es implícita (hardcodeada en `rebuildGraph` +
+`calculateCurrentValue`). **Declararla sería un refactor de realización — compatible con esta decisión, no
+una alternativa: no la reabre.** Lo que no se re-debate es el patrón `final/base`.
+
+---
+
+## DC-OQ-ENGINE-9 — Reestructura interna de `@core` (capas/cortes) + ruling `@providers → @core` — **EJECUTADO**
 
 **Dominio:** engine / arquitectura de `@core`
 
-**Contexto:** `@core` creció sin estructura interna deliberada (ver `OQ-ENGINE-9`): Capa A co-ubicada en `providers/`, `bridge/`+`combat/`+`resolution/`+`hydration/` planos bajo `engine/`, contratos y primitivos mezclados en un `contracts/index.ts`. Plan validado y blast-radius medido (2026-06-11/12); ejecutado desde Linux en la rama `refactor/core-stage0-restructure`, commit por slice, gate `tsc -b` CLEAN + 95 tests verde en cada uno.
+**Contexto:** `@core` creció sin estructura interna deliberada (ver `OQ-ENGINE-9`): Capa A co-ubicada en `providers/`, `bridge/`+`combat/`+`resolution/`+`hydration/` planos bajo `engine/`, contratos y primitivos mezclados en un `contracts/index.ts`. Plan validado y blast-radius medido ; ejecutado desde Linux en la rama `refactor/core-stage0-restructure`, commit por slice, gate `tsc -b` CLEAN + 95 tests verde en cada uno.
 
 **Ejecutado (Stage 0 — reorg interno de `engine/`, blast externo 0):**
 - `contracts/index.ts` → split en `contracts.ts` (cortes de frontera / DTOs) + `primitives.ts` (vocabulario no-corte: `AttributeNode`, `Modifier`, `GameLaws`, ids); `index.ts` queda como barrel.
@@ -86,21 +102,28 @@ Solo si se formula un sistema que permita generar overrides de idioma sin manten
 - `ensemble.types.ts` (gemelo-de-entrada: `EnsembleChannel`/`EnsembleIntention`/`INITIAL_INTENTION`) → `@shared/types/ensemble.ts` (único corte domain-visible). De paso cerró un smell de Restricción 1: 4 dominios importaban `@providers/Ensemble/ensemble.types` (no permitido).
 - `ensemble-store.ts` (A1, `ensembleStore`) → `@core/intention/`. `EnsembleProvider.tsx` (binding React) se queda en `@providers/Ensemble/`.
 
-**Ruling `@providers → @core` = PERMITIDO (2026-06-12):** `EnsembleProvider` (capa de composición / adapter) importa `@core/intention/ensemble-store`. Adapter→core es la dirección correcta de Ports&Adapters; la Restricción 1 protege a los **dominios de feature** entre sí y de `@core`, **no** a la capa de composición. **No contradice** "los dominios no importan `@core`" (sigue NO; `domains/* → @core` es drift): `@providers` no es un dominio de feature. Esto resuelve la **simetría de entrada** de `OQ-ENGINE-FUTURE` (contrato de intención en `@shared` ↔ store en `@core`).
+**Ruling `@providers → @core` = PERMITIDO:** `EnsembleProvider` (capa de composición / adapter) importa `@core/intention/ensemble-store`. Adapter→core es la dirección correcta de Ports&Adapters; la Restricción 1 protege a los **dominios de feature** entre sí y de `@core`, **no** a la capa de composición. **No contradice** "los dominios no importan `@core`" (sigue NO; `domains/* → @core` es drift): `@providers` no es un dominio de feature. Esto resuelve la **simetría de entrada** de `OQ-ENGINE-FUTURE` (contrato de intención en `@shared` ↔ store en `@core`).
 
-**Pendiente (gated por consumidor D real — Stage 2, NO ejecutar en abstracto):** extraer `engine/hooks/` (D-parcial) fuera de `@core`; separar bootstrap de `fixtures/`; construir A2 (`SimulationContext` aún mezcla intención+dato+leyes); `ProjectionSnapshot` → `ViewModelContract`. También diferido: lift de `contracts/`/`primitives/` a nivel `@core` (ubicación de `damage-logic`/`damage-multipliers`/`mod-overrides` = decisión nueva).
+**Cierre del eje (b) — por solución mejor.** El eje (b) de `OQ-ENGINE-9` preguntaba "dónde vive el harness de consumidores (lado-entrada) respecto al puerto de salida (`output/`)", gated por "esperar a la Capa D real". **Se disolvió al ejecutarse el eje (a):** el harness dejó de ser una cosa — `bootstrap/` se graduó a producción (lo llama `main.tsx`) y `fixtures/builds.ts` quedó como el **catálogo de builds compartido tests↔CLI**, consumido por el oráculo D2 (`scripts/oracle/oracle.ts`) y por las suites. Es el harness compartido que el Contexto original pedía: cumple su función y hace crecer el CLI y D1/D2. El gate además nunca fue el correcto — D consume `output/`, nunca `fixtures/`, así que esperar a D no iba a informar esta ubicación. Cerrado sin reorganizar: no hay consumidor que pida moverlo.
+
+**Pendiente (verificado contra código 2026-07-17):**
+- **A2** — `SimulationContext` (`contracts/contracts.ts`) sigue mezclando intención (`active_profile_id`/`flags`/`variables`) + leyes (`laws`) + dato (`target`).
+- ~~**Shape de la Capa A**~~ — **resuelto**: la Capa A es `Scene` (`@shared/types/scene.ts`), donde el portador contiene lo que se le monta y la identidad es la posición. La incoherencia que este punto señalaba (tablas paralelas `slots`/`arcanes` colgando de canales) desapareció con la forma. Residual: el store todavía escribe la forma vieja, y eso lo lleva `OQ-ENGINE-36`.
+- **Lift de `contracts/`/`primitives/` a nivel `@core`** — siguen en `engine/contracts/`; la ubicación de `damage-logic`/`damage-multipliers`/`mod-overrides` = decisión nueva.
+
+De la lista original de Stage 2 ya no queda nada más: `engine/hooks/` se purgó (era cluster muerto, no se extrajo), el bootstrap se separó de `fixtures/` (`bootstrap/engine-data.ts`; `fixtures/` solo aloja `builds.ts`) y `ProjectionSnapshot` fue reemplazado por `ViewModelContract` (consumido por D1 `use-view-model`, D2 oráculo y `UpgradeView`).
 
 **Condición para reabrir el ruling:** ninguna prevista. Reabrir solo si `@providers` deja de ser capa de composición pura.
 
 ---
 
-## DC-OQ-DATA-3 — DataLoader singleton: contrato de consumo de overrides — **DIRECCIÓN ELEGIDA (2026-05-29)**
+## DC-OQ-DATA-3 — DataLoader singleton: contrato de consumo de overrides — **DIRECCIÓN ELEGIDA**
 
 **Dominio:** data / pipeline / engine / UI
 
 **Dirección elegida:** Runtime-universal con DataLoader singleton. Todos los overrides se cargan en runtime por un DataLoader singleton que expone cada par `JSON base + override` ya mergeado. El pipeline (`generate-data.ts`) no toca los overrides. Cada repositorio delega al DataLoader en vez de implementar su propio loader.
 
-**Corrección ya aplicada (2026-05-29):** `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`. El pipeline produce solo datos de fuente externa. Gestión de overrides = responsabilidad de scripts manuales/agente.
+**Corrección ya aplicada:** `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`. El pipeline produce solo datos de fuente externa. Gestión de overrides = responsabilidad de scripts manuales/agente.
 
 **Patrón objetivo:**
 ```
@@ -116,11 +139,11 @@ DataLoader.getIncarnonData() → incarnon-evolutions.override.json            (d
 
 ---
 
-## DC-OQ-DATA-2 — Ubicación de vocabularios que son simultáneamente semantic + data — **DIRECCIÓN ELEGIDA (2026-06-05)**
+## DC-OQ-DATA-2 — Ubicación de vocabularios que son simultáneamente semantic + data — **DIRECCIÓN ELEGIDA**
 
 **Dominio:** data / semantic
 
-**Contexto:** vocabularios como polaridad, tipos de daño y facciones son a la vez **significado canónico** (token del juego) y **estructura de datos materializada** (campos en `mods.json`, `warframes.json`, etc.). La auditoría 2026-05-25 los reportó como huérfanos documentales (0 links entrantes), planteando si debían moverse fuera de `semantic/`.
+**Contexto:** vocabularios como polaridad, tipos de daño y facciones son a la vez **significado canónico** (token del juego) y **estructura de datos materializada** (campos en `mods.json`, `warframes.json`, etc.). La auditoría los reportó como huérfanos documentales (0 links entrantes), planteando si debían moverse fuera de `semantic/`.
 
 **Dirección elegida: opción (a) — vocabulario en `semantic/`, visibilidad del grafo por link al consumidor.**
 El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.md`: *"si un documento define qué SIGNIFICA algo → `semantic/`; si define cómo se ESTRUCTURA en JSON → `data/schemas/`."* Un vocabulario que es significado canónico vive en `semantic/` aunque se materialice en datos.
@@ -153,7 +176,33 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 ---
 
-## DC-OQ-ENGINE-10-A — `lib/*` = suite de utilidad de presentación, no capa ni orquestador — **CERRADO (2026-06-13)**
+## DC-OQ-ENGINE-10 — Capa E DESCARTADA: D se lee por dos lentes de salida, no por una capa intermedia — **CERRADO**
+
+**Dominio:** engine / arquitectura de capas + ui-ux / presentación
+
+**Qué proponía E:** una capa intermedia entre la salida de C y la UI que **enriquecía e hidrataba** el snapshot para display, moviendo `ViewModelContract` **fuera de D**. La topología propuesta era:
+```
+C → D → salida cruda → D2 (CLI/oracle)
+C → D → salida cruda → E (enriquece + hidrata) → UI
+```
+
+**Por qué NO (decisión):** E era un pasamanos con dos trabajos, y ambos ya tienen mejor hogar:
+- **La hidratación de chrome** (nombre/imagen/desc) la provee el **piso "0"** — la capa **horizontal** de datos (`DataRegistry`, OQ-DATA-9). Que la UI lea el chrome de 0 directo es más sólido que una capa vertical E que lo re-hidrate: 0 ya es el SSoT de datos y la UI (como los DetailViews) ya lee de ahí.
+- **El formateo** (labels/unidades/números) lo provee `lib/format` (estrato de utilidad, `DC-OQ-ENGINE-10-A`), consumido por igual por CLI y UI.
+- Sin esos dos trabajos, E no queda con nada propio: **D se divide en sus dos lentes de salida** — **D1** (`use-view-model`, binding reactivo UI, aún prematuro) y **D2** (`oracle`, CLI). Ambas consumen el mismo `project()` (cut C→D); no hace falta una capa entre medio.
+
+**Consecuencia:** `ViewModelContract` **se queda en D** (no se mueve a E). El modelo de capas es `A→B→C→D→UI` con D leído por dos lentes; **no hay Capa E**. Un agente futuro **no debe re-proponer E**: la confluencia info+chrome se resuelve con 0 (horizontal) + lib/format, no con una capa vertical. En una frase: **E era sobredimensionar una solución** — el concepto quedó completamente suspendido.
+
+**Qué sobrevive de los sub-DC:** `DC-OQ-ENGINE-10-A` (lib/* = utilidad) intacto — es independiente de E. `DC-OQ-ENGINE-10-C` conserva el modelo de 2 canales de lectura y los dos ejes de refactor; su "Canal 2 = E" se lee ahora como "canal de presentación (D1 + lib/format + chrome de 0)", sin capa E. `DC-OQ-ENGINE-10-B` (topología mini-framework de E) se **purgó** — era el manual de construcción de E; su historia queda en git.
+
+**Distinto del rename de D:** el "rename D→contrato neutro" que E arrastraba en su enunciado es **decisión aparte y sigue viva** — es `OQ-ENGINE-8` (nombre del payload de salida de C), independiente de que E se descarte.
+
+**Condición para reabrir:** ninguna prevista. E se reabre solo si aparece un trabajo de confluencia que **ni 0 ni lib/format** puedan cubrir — no anticipado.
+**Ref:** `OQ-ENGINE-10` (lápida), `DC-OQ-ENGINE-10-A/-B/-C`, `OQ-DATA-9` (piso 0), `OQ-ENGINE-8` (rename de D).
+
+---
+
+## DC-OQ-ENGINE-10-A — `lib/*` = suite de utilidad de presentación, no capa ni orquestador — **CERRADO**
 
 **Dominio:** ui-ux / presentación + arquitectura de capas
 
@@ -168,7 +217,7 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 ---
 
-## DC-OQ-STUB-1 — Principio de stub honesto: un placeholder no simula conexión — **CERRADO (2026-06-13)**
+## DC-OQ-STUB-1 — Principio de stub honesto: un placeholder no simula conexión — **CERRADO**
 
 **Dominio:** ui-ux / disciplina de implementación
 
@@ -183,7 +232,7 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 ---
 
-## DC-OQ-UI-SPEC-1 — La UI de arsenal no es spec del flujo; derivar contratos de D2 + dominio — **CERRADO (2026-06-13)**
+## DC-OQ-UI-SPEC-1 — La UI de arsenal no es spec del flujo; derivar contratos de D2 + dominio — **CERRADO**
 
 **Dominio:** ui-ux / arquitectura de contratos
 
@@ -196,34 +245,15 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 ---
 
-## DC-OQ-ENGINE-10-B — Topología de `E`: mini-framework (núcleo puro + sub-núcleo React) — **DIRECCIÓN ELEGIDA (2026-06-13, no cierre definitivo)**
-
-**Dominio:** ui-ux / presentación + arquitectura de capas
-
-**Dirección elegida:** `E` se materializa como **módulo/mini-framework (`E/*`)**, no como una clase única, con desacople interno:
-- **Núcleo puro = el snapshot** — composición TS pura, React-free, token-annotated (cruza `0`-chrome + `D`-info, llama a `lib/*` por `DC-OQ-ENGINE-10-A`). **Es el contrato compartido CLI+UI.**
-- **Sub-núcleo React desacoplado = el embed JSX** — render-time, UI-only, **`f(snapshot)`** (lee el snapshot, lo envuelve; nunca recomputa). Es la terminal de composición UI (qué campos se embeben + cómo se arma el bloque), delegando el primitivo a `lib/*`.
-
-**Revisa el modelo:** corrige el *"E = enriquecimiento solo-UI, el CLI no lo usa"* de `OQ-ENGINE-10`. El CLI (D2) **consume el snapshot de E**, no lo bypassea → E **no** es solo-UI; su snapshot es compartido, y solo la **punta embed JSX** es UI-only.
-
-**Guard re-escopado (no borrado):** *"el **núcleo/snapshot** de E es React-free"* (antes: "todo E es React-free"). El guard angosta, no desaparece — sigue protegiendo: (1) que el snapshot no se recompute dentro de React (refs estables para `useSyncExternalStore`), (2) compatibilidad con el consumidor no-React (CLI). El sub-núcleo React siendo render-time **no** viola esto (siempre fue render-time).
-
-**Invariante anti-isla:** el sub-núcleo React debe ser `f(snapshot)`, sin segunda composición. La bifurcación texto/JSX vive **solo en la punta** (el medio de salida, irreducible y legal). Fork en el primitivo de render ≠ isla; isla = lógica duplicada.
-
-**Por qué NO es cierre definitivo:** la definición teórica/técnica es sólida, pero quedan **puntos de abstracción** (micro-arquitectura del núcleo de E) sin resolver. Se difiere a propósito: debatirlos ahora sería discutir sobre un supuesto mientras el **ancla real es la UI** (function-first). El debate de micro-arquitectura **se reabre al componer el núcleo de E**.
-
-**Condición para reabrir:** automática al iniciar la composición del núcleo de E (no requiere evidencia nueva — está agendado).
-**Ref:** `docs/governance/open-questions.md` (OQ-ENGINE-10, OQ-DATA-10), `DC-OQ-ENGINE-10-A`.
-
----
-
-## DC-OQ-ENGINE-10-C — Modelo de 2 canales de lectura + ejes ortogonales + `E` no es block stage — **CERRADO (2026-06-13)**
+## DC-OQ-ENGINE-10-C — Modelo de 2 canales de lectura + ejes ortogonales — **CERRADO — reencuadrado tras descartar E**
 
 **Dominio:** ui-ux / arquitectura de estado + capas
 
+> ⚠️ **Reencuadre:** este DC nombraba el canal de presentación como "Capa E". E se descartó (`DC-OQ-ENGINE-10`). El **modelo de 2 canales sigue vigente** — solo que el canal de presentación es **D1 + `lib/format` + chrome de 0 leído directo**, no una capa E. Léase "`E`" abajo como "canal de presentación". La sub-decisión *"`E` no es block stage"* se vuelve trivial: no hay E que secuenciar.
+
 **Decisión (modelo de 2 canales hacia la UI):** la UI consume de **dos canales distintos**, no tres:
-- **Canal 1 — espejo de intención (`useEnsemble`):** un **puntero** a A (itemId, rank, slots). Responsabilidad única: leer + mutar intención. **NO pasa por `E`.** No es un flujo de datos, es un espejo. Meter `useEnsemble` por `E` sería doble responsabilidad / doble flujo.
-- **Canal 2 — presentación (`E`):** nodo de confluencia con **dos entradas** (chrome de `0` + info computada de `A→B→C→D`) y **una salida** (UI). **El chrome de `0` ES una entrada de `E`** — reafirma `DC-OQ-ENGINE-10-A` y el diagrama de confluencia de `OQ-ENGINE-10`.
+- **Canal 1 — espejo de intención (`useEnsemble`):** un **puntero** a A (itemId, rank, slots). Responsabilidad única: leer + mutar intención. **NO pasa por el canal de presentación.** No es un flujo de datos, es un espejo.
+- **Canal 2 — presentación:** confluencia de **dos entradas** (chrome de `0` leído directo + info computada de `A→B→C→D` vía D1) hacia la UI. El chrome de `0` es una de las dos entradas — reafirma `DC-OQ-ENGINE-10-A`. (Enunciado original: "nodo de confluencia `E`"; E descartada, la confluencia la hace la UI leyendo 0 + D1, sin capa intermedia.)
 
 **Qué corrige (drift transitorio en debate):** durante la iteración se propuso un "canal 3 = lectura directa `0→UI`" para el chrome puro (nombre/ícono). **Descartado:** no existe la "lectura cruda de `0`" — resolver un ícono es **normalización de patch** y mostrar una descripción es **formateo `<DT_*>`**; ambos son **enriquecimiento = trabajo de `E`**. Un canal aparte reimplementaría ese enriquecimiento → **isla**. El chrome puro entra por `E` (con `D`-side vacío); los casos verdaderamente inertes pasan por `E` como no-op, lo que no justifica otro canal.
 
@@ -240,22 +270,129 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 **Pendiente de verificación (checkpoint, no decisión):** ¿los componentes de arsenal ya tienen acceso directo a `DataRegistry`/`0`, o reciben chrome **solo** vía la sombra? Si es lo segundo, purgar fuerza lecturas-de-`0` nuevas (más caro). Confirmar con el código en mano antes de cantar "barato".
 
 **Condición para reabrir:** el eje 2 (centralización en `E`) se retoma al estabilizar `A→D→UI` + `A=UI`; el mapa de candidatos es el gate. El modelo de 2 canales y la separación de ejes no se reabren sin evidencia nueva.
-**Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-ENGINE-10), `DC-OQ-ENGINE-10-A/-B`, `DC-OQ-STUB-1`. Plan de stages: `.working/` (scratchpad, no SSoT).
+**Ref:** `docs/governance/open-questions.md` (OQ-UI-2, OQ-ENGINE-10), `DC-OQ-ENGINE-10-A/-B`, `DC-OQ-STUB-1`.
 
 ---
 
 ## DC-OQ-DATA-12 — Carga de runtime del engine: `import` estático → `fetch` (lado engine de "0")
 
-**Fecha de cierre:** 2026-07-02 (migrada desde `open-questions.md` el 2026-07-03).
-
 **Decisión:** cerrado el mecanismo de carga del engine en runtime. El `loadEngineData` que hacía `DataLoader.init` con `import` estático de los 7 JSON (cableado en `main.tsx`, bundleaba los datos: chunk ~2.3 MB) se migró a `fetch` lazy y se reubicó fuera de `fixtures/`.
 
 **Cómo cerró (dos pendientes):**
-- **`fetch` lazy** → Fase 1 (2026-06-12/13, saneamiento `@core`): `BrowserAdapter` reemplaza el `import` estático; bundle 2.3 MB→565 kB (gzip 431→171 kB); `DataRegistry` comparte la instancia `browserSource`, sin doble-fetch.
-- **Ubicación** → Fase 2 Slice E (2026-07-02): `loadEngineData` movido a `@core/engine/bootstrap/engine-data.ts`; `fixtures/` ya solo aloja `builds.ts`.
+- **`fetch` lazy** → Fase 1 (saneamiento `@core`): `BrowserAdapter` reemplaza el `import` estático; bundle 2.3 MB→565 kB (gzip 431→171 kB); `DataRegistry` comparte la instancia `browserSource`, sin doble-fetch.
+- **Ubicación** → Fase 2 Slice E: `loadEngineData` movido a `@core/engine/bootstrap/engine-data.ts`; `fixtures/` ya solo aloja `builds.ts`.
 
 **Reencuadre clave (por qué NO fue "mover el loader a fetch"):** la opción barata de un fetch engine-privado de los 7 JSON se descartó — 5 son overrides = **dato canónico compartido**, no proyección privada del engine (un loader propio reconstruiría la isla que "0" venía a cerrar). El `import` estático se queda como provisional solo para tests/CLI en Node.
 
 **Lo que NO cierra esta decisión:** el eje RED-adjacent "contrato de entrada del engine" (quién normaliza los overrides, β de OQ-DATA-9) sigue **abierto** — es otro eje, gated por el consumidor D real. Se rastrea en `OQ-DATA-9`.
 
 **Ref:** `OQ-DATA-9` (borde de entrada / "0"); campaña de saneamiento `@core` (Fase 1 + Fase 2 Slices B/C/E). Procedencia completa en git history de `open-questions.md`.
+
+---
+
+## DC-OQ-ENGINE-13 — ¿Los buffs de habilidad tipo Roar/Xata double-dipean en DoTs? — SÍ, confirmado
+
+**Decisión:** confirmado empíricamente (test in-game, Akvasto Prime vs Arid Butcher/Charger,
+`damage-status-model.md §Evidencia`). Roar **sí** double-dipea en DoTs, igual que el faction bonus —
+y por la misma razón: ambos caen en el **mismo bucket aditivo** de bonos de daño-final (pool ②,
+`simulation-architecture.md §2.0`).
+
+**Cómo cerró (más preciso que la hipótesis original):** la OQ preguntaba si Roar double-dipeaba "igual
+que faction". La respuesta real **refina la regla**, no sólo la confirma: el double-dip **no es una
+propiedad de "faction"** — es una propiedad del **pool ② en general** (mods de facción + buffs de
+habilidad, aditivos entre sí). Evidencia: Expel (mod) y Roar (buff) cada uno double-dipea **solo**, y
+juntos dan `(1+Expel+Roar)²`, no `(1+Expel)²×(1+Roar)²`. La matriz ③ del target (vulnerabilidad por
+facción×elemento) es un mecanismo **aparte** y single-dipea — no se confunde con el bucket.
+
+**Lo que NO cierra esta decisión:** el **consumo** en código (pool② + matriz③ en el tick de DoT,
+`StatusEngine`) sigue sin implementar — es deuda de implementación, no pregunta abierta. Ver
+`status.md §Deudas` y `damage-status-model.md §Reconciliación de resolveHit`.
+
+**Ref:** `damage-status-model.md §Evidencia` (test in-game 2026-07-08); `simulation-architecture.md §2.0`
+(pool②/matriz③); `status.md §Deudas` (`GAMEPLAY_MULT_FACTION_DAMAGE`, consumo pendiente).
+
+---
+
+## DC-OQ-ENGINE-17 — Fórmula de arcanos ability-like: ¿por-arcano o por-familia? — NO BINARIO, ambos caminos coexisten
+
+**Decisión:** la hipótesis original ("varios arcanos comparten forma → familia, no N fórmulas")
+**se confirma solo parcialmente.** El barrido completo del corpus `upgrade_type:null` de
+`arcane-stats.override.json` (85 arcanos; 34 parkeados por `OQ-DATA-14` — Amp/Operator/Zaw/Kitgun;
+51 en scope real) reparte así:
+
+- **2 familias reales (13 casos, ~15% del residuo):** `STACK_DECAY_BUFF` (buff on-event con decay,
+  8 arcanos — `arch-decisions.md §11`) y `linearThresholdScale` + `source_attribute`
+  (cross-attribute-read con cap, 5 arcanos — `arch-decisions.md §12`).
+- **6 casos complejos con `references/wiki/arcanes/arcane-*.md` propio** (Afflictions, Duplicate,
+  Influence, Camisado, Persistence, Universal Fallout) — demasiado ricos para generalizar, cada uno
+  con su propia fórmula documentada.
+- **~30 genuinamente per-arcano** (sin forma compartida) — necesitan fórmula dedicada individual.
+
+**Método que produjo la respuesta:** el mismo que CO/melee-combo (`arch-decisions §9/§10`) — no
+diseñar la abstracción antes del corpus; barrer con el corpus real enfrente y dejar que la
+familia emerja donde exista. Confirma el principio, no lo reabre.
+
+**Lo que NO cierra esta decisión:** la ejecución (cero código todavía para ninguna de las 2
+familias ni para el residuo per-arcano) — es deuda de implementación, no pregunta abierta.
+El residuo-tabla completo (ítem por ítem, con datos de escalado por rank verificados contra la
+wiki) vive en `docs/data/reports/audit-arcane-sweep.md` (tier referencia).
+
+**Ref:** `arch-decisions.md §11` (`STACK_DECAY_BUFF`), `§12` (`linearThresholdScale`);
+`docs/data/reports/audit-arcane-sweep.md` (residuo-tabla); `OQ-DATA-14` (park modular);
+`OQ-ENGINE-16` (tensión hermana, sigue abierta — fidelidad de N-declarado, no resuelta acá).
+
+---
+
+## DC-OQ-ENGINE-8 — Contrato de salida de C: `CombatMetrics` cristalizado + vocabulario neutro — **CERRADO**
+
+**Dominio:** engine / contrato de salida de C2 + vocabulario de capas
+
+**Faceta 1 — vocabulario neutro (resuelta):** el payload de salida de métricas se nombra **`CombatMetrics`** — neutro, sin colisión: ni "Projection" (nombre propio de la Capa D) ni "ViewModel" (la Capa E que lo heredaría se descartó, `DC-OQ-ENGINE-10`). Es un **conjunto extensible** particionado por **dependencia-de-target**, no por tema:
+- `target_agnostic` (`TargetAgnosticMetrics`) — closed-form de C1, sin ver al enemigo (DPS, crit, pesos de status). Lo produce `CombatCalculator.project`.
+- `vs_target` (`VsTargetMetrics`) — lo que sólo emerge de correr el reloj contra un enemigo escalado (ttk, daño realizado, DPS efectivo).
+
+El contrato vive en `@core/engine/output/combat-metrics.ts`, **separado del productor** — `CombatCalculator` lo importa y produce su parte, no lo posee. Las hojas son **valores neutros** (números tipados con nombre semántico): "D consumible" — D1 (UI) y D2 (oráculo) los formatean cada uno, C no formatea. **El catálogo NO se predice:** añadir una métrica es aditivo (crece horizontal); las hojas se pueblan cuando un consumidor las pida — evita el error que purgó `ProjectionSnapshot` (tipo rico sin call-sites).
+
+**Faceta 2 — los 2 forks de intención (resueltos):**
+- **(a) `ttk` nunca es 0.** Un one-shot mata en **≥ 1 ciclo de disparo** (piso = `timeStep = 1/fireRate`). `ttk=0` era artefacto del reloj discreto (primer disparo en t=0): mentía y rompía cualquier `total/ttk`. Se añade además **`shots_to_kill`** (métrica discreta honesta: "murió en N disparos").
+- **(b) `effective_dps` mide lo REALIZADO vs target.** `= total_damage / ttk` cuando mata (DPS efectivo hasta matar); `= total_damage / dur` cuando no mata (sostenido en la ventana). El DPS **teórico** ya lo da el closed-form (`burst_dps`/`sustained_dps`) — el run no lo duplica, aporta lo que el target impone (DR/armor, muerte antes de la ventana). El cómputo se **movió de D2 (oráculo) a C** (el ensamblador `computeCombatMetrics`): es dato que D consume, no computa.
+
+**Materialización:** `computeCombatMetrics(weapon, target, ctx, dur)` corre los dos actos y ensambla el contenedor; el modo `oracle -- metrics` lo consume e imprime (D2 sólo formatea). Test de contrato en `__tests__/combat-metrics.test.ts` (forks + estructura, invariantes no números in-game).
+
+**Residual (diferido, no reabre):** el rename de **`ViewModelContract`** (el cut C→D **display-only/C1**, misnomer leve — no hay ViewModel) sigue sin hacerse. Es un contrato **separado** de `CombatMetrics` (aquél = stats de la hoja del arsenal; éste = métricas de combate C2), de bajo valor. Se renombra si alguien toca esa ruta; no gatea nada.
+
+**Condición para reabrir:** ninguna para el contrato de métricas — el catálogo crece aditivo sin reabrir esta decisión.
+**Ref:** `output/combat-metrics.ts` (contrato), `CombatCalculator`/`TimelineSimulator` (productores), `scripts/oracle/oracle.ts` (consumidor D2); `DC-OQ-ENGINE-10` (E descartada), `OQ-DATA-10` (borde de salida display, par vecino).
+
+---
+
+## DC-OQ-ENGINE-30 — Física del movimiento: los 6 tokens del residuo — **NINGUNO SE ACUÑA**
+
+**Dominio:** engine / C1 — vocabulario de movimiento
+
+**Decisión:** los 6 tokens que quedaron fuera del barrido de movilidad **no se acuñan** y **no reciben nodo**. Su `console.warn` de hidratación es el estado correcto, no una deuda.
+
+**El diagnóstico —¿falta el dato o falta la fórmula?— está hecho contra la fuente**, y la respuesta no es uniforme. Es el valor que sobrevive al cierre: sin él, un lector futuro vuelve a preguntarse por qué estos 6 no entraron.
+
+| Token | Usos · Mods | Qué falta realmente |
+|---|---|---|
+| `AVATAR_MELEE_DAMAGE_TO_JUMP_KICK` | 1 · Gale Kick | **nada del dato** — `maneuvers §Jump Kick` publica `20 Impact + 100%` del daño base del melee, y el `+25/50/75/100%` del mod verifica exacto contra el `20 + 200%` del rango máximo. Falta el **consumidor**: es un ataque del warframe cuya base sale del arma equipada, y esa entidad no existe |
+| `AVATAR_KNOCKDOWN_RECOVERY_SPEED` | 1 · Constitution | la **duración de la animación** de knockdown, que el `+40%` acelera. Ninguna página la publica; la ventana de recuperación (433 ms) es otra cosa, y `maneuvers` documenta que Handspring la encoge acelerando la animación —relación inversa, sin cuantificar |
+| `AVATAR_PARKOUR_GRAVITY` | 3 · Aero Vantage, Air Time, Boreal's Anguish | la **constante de gravedad** —la palabra no aparece en las 561 líneas del raw— y un integrador de trayectoria que el motor no tiene. Sólo 2 de los 3 usos son del corpus: Air Time es K-Drive, fuera de scope |
+| `AVATAR_HEAVY_LAND_SPEED` | 1 · Kavat's Grace | la **fórmula**, no el dato: el umbral (20 m/s) está publicado, la relación token→umbral no. El token dice `SPEED` y el mod dice *"less likely"* — cualquier número acá elige un bando sin fuente |
+| `AVATAR_EVADE_NPC_BULLET` | 1 · Agility Drift | las **curvas `AimGraph`**: la fuente publica el mecanismo (rango→P(acierto) por arma enemiga), lo marca `{{Speculation}}` y las curvas sólo existen como imágenes. Único de los 6 cuyo sujeto es el **enemigo**, no el portador |
+| `AVATAR_JUMP_HEIGHT` | 1 · Necramech Hydraulics | la altura base, en ninguna parte — y el portador es **Necramech**, entidad que el corpus no arma. La fuente declara su propio hueco con `{{UpdateMe}}` |
+
+**Por qué no se acuñan — el costo es real y está en el código.** Acuñar no es "una línea en `UPGRADES`": `resolveUpgradeEntry` es `isUpgrade(token)` **y** `UPGRADE_MAP[token] ?? resolveToken(token)`, y `resolveToken` exige que el segundo segmento del token sea `ADD`/`FLAT`/`BASE`/`MULT`. Los 6 tokens crudos de DE no llevan operación en el nombre, así que agregarlos al array los deja resolviendo `undefined` igual. Acuñar de verdad exige **elegirles operación** (nombre canónico `AVATAR_ADD_*`/`AVATAR_MULT_*`) y migrar sus 8 usos en `mod-stats.override.json` — el mismo trabajo que `AVATAR_PARKOUR_GLIDE` → `AVATAR_ADD_AIM_GLIDE_DURATION` y sus 12 usos. **Elegir la operación es comprometerse con un modelo, que es exactamente lo que la fuente no sostiene para 5 de los 6.**
+
+Aplica tal cual el criterio de `semantic/upgrade-tokens.md` §*Acuñar no es gratis y no es el default*: se gana el lugar con corpus coherente **y** mecánica clara.
+
+**Lo que el motor dice hoy, y está bien que lo diga:** `[Hydration] No se pudo mapear upgrade_type: <token> para el mod: <unique_name>` — nombra el token y su fuente, y sólo se emite con el mod equipado en la build, no al cargar el catálogo. Es información honesta y no invasiva. Es un aviso **distinto** del tripwire de `StaticHydrator` (`Token conocido sin nodo`): aquél mide cobertura de **vocabulario**, éste de **modelado**.
+
+**Condición para reabrir — dos, ambas concretas:**
+1. **Aparece el consumidor del jump kick** (un ataque del warframe con base derivada del arma equipada). Es el único de los 6 sin hueco de dato: el día que exista la entidad, entra con base real de la fuente, sin inventar nada.
+2. **Necramech entra al corpus.** Desbloquea `AVATAR_JUMP_HEIGHT` y sólo a ése.
+
+Los otros cuatro **no los desbloquea un dato que llegue**: `HEAVY_LAND_SPEED` está trabado por conflicto semántico entre el token y su mod, `EVADE_NPC_BULLET` por sujeto (el enemigo no es el portador), `KNOCKDOWN_RECOVERY_SPEED` y `PARKOUR_GRAVITY` por falta de base medida in-game (régimen `OQ-ENGINE-15`/`-21`).
+
+**Ref:** `references/wiki/mechanics/{maneuvers.md,accuracy.md}` (la fuente destilada), `semantic/upgrade-tokens.md` §*Acuñado sin nodo* + §*Acuñar no es gratis*, `shared/types/modifier.ts` (`resolveUpgradeEntry`/`resolveToken`/`UPGRADES`), `__tests__/unlanded-modifiers.test.ts` (el tripwire del otro aviso), `OQ-ENGINE-7` (mismo patrón: token válido sin nodo).

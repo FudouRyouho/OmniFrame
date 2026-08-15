@@ -8,4 +8,3 @@
 // 3 - NAME
 ## /Lotus/Powersuits/PowersuitAbilities/DemonFrameBrimstoneAbility
 // 4 - NAME
-

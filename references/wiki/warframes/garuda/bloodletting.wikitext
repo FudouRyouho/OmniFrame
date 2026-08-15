@@ -1,0 +1,56 @@
+<onlyinclude>{{AbilityU10.3
+| name = Bloodletting
+| gameimage = Bloodletting130xWhite.png
+| cardimage = BloodlettingModx256.png
+| hotkey = 3
+| energy = 0
+| description = Garuda sacrifices her health to generate energy and clear Status Effects.
+| strength = 
+| duration = 
+| range = 
+| efficiency = 18 / 22 / 30 / 40 % (energy gain)
+| misc = -50% (health deducted)<br/>100% (status cleanse)<br/>2 HP (minimum health threshold)
+| cardonly = {{{1|}}}
+| info = *Garuda slashes herself with her talons as she spins into the air, sacrificing up to '''<u>50%</u>''' of her maximum [[Health]] to cleanse all [[Status Effect|status effects]] and restore up to {{Stat|Ability Efficiency|icon=only}}'''18% / 22% / 30% / 40%''' of her maximum [[Energy]] capacity. Garuda cannot reduce her health below '''<u>2</u>''' health points using Bloodletting.
+**Health cost is 50% of Garuda's '''maximum HP''', including mods.
+**Energy gain is the listed % of her '''maximum energy''', including mods, [[Helminth#Invigoration|Helminth invigorations]] and slotted {{Resource|Azure Archon Shard|Azure Archon Shards}}.
+**Energy gain follows the formula:
+**:{{MathText|Total Energy Gain {{eql}} Base Energy Gain {{div}} (2 - Ability Efficiency)}}.
+**Bloodletting can be cast if Garuda has less than 50% of her maximum HP remaining, but will only restore energy proportionate to the amount of HP sacrificed. For example, if she has 25% of her health left (or 50% of 50%) when Bloodletting, the energy gain will be halved.
+*Cannot be cast if Garuda has 2 or less health points.
+*This ability does not trigger health damage into energy conversion mods like {{M|Rage}} or {{M|Hunter Adrenaline}}.
+| stance = 
+| augment = [[File:BloodForgeMod.png|200px|left]]
+{{main|Blood Forge}}
+{{#lst:Blood Forge|intro}}
+{{#lsth:Blood Forge|Stats}}
+{{clr}}
+| tips = *This ability gains no benefits from increasing health. Having lower max health allows flat HP regeneration such as health orbs or {{WF|Oberon}}'s {{A|Renewal}} to generate more energy more quickly.
+*Synergizes with {{A|Blood Altar}}'s continuous healing to give Garuda a near infinite supply of energy.
+*Despite sacrificing HP, Bloodletting is an effective way of shedding off any harmful status effects (especially slowing effects and DoT procs from {{D|Slash}} and {{D|Toxin}} damage), possibly improving her survivability better than not removing the procs.
+*Bloodletting is a powerful ability to combine with [[Helminth]]-infused toggled abilities that constantly drain energy, the most notable being {{WF|Sevagoth}}'s {{A|Gloom}} as it provides Garuda with another self-healing ability besides {{A|Blood Altar}} to constantly regenerate her energy reserves.
+**The Gloom and Bloodletting combo makes Garuda viable at completing [[The Steel Path|Steel Path]] missions alone, including missions not normally frequented by players such as the [[Rathuum]] nodes and the [[Zealoid Prelate]] battle in [[Deimos]].
+**{{A|Seeking Talons}} also synergize extremely well with this build as the damage-over-time of her quills also triggers Gloom healing and, subsequently, powers Bloodletting. The quills' homing ability also offers little chance for enemies to escape and can even track and hit hiding enemies, ensuring Garuda can be healed by Gloom as long as they stay within the aura.
+**{{Arcane|Molt Reconstruct}} can work as a stand-in for Gloom's regeneration by allowing any energy spent to heal a large portion of Garuda's health. Often healing her to full in a single cast. 
+***Bloodletting itself will not restore health however, as it does not expend any Energy.
+*Equipping {{M|Blood Forge}} and using Bloodletting allows Garuda to quickly reload otherwise slow-reloading weapons (such as the {{Weapon|Strun}}, {{Weapon|Nagantaka}}, {{Weapon|Tenet Envoy}} and {{Weapon|Kuva Zarr}}) and increase their overall DPS potential. It comes at the risk of getting struck while already losing her Health to reload, thus she should consider safeguards such as a nearby Blood Altar or equipping {{M|Quick Thinking}} and/or {{M|Gladiator Finesse}}, the mods accounting for her replenished Energy while using Bloodletting.
+**Slotting {{Resource|Azure Archon Shard}}s for extra Energy while also equipping Quick Thinking will make Garuda deceptively durable due to the resulting increased efficiency of regaining Energy via Bloodletting.
+**Slotting {{Resource|Azure Archon Shard}}s for extra Armor instead of extra Energy grants Garuda more effective hitpoints since {{M|Quick Thinking}} benefits from Armor.
+*If a Garuda player wishes to take advantage of the reworked passive to further amplify damage output, Helminth can replace Bloodletting with another damage-related self buff ability, such as {{WF|Xaku}}'s {{A|Xata's Whisper}} or {{WF|Mirage}}'s {{A|Eclipse}}, as these abilities synergize well with the damage buff and Garuda's own {{A|Seeking Talons}}, while still maintaining self-survival options with {{A|Dread Mirror}} and Blood Altar.
+**In exchange for losing this ability to generate Energy, Garuda can equip {{M|Rage}} or {{M|Hunter Adrenaline}} so she gains Energy while taking damage - which will be offset by a nearby Blood Altar.
+<noinclude>
+| max            = {{WFmax|main|garuda3}}
+</noinclude>
+| bugs = |
+}}</onlyinclude>
+
+==See also==
+*{{WF|Garuda}}
+__NOTOC__
+[[de:Aderlass]]
+[[es:Flebotomía]]
+[[fr:Saignée]]
+[[Category:Garuda]]
+[[Category:Update 24]]
+[[Category:Energy Restoration]]
+[[uk:Кровопускання]]

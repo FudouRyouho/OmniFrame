@@ -1,0 +1,79 @@
+{{ModBox}}
+'''{{BASEPAGENAME}}''' is a [[Companion]] [[mod]] that causes [[Eximus]] kills to grant the companion a random [[Elemental Damage]] bonus for 30 seconds and reduce the companion recovery timer.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Bonus Damage
+! Recovery Timer Reduction
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || +20% || -3s || 4
+|-
+| 1 || +40% || -6s || 5
+|-
+| 2 || +60% || -9s || 6
+|-
+| 3 || +80% || -12s || 7
+|-
+| 4 || +100% || -15s || 8
+|-
+| 5 || +120% || -18s || 9
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[The Business]] for {{sc|20,000}} after reaching '''Rank 3 - Doer''' with [[Solaris United]].
+
+==Notes==
+
+* Elemental bonus can be triggered by the player or companion killing Eximus enemies.
+* Bonus damage that can be triggered includes the 4 base elementals and 6 combined elemental types.
+* The elements from the buff do not combine with existing elements on the companion's weapon.
+* The buff can be stacked multiple times, and it is possible to have all elemental buffs active at the same time. Each buff has its own timer that will be hidden by new triggers.
+* Bonus only applies on companion's normal attack. Does not work with special abilities like [[Viral Quills]], nor the clones from [[Duplex Bond]].
+** However, it does apply to the shadow [[Kavat|Kavats]] from [[Territorial Aggression]].
+* Elements gained by this mod count for [[Manifold Bond]], since they are applied to the weapon.
+
+==Bugs==
+* Does not trigger from [[Parazon#Mercy|Mercy finishers]].
+* Intermittently does not work as client in [[Mission|Missions]]--only consistently works as host or solo.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39.1.3}}
+*Updated Momentous Bond's description to specify "Recovery Time", so they show up when the "Recovery Time" stat is selected in the Upgrade Menu.
+
+{{ver|39.0.7}}
+*Fixed Mercy Kills on Eximus units not triggering Momentous Bond. 
+
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+*Fixed script errors in Momentus Bond.
+
+{{ver|34.0.1}}
+*Fixed Momentous Bond’s bonus damage sometimes not applying correctly for Clients.
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]
+[[es:Vínculo crucial]]
+[[fr:Lien Capital]]
+[[ru:Знаменательная Связь]]

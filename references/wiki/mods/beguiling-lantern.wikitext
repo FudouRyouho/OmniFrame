@@ -1,0 +1,70 @@
+{{ModBox}}
+<section begin=intro />
+'''Beguiling Lantern''' is a [[Warframe Augment Mod]] for {{WF|Titania}} that grants 100% weapon [[Damage Vulnerability]] against enemies attracted to {{A|Lantern}}.<section end=intro />
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Strength|icon=only}}Bonus Weapon Damage
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +25% || 6
+|-
+| 1 || +50% || 7
+|-
+| 2 || +75% || 8
+|-
+| 3 || +100% || 9
+|}
+
+==Acquisition==
+*This mod can be acquired by attaining the rank of '''Exalted''' under {{Faction|Red Veil}}, or the rank of '''Flawless''' under {{Faction|New Loka}}, and spending {{sc|25,000}} to purchase.
+
+==Notes==
+*Weapon [[Damage Vulnerability]] is affected by [[Ability Strength]].
+*Does not affect damage over time (except for {{D|Blast}}).
+*Affects {{A|Razorwing}}'s {{Weapon|Dex Pixia}} and {{Weapon|Diwata}}.
+
+==Bugs==
+*Does not work on {{D|Overguard}} despite it not blocking the attraction.
+
+==Maximization==
+{{WFmax|main|titania3_aug}}
+
+{{clr}}
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37}}
+*The following abilities now apply their Damage Vulnerability against enemy Shields and Overguard (previously they only applied to enemy Health): 
+**Titania’s Beguiling Lantern Augment
+
+{{ver|32.2}}
+;WARFRAME AUGMENT BUFFS - PART 3 (FINAL) 
+
+In the Veilbreaker and Nora’s Mix Vol 1 updates, we buffed a number of underused Warframe Augments (from Ash to Oberon). This third and final batch of buffs tackles Warframe Augments from Saryn to Zephyr. We have increased their viability in missions, which we hope will encourage more build diversity.
+
+''<nowiki>*</nowiki>Stats below are all at Max Rank.''
+
+'''TITANIA'''<br/>
+'''Beguiling Lantern'''
+*''Was: Attracted enemies take 100% more melee damage.''
+*Changes: 
+**The 100% damage bonus now applies to all weapons (including Titania’s Dex Pixia and Diwata) and scales with Ability Strength.
+
+{{ver|20.2}}
+*Introduced.
+}}
+
+{{AugmentNav}}
+[[es:Linterna encantadora]]
+[[ru:Манящий Фонарь]]
+[[Category:Augment Mods]]
+[[Category:Warframe Mods]]
+[[Category:Rare Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Titania]]
+[[Category:Zenurik Mods]]
+[[Category:Update 20]]
+[[Category:Damage Vulnerability]]
+[[uk:Заманливий ліхтар]]

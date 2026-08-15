@@ -1,0 +1,48 @@
+<onlyinclude>{{AbilityU10.3
+| name = Nourish
+| gameimage = Nourish130xWhite.png
+| cardimage = NourishModx256.png
+| hotkey = 2
+| energy = 50
+| description = Regenerate health as Grendel absorbs nourishment from enemies in his gut. While he digests, enemies that attack or are attacked by Grendel suffer {{D|Viral}} Damage and energy sources provide more energy. These buffs extend to squad mates.
+<br/>'''Activation prerequisite''': 1 eaten enemy
+| strength = 20% (damage on digestion)<br/>600 / 700 / 800 / 1000 (self heal on cast)<br/>1.5 / 1.65 / 1.8 / 2 x (energy multiplier)<br/>100 / 150 / 200 / 250 ({{D|Viral}} damage on hit)<br/>+40% / +50% / +60% / +75%  ({{D|Viral}} damage buff)
+| range = 10 / 15 / 20 / 25 m (buff radius)<br/>12 m (splash radius)
+| duration = 10 / 15 / 20 / 25 s (buff duration)
+| misc = 10 ({{D|Viral}} status stacks)<br />2 s (explosion cooldown)
+| subsumable = true
+| cardonly = {{{1|}}}
+| info = *Grendel expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to deal damage to the first digested victim equal to {{Stat|Ability Strength|icon=only}}'''20%''' of their total shield and health points, heal {{Stat|Ability Strength|icon=only}}'''600 / 700 / 800 / 1000''' [[Health]], and receive a buff that affects all allies within {{Stat|Ability Range|icon=only}}'''10 / 15 / 20 / 25''' meters for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds. This buff has three separate effects:
+**All [[Energy Capacity#Restoring Energy|energy sources]] provide {{Stat|Ability Strength|icon=only}}'''1.5x / 1.65x / 1.8x / 2.0x''' more energy.
+**Taking [[health]] or [[shield]] damage (but not [[overguard]]) causes an explosion with a {{Stat|Ability Range|icon=only}}'''12''' meter radius that deals {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Viral}} damage with <u>'''10'''</u> {{D|Viral}} stacks and {{D|Stagger}} to enemies within line of sight. This explosion has a <u>'''2'''</u> second cooldown.
+**Adds {{Stat|Ability Strength|icon=only}}'''+40% / +50% / +60% / +75%''' {{D|Viral}} damage to all weapons and certain abilities. See [[Universal Weapon Bonuses]] for more information.
+***Note that this bonus Viral damage is ''additive'' with existing elemental and [[Damage#Physical_Damage|IPS]] mods. Think of it like adding a +75% {{D|Viral}} mod to your weapons (which is buffed by Ability Strength).
+*Retaliation waves damage and break destructible [[Objects]] such as crates and resource caches.
+*Can be recast while active, inflicting damage to the eaten enemy, healing Grendel, buffing new allies in range, and refreshing the buff's duration.
+| helminth =
+*Subsuming Grendel to the [[Helminth]] will offer Nourish and its augments to be used by other Warframes.
+**Other Warframes are omitted from the swallowed enemy requirement, due to their inability to cast {{A|Feast}}.
+**However, Subsumed Nourish does not provide healing, the explosion only applies <u>'''1'''</u> {{D|Viral}} stack, the energy multiplier is reduced to {{Stat|Ability Strength|icon=only}}'''1.3 / 1.39 / 1.48 / 1.6x''', and {{D|Viral}} weapon bonus damage is reduced to {{Stat|Ability Strength|icon=only}}'''+24% / +30% / +36% / +45%'''.
+***Subsumed energy bonus is calculated with the following formula: {{MathText|1 + ((0.3 / 0.39 / 0.48 / 0.6) {{mul}} {{Stat|Ability Strength}})}}
+| synergies =
+Nourish requires at least '''1''' enemy swallowed by {{A|Feast}} to be alive in Grendel's gut to cast.
+| augment = [[File:HeartyNourishmentMod.png|200px|left]]
+{{main|Hearty Nourishment}}
+{{#lst:Hearty Nourishment|intro}}
+{{#lsth:Hearty Nourishment|Stats}}
+{{clr}}
+| tips = 
+| bugs = |
+}}
+
+</onlyinclude>
+
+==See Also==
+*{{WF|Grendel}}
+__NOTOC__
+[[es:Nutrir]]
+[[fr:Ravitaillement]]
+[[uk:Підживлення]]
+[[Category:Viral Damage]]
+[[Category:Grendel]]
+[[Category:High Scalability]]

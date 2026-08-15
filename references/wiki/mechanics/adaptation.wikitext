@@ -1,0 +1,117 @@
+{{ModBox}}
+{{M|Adaptation}} is a [[:Category:Warframe Mods|Warframe mod]] that grants damage resistance to [[Damage#Damage Types|damage types]] received recently, stacking up to 90%.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Damage Resistance
+! Duration
+! Maximum Resistance
+! [[Mods#Mod Power Cost|Cost]]
+|-
+| 0 || +5% || 10s || 90% || 2
+|-
+| 1 || +5.5% || 11s || 90% || 3
+|-
+| 2 || +6% || 12s || 90% || 4
+|-
+| 3 || +6.5% || 13s || 90% || 5
+|-
+| 4 || +7% || 14s || 90% || 6
+|-
+| 5 || +7.5% || 15s || 90% || 7
+|-
+| 6 || +8% || 16s || 90% || 8
+|-
+| 7 || +8.5% || 17s || 90% || 9
+|-
+| 8 || +9% || 18s || 90% || 10
+|-
+| 9 || +9.5% || 19s || 90% || 11
+|-
+| 10 || +10% || 20s || 90% || 12
+|}
+
+==Acquisition==
+*Awarded from [[Arbitrations]] missions.
+*Can be purchased from the Arbitrations vendor in the {{Faction|Arbiters of Hexis}} room in [[Relay]]s for 20 {{Resource|Vitus Essence}}.
+{{DropLocations}}
+
+==Notes==
+*Due to the nature of [[Damage Type Modifier]]s, the mod's effect stacks multiplicatively with other sources of [[Damage Reduction]], including, but not limited to:
+**{{Stat|Armor}} damage mitigation
+**[[Ancient Healer]] aura damage mitigation
+**Warframe [[Abilities]] granting damage mitigation
+**Other [[:Category:Resistance_Mods|resistance]] mods, such as {{M|Lightning Rod}} or {{M|Aviator}}
+*{{D|Impact}}, {{D|Puncture}}, {{D|Slash}}, {{D|Cold}}, {{D|Electricity}}, {{D|Heat}}, {{D|Toxin}}, {{D|Blast}}, {{D|Corrosive}}, {{D|Magnetic}}, {{D|Radiation}}, {{D|Viral}}, and {{D|Tau}} damage types stack their respective resistances separately, and will have different icons in the status bar.
+*Will not stack or refresh from self-inflicted damage.
+*One attack from one source of damage can only increase one resistance type, with the resistance type given reflecting the highest damage component of an attack. Follow up attacks will grant additional resistance to that damage type and will refresh the duration.
+**For example, if you are hit by one bullet dealing 15 {{D|Impact}}, 15 {{D|Puncture}}, 30 {{D|Slash}} damage - you will receive a {{D|Slash}} damage resistance from {{M|Adaptation}}.
+*If multiple damage types from different sources are dealt to the player, a separate instance of the buff will stack for each respective damage type.
+**For example, if there are two enemies, one of which deals {{D|Slash}} damage while the other deals {{D|Puncture}} damage to the player, two different damage resistance buffs will be seen, each representing the two damage types the player was dealt. So a stack of up to 90% damage resistance can be achieved for both the {{D|Slash}} and {{D|Puncture}} damage.
+*Enemy weapons almost always have different stats from the player-wielded variant. For example, a normal [[Heavy Gunner]] will only give {{D|Impact}} resistance as the {{Weapon|Gorgon}} mostly deals {{D|Impact}}. However, an Arid Heavy Gunner uses a {{D|Slash}}-based {{Weapon|Gorgon}}, thus she will only ever grant {{D|Slash}} resistance.
+**In many cases, this results in most enemies of one mission only giving you consistent adaptations to two damage types at a time, rather than all three physical damage types. This means for the most part, you will always receive full damage from one of the physical damage types.
+**Because of this, it is difficult to determine the actual damage type distribution of enemy weapons, as they can differ even if they are using the same weapon.
+*{{M|Adaptation}} does not stack with {{WF|Caliban}}'s Adaptive Armor passive: only the higher value will have any effect.
+*Damage reduction does '''not''' apply to {{D|Overguard}}. However, the resistances can still be stacked while {{D|Overguard}} is active to prevent taking too much damage once it is depleted.
+
+==Tips==
+*It may be beneficial not to rank up this mod on Warframes which can afford to take multiple hits already, as the mod cost is minimal when at rank 0. As the maximum attainable resistance remains the same regardless of the mod's rank, the only benefit from ranking it up is the rate at which the resistances are gained and the duration of each stack. The difference is that from rank 0 to rank 10 the resistance % per attack and the duration both double, though the mod cost increases by 10.
+*This mod is most effective on naturally durable frames such as {{WF|Valkyr}}, {{WF|Chroma}}, {{WF|Oberon}}, {{WF|Inaros}}, {{WF|Nidus}}, {{WF|Atlas}}, and {{WF|Grendel}}, or frames with damage reduction abilities such as {{WF|Nova}}'s {{A|Null Star}}, {{WF|Trinity}}'s {{A|Link}} and {{A|Blessing}}, {{WF|Nekros}}'s {{A|Shadows of the Dead}} with {{M|Shield of Shadows}}, {{WF|Mesa}}'s {{A|Shatter Shield}}, {{WF|Gara}}'s {{A|Splinter Storm}}, {{WF|Baruuk}}'s [[Baruuk/Abilities#Restraint|Restraint]] and {{A|Serene Storm}}, {{WF|Gauss}}'s {{A|Kinetic Plating}}, and {{WF|Ember}}'s {{A|Immolation}}.
+**Warframes with naturally high [[Shield]]s such as {{WF|Harrow}},{{WF|Revenant}},{{WF|Styanax}}, and {{WF|Hildryn}} can take advantage of the recharging capability of [[Shield]]s, their high capacity, and the damage resistance to repeatedly weather fire from large numbers of enemies.
+**Warframes with base or augmented abilities that can help them self-heal ({{WF|Sevagoth}}'s {{A|Gloom}}, {{WF|Garuda}}'s {{A|Blood Altar}}, {{WF|Wisp}}'s vitality mote from {{A|Reservoirs}},  {{WF|Saryn}}'s {{M|Regenerative Molt}}, {{WF|Khora}}'s {{A|Venari}} in Heal stance) can also benefit from {{M|Adaptation}}, as they are able to build up damage resistances and regain health at the same time.
+**The reinforcing buffer of {{WF|Nezha}}'s {{A|Warding Halo}} and {{WF|Yareli}}'s {{A|Merulina}} are '''not''' affected by the damage resistance granted by this mod. {{M|Adaptation}} will only reduce the 10% damage taken to [[Shield]]s and {{Stat|Health}} that is not prevented by these abilities, and will not reduce damage taken to Warding Halo or Merulina itself. However, this can help to serve as a damage buffer should Merulina die, or when Warding Halo expires.
+**{{D|Overguard}} from {{WF|Atlas}}'s {{M|Rumbled}}, {{WF|Frost}}'s {{M|Icy Avalanche}}, {{WF|Kullervo}}'s {{A|Recompense}}, or {{WF|Rhino}}'s {{A|Iron Skin}} are '''not''' affected by the damage resistance granted by this mod. However, {{M|Adaptation}} can still generate stacks if {{D|Overguard}} is hit, serving as a damage buffer when {{D|Overguard}} expires.
+**While {{WF|Revenant}}'s {{A|Mesmer Skin}} is active, reflected damage will not trigger this mod. However, damage from environment, e.g. {{D|Toxin}} cloud or [[Orokin Tower#Death Orbs|Death Orb]]'s laser, can still trigger the mod.
+**While {{A|Absorb}} completely protects {{WF|Nyx}} from all damage, the damage resistance can still build up normally. The {{M|Assimilate}} augment can also be used for better mobility.
+***This is true for any [[invulnerability]] effect, notably Vazarin's {{Focus|Protective Sling}}.
+*[[Corrupted Nullifier]]s can remain dangerous as their {{Weapon|Lanka}}s deal high {{D|Electricity}} damage in single shots; as other sources of Electric damage is somewhat uncommon, a player can take a high damage shot with no resistance built up.
+*Damage resistance from {{M|Antitoxin}}, {{M|Diamond Skin}}, {{M|Flame Repellent}}, {{M|Insulation}}, and {{M|Lightning Rod}} is multiplicative with damage resistance from {{M|Adaptation}} (thus it cannot reach 100% anymore). {{Cite}}
+*[[Melee#Blocking|Blocking]] with a melee weapon can be used to safely build up {{M|Adaptation}} stacks.
+
+==Trivia==
+*The effects of this mod are similar to the [[Sentient]]'s damage adaptation ability, but with some differences:
+**This mod's damage resistance takes effect immediately upon receiving damage, while the Sentient's take effect upon reaching certain health thresholds.
+**This mod's damage resistance gradually builds up to 90%, while the Sentient's max out instantly.
+**This mod can have all damage types resisted simultaneously, while the Sentient's can only have up to a maximum of four resistances.
+
+==Bugs==
+*Some enemy attacks will instantly max your resistance to 90% to that damage type, such as a [[Heavy Gunner]] hitting you with her weapon when you get close, or her ground slam.
+
+{{clr}}
+==Media==
+{{VideoGallery
+|{{YouTube|t1jhBmhXA_s|size=300px}}
+|{{YouTube|DcLLE3eBiqA|size=300px}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.6}}
+*Arbitration rotation rewards (excluding Omni Forma) have been added to the Arbitration store (Arbiters of Hexis in the Relay) to provide players an easier path to these items via Vitus Essence.
+
+{{ver|25.0.1}}
+*Fixed the Adaptation Mod not actually providing any resistance value after Reviving.
+
+{{ver|23.10.7}}
+*Fixed script error resulting in black icons to appear in place of HUD buffs when the Adaptation Mod is equipped.
+
+{{ver|23.10.5}}
+*More fixes towards the Adaptation Mod sometimes making players invincible.
+
+{{ver|23.10.4}}
+*Fixed the Adaptation Mod sometimes making players completely invincible.
+
+{{ver|23.10}}
+*Introduced.
+}}
+{{ver/Lu|23.10.7}}
+{{WarframeMods}}
+[[de:Adaptation]]
+[[es:Adaptación]]
+[[pt:Adaptation]]
+[[ru:Адаптация]]
+[[fr:Adaptation]]
+[[uk:Пристосуванець]]
+[[Category:Resistance Mods]]

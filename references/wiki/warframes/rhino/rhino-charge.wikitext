@@ -1,0 +1,54 @@
+<onlyinclude>{{AbilityU10.3
+| gameimage   = RhinoCharge.png
+| name        = Rhino Charge
+| energy      = 25
+| hotkey      = 1
+| cardimage   = RhinoChargeModU15.jpeg
+| description = Rhino charges towards a target, clobbering any in his path and goring his victim.
+| strength     = 150 / 250 / 450 / 650 ({{D|Impact}} damage)
+| range       = 6 / 8 / 10 / 12 m (charge range)<br>1.5 / 1.6 / 1.8 / 2 m (impact radius)
+| duration    = 1 s (combo window)
+| misc        = 40 / 42 / 44 / 48 m/s (dash speed)
+| cardonly       = {{{1|}}}
+|info     =
+*Rhino expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to charge forward with aggression, covering a distance of {{Stat|Ability Range|icon=only}}'''6 / 8 / 10 / 12''' meters at a speed of <u>'''40 / 42 / 44 / 48'''</u> meters per second. Enemies within {{Stat|Ability Range|icon=only}}'''1.5 / 1.6 / 1.8 / 2''' meters of Rhino are dealt '''150 / 250 / 450 / 650''' {{D|Impact}} damage and are {{D|Ragdoll|Ragdolled}}.
+**Rhino's [[Health]] is immune to damage while charging.
+*If Rhino Charge is successfully recast within a window of {{Stat|Ability Duration|icon=only}}'''1''' second after the previous cast, its damage will be multiplied by <u>'''2x'''</u>, its charge range will be multiplied by <u>'''1.25x'''</u>, and its energy cost will be reduced by <u>'''50%'''</u>. Any additional successful casts within the "Combo Window Time" will multiply Rhino Charge's damage by <u>'''4x'''</u>, multiply its charge range by <u>'''1.5x'''</u>, and reduce its energy cost by <u>'''75%'''</u>.
+**Energy cost reduction is applied to Rhino Charge's modified activation cost. As an example, with a maxed {{M|Streamline}} the next successful cast will consume {{Math|25 {{mul}} 0.7 {{mul}} 0.5 |mt=y}} energy, and any successful cast thereafter will consume {{Math|25 {{mul}} 0.7 {{mul}} 0.25|mt=y}} energy.
+**The duration of the combo window and the respective damage multiplier for the next successful cast are displayed underneath the HUD's targeting reticle.
+**If no casts are performed within the combo window, the damage, charge range, and energy cost will reset.
+**Dash speed is not able to be modified; increasing charge range will also increase the amount of time the player is in the charge animation.
+**If cast in air, Rhino's current velocity is added to his charge speed.
+*When under the cloaking effects of {{M|Ghost}} and {{M|Stalk}}, the cloak will end only when all nearby enemies are killed or from moving out of range.
+*Can be activated while bullet jump, aim gliding, sliding or clinging to a wall and after jumping or executing a front flip.
+*Can be used to pass through [[Laser Barrier]]s unharmed in most cases.
+| synergies =
+*If {{A|Iron Skin}} is active, damage from Rhino Charge will have a <u>'''100%'''</u> {{D|Blast}} status chance.
+*Rhino Charge deals an additional <u>'''100%'''</u> damage to enemies affected by {{A|Rhino Stomp}}.
+|augment =
+[[File:IroncladChargeMod.png|200px|left]]
+{{main|Ironclad Charge}}
+{{#lst:Ironclad Charge|intro}}
+{{#lsth:Ironclad Charge|Stats}}
+{{clr}}
+|tips = 
+<noinclude>
+|max = {{WFmax|rhino|rhino1}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Rhino}}
+
+==References==
+{{reflist}}
+__NOTOC__
+[[de:Rhino-Ansturm]]
+[[es:RhinoEmbestida]]
+[[it:Rhino Charge]]
+[[ru:Рывок Рино]]
+[[Category:Rhino]]
+[[Category:Warframe Abilities]]
+[[Category:Impact Damage]]
+[[Category:Invulnerability]]
+[[uk:Наступ]]

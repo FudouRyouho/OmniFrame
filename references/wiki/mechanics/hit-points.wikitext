@@ -1,0 +1,46 @@
+{{Community}}
+In [[WARFRAME]], '''Hit Points''' or '''HP''' is a metagame concept that describes the maximum amount of [[Damage]] a player or NPC can receive before going into [[Bleedout]] or [[Death]].
+
+WARFRAME has three unique health bars:
+#[[Health]], basic HP that gets [[Damage Reduction]] from [[Armor]]. When this hits zero, the player goes into Bleedout.
+#[[Shield]], regenerative HP that has flat 50% Damage Reduction and provides temporary [[Invulnerability]] upon depletion through [[Shield Gating]].
+#[[Overguard]], special HP that has no Damage Reduction but provides immunity to [[Crowd Control]] while non-zero. Provides temporary Invulnerability upon depletion.
+
+Damage dealt will apply in the following order:
+#Overguard, if present
+#Shield, if present (however, {{D|Toxin}} damage will bypass)
+#Health
+
+If any Invulnerability effect is active when the player is receiving hits, no damage will apply to any of the hit points. 
+
+==Calculating Effective Hit Points==
+At its simplest form, the total effective hit points is calculated by adding all three health bar values together after applying [[Upgrade]]s, [[Damage Reduction]], [[Damage Type Modifier]]s, and other effects.
+<math>
+\begin{aligned}
+\text{Total Effective Hit Points Against A Specific Damage Type} &= \text{Total Effective Health} + \text{Total Effective Shield} + \text{Total Effective Overguard} \\
+\end{aligned}
+</math>
+
+<math>
+\begin{aligned}
+\text{Total Effective Health} &= \text{Net Health} \times \frac{\text{Net Armor} + 300}{300} \times \frac{1}{1 - \text{Net Damage Reduction} } \times \frac{1}{1 + \text{Damage Type Modifier} }
+\end{aligned}
+</math>
+
+<math>
+\begin{aligned}
+\text{Total Effective Shield} &= ( \text{Net Shield} + \text{Net Overshield} ) \times 0.5 \times \frac{1}{1 + \text{Damage Type Modifier} }
+\end{aligned}
+</math>
+
+<math>
+\begin{aligned}
+\text{Total Effective Overguard} &= \text{Net Overguard} \times \frac{1}{1 + \text{Damage Type Modifier} }
+\end{aligned}
+</math>
+
+==See Also==
+*[[wikipedia:Health (game terminology)|Health (game terminology)]] on Wikipedia
+
+{{MechNav}}
+[[Category:Damage]]

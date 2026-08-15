@@ -116,12 +116,12 @@
               125,
               150
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
         ],
         "condition": "on_wall_latch",
         "notes": [
-          "engine:note — Aplica a Primary Y Secondary (no Melee): dos canales simultáneos no expresables con un solo target_channel. Se mantiene WEAPON_ADD_DAMAGE genérico; restricción dual registrada (análogo al problema OR de condition).",
+          "engine:note — gap DECLARADO, no olvido: aplica a Primary Y Secondary (no Melee), y un target_channel no expresa dos. Con WEAPON_ADD_DAMAGE el ruteo lo baja a las TRES armas, o sea que acierta dos y regala la melee — medir de más es peor que no aterrizar. El token se repone cuando el destino múltiple sea expresable (análogo al problema OR de condition; eje de clase en OQ-DATA-16).",
           "engine:note — duration:30s"
         ]
       }
@@ -696,12 +696,13 @@
               150,
               180
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_MELEE_ADD_DAMAGE"
           }
         ],
         "condition": "on_critical_hit",
         "notes": [
-          "engine:note — proc:60% duration:18s"
+          "engine:note — proc:60% duration:18s",
+          "engine:note — \"to Melee Weapons\" es el destino y lo declara la fuente. Arcano de warframe: sin sub-familia el token liso no baja al arma."
         ]
       }
     ]
@@ -1067,12 +1068,13 @@
               85,
               102
             ],
-            "upgrade_type": "WEAPON_ADD_AMMO_EFFICIENCY"
+            "upgrade_type": "WEAPON_SECONDARY_ADD_AMMO_EFFICIENCY"
           }
         ],
         "condition": "on_pistol_headshot_kill",
         "notes": [
-          "engine:note — proc:60% duration:12s"
+          "engine:note — proc:60% duration:12s",
+          "engine:note — la pistola es disparador Y destino: la condición nombra el headshot con pistola y la eficiencia es de esa misma arma. El nodo WEAPON_ADD_AMMO_EFFICIENCY no se materializa todavía; con la sub-familia el hueco se reporta en la secundaria y no en el warframe."
         ]
       }
     ]
@@ -1377,12 +1379,13 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ],
         "condition": "on_hit",
         "notes": [
-          "engine:note — proc:15% duration:18s"
+          "engine:note — proc:15% duration:18s",
+          "engine:note — no le faltaba canal: le faltaba el token. \"Attack Speed to Melee Weapons\" es MELEE_ADD_ATTACK_SPEED —el nodo que la melee materializa— y no un WEAPON_ADD_FIRE_RATE que ella no tiene. La familia MELEE ya rutea sola (FAMILY_ROUTE), así que sin sub-familia llega igual."
         ]
       }
     ]

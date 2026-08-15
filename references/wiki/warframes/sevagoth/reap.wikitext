@@ -1,0 +1,79 @@
+<onlyinclude>{{AbilityU10.3
+| name = Reap
+| gameimage = Reap130xWhite.png
+| cardimage = ReapModx256.png
+| hotkey = 1
+| energy = 25
+| cost = 
+| description = Sevagoth's Shadow flies outward ravaging enemies in his path. Survivors are damaged by Death's Harvest over time. The souls of the dead fill the Death Well.
+| strength = 100 / 150 / 200 / 250 ({{D|Radiation}} damage)
+10 / 20 / 30 / 50 % (damage vulnerability debuff)
+| range = 2 / 3 / 8 / 8 m
+| duration = 2.5 / 3 / 6 / 6 s (flight duration)
+5 / 7 / 10 / 10 s (debuff duration)
+| misc = 10 / 15 m/s (tap-cast flight speeds)<br/>20 / 30 m/s (hold-cast flight speeds)<br/>1 (active Shadow limit)<br/>1 (damage and mark instance per enemy)<br/>25% (current enemy health done as {{D|True}} / {{D|Blast}})<br/>4 m (radial damage range)<br/>5 % (Death Well gain per enemy)
+| cardonly = {{{1|}}}
+| info = 
+* Sevagoth expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to sever apart from his Shadow and expel it toward the direction of his aiming reticle. Reap's Shadow is an invulnerable flying object that lasts for '''2.5 / 3 / 6 / 6''' seconds, with a variable flight speed of <u>'''10'''</u> meters per second if cast by tapping the ability key, or <u>'''20'''</u> meters per second if held down. The Shadow's harrowing wail weakens all enemies within {{Stat|Ability Range|icon=only}}'''2 / 3 / 8 / 8''' meters, inflicting {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Radiation}} damage and marking them with {{A|Death's Harvest}}; marked enemies receive {{Stat|Ability Strength|icon=only}}'''10% / 20% / 30% / 50%''' [[Damage Vulnerability]] for {{Stat|Ability Duration|icon=only}}'''5 / 7 / 10 / 10''' seconds. Only <u>'''1'''</u> Shadow from Reap may be active at once per player.
+** Does '''not''' require [[Line of Sight]] to target enemies.
+** The {{A|Death's Harvest}}'s mark duration and strength cannot be refreshed by extra Reap casts, the mark has to fully expire before applying new values.
+** Damage and Harvest mark only apply to each individual enemy '''once''' per instance of Reap, with the mark being applied '''after''' damage is dealt.
+*** Reap's damage can benefit from Harvest marks inflicted by a previous instance of Reap or {{A|Death's Harvest}}.
+** Reap's Shadow is tracked on the minimap as an allied blue dot.
+** Recasting the ability will remove the current Shadow and send out a new one.
+* While the Shadow is in flight, aiming once at a location (default {{Keybind|RMB}}) marks it as the Shadow's new travel direction, causing it to fly through the intended area until Reap expires or switching destinations; hold aim on an area to command the Shadow to accelerate its flight speed to <u>'''15'''</u> meters per second if Reap was cast via tapping the ability key, or <u>'''30'''</u> meters per second if held down; while aim is sustained by Sevagoth, the Shadow will continuously follow his reticle and encircle over the location the reticle rests upon.
+** Reap's Shadow still experiences collision with objects and terrain, and will automatically attempt to maneuver around them.
+** Casting Reap directly on or aiming once on a targeted enemy will '''not''' cause the Shadow to follow it.
+** Manually blocking with a melee weapon will '''not''' redirect the Shadow.
+** The Shadow will audibly respond to Sevagoth's aim to indicate it is rerouting.
+* Casting Reap is an upper-body animation that allows movement and [[Maneuvers]] while restricting other actions.
+* Sevagoth visually raises his arms to open a portal for the Shadow to fly through. As the Shadow flies, it constantly emits an eerie wail with shadows trailing in its wake. Affected enemies emit shadow tendrils flailing from their torso. Upon expiration, the Shadow collapses into a fading blackhole to return to Sevagoth.
+** Reap's Shadow uses Sevagoth's Shadow's Appearance customizations, except for energy color which uses Sevagoth's Appearance loadout selection. 
+* Reap's Shadow will expire prematurely upon colliding with a null bubble from enemies such as [[Nullifier Crewman]] or [[Isolator Bursa]].
+ 
+| synergies =
+* {{A|Sow}}n enemies hit by {{A|Reap}} will detonate in a bright explosion. 
+**The ability synergy has a 4-step damaging process in the following order...
+*** Enemies are dealt </u>'''25%'''</u> of their current health as {{D|True}} damage.
+*** Enemies are dealt Reap's {{D|Radiation}} damage.
+*** Reap's [[Damage Vulnerability]] will be applied onto the enemies.
+*** Enemies will deal </u>'''25%'''</u> of their current health (before the True damage) to '''other''' enemies in a '''4''' meter radius.
+** Both the {{D|True}} Damage and {{D|Blast}} Damage do not scale with {{Stat|Ability Strength}} but can be boosted by external damage amplification sources like {{A|Reap}}'s [[Damage Vulnerability]].
+** {{A|Sow}}'s {{D|True}} damage per second can be increased with Reap's damage vulnerability.
+* While {{A|Gloom}} is active, enemies damaged by Reap's Shadow heal Sevagoth's health.
+* Each enemy marked then killed by any source, or directly killed by Reap's Shadow fills <u>'''5%'''</u> of the Death Well for {{A|Exalted Shadow}}.
+* Reap's Shadow can still linger after casting the {{A|Exalted Shadow}}, saving the need to cast {{A|Death's Harvest}} for higher damage output.
+** Death Well gain stacks when Sown enemies die from Reap, but '''not''' vice-versa.
+| augment = [[File:ShadowHazeMod.png|200px|left]]
+{{main|Shadow Haze}}
+{{#lst:Shadow Haze|intro}}
+{{#lsth:Shadow Haze|Stats}}
+{{clr}} 
+| tips =
+*{{A|Sow}} and {{A|Reap}}'s 25% current Health {{D|True}} damage can be used in conjunction with another damage multiplier, like {{A|Roar}} or {{D|Viral}} statuses (along with Reap's '''Damage Vulnerability''') to achieve a 100% Health {{D|True}} damage drain.
+** When using {{A|Roar}}, 255% {{Stat|Ability Strength}} is required, this will amplify Roar's buff to 76.5% and Reap's damage vulnerability to 127.5%, increasing the 25% HP True damage up to 100%. 
+*** Although {{M|Precision Intensify}} can be used to amplify {{A|Roar}}'s buff if subsumed over the {{A|Exalted Shadow}}, it can damper other abilities in the kit like {{A|Reap}} and {{A|Gloom}} slow, while also having worse scaling compared to slotting other mods instead like {{M|Umbral Intensify}} or {{M|Transient Fortitude}}.
+** When using {{D|Viral}} statuses, the amount of {{Stat|Ability Strength}} required to amplify Reap's [[Damage Vulnerability]] to achieve 100% Health {{D|True}} damage varies.
+*** With '''1''' status, only 200% Strength is needed.
+*** With '''2''' statuses, only 156% Strength is needed.
+*** With '''3''' statuses, only 120% Strength is needed, etc.
+*** With '''9''' statuses or more, no amount of strength is needed since the 25% {{D|True}} damage will be instantly increased to '''100%'''.
+** Alternatively, {{Resource|Emerald Archon Shard}}s can be combined with {{A|Tempest Barrage}} (and {{M|Viral Tempest}}) as another damage multiplier to further reduce the amount of {{Stat|Ability Strength}} required.
+*** With 1 {{Resource|Tauforged Emerald Archon Shard}}, only 148% Strength is needed.
+*** With 2 {{Resource|Tauforged Emerald Archon Shard}}, only 108% Strength is needed.
+*** While 3 or more {{Resource|Emerald Archon Shard}} can keep reducing the Strength needed, it would remove the guarantee of {{M|Viral Tempest}} applying {{D|Viral}} statuses.
+** While this strategy is popularly claimed to be a one-shot, it is technically a '''two-shot''' due to the [[Damage Vulnerability]] from Reap applied '''after''' the {{D|True}} damage is dealt, hence the usage of {{M|Shadow Haze}} may be advised to save the need for a second Reap cast, due to an enemy often dying from the initial explosion's {{D|Blast}} damage.
+**  A {{Companion|Shade}} or {{Companion|Huras Kubrow}} is recommended to keep stealth while casting abilities.
+| bugs = |
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Sevagoth}}
+__NOTOC__
+[[Category:Sevagoth]]
+[[Category:Radiation Damage]]
+[[Category:Damage Vulnerability]]
+[[Category:Blast Damage]]
+[[Category:Percentage Based Damage]]
+[[uk:Жнива]]

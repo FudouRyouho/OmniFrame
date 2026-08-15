@@ -1,0 +1,85 @@
+:''Not to be confused with the deprecated [[Channeling|Melee Channeling]] (mechanic) or {{M|Energy Channel}} (mod).''
+
+'''Channeled Abilities''' (also known as '''Toggled Abilities''') are [[Warframe]] abilities that consume additional [[Energy]] in some way while active, and can be deactivated manually by recasting. These typically do not have a fixed duration, though this is not always the case.
+
+==Mechanics==
+While channeling, most sources of energy restoration (such as {{Focus|Wellspring}} or [[Helminth|Helminth Invigorations]]) are disabled for '''most''' abilities (see ability pages for more details), with the ''only'' exceptions being energy conversion from {{M|Rage}} and {{M|Hunter Adrenaline}}, {{A|Brightbonnet}}, and [[Energy Orb]]. However in rare instances or in the [[Conclave]] game mode, Energy Orbs may be disabled as well.
+
+===Incarnon Genesis===
+[[Incarnon Genesis]] perks offer an additional bonus to some weapons while a channeled ability is active, though not all channeled abilities can activate these perks. The abilities which meet Incarnon requirements and allow the use of equipped weapons are:
+
+*{{WF|Baruuk}}'s {{A|Elude}}.
+*{{WF|Chroma}}'s {{A|Spectral Scream}} (melee only) or {{A|Effigy}}.
+*{{WF|Ember}}'s {{A|Immolation}} when fully heated.
+*{{WF|Equinox}}'s {{A|Mend & Maim|Mend}} or {{A|Mend & Maim|Maim}}.
+*{{WF|Excalibur}}'s {{A|Exalted Blade}} (Primary and secondary weapons only).
+*{{WF|Gara}}'s {{A|Mass Vitrify}} (During expansion only).
+*{{WF|Ivara}}'s {{A|Prowl}}.
+*{{WF|Mirage}}'s {{A|Prism}}.
+*{{WF|Nyx}}'s {{A|Absorb}} with {{M|Assimilate}}.
+*{{WF|Oberon}}'s {{A|Renewal}}.
+*{{WF|Oraxia}}'s {{A|Silken Stride}} (Primary and secondary weapons only).
+*{{WF|Sevagoth}}'s {{A|Gloom}} when draining within enemy range (a [[Helminth]]-transferable ability).
+*{{WF|Valkyr}}'s {{A|Hysteria}} (Primary and secondary weapons only).
+*{{WF|Wukong}}'s {{A|Primal Fury}} (Primary and secondary weapons only).
+The Incarnon Weapons which have such perks include: [[Braton Incarnon Genesis|Braton]], [[Boltor Incarnon Genesis|Boltor]], [[Gorgon Incarnon Genesis|Gorgon]], [[Miter Incarnon Genesis|Miter]], [[Strun Incarnon Genesis|Strun]], [[Gammacor Incarnon Genesis|Gammacor]], [[Kunai Incarnon Genesis|Kunai]], [[Lex Incarnon Genesis|Lex]], [[Magistar Incarnon Genesis|Magistar]], and [[Vectis Incarnon Genesis|Vectis]].
+
+===Arcane Intention===
+{{Arcane|Arcane Intention}} and {{M|Seismic Bond}} use a different list of abilities and are activated by:
+{{Transclude|Arcane Intention#Eligible Abilities}}
+
+==How Ability Duration Affects Energy Drain==
+[[File:DurationEfficiencyTable.png|right|thumb|300px]]
+'''Channeled abilities''' like {{WF|Excalibur}}'s {{A|Exalted Blade}} and {{WF|Oberon}}'s {{A|Renewal}} last for an indefinite amount of time, but drain [[energy]] over time as long as they are active. Channeled abilities remain active until energy is completely depleted or until the ability is manually deactivated (by pressing the ability key again).
+
+The energy drain per second for channeled abilities scales with both {{Stat|Ability Duration}} and {{Stat|Ability Efficiency}}, and follows the formula:
+
+'''<big>M = B * (2 - E) * (1 / D)</big>'''
+
+* '''M''' is the '''modded''' energy drain per second.
+* '''B''' is the '''base''' energy drain per second.
+* '''E''' is ability '''efficiency''' (in decimal form; uses the ''true value'' before the 175% cap is applied).
+* '''D''' is ability '''duration''' (in decimal form).
+
+For example, with 140% duration and 130% efficiency, an ability with a base channeling cost of 10 energy per second will be reduced down to: 10 * (2 - 1.3) * (1 / 1.4) = 5 energy per second. 
+
+'''An important note is that modded channeling cost has a floor of -75% and a ceiling of +75%'''. In other words, a 10 energy/s channeled ability cannot be modded to drain less than 2.5 energy per second, or more than 17.5 energy per second. Because the efficiency stat used in the calculation is '''not''' capped at it's normal maximum of 175%, efficiency values over 175% can be used to negate the increased energy drain from a negative duration stat. A common example of this is using {{M|Fleeting Expertise}} and {{M|Streamline}} together in order to reach the minimum channeling cost, using the 190% efficiency to counteract the penalty of the 40% duration stat.
+
+'''<big>Other Notes:</big>'''
+
+* The chart to the right can be consulted to determine a Warframe ability's modded energy drain per second.<ref>[[User blog:Fegazeus/17.5 Duration mods and drain|User blog - 17.5 Duration & Drain]]</ref>
+* '''Energy drain calculation does not snapshot temporary duration or efficiency buffs, and instead updates dynamically'''. Effects such as {{Arcane|Molt Efficiency}} and {{M|Seismic Bond}} therefore do not need to be present when first casting the ability in order for them to affect the drain rate.
+**{{WF|Hildryn}}'s own abilities (Haven and Aegis Storm) do snapshot Ability Efficiency and Ability Duration for their drains, while infused abilities through the Helminth system (e.g., {{A|Gloom}}) behave normally.
+* It is possible to achieve an efficiency value over 200%, for example using {{M|Boreal's Hatred}}, {{M|Fleeting Expertise}}, and {{M|Streamline}}. Because the formula for modded energy drain uses the non-capped value for efficiency, this will result in the minimum possible energy drain (-75%) regardless of any penalty from negative duration.
+* On the other hand, it is easier, and in some case trivial to make up for below 100% efficiency through increased duration (and it's generally better to do it that way than trying to make efficiency positive again). For instance, if you are using {{M|Blind Rage}}:
+** Using {{M|Streamline}}, the channeling costs 100% * 125% / 100% = 125% of the base cost.
+** Using {{M|Fleeting Expertise}}, the channeling costs 100% * 95% / 40% = 237.5% of the base cost, hitting the ceiling of 175% of the base cost instead.
+** Using {{M|Continuity}}, the channeling costs 100% * 155% / 130% = 119.2% of the base cost.
+** Using {{M|Narrow Minded}}, the channeling costs 100% * 155% / 199% = 77.9% of the base cost (at the price of ability range).
+
+==List of Channeled Abilities==
+{{Main|:Category:Channeled Abilities}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|17.5}}
+;Warframe Changes
+Toggled Abilities and Energy Drain: The following adjustments have been made to Abilities that can toggle on or off with the intention of making each Ability more rewarding to use in a wider range of scenarios. We will continue to monitor the balance of all Toggled Abilities after launch.
+*Duration Mods now have an effect on toggled Abilities.
+**For example: Mods that added 100% duration will make a 10 Energy drain become a 5 Energy drain. 
+*Drain-Per-Second and other adjustments has been made on the following Toggled Abilities:
+**Chroma’s Spectral Scream now drains 3 Energy.
+**Chroma’s Elemental Ward’s Electric elemental discharge effect is now affected by range Mods instead of strength Mods.
+**Chroma’s Elemental Ward Poison holster and reload speed are now affected by duration Mods instead of strength Mods.
+**Ember’s World on Fire now drains 3 Energy and has had its maximum duration removed.
+**Equinox’s Rest & Rage has had its base range doubled.
+**Hydroid can now recast Tempest Barrage and Tentacle Swarm with no cooldown.
+**Nyx’s Chaos no longer has a cooldown, and enemies affected by Chaos cannot be stunned by additional casts.
+**The minimum energy cost of an Ability cannot go below 25% of the base cost.
+}}
+
+{{MechNav}}
+[[Category:Warframe Abilities]]
+[[Category:Archwing Abilities]]
+[[Category:Toggled Abilities]]
+[[Category:Channeled Abilities]]

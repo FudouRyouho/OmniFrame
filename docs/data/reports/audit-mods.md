@@ -1,7 +1,6 @@
 ---
-Estado: activo
+Estado: "referencia"
 Rol: auditoria-manual
-Version: "v0.2.0"
 Impacto_ID: "D-18"
 Fidelidad_Fisica: "Project/public/data/mod-stats.override.json"
 Fecha_de_creacion: "2026-06-02"
@@ -36,11 +35,12 @@ Fecha_de_actualizacion: "2026-06-06"
 > AVATAR_DAMAGE_TAKEN: practicamente la gran mayoria merecen revision por contesxto de "+n% {damage_type} Resistence", el propio token no lo mapea, posiblemente ¿condition entre mejor que un token dedicado hacia el bucket? posiblemente no ahora que lo pienso mejor... merece debate.
 > — **Hogar:** `status.md §Mods` deuda `AVATAR_DAMAGE_TAKEN`. Ref creada `references/wiki/mechanics/damage-reduction.md` (DR multiplicativa, 3 sub-formas, **Adaptation** → OQ-DATA-4). Coinage diferido hasta consumidor de engine.
 
-> [!NOTE]
-> Discusion ya establecida sobre "WEAPON_SPREAD" vs "WEAPON_ADD_ACURACY", token herado de DE, no modelado, debemos debatir y contrastar documentos para tener mas certezas de como "modelar" esto correctamente, ya que el token "WEAPON_SPREAD" no entra dentro de nuestra taxonomia.
-> — **Hogar:** `status.md §Mods` deuda `WEAPON_SPREAD`. ✅ Confirmado = `WEAPON_ADD_ACCURACY` (ref `references/wiki/mechanics/accuracy.md`); dirección = unificar. Mecanismo de unión gateado (sin mods spread en overrides curados).
-
-> _Resueltos 2026-06-04 (sacados de triage, historial en git):_
+> _Resueltos (sacados de triage, historial en git):_
+> - `WEAPON_SPREAD` → **renombrado `WEAPON_ADD_ACCURACY`**; 17 mods. El token era el nombre
+>   interno de DE, no un stat distinto: los labels ya decían `% Accuracy` con el signo correcto,
+>   así que la unión fue un rename, no una conversión. El gate declarado ("sin mods spread en
+>   overrides curados") era falso — estaban los 17, invisibles porque el token no vivía en
+>   `UPGRADES` y morían en hidratación.
 > - `AVATAR_DAMAGE_POWER_MULTIPLIER` → **renombrado `AVATAR_ADD_HEALTH_DAMAGE_TO_ENERGY`**, registrado en `UPGRADES[]`; 4 mods (premisa escudos→energía desmentida vs raw).
 
 ---
@@ -214,16 +214,9 @@ Fecha_de_actualizacion: "2026-06-06"
 >   **Mismo shape que `OQ-DATA-5`** (restricción/parámetro que hoy vive solo en `label`; OQ-DATA-5
 >   ya anticipa "¿aplica también a mods?"). Vocabulario destino: `semantic/factions.md`.
 >
-> **Dirección registrada (2026-06-03, decisión del usuario):** la facción objetivo se expresa como
-> **token de `condition`** (ej. `damage_corpus` / `vs_corpus` / `while_target_is_corpus` — **spelling
-> diferido**), **no** como campo `target_faction` nuevo. Motivo: `condition` ya es campo por-stat
-> (`string | null`) → **sin cambio de schema ni edición del contrato de engine**. Captura el target
-> estructurado ahora; difiere (a) el spelling del token y (b) el rediseño de engine "un nodo aditivo →
-> nodo por facción" (el problema de corrección multi-facción queda anotado para el debate de engine).
-> Naturaleza: sub-clase de "estado/identidad del target" (familia `while_target_*`/`while_enemy_*`,
-> eje `OQ-SEM-2`). Acuñación del token formal **gateada** por madurez de la taxonomía de condition
-> (post-ingesta completa de overrides; `conditions.md §Altitud de los debates`). No aplicar a los 42
-> mods todavía. **Latente, no en debate activo.**
+> **Dirección registrada → [`D-21`](../decisions.md).** La facción objetivo se expresa como token de
+> `condition`, no como campo `target_faction` nuevo; el spelling del token y el rediseño de engine
+> "un nodo aditivo → nodo por facción" quedan gated ahí. **Latente, no en debate activo.**
 
 ### F.6 — Parazon
 

@@ -1,0 +1,180 @@
+{{UpdateMe}}
+{{D|Stagger}}, also known as '''Interrupt''', is a [[Status Effect]] that causes enemies to flinch and recoil.
+
+==[[Impact]]==
+When an {{D|Impact}} proc occurs, the enemy will flinch and recoil backwards. However, [[Osprey]]s, [[Bosses]], and [[Tenno]] are immune to the effects of stagger caused by {{D|Impact}}.
+
+==[[:Category:Self Interrupt Weapons|Self Interrupt Weapons]]==
+{{Successor
+|precededby=Self-Damage (AoE Weapons)
+|precededbysince={{ver|27.2}}
+}}
+All weapons with a radial area of effect can cause [[Tenno]] to stagger if the user is caught in the resulting explosion. Depending on how far the user is from the center of the radial effect, the Tenno may either flinch briefly or be knocked away, being unable to take any action during these animations. Although the user takes no damage, they can still be harmed by enemies while recovering from the stagger.
+
+Radial area weapons with a very rapid fire rate can be much more severe in this aspect. If the Tenno is hit by more than one blast at flinch range within the timespan of one flinch, it is upgraded to a full {{D|Knockdown}}. The {{Weapon|Akarius}} is a particularly noteworthy example of this.
+
+Towards the end of the backflip stagger animation, the Warframe will flash in their energy colors briefly. Jumping during the flash will cancel the stagger, allowing players to act earlier.
+
+==Other==
+*{{M|Quick Thinking}}/{{M|Gladiator Finesse}} staggers the user when draining [[energy]].
+*{{WF|Grendel}} becomes dizzy and staggered if he runs out of energy during {{A|Pulverize}}.
+
+==Sources of Stagger Resistance==
+These sources prevent self-staggering completely or provide a chance to ignore self-staggering effects.
+
+===Passives===
+*[[Atlas/Abilities|Immovable]] &ndash; {{WF|Atlas}}
+*[[Lavos/Abilities|Valence Block]] &ndash; {{WF|Lavos}}
+
+===Abilities===
+;Abilities with unconditional stagger prevention as long as they are active
+{{#tag:tabber|
+Gauss =
+{{:Kinetic Plating|cardonly}}
+{{!}}-{{!}}
+
+Kullervo =
+{{:Recompense|cardonly}}
+{{!}}-{{!}}
+
+Nezha =
+{{:Warding Halo|cardonly}}
+{{!}}-{{!}}
+
+Nidus =
+{{:Parasitic Link|cardonly}}
+{{!}}-{{!}}
+
+Revenant = 
+{{:Mesmer Skin|cardonly}}
+{{!}}-{{!}}
+
+Rhino = 
+{{:Iron Skin|cardonly}}
+{{!}}-{{!}}
+
+Titania =
+{{:Spellbind|cardonly}}
+{{!}}-{{!}}
+
+Valkyr = 
+{{:Hysteria|cardonly}}
+{{!}}-{{!}}
+
+Yareli = 
+{{:Merulina|cardonly}}
+{{!}}-{{!}}
+}}
+
+;Abilities that provide conditional prevention
+For example, self-stagger is prevented if a player stands on {{WF|Oberon}}'s {{A|Hallowed Ground}} or shoots behind {{WF|Volt}}'s {{A|Electric Shield}}.
+{{#tag:tabber|
+Atlas =
+{{:Tectonics|cardonly}}
+{{!}}-{{!}}
+
+Frost =
+{{:Snow Globe|cardonly}}
+{{!}}-{{!}}
+
+Gara =
+{{:Mass Vitrify|cardonly}}
+{{!}}-{{!}}
+
+Garuda =
+{{:Dread Mirror|cardonly}}
+{{!}}-{{!}}
+
+Nezha =
+{{:Fire Walker|cardonly}}
+{{!}}-{{!}}
+
+Oberon =
+{{:Hallowed Ground|cardonly}}
+{{!}}-{{!}}
+
+Trinity = 
+{{:Link|cardonly}}
+{{!}}-{{!}}
+
+Volt =
+{{:Electric Shield|cardonly}}
+{{!}}-{{!}}
+}}
+
+===Augments===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+AssimilateMod.png|link=Assimilate|{{M|Assimilate}}
+EmpoweredQuiverMod.png|link=Empowered Quiver|{{M|Empowered Quiver}}
+IcyAvalancheMod.png|link=Icy Avalanche|{{M|Icy Avalanche}}
+IntrepidStandMod.png|link=Intrepid Stand|{{M|Intrepid Stand}}
+NegationSwarmMod.png|link=Negation Swarm|{{M|Negation Swarm}}
+ShieldofShadowsMod.png|link=Shield of Shadows|{{M|Shield of Shadows}}
+RumbledMod.png|link=Rumbled|{{M|Rumbled}}
+</gallery>
+
+===Mods===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+CautiousShotMod.png|link=Cautious Shot|{{M|Cautious Shot}}
+FortitudeMod.png|link=Fortitude|{{M|Fortitude}}
+PowerDriftMod.png|link=Power Drift|{{M|Power Drift}}
+PrimedSureFootedMod.png|link=Primed Sure Footed|{{M|Primed Sure Footed}}
+SureFootedMod.png|link=Sure Footed|{{M|Sure Footed}}
+MotusSignalMod.png|link=Motus Signal|{{M|Motus Signal}}
+MotusSetupMod.png|link=Motus Setup|{{M|Motus Setup}}
+MotusImpactMod.png|link=Motus Impact|{{M|Motus Impact}}
+NegateMod.png|link=Negate|{{M|Negate}}
+</gallery>
+
+==Sources of Stagger Recovery Speed==
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3">
+PainThresholdMod.png|link=Pain Threshold|{{M|Pain Threshold}}
+ConstitutionMod.png|link=Constitution|{{M|Constitution}}
+HandspringMod.png|link=Handspring|{{M|Handspring}}
+</gallery>
+
+==Sources of Stagger==
+===Enemies With Staggering Attacks===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3">
+Aerolyst.png|link=Aerolyst|[[Aerolyst]]
+AmalgamHeqet.png|link=Amalgam Heqet|[[Amalgam Heqet]]
+AmalgamArcaHeqet.png|link=Amalgam Arca Heqet|[[Amalgam Arca Heqet]]
+Choralyst.png|link=Choralyst|[[Choralyst]]
+BoneBladeAvatar.png|link=Deimos Jugulus|[[Deimos Jugulus]]
+RiotMoaPrevention.png|link=Denial Bursa|[[Denial Bursa]]
+KytaRaknoid.png|link=Kyta Raknoid|[[Kyta Raknoid]]
+LeapingThrasher.png|link=Leaping Thrasher|[[Leaping Thrasher]]
+RollingDroneAvatar.png|link=Roller|[[Roller]]
+ScytoRaknoid.png|link=Scyto Raknoid|[[Scyto Raknoid]]
+</gallery>
+
+===Weapons With Guaranteed Stagger===
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+Opticor.png|link=Opticor|{{Weapon|Opticor}}
+OpticorVandal.png|link=Opticor Vandal|{{Weapon|Opticor Vandal}}
+</gallery>
+<hr/>
+{{Transclude|Damage/Impact Damage#Weapons with guaranteed Impact proc}}
+
+===Mods===
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+TekGravityMod.png|link=Tek Gravity|{{M|Tek Gravity}}
+</gallery>
+
+==Bugs==
+*Enemies with special attacks (like a [[Heavy Gunner]]'s slam attack) will still happen if the stagger happens during any point of the enemy charging up the attack. 
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.5.11}}
+*Fixed staggers and knockdowns causing temporary function loss for Yareli while on Merulina.
+
+{{ver|33.6}}
+*(Undocumented) Added new icon for Stuns as per updates to Stance menu.
+}}
+
+{{DamageNav}}
+[[es:Tambaleo]]
+[[fr:Étourdi]]
+[[Category:Status]]
+[[Category:Mechanics]]

@@ -29,14 +29,22 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import { cedo, CEDO_PRIME } from '../fixtures/builds';
+import { cedo, CEDO_PRIME, GALVANIZED_HELL, galvanizedStacksVar } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
+const GH_STACKS = galvanizedStacksVar(GALVANIZED_HELL);
+
 /** Modo base: flags vacías, ninguna condición activa. */
 const base = (withGH = false) => consume(cedo(withGH), { flags: {} }).weapon(CEDO_PRIME);
-/** Modo estático: flags derivadas del equipamiento → on_kill activo. */
-const stat = (withGH = false) => consume(cedo(withGH)).weapon(CEDO_PRIME);
+/**
+ * Modo estático/techo: flags derivadas del equipamiento. `on_kill` de Galvanized Hell ya NO es un
+ * gate booleano (familia STACK_DECAY_BUFF, 2026-07-10) — los stacks son C1-declarados, mismo
+ * escalón que `activeStacks` de CO (que tampoco se auto-asume en techo: default 1, no max). Acá
+ * se declara el cap (4) explícito para reproducir el escenario "techo" honestamente, no implícito.
+ */
+const stat = (withGH = false) =>
+  consume(cedo(withGH), withGH ? { variables: { [GH_STACKS]: 4 } } : undefined).weapon(CEDO_PRIME);
 
 // ─── Estabilidad: stats no condicionales (.final) ────────────────────────────────
 
@@ -134,7 +142,9 @@ describe('Cedo — borde de C1 (preguntas abiertas)', () => {
   it.todo('C2: daño dividido por pellet (total/multishot) — CombatSimulator [hit-mechanic.md:57]');
   it.todo('C2: distribución de crit tier por pellet — AtomicSimulator.calculateCritDistribution [hit-mechanic.md:110]');
   it.todo('C2: procs/disparo = multishot × status_per_pellet — StatusEngine (parcial) [status-chance-mechanics.md:27]');
-  it.todo('C1-gap: WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (GS on_kill) sin mapear — damage no sube en estático [D-6]');
+  // RESUELTO 2026-07-03: GS on_kill (damage per status type) mapeado a WEAPON_ADD_DAMAGE_PER_STATUS_TYPE
+  // (CONTEXT_SCALE) + ruteo por co_behavior. Modo estático/techo cubierto en cedo-co-static.test.ts.
+  // Modo dinámico (uptime real) diferido a C2. D-17 resuelto para shotgun.
   it.todo('C1? falloff de daño por distancia (shotgun) — verificar si C1 lo expone o es C2');
   it.todo('C2: damage falloff — daño(distancia) lineal entre start 26/end 52, reduction 0.9667; projectile-speed escala start/end (gate hitscan: el % no tiene nodo dónde aterrizar) [damage-falloff.md]');
 });

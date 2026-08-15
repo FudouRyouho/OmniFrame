@@ -190,7 +190,7 @@
         "id": "emerald-corrosive-stacks",
         "label": "+|val1| max Corrosive stacks",
         "value": [2, 3],
-        "upgrade_type": null
+        "upgrade_type": "GAMEPLAY_FLAT_CORROSIVE_MAX_STACKS"
       },
       {
         "id": "emerald-ability-damage-on-corrosive",

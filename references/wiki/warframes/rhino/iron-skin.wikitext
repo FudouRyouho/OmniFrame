@@ -1,0 +1,63 @@
+<onlyinclude>{{AbilityU10.3
+| gameimage = IronSkin.png
+| name = Iron Skin
+| energy = 50
+| hotkey = 2
+| cardimage = IronSkinModU15.jpeg
+| description = Rhino hardens his skin, insulating himself from all damage and gaining Overguard.
+| cost = 4 / 5 / 6 / 7
+| strength = 400 / 600 / 800 / 1200 (base Overguard)<br>? / 1.25 / 1.75 / 2.50x (armor multiplier)
+| range = 
+| duration = 
+| cardonly = {{{1|}}}
+| misc = 1.5 / 2 / 3 / 3 s (invulnerability duration)
+| info = *Rhino expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to harden his skin, receiving {{D|Overguard}} equal to {{Stat|Ability Strength|icon=only}}'''400 / 600 / 800 / 1200''' plus {{Stat|Ability Strength|icon=only}}'''100% / 125% / 175% / 250%''' of his total armor. Upon activation, Rhino is invulnerable for <u>'''1.5 / 2 / 3 / 3'''</u> seconds, during which all incoming damage is absorbed and added to the Overguard.
+**Iron Skin's Overguard uses the following equation:<br/>{{MathText|Overguard {{eql}} ([Base Overguard + (Armor Multiplier {{mul}} Total Armor)] {{mul}} Ability Strength) + Absorbed Damage}} where {{MathText|Total Armor {{eql}} (Base Armor {{mul}} [1 + Armor Mods]) + Additive Armor}}.
+***Note that the base armor value is different between {{WF|Rhino}} and {{WF|Rhino Prime}}; while Rhino has '''240''' Base Armor, Rhino Prime has '''290''' Base Armor.
+****As an example for '''Rhino''':
+*****With a maxed {{M|Steel Fiber}} and {{M|Intensify}}, a Rank 3 Iron Skin cast by Rhino will have an initial Overguard of {{Math|(1200 + (2.5 {{mul}} 240 {{mul}} 2)) {{mul}} 1.3|mt=y}} before absorbing damage.
+****Modifying that equation for '''Rhino Prime''':
+*****With a maxed {{M|Steel Fiber}} and {{M|Intensify}}, a Rank 3 Iron Skin cast by Rhino Prime will have an initial Overguard of {{Math|(1200 + (2.5 {{mul}} 290 {{mul}} 2)) {{mul}} 1.3|mt=y}} before absorbing damage.
+**The {{D|Overguard}} is purely ability-based, it is '''not''' "real" like overguard gained by {{A|Recompense}} or {{Arcane|Secondary Fortifier}}, it can be removed by ability nullifying effects.
+| synergies =
+While Iron Skin is active, damage from {{A|Rhino Charge}} will have a <u>'''100%'''</u> status chance for {{D|Blast}} effects.
+*For {{WF|Rhino Prime}}, Iron Skin's visual effects will take into account the chosen accent color.
+| augment = [[File:IronShrapnelMod.png|200px|left]]
+{{main|Iron Shrapnel}}
+{{#lst:Iron Shrapnel|intro}}
+{{#lsth:Iron Shrapnel|Stats}}
+{{clr}}
+| tips = *Iron Skin can be removed early by:
+**Entering the bubble of a [[Nullifier Crewman]] ([[Corrupted Nullifier|Corrupted]])
+**Entering the aura range of [[Comba#Nul|Combas]] & [[Scrambus#Nul|Scrambuses]]
+**Being [[Dispel|dispelled]] by [[Stalker]]
+**Falling out of the map.
+**Host Migration
+*With a {{M|Streamline}} or {{M|Fleeting Expertise}} mod, Rhino can cast Iron Skin immediately after the first [[Nightmare Mode|Energy Drain]] tick in order to give himself a "shield" of sorts.
+*It is possible to gain a significant amount of Overguard by standing in the path of a [[Orokin Void#Hazards|Death Orb beam]] during the invulnerability phase. Be warned however, as the beam can quickly deplete the extra Overguard if the player does not move out of the way once the invulnerability phase ends.
+*Standing below a Jade light produced by Jade light Eximus or the shockwave produced by Blitz Eximus can gain huge amounts of Overguard if timed correctly.
+*Using {{A|Rhino Charge}} with {{M|Ironclad Charge}} installed before casting Iron Skin can significantly boost its Overguard by boosting Rhino's armor.
+**{{M|Ironclad Charge}}'s armor bonus is applied to Iron Skin as long as Iron Skin's casting was started in the duration of the buff. 
+***{{M|Iron Shrapnel}} can help by providing the ability to re-cast Iron Skin at any given time, even with extremely lowered ability duration as long as you cast Iron Skin right after a Rhino Charge.
+*{{Arcane|Arcane Tanker}} and {{A|Parasitic Armor}} can also provide significant armor boosts, allowing for large amounts of Overguard when combined with Iron Skin.
+<noinclude>
+|max = {{WFmax|rhino|rhino2}}
+</noinclude>
+| bugs = *Migrating hosts will completely remove Iron skin, regardless of the level it was at.
+*If Rhino manages to activate Iron Skin as he falls backwards and enters bleedout, his bleedout timer will reach zero and he will never die. He will remain in bleedout until he is revived.
+*Using Iron Skin while on a conveyor would make Rhino immoble.|"'Iron Skin'"
+}}</onlyinclude>
+
+== See Also ==
+* {{WF|Rhino}}
+__NOTOC__
+[[de:Eisenhaut]]
+[[es:Piel de hierro]]
+[[it:Iron Skin]]
+[[ru:Железная кожа]]
+[[fr:Peau de Fer]]
+[[Category:Rhino]]
+[[Category:Warframe Abilities]]
+[[Category:High Scalability]]
+[[Category:Invulnerability]]
+[[uk:Залізна шкура]]

@@ -15,8 +15,8 @@ Combo Window: 1s $DURATION
 // 2 - WARCRY
 Drain: <ENERGY> 75 $EFFICIENCY
 Duration: 20s $DURATION
-Armor Increase: 50% $STRENGTH
-Attack Speed: 50% $STRENGTH
+Armor Increase: 50% $STRENGTH $$AVATAR_ADD_ARMOUR
+Attack Speed: 50% $STRENGTH $$MELEE_ADD_ATTACK_SPEED
 #### ETERNAL WAR
 Time / Kill: 2s $DURATION
 Max Duration: 40s $DURATION

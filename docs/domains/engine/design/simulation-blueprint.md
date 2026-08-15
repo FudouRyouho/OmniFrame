@@ -1,18 +1,16 @@
 ---
 Estado: "referencia"
 Rol: "Índice maestro de la reconstrucción del motor de simulación v2"
-Version: "v0.1.1"
 Impacto_ID: "SSoT-Blueprint"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-20"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/governance/naming-conventions.md"
 Dependidos:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/design/simulation-contracts.md"
   - "docs/domains/engine/design/arch-decisions.md"
-  - "docs/domains/engine/design/simulation-roadmap.md"
 ---
 
 # 🛸 Simulation Blueprint: El Motor de Verdad
@@ -27,10 +25,9 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 - **Arquitectura**: [simulation-architecture.md](./simulation-architecture.md)
 - **Contratos**: [simulation-contracts.md](./simulation-contracts.md)
 - **Decisiones Arquitectónicas**: [arch-decisions.md](./arch-decisions.md)
-- **Roadmap**: [simulation-roadmap.md](./simulation-roadmap.md)
 - **Modelo de daño/status C2**: [damage-status-model.md](./damage-status-model.md)
 - **Integración formulas/ como SSoT**: [formulas-integration.md](./formulas-integration.md)
-- **Auditoría Diseño vs Código (histórica, congelada 2026-05-18)**: [../engine-audit.md](../engine-audit.md)
+- **Auditoría Diseño vs Código (histórica, congelada)**: [../engine-audit.md](../engine-audit.md)
 
 ---
 
@@ -39,8 +36,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 1. **[Arquitectura](./simulation-architecture.md)**: Cómo fluye la verdad (A->B->C).
 2. **[Contratos](./simulation-contracts.md)**: El lenguaje matemático del motor.
 3. **[Decisiones Arquitectónicas](./arch-decisions.md)**: Invariantes y resoluciones críticas.
-4. **[Roadmap](./simulation-roadmap.md)**: Pasos de ejecución.
-5. **[Estado real del código](../status.md)**: `engine/status.md` (vivo). La [auditoría](../engine-audit.md) es un snapshot **histórico congelado** (2026-05-18), no el estado actual.
+4. **[Estado real del código](../status.md)**: `engine/status.md` (vivo). La [auditoría](../engine-audit.md) es un snapshot **histórico congelado**, no el estado actual.
 
 ---
 
@@ -49,7 +45,7 @@ Este documento actúa como **índice maestro** de la reconstrucción del núcleo
 - El motor debe ser agnóstico a React y a cualquier librería reactiva concreta.
 - La hidratación consume el pipeline local (`Project/public/data/`) y no directamente `references/`.
 - `Simulation Context` no es una entidad persistente.
-- La salida de C es un snapshot serializable — hoy `consume().snapshot(): SimulationEntity[]` (el tipo `ProjectionSnapshot` original se purgó; rename del payload en `OQ-ENGINE-8`).
+- La salida de C es un snapshot serializable — hoy `consume().snapshot(): SimulationEntity[]` (el tipo `ProjectionSnapshot` original se purgó; las métricas de combate salen aparte como `CombatMetrics`, `DC-OQ-ENGINE-8`).
 - Las invariantes arquitectónicas (Stat Accumulator v3, Layered Decorators, etc.) están registradas en `arch-decisions.md`.
 
 ---

@@ -1,0 +1,58 @@
+<onlyinclude>{{AbilityU10.3
+| name = Toxic Lash
+| gameimage = SarynContagion.png
+| cardimage = ToxicLashMod.png
+| hotkey = 3
+| description = While active, attacks deal additional {{D|Toxin}} damage; this effect is doubled for melee strikes. Instantly burst spores when attacking afflicted enemies.
+| cost = 50
+| strength = 20% / 24% / 26% / 30% (added gun damage)<br/>40% / 48% / 52% / 60% (added melee damage)
+| range = N/A
+| duration = 20 / 25 / 35 / 45 s
+| misc = 100% ({{D|Toxin}} status chance)<br/>100% (Spores burst chance)
+| cardonly = {{{1|}}}
+| info = *Saryn expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to imbue all her weapons with potent toxins for {{Stat|Ability Duration|icon=only}}'''20 / 25 / 35 / 45''' seconds, adding an [[Extra Hit]] for {{Stat|Ability Strength|icon=only}}'''20% / 24% / 26% / 30%''' of the damage of each hit as {{D|Toxin}} damage (<u>'''doubled'''</u> for [[Melee|melee weapons]]), which has a guaranteed {{D|Toxin}} proc on every strike.
+**Toxic Lash adds an extra {{D|Toxin}} attack that scales with weapon damage, before health and armor resistances.
+***This damage buff is applied as an [[Extra Hit]].
+***For example, with an unmodded weapon whose damage sheet says it hits for 200 damage, a Rank 3 Toxic Lash, and a Rank 5 {{M|Intensify}}, Toxic Lash will deal: {{Math|200 {{mul}} 0.3 {{mul}} 1.3|mt=y}} direct {{D|Toxin}} damage, and always trigger a Toxin proc that ticks for {{Math|78 {{mul}} 0.5|mt=y}} {{D|Toxin}} damage per second to an unarmored enemy with no toxin resistance.
+***If the weapon has multishot, Toxic Lash adds these Extra Hits with guaranteed Toxin procs to ''every individual multishot hit''. 
+****This means that shotguns are guaranteed to stack potentially dozens of Toxin procs per shot.
+***''All'' {{D|Toxin}} mods in the weapon will apply their toxin multiplier to Toxic Lash's {{D|Toxin}} status ticks, even if they are combined into other elements.
+***The extra {{D|Toxin}} damage from Toxic Lash does '''not''' combine with weapon elements.
+***[[Faction Damage Mods]], after first applying to the weapon's base damage, will multiply Toxic Lash's Extra Hit a second time, and then multiply its {{D|Toxin}} ticks a ''third'' time, providing multiplicative triple-dipping.
+***[[Elementalist Mods]] and the increased Toxin status effect from {{Resource|Emerald Archon Shard}} stack additively to affect the damage of the {{D|Toxin}} proc.
+***Status duration mods and Saryn's own passive affect the duration of the {{D|Toxin}} proc.
+***Most weapon hits will trigger a Toxic Lash attack, including {{M|Acid Shells}} and {{M|Concealed Explosives}}, but not {{M|Bursting Mass}} or {{Weapon|Pathocyst}}'s maggots.
+***Damage is affected by [[Ancient Disruptor]] auras and other enemies that reduce ability damage, unlike other weapon buffing skills.
+***Toxic Lash's damage instance does '''not''' charge [[Incarnon]] transformations.
+**Cast animation of ~'''1''' second is affected by [[Casting Speed]].
+***Saryn is immune to crowd control during the cast animation.
+*Casting Toxic Lash is a [[One-Handed Action|one-handed action]] that can be done while performing many actions without interrupting them, including [[reload]]ing, charging, shooting, [[Maneuvers|maneuver]]ing, and while on a [[Maneuvers#Zipline|zipline]].
+**Can be recast to refresh its duration. 
+| synergies =
+**Toxic Lash makes {{A|Spores}} burst with every attack, even without directly hitting the spore.
+**A Spore-afflicted enemy will take TWO Extra Hits from Toxic Lash, though the target will receive only one stack of Toxin status.
+| augment = [[File:ContagionCloudMod.png|200px|left]]
+{{main|Contagion Cloud}}
+{{#lst:Contagion Cloud|intro}}
+{{#lsth:Contagion Cloud|Stats}}
+{{clr}}
+| tips = *Toxic Lash's damage scales with ''all'' elemental mods (not just Toxin) and elemental buffs like {{M|Venom Dose}} and {{A|Nourish}}, even on damage instances normally unaffected by elemental mods. This includes the radial damage of slam attacks, explode on death mods such as {{M|Acid Shells}}, and mods like {{M|Concealed Explosives}}. This makes it possible for them to deal vastly more damage than normal through Toxic Lash, which is especially useful for {{Weapon|Arca Titron}}, {{Weapon|Tenet Exec}}, and {{Weapon|Sobek}}. 
+**Base damage bonuses from mods (e.g. {{M|Serration}}) and abilities (e.g. {{A|Eclipse}}) do not scale Toxic Lash in this way.
+| max = {{WFmax|main|saryn3}}
+</noinclude>|Toxic Lash
+| bugs = *While playing in a squad as a client (not as host), the use of Toxic Lash significantly reduces [[Critical Hit]] chance. As long as Toxic Lash is active, one will see only occasional yellow crits even with 400% crit chance (which should guarantee red crits).
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Saryn}}
+__NOTOC__
+[[Category:Warframe Abilities]]
+[[Category:Saryn]]
+[[Category:Toxin Damage]]
+[[Category:One-Handed Abilities]]
+[[Category:Extra-hit Buffs]]
+[[de:Ansteckung]]
+[[es:Azote tóxico]]
+[[ru:Заражение]]
+[[Category:Update 7]]
+[[uk:Отруйний батіг]]

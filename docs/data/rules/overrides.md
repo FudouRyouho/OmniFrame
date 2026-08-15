@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Definir la gobernanza de los datos mantenidos manualmente"
-Version: "v0.0.11"
 Impacto_ID: "D-Overrides"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"
@@ -16,7 +15,7 @@ Dependencias:
 
 Los datos de OmniFrame tienen dos orígenes:
 
-- **base-generated** — producidos por `generate-data.ts` desde `@wfcd/items` (`warframes.json`, `weapons.json`, `mods.json`, etc.). Datos masivos; baja fidelidad semántica.
+- **base-generated** — producidos por `generate-data.ts` desde `omniframe-items` (`warframes.json`, `weapons.json`, `mods.json`, etc.). Datos masivos; baja fidelidad semántica.
 - **manual-intel** (overrides) — este documento. Inteligencia auditada que corrige y amplía la base generada con semántica que las fuentes externas no proveen.
 
 En runtime el override tiene prioridad. El pipeline no toca los overrides.
@@ -30,7 +29,7 @@ Project/public/data/ (Editable Manual SSoT)
   -> Commit Git
   -> Runtime (DataLoader singleton — carga y merge en memoria)
 
-generate-data.ts produce SOLO datos de fuente externa (@wfcd/items).
+generate-data.ts produce SOLO datos de fuente externa (vía omniframe-items).
 Los overrides los gestiona el usuario, agentes o scripts dedicados (apply-ability-md.ts, etc.).
 El pipeline no toca los overrides.
 ```
@@ -157,8 +156,10 @@ Derivada del contraste contra los casos compuestos reales (los 5 huecos `null` d
 (`evalCondition`). **Migrados:** los OR de movimiento (`while_sliding`∨`while_aim_gliding`, Fase 3b) y el
 primer AND evento∧estado (`on_hit_while_target_affected_by_electricity` → `{all:[…]}`, Fase 4).
 **`on_hit_incarnon_form` queda como stub catalogado** (flag-paraguas, NO descompuesto) — su composición depende
-de la granularidad del evento de hit (¿`on_headshot` ≡ `on_weakpoint_hit`? ¿"charged blast" = scope u `on_charged_blast_hit`?),
-deuda de verificación en juego (`weak-points.md` pendiente). Todos los OR planos migrados. El prototipo sigue **no cerrado**. Hilo en `OQ-DATA-4`.
+de la granularidad del evento de hit. De sus dos incógnitas, una está **resuelta**: `on_headshot` **≢**
+`on_weakpoint_hit` — son distintas y están en subsunción, no en sinonimia
+(`references/wiki/mechanics/enemy-body-parts.md`). Sigue stub por la otra: ¿"charged blast" = scope u
+`on_charged_blast_hit`? Todos los OR planos migrados. El prototipo sigue **no cerrado**. Hilo en `OQ-DATA-4`.
 
 Ver:
 - `ssot.md`

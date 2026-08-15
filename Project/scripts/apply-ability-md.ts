@@ -19,7 +19,8 @@ interface AbilityStatEntry {
   label: string
   base_value: number | [number, number]
   upgrade_by?: string
-  upgrade_type?: string
+  /** Uno o varios nodos destino — un renglón de la UI puede cubrir N stats. */
+  upgrade_type?: string | string[]
 }
 
 interface AbilityGroup {
@@ -77,11 +78,14 @@ function parseStat(line: string): AbilityStatEntry | null {
   let rest = clean.slice(colonIdx + 1).trim()
   if (!rest) return null
 
-  let upgradeType: string | undefined
-  const utMatch = rest.match(/\$\$(\S+)/)
-  if (utMatch) {
-    upgradeType = utMatch[1]
-    rest = rest.replace(utMatch[0], '').trim()
+  // N tokens por línea — ver el comentario extenso en `parse-ability-md.ts` (misma lógica,
+  // duplicada inline en ambos scripts por diseño: no dependen de `src/`).
+  let upgradeType: string | string[] | undefined
+  const utMatches = [...rest.matchAll(/\$\$(\S+)/g)]
+  if (utMatches.length > 0) {
+    upgradeType = utMatches.length === 1 ? utMatches[0][1] : utMatches.map(m => m[1])
+    utMatches.forEach(m => { rest = rest.replace(m[0], '') })
+    rest = rest.trim()
   }
 
   let upgradeBy: string | undefined

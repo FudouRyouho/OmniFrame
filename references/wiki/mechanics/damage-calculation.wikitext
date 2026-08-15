@@ -1,0 +1,792 @@
+{{Navigation|Damage|Damage/Calculation|Damage/Overview Table}}
+{{UpdateMe|Include a more nuanced look at damage when accounting for status chance and status effects that increase damage dealt and/or reduce target's armor}}
+The following explains how a certain amount of damage of one or more damage types turns into actual inflicted damage to a target, considering [[Damage Type Modifier]]s.
+
+[[Armor]], [[Damage Reduction]], [[Faction Damage Bonus]], [[Enemy Body Parts]], [[critical hit]], [[Stealth Damage Bonus]], as well as Warframe [[debuffs]], are ignored in this article since all of these are independent of damage types.
+
+===Quantization===
+{{UpdateMe|Conflicting info:
+*"Damage mods such as {{M|Hornet Strike}}, [[Faction Damage Bonus]] such as {{M|Bane of Grineer}}, and any other multipliers only multiply final quantized values and do not affect the scale or damage composition."
+*"Applying {{M|Serration|+Damage}}, {{M|Bane of Grineer|+Faction}} or any other non-elemental bonus multiplies both the base value of rounding numerator and Scale of rounding denominator, and therefore is a simple multiplier to any quantized total."
+}}
+'''Dealing damage is [[wikipedia:Quantization|quantized]].''' Meaning, rather than the damage being applied smoothly, physical and elemental damages round to the nearest multiple of 1/32nd of their attack's base damage, before being multiplied further.<ref>{{Ref|title=Internal rounding leading to unintended applied damage|author= Theroxenes|year=2018|month=3|day=2|publisher=Warframe Forums|url=https://forums.warframe.com/topic/928927-internal-rounding-leading-to-unintended-applied-damage/|access-date=2022-09-19|archive-url=https://web.archive.org/web/20220919171910/https://forums.warframe.com/topic/928927-internal-rounding-leading-to-unintended-applied-damage/|archive-date=2022-09-19}}</ref><ref>{{Ref|title=Internal damage quantization or: Another way the arsenal is lying to you.|author=Theroxenes|year=2018|month=2|day=28|publisher=Reddit|url=https://www.reddit.com/r/Warframe/comments/809yaa/internal_damage_quantization_or_another_way_the/|access-date=2022-09-19|archive-url=https://web.archive.org/web/20211124174002/https://www.reddit.com/r/Warframe/comments/809yaa/internal_damage_quantization_or_another_way_the/|archive-date=2021-11-24}}</ref> By using this method of quantization, the precision of data is reduced, thereby saving storage space and improving the efficiency of computer operations. Rather than communicating a lengthy integer of each element's value, only one "Total" integer along with short representative multiples of 1/32nd need to be communicated.
+
+<math>
+{
+\text{Scale} = \frac{\text{Modded Base Damage}}{32}
+}
+</math>
+
+For each damage type, first express its value as a signed proportion of the modded base damage:
+
+<math>
+x = \frac{\text{Total Damage Type Value}}{\text{Modded Base Damage}}
+</math>
+
+The exact quantization rule is:
+
+<math>
+\operatorname{Quantized}(x)
+= \operatorname{sign}(x) \times \frac{\left\lfloor |x| \times 32 + 0.5 \right\rfloor}{32}
+</math>
+
+The quantized damage type value is then:
+
+<math>
+\text{Quantized Damage Type Value}
+= \operatorname{Quantized}(x) \times \text{Modded Base Damage}
+</math>
+
+For non-negative values, this is equivalent to dividing the damage type value by the scale, applying <math>\left\lfloor y+0.5\right\rfloor</math>, and multiplying by the scale. For negative values, the same operation is applied to the absolute magnitude before restoring the sign. This quantized value is used in mission damage calculations. The final damage seen in damage pop-ups is further rounded to a whole number.
+
+# For example, if you have a weapon with a listed damage distribution of 30 {{D|Impact}}, 30 {{D|Puncture}}, and 40 {{D|Slash}}, the total damage is '''100'''.
+# The value of a scale will then be {{Math|100 {{div}} 32|t=y|bf-a=y}}.
+# The amount of {{D|Impact}} damage dealt by the weapon will then be {{Math|30 {{div}} 3.125|t=y}} rounded to the nearest whole number, multiplied by the scale: {{Math|10 {{mul}} 3.125|t=y|bf-a=y}}.  This process is applied to {{D|Puncture}} and {{D|Slash}} as well, yielding '''31.25''' and '''40.625''' respectively.
+# As such, when damaging a {{E|Charger}}, which has a +50% bonus to {{D|Slash}} damage due to having {{D|Infested}} health, the total damage dealt to the Charger will then be {{Math|31.25 + 31.25 + 40.625 {{mul}} (1 + 50%)|t=y|bf-a=y}} (the game will display the rounded value of {{Math|31.25 + 31.25 + 40.625 {{mul}} (1 + 50%)|round=1}}). 
+
+*Note that while sometimes the weapon's total damage after the conversion remains the same, mixed-type weapon damage is frequently '''gained''' or '''lost''' by the conversion.
+
+{| class="wikitable"
+! rowspan=2 | Type
+! rowspan=2 | Base Value
+! colspan=3 | During Quantization
+! rowspan=2 | {{D|Infested}} Modifier
+! colspan=4 | Dealing Damage
+|- 
+! Value ÷ Scale
+! Rounded
+! Final Quantized Value (Integer × Scale)
+! Non‑Crit
+! Non-Crit against {{D|Infested}}
+! Crit ×1.5
+! Crit ×1.5 against {{D|Infested}}
+|-
+| {{D|Impact}}
+| 30
+| 30 ÷ 3.125 = 9.6
+| 10
+| 10 × 3.125 = 31.25
+| +0%
+| 31.25
+| 31.25
+| 31.25 × 1.5 = 46.875
+| 31.25 × 1.5 = 46.875
+|-
+| {{D|Puncture}}
+| 30
+| 30 ÷ 3.125 = 9.6
+| 10
+| 10 × 3.125 = 31.25
+| +0%
+| 31.25
+| 31.25
+| 31.25 × 1.5 = 46.875
+| 31.25 × 1.5 = 46.875
+|-
+| {{D|Slash}}
+| 40
+| 40 ÷ 3.125 = 12.8
+| 13
+| 13 × 3.125 = 40.625
+| +50%
+| 40.625
+| 40.625 × 1.5 = 60.9375
+| 40.625 × 1.5 = 60.9375
+| 40.625 × 1.5 × 1.5 = 91.40625
+|-
+! Total
+| 100
+| 100 ÷ 32 = 3.125
+| –
+| –
+| –
+| 103.125 (103)
+| 123.4375 (123)
+| 154.6875 (155)
+| 185.15625 (185)
+|-
+|}
+
+Damage mods such as {{M|Hornet Strike}}, [[Faction Damage Bonus]] such as {{M|Bane of Grineer}}, and any other multipliers only multiply final quantized values and do not affect the scale or damage composition.
+
+====Adding Physical and/or Elemental Mods/Bonuses====
+If a physical or elemental mod is applied, their bonuses are also quantized.
+# The value of the example scale will still be {{Math|100 / 32|t=y|bf-a=y}}. Elemental and Physical bonuses do not affect the scale.
+# If {{M|Maim}} was used, for example, the {{D|Slash}} damage on the weapon after quantization would be round(40 {{mul}} (1 + {{M|Maim|1.2}}) {{div}} 3.125) {{mul}} 3.125 = '''87.5'''.
+# The damage distribution would then be '''31.25''' {{D|Impact}}, '''31.25''' {{D|Puncture}}, and '''87.5''' {{D|Slash}}.
+# Elemental bonuses calculate using the '''full''' base damage, are rounded to the nearest 1/32nd of the base damage and added to the total.
+# Elements formed by a sum of mods and bonuses quantize their sum alone. For example, if 90% {{D|Cold}} combined with 90% {{D|Toxin}}, or 90% modded {{D|Radiation}} combined with 90% of {{M|Smite Infusion}}, these types would count separately as a sum of their final element (180% {{D|Viral}}, or 180% {{D|Radiation}}), each rounded to the nearest 1/32 of base damage, and finally added to the quantized total. 
+
+*Applying the math fully: {{Weapon|Nagantaka Prime}} with {{M|Cryo Rounds}}, {{M|Malignant Force}}, {{M|Hellfire}}, {{M|Piercing Caliber}} and {{D|Gas}} {{M|Valence Formation}} in that order deals:
+**Scale ('''S''') = {{Weapon|Nagantaka Prime|173}} {{div}} 32 = 5.40625
+**Physical Quantization:
+***round[ 1.73 {{D|Impact}} {{div}} S ] {{mul}} S = 0 {{D|Impact}}
+***round[ ( (1 + {{M|Piercing Caliber|120%}} {{D|Puncture}}) {{mul}} 15.57 {{D|Puncture|Base Puncture}} ) {{div}} S ] {{mul}} S = 32.4375 {{D|Puncture}}
+***round[ 155.7 {{D|Slash}} {{div}} S ] {{mul}} S = 156.78125 {{D|Slash}}
+**Elemental Quantization:
+***round[ ( ( {{M|Cryo Rounds|90%}} {{D|Cold|}} + {{M|Malignant Force|60%}} {{D|Toxin}} ) {{mul}} 173 ) {{div}} S ] {{mul}} S = 259.5 {{D|Viral}}
+***round[ ( {{M|Hellfire|90%}} {{D|Heat}}  {{mul}} 173 ) {{div}} S ] {{mul}} S = 156.78125 {{D|Heat}}
+***round[ ( {{M|Valence Formation|200%}} {{D|Gas}}  {{mul}} 173 ) {{div}} S ] {{mul}} S = 346 {{D|Gas}}
+**'''Total:''' 0 {{D|Impact}} + 32.4375 {{D|Puncture}} + 156.78125 {{D|Slash}} + 259.5 {{D|Viral}} + 156.78125 {{D|Heat}} + 346 {{D|Gas}} = 951.5 Damage
+***Note that the {{D|Impact}} value of Nagantaka Prime is so low that it will not register during attacks, rounding to 0 in the process.
+***Applying {{M|Serration|+Damage}}, {{M|Bane of Grineer|+Faction}} or any other non-elemental bonus multiplies both the base value of rounding numerator and Scale of rounding denominator, and therefore is a simple multiplier to any quantized total.
+
+{| class="wikitable"
+|+ Example Quantization of Modded {{Weapon|Nagantaka Prime}}
+! rowspan=2 | Type
+! rowspan=2 | Base Value
+! rowspan=2 | Modifiers
+! colspan=3 | During Quantization
+! rowspan=2 | {{D|Infested}} Modifier
+! colspan=4 | Dealing Damage
+|-
+! Value ÷ Scale
+! Rounded
+! Final Quantized Value (Integer × Scale)
+! Non‑Crit
+! Non‑Crit against {{D|Infested}}
+! Crit ×2.3
+! Crit ×2.3 against {{D|Infested}}
+|-
+| {{D|Impact}}
+| 1.73
+| +0%
+| 1.73 ÷ 5.40625 = 0.319
+| 0
+| 0 × 5.40625 = 0
+| +0%
+| 0
+| 0
+| 0
+| 0
+|-
+| {{D|Puncture}}
+| 15.57
+| +120% ({{D|Puncture}})
+| [ 15.57 × (1 + {{M|Piercing Caliber|120%}}) ] ÷ 5.40625 = 6.336
+| 6
+| 6 × 5.40625 = 32.4375
+| +0%
+| 32.4375
+| 32.4375
+| 74.60625
+| 74.60625
+|-
+| {{D|Slash}}
+| 155.7
+| +0%
+| 155.7 ÷ 5.40625 = 28.8
+| 29
+| 29 × 5.40625 = 156.78125
+| +50%
+| 156.78125
+| 156.78125 × 1.5 = 235.171875
+| 360.596875
+| 360.596875 × 1.5 = 540.8953125
+|-
+| {{D|Viral}}
+| 0
+| +150% total elemental ({{D|Cold}} + {{D|Toxin}})
+| [ 173 × ({{M|Cryo Rounds|90%}} + {{M|Malignant Force|60%}}) ] ÷ 5.40625 = 48.0
+| 48
+| 48 × 5.40625 = 259.5
+| +0%
+| 259.5
+| 259.5
+| 596.85
+| 596.85
+|-
+| {{D|Heat}}
+| 0
+| +90% {{D|Heat}}
+| ( 173 × {{M|Hellfire|90%}} ) ÷ 5.40625 = 28.8
+| 29
+| 29 × 5.40625 = 156.78125
+| +50%
+| 156.78125
+| 156.78125 × 1.5 = 235.171875
+| 360.596875
+| 360.596875 × 1.5 = 540.8953125
+|-
+| {{D|Gas}}
+| 0
+| +200% {{D|Gas}}
+| ( 173 × {{M|Valence Formation|200%}} ) ÷ 5.40625 = 64.0
+| 64
+| 64 × 5.40625 = 346.0
+| +0%
+| 346
+| 346
+| 795.8
+| 795.8
+|-
+! Total
+| 173
+| –
+| 173 ÷ 32 = 5.40625
+| –
+| –
+| –
+| 951.5 (952)
+| 1108.28125 (1108)
+| 2188.45 (2188)
+| 2549.046875 (2549)
+|-
+|}
+
+====Summary====
+Calculating damage with quantization can be simplified to the following steps:
+#Get Scale
+#Quantize Physical and Elemental Damage
+#Add quantized values together
+#Apply all other multipliers such as [[Damage Type Modifier]]
+
+====Trivia====
+* [[Hitscan]] weapons do not quantize against {{D|Object}} health such as [[Nullifier Bubble]]s and {{WF|Zephyr}} {{A|Tornado}}. [[Projectile]]s however will be quantized. This characteristic has been used to determine damage compositions not disclosed in-game, so they can be presented here in the wiki.
+* [[Melee]] weapons with very low {{D|Impact}} damage relative to other damage types will not trigger {{M|Shattering Impact}} due to quantization of the {{D|Impact}} damage value to 0. {{Weapon|Galatine}} for example has 2.5% {{D|Impact}} damage.
+* Here is a comparison of space savings for using non-quantized vs. quantized values. As more damage types are present on the attack, the greater the space saving:
+** If we use 64-bit floating-point values for each damage type (e.g. {{D|Impact}} = 30, {{D|Puncture}} = 30, {{D|Slash}} = 40), that's 3 × 64 bits = 192 bits
+** If we use one 64-bit floating-point value for the total damage and a smaller 16-bit floating-point value for each damage type's scale (e.g. Total = 100, {{D|Impact}} = 9.6, {{D|Puncture}} = 9.6, {{D|Slash}} = 12.8), that's 64 bits + (3 × 16 bits) = 112 bits. Almost a 42% size reduction with the tradeoff of clients needing to recompute the damage and losing some precision!
+
+===Unarmored Enemies===
+Against '''unarmored''' enemies or when applying {{D|True}} damage, the formula is simply:
+
+<math>
+{
+\text{Inflicted Damage} = \text{Starting Damage} (1 + \text{Health-type Modifier})
+}
+</math>
+
+*'''Inflicted Damage (ID)''' is the final damage result of a particular damage type.
+*'''Starting Damage (SD)''' is the initial damage value of a particular damage type, modded or not.
+*'''Health-type Modifier (HM)''' is the damage modifier against that health type (may be shields or health).
+
+<hr />
+To make it independent from the amount of base damage:
+
+<math>
+{
+\begin{aligned}
+\text{Damage Modifier} &= 1 + \text{Health-type Modifier} \\
+\text{Inflicted Damage} &= \text{Starting Damage} \times \text{Damage Modifier}
+\end{aligned}
+}
+</math>
+
+* '''Damage Modifier (DM)''' is the total damage modifier. An amount of damage of that type (SD) against that enemy will then always be multiplied with this factor (DM).
+
+===Armored Enemies===
+Against '''[[armor]]ed''' enemies, the formula is:
+
+<math>
+{
+DM = 1 - 0.9 \cdot \sqrt\frac{{AR}}{2700}
+}
+</math>
+
+Where in addition to the previous definitions, '''AR''' is the target's armor after all reductions from debuffs (e.g. {{M|Corrosive Projection}}, {{D|Corrosive}} status effects, and {{A|Terrify}}).
+
+In the case of enemies who have both [[shields]] and armor, damage to shields is not mitigated by armor. Lastly, when {{D|Toxin}} damage is applied to a shielded target, generally the damage is applied directly to its health, not shields (i.e. it bypasses shields). Some special enemies like [[Treasurer]] or [[Hound]]s cannot have their shields bypassed with {{D|Toxin}} damage however.
+
+==Final Calculations==
+These calculations are made independent of enemy stats and external buffs during missions. These assume that we use [[Arsenal]] values.
+
+===Modded Stats===
+{| class="wikitable"
+|-
+|
+<math>
+\begin{aligned}
+\text{Modded Stat} = \text{Base Stat} \times (1 + \text{Stat Bonuses})
+\end{aligned}
+</math>
+|
+Basic formula for calculating modded stats (e.g. critical chance) with the exception of [[accuracy]], [[Reload|reload time]], and [[Fire Rate|charge time]].''
+|-
+|
+<math>
+\begin{aligned}
+\text{Modded Stat Time} = \frac{\text{Base Stat Time}}{(1 + \text{Stat Speed Bonuses})}
+\end{aligned}
+</math>
+|
+Formula for calculating modded reload time and charge time.''
+|-
+|}
+
+===Total Damage===
+The damage numbers displayed in the in-game [[arsenal]] calculate total weapon damage as such:
+
+{| class="wikitable"
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Arsenal Total Damage} &= \text{Base Damage} \\
+&\quad  \times [ 1 + \text{Elemental Bonuses} \\
+&\qquad + \text{Unmodded Impact Distribution} \times \text{Impact Bonuses} \\
+&\qquad + \text{Unmodded Puncture Distribution} \times \text{Puncture Bonuses} \\
+&\qquad + \text{Unmodded Slash Distribution} \times \text{Slash Bonuses} ] \\
+&\quad \times ( 1 + \text{Damage Bonuses}) \\
+&\quad \times [\text{Base Weapon Multishot} \times ( 1 + \text{Multishot Bonuses})]
+\end{aligned}
+}
+</math>
+|
+This arsenal damage is the average non-crit damage per shot, without [[Faction Damage Bonus]]. 
+*For melee weapons, remove multishot from the equation. It does not include Stance damage multipliers.
+|-
+|}
+
+Theoretical total inflicted damage against an enemy can be calculated as such (ignoring quantization for simplification):
+
+{| class="wikitable"
+|-
+|
+<math>
+{
+\text{Total Inflicted Damage} = \text{SD}_{1} \times \text{DM}_{1} + ... + \text{SD}_{N} \times \text{DM}_{N}
+}
+</math>
+|
+Where SD represents the modded value of a particular damage type and DM represents the damage modifier for a particular damage type using the generalized damage modifier formula.
+|-
+|}
+
+===Average Shot/Hit===
+Average shot or hit is the theoretical average damage dealt on a single button input if all projectiles hit the target.
+
+{| class="wikitable"
+|-
+|
+<math>
+{
+\text{Normal Shot} = \text{Total Damage} \times [1 + (\lfloor \text{Modded Crit Chance} \rfloor \times (\text{Modded Crit Multiplier} - 1) ) ]
+}
+</math>
+|
+In the case where modded critical chance is over 100%, the lowest crit tier possible will be considered a normal shot. (e.g. if a weapon has 250% crit chance, the 100% for an orange crit will be considered a normal shot)
+*Note that <math>\lfloor \qquad \rfloor</math> denotes a [[wikipedia:Floor and ceiling_functions|flooring function]] (rounding down)
+|-
+|
+<math>
+{
+\text{Critical Shot} = \text{Total Damage} \times [1 + (\lceil \text{Modded Crit Chance} \rceil \times (\text{Modded Crit Multiplier} - 1) ) ]
+}
+</math>
+|
+In the case where modded critical chance is over 100%, the next crit tier possible will be considered a critical shot (e.g. if a weapon has 250% crit chance, the 50% for a red crit will be considered a critical shot)
+*Note that <math>\lceil \qquad \rceil</math> denotes a [[wikipedia:Floor and ceiling_functions|ceiling function]] (rounding up)
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average Shot} &= \text{Total Damage} \times (1 + \text{Modded Crit Chance} \times (\text{Modded Crit Multiplier} - 1))
+\end{aligned}
+}
+</math>
+|
+The average damage dealt on a single button input if all projectiles hit the target.
+|-
+|}
+
+====Single Target Direct AoE Hits====
+If the attack has an AoE component to it, then you can treat any direct hits as having two separate instances of damage: direct hit and the AoE hit.
+{| class="wikitable"
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average Shot}_{Direct AoE Hit} = \text{Average Shot}_{Direct Hit} + \text{Average Shot}_{AoE Hit}
+\end{aligned}
+}
+</math>
+|
+*Use same average shot formulas. Note that direct hit and AoE hit stats will differ.
+*There are some bonuses that only affect direct hit and not AoE such as [[Condition Overload (Mechanic)]].
+|-
+|}
+
+====Single Target Weak Point Hit====
+If the attack hits an enemy [[Weak Point]], then an additional multiplier is applied to the damage:
+{| class="wikitable"
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average Shot}_{Weak Point} = \text{Average Shot} \times (\text{Weak Point Multiplier} + \text{Weak Point Damage Bonus})
+\end{aligned}
+}
+</math>
+|
+*Weak Point Damage bonuses include {{M|Target Acquired}} (headshots), {{M|Primary Acuity}}, and {{M|Pistol Acuity}}
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average Shot}_{Weak Point} = \text{Average Shot}
+\end{aligned}
+}
+</math>
+|
+For weapons that don't have bonus damage on headshots such as {{Weapon|Arca Plasmor}}. AoE damage also cannot headshot.
+|-
+|}
+
+===Gun Damage Per Second===
+When comparing the performance of non-melee weapons, it may be useful to calculate their theoretical single-target damage per second (DPS) (without accounting for status effects) using the following formulas:
+
+====Average Burst DPS====
+Average burst DPS is the theoretical damage a player does in a very short burst of time, or an extended period of time if ignoring time spent reloading/not firing their weapon.
+
+{| class="wikitable"
+|
+<math>
+{
+\begin{aligned}
+\text{Average Burst DPS} &= \text{Average Shot} \times \text{Effective Fire Rate}
+\end{aligned}
+}
+</math>
+|
+Where effective fire rate calculations is dependent on trigger type. Arsenal Fire Rate stat ≠ actual rate of fire in-game
+*Assumes that damage ramp up is at max for Continuous Weapons. In actual gameplay, reloading will reset/decay the damage ramp up so Burst DPS will be lower than theoretical calculations.
+*Assumes fire rate is the arsenal value for Auto-Spooled trigger weapons.
+|-
+|}
+
+{| class="wikitable"
+|+ Effective Fire Rate formulas by Trigger Type
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Effective Fire Rate}_\text{Auto, Auto-Spool, Semi, Duplex, Held} &= \text{Modded Fire Rate}
+\end{aligned}
+}
+</math>
+|
+For Auto, Semi, Duplex, and Held trigger types, the modded Fire Rate is the effective Fire Rate.
+*For Semi and Duplex trigger types, we assume the player is able to achieve the modded Fire Rate value via manual attack inputs.
+*For Auto-Spool trigger types, we assume that the weapon is fully spooled to the arsenal Fire Rate value.
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Effective Fire Rate}_\text{Charge} &= \frac{ 1 }{ \text{Modded Charge Time} + \frac{ 1 }{ \text{Modded Fire Rate} } }
+\end{aligned}
+}
+</math>
+|
+For Charge trigger types, the lower the [[Fire Rate]], the more delay between charge shots. If attack is not a Charge trigger type (Modded Charge Time = 0), then Effective Fire Rate = Modded Fire Rate. We assume the player immediately lets go for the attack key on full charge and doesn't delay the attack.
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Effective Fire Rate}_\text{Burst} = \frac{ \text{Burst Count} }{ \frac{1}{\text{Modded Fire Rate}} + [ (\text{Burst Count} - 1) \cdot \text{Burst Delay} ] }
+\end{aligned}
+}
+</math>
+|
+For Burst trigger types, there is a delay between bursts (Fire Rate value) and a delay between shots in a burst (Burst Delay value). For Mag Burst attacks, use the full magazine size as the Burst Count. For non-Burst attacks, you can set Burst Count = 1 (can think of shooting a whole magazine as a single "burst" regardless of trigger type) which resolves to Effective Fire Rate = Modded Fire Rate.
+|-
+|}
+
+====Number of Shots Per Magazine====
+Actual magazine size is needed to calculate sustained DPS.
+
+{| class="wikitable"
+|
+<math>
+{
+\begin{aligned}
+\text{Number of Shots Per Magazine} &= \frac{ \text{Modded Mag Size} }{ \text{Ammo Cost Per Shot} }
+\end{aligned}
+}
+</math>
+|
+Not all weapons consume one ammo per shot; this formula is needed to account for [[Continuous Weapon]]s and certain alt-fires
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Number of Shots Per Magazine}_{Incarnon} &= \text{Max Incarnon Charge}
+\end{aligned}
+}
+</math>
+|
+For [[Incarnon Form]], use Max Incarnon Charge. Ammo Cost is 1 per shot
+|-
+|}
+
+====Average Sustained DPS====
+Average sustained DPS is the theoretical damage a player does over an extended period of time, accounting time spent reloading/not firing their weapon.
+
+{| class="wikitable"
+|
+<math>
+{
+\begin{aligned}
+\text{Proportion of Time Spent Shooting vs. Reloading} &= \frac{ \text{Number of Shots Per Mag} }{ \text{Effective Fire Rate} \times \text{Modded Reload Time} + \text{Number of Shots Per Mag}}
+\end{aligned}
+}
+</math>
+|
+This ratio is a damage multiplier to multiply Burst DPS into Sustained DPS
+*For the {{Weapon|Vectis}} and {{Weapon|Vectis Prime}} specifically, one (1) should be subtracted from the denominator to account for their lack of a [[reload]] delay.
+*For {{Weapon|Epitaph}} specifically, ignore Modded Reload Time since it draws ammo directly from the full ammo pool similar to bows, but does not "reload" between shots like them.
+*Reload time is in seconds.
+*Reload time includes reload delay which is more prevalent for [[Battery Weapon]]s. Reload delay for most weapons are negligible if not non-existent.
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average Sustained DPS} &= \text{Average Burst DPS} \times \text{Proportion of Time Spent Shooting vs. Reloading}
+\end{aligned}
+}
+</math>
+|
+*Assumes that damage ramp up is at max for [[Continuous Weapon]]s. In actual gameplay, reloading will reset/decay the damage ramp up so Burst DPS will be lower than theoretical calculations.
+|-
+|}
+
+===Melee Damage Per Second===
+When comparing the performance of melee weapons, it may be useful to calculate their theoretical damage per second (DPS) (without accounting for status effects) using the following formulas:
+
+{| class="wikitable"
+|
+<math>
+{
+\text{Normal Hit} = \text{Total Damage} \times [1 + (\lfloor \text{Modded Crit Chance} \rfloor \times (\text{Modded Crit Multiplier} - 1) ) ]
+}
+</math>
+|
+In the case where modded critical chance is over 100%, the lowest crit tier possible will be considered a normal hit. (e.g. if a weapon has 250% crit chance, the 100% for an orange crit will be considered a normal shot)
+*Note that <math>\lfloor \qquad \rfloor</math> denotes a [[wikipedia:Floor and ceiling_functions|flooring function]] (rounding down)
+|-
+|
+<math>
+{
+\text{Critical Hit} = \text{Total Damage} \times [1 + (\lceil \text{Modded Crit Chance} \rceil \times (\text{Modded Crit Multiplier} - 1) ) ]
+}
+</math>
+|
+In the case where modded critical chance is over 100%, the next crit tier possible will be considered a critical hit (e.g. if a weapon has 250% crit chance, the 50% for a red crit will be considered a critical shot)
+*Note that <math>\lceil \qquad \rceil</math> denotes a [[wikipedia:Floor and ceiling_functions|ceiling function]] (rounding up)
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average Hit} &= \text{Average Combo Damage Multiplier} \\
+&\qquad \times \text{Total Damage} \times (1 + \text{Modded Crit Chance} \times (\text{Modded Crit Multiplier} - 1))
+\end{aligned}
+}
+</math>
+|
+The average damage dealt on the first enemy hit by melee attack, not accounting [[Melee#Follow Through|Follow Through]]
+*See individual stance pages for average combo damage multipliers or go to [[Stance#Comparison]]
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average DPS} &= \frac{\text{Avg Hit}  \times \text{Modded Attack Speed}}{\text{Base Combo Length}}
+\end{aligned}
+}
+</math>
+|
+*See individual stance pages for average base combo lengths or go to [[Stance#Comparison]]
+|-
+|}
+
+===Damage Over Time===
+{{Anchor|Damage Over Time Final Calculations}}
+{{Main|Damage over Time}}
+
+Damage-over-time tick damage is not subject to the 1/32 damage-type [[#Quantization|quantization]] described above. A proc is calculated from the attack's modded base damage rather than from the sum of its quantized damage-type values. Critical DoTs use the effective critical multiplier of the inducing hit; exact calculations should apply the critical multiplier quantization described on [[Critical Hit]].
+
+For exact calculations, intermediate DoT operations use [[wikipedia:Single-precision floating-point format|binary32]] arithmetic.
+
+For weapon-generated [[Damage/Heat Damage|Heat]], [[Damage/Electricity Damage|Electricity]], [[Damage/Toxin Damage|Toxin]], [[Damage/Gas Damage|Gas]], and [[Damage/Slash Damage|Slash]] status effects, a fixed value of 1 is added to the full-precision damage seed stored for the proc before the status coefficient and the remaining applicable multipliers are applied:
+:<math>\text{Unrounded Tick Damage} = \left(\sum_i S_i + 1\right) \times C \times M</math>
+Here, <math>S_i</math> is each stored damage seed, <math>C</math> is 0.5 for Heat, Electricity, Toxin, and Gas or 0.35 for Slash, and <math>M</math> is the product of the remaining applicable modifiers, such as elemental, faction, and status-damage bonuses. If several seeds are consolidated into a single tick, they are summed first and the fixed value of 1 is added only once. It is therefore neither a final flat +1 damage bonus nor a bonus applied once per status stack.
+
+Examples, before target defenses:
+* Heat with a stored seed of 40 and +60% Heat damage: <math>(40 + 1) \times 0.50 \times 1.60 = 32.80</math>; the pop-up displays <math>\lfloor 32.80 + 0.5 \rfloor = 33</math>.
+* Electricity with a stored seed of 40 and +150% Electricity damage: <math>(40 + 1) \times 0.50 \times 2.50 = 51.25</math>; the pop-up displays <math>\lfloor 51.25 + 0.5 \rfloor = 51</math>.
+* Toxin with a stored seed of 62, +225% Toxin damage, and +55% faction damage: <math>(62 + 1) \times 0.50 \times 3.25 \times 1.55 = 158.68</math>; the pop-up displays <math>\lfloor 158.68 + 0.5 \rfloor = 159</math>.
+* Gas with a stored seed of 40 and no applicable bonuses: <math>(40 + 1) \times 0.50 = 20.50</math>; the pop-up displays <math>\lfloor 20.50 + 0.5 \rfloor = 21</math>.
+* Slash with a stored seed of 62 and +55% faction damage: <math>(62 + 1) \times 0.35 \times 1.55 = 34.18</math>; the pop-up displays <math>\lfloor 34.18 + 0.5 \rfloor = 34</math>.
+* If two Electricity seeds of 40 and 60 are consolidated with +150% Electricity damage, the tick uses <math>(40 + 60 + 1) \times 0.50 \times 2.50 = 126.25</math>; the fixed value of 1 is not added to each seed.
+
+After all applicable multipliers and target defenses are applied, damage pop-ups present the result as a whole number. For non-negative raw damage values, the displayed number is:
+:<math>\text{Displayed Damage} = \left\lfloor \text{Raw Damage} + 0.5 \right\rfloor</math>
+This is a display-formatting rule only; it does not imply that the underlying raw damage value or the target's health change is rounded to an integer. The fixed value of 1 in the status formula above is part of the raw damage calculation and is unrelated to display rounding.
+
+
+{| class="wikitable"
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Modded Damage} &= \text{Modded Base Damage} \\
+&\qquad \times \text{Modded Multishot} \\
+&\qquad \times (1 + \text{Faction Damage Bonuses})
+\end{aligned}
+}
+</math>
+|
+Total modded damage calculations used for DoT ignores elemental and physical damage bonuses.
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Base Avg DoT} &= \text{Modded Damage} \\
+&\qquad \times (1 + \text{Faction Damage Bonuses}) \\
+&\qquad \times (1 + \text{Status Damage Bonuses}) \\
+&\qquad \times \text{Total Ticks} \times (1 + \text{Status Duration Bonuses})
+\end{aligned}
+}
+</math>
+|
+Without accounting multipliers of specific DoT.
+*Notice that [[Faction Damage Bonus]] applies a second time here
+*Note that all DoT dealing status effects share the same number of ticks unmodded
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Avg Slash DoT} &= 0.35 \times \text{Base Avg DoT} \\
+\text{Avg Electricity DoT} &= 0.5 \times (1 + \text{Electricity Damage Bonuses}) \times \text{Base Avg DoT} \\
+\text{Avg Heat DoT} &= 0.5 \times (1 + \text{Heat Damage Bonuses}) \times \text{Base Avg DoT} \\
+\text{Avg Toxin DoT} &= 0.5 \times (1 + \text{Toxin Damage Bonuses}) \times \text{Base Avg DoT} \\
+\text{Avg Gas DoT} &= 0.5 \times (1 + \text{Gas Damage Bonuses}) \times \text{Base Avg DoT}
+\end{aligned}
+}
+</math>
+|
+Individual calculations for each DoT proc. Keep in mind Slash DoT deals {{D|Cinematic}} damage, ignoring armor.
+*Gas Damage bonuses include {{M|Valence Formation}} and {{M|Leaded Gas}}.
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Total Avg DoT} &= (\text{Avg Slash DoT} \times \text{Slash Distribution}) \\
+&\qquad + (\text{Avg Electricity DoT} \times \text{Electricity Distribution}) + \\
+&\qquad + (\text{Avg Heat DoT} \times \text{Heat Distribution}) + \\
+&\qquad + (\text{Avg Toxin DoT} \times \text{Toxin Distribution}) + \\
+&\qquad + (\text{Avg Gas DoT} \times \text{Gas Distribution})
+\end{aligned}
+}
+</math>
+|
+Multiply each DoT with the respective damage distribution (i.e. damage type / total damage) and add them together
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Normal Total Avg DoT} &= \text{Total Avg DoT} \\
+&\qquad \times [1 + (\lfloor \text{Modded Crit Chance} \rfloor \times (\text{Modded Crit Multiplier} - 1) ) ]
+\end{aligned}
+}
+</math>
+|
+In the case where modded critical chance is over 100%, the lowest crit tier possible will be considered a normal shot. (e.g. if a weapon has 250% crit chance, the 100% for an orange crit will be considered a normal shot)
+*Note that <math>\lfloor \qquad \rfloor</math> denotes a [[wikipedia:Floor and ceiling_functions|flooring function]] (rounding down)
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Crit Total Avg DoT} &= \text{Total Avg DoT} \\
+&\qquad \times [1 + (\lceil \text{Modded Crit Chance} \rceil \times (\text{Modded Crit Multiplier} - 1) ) ]
+\end{aligned}
+}
+</math>
+|
+In the case where modded critical chance is over 100%, the next crit tier possible will be considered a critical shot (e.g. if a weapon has 250% crit chance, the 50% for a red crit will be considered a critical shot)
+*Note that <math>\lceil \qquad \rceil</math> denotes a [[wikipedia:Floor and ceiling_functions|ceiling function]] (rounding up)
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Avg Total Avg DoT} &= \text{Modded Status Chance} \\
+&\qquad \times \text{Total Avg DoT} \\
+&\qquad \times (1 + \text{Modded Crit Chance} \times (\text{Modded Crit Multiplier} - 1))
+\end{aligned}
+}
+</math>
+|
+Accounting for critical hits, non-crits, and status chance for an average of total DoT averages.
+*Note: don't need to round up or down the Crit Chance for this calculation
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Avg Total Avg DoT on Weak Point} &= \text{Avg Total Avg DoT} \times [\text{Weak Point Multiplier} \times (1 + \text{Weak Point Damage Bonus})]
+\end{aligned}
+}
+</math>
+|
+Accounting for [[Weak Point]]s and Weak Point Damage bonuses
+|-
+|}
+
+===Lifetime Damage===
+Lifetime damage is a derived damage stat that is based on the total amount of damage that a weapon can deal before it depletes its ammo reserve. [[Melee]] weapons, [[Battery Weapon]]s or rechargable weapons, and [[Exalted Weapon]]s (assuming [[Energy]] is always restored) will deal infinite damage over their in-game use since they are always available and are not reliant on [[Pickups|ammo pickups]] or [[Squad Ammo Restore]]s.
+
+{| class="wikitable"
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average Lifetime Damage} &= \text{Average Shot} \times \text{Number of Shots Per Magazine} \times (1 + \frac{ \text{Modded Maximum Ammo} }{ \text{Modded Magazine} })
+\end{aligned}
+}
+</math>
+|
+The average total damage dealt by a weapon without switching weapons or replenishing ammo.
+|-
+|
+<math>
+{
+\begin{aligned}
+\text{Average Lifetime Damage}_{No Ammo Reserve} = \infty
+\end{aligned}
+}
+</math>
+|
+Weapons with no ammo reserve have infinite lifetime damage.
+|-
+|}
+
+==References==
+{{Reflist}}
+
+==See Also==
+* [[:Category:User_Research_(Damage)]]
+
+{{DamageNav}}
+{{MechNav}}
+[[Category:Damage 3.0]]
+[[Category:Mechanics]]
+[[Category:Update 36]]

@@ -1,0 +1,3 @@
+{{WF|Trinity}} and allies in her [[Affinity Range]] gain '''Lifegiver''', which increases their [[Health]] equal to <u>'''50%'''</u> (<u>'''25%'''</u> in [[Conclave]]) of Trinity's total [[Energy]] pool.
+*Lifegiver can be increased by energy pool [[Mods]], such as {{M|Flow}}, {{M|Primed Flow}}, and {{M|Archon Flow}}, as well as [[Azure Archon Shard]].
+*Works in [[Archwing]] missions but scales off the Archwing energy pool.

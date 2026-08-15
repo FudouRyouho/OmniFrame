@@ -1,0 +1,24 @@
+{{UpdateMe|Damage of the missiles is not sure}}
+<onlyinclude>{{#invoke:RemoveCategory|rem|{{AbilityU10.3
+| name           = Atomi-Barrage
+| gameimage      = 
+| cardimage      = 
+| hotkey         = 
+| energy         = 
+| description    = 
+| cost           = 
+| costType       = 
+| damage         = 1800 {{D|Heat}}/missile<br>+200% (damage vulnerability)
+| range          = 30m
+| duration       = 3 salvos<br>9s (damage vulnerability duration)
+| misc           = min. 7 (missiles per salvo)
+| info  = 
+*Fires '''3''' salvos of at least '''7''' [[homing]] micro-missiles at enemies in front of you, dealing '''1800''' {{D|Heat}} each, with a forced {{D|Heat}} status effect. Enemies struck by the missiles have '''+200%''' [[Damage Vulnerability]] for '''9''' seconds.
+**Requires a valid target within '''30''' meters to activate.
+}}}}</onlyinclude>
+
+==See Also==
+*[[Atomicycle]]
+
+[[Category:Atomicycle Abilities]]
+[[Category:Update 38]]

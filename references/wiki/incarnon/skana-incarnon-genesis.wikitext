@@ -1,0 +1,86 @@
+﻿{{ResourceInfobox}}
+''' Skana Incarnon Genesis''' is an item that is used to add [[Incarnon]] upgrades to the {{Weapon|Skana}}, {{Weapon|Prisma Skana}} or {{Weapon|Skana Prime}}.
+==Acquisition==
+*Upon completion of [[The Duviri Paradox]] and [[Angels of the Zariman]], and unlocking [[The Steel Path]], players can earn {{Resource|1=Skana Incarnon Genesis}} from [[The Circuit]]'s Steel Path to place on their Skana with the help of [[Cavalero]] in the [[Chrysalith]]. This [[Incarnon Genesis]] form grants it evolutions to a transformation and newfound strength.
+*Purchased from Cavalero for {{pc|120}}, complete with the resources used in its installation. This purchase can only be made '''once'''.
+
+==Incarnon Genesis==
+
+===Evolutions===
+*Installing the Skana Incarnon Genesis requires '''20''' {{Resource|Pathos Clamp|Pathos Clamps}}, '''70''' {{Resource|Dracroot}}, and '''80''' {{Resource|Connla Sprout|Connla Sprouts}}.
+*When installed, the first Evolution tier is unlocked. The following Evolution tiers, their requirements for unlocking them, and their related perks, are shown below; 
+**Each challenge additionally grants '''5,000''' [[affinity]] to the weapon, affected by [[Affinity Booster]]s.
+
+====Evolution I====
+*Reach '''6x''' Combo and then [[Melee#Heavy Attack|Heavy Attack]] to activate Incarnon Form.
+*Incarnon Form stuns nearby enemies when it enters Incarnon Form and after [[Finisher]] attacks.
+**'''+100%''' Melee Damage
+**'''+20%''' Sprint Speed
+**'''+20%''' Bullet Jump
+*Incarnon Form lasts for '''180''' seconds and persists until [[death]].
+
+====Evolution II====
+''Unlock Challenge:'' Complete a solo mission with this weapon equipped.
+*Perk 1: '''Guardian's Promise:'''
+**Increase Damage by '''+100''' (Skana) / '''+100''' (Prisma) / '''+10''' (Prime).
+**With Overshields: '''+80%''' Heavy Attack Efficiency.
+*Perk 2: '''Wartime Nerve:'''
+**Increase Damage by '''+90''' (Skana) / '''+90''' (Prisma) / '''+10''' (Prime)
+**'''+9''' Combo Count on undamaged enemies.
+***Enemies are undamaged as long as their health and shield have not been damaged. It doesn't affect [[Whipclaw]].
+****Damaging [[Overguard]] is not taken into account.
+
+====Evolution III====
+''Unlock Challenge:'' Activate this weapon's Incarnon Form '''6''' times in a mission.
+*Perk 1: '''Orokin Reach:'''
+**Increase Range by '''+0.4'''.
+*Perk 2: '''Resolute Force:'''
+**'''+6s''' Combo Duration.
+*Perk 3: '''Swift Break:'''
+**'''+50%''' Heavy Attack Wind Up Speed.
+
+====Evolution IV====
+''Unlock Challenge:'' Reach '''10x''' Combo Multiplier '''10''' times.
+*Perk 1: '''Survivor's Edge:'''
+**Increase Critical Chance by '''+12%''' (Skana) / '''+12%''' (Prisma) / '''+2%''' (Prime).
+**Increase Status Chance by '''+10%''' (Skana) / '''+10%''' (Prisma) / '''+4%''' (Prime).
+*Perk 2: '''Elemental Excess:'''
+**Increase Status Chance by '''+20%''' (Skana) / '''+20%''' (Prisma) / '''+10%''' (Prime).
+*Perk 3: '''Absolute Valor:'''
+**Increase Critical Chance by '''+25%''' (Skana) / '''+25%''' (Prisma) / '''+4%''' (Prime).
+
+==Tips==
+*Using {{WF|Titania}}'s {{A|Razorwing}} deactivates the incarnon form of melee weapons, helping you unlock Evolution III quicker.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39}}
+*Incarnon Adapters available in the current Steel Path Circuit rotation are now available for Platinum Purchase in Cavalero’s store in the Chrysalith.
+**Purchasing these Incarnons for Platinum will reward players with both the Adapter and the required resources to install it.
+
+{{ver|37.0.8}}
+*Fixed typo in Skana’s Incarnon Evolution I description.
+
+{{ver|33.5}}
+*Fixed Melee Incarnon weapons (original and Genesis) missing their Incarnon Form stats in the Arsenal.
+*Fixed the Evolution IV description of the Prisma Skana’s Incarnon Genesis stating 30% Status Chance increase instead of the intended 20%.  
+**''It was always 20% in mission, this was just a description error in the Arsenal stats!''
+
+{{ver|33.0.5}}
+*Fixed Melee Incarnon Weapons using the incorrect HUD indicator to state that Incarnon Mode was ready. 
+
+{{ver|33.0.6}}
+*Changed the following Skana variant’s “Elemental Excess” Incarnon Genesis evolution:
+**Prisma Skana: Increase Status Chance by 20% (was 30%)
+**Skana Prime: Increase Status Chance by 10% (was 24%)
+***''Varying values for variants are intended for all Incarnon Genesis weapons, so the Skana was adjusted to match that format.''
+
+{{ver|33}}
+*Introduced.}}
+
+{{IncarnonNav}}
+
+[[Category:Duviri]]
+[[Category:Incarnon Geneses]]
+[[Category:Incarnon]]
+[[Category:Update 33]]

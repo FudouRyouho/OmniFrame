@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Manual técnico de la arquitectura de vistas y centralización de componentes"
-Version: "v0.0.2"
 Impacto_ID: "UI-UX-Views"
 Fidelidad_Fisica: "Project/src/shared/components/items/"
 Fecha_de_creacion: "2026-04-18"
@@ -30,18 +29,14 @@ El proyecto ha migrado a una arquitectura de componentes compartidos (`shared/co
 Las vistas en `domains/equipment/view/` son ahora controladores delegados (wrappers) que consumen el sistema de vistas unificado de `@shared`:
 
 ```tsx
-// Ejemplo conceptual en ArcaneView.tsx (Wrapper de Dominio)
-import { ArcanesGridView } from '@/shared/components/items/views';
+// Wrapper de dominio: el dominio solo define la acción y el contexto
+import { ArcanesView } from '@/shared/components/items/views';
 
-const ArcanesView = () => {
-  // El dominio solo define la acción y el contexto
-  return (
-    <ArcanesGridView 
-      onSelect={(item) => navigate(`/equipment/arcanes/${item.uniqueName}`)}
-    />
-  );
-};
+<ArcanesView onSelect={(item) => navigate(`/equipment/arcanes/${item.uniqueName}`)} />
 ```
+
+Las vistas compartidas existentes son `ArcanesView`, `ArchwingWeaponsView`, `CompanionsView`,
+`ModsView`, `OmniView`, `VehiclesView`, `WarframesView` y `WeaponsView`.
 
 ## Componentes Compartidos (SSoT UI)
 

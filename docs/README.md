@@ -1,7 +1,6 @@
 ---
 Estado: "activo"
 Rol: "Punto de entrada y mapa de navegación del SSoT de OmniFrame"
-Version: "v0.2.1"
 Impacto_ID: "N/A"
 Fidelidad_Fisica: "docs/"
 Fecha_de_creacion: "2026-04-15"

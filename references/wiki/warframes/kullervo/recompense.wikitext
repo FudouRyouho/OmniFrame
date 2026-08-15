@@ -1,0 +1,36 @@
+<onlyinclude>{{AbilityU10.3
+| name = Recompense
+| gameimage = RecompenseIcon.png
+| cardimage = Recompense.png
+| hotkey = 2
+| energy = 50
+| cost = 
+| description = 
+| strength = 200 / 300 / 400 / 500 {{D|Slash}} damage per dagger hit<br>+ 250 / 275 / 300 / 350 HP or Overguard per dagger hit<br>- 20 / 25 / 30 / 35 Overguard or HP drained per missed dagger<br>10,000 max Overguard
+| range = 5 / 6 / 7 / 8 m dagger orbit radius
+| duration = 
+| misc = 10 daggers<br>5 s dagger airtime<br>1 s invulnerability time<br>3 daggers max per enemy<br>{{D|Slash}} and {{D|Stagger}} status on hit<br>3 HP self damage threshold<br>+1 melee combo per dagger hit on enemy
+| cardonly = {{{1|}}}
+| info = 
+*Kullervo expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[Energy]] to unsheathe <u>'''10'''</u> daggers that quickly expand into a horizontal orbit spanning {{Stat|Ability Range|icon=only}}'''5 / 6 / 7 / 8''' meters and surround him for <u>'''5'''</u> seconds. On cast, Kullervo also becomes [[Invulnerable]] for <u>'''1'''</u> second. When enemies enter the orbit, the daggers [[Homing|home]] in to stab them, with each individual enemy stabbed by a maximum of <u>'''3'''</u> daggers; each dagger inflicts {{Stat|Ability Strength|icon=only}}'''200 / 300 / 400 / 500''' {{D|Slash}}  damage, with guaranteed {{D|Slash}} and {{D|Stagger}} status effects to its target, then heals Kullervo by {{Stat|Ability Strength|icon=only}}'''250 / 275 / 300 / 350''' [[Health]] points or grants him equal [[Overguard]] points if already at full health, capped to a maximum of {{Stat|Ability Strength|icon=only}}'''10,000''' Overguard.
+**Health and Overguard points are gained the moment each dagger strikes an enemy.
+**Daggers do not require direct line of sight and will bypass terrain and obstacles in the environment to strike their targets.
+*Daggers that strike enemies are removed from orbit, while daggers without targets will gradually turn and sheathe back into Kullervo when Recompense expires, with each dagger damaging him by {{Stat|Ability Strength|icon=only}}'''20 / 25 / 30 / 35'''  Overguard points or health points if Overguard is absent. Kullervo cannot be killed by his daggers and remains alive at a minimum health threshold of <u>'''3'''</u> points.
+*Each direct dagger strike against enemies increases Kullervo's [[Melee Combo Counter]] by <u>'''1'''</u> hit.
+**Combo gain is increased by [[Melee Combo#Additional Combo CountChance|Combo Count Chance]] effects such as {{M|Quickening}}, {{M|True Punishment}}, {{Arcane|Exodia Triumph}}, and Naramon's {{Focus|Opening Slam}}.
+**An ascending suspenseful audio cue plays as the daggers turn and fly back to Kullervo.
+*'''Ability Synergy:'''
+**Overguard from Recompense is protected by {{A|Wrathful Advance}}'s [[Invulnerability]] during wind up.
+**Recompense's dagger damage spreads through enemies under {{A|Collective Curse}} when striking a cursed target.
+***Does not count as extra hits to Kullervo's melee combo counter, nor grant extra health or Overguard.
+*Cannot be recast while active.
+*Casting Recompense is an upper-body animation that allows movement and [[Maneuvers]] while restricting other actions.
+*Recompense is dispelled by Kullervo entering an ability nullification zone, which immediately turn his remaining daggers around and sheathe into him inflicting no damage. If Kullervo falls out of bounds, the remaining daggers will inflict damage upon him.
+**Kullervo's earned Overguard cannot be dispelled and lasts until drained by enemy or self damage.
+| tips = 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Kullervo}}
+__NOTOC__
+[[Category:Kullervo]]

@@ -1,0 +1,193 @@
+{{Infobox
+| Box title = Puncture Damage
+| image     = EssentialPunctureGlyph.png
+| Row 1 title = Icon
+| Row 1 info  = [[File:Puncture_b.svg|class=icon]] [[File:Puncture_w.svg|class=icon]]
+}}
+{{Quote|'''DAMAGE EFFICACY'''<br/>
+'''{{text|green|x1.5}}''' damage to Corpus<br/>
+'''{{text|green|x1.5}}''' damage to Orokin
+
+'''STATUS EFFECT'''<br/>
+{{D|Puncture}} temporarily reduces the target's damage output by up to 80% and increases Critical Chance of damage taken by up to 25% with multiple stacks.|In-game Description}}
+
+'''{{D|Puncture}} Damage''' is one of the three physical damage types. Deals increased damage to {{D|Corpus}} and {{D|Orokin}}. Its [[Status Effect]] reduces enemy's damage output and increases [[Critical Chance]] received.
+
+==[[Status Effect]]s==
+===General===
+The status effect of {{D|Puncture}} damage is '''Weakened'''. It lasts '''10''' seconds and stacks to a maximum of '''5''' times. Any stacks applied after the 5th will replace the oldest stack, even if the oldest stack has a longer remaining duration. Affected enemies will have a yellow aura.
+*The victim's attacks deal '''40%''' less damage. Subsequent procs add '''10%''' reduced damage, up to '''80%''' at max stacks.
+*Weapon damage that the victim receives has '''5%''' increased [[Critical Chance]] per proc up to '''25%''' at max stacks. This is a flat critical chance buff(like {{Arcane|Arcane Avenger}}), but does '''not''' apply to [[Area of Effect]] damage or Warframe abilities.
+
+Enemies killed by an attack that procs {{D|Puncture}} may have a large bloody hole on where they were hit by the killing blow.
+
+===Railjack===
+{{Quote|Railjack <DT_PUNCTURE>Puncture Damage results in a Decompress Status Effect which temporarily reduces the Shields and Armor of enemy ships.|In-Game Description}}
+The status effect of {{D|Puncture}} damage against [[Railjack]] space enemies is '''Decompress''', reducing the target ship's [[shield]]s by '''8.5% '''and [[armor]] by '''9%''' for '''20''' seconds, with subsequent procs stacking multiplicatively.
+
+==Puncture Sources==
+{{Main|:Category:Puncture Damage}}
+===Weapons===
+These weapons deal more than a majority of their physical damage as {{D|Puncture}}. The damage ratio is important for physical damage status effects because the game weights the likelihood of which proc occurs according to physical damage ratio. Hence, these weapons proc '''Weakened''' more than [[Damage/Impact Damage|Stagger]] or [[Damage/Slash Damage|Bleed]].
+
+{{CustomCollapsible|Weapons with Puncture Damage|Puncture}}
+{{DamageTypeTable|Puncture}}
+{{CustomCollapsible/End}}
+
+;Weapons with guaranteed Puncture proc
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3">
+Harpak.png|link=Harpak|{{Weapon|Harpak}}<br>(Alt-fire)
+Talons.png|link=Talons|{{Weapon|Talons}}<br>(Explosion)
+File:Evensong.png|{{Weapon|Evensong}}<br>(Applies 7 procs on hit, bypassing the normal limit of 5)
+</gallery>
+
+===Mods===
+{{#tag:tabber|
+Primary =
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+PiercingHitMod.png|link=Piercing Hit|{{M|Piercing Hit}}
+PiercingCaliberMod.png|link=Piercing Caliber|{{M|Piercing Caliber}}
+FlechetteMod.png|link=Flechette|{{M|Flechette}}
+BreachLoaderMod.png|link=Breach Loader|{{M|Breach Loader}}
+AcceleratedBlastMod.png|link=Accelerated Blast|{{M|Accelerated Blast}}
+RipperRoundsMod.png|link=Ripper Rounds|{{M|Ripper Rounds}} ([[Conclave]] only)
+ShredShotMod.png|link=Shred Shot|{{M|Shred Shot}} ([[Conclave]] only)
+</gallery>
+{{!}}-{{!}}
+Secondary =
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+NoReturnMod.png|link=No Return|{{M|No Return}}
+BoreMod.png|link=Bore|{{M|Bore}}
+JugulusSpinesMod.png|link=Jugulus Spines|{{M|Jugulus Spines}}
+ImpalerMunitionsMod.png|link=Impaler Munitions|{{M|Impaler Munitions}} ([[Conclave]] only)
+</gallery>
+{{!}}-{{!}}
+Melee =
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+SunderingStrikeMod.png|link=Sundering Strike|{{M|Sundering Strike}}
+AugerStrikeMod.png|link=Auger Strike|{{M|Auger Strike}}
+JugulusBarbsMod.png|link=Jugulus Barbs|{{M|Jugulus Barbs}}
+RendingStrikeMod.png|link=Rending Strike|{{M|Rending Strike}}
+SerratedEdgesMod.png|link=Serrated Edges|{{M|Serrated Edges}} ([[Conclave]] only)
+</gallery>
+{{!}}-{{!}}
+Warframe =
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+PiercingRoarMod.png|link=Piercing Roar|{{M|Piercing Roar}}
+IronShrapnelMod.png|link=Iron Shrapnel|{{M|Iron Shrapnel}}
+VexingRetaliationMod.png|link=Vexing Retaliation|{{M|Vexing Retaliation}}
+PiercingStepMod.png|link=Piercing Step|{{M|Piercing Step}}
+JugulusCarapaceMod.png|link=Jugulus Carapace|{{M|Jugulus Carapace}}
+</gallery>
+{{!}}-{{!}}
+Archgun =
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+QuasarDrillMod.png|link=Quasar Drill|{{M|Quasar Drill}}
+</gallery>
+{{!}}-{{!}}
+Archmelee =
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+NebulaBoreMod.png|link=Nebula Bore|{{M|Nebula Bore}}
+</gallery>
+{{!}}-{{!}}
+Companions =
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" perrow="3" captionalign="center">
+ProtectorPostureMod.png|link=Protector Posture|{{M|Protector Posture}}
+</gallery>
+{{!}}-{{!}}
+}}
+
+===Abilities===
+{{#tag:tabber|
+Excalibur =
+{{:Radial Javelin}}
+{{!}}-{{!}}
+Loki =
+{{:Decoy}}
+{{!}}-{{!}}
+Oberon =
+{{:Smite}}
+{{!}}-{{!}}
+Revenant =
+{{:Enthrall}}
+{{!}}-{{!}}
+Sevagoth =
+{{:Exalted Shadow}}
+{{!}}-{{!}}
+Styanax =
+{{:Axios Javelin}}
+{{!}}-{{!}}
+Titania =
+{{:Razorwing}}
+{{!}}-{{!}}
+Valkyr =
+{{:Hysteria}}
+}}
+
+==Additional Effects==
+Some mods and arcanes add additional effects when a {{D|Puncture}} occurs or dealing {{D|Puncture}} damage.
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" captionalign="center">
+MeleeDoughty.png|link=Melee Doughty|{{Arcane|Melee Doughty}}
+SecondaryCryogenic.png|link=Secondary Cryogenic|{{Arcane|Secondary Cryogenic}}
+</gallery>
+
+==Media==
+{{VideoGallery
+|{{YouTube|xhjwVyRX6X4|size=300px}}
+}}
+<gallery widths="200" position="center" spacing="small">
+P.png|Puncture effect hit
+Puncture 發動3.png|Puncture Effect launch
+Puncture on wf00-vert.jpg|Puncture on Loki
+Punctrie-gif-觸發01-vul3.gif|(click to view gif)
+Puncture-gif-02.gif|Puncture Effect (click to view gif)
+</gallery>
+{{VideoGallery
+|{{YouTube|Ej7uDqcf4lo|size=240px}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39}}
+*Fixed Puncture Status Icon not displaying when in the Melee Combos preview screen.
+
+{{ver|36}}
+;Simplified Faction Resistances
+*Corpus: Vulnerable to '''Puncture'''
+*Orokin:
+**Vulnerable to '''Puncture'''
+
+;TOP FIXES
+*Fixed being able to apply 5 Puncture Stacks to VIP enemies with Overguard, instead of the intended 3.
+
+{{ver|35.5}}
+*Fixed Puncture’s tooltip incorrectly indicating that it has a 90% damage reduction at max instead of the intended 80%.
+
+{{ver|33.6}}<br/>
+<u>Puncture Changes:</u>
+
+Weakened Status Effect Buffs:
+*Increased the debuff to enemy attacks from 30% to 40% on the first stack.
+*Reduced the maximum amount of stacks from 10 to 5.
+*Increased per-stack debuff from 5% to 10%. 
+*Increased the total debuff at Max Stacks from 75% to 80%. 
+
+Weakened Status Effect Additions:
+*Increases Critical Chance threshold on enemy by 5% per Stack, to a maximum of 25% at 5 Stacks. This is additive after mods, not before. Does not apply to Abilities or AOE damage.
+
+{{ver|27.2}}
+*The first Puncture Status Effect has an enemy deal 30% less Damage. Subsequent Puncture Status add +5% weakening, leading to up to 75% (capped). Each Puncture Status has a duration of 6 Seconds.
+
+{{ver|11}}
+*Introduced.
+}}
+
+{{DamageNav}}
+
+[[es:Daño Perforación]]
+[[fr:Dégâts/Dégâts Perforation]]
+{{DISPLAYTITLE:Puncture Damage}}
+[[Category:Mechanics]]
+[[Category:Update 11]]
+[[Category:Damage 3.0]]
+[[Category:Damage]]

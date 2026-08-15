@@ -1,0 +1,247 @@
+:''Not to be confused with [[Recoil]].''
+{{Quote|Consecutive shots reduce accuracy. Improve accuracy while using Aim.
+
+----
+
+> Deviation With Aim: '''<nowiki>|AMOUNT|</nowiki>''' degrees
+
+> Max Deviation: '''<nowiki>|AMOUNT|</nowiki>''' degrees |In-game Description}}
+{{Stat|Accuracy}} describes a ranged weapon's ability to land shots close to where it is aimed, and how close to its reticle will multiple shots land over a given period of time. This is '''not''' the same as ''player accuracy'', which is percentage of shots fired by the player that hit an enemy target.
+
+==Mechanics==
+While some weapons&mdash;including full-automatic weapons&mdash;are capable of landing shots directly onto the center of their aiming reticle upon their first shot, a weapon's accuracy value determines how far away a shot can land from the reticle: the lower the accuracy, the farther a shot can stray off the reticle. A high accuracy weapon will see multiple successive shots land close to one another, while a low accuracy weapon will see the same shots spread out further apart in different directions.
+
+Players can hover over the Accuracy stat in the [[arsenal]] to get the raw representation of accuracy as the '''Deviation With Aim''' and '''Max Deviation''' stats which refer to minimum spread and maximum spread respectively. Note that both of these stats both refer to deviation while aiming; weapons typically have much higher deviation when fired without aiming. 
+
+Shooting a weapon while aiming will typically decrease weapon's deviation, resulting in higher accuracy. 
+
+There is no accuracy stat for [[Melee]] weapons, thus melee is not affected by any accuracy modifiers. [[Area of Effect]]s are also unaffected by accuracy modifiers.
+
+===Accuracy Categorization===
+Categorization of accuracy ranges based on Deviation with Aim. Note that ranges are not contiguous because there are currently no weapons with a Deviation With Aim stat that falls between some of the ranges.
+{| class="wikitable"
+|-
+! Accuracy Category !! Deviation With Aim Ranges || Example(s)
+|-
+| Very Low || x > 12° || {{Weapon|Zarr}}'s Barrage Mode and {{Weapon|Bronco}}
+|-
+| Low || 6° < x ≤ 10° || {{Weapon|Gorgon}} and {{Weapon|Tenet Spirex}}
+|-
+| Medium || 3° < x ≤ 6° || {{Weapon|Afuris}} and {{Weapon|Tigris}}
+|-
+| High || 1° < x ≤ 3° || {{Weapon|Grinlok}} and {{Weapon|Akstiletto}}
+|-
+| Very High || 0° ≤ x ≤ 1° || {{Weapon|Synapse}}, {{Weapon|Tenet Flux Rifle}}, {{Weapon|Perigale}}, and {{Weapon|Penta}}
+|-
+|}
+
+===Effects on Performance===
+A weapon's accuracy value generally becomes more important the higher its {{Stat|Fire Rate}} is, as the weapon's successive shot grouping worsens the faster it fires. For example, while the {{Weapon|Stradavar}} has a lower accuracy value in its automatic mode compared to the {{Weapon|Grakata}}, the Stradavar can much more consistently land each of its shots with closer grouping at longer range due to its lower fire rate, while the Grakata's high fire rate makes its shots spray out at longer ranges. However, the Grakata is capable of landing shots even more precisely than the Stradavar if fired slowly, or one shot at a time. This is because the Grakata actually has a lower aimed deviation value of 2° compared to the Stradavar at 6°. Because accuracy values are more important for weapons with higher fire rates, it is more applicable to assault rifles and machine pistols, while less important for weapons such as semi-automatic rifles.
+
+Certain weapons like the {{Weapon|Flux Rifle}} possess perfect accuracy where all of their shots land directly on the reticle regardless of range or fire rate, while other weapons like the {{Weapon|Ignis}} can mostly disregard accuracy as a mechanic due to their unique area-of-effect characteristics, capable of hitting multiple enemies regardless of aim.
+
+===Multishot===
+Accuracy also affects [[Multishot]] characteristics. In the case of [[hitscan]] weapons, the lower the weapon's accuracy, the more likely that every pellet '''generated''' from multishot will deviate from the trajectory of the '''main''' '''pellet'''. But for non-hitscan weapons with [[Projectile Speed|projectile travel times]], even the trajectory of the '''main''' '''projectile''' can be off-centered by using multishot, with the effect being more pronounced the slower the [[Projectile Speed]] value is. Therefore, using mods that decrease accuracy like {{M|Heavy Caliber}} on projectile-based weapons, can be extremely detrimental for medium to long-range use if it is combined with multishot.
+
+===Thrown Weapons and Arcing Projectiles===
+[[Thrown]] weapons such as {{Weapon|Castanas}} and weapons that shoot arcing projectiles like the {{Weapon|Tonkor}} will typically have a "Very High" accuracy stat. Despite having a high accuracy rating, these weapons still possess notable spread and deviation in the projectiles' trajectory away from the reticle.
+
+==Spread (Deviation With Aim and Max Deviation)==
+{{Anchor|Spread}}
+The term '''spread''' is used to describe the size of the "cone" of fire from a weapon, either while under full rate-of-fire, or from a single shot with weapons that have innate [[multishot]], like [[shotgun]]s. In WARFRAME, spread is internally represented as an [[wikipedia:Degree (angle)|angle]] in degrees from the reticle, with each weapon having a defined minimum (first-shot) and maximum spread. Minimum spread is represented by the '''Deviation With Aim''' stat while maximum spread is represented by the '''Max Deviation''' stat.
+
+Bullets fired from weapons with innate multishot, or with the use of multishot mods like {{M|Split Chamber}}, will have random trajectories angled away from the center of the reticle to varying degrees, with the accuracy value reflecting how wide that angle can be.
+*Weapons with less than 1° Deviation With Aim ("Very High" accuracy) will '''always''' land their shots on the reticle regardless of its rate-of-fire or how many pellets it fires at a time, except in the cases of ''extreme'' range.
+In addition, the faster a weapon fires, the larger the size of the "cone" around the reticle.
+
+Shotguns, as well as any [[hitscan]]-based weapons with multishot mods, fire at least one of their pellets close to if not directly centered on the reticle, with all other pellets taking random trajectories within the spread cone.
+
+[[Continuous Weapon]]s such as the {{Weapon|Glaxion}} have little to no spread on their beam attacks.
+
+===Inverse Spread===
+Some weapons have a unique behavior where the longer it is fired, the more accurate the weapon becomes:
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+Tenora.png|link=Tenora|{{Weapon|Tenora}}
+TenoraPrime.png|link=Tenora Prime|{{Weapon|Tenora Prime}}
+AksomatiPrime.png|link=Aksomati Prime|{{Weapon|Aksomati Prime}}
+</gallery>
+
+===Uniform Spread===
+Some weapons have a unique behavior where shots are spread uniformly on the horizontal:
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+Perigale.png|link=Perigale|{{Weapon|Perigale}} (unzoomed)
+Veldt.png|link=Veldt|{{Weapon|Veldt}}
+</gallery>
+
+===Unique Spread===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+Angstrum.png|link=Angstrum|{{Weapon|Angstrum}} (spread follows geometrical structure dependent on multishot)
+PrismaAngstrum.png|link=Prisma Angstrum|{{Weapon|Prisma Angstrum}} (spread follows geometrical structure dependent on multishot)
+</gallery>
+
+==Accuracy Modifiers==
+Bonuses that increase or decrease accuracy modify the deviation of a shot, or the spread. Bonuses that ''increase'' accuracy ''decrease'' the deviation (spread) of a shot. i.e. a +40% accuracy buff will decrease the spread by -40%. Bonuses that ''decrease'' accuracy ''increase'' the deviation (spread) of a shot. Certain accuracy modifiers that decrease accuracy do so by increasing spread by a flat amount instead of a percentage, despite being labeled as a percentage in-game.
+===Positive===
+Sources that increase accuracy/decrease spread:
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" captionalign="center">
+GuidedOrdnanceMod.png|link=Guided Ordnance|{{M|Guided Ordnance}}
+NarrowBarrelMod.png|link=Narrow Barrel|{{M|Narrow Barrel}}
+TargetingSubsystemMod.png|link=Targeting Subsystem|{{M|Targeting Subsystem}}
+TwitchMod.png|link=Twitch|{{M|Twitch}}
+SoftHandsMod.png|link=Soft Hands|{{M|Soft Hands}}
+ReflexDrawMod.png|link=Reflex Draw|{{M|Reflex Draw}}
+GunGlideMod.png|link=Gun Glide|{{M|Gun Glide}}
+Double-BarrelDriftMod.png|link=Double-Barrel Drift|{{M|Double-Barrel Drift}}
+StrafingSlideMod.png|link=Strafing Slide|{{M|Strafing Slide}}
+ResoluteFocusMod.png|link=Resolute Focus|{{M|Resolute Focus}}
+TaintedShellMod.png|link=Tainted Shell|{{M|Tainted Shell}}
+GrinlokedMod.png|link=Grinloked|{{M|Grinloked}}
+PrecisionMunitionMod.png|link=Precision Munition|{{M|Precision Munition}}
+PaxSoar.png|link=Pax Soar|{{Arcane|Pax Soar}}
+DirectedConvergenceMod.png|link=Directed Convergence|{{M|Directed Convergence}}
+</gallery>
+
+===Negative===
+Sources that decrease accuracy/increase spread:
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" captionalign="center">
+HeavyCaliberMod.png|link=Heavy Caliber|{{M|Heavy Caliber}}
+MagnumForceMod.png|link=Magnum Force|{{M|Magnum Force}}
+SplitFlightsMod.png|link=Split Flights|{{M|Split Flights}}
+ViciousSpreadMod.png|link=Vicious Spread|{{M|Vicious Spread}}
+BlindShotMod.png|link=Blind Shot|{{M|Blind Shot}} ([[Conclave]] only)
+LuckyShotMod.png|link=Lucky Shot|{{M|Lucky Shot}} ([[Conclave]] only)
+</gallery>
+
+{{clr}}
+
+==Accuracy vs. Recoil==
+{{Main|Recoil}}
+Unlike spread, [[recoil]] is an entirely separate mechanic, but it can also affect how accurately the player can shoot, as it nudges the weapon's reticle and field of vision with each shot. As such, a weapon with high accuracy but high recoil may still be difficult to shoot accurately at higher rates of fire (the {{Weapon|Cestra}} being one example, as well the recoil of the {{Weapon|Vectis Prime}} compared to the {{Weapon|Rubico Prime}}, despite their same accuracy stats).
+
+To distinguish the two, accuracy is about how far from the reticle the weapon might shoot its projectile, but recoil is how far the reticle and camera gets nudged after the weapon is fired.
+
+==Internal Representation==
+{{Speculation}}
+Internally, a weapon's accuracy is stored in <code>/Lotus/Types/Game/WeaponProperties/Accuracy/Weapon/</code> with additional details defined in their <code>LotusWeaponProjectileFireBehavior</code>. For {{Weapon|Attica}}, some relevant details on its accuracy include:
+<syntaxhighlight lang="json">
+"fire:LotusWeaponProjectileFireBehavior": {
+    "AIMED_ACCURACY": {
+        "Spread": {
+            "SHOOTING": {
+                "range": [0, 5],
+                "rate": 2,
+                "type": "ST_EXPONENTIAL"
+            },
+            "recoveryDelay": 0.050000001,
+            "recoveryRate": 70
+        }
+    },
+    "HIP_FIRE_ACCURACY": "/Lotus/Types/Game/WeaponProperties/Accuracy/Weapon/TnoPrmryXbowWeaponHipAccuracyInfo",
+    "AttenuateSpreadForCharge": 0,
+    "IgnoreSpreadOnFirstFireIteration": 0,
+    "MaxChargeSpreadAtten": 1,
+    "MinChargeSpreadAtten": 1,
+    "MultishotAmmoSpread": 0,
+    "SpreadExtraProjectiles": 0,
+    "SpreadInverse": 0,
+    "SpreadRatioHorizontal": 0.5,
+    "SpreadRotationOffset": 0,
+    "UseFanSpread": 0,
+    "spreadUniform": 0,
+}
+</syntaxhighlight>
+
+To calculate the pre-{{ver|35.5}} Accuracy stat from developer-defined data, take the average of the minimum and maximum spread range, inverse that value, and multiply by 100. For example, in the {{Weapon|Attica}}'s case, its minimum and maximum spread range is 0 and 5 respectively, so to get its accuracy value of 40 as listed in the in-game [[Arsenal]]:
+
+<math>
+{
+\begin{aligned}
+\text{Accuracy} &= \frac{100}{(\text{Min Spread} + \text{Max Spread}) / 2} \\
+&= \frac{100}{(0 + 5) / 2} \\
+&= \frac{100}{2.5} \\
+&= 40
+\end{aligned}
+}
+</math>
+
+As such, spread modifiers can be interpreted as upgrades that apply to both minimum and maximum spread ranges:
+<math>
+{
+\begin{aligned}
+\text{Accuracy} &= \frac{100}{ [ (\text{Min Spread} + \text{Max Spread}) / 2] \times (1 + \text{Percent Spread Modifier(s)}) + \text{Flat Spread Modifier(s)} } \\
+&= 100 \times [ \frac{\text{Min Spread} + \text{Max Spread}}{2} \times (1 + \text{Percent Spread Modifier(s)}) + \text{Flat Spread Modifier(s)} ]^{-1}
+\end{aligned}
+}
+</math>
+
+Weapons that don't have an explicit minimum or maximum spread value defined will have its average spread set to 1 (100 accuracy) for purposes of modding.
+
+==Enemy Accuracy==
+{{Speculation}}
+[[File:Pistolgraph.jpg|thumb|350px|An AimGraph for pistol units, X-axes being the range and Y-axes being the hit probability.]][[File:Snipergraph.jpg|thumb|350px|An AimGraph for sniper units, X-axes being the range and Y-axes being the hit probability.]]
+Enemies determine their total accuracy via an <code>AimGraph</code>. The graph explicitly maps the target range and hit probability to determine their accuracies. Each enemy weapon is assigned with a different <code>AimGraph</code>, with each weapon type possessing different <code>AimGraphs</code> depending on their role.<ref>{{Ref|title=Npc Accuracy|first=Daniel|last=Brewer|year=2015|month=2|day=3|url=https://forums.warframe.com/topic/395422-npc-accuracy/|access-date=2022-04-06|archive-url=https://web.archive.org/web/20220406191616/https://forums.warframe.com/topic/395422-npc-accuracy/|archive-date=2022-04-06}}</ref> For example, enemies aiming with a pistol are far more accurate up close, and the hit chance drops off as the target range increases. On the other hand, units with a sniper rifle are far less accurate up close, but get more accurate at medium and long ranges before dropping off slowly. Additionally, when enemies are made aware of the players, they will need some time to maximize their aim.
+
+===Ways to reduce Enemy Accuracy===
+
+;Mods
+<gallery captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF" captionalign="center">
+AgilityDriftMod.png|link=Agility Drift|{{M|Agility Drift}}
+CarnisMandibleMod.png|link=Carnis Mandible|{{M|Carnis Mandible|Carnis Set Bonus}}
+CarnisCarapaceMod.png|link=Carnis Carapace|{{M|Carnis Carapace|Carnis Set Bonus}}
+CarnisStingerMod.png|link=Carnis Stinger|{{M|Carnis Stinger|Carnis Set Bonus}}
+EMPAuraMod.png|link=EMP Aura|{{M|EMP Aura}}
+SlyDevolutionMod.png|link=Sly Devolution|{{M|Sly Devolution}}
+</gallery>
+
+;Abilities
+<tabber>
+|-|Titania={{:Tribute}}
+</tabber>
+
+==Trivia==
+===Pre-{{ver|35.5}} Accuracy===
+In WARFRAME, spread is internally represented as an [[wikipedia:Degree (angle)|angle]] in degrees from the reticle, with each weapon having a defined minimum (first-shot) and maximum spread. The average value between the minimum and maximum spread is equal to the inverse of the pre-{{ver|35.5}} Accuracy stat shown in the arsenal. Reducing accuracy increases the area of the "cone", while increasing accuracy reduces it.
+
+:<math>\text{Base Accuracy} = \frac{100}{\text{Avg Spread} } = \frac{100}{\frac{\text{Min Spread} + \text{Max Spread}}{2} }</math>
+
+Bullets fired from weapons with innate multishot, or with the use of multishot mods like {{M|Split Chamber}}, will have random trajectories angled away from the center of the reticle to varying degrees, with the accuracy value reflecting how wide that angle can be.
+*Weapons with 100 accuracy or above will '''always''' land their shots on the reticle regardless of its rate-of-fire or how many pellets it fires at a time, except in the cases of ''extreme'' range.
+In addition, the faster a weapon fires, the larger the size of the "cone" around the reticle, assuming the weapon has an accuracy value of under 100.
+
+Shotguns, as well as any [[hitscan]]-based weapons with multishot mods, fire at least one of their pellets close to if not directly centered on the reticle, with all other pellets taking random trajectories within the spread cone.
+
+[[Continuous Weapon]]s such as the {{Weapon|Glaxion}} have little to no spread on their beam attacks and thus are practically unaffected by mods that decrease accuracy like {{M|Heavy Caliber}}.
+
+For the purposes of modding, a weapon's base (average) spread can be calculated as such:
+:<math>\text{Avg Spread} = \frac{100}{\text{Base Accuracy}}</math>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|35.5}}
+*(Undocumented) Minimum and maximium spread stat is now shown in arsenal as "Deviation With Aim" and "Max Deviation" measured in degrees. This can be accessed in a tooltip by hovering the cursor over the Accuracy stat.
+
+{{ver|15.5}}
+;Enemy Accuracy Changes&#58;
+Enemy accuracy will now be affected dynamically depending on what movements players are doing. Sprinting, sliding, jumping, and wall-running will all decrease enemies accuracy, and the faster you move the better that penalty becomes.
+
+{{ver|15}}
+*Added a new algorithm that can improve enemy weapon accuracy. (So, bad guys won't shoot like Storm Troopers).
+}}
+
+==Media==
+<gallery>
+An8PointedStar.jpg|{{Weapon|Boar Prime}}'s unique spread pattern
+</gallery>
+
+==References==
+{{Reflist}}
+
+==See Also==
+*[[Recoil]], a related, but separate mechanic.
+
+{{MechNav}}
+[[es:Precisión]]
+[[fr:Précision]]
+[[Category:Mechanics]]

@@ -1,0 +1,47 @@
+{{DEFAULTSORT:Damage/Shield_Drain_Damage}}
+{{DISPLAYTITLE:Shield Drain Damage}}
+{{Infobox
+| Box title = Shield Drain Damage
+| image     = UnidentifiedItem.png
+| Row 1 title = Icon
+| Row 1 info  = [[File:UnidentifiedItem.png|class=icon]]
+}}
+'''Shield Drain Damage''' is a hidden, unique damage type which has neutral damage modifiers against all enemy [[shield]] types. This damage type applies damage to [[shield]]s and [[overguard]]. It is applied only by certain Warframe abilities.
+
+==Mechanics==
+*Does not bypass [[Damage Reduction|damage reduction]].
+
+==Status Effects ==
+Shield Drain Damage does not possess any applicable status procs on its own.
+
+==Type Effectiveness==
+{{DamageModifierTable|Shield Drain}}
+
+===Abilities dealing Shield Drain Damage===
+{{#tag:tabber|
+
+Hildryn=
+{{:Pillage}}
+{{!}}-{{!}}
+
+Kullervo=
+{{:Collective Curse}}
+{{!}}-{{!}}
+
+Mag =
+{{:Polarize}}
+{{!}}-{{!}}
+
+}}
+
+== Notes== 
+*The term "Shield Drain Damage" is in reference to the internal damage type name <code>DT_SHIELD_DRAIN</code>.
+
+{{DamageNav}}
+__NOTOC__
+[[es:Daño Verdadero]]
+[[fr:Dégâts/Dégâts Brut]]
+[[Category:Damage 3.0]]
+[[Category:Damage]]
+[[Category:Mechanics]]
+[[Category:Update 11]]

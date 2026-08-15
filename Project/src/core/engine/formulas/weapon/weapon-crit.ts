@@ -1,6 +1,6 @@
 /**
  * @domain Engine / Formulas / Weapon / Critical
- * @SSoT docs/domains/engine/formula-overview.md
+ * @SSoT references/wiki/mechanics/critical-hits.md
  */
 
 import {

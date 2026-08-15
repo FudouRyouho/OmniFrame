@@ -1,17 +1,15 @@
 ---
 Estado: "referencia"
 Rol: "Registro de decisiones D-series del dominio data/ con estado de evolución"
-Version: "v0.1.3"
 Impacto_ID: "D-Data-Decisions"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-24"
-Fecha_de_actualizacion: "2026-07-03"
+Fecha_de_actualizacion: "2026-08-14"
 ---
 
 # Data Domain — Decisiones (D-series)
 
-Registro de decisiones del dominio `data/` y su pipeline. Reemplaza el extinto
-`.working/engine-semantic-foundation.md` con un formato formal y evolutivo.
+Registro de decisiones del dominio `data/` y su pipeline, en formato formal y evolutivo.
 
 ## Estados de decisión
 
@@ -27,8 +25,8 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 **Estado:** VIGENTE
 **Fecha:** 2026-04-18
-**Decisión:** Los overrides en `Project/public/data/` son una capa de inteligencia manual, no deuda técnica. `generate-data.ts` produce la base desde `@wfcd/items`; los overrides añaden semántica que las fuentes externas no proveen.
-**Evolución (2026-05-29):** El modelo original asumía consumo runtime-directo para todos los overrides. La implementación real tenía patrones mixtos: `ability-stats.override.json` era bidireccional (pipeline lo leía y escribía), los demás eran runtime-directos. Ese patrón fue corregido: `generate-data.ts` ya no lee ni escribe `ability-stats.override.json`. El pipeline produce solo datos de fuente externa; la gestión de overrides es responsabilidad de `apply-ability-md.ts` (manual/agente). Dirección unificada: todos los overrides se gestionan manualmente y se consumen en runtime mediante un DataLoader singleton (ver `OQ-DATA-3`).
+**Decisión:** Los overrides en `Project/public/data/` son una capa de inteligencia manual, no deuda técnica. `generate-data.ts` produce la base desde `omniframe-items`; los overrides añaden semántica que las fuentes externas no proveen.
+**Dirección unificada:** el pipeline produce **sólo** datos de fuente externa — no lee ni escribe overrides. Todos se gestionan manualmente (`apply-ability-md.ts`, manual/agente) y se consumen en runtime vía DataLoader singleton (ver `DC-OQ-DATA-3`). No hay overrides bidireccionales.
 **Ref:** `docs/data/rules/overrides.md`
 
 ---
@@ -73,13 +71,13 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 ## D-6 — Convención `{FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}` (extensible con SUB_FAMILY)
 
 **Estado:** VIGENTE
-**Fecha:** 2026-04-19 | **Actualizado:** 2026-05-28 (criterio de uso de sub-familia precisado)
+**Fecha:** 2026-04-19
 **Decisión:** Tokens de `upgrade_type` siguen la convención canónica:
 - `FAMILY`: dominio del atributo (`AVATAR`, `WEAPON`, `GAMEPLAY`, …)
 - `OPERATION`: tipo de modificación (`ADD`, `BASE`, `FLAT`, `MULT`)
 - `PREFIX_SUFFIX`: atributo específico (`ABILITY_STRENGTH`, `CRIT_CHANCE`, …)
 
-**Extensión de sub-familia** (activa desde 2026-05-26): cuando es necesario especificar el target de un modificador que **no reside en el mismo nodo que su destino** (modificador cross-entity):
+**Extensión de sub-familia:** cuando hay que especificar el target de un modificador que **no reside en el mismo nodo que su destino** (modificador cross-entity):
 
 ```
 {FAMILY}_{SUB_FAMILY}_{OPERATION}_{PREFIX}_{SUFFIX}
@@ -88,7 +86,29 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 - `WEAPON` → sub-familias válidas: `PRIMARY`, `SECONDARY`, `MELEE`
 - Tokens sin `SUB_FAMILY` se aplican universalmente — son la norma por defecto
 
-**Criterio de uso de sub-familia (2026-05-28):** La sub-familia solo se añade cuando el modificador **no reside en el mismo nodo que su target**. Si el modificador ya está en el nodo del arma (mod en melee, perk en melee), el target es implícito por contexto — no se añade sub-familia aunque el stat sea melee-exclusivo.
+**Familia `MELEE` (añadida): dominio del atributo ≠ target del modificador.** Las dos cosas se
+confundían y son ortogonales:
+
+| Eje | Pregunta que responde | Mecanismo |
+|---|---|---|
+| **FAMILY** | ¿en qué entidades **existe** este nodo? | prefijo del token (`WEAPON_`, `MELEE_`, `AVATAR_`…) |
+| **SUB_FAMILY** | ¿a qué entidad **le llega** este modificador? | `target_channel` (solo cross-entity) |
+
+`MELEE_` se usa cuando el atributo **solo existe** en armas melee y no tiene contraparte ranged
+(primer caso: `MELEE_ADD_ATTACK_SPEED`). NO se usa `WEAPON_MELEE_ADD_*` para eso: esa forma expresa
+*target*, y su criterio de uso dice explícitamente que no se añade sub-familia aunque el stat sea
+melee-exclusivo.
+
+Consecuencia práctica: con `WEAPON_` el nodo puede existir en cualquier arma, así que impedir que un
+stat melee aterrice en un rifle queda a cargo de un `if` en la materialización — **el token no
+declara nada y el error es silencioso**. Con `MELEE_` el token declara el dominio y el desvío es
+detectable.
+
+**Deuda:** los tokens melee-exclusivos heredados siguen bajo `WEAPON_` (`HEAVY_CHARGE_SPEED`,
+`HEAVY_EFFICIENCY`, `COMBO_DURATION`, `COMBO_INITIAL`, `COMBO_COUNT_CHANCE`, `SLAM_*`). Son deuda,
+no norma — **no citarlos como precedente**. Migración pendiente, scope propio.
+
+**Criterio de uso de sub-familia:** La sub-familia solo se añade cuando el modificador **no reside en el mismo nodo que su target**. Si el modificador ya está en el nodo del arma (mod en melee, perk en melee), el target es implícito por contexto — no se añade sub-familia aunque el stat sea melee-exclusivo.
 
 | Caso | Token correcto | Por qué |
 |---|---|---|
@@ -98,9 +118,16 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 **Condición que activó la extensión:** ≥3 casos en overrides reales — Crimson Archon Shards: `WEAPON_MELEE_ADD_CRIT_MULT`, `WEAPON_PRIMARY_ADD_STATUS_CHANCE`, `WEAPON_SECONDARY_ADD_CRIT_CHANCE`. Estos tres son los únicos casos cross-entity confirmados.
 
-**Deuda conocida en `mod-stats.override.json`:** ~26 entradas con tokens `WEAPON_MELEE_*` incorrectos (mods intra-entity con sub-familia indebida: `WEAPON_MELEE_COMBO_DURATION_BONUS`, `WEAPON_MELEE_HEAVY_CHARGE_SPEED`, etc.). Son tokens inválidos — no están en `UPGRADES`, engine los silencia. Cleanup pendiente.
+**Por qué la sub-familia no es cosmética.** Los portadores son de dos clases: **arcanos de warframe
+que buffean un arma** y **mods/auras de warframe con destino de arma** (Steel Charge, Pistol Amp,
+Ready Steel, Reflex Guard), más los shards de `archon-shards.json`. La segunda clase es la que fuerza
+el criterio: **sin sub-familia el modifier muere montado en el warframe**, que no materializa nodos de
+arma. La forma intra-entity con sub-familia indebida (`WEAPON_MELEE_HEAVY_CHARGE_SPEED` → canónico
+`WEAPON_ADD_HEAVY_CHARGE_SPEED`) no aparece en el dato.
 
-**Nota sobre `WEAPON_MELEE_HEAVY_CHARGE_SPEED`:** confirmado = mismo stat que "Heavy Attack Wind Up Speed" en Incarnon perks. Token canónico: `WEAPON_ADD_HEAVY_CHARGE_SPEED`. Cleanup: `WEAPON_MELEE_HEAVY_CHARGE_SPEED` → `WEAPON_ADD_HEAVY_CHARGE_SPEED` (quitar sub-familia).
+**Gate ejecutable:** la sub-familia **sólo** resuelve bajo `WEAPON` (`resolveToken`). Un
+`AVATAR_MELEE_*` o `VEHICLE_PRIMARY_*` no resuelve en vez de devolver basura — cubierto en
+`__tests__/channel-routing.test.ts`.
 
 **Nota D-7:** Los tokens D-6 (incluida la sub-familia) son los futuros IDs de atributo del engine. `UPGRADE_MAP` es un puente temporal — no se extiende con lógica de filtrado por clase; eso corresponde al engine post-D-7.
 
@@ -108,32 +135,65 @@ Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explíci
 
 ---
 
-## D-7 — Token D-6 como ID de atributo del engine (COMPLETADA — camino A)
+## D-7 — El vocabulario D-6 es el espacio del que se DERIVA el id de nodo
 
 **Estado:** VIGENTE
-**Fecha:** 2026-04-19 | **Actualizado:** 2026-06-14 (camino A completado)
-**Decisión:** El token D-6 es el ID de atributo canónico del engine. `UPGRADE_MAP` desaparece. Los attr IDs internos (`critical_chance`, `critical_multiplier`, etc.) se renombran a tokens D-6.
+**Fecha:** 2026-04-19
+**Decisión:** El token D-6 es el vocabulario canónico del engine: los attr IDs internos
+(`critical_chance`, `critical_multiplier`, …) no existen. El id de nodo **se deriva del token**, y
+`UPGRADE_MAP` queda reducido a lo que la sintaxis no deriva.
 
-**Arquitectura de resolución (sin UPGRADE_MAP):**
-```
-token → attr: sub-familia removida si existe → WEAPON_MELEE_ADD_CRIT_MULT → WEAPON_ADD_CRIT_MULT
-       op:   derivado del segmento OPERATION → ADD | FLAT | BASE | MULT
-       target_channel: del segmento SUB_FAMILY → 'melee' | 'primary' | 'secondary' | undefined
-```
-Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel` como filtro — no crean AttributeNodes separados.
+**Token ≠ nodo.** El token declara **tres** cosas; el nodo es dos de ellas:
 
-**Estado de fases (camino A):**
-- **Fase 1** (attrs no-daño) ✅ 2026-05-26 — `critical_chance/multiplier`, `status_chance`, `fire_rate`, `magazine_size`, `reload_speed` + `resolveToken()` en `ModRepository`. `reload_time` es dato puro en `innate_dna.profiles`, nunca `AttributeNode`.
-- **Fase 2** (attrs de daño) ✅ — nodos de daño ya son token canónico `WEAPON_ADD_*_DAMAGE` (`mapDamage()`, `DamageCombiner` y familias operan en token-space, filtro `isUpgrade()`); entradas de daño de UPGRADE_MAP eliminadas.
-- **Fase 2b** — resolver la última divergencia no-daño `WEAPON_ADD_DAMAGE → WEAPON_DAMAGE` (nodo global a token puro).
-- **Fase 3** — purgar `UPGRADE_MAP` (post-Fase-2 quedó casi todo identidad; `resolveToken()` lo cubre). Objetivo: un solo espacio token D-6 == id de nodo, de C a la UI.
-- **Fase 4** (payoff presentación) ✅ 2026-06-14 — `attribute-registry` reescrito a `Partial<Record<Upgrade, PresentationMeta>>` (key-typed, node-id **subset**: solo ADD-variants+daño renderizan; FLAT/BASE/sub-familia convergen y no son nodo propio). Leak β muerto: `StaticHydrator` ya no importa `lib/presentation`, `AttributeNode` es puro (sin label/category/unit); `project()` adjunta la meta en el borde C→D. Bug visible resuelto (crit vuelve a renderizar con `%`). Cierra `OQ-DATA-10` (lado SSoT de vocabulario) + `OQ-ENGINE-10` (estrato `lib/format`).
+```
+TOKEN = {dónde}_{cómo}_{qué}    "qué modifico y cómo entra"   WEAPON_BASE_CRIT_CHANCE
+NODO  = {dónde}_{qué}           dónde se acumula              WEAPON_ADD_CRIT_CHANCE
+```
+
+El `{cómo}` **se queda en el token**: es lo que declara qué significa el `20` del dato. La etiqueta
+del stat miente; el token no. Y son 101 símbolos auditables contra 1446 valores que no lo son.
+
+Los dos espacios **no coinciden**, en ambas direcciones:
+- **Tokens que no son nodo** — las 13 convergencias FLAT/BASE→ADD y las variantes de sub-familia.
+  Por eso `attribute-registry` es **subset** del vocabulario: sólo las variantes ADD renderizan.
+- **Nodos que no son token** — `WEAPON_ADD_HEAVY_EFFICIENCY` y `WEAPON_ADD_COMBO_INITIAL` son
+  destino de convergencia y **no están en `UPGRADES`**.
+
+**`token → nodo` es una función**, con una mitad derivable y otra no:
+
+```
+op:             segmento OPERATION            → ADD | ADD_FLAT | BASE_FLAT | MULTIPLICATIVE
+target_channel: segmento SUB_FAMILY           → 'primary' | 'secondary' | 'melee' | undefined
+                (sólo bajo WEAPON — la sub-familia no existe en otra familia)
+nodo:           token menos {cómo}            derivable: quitar sub-familia
+                                              NO derivable: cuál FLAT/BASE converge a su par ADD
+```
+
+Las 13 entradas de convergencia en `UPGRADE_MAP` **no son deuda de pipeline**: son la mitad
+no-derivable de esa función. Qué FLAT/BASE converge y qué FLAT/BASE es stat propio es conocimiento
+de dominio (`AVATAR_FLAT_HEALTH_REGEN`, HP/s plano, NO converge a `AVATAR_ADD_HEALTH_REGEN`, que
+es %: son stats distintos).
+
+Los tokens de sub-familia acumulan en el nodo genérico del arma que el canal designa — no crean
+`AttributeNode` separados. El canal lo resuelve la hidratación (`resolve/hydration/channel-routing.ts`),
+no el motor.
+
+**Estado:** el vocabulario es **uno solo** de C a la UI, incluido el nodo global de daño
+(`WEAPON_ADD_DAMAGE`; los nodos de daño operan en token-space). `UPGRADE_MAP` quedó en su **núcleo
+irreducible** — **alias** (`WEAPON_FIRE_ITERATIONS`), **flag** (`GAMEPLAY_MULT_FACTION_DAMAGE`
+`toPercent`) y las **13 convergencias** FLAT/BASE→nodo ADD; `resolveToken()` cubre identidades y
+acumuladores propios. `attribute-registry` es `Partial<Record<Upgrade, PresentationMeta>>` (key-typed)
+y `AttributeNode` es puro: sin `label`/`category`/`unit`, el motor no importa `lib/presentation` y la
+meta la adjunta `project()` en el borde C→D. Cierra `OQ-DATA-10` en su lado de SSoT de vocabulario; el
+estrato `lib/format` que habilita sigue vivo como utilidad (`DC-OQ-ENGINE-10-A`).
+
+`reload_time` es dato puro en `innate_dna.profiles` — nunca un `AttributeNode`.
 
 **Rationale durable:** D-7 es el **prerequisito del SSoT de presentación** — el dict se cuelga del vocabulario canónico `Upgrade` (key-typed → un typo en una clave es error de compilador), no de strings sueltos. El bug visible (crit sin `%`) era `attribute-registry` keyed por nombres pre-Fase-1 que el motor ya no emite (relic, no deuda nueva). La convergencia de la `label` + `lib/format` + ruta-catálogo continúa en **OQ-DATA-10** (no es D-7 — es la suite de presentación que D-7 desbloqueó).
 
-**Fuera de scope — N2** (claves proc/stack de `EnemyState`, `damage_*`): NO es D-7 (vocabulario runtime C2, no attr-ids). Resuelto en la Fase 3 de la campaña de saneamiento `@core` (2026-07-02: rename `_proc`→`_dot` + fix del bug de `getDamageMultiplier`). Detalle en [`../domains/engine/design/damage-status-model.md`](../domains/engine/design/damage-status-model.md).
+**Fuera de scope — N2** (claves proc/stack de `EntityState`, `damage_*`): NO es D-7 (vocabulario runtime C2, no attr-ids). Ya resuelto — rename `_proc`→`_dot` y fix de `getDamageMultiplier`. Detalle en [`../domains/engine/design/damage-status-model.md`](../domains/engine/design/damage-status-model.md).
 
-**Vínculo:** `OQ-DATA-10` (borde de salida / suite de presentación), `OQ-ENGINE-10` (Capa E / estrato `lib/format`), `OQ-ENGINE-8` (rename del payload de D).
+**Vínculo:** `OQ-DATA-10` (borde de salida / suite de presentación), `DC-OQ-ENGINE-8` (contrato de salida `CombatMetrics`; rename de `ViewModelContract` residual). *(El estrato `lib/format` que la extinta Capa E iba a consumir sigue vivo como utilidad — `DC-OQ-ENGINE-10-A`; E se descartó, `DC-OQ-ENGINE-10`.)*
 **Refs:** `Project/src/core/engine/resolve/hydration/ModRepository.ts`, `shared/types/modifier.ts`, `docs/semantic/upgrade-tokens.md`
 
 ---
@@ -155,15 +215,15 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 
 ---
 
-## D-10 — Única ruta canónica: `simulateFromIntention` (path legacy eliminado)
+## D-10 — Una única ruta canónica al motor (path legacy eliminado)
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-21
-**Decisión:** `MutatorBridge` expone una única ruta: `simulateFromIntention(EnsembleIntention)`. El path `simulate(LoadoutState)` y sus dependencias fueron eliminados.
+**Decisión:** `MutatorBridge` expone **una sola** entrada. Lo invariante es la unicidad, no el nombre: hoy es `simulateFromScene(Scene)`, tras la bajada de la Capa A. El path `simulate(LoadoutState)` y sus dependencias fueron eliminados.
 
 ---
 
-## D-11 — `upgrade_by: "NONE"` → campo opcional (2026-05-22)
+## D-11 — `upgrade_by: "NONE"` → campo opcional
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-22
@@ -172,7 +232,7 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 
 ---
 
-## D-12 — `AbilityStatEntry` plano, `AbilityStatValue` eliminado (2026-05-22)
+## D-12 — `AbilityStatEntry` plano, `AbilityStatValue` eliminado
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-22
@@ -181,13 +241,13 @@ Tokens de sub-familia acumulan en el nodo genérico del arma con `target_channel
 
 ---
 
-## D-13 — Incarnon Genesis: SSoT manual + patrón repository (2026-05-27)
+## D-13 — Incarnon Genesis: SSoT manual + patrón repository
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-27
 **Decisión:** El override `incarnon-evolutions.override.json` es SSoT manual — mismo patrón que `archon-shards.json`. 85 armas extraídas de wikitext con script archivado; nuevas armas se añaden a mano. El schema indexa por `unique_name`; variantes (Boltor / Telos / Prime) tienen entradas separadas — no existe campo `variant`. Los perks dinámicos (condicionales, on-kill, stacking) se documentan como `null + note` hasta que exista soporte en C1. Tokens `WEAPON_BASE_*` (BASE_FLAT) añadidos a `UPGRADE_MAP` para los 4 perks estáticos implementables: `WEAPON_BASE_DAMAGE`, `WEAPON_BASE_CRIT_CHANCE`, `WEAPON_BASE_STATUS_CHANCE`, `WEAPON_BASE_MAGAZINE_MAX`.
 **Ref:** `docs/data/schemas/incarnon/schema.md`, `docs/data/schemas/incarnon/gaps.md`, `IncarnonRepository`, `Project/public/data/incarnon-evolutions.override.json`
-**Evolución:** el shape del schema (array `[{upgrade_type, value}]`) fue reemplazado por `stats[]` en [D-18](#d-18--incarnon-schema-stats-con-condition-migración-desde-array-2026-05-30) (2026-05-30). El resto de D-13 (SSoT manual, indexado por `unique_name`, variantes sin campo `variant`) sigue vigente.
+**Superada en su shape por D-18:** el array `[{upgrade_type, value}]` es hoy `stats[]`. El resto de D-13 (SSoT manual, indexado por `unique_name`, variantes sin campo `variant`) sigue vigente.
 
 ---
 
@@ -205,11 +265,9 @@ note?:      string | null  // descripción semántica de lo que el token no pued
 Estos campos son **mecanismos de seguimiento de diseño**, no ruido de desarrollo.
 Su contenido debe ser útil para una futura sesión de implementación — no para el autor de la sesión actual.
 
-> **Evolución (D-18, 2026-05-30):** la semántica de `condition` se redefinió como **monosemántica**
-> — el campo habla solo de la condición, no del estado de análisis. La tabla de abajo (que ataba
-> `condition` al progreso de revisión) queda **superada**. Ver D-18 para la taxonomía vigente:
-> ausente = sin condición · `null` = condición no mapeada · token = condicional. El estado "analizado"
-> se infiere de `upgrade_type`/`note`, dimensión ortogonal a `condition`.
+> **La semántica de `condition` la fija D-18: es monosemántica** — el campo habla sólo de la
+> condición, nunca del estado de análisis. Ese estado se infiere de `upgrade_type`/`note`, que es una
+> dimensión ortogonal.
 
 ### Semántica de `condition` (vigente, D-18)
 
@@ -258,6 +316,14 @@ Lo que NO va en `note`: referencias a la sesión actual, nombres de scripts, nú
 ```
 El `note` no es parte del modelo de cálculo — es documentación para cuando se implemente stacking en C1-B.
 
+**El cap ya no es sólo texto libre** (`STACK_DECAY_BUFF`, [`arch-decisions.md §11`](../domains/engine/design/arch-decisions.md)):
+para la familia `evento discreto → +val por stack, cap Nx` (Galvanized [Arma]) existe el campo
+estructurado `max_stacks: number`, sibling de `condition`/`base_value`/`upgrade_type` en
+`ModStatRaw`; el motor deriva `perStackPct = base_value/max_stacks` en hidratación. `base_value`
+sigue siendo total-a-máximo; `note` sigue siendo la fuente humana-legible y `max_stacks` es su cap
+máquina-legible. Ausencia de `max_stacks` = stat normal. No aplica a otras formas de stacking (ej.
+`co_factors` de CO, que vive en el motor, no en el override).
+
 **3. Duración = irrelevante por ahora.** Los buffs temporales (on_kill: +X% for Ys) no tienen campo `duration`. El `note` puede documentarla si es relevante para implementación futura. El engine aplica el valor como si fuera permanente.
 
 ### Qué NO cambia con esta decisión
@@ -295,17 +361,16 @@ Un sector es un eje semántico de una fuente de datos. Cada fuente tiene múltip
 | `archon/upgrade_type` | archon-shards.json | stat tiene `upgrade_type` mapeado |
 
 > **Estado actual por sector (cifras): SSoT único en [`status.md §Cobertura por sector`](status.md).**
-> D-16 define la *regla* (≥70%/sector), no el *estado*. No se duplican números aquí — driftan. (Esta
-> tabla tenía una columna "Estado actual" que se desincronizó respecto a `status.md`; eliminada 2026-06-04.)
+> D-16 define la *regla* (≥70%/sector), no el *estado*. No se duplican números aquí — driftan.
 
-> **Eliminado (2026-06-04): los sectores `conditions/L1/L2/L3`.** La escalera estado/umbral/evento
-> (`while_*`/`with_*`/`on_*`) no era una métrica de cobertura ni un gate válido: confundía tres ejes
-> ortogonales (superficie léxica del prefijo · naturaleza de juego · modelo de engine `c2/*`) en una
-> sola categoría, y ~24% de los tokens reales (145) la desmienten (`while_target_*` no son flags del
-> jugador; `on_*_stack` no son eventos; `per_*` queda fuera). `condition` se mantiene **sin taxonomía
-> cerrada** (vocabulario emergente); su eje organizador es justamente lo que decide **OQ-SEM-2**.
-> La cobertura de `condition` se mide **por fuente** (filas `*/condition`), no por nivel. Verificado:
-> L\* no existía en código, solo en docs. Ver `semantic/conditions.md §Altitud de los debates`.
+> **Los niveles `L1/L2/L3` no son sectores de cobertura.** La escalera estado/umbral/evento
+> (`while_*`/`with_*`/`on_*`) no es una métrica ni un gate válido: confunde tres ejes ortogonales
+> (superficie léxica del prefijo · naturaleza de juego · modelo de engine `c2/*`) en una sola
+> categoría, y ~24% de los tokens reales la desmienten (`while_target_*` no son flags del jugador;
+> `on_*_stack` no son eventos; `per_*` queda fuera). `condition` se mantiene **sin taxonomía cerrada**
+> (vocabulario emergente); su eje organizador es lo que decide **OQ-SEM-2**. La cobertura de
+> `condition` se mide **por fuente** (filas `*/condition`), no por nivel. Ver
+> `semantic/conditions.md §Altitud de los debates`.
 
 ### Prioridad de sectores (orden de trabajo)
 
@@ -325,30 +390,25 @@ Un sector es un eje semántico de una fuente de datos. Cada fuente tiene múltip
 
 ---
 
-## D-17 — Tokens D-6 pendientes: galvanizados (2026-05-29)
+## D-17 — Tokens D-6 pendientes: galvanizados
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-29
-**Decisión:** Tres tokens usados en `mod-stats.override.json` para mods galvanizados tienen semántica D-6 no cerrada. Se documentan como deuda explícita. Los overrides usan el token actual hasta que cada uno sea resuelto.
+**Decisión:** Un token de `mod-stats.override.json` tiene semántica D-6 no cerrada y se documenta como deuda explícita. El override lo sigue usando hasta que se resuelva.
 
-### Tokens pendientes
-
-| Token actual | Problema | Resolución futura |
+| Token pendiente | Problema | Resolución |
 |---|---|---|
-| `WEAPON_FIRE_ITERATIONS` | Alias del pipeline @wfcd/items. Viola D-6 (falta segmento `ADD`). Renombrar a `WEAPON_ADD_MULTISHOT`. | Rename global en override + actualizar UPGRADE_MAP. Un `sed` sobre todo el JSON. |
-| `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` | Sin equivalente D-6. Semántica: `+X% daño global por cada tipo de estado único activo en el target`. Requiere token nuevo o `CONTEXT_SCALE` con `unique_status_count` del `SimContext`. | Debate de diseño: ¿token fijo o operación CONTEXT_SCALE? Decidir en C1-A. |
-| `WEAPON_ADD_BEAM_RANGE` | ✅ **RESUELTO 2026-06-03.** Token acuñado en `UPGRADES[]` (data-first, gate D-20: 4 mods misma forma). Re-map: Sinister Reach, Ruinous Extension, Sequence Burn (`WEAPON_ADD_RANGE` → `WEAPON_ADD_BEAM_RANGE`); Galvanized Acceleration split 1-label-1-stat (Projectile Speed + Beam Range), note "pending" removida. Thermagnetic Shells verificado: NO es beam range (Detron, sin stat de beam). | — |
+| `WEAPON_FIRE_ITERATIONS` | Alias del pipeline `@wfcd/items`; viola D-6 (le falta el segmento `OPERATION`). Hoy funciona porque `UPGRADE_MAP` lo mapea a `WEAPON_ADD_MULTISHOT`. | Rename global a `WEAPON_ADD_MULTISHOT` en el override + `UPGRADE_MAP`. Un `sed` sobre el JSON. |
 
-### Impacto actual (Fase 0)
-- `WEAPON_FIRE_ITERATIONS` → resuelto por `UPGRADE_MAP` (mapea a `WEAPON_ADD_MULTISHOT`). Funciona.
-- `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` → no está en `UPGRADES[]` → silently dropped por `ModRepository`. No funcional hasta resolución.
-- Beam range → ✅ `WEAPON_ADD_BEAM_RANGE` en `UPGRADES[]` (2026-06-03). Ya no se dropea. Modelo de engine `—` (capture-only) hasta que exista consumidor.
+Los otros dos tokens de la deuda original están resueltos y ya no se dropean:
+- `WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` → **`WEAPON_ADD_DAMAGE_PER_STATUS_TYPE`** (`op: CONDITION_OVERLOAD` + `co_factors`). La familia Condition Overload / GunCO está completa: el token legacy no aparece en ningún `upgrade_type` de override (sólo en el `mods.json` crudo de upstream). Ley, topología y coeficientes en [`arch-decisions.md §9`](../domains/engine/design/arch-decisions.md).
+- `WEAPON_ADD_BEAM_RANGE` → acuñado en `UPGRADES[]` (data-first, gate D-20: 4 mods de la misma forma). Modelo de engine capture-only hasta que exista consumidor.
 
 **Ref:** `docs/semantic/upgrade-tokens.md`, `Project/src/shared/types/modifier.ts`
 
 ---
 
-## D-18 — Incarnon `stats[]` + taxonomía monosemántica de `condition` (global) (2026-05-30)
+## D-18 — Incarnon `stats[]` + taxonomía monosemántica de `condition` (global)
 
 **Estado:** VIGENTE
 **Fecha:** 2026-05-30
@@ -375,17 +435,9 @@ Evoluciona D-14, que lo había sobrecargado con dos dimensiones.
 | `null` | Condición real, sin token mapeado todavía |
 | `"<token>"` | Condicional, mapeada a `conditions.md` |
 
-Cobertura aplicada 2026-05-30:
-
-| Schema | token | null (no mapeado) | null incondicional eliminado |
-|---|---|---|---|
-| incarnon | 120 | 0 | 315 → ausente |
-| mods | 14 | 2 | 879 → ausente |
-| arcanes | 121 | 4 | 50 → ausente |
-
-Patches one-off (purgados tras uso, procedencia en git history): mapeo trigger→token de incarnon
-(aprobado manualmente) y limpieza de `null` incondicional (genérico). 5 tokens nuevos
-añadidos a `conditions.md`.
+La taxonomía está aplicada en los tres schemas: los `null` incondicionales pasaron a **ausencia** y
+`null` queda reservado para el hueco real (condición sin token). Cifras vivas por sector en
+[`status.md`](status.md) — acá no se duplican, driftan.
 
 ### Por qué
 - **stats[]:** la condición estaba atrapada en el texto del label, forzando display-only y bloqueando `|val1|`.
@@ -395,14 +447,13 @@ añadidos a `conditions.md`.
 ### Deuda asociada
 `IncarnonRepository.getModifiers` aún lee `perk.upgrades[]` (formato viejo) → devuelve `[]` en runtime.
 Actualizar a `stats[]` + respetar `condition` (default-activo, D-15) es fase posterior (engine↔UI).
-Backup pre-migración: `incarnon-evolutions.override.backup-2026-05-30.json` (referencia read-only).
 
 **Evoluciona:** D-13 (schema array → stats[]). **Ref:** `docs/data/schemas/incarnon/schema.md`,
 `docs/semantic/conditions.md`, `Project/src/domains/arsenal/incarnon/use-incarnon-catalog.ts`
 
 ---
 
-## D-19 — `condition` es vocabulario endógeno (consolidador posterior); `notes[]` es anotación no-SSoT (2026-06-01)
+## D-19 — `condition` es vocabulario endógeno (consolidador posterior); `notes[]` es anotación no-SSoT
 
 **Estado:** VIGENTE
 **Fecha:** 2026-06-01
@@ -437,7 +488,7 @@ fijó el *formato* de `note`; esta decisión fija su *naturaleza*.
 
 ---
 
-## D-20 — Criterio de entrada al schema: regla ≥2-de-misma-forma + gate de consumidor (2026-06-02)
+## D-20 — Criterio de entrada al schema: regla ≥2-de-misma-forma + gate de consumidor
 
 **Estado:** VIGENTE
 **Fecha:** 2026-06-02
@@ -468,3 +519,23 @@ Aun cuando un caso califique para estructura (puerta 1), **no se implementa la e
 Drift entre D-15 §2 (stacking → total en `base_value`) y la práctica de arcanes (familia Merciless: `base_value: null` + nota duration). El mismo concepto modelado de dos formas. Inventario en `audit-arcane.md`; unificación diferida (el puente vive en `data/` por `DC-OQ-DATA-2`; su creación sigue gateada — ver OQ-DATA-4).
 
 **Ref:** `docs/governance/closed-decisions.md` (DC-OQ-DATA-2), `docs/governance/open-questions.md` (OQ-DATA-4), `docs/data/schemas/arcane/schema.md`, `docs/data/status.md`, `docs/data/reports/audit-arcane.md`
+
+---
+
+## D-21 — La facción objetivo de un mod se expresa como token de `condition`, no como campo propio
+
+**Estado:** VIGENTE
+**Fecha:** 2026-06-03
+**Decisión:** la facción a la que un mod hace daño extra (los 42 Bane / Expel / Cleanse / Smite × facción) se captura como **token de `condition`** por-stat — **no** como un campo `target_faction` nuevo en el schema.
+
+**Por qué:** `condition` ya es campo por-stat (`string | null`), así que captura el target estructurado **sin cambio de schema ni edición del contrato del engine**. Hoy la facción vive **sólo en el label** (`"x Damage to Grineer"`): `tags: []`, sin campo `faction` ni en `mods.json` ni en el override — y el engine necesita esa facción estructurada para matchear `target.faction`. Mismo shape que `OQ-DATA-5` (restricción que hoy vive sólo en `label`).
+
+**Naturaleza:** sub-clase de "estado/identidad del target" (familia `while_target_*` / `while_enemy_*`); su eje organizador es `OQ-SEM-2`.
+
+**Gated (no se aplica a los 42 mods todavía):**
+- el **spelling** del token (`damage_corpus` / `vs_corpus` / `while_target_is_corpus`), gateado por la madurez de la taxonomía de `condition`;
+- el rediseño de engine "un nodo aditivo → nodo por facción", que es donde vive el problema de corrección multi-facción.
+
+El token y el modelo de engine del bonus ya están decididos aparte: `GAMEPLAY_MULT_FACTION_DAMAGE` es token D-6 con modelo `C2·F` — el engine apila los mods en un nodo sintético y lo aplica como multiplicador cuando la facción del target coincide.
+
+**Ref:** `docs/semantic/factions.md`, `docs/semantic/upgrade-tokens.md`, `docs/data/reports/audit-mods.md §F.5`, `docs/governance/open-questions.md` (OQ-SEM-2, OQ-DATA-5)

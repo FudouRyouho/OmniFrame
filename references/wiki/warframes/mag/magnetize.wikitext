@@ -1,0 +1,116 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Magnetize
+| gameimage      = BulletAttractor.png
+| cardimage      = BulletAttractorModU15.jpeg
+| hotkey         = 2
+| energy         = 50
+| description    = (TAP) Enclose a target in a magnetic field that ensnares nearby enemies and deals damage over time. The field pulls Polarize Shards that orbited Mag and shrapnel into the deadly mix.<br/>(HOLD) Mag surrounds herself in a magnetic field that absorbs ranged attacks and reflects damage back in a destructive cone.
+| sub            = 
+{{AbilityU10.3/Tabber | Targeted
+| strength       = 50 / 150 / 200 / 300 ({{D|Blast}} explosion base damage)<br>1.25x / 1.5x / 1.75x / 2x (damage multiplier)<br>2x / 2.5x / 3.5x / 4x (magnetic pull)
+| duration       = 10 / 12 / 13 / 15 s
+| range          = 15 m (explosion radius)<br>4 m (field radius)
+| misc           = 10% / 15% / 20% / 25% (damage absorption)<br>&infin; (cast range)
+}}
+{{AbilityU10.3/Tabber | Protective
+| strength       = 50 / 150 / 200 / 300 ({{D|Blast}} base damage)<br>10 / 15 / 20 / 25 ({{D|Blast}} damage increase per second)<br>2x (absorption multiplier)<br>200 / 300 / 400 / 500 (polarize shard damage)
+| duration       = 10 / 12 / 13 / 15 s
+| range          = 15 m (blast range)
+| misc           = 120° (blast angle)<br>4 m (absorption radius)
+}}
+| cardonly       = {{{1|}}}
+
+|info = 
+*Mag expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to create a magnetic field around an enemy target by tapping the ability key (default {{Keybind|2}}) when aiming at them over an <u>'''unrestricted</u>''' range. By holding down the ability key, Mag creates the magnetic singularity between her hands instead, protecting her from enemy fire.
+**Cast animation of '''1''' second, affected by [[Casting Speed]].
+**Once the protective singularity is formed, the ability key may be released without deactivating the ability. Pres the ability key again to discharge the singularity.
+<div class="tabber-borderless" ><tabber>
+|-|Targeted=
+*An enemy affected by Magnetize is anchored in place and cannot move. The magnetic field has a radius of {{Stat|Ability Range|icon=only}}'''4''' meters encompassing the target, and slowly drags in all enemies within {{Stat|Ability Range|icon=only}}'''4 / 6 / 7 / 8''' meters with a magnetic pull of {{Stat|Ability Strength|icon=only}}'''2x / 2.5x / 3.5x / 4x'''. During the field's lifetime of {{Stat|Ability Duration|icon=only}}'''10 / 12 / 13 / 15''' seconds, all projectiles, bullets, and {{A|Polarize}} shards will be redirected towards its center, and incoming damage from all sources will be increased {{Stat|Ability Strength|icon=only}}'''1.25x / 1.5x / 1.75x / 2x'''.
+**'''Only''' the main target is affected by the damage multiplier.
+**The magnetized target can still attack and cast abilities, among other actions.
+**Enemies immune to crowd control such as {{D|Overguard}} will '''not''' be anchored, but magnetic fields will move with them.
+*Additionally, the field absorbs <u>'''10% / 15% / 20% / 25%'''</u> of the damage from all redirected projectiles and bullets. All stored damage will be dealt per second in full to all enemies within the field. The field deals {{D|Magnetic}} damage, and damage is applied in half-second increments.
+**Damage decreases radially from the center of the Magnetize field, down to a minimum of <u>'''50%'''</u> damage.
+**Weapons of all types have every projectile taken into account for absorbed damage.
+**Explosive weapon damage is '''not''' absorbed by Magnetize.
+**Absorbed damage is '''not''' affected by critical hit bonuses.
+**Absorbed damage is '''not''' affected by damage type bonuses.
+**Absorbed damage is '''not''' affected by on hit effects.
+*If the initial target dies while magnetized, the field destabilizes and explodes at the end of its duration for {{Stat|Ability Strength|icon=only}}'''50 / 150 / 200 / 300''' {{D|Blast}} base damage in a {{Stat|Ability Range|icon=only}}'''15''' meter radius. Each time an enemy gets hit by the damage ticks inside the bubble, <u>'''100%'''</u> of the currently absorbed damage gets added to the explosion damage. For example, if Magnetize is shot once with a 1000 damage weapon, it will absorb 250 damage, so each tick of damage dealt to an enemy will add 250 damage to the explosion. If one enemy is hit with 20 half-second ticks of damage before the explosion without having any further damage added to the field, the expression for explosion damage would be {{Math|300 + (20 {{mul}} 1000 {{mul}} 0.25)|bf=y}}.
+**Explosion damage diminishes with distance and does '''not''' bypass obstacles in the environment.
+**Should the initial target's corpse despawn before the duration is over, the enemy pull effect is disabled, but the explosion will still happen.
+*Redirected projectiles travel in a straight line from the point of impact to the center of the sphere which can draw fire away from enemy weak spots. However, you can target vital areas by aiming for any point on the sphere that is perpendicular to the weak spot. Hitscan weapons have less difficulty hitting weak spots; simply aiming at the target's weak spots will yield extra damage in most cases.
+**Shots fired within the field are also redirected, including shots fired by the magnetized target.
+**In addition to firearms, Magnetize can redirect {{A|Radial Javelin}} blades, {{A|Prism}} lasers, {{A|Exalted Blade}}'s waves, and {{A|Artemis Bow}}'s arrow, [[Surging Blades]]' blade and even thrown [[:Category:Glaive|glaives]].
+**In addition to the Warframe abilities mentioned above, Magnetize will also affect the grenades from each of {{WF|Vauban}}'s abilities. All grenades are pulled to the center of the sphere and will function normally if they contact a surface (i.e enemy body, wall, door, etc). Assuming no surface is met, they are held suspended (and inactive) until Magnetize dissipates, upon which time they may or may not be launched unpredictably. {{A|Photon Strike}} is held inactive as it detonates after a set duration of being thrown, surface or no. Additionally, any active ability grenades will be pulled to the center of the sphere and continue to function should a new placed Magnetize overlap the current position of the grenade.
+**Does '''not''' redirect area-of-effect abilities & [[:Category:Gunblade|gunblades]].
+*Casting Magnetize on a target is a [[One-Handed Action]] that can be done while performing many actions without interrupting them, including [[reload]]ing, charging, shooting, and moving (either [[Maneuvers#Sprinting|sprinting]] or [[Maneuvers#Sliding|sliding]]).
+**Can be used in mid-air, but '''not''' while on a [[Maneuvers#Zipline|zipline]].
+|-|Protective=
+*The magnetic singularity grows in power, starting with {{Stat|Ability Strength|icon=only}}'''50 / 150 / 200 / 300''' {{D|Blast}} damage at base and increasing by {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' {{D|Blast}} damage every second, for as long as its held, up to a duration of {{Stat|Ability Duration|icon=only}}'''10 / 12 / 13 / 15''' seconds. All bullets and projectiles caught within <u>'''4'''</u> meters around Mag are absorbed by the singularity, their damage is then multiplied by '''2x''' and added to the total damage stored. Any {{A|Polarize}} shards caught within will add {{Stat|Ability Strength|icon=only}}'''200 / 300 / 400 / 500''' to the total damage stored. When the duration ends, or the ability is recast while active, Mag releases '''all''' stored damage in front of her as an explosive blast, damaging enemies in an angle of <u>'''120'''</u> degrees and up to {{Stat|Ability Range|icon=only}}'''15''' meters away.
+**The singularity does '''not''' absorb area or melee damage nor friendly fire.
+*When activated, Mag will holster her weapons and start walking at a slow pace, still being able to jump from the floor and aim glide. However, crouching (default {{Keybind|Ctrl}}), rolling (default {{Keybind|Shift}}) and double jumping is disabled for the duration.
+**Mag can still pick up portable items (such as [[Mobile Defense|datamasses]] or [[Excavation#Mechanics|power cores]]) and interact with [[Mobile Defense]] terminals and [[Defense]] operatives, but '''cannot''' hack consoles nor revive teammates.
+**Mag will be susceptible to melee assailants and damage over time effects.
+**Holding Magnetize is an upper-body action that can be done while moving, but will interrupt [[reload]]ing, charging, shooting and [[Maneuvers#Sprinting|sprinting]].
+**Can be used in mid-air, but '''not''' while on a [[Maneuvers#Zipline|zipline]].
+</tabber></div>
+<hr />
+*Only <u>'''3'''</u> Magnetized enemy fields can be active at the same time, magnetizing a fourth target will make the first field either explode or disappear (whether the original target died or not).
+**The Protective singularity from holding down the ability does '''not''' count towards this limit.
+*If the target dies before the Magnetize field appears, energy used for Magnetize will be refunded.
+*'''Ability Synergy:'''
+**Shards dropped by {{A|Polarize}} can be picked up by Magnetize, inflicting {{Stat|Ability Strength|icon=only}}'''50''' damage distributed  evenly between {{D|Puncture}} and {{D|Slash}}, further increased by <u>'''25%'''</u> of the total drained value.
+**{{A|Crush}} inflicts an extra {{Stat|Ability Strength|icon=only}}'''800 / 1000 / 1250 / 1500''' {{D|Magnetic}} damage divided over the 3 hits to the enemy targeted by Magnetize. The target also receives the damage multiplier from Magnetize.
+*Magnetize's visual effects are affected by Mag's chosen energy colors.
+*[[Nullifier]] Bubble will not immediately destroy Magnetize if it touches the edges, though it will still be destroyed on contact with the center. Instead, its duration expires '''4''' times faster while in contact.
+|augment = 
+[[File:MagnetizedDischargeMod.png|200px|left]]
+{{main|Magnetized Discharge}}
+{{#lst:Magnetized Discharge|intro}}
+{{#lsth:Magnetized Discharge|Stats}}
+{{clr}}
+
+|tips = 
+*As the pull effect is disabled when the initial target's corpse despawns, some effects, like the {{D|Heat}} status effect or the innate vaporization on death of weapons like {{Weapon|Ferrox}}, can preemptively disable the pull effect by making the corpse despawn almost immediately after their death.
+**As such it is advisable to use {{A|Magnetize}} in tandem with an ability that prevents the original enemy from dying and ending the pull effect early such as {{WF|Garuda}}'s {{A|Blood Altar}}.
+*This ability can be used defensively. No bullets or projectiles can pass through the field without being redirected.
+**[[Maximized Ability Range]] is a very effective choice of maximization for this ability as it provides a large radius of protection from most enemy damage.
+**Beware, however, as physical projectiles can still damage you while inside it if you find yourself between the entering point of the bullet and the center of the bubble.
+*Synergizes very well with {{WF|Excalibur}}'s {{A|Exalted Blade}}, as his blade waves have infinite [[punch through]] and are redirected around the magnetic field, allowing them to damage enemies several times until dissipating after traversing 40m.
+*{{WF|Yareli}}'s {{A|Aquablades}} and it's augment {{M|Surging Blades}} have great synergy with Magnetize, due to having infinite body [[Punch Through|punch through]].
+*Extremely effective against heavy enemies, especially fast moving, such as [[Oxium Osprey]] or [[Bursa]]s.
+*When this ability is used with [[punch through]] weapons, like the {{Weapon|Lanka}} and {{Weapon|Miter}}, the bullet or projectile will hit the target multiple times. However, this does not increase the damage over time produced by the field or the damage of the final explosion. This is ideal for taking out specific targets.
+*Using beam weapons, such as the {{Weapon|Ignis}}, {{Weapon|Atomos}}, {{Weapon|Gammacor}}, {{Weapon|Quanta}}, etc., will not hit the enemies multiple times the same way that [[punch through]] projectiles do, but will greatly increase the damage over time generated by the field and the final explosion. This is ideal for creating choke-points where every enemy that walks through the bubble gets killed by the field's damage over time effect.
+*Weapons with the ability to empty their magazines into a single torrent of shot, such as the {{Weapon|Kuva Kraken}}, {{Weapon|Tenet Detron}}, {{Weapon|Pandero}} ({{Weapon|Pandero Prime|Prime}}), and {{Weapon|Kuva Hek}}, synergize especially well with the short-tap Magnetize bubble. Combined with a high reload speed, these weapons can quickly turn the bubble into a deadly trap and time bomb.
+**A {{Weapon|Grakata}} with {{M|Wild Frenzy}} synergizes extremely well with Magnetize, as the bubble greatly increases the mod's two-kill ammo refund requirement and thus almost ensuring a limitless supply of bullets to feed the bubble.
+*While {{D|Gas}} [[Status Effect|effects]] don't increase absorbed damage, they can help in damaging all enemies inside the bubble, especially if [[punch through]] is on the used weapon, which allows multiple procs to occur per shot.
+*Holding down the ability and getting hit by enemy bullets, while not taking damage, they still contribute towards {{M|Adaptation}}'s build-up. This makes for a safe way to cap the resistances.
+*As Eximus unit cannot be pulled by magnetic bubbles, they're priority target for Magnetize because the bubbles can prevent them from damaging the Tenno with firearms. They can also potentially sweep more enemies into magnetized bubbles as the bubbles move with them.
+
+<noinclude>
+|max = {{WFmax|main|mag2}}
+</noinclude>
+|bugs =
+*The blast cone from holding the ability is not centered towards the aiming reticle, but noticeably to the left.
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Mag}}
+__NOTOC__
+<noinclude>
+[[de:Kugelmagnet]]
+[[es:Magnetizar]]
+[[fr:Magnétisation]]
+[[it:Magnetize]]
+[[ru:Магнитное поле]]
+</noinclude>
+[[Category:Warframe Abilities]]
+[[Category:Blast Damage]]
+[[Category:Mag]]
+[[Category:One-Handed Abilities]]
+[[Category:Magnetic Damage]]
+[[Category:Damage Vulnerability]]
+[[uk:Намагнічування]]
+[[Category:Grouping]]

@@ -1,0 +1,120 @@
+{{ModBox}}
+'''Terminal Velocity''' is a primary weapon [[mod]] that increases [[Projectile Speed]] of projectiles with travel time.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +15% || 4
+|-
+| 1 || +30% || 5
+|-
+| 2 || +45% || 6
+|-
+| 3 || +60% || 7
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+*Terminal Velocity benefits rifles that fire projectiles with travel time (specifically it can only be equipped on rifles with the hidden <code>PROJECTILE</code> compatibility tag), which include the following:{{Column|2|
+**{{Weapon|Aeolak}}
+**{{Weapon|Attica}}
+**{{Weapon|Boltor}} ({{Weapon|Boltor Prime|Prime}}, {{Weapon|Telos Boltor|Telos}})
+**{{Weapon|Buzlok}}
+**{{Weapon|Cernos}} ({{Weapon|Rakta Cernos|Rakta}}, {{Weapon|Cernos Prime|Prime}})
+**{{Weapon|Dera}} ({{Weapon|Dera Vandal|Vandal}})
+**{{Weapon|Daikyu}}
+**{{Weapon|Dread}}
+**{{Weapon|Fulmin}}
+**{{Weapon|Harpak}}
+**{{Weapon|Komorex}}
+**{{Weapon|Kuva Bramma}}
+**{{Weapon|Lanka}}
+**{{Weapon|Lenz}}
+**{{Weapon|Miter}}
+**{{Weapon|Mutalist Cernos}}
+**{{Weapon|Mutalist Quanta}}
+**{{Weapon|Nataruk}}
+**{{Weapon|Ogris}}
+**{{Weapon|Panthera}} (primary fire)
+**{{Weapon|Paris}} ({{Weapon|Mk1-Paris|Mk1}}, {{Weapon|Paris Prime|Prime}})
+**{{Weapon|Penta}} ({{Weapon|Secura Penta|Secura}})
+**{{Weapon|Phenmor}}
+**{{Weapon|Quanta}} ({{Weapon|Quanta Vandal|Vandal}}) ([[Alternate Fire]])
+**{{Weapon|Quellor}} (alt-fire)
+**{{Weapon|Simulor}} ({{Weapon|Synoid Simulor|Synoid}})
+**{{Weapon|Supra}} ({{Weapon|Supra Vandal|Vandal}})
+**{{Weapon|Tetra}} ({{Weapon|Prisma Tetra|Prisma}})
+**{{Weapon|Tonkor}}
+**{{Weapon|Torid}}
+**{{Weapon|Zhuge}} ({{Weapon|Zhuge Prime|Prime}})
+**{{Weapon|Zarr}}
+}}
+*Can also benefit projectile [[Robotic]] weapons that accept rifle mods:
+**{{Weapon|Helstrum}}
+**{{Weapon|Laser Rifle}} ({{Weapon|Prime Laser Rifle|Prime}})
+**{{Weapon|Multron}}
+**{{Weapon|Stinger}}
+**{{Weapon|Tazicor}}
+**{{Weapon|Vulklok}}
+*Cannot be equipped on {{Weapon|Baza}} ({{Weapon|Baza Prime|Prime}}), despite having damage falloff.
+
+==Trivia==
+*Prior to {{ver|16.7}}, this mod was usable in [[PvP]] games until it was replaced by its own specific PvP mods along with a number of other mods: {{M|Quickdraw}}, {{M|Fast Hands}}, {{M|Slip Magazine}}, {{M|Tactical Pump}}, {{M|Steady Hands}}, {{M|Stabilizer}}, {{M|Burdened Magazine}}, and {{M|Magazine Warp}}.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37}}
+*Fixed Terminal Velocity Mod not affecting the Acceltra’s projectiles.
+
+{{ver|31.6}}
+*Terminal Velocity is now compatible with the Aeolak.
+
+{{ver|30.9}}
+*Fixed the Terminal Velocity Mod not applying projectile velocity changes to Sentinels using the Helstrum weapon.
+
+{{ver|28.0.3}}
+*Terminal Velocity can now be used with Primary Tombfinger Kitguns.
+
+{{ver|26}}
+*Now an Exilus Weapon mod.
+
+{{ver|25.7}}
+*Fixed inability to equip the Terminal Velocity Mod on the Komorex.
+
+{{ver|25.0.4}}
+*Terminal Velocity can now be used with the Fulmin.
+
+{{ver|18.0}}
+*Fixed the Terminal Velocity Mod being unable to be equipped on Sentinel rifles.
+
+{{ver|16.4.3}}
+*Fixed the Terminal Velocity Mod not being equippable on the Tonkor.
+
+{{ver|15}}
+*Introduced.
+}}
+
+==See Also==
+*{{M|Fatal Acceleration}}, the shotgun version.
+*{{M|Lethal Momentum}}, the pistol version.
+
+{{PrimaryMods}}
+
+[[de:Tödliche Geschwindigkeit]]
+[[es:Velocidad terminal]]
+[[pt:Terminal Velocity]]
+[[ru:Терминальная Скорость]]
+[[Category:Mods]]
+[[Category:Uncommon Mods]]
+[[Category:Rifle Mods]]
+[[Category:Madurai Mods]]
+[[Category:Update 15]]
+[[Category:Flight Speed Mods]]
+[[Category:Exilus Weapon Mods]]
+[[uk:Гранична швидкість]]

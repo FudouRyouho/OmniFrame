@@ -1,0 +1,36 @@
+<onlyinclude>{{AbilityU10.3
+| name = Death's Harvest
+| gameimage = DeathsHarvest130xWhite.png
+| cardimage = DeathsHarvestModx256.png
+| hotkey = 3
+| energy = 75
+| cost = 
+| description = Inflict nearby enemies with a harrowing condition.
+| strength = 10 / 20 / 30 / 50 % (damage vulnerability) 
+| range = 5 / 8 / 10 / 12 m 
+| duration = 5 / 7 / 8 / 10 s (debuff duration) 
+| misc = 5 % (Death Well gain per enemy)
+| cardonly = {{{1|}}}
+| info = 
+*Sevagoth's Shadow expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to let loose a harrowing wail to leave a death mark on all enemies within a radius of {{Stat|Ability Range|icon=only}}'''5 / 8 / 10 / 12''' meters. Marked enemies receive {{Stat|Ability Strength|icon=only}}'''10% / 20% / 30% / 50%''' [[Damage Vulnerability]] for {{Stat|Ability Duration|icon=only}}'''5 / 7 / 8 / 10''' seconds.
+**Does '''not''' require [[Line of Sight]].
+**Casting speed is affected by [[Casting Speed]].
+*'''Ability Synergy:'''
+**Each enemy marked then killed by any source fills <u>'''5%'''</u> of the Death Well for {{A|Exalted Shadow}}.
+***The player must be directly controlling Sevagoth with Exalted Shadow deactivated to gain Death Well percentage from Death's Harvest.
+**{{M|Dark Propagation}} allows Death's Harvest to inflict {{A|Sow}}.
+*Death's Harvest is disabled on the Shadow while Sevagoth is bleeding out in his tombstone.
+*Can be recast while active to mark new enemies in range. Marks do '''not''' refresh on already affected enemies in range of a new instance.
+*Casting Death's Harvest is a full-body animation that stops grounded movement and other actions.
+*Sevagoth's Shadow visually claps its claws together below itself, wailing eerily as rising shadows briefly outline the ability radius before fading away. Marked enemies emit flailing shadow tendrils from their torso.
+| augment = 
+| tips = 
+| bugs = 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Sevagoth}}
+__NOTOC__
+[[Category:Sevagoth]]
+[[Category:Damage Vulnerability]]
+[[uk:Смертельні жнива]]

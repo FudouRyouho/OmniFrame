@@ -1,0 +1,65 @@
+<onlyinclude>{{AbilityU10.3
+| name = Sonar
+| gameimage = BansheeSonar.png
+| cardimage = SonarModU15.jpeg
+| hotkey = 2
+| energy = 50
+| description = Using acoustic location, Banshee's Sonar power finds and tracks enemies, and exposes critical weak spots to everyone in your squad.
+| cost = 4 / 5 / 6 / 7
+| strength = 2x / 3x / 4x / 5x
+| range = 20 / 25 / 30 / 35 m
+| duration = 10 / 15 / 20 / 30 s
+| misc = 20 m/s (propagation speed)
+| cardonly = {{{1|}}}
+| info = 
+*{{WF|Banshee}} expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to emit a sound wave that travels at '''<u>20</u>''' meters per second and reveals the location of every enemy within {{Stat|Ability Range|icon=only}}'''20 / 25 / 30 / 35''' meters. Tracked enemies will be visible on every player's mini-map, and each enemy will have a [[Enemy Body Parts|body part]] highlighted. These effects last for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 30''' seconds. Hitting the highlighted [[Enemy Body Parts|body part]] causes the inflicted damage to be multiplied by {{Stat|Ability Strength|icon=only}}'''2x / 3x / 4x / 5x'''.
+**Sonar's effect propagates outward from the caster's position, traveling through obstacles in the environment and moving at a fixed speed of <u>'''20'''</u> meters per second, similar to the mechanics of {{WF|Hildryn}}'s {{A|Pillage}} or {{WF|Nova}}'s {{A|Molecular Prime}}. Enemies are only debuffed and highlighted once the wave reaches them.
+**Damage multiplier stacks multiplicatively with [[Enemy Body Parts|body part multipliers]] such as the head or unprotected body parts.
+**A sonar spot on an enemy's torso will increase the damage of many AoE damage sources, '''including abilities''', as they are often coded to target the enemy's center.
+**Single-target [[DoT]]s ({{D|Slash}}, {{D|Heat}}, and {{D|Toxin}}) will '''not''' have their damage increased by Sonar, even if the proccing hit was on a Sonar highlight or if the target's torso is highlighted.
+***However, AoE DoTs ({{D|Electricity}}, {{D|Gas}}, and the 10-stack / on-death portion of {{D|Blast}}) '''are''' affected, as they are able to hit body parts. This applies to both the original target and nearby enemies, as long as the AoE hits a highlighted body part.
+*Has a cast delay of about '''0.8''' seconds and a recast time of about '''2.4''' seconds.
+*Sonar spots are '''not''' considered [[weakpoint]]s for effects like {{M|Pistol Acuity}} or charging [[Incarnon]] weapons.
+*'''Highlighting Mechanics''':
+**One random area of the body is highlighted per enemy with each cast of Sonar.
+**Highlights can only appear on a limited number of designated locations on an enemy, varying based on the enemy type.
+**Enemies typically have '''6''' different body parts that can be highlighted: head, torso, arms (left and right), and legs (left and right). Each part highlighted will affect the entire body part it is on, even if the highlight does not visually cover it. Conversely, each highlight only affects one body part, despite visually reaching other body parts.
+**Each body part typically has '''2''' specific locations that can be highlighted. For example: on a {{E|Butcher}}'s left arm body part, a highlight can only appear on its shoulder and elbow; a highlight placed on either spot will increase damage taken by hits anywhere on the left arm. 
+***Certain non-humanoid enemies such as {{E|The Anatomizer}} and {{E|Techrot Babau}} have much more than 2 highlight locations on a single body part, allowing Sonar to stack with itself many times for incredibly high damage values.
+**While the ''same'' location on a body part '''cannot''' be affected by multiple highlights at once, multiple ''different'' locations on the same body part '''can''' be highlighted at the same time. The damage received by an enemy is based on the number of different locations that are highlighted on the body part that was hit. 
+***Multiple locations highlighted on the same body part will multiplicatively stack their damage buffs. For example, a Sonar spot on the upper torso and lower torso of an enemy will cause the entire torso to take 5x * 5x = '''25x''' damage (at '''100%''' {{Stat|Ability Strength}}).
+***Already highlighted areas can still be targeted by subsequent casts of Sonar, despite the damage bonus not stacking. The duration of the highlight will be refreshed, however. The highlighted area will also visually glow brighter as if both casts are taking effect, but this is only visual.
+****The highlight duration will only be updated if the most recent cast will increase the remaining highlight duration. However, the highlight's damage multiplier will always be updated based on the ability strength of the most recent cast, even if the new strength value is lower. 
+----
+*'''Ability Synergy:'''
+**Sonar spots placed on an enemy's torso will increase {{A|Sonic Boom}} and {{A|Sound Quake}}'s damage.
+| tips = 
+*Because of its multiplicative nature, Sonar is one of the strongest damage boosting abilities in the game.
+*Sonar's augment mod {{M|Resonance}} helps greatly with {{Stat|Ability Efficiency}}, since it allows Sonars to be automatically cast every few seconds simply by dealing killing damage on weakpoints.
+*Although the enemy reveal effect does not combine with {{M|Enemy Radar}} or {{M|Enemy Sense}}, it is stronger than each of them.
+|bugs=
+*It seems only a certain number of Sonar highlights can exist in a mission at the same time (~80-100), after which point further casts of Sonar will remove previous highlights. This is only visual.
+**Highlights created by {{M|Resonance}} may be exempt from this issue.
+| augment = [[File:ResonanceMod.png|200px|left]]
+{{main|Resonance}}
+{{#lst:Resonance|intro}}
+{{#lsth:Resonance|Stats}}
+{{clr}}
+<noinclude>
+|max = {{WFmax|main|banshee2}}
+</noinclude>
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Banshee}}
+[[de:Sonar]]
+[[ru:Сонар]]
+[[fr:Sonar]]
+[[es:Sonar]]
+__NOTOC__
+[[Category:Warframe Abilities]]
+[[Category:Banshee]]
+[[Category:Update 7]]
+[[Category:Damage Vulnerability]]
+[[uk:Сонар]]

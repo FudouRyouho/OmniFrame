@@ -1,0 +1,42 @@
+{{PvPItem}}
+{{ModBox}}
+'''Heavy Warhead''' is [[Conclave]]-exclusive Pistol [[Mod]] which increases [[Blast Radius]] for a reduction in [[Projectile Speed]].
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Explosion Radius
+! [[Projectile Speed]]
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +25% || -12.5% || 10
+|-
+| 1 || +50% || -25% || 11
+|-
+| 2 || +75% || -37.5% || 12
+|-
+| 3 || +100% || -50% || 13
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+* An increase of 100% in blast radius adds up to a 700% increase in the total blast area ( {{MathText|Volume of sphere {{eql}} 4/3π {{mul}} r{{exp|3}}}} ).
+
+==See also==
+*{{M|Static Alacrity}} - similar version for the {{Weapon|Staticor|Conclave=true}}.
+
+{{ConclaveMods}}
+[[es:Ojiva pesada]]
+[[fr:Ogive Lourde]]
+[[ru:Утяжелённые Боеголовки]]
+[[Category:PvP Mods]]
+[[Category:Pistol Mods]]
+[[Category:Rare Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Update 18]]
+[[Category:Madurai Mods]]
+[[Category:Flight Speed Mods]]
+[[uk:Важка боєголовка]]

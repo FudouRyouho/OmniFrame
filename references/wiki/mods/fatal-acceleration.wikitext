@@ -1,0 +1,68 @@
+{{ModBox}}
+'''Fatal Acceleration''' is a [[mod]] that increases the [[Projectile Speed]] of non-hitscan [[:Category:Shotgun|Shotguns]], and increases the effective range of shotguns before [[Damage Falloff]] takes effect.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect 
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +10% || 4
+|-
+| 1 || +20% || 5
+|-
+| 2 || +30% || 6
+|-
+| 3 || +40% || 7
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Tips==
+*This mod can be used in conjunction with {{M|Fomorian Accelerant}}, effectively doubling the {{Weapon|Drakgoon}}'s projectile speed on top of giving each projectile additional ricochets.
+
+==Trivia==
+*Previously, the shotgun featured in the mod's picture was the {{Weapon|Tigris}}, which at the time did not get any benefit from the mod's effects.
+**The picture also featured {{WF|Volt}} with his [[Volt Pulse Helmet|Pulse Helmet]], but the dangling ornaments on the back of the helmet were missing.
+
+==Media==
+<gallery hideaddbutton="true">
+FatalAccelerationModOld.png|Old appearance
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|26}}
+*Now an Exilus Weapon mod.
+
+{{ver|20.7}}
+*Changed Fatal Acceleration to allow fitting on all Shotguns since trace-hit shotguns have their falloff altered by [[Projectile Speed]] Mods (this was already happening from Riven drawbacks).
+
+{{ver|18.13}}
+*Changed the Fatal Acceleration Mod to display a Drakgoon instead of a Tigris.
+
+{{ver|15.0}}
+*Introduced.
+}}
+
+==See Also==
+*{{M|Galvanized Acceleration}}, the [[Galvanized]] counterpart.
+*{{M|Terminal Velocity}}, the rifle counterpart.
+*{{M|Lethal Momentum}}, the pistol counterpart.
+
+{{PrimaryMods}}
+
+[[de:Fatale Beschleunigung]]
+[[es:Aceleración fatal]]
+[[pt:Fatal Acceleration]]
+[[ru:Фатальное Ускорение]]
+[[Category:Uncommon Mods]]
+[[Category:Shotgun Mods]]
+[[Category:Update 15]]
+[[Category:Mods]]
+[[Category:Madurai Mods]]
+[[Category:Flight Speed Mods]]
+[[Category:Exilus Weapon Mods]]
+[[uk:Фатальне пришвидшення]]

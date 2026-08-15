@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Enforcement de estilo por boundary arquitectónico"
-Version: "v0.0.2"
 Impacto_ID: "G-Naming"
 Fidelidad_Fisica: "."
 Fecha_de_creacion: "2026-04-17"

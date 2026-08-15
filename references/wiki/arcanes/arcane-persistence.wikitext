@@ -1,0 +1,70 @@
+{{ArcaneBox}}
+'''Arcane Persistence''' is an [[Arcane Enhancement]] for [[Warframes]] that restricts damage taken while {{Stat|Armor}} is at least '''700''', at the cost of losing all {{Stat|Shield|Shields}} .
+
+==Effect==
+{| class="emodtable"
+|-
+!Rank!!Damage/s
+|-
+|0||750
+|-
+|1||700
+|-
+|2||650
+|-
+|3||600
+|-
+|4||550
+|-
+|5||500
+|}
+
+==Acquisition==
+*Can be bought from [[Roathe]] at [[La Cathédrale]] in the [[Sanctum Anatomica]] for 5 {{Resource|Maphica}}.
+*May appear as a [[Steel Path]] [[The Descendia]] reward on a weekly rotational basis.
+**Infernum 6 and 13 awards 1.
+**Infernum 20 awards 3.
+
+==Notes==
+*Arcane Persistence's effects can be lost if the user's {{Stat|Armor}} is reduced below 700, such as from {{D|Corrosive}} or {{D|Heat}} status effects.
+**To fully withstand {{D|Corrosive}}(-26%), a minimum of only 946 {{Stat|Armor}} is needed.
+**To fully withstand {{D|Heat}}(-50%), a minimum of 1400 {{Stat|Armor}} is needed.
+**With both status effects together(-63%), a minimum of 1892 {{Stat|Armor}} is needed.
+*Arcane Persistence is disabled if the user receives a {{D|Magnetic}} status effect or is within an ability nullification field such as {{E|Nullifier Crewman|Nullifiers}}.
+*Despite the phrasing, the arcane will function with exactly 700 {{Stat|Armor}}.
+*Does not work on self-inflicted sources of damage;
+**{{WF|Garuda}}'s {{A|Bloodletting}} will not reduce the health drain. 
+*Changes [[Hijack]]'s [[Shield]] drain to [[Health]] drain.
+*This Arcane is detrimental for [[Archwing|Archwings]]; since no Archwing can reach the minimum threshold of 700 {{Stat|Armor}} (outside of using {{Resource|Azure Archon Shard}}s), it will disable the player's shields without granting any benefits, leaving them vulnerable.
+
+==Tips==
+*{{M|Health Conversion}} allows any Warframe to meet the 700 {{Stat|Armor}} condition.
+*4x {{Resource|Azure Archon Shard}} grants +600 {{Stat|Armor}}. 3x {{Resource|Azure Archon Shard|Tauforged Azure Archon Shard}} grants +675 {{Stat|Armor}}.
+*{{Arcane|Arcane Grace}} requires 8334 {{Stat|Health}} to reach 500 Health/second. This assumes 100% uptime on Grace which is unrealistic, so more health to give the arcane a chance to trigger is advised.
+*{{WF|Inaros}} can easily keep {{Arcane|Arcane Persistence}} active by healing with {{A|Sandstorm}}, and gaining enough {{Stat|Armor}} and [[Status Immunity]] with {{A|Scarab Shell}}.
+*{{WF|Nidus}} also greatly benefit from {{Arcane|Arcane Persistence}} especially when combined with {{M|Parasitic Vitality}} .
+**With {{A|Ravenous}} he can easily outheal the maximum of 500 damage/sec all while being protected from negative status effects .
+**{{A|Parasitic Link}} when casted on an enemy, will redirect all negative status effects towards the target , offering {{WF|Nidus}} another way to protect himself from a potential {{Arcane|Arcane Persistence}} deactivation.
+
+==Bugs==
+*Works with {{D|Overguard}} from any source, but only caps the damage of the first hit every '''1''' second to 500.
+**This makes it unviable to utilize as a survival tool for frames that rely mostly on their shields or overguard to stay alive, such as {{WF|Styanax}} with his [[Intrepid Stand]] augment.
+*Works with {{M|Quick Thinking}} and {{M|Gladiator Finesse}}, but only caps the damage of each hit to 500, not the damage per second.
+<!-- it was fixed
+*The arcane's effect may fail to work if the player is not the Host of a mission.
+-->
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|42}}
+*Fixed Arcane Persistence applying inconsistently for Clients and not reducing damage from status effects caused by weapons.
+
+{{ver|41.0.2}}
+*Arcane Persistence’s effect is now negated by Nullifiers, Magnetic Status Effects, and other similar nullifying effects.
+**This Arcane's effect offers a powerful new playstyle for survivability, but with certain setups, players can become fully immortal with no need to engage with any of the challenges a mission presents. This wrinkle adds an extra consideration for those who might wish to AFK, but also preserves meaningful challenge against "hard mode" bosses and other late-game content.
+
+{{ver|41}}
+*Introduced.
+}}
+
+{{ArcaneNav}}

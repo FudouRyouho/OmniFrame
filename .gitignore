@@ -24,10 +24,20 @@ node_modules/*
 **/*.pyc
 
 # ─── Datos y temporales del proyecto ─────────────────────────────────────────
+# Fuente activa: upstream pristino de WFCD/warframe-items (post-migración OQ-DATA-16).
+# Local, no se sube (data/img pesada); omniframe-items re-cosecha del wiki lo que upstream adelgazó.
 warframe-items/
-Project/data/
+# Banco de lectura: el fork viejo, conservado hasta confirmar estabilidad de omniframe-items (OQ-DATA-16).
+warframe-items.backup/
+# Excepción: el baseline del audit de sincronización SÍ se trackea (ver docs/data/pipeline/architecture.md §Audit reports).
+# Se re-incluye nivel por nivel porque git no desciende en un directorio ignorado por completo.
+Project/data/*
+!Project/data/audits/
+Project/data/audits/*
+!Project/data/audits/source-change-report.json
 Project/scratch/
 docs/data/pipeline/audits/
+references/temp/
 
 # ─── Sesiones de trabajo (scratchpad de análisis, no SSoT) ───────────────────
 .working/

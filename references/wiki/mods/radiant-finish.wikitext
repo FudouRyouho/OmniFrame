@@ -1,0 +1,62 @@
+{{ModBox}}
+<section begin=intro />
+'''Radiant Finish''' is a [[Warframe Augment Mod]] for {{WF|Excalibur}} that increases enemies [[Damage Vulnerability]] to {{D|Finisher}} damage when affected by {{A|Radial Blind}} and {{A|Radial Howl}}.
+<section end=intro />
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Strength|icon=only}}Finisher Damage Vulnerability
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +150% || 6
+|-
+| 1 || +200% || 7
+|-
+| 2 || +250% || 8
+|-
+| 3 || +300% || 9
+|}
+
+== Acquisition ==
+*This mod can be acquired by achieving the rank of '''General''' under {{Faction|Steel Meridian}} or '''Maxim''' under the {{Faction|Arbiters of Hexis}}, and spending {{sc|25,000}} to purchase.
+
+==Notes==
+*Damage vulnerability is affected by [[Ability Strength]].
+*Final multiplier is calculated as (1+{{Stat|Ability Strength|icon=only}}Finisher Damage Vulnerability). For example at 100% strength this gives 4x finisher damage. At 200% Strength this grants 7x finisher damage.
+*Multiplicative to {{M|Finishing Touch}}.
+*Multiplicative with {{M|Savage Silence}} Augment to {{A|Silence}}.
+
+==Tips==
+*Synergizes very well with {{WF|Ash}}'s {{A|Blade Storm}}, as it deal pure {{D|Finisher}} damage.
+
+==Maximization==
+{{WFmax|main|excalibur2_aug}}
+
+==Media==
+{{VideoGallery
+|{{YouTube|NXcW4cyp2i0|size=300px}}
+|{{YouTube|X0rdhyyrOVg|size=300px}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|16.3.3}}
+*Introduced.
+}}
+{{AugmentNav}}
+__NOTOC__
+[[de:Radialer Todesstoß]]
+[[es:Remate radiante]]
+[[fr:Bouquet Radial]]
+[[ru:Блестящее Завершение]]
+[[Category:Mods]]
+[[Category:Rare Mods]]
+[[Category:Warframe Mods]]
+[[Category:Augment Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Excalibur]]
+[[Category:Update 16]]
+[[Category:Zenurik Mods]]
+[[uk:Променеве добивання]]

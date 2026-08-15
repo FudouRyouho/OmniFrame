@@ -1,0 +1,506 @@
+{{Infobox
+| Box title = Critical Damage
+| image = CritModBundleIcon.png
+}}
+<section begin=intro />
+'''Critical Hits''', also known as '''Crits''' for short, are otherwise normal [[weapon]] strikes that deal increased [[damage]] to enemies. The likelihood that an attack will be a critical hit is based on the weapon's '''Critical Chance''', and the additional damage dealt by a critical hit is determined by the weapon's '''Critical Damage'''. Each attack, or each pellet in the case of most shotguns and weapons with [[Multishot]], rolls its own chance to critically hit.
+
+When a weapon deals a critical hit, the damage is displayed as a yellow, orange, or red number on the [[HUD]] instead of the usual white coloring. However, critical hits on [[Shield|shields]] are still blue, and attacks benefitting from the [[Stealth#Stealth Damage Bonus|stealth damage bonus]] are always yellow even when they don't crit.
+
+Each weapon has a base chance to critically hit, which can be increased through [[mods]] and various [[Buff & Debuff|buffs]].
+<section end=intro />
+{{tocright}}
+
+==Critical Chance==
+{{Quote|Chance that any given hit will do bonus Critical Damage.<br/>Values over 100% have a chance to become Big Critical Hits (orange), and over 200% have a chance to become Super Critical Hits (red).|In-game Description}}
+===Relative Increases===
+Most increases to critical chance are relative '''to the base chance'''. Multiple of these stack additively with each other:
+:<math>\text{Total Critical Chance} = \text{Base Critical Chance} \times (1 + \text{Relative Bonus})</math>
+
+:Where the '''Relative Bonus''' is the sum of all applicable bonuses.
+:<math>\text{Relative Bonus} = \text{Bonus}_{1} + \text{Bonus}_{2} + \text{Bonus}_{3} + \cdots</math>
+
+As an example, a {{Weapon|Braton}} with {{M|Point Strike}} and {{M|Argon Scope}} has a critical chance of:
+:{{Math|{{text||12%|hover=Braton's base crit chance}} {{mul}} (1 + {{M|Point Strike|150%}} + {{M|Argon Scope|135%}})|p=y|mt=y}}
+
+===Absolute Increases===
+A few effects grant absolute (also called flat) amounts of critical chance which are applied after relative bonuses.
+
+* {{Arcane|Arcane Avenger}}
+* {{M|Cat's Eye}}
+* {{A|Covenant}}
+* {{D|Puncture}}'s status effect "Weakened"
+* {{Arcane|Secondary Enervate}}
+* {{M|Shadow Haze}}
+:<math>\text{Total Critical Chance} = \text{Base Crit Chance} \times (1 + \text{Relative Bonus}) + \text{Absolute Bonus}</math>
+
+:Where the '''Absolute Bonus''' is the sum of all applicable bonuses.
+:<math>\text{Absolute Bonus} = \text{Bonus}_{1} + \text{Bonus}_{2} + \text{Bonus}_{3} + \cdots</math>
+
+As an example, a Braton with {{M|Point Strike}} (''relative'') and {{Arcane|Arcane Avenger}} (''absolute'') has a critical chance of:
+:{{Math|{{text||12%|hover=Braton's base crit chance}} {{mul}} (1 + {{M|Point Strike|150%}}) + {{Arcane|Arcane Avenger|45%}}|p=y|mt=y}}
+
+===Blood Rush===
+{{M|Blood Rush}} and the [[Set_Mods#Gladiator_Mod_Set|Gladiator Set Bonus]] are unique in that they scale off of Melee [[Combo]], stacking additively with other critical chance mods:
+
+<math>
+\begin{aligned}
+\text{Total Crit Chance} &= \text{Base Crit Chance} \\
+&\qquad \times (1 + \text{Relative Bonus} + \text{Blood Rush Multi} \times (\text{Combo Multi} - 1)) \\
+&\qquad + \text{Absolute Bonus}
+\end{aligned}
+</math>
+
+As an example, a {{Weapon|Gram}} with maxed {{M|True Steel}} and {{M|Blood Rush}}, with a x7 combo multiplier :
+:{{Math|{{text||15%|hover=Gram's base critical chance}} {{mul}} [1 + {{M|True Steel|120%}} + {{M|Blood Rush|40%}} {{mul}} ({{text||7|hover=Combo Multiplier}} - 1)]|mt=y|p=y}}
+
+<hr />
+
+Critical Chance can surpass 100%, for further information read [[#Critical Tiers|Critical Tiers]].
+
+===Sources of % Critical Chance Bonus===
+<div class="tabbertab">{{#tag:tabber|
+Rifle = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+AX-52.png|link=AX-52|{{Weapon|AX-52}} (on Headshot while Aiming)
+PointStrikeMod.png|link=Point Strike|{{M|Point Strike}}
+PrimaryAcuityMod.png|link=Primary Acuity|{{M|Primary Acuity}} (on Weak Points)
+CriticalDelayMod.png|link=Critical Delay|{{M|Critical Delay}}
+ArgonScopeMod.png|link=Argon Scope|{{M|Argon Scope}}
+GalvanizedScopeMod.png|link=Galvanized Scope|{{M|Galvanized Scope}}
+ProtonJetMod.png|link=Proton Jet|{{M|Proton Jet}}
+</gallery>
+{{!}}-{{!}}
+Shotgun = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+BlunderbussMod.png|link=Blunderbuss|{{M|Blunderbuss}}
+CriticalDecelerationMod.png|link=Critical Deceleration|{{M|Critical Deceleration}}
+LaserSightMod.png|link=Laser Sight|{{M|Laser Sight}}
+MotusSetupMod.png|link=Motus Setup|{{M|Motus Setup}}
+</gallery>
+{{!}}-{{!}}
+Pistol = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+PistolAcuityMod.png|link=Pistol Acuity|{{M|Pistol Acuity}} (on Weak Points)
+PistolGambitMod.png|link=Pistol Gambit|{{M|Pistol Gambit}}
+PrimedPistolGambitMod.png|link=Primed Pistol Gambit|{{M|Primed Pistol Gambit}}
+CreepingBullseyeMod.png|link=Creeping Bullseye|{{M|Creeping Bullseye}}
+HydraulicCrosshairsMod.png|link=Hydraulic Crosshairs|{{M|Hydraulic Crosshairs}}
+GalvanizedCrosshairsMod.png|link=Galvanized Crosshairs|{{M|Galvanized Crosshairs}}
+</gallery>
+{{!}}-{{!}}
+Melee = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+TrueSteelMod.png|link=True Steel|{{M|True Steel}}
+BloodRushMod.png|link=Blood Rush|{{M|Blood Rush}}
+MaimingStrikeMod.png|link=Maiming Strike|{{M|Maiming Strike}}
+SacrificialSteelMod.png|link=Sacrificial Steel|{{M|Sacrificial Steel}}
+GalvanizedSteelMod.png|link=Galvanized Steel|{{M|Galvanized Steel}}
+MarkoftheBeastMod.png|link=Mark of the Beast|{{M|Mark of the Beast}}
+</gallery>
+{{!}}-{{!}}
+Archguns = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+CriticalFocusMod.png|link=Critical Focus|{{M|Critical Focus}}
+ParallaxScopeMod.png|link=Parallax Scope|{{M|Parallax Scope}}
+</gallery>
+{{!}}-{{!}}
+Archmelee = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+CriticalMeltdownMod.png|link=Critical Meltdown|{{M|Critical Meltdown}}
+TemperedBladeMod.png|link=Tempered Blade|{{M|Tempered Blade}}
+</gallery>
+{{!}}-{{!}}
+Companions = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+BiteMod.png|link=Bite|{{M|Bite}}
+</gallery>
+{{!}}-{{!}}
+Warframe Abilities =
+{{:Cathode Grace}}
+{{!}}-{{!}}
+Warframe Augments = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+BitingFrostMod.png|link=Biting Frost|{{M|Biting Frost}}
+Champion'sBlessingMod.png|link=Champion's Blessing|{{M|Champion's Blessing}}
+CriticalSurgeMod.png|link=Critical Surge|{{M|Critical Surge}}
+EnragedMod.png|link=Enraged|{{M|Enraged}}
+PiercingNavigatorMod.png|link=Piercing Navigator|{{M|Piercing Navigator}}
+PrimalRageMod.png|link=Primal Rage|{{M|Primal Rage}}
+SmokeShadowMod.png|link=Smoke Shadow|{{M|Smoke Shadow}}
+TeemingVirulenceMod.png|link=Teeming Virulence|{{M|Teeming Virulence}}
+</gallery>
+{{!}}-{{!}}
+Warframe Auras = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+WorthyComraderyMod.png|link=Worthy Comradery|{{M|Worthy Comradery}} (on Weak Points)
+</gallery>
+{{!}}-{{!}}
+Warframe Passives = 
+{{PassivesHeader|Cyte-09|NoAnchor=true}}
+{{PassivesHeader|Nyx|NoAnchor=true}}
+{{PassivesHeader|Yareli|NoAnchor=true}}
+{{PassivesHeader|Zephyr|NoAnchor=true}}
+{{!}}-{{!}}
+Weapon Augments =  <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+AmalgamRipkasTrueSteelMod.png|link=Amalgam Ripkas True Steel|{{M|Amalgam Ripkas True Steel}}
+DeadlySequenceMod.png|link=Deadly Sequence|{{M|Deadly Sequence}}
+ExposingHarpoonMod.png|link=Exposing Harpoon|{{M|Exposing Harpoon}}
+Hata-SatyaMod.png|link=Hata-Satya|{{M|Hata-Satya}}
+DeadlyManeuversMod.png|link=Deadly Maneuvers|{{M|Deadly Maneuvers}}
+</gallery>
+{{!}}-{{!}}
+Gladiator Mods = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+GladiatorAegisMod.png|link=Gladiator Aegis|{{M|Gladiator Aegis}}
+GladiatorFinesseMod.png|link=Gladiator Finesse|{{M|Gladiator Finesse}}
+GladiatorMightMod.png|link=Gladiator Might|{{M|Gladiator Might}}
+GladiatorResolveMod.png|link=Gladiator Resolve|{{M|Gladiator Resolve}}
+GladiatorRushMod.png|link=Gladiator Rush|{{M|Gladiator Rush}}
+GladiatorViceMod.png|link=Gladiator Vice|{{M|Gladiator Vice}}
+</gallery>
+{{!}}-{{!}}
+Arcanes = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArcaneHotShot.png|link=Arcane Hot Shot|{{Arcane|Arcane Hot Shot}}
+CascadiaAccuracy.png|link=Cascadia Accuracy|{{Arcane|Cascadia Accuracy}}
+CascadiaOvercharge.png|link=Cascadia Overcharge|{{Arcane|Cascadia Overcharge}}
+SecondaryKinship.png|link=Secondary Kinship|{{Arcane|Secondary Kinship}}
+SecondaryOutburst.png|link=Secondary Outburst|{{Arcane|Secondary Outburst}}
+MeleeAnimosity.png|link=Melee Animosity|{{Arcane|Melee Animosity}}
+EternalOnslaught.png|link=Eternal Onslaught|{{Arcane|Eternal Onslaught}}
+VirtuosShadow.png|link=Virtuos Shadow|{{Arcane|Virtuos Shadow}}
+</gallery>
+{{!}}-{{!}}
+Focus = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+FocusKiller'sRush.png|link=Killer's Rush|{{Focus|Killer's Rush}}
+</gallery>
+}}</div>
+
+===Sources of Absolute (Flat) Critical Chance Bonus===
+<div class="tabbertab">{{#tag:tabber|
+Companions = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+Cat'sEyeMod.png|link=Cat's Eye|{{M|Cat's Eye}}
+CharmMod.png|link=Charm|{{M|Charm}}
+HunterSynergyMod.png|link=Hunter Synergy|{{M|Hunter Synergy}}
+</gallery>
+{{!}}-{{!}}
+Warframe Abilities = 
+{{:Covenant}}
+{{:Crystallize}}
+{{:Shroud of Dynar}}
+{{:Wrathful Advance}}
+{{!}}-{{!}}
+Warframe Augments = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+BallisticBullseyeMod.png|link=Ballistic Bullseye|{{M|Ballistic Bullseye}}
+ConcentratedArrowMod.png|link=Concentrated Arrow|{{M|Concentrated Arrow}}
+ShadowHazeMod.png|link=Shadow Haze|{{M|Shadow Haze}}
+</gallery>
+{{!}}-{{!}}
+Arcanes = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArcaneAvenger.png|link=Arcane Avenger|{{Arcane|Arcane Avenger}}
+SecondaryEnervate.png|link=Secondary Enervate|{{Arcane|Secondary Enervate}}
+</gallery>
+}}</div>
+
+==Critical Damage==
+{{Quote|The Damage Total is multiplied by this value when a critical hit is inflicted.<br/>The added Damage is doubled for Big Critical Hits (orange), and tripled for Super Critical Hits (red).|In-game Description}}
+===Relative Increases===
+Most increases to critical damage are relative '''to the base multiplier'''. Multiple of these stack additively with each other:
+:<math>\text{Total Critical Damage Multiplier} = \text{Base Critical Damage Multiplier} \times (1 + \text{Relative Bonus})</math>
+
+:Where the '''Relative Bonus''' is the sum of all applicable bonuses.
+:<math>\text{Relative Bonus} = \text{Bonus}_{1} + \text{Bonus}_{2} + \text{Bonus}_{3} + \cdots</math>
+
+As an example, a {{Weapon|Braton}} with {{M|Vital Sense}} and {{M|Bladed Rounds}} has a critical damage multiplier of:
+:{{Math|{{text||1.6|hover=Braton's base critical damage multiplier}} {{mul}} (1 + {{M|Vital Sense|120%}} + {{M|Bladed Rounds|120%}})|mt=y}}
+
+===Absolute Increases===
+A few effects grant absolute (also called flat) amounts of critical damage which are applied after relative bonuses.
+
+* {{Arcane|Arcane Crepuscular}}
+* {{D|Cold}}'s status effect "Freeze"
+* {{A|Shroud of Dynar}}
+* {{M|Tenacious Bond}}
+:<math>\text{Total Critical Damage Multiplier} = \text{Base Critical Damage Multiplier} \times (1 + \text{Relative Bonus}) + \text{Absolute Bonus}</math>
+
+:Where the '''Absolute Bonus''' is the sum of all applicable bonuses.
+:<math>\text{Absolute Bonus} = \text{Bonus}_{1} + \text{Bonus}_{2} + \text{Bonus}_{3} + \cdots</math>
+
+As an example, a Braton with {{M|Vital Sense}} (''relative'') and {{M|Tenacious Bond}} (''absolute'') has a critical damage multiplier of:
+:{{Math|{{text||1.6|hover=Braton's base critical damage multiplier}} {{mul}} (1 + {{M|Vital Sense|120%}}) + {{M|Tenacious Bond|1.2}}|mt=y}}
+
+===Quantization===
+The base critical damage multiplier of a weapon is quantized.<ref>{{Ref|title=Accurate eidolon damage and a convenient spreadsheet comparing weapon builds/rivens|author=BaeckerSkins|year=2022|month=1|day=15|publisher=Reddit|url=https://www.reddit.com/r/Warframe/comments/s4tmbf/accurate_eidolon_damage_and_a_convenient/|access-date=2023-12-03|archive-url=|archive-date=}}</ref><ref>{{Ref|title=Critical multiplier quantization|author=Anon|year=2023|month=12|day=3|publisher=Imgur|url=https://imgur.com/a/jRuWXDq|access-date=2023-12-03|archive-url=|archive-date=}}</ref> This applies before mods, but after certain effects that are additive to the base value. Before encoding, the base critical damage multiplier <math>x</math> is clamped to the range from 0 to 32. The exact 12-bit integer code and decoded multiplier are:
+
+:<math>\begin{aligned}
+\operatorname{Code}(x) &= \left\lfloor \operatorname{clamp}(x,0,32) \times \frac{4095}{32} + 0.5 \right\rfloor \\
+\text{Quantized Base CDM}(x) &= \operatorname{Code}(x) \times \frac{32}{4095}
+\end{aligned}</math>
+
+The 4096 possible codes range from 0 to 4095, so adjacent decoded values differ by <math>32/4095</math>. The calculation uses 32-bit floating-point arithmetic.
+
+As an example, a {{Weapon|Braton}} with {{M|Vital Sense}} excluding quantization for simplicity, has a critical damage multiplier of:
+:{{Math|{{text||1.6|hover=Braton's base critical damage multiplier}} {{mul}} (1 + {{M|Vital Sense|120%}})|m=y|mt=y}}
+
+Another similar example, now including quantization, and now with the Incarnon perk Critical Parallel yields a critical damage multiplier of:
+:<math>\operatorname{Code}(1.6+0.4) = \left\lfloor 2.0 \times \frac{4095}{32} + 0.5 \right\rfloor = 256</math>
+:{{Math|256 {{mul}} (32 / 4095) {{mul}} (1 + {{M|Vital Sense|120%}})|m=y|mt=y}}
+
+=== Sources of % Critical Damage Bonus ===
+<div class="tabbertab">{{#tag:tabber|
+Rifle = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+VitalSenseMod.png|link=Vital Sense|{{M|Vital Sense}}
+HammerShotMod.png|link=Hammer Shot|{{M|Hammer Shot}}
+BladedRoundsMod.png|link=Bladed Rounds|{{M|Bladed Rounds}}
+MutalistQuanta.png|link=Mutalist Quanta|{{Weapon|Mutalist Quanta}}'s alternative fire; shooting bullets through the Infested orb will boost the weapon's critical multiplier
+</gallery>
+{{!}}-{{!}}
+Shotgun = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+RavageMod.png|link=Ravage|{{M|Ravage}}
+PrimedRavageMod.png|link=Primed Ravage|{{M|Primed Ravage}}
+ShrapnelShotMod.png|link=Shrapnel Shot|{{M|Shrapnel Shot}}
+</gallery>
+{{!}}-{{!}}
+Pistol = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+Vesper77.png|link=Vesper 77|{{Weapon|Vesper 77}} (on Aiming)
+MagneticMightMod.png|link=Magnetic Might|{{M|Magnetic Might}}
+MercilessGunfightMod.png|link=Merciless Gunfight|{{M|Merciless Gunfight}}
+TargetCrackerMod.png|link=Target Cracker|{{M|Target Cracker}}
+PrimedTargetCrackerMod.png|link=Primed Target Cracker|{{M|Primed Target Cracker}}
+HollowPointMod.png|link=Hollow Point|{{M|Hollow Point}}
+SharpenedBulletsMod.png|link=Sharpened Bullets|{{M|Sharpened Bullets}}
+</gallery>
+{{!}}-{{!}}
+Melee = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+OrganShatterMod.png|link=Organ Shatter|{{M|Organ Shatter}}
+AmalgamOrganShatterMod.png|link=Amalgam Organ Shatter|{{M|Amalgam Organ Shatter}}
+GladiatorMightMod.png|link=Gladiator Might|{{M|Gladiator Might}}
+GalvanizedSteelMod.png|link=Galvanized Steel|{{M|Galvanized Steel}}
+StrainInfectionMod.png|link=Strain Infection|{{M|Strain Infection}}
+</gallery>
+{{!}}-{{!}}
+Archgun = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+CriticalFocusMod.png|link=Critical Focus|{{M|Critical Focus}}
+HollowedBulletsMod.png|link=Hollowed Bullets|{{M|Hollowed Bullets}}
+</gallery>
+{{!}}-{{!}}
+Archmelee = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+MagnetizedCoreMod.png|link=Magnetized Core|{{M|Magnetized Core}}
+BleedingEdgeMod.png|link=Bleeding Edge|{{M|Bleeding Edge}}
+</gallery>
+{{!}}-{{!}}
+Companions = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+RadonClawsMod.png|link=Radon Claws|{{M|Radon Claws}}
+BiteMod.png|link=Bite|{{M|Bite}}
+</gallery>
+{{!}}-{{!}}
+Warframe Abilities = 
+{{:Electric Shield}}
+{{:Grave Spirit}}
+{{!}}-{{!}}
+Warframe Augments = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+BitingFrostMod.png|link=Biting Frost|{{M|Biting Frost}}
+EmpoweredQuiverMod.png|link=Empowered Quiver|{{M|Empowered Quiver}}
+TharrosLethalityMod.png|link=Tharros Lethality|{{M|Tharros Lethality}}
+</gallery>
+{{!}}-{{!}}
+Vigilante Mods = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+VigilanteArmamentsMod.png|link=Vigilante Armaments|{{M|Vigilante Armaments}}
+VigilanteFervorMod.png|link=Vigilante Fervor|{{M|Vigilante Fervor}}
+VigilanteOffenseMod.png|link=Vigilante Offense|{{M|Vigilante Offense}}
+VigilantePursuitMod.png|link=Vigilante Pursuit|{{M|Vigilante Pursuit}}
+VigilanteVigorMod.png|link=Vigilante Vigor|{{M|Vigilante Vigor}}
+VigilanteSuppliesMod.png|link=Vigilante Supplies|{{M|Vigilante Supplies}}
+</gallery>
+{{!}}-{{!}}
+Tek Mods= <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+TekCollateralMod.png|link=Tek Collateral|{{M|Tek Collateral}}
+</gallery>
+{{!}}-{{!}}
+Arcanes = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+PrimaryBlight.png|link=Primary Blight|{{Arcane|Primary Blight}}
+PrimaryFrostbite.png|link=Primary Frostbite|{{Arcane|Primary Frostbite}}
+SecondaryOutburst.png|link=Secondary Outburst|{{Arcane|Secondary Outburst}}
+MagusAggress.png|link=Magus Aggress|{{Arcane|Magus Aggress}}
+VirtuosStrike.png|link=Virtuos Strike|{{Arcane|Virtuos Strike}}
+</gallery>
+{{!}}-{{!}}
+Focus = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+FocusPowerTransfer.png|link=Power Transfer|{{Focus|Power Transfer}}
+</gallery>
+}}</div>
+
+===Sources of Absolute (Flat) Critical Damage Bonus===
+<div class="tabbertab">{{#tag:tabber|
+Companions = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+TenaciousBondMod.png|link=Tenacious Bond|{{M|Tenacious Bond}}
+</gallery>
+{{!}}-{{!}}
+Warframe Abilities = 
+{{:Shroud of Dynar}}
+{{!}}-{{!}}
+Arcanes = <gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArcaneCrepuscular.png|link=Arcane Crepuscular|{{Arcane|Arcane Crepuscular}}
+MeleeDoughty.png|link=Melee Doughty|{{Arcane|Melee Doughty}}
+</gallery>
+}}</div>
+
+==Critical Tiers==
+{| class="wikitable floatright" style="text-align: center; margin: 1em auto; margin-left: 10px;"
+|-
+!Total<br />Crit Chance
+!Crit Outcome
+!Crit Tier &<br />Coloration 
+|-
+|x ≤ 0%
+|No hit can crit
+| rowspan="2" style="background:var(--normal-hit-color);color:var(--almost-black);font-weight: 600;text-shadow: .08em .08em var(--almost-white);" |Tier 0
+|-
+| rowspan="2" |0% < x < 100%
+| rowspan="2" | '''Chance''' for a <span style="color:var(--yellow-crit-color);font-weight: 600;">yellow crit</span>
+|-
+| rowspan="3" style="background:var(--yellow-crit-color);color:var(--almost-black);font-weight: 600;text-shadow: .08em .08em var(--almost-white);" |Tier 1
+|-
+|x = 100%
+|All hits yellow crit
+|-
+| rowspan="2" |100% < x < 200%
+| rowspan="2" |'''Chance''' for an <span style="color:var(--orange-crit-color);font-weight: 600;">orange ('''Big''') crit</span>
+|-
+| rowspan="3" style=" background:var(--orange-crit-color);color:var(--almost-black);font-weight: 600;text-shadow: .08em .08em var(--almost-white);" | Tier 2
+|-
+|x = 200%
+|All hits '''Big''' crit
+|-
+| rowspan="2" |200% < x < 300%
+| rowspan="2" |'''Chance''' for a <span style="color:var(--red-crit-color);font-weight: 600;">red ('''Super''') crit</span> (tier 3) 
+|-
+| rowspan="3" style="background:var(--red-crit-color);color:var(--almost-black);font-weight: 600;text-shadow: .08em .08em var(--almost-white);" |Tier 3
+|-
+|x = 300%
+| All hits '''Super''' crit (tier 3)
+|-
+| rowspan="2" |300% < x < 400%
+| rowspan="2" |'''Chance''' for a <span style="color:var(--red-crit-color);font-weight: 600;">red ! crit</span> (tier 4)
+|-
+| rowspan="3" style="background:var(--red-crit-color);color:var(--almost-black);font-weight: 600;text-shadow: .08em .08em var(--almost-white);" |Tier 4
+|-
+|x = 400%
+|All hits red crit (tier 4)
+|-
+| rowspan="2" | 400% < x < 500%
+| rowspan="2" |'''Chance''' for a <span style="color:var(--red-crit-color);font-weight: 600;">red !! crit</span> (tier 5)
+|-
+| rowspan="3" style="background:var(--red-crit-color);color:var(--almost-black);font-weight: 600;text-shadow: .08em .08em var(--almost-white);" |Tier 5
+|-
+|x = 500%
+|All hits red crit (tier 5)
+|-
+| rowspan="2" | 500% < x < 600%
+| rowspan="2" |'''Chance''' for a <span style="color:var(--red-crit-color);font-weight: 600;">red !!! crit</span> (tier 6)
+|-
+| rowspan="2" style="background: var(--red-crit-color);color:var(--almost-black);font-weight: 600;text-shadow: .08em .08em var(--almost-white);" |...
+|-
+|... 
+|...
+|}
+[[File:Crit_numbers.png|thumb|Three different color tiers of critical hits along with normal damage color]]
+When a weapon achieves a critical chance '''higher than 100%''', every attack will crit but it also gains a chance to deal an even stronger crit. As the critical chance increases, the tier of critical damage does so as well.
+
+Although the coloration remains red after a certain point, critical tiers continue to increase. Every tier above 3 will produce an additional exclamation mark (!) up to three times.
+
+<hr />
+
+As an example, a {{Weapon|Lenz}} with {{M|Point Strike}} has a critical chance of:
+: {{Math|{{text||50%|hover=Lenz's base critical chance}} {{mul}} (1 + {{M|Point Strike|150%}})|p=y|mt=y}} 
+
+This means it will have a 25% chance to trigger an orange crit, while all other hits (75%) will yield a yellow crit.
+
+The critical damage multiplier for these can be '''calculated''' as follows:
+:<math>\text{Critical Tier Multiplier} = 1 + \text{Critical Tier} \times (\text{Total Critical Damage Multiplier} - 1)</math>
+
+As an example, a {{Weapon|Lenz}} with {{M|Point Strike}} and {{M|Vital Sense}} will have an orange critical multiplier of:
+:{{Math|1 + {{text||2|hover=Orange hits indicate Critical Tier 2}} {{mul}} ({{text||2.0|hover=Lenz's base critical damage multiplier}} {{mul}} (1 + {{M|Vital Sense|120%}}) {{sub}} 1)|m=y|mt=y}}
+
+In addition, each mod of the [[Set_Mods#Vigilante_Mod_Set|Vigilante Mod Set]] has a '''5%''' chance to increase a Primary Weapon's critical hit's tier by 1. This effect stacks with other Vigilante Mods installed, up to a '''30%''' chance with all six Vigilante Mods equipped.
+
+==Critical Headshots==
+[[File:AklexCritDifferences.png|thumb|This picture displays a headcrit dealing 4x (old : now, it would be 6x) regular headshot damage using an unmodded {{Weapon|Lex}}.]]
+[[Enemy Body Parts|Certain body parts]] on enemies, most notably heads, will receive additional damage when struck. This location-based damage increase is usually a 3.0x multiplier, but if the strike is a critical hit, then it receives an additional damage bonus of '''2.0x''' ''on top'' of the location multiplier and the critical damage multiplier: 
+:<math>\text{Headshot Crit Tier Multi} = \text{Headshot Multi} \times (1 + \text{Critical Tier} \times (2 \times \text{Total Critical Damage Multiplier} - 1))</math>
+
+As an example, a {{Weapon|Lanka}} with {{M|Vital Sense}}, and a headshot multiplier of 3.0 will have an orange critical damage multiplier of:
+: {{Math|{{text||3.0|hover=Headshot Multiplier}} {{mul}} (1 + {{text||2|hover=Orange hits indicate Critical Tier 2}} {{mul}} (2 {{mul}} {{text||2.0|hover=Lanka's base critical damage multiplier}} {{mul}} (1 + {{M|Vital Sense|120%}}) {{sub}} 1))|m=y|mt=y}} 
+
+The Headshot Multiplier is 3.0x in almost all cases. The bonus damage from headshot crits is specific to heads and not generalized to all special body parts. The [[MOA]], for example, has a "[[wikipedia:Fanny Pack|fanny pack]]" which normally receives 3.0x damage, but does '''not''' receive any additional multipliers from a critical hit. The [[Jordas Golem]], however, has a 1.0x multiplier on his engines, but still receives increase damage if critically hit. Corpus humanoids do '''not''' receive headcrits, instead only taking the normal 3.0x headshot damage even after their helmets are removed. If a weapon defaults to a 1x headshot multiplier it will not benefit from the critical bonus, this is true even if the headshot multiplier is raised.
+
+==Damage Calculation==
+{{For|full damage calculation|Damage/Calculation}}
+
+==Average Damage==
+When comparing builds it can be helpful to calculate how much damage the weapon will deal on average, which is affected by how often critical hits occur and at what critical damage multiplier. The following equation accounts for critical hits that are not headshots:
+:<math>\text{Average Damage Multiplier} = 1 + \text{Total Critical Chance} \times (\text{Total Critical Damage Multiplier} - 1)</math>
+: <math>\text{Average Damage on Hit} = \text{Modded Damage} \times \text{Average Damage Multiplier}</math>
+
+As an example, a {{Weapon|Paris}} has an average damage multiplier of: 
+:{{Math|1 + {{text||30%|hover=Paris's base critical chance}} {{mul}} ({{text||2.0|hover=Paris's base critical damage multiplier}} - 1)|m=y|mt=y}}
+
+{{Weapon|Paris}} with {{M|Point Strike}} and {{M|Vital Sense}} has an average damage multiplier of:
+:{{Math|1 + ({{text||30%|hover=Paris's base critical chance}} {{mul}} (1 + {{M|Point Strike|150%}})) {{mul}} ({{text||2.0|hover=Paris's base critical damage multiplier}} {{mul}} (1 + {{M|Vital Sense|120%}}) - 1)|m=y|mt=y}} 
+
+So for a Paris without any critical mods, the damage is multiplied by 1.3 on average; yellow crits of 2x for 30% of the shots. <br>
+With the 2 basic critical mods, the damage is multiplied by 3.55 on average; yellow crits of 4.4x for 75% of the shots.
+
+==Notes==
+*Most Warframe abilities cannot inflict critical hits. Exceptions include [[Exalted Weapon]]s, {{WF|Voruna}}'s {{A|Ulfrun's Descent}}, {{WF|Gyre}}'s abilities through her [[Gyre/Abilities|Passive]] and {{WF|Nokko}}'s {{A|Sporespring}}.
+**Even if an ability can't normally be a critical hit, it may still be able to critically hit through enemy weakpoints with Critical Tier increase properties. These abilities have a critical damage multiplier of 1x that can be increased with {{Arcane|Arcane Crepuscular}}.
+**Prior to {{ver|33.6}}, some abilities had 100% critical chance with a multiplier of 1x. This only served to provide visual feedback.
+*As of {{ver|35.0.9}}, enemies cannot inflict critical hits.
+
+==Bugs==
+*If the critical tier multiplier goes past ~255, the displayed damage number will be approximately negative 2.1 billions (blue colored like a shield hit). The actual damage dealt in such case is usually much lower than the 2.1 billion needed to overflow the displayed damage number.
+
+==See also==
+*{{M|Hunter Munitions}}, a chance to apply {{D|Slash}} on critical hit for primary weapons.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|35.0.9}}
+*Removed the ability for enemies to deal critical hits to players, Defense targets, Extractors, Rescue targets, and all other friendly targets. 
+**''In most cases, enemies equipped with “player” weapons (Grineer Ballista using the Vulkar for example) could land critical hits due to those weapons using the same crit setup as their player counterpart. With a lack of feedback to inform players as to why or how sudden damage spikes were occurring, these enemies could easily jeopardize a mission. Additionally, while it makes sense to reward players for landing critical headshots, whether an enemy hits a head or not is outside of player control - which ultimately made countering it near impossible. So, in an effort to provide more consistent and predictable damage output from enemies, we have removed their ability to deal critical hits.''
+
+{{ver|34}}<br/>
+'''Missed Note From Abyss of Dagath:'''
+*Updated our Damage Number system to add an exclamation point (!) for every Crit Tier above Super Crits, up to 3 total. Now you'll really be able to tell when you're doing a lot of damage!!!
+
+{{ver|33.6.1}}<br/>
+'''Missed Notes:'''
+*With the new Ability Damage qualifier with the Enhanced Damage Numbers system, some players may think that certain Warframe abilities have had their Critical Chance nerfed. In truth, some Warframe abilities had a Critical Chance multiplier simply to add “oomph” to their damage numbers, without having an actual impact on Damage output. With this new Enhanced Damage System, that extra oomph is no longer needed, so those non-functional Critical Change values were removed, but the overall damage of these abilities are unchanged.
+
+{{ver|28.0.4}}
+*Fixed Critical Hits not triggering for Glaive mid-air detonations.
+
+{{ver|21}}
+*With Harrow's enhancement to Criticals, we have slightly tweaked the colour gradient in which Critical hits are displayed. Introducing: Orange Crits! These now occur in between Yellow and Red Crits. Before, Crits became Red when 100% Crit Chance was achieved. Now Crits will be ORANGE in the 100.01-200% range, and Red will start at 200.01%+! This is solely a visual change. 
+
+{{ver|14.10}}
+*Changed Critical Chance logic by allowing it to occur on Radial Explosions (both friendly and enemy where applicable). This fixes an issue with the Torid’s gas cloud not allowing for criticals.
+
+{{ver|13.5}}
+;Changes to Crit calculations&#58;
+
+We have made changes to the way Criticals work on weapons that have been modded to have a crit chance greater than 100%. You may recall the existence of ‘red crits’ from many updates ago, which occurred with no clear formula other than “Synapse!”. Here is some clarity into the new system:
+
+The brief:
+
+A weapon with a critical chance greater than 100% will receive 2 calculations:
+
+1) a guaranteed critical damage value - this normally appears as a yellow value.
+
+2) a secondary red crit chance based on the remaining percent- this will appear as a new RED crit if successful!
+
+This means:
+
+If your rate is 125% you get one guaranteed crit and a 25% chance of a red crit.
+
+If this Second Crit occurs, you will see a deadly Red crit value!
+}}
+
+{{DamageNav}}
+{{MechNav}}
+{{CritMods}}
+[[es:Daño crítico]]
+[[de:Kritischer Treffer]]
+[[fr:Coup Critique]]
+[[Category:Mechanics]]
+[[Category:Damage 2.0]]

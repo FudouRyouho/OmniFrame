@@ -1,0 +1,608 @@
+{{UpdateMe|Unclear if new or old Damage Attenuation stats, unclear how long it lasts. The whole page needs a check and rewrite.}}
+{{Community}}
+When a player or enemy deals [[damage]] to their targets' [[health]] or [[shields]], that damage may be mitigated by sources of '''damage reduction''' (also called '''damage resistance''' relative to receiving damage). In other words, players may deal less damage than the listed [[Arsenal]] value due to [[armor]]; damage type modifiers from different health, armor, and shield classes; and/or other sources of damage reduction.
+
+Note that in-game and on the wiki, sometimes [[Abilities]] and [[Mod]] descriptions mention damage reduction when they really mean ''negative [[Damage Type Modifier|damage type modifier]]'' and vice versa. This distinction is needed to differentiate between [[Calculating Bonuses|multiplicative and additive stacking]] of different forms of damage reduction.
+{{tocright|limit=3}}
+==How Damage Reduction Affects Damage==
+{{Main|Damage/Calculation}}
+===Basic===
+When a player is dealt damage, it is reduced by a scalar calculated from the amount of damage reduction (DR) active (from [[Mod]]s, Warframe [[abilities]], etc.). The general calculation takes a form of:
+:<math>
+\begin{aligned}
+\text{Damage Received} &= \text{Damage Dealt} \times (1 - \text{DR}_{1}) \times (1 - \text{DR}_{2}) \times \cdots \\
+&= \text{Damage Dealt} \times \text{Total Damage Multiplier}
+\end{aligned}
+</math>
+
+For example, if a Grineer {{E|Lancer}} normally deals 100 IPS damage (50 {{D|Impact}}, 25 {{D|Puncture}}, and 25 {{D|Slash}}) against a player, and that damage is dealt to the player's shields, which have an innate 50% DR, the amount of damage the player receives will be:
+:{{Math|({{D|Impact|50}} + {{D|Puncture|25}} + {{D|Slash|25}}) {{mul}} (1 - 50%)|mt=y}}
+
+===With Armor===
+In the case of [[Armor|armored]] targets (players and enemies), the modified damage dealt is calculated as:
+:<math>
+\begin{aligned}
+\text{Damage Received} &= \text{Damage Dealt} \times (1 - \text{DR}_{1}) \times (1 - \text{DR}_{2}) \times \cdots \times \frac{300}{300 + \text{Armor}} \\
+&= \text{Damage Dealt} \times \text{Total Damage Multiplier from Pure Damage Reduction} \times \text{Total Damage Multiplier from Armor}
+\end{aligned}
+</math>
+
+For example, if 100 pure {{D|Impact}} damage is dealt to a player with 500 armor, the amount of damage they receive will be:
+:{{Math|{{D|Impact|100}} {{mul}} 300/(300 + 500)|mt=y}}
+
+===With Damage Type Modifiers and Physical/Elemental Damage===
+[[Damage Type Modifier]]s (DM, not to be confused with damage ''reduction'', DR) play a role in damage calculations. Although the {{D|Tenno}} are neutral to all damage types as of {{ver|27.2}}, mods such as {{M|Toxin Resistance}} or ability effects like {{A|Kinetic Plating}} add damage modifiers to a player's health and shields against either one type of damage:
+*{{D|Toxin}} for {{M|Toxin Resistance}}
+*or multiple ({{D|Impact}}, {{D|Puncture}}, {{D|Slash}}, {{D|Heat}}, {{D|Cold}}, and {{D|Blast}} for {{A|Kinetic Plating}}.
+
+The generalized formula from above can be modified to account for these as such:
+:<math>
+\begin{aligned}
+\text{Damage Type Received} &= \text{Damage Type Dealt} \times (1 - \text{DR}_{1}) \times (1 - \text{DR}_{2}) \times \cdots \times \frac{300}{300 + \text{Armor}} \times (1 + \text{DM}_{1}) \times (1  + \text{DM}_{2}) \times \cdots \\
+&= \text{Damage Type Dealt} \times \text{Total Damage Multiplier from Pure Damage Reduction} \times \text{Total Damage Multiplier from Armor} \times \text{Total Damage Multiplier from Damage Type Modifiers}
+\end{aligned}
+</math>
+
+For example, if 50 {{D|Impact}}, 25 {{D|Puncture}}, and 25 {{D|Slash}} damage is dealt to {{D|Corpus}} health, with 100 armor, and [[Guardian Eximus]] aura active (90% DR), the amount of damage the enemy receives will be:
+:{{Math|{{D|Impact|50}} {{mul}} (1 - 90%) {{mul}} (1 - 100/(100 + 300)) {{mul}} (1 + {{D|Corpus|0%}})|mt=y}}
+:{{Math|{{D|Puncture|25}} {{mul}} (1 - 90%) {{mul}} (1 - 100/(100 + 300)) {{mul}} (1 + {{D|Corpus|50%}})|mt=y}}
+:{{Math|{{D|Slash|25}} {{mul}} (1 - 90%) {{mul}} (1 - 100/(100 + 300)) {{mul}} (1 + {{D|Corpus|0%}})|mt=y}}
+
+===Against Non-Health/Shield Types===
+Damage Reduction has no affect on effects that absorb damage, {{D|Overguard}}, or {{D|Object}} health such as:
+*{{WF|Frost}}'s {{A|Snow Globe}} and {{M|Icy Avalanche}}
+*{{WF|Nezha}}'s {{A|Warding Halo}} (during 3-second invulnerability period; DR to health after 3-second period works normally) 
+*{{WF|Rhino}}'s {{A|Iron Skin}}
+*{{WF|Saryn}}'s {{A|Molt}}
+
+Some of these may ''benefit'' from increased Armor (e.g. damage absorption scales with Armor values), but Damage Reduction will not be applied to these to reduce incoming damage received.
+
+==Types of Damage Reduction==
+{| class="wikitable"
+! Type
+! Applies to
+! Stacking behavior & source
+|-
+| Armor || [[Health]] only ||
+*<math>\text{Damage Reduction}=\frac{\text{Net Armor}}{\text{Net Armor}+300}</math>
+*DR from armor is multiplicative with other types
+*Armor bonuses stack additively (e.g. {{M|Steel Fiber}} and {{M|Gladiator Aegis}})
+|-
+| Pure Damage Reduction || [[Shield]]s and Health ||
+*DR is multiplicative with all forms of damage reduction
+*Typically obtained from using Warframe abilities
+|-
+| [[Damage Redirection]] || [[Overguard]], Shields, and Health ||
+*DR is multiplicative with all forms of damage reduction
+*Typically obtained from using Warframe abilities
+|-
+| [[Damage Type Modifier]] || Where Applicable* ||
+*DR from damage type modifier is multiplicative within the same type
+*DR is multiplicative with other types
+|-
+| Energy as Health || [[Energy]] at 2 Health ||
+*<math>\text{Damage Reduction}=1-\frac{100}{\text{Net Efficiency}}</math>
+*DR is multiplicative with other types
+*From equipping {{M|Quick Thinking}} and/or {{M|Gladiator Finesse}}, efficiency bonuses stack additively
+|-
+| Damage Attenuation || Enemy Health ||
+*Damage reduction adapts to player DPS
+*DR is multiplicative with other types
+|-
+|}
+'''*'''Modifiers granted by mods or effects (e.g. {{M|Toxin Resistance}}) are applied to both health and shields, while modifiers that are innate to a shield or health type only apply to the damage dealt to shields or health. E.g. {{D|Slash}} damage dealt to the neutral shields of an enemy that has a +25% modifier to slash on its health will not take increased damage to its shields. The exception to this are damage modifiers on armor, which do apply to health as well, but not to shields.
+
+==Armor==
+{{Main|Armor}}
+{{#lst:Armor|intro}}
+
+==Pure Damage Reduction==
+Any source of damage reduction, aside from armor, will decrease damage done to health '''and''' shields. Sources of damage reduction (including armor) stack '''multiplicatively''' with each other.
+
+This form of damage reduction is usually temporary or conditional, unlike armor, so it must be reapplied to receive less damage to health and shields.
+
+===Sources of Pure Damage Reduction===
+;Abilities
+<tabber>Baruuk={{#tag:tabber|Restraint=
+{{:Baruuk/Abilities/Passive}}
+{{!}}-{{!}}Desolate Hands=
+{{:Desolate Hands}}
+{{!}}-{{!}}Serene Storm=
+{{:Serene Storm}}
+}}
+|-|Citrine={{:Preserving Shell}}
+|-|Ember={{:Immolation}}
+|-|Equinox={{:Pacify & Provoke}}
+|-|Follie={{:Self Portrait}}
+|-|Gara={{:Splinter Storm}}
+|-|Gauss={{:Kinetic Plating}}
+|-|Jade={{:Glory on High}}
+|-|Mesa={{:Shatter Shield}}
+|-|Mirage={{:Eclipse}}
+|-|Nova={{:Null Star}}
+|-|Titania={{:Tribute}}
+|-|Trinity={{:Blessing}}
+}}
+</tabber>
+
+;Mods
+<gallery captionalign="center" captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+FirewallMod.png|link=Firewall|{{M|Firewall}} (75% damage reduction)
+GuardianArmorMod.png|link=Guardian Armor|{{M|Guardian Armor}} (75% damage reduction for allies)
+ImmolatedRadianceMod.png|link=Immolated Radiance|{{M|Immolated Radiance}} (up to 50% damage reduction for allies)
+IroncladFlightMod.png|link=Ironclad Flight|{{M|Ironclad Flight}}<br />(40% damage reduction)
+ProtonJetMod.png|link=Proton Jet|{{M|Proton Jet}} [[Proton Set|Proton Set Bonus]]<br />(16.67% damage reduction)
+ProtonPulseMod.png|link=Proton Pulse|{{M|Proton Pulse}} [[Proton Set|Proton Mod Set Bonus]]<br />(16.67% damage reduction)
+ProtonSnapMod.png|link=Proton Snap|{{M|Proton Snap}} [[Proton Set|Proton Mod Set Bonus]]<br />(16.67% damage reduction)
+ReverseRotorswellMod.png|link=Reverse Rotorswell|{{M|Reverse Rotorswell}}<br />(35% damage reduction)
+WardingThuribleMod.png|link=Warding Thurible|{{M|Warding Thurible}} (50% damage reduction for allies)
+ArmoredAcrobaticsMod.png|link=Armored Acrobatics|{{M|Armored Acrobatics}}<br />(20% damage reduction. Only useable in [[Conclave]])
+ArmoredEvadeMod.png|link=Armored Evade|{{M|Armored Evade}}<br />(40% damage reduction. Only useable in [[Conclave]])
+ArmoredRecoveryMod.png|link=Armored Recovery|{{M|Armored Recovery}}<br />(50% damage reduction. Only useable in [[Conclave]])
+AgilityDriftMod.png|link=Agility Drift|{{M|Agility Drift}}<br />(12% damage reduction)
+AerodynamicMod.png|link=Aerodynamic|{{M|Aerodynamic}}<br />(24% damage reduction)
+AviatorMod.png|link=Aviator|{{M|Aviator}}<br />(40% damage reduction)
+Boreal'sAnguishMod.png|link=Boreal's Anguish|{{M|Boreal's Anguish}} [[Boreal's Set|Boreal's Set Bonus]]<br />(20% damage reduction)
+Boreal'sContemptMod.png|link=Boreal's Contempt|{{M|Boreal's Contempt}} [[Boreal's Set|Boreal's Set Bonus]]<br />(20% damage reduction)
+Boreal'sHatredMod.png|link=Boreal's Hatred|{{M|Boreal's Hatred}} [[Boreal's Set|Boreal's Set Bonus]]<br />(20% damage reduction)
+NecramechAviatorMod.png|link=Necramech Aviator|{{M|Necramech Aviator}}<br />(40% damage reduction)
+</gallery>
+
+;Arcanes
+<gallery captionalign="center" captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArcaneDoubleBack.png|link=Arcane Double Back|{{Arcane|Arcane Double Back}} (25% damage reduction on maneuver, stacks 3 times)
+MagusFirewall.png|link=Magus Firewall|{{Arcane|Magus Firewall}} (12.5% damage reduction per second in Void Mode, stacks 6 times)
+</gallery>
+
+;Others
+<gallery captionalign="center" captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+ShieldHeader.png|link=Shield|{{Faction|Tenno}} [[Shield]]<br />(50% damage reduction)
+DecreeMarauder'sNerve.png|link=Decree|Marauder's Nerve [[Decree]]<br />(Up to 75% damage reduction)
+Innodem.png|link=Innodem|{{Weapon|Innodem}}'s Incarnon Resilience buff on finishers (10% damage reduction, stacks 4 times)
+SkanaBlocking.jpg|link=Blocking|[[Blocking]] with melee (100% damage reduction)
+MovementRollForward.gif|link=Maneuvers#Rolling|Rolling (75% damage reduction)
+</gallery>
+
+;Enemies
+<gallery captionalign="center" captionposition="below" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+GuardianEximus.png|link=Eximus|Guardian Eximus aura (90% damage reduction)
+DisrupterAncientDE.png|link=Ancient Disruptor|{{E|Ancient Disruptor}} (90% damage reduction from damage done by abilities)
+GrineerShackleRelease.png|link=The Grustrag Three|Grustrag Bolt (50% damage reduction against Grineer)
+</gallery>
+
+===Notes===
+*{{M|Reverse Rotorswell}}: Despite claiming in its description that this mod offers [[Damage Redirection]], the mod actually offers [[Damage Reduction]], which does not affect {{D|Overguard}}, nor provides [[Status Effect]] immunity, alongside the damaging effect.
+
+==Damage Redirection==
+{{Main|Damage Redirection}}
+Damage Redirection is different from Pure Damage Reduction in that it also applies to {{D|Overguard}}.
+
+===Sources of Damage Redirection===
+{{Transclude|Damage Redirection#Sources of Damage Redirection}}
+
+==Damage Type Modifiers==
+{{Main|Damage Type Modifier}}
+[[Damage Type Modifier]]s are a unique classification of damage reduction that is usually specific to only one type of damage. Damage modifiers stack '''multiplicatively''' with each other and other sources of '''damage reduction'''.
+
+===Sources of Damage Type Modifiers===
+{{Transclude|Damage Type Modifier#Sources of Damage Type Resistance}}
+
+==Quick Thinking and Gladiator Finesse==
+{{M|Quick Thinking}} and {{M|Gladiator Finesse}} are mods that convert a percentage of lethal damage taken into energy drain when the player reaches 2 health. At above 100% efficiency, additional lethal damage taken will be reduced. With both mods at maxed rank equipped, your Warframe's energy pool will be 300% efficient in absorbing damage, reducing incoming damage by 66.67%.
+
+To calculate the multiplier on incoming damage:
+<math>\text{Multiplier on incoming damage} = \frac{100}{\text{Net efficiency percentage}}</math>
+
+To calculate damage reduction provided by these mods:
+<math>\text{Damage reduction percentage} = (1 - \text{Multiplier on incoming damage}) \times 100</math>
+
+{| class="emodtable"
+|+ '''Quick Thinking'''
+|-
+! [[Mods#Mod Rank|Rank]]
+! Efficiency
+! Additional damage reduction
+! Multiplier on incoming damage
+|-
+| 0 || 40% || -150% || 2.5x
+|-
+| 1 || 80% || -25% || 1.25x
+|-
+| 2 || 120% || 16.667% || 0.833x
+|-
+| 3 || 160% || 37.5% || 0.625x
+|-
+| 4 || 200% || 50% || 0.5x
+|-
+| 5 || 240% || 58.333% || 0.41667x
+|}
+<br>
+{| class="emodtable"
+|+ '''Gladiator Finesse'''
+|-
+! [[Mods#Mod Rank|Rank]]
+! Efficiency
+! Additional damage reduction
+! Multiplier on incoming damage
+|-
+| 0 || 10% || -900% || 10x
+|-
+| 1 || 20% || -400% || 5x
+|-
+| 2 || 30% || -233.33% || 3.33x
+|-
+| 3 || 40% || -150% || 2.5x
+|-
+| 4 || 50% || -100% || 2x
+|-
+| 5 || 60% || -66.67% || 1.667x
+|}
+
+==Special Enemies and Damage Attenuation==
+{{UpdateMe|Need details on exact numbers and add more enemies that have some unique DR on their shields or health (separate from armor)}}
+Certain enemies possess unique damage reduction calculations separate from armor or sources of pure damage reduction. Usually, this unique damage reduction scales based on the weapon's average damage per second (DPS) (more specifically burst DPS), sometimes excluding [[Critical Hit]]s. Officially, this is referred to as '''adaptive damage scaling''', '''scaling damage reduction''', or '''damage attenuation'''.<ref>https://forums.warframe.com/topic/1269749-update-305-sisters-of-parvos/</ref> The game calculates DPS typically as:
+::<math>\begin{aligned}
+\text{Burst DPS} &= (\text{total damage}) \\
+&\qquad\cdot(\text{total critical multiplier if damage instance crits}) \\
+&\qquad\cdot(\text{total fire rate or attack speed}) \\
+&\qquad\cdot(\text{total multishot}) \\
+&\qquad\cdot(\text{body part multipliers})
+\end{aligned}</math>
+
+Where damage, critical multiplier, fire rate/attack speed, and multishot is calculated after mods and buffs are applied (e.g. {{WF|Octavia}}'s {{A|Amp}} or {{WF|Volt}}'s {{M|Shock Trooper}} for damage, {{M|Sharpened Bullets}} for critical multiplier, {{WF|Valkyr}}'s {{A|Warcry}} or {{WF|Gauss}}' {{A|Redline}} for fire rate/attack speed, and {{M|Split Flights}} for multishot).
+
+Note that weapons with the auto-spool trigger type, like the {{Weapon|Gorgon}} or {{Weapon|Kohm}}, will noticeably deal less damage per damage instance as their fire rate ramps up to their maximum value.
+
+In most cases, this scaling DR stacks multiplicatively with DR provided by the enemy's [[armor]].
+
+To calculate damage reduction based on DPS:
+::<math>\text{Damage reduction percentage} = (1 - \text{Damage multiplier or modifier}) \times 100</math>
+
+===Archon===
+{{Transclude|Archon#Damage Resistance}}
+
+===Condrix===
+{{Transclude|Condrix#Damage Resistance}}
+
+===Eidolons===
+{{Transclude|Eidolon Teralyst#Damage Reduction}}
+
+===Guardian Eximus===
+{{main|Eximus#Guardian}}
+Corpus '''Guardian Eximus''' enemies project an aura that have increased damage type resistance to all damage types by '''90%''' for themselves and their allies.
+
+===Hyekkas and Hyekka Masters===
+{{Main|Hyekka}}{{Main|Hyekka Master}}
+Hyekkas and Hyekka Masters resist 80% of all {{D|Heat}} damage.
+
+===Juggernaut (Behemoth)===
+{{Transclude|Juggernaut#Damage Reduction}}
+
+===Kuva Thralls===
+A [[Kuva Lich]]'s Kuva Thralls have an innate 25% damage reduction on top of their armor.
+
+===Lephantis / Hemocyte===
+{{Transclude|Lephantis#Damage Reduction}}
+{{Transclude|Hemocyte#Damage Reduction}}
+
+===Orphix===
+{{Transclude|Orphix#Damage Resistance}}
+
+===Prosecutors===
+{{Transclude|Guardsman#Prosecutor Variant}}
+
+===Sentients / Shadow Stalker===
+{{Main|Sentient#Damage Adaptation}}
+Most [[Sentient]] enemies (and [[Shadow Stalker]]) have a damage adaptation mechanic that allows them to have damage type modifiers as well as damage reductions toward particular damage types.
+
+===Raknoids===
+*[[Aurax Atloc Raknoid]]s possess '''80%''' damage reduction.
+*[[Kyta Raknoid]]s possess '''25%''' damage reduction, but only on their shields.
+*[[Scyto Raknoid]]s possess '''50%''' damage reduction.
+
+===Treasurer===
+{{Transclude|Treasurer#Damage Resistance}}
+
+==References==
+{{Reflist}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|40.0.3}}
+;Damage Attenuation & EHP Changes&#58;
+
+*Increased the MDPI (Max Damage Per Instance) on Kuva Lich, Sisters of Parvos and Technocyte Coda, so that weapons like Snipers are more effective against these foes.
+*Removed Damage Attenuation from Skittergirl.
+**She now has 90% Damage Reduction, and her Base Health* has been increased from 50 to 600. 
+*Greatly increased the MDPI (Max Damage Per Instance) for Eidolons.
+**As stated in our Dev Workshop, our intention was to keep this fight as close to the original iteration as possible. The Time-to-Kill was a little longer than it was before, so these changes should bring this fight back to pre-The Vallis Undermind speeds. 
+*Increased the Techrot Babau's Base Health* from 1,500 to 10,000, and increased the Temporal Archimedea base health bonus from 1,000 to 9,000.
+**Since Damage Attenuation was removed from these enemies in 40.0.2, their time-to-kill was significantly reduced. Now, they should be a little more challenging to reflect their rare enemy status.   
+
+''<nowiki>*</nowiki>As a refresher, Base Health refers to the Health Value at Level 1.''
+
+{{ver|40.0.2}}
+;Damage Attenuation Changes&#58;
+With our Damage Attenuation changes in The Vallis Undermind, our intention was to normalize the difficulty of boss-type enemies between groups of players. After gauging the community’s response, we recognize that our broad application of that term inadvertently made “objective-type” enemies (ex: Demolishers) harder to kill. We’re redefining our standardization of Damage Attenuation to only apply to True Bosses / HUD Health Bar enemies with our upcoming hotfix, thanks to player feedback.
+
+*Damage Attenuation changes have been removed from regular objective enemies. As a result of this, these regular objective enemies can be one-shotted again.
+*Damage Attenuation is now solely reserved for true Bosses and enemies with the HUD health bars.  
+*For certain enemies retaining Damage Attenuation, we have adjusted the values to allow for one-shot kills, if a player’s build is powerful enough.
+
+'''Enemies that no longer have Damage Attenuation:'''
+
+*Scaldra Dedicants
+*Demolishers (including Necramechs)
+*Deimos Jugulus
+*Deimos Saxum (and Saxum Rex)
+*Rogue Necramechs (Voidrig and Bonewidow)
+*Amalgams 
+*Empyrean Units (Corpus Proxima):
+**Aurax Actinic
+**Aurax Baculus
+**Aurax Vertec
+**Numon (all variants)
+**Vambac (all variants)
+**Zerca (all variants)
+*Errant Specters
+*Gruzzling
+*Necramite
+*Sister of Parvos Hounds
+*Techrot Babau
+*Treasurer 
+*Tusk Thumpers (all variants, including Narmer)
+
+'''Boss Enemies with Damage Attenuation that can be One-Shot:'''
+
+*Acolytes
+*Infested Oni
+
+Our goal was to make powerful builds feel more impactful against Damage Attenuated foes, and with your continued feedback, we can ensure we achieve that together.
+
+The team is continuing to look into other reports of bugs and feedback. Please keep it coming!
+
+{{ver|40}}
+;DAMAGE ATTENUATION CHANGES
+
+Damage Attenuation is one of the tools we use to normalize the difficulty of boss-type enemies between groups of players, and its implementation has been a hot topic in the community for a while now. While meant to balance out high-powered builds, Attenuation could sometimes lead to paltry damage numbers — great to make an enemy hard to kill, but not necessarily fun for the player. 
+
+With community feedback in mind, we have some sweeping changes planned, which we have outlined below! The core of our goals is as follows: a) '''address outlier cases of Bosses having a very long time-to-kill as a result of of Damage Attenuation''' (notably in high level content), b) '''making player builds feel impactful against Damage Attenuated foes''', and c) '''standardizing how Damage Attenuation applies to the majority of Boss-type enemies in Warframe'''. There are a few moving pieces here, so we’ll first break down the wider Attenuation changes, and then go over how we’ll be standardizing this for various enemies.
+
+A few key terms to familiarize yourself with as we move forward:
+
+*'''Damage Attenuation:''' a mechanic that caps the amount of damage an enemy can take. Warframe uses caps for damage per second and per instance. 
+*'''Damage Reduction:''' a modifier that directly reduces the damage taken by a flat amount. (ex, 50% damage reduction multiplies the final damage taken by 0.5)
+**Damage Reduction is not directly relevant to these changes, but we want to show how it works differently from Damage Attenuation.
+*'''Max Damage Per Second (MDPS):''' a target cap of the amount of damage an enemy can receive per second. Sustained damage over time is reduced to avoid exceeding that target cap. Instead of explicitly applying “per second”, this mechanic works to moderate sustained damage output.
+*'''Max Damage Per Instance (MDPI):''' a cap applied to the amount of damage applied in one damage instance. (ex, a sniper bullet or melee hit) 
+*'''Time-to-Kill:''' How long it takes a player to kill an enemy using the expected gear they’d have access to when they first encounter them.
+**This term is a simplified way for us to represent the complex layers of modifiers, damage reduction, damage attenuation, etc., that are applied to enemies, which results in the overall level of difficulty to kill them. 
+
+'''1 - Damage Attenuation Scaling'''
+
+If you hop into a Legacyte Harvest mission in Höllvania on the live build, a few things will change depending on whether you’re on the Normal Path or Steel Path: enemies have different modifiers, squad consumables have cooldowns, and so on. One thing that stays the same is the current '''Max Damage Per Second (MDPS)''' and '''Max Damage Per Instance (MDPI)''' that the Legacyte will take.
+
+This is because Damage Attenuation applied to the Legacyte is a flat value, regardless of its health pool. At Normal Path levels, these values can feel reasonable, but once Steel Path or even Temporal Archimedea modifiers apply, that’s where the “bullet sponge” allegations begin. At certain points, Damage Attenuation became less of a tool to balance out powerful player builds, and more so acted as a time gate to kill high-health enemies. 
+
+A careful touch is needed to embrace the power fantasy of Warframe while also ensuring high level content is not completely trivialized. In the current iteration of Damage Attenuation, we have not accomplished that goal to our satisfaction —  simply put, it has created gameplay interactions that are unfun. So, the following changes are being made to address it:
+
+*Firstly, Damage Attenuation values are now proportional to Max Health.
+*Secondly, Damage Attenuation’s MDPS now applies independently between players.
+
+'''Damage Attenuation in Proportion to Max Health'''
+
+If we go back to the Legacyte example from earlier, players should notice a distinct difference in how Damage Attenuation applies to this enemy in both Steel Path and Temporal Archimedea missions. Instead of the MDPS and MDPI using the same values of Normal Path Legacytes, '''the amount of damage players can deal per second and per instance now scales based on the enemy’s Max Health*'''. As Max Health increases with enemy level and mission modifiers, so will the maximum damage caps from Damage Attenuation.
+
+'''The result is a higher damage output from players, and a more reasonable time-to-kill!  Players who invested much time and effort into their builds should feel more rewarded for their work, especially against high-level enemies with Damage Attenuation.'''
+
+'''Our focus with this sweeping change is to establish the overall Time-To-Kill for enemies within a reasonable range, considering the equipment available to players when they are first encountered.'''
+
+Since this is a significant change to how Damage Attenuation is calculated, '''we have increased the Health of various Bosses to balance with this new scaling mechanic.''' The goal is to reward players with powerful builds but still avoid one-shotting Archons. We’ll cover the Health changes in the “Standardizing Damage Attenuation” section below!
+
+''<nowiki>*</nowiki> Max Health for this calculation only uses the Health value. Overguard, Shield, and Armor values are not considered.''
+
+'''Independent Maximum Damage Per Second per Player'''
+
+Previously, the Maximum Damage per Second (MDPS) cap in Damage Attenuation would apply squad-wide. If you have a teammate blasting their 6-forma Incarnon Form Laetum at an Archon, there’s a good chance they consistently hit those pillows before you have an opportunity to aim your gun.
+
+'''With that in mind, the MDPS in Damage Attenuation will now be applied on a per-player basis.''' The damage output of your squadmates no longer has an impact on the efficacy of your attacks! Max Damage Per Instance has always applied per-player (due to the nature of this mechanic), so it is unchanged.
+
+To recap our Damage Attenuation changes, a) the damage caps now scale proportionately to the enemy’s max health, and b) no longer apply squad-wide. Now, let’s move on to how we are standardizing it.
+
+'''2 - Standardizing Damage Attenuation'''
+
+Damage Attenuation is just one method that we use to balance player power against Boss-type enemies. Depending on whether you fight an Eidolon, a Kuva Lich, or an Archon, your damage output will be affected in different ways. These differences are often the legacy of the many hands that have worked to make Warframe over the years — decisions for new content in 2018 can eventually result in gameplay quirks that players learn to adapt to in 2025.
+
+There is so much to learn in Warframe, and that list only grows with every update; part of maintaining a decade-long game is reducing the scope of what players need to know. '''With that in mind, we are replacing existing Damage Attenuation on various Boss-type enemies and standardizing them to use the same system.'''
+
+Actual MDPI and MDPS values will be balanced around the content type, but enemies from Liches to Void Angels to Legacytes now all share the same attenuation mechanic. For those familiar with Archon Hunts, our new standard model is based around the Damage Attenuation in those missions.
+
+As mentioned earlier, '''we are increasing Base Health* values to balance the time-to-kill for these foes.''' While larger health pools may increase difficulty, they also increase the Damage Attenuation caps since they now scale with max health. Our hope is that players will hit harder and their weapons will feel more satisfying, while also ensuring enemies have a reasonable time-to-kill (on both ends: avoiding one-shots, but also avoiding time-gated slogs). 
+
+'''Enemies using Standardized Damage Attenuation:'''
+''<nowiki>*</nowiki>For simplicity’s sake, we are representing Health changes by comparing their difference in Health at Level 1, referred to as “Base Health” moving forward.''
+
+*Acolytes
+**Base Health: 5,500 (was 550)
+**Base Shields: 2,500 (was: 1,000)
+*Adversaries (Kuva Lich, Sisters of Parvos, and Techocyte Coda, including Railjack Crew)
+**Since Liches and Sisters have increasing health scaling as they rank up, we have not increased their Base Health, but rather increased the health multipliers per level and per rank. 
+*Amalgams 
+*Archons (Boreal, Amar, and Nira)
+*Deimos Jugulus
+*Deimos Saxum (and Saxum Rex)
+**Base Health: 750 (was 550)
+*Demolishers (including Necramechs)
+**Necramech Demolisher Base Health: 4,500 (was 3,000)
+**Juggernaut Demolisher Base Health: 1,000 (was 3,000)
+***Steel Path base health bonus: 2,000
+*Eidolons (Teralyst, Gantulyst, and Hydrolyst)
+**Teralyst:
+***Body Base Health: 50,000 (was 9,000)
+***Radiator Base Health: 25,000 (was 2,200)
+***Base Shields: 50,000 (was 1,500)
+**Gantulyst:
+***Body Base Health: 55,000 (was 10,000)
+***Radiator Base Health: 25,000 (was 2,200)
+***Base Shields: 60,000 (was 1,800)
+**Hydrolyst:
+***Body Base Health: 65,000 (was 12,000)
+***Radiator Base Health: 25,000 (was 2,200)
+***Base Shields: 70,000 (was 2,000)
+**NOTE: This is a dramatic change from the existing damage reduction mechanics applied to Eidolons. We are taking care to ensure their time-to-kill is not disrupted, but players may see a change in the meta when killing them. Eidolon hunters, please let us know your feedback once you’ve played around with the changes. 
+*Empyrean Units (Corpus Proxima):
+**Aurax Actinic
+***Base Health: 1,500 (was 1,000)
+***Base Shields: 750 (was 500)
+**Aurax Baculus
+***Base Health: 300 (was 150)
+***Base Shields: 750 (was 500)
+**Aurax Vertec
+***Base Health: 1,500 (was 1,000)
+***Base Shields: 750 (was 500)
+**Numon (all variants)
+***Base Health: 750 (was 500)
+***Base Shields: 450 (was 300)
+**Vambac (all variants)
+***Base Health: 750 (was 500) 
+***Base Shields: 450 (was 300)
+**Zerca (all variants)
+***Base Health: 750 (was 500)
+***Base Shields: 450 (was 300)
+*Errant Specters
+*Gruzzling
+*Infested Oni
+*Juggernaut (all variants)
+**Juggernaut:
+***Base Health: 900 (was 2,700)
+***Steel Path base health bonus: 1,800
+**Juggernaut Behemoth:
+***Base Health: 1,500 (was 4,500)
+***Steel Path base health bonus: 3,000
+*Kuva Lich Thralls
+*Legacyte
+**Base Health: Unchanged
+**Steel Path / Temporal Archimedea base health bonus: 7,500
+*Lephantis (and Hemocyte)
+**Hemocyte Base Health: 5,000 (was 3,300)
+**Lephantis:
+***Head Base Health: 900 (was 1,200)
+***Body Base Health: 3,000 (was 1,200)
+*Mocking Whispers
+*Necramite
+*Oraxia (Isleweaver stage)
+*Protea (The Deadlock Protocol quest)
+*Rogue Necramechs (Voidrig and Bonewidow)
+**Base Health: 7,500 (was 3,800)
+**Limb Base Health: 600 (was 300)
+*Scaldra Dedicant
+**Base Health: 2,000 (was 1,550)
+*Sister of Parvos Hounds
+*Technocyte Coda Duets
+*Techrot Babao
+**Base Health: 1,500 (was 1,000)
+*The Fragmented (all variants)
+**Base Health: Unchanged
+***Steel Path / Deep Archimedea base health bonus: 150,000
+*Treasurer 
+**Base Health: 2,500 (was 100)
+*Tusk Thumpers (all variants, including Narmer)
+**Tusk Thumper:
+***Base Health: 9,000 (was 3,000)
+**Tusk Thumper Bull:
+***Base Health: 12,000 (was 4,000)
+**Tusk Thumper Doma:
+***Base Health: 15,000 (was 5,000)
+**Thumper Plate Base Health: 500 (was 50)
+*Void Angel (and Archimedia Revival variant)
+**Archimedia Revival Angel Base Health: 25,000 (was 12,000)
+*Zealoid Prelate
+**Base Health: 9,000 (was 7,500)
+
+'''Other Enemy Health Changes:'''
+
+Stalker has also received some health changes as part of our enemy review, but rest assured Stalker (and his variants) do not use the new Damage Attenuation.
+
+*Stalker: 
+**Base Health: 750 (was 550)
+*Shadow Stalker:
+**Base Health: 950 (was 750)
+*Protector Stalker:
+**Base Health: 1,100 (was 750)
+**Base Shields: 500 (was 200), plus 2,000 Overshields
+
+'''Damage Attenuation Fixes:'''
+*Fixed Steel Path health modifiers not applying to Lephantis and the Hemocyte.
+
+{{ver|35.5}}
+*Fixed low framerate (below 30 FPS) affecting the efficacy of Damage Attenuation. 
+**A combination of low frame rate and high fire rate/damage weapons was allowing enemies with Damage Attenuation (Archons, Kuva Liches, etc.) to be quickly one-shotted. Basically, low frame rates would extend the time it took for Damage Attenuation to kick-in and ramp up in relation to the damage per second being dealt. We found that this issue was present before the changes we made to Damage Attenuation in the Abyss of Dagath update, but it only really became apparent afterwards due to the increase in maximum damage per damage instance and damage per second. So we’ve fixed this unintended interaction by ensuring frame rate has no impact on Damage Attenuation. For reassurance, this fix has not changed anything about the current intended functions of Damage Attenuation. 
+
+{{ver|34}}
+;Archon Hunt Damage Attenuation Changes
+Speaking of earning Archon Shards, Damage Attenuation (or “damage pillows”) may be a familiar mechanic for those who frequent Archon Hunts each week. 
+
+This was a hot topic, especially near the end of 2022. Since then, we’ve taken our time to assess player feedback and devise a plan to address it -- and we’re finally at a place where we can execute it. 
+
+Damage Attenuation is one tool of many to increase enemy difficulty by limiting how much damage they take from player weapons, etc. 
+Our current form of Damage Attenuation has resulted in many weapons feeling lackluster due to the high attenuation values, and damage output was reduced significantly to balance out the post-attenuation modifiers -- meaning that Archon fights felt like a slog if players did not use a limited set of optimal builds.
+
+This is not a favorable outcome, so we have made the following changes:
+
+'''1 - Maximum Damage Caps have increased'''
+*Maximum Damage per '''Damage Instance''' has been increased 
+*Maximum '''Damage Per Second''' has been increased 
+
+Our goal is to make big hits still feel like big hits, especially for low-rate-of-fire weapons. We’re able to reduce the damage cap significantly because of the next change:
+ 
+'''2 - Modifiers now apply before Damage Attenuation'''
+
+Critical Multipliers (and other modifiers) applying post-damage-cap allowed for many of the One Shot builds to function, and for full transparency, we want to prevent One Shot Archon builds as much as possible. By changing where these modifiers apply, we can increase the Damage Caps to a much less punishing level for players.
+
+Our goals with these changes are to:
+*Increase player damage output, thereby '''reducing the overall time to kill for Archons'''
+*Make “big hits” feel impactful by no longer throttling them to such an extreme degree
+*Encourage overall build diversity for Archon Hunts
+*Reduce the ability to use one-shot builds
+
+We’re excited to see what Archon Hunts look like for players with these changes in the live build! Now that these changes have been released, we'll be keeping a close eye on player feedback and the resulting time-to-kill for Archons to see if further iteration is needed.
+
+{{ver|30.5}}
+;Adaptive Damage Scaling Changes for Liches&#58;
+
+Throughout our boss design history, we have added things like diminishing returns and damage mitigation techniques like armor or damage attenuation. In the time since we’ve launched the Kuva Liches, we’ve made adjustments to how we handle player damage vs. Liches. We’ve done things like add allowing Status Effects and attenuate damage to try and create a balanced combat experience. Like many bosses in Warframe, Liches have some damage modifiers applied to them.
+
+We found a bug in the damage attenuation code, and have fixed it and polished the attenuation for Kuva Liches.
+
+This system generally targets the scenario of very high damage things like the Void Rig’s Arquebex vs. a Kuva Lich, a scenario that is now possible due to the final showdown being based in Railjack. When we were testing this Voidrig Vs Lichout, our Liches barely lasted a second and we realized the damage attenuation code could use some review! We found bugs to fix and things to tweak to account for these new scenarios. Our only intention is to give you a fight that lasts more than mere seconds - happy hunting and may your teamwork and gear lead you to victory! We will be closely reviewing this to ensure we strike the right balance of a fight that requires teamwork and consistent offensive gameplay to beat, but also doesn’t feel impossible. Feedback is welcome!
+
+;Damage Resistance Mod Math Changes&#58;
+
+The following changes occurred due to the following scenario being shared:
+
+A player reported that combining Umbral Mods + Adaptation + Lightning Rod on any Warframe made them fully immune to all damage from the Hydrolyst Eidolon.
+
+Prior to this discovery, we already made sure we couldn’t reach 100% Damage Resistance because that would just be excessive in all cases. You can see this in action when we capped the ‘In Air’ Damage Resistance Mods. Even though the Mods theoretically could reach 100% Damage Resistance, there is a hard cap at 90%. 
+
+In response and to avoid future oversights, we have changed the way Damage Resistance works. It now works on ‘Damage Remaining’ instead of having all the Modifiers combined and operating at once. 
+
+<b>Example:<br />
+Consider the case of:<br />
+4x 25% Damage Resistance Mods</b>
+
+WAS: (25% + 25% + 25% + 25%) &#61; 100% Damage Reduction
+
+NEW: Take 25% Less Damage &#61; Only take 75% Damage
+
+0.75 x 0.75 x 0.75 x 0.75 &#61; 31.5% damage taken AKA 68.5% damage reduction
+
+{{ver|29.5}}
+*Fixed Warframe not being vulnerable with 90% Damage Reduction after directly Transferring into your Necramech.
+
+{{ver|25.7.8}}
+*Airborne resistance from Mods is now capped at 90% to prevent stacking past 100% in some cases. 
+}}
+{{DamageNav}}
+{{MechNav}}
+[[es:Reducción de daño]]
+[[Category:Mechanics]]

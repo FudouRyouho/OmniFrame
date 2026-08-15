@@ -1,0 +1,69 @@
+<onlyinclude>{{AbilityU10.3
+| name = Snow Globe
+| gameimage = FrostSnowGlobe.png
+| cardimage = SnowGlobeModU15.jpeg
+| hotkey = 3
+| energy = 50
+| description = Frost deep freezes any vapor and moisture in the area, creating a protective sphere with brief invulnerability to boost its strength.
+| strength = 5x (armor multiplier)<br>1500 / 2500 / 3000 / 3500 (base health)<br>50 / 100 / 125 / 150 (break damage)
+| range = 5m (radius)
+| duration = 10 s (freeze duration)
+| cardonly = {{{1|}}}
+| misc = 1 / 2 / 3 / 4 s (invulnerability duration)<br>10 ({{D|Cold}} status procs on cast)<br>0.33 ({{D|Cold}} status proc per second)<br>3 ({{D|Cold}} status procs on break)<br>4 (globe limit)<br>1,000,000 (health cap)
+| info = *Frost expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[Energy]] to create a protective globe of ice with a radius of {{Stat|Ability Range|icon=only}}'''5''' meters, a base health of {{Stat|Ability Strength|icon=only}}'''1500 / 2500 / 3000 / 3500''', and additional health equal to {{Stat|Ability Strength|icon=only}}'''500%''' of Frost's base [[armor]] bonuses. Upon activation, the globe is invulnerable for '''<u>1 / 2 / 3 / 4</u>''' seconds. Incoming damage that is absorbed during the invulnerability period is converted into health and added to the globe's health.
+**Snow Globe's health uses the following expression when accounting for {{Stat|Ability Strength}}:<br>{{MathText|Modified Health {{eql}} { Base Health + Armor Multiplier {{mul}} [ Frost's Base Armor {{mul}} (1 + Base Armor Bonus) + Additional Armor) ] } {{mul}} (1 + Ability Strength) + Absorbed Damage}}
+***For example, with a maxed {{M|Steel Fiber}} and {{M|Intensify}}, rank-3 Snow Globe will have an initial health of<br>{{Math|{ 3500 + 5 {{mul}} [ 300 {{mul}} (1 + 1) ] } {{mul}} (1 + 0.3)|mt=y}} before converting absorbed damage.
+**While active, a health counter becomes visible on the ability icon that tracks the health percentage of the most recently placed Snow Globe from 100% to 0%.
+**Frost and his allies do '''not''' contribute to Snow Globe's health gain by shooting the globe during the invulnerability period.
+**Most enemy gunfire is blocked from entering the globe. Ally gunfire is able to enter and exit the globe normally.
+*Upon activation, enemies within range are inflicted with <u>'''10'''</u> {{D|Cold}} [[Status Effect]]s to freeze enemies for {{Stat|Ability Duration|icon=only}}'''10''' seconds and are violently pushed outwards. If the enemies hit obstacles, they can be dealt as much as '''<u>50%</u>''' of their maximum health as {{D|True}} damage.
+*Enemies that enter a formed Snow Globe receive a {{D|Cold}} status effect at a rate of <u>'''0.33'''</u> seconds.
+*Snow Globe visually cracks as it receives damage. Upon breaking, it inflicts {{Stat|Ability Strength|icon=only}}'''50 / 100 / 125 / 150''' {{D|Cold}} damage and <u>'''3'''</u> {{D|Cold}} status effects to enemies inside the globe.
+*Snow Globe can be recast multiple times, but there are restrictions on the number of globes that can be created in the environment.
+**A maximum of '''<u>4</u>''' separate Snow Globes can be cast at any given time. Casting Snow Globe after reaching the maximum will remove the oldest globe. 
+**Casting Snow Globe while inside an existing globe will remove the older globe and combine the total remaining health values of both globes for the newer one. The invulnerability period is reactivated for each cast.
+***Snow Globes created inside existing globes do '''not''' count toward the maximum number of instances, and Snow Globe's health can stack with repeated casts until reaching a maximum combined health of '''<u>1,000,000</u>'''.
+*'''Ability Synergy:'''
+**Frost [[Frost/Abilities#Passive|passively]] gains <u>'''50'''</u> armor from enemies affected by {{D|Cold}} status effect within his [[Affinity Range]], fortifying Snow Globe.
+**Casting {{A|Freeze}} onto the exterior of a globe will destroy it, triggering an icy explosion that deals Freeze's base {{D|Cold}} area damage in an area of effect.
+***The damage does '''not''' diminish with distance and bypasses obstacles in the environment.
+***Affected enemies are {{D|Ragdoll|Ragdolled}} by the explosion.
+***{{A|Freeze}} is capable of destroying a globe even during its invulnerability period.
+*[[Nullifier]] Bubbles do not immediately destroy Snow Globe. Instead, it loses '''20%''' of its health per second, and the damage conversion into health during its invulnerability does not function.
+| augment = [[File:ChillingGlobeMod.png|200px|left]]
+{{main|Chilling Globe}}
+{{#lst:Chilling Globe|intro}}
+{{#lsth:Chilling Globe|Stats}}
+{{clr}}
+| tips = *[[Maximized Ability Strength]] along with {{M|Steel Fiber}} and {{M|Armored Agility}} will add up to a total health of '''26,386.75''' (using [[Squall Frost Helmet|Arcane Squall Helmet]] and {{Arcane|Arcane Guardian}} is recommended, because they increase Snow Globe's health even further).
+*Place over a cryopod in defense missions to shield it from all incoming fire.
+*Since allied fire can now both enter and exit Snow Globe, using mods to affect the size of the globe (Ability Range) can now be done for strategy or preference, without worrying about interfering with your allies loadouts.
+*When a teammate is downed, place a Snow Globe over them to protect you while reviving.
+*When facing a boss with ranged attacks, do not place a Snow Globe on it. Instead, place it where your team is to protect them from incoming damage.
+*The particle effect inside the globe can distract players' vision. Having a black energy color will remove this particle effect entirely, allowing better vision inside the globe.
+*Recasting the ability after 4 seconds while remaining inside the Snow Globe will allow to sustain an impenetrable Snow Globe, that will grow stronger and stronger. This is due to the fact that it absorbs the enemy fire into its health and adds this health to the next Globe, as long as it is cast inside the first one.
+**Particularly useful in T4 Defense, since the enemies will quickly reach a level where it does not matter how much base health your Snow Globe has.
+*Snow Globe's ability to temporarily freeze and push away enemies can be an effective way to rapidly clear a large safe area to revive teammates or remove enemies attacking a defense objective.
+*Using {{A|Freeze}} to detonate a Snow Globe can also be done while inside another globe. This will not affect the globe you are in. If multiple globes overlap, it is possible to shatter a globe which protrudes into another globe by aiming at the part inside your globe.
+**It is possible to detonate the Snow Globe that you are in in some Corpus or Void missions by bouncing Freeze off the Bubble of a [[Nullifier Crewman]].(Results May be unpleasant)
+| bugs = *While using [[Helios]], the [[Deconstructor]] projectile can be caught outside the globe and will not return to Helios unless Helios exits the globe.
+*The globe can sometimes push enemies through walls and could soft-lock the game if the target is required. This has a higher chance of happening if the enemy is touching a wall.
+<noinclude>
+|max = {{WFmax|armor|frost3}}
+</noinclude>|
+}}
+</onlyinclude>
+
+==See Also==
+* {{WF|Frost}}
+__NOTOC__
+[[de:Schneekugel]]
+[[es:Globo de nieve]]
+[[ru:Снежная Сфера]]
+[[fr:Boule de Neige]]
+[[Category:Warframe Abilities]]
+[[Category:Frost]]
+[[Category:Update 6]]
+[[Category:Percentage Based Damage]]
+[[Category:Slow]]
+[[uk:Снігова куля]]

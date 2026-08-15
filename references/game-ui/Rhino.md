@@ -17,8 +17,10 @@ Duration: 10s $DURATION
 ## /Lotus/Powersuits/PowersuitAbilities/IronSkinAbility
 // 2 - IRON SKIN
 Drain: <ENERGY> 50 $EFFICIENCY
-Overguard: 1.925 $STRENGTH
+Base Overguard: 1200 $STRENGTH
+Armor Multiplier: 2,5x $STRENGTH
 Time Invulnerable: 3s
+//! Overguard = (Base Overguard + Armor Multiplier × Total Armor) × Strength + Absorbed Damage — ver wiki/warframes/rhino/iron-skin.md
 #### IRON SHRAPNEL
 Damage: <DT_PUNCTURE> 100%
 Radius: 8m $RANGE
@@ -28,7 +30,7 @@ Radius: 8m $RANGE
 Drain: <ENERGY> 75 $EFFICIENCY
 Duration: 30s $DURATION
 Radius: 25m $RANGE
-Damage Increase: 50% $STRENGTH
+Damage Increase: 50% $STRENGTH $$GAMEPLAY_MULT_FACTION_DAMAGE
 #### PIERCING ROAR
 Radius: 25m $RANGE
 Debuff Duration: 1x $DURATION

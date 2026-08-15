@@ -1,0 +1,1299 @@
+{{Speculation}}
+{{Infobox
+| Box title=Public Export
+| image=Pistol.png
+| caption=Official image asset of [[Lato]] as sourced from the Public Export
+}}
+'''Public Export''' (also previously known as '''Mobile Export''') refers to a public endpoint hosted by [[Digital Extremes]] that is used to feed internal data to [[Warframe Companion]] (the official mobile companion app for [[WARFRAME]]), the [[Warframe Arsenal Twitch Extension]], and the game itself. Note that the wiki is not responsible for any malicious use of this data. Any data extracted should be used for informational purposes only and does not necessarily represent the current and future state of the game. Content is subjected for removal as the game updates so please do not use this for speculative reasons.
+
+==Accessing Export Data==
+To get data from the Public Export you need to access two servers:
+#You start with the language-specific index from the '''origin''' server e.g.: <code><nowiki>https://origin.warframe.com/PublicExport/index_</nowiki><language_code>.txt.lzma</code> 
+#After downloading the root index from the origin server, '''all further requests''' must be to the content server: <code><nowiki>http://content.warframe.com/PublicExport/Manifest/<asset_location></nowiki></code>
+<hr />
+*You should use HTTPS for the origin index but both HTTP and HTTPS will work for the content server. Since HTTP enables local caches to optimize download, the developers generally advise people to only use HTTPS for content when needed (the launcher setting "Allow Network Caches" controls this for the game itself).<ref>{{Ref|title=Changes: Public Export|first=Glen|last=Miner|year=2022|month=2|day=22|url=https://warframe.fandom.com/wiki/Public_Export?diff&#61;2254569&oldid&#61;2254568|access-date=2022-02-26|archive-url=https://web.archive.org/web/20220226171730/https://warframe.fandom.com/wiki/Mobile_Export?diff&#61;2254569&oldid&#61;2254568|archive-date=2022-02-26|extra=The exact edit in which this change was added from [DE]Glen himself}}</ref>
+*The data obtained from the Public Export will be in the form of a [[wikipedia:JSON|JSON]] file. Note that the index file is compressed using [[wikipedia:Lempel–Ziv–Markov chain algorithm|Lempel–Ziv–Markov chain algorithm]] (LZMA:24).
+*This index file contains the hashed names of all the manifests data you can get from <code><nowiki>http://content.warframe.com/PublicExport/Manifest/</nowiki></code>.
+**For example, you it might list <code>ExportWeapons_en.json!00_HghAEHejKwa2JJrj9gZW3g</code> and the full URL for that would be <code><nowiki>http://content.warframe.com/PublicExport/Manifest/ExportWeapons_en.json!00_HghAEHejKwa2JJrj9gZW3g</nowiki></code>
+*Note that the 26 character [[wikipedia:Cryptographic hash function|hash]] (e.g. <code>!00_uxbrm+cu3HU-I5yyC7wXSw</code>) at the end of file names will change every time the developers update the manifest, thus clients will need to access the index file frequently in order to get the latest endpoint for a particular file. You can safely cache any hashed asset forever (and WARFRAME's [[wikipedia:Content delivery network|CDNs]] does exactly this) because if the file contents change it will get a new hashed name.
+
+==Available Languages==
+Depending on the language code used, the <code>name</code>, <code>description</code>, <code>levelStats</code> keys of most content will be localized to the appropriate locale. The API supports all of WARFRAME's officially supported [[languages]].
+{| class="wikitable"
+|-
+! Code !! Language !! Index Endpoint
+|-
+| <code>de</code> || German || https://origin.warframe.com/PublicExport/index_de.txt.lzma
+|-
+| <code>en</code> || English || https://origin.warframe.com/PublicExport/index_en.txt.lzma
+|-
+| <code>es</code> || Spanish (Latin America) || https://origin.warframe.com/PublicExport/index_es.txt.lzma
+|-
+| <code>fr</code> || French || https://origin.warframe.com/PublicExport/index_fr.txt.lzma
+|-
+| <code>it</code> || Italian || https://origin.warframe.com/PublicExport/index_it.txt.lzma
+|-
+| <code>ja</code> || Japanese || https://origin.warframe.com/PublicExport/index_ja.txt.lzma
+|-
+| <code>ko</code> || Korean || https://origin.warframe.com/PublicExport/index_ko.txt.lzma
+|-
+| <code>pl</code> || Polish || https://origin.warframe.com/PublicExport/index_pl.txt.lzma
+|-
+| <code>pt</code> || Portuguese (Brazil) || https://origin.warframe.com/PublicExport/index_pt.txt.lzma
+|-
+| <code>ru</code> || Russian || https://origin.warframe.com/PublicExport/index_ru.txt.lzma
+|-
+| <code>tc</code> || Chinese (Traditional) || https://origin.warframe.com/PublicExport/index_tc.txt.lzma
+|-
+| <code>th</code> || Thai || https://origin.warframe.com/PublicExport/index_th.txt.lzma
+|-
+| <code>tr</code> || Turkish || https://origin.warframe.com/PublicExport/index_tr.txt.lzma
+|-
+| <code>uk</code> || Ukrainian || https://origin.warframe.com/PublicExport/index_uk.txt.lzma
+|-
+| <code>zh</code> || Chinese (Simplified) || https://origin.warframe.com/PublicExport/index_zh.txt.lzma
+|-
+|}
+
+==Available Content==
+{| class="wikitable"
+|-
+! File Name !! Description !! Schema !! Equivalent Wiki Data Store !! Sample Endpoint<br />(for {{ver|33}})
+|-
+| <code>ExportCustoms_<language_code>.json</code>
+| [[Warframe Cosmetics]], [[Weapon]] skins, [[Companion]] skins, [[Archwing]] cosmetics, [[Operator]] cosmetics, [[Necramech]] cosmetics, [[K-Drive]] cosmetics, [[Animation Set]]s, [[TennoGen]] skins, [[Sigils]], [[Sugatra]]s (<code>ExportCustoms</code>)
+| [[#Generic Entry Schema]]
+| [[Module:Cosmetics/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportCustoms_en.json!00_ydEAJK0jhOwVXwg9yCKb8A
+|-
+| <code>ExportDrones_<language_code>.json</code>
+| [[Extractor]]s (<code>ExportDrones</code>)
+| [[#ExportDrones Extractors Schema]]
+| N/A
+| http://content.warframe.com/PublicExport/Manifest/ExportDrones_en.json!00_LZKVJWzyNlEXy-hI3mpGnA
+|-
+| <code>ExportFlavour_<language_code>.json</code>
+| Player customizable content ([[Glyph]]s, [[Color Picker Extension]], [[Decorations]], [[Landing Craft]] skins, [[Animation Set]]s, menu themes, etc.) (<code>ExportFlavour</code>)
+| [[#Generic Entry Schema]]
+[[#ExportFlavour Color Palette Schema]]
+|
+*[[Module:Decorations/data]]
+*[[Module:Sigils/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportFlavour_en.json!00_4UM9hGlbZLdJltY38T82Bg
+|-
+| <code>ExportFusionBundles_<language_code>.json</code>
+| [[Mod]] bundles in the [[Market]] (<code>ExportFusionBundles</code>)
+| 
+| N/A
+| http://content.warframe.com/PublicExport/Manifest/ExportFusionBundles_en.json!00_yOD81zJOvs6qph81j6McIQ
+|-
+| <code>ExportGear_<language_code>.json</code>
+| [[Gear]] items, including [[Fishing]] and [[Conservation]] related items (<code>ExportGear</code>)
+| [[#Generic Entry Schema]]
+| N/A
+| http://content.warframe.com/PublicExport/Manifest/ExportGear_en.json!00_sG4hnZFa8E5QQInTZf-Z3w
+|-
+| <code>ExportKeys_<language_code>.json</code>
+| Mission keys (e.g. [[Mutalist Alad V Assassinate Key]]) and [[Quest]]s (<code>ExportKeys</code>)
+| [[#Generic Entry Schema]]
+| [[Module:Keys/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportKeys_en.json!00_kLJV+NLDW+IrHlJ+84oNlA
+|-
+| <code>ExportRecipes_<language_code>.json</code>
+| [[Blueprints]] (<code>ExportRecipes</code>)
+| [[#ExportRecipes Blueprints Schema]]
+| [[Module:Blueprints/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportRecipes_en.json!00_DnioAtBbQ8r00DNgFLGLow
+|-
+| <code>ExportRegions_<language_code>.json</code>
+| [[Star Chart]] nodes (<code>ExportRegions</code>)
+| [[#ExportRegions Nodes Schema]]
+| [[Module:Missions/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportRegions_en.json!00_xKYPQMVf3tyBgPNfA9P3kg
+|-
+| <code>ExportRelicArcane_<language_code>.json</code>
+| [[Void Relic]]s and [[Arcane Enhancement]]s (<code>ExportRelicArcane</code>)
+| [[#ExportRelicArcane Void Relics Schema]]
+[[#ExportRelicArcane Arcanes Schema]]
+| [[Module:Void/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportRelicArcane_en.json!00_pn6yvfOiT4DxKojubnOTBQ
+|-
+| <code>ExportResources_<language_code>.json</code>
+| [[Resources]], [[Fishing]] resources, [[Mining]] resources, [[Captura]] scenes, ship [[decorations]], components, and other items (<code>ExportResources</code>)
+| [[#ExportResources Resources Schema]]
+| [[Module:Resources/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportResources_en.json!00_jy7gXLAJVSm0hP2iplBA3A
+|-
+| <code>ExportSentinels_<language_code>.json</code>
+| [[Sentinel]]s, [[Kubrow]]s, [[Kavat]]s, [[Predasite]]s, [[Vulpaphyla]]s (<code>ExportSentinels</code>)
+| [[#ExportSentinels Companions Schema]]
+| [[Module:Companions/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportSentinels_en.json!00_77HyQHJYXKRhQNFHDQDFlQ
+|-
+| <code>ExportSortieRewards_<language_code>.json</code>
+|
+*[[Sortie]] rewards (<code>ExportSortieRewards</code>)
+*[[Nightwave]] challenges (<code>ExportNightwave</code>)
+*[[Veil Proxima]] nodes for [[Sentient]] anomaly (<code>ExportRailjack</code>)
+*[[Intrinsics]] (<code>ExportIntrinsics</code>)
+*Boosters, Gene-Masking Kits, misc. (<code>ExportOther</code>)
+| [[#ExportSortieRewards]]
+[[#ExportNightWave]]
+[[#ExportRailjack]]
+[[#ExportIntrinsics]]
+[[#ExportOther]]
+|
+*Sortie rewards in [[Module:DropTables/data]]
+*Nightwave challenge names in [[NightwaveActs.json]]
+| http://content.warframe.com/PublicExport/Manifest/ExportSortieRewards_en.json!00_vhEG53WKxus2ogHEGP3fWw
+|-
+| <code>ExportUpgrades_<language_code>.json</code>
+|
+[[Upgrade]]s:
+*[[Mods]], [[Riven Mods]] challenges and base stats (<code>ExportUpgrades</code>)
+*[[Focus]] nodes (<code>ExportFocusUpgrades</code>)
+*[[Plexus]] mods (<code>ExportAvionics</code>)
+*[[Set Mods]] (<code>ExportModSet</code>)
+| [[#ExportUpgrades Upgrades Schema]]
+|
+*[[Module:Mods/data]]
+*[[Module:Focus/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportUpgrades_en.json!00_ISt5EFdcnhwRWrUnEtxT7g
+|-
+| <code>ExportWarframes_<language_code>.json</code>
+|
+*[[Warframes]], [[Archwing]]s, [[Necramech]]s (<code>ExportWarframes</code>)
+*[[Helminth]] abilities (<code>ExportAbilities</code>)
+| [[#ExportWarframes Avatars Schema]]
+|
+*[[Module:Warframes/data]]
+*Warframe and Helminth abilities in [[Module:Ability/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportWarframes_en.json!00_-ucH7R4Vu7g6xNNMtE0bKg
+|-
+| <code>ExportWeapons_<language_code>.json</code>
+|
+*[[Weapons]], [[Exalted Weapon]]s, modular weapon parts ([[Amp]]s, [[Zaw]]s, [[Kitgun]]s), modular companion parts ([[MOA (Companion)]], [[Predasite]], [[Vulpaphyla]], [[Hound (Companion)]]), modular [[K-Drive]]s parts (<code>ExportWeapons</code>)
+*[[Railjack/Armaments|Railjack Armaments]] (<code>ExportRailjackWeapons</code>)
+| [[#ExportWeapons Weapons Schema]]
+| [[Module:Weapons/data]]
+| http://content.warframe.com/PublicExport/Manifest/ExportWeapons_en.json!00_RJLsviOkllsv6+0jqimrVQ
+|-
+| <code>ExportManifest.json</code> || Full image manifest (same for all languages) || [[#Extracting Images]] || N/A
+| http://content.warframe.com/PublicExport/Manifest/ExportManifest.json!00_AoTc4-L8VhjFjMSGcrI8Dg
+|-
+|}
+
+==Extracting Images==
+<code>ExportManifest.json</code> has every item's <code>uniqueName</code> paired with a <code>textureLocation</code>. <code>textureLocation</code> can be added to the end of <code><nowiki>http://content.warframe.com/PublicExport/</nowiki></code> to get the item's image asset.
+*Most assets will be 512 by 512 pixels in dimensions
+**Assets created before {{ver|31.1}} will be 512 by 342 pixels in dimensions however (1.5 aspect ratio).
+**Note that some assets are native 512x342px but were warped to fit within 512x512px profile (e.g. [[Quest]] images).
+*Mod images will be 256 by 256 pixels however
+
+Third-party usage of these assets must comply to WARFRAME's [[Content Policy]].
+<hr />
+For example, as of {{ver|31.1.8}} (after change from rectangle icons to squares in {{ver|31.1}}), the following link is valid to get {{Weapon|Lato}}'s latest image <code><nowiki>http://content.warframe.com/PublicExport/Lotus/Interface/Icons/StoreIcons/Weapons/SecondaryWeapons/Weapons/Lato.png!00_Klh0iT5bMhtA5785r1FM6w</nowiki></code>
+
+[[File:Lato.png|200px|right|thumb|{{Weapon|Lato}} image]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Weapons/Tenno/Pistol/Pistol",
+    "textureLocation":"/Lotus/Interface/Icons/StoreIcons/Weapons/SecondaryWeapons/Weapons/Lato.png!00_Klh0iT5bMhtA5785r1FM6w"
+}
+</syntaxhighlight>
+
+Since WARFRAME's CDN caches any hashed asset forever, if the URL to older assets are known, they can still be accessed. For example, as of {{ver|30.7.6}} the following link is valid to get {{Weapon|Lato}}'s old image: <code><nowiki>http://content.warframe.com/PublicExport/Lotus/Interface/Icons/Store/Pistol.png!00_l6qtnhCRgAMSyjjAp1RdVQ</nowiki></code>
+
+[[File:Pistol.png|200px|right|thumb|Pre {{ver|31.1}} {{Weapon|Lato}} image]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Weapons/Tenno/Pistol/Pistol",
+    "textureLocation":"/Lotus/Interface/Icons/Store/Pistol.png!00_l6qtnhCRgAMSyjjAp1RdVQ"
+}
+</syntaxhighlight>
+
+==Generic Entry Schema==
+This schema will serve as the basis of all other schemas used by entries in the manifests.
+*"uniqueName" {string} Relative path to item data
+*"name" {string} Localized item name
+*"description" {string} Localized item description
+*"codexSecret" {boolean} Whether or not item is hidden from [[Codex]] if player does not have it
+*"parentName": {string} Relative path to parent item data
+*"excludeFromCodex" {boolean} Whether or not item is not included in Codex regardless of acquisition status
+
+Sample entries:
+*[[Necramech Summon]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Restoratives/LoadoutTechSummon",
+    "name":"Necramech Summon",
+    "description":"Summon a Necramech to the battlefield.",
+    "codexSecret":false,
+    "parentName":"/Lotus/Types/Restoratives/BaseTechSummon"
+}
+</syntaxhighlight>
+
+*[[Echo-Lure]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Restoratives/Conservation/UpgradedAnimalLureGearItem",
+    "name":"Echo-Lure",
+    "description":"Entice and attract nearby wildlife with life-like animal calls.",
+    "codexSecret":false,
+    "parentName":"/Lotus/Types/Restoratives/Conservation/AnimalLureGearItem"
+}
+</syntaxhighlight>
+
+*[[The Second Dream]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Keys/OrokinMoonQuest/OrokinMoonQuestKeyChain",
+    "name":"The Second Dream",
+    "description":"The Sentient Hunhow seeks to destroy the Tenno by exploiting long forgotten secrets.",
+    "parentName":"",
+    "codexSecret":false
+}
+</syntaxhighlight>
+
+==ExportWeapons Weapons Schema==
+===Guns===
+*"name" {string} Weapon name in all caps
+*"uniqueName" {string} Relative path to weapon data
+*"codexSecret" {boolean} Whether or not weapon is hidden from [[Codex]] if player does not have it
+*"damagePerShot" {float[]} A 20-element array of floats representing individual damage type values in the following order:
+*#{{D|Impact}}
+*#{{D|Puncture}}
+*#{{D|Slash}}
+*#{{D|Heat}} ([[HCET]] order)
+*#{{D|Cold}} (HCET order)
+*#{{D|Electricity}} (HCET order)
+*#{{D|Toxin}} (HCET order)
+*#{{D|Blast}}
+*#{{D|Radiation}}
+*#{{D|Gas}}
+*#{{D|Magnetic}}
+*#{{D|Viral}}
+*#{{D|Corrosive}}
+*#{{D|Void}}
+*#{{D|Tau}}
+*#<code>DT_CINEMATIC</code>
+*#<code>DT_SHIELD_DRAIN</code>
+*#<code>DT_HEALTH_DRAIN</code>
+*#<code>DT_ENERGY_DRAIN</code>
+*#{{D|True}}
+*"totalDamage" {float} Total [[Damage]]
+*"description" {string} Weapon description
+*"criticalChance" {float} Weapon [[Critical Chance]]
+*"criticalMultiplier" {float} Weapon [[Critical Multiplier]]
+*"procChance" {float} Weapon [[Status Chance]]
+*"fireRate" {float} Weapon [[Fire Rate]]
+*"masteryReq" {int} [[Mastery Rank]] requirement
+*"productCategory" {string} Weapon's product category ("Pistols", "LongGuns", "Melee", "SpaceGuns", "SpaceMelee", "SpecialItems", "CrewShipWeapons")
+*"excludeFromCodex" {boolean} Whether or not weapon will appear in Codex regardless of acquisition status
+*"slot" {int} Weapon's slot number (0 for secondaries, 1 for primaries/Arch-guns, 5 for melees/Arch-melees, 7 for Exalted Weapons, 13 for Railjack armaments)
+*"accuracy" {float} Weapon accuracy rating
+*"omegaAttenuation" {float} Weapon Riven Mod [[disposition]]
+*"maxLevelCap" {int} Weapon's max rank, reserved for Kuva and Tenet weapons
+*"noise" {string} Weapon's [[Noise Level]] in all caps
+*"trigger" {string} Weapon's [[Trigger Type]] in all caps
+*"magazineSize" {int} Weapon's [[Magazine Capacity]]
+*"reloadTime" {float} Weapon's [[Reload]] time
+*"sentinel" {boolean} Whether or not weapon is a [[Robotic Weapons|Robotic Weapon]]
+*"multishot" {int} Weapon's base [[Multishot]]
+
+Sample:
+<syntaxhighlight lang="json">
+{
+    "name":"MARA DETRON",
+    "uniqueName":"/Lotus/Weapons/VoidTrader/VTDetron",
+    "codexSecret":true,
+    "damagePerShot":[0,0,0,0,0,0,0,0,40,0,0,0,0,0,0,0,0,0,0,0],
+    "totalDamage":40,
+    "description":"For Orokin-era smugglers, this fearsome handheld shotgun was a favored tool for 'dispute resolution'.",
+    "criticalChance":0.079999998,
+    "criticalMultiplier":1.5,
+    "procChance":0.1371429,
+    "fireRate":3.3333335,
+    "masteryReq":9,
+    "productCategory":"Pistols",
+    "slot":0,
+    "accuracy":13.333333,
+    "masteryReq":9,
+    "omegaAttenuation":1.1,
+    "noise":"ALARMING",
+    "trigger":"SEMI",
+    "magazineSize":8,
+    "reloadTime":1.05,
+    "multishot":7
+}
+</syntaxhighlight>
+
+===Melee===
+*"name" {string} Weapon name in all caps
+*"uniqueName" {string} Relative path to weapon data
+*"codexSecret" {boolean} Whether or not weapon is hidden from [[Codex]] if player does not have it
+*"damagePerShot" {float[]} A 20-element array of floats representing individual damage type values in the following order:
+*#{{D|Impact}}
+*#{{D|Puncture}}
+*#{{D|Slash}}
+*#{{D|Heat}} ([[HCET]] order)
+*#{{D|Cold}} (HCET order)
+*#{{D|Electricity}} (HCET order)
+*#{{D|Toxin}} (HCET order)
+*#{{D|Blast}}
+*#{{D|Radiation}}
+*#{{D|Gas}}
+*#{{D|Magnetic}}
+*#{{D|Viral}}
+*#{{D|Corrosive}}
+*#{{D|Void}}
+*#{{D|Tau}}
+*#<code>DT_CINEMATIC</code>
+*#<code>DT_SHIELD_DRAIN</code>
+*#<code>DT_HEALTH_DRAIN</code>
+*#<code>DT_ENERGY_DRAIN</code>
+*#{{D|True}}
+*"totalDamage" {float} Total [[Damage]]
+*"description" {string} Weapon description
+*"criticalChance" {float} Weapon [[Critical Chance]]
+*"criticalMultiplier" {float} Weapon [[Critical Multiplier]]
+*"procChance" {float} Weapon [[Status Chance]]
+*"fireRate" {float} Weapon [[Attack Speed]]
+*"masteryReq" {int} [[Mastery Rank]] requirement
+*"productCategory" {string} Weapon's product category ("Pistols", "LongGuns", "Melee", "SpaceGuns", "SpaceMelee", "SpecialItems", "CrewShipWeapons")
+*"excludeFromCodex" {boolean} Whether or not weapon will appear in Codex regardless of acquisition status
+*"slot" {int} Weapon's slot number (0 for secondaries, 1 for primaries/Arch-guns, 5 for melees/Arch-melees, 7 for Exalted Weapons, 13 for Railjack armaments)
+*"omegaAttenuation" {float} Weapon Riven Mod [[disposition]]
+*"maxLevelCap" {int} Weapon's max rank, reserved for Kuva and Tenet weapons
+*"blockingAngle" {int} Melee's blocking angle
+*"comboDuration" {int} [[Melee Combo]] duration
+*"followThrough" {float} Melee's follow through
+*"range" {float} Melee's range
+*"slamAttack" {float} Melee's direct slam attack damage
+*"slamRadialDamage" {float} Melee's radial slam attack damage
+*"slamRadius" {float} Melee's slam radius
+*"slideAttack" {float} Melee's slide attack damage
+*"heavyAttackDamage" {float} Melee's heavy attack damage
+*"heavySlamAttack" {float} Melee's heavy direct slam attack damage
+*"heavySlamRadialDamage" {float} Melee's heavy radial slam attack damage
+*"heavySlamRadius" {float} Melee's heavy slam radius
+*"windUp" {float} Melee's heavy attack wind-up time
+
+Sample:
+<syntaxhighlight lang="json">
+{
+    "name":"SKANA",
+    "uniqueName":"/Lotus/Weapons/Tenno/Melee/LongSword/LongSword",
+    "codexSecret":false,
+    "damagePerShot":[18,18,84,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "totalDamage":120,
+    "description":"Before all other weapons, Tenno master the Skana. This simple blade becomes immensely powerful in the hands of a master. For Tenno, it is the foundation of their fighting style and a pillar of their culture.",
+    "criticalChance":0.050000001,
+    "criticalMultiplier":1.5,
+    "procChance":0.15999997,
+    "fireRate":0.83333337,
+    "masteryReq":0,
+    "productCategory":"Melee",
+    "slot":5,
+    "omegaAttenuation":1.3,
+    "blockingAngle":55,
+    "comboDuration":5,
+    "followThrough":0.60000002,
+    "range":2.5,
+    "slamAttack":360,
+    "slamRadialDamage":120,
+    "slamRadius":7,
+    "slideAttack":120,
+    "heavyAttackDamage":600,
+    "heavySlamAttack":480,
+    "heavySlamRadialDamage":480,
+    "heavySlamRadius":8,
+    "windUp":0.60000002
+}
+</syntaxhighlight>
+
+==ExportWarframes Avatars Schema==
+*"uniqueName" {string} Relative path to player avatar data
+*"name" {string} Localized avatar name
+*"parentName" {string} Relative path to parent avatar data
+*"description" {string} Localized avatar description
+*"health" {int} Base [[Health]] value
+*"shield" {int} Base [[Shield]] value
+*"armor" {int} Base [[Armor]] value
+*"stamina" {int} Base [[Stamina]] value (depreciated)
+*"power" {int} Base [[Energy]] value
+*"codexSecret" {boolean} Whether or not avatar is hidden from [[Codex]] if player does not have it
+*"masteryReq" {int} [[Mastery Rank]] requirement
+*"sprintSpeed" {float} Base [[Sprint Speed]]
+*"passiveDescription" {string} Localized passive description
+*"exalted" {string[]} Array of [[Exalted Weapon]]s associated with avatar
+*"abilities" {Object[]} Array of [[Abilities]] (size 4)
+*"productCategory" {string} Avatar's product category ("Suits", "SpaceSuits", "MechSuits")
+
+Sample:
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Powersuits/Cowgirl/Cowgirl",
+    "name":"Mesa",
+    "parentName":"/Lotus/Powersuits/Cowgirl/CowgirlBaseSuit",
+    "description":"With a steady hand and quick reflexes, Mesa is a true gunfighter.",
+    "health":125,
+    "shield":75,
+    "armor":100,
+    "stamina":3,
+    "power":100,
+    "codexSecret":false,
+    "masteryReq":0,
+    "sprintSpeed":1.1,
+    "passiveDescription":"Shoot dual-wielded sidearms |SPEED|% faster and reload single-handed sidearms |RELOAD|% more rapidly. Gain |HEALTH| Bonus Health when not using Melee Weapons.",
+    "exalted":["/Lotus/Powersuits/Cowgirl/SlingerPistols"],
+    "abilities":[
+        {"abilityUniqueName":"/Lotus/Powersuits/PowersuitAbilities/BallisticBatteryAbility","abilityName":"Ballistic Battery","description":"When activated, this power stores damage caused by guns. When triggered again, that damage is channelled through the next gunshot."},
+        {"abilityUniqueName":"/Lotus/Powersuits/PowersuitAbilities/RussianRouletteAbility","abilityName":"Shooting Gallery","description":"Gives an ally Extra Damage while jamming the guns of nearby enemies. This power shifts between team members."},
+        {"abilityUniqueName":"/Lotus/Powersuits/PowersuitAbilities/RicochetArmorAbility","abilityName":"Shatter Shield","description":"Envelops Mesa in a barrier of energy, reflecting back incoming bullet damage."},
+        {"abilityUniqueName":"/Lotus/Powersuits/PowersuitAbilities/GunFuAbility","abilityName":"Peacemaker","description":"With intense focus, Mesa draws her Regulator pistols, shooting down her foes in rapid succession."}
+    ],
+    "productCategory":"Suits"
+}
+</syntaxhighlight>
+
+===ExportWarframes Ability Schema===
+*"abilityUniqueName" {string} Relative path to ability data
+*"abilityName" {string} Localized ability name
+*"description" {string} Localized ability description
+
+Sample:
+<syntaxhighlight lang="json">
+{
+    "abilityUniqueName":"/Lotus/Powersuits/PowersuitAbilities/HelminthEfficiencyAbility",
+    "abilityName":"Energized Munitions",
+    "description":"Increase the efficiency of your ammo consumption."
+}
+</syntaxhighlight>
+
+==ExportSentinels Companions Schema==
+*"uniqueName" {string} Relative path to companion data
+*"name" {string} Localized companion name
+*"parentName" {string} Relative path to companion data
+*"description" {string} Localized companion description
+*"health" {int} Base [[Health]] value
+*"shield" {int} Base [[Shield]] value
+*"armor" {int} Base [[Armor]] value
+*"stamina" {int} Base [[Stamina]] value (depreciated)
+*"power" {int} Base [[Energy]] value
+*"codexSecret" {boolean} Whether or not companion is hidden from [[Codex]] if player does not have it
+*"masteryReq" {int} [[Mastery Rank]] requirement
+*"productCategory" {string} Companion's product category ("Sentinels", "KubrowPets", "SpecialItems")
+
+Sample:
+*{{Companion|Taxon}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Sentinels/SentinelPowersuits/TnSentinelCrossPowerSuit",
+    "name":"Taxon",
+    "health":200,
+    "shield":100,
+    "armor":50,
+    "stamina":8,
+    "power":100,
+    "codexSecret":false,
+    "description":"With 'Assault Mode' and 'Molecular Conversion' as default Precepts, Taxon protects its owner with shield restoration. Equipped with the Artax ice-beam.\r\n\r\nNote: This item requires two open slots.",
+    "productCategory":"Sentinels"
+}
+</syntaxhighlight>
+
+*{{Companion|Smeeta Kavat}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Game/CatbrowPet/CheshireCatbrowPetPowerSuit",
+    "name":"Smeeta Kavat",
+    "health":100,
+    "shield":60,
+    "armor":50,
+    "stamina":8,
+    "power":100,
+    "codexSecret":false,
+    "description":"This sly feline is playful yet devious.",
+    "productCategory":"KubrowPets"
+}
+</syntaxhighlight>
+
+*{{Companion|Venari Prime}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Powersuits/Khora/Kavat/KhoraPrimeKavatPowerSuit",
+    "name":"Venari Prime",
+    "health":350,
+    "shield":0,
+    "armor":450,
+    "stamina":8,
+    "power":100,
+    "codexSecret":false,
+    "excludeFromCodex":true,
+    "description":"Khora's will, Venari's fangs and claws.",
+    "productCategory":"SpecialItems"
+}
+</syntaxhighlight>
+
+==ExportSortieRewards==
+* "rewardName" {string} unique name of reward
+*"itemCount" {int} count of items
+*"probability" {float} The drop chance
+*"rarity" {enum} "COMMON" (can only be common)
+*"tier" {int} only 0
+
+*{{Resource|Forma}}
+<syntaxhighlight lang="json">
+[
+    {
+      "rewardName": "/Lotus/StoreItems/Types/Items/MiscItems/Forma",
+      "rarity": "COMMON",
+      "tier": 0,
+      "itemCount": 1,
+      "probability": 0.025
+    },
+]
+</syntaxhighlight>
+
+==ExportNightWave==
+
+
+<syntaxhighlight lang="json">
+{
+    "affiliationTag": "RadioLegionIntermission9Syndicate",
+    "challenges": [
+      {
+        "uniqueName": "/Lotus/Types/Challenges/Seasons/Daily/SeasonDailyAimGlide",
+        "name": "Glider",
+        "description": "Kill |COUNT| Enemies while Aim Gliding",
+        "standing": 1000,
+        "required": 15
+      },
+    ],
+    "rewards": [
+      {
+        "uniqueName": "/Lotus/Types/Items/MiscItems/NoraIntermissionNineCreds",
+        "itemCount": 150
+      },
+    ]
+},
+</syntaxhighlight>
+
+==ExportRailjack==
+
+<syntaxhighlight lang="json">
+{
+    "nodes": [
+      {
+        "uniqueName": "CrewBattleNode553",
+        "name": "Flexa"
+      },
+}
+</syntaxhighlight>
+
+
+==ExportIntrinsics==
+
+<syntaxhighlight lang="json">
+[
+    {
+      "name": "TACTICAL",
+      "ranks": [
+        {
+          "name": "Tactical System",
+          "description": "Deploy Tactical Mods and access Crew tracking system via Tactical Menu |TACT_MENU|."
+        },
+      ]
+    },
+]
+</syntaxhighlight>
+
+
+==ExportOther==
+
+<syntaxhighlight lang="json">
+[
+    {
+      "uniqueName": "/Lotus/Types/StoreItems/Boosters/AffinityBooster30DayStoreItem",
+      "name": "30 Day Affinity Booster",
+      "description": "Doubles the rate at which you earn affinity. Upgrade your weapons and Warframes faster.",
+      "excludeFromCodex": true
+    },
+]
+</syntaxhighlight>
+
+==ExportUpgrades Upgrades Schema ==
+Excluding Riven Mods and their challenges:
+*"uniqueName" {string} Relative path to upgrade data
+*"name" {string} Localized upgrade name
+*"polarity" {string} [[Polarity]] of upgrade using internal names
+*"rarity" {string} String enum specifying upgrade rarity ("COMMON", "UNCOMMON", "RARE", "LEGENDARY")
+*"codexSecret" {boolean} Whether or not upgrade is hidden from [[Codex]] if player does not have it
+*"baseDrain" {int} Base capacity drain
+*"fusionLimit" {int} Maximum number of ranks
+*"excludeFromCodex" {boolean} Whether or not upgrade will appear in Codex regardless of acquisition status
+*"isUtility" {boolean} Whether or not upgrade can be fitted in [[Exilus Mods|Exilus]] slot
+*"compatName" {string} Name of item that the upgrade can be equipped as seen on card description in all caps (e.g. "WARFRAME", "VULKAR", "OBERON", "NECRAMECH", "PISTOL (NO AOE)", "POLEARMS")
+*"type" {string} Name of class of upgrades that it belongs to in all caps (e.g. "WARFRAME", "PRIMARY", "ARCHWING", "STANCE")
+*"description" {string[]} String array containing localized upgrade description(s)
+* "subtype" {string} For augment mods, the relative path to Warframe
+*"levelStats" {Object[]} Array of JSON objects, each containing the upgrade description (not actual value) at a particular rank
+
+Sample:
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Upgrades/Mods/Warframe/Expert/AvatarKnockdownResistanceModExpert",
+    "name":"Primed Sure Footed",
+    "polarity":"AP_DEFENSE",
+    "rarity":"LEGENDARY",
+    "codexSecret":true,
+    "baseDrain":6,
+    "fusionLimit":10,
+    "isUtility":true,
+    "compatName":"WARFRAME",
+    "type":"WARFRAME",
+    "levelStats":[
+        {"stats":["+9% Chance to Resist Knockdown"]},
+        {"stats":["+18% Chance to Resist Knockdown"]},
+        {"stats":["+27% Chance to Resist Knockdown"]},
+        {"stats":["+36% Chance to Resist Knockdown"]},
+        {"stats":["+45% Chance to Resist Knockdown"]},
+        {"stats":["+55% Chance to Resist Knockdown"]},
+        {"stats":["+64% Chance to Resist Knockdown"]},
+        {"stats":["+73% Chance to Resist Knockdown"]},
+        {"stats":["+82% Chance to Resist Knockdown"]},
+        {"stats":["+91% Chance to Resist Knockdown"]},
+        {"stats":["+100% Chance to Resist Knockdown"]}
+    ]
+}
+</syntaxhighlight>
+
+=== Riven Mods===
+*"uniqueName" {string} Relative path to upgrade data
+* "name" {string} Upgrade name
+*"polarity" {string} [[Polarity]] of upgrade using internal names
+*"rarity" {string} Upgrade rarity in all caps
+*"codexSecret" {boolean} Whether or not upgrade is hidden from [[Codex]] if player does not have it
+*"baseDrain" {int} Base capacity drain
+*"fusionLimit" {int} Maximum number of ranks
+*"excludeFromCodex" {boolean} Whether or not upgrade will appear in Codex regardless of acquisition status
+*"upgradeEntries" {Object[]} Array of objects containing all possible stats
+*"availableChallenges" {Object[]} Array of objects containing all possible challenges and their additional modifiers ("complications")
+
+Sample Riven Mod:
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Upgrades/Mods/Randomized/LotusModularRifleRandomModRare",
+    "name":"DO NOT USE",
+    "polarity":"AP_UNIVERSAL",
+    "rarity":"COMMON",
+    "codexSecret":true,
+    "baseDrain":-1295140757,
+    "fusionLimit":32764,
+    "excludeFromCodex":true,
+    "upgradeEntries":[...],
+    "availableChallenges":[...]
+}
+</syntaxhighlight>
+
+Sample stat:
+<syntaxhighlight lang="json">
+{
+    "tag":"WeaponArmorPiercingDamageMod",
+    "prefixTag":"insi",
+    "suffixTag":"cak",
+    "upgradeValues":[{"value":0.01333,"locTag":"|val|% <DT_PUNCTURE>Puncture"}
+}
+</syntaxhighlight>
+
+Sample challenge:
+<syntaxhighlight lang="json">
+{
+    "fullName":"/Lotus/Types/Challenges/RandomizedKill",
+    "description":"Kill |COUNT| Enemies",
+    "complications":[...]
+}
+</syntaxhighlight>
+
+Sample challenge complication:
+<syntaxhighlight lang="json">
+{
+    "fullName":"/Lotus/Types/Challenges/Complications/ResetOnAlarmRaised",
+    "description":"without raising any alarms",
+    "overrideTag":"Get |COUNT| kills in a row while Wall Dashing or Wall Latching without touching the floor or raising any alarms"
+}
+</syntaxhighlight>
+
+=== Sets===
+* "uniqueName" {string} Relative path to upgrade data
+*"numUpgradesInSet" {int} Number of set mods in the set
+*"stats" {string[]} Localized stats, same size as <code>numUpgradesInSet</code> value
+
+Sample:
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Upgrades/Mods/Sets/Ashen/AshenSetMod",
+    "numUpgradesInSet":3,
+    "stats":[
+        "Killing an enemy with a Heavy Attack grants 10% Evasion and immunity to Status Effects for 2s",
+        "Killing an enemy with a Heavy Attack grants 20% Evasion and immunity to Status Effects for 4s",
+        "Killing an enemy with a Heavy Attack grants 30% Evasion and immunity to Status Effects for 6s"
+    ]
+}
+</syntaxhighlight>
+
+==ExportRecipes Blueprints Schema==
+*"uniqueName" {string} Relative path to blueprint data
+*"resultType" {string} Relative path to resultant item data
+*"buildPrice" {int} {{Resource|Credits}} cost to build item
+*"buildTime" {int} Required build time in seconds
+*"skipBuildTimePrice" {int} {{Resource|Platinum}} cost to skip build time
+* "consumeOnUse" {boolean} Denotes whether or not blueprint is reusable
+*"num" {int} Number of that particular item built
+*"codexSecret" {boolean} Whether or not blueprint is hidden from [[Codex]] if player does not have it
+*"primeSellingPrice" {int} Amount of {{Resource|Orokin Ducats}} gained when traded to Ducat kiosk in [[Relay]]s (only for Prime blueprints)
+*"ingredients" {Object[]} Array of blueprint requirements
+*"secretIngredients" {Object[]} Array of hidden blueprint requirements
+
+Sample blueprints:
+*{{Weapon|Braton Prime}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Recipes/Weapons/BratonPrimeBlueprint",
+    "resultType":"/Lotus/Weapons/Tenno/Rifle/BratonPrime",
+    "buildPrice":15000,
+    "buildTime":43200,
+    "skipBuildTimePrice":50,
+    "consumeOnUse":true,
+    "num":1,
+    "codexSecret":false,
+    "primeSellingPrice":25,
+    "ingredients":[
+        {"ItemType":"/Lotus/Types/Recipes/Weapons/WeaponParts/BratonPrimeBarrel","ItemCount":1,"ProductCategory":"MiscItems"},
+        {"ItemType":"/Lotus/Types/Recipes/Weapons/WeaponParts/BratonPrimeReceiver","ItemCount":1,"ProductCategory":"MiscItems"},
+        {"ItemType":"/Lotus/Types/Recipes/Weapons/WeaponParts/BratonPrimeStock","ItemCount":1,"ProductCategory":"MiscItems"},
+        {"ItemType":"/Lotus/Types/Items/MiscItems/OrokinCell","ItemCount":10,"ProductCategory":"MiscItems"}
+    ],
+    "secretIngredients":[]
+}
+</syntaxhighlight>
+
+*[[Phase Specter]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Recipes/Components/SilverSpectreBlueprint",
+    "resultType":"/Lotus/Types/Restoratives/Consumable/SilverSpectre",
+    "buildPrice":30000,
+    "buildTime":28800,
+    "skipBuildTimePrice":20,
+    "consumeOnUse":true,
+    "num":5,
+    "codexSecret":false,
+    "ingredients":[
+        {"ItemType":"/Lotus/Types/Items/MiscItems/PolymerBundle","ItemCount":750,"ProductCategory":"MiscItems"},
+        {"ItemType":"/Lotus/Types/Items/MiscItems/Nanospores","ItemCount":5000,"ProductCategory":"MiscItems"},
+        {"ItemType":"/Lotus/Types/Items/MiscItems/Salvage","ItemCount":5000,"ProductCategory":"MiscItems"},
+        {"ItemType":"/Lotus/Types/Items/MiscItems/AlloyPlate","ItemCount":1000,"ProductCategory":"MiscItems"}
+    ],
+    "secretIngredients":[
+        {"ItemType":"/Lotus/Types/Game/PowerSuits/PlayerPowerSuit","ItemCount":0},
+        {"ItemType":"/Lotus/Weapons/Tenno/Pistol/LotusPistol","ItemCount":0},
+        {"ItemType":"/Lotus/Weapons/Tenno/LotusLongGun","ItemCount":0},
+        {"ItemType":"/Lotus/Types/Game/LotusMeleeWeapon","ItemCount":0}
+    ]
+}
+</syntaxhighlight>
+
+==ExportResources Resources Schema==
+* "uniqueName" {string} Relative path to resource data
+*"name" {string} Localized resource name
+*"description" {string} Localized resource description
+*"codexSecret" {boolean} Whether or not resource is hidden from [[Codex]] if player does not have it
+*"parentName": {string} Relative path to parent resource data
+*"excludeFromCodex" {boolean} Whether or not resource is not included in Codex regardless of acquisition status
+*"showInInventory" {boolean} Whether or not resource is shown in player's [[Inventory]]
+
+Samples:
+*[[Railjack]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Game/CrewShip/Ships/RailJack",
+    "name":"Railjack",
+    "description":"Railjack-class crewship",
+    "codexSecret":true,
+    "parentName":"/Lotus/Types/Game/CrewShip/CrewShip",
+    "excludeFromCodex":true,
+    "showInInventory":false
+}
+</syntaxhighlight>
+
+*[[Sister of Parvos Token]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Game/Nemesis/KuvaLich/CapturedCorpusLichToken",
+    "name":"SISTER OF PARVOS TOKEN",
+    "description":"A token symbolizing a converted Sister of Parvos. Can be traded to other players for control of said Sister of Parvos.",
+    "codexSecret":false,
+    "parentName":"/Lotus/Types/Game/Nemesis/KuvaLich/CapturedLichToken",
+    "excludeFromCodex":true
+}
+</syntaxhighlight>
+
+*Generic Lith [[Void Relic]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Game/Projections/T1VoidProjection",
+    "name":"Lith Relic",
+    "description":"An artifact containing Orokin secrets. It can only be opened through the power of the Void.",
+    "codexSecret":false,
+    "parentName":"/Lotus/Types/Game/VoidProjectionItem",
+    "excludeFromCodex":true
+}
+</syntaxhighlight>
+
+*{{Resource|Morphics}} Decoration
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Items/ShipDecos/ResourceDecoItemMorphics",
+    "name":"Morphics Decoration",
+    "description":"A Morphics resource pickup to place in your Orbiter.",
+    "codexSecret":false,
+    "parentName":"/Lotus/Types/Items/ShipDecos/ShipDecoItem",
+    "excludeFromCodex":true
+}
+</syntaxhighlight>
+
+*{{Resource|Argon Crystal}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Items/MiscItems/ArgonCrystal",
+    "name":"Argon Crystal",
+    "description":"A Void based radioactive resource that decays every day it is out of the Void.\r\n\r\nThis resource can be found in the Void.",
+    "codexSecret":false,
+    "parentName":"/Lotus/Types/Items/MiscItems/ResourceItem"
+}
+</syntaxhighlight>
+
+==ExportRelicArcane Void Relics Schema==
+*"uniqueName" {string} Relative path to relic data
+*"name" {string} Localized relic name
+*"codexSecret" {boolean} Whether or not relic is hidden from [[Codex]] if player does not have it
+*"description" {string} Localized relic description
+* "relicRewards": {Object[]} List of possible rewards from opening relic
+** "rewardName" {string} Relative path to reward data
+**"rarity" {string} String enum specifying drop rarity ("COMMON", "UNCOMMON", "RARE")
+**"tier" {int} Unknown, appears to be always set to 0
+**"itemCount" {int} Number of a specific drop rewarded
+
+Sample entries: 
+*{{Relic|Axi A1}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Game/Projections/T4VoidProjectionEBronze",
+    "name":"Axi A1 Relic",
+    "codexSecret":false,
+    "description":"An artifact containing Orokin secrets. It can only be opened through the power of the Void.",
+    "relicRewards":[
+        {"rewardName":"/Lotus/StoreItems/Types/Recipes/Weapons/WeaponParts/AkstilettoPrimeBarrel","rarity":"UNCOMMON","tier":0,"itemCount":1},
+        {"rewardName":"/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrinityPrimeSystemsBlueprint","rarity":"COMMON","tier":0,"itemCount":1},
+        {"rewardName":"/Lotus/StoreItems/Types/Recipes/Weapons/WeaponParts/FragorPrimeHead","rarity":"COMMON","tier":0,"itemCount":1},
+        {"rewardName":"/Lotus/StoreItems/Types/Recipes/Weapons/WeaponParts/PrimeDualKamasHandle","rarity":"UNCOMMON","tier":0,"itemCount":1},
+        {"rewardName":"/Lotus/StoreItems/Types/Recipes/Weapons/WeaponParts/BratonPrimeStock","rarity":"COMMON","tier":0,"itemCount":1},
+        {"rewardName":"/Lotus/StoreItems/Types/Recipes/Weapons/PrimeNikanaBlueprint","rarity":"RARE","tier":0,"itemCount":1}
+    ]
+}
+</syntaxhighlight>
+
+*{{Relic|Requiem I}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Game/Projections/T5VoidProjectionImmortalABronze",
+    "name":"Requiem I Relic",
+    "codexSecret":false,
+    "description":"Holds Requiem Mods and other mysteries.",
+    "relicRewards":[
+        {"rewardName":"/Lotus/StoreItems/Types/Recipes/Components/WeaponUtilityUnlockerBlueprint","rarity":"RARE","tier":0,"itemCount":1},
+        {"rewardName":"/Lotus/StoreItems/Upgrades/Mods/Immortal/ImmortalOneMod","rarity":"UNCOMMON","tier":0,"itemCount":1},{"rewardName":"/Lotus/StoreItems/Upgrades/Mods/Immortal/ImmortalTwoMod","rarity":"UNCOMMON","tier":0,"itemCount":1},
+        {"rewardName":"/Lotus/StoreItems/Types/Items/MiscItems/Kuva","rarity":"COMMON","tier":0,"itemCount":1200},
+        {"rewardName":"/Lotus/StoreItems/Types/Items/FusionTreasures/OroFusexOrnamentB","rarity":"COMMON","tier":0,"itemCount":1},
+        {"rewardName":"/Lotus/StoreItems/Types/Items/MiscItems/RivenFragment","rarity":"COMMON","tier":0,"itemCount":1}
+    ]
+}
+</syntaxhighlight>
+
+==ExportRelicArcane Arcanes Schema==
+* "uniqueName" {string} Relative path to arcane data
+* "name" {string} Localized arcane name
+*"codexSecret" {boolean} Whether or not upgrade is hidden from [[Codex]] if player does not have it
+*"rarity" {string} String enum specifying arcane rarity ("COMMON", "UNCOMMON", "RARE", "LEGENDARY")
+*"excludeFromCodex" {boolean} Whether or not upgrade will appear in Codex regardless of acquisition status
+*"levelStats" {Object[]} Array of JSON objects, each containing the localized arcane description (not actual value) at a particular rank
+
+Sample entries:
+*{{Arcane|Arcane Energize}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneRadialEnergyOnEnergyPickup",
+    "name":"Arcane Energize",
+    "codexSecret":true,
+    "rarity":"LEGENDARY",
+    "levelStats":[
+        {"stats":["On Energy Pickup:\r\n60% chance to replenish 25 Energy to self and allies within 15m\r\n15s cooldown"]},
+        {"stats":["On Energy Pickup:\r\n60% chance to replenish 50 Energy to self and allies within 15m\r\n15s cooldown"]},
+        {"stats":["On Energy Pickup:\r\n60% chance to replenish 75 Energy to self and allies within 15m\r\n15s cooldown"]},
+        {"stats":["On Energy Pickup:\r\n60% chance to replenish 100 Energy to self and allies within 15m\r\n15s cooldown\r\n+1 Arcane Revive","+1 Arcane Revive"]},
+        {"stats":["On Energy Pickup:\r\n60% chance to replenish 125 Energy to self and allies within 15m\r\n15s cooldown\r\n+1 Arcane Revive","+1 Arcane Revive"]},
+        {"stats":["On Energy Pickup:\r\n60% chance to replenish 150 Energy to self and allies within 15m\r\n15s cooldown\r\n+1 Arcane Revive","+1 Arcane Revive"]}
+    ]
+}
+</syntaxhighlight>
+
+*{{Arcane|Pax Charge}}
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Upgrades/CosmeticEnhancers/Utility/BulletToBattery",
+    "name":"Pax Charge",
+    "codexSecret":true,
+    "rarity":"RARE",
+    "levelStats":[
+        {"stats":["Battery Recharge Delay is reduced by +12.5%"]},
+        {"stats":["Battery Recharge Delay is reduced by +25%"]},
+        {"stats":["Battery Recharge Delay is reduced by +37.5%"]},
+        {"stats":["Battery Recharge Delay is reduced by +50%"]}
+    ]
+}
+</syntaxhighlight>
+
+==ExportGear Gears Schema ==
+*"uniqueName" {string} Relative path to gear data
+*"name" {string} Localized gear name
+*"description" {string} Localized gear description
+*"codexSecret" {boolean} Whether or not gear is hidden from [[Codex]] if player does not have it
+*"parentName": {string} Relative path to parent item data
+
+Sample gear:
+*[[Necramech Summon]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Restoratives/LoadoutTechSummon",
+    "name":"Necramech Summon",
+    "description":"Summon a Necramech to the battlefield.",
+    "codexSecret":false,
+    "parentName":"/Lotus/Types/Restoratives/BaseTechSummon"
+}
+</syntaxhighlight>
+
+*[[Echo-Lure]] 
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Restoratives/Conservation/UpgradedAnimalLureGearItem",
+    "name":"Echo-Lure",
+    "description":"Entice and attract nearby wildlife with life-like animal calls.",
+    "codexSecret":false,
+    "parentName":"/Lotus/Types/Restoratives/Conservation/AnimalLureGearItem"
+}
+</syntaxhighlight>
+
+==ExportRegions Nodes Schema==
+*"uniqueName" {string} Relative path to node data
+*"name" {string} Localized node name
+* "systemIndex" {int} Region index
+*"systemName" {string} Localized region name
+*"nodeType": {int} Node type (4 for [[Dark Sector]] missions, otherwise 0)
+*"masteryReq" {int} [[Mastery Rank]] requirement
+* "missionIndex" {int} [[Mission]] type index
+*"factionIndex" {int} Controlling [[Faction]] index
+**0 = [[Grineer]], 1 = [[Corpus]], 2 = [[Infested]], 3 = [[Corrupted]], 7 = [[The Murmur]], 8 = [[Scaldra]], 9 = [[Techrot]]
+**[[Zariman Ten Zero]] nodes have this set to 0 despite having faction control switch every cycle
+**Valac, [[Europa]] has this set to 1 despite being a [[Crossfire]] [[Spy]] mission
+**Plato, [[Lua]] has this set to 0 despite being a Crossfire [[Exterminate]] mission
+**Pavlov, Lua has this set to 1 despite being a Crossfire Spy mission
+*"minEnemyLevel" {int} Starting enemy level
+*"maxEnemyLevel" {int} Maximum enemy level (really only applies to non-endless missions in-game)
+
+Sample nodes:
+*Apollodorus, [[Mercury]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"SolNode94",
+    "name":"Apollodorus",
+    "systemIndex":0,
+    "systemName":"Mercury",
+    "nodeType":0,
+    "masteryReq":0,
+    "missionIndex":2,
+    "factionIndex":2,
+    "minEnemyLevel":6,
+    "maxEnemyLevel":11
+}
+</syntaxhighlight>
+
+*Mithra, [[Void]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"SolNode412",
+    "name":"Mithra",
+    "systemIndex":14,
+    "systemName":"Void",
+    "nodeType":0,
+    "masteryReq":0,
+    "missionIndex":13,
+    "factionIndex":3,
+    "minEnemyLevel":40,
+    "maxEnemyLevel":45
+}
+</syntaxhighlight>
+
+===System Index===
+{| class="wikitable"
+|+ System Index
+|-
+! Region Index !! Region
+|-
+| 0 || [[Mercury]]
+|-
+| 1 || [[Venus]]
+|-
+| 2 || [[Earth]]
+|-
+| 3 || [[Mars]]
+|-
+| 4 || [[Jupiter]]
+|-
+| 5 || [[Saturn]]
+|-
+| 6 || [[Uranus]]
+|-
+| 7 || [[Neptune]]
+|-
+| 8 || [[Pluto]]
+|-
+| 9 || [[Ceres]]
+|-
+| 10 || [[Eris]]
+|-
+| 11 || [[Sedna]]
+|-
+| 12 || [[Europa]]
+|-
+| 13 || [[Clan Dojo]]
+|-
+| 14 || [[Void]]
+|-
+| 15 || [[Phobos]]
+|-
+| 16 || [[Deimos]]
+|-
+| 17 || [[Lua]]
+|-
+| 18 || [[Kuva Fortress]]
+|-
+| 19 || [[Sanctuary Onslaught]]
+|-
+| 20 || [[Veil Proxima]]
+|-
+| 21 || [[Zariman]]
+|-
+| 22 || [[Duviri]]
+|-
+| 23 || [[Höllvania]]
+|-
+|}
+
+=== Mission Index===
+{| class="wikitable"
+|-
+! Index!!Mission Type
+|-
+|0||[[Assassination]]
+|-
+|1||[[Exterminate]]
+|-
+|2||[[Survival]]
+|-
+|3|| [[Rescue]]
+|-
+|4
+|[[Sabotage]]
+|-
+|5||[[Capture]]
+|-
+|6||Unknown
+|-
+|7||[[Spy]]
+|-
+|8||[[Defense]]
+|-
+|9||[[Mobile Defense]]
+|-
+|10 || Unknown
+|-
+|11 || Unknown
+|-
+|12 || Unknown
+|-
+|13||[[Interception]]
+|-
+|14
+|[[Hijack]]
+|-
+|15||[[Hive Sabotage]]
+|-
+|16||Unknown
+|-
+|17||[[Excavation]]
+|-
+|18 ||Unknown
+|-
+|19||Unknown
+|-
+|20|| Unknown
+|-
+|21 ||[[Infested Salvage]]
+|-
+|22 ||[[Rathuum]]
+|-
+|23||Unknown
+|-
+|24||[[Pursuit]]
+|-
+|25||[[Rush (Archwing)|Rush]]
+|-
+|26||[[Assault]]
+|-
+|27||[[Defection]]
+|-
+|28||[[Landscape]]
+|-
+|29||Unknown
+|-
+|30||Unknown
+|-
+|31 ||[[The Circuit]]
+|-
+|32||Unknown
+|-
+|33||[[Disruption]]
+|-
+|34||[[Void Flood]]
+|-
+|35||[[Void Cascade]]
+|-
+|36||[[Void Armageddon]]
+|-
+|37||Unknown
+|-
+|38||[[Alchemy]]
+|-
+|39||Unknown
+|-
+|40||[[Legacyte Harvest]]
+|-
+|41||[[Shrine Defense]]
+|-
+|42||[[Faceoff]]
+|-
+|}
+
+==ExportFlavour Color Palette Schema==
+*"uniqueName" {string} Relative path to palette data
+*"name" {string} Localized palette name
+*"description" {string} Localized palette description
+*"codexSecret" {boolean} Whether or not palette is hidden from [[Codex]] if player does not have it
+*"excludeFromCodex" {boolean} Whether or not palette will appear in Codex regardless of acquisition status
+*"hexColours" {Object[]} Array of [[wikipedia:Web colors|hex color values]] that palette contains
+
+Sample:
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/StoreItems/SuitCustomizations/ColourPickerEximus",
+    "name":"Eximus",
+    "description":"A set of colors derived from the uniforms of Eximus adversaries.\r\n\r\nUnlocks additional color options for Warframe customization.",
+    "codexSecret":false,
+    "hexColours":[
+        {"value":"0x00697785"},{"value":"0x005F6B79"},{"value":"0x00515C69"},{"value":"0x00434C57"},{"value":"0x00353D46"},
+        {"value":"0x00E6D56F"},{"value":"0x00E5D16D"},{"value":"0x00E2C969"},{"value":"0x00E0C166"},{"value":"0x00DFBA64"},
+        {"value":"0x0013B1E9"},{"value":"0x0014A8D7"},{"value":"0x00139BBF"},{"value":"0x00118CA3"},{"value":"0x0011808C"},
+        {"value":"0x00CB2F2F"},{"value":"0x00C43232"},{"value":"0x00BA3434"},{"value":"0x00B03838"},{"value":"0x00A53A3B"},
+        {"value":"0x007FACB8"},{"value":"0x00749EAA"},{"value":"0x00688D97"},{"value":"0x00587882"},{"value":"0x004C676F"},
+        {"value":"0x0020EC14"},{"value":"0x0023DA13"},{"value":"0x002AC213"},{"value":"0x0030A613"},{"value":"0x00368D12"},
+        {"value":"0x00DECD9D"},{"value":"0x00D8C796"},{"value":"0x00CFC08D"},{"value":"0x00C5B982"},{"value":"0x00BCB179"},
+        {"value":"0x008ADE6B"},{"value":"0x0083D563"},{"value":"0x0078C557"},{"value":"0x006DB64A"},{"value":"0x0063A93F"},
+        {"value":"0x00ECDE14"},{"value":"0x00ECD714"},{"value":"0x00ECCD14"},{"value":"0x00ECC214"},{"value":"0x00ECB814"},
+        {"value":"0x00F2F0E9"},{"value":"0x00E9F0E9"},{"value":"0x00DCEFEA"},{"value":"0x00CEEEEB"},{"value":"0x00C1EDEC"},
+        {"value":"0x006CB4F3"},{"value":"0x0067AFEE"},{"value":"0x005FA7E6"},{"value":"0x00589FDE"},{"value":"0x005097D5"},
+        {"value":"0x00EC1414"},{"value":"0x00DB1414"},{"value":"0x00C21615"},{"value":"0x00A61716"},{"value":"0x008D1718"},
+        {"value":"0x005B3F6E"},{"value":"0x00573969"},{"value":"0x00513361"},{"value":"0x004A2A58"},{"value":"0x00442250"},
+        {"value":"0x00A2BFA5"},{"value":"0x0096AF99"},{"value":"0x00839886"},{"value":"0x006E7E70"},{"value":"0x005C665E"},
+        {"value":"0x005AD168"},{"value":"0x0059CE74"},{"value":"0x0057C883"},{"value":"0x0054C194"},{"value":"0x0052BCA4"},
+        {"value":"0x00F9F3EA"},{"value":"0x00F6ECDB"},{"value":"0x00F2E1C4"},{"value":"0x00ECD5AA"},{"value":"0x00E7CA94"},
+        {"value":"0x00DCAA7F"},{"value":"0x00DAA171"},{"value":"0x00D79561"},{"value":"0x00D1884E"},{"value":"0x00CD7D3D"},
+        {"value":"0x00EC9D14"},{"value":"0x00EC9814"},{"value":"0x00EC9014"},{"value":"0x00EC8714"},{"value":"0x00EC7E14"}
+    ]
+}
+</syntaxhighlight>
+
+==ExportDrones Extractors Schema==
+* "uniqueName" {string} Relative path to extractor data
+*"name" {string} Localized extractor name
+*"description" {string} Localized extractor description
+*"binCount" {int} Number of unique resources extractor is able to collect
+*"binCapacity" {int} Number of rolls for a particular resource(?)
+* "fillRate" {int} Number of hours before extractor can be reclaimed/undeployed to collect resources
+*"durability" {int} Amount of health that extractor has before being destroyed
+*"repairRate" {int} Amount of health restored per hour when not deployed
+*"codexSecret" {boolean} Whether or not extractor is hidden from [[Codex]] if player does not have it
+* "capacityMultiplier" {int[]} Resource gain multiplier in the order of common, uncommon, rare, and research resources
+*"specialities" {string[]} Unknown
+
+Sample: 
+* [[Titan Extractor]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Ship/BasicResourceDrone",
+    "name":"Titan Extractor",
+    "description":"Deploy the Extractor on a planet to collect resources.\r\n\r\nMust be emptied regularly for maximum efficiency and monitored for damage.",
+    "binCount":1,
+    "binCapacity":1,
+    "fillRate":4,
+    "durability":100,
+    "repairRate":10,
+    "codexSecret":false,
+    "capacityMultiplier":[8,6,4,1],
+    "specialities":[]
+}
+</syntaxhighlight>
+
+*[[Titan Extractor Prime]]
+<syntaxhighlight lang="json">
+{
+    "uniqueName":"/Lotus/Types/Ship/AdvancedResourceDrone",
+    "name":"Titan Extractor Prime",
+    "description":"Deploy the Extractor on a planet to collect large amounts of resources.\r\n\r\nMust be emptied regularly for maximum efficiency and monitored for damage.",
+    "binCount":1,
+    "binCapacity":2,
+    "fillRate":4,
+    "durability":100,
+    "repairRate":10,
+    "codexSecret":false,
+    "capacityMultiplier":[8,6,4,1],
+    "specialities":[]
+}
+</syntaxhighlight>
+
+==References==
+{{Reflist}}
+
+==External Links==
+*https://web.archive.org/web/20190720085542/https://warframe.fandom.com/wiki/User_blog:DEDrew/How_to_find_Warframe_Images - Archive of [DE]Drew's original blog post of extracting image data from the Mobile Export (outdated)
+**https://web.archive.org/web/20160211082717/https://warframe.wikia.com/wiki/User_blog:DEDrew/How_to_find_Warframe_Images - Archived Wikia link
+*https://github.com/WFCD/warframe-items Warframe-items scraper using this endpoint
+
+==See Also==
+*[[World State]] for data on the current state of the [[Star Chart]]
+*[[Drop Tables]] for data on WARFRAME's reward drop tables
+
+{{MechNav}}
+[[Category:Tools]]
+[[Category:Real-World References]]
+[[Category:Development]]

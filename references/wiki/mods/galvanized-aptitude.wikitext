@@ -1,0 +1,120 @@
+{{ModBox}}
+
+'''Galvanized Aptitude''' is the [[Galvanized Mods|Galvanized]] variant of {{M|Rifle Aptitude}}, increasing [[status chance]]. Kills grant a buff that increases direct hit damage (not area-of-effect) for each [[Status Effect|status type]] affecting the target for 20 seconds and stacks up to 2 times.
+
+==Stats==
+{| class="emodtable"
+|-
+![[Mods#Mod Rank|Rank]]
+! Status Chance
+! Additional Damage Per Unique Proc On Kill
+! Max Damage Bonus Per Unique Proc
+![[Mods#Mod Power Cost|Cost]]
+|-
+| 0 || +7.3% || +3.6% || +7.2% || 2
+|-
+| 1 || +14.5% || +7.3% || +14.6% || 3
+|-
+| 2 || +21.8% || +10.9% || +21.8% || 4
+|-
+| 3 || +29.1% || +14.5% || +29% || 5
+|-
+| 4 || +36.4% || +18.2% || +36.4% || 6
+|-
+| 5 || +43.6% || +21.8% || +43.6% || 7
+|-
+| 6 || +50.9% || +25.5% || +51% || 8
+|-
+| 7 || +58.2% || +29.1% || +58.2% || 9
+|-
+| 8 || +65.5% || +32.7% || +65.4% || 10
+|-
+| 9 || +72.7% || +36.4% || +72.8% || 11
+|-
+| 10 || +80% || +40% || +80% || 12
+|}
+
+==Acquisition==
+This mod can be bought from the [[Arbitrations]] vendor in the {{Faction|Arbiters of Hexis}} room in [[Relay]]s for 20 {{Resource|Vitus Essence}}.
+
+==Notes==
+*The damage increase is usually additive with other damage mods like {{M|Serration}}, with exceptions where it is multiplicative. See [[Condition Overload (Mechanic)]] for more details.
+*The damage increase is not applied on the hit that procs a new status effect, it is only applied on '''following hits'''.
+**For example: Galvanized Aptitude has 2 stacks, weapon has 100 base damage and {{M|Serration}} for a total of {{Math|100 * (1 + {{M|Serration|1.65}})|mt=y}} damage. First hit procs {{D|Impact}} and deals 265 damage. Then '''on the following hit''' the +80% damage from the 2 stacks is applied for a total of {{Math|100 * (1 + {{M|Serration|1.65}} + {{M|Galvanized Aptitude|0.8}})|mt=y}} damage.
+**However, [[Multishot]] instances are treated as '''sequential''' hits, allowing a weapon with multishot to benefit from the damage increase even on the first trigger pull. For example: Galvanized Aptitude has 2 stacks, weapon has 100 base damage, {{M|Serration}}, and a multishot of 3. The first multishot instance deals {{Math|100 * (1 + {{M|Serration|1.65}})|mt=y}} damage and procs {{D|Impact}}. The second multishot instance will then apply the +80% damage from 2 stacks, for a total of {{Math|100 * (1 + {{M|Serration|1.65}} + {{M|Galvanized Aptitude|0.8}})|mt=y}} damage. If the second instance procs {{D|Puncture}}, then the third instance will apply +160% damage (80% for 2 stacks, times 2 different status effects), for a total of {{Math|100 * (1 + {{M|Serration|1.65}} + {{M|Galvanized Aptitude|1.6}})|mt=y}} damage. Thus, in one trigger pull the weapon will have dealt '''1035''' total damage, instead of the '''795''' that would have been dealt otherwise. 
+*When the buff times out, one stack is lost and the buff duration resets.
+*Only kills from a weapon equipped with this mod will give stacks, and only the weapon equipped with this mod will benefit from the buff. If equipped on both a normal weapon and an [[Exalted Weapon]], it will affect both weapons.
+**As such, the bonus effect does not activate on enemies killed by the tether mode of a thrown [[Ferrox]] and even if the bonus is active will not apply to this mode as the weapon is not equipped while thrown.
+*Kills from status procs (including from {{M|Hunter Munitions}}) from a weapon equipped with this mod will give stacks.
+*Bonus damage from status procs may originate from any source, including primary and secondary weapons, [[Warframe]] abilities, companions, other players, or the environment.
+*{{D|Impact}}, {{D|Puncture}}, {{D|Slash}}, {{D|Cold}}, {{D|Electricity}}, {{D|Heat}}, {{D|Toxin}}, {{D|Blast}}, {{D|Corrosive}}, {{D|Gas}}, {{D|Magnetic}}, {{D|Radiation}}, {{D|Viral}}, and {{D|Void}} procs all count for the damage bonus.
+**{{D|Lifted}} from [[Melee#Heavy Attack|Melee Heavy Attacks]] also counts.
+**{{Weapon|Nukor}} and {{Weapon|Kuva Nukor}} apply a unique invisible status called Microwave to enemies touched by its beam.
+***Microwave procs have infinite duration.
+**Although [[knockdown]] does not cause any icon on the enemy, it still counts as a status.
+***Note that conditions or abilities that prevent knockdowns (e.g. {{A|Bastille}}) will prevent it from increasing damage.
+**Since {{D|Lifted}} and [[knockdown]] will cancel out each other, the maximum number of status effects that can be applied to an enemy is 16.
+
+==Damage Multipliers==
+{| class="wikitable"
+|-
+! Unique Status Effects
+| 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 || 10 || 11 || 12 || 13 || 14 || 15 || 16
+|-
+! Bonus Damage @ 1 Stack
+| +40% || +80% || +120% || +160% || +200% || +240% || +280% || +320% || +360% || +400% || +440% || +480% || +520% || +560% || +600% || +640%
+|-
+! Bonus Damage @ 2 Stacks
+| +80% || +160% || +240% || +320% || +400% || +480% || +560% || +640% || +720% || +800% || +880% || +960% || +1,040% || +1,120% || +1,200% || +1,280%
+|-
+|}
+
+== Trivia ==
+
+* This mod (along with {{M|Galvanized Savvy}} and {{M|Galvanized Shot}}) is sometimes referred to as "'''<u>Gun</u>'''dition Overload" or "Gun CO" by the community. It is a play on {{M|Condition Overload}}, a mod for melee weapons with similar functionality.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|36}}
+*Fixed Ivara’s Artemis Bow not benefitting from the Galvanized Aptitude Mod.
+
+{{ver|34}}
+*Fixed triggering Galvanized Aptitude on the Telos Boltor Incarnon granting it far more direct hit damage (at times tenfold) than intended.
+
+{{ver|31.5}}
+*Fixed the innate damage bonus of Kuva/Tenet projectile weapons not applying the bonus damage from Galvanized Aptitude.
+
+{{ver|31.2}}
+*Fixed the innate damage bonus of Kuva/Tenet projectile weapons not applying to the bonus damage from Galvanized Aptitude.
+
+{{ver|31.1.7}}
+*Fixed an issue where innate damage bonus of Kuva weapons did not apply to the bonus damage from Galvanized Aptitude.
+
+{{ver|31.1.6}}
+*Fixed weapons with Multishot (especially innate multishot like on shotguns or beam weapons) having a higher damage increase from Galvanized Aptitude per Status type as intended.
+
+{{ver|31.1}}
+*Fixed Galvanized Mod "bonus Damage per Status" not functioning for numerous projectile weapons.
+**''A previous change had them operate relative to "base damage" but the code was incorrectly getting base damage from the impact behavior rather than the projectile. This problem was pervasive and there are hundreds of weapons in our game! Please be patient and send updated reports if something slipped through our net.''
+
+{{ver|30.9}}
+*Changed the description of Galvanized Aptitude to better reflect its current function (which clarifies that area of effect damage is not included)
+**... BUT WAIT! We want to explain why because it’s very important to us that everyone understands where we are coming from with our current design mindset. AoE Weapons are the dominant ones by every usage metric. We see this day after day. Having this bonus apply to the AoE instance felt dangerously close to a myopic choice concerning powering up player Arsenals that simply do not need it. This mod never worked on AoE, and the description now explains that to avoid confusion. We understand those seeking a different outcome will disagree with this choice, but ultimately we are not willing to further bolster AoE at this time. This is due to the increasing difficulty in creating content that serves to challenge the Tenno.   
+
+{{ver|30.5.5}}
+*Fixed Galvanized Mods offering increased damage from Status on target not reliably working on numerous weapons.
+
+{{ver|30.5}}
+*Introduced.
+}}
+
+==See Also==
+*{{M|Galvanized Savvy}}, the shotgun version of this mod.
+*{{M|Galvanized Shot}}, the secondary version of this mod.
+
+{{PrimaryMods}}
+[[es:Aptitud Galvanizada]]
+[[fr:Aptitude Galvanisée]]
+[[ru:Гальванизированная Боеспособность]]
+[[uk:Гартована схильність]]
+[[Category:Galvanized Mods]]

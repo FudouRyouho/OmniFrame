@@ -1,0 +1,39 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Webbed Embrace
+| gameimage      = 
+| cardimage      = 
+| hotkey         = 1
+| energy         = 50
+| description    = Oraxia throws a creeping web to ensnare her prey. Enemies caught within the widening radius are trapped inside a cocoon that increases their [[Damage Vulnerability]].
+| strength       = 100 / 150 / 200 / 250 {{D|Toxin}} Damage<br>35% / 40% / 45% / 50% [[Damage Vulnerability]]
+| range          = 5 / 7 / 8 / 10m Radius
+| duration       = 10 / 15 / 20 / 25s
+| misc           = 100% {{D|Toxin}} [[Status Chance]]<br>? s web expansion time<br>? s {{D|Slow}} duration<br>3 max webs
+| subsumable     = true
+| cardonly       = {{{1|}}}
+|info = *Oraxia expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[Energy]] to hurl an arcing cocoon sac that splatters on impact with any surface, then spreads an expanding web over {{Stat|Ability Range|icon=only}}'''5 / 7 / 8 / 10''' meters, lasting for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds. Upon entering the web, enemies take {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Toxin}} damage with <u>'''100%'''</u> [[Status Chance]]. While expanding for <u>'''?'''</u> seconds, the web instantly traps enemies in cocoons; once the web is fully expanded, enemies walking into its radius with [[Line of Sight]] to the web's center, {{D|Slow}} down for <u>'''?'''</u> seconds then become cocooned. Cocooned enemies cannot move and become debuffed with {{Stat|Ability Strength|icon=only}}'''35% / 40% / 45% / 50%''' [[Damage Vulnerability]]. Up to a maximum of <u>'''3'''</u> webs can be created.
+**Number of active webs are shown on the ability icon.
+**The web visually expands over the horizontal plane, encircled by a radial Void energy aura.
+**Webbed Embrace's ability effects occur inside an invisible sphere centered on the web, allowing Oraxia to create her webs on walls and still affect enemies below.
+*'''Ability Synergy:''' Damage Vulnerability enhances the damage of {{A|Mercy's Kiss}}, {{A|Widow's Brood}} darts and Scuttler bites, and {{A|Silken Stride}}'s bonus {{D|Toxin}} damage on ranged weapons and damage explosion on kills.
+*[[Nullifier Crewman|Nullifiers]] will '''not''' destroy Webbed Embrace, but instead render enemies immune to its effects while inside the Nullifier Bubble.
+*Subsuming Oraxia to the [[Helminth]] will offer Webbed Embrace and its augments to be used by other Warframes.
+**However, Subsumed Webbed Embrace's range is reduced to {{Stat|Ability Range|icon=only}}'''6.67''' meters.
+| augment = 
+| tips = 
+*Throw the cocoon sac directly on groups of enemies to immediately immobilize them.
+*Cast on an open area to increase the line of sight of the web, to catch more enemies walking into its path.
+*Create up to three webs in high traffic chokepoints to crowd control multiple fronts.
+*Cocooned enemies receive more damage from all sources, and make for easy targets for enemy weakpoint shots,  {{A|Mercy's Kiss}} and {{A|Widow's Brood}} Scuttlers.
+| max = 
+| bugs = |
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Oraxia}}
+
+__NOTOC__
+[[Category:Slow]]
+[[Category:Warframe Abilities]]
+[[Category:Update 39]]

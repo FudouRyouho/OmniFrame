@@ -1,0 +1,52 @@
+{{For|the song playing during {{WF|Gauss Prime|Gauss Prime's}} trailer|Gauss Prime Theme "Redline"}}
+<onlyinclude>{{AbilityU10.3
+| name           = Redline
+| gameimage      = Redline130xWhite.png
+| cardimage      = RedlineModx256.png
+| hotkey         = 4
+| energy         = 100
+| description    = Push Gauss' battery beyond the redline, supercharging his Abilities and setting Fire Rate, Attack Speed, Reload Speed, and Holster Speed into overdrive. When past the redline, bolts of arcing electricity dance periodically from Gauss, exploding en masse when the ability is deactivated.
+<br>
+'''Battery drain per second:''' 2% s<sup>-1</sup>
+| strength         = 100 / 200 / 300 / 400 ({{D|Impact}} and {{D|Puncture}} area damage)
+| range          =
+| duration       = 15 / 20 / 25 / 30 s (duration)<br/>6 - 30% / 9 - 45% / 12 - 60% / 15 - 75% (fire rate buff)<br/>5 - 25% / 6 - 30% / 7 - 35% / 8 - 40% (attack speed buff)<br/>4 - 20% / 6 - 30% / 8 - 40% / 10 - 50% (reload speed buff)<br/>4 - 20% / 6 - 30% / 8 - 40% / 10 - 50% (casting speed buff)
+| misc           = ? m (activation knockback radius)<br/>+20% (battery limit release)<br/>50% (projectile accuracy)<br/>50% (energy discount for Mach Rush)<br/>100% (melee damage bonus, follow through, and stagger chance for Kinetic Plating)<br/>100% ({{D|Cold}} freeze chance and {{D|Heat}} ignite chance for Thermal Sunder)<br/>≤100% ({{D|Blast}} enemy armor reduction for Thermal Sunder)
+| cardonly       = {{{1|}}}
+
+|info = 
+*Gauss expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to overclock his [[Gauss/Abilities#Passive|battery]], blasting away enemies within '''<u>?</u>''' meters around him and gaining access to '''100%''' of his battery for {{Stat|Ability Duration|icon=only}}'''15 / 20 / 25 / 30''' seconds. During Redline, Gauss grants himself bonus weapon [[Fire Rate]] by {{Stat|Ability Duration|icon=only}}'''6% - 30% / 9% - 45% / 12% - 60% / 15% - 75%''', melee [[Attack Speed]] by {{Stat|Ability Duration|icon=only}}'''5% - 25 % / 6% - 30% / 7% - 35% / 8% - 40%''', and [[Reload Speed]] and [[Casting Speed]] by {{Stat|Ability Duration|icon=only}}'''4% - 20% / 6% - 30% / 8% - 40% / 10% - 50%''', based on battery. While active, Redline drains '''<u>2%</u>''' battery power per second. Redline deactivates on duration end or by manually pressing the ability key again (default {{Keybind|4}}).
+*Redline introduces a new counter onto the battery gauge, shown as a percentage value between '''0%''' and '''100%'''. While the battery level is above '''80%''', the Redline counter gradually increases. The speed of the increase is based on battery level, with the counter decreasing if the battery level drops below the Redline limit. When the Redline counter reaches 100%, battery drain from abilities is negated for the remaining duration of Redline.
+**The Redline counter's maximum growth rate scales ''inversely'' with {{Stat|Ability Duration}} (more duration reduces growth rate), calculated as: {{MathText|100% / ( Duration {{mul}} 1/3 )}}. This means the Redline counter cannot max out earlier than 1/3rd of its duration.
+**While battery power level is above the Redline limit, damaging projectiles of arcing electricity will periodically shoot out from Gauss and [[homing|home]] in on nearby enemies with '''<u>50%</u>''' accuracy, dealing {{Stat|Ability Strength|icon=only}}'''100 / 200 / 300 / 400''' damage, with a distribution of '''81.25%''' {{D|Impact}} and '''18.75%''' {{D|Puncture}} damage with ~25% status chance and guaranteed {{D|Stagger}} effect. On deactivation, a variable number of projectiles are simultaneously released from Gauss, exploding on impact with enemies.
+***The number of projectiles released during Redline, and upon deactivation, is affected by the amount of battery power level above the Redline battery charge ('''>80%''').
+***Projectiles will become more accurate, and strike enemies more frequently, the higher the battery power level is beyond the redline limit.
+***Projectiles are affected by [[Universal Weapon Bonuses]].
+**When Redline expires, battery level drains to the amount displayed on the Redline counter (e.g. if the counter is at 20%, the battery level will decrease to 20%).
+*'''Ability Synergy:'''
+**{{A|Mach Rush}} initial cost and energy drain per second are both '''<u>halved</u>''' while battery level is above the Redline limit.
+**While battery level is above the Redline limit, {{A|Kinetic Plating}} also grants Gauss a {{text||'''<u>100%</u>''' melee damage bonus|hover=Additive with +damage mods such as Pressure Point}}, sets [[Melee#Follow Through|Follow Through]] to '''100%''', and gives melee attacks '''<u>100%</u>''' chance to stagger enemies on hit.
+**{{A|Thermal Sunder}} gains bonuses to its status effects while battery level is above the Redline limit: 
+***The {{D|Cold}} proc freezes enemies solid immediately.
+***The {{D|Heat}} proc immediately deals the full damage that the DoT would have dealt over its full duration.
+***The {{D|Blast}} proc permanently strips a percentage of [[armor]] based on battery power level, up to a maximum of '''100%''' armor strip with a full battery charge, ''before'' inflicting its damage.
+|augment =
+|tips = 
+|bugs =
+<noinclude>
+|max = {{WFmax|main|gauss1}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Gauss}}
+__NOTOC__
+[[es:Aceleración máxima]]
+[[fr:Hors Limites]]
+[[Category:Warframe Abilities]]
+[[Category:Gauss]]
+[[Category:Update 25]]
+[[Category:Two-Handed Abilities]]
+[[Category:Impact Damage]]
+[[Category:Puncture Damage]]
+[[uk:Надпотужність]]

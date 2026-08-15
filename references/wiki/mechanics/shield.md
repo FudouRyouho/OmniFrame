@@ -1,93 +1,224 @@
 # Shield
 
 > Estado: activo
-> Rol: fórmula de Shields y mecánicas de Shield Gate / recarga
-> Fuente de verdad de: cálculo de Total Shields, DR inherente del 50%, recharge rate
-> No usar para: mecánicas de Overshield detalladas o simulación de Shield Gate frame-by-frame
-> Última actualización: 2026-06-10
+> Rol: fórmula de shields, DR inherente, recarga con sus dos delays, shield gating (jugador y enemigo) y overshields
+> Fuente de verdad de: cálculo de Total Shields, quién recibe el 50% de DR, delays y tasa de recarga, la **fórmula** de duración del shield gate, el gate del enemigo, caps de overshield
+> No usar para: escalado de shields de enemigos por nivel (→ `enemy-level-scaling.md`) · el catálogo completo de fuentes de restauración (está en el raw)
+> Última actualización: 2026-08-08 (re-destilado §Overshields contra el raw: faltaban el orden de consumo, las sinergias gateadas por presencia y la cláusula de Brief Respite)
+> Fuente: https://wiki.warframe.com/w/Shield
+> Fuente actualizada: 2026-07-05
+> Raw: shield.wikitext · ../arcanes/arcane-aegis.wikitext · ../mods/brief-respite.wikitext
 
 ## Fórmula base
 
 ```text
-Total Shields = Base Shields × (1 + Mods% + Abilities%)
+Total Shields = Base Shields × (1 + Relative Mod Bonus + Relative Ability Bonus)
 ```
 
-Fuente: https://wiki.warframe.com/w/Shield
-
-- `Base Shields` — valor del warframe en Rank 0 (+ Rank Bonus sumado antes del multiplicador, igual que Health)
-- `Mods%` — suma aditiva de mods porcentuales (Redirection, Primed Vigor, etc.)
-- `Abilities%` — habilidades que dan % de shields (Limbo Rift shield, etc.) — mismo pool aditivo que mods
-
-## Fuentes de Shields
-
-| Capa | Fuentes |
-|---|---|
-| % aditivo de mods | Redirection, Primed Vigor, Physique (aura) |
-| Plano post-escala | Azure Archon Shard (+150/+225) |
-| Tasa de recarga | Fast Deflection |
-
-## Reducción de daño inherente (50%)
-
-Los shields tienen **50% de DR inherente** contra todos los tipos de daño excepto:
-
-| Bypass total | Bypass parcial |
-|---|---|
-| **Toxin** — daña salud directamente, ignora shields por completo | — |
-| **True damage** — ignora shields | — |
-
-> Magnetic es especialmente efectivo contra shields — inflige daño con +75% modificador y bloquea la recarga.
-
-## Shield Gate
-
-La mecánica de Shield Gate previene que un único hit destruya tanto los shields como la salud en el mismo frame:
-
-- Al recibir un hit que destruye todos los shields, el jugador tiene **mínimo 0.33 segundos** de invulnerabilidad antes de que el daño restante afecte la salud
-- El tiempo de Shield Gate **escala** con el max shields — shields altos dan más tiempo
-- **No aplica** si los shields ya estaban en 0 antes del hit
-
-## Recarga de shields
+Mods y habilidades caen en el **mismo pool aditivo** — funciona igual que los mods de daño aditivos
+de armas. Ejemplo textual de la wiki, con Hildryn + Redirection + Primed Vigor + Elemental Ward
+(Electricity) sin moddear:
 
 ```text
-Recharge Rate = (15 + 0.05 × Max Shields) × (1 + Shield_Recharge_Bonus%)
+1780 × (1 + 1 + 0.75 + 0.3) = 5429
 ```
 
-- Base: `15 + 5% del max shields` por segundo
-- Modificado por: Fast Deflection (+15%), habilidades como Limbo (regeneración acelerada)
-- **Bloqueos de recarga**:
-  - Magnetic status — bloquea recarga completamente durante el status
-  - Recibir cualquier daño — reinicia el delay de recarga (por defecto 2s sin daño)
+El máximo de shields del warframe sube por rango hasta el 30; más allá sólo con mods.
 
-### Delay de recarga
+## Reducción de daño inherente
 
-| Condición | Delay antes de que inicie la recarga |
+**50% de DR**, pero **no para todos**:
+
+| Recibe el 50% | No lo recibe |
 |---|---|
-| Daño normal | ~2 segundos sin recibir daño |
-| Primed Fast Deflection | Reduce el delay |
-| Puncture status (en enemigos) | No aplica a jugador |
+| Warframes · Operators · Archwings · Railjacks · Necramechs | **Companions** |
+
+Dos consecuencias que la wiki señala:
+
+- Los shields **no reciben mitigación del armor**, así que son menos efectivos para cualquier
+  warframe con más de 300 de armor total.
+- A cambio, su regeneración los hace más útiles en frames con mucho shield potencial y poca salud,
+  como Hildryn.
+
+**Toxin ignora los shields por completo** y daña la salud directamente. **Magnetic** aumenta el daño
+contra shields e impide su regeneración mientras dura.
+
+## Recarga
+
+### Los dos delays
+
+No hay un único delay. Depende de si los shields quedaron **parciales** o **agotados**:
+
+| Situación | Delay antes de empezar a recargar |
+|---|---|
+| Shields **parciales** | **1 segundo** sin recibir daño |
+| Shields **totalmente agotados** | **4 segundos** desde el último hit tomado durante el Shield Gate |
+
+Tres reglas que no son obvias:
+
+- **Restaurar shields durante el delay no lo acorta.** Ni tras agotarlos, ni durante los 4 segundos
+  (por ejemplo con el set bonus de los Augur).
+- **El daño de status (Slash, Heat) no resetea el timer.**
+- La reducción del delay está **capada al 80%**, y sólo la dan: Fast Deflection, Vigilante Vigor, la
+  pasiva de Gauss, Symphony of Mercy (Jade), Guardian Break (Vazarin) y Quick Charge. La aumentan
+  Vital Systems Bypass y el modificador *Lethargic Shields* de Deep/Temporal Archimedea.
+
+### Tasa
+
+```text
+Shield Recharge Rate = (15 + 0.05 × Maximum Shields) × (1 + Shield Recharge Bonus)
+Shield Recharge Time = Maximum Shields / Shield Recharge Rate
+```
+
+El costo de tener más shields **se aplana**: a ~900 de shield máximo la recarga completa tarda 15
+segundos, y a partir de ahí crece muy poco — **ni con 10.000 de shields supera los 20 segundos**.
+
+**Enemigos:** sus shields tardan **máximo 3 segundos** en empezar a regenerar, según cuánto se les
+haya agotado.
+
+### Arcane Aegis anula el delay
+
+3% de chance, al recibir daño a los shields, de regenerarlos durante 12 segundos. Su efecto
+declarado es +30% de tasa de recarga, pero lo importante está en las notas:
+
+> *"Has a **hidden stat** that sets shield recharge delay to **0 seconds** while active. This causes
+> the players shields to **constantly regenerate, even when being damaged**."*
+
+Es decir: mientras dura, los dos delays de arriba dejan de existir. Consecuencias que la wiki
+declara:
+
+- **Magnetic sigue impidiendo la regeneración**, aun con el arcano activo.
+- El bonus de recarga es **aditivo al 5% innato**, pero **multiplicativo** con Fast Deflection y
+  Vigilante Vigor. Ejemplo textual con Hildryn + Redirection + Fast Deflection:
+  `[15 + (5% + 30%) × 1780 × (1 + 100%)] × (1 + 90%)` shields/s.
+- **No genera overshields.**
+- **No sirve** en Inaros, Kullervo ni Nidus (no tienen shields que dañar), ni con **Arcane
+  Persistence** equipado, ni bajo el modificador *No Shields*.
+
+## Shield Gating
+
+Al agotarse los shields, el exceso de daño **no se filtra a la salud**: se gana invulnerabilidad.
+Aplica a warframes, companions, archwings, necramechs y railjacks.
+
+La duración **tiene fórmula**, y su argumento **no es el shield máximo del warframe**:
+
+> *"Invulnerability duration will scale based on the maximum shields **replenished since the last
+> shield gate occurred**."*
+
+⚠️ **Conflicto ↔** [`shield.wikitext`](shield.wikitext) §*Part 1 / Part 2* — las notas de la
+actualización definen el argumento distinto: *"the amount of Shields you had **upon Shield Break**"*, y
+**Part 2** lo dice sin ambigüedad: *"**Partially Depleted Shields do not have a separate Shield Gate
+Duration** […] si tenías max 1200 pero se rompieron con sólo 350 disponibles, recibirías ~1.3 s"*. Las
+dos formulaciones coinciden salvo en el **primer** gate, donde "repuesto desde el gate anterior" vale 0.
+
+```text
+              ⎧ S/180 + 1/3               si S < 53
+t(S)       =  ⎨ (S/350)^0.65 + 1/3        si 53 ≤ S ≤ 1150
+              ⎩ 2.5                       si S > 1150
+```
+
+De **0.33 s** como mínimo hasta **2.5 s**.
+
+**El extremo bajo se confunde con la ausencia, y eso explica una discusión conocida** sin postular dos
+mecánicas: con **1** de shield al romperse la ventana dura **0.3389 s**, apenas 5.6 milésimas sobre el
+mínimo absoluto. *"Repuse poco y no gateé"* y *"repuse poco y gateé un instante"* no se distinguen
+jugando. La regla no tiene umbral de activación — tiene una cola plana.
+
+**La consecuencia práctica:** en el modo por defecto, la duración del gate es **proporcional a
+cuánto shield lograste rellenar**. Rellenar poco da una ventana corta.
+
+Excepciones y modificadores:
+
+| Fuente | Efecto |
+|---|---|
+| Hildryn, y aliados bajo su Haven | **3.5 s** |
+| Grenade Fan (Protea) | **duplica** el mínimo — rango de 0.66 a 5 s |
+| **Catalyzing Shields** | ⚠️ **Conflicto ↔** [`shield.wikitext`](shield.wikitext) §*Part 3* — la prosa dice que **fija** la ventana en **1.33 s** *"upon recovering **any amount** of shields"*; las notas de la actualización dicen *"scales from **0.33 to 1.33** based on your maximum Shield values"* con tabla (100→1.33 · 75→1.0 · 50→0.67 · 25→0.34 · 10→0.33), o sea que 1.33 es su **techo**. A costa de −80% de shield máximo |
+| Decaying Dragon Key | **capa** la ventana a 0.33 s sin importar el shield máximo; anula por completo a Catalyzing Shields |
+
+> **Catalyzing Shields cambia la naturaleza de la mecánica, no sólo su número.** Sin él, el gate es
+> *consecuencia de rellenar shields* y escala con cuánto se rellenó. Con él, **cualquier cantidad**
+> —1 punto de 50— da los mismos 1.33 s. Por eso el shield máximo bajo (−80%) no es una desventaja
+> para este build: nada depende ya de la magnitud.
+
+> ⚠️ **Recuperar shields durante la invulnerabilidad la termina de inmediato** — cualquier cantidad,
+> de cualquier fuente, incluida la regeneración natural.
+
+### El gate del enemigo es otra mecánica
+
+| | Jugador | Enemigo |
+|---|---|---|
+| Duración | 0.33 – 2.5 s (fórmula) | **0.1 s** |
+| Qué hace | invulnerabilidad total | sólo el **5%** del daño llega a la salud |
+
+**Apuntar a un weak point bypasea por completo el shield gate enemigo**
+(→ [`enemy-body-parts.md`](enemy-body-parts.md)).
+
+Los ataques de área (como los slam) **no** se benefician de ese bypass: su instancia de daño se
+bloquea entera. El daño asociado que no es la instancia principal —status effects, Xata's Whisper—
+sí puede dañar al enemigo.
 
 ## Overshields
 
-Los Overshields son una capa adicional **por encima** del máximo de shields normal:
+Puntos de shield **por encima** del máximo normal, que se obtienen cuando una restauración excede la
+capacidad. Los NPC aliados (objetivos de Rescue, Defense Objects) **no** pueden ganarlos.
 
-- Cap: **1200 Overshields** independientemente del max shields del warframe
-- No tienen DR inherente como los shields normales — reciben daño completo
-- Fuentes: Trinity Energy Vampire, algunas habilidades y arcanos
-- Se pierden al recibir daño antes que los shields normales
+- **No regeneran.** Se apilan sobre el shield normal.
+- **Se consumen primero:** *"an extra layer of protection on your existing shield that **must be
+  destroyed before your Warframe's shields can be damaged**"*. El contador cambia de azul a violeta
+  mientras hay overshields.
+- Cap: **1.200** para warframes, **600** para companions.
 
-## Interacciones relevantes
+### Tenerlos activos es una condición que otras cosas leen
 
-| Mecánica | Comportamiento |
+No son sólo puntos: varias mecánicas se gatean por su **presencia** (o su ausencia).
+
+| Fuente | Qué condiciona |
 |---|---|
-| **Toxin** | Bypasa shields completamente — daña salud directamente |
-| **Magnetic** | +75% bonus de daño vs shields; bloquea recarga durante status |
-| **Viral** | No interactúa especialmente con shields |
-| **Corrosive** | No afecta shields — afecta armor |
-| **Shield Gate** | 0.33s mínimo de invulnerabilidad al romper shields |
-| **Bleedout** | Los shields no previenen el bleedout si la salud llega a 0 |
+| *Guardian's Promise* (Incarnon) | **+80%** Heavy Attack Efficiency **con** overshields |
+| *Haven Foray* · *Guardian's Might* (Incarnon) | más daño de arma **con** overshields |
+| *Fortifying Bloodshed* (Incarnon) | al matar con proc de {{Slash}}: **+100** overshields |
+| **Brief Respite** (aura) | convierte energía en escudo **mientras los overshields están inactivos** |
+
+El cap sólo lo suben tres fuentes:
+
+| Fuente | Aumento |
+|---|---|
+| Pasiva de Harrow | +1.200 |
+| Blast Shield (MOAs) | +3.000 |
+| Reawaken (Djinn) | +900 |
+
+Se obtienen de Squad Shield Restores, Lethal Progeny (Caliban), Mend & Maim (Equinox), Condemn
+(Harrow), Omamori (Koumei), Crush (Mag) y Vampire Leech (Trinity), entre otros.
+
+### Brief Respite
+
+El aura **Brief Respite** otorga escudos **iguales a un porcentaje de la energía gastada** cada vez
+que se lanza una habilidad — la vía más directa para generar overshield a voluntad. ⚠️ Con una
+condición que la descripción del mod declara y es fácil perder: sólo convierte **mientras los
+overshields están inactivos**.
+
+| Rango | 0 | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|---|
+| Escudo por energía gastada | 25% | 50% | 75% | 100% | 125% | 150% |
+
+Dropea del Orphid Specter, que aparece al ungir un santuario del Silver Grove con el Twilight Apothic.
+
+## Reducción y remoción de shields
+
+| Fuente | Efecto |
+|---|---|
+| Decaying Dragon Key | −75% |
+| Catalyzing Shields | hasta −80% |
+| Cryogenic Leakage (hazard) | −50% del máximo |
+| Arcane Persistence | **remueve todos** los shields |
+| Desafío *No Shields* · *Exposure Curse* / *Exposed* | remueven todos los shields |
+
+> **Sin shields se deshabilita el Shield Gating y no se puede ganar Overshield.**
+
+Decaying Dragon Key **no** stackea con Catalyzing Shields: lo anula.
 
 ## Fuentes
 
 - https://wiki.warframe.com/w/Shield
-- `references/wiki/mechanics/health.md`
-- `references/wiki/mechanics/overguard.md`
-- `references/wiki/mechanics/hit-points.md`
+- [`health.md`](health.md) · [`overguard.md`](overguard.md) · [`hit-points.md`](hit-points.md) · [`enemy-body-parts.md`](enemy-body-parts.md) · [`../arcanes/arcane-persistence.md`](../arcanes/arcane-persistence.md)

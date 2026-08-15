@@ -18,7 +18,8 @@ interface AbilityStatEntry {
   label: string
   base_value: number | [number, number]
   upgrade_by?: string
-  upgrade_type?: string
+  /** Uno o varios nodos destino — un renglón de la UI puede cubrir N stats. Ver el parseo de `$$`. */
+  upgrade_type?: string | string[]
 }
 
 interface AbilityGroup {
@@ -73,12 +74,20 @@ function parseStat(line: string, src: string): AbilityStatEntry | null {
   let rest = clean.slice(colonIdx + 1).trim()
   if (!rest) return null
 
-  // $$UPGRADE_TYPE (antes de $UPGRADE_BY para evitar match de prefijo)
-  let upgradeType: string | undefined
-  const utMatch = rest.match(/\$\$(\S+)/)
-  if (utMatch) {
-    upgradeType = utMatch[1]
-    rest = rest.replace(utMatch[0], '').trim()
+  // $$UPGRADE_TYPE (antes de $UPGRADE_BY para evitar match de prefijo).
+  // N tokens por línea: la UI del juego colapsa en UN renglón buffs que mecánicamente son
+  // stats distintos — Volt Speed muestra "Speed Multiplier: 1,75x" para Movement Speed Y
+  // Melee Attack Speed, que la wiki declara separados (`wiki/mechanics/movement-speed.md`:
+  // Movement Speed no afecta melee attack speed). Partir el renglón haría que el `.md` deje
+  // de reflejar la pantalla, que es su razón de ser; la anotación es la que se pluraliza.
+  // Escalar cuando hay uno solo (caso mayoritario), array cuando hay varios — mismo criterio
+  // que `base_value` con min-max.
+  let upgradeType: string | string[] | undefined
+  const utMatches = [...rest.matchAll(/\$\$(\S+)/g)]
+  if (utMatches.length > 0) {
+    upgradeType = utMatches.length === 1 ? utMatches[0][1] : utMatches.map(m => m[1])
+    utMatches.forEach(m => { rest = rest.replace(m[0], '') })
+    rest = rest.trim()
   }
 
   // $UPGRADE_BY — toma el primero, avisa si hay más de uno

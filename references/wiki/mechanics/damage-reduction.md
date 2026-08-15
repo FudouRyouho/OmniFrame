@@ -1,107 +1,111 @@
 # Damage Reduction
 
 > Estado: activo
-> Rol: fórmula de DR total, apilamiento multiplicativo, resistencias por tipo y Adaptation
-> Fuente de verdad de: cálculo de DR efectiva, stacking de fuentes independientes, caps por habilidad
-> No usar para: mecánicas de armor strip (ver `armor.md`) o cálculo de EHP detallado (ver `hit-points.md`)
-> Última actualización: 2026-06-10
-> Fuente: https://wiki.warframe.com/w/Damage_Reduction · https://wiki.warframe.com/w/Adaptation
+> Rol: cómo se compone el daño recibido — los seis tipos de DR, su apilamiento, y qué queda fuera de ella
+> Fuente de verdad de: la fórmula de daño recibido con armor y modificadores de tipo, la tabla de los 6 tipos de DR y a qué capa aplica cada uno, damage attenuation
+> No usar para: la fórmula de armor en sí (→ `armor.md`) · el detalle de cada capa (→ `health.md` · `shield.md` · `overguard.md`)
+> Última actualización: 2026-07-29
+> Fuente: https://wiki.warframe.com/w/Damage_Reduction
+> Fuente actualizada: 2026-06-01
+> Raw: damage-reduction.wikitext · adaptation.wikitext
 
-## Fórmula completa de daño recibido
+## Cómo se compone el daño recibido
 
-```text
-Daño recibido = Daño_entrada × (1 − DR_armor) × (1 − DR_hab_1) × (1 − DR_hab_2) × ...
-```
-
-Todas las fuentes de DR son **multiplicativas entre sí** — nunca se suman en el mismo pool.
-
-### DR de armor (Tenno)
+Toda DR es un **escalar multiplicativo**. La forma general:
 
 ```text
-DR_armor = Armor / (Armor + 300)
+Damage Received = Damage Dealt × (1 − DR₁) × (1 − DR₂) × …
 ```
 
-El coeficiente 300 es el valor de escala estándar para Tenno. Algunos enemigos usan coeficientes
-distintos.
-
-### Fórmula expandida (wiki)
+Con un objetivo **con armor** (jugador o enemigo) se agrega el término del armor:
 
 ```text
-Daño = D_in × (1+HM) × (1+AM) × (1−PR) × [300 / (300 + AR×(1−AM))]
+                                                             300
+Damage Received = Damage Dealt × (1 − DR₁) × … × ────────────────────
+                                                    300 + Armor
 ```
 
-| Variable | Significado |
-|---|---|
-| `HM` | Hit Multiplier — críticos, headshots, bonuses de facción |
-| `AM` | Armor Modifier — Corrosive strip, Shattering Impact, Fracting Crush |
-| `PR` | Protection Reduction — DR de habilidades (Iron Skin, Adaptation, etc.) |
-| `AR` | Armor actual del objetivo (pre-modificadores de `AM`) |
+Y con **modificadores de tipo de daño**, que se calculan por tipo:
 
-## Tipos de DR y su stacking
+```text
+                                       300
+Damage Type Received = Type Dealt × … × ─────────── × (1 + DM₁) × (1 + DM₂) × …
+                                        300 + Armor
+```
 
-| Tipo | Aplica a | Stacking | Notas |
-|---|---|---|---|
-| **Armadura** | Solo salud | Bonus aditivos entre sí; multiplicativo vs otras DR | `300/(300+Armor)` |
-| **Pure DR** (habilidades) | Escudos + salud | Multiplicativo | Temporal; cap habitual 90% |
-| **Type Modifiers** (resistencias por tipo) | El tipo específico | Multiplicativo dentro del tipo | `+45% Toxin Resistance` → toxin × (1−0.45) |
-| **Energy-as-Health** | Energía (ratio 2:1) | Multiplicativo | Quick Thinking / Gladiator Finesse |
-| **Damage Attenuation** | Salud del **enemigo** | Multiplicativo, escala con DPS | Lado enemigo |
+> **DM ≠ DR.** El *Damage Type Modifier* no es una reducción: es el término de vulnerabilidad o
+> resistencia por tipo, y entra como `(1 + DM)`, no como `(1 − DR)`.
 
-**Cap habitual: 90%** (Desolate Hands, Preserving Shell, Immolation, Self Portrait, Adaptation, etc.).
+**Los Tenno son neutrales a todos los tipos de daño** desde la versión 27.2. Los modificadores de
+tipo del lado del jugador **se agregan** con mods como Toxin Resistance (un tipo) o habilidades como
+Kinetic Plating (Impact, Puncture, Slash, Heat, Cold y Blast).
 
-### Fuentes de Pure DR (habilidades)
+Ejemplo textual de la wiki, contra salud Corpus con 100 de armor y aura de Guardian Eximus (90% DR):
 
-| Fuente | Cap | Notas |
+```text
+Impact:   50 × (1 − 90%) × (1 − 100/(100+300)) × (1 + 0%)
+Puncture: 25 × (1 − 90%) × (1 − 100/(100+300)) × (1 + 50%)
+Slash:    25 × (1 − 90%) × (1 − 100/(100+300)) × (1 + 0%)
+```
+
+## Los seis tipos de DR
+
+| Tipo | Aplica a | Stacking |
 |---|---|---|
-| Iron Skin (Rhino) | 100% (absorción mientras dure) | HP buffer, no DR directa |
-| Adaptation (Arcano) | 90% | Stacks con daño recibido del mismo tipo (ver abajo) |
-| Baruuk — Serene Storm | 90% | Activa con Restraint bajo |
-| Citrine — Crystallize | 90% | Escala con Ability Strength |
-| Ember — Immolation | 50–90% | Escala con calor acumulado |
-| Overguard | sin DR% — HP buffer | Ver [`overguard.md`](overguard.md) |
+| **Armor** | **sólo Health** | `Net Armor / (Net Armor + 300)`. Multiplicativo con los demás tipos; los bonus de armor entre sí son **aditivos** |
+| **Pure Damage Reduction** | Shields y Health | multiplicativo con todo. Típicamente de habilidades |
+| **Damage Redirection** | **Overguard**, Shields y Health | multiplicativo con todo. Típicamente de habilidades |
+| **Damage Type Modifier** | donde aplique | multiplicativo dentro del mismo tipo, y con los demás tipos |
+| **Energy as Health** | Energy, a razón de **2 de salud por 1 de energía** | `DR = 1 − 100/Net Efficiency`. Los bonus de eficiencia de Quick Thinking y Gladiator Finesse **se suman entre sí** |
+| **Damage Attenuation** | salud del **enemigo** | se adapta al DPS del jugador |
 
-## Stacking de DR: regla crítica
+> **Damage Redirection es el único que alcanza al Overguard** — por eso Link, Warding Halo y Shield
+> of Shadows sí lo protegen mientras que Adaptation o Splinter Storm no
+> (→ [`overguard.md`](overguard.md)).
 
-**Todas las fuentes de DR se multiplican entre sí**, nunca se suman. Ejemplo:
+## Qué queda fuera de la DR
+
+La damage reduction **no tiene efecto** sobre:
+
+- Efectos que **absorben** daño: Iron Skin (Rhino), Snow Globe e Icy Avalanche (Frost).
+- **Overguard.**
+- **Object health.**
+- Warding Halo (Nezha) **durante su ventana de 3 segundos de invulnerabilidad** — pasada esa
+  ventana, la DR a la salud funciona con normalidad.
+
+## Adaptation
+
+**Mod de warframe** (no arcano). Otorga resistencia a los tipos de daño **recibidos recientemente**,
+apilando hasta **90%**.
+
+## Damage Attenuation
+
+> ⚠️ La wiki marca esta sección con `{{UpdateMe}}`: faltan números exactos y más enemigos.
+
+Ciertos enemigos tienen una reducción propia, **separada del armor y de la pure DR**, que escala con
+el **DPS de ráfaga** del arma. Oficialmente se la llama *adaptive damage scaling*, *scaling damage
+reduction* o *damage attenuation*.
+
+El juego calcula ese DPS así:
 
 ```text
-DR_armor = 66.7%  (Oberon R30 con mod ×2)
-DR_adapt = 60%    (Adaptation a 60% stacks)
-
-DR_total = 1 − (1 − 0.667) × (1 − 0.60)
-         = 1 − 0.333 × 0.40
-         = 86.7%
+Burst DPS = daño total
+          × multiplicador de crítico (si la instancia critea)
+          × fire rate / attack speed
+          × multishot
+          × multiplicadores de parte del cuerpo
 ```
 
-Si se sumaran (incorrecto): `66.7% + 60% = 126.7%` → resultado imposible.
+Todos los términos se toman **después** de mods y buffs (Amp de Octavia o Shock Trooper para daño,
+Sharpened Bullets para el crítico, Warcry o Redline para la cadencia, Split Flights para multishot).
 
-## Adaptation — DR adaptativa por tipo
+> Las armas con **auto-spool** (Gorgon, Kohm) hacen notablemente menos daño por instancia mientras
+> su cadencia sube hacia el máximo.
 
-| Propiedad | Comportamiento |
-|---|---|
-| Trigger | Al recibir daño de cualquier fuente (no auto-daño) |
-| Stacking | **Separado por tipo de daño**, cada tipo hasta **90%** independiente |
-| Por golpe | +10% a rank máximo (+5% rank 0); refresca el stack del mismo tipo |
-| Decay | 10s (rank 0) → 20s (rank 10) por stack |
-| Tipo afectado | El del **componente de mayor daño** del ataque ("un ataque → un tipo de resistencia") |
-| Interacción | Multiplicativo con otras DR; no aplica a Overguard; no apila con el pasivo de Caliban |
-
-No es `+X% [elemento] Resistance` estático: gana resistencia al elemento que acaba de golpear,
-apilando, con decay, capeado por tipo — el tipo es dinámico.
-
-## Armor strip (reducción de DR de armor)
-
-Mecánicas que reducen el armor del objetivo — afectan `AR` en la fórmula:
-
-| Mecánica | Método | Magnitud |
-|---|---|---|
-| Corrosive (status) | Stack-based | hasta 80% |
-| Shattering Impact (mod) | Por impacto — reducción permanente en combate | −6 armor / impacto |
-| Fracting Crush (mod Bonewidow) | % strip por impacto | variable |
-| Terrify (Nekros) | % strip basado en Ability Strength | hasta 100% |
+La lista de enemigos con attenuation propia —Archon, Condrix, Eidolons, Guardian Eximus, Juggernaut,
+Kuva Thralls, Lephantis, Orphix, Prosecutors, Sentients, Raknoids, Treasurer— está en el raw.
 
 ## Fuentes
 
-- https://wiki.warframe.com/w/Damage_Reduction
-- https://wiki.warframe.com/w/Adaptation
-- [`armor.md`](armor.md) · [`hit-points.md`](hit-points.md)
+- https://wiki.warframe.com/w/Damage_Reduction · https://wiki.warframe.com/w/Adaptation
+- [`armor.md`](armor.md) · [`health.md`](health.md) · [`shield.md`](shield.md) · [`overguard.md`](overguard.md) · [`enemy-body-parts.md`](enemy-body-parts.md)

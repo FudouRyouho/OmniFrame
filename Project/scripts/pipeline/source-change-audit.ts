@@ -317,5 +317,5 @@ export async function writeSourceChangeAuditReport<TKind extends string>(
   pretty = false,
 ): Promise<void> {
   const output = pretty ? JSON.stringify(report, null, 2) : JSON.stringify(report)
-  await fs.writeFile(reportFilePath, output)
+  await fs.writeFile(reportFilePath, output + '\n')
 }

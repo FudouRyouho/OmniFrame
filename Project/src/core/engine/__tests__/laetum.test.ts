@@ -21,12 +21,18 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { describe, it, expect } from 'vitest';
 import { consume } from '../output/consume';
-import { laetum, LAETUM } from '../fixtures/builds';
+import { laetum, LAETUM, GALVANIZED_DIFFUSION, galvanizedStacksVar } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
 
+const GD_STACKS = galvanizedStacksVar(GALVANIZED_DIFFUSION);
+
 const base = (profile = 'base') => consume(laetum(profile), { flags: {} }).weapon(LAETUM);
-const stat = (profile = 'base') => consume(laetum(profile)).weapon(LAETUM);
+/**
+ * Modo estático/techo: Galvanized Diffusion siempre equipado. `on_kill` ya no es gate booleano
+ * (STACK_DECAY_BUFF, 2026-07-10) — se declara el cap (4) explícito, honesto con el escalón C1.
+ */
+const stat = (profile = 'base') => consume(laetum(profile), { variables: { [GD_STACKS]: 4 } }).weapon(LAETUM);
 
 // ─── Estabilidad: Normal Attack base ─────────────────────────────────────────────
 

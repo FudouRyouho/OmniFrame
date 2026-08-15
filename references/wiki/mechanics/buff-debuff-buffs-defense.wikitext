@@ -1,0 +1,188 @@
+===Defensive Buffs===
+Buffs that boost defensive capabilities by reducing incoming damage, negating damage completely, or provides immunity to status effects.
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Target
+! Description
+|-
+| Armor Bonus || User/Ally ||align="left"|
+User and/or ally get a bonus in [[Armor]].<br />
+'''Multiplicative of the base''':
+In other words, the following stacks additively with mods like {{M|Steel Fiber}} and {{M|Link Fiber}}, multiplying whatever the base armor value is.
+*{{WF|Valkyr}}'s {{A|Warcry}}
+*{{WF|Chroma}}'s {{A|Elemental Ward}} when the element is {{D|Cold}} and {{A|Vex Armor}}
+*{{WF|Octavia}}'s {{A|Metronome}}
+*{{M|Mecha Pulse}}
+*{{M|Stand United}}
+*{{M|Synth Fiber}} (Sentinel companions only)
+*Vazarin's {{Focus|Enduring Tides}}
+*[[Justice]] effect from [[Steel Meridian]] weapons/mods
+<hr />
+'''Additive after multiplication''':<br />
+In other words, the following gives a flat armor bonus after mods are applied.
+*{{WF|Atlas}}' passive (Rubble pickups)
+*{{WF|Grendel}}'s passive
+*{{WF|Hydroid}}'s {{A|Plunder}}
+*{{WF|Inaros}}' {{A|Scarab Shell}}
+*{{WF|Oberon}}'s Iron {{A|Renewal}} and {{M|Hallowed Reckoning}}
+*{{WF|Wukong}}'s {{A|Defy}}
+*{{M|Health Conversion}}
+*{{Arcane|Arcane Guardian}}
+*{{Arcane|Arcane Reaper}}
+*{{Arcane|Arcane Tanker}}
+*{{Arcane|Arcane Ultimatum}}
+*{{Arcane|Melee Fortification}}
+*Unairu's {{Focus|Stone Skin}}
+*{{Arcane|Magus Husk}}
+<hr />
+'''Multiplicative of the result''' ''multiplies the above'':
+*{{WF|Rhino}}'s {{M|Ironclad Charge}}
+|-
+| [[Damage Reduction]] || Player ||align="left"|
+Players will take reduced [[Health]], [[Shield]], and Overshield damage from enemies (stacks '''multiplicatively''' with [[Armor]] if damage is dealt to health and stacks '''multiplicatively''' with other sources of damage reduction).
+*{{WF|Baruuk}}'s passive, {{A|Desolate Hands}}, and {{A|Serene Storm}}
+*{{WF|Caliban}}'s passive
+*{{WF|Ember}}'s {{A|Immolation}} and {{M|Immolated Radiance}}
+*{{WF|Gara}}'s {{A|Splinter Storm}}
+*{{WF|Harrow}}'s {{M|Warding Thurible}}
+*{{WF|Jade}}'s {{A|Glory on High}}
+*{{WF|Loki}}'s {{M|Deceptive Bond}}
+*{{WF|Mesa}}'s {{A|Shatter Shield}}
+*{{WF|Mirage}}'s {{A|Eclipse}} (Lunar Eclipse buff)
+*{{WF|Nekros}}' {{M|Shield of Shadows}}
+*{{WF|Nezha}}'s {{A|Warding Halo}}
+*{{WF|Nidus}}' {{A|Parasitic Link}}
+*{{WF|Nova}}'s {{A|Null Star}}
+*{{WF|Titania}}'s {{A|Tribute}} (Thorns buff)
+*{{WF|Trinity}}'s {{A|Link}} and {{A|Blessing}}
+*{{WF|Xaku}}'s passive and {{A|The Vast Untime}} (AoE damage only)
+*{{WF|Yareli}}'s {{A|Merulina}}
+*[[Set Mods#Proton Mod Set|Proton Mod Set]] bonus
+*{{M|Electromagnetic Shielding}}
+*{{Arcane|Magus Firewall}} (Operator only)
+*[[Ancient Healer]] [[Specter]]
+*[[Maneuvers#Rolling|Rolling]]
+|-
+| Damage Type Modifier || Player ||align="left"|
+Players will take reduced [[Health]], [[Shield]], and Overshield damage from enemies (stacks '''multiplicatively''' with other sources of damage reduction, but stacks '''additively''' with sources of damage type modifiers).
+*{{WF|Gauss}}' {{A|Kinetic Plating}} (only {{D|Impact}}, {{D|Puncture}}, {{D|Slash}}, {{D|Cold}}, {{D|Heat}}, and {{D|Blast}} damage)
+*{{M|Adaptation}}
+*{{M|Aerodynamic}}
+*{{M|Agility Drift}}
+*{{M|Antitoxin}} (only for {{D|Toxin}} damage)
+*{{M|Aviator}}
+*{{M|Diamond Skin}} (only for {{D|Radiation}} damage)
+*{{M|Flame Repellent}} (only for {{D|Heat}} damage)
+*{{M|Insulation}} (only for {{D|Cold}} damage)
+*{{M|Lightning Rod}} (only for {{D|Electricity}} damage)
+*{{M|Shock Absorbers}}
+*{{M|Toxin Resistance}} (only for {{D|Toxin}} damage)
+*{{M|Umbral Fiber}} (only for {{D|Tau}} damage)
+*{{M|Umbral Intensify}} (only for {{D|Tau}} damage)
+*{{M|Umbral Vitality}} (only for {{D|Tau}} damage)
+*[[Shield]]s (innate -25% damage type modifiers to all damage)
+|-
+| Dodge || User ||align="left"|
+Players will have a chance for projectiles and melee attacks to harmlessly pass through their body.
+*{{WF|Baruuk}}'s {{A|Elude}}
+*{{WF|Xaku}}'s passive and {{A|The Vast Untime}}
+*{{WF|Koumei}}'s {{A|Omamori}}
+|-
+| Energy as Health || Player ||align="left"|
+When taking lethal damage, that damage will be dealt to [[Energy]] pool instead of [[Health]].
+*{{M|Gladiator Finesse}}
+*{{M|Quick Thinking}}
+|-
+| Evasion || Player ||align="left"|
+Enemies shooting at the player with a positive evasion stat will have their attacks suffer from heavy inaccuracy, often missing the player.
+*{{WF|Titania}}'s {{A|Razorwing}}
+*[[Carnis Set|Carnis Mod Set]] bonus
+*{{M|Agility Drift}}
+*{{M|Sly Devolution}}
+*{{M|Elusive Posture}}
+*While midair, [[Aim Glide|aim gliding]] or [[Wall Latch|wall latching]]
+|-
+| Invincibility || Player ||align="left"|
+The player is invulnerable to any damage, or at the very least unable to die, when casting these abilities or under these effects.
+*[[Amesha]]'s {{A|Watchful Swarm}}
+*{{WF|Ash}} when joining {{A|Blade Storm}}
+*{{WF|Atlas}}' {{A|Landslide}} and {{M|Rumbled}}
+*{{WF|Baruuk}}'s {{A|Elude}}
+*{{WF|Dagath}}'s {{A|Grave Spirit}} and {{A|Rakhali's Cavalry}}
+*{{WF|Excalibur}}'s {{A|Slash Dash}}
+*{{WF|Gara}}'s {{A|Mass Vitrify}}
+*{{WF|Garuda}}'s {{M|Dread Ward}}
+*{{WF|Harrow}}'s {{A|Covenant}}
+*{{WF|Hildryn}}'s passive and {{A|Haven}} (shield gating)
+*{{WF|Hydroid}}'s {{A|Tidal Surge}}
+*{{WF|Inaros}}' {{A|Sandstorm}} and {{M|Negation Armor}}
+*{{WF|Jade}}'s {{A|Symphony of Mercy}}
+*{{WF|Khora}}'s {{M|Venari Bodyguard}}
+*{{WF|Koumei}}'s {{A|Omamori}} when rolling '''Shadow's Trinity'''
+*Any player in {{WF|Limbo}}'s [[Rift Plane]] from enemies outside of it
+*{{WF|Loki}}'s {{M|Safeguard Switch}} and {{M|Savior Decoy}}
+*{{WF|Nezha}}'s {{A|Warding Halo}}
+*{{WF|Nidus}}' passive
+*{{WF|Nyx}}'s {{A|Absorb}} and {{M|Assimilate}}
+*{{WF|Oberon}}'s {{M|Phoenix Renewal}}
+*{{WF|Qorvex}}'s {{A|Crucible Blast}}
+*{{WF|Revenant}}'s {{A|Mesmer Skin}} and {{A|Reave}}
+*{{WF|Rhino}}'s {{A|Rhino Charge}} and {{A|Iron Skin}}
+*{{WF|Temple}}'s {{A|Ripper's Wail}}
+*{{WF|Valkyr}}'s passive Rage
+*{{WF|Wisp}}'s {{A|Wil-O-Wisp}}
+*{{WF|Wukong}}'s passive (Cosmic Armour buff), {{A|Cloud Walker}}, and {{A|Defy}}
+*{{WF|Yareli}}'s {{A|Merulina}}
+*{{M|Quick Escape}}
+*{{M|Rolling Guard}}
+*{{M|Tek Assault}} (Kavats only)
+*Vazarin's {{Focus|Protective Sling}}
+|-
+| Status Immunity || Player ||align="left"|
+The player is cleansed of (or is unaffected by) any current status effects and is immune to future status procs. This includes physical effects such as staggers, stuns, and knockdowns.
+;True Immunity
+*{{WF|Ember}}'s {{M|Purifying Flames}}
+*{{WF|Frost}}'s {{M|Icy Avalanche}}
+*{{WF|Grendel}}'s {{M|Hearty Nourishment}}, and while equipped with {{Weapon|Masseter}}
+*{{WF|Hildryn}}'s passive ({{D|Slash}} and {{D|Toxin}} procs only)
+*{{WF|Hydroid}}'s {{M|Tidal Impunity}}
+*{{WF|Inaros}}' {{A|Scarab Shell}}
+*{{WF|Ivara}}'s {{M|Empowered Quiver}}
+*Any player in {{WF|Limbo}}'s [[Rift Plane]] from enemies outside of it
+*{{WF|Nidus}}' {{A|Parasitic Link}}
+*{{WF|Nezha}}'s {{A|Fire Walker}} and {{A|Warding Halo}}
+*Any player standing in {{WF|Nezha}}'s {{A|Fire Walker}}
+*Any player standing in {{WF|Oberon}}'s {{A|Hallowed Ground}}
+*{{WF|Qorvex}}'s {{A|Disometric Guard}}
+*{{WF|Revenant}}'s passive (only for {{D|Magnetic}} procs from night waters of the Plains of Eidolons)
+*{{WF|Rhino}}'s {{A|Iron Skin}}
+*{{WF|Titania}}'s {{A|Spellbind}}
+*{{WF|Trinity}}'s {{A|Link}}
+*Any ability that makes the player invincible
+*[[Amesha]]'s {{A|Warding Grace}}
+*[[Set Mods#Carnis Mod Set|Carnis Mod Set]] bonus
+*[[Set Mods#Motus Mod Set|Motus Mod Set]] bonus (Knockdowns only while airborne)
+*{{M|Fortitude}} (Knockdowns only)
+*{{M|Perfect Balance}} (Falling off of [[K-Drive]]s only)
+*{{M|Power Drift}} (Knockdowns only)
+*{{M|Resolute Focus}} (Staggers and knockdowns only)
+*{{M|Rolling Guard}}
+*({{M|Primed Sure Footed|Primed}}) {{M|Sure Footed}} (Knockdowns only)
+*{{Arcane|Arcane Deflection}} ({{D|Slash}} proc only)
+*{{Arcane|Arcane Healing}} ({{D|Radiation}} proc only)
+*{{Arcane|Arcane Ice}} ({{D|Heat}} proc only)
+*{{Arcane|Arcane Nullifier}} ({{D|Magnetic}} proc only)
+*{{Arcane|Arcane Resistance}} ({{D|Toxin}} proc only)
+*{{Arcane|Arcane Warmth}} ({{D|Cold}} proc only)
+*{{Arcane|Magus Glitch}} (Transference Static only)
+<hr />
+;Cleansed Only
+*{{WF|Excalibur}}'s {{M|Purging Slash}}
+*{{WF|Hildryn}}'s {{A|Pillage}}
+*{{WF|Revenant}}'s {{A|Reave}}
+*{{WF|Saryn}}'s {{A|Molt}}
+*[[Wyrm]]'s {{M|Negate}}
+|-
+|}
+[[Category:Mechanics]]

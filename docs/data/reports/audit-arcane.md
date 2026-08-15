@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "auditoria-manual"
-Version: "v1.0.0"
 Impacto_ID: "D-18"
 Fidelidad_Fisica: "Project/public/data/arcane-stats.override.json"
 Fecha_de_creacion: "2026-06-02"

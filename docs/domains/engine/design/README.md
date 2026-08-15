@@ -8,10 +8,10 @@ Documentación de diseño del motor de simulación v2. `engine/` (el dominio fun
 | Archivo | Rol |
 |---|---|
 | [`simulation-blueprint.md`](simulation-blueprint.md) | Índice maestro del track — leer primero |
+| [`vocabulary.md`](vocabulary.md) | **SSoT del vocabulario interno** — el idioma de `@core` (node / bucket / pool / flat / independiente). No es vocabulario del juego (eso es `docs/semantic/`) |
 | [`simulation-architecture.md`](simulation-architecture.md) | Macro y micro arquitectura del motor |
 | [`simulation-contracts.md`](simulation-contracts.md) | Contratos técnicos base |
 | [`arch-decisions.md`](arch-decisions.md) | Decisiones arquitectónicas críticas (invariantes vigentes) |
-| [`simulation-roadmap.md`](simulation-roadmap.md) | Hoja de ruta de implementación |
 | [`integration-status.md`](integration-status.md) | Estado de integración con el Arsenal |
 
 ## Estado de sincronización (saneado 2026-07-03)
@@ -23,7 +23,7 @@ saneamiento de docs (paso previo al merge de `refactor/core-stage0-restructure` 
 Casting Snapshot, Hit Location, el payload rico `ProjectionSnapshot`) quedó **marcado inline** como tal.
 
 - **Estado vivo del motor** (qué existe hoy): [`../status.md`](../status.md).
-- **Ejes en flujo** (rename del payload de salida, Capa E/ViewModel): `OQ-ENGINE-8` / `OQ-ENGINE-10`.
+- **Contrato de salida de métricas**: cristalizado como `CombatMetrics` (`DC-OQ-ENGINE-8`); residual editorial = rename de `ViewModelContract` display. *(La Capa E se descartó — `DC-OQ-ENGINE-10`.)*
 - [`../engine-audit.md`](../engine-audit.md) es un **snapshot histórico congelado** (2026-05-18), **NO**
   la referencia de estado actual — se conserva como registro de auditoría point-in-time.
 

@@ -1,0 +1,114 @@
+{{Quote|Damage varies depending on the distance to the target. Damage is highest if closer than the first distance, and minimal beyond the second distance.|In-game Description}}
+'''Damage Falloff''' is a damage mechanic present in certain weapons, often shotguns, that reduces their effectiveness at long distances; or in the case of explosive weapons, reducing the effectiveness of area of effect attacks.
+
+==General==
+Falloff (as shown in [[Arsenal]]) describes two distances making up the range at which a weapon's damage starts decreasing linearly from 100%, to the weapon's minimum damage percentage, if a target is struck within the range. Hitting a target at a distance shorter than the initial falloff will deal 100% of the weapon's damage, and hitting a target beyond the entire falloff range will continue to deal its minimum damage percentage.
+
+*The minimum damage percentage that a weapon can deal '''differs''' from weapon to weapon and can be as high as 75% (e.g. {{Weapon|Bronco}}), or as low as 6.25% (e.g. {{Weapon|Redeemer}}). 
+*For all [[Sniper Rifle|sniper rifles]], the minimum damage percentage is set at 50%, with a falloff distance starting at 400 meters and ending at 600 meters.
+
+{| class="wikitable"
+|+ Example of a weapon that deals 200 base damage with Damage Falloff range of 10-30m with max falloff at 80%
+|-
+! Range || 0m || 5m || 10m || 15m || 20m || 25m || 30m || 30m+
+|-
+| Damage Dealt || 200 || 200 || 200 || 160 || 120 || 80 || 40 || 40
+|-
+| Damage Falloff %<br />(or Damage Reduction %) || 0% || 0% || 0% || 20% || 40% || 60% || 80% || 80%
+|-
+| % of Original Damage || 100% || 100% || 100% || 80% || 60% || 40% || 20% || 20%
+|-
+| || colspan=3 | No damage falloff || colspan=3 | Linear damage falloff || colspan=3 | Max damage falloff
+|}
+
+===Range Falloff===
+Since {{ver|22}}, all [[hitscan]] weapons, regardless of if they have a damage falloff stat or not, are limited to a universal shot distance of 300 meters, where shooting past this distance will '''not''' register any hits, except for [[Sniper Rifle|sniper rifles]] which have a universal limit of 1000 meters. This shot distance limit is prevalent in large gameplay areas such as [[Landscape]]s.
+
+For weapons with damage falloff values, [[Warframes|Warframe]] [[Abilities]] and [[Mods]] (including [[Riven Mod|Rivens]]) that alter [[Projectile Speed]] will modify their falloff ranges accordingly, making them more or less effective at longer distances.
+
+*Hitscan weapons '''without '''listed damage falloff are completely unaffected by positive or negative [[Projectile Speed]] modifiers, making them safe for Riven Mods to obtain as a negative stat.
+*[[Continuous Weapon]]s have '''[[range]] limits''' that are unique to each weapon, and some have Damage Falloff.
+**[[Projectile Speed]] will affect Damage Falloff, '''not''' Beam Range.
+
+===AoE Falloff===
+Weapons with an [[Area of Effect]] (AoE) attack have a damage falloff stat, decreasing the amount of damage done to enemies the farther they are from the epicenter of the explosion. The damage falloff of these weapons can only be increased by mods that increase the explosion radius.
+
+==Increasing Damage Falloff Distance==
+[[Warframes|Warframe]] [[Abilities]] and [[Mods]] that increase damage falloff distance by increasing the range of the weapon include:
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" position="center" bordersize="none" bordercolor="#FFFFFF" navigation="true">
+BallistaMeasureMod.png|link=Ballista Measure|{{M|Ballista Measure}}
+FatalAccelerationMod.png|link=Fatal Acceleration|{{M|Fatal Acceleration}}
+GalvanizedAccelerationMod.png|link=Galvanized Acceleration|{{M|Galvanized Acceleration}}
+JetStreamMod.png|link=Jet Stream|{{M|Jet Stream}}
+LethalMomentumMod.png|link=Lethal Momentum|{{M|Lethal Momentum}}
+TerminalVelocityMod.png|link=Terminal Velocity|{{M|Terminal Velocity}}
+</gallery>
+
+Mods that increase damage falloff distance by increasing explosive radius include:
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" position="center" bordersize="none" bordercolor="#FFFFFF" navigation="true">
+FirestormMod.png|link=Firestorm|{{M|Firestorm}}
+PrimedFirestormMod.png|link=Primed Firestorm|{{M|Primed Firestorm}}
+FulminationMod.png|link=Fulmination|{{M|Fulmination}}
+PrimedFulminationMod.png|link=Primed Fulmination|{{M|Primed Fulmination}}
+</gallery>
+
+<!-- ==Weapons with Damage Falloff==
+<div class="tabber-borderless">{{#tag:tabber|
+Primary={{#invoke:Weapons/comptable|getCompTableFalloff|Primary}}
+{{!}}-{{!}}
+Secondary={{#invoke:Weapons/comptable|getCompTableFalloff|Secondary}}
+{{!}}-{{!}}Melee=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+TnoGunblade.png|link=Redeemer|{{Weapon|Redeemer}} (10-20m 6.25% min dmg)
+RedeemerPrime.png|link=Redeemer Prime|{{Weapon|Redeemer Prime}} (10-30m 6.25% min dmg)
+Sarpa.png|link=Sarpa|{{Weapon|Sarpa}} (20-40m 14.29% min dmg)
+Stropha.png|link=Stropha|{{Weapon|Stropha}} (8-16m 10% min dmg)
+</gallery>
+{{!}}-{{!}}
+Robotic={{#invoke:Weapons/comptable|getCompTableFalloff|Robotic}}
+{{!}}-{{!}}
+Archgun (Archwing)={{#invoke:Weapons/comptable|getCompTableFalloff|Archgun}}
+{{!}}-{{!}}Archgun (Empyrean)=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Corvas.png|link=Corvas|{{Weapon|Corvas}} (600-1200m)
+Cyngas.png|link=Cyngas|{{Weapon|Cyngas}} (1500-3000m)
+DualDecurion.png|link=Dual Decurion|{{Weapon|Dual Decurion}} (1500-3000m)
+Fluctus.png|link=Fluctus|{{Weapon|Fluctus}} (800-1600m)
+Grattler.png|link=Grattler|{{Weapon|Grattler}} (1500-3000m)
+Imperator.png|link=Imperator|{{Weapon|Imperator}} (1500-3000m)
+ImperatorVandal.png|link=Imperator Vandal|{{Weapon|Imperator Vandal}} (1500-3000m)
+Phaedra.png|link=Phaedra|{{Weapon|Phaedra}} (1500-3000m)
+Velocitus.png|link=Velocitus|{{Weapon|Velocitus}} (???-6000m)
+</gallery>
+{{!}}-{{!}}Archgun (Atmospheric)=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="false" position="center" bordersize="none" bordercolor="#FFFFFF">
+Corvas.png|link=Corvas|{{Weapon|Corvas}} (60-120m 50% min dmg)
+</gallery>
+}}</div>
+ -->
+
+==Bugs==
+* [[Condition_Overload_(Mechanic)#Math|Condition Overload's]] damage bonus ignores damage falloff when it is additive to other +% Damage sources. Also applicable to variants (e.g., {{M|Galvanized Aptitude}}).
+* [[Incarnon#Incarnon_Genesis_Primary|Incarnon Genesis]] Base Damage increases from evolutions ignore damage falloff.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|22}}
+;Weapon Fall-Off Damage Changes: 
+One of Warframe’s biggest appeals is the diverse selection of weaponry. Even within the subclasses of rifles and pistols, there is huge variety to be found, such as the distinction between projectile weapons (firing physical projectiles which move through space, like the Boltor) and hitscan weapons (firing draws an imaginary line between the gun and the point aimed at, doing damage instantly to whatever it hits, like the Soma). For obvious reasons, hitscans are very effective at long distances - this has never been an issue with Warframe’s tileset-based gameplay, but as we shot enemies from a kilometer away in the plains with our pistols, we knew something had to be done.
+
+With the release of Plains of Eidolon, most weapons will have a form of damage falloff added, to reduce their effectiveness at extremely long distances. But don’t panic! This damage falloff will only be noticeable at extreme ranges (greater than 300m). Across all of our current tilesets, we were unable to find an unobstructed line of sight longer than 300m, so that is the point at which damage falloff will start.
+
+Based on our assessment of all existing procedural tiles we’re extra confident that our current tileset-based gameplay will be largely unaffected. It is also worth noting that snipers will be able to fire 600m without experiencing falloff, to give them more of a purpose in this wide open terrain where long range weapons should thrive.
+
+;Weapon Range Limit Changes:
+All trace-fire (hitscan) weapons trace distance reduced to 300m apart from Sniper Rifles which stay at 1000m.
+
+{{ver|7.9}}
+*Added damage fall-off to all shotguns--no more shotgun sniping.
+}}
+
+{{MechNav}}
+[[es:Decaimiento de daño]]
+[[fr:Dégradation_des_Dégâts]]
+[[Category:Mechanics]]

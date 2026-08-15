@@ -1,0 +1,56 @@
+{{ModBox}}
+<section begin=intro />
+{{M|Abating Link}} is a [[Warframe Augment Mod]] for {{WF|Trinity}}'s {{A|Link}} that reduces the {{Stat|Armor}} of all connected enemies.
+<section end=intro />
+
+==Stats==
+{|class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Strength|icon=only}}Armor Reduction
+! [[Mod#Attributes|Cost]]
+|-
+|0 || 30% ||6
+|-
+|1 || 40% ||7
+|-
+|2 || 50% ||8
+|-
+|3 || 60% ||9
+|}
+
+==Acquisition==
+*Can be acquired by attaining the rank of '''Partner''' under {{Faction|The Perrin Sequence}}, or the rank of '''Flawless''' under {{Faction|New Loka}}, and spending {{sc|25,000}} to purchase.
+
+==Notes==
+*{{Stat|Armor}} reduction is affected by {{Stat|Ability Strength}}, fully removing {{Stat|Armor}} at '''167%''' {{Stat|Ability Strength}}.
+*{{Stat|Armor}} reduction is temporary, enemies will regain their {{Stat|Armor}} when no longer tethered.
+
+==Tips==
+*With one player using {{M|Corrosive Projection}}, 100% {{Stat|Armor}} reduction can be achieved at 137% {{Stat|Ability Strength}}.
+
+==Trivia==
+*The image of the mod depicts {{WF|Trinity}} surrounded by basic {{Faction|Corpus}} units that don't have armor to begin with.
+
+==Maximization==
+{{WFmax|main|trinity3_aug}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|32}}
+*Increase Trinity's Abating Link (Augment) armor reduction from 45% to 60%.
+
+{{ver|15.6}}
+*Introduced.
+}}
+{{AugmentNav}}
+[[de:Dämpfende Verbindung]]
+[[es:Enlace mermador]]
+[[fr:Lien Dégradant]]
+[[ru:Ослабляющая Связь]]
+[[uk:Вгамовний зв’язок]]
+[[Category:Warframe Mods]]
+[[Category:Augment Mods]]
+[[Category:Trinity]]
+[[Category:Syndicate Offerings]]
+[[Category:Armor Reduction]]

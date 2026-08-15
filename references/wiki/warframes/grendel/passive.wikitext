@@ -1,0 +1,6 @@
+Devouring his prey whole, {{WF|Grendel}} slowly digests the enemies he swallows via {{A|Feast}}. Each enemy still alive in Grendel's belly passively grants him <u>'''250'''</u> [[Armor]], to a maximum of <u>'''1,250'''</u> bonus armor at the <u>'''5'''</u> enemy cap.
+
+*Passive bonus value is displayed above Grendel's ability icons.
+*{{M|Gourmand}} provides an additional <u>'''150'''</u> armor bonus per enemy at max rank to Grendel's passive, increasing the armor bonus to <u>'''400'''</u> per enemy and the total armor bonus to <u>'''2,000'''</u> at enemy cap.
+*Armor bonus is added '''after''' armor mods such as {{M|Steel Fiber}}. For example, Grendel with a rank 10 Steel Fiber and one enemy alive in his belly will have {{MathText|Total armor {{eql}} (350 {{mul}} (1 + 1.1)) + 250 {{eql}} 985}}
+*Armor bonus adds or subtracts depending on the number of enemies currently residing in Grendel's stomach.

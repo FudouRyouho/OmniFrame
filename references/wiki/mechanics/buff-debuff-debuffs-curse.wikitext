@@ -1,0 +1,124 @@
+===Curse-Like Debuffs===
+Debuffs that apply a temporary or permanent negative effect that cripple the target's offensive and/or defensive capabilities.
+{| class="listtable sortable"
+|-
+!width="15%" | Name
+!width="15%" | Target
+! Description
+|-
+| [[Armor]] Reduction || Enemy ||align="left"|
+A portion (or the entirety) of a target armor is removed.
+*{{WF|Ash}}'s {{M|Seeking Shuriken}}
+*{{WF|Banshee}}'s {{M|Sonic Fracture}}
+*{{WF|Ember}}'s {{A|Fire Blast}}
+*{{WF|Frost}}'s {{A|Avalanche}}
+*{{WF|Gauss}}' {{A|Thermal Sunder}} while {{A|Redline}} is active
+*{{WF|Hildryn}}'s {{A|Pillage}}
+*{{WF|Hydroid}}'s {{M|Corroding Barrage}} (through {{D|Corrosive}} procs)
+*{{WF|Mag}}'s {{A|Polarize}} and {{M|Fracturing Crush}}
+*{{WF|Nekros}}' {{A|Terrify}}
+*{{WF|Nyx}}'s {{A|Psychic Bolts}}
+*{{WF|Oberon}}'s {{A|Reckoning}}
+*{{WF|Saryn}}'s {{A|Spores}} (indirectly)
+*{{WF|Trinity}}'s {{M|Abating Link}}
+*{{WF|Vauban}}'s {{A|Bastille}}
+*{{WF|Wisp}}'s {{A|Sol Gate}} w/ Haste Mote (through {{D|Corrosive}} procs)
+*{{WF|Xaku}}'s {{A|The Lost}} (Gaze sub-ability)
+*{{M|Amalgam Argonak Metal Auger}}
+*{{M|Sharpened Claws}}
+*{{M|Shattering Impact}}
+*Unairu's {{Focus|Caustic Strike}}
+*{{D|Corrosive}} proc
+*{{D|Heat}} proc
+|-
+| Armor Reduction || Player ||align="left"|
+A portion of a player's armor is removed.
+*[[Denial Bursa]]'s and [[Drover Bursa]]'s auras
+*{{D|Corrosive}} proc
+*{{D|Heat}} proc
+|-
+| Damage Vulnerability || Enemy ||align="left"|
+The target is more susceptible to damage from Warframe abilities and weapons, taking more damage than usual.
+*{{WF|Atlas}}' {{A|Petrify}}
+*{{WF|Banshee}}'s {{A|Sonar}} (only if damaged on marked areas)
+*{{WF|Equinox}}'s {{A|Rest & Rage}} (Rage)
+*{{WF|Gara}}'s {{A|Splinter Storm}} and {{A|Mass Vitrify}}
+*{{WF|Khora}}'s {{A|Strangledome}}
+*{{WF|Nezha}}'s {{A|Blazing Chakram}}
+*{{WF|Nova}}'s {{A|Molecular Prime}}
+*{{WF|Titania}}'s {{M|Beguiling Lantern}} (Melee only)
+*{{WF|Wisp}}'s {{A|Breach Surge}}
+*{{WF|Xaku}}'s {{A|The Vast Untime}} (only to {{D|Void}} damage)
+*{{Arcane|Magus Accelerant}} (only to {{D|Heat}} damage)
+*{{Arcane|Magus Destruct}} (only to {{D|Puncture}} damage)
+*{{M|Crescent Charge}} (while {{D|Lifted}})
+*{{M|Detect Vulnerability}}
+|-
+| Deafened || Enemy ||align="left"|
+The target cannot hear any gunshots, alarms, or death screams, hence cannot be alerted by them.
+*{{WF|Banshee}}'s {{A|Silence}}
+|-
+| Disrupted || Player ||align="left"|
+The player's HUD will become scrambled, lowering visability.
+*[[Sensor Bar]]
+*[[Scrambus]]
+*[[Comba]]
+*[[Ancient Disruptor]]
+*Touching any body of water at night on the [[Plains of Eidolon]]
+*Energy Leech [[Eximus]] ability
+*{{D|Magnetic}} proc
+|-
+| Energy Drain || Player ||align="left"|
+The player's energy is drained.
+*[[Ancient Disruptor]]
+*Energy Leech [[Eximus]] ability
+*{{D|Magnetic}} proc
+|-
+| Financial Stress || User ||align="left"|
+Occurs when the player picks up Index Points in [[The Index]] game mode. Each Index Point picked up diminishes the player's maximum shields and health while constantly draining their energy.
+|-
+| Inaccuracy || Enemy ||align="left"|
+The target's accuracy is reduced.
+*{{WF|Mirage}}'s {{A|Eclipse}} (while standing in shadows)
+*{{WF|Nyx}}'s passive
+*{{WF|Titania}}'s {{A|Tribute}} (Dust debuff) and {{A|Razorwing}} (called evasion)
+*{{M|Agility Drift}} (called evasion)
+*{{M|EMP Aura}}
+*{{D|Blast}} procs
+|-
+| Nullified/Disabled || Player ||align="left"|
+The player's active abilities will be deactivated and the player cannot cast any new abilities while nullified.
+*[[Necramech]]
+*[[Nullifier Crewman]]
+*[[Nullifier Target]]
+*[[Comba]]
+*[[Scrambus]]
+*[[Terra Shield Osprey]] (at Orb Vallis Alert Level 3+)
+*Upon entering the gate in [[Cetus]] or the elevator in [[Fortuna]]
+*Casting an ability too frequently while in [[Elite Sanctuary Onslaught]]
+|-
+| Resurgence Burden || User ||align="left"|
+Occurs when the player picks up Resurgence Tokens in [[Arbitrations]]. Each token works functionally like Index Points, with each pick up diminishing the player's maximum shields and health while constantly draining their energy.
+|-
+| [[Shield]] Reduction || Enemy ||align="left"|
+Target's maximum shields are reduced.
+*{{WF|Xaku}}'s {{A|The Lost}} (Gaze sub-ability)
+|-
+| [[Transference Static]] || User ||align="left"|
+Occurs when the [[Operator]] suffers fatal damage. Depletes all of the Warframe's shields while taking and reduces their maximum health. This debuff lasts for 45 seconds, and repeated Operator deaths can stack Transference Static up to 4 times: first death reduces maximum health by 20%, second by 50%, third by 80%, and fourth immediately causes [[Bleedout]].
+|-
+| Weakened || Player ||align="left"|
+The player is weakened and deals less damage.
+*{{D|Puncture}} proc
+*Equipping an [[Dragon Key|Extinguished Dragon Key]]
+|-
+| Weakened || Enemy ||align="left"|
+The target is weakened and deals less damage.
+*{{WF|Equinox}}'s {{A|Pacify & Provoke}} (Pacify)
+*{{WF|Oberon}}'s {{A|Smite}}
+*{{WF|Rhino}}'s {{M|Piercing Roar}}
+*{{Companion|Lambeo Moa}}'s {{M|Stasis Field}}
+*{{D|Puncture}} proc
+|-
+|}
+[[Category:Mechanics]]

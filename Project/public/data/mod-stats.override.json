@@ -278,7 +278,7 @@
               75,
               100
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
         ],
         "condition": "while_airborne",
@@ -1591,7 +1591,7 @@
               15,
               18
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -1628,7 +1628,7 @@
               29.2,
               35
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ],
         "notes": [
@@ -1896,7 +1896,7 @@
               -3,
               -4
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -2031,7 +2031,7 @@
               50,
               60
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -2999,14 +2999,12 @@
               66.7,
               80
             ],
-            "upgrade_type": "WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE"
+            "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE"
           }
         ],
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica",
-          "engine:note · upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE es binario (legacy DE); el label/condition refleja la mecánica real (escala per tipo) — fidelidad al label"
-        ],
-        "condition": "per_status_type_on_target"
+          "engine:note — coefBase por status type (fidelidad DE: +80% Melee Damage per Status Type). Fórmula: damage × (1 + coefBase% × activeStacks × N). CO clásico melee: coefBase=80, 1x (SIN stacks, sin bakeo) → activeStacks no se declara, default 1. co_behavior=adding (melee, shot_type None). La interacción con la stance (secuencia de hits) es capa aparte, diferida — ver arch-decisions §9 + OQ-ENGINE-14."
+        ]
       }
     ]
   },
@@ -3247,7 +3245,7 @@
               -15,
               -18
             ],
-            "upgrade_type": "AVATAR_ADD_ARMOUR"
+            "upgrade_type": "ENEMY_ADD_ARMOUR"
           }
         ]
       }
@@ -3610,7 +3608,7 @@
               10,
               12
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
         ]
       },
@@ -3626,7 +3624,7 @@
               -25,
               -30
             ],
-            "upgrade_type": "AVATAR_SLIDE_FRICTION"
+            "upgrade_type": "AVATAR_ADD_SLIDE_FRICTION"
           }
         ]
       },
@@ -3710,8 +3708,11 @@
               43.8,
               52.5
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
+        ],
+        "notes": [
+          "engine:note — gap DECLARADO, no olvido: el destino es la clase \"Sniper Rifle\", más angosta que el slot primaria. Con WEAPON_ADD_DAMAGE el ruteo la baja a las TRES armas del jugador, que mide de más — peor que no aterrizar. El token se repone cuando exista el eje de clase (OQ-DATA-16)."
         ]
       }
     ]
@@ -3902,7 +3903,7 @@
               75,
               100
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming"
@@ -4016,7 +4017,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_sliding",
@@ -5144,7 +5145,7 @@
               22,
               24.2
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -5686,7 +5687,7 @@
               7.5,
               10
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -5707,7 +5708,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -5764,24 +5765,25 @@
         "values": [
           {
             "base_value": [
-              7.2,
-              14.6,
+              3.6,
+              7.3,
+              10.9,
+              14.5,
+              18.2,
               21.8,
-              29.0,
+              25.5,
+              29.1,
+              32.7,
               36.4,
-              43.6,
-              51.0,
-              58.2,
-              65.4,
-              72.8,
-              80
+              40
             ],
-            "upgrade_type": "WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE"
+            "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE"
           }
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica"
+          "engine:note — coefBase por status type (fidelidad DE). Fórmula: damage × (1 + coefBase% × activeStacks × N_status_types). coefBase, activeStacks (max 2, dimensión temporal) y N son factores SEPARADOS — no bakear. En modo estático/techo activeStacks y N se declaran (context.variables); en dinámico emergen. Ver arch-decisions §9 y damage-status-model.md.",
+          "data:note — drift-fix 2026-07-04: rank-10 era 80 (clon del array de Status Chance, idéntico a Galvanized Savvy). Fuente DE (mods-data.lua): '+40% Direct Damage per Status Type... Stacks up to 2x' → coefBase=40. El 80 conflaba coefBase×maxStacks (40×2); array re-escalado ÷2. Token WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (binario legacy DE) → WEAPON_ADD_DAMAGE_PER_STATUS_TYPE (D-17 resuelto para rifle)."
         ]
       }
     ]
@@ -5817,22 +5819,23 @@
             "base_value": [
               13.5,
               27.5,
-              41.0,
+              41,
               54.5,
-              68.0,
-              82.0,
+              68,
+              82,
               95.5,
-              109.0,
+              109,
               122.5,
               136.5,
-              150.0
+              150
             ],
             "upgrade_type": "WEAPON_FIRE_ITERATIONS"
           }
         ],
         "condition": "on_kill",
+        "max_stacks": 5,
         "notes": [
-          "engine:note — stacks 5x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 5x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10: max_stacks poblado, base_value sigue total-a-máximo D-15 §2)"
         ]
       }
     ]
@@ -5870,24 +5873,25 @@
         "values": [
           {
             "base_value": [
-              18.0,
+              18,
               36.5,
               54.5,
               72.5,
-              91.0,
-              109.0,
+              91,
+              109,
               127.5,
               145.5,
               163.5,
-              182.0,
-              200.0
+              182,
+              200
             ],
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
         "condition": "on_headshot_kill",
+        "max_stacks": 5,
         "notes": [
-          "engine:note — while_aiming; max_stacks: 5; per_stack: 40% at rank 10; duration: 12s per stack"
+          "engine:note — while_aiming; max_stacks: 5; per_stack: 40% at rank 10; duration: 12s per stack (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -5922,23 +5926,24 @@
           {
             "base_value": [
               10.8,
-              22.0,
+              22,
               32.8,
               43.6,
               54.4,
               65.6,
               76.4,
               87.2,
-              98.0,
+              98,
               109.2,
-              120.0
+              120
             ],
             "upgrade_type": "WEAPON_FIRE_ITERATIONS"
           }
         ],
         "condition": "on_kill",
+        "max_stacks": 4,
         "notes": [
-          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -5973,23 +5978,24 @@
           {
             "base_value": [
               10.8,
-              22.0,
+              22,
               32.8,
               43.6,
               54.4,
               65.6,
               76.4,
               87.2,
-              98.0,
+              98,
               109.2,
-              120.0
+              120
             ],
             "upgrade_type": "WEAPON_FIRE_ITERATIONS"
           }
         ],
         "condition": "on_kill",
+        "max_stacks": 4,
         "notes": [
-          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -6023,24 +6029,25 @@
         "values": [
           {
             "base_value": [
-              7.2,
-              14.6,
+              3.6,
+              7.3,
+              10.9,
+              14.5,
+              18.2,
               21.8,
-              29.0,
+              25.5,
+              29.1,
+              32.7,
               36.4,
-              43.6,
-              51.0,
-              58.2,
-              65.4,
-              72.8,
-              80
+              40
             ],
-            "upgrade_type": "WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE"
+            "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE"
           }
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica"
+          "engine:note — coefBase por status type (fidelidad DE). Fórmula: damage × (1 + coefBase% × activeStacks × N_status_types). coefBase, activeStacks (max 2, dimensión temporal) y N son factores SEPARADOS — no bakear. En modo estático/techo activeStacks y N se declaran (context.variables); en dinámico emergen. Ver arch-decisions §8 y damage-status-model.md.",
+          "data:note — drift-fix 2026-07-03: rank-10 era 80 (clon del array de Status Chance). Fuente DE (mods-data.lua): '+40% Direct Damage per Status Type... Stacks up to 2x' → coefBase=40. El 80 conflaba coefBase×maxStacks (40×2); array re-escalado ÷2 (escala lineal confirmada del stat hermano). Token WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (binario legacy DE) → WEAPON_ADD_DAMAGE_PER_STATUS_TYPE (D-17 resuelto para shotgun)."
         ]
       }
     ]
@@ -6078,24 +6085,25 @@
         "values": [
           {
             "base_value": [
-              18.0,
+              18,
               36.5,
               54.5,
               72.5,
-              91.0,
-              109.0,
+              91,
+              109,
               127.5,
               145.5,
               163.5,
-              182.0,
-              200.0
+              182,
+              200
             ],
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
         ],
         "condition": "on_headshot_kill",
+        "max_stacks": 5,
         "notes": [
-          "engine:note — while_aiming; max_stacks: 5; per_stack: 40% at rank 10; duration: 12s per stack"
+          "engine:note — while_aiming; max_stacks: 5; per_stack: 40% at rank 10; duration: 12s per stack (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -6129,24 +6137,25 @@
         "values": [
           {
             "base_value": [
-              10.8,
-              21.9,
+              3.6,
+              7.3,
+              10.9,
+              14.5,
+              18.2,
+              21.8,
+              25.5,
+              29.1,
               32.7,
-              43.5,
-              54.6,
-              65.4,
-              76.5,
-              87.3,
-              98.1,
-              109.2,
-              120
+              36.4,
+              40
             ],
-            "upgrade_type": "WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE"
+            "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE"
           }
         ],
         "condition": "on_kill",
         "notes": [
-          "engine:note — formula: damage × (1 + n_status_types × val%); requires runtime count of Status Types on target. Cross-schema: incarnon evolutions comparten esta familia — verificar si la fórmula es idéntica"
+          "engine:note — coefBase por status type (fidelidad DE). Fórmula: damage × (1 + coefBase% × activeStacks × N_status_types). coefBase, activeStacks (max 3 — mayor que Savvy/Aptitude, que son 2) y N son factores SEPARADOS — no bakear. En modo estático/techo activeStacks y N se declaran (context.variables); en dinámico emergen. Ver arch-decisions §9 y damage-status-model.md.",
+          "data:note — drift-fix 2026-07-04: rank-10 era 120 = coefBase×maxStacks (40×3) bakeado (misma conflación que Savvy/Aptitude, pero con maxStacks=3, no clon del Status Chance). Fuente DE (mods-data.lua): '+40% Direct Damage per Status Type... Stacks up to 3x' → coefBase=40. Array re-escalado ÷3. Token WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE (binario legacy DE) → WEAPON_ADD_DAMAGE_PER_STATUS_TYPE (D-17 resuelto para secondary)."
         ]
       }
     ]
@@ -6325,7 +6334,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -6396,7 +6405,7 @@
               45,
               60
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming"
@@ -6418,7 +6427,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming",
@@ -6455,7 +6464,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_sliding",
@@ -6703,7 +6712,7 @@
               -50,
               -55
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -7230,6 +7239,9 @@
             ],
             "upgrade_type": "AVATAR_ADD_SPRINT_SPEED"
           }
+        ],
+        "notes": [
+          "engine:note · `AVATAR_*` en el vocabulario de DE agrupa lo que el jugador ENCARNA (warframe · archwing · necramech), no sólo el warframe: este mod lleva el MISMO token crudo que su par de warframe (Rush / Air Thrusters). El token es fiel a la fuente; lo que falta es que el engine modele la entidad portadora. `VEHICLE_*` sí es otra cosa — lo que el jugador MONTA (K-Drive)."
         ]
       }
     ]
@@ -7308,7 +7320,7 @@
               22,
               24.2
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -8136,7 +8148,7 @@
               22,
               24.2
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -8523,7 +8535,7 @@
               -1.5,
               -2
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -8628,7 +8640,7 @@
               25,
               30
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
         ]
       },
@@ -8644,7 +8656,7 @@
               -25,
               -30
             ],
-            "upgrade_type": "AVATAR_SLIDE_FRICTION"
+            "upgrade_type": "AVATAR_ADD_SLIDE_FRICTION"
           }
         ]
       }
@@ -8757,7 +8769,7 @@
               -50,
               -55
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -8874,7 +8886,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       },
@@ -9382,7 +9394,7 @@
               15,
               20
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -9562,7 +9574,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming",
@@ -9879,7 +9891,7 @@
               30,
               40
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -10067,8 +10079,11 @@
               50,
               60
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
+        ],
+        "notes": [
+          "engine:note · `AVATAR_*` en el vocabulario de DE agrupa lo que el jugador ENCARNA (warframe · archwing · necramech), no sólo el warframe: este mod lleva el MISMO token crudo que su par de warframe (Rush / Air Thrusters). El token es fiel a la fuente; lo que falta es que el engine modele la entidad portadora. `VEHICLE_*` sí es otra cosa — lo que el jugador MONTA (K-Drive)."
         ]
       }
     ]
@@ -10240,7 +10255,7 @@
               12.5,
               15
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -10581,7 +10596,7 @@
               75,
               90
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -10749,7 +10764,7 @@
               15,
               18
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -10807,8 +10822,11 @@
               22.5,
               27
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_SECONDARY_ADD_DAMAGE"
           }
+        ],
+        "notes": [
+          "engine:note — la sub-familia la declara el label de la fuente: \"Pistol Damage\", no \"Weapon Damage\". Montada en el warframe, sin canal el modifier moría en el portador."
         ]
       }
     ]
@@ -11119,7 +11137,7 @@
             "base_value": [
               100
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       },
@@ -12000,7 +12018,7 @@
               50,
               55
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -13081,7 +13099,7 @@
               30,
               40
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       },
@@ -13290,8 +13308,11 @@
               20,
               24
             ],
-            "upgrade_type": "WEAPON_BASE_COMBO_INITIAL"
+            "upgrade_type": "WEAPON_MELEE_BASE_COMBO_INITIAL"
           }
+        ],
+        "notes": [
+          "engine:note — el combo es de la melee; el aura se monta en el warframe. Con la sub-familia llega al arma, y ahí el nodo WEAPON_ADD_COMBO_INITIAL todavía no se materializa (combo no modelado): el tripwire reporta el hueco donde realmente está."
         ]
       }
     ]
@@ -13487,10 +13508,13 @@
               90.9,
               100
             ],
-            "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE"
+            "upgrade_type": "WEAPON_MELEE_ADD_COMBO_COUNT_CHANCE"
           }
         ],
-        "condition": "while_blocking"
+        "condition": "while_blocking",
+        "notes": [
+          "engine:note — bloquear es acción de melee y el combo es suyo; el mod se monta en el warframe. Mismo caso que Ready Steel: con la sub-familia llega al arma, el nodo todavía no existe."
+        ]
       }
     ]
   },
@@ -13604,7 +13628,7 @@
               15,
               18
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -13704,7 +13728,7 @@
               42,
               50
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming"
@@ -13780,8 +13804,11 @@
               22.5,
               27
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": null
           }
+        ],
+        "notes": [
+          "engine:note — gap DECLARADO, no olvido: \"Rifle\" no es el slot primaria — una escopeta es primaria y no lo recibe (Shotgun Amp existe aparte). Con WEAPON_ADD_DAMAGE el ruteo lo baja también a la secundaria y la melee. El token se repone cuando exista el eje de clase (OQ-DATA-16)."
         ]
       }
     ]
@@ -15427,7 +15454,7 @@
               -150,
               -180
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -15460,7 +15487,7 @@
               -15,
               -20
             ],
-            "upgrade_type": "WEAPON_ADD_FIRE_RATE"
+            "upgrade_type": "MELEE_ADD_ATTACK_SPEED"
           }
         ]
       }
@@ -15659,7 +15686,7 @@
               10,
               12
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       }
@@ -15680,8 +15707,11 @@
               50,
               60
             ],
-            "upgrade_type": "WEAPON_ADD_DAMAGE"
+            "upgrade_type": "WEAPON_MELEE_ADD_DAMAGE"
           }
+        ],
+        "notes": [
+          "engine:note — \"Melee Damage\" en el label es el destino, no el tema. Aura montada en el warframe: sin sub-familia el token liso moría en el portador junto con Pistol Amp y Rifle Amp, los tres apilados en un nodo que el warframe no tiene."
         ]
       }
     ]
@@ -15829,7 +15859,7 @@
               15,
               20
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_sliding",
@@ -15895,7 +15925,7 @@
               25,
               30
             ],
-            "upgrade_type": "AVATAR_SLIDE_BOOST"
+            "upgrade_type": "AVATAR_ADD_SLIDE_SPEED"
           }
         ]
       },
@@ -15911,7 +15941,7 @@
               -25,
               -30
             ],
-            "upgrade_type": "AVATAR_SLIDE_FRICTION"
+            "upgrade_type": "AVATAR_ADD_SLIDE_FRICTION"
           }
         ]
       }
@@ -16321,7 +16351,7 @@
               70,
               77
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       },
@@ -16405,7 +16435,7 @@
               25,
               30
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ],
         "condition": "while_aiming",
@@ -16656,7 +16686,7 @@
               22,
               24.2
             ],
-            "upgrade_type": "AVATAR_PARKOUR_GLIDE"
+            "upgrade_type": "AVATAR_ADD_AIM_GLIDE_DURATION"
           }
         ]
       },
@@ -17213,7 +17243,7 @@
               -50,
               -60
             ],
-            "upgrade_type": "WEAPON_SPREAD"
+            "upgrade_type": "WEAPON_ADD_ACCURACY"
           }
         ]
       }
@@ -17378,6 +17408,38 @@
             ],
             "upgrade_type": "AVATAR_ADD_HEALTH_MAX"
           }
+        ]
+      }
+    ]
+  },
+  "/Lotus/Upgrades/Mods/Warframe/AvatarHolsterDamageMod": {
+    "name": "Vigorous Swap",
+    "stats": [
+      {
+        "label": "On Equip: +|val1|% Damage for 3s",
+        "values": [
+          {
+            "base_value": [
+              15,
+              30,
+              45,
+              60,
+              75,
+              90,
+              105,
+              120,
+              135,
+              150,
+              165
+            ],
+            "upgrade_type": null
+          }
+        ],
+        "condition": "on_equip",
+        "notes": [
+          "engine:note — duration:3s",
+          "engine:note — gap DECLARADO: el destino son las armas NO-melee (primaria + secundaria), no todas. La propia wiki lo marca como bug de texto: \"Reads as though to imply applying to all damage. Should say 'Projectile Damage' instead of 'Damage.'\" Un target_channel no expresa dos slots — mismo caso que Arcane Arachne. Fuente: references/wiki/mods/vigorous-swap.wikitext",
+          "engine:note — cuando el token exista, el bucket es aditivo: \"Stacks additively with mods like Serration and Hornet Strike, as well as Holster Amp and Arcane Arachne\" — mismo pool que WEAPON_ADD_DAMAGE"
         ]
       }
     ]
@@ -17827,7 +17889,7 @@
               21.8,
               24.5,
               27.3,
-              30.0
+              30
             ],
             "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED"
           }
@@ -17848,7 +17910,7 @@
               21.8,
               24.5,
               27.3,
-              30.0
+              30
             ],
             "upgrade_type": "WEAPON_ADD_BEAM_RANGE"
           }
@@ -17860,16 +17922,16 @@
           {
             "base_value": [
               5.4,
-              11.0,
+              11,
               16.4,
               21.8,
               27.2,
               32.8,
               38.2,
               43.6,
-              49.0,
+              49,
               54.6,
-              60.0
+              60
             ],
             "upgrade_type": "WEAPON_ADD_PROJECTILE_SPEED"
           }
@@ -17885,16 +17947,16 @@
           {
             "base_value": [
               5.4,
-              11.0,
+              11,
               16.4,
               21.8,
               27.2,
               32.8,
               38.2,
               43.6,
-              49.0,
+              49,
               54.6,
-              60.0
+              60
             ],
             "upgrade_type": "WEAPON_ADD_BEAM_RANGE"
           }
@@ -17924,7 +17986,7 @@
               58.2,
               65.4,
               72.7,
-              80.0
+              80
             ],
             "upgrade_type": "WEAPON_ADD_STATUS_DAMAGE"
           }
@@ -17936,23 +17998,24 @@
           {
             "base_value": [
               10.8,
-              22.0,
+              22,
               32.8,
               43.6,
               54.4,
               65.6,
               76.4,
               87.2,
-              98.0,
+              98,
               109.2,
-              120.0
+              120
             ],
             "upgrade_type": "WEAPON_ADD_STATUS_CHANCE"
           }
         ],
         "condition": "on_melee_kill",
+        "max_stacks": 4,
         "notes": [
-          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]
@@ -17975,7 +18038,7 @@
               36.4,
               40.9,
               45.5,
-              50.0
+              50
             ],
             "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY"
           }
@@ -17986,17 +18049,17 @@
         "values": [
           {
             "base_value": [
-              8.0,
-              16.0,
-              24.0,
-              28.0,
-              36.0,
-              44.0,
-              52.0,
-              60.0,
-              68.0,
-              76.0,
-              80.0
+              8,
+              16,
+              24,
+              28,
+              36,
+              44,
+              52,
+              60,
+              68,
+              76,
+              80
             ],
             "upgrade_type": "WEAPON_BASE_COMBO_INITIAL"
           }
@@ -18016,17 +18079,17 @@
         "values": [
           {
             "base_value": [
-              10.0,
-              20.0,
-              30.0,
-              40.0,
-              50.0,
-              60.0,
-              70.0,
-              80.0,
-              90.0,
-              100.0,
-              110.0
+              10,
+              20,
+              30,
+              40,
+              50,
+              60,
+              70,
+              80,
+              90,
+              100,
+              110
             ],
             "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
           }
@@ -18041,23 +18104,24 @@
           {
             "base_value": [
               10.8,
-              22.0,
+              22,
               32.8,
               43.6,
               54.4,
               65.6,
               76.4,
               87.2,
-              98.0,
+              98,
               109.2,
-              120.0
+              120
             ],
             "upgrade_type": "WEAPON_ADD_CRIT_MULT"
           }
         ],
         "condition": "on_melee_kill",
+        "max_stacks": 4,
         "notes": [
-          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s"
+          "engine:note — stacks 4x; per_stack: 30% at rank 10; duration: 20s (STACK_DECAY_BUFF, 2026-07-10)"
         ]
       }
     ]

@@ -1,11 +1,10 @@
 ---
 Estado: "referencia"
 Rol: "Taxonomía facetada de la naturaleza de condition — categorías mecánicas y reglas de composición"
-Version: "v0.1.0"
 Impacto_ID: "semantic-condition-nature"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-06-05"
-Fecha_de_actualizacion: "2026-06-05"
+Fecha_de_actualizacion: "2026-07-24"
 Dependencias:
   - "docs/semantic/conditions.md"
   - "docs/data/rules/overrides.md"
@@ -28,14 +27,14 @@ la **naturaleza mecánica** de cada token y las **reglas de composición** que o
 
 Por qué existe: el shape de composición `condition: string | {any|all:[…]}` **no tiene solidez propia** — la toma
 prestada de (a) un vocabulario con la granularidad justa y (b) tener separados los ejes que no son condición. Esta
-taxonomía formaliza (a). Cobertura verificada (2026-06-05): **145 tokens del dato real, 0 huérfanos de naturaleza.**
+taxonomía formaliza (a). Cobertura verificada: **145 tokens del dato real, 0 huérfanos de naturaleza.**
 
 ---
 
 ## Dos ejes ortogonales
 
 La condición de un stat se describe por **dos facetas independientes** (no un árbol único). Constatado en
-`conditions.md` (2026-06-03): el scope es ortogonal a la naturaleza.
+`conditions.md`: el scope es ortogonal a la naturaleza.
 
 ```
 condition-token  =  {NATURALEZA}  ⊥  {SCOPE}
@@ -112,9 +111,24 @@ no exhaustiva — se amplía al madurar la taxonomía de movimiento/postura:
 > Regla derivada: `{all:[A,B]}` con A,B en la misma fila → **rechazar** (debió ser `{any:…}`). El operador correcto
 > lo da la **mecánica de co-ocurrencia**, nunca la conjunción del label.
 
+### Tabla semilla de subsunción
+
+Relación **dual** de la anterior: en vez de "A ∧ B imposible", es "A ⇒ B". Dos tokens no son
+sinónimos ni excluyentes: uno es **caso particular** del otro. Consecuencia práctica: un evento que
+satisface A satisface también B, pero **colapsarlos sería un error de modelado** — el efecto
+redactado sobre A es más restrictivo y no puede heredarse al que se redactó sobre B.
+
+| Particular (A) | General (B) | Fuente |
+| :--- | :--- | :--- |
+| `on_headshot` | `on_weakpoint_hit` | *"Effects that specify headshots only take effect when striking the target's head and do **not** apply against any other weak spot"* (`references/wiki/mechanics/enemy-body-parts.md`) |
+
+Semilla de una sola fila **a propósito**: es la única relación con fuente. La cadena que la
+intuición sugiere (`on_critical_hit`/`on_melee_hit` ⇒ `on_hit`) es plausible pero **no verificada**
+— no se siembra sin dato, que es exactamente el error que produjo esta fila.
+
 ---
 
-## Cobertura (validación 2026-06-05)
+## Cobertura (validación)
 
 Script read-only sobre los 4 overrides (`arcane-stats`, `incarnon-evolutions`, `mod-stats`, `archon-shards`):
 

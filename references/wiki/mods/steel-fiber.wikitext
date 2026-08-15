@@ -1,0 +1,331 @@
+<div style="float:right; padding:0 0 0 15px; width:305px;" class="tabber-borderless">
+<tabber>
+Base={{ModBox}}
+|-|Flawed={{ModBox|name=Flawed Steel Fiber}}
+</tabber>
+</div>
+'''Steel Fiber''' is a [[mod]] that increases the [[armor]] of a [[Warframe]].
+
+==Stats==
+{| class="emodtable"
+|+ Normal
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect 
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +9% || 4
+|-
+| 1 || +18% || 5
+|-
+| 2 || +27% || 6
+|-
+| 3 || +36% || 7
+|-
+| 4 || +45% || 8
+|-
+| 5 || +55% || 9
+|-
+| 6 || +64% || 10
+|-
+| 7 || +73% || 11
+|-
+| 8 || +82% || 12
+|-
+| 9 || +91% || 13
+|-
+| 10 || +100% || 14
+|}
+<br/>
+{| class="emodtable"
+|+ [[Flawed Mods|Flawed]]
+|-
+! [[Mod#Mod Rank|Rank]]
+! Effect
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || +8% || 2
+|-
+| 1 || +16% || 3
+|-
+| 2 || +24% || 4
+|-
+| 3 || +32% || 5
+|}
+
+{| class="wikitable" style="font-size:12px; text-align:center;" border="0" cellpadding="0" cellspacing="0"
+|+Armor totals for Rank 30 Warframes
+|-
+!Base
+! 0 !! 1 !! 2 !! 3 !! 4 !! 5 !! 6 !! 7 !! 8 !! 9 !! 10
+|-
+| 15<br />95% || 16.5<br />95% || 18<br />94% || 19.5<br />94% || 21<br />93% || 22.5<br />93% || 24<br />93% || 25.5<br />92% || 27<br />92% || 28.5<br />91% || 30<br />91% || 31.5<br />90%
+|-
+| 50<br />86% || 55<br />85% || 60<br />83% || 65<br />82% || 70<br />81% || 75<br />80% || 80<br />79% || 85<br />78% || 90<br />77% || 95<br />76% || 100<br />75% || 105<br />74%
+|-
+| 65<br />82% || 71.5<br />81% || 78<br />79% || 84.5 78% || 91<br />77% || 97.5<br />75% || 104<br />74% || 110.5<br />73% || 117<br />72% || 123.5<br />71% || 130<br />70% || 136.5<br />69%
+|-
+| 155<br />66% || 170.5<br />64% || 186<br />62% || 201.5<br />60% || 217<br />58% || 232.5<br />56% || 248<br />55% || 263.5<br />53% || 279<br />52% || 294.5<br />50% || 310<br />49% || 325.5<br />48%
+|-
+| 190<br />61% || 209<br />59% || 228<br />57% || 247<br />55% || 266<br />53% || 285<br />51% || 304<br />50% || 323<br />48% || 342<br />47% || 361<br />45% || 380<br />44% || 399<br />43%
+|-
+| 600<br />33% || 660<br />31% || 720<br />29% || 780<br />28% || 840<br />26% || 900<br />25% || 960<br />24% || 1020<br />23% || 1080<br />22% || 1140<br />21% || 1200<br />20% || 1260<br />19%
+|}
+''Note: those percentage values represent how much damage you take, starting at a maximum of 100%.''
+
+==Calculations==
+===Armor Values===
+Steel Fiber gives additional Armor based on the frame's Base Armor.
+
+The Total Armor can be calculated by the following formula:<br />
+{{MathText|Total Armor {{eql}} BaseArmor {{mul}} (1 + SteelFiberPercent)}}
+
+Example - 190 Base Armor with 100% Steel Fiber would be calculated as follows:<br />
+{{MathText|Total Armor {{eql}} 190 {{mul}} (1 + 1) {{eql}} 399 Total Armor}}
+
+===Damage Mitigation===
+Damage Mitigation is the amount off the total damage that armor reduces, and is calculated as:<br />
+{{MathText|Damage Mitigation {{eql}} Total Armor {{div}} (Total Armor + 300)}}<br />
+The following table shows the net Damage Mitigation percentage values provided by armor for different key base armors that various frames have. 
+
+{| class="wikitable" style="font-size:12px;text-align:center;" border="0" cellpadding="1" cellspacing="1"
+|+Passthrough Damage from Total Armor (Base + Steel Fiber)
+|-
+! colspan="2" | Mod Stats
+! colspan="8" | Base Armor Value
+|-
+! style="width: 60px" | Mod %
+! Cost
+! 15 !! 50 !! 65 !! 155 !! 190 !! 600
+|-
+! 0%
+| 0 || 4.76% || 14.29% || 17.81% || 34.07% || 38.78% || 66.67%
+|-
+! 9%
+| 4 || 5.21% || 15.49% || 19.25% || 36.24% || 41.06% || 68.75%
+|-
+! 18%
+| 5 || 5.66% || 16.67% || 20.63% || 38.27% || 43.18% || 70.59%
+|-
+! 27%
+| 6 || 6.1% || 17.81% || 21.98% || 40.48% || 45.16% || 72.22%
+|-
+! 36%
+| 7 || 6.54% || 18.92% || 23.27% || 41.97% || 47.00% || 73.68%
+|-
+! 45%
+| 8 || 6.98% || 20.00% || 24.53% || 43.66% || 48.72% || 75.00%
+|-
+! 55%
+| 9 || 7.41% || 21.05% || 25.74% || 45.26% || 50.33% || 76.19%
+|-
+! 64%
+| 10 || 7.83% || 22.08% || 26.92% || 46.76% || 51.85% || 77.27%
+|-
+! 73%
+| 11 || 8.26% || 23.08% || 28.06% || 48.19% || 53.27% || 78.26%
+|-
+! 82%
+| 12 || 8.68% || 24.05% || 29.16% || 49.54% || 54.61% || 79.17%
+|-
+! 91%
+| 13 || 9.09% || 25.00% || 30.23% || 50.82% || 55.88% || 80.00%
+|-
+! 100%
+| 14 || 9.5% || 25.93% || 31.27% || 52.04% || 57.08% || 80.77%
+|}
+
+===Effective Health===
+Higher armor values can be thought of as increasing your effective health in relation to incoming damage.  However, this would only apply to damage types that do not ignore armor.  Because "effective health" more literally translates as "the maximum amount of damage you can take", if we simply set your "Total Health" equal to your "Incoming Damage" after Damage Mitigation, and then solve for the Incoming damage alone, we can determine your Effective HP.
+<br />
+{{MathText|Total Health {{eql}} Incoming Damage {{mul}} Damage Mitigation %}}
+{{MathText|Total Health {{div}} Damage Mitigation % {{eql}} Incoming Damage}}
+<br />
+As Armor increases, Damage Mitigation values decrease, and therefore Effective HP drastically increases. Below are two tables with examples of how Effective HP increases with armor. All values are rounded to the nearest integer.
+
+{| class="wikitable" style="font-size:12px;text-align:center;" border="0" cellpadding="1" cellspacing="1"
+|+Effective HP (assumed base HP of 100)
+|-
+! colspan="2" | Mod Stats
+! colspan="6" | Base Armor Value
+|-
+! style="width: 60px" | Mod %
+! Cost
+! 15 !! 50 !! 65 !! 155 !! 190 !! 600
+|-
+! 0%
+| 0 || 105 || 117 || 122 || 152 || 163 || 300
+|-
+! 9%
+| 4 || 106 || 118 || 124 || 157 || 170 || 320
+|-
+! 18%
+| 5 || 106 || 120 || 126 || 162 || 176 || 340
+|-
+! 27%
+| 6 || 107 || 122 || 128 || 167 || 182 || 360
+|-
+! 36%
+| 7 || 107 || 123 || 130 || 172 || 189 || 380
+|-
+! 45%
+| 8 || 108 || 125 || 133 || 178 || 195 || 400
+|-
+! 55%
+| 9 || 108 || 127 || 135 || 183 || 201 || 420
+|-
+! 64%
+| 10 || 109 || 128 || 137 || 188 || 208 || 440
+|-
+! 73%
+| 11 || 109 || 130 || 139 || 193 || 214 || 460
+|-
+! 82%
+| 12 || 110 || 132 || 141 || 198 || 220 || 480
+|-
+! 91%
+| 13 || 110 || 133 || 143 || 203 || 227 || 500
+|-
+! 100%
+| 14 || 111 || 135 || 146 || 209 || 233 || 520
+|}
+
+{| class="wikitable" style="font-size:12px;text-align:center;" border="0" cellpadding="1" cellspacing="1"
+|+Effective HP (assumed base HP of ''300'')
+|-
+! colspan="2" | Mod Stats
+! colspan="6" | Base Armor Value
+|-
+! style="width: 60px" | Mod %
+! Cost
+! 15 !! 50 !! 65 !! 155 !! 190 !! 600
+|-
+! 0%
+| 0 || 315 || 350 || 365 || 455 || 490 || 900
+|-
+! 9%
+| 4 || 317 || 355 || 372 || 471 || 509 || 960
+|-
+! 18%
+| 5 || 318 || 360 || 378 || 486 || 528 || 1020
+|-
+! 27%
+| 6 || 320 || 365 || 385 || 502 || 547 || 1080
+|-
+! 36%
+| 7 || 321 || 370 || 391 || 517 || 566 || 1140
+|-
+! 45%
+| 8 || 323 || 375 || 398 || 533 || 585 || 1200
+|-
+! 55%
+| 9 || 324 || 380 || 404 || 548 || 604 || 1260
+|-
+! 64%
+| 10 || 326 || 385 || 411 || 564 || 623 || 1320
+|-
+! 73%
+| 11 || 327 || 390 || 417 || 579 || 642 || 1380
+|-
+! 82%
+| 12 || 329 || 395 || 424 || 595 || 661 || 1440
+|-
+! 91%
+| 13 || 330 || 400 || 430 || 610 || 680 || 1500
+|-
+! 100%
+| 13 || 330 || 400 || 430 || 610 || 680 || 1500
+|}
+
+==Drop Locations==
+{{DropLocations}}
+{{clr}}
+
+==Notes==
+*Armor (and thus Steel Fiber) will only mitigate damage to Health.
+**This mod does '''not''' improve Shields.
+**As {{A|Snow Globe}} gains additional health from {{WF|Frost}}'s armor, Steel Fiber affects it.
+
+==Tips==
+*This mod is generally more effective on frames with 100 armor or greater.
+**Steel Fiber is most effective when used on {{WF|Valkyr Prime}} as she has 1000 armor, the second highest value of any Warframe.
+
+==Trivia==
+*The mod image is actually that of Rhino's {{A|Iron Skin}} prior to {{ver|9.5}}, which updated the effect to its current appearance.
+*The partially visible [[Grineer Language]] text in the background of the mod seems to be a hazard message, appearing to say:
+{{Quote|>DANGER ,
+TOUCING LIV...
+
+KAN KILL Y...}}
+*The location appears to match one of the [[grineer Asteroid]] tiles that still exists, except the text now reads "IF OUR ENEMIES DESERVED PEASE, THEY WOULD HAVE DEFEATED US"
+
+==Gallery==
+<gallery hideaddbutton="true">
+SteelFiberModOld.png|Old appearance
+Screenshot 2026-04-28 135531.png|The background location
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|34}}
+;Base vs Final Stats in Modding - Health / Energy / Shield / Armor Stat Overhaul
+
+If you’ve spent any time invested in the deeper nuances of Modding, you may be familiar with “Warframe Math” - math that upon first glance doesn’t really make sense, but once you learn the inner workings of the game, it all comes together. While we can appreciate the value that complex systems offer to a certain subsect of players, there are other aspects of the game that should have clear and understandable outcomes. Namely: Shield, Health, Energy, and Armor Modding. 
+
+'''<u>Pop quiz:</u>''' what is 300 + 440%? If you answered 740, you may just be an Excalibur player.
+
+Vitality (+440% Heath), Redirection (+440% Shields), Flow (+150% Energy), and Steel Fiber (+110% Armor) come with large modifier values that don’t seem to match their outcome in-game. '''This is because these Mods apply their multiplier to the base stats of the Warframe - i.e., the stats you have at Rank 0.''' In the Excalibur example, a Rank 30 Excalibur’s Health stat of 300 earns an additional 440 Health from max rank Vitality (+440% Heath) since it applies to his base rank Health stat of 100, resulting in 740 total health.
+
+In this update, we have removed this obfuscation by having '''Health, Shield, Energy, and Armor Mods apply to the stats of Warframes at their current rank.''' Continuing our Excalibur example, instead of Vitality always applying to Excalibur’s base rank 100 Health, it would apply to his Health stat based on his rank - namely, '''the stat you can actually see in your Arsenal.''' If your Excalibur were Rank 30, his Health stat would be 300, which means Vitality’s multiplier would be calculated off of 300.
+
+With previous Health and Mod values, additional adjustments are needed to make this revision work while maintaining game balance. By only changing where the multiplier applies, a Rank 30 Excalibur would receive an extra 1,320 Health from max rank Vitality, resulting in a total health stat of 1,600. This outcome is a significant buff, which is not the intention of this system change. 
+
+To remedy this, we approached this problem in two ways:
+
+'''1 - We reduced the overall multiplier for Health, Shield, Energy, and Armor Mods.'''<br/>
+Since these now affect Max Rank Warframe stats, these Mods need to scale differently to maintain the status quo. Additionally, we wanted these new values to be as clear and understandable to all players as possible! Here are a few examples of these value changes:
+
+* ''Vitality:'' Reduced from +440% to +100% Health
+* ''Redirection:'' Reduced from +440% to +100% Shield Capacity
+* ''Steel Fiber:'' Reduced from +110% to +100% Armor
+* ''Flow:'' Reduced from +150% to +100% Energy Max
+
+Doing some quick math, this means that a Rank 30 Excalibur (300 Health) with a reworked Vitality Mod (+100% Health, applied to the final Health stat) would receive 300 extra Health, for a total of 600. That, in contrast, is a nerf, which we also don’t want to do. 
+
+So, our next step:
+
+'''2 - We adjusted Warframe Health, Shield, Energy, and Armor values to keep the end result of the revised Mods as close to the original values as possible.'''
+
+With this change, Excalibur’s Rank 30 Health stat is 370. With +100% Health from a max Vitality Mod, his resulting Health stat would be 740, which matches what it was originally. 
+
+While this path to the same result may seem a little complicated, the outcome matches our intention: '''we want players to be able to look at their Health, Shield, and Armor Mods, and be able to understand ''how'' they affect the stats they see in their Arsenal.'''
+
+In addition to everything above, '''we also increased the base stat values for Warframes so that these revised Mods offer similar value for lower-ranked Frames.''' To do so, we reduced the amount of Health/Shield/Energy that Warframes earn per rank in half, and transferred the sum of that value to their base stats.
+
+'''Warframe Mod Changes:'''
+*Steel Fiber: +100% Armor (was +110%)
+
+{{ver|18.13}}
+*The Steel Fiber Sentinel Mod had been renamed to {{M|Metal Fiber}}
+{{ver|0}}
+*Introduced
+}}
+
+==See also==
+*{{M|Umbral Fiber}}, the [[Umbra_Mod|umbra]] version
+*[[Mods]]
+*[[Armor]]
+
+{{WarframeMods}}
+
+[[de:Stahlfasern]]
+[[es:Fibra de acero]]
+[[ru:Стальное Волокно]]
+[[Category:Mods]]
+[[Category:Warframe Mods]]
+[[Category:Common Mods]]
+[[Category:Update 7]]
+[[Category:Vazarin Mods]]
+[[Category:Flawed Mods]]
+[[uk:Сталеве волокно]]
+[[fr:Fibre d'Acier]]

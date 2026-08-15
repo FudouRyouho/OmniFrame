@@ -1,0 +1,237 @@
+These are mods that can be equipped on both Robotic and Beast [[Companions]]. Some can't be equipped on [[Sentinels]].
+
+==List of Companion Mods==
+{| class="listtable sortable"
+|-
+! width="20%" |Name
+! width="45%" |Description
+! width="10%" |Companion
+! width="10%" |Polarity
+! width="10%" |Rarity
+! width="10%" |Precept
+|-
+|{{M|Aerial Bond}}
+|Airborne kills decrease Companion Recovery timer. Companion creates a field of cold while Warframe is airborne.
+|Any
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Rare
+|No
+|-
+|{{M|Animal Instinct}}
+|The Companion '''detects the location of nearby [[Enemy Sense|enemies]]''' and '''[[Loot Detector|loot]]''' for the player
+|Any
+|data-sort-value="Naramon"|{{Pol|Naramon}}
+|Rare
+|No
+|-
+|{{M|Astral Bond}}
+|Damage dealt by Operator/Drifter grants '''Void damage to your Companion's attacks'''. Companion Void damage adds '''Amp and Energy Efficiency'''.
+|Any
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|No
+|-
+|{{M|Calculated Redirection}}
+|{{PositiveText|Increases}} '''maximum shield''' of the Companion
+| Any
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Common
+|No
+|-
+|{{M|Contagious Bond}}
+|The Companion's '''kills will spread status effects if the killed target has status effects'''. 
+|Any
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|No
+|-
+|{{M|Covert Bond}}
+|'''Finisher and Mercy Kills''' grant your Companion '''stealth'''.
+|Any
+|data-sort-value="Naramon"|{{Pol|Naramon}}
+|Rare
+|No
+|-
+|{{M|Duplex Bond}}
+|The Companion '''clones itself when you use energy, those clones can spawn energy orbs'''.
+|Any
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|No
+|-
+|{{M|Enhanced Vitality}} 
+|{{PositiveText|Increases}} '''maximum health''' of the Companion
+| Any
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Common
+|No
+|-
+|{{M|Link Fiber}}
+|{{PositiveText|Shares}} maximum '''armor''' of the player's Warframe with the Companion
+|Except Sentinel
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Uncommon
+|No
+|-
+|{{M|Link Redirection}}
+|{{PositiveText|Shares}} maximum '''shields''' of the player's Warframe with the Companion
+|Except Sentinel
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Uncommon
+|No
+|-
+|{{M|Link Vitality}}
+|{{PositiveText|Shares}} maximum '''health''' of the player's Warframe with the Companion
+|Except Sentinel
+| data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Uncommon
+|No
+|-
+|{{M|Loyal Companion}}
+|Triggers when the Warframe's health drops below a certain threshold, granting the Warframe [[Damage Reduction]] and making the Companion invulnerable while taunting enemies.
+| Except Sentinel
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Common
+|No
+|-
+|{{M|Medi-Pet Kit}}
+|Provides [[Health]] regeneration and reduces [[Death#Companions|Recovery Time]] for the Companion.
+|Except Sentinel
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Rare
+|No
+|-
+|{{M|Metal Fiber}}
+|{{PositiveText|Increases}} '''armor''' of the Companion
+|Any
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Common
+|No
+|-
+|{{M|Momentous Bond}}
+|Killing Eximus enemies grants '''bonuses of Elemental Damage''' to your Companion and '''reduces Companion Recovery'''.
+|Any
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|No
+|-
+|{{M|Mystic Bond}}
+|After your Companion uses Abilities, you may '''cast a Warframe Ability without an energy cost'''.
+|Any
+|data-sort-value="Naramon"|{{Pol|Naramon}}
+|Rare
+|No
+|-
+|{{M|Pack Leader}}
+|Heals a [[Companion]] a set amount with Warframe Melee hits. Excess healing grants [[Overguard]].
+|Except Sentinel
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Common
+|No
+|-
+|{{M|Primed Animal Instinct}}
+|The Companion '''detects the location of nearby [[Enemy Sense|enemies]]''' and '''[[Loot Detector|loot]]''' for the player
+|Any
+|data-sort-value="Naramon"|{{Pol|Naramon}}
+|[[Primed Mods|Legendary]]
+|No
+|-
+|{{M|Primed Pack Leader}}
+|Heals a [[Companion]] a set amount with Warframe Melee hits. Excess healing grants [[Overguard]].
+|Except Sentinel
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|[[Primed Mods|Legendary]]
+|No
+|-
+|{{M|Reinforced Bond}}
+|High shields or overshields on the Companion will give fire rate, reloading restores overshield to the Companion. 
+|Any
+|data-sort-value="Naramon"|{{Pol|Naramon}}
+|Rare
+|No
+|-
+|{{M|Restorative Bond}}
+|Health Orbs restore more '''health''' and '''reduces recovery time''' for the Companion.
+|Any
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Rare
+|No
+|-
+|{{M|Seismic Bond}}
+|The Companions '''melee attacks cause shockwaves''' while using channeled abilities. Attacks from the Companion will grant '''Ability Efficiency'''.
+|Any
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|No
+|-
+|{{M|Synth Deconstruct}}
+|Enemies damaged by the Companions '''drop a health orb''' upon death 
+|Any
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|No
+|-
+|{{M|Synth Fiber}}
+|'''Health orbs''' {{PositiveText|increase}} the Companions's '''armor''' for a limited time
+|Any
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|No
+|-
+|{{M|Tenacious Bond}}
+|Headshot kills reduce '''Companion Recovery timer'''. If the '''Companion’s Critical Chance''' is over a set value you gain '''Critical Damage Multiplier'''.
+|Any
+|data-sort-value="Vazarin"|{{Pol|Vazarin}}
+|Rare
+|No
+|-
+|{{M|Vicious Bond}}
+|The Companions '''melee attacks will reduce enemy armor''', using abilities on those enemies will '''spread the effect'''.
+|Any
+|data-sort-value="Madurai"|{{Pol|Madurai}}
+|Rare
+|No
+|}
+
+==Robotics==
+<tabber>
+|-|Robotic=
+{{Transclude|Robotic Mods#List of Robotic Mods}}
+{{clr}}
+|-|Sentinel=
+{{Transclude|Sentinel Mods#List of Sentinel Mods}}
+{{clr}}
+|-|MOA=
+{{Transclude|MOA Mods#List of MOA Mods}}
+{{clr}}
+|-|Hound=
+{{Transclude|Hound Mods#List of Hound Mods}}
+{{clr}}
+</tabber>
+
+==Beasts==
+<tabber>
+|-|Beast=
+{{Transclude|Beast Mods#List of Beast Mods}}
+{{Clr}}
+|-|Beast Claws=
+{{Transclude|Beast Claws Mods#List of Beast Claws Mods}}
+{{Clr}}
+|-|Kubrow=
+{{Transclude|Kubrow Mods#List of Kubrow Mods}}
+{{Clr}}
+|-|Kavat=
+{{Transclude|Kavat Mods#List of Kavat Mods}}
+{{Clr}}
+|-|Predasite=
+{{Transclude|Predasite Mods#List of Predasite Mods}}
+{{Clr}}
+|-|Vulpaphyla=
+{{Transclude|Vulpaphyla Mods#List of Vulpaphyla Mods}}
+{{Clr}}
+</tabber>
+
+==See Also==
+{{ModNav}}
+[[Category:Mods]]
+[[Category:Companion Mods]]

@@ -2,55 +2,87 @@
 
 > Estado: activo
 > Rol: mecánica de velocidad de proyectil — qué armas la tienen, cómo la afectan los mods, interacción con falloff y multishot
-> Fuente de verdad de: definición m/s, regla hitscan (no afectado salvo con falloff), escalado de falloff range
-> No usar para: catálogo de valores de flight speed por arma
-> Última actualización: 2026-06-10
+> Fuente de verdad de: definición, la distinción hitscan vs proyectil, la regla de falloff, y el catálogo de mods separado por PvE / weapon-specific / PvP
+> No usar para: catálogo de valores de flight speed por arma (está en las tablas del raw)
+> Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Projectile_Speed
+> Fuente actualizada: 2026-07-09
+> Raw: projectile-speed.wikitext · ../mods/terminal-velocity.wikitext · ../mods/feathered-arrows.wikitext · ../mods/whirlwind.wikitext · ../mods/entropy-flight.wikitext · ../mods/fatal-acceleration.wikitext · ../mods/heavy-warhead.wikitext
 
 ## Definición
 
-**Projectile Speed** define qué tan rápido viaja la munición de un arma **no-hitscan** hacia el
-blanco tras dejar el cañón. Medido en **m/s (metros por segundo)**.
+**Projectile Speed** (también *projectile velocity* o *flight speed*) define qué tan rápido viaja la
+munición de un arma **no-hitscan** hacia el blanco tras dejar el cañón.
 
-## Hitscan: no afectado (salvo con falloff)
+Su consecuencia práctica es sobre la puntería: contra blancos en movimiento hay que **liderar** el
+tiro —apuntar a dónde va a estar el objetivo cuando llegue el proyectil—, no al retículo.
 
-Un disparo hitscan es instantáneo — no hay proyectil que tenga velocidad.
+## Hitscan vs proyectil
 
-> *"Hitscan weapons that do **not** list Damage Falloff values in their UI are completely
-> unaffected by Projectile Speed modifications."*
+Un arma **hitscan** golpea el punto apuntado al instante; no hay que liderar nada.
 
-El `do not` es clave. La regla completa:
+**Cómo distinguirlas:** disparar a una pared lo más lejos que se vean los impactos. Si el agujero
+aparece **instantáneamente, antes de cualquier animación de bala**, es casi seguro hitscan.
 
-- **Hitscan sin falloff** → projectile speed totalmente irrelevante.
-- **Hitscan con falloff** → los mods de projectile speed **sí los afectan**, porque escalan su
-  rango de falloff: *"will affect a weapon's entire Damage Falloff range accordingly, making them
-  more or less effective at longer ranges."* El efecto cae en el rango de falloff, no en una
-  velocidad (no existe proyectil que acelerar).
+> Las animaciones de bala, estelas de humo o destellos **no** indican que un arma sea de proyectil:
+> pueden ser puramente visuales.
 
-## Mods — porcentaje aditivo
+Todo lo que no es hitscan es de proyectil. Los proyectiles son "tangibles": tienen **hitbox física**
+— Valkyr puede enganchar con Rip Line el cohete de un Ogris.
 
-Los mods de projectile speed aplican **porcentaje aditivo**, en ambas direcciones:
+## Hitscan y falloff: la excepción que importa
 
-| Mod | Rango | Nota |
+> *"Hitscan weapons that do **not** list Damage Falloff values in their UI are completely unaffected
+> by Projectile Speed modifications."*
+
+El `do not` es la clave:
+
+- **Hitscan sin falloff** → projectile speed es totalmente irrelevante.
+- **Hitscan con falloff** → los mods de projectile speed **sí lo afectan**, porque escalan su rango
+  de falloff: *"will affect a weapon's entire Damage Falloff range accordingly, making them more or
+  less effective at longer ranges."*
+
+El efecto cae sobre el **rango de falloff**, no sobre una velocidad — no hay proyectil que acelerar.
+
+## Mods
+
+Además de aumentar la velocidad y reducir el tiempo de vuelo, estos mods **reducen la caída del
+proyectil** (*projectile drop*) en las armas donde aplica, como Euphona Prime o Sporelacer.
+
+### PvE — generales
+
+| Mod | Rango (rank 0 → máx) | Notas |
 |---|---|---|
-| Terminal Velocity / Feathered Arrows | +15% → +60% | rifle / bow |
-| Whirlwind | +30% → +180% | glaives (thrown) |
-| Entropy Flight | +35% → +140% | |
-| Fatal Acceleration | +10% → +40% | shotgun |
-| Heavy Warhead | −12.5% → −50% | launchers (trade por AoE) |
+| Terminal Velocity | +15% → **+60%** | rifle |
+| Fatal Acceleration | +10% → **+40%** | shotgun |
+| Whirlwind | +30% → **+180%** | **Exilus**, para glaives lanzados; como efecto directo también aumenta la distancia de lanzamiento |
+| Entropy Flight | +35% → **+140%** | |
+| Lethal Momentum · Jet Stream · Galvanized Acceleration | — | valores en la página de cada mod |
+
+### PvE — específicos de arma
+
+Static Alacrity · Focused Acceleration · Precision Munition.
+
+### PvP — exclusivos de Conclave
+
+| Mod | Rango | Notas |
+|---|---|---|
+| Feathered Arrows | +15% → **+60%** | arcos; el rank máximo lleva además un −20% en su segunda columna |
+| Heavy Warhead | −12.5% → **−50%** | **pistola**: cambia velocidad por radio de explosión (+25% → +100%) |
+| Blind Shot · Lucky Shot | — | valores en la página de cada mod |
+
+> Heavy Warhead y Feathered Arrows son **Conclave-exclusive**. No aplican en PvE.
 
 ## Interacciones
 
-- **Damage Falloff:** los mods escalan `start` y `end` proporcionalmente (no la reducción). Ver
-  [`damage-falloff.md`](damage-falloff.md).
-- **Multishot off-centering:** *"the trajectory of the main projectile can be off-centered by using
-  multishot, with the effect being more pronounced the slower the Projectile Speed value is."*
-  Projectile speed lento + multishot → mayor dispersión. Cruza con [`accuracy.md`](accuracy.md).
-- **Continuous / Beam:** no tienen falloff; usan límites de Beam Length propios. Projectile Speed
-  afecta su falloff, no el Beam Range.
-- **Thrown:** vuelan con su velocidad, sin mecánica especial.
+- **Damage Falloff** — los mods escalan el rango completo (`start` y `end`), no el porcentaje de
+  reducción. Ver [`damage-falloff.md`](damage-falloff.md).
+- **Multishot** — *"the trajectory of the main projectile can be off-centered by using multishot,
+  with the effect being more pronounced the slower the Projectile Speed value is."* Velocidad baja +
+  multishot ⇒ más dispersión. Cruza con [`accuracy.md`](accuracy.md).
 
-## Edge-cases / bugs conocidos
+## Fuentes
 
-- **Hitscan con falloff** (ver arriba): único caso donde projectile speed importa a un arma
-  instantánea — vía el rango de falloff.
+- https://wiki.warframe.com/w/Projectile_Speed
+- Páginas de mod citadas para sus valores por rank: Terminal Velocity · Feathered Arrows · Whirlwind ·
+  Entropy Flight · Fatal Acceleration · Heavy Warhead

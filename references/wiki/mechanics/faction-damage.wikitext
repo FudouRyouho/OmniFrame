@@ -1,0 +1,162 @@
+'''Faction Damage Bonuses''' increase damage done to all enemy types of the corresponding [[Factions|Faction]], including [[Bosses]]. It is calculated as a '''total damage multiplier''' against the faction in question. 
+
+==Mechanics==
+Faction Damage Bonuses increase the weapon's raw damage, and is applied a second time to [[Damage over Time]] (DoT) from status effects created by it, known as "double dipping". For complete mechanics see [[Damage over Time#DoT Damage Scaling]].
+
+[[Faction Damage Mods]] exist for {{Faction|Grineer}}, {{Faction|Corpus}}, {{Faction|Infested}}, {{Faction|Orokin}}, and {{Faction|The Murmur}} for each of the 4 main weapon types (Rifle, Shotgun, Pistol and Melee) as well as [[Railjack]] for those applicable, and all factions have a Primed variant. Damage is increased by x1.05 per rank, up to x1.30 for regular mods and x1.55 for Primed ones, with a base mod equip cost of 4 and they all have a {{Pol|Madurai}} polarity. Faction mods against {{Faction|Sentient}} only exist for melee weapons, which have the {{Pol|Umbra}} polarity and a lower damage bonus but enjoys a [[Set Mods|set effect]] when both {{M|Sacrificial Pressure}} and {{M|Sacrificial Steel}} are equipped together. Currently, {{Faction|Anarchs}},{{Faction|Narmer}}, {{Faction|Scaldra}}, {{Faction|Techrot}}, {{Faction|Stalker}}, and {{Faction|Wild}} lack any faction mods.
+
+{{Faction|Grineer}}, {{Faction|Corpus}}, and {{Faction|Infested}} Faction Mods have no effect on their {{Faction|Corrupted}} or {{Faction|Narmer}} counterparts. For example, {{M|Bane of Grineer}} will work on {{E|Lancer}} but not on {{E|Corrupted Lancer}} or {{E|Narmer Lancer}}. Likewise, {{Faction|Infested}} Faction Mods have no effect on {{Faction|Techrot}}.
+
+==List of Faction Mods==
+<div style="overflow-x:auto;">
+{| class="wikitable"
+! style="position:sticky; left:0px; z-index:1;" | Slot \ Faction
+! {{Faction|Corpus}}
+! {{Faction|Grineer}}
+! {{Faction|Infested}}
+! {{Faction|Orokin}}
+! {{Faction|Sentient}}
+! {{Faction|The Murmur}}
+! Universal
+|-
+! style="position:sticky; left:0px; z-index:1;" | [[Rifle]]
+|
+*{{M|Bane of Corpus}}
+*{{M|Primed Bane of Corpus}}
+|
+*{{M|Bane of Grineer}}
+*{{M|Primed Bane of Grineer}}
+|
+*{{M|Bane of Infested}}
+*{{M|Primed Bane of Infested}}
+|
+*{{M|Bane of Orokin}}
+*{{M|Primed Bane of Orokin}}
+|
+:N/A 
+|
+*{{M|Bane of The Murmur}}
+*{{M|Primed Bane of The Murmur}}
+|
+:N/A 
+|-
+! style="position:sticky; left:0; z-index:1;" | [[Shotgun]]
+|
+*{{M|Cleanse Corpus}}
+*{{M|Primed Cleanse Corpus}}
+|
+*{{M|Cleanse Grineer}}
+*{{M|Primed Cleanse Grineer}}
+|
+*{{M|Cleanse Infested}}
+*{{M|Primed Cleanse Infested}}
+|
+*{{M|Cleanse Orokin}}
+*{{M|Primed Cleanse Orokin}}
+| 
+:N/A 
+|
+*{{M|Cleanse The Murmur}}
+*{{M|Primed Cleanse The Murmur}}
+|
+:N/A 
+|-
+! style="position:sticky; left:0; z-index:1;" | [[Secondary]]
+|
+*{{M|Expel Corpus}}
+*{{M|Primed Expel Corpus}}
+|
+*{{M|Expel Grineer}}
+*{{M|Primed Expel Grineer}}
+|
+*{{M|Expel Infested}}
+*{{M|Primed Expel Infested}}
+|
+*{{M|Expel Orokin}}
+*{{M|Primed Expel Orokin}}
+| 
+:N/A 
+|
+*{{M|Expel The Murmur}}
+*{{M|Primed Expel The Murmur}}
+|
+:N/A 
+|-
+! style="position:sticky; left:0; z-index:1;" | [[Melee]]
+|
+*{{M|Smite Corpus}}
+*{{M|Primed Smite Corpus}}
+|
+*{{M|Smite Grineer}}
+*{{M|Primed Smite Grineer}}
+|
+*{{M|Smite Infested}}
+*{{M|Primed Smite Infested}}
+|
+*{{M|Smite Orokin}}
+*{{M|Primed Smite Orokin}}
+|
+*{{M|Sacrificial Pressure}}
+*{{M|Sacrificial Steel}}
+|
+*{{M|Smite The Murmur}}
+*{{M|Primed Smite The Murmur}}
+|
+:N/A 
+|-
+! style="position:sticky; left:0; z-index:1;" | [[Railjack]] Turret
+|
+*{{M|Granum's Nemesis}}
+|
+*{{M|Worm's Torment}}
+| 
+:N/A 
+|
+:N/A
+|
+*{{M|Sentient Scalpel}}
+|
+:N/A
+|
+:N/A 
+|-
+! style="position:sticky; left:0; z-index:1;" | [[Warframe]]
+|
+:N/A 
+|
+:N/A 
+| 
+:N/A 
+|
+:N/A
+|
+:N/A 
+|
+:N/A
+|
+*{{M|Summoner's Wrath}}
+|-
+|}
+</div>
+
+==List of Faction Damage Bonus Abilities==
+{{Transclude|Roar}}
+
+==Notes==
+*{{Weapon|Paracesis}} has an innate passive (unlocked at each rank above 30) that will increase its damage against {{Faction|Sentient|Sentients}}.
+
+==Trivia==
+*Faction damage mods for Infested, Corpus, and Grineer were added in {{ver|9}}, while Faction damage mods for Corrupted were added in {{ver|21}}.
+
+==Patch Notes==
+{{Scrollbox/Article|
+{{ver|29.10}}
+*Fixed the Bane Mods applying the increased Damage twice.
+}}
+
+==See Also==
+*[[Faction Damage Mods]]
+
+{{MechNav}}
+[[Category:Update 9]]
+[[Category:Damage]]

@@ -3,9 +3,8 @@ Estado: "referencia"
 Rol: "Catálogo de gaps semánticos — 87 armas Incarnon (48 genesis), 727 efectos"
 Impacto_ID: "data-incarnon-gaps"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
-Version: "v1.3.0"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-06-01"
+Fecha_de_actualizacion: "2026-07-24"
 ---
 
 # Gaps semánticos — Incarnon Genesis / Incarnon nativo
@@ -128,7 +127,7 @@ Distintos de `WEAPON_BASE_MAGAZINE_MAX` (que suma). Necesitan operación `BASE_S
 
 ## 5. Cobertura y deuda de datos
 
-### Estado actual (2026-05-28 post-sesión)
+### Estado actual
 
 - **48 genesis** mapeados, **87 unique weapons** cubiertos
 - **727 efectos** en override (post-migración genesis-first)
@@ -161,14 +160,14 @@ Efectos con placeholder `+X`/`+Y` del extractor — valor real requiere verifica
 
 ### Falsos positivos en detección de weapons faltantes
 
-El script de migración (purgado tras uso; ver git history) extraía `{{Weapon|Name}}` de todo el wikitext vía `find_missing_weapons()`, incluyendo secciones de Trivia y comparaciones. Dos casos identificados:
+La detección extraía `{{Weapon|Name}}` de **todo** el wikitext, incluyendo Trivia y comparaciones — de ahí los falsos positivos. Dos casos identificados:
 
 - **Klamora Prism** aparece en `furis-incarnon-genesis.wikitext` como comparación de Incarnon Form ("fires a wide Klamora Prism-like beam") — no pertenece al genesis.
 - **Arca Titron** aparece en `magistar-incarnon-genesis.wikitext` en Trivia como referencia de slam radius — no pertenece al genesis.
 
 ---
 
-## 6. Schema — variantes por alias (genesis-first, 2026-05-28)
+## 6. Schema — variantes por alias (genesis-first)
 
 La estructura genesis-first resuelve el problema de variantes. Ver [schema.md](schema.md) para el contrato completo.
 
@@ -180,7 +179,7 @@ Resumen del patrón:
 
 ---
 
-## 7. Cola de consolidación de condition tokens (2026-06-01)
+## 7. Cola de consolidación de condition tokens
 
 Inventario de tokens `condition` presentes en el override que **aún no se consolidaron** en
 `docs/semantic/conditions.md`. Por [D-19](../../decisions.md), el JSON es el SSoT del token; este
@@ -198,7 +197,7 @@ Coinciden parcialmente con un token existente; la forma a unificar se decide **a
 
 | Token en override | Token consolidado cercano | Observación (sin juicio de equivalencia) |
 |---|---|---|
-| `on_weakpoint_hit` | `on_weak_point_hit` / `on_consecutive_weakpoint_hits` | El propio doc ya usa ambas formas (`weak_point` vs `weakpoint`); forma canónica = deuda pendiente conocida |
+| `on_weakpoint_hit` | `on_weak_point_hit` / `on_consecutive_weakpoint_hits` | Forma canónica **resuelta** = `on_weakpoint_hit` (`conditions.md §G1`); la variante `weak_point` ya migró. `on_consecutive_*` sigue distinto: lleva contador, no es variante ortográfica |
 | `on_hit_while_target_affected_by_electricity` | `on_hitting_enemies_affected_by_electricity` | Misma área conceptual; naturaleza real sin confirmar |
 | `while_aim_gliding_or_sliding` | `while_sliding_or_aim_gliding` (arcanes) | OR — bloqueado por schema (§Gate 1 conditions.md); orden a unificar al resolver OR |
 
@@ -245,8 +244,8 @@ Naturaleza sin analizar.
 
 | Prioridad | Trabajo | Estado |
 |---|---|---|
-| P1 | Tokens §1 en `modifier.ts` + `UPGRADE_MAP` | ✅ Completado 2026-05-28 |
-| P1 | Boar Prime + Soma Prime en override | ✅ Completado 2026-05-28 |
+| P1 | Tokens §1 en `modifier.ts` + `UPGRADE_MAP` | ✅ Completado |
+| P1 | Boar Prime + Soma Prime en override | ✅ Completado |
 | P2 | Completar perk data de 5 weapons incompletas | Pendiente (wiki manual) |
 | P2 | Valores placeholder `+X`/`+Y` (~30 efectos) | Pendiente (wiki manual) |
 | C1-A | Diseñar `context.flags` vocabulary (§2.1) | Requiere debate — ~40 perks simples |

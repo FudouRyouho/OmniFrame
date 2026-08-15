@@ -1,0 +1,4 @@
+Enemies damaged by {{WF|Hydroid}} are <u>'''permanently'''</u> more vulnerable to {{D|Corrosive}} Status, with initial status reducing [[armor]] by <u>'''50%'''</u> rather than 26%, allowing {{D|Corrosive}} Status to reach '''100%''' armor reduction at full stacks. As long as Hydroid has damaged the enemy, the {{D|Corrosive}} Status Effects can be applied from any source, not just from Hydroid's weapons or abilities, and will receive the benefit.
+*Works in [[Archwing]] missions.
+*Affected enemies are marked with a translucent water-dripping {{D|Corrosive}} symbol over their head, and a splashing sound is played when a new enemy is affected. The symbol color is affected by Hydroid's chosen Warframe energy color.
+*[[Bosses]] are immune to the increased armor reduction from Hydroid's passive, except in the [[Simulacrum]].

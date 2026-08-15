@@ -7,7 +7,7 @@
 Drain: <ENERGY> 25
 Radius: 6m
 Duration: 4s
-Damage / Second: <DT_HEAD> 200
+Damage / Second: <DT_HEAT> 200
 Health / Second: 5%
 Max Light's Judgment: 5
 #### JADE'S JUDGMENT
@@ -30,7 +30,7 @@ Shield Recharge Delay: -10%
 Drain: <ENERGY> 50
 Range: 20m
 Duration: 15s
-Damage: <DT_HEAD> 20
+Damage: <DT_HEAT> 20
 Defense Reduction / Second: 4%
 Slow / Second: 6%
 Slow Cap: 90%

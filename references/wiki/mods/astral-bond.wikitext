@@ -1,0 +1,74 @@
+{{ModBox}}
+'''{{BASEPAGENAME}}''' is a [[Companion]] [[mod]] that adds damage and {{D|Void}} damage to the companion for 10 seconds when dealing damage with an [[Amp]]. In return, when the companion deals {{D|Void}} damage, Amp and [[Transference]] efficiency is granted for 5 seconds.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Damage
+! {{D|Void}} Damage
+! Amp & Transference Efficiency
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || +10% || +5% || +5% || 2
+|-
+| 1 || +20% || +10% || +10% || 3
+|-
+| 2 || +30% || +15% || +15% || 4
+|-
+| 3 || +40% || +20% || +20% || 5
+|-
+| 4 || +50% || +25% || +25% || 6
+|-
+| 5 || +60% || +30% || +30% || 7
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[The Business]] for {{sc|20,000}} after reaching '''Rank 3 - Doer''' with [[Solaris United]].
+
+==Notes==
+*Can be triggered by damage dealt with [[Void Sling]].
+*The added {{D|Void}} damage to the Companion's weapon allows {{M|Manifold Bond}} to proc Void status on their Precept mods.
+*Stacks with other sources of amp ammo efficiency, such as the amp arcane [[Eternal Logistics]]. Combining the two allows the amp to gain 100% ammo efficiency, granting it infinite ammo.
+*Unlike {{A|Xata's Whisper}} it allows companions to deal damage to Eidolon shields and kill [[Thrax Centurion]]'s and [[Thrax Legatus]]' spectral forms.
+
+{{clr}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|35.0.10}}
+*Fixed Clients experiencing performance issues when using the Astral Bond Mod on their Sentinel.
+
+{{ver|34.0.5}}
+*Changed Astral Bond to increase your Companion's attack damage and grant a smaller amount of Void Damage. The intention is to have the Mod be more well-rounded for combat instances where Void damage wouldn’t necessarily be required. In cases where it would be (Eidolon Hunts), the idea is to maintain Operator/Drifter as the primary active means of stripping away their damage resistances. 
+**Was: Damage dealt by Operator or Drifter grants 120% Void Damage to your Companion’s attacks for 10s. Companion Void Damage adds +30% Amp and Energy Efficiency to Operator or Drifter for 5s.
+**'''Now:''' Damage dealt by Operator or Drifter grants '''60% damage and 30% Void Damage''' to your Companion’s attacks for 10s. Companion Void Damage adds +30% Amp and Energy Efficiency to Operator or Drifter for 5s.
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+
+{{ver|34.0.1}}
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]
+[[es:Vínculo astral]]
+[[fr:Lien Astral]]
+[[ru:Астральная Связь]]

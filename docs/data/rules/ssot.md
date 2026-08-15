@@ -1,21 +1,20 @@
 ---
 Estado: "referencia"
 Rol: "Definir las fuentes de verdad por entidad y su sistema de origen"
-Version: "v0.0.3"
 Impacto_ID: "D-SSoT"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-04-17"
 Fecha_de_actualizacion: "2026-05-22"
 Dependencias:
-  - "docs/data/rules/roles.md"
   - "docs/data/rules/overrides.md"
 ---
 
 # Data SSoT
 
-## Fuentes por entidad (Manualidad 100%)
+## Fuentes por entidad
 
-Debido a la desincronización y falta de fidelidad de las fuentes externas (Wiki, Scrapers), OmniFrame ha pasado a un modelo de **mantenimiento manual absoluto** para sus capas de inteligencia.
+De dónde viene cada dato hoy. La procedencia de las fuentes externas y su estado de salud viven en
+[`../../domains/source/`](../../domains/source/).
 
 | Dato                 | Sistema           | Fuente primaria (**Reality**)                     |
 | -------------------- | ----------------- | ------------------------------------------------- |
@@ -36,5 +35,4 @@ Los tests del engine DEBEN importar sus dependencias desde `Project/public/data/
 
 Ver:
 
-- `roles.md`
 - `overrides.md`

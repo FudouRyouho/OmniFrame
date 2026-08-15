@@ -1,137 +1,183 @@
-# Condition Overload
+# Condition Overload (Mechanic)
 
 > Estado: activo
-> Rol: mecánica de CO y GunCO — bonus de daño por status activos
-> Fuente de verdad de: fórmulas de CO-style bonuses y clasificación de behavior types (Adding/Multiplying/None)
-> No usar para: catálogo exhaustivo de todas las armas y todos los edge cases de la wiki
-> Última actualización: 2026-06-10
+> Rol: la familia de bonus que escala con los status activos del enemigo — sus cinco comportamientos, cómo apilan y qué formas de daño los reciben
+> Fuente de verdad de: los dos ejes de comportamiento (stacking × application), la matemática de "Adding" y "Multiplying", qué multiplicadores ignora el CO aditivo, qué formas de ataque aplican CO y cuáles no
+> No usar para: el catálogo por arma y ataque (son ~500 líneas del raw) ni el listado completo de fuentes
+> Última actualización: 2026-07-29
 > Fuente: https://wiki.warframe.com/w/Condition_Overload_(Mechanic)
+> Fuente actualizada: 2026-08-05
+> Raw: condition-overload.wikitext
 
-## Que es
+> ⚠️ La wiki marca esta página con **`{{Community}}`, `{{UpdateMe}}` y `{{CleanUp}}`** a la vez. Y
+> sus autores advierten: *"much of this page may be considered and acknowledged by developers as
+> **bugs**, this page exists to reflect the **present state** of the mechanic"*. Es descripción de
+> comportamiento observado, no de diseño intencional.
 
-`Condition Overload` es la familia de bonuses que aumenta daño contra objetivos que ya tienen estados activos.
+## Qué es
 
-Para el builder hay dos capas distintas:
+Bonus de daño que se activan por **condiciones transitorias del enemigo** —típicamente un status
+effect— a diferencia de los de facción, que siempre aplican.
 
-- `CO` melee clásico
-- `GunCO`, nombre de comunidad para el mismo patrón aplicado a armas de fuego
+En el juego aparecen como **"+X% Direct Damage"**. Ese *"Direct"* es lenguaje intencional para
+excluir el daño de explosión radial — pero la wiki aclara que **no es completamente cierto**: muchas
+otras formas de daño en área sí lo reciben.
 
-## Fuentes principales
+**Terminología de la comunidad, usada por la propia wiki:** `CO` para la mecánica en general,
+`GunCO` para su versión en armas a distancia.
 
-| Fuente | Clase | Bonus base |
+## Fuentes
+
+| Fuente | Clase | Bonus |
 |---|---|---|
-| `Condition Overload` | melee | `+80%` por status unico |
-| `Galvanized Aptitude` | rifle | `+40%` por status unico por stack, hasta `2` stacks |
-| `Galvanized Savvy` | shotgun | `+40%` por status unico por stack, hasta `2` stacks |
-| `Galvanized Shot` | secondary | `+40%` por status unico por stack, hasta `3` stacks |
+| Condition Overload | melee | **+80%** por status único |
+| Galvanized Aptitude | rifle | +40% por status, hasta **2** stacks (+80%) |
+| Galvanized Savvy | shotgun | +40% por status, hasta **2** stacks (+80%) |
+| Galvanized Shot | secundaria | +40% por status, hasta **3** stacks (+120%) |
 
-## Fórmula mínima
+El raw lista varias más (45%, 60%, 33%, 30% por status según la fuente).
 
-### CO melee
+## Los cinco comportamientos — dos ejes, no uno
 
-```text
-coBonus = coPerStatus * uniqueStatusCount
-meleeTotalDamage = baseDamage * [1 + additiveDamageBonuses + coBonus] * otherSupportedMultipliers
-```
+Esta es la parte que se pierde al resumir. La wiki clasifica en **dos ejes ortogonales**:
 
-Para el mod actual:
+- **Stacking** — cómo apila con Serration: multiplicativo o aditivo.
+- **Application** — cuánto del `+X%` listado aplica **realmente**: más, exacto o menos.
 
-```text
-coPerStatus = 0.8
-```
-
-### GunCO
-
-```text
-guncoBonus = perStatusBonus * activeStacks * uniqueStatusCount
-```
-
-Ejemplos de `perStatusBonus`:
-
-- `Galvanized Aptitude = 0.4`
-- `Galvanized Shot = 0.4`
-
-Entonces:
-
-- Aptitude a 2 stacks -> `0.8` por status
-- Shot a 3 stacks -> `1.2` por status
-
-## Secuencia importante dentro del mismo disparo
-
-Los nuevos estados aplicados por el mismo hit no mejoran ese mismo impacto inicial.
-Pero si el disparo genera varias instancias secuenciales, las siguientes sí pueden heredar el bonus.
-
-Eso importa mucho en:
-
-- shotguns
-- innate multishot
-- beam/multishot raro
-
-Modelo simple:
-
-```text
-pellet1 aplica status A
-pellet2 ya puede recibir bonus por status A
-pellet3 puede recibir bonus por status A + status B
-```
-
-## Behavior types (clasificación de la wiki comunitaria)
-
-La wiki de `Condition Overload (Mechanic)` separa 3 familias:
-
-### 1. Adding
-
-Se comporta como un bonus aditivo junto a `Serration`, `Hornet Strike`, etc.
-
-Modelo útil:
-
-```text
-finalDamage ~= baseDamage * (1 + additiveDamageBonuses + guncoBonus) * otherSupportedMultipliers
-```
-
-Este es el caso más común en hitscan normales.
-
-### 2. Multiplying
-
-El bonus CO-like multiplica por fuera del grupo aditivo tradicional.
-
-Modelo útil:
-
-```text
-finalDamage ~= baseDamage * (1 + additiveDamageBonuses) * (1 + guncoBonus) * otherSupportedMultipliers
-```
-
-Este caso suele ser el más fuerte y aparece mucho en projectiles.
-
-### 3. Does not apply
-
-No afecta ese componente del ataque.
-
-Caso tipico:
-
-- `radial explosion damage`
-
-## Seed table para clasificación canónica futura
-
-Esta tabla no pretende cubrir todo. Solo fija el shape de la referencia futura y deja ejemplos útiles ya verificados.
-
-| Weapon | Attack Name | Projectile Type | Math/Behavior Type | Nota |
+| # | Valoración | Stacking | Application | Ejemplos |
 |---|---|---|---|---|
-| `Braton` | `Normal Attack` | `Hitscan` | `Adding` | caso normal esperado |
-| `Arca Plasmor` | `Normal Attack` | `Projectile/Wave` | `Multiplying` | proyectil con GunCO fuerte |
-| `Latron Incarnon` | `Incarnon Mode` | `Projectile` | `Multiplying` | el AoE separado no toma CO |
-| `Paris` | `Charged Shot` | `Projectile` | `Adding` | usa base del disparo no cargado |
-| `Ogris` | `Explosion Radius` | `AoE` | `Does not apply` | ejemplo clásico de exclusión |
+| **1** | excelente | **Multiplicativo** *(no intencional)* | **por encima** del X% *(no intencional)* | la mayoría de las armas de **proyectil**: Arca Plasmor, modo Incarnon del Latron |
+| **2** | bueno | Aditivo *(intencional)* | **por encima** del X% *(no intencional)* | **proyectiles hijos** que nacen de un proyectil padre — el CO usa el daño del **padre**, que suele ser mayor: Kuva Bramma, Kulstar |
+| **3** | esperado | Aditivo | **exactamente** X% *(intencional)* | casi todas las **hitscan**: Braton normal e Incarnon, Latron normal, Paris sin cargar |
+| **4** | malo | Aditivo | **por debajo** del X% *(no intencional)* | **arcos y disparos cargados** — el CO usa el daño del proyectil **sin cargar**, que es menor: Paris cargado |
+| **5** | muy malo | — | **no aplica** | el componente **AoE** de los ataques, para bonus GunCO |
 
-## Edge cases conocidos
+> El eje de *application* es el que explica los casos raros. Un disparo cargado del Paris y una
+> bomba hija de la Kuva Bramma son **ambos "Adding"** en el eje de stacking; lo que los separa es que
+> uno calcula el CO sobre una base menor y el otro sobre una mayor.
 
-- catálogo completo por arma/attack
-- stance edge cases de melee
-- interacciones con perks Incarnon o child projectiles exóticos
+## La matemática
+
+Los cinco comportamientos se agrupan en **dos** por su stacking.
+
+### "Multiplying" — sólo el comportamiento #1
+
+Apila **aditivamente sólo con otros bonus CO-like**, y **multiplicativamente con todo lo demás**
+(Serration, Vex Armor, Arcane Fury). Es el menos común, y el más confiable: compatible con todos los
+bonus del arma.
+
+```text
+Base × Most Damage Bonuses × CO × Other Damage Multipliers
+```
+
+Ejemplo con Serration y 2 procs / 1 stack de Galvanized Aptitude:
+
+```text
+Final = Base × (1 + 1.65 Serration) × (1 + 0.4 + 0.4)
+```
+
+### "Adding" — los comportamientos #2, #3 y #4
+
+Apila **aditivamente con TODOS** los bonus de +% daño. Es el más común.
+
+```text
+(Base × Most Damage Bonuses × Other Multipliers) + (Base × CO)
+= Base × [ (Most Damage Bonuses × Other Multipliers) + CO ]
+```
+
+Internamente es una **recalculación aditiva de todos los efectos que omite el +X% Damage** — de ahí
+que resulte aditivo respecto a él.
+
+> ⚠️ **Y esa recalculación omite otros efectos sin querer.** Multiplicadores que el CO aditivo
+> **ignora**:
+>
+> - Extinguished Dragon Key
+> - **Damage Falloff por rango** (pero **no** el ramp-up de los beams) → [`damage-falloff.md`](damage-falloff.md)
+> - Longbow Sharpshot
+> - Primary Compression, en armas de proyectil
+> - Duality (Equinox)
+> - Furious Javelin (Excalibur)
+
+## Qué formas de daño aplican CO
+
+**Sí aplican:** hitscan · hitscan explosion (Trumna, **sólo en el objetivo directo**) · hitscan
+ricochet (Lato Incarnon) · proyectiles, incluidos homing (Zymos), rebotantes (Cyanex), con punch
+through (Lanka) y de onda (Arca Plasmor) · nube embebida (Pox, **sólo en el objetivo embebido**) ·
+beam (Spectra), beam AoE (Glaxion Vandal), beam chain (Kuva Nukor) y multi-beam (Ocucor).
+
+> Los procs de **Blast, Electricity y Gas** se generan con el bonus del objetivo inicial y **llevan
+> ese daño de proc a su radio**.
+
+**No aplican:** radio de explosión de proyectil (Ogris) · radio de explosión hitscan (Ambassador) en
+todo objetivo no golpeado directamente · radio de nube embebida (Torid) ídem.
+
+**"Cosas que deberían funcionar y no funcionan"** —así lo titula la wiki—: Balefire Charger, Stug,
+el alt-fire embebido de la familia Ferrox, la torreta de la Azima y el Sonicor.
+
+## Qué cuenta como status effect
+
+**Todos los status que tienen un tipo de daño equivalente** — los tres físicos (Impact, Puncture,
+Slash), los cuatro elementales simples (Cold, Electricity, Heat, Toxin), los seis combinados (Blast,
+Corrosive, Gas, Magnetic, Radiation, Viral) y los de tipos únicos (Void, Tau).
+
+**Y además tres que la wiki llama *"unique hidden status effects"*, que NO vienen de ningún tipo de
+daño:**
+
+| Status | Nota |
+|---|---|
+| **Lifted** | **no puede coexistir con Knockdown** en el mismo objetivo |
+| **Knockdown** | **no puede coexistir con Lifted** en el mismo objetivo |
+| **Microwave** | — |
+
+> Es la excepción a la regla que la propia sección enuncia: para el bonus de CO, estos tres suman
+> **aunque no tengan tipo de daño equivalente**. La exclusión mutua Lifted ↔ Knockdown acota cuánto
+> pueden aportar entre los dos: **uno, nunca los dos**.
+
+## Secuencia dentro del mismo disparo
+
+Los status aplicados por un hit **no mejoran ese mismo impacto**. Pero si el disparo genera varias
+instancias secuenciales, las siguientes sí heredan el bonus — lo que importa en escopetas y en armas
+con multishot alto.
+
+## De dónde vienen los comportamientos raros
+
+El patch history de la página explica qué es bug y qué es diseño — la distinción que el aviso de
+`{{Community}}` anuncia pero el cuerpo del artículo no desarrolla.
+
+### El #4 (arcos y cargados) es un bug declarado y **sin arreglar**
+
+> **v31.1** — *"(Fixed CO on many projectile attacks. Previously, many projectiles had a **default CO
+> damage of 10** instead of using the full projectile damage. Most cases were fixed, but
+> **multi-stage damage and charged attacks were not**)."*
+
+Y la explicación de DE de por qué era tan generalizado:
+
+> *"A previous change had them operate relative to 'base damage' but the code was incorrectly getting
+> base damage from the **impact behavior** rather than the **projectile**. This problem was pervasive
+> and there are hundreds of weapons in our game!"*
+
+Es decir: el comportamiento #4 no es una regla del sistema, es **el resto de una corrección
+incompleta**.
+
+### El #5 (AoE) es decisión de diseño, no accidente
+
+> **v30.9** — *"([[GunCO]] **never** applied to explosions"*. La descripción de Galvanized Aptitude se
+> cambió para decirlo, y DE justificó no revertirlo: las armas AoE dominan todas las métricas de uso,
+> y *"we are not willing to further bolster AoE at this time"*. El CO quedó deliberadamente **exclusivo
+> de ataques a un solo objetivo**.
+
+### Dos leyes más del historial
+
+- **v31.1.6** — *"(Fixed Multishot on weapons **multiplying** bonus from CO by each pellet)"*. El bonus
+  de CO **no** se multiplica por pellet.
+- **v31.2 / v31.5** — el bonus innato de las Kuva/Tenet de proyectil no aplicaba el CO, *"never broken
+  on multiplicative cases, **only the additive recalculation**"* — confirma que los dos modos son
+  rutas de código distintas, no dos lecturas del mismo cálculo.
+
+**Cronología:** la mecánica nace con el mod Condition Overload en la **v19.2**; se rehace en la
+**v26.0**; y llega a las armas a distancia en la **v30.5** con los mods Galvanized.
 
 ## Fuentes
 
 - https://wiki.warframe.com/w/Condition_Overload_(Mechanic)
-- https://wiki.warframe.com/w/Condition_Overload
-- https://wiki.warframe.com/w/Galvanized_Aptitude
-- https://wiki.warframe.com/w/Galvanized_Shot
+- [`damage-falloff.md`](damage-falloff.md) · [`status-effects.md`](status-effects.md) · [`calculating-bonuses.md`](calculating-bonuses.md)

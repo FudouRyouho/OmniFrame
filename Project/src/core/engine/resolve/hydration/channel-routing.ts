@@ -1,0 +1,109 @@
+/**
+ * @domain Engine / Hydration / Channel routing
+ * @SSoT docs/data/decisions.md (D-6 §sub-familia) + docs/governance/open-questions.md (OQ-ENGINE-11)
+ *
+ * Resuelve el `{cuál}` de un modifier: qué entidad(es) alcanza un canal.
+ *
+ * POR QUÉ EXISTE. El canal es del **token**, no de la pertenencia: un warframe contiene TRES armas,
+ * así que "las armas del warframe" no dice *cuál*. Un Archon Shard de crit melee, o un arcano de
+ * warframe que buffea la primaria, declaran su destino en el token (`WEAPON_MELEE_ADD_CRIT_MULT`,
+ * `WEAPON_PRIMARY_ADD_DAMAGE`) — y el salto lateral (Blade Charger: kill con rifle → daño de melee)
+ * no lo deriva ninguna contención.
+ *
+ * DEVUELVE UNA LISTA, NO UN VALOR. Hoy un canal resuelve a 0 o 1 entidad, pero la verdad del juego
+ * es N: `references/wiki/archon-shards/archon-shard.md` dice, para los tres shards de
+ * canal, *"Affects Exalted Weapons of the appropriate class"*. Las exaltadas no están modeladas
+ * (`OQ-ENGINE-11`), y ese mismo OQ ya se comprometió a materializarlas como **arma de canal real**
+ * para que "el ruteo agnóstico de buffs de C la alcance gratis". Con firma escalar ese "gratis" es
+ * falso —la exaltada le pisaría el slot al arma equipada, o quedaría fuera—; con lista, aterriza sin
+ * volver a tocar esta función.
+ *
+ * POR QUÉ FILTRA ENTIDADES Y NO LA INTENCIÓN. Un canal de la `Scene` es **un slot**: `weapons.melee`
+ * es uno solo, y una exaltada no entra ahí sin cambiarle la forma a la Capa A. Las entidades ya
+ * construidas sí admiten N por canal, porque el espacio puede poblar varios participantes con la
+ * misma marca — que es exactamente lo que hace el arma de compañero (`companion_weapon` es un
+ * participante propio, no un cuarto slot de `weapons.*`). Filtrar la lista de entidades es la única
+ * de las dos vías que cumple la promesa de arriba.
+ */
+import type { EntityId, SimulationEntity } from "../../contracts";
+
+/**
+ * Entidades que alcanza un canal. Vacío = el canal no tiene arma equipada (el modifier se descarta;
+ * mismo criterio que tenía el loop de shards).
+ */
+export function resolveChannelEntities(
+  channel: string,
+  entities: SimulationEntity[],
+): EntityId[] {
+  return entities.filter(e => e.channel === channel).map(e => e.id);
+}
+
+/**
+ * La familia del token → la marca de ruteo que la entidad debe portar para recibirlo.
+ *
+ * Es el único lugar donde el vocabulario de tokens (D-6, mayúsculas) se cruza con el de marcas
+ * (minúsculas). Que sean dos vocabularios es a propósito: el token declara **de qué habla el
+ * efecto**, la marca declara **quién lo recibe**, y una entidad puede portar marcas que su
+ * taxonomía no le daría (un compañero que recibe `AVATAR_*`).
+ */
+const FAMILY_ROUTE: Record<string, string> = {
+  AVATAR:   'avatar',
+  MELEE:    'melee',
+  WEAPON:   'weapon',
+  GAMEPLAY: 'weapon',
+  ENEMY:    'enemy',
+};
+
+/**
+ * La marca que exige la familia de un token, o `undefined` si esa familia no declara destino.
+ *
+ * Es la pregunta *"¿el portador materializa este token?"* hecha sin mirar si el nodo existe —
+ * `arch-decisions §18` prohíbe decidir el destino por **ausencia de nodo**, porque eso rutea por
+ * accidente: el día que dos entidades materialicen el mismo token, el buff aterriza en las dos sin
+ * que nadie lo haya declarado. La marca sí es una declaración.
+ */
+export function familyRoute(family: string): string | undefined {
+  return FAMILY_ROUTE[family];
+}
+
+/**
+ * Entidades que alcanza la FAMILIA de un token — el `{dónde}` cuando no hay sub-familia.
+ *
+ * Segundo eje del mismo `{cuál}` de arriba, para el cruce cross-entity. `resolveToken` sólo emite
+ * `target_channel` bajo `WEAPON` (la sub-familia es exclusiva de esa familia: preguntar "¿cuál de
+ * las tres armas?" no tiene sentido en `AVATAR`), así que un buff que sale de un warframe hacia
+ * `AVATAR_ADD_MOVEMENT_SPEED` o `MELEE_ADD_ATTACK_SPEED` llega acá **sin canal** y sin nada que
+ * diga a qué entidad apunta.
+ *
+ * La familia ya lo dice, y es la misma doctrina que gobierna la materialización de nodos: el token
+ * declara el dominio. `AVATAR_*` es del warframe, `MELEE_*` del arma cuerpo a cuerpo, `WEAPON_*`
+ * de toda arma equipada (el ALL-scope de Roar).
+ *
+ * La alternativa —fan-out a todas las entidades y dejar que el modifier se pierda donde el nodo no
+ * existe— *funciona* hoy por accidente (verificado: el buff de reload de Speed llega a una melee y
+ * se descarta porque el nodo no está). Pero es ruteo por ausencia: el día que dos entidades
+ * materialicen el mismo token, el buff aterriza en las dos sin que nadie lo haya declarado.
+ */
+export function resolveFamilyEntities(
+  family: string,
+  entities: SimulationEntity[],
+): EntityId[] {
+  // `WEAPON` y `GAMEPLAY` comparten destino y NO por conveniencia: el pool global de daño
+  // (`GAMEPLAY_MULT_FACTION_DAMAGE`, el de Roar) vive en el arma igual que un stat de arma
+  // — `arch-decisions §16`. La familia dice "pool global", el destino sigue siendo el arma.
+  //
+  // ⚠️ Y ese "sigue siendo el arma" es **lo que el motor modela, no lo que la fuente declara**.
+  // `roar.wikitext` dice *"bonus damage to all weapons AND ABILITIES"* y *"increases the damage any
+  // ally deals from ANY SOURCE"*: el destino real de la familia son **todas las instancias del
+  // portador**, y hoy el arma es la única que existe. Vale para los dos miembros —el pool de facción
+  // y el cap de Corrosive del Emerald (`contracts/law-params.ts`)—, así que no es un caso: es el
+  // sesgo de la familia. Se dispara cuando una habilidad emita instancia; anclado en
+  // `__tests__/status/stack-cap-ownership.test.ts`.
+  //
+  // Sin entrada ⇒ el buff no aterriza. Deliberado: una familia nueva debe declarar su destino
+  // acá, no heredar el de las armas por descarte. El censo del override cubre las cuatro.
+  const route = FAMILY_ROUTE[family];
+  if (!route) return [];
+
+  return entities.filter(e => e.routes?.includes(route)).map(e => e.id);
+}

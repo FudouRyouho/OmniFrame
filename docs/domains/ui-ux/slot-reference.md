@@ -1,7 +1,6 @@
 ---
 Estado: "referencia"
 Rol: "Tabla de slots por tipo de entidad para el diseño del Builder"
-Version: "v0.0.2"
 Impacto_ID: "UI-UX-Slots"
 Fidelidad_Fisica: "Project/src/domains/arsenal/"
 Fecha_de_creacion: "2026-04-18"

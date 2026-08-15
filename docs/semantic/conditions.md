@@ -3,9 +3,8 @@ Estado: "referencia"
 Rol: "Diccionario consolidado de condition tokens — vocabulario endógeno derivado de labels (D-19)"
 Impacto_ID: "semantic-conditions"
 Fidelidad_Fisica: "Project/public/data/"
-Version: "v1.16.1"
 Fecha_de_creacion: "2026-05-28"
-Fecha_de_actualizacion: "2026-06-09"
+Fecha_de_actualizacion: "2026-07-29"
 Fuentes: "arcane-stats, incarnon-evolutions, mod-stats (exilus), archon-shards"
 ---
 
@@ -21,7 +20,7 @@ Diccionario de tokens de condición presentes en los overrides de inteligencia m
 `condition` es **endógeno**: a diferencia de `upgrade_*` —que entra desde tipos DE de
 `@wfcd/items` y se normaliza a la taxonomía D-6 (`upgrade-tokens.md`)— `condition` no existe
 en ninguna fuente externa. Nace de **leer, auditar y confirmar el label**, cuya única
-trazabilidad es el texto ruidoso de la wiki/juego. (Verificado 2026-06-01: `ability-stats` no
+trazabilidad es el texto ruidoso de la wiki/juego. (`ability-stats` no
 tiene `condition` ni en dato ni en schema; `condition` vive solo en mods, arcanes e incarnon.)
 
 Por eso este documento es un **consolidador posterior**, no un portero previo:
@@ -103,7 +102,7 @@ Flags booleanos evaluados antes de iniciar la simulación. El `SimContext` debe 
 | `while_hate_and_despair_equipped` | incarnon | `engine:class:c2/binary` | "With Hate and Despair Equipped" — ídem, par Hate+Despair |
 | `while_dread_and_despair_equipped` | incarnon | `engine:class:c2/binary` | "With Dread and Despair equipped" — ídem, par Dread+Despair |
 
-> **OR de movimiento (`while_sliding` ∨ `while_aim_gliding`)** — **resuelto (Fase 3b, 2026-06-05):**
+> **OR de movimiento (`while_sliding` ∨ `while_aim_gliding`)** — **resuelto (Fase 3b):**
 > migrado del token-paraguas `while_sliding_or_aim_gliding` a `condition: {any:["while_sliding","while_aim_gliding"]}`
 > en arcane (Akimbo Slip Shot) e incarnon (Agile Executor, Feather of Justice). El shape obj-key
 > (prototipo, `../data/rules/overrides.md §Prototipo`) lo expresa; `evalCondition` lo evalúa.
@@ -204,7 +203,6 @@ solo se activa dentro de la ventana del trigger (o durante la duración del buff
 | `on_killing_enemies_with_3_toxin_stacks` | "On killing an enemy with 3+ Toxin Stacks" — ídem, Toxin. Fuente: Dual Ichor Incarnon Genesis | `engine:class:c2/stack` | incarnon |
 | `on_enemy_frozen` | "On Enemy Frozen" | `engine:class:c2/event` | arcanes |
 | `on_shield_break` | "On Shield Break" | `engine:class:c2/event` | incarnon |
-| ~~`on_shield_or_overguard_break`~~ | "On Shield/Overguard break" — OR de break de Shield O de Overguard. **migrado (Fase 4)** → `{any:["on_shield_break","on_overguard_break"]}`. | `—` | incarnon |
 | `on_bleed_proc` | "On Bleed proc" — DoT de Slash *tickea* sobre un target. Semánticamente distinto de `on_slash_status_effect` (que es la *aplicación* del proc al hit). Patrón extensible: `on_heat_proc`, `on_toxin_proc`, etc., solo se registran con evidencia en fuentes | `engine:class:c2/event` | mods Hunter/Vigilante |
 
 ### Acciones del jugador
@@ -260,27 +258,25 @@ Fuera del scope del weapon simulator. Se documentan para completitud.
 Tokens capturados en los overrides cuya forma canónica aún no se consolidó aquí. No es deuda ni
 drift (D-19) — es cola de consolidación; se resuelve al definir, no como requisito previo:
 
-✅ Sin pendientes activos (2026-06-07).
+✅ Sin pendientes activos.
 
-> **Incarnon completado (2026-05-30):** 120 stats condicionales mapeados. 5 tokens añadidos (`on_slide_kill`, `on_non_crit_non_status_hit`, 3× `while_*_equipped` stalker pairs). Patch one-off purgado; ver git history.
-> **Fase 3b completada (2026-06-05):** `while_sliding_or_aim_gliding` migrado a `{any:[…]}`.
 
-## Ingesta incarnon (2026-06-01) — cola de clasificación
+## Ingesta incarnon — cola de clasificación
 
-Tokens capturados en `incarnon-evolutions.override.json` durante la auditoría de contraste del
-2026-06-01. Ingresan **a nivel texto** (D-19: el override es SSoT del token). La clasificación de
+Tokens capturados en `incarnon-evolutions.override.json` durante la auditoría de contraste
+inicial. Ingresan **a nivel texto** (D-19: el override es SSoT del token). La clasificación de
 **naturaleza, modelo (`engine:class:c2/*`) y scope queda diferida** hasta tener más datos — no se
 fuerza aquí para no pre-juzgar. El token vive literal; la consolidación ocurre al definir, no al ingresar.
 
 ### G1 — normalización aplicada / pendiente
 
-- **`on_weakpoint_hit`** confirmado como forma canónica (2026-06-01). Misma mecánica de weak point;
-  pura diferencia de redacción. Drift cerrado: arcanes migró su única instancia `on_weak_point_hit`
-  → `on_weakpoint_hit` en `arcane-stats.override.json`.
-- ~~`while_aim_gliding_or_sliding`~~ — **resuelto (Fase 3b, 2026-06-05):** los dos labels que cubría
-  (el "and" coloquial de Agile Executor y el "or" de Feather of Justice) son mecánicamente **OR**
-  (aim-gliding y sliding se excluyen). Migrados a `{any:["while_aim_gliding","while_sliding"]}` — el
-  "and" del label **no** derivó el operador; lo fijó la mecánica de co-ocurrencia. Mismo destino que el paraguas de arcanes.
+- **`on_weakpoint_hit`** confirmado como forma canónica. Misma mecánica de weak point;
+  pura diferencia de redacción — y la wiki hizo la **misma** normalización ortográfica en su
+  versión 39 (*"Fixed instances of 'Weak Points' being written as 'weakpoints'"*). Drift cerrado:
+  arcanes migró su única instancia `on_weak_point_hit` → `on_weakpoint_hit` en
+  `arcane-stats.override.json`.
+  **No confundir con `on_headshot`:** eso *no* es diferencia de redacción sino de mecánica, y no
+  colapsan (ver la tabla del stub `on_hit_incarnon_form`).
 
 ### G2 — `while_target_affected_by_*` (requieren análisis propio)
 
@@ -305,12 +301,19 @@ Sub-familia emergente `while_enemy_*` — condición sobre el **estado del targe
 
 | Token | Label (override) | `upgrade_type` |
 |---|---|---|
-| `while_enemy_below_half_health` | "+Damage to enemies below half Health" | — |
+| `while_enemy_below_half_health` | "+Damage to enemies below half Health" | `WEAPON_ADD_DAMAGE` (Sicarus/Feigned Retreat) — **resuelto** |
 | `while_enemy_undamaged` | "Combo / Base CC / Base CD on undamaged enemies" | varios |
 | `while_enemy_impaled` | "Puncture Status while impaled" / "+vulnerable to SC" | — |
 | `while_enemy_status_count_below_3` | "enemies with <3 Status Effects: +Crit Damage" | `WEAPON_ADD_CRIT_MULT` |
 | `while_enemies_within_6m` | "+Attack Speed per enemy within 6m. Stacks 5x" | `WEAPON_ADD_FIRE_RATE` |
 | `while_impaling_5_or_more_enemies` | "+Heavy Attack Efficiency for 20s when impaling 5+ enemies" | `WEAPON_BASE_HEAVY_EFFICIENCY` |
+
+**`while_enemy_below_half_health` — resuelto:** primer `while_enemy_*` con vehículo real
+cableado, vía `EnemySnapshot` (`arch-decisions.md §13`). Solo el perfil **Sicarus** (Feigned Retreat,
+"additive a mods como Hornet Strike") se pobló — Dread (Hitman's Opportunity, "modificador
+multiplicativo único aislado") y Kunai (Swift Conclusion, dual-mode normal/incarnon) comparten el
+mismo token pero cada uno necesita su propia fórmula dedicada; siguen sin `upgrade_type`, gap trazado
+sin resolver.
 
 Eventos nuevos:
 
@@ -322,7 +325,6 @@ Eventos nuevos:
 | `on_slam_hit` | "per enemy hit by Slam radius, gain Combo" | per-enemy; ¿variante de `on_ground_slam`? — diferido |
 | `on_slide_attack_hit` | "per enemy hit by Slide Attack, gain Combo" | per-enemy; ¿variante de `on_slide_attack`? — diferido |
 | `on_hit_incarnon_form` **(stub)** | "On Hit (Incarnon Form): +CC/CD... Stacks 50x" | compuesto evento∧estado; **catalogado como stub** (granularidad de hit incierta — ver §Gate 1). NO migrado a `{all}`. |
-| ~~`on_hit_while_target_affected_by_electricity`~~ | "On hitting target affected by Electricity, 40% chance restore round" | **migrado (Fase 4)** → `{all:["on_hit","while_target_affected_by_electricity"]}` |
 
 ### G4 — prefijo `per_` (naturaleza nueva)
 
@@ -332,9 +334,9 @@ Eventos nuevos:
 
 ---
 
-## Ingesta archon (2026-06-01) — cola de clasificación
+## Ingesta archon — cola de clasificación
 
-`archon-shards.json` adoptó la taxonomía D-18 + `notes[]` (modus operandi incarnon) el 2026-06-01:
+`archon-shards.json` adoptó la taxonomía D-18 + `notes[]` (modus operandi incarnon):
 17 pasivos pasaron de `condition: null` a *ausente*; los condicionales se mapearon a token; un único
 hueco real `null` (Violet Equilibrium). Tokens nuevos capturados (naturaleza diferida):
 
@@ -353,7 +355,7 @@ Tokens de archon ya existentes en el vocabulario (sin cambio): `on_hitting_enemi
 > modela como dos buffs `on_*_pickup` separados; es conversión de recursos con naturaleza propia,
 > pendiente de diseño de engine. Ref: https://wiki.warframe.com/w/Equilibrium
 
-## Ingesta arcanes (2026-06-01) — cola de clasificación
+## Ingesta arcanes — cola de clasificación
 
 Patrón 4 de la homogeneización de arcanes: condition faltante. Se mapearon huecos `null` y ausentes con
 condición latente. Tokens **nuevos** acuñados (captura literal, naturaleza diferida):
@@ -367,35 +369,49 @@ condición latente. Tokens **nuevos** acuñados (captura literal, naturaleza dif
 | `on_ability_inflicts_heat_status` | "when using abilities to inflict Heat Status" (Arcane Hot Shot) | evento: una habilidad aplica Heat status. Distinto de `on_heat_status_effect` (fuente = arma). |
 | `while_reviving` | "Damage Taken During Revive" (Arcane Temperance) | estado: jugador en animación de revive. |
 | `on_magnetic_status_kill` | "Kill an enemy affected by Magnetic Status" (Melee Vortex) | kill de enemigo con Magnetic status activo. Familia de `on_*_status_kill` (cf. `on_heat_status_kill`). |
-| ~~`on_parkour_maneuver`~~ | "per Dodge, Double Jump and Bullet Jump" (Arcane Double Back) | **migrado (Fase 4)** → `{any:["on_dodge","on_double_jump","on_bullet_jump"]}`. |
 
 Tokens existentes reutilizados (eran huecos): `while_airborne` (Pax Soar ×2), `with_armor_over_700`
 (Arcane Persistence), `while_channeled_ability_active` (Arcane Intention), `while_target_affected_by_cold`
 (Secondary Shiver).
-
-Token **pre-existente** en el override que faltaba documentar (detectado en el contraste 2026-06-01):
-| Token | Label / fuente | Nota |
-|---|---|---|
-| ~~`on_bullet_jump_or_double_jump`~~ | "After a Bullet Jump or Double Jump" (Exodia Contagion/Epidemic) | **migrado (Fase 4)** → `{any:["on_bullet_jump","on_double_jump"]}` (subconjunto de los átomos de `on_parkour_maneuver`; ya no hay paraguas que consolidar). Exodia sigue ability-like — solo el gatillo se estructura. |
 
 > **Huecos `null` compuestos (5, merecen revisión manual):** Primary Debilitate (combined status 10
 > stacks + reinflict), Melee Careen (frozen + on_roll, multi-efecto → split), Arcane Camisado (summon +
 > ability cast), Melee Afflictions (status + knockdown), Arcane Universal Fallout (radiation por habilidad
 > + death). Condición real compuesta, no tokenizable limpio; `condition:null` + `notes[]` descriptiva.
 
-## Ingesta mods exilus/general (2026-06-03) — cola de clasificación
+## Ingesta mods exilus/general — cola de clasificación
 
 Grupo A del triage `Project/scripts/triage-mod-conditions.py` (read-only) sobre
-`mod-stats.override.json`. Tokens IN-SCOPE weapon-sim (`upgrade_type WEAPON_*`), acuñados tras
-ratificación vía patch one-off (purgado tras uso; procedencia en git history). **Naturaleza/modelo
+`mod-stats.override.json`. Tokens IN-SCOPE weapon-sim (`upgrade_type WEAPON_*`), acuñados tras ratificación. **Naturaleza/modelo
 diferidos** (ver §Altitud de los debates): entran a nivel captura, derivados del label.
 
 | Token | Fuente (mods) | Label / nota de naturaleza |
 |---|---|---|
 | `while_crouching` (nuevo) | Lie In Wait | "+Fire Rate when Crouching" — flag binario del jugador, familia de `while_aiming`/`while_sliding`. |
 | `on_first_shot_in_magazine` (nuevo) | Charged Chamber, Primed Chamber | "+Damage on first shot in Magazine" (`WEAPON_INIT_DAMAGE_MOD`). Tensión evento (primer disparo) vs derivado (posición en cargador) — diferida hasta diseñar el contador de munición del SimContext. |
-| `per_status_type_on_target` (nuevo) | Condition Overload, Healing Return | "per Status Type affecting the target" — escala proporcional al nº de status distintos en el target. Amplía la familia `per_` (G4). ⚠ `upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` es binario (legacy DE); gana el label (fidelidad). **Cross-schema:** misma fórmula en incarnon y en Galvanized Aptitude/Savvy/Shot — pero allí el token primario es `on_kill` (el "per status type" es escala, no condición; `condition:string` guarda una sola). |
-| `per_melee_combo_multiplier` (existente, G4) | Weeping Wounds, Blood Rush | Son los "más casos" que G4 anticipaba. Token stat-agnóstico (Status Chance / Crit Chance). Blood Rush: label "stacks with Combo Multiplier" pero su nota de fórmula confirma mecánica idéntica (`val × combo_mult`). |
+| `per_status_type_on_target` (nuevo) | Condition Overload, Healing Return | "per Status Type affecting the target" — escala proporcional al nº de status distintos en el target. Amplía la familia `per_` (G4). ⚠ `upgrade_type WEAPON_DAMAGE_IF_VICTIM_PROC_ACTIVE` es binario (legacy DE); gana el label (fidelidad). **Cross-schema:** misma fórmula en incarnon y en Galvanized Aptitude/Savvy/Shot — pero allí el token primario es `on_kill` (el "per status type" es escala, no condición; `condition:string` guarda una sola). **Migración COMPLETA salvo un portador** (ver la nota de asimetría abajo): `WEAPON_ADD_DAMAGE_PER_STATUS_TYPE` (op `CONDITION_OVERLOAD`; dimensiones stacks/N en `co_factors`, no en `condition`) cubre **toda la familia**: mods galvanizados (Savvy/Aptitude/Shot), 8 perks incarnon (1x), y **Condition Overload melee** (coefBase 80, 1x, adding). En el CO melee se **removió** `condition: per_status_type_on_target` — era la escala N disfrazada de condición; la escala vive en `co_factors`, no en `condition` (el token sigue documentado como concepto; su uso como `condition` en datos de CO queda obsoleto). Ver `data/decisions.md` D-17 + `engine/design/arch-decisions.md §9`. |
+| `per_melee_combo_multiplier` (existente, G4) | Weeping Wounds, Blood Rush | Son los "más casos" que G4 anticipaba. Token stat-agnóstico (Status Chance / Crit Chance). Blood Rush: label "stacks with Combo Multiplier" pero su nota de fórmula confirma mecánica idéntica (`val × combo_mult`). **Migración COMPLETA:** misma trampa que `per_status_type_on_target` — es escala disfrazada de condición, no gate. `COMBO_SCALED_ADD` (`melee-combo.md §4.3`) la resuelve: `ModRepository` reconoce el token y NO lo pasa como `condition` (no hay `evalCondition`), construye el modifier directo con `melee_combo_factors`. Como `per_status_type_on_target`, el token sigue documentado como concepto; su uso como `condition` en datos queda obsoleto. |
+
+> ### ⚠️ Asimetría de camino — dos soluciones para el mismo fenómeno, ambas declaradas completas
+>
+> El código llama **"la misma trampa"** a `per_status_type_on_target` y `per_melee_combo_multiplier`:
+> las dos son **escala disfrazada de condición**, no gates. Y las resolvió **al revés**:
+>
+> | token | camino | dónde vive hoy |
+> |---|---|---|
+> | `per_status_type_on_target` | **token nuevo** — `WEAPON_ADD_DAMAGE_PER_STATUS_TYPE`, entrada propia en `UPGRADE_MAP` | el vocabulario |
+> | `per_melee_combo_multiplier` | **se quedó en `condition`** — `ModRepository` lo reconoce, lo descarta y sintetiza `COMBO_SCALED_ADD` | el disparador del repo |
+>
+> No es un defecto a corregir de oficio: son las **dos formas legítimas** que tiene una mecánica de
+> entrar al motor (por token vs sintetizada), y la frontera entre ellas es el **disparador** — ver el
+> contrato de `makeModifier` en `engine/contracts/primitives.ts`. Lo que sí es un defecto es que
+> ninguna de las dos filas lo dijera: quien lea una y aplique su patrón a la otra se equivoca.
+>
+> **El portador que no migró:** `per_status_type_on_target` sobrevive en **un** lugar del corpus —
+> **Healing Return** (`WEAPON_HEALTH_ON_HIT_ENEMY_WITH_PROC`, fuera de `UPGRADES`, descartado en
+> silencio). No migró porque su efecto es **curación, no daño**: no converge al nodo de CO
+> (`WEAPON_ADD_DAMAGE`) y no tiene nodo propio al que ir. Está registrado como inexpresable en
+> [`upgrade-tokens.md`](upgrade-tokens.md) con su condición de reapertura.
 
 > **Fuera de scope (Grupo B, no acuñado):** mods con `upgrade_type AVATAR_*`/`VEHICLE_*` —
 > `on_bullet_jump` (parkour elemental), `while_falling` (Air Time/Mad Stack), `on_spawn` (Preparation).
@@ -404,7 +420,7 @@ diferidos** (ver §Altitud de los debates): entran a nivel captura, derivados de
 **SUGGEST limpio (14 stats, mismo día):** mapeo de tokens **ya consolidados** (no acuña vocab) a mods
 cuyo label matchea frase canónica — `while_aim_gliding` ×6, `while_airborne` ×2, `while_holstered` ×3,
 `while_sliding` ×3. Los AVATAR_* (Aero Vantage, Boreal's Anguish, Air Thrusters) llevan nota de scope
-(efecto de movimiento WF fuera del weapon-sim; condición válida igual). Patch one-off purgado tras uso.
+(efecto de movimiento WF fuera del weapon-sim; condición válida igual).
 
 **Dudosos resueltos (gate manual + contraste @wfcd/items type/compat):** `Hunter Munitions` (Primary Mod)
 → `on_critical_hit` (valor = chance de proc Slash). `Hunter Synergy` (Companion Mod) → ausente: el
@@ -422,8 +438,7 @@ el balde SUGGEST quedó en 0; los `ausente`+`notes[]` (revisados) van al balde R
 | `null` | Condición real, sin token de este vocabulario todavía (hueco de mapeo) |
 | `"<token>"` | Condicional, mapeada a un token de aquí |
 
-Aplica a los tres schemas (mods, arcanes, incarnon). El `null` incondicional anterior (D-14) fue
-eliminado el 2026-05-30 vía patch one-off (purgado tras uso; ver git history). Ver [D-18](../data/decisions.md).
+Aplica a los tres schemas (mods, arcanes, incarnon). El `null` incondicional anterior (D-14) ya no existe. Ver [D-18](../data/decisions.md).
 
 > La normalización es trabajo de datos (scripts/patch), no de engine. Los overrides son SSoT —
 > el engine leerá el token que esté en el JSON. Normalizar evita que el engine tenga que conocer
@@ -441,7 +456,7 @@ se audita en Fase 2.
 | `with_energy_max_over_200` | Umbral "unlisted" — no aparece en UI del juego; descubierto por la comunidad (Dual Toxocyst). | evidencia |
 | `while_holstered` | Depende de que el sim tenga noción de "arma activa". Si no la tiene, no es evaluable. Posponer hasta diseño de contexto multi-arma. | engine |
 | `while_dread_and_hate_equipped` (+2 pares stalker) | Modelados como tokens por-par por precedente de especificidad. ¿Generalizar a un patrón `while_pair_equipped(A,B)` en el futuro? | taxonomía |
-| `on_hit_incarnon_form` (stub) | **Granularidad del evento de hit sin resolver:** ¿`on_headshot` colapsa con `on_weakpoint_hit` (DE legacy "headshot" ≈ weak point moderno, no solo cabeza; más diferenciado en arcos/snipers)? ¿"fully charged blast" es scope del efecto o un `on_charged_blast_hit` propio? Catalogado como flag-paraguas hasta verificar en juego. Deuda compartida con `upgrade-tokens.md §Gate 1` (`WEAPON_ADD_HEADSHOT_MULT`) + `references/wiki/mechanics/weak-points.md` (pendiente). | evidencia |
+| `on_hit_incarnon_form` (stub) | **Granularidad del evento de hit, parcialmente resuelta.** `on_headshot` y `on_weakpoint_hit` **no colapsan**: son dos condiciones distintas en relación de subsunción — todo headshot es un weakpoint hit, no al revés (`references/wiki/mechanics/enemy-body-parts.md`). Queda abierto sólo el otro eje: ¿"fully charged blast" es scope del efecto o un `on_charged_blast_hit` propio? Sigue flag-paraguas por eso. | evidencia |
 
 > Resolución: igual que upgrade-tokens §Gate 1 — debate, elevar evidencia, o decidir extensión de schema.
 > Las condiciones con `⚠` de schema (OR) no son engine-ready hasta que el contrato `condition` soporte la composición.
@@ -457,7 +472,7 @@ Fuentes donde conditions existen pero no están mapeadas en los overrides:
 | `mod-stats.override.json` — exilus weapon | `while_aiming`, `while_aim_gliding`, `while_sliding`, `while_holstered`, `on_equip`, `on_hit`, `on_kill`, `on_heavy_attack_hit`, `on_tennokai_attack` | tokens definidos — mapeo en curso |
 | `mod-stats.override.json` — galvanizados | `on_kill`, `on_headshot`, `on_status_effect` + stacking | pendiente |
 | `mod-stats.override.json` — Hunter / Vigilante | `on_bleed_proc` → definido; `on_crit` → mapea a `on_critical_hit` existente | parcialmente cubierto |
-| `archon-shards.json` | mapeado D-18 (2026-06-01): 9 token · 1 null (Equilibrium) · 17 ausente | ver §Ingesta archon |
+| `archon-shards.json` | mapeado D-18: 9 token · 1 null (Equilibrium) · 17 ausente | ver §Ingesta archon |
 | `ability-stats.override.json` | Sin condiciones (habilidades calculan su propio scaling) | fuera de scope |
 
 ---
@@ -473,7 +488,7 @@ Agrupado por prefijo (organización emergente, no taxonomía):
 | Evento (`on_*`) | ~76 | 43 mapeados | mapeado en `condition` (incl. `on_slide_kill`, `on_non_crit_non_status_hit`) | 2 nuevos (exilus) |
 | Operador | 9 | 9 mapeados | 0 | 0 |
 
-> Mapeo en `condition` (2026-06-01): incarnon 175 token / 0 null (69 únicos · 21 en cola de clasificación, ver §Ingesta incarnon) · mods 80 token / 2 null / 813 ausente (22 únicos; actualizado 2026-06-03, ver §Ingesta mods) · arcanes 137 token / 5 null (33 ausente) · archon 9 token / 1 null (17 ausente). Incondicionales = ausente (D-18).
+> Mapeo en `condition`: incarnon 175 token / 0 null (69 únicos · 21 en cola de clasificación, ver §Ingesta incarnon) · mods 80 token / 2 null / 813 ausente (22 únicos, ver §Ingesta mods) · arcanes 137 token / 5 null (33 ausente) · archon 9 token / 1 null (17 ausente). Incondicionales = ausente (D-18).
 > Nota: arcanes — Crepuscular corregido (null → `while_invisible`); Exodia Valor añadido `condition: null` (conditional-without-token, "on Lifted enemies").
 
 Los tokens `while_*` y `with_*` (≈28) son los candidatos inmediatos para C1-A porque no requieren

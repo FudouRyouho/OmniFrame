@@ -1,0 +1,199 @@
+'''Reloading''' is the act of replenishing ammunition to a primary or secondary weapon. The length of time spent on reloading, '''Reload Time''', is based on the individual weapon's reload animation speed (or '''Reload Speed''' for short), which can be altered by some [[mods]] and [[abilities]]. Reload time functions as a period of disadvantage for the player, though actions can be taken to compensate for the inability to shoot.
+
+==Manual Reload==
+{{Combo|{{Keybind|R}}|ps4={{Keybind/PS4|square}}}}
+
+When firing a weapon until it is empty, the game does not actually immediately initiate a reload. There is a short delay equal to the reciprocal of the weapon's fire rate. This delay can be averted by pressing the reload key as soon as the weapon's magazine is about to run out, assuming the firing trigger is being held down or rapidly pressed in the case of semi-auto weapons. This penalty cannot be avoided on [[:Category:Battery Weapons|Battery Weapons]].
+
+If the "Context Action Includes Reload" [[Settings|setting]] is enabled, reloading will occur when attempting to fire a gun with no ammunition.
+
+While the reloading animation occurs, the player cannot attempt to fire the weapon. The animation can be cancelled by certain actions such as [[Maneuvers#Rolling|rolling]].
+
+{{clr}}
+
+==Calculating Reload Time==
+There are several mods and sources of buffs that affect reloading. Reload time is not directly modified with these, but rather reload speed changes. To calculate the resultant reload time with reload speed buffs/debuffs:
+
+:<math>
+\text{Total Reload Time} = \frac{\text{Weapon Reload Time} }{1 + \text{Reload Speed Bonus} }
+</math>
+
+* '''Weapon Reload Time:''' This refers to the base amount of time indicated on the stats of an unmodified weapon.
+* '''Mod Reload Bonus:''' This refers to the speed increase marked as percentage on mod cards, expressed as a decimal to two places.
+
+For example, a {{Weapon|Braton}} with a 2.0 second reload time and a rank 5 {{M|Fast Hands}} (+30% Reload Speed) would have a new reload time of:
+
+:2.0 ÷ (1 + 0.30) = 1.54s
+
+With -30% reload speed from a rank 9 {{M|Tainted Mag}}:
+
+:2.0 ÷ (1 - 0.30) = ~2.85s
+
+Note that reduced reload speed has a more substantial effect than increased reload speed (-0.54s from +30% Reload Speed versus +0.85 from -30% Reload Speed).
+
+===Weapons that reload per shell===
+There are some weapons that reload one shell/bullet/projectile at a time, thus increasing [[Magazine Capacity]] will also increase total reload time. However, players can interrupt the full reloading process by clicking on the reload button again or firing the partially reloaded weapon. These include the {{Weapon|Corinth}}, {{Weapon|Felarx}}, {{Weapon|Mk1-Strun}}, {{Weapon|Strun}}, {{Weapon|Strun Wraith}}, and {{Weapon|Zarr}}.
+
+:<math>
+\text{Total Reload Time} = \frac{\text{Reload Start and End Delay} }{1 + \text{Reload Speed Bonus} } + ( \frac{\text{Weapon Reload Time Per Shell} }{1 + \text{Reload Speed Bonus} } \times \text{Magazine Capacity} )
+</math>
+
+===Rechargeable weapons===
+[[:Category:Battery Weapons|Battery Weapons]] are those that do not have a reload animation and instead has their magazine replenish over time after an initial delay between firing and reloading, thus increasing [[Magazine Capacity]] also increases total reload time. Reload speed bonuses only affect the '''recharge delay''' while the '''recharge rate''' cannot be changed. Players can interrupt the full reloading process by firing the partially reloaded weapon. Examples include {{Weapon|Flux Rifle}} and {{Weapon|Plinx}}.
+
+:<math>
+\text{Total Reload Time} = \frac{\text{Recharge Delay} }{1 + \text{Reload Speed Bonus} } + \frac{\text{Magazine Capacity} }\text{Recharge Rate}
+</math>
+
+==Increasing Reload Speed==
+===Mods===
+<div class="tabber-borderless">{{#tag:tabber|Rifles =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+FastHandsMod.png|link=Fast Hands|{{M|Fast Hands}}
+PrimedFastHandsMod.png|link=Primed Fast Hands|{{M|Primed Fast Hands}}
+RadiatedReloadMod.png|link=Radiated Reload|{{M|Radiated Reload}}
+DepletedReloadMod.png|link=Depleted Reload|{{M|Depleted Reload}}
+AeroAgilityMod.png|link=Aero_Agility|{{M|Aero Agility}}
+</gallery>
+
+{{!}}-{{!}}Shotguns =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+TacticalPumpMod.png|link=Tactical Pump|{{M|Tactical Pump}}
+PrimedTacticalPumpMod.png|link=Primed Tactical Pump|{{M|Primed Tactical Pump}}
+ChillingReloadMod.png|link=Chilling Reload|{{M|Chilling Reload}}
+SeekingFuryMod.png|link=Seeking Fury|{{M|Seeking Fury}}
+AmalgamRipkasTrueSteelMod.png|link=Amalgam_Ripkas_True_Steel|{{M|Amalgam Ripkas True Steel}}
+</gallery>
+
+{{!}}-{{!}}Secondary=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+QuickdrawMod.png|link=Quickdraw|{{M|Quickdraw}}
+PrimedQuickdrawMod.png|link=Primed_Quickdraw|{{M|Primed Quickdraw}}
+PistolElementalistMod.png|link=Pistol Elementalist|{{M|Pistol Elementalist}}
+StunningSpeedMod.png|link=Stunning Speed|{{M|Stunning Speed}}
+ComboFuryMod.png|link=Combo_Fury|{{M|Combo Fury}}
+</gallery>
+
+{{!}}-{{!}}Archgun=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+ArchgunAceMod.png|link=Archgun_Ace|{{M|Archgun Ace}}
+QuickReloadMod.png|link=Quick_Reload|{{M|Quick Reload}}
+</gallery>
+
+{{!}}-{{!}}Augments=
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+PrecisionStrikeMod.png|link=Precision_Strike|{{M|Precision Strike}}
+BloodForgeMod.png|link=Blood_Forge|{{M|Blood Forge}}
+</gallery>
+
+{{!}}-{{!}}Mods (negative) =
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+BurdenedMagazineMod.png|link=Burdened_Magazine|{{M|Burdened Magazine}}
+TaintedMagMod.png|link=Tainted_Mag|{{M|Tainted Mag}}
+TaintedClipMod.png|link=Tainted_Clip|{{M|Tainted Clip}}
+</gallery>
+}}</div>
+
+Note that while you may successfully install both Quickdraw and Stunning Speed onto a single sidearm with no discrepancies, Fast Hands cannot be placed onto a weapon with Primed Fast Hands, and vice-versa. [[:Category:Bow|Bows]], [[:Category:Sniper Rifle|snipers]], and [[:Category:Launcher|launchers]] benefit from the Rifle-type reload mods.
+
+===Arcanes===
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+FractalizedReset.png|link=Fractalized Reset|{{Arcane|Fractalized Reset}} (primaries only)
+PrimaryMerciless.png|link=Primary Merciless|{{Arcane|Primary Merciless}} (primaries only)
+File:ShotgunVendetta.png|{{Arcane|Shotgun Vendetta}} (shotguns only)
+ArcaneMomentum.png|link=Arcane Momentum|{{Arcane|Arcane Momentum}} (sniper rifles only)
+SecondaryMerciless.png|link=Secondary Merciless|{{Arcane|Secondary Merciless}} (Secondaries only)
+File:ConjunctionVoltage.png|{{Arcane|Conjunction Voltage}} (Secondaries only)
+</gallery>
+
+===Abilities===
+{{#tag:tabber|Chroma (Toxin)=
+{{:Elemental Ward}}
+{{!}}-{{!}}Gauss=
+{{:Redline}}
+{{!}}-{{!}}Harrow=
+{{:Penance}}
+{{!}}-{{!}}Mesa=
+{{#lsth:Mesa/Abilities|Passive}}
+{{!}}-{{!}}Volt=
+{{:Speed}}
+}}
+
+===Conclave-only===
+In addition, there are some {{Faction|Conclave}}-exclusive mods which affect reload:
+
+<gallery captionposition="below" captionalign="center" hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+LooseHatchMod.png|link=Loose Hatch|{{M|Loose Hatch}}
+LooseChamberMod.png|link=Loose Chamber|{{M|Loose Chamber}}
+LooseMagazineMod.png|link=Loose Magazine|{{M|Loose Magazine}}
+MaximumCapacityMod.png|link=Maximum Capacity|{{M|Maximum Capacity}}
+LoadedCapacityMod.png|link=Loaded Capacity|{{M|Loaded Capacity}}
+FullCapacityMod.png|link=Full Capacity|{{M|Full Capacity}}
+</gallery>
+
+==Reloading While Holstered==
+Certain weapons and mods when [[holster]]ed refill a portion of their magazine every second. The holster reload rate cannot be changed by reload bonus mods.
+
+<gallery widths="200" hideaddbutton="true" captionalign="center" spacing="small" bordersize="none" bordercolor="transparent" position="center" navigation="true">
+TacticalReloadMod.png|link=Tactical Reload|{{M|Tactical Reload}} - Reloads 20% of a rifle's magazine per second.
+LockandLoadMod.png|link=Lock and Load|{{M|Lock and Load}} - Reloads 20% of a shotgun's magazine per second.
+EjectMagazineMod.png|link=Eject Magazine|{{M|Eject Magazine}} - Reloads 20% of a pistol's magazine per second.
+SynthChargeMod.png|link=Synth Charge|{{M|Synth Charge}} - Synth Set Effect reloads 5%/10%/15%/20% of primary and secondary weapon magazine per second.
+SynthDeconstructMod.png|link=Synth Deconstruct|{{M|Synth Deconstruct}}
+SynthFiberMod.png|link=Synth Fiber|{{M|Synth Fiber}}
+SynthReflexMod.png|link=Synth Reflex|{{M|Synth Reflex}}
+Afentis.png|link=Afentis|{{Weapon|Afentis}} - Reloads 33% of its magazine per second.
+Ferrox.png|link=Ferrox|{{Weapon|Ferrox}} - Reloads 33% of its magazine per second.
+Javlok.png|link=Javlok|{{Weapon|Javlok}} - Reloads 33% of its magazine per second.
+Scourge.png|link=Scourge|{{Weapon|Scourge}} - Reloads 33% of its magazine per second.
+ScourgePrime.png|link=Scourge Prime|{{Weapon|Scourge Prime}} - Reloads 33% of its magazine per second.
+TenetEnvoy.png|link=Tenet Envoy|{{Weapon|Tenet Envoy}} - Transforms into an attaché case that reloads 1 round per second.
+TenetDiplos.png|link=Tenet Diplos|{{Weapon|Tenet Diplos}} - Transforms into an attaché case that reloads 8 rounds per second.
+Felarx.png|link=Felarx|{{Weapon|Felarx}} - Evolved Autoreloader: Reloads 50% of its magazine per second.
+Laetum.png|link=Laetum|{{Weapon|Laetum}} - Awakened Readiness: Reloads 30% of its magazine per second.
+</gallery>
+
+==Instant Reload==
+Some mods and buffs allow the player to instantly reload their weapon, skipping the reload animation.
+
+<gallery captionposition="below" captionalign="center"  hideaddbutton="true" spacing="small" navigation="true" position="center" bordersize="none" bordercolor="#FFFFFF">
+BloodForgeMod.png|link=Blood Forge|{{M|Blood Forge}}
+CharmMod.png|link=Charm|{{M|Charm}} (Instant Reload buff)
+</gallery>
+
+== One-Handed Action ==
+{{Main|One-Handed Action}}
+'''One-Handed Actions''' are actions that can be done while reloading or charging. They are called such because the animations to cast these abilities generally use up to one hand each, leaving the other hand free to reload weapons. This does not imply that all ability animations which show only one hand doing things are one-handed abilities; it only refers to the fact that a hand is still able to be reloading a weapon while the ability is being cast. One can take advantage of this mechanic to further increase their efficiency and flow of actions.
+
+== Sustained Damage Per Second ==
+Players looking to achieve as high as single-target damage as possible might wish to consider the effects of reload speed modifiers on their weapons. Burst damage considers damage as an instantaneous sample of averages, relying purely on the damage dealt by each attack and how many attacks can be dealt per second. Sustained damage, on the other hand, relates to encounters that last beyond a single Magazine and therefore must include reload time into its average.
+
+Currently, modding for reload speed is a poor choice on almost every weapon in this regard, due to the opportunity cost of using the same mod slot for elemental damage or the like. There are some conditions where reload speed can be considered valuable, however.
+
+===Reload Speed vs Fire Rate===
+Sustained DPS works as a function of total damage dealt over the combined period of firing the weapon and finishing the reload. If the combined period is split into two parts, then an increase in either can be easily compared the other. For example:
+
+* {{Weapon|Viper}} is a pistol that spends its entire Magazine in 0.97 seconds. It then needs 1.1 seconds to be reloaded.
+* For 7 mod capacity, a player can install either a rank 5 Quickdraw or a rank 3 {{M|Gunslinger}}.
+* Rank 3 Gunslinger increases the Viper's fire rate from 14.4 to 21.31, reducing time spent firing from 0.97 seconds to .66 seconds. Combined with the reload time, the viper deals 224 damage over 1.76 seconds, assuming no [[Critical Hit|crits]] or [[Damage|damage modifiers]], for a sustained DPS of 127.27.
+* Rank 5 Quickdraw decreases the Viper's reload time from 1.1 to 0.74 seconds. Combined with the firing time, the viper deals 224 damage over 1.71 seconds, for a sustained DPS of 131.99.
+
+The Viper is a rare instance of a weapon with nearly-equal firing and reload times. The vast majority of weapons have a greater percentage of time spent firing compared to reloading. Furthermore, as players progress in the game, their limiting factor becomes mod slots, not mod capacity, and so a more apt version of the above comparison would be a rank 5 Gunslinger (at 9 capacity) where its 72% increase in fire rate far outperforms the 48% increase in reload speed. Only weapons where the reload time significantly dominates the firing time (the Tigris, for example, spends 1 second shooting and 1.8 seconds reloading) should one even consider choosing Reload Speed mods in opposition to Fire Rate mods.
+
+===Reload Speed vs Magazine Capacity===
+[[Ammo#Magazine Capacity|Magazine capacity]] increases the amount of ammo in a single Magazine while keeping [[Fire Rate|fire rate]] constant. Therefore, if any weapon of any fire rate has its magazine of any capacity increased by 60%, it will take 60% more time to finish off its Magazine, except for rounding discrepancies, or weapons with spool-up. Because sustained DPS considers both the time spent firing and the time spent reloading, magazine size also acts nearly identical to reload speed, by reducing the percentage of total time spent reloading as opposed to firing. For example:
+* {{Weapon|Grakata}} spends its entire Magazine in 3 seconds, and then spends 2.4 seconds reloading. As a percentage, ~55% of sustained Grakata usage is firing time, while ~45% is reloading time.
+* Max rank Fast Hands reduces the reload time to ~1.85 seconds, making firing time represent ~61% of sustained Grakata DPS.
+* Max rank {{M|Magazine Warp}} increases firing time to 3.9 seconds, making firing time represent ~62% of sustained Grakata DPS.
+
+Without even calculating the resulting DPS, it can be shown that a 30% increase in magazine capacity has almost the same effect as a 30% increase in reload speed. That means that, if ever in the situation to choose between the two effects, consider the other factors.
+* For rifles, a maxed Fast Hands drains 2 fewer mod capacity points than a maxed Magazine Warp for the same DPS change.
+* For shotguns, the {{M|Tactical Pump}} mod drains the same as {{M|Ammo Stock}} but the latter makes a 60% magazine increase while the former only makes a 30% reload speed increase.
+** However, the {{Weapon|Strun}} and {{Weapon|Corinth}} reload one shot at a time, meaning a larger magazine takes proportionally longer to reload. Therefore, [[Tactical Pump]] is better for these two.
+
+==References==
+<references />
+
+{{MechNav}}
+[[es:Velocidad de recarga]]
+[[Category:Mechanics]]

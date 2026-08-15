@@ -1,0 +1,359 @@
+[[File:Acolytes.png|660px|center]]
+{{Quote|Bad news, Tenno. The Stalker has found others as twisted as himself. He calls them his Acolytes and he's sent them after me! Shh! I have to be very quiet, they cloak! They could be hiding anywhere! Even listening to this!|[[Alad V]] during [[Operation: Shadow Debt]]}}
+{{Tocright}}
+<section begin="intro"/>
+The '''Acolytes''' are mysterious, twisted, sinister [[Warframe]]s<ref>''"Twisted Warframes that follow the Stalker in pursuit of vengeance, the Acolytes will not stop until they are destroyed or until the Stalker’s mission is fulfilled. Gather your Squad and hunt them down one by one before the hunter becomes the hunted."''<br>[https://www.warframe.com/en/news/the-acolytes-return The Acolytes Return]</ref> that are devoted to the [[Stalker]], taking the appearance and abilities of different Warframes while bearing the distinctive helmet of their master. They were first introduced in the [[Operation: Shadow Debt]] event, and would make sporadic reappearances afterwards.
+
+As of {{ver|29.5}}, Acolytes became a permanent addition to the game, making appearances in [[The Steel Path]] missions and dropping {{Resource|Steel Essence}}.
+<section end="intro"/>
+
+==Lore==
+Other than serving the [[Stalker]], little is known about the Acolytes.
+
+===[[Operation: Shadow Debt]]===
+For [[Alad V]]'s interference in [[The Second Dream]], the Acolytes are sent to dispatch him. Alad V invokes his favor from The Second Dream to have the [[Tenno]] safeguard him from the Acolytes.
+
+==Mechanics==
+Acolytes can only receive up to 4 stacks of any [[Status Effect]] with the exception of {{D|Impact}} which can stack up to 3 times, and {{D|Radiation}} only amplifies the damage the Acolyte receives from allied units and does not enable friendly fire unless those allies themselves are inflicted by the status.
+
+===[[The Steel Path]]===
+Acolytes typically spawn in non-[[Archwing]], non-[[Assassination]], non-[[Ascension]], non-[[Dark Refractory]], non-[[Duviri]] and non-[[Empyrean|Railjack]] Steel Path missions once every 3-8 minutes on average. They are guaranteed to drop 2 [[Steel Essence]], as well as one random [[Arcane_Enhancement#The_Steel_Path_Arcanes|Steel Path Arcane]] ({{Arcane|Primary Deadhead}}, {{Arcane|Primary Dexterity}}, {{Arcane|Primary Merciless}}, {{Arcane|Secondary Deadhead}}, {{Arcane|Secondary Dexterity}}, or {{Arcane|Secondary Merciless}}), upon defeat.
+
+==Acolytes==
+
+<div class="tabber-borderless"><tabber>Angst=
+[[File:StrikerAcolyte.png|right|x200px]]
+{{main|Angst}}
+{{#lst:Angst|intro}}
+{{#lst:Angst|Tactics}}
+|-|Malice=
+[[File:HeavyAcolyte.png|right|x200px]]
+{{main|Malice}}
+{{#lst:Malice|intro}}
+{{#lst:Malice|Tactics}}
+|-|Mania=
+[[File:RogueAcolyte.png|right|x200px]]
+{{main|Mania}}
+{{#lst:Mania|intro}}
+{{#lst:Mania|Tactics}}
+|-|Misery=
+[[File:AreaCasterAcolyte.png|right|x200px]]
+{{main|Misery}}
+{{#lst:Misery|intro}}
+{{#lst:Misery|Tactics}}
+|-|Torment=
+[[File:ControlAcolyte.png|right|x200px]]
+{{main|Torment}}
+{{#lst:Torment|intro}}
+{{#lst:Torment|Tactics}}
+|-|Violence=
+[[File:DuellistAcolyte.png|right|x200px]]
+{{main|Violence}}
+{{#lst:Violence|intro}}
+{{#lst:Violence|Tactics}}
+</tabber></div>
+
+==Notes== 
+*Because they are dropped as mystery items in the form of a Mod item, Arcanes dropped by Acolytes in Steel Path can be sucked up and permanently destroyed by [[Scavenger Drone]]s.
+*Acolyte spawns take the place of regular spawns and are not timed.  This means you will see them spawn more frequently with more frequent enemy spawns and less often with slow spawns, stopping entirely if normal spawns stop for any reason.
+
+==Tips==
+*As of {{Ver|36}}, Acolytes are neutral to every element.
+*Due to their damage reduction, certain types of weapons are more effective than others:
+**Beam weapons such as the {{Weapon|Glaxion}} are notably weakest against them.
+**AOE (Area of Effect) projectiles such as the {{Weapon|Arca Plasmor}} ({{Weapon|Tenet Arca Plasmor}}) and detonated Thrown Melees perform very well against them.
+
+==Trivia== 
+*As devotees to the Stalker, their Codex entries are placed under the {{Faction|Stalker}} category.
+*The Acolytes' appearances are generally a Warframe with attachments either from other Warframes or [[Warframe Cosmetics]] such as armor pieces, Syandanas, or skins, and the [[Stalker]]'s helmet in lieu of their default helmets;
+**Angst uses {{WF|Valkyr}}'s body with her Immortal Skin and the Vanquished Syandana.
+**Malice uses {{WF|Frost Prime}}'s body without his shoulder armor and wears bits of machinery on his arms.
+**Mania uses {{WF|Loki}}'s body with his Immortal Skin as well as a Daedalus shoulder plate on his left arm.
+**Misery uses {{WF|Nekros}}' body with the Kyroptera Syandana, {{WF|Oberon}}'s loincloth and a Daedalus chest plate as an impromptu codpiece.
+**Torment uses {{WF|Mesa}}'s body with some of {{WF|Equinox}}'s front tassels on her waist, a Naberus shoulder plate on her right arm and an Eos chest plate as an impromptu codpiece.
+**Violence uses {{WF|Limbo}}'s body with Hulta shoulder plates.
+*Though their origins are disputed, Alad V calling them "betrayers" implies they may be [[Tenno]] themselves. 
+**However, Misery states, "Betrayers will die," as well as saying, "These children will not stop us," implying that he knows the Tenno's true nature. All of this pointing that the Acolytes are just as separated from the Tenno as the Stalker himself.
+*When played backward, some intelligible speech can be heard in the audio taunts the Acolytes use. The messages contained are as follows: 
+*#We are the Stalker's revenge.
+*#The end has come to take you, Tenno.
+*#You're just a puppet, Tenno.
+*#We fight for the Stalker. This is the end for you.
+*#You cannot kill what you cannot see.
+*#All you know is lost(?). You are nothing.
+*#We are Shadows. You are just a suit.
+*#You are nothing.
+*Acolytes in Steel Path reuse dialogue from Operation: Shadow Debt which references [[Alad V]], despite no longer having anything to do with him.
+*
+
+===Pre-{{ver|29.5}} Acolyte Appearance Durations===
+{| class="article-table" border="0" cellpadding="1" cellspacing="2.5" style="font-size:13px;"
+|-
+! scope="col" |
+! scope="col" |First Sightings
+! scope="col" |Last Acolyte's Defeat
+! scope="col" |Total Duration
+|-
+|'''[[Operation: Shadow Debt]] '''
+|January 25, 2016 (PC)<br />April 14, 2016 (Consoles)
+|February 6, 2016 (PC)<br />April 22, 2016 (Consoles)
+| 1 week, 4 days (PC)<br />1 week, 1 day (Consoles)
+|-
+|First Reappearance
+|July 29, 2016 (All Platforms)
+|~August 8, 2016 (All Platforms){{Cite}}
+|~1 week, 3 days (All Platforms)
+|-
+|Second Reappearance
+|February 10, 2017 (All Platforms)
+| February 16, 2017 (All Platforms)
+|6 days (All Platforms)
+|-
+|Third Reappearance
+|December 21, 2017 (All Platforms)
+|December 28, 2017 (All Platforms) 
+|1 week (All Platforms)
+|-
+|Fourth Reappearance 
+| August 7, 2018 (All Platforms) 
+|August 14, 2018 (All Platforms) 
+|1 week (All Platforms)
+|-
+|Fifth Reappearance
+|January 25, 2019 (All Platforms)
+| February 1, 2019 (PC)<br />February 3, 2019 (PS4/XB1)<br />February 9, 2019 (Switch)
+|1 week (PC)<br />1 week, 2 days (PS4/XB1)<br />2 weeks, 1 day (Switch)
+|-
+|Sixth Reappearance
+|February 7, 2020 (All Platforms)
+|February 14, 2020 (PC)<br />February 18, 2020 (PS4)<br />February 23, 2020 (XB1)<br />March 20, 2020 (Switch) 
+|1 week (PC)<br />1 week, 4 days (PS4)<br />2 weeks, 2 days (XB1)<br />6 weeks (Switch) 
+|}
+
+===Pre-{{ver|29.5}} Mod Drops===
+{{CustomCollapsible|Drop|drops}}
+{| class="listtable"
+| align="center" style="width:13%; min-width:82px;" |Angst[[File:StrikerAcolyte.png|center|120px|link=Angst]]
+| align="center" style="width:13%; min-width:82px;" |{{M|Pressurized Magazine}}[[File:PressurizedMagazineMod.png|center|90px|link=Pressurized Magazine]]
+4.04%
+| align="center" style="width:13%; min-width:82px;" |{{M|Repeater Clip}}[[File:RepeaterClipMod.png|center|90px|link=Repeater Clip]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Spring-Loaded Chamber}}[[File:Spring-LoadedChamberMod.png|center|90px|link=Spring-Loaded Chamber]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Body Count}}[[File:BodyCountMod.png|center|90px|link=Body Count|]]
+51.52%
+|-
+| align="center" style="width:13%; min-width:82px;" |Mania[[File:RogueAcolyte.png|center|120px|link=Mania]]
+| align="center" style="width:13%; min-width:82px;" |{{M|Nano-Applicator}}[[File:Nano-ApplicatorMod.png|center|90px|link=Nano-Applicator]]
+4.04%
+| align="center" style="width:13%; min-width:82px;" |{{M|Embedded Catalyzer}}[[File:EmbeddedCatalyzerMod.png|center|90px|link=Embedded Catalyzer]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Weeping Wounds}}[[File:WeepingWoundsMod.png|center|90px|link=Weeping Wounds]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Catalyzer Link}}[[File:CatalyzerLinkMod.png|center|90px|link=Catalyzer Link]]
+51.52%
+|-
+| align="center" style="width:13%; min-width:82px;" |Torment[[File:ControlAcolyte.png|center|120px|link=Torment]]
+| align="center" style="width:13%; min-width:82px;" |{{M|Argon Scope}}[[File:ArgonScopeMod.png|center|90px|link=Argon Scope]]
+4.04%
+| align="center" style="width:13%; min-width:82px;" |{{M|Blood Rush}}[[File:BloodRushMod.png|center|90px|link=Blood Rush]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Laser Sight}}[[File:LaserSightMod.png|center|90px|link=Laser Sight]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Hydraulic Crosshairs}}[[File:HydraulicCrosshairsMod.png|center|90px|link=Hydraulic Crosshairs]]
+51.52%
+|-
+| align="center" style="width:13%; min-width:82px;" |Violence[[File:DuellistAcolyte.png|center|120px|link=Violence]]
+| align="center" style="width:13%; min-width:82px;" |{{M|Maiming Strike}}[[File:MaimingStrikeMod.png|center|90px|link=Maiming Strike]]
+4.04%
+| align="center" style="width:13%; min-width:82px;" |{{M|Bladed Rounds}}[[File:BladedRoundsMod.png|center|90px|link=Bladed Rounds]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Sharpened Bullets}}[[File:SharpenedBulletsMod.png|center|90px|link=Sharpened Bullets]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Shrapnel Shot}}[[File:ShrapnelShotMod.png|center|90px|link=Shrapnel Shot]]
+51.52%
+|-
+| align="center" style="width:13%; min-width:82px;" |Malice[[File:HeavyAcolyte.png|center|120px|link=Malice]]
+| align="center" style="width:13%; min-width:82px;" |{{M|Narrow Barrel}}[[File:NarrowBarrelMod.png|center|90px|link=Narrow Barrel]]
+4.04%
+| align="center" style="width:13%; min-width:82px;" |{{M|Guided Ordnance}}[[File:GuidedOrdnanceMod.png|center|90px|link=Guided Ordnance]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Targeting Subsystem}}[[File:TargetingSubsystemMod.png|center|90px|link=Targeting Subsystem]]
+22.22%
+| align="center" style="width:13%; min-width:82px;" |{{M|Focused Defense}}[[File:FocusedDefenseMod.png|center|90px|link=Focused Defense]]
+51.52%
+|-
+| align="center" style="width:12%; min-width:82px;" |Misery[[File:AreaCasterAcolyte.png|center|120px|link=Misery]]
+| colspan=4 align="center" style="width:52%; min-width:82px;" |Drops all of the above mods.
+|-
+|}
+{{CustomCollapsible/End}}
+
+===[[Operation: Shadow Debt]] Mechanics===
+{{CustomCollapsible|Operation: Shadow Debt Mechanics||}}
+[[File:AcolyteLocationUnknown.jpg|right|thumb|200px|Acolyte Status on World State Window]]
+[[File:AcolyteLocationRevealed.jpg|right|thumb|200px|Acolyte Location Revealed]]
+Finding and defeating the Acolytes is a community effort. Once an Acolyte is defeated, another one will take its place.
+
+====Hunting the Acolytes====
+An Acolyte can randomly appear on the [[Star Chart]], indicated in the [[Orbiter#Navigation|World State Window]], where players must then hunt down the Acolyte by finding which node on which planet it appears. Once the Acolyte has been found, its location is displayed in the World State Window for all players to see; like the [[Stalker]], acolytes may appear in modified versions of the mission node, such as in [[Kuva Lich]] controlled nodes. Unlike other enemies, Acolytes cannot be killed in a single mission. Instead, players must engage the Acolyte in a mission and deal as much damage to it as they can. The damage received by the Acolyte accumulates as more players encounter and deal damage to it over several missions, with its total remaining health displayed on the World State Window. Only when its total health has been depleted will the Acolyte be eliminated. The Acolyte will stay in the node where it is found until it receives a certain amount of damage to its total health, after which it will disappear from the node to relocate to another node, thus requiring players to search for the Acolyte's location again. If the Acolyte switches to a different Node while the players are on a mission to kill it, the Acolyte will still spawn provided it hasn't spawned yet and the right tile is found.
+
+====Spawning====
+The Acolyte will only spawn in the mission if one player enters a room of the map randomly chosen at the start of the mission where the Acolyte is supposedly hidden. When a player enters this room, the screen will flicker with a violet hue similar to the warning signs for the Stalker, and the Acolyte will send messages to the player before spawning a few seconds later and engaging in battle. During such an encounter, the Acolyte will disappear after receiving enough damage, if the players go down, or a certain amount of time after the start of the encounter has passed. The Acolyte will only drop a mod from their drop table if they left from receiving enough damage. However, if they leave because too much time has passed or the player(s) are killed, there is no dropped reward.
+
+====Behavior====
+All Acolytes, similar to the Stalker, will perform {{WF|Mag}}'s {{A|Pull}} on a single target to counteract any Tenno who attempts to avoid their wrath by standing on top of raised objects. They can also teleport any Tenno who tries to flee into another room. Lastly, as a fail-safe, they can teleport directly to a room in which a Tenno hides in instantaneously should they get too far away (as they have been known to spawn across the map by accident), staggering any Tenno they happen to reappear on top of. This fail-safe teleport is different from {{WF|Loki}}'s {{A|Switch Teleport}} (used by Mania) and {{WF|Ash}}'s {{A|Teleport}} (used by Angst) as it can only be performed if the Acolyte is in a room with no Tenno present, but is also instant with no animation delay or particle effects.
+{{CustomCollapsible/End}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|40.0.4}}
+*Fixes towards Acolytes being able to teleport players into locked rooms in Deepmines Bounties, resulting in them getting stuck.
+*Fixed the Acolyte spawn timer not resetting when playing Steel Path Deepmines bounties back to back, resulting in Acolytes sometimes showing up a little early.
+
+{{ver|40.0.2}}<br/>
+'''Boss Enemies with Damage Attenuation that can be One-Shot:'''
+
+*Acolytes
+
+{{ver|40}}
+;DAMAGE ATTENUATION CHANGES
+
+Damage Attenuation is one of the tools we use to normalize the difficulty of boss-type enemies between groups of players, and its implementation has been a hot topic in the community for a while now. While meant to balance out high-powered builds, Attenuation could sometimes lead to paltry damage numbers — great to make an enemy hard to kill, but not necessarily fun for the player. 
+
+With community feedback in mind, we have some sweeping changes planned, which we have outlined below! The core of our goals is as follows: a) '''address outlier cases of Bosses having a very long time-to-kill as a result of of Damage Attenuation''' (notably in high level content), b) '''making player builds feel impactful against Damage Attenuated foes''', and c) '''standardizing how Damage Attenuation applies to the majority of Boss-type enemies in Warframe'''. There are a few moving pieces here, so we’ll first break down the wider Attenuation changes, and then go over how we’ll be standardizing this for various enemies.
+
+A few key terms to familiarize yourself with as we move forward:
+
+*'''Damage Attenuation:''' a mechanic that caps the amount of damage an enemy can take. Warframe uses caps for damage per second and per instance. 
+*'''Damage Reduction:''' a modifier that directly reduces the damage taken by a flat amount. (ex, 50% damage reduction multiplies the final damage taken by 0.5)
+**Damage Reduction is not directly relevant to these changes, but we want to show how it works differently from Damage Attenuation.
+*'''Max Damage Per Second (MDPS):''' a target cap of the amount of damage an enemy can receive per second. Sustained damage over time is reduced to avoid exceeding that target cap. Instead of explicitly applying “per second”, this mechanic works to moderate sustained damage output.
+*'''Max Damage Per Instance (MDPI):''' a cap applied to the amount of damage applied in one damage instance. (ex, a sniper bullet or melee hit) 
+*'''Time-to-Kill:''' How long it takes a player to kill an enemy using the expected gear they’d have access to when they first encounter them.
+**This term is a simplified way for us to represent the complex layers of modifiers, damage reduction, damage attenuation, etc., that are applied to enemies, which results in the overall level of difficulty to kill them. 
+
+'''1 - Damage Attenuation Scaling'''
+
+If you hop into a Legacyte Harvest mission in Höllvania on the live build, a few things will change depending on whether you’re on the Normal Path or Steel Path: enemies have different modifiers, squad consumables have cooldowns, and so on. One thing that stays the same is the current '''Max Damage Per Second (MDPS)''' and '''Max Damage Per Instance (MDPI)''' that the Legacyte will take.
+
+This is because Damage Attenuation applied to the Legacyte is a flat value, regardless of its health pool. At Normal Path levels, these values can feel reasonable, but once Steel Path or even Temporal Archimedea modifiers apply, that’s where the “bullet sponge” allegations begin. At certain points, Damage Attenuation became less of a tool to balance out powerful player builds, and more so acted as a time gate to kill high-health enemies. 
+
+A careful touch is needed to embrace the power fantasy of Warframe while also ensuring high level content is not completely trivialized. In the current iteration of Damage Attenuation, we have not accomplished that goal to our satisfaction —  simply put, it has created gameplay interactions that are unfun. So, the following changes are being made to address it:
+
+*Firstly, Damage Attenuation values are now proportional to Max Health.
+*Secondly, Damage Attenuation’s MDPS now applies independently between players.
+
+'''Damage Attenuation in Proportion to Max Health'''
+
+If we go back to the Legacyte example from earlier, players should notice a distinct difference in how Damage Attenuation applies to this enemy in both Steel Path and Temporal Archimedea missions. Instead of the MDPS and MDPI using the same values of Normal Path Legacytes, '''the amount of damage players can deal per second and per instance now scales based on the enemy’s Max Health*'''. As Max Health increases with enemy level and mission modifiers, so will the maximum damage caps from Damage Attenuation.
+
+'''The result is a higher damage output from players, and a more reasonable time-to-kill!  Players who invested much time and effort into their builds should feel more rewarded for their work, especially against high-level enemies with Damage Attenuation.'''
+
+'''Our focus with this sweeping change is to establish the overall Time-To-Kill for enemies within a reasonable range, considering the equipment available to players when they are first encountered.'''
+
+Since this is a significant change to how Damage Attenuation is calculated, '''we have increased the Health of various Bosses to balance with this new scaling mechanic.''' The goal is to reward players with powerful builds but still avoid one-shotting Archons. We’ll cover the Health changes in the “Standardizing Damage Attenuation” section below!
+
+''<nowiki>*</nowiki> Max Health for this calculation only uses the Health value. Overguard, Shield, and Armor values are not considered.''
+
+'''Independent Maximum Damage Per Second per Player'''
+
+Previously, the Maximum Damage per Second (MDPS) cap in Damage Attenuation would apply squad-wide. If you have a teammate blasting their 6-forma Incarnon Form Laetum at an Archon, there’s a good chance they consistently hit those pillows before you have an opportunity to aim your gun.
+
+'''With that in mind, the MDPS in Damage Attenuation will now be applied on a per-player basis.''' The damage output of your squadmates no longer has an impact on the efficacy of your attacks! Max Damage Per Instance has always applied per-player (due to the nature of this mechanic), so it is unchanged.
+
+To recap our Damage Attenuation changes, a) the damage caps now scale proportionately to the enemy’s max health, and b) no longer apply squad-wide. Now, let’s move on to how we are standardizing it.
+
+'''2 - Standardizing Damage Attenuation'''
+
+Damage Attenuation is just one method that we use to balance player power against Boss-type enemies. Depending on whether you fight an Eidolon, a Kuva Lich, or an Archon, your damage output will be affected in different ways. These differences are often the legacy of the many hands that have worked to make Warframe over the years — decisions for new content in 2018 can eventually result in gameplay quirks that players learn to adapt to in 2025.
+
+There is so much to learn in Warframe, and that list only grows with every update; part of maintaining a decade-long game is reducing the scope of what players need to know. '''With that in mind, we are replacing existing Damage Attenuation on various Boss-type enemies and standardizing them to use the same system.'''
+
+Actual MDPI and MDPS values will be balanced around the content type, but enemies from Liches to Void Angels to Legacytes now all share the same attenuation mechanic. For those familiar with Archon Hunts, our new standard model is based around the Damage Attenuation in those missions.
+
+As mentioned earlier, '''we are increasing Base Health* values to balance the time-to-kill for these foes.''' While larger health pools may increase difficulty, they also increase the Damage Attenuation caps since they now scale with max health. Our hope is that players will hit harder and their weapons will feel more satisfying, while also ensuring enemies have a reasonable time-to-kill (on both ends: avoiding one-shots, but also avoiding time-gated slogs). 
+
+'''Enemies using Standardized Damage Attenuation:'''
+''<nowiki>*</nowiki>For simplicity’s sake, we are representing Health changes by comparing their difference in Health at Level 1, referred to as “Base Health” moving forward.''
+
+*Acolytes
+**Base Health: 5,500 (was 550)
+**Base Shields: 2,500 (was: 1,000)
+
+{{ver|39.1}}
+*Fixed Summon and Companion kills not contributing to Acolyte spawns in the Steel Path.
+
+{{ver|38.5.11}}
+*Acolytes (and similar foes, like Stalker) will now wait for a Technocyte Coda Duet to be defeated before spawning in.
+**This addresses an issue where Acolytes and Technocyte Coda health bars would messily combine if they were in-mission at the same time.
+*Fixed Malice being able to teleport players out of the map in Stage Defense, causing them to become stuck.
+
+{{ver|38.0.12}}
+*Fixed Acolytes not spawning in Steel Path missions started from the Höllvania Central Mall in 1999.
+**Also fixed Acolytes not spawning in Steel Path bounties on the Zariman Ten-Zero.
+
+{{ver|35.1}}
+*Fixed only 3 Acolytes spawning in total during Steel Path Alchemy missions. 
+**''They will now continue to spawn in intervals as they usually do in endless mission types.''
+
+{{ver|32.3}}
+*Fixed Acolyte spawns stopping indefinitely in the Steel Path if a Host Migration happens at the same moment one spawns or while one is alive.
+
+{{ver|32.2}}
+*Fixed Acolytes not despawning after a player jumps into water volume and dies.
+
+{{ver|31.5.4}}
+*Fixed Acolytes spawning in Zariman bounties after completing a Steel Path Zariman mission beforehand.
+
+{{ver|30.9}}
+*Fixed certain scenarios where Acolytes would spawn in Steel Path when you’re AFK.
+*Fixed disarming an Acolyte with the Halikar or Halikar Wraith replacing your secondary weapon with a Rank 0 version of the Acolyte’s weapon.
+
+{{ver|30.5.5}}
+;Steel Path Change + Exploit Fixes&#58;
+For non-endless missions, most notably Sabotage, a max of 3 Acolytes will spawn and their levels will incrementally increase with every new Acolyte spawn.
+*This change addresses and fixes the AFK Acolyte spawning exploit within Steel Path Sabotage missions. 
+*Fixed the Steel Essence 5 minute despawn timer not functioning after you’ve moved a certain distance away.
+
+{{ver|30.5}}
+*Acolytes will now spawn more frequently during Steel Path missions, resulting in more Steel Essence being dropped overall!
+*Acolytes will now be teleported to a safe location if pulled into water. This fixes Itzal’s Cosmic Crush pulling Acolytes into water volumes where they instantly died.
+*Fixed Acolyte spawns becoming extremely slow or stopping altogether in specific Steel Path mission types - most commonly reproduced in Disruption or Survival.
+*Acolytes will now drop 1 of 6 New Arcanes on death!
+
+{{ver|30}}
+*Acolytes will no longer spawn underwater in Submersible Steel Path missions due to the water killing them instantly. They haven’t learned to swim yet.
+
+{{ver|29.10.5}}
+*Fixed Acolytes not spawning in Uranus Steel Path missions.
+
+{{ver|29.5.4}}
+*Acolytes have been given the fancy “boss Health bar” treatment!
+
+{{ver|29.5}}
+;THE STEEL PATH&#58; ACOLYTES JOIN THE BATTLE & MORE!
+*As you play in any Steel Path mission, Acolytes will spawn and attack - defeating the Acolyte grants a guaranteed drop of 2 Steel Essence. Beware! If you get downed by an Acolyte, they'll escape and you won’t receive any Steel Essence!
+**''The Steel Path Acolytes now have received the same Status Effect eligibility treatment that Liches received in Update 27.3 earlier this year. This means we have slightly increased their health (scaled by squad size) as the Status Effect eligibility makes them easier to kill.''
+**''Reduced the Melee attack damage on both Misery and Malice to avoid the more reported 1HKOs.''
+*In essence (ha), there is virtually no RNG with Steel Essence anymore. Acolytes will always appear in regular missions (Endlessly in Endless missions.). The time at which they choose to appear may be a bit random, but if you kill mobs, they will come!
+**''Please note, Acolytes won't spawn in Archwing missions on the Steel Path.''
+
+{{ver|29}}
+*Acolyte Mods have been redistributed into Entrati Bounties as we are sunsetting the rerunning of that event, however, it won't be the last you see of Acolytes overall. Stay tuned for more!
+
+{{ver|18.4.1}}
+*Introduced.
+}}
+
+==See Also==
+*[[Stalker]]
+*[[Shadow Stalker]]
+
+{{StalkerNav}}
+[[es:Acólito]]
+[[fr:Acolytes]]
+[[ru:Послушники Сталкера]]
+[[Category:Enemies]]
+[[Category:Stalker]]
+[[Category:Update 18]]

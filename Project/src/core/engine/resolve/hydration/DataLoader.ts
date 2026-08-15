@@ -13,7 +13,9 @@ import { ItemRepository } from './ItemRepository';
 import { ModRepository } from './ModRepository';
 import { IncarnonRepository } from './IncarnonRepository';
 import { ArcaneRepository } from './ArcaneRepository';
+import { AbilityRepository } from './AbilityRepository';
 import { ShardRepository } from './ShardRepository';
+import { EnemyRepository, curateEnemies, type RawEnemyEntry, type EnemyOverride } from '../../simulate/enemies/EnemyRepository';
 
 export interface DataLoaderInput {
   weapons:               any[];
@@ -22,7 +24,11 @@ export interface DataLoaderInput {
   weaponAttackOverrides: Record<string, any>;
   incarnon:              Record<string, any>;
   arcaneOverrides:       Record<string, any>;
+  abilityOverrides:      Record<string, any>;
   archonShards:          Record<string, any>;
+  companions:            any[];
+  enemies:               RawEnemyEntry[];
+  enemyOverrides:        EnemyOverride;
 }
 
 export class DataLoader {
@@ -33,11 +39,23 @@ export class DataLoader {
     // pero en Maps separados desde Fase 2 Slice C (segmentación storage+normalize).
     ItemRepository.loadWeapons(input.weapons);
     ItemRepository.loadWarframes(input.warframes);
+    // Un compañero no es un ítem del loadout de armas, pero SÍ es un participante con stats
+    // propios; entra al mismo repositorio porque comparte los cuatro pilares y el molde de avatar.
+    ItemRepository.loadCompanions(input.companions);
     ItemRepository.loadWeaponAttackOverrides(input.weaponAttackOverrides);
     ModRepository.loadOverrides(input.modOverrides);
     IncarnonRepository.load(input.incarnon);
     ArcaneRepository.load(input.arcaneOverrides);
+    AbilityRepository.load(input.abilityOverrides);
     ShardRepository.load(input.archonShards);
+    // La curación se aplica UNA VEZ, antes del reparto: las dos ramas leen el mismo raw y tienen que
+    // leerlo igual. Aplicarla dentro de `EnemyRepository.load` dejaba a `ItemRepository` —y por lo
+    // tanto a la entidad que se simula— con el dato crudo (ver `curateEnemies`).
+    const enemies = curateEnemies(input.enemies, input.enemyOverrides);
+    // Doble carga a propósito: EnemyRepository resuelve nombres para C2, ItemRepository lo hidrata
+    // como participante de C1. Son dos usos del mismo dato, no una duplicación de la fuente.
+    EnemyRepository.load(enemies);
+    ItemRepository.loadEnemies(enemies);
     DataLoader._initialized = true;
   }
 

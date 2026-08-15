@@ -12,7 +12,7 @@
  * Deuda liviana (deliberada): `project()` importa `type SimulationEntity` de
  * `@core` (solo el tipo → erased en runtime, sin ciclo `@core ↔ @shared`). El
  * smell direccional vive aquí por simplicidad hasta nombrar la capa z2 real.
- * Ver `docs/governance/open-questions.md` (OQ-ENGINE-FUTURE / OQ-ENGINE-8).
+ * Ver `docs/governance/open-questions.md` (OQ-ENGINE-FUTURE) y `closed-decisions.md` (DC-OQ-ENGINE-8).
  */
 import type { SimulationEntity } from '@core/engine/contracts';
 import type { ItemDomain, ItemKind, ItemFamily } from '@shared/types/base';
@@ -28,14 +28,28 @@ export interface StatViewModel {
 }
 
 export interface EntityViewModel {
-  /** EntityId del motor (clave estable; la usa `consume().weapon(id)`). */
+  /**
+   * **Quién es**: la coordenada del participante en la escena (`squad.0.primary`, `hostile.1`). Es la
+   * clave estable para apuntar a UNO en particular, y la que consume `consume().at(id)`.
+   *
+   * ⚠️ NO es lo que toma `consume().weapon(…)`, que selecciona por molde — la distinción importa
+   * desde que dos participantes pueden compartir `unique_name` (`OQ-ENGINE-36`).
+   */
   id: string;
   /** Canal del ensemble — lookup estable para la UI ('warframe' | 'primary' | …). */
   channel?: string;
-  /** Token de identidad (path del juego). El nombre legible lo resuelve i18n/data en el borde. */
+  /** **Qué es**: el puntero al catálogo. El nombre legible lo resuelve i18n/data en el borde. */
   unique_name: string;
-  domain: ItemDomain;
-  kind: ItemKind;
+  /**
+   * Taxonomía de arsenal — **sólo la portan los participantes que son ítems del loadout**. Un enemigo
+   * participa del espacio sin ser un ítem del pipeline y entra con las tres ausentes (espejo de
+   * `SimulationEntity.domain`, que ya era opcional).
+   *
+   * Eran obligatorias y el contrato quedó **más estricto que sus consumidores**: el único lector real
+   * (`UpgradeView.tsx`) ya usaba optional chaining.
+   */
+  domain?: ItemDomain;
+  kind?: ItemKind;
   family?: ItemFamily;
   stats: StatViewModel[];
 }
@@ -46,7 +60,7 @@ export interface ViewModelContract {
 
 /**
  * Proyecta la salida nativa de C (`snapshot(): SimulationEntity[]`) al contrato
- * de display. Pura y total: tira los 6 buckets internos del nodo y queda el
+ * de display. Pura y total: tira los 4 buckets internos del nodo y queda el
  * `final` + unidad + categoría por entidad. [D-7 Fase 4] unit/category ya NO viajan
  * en el nodo (el engine es puro) — se adjuntan acá por lookup keyed en el token,
  * vía `lib/format/stat-presentation`. La label NO va en el contrato: la adjunta el

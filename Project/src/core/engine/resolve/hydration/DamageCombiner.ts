@@ -3,7 +3,8 @@
  * @status en-desarrollo
  */
 
-import { ELEMENTAL_COMBINATIONS, PRIMARY_ELEMENTS } from "../../contracts/damage-logic";
+import { damageTypeFromToken, damageTokenFromType } from "../../contracts/damage-logic";
+import { PRIMARY_ELEMENTS, resolveElementalCombination } from "../../formulas/common/status-base";
 
 export interface ElementalMod {
   type: string; // AttributeId / token D-6 (e.g. "WEAPON_ADD_HEAT_DAMAGE")
@@ -12,6 +13,20 @@ export interface ElementalMod {
 }
 
 export const PHYSICAL_TYPES = ["WEAPON_ADD_IMPACT_DAMAGE", "WEAPON_ADD_PUNCTURE_DAMAGE", "WEAPON_ADD_SLASH_DAMAGE"];
+
+/** Adaptadores token↔type sobre la ley SSoT (`formulas/common/status-base`). */
+function isPrimaryElement(token: string): boolean {
+  const type = damageTypeFromToken(token);
+  return type !== null && PRIMARY_ELEMENTS.has(type);
+}
+
+function combineElementTokens(tokenA: string, tokenB: string): string | null {
+  const a = damageTypeFromToken(tokenA);
+  const b = damageTypeFromToken(tokenB);
+  if (!a || !b) return null;
+  const result = resolveElementalCombination(new Set([a, b]));
+  return result ? damageTokenFromType(result) : null;
+}
 
 export class DamageCombiner {
   /**
@@ -24,7 +39,10 @@ export class DamageCombiner {
     const finalDamage: Record<string, number> = {};
     const innateCopy = { ...innateDamage };
     
-    // Calcular el daño base total para escalar los mods elementales
+    // Calcular el daño base total para escalar los mods elementales. Escala en BASE-UNITS a propósito:
+    // el Step 1 (Serration, pool WEAPON_ADD_DAMAGE) se aplica DOWNSTREAM al resolver el nodo, no acá —
+    // Base×elem%×(1+Serration) ≡ Modified_Base×elem% (double-dip, arch §16 / DC-OQ-ENGINE-1). Cruzar
+    // con calculating-bonuses Step 1/2 sin esto parece "falta Modified_Base": no falta, viaja en el pool.
     const totalBaseDamage = Object.values(innateDamage).reduce((acc, val) => acc + val, 0);
 
     // 1. Clasificar mods por índice
@@ -43,7 +61,7 @@ export class DamageCombiner {
       }
 
       // -- LEY ELEMENTAL --
-      if (PRIMARY_ELEMENTS.includes(mod.type)) {
+      if (isPrimaryElement(mod.type)) {
         let valueToAdd = (totalBaseDamage * mod.percentage) / 100;
         
         // Si el arma tiene el mismo tipo innato, se "fusiona" en este slot
@@ -77,7 +95,7 @@ export class DamageCombiner {
 
     // Añadir el daño innato al final si no fue absorbido
     Object.entries(innateCopy).forEach(([type, value]) => {
-      if (PRIMARY_ELEMENTS.includes(type)) {
+      if (isPrimaryElement(type)) {
         consolidatedQueue.push({ type, value: value! });
       } else {
         finalDamage[type] = (finalDamage[type] || 0) + value!;
@@ -91,9 +109,8 @@ export class DamageCombiner {
       const second = consolidatedQueue[i + 1];
 
       if (second) {
-        const comboKey = `${first.type}+${second.type}`;
-        const resultType = ELEMENTAL_COMBINATIONS[comboKey];
-        
+        const resultType = combineElementTokens(first.type, second.type);
+
         if (resultType) {
           finalDamage[resultType] = (finalDamage[resultType] || 0) + first.value + second.value;
           i += 2;

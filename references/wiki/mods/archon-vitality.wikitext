@@ -1,0 +1,130 @@
+{{ModBox}}
+{{M|Archon Vitality}} is an [[:Category:Archon Mods|Archon mod]] for [[Warframes]] that increases {{Stat|Health}} and applies an extra {{D|Heat}} proc for abilities that can inflict them.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Health}}
+|-
+| 0 || +9%
+|-
+| 1 || +18%
+|-
+| 2 || +27%
+|-
+| 3 || +36%
+|-
+| 4 || +45%
+|-
+| 5 || +55%
+|-
+| 6 || +64%
+|-
+| 7 || +73%
+|-
+| 8 || +82%
+|-
+| 9 || +91%
+|-
+| 10 || +100%
+|}
+
+==Acquisition==
+{{M|Archon Vitality}} is available from [[Chipper]] of {{Faction|Kahl's Garrison}} for 40 {{Resource|Stock (Kahl)}}, requiring players to be at '''Rank 3 - Fort''' to purchase.
+
+==Notes==
+*'''[[Abilities]]''' that inflict {{D|Heat}} status proc(s) will inflict '''one''' additional {{D|Heat}} proc that deals the same damage.
+**Effect does not scale with mod rank. The mod can optionally be left unranked to save capacity.
+**Can be triggered through {{Arcane|Melee Afflictions}} (from +6 to +7).
+**Only some Warframes inflict {{D|Heat}} status procs:
+***{{WF|Chroma}}'s {{A|Spectral Scream}} and {{A|Elemental Ward}}, which can be transferred via [[Helminth]].
+***{{WF|Citrine}}'s {{A|Prismatic Gem}}.
+***{{WF|Ember}}'s {{A|Fireball}}, part of {{A|Inferno}}, as well as {{A|Fire Blast}}, which can be transferred via [[Helminth]].
+***{{WF|Gauss}}'s {{A|Thermal Sunder}}, which can be transferred via [[Helminth]].
+***{{WF|Hildryn}}'s {{A|Pillage}} with {{M|Blazing Pillage}}.
+***{{WF|Jade}}'s {{A|Light's Judgment}}, {{A|Ophanim Eyes}}, which can be transferred via [[Helminth]], and {{A|Glory on High}}.
+***{{WF|Lavos}}'s {{A|Catalyze}} can imbue {{D|Heat}} to all other abilities excluding ones transferred via [[Helminth]].
+***{{WF|Inaros}}'s {{A|Sandstorm}} with {{M|Elemental Sandstorm}} with heat on a melee weapon.
+***{{WF|Koumei}}'s {{A|Kumihimo}} and {{A|Bunraku}}.
+***{{WF|Mirage}}'s {{A|Sleight of Hand}} with {{M|Explosive Legerdemain}}.
+***{{WF|Nezha}}'s {{A|Fire Walker}}, which can be transferred via [[Helminth]], {{A|Blazing Chakram}}, and {{A|Warding Halo}}.
+***{{WF|Nova}}'s {{A|Null Star}} with {{M|Neutron Star}}, which can be transferred via [[Helminth]].
+***{{WF|Protea}}'s {{A|Blaze Artillery}}.
+***{{WF|Sirius}}' {{A|Coronal Ejection}} and {{A|Jade Stars}}.
+***{{WF|Temple}}'s {{A|Pyrotechnics}}, which can be transferred via [[Helminth]], and {{A|Overdrive}}.
+***{{WF|Trinity}}'s {{A|Link}} will add an additional {{D|Heat}} proc whenever a {{D|Heat}} status effect is redirected to linked enemies.
+***{{WF|Voruna}}'s {{A|Fangs of Raksh}}, though only 1 extra heat status effect will be added, despite the ability adding 10.
+***{{WF|Wisp}}'s {{A|Sol Gate}}.
+***{{WF|Wukong}}'s {{A|Celestial Twin}} when equipped with {{A|Primal Fury}} modded for {{D|Heat}}.
+***{{WF|Zephyr}}'s {{A|Tornado}} after absorbing {{D|Heat}} damage.
+***{{WF|Uriel}}'s {{A|Infernalis}}, [[Demonium]] and {{A|Brimstone}} as well as effects from [[Uriel/Abilities/Passive|Passive Demons]].
+***All [[Exalted Weapon]]s when modded with {{D|Heat}}.
+*The additional {{D|Heat}} proc does not count for the purposes of {{Arcane|Cascadia Flare}} or {{Arcane|Arcane Hot Shot}}, and does not create any additional stacks on those buffs.
+
+==See also==
+*{{M|Vitality}}, the normal version of this mod with lower capacity cost.
+*{{M|Umbral Vitality}}, an alternative to this mod with a set bonus and unique polarity.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|34}}
+;Base vs Final Stats in Modding - Health / Energy / Shield / Armor Stat Overhaul
+
+If you’ve spent any time invested in the deeper nuances of Modding, you may be familiar with “Warframe Math” - math that upon first glance doesn’t really make sense, but once you learn the inner workings of the game, it all comes together. While we can appreciate the value that complex systems offer to a certain subsect of players, there are other aspects of the game that should have clear and understandable outcomes. Namely: Shield, Health, Energy, and Armor Modding. 
+
+'''<u>Pop quiz:</u>''' what is 300 + 440%? If you answered 740, you may just be an Excalibur player.
+
+Vitality (+440% Heath), Redirection (+440% Shields), Flow (+150% Energy), and Steel Fiber (+110% Armor) come with large modifier values that don’t seem to match their outcome in-game. '''This is because these Mods apply their multiplier to the base stats of the Warframe - i.e., the stats you have at Rank 0.''' In the Excalibur example, a Rank 30 Excalibur’s Health stat of 300 earns an additional 440 Health from max rank Vitality (+440% Heath) since it applies to his base rank Health stat of 100, resulting in 740 total health.
+
+In this update, we have removed this obfuscation by having '''Health, Shield, Energy, and Armor Mods apply to the stats of Warframes at their current rank.''' Continuing our Excalibur example, instead of Vitality always applying to Excalibur’s base rank 100 Health, it would apply to his Health stat based on his rank - namely, '''the stat you can actually see in your Arsenal.''' If your Excalibur were Rank 30, his Health stat would be 300, which means Vitality’s multiplier would be calculated off of 300.
+
+With previous Health and Mod values, additional adjustments are needed to make this revision work while maintaining game balance. By only changing where the multiplier applies, a Rank 30 Excalibur would receive an extra 1,320 Health from max rank Vitality, resulting in a total health stat of 1,600. This outcome is a significant buff, which is not the intention of this system change. 
+
+To remedy this, we approached this problem in two ways:
+
+'''1 - We reduced the overall multiplier for Health, Shield, Energy, and Armor Mods.'''<br/>
+Since these now affect Max Rank Warframe stats, these Mods need to scale differently to maintain the status quo. Additionally, we wanted these new values to be as clear and understandable to all players as possible! Here are a few examples of these value changes:
+
+* ''Vitality:'' Reduced from +440% to +100% Health
+* ''Redirection:'' Reduced from +440% to +100% Shield Capacity
+* ''Steel Fiber:'' Reduced from +110% to +100% Armor
+* ''Flow:'' Reduced from +150% to +100% Energy Max
+
+Doing some quick math, this means that a Rank 30 Excalibur (300 Health) with a reworked Vitality Mod (+100% Health, applied to the final Health stat) would receive 300 extra Health, for a total of 600. That, in contrast, is a nerf, which we also don’t want to do. 
+
+So, our next step:
+
+'''2 - We adjusted Warframe Health, Shield, Energy, and Armor values to keep the end result of the revised Mods as close to the original values as possible.'''
+
+With this change, Excalibur’s Rank 30 Health stat is 370. With +100% Health from a max Vitality Mod, his resulting Health stat would be 740, which matches what it was originally. 
+
+While this path to the same result may seem a little complicated, the outcome matches our intention: '''we want players to be able to look at their Health, Shield, and Armor Mods, and be able to understand ''how'' they affect the stats they see in their Arsenal.'''
+
+In addition to everything above, '''we also increased the base stat values for Warframes so that these revised Mods offer similar value for lower-ranked Frames.''' To do so, we reduced the amount of Health/Shield/Energy that Warframes earn per rank in half, and transferred the sum of that value to their base stats.
+
+'''Warframe Mod Changes:'''
+*Archon Vitality: +100% Health (was +440%)
+
+{{ver|32.0.9}}
+*Fixed Atlas’ Landslide ability triggering Archon Mod effects.
+
+{{ver|32.0.7}}
+*Fixed Ember’s Fire blast shockwave not proc’ing Archon Vitality’s double Heat damage bonus.
+
+{{ver|32.0.1}}
+;Removed Trading and Transmuting functionality for the new Archon Warframe Mods 
+*The intended path to earning these Mods is through Kahl’s Garrison, and not through Transmutation. While Transmutation will remain disabled, we will re-enable Trading again once these Mods have officially been released next week with Kahl’s Garrison.
+
+{{ver|32.0}}
+*Introduced.
+}}
+{{WarframeMods}}
+[[es:Vitalidad Arconte]]
+[[fr:Vitalité Archonte]]
+[[ru:Архонтовая Живучесть]]
+[[uk:Архонтова життєвість]]
+[[Category:Archon Mods]]
+[[Category:Update 32]]
+[[Category:Warframe Mods]]
+[[Category:Untransmutable Mods]]

@@ -1,0 +1,184 @@
+{{ModBox}}
+'''Tenacious Bond''' is a [[Companion]] [[mod]] that reduces companion recovery on headshot kills. In addition, a [[Critical Damage]] multiplier is granted to the owner's weapons if the companion's critical chance is above 50%.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! Recovery Timer Reduction (Headshot)
+! Final Crit Damage Multiplier
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || -0.5s || +0.2x || 2
+|-
+| 1 || -1s || +0.4x || 3
+|-
+| 2 || -1.5s || +0.6x || 4
+|-
+| 3 || -2s || +0.8x || 5
+|-
+| 4 || -2.5s || +1.0x || 6
+|-
+| 5 || -3s || +1.2x || 7
+|-
+|}
+
+==Acquisition==
+The mod can be bought from [[The Business]] for {{sc|20,000}} after reaching '''Rank 3 - Doer''' with [[Solaris United]].
+
+==Notes==
+*Despite the mod's description reading "over 50%", the buff will still be applied when the companion's crit chance is ''at 50%''. In other words, the companion's crit chance needs to be '''≥''' 50%.
+*Does not affect [[Amp]] damage.
+*Critical damage multiplier is a flat final and follows the formula 1 + (tier * (crit multi - 1 + final)) where the first tier is yellow (eg. skana multi is 1.5x which is brought to 2.7x (2.7x on yellow, 4.4x on orange, 6.1x on red and so on) the impact lessens depending on modded critical multiplier)
+*The [[Robotic Weapons]] that can satisfy the critical chance requirements ''without'' [[Riven Mods]] are:
+**{{Weapon|Prime Laser Rifle}}, {{Weapon|Vulcax}} and {{Weapon|Vulklok}} with {{M|Point Strike}}, {{Weapon|Laser Rifle}} with {{M|Critical Delay}}.
+**{{Weapon|Burst Laser Prime}} and {{Weapon|Prisma Burst Laser}} with {{M|Primed Pistol Gambit}} or {{M|Creeping Bullseye}}.
+*The [[Beast|Beast Companions]] that can satisfy the critical chance requirements are:
+**All [[Kavat]]s and [[Vulpaphyla]]s with {{M|Bite}}.
+**{{Companion|Huras Kubrow}} and {{Companion|Chesa Kubrow}} with {{M|Bite}}.
+***The requirement can be satisfied by other [[Kubrow]]s and [[Predasite]]s using {{M|Hunter Synergy}} and a primary weapon with sufficient critical chance, depending on the breed.
+:{| class="wikitable sortable" style="text-align:center;"
+! Name !! Type !! Slot !!data-sort-type="number"| Crit Chance !!data-sort-type="number"| Required Bonus % !! [[Riven]] Disposition
+|+{{Ver/Lu|37}}
+|-
+| {{Weapon|Artax}} || Rifle || Robotic || 2% || {{Math|(50/2)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Artax|Disposition}}
+|-
+| {{Weapon|Burst Laser}} || Pistol || Robotic || 15% || {{Math|(50/15)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Burst Laser|Disposition}}
+|-
+| {{Weapon|Burst Laser Prime}} || Pistol || Robotic || 20% || {{Math|(50/20)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Burst Laser Prime|Disposition}}
+|-
+| {{Weapon|Cryotra}} || Rifle || Robotic || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Cryotra|Disposition}}
+|-
+| {{Weapon|Deconstructor}} || Melee || Robotic || '''''0%''''' || <!--{{Math|(50/0)-1|round=0.01|percent=y}}}}--> '''''N/A''''' || {{#invoke:Weapons|getFormattedValue|Deconstructor|Disposition}}
+|-
+| {{Weapon|Deconstructor Prime}} || Melee || Robotic || '''''0%''''' || <!--{{Math|(50/0)-1|round=0.01|percent=y}}--> '''''N/A''''' || {{#invoke:Weapons|getFormattedValue|Deconstructor Prime|Disposition}}
+|-
+| {{Weapon|Deth Machine Rifle}} || Rifle || Robotic || 5% || {{Math|(50/5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Deth Machine Rifle|Disposition}}
+|-
+| {{Weapon|Deth Machine Rifle Prime}} || Rifle || Robotic || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Deth Machine Rifle Prime|Disposition}}
+|-
+| {{Weapon|Helstrum}} || Rifle || Robotic || 5% || {{Math|(50/5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Helstrum|Disposition}}
+|-
+| {{Weapon|Laser Rifle}} || Rifle || Robotic || 17% || {{Math|(50/17)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Laser Rifle|Disposition}}
+|-
+| {{Weapon|Multron}} || Rifle || Robotic || 15% || {{Math|(50/15)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Multron|Disposition}}
+|-
+| {{Weapon|Prime Laser Rifle}} || Rifle || Robotic || 20% || {{Math|(50/20)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Prime Laser Rifle|Disposition}}
+|-
+| {{Weapon|Prisma Burst Laser}} || Pistol || Robotic || 18% || {{Math|(50/18)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Prisma Burst Laser|Disposition}}
+|-
+| {{Weapon|Stinger}} || Rifle || Robotic || 2.5% || {{Math|(50/2.5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Stinger|Disposition}}
+|-
+| {{Weapon|Sweeper}} || Shotgun || Robotic || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Sweeper|Disposition}}
+|-
+| {{Weapon|Sweeper Prime}} || Shotgun || Robotic || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Sweeper Prime|Disposition}}
+|-
+| {{Weapon|Tazicor}} || Rifle || Robotic || 5% || {{Math|(50/5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Tazicor|Disposition}}
+|-
+| {{Weapon|Verglas}} || Rifle || Robotic || 8% || {{Math|(50/8)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Verglas|Disposition}}
+|-
+| {{Weapon|Verglas Prime}} || Rifle || Robotic || 14% || {{Math|(50/14)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Verglas Prime|Disposition}}
+|-
+| {{Weapon|Vulcax}} || Rifle || Robotic || 20% || {{Math|(50/20)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Vulcax|Disposition}}
+|-
+| {{Weapon|Vulklok}} || Rifle || Robotic || 35% || {{Math|(50/35)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Vulklok|Disposition}}
+|-
+| {{Weapon|Akaten}} || Melee || Hound || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Akaten|Disposition}}
+|-
+| {{Weapon|Batoten}} || Melee || Hound || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Batoten|Disposition}}
+|-
+| {{Weapon|Lacerten}} || Melee || Hound || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Lacerten|Disposition}}
+|-
+| {{Weapon|Adarza Claws}} || Melee || Beast || 30% || {{Math|(50/30)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Adarza Claws|Disposition}}
+|-
+| {{Weapon|Chesa Claws}} || Melee || Beast || 15% || {{Math|(50/15)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Chesa Claws|Disposition}}
+|-
+| {{Weapon|Crescent Claws}} || Melee || Beast || 22.5% || {{Math|(50/22.5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Crescent Claws|Disposition}}
+|-
+| {{Weapon|Helminth Claws}} || Melee || Beast || 7.5% || {{Math|(50/7.5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Helminth Claws|Disposition}}
+|-
+| {{Weapon|Huras Claws}} || Melee || Beast || 20% || {{Math|(50/20)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Huras Claws|Disposition}}
+|-
+| {{Weapon|Medjay Claws}} || Melee || Beast || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Medjay Claws|Disposition}}
+|-
+| {{Weapon|Panzer Claws}} || Melee || Beast || 25% || {{Math|(50/25)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Panzer Claws|Disposition}}
+|-
+| {{Weapon|Pharaoh Claws}} || Melee || Beast || 7.5% || {{Math|(50/7.5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Pharaoh Claws|Disposition}}
+|-
+| {{Weapon|Raksa Claws}} || Melee || Beast || 7.5% || {{Math|(50/7.5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Raksa Claws|Disposition}}
+|-
+| {{Weapon|Sahasa Claws}} || Melee || Beast || 10% || {{Math|(50/10)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Sahasa Claws|Disposition}}
+|-
+| {{Weapon|Sly Claws}} || Melee || Beast || 20% || {{Math|(50/20)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Sly Claws|Disposition}}
+|-
+| {{Weapon|Smeeta Claws}} || Melee || Beast || 20% || {{Math|(50/20)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Smeeta Claws|Disposition}}
+|-
+| {{Weapon|Sunika Claws}} || Melee || Beast || 7.5% || {{Math|(50/7.5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Sunika Claws|Disposition}}
+|-
+| {{Weapon|Vasca Claws}} || Melee || Beast || 15% || {{Math|(50/15)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Vasca Claws|Disposition}}
+|-
+| {{Weapon|Venari Claws}} || Melee || Beast || 20% || {{Math|(50/20)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Venari Claws|Disposition}}
+|-
+| {{Weapon|Venari Prime Claws}} || Melee || Beast || 20% || {{Math|(50/20)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Venari Prime Claws|Disposition}}
+|-
+| {{Weapon|Vizier Claws}} || Melee || Beast || 5% || {{Math|(50/5)-1|round=0.01|percent=y}} || {{#invoke:Weapons|getFormattedValue|Vizier Claws|Disposition}}
+|}
+
+==Tips==
+*{{WF|Harrow}} gets the most benefit from this mod, as his headshot-focused gameplay allows him to reliably trigger this mod's recovery reduction, and {{A|Covenant}} adds a flat critical chance bonus to all allies in Affinity Range, including companions, triggering the critical damage bonus for the duration of the ability as a result.
+**{{WF|Cyte-09}} is a close second; though he cannot force crits through his innate abilities, he is also very Weak Point-oriented and his abilities synergize very well with this mod: {{A|Seek}} highlights heads and other Weak Point through walls and gives his weapons extra [[Punch Through]] while active, {{A|Evade}} allows him to remain invisible as long as he consistently makes Weak Point kills, and {{Weapon|Neutralizer}}'s ricochets aim for heads, sharply cutting down his companion's recovery time.
+*{{WF|Khora}} can equip the mod on both her companion and {{A|Venari}} in order to receive double the normal bonus.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37.0.1}}
+*Fixed Companions standing still and not using their abilities if any of the Bond Mods are equipped.
+
+{{ver|36.1}}
+*Fixed Tenacious Bond stacking multiple times when using a Panzer Vulpaphyla with Panzer Devolution.
+*Fixed Tenacious Bond’s buff icon not appearing in the HUD if equipped on both Venari and a Companion.
+*Fixed Tenacious Bond’s buff not deactivating when Venari dies, to be consistent with how it works on other Companions.
+
+{{ver|35.1}}
+*Fixed a combination of Magus Aggress and the Tenacious Bond Mod (when equipped on both Khora’s Venari and Companion) causing buff icons to disappear.
+
+{{ver|35.0.8}}
+*Fixed Tenacious Bond’s Final Critical Damage Multiplier not functioning. 
+**''While the UI indicated that it was active, it was not actually triggering and applying to the player. It will now!''
+
+{{ver|34.0.8}}
+*Fixed Tenacious Bond’s buff icon not appearing for Clients if it was equipped onto Companion before Crit Mods.
+
+{{ver|34.0.4}}
+*Fixed the buff icon for Tenacious Bond not disappearing when switching between Companions in the Simulacrum.
+
+{{ver|34.0.2}}
+*Fixed case where Hounds would not attack or move if they had any of the new Bond Mods equipped.
+*Fixed getting some small one-time Affinity popups when first loading into a mission with certain Bond Mods equipped.
+*Fixed HUD buff for Tenacious Bond not appearing and not removing itself when swapping Companions in the Simulacrum.
+*Fixed Tenacious Bond not taking Hunter Synergy’s +30% Critical Chance-Link  into account. 
+*Fixed multiple of the same Tenacious Bond buffs appearing in the HUD when entering and exiting Archwing as Khora with Venari.
+
+{{ver|34.0.1}}
+*Fixed Clients seeing two buffs in the HUD for Tenacious Bond if Khora’s Venari and Companion both had it equipped (UI only issue).
+*Fixed several script errors with the new Bond Mods while Null Audit is also equipped.
+*Fixed a script error when returning to Relay with a Companion that has Tenacious Bond equipped.
+
+{{ver|34}}
+*Introduced.
+}}
+{{CompanionModNav}}
+
+[[Category:Companion Mods]]
+[[Category:Sentinel Mods]]
+[[Category:Kubrow Mods]]
+[[Category:Kavat Mods]]
+[[Category:MOA Mods]]
+[[Category:Hound Mods]]
+[[Category:Mods]]
+[[Category:Update 34]]
+[[Category:Bond Mods]]
+
+[[es:Vínculo tenaz]]
+[[fr:Lien Tenace]]
+[[ru:Цепкая Связь]]
