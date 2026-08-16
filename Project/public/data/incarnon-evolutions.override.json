@@ -664,7 +664,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 4 tiene condición doble implícita: with_armor_over_450 AND while_blocking. Schema solo soporta un token — while_blocking documentado como deuda. Parry Angle sin upgrade_type (no modelable, data:class:cat/d)."
+            "engine:note — Stat 4 tiene condición doble implícita: with_armor_over_450 AND while_blocking. Schema solo soporta un token — while_blocking documentado como deuda. Parry Angle sin upgrade_type (no modelable)."
           ]
         },
         "swordsmans_flourish": {
@@ -1019,7 +1019,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: multi-efecto (daño + ammo efficiency) + stacking (Y variant-specific: Boltor=4, Telos/Prime=3) + duration 5s. Sin upgrade_type — engine:class:c2/stack candidato. Ammo Efficiency sin token en modifier.ts. data:class:cat/e hasta definir familia stacking on-kill.",
+            "engine:note — Stat 2: multi-efecto (daño + ammo efficiency) + stacking (Y variant-specific: Boltor=4, Telos/Prime=3) + duration 5s. Sin upgrade_type — engine:class:c2/stack candidato. Ammo Efficiency sin token en modifier.ts, hasta definir familia stacking on-kill.",
             "engine:note — Stat 2: split pendiente cuando se defina token WEAPON_ADD_AMMO_EFFICIENCY y semántica de stacking. 1 label = 1 stat (regla schema)."
           ]
         }
@@ -1181,7 +1181,7 @@
           ],
           "notes": [
             "engine:note — while_channeled_ability_active = ability activamente drenando energía — abilities sin drain (Desecrate, Haven, Gloom sin enemigos cercanos) no cuentan. Deuda vocabulario condition.",
-            "engine:note — Stats 3-4 splitteados (1 label = 1 stat): daño data:class:cat/b + ammo efficiency data:class:cat/e (sin token WEAPON_ADD_AMMO_EFFICIENCY — ver deuda status.md)."
+            "engine:note — Stats 3-4 splitteados (1 label = 1 stat): daño + ammo efficiency (sin token WEAPON_ADD_AMMO_EFFICIENCY — ver deuda status.md)."
           ]
         },
         "munitions_grit": {
@@ -1220,7 +1220,7 @@
             "engine:note — Scope: aplica en ambas formas. En Incarnon Form, el ammo se consume del magazín de la forma Incarnon, no del pool normal.",
             "engine:note — El bonus de daño a multishot es multiplicativo con otros bonuses de daño — no additive. Afecta posición en la fórmula de daño.",
             "engine:note — El bonus de daño aplica solo a los proyectiles extra generados por multishot, no al proyectil base.",
-            "engine:note — Stats 2-4 splitteados (1 label = 1 stat): mecánica display data:class:cat/d + daño a multishot data:class:cat/d (modificador multiplicativo único, sin token) + multishot data:class:cat/a."
+            "engine:note — Stats 2-4 splitteados (1 label = 1 stat): mecánica display + daño a multishot (modificador multiplicativo único, sin token) + multishot."
           ]
         }
       },
@@ -1272,7 +1272,7 @@
           "notes": [
             "engine:note — Scope: normal form only — no aplica en Incarnon Form. Deuda: form-scoped exclusions no modeladas.",
             "engine:note — on_punch_through_hit se dispara cuando el proyectil tiene PT activo — no requiere impactar un segundo objetivo realmente.",
-            "engine:note — Mecánica probabilística: 20% chance → 10% ammo restore. No aplica split (probabilidad + magnitud son parte del mismo proc, no upgrade_type independientes). Sin base_value — ningún valor representa el stat de forma inequívoca. data:class:cat/e, display-only."
+            "engine:note — Mecánica probabilística: 20% chance → 10% ammo restore. No aplica split (probabilidad + magnitud son parte del mismo proc, no upgrade_type independientes). Sin base_value — ningún valor representa el stat de forma inequívoca, display-only."
           ]
         }
       },
@@ -1478,7 +1478,7 @@
             }
           ],
           "notes": [
-            "engine:note — Sin upgrade_type — Ammo Efficiency sin token en modifier.ts (ver deuda status.md). Sin condition — token de proximidad/conteo 'with_6_enemies_within_6m' no definido, requiere debate L3. data:class:cat/d hasta resolver ambas deudas."
+            "engine:note — Sin upgrade_type — Ammo Efficiency sin token en modifier.ts (ver deuda status.md). Sin condition — token de proximidad/conteo 'with_6_enemies_within_6m' no definido, requiere debate L3, hasta resolver ambas deudas."
           ]
         },
         "commodores_fortune": {
@@ -1634,7 +1634,7 @@
           "notes": [
             "engine:note — on_full_burst_hit: no se activa por multishot ni PT; sí cuenta impactos en objetos (burbujas nullifier); se activa aunque el primer hit del burst mate al objetivo.",
             "engine:note — Scope Incarnon Form: resetea al activar Incarnon Form y no puede stackearse en Incarnon Form.",
-            "engine:note — Stat 1: engine:class:c2/stack — stacking combo buff (+20% por full burst hit, cap 5x, reset en reload). Sin upgrade_type hasta definir familia stacking-combo. data:class:cat/e."
+            "engine:note — Stat 1: engine:class:c2/stack — stacking combo buff (+20% por full burst hit, cap 5x, reset en reload). Sin upgrade_type hasta definir familia stacking-combo."
           ]
         },
         "absolute_valor": {
@@ -1662,7 +1662,7 @@
             }
           ],
           "notes": [
-            "engine:note — Familia Condition Overload — fórmula damage × (1 + n_status_types × val%). Sin upgrade_type hasta verificación cross-schema mods↔incarnon. data:class:cat/d."
+            "engine:note — Familia Condition Overload — fórmula damage × (1 + n_status_types × val%). Sin upgrade_type hasta verificación cross-schema mods↔incarnon."
           ]
         }
       }
@@ -1783,7 +1783,7 @@
             }
           ],
           "notes": [
-            "engine:note — Mecánica probabilística: 40% chance → reload instantáneo Primary+Secondary. Sin upgrade_type — no modelable en Fase 0. data:class:cat/e."
+            "engine:note — Mecánica probabilística: 40% chance → reload instantáneo Primary+Secondary. Sin upgrade_type — no modelable en Fase 0."
           ]
         }
       },
@@ -1969,7 +1969,7 @@
             }
           ],
           "notes": [
-            "engine:note — Mecánica derivada: StatusChance += min(CritChance × 0.30, 0.40). Sin upgrade_type — no hay token para escalar un stat en función de otro. data:class:cat/d."
+            "engine:note — Mecánica derivada: StatusChance += min(CritChance × 0.30, 0.40). Sin upgrade_type — no hay token para escalar un stat en función de otro."
           ]
         }
       }
@@ -2024,7 +2024,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: Ammo Efficiency sin token en modifier.ts — deuda activa. engine:class:c2/stack (4x) + duration (5s) no modelados en Fase 0. data:class:cat/e."
+            "engine:note — Stat 2: Ammo Efficiency sin token en modifier.ts — deuda activa. engine:class:c2/stack (4x) + duration (5s)."
           ]
         },
         "paragon_essence": {
@@ -2088,9 +2088,6 @@
               "label": "+|val1|% Magazine Reloaded per second when Holstered.",
               "base_value": 50
             }
-          ],
-          "notes": [
-            "engine:note — Holster reload rate — sin token en modifier.ts. data:class:cat/d."
           ]
         }
       },
@@ -2124,7 +2121,7 @@
             }
           ],
           "notes": [
-            "engine:note — Mecánica derivada: CritChance += min(StatusChance × 0.25, 0.35). Sin upgrade_type — no hay token para escalar un stat en función de otro. data:class:cat/d."
+            "engine:note — Mecánica derivada: CritChance += min(StatusChance × 0.25, 0.35). Sin upgrade_type — no hay token para escalar un stat en función de otro."
           ]
         },
         "elemental_balance": {
@@ -2183,7 +2180,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: Familia Condition Overload — damage × (1 + n_status_types × val%). Sin upgrade_type hasta verificación cross-schema mods↔incarnon. data:class:cat/d."
+            "engine:note — Stat 2: Familia Condition Overload — damage × (1 + n_status_types × val%). Sin upgrade_type hasta verificación cross-schema mods↔incarnon."
           ]
         },
         "stalkers_vendetta": {
@@ -2343,7 +2340,7 @@
           ],
           "notes": [
             "engine:note — El bonus de daño condicional ignora: el bonus de daño base del mismo perk, el 2x de disparo cargado (Primary Fire), y el bonus de Galvanized Aptitude — modificador multiplicativo único aislado.",
-            "engine:note — Stat 2: modificador multiplicativo único — sin upgrade_type estándar. data:class:cat/e."
+            "engine:note — Stat 2: modificador multiplicativo único — sin upgrade_type estándar."
           ]
         },
         "stalkers_resentment": {
@@ -2408,7 +2405,7 @@
           ],
           "notes": [
             "engine:note — Scope: normal form only — no aplica en Incarnon Form. Deuda: form-scoped exclusions no modeladas.",
-            "engine:note — SET semantics — establece Ammo Capacity a un valor fijo, no ADD. Sin upgrade_type. data:class:cat/d."
+            "engine:note — SET semantics — establece Ammo Capacity a un valor fijo, no ADD. Sin upgrade_type."
           ]
         }
       },
@@ -2512,7 +2509,7 @@
           "notes": [
             "engine:note — El trigger while_target_affected_by_toxin también lo disparan los campos (toxin fields) — la fuente del daño no se limita a ataques directos.",
             "engine:note — El trigger evalúa por fuente de toxin activa (arma, Toxic Lash, Xata's Whisper) — cada una puede disparar independientemente en el mismo hit.",
-            "engine:note — Stat 2: bonus combo condicional — sin upgrade_type para combo flat por hit. data:class:cat/e."
+            "engine:note — Stat 2: bonus combo condicional — sin upgrade_type para combo flat por hit."
           ]
         },
         "ronins_rush": {
@@ -2532,7 +2529,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: duration (33s) no modelada en Fase 0. data:class:cat/b."
+            "engine:note — Stat 2: duration (33s)."
           ]
         }
       },
@@ -2595,7 +2592,7 @@
             }
           ],
           "notes": [
-            "engine:note — Duration buff (9s) no modelado en Fase 0. data:class:cat/b."
+            "engine:note — Duration buff (9s)."
           ]
         },
         "universal_readiness": {
@@ -2608,7 +2605,7 @@
             }
           ],
           "notes": [
-            "engine:note — Sin upgrade_type — no hay token para combo por ammo pickup. data:class:cat/d."
+            "engine:note — Sin upgrade_type — no hay token para combo por ammo pickup."
           ]
         }
       }
@@ -2660,8 +2657,8 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: condición oculta no en label — requiere Energy Max ≥ 200. Sin upgrade_type. Familia CO. data:class:cat/d.",
-            "engine:note — Stat 2: Familia Condition Overload — damage × (1 + n_status_types × val%). Sin upgrade_type hasta verificación cross-schema mods↔incarnon. data:class:cat/d."
+            "engine:note — Stat 2: condición oculta no en label — requiere Energy Max ≥ 200. Sin upgrade_type. Familia CO.",
+            "engine:note — Stat 2: Familia Condition Overload — damage × (1 + n_status_types × val%). Sin upgrade_type hasta verificación cross-schema mods↔incarnon."
           ]
         },
         "fevered_frenzy": {
@@ -2709,9 +2706,6 @@
               "label": "+|val1|% Magazine Reloaded/s when holstered.",
               "base_value": 50
             }
-          ],
-          "notes": [
-            "engine:note — Holster reload rate — sin token en modifier.ts. data:class:cat/d."
           ]
         },
         "marksmans_hand": {
@@ -2750,7 +2744,7 @@
           ],
           "notes": [
             "data:note — ⚠️ Currently does not work — el perk on_headshot no tiene efecto en el juego actual.",
-            "engine:note — % elemental temporal (<DT_TOXIN>) sin upgrade_type — sin token para elemental %. Duration 3s no modelada. data:class:cat/e."
+            "engine:note — % elemental temporal (<DT_TOXIN>) sin upgrade_type — sin token para elemental %. Duration 3s no modelada."
           ]
         },
         "ripper_rounds": {
@@ -2856,9 +2850,6 @@
               "label": "+|val1|% Magazine Reloaded/s when Holstered.",
               "base_value": 50
             }
-          ],
-          "notes": [
-            "engine:note — Holster reload rate — sin token en modifier.ts. data:class:cat/d."
           ]
         },
         "mounting_momentum": {
@@ -2909,9 +2900,6 @@
               "label": "Headshots Build +|val1|% more Incarnon Transmutation charge.",
               "base_value": 50
             }
-          ],
-          "notes": [
-            "engine:note — Incarnon charge rate — sin token en modifier.ts. data:class:cat/d."
           ]
         },
         "racking_wrath": {
@@ -2950,7 +2938,7 @@
           "notes": [
             "engine:note — Scope: aplica en ambas formas (normal e Incarnon Form).",
             "engine:note — Bonus de daño es multiplicativo respecto a bonuses de daño base como Serration — no aditivo.",
-            "engine:note — Mecánica probabilística: 50% chance. Modificador multiplicativo único — sin upgrade_type estándar. data:class:cat/e."
+            "engine:note — Mecánica probabilística: 50% chance. Modificador multiplicativo único — sin upgrade_type estándar."
           ]
         },
         "ruptured_plentitude": {
@@ -2964,7 +2952,7 @@
             }
           ],
           "notes": [
-            "engine:note — Ammo Efficiency sin token en modifier.ts — deuda activa. Duration 20s no modelada. data:class:cat/e."
+            "engine:note — Ammo Efficiency sin token en modifier.ts — deuda activa. Duration 20s no modelada."
           ]
         },
         "agile_executor": {
@@ -2978,7 +2966,7 @@
             }
           ],
           "notes": [
-            "engine:note — Ammo Efficiency sin token en modifier.ts — deuda activa. data:class:cat/e."
+            "engine:note — Ammo Efficiency sin token en modifier.ts — deuda activa."
           ]
         }
       }
@@ -3072,7 +3060,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: proximity engine:class:c2/stack (max 5x, 1 por enemigo dentro de 6m) — no modelado en Fase 0. data:class:cat/b."
+            "engine:note — Stat 2: proximity engine:class:c2/stack (max 5x, 1 por enemigo dentro de 6m)."
           ]
         }
       },
@@ -3108,7 +3096,7 @@
             }
           ],
           "notes": [
-            "engine:note — Comportamiento binario — sin upgrade_type, sin base_value por diseño. data:class:cat/d."
+            "engine:note — Comportamiento binario — sin upgrade_type, sin base_value por diseño."
           ]
         }
       },
@@ -3123,7 +3111,7 @@
             }
           ],
           "notes": [
-            "engine:note — Familia proc-on-proc (Flashing Bleed / Internal Bleeding / Hunter Munitions) — debate pendiente. data:class:cat/d provisional."
+            "engine:note — Familia proc-on-proc (Flashing Bleed / Internal Bleeding / Hunter Munitions) — debate pendiente."
           ]
         },
         "kinetic_killer": {
@@ -3137,7 +3125,7 @@
             }
           ],
           "notes": [
-            "engine:note — SET semantics para Crit Mult — establece a 4x, no ADD. Sin upgrade_type. data:class:cat/e."
+            "engine:note — SET semantics para Crit Mult — establece a 4x, no ADD. Sin upgrade_type."
           ]
         },
         "absolute_dominion": {
@@ -3229,7 +3217,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: engine:class:c2/stack (3x) + duration (2s) no modelados en Fase 0. data:class:cat/b."
+            "engine:note — Stat 2: engine:class:c2/stack (3x) + duration (2s)."
           ]
         }
       },
@@ -3270,7 +3258,7 @@
             }
           ],
           "notes": [
-            "engine:note — Mecánica probabilística: 10% chance → reload instantáneo. Sin upgrade_type. data:class:cat/e."
+            "engine:note — Mecánica probabilística: 10% chance → reload instantáneo. Sin upgrade_type."
           ]
         }
       },
@@ -3287,7 +3275,7 @@
             }
           ],
           "notes": [
-            "engine:class:c2/stack (10x) + duration (2s) no modelados en Fase 0. data:class:cat/b."
+            "engine:class:c2/stack (10x) + duration (2s)."
           ]
         },
         "prelude_of_might": {
@@ -3386,7 +3374,7 @@
           ],
           "notes": [
             "engine:class:c2/stack (4x): ganar un stack refresca la duración de todos. Todos expiran juntos cuando el más reciente caduca — no expiran individualmente.",
-            "engine:note — Stat 2: engine:class:c2/stack (4x) + duration (10s) no modelados en Fase 0. data:class:cat/b."
+            "engine:note — Stat 2: engine:class:c2/stack (4x) + duration (10s)."
           ]
         }
       },
@@ -3399,9 +3387,6 @@
               "label": "+|val1|% Magazine Reloaded/s when Holstered.",
               "base_value": 50
             }
-          ],
-          "notes": [
-            "engine:note — Holster reload rate — sin token en modifier.ts. data:class:cat/d."
           ]
         },
         "moonrise_velocity": {
@@ -3570,7 +3555,7 @@
           ],
           "notes": [
             "engine:note — on_shield_break = escudo del jugador, no del enemigo — naming ambiguo, deuda de vocabulario pendiente.",
-            "engine:note — Stat 2: duration buff (8s) no modelado en Fase 0. data:class:cat/b."
+            "engine:note — Stat 2: duration buff (8s)."
           ]
         }
       },
@@ -3609,7 +3594,7 @@
             }
           ],
           "notes": [
-            "engine:class:c2/stack (3x) no modelado en Fase 0. data:class:cat/b."
+            "engine:class:c2/stack (3x)."
           ]
         }
       },
@@ -3748,7 +3733,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: condición cross-slot (requiere estado de otros slots). No evaluable en Fase 0 — deuda OQ-STATE. data:class:cat/b."
+            "engine:note — Stat 2: condición cross-slot (requiere estado de otros slots). No evaluable en Fase 0 — deuda OQ-STATE."
           ]
         }
       },
@@ -3901,7 +3886,7 @@
             }
           ],
           "notes": [
-            "engine:note — Sprint Speed — token de avatar no verificado en modifier.ts. data:class:cat/d."
+            "engine:note — Sprint Speed — token de avatar no verificado en modifier.ts."
           ]
         }
       },
@@ -3918,7 +3903,7 @@
           "notes": [
             "engine:note — Solo cuenta distancia de slide en suelo — slide aéreo no acumula.",
             "engine:note — El arma debe estar en mano para que el perk aplique.",
-            "engine:note — Combo por distancia de slide — sin upgrade_type. data:class:cat/d."
+            "engine:note — Combo por distancia de slide — sin upgrade_type."
           ]
         },
         "skyborne_hunter": {
@@ -3932,7 +3917,7 @@
           ],
           "notes": [
             "engine:note — ⚠️ Nota posiblemente mal ubicada (referencia a stacks no pertenece a este perk): kills aéreos que cuentan para stacks incluyen proyectil de Incarnon Form y status kills de <DT_SLASH>, <DT_HEAT>, <DT_TOXIN>. Verificar si aplica a swooping_lunge (EVO 4).",
-            "engine:note — Range condicional a ataques aéreos — sin upgrade_type. data:class:cat/d."
+            "engine:note — Range condicional a ataques aéreos — sin upgrade_type."
           ]
         },
         "blade_twister": {
@@ -3957,7 +3942,7 @@
             }
           ],
           "notes": [
-            "engine:note — Comportamiento binario — reduce threshold de activación. Sin upgrade_type, sin base_value por diseño. data:class:cat/d."
+            "engine:note — Comportamiento binario — reduce threshold de activación. Sin upgrade_type, sin base_value por diseño."
           ]
         },
         "swooping_lunge": {
@@ -3971,7 +3956,7 @@
             }
           ],
           "notes": [
-            "engine:note — % Melee Damage buff — sin upgrade_type establecido. engine:class:c2/stack (3x) + duration (10s) no modelados en Fase 0. data:class:cat/d."
+            "engine:note — % Melee Damage buff — sin upgrade_type establecido. engine:class:c2/stack (3x) + duration (10s)."
           ]
         },
         "protracted_execution": {
@@ -3985,7 +3970,7 @@
             }
           ],
           "notes": [
-            "engine:note — Combo on-event — sin upgrade_type. data:class:cat/d."
+            "engine:note — Combo on-event — sin upgrade_type."
           ]
         }
       },
@@ -4002,7 +3987,7 @@
             }
           ],
           "notes": [
-            "engine:note — Duration buff (40s) no modelado en Fase 0. data:class:cat/b."
+            "engine:note — Duration buff (40s)."
           ]
         },
         "stunning_brutality": {
@@ -4015,7 +4000,7 @@
             }
           ],
           "notes": [
-            "engine:note — Comportamiento binario — stun en radio. Sin upgrade_type, sin base_value cuantificable. data:class:cat/d."
+            "engine:note — Comportamiento binario — stun en radio. Sin upgrade_type, sin base_value cuantificable."
           ]
         },
         "armed_inspiration": {
@@ -4028,7 +4013,7 @@
             }
           ],
           "notes": [
-            "engine:note — Combo on-event (ammo pickup) — sin upgrade_type. data:class:cat/d."
+            "engine:note — Combo on-event (ammo pickup) — sin upgrade_type."
           ]
         }
       }
@@ -4085,7 +4070,7 @@
           ],
           "notes": [
             "engine:note — Bonus de daño condicional: aditivo con Hornet Strike en forma normal; multiplicativo en Incarnon Form — posición en fórmula cambia según la forma activa.",
-            "engine:note — Stat 2: modificador multiplicativo único — sin upgrade_type. data:class:cat/e."
+            "engine:note — Stat 2: modificador multiplicativo único — sin upgrade_type."
           ]
         },
         "sages_resolve": {
@@ -4172,7 +4157,7 @@
           ],
           "notes": [
             "data:note — ⚠️ UI bug: los bonuses se muestran como permanentes en el Arsenal, pero solo aplican durante los 4s del buff activo.",
-            "engine:note — Stats 2 y 3: duration buff (4s) no modelado en Fase 0. data:class:cat/b."
+            "engine:note — Stats 2 y 3: duration buff (4s)."
           ]
         },
         "accelerating_volley": {
@@ -4187,7 +4172,7 @@
             }
           ],
           "notes": [
-            "engine:class:c2/stack (5x) + duration (0.5s) no modelados en Fase 0. data:class:cat/b."
+            "engine:class:c2/stack (5x) + duration (0.5s)."
           ]
         },
         "survivors_edge": {
@@ -4270,7 +4255,7 @@
             }
           ],
           "notes": [
-            "engine:note — Movement Speed — token de avatar no verificado en modifier.ts. data:class:cat/d."
+            "engine:note — Movement Speed — token de avatar no verificado en modifier.ts."
           ]
         }
       },
@@ -4289,7 +4274,7 @@
           "notes": [
             "engine:note — Scope: aplica en ambas formas (normal e Incarnon Form), incluyendo el switching.",
             "engine:class:c2/stack decay incremental: al expirar el buff, se pierde 1 stack y la duración se reinicia — no expiran todos a la vez.",
-            "engine:class:c2/stack (3x) + duration (12s) no modelados en Fase 0. data:class:cat/b."
+            "engine:class:c2/stack (3x) + duration (12s)."
           ]
         },
         "awakened_readiness": {
@@ -4302,8 +4287,7 @@
             }
           ],
           "notes": [
-            "engine:note — Scope: normal form only — no aplica en Incarnon Form. Deuda: form-scoped exclusions no modeladas.",
-            "engine:note — Holster reload rate — sin token en modifier.ts. data:class:cat/d."
+            "engine:note — Scope: normal form only — no aplica en Incarnon Form. Deuda: form-scoped exclusions no modeladas."
           ]
         },
         "feather_of_justice": {
@@ -4318,7 +4302,7 @@
           ],
           "notes": [
             "engine:note — Scope: normal form only — no aplica en Incarnon Form. Deuda: form-scoped exclusions no modeladas.",
-            "engine:note — Ammo Efficiency sin token en modifier.ts. data:class:cat/e."
+            "engine:note — Ammo Efficiency sin token en modifier.ts."
           ]
         }
       },
@@ -4333,8 +4317,7 @@
             }
           ],
           "notes": [
-            "engine:note — Scope: aplica en ambas formas (normal e Incarnon Form).",
-            "engine:note — Headshot damage — sin token en modifier.ts. data:class:cat/d."
+            "engine:note — Scope: aplica en ambas formas (normal e Incarnon Form)."
           ]
         },
         "incarnon_efficiency": {
@@ -4345,9 +4328,6 @@
               "label": "Headshots Build +|val1|% more Incarnon Transmutation charge.",
               "base_value": 50
             }
-          ],
-          "notes": [
-            "engine:note — Incarnon charge rate — sin token en modifier.ts. data:class:cat/d."
           ]
         },
         "elemental_excess": {
@@ -4382,7 +4362,7 @@
           ],
           "notes": [
             "data:note — ⚠️ Key mismatch: JSON usa 'devouring_attrition', nombre es 'Devastating Attrition'. Verificar clave correcta.",
-            "engine:note — Mecánica probabilística: 50% chance. Modificador multiplicativo único — sin upgrade_type. data:class:cat/e."
+            "engine:note — Mecánica probabilística: 50% chance. Modificador multiplicativo único — sin upgrade_type."
           ]
         },
         "reapers_plenty": {
@@ -4397,7 +4377,7 @@
           ],
           "notes": [
             "engine:note — Scope: normal form only — no aplica en Incarnon Form. Deuda: form-scoped exclusions no modeladas.",
-            "engine:note — Ammo Efficiency sin token en modifier.ts. Duration (6s) no modelada. data:class:cat/e."
+            "engine:note — Ammo Efficiency sin token en modifier.ts. Duration (6s) no modelada."
           ]
         },
         "overwhelming_attrition": {
@@ -4413,7 +4393,7 @@
           "notes": [
             "engine:note — Bonus de daño es aditivo con bonuses de daño base (Hornet Strike) — no multiplicativo.",
             "engine:class:c2/stack decay incremental: al expirar el buff, se pierde 1 stack y la duración se reinicia — no expiran todos a la vez.",
-            "engine:note — % damage buff — sin upgrade_type. engine:class:c2/stack (3x) + duration (10s) no modelados en Fase 0. data:class:cat/e."
+            "engine:note — % damage buff — sin upgrade_type. engine:class:c2/stack (3x) + duration (10s)."
           ]
         }
       }
@@ -4536,7 +4516,7 @@
           "notes": [
             "engine:note — Duration se refresca en headshots posteriores.",
             "engine:note — Scope: normal form only — no aplica en Incarnon Form. Deuda: form-scoped exclusions no modeladas.",
-            "engine:note — Mecánica probabilística: 20% chance. Ammo Efficiency sin token. Duration (6s) no modelada. data:class:cat/e."
+            "engine:note — Mecánica probabilística: 20% chance. Ammo Efficiency sin token. Duration (6s) no modelada."
           ]
         },
         "exact_penance": {
@@ -4552,7 +4532,7 @@
           "notes": [
             "engine:note — on_kill incluye kills por status effects — no solo daño directo.",
             "engine:note — Scope: normal form only — no aplica en Incarnon Form. Deuda: form-scoped exclusions no modeladas.",
-            "engine:note — Mecánica probabilística: 50% chance → reload instantáneo. Sin upgrade_type. data:class:cat/e."
+            "engine:note — Mecánica probabilística: 50% chance → reload instantáneo. Sin upgrade_type."
           ]
         }
       },
@@ -4609,7 +4589,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stats 2 y 3: duration buff (4s) no modelado en Fase 0. data:class:cat/b."
+            "engine:note — Stats 2 y 3: duration buff (4s)."
           ]
         },
         "carnage_reign": {
@@ -4623,7 +4603,7 @@
             }
           ],
           "notes": [
-            "engine:note — Familia Condition Overload — sin upgrade_type. data:class:cat/d."
+            "engine:note — Familia Condition Overload — sin upgrade_type."
           ]
         }
       }
@@ -4684,7 +4664,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: engine:class:c2/stack (4x) + duration (8s) no modelados en Fase 0. data:class:cat/b."
+            "engine:note — Stat 2: engine:class:c2/stack (4x) + duration (8s)."
           ]
         },
         "swift_punishment": {
@@ -4709,7 +4689,7 @@
           ],
           "notes": [
             "data:note — ⚠️ Discrepancia: label dice sprint speed ≥ 1.2, pero el perk activa con ≥ 1.1 — umbral real no coincide con la descripción.",
-            "engine:note — Familia Condition Overload — sin upgrade_type. data:class:cat/d."
+            "engine:note — Familia Condition Overload — sin upgrade_type."
           ]
         }
       },
@@ -4766,7 +4746,7 @@
           "notes": [
             "engine:note — No aplica a enemigos inmunes a armor removal (Exploiter Orb, Archons).",
             "engine:note — En Acolytes: puede despojar armor completamente, pero máximo 4 stacks de Puncture status simultáneos.",
-            "engine:note — Armor removal por stack — sin upgrade_type. data:class:cat/d."
+            "engine:note — Armor removal por stack — sin upgrade_type."
           ]
         },
         "deadhead": {
@@ -4777,9 +4757,6 @@
               "label": "+|val1|% Headshot Damage.",
               "base_value": 100
             }
-          ],
-          "notes": [
-            "engine:note — Headshot damage — sin token en modifier.ts. data:class:cat/d."
           ]
         },
         "critical_parallel": {
@@ -4858,7 +4835,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: duration buff (8s) no modelado en Fase 0. data:class:cat/b."
+            "engine:note — Stat 2: duration buff (8s)."
           ]
         },
         "trusty_sidearm": {
@@ -4880,7 +4857,7 @@
             }
           ],
           "notes": [
-            "engine:note — Stat 2: Ammo Efficiency sin token en modifier.ts. data:class:cat/e."
+            "engine:note — Stat 2: Ammo Efficiency sin token en modifier.ts."
           ]
         }
       },
@@ -4903,7 +4880,7 @@
             }
           ],
           "notes": [
-            "engine:class:c2/stack (4x) + duration (4s) no modelados en Fase 0. data:class:cat/b."
+            "engine:class:c2/stack (4x) + duration (4s)."
           ]
         },
         "extended_volley": {
@@ -4927,9 +4904,6 @@
               "upgrade_type": "WEAPON_ADD_RELOAD_SPEED",
               "condition": "on_reload_from_empty"
             }
-          ],
-          "notes": [
-            "engine:note — data:class:cat/b."
           ]
         }
       },
@@ -4945,7 +4919,7 @@
             }
           ],
           "notes": [
-            "engine:note — Headshot damage — sin token en modifier.ts. Duration (4s) no modelada. data:class:cat/e."
+            "engine:note — Headshot damage — sin token en modifier.ts. Duration (4s) no modelada."
           ]
         },
         "elemental_balance": {
@@ -5042,7 +5016,7 @@
               "base_value": 40,
               "condition": "while_channeled_ability_active",
               "notes": [
-                "engine:note — Follow Through sin token en modifier.ts. data:class:cat/e."
+                "engine:note — Follow Through sin token en modifier.ts."
               ]
             }
           ]
@@ -5114,7 +5088,7 @@
             }
           ],
           "notes": [
-            "engine:note — Familia proc-on-proc — debate pendiente. data:class:cat/d provisional."
+            "engine:note — Familia proc-on-proc — debate pendiente."
           ]
         },
         "subtle_force": {
@@ -5214,7 +5188,7 @@
             {
               "label": "Multishot consumes ammo directly from Capacity.",
               "notes": [
-                "engine:note — Mecánica de consumo de munición — binario, sin upgrade_type. data:class:cat/d."
+                "engine:note — Mecánica de consumo de munición — binario, sin upgrade_type."
               ]
             },
             {
@@ -5222,7 +5196,7 @@
               "base_value": 20,
               "condition": "on_multishot",
               "notes": [
-                "engine:note — Flat damage solo a proyectiles de multishot — no afectado por base damage mods. Sin upgrade_type establecido. data:class:cat/d."
+                "engine:note — Flat damage solo a proyectiles de multishot — no afectado por base damage mods. Sin upgrade_type establecido."
               ]
             }
           ],
@@ -5264,7 +5238,7 @@
               "label": "Increase Base Ammo Capacity to |val1|.",
               "base_value": 160,
               "notes": [
-                "engine:note — SET semantics — establece ammo a 160, no ADD. Sin upgrade_type. data:class:cat/d."
+                "engine:note — SET semantics — establece ammo a 160, no ADD. Sin upgrade_type."
               ]
             }
           ],
@@ -5281,7 +5255,7 @@
             {
               "label": "Hold charged shot for 1s to increase area of effect.",
               "notes": [
-                "engine:note — Mecánica binaria — activa AoE en bounces. Sin upgrade_type, sin base_value cuantificable. data:class:cat/d."
+                "engine:note — Mecánica binaria — activa AoE en bounces. Sin upgrade_type, sin base_value cuantificable."
               ]
             }
           ],
@@ -5291,7 +5265,7 @@
             "engine:note — Explosión beneficiada por Firestorm (Primed). Delay de 1s fijo — no modificable por mods.",
             "engine:note — Los proyectiles continúan ricocheteando normalmente después de la explosión.",
             "engine:note — Con Punch Through activo, la explosión solo ocurre en el primer impacto.",
-            "engine:note — Mecánica binaria — activa AoE en bounces. Sin upgrade_type, sin base_value cuantificable. data:class:cat/d."
+            "engine:note — Mecánica binaria — activa AoE en bounces. Sin upgrade_type, sin base_value cuantificable."
           ]
         },
         "commodores_fortune": {
@@ -5374,7 +5348,7 @@
               "upgrade_type": "WEAPON_ADD_FIRE_RATE",
               "condition": "on_equip",
               "notes": [
-                "engine:note — Duration buff (4s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (4s)."
               ]
             }
           ]
@@ -5394,7 +5368,7 @@
               "upgrade_type": "AVATAR_FLAT_HEALTH_REGEN",
               "condition": "on_finisher_kill",
               "notes": [
-                "engine:note — Duration buff (10s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (10s)."
               ]
             }
           ]
@@ -5410,7 +5384,7 @@
               "base_value": 60,
               "condition": "while_melee_equipped",
               "notes": [
-                "engine:note — Follow Through sin token en modifier.ts. data:class:cat/e."
+                "engine:note — Follow Through sin token en modifier.ts."
               ]
             }
           ],
@@ -5542,7 +5516,7 @@
               "base_value": 5,
               "condition": "while_target_affected_by_slash",
               "notes": [
-                "engine:note — Combo bonus sin upgrade_type. data:class:cat/e."
+                "engine:note — Combo bonus sin upgrade_type."
               ]
             }
           ]
@@ -5567,7 +5541,7 @@
               },
               "condition": "on_critical_hit",
               "notes": [
-                "engine:note — Status Damage — sin token en modifier.ts. engine:class:c2/stack (5x) + duration (10s) no modelados en Fase 0. data:class:cat/d."
+                "engine:note — Status Damage — sin token en modifier.ts. engine:class:c2/stack (5x) + duration (10s)."
               ]
             }
           ]
@@ -5592,7 +5566,7 @@
             {
               "label": "Combo Timer pauses when weapon is holstered",
               "notes": [
-                "engine:note — Comportamiento binario — pausa el timer. Sin upgrade_type, sin base_value por diseño. data:class:cat/d."
+                "engine:note — Comportamiento binario — pausa el timer. Sin upgrade_type, sin base_value por diseño."
               ]
             }
           ]
@@ -5605,7 +5579,7 @@
               "label": "+|val1|% Movement Speed.",
               "base_value": 30,
               "notes": [
-                "engine:note — Movement Speed — token de avatar no verificado en modifier.ts. data:class:cat/d."
+                "engine:note — Movement Speed — token de avatar no verificado en modifier.ts."
               ]
             }
           ],
@@ -5772,7 +5746,7 @@
               "base_value": 10,
               "condition": "on_kill",
               "notes": [
-                "engine:note — Mecánica probabilística: 10% chance → replenish ammo. Sin upgrade_type. data:class:cat/e."
+                "engine:note — Mecánica probabilística: 10% chance → replenish ammo. Sin upgrade_type."
               ]
             }
           ],
@@ -5807,10 +5781,7 @@
           "stats": [
             {
               "label": "Headshots Build +|val1|% more Incarnon Transmutation charge.",
-              "base_value": 50,
-              "notes": [
-                "engine:note — Incarnon charge rate — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "base_value": 50
             }
           ],
           "notes": [
@@ -5847,7 +5818,7 @@
               "base_value": 30,
               "condition": "on_consecutive_weakpoint_hits",
               "notes": [
-                "engine:note — Headshot damage — sin token en modifier.ts. engine:class:c2/stack (4x) no modelado en Fase 0. data:class:cat/e."
+                "engine:note — Headshot damage — sin token en modifier.ts. engine:class:c2/stack (4x)."
               ]
             }
           ]
@@ -5861,7 +5832,7 @@
               "base_value": 200,
               "condition": "on_punch_through_hit",
               "notes": [
-                "engine:note — % Damage buff (additive a base damage mods) — sin upgrade_type establecido. Duration (10s) no modelado en Fase 0. data:class:cat/d."
+                "engine:note — % Damage buff (additive a base damage mods) — sin upgrade_type establecido. Duration (10s)."
               ]
             }
           ],
@@ -5878,7 +5849,7 @@
               "base_value": 5,
               "condition": "on_hit_incarnon_form",
               "notes": [
-                "engine:note — Crit Chance scoped al charged blast, no global — sin upgrade_type. engine:class:c2/stack (50x) no modelado en Fase 0. data:class:cat/d."
+                "engine:note — Crit Chance scoped al charged blast, no global — sin upgrade_type. engine:class:c2/stack (50x)."
               ]
             },
             {
@@ -5886,7 +5857,7 @@
               "base_value": 5,
               "condition": "on_hit_incarnon_form",
               "notes": [
-                "engine:note — Crit Damage scoped al charged blast, no global — sin upgrade_type. engine:class:c2/stack (50x) no modelado en Fase 0. data:class:cat/d."
+                "engine:note — Crit Damage scoped al charged blast, no global — sin upgrade_type. engine:class:c2/stack (50x)."
               ]
             }
           ],
@@ -5990,7 +5961,7 @@
               "upgrade_type": "WEAPON_ADD_FIRE_RATE",
               "condition": "on_punch_through_hit",
               "notes": [
-                "engine:note — Duration buff (6s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (6s)."
               ]
             }
           ],
@@ -6065,7 +6036,7 @@
               "upgrade_type": "WEAPON_BASE_DAMAGE",
               "condition": "on_hit",
               "notes": [
-                "engine:class:c2/stack (4x) + duration (3s) no modelados en Fase 0. data:class:cat/b."
+                "engine:class:c2/stack (4x) + duration (3s)."
               ]
             }
           ],
@@ -6169,7 +6140,7 @@
               "upgrade_type": "WEAPON_ADD_RELOAD_SPEED",
               "condition": "on_reload_from_empty",
               "notes": [
-                "engine:note — Duration buff (6s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (6s)."
               ]
             }
           ],
@@ -6186,7 +6157,7 @@
               "base_value": 20,
               "condition": "on_headshot_kill",
               "notes": [
-                "engine:note — Mecánica probabilística: 20% chance → reload instantáneo. Sin upgrade_type. data:class:cat/e."
+                "engine:note — Mecánica probabilística: 20% chance → reload instantáneo. Sin upgrade_type."
               ]
             }
           ],
@@ -6221,10 +6192,7 @@
           "stats": [
             {
               "label": "Headshots Build +|val1|% more Incarnon Transmutation charge.",
-              "base_value": 50,
-              "notes": [
-                "engine:note — Incarnon charge rate — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "base_value": 50
             }
           ],
           "notes": [
@@ -6261,7 +6229,7 @@
               "condition": "on_non_critical_hit",
               "notes": [
                 "data:note — ⚠️ Key mismatch: JSON usa 'devouring_attrition', nombre es 'Devastating Attrition'. Verificar clave correcta.",
-                "engine:note — Mecánica probabilística: 50% chance. Modificador multiplicativo único — sin upgrade_type. data:class:cat/e."
+                "engine:note — Mecánica probabilística: 50% chance. Modificador multiplicativo único — sin upgrade_type."
               ]
             }
           ]
@@ -6276,7 +6244,7 @@
               "upgrade_type": "WEAPON_ADD_CRIT_MULT",
               "condition": "while_enemy_status_count_below_3",
               "notes": [
-                "engine:note — Bonus flat after mods — fuera del pool estándar de Crit Mult. data:class:cat/b."
+                "engine:note — Bonus flat after mods — fuera del pool estándar de Crit Mult."
               ]
             }
           ],
@@ -6294,7 +6262,7 @@
               "base_value": 50,
               "condition": "on_2_headshots_within_2s",
               "notes": [
-                "engine:note — Headshot damage — sin token en modifier.ts. Duration (8s) no modelada en Fase 0. data:class:cat/e."
+                "engine:note — Headshot damage — sin token en modifier.ts. Duration (8s)."
               ]
             }
           ],
@@ -6363,15 +6331,12 @@
               "label": "+|val1|% Sprint Speed.",
               "base_value": 20,
               "notes": [
-                "engine:note — Sprint Speed — token de avatar no verificado en modifier.ts. data:class:cat/d."
+                "engine:note — Sprint Speed — token de avatar no verificado en modifier.ts."
               ]
             },
             {
               "label": "+|val1|% Slide.",
-              "base_value": 20,
-              "notes": [
-                "engine:note — Slide velocity — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "base_value": 20
             }
           ]
         }
@@ -6386,7 +6351,7 @@
               "base_value": 4,
               "condition": "on_slam_hit",
               "notes": [
-                "engine:note — Combo por enemigo en slam radius — sin upgrade_type. data:class:cat/e."
+                "engine:note — Combo por enemigo en slam radius — sin upgrade_type."
               ]
             }
           ]
@@ -6400,7 +6365,7 @@
               "base_value": 1.5,
               "upgrade_type": "WEAPON_ADD_RANGE",
               "notes": [
-                "engine:note — Range scoped a slide attacks — token general WEAPON_ADD_RANGE. data:class:cat/a."
+                "engine:note — Range scoped a slide attacks — token general WEAPON_ADD_RANGE."
               ]
             }
           ]
@@ -6425,7 +6390,7 @@
             {
               "label": "Reach 3x Combo and Heavy Attack to activate Incarnon Form.",
               "notes": [
-                "engine:note — Comportamiento binario — reduce threshold de activación. Sin upgrade_type, sin base_value por diseño. data:class:cat/d."
+                "engine:note — Comportamiento binario — reduce threshold de activación. Sin upgrade_type, sin base_value por diseño."
               ]
             }
           ]
@@ -6436,10 +6401,7 @@
           "stats": [
             {
               "label": "+|val1|% Parkour Velocity.",
-              "base_value": 30,
-              "notes": [
-                "engine:note — Parkour Velocity — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "base_value": 30
             }
           ]
         },
@@ -6449,10 +6411,7 @@
           "stats": [
             {
               "label": "Increase Double Jump strength by +|val1|%.",
-              "base_value": 100,
-              "notes": [
-                "engine:note — Double Jump strength — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "base_value": 100
             }
           ]
         }
@@ -6468,7 +6427,7 @@
               "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
               "condition": "on_slide_kill",
               "notes": [
-                "engine:note — Duration buff (30s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (30s)."
               ]
             }
           ]
@@ -6492,7 +6451,7 @@
               "label": "Collecting ammo grants |val1| Melee Combo counter.",
               "base_value": 5,
               "notes": [
-                "engine:note — Combo on-event (ammo pickup) — sin upgrade_type. data:class:cat/d."
+                "engine:note — Combo on-event (ammo pickup) — sin upgrade_type."
               ]
             }
           ]
@@ -6559,7 +6518,7 @@
               "upgrade_type": "WEAPON_ADD_FIRE_RATE",
               "condition": "on_kill",
               "notes": [
-                "engine:class:c2/stack (3x) + duration (15s) no modelados en Fase 0. data:class:cat/b."
+                "engine:class:c2/stack (3x) + duration (15s)."
               ]
             }
           ]
@@ -6573,7 +6532,7 @@
               "base_value": 5,
               "condition": "per_melee_combo_multiplier",
               "notes": [
-                "engine:note — Movement Speed — token de avatar no verificado en modifier.ts. Escala dinámica con combo multiplier. data:class:cat/e."
+                "engine:note — Movement Speed — token de avatar no verificado en modifier.ts. Escala dinámica con combo multiplier."
               ]
             }
           ]
@@ -6589,7 +6548,7 @@
               "base_value": 4,
               "condition": "on_slam_hit",
               "notes": [
-                "engine:note — Combo por enemigo en slam radius — sin upgrade_type. data:class:cat/e."
+                "engine:note — Combo por enemigo en slam radius — sin upgrade_type."
               ]
             }
           ]
@@ -6628,7 +6587,7 @@
             {
               "label": "Reach 3x Combo and Heavy Attack to activate Incarnon Form.",
               "notes": [
-                "engine:note — Comportamiento binario — reduce threshold de activación. Sin upgrade_type, sin base_value por diseño. data:class:cat/d."
+                "engine:note — Comportamiento binario — reduce threshold de activación. Sin upgrade_type, sin base_value por diseño."
               ]
             }
           ]
@@ -6639,10 +6598,7 @@
           "stats": [
             {
               "label": "Gain +|val1| mid-air jumps.",
-              "base_value": 1,
-              "notes": [
-                "engine:note — Mid-air jumps — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "base_value": 1
             }
           ]
         },
@@ -6656,7 +6612,7 @@
               "upgrade_type": "WEAPON_ADD_COMBO_COUNT_CHANCE",
               "condition": "on_finisher",
               "notes": [
-                "engine:note — Duration buff (20s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (20s)."
               ]
             }
           ]
@@ -6673,7 +6629,7 @@
               "upgrade_type": "WEAPON_BASE_HEAVY_EFFICIENCY",
               "condition": "while_impaling_5_or_more_enemies",
               "notes": [
-                "engine:note — Duration buff (20s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (20s)."
               ]
             }
           ]
@@ -6685,10 +6641,7 @@
             {
               "label": "Impaled enemies are +|val1|% more vulnerable to Status Chance.",
               "base_value": 35,
-              "condition": "while_enemy_impaled",
-              "notes": [
-                "engine:note — Debuff a enemy Status Chance — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "condition": "while_enemy_impaled"
             }
           ],
           "notes": [
@@ -6705,7 +6658,7 @@
               "base_value": 5,
               "condition": "while_enemy_impaled",
               "notes": [
-                "engine:note — Aplica stacks de Puncture a enemigos empalados — sin upgrade_type. data:class:cat/e."
+                "engine:note — Aplica stacks de Puncture a enemigos empalados — sin upgrade_type."
               ]
             }
           ]
@@ -6765,7 +6718,7 @@
               "base_value": 10,
               "condition": "while_target_affected_by_cold",
               "notes": [
-                "engine:note — Combo bonus condicional a Cold status — sin upgrade_type. data:class:cat/e."
+                "engine:note — Combo bonus condicional a Cold status — sin upgrade_type."
               ]
             }
           ]
@@ -6834,7 +6787,7 @@
               "upgrade_type": "WEAPON_BASE_COMBO_INITIAL",
               "condition": "on_killing_enemies_with_3_cold_stacks",
               "notes": [
-                "engine:class:c2/stack (4x) + duration (10s) no modelados en Fase 0. data:class:cat/b."
+                "engine:class:c2/stack (4x) + duration (10s)."
               ]
             }
           ]
@@ -6937,7 +6890,7 @@
               "label": "x|val1| Critical Chance on Bodyshots.",
               "base_value": 0,
               "notes": [
-                "engine:note — SET multiplicativo: establece Crit Chance a 0 en bodyshots. Sin upgrade_type. data:class:cat/d."
+                "engine:note — SET multiplicativo: establece Crit Chance a 0 en bodyshots. Sin upgrade_type."
               ]
             },
             {
@@ -6945,7 +6898,7 @@
               "base_value": 150,
               "condition": "on_weakpoint_hit",
               "notes": [
-                "engine:note — Additive con mods como Pistol Gambit — no es base crit. Sin upgrade_type establecido. data:class:cat/e."
+                "engine:note — Additive con mods como Pistol Gambit — no es base crit. Sin upgrade_type establecido."
               ]
             }
           ],
@@ -7026,7 +6979,7 @@
                 "prime": 9
               },
               "notes": [
-                "engine:note — SET semantics — establece Status Chance a valor fijo. Sin upgrade_type. data:class:cat/d."
+                "engine:note — SET semantics — establece Status Chance a valor fijo. Sin upgrade_type."
               ]
             }
           ]
@@ -7039,7 +6992,7 @@
               "label": "Increase Base Status Chance by 30% of current Critical Chance, up to |val1|%.",
               "base_value": 40,
               "notes": [
-                "engine:note — Fórmula de escala: Status Chance = 30% × Crit Chance actual, cap 40%. Sin upgrade_type. data:class:cat/d."
+                "engine:note — Fórmula de escala: Status Chance = 30% × Crit Chance actual, cap 40%. Sin upgrade_type."
               ]
             }
           ],
@@ -7130,7 +7083,7 @@
               "base_value": 9,
               "condition": "while_enemy_undamaged",
               "notes": [
-                "engine:note — Combo bonus condicional a enemigo sin daño — sin upgrade_type. data:class:cat/e."
+                "engine:note — Combo bonus condicional a enemigo sin daño — sin upgrade_type."
               ]
             }
           ],
@@ -7293,7 +7246,7 @@
               "base_value": 100,
               "condition": "on_bleed_kill",
               "notes": [
-                "engine:note — Overshield de avatar — sin token confirmado en modifier.ts. data:class:cat/e."
+                "engine:note — Overshield de avatar — sin token confirmado en modifier.ts."
               ]
             }
           ],
@@ -7348,7 +7301,7 @@
               "upgrade_type": "WEAPON_BASE_DAMAGE",
               "condition": "on_reload_from_empty",
               "notes": [
-                "engine:class:c2/stack (2x) permanente durante misión (se pierde al morir) — no modelado en Fase 0. data:class:cat/b."
+                "engine:class:c2/stack (2x) permanente durante misión (se pierde al morir)."
               ]
             }
           ],
@@ -7365,7 +7318,7 @@
               "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 40,
               "notes": [
-                "engine:note — Familia Condition Overload — escala por tipo de status en target. Condition pendiente de debate. data:class:cat/d provisional."
+                "engine:note — Familia Condition Overload — escala por tipo de status en target. Condition pendiente de debate."
               ]
             }
           ]
@@ -7459,7 +7412,7 @@
               "base_value": 0.05,
               "condition": "on_firing",
               "notes": [
-                "engine:note — WEAPON_BASE_MULTISHOT no verificado en modifier.ts. engine:class:c2/stack (5x, reset on reload) no modelado en Fase 0. data:class:cat/e."
+                "engine:note — WEAPON_BASE_MULTISHOT no verificado en modifier.ts. engine:class:c2/stack (5x, reset on reload)."
               ]
             }
           ],
@@ -7494,7 +7447,7 @@
               "base_value": 1,
               "condition": { "all": ["on_hit", "while_target_affected_by_electricity"] },
               "notes": [
-                "engine:note — Mecánica probabilística (40% chance restore round). data:class:cat/e."
+                "engine:note — Mecánica probabilística (40% chance restore round)."
               ]
             }
           ],
@@ -7648,7 +7601,7 @@
               "upgrade_type": "WEAPON_BASE_DAMAGE",
               "condition": "on_consecutive_weakpoint_hits",
               "notes": [
-                "engine:class:c2/stack (3x) no modelado en Fase 0. data:class:cat/b."
+                "engine:class:c2/stack (3x)."
               ]
             }
           ]
@@ -7671,7 +7624,7 @@
               "base_value": 5,
               "condition": "on_firing",
               "notes": [
-                "engine:note — WEAPON_BASE_MULTISHOT no verificado en modifier.ts. engine:class:c2/stack (10x, reset on reload) no modelado en Fase 0. data:class:cat/e."
+                "engine:note — WEAPON_BASE_MULTISHOT no verificado en modifier.ts. engine:class:c2/stack (10x, reset on reload)."
               ]
             }
           ],
@@ -7758,7 +7711,7 @@
               "base_value": 20,
               "condition": "on_full_burst_hit",
               "notes": [
-                "engine:note — % Damage bonus — sin upgrade_type establecido. engine:class:c2/stack (4x, reset on reload) no modelado en Fase 0. data:class:cat/e."
+                "engine:note — % Damage bonus — sin upgrade_type establecido. engine:class:c2/stack (4x, reset on reload)."
               ]
             }
           ],
@@ -7835,7 +7788,7 @@
               "upgrade_type": "WEAPON_ADD_RANGE",
               "condition": "on_status_effect",
               "notes": [
-                "engine:class:c2/stack (20x) + duration (8s) no modelados en Fase 0. data:class:cat/b."
+                "engine:class:c2/stack (20x) + duration (8s)."
               ]
             }
           ]
@@ -7863,10 +7816,7 @@
             },
             {
               "label": "+|val1|% Slide.",
-              "base_value": 20,
-              "notes": [
-                "engine:note — Slide velocity — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "base_value": 20
             }
           ]
         }
@@ -7881,7 +7831,7 @@
               "base_value": 5,
               "condition": "on_slide_attack_hit",
               "notes": [
-                "engine:note — Combo por enemigo en slide attack — sin upgrade_type. data:class:cat/e."
+                "engine:note — Combo por enemigo en slide attack — sin upgrade_type."
               ]
             }
           ]
@@ -7895,7 +7845,7 @@
               "base_value": 1,
               "condition": "on_shard_damage",
               "notes": [
-                "engine:note — Combo on-event mecánica específica de Thalys (shard system) — sin upgrade_type. data:class:cat/e."
+                "engine:note — Combo on-event mecánica específica de Thalys (shard system) — sin upgrade_type."
               ]
             }
           ]
@@ -7920,7 +7870,7 @@
             {
               "label": "Reach 3x Combo and Heavy Attack to activate Incarnon Form.",
               "notes": [
-                "engine:note — Comportamiento binario — reduce threshold de activación. Sin upgrade_type, sin base_value por diseño. data:class:cat/d."
+                "engine:note — Comportamiento binario — reduce threshold de activación. Sin upgrade_type, sin base_value por diseño."
               ]
             }
           ]
@@ -7931,10 +7881,7 @@
           "stats": [
             {
               "label": "+|val1|% Jump and Double Jump Height.",
-              "base_value": 100,
-              "notes": [
-                "engine:note — Jump height — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "base_value": 100
             }
           ]
         },
@@ -7946,7 +7893,7 @@
               "label": "Ground Finishers knock enemies down in |val1|m radius.",
               "base_value": 6,
               "notes": [
-                "engine:note — AoE knockdown en radio fijo — binario con radio cuantificado. Sin upgrade_type. data:class:cat/d."
+                "engine:note — AoE knockdown en radio fijo — binario con radio cuantificado. Sin upgrade_type."
               ]
             }
           ]
@@ -7960,7 +7907,7 @@
             {
               "label": "Shards grow when a new shard is created, up to 3 times. Fully grown shards erupt out of the embedded enemy, dealing x2 damage and impaling them on the spot.",
               "notes": [
-                "engine:note — Mecánica compuesta: growth_stages=3 + eruption_multiplier=2 — valores ligados, no separables. Sin upgrade_type. data:class:cat/d."
+                "engine:note — Mecánica compuesta: growth_stages=3 + eruption_multiplier=2 — valores ligados, no separables. Sin upgrade_type."
               ]
             }
           ],
@@ -7979,7 +7926,7 @@
             {
               "label": "Heavy attacks detonate shards. Shards caught within the blast radius will also detonate.",
               "notes": [
-                "engine:note — Comportamiento binario — activa detonación en cadena de shards. Sin upgrade_type, sin base_value por diseño. data:class:cat/d."
+                "engine:note — Comportamiento binario — activa detonación en cadena de shards. Sin upgrade_type, sin base_value por diseño."
               ]
             }
           ],
@@ -8000,21 +7947,21 @@
               "label": "Shard duration is increased to |val1|s.",
               "base_value": 30,
               "notes": [
-                "engine:note — SET semantics — establece duración de shard a 30s. Sin upgrade_type. data:class:cat/d."
+                "engine:note — SET semantics — establece duración de shard a 30s. Sin upgrade_type."
               ]
             },
             {
               "label": "Shards become weak spots with +|val1|% Critical Chance when damaged.",
               "base_value": 100,
               "notes": [
-                "engine:note — Crit Chance scoped a shards — additive con mods según wiki. Sin upgrade_type establecido. data:class:cat/e."
+                "engine:note — Crit Chance scoped a shards — additive con mods según wiki. Sin upgrade_type establecido."
               ]
             },
             {
               "label": "Shard damage is reduced by |val1|%.",
               "base_value": -50,
               "notes": [
-                "engine:note — Penalización de daño de shard — sin upgrade_type. data:class:cat/d."
+                "engine:note — Penalización de daño de shard — sin upgrade_type."
               ]
             }
           ],
@@ -8083,7 +8030,7 @@
             {
               "label": "Multishot consumes ammo directly from Capacity.",
               "notes": [
-                "engine:note — Mecánica de consumo de munición — binario, sin upgrade_type. data:class:cat/d."
+                "engine:note — Mecánica de consumo de munición — binario, sin upgrade_type."
               ]
             },
             {
@@ -8091,7 +8038,7 @@
               "base_value": 60,
               "condition": "on_multishot",
               "notes": [
-                "engine:note — % Damage bonus multiplicativo a base damage mods — sin upgrade_type establecido. data:class:cat/e."
+                "engine:note — % Damage bonus multiplicativo a base damage mods — sin upgrade_type establecido."
               ]
             }
           ],
@@ -8122,7 +8069,7 @@
               "base_value": 2,
               "condition": "on_reload_from_empty",
               "notes": [
-                "engine:note — SET × semantics — multiplica duración del damage field. Sin upgrade_type. data:class:cat/d."
+                "engine:note — SET × semantics — multiplica duración del damage field. Sin upgrade_type."
               ]
             }
           ]
@@ -8260,7 +8207,7 @@
               "upgrade_type": "WEAPON_BASE_CRIT_CHANCE",
               "condition": "on_equip_from_primary",
               "notes": [
-                "engine:note — Duration buff (3s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (3s)."
               ]
             },
             {
@@ -8272,7 +8219,7 @@
               "upgrade_type": "WEAPON_ADD_CRIT_MULT",
               "condition": "on_equip_from_primary",
               "notes": [
-                "engine:note — Duration buff (3s) no modelado en Fase 0. data:class:cat/b."
+                "engine:note — Duration buff (3s)."
               ]
             }
           ]
@@ -8311,10 +8258,7 @@
             {
               "label": "+|val1|% Magazine Reloaded per second when Holstered.",
               "base_value": 20,
-              "condition": "while_holstered",
-              "notes": [
-                "engine:note — Holstered reload rate — sin token en modifier.ts. data:class:cat/d."
-              ]
+              "condition": "while_holstered"
             }
           ],
           "notes": [
@@ -8365,7 +8309,7 @@
               "base_value": 100,
               "condition": "on_headshot",
               "notes": [
-                "engine:note — Ammo Efficiency — sin token en modifier.ts. Duration (2s) no modelado en Fase 0. data:class:cat/e."
+                "engine:note — Ammo Efficiency — sin token en modifier.ts. Duration (2s)."
               ]
             }
           ],
@@ -8423,7 +8367,7 @@
               "upgrade_type": "WEAPON_BASE_DAMAGE",
               "condition": "on_burst_headshots",
               "notes": [
-                "engine:class:c2/stack (3x, pierde en reload o cambio a Incarnon Form) no modelado en Fase 0. data:class:cat/b."
+                "engine:class:c2/stack (3x, pierde en reload o cambio a Incarnon Form)."
               ]
             }
           ],
@@ -8449,7 +8393,7 @@
               "upgrade_type": "WEAPON_ADD_CRIT_MULT",
               "condition": "on_reload_from_empty",
               "notes": [
-                "engine:class:c2/stack (2x, pierde en reload parcial o muerte) no modelado en Fase 0. data:class:cat/b."
+                "engine:class:c2/stack (2x, pierde en reload parcial o muerte)."
               ]
             }
           ]
@@ -8547,7 +8491,7 @@
               "upgrade_type": "WEAPON_ADD_DAMAGE_PER_STATUS_TYPE",
               "base_value": 40,
               "notes": [
-                "engine:note — Familia Condition Overload — escala por tipo de status en target. Condition pendiente de debate. data:class:cat/d provisional."
+                "engine:note — Familia Condition Overload — escala por tipo de status en target. Condition pendiente de debate."
               ]
             }
           ]
