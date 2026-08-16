@@ -4,7 +4,7 @@ Rol: "Entry point operativo del dominio data/ — estado de overrides, pipeline 
 Impacto_ID: "D-Data-Status"
 Fidelidad_Fisica: "Project/public/data/"
 Fecha_de_creacion: "2026-05-22"
-Fecha_de_actualizacion: "2026-08-06"
+Fecha_de_actualizacion: "2026-08-15"
 ---
 
 # Data Domain — Estado Operativo
@@ -195,8 +195,8 @@ grep -rl "UPDATE NEEDED" references/game-ui/
 | Engine-ready — data:class:cat/a (mapped, sin condición) | 333 (47.6%) |
 | Engine-ready — data:class:cat/b (mapped, condición token) | 15 (2.1%) |
 | **Engine-ready total** | **348 (49.8%)** |
-| Display-only data:class:cat/d (sin upgrade_type, sin condition) | 240 (34.3%) |
-| Display-only data:class:cat/e (sin upgrade_type, con condition) | 110 (15.7%) |
+| Sin-token data:class:cat/d (sin upgrade_type, sin condition) | 240 (34.3%) |
+| Sin-token data:class:cat/e (sin upgrade_type, con condition) | 110 (15.7%) |
 | data:class:cat/f (variante null en base_value) | 1 — gorgon/prisma confirmado correcto |
 | Condition tokens activos | 125 |
 | Condition null (condición real sin token) | 2 — paris/vicious_promise ×2 |

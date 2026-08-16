@@ -4,7 +4,7 @@ Rol: "Contrato del override JSON de Incarnon Genesis / Incarnon nativo"
 Impacto_ID: "data-incarnon"
 Fidelidad_Fisica: "Project/public/data/incarnon-evolutions.override.json"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-07-24"
+Fecha_de_actualizacion: "2026-08-15"
 ---
 
 # Schema: incarnon-evolutions.override.json
@@ -28,7 +28,7 @@ Datos de perks de evolución Incarnon. Indexado por `unique_name` del arma.
           "name":       "Display Name",
           "image_name": "WikiFile.png",
           "stats":      [ /* StatEntry[] */ ],
-          "notes":      ["aclaración para la UI", "[engine] detalle de cálculo"]
+          "notes":      ["aclaración para la UI", "engine:note detalle de cálculo"]
         }
       }
     }
