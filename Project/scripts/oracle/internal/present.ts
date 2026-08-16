@@ -5,7 +5,7 @@
  */
 import { toStatEntries } from '@lib/format/stat-entry';
 import { vitalsOf } from '@core/engine/simulate/EntityState';
-import type { AcquiredResult, Format, MetricsResult, EnemyResult, TraceResult } from './types';
+import type { AcquiredResult, Format, MetricsResult, EnemyResult, TraceResult, AbilityResult } from './types';
 
 export function present(result: AcquiredResult, format: Format): void {
   if (format === 'json') {
@@ -45,6 +45,14 @@ function jsonView(r: AcquiredResult): unknown {
         shields: r.vitals.shields,
         damage_reduction: r.dr,
         ehp: r.ehp,
+      };
+    case 'ability':
+      return {
+        lens: r.lens,
+        build: r.build,
+        ability: r.abilityId,
+        strength: r.strength,
+        emissions: r.emissions,
       };
   }
 }
@@ -90,6 +98,10 @@ function text(r: AcquiredResult): void {
 
     case 'enemy':
       textEnemy(r);
+      return;
+
+    case 'ability':
+      textAbility(r);
       return;
   }
 }
@@ -142,4 +154,17 @@ function textEnemy(r: EnemyResult): void {
   console.log(`  armor  : ${r.vitals.armor}  → DR ${(r.dr * 100).toFixed(2)}%  [√3a/100, provisional OQ-ENGINE-15]`);
   console.log(`  shields: ${r.vitals.shields.toFixed(2)}`);
   console.log(`  EHP    : ${r.ehp.toFixed(2)}  (health/(1−DR)+shields)`);
+}
+
+function textAbility(r: AbilityResult): void {
+  console.log(`\n######## ABILITY: ${r.abilityId} — build ${r.build} (strength ${r.strength.toFixed(2)}×) ########`);
+  if (r.emissions.length === 0) {
+    console.log('  (sin emisiones — ver warnings de [Emisión] arriba: gate, rango, comodín o sin dueño)');
+    return;
+  }
+  for (const e of r.emissions) {
+    const tipos = Object.entries(e.instance.damageByType).map(([t, v]) => `${t} ${v}`).join(', ');
+    console.log(`  ${e.label}`);
+    console.log(`    damage: ${tipos}  (moddedBase ${e.instance.moddedBase})  statusChance ${e.instance.statusChance}`);
+  }
 }
