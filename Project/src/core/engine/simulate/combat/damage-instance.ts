@@ -79,12 +79,11 @@ export interface InstanceContent {
  * EL CONSTRUCTOR DE LA INSTANCIA — **el punto donde el emisor deja de importar**.
  *
  * Antes esto no existía como función: fabricar una instancia y *leer los nodos `WEAPON_*` de un arma*
- * eran el mismo bloque de código, así que "poder emitir" y "ser un arma" eran la misma cosa. Medido:
- * `deriveInstance` con cualquier otra familia devolvía `{}` y `moddedBase: 0`, en silencio.
+ * eran el mismo bloque de código, así que "poder emitir" y "ser un arma" eran la misma cosa.
  *
  * El corte de `damage-logic.ts` volvió agnóstica la **resolución**; éste vuelve agnóstica la
  * **construcción**. Lo que queda atado al arma es sólo `deriveInstance`, que es donde corresponde:
- * leer nodos `WEAPON_*` **es** el trabajo del camino del arma.
+ * leer nodos `WEAPON_*` **es** el trabajo del camino del arma — #1.
  *
  * `damageByToken` se deriva acá por la tabla canónica y existe para el consumidor que todavía habla
  * en tokens; la resolución ya no lo usa.
@@ -117,7 +116,8 @@ export function makeInstance(content: InstanceContent): DamageInstance {
  *
  * **Es el camino del ARMA, y ahora lo dice.** Lee nodos `WEAPON_*` y delega el ensamblado a
  * `makeInstance`. Que una entidad sin esos nodos produzca una instancia vacía dejó de ser el
- * comportamiento del motor para pasar a ser el comportamiento de *esta función* — hay otro camino.
+ * comportamiento del motor para pasar a ser el comportamiento de *esta función* — hay otro camino,
+ * sin construir todavía para familias no-`WEAPON_` — #1.
  */
 export function deriveInstance(entity: SimulationEntity): DamageInstance {
   const attrs = entity.attributes;

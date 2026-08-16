@@ -195,7 +195,7 @@ export class AbilityRepository {
    * `strength` resuelto. Es la mitad honesta: el eje queda ejercido con dato real y el puente queda
    * anclado sin fingirse construido.
    *
-   * ─── LOS CUATRO GATES, MEDIDOS SOBRE LAS 28 MARCADAS ──────────────────────────────────────────
+   * ─── LOS CUATRO GATES, MEDIDOS SOBRE LAS 28 MARCADAS — ninguno con decisión escrita fuera de acá (#5) ──
    *
    * De 28 stats con `<DT_*>`: **18 limpios** · 4 multi-tipo · 2 rango · 2 comodín · 2 porcentuales.
    * Los diez que no pasan **se omiten y avisan**, nunca se aproximan:
@@ -224,10 +224,9 @@ export class AbilityRepository {
         if (!tags) {
           // ⚠️ **El stat dice "Damage" y no declara de qué tipo.** No es lo mismo que "no es un stat
           // de daño": un stat con `upgrade_type` es un buff y lo cubre `getModifiers`; uno sin él que
-          // se llame Damage es una **emisión muda**, y saltarla en silencio la volvería invisible.
-          // Medido: 3 de las 28 marcadas (Radial Javelin, Breach Surge, Minelayer). El caso de Radial
-          // Javelin muestra que es hueco de captura y no del juego — la entrada de Umbra, que es la
-          // MISMA habilidad, sí declara `<DT_SLASH> <DT_IMPACT> <DT_PUNCTURE>` sobre el mismo 1000.
+          // se llame Damage es una **emisión muda**, y saltarla en silencio la volvería invisible — #5.
+          // Medido: 3 de las 28 marcadas (Radial Javelin, Breach Surge, Minelayer) — Radial Javelin es
+          // además el catálogo inconsistente de #6.
           if (!stat.upgrade_type && /damage/i.test(label)) {
             console.warn(`[Emisión] ${abilityId} — "${label}": declara daño sin tipo, stat omitido`);
           }
@@ -262,8 +261,7 @@ export class AbilityRepository {
         // por peso sobre un solo tipo da exactamente un proc de ese tipo. Cuando aparezca una emisión
         // que fuerce un efecto **ausente de su propio daño**, ahí el eje separado se gana el lugar.
         //
-        // Crit **sí** queda en 0, y es distinto: el override no publica crit de habilidad, así que es
-        // un hueco del dato, no una ley. No se transcribe de la tabla de la wiki.
+        // Crit queda en 0: el override no publica crit de habilidad — hueco de dato, no ley — #4.
         emissions.push({
           label,
           instance: makeInstance({ damageByType: { [type]: value }, statusChance: 1 }),

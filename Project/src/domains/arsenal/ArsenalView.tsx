@@ -1,7 +1,7 @@
 /**
  * @domain Features / Arsenal
  * @SSoT docs/domains/ui-ux/shell-status.md
- * @status stub / en desarrollo
+ * @status stub
  */
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";

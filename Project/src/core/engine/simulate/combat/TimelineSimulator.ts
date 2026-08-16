@@ -13,11 +13,8 @@ import type { HitContext } from "../../formulas/status/effect-behavior";
 import { deriveInstance } from "./damage-instance";
 
 /**
- * ⚠️ **`enemy_*` es residuo del rename, y está en el OUTPUT.** El contenedor de estado dejó de ser de
- * un bando (`EnemyState` → `EntityState`) porque el target puede no ser hostil —hay 11 construcciones
- * no hostiles medidas—, pero estos dos campos siguen afirmando que sí lo es, y son lo que el consumidor
- * lee. No se renombran acá: es contrato de salida y tiene lectores fuera del engine (`combat-metrics`,
- * D1/D2), así que el cambio pertenece al borde de proyección y no a un arreglo de paso.
+ * ⚠️ `enemy_*` es residuo del rename `EnemyState` → `EntityState`, en el OUTPUT — #2. No se renombra
+ * acá: es contrato de salida con lectores fuera del engine, el cambio pertenece al borde de proyección.
  */
 export interface TimelineEvent {
   time: number;

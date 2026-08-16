@@ -277,9 +277,7 @@ describe('Lo que el banco EXPONE y no resuelve', () => {
   // instancia lo lea subiendo por el árbol de propiedad (`arch-decisions §18`).
   it.todo('de dónde lee sus `lawDeviations` una instancia que no sale de un arma — nodo duplicado ⊥ leído por el árbol');
   // El sesgo del token de daño **se cerró** — ver el bloque ⭐ de abajo, que lo mide en verde.
-  // `calculateGyreCrit` sigue sin consumidor: es la EXCEPCIÓN (una warframe con crit de habilidad),
-  // no la regla, y la regla —¿una habilidad critea por default?— no está medida.
-  it.todo('`ability-crit.ts` tiene su primer consumidor — hoy sólo cubre la excepción (Gyre), no la ley');
+  it.todo('`ability-crit.ts` tiene su primer consumidor — hoy sólo cubre la excepción (Gyre), no la ley — #9');
   // §2: no hay modelo ontológico único. Fireball (proyectil → daño y nada más) casi no necesita
   // fórmula propia; una multi-verbo no se deriva de su renglón de UI. La partición es por VERBO (§15).
   it.todo('la partición emisor simple ⊥ multi-verbo: qué habilidad necesita fórmula dedicada y cuál no');

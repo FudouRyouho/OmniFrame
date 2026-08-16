@@ -145,12 +145,8 @@ describe('los cuatro gates — se omite y se avisa, nunca se aproxima', () => {
   });
 
   /**
-   * 🔴 QUINTO GATE — el que este mismo pase destapó, y que el código saltaba **en silencio**.
-   *
-   * Un stat que se llama `"Damage: |val1|"` y no declara `<DT_*>` no es "no es daño": es daño cuyo
-   * tipo el dato no trae. Son 3 de las 28 marcadas, y Radial Javelin prueba que el hueco es de
-   * captura y no del juego — **la misma habilidad tiene dos entradas** y sólo la de Umbra declara los
-   * tipos, sobre el mismo `1000`.
+   * Quinto gate — Damage sin `<DT_*>` declarado, el código lo saltaba en silencio — #5.
+   * Radial Javelin: catálogo con dos entradas inconsistentes para la misma habilidad — #6.
    */
   it('emisión muda: declara daño sin tipo → avisa, no se salta callado', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
