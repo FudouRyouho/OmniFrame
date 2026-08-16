@@ -18,20 +18,23 @@ export const USAGE = `oráculo — banco de trabajo del motor (D2)
     metrics  <build>       CombatMetrics vs un target (C1+C2)   [usa --vs --lvl --dur]
     trace    <build>       procedencia de un nodo (C1)          [requiere --node]
     enemy    <nombre>      enemigo escalado (health/armor/DR/EHP) [usa --lvl]
+    ability  <build>       AbilityEmission[] de una habilidad (C1) [requiere --ability]
     intention              (declarada, no implementada — requiere exponer la salida de B)
 
   flags:
-    --vs <enemy>    target para metrics        (default "Arid Butcher")
-    --lvl <n>       nivel del enemigo          (default 100)
-    --dur <n>       duración de sim en s       (default 6)
-    --node <attr>   atributo para trace
-    --format text|json                          (default text)
+    --vs <enemy>       target para metrics        (default "Arid Butcher")
+    --lvl <n>          nivel del enemigo          (default 100)
+    --dur <n>          duración de sim en s       (default 6)
+    --node <attr>      atributo para trace
+    --ability <id>     uniqueName de la ability para la lente ability
+    --format text|json                             (default text)
 
   ejemplos:
     npm run oracle -- display lanka
     npm run oracle -- metrics cedo --vs "Arid Butcher" --lvl 120 --dur 8
     npm run oracle -- trace boltor --node WEAPON_ADD_DAMAGE --format json
-    npm run oracle -- enemy "Arid Butcher" --lvl 215`;
+    npm run oracle -- enemy "Arid Butcher" --lvl 215
+    npm run oracle -- ability ember --ability /Lotus/Powersuits/PowersuitAbilities/FireBallAbility`;
 
 export function isHelpRequest(tokens: string[]): boolean {
   return tokens.length === 0 || tokens[0] === 'help' || tokens.includes('--help') || tokens.includes('-h');
@@ -63,13 +66,16 @@ export function parseArgs(tokens: string[]): OracleQuery {
   const node = flags.node ?? null;
   if (lens === 'trace' && !node) throw new OracleError('la lente "trace" requiere --node <attr>.');
 
+  const ability = flags.ability ?? null;
+  if (lens === 'ability' && !ability) throw new OracleError('la lente "ability" requiere --ability <id>.');
+
   const a2: A2Query = {
     enemy: flags.vs ?? 'Arid Butcher',
     level: parseNumFlag(flags.lvl, 'lvl', 100),
     duration: parseNumFlag(flags.dur, 'dur', 6),
   };
 
-  return { lens, subject, a2, node, format: parseFormat(flags.format) };
+  return { lens, subject, a2, node, ability, format: parseFormat(flags.format) };
 }
 
 // ─── helpers ───

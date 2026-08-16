@@ -6,6 +6,7 @@
  */
 import { consume } from '@core/engine/output/consume';
 import { computeCombatMetrics } from '@core/engine/output/combat-metrics';
+import { AbilityRepository } from '@core/engine/resolve/hydration/AbilityRepository';
 import { project } from '@shared/view-model';
 import { EnemyRepository } from '@core/engine/simulate/enemies/EnemyRepository';
 import { vitalsOf } from '@core/engine/simulate/EntityState';
@@ -86,6 +87,19 @@ export function acquire(q: OracleQuery): AcquiredResult {
       };
     }
 
+    case 'ability': {
+      // dispatch ya garantiza --ability presente para esta lente.
+      const abilityId = q.ability as string;
+      const scene = consume(resolveSubject(q.subject), { flags: {} }).snapshot();
+      // `final/base` del nodo — mismo scaleFactor que aplica el grafo para cross-entity (§15,
+      // `SimulationEngine.ts`); 1 si el warframe no lleva el nodo (sin buff de strength).
+      const strengthNode = warframeEntity(scene)?.attributes['AVATAR_ADD_ABILITY_STRENGTH'];
+      const strength = strengthNode ? strengthNode.final / (strengthNode.base || 1) : 1;
+
+      const emissions = AbilityRepository.getEmissions(abilityId, { strength });
+      return { lens: 'ability', build: q.subject, abilityId, strength, emissions };
+    }
+
     default:
       // 'intention' (u otra lente sin adquisición) — dispatch ya la rechaza; guarda por si acaso.
       throw new OracleError(`lente "${q.lens}" no adquirible.`);
@@ -105,6 +119,11 @@ function firstWeapon(entities: SimulationEntity[], build: string): SimulationEnt
   const weapon = entities.find((e) => e.domain === 'weapon');
   if (!weapon) throw new OracleError(`el build "${build}" no tiene entidad de arma (domain=weapon).`);
   return weapon;
+}
+
+/** El warframe del build, si tiene uno — `undefined` es legítimo (ej. un build sólo-arma). */
+function warframeEntity(entities: SimulationEntity[]): SimulationEntity | undefined {
+  return entities.find((e) => e.domain === 'warframe');
 }
 
 /** La entidad que posee el nodo pedido (para trace). Multi-entidad con el mismo nodo: la primera. */

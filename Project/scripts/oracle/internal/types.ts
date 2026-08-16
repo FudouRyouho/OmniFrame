@@ -8,11 +8,12 @@
  */
 import type { SimulationEntity, TraceStep } from '@core/engine/contracts';
 import type { CombatMetrics } from '@core/engine/output/combat-metrics';
+import type { AbilityEmission } from '@core/engine/resolve/hydration/AbilityRepository';
 import type { ViewModelContract } from '@shared/view-model';
 
 /** Lente de observación del pipeline. `intention` (salida de B) queda declarada pero no
  *  implementada: requiere exponer la intención hidratada desde `@core` (diferido). */
-export const LENSES = ['nodes', 'display', 'metrics', 'trace', 'enemy', 'intention'] as const;
+export const LENSES = ['nodes', 'display', 'metrics', 'trace', 'enemy', 'ability', 'intention'] as const;
 export type Lens = (typeof LENSES)[number];
 
 export const FORMATS = ['text', 'json'] as const;
@@ -33,6 +34,8 @@ export interface OracleQuery {
   a2: A2Query;
   /** Selector de atributo para la lente `trace`. */
   node: string | null;
+  /** `uniqueName` de la ability (clave del override) para la lente `ability`. */
+  ability: string | null;
   format: Format;
 }
 
@@ -80,7 +83,16 @@ export interface EnemyResult {
   ehp: number;
 }
 
-export type AcquiredResult = NodesResult | DisplayResult | MetricsResult | TraceResult | EnemyResult;
+export interface AbilityResult {
+  lens: 'ability';
+  build: string;
+  abilityId: string;
+  /** `final/base` de `AVATAR_ADD_ABILITY_STRENGTH` en el build — 1 si el warframe no lleva el nodo. */
+  strength: number;
+  emissions: AbilityEmission[];
+}
+
+export type AcquiredResult = NodesResult | DisplayResult | MetricsResult | TraceResult | EnemyResult | AbilityResult;
 
 /** Error de uso del Oracle (input inválido / sujeto inexistente). El entry lo captura y emite
  *  un mensaje limpio + exit 1, sin stack. Distingue "el usuario se equivocó" de un bug del motor. */
