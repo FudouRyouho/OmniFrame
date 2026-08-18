@@ -86,6 +86,13 @@ type AbilityStatRaw = {
 function toAdditivePercent(raw: number, label: string | undefined): number {
   return /\|val\d+\|\s*x/i.test(label ?? '') ? (raw - 1) * 100 : raw;
 }
+// Tipo más angosto que el contrato real (`@shared/types/ability.ts` declara además
+// `id`/`label`/`default_active`/`exclusive`) — deliberado: ninguno de los dos verbos gatea por grupo
+// hoy, así que leerlos acá sería aparentar un filtro que no existe. `getModifiers`/`getEmissions`
+// iteran TODOS los grupos de una entrada sin condición — un stat dentro de un grupo augment/modo se
+// resuelve igual que uno del grupo base. 19 casos confirmados de esto (Null Star + Neutron Star, uno
+// de ellos) — `docs/data/schemas/abilities/schema.md` §Gap declarado,
+// `.working/investigacion-source-state-groups-augments.md`.
 type AbilityGroupRaw = { stats?: AbilityStatRaw[] };
 type AbilityEntry = { name?: string; groups?: AbilityGroupRaw[] };
 

@@ -63,8 +63,10 @@ export class TimelineSimulator {
     // ⚠️ **El reloj asume que el emisor es un arma** — eje nuevo sobre una deuda ya registrada
     // (`status.md §El reloj del timeline…`, que la mira por otro lado: la detección de disparo por
     // módulo con tolerancia). Una habilidad no tiene cadencia: tiene cast time, cooldown y duración,
-    // y ninguno de los tres es `1/fireRate`. Hoy no muerde porque ninguna habilidad emite en
-    // producción; el día que emita, este `|| 1` le da una cadencia de 1/s inventada en vez de sonar.
+    // y ninguno de los tres es `1/fireRate`. Hoy no muerde porque ninguna habilidad pasa por ESTE
+    // reloj — `getEmissions` sí emite en producción (el oracle CLI, `acquire.ts`), pero como foto
+    // estática sin loop, nunca como `weapon` de `TimelineSimulator`. El día que una habilidad entre acá,
+    // este `|| 1` le da una cadencia de 1/s inventada en vez de sonar.
     const fireRate = weapon.attributes["WEAPON_ADD_FIRE_RATE"]?.final || 1;
     const timeStep = 1 / fireRate;
     let currentTime = 0;

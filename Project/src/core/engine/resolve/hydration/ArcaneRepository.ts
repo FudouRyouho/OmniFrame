@@ -11,8 +11,13 @@
  * Por eso StaticHydrator empuja estos modifiers directo a `modifiers[]`.
  *
  * Scope v0 (mapped subset): solo stats con `base_value` y `upgrade_type` poblados.
- * Se omiten (sin warning): `base_value: null` (familia stacking Merciless — OQ-DATA-4)
- * y `upgrade_type: null` (sin token — status resists, fórmulas per-stat, operador/amp).
+ * Se omiten (sin warning), por tres motivos distintos:
+ *  - `base_value: null` — familia stacking Merciless/Deadhead/Dexterity, OQ-DATA-4.
+ *  - `upgrade_type: null` sin token — status resists, fórmulas per-stat, operador/amp.
+ *  - `upgrade_type: null` en la familia `STACK_DECAY_BUFF` pendiente de `max_stacks`
+ *    (Cascadia Flare, Exhilarate) — arch-decisions.md §11: mecanismo construido y
+ *    validado contra mods (Galvanized), arquitectura cerrada para arcanos pero sin
+ *    cablear acá todavía, pendiente de que el override traiga `max_stacks`.
  */
 import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";

@@ -366,7 +366,7 @@ condición latente. Tokens **nuevos** acuñados (captura literal, naturaleza dif
 | `on_swap_to_secondary` | "On swapping to Secondary Weapon" (Secondary Outburst) | evento de cambio de arma; consume combo. Distinto de `on_equip_from_primary` (incarnon). |
 | `on_overguard_threshold_3000` | "When gaining 3,000 or more Overguard threshold" (Arcane Truculence) | evento de umbral de Overguard ganado. N en el token (precedente de umbrales). |
 | `while_enemy_lifted` | "on Lifted enemies" (Exodia Valor) | estado del target: enemigo bajo CC Lift. Familia `while_enemy_*` (precedente incarnon). |
-| `on_ability_inflicts_heat_status` | "when using abilities to inflict Heat Status" (Arcane Hot Shot) | evento: una habilidad aplica Heat status. Distinto de `on_heat_status_effect` (fuente = arma). |
+| `on_ability_inflicts_heat_status` | "when using abilities to inflict Heat Status" (Arcane Hot Shot) | evento: una habilidad aplica Heat status. Distinto de `on_heat_status_effect` (cualquier emisor — arma o habilidad; su único consumidor, Cascadia Flare, stackea igual con Heat de las dos fuentes, `references/wiki/arcanes/cascadia-flare.wikitext`). |
 | `while_reviving` | "Damage Taken During Revive" (Arcane Temperance) | estado: jugador en animación de revive. |
 | `on_magnetic_status_kill` | "Kill an enemy affected by Magnetic Status" (Melee Vortex) | kill de enemigo con Magnetic status activo. Familia de `on_*_status_kill` (cf. `on_heat_status_kill`). |
 
