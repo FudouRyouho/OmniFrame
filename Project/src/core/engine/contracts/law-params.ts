@@ -16,7 +16,8 @@
  * una afirmación distinta de *"no hablo"*.
  */
 
-import type { ParamDeviation } from "../formulas/common/param-deviation";
+import type { AttributeNode } from "./primitives";
+import { modifies, type ParamDeviation } from "../formulas/common/param-deviation";
 
 /**
  * El parámetro que un token desvía, en notación `<ley>.<parámetro>`.
@@ -46,23 +47,21 @@ export function lawParamOf(token: string): LawParam | undefined {
 }
 
 /**
- * ⚠️ **DÓNDE NACE EL NODO — deuda declarada, con condición de disparo.**
+ * **DÓNDE NACE EL NODO — resuelto por peer-read, no por duplicación.**
  *
  * El nodo se siembra en la entidad que el ruteo eligió, y para la familia `GAMEPLAY_` eso es **el
- * arma** (`FAMILY_ROUTE`). Alcanza mientras el arma sea el único emisor de instancias, y **la fuente
- * no dice eso**: el Emerald sube *"the maximum Corrosive status procs"* sin acotar, así que una
- * habilidad que aplique Corrosive debería ver el mismo cap.
+ * arma** (`FAMILY_ROUTE`) — sesgo preexistente del ruteo, no de este índice: `roar.wikitext` declara
+ * *"bonus damage to all weapons and abilities"* y el motor aterriza el nodo sólo en las armas.
  *
- * El sesgo **es preexistente y del ruteo**, no de este índice: `roar.wikitext` declara *"bonus damage
- * to all weapons and abilities"* y el motor aterriza Roar sólo en las armas.
+ * Una habilidad no tiene nodo `GAMEPLAY_*` propio, y no se le duplica uno: `AbilityRepository.
+ * getEmissions` lee el desvío de su **peer** — la primera entidad que `resolveFamilyEntities('GAMEPLAY',
+ * entities)` resuelve (channel-routing.ts), el mismo fan-out que ya usa Roar — vía `emitterLawDeviations`
+ * (abajo), y lo declara en la instancia que emite. El desvío rinde igual venga la instancia de un arma o
+ * de una habilidad porque las dos leen el mismo nodo.
  *
- * 🔴 **La condición de disparo se cumplió: ya hay un segundo emisor.** `__tests__/ability-instance.ts`
- * declara instancias que no salen de un arma, y la suite mide que el desvío rinde igual venga de donde
- * venga (19 con los tres Tauforged, 10 sin ellos, 4 contra un acólito). Lo que el banco **no** puede
- * hacer es sacarlo del grafo: una habilidad no tiene nodo `GAMEPLAY_*`, así que ahí el desvío se
- * **declara**. La decisión pendiente es la que estaba escrita — duplicar el nodo en cada destino ⊥
- * dejarlo donde nace y que cada instancia lo lea subiendo por el árbol de propiedad
- * (`arch-decisions §18`) — y ya no es hipotética. Anclada en `__tests__/ability-emission.test.ts`.
+ * ⚠️ Límite conocido y aceptado: asume que el nodo `GAMEPLAY_*` fanea idéntico a cada arma del jugador
+ * (cierto por construcción hoy — Roar aterriza el mismo valor en cada una). Si algún día un pool
+ * diferenciara el desvío por arma, este peer-read deja de alcanzar y hay que revisarlo — sin caso hoy.
  */
 
 /**
@@ -75,3 +74,19 @@ export function lawParamOf(token: string): LawParam | undefined {
  * que el estado persista al emisor; esto es un **argumento** de la aplicación).
  */
 export type EmitterDeviations = Partial<Record<LawParam, readonly ParamDeviation[]>>;
+
+/**
+ * Los desvíos que un emisor declara, leyendo sus nodos de parámetro de ley. **Pura** — no sabe si
+ * `attrs` es la propia entidad (arma, vía `deriveInstance`) o un peer leído por otra (habilidad, vía
+ * `AbilityRepository.getEmissions`); ese acoplamiento es del caller, no de acá (§18: el dueño decide
+ * de dónde se lee el nodo, no el token). Extraída de `deriveInstance` — comportamiento idéntico.
+ */
+export function emitterLawDeviations(attrs: Record<string, AttributeNode>): EmitterDeviations {
+  const deviations: EmitterDeviations = {};
+  for (const [token, param] of Object.entries(LAW_PARAM_TOKENS)) {
+    const node = attrs[token];
+    if (!node) continue;
+    deviations[param] = [modifies.add(node.final)];
+  }
+  return deviations;
+}

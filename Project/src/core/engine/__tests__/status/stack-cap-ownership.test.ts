@@ -32,7 +32,9 @@ import { loadEngineData } from '../../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { consume } from '../../output/consume';
 import { deriveInstance } from '../../simulate/combat/damage-instance';
-import { onfoot, RHINO, TIBERON_PRIME } from '../../fixtures/builds';
+import { onfoot, RHINO, TIBERON_PRIME, ASH_SHURIKEN } from '../../fixtures/builds';
+import { player, withAbilities, scene } from '@shared/types/scene-compose';
+import { AbilityRepository } from '../../resolve/hydration/AbilityRepository';
 
 await loadEngineData(new NodeAdapter());
 
@@ -280,16 +282,20 @@ describe('El desvío del emisor, extremo a extremo', () => {
    * from **any source**"*, mientras `FAMILY_ROUTE.GAMEPLAY = 'weapon'` lo aterriza sólo en las armas.
    * O sea el límite **es preexistente**, no lo introdujo este canal.
    *
-   * ✅ **La condición de disparo se cumplió y la mitad de LEY ya corre.** El segundo emisor existe
-   * (`__tests__/ability-instance.ts`) y `ability-emission.test.ts` mide que una habilidad con el
-   * desvío del jugador topea en **19** igual que el arma, en **10** sin él, y en **4** contra un
-   * acólito: el cap viaja con la **instancia**, no con el portador.
-   *
-   * 🔴 **Lo que sigue abierto es de dónde sale ese número**, y ahí el banco es honesto: lo **declara**,
-   * porque una habilidad no tiene el nodo `GAMEPLAY_*` —vive en el arma por `FAMILY_ROUTE`—. La
-   * decisión que vuelve con el segundo emisor: duplicar el nodo en cada destino ⊥ dejarlo donde nace
-   * y que cada instancia lo lea subiendo por el árbol de propiedad (`arch-decisions §18`). Anclada en
-   * `ability-emission.test.ts`, que es donde el caso vive.
+   * ✅ **Resuelto — F3 (`.working/refactor-engine-2-recomposicion.md`).** La decisión que este bloque
+   * dejaba pendiente (duplicar el nodo en cada destino ⊥ leerlo subiendo por el árbol de propiedad) se
+   * resolvió por la segunda vía, sin duplicar nada: `AbilityRepository.getEmissions` lee el desvío del
+   * PEER que `resolveFamilyEntities('GAMEPLAY', entities)` resuelve — el mismo arma que ya lo lleva por
+   * `FAMILY_ROUTE.GAMEPLAY = 'weapon'` — en vez de declararlo a mano en un banco sintético.
    */
-  it.todo('el desvío de una habilidad SALE del grafo y no se declara — nodo duplicado ⊥ leído por el árbol');
+  it('el desvío de una habilidad se lee del PEER, sin nodo propio — mismo +9 que el arma', () => {
+    const entities = consume(scene(withAbilities(player(conShards(3)), [{ uniqueName: ASH_SHURIKEN }])), { flags: {} }).snapshot();
+    const caster = entities.find((e) => e.domain === 'warframe')!;
+    const [emission] = AbilityRepository.getEmissions(ASH_SHURIKEN, caster.id, entities);
+
+    expect(emission.instance.lawDeviations).toEqual(deriveInstance(armaDe(conShards(3))).lawDeviations);
+    expect(emission.instance.lawDeviations).toEqual({
+      'corrosive.maxStacks': [{ verb: 'modifies', op: 'add', value: 9 }],
+    });
+  });
 });

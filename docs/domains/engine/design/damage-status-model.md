@@ -405,7 +405,8 @@ cambia: `activeBehaviors()` los itera en cada `advance` y en cada `getDamageMult
 consumidor que sea *"¿qué estados tiene este target?"* recibe una respuesta falsa. ⚠️ **Dónde se arregla
 no es obvio y por eso no se arregló:** gatear en `expectedProcEvents` (no emitir con chance 0) o en
 `applyProc` (no crear estado con amount 0) son dos leyes con dos dueños, y la segunda recibe `amount`
-fraccionales legítimos. Medido en rojo en `__tests__/ability-emission.test.ts`.
+fraccionales legítimos. Cerrado — un evento de esperanza 0 ya no nace inerte, medido en
+`__tests__/ability-instance.test.ts`.
 
 ⚠️ **"Forced Procs"** (término de la fórmula del promedio de la wiki, `Multishot × (Forced Procs +
 Status Chance por proyectil)`) **NO es la porción garantizada de un SC>100%** — es un mecanismo de

@@ -464,6 +464,41 @@ export function voltMobilize(): Scene {
   return scene(withMods(player(volt()), 'warframe', modSlots({ 0: { itemId: MOBILIZE, level: 3 } })));
 }
 
+// ─── Ash + Shuriken (F3 — el verbo emite-instancia, por hidratación real) ─────────
+
+// La clave del catálogo es el codename interno ("Ninja"), no "Ash" — verificado contra
+// `public/data/warframes.json` (el nombre de wiki/display casi nunca coincide con el path de Lotus,
+// mismo patrón que `emitter-class.ts` ya documenta para las habilidades).
+export const ASH = '/Lotus/Powersuits/Ninja/Ninja';
+export const ASH_SHURIKEN = '/Lotus/Powersuits/PowersuitAbilities/GlaiveAbility';
+
+/** Ash limpio (sin mods → strength 100%). Baseline para aislar el aporte de Shuriken. */
+export function ash(): Scene {
+  return onfoot({
+    warframe: { uniqueName: ASH, rank: 30, mods: modSlots({}) },
+  }, NO_HOSTILE);
+}
+
+/**
+ * Ash + Shuriken activo, sin arma equipada. Primer build real que ejercita
+ * `AbilityRepository.getEmissions` (F3, `.working/refactor-engine-2-recomposicion.md`) —
+ * hasta ahora sólo se probaba contra un `entities[]` armado a mano en el test. Shuriken es
+ * mono-tipo limpio (750 Slash, `WEAPON_DAMAGE_ABILITIES`) y escala con
+ * `AVATAR_ABILITY_STRENGTH`, así que ejerce el escalado real vía el grafo (Intensify/Blind
+ * Rage) en vez de un `strength` pasado a mano.
+ *
+ * Sin arma equipada a propósito: es el caso "build sólo-warframe" que `getEmissions` trata
+ * como legítimo — el peer de `GAMEPLAY_*` (pool de facción, `lawDeviations`) no existe y el
+ * factor cae a su default neutro (1.0 / `{}`), no es un gap.
+ *
+ * @param strength si se pasa, agrega Blind Rage (+99% str) para ejercer el escalado.
+ */
+export function ashShuriken(opts: { strength?: boolean } = {}): Scene {
+  let p = withAbilities(player(ash()), [{ uniqueName: ASH_SHURIKEN }]);
+  if (opts.strength) p = withMods(p, 'warframe', modSlots({ 0: { itemId: RHINO_MOD.BLIND_RAGE, level: 10 } }));
+  return scene(p);
+}
+
 // ─── Arcanos de WARFRAME con canal (ruteo por sub-familia, S2-A/S2-B) ────────────────
 
 export const ARCANE_RAGE          = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/LongGunDamageOnHeadshot';
@@ -676,4 +711,7 @@ export const BUILDS: Record<string, () => Scene> = {
   rhino:  () => rhino(),
   rhino_roar: () => rhinoRoar(),
   sicarus: () => sicarus({ perks: { 2: 'feigned_retreat' } }),
+  ash: () => ash(),
+  ash_shuriken: () => ashShuriken(),
+  ash_shuriken_str: () => ashShuriken({ strength: true }),
 };

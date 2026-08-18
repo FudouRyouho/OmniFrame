@@ -6,7 +6,7 @@
  */
 import { consume } from '@core/engine/output/consume';
 import { computeCombatMetrics } from '@core/engine/output/combat-metrics';
-import { AbilityRepository } from '@core/engine/resolve/hydration/AbilityRepository';
+import { AbilityRepository, resolveAbilityStrength } from '@core/engine/resolve/hydration/AbilityRepository';
 import { project } from '@shared/view-model';
 import { EnemyRepository } from '@core/engine/simulate/enemies/EnemyRepository';
 import { vitalsOf } from '@core/engine/simulate/EntityState';
@@ -91,12 +91,11 @@ export function acquire(q: OracleQuery): AcquiredResult {
       // dispatch ya garantiza --ability presente para esta lente.
       const abilityId = q.ability as string;
       const scene = consume(resolveSubject(q.subject), { flags: {} }).snapshot();
-      // `final/base` del nodo — mismo scaleFactor que aplica el grafo para cross-entity (§15,
-      // `SimulationEngine.ts`); 1 si el warframe no lleva el nodo (sin buff de strength).
-      const strengthNode = warframeEntity(scene)?.attributes['AVATAR_ADD_ABILITY_STRENGTH'];
-      const strength = strengthNode ? strengthNode.final / (strengthNode.base || 1) : 1;
-
-      const emissions = AbilityRepository.getEmissions(abilityId, { strength });
+      // Sin warframe en el build, no hay caster que declare el nodo — `resolveAbilityStrength` y
+      // `getEmissions` ya degradan a su default (1 / sin peer) con un id que no matchea ninguna entidad.
+      const sourceId = warframeEntity(scene)?.id ?? '';
+      const strength = resolveAbilityStrength(sourceId, scene); // sólo para mostrar — F3 ya no lo re-deriva
+      const emissions = AbilityRepository.getEmissions(abilityId, sourceId, scene);
       return { lens: 'ability', build: q.subject, abilityId, strength, emissions };
     }
 

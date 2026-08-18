@@ -874,11 +874,14 @@ instancias que no salen de una build, y la suite mide que el desvío rinde igual
 sección no dependía del arma: **el parámetro se resuelve por instancia**, que es lo que decía arriba y
 ahora tiene dos emisores que lo prueban en vez de uno.
 
-🔴 **Lo que el segundo emisor destrabó es la otra mitad: de dónde SALE el número.** En el arma sale del
-grafo (shard → ruteo `GAMEPLAY→weapon` → nodo → `deriveInstance`); una habilidad **no tiene ese nodo**,
-así que el banco lo declara. La decisión vuelve en la forma que estaba escrita —*duplicar el nodo en
-cada destino* ⊥ *dejarlo donde nace y que cada instancia lo lea subiendo por el árbol* (§18)— y ya no es
-hipotética. Anclada en `__tests__/ability-emission.test.ts` y en `contracts/law-params.ts`.
+✅ **Resuelto — F3, sin duplicar el nodo.** `AbilityRepository.getEmissions` no siembra un nodo propio ni
+lo declara a mano: lee el desvío del **peer** que `resolveFamilyEntities('GAMEPLAY', entities)` resuelve
+—el mismo arma que ya lo lleva por `FAMILY_ROUTE.GAMEPLAY = 'weapon'`— vía `emitterLawDeviations`
+(`contracts/law-params.ts`). Es la segunda vía de las dos que estaban escritas (*dejarlo donde nace y
+que cada instancia lo lea subiendo por el árbol*, §18), aplicada sin necesitar un walk de `owner`
+literal: el fan-out por familia ya expresaba esa relación. Caso real end-to-end en
+`__tests__/status/stack-cap-ownership.test.ts` §"El desvío del emisor, extremo a extremo"; el banco
+sintético (`__tests__/ability-instance.test.ts`) sigue vivo para probar el receptor, no el peer-read.
 
 **El cuarto eslabón tiene dos casos vivos, y son el mismo problema.** *"El receptor fuerza"* aparece por
 dos vías independientes, en dos frentes que parecían separados:

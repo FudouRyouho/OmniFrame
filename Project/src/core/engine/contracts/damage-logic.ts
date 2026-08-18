@@ -74,6 +74,17 @@ export function isWeaponDamageToken(value: string): boolean {
 export const GLOBAL_DAMAGE_POOLS = ['WEAPON_ADD_DAMAGE', 'GAMEPLAY_MULT_FACTION_DAMAGE'] as const;
 
 /**
+ * El subconjunto de `GLOBAL_DAMAGE_POOLS` que alcanza a una emisión de habilidad
+ * (`AbilityRepository.getEmissions`). Sólo `GAMEPLAY_MULT_FACTION_DAMAGE` (Roar/Bane): la fuente lo
+ * declara sin acotar a arma (*"bonus damage to all weapons and abilities"*). `WEAPON_ADD_DAMAGE`
+ * (Serration/Hornet Strike) NO — no existe un slot de mod que "modde" el daño base de una habilidad;
+ * el `base_value` del override ya es el equivalente al innato-más-mods de un arma, no hay Serration de
+ * habilidad que sumarle. Mismo patrón que ya usa el DoT para leer un subconjunto deliberado del pool
+ * (ver NB2 abajo) — una tercera aplicación del mismo criterio, no una excepción nueva.
+ */
+export const ABILITY_ELIGIBLE_POOLS = ['GAMEPLAY_MULT_FACTION_DAMAGE'] as const;
+
+/**
  * SSoT de RESOLUCIÓN por tipo de daño: cómo un tipo resuelve contra las capas del objetivo.
  * La lee `CombatSimulator.resolveDamageEvent`. La emisión (hit o tick de DoT) declara CON QUÉ tipo
  * resuelve (`Resolucion.as`) y core deriva las reglas de acá — sin ambigüedad: el hit directo de

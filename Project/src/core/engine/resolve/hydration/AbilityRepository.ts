@@ -2,31 +2,35 @@
  * @domain Engine / Hydration
  * @SSoT docs/data/schemas/abilities/schema.md
  *
- * Primer consumidor del motor de habilidades — el verbo MUTA-STATE del nodo-source
- * (arch-decisions §15). Lee ability-stats.override.json (clave = uniqueName de la
- * ability) y, por cada stat con `upgrade_type` poblado, emite un Modifier. El
- * `upgrade_type` es la **proyección estática del source-state** (§15): un buff sin
- * duración → source-state = la entity estática de C1 → el modifier bakeado. Un stat
- * SIN `upgrade_type` es display puro (`upgrade_by` = solo cómo escala en la carta) →
- * se omite; el motor no lo consume.
+ * El motor de habilidades — dos verbos, `getModifiers` (MUTA-STATE) y `getEmissions`
+ * (EMITE-INSTANCIA, `arch-decisions §15`). Lee `ability-stats.override.json` (clave =
+ * `uniqueName` de la ability); `getModifiers` toma cada stat con `upgrade_type`
+ * poblado (**proyección estática del source-state**: un buff sin duración →
+ * source-state = la entity estática de C1 → el modifier bakeado); `getEmissions` toma
+ * los que declaran daño sin `upgrade_type` — ver su propio docblock.
  *
- * Cross-entity (Fase 1a): el modifier escala leyendo un atributo del WARFRAME
- * (`source_entity`/`source_attribute`, arista del grafo) y aterriza en un pool del
- * ARMA (`target_entity`/`target_attribute`). Roar = 50% × Ability Strength → pool de
- * facción del arma (`GAMEPLAY_MULT_FACTION_DAMAGE`, bono INCONDICIONAL §15/§16). NO
- * pasa por `ModRepository` → esquiva el shim `C2F_FACTION_TOKENS_DEFERRED` (Roar no
- * gatea por facción del target — `references/wiki/warframes/rhino/roar.md`).
+ * Cross-entity (Fase 1a, `getModifiers`): el modifier escala leyendo un atributo del
+ * WARFRAME (`source_entity`/`source_attribute`, arista del grafo) y aterriza en un
+ * pool del ARMA (`target_entity`/`target_attribute`). Roar = 50% × Ability Strength →
+ * pool de facción del arma (`GAMEPLAY_MULT_FACTION_DAMAGE`, bono INCONDICIONAL
+ * §15/§16). NO pasa por `ModRepository` → esquiva el shim `C2F_FACTION_TOKENS_DEFERRED`
+ * (Roar no gatea por facción del target — `references/wiki/warframes/rhino/roar.md`).
  *
  * ⚠️ El valor de habilidad es porcentaje CRUDO (50 = +50%), no un multiplicador
  * (1.50) → NO se aplica `toPercent` (a diferencia de ArcaneRepository).
  *
- * Scope 1b (un verbo = muta-state): emite-instancia y sub-source (§15) = Fase 2/3.
+ * Los dos verbos comparten firma (`abilityId, sourceId, entities`) y el mismo mecanismo
+ * de lectura cross-entidad del grafo — F3 (`.working/refactor-engine-2-recomposicion.md`)
+ * cerró la asimetría que tenían: sub-source (exaltadas, `OQ-ENGINE-11`) sigue sin construir.
  */
 import { makeModifier, type Modifier, type EntityId, type SimulationEntity } from "../../contracts";
 import { resolveUpgradeEntry } from "@shared/types/modifier";
 import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing";
 import { makeInstance, type DamageInstance } from "../../simulate/combat/damage-instance";
 import { resolveDamageTypeTag } from "@shared/types";
+import { emitterLawDeviations } from "../../contracts/law-params";
+import { ABILITY_ELIGIBLE_POOLS } from "../../contracts/damage-logic";
+import { globalDamageBucketFactor } from "../../formulas/weapon/stat-accumulator";
 
 // Puente vocabulario-de-carta → nodo del grafo para el eje de scaling (`upgrade_by`).
 // La carta de habilidad expresa "escala con Ability Strength" como el token D-3
@@ -40,6 +44,19 @@ const ABILITY_SCALE_NODE: Record<string, string> = {
   AVATAR_ABILITY_RANGE:    'AVATAR_ADD_ABILITY_RANGE',
   AVATAR_ABILITY_DURATION: 'AVATAR_ADD_ABILITY_DURATION',
 };
+
+/**
+ * El factor `final/base` de `AVATAR_ADD_ABILITY_STRENGTH` en `sourceId` — 1 si la entidad no existe
+ * o no lleva el nodo (sin buff de strength). Misma fórmula que `SimulationEngine.resolveNode` aplica
+ * para todo `Modifier` con `source_attribute`; única implementación — la comparten `getEmissions`
+ * (para escalar el daño) y el CLI oracle (para mostrarlo). Antes vivía duplicada en las dos puntas
+ * (F3, `.working/refactor-engine-2-recomposicion.md`): esto es exactamente el bug que esa duplicación
+ * arriesgaba — dos lugares que pueden divergir en silencio si la fórmula cambia en uno solo.
+ */
+export function resolveAbilityStrength(sourceId: EntityId, entities: SimulationEntity[]): number {
+  const node = entities.find(e => e.id === sourceId)?.attributes['AVATAR_ADD_ABILITY_STRENGTH'];
+  return node ? node.final / (node.base || 1) : 1;
+}
 
 type AbilityStatRaw = {
   label?: string;
@@ -189,11 +206,17 @@ export class AbilityRepository {
    * tipo (`"Damage: <DT_HEAT> |val1|"`); `upgrade_type` está vacío en los 28, y **eso es correcto**:
    * un stat de daño de habilidad no tiene nodo destino.
    *
-   * ⚠️ **El escalado se DECLARA, no se lee del grafo.** `upgrade_by: AVATAR_ABILITY_STRENGTH` dice
-   * *con qué* escala, y `ABILITY_SCALE_NODE` ya sabe a qué nodo corresponde — pero ese puente hoy sólo
-   * lo cruza `getModifiers`, que tiene un `source_entity` del cual leerlo. Acá el caller pasa el
-   * `strength` resuelto. Es la mitad honesta: el eje queda ejercido con dato real y el puente queda
-   * anclado sin fingirse construido.
+   * **El escalado se lee del grafo, igual que en `getModifiers`.** Firma mirror de su hermano
+   * (`abilityId, sourceId, entities`), resuelto vía `resolveAbilityStrength` (arriba). Antes este
+   * verbo recibía un `strength` ya pre-derivado por el caller (`{ strength?: number }`); el CLI oracle
+   * lo calculaba a mano, duplicando la fórmula del grafo fuera del grafo. Ya no — F3 (`.working/
+   * refactor-engine-2-recomposicion.md`).
+   *
+   * **`lawDeviations` y el pool de facción se leen del PEER**, no de un nodo propio de la habilidad.
+   * Una habilidad no tiene nodo `GAMEPLAY_*` — el peer es la primera entidad que
+   * `resolveFamilyEntities('GAMEPLAY', entities)` resuelve (mismo fan-out que ya alcanza a Roar). Ver
+   * `contracts/law-params.ts` §DÓNDE NACE EL NODO. Sin peer (build sólo-warframe), ambos caen a su
+   * default neutro (`{}` / factor `1.0`) — caso legítimo, no un gap.
    *
    * ─── LOS CUATRO GATES, MEDIDOS SOBRE LAS 28 MARCADAS — ninguno con decisión escrita fuera de acá (#5) ──
    *
@@ -210,11 +233,22 @@ export class AbilityRepository {
    *   - **porcentual** `|val1|%` — no es daño absoluto sino un multiplicador sobre otra cosa
    *     (Dread Mirror: *"100% del daño guardado"*).
    */
-  public static getEmissions(abilityId: string, opts: { strength?: number } = {}): AbilityEmission[] {
+  public static getEmissions(abilityId: string, sourceId: EntityId, entities: SimulationEntity[]): AbilityEmission[] {
     const entry = this.index.get(abilityId);
     if (!entry?.groups) return [];
 
-    const strength = opts.strength ?? 1;
+    const strength = resolveAbilityStrength(sourceId, entities);
+
+    // El peer que porta los pools de daño globales (`GAMEPLAY_*`) y los parámetros de ley que la
+    // habilidad no tiene dónde declarar por sí misma — mismo fan-out que ya alcanza a Roar.
+    const peerId = resolveFamilyEntities('GAMEPLAY', entities)[0];
+    const peer = peerId ? entities.find(e => e.id === peerId) : undefined;
+    const lawDeviations = peer ? emitterLawDeviations(peer.attributes) : {};
+    const poolFactor = ABILITY_ELIGIBLE_POOLS.reduce(
+      (factor, pool) => factor * globalDamageBucketFactor(peer?.attributes[pool]),
+      1,
+    );
+
     const emissions: AbilityEmission[] = [];
 
     for (const group of entry.groups) {
@@ -243,8 +277,10 @@ export class AbilityRepository {
         if (!type) continue;                                   // tag fuera del canónico → gap, como token sin mapeo
         const base = stat.base_value as number;
         // El escalado sólo se aplica donde el dato dice que escala. Un stat sin `upgrade_by` es plano
-        // por declaración de la carta, no por falta de información.
-        const value = stat.upgrade_by ? base * strength : base;
+        // por declaración de la carta, no por falta de información. El factor de pool (Roar) sí alcanza
+        // a los dos casos por igual — es un bono incondicional sobre "cualquier daño que el portador
+        // haga", no un escalado del propio dato de la habilidad.
+        const value = (stat.upgrade_by ? base * strength : base) * poolFactor;
 
         // ─── STATUS: 100% SALVO QUE SE DIGA LO CONTRARIO ─────────────────────────────────────────
         //
@@ -264,7 +300,11 @@ export class AbilityRepository {
         // Crit queda en 0: el override no publica crit de habilidad — hueco de dato, no ley — #4.
         emissions.push({
           label,
-          instance: makeInstance({ damageByType: { [type]: value }, statusChance: 1 }),
+          instance: makeInstance({
+            damageByType: { [type]: value },
+            statusChance: 1,
+            ...(Object.keys(lawDeviations).length > 0 ? { lawDeviations } : {}),
+          }),
         });
       }
     }

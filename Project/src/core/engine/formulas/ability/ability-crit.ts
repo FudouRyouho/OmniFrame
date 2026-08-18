@@ -9,7 +9,7 @@
  * ⚠️ Esa premisa es más gruesa de lo que sostiene — el eje real tiene tres estados
  * (`N/A` / `0%` / crit base propio), no dos — #3.
  *
- * No se reescribe en este pase: sigue sin consumidor (`ability-emission.test.ts` lo ancla), y hacerlo
+ * No se reescribe en este pase: sigue sin consumidor (`ability-instance.test.ts` lo ancla), y hacerlo
  * pide antes decidir de dónde sale el crit base de una habilidad, que es dato de la tabla y no ley.
  *
  * Excepciones canonicas confirmadas por wiki (unicas soportadas en v1):

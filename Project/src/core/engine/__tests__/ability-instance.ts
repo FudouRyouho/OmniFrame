@@ -82,7 +82,7 @@ export interface AbilityInstanceSpec {
  * arma, y **la suite pasa por eso**, no porque el motor sea agnóstico al emisor. Escribir el token con
  * cualquier otra familia rompe tres leyes de resolución en silencio (medido: matriz de facción
  * `1500 → 1000`, Toxin cayendo en `shield` en vez de `health`, True `1000 → 99.99`, y `deriveInstance`
- * devolviendo `{}`). El detalle y su reproducción están en `ability-emission.test.ts`.
+ * devolviendo `{}`). El detalle y su reproducción están en `ability-instance.test.ts`.
  *
  * Se conserva el prefijo **a propósito y con fecha**: cambiarlo acá sería compensar al revés —el banco
  * fingiendo un contrato que el motor no tiene—. Lo que corresponde es que las leyes de resolución dejen

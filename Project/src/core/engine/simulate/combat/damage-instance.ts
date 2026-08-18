@@ -17,8 +17,7 @@
 import type { SimulationEntity } from "../../contracts";
 import { isWeaponDamageToken, damageTypeFromToken, damageTokenFromType } from "../../contracts/damage-logic";
 import { scaleDotBase } from "../../formulas/status/dot-base-scaling";
-import { LAW_PARAM_TOKENS, type EmitterDeviations } from "../../contracts/law-params";
-import { modifies, type ParamDeviation } from "../../formulas/common/param-deviation";
+import { emitterLawDeviations, type EmitterDeviations } from "../../contracts/law-params";
 import type { DamageType } from "@shared/types";
 
 export interface DamageInstance {
@@ -138,13 +137,7 @@ export function deriveInstance(entity: SimulationEntity): DamageInstance {
   // son tres modifiers `ADD_FLAT` sobre el mismo nodo, así que el `+9` sale del acumulador —el mismo
   // que suma Serration— y no de aritmética escrita acá. El nodo existe **sólo si alguien lo declaró**
   // (`contracts/law-params.ts`): ausente ⇒ el emisor calla, que no es lo mismo que declarar 0.
-  const lawDeviations: EmitterDeviations = {};
-  for (const [token, param] of Object.entries(LAW_PARAM_TOKENS)) {
-    const node = attrs[token];
-    if (!node) continue;
-    const declared: ParamDeviation[] = [modifies.add(node.final)];
-    lawDeviations[param] = declared;
-  }
+  const lawDeviations = emitterLawDeviations(attrs);
 
   return makeInstance({
     damageByType,
