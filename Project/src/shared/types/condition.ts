@@ -12,8 +12,11 @@
  * como string opaco en el override, fuera de este diccionario tipado — ver
  * overrides.md §Prototipo. Lo que no encaja en una familia no se fuerza.
  *
- * Fase 1 (aislado): este módulo NO está cableado al engine todavía. El evaluador
- * (evalCondition) y la migración del shape a obj-key son fases posteriores.
+ * `evalCondition` ya está cableado — `SimulationEngine.ts` lo usa para gatear `Modifier.condition`
+ * contra `context.flags` en la resolución del grafo. Lo que sigue sin construir es la migración del
+ * shape a obj-key en el resto de los overrides, y el mismo mecanismo para familias de tipo que no
+ * pasan por el grafo (`AbilityEmission`/`DamageInstance` — `getEmissions()` no recibe `flags` ni
+ * tiene un punto de re-evaluación diferida análogo, ver `docs/governance/decision-frontier.md` §G-a).
  */
 
 // ─── ConditionToken ──────────────────────────────────────────────────────────
