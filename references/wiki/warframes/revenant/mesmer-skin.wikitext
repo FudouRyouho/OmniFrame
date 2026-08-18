@@ -1,0 +1,68 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly = {{{1|}}}
+| name = Mesmer Skin
+| gameimage = MesmerSkin130xWhite.png
+| cardimage = MesmerSkinModx256.png
+| hotkey = 2
+| energy = 50
+| description = Become enveloped in Sentient energy, which redirects damage and stuns all those who dare attack. Stunned enemies can be Enthralled at no energy cost.
+| strength = 3 / 4 / 5 / 6 (number of charges)
+| duration = 2 / 3 / 4 / 5 s (stun duration)
+| range = N/A
+| misc = 100% (reflected damage and status)<br/>100% (Enthrall energy discount)<br/>1 (ally buff charge)
+| info = Revenant expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to surround himself in a shroud of Sentient energy that reflects {{Stat|Ability Strength|icon=only}}'''3 / 4 / 5 / 6''' incoming enemy attacks; attackers receive <u>'''100%'''</u> of the reflected damage and [[Status Effect]]s, while also becoming stunned for {{Stat|Ability Duration|icon=only}}'''2 / 3 / 4 / 5''' seconds. Upon consuming a charge, Revenant becomes [[Invulnerable]] for <u>'''1'''</u> second. Mesmer Skin lasts <u>'''indefinitely'''</u> until all charges are used.
+*Casting speed is affected by [[Casting Speed]].
+*Number of remaining charges is displayed on the ability icon.
+*For any non-integer the number of charges is rounded up to the next whole number. For example, 255% Ability Strength = 15.3 charges, this is rounded to 16. However in game the maximum charges will display 15, with the 16th charge displayed as 0.
+*Revenant is immune to self-[[stagger]], which does '''not''' consume a charge.
+*Does '''not''' reflect damage dealt by status effects and objects created by enemies (e.g., [[Napalm]] flame patches)
+*Does '''not''' negate damage from [[Explosive Barrel]]s or [[Environmental Hazards]], although they will not use up a charge.
+**Revenant's [[Health]] can still take damage, but will '''not''' be lowered below 2 and therefore cannot die as long as he has charges.
+***Therefore, {{Arcane|Arcane Escapist}} can lose a stack while having active Mesmer Skin.
+*Mesmer Skin converts knockdown from [[Shockwave MOA]] waves into a knockback.
+*Mesmer Skin reflects damage from [[Scorpion]] and [[Ancient]] hookshots, as well as blocking their knockdown and pull effects.
+*Can be recast while active to apply a new instance. Previously unused Mesmer Skin charges are removed during recast.
+**During recast when your charges are removed, there is a brief window when Revenant is completely vulnerable and can be killed. While it's unlikely that an enemy's attack will connect during this time, damaging auras and lingering damage areas can result in being one-shot if Revenant is within their range during a recast.
+*Casting Mesmer Skin is a full body animation that interrupts grounded movement and other actions.
+*Revenant visually grows a cluster of Eidolon tendrils on his left shoulder, emits fumes from his body and a shroud of white mist around his torso while Mesmer Skin is active. Allies that gain Mesmer Skin also exhibit these visual effects on their body.
+*Eidolon tendrils and fumes color tinting are affected by Revenant's chosen Warframe energy color.
+| synergies =
+*{{A|Enthrall}} costs <u>'''0'''</u> energy to cast on an enemy stunned by Mesmer Skin.
+*While Mesmer Skin is active, {{A|Reave}} restores <u>'''1'''</u> charge per thrall that Revenant passes through, up to the full charge count.
+*While Mesmer Skin is active, allies such as [[Warframes]] and [[Companions]] that contact Reave's current will gain <u>'''1'''</u> Mesmer Skin charge.
+{{clr}}
+| augment = [[File:MesmerShieldMod.png|200px|left]]
+{{main|Mesmer Shield}}
+{{#lst:Mesmer Shield|intro}}
+{{#lsth:Mesmer Shield|Stats}}
+{{clr}}
+| tips = *It is probably more beneficial to focus on [[Ability Strength]], [[Ability Duration]] and [[Ability Range]], rather than equipping [[Health]] and [[Shield]] mods on {{WF|Revenant}} as Mesmer Skin provides high survivability.
+*Casting while in air allows Revenant to maintain forward momentum while activating Mesmer Skin.
+*When receiving the Ability Strength and Ability Range buff from [[Void Fissure]] missions, activate Mesmer Skin right before the buff ends. Avoid [[Nullifier Crewman|Nullifier Crewmen]] and other enemies with an ability nullifying field to take full advantage of the buffed Mesmer Skin. Additionally, if Mesmer Skin is activated and the buff is no longer active, the un-buffed Mesmer Skin value will replace the buffed Mesmer Skin value, even if the buffed value was greater.
+<noinclude>
+| max            = {{WFmax|main|revenant2}}
+</noinclude>
+| bugs = *Damage dealt by [[Nullifier Crewman]] with its null sphere intact does '''not''' use up Mesmer Skin charges. Damage is still mitigated completely.
+*The remaining charge counter on the ability icon can sometimes disappear while the ability is still active, most prominently observed after performing [[Transference]] back into the Warframe.
+*Charges can be modified into decimals, but the ability icon counter only displays whole numbers, including 0 which can be misleading.
+*When using {{M|Rage}} or {{M|Hunter Adrenaline}}, even though damage is fully nullified, if the damage exceeds Revenant's shield value, energy will still be granted.|
+}}</onlyinclude>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|32}}
+*Now grants 1 second of invulnerability after a charge is consumed.
+**''The addition of Overguard affected the efficiency of Mesmer Skin, as rapidfire Overguarded enemies would melt through their Mesmer Skins and remain unaffected by the incoming sleep effect. To bring this ability closer to its original intention, Mesmer Skin will now grant 1 second of invulnerability after a charge is consumed. This gives players time to react to these powerful units before taking their full damage.''
+
+{{ver|31.1}}
+*Toned down the brightness of Revenant’s Mesmer Skin FX. It will also now be hidden while in Archwing.
+}}
+
+==See also==
+*{{WF|Revenant}}
+[[es:Piel hipnotizante]]
+[[fr:Linceul Hypnotique]]
+[[Category:Revenant]]
+[[Category:Update 23]]
+[[Category:Invulnerability]]
+[[uk:Зачарована шкіра]]

@@ -1,0 +1,73 @@
+{{ArcaneBox}}
+'''Cascadia Empowered''' is an [[Arcane Enhancement]] for Secondary weapons that deals a flat amount of damage based on [[Status Effect]], matching the status's damage type.
+
+==Effect==
+{| class="emodtable"
+|-
+!Rank!!Damage on status effect
+|-
+|0||250
+|-
+|1||350
+|-
+|2||450
+|-
+|3||550
+|-
+|4||650
+|-
+|5||750
+|}
+
+==Acquisition==
+{{Acquisition|Cascadia Empowered can be purchased from [[Cavalero]] for {{sc|7,500}}, requiring '''Rank 3 - Guardian''' with [[The Holdfasts]]. It can also be dropped by [[Thrax Centurion]], [[Thrax Legatus]], and [[Void Angel]]s on the [[Zariman Ten Zero]].|header=no}}
+
+===Farming Tips===
+*Thrax enemies are abundant in [[Mobile Defense]] and [[Void Cascade]] missions.
+*The Zariman Arcane drop is considered as a mod drop, and is thus affected by [[The Steel Path]] and [[Mod Drop Chance Booster]].
+
+==Notes==
+*Creates an extra instance of damage when proccing a status effect.
+*More than 1 status proc on a single hit (>100% Status chance) will properly add extra damage, but will be displayed as a single damage number.
+*Not affected by damage, element, physical, {{M|Galvanized Shot}} stacks, {{M|Synth Charge}}, or critical mods and bonuses.
+*Affected by faction mods and bonuses once.
+*Not affected by {{A|Eclipse}} or {{WF|Garuda}}'s passive.
+*Triggers on {{D|Toxin}} procs by {{A|Toxic Lash}}.
+*Does '''not''' trigger on {{D|Void}} procs by {{A|Xata's Whisper}}, and {{D|Cold}} spores of {{Weapon|Dual Coda Torxica}}.
+*Affected by [[Damage Vulnerability]] like {{WF|Caliban}}'s {{A|Sentient Wrath}} , {{WF|Gara}}'s {{A|Mass Vitrify}} and {{A|Splinter Storm}}.
+*Not affected by weakspots, but is affected by enemy damage reduction. For example, striking a Nox in the face will still have Cascadia Empowered's damage reduced by its body's damage reduction.
+*Not affected by weapon falloff such as on shotguns and explosions.
+*Can proc off of {{Focus|Zenurik}}'s {{Focus|Temporal Shot}} bonus when used with {{A|Seeking Talons}}.
+
+==Tips==
+*Indirectly affected by [[Fire Rate]] and [[Multishot]] mods.
+*Unlike other secondary arcanes, Cascadia Empowered has no activation conditions, giving weapons more up-front damage to activate other conditional effects such as {{M|Galvanized Diffusion}}.
+*Most effective on weapons with high status proc rates (Status Chance per Pellet {{Mul}} Fire Rate {{Mul}} Innate Multishot {{Mul}} Explosions). In order of highest base burst proc rate, these include:
+**{{Weapon|Kompressa Prime}} (9.6 on direct hits), {{Weapon|Twin Grakatas}} (6.6), {{Weapon|Kuva Brakk}} {{Tooltip|(6.5)|Has a fire rate cap of 10}}, {{Weapon|Catabolyst}} (5.2), {{Weapon|Kuva Nukor}} (5), {{Weapon|Tenet Cycron}} (4.8), {{Weapon|Gaze|Gaze (Secondary)}} (4.7 with Flutterfire or Ramflare), {{Weapon|Twin Kohmak}} (4.6 at full spool), {{Weapon|Zakti Prime}} {{Tooltip|(4.2 on direct hits)|Not including guaranteed impact proc on direct hits}}, {{Weapon|Quatz}} (4.1 on auto).
+*{{A|Seeking Talons}} causes all hits to proc {{D|Slash}}, adding an extra instance of Cascadia Empowered to every hit from the secondary weapon, except for status ticks.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.0.6}}
+*Fixed Physical Status types no longer triggering Arcane Cascadia Empowered.
+
+{{ver|35}}
+*Fixed unintended <nowiki>"|CONDITION|"</nowiki> appearing in Cascadia Empowered’s description.
+
+{{ver|34}}
+*Fixed Cascadia Empowered Arcane and Wyrmling’s Aid Decree being able to trigger each other recursively.
+
+{{ver|32}}
+*Fixed rare issue where enemies killed with Cascadia Empowered would freeze in place after dying.
+
+{{ver|31.6.4}}
+*Fixed the Cascadia Empowered Arcane buffs applying to Companion or Sentinel weapons.
+
+{{ver|31.5.8}}
+*Fixed Cascadia Empowered triggering Overwhelming Attrition.
+
+{{ver|Angels of the Zariman}}
+*Introduced
+}}{{ArcaneNav}}
+[[uk:Каскадне посилення]]
+[[Category:Zariman Arcanes]]

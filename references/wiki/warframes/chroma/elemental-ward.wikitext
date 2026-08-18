@@ -1,0 +1,129 @@
+<onlyinclude>{{AbilityU10.3
+| name = Elemental Ward
+| gameimage = ElementalWardIcon.png
+| cardimage = ElementalWard.png
+| hotkey = 2
+| energy = 50
+| description = Depending on Chroma's elemental alignment, an offensive area-of-effect is created. Chroma and his nearby allies are imbued with defensive energy.
+| sub = {{AbilityU10.3/Tabber | Heat
+| strength       = 25 / 50 / 75 / 100 ({{D|Heat}} damage per second)<br/>15 / 20 / 30 / 55 % ({{Stat|Health}} bonus)
+| duration       = 10 / 15 / 20 / 25 s
+| range          = 6 / 8 / 10 / 12 m (aura range)
+| misc           = 2 / 5 / 7 / 10 % ({{D|Heat}} [[status chance|{{Text|skyblue|status chance}}]])<br/>5 m (burn radius)
+}}
+{{AbilityU10.3/Tabber | Electricity
+| strength       = 2.5 / 3 / 5 / 10 x (damage reflection multiplier)<br/>10 / 15 / 20 / 30 % ([[Shield]] bonus)<br/>10 / 15 / 20 / 25 % ({{D|Electricity}} [[status chance|{{Text|skyblue|status chance}}]])<br/>50 / 60 / 100 / 200 (minimum {{D|Electricity}} damage)
+| duration       = 10 / 15 / 20 / 25 s
+| range          = 6 / 8 / 10 / 12 m (aura range)<br/>5 / 6 / 8 / 10 m (discharge range)
+}}
+{{AbilityU10.3/Tabber | Toxin
+| strength       = 25 / 35 / 40 / 50 % ({{D|Toxin}} damage chance per second)<br/>15 / 25 / 30 / 35 % ([[Holster]] damage)
+| duration       = 10 / 15 / 20 / 25 s<br>3 s ([[Holster]] damage duration)<br/>15 / 25 / 30 / 35 % ([[Reload Speed]] bonus)
+| range          = 6 / 8 / 10 / 12 m (aura range)
+| misc           = 5 m (poison radius)<br/>5 % (enemy health to {{D|Toxin}} damage)<br/>100 % ({{D|Toxin}} status chance)
+}}
+{{AbilityU10.3/Tabber | Cold
+| strength       = 1.5 / 2 / 2.5 / 3 x (damage reflection multiplier)<br/>25 / 70 / 90 / 145 % ({{Stat|Armor}} bonus)<br/>10 / 15 / 20 / 25 % ({{D|Cold}} [[status chance|{{Text|skyblue|status chance}}]])
+| duration       = 10 / 15 / 20 / 25 s
+| range          = 6 / 8 / 10 / 12 m (aura range)
+}}
+| subsumable = true
+| cardonly = {{{1|}}}
+| info = *Chroma expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[Energy]] to emit an aura of elemental energy, empowering himself and nearby allies within {{Stat|Ability Range|icon=only}}'''6 / 8 / 10 / 12''' meters for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds, providing both offensive and defensive buffs.
+*{{A|Elemental Ward}} exhibits different effects depending on Chroma's current elemental alignment, determined by Chroma's primary emission color or the selected element of {{A|Spectral Scream}}.
+<div class="tabber-borderless">
+{{#tag:tabber|
+{{!}}-{{!}} Heat =
+<div style="display:none;">'''Heat'''<br></div>
+*Generates a flame aura around Chroma and affected allies that increases {{Stat|Health}} by {{Stat|Ability Strength|icon=only}}'''15% / 20% / 30% / 55%''' and inflicts {{Stat|Ability Strength|icon=only}}'''25 / 50 / 75 / 100''' {{D|Heat}} damage per second within a radius of '''<u>5</u>''' meters with a '''<u>2% / 5% / 7% / 10%</u>''' [[status chance]].  The radius of this damage effect is not increased with ability range.
+**The Health bonus stacks ''additively'' with {{Stat|Health}} modifiers such as {{M|Vitality}}.
+***A rank-3 {{A|Elemental Ward}} with {{M|Intensify}} and a maxed {{M|Vitality}} will increase Chroma's {{Stat|Health}} to {{Math|floor|370 {{mul}} (1 + 1 + 0.55 {{mul}} 1.3)|mt=y}}.
+**Damage bypasses obstacles in the environment and decreases with distance.
+{{!}}-{{!}} Electricity =
+<div style="display:none;">'''Electricity'''<br></div>
+*Infuses Chroma and affected allies with an electric current that increases [[Shields]] by {{Stat|Ability Strength|icon=only}}'''10% / 15% / 20% / 30%''' and converts incoming damage into arc discharges. An arc discharge inflicts {{Stat|Ability Strength|icon=only}}'''250% / 300% / 500% / 1,000%''' incoming damage as {{D|Electricity}} damage to a single target within {{Stat|Ability Range|icon=only}}'''5 / 6 / 8 / 10''' meters with a {{Stat|Ability Strength|icon=only}}'''10% / 15% / 20% / 25%''' [[status chance]]. 
+**The Shield bonus stacks ''additively'' with [[Shield]] modifiers such as {{M|Redirection}}.
+***A rank-3 {{A|Elemental Ward}} with {{M|Intensify}} and a maxed {{M|Redirection}} will increase Chroma's shield capacity to {{Math|floor|370 {{mul}} (1 + 1 + 0.3 {{mul}} 1.3)|mt=y}}.
+**Arc damage bypasses obstacles in the environment.
+**The final damage of an arc discharge is determined by the amount of shields and/or health lost by incoming damage. For example with a maxed {{M|Intensify}}, losing 100 shields from a single instance of damage will produce an arc that inflicts {{Math|100 {{mul}} 10 {{mul}} 1.3|mt=y}} {{D|Electricity}} damage at rank 3 to a single target as long as it's within range.
+**No arc will be created if an incoming attack deals less than <u>'''20'''</u> damage. However, the total damage taken since the last arc creation will be tracked behind the scenes. Once a hit has been taken that pushes the total tracked damage past <u>'''20'''</u>, the total tracked damage will be multiplied by the {{Stat|Ability Strength|icon=only}}'''250% / 300% / 500% / 1,000%''' multiplier and emitted as an arc. This means arcs will inflict a minimum of {{Stat|Ability Strength|icon=only}}'''50 / 60 / 100 / 200''' {{D|Electricity}} damage.
+**Arcs can be triggered by certain forms of self-damage and health drain, such as {{A|Scarab Shell}}'s health cost or {{WF|Hildryn}}'s shield costs on all of her abilities.
+***Constant health drains like Scarab Shell can rapidly discharge arcs, with the rate of discharges limited only by the minimum threshold of <u>'''20'''</u> damage taken to trigger an arc.
+**Damage from environmental hazards can also be converted into arc discharges.
+**The same enemy may be targeted multiple times in a row by successive arcs, and arcs can be produced in quick succession should Chroma and allies receive multiple instances of damage that exceed the minimum threshold.
+{{!}}-{{!}} Toxin =
+<div style="display:none;">'''Toxin'''<br></div>
+*Emits an aura of noxious fumes around Chroma and affected allies that increases [[Reload Speed]] by {{Stat|Ability Duration|icon=only}}'''15% / 25% / 30% / 35%''', as well as weapon damage when [[Holster]]ing by {{Stat|Ability Strength|icon=only}}'''15% / 25% / 30% / 35%''' for {{Stat|Ability Duration|icon=only}}'''3''' seconds. Within a radius of '''<u>5</u>''' meters, the noxious fumes also have a '''<u>25% / 35% / 40% / 50%</u>''' chance per second to deal '''<u>5%</u>''' of an enemy's maximum health as {{D|Toxin}} damage with a '''100%''' [[status chance]].
+**The {{D|Toxin}} damage will only be applied to an enemy if it is not already affected by a {{D|Toxin}} proc, but can occur as soon as an existing {{D|Toxin}} proc expires. As such, its effect cannot stack with itself but can refresh itself every 7 seconds.
+**Damage bypasses obstacles in the environment and does '''not''' decrease with distance.
+**[[Holster]] bonus damage is ''additive'' with {{A|Vex Armor}}'s Fury and mods like {{M|Serration}}.
+{{!}}-{{!}} Cold =
+<div style="display:none;">'''Cold'''<br></div>
+*Encases Chroma and affected allies in a layer of frost that increases {{Stat|Armor}} by {{Stat|Ability Strength|icon=only}}'''25% / 70% / 90% / 145%''' and creates an ice shield that reflects incoming attacks back to their source. Reflected damage is converted to {{D|Cold}} damage and multiplied by {{Stat|Ability Strength|icon=only}}'''150% / 200% / 250% / 300%''' and has a {{Stat|Ability Strength|icon=only}}'''10% / 15% / 20% / 25%''' [[status chance]].
+**The Armor bonus stacks ''additively'' with {{Stat|Armor}} modifiers such as {{M|Steel Fiber}}.
+***A rank-3 {{A|Elemental Ward}} with {{M|Intensify}} and a maxed {{M|Steel Fiber}} will increase Chroma's {{Stat|Armor}} to {{Math|floor|370 {{mul}} (1 + 1 + 1.45 {{mul}} (1 + 0.3))|mt=y}}.
+**Incoming hitscan and non-hitscan projectiles are physically redirected after hitting Chroma. As such, obstacles in the environment can prevent reflected damage from hitting enemies.
+**Hitscan projectiles are reflected directly to the source enemy regardless of distance from Chroma.
+**Non-hitscan projectiles are reflected in the direction of the source enemy.
+**Does not prevent damage to Chroma aside from the additional {{Stat|Armor}} bonus and other [[Damage_Reduction|damage reduction]] rules; Chroma will be hit normally before reflecting weapons fire.
+**Reflected projectiles count as [[Unattributed Damage]] for the sake of proccing select weapon passives. 
+*** This means that on-kill effects like {{Weapon|Dual Ichor}}'s Incarnon Clouds & [[Kitgun]]'s effects will work when enemies are killed by {{Arcane|Melee Influence}} and {{Arcane|Pax Seeker}} respectively.
+}}</div>
+<hr />
+*Elemental Auras of '''any''' type from two or more Chromas do '''not''' stack and only the first aura will apply its benefits as long as the player is within buff range. For example, two {{D|Heat}} auras do not increase damage nor health values, and possessing a {{D|Heat}} aura will negate receiving a {{D|Cold}} aura.
+*Has a casting delay of '''1''' second. The animation interrupts movement and other actions.
+*{{A|Elemental Ward}} '''cannot''' be recast while active.
+*{{A|Elemental Ward}} does '''not''' work on Nekros's Shadows or [[Arbitration]] Operative.
+*Subsuming Chroma to the [[Helminth]] will offer {{A|Elemental Ward}} and its augments to be used by other Warframes. The Ward's effects are determined by the Warframe's primary emission color.
+| augment = [[File:EverlastingWardMod.png|200px|left]]
+{{main|Everlasting Ward}}
+{{#lst:Everlasting Ward|intro}}
+{{#lsth:Everlasting Ward|Stats}}
+{{clr}}
+| tips = <div class="tabber-borderless">
+{{#tag:tabber|
+{{!}}-{{!}} Heat =
+<div style="display:none;">'''Heat'''<br></div>
+*In a pinch, the bonus Health provided by the Ward can be used as a quick heal, as the Health granted is automatically added to your remaining health and is not reduced from your remaining health when {{A|Elemental Ward}} wears off.
+*The Ward is capable of damaging containers and hazards, albeit fairly slowly. Combining {{A|Elemental Ward}} with Spectral Scream and range mods will make for a useful farming tool so long as you have the energy to maintain it.
+{{!}}-{{!}} Electricity =
+<div style="display:none;">'''Electricity'''<br></div>
+*Can be used to great effect on [[Survival]] and [[Exterminate]] missions where enemies approach you from all directions and are often difficult to locate or target. At maximum Ability Strength, the damage reflected can easily finish off weaker enemies and potentially stun any survivors.
+{{!}}-{{!}} Toxin =
+<div style="display:none;">'''Toxin'''<br></div>
+*Works very well with weapons that require you to reload frequently or have long reload times.
+*Its damage increase is considered as a Universal damage increase, same as {{A|Vex Armor}} and {{Arcane|Arcane Arachne}}
+*Can reduce recharge delay for {{Weapon|Cycron}} or a Kitgun equipped with {{Arcane|Pax Charge}}, however, it does '''not''' affect recharge rate.
+*The {{D|Toxin}} proc can by replicated by {{A|Sickening Pulse}} and {{Arcane|Melee Afflictions}}. When the initial {{D|Toxin}} proc expires, any additional {{D|Toxin}} procs created by {{A|Sickening Pulse}} will deal '''1''' {{D|Toxin}} damage per tick.
+{{!}}-{{!}} Cold =
+<div style="display:none;">'''Cold'''<br></div>
+*Properly modded, a {{D|Cold}}-oriented Ward can provide an armor bonus high enough that can counteract the armor penalty generated when casting {{A|Effigy}}.
+*The damage reflection is calculated using the damage '''before''' any damage reduction.
+}}</div>
+<noinclude>
+|max = {{WFmax|chroma|chroma2}}
+</noinclude>
+| bugs = *Allies who enter, leave, then re-enter the radius of {{D|Heat}}-oriented Ward will not regain the buff on the same cast of {{A|Elemental Ward}}. This results in an empty space where the bonus health should have been, even if they took no damage at all.
+**This causes {{M|Medi-Ray}} and other healing abilities to attempt to heal the player, but if the player gets out of {{A|Elemental Ward}}'s range, their health will return to normal again, wasting the health restored in the process.
+*The in-game UI shows the armor bonus from the {{D|Cold}} aura as a flat bonus rather than a percentage.|
+}}
+</onlyinclude>
+
+==See Also==
+* {{WF|Chroma}}
+
+__NOTOC__
+[[de:Elementare Abwehr]]
+[[es:Protección elemental]]
+[[ru:Элементальный Страж]]
+[[fr:Protection Élémentaire]]
+[[Category:Healing]]
+[[Category:Toxin Damage]]
+[[Category:Electricity Damage]]
+[[Category:Cold Damage]]
+[[Category:Heat Damage]]
+[[Category:Warframe Abilities]]
+[[Category:Chroma]]
+[[Category:Update 16]]
+[[Category:Shield Restoration]]
+[[uk:Стихійна опіка]]

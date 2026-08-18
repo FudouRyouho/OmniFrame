@@ -1,0 +1,124 @@
+{{ModBox}}
+<section begin=intro />
+'''Neutron Star''' is a [[Warframe Augment Mod]] for {{WF|Nova}}'s {{A|Null Star}} that allows it to inflict {{D|Heat}} damage with guaranteed status effect in a radius and recasting the ability will disperse currently active particles to seek out enemies before being replenished. Neutron Star's seek radius is doubled than that of Null Star's.
+<section end=intro />
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Strength|icon=only}}{{D|Heat}} Damage
+! {{Stat|Ability Range|icon=only}}Radius
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || 120 || 4m || 6
+|-
+| 1 || 160 || 5m || 7
+|-
+| 2 || 200 || 6m || 8
+|-
+| 3 || 240 || 8m || 9
+|}
+
+==Acquisition==
+*This mod can be acquired by attaining the rank of '''General''' under {{Faction|Steel Meridian}}, or the rank of '''Genius''' under {{Faction|Cephalon Suda}}, and spending {{sc|25,000}} to purchase.
+
+==Notes==
+*Explosion damage is affected by [[Ability Strength]].
+*Explosion radius is affected by [[Ability Range]].
+*Seek radius after 5 meters and explosion require line of sight.
+
+==Tips==
+*The augment deals a separated instance of {{D|Heat}} damage and status from Null Star, highly benefiting from the same modifiers that can affect {{A|Null Star}}, such as {{Arcane|Arcane Arachne}}, {{M|Holster Amp}}, {{M|Vigorous Swap}}, among others.
+*The guaranteed proc chance makes the augment useful for short-range crowd control.
+*The augment allows the user to refresh the innate damage reduction that each Null Star innately possess.
+
+
+==Bugs==
+* The augment description states that particles deal {{D|Heat}} damage with a guaranteed status effect in an 8m radius. However, in practice, enemies within the AoE also appear to receive {{D|Blast}} status effects. Because {{D|Blast}} effects can create additional AoE damage instances, this can result in compounding interactions when multiple enemies are hit simultaneously, effectively quadratic scaling when multiple enemies are clustered.
+It’s unclear whether this is intended behavior (and the description is incomplete), or if Blast is being applied unintentionally in the AoE. Clarification would be appreciated.
+
+==Media==
+{{VideoGallery
+|{{YouTube|YaSTjrLtlG4|size=300px}}
+|{{YouTube|8VfUF_y1PzM|size=300px}}
+|{{YouTube|e7DSpBgzu4c|size=300px}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.0.3}}
+*Fixed Nova dealing self-damage when attempting to extract from Open Landscape while riding Atomicycle while Null Star is active with the Neutron Star Augment.
+
+{{ver|37}}
+*'''Neutron Star (Augment) Changes:'''
+**Recasting will cause remaining particles to seek out enemies, and then replenish the particles orbiting Nova.  
+**Heat Damage and guaranteed Heat Proc now apply to all Null Star particles, not just the ones sent out via recast.
+
+{{ver|35.5.6}}
+;Line Of Sight (Los) Improvements
+
+As announced last week, we have revisited LoS checks on other Warframes to bring them in line with the new and improved version of Dante’s LoS added in Hotfix 35.5.4.
+
+To reiterate, there are now two variations of LoS checking: 
+
+#The first type of check sees if any part of the enemy has been drawn on the screen, so that any part of an enemy, big or small, is considered visible/eligible to pass the LoS check.
+#The second type of check is for enemies that are not on screen. We now check for LoS to the enemy's head, torso, and feet instead of only to their body which will increase reliability there as well.
+
+For Abilities that hit enemies in a full circle around you, both checks are used: Once to evaluate enemies that you can see and then a second sweep to check targets to the sides and behind you that aren't visible.
+ 
+'''The following Warframe abilities have received the aforementioned improvements:'''
+*Nova’s Null Star Augment (Rendered Check)
+
+The above changes also tangentially fixes the issue of low FOV preventing LoS checks from occurring.
+
+{{ver|32.0.9}}
+*Nova’s Neutron Star Augment Changes: 
+**Added line of sight (LOS) requirement to its AOE explosions and for the Stars to find targets, ignored for the first 5 meters
+**Reduced explosion radius from 16m to 8m. 
+***''After Neutron Star’s damage and range was buffed in the Veilbreaker update, the Augment's usage increased by over 67 times and climbing. Because of the Helminth system, this Augment was being used more than Nova herself. Changing the Augment to Heat damage while also releasing Archon Vitality resulted in higher damage than anticipated (multiplied by squadmates’ damage boosts), and the auto-seeking nature made Neutron Star far better at room clearing than other Helminth radial damage abilities like Thermal Sunder. We have a history of encouraging engagement with the enemy instead of automation, so LOS changes seemed the most important factor to address, while still letting it maintain the new high damage features.''
+
+{{ver|32}}
+;WARFRAME AUGMENT BUFFS PART 2
+
+In Update 31.2, we buffed a number of underused Warframe augments. The time has come to continue this work! This batch tackles Warframes from Loki to Rhino (of which there are surprisingly many!). We have increased their viability in missions, which we hope will  encourage more build diversity.
+
+''<nowiki>*</nowiki>Stats below are all at Max Rank.''
+
+'''Nova’s Neutron Star'''
+*Was: On recast, all remaining particles will seek out enemies and deal 120 Blast Damage with guaranteed Status Effect in 8 meters.
+*Now: On recast, all remaining particles will seek out enemies and deal 240 Heat Damage with a guaranteed Heat Status Effect to foes within 16 meters. Particles from Neutron Star have a doubled “seek radius” to find targets compared to Null Star.
+
+{{ver|28}}
+*Updated the following Augment Mods to replace the terminology ‘Proc’ with ‘Status’:
+**Neutron Star
+
+{{ver|24.4.4}}
+*Updated the Neutron Star Augment description to match updated behaviour.
+
+{{ver|24.4}}
+*Nova’s Neutron Star Augment has been updated to reflect the following mechanic change:
+**Null Stars (on recast) are shot to enemies within 30 meters (closer enemies prioritized), on contact they explode for the same area-of-effect they do today. If it can't find any enemies they explode like they do now.
+
+{{ver|15.5}}
+*Slightly increased the range and damage of Nova’s Neutron Star Mod.
+
+{{ver|15.0}}
+*Introduced.
+}}
+{{AugmentNav}}
+__NOTOC__
+[[de:Neutronenstern]]
+[[es:Estrella de neutrones]]
+[[ru:Нейтронная Звезда]]
+[[Category:Mods]]
+[[Category:Rare Mods]]
+[[Category:Warframe Mods]]
+[[Category:Augment Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Nova]]
+[[Category:Update 15]]
+[[Category:Zenurik Mods]]
+[[Category:Heat Damage]]
+[[Category:Line Of Sight Abilities]]
+[[uk:Нейтронна зірка]]

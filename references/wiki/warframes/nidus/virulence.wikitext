@@ -1,0 +1,85 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly       = {{{1|}}}
+| name           = Virulence
+| gameimage      = VirulenceIcon.png
+| cardimage      = Virulence.png
+| hotkey         = 1
+| energy         = 40
+| description    = Rupture the ground with a damaging fungal growth that steals energy from each enemy it strikes. For every five enemies hit, the Infestation mutates, multiplying its destructive force.
+| strength       = 150 / 160 / 175 / 200 {{D|Puncture}} Damage (Initial Hit Damage)<br>75 / 80 / 87.5 / 100 {{D|Viral}} Damage (Lingering Field Damage)
+| duration       = 5 s (Lingering Field Duration)
+| range          = 10 / 11 / 13 / 16 m
+| misc           = 4 m (fungal growth width)<br/>10 (energy cost refund per hit)
+| info           = 
+*Nidus expends {{Stat|Ability Efficiency|icon=only}}'''40''' [[energy]] to rupture the ground to unleash a linear growth of fungal infestation {{Stat|Ability Range|icon=only}}'''10 / 11 / 13 / 16''' meters long and <u>'''4'''</u> meters wide toward the targeted location. Enemies struck by fungal growth as it extends refund {{Stat|Ability Efficiency|icon=only}}'''10''' [[energy]], are {{D|Stagger|Staggered}}, and dealt {{Stat|Ability Strength|icon=only}}'''150 / 160 / 175 / 200''' {{D|Puncture}} damage, amplified by the number of [[File:MutationGauge.png|25px|link=Mutation]][[Mutation|Mutation stacks]]. The fungal growth lingers for {{Stat|Ability Duration|icon=only}}'''5''' seconds, dealing {{Stat|Ability Strength|icon=only}}'''75 / 80 / 87.5 / 100''' {{D|Viral}} Damage per second, amplified by the number of [[File:MutationGauge.png|25px|link=Mutation]][[Mutation|Mutation stacks]], to all enemies in its range.
+**Virulence's total damage uses the following expression when accounting for {{Stat|Ability Strength}} and Mutation stacks:
+**:{{MathText|Amplified Damage {{eql}} Base Damage {{mul}} (1 + Ability Strength rank bonus + Ability Strength) {{mul}} (1 + Number of Stacks)}}
+***With a maxed {{M|Intensify}}, 15% Ability Strength rank bonus, and 100 stacks, rank-3 Virulence's total damage will be increased to:
+***:{{Math|200 {{mul}} (1 + 0.15 + 0.3) {{mul}} (1 + 100)|mt=y}} damage (''decimals are rounded down to the nearest whole number during calculations'').
+**{{A|Virulence}} Damages use a snapshot of both [[File:MutationGauge.png|25px|link=Mutation]][[Mutation|Mutation stacks]] and {{Stat|Ability Strength}}.
+**Energy refund scales '''inversely''' with {{Stat|Ability Efficiency}}, meaning less Efficiency increases the amount of energy refunded.
+***Energy refund value is equal to 1/4th of the ability's energy cost, meaning hitting at least 4 enemies minimum will restore the energy used to cast Virulence.
+***Energy refund value is based on cost, not energy spent. Energy cost being removed by abilities such as Zenurik's Inner Might will not reduce energy refund.
+**Fungal growth will only travel along terrain that can be simply walked upon, such as slopes.
+*Holding the ability key displays a rectangular range indicator on the horizontal plane in front of Nidus. Releasing the key casts Virulence. Range indicator color is affected by the chosen energy color.
+**Player can move the aiming reticle while holding down the button to aim Virulence at the desired direction.
+**While held, the player can still perform other actions such as moving, jumping, firing weapons, and casting other abilities. Releasing the key while in midair will exit range indicator mode without casting Virulence.
+*Virulence will cast toward the targeted location regardless of Nidus' orientation.
+*If cast in midair, Nidus will instantly drop to the ground to perform this ability.
+*Cannot be recast until the fungal growth's maximum length is reached or until it cannot spawn any further due to obstruction. Since the maximum length is affected by Ability Range, it also impacts how long before Virulence can be recast.
+* [[Casting Speed]] only affects the speed of Nidus' stomping animation and not the speed at which it grows to its maximum length.
+*Virulence does '''not''' spawn up or down high terrain elevations, but does flow up and down stairs and ramps.
+*Virulence will not detonate maggots spawned by the [[Set Mods#Strain Mod Set|Strain Mod Set]], the {{Weapon|Pathocyst}}, and {{M|Volatile Parasite}}.
+| stance         = 
+| synergies =
+*Virulence increases {{WF|Nidus}} [[File:MutationGauge.png|25px|link=Mutation]][[Mutation|Mutation stacks]] by <u>'''1/5th'''</u> per enemy hit, from both direct hits and damage over time.
+*While Nidus is connected to a target via {{A|Parasitic Link}}, using {{A|Virulence}} will spawn a second instance from the linked target that grows toward the targeted location, converging with to the destination of the first instance from {{WF|Nidus}}.
+**Enemies hit by the second instance also increase [[File:MutationGauge.png|25px|link=Mutation]][[Mutation|Mutation stacks]].
+***Ennemies hit by the second instance also reward {{Stat|Ability Efficiency|icon=only}} [[energy]] to {{WF|Nidus}} at the same rate .
+**While connected via {{A|Parasitic Link}}, a second range indicator visible to Nidus only will also appear around the linked target if {{WF|Nidus}} hold the {{Keybind|1}} ability's key.
+***The color of the indicator is tied to the warframe energy color .
+[[File:Nidus_Virulence_Highlight.gif|250px|center]]
+**It will also mark {{E|Maggot}} from {{A|Ravenous}}  on the Nidus' player HUD, allowing increased visibility for selective detonation using Virulence.
+
+<center>
+<gallery widths="185px">
+File:Nidus_Maggots_Normal.png|{{E|Maggot|Maggots}} normally
+File:Nidus_Maggots_Hightlighted.png|{{E|Maggot|Maggots}} when {{Keybind|1}} ability key <br> is held down.
+</gallery>
+</center>
+*{{E|Maggot|Maggots}}spawned from {{A|Ravenous}} will immediately explode when hit by Virulence, stacking with Ravenous' Mutation gain.
+| augment        = 
+[[File:TeemingVirulenceMod.png|200px|left]]
+{{main|Teeming Virulence}}
+{{#lst:Teeming Virulence|intro}}
+{{#lsth:Teeming Virulence|Stats}}
+{{clr}}
+| tips           = 
+*Can stagger enemies to help keep them in place for recasts.
+*Can completely refund its cost when it hits at least 4 targets. 5 or more targets allow Nidus to earn extra energy.
+**Due to the refund per hit always being kept at 1/4th the ability's cost, negative efficiency can be used to gain more energy over 4 hits at the cost of a higher initial cast cost.
+*Collect Mutation stacks to amplify Virulence's damage drastically over the course of a mission.
+*Hold the ability key to line up Virulence on groups of enemies before releasing to cast. This is an efficient method to gather extra energy and collect hits for stacks.
+*Use Larva to gather enemies in one spot, then unleash Virulence to optimize damage and stack collection.
+*Casting Virulence while Parasitic Link is active allows both Nidus and the linked target to create a line of fungal growths from your positions toward where you aim. This allows Nidus to effectively extend his reach on Virulence, and collect double hits for stacks if both lines hit the same enemies. Hold the ability key to help determine where you and your linked targets' lines will spawn.
+*Can detonate Maggots spawned from Ravenous by you and any Nidus players in your squad. Hits from both the fungal growth and maggot explosion each count toward the Mutation gauge. Blow up anyone's Maggots to help you and your brethren gather more stacks quickly!
+*If the fungal growth cannot spawn any further because of obstruction, you can immediately recast Virulence.
+**Since the speed of fungal growth increases with length, having a high [[Ability Range]] means the growth will hit the obstruction faster, allowing for much faser recasting.
+*Virulence can bypass frost eximus' globes but will stop when entering in contact of nullifiers bubbles .
+| bugs           =  
+*Virulence can be cast during knockdown animations without needing the fungal growth to reach maximum length or be obstructed. This allows Nidus to spam Virulence far faster than normal.
+}}</onlyinclude>
+<!-- i will post a demo and a screenshot of the highlighting thingy
+==Media==
+-->
+==See Also==
+*{{WF|Nidus}}
+
+[[de:Virulenz]]
+[[es:Virulencia]]
+[[fr:Virulence]]
+[[it:Virulence]]
+[[Category:Nidus]]
+[[Category:Impact Damage]]
+[[Category:Energy Restoration]]
+[[uk:Напасть]]

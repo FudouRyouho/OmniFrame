@@ -1,0 +1,58 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Sol Gate
+| gameimage      = SolGateIcon.png
+| cardimage      = SolGate.png
+| hotkey         = 4
+| energy         = 25
+| description    = Open a portal to the sun to irradiate enemies with a devastating beam of pure solar plasma. Hold fire to double Damage at the cost of increased energy consumption. For the duration of an attack enemies damaged by Sol Gate are increasingly more vulnerable to it.
+'''Energy Drain:''' 12 s<sup>-1</sup><br>
+'''Boosted Energy Drain''' 24 s<sup>-1</sup>
+| strength         = 1,000 / 1,100 / 1,250 / 1,500 (base beam damage per second)<br>2,000 / 2,200 / 2,500 / 3,000 (boosted beam damage per second)
+
+| range          = 40 m (beam length)
+| duration       = 
+| misc           = 1,000 % (beam max damage ramp-up)<br>-50 % (boosted beam move speed penalty)<br>25 % (Vitality Mote damage bonus)<br>100 % (Haste Mote {{D|Corrosive}} status chance)<br>25 % (Shock Mote damage bonus)<br>100 % (Breach Surge spark chance on hit)
+| cardonly       = {{{1|}}}
+|info = 
+*Wisp expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to tear open and sustains a portal to the sun to harness its destructive power. While sustaining the portal, Wisp focuses the solar plasma into a single beam with curving flares over a length of {{Stat|Ability Range|icon=only}}'''40''' meters; the beam possesses infinite [[Punch Through]] against enemy bodies, and inflicts {{Stat|Ability Strength|icon=only}}'''500 / 550 / 625 / 750''' damage '''alternating''' between {{D|Heat}} and {{D|Radiation}} every '''half''' second with a <u>'''100%'''</u> [[status chance]] of the respective element type. Each enemy that receives damage from the beam becomes individually more vulnerable to the respective element dealt by the beam, with beam damage increasing by <u>'''100%'''</u> per hit of an element up to a maximum of <u>'''1000%'''</u>, meaning it takes up to '''10 seconds''' of sustained damage to '''each''' enemy to maximize the damage they receive. Press the ability key (default {{Keybind|4}}) while active to deactivate this ability.
+**Damage Ramp is a per-damge-type, per-enemy debuff that persists until the ability is deactivated.
+**Wisp recoils backward when the ability deactivates.
+**Holding the fire button (default {{Keybind|LMB}}) doubles the beam's base damage to {{Stat|Ability Strength|icon=only}}'''1,000 / 1,100 / 1,250 / 1,500''' per hit. Wisp's movement speed is slowed by <u>'''50%'''</u> while boosting Sol Gate.
+***It can be more energy efficient to debuff targets before activating this level of the ability, as the damage ramp is unaffected by it.
+**Damage is unaffected by {{Arcane|Arcane Arachne|mod damage bonuses}}, but '''is''' affected by body part multipliers such as headshots.
+**Sol Gate consumes {{Stat|Ability Efficiency|icon=only}}{{Stat|Ability Duration|icon=only}}'''12''' energy per second ({{Stat|Ability Efficiency|icon=only}}{{Stat|Ability Duration|icon=only}}'''24''' energy per second during the boosted version) while active and will remain active until Wisp's energy is depleted or the ability is deactivated by pressing the ability key again.
+***Activation energy cost is affected by [[Ability Efficiency]], and the energy drain is affected by [[Ability Efficiency]] and [[Ability Duration]].
+***Wisp '''cannot''' replenish energy using {{A|Energy Vampire}}, [[Rift Plane]]'s innate energy regeneration, [[Squad Energy Restore]]s, {{M|Energy Siphon}}, {{M|Energy Nexus}}, {{M|Dreamer's Bond}}, and/or {{Focus|Wellspring}} while Sol Gate is active.
+***Energy can be replenished by [[Pickups#Orbs|Energy Orbs]], {{Arcane|Arcane Energize}}, [[Orokin Void]] [[Death Orb]] energy restores, {{M|Rage}}, and/or {{M|Hunter Adrenaline}} while the ability is active.
+***Sol Gate's energy drain is '''not''' converted into shields by [[Set Mods#Augur Mod Set|Augur Mods]].
+*Wisp cannot cast Reservoirs or Breach Surge, perform parkour [[Maneuvers]] or sprinting except dodge rolls, or other general interactions while channeling this ability.
+*Wisp is immune to [[knockdown]] while channeling this ability.
+*Energy beams, energy particles, and energy surge color tinting are affected by Wisp's chosen Warframe energy color.
+| synergies =
+*Currently obtained Motes from {{A|Reservoirs}} provide additional properties to Sol Gate.
+**'''Vitality:''' Provides a <u>'''25%'''</u> damage increase.
+**'''Haste:''' Allows Sol Gate to deal {{D|Corrosive}} procs on every damage instance.
+***Does '''not''' gain {{D|Corrosive}} damage.
+**'''Shock:''' Provides a <u>'''25%'''</u> damage increase.
+***Mote Damage bonuses add together to <u>'''50%'''</u>, a multiplicative bonus to Sol Gate's final damage.
+**Reservoir Motes orbiting Wisp will instead orbit around the portal. When Sol Gate is deactivated, Motes will return to Wisp again.
+*{{A|Wil-O-Wisp}} can be cast during Sol Gate to cloak, spawn a clone and teleport to it when desired.
+*Has an increased (<u>'''?%'''</u>) chance to trigger {{A|Breach Surge}}'s surge spark.
+|augment =
+|tips = 
+|bugs =
+<noinclude>
+|max = {{WFmax|main|wisp4}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Wisp}}
+__NOTOC__
+[[de:Sonnenportal]]
+[[es:Portal al sol]]
+[[fr:Porte Sol]]
+[[Category:Wisp]]
+[[Category:Radiation Damage]]
+[[Category:Armor Reduction]]
+[[uk:Сонячна брама]]

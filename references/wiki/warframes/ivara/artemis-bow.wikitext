@@ -1,0 +1,67 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly       = {{{1|}}}
+| name           = Artemis Bow
+| gameimage      = ArtemisBowIcon.png
+| cardimage      = ArtemisBow.png
+| hotkey         = 4
+| energy         = 50
+| description    = Summon a mighty bow and unleash a volley of devastating arrows.<br>
+'''Energy Drain Per Shot:''' 15
+| strength       = 75 / 120 / 180 / 240 (damage)
+| range          = N/A
+| duration       = N/A
+| misc           = 3 / 4 / 6 / 7 (arrows)
+| info           = 
+*Ivara expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to wield her '''{{Weapon|Artemis Bow}}''' as her primary [[Exalted Weapon]], allowing her to fire a spread of <u>'''3 / 4 / 6 / 7'''</u> arrows fanning in a vertical orientation. Each arrow inflicts {{Stat|Ability Strength|icon=only}}'''75 / 120 / 180 / 240''' damage.
+**Damage distribution is '''14%''' {{D|Impact}}, '''80%''' {{D|Puncture}}, and '''6%''' {{D|Slash}}.
+**Holding down the fire button will gradually reorient the spread to fan horizontally upon release.
+**Each shot has a <u>'''2x'''</u> [[critical multiplier]], <u>'''25%'''</u> [[critical chance]], and <u>'''20%'''</u> [[status chance]].
+**Artemis Bow can be equipped with primary mods and [[Arcane Enhancement]]s.
+***Can equip the bow-exclusive {{M|Thunderbolt}} mod.
+***[[Riven Mods]] are '''not''' generated for Artemis Bow.
+**Because Artemis Bow is counted as a primary, it is affected by mods and warframe arcanes such as {{M|Rifle Amp}} and {{Arcane|Arcane Rage}}.
+**Each shot consumes {{Stat|Ability Efficiency|icon=only}}'''15''' energy. Artemis Bow will end if Ivara's energy falls below the energy cost per shot or if deactivated by pressing the ability key again.
+***Artemis Bow does '''not''' have a continuous energy drain.
+***Ivara '''cannot''' replenish energy using {{A|Energy Vampire}} and [[Squad Energy Restore]]s while Artemis Bow is active.
+***{{A|Rally Point}}, {{M|Energy Siphon}}, {{M|Energy Nexus}}, {{M|Dreamer's Bond}}, [[Rift Plane]]'s innate energy regeneration, [[Energy Orb]]s, [[Orokin Void]] [[Orokin Tower#Death Orbs|Death Orb]]'s energy restores, {{Focus|Wellspring}}, {{M|Spellbound Harvest}}, {{Arcane|Arcane Energize}}, and {{Arcane|Emergence Dissipate}}'s Energy Motes can still replenish energy while the ability is active.
+****Artemis Bow does '''not''' activate channeling-based [[Incarnon#Genesis|Incarnon Genesis]] perk bonuses.
+*Charged attacks will only reorient Artemis Bow's arrow spread and will confer '''no''' changes to damage or [[Projectile Speed]] (unless the [[Concentrated Arrow]] augment is equipped). Charging speed is affected by [[fire rate]] mods.
+*Arrows kills will push back and continue to travel, carrying the enemy's body and nailing them to the surface behind them.
+*Artemis Bow is affected by and can trigger [[Arcane Enhancement#Warframe Arcanes|Warframe]] and [[Arcane Enhancement#Exodia Arcanes|Exodia Arcanes]].
+*While Artemis Bow is active, Ivara's other weapons and abilities can still be used normally.
+*Using the secondary fire button will make Artemis Bow instantly fire the currently equipped arrow type from {{A|Quiver}}. If used to fire arrows from Quiver, Artemis Bow will only shoot a single arrow, and each arrow will use Quiver's energy cost.
+**Using Quiver with the alternate fire method won't count as using an ability.
+*Artemis Bow's arrows can be controlled by {{A|Navigator}}. Only one of the arrows fired will be selected at random for manual control.
+*Artemis Bow's arrows can damage enemies across the [[Rift Plane]].
+|augment = 
+[[File:ConcentratedArrowMod.png|200px|left]]
+{{main|Concentrated Arrow}}
+{{#lst:Concentrated Arrow|intro}}
+{{#lsth:Concentrated Arrow|Stats}}
+{{clr}}
+|weapon =
+[[File:ArtemisBow.png|200px|left]]
+{{main|Artemis Bow (Weapon)}}
+{{#lst:Artemis Bow (Weapon)|intro}}
+{{clr}}
+| tips           = 
+*With the majority of [[Grineer]] and [[Corpus]] enemies being humanoids that stand upright, firing the Artemis Bow uncharged to fire the spread vertically will allow it to deal the maximum amount of damage possible by ensuring all of the Artemis Bow's shots hit against them. In addition, this also has a high chance of dealing headshots, further enhancing the potential damage. 
+**Due to the spreading nature of the shot, the Artemis Bow deals more damage at close range if used akin to a shotgun, which is useful for dealing massive damage to heavy units like [[Corpus Tech|Tech]]s and [[Bombard]]s. 
+*Firing fully-charged horizontal spreads is ideal for taking out multiple enemies in clustered groups, or fast moving enemies.
+*{{M|Reflex Guard}} works while Artemis Bow is active.
+<noinclude>
+|max = {{WFmax|main|ivara4}}
+</noinclude>
+| bugs           = 
+}}</onlyinclude>
+[[es:Arco de Artemisa]]
+[[fr:Arc d'Artémis]]
+[[ru:Лук Артемиды]]
+[[Category:Ivara]]
+[[Category:Update 18]]
+[[Category:Warframe Abilities]]
+[[Category:Ability Weapons]]
+[[Category:Channeled Abilities]]
+[[Category:Bow]]
+[[Category:Exalted Weapon]]
+[[uk:Лук Артеміди]]

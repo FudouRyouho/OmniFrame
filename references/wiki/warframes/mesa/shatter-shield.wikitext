@@ -1,0 +1,50 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Shatter Shield
+| gameimage      = ShatterShield2.png
+| cardimage      = ShatterShield.png
+| hotkey         = 3
+| energy         = 75
+| description    = Envelops Mesa in a barrier of energy, reflecting back incoming bullet damage.
+| strength         = 50% / 60% / 70% / 80% (damage reduction)
+| duration       = 10 / 15 / 20 / 25 s
+| range          = 5 / 7 / 9 / 11 m
+| misc           = 95% (damage reduction cap)<br>45° (deflect angle for non-hitscan)<br>90° (divert angle for hitscan)<br>∞ (hitscan reflect range)
+| cardonly       = {{{1|}}}
+| info           =
+*Mesa expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to envelop herself in an energy shield for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds, which [[Damage Reduction#Pure Damage Reduction|reduces]] incoming damage from enemy gunfire by {{Stat|Ability Strength|icon=only}}'''50% / 60% / 70% / 80%'''. The shield reflects [[Projectile Speed#Hitscan vs Projectiles|hitscan]] bullets back to the attacker over <u>'''unrestricted'''</u> range, but deflects non-hitscan projectiles randomly up to <u>'''45°'''</u> from the point of impact. Affected gunfire will instead divert towards a random enemy, if any, within an {{Stat|Ability Range|icon=only}}'''5 / 7 / 9 / 11''' meter radius and up to <u>'''90°'''</u> from the point of impact.
+**Damage reduction is capped at <u>'''95%'''</u>, achievable with 119% {{Stat|Ability Strength}}.
+**Diverted gunfire is physically redirected. As such, obstacles in the environment can prevent it from hitting enemies.
+***Damage is equivalent to what enemies would receive if they were to damage themselves.
+***With {{Arcane|Secondary Fortifier}} equip, damage reflected to overguarded units will grant Mesa [[Overguard]]
+***[[Status Effect]]s can proc normally, on both Mesa and enemy targets.
+*Projectile-based {{D|Knockdown}} is resisted, such as the grappling hooks from [[Scorpion]]s and [[Infested]] Ancients. However, knockdown caused by radial blasts from units such as [[Shockwave MOA]]s and [[Heavy Gunner]]s will bypass Shatter Shield.
+*Shatter Shield does '''not''' protect Mesa from area damage or melee attacks, thus damage will be dealt as normal.
+*Cannot be recast while active.
+|augment =
+[[File:StaggeringShieldMod.png|200px|left]]
+{{main|Staggering Shield}}
+{{#lst:Staggering Shield|intro}}
+{{#lsth:Staggering Shield|Stats}}
+{{clr}}
+| tips           =
+*As damage reduction is capped to 95%, any Ability Strength beyond 119% will not have further effect to Shatter Shield. Maximum damage reduction can be achieved with just a rank 3 {{M|Intensify}}, or a rank 4 {{M|Augur Secrets}} for 3 less drain.
+*Players should take caution, as while damage reduction will apply to Projectile/Hitscan weaponry, it does not apply to explosions.
+*[[Bombard]] rockets will be deflected and often will ricochet back into enemies with a good chance of proccing radial knock-down.
+<noinclude>
+|max             = {{WFmax|main|mesa3}}
+</noinclude>
+| bugs           =
+*Reflected damage from non-hitscan weapons is not calculated properly. The reflected damage enemies receive from non-hitscan weapons does not appear to factor in the enemy's level, causing the same damage to be reflected regardless of enemy difficulty.
+*When shot by an Embolist with Shatter Shield active Mesa will receive the poison proc even if the damage source was friendly.
+*Some types of projectiles stop when hitting Shatter Shield and disappear at the time their damage is being dealt to a target within range, instead of being visually redirected towards them. No damage loss, though.
+}}</onlyinclude>
+{{clr}}
+[[de:Splitterschild]]
+[[es:Quebranta escudos]]
+[[fr:Bouclier Scélérat]]
+[[it:Shatter Shield]]
+[[Category:Mesa]]
+[[Category:Warframe Abilities]]
+[[Category:Update 15]]
+[[Category:Damage Reduction]]
+[[uk:Уламковий щит]]

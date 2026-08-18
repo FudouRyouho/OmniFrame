@@ -1,0 +1,68 @@
+{{For|the component used in building a Zaw|Zaw#Links}}
+<onlyinclude>{{AbilityU10.3
+|gameimage       = TrinityLink.png
+|cardimage       = LinkModU14.jpeg
+| name           = Link
+| hotkey         = 3
+| energy         = 75
+| description    = Any damage taken while Link is active will be channeled to a nearby enemy.
+| cost           = 6 / 7 / 8 / 9 
+| strength       = 1 / 2 / 2 / 3 (affected enemies)
+| range          = 12 / 14 / 17 / 20 m
+| duration       = 14 / 16 / 18 / 20 s
+| misc           = 50% / 60% / 70% / 75% (damage redirection)<br/>100% (damage and status transfer)
+| cardonly       = {{{1|}}}
+
+|info     =
+*Trinity expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to link herself with up to {{Stat|Ability Strength|icon=only}}'''1 / 2 / 2 / 3''' enemies within a radius of {{Stat|Ability Range|icon=only}}'''12 / 14 / 17 / 20''' meters for {{Stat|Ability Duration|icon=only}}'''14 / 16 / 18 / 20''' seconds. While linked, she receives <u>'''50% / 60% / 70% / 75%'''</u> [[Damage Redirection]], which reduces her damage taken by the same amount, while <u>'''100%'''</u> of the pre-mitigation damage she would've received is transferred to all linked enemies. She also becomes status immune, with any [[Status Effect]]s she would've received being transferred to the linked enemies.
+**Max number of linked enemies is affected by [[Ability Strength]], requiring an additional '''33.3%''' strength per max target. In other words, '''Max Target Count = Floor(3 * Strength)'''
+**Casting time of '''0.6''' seconds is affected by [[Casting Speed]].
+**Trinity must be linked to at least one enemy at any given moment to gain the ability's defensive benefits.
+**All linked enemies receive the full <u>'''100%'''</u> of the damage she would've taken; the damage is '''not''' split between each linked enemies.
+*Status redirection from Link has the following special behaviors:
+**Status redirection applies to {{D|Stagger}} and {{D|Knockdown}}.
+***Includes knockdown from environmental traps such as Corpus [[Laser Barrier]]s. Note that tripping these barriers in [[Spy]] missions will still trigger vault alarms.
+***Self-stagger from explosive weapon fire is prevented, but is not redirected to enemies affected by Link.
+**Status effects applied before casting Link are not transferred to linked enemies.
+***Damage from damage over time effects, such as {{D|Heat}}, is redirected by Link's [[Damage Redirection]] when active.
+**When Trinity is hit by an enemy attack that has status chance, the damage redirected to her linked targets will inherit that status chance, meaning the status chance is calculated separately for each enemy.
+***Due to this, it is possible that only some enemies receive transferred status effects, except when status is guaranteed.
+***[[Status Effect]]s applied this way deal the full effect, duration, and damage of one which would have applied to Trinity.
+*'''Ability Synergy:''' Link can tether to a {{A|Well of Life}} target, applying lifesteal during Link's Damage Redirection.
+*If Trinity is bleeding out while this ability is active, she '''will remain''' linked with nearby enemies.
+*Trinity '''cannot''' link with [[Stalker]].
+*Trinity and linked enemies will shine the color of her energy.
+*Can be recast while active.
+*Link is a [[One-Handed Action|one-handed action]]. As such, it can be used while performing various maneuvers and actions without interruption.
+|augment =
+[[File:AbatingLinkMod.png|200px|left]]
+{{main|Abating Link}}
+{{#lst:Abating Link|intro}}
+{{#lsth:Abating Link|Stats}}
+{{clr}}
+|tips = 
+*Keeping this ability active when surrounded by high-level enemies will dramatically increase Trinity's survivability.
+*Use Trinity's {{A|Energy Vampire}} to fuel Link's high energy cost.
+*Link connects to enemies through walls and other obstacles, which serves as an early-warning system indicating if enemies are nearby. 
+**Similarly, Link can connect to and track the position of cloaked enemies such as [[Capture]] targets and [[Manic]]s.
+*Be wary of mods and effects which reduce [[Ability Range]] as they make it harder to maintain an active link, and with that, Link's defensive benefits.
+*On cast, Link will target the closest enemies to Trinity within range.
+**If another enemy enters this range and Link has already reached maximum number of enemies, Link will not re-target the new enemy, even if this enemy is closer to Trinity.
+*Transferred [[Status Effect]] activates additional effects like {{M|Archon Stretch}}
+<noinclude>
+|max = {{WFmax|main|trinity3}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Trinity}}
+[[de:Verbindung]]
+[[es:Enlace]]
+[[fr:Lien]]
+[[ru:Связь]]
+[[Category:One-Handed Abilities]]
+[[Category:Warframe Abilities]]
+[[Category:Update 7]]
+[[Category:Trinity]]
+[[Category:Damage Reduction]]
+[[uk:Зв’язок]]

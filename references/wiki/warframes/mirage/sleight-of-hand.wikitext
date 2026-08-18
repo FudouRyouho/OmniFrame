@@ -1,0 +1,89 @@
+<onlyinclude>{{AbilityU10.3
+| name = Sleight of Hand
+| gameimage = HarlequinDeadlyTrap.png
+| cardimage = PowerSleightOfHand.png
+| hotkey = 2
+| energy = 50
+| description = Booby trap nearby objects while conjuring an irresistible jewel that bursts with radial blind when touched in darkness, or a radial explosion in light. Conjure multiple smaller jewels with the help of Hall of Mirrors.
+| strength = 50 / 125 / 180 / 200 (pickup explosion elemental damage)<br />50 / 125 / 180 / 200 (jewel explosion {{D|Blast}} damage)
+| range = 10 / 20 / 30 / 40 m (trap radius)<br />6 / 8 / 10 / 12 m (jewel charm radius)<br />4 / 5 / 6 / 8 m (explosion radius)<br />4 / 5 / 6 / 8 m (blind radius)
+| duration = 9 / 12 / 15 / 18 s (trap duration)<br />2 / 3 / 4 / 5 s (blind duration)
+| misc = 60 m (jewel cast range)<br />20 s (jewel duration)<br />2 m (detonation radius)<br />6 m (clone jewels distance)
+| cardonly = {{{1|}}}
+| info = *Mirage expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to conjure a powerful photokinetic illusion that booby traps all interactive objects within a {{Stat|Ability Range|icon=only}}'''10 / 20 / 30 / 40''' meter radius for {{Stat|Ability Duration|icon=only}}'''9 / 12 / 15 / 18''' seconds, while simultaneously placing a light-sensitive jewel at the targeted location on the aiming reticle, within a cast range of <u>'''60'''</u> meters and lasts for <u>'''20'''</u> seconds.
+*Mirage's jewels and booby traps exhibit numerous different effects:
+<div class="tabber-borderless" ><tabber>
+|-|Jewels=
+*Mirage's jewel glistens to attract enemies within {{Stat|Ability Range|icon=only}}'''6 / 8 / 10 / 12''' meters towards it, detonates when an enemy comes within a <u>'''2'''</u> meters radius, and adapts to the environmental lighting conditions at its location to exhibit different effects on detonation; if placed in light, the jewel explodes to deal {{Stat|Ability Strength|icon=only}}'''50 / 125 / 180 / 200''' {{D|Blast}} damage to all enemies within a {{Stat|Ability Range|icon=only}}'''4 / 5 / 6 / 8''' meters radius. If placed in darkness, the jewel shatters and emits a bright flash of light that inflicts {{D|Blind}} to all enemies within a {{Stat|Ability Range|icon=only}}'''4 / 5 / 6 / 8''' meters radius for {{Stat|Ability Duration|icon=only}}'''2 / 3 / 4 / 5''' seconds.
+***Explosion damage diminishes with distance from the jewel and '''cannot''' proc [[Status Effect]]s.
+**Enemies must be within direct line of sight of the jewel to be attracted, as well as receive explosion damage and blind.
+
+**Blinded enemies can be attracted by all jewels created from the same Sleight of Hand cast.
+**All other properties are affected by Ability mods similar to the primary jewel.
+|-|Booby Traps=
+*Affected objects include (but not limited to): [[Arc Trap]]s, Control Consoles, [[Explosive Barrel]]s, [[Storage Containers]], [[Laser Barrier]]s, Lockers, Resource Caches, [[Security Camera]]s, [[Corpus Turret]]s, Fortress Scanners, Fortress Turrets, Orokin Turrets, Orokin Void Laser Consoles, [[Pickups]], [[Gas City#Hazards|Gas City Hazards]] and Ziplines. Each type of object has a different trap effect:
+**'''Arc Traps''' zap nearby enemies instead, but will still zap the [[Tenno]] upon exploding.
+**'''Control Consoles''' attract a nearby enemy to attempt raising the alarm or initiating lockdown. After a short delay, the console malfunctions and explodes dealing <u>'''200'''</u> {{D|Blast}} damage to its user.
+***If the user survives, it is deterred from accessing the console again until Sleight of Hand expires.
+***Robotic units such as [[MOA]]s are also attracted, but they '''cannot''' trigger an explosion.
+**'''Explosive Barrels''', '''Storage Containers''', and '''Resource Caches''' release an intense flash of light when destroyed, blinding nearby enemies for <u>'''10'''</u> seconds. Explosive barrels will also have their radial damage multiplied by <u>'''200%'''</u>.
+**'''Laser Barriers''' activate lasers that deal {{D|Electricity}} damage and status effect every half second to enemies attempting to pass through while allowing Tenno safe passage. The secondary chain damage from the status effect inflicts <u>'''12'''</u> {{D|Electricity}} damage per tick. Warframes restore <u>'''5'''</u> energy for every passage and can recharge '''5''' energy every half second while remaining in contact with the lasers, to a maximum of <u>'''50'''</u> energy per laser barrier.
+***Sleight of Hand must expire and be recast in order to recharge energy from previously exhausted barriers.
+**'''Lockers''' open up and detonate when an enemy is in proximity, inflicting {{D|True}} damage equivalent to the enemy's remaining amount of hit points. Exploded lockers will then close, allowing them to be usable after Sleight of Hand expires.
+**'''Security Cameras''' and '''Fortress Scanners''' will stop detecting Tenno for the duration.
+**'''Corpus Turrets''' and '''Fortress Turrets''' activate without Camera/Fortress Scanner assistance and fire upon nearby enemies.
+**'''Orokin Void Laser Consoles''' halve the cooldown period between laser activations. Cooldown begins at halved time if cast before activation, while the remaining time is halved if cast during cooldown. Halved time returns to normal if ability expires before cooldown completes.
+**'''Pickups''' randomly explode, dealing {{Stat|Ability Strength|icon=only}}'''50 / 125 / 180 / 200''' elemental damage within a radius of {{Stat|Ability Range|icon=only}}'''4 / 5 / 6 / 8''' meters. Each pickup deals a specific type of elemental damage: {{D|Cold}} damage for '''Ammo''', {{D|Heat}} damage for '''Health Orbs''', {{D|Electricity}} damage for '''Energy Orbs''', and {{D|Toxin}} damage for '''Affinity Orbs'''.
+***Explosion damage has '''100%''' falloff over its radius.
+***Exploded pickups disappear for the Mirage casting Sleight of Hand but remain for teammates to pick up.
+**'''Gas City Distressed Pipe''' used to explode when enemies were nearby but now it's bugged and does nothing, despite showing that it's hacked.
+**'''Gas City Shock Turret''' will deploy and shock enemies and [[Tenno]].
+***{{A|Sleight of Hand}} is the only way to activate them on the [[Corpus Ship]] tileset.
+**'''Gas City Toxin Vent''' will change the gas color to pink and only damage enemies.
+**'''Ziplines''' shock the first enemy that uses them, dealing <u>'''200'''</u> {{D|Electricity}} damage and status effect.
+</tabber></div>
+<hr />
+*Does '''not''' affect broken objects, Datamass Storage Units, Grates, [[MOA Cabinet Spawner]]s, [[Nav Coordinates]], opened Lockers, Orokin Collapsible Cover / Death Orbs / Pressure Plates / Laser Plates, Reinforced Glass, Land Mines, Shrapnel Mines, and [[Sensor Bar]]s.
+*'''Ability Synergy:''' When casting Sleight of Hand while {{A|Hall of Mirrors}} is active, Mirage's holographic clones will each create a smaller jewel placed <u>'''6'''</u> meters away from the primary jewel. Clone jewels have reduced effectiveness of the primary jewel's effects, including reduced charm radius, explosion damage, blind duration, as well as explosion and blind radius.
+*Can be recast while active.
+*Casting Sleight of Hand stops Mirage's movement and other actions.
+*When cast, Mirage visually emits a pulse of energy that forms a grid of light representing the ability range. The pulse and grid are affected by Mirage's chosen Warframe energy color.
+*Mirage's primary and clone jewels have the same model as {{A|Prism}} and are tinted in her chosen Warframe energy color. When in light, the jewels are translucent and emit a mist of white light; while in the darkness, the jewels are opaque and emit halos of light.
+*Affected objects emit a halo of light, pulse and glow in violet with a tint of Mirage's energy color.
+| augment = [[File:ExplosiveLegerdemainMod.png|200px|left]]
+{{main|Explosive Legerdemain}}
+{{#lst:Explosive Legerdemain|intro}}
+{{#lsth:Explosive Legerdemain|Stats}}
+{{clr}}
+| tips = *Sleight Of Hand synergizes well with {{A|Desecrate}} as the generation of Health Orbs, Energy Orbs and Ammo pickups gives Mirage a constant supply of potential traps.
+*Sleight Of Hand makes [[Excavation]] missions extremely easy, especially in some [[Corpus]] tilesets as the Laser Barriers will keep enemies away from the Extractors.
+**A negative Ability Range (around 50%) is advised, in order to not affect an area too wide, negatively affecting the supply of Power Cells.
+**With high Ability Duration, high Ability Strength and crowd-controlling weapons, like {{Weapon|Synoid Simulor}}, Mirage can single-handedly protect an Extractor even at higher levels/rotations.
+*Sleight Of Hand can be used to get through [[Laser Barrier]]s safely and get past security cameras undetected.
+**It can also temporarily disable cameras and ''some'' laser barriers in [[Spy]] vaults.
+<noinclude>
+| max = {{WFmax|main|mirage2}}
+</noinclude>
+| bugs = *Control Consoles can mesmerize Kubrows, causing them to stay still for the ability duration.
+**This affects Kavor Defectors as well, causing them to individually stay behind the group.
+*Sleight of Hand can cause a sudden drop in frame rate or brief freeze of the game or trigger crashes in rare cases.
+*If the respective Mirage is not the host, she can reuse this ability to explode the pickups as much as she likes, long as the pickup isn't looted.
+*As of {{ver|18.4.4}}, using Sleight of Hand with the Explosive Legerdemain augment mod causes Grineer Consoles during Mobile Defense missions to spin uncontrollably, causing the console to be virtually impossible to access with the required Datamass.
+*<s>Items are destroyed even without the {{M|Explosive Legerdemain}} augment mod</s>. This is an intended effect.
+}}
+
+</onlyinclude>
+
+==See Also==
+* {{WF|Mirage}}
+__NOTOC__
+[[de:Taschenspielertrick]]
+[[es:Juego de manos]]
+[[ru:Ловкость Рук]]
+[[Category:Mirage]]
+[[Category:Update 14]]
+[[Category:Warframe Abilities]]
+[[Category:Stealth Abilities]]
+[[Category:Blast Damage]]
+[[Category:Line Of Sight Abilities]]
+[[uk:Спритність рук]]

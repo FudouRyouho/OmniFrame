@@ -1,0 +1,53 @@
+{{Successor
+|precededby=World On Fire
+|precededbysince={{ver|26}}
+}}
+<onlyinclude>{{AbilityU10.3
+| name = Inferno
+| gameimage = Inferno130xWhite.png
+| cardimage = InfernoModx256.png
+| hotkey = 4
+| energy = 0
+| description = Command a flaming comet to crash down in front of ember, engulfing enemies with a fire that can spread through their ranks.
+<br/>'''Energy per target:''' 10
+| strength = 1000 / 1500 / 2000 / 2500 ({{D|Impact}} and {{D|Heat}} meteorite damage)<br/>200 - 400 / 350 - 500 / 300 - 600 / 350 - 700 ({{D|Heat}} ring damage per second)
+| range = 10 / 15 / 20 / 25 m (targeting radius)
+| duration = 7 / 10 / 12 / 15 s (ring duration)
+| misc = 10 (target cap for determining energy cost)<br/>8 m (ring radius)<br/>100% ({{D|Heat}} status chance on meteorite impact)<br/>10% ({{D|Heat}} status chance on Ring of Fire damage per second)<br/>+3%/s (heat generation rate bonus for Immolation)<br/>+100% (Ring of Fire max damage bonus from Immolation)<br/>67.5° (targeting angle)
+| cardonly = {{{1|}}}
+| info = *Ember summons fiery meteorites to descend from above, crashing into all '''visible''' enemies in a <u>'''67.5°'''</u> cone in front of her within a {{Stat|Ability Range|icon=only}}'''10 / 15 / 20 / 25''' meter range. On impact, enemies receive {{Stat|Ability Strength|icon=only}}'''1000 / 1500 / 2000 / 2500''' damage distributed evenly between {{D|Impact}} and {{D|Heat}}, with a '''<u>100%</u>''' {{D|Heat}} status chance. The enemies are then surrounded by a ring of fire for {{Stat|Ability Duration|icon=only}}'''7 / 10 / 12 / 15''' seconds, which grows to a radius of '''<u>8m</u>''', dealing {{Stat|Ability Strength|icon=only}}'''200 - 400 / 350 - 500 / 300 - 600 / 350 - 700''' {{D|Heat}} damage per second (based on Immolation heat level) with '''<u>10%</u>''' {{D|Heat}} status chance per second. The rings will spread to unaffected enemies caught in their radius, with newly affected enemies having their own fresh ring duration, independent of any other rings. Enemies can only be affected by a single ring per cast of Inferno, however will still take damage from the rings of other affected enemies.
+**Does not require [[Line of Sight]] from Ember; enemies only need to be within view of the camera to be affected.
+***An enemy that has line of sight but is off-screen will '''not''' be hit.
+**Ring radius growth rate is affected inversely by {{Stat|Ability Duration}}, growing slower at higher duration values.
+**Enemies affected by a Ring of Fire can still be hit by meteorites from additional casts of Inferno, but the ring damage will '''not''' stack from multiple casts, nor will the ring duration reset. 
+*Inferno costs '''<u>0</u>''' [[energy]] to cast. If enemies are within range, it consumes {{Stat|Ability Efficiency|icon=only}}'''10''' energy per enemy. Energy is consumed for at most '''<u>10</u>''' targets, for a total of {{Stat|Ability Efficiency|icon=only}}'''100''' energy.
+**While only consuming energy for up to 10 targets, Inferno will still target and drop a meteorite on any number of targets. For example, if 20 enemies are hit by Inferno, at base {{Stat|Ability Efficiency}} only 100 energy is consumed.
+*'''Ability Synergy:'''
+**Inferno ''raises'' {{A|Immolation}}'s heat generation by '''<u>3%</u>''' per second per cast.
+**The Rings of Fire gain bonus damage in ''percent (%)'' equal to the current heat level upon casting Inferno, dealing double damage at max heat.
+***Damage bonus does not dynamically change to reflect the current heat level, instead only snapshotting the initial heat level upon cast.
+*Can be cast without any targets on screen.
+| augment = [[File:ExothermicMod.png|200px|left]]
+{{main|Exothermic}}
+{{#lst:Exothermic|intro}}
+{{#lsth:Exothermic|Stats}}
+{{clr}}
+| tips = *If there are no enemies nearby casting Inferno will cost no energy, but will still increase the rate of heat generation, allowing you to reach max heat quickly.
+*If you wish to build up heat quickly equipping [[Fleeting Expertise]] can be a good idea, as it will allow you to cast Inferno more often. Conversely, if you wish to build heat more slowly equipping [[Blind Rage]] would be ideal, as it allows for fewer, but more powerful, casts of Inferno.
+<noinclude>
+|max = {{WFmax|main|ember4}}
+</noinclude>
+}}</onlyinclude>
+
+==See also==
+* {{WF|Ember}}
+
+[[es:Infierno]]
+[[fr:Inferno]]
+[[Category:Ember]]
+[[Category:Update 26]]
+[[Category:Heat Damage]]
+[[Category:Impact Damage]]
+[[Category:Line Of Sight Abilities]]
+[[Category:Conal Area of Effects]]
+[[uk:Пекло]]

@@ -1,0 +1,100 @@
+<onlyinclude>{{AbilityU10.3
+| name = Reservoirs
+| gameimage = ReservoirsIcon.png
+| cardimage = Reservoirs.png
+| hotkey = 1
+| energy = 25
+| description = Choose and summon a Reservoir filled with Motes that attach to and aid Wisp and her allies. Haste Mote grants increased movement and attack speed. Vitality Mote increases maximum health and heals over time. Shock Mote stuns nearby enemies.
+| sub = {{AbilityU10.3/Tabber | Vitality
+| strength       = 300 (max health)<br> 30/s (heal over time)
+| duration       = 19 / 22 / 26 / 30 s (Mote lifespan)
+| range          = 5 m (Reservoir range)
+| misc           = &infin; (Reservoir lifespan)<br>6 (max reservoirs active)<br>25 % (Sol Gate damage buff)
+}}
+{{AbilityU10.3/Tabber | Haste
+| strength       = 20 % (movement speed)<br>20 % (attack speed)<br>30 % (fire rate)
+| duration       = 19 / 22 / 26 / 30 s (Mote lifespan)
+| range          = 5 m (Reservoir range)
+| misc           = &infin; (Reservoir lifespan)<br>6 (max reservoirs active)<br>100 % (Sol Gate {{D|Corrosive}}<br reason = "to avoid line break after colon"/>status chance)
+}}
+{{AbilityU10.3/Tabber | Shock
+| strength       = 10 ({{D|Electricity}} damage)
+| duration       = 19 / 22 / 26 / 30 s (Mote lifespan)
+| range          = 5 m (Reservoir range)<br>15 m (Shock range)
+| misc           = &infin; (Reservoir lifespan)<br>6 (max reservoirs active)<br>100 % ({{D|Electricity}} status chance)<br> 5 (number of targets)<br>3 s (Shock cooldown)<br>25 % (Sol Gate damage buff)
+}}<!--The following four are not displayed, but kept to keep track of universal stats-->
+| strength = 
+| range = 5 m (Reservoir range)
+| duration = 19 / 22 / 26 / 30 s (Mote lifespan)
+| misc = &infin; (Reservoir lifespan)<br>6 (max reservoirs active)
+| cardonly = {{{1|}}}
+| info = *Birthed from Wisp's dimensional habitat, three species of '''Reservoir''' pods nursing friendly '''Motes''' can be selectively summoned by Wisp. Tap the ability key to freely cycle the selection wheel between the Vitality, Haste, and Shock reservoirs. Hold down the ability key to summon the selected reservoir from a portal above Wisp for {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]], placing the pod directly in front of her. The reservoir pods have a range of {{Stat|Ability Range|icon=only}}'''5''' meters and last <u>'''indefinitely'''</u>, while the motes retrieved from the pods lasts {{Stat|Ability Duration|icon=only}}'''19 / 22/ 26 / 30''' seconds while outside of the reservoirs. Wisp can summon a maximum of <u>'''6'''</u> reservoir pods.
+**Casting additional reservoir pods will replace the oldest pod.
+**Up to three different reservoir types can be unlocked as the ability is [[Warframes#Leveling Up|ranked up]]:
+***'''Vitality''': unlocked by default (Unranked Warframe)
+***'''Haste''': unlocked at rank 1 (Warframe Rank 7)
+***'''Shock''': unlocked at rank 2 (Warframe Rank 14)
+**Reservoir selection wheel is displayed above the ability icons. The icon for the currently selected type is enlarged and shown on the left of the wheel. Tapping the ability key (default {{Keybind|1}}) will cycle between the reservoir types, while holding the key will deploy the selected reservoir (tap/hold functions can be inverted in the [[Settings]]).
+<div class="tabber-borderless" ><tabber>
+|-|Pods & Motes=
+*Reservoir pods are invulnerable static floating objects that are permanently placed until removed by Wisp or by colliding with [[Nullifier Crewman]] bubbles.
+*Each reservoir pod spawns a floating Mote above it, which can be plucked an infinite amount of times by Wisp, other Warframes, [[Companions]], summoned allied units such as [[Specter]]s and [[Railjack]] [[Railjack/Crew|Crews]], allied [[Invasion]] units, [[Rescue|Hostages]], converted [[Kuva Lich|Liches]] and [[Sisters of Parvos|Sisters]], [[Kavor Defector]]s, [[Sortie]] and [[Arbitrations]] Defense Operatives, and [[Defense Objects]] coming into the reservoir's range.
+**This includes at least some allies spawned via Warframe abilities such as {{WF|Nidus}}'s Maggots via his {{A|Ravenous}} ability.
+**Motes attach to the entity that plucked them, floating in orbit and following their target wherever they go.
+*Motes grant the affected entity a specialized buff based on the reservoir type.
+*Motes respawn from their reservoirs after a brief cooldown if taken by an entity.
+*Motes last for a duration, with their timers able to be refreshed and paused indefinitely while the buffed entities are standing in range of the respective reservoir type.
+*Reservoir pods take on Wisp's [[Ability Strength]] when placed, and will remain at that Ability Strength percentage indefinitely.
+*If there are multiple reservoir pods, the pod with the highest buff value will take effect, with its corresponding duration.
+**A lower-value pod will still refresh the duration of a higher-value pod.
+*Each entity is limited to '''1''' active Mote buff per reservoir type.
+|-|Vitality=
+*The '''Vitality Mote''' increases maximum [[Health]] by {{Stat|Ability Strength|icon=only}}'''300''' and restores {{Stat|Ability Strength|icon=only}}'''30''' health per second.
+*Vitality Mote appears made of Infested flesh and sinew, shaped similar to a beetle shell with a red U-shaped crown.
+*Vitality Reservoir appears as a three-petalled plant with a red crown at its base. It constantly emits a flame-like energy particle effect.
+
+|-|Haste=
+*The '''Haste Mote''' increases [[Movement Speed]] and melee [[Attack Speed]] by {{Stat|Ability Strength|icon=only}}'''20%''' and [[Fire Rate]] by {{Stat|Ability Strength|icon=only}}'''30%'''.
+*Haste Mote appears made of Infested flesh and sinew, shaped similar to a beetle shell with a green oval-shaped crown.
+*Haste Reservoir appears as a three-petalled plant with a green crown at its base. It constantly emits a liquid-like energy particle effect.
+
+|-|Shock=
+*The '''Shock Mote''' stores an electrical charge that zaps up to <u>'''5'''</u> enemies within {{Stat|Ability Range|icon=only}}'''15''' meters with chain lightning every <u>'''3'''</u> seconds, dealing {{Stat|Ability Strength|icon=only}}'''10''' {{D|Electricity}} damage with a guaranteed [[Status Effect]] to stun enemies.
+**The electric charge shows as electricity surging around the Shock Mote when ready to discharge.
+*Shock Mote appears made of Infested flesh and sinew, shaped similar to a beetle shell with a blue hammer-like crown.
+*Shock Reservoir appears as a three-petalled plant with a blue crown at its base. It constantly emits an electrical spark particle effect.
+</tabber></div>
+<hr />
+| synergies =
+*Casting {{A|Breach Surge}} on an active reservoir pod will teleport Wisp to its location and <u>'''double'''</u> Breach Surge's range.
+**Targeting a reservoir pod with the reticle will encircle it with Wisp's chosen energy color to indicate Breach Surge's ability to be cast on it and can be used at any range, provided there is line of sight.
+**Reservoir pods can be targeted through solid surfaces provided there is vision of them (e.g. windows).
+**Wisp cannot teleport to a pod while within less than <u>'''10'''</u> meters of it.
+*Currently obtained Motes provide additional properties to {{A|Sol Gate}}.
+**'''Vitality:''' Provides a <u>'''25%'''</u> damage increase.
+**'''Haste:''' Allows Sol Gate to deal {{D|Corrosive}} procs on every damage instance.
+***Does '''not''' gain {{D|Corrosive}} damage.
+**'''Shock:''' Provides a <u>'''25%'''</u> damage increase.
+| augment = [[File:FusedReservoirMod.png|200px|left]]
+{{main|Fused Reservoir}}
+{{#lst:Fused Reservoir|intro}}
+{{#lsth:Fused Reservoir|Stats}}
+{{clr}}
+| tips = *Avoid using Shock Motes in [[Spy]] missions, as it can hit [[Grineer]] [[Sensor Regulator]]s and alert them.
+*Because motes will refresh the duration of any other mote buff (regardless of power), you can make very effective use of temporary [[Ability Strength]] buffs such as [[Growing Power]], [[Energy Conversion]], or (especially) the power increase from a [[Void Fissure]] mission.  You can put down reservoirs while under these effects, acquire more powerful reservoir buffs, and then endlessly refresh their duration using regular-strength reservoirs.  This makes any buff to power strength effectively infinite in duration, so long as you do not let your reservoir buffs expire (or get nullified).
+**Similarly, if there are multiple Wisps in a mission, they can space their reservoirs out to effectively gain all the buff benefits of the strongest Wisp, while also increasing the area covered.
+| bugs = <noinclude>
+| max = {{WFmax|main|wisp1}}
+</noinclude>
+}}
+
+</onlyinclude>
+
+==See Also==
+*{{WF|Wisp}}
+__NOTOC__
+[[de:Reservoire]]
+[[es:Reservas]]
+[[fr:Réservoirs]]
+[[Category:Wisp]]
+[[uk:Джерела]]

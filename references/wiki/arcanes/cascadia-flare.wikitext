@@ -1,0 +1,91 @@
+{{ArcaneBox}}
+'''Cascadia Flare''' is an [[Arcane Enhancement]] for Secondary weapons, that grants increased secondary weapon damage for 10 seconds when applying {{D|Heat}} status effect.
+
+==Effect==
+{| class="emodtable"
+|-
+!Rank!!Damage per Stack!!Max Damage Stack
+|-
+| 0 || 2% || 80%
+|-
+| 1 || 4% || 160%
+|-
+| 2 || 6% || 240%
+|-
+| 3 || 8% || 320%
+|-
+| 4 || 10% || 400%
+|-
+| 5 || 12% || 480%
+|}
+
+==Acquisition==
+{{Acquisition|*Cascadia Flare can be purchased from [[Cavalero]] for {{sc|5,500}}, requiring '''Rank 2 - Watcher''' with [[The Holdfasts]]. It can also be dropped by [[Thrax Centurion]], [[Thrax Legatus]], and [[Void Angel]]s on the [[Zariman Ten Zero]].
+*Dropped by [[Captain Vor]] in [[Tolstoj]] ([[Mercury]]) in The [[Steel Path]].|header=no}}
+
+=== Farming Tips ===
+* Thrax enemies are abundant in [[Mobile Defense]] and [[Void Cascade]] missions.
+* The Zariman Arcane drop is considered as a mod drop, and is thus affected by [[The Steel Path]] and [[Mod Drop Chance Booster]].
+
+== Notes ==
+
+* At all ranks, it will take '''40''' {{D|Heat}} status effects to reach the maximum effect, which is 480% base damage bonus at Rank 5.
+** Only one stack can be added per damage instance; applying multiple {{D|Heat}} status effects, such as via [[Multishot]] or {{M|Archon Vitality}} in a single hit will not generate multiple stacks.
+*Stacking the  Cascadia Flare buff does '''not''' require the {{D|Heat}} proc to come from the attached secondary weapon, and can stack even while the secondary is holstered. Sources include:
+**''Any'' weapon with modded or innate {{D|Heat}} damage and status chance
+**Warframes with abilities that directly inflict {{D|Heat}} status effects, such as {{WF|Ember}}, {{WF|Nezha}}, {{WF|Protea}}, {{WF|Uriel}}, {{WF|Gauss}},{{WF|Wisp}} and {{WF|Temple}}
+**Warframes with {{D|Heat}}-moddable [[Exalted Weapon|Exalted Weapons]], such as {{WF|Mesa}}, {{WF|Titania}}, {{WF|Jade}}, {{WF|Dante}} and {{WF|Hildryn}}, plus others
+**Warframes which have received [[#Subsumable_Ability_Checklist|subsume abilities]] from the [[Helminth]] that can inflict {{D|Heat}}, including
+*** {{A|Jade Stars}} from {{WF|Sirius & Orion}}
+*** {{A|Thermal Sunder}} from {{WF|Gauss}}
+*** {{A|Fire Walker}} from {{WF|Nezha}}
+*** {{A|Fire Blast}} from {{WF|Ember}}
+*** {{A|Ophanim Eyes}} from {{WF|Jade}}
+*** {{A|Null Star}} from {{WF|Nova}} with the {{M|Neutron Star}} augment
+**Warframes with abilities that apply many status effects, such as {{WF|Citrine}}, {{WF|Koumei}} and {{WF|Voruna}}
+**Warframes with variable-element configurations, such as {{WF|Lavos}} and {{WF|Chroma}}
+**Warframes that make {{D|Heat}}-inflicting traps, such as {{WF|Follie}} and {{WF|Mirage}}
+**Performing a [[Maneuvers#Bullet_Jump|Bullet-Jump]] near enemies while {{M|Firewalker}} is equipped
+**Companion Weapons that deal {{D|Heat}} elemental damage via mods like {{M|Burning Claws}} and {{M|Flame Gland}}
+***Despite inflicting {{D|Heat}}, {{M|Focused Prospectus}} does not stack Cascadia Flare.
+*Though some enemies have a capped number of status effects they can receive, such as [[Bosses]] and [[Adversary System|Adversaries]], applying a {{D|Heat}} proc to an enemy at max procs will still cause Cascadia Flare to refresh and stack.
+*Stacks are granted and refreshed even on fatal damage instances that apply {{D|Heat}}. 
+*When Cascadia Flare is equipped on multiple weapons simultaneously, as is possible with [[Exalted Weapons]] and [[Archgun|Archguns]], they will all share the same buff.
+*Buff is treated similarly to damage mods like {{M|Hornet Strike}}, and is ''additive'' with [[Damage#Base_Damage|base damage mods]].
+* If the '''10''' second timer expires without applying a fresh {{D|Heat}} status effect, all stacks of Cascadia Flare are removed.
+** This behavior is consistent with other weapon arcanes that trigger on status effect application, like {{Arcane|Conjunction Voltage}} and {{Arcane|Primary Frostbite}}
+***Compared to those arcanes, which usually last for 12 seconds, Flare has the shortest duration at 10 seconds.
+** Cascadia Flare's buff expiration is distinct from weapon arcanes that trigger on kill, like {{Arcane|Secondary Merciless}} and {{Arcane|Secondary Deadhead}}, where expiration only causes one stack to be removed at a time.
+
+== Tips ==
+
+* With high [[fire rate]] weapons such as {{Weapon|Spectra}}, Cascadia Flare's max stack can be reached rather quickly despite its tendency to lose all its stacks upon expiry.
+* Equipping a sentinel with a high-status companion weapon such as [[Verglas]] — modded for viral and heat, fire rate and multishot — can effectively help keep the stacks of Cascadia Flare maxed.
+* Works well on secondaries with innate Heat damage and high [[status chance]] such as the {{Weapon|Atomos}}, {{Weapon|Hystrix}} ({{Weapon|Hystrix Prime|Prime}}) with Heat Quills, and {{Weapon|Tenet Cycron}}, as long as Heat is included among the listed elemental damage and not its derivatives such as {{D|Gas}}.
+** Also works very well with weapons that possess a base secondary elemental damage type and high status chance such as the {{Weapon|Synoid Gammacor}} and {{Weapon|Kompressa}} when combined with {{M|Primed Heated Charge}}, as long as the added Heat is included as a damage type.
+*If a secondary [[Exalted Weapon]] is modded for {{D|Heat}}, there is multi-point synergy from Cascadia Flare with {{Arcane|Arcane Hot Shot}}, and the {{Resource|Topaz Archon Shard}} [[Topaz_Archon_Shard#Shard_Buffs|buff]] for secondary critical chance on {{D|Heat}} kills.
+**This trifecta produces a combined 480% base damage bonus and up to a maximum 675% bonus [[Critical Hit|critical chance]] for secondary weapons. 
+*The [[Helminth]]-subsumable ability {{A|Jade Stars}} launches motes capable of inflicting multiple {{D|Heat}} procs per second in line with the player's attacks, making any frame capable of producing many {{D|Heat}} procs
+**Because {{A|Jade Stars}} produces so many procs so reliably, it can potentially stack and maintain the Flare buff without weapon procs, allowing for an elemental damage mix on the weapon that doesn't necessarily involve {{D|Heat}} as a final element. 
+
+== Bugs ==
+*If installed in the secondary arcane slot of an [[Archgun]] equipped in the [[Archgun#Atmospheric|Heavy Weapon]] slot (on the third page of the Arsenal screen, below Gear and Emotes wheels), applying {{D|Heat}} status effects will cause the buff icon to appear even while that weapon is not equipped. 
+**However, the effects are not applied to any weapon unless {{Arcane|Cascadia Flare}} is installed in that weapon's active arcane slot.
+* {{WF|Yareli}} cannot gain stacks from abilities while riding {{A|Merulina}}, only {{D|Heat}} status effects from weapons will count.
+
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39}}<br/>
+We’ve added Arcanes to the end of mission rewards in the Vor fight on the Steel Path. Defeat him for a guaranteed Arcane from the following list
+*Cascadia Flare
+
+{{ver|38.6}}
+*Fixed the Cascadia Flare Arcanes not triggering from Companion attacks while riding Merulina.
+
+{{ver|31.6}}
+*Introduced
+}}
+{{ArcaneNav}}
+[[uk:Каскадний спалах]]
+[[Category:Zariman Arcanes]]

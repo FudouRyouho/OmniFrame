@@ -1,0 +1,103 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly = {{{1|}}}
+| name = Null Star
+| gameimage = NovaAbility1.png
+| cardimage = NullStarModU15.jpeg
+| hotkey = 1
+| energy = 25
+| description = Creates anti-matter particles that orbit Nova and attack nearby targets. Each active particle reduces damage to Nova's Health and Shields.
+| strength = 150 / 200 / 250 / 300 ({{D|Blast}} damage)<br>5% (damage reduction per particle)
+| range = 10 m (attack radius)
+| duration = 12 (particles)
+| misc = 1 s (attack interval)<br>&infin; (particle duration)<br>100% ({{D|Blast}} status chance)<br>90% (damage reduction cap)
+| subsumable = true
+| info = *Nova expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to create {{Stat|Ability Duration|icon=only}}'''12''' antimatter particles that orbit her and automatically launch themselves one by one every <u>'''1'''</u> second at enemies within {{Stat|Ability Range|icon=only}}'''10''' meters inflicting {{Stat|Ability Strength|icon=only}}'''150 / 200 / 250 / 300''' {{D|Blast}} damage with <u>'''100%'''</u> status chance. Each particle persists on Nova <u>'''indefinitely</u>''' until launched, granting her {{Stat|Ability Strength|icon=only}}'''5%''' [[Damage Reduction]] as they orbit her.
+**Damage reduction is capped at <u>'''90%'''</u>.
+*While active, a counter becomes visible on the ability icon that displays the number of available particles.
+*Null Star has a <u>'''2.5'''</u> second cooldown between casts
+*Nova cannot be knocked down while casting Null Star.
+<div class="mw-collapsible mw-collapsed">
+<div style="font-weight:bold;line-height:2;">List of Extra Scaling Effects</div>
+<div class="mw-collapsible-content">
+*The particles benefit from generic increases to weapon base damage, such as from {{Arcane|Arcane Arachne}}, {{M|Holster Amp}}, and {{M|Vigorous Swap}}, but not from weapon class specific increases like {{M|Steel Charge}} or {{M|Rifle Amp}}.
+**The particles can also benefit from flat critical chance, such as from {{A|Covenant}} or {{Arcane|Arcane Avenger}}. However, they have a critical multiplier of 1x, so sources of critical damage like {{M|Tenacious Bond}} are required for any effect on the damage.
+**Most elemental damage boosts, such as {{M|Shock Trooper}}, have no effect. 
+**{{M|Valence Formation}} does apply both its effects. 
+**{{A|Nourish}} applies both damage and {{D|Viral}} elemental weight that will compete with the innate {{D|Blast}} of the particles.
+**{{A|Xata's Whisper}} damage buff applies as well as status effect
+</div></div>
+*'''Ability Synergy:''' With {{M|Molecular Fission}}, Null Stars will slow or speed up enemies based on the most recent type of hold or tap {{A|Molecular Prime}} cast.
+**{{M|Molecular Fission}} will cause enemies hit by Null Stars upon death to recharge Null Stars.
+*Subsuming Nova to the [[Helminth]] will offer Null Star and its augments to be used by other Warframes.
+**Damage reduction caps at <u>'''75%'''</u> instead of 90%.
+| augment = [[File:NeutronStarMod.png|200px|left]]
+{{main|Neutron Star}}
+{{#lst:Neutron Star|intro}}
+{{#lsth:Neutron Star|Stats}}
+{{clr}}
+| tips = *90% damage reduction can be achieved with 150% strength or duration, as long as the other stat is not below 100%. Going beyond this is still useful, as it provides a buffer when particles are used up.
+*If {{WF|Garuda}} subsumes Null Star or Nova subsumes {{A|Blood Altar}}, then the particles will not target enemies currently impaled by Blood Altar.
+*If {{WF|Chroma}} subsumes Null Star, {{A|Vex Armor}}'s damage boost will apply to Null Stars.
+*If {{WF|Limbo}} subsumes Null Star, {{M|Rift Torrent}}'s damage boost will apply to Null Stars.
+*When you are full on energy and come across extra energy spheres laying on the floor, you can cast a "free" '''Null Star''' and instantly go back to full energy. This allows you to easily keep stars active for each encounter.
+*Stars will launch themselves at unaware enemies, alerting them if they survive. This makes this ability sub-optimal for stealth oriented missions.
+*Each particle will stun on hit, allowing you to continually stagger a target while you attack them.
+**although multiple Null Star's hitting the same target will sadly not yield more Null Star's than normal when using {{M|Molecular Fission}} think of it as a "Yes or No" state, not a stacking buff/effect on the enemy.
+*Defensively, it is wise to use it before reviving an ally or accessing a terminal, as you are very vulnerable when doing either. Activating '''Null Star''' beforehand can stun or kill any enemies nearby that decide to attack you, preventing you from taking a lot of unnecessary damage.
+*On higher enemy ranks Nova may wish to use the skill in the same manner as {{WF|Rhino}}'s {{A|Iron Skin}} and recast it every time her damage reduction dips significantly below 90%, as this will prevent her from being blindsided by enemies that are stuck in corners or behind obstacles. This is particularly important in Grineer tilesets because infantry will often jam themselves into corners on either side of the round doorways and open fire as soon as the player passes by.
+*To focus on keeping '''Null Star''' particles for damage reduction, it can be beneficial to have [[Ability Range]] lower than 100%. Lower range will prevent particles from seeking enemies at a distance. This will however hinder her other abilities, particularly {{A|Antimatter Drop}}.
+*'''Null Star''' particles will seek deactivated [[Bursa]] in range. It is advisable to stay away to prevent wasting the particles.
+*The {{M|Molecular Fission}} augment will allow {{A|Molecular Prime}} and even Null Star's themselves to restore up to two charges of '''Null Star''' per enemy killed while under its effects.
+<noinclude>
+| max = {{WFmax|main|nova1}}
+</noinclude>
+| bugs = *The base damage of null star is currently 200, not the 300 stated in the patch notes|
+}}
+
+</onlyinclude>
+
+==Gallery==
+<gallery>
+NullStarMod.png|Older Card
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|39}}
+*Fixed Nova's Null Stars saying they do 300 base damage but only doing 200.
+
+{{ver|37}}
+
+'''Null Star Changes:'''
+*This ability is now recastable! 
+**As this is Nova’s main source of Damage Reduction, players were incentivized to reduce Ability Range if they wanted to keep as many Null Star particles as possible. With the ability to recast to maximize your Damage Reduction, DR-minded players have more build diversity available to them. 
+*Increased base particle count from 6 to 12. 
+**18 particles are still needed to maintain 90% Damage Reduction, but it’s now much easier for players to hit that cap. 
+**With the increased particle count, the VFX will become more subtle the more particles you have. These particles will also dissolve while aiming down sights to prevent them from obstructing player view. 
+*Damage Resistance from Null Star now applies to both Shields and Health (previously only applied to Health). 
+*Changed damage type from Slash to Blast damage, with a guaranteed Blast Proc. Base Null Star damage has also been increased from 150 to <s>300</s> '''(Despite the patch notes, Null Star does 200 damage)'''.
+*With the above improvements, Null Star when applied via Helminth is now altered and has its Damage Reduction capped at 75%. 
+**This was previously 90% – we’ve reduced it in light of the changes above and to have it fall in line with the diminished effectiveness of Mirage’s Solar Eclipse Damage Reduction.
+*Seek Range reduced from 7 / 8 / 10 / 12 to ? / ? / ? / 10 '''(unlisted)'''
+*'''Neutron Star (Augment) Changes:'''
+**Recasting will cause remaining particles to seek out enemies, and then replenish the particles orbiting Nova.  
+**Heat Damage and guaranteed Heat Proc now apply to all Null Star particles, not just the ones sent out via recast.
+
+{{ver|31.3.1}}
+*Fixed being able to hit 100% invulnerability when combining Nova’s Null Stars and Helminth’s +100% Duration Invigoration.
+**''The usual modding limit for maximum Duration on Null Star would allow a maximum of 90% damage reduction. But with the addition of the Nira’s Hatred mod and Helminth’s +100% Duration Invigoration, it pushed over that limit to reach 95% and even 100% damage resistance, which would make you invincible until you had lost a few stars. This was not intended and has been fixed to return it back to maintain the 90% max damage reduction.''
+}}
+
+==See Also==
+*{{WF|Nova}}
+__NOTOC__
+[[de:Nullstern]]
+[[es:Estrella nula]]
+[[fr:Etoile Vide]]
+[[ru:Звезда пустоты]]
+[[Category:Warframe Abilities]]
+[[Category:Nova]]
+[[Category:Update 9]]
+[[Category:Slash Damage]]
+[[Category:Damage Reduction]]
+[[uk:Нульова зірка]]

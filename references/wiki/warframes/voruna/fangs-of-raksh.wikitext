@@ -1,0 +1,62 @@
+<onlyinclude>{{AbilityU10.3
+| name = Fangs of Raksh
+| gameimage = FangsofRakshIcon.png
+| cardimage = FangsofRaksh.png
+| hotkey = 2
+| energy = 50
+| cost = 
+| description = (TAP) Raksh's fangs tear into your enemies. 5 random Status Effects are applied at 10 Stacks each on an enemy. On target's death, spread the Status Effects to other nearby enemies.
+
+(HOLD) Raksh guards Voruna with Status Effect resistance.
+| strength = 100 / 150 / 200 / 250 ({{D|Slash}} damage)
+| range = 30 m (range)<br />4 / 5 / 6 / 7 m (spread radius)
+| duration = 
+| misc = Invulnerable during dash<br>5 (types of random statuses)<br/>10 (stacks per status)<br/>Passive status effect resistance
+| cardonly = {{{1|}}}
+| info = *Raksh snarls in frenzy, pouncing beside his mistress as they inflict a grievously infectious wound on their prey. Voruna expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to rabidly lunge forward at '''150''' m/s at an enemy target over {{Stat|Ability Range|icon=only}}'''30''' meters, inflicting {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Slash}} damage and a randomized set of <u>'''5'''</u> different types of [[Status Effect]]s with each type stacked to <u>'''10'''</u> procs. Upon death while still afflicted by the chosen status effects, the enemy spreads them to all nearby enemies within a {{Stat|Ability Range|icon=only}}'''4 / 5 / 6 / 7''' meter radius at full status duration.
+**Eligible status effects inflicted by Fangs of Raksh include:
+***Physical ({{D|Impact}}, {{D|Puncture}}, {{D|Slash}})
+***Primary Elemental ({{D|Cold}}, {{D|Electricity}}, {{D|Heat}}, {{D|Toxin}})
+***Secondary Elemental ({{D|Blast}}, {{D|Corrosive}}, {{D|Gas}}, {{D|Magnetic}}, {{D|Radiation}}, {{D|Viral}})
+**Fangs of Raksh cannot apply the following:
+***{{D|Void}}, {{D|Tau}}, {{D|Knockdown}}, {{D|Stagger}}, {{D|Ragdoll}}, {{D|Lifted}}, and {{D|Microwave}} 
+**Voruna is [[Invulnerable]] while lunging.
+**Fangs of Raksh does not require precise aim to cast, the ability targets the nearest enemy in direct line-of-sight and within the aiming reticle circle.
+**If Voruna's dash is interrupted by terrain and obstacles, the ability will still apply its effects onto the enemy target.
+**Voruna attempts to dash and position herself facing the target in melee range. When cast while using [[Maneuvers]] such as Bullet Jump and Aim Glide, she can overshoot and land behind the target.
+**Only the original five randomized status effects and their 10 stacks will spread from the target to other enemies. Only the original enemy target spreads status effects on death.
+**Status spread bypasses terrain and does '''not''' require line-of-sight from original target to other enemies nearby.
+**Fangs of Raksh does '''not''' spread its status effects if they expire before the target dies.
+***Aside from {{D|Radiation}} which lasts 12 seconds, {{D|Puncture}} which lasts 10 seconds, {{D|Cold}} which lasts total of 9 seconds, {{D|Corrosive}} which lasts 8 seconds and {{D|Blast}} which explodes instantly, most other status effects last only 6 seconds.
+***After casting this ability on the original target, the same types of status effects procced from different sources (e.g. [[Weapons]], [[Companions]], etc) can artificially extend Fangs of Raksh's kill window to spread the remaining active chosen status effects.
+***On spread, status damage calculation for damage-over-time status effects ({{D|Slash}}, {{D|Electricity}}, {{D|Heat}}, {{D|Toxin}}, and {{D|Gas}}) is based on the ''averaged'' amount of damage dealt by Fangs of Raksh's chosen status effect types on the target prior to its death. Damage contributed by different sources (not from this ability) are also included in this calculation, as long as the other sources inflicted at least one status proc chosen by this ability.
+**Subsequent casts of this ability on the same enemy target can yield the same types of status effects from a previous cast.
+*Hold down the ability button (default {{Keybind|2}}) to command Raksh to guard Voruna, changing her passive to a permanent Status Effect resistance for no energy cost.
+**Raksh's passive only prevents new status effects from proccing on Voruna, but does not cleanse currently active status effects when invoked.
+**Provides immunity to self staggers and knockdowns from AoE weapons.
+*'''Ability Synergy:'''
+**Enemies with 5 or more status effects when killed extends {{A|Lycath's Hunt}}'s duration.
+**Enemies with status effects receive increased damage from {{A|Ulfrun's Descent}}.
+*Can be repeatedly recast on the same enemy target.
+*Casting Fangs of Raksh is a full-body animation that displaces Voruna toward the direction of her target and interrupts other actions.
+*Raksh visually idles upon Voruna's right shoulder. His distinct physical feature is the mouth straps wrapped around his lower jaw.
+*Voruna visually leaps at high speed to her victim. Upon landing, she swipes her claws forward as her helmet and Raksh lean out to bite. A stylized ability icon of Fangs of Raksh decal appears on the ground below the target, fizzling with Void energy until fading away seconds later.
+| augment = 
+| tips = 
+*Greatly synergizes with {{M|Galvanized Aptitude}}, {{M|Galvanized Savvy}}, {{M|Galvanized Shot}}, and {{M|Condition Overload}}.
+*Because of its ability to inflict status effects, Fangs of Raksh synergizes well with some of the [[:Category:Archon Mods|Archon mods]] such as {{M|Archon Continuity}}, {{M|Archon Stretch}} and {{M|Archon Vitality}}.
+**{{M|Archon Flow}} does not synergize well, on the other hand, due to its requirement for {{D|Cold}}-based kills and not just its status proc.
+**Do bear in mind, however, that the Archon mods will only trigger once. For example, if Fangs of Raksh applies its 10 stacks of toxin, you will only obtain a single stack of corrosive from {{M|Archon Continuity}}.
+*If one of the 5 rolled status effects is {{D|Blast}}, it will instantly explode, leaving an enemy affected with only 4 status types from that cast. 
+*Equipping {{M|Prey of Dynar}} allows for a large increase in spread radius.
+*Activating Raksh's passive greatly increases Voruna's survivability in long missions as he makes her practically immune to new status effects - including self-stagger and self-knockback from explosive weapons.
+| bugs = *Casting this ability twice or more on the same target will only spread the status effects of ''first'' instance when the target dies.|
+}}</onlyinclude>
+
+==See also==
+*{{WF|Voruna}}
+__NOTOC__
+[[Category:Voruna]]
+[[Category:Slash Damage]]
+[[Category:Invulnerability]]
+[[uk:Ікла Ракша]]

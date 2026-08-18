@@ -12,7 +12,6 @@
 | cardonly = {{{1|}}}
 | info = *Titania expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to shrink down to a quarter of her original size, becoming a flying pixie. In this form, Titania permanently remains in mid-air, gaining vertical and horizontal flight capabilities using the movement ({{Keybind|W}}{{Keybind|A}}{{Keybind|S}}{{Keybind|D}}), crouch ({{Keybind|Ctrl}}), jump ({{Keybind|Spacebar}}), and blink ({{Keybind|Shift}}) hotkeys, similar to [[Archwing Maneuvers]] but without terrain collision damage. Additionally, Titania passively gains <u>'''50%'''</u> evasion and a <u>'''10'''</u> meter {{M|Vacuum}}-like pickup radius. In Razorwing, Titania flies at <u>'''10 m/s'''</u> and sprints at <u>'''20 m/s'''</u>.
 **Sprinting flight speed is affected by [[Sprint Speed]] (e.g., {{M|Rush}}).
-***Unaffected by {{M|Amalgam Serration}}, due to Titania not having a primary weapon while in Razorwing form.
 **Terrain collision animation is considered a [[Knockdown]] effect, and can be prevented as such.
 **[[Railjack]] [[Intrinsics]] bonuses do '''not''' affect Razorwing.
 **Razorwing mode counts as being [[airborne]] in regards to the effects of {{M|Aerodynamic}}, {{M|Agility Drift}} and {{M|Aviator}}/{{M|Ironclad Flight}}.
@@ -24,7 +23,9 @@
 ***Razorwing's energy drain is '''not''' converted into shields by [[Set Mods#Augur Mod Set|Augur Mods]].
 *Instead of all her normal weapons, Titania wields two proprietary Razorwing [[Exalted Weapon]]s: the '''{{Weapon|Dex Pixia}}''' dual machine pistols and the '''{{Weapon|Diwata}}''' heavy sword.
 **Both weapons can damage enemies across the [[Rift Plane]], although Diwata's auto-targeting doesn't work across planes.
-**Titania does not have a primary weapon while Razorwing is active.
+**Unaffected by {{M|Amalgam Serration}} or {{M|Amalgam Furax Body Count}} while in Razorwing form.
+***However, [[Incarnon]] melee weapons apply a buff that is carried over into Razorwing. 
+**Swapping between Dex Pixia and Diwata does not trigger On Equip effects like {{M|Vigorous Swap}}.
 <div class="tabber-borderless" ><tabber>
 |-|Dex Pixia =
 *'''{{Weapon|Dex Pixia}}''' is an [[Exalted Weapon]] with its own unique statistics.

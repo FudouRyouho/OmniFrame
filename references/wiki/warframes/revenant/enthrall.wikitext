@@ -1,0 +1,79 @@
+{{for|[[Kuva Lich]]'s Thrall|Kuva Lich/Main#Thrall}}
+<onlyinclude>{{AbilityU10.3
+| name = Enthrall
+| gameimage = Enthrall130xWhite.png
+| cardimage = EnthrallModx256.png
+| hotkey = 1
+| energy = 25
+| description = Convert a target into a zealous thrall. Thralls turn on their allies and enthrall through damage. On death, they disintegrate into a damaging pillar of energy. The thrall horde remains under Revenant’s spell until this Ability runs out.
+<br/>'''Energy Cost (Mesmer Skin stun): 0'''
+| strength = 250 / 500 / 750 / 1,000 (pillar {{D|Impact}} {{D|Puncture}} {{D|Slash}} damage/s)<br/>250 / 500 / 750 / 1,000 (projectile {{D|Impact}} damage) 
+| duration = 15 / 20 / 25 / 30 s (thrall duration)<br/>10 s (pillar duration)
+| range = 10 / 15 / 20 / 25 m (cast range)<br/>0.5 / 1 / 1.5 / 2 m (pillar radius)<br/>10 m (projectile seek range)
+| misc = 7 (max thralls active)<br/>? m (projectile splash radius)<br/>100 % (projectile stagger on hit)<br/>100 % (beta enthrall chance on hit)<br/>50 (overshields per pickup)
+| cardonly = {{{1|}}}
+| info = *Revenant expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to release his Sentient energy onto an enemy target within a range of {{Stat|Ability Range|icon=only}}'''10 / 15 / 20 / 25''' meters, converting it into an '''Alpha Thrall''' that is forced to fight for the Tenno cause. Alpha Thrall's attacks spread the affliction to other enemies, also converting them into other alpha thralls on hit. All types of thralls remain under Revenant's control for {{Stat|Ability Duration|icon=only}}'''15 / 20 / 25 / 30''' seconds and only <u>'''7'''</u> total thralls may exist at once.
+**Casting speed is affected by [[Casting Speed]].
+**The number of active thralls is tracked by the buff icon beside the shield and health bars.
+**Thralls are tracked on the minimap as allied units represented by blue dots.
+**Thralls can be attacked and damaged by all sources, whether from their own allies or Revenant's and his team's weapons and abilities.
+***Thralls affected by {{D|Radiation}} status will result in turning Thralls back to enemy state for its duration.
+**Thralls have high [[Threat Level]], allowing them to draw fire away from Tenno.
+*On death, Alpha Thralls leave behind an Eidolon energy pillar that lasts for {{Stat|Ability Duration|icon=only}}'''10''' seconds. Each energy pillar continuously inflicts {{Stat|Ability Strength|icon=only}}'''250 / 500 / 750 / 1,000''' damage per second (evenly split between {{D|Impact}} {{D|Puncture}} and {{D|Slash}} damage) to all enemies within a {{Stat|Ability Range|icon=only}}'''0.5 / 1 / 1.5 / 2'''  meter radius; additionally, pillars generate homing energy projectiles that seek out nearby enemies within a range of {{Stat|Ability Range|icon=only}}'''10''' meters, exploding on impact to deal {{Stat|Ability Strength|icon=only}}'''250 / 500 / 750 / 1,000''' {{D|Impact}} damage and guaranteed {{D|Stagger}} in a <u>'''?'''</u> meter area and converts enemies hit into '''Beta Thralls''' as long as Revenant does not already have maximum thralls.
+**Beta Thralls also convert other enemies they hit into beta thralls up to the total Thrall count, but they do '''not''' leave behind energy pillars on death.
+**Due to [[Damage/Calculation|damage quantization]], the pillar base damage per second is actually '''937.5''' in game ('''312.5''' for each of the three damage types). 
+**Homing projectiles have <u>'''3%'''</u> critical chance, <u>'''1.5x'''</u> critical multiplier, and <u>'''37%'''</u> status chance.
+**Projectile damage is affected by universal weapon buffs such as {{Arcane|Arcane Arachne}} and {{A|Nourish}}.
+**Energy pillars do '''not''' inflict damage per second nor launch projectiles against thralls.
+*Can be cast on a new enemy target if below the number of max thralls active.
+**Casting Enthrall on a new target will not refresh the duration of existing Thralls.
+*Cannot be recast on enemies already affected by Enthrall.
+*Enthrall has many undesired and detrimental effects to Revenant and his allies:
+**Enemies under the effect of Enthrall will not increase or refresh [[Melee Combo]] when struck with a melee weapon.
+***Exceptions to this are finisher attacks and slash procs with {{M|Relentless Combination}}.
+**Enemies under the effect of Enthrall will not increase or refresh Sniper Combo when hit with a sniper rifle.
+**Enemies under the effect of Enthrall cannot be used to initiate or refresh the buffs of {{M|Double Tap}}, {{M|Split Flights}}, {{M|Growing Power}} or any [[Galvanized|Galvanized mods]].
+**Enemies under the effect of Enthrall cannot be use to trigger the effects of any arcanes that are triggered on crit, such as {{Arcane|Arcane Acceleration}}, or on headshot, such as {{Arcane|Arcane Consequence}}, or on status, such as {{Arcane|Primary Blight}} and {{Arcane|Primary Frostbite}}.
+**Beam weapons that chain between multiple enemies (such as the {{Weapon|Kuva Nukor}} or {{Weapon|Tenet Cycron}}) will '''not''' chain to enthralled enemies, regardless of the original target.
+**{{Weapon|Ocucor}}'s tendrils won't attach to enthralled enemies, but the main beam can be aimed and harm thralls.
+**Enthralled enemies cannot recharge {{A|Iron Skin}}'s health when struck by a {{A|Rhino Stomp}} equipped with {{M|Reinforcing Stomp}}, nor will they be suspended by the base ability.
+**Killing enthralled enemies won't count towards {{A|Omikuji}}, even if all challenge conditions are otherwise met.
+**{{A|Blaze Artillery}} will not target enthralled enemies, but can still harm them by targeting an enemy in front or behind the enthralled enemy.
+**{{A|Fire Blast}} won't strip enthralled enemies' armor, nor will {{A|Inferno}} target any thrall.
+*Casting Enthrall is a [[One-Handed Action]] that allows the player to perform attacks, movement and parkour [[Maneuvers]].
+*Revenant visually extends his left arm forward and channels a stream of Sentient energy that envelops the target, creating an upward surge of energy particles that appears on the enemy until it is under his control.
+*Thralls are visually distinguished from other enemies by a spectral [[Eidolon Vomvalyst]] mask and orbiting spines floating above their head.
+*Revenant's Sentient energy trail, energy particles, thrall Vomvalyst mask and spine sparks, and energy pillar colors are affected by Revenant's chosen Warframe energy color.
+| synergies =
+*Enthrall costs <u>'''0'''</u> energy when used on an enemy stunned by {{A|Mesmer Skin}}.
+*{{A|Reave}} steals {{Stat|Ability Strength|icon=only}}'''10% / 20% / 30% / 40%''' [[Health]] and [[Shield]]s from Thralls (5x more than base).
+*Alpha and beta thralls killed by {{A|Danse Macabre}} leave behind pickups that grant <u>'''50'''</u> [[Overshields]] for Revenant and his allies.
+*Energy pillars explode to disperse damage radially when struck by Danse Macabre lasers.
+**Explosion deals the remaining damage of the pillar to surrounding enemies.
+**Explosion damage diminishes with distance.
+| stance = 
+| augment = [[File:ThrallPactMod.png|200px|left]]
+{{main|Thrall Pact}}
+{{#lst:Thrall Pact|intro}}
+{{#lsth:Thrall Pact|Stats}}
+{{clr}}
+| tips = *[[Nullifier Crewman]] can remove the enthralled effect from itself and nearby enthralled enemies.
+*[[Sentient]]s and bosses can be Enthralled but for a significantly shorter duration.
+*Units that apply beneficial effects to allies, such as [[Ancient Healer]]s, will immediately stop affecting their former allies once Enthralled and instead benefit Tenno.
+*Enthralled enemies that can spawn additional units, such as [[Drahk Master]]s and [[Boiler]]s, will spawn permanent Tenno-aligned units, unless affected by {{D|Radiation}}.
+<noinclude>
+| max            = {{WFmax|main|revenant1}}
+</noinclude>|
+}}
+</onlyinclude>
+
+==See also==
+*{{WF|Revenant}}
+[[es:Cautivar]]
+[[fr:Servitude]]
+[[Category:Revenant]]
+[[Category:Update 23]]
+[[Category:Impact Damage]]
+[[Category:Puncture Damage]]
+[[Category:One-Handed Abilities]]
+[[uk:Поневолення]]

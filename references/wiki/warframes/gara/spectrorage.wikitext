@@ -1,0 +1,59 @@
+<onlyinclude>{{AbilityU10.3
+| name        = Spectrorage
+| gameimage   = GaraSpectrorage.png
+| cardimage   = Spectrorage.png
+| hotkey      = 3
+| energy      = 75
+| description = Trap enemies in a carousel of mirrors, forcing them to attack visions of their true selves. Destroyed mirrors damage their attackers, as does the collapse of the carousel.
+| strength      = 500 / 600 / 700 / 800 (mirror damage) <br> 800 / 1000 / 1200 / 1500 (collapse damage)
+| range       = 4 / 6 / 8 / 12 (number of mirrors)<br />2 / 3 / 4 / 6 (collapse threshold)<br />4 m (charm radius)
+| duration    = 10 / 14 / 18 / 22 s
+| misc        = 100 m (cast range)<br/>50% (absorbed damage per mirror)<br/>1 (limit of carousels)
+| subsumable     = true
+| cardonly    = {{{1|}}}
+| info        = 
+*Gara expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[Energy]] to summon a perpetually spinning carousel of {{Stat|Ability Range|icon=only}}'''4 / 6 / 8 / 12''' spectral mirrors at the targeted location within '''<u>100</u>''' meters. Enemies within {{Stat|Ability Range|icon=only}}'''4''' meters from the mirrors are enticed to move inside the carousel and attack a chosen mirror upon seeing their own reflections. Each mirror will break upon receiving {{Stat|Ability Strength|icon=only}}'''500 / 600 / 700 / 800''' damage and release it as spectral energy back to the attacker. When {{Stat|Ability Range|icon=only}}'''2 / 3 / 4 / 6''' mirrors are broken, the carousel collapses in an explosion inflicting {{Stat|Ability Strength|icon=only}}'''800 / 1,000 / 1,200 / 1,500''' damage to all enemies inside the ring. Spectrorage lasts for {{Stat|Ability Duration|icon=only}}'''10 / 14 / 18 / 22''' seconds or until all mirrors break from collapse.
+**Damage is distributed evenly between {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}}.
+**Mirror damage is only applied against the enemy that breaks the mirror. Collapse damage applies to all enemies inside Spectrorage and diminishes with distance from the center.
+**The carousel expands or shrinks with the total amount of mirrors spawned on cast, and the distance between the mirror line and the center is equal to the charm radius.
+**The carousel rotates clockwise constantly, which causes enemies targeting specific mirrors to turn and follow them.
+**Mirrors have a higher [[Threat Level]] than players. Enemies within the carousel will ignore players as long as there are intact mirrors remaining. This appears to affect Acolytes and can make them stop attacking or using abilities.
+**Mirrors do not have collision and will phase through objects, walls, players, and AI. 
+**Mirrors can path up and down terrain where elevation difference exists.
+*'''Ability Synergy:'''
+**Gara's [[Gara/Abilities#Passive|Passive]] allows casting abilities to have a <u>'''15%'''</u> chance to {{D|Blind}} enemies within <u>'''12'''</u> meters for <u>'''10'''</u> seconds, exposing them to [[Finisher|Melee Finisher]] attacks. Blind chance increases by <u>'''20%'''</u> until the blind triggers.
+**If a Spectrorage mirror shatters inside {{A|Splinter Storm}}'s radius, '''<u>50%</u>''' of the mirror's damage is permanently added to Splinter Storm's damage per second until its duration expires.
+***Absorbed damage can stack from multiple mirrors breaking inside Splinter Storm's radius.
+***Splinter Storms on any targets can absorb damage from Spectrorage mirrors.
+***Splinter Storm does '''not''' absorb damage from Spectrorage's collapse explosion.
+*Casting Spectrorage stops Gara's movement and other actions.
+*Can be recast while active. Only 1 carousel of mirrors may remain active per player.
+*Can be cast while in midair.
+*Cannot be cast without a valid horizontal surface within cast range as well as directly on or below the aiming reticle.
+*Spectral mirrors appear as collections of floating glass fragments that emanate energy toward the center of the carousel.
+**Upon breaking, the mirrors release their energy while they remain floating in motion.
+**Mirrors and their energy color are affected by Gara's chosen Warframe energy color.
+*Subsuming Gara to the [[Helminth]] will offer Spectrorage and its augments to be used by other Warframes.
+|augment      =
+[[File:SpectrosiphonMod.png|200px|left]]
+{{main|Spectrosiphon}}
+{{#lst:Spectrosiphon|intro}}
+{{#lsth:Spectrosiphon|Stats}}
+{{clr}}
+|tips         =
+<noinclude>
+|max = {{WFmax|main|gara3}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Gara}}
+__NOTOC__
+[[es:Furia espectral]]
+[[fr:Spectrage]]
+[[Category:Warframe Abilities]]
+[[Category:Gara]]
+[[Category:Impact Damage]]
+[[Category:Puncture Damage]]
+[[Category:Slash Damage]]
+[[uk:Спектролють]]

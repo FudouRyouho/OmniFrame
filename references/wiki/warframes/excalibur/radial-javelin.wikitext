@@ -1,0 +1,50 @@
+<onlyinclude>{{AbilityU10.3
+| name = Radial Javelin
+| gameimage = RadialJavelin.png
+| cardimage = RadialJavelinMod.jpeg
+| hotkey = 3
+| energy = 75
+| description = Radial javelins impale nearby enemies, inflicting bleed status.
+| strength = 500 / 650 / 800 / 1000 (damage)
+| range = 15 / 18 / 22 / 25 m
+| duration = N/A
+| misc = 
+| cardonly = {{{1|}}}
+| info = *Excalibur expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[Energy]] to summon javelins against enemies within a radius of {{Stat|Ability Range|icon=only}}'''15 / 18 / 22 / 25''' meters. Excalibur then drives his weapon into the ground, launching the javelins into their targets. Each javelin inflicts {{Stat|Ability Strength|icon=only}}'''500 / 650 / 800 / 1000''' damage evenly distributed between {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}}, with <u>'''10%'''</u> status chance, a forced {{D|Slash}} Status Effect, and {{D|Stagger}}.
+**While javelins do '''not''' [[punch through]] objects or enemies, their striking position is optimized to ensure a successful hit on their targets when they spawn. This allows the javelins to bypass obstacles in the environment including walls, cover, and {{E|Shield Lancer}} shields.
+**Radial Javelin will '''not''' target enemies behind obstacles in the environment unless Excalibur has line of sight, or unless the enemy is aware of Excalibur within a short period of time (e.g., an enemy that spots Excalibur and runs out of view can still be targeted by Radial Javelin if the ability is used within a small time frame).
+*Each javelin appears as an ethereal {{Weapon|Skana}}. {{WF|Excalibur Prime}} and {{WF|Excalibur Umbra}} javelins appear as ethereal {{Weapon|Skana Prime}}s and "Umbra" Javelins respectively.
+*The javelins benefit from [[Universal Weapon Bonuses]], universal critical chance like [[Arcane Avenger]] and universal critical damage like [[tenacious Bond]].
+*Has a base 0% critical chance and 1x critical damage.
+*When increasing casting speed past ~65%, casting twice in quick succession will cause {{A|Exalted Blade}}'s visual effect to persist for the rest of the mission in Excalibur's hand.
+| augment = [[File:FuriousJavelinMod.png|200px|left]]
+{{main|Furious Javelin}}
+{{#lst:Furious Javelin|intro}}
+{{#lsth:Furious Javelin|Stats}}
+{{clr}}
+| tips = *Useful for clearing out large swarms of enemies if one is surrounded.
+*Allows players to deal both damage and crowd control at the same time.
+<noinclude>
+| max = {{WFmax|main|excalibur3}}
+</noinclude>
+}}
+
+</onlyinclude>
+
+==See Also==
+*[[Conclave:Radial Javelin|Radial Javelin (Conclave)]]
+*{{WF|Excalibur}}
+__NOTOC__
+[[de:Radialer_Speerwurf]]
+[[es:Jabalina radial]]
+[[it:Radial Javelin]]
+[[ru:Сияющее Копьё]]
+[[Category:Warframe Abilities]]
+[[Category:Update 7]]
+[[Category:Excalibur]]
+[[Category:Ability Weapons]]
+[[Category:Impact Damage]]
+[[Category:Puncture Damage]]
+[[Category:Slash Damage]]
+[[Category:Line Of Sight Abilities]]
+[[uk:Променевий спис]]

@@ -1,0 +1,86 @@
+<onlyinclude>{{AbilityU10.3
+| gameimage   = ZephyrTornado.png
+| name        = Tornado
+| energy      = 100
+| hotkey      = 4
+| cardimage   = TornadoModU15.jpeg
+| description = Create deadly tornadoes that seek out and engulf enemies. Tornadoes deal the elemental damage type they absorb the most. Shoot engulfed enemies to inflict extra damage. Tap for wandering tornadoes or hold for stationary ones.
+| strength      = 50 / 75 / 100 / 160 (damage per 0.25s)
+| range       = 15 / 17 / 20 / 25 m (spawn radius)
+| duration    = 10 / 12 / 15 / 20 s
+| misc        = 2 / 2 / 3 / 3 (number of tornadoes)<br/>&infin; (cast range)<br>100 % (absorbed damage distribution)<br/>200 % (critical damage multiplier)<br/>9 m (tornado height)<br/>2 / 5 m/s (move speeds)<br>10 m (pull radius)
+| cardonly    = {{{1|}}}
+| info = *Zephyr expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to form a maximum of <u>'''2 / 2 / 3 / 3'''</u> tornadoes at the location on the aiming reticle over '''<u>infinite</u>''' range; tornadoes will prioritize forming on top of enemies within a spawning area of {{Stat|Ability Range|icon=only}}'''15 / 17 / 20 / 25''' meters around the location and around Zephyr herself. Tapping the ability key creates tornadoes that wander the battlefield, being drawn to enemy presence. Holding down the ability key (default {{Keybind|4}}) creates stationary tornadoes centered at the location on the aiming reticle. All tornadoes expire after {{Stat|Ability Duration|icon=only}}'''10 / 12 / 15 / 20''' seconds.
+*Zephyr and her allies can attack each tornado to distribute <u>'''100%'''</u> total damage (including [[Critical Hit]]s) and [[Status Effect]]s from weapons and abilities to all enemies trapped within a tornado. Critical damage dealt to enemies trapped within a tornado is multiplied by <u>'''2x'''</u>.
+**Critical multiplier is applied after installed weapon mods.
+*Tornado's visual effects are modified by each elemental damage type.
+**{{D|Magnetic}} damage type and default physical damage tornado share the same visual effects.
+*Can be recast while active to replace old tornadoes.
+*Tornadoes exhibit numerous unique properties and mechanics as summoned allied AI units.
+<div class="tabber-borderless" ><tabber>
+|-|Attributes=
+*Each tornado is invulnerable to damage, intangible, weightless, <u>'''9'''</u> meters tall and moves at a speed of <u>'''2'''</u> meters per second. Enemies within a radius of <u>'''10'''</u> meters from a tornado are pulled along its path, hovering in a {{D|Ragdoll}} state and orbiting the whirlwind. Each tornado inflicts {{Stat|Ability Strength|icon=only}}'''50 / 75 / 100 / 160''' damage per '''0.25''' second to all enemies within its grasp.
+**Damage per tick is distributed between {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}} physical damage types with a high chance to proc status from all damage types. Damage diminishes with distance from the center of the tornado.
+**Tornadoes phase through all entities, walls and objects in the environment.
+**Tornadoes float and do not require a surface to travel between locations; however, if hovering in midair, tornadoes will descend toward the ground to follow AI pathing to reach enemies.
+**The 10 meter pull range is ''not'' affected by mods. 
+*If using wandering Tornadoes, Zephyr can direct the nearest tornado from her aiming reticle toward a location by holding down the zoom key (default {{Keybind|RMB}}), causing the affected tornado to move at a speed of <u>'''5'''</u> meters per second toward its new destination while the key is held.
+**The tornado nearest to the location on Zephyr's aiming reticle will be controlled, meaning that moving the reticle while controlling one tornado will switch control to another if that tornado is the nearest.
+**Stationary tornadoes will '''not''' be moved by Zephyr's aim.
+*Affected enemies spiral up to the top of a tornado while spinning in a skydiving posture, trapped by the funnel until it expires, the enemies die, or external forces cause them to eject away from the tornado's pull.
+*Corpses of slain enemies are released from tornadoes' grasp.
+*If enemies are in range of multiple tornadoes' pull radius, they will cluster up in the aerial space between the tornadoes.
+*Enemies immune to the ragdoll effect (such as units with {{D|Overguard}}) will instead be {{D|Slow|Slowed}}, as well as taking damage from shot Tornados like normal. 
+
+|-|Elemental Adaptation=
+*If a source of damage contains [[Elemental Damage]] types, tornadoes can adapt their damage per tick's physical damage types ({{D|Impact}}, {{D|Puncture}}, and {{D|Slash}}) into one of the following elemental damage types: {{D|Cold}}, {{D|Electricity}}, {{D|Heat}}, {{D|Toxin}}; {{D|Blast}}, {{D|Corrosive}}, {{D|Gas}},  {{D|Magnetic}}, {{D|Radiation}}, and {{D|Viral}}. 
+**Each tornado's damage type can be modified by many damage sources, including ranged weapons, melee weapons, and abilities, even damage from [[Bullet Jump]] from [[Tenno]], as well as damage from enemy units. (e.g., striking a tornado with an unmodified {{Weapon|Dark Sword}} will change it to {{D|Radiation}}, or a [[Volatile Runner]] that explodes near a tornado will change it to {{D|Blast}}.)
+**Each tornado keeps track of the total damage it absorbed; a tornado will only account for the ''highest'' elemental damage number on a weapon or ability when determining which elemental type it will adapt to, as well as the ''total'' amount of damage it absorbed.
+***As such, shooting a tornado multiple times using a different weapon with a different highest elemental damage number, causes the tornado to change its damage type when the stored total damage from one source is exceeded by another.
+***For example, hitting a tornado with a primary weapon that deals 500 {{D|Corrosive}} and 450 {{D|Blast}} damage stores '''500''' total damage and changes the tornado's damage type to {{D|Corrosive}}. Hitting the same tornado with a secondary weapon that deals 250 {{D|Radiation}} damage three times stores '''750''' total damage, exceeding the previous amount and changes the tornado's damage type to {{D|Radiation}}.
+*Once a tornado adapts to an elemental damage type, it cannot revert to its three physical damage types by absorbing damage.
+*If the damage source deals multiple elemental damage types, then a tornado will be charged with the damage type with the highest damage number.
+*If the damage source has equal damage numbers between all its elemental damage types, then priority will be given by alphabetical order of the damage types' names.
+*A tornado will '''not''' deal combined elemental damage by absorbing two base elemental damage types (e.g., a tornado will '''not''' inflict Blast damage by shooting it with Cold damage and Heat damage from different sources).
+</tabber></div>
+| augment = [[File:FunnelCloudsMod.png|200px|left]]
+{{main|Funnel Clouds}}
+{{#lst:Funnel Clouds|intro}}
+{{#lsth:Funnel Clouds|Stats}}
+{{clr}}
+| tips = *Due to high [[proc]] rate, Tornado can be used to apply status effects to masses of enemies.
+**{{D|Viral}} can be used to increase damage done to mobs by 100% to 325% regardless of level.
+*Each of 3 spawned tornadoes can have different elements.
+*Tornadoes will fling enemies trapped within them in random directions after a period of suspending them midair if there is nothing impeding upward thrust (i.e., ceiling). Otherwise, they will stay in the tornado for the full duration.
+**This can greatly lower the damage and CC it is capable of if the enemies are ejected early, making it much more powerful and effective in lower roofed tilesets as opposed to open areas {{WF|Zephyr}} thrives in for mobility.
+*Tornadoes can proc the secondary effect of some Archon mods:
+**{{M|Archon Stretch}} is activated when Tornadoes [[proc]] {{D|Electricity}} on enemies.
+**{{M|Archon Continuity}} is activated when Tornadoes [[proc]] {{D|Toxin}} on enemies.
+**{{M|Archon Vitality}} is activated when Tornadoes [[proc]] {{D|Heat}} on enemies.
+**{{M|Archon Flow}} is activated when Tornadoes dealing {{D|Cold}} damage kill an enemy.
+*Tornadoes can proc {{Arcane|Arcane Hot Shot}}
+<noinclude>
+|max = {{WFmax|main|zephyr4}}
+</noinclude>
+| bugs = *On some occasions, a bug may prevent you from casting Tornado if there are no enemies in range.
+*If another Zephyr is in the squad and casts Tornado, then their duration will appear for you as well, although it does not prevent you from casting it yourself.
+*Multiple bugs prevent Tornado from working correctly when not hosting.
+*Both [[Condition Overload]] and the [[Cedo]]'s passive will not increase the damage dealt to enemies by Tornado.
+*Forced [[Status Effect]]s applied from [[Stance]] mods, [[Toxic Lash]] and other effects will not be applied to enemies by Tornado.
+*When directly hit Tornado will prevent the radial damage dealt by the [[Zakti]]/[[Zakti Prime]], [[Mutalist Cernos]], [[Proboscis Cernos]] and [[Zhuge Prime]].
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Zephyr}}
+__NOTOC__
+[[de:Tornado]]
+[[es:Tornado]]
+[[ru:Торнадо]]
+[[Category:Warframe Abilities]]
+[[Category:Two-Handed Abilities]]
+[[Category:Zephyr]]
+[[Category:Update 12]]
+[[Category:Impact Damage]]
+[[Category:Puncture Damage]]
+[[Category:Slash Damage]]
+[[uk:Торнадо]]

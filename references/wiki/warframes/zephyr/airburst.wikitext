@@ -1,0 +1,53 @@
+<onlyinclude>{{AbilityU10.3
+| gameimage   = ZephyrAirburst.png
+| name        = Airburst
+| energy      = 50
+| hotkey      = 2
+| cardimage   = AirburstModU15.png
+| description = Launch a burst of massively dense air. Hold to send enemies flying, tap to pull them toward the burst. Damage increases per enemy hit.
+'''Energy Discount while Airborne''': 25<span style="display:none">"Drain" </div>
+| strength      = 200 / 300 / 400 / 500 (contact and explosion damage)
+| range       = 4 / 5 / 7 / 8 m (explosion radius)
+| misc        = 50 % (status chance)<br>100 m (travel distance)<br>35 % (damage growth per enemy hit)<br>2 s (pull force duration)
+| subsumable  = true
+| cardonly    = {{{1|}}}
+|info     =
+*Zephyr launches a rapidly traveling slice of dense air towards her aiming reticle, expending {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] while grounded or {{Stat|Ability Efficiency|icon=only}}'''25''' energy while airborne. Upon colliding with a surface or travelling its maximum distance of <u>'''100'''</u> meters, the slice explodes in a {{Stat|Ability Range|icon=only}}'''4 / 5 / 7 / 8 ''' meters radius, inflicting {{Stat|Ability Strength|icon=only}}'''200 / 300 / 400 / 500''' damage distributed between {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}} damage with a <u>'''50%'''</u> [[Status Chance]], as well as {{D|Knockdown}} and {{D|Ragdoll}}. Each enemy hit directly by the slice or by the subsequent explosion radius will increase Airburst's damage by +<u>'''35%'''</u> for subsequent hits.
+**'''Tap''' the ability key (default {{Keybind|2}}) to pull enemies towards the center of the blast. '''Hold''' down the ability key to push enemies away instead.
+***Airburst's pull force lingers for <u>'''2'''</u> seconds on the surface it collides with, during which the affected enemies remain ragdolled and gradually slide toward the center.
+**The <u>'''35%'''</u> damage increase is additive per hit, for a total damage increase of +35% after 1 hit, +70% after 2 hits, etc. 
+***The bonus accumulated from direct hits will carry over to the explosion.
+***The explosion will hit all enemies within its range at the same time, but the hits will be registered one at a time (in order of the enemies' distance from the explosion). This allows the damage bonus to stack up for each enemy hit. For example, hitting 3 enemies with just the explosion will cause the nearest enemy to take 500 damage, the next closest to take 500 * 1.35 = 675, and the furthest to take 500 * 1.70 = 850.
+**Damage distribution is '''20%''' {{D|Impact}}, '''10%''' {{D|Puncture}}, and '''70%''' {{D|Slash}}.
+**Airburst projectiles have innate [[punch through]] and can bypass certain objects in the environment (e.g. closed doors).
+*The explosion can damage objects and enemies through walls and other cover, bypassing [[Line of Sight]].
+*Casting Airburst is a [[One-Handed Action]], meaning it can be used while performing many actions without interrupting them, including [[reload]]ing, charging, shooting, and moving (either [[Maneuvers#Sprinting|sprinting]] or [[Maneuvers#Sliding|sliding]]).
+*Subsuming Zephyr to the [[Helminth]] will offer Airburst and its augments to be used by other Warframes.
+**Subsumed Airburst includes the tap-cast for wind vacuum and hold-cast for wind explosion.
+*Direct hits from the projectile benefit from {{M|Vigorous Swap}} and other modifiers that affect abilities that deal "weapon damage", including damage boosting abilities such as {{A|Eclipse}}.
+|augment =
+[[File:AirburstRoundsMod.png|200px|left]]
+{{main|Airburst Rounds}}
+{{#lst:Airburst Rounds|intro}}
+{{#lsth:Airburst Rounds|Stats}}
+|tips =
+*Airburst is an effective way to deal with large swarms of enemies, especially melee, and when they are huddled together.
+*Airburst allows players to apply crowd-control effects on enemies in the distance.
+*Synergizes well with Zephyr's {{A|Tail Wind}} as the latter allows Zephyr to stay airborne longer, halving the casting cost of the ability.
+<noinclude>
+|max = {{WFmax|main|zephyr2}}
+</noinclude>
+}}</onlyinclude>
+==See Also==
+* {{WF|Zephyr}}
+__NOTOC__
+[[es:Estallido aéreo]]
+[[fr:Rafale]]
+[[Category:Warframe Abilities]]
+[[Category:Zephyr]]
+[[Category:Update 22]]
+[[Category:Impact Damage]]
+[[Category:Puncture Damage]]
+[[Category:Slash Damage]]
+[[uk:Повітряний розрив]]
+[[Category:Grouping]]

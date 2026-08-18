@@ -1,0 +1,38 @@
+{{ArcaneBox|Description=On Roll: +300% Critical Chance on Weakpoint Hits for 4s}}
+'''Cascadia Accuracy''' is a [[Arcane Enhancement#Secondary_Weapon_Arcanes|Secondary Arcane]] that grants additional [[Enemy Body Parts|Weakpoint]] [[Critical Chance]] for 4 seconds after [[Maneuvers#Rolling|Rolling]].
+{| class="emodtable"
+|-
+! Rank !! Critical Chance
+|-
+| 0 || +50%
+|-
+| 1 || +100%
+|-
+| 2 || +150%
+|-
+| 3 || +200%
+|-
+| 4 || +250%
+|-
+| 5 || +300%
+|}
+
+==Acquisition==
+{{Acquisition|Cascadia Accuracy can be purchased from [[Cavalero]] for {{sc|5,000}}, requiring '''Rank 1 - Fallen''' with [[The Holdfasts]].|header=no}}
+
+===Farming Tips===
+*Thrax enemies are abundant in [[Mobile Defense]] and [[Void Cascade]] missions.
+*The Zariman Arcane drop is considered as a mod drop, and is thus affected by [[The Steel Path]] and [[Mod Drop Chance Booster]].
+
+==Notes==
+*Bonus is additive to mods such as {{M|Pistol Gambit}}.
+*Bonus is additive to {{M|Pistol Acuity}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|Angels of the Zariman}}
+*Introduced
+}}
+{{ArcaneNav}}
+[[uk:Каскадна точність]]
+[[Category:Zariman Arcanes]]
