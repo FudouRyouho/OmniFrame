@@ -115,7 +115,7 @@ export type Modifier =
  *   MELEE_COMBO_MULT      intrínseco (`kind=melee` + perfil heavy)     StaticHydrator
  *   SNIPER_COMBO_MULT     intrínseco (`family=sniper`)                 StaticHydrator
  *   COMBO_SCALED_ADD      `stat.condition` del dato                    ModRepository
- *   STACK_DECAY_BUFF      `stat.max_stacks` del dato                   ModRepository
+ *   STACK_DECAY_BUFF      `stat.max_stacks` del dato                   ModRepository, ArcaneRepository
  *
  * `CONDITION_OVERLOAD` **no es una excepción a la regla — la cumple**: es la única op de familia con
  * entrada en `UPGRADE_MAP`, así que un token la alcanza igual que a un acumulador. Que sea "familia"

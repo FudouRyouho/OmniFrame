@@ -15,9 +15,9 @@
  *  - `base_value: null` — familia stacking Merciless/Deadhead/Dexterity, OQ-DATA-4.
  *  - `upgrade_type: null` sin token — status resists, fórmulas per-stat, operador/amp.
  *  - `upgrade_type: null` en la familia `STACK_DECAY_BUFF` pendiente de `max_stacks`
- *    (Cascadia Flare, Exhilarate) — arch-decisions.md §11: mecanismo construido y
- *    validado contra mods (Galvanized), arquitectura cerrada para arcanos pero sin
- *    cablear acá todavía, pendiente de que el override traiga `max_stacks`.
+ *    (Exhilarate) — arch-decisions.md §11: mecanismo construido y validado contra mods
+ *    (Galvanized). Cascadia Flare ya lo ejerce (CAS-1) — Exhilarate tiene una forma de
+ *    dato distinta (un solo `values`, sin par per-stack/total-a-máximo) y no se portó igual.
  */
 import { makeModifier, type Modifier, type EntityId } from "../../contracts";
 import type { ConditionInput } from "@shared/types/condition";
@@ -33,6 +33,9 @@ type ArcaneStatRaw = {
   values: ArcaneValueRaw[];
   condition?: ConditionInput | null;
   notes?: string[];
+  /** Presente sólo en la familia `STACK_DECAY_BUFF` (mismo contrato que `ModStatRaw`,
+   *  `contracts/mod-overrides.ts`) — cap de stacks; `base_value` sigue total-a-máximo. */
+  max_stacks?: number;
 };
 
 type ArcaneOverrideEntry = {
@@ -74,6 +77,25 @@ export class ArcaneRepository {
         const idx = Math.max(0, Math.min(rank, val.base_value.length - 1));
         const rawValue = val.base_value[idx];
         const value = decodeUpgradeValue(upgradeEntry, rawValue);
+
+        // Cascadia Flare (STACK_DECAY_BUFF, arch-decisions §11 + CAS-1,
+        // .working/investigacion-source-state-cascadia-flare.md): `stat.max_stacks` presente → el
+        // dato es total-a-máximo, el motor deriva perStackPct = value/max_stacks acá. Mismo patrón
+        // que ModRepository (Galvanized [Arma]) — primer arcano que lo ejerce. `condition` se
+        // descarta igual que en ModRepository: C1-declarado, no gate de esta familia.
+        if (stat.max_stacks) {
+          modifiers.push({
+            id: `arcane:${uniqueName}:s${statIdx}:v${valIdx}:${upgradeEntry.attr}`,
+            source_id: `Arcane:${uniqueName}`,
+            target_entity: targetId,
+            target_channel: upgradeEntry.target_channel,
+            target_attribute: upgradeEntry.attr,
+            operation: 'STACK_DECAY_BUFF',
+            value: value / stat.max_stacks,
+            stack_decay_factors: { stacks_var: `stack_decay:${uniqueName}`, cap: stat.max_stacks },
+          });
+          return;
+        }
 
         modifiers.push(makeModifier(
           {

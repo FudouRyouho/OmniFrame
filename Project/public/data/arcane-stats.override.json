@@ -1745,12 +1745,15 @@
               400,
               480
             ],
-            "upgrade_type": null
+            "upgrade_type": "WEAPON_ADD_DAMAGE"
           }
         ],
         "condition": "on_heat_status_effect",
+        "max_stacks": 40,
         "notes": [
-          "engine:note — duration:10s"
+          "engine:note — duration:10s",
+          "engine:note — max_stacks:40 derivado de val2/val1 (80/2 .. 480/12, estable en los 6 ranks; cascadia-flare.wikitext no nombra un conteo de stacks explícito, sólo la tabla Damage per Stack/Max Damage Stack — CAS-1, .working/investigacion-source-state-cascadia-flare.md)",
+          "engine:note — upgrade_type WEAPON_ADD_DAMAGE: la fuente lo trata como mod de daño genérico (\"treated similarly to damage mods like Hornet Strike, additive with base damage mods\"), no elemental"
         ]
       }
     ]

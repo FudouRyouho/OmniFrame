@@ -266,6 +266,27 @@ export function lankaArcane(profile = 'charged_shot'): Scene {
   return scene(withArcanes(player(lanka(profile)), 'primary', arcaneSlots({ 0: { itemId: PRIMARY_MERCILESS, rank: 5 } })));
 }
 
+// ─── Cascadia Flare (V — CAS-1, .working/investigacion-source-state-cascadia-flare.md) ────
+
+export const CASCADIA_FLARE = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnHeatProc';
+/** Nombra la variable de stacks del arcano — mismo contrato que `galvanizedStacksVar`, arcano en
+ *  vez de mod (STACK_DECAY_BUFF no distingue la fuente, `contracts/primitives.ts`). */
+export const cascadiaFlareStacksVar = (uniqueName: string) => `stack_decay:${uniqueName}`;
+
+/**
+ * Laetum (con sus mods habituales, incluido Hornet Strike) + Cascadia Flare (rank 5, el único
+ * rank real del dataset) montado en la secundaria. Primer arcano que ejerce `STACK_DECAY_BUFF`
+ * (CAS-1) — mismo mecanismo que Galvanized [Arma] del lado mods, portado. Usa el Laetum modded a
+ * propósito, no uno limpio: el wikitext dice que el buff es *"additive with base damage mods"* —
+ * Hornet Strike ya aporta a `WEAPON_ADD_DAMAGE.mods_add_pct`, así que el fixture ejerce esa
+ * aditividad, no sólo que el arcano aterrice solo. `max_stacks:40` se deriva de `val2/val1`
+ * (estable en los 6 ranks del override); el stack-count llega por
+ * `variables[cascadiaFlareStacksVar(...)]`, igual que `galvanizedStacksVar` en `felarx.test.ts`.
+ */
+export function laetumCascadiaFlare(): Scene {
+  return scene(withArcanes(player(laetum()), 'secondary', arcaneSlots({ 0: { itemId: CASCADIA_FLARE, rank: 5 } })));
+}
+
 // ─── Rhino (warframe net-new, fixture_01 Tier 1: base + mods + shards) ─────────────
 
 export const RHINO = '/Lotus/Powersuits/Rhino/Rhino';
@@ -708,6 +729,7 @@ export const BUILDS: Record<string, () => Scene> = {
   felarx: () => felarx(),
   boltor: () => boltor({ perks: { 2: 'hunters_mantra', 4: 'commodores_fortune' }, mods: { 0: SERRATION } }),
   lanka_arcane: () => lankaArcane(),
+  laetum_cascadia_flare: () => laetumCascadiaFlare(),
   rhino:  () => rhino(),
   rhino_roar: () => rhinoRoar(),
   sicarus: () => sicarus({ perks: { 2: 'feigned_retreat' } }),

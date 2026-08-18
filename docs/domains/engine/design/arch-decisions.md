@@ -330,8 +330,10 @@ distintos) no deben colisionar en `context.variables`. Convención: `stack_decay
 - **Gate D-20 satisfecho — 2do schema real, no solo teórico.** `OQ-DATA-4` nombraba la divergencia
   mods-vs-arcanos como su ejemplo motivador (bridge de schema stacking/duration). Con los 7
   Galvanized reales cableados, el gate `≥2 casos misma forma` ya no depende de que los arcanos se
-  pueblen — **ambos caminos coexisten**, mods ejecutado, arcanos arquitectura cerrada pendiente de
-  dato.
+  pueblen — **ambos caminos coexisten**: mods ejecutado, y del lado arcanos Cascadia Flare ya lo
+  ejerce (`ArcaneRepository.ts`, `cascadia-flare.test.ts` — `max_stacks:40` derivado de `val2/val1`
+  del propio override). Exhilarate queda pendiente: su dato tiene una forma distinta (un solo
+  `values`, sin el par per-stack/total-a-máximo que sí trae Cascadia Flare) y no se portó igual.
 - **Caso de estrés de `OQ-ENGINE-16`.** Esta familia es el caso concreto que esa OQ pedía como
   condición de resolución (T1: "elegir un caso concreto... y estresarlo con dato real antes de
   generalizar"). El resolver de esta decisión se queda deliberadamente en modo C1/declarado — no

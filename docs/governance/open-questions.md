@@ -231,7 +231,20 @@ El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`
 
 **Abierto — scope-grupo** (varios stats, una condición): hoy se **repite** el token (precedente Pax Soar). Optimización anti-repetición, no expresividad — salvo semántica compartida no-replicable (pool de stacks común). Latente.
 
-**Estado del gate D-20:** tiene evidencia cross-schema concreta — Galvanized (mods, D-15 §2) + familia Merciless/Deadhead (arcanes), la misma forma "evento → +val por stack, cap Nx", **ambas resueltas a nivel engine** vía `STACK_DECAY_BUFF` (`arch-decisions.md §11`, `galvanized-stack-decay.test.ts`), consumiendo `stacks` como input C1-declarado sin tocar el schema. Lo que se cerró es el **motor**, no la **gramática**: el bridge de schema (`condition`/`duration` estructurados cross-schema) sigue sin resolver; 6 de los 8 arcanos de la familia siguen con `base_value:null` (Merciless×2, Deadhead×2, Dexterity×2 — Cascadia Flare y Exhilarate ya lo tienen poblado), y los 8 sin excepción siguen sin `max_stacks`, el campo que `arch-decisions.md §11` fija como el prerequisito real. El eje "quién" (sujeto de condition sobre el target) también tiene un caso concreto resuelto sin infraestructura nueva (`while_enemy_below_half_health` vía `EnemySnapshot`, `arch-decisions.md §13`); el operando literal (`_450`, `_3_stacks`) sigue sin forzar.
+**Estado del gate D-20:** tiene evidencia cross-schema concreta — Galvanized (mods, D-15 §2) y, del
+lado arcanes, Cascadia Flare, la misma forma "evento → +val por stack, cap Nx", **ambas resueltas a
+nivel engine** vía `STACK_DECAY_BUFF` (`arch-decisions.md §11`, `galvanized-stack-decay.test.ts` +
+`cascadia-flare.test.ts`), consumiendo `stacks` como input C1-declarado sin tocar el schema. El resto
+del corpus arcane de esta forma (Merciless×2, Deadhead×2, Dexterity×2, Exhilarate) **sigue sin
+ejercer**: `upgrade_type` queda `null` en sus stats de stacking, así que ni siquiera llegan a la rama
+`STACK_DECAY_BUFF` — verificado que ninguno de los 7 lo tiene poblado (no es un supuesto sin
+comprobar). Lo que se cerró es el **motor**, no la **gramática**: el bridge de schema (`condition`/
+`duration` estructurados cross-schema) sigue sin resolver; 6 de los 8 arcanos de la familia siguen con
+`base_value:null` (Merciless×2, Deadhead×2, Dexterity×2 — Cascadia Flare y Exhilarate ya lo tienen
+poblado), y 7 de los 8 siguen sin `max_stacks` — sólo Cascadia Flare lo tiene, derivado de su propio
+dato (`arch-decisions.md §11`). El eje "quién" (sujeto de condition sobre el target) también tiene un
+caso concreto resuelto sin infraestructura nueva (`while_enemy_below_half_health` vía `EnemySnapshot`,
+`arch-decisions.md §13`); el operando literal (`_450`, `_3_stacks`) sigue sin forzar.
 
 **Bloquea:** unificación del modelado de stacking/duration entre los 4 schemas; diseño de composición de condition.
 **No bloquea:** captura de datos actual (escape hatch D-20) ni el engine Fase 0 (D-15).
