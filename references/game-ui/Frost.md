@@ -9,7 +9,7 @@ Damage: <DT_COLD> 350 $STRENGTH
 Area Damage: <DT_COLD> 150 $STRENGTH
 Freeze Duration: <DT_COLD> 15s $DURATION
 Radius: 5m $RANGE
-### FREEZE FORCE
+#### FREEZE FORCE
 Radius: 15m $RANGE
 Extra Damage: <DT_COLD> 100% $STRENGTH
 Duration: 40s $DURATION

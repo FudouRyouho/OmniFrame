@@ -23,11 +23,14 @@ interface AbilityStatEntry {
   upgrade_type?: string | string[]
 }
 
-// No declara `exclusive`/`default_active` (a diferencia de `@shared/types/ability.ts`): el parser no
-// los deriva, y sin el campo acá tampoco hay dónde escribirlos sin editar el JSON a mano — ver abajo.
+// `exclusive` se deriva del nivel de header (`###` = grupo exclusivo, `references/game-ui/
+// README.md:16-17`) — ver el branch de abajo. `default_active` sigue sin derivarse: no hay señal en
+// la fuente que lo distinga (a diferencia de `###`/`####`), a diferencia de `@shared/types/ability.ts`
+// que sí declara el campo.
 interface AbilityGroup {
   id?: string
   label?: string
+  exclusive?: boolean
   stats: AbilityStatEntry[]
 }
 
@@ -172,15 +175,11 @@ function parseMd(content: string): ParsedOutput {
 
     if (skip || !abilityKey) continue
 
-    // Las dos ramas producen el MISMO shape — `references/game-ui/README.md:16-17` declara que el
-    // nivel de header carga una señal real (`###` = grupo exclusivo, `####` = augment no-exclusivo),
-    // pero acá se descarta: ningún objeto de salida se distingue por cuál regla lo generó. La señal
-    // para derivar `exclusive` existe en la fuente y no llega al override — `docs/data/schemas/
-    // abilities/schema.md` §Gap declarado.
+    // `references/game-ui/README.md:16-17` — `###` = grupo exclusivo, `####` = augment no-exclusivo.
     if (/^### /.test(line)) {
       flushGroup()
       const lbl = line.slice(4).trim()
-      group = { id: toKebab(lbl), label: lbl, stats: [] }
+      group = { id: toKebab(lbl), label: lbl, exclusive: true, stats: [] }
       continue
     }
 

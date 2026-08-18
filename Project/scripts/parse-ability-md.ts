@@ -25,6 +25,7 @@ interface AbilityStatEntry {
 interface AbilityGroup {
   id?: string
   label?: string
+  exclusive?: boolean
   stats: AbilityStatEntry[]
 }
 
@@ -195,11 +196,11 @@ function parseMd(content: string, src: string): ParsedOutput {
 
     if (skip || !abilityKey) continue
 
-    // ### Subgrupo (formas, elementos, modos)
+    // ### Subgrupo exclusivo (formas, elementos, modos)
     if (/^### /.test(line)) {
       flushGroup()
       const lbl = line.slice(4).trim()
-      group = { id: toKebab(lbl), label: lbl, stats: [] }
+      group = { id: toKebab(lbl), label: lbl, exclusive: true, stats: [] }
       continue
     }
 

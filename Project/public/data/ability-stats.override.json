@@ -948,6 +948,7 @@
       {
         "id": "vivace",
         "label": "VIVACE",
+        "exclusive": true,
         "stats": [
           {
             "label": "Speed: |val1|%",
@@ -959,6 +960,7 @@
       {
         "id": "opera",
         "label": "OPERA",
+        "exclusive": true,
         "stats": [
           {
             "label": "Multishot: |val1|%",
@@ -970,6 +972,7 @@
       {
         "id": "forte",
         "label": "FORTE",
+        "exclusive": true,
         "stats": [
           {
             "label": "Melee Damage: |val1|%",
@@ -1597,6 +1600,7 @@
       {
         "id": "targeted",
         "label": "TARGETED",
+        "exclusive": true,
         "stats": [
           {
             "label": "Radius: |val1|m",
@@ -1617,6 +1621,7 @@
       {
         "id": "protective",
         "label": "PROTECTIVE",
+        "exclusive": true,
         "stats": [
           {
             "label": "Angle: |val1|°",
@@ -2280,6 +2285,7 @@
       {
         "id": "heat",
         "label": "Heat",
+        "exclusive": true,
         "stats": [
           {
             "label": "Health: |val1|%",
@@ -2301,6 +2307,7 @@
       {
         "id": "electricity",
         "label": "Electricity",
+        "exclusive": true,
         "stats": [
           {
             "label": "Shield Capacity: |val1|%",
@@ -2327,6 +2334,7 @@
       {
         "id": "toxin",
         "label": "Toxin",
+        "exclusive": true,
         "stats": [
           {
             "label": "Holster Damage: |val1|%",
@@ -2353,6 +2361,7 @@
       {
         "id": "cold",
         "label": "Cold",
+        "exclusive": true,
         "stats": [
           {
             "label": "Armor: |val1|%",
@@ -3156,6 +3165,7 @@
       {
         "id": "thorns",
         "label": "THORNS",
+        "exclusive": true,
         "stats": [
           {
             "label": "Damage Reduction: |val1|%",
@@ -3166,6 +3176,7 @@
       {
         "id": "full-moon",
         "label": "FULL MOON",
+        "exclusive": true,
         "stats": [
           {
             "label": "Damage: |val1|%",
@@ -4757,6 +4768,7 @@
       {
         "id": "bastille",
         "label": "BASTILLE",
+        "exclusive": true,
         "stats": [
           {
             "label": "Duration: |val1|s",
@@ -4773,6 +4785,7 @@
       {
         "id": "vortex",
         "label": "VORTEX",
+        "exclusive": true,
         "stats": [
           {
             "label": "Duration: |val1|s",
@@ -5630,6 +5643,7 @@
       {
         "id": "shrapnel-vortex",
         "label": "SHRAPNEL VORTEX",
+        "exclusive": true,
         "stats": [
           {
             "label": "Damage: <DT_SLASH> |val1|",
@@ -5641,6 +5655,7 @@
       {
         "id": "shield-satellites",
         "label": "SHIELD SATELLITES",
+        "exclusive": true,
         "stats": [
           {
             "label": "Shield: |val1|",
@@ -8448,6 +8463,7 @@
       {
         "id": "tail-wind",
         "label": "TAIL WIND",
+        "exclusive": true,
         "stats": [
           {
             "label": "Air Range: |val1|m",
@@ -8462,6 +8478,7 @@
       {
         "id": "dive-bomb",
         "label": "DIVE BOMB",
+        "exclusive": true,
         "stats": [
           {
             "label": "Radius: |val1|m",
@@ -8746,6 +8763,7 @@
       {
         "id": "tether-flechette-orb",
         "label": "TETHER-FLECHETTE ORB",
+        "exclusive": true,
         "stats": [
           {
             "label": "Max Targets: |val1|",
@@ -8771,6 +8789,7 @@
       {
         "id": "vector-overdrive-pad",
         "label": "VECTOR-OVERDRIVE PAD",
+        "exclusive": true,
         "stats": [
           {
             "label": "Speed Multiplier: |val1|x",
@@ -9715,6 +9734,7 @@
       {
         "id": "day",
         "label": "Day",
+        "exclusive": true,
         "stats": [
           {
             "label": "Energy / Ability: <ENERGY> |val1|",
@@ -9731,6 +9751,7 @@
       {
         "id": "night",
         "label": "Night",
+        "exclusive": true,
         "stats": [
           {
             "label": "Energy / Enemy: <ENERGY> |val1|",
@@ -9788,6 +9809,7 @@
       {
         "id": "day",
         "label": "Day",
+        "exclusive": true,
         "stats": [
           {
             "label": "Damage: <DT_SLASH> |val1|",
@@ -9803,6 +9825,7 @@
       {
         "id": "night",
         "label": "Night",
+        "exclusive": true,
         "stats": [
           {
             "label": "Health Multiplier: |val1|x",
@@ -9849,6 +9872,7 @@
       {
         "id": "day",
         "label": "Day",
+        "exclusive": true,
         "stats": [
           {
             "label": "Damage Multiplier: |val1|x",
@@ -9865,6 +9889,7 @@
       {
         "id": "night",
         "label": "Night",
+        "exclusive": true,
         "stats": [
           {
             "label": "Shield Capacity: |val1|",
@@ -9925,6 +9950,7 @@
       {
         "id": "day",
         "label": "Day",
+        "exclusive": true,
         "stats": [
           {
             "label": "Damage Vulnerability: |val1|%",
@@ -9941,6 +9967,7 @@
       {
         "id": "night",
         "label": "Night",
+        "exclusive": true,
         "stats": [
           {
             "label": "Wakeup Health Threshold: |val1|%",
@@ -11123,6 +11150,7 @@
       {
         "id": "power-of-the-seven",
         "label": "POWER OF THE SEVEN",
+        "exclusive": true,
         "stats": [
           {
             "label": "Strength: |val1|%",
@@ -11133,6 +11161,7 @@
       {
         "id": "spirit-of-resilience",
         "label": "SPIRIT OF RESILIENCE",
+        "exclusive": true,
         "stats": [
           {
             "label": "Shields / Second: <SHIELD> |val1|%",

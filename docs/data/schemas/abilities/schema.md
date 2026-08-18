@@ -42,7 +42,8 @@ interface AbilityGroup {
   id?: string;             // Ausente = grupo base (siempre activo). Presente = grupo nombrado con toggle.
   label?: string;          // Nombre visible del grupo (augment, variante, modo).
   default_active?: boolean;
-  exclusive?: boolean;     // No derivable del parser — asignar manualmente si aplica.
+  exclusive?: boolean;     // Derivado del nivel de header (`###`) en los grupos con `id` que vienen
+                            // de `game-ui/*.md` — ver "Gap declarado" abajo.
   stats: AbilityStatEntry[];
 }
 ```
@@ -54,19 +55,23 @@ El schema absorbe distintos patrones de organización de habilidades. Lista veri
 | Caso | Tipo | Ejemplo |
 |---|---|---|
 | Warframe simple | Un solo grupo base (sin `id`), siempre activo | Excalibur, Volt |
-| Modos exclusivos por elemento | Múltiples grupos, semántica `exclusive: true` | Chroma (Heat/Cold/Toxin/Electric) |
-| Modos exclusivos por forma | Múltiples grupos, semántica `exclusive: true` con toggle | Equinox (Day/Night) |
-| Modos aditivos | Múltiples grupos coexistentes, semántica `exclusive: false` | Wisp (Vitality/Haste/Shock motes) |
+| Modos exclusivos por elemento | Múltiples grupos, `exclusive: true` | Chroma (Heat/Cold/Toxin/Electric) |
+| Modos exclusivos por forma | Múltiples grupos, `exclusive: true` con toggle | Equinox (Day/Night) |
+| Modos aditivos | Múltiples grupos coexistentes, `exclusive` ausente por diseño | Wisp (Vitality/Haste/Shock motes) — ver gap declarado |
 | Augments | Grupo adicional opcional | (warframes con augment) |
 
-**Gap declarado — `exclusive`/`default_active` sin materializar.** La tabla de arriba describe la
-semántica *pretendida* de cada patrón, no el dato real: `exclusive`/`default_active` tienen **cero
-ocurrencias** en los 177 grupos con `id` del corpus (`ability-stats.override.json`), incluidos Equinox
-y Wisp — sus propios ejemplos canónicos. Y ningún consumidor los lee: ni `AbilityRepository`
-(`getModifiers`/`getEmissions` iteran `entry.groups` sin condición), ni ningún componente de UI, ni el
-CLI oracle. El campo `id` sirve hoy solo como discriminador estructural (identifica el grupo), no como
-gate de activación — un stat de daño dentro de un grupo augment/modo se emite igual que uno del grupo
-base. Medido: 19 casos confirmados de esto (`.working/investigacion-source-state-groups-augments.md`).
+**Gap declarado — `exclusive` poblado, `default_active` sin materializar, ningún consumidor los lee.**
+`apply-ability-md.ts` deriva `exclusive: true` del nivel de header `###` en la fuente
+(`references/game-ui/README.md:16-17`) — 29 de los 177 grupos con `id` del corpus lo tienen (Chroma,
+Equinox, Jade, Mag, Octavia, Protea, Titania, Vauban, Zephyr). `default_active` sigue en **cero
+ocurrencias**: no hay señal de header que lo distinga. Wisp (Vitality/Haste/Shock motes) queda
+deliberadamente afuera — la fuente los captura con `###` pero el patrón real es aditivo, no exclusivo
+(contradicción entre convención de header, captura y este mismo doc, sin reconciliar). Y ningún
+consumidor lee ninguno de los dos campos: ni `AbilityRepository` (`getModifiers`/`getEmissions` iteran
+`entry.groups` sin condición), ni ningún componente de UI, ni el CLI oracle — `exclusive` está poblado
+pero inerte. El campo `id` sirve hoy solo como discriminador estructural (identifica el grupo), no
+como gate de activación — un stat de daño dentro de un grupo augment/modo se emite igual que uno del
+grupo base. Medido: 19 casos confirmados de esto ([#29](https://github.com/FudouRyouho/OmniFrame/issues/29)).
 
 **Expansión futura conocida (a verificar contra el schema cuando se modelen):**
 - **Lavos** — cooldowns vs energía: coste distinto a EFF/STR, requiere extensión del vocabulario `upgrade_by`.
@@ -140,10 +145,11 @@ Lista activa/extensible. Cambios de naming son un regex, no una refactorización
 ## Notas de integridad
 
 - `groups`/`stats` solo se modifican vía `apply-ability-md.ts`. Ver `../../pipeline/ability-pipeline.md`.
-- `exclusive` no se deriva automáticamente del parser — y hoy tampoco hay vía de anotación manual: el
-  parser (`apply-ability-md.ts`) descarta la señal real que existe en la fuente (nivel de header
-  `###`/`####`, `references/game-ui/README.md:16-17`), y el tipo del override no tiene dónde recibir
-  una anotación posterior sin editar el JSON a mano (prohibido por `ability-pipeline.md` regla 1).
+- `exclusive` se deriva del nivel de header (`###`/`####`, `references/game-ui/README.md:16-17`) —
+  `apply-ability-md.ts`/`parse-ability-md.ts` marcan `exclusive: true` en los grupos `###`. `####`
+  (augment) no lleva el campo. `default_active` sigue sin vía de anotación — no hay señal de header
+  que lo distinga, y el tipo del override no tiene dónde recibirlo sin editar el JSON a mano
+  (prohibido por `ability-pipeline.md` regla 1).
 - Historial de decisiones: D-11 y D-12 en `docs/data/decisions.md`.
 
 ---
@@ -151,7 +157,7 @@ Lista activa/extensible. Cambios de naming son un regex, no una refactorización
 ## Preguntas de diseño
 
 ### ¿Cómo se manejan los Augments?
-Se modelan como grupos adicionales en `groups[]`, identificados por `id`. La intención de diseño es que un augment excluyente con el comportamiento base o con otros estados declare `exclusive: true` — pero ese campo no está poblado en ningún grupo del corpus actual, y ningún consumidor lo lee todavía (ver gap declarado más arriba). Hoy, un stat dentro de un grupo `id` se resuelve igual que uno del grupo base — el gate real es "¿el jugador tiene el augment equipado o el modo activo?", pregunta que el schema no responde por sí solo (ver "Regla de separación").
+Se modelan como grupos adicionales en `groups[]`, identificados por `id`. Los grupos `###` (formas/elementos/modos) llevan `exclusive: true`, derivado del parser; los grupos `####` (augments) no llevan el campo — pero ningún consumidor lo lee todavía (ver gap declarado más arriba). Hoy, un stat dentro de un grupo `id` se resuelve igual que uno del grupo base — el gate real es "¿el jugador tiene el augment equipado o el modo activo?", pregunta que el schema no responde por sí solo (ver "Regla de separación"). Un caso no cubierto por el header level: augments `####` mutuamente excluyentes entre sí (Chroma, Vexing Retaliation/Guardian Armor), declarados sólo en un comentario `//` de la fuente — el shape `exclusive: boolean` no alcanza para "excluyente CON un partner nombrado" (candidato a `exclusive_with: string[]`, sin construir).
 
 ### ¿Qué ocurre con los stats que no escalan?
 El campo `upgrade_by` se omite. Su ausencia es el contrato para "valor fijo" — el motor no aplica ningún multiplicador. `"NONE"` fue eliminado en D-11.
