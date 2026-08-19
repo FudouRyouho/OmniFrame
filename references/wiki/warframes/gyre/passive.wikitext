@@ -1,0 +1,8 @@
+{{WF|Gyre}}'s abilities gain a flat <u>'''10%'''</u> [[Critical Chance]] per active {{D|Electricity}} status proc affecting an individual enemy to deal <u>'''2.0x'''</u> [[Critical Damage]] against that enemy.
+
+*Bonus stacks additively with {{A|Cathode Grace}}, increasing the overall ability critical chance at lower {{D|Electricity}} status stack counts.
+*Passive and Cathode Grace combined provide up to a maximum of '''300%''' ability critical chance.
+**From the passive alone, a minimum of 30 {{D|Electricity}} procs will reach the capped ability critical chance.
+*Gyre's abilities can reach orange and red critical multipliers to inflict 3.0x and 4.0x ability critical damage.
+**From the passive alone, orange crits start at 11 stacks (110% crit chance) and red crits at 21 stacks (210% crit chance) respectively.
+*[[Helminth]]-subsumed abilities and [[Railjack]] turret abilities such as {{M|Seeker Volley}} do ''not'' benefit from Gyre's passive.
