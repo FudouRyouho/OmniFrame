@@ -63,6 +63,19 @@ export interface HitContext {
 export interface ReceiverContext {
   /** Qué unidad es (`contracts/unit-class.ts`). Ausente = sin regla propia. */
   unit_class?: readonly string[];
+  /**
+   * Qué le **pasó** — las marcas que el target adquirió, contra `unit_class` que dice qué **es**
+   * (`arch-decisions §17`: *"marca portada por el target"*). Hoy sólo la de Hydroid, que sube el strip
+   * inicial de Corrosive a 50% — #8.
+   *
+   * **Es la otra cara de la misma moneda que el desvío del emisor**, no un mecanismo aparte: los dos
+   * son `ParamDeviation` sobre un parámetro de la misma ley, y `resolveParam` los recibe por sus dos
+   * campos. Lo que cambia con el dueño es el **alcance**: el del emisor lo cobran sólo sus propios
+   * procs (dos jugadores, caps 19 y 10 sobre un contador — `status-stack-caps.md`), el del receptor lo
+   * cobra cualquiera que golpee —que es literal lo que la fuente de Hydroid declara: *"can be applied
+   * from **any source**, not just from Hydroid's weapons or abilities"*.
+   */
+  marks?: readonly string[];
 }
 
 /**
@@ -131,12 +144,20 @@ export interface EffectBehavior<S> {
   /**
    * Modificador de resolución actual (armor/capa). Ausente = no modifica.
    *
-   * ⚠️ **No recibe el `ReceiverContext`, y va a necesitarlo.** No se le pasó por anticipado porque
-   * ningún desvío conocido del receptor entra por acá; el primero que lo haga (#11) lo agrega — el
-   * contexto ya existe y llega hasta el contenedor, así que es un argumento más, no una forma nueva.
-   * Anclado en `__tests__/status/receiver-law.test.ts`.
+   * Recibe el `ReceiverContext` desde que existe el primer desvío del receptor que entra por acá: la
+   * marca de Hydroid sobre el strip inicial de Corrosive (#8). Fue un argumento más y no una forma
+   * nueva, como el comentario que ocupaba este lugar anticipaba — el contexto ya llegaba al contenedor.
+   * Ausente = el caller no aporta receptor y rige el default del concepto.
    */
-  resolutionModifier?(state: S, t: number): ResolutionModifier;
-  /** Modificador de crit del atacante (Weakened/Freeze, `DC-OQ-ENGINE-12`). Ausente = no toca el crit. */
+  resolutionModifier?(state: S, t: number, receiver?: ReceiverContext): ResolutionModifier;
+  /**
+   * Modificador de crit del atacante (Weakened/Freeze, `DC-OQ-ENGINE-12`). Ausente = no toca el crit.
+   *
+   * ⚠️ **Sigue sin recibir contexto, y el que va a necesitar no es el del receptor: es la identidad
+   * del SOURCE.** La pasiva de Gyre (+10% de crit chance por stack de Electricity, sólo para ella) es
+   * el caso, y no alcanza con este canal — la instancia se construye *"sin nada del emisor adentro:
+   * ni su identidad"* (`damage-instance.ts`). No se anticipa acá: se agrega cuando ese caso se
+   * construya — #33.
+   */
   critModifier?(state: S, t: number): CritModifier;
 }

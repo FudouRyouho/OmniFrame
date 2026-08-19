@@ -131,7 +131,7 @@ describe('Cap de stacks — el cap es del que APLICA, el contador es del recepto
   });
 
   // El receptor que fuerza (`Acolyte: N ≤ 4`) YA CORRE — abajo, y su canal en `receiver-law.test.ts`.
-  it.todo('el receptor que MODIFICA en vez de forzar: la pasiva de Hydroid sobre el coeficiente — #8');
+  // El que MODIFICA (Hydroid) corre en `receiver-modifies.test.ts` — #8.
   // `StackState { count }` es escalar; "refresca el más viejo" opera sobre instancias con timer
   // propio. El DoT ya modela instancias (`DotState { pulses }`) — la asimetría es interna al módulo.
   it.todo('refrescar el stack más viejo requiere instancias con timer, no un contador — #10');

@@ -717,6 +717,18 @@ default                              ← del concepto, con la fórmula
 efecto: un receptor puede forzar el cap sin tocar el coeficiente — de ahí que cinco fragmentos esmeralda
 (`+10` al cap) no rindan nada contra un Acolyte.
 
+✅ **Los dos verbos corren**, y la ortogonalidad se mide en vez de afirmarse: un target con la clase
+Acolyte **y** la marca de Hydroid topea en 4 stacks *y* stripea con el coeficiente desviado
+(`__tests__/status/receiver-modifies.test.ts`). `modifica` entra por `resolutionModifier`, que desde
+entonces recibe el `ReceiverContext`.
+
+**Y el canal del receptor tiene dos pobladores, no uno.** `unit_class` indexa por lo que el receptor
+**es** —del molde, poblada en hidratación— y `marks` por lo que le **pasó** —adquirida, estado de C2 en
+`EntityState`—. Ambas alimentan el mismo campo `receiver` de `resolveParam` con el mismo tipo
+`ParamDeviation`: es un poblador nuevo, no un mecanismo nuevo. ⚠️ **La marca nace vacía**: su origen no
+está modelado, igual que el Overguard. Escribirla pide identidad del source en la instancia —hoy
+descartada a propósito— o la proyección estática del source-state que ya usa Roar.
+
 **No compiten y por eso el orden es indiferente:** cada desvío conocido toca un parámetro **distinto**.
 Cuando el receptor declara sobre uno, el desvío del emisor sobre **ese mismo** no llega. La regla no es
 *"el receptor gana"* —si lo fuera el esmeralda no funcionaría nunca—: es **precedencia, no dominancia**.
@@ -857,9 +869,13 @@ todavía"*.
 efecto y su default — preguntarle a cada lado en su propio idioma es simétrico con eso, y resolverlo
 afuera obligaría al contenedor a conocer las leyes, que es justo lo que esta sección le saca.
 
-⚠️ **El contexto del receptor llega a `applyProc` y no a `resolutionModifier`/`critModifier`.** Ningún
-desvío conocido entra por ahí; el primero que lo haga es el cap de Cold a `4` con Overguard presente
-(#11), que **no es clase sino capa en `t`**. Anclado en `__tests__/status/receiver-law.test.ts`.
+**El contexto del receptor llega a `applyProc` y a `resolutionModifier`; a `critModifier` todavía no.**
+El primero que entró por `resolutionModifier` es la marca de Hydroid sobre el coeficiente de strip
+(#8). ⚠️ Lo que `critModifier` va a necesitar **no es este canal**: la pasiva de Gyre pide la identidad
+del **source**, que la instancia descarta a propósito (#33). Y el cap de Cold a `4` con Overguard
+presente (#11) tampoco entra por acá — se aplica en `applyProc`, que ya recibe el contexto; lo que le
+falta es que el contexto lleve la capa, que **no es clase sino estado en `t`**. Anclado en
+`__tests__/status/{receiver-law,receiver-modifies}.test.ts`.
 
 **Quién ocupa el rol de EMISOR: la instancia — y por eso el Jugador-raíz sigue sin materializarse.** La
 pregunta parecía estar entre el warframe (donde está el shard) y el Jugador (a quien el desvío

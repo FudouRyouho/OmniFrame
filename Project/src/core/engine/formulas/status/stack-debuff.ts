@@ -15,7 +15,7 @@
  */
 
 import type { StatusEffect } from "@shared/types";
-import { deviationFor, forces, type DeviationTable, type ParamDeviation } from "../common/param-deviation";
+import { deviationFor, forces, modifies, type DeviationTable, type ParamDeviation } from "../common/param-deviation";
 import type { ReceiverContext } from "./effect-behavior";
 
 /** Parámetros de la LEY de Familia A para un efecto concreto. */
@@ -60,10 +60,14 @@ export function stackDebuffValue(law: StackDebuffLaw, n: number): number {
  * mientras `count ≤ cap` y **lo colapsa hacia abajo** en cuanto lo supera, que es el estado que
  * produce un segundo emisor con cap mayor (19 por `3 × Tauforged Emerald` contra un cap 10).
  *
- * ⚠️ **El `cap` sigue llegando como constante de módulo.** De quién es ese número —del emisor, del
- * receptor que fuerza— es la cadena de cuatro eslabones de §17, que no está construida: esta función
- * es su punto de entrada, no su reemplazo. Y *"refresca el más viejo"* se observa acá como *"el count
- * no cambia"*; refrescar de verdad exige instancias con timer propio (`OQ-ENGINE-16`).
+ * **De quién es el `cap` lo resuelve el caller, y esta función no lo sabe.** La cadena de §17 corre en
+ * `corrosionBehavior`, que lo pasa ya resuelto por `resolveParam` (emisor: shard → nodo → instancia;
+ * receptor: `receiverMaxStacks`). Los otros cuatro behaviors de stack le pasan su constante de módulo
+ * — no por deuda sino porque **ninguna fuente conocida desvía sus caps**, que es una respuesta y no un
+ * hueco. Esta función es el punto de entrada de la cadena, no su reemplazo.
+ *
+ * ⚠️ *"Refresca el más viejo"* se observa acá como *"el count no cambia"*; refrescar de verdad exige
+ * instancias con timer propio (`OQ-ENGINE-16`).
  */
 export function applyStackProc(count: number, amount: number, cap: number): number {
 	return count >= cap ? count : Math.min(cap, count + amount);
@@ -126,6 +130,44 @@ export function receiverMaxStacks(
 	const out: ParamDeviation[] = [];
 	for (const cls of receiver?.unit_class ?? []) {
 		const d = deviationFor(RECEIVER_MAX_STACKS[cls], effect);
+		if (d) out.push(d);
+	}
+	return out;
+}
+
+/** La marca que Hydroid deja en todo enemigo que haya dañado (`warframes/hydroid/passive.md`). */
+export const HYDROID_MARK = "hydroid";
+
+/**
+ * Lo que una **marca** del receptor desvía sobre el strip inicial de Corrosive.
+ *
+ * Hermana de `RECEIVER_MAX_STACKS` y por el mismo criterio de ubicación: son coeficientes de una ley
+ * de status, y §17 los pone junto a su fórmula. Lo que cambia es **por dónde entra la llave** — aquélla
+ * se indexa por lo que el receptor **es** (`unit_class`, del molde), ésta por lo que le **pasó**
+ * (`marks`, adquirida). Mismo canal `receiver` de `resolveParam`, dos pobladores.
+ *
+ * `replace` y no `add`: la fuente dice *"50% **rather than** 26%"*, que es el discriminador textual
+ * que §17 usa para separar reemplazo de composición. La cuenta cierra contra la ley ya construida —
+ * a 10 stacks, `50 + 6×9 = 104%` topa en el techo físico de `1.0`, contra `26 + 6×9 = 80%` por
+ * defecto; la fuente declara ese 100% y por eso el techo es físico y no `f(maxStacks)`.
+ */
+export const RECEIVER_INITIAL_STRIP: Readonly<Record<string, ParamDeviation>> = {
+	[HYDROID_MARK]: modifies.replace(50),
+};
+
+/**
+ * Qué desvía el receptor sobre el strip inicial de Corrosive, por las marcas que porta.
+ *
+ * Devuelve lista por la misma razón que `receiverMaxStacks`: un receptor puede portar varias marcas y
+ * `applyDeviations` las compone entre sí — que para dos `replace` del mismo dueño **tira**, en vez de
+ * elegir en silencio. Hoy hay una sola marca conocida, así que ese camino no se ejerce todavía.
+ */
+export function receiverInitialStrip(
+	receiver: ReceiverContext | undefined,
+): readonly ParamDeviation[] {
+	const out: ParamDeviation[] = [];
+	for (const mark of receiver?.marks ?? []) {
+		const d = RECEIVER_INITIAL_STRIP[mark];
 		if (d) out.push(d);
 	}
 	return out;
