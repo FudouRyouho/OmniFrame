@@ -1,0 +1,61 @@
+{{ModBox}}
+<section begin=intro />
+'''Thermal Transfer''' is a [[Warframe Augment Mod]] for {{WF|Gauss}}'s {{A|Thermal Sunder}}, increasing elemental damage for himself and allies within range.
+
+<section end=intro />
+==Stats==
+{| class="emodtable"
+|-
+! [[Mods#Mod Rank|Rank]]
+! {{Stat|Ability Strength|icon=only}}Elemental Damage
+! {{Stat|Ability Duration|icon=only}}Duration
+! [[Mods#Mod Power Cost|Cost]]
+|- 
+| 0 || +40% || 18s || 6
+|-
+| 1 || +50% || 22s || 7
+|-
+| 2 || +60% || 26s || 8
+|-
+| 3 || +75% || 30s || 9
+|-
+|}
+
+==Acquisition==
+*This mod can be acquired by attaining the rank of '''Maxim''' under {{Faction|Arbiters of Hexis}}, or the rank of '''Partner''' under {{Faction|The Perrin Sequence}}, and spending {{sc|25,000}} to purchase.
+
+==Notes==
+*Tap cast grants {{D|Cold}} damage. Hold cast grants {{D|Heat}} damage.
+**Both fields can exist simultaneously, granting each elemental buff separately.
+**If a player obtains both elemental buffs, they combine into a {{D|Blast}} buff, equaling the sum of {{D|Cold}} and {{D|Heat}} damage.
+**Bonus damage does <u>not</u> combine with modded elements, and is ''additive'' with elemental mods.
+**Does <u>not</u> affect exalted weapons or warframe abilities.
+*Duration is refreshed and paused indefinitely while standing in the Thermal Sunder field.
+**{{D|Cold}} and {{D|Heat}} fields refresh the duration of the corresponding buffs, the {{D|Blast}} damage buff duration is paused in any of the fields.
+*Sunder areas gain an inward pulsing visual effect to indicate Thermal Transfer is equipped. 
+*The caster and allies see the Thermal Transfer {{D|Cold}}, {{D|Heat}}, or {{D|Blast}} bonus as separate buff icons with a value of the elemental damage added and the remaining duration in seconds.
+*Elemental Damage bonus scales with {{Stat|Ability Strength}}.
+*Buff duration scales with {{Stat|Ability Duration}}
+*For status damage purposes {{D|Heat}} bonus is additive with other {{D|Heat}} damage bonuses, while {{D|Blast}} does not contribute towards status damage.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.5.11}}
+*Fixed the following Augments and Abilities not applying their elemental bonuses to status effect damage:
+**Gauss' Thermal Transfer
+
+{{ver|38}}
+*Elemental Damage from the Thermal Transfer Augments will now be added parallel to your weapon’s Elemental Damage, instead of creating Combined Elemental Damage types. 
+**This was changed for relevant Decrees and Saya’s Visions Blessings with 37.0.7, and now also applies to these Augments!
+
+{{ver|31.1}}
+*Introduced.
+}}
+
+{{AugmentNav}}
+[[es:Transferencia térmica]]
+[[fr:Transfert Thermique]]
+[[ru:Термоперенос]]
+[[uk:Передавання тепла]]
+[[Category:Heat Damage]]
+[[Category:Cold Damage]]

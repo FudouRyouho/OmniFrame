@@ -1,0 +1,76 @@
+{{ModBox}}
+<section begin=intro />'''Smite Infusion''' is a [[Warframe Augment Mod]] for {{WF|Oberon}} that allows {{A|Smite}} to be held on cast, creating a wave of energy traveling outward from the user that temporarily grants the caster and nearby allies additional {{D|Radiation}} damage to all attacks.<section end=intro />
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Strength|icon=only}}{{D|Radiation}} Damage
+! {{Stat|Ability Duration|icon=only}}Duration
+! {{Stat|Ability Range|icon=only}}Range
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || 50% || 28s || 15m || 6
+|-
+| 1 || 65% || 32s || 15m || 7
+|-
+| 2 || 80% || 36s || 15m || 8
+|-
+| 3 || 100% || 40s || 15m || 9
+|}
+
+<section end=intro />
+
+==Acquisition==
+*This mod can be acquired by attaining the rank of '''General''' under {{Faction|Steel Meridian}}, or the rank of '''Flawless''' under {{Faction|New Loka}}, and spending {{sc|25,000}} to purchase.
+
+==Notes==
+*Damage bonus is affected by [[Ability Strength]].
+*Duration is affected by [[Ability Duration]].
+*Range is affected by [[Ability Range]].
+*Add {{D|Radiation}} damage to weapons, additive to IPS and elemental mods.
+**Does not increase the damage of most abilities, including [[Exalted Weapon|Exalted Weapons]].
+**Does not merge with {{D|Heat}} or {{D|Electricity}}
+***For example, with a weapon with base damage of 100 {{D|Impact}} per bullet, the mod [[Hellfire]] at max rank, and the buff from Smite Infusion at max rank with 110 strength, the damage will be: 100 {{D|Impact}}, 90 {{D|Heat}}, and 110 {{D|Radiation}}.
+***In this situation, if a status proc, it will have 100/300 chance to be {{D|Impact}}, 90/300 chance to be {{D|Heat}}, and 110/300 to be {{D|Radiation}}.
+*For more information on how this augment works, see [[Buff & Debuff#Elemental damage bonus|Buff &amp; Debuff]] page.
+*Multiple Smite Infusions do not stack; the buff with the highest Ability Strength will take effect.
+**However if a weaker instance with more Ability Duration is cast, it will take effect after the stronger buff expires.
+
+==Media==
+{{VideoGallery
+|{{YouTube|zmBTFLnVDBI|size=300px}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.5.1}}
+*Fixed Elemental Augment Mods not boosting Status Effect damage.
+
+{{ver|25.6.3}}
+*Fixed HUD buff indicator discrepancies between Host/Client when receiving a damage buff from Augments.
+
+{{ver|25.6}}
+;Smite Infusion - Smite Augment - Oberon
+*Holding the casting button will send out a wave (much like similar, expanding Warframe Abilities) giving the elemental buff to every player it touches, including the caster
+
+{{ver|15.5}}
+*Fixed typo on Oberon’s Smite Infusion Mod.
+
+{{ver|15.0}}
+*Introduced.
+}}
+{{AugmentNav}}
+[[de:Peinigender Einfluss]]
+[[es:Infusión de castigo]]
+[[ru:Инфузия Кары]]
+[[Category:Mods]]
+[[Category:Rare Mods]]
+[[Category:Warframe Mods]]
+[[Category:Augment Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Oberon]]
+[[Category:Update 15]]
+[[Category:Radiation Damage]]
+[[Category:Zenurik Mods]]
+[[uk:Потрощене вливання]]

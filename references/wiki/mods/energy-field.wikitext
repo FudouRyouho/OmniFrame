@@ -1,0 +1,43 @@
+{{ModBox}}
+<section begin=intro />
+'''Energy Field''' is an {{WF|Odonata}} Augment Mod for {{A|Energy Shell}} that extends its effects to nearby allies within a set distance.
+<section end=intro />
+
+==Stats==
+{| class="emodtable"
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Range|icon=only}}Range
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || 80m || 6
+|-
+| 1 || 100m || 7
+|-
+| 2 || 120m || 8
+|-
+| 3 || 140m || 9
+|}
+
+==Drop Locations==
+{{DropLocations}}
+
+==Notes==
+*Range is affected by {{Stat|Ability Range}}.
+{{clr}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|Specters of the Rail}}
+*Introduced.
+}}
+{{ArchwingAugments}}
+[[de:Energiefeld]]
+[[es:Campo de energía]]
+[[fr:Champ d'Énergie]]
+[[ru:Энергетическое Поле]]
+[[Category:Archwing]]
+[[Category:Archwing Mods]]
+[[Category:Augment Mods]]
+[[Category:Odonata]]
+[[Category:Update 19]]
+[[uk:Енергетичне поле]]

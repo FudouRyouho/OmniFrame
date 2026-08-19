@@ -1,0 +1,49 @@
+<onlyinclude>{{AbilityU10.3
+| name = Resupply
+| gameimage = ResupplyIcon.png
+| cardimage = Resupply.png
+| hotkey = 
+| energy = 50
+| description = Throw two Elemental Ammo Packs that instantly refill the active weapon’s magazine, while granting the weapon an additional instance of the selected Elemental Damage and Status Effect. Reload clears the effect. Sniper Rifles gain extra damage. Hold the ability to select the Elemental Damage type.
+| strength = 10% / 15% / 20% / 25%  (weapon damage bonus)<br>20% / 30% / 40% / 50% (sniper damage bonus)
+| duration = 
+| range = 
+| misc = Reload held firearm magazine<br>2 (ammo packs)<br>0.35 s (recast cooldown)<br>Self damage bonus buff on cast<br>Damage bonus loss on reload<br>&infin; (ammo pack duration)<br>6 (maximum ammo packs)
+| cardonly = {{{1|}}}
+| info = 
+*Cyte-09 expends {{Stat|Ability Efficiency|icon=only}}'''50''' energy to instantly [[Reload|reload]] his currently equipped weapon while throwing forward <u>'''2'''</u> ammo packs. Looting the [[Ammo]] packs will instantly refill the equipped weapon's magazine, triggering an [[Extra Hit]] of {{Stat|Ability Strength|icon=only}}'''10% / 15% / 20% / 25%''' damage ({{Stat|Ability Strength|icon=only}}'''20% / 30% / 40% / 50%''' for [[Sniper Rifle]]s) that applies a forced status effect from the selected element. On cast, Cyte-09 automatically enhances his currently held primary weapon, secondary weapon, or {{A|Neutralize}}'s {{Weapon|Neutralizer}} sniper rifle with this bonus. Reloading the weapon (default {{Keybind|R}}) while buffed by Resupply will clear the elemental damage bonus. Ammo packs last <u>'''indefinitely'''</u> until collected and up to <u>'''6'''</u> ammo packs may be deployed on the field at once.
+**All players in the squad have their own instances of Resupply's ammo packs, meaning that collecting an ammo pack for yourself will not take it away from a squad member.
+*** For non-Cyte-09 allies, picking up an ammo pack uses a fixed value of '''10%''' damage for the Extra Hit ('''20%''' for Sniper Rifles), which is <u>'''not'''</u> affected by {{Stat|Ability Strength}}.
+***For Cyte-09 and allies using him, picking up an ammo pack uses a fixed value of '''10% / 15% / 20% / 25%''' damage for the Extra Hit ('''20% / 30% / 40% / 50%''' for Sniper Rifles), which is <u>'''not'''</u> affected by {{Stat|Ability Strength}}.
+**Resupply has a '''0.35''' second cooldown between casts.
+**Resupply ammo packs use a unique model exclusive to Cyte-09, and display their elemental damage type icon overhead.
+**All allied {{Faction|Tenno}} can see the elemental damage type icons on their mini-map to locate specific ammo packs.
+**A fully loaded weapon can only gain one elemental damage bonus at a time. However, upon expending at least one ammo, a weapon that already has one of Resupply's elemental bonuses can gain an additional bonus by looting a Resupply ammo pack that was previously deployed.
+**Resupply ammo packs only refill the current magazine, and will '''not''' restore any reserve ammo.
+**[[Archgun]]s and [[:Category:Battery Weapons|battery weapons]] (including [[Kitgun]]s equipped with {{Arcane|Pax Charge}}) do '''not''' benefit from Resupply ammo packs.
+* Casting Resupply is a [[One-Handed Action]]. As such, it can be used while performing various maneuvers and actions without interruption.
+*Hold the ability to open a [[Gear]] wheel to select the elemental damage type of the reload and ammo packs: {{D|Heat}}, {{D|Cold}}, {{D|Electricity}}, {{D|Toxin}}, {{D|Blast}}, {{D|Radiation}}, {{D|Gas}}, {{D|Magnetic}}, {{D|Viral}}, {{D|Corrosive}}, randomized, or previously selected. Tap the ability to deploy the last selected element.
+**Resupply's forced Status Effect will '''not''' apply if the enemy is killed in a single bullet, such as when using Neutralizer to headshot enemies. This prevents area of effect status like {{D|Gas}} or {{D|Blast}} from being effective for crowd control unless firing at enemies that are tough enough to survive a single shot.
+**By default, tap cast starts as randomize.
+**Elemental bonus does '''not''' override the {{D|Toxin}} damage bonus from {{WF|Oraxia}}'s {{A|Silken Stride}}.
+**Elemental bonus can be overridden by the {{D|Heat}} damage bonus from {{WF|Uriel}}'s [[Uriel/Abilities/Passive|Demonium]], and vise versa.
+***However, upon reloading to clear Resupply while Demonium is still active, Demonium's {{D|Heat}} bonus will be reapplied.
+*'''Ability Synergy''': {{A|Neutralize}}'s {{Weapon|Neutralizer}} is a sniper rifle, and thus receives the doubled damage bonus from Resupply's elemental bonus.
+| augment = 
+| tips = 
+| max = 
+| bugs = 
+*Ammo packs created by Resupply contribute towards the 50 resources on ground [https://forums.warframe.com/topic/164093-update-1170-1171/ limit], therefore using this ability often can lead to desirable items disappearing quickly (most notably, [[Steel Essence]] and [[Vitus Essence]]).
+*Using ability or picking up ammo from the ground as a client reloads magazine instantly, however elemental buff is applied with a delay, dependent on ping.
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Cyte-09}}
+
+__NOTOC__
+[[Category:Warframe Abilities]]
+[[Category:One-Handed Abilities]]
+[[Category:Extra-hit Buffs]]
+[[Category:Cyte-09]]
+[[Category:Update 38]]

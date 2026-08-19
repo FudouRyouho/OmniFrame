@@ -1,0 +1,85 @@
+{{ModBox}}
+<section begin=intro />
+'''Venom Dose''' is a [[Warframe Augment Mod]] for {{WF|Saryn}} that allows {{A|Spores}} to be held on cast, creating a wave of energy traveling outward from the user that temporarily grants the caster and nearby allies additional {{D|Corrosive}} damage to all attacks.
+<section end=intro />
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! {{Stat|Ability Strength|icon=only}}{{D|Corrosive}} Damage
+! {{Stat|Ability Duration|icon=only}}Duration
+! {{Stat|Ability Range|icon=only}}Range
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || 50% || 28s || 15m || 6
+|-
+| 1 || 65% || 32s || 15m || 7
+|-
+| 2 || 80% || 36s || 15m || 8
+|-
+| 3 || 100% || 40s || 15m || 9
+|}
+
+==Acquisition==
+*This mod can be acquired by attaining the rank of '''General''' under {{Faction|Steel Meridian}}, or the rank of '''Exalted''' under {{Faction|Red Veil}}, and spending {{sc|25,000}} to purchase.
+*This mod can periodically be acquired from [[The Circuit]].
+
+==Notes==
+*Damage bonus is affected by [[Ability Strength]].
+*Duration is affected by [[Ability Duration]].
+*Range is affected by [[Ability Range]].
+*Cannot be equipped at the same time as {{M|Revealing Spores}}.
+*Adds {{D|Corrosive}} damage to the weapon, added alongside IPS and elemental mods.
+**Does not increase the damage of most abilities, including [[Exalted Weapon|Exalted Weapons]].
+**Does not merge with {{D|Toxin}} or {{D|Electricity}}.
+**For example: for a weapon with a base damage of 100 {{D|Impact}} per bullet, with the mod {{M|Infected Clip}} at max rank, and the buff from Venom Dose at max rank with 110 strength, the damage will be: 100 {{D|Impact}}, 90 {{D|Toxin}}, and 110 {{D|Corrosive}}.
+***In this situation, if a status procs, it will have 100/300 chance to be {{D|Impact}}, 90/300 chance to be {{D|Toxin}}, and 110/300 to be {{D|Corrosive}}.
+*For more information on how this augment works, see [[Buff & Debuff#Elemental damage bonus|Buff &amp; Debuff]] page.
+*Multiple casts of Venom Dose do not stack; the buff with the highest Ability Strength will take effect.
+**However if a weaker one with more Ability Duration is cast, it will take effect after the stronger buff expires.
+
+==Maximization==
+{{WFmax|main|saryn1_aug}}
+
+==Gallery==
+<gallery>
+VenomDoseModOld.png|Old appearance
+</gallery>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.5.1}}
+*Fixed Elemental Augment Mods not boosting Status Effect damage.
+
+{{ver|25.7.6}}
+*Fixed Saryn’s Spores costing no Energy when casted if the Venom Dose Augment is equipped.
+*Fixed Saryn’s Venom Dose Augment’s effects not properly applying to allies as per: https://forums.warframe.com/topic/1127477-saryns-1-with-the-augment-venom-dose-can-be-cast-on-any-ally-without-effect/
+
+{{ver|25.6.3}}
+*Fixed HUD buff indicator discrepancies between Host/Client when receiving a damage buff from Augments.
+
+{{ver|25.6}}
+;Venom Dose - Spores Augment - Saryn
+*Holding the casting button will send out a wave (much like similar, expanding Warframe Abilities) giving the elemental buff to every player it touches, including the caster
+
+{{ver|22.20}}
+*Venom Dose Augment: Spores cast on allies temporarily grant them additional Corrosive damage to all attacks.
+
+{{ver|15.0}}
+*Introduced.
+}}
+{{AugmentNav}}
+
+[[de:Giftdosis]]
+[[es:Dosis de veneno]]
+[[ru:Доза Яда]]
+[[Category:Mods]]
+[[Category:Rare Mods]]
+[[Category:Warframe Mods]]
+[[Category:Augment Mods]]
+[[Category:Syndicate Offerings]]
+[[Category:Saryn]]
+[[Category:Update 15]]
+[[Category:Zenurik Mods]]
+[[Category:Corrosive Damage]]
+[[uk:Отруйна доза]]

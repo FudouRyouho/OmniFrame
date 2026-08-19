@@ -1,0 +1,84 @@
+<onlyinclude>{{AbilityU10.3
+| name = Xata's Whisper
+| gameimage = Xata'sWhisper130xWhite.png
+| cardimage = Xata'sWhisperModx256.png
+| hotkey = 1
+| energy = 25
+| description = Wield Void damage for all attacks from equipped weapons when activated.
+| strength = 17 / 23 / 23 / 26 % ({{D|Void}} damage bonus)
+| range = 
+| duration = 20 / 30 / 30 / 35 s
+| misc = 1 (extra hit per damage instance)<br/>Sentient resistance reset (upon status proc)
+| subsumable = true
+| cardonly = {{{1|}}}
+| info = *Whispers from the Void infuse Xaku with untold power, expending {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to empower all equipped [[Weapons]] to inflict <u>'''1'''</u> [[Extra Hit]] per damage instance for {{Stat|Ability Strength|icon=only}}'''17% / 23% / 23% / 26%''' of total weapon damage as {{D|Void}} damage. Xata's Whisper lasts for {{Stat|Ability Duration|icon=only}}'''20 / 30 / 30 / 35''' seconds.
+**[[Casting Speed]] is affected by {{M|Natural Talent}} and {{M|Speed Drift}}.
+**The extra {{D|Void}} damage hit can remove [[Sentient]] and [[Shadow Stalker]]'s damage adaptation resistances upon triggering a [[Status Effect]].
+**Extra hit per damage instance does not provide extra [[Melee Combo]] or [[Sniper Rifle]] combo gain.
+**Xata's Whisper duration appears on the ability icon, as well as beside Xaku's shield and health indicators as a buff icon with the damage bonus and timer.
+**The color of the visual effect on the warframe's body is determined by the warframe's primary/left energy color.
+*Xata's Whisper {{D|Void}} damage is based on a percentage of the total weapon damage. 
+**Damage bonus is a separate damage instance, and does '''not''' dilute weapon elements.
+**Affected by base, elemental, critical, and faction damage mods (e.g. {{M|Serration}}, {{M|Hornet Strike}}, {{M|Pressure Point}}, {{M|Convulsion}}, {{M|Cleanse Grineer}}, {{M|Vital Sense}}, etc)
+**The ability double dips on faction damage, and [[Enemy Body Parts|body part weaknesses]].
+**Xata's Whisper can proc the {{D|Void}} [[Status Effect]] based on the weapon's total status chance.
+***The bullet attractor turns enemy projectiles towards themselves, effectively reflecting damage. This even applies to hit-scan weapons, which cannot exit the bubble.
+**The {{D|Void}} damage applies to most weapon hits, including {{M|Acid Shells}} and {{M|Concealed Explosives}}, but not {{M|Bursting Mass}} or {{Weapon|Pathocyst}}'s maggots.
+***Since the damage bonus is not applied to the weapon directly, and only activates on-hit, it will not be absorbed into {{M|Bursting Mass}}.
+**The Void damage bonus does '''not''' allow Xaku's weapons to damage Eidolon [[Shields]] of the {{E|Eidolon Teralyst}}, {{E|Eidolon Gantulyst}} and {{E|Eidolon Hydrolyst}}, nor the ghostly energy form of the {{E|Eidolon Vomvalyst}}, nor the {{E|Thrax Centurion}} or {{E|Thrax Legatus}} enemies from the [[Zariman Ten Zero]].
+**Damage is affected by {{E|Ancient Disruptor}} auras and other enemies that reduce ability damage, unlike other weapon buffing skills.
+*On cast, Xaku's right shoulder and arm pieces visually detach then return to position. While active, Infested grey matter envelops their entire body as the Void veins pulse and glow with energy, while surrounded by a Void energy cloud near the torso.
+|helminth =
+*Subsuming Xaku to the [[Helminth]] will offer Xata's Whisper and its augments to be used by other Warframes.
+**When placed on {{WF|Chroma}}, {{WF|Cyte-09}}, {{WF|Mirage}}, {{WF|Octavia}}, {{WF|Oraxia}}, {{WF|Rhino}}, {{WF|Temple}}, and {{WF|Uriel}}, Subsumed Xata's Whisper can only replace {{A|Vex Armor}}, {{A|Resupply}}, {{A|Eclipse}}, {{A|Amp}}, {{A|Silken Stride}}, {{A|Roar}}, {{A|Ripper's Wail}}, and {{A|Demonium}} respectively.
+| synergies =
+**{{A|Grasp of Lohk}} Void replicas and {{A|The Lost}}'s sub-abilities do '''not''' benefit from the additional {{D|Void}} damage bonus of Xata's Whisper.
+**{{A|The Vast Untime}} renders enemies <u>'''50%'''</u> more vulnerable to {{D|Void}} damage and pauses Xata's Whisper's duration timer while active.
+*Can be recast while active to refresh the duration.
+*Casting Xata's Whisper is an upper-body animation that allows movement while restricting other actions.
+| augment = 
+| tips = *When fighting against [[Sentient]]s, it is recommended to use and mod weapons with high status chance, in order to efficiently reset their damage resistances.
+*Recast the ability to refresh its duration or activate {{A|The Vast Untime}} to pause Xata's Whisper's duration timer, effectively prolonging the buff on Xaku as a semi-permanent damage bonus for all equipped weapons.
+*The {{D|Void}} [[Status Effect]]s Bullet Attractor can be a good defensive tool against ranged enemies.
+*'''Interaction with''' {{D|Blast}}:
+**When an enemy is afflicted with one or more {{D|Blast}} stacks, Xata's whisper will trigger off the detonation(s). Additionally, the [[Faction Damage Bonus]] will be applied again (effectively triple-dipping), and Elemental Bonuses will apply to Xata's Whisper damage (despite {{D|Blast}} not being affected by Elemental Damage Bonuses).
+***Consider the following example: A gun deals '''100 damage''' per bullet, and we have {{M|Thermite Rounds}}, {{M|Rime Rounds}}, {{M|Stormbringer}}, {{M|Primed Bane of Grineer}}, and Xata's whisper at base strength: The initial hit will deal {{Math|100 {{mul}} (1 + 0.6 + 0.6 + 0.9) {{mul}} (1 + 0.55)|mt=y}} damage, and Xata's whisper will deal {{Math|0.26 {{mul}} 480.5 {{mul}} (1 + 0.55) |mt=y}} damage (the [[Faction Damage Bonus]] is applied again). If the hit proc'd {{D|Blast}}, then the detonation damage will be {{Math|0.3 {{mul}} 100 {{mul}} (1 + 0.55)^2|mt=y}} (Elemental Damage doesn't apply to {{D|Blast}} detonations and the  [[Faction Damage Bonus]] is applied again). Then, Xata's whisper '''will trigger off said detonation''', dealing {{Math|0.26 {{mul}} 72.075 {{mul}} (1 + 0.55) {{mul}} (1 + 0.6 + 0.6 + 0.9)|mt=y}} damage (as you can see, the [[Faction Damage Bonus]] is applied yet again, and the Elemental Damage Bonus is applied '''even though {{D|Blast}} detonations don't scale off Elemental Damage Bonuses.'''
+| bugs = *Can score critical hits when used with {{A|Covenant}} and headshotting.
+|
+}}
+</onlyinclude>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|32.2.9}}
+*Fixed script errors caused by Xaku’s Grasp of Lohk, Xata’s Whisper, and The Vast Untime.
+
+{{ver|32.0.3}}
+*Fixed the Laetum and Felarx gaining charges in their Incarnon form from headshots while Xata’s Whisper is active.
+
+{{ver|29.5}}
+*Void damage’s Status Effect will now redirect projectiles to the body part it proc’d on.
+**'''How it will work:''' If you shoot at an enemy’s head with Xata’s Whisper enabled and proc, the bubble will redirect all projectiles to the head. If you shoot at the feet, it’ll be redirected to the feet, etc.! It is however possible that even if you proc on the head but then shoot at the lower part of the bubble it might hit the body on the way up to being redirected to the head.
+**This is a game wide change to Void Status Effect! Now that we have a Warframe that can harness Void damage at the click of a button, it has brought much focus to and discussion around its Status Effect. For those of you who are unfamiliar, in its current state it creates a bullet attractor bubble that directs all projectiles to the center of the enemy’s torso regardless of where it procs. Since Xata’s Whisper applies Void damage to all of their weapons, it was increasingly noticeable to Xaku players that the bubble’s '''current redirecting position prevents any attempt at enemy headshots until its duration expires.''' This is one of the main reasons for this change. Headshot disruption ultimately limits your damage output by removing the opportunity for headshot multipliers while it is active. Now, you will be able to use your headshotting skills to greater benefit, while also having generally more options to focus projectiles where desired. Note that regardless of where the Status Effect occurs, it will continue to prevent enemies from being able to shoot at you without having their projectiles redirected back to the center of the bubble.
+*Fixed Xaku’s Xata’s Whisper sometimes not applying its damage buff or Void Status Effect when using the Komorex.
+*Fixed Xaku’s Xata’s Whisper not using the intended Status Chance for projectile weapons.
+*Fixed the HUD timer icon for Xata’s Whisper in the top right corner ticking down regardless of The Vast Untime being active. This was only a visual bug, and did not actually affect the ‘time freezing’ synergy with The Vast Untime and Xaku’s other abilities.
+
+{{ver|29.3.2}}
+*Fixed Saryn’s Toxic Lash and Xata's Whisper Status Effect procs from also proc'ing the other.
+
+{{ver|29.1}}
+*We are making Void damage ‘True Neutral’ by removing the 50% resistance of Void damage on Cloned Flesh and Fossilized enemies - a long desired request for Void damage.
+**Currently, Void damage is relatively ineffective against Cloned Flesh and Fossilized enemies which greatly limits the use of Xata’s Whisper on Grineer and Infested enemies. In an effort to give it (and Void damage in general) more utility across enemy categories, we are removing this resistance so that it aligns with its neutral effectiveness against the other enemy types. It is important to note that Eidolons, Amalgams, and certain bosses will still maintain this resistance.
+*Fixed a case of dealing self damage via Xata’s Whisper.
+}}
+
+==See Also==
+*{{WF|Xaku}}
+__NOTOC__
+[[Category:Xaku]]
+[[Category:Warframe Abilities]]
+[[Category:Void Damage]]
+[[Category:Extra-hit Buffs]]
+[[es:Susurro de Xata]]
+[[uk:Шепіт зати]]

@@ -1,0 +1,78 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Thermal Sunder
+| gameimage      = ThermalSunder130xWhite.png
+| cardimage      = ThermalSunderModx256.png
+| hotkey         = 3
+| energy         = 50
+| description    = Siphon Kinetic energy from the area, charging the battery and inflicting {{D|Cold}} Status on nearby enemies. Hold reverses the process, draining the battery and inflicting {{D|Heat}} Status on nearby enemies.
+| sub            = 
+{{AbilityU10.3/Tabber|Cold
+| strength       = 75 - 375 / 100 - 500 / 125 - 625 / 150 - 750 ({{D|Cold}} damage)
+| range          = 6 / 8 / 10 / 12 m (initial radius)<br/>3 / 4 / 5 / 6 m (final radius)
+| duration       = 6 / 9 / 12 / 15 s (area duration)<br/>2.5 - 5 / 3 - 6 / 3.5 - 7 / 4 - 8 s (status duration)
+| misc           = 10% (battery charge)<br/>1 ({{D|Cold}} status proc on cast)<br/>9 ({{D|Cold}} status procs on {{D|Cold}} afflicted enemy)<br/>10 ({{D|Cold}} status procs from Redline)<br/>≤100% (enemy armor reduction from Redline on {{D|Heat}} combination)<br/>4 (limit of areas per element)
+}}
+{{AbilityU10.3/Tabber|Heat
+| strength       = 150 - 750 / 200 - 1000 / 250 - 1250 / 300 - 1500 {{D|Heat}} damage)
+| range          = 6 / 8 / 10 / 12 m (initial radius)<br/>3 / 4 / 5 / 6 m (final radius)
+| duration       = 6 / 9 / 12 / 15 s (area duration)<br/>2.5 - 5 / 3 - 6 / 3.5 - 7 / 4 - 8 s (status duration)
+| misc           = 10% (battery drain)<br/>1 ({{D|Heat}} status proc on cast)<br/>100% ({{D|Heat}} ignite damage bonus)<br/>100% ({{D|Heat}} ignite chance from Redline)<br/>≤100% (enemy armor reduction from Redline on {{D|Cold}} combination)<br/>4 (limit of areas per element)
+}}
+| subsumable     = true
+| cardonly       = {{{1|}}}
+|info = 
+*Gauss expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to manipulate the kinetic energy around him to create an area of extreme temperatures with an initial radius of {{Stat|Ability Range|icon=only}}'''6 / 8 / 10 / 12''' meters, which gradually shrinks to a final radius of {{Stat|Ability Range|icon=only}}'''3 / 4 / 5 / 6''' meters and lasts for {{Stat|Ability Duration|icon=only}}'''6 / 9 / 12 / 15''' seconds.
+**'''Tap''' the ability key (default {{Keybind|3}}) to absorb kinetic energy, ''charging'' battery power by '''<u>10%</u>''' to inflict a {{D|Cold}} proc on all enemies within range, lasting for {{Stat|Ability Duration|icon=only}}'''2.5 - 5 / 3 - 6 / 3.5 - 7 / 4 - 8''' seconds based on battery. Enemies caught in the area creation receive {{Stat|Ability Strength|icon=only}}'''75 - 375 / 100 - 500 / 125 - 625 / 150 - 750''' {{D|Cold}} damage based on battery with guaranteed [[Status Effect]]; enemies lingering inside the area also receive damage per second, which diminishes in amount with the size of the area. When cast on enemies already affected by {{D|Cold}} proc, they receive <u>'''9'''</u> additional {{D|Cold}} status procs to be instantly frozen solid for the full status duration.
+**'''Hold''' down the ability key to expend kinetic energy, ''draining'' battery power by '''<u>10%</u>''' to inflict a {{D|Heat}} proc on all enemies in range, lasting for a minimum duration of {{Stat|Ability Duration|icon=only}}'''2.5 - 5 / 3 - 6 / 3.5 - 7 / 4 - 8''' seconds based on battery. Enemies caught in the area creation receive {{Stat|Ability Strength|icon=only}}'''150 - 750 / 200 - 1000 / 250 - 1250 / 300 - 1500''' {{D|Heat}} damage based on battery with guaranteed [[Status Effect]]; enemies lingering inside the area also receive damage per second, which diminishes in amount with the size of the area. When cast on enemies already affected by {{D|Heat}} proc, Thermal Sunder deals its normal damage plus the damage per second of the current {{D|Heat}} proc.<ref>Does not apply when damaging {{D|Overguard}} or units that cannot be frozen solid by Thermal Sunder, such as Index Brokers</ref>
+***The resulting heat proc will scale with the total damage of the Thermal Sunder cast, allowing repeated casts to exponentially scale the damage.
+**Damage per second has a moderate chance to stagger light enemy units within the area.
+**Enemies already afflicted with a status effect of the same type will have it reapplied; its status duration uses the battery power level at the time of the new Thermal Sunder cast.
+*Casting Thermal Sunder of the opposite damage type on enemies already afflicted with {{D|Cold}} or {{D|Heat}} procs, combines the damage type into {{D|Blast}}. Affected enemies first have the initial status effect removed, receive the new status effect, they also receive a {{D|Blast}} proc and deals damage based on the mode being used plus the damage of the canceled status.
+**{{D|Blast}} damage is given by: <math>\text{Heat Proc Damage} \cdot \text{Remaining Proc Duration} + \text{Damage of Canceling Cast}</math>
+***Remaining Proc Duration is based on the duration of the proc on the enemy being canceled, i.e. casting a {{D|Heat}} Thermal Sunder on an enemy affected by a {{D|Cold}} will use the remaining duration of the {{D|Cold}} proc.
+**For example: Casting a {{D|Heat}} Thermal Sunder at '''80%''' battery followed by a {{D|Cold}} Thermal Sunder at '''70%''' battery with '''6''' seconds left on the {{D|Heat}} proc will deal: {{Math|[300 + 0.8 * (1500 - 300)] * 6 + [150 + 0.7 * (750 - 150)]|t=y}} damage.
+***At 100% battery with Redline, this formula can be simplified if the ability is recasted immediately: (12000 * {{Stat|Ability Duration}} + 750) * {{Stat|Ability Strength}}
+**The order in which the elemental procs are combined changes the direction in which enemies within the ability area are knocked back by the {{D|Blast}} proc. Casting {{D|Cold}} first then {{D|Heat}} will ''knock enemies outwards'', while casting {{D|Heat}} first then {{D|Cold}} will ''pull enemies in'' towards the player.  
+**When casting both elements, the elemental proc cast second will override and replace the first element already present, e.g. if enemies were affected by the {{D|Cold}} area first, casting {{D|Heat}} proc on them will remove the {{D|Cold}} proc and replace it with {{D|Heat}}.
+*'''Ability Synergy''':
+**{{A|Mach Rush}} through a Thermal Sunder area to add its {{D|Cold}} or {{D|Heat}} damage to Mach Rush's knockdown and shockwave explosion.
+**Thermal Sunder gains bonuses to its status effects when {{A|Redline}} is active and ''above'' the redline battery charge ('''>80%'''): 
+***{{D|Cold}} mode applies <u>'''10'''</u> {{D|Cold}} status procs to instantly freeze enemies solid.
+***{{D|Heat}} mode's damage is <u>'''doubled'''</u>. This doubling is applied after the bonus damage from active heat procs on a target, allowing consecutive casts to do double the previous cast's damage.
+***Combining {{D|Heat}} and {{D|Cold}} on an enemy permanently strips their [[Armor]], up to a maximum of '''100%''' with a full battery charge, ''before'' damage is dealt.
+****Armor reduction scales linearly from '''0%''' armor reduction at '''80%''' battery to '''100%''' armor reduction at '''100%''' battery.
+*****Because the reduction scaling starts from 80%, {{M|Corrosive Projection}} decreases the battery requirement to '''96.4%''' to fully strip armor.
+*Can be recast while active to create new Cold or Heat sunder areas. Gauss may create up to '''<u>4</u>''' distinct areas of either element, resulting in only '''<u>8</u>''' total distinct areas active at once. Casting Thermal Sunder in a new area after reaching the maximum of {{D|Heat}} or {{D|Cold}} areas will remove the oldest area of corresponding element.
+*Subsuming Gauss to the [[Helminth]] will offer Thermal Sunder and its augments to be used by other Warframes.
+**The damage dealt by Subsumed Thermal Sunder is equivalent to 50% of Gauss's battery: {{Stat|Ability Strength|icon=only}}'''225 / 300 / 375 / 450''' {{D|Cold}} damage and {{Stat|Ability Strength|icon=only}}'''450 / 600 / 750 / 900''' {{D|Heat}} damage.
+**However, the damage scaling from {{D|Heat}} status is capped to '''<u>10x</u>''' of the ability's damage. 
+| augment        =
+[[File:ThermalTransferMod.png|200px|left]]
+{{main|Thermal Transfer}}
+{{#lst:Thermal Transfer|intro}}
+{{#lsth:Thermal Transfer|Stats}}
+{{clr}}
+|tips = 
+|bugs =
+<noinclude>
+|max = {{WFmax|main|gauss1}}
+</noinclude>
+}}</onlyinclude>
+
+==References==
+{{Reflist}}
+
+==See Also==
+*{{WF|Gauss}}
+__NOTOC__
+[[fr:Fracture Thermique]]
+[[es:Desgarre térmico]]
+[[Category:Gauss]]
+[[Category:Warframe Abilities]]
+[[Category:Update 25]]
+[[Category:Two-Handed Abilities]]
+[[Category:Armor Reduction]]
+[[Category:Heat Damage]]
+[[Category:Cold Damage]]
+[[Category:Blast Damage]]
+[[uk:Термоконтроль]]

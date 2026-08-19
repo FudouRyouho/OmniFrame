@@ -1,0 +1,427 @@
+<noinclude>
+{{UpdateMe|Research Required:
+*Find more bugs, especially with mechanics already reported in the [[#Bugs]] paragraph.
+*Test more [[Weapons]]/[[Abilities]] with exceptions (i.e. {{Weapon|Syam}} melee with a wave attack), [[Area of Effect]], [[:Category:Second-stage Projectiles|Second-stage Projectiles]], etc.
+*Test more rare buffing effects on exceptional projectiles (i.e. the [[Bounce]] bonus of {{Weapon|Mandonel}}'s fully [[Mandonel#Notes|charged fire]] on the enemy thrown from {{A|Meathook}}).
+*Which debuffs stack with more fields of {{M|Stasis Field}}?
+*Which bonuses stack with more fields of {{Weapon|Mandonel}}'s fully [[Mandonel#Notes|charged fire]] and which are applied only once?
+*What is the buffing radius of a field from {{Weapon|Mandonel}}'s fully [[Mandonel#Notes|charged fire]]?
+*What is the buffing radius of a {{Weapon|Simulor}}'s primary fire/[[Simulor#Notes|singularity]] orb? 
+**Does it grow after merging?
+*Does {{Weapon|Simulor}}'s primary fire/[[Simulor#Notes|singularity]] bonus {{D|Electricity}} combine with other elements?
+*Can any of the [[Archwing]] models create or benefit fom buffing fields?
+*Which [[Companion]] weapons and abilities can benefit from buffing fields?
+*Which bonuses stack with more fields of {{A|Energy Shell}}?
+}}
+{{Community}}
+</noinclude>
+{{Infobox
+|Box title=Buffing Fields
+|image=GyreNukorManyElectricProcs.png
+|caption=[[Kosma Gokstad Officer]] suffering ~3 thousand {{D|Electricity}} procs
+}}
+<!--
+Use to transclude the intro section: {{#lst:Buffing Fields|intro}}
+Use to transclude everything allowed from the top of the page: {{trim|{{#section-h:Buffing Fields}}}}
+-->
+<section begin="intro"/>[[Buffing Fields]] (internally named <code>Shield</code>) are zones/entities which will modify the properties of any weapon damage coming through, that includes:<br/>
+*[[Projectile]], [[Hitscan]], and [[Continuous Weapon|Beam]] shots from [[Weapons]] and [[Heavy Weapon]]s.
+*''Some'' [[Area of Effect]] shots, only if its [[Projectile]] form gets the buff first.
+**Standalone explosions that are already underway and happen to hit a buffing field do '''not''' benefit from it.
+**Initial hit and explosion apply status separately.
+*''Some'' projectile-based [[Abilities]], [[Augments]], and [[Precept]]s.
+*''Some'' projectile-based melee attacks.
+**[[Glaive (Weapon Type)]], {{Weapon|Deconstructor}}, and {{Weapon|Wolf Sledge}} throws do '''not''' benefit.
+*''Some'' operator [[Amps]].
+**[[Phahd Scaffold]] does '''not''' benefit.
+**Elemental damage bonuses do '''not''' improve [[Eidolon]] shield damage (unless it's a {{D|Void}} damage bonus).
+*Projectile-using [[Specter]]s, [[Companions]], Summons, and allied NPCs.
+**They should be standing inside or close to a buffing field to benefit effectively.
+*''Some'' projectile-based [[Gear]].
+[[AoE]] attacks may benefit partially or not at all, even if the projectile does.<br/>
+Usually a buffing field will grant 2 or more enhancements, and will prevent the projectile from receiving benefits of buffing fields from other sources.<section end="intro"/>
+==Sources==
+===Buffing Fields===
+{| class="wikitable sortable" width="100%"
+!Source!!Damage Bonus!!Critical Bonus!!Status Bonus!!Other!!Notes
+|-
+|{{WF|Volt}}'s {{A|Electric Shield}}||'''+50%''' {{D|Electricity}} damage <u>per field</u> (additive)||'''+100%''' [[Critical Damage]] (multiplicative)
+|| || ||<!--Notes-->
+*{{D|Electricity}} damage bonus from the shield does '''not''' increase {{D|Electricity}} status effect damage
+*Bonus {{D|Electricity}} does '''not''' combine with other elements
+|-
+|{{WF|Gyre}}'s {{M|Conductive Sphere}}||{{Stat|Ability Strength|icon=only}}'''+75%''' {{D|Electricity}} damage <u>per field</u> (additive)
+|| ||<!--Status-->
+*{{Stat|Ability Strength|icon=only}}'''+75%''' {{D|Electricity}} [[Status Damage]] (additive)
+*'''+1''' {{D|Electricity}} [[Forced Proc]] <u>per field</u>
+|| ||<!--Notes-->
+*Standing inside the {{M|Conductive Sphere}} fields is a good way to benefit from the augment while shooting in any and all directions
+*Does '''not''' buff abilities of the original caster
+*Bonus {{D|Electricity}} does '''not''' combine with other elements
+|-
+|{{WF|Nyx}}'s {{M|Assimilate}}||||'''+100%''' [[Critical Damage]] (multiplicative)
+|| || ||<!--Notes-->
+*Does '''not''' buff projectiles of the original caster
+|-
+|{{Weapon|Mutalist Quanta}}'s [[Mutalist Quanta#Alternate Fire Mechanics|alt-fire]]
+||<!--Damage-->
+*'''-34%''' Total Damage <u>per field</u> (multiplicative) 
+*'''+100% / 366% / 500%''' {{D|Electricity}} damage for '''1x / 2x / 3x''' stack <u>per field</u> (additive)
+*<div class="mw-collapsible mw-collapsed" data-expandtext="Unmodded Examples">
+**Stack '''1x''' Field '''1x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{text||{{D|Electricity|100%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|1}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''3x''' Field '''1x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|1}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''3x''' Field '''3x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|3}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''3x/2x''' Field '''2x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|366%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|2}} |t=y|tf=y|approx=y|round=0.01}}
+</div>
+<!--TODO: plug in crit mods-->
+*<div class="mw-collapsible mw-collapsed" data-expandtext="Modded Examples">
+**Stack '''1x''' Field '''1x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{M|Serration|165%}}) {{mul}} (1 + {{M|Infected Clip|90%}} + {{text||{{D|Electricity|100%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|1}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''3x''' Field '''1x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{M|Serration|165%}}) {{mul}} (1 + {{M|Infected Clip|90%}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|1}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''3x''' Field '''3x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{M|Serration|165%}}) {{mul}} (1 + {{M|Infected Clip|90%}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|3}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''3x/2x''' Field '''2x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{M|Serration|165%}}) {{mul}} (1 + {{M|Infected Clip|90%}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|366%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|2}} |t=y|tf=y|approx=y|round=0.01}}
+</div>
+||<!--Crit-->
+*'''+25%''' [[Critical Chance]] <u>per field</u> (flat)
+*'''+25%''' [[Critical Damage]] (additive)
+|| || ||<!--Notes-->
+*A single orb (Stack '''1x''') is a buffing field
+*Multiple orbs (max '''3''') can merge (Stack '''2x/3x''')
+*Using more fields will '''increase''' the ratio of '''{{D|Electricity}} : Other''' damage types
+**New damage type may '''decrease''' the damage output, depending on the enemy (see [[Damage/Calculation#Quantization|Quantization]])
+*Orbs have a radius of '''2m''' and a lifetime of '''9''' seconds
+*Orbs block enemy projectiles
+*Orbs move when hit by player melee
+*Bonus {{D|Electricity}} does '''not''' combine with other elements
+*The flat [[Critical Chance]] enables crit-focused builds on low-crit targets (e.g. {{A|Shuriken}}, {{Weapon|Sporothrix}})
+|-
+|{{Weapon|Simulor}}'s primary fire/[[Simulor#Notes|singularity]]
+||<!--Damage-->
+*'''-34%''' Total Damage <u>per field</u> (multiplicative) 
+*'''+100% / 300% / 400% / 500%''' {{D|Electricity}} damage for '''1x / 2x / 3x / 4x''' stack <u>per field</u> (additive)
+*<div class="mw-collapsible mw-collapsed" data-expandtext="Unmodded Examples">
+**Stack '''1x''' Field '''1x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{text||{{D|Electricity|100%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|1}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''4x''' Field '''1x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|1}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''4x''' Field '''4x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|4}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''4x/2x/3x''' Field '''3x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|300%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|400%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|3}} |t=y|tf=y|approx=y|round=0.01}}
+</div>
+<!--TODO: plug in crit mods-->
+*<div class="mw-collapsible mw-collapsed" data-expandtext="Modded Examples">
+**Stack '''1x''' Field '''1x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{M|Serration|165%}}) {{mul}} (1 + {{M|Infected Clip|90%}} + {{text||{{D|Electricity|100%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|1}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''4x''' Field '''1x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{M|Serration|165%}}) {{mul}} (1 + {{M|Infected Clip|90%}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|1}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''4x''' Field '''4x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{M|Serration|165%}}) {{mul}} (1 + {{M|Infected Clip|90%}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|4}} |t=y|tf=y|approx=y|round=0.01}}
+**Stack '''4x/2x/3x''' Field '''3x''':<br/>{{Math|({{text||100|hover=Base Damage}} {{mul}} (1 + {{M|Serration|165%}}) {{mul}} (1 + {{M|Infected Clip|90%}} + {{text||{{D|Electricity|500%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|300%}}|hover=Stack Bonus}} + {{text||{{D|Electricity|400%}}|hover=Stack Bonus}})) {{mul}} {{text||(66%)|hover=Field Penalty|hover-color=red}}{{exp|3}} |t=y|tf=y|approx=y|round=0.01}}
+</div>
+||<!--Crit-->
+*'''+25%''' [[Critical Chance]] <u>per field</u> (flat)
+*'''+25%''' [[Critical Damage]] (additive)
+|| || ||<!--Notes-->
+*A single orb (Stack '''1x''') or singularity is a buffing field 
+*Multiple orbs (max '''4''') can merge into a singularity (Stack '''2x/3x/4x''')
+**Merging orbs with the singularity (if possible) will reset the timer
+*Using more fields will '''increase''' the ratio of '''{{D|Electricity}} : Other''' damage types
+**New damage type may '''decrease''' the damage output, depending on the enemy (see [[Damage/Calculation#Quantization|Quantization]])
+*The singularities have a radius of '''?m''' and a lifetime of '''20''' seconds
+*Bonus {{D|Electricity}} does '''not''' combine with other elements <code>needs testing</code>
+*The flat [[Critical Chance]] enables crit-focused builds on low-crit targets (e.g. {{A|Shuriken}}, {{Weapon|Sporothrix}})
+|-
+|{{Weapon|Mandonel}}'s fully [[Mandonel#Notes|charged fire]]
+||<!--Damage-->
+*'''+100%''' {{D|Impact}}, {{D|Puncture}}, and {{D|Slash}} damage (additive)
+*'''+100%''' {{D|Radiation}} damage (multiplicative)
+||<!--Crit-->
+*'''+10%''' [[Critical Chance]] (flat)
+*'''+50%''' [[Critical Damage]] <u>per field</u> (multiplicative)
+|'''+100%''' [[Status Chance]] (multiplicative)
+||<!--Other-->
+*'''+2''' [[Bounce]]
+*'''+1m''' [[Punch Through]]
+*'''+?''' [[Projectile Speed]]
+||<!--Notes-->
+*The multiplicative [[Critical Damage]] will improve the damage output of targets which have a <u>base</u> [[Critical Damage]] greater than '''0x''', if they crit
+*The fields have a radius of '''?m''' and a lifetime of '''8''' seconds
+*Buffs from the <code>Other</code> column apply '''only''' to {{Weapon|Mandonel}} projectiles
+*The flat [[Critical Chance]] enables crit-focused builds on low-crit targets (e.g. {{A|Shuriken}}, {{Weapon|Sporothrix}})
+|-
+|{{WF|Odonata}}'s {{A|Energy Shell}}||'''+50%''' {{D|Heat}} damage (additive)||'''+100%''' [[Critical Damage]] (multiplicative)
+|| || ||<!--Notes-->
+*Bonus {{D|Heat}} does '''not''' combine with other elements
+*The {{M|Energy Field}} augment makes buffing other players easier
+|}
+
+===Debuffing Fields===
+{| class="wikitable sortable" width="100%"
+!Source!!Damage Debuff!!Other!!Notes
+|-
+|[[Model#Lambeo|MOA Lambeo]]'s {{M|Stasis Field}}||'''-10/20/30/40/50/60%''' damage||'''-15/30/45/60/75/90%''' [[Projectile Speed]]
+|<!--Notes-->
+*Projectiles that exit the field will regain their damage and speed
+*Affects projectiles from {{A|Mind Control|Mind Controlled}} enemies
+*Does '''not''' slow down [[Hitscan]] shots but '''does''' reduce their damage anyway
+|}
+
+==Targets==
+This table will only list unexpected/ambiguous things that can or can't benefit from a buffing field, such as [[Abilities]] and [[:Category:Melee Weapons|Melee Weapons]].<br/>
+If a melee is not in this table - it ''probably'' does '''not''' benefit; if a primary is not in this table - it ''probably'' '''does''' benefit; and so on.<br/>
+The table is still incomplete, and as the banner says - '''this page is actively being worked on'''. See also [[#Required Research]].<br/>
+The best way to buff [[:Category:Spawning Projectiles|Spawning Projectiles]] and [[:Category:Splitting Projectiles|Splitting Projectiles]] is to create a buffing field on their origin (which is often an enemy), otherwise they do '''not''' benefit.<br/>
+Almost all main-fire [[AoE]] explosions from various weapons and abilities seem to maybe benefit but '''not''' apply forced [[procs]].
+{| class="wikitable sortable" width="100%"
+|+ Interactions with Buffing Fields
+|-
+!Target!! width="10%"|Type!!Notes
+|-
+|{{WF|Garuda}}'s {{A|Dread Mirror}}|| rowspan="2"|[[Ability]]|| rowspan="2"|'''Does''' benefit
+|-
+|{{WF|Voidrig}}'s {{A|Gravemines}}
+|-
+|{{WF|Nokko}}'s {{A|Sporespring}}|| rowspan="4"|Ability|| rowspan="4"|Does '''not''' benefit
+|-
+|{{WF|Kullervo}}'s {{A|Recompense}}
+|-
+|{{WF|Kullervo}}'s {{A|Storm of Ukko}}
+|-
+|{{WF|Nekros}}'s {{A|Soul Punch}}
+|-
+|{{WF|Bonewidow}}'s {{A|Meathook}}||Ability|| rowspan=2|The AoE '''does''' benefit, and the status procs can change element, but it will '''not''' apply forced procs
+|-
+|{{WF|Ember}}'s {{A|Fireball}}||Ability
+|-
+|{{WF|Vauban}}'s abilities||Ability||Direct hit of the spawning orbs for any ability '''does''' benefit, even if the actual ability itself does '''not'''
+|-
+|{{WF|Zephyr}}'s {{A|Airburst}}|| rowspan="3"|Ability|| rowspan="3"|The AoE does '''not''' apply forced procs
+|-
+|{{WF|Styanax}}'s {{A|Axios Javelin}}
+|-
+|{{WF|Styanax}}'s {{A|Final Stand}}
+|-
+|{{WF|Vauban}}'s [[Minelayer#Flechette Orb]]|| rowspan="5"|Ability|| rowspan="5"|The high fire rate/projectile count benefits greatly from forced procs
+|-
+|{{WF|Ash}}'s {{A|Shuriken}}
+|-
+|{{WF|Oraxia}}'s {{A|Widow's Brood}}
+|-
+|{{WF|Chroma}}'s {{A|Spectral Scream}}
+|-
+|{{WF|Chroma}}'s {{A|Effigy}}
+|-
+|{{WF|Jade}}'s {{Weapon|Glory}}||[[Exalted Weapon]]||The ability AoE (detonating Judgements) does '''not''' benefit, but the weapon AoE '''does'''
+|-
+|{{WF|Excalibur}}'s {{Weapon|Exalted Blade}}|| rowspan="2"|Exalted weapon|| rowspan="2"|Only heavy attack waves '''do''' benefit
+|-
+|{{WF|Bonewidow}}'s {{Weapon|Ironbride}}
+|-
+|{{WF|Voidrig}}'s {{Weapon|Arquebex}}||Exalted Weapon||The AoE does '''not''' benefit
+|-
+|{{WF|Titania}}'s {{Weapon|Dex Pixia}}|| rowspan="3"|Exalted Weapon|| rowspan="3"|The high fire rate/projectile count benefits greatly from forced procs
+|-
+|{{WF|Temple}}'s {{Weapon|Lizzie}}
+|-
+|{{WF|Ivara}}'s {{Weapon|Artemis Bow}}
+|-
+|[[Glaive (Weapon Type)]] throws||[[Melee]]||Does '''not''' benefit; This includes: {{Weapon|Wolf Sledge}}, {{Weapon|Cedo}}'s alt-fire, {{Weapon|Deconstructor}}, {{Weapon|Sigma & Octantis}}, {{Weapon|Tak & Lug}}
+|-
+|[[Gunblade]] shots||Melee||'''Does''' benefit; This includes: {{Weapon|Corufell}}
+|-
+|[[Warfan]] heavy attack projectiles|| rowspan="7"|Melee|| rowspan="7"|'''Does''' benefit
+|-
+|[[Bayonet]] melee shot ({{M|Harrowing Spire}})
+|-
+|{{Weapon|Syam}}'s [[Syam#Characteristics|shockwave]]
+|-
+|{{Weapon|Tenet Agendus}}'s [[Tenet Agendus#Characteristics|energy disk]]
+|-
+|{{Weapon|Nepheri}}'s [[Nepheri#Notes|fireballs]]
+|-
+|{{Weapon|Verdilac}}'s [[Verdilac#Characteristics|energy projectile]]
+|-
+|{{Weapon|Innodem}}'s [[Innodem#Characteristics|energy projectile]]
+|-
+|{{Weapon|Edun}}'s [[Edun#Heavy Attack|thrown spear]]||Melee||The AoE does '''not''' apply forced procs
+|-
+|{{Weapon|Stug}}||[[Secondary]]
+|<!--Notes-->
+*The AoE does '''not''' apply forced procs
+*Charging a blob or stacking blobs together will waste forced procs
+|-
+|{{Weapon|Azima}}'s alt-fire||Secondary||Even if a disc flies through and lands outside a {{M|Conductive Sphere}}, it will keep applying forced procs with all its bullets
+|-
+|{{Weapon|Zymos}}|| rowspan="2"|Secondary
+|rowspan="2"|<!--Notes-->
+*The main fire AoE does '''not''' apply forced procs
+*Any individual projectile will only benefit if it flies through a buffing field
+|-
+|{{Weapon|Kulstar}}
+|-
+|{{Weapon|Riot-848}}||Secondary||The reload AoE does '''not''' apply forced procs
+|-
+|{{Weapon|Dual Coda Torxica}}'s unique trait||Secondary||Maggots attaching to enemies do '''not''' benefit
+|-
+|{{Weapon|Penta}}||[[Primary]]
+|<!--Notes-->
+*The AoE does '''not''' apply forced procs
+*{{M|Tether Grenades}} makes grenades intangible so nothing benefits
+**Except that '''one''' enemy will take a '''single''' forced proc from the AoE explosion when grenades are fired through {{M|Conductive Sphere}}
+|-
+|{{Weapon|Zarr}}||Primary
+|<!--Notes-->
+*The AoE does '''not''' apply forced procs
+*Any individual projectile will only benefit if it flies through a buffing field
+|-
+|{{Weapon|Torid}}||Primary||The AoE does '''not''' apply forced procs
+|-
+|{{Weapon|Vadarya Prime}}||Primary||The lighting strikes do '''not''' benefit
+|-
+|{{Weapon|Harpak}}'s [[Harpak#Notes|harpoon]]|| rowspan="2"|Primary|| rowspan="2"|'''Does''' benefit
+|-
+|{{Weapon|Paracyst}}'s [[Paracyst#Alternate Fire|harpoon]]
+|-
+|{{Weapon|Enkaus}}'s alt-fire||Primary||'''Does''' benefit, applies forced procs only on direct hit
+|-
+|{{Weapon|Coda Bassocyst}}'s alt-fire|| rowspan="1"|Primary|| rowspan="1"|Does '''not''' benefit
+|-
+|{{Weapon|Cryotra}}|| rowspan="2"|Robotic|| rowspan="2"|Keeps applying forced procs after the initial hit
+|-
+|{{Weapon|Stinger}}
+|-
+|{{Weapon|Multron}}|| rowspan="2"|Robotic|| rowspan="2"|The AoE does '''not''' apply forced procs
+|-
+|{{Weapon|Vulcax}}
+|-
+|{{Weapon|Morgha}} ([[Archgun#Atmospheric|atmospheric]] mode)||[[Archgun]]||The main fire AoE does '''not''' apply forced procs
+|-
+|{{Weapon|Arbucep}} ([[Archgun#Atmospheric|atmospheric]] mode)||Archgun
+|<!--Notes-->
+*Forced procs are inconsistent because it's easy to miss
+*The high status chance often procs the status of the bonus elemental damage
+|-
+|{{WF|Nova}}'s {{M|Neutron Star}}||[[Warframe Augment]]||The high fire rate/projectile count benefits greatly from forced procs
+|-
+|{{WF|Ivara}}'s {{M|Concentrated Arrow}}||Warframe Augment
+|<!--Notes-->
+*The arrow inflicts '''4x''' forced procs
+*The AoE does '''not''' benefit
+|-
+|{{WF|Styanax}}'s {{M|Axios Javelineers}}||Warframe Augment||The AoE does '''not''' apply forced procs
+|-
+|{{WF|Atlas}}'s {{M|Rumbled}}||Warframe Augment||Only direct stone hits '''do''' benefit
+|-
+|{{Weapon|Embolist}}'s {{M|Vile Discharge}}||[[Weapon Augment]]||The AoE does '''not''' apply forced procs
+|-
+|{{Companion|Panzer Vulpaphyla}}'s {{M|Viral Quills}}||rowspan="6"|[[Precept]]|| rowspan="6"|'''Does''' benefit
+|-
+|{{Companion|Panzer Vulpaphyla}}'s {{M|Panzer Devolution}}
+|-
+|{{Companion|Crescent Vulpaphyla}}'s {{M|Crescent Charge}}
+|-
+|{{Companion|Crescent Vulpaphyla}}'s {{M|Crescent Devolution}}
+|-
+|{{Companion|Vizier Predasite}}'s {{M|Acidic Spittle}}
+|-
+|{{Companion|Helminth Charger}}'s {{M|Proboscis}}
+|-
+|[[Hound (Companion)|Hound]]'s {{M|Equilibrium Audit}}|| rowspan="16"|Precept|| rowspan="16"|Does '''not''' benefit
+|-
+|[[Hound (Companion)|Hound]]'s {{M|Synergized Prospectus}}
+|-
+|[[Hound (Companion)|Hound]]'s {{M|Aerial Prospectus}}
+|-
+|[[Hound (Companion)|Hound]]'s {{M|Reflex Denial}}
+|-
+|[[MOA (Companion)|MOA]]'s {{M|Whiplash Mine}}
+|-
+|[[MOA (Companion)|MOA]]'s {{M|Anti-Grav Grenade}}
+|-
+|[[MOA (Companion)|MOA]]'s {{M|Blast Shield}}
+|-
+|[[MOA (Companion)|MOA]]'s {{M|Shockwave Actuators}}
+|-
+|{{Companion|Diriga}}'s {{M|Electro Pulse}}
+|-
+|{{Companion|Diriga}}'s {{M|Arc Coil}}
+|-
+|{{Companion|Wyrm}}'s {{M|Crowd Dispersion}}
+|-
+|{{Companion|Taxon}}'s {{M|Molecular Conversion}}
+|-
+|{{Companion|Dethcube}}'s {{M|Vaporize}}
+|-
+|{{Companion|Djinn}}'s {{M|Fatal Attraction}}
+|-
+|{{Companion|Huras Kubrow}}'s {{M|Hunt}}
+|-
+|{{Companion|Medjay Predasite}}'s {{M|Infectious Bite}}
+|-
+|[[Phahd Scaffold]]||[[Amp]]||The glaive does '''not''' benefit, though the other fire mode of the Amp still '''can'''
+|-
+|{{Arcane|Exodia Contagion}}||[[Arcane Enhancement#Zaw Arcanes|Zaw Arcane]] (melee)||Only direct hit and the small pulsating AoE '''do''' benefit
+|-
+|{{Arcane|Pax Seeker}}||[[Arcane Enhancement#Kitgun Arcanes|Kitgun Arcane]]||Any individual projectile will only benefit if it flies through a buffing field
+|-
+|[[Fishing#Gear|Fishing Spears]]|| rowspan="3"|[[Gear]]|| rowspan="3"|'''Does''' benefit
+|-
+|{{Gear|Tranq Rifle}}
+|-
+|[[Amphor]]s
+|-
+|{{Gear|Thermian RPG}}||[[Gear]]||The AoE '''does''' benefit, and the status procs can change element, but it will '''not''' apply forced procs
+|-
+|[[Corralizer]]|| rowspan=2|Obstacle|| rowspan=2|Does '''not''' benefit
+|-
+|[[Death Orb]]
+|-
+|{{WF|Baruuk}}'s {{A|Desolate Hands}} ability|| rowspan="11"|N/A|| rowspan="11"|<code>'''Bugged. Could not be tested.'''</code><br/>
+{{M|Conductive Sphere}} acts like a wall
+|-
+|{{WF|Nova}}'s {{A|Null Star}} ability
+|-
+|{{WF|Vauban}}'s {{A|Minelayer|Tether Coil}} ability
+|-
+|{{WF|Nokko}}'s {{A|Stinkbrain}} ability
+|-
+|{{WF|Vauban}}'s {{A|Bastille}} ability vortex
+|-
+|{{Weapon|Scyotid}}'s alt-fire
+|-
+|{{WF|Wisp}}'s {{M|Cataclysmic Gate}} augment
+|-
+|[[Hound (Companion)|Hound's]] {{M|Focused Prospectus}} precept
+|-
+|{{Companion|Carrier}}'s {{M|Looter}} precept
+|-
+|[[Explosive Barrel]]
+|-
+|[[Arc Trap]]
+|}
+<!-- Need to test 1) Pharaoh Predasite, 2) Sunika Kubrow -->
+===Powerful Synergies===
+Some targets deal ludicrous amounts of damage with forced procs and damage buffs from Buffing Fields, namely:
+*{{Weapon|Morgha}}'s [[Morgha#Characteristics|alt-fire]]
+*{{WF|Garuda}}'s {{A|Dread Mirror}} projectile and AoE
+
+==Bugs==
+*Abilities that would normally benefit (e.g. {{A|Shuriken}}, {{M|Neutron Star}}) do '''not''' benefit from {{M|Conductive Sphere}} if they are infused onto the same {{WF|Gyre}} that cast it.
+*{{Weapon|Tenet Grigori}}'s [[Tenet Grigori#Characteristics|energy disk]] and {{Weapon|Fluctus}} projectiles get stuck in place if activated inside multiple {{M|Conductive Sphere}}'s.
+*The following attacks' projectiles/targeting/damage is blocked from any direction by {{M|Conductive Sphere}}:
+**{{WF|Baruuk}}'s {{A|Desolate Hands}} ability
+**{{WF|Nova}}'s {{A|Null Star}} ability
+**{{WF|Vauban}}'s {{A|Minelayer|Tether Coil}} ability
+**{{WF|Nokko}}'s {{A|Stinkbrain}} ability
+**{{WF|Vauban}}'s {{A|Bastille}} ability vortex
+**{{Weapon|Scyotid}}'s alt-fire
+**{{WF|Wisp}}'s {{M|Cataclysmic Gate}} augment
+**[[Hound (Companion)|Hound's]] {{M|Focused Prospectus}} precept
+**{{Companion|Carrier}}'s {{M|Looter}} precept
+**[[Explosive Barrel]]
+**[[Arc Trap]]
+*{{WF|Mesa}}'s {{Weapon|Regulators}} cannot benefit from {{M|Conductive Sphere}} despite it usually buffing other non-melee [[Exalted Weapon]]s. ''(may be intended)''
+*{{WF|Excalibur}}'s {{A|Radial Javelin}} spectral skana will spin wildly around the enemy if it spawns inside a {{M|Conductive Sphere}}, living until eventually hitting the enemy.
+**It looks similar to {{Weapon|Nataruk}} projectiles shot into {{WF|Mag}}'s {{A|Magnetize}} bubble.
+*{{Weapon|Simulor}}'s primary fire/[[Simulor#Notes|singularity]] stops all projectiles like a wall.
+*{{Weapon|Mandonel}}'s fully [[Mandonel#Notes|charged fire]] doesn't give [[Bounce]] and/or [[Punch Through]] to [[Abilities]], [[Gear]], and [[Amps]]. ''(maybe those stats are simply locked)''
+*Some projectiles bounce off {{Weapon|Mutalist Quanta}}'s [[Mutalist Quanta#Alternate Fire Mechanics|alt-fire]], some stick to it, some are blocked, and some (very high punchtrough) can go through.
+
+==See Also==
+*[[:Category:Buffing Fields]]
+
+{{MechNav}}
+[[Category:Mechanics]]
