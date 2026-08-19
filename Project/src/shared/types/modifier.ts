@@ -156,8 +156,11 @@ export const UPGRADES = [
   // — ejemplo textual de la wiki: 3 × (1 + 0.30 + 0.75) = 6.15x. Base = 3x desde la v32 (era 2x).
   // Alcance ESTRICTO: solo la cabeza, no cualquier weak point (references/wiki/mechanics/enemy-body-parts.md).
   'WEAPON_ADD_HEADSHOT_MULT',
-  // ── WEAPON — perks flat incarnon (ADD_FLAT — post-escala, no amplificados) ─
+  // ── WEAPON — flat post-escala (ADD_FLAT — no amplificado por mods, entra después) ─
+  // No es sólo "incarnon": WEAPON_FLAT_CRIT_CHANCE también lo alimenta Arcane Avenger
+  // (arcane-stats.override.json) — el bucket es total_flat, la fuente no importa (#27).
   'WEAPON_FLAT_STATUS_CHANCE',
+  'WEAPON_FLAT_CRIT_CHANCE',
   // ── WEAPON — perks base incarnon (BASE_FLAT — se amplifican con mods ADD) ─
   'WEAPON_BASE_CRIT_CHANCE',
   'WEAPON_BASE_STATUS_CHANCE',
@@ -486,6 +489,7 @@ export const UPGRADE_MAP: Partial<Record<Upgrade, UpgradeMapEntry>> = {
   // references/wiki/mechanics/armor.md). El nodo base lo siembra getDNA() con
   // id = attr del par ADD (precedente: WEAPON_ADD_RELOAD_SPEED).
   WEAPON_FLAT_STATUS_CHANCE:        { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'ADD_FLAT' },
+  WEAPON_FLAT_CRIT_CHANCE:          { attr: 'WEAPON_ADD_CRIT_CHANCE',           op: 'ADD_FLAT' },
   WEAPON_BASE_CRIT_CHANCE:          { attr: 'WEAPON_ADD_CRIT_CHANCE',           op: 'BASE_FLAT' },
   WEAPON_BASE_STATUS_CHANCE:        { attr: 'WEAPON_ADD_STATUS_CHANCE',         op: 'BASE_FLAT' },
   WEAPON_BASE_DAMAGE:               { attr: 'WEAPON_ADD_DAMAGE',                op: 'BASE_FLAT' },

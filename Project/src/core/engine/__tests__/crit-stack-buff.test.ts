@@ -12,7 +12,7 @@ import { deriveInstance } from '../simulate/combat/damage-instance';
 import { CombatSimulator } from '../simulate/combat/CombatSimulator';
 import { EntityState } from '../simulate/EntityState';
 import { hostileEntity } from './hostile-entity';
-import { lanka } from '../fixtures/builds';
+import { lanka, lankaArcaneAvenger, LANKA } from '../fixtures/builds';
 import type { SimulationEntity } from '../contracts';
 import type { HitContext } from '../formulas/status/effect-behavior';
 
@@ -75,21 +75,33 @@ describe('simulateAttack LEE el bonus de crit del target (el gancho)', () => {
   });
 
   /**
-   * El término POST-escala de la fórmula de crit —`base × (1 + relativo) + absoluto`— existe
-   * construido en `formulas/common/crit-base.ts` como parámetro `absoluteCritBonus` **y no tiene
-   * emisor**: falta el token `WEAPON_FLAT_CRIT_CHANCE`, mientras su hermano
-   * `WEAPON_FLAT_STATUS_CHANCE` sí está en `UPGRADES` y en `UPGRADE_MAP`.
-   *
-   * `semantic/upgrade-tokens.md` §Registro de lo inexpresable lo declaraba *"no resoluble con el
-   * corpus local — requiere test in-game"*. **Ya no:** `references/wiki/mods/cats-eye.wikitext`
-   * §Notes da la fórmula textual con las dos fuentes del pool absoluto —
-   * `25% × (1 + 120% + 40%×(4−1)) + 60% + 45%` — donde el 60 es Cat's Eye y el 45 **Arcane Avenger**,
-   * hoy clasificado en el pool RELATIVO (`WEAPON_ADD_CRIT_CHANCE`) en `arcane-stats.override.json`.
-   *
-   * ⚠️ La bifurcación a resolver ANTES de tocar nada: el término entra por el **nodo** (bucket
-   * `total_flat`, que la fórmula general ya suma post-escala) o por la **fórmula** — no por los dos,
-   * o el bonus se duplica en silencio. Es la frontera de `arch-decisions §19`.
+   * El término POST-escala de la fórmula de crit —`base × (1 + relativo) + absoluto`— resuelto
+   * (#27): `WEAPON_FLAT_CRIT_CHANCE` acuñado en `UPGRADES`/`UPGRADE_MAP`, par exacto de
+   * `WEAPON_FLAT_STATUS_CHANCE` (`{ attr: 'WEAPON_ADD_CRIT_CHANCE', op: 'ADD_FLAT' }`). La
+   * bifurcación de `arch-decisions §19` (nodo vs fórmula) se resolvió por el **nodo**:
+   * `deriveInstance` ya lee `WEAPON_ADD_CRIT_CHANCE.final`, y la fórmula general del nodo
+   * (`final = (withMods + total_flat) × multiplicative`) compone el término absoluto sin que
+   * `crit-base.ts::absoluteCritBonus` participe — confirmado sin consumidores en producción, así
+   * que no hay doble camino posible. Arcane Avenger (45pp) reclasificado del pool relativo
+   * (`WEAPON_ADD_CRIT_CHANCE`/`mods_add_pct`) al absoluto (`WEAPON_FLAT_CRIT_CHANCE`/`total_flat`)
+   * en `arcane-stats.override.json`.
    */
-  it.todo('el pool ABSOLUTO de crit tiene emisor: acuñar `WEAPON_FLAT_CRIT_CHANCE` — #27');
-  it.todo('el término absoluto entra por el NODO o por la FÓRMULA, no por los dos — §19, riesgo de doble conteo — #27');
+  // Arcane Avenger es "On Damaged: 21% chance for X% Crit" — condicional a `on_damaged`. El motor
+  // NO lo proyecta activo por default (`evalCondition` exige `flags[cond] === true`, sin default
+  // estático para este gate); se activa explícito, mismo patrón que `channel-routing.test.ts`.
+  const ON_DAMAGED = { flags: { on_damaged: true } };
+
+  it('el pool ABSOLUTO de crit tiene emisor: Arcane Avenger aterriza en total_flat, no en mods_add_pct', () => {
+    const node = consume(lankaArcaneAvenger(), ON_DAMAGED).weapon(LANKA).node('WEAPON_ADD_CRIT_CHANCE');
+    expect(node.total_flat).toBeCloseTo(45, 5);
+    expect(node.mods_add_pct).toBeCloseTo(0, 5); // ya no vive acá — reclasificado (#27)
+  });
+
+  it('el término absoluto entra UNA sola vez — sin doble conteo entre nodo y fórmula', () => {
+    const baseNode = consume(lanka('charged_shot'), { flags: {} }).weapon(LANKA).node('WEAPON_ADD_CRIT_CHANCE');
+    const withAvenger = consume(lankaArcaneAvenger(), ON_DAMAGED).weapon(LANKA).node('WEAPON_ADD_CRIT_CHANCE');
+    // final = (base + base_flat) × (1 + mods_add_pct/100) + total_flat — el +45 aparece UNA vez,
+    // sumado tal cual al final sin pasar por el factor multiplicativo de mods (que acá es 1×).
+    expect(withAvenger.final).toBeCloseTo(baseNode.final + 45, 5);
+  });
 });

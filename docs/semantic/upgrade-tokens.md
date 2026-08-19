@@ -523,7 +523,7 @@ el desvío convierte un error detectable en uno invisible.
 
 Lo que el vocabulario **no** puede decir hoy, con su motivo y su condición de reapertura. Existe
 porque el modo de falla real de este sistema no es el token equivocado: es el **descarte silencioso**.
-De **1448** `upgrade_type` no-nulos en los overrides, **216 (14,9%) no resuelven**, repartidos en **104
+De **1450** `upgrade_type` no-nulos en los overrides, **216 (14,9%) no resuelven**, repartidos en **104
 tokens distintos**. El objetivo declarado **no es cero descartes**: es **cero descartes sin nombre**.
 Las filas de abajo cubren los 216 — cada una con la medición que la sostiene, no con el razonamiento
 que la sugirió.
@@ -531,7 +531,7 @@ que la sugirió.
 > **El oráculo es `npm run measure:tokens`, no esta página.** La herramienta parsea el vocabulario
 > desde `modifier.ts`, así que ella no puede driftear respecto del código; **los números de arriba son
 > una foto suya, y una foto envejece**. Se refrescan corriéndola, nunca editándolos a mano — y quien
-> los use para decidir algo la corre primero. Al leer su salida: el `111` de la cabecera es el **tamaño
+> los use para decidir algo la corre primero. Al leer su salida: el `112` de la cabecera es el **tamaño
 > del vocabulario**, no la cuenta de tokens descartados; confundirlos es fácil y ya pasó.
 >
 > Mide **una** de las dos compuertas (que el token resuelva); la otra —que el modifier **aterrice** en
@@ -548,7 +548,6 @@ que la sugirió.
 | caso | por qué no es expresable | reapertura |
 |---|---|---|
 | `base_add_pct` | Bucket sin token y sin emisor: el vocabulario no tiene segmento que produjera `BASE_ADD_PCT`. Su caso motivador (crit relativo, Point Strike) lo resuelve `mods_add_pct`. | Un mecanismo que necesite un pool porcentual que componga **multiplicativamente** con `mods_add_pct`. Acta en [`../domains/engine/attribute-node-contract.md`](../domains/engine/attribute-node-contract.md). |
-| `absoluteCritBonus` | El término post-escala de la fórmula de crit no tiene token: falta `WEAPON_FLAT_CRIT_CHANCE`, mientras su hermano `WEAPON_FLAT_STATUS_CHANCE` sí existe. | Clasificar qué fuentes reales le pertenecen (candidato: Arcane Avenger, hoy en el pool relativo). **No resoluble con el corpus local** — `critical-hits.md` da la fórmula y no enumera fuentes. Requiere test in-game. |
 | `Healing Return` | Familia CO con efecto **no-daño**: escala por N status igual que CO, pero cura. No converge al nodo de CO (`WEAPON_ADD_DAMAGE`) y no tiene nodo propio. Pide op de familia + nodo + arista al estado del target: tres cosas nuevas para **1 caso** (D-20 puerta 3). | Un 2º caso de "efecto no-daño escalado por N tipos de status". |
 | Lifesteal de arma | 4 portadores de **una misma forma** (% del daño → HP): Life Strike, Winds of Purity, Amalgam Daikyu Target Acquired (`WEAPON_LIFE_STEAL`) y Exodia Might (`WEAPON_ADD_LIFESTEAL`, el rename D-6 aplicado a 1 de 4). Pasa la puerta 1 de D-20 y el precedente `WEAPON_FLAT_PUNCH_THROUGH` neutraliza la objeción "sin consumidor" — **lo que falta es la decisión, no la evidencia**. | Unificar los dos tokens y acuñar, o declarar el eje de sustain fuera de scope. |
 | multishot en melee | El `{dónde}` **no es taxonómico**: depende de la mecánica del arma (glaive / gunblade / incarnon), no de su clase. Ninguna sub-familia lo expresa. | Modelar el eje mecánica-de-arma, hoy inexistente. |
