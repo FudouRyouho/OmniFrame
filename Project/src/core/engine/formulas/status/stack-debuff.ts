@@ -60,10 +60,14 @@ export function stackDebuffValue(law: StackDebuffLaw, n: number): number {
  * mientras `count ≤ cap` y **lo colapsa hacia abajo** en cuanto lo supera, que es el estado que
  * produce un segundo emisor con cap mayor (19 por `3 × Tauforged Emerald` contra un cap 10).
  *
- * ⚠️ **El `cap` sigue llegando como constante de módulo.** De quién es ese número —del emisor, del
- * receptor que fuerza— es la cadena de cuatro eslabones de §17, que no está construida: esta función
- * es su punto de entrada, no su reemplazo. Y *"refresca el más viejo"* se observa acá como *"el count
- * no cambia"*; refrescar de verdad exige instancias con timer propio (`OQ-ENGINE-16`).
+ * **De quién es el `cap` lo resuelve el caller, y esta función no lo sabe.** La cadena de §17 corre en
+ * `corrosionBehavior`, que lo pasa ya resuelto por `resolveParam` (emisor: shard → nodo → instancia;
+ * receptor: `receiverMaxStacks`). Los otros cuatro behaviors de stack le pasan su constante de módulo
+ * — no por deuda sino porque **ninguna fuente conocida desvía sus caps**, que es una respuesta y no un
+ * hueco. Esta función es el punto de entrada de la cadena, no su reemplazo.
+ *
+ * ⚠️ *"Refresca el más viejo"* se observa acá como *"el count no cambia"*; refrescar de verdad exige
+ * instancias con timer propio (`OQ-ENGINE-16`).
  */
 export function applyStackProc(count: number, amount: number, cap: number): number {
 	return count >= cap ? count : Math.min(cap, count + amount);
