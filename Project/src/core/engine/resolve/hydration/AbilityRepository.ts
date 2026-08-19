@@ -28,6 +28,7 @@ import { resolveUpgradeEntry } from "@shared/types/modifier";
 import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing";
 import { makeInstance, type DamageInstance } from "../../simulate/combat/damage-instance";
 import { resolveDamageTypeTag } from "@shared/types";
+import { hasAbilityCritException, calculateGyreCrit } from "../../formulas/ability/ability-crit";
 import { emitterLawDeviations } from "../../contracts/law-params";
 import { ABILITY_ELIGIBLE_POOLS, isCombinedDamageToken } from "../../contracts/damage-logic";
 import { globalDamageBucketFactor } from "../../formulas/weapon/stat-accumulator";
@@ -280,6 +281,14 @@ export class AbilityRepository {
       1,
     );
 
+    // Excepción de crit de habilidad (#9, ability-crit.ts) — hoy sólo Gyre, aproximación v1 (+10%
+    // flat, hardcodeado; el mecanismo real es condition-scaled, re-alcanzado en #33). Cathode Grace
+    // no está cableado (el augment no existe en `mods.json`) — se declara el gap, no se aproxima.
+    const casterUniqueName = entities.find(e => e.id === sourceId)?.unique_name ?? '';
+    const critResult = hasAbilityCritException(casterUniqueName)
+      ? calculateGyreCrit({ passiveBaseCritPct: 10, cathodeGraceCritPct: 0, hasCathodeGrace: false })
+      : null;
+
     const emissions: AbilityEmission[] = [];
 
     for (const group of entry.groups) {
@@ -328,12 +337,20 @@ export class AbilityRepository {
         // por peso sobre un solo tipo da exactamente un proc de ese tipo. Cuando aparezca una emisión
         // que fuerce un efecto **ausente de su propio daño**, ahí el eje separado se gana el lugar.
         //
-        // Crit queda en 0: el override no publica crit de habilidad — hueco de dato, no ley — #4.
+        // Crit: la excepción conocida (Gyre) ya cablea su valor real (arriba); el resto de las
+        // habilidades sigue en 0 — el override no publica crit de habilidad como dato para el caso
+        // general, hueco re-alcanzado en #33 (antes #4).
+        //
+        // `moddedCritChance` de `calculateGyreCrit` viene en DECIMAL (0-1); `DamageInstance.critChance`
+        // es PORCENTAJE — `deriveInstance` lee `.final` del nodo directo sin dividir (a diferencia de
+        // `statusChance`, que sí divide /100). Conversión obligatoria acá o el crit de Gyre queda 100×
+        // más chico que el real.
         emissions.push({
           label,
           instance: makeInstance({
             damageByType: { [type]: value },
             statusChance: 1,
+            ...(critResult ? { critChance: critResult.moddedCritChance * 100, critMult: critResult.moddedCritDamage } : {}),
             ...(Object.keys(lawDeviations).length > 0 ? { lawDeviations } : {}),
           }),
         });

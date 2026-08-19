@@ -1,26 +1,39 @@
 /**
  * @module ability-crit
- * @description Crits de habilidades — subset canonico v1 (caso Gyre unicamente, regla general sin
- *   medir — #9).
+ * @description Crits de habilidades — subset canonico v1 (caso Gyre unicamente, cableado a
+ *   producción en `AbilityRepository.getEmissions`).
  *
- * En Warframe, la gran mayoria de habilidades NO pueden hacer crit. Las habilidades
- * por defecto tienen 0% de crit chance y no se benefician de mods de crit de armas.
+ * El eje real tiene TRES estados, no dos:
  *
- * ⚠️ Esa premisa es más gruesa de lo que sostiene — el eje real tiene tres estados
- * (`N/A` / `0%` / crit base propio), no dos — #3.
+ *   1. **N/A** — la habilidad no emite `DamageInstance` en absoluto (buffs/CC puros: Molecular
+ *      Prime, Iron Skin). Estructural: el eje de crit no aplica, no es un valor del campo
+ *      `critChance` — no hay campo, porque no hay instancia.
+ *   2. **0% (default)** — toda habilidad que SÍ emite daño entra acá por default. La wiki lo dice
+ *      así (*"Most Warframe abilities cannot inflict critical hits"*,
+ *      https://wiki.warframe.com/w/Critical_Hit#Abilities), y hoy el override no publica ningún
+ *      dato de crit propio salvo la excepción nombrada — el hueco de captura general para una
+ *      segunda excepción hipotética sigue abierto (#33).
+ *   3. **Crit base propio** — excepción nombrada con dato real. Hoy sólo Gyre (abajo).
  *
- * No se reescribe en este pase: sigue sin consumidor (`ability-instance.test.ts` lo ancla), y hacerlo
- * pide antes decidir de dónde sale el crit base de una habilidad, que es dato de la tabla y no ley.
+ * Excepciones canonicas confirmadas por wiki:
  *
- * Excepciones canonicas confirmadas por wiki (unicas soportadas en v1):
+ *   0. **Exalted Weapons** (categoría): no son "habilidades" en este engine — cuando se modelen
+ *      serán armas (`OQ-ENGINE-11`), y el crit lo resuelve el camino de arma, no este módulo.
  *
- *   1. **Gyre** (Warframe):
- *      - Pasiva: todas las habilidades de Gyre tienen +10% de crit chance base.
+ *   1. **Gyre** (Warframe) — única modelada en v1:
+ *      - `passiveBaseCritPct: 10` es la aproximación v1: +10% de crit chance base, siempre activo.
+ *        ⚠️ El texto real de la pasiva (`passives.json`) dice *"10% chance to deal critical damage
+ *        for each Electrical status that affects the enemy"* — no es un flat siempre-activo, parece
+ *        condition-scaled (por stack de Electrical). Sin verificar contra wiki — re-alcanzado en #33,
+ *        junto con la nota `//!` del usuario en `references/game-ui/Gyre.md:53` que ya marcaba esta
+ *        misma incertidumbre.
  *      - Cathode Grace (augment de Coil Horizon): +50% crit chance adicional a
  *        armas Y habilidades mientras Coil Horizon este activo.
  *        Valores por rank del augment: r0=+25%, r1=+30%, r2=+40%, r3=+50%.
  *      - Cathode Grace NO requiere activar Coil Horizon constantemente; el buff
  *        permanece activo hasta que Coil Horizon expire.
+ *      - Cathode Grace no está cableado (el augment no existe en `mods.json` — #33); v1 sólo
+ *        aplica la pasiva.
  *      - Fuente: https://wiki.warframe.com/w/Gyre/Abilities
  *
  *   2. **Voruna** (Warframe) — Ulfrun's Descent:

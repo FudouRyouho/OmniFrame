@@ -24,6 +24,8 @@
  * su renglón de UI. Acá se toma la **forma**, no el renglón.
  */
 import { describe, it, expect } from 'vitest';
+import { loadEngineData } from '../bootstrap/engine-data';
+import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { abilityInstance, hitContextOf } from './ability-instance';
 import { makeIsolatedTarget } from './status/harness';
 import { syntheticHostile } from './hostile-entity';
@@ -34,6 +36,10 @@ import { expectedProcEvents } from '../formulas/status/proc-population';
 import { CORROSIVE_MAX_STACKS } from '../formulas/status/stack-debuff';
 import { modifies } from '../formulas/common/param-deviation';
 import { effectOfDamageType, type StatusEffect } from '@shared/types';
+import { AbilityRepository } from '../resolve/hydration/AbilityRepository';
+import type { SimulationEntity } from '../contracts';
+
+await loadEngineData(new NodeAdapter());
 
 /**
  * FIREBALL COMO ESTRUCTURA, NO COMO IDENTIDAD.
@@ -271,9 +277,48 @@ describe('⭐ la física del target no pregunta quién emitió', () => {
   });
 });
 
+/**
+ * `ability-crit.ts` TIENE SU PRIMER CONSUMIDOR REAL (#9) — no el DSL `abilityInstance()` (que es un
+ * stand-in deliberado de la ley), sino `AbilityRepository.getEmissions` en producción: la excepción
+ * conocida (Gyre) ya cablea su crit real, y el resto de las habilidades sigue en el default de la
+ * ley (0), no en un hardcode ciego.
+ *
+ * El caster de la excepción y la habilidad emitida son deliberadamente independientes (Gyre casteando
+ * su propia Arcsphere en un test, cualquier otro warframe casteándola en el otro): lo que se ejerce es
+ * que `hasAbilityCritException` mira **quién castea**, no cuál habilidad — mismo principio que "la
+ * física del target no pregunta quién emitió" un poco más arriba en este archivo.
+ */
+describe('`ability-crit.ts` tiene su primer consumidor real (#9)', () => {
+  const GYRE_ARCSPHERE = '/Lotus/Powersuits/PowersuitAbilities/GyrePulseAbility';
+
+  const casterDe = (uniqueName: string): SimulationEntity => ({
+    id: 'caster', unique_name: uniqueName, domain: 'warframe', kind: 'warframe',
+    persistence: 'PE', tags: ['warframe'], attributes: {},
+  });
+
+  it('Gyre: la excepción conocida cablea su crit real (+10% flat, aproximación v1 — #33)', () => {
+    const gyre = casterDe('/Lotus/Powersuits/Gyre/Gyre');
+    const emissions = AbilityRepository.getEmissions(GYRE_ARCSPHERE, gyre.id, [gyre]);
+    expect(emissions.length).toBeGreaterThan(0);
+    for (const e of emissions) {
+      expect(e.instance.critChance).toBeCloseTo(10, 5);  // calculateGyreCrit: 0.10 decimal → 10%
+      expect(e.instance.critMult).toBeCloseTo(1.5, 5);   // 150% default de habilidad, sin mods
+    }
+  });
+
+  it('cualquier otro caster: la ley por default sigue en 0 — no hay excepción sin nombrar', () => {
+    const otro = casterDe('/Lotus/Powersuits/Volt/Volt');
+    const emissions = AbilityRepository.getEmissions(GYRE_ARCSPHERE, otro.id, [otro]);
+    expect(emissions.length).toBeGreaterThan(0);
+    for (const e of emissions) {
+      expect(e.instance.critChance).toBe(0);
+      expect(e.instance.critMult).toBe(1);
+    }
+  });
+});
+
 describe('Lo que el banco EXPONE y no resuelve', () => {
   // El sesgo del token de daño **se cerró** — ver el bloque ⭐ de abajo, que lo mide en verde.
-  it.todo('`ability-crit.ts` tiene su primer consumidor — hoy sólo cubre la excepción (Gyre), no la ley — #9');
   // §2: no hay modelo ontológico único. Fireball (proyectil → daño y nada más) casi no necesita
   // fórmula propia; una multi-verbo no se deriva de su renglón de UI. La partición es por VERBO (§15).
   it.todo('la partición emisor simple ⊥ multi-verbo: qué habilidad necesita fórmula dedicada y cuál no');
