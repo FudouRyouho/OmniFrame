@@ -266,6 +266,21 @@ export function lankaArcane(profile = 'charged_shot'): Scene {
   return scene(withArcanes(player(lanka(profile)), 'primary', arcaneSlots({ 0: { itemId: PRIMARY_MERCILESS, rank: 5 } })));
 }
 
+// ─── Arcane Avenger sobre Lanka (pool ABSOLUTO de crit chance, #27) ──────────────
+
+export const ARCANE_AVENGER = '/Lotus/Upgrades/CosmeticEnhancers/Defensive/CritChanceOnDamage';
+
+/**
+ * Lanka + Arcane Avenger rank 5 (45pp) — ejerce `WEAPON_FLAT_CRIT_CHANCE` (#27): el 45 debe
+ * aterrizar en `total_flat` de `WEAPON_ADD_CRIT_CHANCE`, no en `mods_add_pct` (ahí vivía antes de
+ * la reclasificación — ver `arcane-stats.override.json`). Condicional a `on_damaged`
+ * (`evalCondition` no lo proyecta activo por default) — quien consuma este fixture debe pasar
+ * `{ flags: { on_damaged: true } }` para ver el bonus aterrizar.
+ */
+export function lankaArcaneAvenger(profile = 'charged_shot'): Scene {
+  return scene(withArcanes(player(lanka(profile)), 'primary', arcaneSlots({ 0: { itemId: ARCANE_AVENGER, rank: 5 } })));
+}
+
 // ─── Cascadia Flare (V — CAS-1, .working/investigacion-source-state-cascadia-flare.md) ────
 
 export const CASCADIA_FLARE = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/SecondaryDamageOnHeatProc';

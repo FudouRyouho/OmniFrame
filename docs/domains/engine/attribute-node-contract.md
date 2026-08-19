@@ -99,9 +99,7 @@ totalCritChance = baseCritChance × (1 + relativeCritBonus) + absoluteCritBonus
 
 - `baseCritChance` → **`base` + `base_flat`**. Lo que llena `base_flat` es `WEAPON_BASE_CRIT_CHANCE`, cuyos 66 emisores son perks incarnon cuyo texto de juego dice literal *"Increase **Base** Critical Chance"*. Se amplifica con los mods relativos, que es exactamente lo que `(base + base_flat) × (1 + mods_add_pct)` modela. **Correcto.**
 - `relativeCritBonus` → **`mods_add_pct`**. `WEAPON_ADD_CRIT_CHANCE` con op `ADD`. Point Strike entra por acá.
-- `absoluteCritBonus` → **sin token**. Es el término post-escala, así que su bucket sería `total_flat` y su segmento D-6 sería `FLAT` — pero **`WEAPON_FLAT_CRIT_CHANCE` no existe**, mientras su hermano `WEAPON_FLAT_STATUS_CHANCE` sí. La asimetría es real y verificable en `UPGRADES`.
-
-> El `⚠️ sin verificar` que este párrafo arrastraba planteaba mal el problema: no había un mapeo equivocado de `absoluteCritBonus`, había **dos términos distintos leídos como uno**. `base_flat` nunca modeló el término absoluto — modela el aditivo-al-base, y lo hace bien. Lo que queda abierto es más chico y más preciso: **el término absoluto no tiene puerta de vocabulario**, y clasificar qué fuentes reales le pertenecen (candidato: Arcane Avenger, hoy en `WEAPON_ADD_CRIT_CHANCE`/relativo) **no se puede resolver con el corpus local** — `references/wiki/mechanics/critical-hits.md` da la fórmula pero no enumera qué fuente cae en cada término. Requiere test in-game. Registrado como inexpresable en [`../../semantic/upgrade-tokens.md`](../../semantic/upgrade-tokens.md).
+- `absoluteCritBonus` → **`total_flat`**, vía `WEAPON_FLAT_CRIT_CHANCE` (par exacto de `WEAPON_FLAT_STATUS_CHANCE`, misma convergencia `{ attr: 'WEAPON_ADD_CRIT_CHANCE', op: 'ADD_FLAT' }`). Su único emisor conocido es Arcane Avenger (`arcane-stats.override.json`), reclasificado del pool relativo. `crit-base.ts::absoluteCritBonus` no participa — no tiene consumidor en producción, así que el término entra por el nodo una sola vez.
 
 ---
 

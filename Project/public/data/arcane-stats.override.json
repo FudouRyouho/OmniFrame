@@ -142,12 +142,13 @@
               37.5,
               45
             ],
-            "upgrade_type": "WEAPON_ADD_CRIT_CHANCE"
+            "upgrade_type": "WEAPON_FLAT_CRIT_CHANCE"
           }
         ],
         "condition": "on_damaged",
         "notes": [
-          "engine:note — proc:21% duration:12s"
+          "engine:note — proc:21% duration:12s",
+          "engine:note — reclasificado de WEAPON_ADD_CRIT_CHANCE (relativo) a WEAPON_FLAT_CRIT_CHANCE (absoluto) — cats-eye.wikitext §Notes da la fórmula textual con este 45pp como término post-escala — #27"
         ]
       }
     ]
