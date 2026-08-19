@@ -214,11 +214,11 @@ Los `[ref: X]` apuntan a `references/wiki/mechanics/X`. Tokens con `⚠` requier
 | `WEAPON_ADD_ELECTRICITY_DAMAGE` | elemental | `C1` | Stormbringer, Convulsion, High Voltage |
 | `WEAPON_ADD_TOXIN_DAMAGE` | elemental | `C1` | Infected Clip, Malignant Force, Fever Strike |
 | `WEAPON_ADD_BLAST_DAMAGE` | combined | `C1` | Sin mods de adición directa conocidos — definido por completitud |
-| `WEAPON_ADD_CORROSIVE_DAMAGE` | combined | `C1` | Sin mods de adición directa conocidos — definido por completitud |
+| `WEAPON_ADD_CORROSIVE_DAMAGE` | combined | `C1` | Melee Exposure (arcano) — daño combinado externo, `isCombinedDamageToken` (#30) |
 | `WEAPON_ADD_GAS_DAMAGE` | combined | `C1` | Sin mods de adición directa conocidos — definido por completitud |
 | `WEAPON_ADD_MAGNETIC_DAMAGE` | combined | `C1` | Magnetic Might |
 | `WEAPON_ADD_RADIATION_DAMAGE` | combined | `C1` | Containment Breach, Atomic Fallout, Radiated Reload |
-| `WEAPON_ADD_VIRAL_DAMAGE` | combined | `C1` | Damzav-Vati |
+| `WEAPON_ADD_VIRAL_DAMAGE` | combined | `C1` | Damzav-Vati; Nourish (Grendel) — daño combinado externo, `isCombinedDamageToken` (#30) |
 | `WEAPON_ADD_VOID_DAMAGE` | special | `C1` | Xaku (añade Void a armas vía habilidad — override de arma) |
 | `WEAPON_ADD_TAU_DAMAGE` | special | `C1` | Venato unique trait |
 | `WEAPON_ADD_TRUE_DAMAGE` | special | `C1` | Mecánicas de ejecución (Innodem y similares) |

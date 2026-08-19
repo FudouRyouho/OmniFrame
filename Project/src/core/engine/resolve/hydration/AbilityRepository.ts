@@ -29,7 +29,7 @@ import { resolveChannelEntities, resolveFamilyEntities } from "./channel-routing
 import { makeInstance, type DamageInstance } from "../../simulate/combat/damage-instance";
 import { resolveDamageTypeTag } from "@shared/types";
 import { emitterLawDeviations } from "../../contracts/law-params";
-import { ABILITY_ELIGIBLE_POOLS } from "../../contracts/damage-logic";
+import { ABILITY_ELIGIBLE_POOLS, isCombinedDamageToken } from "../../contracts/damage-logic";
 import { globalDamageBucketFactor } from "../../formulas/weapon/stat-accumulator";
 
 // Puente vocabulario-de-carta → nodo del grafo para el eje de scaling (`upgrade_by`).
@@ -176,6 +176,30 @@ export class AbilityRepository {
             : resolveFamilyEntities(token.split('_')[0], entities);
 
           targetIds.forEach(targetId => {
+            // Daño combinado (#30): mismo motivo que ArcaneRepository — `target.op` (ADD, contra
+            // `mods_add_pct`) asume un nodo ya poblado por el arma. Un pool paralelo (Nourish:
+            // "+75% Viral") no lo tiene — `mods_add_pct` sobre `base:0` (nodo recién sembrado por
+            // `isCombinedDamageToken` en StaticHydrator) daría siempre 0. `ADD_FLAT` = `%/100 ×
+            // innateBaseTotal` DEL ARMA DESTINO (no del emisor) — `source_attribute` sigue
+            // aplicando el escalado × Ability Strength encima, igual que cualquier otro modifier.
+            if (isCombinedDamageToken(target.attr)) {
+              const weapon = entities.find(e => e.id === targetId);
+              const innateBaseTotal = weapon?.dot_scaling?.innateBaseTotal ?? 0;
+              modifiers.push(makeModifier(
+                {
+                  id: `ability:${abilityId}:g${gIdx}:s${sIdx}:${target.attr}:${targetId}`,
+                  source_id: `Ability:${abilityId}`,
+                  target_entity: targetId,
+                  target_attribute: target.attr,
+                  source_entity: sourceId,
+                  ...(source_attribute ? { source_attribute } : {}),
+                },
+                'ADD_FLAT',
+                (value / 100) * innateBaseTotal,
+              ));
+              return;
+            }
+
             modifiers.push(makeModifier(
               {
                 id: `ability:${abilityId}:g${gIdx}:s${sIdx}:${target.attr}:${targetId}`,

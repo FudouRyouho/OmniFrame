@@ -4,6 +4,7 @@
  */
 
 import { DAMAGE_TYPES, isDamageType, type DamageType } from "@shared/types";
+import { ELEMENT_COMBINATIONS } from "../formulas/common/status-base";
 
 // La ley de combinación elemental (SSoT, type-keyed) vive en `formulas/common/status-base.ts`
 // (`ELEMENT_COMBINATIONS` / `resolveElementalCombination` / `PRIMARY_ELEMENTS`). El token-space la
@@ -59,6 +60,17 @@ const _DAMAGE_TOKEN_SET = new Set(WEAPON_DAMAGE_TOKENS);
 
 export function isWeaponDamageToken(value: string): boolean {
   return _DAMAGE_TOKEN_SET.has(value);
+}
+
+// Los 6 tipos COMBINADOS (Viral/Corrosive/Blast/Gas/Magnetic/Radiation) — derivados de
+// `ELEMENT_COMBINATIONS` (SSoT, `status-base.ts`), no listados a mano. `DamageCombiner` sólo los
+// materializa a partir de los mods PROPIOS del arma; una fuente externa (ability/arcano) que apunte
+// a uno de estos tokens en un arma que no lo compone hoy no aterriza — filtro del sembrado
+// condicional que lo resuelve, `StaticHydrator.ts` — #30.
+const _COMBINED_DAMAGE_TOKEN_SET = new Set(ELEMENT_COMBINATIONS.map(c => damageTokenFromType(c.result)));
+
+export function isCombinedDamageToken(value: string): boolean {
+  return _COMBINED_DAMAGE_TOKEN_SET.has(value);
 }
 
 /**

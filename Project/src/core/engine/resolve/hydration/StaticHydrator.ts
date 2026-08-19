@@ -14,7 +14,7 @@ import type { MoldedIntent } from "./space";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
-import { isWeaponDamageToken, damageTypeFromToken, GLOBAL_DAMAGE_POOLS } from "../../contracts/damage-logic";
+import { isWeaponDamageToken, isCombinedDamageToken, damageTypeFromToken, GLOBAL_DAMAGE_POOLS } from "../../contracts/damage-logic";
 import { lawParamOf } from "../../contracts/law-params";
 import type { DamageType } from "@shared/types";
 
@@ -141,7 +141,7 @@ export class StaticHydrator {
       // Se leen por `Object.values`: la clave no participa de nada, por eso el poblador no la valida.
       if (intent.arcanes) {
         Object.values(intent.arcanes).forEach(arc => {
-          modifiers.push(...ArcaneRepository.getModifiers(arc.uniqueName, arc.rank, intent.entity_id));
+          modifiers.push(...ArcaneRepository.getModifiers(arc.uniqueName, arc.rank, intent.entity_id, entity));
         });
       }
 
@@ -383,19 +383,31 @@ export class StaticHydrator {
       );
     }
 
-    // ── Nodo de parámetro de ley: nace SÓLO si alguien lo declara ───────────────────────
-    // Un desvío de parámetro no es un atributo, así que no viene en el molde de ninguna entidad y
-    // `resolveNode` (`if (!node) return`) lo descartaría. Se siembra acá, en la entidad que el ruteo
-    // ya eligió, y con base 0 — el neutro de un `add`.
+    // ── Nodos que nacen SÓLO si algo los declara — tabla de moldes, no un caso a la vez ─
+    // Un token puede ser condicional (no es identidad del portador) y aun así tener un neutro
+    // VERIFICABLE — a diferencia de `AVATAR_ADD_SLIDE_SPEED` (acuñado sin nodo, sin base
+    // verificable en ninguna fuente, `upgrade-tokens.md:420-421`). `resolveNode`
+    // (`if (!node) return`) descartaría el modifier antes de que `FAMILY_RESOLVERS`/el acumulador
+    // genérico lo mire. Se siembra acá, en la entidad que el ruteo ya eligió, con base 0 — el
+    // neutro de un `add`.
     //
     // ⚠️ **Condicional a propósito, y es la diferencia con `GLOBAL_DAMAGE_POOLS`.** Aquéllos se
-    // siembran en toda arma porque el pool existe siempre (vacío ⇒ ×1.0). Un parámetro de ley no:
-    // `vocabulary.md §6` fija que **callar ≠ declarar un valor neutro**, y un nodo sembrado en cero
-    // en las tres armas diría *"declaro que no desvío"* en vez de *"no hablo"*. Hoy la diferencia no
-    // se nota con `add` (0 es neutro); el día que un portador declare un `replace` o un techo por
-    // nodo, sembrar de más cambia el resultado.
+    // siembran en toda arma porque el pool existe siempre (vacío ⇒ ×1.0). Estos no: `vocabulary.md
+    // §6` fija que **callar ≠ declarar un valor neutro**, y un nodo sembrado en toda arma diría
+    // *"declaro que no desvío/combino"* en vez de *"no hablo"*. Hoy la diferencia no se nota con
+    // `add` (0 es neutro); el día que un portador declare un `replace` o un techo por nodo, sembrar
+    // de más cambia el resultado.
+    //
+    // Dos predicados hoy — mismo mecanismo, distinto molde de origen:
+    //   - `lawParamOf` — el atributo NUNCA es identidad del portador; sólo lo externo lo declara.
+    //   - `isCombinedDamageToken` — el atributo SÍ puede ser identidad del portador (el arma lo
+    //     compone por sus propios mods, vía `DamageCombiner`, arriba en este mismo método) — pero
+    //     cuando NO lo es, una fuente externa (ability/arcano con daño combinado "paralelo",
+    //     Nourish/Melee Exposure) necesita el mismo neutro para poder aterrizar. Es el mismo Molde 3
+    //     con un segundo productor que los parámetros de ley no tienen — #30.
+    const LAZY_SEED_PREDICATES: ReadonlyArray<(attr: string) => unknown> = [lawParamOf, isCombinedDamageToken];
     for (const m of routed) {
-      if (!lawParamOf(m.target_attribute)) continue;
+      if (!LAZY_SEED_PREDICATES.some(p => p(m.target_attribute))) continue;
       const target = entityById.get(m.target_entity);
       if (!target || target.attributes[m.target_attribute]) continue;
       target.attributes[m.target_attribute] = {

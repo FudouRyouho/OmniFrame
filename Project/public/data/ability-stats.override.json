@@ -2097,7 +2097,8 @@
           {
             "label": "Damage Increase: <DT_VIRAL> |val1|%",
             "base_value": 75,
-            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH",
+            "upgrade_type": "WEAPON_ADD_VIRAL_DAMAGE"
           }
         ]
       },

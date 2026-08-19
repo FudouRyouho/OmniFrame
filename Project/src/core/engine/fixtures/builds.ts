@@ -287,6 +287,22 @@ export function laetumCascadiaFlare(): Scene {
   return scene(withArcanes(player(laetum()), 'secondary', arcaneSlots({ 0: { itemId: CASCADIA_FLARE, rank: 5 } })));
 }
 
+// ─── Melee Exposure (daño combinado EXTERNO, #30 — nodo ausente hasta que el arcano lo siembra) ──
+
+export const MELEE_EXPOSURE = '/Lotus/Upgrades/CosmeticEnhancers/Offensive/CorrosiveMeleePerAbilityCast';
+
+/**
+ * Laetum (con sus mods habituales — Pestilence=Toxin, Ice Storm=Cold, ya combinan a Viral por su
+ * cuenta) + Melee Exposure rank 5 (60%, `+X% Corrosive Damage on Melee strikes`). `DamageCombiner`
+ * nunca produce Corrosive para Laetum (necesitaría Electricity+Toxin, no Cold+Toxin) — antes de
+ * #30 el modifier resolvía y no aterrizaba en ningún lado (`[Hydration] Token conocido sin nodo`).
+ * Ejerce el caso puro: nodo inexistente, sembrado en `base:0` por `isCombinedDamageToken`,
+ * `ADD_FLAT` = 60% × `innateBaseTotal` (160, Impact+Slash de Laetum) = 96 Corrosive.
+ */
+export function laetumMeleeExposure(): Scene {
+  return scene(withArcanes(player(laetum()), 'secondary', arcaneSlots({ 0: { itemId: MELEE_EXPOSURE, rank: 5 } })));
+}
+
 // ─── Rhino (warframe net-new, fixture_01 Tier 1: base + mods + shards) ─────────────
 
 export const RHINO = '/Lotus/Powersuits/Rhino/Rhino';
@@ -402,6 +418,28 @@ export function rhinoRoar(): Scene {
   let p = withAbilities(player(rhino()), [{ uniqueName: RHINO_ROAR }]);
   p = withBearer(p, 'primary', { uniqueName: TIBERON_PRIME, rank: 30, activeProfile: 'base' });
   return scene(p);
+}
+
+// ─── Grendel + Nourish (daño combinado EXTERNO desde una HABILIDAD, #30) ──────────
+
+export const GRENDEL = '/Lotus/Powersuits/Devourer/Devourer';
+export const NOURISH = '/Lotus/Powersuits/PowersuitAbilities/DevourerConsumeAbility';
+
+/**
+ * Grendel limpio (strength 100%) + Nourish activo + Tiberon Prime SIN mods (Impact/Slash/Puncture
+ * puros, 48 de daño total, cero Cold/Toxin) — el arma no compone Viral por su cuenta, así que el
+ * nodo no existe hasta que Nourish lo siembra. Mismo caso que Melee Exposure pero por el lado
+ * `AbilityRepository` (fan-out por arma, `entities[]` ya completo en el post-loop). `Damage
+ * Increase: 75% Viral` → `ADD_FLAT` = 75% × 48 = 36 Viral.
+ */
+export function grendelNourish(): Scene {
+  let p = withAbilities(player(grendel()), [{ uniqueName: NOURISH }]);
+  p = withBearer(p, 'primary', { uniqueName: TIBERON_PRIME, rank: 30, activeProfile: 'base' });
+  return scene(p);
+}
+
+function grendel(): Scene {
+  return onfoot({ warframe: { uniqueName: GRENDEL, rank: 30, mods: modSlots({}) } }, NO_HOSTILE);
 }
 
 // ─── Volt + Speed (2ª habilidad hidratada — buff a un nodo de arma YA materializado) ──
@@ -730,8 +768,10 @@ export const BUILDS: Record<string, () => Scene> = {
   boltor: () => boltor({ perks: { 2: 'hunters_mantra', 4: 'commodores_fortune' }, mods: { 0: SERRATION } }),
   lanka_arcane: () => lankaArcane(),
   laetum_cascadia_flare: () => laetumCascadiaFlare(),
+  laetum_melee_exposure: () => laetumMeleeExposure(),
   rhino:  () => rhino(),
   rhino_roar: () => rhinoRoar(),
+  grendel_nourish: () => grendelNourish(),
   sicarus: () => sicarus({ perks: { 2: 'feigned_retreat' } }),
   ash: () => ash(),
   ash_shuriken: () => ashShuriken(),
