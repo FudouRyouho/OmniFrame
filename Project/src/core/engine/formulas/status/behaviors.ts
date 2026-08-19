@@ -16,8 +16,9 @@ import type { EffectBehavior, Resolucion } from "./effect-behavior";
 import { dotTickValue, type DotType } from "./dot-tick";
 import { tickTimes, type DotPulse } from "./dot-timeline";
 import {
-  stackDebuffValue, applyStackProc, receiverMaxStacks, infectionLaw, disruptionLaw, corrosionLaw,
-  WEAKENED_CRIT_LAW, COLD_CRIT_LAW, CORROSIVE_MAX_STACKS, STATUS_MAX_STACKS,
+  stackDebuffValue, applyStackProc, receiverMaxStacks, receiverInitialStrip,
+  infectionLaw, disruptionLaw, corrosionLaw,
+  WEAKENED_CRIT_LAW, COLD_CRIT_LAW, CORROSIVE_MAX_STACKS, CORROSIVE_INITIAL_STRIP_PCT, STATUS_MAX_STACKS,
 } from "./stack-debuff";
 import { resolveParam } from "../common/param-deviation";
 
@@ -96,9 +97,15 @@ const corrosionBehavior: EffectBehavior<StackState> = {
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };
   },
-  resolutionModifier(state) {
+  resolutionModifier(state, _t, receiver) {
     if (state.count <= 0) return {};
-    const strip = stackDebuffValue(corrosionLaw(), state.count);
+    // El strip inicial es el segundo parámetro de esta ley con desvío conocido, y entra por el canal
+    // del RECEPTOR: la marca de Hydroid (`replace(50)`), no un emisor. Antes se llamaba
+    // `corrosionLaw()` a secas, con el default horneado y sin puerta por donde desviarlo — #8.
+    const initialStrip = resolveParam(CORROSIVE_INITIAL_STRIP_PCT, {
+      receiver: receiverInitialStrip(receiver),
+    });
+    const strip = stackDebuffValue(corrosionLaw(initialStrip), state.count);
     return { armorMult: 1 - strip };
   },
 };

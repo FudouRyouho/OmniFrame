@@ -111,6 +111,20 @@ export class EntityState {
    */
   public current_overguard = 0;
   public current_overshield = 0;
+  /**
+   * Las marcas que este target **adquirió** — lo que le pasó, contra `entity.unit_class` que dice lo
+   * que es. Hoy sólo la de Hydroid (`HYDROID_MARK`), que sube el strip inicial de Corrosive — #8.
+   *
+   * **Vive acá y no en `SimulationEntity` porque es estado de C2, no dato del molde**: la escribe un
+   * evento de combate (*"Hydroid dañó a este enemigo"*), mientras `unit_class` se puebla en hidratación
+   * desde el catálogo. Nace vacía por el mismo motivo que las dos capas de arriba: **el origen no está
+   * modelado**. Escribirla en producción pide o bien identidad del source en la instancia —que hoy se
+   * descarta a propósito (`damage-instance.ts`: *"sin nada del emisor adentro: ni su identidad"*)— o
+   * bien la proyección estática del source-state que ya usa Roar (*"si está en la escena, se asume
+   * activo"*, `AbilityRepository`). Ninguno de los dos se construye acá: lo que este archivo aporta es
+   * la LEY y su canal, declarando la marca como se declara el Overguard — #33 lleva el poblador.
+   */
+  public marks: readonly string[] = [];
   /** Estado de proc por efecto — opaco a core (cada behavior modela su `S` distinto). */
   public effectStates: Map<StatusEffect, unknown>;
 
@@ -145,12 +159,13 @@ export class EntityState {
    * Lo que este portador aporta a la resolución de un parámetro de ley — el lado receptor de
    * `arch-decisions §17`.
    *
-   * **Se computa al llamar, no se guarda.** Hoy sólo devuelve identidad, que no cambia en `t`, así que
-   * congelarlo daría lo mismo; el próximo campo no —el cap de Cold a 4 depende de que el Overguard
-   * esté presente **en ese instante** (#11)— y para entonces la forma ya es la correcta.
+   * **Se computa al llamar, no se guarda**, y desde #8 eso dejó de ser indiferente: `unit_class` no
+   * cambia en `t` pero `marks` sí —una marca se adquiere en mitad del combate—, así que congelarlo
+   * daría un contexto viejo. El campo que falta sigue siendo la presencia de Overguard, de la que
+   * depende el cap de Cold a 4 **en ese instante** (#11).
    */
   public receiverContext(): ReceiverContext {
-    return { unit_class: this.entity.unit_class };
+    return { unit_class: this.entity.unit_class, marks: this.marks };
   }
 
   /**
@@ -296,7 +311,7 @@ export class EntityState {
   public getDamageMultiplier(layer: Layer, currentTime: number = 0): number {
     let mult = 1.0;
     for (const [effect, behavior] of this.activeBehaviors()) {
-      const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime).layerMult?.[layer];
+      const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime, this.receiverContext()).layerMult?.[layer];
       if (m !== undefined) mult *= m;
     }
     return mult;
@@ -322,7 +337,7 @@ export class EntityState {
   public getEffectiveArmor(currentTime: number): number {
     let armor = this.base_armor;
     for (const [effect, behavior] of this.activeBehaviors()) {
-      const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime).armorMult;
+      const m = behavior.resolutionModifier?.(this.effectStates.get(effect), currentTime, this.receiverContext()).armorMult;
       if (m !== undefined) armor *= m;
     }
     return Math.max(0, armor);

@@ -15,7 +15,7 @@
  */
 
 import type { StatusEffect } from "@shared/types";
-import { deviationFor, forces, type DeviationTable, type ParamDeviation } from "../common/param-deviation";
+import { deviationFor, forces, modifies, type DeviationTable, type ParamDeviation } from "../common/param-deviation";
 import type { ReceiverContext } from "./effect-behavior";
 
 /** Parámetros de la LEY de Familia A para un efecto concreto. */
@@ -126,6 +126,44 @@ export function receiverMaxStacks(
 	const out: ParamDeviation[] = [];
 	for (const cls of receiver?.unit_class ?? []) {
 		const d = deviationFor(RECEIVER_MAX_STACKS[cls], effect);
+		if (d) out.push(d);
+	}
+	return out;
+}
+
+/** La marca que Hydroid deja en todo enemigo que haya dañado (`warframes/hydroid/passive.md`). */
+export const HYDROID_MARK = "hydroid";
+
+/**
+ * Lo que una **marca** del receptor desvía sobre el strip inicial de Corrosive.
+ *
+ * Hermana de `RECEIVER_MAX_STACKS` y por el mismo criterio de ubicación: son coeficientes de una ley
+ * de status, y §17 los pone junto a su fórmula. Lo que cambia es **por dónde entra la llave** — aquélla
+ * se indexa por lo que el receptor **es** (`unit_class`, del molde), ésta por lo que le **pasó**
+ * (`marks`, adquirida). Mismo canal `receiver` de `resolveParam`, dos pobladores.
+ *
+ * `replace` y no `add`: la fuente dice *"50% **rather than** 26%"*, que es el discriminador textual
+ * que §17 usa para separar reemplazo de composición. La cuenta cierra contra la ley ya construida —
+ * a 10 stacks, `50 + 6×9 = 104%` topa en el techo físico de `1.0`, contra `26 + 6×9 = 80%` por
+ * defecto; la fuente declara ese 100% y por eso el techo es físico y no `f(maxStacks)`.
+ */
+export const RECEIVER_INITIAL_STRIP: Readonly<Record<string, ParamDeviation>> = {
+	[HYDROID_MARK]: modifies.replace(50),
+};
+
+/**
+ * Qué desvía el receptor sobre el strip inicial de Corrosive, por las marcas que porta.
+ *
+ * Devuelve lista por la misma razón que `receiverMaxStacks`: un receptor puede portar varias marcas y
+ * `applyDeviations` las compone entre sí — que para dos `replace` del mismo dueño **tira**, en vez de
+ * elegir en silencio. Hoy hay una sola marca conocida, así que ese camino no se ejerce todavía.
+ */
+export function receiverInitialStrip(
+	receiver: ReceiverContext | undefined,
+): readonly ParamDeviation[] {
+	const out: ParamDeviation[] = [];
+	for (const mark of receiver?.marks ?? []) {
+		const d = RECEIVER_INITIAL_STRIP[mark];
 		if (d) out.push(d);
 	}
 	return out;

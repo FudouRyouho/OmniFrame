@@ -44,6 +44,12 @@ export interface IsolatedTargetSpec {
    * igual que todo lo demás del banco: lo que se ejerce es la ley, no de dónde salió la clase.
    */
   unitClass?: readonly UnitClass[];
+  /**
+   * Qué le **pasó** — la otra llave del receptor, adquirida en vez de intrínseca al molde (marca de
+   * Hydroid, #8). Se declara con el mismo criterio que `overguard`: **el origen no está modelado**, y
+   * lo que este banco ejerce es la ley de consumo, no de dónde salió la marca.
+   */
+  marks?: readonly string[];
 }
 
 /** Construye un `EntityState` aislado, faction-neutral, con status declarado. */
@@ -64,6 +70,7 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EntityState {
   const state = new EntityState(entity);
   state.current_overguard  = spec.overguard ?? 0;
   state.current_overshield = spec.overshield ?? 0;
+  if (spec.marks) state.marks = spec.marks;
   // Status pre-declarado (C1): materializa el estado de proc del modelo unificado directamente.
   // corrosion/infection/disruption = `{ count }`; ignite (Heat) = su estado de pool + ignite stacks.
   if (spec.stacks) {

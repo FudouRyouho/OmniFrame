@@ -717,6 +717,18 @@ default                              ← del concepto, con la fórmula
 efecto: un receptor puede forzar el cap sin tocar el coeficiente — de ahí que cinco fragmentos esmeralda
 (`+10` al cap) no rindan nada contra un Acolyte.
 
+✅ **Los dos verbos corren**, y la ortogonalidad se mide en vez de afirmarse: un target con la clase
+Acolyte **y** la marca de Hydroid topea en 4 stacks *y* stripea con el coeficiente desviado
+(`__tests__/status/receiver-modifies.test.ts`). `modifica` entra por `resolutionModifier`, que desde
+entonces recibe el `ReceiverContext`.
+
+**Y el canal del receptor tiene dos pobladores, no uno.** `unit_class` indexa por lo que el receptor
+**es** —del molde, poblada en hidratación— y `marks` por lo que le **pasó** —adquirida, estado de C2 en
+`EntityState`—. Ambas alimentan el mismo campo `receiver` de `resolveParam` con el mismo tipo
+`ParamDeviation`: es un poblador nuevo, no un mecanismo nuevo. ⚠️ **La marca nace vacía**: su origen no
+está modelado, igual que el Overguard. Escribirla pide identidad del source en la instancia —hoy
+descartada a propósito— o la proyección estática del source-state que ya usa Roar.
+
 **No compiten y por eso el orden es indiferente:** cada desvío conocido toca un parámetro **distinto**.
 Cuando el receptor declara sobre uno, el desvío del emisor sobre **ese mismo** no llega. La regla no es
 *"el receptor gana"* —si lo fuera el esmeralda no funcionaría nunca—: es **precedencia, no dominancia**.
