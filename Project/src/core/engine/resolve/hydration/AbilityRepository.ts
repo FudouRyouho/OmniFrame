@@ -284,8 +284,11 @@ export class AbilityRepository {
     // Excepción de crit de habilidad (#9, ability-crit.ts) — hoy sólo Gyre, aproximación v1 (+10%
     // flat, hardcodeado; el mecanismo real es condition-scaled, re-alcanzado en #33). Cathode Grace
     // no está cableado (el augment no existe en `mods.json`) — se declara el gap, no se aproxima.
-    const casterUniqueName = entities.find(e => e.id === sourceId)?.unique_name ?? '';
-    const critResult = hasAbilityCritException(casterUniqueName)
+    // Sin caster (sourceId no resuelve) → sin excepción, mismo default silencioso que
+    // `resolveAbilityStrength` ya aplica acá arriba para el mismo caso (factor 1, sin warn) — no es
+    // un gap nuevo, es agnóstico-a-caster por diseño (`emit()` de ability-emission.test.ts lo ejerce).
+    const caster = entities.find(e => e.id === sourceId);
+    const critResult = hasAbilityCritException(caster?.unique_name ?? '')
       ? calculateGyreCrit({ passiveBaseCritPct: 10, cathodeGraceCritPct: 0, hasCathodeGrace: false })
       : null;
 
