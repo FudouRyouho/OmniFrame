@@ -155,7 +155,11 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 //     posibles (habilidad del jugador, "un enemigo se lo da a otro") siguen sin construir. El lazo de
 //     bajada está medido end-to-end: romper la capa con daño devuelve el cap (`overguard-e2e.test.ts`).
 //     "Bosses" queda afuera por otra razón: `arch-decisions §22` lo veta — no pasa el test de tres vías.
-//   · Freeze 10º stack (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — sin modelar — #12.
+//   · Freeze 10º stack — CONSTRUIDO (#12): congelación sólida 3s, crit recibido fijo en +1.0× durante
+//     la ventana, colapso a 3 residuales al expirar, sin aceptar nuevos stacks mientras dura. Lo que NO
+//     modela — "sin acciones" (control de input, fuera del dominio del motor) y "niega recarga de
+//     shields" (no hay sistema de regen de shields en absoluto, ni con ni sin este proc) — son gaps del
+//     motor entero, no de este behavior.
 //   · Puncture no aplica a AoE / habilidades de warframe — gratis hoy (el modelo son hits de arma),
 //     gateado hasta que exista AoE (`OQ-ENGINE-12`).
 // El decay fluido (compartido con corrosion) vs los N-timers reales es SIMPLIFICACIÓN → OQ-ENGINE-16.
@@ -163,12 +167,17 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 
 const WEAKENED_MAX_STACKS = 5;
 /**
- * ⚠️ **9 y no 10, y es la simplificación de #12, no el cap real.** La fuente dice *"stacks to a maximum
- * of **10**"* (`damage-cold-damage.wikitext:18`), pero el 10º no es un stack más: dispara la
- * congelación (3 s, crit recibido `+1.0×`) y colapsa a 3 residuales. Sin ese umbral modelado, `9` es el
- * último valor cuya ley SÍ está construida — `COLD_CRIT_LAW.cap = 0.5 = f(9)` cierra contra la fuente.
+ * El cap real (`damage-cold-damage.wikitext:18`, *"stacks to a maximum of **10**"*), no la
+ * simplificación de 9 que regía antes de #12. `COLD_CRIT_LAW.cap = 0.5 = f(9)` sigue siendo el techo
+ * de la fórmula CONTINUA (1er..9º stack) — el 10º no la extiende, dispara el umbral de abajo.
  */
-const FREEZE_MAX_STACKS = 9;
+const FREEZE_MAX_STACKS = 10;
+/** 10º stack: congelación sólida, sin acciones (status-effects.md §Cold). */
+const COLD_FREEZE_DURATION = 3;
+/** Al descongelar, el conteo no vuelve a 0: cae a estos residuales (status-effects.md §Cold). */
+const COLD_FREEZE_RESIDUAL_STACKS = 3;
+/** Crit recibido durante la congelación — fijo, no la fórmula continua (status-effects.md §Cold). */
+const COLD_FREEZE_CRIT_ADD = 1.0;
 
 const weakenedBehavior: EffectBehavior<StackState> = {
   effect: "weakened",
@@ -184,19 +193,49 @@ const weakenedBehavior: EffectBehavior<StackState> = {
   },
 };
 
-const freezeBehavior: EffectBehavior<StackState> = {
+/**
+ * Estado propio de `freeze` — `StackState` + el reloj de la congelación sólida. `frozenUntil` es
+ * `null` fuera de la congelación; con valor, es el instante en que expira (mismo patrón que
+ * `HeatState.firstProcTime` para timestamps discretos sobre un contenedor por lo demás fluido).
+ */
+interface FreezeState { count: number; frozenUntil: number | null; }
+
+/** Si el freeze ya venció para `t`, lo asienta (colapsa a los residuales). Idempotente. */
+function settleFreeze(state: FreezeState, t: number): FreezeState {
+  if (state.frozenUntil !== null && t >= state.frozenUntil) {
+    return { count: COLD_FREEZE_RESIDUAL_STACKS, frozenUntil: null };
+  }
+  return state;
+}
+
+const freezeBehavior: EffectBehavior<FreezeState> = {
   effect: "freeze",
-  applyProc(state, { receiver }, amount) {
+  applyProc(state, { receiver }, amount, t) {
+    const settled = settleFreeze(state ?? { count: 0, frozenUntil: null }, t);
+    // "Congelado no recibe más stacks de Cold" (status-effects.md §Cold) — el proc no se pierde
+    // silencioso: simplemente no hay contador que subir mientras `frozenUntil` siga vigente.
+    if (settled.frozenUntil !== null) return settled;
     // El segundo consumidor de la cadena de §17, y el primero cuyo desvío es una CAPA. Sin emisor:
     // ninguna fuente conocida sube el cap de Cold, así que este parámetro sólo tiene lado receptor —
     // que es una respuesta medida, no un hueco (`stack-debuff.ts`, la nota sobre los caps `f(maxStacks)`).
     const cap = resolveParam(FREEZE_MAX_STACKS, { receiver: receiverMaxStacks(receiver, "freeze") });
-    return { count: applyStackProc(state?.count ?? 0, amount, cap) };
+    const count = applyStackProc(settled.count, amount, cap);
+    const frozenUntil = count >= FREEZE_MAX_STACKS ? t + COLD_FREEZE_DURATION : null;
+    return { count, frozenUntil };
   },
-  advance(state, _t, dt) {
-    return { state: { count: decayCount(state.count, dt) }, damage: [] };
+  advance(state, t, dt) {
+    // El asiento a residuales NO decae en el MISMO paso que lo produce — mismo criterio que el resto
+    // del decay fluido (aproximado, no sub-particiona el intervalo: `OQ-ENGINE-16`). Sin este corte,
+    // un `dt` grande aplicaba decay completo sobre un contador que "acababa de nacer" en ese instante.
+    if (state.frozenUntil !== null && t + dt >= state.frozenUntil) {
+      return { state: { count: COLD_FREEZE_RESIDUAL_STACKS, frozenUntil: null }, damage: [] };
+    }
+    // Congelado, sin vencer todavía: el contador no decae mientras dura.
+    if (state.frozenUntil !== null) return { state, damage: [] };
+    return { state: { count: decayCount(state.count, dt), frozenUntil: null }, damage: [] };
   },
   critModifier(state) {
+    if (state.frozenUntil !== null) return { critMultAdd: COLD_FREEZE_CRIT_ADD };
     if (state.count <= 0) return {};
     return { critMultAdd: stackDebuffValue(COLD_CRIT_LAW, state.count) };
   },

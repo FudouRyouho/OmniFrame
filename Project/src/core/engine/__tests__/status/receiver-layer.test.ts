@@ -29,10 +29,10 @@
  *
  * ─── QUÉ SE DECLARA Y QUÉ SE EJERCE ──────────────────────────────────────────────────────────────
  *
- * El Overguard se **declara** en el harness, igual que la marca de Hydroid y por el mismo motivo: **su
- * origen no está modelado**. `current_overguard` nace en `0` y nada de producción lo sube — la capa
- * nace de la clase (Eximus) o de una habilidad (Iron Skin), y ninguno de esos caminos existe. Lo que
- * este archivo ejerce es la LEY y su canal, no de dónde sale la cantidad.
+ * El Overguard se **declara** en el harness, igual que la marca de Hydroid: el harness es para la LEY,
+ * no el origen — aunque desde #38 uno de los tres orígenes SÍ está construido (`HostileIntent.isEximus`
+ * → `current_overguard`, probado end-to-end en `receiver-law.test.ts`). Lo que este archivo ejerce
+ * sigue siendo la LEY y su canal, con un número elegido a mano por legibilidad del caso.
  */
 import { describe, it, expect } from 'vitest';
 import { makeIsolatedTarget } from './harness';
@@ -49,7 +49,7 @@ import type { StatusEffect } from '@shared/types';
 const DUMMY_HIT: HitContext = { moddedBase: 0, statusDamageBonusPct: 0, elementBonusPct: {} };
 
 /** El default del concepto, tal como `behaviors.ts` lo declara — replicado acá para que el test lo nombre. */
-const FREEZE_DEFAULT_CAP = 9;
+const FREEZE_DEFAULT_CAP = 10;
 
 const countOf = (t: ReturnType<typeof makeIsolatedTarget>, effect: StatusEffect): number =>
   (t.effectStates.get(effect) as { count: number } | undefined)?.count ?? 0;
@@ -139,10 +139,15 @@ describe('El receptor que fuerza por CAPA — Overguard topea Cold en 4 (§17/§
 describe('El cap arrastra el bonus de crit sin que `critModifier` lo sepa', () => {
   /**
    * LA MEDICIÓN QUE RE-ESPECIFICÓ EL ISSUE. `critModifier` no recibe el `ReceiverContext` y **no le
-   * hace falta**: lee `f(count)`, y el contexto ya actuó aguas arriba, sobre el contador.
+   * hace falta**: lee el estado (contador o el fijo de la congelación), y el contexto ya actuó aguas
+   * arriba, sobre el contador.
+   *
+   * Sin Overguard el cap real es 10 (#12), y llegar ahí dispara la congelación: el crit recibido deja
+   * de ser `f(count)` y pasa a ser el fijo `+1.0×`. Con Overguard el cap se traba en 4 — muy por debajo
+   * de 10 — así que la congelación nunca se dispara y el crit sigue siendo la fórmula continua.
    */
-  it('con Overguard el crit damage recibido topea en +0.25×, la mitad del default +0.50×', () => {
-    expect(frozen(20, 0).getCritBonuses(0).critMultAdd).toBeCloseTo(0.5, 5);
+  it('sin Overguard el 10º stack congela y fija +1.0×; con Overguard el cap de 4 no llega a tocarlo', () => {
+    expect(frozen(20, 0).getCritBonuses(0).critMultAdd).toBeCloseTo(1.0, 5);
     expect(frozen(20, 500).getCritBonuses(0).critMultAdd).toBeCloseTo(0.25, 5);
   });
 
@@ -152,7 +157,10 @@ describe('El cap arrastra el bonus de crit sin que `critModifier` lo sepa', () =
    * interviene"*— y ahora hay un caso que lo mide en vez de afirmarlo.
    */
   it('el desvío va hacia abajo, así que el cap `f(maxStacks)` de la ley no se ejerce', () => {
-    expect(COLD_CRIT_LAW.cap).toBe(stackDebuffValue({ ...COLD_CRIT_LAW, cap: undefined }, FREEZE_DEFAULT_CAP));
+    // 9, no FREEZE_DEFAULT_CAP: el techo de la fórmula CONTINUA es el último stack antes de que el
+    // 10º dispare la congelación (#12) y la reemplace por el fijo +1.0× — ver behaviors.ts.
+    const lastContinuousStack = 9;
+    expect(COLD_CRIT_LAW.cap).toBe(stackDebuffValue({ ...COLD_CRIT_LAW, cap: undefined }, lastContinuousStack));
     expect(stackDebuffValue(COLD_CRIT_LAW, 4)).toBeLessThan(COLD_CRIT_LAW.cap!);
   });
 });

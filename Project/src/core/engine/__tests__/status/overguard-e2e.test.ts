@@ -34,7 +34,7 @@ import type { HitContext } from '../../formulas/status/effect-behavior';
 import type { StatusEffect } from '@shared/types';
 
 const DUMMY_HIT: HitContext = { moddedBase: 0, statusDamageBonusPct: 0, elementBonusPct: {} };
-const FREEZE_DEFAULT_CAP = 9;
+const FREEZE_DEFAULT_CAP = 10;
 
 type Target = ReturnType<typeof makeIsolatedTarget>;
 
