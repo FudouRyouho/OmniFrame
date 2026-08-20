@@ -25,10 +25,10 @@ import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
  * Acepta `unique_name` o el nombre display ("Arid Butcher") — la búsqueda la hace `EnemyRepository`,
  * que sobrevive a la disolución de `scale` porque resolver un nombre no es componer un participante.
  */
-export function hostileEntity(query: string, level: number): SimulationEntity {
+export function hostileEntity(query: string, level: number, isEximus?: boolean): SimulationEntity {
   const dna = EnemyRepository.find(query);
   if (!dna) throw new Error(`hostileEntity: "${query}" no existe en el catálogo de enemigos.`);
-  const found = consume(hostileOnly(dna.unique_name, level), { flags: {} })
+  const found = consume(hostileOnly(dna.unique_name, level, isEximus), { flags: {} })
     .snapshot()
     .find(e => e.unique_name === dna.unique_name);
   if (!found) throw new Error(`hostileEntity: "${query}" no resolvió a ninguna entidad.`);
@@ -51,7 +51,7 @@ export interface SyntheticHostileSpec {
    * **declara**, igual que los vitales y que los stacks del harness: lo que se ejerce es la ley, no de
    * dónde salió la clase. Que en el dato real venga de `enemy-stats.override.json` es otro test.
    */
-  unitClass?: readonly UnitClass[];
+  unitClass?: UnitClass;
 }
 
 /**

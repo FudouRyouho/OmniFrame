@@ -16,9 +16,11 @@
  * escritas en archivos que no se conocen: `layerAmounts` para elegir capa, `layerAmounts` para armar
  * el contexto del receptor. Nada garantizaba que coincidieran salvo que alguien las cruzara.
  *
- * ⚠️ **Lo que este archivo NO ejerce sigue siendo el ORIGEN.** `current_overguard` nace en `0` y ningún
- * camino de producción lo **sube** — `receive` sólo lo baja. La cantidad inicial se declara en el
- * harness, igual que en `layer-stack.test.ts` y por el mismo motivo.
+ * ⚠️ **Lo que este archivo NO ejerce es el ORIGEN — a propósito, no por hueco.** El origen SÍ existe
+ * (#38: `HostileIntent.isEximus` → `normalizeEnemy` → `ENEMY_ADD_OVERGUARD_MAX`, probado end-to-end en
+ * `receiver-law.test.ts`), pero acá se declara la cantidad a mano igual que en `layer-stack.test.ts`:
+ * lo que se mide es la LEY de consumo (capa × status), no de dónde salió el número. Mezclar los dos
+ * ejes en el mismo caso oscurecería cuál de los dos se rompió si el test falla.
  *
  * ⚠️ **Y no duplica `layer-stack.test.ts`**, que ya mide la mecánica de la capa por sí sola (orden de
  * la pila, Toxin que no la atraviesa, la DR del armor que no le aplica, el derrame sin gate). Acá se

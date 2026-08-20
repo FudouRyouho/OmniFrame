@@ -679,8 +679,8 @@ export const CORROSIVE_PROJECTION = '/Lotus/Upgrades/Mods/Aura/EnemyArmorReducti
  * loadout alrededor. Se puede escribir porque B dejó de inventar participantes: sin ítems
  * declarados, el escenario tiene exactamente uno.
  */
-export function hostileOnly(uniqueName: string, level: number): Scene {
-  return { squad: [{ kind: 'onfoot' }], hostile: [{ uniqueName, level }] };
+export function hostileOnly(uniqueName: string, level: number, isEximus?: boolean): Scene {
+  return { squad: [{ kind: 'onfoot' }], hostile: [{ uniqueName, level, ...(isEximus ? { isEximus } : {}) }] };
 }
 
 /**

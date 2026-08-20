@@ -30,7 +30,7 @@ export interface EnemyDNA {
    * cosecha**: el wiki declara la regla del Acolyte en su página de mecánica, no en la fila del
    * enemigo, así que el único origen hoy es el override. Ver `SimulationEntity.unit_class`.
    */
-  unit_class?: readonly UnitClass[];
+  unit_class?: UnitClass;
   /**
    * Facción canónica (`docs/semantic/factions.md`), resuelta en cascada por el generador
    * (export → wiki → `type` → `Unaffiliated`): keyea el scaling y `FACTION_BONUS`. Ya NO llega
@@ -64,7 +64,7 @@ export type RawEnemyEntry = EnemyDNA;
  * cosechado**, y para `unit_class` es la única fuente — el wiki declara la regla del Acolyte en su
  * página de mecánica, no en la fila del enemigo.
  */
-export type EnemyOverride = Record<string, { base_level?: number; unit_class?: readonly UnitClass[] }>;
+export type EnemyOverride = Record<string, { base_level?: number; unit_class?: UnitClass }>;
 
 /**
  * LA CURACIÓN, APLICADA UNA VEZ Y ANTES DEL REPARTO.
@@ -85,13 +85,11 @@ export type EnemyOverride = Record<string, { base_level?: number; unit_class?: r
  */
 export function curateEnemies(entries: RawEnemyEntry[], overrides: EnemyOverride = {}): RawEnemyEntry[] {
   for (const [uniqueName, o] of Object.entries(overrides)) {
-    for (const cls of o.unit_class ?? []) {
-      if (!UNIT_CLASSES.includes(cls)) {
-        throw new Error(
-          `[enemy-override] "${uniqueName}" declara la clase de unidad "${cls}", que no existe. ` +
-            `Conocidas: ${UNIT_CLASSES.join(", ")} (contracts/unit-class.ts).`,
-        );
-      }
+    if (o.unit_class && !UNIT_CLASSES.includes(o.unit_class)) {
+      throw new Error(
+        `[enemy-override] "${uniqueName}" declara la clase de unidad "${o.unit_class}", que no existe. ` +
+          `Conocidas: ${UNIT_CLASSES.join(", ")} (contracts/unit-class.ts).`,
+      );
     }
   }
   return entries.map((e) => {

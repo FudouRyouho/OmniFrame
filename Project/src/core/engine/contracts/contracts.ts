@@ -42,19 +42,13 @@ export interface SimulationEntity {
    * `channel: 'enemy'` y **debe** llevarlo —sin él no tiene vitales— mientras recibe otra ley de
    * status. Dos preguntas, dos campos.
    *
-   * ⚠️ **CONJUNTO Y NO ESCALAR — marcado para revisión.** Hoy ninguna entidad porta dos clases, así
-   * que la forma va por delante de su caso. El warrant es medido y no anticipado: `arch-decisions §22`
-   * fija que Eximus es **clase** (*"existen Eximus sin Overguard"*) y que *"cualquier unidad base puede
-   * spawnear como Eximus"*, y el dato lo confirma —`eximus_health` está en **283 de 638** entradas de
-   * `enemies.json`, o sea Eximus es variante del mismo registro y no fila propia—. Un Kuva Bombard
-   * Eximus es dos clases y un escalar tendría que elegir.
-   *
-   * **Qué lo revisa:** cuando Eximus se construya, o al segundo miembro de `UnitClass`. Si para
-   * entonces sigue sin haber portador de dos clases —porque Eximus terminó entrando por otro canal,
-   * p. ej. como elección del escenario y no como identidad del dato— el array es forma sin caso y baja
-   * a escalar, que es un regex.
+   * **Escalar, RESUELTO (#38).** Era conjunto "por delante de su caso", con la revisión condicionada a
+   * cómo entrara Eximus: si terminaba siendo identidad de la fila, un Kuva Bombard Eximus sería dos
+   * clases y un escalar tendría que elegir. No fue así — §22 fija que Eximus **se decide al
+   * instanciar**, y el canal construido es `HostileIntent.isEximus` (la pregunta del escenario), no
+   * este campo. Ningún portador conocido porta dos clases; el array era forma sin caso.
    */
-  unit_class?: readonly string[];
+  unit_class?: string;
 
   persistence: 'PE' | 'TE'; // Pure Entity | Transient Entity
   tags: string[];
@@ -117,7 +111,7 @@ export interface MutatedDNA {
   /** Ver `SimulationEntity.faction`: el espejo del lado hostil de `domain`/`kind`/`family`. */
   faction?: string;
   /** Ver `SimulationEntity.unit_class`: qué unidad es, cuando eso cambia qué ley recibe. */
-  unit_class?: readonly string[];
+  unit_class?: string;
   tags: string[];
   profiles: Record<string, Record<AttributeId, number>>; // 'base', 'alt', 'incarnon'
   // Keyed por profile_name (igual que profiles) — el behavior es por-ataque, no por-arma.

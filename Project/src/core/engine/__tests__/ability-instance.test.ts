@@ -212,7 +212,7 @@ describe('⭐ La habilidad ve el mismo cap desviado que el arma — cierra el l�
 
   /** Y el receptor sigue ganando cuando habla, venga la instancia de un arma o de una habilidad. */
   it('contra un acólito la habilidad también topea en 4 — la precedencia no mira quién emite', () => {
-    const t = makeIsolatedTarget({ armor: 1000, unitClass: ['acolyte'] });
+    const t = makeIsolatedTarget({ armor: 1000, unitClass: 'acolyte' });
     const hit = hitContextOf(conDesvio(9));
     for (let i = 0; i < 30; i++) t.applyProc('corrosion', hit, 1, 0);
     expect((t.effectStates.get('corrosion') as { count: number }).count).toBe(4);

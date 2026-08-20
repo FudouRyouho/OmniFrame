@@ -114,6 +114,11 @@ export interface EntityIntent {
    * Sólo lo declara el grupo Hostil. Un arma no tiene nivel y no se le inventa uno.
    */
   level?: number;
+  /**
+   * ¿Spawnea como Eximus? Mismo canal que `level` — entra a la composición del frame-0 (§22: se
+   * decide al instanciar, no es identidad del catálogo). Sólo lo declara el grupo Hostil.
+   */
+  isEximus?: boolean;
 }
 
 /**
@@ -265,6 +270,7 @@ function populateFromHostile(hostiles: HostileIntent[]): EntityIntent[] {
     mods: {},
     profile_id: "base",
     level: h.level,
+    ...(h.isEximus ? { isEximus: h.isEximus } : {}),
   }));
 }
 

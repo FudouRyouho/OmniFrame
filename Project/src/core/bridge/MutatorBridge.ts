@@ -107,7 +107,7 @@ export class MutatorBridge {
       // Se dereferencia por el PUNTERO, no por la identidad: `entity_id` es dónde está parado el
       // participante en la escena y el catálogo no sabe nada de eso. Mientras los dos campos fueron
       // el mismo string esta distinción no existía, y era la conflación que colapsaba homónimos.
-      const dna = DnaRepository.findByUniqueName(intent.unique_name, intent.level);
+      const dna = DnaRepository.findByUniqueName(intent.unique_name, intent.level, intent.isEximus);
       if (!dna) {
         throw new Error(
           `[hidratación] el participante ${JSON.stringify(intent.unique_name)} (${intent.entity_id}) ` +

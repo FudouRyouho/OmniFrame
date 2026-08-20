@@ -18,10 +18,11 @@
  * deja pasar este daño?"**.
  *
  * **Lo que este módulo declara es la LEY, no el ORIGEN.** De dónde sale la cantidad de cada capa es
- * otra pregunta y hoy sólo tiene respuesta para dos: health/shield salen de nodos (`vitalsOf`);
- * el Overguard nace de la clase (Eximus) o de una habilidad (Iron Skin) y el Overshield de una
- * restauración que excede el máximo. Ninguno de esos tres orígenes está modelado — y no hace falta
- * que lo esté para que la capa exista con su número en cero.
+ * otra pregunta, y hoy tiene respuesta para tres de los cuatro: health/shield salen de nodos
+ * (`vitalsOf`); el Overguard nace de la clase Eximus (#38: `HostileIntent.isEximus` → nodo →
+ * `vitalsOf`, uno de sus tres orígenes posibles — la habilidad del jugador y "un enemigo se lo da a
+ * otro" siguen sin construir). El Overshield —una restauración que excede el máximo— sigue sin
+ * origen modelado. Una capa sin origen construido existe igual, con su número en cero.
  */
 
 import type { DamageType } from "@shared/types";

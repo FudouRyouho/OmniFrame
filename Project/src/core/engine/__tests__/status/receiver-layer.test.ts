@@ -114,13 +114,13 @@ describe('El receptor que fuerza por CAPA — Overguard topea Cold en 4 (§17/§
    * ejerciera. (Con dos `replace` habría tirado, que es la razón por la que el verbo importa.)
    */
   it('clase + capa componen sin pisarse: un acólito con Overguard sigue en 4', () => {
-    expect(countOf(frozen(20, 500, { unitClass: ['acolyte'] }), 'freeze')).toBe(4);
-    expect(countOf(frozen(20, 0, { unitClass: ['acolyte'] }), 'freeze')).toBe(4);
+    expect(countOf(frozen(20, 500, { unitClass: 'acolyte' }), 'freeze')).toBe(4);
+    expect(countOf(frozen(20, 0, { unitClass: 'acolyte' }), 'freeze')).toBe(4);
 
     // ⚠️ **El número solo NO prueba la composición**: los dos pobladores fuerzan `4`, así que el
     // acólito da `4` aunque la capa no participe — el caso pasaba entero con el canal desconectado.
     // Lo que hay que medir es que la capa APORTE su fila, no que el resultado coincida.
-    const conAmbas = makeIsolatedTarget({ overguard: 500, unitClass: ['acolyte'] });
+    const conAmbas = makeIsolatedTarget({ overguard: 500, unitClass: 'acolyte' });
     expect(receiverMaxStacks(conAmbas.receiverContext(), 'freeze')).toEqual([
       { verb: 'forces', value: 4 },   // la clase
       { verb: 'forces', value: 4 },   // la capa

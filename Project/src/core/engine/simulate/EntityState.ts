@@ -55,7 +55,7 @@ import { damageToDeplete, shieldDamageReductionFor } from "../formulas/defense/s
 /** Valor resuelto de un nodo, o 0 si el participante no lo tiene (sin shields, sin armadura). */
 const nodeFinal = (entity: SimulationEntity, id: string): number => entity.attributes[id]?.final ?? 0;
 
-export interface Vitals { health: number; armor: number; shields: number }
+export interface Vitals { health: number; armor: number; shields: number; overguard: number }
 
 /**
  * Los tres vitales POR CLASE DE UNIDAD. Un participante no nombra sus vitales igual según de qué lado
@@ -67,8 +67,14 @@ export interface Vitals { health: number; armor: number; shields: number }
  * **El compañero SÍ entra acá** —lleva los mismos `AVATAR_*` y el test lo fija (300 de armor base)—,
  * a diferencia de la mitigación, donde la fuente no dice qué ley le toca.
  */
-const VITAL_TOKENS: Record<string, { health: string; armor: string; shields: string }> = {
-  enemy: { health: "ENEMY_ADD_HEALTH_MAX", armor: "ENEMY_ADD_ARMOUR", shields: "ENEMY_ADD_SHIELD_MAX" },
+const VITAL_TOKENS: Record<string, { health: string; armor: string; shields: string; overguard?: string }> = {
+  // `overguard` sólo en `enemy`: es el único origen construido (#38, camino Eximus). El lado avatar
+  // (Iron Skin, Warding Halo) es un origen DISTINTO — cross-stat-derivation.test.ts ya resuelve
+  // `AVATAR_ADD_OVERGUARD` en el grafo (C1), pero el puente nodo→capa (C2) no está construido acá.
+  enemy: {
+    health: "ENEMY_ADD_HEALTH_MAX", armor: "ENEMY_ADD_ARMOUR", shields: "ENEMY_ADD_SHIELD_MAX",
+    overguard: "ENEMY_ADD_OVERGUARD_MAX",
+  },
   ...forChannels(PLAYER_VITAL_CHANNELS, {
     health: "AVATAR_ADD_HEALTH_MAX", armor: "AVATAR_ADD_ARMOUR", shields: "AVATAR_ADD_SHIELD_MAX",
   }),
@@ -94,9 +100,10 @@ export function vitalsOf(entity: SimulationEntity): Vitals {
     );
   }
   return {
-    health:  nodeFinal(entity, t.health),
-    armor:   nodeFinal(entity, t.armor),
-    shields: nodeFinal(entity, t.shields),
+    health:    nodeFinal(entity, t.health),
+    armor:     nodeFinal(entity, t.armor),
+    shields:   nodeFinal(entity, t.shields),
+    overguard: t.overguard ? nodeFinal(entity, t.overguard) : 0,
   };
 }
 
@@ -104,12 +111,16 @@ export class EntityState {
   public current_health: number;
   public current_shields: number;
   /**
-   * Las dos capas que la pila declara y que **todavía no tienen origen modelado** (`contracts/layers.ts`).
-   * Existen con su número en cero porque lo que no existe no se puede componer: el Overguard nace de la
-   * clase (Eximus) o de una habilidad (Iron Skin) y el Overshield de una restauración que excede el
-   * máximo, y ninguno de esos tres caminos está construido. La LEY de cómo se consumen sí está.
+   * `current_overguard` — nace de `vitals.overguard` (frame-0, como health/shields). Origen
+   * construido para **uno** de los tres caminos que `contracts/layers.ts` nombra: la clase Eximus
+   * (#38, `HostileIntent.isEximus` → `normalizeEnemy` → `ENEMY_ADD_OVERGUARD_MAX`). La habilidad del
+   * jugador (Iron Skin, Warding Halo) y "un enemigo se lo da a otro" siguen sin construir — sin
+   * ninguno de los tres, el nodo está ausente y `vitalsOf` cae a 0, igual que antes.
+   *
+   * `current_overshield` sigue sin origen modelado: nace de una restauración que excede el máximo,
+   * y ese camino no está construido. La LEY de cómo se consumen las dos SÍ está.
    */
-  public current_overguard = 0;
+  public current_overguard: number;
   public current_overshield = 0;
   /**
    * Las marcas que este target **adquirió** — lo que le pasó, contra `entity.unit_class` que dice lo
@@ -141,9 +152,10 @@ export class EntityState {
   constructor(entity: SimulationEntity) {
     this.entity = entity;
     const vitals = vitalsOf(entity);
-    this.current_health  = vitals.health;
-    this.current_shields = vitals.shields;
-    this.base_armor      = vitals.armor;
+    this.current_health   = vitals.health;
+    this.current_shields  = vitals.shields;
+    this.base_armor       = vitals.armor;
+    this.current_overguard = vitals.overguard;
     this.effectStates = new Map();
   }
 

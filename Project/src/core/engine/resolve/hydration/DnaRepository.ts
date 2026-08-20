@@ -7,9 +7,12 @@ import { ItemRepository } from "./ItemRepository";
  * mutaciones futuras (Helminth, Archon Shards en Capa B).
  */
 export class DnaRepository {
-  /** `level`: la parte de la intención que compone el frame-0 — sólo la declara el grupo Hostil. */
-  public static findByUniqueName(unique_name: string, level?: number): MutatedDNA | null {
-    return ItemRepository.getDNA(unique_name, level);
+  /**
+   * `level`/`isEximus`: la parte de la intención que compone el frame-0 — sólo la declara el grupo
+   * Hostil.
+   */
+  public static findByUniqueName(unique_name: string, level?: number, isEximus?: boolean): MutatedDNA | null {
+    return ItemRepository.getDNA(unique_name, level, isEximus);
   }
 }
 

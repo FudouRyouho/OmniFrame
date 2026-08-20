@@ -162,8 +162,8 @@ export function receiverMaxStacks(
 	effect: StatusEffect,
 ): readonly ParamDeviation[] {
 	const out: ParamDeviation[] = [];
-	for (const cls of receiver?.unit_class ?? []) {
-		const d = deviationFor(RECEIVER_MAX_STACKS[cls], effect);
+	if (receiver?.unit_class) {
+		const d = deviationFor(RECEIVER_MAX_STACKS[receiver.unit_class], effect);
 		if (d) out.push(d);
 	}
 	for (const layer of receiver?.layers_present ?? []) {

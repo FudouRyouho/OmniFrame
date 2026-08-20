@@ -6,7 +6,15 @@
 import type { MutatedDNA, CoBehavior } from "../../contracts";
 import { normalizeDamageType } from "@shared/types";
 import { damageTokenFromType } from "../../contracts/damage-logic";
-import { scaleHealth, scaleArmor, scaleShields } from "../../formulas/enemy/enemy-scaling";
+import { scaleHealth, scaleArmor, scaleShields, scaleOverguard } from "../../formulas/enemy/enemy-scaling";
+
+/**
+ * Overguard base de Eximus cuando el enemigo no trae uno propio — el default que el gadget usa
+ * (`references/wiki/mechanics/enemy-level-scaling.md` §Overguard). El pipeline no cosecha el dato
+ * per-enemigo (`eximus_overguard`) hoy — #45 lo dejó fuera, sin consumidor —, así que este valor es
+ * el único disponible: honesto (declarado como default), no una aproximación silenciosa.
+ */
+const EXIMUS_OVERGUARD_DEFAULT = 12;
 
 /**
  * Precisión de un ataque sin dispersión (`min_spread == max_spread == 0`). No es un default
@@ -54,12 +62,12 @@ export class ItemRepository {
    * Obtiene el ADN de un item mapeado desde el dataset. No conoce el kind de
    * antemano (mismo vocabulario de ids para arma/warframe) — prueba ambos Maps.
    *
-   * `level` es la parte de la intención que compone el frame-0 y que el raw no puede saber. Sólo la
-   * declara el grupo Hostil; para el resto de los moldes no significa nada y no se pasa. No hay caché
-   * que colisione: cada llamada normaliza desde el raw, así que el mismo enemigo a dos niveles son
-   * dos composiciones y no dos entradas peleando por una clave.
+   * `level`/`isEximus` son la parte de la intención que compone el frame-0 y que el raw no puede
+   * saber. Sólo las declara el grupo Hostil; para el resto de los moldes no significan nada y no se
+   * pasan. No hay caché que colisione: cada llamada normaliza desde el raw, así que el mismo enemigo
+   * a dos niveles son dos composiciones y no dos entradas peleando por una clave.
    */
-  public static getDNA(uniqueName: string, level?: number): MutatedDNA | null {
+  public static getDNA(uniqueName: string, level?: number, isEximus?: boolean): MutatedDNA | null {
     const weapon = this.weaponItems.get(uniqueName);
     if (weapon) return this.normalizeWeapon(weapon);
 
@@ -70,7 +78,7 @@ export class ItemRepository {
     if (companion) return this.normalizeCompanion(companion);
 
     const enemy = this.enemyItems.get(uniqueName);
-    if (enemy) return this.normalizeEnemy(enemy, level);
+    if (enemy) return this.normalizeEnemy(enemy, level, isEximus);
 
     return null;
   }
@@ -153,12 +161,17 @@ export class ItemRepository {
    * tienen dato en el corpus — el orden importa y por eso está nombrado acá, aunque hoy sólo se
    * ejecute un paso.
    */
-  private static normalizeEnemy(raw: any, level?: number): MutatedDNA {
+  private static normalizeEnemy(raw: any, level?: number, isEximus?: boolean): MutatedDNA {
     const dx = level != null ? Math.max(0, level - (raw.base_level ?? 1)) : 0;
     const p: Record<string, number> = {};
     if (raw.health  != null) p.ENEMY_ADD_HEALTH_MAX = scaleHealth(raw.health, raw.faction, dx);
     if (raw.armor   != null) p.ENEMY_ADD_ARMOUR     = scaleArmor(raw.armor, dx);
     if (raw.shields != null) p.ENEMY_ADD_SHIELD_MAX = scaleShields(raw.shields, raw.faction, dx);
+    // Overguard sólo si el ESCENARIO declaró esta instancia como Eximus (§22: se decide al
+    // instanciar, no es identidad de la fila) — poblarlo por presencia de un campo del catálogo
+    // pondría Overguard permanente en todo enemigo con `eximus_health`, que es el número creíble y
+    // falso que #38 vetó.
+    if (isEximus) p.ENEMY_ADD_OVERGUARD_MAX = scaleOverguard(EXIMUS_OVERGUARD_DEFAULT, dx);
     // La facción va como CAMPO y no dentro de `tags`: la resolución del daño la consulta por valor
     // (`FACTION_BONUS[token][faction]`), y como segundo elemento de una lista sólo se podía leer
     // confiando en la posición. `tags` se queda con lo que sí es taxonomía legible.

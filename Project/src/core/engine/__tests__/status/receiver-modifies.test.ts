@@ -97,12 +97,12 @@ describe('El receptor que MODIFICA — la marca de Hydroid sobre el strip inicia
    */
   it('`fuerza` ⊥ `modifica`: la marca no toca el cap, la clase no toca el coeficiente', () => {
     // La clase sola: cap 4 (el proc se traba), coeficiente por defecto → 26 + 6×3 = 44%.
-    const soloClase = makeIsolatedTarget({ armor: ARMOR, unitClass: ['acolyte'], stacks: { corrosion: 4 } });
+    const soloClase = makeIsolatedTarget({ armor: ARMOR, unitClass: 'acolyte', stacks: { corrosion: 4 } });
     expect(soloClase.getEffectiveArmor(0)).toBeCloseTo(ARMOR * (1 - 0.44), 5);
 
     // Con las dos: mismo cap 4, pero el coeficiente desviado → 50 + 6×3 = 68%.
     const ambas = makeIsolatedTarget({
-      armor: ARMOR, unitClass: ['acolyte'], marks: [HYDROID_MARK], stacks: { corrosion: 4 },
+      armor: ARMOR, unitClass: 'acolyte', marks: [HYDROID_MARK], stacks: { corrosion: 4 },
     });
     expect(ambas.getEffectiveArmor(0)).toBeCloseTo(ARMOR * (1 - 0.68), 5);
   });

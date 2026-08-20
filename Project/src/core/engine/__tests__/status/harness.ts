@@ -43,7 +43,7 @@ export interface IsolatedTargetSpec {
    * Qué unidad es — la llave de los desvíos de ley del **receptor** (`arch-decisions §17`). Se declara
    * igual que todo lo demás del banco: lo que se ejerce es la ley, no de dónde salió la clase.
    */
-  unitClass?: readonly UnitClass[];
+  unitClass?: UnitClass;
   /**
    * Qué le **pasó** — la otra llave del receptor, adquirida en vez de intrínseca al molde (marca de
    * Hydroid, #8). Se declara con el mismo criterio que `overguard`: **el origen no está modelado**, y
