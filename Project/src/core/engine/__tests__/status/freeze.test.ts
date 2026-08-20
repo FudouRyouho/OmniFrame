@@ -58,6 +58,25 @@ describe('Freeze — el 10º stack congela (#12)', () => {
     expect(t.getCritBonuses(0).critMultAdd).toBeCloseTo(0.5, 5); // f(9), el techo de la ley continua
   });
 
+  /**
+   * LA TRAMPA QUE `frozenUntil` ABRIÓ, y por qué este caso existe.
+   *
+   * El harness declara estado de proc a mano, y para `freeze` escribía sólo `{ count }` — dejando
+   * `frozenUntil` en `undefined`. El behavior preguntaba `!== null`, y en JS `undefined !== null` es
+   * **`true`**: un target con 5 stacks declarados cobraba el `+1.0×` de la congelación sólida y su
+   * contador **no decaía nunca**. Medido antes de corregirlo, con los dos lados arreglados (el harness
+   * fabrica el estado entero; `isFrozen` usa `!= null`).
+   *
+   * Sin este caso nada lo sostiene: ningún test usaba `stacks: { freeze: N }` cuando el bug se
+   * introdujo, que es exactamente por qué pasó desapercibido.
+   */
+  it('el estado declarado por el harness NO es un estado congelado: cobra f(n) y decae', () => {
+    const t = makeIsolatedTarget({ stacks: { freeze: 5 } });
+    expect(t.getCritBonuses(0).critMultAdd).toBeCloseTo(stackDebuffValue(COLD_CRIT_LAW, 5), 5);
+    advanceAndResolve(t, 0, 3);
+    expect(countOf(t)).toBeLessThan(5);   // decayó, no quedó trabado en congelación
+  });
+
   // Lo que NO tenemos hoy — gaps del motor entero, no de este behavior (ver behaviors.ts):
   it.todo('niega la recarga natural de shields durante la congelación — no hay sistema de regen de shields');
   it.todo('"sin acciones" (congelación sólida) — control de input, fuera del dominio del motor');

@@ -200,9 +200,19 @@ const weakenedBehavior: EffectBehavior<StackState> = {
  */
 interface FreezeState { count: number; frozenUntil: number | null; }
 
+/**
+ * ¿Está congelado en este instante? **`!= null` y no `!== null`, a propósito:** el estado también
+ * puede llegar de un fabricante que declara sólo el contador (el harness de tests escribe `{ count }`),
+ * y `undefined !== null` es `true` — con la comparación estricta, un target con 5 stacks declarados
+ * cobraba el `+1.0×` de la congelación y **nunca decaía**. Medido antes de corregirlo.
+ */
+function isFrozen(state: FreezeState): boolean {
+  return state.frozenUntil != null;
+}
+
 /** Si el freeze ya venció para `t`, lo asienta (colapsa a los residuales). Idempotente. */
 function settleFreeze(state: FreezeState, t: number): FreezeState {
-  if (state.frozenUntil !== null && t >= state.frozenUntil) {
+  if (isFrozen(state) && t >= state.frozenUntil!) {
     return { count: COLD_FREEZE_RESIDUAL_STACKS, frozenUntil: null };
   }
   return state;
@@ -214,7 +224,7 @@ const freezeBehavior: EffectBehavior<FreezeState> = {
     const settled = settleFreeze(state ?? { count: 0, frozenUntil: null }, t);
     // "Congelado no recibe más stacks de Cold" (status-effects.md §Cold) — el proc no se pierde
     // silencioso: simplemente no hay contador que subir mientras `frozenUntil` siga vigente.
-    if (settled.frozenUntil !== null) return settled;
+    if (isFrozen(settled)) return settled;
     // El segundo consumidor de la cadena de §17, y el primero cuyo desvío es una CAPA. Sin emisor:
     // ninguna fuente conocida sube el cap de Cold, así que este parámetro sólo tiene lado receptor —
     // que es una respuesta medida, no un hueco (`stack-debuff.ts`, la nota sobre los caps `f(maxStacks)`).
@@ -224,18 +234,17 @@ const freezeBehavior: EffectBehavior<FreezeState> = {
     return { count, frozenUntil };
   },
   advance(state, t, dt) {
-    // El asiento a residuales NO decae en el MISMO paso que lo produce — mismo criterio que el resto
-    // del decay fluido (aproximado, no sub-particiona el intervalo: `OQ-ENGINE-16`). Sin este corte,
-    // un `dt` grande aplicaba decay completo sobre un contador que "acababa de nacer" en ese instante.
-    if (state.frozenUntil !== null && t + dt >= state.frozenUntil) {
-      return { state: { count: COLD_FREEZE_RESIDUAL_STACKS, frozenUntil: null }, damage: [] };
-    }
+    const settled = settleFreeze(state, t + dt);
+    // Asentó en ESTE paso: el contador que acaba de nacer no decae todavía — mismo criterio que el
+    // resto del decay fluido (aproximado, no sub-particiona el intervalo: `OQ-ENGINE-16`). Sin este
+    // corte, un `dt` grande aplicaba decay completo sobre los residuales en su propio instante 0.
+    if (settled !== state) return { state: settled, damage: [] };
     // Congelado, sin vencer todavía: el contador no decae mientras dura.
-    if (state.frozenUntil !== null) return { state, damage: [] };
+    if (isFrozen(state)) return { state, damage: [] };
     return { state: { count: decayCount(state.count, dt), frozenUntil: null }, damage: [] };
   },
   critModifier(state) {
-    if (state.frozenUntil !== null) return { critMultAdd: COLD_FREEZE_CRIT_ADD };
+    if (isFrozen(state)) return { critMultAdd: COLD_FREEZE_CRIT_ADD };
     if (state.count <= 0) return {};
     return { critMultAdd: stackDebuffValue(COLD_CRIT_LAW, state.count) };
   },
