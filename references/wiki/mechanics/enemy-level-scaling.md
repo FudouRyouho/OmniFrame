@@ -3,13 +3,13 @@
 > Estado: activo
 > Rol: fórmulas de escalado de stats de enemigos por nivel
 > Fuente de verdad de: la interpolación de dos curvas (siempre evaluadas, nunca seleccionadas), los
-> bounds de transición **por stat**, el input de nivel **por stat**, los coeficientes por facción, el
+> bounds de transición **por stat**, el input de nivel (único, `Nivel Actual − Nivel Base` salvo
+> Affinity), los coeficientes (por facción en health/shields, universales en armor/overguard), el
 > régimen de precisión binary32 y el EHP derivado
 > No usar para: drops, afinidad de jugador o mecánicas de spawn
-> Última actualización: 2026-07-31 (re-destilado — la página se reescribió el 2026-07-28/29: la curva
-> no se **elige**, se **interpola siempre**; bounds distintos por stat; Overguard usa otro input de
-> nivel y ahora publica sus coeficientes; precisión binary32 normativa; la contradicción de Anarchs
-> desapareció de la fuente)
+> Última actualización: 2026-08-20 (corregidas cuatro afirmaciones sobre Overguard —
+> `q`, bounds sobre Δnivel, default de Eximus base, universalidad de coeficientes —
+> verificadas línea por línea contra el gadget y `Module:Enemies/infobox`)
 > Fuente: https://wiki.warframe.com/w/Enemy_Level_Scaling
 > Fuente actualizada: 2026-07-29
 > Raw: enemy-level-scaling.wikitext
@@ -27,8 +27,7 @@ stats:**
 
 | Stat | `q` |
 |---|---|
-| health · shields · armor · damage | `Nivel Actual − Nivel Base` |
-| **Overguard** | **`Nivel Actual − 1`** — ignora el nivel base de la unidad |
+| health · shields · armor · overguard · damage | `Nivel Actual − Nivel Base` |
 | **Affinity** | **`Nivel Actual`** — directo, sin restar nada |
 
 El valor final es `Valor Base × Multiplicador`.
@@ -58,7 +57,10 @@ mult = f1 + (f2 − f1) × s
 | **Overguard** | **45** | **50** |
 | **damage modificado** (Corpus/Grineer/Techrot) | **1** | **25** |
 
-Cada facción tiene coeficientes distintos para las dos curvas.
+Health y shields tienen coeficientes por facción/grupo (tablas abajo). **Armor y Overguard no**: una
+sola entrada `Default` en `Module:Enemies/infobox`, sin variación real — la tabla está indexada por
+facción por simetría con health/shield, pero cae al mismo valor siempre
+([`../sources/enemies-infobox.md`](../sources/enemies-infobox.md) §Las cuatro tablas).
 
 ## Precisión: binary32 es normativa, y el orden también
 
@@ -168,30 +170,30 @@ El health/shield BASE se modifica ANTES del escalado por nivel, en este orden ex
 El redondeo hacia abajo lo confirma hoy la página, no sólo el gadget: *"62.7 affinity will be rounded
 down to 62"*.
 
-## Overguard — tres cosas propias, ninguna compartida con health
-
-Antes este bloque decía sólo *"misma forma que health, con transición 45-50"*. La página publica ahora
-sus coeficientes, y de las tres particularidades **dos no estaban documentadas acá**:
+## Overguard — bounds y coeficientes propios, `q` compartido
 
 ```
 f1(q) = 1 + 0.0015 × q^4          curva baja
 f2(q) = 1 + 260    × q^0.9        curva alta
-q     = Nivel Actual − 1          ← NO el nivel base de la unidad
-L, U  = 45, 50                    ← NO 70-80
+q     = Nivel Actual − Nivel Base   ← el mismo `q` que health/shields/armor
+L, U  = 45, 50                      ← sobre ese mismo Δnivel, NO nivel absoluto
 ```
 
-**Overguard base de todo Eximus = 12.** Unidades normales pueden tener Overguard en situaciones
-puntuales (ej. tras destruir un Overguard Exodamper en Void Armageddon).
+**Overguard base de Eximus = 12 es el default, no un valor fijo.** El gadget lo reemplaza por el
+Overguard Eximus propio del enemigo cuando ese dato existe (`eximus_overguard_v !== 0`) — mismo patrón
+de reemplazo que `eximus_health` (ver §Escalado de Eximus). Unidades normales pueden tener Overguard en
+situaciones puntuales (ej. tras destruir un Overguard Exodamper en Void Armageddon).
 
-El exponente **4** de la curva baja es el más alto de cualquier stat del juego: entre nivel 1 y 45 el
+El exponente **4** de la curva baja es el más alto de cualquier stat del juego: entre Δnivel 0 y 45 el
 Overguard crece muchísimo más rápido que health, shields o armor.
 
 **Aviso de la propia wiki:** la sección de Overguard es la única del artículo cuya referencia es un
 hilo de Reddit de 2022 marcado *`[Confirmation needed]`*. Es la fórmula peor respaldada de la página.
 
-> Fuente autoritativa de TODO lo anterior: `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`
-> (el gadget del calculador del wiki). Diferido en el engine hasta abrir el frente Eximus/SP (gate de
-> honestidad — Arid Butcher normal primero).
+> Curvas: [`../sources/enemies-infobox.md`](../sources/enemies-infobox.md) (`Module:Enemies/infobox`
+> §Las cuatro tablas). Aritmética (`q`, `trans()`, el reemplazo de base y su orden):
+> `references/temp/ext.gadget.enemyinfoboxslider-script-0.js`. Diferido en el engine hasta abrir el
+> frente Eximus/SP (gate de honestidad — Arid Butcher normal primero).
 
 ## Damage (daño de enemigos)
 
@@ -241,9 +243,18 @@ Los tres:              combinación de las dos fórmulas anteriores
 
 ## Escalado de Eximus
 
-Los Eximus usan el escalado de health de su facción **más un incremento de health base SEPARADO,
-dependiente del nivel** (`x` = level difference). El health del Codex NO es el base del Eximus antes de
-este incremento. Piecewise (`Base Health` = health base de la unidad):
+**El base de un Eximus es un reemplazo, no un componente sumado.** El gadget hace
+`if (eximus_health_v !== 0) base_health = eximus_health_v` **antes** de correr cualquier escalado —
+sustituye al `health` normal de la unidad, no se suma sobre él. Por eso puede ser **menor** que el
+health normal (`Scrofa Drover Bursa`, Corpus: 1200 → 900 Eximus — verificado en
+`Module:Enemies/data/corpus`, 31 casos con `EximusHealth ≠ Health`): imposible si fuera un total
+agregado o un componente sumado. El mismo patrón de reemplazo aplica a
+`eximus_shield`/`eximus_armor`/`eximus_affinity`/`eximus_overguard`. El health del Codex NO refleja este
+reemplazo.
+
+Sobre ese base ya reemplazado corre el escalado de health de la facción **más un incremento SEPARADO,
+dependiente del nivel** (`x` = level difference). Piecewise (`Base Health` = health base ya reemplazado
+si aplica):
 
 **Con Shields o Armor** (coeficiente 0.25):
 ```
