@@ -40,6 +40,7 @@ import {
   RECEIVER_MAX_STACKS_BY_LAYER,
   COLD_CRIT_LAW,
   HYDROID_MARK,
+  receiverMaxStacks,
   stackDebuffValue,
 } from '../../formulas/status/stack-debuff';
 import type { HitContext } from '../../formulas/status/effect-behavior';
@@ -96,7 +97,13 @@ describe('El receptor que fuerza por CAPA — Overguard topea Cold en 4 (§17/§
   it('la capa habla sólo de Cold: Corrosive contra el mismo target sigue en su default', () => {
     const t = makeIsolatedTarget({ overguard: 500 });
     t.applyProc('corrosion', DUMMY_HIT, 20, 0);
+    t.applyProc('freeze', DUMMY_HIT, 20, 0);
+
+    // ⚠️ **Los dos en el MISMO target, y ése es el punto.** Con sólo el `corrosion → 10` el caso pasa
+    // por dos razones indistinguibles: porque la tabla calla sobre Corrosive, o porque el canal entero
+    // está muerto. El `freeze → 4` al lado es lo que separa "calla sobre esto" de "no habla nunca".
     expect(countOf(t, 'corrosion')).toBe(10);
+    expect(countOf(t, 'freeze')).toBe(4);
     expect(RECEIVER_MAX_STACKS_BY_LAYER.overguard?.['*']).toBeUndefined();
   });
 
@@ -109,6 +116,17 @@ describe('El receptor que fuerza por CAPA — Overguard topea Cold en 4 (§17/§
   it('clase + capa componen sin pisarse: un acólito con Overguard sigue en 4', () => {
     expect(countOf(frozen(20, 500, { unitClass: ['acolyte'] }), 'freeze')).toBe(4);
     expect(countOf(frozen(20, 0, { unitClass: ['acolyte'] }), 'freeze')).toBe(4);
+
+    // ⚠️ **El número solo NO prueba la composición**: los dos pobladores fuerzan `4`, así que el
+    // acólito da `4` aunque la capa no participe — el caso pasaba entero con el canal desconectado.
+    // Lo que hay que medir es que la capa APORTE su fila, no que el resultado coincida.
+    const conAmbas = makeIsolatedTarget({ overguard: 500, unitClass: ['acolyte'] });
+    expect(receiverMaxStacks(conAmbas.receiverContext(), 'freeze')).toEqual([
+      { verb: 'forces', value: 4 },   // la clase
+      { verb: 'forces', value: 4 },   // la capa
+    ]);
+    // Y sobre un status que sólo la clase nombra, la capa calla: una fila, no dos.
+    expect(receiverMaxStacks(conAmbas.receiverContext(), 'corrosion')).toHaveLength(1);
   });
 
   /** Una capa presente sin fila en la tabla **calla** — no es la presencia de capas lo que desvía. */
