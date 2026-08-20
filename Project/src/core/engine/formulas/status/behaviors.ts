@@ -149,8 +149,9 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 // ⚠️ AUSENCIAS DIFERIDAS (no simplificaciones — dato/mecánica que hoy NO existe):
 //   · Freeze cap 4 stacks en Overguard — LEY Y CANAL CONSTRUIDOS (#11): la capa entra por
 //     `ReceiverContext.layers_present` y `receiverMaxStacks` la compone con la clase. Lo que sigue
-//     ausente es **el origen de la capa**: `current_overguard` nace en 0 y nada de producción lo sube
-//     (sólo `setLayer` y el harness), así que el desvío se ejerce contra un Overguard declarado.
+//     ausente es **el origen de la capa**: `current_overguard` nace en 0 y ningún camino de producción
+//     lo SUBE — `receive` sólo lo baja—, así que la cantidad inicial se declara. El lazo de bajada sí
+//     es real y está medido end-to-end: romper la capa con daño devuelve el cap (`overguard-e2e.test.ts`).
 //     "Bosses" queda afuera por otra razón: `arch-decisions §22` lo veta — no pasa el test de tres vías.
 //   · Freeze 10º stack (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — sin modelar — #12.
 //   · Puncture no aplica a AoE / habilidades de warframe — gratis hoy (el modelo son hits de arma),

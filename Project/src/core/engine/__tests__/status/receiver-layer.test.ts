@@ -81,6 +81,8 @@ describe('El receptor que fuerza por CAPA — Overguard topea Cold en 4 (§17/§
     const t = frozen(20, 500);
     expect(countOf(t, 'freeze')).toBe(4);
 
+    // ⚠️ `setLayer` es el atajo de LEY: acá se mide que el contexto reacciona al número, no cómo el
+    // número llegó a cero. Romperla con daño resuelto por el camino real es `overguard-e2e.test.ts`.
     t.setLayer('overguard', 0);
     t.applyProc('freeze', DUMMY_HIT, 20, 0);
     expect(countOf(t, 'freeze')).toBe(FREEZE_DEFAULT_CAP);
@@ -110,7 +112,7 @@ describe('El receptor que fuerza por CAPA — Overguard topea Cold en 4 (§17/§
   });
 
   /** Una capa presente sin fila en la tabla **calla** — no es la presencia de capas lo que desvía. */
-  it('el shield está presente en toda entidad viva y no desvía nada', () => {
+  it('un shield presente no desvía nada: la tabla decide, no el hecho de portar capas', () => {
     expect(countOf(frozen(20, 0, { shields: 300 }), 'freeze')).toBe(FREEZE_DEFAULT_CAP);
     expect(RECEIVER_MAX_STACKS_BY_LAYER.shield).toBeUndefined();
   });
