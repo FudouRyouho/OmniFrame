@@ -845,8 +845,8 @@ canal**:
 
 | Ítem | Lo que queda, y por qué no es este canal |
 |---|---|
-| Cold cap 4 stacks (#11) | el cap de Cold a `4` no depende de qué unidad es sino de que el **Overguard esté presente en `t`** — capa, no clase (§22), y sin origen modelado |
-| **Overguard como capa de entidad** | ídem: falta de dónde **sale** la capa, no cómo se lee |
+| Cold cap 4 stacks (#11) | ✅ **CERRADO.** No dependía de qué unidad es sino de que el **Overguard esté presente en `t`** — capa, no clase (§22); el canal la lee por `ReceiverContext.layers_present` y `receiverMaxStacks` la compone con la clase |
+| **Overguard como capa de entidad** | lo que sigue faltando es de dónde **sale** la capa, no cómo se lee: `current_overguard` nace en `0` y ningún camino de producción lo sube |
 | `OQ-ENGINE-22` (EHP/DR `enemy/`→`entity/`) | sigue sin consumidor — el gate era real pero el residual es de demanda |
 | `OQ-ENGINE-28` (resistencias por entidad) | ídem |
 
@@ -862,20 +862,28 @@ todavía"*.
 | **`GameLaws` baja a `formulas/`** | ✅ **EJECUTADO.** Los seis parámetros viven en `formulas/status/stack-debuff.ts` como constantes con su fórmula, y las firmas de los behaviors ya no reciben `laws`. |
 | **La tabla plana se retira** | ✅ **EJECUTADO.** `GameLaws`, `BASELINE_GAME_LAWS`, `SimulationContext.laws`, `EntityState.laws` y `MutatorBridge.extractLaws` no existen más. |
 | **La cadena de cuatro eslabones** (default → emisor → receptor → cap) | ✅ **CORRE ENTERA.** La primitiva vive en [`formulas/common/param-deviation.ts`](../../../../Project/src/core/engine/formulas/common/param-deviation.ts) con los 10 casos del corpus en su suite. **Emisor:** shard en el warframe → ruteo `GAMEPLAY→weapon` → nodo en el arma → instancia → `applyProc`. **Receptor:** clase en `enemy-stats.override.json` → curación → entidad → `ReceiverContext` → `applyProc`. Un caso vivo por lado, y el mismo emisor rinde `19` contra un hostil común y `4` contra un acólito. |
+| **Los tres pobladores del canal del receptor** | ✅ **COMPLETO — uno por registro de §22, y llegaron por caso, no por diseño.** `unit_class` (clase, Acolyte) · `marks` (estado, Hydroid, #8) · `layers_present` (capa, Overguard, #11). Los tres son `ParamDeviation` sobre el mismo tipo y entran por el mismo campo de `resolveParam`; lo que cambia con el poblador es **cuándo muere el desvío**: la clase nunca, la marca es permanente por declaración de su fuente, la capa se agota y el default vuelve en ese instante. |
 
 **Los dos lados llegan al behavior en idiomas distintos, y ahí se encuentran.** El emisor declara por
 **parámetro de ley** (`corrosive.maxStacks`, vía token y nodo); el receptor por **status** (`'*' → 4`,
-`stagger → 3`, vía clase de unidad). No se unificaron: quien traduce es el behavior, que ya conoce su
-efecto y su default — preguntarle a cada lado en su propio idioma es simétrico con eso, y resolverlo
+`stagger → 3`, `freeze → 4`, vía clase de unidad o capa portada). No se unificaron: quien traduce es el
+behavior, que ya conoce su efecto y su default — preguntarle a cada lado en su propio idioma es simétrico con eso, y resolverlo
 afuera obligaría al contenedor a conocer las leyes, que es justo lo que esta sección le saca.
 
 **El contexto del receptor llega a `applyProc` y a `resolutionModifier`; a `critModifier` todavía no.**
 El primero que entró por `resolutionModifier` es la marca de Hydroid sobre el coeficiente de strip
 (#8). ⚠️ Lo que `critModifier` va a necesitar **no es este canal**: la pasiva de Gyre pide la identidad
 del **source**, que la instancia descarta a propósito (#33). Y el cap de Cold a `4` con Overguard
-presente (#11) tampoco entra por acá — se aplica en `applyProc`, que ya recibe el contexto; lo que le
-falta es que el contexto lleve la capa, que **no es clase sino estado en `t`**. Anclado en
-`__tests__/status/{receiver-law,receiver-modifies}.test.ts`.
+presente (#11) nunca entró por acá — se aplica en `applyProc`, que ya recibía el contexto; lo que le
+faltaba era que el contexto llevara la capa (`layers_present`), que **no es clase ni estado sino capa
+presente en `t`** — el tercer registro de §22. Anclado en
+`__tests__/status/{receiver-law,receiver-modifies,receiver-layer}.test.ts`.
+
+**Y `critModifier` quedó medido, no supuesto.** El caso de Cold cierra sin tocarlo porque el bonus de
+crit es `f(count)` y el contexto ya actuó **aguas arriba**, sobre el contador: con el cap forzado a `4`
+el valor es `f(4) = 0.25`, por debajo del techo `COLD_CRIT_LAW.cap = 0.5 = f(9)`, así que el clamp no
+interviene. El issue pedía originalmente llevar el contexto a los tres métodos; construir esa mitad no
+habría cerrado su propio caso.
 
 **Quién ocupa el rol de EMISOR: la instancia — y por eso el Jugador-raíz sigue sin materializarse.** La
 pregunta parecía estar entre el warframe (donde está el shard) y el Jugador (a quien el desvío
@@ -1636,6 +1644,13 @@ Ante cualquier propiedad de una entidad, **una sola pregunta la clasifica**:
 Las tres son excluyentes y ninguna propiedad conocida entra en dos. §21 ya lo usa para separar la
 **resistencia por unidad** (clase) de `Damage Vulnerability` (estado); acá queda declarado en vez de
 prestado.
+
+✅ **Y el test está construido como estructura, no como criterio de revisión.** `ReceiverContext` (§17)
+tiene exactamente tres pobladores y son estos tres registros — `unit_class` · `marks` ·
+`layers_present`—, uno por caso que fue llegando: el Acolyte, la marca de Hydroid (#8), el Overguard
+(#11). No se diseñó así: los casos aterrizaron en su casilla y la terna quedó cerrada sola, que es la
+evidencia más fuerte de que la partición corta por donde el dominio corta. **Un cuarto poblador sería
+una revisión de esta sección**, no un campo más.
 
 ⚠️ **La invulnerabilidad no es una capa**, aunque se dibuje en la misma barra: no tiene cantidad, tiene
 **duración**. Es el único ítem de la cadena `health → shield → overshield → overguard` que es estado, y
