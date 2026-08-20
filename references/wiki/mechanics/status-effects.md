@@ -4,7 +4,8 @@
 > Rol: mecánicas de efectos de estado — aplicación y reparto, los status sin tipo de daño, fórmulas de DoT, stacks, duración, CC, y las tres defensas
 > Fuente de verdad de: comportamiento de procs — aplicación por pellet, **re-normalización del reparto por inmunidad del enemigo**, los **status independientes del daño** (y cuáles cuentan para CO), DoT, stacks, duración/ciclo de vida, CC, **Status Damage como stat**, y la partición inmunidad / cleansing / resistencia
 > No usar para: elección del tipo de proc por peso de daño — ver `damage-types.md` §Regla de elección de proc
-> Última actualización: 2026-08-13
+> Última actualización: 2026-08-20 (corregido §Disrupt: decía ×3.25 a 10 stacks; la propia fórmula
+> citada en la misma oración da ×4.25 — error de destilación, no de fuente)
 > Fuente: https://wiki.warframe.com/w/Status_Effect
 > Fuente actualizada: 2026-08-13
 > Raw: status-effect.wikitext
@@ -464,7 +465,7 @@ multiplier = 1 + initial_bonus + (stacks − 1) × stack_bonus
 ### Disrupt (Magnetic)
 
 Multiplica el daño recibido en la capa de shields (y Overguard). Misma fórmula de stacks
-que Infection (`2 + 0.25 × (n − 1)` → ×3.25 a 10 stacks).
+que Infection (`2 + 0.25 × (n − 1)` → 3.25 extra → ×4.25 total a 10 stacks).
 
 - Niega la recarga natural de shields durante el proc. **Los efectos que *restauran* shields
   (links de Shield Osprey y Orokin Drone) bypasean esa penalidad.**
