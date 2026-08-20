@@ -17,7 +17,7 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
 import { damageReductionFromArmor } from '../formulas/enemy/armor-mitigation';
-import { scaleHealth } from '../formulas/enemy/enemy-scaling';
+import { scaleHealth, scaleOverguard } from '../formulas/enemy/enemy-scaling';
 import { hostileEntity } from './hostile-entity';
 import { vitalsOf } from '../simulate/EntityState';
 
@@ -133,5 +133,29 @@ describe('Enemy scaling — SHIELDS (gap cerrado 2026-07-09; fórmula de enemy-l
     // Security Camera: shields=10, sin equivalente al floor-200 de armor.
     const cam = '/Lotus/Types/Enemies/Corpus/Turrets/TurretAvatars/SecurityCameraAvatar';
     expect(vitalsAt(cam, 1).shields).toBeCloseTo(10, 0);
+  });
+});
+
+describe('Enemy scaling — OVERGUARD (primitiva pura; el origen del `base` es #38, no esta función)', () => {
+  // Fórmula y coeficientes cosechados y verificados en #45 contra `Module:Enemies/infobox` y el gadget
+  // línea por línea — no contra la prosa de la página, que tenía 4 afirmaciones falsas sobre este stat.
+  // `base=12` = el default de Overguard base Eximus que el gadget usa (enemy-level-scaling.md §Overguard).
+
+  it('región Δx<45 (dx=20): mult=241 exacto (1 + 0.0015·20⁴), base12 → 2892', () => {
+    expect(scaleOverguard(12, 20)).toBeCloseTo(2892, 4);
+  });
+
+  it('región Δx>50 (dx=100): mult≈16405.891 (1 + 260·100^0.9), base12 → 196870.69', () => {
+    expect(scaleOverguard(12, 100)).toBeCloseTo(196870.6915, 3);
+  });
+
+  it('bounds propios 45-50, NO 70-80: dx=44 ya está en la región alta de Overguard, no en la baja de health/shields/armor', () => {
+    // A dx=44 el smoothstep de Overguard AÚN no arrancó (44<45 → pura curva `below`) — el punto no es
+    // "ya cruzó", es que el bound relevante es el suyo (45), no el compartido por el resto (70).
+    expect(scaleOverguard(12, 44)).toBeCloseTo(67477.728, 2);
+  });
+
+  it('dx<=0 no escala (mult=1), igual que el resto de los stats', () => {
+    expect(scaleOverguard(12, 0)).toBe(12);
   });
 });
