@@ -4,7 +4,7 @@ Rol: "Estado e integración de formulas/ como SSoT matemático del engine"
 Impacto_ID: "E-Formulas"
 Fidelidad_Fisica: "Project/src/core/engine/formulas/"
 Fecha_de_creacion: "2026-05-27"
-Fecha_de_actualizacion: "2026-08-08"
+Fecha_de_actualizacion: "2026-08-20"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -29,18 +29,30 @@ inline en vez de consumir `formulas/`. La meta es **conectar, no reescribir** �
 | Fórmula (`formulas/`) | Consumidor | Estado |
 |---|---|---|
 | `weapon/stat-accumulator::resolveStatValue` (envuelve `common/scaling-base::applyAdditiveBonus`) | `resolve/SimulationEngine.calculateCurrentValue` | ✅ integrado — **pipeline de producción vivo (C1)** |
-| `common/crit-base::{resolveCritTier, averageCritMultiplier}` | `simulate/combat/AtomicSimulator` | ✅ integrado — pero `combat/` está **fuera del pipeline de producción** (ver abajo) |
+| `common/crit-base::{resolveCritTier, averageCritMultiplier}` | `simulate/combat/AtomicSimulator` | ✅ integrado — y **en producción por D2** (ver abajo) |
 | resto de `formulas/` | — | sin consumir |
 
-**`combat/` está desconectado del pipeline de producción.** El path vivo es display-only (C1):
+**C2 tiene consumidor de producción — es D2, no D1.** Hay **dos** caminos vivos, y confundirlos es lo
+que hace parecer que todo lo que se construye en `combat/` es invisible:
 
 ```
-useViewModel → consume(intention) → MutatorBridge → StaticHydrator + SimulationEngine → { entities }
+D1 (UI)      useViewModel → consume(intention) → MutatorBridge → StaticHydrator + SimulationEngine
+                                                                                        → { entities }   ← C1 solo
+D2 (oráculo) oracle metrics → acquire.ts → computeCombatMetrics → CombatCalculator      (target-agnostic)
+                                                                → TimelineSimulator     (vs_target)      ← C1 + C2
 ```
 
-`MutatorBridge` no llama a `CombatCalculator` ni a `TimelineSimulator`. C2 (DPS/TTK/procs) no tiene
-consumidor de producción hoy; su modelado se retoma por otro eje (`damage-status-model.md`). Por eso
-`AtomicSimulator` consume `crit-base` pero el propio `AtomicSimulator` no está en el path vivo.
+`MutatorBridge` sigue sin llamar a `CombatCalculator` ni a `TimelineSimulator`: **el que está fuera es
+D1**, no C2. `computeCombatMetrics` (`engine/output/combat-metrics.ts`) es el contrato de salida
+cristalizado por `DC-OQ-ENGINE-8`, y su consumidor de producción es
+`scripts/oracle/internal/acquire.ts` — ese mismo DC ya lo registraba. La diferencia **ordena
+trabajo**, no es de vocabulario: la decisión de orden que se sigue de ella vive en `DC-2`.
+
+**Qué falta de verdad: D1.** Y no está gated por `formulas/` ni por `combat/` — está gated por la
+cadencia melee (`current-state.md`, fila *Cadencia melee en C2*, 🔴): `TimelineSimulator` lee
+`WEAPON_ADD_FIRE_RATE` fijo, nodo que una melee no materializa, y cae al default `|| 1`. El swing time
+base por stance **no existe en ninguna fuente del pipeline**, así que conectar D1 hoy pondría un número
+creíble y falso delante del usuario. En D2 lo mira quien construye el motor; en D1, quien usa la app.
 
 ---
 
@@ -206,8 +218,10 @@ con la capa de fórmulas muerta, §6), no de pasada.
   `+127% = 50×2.54`), `volt.test.ts` repartiendo tres buffs a tres destinos. Lo que falta son sus fases
   siguientes (F2 corpus por verbo, F3 emite-instancia), y **ninguna bloquea a estos dos archivos**:
   sus destinos están en la tabla de arriba. Ver `../../../governance/current-state.md`.
-- Conexión de `weapon-crit` / `weapon-multishot` — requiere un consumidor C2 de producción (hoy
-  `combat/` está fuera del pipeline).
+- Conexión de `weapon-crit` / `weapon-multishot` — el gate no es "que C2 tenga consumidor": lo tiene
+  (D2, §1). Es que **ninguno de los dos archivos tiene consumidor propio** — `AtomicSimulator` parte el
+  multishot inline y consume `crit-base` directo, así que la reconciliación de §4 no tiene quién la
+  fuerce todavía.
 
 ---
 

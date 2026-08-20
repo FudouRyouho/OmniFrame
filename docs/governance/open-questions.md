@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-08-13"
+Fecha_de_actualizacion: "2026-08-20"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -812,8 +812,8 @@ un campo de la fuente (`@wfcd/items`) que el engine trata como input vivo pero q
   → facción no reconocida cae al **default** (health: grupo Unaffiliated tras el fix F5; shields: Grineer,
   elección de código). El enemigo escala con una curva que no es la de su facción real.
 - **FACTION_BONUS** (`targetFactionMult(token, dna.faction)`, matriz③ de `resolveHit`): `FACTION_BONUS[token]?.[faction] ?? 0`
-  → facción-basura ⇒ **bonus 0** (no se aplica el bonus anti-facción). *(`resolveHit` está fuera del pipeline
-  de producción hoy, pero el defecto es real.)*
+  → facción-basura ⇒ **bonus 0** (no se aplica el bonus anti-facción). *(`resolveHit` corre en producción
+  por D2 —`oracle metrics`, `DC-2`—, así que el defecto no sólo es real: es alcanzable.)*
 
 **Resolución (2026-07-22) — opción (b), y salió barata.** La cosecha de `Module:Enemies/data/<facción>`
 (fase-2 de `OQ-DATA-16`) la resolvió sin pipeline pesado: **el submódulo de origen ES la facción** (la tabla

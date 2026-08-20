@@ -399,6 +399,44 @@ Los otros cuatro **no los desbloquea un dato que llegue**: `HEAVY_LAND_SPEED` es
 
 ---
 
+## DC-2 — ¿El cluster del Overguard va antes que conectar C2 al pipeline? — **SÍ, y la pregunta estaba mal planteada**
+
+**Decisión:** el trabajo de fidelidad sobre C2 (cluster del Overguard: #11, #12, #17, #18, #37, #38)
+va **antes** que conectar la simulación a la UI. Y no por la doctrina del suelo antes que el techo,
+que es un argumento de forma — por dos hechos medidos.
+
+**Primero, la pregunta no es "cluster vs C2".** C2 **tiene** consumidor de producción: el oráculo D2.
+`oracle metrics` → `acquire.ts::acquire` → `computeCombatMetrics` → `TimelineSimulator.simulateBurst`
+→ `new EntityState(target)` → `receive()`/`applyProc()` — el bloque `vs_target` de esa salida **es**
+C2, y es el mismo camino donde viven las leyes del cluster. El que no consume C2 es **D1**. La
+pregunta real, entonces, es "cluster vs conectar D1".
+
+Consecuencia: el cluster no produce ley invisible. Produce ley **sin instanciar** — las tres leyes de
+capa (#11 construida, #37 construida, #18 pendiente) están a un solo dato de mover el `total_damage`
+del oráculo, y ese dato es el origen del Overguard (#38). Es el orden barato: primero el input que
+falta, no un canal nuevo.
+
+**Segundo, conectar D1 hoy publicaría un número creíble y falso.** `TimelineSimulator` lee
+`WEAPON_ADD_FIRE_RATE` fijo — nodo que una melee no materializa — y cae al default `|| 1`: C2 simula
+toda melee a 1 golpe/s, en silencio (`current-state.md`, fila *Cadencia melee en C2*, 🔴). El fix
+necesita swing time base por stance, que **no existe en ninguna fuente del pipeline** ni se cierra por
+cosecha (candidato a `references/ingame-tests/`, precedente `OQ-ENGINE-15`). En D2 ese número lo mira
+quien construye el motor; en D1 lo miraría quien usa la app. El proyecto ya trata el número creíble y
+falso como peor que el hueco declarado — misma regla que veta poblar el Overguard desde
+`eximus_health` (#38).
+
+**Qué la reabre:** que la cadencia melee se resuelva (mide su propio gate) o que aparezca un consumidor
+de D1 que no dependa de ella. Ninguno de los dos es "alguien quiere ver números en la UI".
+
+**Lo que NO decide:** el orden *dentro* del cluster, que es de roadmap y vive en los Issues. Ni difiere
+D1 indefinidamente — difiere el argumento de que D1 destraba a C2, que es al revés.
+
+**Ref:** `formulas-integration.md §1` (los dos caminos vivos), `current-state.md` (filas *Enemy /
+target model (C2)* y *Cadencia melee en C2*), `DC-OQ-ENGINE-8` (el contrato de salida y su consumidor
+D2), `#41` (el drift que sostenía el encuadre falso), Issues #11/#12/#17/#18/#37/#38/#39.
+
+---
+
 ## DC-OQ-ENGINE-12 — Crit condicional (Puncture/Cold): el gancho — CONSTRUIDO Y VALIDADO
 
 **Decisión:** el crit condicional de Puncture/Cold se resuelve por un canal separado del de
