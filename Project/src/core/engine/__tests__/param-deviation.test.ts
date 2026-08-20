@@ -96,14 +96,26 @@ describe('Composición dentro del dueño que habla', () => {
 describe('La unidad es una tabla — los tres receptores traen la suya', () => {
   type Effect = 'corrosion' | 'impact' | 'freeze';
 
+  /**
+   * ⚠️ **EL VERBO SE ELIGE POR FILA, NO POR PORTADOR** — y hasta #11 estas tres tablas lo escribían por
+   * portador, con lo que el Acolyte quedaba en `replace` acá y en `forces` en producción
+   * (`stack-debuff.ts`, con un caso que asserta el verbo). Los números coincidían —el default es mayor
+   * que `4` en los dos casos—, así que la divergencia no movía ningún resultado y no tenía quién la
+   * contradijera.
+   *
+   * El discriminador de §17 aplicado fila por fila no tiene contraejemplo: *"can only receive up to N"*
+   * acota (**`forces`**), y una cláusula de excepción que **sube** por encima del default no puede
+   * acotar y tiene que reemplazar (**`replace`**) — que es exactamente el `impact: 6` del Lich, y la
+   * razón por la que este archivo existe.
+   */
   // *"Can only receive up to 4 stacks of any Status Effect with the exception of Impact, which can
-  //  stack up to 3 times"* — el comodín declara el default del portador.
-  const ACOLYTE: DeviationTable<Effect> = { '*': modifies.replace(4), impact: modifies.replace(3) };
+  //  stack up to 3 times"* — las dos filas acotan (3 < 5 y 4 < default), las dos son `forces`.
+  const ACOLYTE: DeviationTable<Effect> = { '*': forces(4), impact: forces(3) };
   // *"No Status Effect will exceed a maximum of 4 stacks, with the exception of Impact which can stack
-  //  up to 6 times"* — mismo tratamiento, distinto número.
-  const LICH: DeviationTable<Effect>    = { '*': modifies.replace(4), impact: modifies.replace(6) };
-  // *"Cold — máximo 4 procs"*: habla de UN efecto y calla sobre el resto.
-  const OVERGUARD: DeviationTable<Effect> = { freeze: modifies.replace(4) };
+  //  up to 6 times"* — el comodín acota; la excepción SUBE, y ahí el verbo tiene que cambiar.
+  const LICH: DeviationTable<Effect>    = { '*': forces(4), impact: modifies.replace(6) };
+  // *"…can normally only receive a maximum of 4 Cold procs"*: acota, y habla de UN efecto — sin comodín.
+  const OVERGUARD: DeviationTable<Effect> = { freeze: forces(4) };
 
   it('el comodín cubre lo que la fila no nombra (Acolyte: corrosion → 4, impact → 3)', () => {
     expect(resolveParam(10, { receiver: [deviationFor(ACOLYTE, 'corrosion')!] })).toBe(4);
@@ -112,8 +124,10 @@ describe('La unidad es una tabla — los tres receptores traen la suya', () => {
 
   /**
    * `Impact` es la prueba de que esto **no** es un techo: el Lich lo lleva a `6`, **por encima** del
-   * default `5`. Un `forces` daría `min(5, 6) = 5` y contradiría a la fuente — por eso la tabla
-   * reemplaza en vez de acotar (`damage-status-model.md` §El cap no siempre es "por tipo").
+   * default `5`. Un `forces` daría `min(5, 6) = 5` y contradiría a la fuente — por eso **esa fila**
+   * reemplaza en vez de acotar (`damage-status-model.md` §El cap no siempre es "por tipo"). Su comodín,
+   * que sí acota, se queda en `forces`: es la misma tabla con dos verbos, que es lo que la unidad de
+   * declaración tiene que poder expresar.
    */
   it('el Lich SUBE el cap de Impact por encima del default: 5 → 6, no min(5,6)', () => {
     expect(resolveParam(5, { receiver: [deviationFor(LICH, 'impact')!] })).toBe(6);
@@ -128,7 +142,7 @@ describe('La unidad es una tabla — los tres receptores traen la suya', () => {
     expect(resolveParam(10, { receiver: sinDeclaracion ? [sinDeclaracion] : [] })).toBe(10);
   });
 
-  it('bosses: Freeze 9 → 4, y el default sigue siendo 9 para el resto del mundo', () => {
+  it('Overguard: Freeze 9 → 4, y el default sigue siendo 9 para el resto del mundo', () => {
     expect(resolveParam(9, { receiver: [deviationFor(OVERGUARD, 'freeze')!] })).toBe(4);
     expect(resolveParam(9)).toBe(9);
   });
