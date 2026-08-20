@@ -68,18 +68,28 @@ const ARMOR_COEF: SCoef = { below: { c: 0.005, e: 1.75 }, above: { c: 0.4, e: 0.
 const ARMOR_CAP = 2700;   // tope duro (√(3·2700)/100 = 90% DR).
 const ARMOR_FLOOR = 200;  // piso para unidades CON armadura (armor>0), tras escalar. Wiki gadget.
 
+// Overguard: fórmula ÚNICA para todas las facciones — `Module:Enemies/infobox` sólo tiene la entrada
+// `Default` (igual que armor), sin variación real por facción pese a estar indexada por facción por
+// simetría con health/shields. Bounds propios 45-50 (NO 70-80): el exponente 4 de la curva baja es el
+// más alto de cualquier stat del juego. Ver enemy-level-scaling.md §Overguard (verificado #45).
+const OVERGUARD_COEF: SCoef = { below: { c: 0.0015, e: 4 }, above: { c: 260, e: 0.9 } };
+const OVERGUARD_L = 45;
+const OVERGUARD_U = 50;
+
 /**
  * Multiplicador piecewise de la curva-S. La región se elige por **Δx (diferencia de nivel)**, NO por
- * nivel absoluto: Δx<70 crece rápido, Δx>80 lento. 70-80 = **smoothstep** `S = 3T²−2T³` con
- * `T = (Δx−70)/10` (wiki, no lineal). Ver references/wiki/mechanics/enemy-level-scaling.md.
+ * nivel absoluto. Los bounds `L`/`U` son **por stat** (health/shields/armor: 70-80 · Overguard: 45-50,
+ * ver enemy-level-scaling.md §Overguard) — default 70/80 porque son los que comparten health/shields/
+ * armor, las tres tablas que no pasan bounds propios. `L`-`U` = **smoothstep** `S = 3T²−2T³` con
+ * `T = (Δx−L)/(U−L)` (wiki, no lineal). Ver references/wiki/mechanics/enemy-level-scaling.md.
  */
-function scaleMult(coef: SCoef, dx: number): number {
+function scaleMult(coef: SCoef, dx: number, l = 70, u = 80): number {
   if (dx <= 0) return 1;
   const below = 1 + coef.below.c * Math.pow(dx, coef.below.e);
   const above = 1 + coef.above.c * Math.pow(dx, coef.above.e);
-  if (dx < 70) return below;
-  if (dx > 80) return above;
-  const t = (dx - 70) / 10;
+  if (dx < l) return below;
+  if (dx > u) return above;
+  const t = (dx - l) / (u - l);
   const s = 3 * t * t - 2 * t * t * t;
   return below + (above - below) * s;
 }
@@ -117,4 +127,13 @@ export function scaleArmor(base: number, dx: number): number {
     armor = Math.max(ARMOR_FLOOR, armor);
   }
   return armor;
+}
+
+/**
+ * OVERGUARD escalado: mismo `q` (Δnivel) que health/shields/armor, coeficientes y bounds (45-50)
+ * propios. Sin floor/cap — la wiki no documenta ninguno para Overguard, a diferencia de armor. `dx` =
+ * Δnivel ≥ 0. Primitiva pura: el origen del `base` (Eximus, habilidad, enemigo) es #38, no esta función.
+ */
+export function scaleOverguard(base: number, dx: number): number {
+  return base * scaleMult(OVERGUARD_COEF, dx, OVERGUARD_L, OVERGUARD_U);
 }
