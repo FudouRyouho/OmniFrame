@@ -4,7 +4,7 @@ Rol: "Contrato de public/data/enemies.json — forma, procedencia por campo y ga
 Impacto_ID: "data-enemy"
 Fidelidad_Fisica: "Project/public/data/enemies.json"
 Fecha_de_creacion: "2026-07-22"
-Fecha_de_actualizacion: "2026-07-22"
+Fecha_de_actualizacion: "2026-08-20"
 ---
 
 # Enemy — Schema de `enemies.json`
@@ -36,7 +36,7 @@ interface EnemyEntry {
   health: number;
   armor: number;              // 0 = sin armadura
   shields: number;            // 0 = sin escudo
-  eximus_health?: number;     // variante Eximus (283 entradas) — sin consumidor
+  eximus_health?: number;     // base de reemplazo Eximus, no total (283 entradas) — sin consumidor
   weakpoints?: Weakpoint[];   // 407 entradas — sin consumidor
 }
 interface Weakpoint {
@@ -190,9 +190,13 @@ de ellas (`Hollow Thrax Centurion`, `Void Angel`) colisionan entre sí, y ni siq
 cuál ganó. `Heavy Gunner` es peor: dos entradas del wiki con el **mismo** `InternalName`, duplicado
 exacto en la fuente.
 
-**`eximus_health` se emite sin semántica verificada.** No está confirmado si es el health *total* de la
-variante Eximus o un componente que el juego suma sobre el base. Se guarda tal cual llega; el día que
-tenga consumidor hay que verificarlo antes de usarlo.
+**`eximus_health` es el base de reemplazo de la variante Eximus — ni total ni componente sumado.**
+El juego lo sustituye al `health` normal **antes** de correr el escalado (por eso puede ser *menor* que
+el `health` normal: `Scrofa Drover Bursa` 1200 → 900 Eximus, imposible bajo las otras dos lecturas). Ley
+completa en
+[`../../../../references/wiki/mechanics/enemy-level-scaling.md`](../../../../references/wiki/mechanics/enemy-level-scaling.md)
+§Escalado de Eximus. Se guarda tal cual llega; el día que tenga consumidor, aplicar como reemplazo — no
+como suma.
 
 **81 entradas de `Multis` son `""` o `"None"`** — el wiki distingue "sin punto débil" de "no lo
 sabemos". Se tratan como ausencia, que es lo que dicen.

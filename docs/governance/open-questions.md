@@ -1067,17 +1067,22 @@ siempre. Da el mismo número en aritmética exacta y **no** necesariamente en bi
 La wiki además retiró la afirmación de que las curvas se cruzan en x=80.
 
 **2. Overguard es un punto de fidelidad propio, no un detalle.** Si el engine va a modelar Overguard
-enemigo, hereda tres divergencias respecto de health, y **dos no estaban documentadas**:
+enemigo, hereda dos divergencias respecto de health/shields/armor — **`q` es el mismo input** en los
+cuatro, confirmado línea por línea contra el gadget (`Math.pow(curr_lvl - base_lvl_v, expo)`), corrección
+sobre la lectura previa de esta OQ:
 
 | | Overguard | health / shields / armor |
 |---|---|---|
-| input de nivel | **`Nivel Actual − 1`** (ignora el base level de la unidad) | `Nivel Actual − Nivel Base` |
-| bounds `L`/`U` | **45 / 50** | 70 / 80 |
-| coeficientes | `f1 = 1 + 0.0015·q⁴` · `f2 = 1 + 260·q^0.9` | por facción |
+| input de nivel | `Nivel Actual − Nivel Base` (mismo `q`) | `Nivel Actual − Nivel Base` |
+| bounds `L`/`U` | **45 / 50** (sobre ese mismo Δnivel) | 70 / 80 |
+| coeficientes | `f1 = 1 + 0.0015·q⁴` · `f2 = 1 + 260·q^0.9` — universales, una sola entrada `Default` | por facción (health/shields); armor también universal |
 
-Base de todo Eximus = **12**. ⚠️ Es además **la fórmula peor respaldada de la página**: su única
-referencia es un hilo de Reddit de 2022 marcado `[Confirmation needed]`. Entra al engine con menos
-crédito que el resto de la tabla, no con el mismo.
+Base Eximus = **12 es el default**, reemplazado por el Overguard Eximus propio del enemigo cuando ese
+dato existe (`eximus_overguard_v !== 0`). ⚠️ Es además **la fórmula peor respaldada de la página**: su
+única referencia es un hilo de Reddit de 2022 marcado `[Confirmation needed]`. Entra al engine con menos
+crédito que el resto de la tabla, no con el mismo. Detalle y verificación: `#45` /
+[`../../references/wiki/mechanics/enemy-level-scaling.md`](../../references/wiki/mechanics/enemy-level-scaling.md)
+§Overguard.
 
 **3. Pregunta nueva — ¿reproducimos binary32?** La fuente ahora declara la precisión como **normativa**:
 *"coefficients, exponents, power results, and intermediate arithmetic results must be evaluated in
