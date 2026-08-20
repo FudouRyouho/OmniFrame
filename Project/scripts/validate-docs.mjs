@@ -217,15 +217,19 @@ if (fs.existsSync(SRC)) {
 // WARN y no ERROR: no rompe nada funcional, y el juicio de si re-apuntar o reescribir la oración es
 // de quien lee. Un gate que bloquea por esto empujaría a silenciarlo.
 // ─────────────────────────────────────────────────────────────────────────────
+// ⚠️ El ID admite `[A-Z]*\d+` y no sólo `\d+`: el corpus acuñó IDs de la forma letra+dígito
+// (`OQ-ENGINE-O4`, de `damage-flow-model §8`). Con el patrón viejo esa familia entera era
+// **invisible** — ni entraba a `OQ_CERRADAS` ni disparaba `cita-oq-cerrada`, así que una OQ así podía
+// cerrar y dejar el corpus entero pidiendo cerrarla sin que nada sonara. Medido: pasó con O4.
 const OQ_CERRADAS = new Set(
   [...(fs.existsSync(path.join(DOCS, 'governance/closed-decisions.md'))
     ? fs.readFileSync(path.join(DOCS, 'governance/closed-decisions.md'), 'utf-8')
-    : '').matchAll(/DC-(OQ-[A-Z]+-\d+)/g)].map((m) => m[1]),
+    : '').matchAll(/DC-(OQ-[A-Z]+-[A-Z]*\d+)/g)].map((m) => m[1]),
 );
 const OQ_VIVAS = new Set(
   [...(fs.existsSync(path.join(DOCS, 'governance/open-questions.md'))
     ? fs.readFileSync(path.join(DOCS, 'governance/open-questions.md'), 'utf-8')
-    : '').matchAll(/^\| `(OQ-[A-Z]+-\d+)`/gm)].map((m) => m[1]),
+    : '').matchAll(/^\| `(OQ-[A-Z]+-[A-Z]*\d+)`/gm)].map((m) => m[1]),
 );
 
 const OQ_DICE_CIERRE = /cerrad|resuelt|respondida|migró|lápida|renumerad|purgad/i;
@@ -250,7 +254,7 @@ if (OQ_CERRADAS.size > 0) {
       if (OQ_DICE_CIERRE.test(linea)) continue;                                    // exención 3
       if (OQ_METADATA.test(linea)) continue;                                       // exención 4
       if (OQ_MARCA_HECHO.test(linea)) continue;                                    // exención 5
-      for (const m of linea.matchAll(/(?<!DC-)\b(OQ-[A-Z]+-\d+)\b/g)) {
+      for (const m of linea.matchAll(/(?<!DC-)\b(OQ-[A-Z]+-[A-Z]*\d+)\b/g)) {
         const oq = m[1];
         if (!OQ_CERRADAS.has(oq) || OQ_VIVAS.has(oq)) continue;
         add('WARN', 'cita-oq-cerrada', f, `linea ${i + 1}: cita \`${oq}\`, que cerro como \`DC-${oq}\` — re-apuntar o reescribir (docs/CLAUDE.md §Frontera open-questions↔closed-decisions)`);
@@ -309,7 +313,7 @@ const CAMPOS_REF = ['Estado', 'Rol', 'Fuente de verdad de', 'No usar para', 'Úl
  * `sources/` los traen literales en `UpgradeTypes`. Ese solapamiento es real y no lo
  * resuelve un regex: va como INFO, que es la casilla para "patrón sin autoridad clara".
  */
-const VOCABLO_PROPIO = /\b(OQ-[A-Z]+-\d+|D-\d+|engine v\d+)\b|Project\/src\//g;
+const VOCABLO_PROPIO = /\b(OQ-[A-Z]+-[A-Z]*\d+|D-\d+|engine v\d+)\b|Project\/src\//g;
 const VOCABLO_AMBIGUO = /\b(?:WEAPON|AVATAR)_[A-Z][A-Z_]+\b/g;
 
 /** README §Estructura — `sources/` está declarado FUERA de estas reglas ("excepción declarada"). */

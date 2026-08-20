@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-08-13"
+Fecha_de_actualizacion: "2026-08-20"
 ---
 
 # Engine Status
@@ -78,8 +78,9 @@ campaña de saneamiento A+B+C. Modelo de 5 capas
 > **objetivo resuelto** en el pipeline de daño (facción × DR × capa) está resuelto: `resolveDamageEvent`/`resolveHit`
 > consumen `targetFactionMult` (matriz③) + `damageReductionFromArmor` (DR), ver
 > `damage-status-model.md §Reconciliación de resolveHit`. **Ojo:** esto es acoplamiento *dentro* de C2
-> (`TimelineSimulator`/`CombatSimulator`) — C2 en sí sigue **fuera** del pipeline de producción
-> (`design/formulas-integration.md §1`: el camino vivo es solo C1, `MutatorBridge → SimulationEngine`).
+> (`TimelineSimulator`/`CombatSimulator`). C2 en sí **corre en producción por D2** (el oráculo, vía
+> `computeCombatMetrics`); el que no lo consume es **D1** — `MutatorBridge → SimulationEngine` se queda
+> en C1 (`design/formulas-integration.md §1`, `DC-2`).
 > **Camino de resolución unificado:** `TimelineSimulator.simulateBurst` resuelve el hit directo vía
 > `CombatSimulator.simulateAttack` (mismo híbrido atómico/bulk que un ataque suelto). Consecuencia: con
 > multishot ≤ `HYBRID_THRESHOLD` (casi toda arma real) el modo es **atómico → timeline estocástico**,
@@ -295,11 +296,12 @@ absorbe 3-4 naturalezas distintas en ~90 líneas — falloff (física espacial),
 consumidor** tras retirar `status_projections`/`StatusEngine`) y aritmética de DPS/reload/magazine. Mismo síndrome que ya resolvió `resolveHit`. **No es
 deuda de investigación** — el patrón para resolverlo ya existe y está probado 4 veces (`FAMILY_RESOLVERS`
 en `SimulationEngine`, y la reconciliación de `resolveHit` con accessors dedicados por naturaleza).
-`combat/` sigue fuera del pipeline de producción (`design/formulas-integration.md §1`) — sin consumidor
-C2 real, no se reconcilia todavía (gate = consumidor, no ausencia de plan).
+El gate no es que C2 no corra en producción —corre, por D2 (`design/formulas-integration.md §1`)—: es
+que `project()` **no tiene consumidor que ejerza sus cuatro naturalezas por separado**, y descomponer
+sin ese consumidor sería la abstracción especulativa de siempre (gate = consumidor, no ausencia de plan).
 
-- `engine:debt` — descomponer `project()` en piezas por naturaleza cuando `combat/` tenga un consumidor
-  de producción. [verificación de estabilidad pre-C1]
+- `engine:debt` — descomponer `project()` en piezas por naturaleza cuando algo ejerza sus naturalezas
+  por separado. [verificación de estabilidad pre-C1]
 
 ### El enemigo no declara clase per-capa — y `RawEnemyEntry` deja de restar
 

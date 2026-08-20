@@ -46,7 +46,7 @@ D2 (oráculo) oracle metrics → acquire.ts → computeCombatMetrics → CombatC
 D1**, no C2. `computeCombatMetrics` (`engine/output/combat-metrics.ts`) es el contrato de salida
 cristalizado por `DC-OQ-ENGINE-8`, y su consumidor de producción es
 `scripts/oracle/internal/acquire.ts` — ese mismo DC ya lo registraba. La diferencia **ordena
-trabajo**, no es de vocabulario: la decisión de orden que se sigue de ella vive en `DC-OQ-ENGINE-C2D1`.
+trabajo**, no es de vocabulario: la decisión de orden que se sigue de ella vive en `DC-2`.
 
 **Qué falta de verdad: D1.** Y no está gated por `formulas/` ni por `combat/` — está gated por la
 cadencia melee (`current-state.md`, fila *Cadencia melee en C2*, 🔴): `TimelineSimulator` lee
@@ -218,8 +218,10 @@ con la capa de fórmulas muerta, §6), no de pasada.
   `+127% = 50×2.54`), `volt.test.ts` repartiendo tres buffs a tres destinos. Lo que falta son sus fases
   siguientes (F2 corpus por verbo, F3 emite-instancia), y **ninguna bloquea a estos dos archivos**:
   sus destinos están en la tabla de arriba. Ver `../../../governance/current-state.md`.
-- Conexión de `weapon-crit` / `weapon-multishot` — requiere un consumidor C2 de producción (hoy
-  `combat/` está fuera del pipeline).
+- Conexión de `weapon-crit` / `weapon-multishot` — el gate no es "que C2 tenga consumidor": lo tiene
+  (D2, §1). Es que **ninguno de los dos archivos tiene consumidor propio** — `AtomicSimulator` parte el
+  multishot inline y consume `crit-base` directo, así que la reconciliación de §4 no tiene quién la
+  fuerce todavía.
 
 ---
 

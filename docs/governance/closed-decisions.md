@@ -399,7 +399,7 @@ Los otros cuatro **no los desbloquea un dato que llegue**: `HEAVY_LAND_SPEED` es
 
 ---
 
-## DC-OQ-ENGINE-C2D1 — ¿El cluster del Overguard va antes que conectar C2 al pipeline? — **SÍ, y la pregunta estaba mal planteada**
+## DC-2 — ¿El cluster del Overguard va antes que conectar C2 al pipeline? — **SÍ, y la pregunta estaba mal planteada**
 
 **Decisión:** el trabajo de fidelidad sobre C2 (cluster del Overguard: #11, #12, #17, #18, #37, #38)
 va **antes** que conectar la simulación a la UI. Y no por la doctrina del suelo antes que el techo,
