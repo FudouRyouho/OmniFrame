@@ -847,14 +847,15 @@ canal**:
 | Ítem | Lo que queda, y por qué no es este canal |
 |---|---|
 | Cold cap 4 stacks (#11) | ✅ **CERRADO.** No dependía de qué unidad es sino de que el **Overguard esté presente en `t`** — capa, no clase (§22); el canal la lee por `ReceiverContext.layers_present` y `receiverMaxStacks` la compone con la clase |
-| **Overguard como capa de entidad** | lo que sigue faltando es de dónde **sale** la capa, no cómo se lee: `current_overguard` nace en `0` y ningún camino de producción lo sube |
+| **Overguard como capa de entidad** | ✅ **CERRADO por el camino Eximus** (#38): `HostileIntent.isEximus` → `normalizeEnemy` emite `ENEMY_ADD_OVERGUARD_MAX` → `vitalsOf` lo lee y el constructor de `EntityState` lo asienta. Los otros dos orígenes que `contracts/layers.ts` nombra —habilidad del jugador (Iron Skin), un enemigo que se lo da a otro— siguen sin construir, y `current_overshield` no tiene ninguno |
 | `OQ-ENGINE-22` (EHP/DR `enemy/`→`entity/`) | sigue sin consumidor — el gate era real pero el residual es de demanda |
 | `OQ-ENGINE-28` (resistencias por entidad) | ídem |
 
 **No eran cuatro gates: era uno, y se partió en dos.** La parte *"el portador no puede llevar datos
-propios"* está resuelta; la que sobrevive es *"la capa no tiene de dónde nacer"*, que es otra cosa y
-tiene otro dueño. El dato sigue esperando en el contrato — `eximus_health?` se emite *"sin consumidor
-todavía"*.
+propios"* está resuelta, y la que sobrevivía —*"la capa no tiene de dónde nacer"*— cerró con #38 por el
+camino Eximus. ⚠️ **`eximus_health` sigue sin consumidor y eso no cambió**: el monto del Overguard sale
+del default de la ley (`12`, el que usa el gadget del wiki), no de ese campo — son dos datos distintos
+y el de la fila del enemigo todavía no lo lee nadie.
 
 ### Estado de ejecución — la cadena corre entera con un caso por lado
 
@@ -1720,14 +1721,20 @@ distinto — medido sobre `enemies.json` (638 entradas):
 | **Eximus** | **283 filas traen `eximus_health`** y ninguna *es* un Eximus | variante instanciable → la elige quien instancia |
 
 *"Almost any base unit type can spawn as an Eximus"* no es una frase suelta: es la forma en que el dato
-lo guarda. Un Kuva Bombard Eximus es **dos clases a la vez**, y por eso `unit_class` es conjunto y no
-escalar — un escalar tendría que elegir. ⚠️ **La forma va por delante de su caso** (hoy ninguna entidad
-porta dos) y queda marcada para revisión: si Eximus termina entrando como elección del escenario en vez
-de como identidad del dato, el conjunto es forma sin caso y baja a escalar.
+lo guarda.
 
-**Y el segundo origen no está construido.** El escenario decide qué participantes existen y con qué
-forma (§17, *el escenario no es un quinto eslabón*); elegir *"éste spawnea como Eximus"* es exactamente
-eso, y hoy no hay por dónde. Anclado en `__tests__/status/receiver-law.test.ts`.
+✅ **La revisión que esta sección tenía marcada se ejecutó, y dio el resultado opuesto al que la forma
+anticipaba.** El texto decía: *"si Eximus termina entrando como elección del escenario en vez de como
+identidad del dato, el conjunto es forma sin caso y baja a escalar"* — y eso fue exactamente lo que
+pasó (#38). Eximus entra por `HostileIntent.isEximus`, la **pregunta del escenario**, no por una
+entrada más de `unit_class`: un Kuva Bombard Eximus sigue siendo **un portador con una clase** (o
+ninguna) más una capa que nace con cantidad. `unit_class` es **escalar** (`contracts.ts`); el caso que
+hubiera exigido el conjunto no se materializó por este canal.
+
+**El segundo origen se construyó.** El escenario decide qué participantes existen y con qué forma (§17,
+*el escenario no es un quinto eslabón*); elegir *"éste spawnea como Eximus"* es exactamente eso, y ahora
+hay por dónde. Medido en `__tests__/status/receiver-law.test.ts`: el mismo registro base da
+`current_overguard = 0` sin declarar y `> 0` con `isEximus`.
 
 ⚠️ **Y las exclusiones de 18.5 están escritas del lado del emisor** (*"la habilidad X ya no hace Y a
 bosses"*), no del receptor (*"bosses ignoran Y"*). **El fraseo de la fuente no dice dónde vive la

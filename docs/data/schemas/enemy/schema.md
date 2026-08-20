@@ -53,7 +53,7 @@ Consumidor: `EnemyRepository.load` (`RawEnemyEntry` = este contrato + lo que el 
 ```ts
 type EnemyOverride = Record<string, {
   base_level?: number;
-  unit_class?: readonly UnitClass[];   // hoy: 'acolyte' (6 filas)
+  unit_class?: UnitClass;   // hoy: 'acolyte' (6 filas)
 }>;
 ```
 

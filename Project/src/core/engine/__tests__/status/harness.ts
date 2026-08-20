@@ -31,9 +31,12 @@ export interface IsolatedTargetSpec {
   armor?: number;    // default 0 (sin armor → sin DR)
   shields?: number;  // default 0 (sin shields → todo hit va a salud)
   /**
-   * Las dos capas que la pila declara sin origen modelado (`contracts/layers.ts`). Se declaran acá
-   * como cualquier otro número del banco de pruebas: lo que se ejerce es la LEY de consumo, no de
-   * dónde sale la cantidad — que es justamente lo que todavía no existe.
+   * Las dos capas de arriba de la pila (`contracts/layers.ts`). Se declaran acá como cualquier otro
+   * número del banco: lo que se ejerce es la LEY de consumo, no de dónde sale la cantidad.
+   *
+   * El Overguard **sí** tiene origen desde #38 (`HostileIntent.isEximus`, probado end-to-end en
+   * `receiver-law.test.ts`); declararlo acá igual es deliberado — un número elegido a mano hace el caso
+   * legible y no ata el test de LEY al dato del catálogo. `overshield` sigue sin ningún origen.
    */
   overguard?: number;
   overshield?: number;
@@ -72,14 +75,25 @@ export function makeIsolatedTarget(spec: IsolatedTargetSpec = {}): EntityState {
   state.current_overshield = spec.overshield ?? 0;
   if (spec.marks) state.marks = spec.marks;
   // Status pre-declarado (C1): materializa el estado de proc del modelo unificado directamente.
-  // corrosion/infection/disruption = `{ count }`; ignite (Heat) = su estado de pool + ignite stacks.
+  // corrosion/infection/disruption = `{ count }`; ignite (Heat) = su pool + ignite stacks;
+  // freeze (Cold) = contador + el reloj de la congelación.
+  //
+  // ⚠️ **Un efecto con estado propio tiene que declararse ENTERO acá.** `freeze` se escribía como
+  // `{ count }` y su `frozenUntil` quedaba `undefined`: el behavior lo leía como "congelado" (en JS
+  // `undefined !== null`), así que un target con 5 stacks declarados cobraba el `+1.0×` de la
+  // congelación sólida y su contador **no decaía nunca**. El behavior ahora se defiende (`isFrozen`
+  // usa `!= null`), pero el arreglo de fondo es éste: el harness FABRICA el input, y un input a
+  // medias es un estado que producción no puede alcanzar.
+  //
+  // Declarar `freeze: 10` da **10 stacks sin congelar**, que es coherente con lo que este banco hace
+  // en todos los casos: declara el contador, no el ciclo de vida. Para ejercer la congelación real se
+  // usa `applyProc` por el camino del behavior (ver `freeze.test.ts`).
   if (spec.stacks) {
     for (const [effect, count] of Object.entries(spec.stacks) as Array<[StatusEffect, number]>) {
       if (!count) continue;
-      state.effectStates.set(
-        effect,
-        effect === "ignite" ? { pool: 0, ignite: count, firstProcTime: 0 } : { count },
-      );
+      if (effect === "ignite") state.effectStates.set(effect, { pool: 0, ignite: count, firstProcTime: 0 });
+      else if (effect === "freeze") state.effectStates.set(effect, { count, frozenUntil: null });
+      else state.effectStates.set(effect, { count });
     }
   }
   return state;

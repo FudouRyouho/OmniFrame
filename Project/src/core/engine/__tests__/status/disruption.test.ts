@@ -25,8 +25,10 @@ describe('Disruption — una ley, dos capas: shield y overguard (DC-OQ-ENGINE-O4
    * MISMA `disruptionLaw()`, no con una tabla propia — la fuente da una sola frase para las dos capas
    * (`damage-magnetic-damage.wikitext:23`) y DE lo confirma en el changelog (`:175`).
    *
-   * Se mide sobre el multiplicador de la capa y no sobre el daño derramado porque el Overguard
-   * todavía no tiene origen de producción (#38): acá se declara en el harness, como en `overguard-e2e`.
+   * Se mide sobre el multiplicador de la capa y no sobre el daño derramado porque **el derrame del
+   * excedente amplificado es una pregunta abierta** (#43: `receive()` derrama sin des-amplificar, y las
+   * dos lecturas dan números creíbles — pide medición in-game). La cantidad se declara en el harness,
+   * como en `overguard-e2e`: es un test de LEY, no del origen (que existe desde #38).
    */
   it.each([
     [1, 2.0], [10, 4.25],
