@@ -43,6 +43,7 @@ function jsonView(r: AcquiredResult): unknown {
         health: r.vitals.health,
         armor: r.vitals.armor,
         shields: r.vitals.shields,
+        overguard: r.vitals.overguard,
         damage_reduction: r.dr,
         ehp: r.ehp,
       };
@@ -115,7 +116,8 @@ function textMetrics(r: MetricsResult): void {
   const v = vitalsOf(r.target);
   console.log(`\n######## METRICS: ${r.build} vs ${r.targetName} @lvl ${r.targetLevel} (dur ${r.duration}s) ########`);
   console.log(`=== [${r.weapon.channel ?? '—'}] ${r.weapon.unique_name}  (${r.weapon.domain}/${r.weapon.kind}) ===`);
-  console.log(`  target: health ${v.health.toFixed(0)}  armor ${v.armor.toFixed(0)}  shields ${v.shields.toFixed(0)}`);
+  const overguard = v.overguard > 0 ? `  overguard ${v.overguard.toFixed(0)} (Eximus)` : '';
+  console.log(`  target: health ${v.health.toFixed(0)}  armor ${v.armor.toFixed(0)}  shields ${v.shields.toFixed(0)}${overguard}`);
 
   console.log(`\n  target_agnostic (C1 suelo — sin target):`);
   console.log(`    burst_dps      : ${ta.burst_dps.toFixed(1)}`);
@@ -153,6 +155,7 @@ function textEnemy(r: EnemyResult): void {
   console.log(`  health : ${r.vitals.health.toFixed(2)}`);
   console.log(`  armor  : ${r.vitals.armor}  → DR ${(r.dr * 100).toFixed(2)}%  [√3a/100, provisional OQ-ENGINE-15]`);
   console.log(`  shields: ${r.vitals.shields.toFixed(2)}`);
+  if (r.vitals.overguard > 0) console.log(`  overguard: ${r.vitals.overguard.toFixed(2)}  (Eximus, #38)`);
   console.log(`  EHP    : ${r.ehp.toFixed(2)}  (health/(1−DR)+shields)`);
 }
 

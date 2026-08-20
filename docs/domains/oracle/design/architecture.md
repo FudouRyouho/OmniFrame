@@ -4,7 +4,7 @@ Rol: "Diseño de la organización del Oracle"
 Impacto_ID: "O-Arch"
 Fidelidad_Fisica: "Project/scripts/oracle/"
 Fecha_de_creacion: "2026-07-24"
-Fecha_de_actualizacion: "2026-08-08"
+Fecha_de_actualizacion: "2026-08-20"
 ---
 
 # Oracle — Arquitectura de la organización
@@ -96,18 +96,22 @@ consumirá después.
 ## 3. Gramática de invocación
 
 ```
-oracle <lente> <sujeto> [A2: --vs <enemy> --lvl <n> --dur <n>] [--node <attr>] [--format text|json]
+oracle <lente> <sujeto> [A2: --vs <enemy> --lvl <n> --dur <n> --eximus] [--node <attr>]
+       [--ability <id>] [--format text|json]
 ```
 
-- **`<lente>`** ∈ `{ nodes, display, metrics, trace, enemy, intention }` — punto de observación (§1);
-  `intention` diferida.
+- **`<lente>`** ∈ `{ nodes, display, metrics, trace, enemy, ability, intention }` — punto de
+  observación (§1); `intention` diferida.
 - **`<sujeto>`** — A1; resuelto en un único `resolveSubject`: nombre de build del catálogo, path a un
   `.json` parcial, o `all` (ver §3.1).
-- **`--vs / --lvl / --dur`** — **A2**, la consulta a C2; relevantes sólo cuando la lente los consume
-  (`metrics`). Nombre reservado; su contrato **no se cristaliza en docs todavía** —el uso le da forma
-  primero, mismo patrón que `ViewModelContract` (evita el error de "cristalizar un tipo sin
-  call-sites", ya purgado una vez en el motor).
+- **`--vs / --lvl / --dur / --eximus`** — **A2**, la consulta a C2; relevantes sólo cuando la lente los
+  consume (`metrics`, y `enemy` para `--lvl`/`--eximus`). Nombre reservado; su contrato **no se
+  cristaliza en docs todavía** —el uso le da forma primero, mismo patrón que `ViewModelContract` (evita
+  el error de "cristalizar un tipo sin call-sites", ya purgado una vez en el motor). `--eximus` es
+  booleano por presencia (#38) y genérico: tira si el target matchea Warden/Prosecutor, exentos de
+  Overguard y sin modelar (#50).
 - **`--node <attr>`** — selector de la lente `trace`.
+- **`--ability <id>`** — `uniqueName` de la ability para la lente `ability`.
 - **`--format`** — eje ortogonal, aplica a toda lente por igual.
 
 **A2 pertenece al motor, no al CLI.** El target/nivel/duración no son un invento del Oracle: son la
