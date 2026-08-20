@@ -37,7 +37,7 @@ Lente **utilitaria** (no observa el pipeline de una build):
 
 | Lente | Sujeto | Qué expone | Estado |
 |---|---|---|---|
-| `enemy` | nombre de enemigo | el enemigo escalado (health/armor/DR/EHP), sin build | implementada; compone `effectiveHealthVsEnemy` (`formulas/enemy/effective-health.ts`, DR adoptada `√3a/100`) — sigue **fuera del grafo C1** (no pasa por `consume()`), residual menor, no bloqueante |
+| `enemy` | nombre de enemigo | el enemigo escalado (health/armor/shields/overguard/DR/EHP), sin build | implementada; compone `effectiveHealthVsEnemy` (`formulas/enemy/effective-health.ts`, DR adoptada `√3a/100`) — el EHP suma toda capa de `LAYER_STACK` (#55). ⚠️ Es un **snapshot estático fiel al calculador del wiki**, no una predicción de `ttk`: la lente `metrics` modela bypass/gate/derrame y con Overguard>0 los dos números divergen a propósito |
 
 **Por qué este eje y no la terna anterior:** un desarrollador que construye un mecanismo nuevo necesita
 ver *cada seam* —¿B hidrató bien? ¿C1 puso el bucket correcto? ¿el trace muestra la fuente esperada?—,

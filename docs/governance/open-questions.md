@@ -1129,8 +1129,15 @@ conserva su primitiva en su carpeta (`formulas/{enemy,warframe}/armor-mitigation
 el borde de resolución**, por la marca de ruteo del portador — el mismo mecanismo de `vitalsOf`.
 
 **Lo que sigue abierto es el otro término: EHP.** `effectiveHealthVsEnemy` no tiene consumidor del lado
-jugador, y su generalización arrastra además la **pila de capas** (`contracts/layers.ts`), que hoy declara
-cuatro y sólo dos tienen origen modelado. No se construye por consumidor hipotético.
+jugador. No se construye por consumidor hipotético.
+
+⚠️ **El argumento del acoplamiento ya no aplica — se pagó por otra puerta (#55).** Esta OQ
+decía que generalizar *"arrastra además la pila de capas (`contracts/layers.ts`), que hoy declara cuatro
+y sólo dos tienen origen modelado"*. Las dos mitades envejecieron: son **tres** con origen (el Overguard
+lo tiene desde #38), y la fórmula **ya importa `LAYER_STACK`** — no por generalizar a `entity/`, sino por
+fidelidad: enumerar capas a mano le costaba el término `overguard`. Así que el acoplamiento a la pila
+dejó de ser un costo futuro de esta decisión y es el estado actual. Lo que queda del gate es sólo la
+**demanda**: no hay EHP de jugador que pida esta primitiva.
 
 **Vínculo:** `OQ-ENGINE-15` (DR de enemigo, la mitad ya resuelta de este eje), `Project/src/core/engine/formulas/enemy/armor-mitigation.ts` (declara el gate), `docs/domains/oracle/design/architecture.md` (lente `enemy`, el consumidor actual de la mitad enemigo).
 **Fuente:** debate de organización del CLI oráculo (Trabajo 1/2, dominio `oracle`).
