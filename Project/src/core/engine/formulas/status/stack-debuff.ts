@@ -266,11 +266,15 @@ export function infectionLaw(
 }
 
 /**
- * Disruption (Magnetic) — multiplicador al daño recibido en la capa de shields/Overguard.
- * PROVISIONAL = misma LEY que Infection (preserva el comportamiento actual: ×4.25 a 10). La wiki
- * dice ×3.25 a 10 (status-effects.md §Disruption), pero el dato está sin verificar — OQ-ENGINE
- * O4 (damage-flow-model §8): "verificar contra /w/Magnetic_Damage ANTES de instanciar 3.25;
- * hipótesis: 100% a Overguard cruza el dato". Hasta cerrarlo, Disruption hereda Infection.
+ * Disruption (Magnetic) — multiplicador al daño recibido en las capas de shields y Overguard.
+ *
+ * **Comparte la ley de Infection, y eso está VERIFICADO** (`DC-OQ-ENGINE-O4`), no heredado a la
+ * espera: `damage-magnetic-damage.wikitext:28` publica `Modded Damage × [2 + 0.25 × (stacks − 1)]`,
+ * que coincide término por término en todo el rango 1–10. El `325%` de la prosa (`:23`) es el bono
+ * acumulado (`100% + 25% × 9`), no el multiplicador — el ×3.25 nunca fue una lectura del dato.
+ *
+ * Se deja como función propia y no como alias porque son dos leyes del juego que hoy coinciden: si
+ * DE mueve una, el rename es de un lado solo.
  */
 export function disruptionLaw(
 	initialBonusPct: number = STATUS_INITIAL_BONUS_PCT,

@@ -155,17 +155,22 @@ describe('Lo que el corpus declara sobre la capa × status, medido contra el mot
   });
 
   /**
-   * ⚠️ AUSENCIA DECLARADA, no bug. `overguard.wikitext` da a Magnetic una tabla propia contra la capa
-   * (100% al 1er stack, +25%/stack) y `behaviors.ts` la deja afuera **a propósito**: `OQ-ENGINE-O4`
-   * sigue abierta sobre el ×3.25 vs ×4.25, y declararla con la ley de shields sería inventar el número.
-   * El caso fija la ausencia para que el día que se cierre, esto se rompa y avise.
+   * Este caso existía al revés —fijaba la AUSENCIA, escrito para romperse el día que O4 cerrara— y
+   * cerró: `DC-OQ-ENGINE-O4`. `overguard.wikitext:30` no daba "otra tabla"; era la fila de la tabla de
+   * shields, y `damage-magnetic-damage.wikitext:23` nombra las dos capas en una sola frase.
+   *
+   * Acá se mide el **consumo**, no el multiplicador (eso ya lo cubre `disruption.test.ts`): 100 de
+   * daño con Disrupt a 10 stacks tienen que sacarle 425 al Overguard, no 100.
    */
-  it('Magnetic amplifica el shield y NO el Overguard — la ley de la capa no está construida (O4)', () => {
-    const t = makeIsolatedTarget({ overguard: 300, shields: 300, health: 1000 });
+  it('Magnetic amplifica el Overguard con la misma ley que el shield — y el consumo lo refleja', () => {
+    const t = makeIsolatedTarget({ overguard: 1000, shields: 300, health: 1000 });
     t.applyProc('disruption', DUMMY_HIT, 10, 0);
 
-    expect(t.getDamageMultiplier('shield', 0)).toBeGreaterThan(1);
-    expect(t.getDamageMultiplier('overguard', 0)).toBe(1);
+    expect(t.getDamageMultiplier('overguard', 0)).toBeCloseTo(4.25, 5);
+    expect(t.getDamageMultiplier('overguard', 0)).toBeCloseTo(t.getDamageMultiplier('shield', 0), 5);
+
+    hit(t, { impact: 100 });
+    expect(t.current_overguard).toBeCloseTo(1000 - 425, 5);   // amplificado, no los 100 nominales
   });
 
   /**

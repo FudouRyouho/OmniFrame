@@ -4,7 +4,7 @@ Rol: "Registrar decisiones de arquitectura cerradas que no deben reabrirse sin e
 Impacto_ID: "G-ADL-Closed"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: ""
-Fecha_de_actualizacion: "2026-08-07"
+Fecha_de_actualizacion: "2026-08-20"
 ---
 
 # Decisiones Cerradas de Arquitectura
@@ -420,3 +420,50 @@ ese punto.
 
 **Ref:** `damage-status-model.md §Weakened/§Cold`, `crit-stack-buff.test.ts`,
 `references/wiki/mechanics/status-effects.md §Weakened/§Cold`, `OQ-ENGINE-12` (residual).
+
+---
+
+## DC-OQ-ENGINE-O4 — Magnetic ×3.25 vs ×4.25, y una tabla o dos — **CERRADO: ×4.25, UNA sola tabla**
+
+**Decisión:** la ley de Disruption es `2 + 0.25 × (n − 1)` — **×4.25 a 10 stacks**, no ×3.25 — y rige
+**por igual sobre Shield y sobre Overguard**. La herencia provisional de `infectionLaw` era correcta;
+lo que faltaba era la verificación, no la fórmula. `disruptionLaw()` queda como está.
+
+**Las dos mitades de la pregunta, y por qué caen juntas.**
+
+*La aritmética.* La fuente se contradice **dentro de la misma sección**, y la contradicción es de
+lectura, no de dato — `damage-magnetic-damage.wikitext`:
+
+| Línea | Qué dice | Da a 10 stacks |
+|---|---|---|
+| `:23` (prosa) | *"Subsequent procs add **25%** … up to **325%** in total after **10** stacks"* | ×3.25 si se lee "325% = el multiplicador" |
+| `:28` (fórmula) | `Modded Damage × [2 + (0.25 × (stacks − 1))]` | **×4.25** |
+
+No son dos números en conflicto: `325%` es el **bono acumulado** (`+100%` del primer stack `+ 25% × 9`),
+y el multiplicador es `1 + 3.25 = 4.25`. La prosa cuenta el aumento; la fórmula cuenta el resultado. El
+×3.25 nunca fue una lectura alternativa de la fuente — era la prosa leída como si fuera el
+multiplicador. Verificado término por término contra la ley del motor en todo el rango 1–10.
+
+*La cobertura.* La hipótesis registrada era *"100% a Overguard cruza el dato"* — que el número
+publicado mezclara dos capas y por eso hubiera que separarlas. **La fuente hace lo contrario: las une
+explícitamente.** `:23` nombra *"the **Shields and Overguard** of the afflicted target"* en la misma
+frase y con los mismos números, y el changelog de DE no deja margen: `:175` — *"Magnetic stacks on an
+enemy with Overguard now allow for bonus damage to Overguard, **similar to how Magnetic affects
+Shields**"*. `references/wiki/mechanics/overguard.md:30` traía ya esos mismos números, que son la fila
+de la tabla de shields, no otra tabla.
+
+**Consecuencia sobre el código:** `disruptionBehavior.resolutionModifier` declaraba `layerMult` sólo
+para `shield`, con un comentario que sostenía la exclusión sobre las dos afirmaciones que esta decisión
+tumba (*"su ley es otra tabla"* · *"O4 sigue abierta"*). El Overguard entra con la **misma**
+`disruptionLaw()`. La asimetría que sobrevive es `overshield`, y por una razón distinta: ahí **la fuente
+calla** (nombra Shields y Overguard, no Overshields), así que no hay qué declarar — se anota, no se
+actúa.
+
+**Lo que NO cierra esta decisión:** el proc forzado de Electricity al romper Shields/Overguard (3% del
+máximo por stack de Disruption, `:175`) sigue sin modelar — es #18, y su mitad Overguard espera el
+origen de la capa (#38). El decay/timeline real de Disruption (6 s, timer por stack) sigue siendo C2.
+
+**Ref:** `damage-magnetic-damage.wikitext:23,28,175` (raw verificado contra el vivo,
+`curl ?action=raw`), `references/wiki/mechanics/overguard.md:30`,
+`formulas/status/{stack-debuff.ts,behaviors.ts}`, `__tests__/status/{disruption,stack-debuff-law,overguard-e2e}.test.ts`,
+Issues #17 (la verificación) y #37 (la exclusión falsa).
