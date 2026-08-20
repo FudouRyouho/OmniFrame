@@ -25,13 +25,21 @@
 import { LAYER_STACK, type Layer } from '../../contracts/layers';
 import { damageReductionFromArmor } from './armor-mitigation';
 
+/**
+ * ⚠️ `health` es OBLIGATORIO y el resto opcional, y la asimetría es deliberada: una capa ausente vale
+ * 0 legítimamente (overshield hoy), pero un `health` ausente daría un EHP creíble sin su término
+ * dominante — el mismo modo de falla que este archivo acaba de cerrar. Medido con la firma toda-
+ * opcional: omitir `health` compilaba limpio y el oráculo reportaba `195098.07` en vez de
+ * `214599.10`, sin una sola queja.
+ */
 export function effectiveHealthVsEnemy(
   armor: number,
-  layers: Readonly<Partial<Record<Layer, number>>>,
+  layers: Readonly<{ health: number } & Partial<Record<Exclude<Layer, 'health'>, number>>>,
 ): number {
   const dr = damageReductionFromArmor(armor);
+  const amounts: Readonly<Partial<Record<Layer, number>>> = layers;
   return LAYER_STACK.reduce((total, layer) => {
-    const amount = layers[layer] ?? 0;
+    const amount = amounts[layer] ?? 0;
     return total + (layer === 'health' ? amount / (1 - dr) : amount);
   }, 0);
 }
