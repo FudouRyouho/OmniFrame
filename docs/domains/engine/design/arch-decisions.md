@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-08-13"
+Fecha_de_actualizacion: "2026-08-20"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -494,7 +494,8 @@ de qué hace un status es **agnóstica al eje source/target** — no es "fórmul
 - LEY de **Familia A** ("primer stack especial + incremento lineal con techo": `f(n) = first + perAdd ×
   max(0, n−1)`, clamp opcional) → `formulas/status/stack-debuff.ts`, función pura citada contra
   `status-effects.md`. Instancia Infection (Viral, ×2→×4.25) y Corrosion (strip 0.26→1.00 cap) con valores
-  verificados; Disruption (Magnetic) **provisional = Infection** hasta cerrar la frontera O4.
+  verificados; Disruption (Magnetic) **comparte la ley de Infection**, y eso está verificado contra su
+  propia fuente — no es herencia a la espera (`DC-OQ-ENGINE-O4`).
 - **LEY + ESTADO keyeados por EFECTO, no por tipo de daño.** `EnemyStatusState` renombrado
   `damage_corrosive→corrosion`, `damage_viral→infection`, `damage_heat→ignite`, `damage_magnetic→disruption`
   (snake_case). Esto resuelve la confusión de vocabulario del marco §1 (una habilidad que aplica Corrosion
@@ -512,8 +513,8 @@ de qué hace un status es **agnóstica al eje source/target** — no es "fórmul
   fuera de esta extracción.
 
 **Lo que NO se construyó (norte, no obra a levantar de una — el motor ya se reescribió 3×):** el tipo
-`DamageInstance` de primera clase, el contenedor de ESTADO entidad-neutral, la Arista 2, Familia C, las
-facetas-LEY de Heat, y la resolución de Magnetic ×3.25 vs ×4.25 — todo trazado en
+`DamageInstance` de primera clase, el contenedor de ESTADO entidad-neutral, la Arista 2, Familia C y las
+facetas-LEY de Heat — todo trazado en
 [`../../../governance/decision-frontier.md`](../../../governance/decision-frontier.md).
 
 **Enlaza con §8** (modo asumido primero, la LEY es C1 puro), **§13** (`EnemySnapshot` es el pairing del lado
