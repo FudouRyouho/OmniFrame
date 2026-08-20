@@ -147,9 +147,10 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 // (stage del hit) en vez de `resolutionModifier` (stage de mitigación).
 //
 // ⚠️ AUSENCIAS DIFERIDAS (no simplificaciones — dato/mecánica que hoy NO existe):
-//   · Freeze cap 4 stacks en Overguard — el canal del receptor ya existe (`receiverMaxStacks`) y la
-//     entidad ya puede declarar clase; lo que falta es el **Overguard**, que no es clase sino capa
-//     presente en `t` y no tiene origen modelado (`current_overguard` nace en 0 y nada lo sube) — #11.
+//   · Freeze cap 4 stacks en Overguard — LEY Y CANAL CONSTRUIDOS (#11): la capa entra por
+//     `ReceiverContext.layers_present` y `receiverMaxStacks` la compone con la clase. Lo que sigue
+//     ausente es **el origen de la capa**: `current_overguard` nace en 0 y nada de producción lo sube
+//     (sólo `setLayer` y el harness), así que el desvío se ejerce contra un Overguard declarado.
 //     "Bosses" queda afuera por otra razón: `arch-decisions §22` lo veta — no pasa el test de tres vías.
 //   · Freeze 10º stack (congelación 3 s, crit recibido +1.0×, 3 stacks residuales) — sin modelar — #12.
 //   · Puncture no aplica a AoE / habilidades de warframe — gratis hoy (el modelo son hits de arma),
@@ -158,7 +159,13 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const WEAKENED_MAX_STACKS = 5;
-const FREEZE_MAX_STACKS = 9; // ⚠️ 4 con Overguard presente (ausente: la capa no tiene origen) — #11.
+/**
+ * ⚠️ **9 y no 10, y es la simplificación de #12, no el cap real.** La fuente dice *"stacks to a maximum
+ * of **10**"* (`damage-cold-damage.wikitext:18`), pero el 10º no es un stack más: dispara la
+ * congelación (3 s, crit recibido `+1.0×`) y colapsa a 3 residuales. Sin ese umbral modelado, `9` es el
+ * último valor cuya ley SÍ está construida — `COLD_CRIT_LAW.cap = 0.5 = f(9)` cierra contra la fuente.
+ */
+const FREEZE_MAX_STACKS = 9;
 
 const weakenedBehavior: EffectBehavior<StackState> = {
   effect: "weakened",
@@ -176,8 +183,12 @@ const weakenedBehavior: EffectBehavior<StackState> = {
 
 const freezeBehavior: EffectBehavior<StackState> = {
   effect: "freeze",
-  applyProc(state, _ctx, amount) {
-    return { count: applyStackProc(state?.count ?? 0, amount, FREEZE_MAX_STACKS) };
+  applyProc(state, { receiver }, amount) {
+    // El segundo consumidor de la cadena de §17, y el primero cuyo desvío es una CAPA. Sin emisor:
+    // ninguna fuente conocida sube el cap de Cold, así que este parámetro sólo tiene lado receptor —
+    // que es una respuesta medida, no un hueco (`stack-debuff.ts`, la nota sobre los caps `f(maxStacks)`).
+    const cap = resolveParam(FREEZE_MAX_STACKS, { receiver: receiverMaxStacks(receiver, "freeze") });
+    return { count: applyStackProc(state?.count ?? 0, amount, cap) };
   },
   advance(state, _t, dt) {
     return { state: { count: decayCount(state.count, dt) }, damage: [] };

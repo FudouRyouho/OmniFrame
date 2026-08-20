@@ -161,11 +161,22 @@ export class EntityState {
    *
    * **Se computa al llamar, no se guarda**, y desde #8 eso dejó de ser indiferente: `unit_class` no
    * cambia en `t` pero `marks` sí —una marca se adquiere en mitad del combate—, así que congelarlo
-   * daría un contexto viejo. El campo que falta sigue siendo la presencia de Overguard, de la que
-   * depende el cap de Cold a 4 **en ese instante** (#11).
+   * daría un contexto viejo. Con `layers_present` (#11) deja de ser una precaución y pasa a ser la
+   * única forma correcta: una capa **se agota dentro del propio tick**, y el cap que declara vuelve al
+   * default en ese mismo instante.
+   *
+   * **Declara las capas que tiene, no las que alguna ley mira.** `health` y `shield` casi siempre
+   * figuran y ninguna tabla las nombra — igual que la entidad declara todas sus clases y sólo algunas
+   * tienen fila. Filtrar acá por "cuáles importan" metería el conocimiento de las leyes en el
+   * contenedor, que es exactamente lo que `arch-decisions §17` le saca.
    */
   public receiverContext(): ReceiverContext {
-    return { unit_class: this.entity.unit_class, marks: this.marks };
+    const amounts = this.layerAmounts;
+    return {
+      unit_class: this.entity.unit_class,
+      marks: this.marks,
+      layers_present: LAYER_STACK.filter((l) => amounts[l] > 0),
+    };
   }
 
   /**

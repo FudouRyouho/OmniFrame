@@ -12,12 +12,17 @@
  * dato cambie"* (`hostile-entity.ts`). El canal es exactamente lo contrario: no tiene nada que probar
  * si no pasa por el dato real.
  *
- * ─── LO QUE ESTE ARCHIVO SOSTIENE Y TODAVÍA NO EXISTE ─────────────────────────────────────────────
+ * ─── DÓNDE ESTÁ EL RESTO DEL CANAL ────────────────────────────────────────────────────────────────
  *
- * `ReceiverContext` llega hasta `applyProc` y **no** hasta `resolutionModifier`/`critModifier`. Es
- * deliberado —ningún desvío conocido del receptor entra por ahí— y tiene consumidor nombrado: el cap de
- * Cold a 4 stacks en Overguard (#11), que no es clase sino **capa presente en `t`**. Va como
- * `todo` en vez de como parámetro construido de antemano.
+ * Este archivo mide **un** poblador del canal del receptor —la clase— y hoy son tres, uno por registro
+ * de `arch-decisions §22`: `marks` (estado, marca de Hydroid) en `receiver-modifies.test.ts` y
+ * `layers_present` (capa, Overguard) en `receiver-layer.test.ts`.
+ *
+ * ⚠️ Hasta #11 esta cabecera afirmaba que *"`ReceiverContext` llega hasta `applyProc` y **no** hasta
+ * `resolutionModifier`/`critModifier`"*. Dejó de ser cierto con #8 —que lo llevó a
+ * `resolutionModifier`— y la corrección no viajó con él. Lo que sigue siendo verdad es sólo la mitad
+ * de `critModifier`, y **no por falta de este canal**: lo que ese método necesita es la identidad del
+ * **source** (la pasiva de Gyre, #33), que la instancia descarta a propósito.
  */
 import { describe, it, expect } from 'vitest';
 import { hostileEntity } from '../hostile-entity';
@@ -158,11 +163,20 @@ describe('El portador trae una TABLA, no un cap', () => {
     }
   });
 
-  // El cap de Cold a 4 stacks en Overguard (#11) es el próximo consumidor, y NO es clase:
-  // depende de que la capa esté presente en `t`. Entra por `ReceiverContext` sin cambiarle la forma —
-  // un campo más—, pero exige que el contexto llegue a los otros dos métodos del behavior.
-  it.todo('`resolutionModifier` y `critModifier` reciben el `ReceiverContext` — hoy sólo `applyProc`');
-  it.todo('el Overguard presente topea Cold en 4 — desvío del receptor que es CAPA, no clase');
+  /**
+   * El cap de Cold a 4 en Overguard **cerró** (#11) y por eso ya no hay `todo` acá: la capa entra por
+   * `ReceiverContext.layers_present` y `receiverMaxStacks` la compone con la clase. Lo que se midió de
+   * paso es que **no** hacía falta llevar el contexto a los otros dos métodos del behavior, que es lo
+   * que el marcador viejo daba por supuesto. Casos en `receiver-layer.test.ts`.
+   */
+  it('la capa entra por el mismo canal que la clase, y compone con ella', () => {
+    expect(receiverMaxStacks({ layers_present: ['overguard'] }, 'freeze')).toEqual([{ verb: 'forces', value: 4 }]);
+    expect(receiverMaxStacks({ layers_present: ['overguard'] }, 'corrosion')).toEqual([]);
+    // Los dos pobladores sobre el mismo parámetro aportan una fila cada uno — componerlas es de
+    // `applyDeviations`, no de acá.
+    expect(receiverMaxStacks({ unit_class: ['acolyte'], layers_present: ['overguard'] }, 'freeze')).toHaveLength(2);
+  });
+
   // §22: Eximus es clase (*"existen Eximus sin Overguard"*) pero **se decide al instanciar** — 283 de
   // 638 entradas traen `eximus_health`, o sea es variante del mismo registro y no fila propia. Es el
   // caso que justifica que `unit_class` sea conjunto, y el que lo pondría a prueba.

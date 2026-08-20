@@ -16,6 +16,7 @@
 
 import type { StatusEffect } from "@shared/types";
 import { deviationFor, forces, modifies, type DeviationTable, type ParamDeviation } from "../common/param-deviation";
+import type { Layer } from "../../contracts/layers";
 import type { ReceiverContext } from "./effect-behavior";
 
 /** Parámetros de la LEY de Familia A para un efecto concreto. */
@@ -116,12 +117,45 @@ export const RECEIVER_MAX_STACKS: Readonly<Record<string, DeviationTable<StatusE
 };
 
 /**
+ * EL MISMO DESVÍO, DECLARADO POR UNA **CAPA** EN VEZ DE POR UNA CLASE — el tercer registro de §22.
+ *
+ * Hermana de `RECEIVER_MAX_STACKS`, sobre **el mismo parámetro** y con **el mismo verbo**; lo que
+ * cambia es por dónde entra la llave. Aquélla se indexa por lo que el receptor **es**; ésta por lo que
+ * **porta en `t`** — y la diferencia se paga en el momento: la clase no cambia nunca, la capa se agota
+ * y con ella el desvío, en el mismo instante.
+ *
+ * Fuente, [`overguard.wikitext:37`](../../../../../../references/wiki/mechanics/overguard.wikitext):
+ * *"On enemies… can normally **only receive a maximum of** 4 {{D|Cold}} procs"*, y
+ * [`damage-cold-damage.wikitext:26`](../../../../../../references/wiki/mechanics/damage-cold-damage.wikitext):
+ * *"Bosses, as well as **enemies with active Overguard**, can receive a maximum of 4 Cold stacks"*.
+ * El verbo es `forces` por el mismo discriminador textual que el Acolyte —*"can only receive a maximum
+ * of N"*— y no por la aritmética, que acá daría lo mismo con `replace` (el default es `9`, mayor).
+ *
+ * **Habla de UN efecto y calla sobre el resto: sin comodín.** Es la mitad medible de la frase — la
+ * misma línea dice que el Overguard **ignora** el CC de otros nueve status, y eso es otra ley (no un
+ * cap). Un `'*'` acá haría que el Overguard topeara Corrosive en `4`, que ninguna fuente dice.
+ *
+ * ⚠️ **`Bosses` no tiene fila y no es un olvido:** `arch-decisions §22` veta la clase — mezcla cuatro
+ * registros (rol de misión · inmunidad a CC · exclusiones por habilidad · tope de status) y no pasa el
+ * test de tres vías. La fuente los nombra juntos; el modelo sólo puede tomar el que sabe clasificar.
+ */
+export const RECEIVER_MAX_STACKS_BY_LAYER: Readonly<Partial<Record<Layer, DeviationTable<StatusEffect>>>> = {
+	overguard: { freeze: forces(4) },
+};
+
+/**
  * Qué fuerza el receptor sobre el cap de **este** status, si es que fuerza algo.
  *
  * Es el punto donde los dos ejes se encuentran: el emisor declaró por parámetro de ley
  * (`corrosive.maxStacks`) y el receptor por status (`'*'`, `impact`), y quien traduce es el behavior,
  * que ya sabe cuál es su efecto. Un receptor con varias clases aporta la fila de cada una y
  * `applyDeviations` las compone entre sí — que para `forces` es el `min`, o sea la más restrictiva.
+ *
+ * **Los dos pobladores del canal entran por la misma puerta, y componer es la respuesta correcta.** La
+ * clase y la capa hablan del **mismo parámetro** (a diferencia de la marca de Hydroid, que habla de
+ * otro y por eso tiene su propia función). Un acólito con Overguard declara `forces(4)` dos veces y
+ * `applyDeviations` da `min(9, 4, 4) = 4`; si algún día los dos números difieren, rige el más
+ * restrictivo — que es lo que `forces` significa, y no una desempate inventado acá.
  */
 export function receiverMaxStacks(
 	receiver: ReceiverContext | undefined,
@@ -130,6 +164,10 @@ export function receiverMaxStacks(
 	const out: ParamDeviation[] = [];
 	for (const cls of receiver?.unit_class ?? []) {
 		const d = deviationFor(RECEIVER_MAX_STACKS[cls], effect);
+		if (d) out.push(d);
+	}
+	for (const layer of receiver?.layers_present ?? []) {
+		const d = deviationFor(RECEIVER_MAX_STACKS_BY_LAYER[layer], effect);
 		if (d) out.push(d);
 	}
 	return out;

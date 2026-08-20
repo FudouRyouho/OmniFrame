@@ -56,12 +56,28 @@ export interface HitContext {
  * su efecto y su default — preguntarle a cada lado en su propio idioma es simétrico con eso.
  * Resolverlos afuera obligaría al contenedor a conocer las leyes, que es lo que §17 le saca.
  *
- * ⚠️ **Se computa al aplicar, no se congela** (`arch-decisions §20`, `f(estado en t)`). Hoy sólo lleva
- * clase —que no cambia en `t`— pero el próximo campo sí: el cap de Cold a 4 stacks depende de que el
- * Overguard esté **presente en ese instante**, no de qué es la unidad — #11.
+ * ⚠️ **Se computa al aplicar, no se congela** (`arch-decisions §20`, `f(estado en t)`). `unit_class` no
+ * cambia en `t`, pero los otros dos sí — una marca se adquiere en mitad del combate y una capa se
+ * agota—, así que congelar este objeto daría un contexto viejo.
+ *
+ * ─── LOS TRES CAMPOS SON EL TEST DE TRES VÍAS DE §22, HECHO ESTRUCTURA ────────────────────────────
+ *
+ * §22 clasifica **toda** propiedad de una entidad con una sola pregunta, y declara las tres respuestas
+ * excluyentes. Los tres pobladores de este contexto son exactamente esas tres, y no se llegó por
+ * diseño sino por casos:
+ *
+ * ```
+ * ¿está en la fila del dato de la unidad?  → clase   unit_class      Acolyte, cap de status 4
+ * ¿es condición temporal?                  → estado  marks           marca de Hydroid (#8)
+ * ¿tiene cantidad que se agota?            → capa    layers_present  Overguard, cap Cold 4 (#11)
+ * ```
+ *
+ * **La terna está cerrada por §22, no por conveniencia:** *"las tres son excluyentes y ninguna
+ * propiedad conocida entra en dos"*. Un cuarto poblador acá significaría que el test de tres vías
+ * encontró un cuarto registro — que es una revisión de §22, no un campo más.
  */
 export interface ReceiverContext {
-  /** Qué unidad es (`contracts/unit-class.ts`). Ausente = sin regla propia. */
+  /** Qué unidad **es** — clase (§22). `contracts/unit-class.ts`. Ausente = sin regla propia. */
   unit_class?: readonly string[];
   /**
    * Qué le **pasó** — las marcas que el target adquirió, contra `unit_class` que dice qué **es**
@@ -76,6 +92,28 @@ export interface ReceiverContext {
    * from **any source**, not just from Hydroid's weapons or abilities"*.
    */
   marks?: readonly string[];
+  /**
+   * Qué **capas porta en `t`** — el tercer registro de §22, y el que cierra la terna. `Overguard` topea
+   * los procs de Cold en `4` mientras está activo: *"On enemies… can normally only receive a maximum of
+   * 4 Cold procs"* (`overguard.wikitext:37`), *"**Bosses, as well as enemies with active Overguard**,
+   * can receive a maximum of 4 Cold stacks"* (`damage-cold-damage.wikitext:26`) — #11.
+   *
+   * **Presencia, no cantidad, y la asimetría es del consumidor.** §22 define la capa por su cantidad
+   * (*"¿tiene cantidad que se agota?"*), pero ninguna ley conocida lee ese número por este canal: la
+   * pregunta que `resolveParam` necesita contestar es si la fila **habla**. La cantidad ya vive donde
+   * se consume —`EntityState.current_overguard`, que las capas descuentan—, y traerla acá sería
+   * guardar el mismo dato dos veces para un consumidor que no existe.
+   *
+   * ⚠️ **Se computa en `t` y por eso no es marca.** Una marca es permanente (*"permanently more
+   * vulnerable"*); una capa se agota, y al agotarse el cap vuelve al default del concepto **en el
+   * mismo instante**. Modelarla como marca haría que el enemigo siguiera topado en `4` después de
+   * romperle el Overguard.
+   *
+   * ⚠️ **"Bosses" queda afuera y no es un olvido:** la misma frase de la fuente lo nombra al lado del
+   * Overguard, pero `arch-decisions §22` veta la clase `Boss` — mezcla cuatro registros y no pasa el
+   * test de tres vías. Se modela la mitad que el test resuelve.
+   */
+  layers_present?: readonly Layer[];
 }
 
 /**
