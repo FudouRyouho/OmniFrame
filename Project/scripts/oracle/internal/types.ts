@@ -9,6 +9,7 @@
 import type { SimulationEntity, TraceStep } from '@core/engine/contracts';
 import type { CombatMetrics } from '@core/engine/output/combat-metrics';
 import type { AbilityEmission } from '@core/engine/resolve/hydration/AbilityRepository';
+import type { Vitals } from '@core/engine/simulate/EntityState';
 import type { ViewModelContract } from '@shared/view-model';
 
 /** Lente de observación del pipeline. `intention` (salida de B) queda declarada pero no
@@ -19,11 +20,18 @@ export type Lens = (typeof LENSES)[number];
 export const FORMATS = ['text', 'json'] as const;
 export type Format = (typeof FORMATS)[number];
 
-/** La consulta a C2 (target). Relevante sólo para las lentes que la consumen (`metrics`). */
+/** La consulta a C2 (target). Relevante sólo para las lentes que la consumen (`metrics`, `enemy`). */
 export interface A2Query {
   enemy: string;
   level: number;
   duration: number;
+  /**
+   * ¿El target spawnea como Eximus? Mismo campo que `HostileIntent.isEximus` (#38: el escenario
+   * pregunta la variante, no el catálogo). ⚠️ Genérico — no cubre las tres excepciones que la wiki
+   * declara (Warden/Prosecutor/Archwing Eximus no reciben Overguard, Health extra en su lugar);
+   * usarlo contra esos nombres da un número creíble y falso. Ver #50.
+   */
+  eximus: boolean;
 }
 
 /** El comando resuelto — salida de la capa de dispatch, entrada de la de adquisición. */
@@ -78,7 +86,7 @@ export interface EnemyResult {
   level: number;
   entity: SimulationEntity;
   name: string;
-  vitals: { health: number; armor: number; shields: number };
+  vitals: Vitals;
   dr: number;
   ehp: number;
 }

@@ -17,7 +17,7 @@ export const USAGE = `oráculo — banco de trabajo del motor (D2)
     display  <build|all>   ViewModelContract proyectado (C1 display)
     metrics  <build>       CombatMetrics vs un target (C1+C2)   [usa --vs --lvl --dur]
     trace    <build>       procedencia de un nodo (C1)          [requiere --node]
-    enemy    <nombre>      enemigo escalado (health/armor/DR/EHP) [usa --lvl]
+    enemy    <nombre>      enemigo escalado (health/armor/shields/overguard/DR/EHP) [usa --lvl --eximus]
     ability  <build>       AbilityEmission[] de una habilidad (C1) [requiere --ability]
     intention              (declarada, no implementada — requiere exponer la salida de B)
 
@@ -25,6 +25,9 @@ export const USAGE = `oráculo — banco de trabajo del motor (D2)
     --vs <enemy>       target para metrics        (default "Arid Butcher")
     --lvl <n>          nivel del enemigo          (default 100)
     --dur <n>          duración de sim en s       (default 6)
+    --eximus           el target spawnea como Eximus (metrics/enemy). Genérico — no cubre
+                       Warden/Prosecutor/Archwing, exentos de Overguard (#50): tira si el
+                       nombre matchea.
     --node <attr>      atributo para trace
     --ability <id>     uniqueName de la ability para la lente ability
     --format text|json                             (default text)
@@ -32,8 +35,9 @@ export const USAGE = `oráculo — banco de trabajo del motor (D2)
   ejemplos:
     npm run oracle -- display lanka
     npm run oracle -- metrics cedo --vs "Arid Butcher" --lvl 120 --dur 8
+    npm run oracle -- metrics cedo --vs "Arid Butcher" --lvl 120 --eximus
     npm run oracle -- trace boltor --node WEAPON_ADD_DAMAGE --format json
-    npm run oracle -- enemy "Arid Butcher" --lvl 215
+    npm run oracle -- enemy "Arid Butcher" --lvl 215 --eximus
     npm run oracle -- ability ember --ability /Lotus/Powersuits/PowersuitAbilities/FireBallAbility`;
 
 export function isHelpRequest(tokens: string[]): boolean {
@@ -73,12 +77,16 @@ export function parseArgs(tokens: string[]): OracleQuery {
     enemy: flags.vs ?? 'Arid Butcher',
     level: parseNumFlag(flags.lvl, 'lvl', 100),
     duration: parseNumFlag(flags.dur, 'dur', 6),
+    eximus: flags.eximus !== undefined,
   };
 
   return { lens, subject, a2, node, ability, format: parseFormat(flags.format) };
 }
 
 // ─── helpers ───
+
+/** Flags de presencia (sin valor) — todo lo demás espera uno. */
+const BOOLEAN_FLAGS = new Set(['eximus']);
 
 function splitTokens(tokens: string[]): { positionals: string[]; flags: Record<string, string> } {
   const positionals: string[] = [];
@@ -95,6 +103,10 @@ function splitTokens(tokens: string[]): { positionals: string[]; flags: Record<s
       continue;
     }
     const key = t.slice(2);
+    if (BOOLEAN_FLAGS.has(key)) {
+      flags[key] = 'true';
+      continue;
+    }
     const val = tokens[i + 1];
     if (val === undefined || val.startsWith('--')) throw new OracleError(`la flag --${key} espera un valor.`);
     flags[key] = val;

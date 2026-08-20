@@ -48,9 +48,11 @@ export function acquire(q: OracleQuery): AcquiredResult {
       const weapon = firstWeapon(scene, q.subject);
 
       // Si el build DECLARA su hostil, ése es el objetivo — con lo que el escenario le hizo. Si no
-      // declara ninguno, los flags `--vs`/`--lvl` lo declaran y se resuelve por el mismo camino.
+      // declara ninguno, los flags `--vs`/`--lvl`/`--eximus` lo declaran y se resuelve por el mismo
+      // camino. Un build con hostil propio ignora `--eximus`: la declaración del escenario manda,
+      // mismo criterio que ya regía para `--vs`/`--lvl`.
       const declared = scene.find((e) => e.tags.includes('enemy'));
-      const target = declared ?? hostileEntity(q.a2.enemy, q.a2.level);
+      const target = declared ?? hostileEntity(q.a2.enemy, q.a2.level, q.a2.eximus);
       const targetLevel = declared ? (intention.hostile[0]?.level ?? q.a2.level) : q.a2.level;
 
       const metrics = computeCombatMetrics(weapon, target, baseContext(), q.a2.duration);
@@ -77,7 +79,7 @@ export function acquire(q: OracleQuery): AcquiredResult {
     case 'enemy': {
       // Por el mismo camino que cualquier participante: se declara un escenario con este hostil solo
       // y se lee lo que C1 resolvió. Es lo que hace que esta lente y `metrics` no puedan divergir.
-      const entity = hostileEntity(q.subject, q.a2.level);
+      const entity = hostileEntity(q.subject, q.a2.level, q.a2.eximus);
       const vitals = vitalsOf(entity);
       const dr = damageReductionFromArmor(vitals.armor);
       const ehp = effectiveHealthVsEnemy(vitals.health, vitals.armor, vitals.shields);
@@ -137,6 +139,15 @@ function entityWithNode(entities: SimulationEntity[], node: string, build: strin
 }
 
 /**
+ * Warden y Prosecutor son Eximus que la wiki declara EXENTOS de Overguard (Health extra en su lugar,
+ * no modelado) — `--eximus` genérico les daría el número creíble y falso que #38 vetó para el caso
+ * general. Detección por nombre, imperfecta a propósito (mismo riesgo que `OQ-ENGINE-31` ya midió
+ * fallar para Acolytes): un falso negativo deja el estado tan roto como sin esta guarda, nunca peor.
+ * Gap completo, con la cita de la wiki y el catálogo real: #50.
+ */
+const EXIMUS_OVERGUARD_EXEMPT = /warden|prosecutor/i;
+
+/**
  * El hostil como PARTICIPANTE resuelto: declara un escenario con él solo y devuelve lo que C1
  * compuso. Reemplaza al `EnemyRepository.scale(dna, level)` que armaba un objeto paralelo — el
  * objetivo entra al cálculo por el mismo camino que todos los demás, o no entra.
@@ -144,10 +155,16 @@ function entityWithNode(entities: SimulationEntity[], node: string, build: strin
  * `EnemyRepository.find` sobrevive porque hace otra cosa: resolver un nombre display ("Arid Butcher")
  * al `unique_name` canónico. Eso es búsqueda, no composición.
  */
-function hostileEntity(query: string, level: number): SimulationEntity {
+function hostileEntity(query: string, level: number, isEximus?: boolean): SimulationEntity {
   const dna = EnemyRepository.find(query);
   if (!dna) throw new OracleError(`enemigo "${query}" no encontrado (probá el name display o el unique_name).`);
-  const entity = consume(hostileOnly(dna.unique_name, level), { flags: {} }).snapshot()[0];
+  if (isEximus && EXIMUS_OVERGUARD_EXEMPT.test(dna.name ?? dna.unique_name)) {
+    throw new OracleError(
+      `"${dna.name ?? dna.unique_name}" — la wiki declara a Warden/Prosecutor Eximus EXENTOS de ` +
+        `Overguard (Health extra en su lugar, no modelado). --eximus acá daría un número falso. Ver #50.`,
+    );
+  }
+  const entity = consume(hostileOnly(dna.unique_name, level, isEximus), { flags: {} }).snapshot()[0];
   if (!entity) throw new OracleError(`el enemigo "${query}" no resolvió a ninguna entidad.`);
   return entity;
 }
