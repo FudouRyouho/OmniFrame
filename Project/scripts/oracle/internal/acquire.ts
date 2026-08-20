@@ -82,7 +82,9 @@ export function acquire(q: OracleQuery): AcquiredResult {
       const entity = hostileEntity(q.subject, q.a2.level, q.a2.eximus);
       const vitals = vitalsOf(entity);
       const dr = damageReductionFromArmor(vitals.armor);
-      const ehp = effectiveHealthVsEnemy(vitals.health, vitals.armor, vitals.shields);
+      const ehp = effectiveHealthVsEnemy(vitals.armor, {
+        health: vitals.health, shield: vitals.shields, overguard: vitals.overguard,
+      });
       return {
         lens: 'enemy', query: q.subject, level: q.a2.level,
         entity, name: displayName(entity), vitals, dr, ehp,

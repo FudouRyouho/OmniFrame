@@ -156,7 +156,7 @@ function textEnemy(r: EnemyResult): void {
   console.log(`  armor  : ${r.vitals.armor}  → DR ${(r.dr * 100).toFixed(2)}%  [√3a/100, provisional OQ-ENGINE-15]`);
   console.log(`  shields: ${r.vitals.shields.toFixed(2)}`);
   if (r.vitals.overguard > 0) console.log(`  overguard: ${r.vitals.overguard.toFixed(2)}  (Eximus, #38)`);
-  console.log(`  EHP    : ${r.ehp.toFixed(2)}  (health/(1−DR)+shields)`);
+  console.log(`  EHP    : ${r.ehp.toFixed(2)}  (health/(1−DR)+shields+overguard)`);
 }
 
 function textAbility(r: AbilityResult): void {

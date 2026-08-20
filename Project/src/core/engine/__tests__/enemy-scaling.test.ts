@@ -17,6 +17,7 @@ import { loadEngineData } from '../bootstrap/engine-data';
 import { NodeAdapter } from '@shared/data/adapters/NodeAdapter';
 import { EnemyRepository } from '../simulate/enemies/EnemyRepository';
 import { damageReductionFromArmor } from '../formulas/enemy/armor-mitigation';
+import { effectiveHealthVsEnemy } from '../formulas/enemy/effective-health';
 import { scaleHealth, scaleOverguard } from '../formulas/enemy/enemy-scaling';
 import { hostileEntity } from './hostile-entity';
 import { vitalsOf } from '../simulate/EntityState';
@@ -89,6 +90,17 @@ describe('Enemy scaling — ARMOR + DR + EHP (validados contra el calculador del
     const dr = Math.round(damageReductionFromArmor(s.armor) * 10000) / 10000; // como el gadget
     const ehp = s.health / (1 - dr) + s.shields;
     expect(ehp).toBeCloseTo(33918.87, 0);
+  });
+
+  // #55 — ningún caso anterior ejercía `effectiveHealthVsEnemy` con Overguard>0: mientras la capa
+  // nacía en 0 (pre-#38) el término faltante sumaba cero siempre. Medido en vivo (oráculo, no heredado
+  // del issue): health 14724.27, armor 200 (DR 24.49%), shields 0, overguard 195098.07 →
+  // EHP fuente = health/(1−DR)+shields+overguard = 19501.03 + 195098.07 = 214599.10.
+  it('@100 Eximus: EHP suma Overguard (health/(1−DR)+shields+overguard), = calculador wiki', () => {
+    const s = vitalsOf(hostileEntity(ARID_BUTCHER, 100, true));
+    expect(s.overguard).toBeCloseTo(195098.07, 1);
+    const ehp = effectiveHealthVsEnemy(s.armor, { health: s.health, shield: s.shields, overguard: s.overguard });
+    expect(ehp).toBeCloseTo(214599.10, 0);
   });
 });
 
