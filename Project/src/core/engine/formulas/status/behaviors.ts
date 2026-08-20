@@ -134,10 +134,12 @@ const disruptionBehavior: EffectBehavior<StackState> = {
   },
   resolutionModifier(state) {
     if (state.count <= 0) return {};
-    // Magnetic amplifica shields Y overguard (`overguard.md`: 100% al 1er stack, +25%/stack, hasta
-    // 325%). El overguard NO está acá: su ley es otra tabla y `OQ-ENGINE-O4` sigue abierta sobre el
-    // ×3.25 vs ×4.25 — declararlo con la ley de shields sería inventar el número.
-    return { layerMult: { shield: stackDebuffValue(disruptionLaw(), state.count) } };
+    // UNA sola ley para las dos capas — `DC-OQ-ENGINE-O4`. La fuente las nombra en la misma frase
+    // (*"the Shields and Overguard of the afflicted target"*) y el changelog de DE lo confirma
+    // (*"similar to how Magnetic affects Shields"*): no hay dos tablas. `overshield` NO entra —
+    // ahí la fuente calla, y eso es ausencia de dato, no de decisión.
+    const mult = stackDebuffValue(disruptionLaw(), state.count);
+    return { layerMult: { shield: mult, overguard: mult } };
   },
 };
 

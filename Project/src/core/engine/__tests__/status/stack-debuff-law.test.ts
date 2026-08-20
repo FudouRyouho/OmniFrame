@@ -80,12 +80,23 @@ describe('Suite enumerada — cada efecto × su LEY contra status-effects.md', (
     expect(stackDebuffValue(corrosionLaw(50, CSS), 1)).toBeCloseTo(0.5, 5);
   });
 
-  // Disruption (Magnetic): PROVISIONAL = Infection (O4: wiki dice ×3.25 a 10, sin verificar).
-  // Tripwire deliberado: cuando O4 se cierre, el valor esperado cambia acá.
+  // Disruption (Magnetic): coincide con Infection, y está VERIFICADO — `DC-OQ-ENGINE-O4`. Dejó de ser
+  // provisional: `damage-magnetic-damage.wikitext:28` da `2 + 0.25 × (n − 1)`, la misma ley.
   it.each([
     [1, 2.0], [10, 4.25],
-  ])('Disruption n=%i → ×%f (provisional = Infection, O4)', (n, expected) => {
+  ])('Disruption n=%i → ×%f (verificado contra :28, DC-OQ-ENGINE-O4)', (n, expected) => {
     expect(stackDebuffValue(disruptionLaw(SIB, SSB), n)).toBeCloseTo(expected, 5);
+  });
+
+  /**
+   * El caso que cierra la mitad aritmética de O4: la ley se contrasta contra la FÓRMULA de la fuente
+   * evaluada término a término, no contra dos puntos elegidos. El `325%` de la prosa es el bono
+   * acumulado — si alguien lo re-lee como multiplicador y baja el `cap` a 3.25, esto suena.
+   */
+  it('la ley reproduce `2 + 0.25 × (n − 1)` de la fuente en todo el rango 1–10', () => {
+    for (let n = 1; n <= 10; n++) {
+      expect(stackDebuffValue(disruptionLaw(SIB, SSB), n)).toBeCloseTo(2 + 0.25 * (n - 1), 5);
+    }
   });
 });
 

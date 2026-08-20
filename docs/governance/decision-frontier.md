@@ -4,7 +4,7 @@ Rol: "Separar lo ya decidido de lo que sigue en debate o solo sugerido"
 Impacto_ID: "G-ADL-Frontier"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-08-18"
+Fecha_de_actualizacion: "2026-08-20"
 ---
 
 # Decision Frontier
@@ -58,6 +58,7 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **Arista 1** (identidad tipo→proc, 1:1) resuelta = vocabulario en `semantic/damage-types.md` + runtime en `formulas/status/`.
 - **Modelo unificado de proc — arquitectura RESUELTA ([`../domains/engine/design/damage-status-model.md §Modelo unificado de proc`](../domains/engine/design/damage-status-model.md)):** un contenedor de instancias de proc en el target + `EffectBehavior` por efecto (acumulación + emisión + modificador de resolución), reemplazando los 3 contenedores (`stacks`/`dot_pools`/`active_pulses`) + `StatusEngine` + `dot_key` + `DotType`. Ontología LOCKED (instancia/resolución/proc/tick), composición `base(la fija el proc) × contexto(lo evalúa el tick al emitir)`, resolución vía `as: DamageType` (deriva del canónico). **Cierra el "cómo estructurar C2"** de los bullets de abajo — lo que sigue gated son las FACETAS específicas (data/caso forzante), no la arquitectura. Residual `DotType`/`DOT_COEF` sin disolver (deuda G2).
 - **La Instancia como objeto — el seam C1→C2 ([`../domains/engine/design/simulation-architecture.md §2.0.1`](../domains/engine/design/simulation-architecture.md)):** el trazado ①②③ se materializa en **un objeto Instancia construido una vez en el seam**, consumido por todos los proyectores de C2 (no re-derivado 3×). Principio **C1 COMPONE, C2 REALIZA**: C2 consume la salida de C1, no re-compone; **D consume la historia** del ciclo de vida (frame-0 = composición C1, deltas = realización C2). **Tres entradas:** Instancia (átomo per-evento ①②, target-agnóstica, congela valores+stamp) · Schedule (cadencia/fire-mode) · Target (③). El **contrato C1→C2** (emitir rico para C2) es el cimiento **simétrico al contrato de salida C2→D** (`DC-OQ-ENGINE-8`, ya cristalizado). Regla verificada por relectura del catálogo de deudas: la mayoría de las deudas del motor (re-implementación inline, 3× `chance×weight`, `elementBonusPct`, `resolveHit` ②③, contrato de salida) son **una sola deuda conceptual** que este objeto disuelve; lo que resta es dato (OQ-20/18/16) o ajeno a C (UI/vocabulario/intención).
+- **Magnetic — ley de Disruption y su cobertura por capa (O4): CERRADO (`DC-OQ-ENGINE-O4`).** La ley es `2 + 0.25 × (n − 1)` = **×4.25** a 10 stacks (`damage-magnetic-damage.wikitext:28`); el `325%` de la prosa (`:23`) es el **bono acumulado**, no el multiplicador — nunca fueron dos lecturas del dato. Y rige sobre **una sola tabla para Shield y Overguard**: la fuente los nombra en la misma frase y el changelog de DE lo confirma (`:175`, *"similar to how Magnetic affects Shields"*), así que la hipótesis registrada —*"100% a Overguard cruza el dato"*— cae por lo contrario de lo que suponía. `disruptionLaw()` queda como estaba; el `layerMult` suma `overguard`. Sin cambio para `overshield`: ahí la fuente calla.
 
 **Abierto (gated — NO construir sin el caso real que lo fuerza):**
 - **`DamageInstance` de primera clase + split ②③ — HECHO (verificado contra código).** El gate O5 original ("esperá al 1er daño-de-habilidad") se cerró: (a) la **Instancia-objeto** = `deriveInstance` (seam C1→C2, target-agnóstica, consumida por los 3 proyectores sin re-extraer); (b) la **resolución ③** (facción/DR/capa/stacks) ya vive limpia en `resolveDamageEvent`; `resolveHit` quedó como fan-out por tipo, no como colapso ②③.
@@ -90,7 +91,6 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
   (build-debt, `DC-OQ-ENGINE-13`), generador discreto exacto de N proc-slots (`OQ-ENGINE-19`), cronograma
   real de disparos más allá del reloj steppeado de `TimelineSimulator`, extender el oráculo CLI a C2.
 - **Facetas-LEY de Heat/Ignite** (DoT-tick Familia C + armor-strip por tiempo): **implementadas** como el `ignite` behavior (pool + rampa de armor por tiempo transcurrido); pendiente **la forma de la rampa**: el motor la aproxima con una curva lineal `0.5s→0…2s→50%` donde la fuente da cuatro escalones, no la revierte, y no la termina nunca — las tres, medidas y fijadas con `it.fails` en `__tests__/status/heat-armor-ramp.test.ts` (`domains/engine/status.md §Deudas`).
-- **Magnetic ×3.25 vs ×4.25 (O4):** Disruption hereda Infection (×4.25) hasta verificar contra `/w/Magnetic_Damage` (hipótesis: 100% a Overguard cruza el dato). Tripwire en `__tests__/status/{stack-debuff-law,disruption}.test.ts`.
 
 ---
 
