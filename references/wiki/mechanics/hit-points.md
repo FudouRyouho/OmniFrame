@@ -4,7 +4,8 @@
 > Rol: modelo unificado de las tres capas de HP y el cálculo de EHP total
 > Fuente de verdad de: qué es cada barra y qué mitigación tiene, orden de aplicación del daño, las cuatro fórmulas de Effective Hit Points
 > No usar para: escalado de HP de enemigos (→ `enemy-level-scaling.md`) · el detalle de cada capa (→ `health.md` · `shield.md` · `overguard.md`) · bleedout y revivir
-> Última actualización: 2026-07-29
+> Última actualización: 2026-08-20 (desambiguado el 325% de Magnetic — es el bono, no el
+> multiplicador; barrido de #44)
 > Fuente: https://wiki.warframe.com/w/Hit_Points
 > Fuente actualizada: 2026-05-22
 > Raw: hit-points.wikitext · shield.wikitext · overguard.wikitext
@@ -77,7 +78,7 @@ Datos de las páginas de cada capa, no de `Hit Points`.
 | Mecánica | Comportamiento |
 |---|---|
 | **Toxin** | Bypasea shields → daña la salud directamente. No afecta Overguard |
-| **Magnetic** | Amplifica el daño contra Overguard, hasta **325%** tras 10 stacks |
+| **Magnetic** | Amplifica el daño contra Overguard, hasta **+325%** (×4.25 total) tras 10 stacks |
 | **Shield Gate** | Invulnerabilidad al romper shields: **0.33 s** como mínimo, hasta **2.5 s** con 1.150 de shields — escala con el shield máximo |
 | **Overguard gate** | **0.5 s** de invulnerabilidad al agotarse |
 | **Overshield** | Cap de **1.200** para warframes y **600** para companions, independiente del shield máximo |
