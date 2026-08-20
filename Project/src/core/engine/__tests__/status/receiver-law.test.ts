@@ -54,11 +54,11 @@ describe('La clase de unidad llega al receptor — el canal, no la ley', () => {
    */
   it('un acólito del catálogo llega a la entidad simulada con su clase', () => {
     const entity = hostileEntity('Violence', 100);
-    expect(entity.unit_class).toEqual(['acolyte']);
+    expect(entity.unit_class).toBe('acolyte');
     // Y el canal sigue siendo `enemy`: la clase NO lo reemplaza. Sin esto el acólito perdería sus
     // vitales, que es lo que hace que refinar el canal no fuera una opción.
     expect(entity.channel ?? 'enemy').toBe('enemy');
-    expect(new EntityState(entity).receiverContext().unit_class).toEqual(['acolyte']);
+    expect(new EntityState(entity).receiverContext().unit_class).toBe('acolyte');
   });
 
   /** Un hostil cualquiera **calla** — ausente, no lista vacía (`vocabulary.md §6`). */
@@ -107,7 +107,7 @@ describe('La clase de unidad llega al receptor — el canal, no la ley', () => {
     expect(() =>
       curateEnemies(
         [{ unique_name: 'x', base_level: 1, health: 1, armor: 0, shields: 0, faction: 'Grineer' }],
-        { x: { unit_class: ['boss' as never] } },
+        { x: { unit_class: 'boss' as never } },
       ),
     ).toThrow(/no existe/);
   });
@@ -127,8 +127,8 @@ describe('El portador trae una TABLA, no un cap', () => {
    * compilador — el vocabulario cerrado hizo su trabajo.
    */
   it('el acólito dice 4 para cualquier status y 3 para Impact (`stagger`)', () => {
-    expect(receiverMaxStacks({ unit_class: ['acolyte'] }, 'corrosion')).toEqual([{ verb: 'forces', value: 4 }]);
-    expect(receiverMaxStacks({ unit_class: ['acolyte'] }, 'stagger')).toEqual([{ verb: 'forces', value: 3 }]);
+    expect(receiverMaxStacks({ unit_class: 'acolyte' }, 'corrosion')).toEqual([{ verb: 'forces', value: 4 }]);
+    expect(receiverMaxStacks({ unit_class: 'acolyte' }, 'stagger')).toEqual([{ verb: 'forces', value: 3 }]);
   });
 
   /** Sin clase, el receptor **calla** — y callar es distinto de declarar un valor neutro. */
@@ -174,11 +174,29 @@ describe('El portador trae una TABLA, no un cap', () => {
     expect(receiverMaxStacks({ layers_present: ['overguard'] }, 'corrosion')).toEqual([]);
     // Los dos pobladores sobre el mismo parámetro aportan una fila cada uno — componerlas es de
     // `applyDeviations`, no de acá.
-    expect(receiverMaxStacks({ unit_class: ['acolyte'], layers_present: ['overguard'] }, 'freeze')).toHaveLength(2);
+    expect(receiverMaxStacks({ unit_class: 'acolyte', layers_present: ['overguard'] }, 'freeze')).toHaveLength(2);
   });
 
-  // §22: Eximus es clase (*"existen Eximus sin Overguard"*) pero **se decide al instanciar** — 283 de
-  // 638 entradas traen `eximus_health`, o sea es variante del mismo registro y no fila propia. Es el
-  // caso que justifica que `unit_class` sea conjunto, y el que lo pondría a prueba.
-  it.todo('una clase que la elige el escenario y no el dato: Eximus sobre cualquier registro base');
+  /**
+   * §22: Eximus es clase (*"existen Eximus sin Overguard"*) pero **se decide al instanciar** — 283 de
+   * 638 entradas traen `eximus_health`, o sea es variante del mismo registro y no fila propia.
+   *
+   * **No es el caso que justifica que `unit_class` sea conjunto — es el que lo cierra.** El canal
+   * construido (#38) es `HostileIntent.isEximus`, la pregunta del escenario, no una entrada más de
+   * `unit_class`: un Kuva Bombard Eximus sigue siendo UN portador con una clase (o ninguna) más una
+   * capa que nace con cantidad. `unit_class` bajó a escalar (`contracts.ts`) porque el caso que
+   * hubiera exigido el conjunto no se materializó por este canal.
+   */
+  it('Eximus es una clase que elige el escenario y no el dato: cualquier registro base la porta', () => {
+    const ARID_BUTCHER = '/Lotus/Types/Enemies/Grineer/Desert/Avatars/BladeSawmanAvatar';
+    const normal = new EntityState(hostileEntity(ARID_BUTCHER, 50));
+    const eximus = new EntityState(hostileEntity(ARID_BUTCHER, 50, true));
+
+    expect(normal.current_overguard).toBe(0);
+    expect(eximus.current_overguard).toBeGreaterThan(0);
+    // El registro base es el mismo (mismo unique_name, sin fila "Eximus" propia en el catálogo) — lo
+    // único que cambió es la pregunta del escenario, no la identidad de la fila.
+    expect(eximus.entity.unique_name).toBe(normal.entity.unique_name);
+    expect(eximus.entity.unit_class).toBeUndefined();
+  });
 });

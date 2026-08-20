@@ -78,7 +78,7 @@ export interface HitContext {
  */
 export interface ReceiverContext {
   /** Qué unidad **es** — clase (§22). `contracts/unit-class.ts`. Ausente = sin regla propia. */
-  unit_class?: readonly string[];
+  unit_class?: string;
   /**
    * Qué le **pasó** — las marcas que el target adquirió, contra `unit_class` que dice qué **es**
    * (`arch-decisions §17`: *"marca portada por el target"*). Hoy sólo la de Hydroid, que sube el strip

@@ -246,6 +246,10 @@ export const UPGRADES = [
   'ENEMY_ADD_ARMOUR',
   'ENEMY_ADD_HEALTH_MAX',
   'ENEMY_ADD_SHIELD_MAX',
+  // Origen: `HostileIntent.isEximus` (#38) — el escenario, no el catálogo (§22: Eximus se decide al
+  // instanciar). `normalizeEnemy` sólo lo emite si isEximus=true; ausente = el nodo no existe, no un
+  // Overguard en 0 (mismo gate por presencia que el resto de los vitales).
+  'ENEMY_ADD_OVERGUARD_MAX',
   'AVATAR_ADD_ENERGY_MAX',
   'AVATAR_ADD_MOVEMENT_SPEED',
   'AVATAR_ADD_SPRINT_SPEED',

@@ -227,7 +227,7 @@ describe('El desvío del emisor, extremo a extremo', () => {
    */
   it('contra un Acolyte el cap es 4, no 19 — el receptor gana cuando habla', () => {
     const hit: HitContext = { ...HIT, lawDeviations: deriveInstance(armaDe(conShards(3))).lawDeviations };
-    const acolito = makeIsolatedTarget({ armor: 1000, unitClass: ['acolyte'] });
+    const acolito = makeIsolatedTarget({ armor: 1000, unitClass: 'acolyte' });
     for (let i = 0; i < 30; i++) acolito.applyProc('corrosion', hit, 1, 0);
     expect(countOf(acolito)).toBe(4);
   });
@@ -240,13 +240,13 @@ describe('El desvío del emisor, extremo a extremo', () => {
    */
   it('el mismo emisor rinde 19 contra un hostil común y 4 contra un acólito', () => {
     const hit: HitContext = { ...HIT, lawDeviations: deriveInstance(armaDe(conShards(3))).lawDeviations };
-    const cap = (unitClass?: readonly ['acolyte']) => {
+    const cap = (unitClass?: 'acolyte') => {
       const t = makeIsolatedTarget({ armor: 1000, ...(unitClass ? { unitClass } : {}) });
       for (let i = 0; i < 30; i++) t.applyProc('corrosion', hit, 1, 0);
       return countOf(t);
     };
     expect(cap()).toBe(19);
-    expect(cap(['acolyte'])).toBe(4);
+    expect(cap('acolyte')).toBe(4);
   });
 
   /**
@@ -256,7 +256,7 @@ describe('El desvío del emisor, extremo a extremo', () => {
    * hay nada que anular: el default del concepto es `10` y el acólito lo baja igual.
    */
   it('el receptor topea al emisor que calla: default 10 → 4', () => {
-    const acolito = makeIsolatedTarget({ armor: 1000, unitClass: ['acolyte'] });
+    const acolito = makeIsolatedTarget({ armor: 1000, unitClass: 'acolyte' });
     for (let i = 0; i < 30; i++) acolito.applyProc('corrosion', HIT, 1, 0);
     expect(countOf(acolito)).toBe(4);
   });
@@ -267,7 +267,7 @@ describe('El desvío del emisor, extremo a extremo', () => {
    */
   it('y el strip se queda en 44% — los 3 Tauforged no rinden contra un acólito', () => {
     const hit: HitContext = { ...HIT, lawDeviations: deriveInstance(armaDe(conShards(3))).lawDeviations };
-    const acolito = makeIsolatedTarget({ armor: 1000, unitClass: ['acolyte'] });
+    const acolito = makeIsolatedTarget({ armor: 1000, unitClass: 'acolyte' });
     for (let i = 0; i < 30; i++) acolito.applyProc('corrosion', hit, 1, 0);
     expect(acolito.getEffectiveArmor(0)).toBeCloseTo(560, 6);
   });

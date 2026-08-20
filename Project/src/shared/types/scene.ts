@@ -117,6 +117,13 @@ export interface HostileIntent {
   uniqueName: string;
   /** Nivel al que se enfrenta. Compone su frame-0 (curva-S), no lo modifica después. */
   level: number;
+  /**
+   * ¿Spawnea como Eximus? Se PREGUNTA acá y no se lee del catálogo: `arch-decisions §22` fija que
+   * Eximus es clase que **se decide al instanciar** —"cualquier unidad base puede spawnear como
+   * Eximus"—, no identidad de la fila (`eximus_health` está en 283/638 entradas como variante del
+   * mismo registro, no como fila propia). Ausente/`false` = el registro base, sin variante.
+   */
+  isEximus?: boolean;
 
   // NO va todavía:
   //   isSteelPath — decidido que es de acá; 0 de 638 enemigos traen el bonus en el dataset, y un
