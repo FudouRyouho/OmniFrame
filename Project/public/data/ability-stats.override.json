@@ -10633,7 +10633,7 @@
             "base_value": 40
           },
           {
-            "label": "Damage: <DT_VIRA:> |val1|",
+            "label": "Damage: <DT_VIRAL> |val1|",
             "base_value": 500,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },

@@ -20,7 +20,7 @@ Drain: <ENERGY> 50 $EFFICIENCY
 Duration: 15s $DURATION
 Range: 15m $RANGE
 Angle: 40°
-Damage: <DT_VIRA:> 500 $STRENGTH
+Damage: <DT_VIRAL> 500 $STRENGTH
 Damage Redirection: 35% $STRENGTH
 
 ## /Lotus/Powersuits/PowersuitAbilities/DagathApparitionAbility
