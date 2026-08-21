@@ -204,9 +204,14 @@ fuentes distintas (§1: `health` del export, `eximus_health` de la wiki) y **no 
 sí**. Medido: de las 61 filas con `eximus_health != health`, **34 son artefactos** —la wiki dice que
 ambos valores son iguales y el que está viejo es `health`— y sólo 27 son diferencias reales. Peor sobre
 el subconjunto que rompe la escalera: de las **27 filas donde `eximus_health < health`, 23 caen** al
-revalidarlas contra el `Health` de la wiki y sobreviven 4. `eximus_health` no tiene un solo desvío
-(283/283 exacto contra `EximusHealth`); `health` difiere en 126 de 586. El consumidor de la escalera
-necesita esto resuelto antes de correr — **#57**.
+revalidarlas contra el `Health` de la wiki y sobreviven 4. `eximus_health` coincide con
+`EximusHealth` en las 283 filas comparables; `health` difiere en 126 de 586.
+
+⚠️ **Exacto como transcripción no es lo mismo que plausible.** La cosecha copia fielmente lo que la
+wiki declara, y la wiki declara `EximusHealth = 1` en al menos dos unidades Syzygy — un placeholder
+que la escalera tomaría como base real (**#60**). Un consumidor que confíe en el 283/283 hereda ese
+hueco. El consumidor de la escalera necesita las dos cosas resueltas antes de correr —
+procedencia de `health` (**#57**) y plausibilidad de `eximus_health` (**#60**).
 
 Se guarda tal cual llega; el día que tenga consumidor, aplicar como reemplazo — no como suma — **y
 sobre una base cuya procedencia se haya reconciliado primero**.
