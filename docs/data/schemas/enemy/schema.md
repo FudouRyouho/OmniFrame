@@ -191,12 +191,25 @@ cuál ganó. `Heavy Gunner` es peor: dos entradas del wiki con el **mismo** `Int
 exacto en la fuente.
 
 **`eximus_health` es el base de reemplazo de la variante Eximus — ni total ni componente sumado.**
-El juego lo sustituye al `health` normal **antes** de correr el escalado (por eso puede ser *menor* que
-el `health` normal: `Scrofa Drover Bursa` 1200 → 900 Eximus, imposible bajo las otras dos lecturas). Ley
-completa en
+El juego lo sustituye al `health` normal **antes** de correr el escalado, y por eso puede ser *menor*
+que el `health` normal — imposible bajo las otras dos lecturas. Ejemplos que están **en este dataset**
+y que la wiki respalda en sus dos mitades: `Boiler` 1200 → 1000, `Brood Mother` 700 → 600,
+`Terra Attack Drone` 250 → 100. Ley completa en
 [`../../../../references/wiki/mechanics/enemy-level-scaling.md`](../../../../references/wiki/mechanics/enemy-level-scaling.md)
-§Escalado de Eximus. Se guarda tal cual llega; el día que tenga consumidor, aplicar como reemplazo — no
-como suma.
+§Escalado de Eximus.
+
+🔴 **Pero NO alcanza con aplicar el reemplazo sobre el dato de hoy — hacerlo produce Eximus más débiles
+que la unidad común, y el error es del `health`, no del `eximus_health`.** Los dos campos vienen de
+fuentes distintas (§1: `health` del export, `eximus_health` de la wiki) y **no son comparables entre
+sí**. Medido: de las 61 filas con `eximus_health != health`, **34 son artefactos** —la wiki dice que
+ambos valores son iguales y el que está viejo es `health`— y sólo 27 son diferencias reales. Peor sobre
+el subconjunto que rompe la escalera: de las **27 filas donde `eximus_health < health`, 23 caen** al
+revalidarlas contra el `Health` de la wiki y sobreviven 4. `eximus_health` no tiene un solo desvío
+(283/283 exacto contra `EximusHealth`); `health` difiere en 126 de 586. El consumidor de la escalera
+necesita esto resuelto antes de correr — **#57**.
+
+Se guarda tal cual llega; el día que tenga consumidor, aplicar como reemplazo — no como suma — **y
+sobre una base cuya procedencia se haya reconciliado primero**.
 
 **81 entradas de `Multis` son `""` o `"None"`** — el wiki distingue "sin punto débil" de "no lo
 sabemos". Se tratan como ausencia, que es lo que dicen.
