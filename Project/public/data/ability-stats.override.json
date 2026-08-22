@@ -2168,6 +2168,11 @@
       {
         "stats": [
           {
+            "label": "Drain: <ENERGY> |val1|",
+            "base_value": 50,
+            "upgrade_by": "ENERGY_COST"
+          },
+          {
             "label": "Damage: <DT_TOXIN> |val1|",
             "base_value": 2000,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
