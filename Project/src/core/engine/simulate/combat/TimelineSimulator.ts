@@ -13,15 +13,23 @@ import type { HitContext } from "../../formulas/status/effect-behavior";
 import { deriveInstance } from "./damage-instance";
 
 /**
- * ⚠️ `enemy_*` es residuo del rename `EnemyState` → `EntityState`, en el OUTPUT — #2. No se renombra
- * acá: es contrato de salida con lectores fuera del engine, el cambio pertenece al borde de proyección.
+ * Un tick del timeline: el estado del RECEPTOR tras resolver el disparo de ese instante.
+ *
+ * Los campos de estado son entidad-neutrales —espejo exacto de `EntityState.current_health` y
+ * `getEffectiveArmor()`— porque desde el rename `EnemyState` → `EntityState` el receptor no es
+ * necesariamente un enemigo. Antes se llamaban `enemy_*` y un comentario acá justificaba no
+ * renombrarlos "porque son contrato de salida con lectores fuera del engine": medido, no los hay.
+ * `TimelineEvent` no se nombra en ningún otro archivo de `src/`, nadie lee `.events`, y el único
+ * consumidor de `simulateBurst` (`output/combat-metrics.ts`) descarta el array entero — sólo lee
+ * `ttk`, `shots_to_kill` y `total_damage`. El rename se hizo en el lugar, sin borde de proyección
+ * que coordinar (#2).
  */
 export interface TimelineEvent {
   time: number;
   damage: number;
   cumulative_damage: number;
-  enemy_health: number;
-  enemy_armor: number;
+  current_health: number;
+  effective_armor: number;
   stacks: Record<string, number>;
 }
 
@@ -151,8 +159,8 @@ export class TimelineSimulator {
         time: currentTime,
         damage: isFiring ? totalDamage : 0,
         cumulative_damage: totalDamage,
-        enemy_health: Math.max(0, state.current_health),
-        enemy_armor: state.getEffectiveArmor(currentTime),
+        current_health: Math.max(0, state.current_health),
+        effective_armor: state.getEffectiveArmor(currentTime),
         stacks: Object.fromEntries(state.activeEffects().map((e) => [e, 1])),
       });
 
