@@ -74,11 +74,13 @@ export function isCombinedDamageToken(value: string): boolean {
 }
 
 /**
- * Los pools de daño GLOBALES del arma (arch-decisions §16): grupos aditivos `(1+Σ)` que todo daño-token
+ * Los pools de daño GLOBALES (arch-decisions §16): grupos aditivos `(1+Σ)` que todo daño-token
  * multiplica **al resolverse como nodo** (el HIT; suman dentro, multiplican afuera). Hoy dos:
  * `WEAPON_ADD_DAMAGE` (Serration, Step 1) y `GAMEPLAY_MULT_FACTION_DAMAGE` (Roar/Bane, Step 3). SSoT única
  * del conjunto: el orden de resolución (aristas en `rebuildGraph`) y la aplicación del factor
  * (`calculateCurrentValue`) derivan de acá — no pueden divergir. Agregar un 3er pool = una línea.
+ * ⚠️ **"Del arma" describe al aditivo, no al conjunto**: el de facción alcanza a toda fuente de daño
+ * del jugador, y quién porta cada uno se declara en `POOL_BEARER_DOMAINS` (abajo) — no acá.
  * NB: NO son daño-tokens (no matchean `isWeaponDamageToken`); son los pools que ESOS tokens leen.
  * NB2: el DoT (`dot-base-scaling`) lee DELIBERADAMENTE un subconjunto (solo el aditivo; faction gated,
  * OQ-20) — NO usa este conjunto. No "unificar" ahí sin cerrar OQ-20.
