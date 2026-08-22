@@ -11,7 +11,7 @@ Range: 100m $RANGE
 Duration: 20s $DURATION
 Radius: 20m $RANGE
 Health / Second: 100 $STRENGTH
-Life Steal 1% $STRENGTH
+Life Steal: 1% $STRENGTH
 Immortality Cooldown: <TIMER>: 60
 Immortality Duration: 5s
 Max Targets: 3

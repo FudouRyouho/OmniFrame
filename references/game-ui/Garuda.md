@@ -14,7 +14,7 @@ Charge Damage/ Second: <DT_IMPACT> 100%
 Charge Drain / Second: 50 $DRAIN
 Explosion Radius: 10m $RANGE
 #### DREAD WARD
-Time Invulnerable 8s $DURATION
+Time Invulnerable: 8s $DURATION
 
 ## /Lotus/Powersuits/PowersuitAbilities/GarudaSiphonAbility
 // 2 - BLOOD ALTAR

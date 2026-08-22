@@ -18,7 +18,7 @@ Duration: 25s $DURATION
 Enemies Affected: 20 $STRENGTH
 Armor Reduction: 60% $STRENGTH
 #### CREEPING TERRIFY
-Speed Decrease 60% $STRENGTH
+Speed Decrease: 60% $STRENGTH
 
 ## /Lotus/Powersuits/PowersuitAbilities/SearchTheDeadAbility
 // 3 - DESECRATE

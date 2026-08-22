@@ -112,7 +112,21 @@ function parseStat(line: string): AbilityStatEntry | null {
     ...(upgradeType ? { upgrade_type: upgradeType } : {}),
   }
 
-  const minMax = numStr.match(/^(\d[\d.,]*)\s*-\s*(\d[\d.,]*)([a-zA-Z%°]*)$/)
+  // Signo y unidad compuesta — dos formas que el corpus ya usaba y estos regex no leían (#31):
+  //
+  // `-?` — la UI publica las bajas como negativo (`Hit Chance: -50%`, `Time / Kill: -4s`). Sin el
+  //   signo el match fallaba, `parseStat` devolvía null, y si era la única stat del grupo entonces
+  //   `flushGroup` descartaba el grupo entero: así desaparecieron `Titania` DUST y ENTANGLE del
+  //   override, sin que ningún gate lo notara.
+  // `(?:\s*\/\s*[a-zA-Z]+)?` — la unidad puede ser compuesta (`48m/s`, `1% / s`, `10%/s`). La clase
+  //   `[a-zA-Z%°]` cortaba en la barra y el match moría contra el `$` final. 10 stats más, ninguna
+  //   listada en el issue: aparecieron barriendo los 63 `.md` en vez de los 5 que lo originaron.
+  //
+  // Lo que sigue devolviendo null es deliberado, no un tercer gap sin arreglar: icono POSTFIJO
+  // (`25x <KOUMEI_DICE_1>`) y captura mal formateada (`<DT_BLAST> M 200`, `<TIMER>: 60`). Ahí el
+  // valor correcto no es deducible del texto, y adivinarlo sería peor que perderlo — el warn de
+  // `parseMd` ahora los nombra uno por uno en vez de tragárselos.
+  const minMax = numStr.match(/^(-?\d[\d.,]*)\s*-\s*(-?\d[\d.,]*)([a-zA-Z%°]*(?:\s*\/\s*[a-zA-Z]+)?)$/)
   if (minMax) {
     return {
       label:      `${labelPrefix}: ${iconStr}|val1| - |val2|${minMax[3]}`.trimEnd(),
@@ -121,7 +135,7 @@ function parseStat(line: string): AbilityStatEntry | null {
     }
   }
 
-  const simple = numStr.match(/^(\d[\d.,]*)([a-zA-Z%°]*)$/)
+  const simple = numStr.match(/^(-?\d[\d.,]*)([a-zA-Z%°]*(?:\s*\/\s*[a-zA-Z]+)?)$/)
   if (!simple) return null
 
   return {
@@ -193,6 +207,12 @@ function parseMd(content: string): ParsedOutput {
     if (!group) continue
     const stat = parseStat(line)
     if (stat) group.stats.push(stat)
+    // Una línea con un número que no salió stat es una pérdida, no un no-evento. Antes se
+    // descartaba sin decir nada: el grupo entero podía no llegar al override y `validate:docs`,
+    // `tsc -b` y la suite salían verdes igual, porque ninguno asserta "el override tiene todos los
+    // grupos que el `.md` declara". El warn no arregla la línea — la hace visible, que es lo que
+    // faltaba para que el gap se descubra al correr el script y no barriendo el corpus a mano (#31).
+    else if (/\d/.test(line)) console.warn(`  [!] línea no parseada, stat perdido: ${line.trim()}`)
   }
 
   flushAbility()

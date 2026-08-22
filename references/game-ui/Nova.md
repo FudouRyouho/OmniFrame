@@ -44,4 +44,4 @@ Explosion Radius: 10m $RANGE
 Duration: 6s $DURATION
 Effect Duration: 30s $DURATION
 #### MOLECULAR FISSION
-Success Chance 100%
+Success Chance: 100%

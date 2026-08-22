@@ -2564,6 +2564,10 @@
               85
             ],
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Immolation Meter: |val1|% / s",
+            "base_value": 0.5
           }
         ]
       },
@@ -2617,6 +2621,10 @@
             "label": "Duration: |val1|s",
             "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Immolation Meter: |val1|% / s",
+            "base_value": 3
           },
           {
             "label": "Angle: |val1|°",
@@ -3175,6 +3183,17 @@
         ]
       },
       {
+        "id": "dust",
+        "label": "DUST",
+        "exclusive": true,
+        "stats": [
+          {
+            "label": "Hit Chance: |val1|%",
+            "base_value": -50
+          }
+        ]
+      },
+      {
         "id": "full-moon",
         "label": "FULL MOON",
         "exclusive": true,
@@ -3190,6 +3209,17 @@
           {
             "label": "Armor: |val1|%",
             "base_value": 50
+          }
+        ]
+      },
+      {
+        "id": "entangle",
+        "label": "ENTANGLE",
+        "exclusive": true,
+        "stats": [
+          {
+            "label": "Speed: |val1|%",
+            "base_value": -25
           }
         ]
       }
@@ -3232,6 +3262,10 @@
             "label": "Combo Window: |val1|s",
             "base_value": 1.5,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Immolation Meter: |val1|% / s",
+            "base_value": 1
           }
         ]
       },
@@ -3282,6 +3316,14 @@
             "label": "Radius: |val1|m",
             "base_value": 25,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          },
+          {
+            "label": "Immolation Meter On Cast: |val1|%",
+            "base_value": -50
+          },
+          {
+            "label": "Immolation Meter: |val1|% / s",
+            "base_value": -2
           },
           {
             "label": "Armor Reduction: |val1| - |val2|%",
@@ -3391,6 +3433,17 @@
             "label": "Explosion Radius: |val1|m",
             "base_value": 10,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "dread-ward",
+        "label": "DREAD WARD",
+        "stats": [
+          {
+            "label": "Time Invulnerable: |val1|s",
+            "base_value": 8,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -3708,6 +3761,17 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
+      },
+      {
+        "id": "mending-splinters",
+        "label": "MENDING SPLINTERS",
+        "stats": [
+          {
+            "label": "Health / Second: |val1|",
+            "base_value": 15,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
       }
     ]
   },
@@ -3933,6 +3997,17 @@
             "label": "Angle: |val1|°",
             "base_value": 45,
             "upgrade_by": "AVATAR_ABILITY_RANGE"
+          }
+        ]
+      },
+      {
+        "id": "ice-wave-impedance",
+        "label": "ICE WAVE IMPEDANCE",
+        "stats": [
+          {
+            "label": "Duration: |val1|s",
+            "base_value": 12,
+            "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
       }
@@ -4626,6 +4701,10 @@
           {
             "label": "Respawn Time: |val1|s",
             "base_value": 150
+          },
+          {
+            "label": "Time / Kill: |val1|s",
+            "base_value": -4
           }
         ]
       }
@@ -4775,6 +4854,11 @@
             "label": "Duration: |val1|s",
             "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Debuff Amount: |val1|%/s",
+            "base_value": 10,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Buff Duration: |val1|s",
@@ -5061,6 +5145,16 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           }
         ]
+      },
+      {
+        "id": "molecular-fission",
+        "label": "MOLECULAR FISSION",
+        "stats": [
+          {
+            "label": "Success Chance: |val1|%",
+            "base_value": 100
+          }
+        ]
       }
     ]
   },
@@ -5246,6 +5340,28 @@
             "label": "Boosted Damage: <DT_HEAT> |val1|",
             "base_value": 1000,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
+            "label": "Health Orb Drop: |val1|x",
+            "base_value": 1
+          },
+          {
+            "label": "Energy Orb Drop: |val1|x",
+            "base_value": 0.35
+          }
+        ]
+      },
+      {
+        "id": "reaping-chakram",
+        "label": "REAPING CHAKRAM",
+        "stats": [
+          {
+            "label": "Damage Multiplier: |val1|x",
+            "base_value": 2
+          },
+          {
+            "label": "Health Orb Drop: |val1|x",
+            "base_value": 0.25
           }
         ]
       }
@@ -5286,6 +5402,16 @@
             "label": "Absorption Multiplier: |val1|x",
             "base_value": 2.5,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
+      },
+      {
+        "id": "safeguard",
+        "label": "SAFEGUARD",
+        "stats": [
+          {
+            "label": "Strength: |val1|%",
+            "base_value": 50
           }
         ]
       }
@@ -6850,6 +6976,10 @@
             "upgrade_by": "AVATAR_ABILITY_DURATION"
           },
           {
+            "label": "Speed: |val1|m/s",
+            "base_value": 25
+          },
+          {
             "label": "Health Drain: |val1|%",
             "base_value": 40,
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
@@ -7007,6 +7137,10 @@
             "label": "Drain: <ENERGY> |val1|",
             "base_value": 25,
             "upgrade_by": "ENERGY_COST"
+          },
+          {
+            "label": "Speed: |val1|m/s",
+            "base_value": 48
           },
           {
             "label": "Range: |val1|m",
@@ -7294,6 +7428,10 @@
           {
             "label": "Range: |val1|m",
             "base_value": 12
+          },
+          {
+            "label": "Speed: |val1|m/s",
+            "base_value": 25
           },
           {
             "label": "Radius: |val1|m",
@@ -8471,6 +8609,10 @@
             "base_value": 2
           },
           {
+            "label": "Air Speed: |val1|m/s",
+            "base_value": 30
+          },
+          {
             "label": "Damage: <DT_SLASH> |val1|",
             "base_value": 750
           }
@@ -8664,6 +8806,17 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           }
         ]
+      },
+      {
+        "id": "creeping-terrify",
+        "label": "CREEPING TERRIFY",
+        "stats": [
+          {
+            "label": "Speed Decrease: |val1|%",
+            "base_value": 60,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          }
+        ]
       }
     ]
   },
@@ -8792,6 +8945,11 @@
         "label": "VECTOR-OVERDRIVE PAD",
         "exclusive": true,
         "stats": [
+          {
+            "label": "Boost Speed: |val1|m/s",
+            "base_value": 25,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
           {
             "label": "Speed Multiplier: |val1|x",
             "base_value": 1.25,
@@ -9126,6 +9284,11 @@
             "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
+            "label": "Life Steal: |val1|%",
+            "base_value": 1,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
+          },
+          {
             "label": "Immortality Duration: |val1|s",
             "base_value": 5
           },
@@ -9401,6 +9564,10 @@
               4,
               16
             ]
+          },
+          {
+            "label": "Range Increase: |val1|m/s",
+            "base_value": 2
           },
           {
             "label": "Slow: |val1|%",
@@ -10250,6 +10417,11 @@
             "label": "Duration: |val1|s",
             "base_value": 15,
             "upgrade_by": "AVATAR_ABILITY_DURATION"
+          },
+          {
+            "label": "Damage / Second: <DT_TAU> |val1|",
+            "base_value": 15000,
+            "upgrade_by": "AVATAR_ABILITY_STRENGTH"
           },
           {
             "label": "Stream Status Chance: |val1|%",
@@ -11160,6 +11332,17 @@
         ]
       },
       {
+        "id": "deathbringer",
+        "label": "DEATHBRINGER",
+        "exclusive": true,
+        "stats": [
+          {
+            "label": "Damage Increase: |val1|%",
+            "base_value": 40
+          }
+        ]
+      },
+      {
         "id": "spirit-of-resilience",
         "label": "SPIRIT OF RESILIENCE",
         "exclusive": true,
@@ -11167,6 +11350,10 @@
           {
             "label": "Shields / Second: <SHIELD> |val1|%",
             "base_value": 4
+          },
+          {
+            "label": "Shield Recharge Delay: |val1|%",
+            "base_value": -10
           }
         ]
       }
@@ -11924,6 +12111,10 @@
           {
             "label": "Explosion Damage Per Status: <DT_RADIATION> |val1|",
             "base_value": 100
+          },
+          {
+            "label": "Explosion Radius: |val1|m",
+            "base_value": 5
           }
         ]
       }

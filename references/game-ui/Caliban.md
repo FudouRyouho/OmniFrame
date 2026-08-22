@@ -47,7 +47,7 @@ Max Choralysts: 6
 Drain: <ENERGY> 100 $EFFICIENCY
 Range: 30m $RANGE
 Duration: 15s $DURATION
-Damage / Second <DT_TAU> 15.000 $STRENGTH
+Damage / Second: <DT_TAU> 15.000 $STRENGTH
 Stream Status Chance: 20%
 Convergence Explosion: <DT_TAU> 750 $STRENGTH
 Enemy Detonation: <DT_TAU> 5.000 $STRENGTH
