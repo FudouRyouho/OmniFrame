@@ -74,16 +74,48 @@ export function isCombinedDamageToken(value: string): boolean {
 }
 
 /**
- * Los pools de daño GLOBALES del arma (arch-decisions §16): grupos aditivos `(1+Σ)` que todo daño-token
+ * Los pools de daño GLOBALES (arch-decisions §16): grupos aditivos `(1+Σ)` que todo daño-token
  * multiplica **al resolverse como nodo** (el HIT; suman dentro, multiplican afuera). Hoy dos:
  * `WEAPON_ADD_DAMAGE` (Serration, Step 1) y `GAMEPLAY_MULT_FACTION_DAMAGE` (Roar/Bane, Step 3). SSoT única
  * del conjunto: el orden de resolución (aristas en `rebuildGraph`) y la aplicación del factor
  * (`calculateCurrentValue`) derivan de acá — no pueden divergir. Agregar un 3er pool = una línea.
+ * ⚠️ **"Del arma" describe al aditivo, no al conjunto**: el de facción alcanza a toda fuente de daño
+ * del jugador, y quién porta cada uno se declara en `POOL_BEARER_DOMAINS` (abajo) — no acá.
  * NB: NO son daño-tokens (no matchean `isWeaponDamageToken`); son los pools que ESOS tokens leen.
  * NB2: el DoT (`dot-base-scaling`) lee DELIBERADAMENTE un subconjunto (solo el aditivo; faction gated,
  * OQ-20) — NO usa este conjunto. No "unificar" ahí sin cerrar OQ-20.
  */
 export const GLOBAL_DAMAGE_POOLS = ['WEAPON_ADD_DAMAGE', 'GAMEPLAY_MULT_FACTION_DAMAGE'] as const;
+
+export type GlobalDamagePool = typeof GLOBAL_DAMAGE_POOLS[number];
+
+/**
+ * QUÉ ENTIDAD MATERIALIZA CADA POOL, por `domain`. Vive con el conjunto porque es la otra mitad de la
+ * misma SSoT: declarar un pool sin declarar quién lo porta deja la decisión al hidratador, y ahí se
+ * escribe como literal suelto — que es justo lo que el conjunto existe para evitar. Agregar un 3er
+ * pool sigue siendo una línea acá: la del array y la de su alcance.
+ *
+ * **Los dos pools NO tienen el mismo alcance, y por eso no puede ser un gate único.**
+ * `WEAPON_ADD_DAMAGE` es Serration: sólo un arma lo lleva — no hay Serration de habilidad ni de
+ * mordida. `GAMEPLAY_MULT_FACTION_DAMAGE` es Roar/Bane, que la fuente declara sin acotar a arma
+ * (*"increases the damage any ally deals from any source"*), así que alcanza a toda fuente de daño
+ * del jugador — el arma y el compañero que la porta. La misma partición ya está escrita abajo en
+ * `ABILITY_ELIGIBLE_POOLS` para el consumidor de habilidad; esto es la mitad que faltaba.
+ *
+ * **El enemigo no aparece, y ésa es la corrección (#26):** no tiene daño de arma propio ni recibe
+ * buffs de facción del jugador. Antes entraba por un gate `!isWarframe` que lo metía junto con las
+ * armas; hoy no lo alcanzaba **por el ruteo** (`FAMILY_ROUTE['GAMEPLAY']` exige la marca `weapon`),
+ * no por el nodo — o sea que estaba desactivado por accidente y no por declaración, el patrón que
+ * `channel-routing.ts` advierte que no se sostiene solo.
+ *
+ * **El warframe tampoco aparece, y eso NO cambia acá:** no materializa ninguno de los dos y su
+ * emisión de habilidad lee el pool de un peer (`AbilityRepository`, `resolveFamilyEntities`). Es el
+ * hack de composición que el hidratador ya nombraba; sigue en pie, sin tocar.
+ */
+export const POOL_BEARER_DOMAINS: Readonly<Record<GlobalDamagePool, readonly string[]>> = {
+  WEAPON_ADD_DAMAGE:            ['weapon'],
+  GAMEPLAY_MULT_FACTION_DAMAGE: ['weapon', 'companion'],
+};
 
 /**
  * El subconjunto de `GLOBAL_DAMAGE_POOLS` que alcanza a una emisión de habilidad
