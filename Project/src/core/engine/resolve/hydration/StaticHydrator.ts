@@ -14,7 +14,7 @@ import type { MoldedIntent } from "./space";
 import { isUpgrade } from "@shared/types/modifier";
 
 import { DamageCombiner, PHYSICAL_TYPES, type ElementalMod } from "./DamageCombiner";
-import { isWeaponDamageToken, isCombinedDamageToken, damageTypeFromToken, GLOBAL_DAMAGE_POOLS } from "../../contracts/damage-logic";
+import { isWeaponDamageToken, isCombinedDamageToken, damageTypeFromToken, GLOBAL_DAMAGE_POOLS, POOL_BEARER_DOMAINS } from "../../contracts/damage-logic";
 import { lawParamOf } from "../../contracts/law-params";
 import type { DamageType } from "@shared/types";
 
@@ -493,18 +493,22 @@ export class StaticHydrator {
     // Sembrar el nodo baseline de cada pool de daño GLOBAL — derivado de la SSoT única
     // (GLOBAL_DAMAGE_POOLS en damage-logic), NO de literales sueltos: agregar un 3er pool = una línea
     // allá, y las aristas/reads del engine ya derivan del mismo array (F1-D). base 100 = 100% neutro
-    // (vacío ⇒ factor 1.0). Solo armas: un warframe no tiene nodo de daño de arma (hack de composición
-    // conocido, gap del engine — no es ley universal). El WHY de cada pool (Serration Step 1 · Roar/Bane
-    // Step 3 · el subconjunto que lee el DoT, OQ-20) vive en la SSoT. El guard `!attributes[pool]`
-    // respeta el nodo que ya vino del perfil (WEAPON_ADD_DAMAGE = damage_sum del arma).
-    const isWarframe = dna.kind === 'warframe';
-    if (!isWarframe) {
-      for (const pool of GLOBAL_DAMAGE_POOLS) {
-        if (attributes[pool]) continue;
-        attributes[pool] = {
-          base: 100, base_flat: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
-        };
-      }
+    // (vacío ⇒ factor 1.0). El WHY de cada pool (Serration Step 1 · Roar/Bane Step 3 · el subconjunto
+    // que lee el DoT, OQ-20) vive en la SSoT. El guard `!attributes[pool]` respeta el nodo que ya vino
+    // del perfil (WEAPON_ADD_DAMAGE = damage_sum del arma).
+    //
+    // **QUIÉN porta cada pool también se lee de la SSoT** (`POOL_BEARER_DOMAINS`), y por `domain` —
+    // no por `kind` ni por negación. Antes era `!isWarframe`, y eso sembraba los dos pools en TODA
+    // entidad no-warframe: el arma, el compañero **y el enemigo**, que no tiene ninguno de los dos.
+    // El comentario que vivía acá ya decía "solo armas" mientras el gate decía otra cosa (#26).
+    // Los dos pools no comparten alcance, así que tampoco pueden compartir un gate — la partición
+    // (Serration sólo al arma; Roar/Bane también al compañero) se declara con el conjunto.
+    for (const pool of GLOBAL_DAMAGE_POOLS) {
+      if (attributes[pool]) continue;
+      if (!dna.domain || !POOL_BEARER_DOMAINS[pool].includes(dna.domain)) continue;
+      attributes[pool] = {
+        base: 100, base_flat: 0, mods_add_pct: 0, total_flat: 0, multiplicative: 1.0, final: 100,
+      };
     }
 
     return {
@@ -522,7 +526,7 @@ export class StaticHydrator {
       faction: dna.faction,
       unit_class: dna.unit_class,
       // PE = entidad poseída/equipada (arma o warframe); TE = transitoria (proc, proyectil).
-      persistence: (dna.tags.includes('weapon') || isWarframe) ? 'PE' : 'TE',
+      persistence: (dna.tags.includes('weapon') || dna.kind === 'warframe') ? 'PE' : 'TE',
       tags: dna.tags,
       attributes,
       co_behavior: dna.co_behavior?.[effective_profile],

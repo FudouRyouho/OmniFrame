@@ -85,6 +85,36 @@ export function isCombinedDamageToken(value: string): boolean {
  */
 export const GLOBAL_DAMAGE_POOLS = ['WEAPON_ADD_DAMAGE', 'GAMEPLAY_MULT_FACTION_DAMAGE'] as const;
 
+export type GlobalDamagePool = typeof GLOBAL_DAMAGE_POOLS[number];
+
+/**
+ * QUÉ ENTIDAD MATERIALIZA CADA POOL, por `domain`. Vive con el conjunto porque es la otra mitad de la
+ * misma SSoT: declarar un pool sin declarar quién lo porta deja la decisión al hidratador, y ahí se
+ * escribe como literal suelto — que es justo lo que el conjunto existe para evitar. Agregar un 3er
+ * pool sigue siendo una línea acá: la del array y la de su alcance.
+ *
+ * **Los dos pools NO tienen el mismo alcance, y por eso no puede ser un gate único.**
+ * `WEAPON_ADD_DAMAGE` es Serration: sólo un arma lo lleva — no hay Serration de habilidad ni de
+ * mordida. `GAMEPLAY_MULT_FACTION_DAMAGE` es Roar/Bane, que la fuente declara sin acotar a arma
+ * (*"increases the damage any ally deals from any source"*), así que alcanza a toda fuente de daño
+ * del jugador — el arma y el compañero que la porta. La misma partición ya está escrita abajo en
+ * `ABILITY_ELIGIBLE_POOLS` para el consumidor de habilidad; esto es la mitad que faltaba.
+ *
+ * **El enemigo no aparece, y ésa es la corrección (#26):** no tiene daño de arma propio ni recibe
+ * buffs de facción del jugador. Antes entraba por un gate `!isWarframe` que lo metía junto con las
+ * armas; hoy no lo alcanzaba **por el ruteo** (`FAMILY_ROUTE['GAMEPLAY']` exige la marca `weapon`),
+ * no por el nodo — o sea que estaba desactivado por accidente y no por declaración, el patrón que
+ * `channel-routing.ts` advierte que no se sostiene solo.
+ *
+ * **El warframe tampoco aparece, y eso NO cambia acá:** no materializa ninguno de los dos y su
+ * emisión de habilidad lee el pool de un peer (`AbilityRepository`, `resolveFamilyEntities`). Es el
+ * hack de composición que el hidratador ya nombraba; sigue en pie, sin tocar.
+ */
+export const POOL_BEARER_DOMAINS: Readonly<Record<GlobalDamagePool, readonly string[]>> = {
+  WEAPON_ADD_DAMAGE:            ['weapon'],
+  GAMEPLAY_MULT_FACTION_DAMAGE: ['weapon', 'companion'],
+};
+
 /**
  * El subconjunto de `GLOBAL_DAMAGE_POOLS` que alcanza a una emisión de habilidad
  * (`AbilityRepository.getEmissions`). Sólo `GAMEPLAY_MULT_FACTION_DAMAGE` (Roar/Bane): la fuente lo

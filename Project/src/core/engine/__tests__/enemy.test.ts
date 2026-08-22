@@ -25,7 +25,7 @@ import type { SimulationContext } from '../contracts';
 import type { Scene } from '@shared/types/scene';
 import {
   valkyrWarcryTarget, valkyrWarcryCompanion, corrosiveProjectionTarget, rhinoRoarTarget,
-  BOMBARD, VALKYR,
+  BOMBARD, VALKYR, TIBERON_PRIME,
 } from '../fixtures/builds';
 
 await loadEngineData(new NodeAdapter());
@@ -106,23 +106,36 @@ describe('Enemigo — el buff del jugador no se filtra', () => {
   });
 
   /**
-   * El caso que prueba que la MARCA es lo que separa, no la ausencia de nodo.
+   * El enemigo NO porta los pools de daño del jugador — y ahora eso está **declarado**, no es un
+   * accidente de ruteo.
    *
-   * `createBaseEntity` siembra los pools de daño global en toda entidad que no sea warframe
-   * (`!isWarframe`), así que el enemigo materializa `GAMEPLAY_MULT_FACTION_DAMAGE` igual que un arma
-   * — un nodo que no le corresponde. Roar buffea ese pool con ALL-scope y aun así no lo alcanza,
-   * porque `FAMILY_ROUTE['GAMEPLAY']` pide la marca `weapon` y el enemigo entra con `enemy`.
+   * Antes `createBaseEntity` los sembraba en toda entidad que no fuera warframe (`!isWarframe`), así
+   * que el enemigo materializaba `GAMEPLAY_MULT_FACTION_DAMAGE` igual que un arma. Roar no lo
+   * alcanzaba igual, pero por la otra mitad del sistema: `FAMILY_ROUTE['GAMEPLAY']` pide la marca
+   * `weapon` y el enemigo entra con `enemy`. O sea, el nodo falso estaba **desactivado por el ruteo**
+   * — el mismo "ruteo por ausencia" contra el que advierte `channel-routing.ts`, resuelto del lado
+   * correcto por accidente afortunado.
    *
-   * O sea: hoy el nodo falso está **desactivado por el ruteo**, no ausente. Es exactamente el "ruteo
-   * por ausencia" contra el que advierte `channel-routing.ts` — dos entidades materializando el mismo
-   * token — sólo que resuelto del lado correcto por accidente afortunado.
+   * Hoy quién porta cada pool se lee de `POOL_BEARER_DOMAINS` por `domain`, y el enemigo no está en
+   * ninguno de los dos: el nodo no existe. Las dos mitades dicen lo mismo en vez de taparse una a la
+   * otra (#26).
    */
-  it('Roar no alcanza el pool de daño del enemigo, aunque el enemigo materialice ese nodo', () => {
+  it('el enemigo no materializa los pools de daño del jugador — ninguno de los dos', () => {
     const enemy = consume(rhinoRoarTarget(), { flags: {} }).weapon(BOMBARD);
-    expect(enemy.node('GAMEPLAY_MULT_FACTION_DAMAGE').multiplicative).toBe(1);
+    expect(() => enemy.node('GAMEPLAY_MULT_FACTION_DAMAGE')).toThrow();
+    expect(() => enemy.node('WEAPON_ADD_DAMAGE')).toThrow();
   });
 
-  it.todo('el enemigo no debería materializar WEAPON_ADD_DAMAGE ni el pool de facción — #26');
+  /**
+   * La otra mitad del mismo gate: el arma **sí** los porta, y con Roar equipado el pool de facción
+   * llega. Sin este caso, "el enemigo no lo tiene" pasaría igual con el gate roto al revés —
+   * quitándoselo a todos.
+   */
+  it('…y el arma del jugador sí, con Roar aterrizando en el pool de facción', () => {
+    const gun = consume(rhinoRoarTarget(), { flags: {} }).weapon(TIBERON_PRIME);
+    expect(gun.node('WEAPON_ADD_DAMAGE')).toBeDefined();
+    expect(gun.node('GAMEPLAY_MULT_FACTION_DAMAGE').mods_add_pct).toBeGreaterThan(0);
+  });
 });
 
 // ─── Dos participantes del mismo ítem: el segundo pisa al primero ──────────────────
