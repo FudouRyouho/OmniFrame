@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-08-22"
+Fecha_de_actualizacion: "2026-08-24"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -179,7 +179,7 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 
 **Consecuencia:**
 - **Anti-pozo operativo:** modo-input antes que modo-simulado, un mecanismo por vez. **Nunca "el sistema temporal completo de una".** Cada base C1 honesta es un pedazo de suelo simulable.
-- **C2-temporal sigue siendo el destino, no un lujo diferible:** es la diferencia entre un *calculador* (miente al alza asumiendo 100% de uptime / combo máximo) y un *simulador* honesto ("este hit no proqueó → Galvanized pegó menos"). La brecha viva está en el **decay escalar** de `behaviors.ts` (declara 6 s lineales, implementa una exponencial que no termina — ver `../status.md §Deudas` y `damage-status-model.md`).
+- **C2-temporal sigue siendo el destino, no un lujo diferible:** es la diferencia entre un *calculador* (miente al alza asumiendo 100% de uptime / combo máximo) y un *simulador* honesto ("este hit no proqueó → Galvanized pegó menos"). Del lado receptor el estado ya es temporal: los stack-debuff llevan instancias con ventana absoluta y el muestreo no se filtra al resultado. La brecha viva es el **lado emisor** — `context.variables` no tiene reloj que preguntar, así que ahí el N se declara y no envejece (ver `../status.md` y `damage-status-model.md`).
 - **Trazabilidad:** cada veredicto `entra`/`difiere`/`descarta` se registra (por conjunto). El registro acumulado **es** el insumo del que emerge la primitiva; no es papeleo, es el material de la abstracción.
 - Enlaza con **§2** (Ability no tiene un único modelo ontológico — el veredicto por mecanismo es la instancia práctica de esa apertura) y con la doctrina de `test/gap-map.md` (mecánico-genérico por default, ability-like → fórmula dedicada como fallback).
 
@@ -234,7 +234,7 @@ Antídoto contra la trampa gemela: declarar-input **no es** bakear el producto (
 - Cálculo: el motor **consume `coBonusPct`** (`formulas/weapon`), no lo duplica. `applyConditionOverload` (fórmula terminal escalar-cerrada) queda reservada para C2 (daño final), no la llama el grafo de buckets. Cierra la deuda de reconciliación con `formulas/` (ver [`formulas-integration.md`](formulas-integration.md)).
 - Primer arma: Cedo Prime (`cedo-co-static.test.ts`) — sus 3 `shot_type` en un arma validan los 3 buckets **end-to-end**: `adding` (Normal Attack, techo N=3/stacks=2: `84.8 → 161.6`, +240%), `multiplying` (Alt-Fire Glaive → `multiplicative`, **fidelidad confirmada en juego**), `none` (Radial AoE, no aplica).
 - **Diferido (base de cálculo):** el motor computa el CO sobre la base del propio ataque **siempre** — el eje `co_base` no tiene resolver, así que los ataques derivados quedan sobre- o sub-estimados (los arcos cargados, al doble). Es error conocido y acotado, no gap silencioso: la magnitud por arma está medida en `OQ-ENGINE-27`. Complemento diferido con su propio gate: **`co_ratio`** —escalar medido por ataque— para lo que un puntero no puede expresar, que son los casos sin ataque padre al que apuntar (11 incarnon de secundarias donde el CO ignora el aumento de base damage de una Evolution, con ratio condicional a la build: `100% or 81%`). Se llama `co_ratio` y no `co_rate` porque es un cociente entre dos bases, no una tasa.
-- **Diferido (modo dinámico):** `activeStacks` y `N` reales requieren `EntityState`/timeline (misma brecha del decay escalar de §8). El `maxStacks` por mod y la abstracción del contador aún **no** se diseñan — emergen con más casos (rifle/secondary/melee/incarnon: solo verificar datos, no re-map — ver `../../../data/decisions.md` D-17).
+- **Diferido (modo dinámico):** `activeStacks` y `N` reales requieren `EntityState`/timeline (misma brecha del lado emisor de §8: no hay reloj que preguntar). El `maxStacks` por mod y la abstracción del contador aún **no** se diseñan — emergen con más casos (rifle/secondary/melee/incarnon: solo verificar datos, no re-map — ver `../../../data/decisions.md` D-17).
 - Enlaza con **§8** (es su primer caso concreto) y **§1** (el `co_behavior` por perfil respeta "el arma es el nodo canónico, `attacks[]` sus subestructuras").
 
 ---
