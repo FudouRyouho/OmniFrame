@@ -23,7 +23,7 @@ Wave Width: 3m $RANGE
 Wave Length: 20m $RANGE
 Angle: 45° $RANGE
 #### ICE WAVE IMPEDANCE
-Duration 12s $DURATION
+Duration: 12s $DURATION
 
 ## /Lotus/Powersuits/PowersuitAbilities/IceShieldAbility
 // 3 - SNOW GLOBE

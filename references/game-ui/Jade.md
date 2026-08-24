@@ -20,7 +20,7 @@ Duration Increase / Judgment: 2s
 ### POWER OF THE SEVEN
 Strength: 10%
 ### DEATHBRINGER
-Damage Increase 40%
+Damage Increase: 40%
 ### SPIRIT OF RESILIENCE
 Shields / Second: <SHIELD> 4%
 Shield Recharge Delay: -10%

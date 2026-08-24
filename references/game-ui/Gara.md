@@ -22,7 +22,7 @@ Duration: 22s $DURATION
 Damage Reduction: 70% $STRENGTH //! 90% cap
 Damage Multiplier: 1,35x $STRENGTH
 #### MENDING SPLINTERS
-Health / Second 15 $STRENGTH
+Health / Second: 15 $STRENGTH
 
 ## /Lotus/Powersuits/PowersuitAbilities/GlassFragmentAbility
 // 3 - SPECTRORAGE

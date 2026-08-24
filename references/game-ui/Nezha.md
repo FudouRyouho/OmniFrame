@@ -24,11 +24,11 @@ Duration: 15s $DURATION
 Damage Vulnerability: 100% $STRENGTH
 Damage: <DT_HEAT> 250 $STRENGTH
 Boosted Damage: <DT_HEAT> 1.000 $STRENGTH
-Health Orb Drop 1x
-Energy Orb Drop 0,35x
+Health Orb Drop: 1x
+Energy Orb Drop: 0,35x
 #### REAPING CHAKRAM
-Damage Multiplier 2x
-Health Orb Drop 0,25x
+Damage Multiplier: 2x
+Health Orb Drop: 0,25x
 
 ## /Lotus/Powersuits/PowersuitAbilities/NezhaSashAbility
 // 3 - WARDING HALO
@@ -39,7 +39,7 @@ Damage / Second: <DT_SLASH> 125 $STRENGTH
 Time Invulnerable: 3s
 Absorption Multiplier: 2,5x $STRENGTH
 #### SAFEGUARD
-Strength 50%
+Strength: 50%
 
 ## /Lotus/Powersuits/PowersuitAbilities/NezhaSpearAbility
 // 4 - DIVINE SPEARS

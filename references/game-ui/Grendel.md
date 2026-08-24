@@ -22,7 +22,7 @@ Health: 1000 $STRENGTH
 Energy Multiplier: 2x $STRENGTH
 Explosion Damage: <DT_VIRAL> 250 $STRENGTH
 Explosion Radius: 12m $RANGE
-Damage Increase: <DT_VIRAL> 75% $STRENGTH
+Damage Increase: <DT_VIRAL> 75% $STRENGTH $$WEAPON_ADD_VIRAL_DAMAGE
 #### HEARTY NOURISHMENT
 Duration: 5s $DURATION
 
@@ -40,7 +40,7 @@ Energy: 5 $EFFICIENCY
 
 ## /Lotus/Powersuits/PowersuitAbilities/DevourerRegurgitateAbility
 // 4 - REGURGITATE
-Drain <ENERGY> 50 $EFFICIENCY
+Drain: <ENERGY> 50 $EFFICIENCY
 Damage: <DT_TOXIN> 2.000 $STRENGTH
 Radius: 6m $RANGE
 Armor Reduction: 75% $STRENGTH

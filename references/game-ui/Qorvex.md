@@ -33,6 +33,6 @@ Range: 40m
 Damage / Second: <DT_RADIATION> 2.500
 Explosion Base Damage: <DT_RADIATION> 200
 Explosion Damage Per Status: <DT_RADIATION> 100
-Explosion Radius 5m
+Explosion Radius: 5m
 
 //ACTUALIZAR
