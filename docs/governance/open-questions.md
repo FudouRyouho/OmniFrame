@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-08-20"
+Fecha_de_actualizacion: "2026-08-22"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -22,6 +22,7 @@ presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 | `OQ-W-5` | Semántica de los canales de costo: `ENERGY_COST` / `ENERGY_DRAIN`, la forma invertida como ganancia, y el costo en Health | data / ability-stats → engine | abierta — no bloquea |
 | `OQ-W-6` | Vocabulary gap: `upgrade_by` para stats base de warframe | data / ability-stats | abierta |
 | `OQ-W-7` | Double-scaling y semántica especial de `upgrade_by` | data / ability-stats → formulas | abierta — no bloquea |
+| `OQ-W-8` | Qué hace la emisión con un stat de daño que el override no alcanza a describir | data / ability-stats → engine | abierta — no bloquea |
 | `OQ-SEM-1` | Conditions de abilities y augments | data / semantic / ability-stats | abierta — no bloquea |
 | `OQ-SEM-2` | Eje organizador del mapa de `condition` | semantic / conditions → engine | abierta — no bloquea |
 | `OQ-DATA-1` | Materialización de slots por entidad | data / arsenal / engine | abierta |
@@ -212,6 +213,29 @@ El parser `apply-ability-md.ts` toma solo el primer token y emite `console.warn`
 **Condición para resolver:** cuando se empiece a trabajar con `upgrade_type` (que abre más edge-cases) o al generar tests masivos del engine con datos reales. Estos casos dependen de fórmulas dedicadas por habilidad.
 **No bloquea** el pipeline de datos ni el schema actual.
 **Fuente:** `references/game-ui/Gara.md`, `references/game-ui/Harrow.md`, `references/game-ui/Lavos.md`, `references/game-ui/Grendel.md`, `references/game-ui/Nidus.md`
+
+---
+
+## OQ-W-8 — Qué hace la emisión con un stat de daño que el override no alcanza a describir — **ABIERTA — tres de los cinco gates dependen del source-state, dos son captura**
+**Dominio:** data / ability-stats → engine (emisión)
+
+**Contexto.** `AbilityRepository.getEmissions` emite 18 de los 28 stats marcados con `<DT_*>`. Los otros 10 se omiten **avisando** (`console.warn`, nunca en silencio), por cinco gates que `emissionGate()` evalúa en orden. `arch-decisions.md §15` los nombra al narrar Fase 3 —*"se omiten avisando por cinco gates medidos"*— pero eso describe **qué hace el código**, no qué se decidió: la única formulación de cada gate vive en el string de su propio warn.
+
+| gate | n | qué falta para levantarlo |
+|---|---|---|
+| tipo comodín `<DT_*>` | 2 | el tipo lo elige un estado del source, que el motor no modela |
+| rango `[min,max]` sin estado que lo resuelva | 2 | quién resuelve el rango (batería de Gauss, Immolation de Ember); el par ni siquiera es siempre `(min,max)` — hay rangos descendentes en el corpus |
+| N tipos y una sola magnitud | 4 | el override no da la proporción entre tipos |
+| porcentual | 2 | es multiplicador sobre otra cosa: falta declarar sobre qué |
+| declara daño sin declarar tipo | 3 | dato faltante — Radial Javelin (además el catálogo inconsistente de `Issue #6`), Breach Surge, Minelayer |
+
+**Lo que falta decidir — y por qué no es una sola pregunta.** Contarlos juntos ("faltan 10 stats") oculta que **tres de los cinco no son de dato sino de modelo**: comodín, rango y porcentual dependen de **estado del source**, que es el hueco que `OQ-ENGINE-31` y `arch-decisions §17` tienen abierto — levantarlos exige construir el source-state, no capturar mejor. Los otros dos (proporción multi-tipo, daño sin tipo) sí son captura. Los costos son de orden de magnitud distinto y las decisiones no se toman juntas.
+
+**Lo que esta OQ NO discute:** si omitir es correcto. Lo es, y por doctrina explícita: emitir un número plausible y falso es peor que no emitir (mismo criterio que `getModifiers` aplica a los rangos). El gate avisa, y el aviso es el contrato.
+
+**No bloquea:** ninguno de los cinco produce un número falso hoy — omiten y avisan. Bloquean sólo la cobertura de emisión de habilidad, no su corrección.
+**Vínculo:** `../domains/engine/design/arch-decisions.md` §15 (narración de Fase 3) + §17 (de dónde sale el desvío cuando el emisor no es un arma) · `OQ-ENGINE-31` (source-state, el gate compartido por tres de los cinco) · `AbilityRepository.emissionGate` · `__tests__/ability-emission.test.ts`.
+**Fuente:** censo de emisión de habilidad; vive acá y no en Issues porque es debate de modelo, no trabajo pendiente.
 
 ---
 
