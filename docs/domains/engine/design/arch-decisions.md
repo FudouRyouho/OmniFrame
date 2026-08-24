@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-08-20"
+Fecha_de_actualizacion: "2026-08-22"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -1056,8 +1056,10 @@ que un `AVATAR_*` montado en él **acierta la marca y erra el sujeto** sin que e
 el modo de falla silencioso que esta sección nombra. El eje es `OQ-ENGINE-31`.
 
 ⚠️ Las `routes` vigentes (`avatar`, `weapon`, `melee`, `enemy`) **son taxonomía disfrazada**: describen
-qué nodos porta la entidad, no de qué lado está. Funcionan por la misma razón que funcionaba
-`!isWarframe` — con la población actual, coinciden.
+qué nodos porta la entidad, no de qué lado está. Funcionan porque con la población actual coinciden —
+el mismo modo de falla que la materialización de pools tenía antes de declararse por `domain`
+(`POOL_BEARER_DOMAINS`): un gate por negación acierta mientras nadie caiga fuera de la población que
+lo hacía cierto.
 
 ✅ **Lo que sí se cerró: `routes` era una llave con dos trabajos.** Se consultaba para dos preguntas
 que no tienen por qué dar la misma respuesta, y hoy cada una tiene su llave:
