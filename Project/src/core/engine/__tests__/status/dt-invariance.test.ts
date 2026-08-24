@@ -77,7 +77,7 @@ describe('Invariancia al paso de muestreo — `dt` es perilla de costo, no de re
     expect(medido[0]).toBeCloseTo(1000 * (1 - 0.5 / 3), 9);
   });
 
-  it.fails('[stack-debuff] el count de corrosión a 3s NO debería depender de `dt` — se mueve 5.00 → 6.05', () => {
+  it('[stack-debuff] el count de corrosión a 3s no depende de `dt` — cerrado por #10', () => {
     const medido = PASOS.map((dt) => {
       const s = makeIsolatedTarget();
       s.applyProc('corrosion', hit, 10, 0);
@@ -85,16 +85,17 @@ describe('Invariancia al paso de muestreo — `dt` es perilla de costo, no de re
       return (s.effectStates.get('corrosion') as { count: number }).count;
     });
 
-    // Medido: dt=3 → 5.0000 · dt=1 → 5.7870 · dt=0.5 → 5.9329 · dt=0.25 → 6.0007 · dt=1/15 → 6.0484.
-    // La causa es la forma, no un redondeo: `decayCount(count, dt) = count − (count/6)·dt` re-aplica el
-    // sangrado sobre el resultado anterior, así que N pasos chicos ≠ un paso grande. Converge a
-    // 10·e^(−3/6) = 6.0653 cuando dt→0, o sea que ningún paso da la respuesta correcta: la da el límite.
+    // Fue `it.fails` mientras el estado era un escalar que sangraba: `decayCount(count, dt) = count −
+    // (count/6)·dt` re-aplicaba el sangrado sobre su propio resultado, así que N pasos chicos ≠ un
+    // paso grande — 5.0000 · 5.7870 · 5.9329 · 6.0007 · 6.0484 para los cinco `dt`, convergiendo a
+    // 10·e^(−3/6) sólo en el límite. Ningún paso daba la respuesta: la daba el límite.
     //
-    // La cura NO es integrar mejor. Es que el estado deje de ser un escalar que sangra y pase a llevar
-    // instancias con su propia ventana — que es, además, lo único que puede contestar "cuál es el más
-    // viejo" (la regla `count ≥ cap` → refresca el más viejo, medida en `references/ingame-tests/
-    // status-stack-caps.md`). Dos razones independientes para el mismo cambio (#10); ver `OQ-ENGINE-16`.
+    // La cura no fue integrar mejor, fue cambiar la forma del estado: cada stack lleva su ventana y
+    // la poda se evalúa contra un instante ABSOLUTO (`at + duración > until`), así que el muestreo
+    // dejó de ser fuente de verdad. Los 10 stacks entran en `t=0` y su ventana de 8 s (Corrosive) no
+    // vence a los 3 s — son 10 en los cinco pasos, y el número ya no es «lo que el muestreo dejó».
     for (const count of medido) expect(count).toBeCloseTo(medido[0], 9);
+    expect(medido[0]).toBeCloseTo(10, 9);
   });
 
   it.todo('[source] la misma invariante del lado emisor — hoy no hay reloj que preguntar (`context.variables` es un número)');

@@ -47,6 +47,6 @@ describe('Infection — multiplicador a la capa salud (MODELADO)', () => {
 
   // Lo que NO tenemos hoy:
   it.todo('los DoTs que pegan a salud se amplifican ×Infection mientras el proc está activo — depende de Familia C (tick)');
-  it.todo('decay/timeline real de Infection (6s, timer por stack) — C2');
+  // El ciclo de vida (ventana de 6 s por stack) está construido — `stack-instances.test.ts`, #10.
   it.todo('Infection sobre el JUGADOR: misma LEY, distinto portador — #16');
 });

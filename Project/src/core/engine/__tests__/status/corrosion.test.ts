@@ -2,8 +2,8 @@
  * Corrosion (Corrosive) — caso mínimo aislado (altitud 2: instancia → resolución → target).
  * MODELADO hoy: armor strip por stack (Familia A). Ver status-effects.md §Corrosion.
  *
- * Qué NO modelamos (todos abajo): decay/timeline real, replace-oldest sobre-cap, Corrosion sobre
- * el jugador (contenedor entidad-neutral, gate O1).
+ * Qué NO modelamos: Corrosion sobre el jugador (contenedor entidad-neutral, gate O1). El ciclo de
+ * vida —ventana de 8 s por stack y replace-oldest sobre-cap— sí está construido: `stack-instances.test.ts`.
  */
 import { describe, it, expect } from 'vitest';
 import { makeIsolatedTarget, resolveIsolated, ISOLATED_FACTION } from './harness';
@@ -45,8 +45,8 @@ describe('Corrosion — armor strip (MODELADO)', () => {
   });
 
   // Lo que NO tenemos hoy (frontera explícita — no assertar números contra maquinaria ausente):
-  it.todo('decay/timeline real de Corrosion (8s, timer por stack) — C2, processDots N-timers');
-  it.todo('sobre-cap: el 11º stack reemplaza al más viejo (replace-oldest) — C2');
+  // El ciclo de vida (ventana de 8 s por stack, refresh del más viejo sobre-cap) está construido y
+  // vive en `stack-instances.test.ts` — #10. Acá se queda el strip, que es lo propio de este efecto.
   it.todo('Corrosion sobre el JUGADOR: misma LEY, distinto portador — #16');
 });
 
