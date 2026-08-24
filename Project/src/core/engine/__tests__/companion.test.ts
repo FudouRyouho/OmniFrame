@@ -113,6 +113,6 @@ describe('Compañero — los frentes abiertos', () => {
   // cierre de ventana por EVENTO, no por tiempo (`time-model.md` §3, `until` conjuntivo).
   it.todo('el revive resetea los cooldowns de los precepts — cierre de ventana por evento');
 
-  it.todo('precept ⊥ stat mod: `mod_class` null en los 158 — #15');
-  it.todo('`AVATAR_ADD_ABILITY_DURATION` sobre un compañero escala PRECEPTS, no las 4 del warframe — #15');
+  it.todo('precept ⊥ stat mod: `mod_class` null en los 158 — `OQ-ENGINE-31`');
+  it.todo('`AVATAR_ADD_ABILITY_DURATION` sobre un compañero escala PRECEPTS, no las 4 del warframe — `OQ-ENGINE-31`');
 });
