@@ -250,7 +250,8 @@ export class AbilityRepository {
    * `contracts/law-params.ts` §DÓNDE NACE EL NODO. Sin peer (build sólo-warframe), ambos caen a su
    * default neutro (`{}` / factor `1.0`) — caso legítimo, no un gap.
    *
-   * ─── LOS CUATRO GATES, MEDIDOS SOBRE LAS 28 MARCADAS — ninguno con decisión escrita fuera de acá (#5) ──
+   * ─── LOS CUATRO GATES, MEDIDOS SOBRE LAS 28 MARCADAS — el debate de qué haría falta para
+   * levantarlos vive en `OQ-W-8`; acá está sólo lo que el gate HACE ──
    *
    * De 28 stats con `<DT_*>`: **18 limpios** · 4 multi-tipo · 2 rango · 2 comodín · 2 porcentuales.
    * Los diez que no pasan **se omiten y avisan**, nunca se aproximan:
@@ -301,7 +302,7 @@ export class AbilityRepository {
         if (!tags) {
           // ⚠️ **El stat dice "Damage" y no declara de qué tipo.** No es lo mismo que "no es un stat
           // de daño": un stat con `upgrade_type` es un buff y lo cubre `getModifiers`; uno sin él que
-          // se llame Damage es una **emisión muda**, y saltarla en silencio la volvería invisible — #5.
+          // se llame Damage es una **emisión muda**, y saltarla en silencio la volvería invisible — `OQ-W-8`.
           // Medido: 3 de las 28 marcadas (Radial Javelin, Breach Surge, Minelayer) — Radial Javelin es
           // además el catálogo inconsistente de #6.
           if (!stat.upgrade_type && /damage/i.test(label)) {

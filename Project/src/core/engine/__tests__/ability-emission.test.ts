@@ -165,7 +165,7 @@ describe('los cuatro gates — se omite y se avisa, nunca se aproxima', () => {
   });
 
   /**
-   * Quinto gate — Damage sin `<DT_*>` declarado, el código lo saltaba en silencio — #5.
+   * Quinto gate — Damage sin `<DT_*>` declarado, el código lo saltaba en silencio — `OQ-W-8`.
    * Radial Javelin: catálogo con dos entradas inconsistentes para la misma habilidad — #6.
    */
   it('emisión muda: declara daño sin tipo → avisa, no se salta callado', () => {
