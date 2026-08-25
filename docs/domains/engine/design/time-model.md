@@ -4,7 +4,7 @@ Rol: "Modelo de tiempo del engine — el vocabulario (reloj · línea · ventana
 Impacto_ID: "E-TimeModel"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-08-12"
-Fecha_de_actualizacion: "2026-08-13"
+Fecha_de_actualizacion: "2026-08-24"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "docs/domains/engine/design/damage-status-model.md"
@@ -97,26 +97,20 @@ falsable y ya tiene tripwire ejecutable
 |---|---|---|
 | `DotPulse {firstTick, ticks, interval}` — ventana con inicio absoluto | bleed, poison | ✅ |
 | rampa de `ignite` — `f(t − firstProcTime)` | ignite | ✅ |
-| `StackState {count}` + `decayCount(count, dt)` — escalar que sangra | corrosion, infection, disruption, weakened, freeze | ❌ |
+| `StackState {stacks:[{at, amount}]}` — instancias con ventana absoluta | corrosion, infection, disruption, weakened, freeze | ✅ |
 | `context.variables[x]` — el lado emisor entero | — | n/a: **no hay reloj que preguntar** |
 
-**5 de 8 efectos usan la forma que falla.** Y las dos que pasan comparten la propiedad, que no es
-casualidad: guardan **cuándo empezó**, no *cuánto llevan*. Las que fallan guardan progreso acumulado
-— otra forma de decir que el reloj es del observador.
+**Siete de ocho efectos guardan cuándo empezó**, no cuánto llevan, y por eso el muestreo no llega a
+su resultado. La única que guarda progreso acumulado es el pool de Heat — que es otra forma de decir
+que ahí el reloj todavía es del observador.
 
-**Medido** — la fuga, 10 stacks de corrosión leídos a `t=3`:
+Heat es además el único que **puede** hacerlo sin mentir: su fuente declara un tick compartido por
+todos los stacks, no un timer por instancia, así que el agregado es fiel al mecanismo. Su deuda es
+otra y sigue abierta — el pool no termina, no vuelve, y sube por rampa donde la fuente da escalones.
 
-| `dt` | 3.0 | 1.0 | 0.5 | 0.25 | 1/15 | límite |
-|---|---|---|---|---|---|---|
-| count | 5.0000 | 5.7870 | 5.9329 | 6.0007 | 6.0484 | 6.0653 |
-
-**Ningún paso da la respuesta correcta** — la da el límite. Y no es una decisión de modelado: la
-fórmula **declara una cosa e implementa otra**.
-
-```
-lo declarado   count₀ · (1 − t/6)   → llega a 0 en t=6,  invariante a dt
-lo escrito     count₀ · e^(−t/6)    → nunca llega a 0,   depende de dt
-```
+**El resto guarda `at` por instancia**, con la ventana que la fuente publica por tipo: Corrosive 8 s,
+Viral/Magnetic/Cold 6 s, Puncture 10 s. Una constante única para los cinco no era una simplificación
+sino un error de dato: dejaba a dos de ellos con el número equivocado.
 
 Que nunca llegue a cero es la misma raíz de que **el strip de Heat no termine nunca** (§7).
 
@@ -226,7 +220,7 @@ Siete mecánicas. Cada fila dice qué **probó** y qué **rompió** de la forma.
 | # | Caso | Qué probó | Qué rompió |
 |---|---|---|---|
 | 1 | **DoT** (bleed/poison) | `at` absoluto ⇒ invariante a `dt` (**medido**: 210 en los 5 pasos) | — |
-| 2 | **Stack-debuff** (corrosión et al.) | — | el escalar que sangra: `dt` se filtra al resultado |
+| 2 | **Stack-debuff** (corrosión et al.) | instancias con `at` ⇒ invariante a `dt`, y *"cuál es el más viejo"* pasa a ser contestable | la ventana es **por tipo** (6/6/6/8/10), no del sistema — una constante única dejaba dos efectos mal |
 | 3 | **Heat / ignite** | la rampa `f(t − at)` es invariante (**medido**) | el cierre: no termina, no vuelve, sube por rampa donde la fuente da escalones |
 | 4 | **Adaptation** | *magnitud ⊥ ventana* otra vez; partición por tipo de daño | **la ventana es del receptor**, no del emisor. Y un tercer modo de combinar: `max` (no stackea con Caliban, *"only the higher value"*) |
 | 5 | **Combo** | la ventana puede ser del **arma** | la **línea**: 6 armas pausan al enfundar. Y `until = ∞` (Xoris) |
@@ -296,13 +290,10 @@ El corpus no produjo **una** forma. Produjo cuatro, y son irreducibles entre sí
 | **nivel con una ventana refrescable** | un valor + **una** ventana que se renueva | Adaptation, combo | ❌ no existe |
 | **vigencia por predicado** | ninguna ventana: una condición | canalizadas | ❌ no existe |
 
-Y la que el motor usa para 5 de 8 efectos —`StackState { count }` **con decay**— **no es ninguna de
-las cuatro**: es un agregado escalar que sangra, y por eso no puede contestar *"cuál es el más
-viejo"* ni sobrevivir un cambio de `dt`.
-
-⇒ **La cura de la fuga de `dt` y la de la regla del cap son la misma**, y llegaron por vías
-independientes: que el estado lleve **instancias con ventana propia** en vez de un número que
-decrece. Dos razones sin relación para el mismo cambio.
+La que el motor usa para 5 de 8 efectos —`StackState { stacks }`— es la **primera**: N instancias,
+cada una con su ventana. Contestar *"cuál es el más viejo"* y sobrevivir un cambio de `dt` salen las
+dos de esa forma, y llegaron por vías independientes (la regla del cap medida in-game y la fuga del
+muestreo medida en el banco): dos razones sin relación para el mismo cambio.
 
 ---
 

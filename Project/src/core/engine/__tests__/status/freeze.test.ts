@@ -70,11 +70,16 @@ describe('Freeze — el 10º stack congela (#12)', () => {
    * Sin este caso nada lo sostiene: ningún test usaba `stacks: { freeze: N }` cuando el bug se
    * introdujo, que es exactamente por qué pasó desapercibido.
    */
-  it('el estado declarado por el harness NO es un estado congelado: cobra f(n) y decae', () => {
+  it('el estado declarado por el harness NO es un estado congelado: cobra f(n) y expira', () => {
     const t = makeIsolatedTarget({ stacks: { freeze: 5 } });
     expect(t.getCritBonuses(0).critMultAdd).toBeCloseTo(stackDebuffValue(COLD_CRIT_LAW, 5), 5);
-    advanceAndResolve(t, 0, 3);
-    expect(countOf(t)).toBeLessThan(5);   // decayó, no quedó trabado en congelación
+    // La aserción medía «decayó» contra el sangrado continuo del contador; con la ventana por stack
+    // (#10) el conteo se sostiene hasta vencer y recién ahí cae. La INTENCIÓN no cambia —distinguir
+    // un estado que envejece de uno trabado en congelación— y el caso sigue distinguiéndolos: si
+    // `isFrozen` volviera a leer el declarado como congelado, `advance` devolvería el estado intacto
+    // y el conteo seguiría en 5 para siempre, con o sin ventana.
+    advanceAndResolve(t, 0, 7);           // más allá de los 6 s de Cold
+    expect(countOf(t)).toBe(0);           // envejeció y expiró, no quedó trabado en congelación
   });
 
   // Lo que NO tenemos hoy — gaps del motor entero, no de este behavior (ver behaviors.ts):

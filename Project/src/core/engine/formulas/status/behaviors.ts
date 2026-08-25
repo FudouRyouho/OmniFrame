@@ -16,13 +16,20 @@ import type { EffectBehavior, Resolucion } from "./effect-behavior";
 import { dotTickValue, type DotType } from "./dot-tick";
 import { tickTimes, type DotPulse } from "./dot-timeline";
 import {
-  stackDebuffValue, applyStackProc, receiverMaxStacks, receiverInitialStrip,
+  stackDebuffValue, receiverMaxStacks, receiverInitialStrip,
   infectionLaw, disruptionLaw, corrosionLaw,
   WEAKENED_CRIT_LAW, COLD_CRIT_LAW, CORROSIVE_MAX_STACKS, CORROSIVE_INITIAL_STRIP_PCT, STATUS_MAX_STACKS,
 } from "./stack-debuff";
 import { resolveParam } from "../common/param-deviation";
 
-/** Duración declarada del decay: 6 s. ⚠️ La fórmula de abajo NO la implementa — ver `status.md §Deudas`. */
+/**
+ * Constante de tiempo del sangrado agregado de **Heat**, y sólo de Heat.
+ *
+ * Los stack-debuff dejaron de usarla: cada uno lleva su ventana en `STACK_DURATION`. Heat se queda
+ * con el agregado porque la fuente lo declara así — *"los stacks se consolidan en UN solo tick/s
+ * compartido; procs nuevos refrescan y suman al tick"* (`status-effects.md` §Stacks) —, o sea que acá
+ * el modelo fluido es fiel y no una simplificación pendiente.
+ */
 const DECAY_DURATION = 6.0;
 const DOT_SHAPE = { ticks: 6, procDelay: 1, interval: 1 } as const;
 
@@ -64,23 +71,113 @@ function makeDotBehavior(effect: StatusEffect, dotType: DotType, as: DamageType)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Stack-debuff — contador + decay fluido (corrosion, infection, disruption).
+// Stack-debuff — instancias con ventana propia (corrosion, infection, disruption, weakened, freeze).
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * ⚠️ **Escalar, y `arch-decisions §17` lo marca como arrastre:** *"reemplaza el más viejo"* opera
- * sobre instancias con timer propio, no sobre un contador. Lo que un contador puede expresar —que el
- * proc sobre-cap **no lo baja**— lo cubre `applyStackProc`; lo que no, es `OQ-ENGINE-16`.
+ * **La ventana es del efecto, no del sistema.** La fuente publica una duración distinta por tipo
+ * (`status-effects.md` §Duración base, corregida contra las subpáginas): un solo número para los
+ * cinco dejaba a Corrosive y Puncture con el valor equivocado, y nada lo detectaba — mover la
+ * constante de `6.0` a `8.0` no movía un solo test de los 597.
  */
-interface StackState { count: number; }
+const STACK_DURATION = {
+  corrosion:  8,   // Corrosive
+  infection:  6,   // Viral
+  disruption: 6,   // Magnetic
+  weakened:  10,   // Puncture
+  freeze:     6,   // Cold
+} as const;
 
+/**
+ * Un stack aplicado: cuándo entró y cuánto pesa.
+ *
+ * `amount` es fraccional a propósito — el motor puebla los procs por VALOR ESPERADO
+ * (`expectedProcEvents` → `ev.expected * pellets`), así que "un stack" puede ser `0.37`. Una lista de
+ * instancias sin peso habría forzado a redondear el EV, que es cambiar el modelo de población para
+ * arreglar el del ciclo de vida.
+ */
+interface StackInstance { at: number; amount: number; }
+
+/**
+ * ⚠️ **`count` es derivado y se conserva a propósito.** Ocho archivos de test leen el estado con un
+ * cast (`effectStates.get(e) as { count: number }`), y un cast no lo atrapa `tsc`: sin este campo,
+ * los que usan `?.count ?? 0` habrían devuelto `0` en silencio y **pasado en falso**. El campo es la
+ * lectura pública del estado; `stacks` es su mecanismo.
+ */
+interface StackState { stacks?: readonly StackInstance[]; count: number; }
+
+/** Estado a partir de sus instancias — `count` siempre coherente con `stacks`. */
+function stackState(stacks: readonly StackInstance[]): StackState {
+  return { stacks, count: stacks.reduce((n, s) => n + s.amount, 0) };
+}
+
+/**
+ * Las instancias de un estado que puede venir **declarado sin ellas**.
+ *
+ * El harness de tests fabrica `{ count: 5 }` a mano: eso es el modo **input-declarado** de la
+ * doctrina (`arch-decisions §8` — se declara N antes de simular de dónde sale), no un estado
+ * corrupto. Se materializa como una instancia que entró en `t`, así que a partir de ahí el estado
+ * declarado envejece como cualquier otro en vez de quedar congelado o desaparecer.
+ */
+function instancesOf(state: StackState | undefined, t: number): readonly StackInstance[] {
+  if (!state) return [];
+  if (state.stacks) return state.stacks;
+  return state.count > 0 ? [{ at: t, amount: state.count }] : [];
+}
+
+/**
+ * Aplica un proc sobre las instancias vivas. Es `applyStackProc` con el eslabón que un escalar no
+ * podía expresar: **el sobre-cap refresca al más viejo** en vez de no hacer nada.
+ *
+ * `references/ingame-tests/status-stack-caps.md`, cinco de cinco: *"si `count ≥ cap_del_que_aplica` →
+ * refresca el stack más viejo (REEMPLAZA — count no cambia)"*. El proc **siempre entra**; el cap
+ * decide si suma o reemplaza. Puncture lo lleva al extremo que fija el criterio de "más viejo":
+ * reemplaza al de aplicación más antigua *"aunque al viejo le quede más duración"*, así que el orden
+ * es por `at` de entrada y no por vencimiento.
+ */
+function applyStackInstances(
+  prev: readonly StackInstance[], amount: number, cap: number, t: number,
+): readonly StackInstance[] {
+  const count = prev.reduce((n, s) => n + s.amount, 0);
+  if (count >= cap) {
+    if (prev.length === 0) return prev;
+    const [masViejo, ...resto] = prev;
+    return [...resto, { at: t, amount: masViejo.amount }];
+  }
+  // Bajo el cap: entra sin pasarse — misma acotación que `applyStackProc` (`min(cap, count+amount)`).
+  return [...prev, { at: t, amount: Math.min(amount, cap - count) }];
+}
+
+/**
+ * Poda las instancias cuya ventana ya venció en `until`.
+ *
+ * **Se evalúa contra un instante ABSOLUTO, y eso es lo que arregla la fuga de `dt`.** El modelo
+ * anterior sangraba el agregado (`count − (count/D)·dt`), así que re-aplicaba el decay sobre su
+ * propio resultado y N pasos chicos ≠ un paso grande: el count de corrosión a 3 s valía `5.00` con
+ * `dt=3` y `6.05` con `dt=1/15`, convergiendo sólo en el límite. Acá el resultado depende de `until`
+ * y de nada más — mismo criterio que la poda de pulsos del DoT, que ya era invariante.
+ *
+ * Y llega a **cero exacto**: el decay exponencial nunca lo hacía (valía `1.78e-5` a los 60 s), así que
+ * `if (count <= 0)` no cortaba nunca y el debuff contribuía para siempre con un residuo invisible.
+ */
+/**
+ * El sangrado agregado de **Heat**. Sobrevive al paso a instancias porque Heat es la excepción que la
+ * fuente declara: sus stacks se consolidan en un tick compartido, así que acá no hay instancias que
+ * envejecer por separado. Los stack-debuff ya no lo usan.
+ */
 function decayCount(count: number, dt: number): number {
   return count > 0 ? count - (count / DECAY_DURATION) * dt : count;
 }
 
+function expireStacks(
+  stacks: readonly StackInstance[], duration: number, until: number,
+): readonly StackInstance[] {
+  return stacks.filter((s) => s.at + duration > until);
+}
+
 const corrosionBehavior: EffectBehavior<StackState> = {
   effect: "corrosion",
-  applyProc(state, { hit, receiver }, amount) {
+  applyProc(state, { hit, receiver }, amount, t) {
     // LA CADENA DE §17, ENTERA Y EN UNA LÍNEA. El cap es **del que aplica**
     // (`status-stack-caps.md`), así que sale de la instancia y no de la constante: el default del
     // concepto, desviado por lo que el emisor declare — salvo que el receptor hable sobre este mismo
@@ -92,10 +189,11 @@ const corrosionBehavior: EffectBehavior<StackState> = {
       emitter: hit.lawDeviations?.["corrosive.maxStacks"],
       receiver: receiverMaxStacks(receiver, "corrosion"),
     });
-    return { count: applyStackProc(state?.count ?? 0, amount, cap) };
+    return stackState(applyStackInstances(instancesOf(state, t), amount, cap, t));
   },
-  advance(state, _t, dt) {
-    return { state: { count: decayCount(state.count, dt) }, damage: [] };
+  advance(state, t, dt) {
+    const vivas = expireStacks(instancesOf(state, t), STACK_DURATION.corrosion, t + dt);
+    return { state: stackState(vivas), damage: [] };
   },
   resolutionModifier(state, _t, receiver) {
     if (state.count <= 0) return {};
@@ -112,11 +210,12 @@ const corrosionBehavior: EffectBehavior<StackState> = {
 
 const infectionBehavior: EffectBehavior<StackState> = {
   effect: "infection",
-  applyProc(state, _ctx, amount) {
-    return { count: applyStackProc(state?.count ?? 0, amount, STATUS_MAX_STACKS) };
+  applyProc(state, _ctx, amount, t) {
+    return stackState(applyStackInstances(instancesOf(state, t), amount, STATUS_MAX_STACKS, t));
   },
-  advance(state, _t, dt) {
-    return { state: { count: decayCount(state.count, dt) }, damage: [] };
+  advance(state, t, dt) {
+    const vivas = expireStacks(instancesOf(state, t), STACK_DURATION.infection, t + dt);
+    return { state: stackState(vivas), damage: [] };
   },
   resolutionModifier(state) {
     if (state.count <= 0) return {};
@@ -126,11 +225,12 @@ const infectionBehavior: EffectBehavior<StackState> = {
 
 const disruptionBehavior: EffectBehavior<StackState> = {
   effect: "disruption",
-  applyProc(state, _ctx, amount) {
-    return { count: applyStackProc(state?.count ?? 0, amount, STATUS_MAX_STACKS) };
+  applyProc(state, _ctx, amount, t) {
+    return stackState(applyStackInstances(instancesOf(state, t), amount, STATUS_MAX_STACKS, t));
   },
-  advance(state, _t, dt) {
-    return { state: { count: decayCount(state.count, dt) }, damage: [] };
+  advance(state, t, dt) {
+    const vivas = expireStacks(instancesOf(state, t), STACK_DURATION.disruption, t + dt);
+    return { state: stackState(vivas), damage: [] };
   },
   resolutionModifier(state) {
     if (state.count <= 0) return {};
@@ -145,7 +245,7 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Crit-buff-por-stack — el target debilitado sube el crit del ATACANTE (`DC-OQ-ENGINE-12`).
-// Mismo molde que corrosion (StackState + decay fluido), pero contribuye vía `critModifier`
+// Mismo molde que corrosion (instancias con ventana propia), pero contribuye vía `critModifier`
 // (stage del hit) en vez de `resolutionModifier` (stage de mitigación).
 //
 // ⚠️ AUSENCIAS DIFERIDAS (no simplificaciones — dato/mecánica que hoy NO existe):
@@ -162,7 +262,10 @@ const disruptionBehavior: EffectBehavior<StackState> = {
 //     motor entero, no de este behavior.
 //   · Puncture no aplica a AoE / habilidades de warframe — gratis hoy (el modelo son hits de arma),
 //     gateado hasta que exista AoE (`OQ-ENGINE-12`).
-// El decay fluido (compartido con corrosion) vs los N-timers reales es SIMPLIFICACIÓN → OQ-ENGINE-16.
+// El decay ya no es fluido: cada stack lleva su ventana (`STACK_DURATION`), que es lo que la fuente
+// declara (*"timer independiente por stack/instancia en casi todos"*) y lo que "refresca el más viejo"
+// necesitaba para poder expresarse — #10. `OQ-ENGINE-16` sigue abierta y NO la contesta esto: aquélla
+// pregunta si declarar N es FIEL (input de C1), no cómo envejece el estado ya aplicado.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const WEAKENED_MAX_STACKS = 5;
@@ -181,11 +284,12 @@ const COLD_FREEZE_CRIT_ADD = 1.0;
 
 const weakenedBehavior: EffectBehavior<StackState> = {
   effect: "weakened",
-  applyProc(state, _ctx, amount) {
-    return { count: applyStackProc(state?.count ?? 0, amount, WEAKENED_MAX_STACKS) };
+  applyProc(state, _ctx, amount, t) {
+    return stackState(applyStackInstances(instancesOf(state, t), amount, WEAKENED_MAX_STACKS, t));
   },
-  advance(state, _t, dt) {
-    return { state: { count: decayCount(state.count, dt) }, damage: [] };
+  advance(state, t, dt) {
+    const vivas = expireStacks(instancesOf(state, t), STACK_DURATION.weakened, t + dt);
+    return { state: stackState(vivas), damage: [] };
   },
   critModifier(state) {
     if (state.count <= 0) return {};
@@ -198,7 +302,7 @@ const weakenedBehavior: EffectBehavior<StackState> = {
  * `null` fuera de la congelación; con valor, es el instante en que expira (mismo patrón que
  * `HeatState.firstProcTime` para timestamps discretos sobre un contenedor por lo demás fluido).
  */
-interface FreezeState { count: number; frozenUntil: number | null; }
+interface FreezeState extends StackState { frozenUntil: number | null; }
 
 /**
  * ¿Está congelado en este instante? **`!= null` y no `!== null`, a propósito:** el estado también
@@ -210,10 +314,17 @@ function isFrozen(state: FreezeState): boolean {
   return state.frozenUntil != null;
 }
 
-/** Si el freeze ya venció para `t`, lo asienta (colapsa a los residuales). Idempotente. */
+/**
+ * Si el freeze ya venció para `t`, lo asienta (colapsa a los residuales). Idempotente.
+ *
+ * Los residuales nacen **como instancias que entran en `t`**, no como un contador heredado: al
+ * descongelar, los 3 que quedan son stacks nuevos y su ventana de 6 s corre desde ahí. Un contador
+ * escalar no distinguía eso — heredaba la edad de los stacks que ya se habían consumido en la
+ * congelación.
+ */
 function settleFreeze(state: FreezeState, t: number): FreezeState {
   if (isFrozen(state) && t >= state.frozenUntil!) {
-    return { count: COLD_FREEZE_RESIDUAL_STACKS, frozenUntil: null };
+    return { ...stackState([{ at: t, amount: COLD_FREEZE_RESIDUAL_STACKS }]), frozenUntil: null };
   }
   return state;
 }
@@ -229,19 +340,20 @@ const freezeBehavior: EffectBehavior<FreezeState> = {
     // ninguna fuente conocida sube el cap de Cold, así que este parámetro sólo tiene lado receptor —
     // que es una respuesta medida, no un hueco (`stack-debuff.ts`, la nota sobre los caps `f(maxStacks)`).
     const cap = resolveParam(FREEZE_MAX_STACKS, { receiver: receiverMaxStacks(receiver, "freeze") });
-    const count = applyStackProc(settled.count, amount, cap);
-    const frozenUntil = count >= FREEZE_MAX_STACKS ? t + COLD_FREEZE_DURATION : null;
-    return { count, frozenUntil };
+    const vivas = applyStackInstances(instancesOf(settled, t), amount, cap, t);
+    const next = stackState(vivas);
+    const frozenUntil = next.count >= FREEZE_MAX_STACKS ? t + COLD_FREEZE_DURATION : null;
+    return { ...next, frozenUntil };
   },
   advance(state, t, dt) {
     const settled = settleFreeze(state, t + dt);
-    // Asentó en ESTE paso: el contador que acaba de nacer no decae todavía — mismo criterio que el
-    // resto del decay fluido (aproximado, no sub-particiona el intervalo: `OQ-ENGINE-16`). Sin este
-    // corte, un `dt` grande aplicaba decay completo sobre los residuales en su propio instante 0.
+    // Asentó en ESTE paso: los residuales que acaban de nacer entran con `at = t+dt`, así que su
+    // ventana corre desde el descongelamiento y no heredan la edad de los stacks consumidos.
     if (settled !== state) return { state: settled, damage: [] };
     // Congelado, sin vencer todavía: el contador no decae mientras dura.
     if (isFrozen(state)) return { state, damage: [] };
-    return { state: { count: decayCount(state.count, dt), frozenUntil: null }, damage: [] };
+    const vivas = expireStacks(instancesOf(state, t), STACK_DURATION.freeze, t + dt);
+    return { state: { ...stackState(vivas), frozenUntil: null }, damage: [] };
   },
   critModifier(state) {
     if (isFrozen(state)) return { critMultAdd: COLD_FREEZE_CRIT_ADD };

@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-08-22"
+Fecha_de_actualizacion: "2026-08-24"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -658,7 +658,7 @@ refactor por sí solo no contesta esta OQ — ver el Issue de `StackState`→ins
 (`docs/CLAUDE.md` §Frontera `open-questions.md` ↔ GitHub Issues).
 
 **No bloquea:** el modo-input declarado es válido como techo donde el consumidor acepta "asumido, no simulado" (mismo espíritu que CO estático). Bloquea sólo la confianza en la FIDELIDAD del número para el clúster de 42 casos.
-**Vínculo:** `damage-status-model.md` (timers independientes, brecha del decay escalar), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).
+**Vínculo:** `damage-status-model.md` (timers independientes — el estado del receptor ya los lleva, lo que sigue abierto acá es si declarar N es *fiel*), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).
 **Fuente:** debate 2026-07-08; cristalizada en la verificación de estabilidad pre-C1 (2026-07-09).
 
 ## OQ-ENGINE-18 — Status Duration en DoT: ¿más ticks o ticks estirados? (A vs B) — **ABIERTO (2026-07-10)**

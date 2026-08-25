@@ -4,7 +4,7 @@ Rol: "Estado operativo del motor de simulación"
 Impacto_ID: "E-Status"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-18"
-Fecha_de_actualizacion: "2026-08-20"
+Fecha_de_actualizacion: "2026-08-24"
 ---
 
 # Engine Status
@@ -151,47 +151,25 @@ Suite de **consumidores derivados** vía el "clic" (`output/consume.ts`). Índic
 
 ## Deudas de implementación
 
-### El paso de muestreo se filtra al resultado — la fórmula no implementa el criterio que declara
+### El ciclo de vida del stack — instancias con ventana absoluta
 
-`decayCount(count, dt) = count − (count/6)·dt` (`formulas/status/behaviors.ts`) re-aplica el sangrado
-sobre el resultado anterior, así que N pasos chicos ≠ un paso grande. Medido — 10 stacks de corrosión a
-los 3 s:
+Los cinco stack-debuff (`corrosion` · `infection` · `disruption` · `weakened` · `freeze`) llevan sus
+stacks como instancias `{at, amount}` con la ventana que la fuente publica por tipo (Corrosive 8 s ·
+Viral/Magnetic/Cold 6 s · Puncture 10 s). La poda se evalúa contra un instante absoluto, así que el
+paso de muestreo no llega al resultado, y el conteo alcanza cero exacto. Heat conserva el sangrado
+agregado a propósito: su fuente declara un tick compartido, no un timer por stack.
 
-| `dt` | 3.0 | 1.0 | 0.5 | 0.25 | 1/15 | límite `dt→0` |
-|---|---|---|---|---|---|---|
-| count | 5.0000 | 5.7870 | 5.9329 | 6.0007 | 6.0484 | 6.0653 (`10·e^(−½)`) |
+**Lo que sigue abierto es el lado emisor:** `context.variables` no tiene reloj que preguntar, así que
+ahí el N se declara y no envejece.
 
-**Ningún paso da la respuesta correcta** — la da el límite. Y no es una decisión de modelado: el propio
-código declara el criterio en su constante —*"duración fija del decay **lineal**"*, `DECAY_DURATION = 6.0`—
-y la fórmula no lo implementa. Lineal usaría el valor **inicial** como tasa; ésta usa el **actual**:
+**Tripwire ejecutable:** `__tests__/status/dt-invariance.test.ts` — 3 ✓ (DoT, ignite, stack-debuff)
+\+ 1 `todo` (el lado source). El ciclo de vida por efecto vive en
+`__tests__/status/stack-instances.test.ts`.
 
-```
-lo declarado   count₀ · (1 − t/6)   → llega a 0 en t=6,  invariante a dt
-lo escrito     count₀ · e^(−t/6)    → nunca llega a 0,   depende de dt
-```
-
-**Un solo renglón, siete consumidores:** `decayCount` tiene 6 llamadores (corrosion · infection ·
-disruption · weakened · freeze · el `ignite` de Heat) y el `pool` de Heat **repite la fórmula inline**
-en vez de llamarla. Por eso el mismo error se lee como dos deudas distintas — ésta y la de Heat.
-
-El DoT y la rampa de armor de `ignite`, en cambio, **sí** son invariantes: declaran su ventana en términos
-absolutos (`firstTick`, `firstProcTime`) y la muestra sólo pregunta. Las cuatro nociones de "cuándo" que
-conviven en el motor, y cuáles cumplen, están tabuladas en el tripwire.
-
-**Tripwire ejecutable:** `__tests__/status/dt-invariance.test.ts` — 2 ✓ (DoT, ignite) + 1 `it.fails` con
-los números de arriba + 1 `todo` (el lado source, que no tiene reloj que preguntar).
-
-**Distinto de `OQ-ENGINE-16` y no lo subsume:** aquélla pregunta si un N declarado es *fiel* —cuestión de
-dato, gated por medición in-game—; ésta mide que el modelo no es consistente **consigo mismo**, y se
-cierra sin dato nuevo. La cura es la misma en los dos casos y por eso conviene no separarlas al ejecutar:
-que el estado deje de ser un escalar que sangra y lleve instancias con ventana propia — lo único que
-además puede contestar *"cuál es el más viejo"* (`references/ingame-tests/status-stack-caps.md`).
-
-**Vínculo:** [`design/time-model.md`](design/time-model.md) — **el modelo que estas tres deudas
-comparten**: el vocabulario (reloj · línea · ventana · anclaje), las cuatro formas del estado y el
-corpus de siete mecánicas que las produjo. `design/arch-decisions.md §20` (muestreo, no eventos — la
-decisión que esta invariante sostiene), `§19` (el nodo lleva el frame-0, la ley lleva el tiempo),
-`OQ-ENGINE-16`.
+**Vínculo:** [`design/time-model.md`](design/time-model.md) — el vocabulario (reloj · línea · ventana
+· anclaje) y las cuatro formas del estado. `design/arch-decisions.md §20` (muestreo, no eventos — la
+decisión que esta invariante sostiene), `§19`, `OQ-ENGINE-16` (si declarar N es *fiel* sigue siendo
+pregunta de dato, y esto no la contesta).
 
 ### 🔴 El reloj del timeline no es el que el corpus decía, y reconstruye los disparos adivinando
 

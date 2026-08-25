@@ -62,6 +62,6 @@ describe('Disruption — una ley, dos capas: shield y overguard (DC-OQ-ENGINE-O4
   // Lo que NO tenemos hoy:
   it.todo('Electricity al romper Overguard: 3% del máximo por stack — #18');
   it.todo('Disruption niega la recarga natural de shields durante el proc — C2');
-  it.todo('decay/timeline real de Disruption (6s, timer por stack) — C2');
+  // El ciclo de vida (ventana de 6 s por stack) está construido — `stack-instances.test.ts`, #10.
   it.todo('Disruption sobre el JUGADOR: misma LEY, distinto portador — #16');
 });
