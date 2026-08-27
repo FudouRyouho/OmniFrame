@@ -1,0 +1,71 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Rumblers
+| gameimage      = RumblersIcon.png
+| cardimage      = Rumblers.png
+| hotkey         = 4
+| description    = Summon two elemental stone brawlers to the melee. Summoning petrifies enemies in close proximity to Atlas. When finished, Rumblers collapse into a pile of healing Rubble.
+| cost           = 100
+| strength         = 50 / 150 / 250 / 500 (armor)<br>500 / 750 / 1000 / 1250 ({{D|Blast}} damage)<br>500 / 750 / 1000 / 1200 (health)<br>800 / 1000 / 1400 / 2000 (melee {{D|Impact}} damage)<br>200 / 250 / 350 / 500 (rock {{D|Impact}} damage)
+| range          = 3 / 4 / 5 / 6 m (stone radius)<br>3 / 4 / 5 / 6 m ({{D|Blast}} radius)<br>1 (speed multiplier)
+| duration       = 15 / 20 / 30 / 45 s (Rumbler duration)
+| misc           = 2 (number of Rumblers)<br>10 s (stone duration)<br>0.5 to 1.5 m/s (min-max speeds)<br>1 (Rubble dropped on death per Rumbler)<br>≤ 50 (Rubble health/armor given)
+| cardonly       = {{{1|}}}
+|info     = 
+*Atlas expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to summon his <u>'''2'''</u> earthly elemental golems as he instantly petrifies all enemies into stone within a {{Stat|Ability Range|icon=only}}'''3 / 4 / 5 / 6''' meter radius for <u>'''10'''</u> seconds. Once summoned, the '''Rumblers''' will roam the battlefield seeking nearby enemies to attack. They last for {{Stat|Ability Duration|icon=only}}'''15 / 20 / 30 / 45''' seconds unless they are killed or manually detonated.
+**Petrifying occurs instantly when Atlas begins his casting animation.
+**Not affected by [[melee]] mods or [[Attack Speed]] buffs (e.g. {{A|Warcry}}).
+*Each Rumbler possesses {{Stat|Ability Strength|icon=only}}'''500 / 750 / 1000 / 1200''' [[Health]], {{Stat|Ability Strength|icon=only}}'''50 / 150 / 250 / 500''' [[Armor]], and a speed multiplier of {{Stat|Ability Range|icon=only}}'''1'''. 
+**Physical size of each Rumbler along with their health, armor, and all sources of damage are affected by {{Stat|Ability Strength}}. Health and armor are also affected by Warframe health, shield, and armor mods.
+**Rumbler health uses the following expression when accounting for Ability Strength:<br/>{{MathText|Modified Health {{eql}} Health {{mul}} (1 + Ability Strength Mods + Health Mods + Shield Mods) + Warframe Rank Health Bonus {{mul}} (1 + Health Mods) + Flat Health Bonuses + Warframe Rank Shield Bonus {{mul}} (1 + Shield Mods)}}.
+***For example, with {{M|Vitality}}, {{M|Primed Redirection}}, {{M|Intensify}}, and Atlas all at max rank, rank-3 Rumblers will have a modified health of<br/>{{Math|1200 {{mul}} (1 + 0.3 + 1 + 1.8) + 100 {{mul}} (1 + 1) + 100 {{mul}} (1 + 1.8)|mt=y}}.
+***Atlas' rank influences Rumbler health as the "Health Gain" and "Shield Gain" in the expression are referring to bonuses applied to Atlas' respective base stats. As Atlas at max rank will have +100 health and +100 shields, these bonuses will also apply to the Rumblers' health.
+**Rumbler armor uses the following expression when accounting for Ability Strength:<br/>{{MathText|Modified Armor {{eql}} Armor {{mul}} (1 + Ability Strength Mods + Armor Mods) + Additional Armor}}.
+***For example, with a maxed {{M|Steel Fiber}} and {{M|Intensify}}, rank-3 Rumblers will have a modified armor value of<br/>{{Math|500 {{mul}} (1 + 0.3 + 1)|mt=y}}.
+**Speed multiplier can '''not''' fall <u>below 0.5 or exceed 1.5</u> under any circumstances.
+**Rumblers are counted as summons and are affected by {{M|Summoner's Wrath}}, {{Arcane|Arcane Camisado}}, and {{Arcane|Theorem Infection}}.
+* Rumblers inflict {{Stat|Ability Strength|icon=only}}'''800 / 1000 / 1400 / 2000''' {{D|Impact}} damage and stagger the target backwards with each melee attack; they can occasionally throw stones that home in on enemies to inflict {{Stat|Ability Strength|icon=only}}'''200 / 250 / 350 / 500''' {{D|Impact}} damage and ragdoll enemies hit.
+**Melee damage shows as tier 1 critical damage with yellow text but this critical damage is unmoddable.
+***Melee damage will not be scaled against enemies while their AI is paused resulting in 25% of the normal melee damage.
+*If the ability is reactivated or if Atlas becomes incapacitated, active Rumblers will self-destruct and inflict {{Stat|Ability Strength|icon=only}}'''500 / 750 / 1000 / 1250''' {{D|Blast}} damage to enemies within {{Stat|Ability Range|icon=only}}'''3 / 4 / 5 / 6''' meters.
+**Damage does '''not''' bypass obstacles in the environment and diminishes with distance.
+*Rumblers are immune to [[Status Effect]]s, such as [[knockdown]]s or {{D|Slash}} procs, but they can be staggered.
+*While melee kills by the Rumblers are considered melee kills by Atlas, they do '''not''' contribute to the [[Melee#Combo Counter|Melee Combo Counter]].
+*Rumblers have collision detection for enemies only. Atlas and allies can move through Rumblers unobstructed.
+*The number of active Rumblers is displayed in the HUD beside Atlas' shield and health indicators, and waypoints are displayed onscreen for each active Rumbler.
+*If a Rumbler enters a [[Nullifier Crewman|Nullifier]] bubble, it will have its health drained.
+| interactions = 
+* Self-destructing Rumblers will drop <u>'''1''' piece</u> of [[Atlas/Abilities#Monolithic|Rubble]] for Atlas to pick up, <u>restoring '''50''' health or provides '''50''' bonus armor</u>.
+** Rumbler Rubble provides reduced amounts of health or armor if Rumblers sustained damage to their health before expiring.
+** Casting {{A|Petrify}} on injured Rumblers will heal them to {{Stat|Ability Strength|icon=only}}'''100%''' health.
+|augment =
+[[File:TitanicRumblerMod.png|200px|left]]
+{{main|Titanic Rumbler}}
+{{#lst:Titanic Rumbler|intro}}
+{{#lsth:Titanic Rumbler|Stats}}
+
+----
+
+[[File:RumbledMod.png|200px|left]]
+{{main|Rumbled}}
+{{#lst:Rumbled|intro}}
+{{#lsth:Rumbled|Stats}}
+{{clr}}
+|tips = 
+<noinclude>
+|max = {{WFmax|rumblers|atlas4}}
+</noinclude>
+}}</onlyinclude>
+==See Also==
+*{{WF|Atlas}}
+
+[[de:Rumblers]]
+[[es:Retumbos]]
+[[ru:Рокотуны]]
+[[fr:Golems]]
+[[Category:Atlas]]
+[[Category:Warframe Abilities]]
+[[Category:Update 17]]
+[[Category:Toggled Abilities]]
+[[Category:Blast Damage]]
+[[Category:Impact Damage]]
+[[uk:Гуркотуни]]

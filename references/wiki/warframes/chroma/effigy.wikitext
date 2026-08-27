@@ -1,0 +1,74 @@
+<onlyinclude>{{AbilityU10.3
+| name = Effigy
+| gameimage = EffigyIcon.png
+| cardimage = Effigy.png
+| hotkey = 4
+| energy = 50
+| description = Chroma turns his pelt into a massive sentry that strengthens nearby allies and engulfs enemies in elemental attacks.
+<br/>'''Energy Drain:''' 10 s<sup>-1</sup>
+| sub = {{AbilityU10.3/Tabber | Sentry
+| strength       = 100 / 200 / 300 / 400 (damage/tick)<br/>500 / 1000 / 1500 / 2000 (damage/second)<br/>1000 / 2000 / 4000 / 8000 (health)
+| misc           = 200 (sentry armor)<br/>20 m (attack range)<br/>?% (status chance)<br/>5 (ticks/second)<br/>5 m (knockback radius)<br/>200 (knockback damage)<br/>Ragdoll on Knockback<br/>30 m (stun radius)<br/>15 / 30 / 45 / 60 % (credit chance)<br/>10 m (credit bonus drop zone)<br/>25 / 50 / 75 / 100 % (credit bonus)
+}}
+{{AbilityU10.3/Tabber | Chroma
+| misc            = +20% (movement speed bonus)<br/>-50% (armor reduction)
+}}
+| cardonly = {{{1|}}}
+| info = *Chroma expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[Energy]] to shed his outer pelt, imbued with elemental energy while sprouting wings and converting it into a stationary floating sentry with {{Stat|Ability Strength|icon=only}}'''1000 / 2000 / 4000 / 8000''' [[health]] and '''<u>200</u>''' [[armor]]. The sentry will attack all enemies within '''<u>20</u>''' meters with a continuous stream of elemental energy, dealing {{Stat|Ability Strength|icon=only}}'''100 / 200 / 300 / 400''' {{D|Heat}}, {{D|Electricity}}, {{D|Toxin}}, or {{D|Cold}} damage per tick with a '''<u>?%</u>''' status chance at '''<u>5</u>''' ticks per second.
+**Damage type is based on Chroma's current elemental alignment, determined by Chroma's primary emission color or the selected element of {{A|Spectral Scream}}.
+**The sentry is counted as a summon and is affected by {{M|Summoner's Wrath}}, {{Arcane|Arcane Camisado}}, and {{Arcane|Theorem Infection}}.
+**Effigy drains {{Stat|Ability Efficiency|icon=only}}{{Stat|Ability Duration|icon=only}}'''10''' energy per second while active and will remain active until Chroma's energy is depleted, the sentry's health is depleted, or the ability is deactivated by pressing the ability key again.
+***Chroma '''cannot''' gain energy from {{A|Energy Vampire}}, {{A|Rally Point}}, [[Rift Plane]]'s innate energy regeneration, [[Squad Energy Restore]]s, {{M|Energy Siphon}}, {{M|Energy Nexus}}, {{M|Dreamer's Bond}}, and/or {{Focus|Wellspring}} while Effigy is active.
+***[[Energy Orb]]s, [[Orokin Void]] [[Orokin Tower#Death Orbs|Death Orb]]'s energy restores, {{M|Rage}}, {{M|Hunter Adrenaline}}, {{M|Spellbound Harvest}}, {{Arcane|Arcane Energize}}, and {{Arcane|Emergence Dissipate}}'s Energy Motes can still replenish Chroma's energy while Effigy is active.
+*The sentry has two separate abilities it can use.
+**'''Scream:''' The sentry screams, stunning all enemies within '''<u>30</u>''' meters.
+***'''15''' second cooldown.
+**'''Wing Flap:''' The sentry will flap its wings and unleash a '''5''' meter AoE that deals '''<u>200</u>''' {{D|Heat}}, {{D|Electricity}}, {{D|Toxin}}, or {{D|Cold}} damage and {{D|Ragdoll|Ragdolls}} enemies.
+***Damage type is based on Chroma's current elemental alignment, determined by Chroma's primary emission color or the selected element of {{A|Spectral Scream}}.
+***The sentry will only use Wing Flap if there is an enemy within '''<u>5</u>''' meters of it.
+***'''5''' second cooldown.
+*Enemies killed by the sentry have a '''<u>15% / 30% / 45% / 60%</u>''' chance to drop additional [[credits]]. In addition, all credits that are picked up within '''<u>10</u>''' meters of the sentry yield '''<u>25% / 50% / 75% / 100%</u>''' additional credits.
+**As credits are shared with the squad on pickup, a player only needs to be within range of Effigy to receive the additional credits, regardless of where the credits originally dropped.
+**For enemies killed by the sentry within the percentage credit bonus range, credit income is increased by an average of '''<u>43.75% / 95% / 153.75% / 220%</u>'''. This ''assumes'' the credit chance on kill results in double credits from that enemy.
+*While Effigy is active, Chroma can fight in his lightened form, gaining '''<u>20%</u>''' [[Movement Speed]] but with a '''<u>50%</u>''' armor reduction.
+**The armor reduction is a ''multiplicative'' penalty that's applied to Chroma's total armor (e.g., with a maxed {{M|Steel Fiber}} and {{M|Intensify}}, Chroma with {{A|Vex Armor}} at full capacity will have his armor lowered to {{Math|350 {{mul}} (1 + 1.1 + 3.5 {{mul}} 1.3) {{mul}} 0.5|mt=y}} when Effigy is activated).
+*When deactivated, Chroma can teleport his pelt from anywhere onto himself. This will stop movement and interrupt any action Chroma is doing, such as reloading, leaving a player vulnerable.
+**When deactivated while sliding, Chroma's pelt will be reapplied to him without triggering the animation, even if the player immediately cancels his slide.
+*Both the initial cast and the return of Chroma's pelt will cease any actions as they are a two-handed ability.
+| interactions = 
+* Effigy's damage per tick and knockback damage can be boosted by the '''Fury''' aspect of {{A|Vex Armor}}, while its armor can be increased by the '''Scorn''' aspect.
+** Effigy will only maintain the damage and armor increase from {{A|Vex Armor}} so long as Chroma's Effigy is within range of it. 
+| augment = [[File:GuidedEffigyMod.png|200px|left]]
+{{main|Guided Effigy}}
+{{#lst:Guided Effigy|intro}}
+{{#lsth:Guided Effigy|Stats}}
+{{clr}}
+| tips = *The pelt usually unleashes its roar a few seconds after deploying. This allows you to quickly deploy the sentry for a temporary stun to all nearby enemies.
+*The pelt can be {{A|Banish}}ed, preventing damage from non-banished enemies while still being able to damage all enemies normally.
+*The pelt gains shields from the Shield Osprey Eximus Specter.
+*As the pelt will not move from the spot it is cast on (unless the [[Guided Effigy]] mod is equipped), it would serve quite well as an impromptu turret. As such, it is recommended to place the pelt on top of an objective that needs to be defended such as in a Defense mission. If that is the case, then it is recommended to equip energy-regenerating mods such as [[Rage]] or [[Hunter Adrenaline]] to keep the pelt active for as long as possible.
+<noinclude>
+|max = {{WFmax|main|chroma4}}
+</noinclude>
+| bugs = |
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Chroma}}
+
+__NOTOC__
+[[de:Abbild]]
+[[es:Efigie]]
+[[ru:Образ]]
+[[fr:Effigie]]
+[[Category:Two-Handed Abilities]]
+[[Category:Channeled Abilities]]
+[[Category:Toxin Damage]]
+[[Category:Electricity Damage]]
+[[Category:Cold Damage]]
+[[Category:Heat Damage]]
+[[Category:Warframe Abilities]]
+[[Category:Chroma]]
+[[Category:Update 16]]
+[[uk:Опудало]]

@@ -1,0 +1,79 @@
+<onlyinclude>{{AbilityU10.3
+| name = Minelayer
+| gameimage = Minelayer130xWhite.png
+| cardimage = MinelayerModx256.png
+| hotkey = 2
+| energy = 25
+| description = Control the battlefield with masterful mines. Vauban's Tether-Flechette orb immobilizes and draws in enemies while launching deadly nails in all directions.<br/>HOLD to launch a Vector-Overdrive pad that accelerates foes and allies alike in the pad's direction, increasing ally Movement Speed and Weapon Damage.
+| cost = 25
+| cardonly = {{{1|}}}
+| sub = {{AbilityU10.3/Tabber | Tether-Flechette Orb
+| strength       = 15 ({{D|Blast}} damage on orb hit)<br/>100 / 150 / 200 / 250 ({{D|Slash}} damage on tether)<br/>200 / 250 / 300 ({{D|Puncture}} damage per nail)
+| duration       = 25 s
+| range          = 15 / 16 / 18 / 20 m (tether range)
+| misc           = ?% ({{D|Blast}} status chance on orb hit)<br/>1 / 1 / 2 / 2 (tether max targets)<br/>50% (flechette critical chance)<br/>2.0x (flechette critical multiplier)<br/>forced {{D|Puncture}} status effect on flechette<br/>10 m (flechette target radius)<br/>4 (max orbs active)<br/>1.0x (flechette damage multiplier per 10 enemy levels)<br/>4 (max orbs active)
+}}
+{{AbilityU10.3/Tabber | Vector-Overdrive Pad
+| strength       = 15 ({{D|Blast}} damage on orb hit)<br/>25 m/s (speed boost)<br/>25% (movement speed buff)<br/>25% (weapon damage bonus)
+| duration       = 25 s
+| range          = 
+| misc           = ?% ({{D|Blast}} status chance on orb hit)<br/>4 (max pads active)
+}}
+| info = *Vauban expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[Energy]] to throw a specialized mine. Tap the ability key to throw a Tether-Flechette Orb. Hold the ability key to throw a Vector-Overdrive Pad. Upon striking an enemy, the mine inflicts {{Stat|Ability Strength|icon=only}}'''15''' {{D|Blast}} damage with a <u>'''~10%'''</u> status chance; the mine lasts for {{Stat|Ability Duration|icon=only}}'''25''' seconds once deployed.
+**Mine selection can be inverted in the Options menu.
+<div class="tabber-borderless" ><tabber>
+|-|Tether-Flechette Orb=
+<div style="display:none;">'''Tether-Flechette Orb'''<br></div>
+*'''Tether-Flechette Orb''' deploys upon contact with an ally, enemy or surface, sticking onto the first entity or object it touches. Once stuck, the coil does the following:
+**Extends energy wires that inflict {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Slash}} damage, {{D|Ragdoll}} and pull in up to <u>'''1 / 1 / 2 / 2'''</u> enemies within sight and {{Stat|Ability Range|icon=only}}'''15 / 16 / 18 / 20''' meters from the coil.
+***If tethered enemies are killed, the Tether-Flechette Orb will tether to new targets throughout its duration.
+***Tether-Flechette Orb does '''not''' target enemies already pulled by other Tether-Flechette Orbs.
+**Rapidly fires high velocity nails randomly in all directions, inflicting {{Stat|Ability Strength|icon=only}}'''200 / 250 / 300''' {{D|Puncture}} scaling damage with a <u>'''50%'''</u> critical chance, <u>'''2.0x'''</u> critical multiplier, <u>'''~5%'''</u> status chance, and a forced {{D|Puncture}} effect on enemies hit; enemies coming within <u>'''10'''</u> meters are prioritized by the turret with high accuracy. In the last second before expiring, the Tether-Flechette Orb will release a barrage of nails in all directions.
+***Tether-Flechette Orb's nail damage scales with enemy level using the following expression:
+***:{{MathText|Total Puncture Damage {{eql}} Puncture Base Damage {{mul}} (1 + Ability Strength) {{mul}} ceil(Enemy Level {{div}} 10)}}
+****Multiplier from enemy level only increases after '''1''' level past the per-10-levels mark (e.g. levels 11, 21, 31, 41, etc).
+****With a maxed {{M|Intensify}}, and an enemy at level '''101''', a Tether-Flechette Orb nail will deal {{Math|300 {{mul}} (1 + 0.3) {{mul}} ceil(101 {{div}} 10)|mt=y}} {{D|Puncture}} damage.
+***Nails are affected by [[Universal Weapon Bonuses]] (which includes Vauban's passive and Vector-Overdrive Pad) and [[Buffing Fields]].
+***Flechette orbs can hit weakpoints. This is can be done by having the orbs placed in such a way that the nail's trajectory hits weakpoints when it aims for center mass, E.g. placing the orbs on a higher surface than the one a humanoid target is standing. The alt fire of {{Weapon|Scourge}} and {{Weapon|Scourge Prime}} can almost guarantee weakpoint hits.
+***Enemies killed by nails from Tether-Flechette Orbs have their bodies pinned to walls and objects where the nail lands.
+*Vauban can deploy up to <u>'''4'''</u> Tether-Flechette Orbs on the battlefield.
+
+|-|Vector-Overdrive Pad=
+<div style="display:none;">'''Vector-Overdrive Pad'''<br></div>
+*'''Vector-Overdrive Pad''' deploys upon contact with an enemy or surface, falling onto the ground and illuminating arrows toward the throw direction. Allies crossing the pad while moving in the arrow direction are propelled forward at a speed of {{Stat|Ability Strength|icon=only}}'''25''' meters per second and gains {{Stat|Ability Strength|icon=only}}'''25%''' [[Movement Speed]] and {{Stat|Ability Strength|icon=only}}'''1.25x''' Weapon damage for {{Stat|Ability Duration|icon=only}}'''25''' seconds.
+**Weapon Damage bonus stacks multiplicatively with other damage buffs.
+**Weapon Damage bonus also affects your and allies' [[Companion]].
+**Movement Speed bonus stacks additively with other sources of Movement Speed.
+**Even if allies are sliding or rolling across the pad, they need to be inputting a movement in the pad's direction to get boosted. Correspondingly, players can get boosted by the pad even if maneuvering in a different direction by inputting the appropriate movement.
+***As such, players can roll or slide without holding forward during the maneuver if they want to cross the pad in it's direction without getting boosted.
+**Allies can reduce Vector-Overdrive Pad's momentum by shifting their movement away from the launch direction during and after launch.
+**Can be used in conjunction with different parkour [[Maneuvers]], such as Bullet Jump, jump, double jump, dodge roll and slide.
+*Enemies crossing the pad are propelled away toward the arrow direction at the same speed, regardless of the direction they were moving.
+**Enemies repelled away by Vector-Overdrive Pad can often be launched in an upward arcing trajectory.
+*Vauban can deploy up to <u>'''4'''</u> Vector-Overdrive Pads on the battlefield.
+</tabber></div>
+<hr />
+*'''Ability Synergy:'''
+**Enemies pulled by Tether-Flechette Orb [[Vauban/Abilities/Passive|passively]] receive <u>'''25%'''</u> increased damage from Vauban's weapons and abilities.
+**Tether-Flechette Orb can bring enemies into range of a {{A|Bastille}} containment field for suspension or vortex suction, while releasing the coil's wires to seek new targets.
+**Vector-Overdriver Pad can launch enemies into range of Tether-Flechette Orbs, other Vector-Overdriver Pads, and Bastilles.
+**Vector-Overdriver Pad's damage bonus applies Tether-Flechette Orb's nails.
+*Casting Minelayer is a two-handed animation that allows free movement but interrupts certain actions such as reloading.
+*Can be recast while active. If there are already four of a given orb type active, the oldest will be replaced by the recast.
+| tips = 
+| bugs = 
+}}
+
+</onlyinclude>
+
+==See Also==
+* {{WF|Vauban}}
+__NOTOC__
+[[es:Minador]]
+[[fr:Poseur de Mines]]
+[[Category:Blast Damage]]
+[[Category:Slash Damage]]
+[[Category:Puncture Damage]]
+[[Category:Enemy Level Based Damage]]
+[[Category:Update 26]]
+[[uk:Мінування]]

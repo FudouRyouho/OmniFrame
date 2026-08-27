@@ -1,0 +1,48 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly = {{{1|}}}
+| name = Scarab Swarm
+| gameimage = ScarabSwarmIcon.png
+| cardimage = ScarabSwarm.png
+| hotkey = 4
+| energy = 25
+| description = Summon a Scarab Swarm to attack enemies with guaranteed Corrosion Status. Damage scales with Inaros's Health. Enemies killed while immersed in the swarm summon a Swarm Kavat that fights alongside Inaros and guides the scarabs to other enemies.
+| strength = 
+| duration = 6 / 10 / 12 / 15 s (swarm duration)
+| range = 20 / 22 / 25 / 30 m (cast range)<br />12 m (spread range)
+| misc = 5% / 6.5% / 8% / 10% (health as {{D|Corrosive}} damage per half sec)<br/>{{D|Corrosive}} status per tick<br>? s swarm spread interval<br>100% (spread remaining duration)<br/>3 (Swarm Kavat limit)<br>20 s (Swarm Kavat lifespan)
+| info = *Inaros expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to hurl swarms of scarabs that travel up to {{Stat|Ability Range|icon=only}}'''20 / 22 / 25 / 30''' meters away, infesting all enemies in their path. Swarmed enemies will flail in panic and receive <u>'''5% / 6.5% / 8% / 10%'''</u> of Inaros's max [[Health]] as {{D|Corrosive}} damage with a guaranteed status effect per half second for {{Stat|Ability Duration|icon=only}}'''6 / 10 / 12 / 15''' seconds, during which they are completely disabled. While active, every <u>'''1 - 2'''</u> seconds a random affected enemy will spread <u>'''1'''</u> flying swarm to an unaffected enemy within a {{Stat|Ability Range|icon=only}}'''12''' meter radius for its remaining duration.
+**Each additional cast of Scarab Swarm that hits at least one unaffected target will spread an additional swarm every 1 - 2 seconds, while at least one of its targets is alive. 
+**Scarab Swarms will prioritize spreading from whatever affected target has the closest unaffected target within range.
+**Launching a Scarab Swarm on an enemy that is still under the effects of another Scarab Swarm, will '''not''' refresh the debuff. 
+**Scarab Swarm's projectile possesses innate [[punch through]] but does '''not''' bypass obstacles in the environment.
+*When an enemy affected by Scarab Swarm dies, they spawn a friendly '''Swarm Kavat''' at a level equal to the killed enemies level. Swarm Kavat attack's will spread Scarab Swarm. A maximum of <u>'''3'''</u> Swarm Kavats can spawn, each lasting <u>'''20'''</u> seconds.
+**Swarm Kavat duration is '''not''' affected by [[Ability Duration]].
+**Swarm Kavats deal <u>'''320'''</u> {{D|Slash}} damage, with <u>'''20%'''</u> [[Critical Hit|Critical Chance]], <u>'''2x'''</u> Critical Multiplier and <u>'''7.5%'''</u> [[Status Chance]].
+***Kavats scale their damage using the [[Damage#Enemy_Damage_Scaling|Enemy Damage Scaling]] formula.
+**Number of active Swarm Kavats are tracked as a buff icon beside Inaros's hitpoints indicator.
+**Swarm Kavat-inflicted Scarab Swarm does '''not''' spread flying swarms.
+**Swarm Kavats are counted as summons and are affected by {{M|Summoner's Wrath}}, {{Arcane|Arcane Camisado}}, and {{Arcane|Theorem Infection}}.
+* Casting Scarab Swarm is a [[One-Handed Action]]. As such, it can be used while performing various maneuvers and actions without interruption.
+| interactions = 
+* Swarm Kavat claw swipes contribute as hits toward Inaros's revival via his [[Inaros/Abilities#Passive|Passive]].
+* {{M|Desiccation's Curse}} allows [[Finisher]] kills to summon a Swarm Kavat and increases the maximum limit of Swarm Kavats to <u>'''5'''</u>.
+| stance = 
+| augment = 
+| tips = *It is more energy efficient to cast a Scarab Swarm attack on a single enemy in the middle of a large, clustered group, and allowing the swarm spreading effect to infect all nearby enemies. This is particularly effective against [[Infested]] that naturally tend to clump together in groups.
+<noinclude>
+|max = {{WFmax|main|inaros4}}
+</noinclude>
+| bugs = |
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Inaros}}
+[[de:Skarabäus-Schwarm]]
+[[es:Enjambre de escarabajos]]
+[[ru:Рой Скарабеев]]
+[[Category:Warframe Abilities]]
+[[Category:One-Handed Abilities]]
+[[Category:Update 18]]
+[[Category:Inaros]]
+[[Category:Corrosive Damage]]
+[[uk:Рій скарабеїв]]

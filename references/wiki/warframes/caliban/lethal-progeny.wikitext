@@ -1,0 +1,118 @@
+<onlyinclude>{{AbilityU10.3
+| name = Lethal Progeny
+| gameimage = LethalProgeny130xWhite.png
+| cardimage = LethalProgenyModx256.png
+| hotkey = 3
+| energy = 50
+| cost = 
+| description = Cycle through Sentient unit types, then summon them to Caliban's side. Conculysts focus on raw melee damage. Ortholysts specialize in ranged attacks and inflict {{D|Tau}} Status Effect. Summulysts summon their own Choralysts and provide shield protection for the squad.
+| strength = Caliban's Rank x Str (Sentient rank)<br>+ 10 / 15 / 20 / 25 SP/s (shield restore per second)<br>1 / 1.5 / 2 / 2.5 x (damage multiplier)<br>1 / 1.33 / 1.66 / 2 x (health multiplier)
+| range = 25 m (shield regen range)
+| duration = 30 / 35 / 40 / 45 s
+| misc = 6 s (Conculyst tornado duration)<br>10 s (Conculyst tornado cooldown)<br>0.5x (Conculyst {{A|Fusion Strike}} damage multiplier)<br>3% (Conculyst Fusion Strike laser prism chance)<br>10 m (teleport radius)<br>60 m (teleport range)<br>3 (max Conculysts)<br>3 (max Ortholysts)<br>1 (max Summulyst)<br>6 (max Choralyst)
+| cardonly = {{{1|}}}
+| info = *Heir apparent of his aberrant throne, Caliban calls upon one of three types of Sentient fragments by tapping the ability button (default {{Keybind|3}}) to freely cycle the selection wheel above his ability icons. Caliban expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[Energy]] by holding down the ability button to call down {{Faction|Sentient}} reinforcements from above: '''Caliban's [[Conculyst]]s''', '''Caliban's [[Ortholyst]]s''', or '''Caliban's [[Summulyst]]'''. Sentient fighters are [[Summons|summoned]] at a variable rank level depending on Caliban's own Warframe [[Rank]] multiplied by his {{Stat|Ability Strength}}, with a damage multiplier of {{Stat|Ability Strength|icon=only}}'''1x / 1.5x / 2x / 2.5x''' , and a [[Health]] multiplier of {{Stat|Ability Strength|icon=only}}'''1x / 1.33x / 1.66x / 2x''' as they fight alongside Caliban for {{Stat|Ability Duration|icon=only}}'''30 / 35 / 40 / 45''' seconds before self detonation. Additionally, all sentient fighters have their damage and health affected by their [[Enemy Level Scaling|level]]. All Sentient fighters restore the [[Shield]]s of Caliban and his allies within {{Stat|Ability Range|icon=only}}'''25''' meters and in soft [[Line of Sight]] by {{Stat|Ability Strength|icon=only}}'''10 / 15 / 20 / 25''' shield points per Sentient fighter per second which overflows into Overshields.
+<div class="tabber-borderless">
+{{#tag:tabber|
+{{!}}-{{!}} Caliban's Conculyst =
+<div style="display:none;">'''Caliban's Conculyst'''<br></div>
+*Summons <u>'''3'''</u>  Conculysts when the ability is cast.
+*Caliban's Conculysts move and attack quicker than normal Sentient Conculysts.
+*Conculysts are melee fighters that strike enemies with their batons.
+**Batons deal <u>'''150'''</u> {{D|Tau}} damage and hit twice with each strike.
+***Damage is affected by the Conculyst's [[Enemy Level Scaling#Damage|level]].
+**Occasionally performs a tornado attack, inflicting <u>'''1,000'''</u> {{D|Tau}} damage every <u>'''0.5'''</u> seconds with a <u>'''20%'''</u> {{D|Slash}} status chance.
+***Tornado lasts for <u>'''6'''</u> seconds with a cooldown of <u>'''10'''</u> seconds.
+***Damage is affected by the Conculyst's [[Enemy Level Scaling#Damage|level]].
+***Damage is '''not''' affected by Lethal Progeny's damage multiplier.
+***Conculysts will end their tornado attack early if their primary target is killed and no other enemies are nearby.
+**When struck by {{A|Fusion Strike}}, Caliban's Conculyst have a <u>'''3%'''</u> chance to become empowered by it, gaining the ability to perform the Sentient [[Battalyst]] laser prism special attack, causing Caliban's Conculysts to float and rotate in place to sweep multiple laser beams.
+***Laser beams deal <u>'''100'''</u> {{D|Tau}} damage per hit.
+***Damage is affected by the Conculyst's [[Enemy Level Scaling#Damage|level]].
+***Damage is '''not''' affected by Lethal Progeny's damage multiplier.
+{{!}}-{{!}} Caliban's Ortholyst =
+<div style="display:none;">'''Caliban's Ortholyst'''<br></div>
+*Summons <u>'''3'''</u> Ortholysts when the ability is cast.
+*Ortholysts are ranged fighters that fire twin cannons, with the ability to transform into a stationary mortar against enemies at medium to long distances.
+**Ortholysts fire a burst of <u>'''3'''</u> shots with their twin cannons. Each shot <u>'''200'''</u> {{D|Tau}} damage on direct hit, then explode and deal <u>'''50'''</u> {{D|Tau}} damage in a <u>'''1'''</u> meter radius.
+***Twin cannons have a fire rate of <u>'''0.417'''</u> and a burst delay of <u>'''0.1'''</u> seconds.
+***Both direct hit and explosion have <u>'''100%'''</u> status chance.
+***Damage is affected by the Ortholyst's [[Enemy Level Scaling#Damage|level]].
+**When in mortar form, Caliban's Ortholysts launch 2 simultaneous arcing shots that each deal <u>'''200'''</u> {{D|Tau}} damage on direct hit, then explode dealing <u>'''50'''</u> {{D|Tau}} damage in a <u>'''6'''</u> meter radius.
+***Mortars have a fire rate of <u>'''0.417'''</u>.
+***Both direct hit and explosion have <u>'''100%'''</u> status chance.
+***Damage is affected by the Ortholyst's [[Enemy Level Scaling#Damage|level]].
+***On impact, each mortar shot splits into <u>'''3'''</u> seeking projectiles that each deal <u>'''200'''</u> {{D|Tau}} damage on direct hit, then explode and deal <u>'''50'''</u> {{D|Tau}} damage in a <u>'''5'''</u> meter radius.
+****Both direct hit and explosion have <u>'''300%'''</u> status chance.
+****Damage is affected by the Ortholyst's [[Enemy Level Scaling#Damage|level]].
+{{!}}-{{!}} Caliban's Summulyst =
+<div style="display:none;">'''Caliban's Summulyst'''<br></div>
+*Summons <u>'''1'''</u> Summulyst when the ability is cast.
+*The Summulyst immediately moves to a viable surface to deploy its summoning gate to continuously summon up to <u>'''6'''</u> '''Caliban's [[Choralyst]]s''' with increased [[Threat Level]].
+*After summoning, Summulyst prefers to stay near Caliban. When in combat, prefers to stay at range to redeploy its gate, launching several homing mines that lock onto their targets with a laser stream then explodes on contact.
+**Homing mines deal <u>'''100'''</u> {{D|Tau}} damage on contact, then explode dealing <u>'''100'''</u> {{D|Tau}} damage in a <u>'''2'''</u> meter radius.
+***Mines have <u>'''0%'''</u> status chance.
+***Damage is affected by the Summulyst's [[Enemy Level Scaling#Damage|level]].
+*Choralysts prefer spreading out away from Caliban. 
+**Primary form of attack is to launch <u>'''2'''</u> homing energy projectiles that deal <u>'''80'''</u> {{D|Tau}} damage on direct hit, and <u>'''20'''</u> {{D|Tau}} damage in a <u>'''3'''</u> meter radius on explosion.
+***Projectiles only explodes on contact with a solid surface; projectiles will pass through enemies without exploding.
+***Projectile direct hit has <u>'''10%'''</u> status chance.
+***Projectile explosion has <u>'''20%'''</u> status chance.
+***Damage is affected by the Choralyst's [[Enemy Level Scaling#Damage|level]].
+***Damage is '''not''' affected by Lethal Progeny's damage multiplier.
+**Can launch a slow moving charged orb that deals <u>'''20'''</u> {{D|Tau}} damage on direct hit then explodes, dealing <u>'''100'''</u> {{D|Tau}} damage in an <u>'''8'''</u> meter radius.
+***Direct hit has a forced {{D|Stun}} status effect.
+***Explosion has a forced {{D|Stagger}} status effect.
+***Orb direct hit and explosion have <u>'''0%'''</u> status chance.
+***Damage is affected by Choralyst's [[Enemy Level Scaling#Damage|level]].
+***Damage is '''not''' affected by Lethal Progeny's damage multiplier.
+**A Choralyst that dies will immediately be resummoned by the Summulyst if it is still alive.
+*Due to the higher number of summons, the Summulyst and Choralysts also provide more shield regeneration than other Sentient fighters.
+}}</div>
+<hr />
+*Amount of total shield recharge per second is shown under a Lethal Progeny buff icon displayed beside Caliban's shield and health indicators.
+*Shield recharge is disabled when Shield Gate is triggered and will resume when Caliban's shields begin to recharge itself.
+**Shield recharge can be resumed by recovering any shield amount, including by the [[Set Mods#Augur Mod Set|Augur Set]].
+*Sentient fighters are shown above Caliban's ability icons as a custom UI element including a cycle-selection wheel, duration timer, icons, names and effect descriptions.
+**Sentient fighters can be cycled before cast or while the ability is active at no energy cost by tapping the ability button.
+*Sentient fighters all share the below properties:
+**Summoned within <u>'''5'''</u> meters in front of Caliban. Conculysts and Ortholysts are summoned in a forked formation, while Summulyst is directly in front. Sentient fighters are summoned on solid surfaces and account for terrain elevation differences on landing.
+**Enhanced by Lethal Progeny's level rank bonus that affects their stats. For base stats scaling calculations, visit the [[Conculyst]], [[Ortholyst]], [[Summulyst]] and [[Choralyst]] articles and adjust the level scaling slider in the infobox.
+**Prefer to focus recharging Shields on one allied entity, prioritizing the owner Caliban, other players, [[Companions]], and friendly AI in that order.
+**Possess their innate Damage Adaptation, which includes health gating and damage reduction for adapted damage types.
+**Do not have collision with players and {{Faction|Tenno}} allies.
+**Teleport within a radius of '''<u>10</u>''' meters around Caliban if they wander beyond '''<u>60</u>''' meters away from him.
+**Are counted as summons and are affected by {{M|Summoner's Wrath}}, {{Arcane|Arcane Camisado}}, and {{Arcane|Theorem Infection}}.
+**Receive percentage damage to their hitpoints and repeated {{D|Stagger}} when inside an ability-nullifying field, such as those of the [[Nullifier Crewman]].
+**Other players will see a dithering effect on Caliban's Sentient fighters to differentiate them from their enemy counterparts.
+**Constantly visible to the owner Caliban on the mini-map as allied blue dots, along with their shapes highlighted when behind walls and obstacles.
+*Can be recast while active, refreshing the duration and replenishing up to the maximum number of Sentient fighters.
+**Only one group of Sentient fighters can be active at a time. Casting the ability to summon a different group will remove the current group.
+*Casting Lethal Progeny is a full-body animation that stops Caliban's ground movement and other actions.
+*Caliban visually raises his left arm toward the sky to summon the Sentient fighters that descends immediately from high orbit above. Their appearance colors match Caliban's appearance, except for their baton arms which remain Sentient red.
+*When receiving shields from Lethal Progeny, Tenno are linked to the Sentient fighters via a continuous stream of shielding energy. The colour of the streams is the energy colour of the summoning Caliban.
+| interactions =
+* {{A|Razor Gyre}} can generate shields if used while Caliban is at full health, allowing Lethal Progeny's shield recharge to immediately resume.
+** {{M|Razor Mortar}} has Ortholysts teleport and focus fire on enemies pulled by Razor Gyre, with increased [[Fire Rate]] and {{D|Electricity}} damage.
+* {{A|Sentient Wrath}}'s [[Damage Vulnerability]] increases Lethal Progeny's damage.
+* {{A|Fusion Strike}} coordinates Conculysts to become briefly [[Invulnerable]] and fire their own Fusion Strikes at Caliban's reticle for <u>'''0.5x'''</u> damage effectiveness and defense strip, but does not create a fallout field. Caliban's Conculysts have a <u>'''3%'''</u> chance to be empowered from casting Fusion Strike, granting them the [[Battalyst]] laser prism special attack for their remaining lifespan.
+| augment = 
+| tips = *Conculysts are effective at dealing damage.
+*Ortholysts are effective at rapidly applying {{D|Tau}} status effects.
+*Summulyst and its Choralysts are effective at distracting enemies thus improving Caliban's survivability.
+*All Sentients are surprisingly durable even in [[The Steel Path]], providing Caliban and allies additional breathing space in managing the increased difficulty setup.
+*Lethal Progeny's summons are treated like spectors / seperate entities and need to be given buffs such as [[Roar]] and [[Nourish]] by casting the ability near them or right as they're summoned. It also means they cannot activate effects needing ability hits such as [[Jade Stars]]
+*Elemental Weapon Damage buffs that can be given to allies, like [[Shock Trooper]] apply their bonus, except on Conculyst spinning attack and spinning laser, Ortholyst barrage attack, and Summulyst seeking attack. [[Thermal Transfer]] never applies.* 
+*[[Theorem Infection]] applies to all attacks*
+*[[Elemental Ward]] does not apply*
+| bugs = 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Caliban}}
+__NOTOC__
+[[Category:Caliban]]
+[[Category:Line Of Sight Abilities]]
+[[Category:Shield Restoration]]
+[[uk:Смертельне потомство]]
+[[fr:Lignée Létale]]

@@ -1,0 +1,51 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Tesla Nervos
+| gameimage      = TeslaNervos130xWhite.png
+| cardimage      = TeslaNervosModx256.png
+| hotkey         = 1
+| energy         = 25
+| description    = Deploy a roller drone that attaches itself to enemies and delivers bursts of arcing electricity to anything in the immediate area.
+<br/>'''Hold cast energy cost''': 25
+| strength         = 15 ({{D|Blast}} damage on capsule hit)<br/>80 / 100 / 120 / 150 ({{D|Electricity}} damage per discharge)<br/>10 / 15 / 20 / 25 ({{D|Electricity}} damage per second)<br/>50 % ({{D|Electricity}} status chance)
+| range          = 4 / 4 / 5 / 6 m (shock radius)
+| duration       = 5 / 6 / 7 / 10 (number of charges)
+| misc           = ? % ({{D|Blast}} status chance)<br/>1 s (discharge interval)<br/>4 (limit of active drones)
+| subsumable     = true
+| cardonly       = {{{1|}}}
+|info     =
+*Vauban expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to throw a capsule in an arcing trajectory toward the aiming reticle, releasing a Tesla Nervos on impact with a surface. Upon directly striking an enemy, the capsule inflicts {{Stat|Ability Strength|icon=only}}'''15''' {{D|Blast}} damage with <u>'''~10%'''</u> status chance. The '''Tesla Nervos''' is an invulnerable [[Latcher]] [[Specter]] that follows Vauban and [[Homing|seeks]] to latch onto a nearby enemy, shocking the target and stunning it in place as long as the Tesla Nervos remains attached. The stunned target receives  {{Stat|Ability Strength|icon=only}}'''10 / 15 / 20 / 25''' {{D|Electricity}} damage per second, while discharging an electric burst every <u>'''1'''</u> second to inflict {{Stat|Ability Strength|icon=only}}'''80 / 100 / 120 / 150''' {{D|Electricity}} damage with {{Stat|Ability Strength|icon=only}}'''50%''' [[Status Chance]] to all enemies within a {{Stat|Ability Range|icon=only}}'''4 / 4 / 5 / 6''' meter radius; each Tesla Nervos holds  {{Stat|Ability Duration|icon=only}}'''5 / 6 / 7 / 10''' electrical charges that last until used.
+**If the stunned target is killed before the Tesla Nervos uses up its charges, the Tesla Nervos will detach and look for another enemy.
+**If the Tesla Nervos uses up all of its charges, it will dissipate and release its stunned target.
+**Tesla Nervos will teleport to Vauban provided it is too far away and not currently attached to an enemy.
+**Multiple Tesla Nervos can attach to the same enemy target.
+*Holding down the ability key (default {{Keybind|1}}) causes Vauban to juggle up to <u>'''4'''</u> Tesla Nervos capsules once fully charged. Release the hotkey to throw and scatter them toward the direction of the aiming reticle, deploying multiple drones in one cast for no extra energy cost.
+**Deploying new Tesla Nervos past the drone limit causes older drones to dissipate, even when they are still attached to enemies.
+**Number of active drones is displayed on the ability icon.
+*'''Ability Synergy:'''
+**Enemies stunned by Tesla Nervos [[Vauban/Abilities#Passive|passively]] receive <u>'''25%'''</u> increased damage from Vauban's weapons and abilities.
+**Tesla Nervos is affected by {{A|Minelayer}}'s Vector-Overdive Pad and will be propelled toward the pad's direction on contact.
+**Tesla Nervos can attach to enemies already affected by Minelayer's Tether-Flechette Orb and {{A|Bastille}}.
+*Can be recast while active to deploy new drones with full charges.
+*While Tesla Nervos are moving, they emit a mechanical clicking sound to indicate their presence.
+*Tesla Nervos do '''not''' show minimap icons or waypoints to track their position.
+*Tesla Nervos features a unique model apart from the Grineer [[Roller]] and Latcher. Vauban's Appearance colors affect the Tesla Nervos' appearance as well.
+*Subsuming Vauban to the [[Helminth]] will offer Tesla Nervos and its augments to be used by other Warframes.
+|augment =
+[[File:TeslaBankMod.png|200px|left]]
+{{main|Tesla Bank}}
+{{#lst:Tesla Bank|intro}}
+{{#lsth:Tesla Bank|Stats}}
+{{clr}}
+|tips = 
+|bugs =
+*If Vauban is playing as client, Tesla Nervos will use its default model rather than their custom models depending on the equipped skin (normal, Prime, or [[Vauban Citadel Skin]]).
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Vauban}}
+*{{WF|Vauban Prime}}
+__NOTOC__
+[[es:Nervos Tesla]]
+[[Category:Electricity Damage]]
+[[Category:One-Handed Abilities]]
+[[uk:Нерв Тесли]]

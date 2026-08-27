@@ -1,0 +1,75 @@
+{{For|the Operator weapon component|Amp}}
+<onlyinclude>
+{{AbilityU10.3
+| name = Prism
+| gameimage = HarlequinPrism.png
+| cardimage = PowerPrism.png
+| hotkey = 4
+| energy = 50
+| description = Fires an energy prism that shoots lasers in all directions. Activating again detonates the prism, blinding nearby foes.<br>
+'''Energy Drain:''' 10 s<sup>-1</sup>
+| strength = 80 / 120 / 170 / 250 (base{{D|Radiation}} damage)
+| range = 15 / 20 / 25 / 30 m (laser target seeking range)<br>8 / 12 / 15 / 25 m (blind radius)
+| duration = 12 s (prism duration)<br>7 / 10 / 12 / 15 s (blind duration)
+| misc = 10 / 13 / 16 / 20 (lasers)<br>5 m/s (prism travel speed)<br>0.5 s (time between damage ticks)<br>25% (damage bonus per hit)
+| cardonly = {{{1|}}}
+| info = *Mirage expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to generate a prism in her hands and launch it outward at a speed of <u>'''5'''</u> meters per second. The prism is armed with <u>'''10 / 13 / 16 / 20'''</u> lasers that track and damage enemies within {{Stat|Ability Range|icon=only}}'''15 / 20 / 25 / 30''' meters. Each laser deals {{Stat|Ability Strength|icon=only}}'''80 / 120 / 170 / 250''' {{D|Radiation}} per <u>'''0.5'''</u> seconds, each tick of damage dealt permanently increases the prism's damage by <u>'''+25%'''</u> damage. The prism lasts for {{Stat|Ability Duration|icon=only}}'''12''' seconds.
+**Casting delay of ~'''2''' seconds, affected by [[Casting Speed]].
+**Lasers do '''not''' bypass obstacles or entities in the environment.
+**Lasers will target in-range enemies that are not already being targeted by a laser.
+***Seeking lasers are still blocked by obstacles and enemies. A single enemy can be damaged by multiple lasers if standing in the path of lasers that are targeting enemies behind them.
+**Each hit from any of the Prism's lasers adds <u>'''+25%'''</u> damage to all laser hits for the remainder of the Prism's lifetime.
+***Total damage multiplier grows linearly, with the first laser hit dealing '''125%''' listed damage, the next dealing '''150%''', then '''175%''', etc.
+****Damage bonus is added ''before'' the hit occurs (evident by the first laser hit dealing '''125%''' of the ability's listed damage rather than '''100%''').
+***Damage bonus is '''multiplicative''' to Prism's total base damage after Ability Strength is factored in.
+**{{A|Roar}} applies a separate and unique damage bonus that is multiplicative to Prism's laser damage.
+**Enemies have a small chance to be staggered on each hit from the lasers.
+**Initial laser orientation with each cast of Prism appears to be mostly random.
+**Lasers will maintain their vertical angle after changing position when there are no enemies to target.
+***If the prism were to pass by above a large quantity of enemies (at least 20) within laser seeking range, the lasers will continue to point downwards after the enemies are all destroyed or no longer within laser seeking range.
+***Laser horizontal angle does not appear to be maintained. Lasers will distance themselves seemingly and almost equidistant from each other horizontally after movement from targeting an enemy and are currently not targeting anything.
+**Prism drains {{Stat|Ability Efficiency|icon=only}}{{Stat|Ability Duration|icon=only}}'''10''' energy per second while active and will remain active for the ability's full duration, until Mirage's energy is depleted, or the ability is deactivated by pressing the ability key again.
+***Mirage '''cannot''' replenish energy using {{A|Energy Vampire}}, {{A|Rally Point}}, [[Rift Plane]]'s innate energy regeneration, {{M|Energy Siphon}}, {{M|Energy Nexus}}, {{M|Dreamer's Bond}} and/or {{Focus|Wellspring}} while Prism is active.
+***[[Energy Orb]]s, [[Orokin Void]] [[Orokin Tower#Death Orbs|Death Orb]]'s energy restores, [[Squad Energy Restore]]s, {{M|Rage}}, {{M|Hunter Adrenaline}}, {{M|Spellbound Harvest}}, {{Arcane|Arcane Energize}}, and {{Arcane|Emergence Dissipate}}'s Energy Motes can still replenish Mirage's energy during Prism.
+*When the ability expires or is manually deactivated (default {{Keybind|4}}), the prism will explode in a bright flash of light that {{D|Blind|Blinds}} enemies within {{Stat|Ability Range|icon=only}}'''8 / 12 / 15 / 25''' meters for {{Stat|Ability Duration|icon=only}}'''7 / 10 / 12 / 15''' seconds.
+**Blind requires direct line of sight from enemies to the prism. Obstacles and other entities can shield enemies from the blind.
+***Blinded enemies will be initially staggered for a short duration around 1 - 3 seconds and will have a sparkling visual effect around the eyes. Afterwards, a black hazy mist visual effect will be around their eyes and they will be able to move about unimpeded but will still be incapable of hostile actions such as attacking the player until the duration of the blind runs out.
+****Enemies will have their alerted state gradually decline as well.
+**Blind can be refreshed.
+*Holograms created from {{A|Hall of Mirrors}} '''cannot''' create prisms but will mimic Mirage's body movement during the casting delay.
+*The direction of the prism's trajectory depends on where the HUD's targeting reticle is positioned when the prism is released. The prism's trajectory is '''not''' altered by gravity and will bounce off of surfaces in its path.
+*Prism is not spawned from Mirage's location but is instead spawned slightly in front of Mirage.
+**If standing in front of a sufficiently thick and tall object or wall, Prism may detonate/fail prematurely if spawned within the said object or wall.
+***Prism will bounce back and emerge from within the object or wall if the cast does not fail.
+***Energy cost is not refunded for a failed cast.
+*Prism passes through enemies and entities but may bounce backwards if the prism is spawned inside of them.
+**When Prism passes through an enemy, a burst of damage ticks will occur due to the many lasers making contact from inside the enemy.
+| interactions = 
+* {{A|Eclipse}} provides benefits to {{A|Prism}}:
+**'''Lunar Eclipse''' (tap cast) <u>'''halves'''</u> Prism's base energy cost to {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] and base energy drain to {{Stat|Ability Efficiency|icon=only}}{{Stat|Ability Duration|icon=only}}'''5''' energy per second.
+**'''Solar Eclipse''' (hold cast) <u>'''doubles'''</u> Prism's damage bonus per hit to <u>'''+50%'''</u>.
+| augment = [[File:PrismGuardMod.png|200px|left]]
+{{main|Prism Guard}}
+{{#lst:Prism Guard|intro}}
+{{#lsth:Prism Guard|Stats}}
+{{clr}}
+| tips = <noinclude>
+|max = {{WFmax|main|mirage4}}
+</noinclude>
+| bugs = *Prism's search lasers will target [[Sentinels]] but deal no damage.
+*When cast repeatedly, a second prism can remain floating indefinitely.|
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Mirage}}
+__NOTOC__
+[[de:Prisma]]
+[[es:Prisma (Habilidad)]]
+[[ru:Призма]]
+[[Category:Mirage]]
+[[Category:Update 14]]
+[[Category:Warframe Abilities]]
+[[Category:Channeled Abilities]]
+[[Category:Radiation Damage]]
+[[Category:Line Of Sight Abilities]]
+[[uk:Призма]]

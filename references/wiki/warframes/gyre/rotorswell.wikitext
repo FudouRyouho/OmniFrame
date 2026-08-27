@@ -1,0 +1,49 @@
+<onlyinclude>{{AbilityU10.3
+| name = Rotorswell
+| gameimage = Rotorswell130xWhite.png
+| cardimage = RotorswellModx256.png
+| hotkey = 4
+| energy = 100
+| drain = 
+| cost = 
+| description = Gyre's mechanisms spin at incredible speeds, generating an Electric Field that shocks nearby enemies. When Gyre gets a critical hit, a large electrical discharge will chain from the enemy that was hit to nearby enemies.
+| strength = 100 / 150 / 200 / 250 /s (field {{D|Electricity}} damage per second)<br>250 / 350 / 400 / 500 (discharge {{D|Electricity}} damage)
+| range = 4 m (electric field radius)<br>10 m (discharge range)
+| duration = 10 / 14 / 18 / 22 s
+| misc = 1.5x (move speed multiplier)<br>{{D|Electricity}} status on hit<br>5 (discharge chained targets)<br>2 (simultaneous discharges limit)<br>1 s (discharge cooldown)<br>0% to 300% (ability critical chance)
+| cardonly = {{{1|}}}
+| info = 
+*With a graceful whirl, Gyre expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to overcharge her coil gown as its rotors gyrate rapidly and conductive plating lift apart, granting her <u>'''1.5x'''</u> movement speed lasting for {{Stat|Ability Duration|icon=only}}'''10 / 14 / 18 / 22''' seconds. A sustained radial electrical surge contained within a ring of Gyral Blocks surrounds Gyre, shocking all enemies within a {{Stat|Ability Range|icon=only}}'''4''' meter sight detection radius around her to inflict {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Electricity}} damage per second with <u>'''100%'''</u> [[Status Chance]].
+**Damage per second can damage and break destructible [[Objects]] in range.
+**Gyre's player camera positions itself further away while Rotorswell is active to expand her field of view.
+**Electric field is a spherical radius around Gyre that affects enemies above and below her, despite the visual indicator being represented by the horizontal Gyral Block ring.
+*While active, inflicting a [[Critical Hit]] from Gyre's weapons or abilities against an enemy target triggers a lightning discharge that chains outward, striking the target plus up to <u>'''5'''</u> other enemies within a {{Stat|Ability Range|icon=only}}'''10''' meter sight detection radius around the source enemy. The source enemy and chained enemies are inflicted {{Stat|Ability Strength|icon=only}}'''250 / 300 / 400 / 500''' {{D|Electricity}} damage with <u>'''100%'''</u> Status Chance. Up to <u>'''2'''</u> lightning discharges from <u>'''2'''</u> separate critical hits can occur simultaneously; after discharging, Rotorswell undergoes a <u>'''1'''</u> second cooldown before it can create discharges again.
+**Discharge damage is independent of the used weapon's damage.
+*Can be recast while active to briefly cancel the ability then renew into a new instance with full duration.
+*Casting Rotorswell is a full-body animation that interrupts Gyre's grounded movement and other actions.
+*In [[Landscape]]s, deploying and riding an [[Archwing Launcher|Archwing]] or a [[K-Drive]] while Rotorswell is active will retain the gyrating transmitters and will keep dealing damage.
+**This is also true when casting Rotorswell before getting off a [[Railjack]] to fly via Archwing, giving an additional damaging source while engaging enemy craft in melee.
+*Gyre visually performs a clockwise pirouette from where she stands, ending the whirl with a right-footed stomp as she braces her arms to the sides for the electrical overcharge. Gyre's body is enveloped in electricity, as 8 Transmitter Drones launch outward and take flight in a zigzagging pattern, following Gyre wherever she goes to detect her critical hits and discharge a lightning strike against her targets. Her coil gown's crinoline splits apart and lifts the conductive plating up to the sides to provide her ample legroom for swift movement. A persistent horizontal ring of 72 Gyral Blocks materializes and surrounds Gyre to denote her electric field's radius, while the electric surge spreads from her coil gown out toward the ring and concentrates itself within Gyre's proximity as the electrical current stabilizes.
+**Transmitter Drones use the same model as {{WF|Vauban}}'s grenades and default to the silver coloration and white energy. They travel their own flight paths and attempt to follow Gyre once she moves away.
+**All Gyral Blocks have a stylized engraving that resembles Mastery Slate [[Decorations]], rapidly spinning counterclockwise along the X axis and pulse together in a wave-like pattern. The spacing between Gyral Blocks widens or tightens depending on Gyre's Ability Range stat.
+*Rotorswell will continue to benefit from all strength buffs at the time of casting even if said buffs fall off while the ability is active it will keep the buffed damage.
+| interactions = 
+* Gyre's [[Gyre/Abilities#Passive|Passive]] and {{A|Cathode Grace}} enable ability [[Critical Hit]]s by granting <u>'''0%'''</u> to <u>'''300%'''</u> critical chance to damage and status effects dealt by Rotorswell.
+* Critical hits dealt by {{A|Arcsphere}}, {{A|Coil Horizon}}, Rotorswell's electric field and its discharge will trigger the discharge effect.
+* Direct kills by Rotorswell, its {{D|Electricity}} status effects, and kill assists from allies extend Cathode Grace's duration.
+* Killing enemies with {{M|Cathode Current}} active releases an additional discharge from Rotorswell while extending its duration equal to Cathode Grace's bonus duration.
+| augment = 
+| tips = 
+*Synergizes particularly well with high ammo, high fire rate guns even if they have low damage and/or critical chance such a full-auto {{Weapon|Tiberon Prime}}, as the lightning arcs' damage is independent of said weapons' damage and the fire rate may compensate for the low chances at critical hits.
+**Can also work for high fire rate, high [[multishot]] but mediocre critical chance shotguns such as the {{Weapon|Boar Prime}}, as their individual pellets have their own chance at striking a critical hit. 
+*As the electrical discharges from Rotorswell require only critical hits and not critical kills to trigger, weapons with high potential for extremely high critical chance and high fire rate/attack speed - such as the {{Weapon|Grakata}}, {{Weapon|Soma Prime}} with {{M|Hata-Satya}}, or {{Weapon|Tekko}} - will synergize extremely well with the ability.
+*Activating Rotorswell before riding an Archwing or a K-Drive will make Gyre deadly against enemies that get too close.
+| bugs = 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Gyre}}
+__NOTOC__
+[[Category:Gyre]]
+[[Category:Update 31]]
+[[uk:Обертовий момент]]

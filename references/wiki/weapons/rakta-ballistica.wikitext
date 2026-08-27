@@ -1,0 +1,128 @@
+{{Top|Lotus|Tenno|Tenno|Weapon|Weapons|Weapons}}
+{{WeaponInfoboxAutomatic}}
+{{Codex|This modified Ballistica is the weapon of choice used by Red Veil Assassins to take out high-priority marks.}}
+
+The '''Rakta Ballistica''' is an exclusive version of the {{Weapon|Ballistica}} available only from the {{Faction|Red Veil}}. The Rakta Ballistica has a higher portion of {{D|Puncture}} damage than its default version, and features a larger magazine as well as innate [[Blight]] effect.
+
+==Characteristics==
+*This weapon deals primarily {{D|Puncture}} damage.
+*Uncharged shots burst-fires four bolts consecutively.
+*Charged shots fire a single round.
+*On kill, bodies will follow the bolt that killed them, damaging anyone in their path and pinning the corpse to walls.
+*Innate [[Blight]] effect.
+*Innate {{Pol|Vazarin}} and {{Pol|Madurai}} polarities.
+
+{{Advantages|
+*High base damage.
+*[[Silent]].
+*No projectile arcing.
+}}
+
+{{Disadvantages|
+*Projectiles have travel time.
+*Burst shots have low [[accuracy]] and high horizontal recoil.
+*Burst shots consume 4 ammo per shot, resulting in a 5-shot magazine. Linearly less efficient &ndash; sometimes a target may only die with five projectiles, which requires an entire second burst to be fired.
+}}
+
+{{WeaponComparison|Ballistica}}
+{{WeaponComparison|Ballistica Prime|header=n}}
+
+==Acquisition==
+*The Rakta Ballistica can be acquired by reaching the Rank of '''Exalted''' with the {{Faction|Red Veil}}, and spending {{sc|100,000}} to purchase. As with all Syndicate Weapons, the Rakta Ballistica cannot be chosen as the free offering upon ranking up to Exalted rank.
+*Syndicate weapons can be also be acquired via [[Trade System|Trading]], but only for unranked copies without [[Forma]] and [[Orokin Catalyst]] installed.
+*Players must have a [[Mastery Rank]] of at least 6 to acquire the Rakta Ballistica, either through trading or through the Syndicates themselves.
+
+==Notes==
+*Rolling when a shot is charged will actually fire the weapon, rather than reset the charge.
+
+===Incarnon Genesis===
+{{Transclude|Ballistica Incarnon Genesis#Acquisition}}
+
+{{Transclude|Ballistica Incarnon Genesis#Incarnon Genesis}}
+
+==Trivia==
+*This is the second item in the game with the ''"Rakta"'' prefix, the first one being the [[Rakta Syandana]].
+** Rakta is derived from the Sanskrit word'' rakta '', meaning blood.
+*Prior to {{ver|16}}, the Rakta Ballistica could not be recolored, with only its energy color being customizable.
+**Its appearance prior to {{ver|16}} appeared to be based on [[Wraith]] weapons. The weapon's current inventory icon shows what the Rakta Ballistica formerly looked like.
+*When the Rakta Ballistica was first introduced, its charged attack dealt primarily {{D|Impact}} damage instead of {{D|Puncture}} damage. The primary damage type changed in {{ver|15.16}} (along with several other improvements to the weapon) to be more consistent with the regular version.
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+RaktaBallisticaCodex2.png|Rakta Ballistica in Codex in Update 16.
+RaktaBallisticaCodex.png|Rakta Ballistica in Codex pre-Update 16.
+2015-04-04_00001.jpg|Rakta Ballistica Colour Customisation
+</gallery>
+
+{{VideoGallery
+|{{YouTube|B_LOU57wVyQ|size=300px}}
+|{{YouTube|fdqCAmxhvGw|size=300px}}
+}}
+
+{{SkinGallery}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37}}
+*Fixed the Rakta Ballistica missing their charged shot stats in the Arsenal UI.
+
+{{ver|25.8}}
+;October 2019 Riven Disposition Change
+*Ballistica: 1.05->1.1
+
+{{ver|25.0.7}}
+*Fixed the Ballistica (Rakta) Energy color persisting as default on the strings.
+
+{{ver|17.8}}
+*Fixed enemies becoming alert to players using a charged Ballistica shot.
+
+{{ver|16.8.1}}
+*Grineer Forest Camo now works on the Rakta Ballistica.
+
+{{ver|16.3.4}}
+*Fixed the Rakta Ballistica not sitting on Chroma when holstered.
+
+{{ver|16}}
+*Fixed Red Veil allies in Syndicate Missions using the incorrect skin on their Ballistica.
+
+{{ver|15.16}}
+*Increased charged bolt damage of Rakta Ballistica from 100 to 300.
+*Increased uncharged bolt damage of Rakta Ballistica from 25 to 75 per bolt.
+*Rakta Ballistica is now a fully Silent weapon.
+
+{{ver|15.15.0.1}}
+*Rakta Ballistica now deals 30 damage per uncharged bolt. The damage type is broken down to 15 Puncture, 7.5 Impact and 7.5 Slash.
+
+{{ver|15.13}}
+*Rakta Ballistica's crit chance has been buffed from 15 to 20 on charge.
+*Ratka Ballistica's damage on charge has been changed to 5 Slash, 5 Impact, 90 Puncture.
+
+{{ver|15.5}}
+*Introduced.
+}}
+{{ver/Lu|23.10.8}}
+
+==See Also==
+*{{Weapon|Ballistica}}, the normal counterpart.
+*{{Weapon|Ballistica Prime}} the [[prime]]d counterpart.
+*{{Weapon|Rakta Cernos}}, the primary weapon associated with Red Veil.
+*{{Weapon|Rakta Dark Dagger}}, the melee weapon associated with Red Veil.
+*{{Faction|Red Veil}}, the [[Syndicate]] that offers this weapon.
+*[[Syndicate Weapons]], for other weapons from the Syndicates.
+
+{{WeaponNav}}
+[[de:Rakta Ballistica]]
+[[es:Ballistica Rakta]]
+[[fr:Ballistica Rakta]]
+[[Category:Weapons]]
+[[Category:Secondary Weapons]]
+[[Category:Single Sidearm]]
+[[Category:Syndicate Offerings]]
+[[Category:Update 15]]
+[[Category:Special Weapons]]
+[[Category:Silent]]
+[[Category:Puncture Damage Weapons]]
+[[Category:Burst Fire]]
+[[Category:Tenno]]
+[[Category:Syndicate Weapons]]
+[[uk:Балістика-ракта]]

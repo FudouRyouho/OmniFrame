@@ -1,0 +1,159 @@
+{{Infobox
+|Box title    = Tauron Strike
+|image        = TauronStrikeVexoricKeyart.png
+|caption      = A Tenno using the Vexoric Tauron Strike.
+}}
+{{Quote|A Somatic connection new, power increase many?|[[Adis]] during the [[The Old Peace]]}}
+<section begin="intro" />'''Tauron Strike''' is a powerful ability used by the [[Operator]]'s [[Focus]] Schools, functioning as their third ability. It is unlocked after completing [[The Old Peace]] and by purchasing the school's respective [[Tektolyst Artifact]] from [[Marie]]. Five new focus nodes will appear related to the Tauron Strike ability, requiring Focus Points and either {{Resource|Lyroic Bridge}}, {{Resource|Ren Hypercore}}, or {{Resource|Ascaris Prime}} to unlock.<section end="intro" />
+
+==Mechanics==
+Tauron Strikes must be charged in order to use. Once charged, the Tauron Strike is activated by the Operator's third ability (default {{Keybind|3}}). This renders the player [[Invulnerable]] as the Operator summons the Warframe to attack with a Tektolyst Artifact. Each Tauron Strike has its damage scaled by the level of the enemy hit using the default [[Enemy Level Scaling#Murmur, Sentient, Anarchs, and Unaffiliated|Enemy Health Scaling Formula]].
+
+[[File:ConvergenceOrbBlue.png|right|x300px|thumb|A Tauron Boost Convergence Orb.]]
+There are two ways to charge the Tauron Strike:
+*Each enemy killed by the user or an ally within [[Affinity Range]] provides '''0.02%''' charge Tauron Strike. 
+*Picking up a {{Resource|Convergence Orb}}, providing '''20%''' charge and multiply all charge gains by '''5x''' while its buff is active.
+**If the daily focus cap is reached, a blue version of Convergence Orbs called '''Tauron Boost Convergence Orbs''' will spawn instead, but otherwise have the same bonuses.
+
+===Boosting Charge Rate===
+Additionally, each piece of gear equipped with any [[Focus Lens]] will provide a '''10%''' increase in charge gains. Higher tier of focus lens does not grant higher charge rate. Lens applied to the following equipments count towards the effect.
+* [[Warframe]]
+* [[Primary]]
+* [[Secondary]]
+* [[Melee]]
+* [[Amp]]
+* [[Archgun]] (must have [[Archgun Deployer]] equipped in [[Gear]] wheel and the desired Archgun in the Heavy Weapon slot of their [[Arsenal]]'s Gear tab)
+* [[K-Drive]] (must have [[K-Drive Launcher]] equipped in Gear wheel)
+
+For example, with a focus lens equipped on primary, secondary, and melee:
+*Killing an enemy will give {{MathText|0.02% {{mul}} (1 + 10% {{mul}} 3) {{eql}} 0.026%}} charge. 
+*Picking up a Convergence Orb will give {{MathText|20% {{mul}} (1 + 10% {{mul}} 3) {{eql}} 26%}} charge
+*With a Convergence Orb buff active, killing an enemy will give {{MathText|0.02% {{mul}} (1 + 10% {{mul}} 3) {{mul}} 5 {{eql}} 0.13%}} charge.
+
+===Case-by-case===
+In [[The Perita Rebellion]]:
+* Completing one Order will charge the Tauron Strike meter by '''50%'''.
+* Fighting [[Hunhullus]], [[Dactolyst]] and [[Prime Vanguard]]s boss fights at the end of the mission will charge the Tauron Strike meter over time.
+** If entering the arena with a fully charged Tauron Strike, it will not charge over time after use.
+In [[The Guilty]]:
+* Player will naturally regenerate [[Tauron Strike]] at the start of every waves of bosses in the game mode. Once used, it will not regenerate until player enters the next wave of bosses. Here are the points where Tauron Strike begins to regenerate:
+** The first wave of Prime Vanguards,
+** The second wave of Prime Vanguards,
+** The third wave of Prime Vanguards,
+** The fourth wave of Prime Vanguards,
+** The fifth and final wave of Prime Vanguards,
+** The start of Dactolyst Duo,
+** And the start of Hunhullus.
+
+==List of Tauron Strikes==
+<tabber>
+Zenurik=
+*{{Focus|Lorak Tauron Strike}}
+**{{Focus|Prismatic Beam}}
+**{{Focus|Spectral Pages}}
+***{{Focus|Boundless Energy}}
+***{{Focus|Brilliant Insight}}
+|-|
+Madurai=
+*{{Focus|Thara Tauron Strike}}
+**{{Focus|Overwhelming Power}}
+**{{Focus|Rain of Arrows}}
+***{{Focus|Downpour}}
+***{{Focus|Surging Storm}}
+|-|
+Vazarin=
+*{{Focus|Nidri Tauron Strike}}
+**{{Focus|Rift Waters}}
+***{{Focus|Eroding Rapids}}
+**{{Focus|Deathless Currents}}
+***{{Focus|Swelling Deluge}}
+|-|
+Naramon=
+*{{Focus|Vexoric Tauron Strike}}
+**{{Focus|Astral Cut}}
+**{{Focus|Spectral Blades}}
+***{{Focus|Flowing Strikes}}
+***{{Focus|Hungering Blades}}
+|-|
+Unairu=
+*{{Focus|Cogron Tauron Strike}}
+**{{Focus|Great Quake}}
+**{{Focus|Sundered Bounty}}
+***{{Focus|Tempered Benison}}
+***{{Focus|Seismic Impact}}
+</tabber>
+
+== Notes ==
+
+* Due to Convergence Orbs having a rather long cooldown between spawns, Tauron Strikes are '''less useful and effective''' in missions that are either quick or have optional enemy kills, such as [[Capture]] and [[Sabotage]]. Conversely, longer missions or those with a large amount of enemy spawns allows Tauron Strikes to be used properly and frequently.
+* Tauron Strikes appear to completely ignore [[Damage Attenuation]], making them able to swiftly defeat bosses/special enemies who have their healthbars displayed in the top-center of the HUD, regardless of [[The Steel Path|Steel Path]] being enabled. Multi-healthbar enemies who have brief invulnerability throughout their fights (after emptying one of their healthbars) require multiple Tenno to use their Tauron Strikes in a sequence that matches the enemy's vulnerability periods. 
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|42.0.2}}
+*Fixed Tauron Strikes not receiving charges from Convergence Orbs until Transference was used if the mission was started via a streaming tunnel.
+
+{{ver|42}}
+*Tauron Strikes now break destructible environment objects!
+*Updated the description of Zid-An Asheir Arcane to specify that you get the Status Chance buff from Operator OR Tauron Strike kill (previously said “and”, which was causing confusion).
+*Fixed the Empazu-Shol Antique Mod not gaining Tauron Strike Initial Charge from other equipped Focus School’s Antique Mods as intended.
+*Fixed Clients not receiving Tauron Strike charge from Convergence Orbs after joining an in progress mission.
+*Fixed a Tauron Boost Convergence Orb (blue) that had no duration appearing regardless of if you have reached the daily Focus Cap or not.
+*Fixed the “Equip Focus Lenses to charge Tauron Strike significantly faster” notification still showing up even though you have a Lens equipped on an Amp.
+*Fixed the Tauron Strike Charge gain UI incorrectly displaying when collecting Convergence Orbs.
+*Fixed a script error related to Tauron Strikes.
+
+{{ver|41.1}}
+*Fixed the “Upgrade Available” notification for Tauron Strike Focus Nodes not appearing when it should.
+*Added VFX on the Tauron Strike Charge HUD to indicate whether a Convergence or Tauron Boost Convergence Orb has been picked up.
+
+{{ver|41.0.7}}
+*Fixed players becoming permanently invisible if they cast their Tauron Strike in a specific way.
+*Fixed the Nidri Tauron Strike description in the Vazarin Focus Upgrade menu incorrectly listing duration at 30s instead of 20s.
+
+{{ver|41.0.6}}
+*Fixed using a Tauron Strike during Titania's Razorwing causing future casts of Razorwing to break.
+
+{{ver|41.0.4}}
+*“Equip a Focus Lens” Pop-Up Changes and Fixes:
+**''This feature was released in 41.0.3, but not in a fully polished state. The following changes and fixes should make it less obtrusive!''
+***The pop-up will now only display once when a player opens their Arsenal. 
+****Also reduced the time the pop-up will linger on the screen.
+***Improved logic of the pop-up so it refreshes on weapon swap.
+***Fixed the pop-up appearing if a player's Heavy Weapon or Amp has a Focus Lens installed.
+***Fixed the pop-up appearing on accounts without an equipped Tektolyst Artifact.
+***Fixed the pop-up not clearing when opening additional menus.
+*Tauron Boost Convergence Orb Fixes:
+**''For context, these are the Convergence Orbs that appear once a player has hit their Daily Focus Cap.''
+**Fixed the Tauron Boost Convergence Orb icon not being blue.
+**Fixed Tauron Boost Convergence Orbs inconsistently spawning for Clients if they are at their Daily Focus Cap. 
+**Fixed Tauron Boost Convergence Orb pop-up not giving the correct amount of Tauron Strike Charge (was 10%, now 20%) if players were at their Daily Focus Cap.
+***Also adjusted the Tauron Strike Charge multiplier so they match base Convergence Orbs.
+**Fixed timing spawn logic for the Tauron Boost Convergence Orb not being consistent with the base yellow Convergence Orbs.
+*Fixed Vexoric's spectral blades not functioning properly if the Tauron Strike was cast by a squadmate.
+**Also fixed the spectral blades not matching the tints of the cast Vexoric.
+
+{{ver|41.0.3}}
+*Updated various descriptions to better explain Tauron Strikes and their mechanics:
+**Updated Tauron Strike Focus node descriptions to add duration and enhance overall clarity.
+**Added clarification on how Tauron Strike charge is gained in the on-hover tooltip in the Tektolyst Artifact Upgrade screen.
+***As a reminder, Tauron Strike Charge can be gained by killing enemies, with or without Focus Lenses equipped (Lenses boost charge amount), and by picking up Convergence Orbs (which give you a base amount of charge on pickup and buff the charge rate from killing enemies for 45s). 
+**Players with a Tektolyst Artifact for their active Focus School will now see a pop-up in the Arsenal if a Lens is not installed on any item in their Loadout.
+***This pop-up explains that installed Lenses will charge their Tauron Strikes significantly faster!
+**Renamed “Persistent Effect” to “Temporary Effect” to indicate they have a limited duration.
+**Related Fixes:
+***Fixed the Spectral Pages Focus node giving +0% increased value per rank instead of the intended +10%. Also clarified that they grant base +10% Cast Speed, Strength, and Duration.
+***Fixed Overwhelming Power Focus node missing the "Warframe/Operator" category in the on-hover description.
+*Fixed a script error caused when activating a Tauron Strike.
+
+{{ver|41.0.1}}
+*Tweaked the visuals of the persistent blades spawned from Naramon's Vexoric Tauron Strike.
+*Fixed Madurai's Tauron Strike not applying energy color correctly.
+*Fixed Nidri teleporting into the ground when the Vazarin Tauron Strike is cast on a sloping surface.
+*Fixed a script error when activating a Tauron Strike.
+
+{{ver|41}}
+*Introduced.}}
+{{OperatorNav}}
+[[Category:Focus]]
+[[Category:Mechanics]]

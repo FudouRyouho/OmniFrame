@@ -1,0 +1,74 @@
+<onlyinclude>{{AbilityU10.3
+| name = Grenade Fan
+| gameimage = GrenadeFan130xWhite.png
+| cardimage = GrenadeFanModx256.png
+| hotkey = 1
+| energy = 25
+| description = Throw out grenades in an arc.
+
+
+(TAP) SHRAPNEL VORTEX
+<br/>Creates a slashing, staggering swirl of shrapnel.
+
+(HOLD) SHIELD SATELLITES
+<br/>Protea reconfigures Grenades to work as overcharging shield generators, protecting her, her allies and companions. When Shields break, a Satellite is destroyed to double minimum Shield Gate invincibility time.
+| strength = 200 / 250 / 350 / 500 ({{D|Slash}} damage per second)<hr />200 / 300 / 400 / 500 (shield restore on attach)<br/>25 / 30 / 40 / 50 (shield points per second)
+| range = 2 / 3 / 4 / 5 m (vortex and pickup radii)
+| duration = 13 s
+| misc = 1 m (initial jump height)<hr />3 (shrapnel grenades per throw)<br/>-45° / 0° / +45° (shrapnel grenade spread)<br/>33 % ({{D|Slash}} status chance)<br/>100 % (stagger chance)<hr />4 (shield grenades per throw)<br/>-45° / -25° / +25° / +45° (shield grenade spread)<br/>1 (limit of allies per satellite)<br/>2x s (minimum shield gate extension)
+| cardonly = {{{1|}}}
+| info = * Protea expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to jump up <u>'''1'''</u> meter and scatter an arc of grenades toward the reticle.
+**Grenades are spread out evenly across in an arc formation and travel with an arc trajectory.
+*The type of grenades thrown depends on whether the ability key (default {{Keybind|1}}) was tapped or held.
+**'''Tap''' to throw '''Shrapnel Vortex''' grenades.
+**'''Hold''' to throw '''Shield Satellite''' grenades.
+**Tap/Hold control behavior can be inverted in the Options menu.
+
+<div class="tabber-borderless" ><tabber>
+|-|Shrapnel Vortex=<div style="display:none;">'''Shrapnel Vortex'''<br /></div>
+
+* '''Tap''' the ability key to scatter <u>'''3'''</u> grenades horizontally offset from the reticle by <u>'''-45°'''</u>, <u>'''0°'''</u>, and <u>'''+45°'''</u> in the '''Shrapnel Vortex''' configuration.  Each grenade will bounce off of surfaces and objects until they land on a horizontal surface, where it will release a vortex of flying shrapnel for {{Stat|Ability Duration|icon=only}}'''13''' seconds. Each shrapnel vortex has a {{Stat|Ability Range|icon=only}}'''2 / 3 / 4 / 5''' meter radius, inflicts {{Stat|Ability Strength|icon=only}}'''200 / 250 / 350 / 500''' {{D|Slash}} damage per second with a <u>'''33%'''</u> status chance, and a <u>'''100%'''</u> chance to stagger enemies slightly or strongly on each tick.
+** Shrapnel Vortexes do '''not''' require line of sight to damage and stun enemies within range.
+* Shrapnel grenade uses a custom model that resembles the shape and pattern of a baseball. When deployed, the grenade spins rapidly in place while emitting a glow of energy particles.
+* Shrapnel Vortex visually creates a sphere consisting of multiple trails of energy particles that encircle the grenade at high speed.
+
+|-|Shield Satellite=<div style="display:none;">'''Shield Satellite'''<br /></div>
+
+* '''Hold''' down the ability key to scatter <u>'''4'''</u> grenades horizontally offset from the reticle by <u>'''-45°'''</u>, <u>'''-25°'''</u>, <u>'''+25°'''</u>, and <u>'''+45°'''</u> in the '''Shield Satellite''' configuration. Each grenade will bounce off of surfaces and objects until they land on a horizontal surface, where it will release a floating shield satellite with a lifetime of <u>'''13'''</u> seconds. The satellite will attach to the <u>'''first'''</u> nearest ally without an attached satellite that comes within {{Stat|Ability Range|icon=only}}'''2 / 3 / 4 / 5''' meters of it and instantly restore {{Stat|Ability Strength|icon=only}}'''200 / 300 / 400 / 500''' [[shield]] points to them. While attached, it constantly provides {{Stat|Ability Strength|icon=only}}'''25 / 30 / 40 / 50''' shield points per second for the ally, capping at their [[Overshields]] limit. If the ally's [[Shield#Shield Gating|shield gate]] is triggered while it is attached, the satellite will grant <u>'''2x'''</u> minimum shield gate invincibility duration and immediately terminate.
+** Satellites do '''not''' require line of sight to be picked up by allies in range.
+** Each satellite's pickup radius will briefly appear when first deployed. While standing outside of the pickup radius, active satellites appear surrounded by an energy sphere to guide allies toward them.
+** Shield points per second is constant throughout a satellite's lifetime, allowing shields and overshields to regenerate immediately following damage.
+** Eligible allies for satellite attachment include: Protea, other Warframes, [[Companions]], [[Eidolon Lure]]s, summoned allied units such as [[Specter]]s, allied [[Invasion]] units, [[Rescue|Hostages]], [[Kavor Defector]]s, [[Sortie]] and [[Arbitrations]] Defense Operatives, and [[Defense Objects]] coming into the satellite's range.
+***Does '''not''' apply to [[Excavator]]s.
+** Has no effect on {{WF|Inaros}},  {{WF|Kullervo}}, or {{WF|Nidus}} due to their lack of shields.
+* Shield satellite uses a custom model that resembles a spherical device with visible mechanical parts. When deployed on the ground, the satellite floats and weaves around the air several meters above while an energy stream anchors it to the surface.
+* Shield satellites visually orbit their target in a steady clockwise motion, directly facing it while funneling an energy stream to reinforce shields, represented by a translucent cluster of connected hexagons.
+</tabber></div>
+<hr />
+* '''Ability Synergy:'''
+** Shrapnel vortexes contribute damage to {{A|Temporal Anchor}}'s recorded damage pool for the implosion on rewind.
+* Can be recast while active to deploy multiple instances of shrapnel vortexes and shield satellites.
+* Casting Grenade Fan is a full-body animation that allows movement with enforced height displacement.
+| augment = 
+| tips = 
+*Mods like {{M|Brief Respite}} or the [[Set Mods#Augur Mod Set|Augur]] set are not recommended, because gaining any amount of shields during the shield gate invincibility period will immediately end it.
+* Grenades travel along separate angles, and in an arc. Aim at the ground to quickly deploy them in close proximity, or aim high to throw and scatter them far apart and over a long range.
+* Protea will always jump before throwing her grenades, even while she is airborne. Take into account the height difference when casting to land your grenades where you intend.
+* Jump into the air and use Aim Glide while casting Grenade Fan repeatedly. This allows Protea to reorient herself by moving the reticle between throws to create lines of Shrapnel Vortexes facing different directions.
+* Shrapnel Vortexes stun and push enemies away by staggering them on hit. Throw close together to quickly stack damage, procs, and stuns.
+* Shield Satellites persist on allies even after Overshield cap is reached. Throw multiple times to provide autonomous cover for your team, that replaces destroyed satellites to protect allies as their shield gates are triggered by enemy damage.
+* Shield gating does not provide any protection for shields itself, and consequently cannot protect shield satellites. Thus, heavy fire can cause a single ally (ex. Protea herself) to acquire and lose a series of shield satellites very quickly.
+* Activate {{A|Temporal Anchor}} and throw multiple Shrapnel Vortexes at groups of enemies. Direct damage from the vortexes, including damage over time from the {{D|Slash}} status effects, are all recorded to fuel the temporal implosion.
+** Energy points spent on casting Grenade Fan will be restored by Temporal Anchor's rewind.
+* Grenade Fan is the least expensive ability in Protea's kit, making it ideal to power up her passive [[Ability Strength]] bonus on every fourth cast.
+* Shield Satellites persist on allies who transition into [[Archwing]] (either in open world areas or when exiting a [[Railjack]]), extending their survivability.
+| bugs = |
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Protea}}
+__NOTOC__
+[[es:Abanico de granadas]]
+[[fr:Couverture de Grenades]]
+[[Category:Protea]]
+[[uk:Гранатне віяло]]

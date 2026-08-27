@@ -1,0 +1,421 @@
+{{Top|Lotus|Specter (Tenno)|Specter (Tenno)|Enemy|Specter (Enemy)|Specter (Enemy)}}
+{{Spoiler}}{{Infobox
+|Box title    = Specter
+|image        = CorruptedLancerSpecter.png
+}}
+{{Quote|I am calling it the Specter Particle. As my Archimedians explain, mimicry is in its nature. An echo. Exposed to precept circuits, we are able to imprint behaviors! Like an infant mirroring her surrogate. Only this infant can set the world on fire.|[[Parvos Granum]], inventor of Specter technology}}
+<section begin="intro" />
+A '''Specter''' is an AI-controlled [[Allies|ally unit]] that will fight alongside a player for the duration of a mission. They have their own set of weapons and/or abilities that they can use against enemies and are generally summoned via a consumable [[Equipment#Gears|Gear]] item.
+<section end="intro" />
+{{tocright}}
+==Lore & History==
+{{Main|The Deadlock Protocol}}
+
+=== Specter Particle Theory ===
+Specters were first developed by {{Faction|Corpus}} Founder, '''[[Parvos Granum]]''', spearheaded by his creation of the '''Specter Particle Theory'''; an idea of a unique type of particle that, when exposed to preset data, can be imprinted with mimicked behaviors.<ref>''"Parvos Granum originated the Specter Particle Theory? Guts. This old coot is a whole order of intelligence, and that's bad for us."'' - '''[[The Business]]''', during [[The Deadlock Protocol]].</ref> To accelerate development, Parvos would go on to steal a undisclosed sample from the {{Faction|Entrati}}, stating that they, ''"kept their secrets long enough."''<ref>''"Some doors ought to remain closed? That's not in my world view. Fire. Fusion. Void. Progress always comes entangled with risk, with violence. With the precious sample obtained, development is accelerating. The [[Entrati]] have kept their secrets long enough."'' - '''Parvos Granum''' during [[The Deadlock Protocol]].</ref> Additionally, Parvos would then use this sample to bait the {{Faction|Orokin}} into raiding his labs, who sent a Warframe assault team as a result. Due to the site being heavily rigged with explosives however, both the labs and the Warframes were all vaporized.
+
+The {{Weapon|Xoris}}, presumably designed by Parvos Granum,<ref>''"Nef's given us a cipher for an old Granum file. "Phantasmic Scintilla and Motive Forces." We'll need more specifics to build whatever this tool is."'' - [[The Business]].</ref> is linked to Specter technology,<ref>''"An obscure glaive weapon of Corpus provenance, intrinsically linked to Specter technology. The Xoris strikes rapidly and with great devastation. It is capable of chaining combos infinitely."'' - Xoris weapon description.</ref> as it contains a unique energy trap that allows it to contain Specter Particles to amplify the explosion of its mid-flight detonation.<ref>''"A weapon? Glaive-class but with an energy trap... Specter Particles, maybe? Has a mid-flight detonation trigger. Tricky, but I'm sure you'll get the hang of it. Gear up and lets go."'' - [[The Business]]</ref>
+
+After Parvos's attempted assassination, his guardian Warframe, {{WF|Protea}}, would use her temporal abilities to preserve him within a [[Granum Void|region of the Void]], resulting in her sacrifice,<ref>''"-When the Board's assassins overloaded my transport's Void drive, [[Protea]]... my beautiful Protea... and her gift for manipulating time... preserved me.-But at the cost of all that she was. Now she is nothing more than a Specter of her former self. My beautiful Protea."'' - [[Parvos Granum]]</ref> and presumably becoming a [[Protea Specter|Specter]] as a result.<ref>''"The victim and beneficiary of Parvos Granum's research into Specter Particle Theory, this is all that remains of the Protea Warframe who sacrificed herself to keep Granum safe in a pocket realm beyond time."'' - '''[[Protea Specter|Protea Specter's]]''' [[Codex]] entry.</ref>
+
+After Parvos's tomb is discovered, [[Nef Anyo]] entrust his [[Treasurer]]s with safekeeping his {{Resource|Granum Crown}} tributes; these units will fervently defend their crowns from any wayward thief, including the {{Faction|Tenno}}. If not dispatched quickly, the Treasurer will teleport to the [[Void]],<ref>''"Fulfill your Desire and others will follow. I follow Parvos. To freedom!"'' - '''[[Treasurer/Quotes|Treasurer Quotes]]'''</ref> and presumably become an [[Errant Specter]].<ref>''"The ghostly minions of Parvos Granum within his timeless prison-realm."'' - Errant Specter Codex entry.</ref>
+
+=== Composition & Construction ===
+When defeated, Errant Specters will release a mass of '''Specter Particles''', which can be absorbed by other Errant Specters to increase their strength. If fully discharged of energy, these particles will become piles of inert dust, referred to as {{Resource|Spectral Debris}}. If reenergized, this dust can also be used when creating various robotic tech.
+<gallery>
+File:SpecterParticles.png|Errant Specter Particles
+</gallery>
+
+==Gameplay==
+===Enemy===
+{{Main|Specter (Enemy)}}
+[[Specter (Enemy)|Enemy Specters]] are primarily encountered as guardians of the [[Origin System]]'s [[Solar Rail]] [[Junctions]], and must be defeated to unlock connections to new planets and destinations on the [[Star Chart]]. Specter-like enemy Warframes also serve as enemies during specific [[Quest]]s.
+
+===Ally===
+{{Main|Specter (Tenno)}}
+[[Warframe]] Specters can act as allies or enemies depending on the circumstances. As allies, [[Specter (Tenno)|Specters]] are AI-Controlled Warframe-replicants employing customizable load-outs (which are configured via the [[Foundry]]). They can be summoned via consumable [[Gear]] wheel items in all [[Mission]]s, except [[Archwing]] and [[Sanctuary Onslaught]].
+
+Warframe Specters come in 4 tiers (Vapor, Phase, Force and Cosmic). Their blueprints be acquired by completing [[Rescue]] missions, with higher-level missions rewarding high-tier Specters.
+
+Some Specters can also be generated by Warframes are weapon abilities, like with {{WF|Wukong}}'s {{A|Celestial Twin}} and the {{Weapon|Ballistica Prime}} charged shot.
+
+==Syndicate Specters==
+Access to Syndicate Specters can be acquired by taking allegiance to the desired [[Syndicate]]s and attaining the first tier in their ranks. Syndicate Specters can be purchased by spending {{sc|2,500}} for a bundle of five. Only one instance for each type of Specters can be summoned. Summoning another one while an identical Specter is active will kill the one already out.
+
+Their blueprints can also be acquired from Syndicate death squads, with the type of blueprint awarded depending on their respective Syndicates.
+
+{| style="font-size:12px;text-align:center;" align="center"
+|-
+|[[File:AncientHealerSpecter.png|100px]]
+|[[File:ChargerSpecter.png|100px]]
+|[[File:CorruptedLancerSpecter.png|100px]]
+|[[File:MoaSpecter.png|100px]]
+|[[File:RollerSpecter.png|100px]]
+|[[File:ShieldOspreySpecter.png|100px]]
+|-
+|{{E|Ancient Protector}}<br />Volatile [[Eximus]] Specter<br />({{Faction|New Loka}})
+|{{E|Charger}}<br />Venomous [[Eximus]] Specter<br />({{Faction|Red Veil}})
+|{{E|Corrupted Lancer}}<br />Arson [[Eximus]] Specter<br />({{Faction|Arbiters of Hexis}}) 
+|{{E|MOA}}<br />Arctic [[Eximus]] Specter<br />({{Faction|The Perrin Sequence}}) 
+|{{E|Roller}}<br />Energy Leech [[Eximus]] Specter<br />({{Faction|Steel Meridian}}) 
+|{{E|Shield Osprey}}<br />Shock [[Eximus]] Specter<br />({{Faction|Cephalon Suda}})
+|}
+
+*'''Volatile Ancient Protector''' grants 90% [[Damage Redirection]] and 100% stagger/knockdown resistance to all allied units within 15m, denoted with a soft green glow on said units when in range. It can also knockdown enemies with a frontal {{D|Blast}} wave. Ancient Protectors will naturally follow where players head towards, and will melee attack enemy units that gets close by.
+*'''Venomous Charger''' will rush ahead and fight independently of where the player heads towards, and will usually melee assault enemies point blank, passively inflicting them {{D|Toxin}} damage from its Eximus Venomous aura. Due to its sub-optimal AI behavior as well as their tendency to rush towards to melee enemy units, they die quickly and is considered the least useful of the six syndicate specters.
+*'''Arson Corrupted Lancer''' will fight independent of where the player heads towards, and can cast its Eximus {{D|Heat}} blast ability that will knockdown all enemies that gets caught within line-of-sight of the unit.
+*'''Arctic MOA''' will passively slow down nearby enemies with its {{D|Cold}} eximus aura, and deploys ice globe to protect everyone inside, even from enemy crowd control. It fights independently of where the player heads towards, and the allied ice globe cannot be shot through.
+* '''Energy Leech Roller''' will cast energy leech aura on enemies, which on hit inflicts them with {{D|Magnetic}} status, and grants all allied units nearby an energy regen worth 3 energy / second over 3 seconds, totaling 9 energy restored every hit. Energy regen from multiple hits does not stack. The roller will naturally follow wherever the player heads towards, preferring to stay close and grant its player passive energy regeneration where it can.
+*'''Shock Shield Osprey''' will provide additional +25% maximum shield to all applicable allied units nearby, and upon being in range will instantly restore the shields of said unit. It will passively follow allied units though not necessarily following the player character. It very rarely uses its autoturret to fight back as well as use its homing Eximus {{D|Electricity}} bolts to attack.
+
+;Syndicate Specter x5
+
+{{BuildRequire
+|buildcredits=7,500
+|build1=Ferrite
+|build1amount=2,500
+|build2=Nano Spores
+|build2amount=2,500
+|build3=Salvage
+|build3amount=2,500
+|build4=
+|build4amount=
+|buildtime=8
+|buildrush=10
+|blueprint=
+|market=
+}}
+
+==Miscellaneous Specters==
+===Clem Clone===
+{{Main|Darvo#Weekly Mission{{!}}Darvo, Weekly Mission}}
+[[File:ClemClone.png|right|100px]]
+The reward for the final mission of the [[A Man of Few Words]] quest is a '''Clem Clone Blueprint''', which works in the same way as specters, deploying a clone of [[Clem]] to fight. The blueprint is a one time use and provides 5x clones. Additional blueprints can be acquired by undertaking [[Darvo]]'s weekly "merchandise acquisition" [[Survival]] mission.
+
+Clem Clone Specters have similar AI to Tenno Specters and will act as bodyguards.
+
+{{BuildRequire
+|buildcredits=7,500
+|build1=Ferrite
+|build1amount=2,500
+|build2=Nano Spores
+|build2amount=2,500
+|build3=Salvage
+|build3amount=2,500
+|build4=
+|build4amount=
+|buildtime=8
+|buildrush=10
+}}{{Clr}}
+
+===Corrupted Bombard===
+{{Main|Corrupted Bombard}}
+[[File:CorruptedBombardSpecter.png|right|100px]]
+The '''Corrupted Bombard Specter Blueprint''' was introduced as a [[Baro Ki'Teer]] exclusive specter, available for {{dc|100}} and {{cc|50,000}} between February 24–26, 2017 on PC. The blueprint is a one time use and provides 5x {{E|Corrupted Bombard}} specters and an accompanying {{E|Orokin Drone}}. The drone does not and cannot obtain shields, and the limited 200 shield it gives to the specter will '''not''' recharge once depleted unless the Drone is killed and respawns, doing so within 30 seconds of being destroyed.
+
+{{BuildRequire
+|buildcredits=7,500
+|build1=Ferrite
+|build1amount=2,500
+|build2=Nano Spores
+|build2amount=2,500
+|build3=Salvage
+|build3amount=2,500
+|build4=
+|build4amount=
+|buildtime=8
+|buildrush=10
+|blueprint=100 + {{cc|50,000|imgsize=22}}
+|blueprintunit=Orokin Ducats
+}}{{Clr}}
+
+===Corrupted Heavy Gunner===
+{{Main|Corrupted Heavy Gunner}}
+[[File:CorruptedHeavyGunnerSpecter.png|right|100px]]
+The '''Corrupted Heavy Gunner Specter Blueprint''' was introduced as a [[Baro Ki'Teer]] exclusive specter, available for {{dc|100}} and {{cc|40,000}} between May 4–6, 2018 on PC. The blueprint is a one time use and provides 5x {{E|Corrupted Heavy Gunner}} specters and an accompanying {{E|Orokin Drone}}. The drone does not and cannot obtain shields, and the limited 200 shield is gives to the specter will '''not''' recharge once depleted unless the Drone is killed and respawns, doing so in 30 seconds of being destroyed.
+
+===Desert Skate===
+{{Main|Desert Skate}}
+[[File:DesertSkateSpecter.png|right|100px]]
+The [[Baro Void-Signal]] mission will always reward one '''Desert Skate Specter''', which deploys a {{E|Desert Skate}} to fight.{{Clr}}
+
+===Stalker===
+{{Main|Stalker}}
+[[File:Stalker_Thumb.png|right|100x100px]]
+The '''Stalker Specter Blueprint''' was a reward from [[Nightwave]]'s [[Nightwave/Nora's Mix Volume 7|Nora's Mix Volume 7]] and returned as a reward in [[Operation: Belly of the Beast]]. Unlike other specters, the Stalker blueprint has infinite uses. He is cloned from the pre-[[The Second Dream]] Stalker, not the ones players can pilot in [[Duviri]]. 
+
+Unlike Tenno Specters, the Stalker Specter will prioritize fighting enemies rather than following the player similar to most Syndicate Specters. This makes it a bad choice for missions that involve the player moving to different locations as the Stalker will not follow nor teleport, and even in missions that remain in one room, the Stalker may funnel enemies to a point away from an objective (e.g. [[Defense]]). However, should the Stalker Specter lose all health, he can be revived.
+
+Possesses the abilities {{A|Smoke Screen}}, {{A|Shuriken}}, {{A|Absorb}}, and {{A|Pull}}.{{Clr}}
+
+===On Call Crew===
+[[File:OnCallCrew.png|right|100px]]
+{{Main|On Call Crew}}
+With [[Command Intrinsic]] Rank 9, a reusable '''On Call Crew''' [[Gear]] item can be used to deploy a selected [[Railjack]] [[Railjack/Crew|Crewmember]] for 3 minutes, with a 10-minute cooldown between summons. Unlike other Specters, the On Call Crew member will not run out of ammo.{{Clr}}
+
+===Surge Eximus===
+[[File:LasrianGoonadier.png|right|100px]]
+{{Main|Eximus#Surge}}
+After completing six days of the [[Fables & Frontiers]] campaign, a weekly [[Exterminate]] mission is unlocked which awards the '''Surge Eximus Specter Blueprint'''. The blueprint is a one-time use item and produces 5x [[Eximus#Surge|Surge Eximus]] {{E|Scaldra Eradicator}} specters.
+
+{{BuildRequire
+|buildcredits=7,500
+|build1=Ferrite
+|build1amount=2,500
+|build2=Nano Spores
+|build2amount=2,500
+|build3=Salvage
+|build3amount=2,500
+|build4=
+|build4amount=
+|buildtime=8
+|buildrush=10
+}}{{Clr}}
+
+==Notes==
+*Most Specters have their own [[ammo]] and are capable of looting ammo pickups and depleting their reserves.
+**The On Call Crew member seems to be an exception to this, as they will never run out of ammo.
+**Depleting all ammo reserves displays a red ammunition icon above the Specter's head.
+**[[Squad Ammo Restore]]s can replenish the Specter's ammo.
+*These specters do not teleport to the player and have limited AI capabilities. As such, they generally act like normal enemies such as taking cover or other similar behavior. If they detect enemies, they will take the initiative to engage them regardless of where the player is.
+* Specters of this type are most useful in game modes where the mission takes place in a fixed location, such as [[Defense]] or [[Interception]], as they can easily lag behind players or have difficulty navigating certain tiles/rooms.
+*Shield Osprey Specters behave differently than all the other specters: They may stay near the objective in defense or decide to protect another specter, and will '''never''' take the initiative to actually protect the player.
+*The Roller Specter is arguably the weakest of all the specters due to its relatively low health and slow attack speed, despite being able to steal health from enemies.
+*Ancient Healer Specters have a short ~15m aura that reduces damage by 90% for all friendly targets such as other players, allied specters, or Defense objectives. When connected to said targets the Healer itself will gain a damage resistance boost as well.
+**Damage done to you or linked allies will heal the specter as well as its own occasional healing pulses.
+*Oddly enough, a specter's weapon can level up, shown in the media below. It is unknown if it actually affects the weapon or the Specter itself.
+*Upon successful defeat of a certain syndicate's death squad/platoon, you may earn the blueprint to build that syndicate's specters.
+*Players are able to choose to either make the specters stay in an area or follow them around by pressing {{Keybind|X}} (default keybinding) when close to it.
+**Doing this to a [[Shield Osprey]] specter will cause it to hold position and fire plasma repeater weapons at enemies.
+***The Shield Osprey may also rarely fire its weapons when not told to wait, although this is rare.
+***For clients this is unreliable and the osprey may ignore the commands anyway, and continue to fly into crowds of enemies and not be able to defend itself, being destroyed soon after.
+*Some Specters may rarely disable alarms.
+*Cephalon Suda's shield osprey specter is useful in [[Hijack]] missions, as they can instantly restore your shields.
+**Its shields will not be affected, however.
+*Specters will spawn at the current enemy level, plus a few extra. For endless missions, this allows specters to scale to enemy level; placing one at the beginning of the mission will be lower than later on if spawned again.
+**The Corrupted Lancer and Ancient Healer specters become very powerful due to this, becoming massive bullet sponges.
+*If the player kills a Specter affected by [[Radiation]], they will receive [[affinity]] identical in amount to an enemy unit of the same type (i.e. Ancient Healer Specters will give affinity matching an Eximus unit of the same level).
+* Specters spawned during [[Nightmare]] alerts and missions are immediately hostile to the player, indiscriminately attacking Tenno and enemies alike, and cannot be commanded to hold position or follow. These specters are marked with a reddish distorted glow to indicate that they have turned against the player.
+
+===Aggression & Pathing=== 
+*All Specters who don't have the "bodyguard" AI type will only follow the player if they do not detect any enemies. If they detect an enemy nearby, they may do the following: 
+**Corrupted lancers will sprint for cover and stay in that cover until enemies get near or until the enemy it detected dies (even if it is in another room).
+**Rollers will roll towards the enemies and continue to attack until (easily) being destroyed.
+**MOA specters are one of two Specters that will take the initiative to follow the player, often walking backward as it fires at enemies. It too, however, can get stuck as it notices many enemies, in which it will decide the enemies are a bigger priority than the player.
+**Charger specters have a slightly smaller detection range and aggression towards enemies but never attempt to follow the player if enemies are nearby and its weak attacks often miss enemies who walk backward to avoid its attacks.
+**Ancient Protector specters will slowly walk towards enemies until they are in range, and then charge as a normal Protector would do.
+**Clem will stay close to the player most of the time, and sometimes stop to engage the enemy for a while.
+** Shield Ospreys have both the "bodyguard" AI and the normal enemy AI; they will attempt to stay close to other deployed specters, defense objectives, or other high-value allies even if they detect enemies. If there are no high-value allies nearby (players don't count) it will simply drift into the enemies instead.
+
+==Bugs== 
+*The Stalker Specter will levitate and immobilize teammates.
+*Telling a specter to hold position may cause the specter to act strangely, including freezing in an animation or tracking but not firing upon enemies. Telling them to follow you and re-hold position can fix the issue temporarily.
+*The Corrupted Bombard Specter spawns with a small shield count which will recharge slowly as long as its drone is active. However, having this shield drain completely will prevent it from ever coming back until its drone is destroyed and respawned after a period of time. This has been a bug since the Specter existed and may be due to an issue where Heavy Grineer cannot obtain shields.
+*[[Rogue Voidrig]] enemies benefit from the damage reduction aura of Ancient Healer Specters.
+**[[Rogue Bonewidow]] enemies are not affected.
+
+==Trivia==
+*Warframe Specters were also used to guard a [[Clan]]'s [[Solar Rail]] during [[Solar Rail Conflict]]s, before this game mode was discontinued. Contesting Clans would have to face these [[Specter Regiment]]s in order to seize control of territory. A Specter Regiment was to be created through researching it in the [[Clan Dojo]]'s [[Orokin Lab]]. As mentioned, however, the entire Clan-conflict mechanic and the associated Regiments were eventually removed from the game.
+
+==Media==
+<gallery type="slideshow" widths="400" position="center">
+specterlevelup.png|Dera leveling up
+Screenshot (131).png|Specter command : "Hold Position"
+Screenshot (129).png|Specter Command : "Follow"
+</gallery>
+{{VideoGallery
+|{{YouTube|vz1poaXOceg|size=300px}}
+|{{YouTube|aH7EZCM9niI|size=300px}}
+|{{YouTube|JDNrGSAywDg|size=300px}}
+|{{YouTube|i4i__9Kd-9U|size=300px}}
+|{{YouTube|ODEiix-gqEw|size=300px}}
+|{{YouTube|TSKBiNzKYkc|size=300px}}
+|{{YouTube|5NflbDBzPww|size=300px}}
+|{{YouTube|QxUJT_yWcR8|size=300px}}
+}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43}}
+;Junction Specter Changes
+
+*The Venus, Saturn, and Eris Junction bosses have received a refresh — the Volt, Ember, and Mesa Specters have been updated with mechanics from their Prime Vanguard counterparts. 
+**Our goal with this change is to make these fights compelling, while being mindful of difficulty concerns since defeating them is critical for player progression. 
+*Other Specter-specific changes:
+**Halved the damage bonus of the Saryn Specter's Toxic Lash.
+**Valkyr Specter now casts Abilities more consistently.
+*Junction-wide changes:
+**Added Ammo and Energy Pickup generators to all Junction Specter arenas.
+**Standardized damage resistances for Junction Specters to match that of the Primed Vanguard.
+**Removed Shields from Junction Specters, and increased their Health to compensate.
+
+;PERFORMANCE & OPTIMIZATIONS
+*Fixed spot-loading related to enemy Warframe Specters (ex: Junction Specters and Spectralysts in the Sisters of Parvos fight). 
+
+;FIXES
+
+'''Equipment Fixes'''
+*Fixed the Stalker Specter’s bow floating in front of him when he switches weapons.
+
+{{ver|41.0.6}}
+*Fixed Specters getting stuck in a floating horizontal stance.
+
+{{ver|41.0.5}}
+*Fixed Specters having difficulties pathing and using context actions.
+
+{{ver|41.0.3}}
+*Fixed spotloading caused by Sevagoth Specters when they cast Exalted Shadow.
+
+{{ver|41.0.2}}
+*Fixed being able to use Specters in The Perita Rebellion missions.
+
+{{ver|40}}
+*Fixed Specters left by disconnected clients resulting in large amounts of spot-loading for remaining squad members.
+*Fixed Specters attacking when toggling on “Friendly Fire” in the Simulacrum and Transfering to Operator/Drifter. 
+*Fixed script error when NPCs use Mag’s Magnetize.
+
+{{ver|38.5.3}}
+*Fixed Venari spawned by Khora Specters not appearing for Clients.
+
+{{ver|38.5}}
+*Fixed a script error when a Khora Specter uses her abilities on foes.
+
+{{ver|38}}
+*Fixed a script error caused by Stalker Specter’s Pull ability if the target dies during its cast animation.
+
+{{ver|37.0.8}}
+*Fixed script error caused by Stalker Specter dying while casting Pull.
+
+{{ver|37}}
+*Fixed Stalker Specters dropping Stalker’s loot when killed in Nightmare missions.
+**Careful, Tenno. You don’t want him sending you angry inbox messages again, do you?
+
+{{ver|36}}
+*Fixed script errors caused by Frost Specters.
+
+{{ver|35.5}}
+*Fixed Qorvex Specter not rotating to face enemies when casting Crucible Blast.
+*Fixed a Client crash that could occur from Warframe Specters casting an ability.
+
+{{ver|34}}
+*Fixed Specters ignoring ammo drops from Protea’s Dispensary.
+
+{{ver|33.6.1}}
+*Fixed a crash related to Specters being unable to pick up certain types of ammo.
+
+{{ver|32.3}}
+*Specters in the “Hold” position will now continue attacking when moving back to their original held position, whenever they are made to move away from it (via enemies, or using movement abilities), instead of casually strolling back.
+*Fixed performance issues due to infinitely picking up ammo when spawning in a Specter with Vacuum and Ammo Mutation Mods equipped. Also fixed the repeating ammo pickup sound FX playing.
+*Umbra now uses Secondary weapon if the last weapon before Transference is the Secondary or if the Primary weapon runs out of ammo. 
+**Running out of ammo on the Secondary will also switch back to Primary. 
+**Meleeing behavior remains the same: always attack in melee range, but otherwise prioritize following the player even if it means not attacking at all. 
+
+{{ver|32.2.10}}
+*Clem Specters and Kahl (spawned from the Skaut’s “Kahl Beacon” Air Support) now have a full 360-degree vision to improve their ability to target enemies more effectively.
+
+{{ver|32.2.9}}
+*Specters will no longer attempt to reload when they have no ammo to do so. Instead an ammo icon will now appear above their head once they have depleted the ammo pool of all weapons to indicate that they are needing ammo pickups.
+**Specters do not share ammo pools with you, so once they run out of ammo they will actively search for pickups nearby. You can also assist with the use of Squad Ammo Restores.
+*Fixed Specters in the Hold Position having trouble firing weapons that use ammo but never reload. 
+*Fixed Voruna Specters not using any abilities. 
+**Specters casting Ulfrun’s Decent will target a single target at a time.
+*Fixed script error caused by Saryn Specters casting Toxic Lash.
+
+{{ver|32.2.4}}
+*Fixed the Orokin Shield Drones summoned by Corrupted Bombard Specters being larger than they are intended to be.
+
+{{ver|32.2}}
+*Fixed Yareli Specter not using any abilities (apart from Merulina as intended).
+*Fixed Trinity Specter’s Energy Vampire not applying to allies.
+*Fixed several issues related to players spawnings Specters using the Gear wheel in mission.
+
+{{ver|32.1.1}}
+*Fixes towards ammo pickups getting infinitely stuck to you after summoning a Specter while the Vacuum Mod is equipped. As reported here: https://www.reddit.com/r/Warframe/comments/yk9xlv/loot_lag_wouldnt_let_me_finish_the_mobile_defense/
+**''If you run into this issue, a temporary fix is to clear your ammo from your weapon by shooting to clear the hovering pickups with the same ammo type.''
+*Fixed crash related to Specters that use player loadouts consuming ammo.
+
+{{ver|32.1}}
+*Fixed ammo pools not being shared properly across NPCs (Specters).
+*Fixed being able to spawn more than 1 of the Cephalon Suda Shield Ospreys and Corrupted Bombard Specters to prevent performance issues.
+
+{{ver|31.6}}
+*Fixed Crash related to Ash Specters using Bladestorm, it will now be more friendly to Clients.
+
+{{ver|31.5}}
+*Syndicate Exmus Specters have also had their respective Eximus type updated: Here are the following Eximus Specters and Type: 
+**Ancient Healer Eximus: Volatile
+**Charger Eximus: Venomous
+**MOA Eximus: Arctic 
+**Corruper Lancer: Arson 
+**Roller Eximus: Energy Leech 
+**Shield Osprey Eximus: Shock
+*Fixed script error related to spawning Specters.
+
+{{ver|31.1.2}}
+*Fixed script error after throwing a Specter ball, dying and then respawning before it spawns.
+
+{{ver|31.0.5}}
+*Fixed a script error when using a Specter.
+
+{{ver|30.2}}
+*Fixed friendly Specters not regenerating their Shields after hitting 0 Shields.
+
+{{ver|30}}
+*Fixed ally Specters getting stuck in perpetual weapon swap animations.
+
+{{ver|29.9}}
+*Fixed Tenno Specters equipped with certain weapons not needing to reload while told to "hold position", resulting in a higher rate of fire.
+
+{{ver|29.6.9}}
+*Fixed a script error when spawning a Specter.
+
+{{ver|29.5.5}}
+*Fixed Khora Spectors only using her Strangle Dome and no other abilities.
+**''With the exception of Venari, as it is a tap and cycle ability. Venari will simply stick to her default attack mode.''
+*Fixed a script error that could occur when using a Garuda Specter.
+
+{{ver|29.5.2}}
+*Fixed an issue with Tesla Coil causing issues with specters.
+*Fixed an issue where Harrow Specters casting ‘Condemn’ could cause a game hang.
+
+{{ver|29.5.1}}
+*Fixed a script error that could occur if a Trinity Specter used Energy Vampire.
+
+{{ver|29.1.2}}
+*Fixed an issue where deploying a Desert Skate does not remove the prior deployed Desert Skate.
+
+{{ver|28.3}}
+*Fixed crashing when attempting to spam Specter spawns when in Titania’s Razorwing.
+
+{{ver|28.2}}
+*Fixed a script error when spawning a Specter.
+
+{{ver|27.3.15}}
+*Fixed friendly Specters suffering knockdown when deployed and taking entirely way too long to recover.
+
+{{ver|27.3.11}}
+*Fixed a script crash when spawning a Specter.
+
+{{ver|25.5}}
+*Any summoned allied Specters in a Nightmare mission will now have a reddish distorted glow to indicate that they have turned against you and you’ve made a huge mistake in trusting them.
+
+{{ver|22.11.1}}
+*Followers (Specters, Rescue Target, etc) no longer cancel charging if they switch targets while using a charging weapon. 
+
+{{ver|22.10}}
+*Warframe Specters are now much smarter! We've done a general intelligence pass on their proficiency with Weapons, and we've also updated their power-casting logic. Virtually every power is now castable with only a few exceptions! 
+**Specters CANNOT cast the following Abilities: Vauban's Minelayer, Ivara's Zipline, Titania's Razorwing, Nekros’ Desecrate and Shadows of the Dead, Excalibur’s Exalted Blade, Valkyr’s Hysteria, Wukong’s Primal Fury, Cloud Walker, and Defy, Atlas’ Petrify and Tectonics, Limbo's entire kit (save for the damage aspect of Banish), and finally Zephyr’s Dive Bomb. 
+}}
+
+==References==
+<references />
+
+{{GearNav}}
+{{LoreNav}}
+[[es:Espectro]]
+[[fr:Spectre]]
+[[zh:魅影]]
+[[Category:Tenno]]
+[[Category:Update 13]]
+[[Category:Gear]]
+[[Category:Lore]]

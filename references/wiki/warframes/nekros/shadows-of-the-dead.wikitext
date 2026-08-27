@@ -1,0 +1,437 @@
+{{UpdateMe|
+[[#Summoning Priority]] table is incomplete. It can be tested in simulacrum, relative to the known priorities.
+*To test the relative priority of a unit: Spawn '''2''' expected priority units and '''1''' testing unit; then kill '''1''' expected priority, then kill testing unit, then kill all others.
+**If the testing unit is <u>summoned last</u> then it's <code>< priority group</code>.
+**If the testing unit is <u>summoned first</u> then it's <code>> priority group</code>.
+**Otherwise it's <code><nowiki>=</nowiki> priority group</code>.
+**The <code>< priority group</code> and <code>> priority group</code> outcomes only indicate the direction in which you should continue, only the <code><nowiki>=</nowiki> priority group</code> outcome is the final result.
+Check priority group, summonability with {{A|Shadows of the Dead}}, and summonability with {{A|Soul Punch}} '''separately'''.
+'''Do not test on Eximus units! See [[#Summoning Priority]] for details.'''
+}}
+:''For the update of the same name, see [[Update 10|Update 10: Shadows of the Dead]].''
+<span id="Bugs"></span>
+<onlyinclude>{{AbilityU10.3
+| name = Shadows of the Dead
+| gameimage = Nekros4.png
+| cardimage = ShadowsOfTheDeadModU15.jpeg
+| hotkey = 4
+| energy = 100
+| description = Summons shadow versions of vanquished enemies to fight alongside you for a short period of time.
+| strength = 25% / 50% / 75% / 150% (damage bonus)<br>15% / 35% / 65% / 100% (shield bonus)<br>15% / 35% / 65% / 100% (health bonus)
+| range = 
+| duration = 6 / 5 / 4 / 3% (health decay per sec)
+| misc = 4 / 5 / 6 / 7 (shadow copies)<br>10 m (spawn radius)<br>> 30 m (recall range)
+| cardonly = {{{1|}}}
+| info = 
+*Nekros expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to summon <u>'''4 / 5 / 6 / 7'''</u> shadow copies of his most recently slain enemies, prioritizing the strongest enemy groups among those killed to summon. The copies retain the level and stats of their original selves but will gain {{Stat|Ability Strength|icon=only}}'''25% / 50% / 75% / 150%''' damage, {{Stat|Ability Strength|icon=only}}'''15% / 35% / 65% / 100%''' shields and {{Stat|Ability Strength|icon=only}}'''15% / 35% / 65% / 100%''' health, with each copy losing {{Stat|Ability Duration|icon=only}}'''3%''' of their health per second while active. 
+**Shadows spawn around Nekros in a clockwise fashion, within a '''10''' meter radius.
+***High priority enemies will spawn first, enemies of equal priority will appear in order of deaths.
+***Spawn order starts from the direction where the player's camera is looking, but the Shadows themselves face the same direction as Nekros.
+**Shadows of the Dead's damage, shield and health bonuses '''multiply''' a Shadow's total damage, shield and health. For example, +30% Ability Strength will increase the damage and health bonuses to {{Math|1.5 {{mul}} 1.3|mt=y|percent=y}} and {{Math|1 {{mul}} 1.3|mt=y|percent=y}} respectively at max rank. A copy whose original had 200 total health and dealt 100 damage per attack will have {{Math|200 {{mul}} (1 + 1.3)|mt=y}} health when summoned and will inflict {{Math|100 {{mul}} (1 + 1.95)|mt=y}} damage per attack.
+**There is currently no way to prematurely kill shadows in order to refresh them, either the shadows or Nekros must die in order for this to happen.
+**The number of active Shadows is displayed on the ability icon.
+***Shadows of enemies that summon additional units, like {{E|Drahk Master}}s, can summon Shadows of their respective minions. These can exceed the number of Shadows Nekros can normally summon, and will be reflected in the number on the ability icon. They also contribute extra damage reduction when {{M|Shield of Shadows}} is equipped.
+**Shadows can be healed with some [[Healing]] mods, abilities, arcanes, weapons, and allied Shadows' abilities (e.g. {{E|Aerolyst}} canisters/sparks, [[Leech Eximus]] damage zone, etc.). Some shadows also can'''not''' die.
+***This can become a problem later on when the Nekros player needs to refresh their shadows to get higher level versions, but cannot do so until they die. 
+*Has a very long cast animation, during which Shadows usually will not attack. Nekros is '''not''' immune to knockdown and takes full damage during this time.
+*Casting the ability again (default {{Keybind|4}}) while there are Shadows still active performs additional functions:
+**Active Shadows that are more than <u>'''30'''</u> meters away from Nekros will teleport into Nekros' spawn radius.
+**Fully replenishes active Shadows' shields and health on each recast. If the number of active Shadows are at maximum capacity, Nekros will perform a shortened animation.
+***Shadows are '''not''' healed before the completion of the animation; as such, if recasting at maximum Shadows, some can die before getting healed, and more will '''not''' be spawned to compensate.
+**When the number of active Shadows falls below the maximum, Nekros performs the full summoning animation to create additional Shadows up to the maximum capacity. 
+***This function can only be performed when there are slain enemies in Nekros's "recently-killed" list (see [[#Summoning Priority]]).
+*Dying or experiencing a host migration will destroy any Shadows you currently had stored.
+*Shadows are selectively summoned and possess unique properties:
+<span id="Shadow_Properties"></span><span id="Summoning_Priority"></span><span id="Shadow_Quirks"></span> <!-- spans with actual IDs to scroll the page when linked -->
+
+{{#tag:tabber
+|Shadow Properties=
+This is a list of general properties common for all Shadows. See also: [[#Shadow Quirks]].
+*As the shadows appear, each one inflicts a small area knockdown which can only affect each enemy once.
+*Nekros and his allies are able to walk through Shadows without being obstructed.
+*Shadows have raised [[Threat Level]], causing enemies to prioritize attacking them over players.
+*Shadows are able to use their original abilities, gear, and tactics (including [[Eximus]]).
+**Shadows will take cover and organize, while occasionally seeking out to follow the player or the host around.
+**Shadows will interact with the environment, for example using [[Rampart]]s, or hacking into disabled {{E|Ambulas}} or [[Bursa]] - turning them into allies just as if the player had hacked them.
+**Shadows of enemies that leave explosions upon death will damage allies.
+**Shadows of units such as {{E|Ancient Protector}} will '''not''' provide {{D|Overguard}}.
+**Other buffing Shadows (e.g. {{E|Shield Osprey}}, {{E|Ancient Healer}}, {{E|Aerolyst}}) ''may'' affect [[Defense Objects]], [[Excavator]]s, [[Companions]], players, and allied NPCs.
+***They will prioritize following your Shadows, or enemies if not in range of Shadows.
+*Shadows are counted as summons and are affected by {{M|Summoner's Wrath}}, {{Arcane|Arcane Camisado}}, and {{Arcane|Theorem Infection}}.
+**They are able to damage enemies immune to ability damage (e.g. {{E|Arbitration Shield Drone}}).
+**Shadows retain summons buffs long after application, specifically from {{Arcane|Theorem Infection}}, without the need to snapshot the buffs on spawn.
+**Shadow eximus abilities ''may'' receive elemental damage bonuses and ''may'' grant buffs to the player, for example: 
+***[[Leech Eximus]] will create a damage zone which heals allies, it also deals {{D|Cold}} damage and status procs when applying {{Arcane|Theorem Infection}} with {{Arcane|Residual Malodor}}. 
+***[[Shock Eximus]] will trigger {{M|Archon Stretch}}. Other elemental eximus ''may'' trigger other archon mods. [[Leech Eximus]] will '''not''' trigger {{M|Archon Intensify}}.
+*[[Eximus]] Shadows possess [[Overguard]], which isn't considered as a part of their health and will '''not''' be drained, making them far more resilient than their normal variants.
+*Enemies that spawn additional enemies (i.e. {{E|Drahk Master}}) can add to the number of Shadows, even above the max Shadow count.
+*Kills by a player's Shadows grant that player '''50%''' of the kill experience to their Warframe.
+*Shadows are black, and have a mist effect that is colored with Nekros' energy color. A pure black energy color will remove the mist effect and leave simply blackened forms.
+*If a Shadow enters inside the sphere of a {{E|Nullifier Crewman}} or {{E|Corrupted Nullifier}}, or gets in contact with the disrupting aura of a [[Comba]] or [[Scrambus]], the shadow will be drained of health while remaining inside the bubble or aura. If Nekros is the one making contact with one of the mentioned, his Shadows will '''not''' die. <code>Only tested with {{E|Nullifier Crewman}} so far.</code>
+
+{{!}}-{{!}}Summoning Priority=
+*Shadow copies are taken from a list of the last '''20''' enemies killed by either Nekros or his Shadows; teammate, [[Companion]], and [[Operator]] mode kills do '''not''' count. Once a specific enemy has been copied, it is removed from the list.
+**The game does '''not''' remember any kills past the 20th, for example: if you kill '''30''' enemies and cast this ability '''4''' times without killing any more enemies, this ability will create '''7''', '''7''', '''6''', and '''0''' Shadows.
+**When using weapons with [[Syndicate]] mods, or weapons with built-in syndicate effects, the radial blast will count as the player's kills, which will overwrite any current ones.
+*{{A|Soul Punch}} is the highest "priority" in a way, because it (or it's Mark) immediately summons a Shadow. 
+**Some Shadows can be created '''only''' via {{A|Soul Punch}} instakill. Some enemies can'''not''' be copied.
+*{{A|Shadows of the Dead}} summoning priority is such: '''1)''' the highest level enemies in the list; '''2)''' the order of appearance in the list (first to die); '''3)''' [[Eximus]], otherwise the highest priority group.
+**[[Eximus]] variants will <u>ignore the priority group</u> and will '''only''' respect enemy levels and the order of appearance in the list. [[Eximus]] enemies spawn with higher levels than the rest, which means they are almost always prioritized.
+**After some time, the killed enemies from the list ''may'' have lower levels compared to "fresh" incoming enemies.
+*The <code>''?''</code> priority means the unit can definitely be copied, but it's hard to test the priority of it. 
+
+{{{!}} class="wikitable sortable" width="100%"
+{{!}}+ Priority values for each faction <code>based on playtesting results</code>
+{{!}}-
+!Faction!!Priority!!Units!!{{text||Subcategory|hover=Groups of enemies that feel like separate factions (i.e. Almagams), and/or rarely appear together.}}
+{{!}}-
+
+{{!}}rowspan=11{{!}}{{Faction|Grineer}}
+{{!}}rowspan=2{{!}}'''1''' First
+{{!}} {{E|Kuva Trokarian}} (<code>bugged ability</code>). 
+{{!}}Normal
+{{!}}-
+{{!}} {{E|Kosma Gokstad Officer}}.
+{{!}}[[Empyrean Grineer]]
+{{!}}-
+{{!}}rowspan=2{{!}}'''2''' Second
+{{!}} {{E|Heavy Gunner}}, {{E|Bombard}}, {{E|Manic Bombard}} (<code>slow decay</code>), {{E|Napalm}}, {{E|Commander}}, {{E|Hellion}}, {{E|Hyekka Master}}, and {{E|Drahk Master}}.
+{{!}}Normal
+{{!}}-
+{{!}} {{E|Kosma Supressor}}, {{E|Kosma Raider}}, {{E|Kosma Raider Carver}}, {{E|Kosma Eviscerator}}, and {{E|Kosma Raider Eviscerator}}.
+{{!}}[[Empyrean Grineer]]
+{{!}}-
+{{!}}rowspan=2{{!}}'''3''' Third
+{{!}} {{E|Eviscerator}}, {{E|Grineer Manic}}, {{E|Flameblade}}, {{E|Scorch}}, {{E|Trooper}}, {{E|Seeker}}, {{E|Ballista}}, {{E|Shield Lancer}}, and {{E|Guardsman}}.
+{{!}}Normal
+{{!}}-
+{{!}} {{E|Kosma Elite Lancer}}, {{E|Kosma Gokstad Pilot}}, and {{E|Kosma Butcher}}.
+{{!}}[[Empyrean Grineer]]
+{{!}}-
+{{!}}rowspan=3{{!}}'''4''' Fourth
+{{!}} {{E|Bailiff}}, {{E|Butcher}}, {{E|Powerfist}}, {{E|Roller}}, {{E|Nox}}, {{E|Scorpion}}, {{E|Dargyn Pilot}}, {{E|Lancer}}, {{E|Elite Lancer}}, {{E|Kuva Jester}}, {{E|Hyekka}}, and {{E|Drahk}}.
+{{!}}Normal
+{{!}}- 
+{{!}} {{E|Ghoul Auger}}, {{E|Ghoul Expired}}, {{E|Ghoul Rictus}}, {{E|Ghoul Rictus Alpha}} (<code>slow decay</code>), and {{E|Ghoul Devourer}}.
+{{!}}[[Ghouls]]<!-- missing a few -->
+{{!}}-
+{{!}} {{E|Kosma Roller Sentry}}.
+{{!}}[[Empyrean Grineer]]
+{{!}}-
+{{!}}{{A|Soul Punch}}
+{{!}} {{E|Tusk Dargyn}} (<code>spawns enemy</code>), and {{E|Tusk Shield Dargyn}} (<code>spawns enemy</code>).
+{{!}}[[Tusk Grineer]]
+{{!}}-
+{{!}}<code>''?''</code>
+{{!}} {{E|Tusk Ogma}}.
+{{!}}[[Tusk Grineer]]
+{{!}}-
+
+{{!}}rowspan=7{{!}}{{Faction|Corpus}}
+{{!}}'''1''' First
+{{!}} {{E|Denial Bursa}}, {{E|Isolator Bursa}}, and {{E|Drover Bursa}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|Corpus Tech}}, {{E|Nullifier Crewman}}, {{E|Derivator Crewman}} (<code>bugged ability</code>), {{E|Attack Drone}}, {{E|Fusion MOA}}, and {{E|Anti MOA}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Amalgam Kucumatz}}, {{E|Amalgam Arca Kucumatz}}, {{E|Amalgam Heqet}}, {{E|Amalgam Arca Heqet}}, {{E|Amalgam Cinder Machinist}}, {{E|Amalgam Osprey}}, {{E|Amalgam Satyr}}, {{E|Amalgam Swarm Satyr}}, {{E|Amalgam Phase MOA}} and {{E|Amalgam Alkonost}}.
+{{!}}[[Amalgam]]s
+{{!}}- <!-- Orm is from railjack -->
+{{!}}'''4''' Fourth
+{{!}} {{E|Elite Crewman}}, {{E|Corpus Warden}}, {{E|Vapos Tech Ranger}}, {{E|Shockwave MOA}}, {{E|Orm Railgun MOA}}, {{E|Machinist}}, and {{E|Oxium Osprey}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''5''' Fifth
+{{!}} {{E|Crewman}}, {{E|Detron Crewman}}, {{E|Prod Crewman}}, {{E|Sniper Crewman}}, {{E|MOA}}, {{E|Railgun MOA}}, {{E|Leech Osprey}}, {{E|Lynx Osprey}}, {{E|Mine Osprey}}, {{E|Scavenger Drone}}, {{E|Sapping Osprey}}, {{E|Shield Osprey}}, [[Comba]], and [[Scrambus]].
+{{!}}Normal
+{{!}}-
+{{!}}{{A|Soul Punch}}
+{{!}} {{E|Spectralyst}} (<code>base loadout</code>).
+{{!}}[[Amalgam]]s
+{{!}}-
+{{!}}<code>''?''</code>
+{{!}} {{E|Vapos Bioengineer}}.
+{{!}}Normal
+{{!}}-
+
+{{!}}rowspan=10{{!}}{{Faction|Infested}}<!-- missing Jugulus Rex -->
+{{!}}'''1''' First
+{{!}} {{E|Juggernaut}}.
+{{!}}Normal
+{{!}}-
+{{!}}rowspan=2{{!}}'''2''' Second
+{{!}} {{E|Ancient Disruptor}}, {{E|Ancient Healer}}, {{E|Toxic Ancient}} {{E|Boiler}}, and {{E|Brood Mother}}.
+{{!}}Normal
+{{!}}-
+{{!}} {{E|Deimos Jugulus}} and {{E|Deimos Therid}} (<code>slow decay</code>).
+{{!}}[[Grey Strain]]
+{{!}}-
+{{!}}rowspan=2{{!}}'''3''' Third
+{{!}} {{E|Mutalist Osprey}}, and {{E|Mutalist Osprey Carrier}}.
+{{!}}Normal
+{{!}}-
+{{!}} {{E|Deimos Carnis}}, {{E|Deimos Carnis Rex}}, and {{E|Deimos Venin Mutalist}}.
+{{!}}[[Grey Strain]]
+{{!}}-
+{{!}}rowspan=2{{!}}'''4''' Fourth
+{{!}} {{E|Swarm Mutalist MOA}}, and {{E|Tar Mutalist MOA}}.
+{{!}}Normal
+{{!}}-
+{{!}} {{E|Deimos Saxum}}, and {{E|Deimos Tendril Drone}}.
+{{!}}[[Grey Strain]]
+{{!}}-
+{{!}}'''5''' Fifth
+{{!}} {{E|Crawler}}, {{E|Electric Crawler}}, {{E|Lobber Crawler}}, {{E|Nauseous Crawler}}, {{E|Toxic Crawler}}, {{E|Charger}}, {{E|Leaper}}, {{E|Runner}}, and {{E|Volatile Runner}}.
+{{!}}Normal
+{{!}}-
+{{!}}{{A|Soul Punch}}
+{{!}} {{E|Mitosid}} and {{E|Deimos Undying Flyer}}.
+{{!}}[[Grey Strain]]
+{{!}}-
+{{!}}<code>''?''</code>
+{{!}} {{E|Zealot Baptizer}}.
+{{!}}Season Enemy
+{{!}}-
+
+{{!}}rowspan=3{{!}}{{Faction|Corrupted}}
+{{!}}'''1''' First
+{{!}} {{E|Corrupted Ancient}}, {{E|Corrupted Bombard}}, {{E|Corrupted Warden}}, {{E|Corrupted Heavy Gunner}}, and {{E|Corrupted Nullifier}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|Corrupted Drahk Master}}, {{E|Corrupted MOA}}, and {{E|Corrupted Drone}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Corrupted Butcher}}, {{E|Corrupted Lancer}}, {{E|Corrupted Crewman}}, and {{E|Orokin Drone}}.
+{{!}}Normal
+{{!}}-
+
+{{!}}rowspan=4{{!}}{{Faction|Sentient}} 
+{{!}}'''1''' First
+{{!}} {{E|Mimic}}, {{E|Summulyst}}, {{E|Choralyst}}, {{E|Tyro Battalyst}}, {{E|Battalyst}}, {{E|Symbilyst}}, {{E|Ortholyst}}, and {{E|Conculyst}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|Brachiolyst}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Aerolyst}}.
+{{!}}Normal
+{{!}}-
+{{!}}{{A|Soul Punch}}
+{{!}} {{E|Eidolon Vomvalyst}} (<code>cannot die</code>).
+{{!}}Normal
+{{!}}-
+
+{{!}}rowspan=6{{!}}{{Faction|Narmer}}
+{{!}}rowspan=2{{!}}'''1''' First
+{{!}} {{E|Narmer Hellion}}, {{E|Narmer Napalm}}, {{E|Narmer Bombard}}, and {{E|Narmer Heavy Gunner}}.
+{{!}}[[Grineer]]
+{{!}}-
+{{!}} {{E|Narmer Nullifier Crewman}}, and {{E|Narmer Sapping Osprey}}.
+{{!}}[[Corpus]]
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|Narmer Scorch}}, {{E|Narmer Trooper}}, {{E|Narmer Ballista}}, and {{E|Narmer Flameblade}}.
+{{!}}[[Grineer]]
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Narmer Shield Lancer}}.
+{{!}}[[Grineer]]
+{{!}}-
+{{!}}rowspan=2{{!}}'''4''' Fourth
+{{!}} {{E|Narmer Scorpion}}, {{E|Narmer Lancer}}, and {{E|Narmer Powerfist}}.
+{{!}}[[Grineer]]
+{{!}}-
+{{!}} <!-- {{E|Narmer Dera Moa}}. {{E|Narmer Disc Moa}}, --> {{E|Narmer Crewman}}, and {{E|Narmer Detron Crewman}}.
+{{!}}[[Corpus]]
+{{!}}-
+
+{{!}}{{Faction|Duviri}}{{!}}{{!}}N/A{{!}}{{!}}N/A{{!}}{{!}}N/A
+{{!}}-
+
+{{!}}rowspan=4{{!}}{{Faction|The Murmur}}
+{{!}}'''1''' First
+{{!}} {{E|The Hollow Vein}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|The Anatomizer}}, and {{E|Rogue Culverin}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Shuffling Fragment}}, {{E|Lumbering Fragment}}, and {{E|Rogue Arcocanid}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''4''' Fourth
+{{!}} {{E|Hurling Fragment}}, and {{E|Rupturing Fragment}}.
+{{!}}Normal
+{{!}}-
+
+{{!}}rowspan=4{{!}}{{Faction|Techrot}}
+{{!}}'''1''' First
+{{!}} {{E|Techrot Babau}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|Techrot Obsolyte}}, and {{E|Techrot Matmas}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Techrot Skuzzi}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''4''' Fourth
+{{!}} {{E|Techrot Galliflex}}, and {{E|Techrot Volatile Galliflex}}.
+{{!}}Normal
+{{!}}-
+
+{{!}}rowspan=3{{!}}{{Faction|Scaldra}}
+{{!}}'''1''' First
+{{!}} {{E|Scaldra Eradicator}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|Scaldra Barbican}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Scaldra Flayer}}, {{E|Scaldra Dedicant}}, {{E|Scaldra Harbinger}}, and {{E|Scaldra Jaeger}}.
+{{!}}Normal
+{{!}}-
+
+{{!}}rowspan=3{{!}}{{Faction|Anarchs}}
+{{!}}'''1''' First
+{{!}} {{E|Anarch Grineer Trapper}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|Anarch Arcus}}, {{E|Anarch Tenebra}}, and {{E|Anarch Libritor}}.
+{{!}}Normal
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Anarch Capsarii}}, {{E|Anarch Grineer Lancer}}, and {{E|Anarch Gladius}}.
+{{!}}Normal
+{{!}}-
+
+{{!}}rowspan=6{{!}}{{Faction|Wild}} <!-- SYZYGY is broken, they appear to have no faction, intended as Infested by DE, and currently use Corpus modifiers. Move when fixed. -->
+{{!}}'''1''' First
+{{!}} {{E|Syzygy Denial Bursa}}.
+{{!}}<code>bugged faction</code>
+{{!}}-
+{{!}}'''2''' Second
+{{!}} {{E|Syzygy Attack Drone}}.
+{{!}}<code>bugged faction</code>
+{{!}}-
+{{!}}'''3''' Third
+{{!}} {{E|Syzygy Prod Crewman}}, and {{E|Syzygy Shockwave Moa}}.
+{{!}}<code>bugged faction</code>
+{{!}}-
+{{!}}'''4''' Fourth
+{{!}} {{E|Syzygy Light Trencher}}, and {{E|Syzygy Sniper Ranger}}.
+{{!}}<code>bugged faction</code>
+{{!}}-
+{{!}}{{A|Soul Punch}}
+{{!}} {{E|Thrax Legatus}}, and {{E|Thrax Centurion}}.
+{{!}}Normal
+{{!}}-
+{{!}}<code>''?''</code>
+{{!}}[[Follie's Hunt]] enemies.
+{{!}}Normal
+{{!}}-class="sortbottom"
+<!-- tested Narmer/Coolant/Scrofa Lythrum/Aurax Raknoids, small "mites" are possibly copyable -->
+!Cannot Copy!! colspan="3"{{!}} 
+[[Bosses]], [[Necramech (Enemy)]], [[Raknoid]]s, [[Turret]]s, [[Anyo Corp]], [[Demolisher]]s, [[Conservation]] and [[Fishing]] animals, {{E|Desert Skate}}, {{E|Latcher}}, {{E|Maggot}}, {{E|Tusk Seeker Drone}}, {{E|Regulator}}, {{E|Kuva Guardian}}, {{E|Gruzzling}}, {{E|The Severed Warden}}, {{E|The Unseeing Herald}}, {{E|Corpus Trencher Target}} and {{E|Gyre Hyena}}, {{E|Terra Jailer}} and {{E|Narmer Jailer}}, {{E|Basal Diploid}} and {{E|Feral Diploid}}, {{E|Oculyst}}, {{E|Eidolon Lure}}, [[Trapper Drone]], {{E|Scuttler}} and {{E|Death Scuttler}}, and {{E|Arbitration Shield Drone}}.
+{{!}}}
+
+{{!}}-{{!}}Shadow Quirks=
+This is a list of strange properties unique to specific Shadows. See also: [[#Shadow Properties]].
+*Some Shadows have a '''very''' slow decay rate compared to others (potentially via passive regeneration): {{E|Deimos Therid}}, {{E|Manic Bombard}}, and {{E|Ghoul Rictus Alpha}}.
+*Some Shadows can spawn <u>allied non-Shadow units</u>, these units collide with players, do '''not''' increase the Shadow count, do '''not''' contribute to {{M|Shield of Shadows}}, and do '''not''' decay. See [[#Bugs]] for more details.
+*Some Shadows will '''not''' use their abilities or gear. See [[#Bugs]] for more details.
+*A {{E|Drahk Master}} will '''not''' disarm enemies.
+*{{E|Amalgam Heqet}}, {{E|Amalgam Arca Heqet}}, and {{E|Amalgam Osprey}} will '''not''' create a {{E|Spectralyst}}.
+*A {{E|Spectralyst}} will '''not''' retain the loadout it copied, the Shadow will use the base loadout.
+*A dying {{E|Thrax Legatus}} or {{E|Thrax Centurion}} will '''not''' become incorporeal.
+*A decayed or killed {{E|Eidolon Vomvalyst}} will become incorporeal instead of dying.
+**If an {{E|Eidolon Lure}} is tethered to such Shadow - it will be charged, and the Shadow will be consumed.
+*A {{E|Tusk Dargyn}}/{{E|Tusk Shield Dargyn}} Shadow spawns complete with a {{E|Dargyn Pilot}} model, can fly like normal, and counts as '''1''' Shadow.
+**Upon death it will spawn a {{E|Dargyn Pilot}} '''enemy'''.
+**Killing an empty or unmarked {{E|Tusk Dargyn}}/{{E|Tusk Shield Dargyn}} will '''not''' create a Shadow.
+*A {{E|Mimic}} will spawn disguised and will reveal itself '''only''' when approached by a player.
+**It will occasionally try to move away from players and into another room, to disguise itself.
+*{{E|Kosma Gokstad Officer}}, {{E|Anarch Grineer Trapper}}, and {{E|Summulyst}} will deploy allied drones, which are '''not''' Shadows and will '''not''' die when their master dies.
+**Same thing happens with [[Tech]]s, {{E|Vapos Tech Ranger}}, {{E|Corrupted MOA}}, and {{E|Fusion MOA}} except their drones will die.
+*A dying {{E|Mitosid}} will split into allied {{E|Basal Diploid}} and {{E|Feral Diploid}}, which are '''not''' Shadows.
+*A {{E|Mutalist Osprey}} will spawn complete with a {{E|Crawler}} Shadow level '''1''' and drop it.
+**It will not pick up {{E|Crawler}}s.
+*A {{E|Deimos Tendril Drone}} will '''not''' face-hug enemies.
+*A dying {{E|Deimos Undying Flyer}} will deploy a pod, which is immediately destroyed (probably by the Shadow decay).
+*An {{E|Anarch Grineer Lancer}} will occasionally become a suicide bomber, even <u>with no enemy presence</u> (probably because of the Shadow decay).
+*An {{E|Anarch Tenebra}} will open enemies up to [[Ground Finisher]]s with its lurk attack.
+*A {{E|Scaldra Barbican}}'s shield can break with enough damage.
+}}
+<hr/>
+*'''Ability Synergy:''' A target killed by {{A|Soul Punch}} summons a friendly {{A|Shadows of the Dead}} copy of the enemy target. If the target survives, they become Marked for Harvest for <u>'''3'''</u> seconds, creating their Shadow if killed while marked.
+**If the max Shadows count is reached, all active Shadows are healed to full health instead.
+**If {{A|Shadows of the Dead}} was subsumed over, the Shadows do '''not''' receive bonus stats.
+**Enemies with {{D|Overguard}} can'''not''' be marked.
+| augment = [[File:ShieldofShadowsMod.png|200px|left]]
+{{main|Shield of Shadows}}
+{{#lst:Shield of Shadows|intro}}
+{{#lsth:Shield of Shadows|Stats}}
+{{clr}}
+| tips = 
+*Shadows can be [[Codex#Scanning|scanned]], allowing for faster enemy research and granting some amount of [[Standing]] or {{Stat|Affinity}}.
+*If you cast {{A|Shadows of the Dead}} right before entering [[Bleedout]], all Shadows will spawn anyway.
+**Shadows can soften up enemies, making it easier to revive with {{Focus|Last Gasp}}.
+*Shadows draw enemy attention, they are effective at defending objectives or areas of a map.
+**Shadows are not reliable defenders when there are more than '''7''' enemies, or enemies are using explosives.
+*Actively target and focus your attacks on enemies you want to clone prior to casting the ability.
+*Because you still take full damage during the long summoning animation, it might be useful to cast {{A|Terrify}} just before using this skill.
+*{{Stat|Shield}} buffing Shadows (i.e. {{E|Orokin Drone}}) can be used as a temporary survival measure in [[Survival]] when the oxygen runs out, as disconnecting/connecting to them will instantly regenerate your shield.
+*{{A|Shadows of the Dead}} pairs extremely well with a subsumed {{A|Blood Altar}}, as that ability's healing aura greatly outpaces the passive health decay that Shadows suffer, as long as they stay within its radius. With attentive use, Altars are capable of keeping Shadows alive indefinitely, even under heavy fire and the use of {{M|Shield of Shadows}}.
+*{{Weapon|Sancti Magistar|Sancti Magistar's}} [[Lifesteal]] can easily outheal the {{stat|Health}} decay of summons on top of healing {{WF|Nekros}} .
+<noinclude>
+|max = {{WFmax|main|nekros4}}
+</noinclude>
+| bugs =
+*{{E|Anarch Libritor}} will '''not''' call an orbital strike.
+*{{E|Anarch Capsarii}} will '''not''' cast a shield, it will generally stay away from enemies and rarely cast a push-back wave.
+*Non-shadow units summoned by a Shadow will block [[Defense]] progress, the wave will '''not''' complete until they die.
+*A {{E|Roller}} Shadow will often roll around aimlessly and get stuck.
+*All Shadows block players' bullets, or even break them.
+**Some embedded projectiles will disappear when striking a Shadow (e.g. {{Weapon|Proboscis Cernos}}, both fire modes of {{Weapon|Afentis}}).
+**[[Speargun]] alt-fire will disappear when striking a Shadow, except for {{Weapon|Scourge}} which normally can'''not''' be embedded into enemies.
+*A {{E|Deimos Carnis Rex}} Shadow collides with players.
+*Specifically a {{E|Tusk Dargyn}} Shadow provides '''5% less''' damage protection than all other Shadows when using {{M|Shield of Shadows}}.
+*Shadows of these enemies do '''not''' deploy their respective drones: {{E|Seeker}}, {{E|Corpus Tech}} (but not its variants), and [[Tusk Grineer]].
+*Shadows of these enemies do '''not''' deploy their respective drones <u>only in [[Simulacrum]]</u>: {{E|Corrupted MOA}}, and {{E|Fusion MOA}}.
+*{{E|Amalgam Phase MOA}} Shadow's main fire knocks down players when exploding.
+*{{E|Thrax Legatus}} and {{E|Thrax Centurion}} Shadows will ignore all their former allies (your enemies) except enemy Thrax units. <!-- saw this on the ZarimanTen0, they just wander around -->
+*Sometimes Shadows can look like normal enemies, once they perform an action which temporatily changes their appearance.
+*{{E|Derivator Crewman}} Shadow's shield ability will collide with the players and will damage them.
+*{{E|Kuva Trokarian}} Shadow will still throw [[Kuva Trokar]] and force [[Transference]], though they will be aiming at enemies.
+*Rarely, a shadow or two will not die when the duration ends, and will continue to exist until they die.
+*A [[Sapping Osprey]] shadow's sapping field will not have Nekros' energy colour, and the orb can be destroyed by allies. The field will not damage allies, however.
+*If this ability is used to revive a Grineer Prosecutor, the [[Lotus]] will prompt you that she is detecting an enemy one. Respectively, she will pronounce that they have been killed once they decay, or the ability ends.|Shadows of the Dead
+*[[Ancient Healer]]s and their corrupted variant will always have roughly 60% health shortly after being spawned or healed. This makes them significantly weaker than any other unit and usually die first over other summons.
+}}</onlyinclude>
+
+==See Also==
+* {{WF|Nekros}}
+__NOTOC__
+[[de:Schatten der Toten]]
+[[es:Sombras de los muertos]]
+[[fr:Ombres des Morts]]
+[[ru:Тени Мертвых]]
+[[Category:Update 10]]
+[[Category:Nekros]]
+[[Category:Warframe Abilities]]
+[[Category:Two-Handed Abilities]]
+[[uk:Тіні полеглих]]

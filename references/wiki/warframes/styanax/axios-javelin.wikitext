@@ -1,0 +1,46 @@
+<onlyinclude>{{AbilityU10.3
+| name = Axios Javelin
+| gameimage = AxiosJavelin130xWhite.png
+| cardimage = AxiosJavelinModx256.png
+| hotkey = 1
+| energy = 15
+| drain = 
+| cost = 
+| description = Throw an Axios Javelin. When the javelin impales an enemy against a wall, surrounding enemies are pulled into the area and suffer a burst of damage.
+| strength = 500 / 750 / 1,000 / 1,250 ({{D|Puncture}} damage on direct hit)<br>500 / 750 / 1,000 / 1,250 ({{D|Blast}} damage on explosion)
+| range = 50 m (javelin range)<br>15 m (explosion range)
+| duration = 8 s (Initial target pin duration)
+| misc = 1 (javelins per throw)<br>Knockdown on hit<br>1 m (midair hop)<br>1 (impaled enemy for implosion)<br>2 s (vortex lifetime)
+| cardonly = {{{1|}}}
+| info = 
+*Styanax expends {{Stat|Ability Efficiency|icon=only}}'''15''' [[energy]] to hurl <u>'''1'''</u> Axios Javelin in an arcing trajectory toward the reticle. Axios travels at high speed for {{Stat|Ability Range|icon=only}}'''50''' meters before dissipating, while impaling the first enemy it directly hits to carry it along. The impaled enemy and any enemies in Axios' flight path are inflicted {{Stat|Ability Strength|icon=only}}'''500 / 750 / 1,000 / 1,250''' {{D|Puncture}} damage and {{D|Knockdown}}. The impaled enemy remains pinned by Axios Javelin for {{Stat|Ability Duration|icon=only}}'''8''' seconds.
+**Axios Javelin has target detection around the reticle, causing the thrown javelin to attempt to home into the nearest enemy.
+**The Javelin's destination is instantly set upon activating the ability, rather than where it would naturally travel when thrown where aimed. It follows this course regardless of any movement or aiming during the throwing animation, even if you move behind an obstruction that should block its set course.
+**If cast in the air, Styanax hops up <u>'''1'''</u> meter before he throws the javelin.
+**The javelin's direct hit damage benefits from [[Universal Weapon Bonuses]], such as from {{Arcane|Arcane Arachne}} and {{A|Nourish}}, but not from weapon class specific increases like {{M|Steel Charge}} or {{M|Rifle Amp}}.
+***Javelin hit has 0% critical chance, 1.0x critical multiplier, and ~10% status chance.
+*If Axios impales an enemy and it impacts a surface, the javelin explodes to inflict {{Stat|Ability Strength|icon=only}}'''500 / 750 / 1,000 / 1,250''' {{D|Blast}} damage to all enemies in a {{Stat|Ability Range|icon=only}}'''15''' meter radius. Simultaneously, a vortex implosion lasting for <u>'''2'''</u> seconds, pulls all enemies within sight detection range into its center.
+**Explosion damage has 100% linear damage falloff between the center of the explosion to its maximum radius.
+**Enemies immune to {{D|Ragdoll}} when impaled by Axios Javelin will '''not''' create a vortex.
+**Explosion can damage and break destructible [[Objects]] in range while bypassing line of sight restriction.
+*Can be recast with brief to no delay in-between, allowing for rapid-fire javelin throws.
+*Casting Axios Javelin is a full-body animation that restricts Styanax's grounded movement and interrupts other actions, as well as displacing his position vertically when midair.
+| augment = [[File:AxiosJavelineersMod.png|200px|left]]
+{{main|Axios Javelineers}}
+{{#lst:Axios Javelineers|intro}}
+{{#lsth:Axios Javelineers|Stats}}
+{{clr}}
+| tips = 
+**Axios Javelin's vortex assists {{A|Tharros Strike}} in en-masse enemy defense reduction and rapid health recovery for Styanax.
+**{{A|Rally Point}} taunts enemies to aggressively approach Styanax and become exposed to javelin targeting when away from cover. Energy regen recovers Axios Javelin's low cost quickly. Axios Javelin's vortex groups enemies together for rapid shield recovery on kill or kill assists.
+**Axios Javelin's vortex assists {{A|Final Stand}} in focusing its barrage on the grouped enemies.
+| bugs = 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Styanax}}
+__NOTOC__
+[[Category:Styanax]]
+[[Category:Puncture Damage]]
+[[Category:Blast Damage]]
+[[uk:Гідний спис]]

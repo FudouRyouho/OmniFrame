@@ -1,0 +1,53 @@
+<onlyinclude>{{AbilityU10.3
+| name = Tentacle Swarm
+| energy = 50
+| hotkey = 4
+| cardimage = TentacleSwarmU15.png
+| description = Summon a creature from the depths. Its watery tentacles emerge from nearby surfaces to wreak havoc.
+| strength = 50 / 100 / 150 / 200 ({{D|Corrosive}} capture damage per second)<br>50 / 100 / 150 / 200 ({{D|True}} contact damage against [[Overguard]]ed targets)
+| range = 15 / 15 / 15 / 15 m (spawn radius)
+| duration = 10 / 13 / 18 / 20 s
+| misc = &infin; (cast range)<br>8 / 12 / 16 / 20 (tentacles)<br>{{D|Ragdoll}} during capture<br>100% ({{D|Corrosive}} status chance)
+| gameimage = PirateKraken.png
+| cardonly = {{{1|}}}
+| info = *Hydroid expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to summon a creature from the deep, causing up to <u>'''8 / 12 / 16 / 20'''</u> tentacles to emerge from all surfaces within a marked location {{Stat|Ability Range|icon=only}}'''15 / 15 / 15 / 15''' meters in radius, cast over '''<u>unrestricted</u>''' range. Tentacles prioritize spawning beneath enemies inside the radius, with each tentacle capturing their initial targets and lifting them into the air until the ability expires after {{Stat|Ability Duration|icon=only}}'''10 / 13 / 18 / 20''' seconds. Captured enemies are incapacitated in a {{D|Ragdoll}} state and stay attached to the tentacles while suffering {{Stat|Ability Strength|icon=only}}'''50 / 100 / 150 / 200''' {{D|Corrosive}} Damage with '''<u>100%</u>''' [[status chance]] per second.
+*Tentacles will '''not''' capture enemies with crowd control immunity/{{D|Overguard}}, or inflict their {{D|Corrosive}} damage over time, since they are not physically attached. However, such enemies will be attacked '''once''' by the tentacle spawning under them, inflicting {{Stat|Ability Strength|icon=only}}'''50 / 100 / 150 / 200''' {{D|True}} damage with a guaranteed {{D|Corrosive}} status effect.
+**Tentacles detect and capture new enemy targets when they come into range. (See [[#Bugs]])
+**Each tentacle can only capture '''1''' enemy at a time, for a total of '''20'''.
+**Tentacles with captured enemies will hold their victims steady in the air, allowing players to take aim and kill their targets.
+*Casting Tentacle Swarm is a two-handed action that stops Hydroid's movement and other actions. 
+*Can be recast while active; however, only one instance of Tentacle Swarm can be active at a time. Recasting will replace the previous instance.
+*Hydroid briefly summons the Kraken at the center of the spawn area as a visual effect. The Kraken emerges from a pool of water, then submerges slowly and disappears. Kraken is affected by Hydroid's chosen Warframe appearance and energy colors.
+*Tentacles appear as translucent water tendrils emerging from a small puddle of water. Tentacles emit splashes of water periodically, as well as a steam particle effect at their base which is affected by Hydroid's chosen Warframe energy color. However, when the ability is cast by {{WF|Hydroid Prime}}, the tentacles will be opaque and more organic in appearance.
+| interactions = 
+* [[Hydroid/Abilities#Passive|Hydroid's Passive]] allows the first {{D|Corrosive}} stack to remove 50% armor and is able to fully remove all armor at 10 stacks.
+** However, Tentacle Swarm alone cannot reach 10 {{D|Corrosive}} stacks and is only able to reach 8 stacks at most due to inflicting status per second and the status effect's 8 second duration.
+* {{A|Plunder}}'s {{D|Corrosive}} damage buff applies to Tentacle Swarm's damage.
+| augment = 
+[[File:PilferingSwarmMod.png|200px|left]]
+{{main|Pilfering Swarm}}
+{{#lst:Pilfering Swarm|intro}}
+{{#lsth:Pilfering Swarm|Stats}}
+{{clr}}
+| tips = 
+<noinclude>
+| max = {{WFmax|main|hydroid4}}
+</noinclude>
+| bugs = 
+*Sometimes the animation is played and energy is used but no tentacles spawn.
+*Existing tentacles will '''not''' attempt to grab enemies previously protected by {{D|Overguard}}, even if it was removed (might need to go out and back into range).
+}}
+</onlyinclude>
+
+==See Also==
+* {{WF|Hydroid}}
+__NOTOC__
+[[de:Tentakel-Schwarm]]
+[[es:Masa de tentáculos]]
+[[ru:Рой Щупалец]]
+[[Category:Warframe Abilities]]
+[[Category:Hydroid]]
+[[Category:Update 13]]
+[[Category:Magnetic Damage]]
+[[Category:True Damage]]
+[[uk:Рій мацаків]]

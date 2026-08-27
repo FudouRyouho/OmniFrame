@@ -1,0 +1,55 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Widow's Brood
+| gameimage      = 
+| cardimage      = 
+| hotkey         = 1
+| energy         = 50
+| description    = Oraxia launches a barrage of stinging darts in front of her that applies {{D|Toxin}} Status Effect. Poisoned enemies spawn Scuttlers when killed.
+| strength       = 300 / 450 / 600 / 750 {{D|Toxin}} damage per dart
+| range          = 16 / 19 / 22 / 25 m
+| duration       = 10 / 12 / 14 / 15 s Mark Duration<br>30 / 35 / 40 / 45 s Scuttler Duration
+| misc           = 10 dart projectiles<br>35° cone angle<br>4 forced {{D|Toxin}} status effects<br>{{D|Stagger}} on hit<br>50 {{D|Toxin}} damage (Scuttler damage)<br>{{D|Toxin}} and {{D|Impact}} statuses on Scuttler hits<br>10 max Scuttlers<br>+6s Scuttler status duration bonus<br>60 m recall radius
+| subsumable     = true
+| cardonly       = {{{1|}}}
+|info = 
+*{{WF|Oraxia}} expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[Energy]] to thrust her spider legs forward, hurling '''1''' venom-laced egg dart toward each enemy within {{Stat|Ability Range|icon=only}}'''16 / 19 / 22 / 25''' meters in a <u>'''35'''</u> degree frontal angle. Each dart inflicts {{Stat|Ability Strength|icon=only}}'''300 / 450 / 600 / 750''' {{D|Toxin}} damage with '''4'''  forced {{D|Toxin}} status effects, {{D|Stagger}}s the target, and marks them with gaseous poison and dripping venom for {{Stat|Ability Duration|icon=only}}'''10 / 12 / 14 / 15''' seconds.
+**Each dart homes into a single enemy in the targeting cone and in direct [[Line of Sight]]. Darts can strike multiple enemies if a non-targeted enemy steps into a dart's flight path.
+***If less than 10 enemies are in the targeting cone, <u>'''10'''</u>  darts will be fired: '''1''' at each enemy, then the remaining darts will fly towards the aiming reticle.
+***If more than 10 enemies are in the targeting cone, the number of darts fired will increase so that each enemy will have '''1''' dart fired at them. The number of darts is only limited by the number of enemies in range.
+**Darts are affected by [[Universal Weapon Bonuses]] such as {{Arcane|Arcane Arachne}} and {{A|Nourish}}.
+***Darts have 0% critical chance, 1.0x critical multiplier, and 0% status chance.
+*When enemies marked by Widow's Brood are killed by any source, a {{E|Scuttler}} hatches from their body. Scuttlers are spiderlings that scale to the killed enemy's level, with increased [[Threat Level]]. They crawl quickly toward nearby enemies to pounce at them, then rapidly bite and claw them. Scuttlers deal '''50''' {{D|Toxin}} damage per hit (scaling with their level), with <u>'''100%'''</u> Status Chance and a forced {{D|Impact}} status effect. Each Scuttler lasts for {{Stat|Ability Duration|icon=only}}'''30 / 35 / 40 / 45''' seconds (slowly dying from health drain), with a maximum of <u>'''10'''</u> Scuttlers simultaneously spawned.
+**Number of active Scuttlers are shown on the ability icon.
+**Scuttler attack damage is scaled by their [[Enemy Level Scaling#Damage|level]].
+***Scuttler {{D|Toxin}} procs are capable of interacting with {{M|Archon Continuity}}. 
+***Scuttler {{D|Toxin}} status damage is increased twice by {{A|Roar}}, since it increases both the initial attack that the proc is based on, and then again on each proc. 
+****However, {{A|Roar}} is incompatible with {{A|Silken Stride}}.
+***Capable of inflicting other status effects when buffs like {{A|Nourish}} or {{M|Shock Trooper}} are applied, and does not combine with added elements (i.e., attacks with Shock Trooper will apply both {{D|Toxin}} and {{D|Electricity}}, not {{D|Corrosive}}). 
+***Not affected by {{Resource|Emerald Archon Shard}}'s buff to Ability Damage on enemies afflicted by {{D|Corrosive}}, or to {{D|Toxin}} status damage. 
+**Status effects inflicted by Scuttlers have their duration increased by <u>'''6'''</u> seconds.
+**Gaining Predator's Lurk will '''not''' apply it to Scuttlers.
+**Scuttlers count as summons, and are thus affected by {{M|Summoner's Wrath}}, {{Arcane|Arcane Camisado}}, and {{Arcane|Theorem Infection}}.
+**When Oraxia is over <u>'''60'''</u> meters away, whether she is on the ground or wall-latching, Scuttlers will teleport close to her location.
+**Scuttlers are tracked on the mini-map as allied blue dots, highlighted through walls for Oraxia only, and are visually translucent to allied players.
+**Scuttlers will '''''NOT''''' be rendered invisible by Predator's Lurk, meaning that when enemies fire their weapons towards them, they might indirectly hit an invisible Oraxia. 
+***This is especially dangerous with [[Eximus#Arson|Arson Eximus]] units, whose large AOEs will still hit Oraxia if the player is in range. [[Eximus#Shock_/_Bioelectric_/_Galvanic|Shock Eximus]] orbs can also track invisible players and deal high DPS to them. 
+----
+*'''Ability Synergy:'''
+**{{A|Webbed Embrace}}'s [[Damage Vulnerability]] increases Widow's Brood's and Scuttlers' damage.
+**Scuttlers' forced {{D|Impact}} status raises the [[Parazon]] Mercy threshold on specialist enemies, weakening them for {{A|Mercy's Kiss}}' instant kill attack.
+| tips = 
+*The large number of darts from this ability can quickly destroy [[Arctic Eximus]] globes and shrink or pop {{E|Nullifier Crewman}} bubbles.
+*Scuttlers can target and damage {{E|Arbitration Shield Drone}}s despite being summoned by an ability.
+| bugs =
+*While the darts will deal 0 damage to {{E|Arbitration Shield Drone}}s, killing Drones struck by them will still spawn '''Scuttlers'''.
+| augment = 
+| max = 
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Oraxia}}
+
+__NOTOC__
+[[Category:Warframe Abilities]]
+[[Category:Update 39]]

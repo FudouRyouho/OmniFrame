@@ -1,0 +1,125 @@
+<onlyinclude>{{AbilityU10.3
+| name = The Lost
+| gameimage = TheLost130xWhite.png
+| cardimage = TheLostModx256.png
+| hotkey = 3
+| energy = 75
+| description = Cycle through a trio of lost Warframe powers. Accuse manifests a Void fissure to corrupt enemies into allies. Gaze grasps targets in Void tendrils that capture damage and inflict it when the target is released. Deny annihilates with a beam of Void energy, wiping Sentient resistances.
+| sub = {{AbilityU10.3/Tabber | Accuse
+| strength       = 5 / 6 / 7 / 8 (max targets)
+| duration       = 4 / 8 / 12 / 16 s
+| range          = 5 / 7 / 9 / 11 m
+| misc           = &infin; (cast range)
+}}
+{{AbilityU10.3/Tabber | Gaze
+| strength       = 20 / 30 / 40 / 50 % (defense reduction)
+| duration       = 5 / 8 / 11 / 14 s
+| range          = 10 / 15 / 20 / 25 m (cast range)<br/>6 / 8 / 10 / 12 m (aura radius)
+| misc           = ?° (cone angle)<br/>2 (max targets)<br/>100 % (reduction cap)
+}}
+{{AbilityU10.3/Tabber | Deny
+| strength       = 1,000 / 2,000 / 3,000 / 4,000 ({{D|Void}} damage)
+| duration       = 5 / 8 / 11 / 14 s
+| range          = 25 / 30 / 35 / 40 m
+| misc           = ? m (beam radius)<br/>100 % (Sentient resistance reset on hit)
+}}
+| cardonly = {{{1|}}}
+| info = 
+* Heeding the voices within to harness their powers, Xaku selectively casts one of three abilities originating from the three fallen Warframes. Tapping the ability key freely cycles the selection wheel between the '''Accuse''', '''Gaze''', and '''Deny''' sub-abilities. Holding down the ability key (default {{Keybind|3}}) expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to cast the selected power.
+** Casting speed is affected by [[Casting Speed]].
+** Tap/hold cast can be inverted in the [[Settings]] menu.
+** The Lost's cycle selection wheel appears above Xaku's ability icons. Each ability's duration timer is displayed below their associated sub-ability icons in the wheel.
+* Channel the Void to access their lost components' unique powers:
+<div class="tabber-borderless" ><tabber>
+|-|Accuse=<div style="display:none;">'''Accuse'''<br></div>
+*Distorting reality with '''Accuse''', Xaku manifests a Void fissure at the targeted location on the aiming reticle over '''<u>infinite</u>''' range. Up to {{Stat|Ability Strength|icon=only}}'''5 / 6 / 7 / 8''' enemies within {{Stat|Ability Range|icon=only}}'''5 / 7 / 9 / 11''' meters from the fissure become corrupted by Void energy for {{Stat|Ability Duration|icon=only}}'''4 / 8 / 12 / 16''' seconds, stunning them in place then causing them to fight for Xaku and turn on their former allies.
+**Xaku does '''not''' require [[Line of Sight]] to enemies to corrupt them with Accuse.
+**While Accused enemies are briefly allied with [[Tenno]], they can still be damaged by most sources and affected by some Warframe abilities.
+***Exceptions include {{WF|Mesa}}'s {{A|Peacemaker}} and {{A|Grasp of Lohk}}'s floating weapons.
+**Accused enemies appear on the minimap as allied blue dots.
+**The number of active Accused units is displayed as an icon beside Xaku's shield and health indicators.
+*Accused enemies '''do''' count toward mission progression (e.g. [[Defense]]). They must be slain or their ability duration ended to progress.
+*Can be recast while active if under the max targets cap. Recasting on new enemies adds them to the existing number of Accused units up to the cap. Each new Accused unit has its own separate full ability duration.
+**Cannot be recast while at max targets count.
+*Casting Accuse is a full-body animation that restricts movement and other actions.
+*Xaku's shoulder and arm pieces visually detach and return to position, as Xaku reaches out with their right hand sending the right side pieces into the Void fissure forming at the targeted location. As the Void fissure forms, Void lightning strikes nearby enemies as the ability's area radius becomes briefly visible then fades with the breach's closing, while Xaku's pieces return to their positions on their body.
+*Enemies affected by Accuse glow with an upward stream of Void energy that resembles the [[Ephemera#Vengeful Series|Vengeful Trickster Ephemera]], as well as emitting a Void energy cloud around the shoulders.
+
+|-|Gaze=<div style="display:none;">'''Gaze'''<br></div>
+*Screeching in anguish with voices long lost, Xaku's '''Gaze''' freezes an enemy target within {{Stat|Ability Range|icon=only}}'''10 / 15 / 20 / 25''' meters and a <u>'''?°'''</u> angle cone centered on the aiming reticle. Gazed target becomes entangled in Void tendrils, during which it is disabled, immobile, and [[Invulnerable]] to damage for {{Stat|Ability Duration|icon=only}}'''5 / 8 / 11 / 14''' seconds; while captive, the victim stores all damage prevented by its invulnerability and receives it in full when the ability expires. Gazed target also emits a defense reduction aura with a {{Stat|Ability Duration|icon=only}}'''6 / 8 / 10 / 12''' meter radius, which weakens other enemies' maximum [[Shields]] and [[Armor]] by {{Stat|Ability Strength|icon=only}}'''20% / 30% / 40% / 50%''' while within range. Up to <u>'''2'''</u> Gazed targets may exist at once.
+**Enemy armor and shields are fully removed at '''200%''' {{Stat|Ability Strength}}. With one {{M|Corrosive Projection}}, armor will be fully stripped at '''164%''' Ability Strength.
+***Shield strip removes a percentage of the ''current'' maximum value. Armor strip, however, is a percentage of an enemy's total.
+****Enemy shields can still regenerate with natural shield regeneration (such as [[Armis Ulta]], [[Kuva Lich]]es, or [[Sisters of Parvos]]) or while affected by regeneration buffs (such as [[Shield Osprey]]s).
+**While invulnerable, the Gazed target is still susceptible to [[Status Effect]]s, with exception of the inability to proc {{D|Void}} status.
+**Gaze defense reduction auras will stack with other defense reduction effects, but multiple Gaze auras do '''not''' stack with each other, whether from the same caster or from another Xaku in the squad.
+**Enemies regain their reduced shields and armor once they move outside of Gaze's aura.
+**If the enemy target dies before Gaze's entanglement fully takes effect, the casting energy cost is refunded to Xaku.
+**If an enemy that has both shields and armor wanders into Gaze's aura, such as an [[Oxium Osprey]], then shields will be prioritized over armor.
+*Holding down the ability key (default {{Keybind|3}}) while aiming directly at a Gazed target releases the victim early, causing it to receive all accumulated damage prevented by its brief invulnerability.
+*Gazed enemies do '''not''' count towards mission progression.
+*Can be recast while active to entangle a new enemy, freeing the oldest affected enemy if cast at max number of targets.
+*Casting Gaze is a full-body animation that restricts movement and other actions.
+*Xaku's head, face, chest, shoulder and arm pieces visually detach, as Xaku screams into the air above while blob-like substances fly out from their torso. The enemy target is frozen in place as it becomes entangled in a mass of rapidly growing Void tendrils.
+**While affected, the enemy target emits a radial aura visual effect and emits a Void energy cloud around the shoulders.
+
+|-|Deny=<div style="display:none;">'''Deny'''<br></div>
+*Discharging a torrent of Void energy, Xaku unleashes a ray of piercing light toward the aiming reticle with infinite body [[Punch Through]] that travels up to {{Stat|Ability Range|icon=only}}'''25 / 30 / 35 / 40''' meters away. Enemies struck directly or within a <u>'''?'''</u> meters radius from the beam receive {{Stat|Ability Strength|icon=only}}'''1,000 / 2,000 / 3,000 / 4,000''' {{D|Void}} damage, reset damage resistances if used against [[Sentient]] faction, and become suspended in aerial stasis for {{Stat|Ability Duration|icon=only}}'''5 / 8 / 11 / 14''' seconds.
+**Deny's Void damage benefits from {{Stat|Ability Strength}}, number of {{A|Grasp of Lohk}}'s Void replicas, and {{A|The Vast Untime}}'s Void damage vulnerability using the following expression:
+**:{{MathText|Total Void Damage {{eql}} Void Damage {{mul}} (1 + Ability Strength) {{mul}} (Number of Void Replicas + 1) {{mul}} Void Damage Vulnerability}}
+***At ability rank 3 with a maxed {{M|Intensify}} equipped, stolen '''6''' Void replicas, against an enemy affected by The Vast Untime, Xaku will deal {{Math|4,000 {{mul}} (1 + 0.3) {{mul}} (6 + 1) {{mul}} 1.5|mt=y}} {{D|Void}} damage.
+***Deny's damage can be further amplified by [[Enemy Body Parts]] multipliers.
+**Enemies with selective crowd control effect immunity such as the [[Battalyst]] and [[Conculyst]] are unaffected by Deny's aerial stasis.
+*Can be recast while active to strike new targets, or damage and refresh all effects on already affected enemies.
+*Casting Deny is an upper-body animation that allows reticle repositioning and movement, while restricting other actions.
+*Xaku's shoulder and arm pieces visually shiver then detach to hover above Xaku, as a beam of Void energy travels forward from Xaku's left hand, after which the pieces return to their positions.
+*Enemies affected by Deny are suspended in the air by an upward stream of Void energy that resembles the [[Lifted]] status effect.
+</tabber></div>
+<hr />
+*Each active sub-ability is a separate instance from Xaku. As such, the ability nullifying effects of special enemies (e.g. [[Nullifier Crewman]]) will '''not''' dispel The Lost's sub-abilities if only Xaku is affected.
+| interactions = 
+* {{A|Xata's Whisper}} does '''not''' grant additional {{D|Void}} damage to The Lost's sub-abilities.
+* {{A|Grasp of Lohk}} can disarm and steal the weapons of enemies affected by all sub-abilities of The Lost.
+** Void replicas will '''not''' attack enemies corrupted by Accuse, unless affected by {{D|Radiation}} status effect or other faction modifier abilities (e.g. {{A|Chaos}})
+** Void replicas will '''not''' attack an enemy trapped by Gaze.
+** Void replicas amplify Deny's damage, based on the number of stolen weapons hovering around Xaku.
+* The Lost's sub-abilities interact with each other in various ways:
+** '''Accuse''' can corrupt enemies into allies while they are lifted by Deny. However, it cannot corrupt a Gazed enemy target. Accused units will attack a Gazed enemy target, storing damage to inflict to the victim once released from the Void tendrils.
+** '''Gaze''' may be cast on an enemy affected by either Accuse or Deny. Gaze reduces the defenses of Accused units in range. Gazing an Accused unit creates an invulnerable decoy that draws enemy aggro until Accuse expires.
+** '''Deny''' does '''not''' affect Accused units, but will contribute damage to Gazed enemy targets.
+* {{A|The Vast Untime}} renders enemies <u>'''50%'''</u> more vulnerable to Deny's beam and pauses all sub-abilities' ability duration timers while active.
+| augment = 
+[[File:TheRelentlessLostMod.png|200px|left]]
+{{main|The Relentless Lost}}
+{{#lst:The Relentless Lost|intro}}
+{{#lsth:The Relentless Lost|Stats}}
+{{clr}}
+| tips = 
+* With one player using {{M|Corrosive Projection}}, 100% armor strip can be achieved at 164% Ability Strength, otherwise approx. 200% Ability Strength is required.
+* Cast Accuse on a nearby surface or the ground below you to quickly corrupt surrounding enemies to help fight alongside you, or cast on a group of enemies off in the distance to create a distraction when faced with ranged threats.
+* Accused enemies are allied units to the Tenno, therefore their special auras (such as those of [[Shield Osprey]], [[Ancient Healer]], [[Eximus]], etc) or abilities will be used to briefly benefit you and your team.
+* Cast Accuse on or near a mission objective to enlist the enemy to defend them for you.
+* Cast Gaze on up to two enemies to completely disable them for the duration, while emitting an aura that reduces the defenses of other enemies in range.
+** All damage prevented by the Gazed target's invulnerability will be dealt in full when the ability ends.
+** Gazed targets do not halt mission progression such as [[Defense]] waves, allowing your defense reduction auras to persist in an area until you release the targets.
+** Gazed targets are still susceptible to status effects. Inflict {{D|Radiation}} procs to create an invulnerable distraction for nearby enemies.
+** Cast on enemies in different locations to encompass a larger area with the defense reduction auras. 
+* Gaze is cast within a cone centered on the aiming reticle. The closest enemy near the sides of the reticle will be automatically targeted by the ability.
+* During an [[Interception]] mission, when an enemy is using a control console to regain control of the point, cast Gaze upon them. Doing so will keep the control console occupied without giving the enemy control of the tower. 
+** Continuously cast {{A|The Vast Untime}} to keep this enemy in stasis nearly indefinitely. If/when the tower is recaptured, to prevent conflict on the point, look at the suspended enemy and cast Gaze on them again to release them.
+* Cast Deny against enemies packed in a tight line to maximize its effect.
+* Deny's damage is greatly amplified by the number of stolen weapons from {{A|Grasp of Lohk}}. Steal and maintain a large amount of weapons to deal devastating damage with Deny's Void beam.
+* Enemies lifted by Deny are made easy targets for headshots from your weapons.
+* Activate {{A|The Vast Untime}} to freeze all sub-abilities' duration timers. Accused enemies will remain on your side, Gazed targets stay trapped and emit their auras, and Denied enemies stay lifted airborne for an extended period of time. Strike enemies hit by the Void blast with Deny's Void beam to deal increased damage. This ability also slows enemies, making them easier to keep inside of Gaze's aura radius.
+| bugs = |
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Xaku}}
+__NOTOC__
+[[es:Los perdidos]]
+[[Category:Xaku]]
+[[Category:Update 29]]
+[[Category:Armor Reduction]]
+[[Category:Void Damage]]
+[[Category:Shield Reduction]]
+[[uk:Утрачений]]

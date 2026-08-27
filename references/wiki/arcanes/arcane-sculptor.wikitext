@@ -1,0 +1,264 @@
+{{ArcaneBox|name={{PAGENAME}}}}'''{{PAGENAME}}''' is an [[Arcane Enhancement]] for [[Warframes]] that locks a Warframe's [[Ability Efficiency]] at up to 175% when creating an object using a Warframe ability.
+
+==Effect==
+{| class="emodtable"
+|-
+! Rank
+! Ability Efficiency Locked At
+|-
+| 0 || 125%
+|-
+| 1 || 135%
+|-
+| 2 || 145%
+|-
+| 3 || 155%
+|-
+| 4 || 165%
+|-
+| 5 || 175%
+|-
+|}
+
+{{Acquisition|name={{PAGENAME}}}}
+
+Can be bought from [[Hunhow]] at [[Pontis Tower]] for 10 {{Resource|Emerald Talent}} and 10 {{Resource|Crimson Talent}}
+
+==Notes==
+*Ability Efficiency is <u>locked at</u> ''(not increased by)'' the stated value when the Arcane activates.
+**It will provide no benefit if the default efficiency is equal to the Arcane's effect.
+**It will reduce efficiency if the default efficiency is higher than the Arcane's effect.
+***This can normally only happen if the arcane is not at max rank. Otherwise, Arcane Sculptor provides the max amount of Ability Efficiency possible (outside of [[Lohk Surge]] buffs).
+***Channeled abilities use both [[Ability Duration]] and Ability Efficiency to calculate their energy drain over time. If your Duration is below 100% and your  Efficiency is over 175% (this will still be displayed as 175%, but the excess is taken into account for channeled abilities), Arcane Sculptor will increase the drain over time of channeled abilities when it activates.
+===Valid Objects===
+{| class="wikitable sortable stickyHeader" 
+|-
+! Warframe
+! Ability
+! [[Helminth#Ability_Replacement|Subsumable]]
+!Notes
+|-
+| rowspan=1 | {{WF|Atlas}}
+| {{A|Tectonics}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Citrine}}
+| {{A|Prismatic Gem}}
+| style="text-align:center" | 
+|Doesn't work with {{M|Prismatic Companion}}.
+|-
+| rowspan=2 | {{WF|Cyte-09}}
+| {{A|Seek}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Resupply}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=2 | {{WF|Follie}}
+| {{A|Shadowgraph}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Self Portrait}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|
+|-
+| rowspan=1 |{{WF|Frost}}
+| {{A|Snow Globe}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Gara}}
+| {{A|Mass Vitrify}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Garuda}}
+| {{A|Dread Mirror}}
+| style="text-align:center" | 
+|Only when creating a new Dread Heart.
+|-
+| rowspan=2 |{{WF|Gyre}}
+| {{A|Arcsphere}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Coil Horizon}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|
+|-
+| rowspan=1 |{{WF|Ivara}}
+| {{A|Quiver|Dashwire Arrow}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Jade}}
+| {{A|Light's Judgment}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Khora}}
+| {{A|Strangledome}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Koumei}}
+| {{A|Kumihimo}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=2 |{{WF|Lavos}}
+| {{A|Transmutation Probe}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Catalyze}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Loki}}
+| {{A|Decoy}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|Doesn't work with {{M|Damage Decoy}} when used on enemies.
+|-
+| rowspan=1 |{{WF|Mirage}}
+| {{A|Prism}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=3 |{{WF|Nokko}}
+| {{A|Stinkbrain}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Brightbonnet}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|
+|-
+| {{A|Sporespring}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Nova}}
+| {{A|Wormhole}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=2 |{{WF|Octavia}}
+| {{A|Mallet}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Resonator}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|
+|-
+| rowspan=1 |{{WF|Orion}}
+| {{A|Astral Shell}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|Only when spawning a decoy.
+|-
+| rowspan=3 |{{WF|Protea}}
+| {{A|Grenade Fan}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Blaze Artillery}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Dispensary}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|
+|-
+| rowspan=1 |{{WF|Qorvex}}
+| {{A|Chyrinka Pillar}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|
+|-
+| rowspan=1 |{{WF|Saryn}}
+| {{A|Molt}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|
+|-
+| rowspan=3 |{{WF|Vauban}}
+| {{A|Tesla Nervos}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|
+|-
+| {{A|Minelayer|Tether-Flechette Orb}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Bastille}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Volt}}
+| {{A|Electric Shield}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=2 |{{WF|Wisp}}
+| {{A|Reservoirs}}
+| style="text-align:center" | 
+|
+|-
+| {{A|Wil-O-Wisp}}
+| style="text-align:center" | 
+|
+|-
+| rowspan=1 |{{WF|Yareli}}
+| {{A|Aquablades}}
+| style="text-align:center" | [[File:HelminthChrysalis.png|24px]] Subsumable
+|Doesn't work with {{M|Surging Blades}} recasts.
+|}
+===Invalid Objects===
+*Any [[Exalted Weapon]] (including {{WF|Sevagoth}}'s {{A|Exalted Shadow}})
+*{{WF|Ash}}'s {{A|Shuriken}} & {{A|Blade Storm}} shadows
+*{{WF|Atlas}}'s {{A|Rumblers}} 
+*{{WF|Baruuk}}'s {{A|Desolate Hands}}
+*{{WF|Caliban}}'s {{A|Lethal Progeny}}
+*{{WF|Chroma}}'s {{A|Effigy}}
+*{{WF|Dante}}'s {{A|Final Verse}} (Wordwarden & Pageflight)
+*{{WF|Dagath}}'s {{A|Wyrd Scythes}} and {{A|Rakhali's Cavalry}}
+*{{WF|Ember}}'s {{A|Fireball}} and {{A|Inferno}}
+*{{WF|Gara}}'s {{A|Spectrorage}} & {{A|Splinter Storm}}
+*{{WF|Garuda}}'s {{A|Blood Altar}} impaled enemies
+*{{WF|Hydroid}}'s {{A|Tempest Barrage}} & {{A|Tentacle Swarm}}
+*{{WF|Inaros}}'s {{A|Scarab Swarm}} kavats
+*{{WF|Kullervo}}'s {{A|Recompense}} & {{A|Storm of Ukko}}
+*{{WF|Limbo}}'s {{A|Cataclysm}} & passive rift portal
+*{{WF|Mag}}'s {{A|Magnetize}} & {{A|Polarize}}'s shards
+*{{WF|Nekros}}'s {{A|Shadows of the Dead}}
+*{{WF|Nezha}}'s {{A|Fire Walker}}, {{A|Blazing Chakram}}, {{A|Warding Halo}}, & {{A|Divine Spears}}
+*{{WF|Nidus}}'s {{A|Larva}} & {{A|Ravenous}}
+*{{WF|Nova}}'s {{A|Null Star}} & {{A|Antimatter Drop}}
+*{{WF|Nyx}}'s {{A|Psychic Bolts}}
+*{{WF|Oberon}}'s {{A|Hallowed Ground}}
+*{{WF|Oraxia}}'s {{A|Webbed Embrace}} & {{A|Widow's Brood}}
+*{{WF|Orion}}'s {{A|Event Horizon}}
+*{{WF|Qorvex}}'s {{A|Containment Wall}}
+*{{WF|Revenant}}'s {{A|Enthrall}} pillars
+*{{WF|Sevagoth}}'s {{A|Reap}} shadows & [[Sevagoth/Abilities/Passive|passive]] tombstone
+*{{WF|Sirius}}'s {{A|Coronal Ejection}}, {{A|Jade Stars}} & {{A|Light's Sanctuary}}
+*{{WF|Styanax}}'s {{A|Axios Javelin}}, {{A|Tharros Strike}}, & {{A|Final Stand}}
+*{{WF|Titania}}'s {{A|Tribute}} 
+*{{WF|Uriel}}'s {{A|Demonium}} souls, {{A|Brimstone}}, and anything created by his demons (Catenach's chains, Gulphagor's Circles of Pain/orbs, or Vythelas's runes)
+*{{WF|Valkyr}}'s {{A|Rip Line}}
+*{{WF|Vauban}}'s {{A|Minelayer|Vector-Overdriver Pad}}
+*{{WF|Wisp}}'s {{M|Cataclysmic Gate}}
+*{{WF|Wukong}}'s {{A|Celestial Twin}}
+*{{WF|Xaku}}'s {{A|Grasp of Lohk}} & {{A|The Lost}}
+*{{WF|Zephyr}}'s {{A|Tornado}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43.0}}
+*Introduced
+}}
+
+{{ArcaneNav}}

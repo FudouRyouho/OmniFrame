@@ -1,0 +1,51 @@
+<onlyinclude>{{AbilityU10.3
+| name = Arcsphere
+| gameimage = Arcsphere130xWhite.png
+| cardimage = ArcsphereModx256.png
+| hotkey = 1
+| energy = 25
+| drain = 
+| cost = 
+| description = Launch a Gyratory Sphere that will deal high damage on impact and periodically deal electrical shocks to nearby enemies. Hit multiple enemies at once with the initial launch to enhance damage.
+| strength = 1,000 / 1,300 / 1,600 / 2,000 ({{D|Electricity}} damage on deployment)<br/>100 / 150 / 200 / 250 /s (field {{D|Electricity}} damage per second)
+| range = 4 m (impact radius)<br/>7 m (field radius)
+| duration = 7 / 8 / 9 / 10 s
+| misc = {{D|Electricity}} status on hit<br/>2.0x (enhanced damage multiplier)<br/>3 (initial enemies hit for enhanced damage)<br/>3 (active spheres limit)<br/>0% to 300% (ability critical chance)
+| cardonly = {{{1|}}}
+| info = 
+*Gyre expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to throw a Gyratory Sphere in an arcing trajectory toward the aiming reticle. On impact with a surface, entity, or on manual reactivation by pressing the ability key again (default {{Keybind|1}}), the Arcsphere fully deploys to electrocute all enemies within a {{Stat|Ability Range|icon=only}}'''4''' meter sight detection radius, inflicting {{Stat|Ability Strength|icon=only}}'''1,000 / 1,300 / 1,600 / 2,000''' {{D|Electricity}} damage with <u>'''100%'''</u> [[Status Chance]].
+**Damage on deployment can damage and break destructible [[Objects]] in range.
+*The deployed Arcsphere remains stationary lasting for {{Stat|Ability Duration|icon=only}}'''7 / 8 / 9 / 10''' seconds. It emits an electric field with a {{Stat|Ability Range|icon=only}}'''7''' meter sight detection radius, shocking all surviving and new enemies in range to inflict {{Stat|Ability Strength|icon=only}}'''100 / 150 / 200 / 250''' {{D|Electricity}} damage per second with <u>'''100%'''</u> Status Chance. 
+**<u>The electric field is purely visual</u>, arcs of lightning are the true source of damage. Enemies standing farther from the center will receive less hits due to sporadic movement of the arcs.
+***The arcs posess [[Infinite Body Punch Through]].
+**Damage per second inflicted by the electric field is multiplied by <u>'''2x'''</u> if at least <u>'''3'''</u> enemies are hit inside the initial impact radius. 
+**Gyre may only have <u>'''3'''</u> Arcspheres active at once.
+**The number of active Arcspheres is shown on the ability icon.
+**The deployed Arcsphere is '''not''' a solid object, as such allows entities and projectiles to phase through it unhindered.
+**Due to its projectile properties, Arcsphere's thrown and deployed objects are attracted by {{A|Magnetize}}.
+*Can be recast while active to halt and deploy an Arcsphere mid-flight, or throw and deploy a new Arcsphere.
+*Casting and manually deploying Arcsphere are upper-body animations that allow player movement and [[Maneuvers]] while restricting other actions.
+*Arcsphere visually resembles a spherical cluster of magnetic pentagonal and hexagonal plates surrounding an electric core. Arcs of lightning protrude from within to touch the borders of the electric field which meld into nearby terrain, giving an appearance similar to a large [[wikipedia:plasma globe|plasma globe]].
+**Enhanced damage Arcsphere changes its appearance by expanding its plates from the core, with numerous other plates methodically orbiting the sphere within the confines of the electric field.
+*[[Nullifier Crewman|Nullifier]] bubbles will only disable an orb when they cross the gyrating core, not the emanating energy aura.
+**The thrown projectile sphere will bounce off of the null bubble on contact.
+<hr/>
+| interactions = 
+* Gyre's [[Gyre/Abilities#Passive|Passive]] and {{A|Cathode Grace}} enable ability [[Critical Hit]]s by granting <u>'''0%'''</u> to <u>'''300%'''</u> critical chance to damage and status effects dealt by Arcsphere, which trigger lightning discharges from {{A|Rotorswell}}.
+* {{A|Coil Horizon}}'s enemy suction effect assists in Arcspheres' damage enhancement.
+* Direct kills by Arcsphere, its {{D|Electricity}} status effects, and kill assists from allies extend Cathode Grace's duration.
+| augment = 
+| tips = 
+*The orbs are extremely effective as crowd control tools especially in areas with tight corridors. Range- and Duration-based mods further amplify the effects.
+**A Range build is also useful at keeping enemies from seeking safety in a nullifier bubble that is already within the orb's effective range, shocking them before getting within unless the bubble manages to disable the electric field's core.
+*Deploy an orb near the party's camping position in [[Survival]] missions for an added layer of security in case enemies get too close.
+*Be mindful that Arcspheres can prematurely deploy when they make contact with allied units such as other Warframes, [[Specter (Tenno)|Tenno Specters]], companions or [[Railjack/Crew|Railjack Crews]].
+| bugs = 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Gyre}}
+__NOTOC__
+[[Category:Gyre]]
+[[Category:Update 31]]
+[[uk:Сферична дуга]]

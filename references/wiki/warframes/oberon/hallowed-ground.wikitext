@@ -1,0 +1,56 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly       = {{{1|}}}
+| name           = Hallowed Ground
+| gameimage      = OberonHallowedGround.png
+| cardimage      = HallowedGround.png
+| hotkey         = 2
+| energy         = 50
+| description    = Sanctifies the ground before Oberon, inflicting Radiation Damage to all enemies within the radius. Also grants protection against Status Effects for Oberon and his allies.
+| strength       = 25 / 50 / 75 / 100 ({{D|Radiation}} damage)
+| duration       = 10 / 15 / 17 / 20 s
+| range          = 8 / 10 / 12 / 15 m (radius)
+| misc           = 100% ({{D|Radiation}} [[Status Chance]])<br>0.5 s (damage tick interval)<br>3 (Hallowed Ground cap)
+|info = 
+*{{WF|Oberon}} expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to consecrate the ground around him up to {{Stat|Ability Range|icon=only}}'''8 / 10 / 12 / 15''' meters, for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 17 / 20''' seconds. Enemies standing on the area of effect are dealt {{Stat|Ability Strength|icon=only}}'''25 / 50 / 75 / 100''' {{D|Radiation}} damage with <u>'''100%'''</u> {{D|Radiation}} [[status chance]] every <u>'''0.5'''</u> seconds. Allies are cleansed and granted full [[Status Immunity]] for as long as they are standing in the area. 
+**Up to a maximum of <u>'''3'''</u> Hallowed Grounds can exist at a time.
+**Area of effect extends '''~2m''' above and below the casting surface.
+**If cast in midair, Oberon will instantly drop to the ground to perform this ability.
+**{{E|Nullifier Crewman}} will '''not''' destroy Hallowed Ground, but instead render enemies immune to its effects while inside the bubble.
+*Hallowed Ground spawns foliage inside its area of effect as visual representation. Oberon creates a field of grass, while Oberon Prime creates a field of ferns. Grass and ferns are affected by Oberon's chosen Warframe Accent color.
+**The shimmering energy field encompassing the ground is affected by Oberon's chosen Warframe energy color.
+| synergies =
+**{{A|Renewal}}'s {{Stat|Health}} restore per second is increased by <u>'''2x'''</u> when standing on Hallowed Ground.
+**Hallowed Ground rapidly applies {{D|Radiation}} statuses to boost {{A|Reckoning}}'s damage.
+|augment = 
+[[File:HallowedEruptionMod.png|200px|left]]
+{{main|Hallowed Eruption}}
+{{#lst:Hallowed Eruption|intro}}
+{{#lsth:Hallowed Eruption|Stats}}
+{{clr}}
+|tips = 
+*Enemies will traverse and fight through Hallowed Ground without any special attempts to evade its area of effect.
+*Narrow pathways such as doorways and halls are effective at forcing groups of enemies to cluster into Hallowed Ground.
+*Summoning multiple, overlapping layers of Hallowed Ground will deal the full combined damage over time to enemies.
+*Hallowed Ground is most efficiently used in areas where constant enemy and ally activity is expected over an extended period of time.
+*Hallowed Ground's status effect immunity can be used to pass through environmental traps unhindered, such as Grineer {{D|Magnetic}} [[Sensor Bar]]s and Corpus [[Laser Barrier]]s.
+**Note however that activating these traps in [[Spy|spy missions]] will still trigger vault alarms.
+*Hallowed Ground will make players immune to to {{D|Radiation}} and {{D|Magnetic}} singularities in [[Sortie]]s.
+<noinclude>
+|max = {{WFmax|main|oberon2}}
+</noinclude>
+|bugs =
+}}</onlyinclude>
+==See Also==
+*{{WF|Oberon}}
+__NOTOC__
+[[de:Heiliger Boden]]
+[[es:Suelo sagrado]]
+[[fr:Bénédiction Terrestre]]
+[[ru:Святая Земля]]
+[[Category:Warframe Abilities]]
+[[Category:Two-Handed Abilities]]
+[[Category:Radiation Damage]]
+[[Category:Oberon]]
+[[Category:Update 11]]
+[[Category:Conal Area of Effects]]
+[[uk:Свята земля]]

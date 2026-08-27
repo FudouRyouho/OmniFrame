@@ -1,0 +1,60 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Bastille
+| gameimage      = Bastille130xWhite.png
+| cardimage      = BastilleModx256.png
+| hotkey         = 4
+| energy         = 100
+| description    = Erect a containment field to capture enemies and suspend them in stasis, stripping their armor. HOLD to collapse all Bastilles into a single damaging vortex.
+<br/>'''Collapse energy cost:''' 0
+| cost           = 6 / 7 / 8 / 9
+| strength         = 15 ({{D|Blast}} damage on device hit)<br/>2.5 / 5 / 7.5 / 10 % (armor removal per second)<br/>20 armor per second (bastille armor buff rate)<br/>50 ({{D|Magnetic}} damage per second in vortex)<br/>40% (vortex status chance)
+| range          = 5 / 7 / 8 / 10 m (capture radius)
+| duration       = 8 / 10 / 12 / 15 s (bastille duration)<br/>10 / 12 / 13 / 15 s (vortex duration)<br/>10 s (armor buff duration)<br/>3 s (auto collapse vortex duration)
+| misc           = ?% ({{D|Blast}} status chance)<br/>2x (armor buff rate from armored enemies)<br/>&infin; (armor buff duration in field)<br/>1,500 (armor bonus cap)<br/>4 bastille cap<br/>4 vortex cap
+| cardonly       = {{{1|}}}
+|info            =
+*Vauban expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to throw a modular device in an arcing trajectory toward the aiming reticle. Upon striking an enemy, the device inflicts {{Stat|Ability Strength|icon=only}}'''15''' {{D|Blast}} damage with a <u>'''~10%'''</u> status chance. Upon contact with a surface, the device erects a '''Bastille''' energy containment field that suspends enemies into the air within a {{Stat|Ability Range|icon=only}}'''5 / 7 / 8 / 10''' meter radius. Armored enemies inside the Bastille's area permanently lose {{Stat|Ability Strength|icon=only}}'''2.5% / 5% / 7.5% / 10%''' of their total [[Armor]] points per second, while unarmored enemies are simply held captive. Enemies do not have to be suspended by the Bastille to lose armor. Simultaneously, Vauban and allies standing inside the containment field gain {{Stat|Ability Strength|icon=only}}'''4''' armor every <u>'''0.2'''</u> seconds for <u>'''each enemy'''</u> within the containment field, with armored enemies granting <u>'''2x'''</u> more armor. The armor bonus stacks up to <u>'''1,500'''</u> armor points. Bastille's armor bonus lasts <u>'''indefinitely'''</u> while inside the field and remains active for {{Stat|Ability Duration|icon=only}}'''10''' seconds once outside.
+**Bastille armor bonus duration is reset to full when moving into any Bastille containment fields.
+**Suspended enemies are lifted into the air and completely immobilized, allowing headshots to hit their mark without resistance.
+*After {{Stat|Ability Duration|icon=only}}'''8 / 10 / 12 / 15''' seconds have elapsed, the containment field automatically collapses into a Vortex singularity for {{Stat|Ability Duration|icon=only}}'''3''' seconds. The '''Vortex''' constantly {{D|Ragdoll|Ragdolls}} and draws in <u>'''all'''</u> enemies within the same radius toward the device, inflicting {{Stat|Ability Strength|icon=only}}'''12.5''' {{D|Magnetic}} damage every '''0.25''' seconds with {{Stat|Ability Strength|icon=only}}'''40%''' status chance per hit.
+**Hold down the ability key (default {{Keybind|4}}) without any containment fields active to throw a new device set to Vortex mode. Hold down the ability key to collapse all active Bastille containment fields into Vortexes. Both methods of manually creating Vortexes resets the new and existing devices to last for {{Stat|Ability Duration|icon=only}}'''10 / 12 / 13 / 15''' seconds.
+**If Bastille fields are in range of each other, manually collapsing them into vortexes causes them to converge on the location of the first active Bastille, based on the order of creation. Enemies and pickups captured by the vortexes will be dragged along toward the new destination.
+**Vortex also draws in [[Pickups]] within its radius for convenient collection.
+*A maximum of <u>'''4'''</u> Bastilles and <u>'''4'''</u> Vortexes can be simultaneously active.
+**Casting a 5th Bastille or Vortex will replace the oldest one of the same type. 
+*'''Ability Synergy:'''
+**Enemies suspended by Bastille or pulled by Vortex [[Vauban/Abilities/Passive|passively]] receive <u>'''25%'''</u> increased damage from Vauban's weapons and abilities.
+**{{A|Minelayer}}'s Flechette-Tether Orb and Vector-Overdriver Pad can bring enemies into range of Bastille. Enemies tied to Flechette-Tether orbs are released into Bastille's containment field for suspension, freeing the tether to seek new targets.
+***Tethers are '''not''' freed if enemies tied to Flechette-Tether Orb are pulled into Bastille's vortex mode, however.
+**{{A|Photon Strike}}'s targeting beacon is attracted to Bastille's vortex mode, causing the beacon to home in on the device with the laser striking all enemies within range.
+*Can be used while performing many actions without interrupting them, including reloading.
+*Can be cast multiple times while active.
+*If cast while in midair, the casting animation changes with Vauban hovering briefly in the air as he throws the device.
+*Bastille is a [[One-Handed Action|one-handed action]]. As such, it can be used while performing various maneuvers and actions without interruption.
+|augment =
+[[File:EnduringBastilleMod.png|200px|left]]
+{{main|Enduring Bastille}}
+{{#lst:Enduring Bastille|intro}}
+{{#lsth:Enduring Bastille|Stats}}
+{{clr}}
+|tips = 
+*Bastille spawns from a ball that Vauban throws in an arc, so it can be deployed where aimed.
+*Unlike many area-affecting abilities, neither Bastille nor Vortex require line of sight to affect enemies. This is disadvantageous for Vortex, as it frequently causes enemies to become stuck in corners or behind doorframes instead of reaching the device, forcing players to go looking for them. To avoid this, Vortex should be placed in open areas.
+|bugs =
+*If Vauban is playing as client, {{A|Photon Strike}}'s beacon will not be attracted to Bastille's vortex even when thrown into its suction range.
+*Vortex will slow down allied specters such as the Corrupted Lancer specter. 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Vauban}}
+__NOTOC__
+[[es:Bastilla]]
+[[fr:Bastille]]
+[[Category:Vauban]]
+[[Category:One-Handed Abilities]]
+[[Category:Update 26]]
+[[Category:Armor Reduction]]
+[[Category:Blast Damage]]
+[[Category:Magnetic Damage]]
+[[uk:Бастилія]]
+[[Category:Grouping]]
