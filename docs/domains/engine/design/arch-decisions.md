@@ -4,7 +4,7 @@ Rol: "Decisiones arquitectónicas críticas del motor de simulación v2 — Sim-
 Impacto_ID: "E-01-Decisions"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-04-21"
-Fecha_de_actualizacion: "2026-08-24"
+Fecha_de_actualizacion: "2026-08-27"
 Dependencias:
   - "docs/domains/engine/design/simulation-architecture.md"
   - "docs/domains/engine/engine-audit.md"
@@ -578,6 +578,8 @@ grupo**. "Exaltada" no es una categoría — resuelve a sub-source (§3). "Chrom
 un warframe cuyos stats mutan varios source-states exclusivos. Key = verbo disuelve el sesgo de identidad y
 prohíbe grupos arbitrarios por construcción. (Esta regla vale para el trabajo de corpus **aunque la hipótesis
 general aún no esté probada** — es disciplina de clasificación, no una afirmación de arquitectura.)
+
+**El corpus que esa regla ordena está poblado y vive en [`sub-source-corpus.md`](sub-source-corpus.md)** — 49 materializaciones de habilidad más las de arma, precept y Focus, con su verbo y la evidencia del override. Es una **tabla de investigación anclada a un Issue, no SSoT**: lo que se decida a partir de ella se discute allá, no acá. Tres cosas que mide y esta sección no anticipaba: el verbo único es la excepción (22 de 49 hacen dos), los tres verbos tienen caso puro —incluido el **nulo** (`Nova Wormhole`)—, y cuatro habilidades **se parten por dentro**, así que la unidad del corpus no es la habilidad.
 
 **Gates (nombrados, no construidos):** source-state vivo (G-a, 1er buff con duración = Rhino+Roar) ·
 `NeutralState` base (G-b, 2ª columna) · recursión/sub-source (G-c). Ver `decision-frontier §4`.
