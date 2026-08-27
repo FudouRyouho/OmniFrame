@@ -1,0 +1,37 @@
+<onlyinclude>
+The [[Strain Set]] is a set of mods comprised of '''1''' Warframe Mod, '''1''' Helminth Charger Mod, '''1''' Helminth Claws Mod, and '''1''' Melee Mod.
+
+<gallery widths="200" hideaddbutton="true" captionalign="center" spacing="small" bordersize="none" bordercolor="transparent" position="center" navigation="true">
+StrainConsumeMod.png|link=Strain Consume|{{M|Strain Consume}}|alt=Strain Consume{"Transmutable":false,"Type":"Warframe","Description":"Dead Maggots within 10m are consumed, increasing Max Health by 4% and increasing Health Regen by 2/sec for 45sec.","Tradable":true,"Set":"Strain Set","BaseDrain":"2","MaxRank":"3","Icon":"StrainConsume.png","Link":"Strain Consume","Image":"StrainConsumeMod.png","Name":"Strain Consume","Introduced":"24.2","Polarity":"Naramon","Rarity":"Rare","InternalName":"/Lotus/Upgrades/Mods/Sets/Strain/WarframeStrainConsumeMod","CodexSecret":false}
+StrainEruptionMod.png|link=Strain Eruption|{{M|Strain Eruption}}|alt=Strain Eruption{"Transmutable":false,"Type":"Helminth Charger","Description":"Maggots explode on death, dealing 4% of an enemy's current Health as <DT_CORROSIVE_COLOR>Corrosive Damage to any enemy within 8m.","Tradable":true,"Set":"Strain Set","BaseDrain":"2","MaxRank":"3","Icon":"StrainEruption.png","Link":"Strain Eruption","Image":"StrainEruptionMod.png","Name":"Strain Eruption","Introduced":"24.2","Polarity":"Naramon","Rarity":"Rare","InternalName":"/Lotus/Upgrades/Mods/Sets/Strain/HelminthStrainEruptionMod","CodexSecret":false}
+StrainFeverMod.png|link=Strain Fever|{{M|Strain Fever}}|alt=Strain Fever{"Description":"Helminth Charger gains +40% Damage per Cyst.","UpgradeTypes":"WEAPON_DAMAGE_AMOUNT","MaxRank":"3","Image":"StrainFeverMod.png","Introduced":"24.2","Icon":"StrainFever.png","Transmutable":false,"Type":"Helminth Charger","Rarity":"Rare","Tradable":true,"BaseDrain":"6","Polarity":"Madurai","Name":"Strain Fever","Set":"Strain Set","Link":"Strain Fever","InternalName":"/Lotus/Upgrades/Mods/Sets/Strain/HelminthStrainFeverMod","CodexSecret":false}
+StrainInfectionMod.png|link=Strain Infection|{{M|Strain Infection}}|alt=Strain Infection{"Description":"Melee Attacks gain +20% Critical Damage per Cyst.","MaxRank":"3","Image":"StrainInfectionMod.png","Introduced":"24.2","Icon":"StrainInfection.png","Transmutable":false,"Type":"Melee","Rarity":"Rare","Tradable":true,"BaseDrain":"6","Polarity":"Madurai","Name":"Strain Infection","Set":"Strain Set","Link":"Strain Infection","IncompatibilityTags":"SENTINEL_WEAPON","HOUND_WEAPON","InternalName":"/Lotus/Upgrades/Mods/Sets/Strain/MeleeStrainInfectionMod","CodexSecret":false}
+</gallery>
+</onlyinclude>
+
+==Set Bonus==
+[[Strain Set]]: ''The {{Companion|Helminth Charger}} grows cysts every X seconds that erupt every 25 seconds to spawn a {{E|Maggot}} that seeks out and attacks enemies.''
+{| class="emodtable"
+|-
+! Mods Equipped
+! Cysts
+! Duration
+|-
+| 1 || 2 || 6s
+|-
+| 2 || 4 || 12s
+|-
+| 3 || 6 || 18s
+|-
+| 4 || 8 || 24s
+|}
+
+
+==Acquisition==
+*The [[Strain Set]] is rewarded by completing [[Profit-Taker Orb]] [[Heist]]s from {{Faction|Vox Solaris}}, or from enemies in [[Bounty#Deepmines Bounties|Deepmine Bounties]] (both in [[Fortuna]]).
+
+==Notes==
+*Unlike other mod sets, ''all'' mods in this set revolve around enhancing the Set Bonus, as opposed to some that can be used for general purposes.
+*The [[Strain Set]] mods cannot interact with {{WF|Nidus}}'s abilities or the maggots spawned by the {{Weapon|Pathocyst}}.
+
+{{SetModsNav}}
