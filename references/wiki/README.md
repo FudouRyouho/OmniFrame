@@ -24,7 +24,7 @@ guardado no hay cómo demostrar ninguna de las tres.
 **Sin raw no hay verificación posible.** Un `.md` sin raw contra el cual verificarse no es
 reconciliable: no hay forma de saber si está completo ni si sigue siendo cierto.
 
-Captura obligatoria con `?action=raw` — **nunca** `WebFetch` ni similares (ver `../CLAUDE.md`).
+Captura obligatoria con `?action=raw` — **nunca** `WebFetch` ni similares (ver `../AGENTS.md`).
 
 ```bash
 curl -sL "https://wiki.warframe.com/w/<Página>?action=raw" -o <slug>.wikitext
@@ -120,7 +120,7 @@ mecánica del juego** — no qué implicación tiene para el motor.
 descarte). **Nunca se borra en silencio**: "no encuentro la fuente en *esta* página" no autoriza a
 purgar — puede estar en la página de la entidad y no en la de la mecánica.
 
-Excepción única: `game-ui/`, por composición del pipeline (ver `../CLAUDE.md`).
+Excepción única: `game-ui/`, por composición del pipeline (ver `../AGENTS.md`).
 
 ---
 

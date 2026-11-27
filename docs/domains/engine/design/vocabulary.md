@@ -4,7 +4,7 @@ Rol: "SSoT del vocabulario interno del engine — el idioma con el que @core se 
 Impacto_ID: "E-Vocabulary"
 Fidelidad_Fisica: "Project/src/core/engine/"
 Fecha_de_creacion: "2026-07-17"
-Fecha_de_actualizacion: "2026-08-13"
+Fecha_de_actualizacion: "2026-11-27"
 Dependencias:
   - "docs/domains/engine/design/arch-decisions.md"
   - "references/wiki/mechanics/calculating-bonuses.md"
@@ -18,7 +18,7 @@ piensa a sí misma. No es vocabulario del juego.
 **Qué NO es.** El vocabulario **del juego** (tipos de daño, facciones, condition/upgrade tokens) vive en
 [`../../../semantic/`](../../../semantic/) y se **deriva de una taxonomía declarada** — un token se *compone*
 desde un cuerpo (`{WEAPON,WARFRAME}_{ADD,MULT}_…`). Este doc es lo contrario: **no se deriva de nada**, *es*
-el idioma. (Ruteo codificado en `docs/CLAUDE.md` §"Regla de enrutamiento".) Los **tags** de comunicación
+el idioma. (Ruteo codificado en `docs/AGENTS.md` §"Regla de enrutamiento".) Los **tags** de comunicación
 (`engine:debt`) son otro eje: [`../../../governance/nomenclature-grammar.md`](../../../governance/nomenclature-grammar.md).
 
 **Por qué existe.** Un vocabulario que crece sin SSoT **colisiona** — el mismo concepto termina nombrado dos
@@ -214,9 +214,22 @@ Alcance de este LOCK = **L-1 + L-2**. Lo demás está inventariado y **pendiente
 | **L-10** | **`WEAPON_DAMAGE` = nombre pre-rename del nodo global** (hoy `WEAPON_ADD_DAMAGE`, token D-6 — D-7 Fase 2b). **0 líneas de código, 19 en 8 docs.** **Corregir (5):** `upgrade-tokens.md`, `incarnon/schema.md`, `simulation-contracts.md`, `data/decisions.md`, y **`engine/test/test-workflow.md:27` — `consume(…).node('WEAPON_DAMAGE')` TIRA** (`consume.ts` lanza si el nodo está ausente). **NO tocar:** `engine-audit.md §4.1` — `Estado: histórico`, dice el nombre de su época y es correcto *como registro*. | fix mecánico |
 | **L-13** | **`WEAPON_ADD_<TIPO>_DAMAGE` nombraba dos cosas**: (a) el **bucket de upgrade** —*dónde suma Hellfire*, que **es del arma** y ahí el prefijo es fiel— y (b) el **tipo de la instancia** —*estos 400 puntos son Heat*, que no es de nadie. Las tres leyes de resolución usaban (a) para responder (b), así que un emisor no-arma las perdía **sin ruido**: matriz de facción `1500 → 1000`, Toxin cayendo en `shield` en vez de `health`, True `1000 → 99.99`. | **cerrada** — (b) pasó a `DamageType` (`damage-logic.ts` §los dos trabajos, `arch-decisions §18` cuarta aparición); (a) se quedó con el token. **No se acuñó vocabulario nuevo**: `AVATAR_ADD_<TIPO>_DAMAGE` no existe en el dato de DE (0/116) y no debe inventarse. Lo que sí ganó nombre es la **clase del emisor** (`Weapon Damage Ability`, `contracts/emitter-class.ts`) — otra pregunta, y la trae la fuente. |
 
+## 8. C1 ⊥ C2 y *display-only* — dos ejes que no se mezclan
+
+| Término | Qué es | Test |
+|---|---|---|
+| **display-only** | Sinónimo de **C1**: *qué vale cada atributo* sin simular combate — la hoja del arsenal. **No** significa "inerte": un stat display-only es un valor real y calculado, sólo que no necesita tiempo, target ni RNG. | ¿Se muestra en el arsenal sin simular? ⇒ **C1**. ¿Sólo existe en combate? ⇒ **C2**. |
+
+El eje **C1 ↔ C2** (¿hace falta simular combate?) es **ortogonal** al eje **A ↔ B** (¿lo resuelve el grafo
+genérico o una fórmula dedicada?): un mismo mecanismo se ubica en uno y otro por separado.
+
+Ejemplo, **Iron Skin**: el overguard × Strength es **C1 genérico** (se ve en el arsenal, lo resuelve el grafo);
+`[Base + Armor × Mult]` es **fórmula dedicada** (también se ve sin simular, pero no pasa por el grafo); el
+*Absorbed Damage* es **C2** (sólo existe mientras se recibe daño).
+
 ## Ligado a
 - [`../../../governance/closed-decisions.md`](../../../governance/closed-decisions.md) **`DC-OQ-ENGINE-1`** (el patrón `final/base` — §5: **cerrado**, no re-debatir).
 - [`arch-decisions.md`](arch-decisions.md) §4.1 (Stat Accumulator v3 — los 4 buckets), §16 (modelo de pools), §9/§10 (CO/combo = independientes).
 - [`simulation-architecture.md`](simulation-architecture.md) §2.0 (las etapas ①②③ que califican `pool②`).
 - `references/wiki/mechanics/calculating-bonuses.md` (la fórmula honesta, SSoT del juego).
-- `docs/CLAUDE.md` §"Regla de enrutamiento" (por qué este doc vive acá y no en `semantic/`).
+- `docs/AGENTS.md` §"Regla de enrutamiento" (por qué este doc vive acá y no en `semantic/`).

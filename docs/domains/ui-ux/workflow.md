@@ -82,7 +82,7 @@ capturar + cuestionar); el refactor function-first es trabajo separado y gateado
 
 ## 4. Output: el trío operativo de ui-ux
 
-El convenio (`docs/CLAUDE.md` §"Convenio de tamaño") pide máx 3 operativos por dominio
+El convenio (`docs/AGENTS.md` §"Convenio de tamaño") pide máx 3 operativos por dominio
 (`status.md` + `schema.md` + `workflow.md`). ui-ux **no tenía ninguno** (solo `shell-status.md`
 mal nombrado + 5 referencia). La campaña le da el esqueleto que le falta:
 
