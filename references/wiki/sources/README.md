@@ -90,7 +90,7 @@ curl -sL "https://wiki.warframe.com/w/Module:<Nombre>?action=raw" -o <nombre>.lu
 
 Nunca `WebFetch` ni equivalentes: procesan el contenido a través de un modelo intermedio que resume
 según su propio criterio, y ya causó pérdida estructural confirmada
-([`../../CLAUDE.md`](../../CLAUDE.md) §Captura de páginas).
+([`../../AGENTS.md`](../../AGENTS.md) §Captura de páginas).
 
 La última edición real de un módulo se consulta aparte — el archivo no la lleva adentro:
 

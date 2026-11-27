@@ -280,7 +280,7 @@ derivadas de habilidades/unique-traits en el mismo cajón (exaltadas ya tienen s
 `OQ-ENGINE-11`; minions serían la siguiente instancia del mismo patrón general "entidad generada
 por habilidad, no por loadout directo"). El Warframe anfitrión hoy es básicamente loadout + ~8
 nodos genéricos (`project-engine-fase-inventario`) — construir una jerarquía de sub-entidades sobre
-un cimiento tan delgado es el riesgo de over-engineering que `CLAUDE.md` pide cortar. **No abrir OQ
+un cimiento tan delgado es el riesgo de over-engineering que el proyecto pide cortar. **No abrir OQ
 nueva** — cuando llegue el momento, es candidato a generalizar junto con `OQ-ENGINE-11` bajo un
 concepto más amplio de "entidades derivadas", no a resolver ítem por ítem.
 

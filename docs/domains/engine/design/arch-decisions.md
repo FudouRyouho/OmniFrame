@@ -155,7 +155,7 @@ Las habilidades "capturan" el estado del padre al momento del casteo. Este snaps
 
 ## 7. Frontera de dominios: `@core` no importable por dominios
 
-**Decisión:** Los dominios (`domains/*`) **no importan `@core`**. Reafirma la Restricción 1 de `Project/CLAUDE.md` (lista permitida: `@shared`, `@lib`, `./internal` — `@core` excluido). `@core` es el dominio de lógica fuera de UI/consumo-derivado (capas **A, B, C**); el alias es solo empaquetado (podría ser `engine`).
+**Decisión:** Los dominios (`domains/*`) **no importan `@core`**. Reafirma la Restricción 1 de `Project/AGENTS.md` (lista permitida: `@shared`, `@lib`, `./internal` — `@core` excluido). `@core` es el dominio de lógica fuera de UI/consumo-derivado (capas **A, B, C**); el alias es solo empaquetado (podría ser `engine`).
 
 **Consecuencia:**
 - La UI cruza al motor **solo por `@shared`** (inversión de dependencias): la salida vía `ViewModelContract`, y por **simetría** la entrada (intención) también debe cruzar por `@shared` ↔ `EnsembleStore` (A) en `@core`.

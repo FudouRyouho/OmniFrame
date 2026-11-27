@@ -157,6 +157,6 @@ consulta que C2 ya espera. Por eso son flags de la lente que los consume, no un 
   siguen siendo el input compartido con los tests (ground-truth verificado in-game). La reorganización
   toca *cómo el Oracle consume y presenta*, no *qué producen las factories* — cualquier cambio a las
   fixtures debe dejar los tests verdes.
-- **Localidad estricta** ([`Project/CLAUDE.md`](../../../../Project/CLAUDE.md) Restricción 1): la capa
+- **Localidad estricta** ([`Project/AGENTS.md`](../../../../Project/AGENTS.md) Restricción 1): la capa
   de adquisición consume el motor por sus puertos públicos (`@core/engine/output`, `@shared`), sin
   importar internos de dominios hermanos.

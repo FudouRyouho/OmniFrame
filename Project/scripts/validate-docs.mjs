@@ -11,7 +11,7 @@
  *   INFO  → patrón observado sin autoridad en ningún contrato. Solo se reporta.
  *
  * Zero-dep a propósito: corre con `node` pelado, sin instalar nada en el host.
- * Vive en Project/scripts/ por la convención de Project/CLAUDE.md (read-only + reusable),
+ * Vive en Project/scripts/ por la convención de Project/AGENTS.md (read-only + reusable),
  * pero su objeto es el repo entero — por eso resuelve rutas desde la raíz, no desde Project/.
  */
 import fs from 'node:fs';
@@ -25,7 +25,7 @@ const DOCS = path.join(REPO, 'docs');
 const SRC = path.join(REPO, 'Project/src');
 const REFS = path.join(REPO, 'references/wiki');
 
-/** docs/CLAUDE.md §Pre-flight 1 — campos obligatorios del frontmatter. */
+/** docs/AGENTS.md §Pre-flight 1 — campos obligatorios del frontmatter. */
 const CAMPOS = [
   'Estado',
   'Rol',
@@ -38,13 +38,13 @@ const CAMPOS = [
 /** Retirados: reaparecer = drift, no nostalgia. `Version` salió el 2026-07-17 (git da el dato real). */
 const CAMPOS_RETIRADOS = ['Version'];
 
-/** docs/CLAUDE.md §Pre-flight 1 — el contrato meta-agente y los índices no entran al régimen. */
-const EXENTOS = new Set(['CLAUDE.md', 'README.md']);
+/** docs/AGENTS.md §Pre-flight 1 — el contrato meta-agente y los índices no entran al régimen. */
+const EXENTOS = new Set(['AGENTS.md', 'README.md']);
 
 /** doc-map.md §1 — tiers de durabilidad declarables. */
 const ESTADOS = new Set(['activo', 'referencia', 'histórico']);
 
-/** docs/CLAUDE.md §Convenio de tamaño — máximo de operativos por dominio funcional. */
+/** docs/AGENTS.md §Convenio de tamaño — máximo de operativos por dominio funcional. */
 const MAX_OPERATIVOS = 3;
 
 const hallazgos = [];
@@ -80,7 +80,7 @@ function frontmatter(texto) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Ratchet de changelog-en-doc-vivo (docs/CLAUDE.md §Ruteo #3/#5)
+// Ratchet de changelog-en-doc-vivo (docs/AGENTS.md §Ruteo #3/#5)
 // Un doc es snapshot del presente, no diario. El corpus arrastra ~480 fechas-log
 // como deuda: el ratchet no exige purgarlas de un saque — prohíbe que SUBAN. La
 // purga baja el techo; `--update-baseline` lo lockea.
@@ -116,7 +116,7 @@ function cargarBaseline() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Pasada 1 — frontmatter, fidelidad física y links (docs/CLAUDE.md §Pre-flight)
+// Pasada 1 — frontmatter, fidelidad física y links (docs/AGENTS.md §Pre-flight)
 // ─────────────────────────────────────────────────────────────────────────────
 const docs = walk(DOCS, ['.md']);
 const meta = new Map();
@@ -128,14 +128,14 @@ for (const f of docs) {
   if (!EXENTOS.has(base)) {
     const fm = frontmatter(texto);
     if (!fm) {
-      add('ERROR', 'frontmatter', f, 'sin frontmatter YAML (docs/CLAUDE.md §Pre-flight 1)');
+      add('ERROR', 'frontmatter', f, 'sin frontmatter YAML (docs/AGENTS.md §Pre-flight 1)');
     } else {
       meta.set(f, fm);
       for (const c of CAMPOS) {
         if (!(c in fm)) add('ERROR', 'frontmatter', f, `falta campo obligatorio \`${c}\``);
       }
       for (const c of CAMPOS_RETIRADOS) {
-        if (c in fm) add('ERROR', 'campo-retirado', f, `campo \`${c}\` retirado del contrato (docs/CLAUDE.md §Pre-flight 1)`);
+        if (c in fm) add('ERROR', 'campo-retirado', f, `campo \`${c}\` retirado del contrato (docs/AGENTS.md §Pre-flight 1)`);
       }
 
       const est = fm.Estado?.valor;
@@ -143,7 +143,7 @@ for (const f of docs) {
         add('WARN', 'estado', f, `Estado "${est}" fuera del vocabulario de doc-map §1`);
       }
 
-      // docs/CLAUDE.md §Pre-flight 2 — la ruta declarada debe existir.
+      // docs/AGENTS.md §Pre-flight 2 — la ruta declarada debe existir.
       const fis = fm.Fidelidad_Fisica?.valor;
       if (fis && !fs.existsSync(path.join(REPO, fis))) {
         add('ERROR', 'fidelidad', f, `Fidelidad_Fisica apunta a ruta inexistente: ${fis}`);
@@ -157,11 +157,11 @@ for (const f of docs) {
     }
   }
 
-  // docs/CLAUDE.md §Pre-flight 3 — links internos relativos y resolubles.
+  // docs/AGENTS.md §Pre-flight 3 — links internos relativos y resolubles.
   for (const m of texto.matchAll(/\]\(([^)\s]+\.md)(?:#[^)]*)?\)/g)) {
     const href = m[1];
     if (href.startsWith('/')) {
-      add('ERROR', 'link-absoluto', f, `link absoluto: ${href} (docs/CLAUDE.md §Pre-flight 3)`);
+      add('ERROR', 'link-absoluto', f, `link absoluto: ${href} (docs/AGENTS.md §Pre-flight 3)`);
       continue;
     }
     if (/^https?:/.test(href)) continue;
@@ -170,12 +170,12 @@ for (const f of docs) {
     }
   }
 
-  // docs/CLAUDE.md §Ruteo regla 4 — la procedencia vive en git, no en un doc vivo.
+  // docs/AGENTS.md §Ruteo regla 4 — la procedencia vive en git, no en un doc vivo.
   const est = meta.get(f)?.Estado?.valor;
   if (est === 'activo' || est === 'referencia') {
     const hashes = [...texto.matchAll(/`([0-9a-f]{7,40})`/g)].map((m) => m[1]);
     if (hashes.length) {
-      add('ERROR', 'hash-en-doc-vivo', f, `${hashes.length} hash(es) de commit citados: ${[...new Set(hashes)].join(', ')} (docs/CLAUDE.md §Ruteo regla 4)`);
+      add('ERROR', 'hash-en-doc-vivo', f, `${hashes.length} hash(es) de commit citados: ${[...new Set(hashes)].join(', ')} (docs/AGENTS.md §Ruteo regla 4)`);
     }
   }
 }
@@ -198,7 +198,7 @@ if (fs.existsSync(SRC)) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Pasada 2b — citas a una OQ cerrada (docs/CLAUDE.md §Frontera OQ↔DC)
+// Pasada 2b — citas a una OQ cerrada (docs/AGENTS.md §Frontera OQ↔DC)
 //
 // La regla ya existía en prosa —*"al mover, re-apuntar las citas entrantes de `OQ-X` a `DC-OQ-X`"*—
 // y no tenía quién la ejecutara, así que se cumplía a mano y se dejaba de cumplir en silencio. El
@@ -257,7 +257,7 @@ if (OQ_CERRADAS.size > 0) {
       for (const m of linea.matchAll(/(?<!DC-)\b(OQ-[A-Z]+-[A-Z]*\d+)\b/g)) {
         const oq = m[1];
         if (!OQ_CERRADAS.has(oq) || OQ_VIVAS.has(oq)) continue;
-        add('WARN', 'cita-oq-cerrada', f, `linea ${i + 1}: cita \`${oq}\`, que cerro como \`DC-${oq}\` — re-apuntar o reescribir (docs/CLAUDE.md §Frontera open-questions↔closed-decisions)`);
+        add('WARN', 'cita-oq-cerrada', f, `linea ${i + 1}: cita \`${oq}\`, que cerro como \`DC-${oq}\` — re-apuntar o reescribir (docs/AGENTS.md §Frontera open-questions↔closed-decisions)`);
       }
     }
   }
@@ -278,7 +278,7 @@ for (const f of docs) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Pasada 4 — convenio de tamaño (docs/CLAUDE.md §Convenio de tamaño)
+// Pasada 4 — convenio de tamaño (docs/AGENTS.md §Convenio de tamaño)
 // ─────────────────────────────────────────────────────────────────────────────
 const dominios = path.join(DOCS, 'domains');
 if (fs.existsSync(dominios)) {
@@ -295,7 +295,7 @@ if (fs.existsSync(dominios)) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Pasada 6 — corpus `references/wiki/` (references/wiki/README.md · references/CLAUDE.md)
+// Pasada 6 — corpus `references/wiki/` (references/wiki/README.md · references/AGENTS.md)
 //
 // El layout, los raw, las marcas y las fechas los audita `references-layout.mjs`
 // (dominio propio, sale a la red con --fuente). Acá van las reglas del corpus que
@@ -346,7 +346,7 @@ if (!process.argv.includes('--update-baseline')) {
   for (const { f, texto } of refsCorpus) {
     const rel = path.relative(REPO, f);
 
-    // Links relativos resolubles — misma regla que docs/CLAUDE.md §Pre-flight 3,
+    // Links relativos resolubles — misma regla que docs/AGENTS.md §Pre-flight 3,
     // extendida a references/. Un link colgado es un hecho, no una política.
     //
     // Los bloques cercados se descuentan: el README **enseña la forma de la marca**
@@ -377,7 +377,7 @@ if (!process.argv.includes('--update-baseline')) {
     // Vocablo del proyecto dentro de la wiki local.
     //
     // El README raíz de `wiki/` está exento porque **es el contrato**: enuncia la regla, y
-    // para enunciarla tiene que nombrar lo que prohíbe (igual que `docs/CLAUDE.md` no se
+    // para enunciarla tiene que nombrar lo que prohíbe (igual que `docs/AGENTS.md` no se
     // audita contra sus propias reglas). Los demás README **no** — un índice sigue siendo
     // un doc de la wiki, y eximirlos escondió una fuga en `mechanics/README.md`.
     const esContrato = path.relative(REFS, f) === 'README.md';
@@ -427,7 +427,7 @@ if (process.argv.includes('--update-baseline')) {
   }
   const orden = Object.fromEntries(Object.entries(archivos).sort(([a], [b]) => a.localeCompare(b)));
   const salida = {
-    _nota: 'Baseline del ratchet de changelog-en-doc-vivo (docs/CLAUDE.md §Ruteo #3/#5). El conteo por archivo NO puede subir; bajar es progreso. Regenerar SOLO tras purga o adición justificada (tripwire/auditoría). No editar a mano para subir un techo.',
+    _nota: 'Baseline del ratchet de changelog-en-doc-vivo (docs/AGENTS.md §Ruteo #3/#5). El conteo por archivo NO puede subir; bajar es progreso. Regenerar SOLO tras purga o adición justificada (tripwire/auditoría). No editar a mano para subir un techo.',
     generado: new Date().toISOString().slice(0, 10),
     archivos: orden,
   };
@@ -454,7 +454,7 @@ if (process.argv.includes('--update-baseline')) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Pasada 5 — ratchet de changelog (docs/CLAUDE.md §Ruteo #3/#5)
+// Pasada 5 — ratchet de changelog (docs/AGENTS.md §Ruteo #3/#5)
 // ─────────────────────────────────────────────────────────────────────────────
 {
   const baseline = cargarBaseline();
@@ -466,10 +466,10 @@ if (process.argv.includes('--update-baseline')) {
     const agudo = contarAgudo(c);
     const base = baseline[path.relative(REPO, f)] || { fecha: 0, agudo: 0 };
     if (agudo > base.agudo) {
-      add('ERROR', 'changelog-agudo', f, `${agudo} forma(s) de changelog agudo (baseline ${base.agudo}): sello de fase-con-fecha o paréntesis acumulativo — reescribir a presente (docs/CLAUDE.md §Ruteo #5)`);
+      add('ERROR', 'changelog-agudo', f, `${agudo} forma(s) de changelog agudo (baseline ${base.agudo}): sello de fase-con-fecha o paréntesis acumulativo — reescribir a presente (docs/AGENTS.md §Ruteo #5)`);
     }
     if (fecha > base.fecha) {
-      add('ERROR', 'fecha-cuerpo-ratchet', f, `${fecha} fechas-log en el cuerpo, +${fecha - base.fecha} sobre el baseline (${base.fecha}) — reescribir a presente; si es tripwire/auditoría legítima, \`--update-baseline\` (docs/CLAUDE.md §Ruteo #3/#5)`);
+      add('ERROR', 'fecha-cuerpo-ratchet', f, `${fecha} fechas-log en el cuerpo, +${fecha - base.fecha} sobre el baseline (${base.fecha}) — reescribir a presente; si es tripwire/auditoría legítima, \`--update-baseline\` (docs/AGENTS.md §Ruteo #3/#5)`);
     }
     if (fecha < base.fecha || agudo < base.agudo) mejoras++;
   }

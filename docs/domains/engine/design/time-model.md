@@ -266,7 +266,7 @@ eventos que entran durante la ventana, y eso sí lo aporta este modelo.
 
 > **La regla que estos tres ruteos dejan escrita, y que costó descubrir:** el dueño de un eje es la
 > **OQ o el doc de diseño** que lo va a resolver, nunca el archivo de `references/wiki/` donde vive el
-> dato. `references/CLAUDE.md` es explícito — *"`wiki/` guarda datos, no opiniones"*. Al rutear un eje
+> dato. `references/AGENTS.md` es explícito — *"`wiki/` guarda datos, no opiniones"*. Al rutear un eje
 > afuera, la pregunta es *"¿qué OQ lo resuelve?"*; si ninguna, **se abre**. Dos de estos tres ya
 > tenían dueño y se los buscó tarde.
 

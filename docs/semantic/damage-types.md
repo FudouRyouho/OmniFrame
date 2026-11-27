@@ -141,7 +141,7 @@ poblado es `PE_DAMAGE_VULNERABILITY` (`../domains/engine/design/arch-decisions.m
 Magnetic entran como procs pero Molecular Prime, Reap o Petrify no.
 
 ⚠️ **Adoptar la fuente incluye adoptar sus huecos:** `PT_VOID` se autodeclara desconocido en el propio
-módulo, y `DT_`/`PT_` no soportan el mismo peso de evidencia (`references/CLAUDE.md` §*Cómo leer un
+módulo, y `DT_`/`PT_` no soportan el mismo peso de evidencia (`references/AGENTS.md` §*Cómo leer un
 token*). Se citan declarando cuál es cuál.
 
 > El engine modela ESTADO para los 6 efectos con `EffectBehavior` hoy (Bleed, Poison, Ignite,

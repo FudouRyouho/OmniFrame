@@ -14,7 +14,7 @@ Registro de decisiones del dominio `data/` y su pipeline, en formato formal y ev
 ## Estados de decisión
 
 - **VIGENTE** — correcta hoy, puede evolucionar con nueva evidencia. No requiere halt ni debate.
-  Acción: actualizar esta entrada + documentar el motivo. Ver regla en `docs/CLAUDE.md`.
+  Acción: actualizar esta entrada + documentar el motivo. Ver regla en `docs/AGENTS.md`.
 - **DEFINITIVA** — invariante del sistema. Requiere debate + autorización. Mismo protocolo que RED.
 
 Por defecto todas las D-series son VIGENTES. Solo se declara DEFINITIVA explícitamente.

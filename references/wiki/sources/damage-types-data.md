@@ -235,7 +235,7 @@ Los tres campos no tienen la misma vida útil, y confundirlos hace leer datos vi
 | `Status[]` (prosa) | mantenida por la comunidad | ⚠️ **se queda vieja** — caso Blast |
 | **página del tipo de daño** (`mechanics/damage-*.md`) | mantenida por mecánica | ✅ **la más al día para comportamiento** |
 
-Es `references/CLAUDE.md` §*DE desconecta fuentes, no borra tokens* visto **desde adentro del módulo**:
+Es `references/AGENTS.md` §*DE desconecta fuentes, no borra tokens* visto **desde adentro del módulo**:
 lo que se desconecta acá no es el token, es su descripción.
 
 ### Legacy declarado por el propio módulo
@@ -251,7 +251,7 @@ lo que se desconecta acá no es el token, es su descripción.
 ⚠️ **Procedencia:** los 29 `PT_*` salen **sólo de este módulo** — cero ocurrencias en
 `sources/public-export.wikitext`. Su tabla se autodeclara `{{Community}}` + `{{UpdateMe|Hidden status
 effects need more research}}`. Los `DT_*` sí están en el export y filtran en texto in-game. **Ambos se
-usan; no soportan el mismo peso.** (`references/CLAUDE.md` §*Cómo leer un token*.)
+usan; no soportan el mismo peso.** (`references/AGENTS.md` §*Cómo leer un token*.)
 
 ---
 
