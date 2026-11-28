@@ -2,7 +2,7 @@
 
 ## WFCD/warframe-items (MIT)
 
-Los archivos de `harvest/` derivan de [WFCD/warframe-items](https://github.com/WFCD/warframe-items), commit `5056d7f30`, y se copian sin cambios salvo una cabecera de procedencia (líneas que empiezan con `// [omniframe] `) que `harvest/fidelity.test.ts` descarta antes de comparar con el original:
+Los archivos de `harvest/` derivan de [WFCD/warframe-items](https://github.com/WFCD/warframe-items), commit `5056d7f30`. `harvest/build/parser.ts`, `scraper.ts` y `hashManager.ts` son derivados recortados: no cosechan components, ducats ni drops. Los demás se copian sin cambios salvo la cabecera de procedencia (líneas que empiezan con `// [omniframe] `), que `harvest/fidelity.test.ts` descarta antes de comparar con el original:
 
 - `harvest/build/`: `readJson.ts`, `stringify.ts`, `dedupe.ts`, `objectsort.ts`, `progress.ts`, `proxyAgent.ts`, `network.ts`, `sleep.ts`, `tradable.ts` y `types/shared.ts`.
 - `harvest/config/`: `bpConflicts.json`, `dt_map.json`, `itemTypes.json`, `locales.json`, `masterableCategories.json`, `overrides.json`, `polarities.json`, `relicGrades.json` y `variants.json`. Son JSON y no admiten cabecera: su procedencia se declara sólo acá, y la prueba de fidelidad exige que sean idénticos al original salvo el fin de línea (el repo exige LF).

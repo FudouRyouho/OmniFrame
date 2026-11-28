@@ -12,6 +12,7 @@ import originalStringify from '../../warframe-items/build/stringify.ts'
 import originalReadJson from '../../warframe-items/build/readJson.ts'
 import originalDedupe from '../../warframe-items/build/dedupe.ts'
 import originalObjectsort from '../../warframe-items/build/objectsort.ts'
+import { FAILED_IMAGES } from '../build/failed-images.ts'
 
 test('equivalencia de utilidades con objetos, arrays y entradas vacías', () => {
   for (const value of [[], {}, [1, 1, 'x'], [{ b: 1, a: [2, 1] }, { a: [2, 1], b: 1 }, { z: { b: 1, a: 2 } }], { z: [1, 1], a: { y: 2, x: 1 } }]) {
@@ -38,7 +39,10 @@ test('readJson conserva resultados y errores', async () => {
 test('resolución estática de imports de raw-build', async () => {
   const source = new URL('../build/raw-build.ts', import.meta.url)
   const text = await readFile(source, 'utf8')
-  const imports = [...text.matchAll(/^import\s+(?:type\s+)?(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/gm)].map((m) => m[1]!)
+  const imports = [
+    ...text.matchAll(/^import\s+(?:type\s+)?(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/gm),
+    ...text.matchAll(/\bimport\(\s*['"]([^'"]+)['"]\s*\)/g),
+  ].map((m) => m[1]!)
   assert.ok(imports.length > 0)
   for (const specifier of imports) {
     if (specifier.startsWith('node:')) continue
@@ -59,4 +63,14 @@ test('datos reales sin red', async (t) => {
     const url = new URL(file, dir)
     assert.equal(stringify(await readJson(url)), originalStringify(await originalReadJson(url)), file)
   }
+})
+
+test('failedImage propio coincide con el último build de upstream', async (t) => {
+  const url = new URL('../../warframe-items/data/warnings.json', import.meta.url)
+  let heredado: { failedImage: string[] }
+  try { heredado = JSON.parse(await readFile(url, 'utf8')) } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') { t.skip('warnings.json del clon ausente; igualdad no verificada'); return }
+    throw error
+  }
+  assert.deepEqual([...FAILED_IMAGES], heredado.failedImage)
 })
