@@ -15,5 +15,5 @@
 *.woff binary
 *.psd  binary
 
-# Copia literal de un paquete de terceros (CC-BY): no se edita ni siquiera su espacio en blanco.
-omniframe-items/harvest/build/wikia/JSON.lua whitespace=-trailing-space
+# Copias literales de WFCD/warframe-items y de JSON.lua (CC-BY): no se edita ni su espacio en blanco.
+omniframe-items/harvest/** whitespace=-trailing-space
