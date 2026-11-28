@@ -21,6 +21,7 @@ import { createHash } from 'node:crypto'
 import { get } from '../harvest/build/network.ts'
 import { withPrimeVaultScraper } from './wikia/prime-vault.mjs'
 import { bootstrapHarvestData } from './harvest-data.ts'
+import { FAILED_IMAGES } from './failed-images.ts'
 import stringify from '../harvest/build/stringify.ts'
 import readJson from '../harvest/build/readJson.ts'
 import type {
@@ -245,6 +246,7 @@ async function saveJson(
  * engine corre sobre datos de 2019, y la fuente viva es el wiki (`Module:Enemies/data`, ya cosechado:
  * 1000 enemigos con facción, BaseLevel, EximusHealth y Multis). Ver OQ-DATA-16 fase-3.
  */
+// TEMPORAL: el fósil sigue leyéndose del clon hasta que se decida su reemplazo por la cosecha de la wiki.
 async function passthroughFossilEnemies(): Promise<Item[]> {
   const fossil = await readJson<Item[]>(new URL('../../warframe-items/data/json/Enemy.json', import.meta.url))
   await fs.writeFile(new URL('Enemy.json', jsonDir), JSON.stringify(fossil))
@@ -295,9 +297,7 @@ async function main(): Promise<void> {
   await fs.mkdir(cacheDir, { recursive: true })
 
   // `failedImage` es el único warning que el parser no rastrea (lo produce saveImages, que no
-  // corremos): se hereda del último build de upstream para que `dedupImageNames` decida igual.
-  // TEMPORAL: `warnings.json` y `Enemy.json` (fósil) siguen leyéndose del clon.
-  const warnings = await readJson<Warnings>(new URL('../../warframe-items/data/warnings.json', import.meta.url))
+  // corremos): ver `failed-images.ts`.
 
   await scraper.checkOriginServerAvailability()
   await hashManager.updateExportCache()
@@ -320,7 +320,7 @@ async function main(): Promise<void> {
 
   console.log('· parseando…')
   const parsed = parser.parse(raw)
-  parsed.warnings.failedImage = [...warnings.failedImage]
+  parsed.warnings.failedImage = [...FAILED_IMAGES]
 
   const data = applyCustomCategories(parsed.data)
   // `dedupImageNames` DEBE ver todas las categorías: resuelve colisiones de `imageName` ENTRE ellas.
