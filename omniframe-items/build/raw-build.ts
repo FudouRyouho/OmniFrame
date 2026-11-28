@@ -22,6 +22,9 @@ import fs from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 
 import scraper from '../../warframe-items/build/scraper.ts'
+import VaultScraper from '../../warframe-items/build/wikia/scrapers/VaultScraper.ts'
+import { get } from '../../warframe-items/build/network.ts'
+import { withPrimeVaultScraper } from './wikia/prime-vault.mjs'
 import parser from '../../warframe-items/build/parser.ts'
 import hashManager from '../../warframe-items/build/hashManager.ts'
 import stringify from '../../warframe-items/build/stringify.ts'
@@ -304,7 +307,11 @@ async function main(): Promise<void> {
     manifest: (await scraper.fetchImageManifest()) as ImageManifest,
     drops: (await scraper.fetchDropRates()) as never,
     patchlogs: (await scraper.fetchPatchLogs()) as unknown as PatchlogWrap,
-    wikia: await scraper.fetchWikiaData(),
+    wikia: await withPrimeVaultScraper(
+      VaultScraper,
+      () => get('https://wiki.warframe.com/w/Prime_Vault', true, true),
+      () => scraper.fetchWikiaData(),
+    ),
     relics: ((await scraper.generateRelicData()) ?? []) as never,
     i18n: resources,
   }
