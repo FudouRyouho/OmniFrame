@@ -4,14 +4,14 @@ import { readdir, mkdtemp, writeFile, readFile, access, rm } from 'node:fs/promi
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import stringify from './stringify.ts'
-import readJson from './readJson.ts'
-import dedupe from './dedupe.ts'
-import objectsort from './objectsort.ts'
-import originalStringify from '../../../warframe-items/build/stringify.ts'
-import originalReadJson from '../../../warframe-items/build/readJson.ts'
-import originalDedupe from '../../../warframe-items/build/dedupe.ts'
-import originalObjectsort from '../../../warframe-items/build/objectsort.ts'
+import stringify from './build/stringify.ts'
+import readJson from './build/readJson.ts'
+import dedupe from './build/dedupe.ts'
+import objectsort from './build/objectsort.ts'
+import originalStringify from '../../warframe-items/build/stringify.ts'
+import originalReadJson from '../../warframe-items/build/readJson.ts'
+import originalDedupe from '../../warframe-items/build/dedupe.ts'
+import originalObjectsort from '../../warframe-items/build/objectsort.ts'
 
 test('equivalencia de utilidades con objetos, arrays y entradas vacías', () => {
   for (const value of [[], {}, [1, 1, 'x'], [{ b: 1, a: [2, 1] }, { a: [2, 1], b: 1 }, { z: { b: 1, a: 2 } }], { z: [1, 1], a: { y: 2, x: 1 } }]) {
@@ -36,7 +36,7 @@ test('readJson conserva resultados y errores', async () => {
 })
 
 test('resolución estática de imports de raw-build', async () => {
-  const source = new URL('../raw-build.ts', import.meta.url)
+  const source = new URL('../build/raw-build.ts', import.meta.url)
   const text = await readFile(source, 'utf8')
   const imports = [...text.matchAll(/^import\s+(?:type\s+)?(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/gm)].map((m) => m[1]!)
   assert.ok(imports.length > 0)
@@ -48,7 +48,7 @@ test('resolución estática de imports de raw-build', async () => {
 })
 
 test('datos reales sin red', async (t) => {
-  const dir = new URL('../../data/json/', import.meta.url)
+  const dir = new URL('../data/json/', import.meta.url)
   let files: string[]
   try { files = (await readdir(dir)).filter((f) => f.endsWith('.json')) } catch (error) {
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') { t.skip('Directorio data/json ausente'); return }

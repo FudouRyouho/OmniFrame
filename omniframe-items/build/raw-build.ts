@@ -23,12 +23,12 @@ import { createHash } from 'node:crypto'
 
 import scraper from '../../warframe-items/build/scraper.ts'
 import VaultScraper from '../../warframe-items/build/wikia/scrapers/VaultScraper.ts'
-import { get } from '../../warframe-items/build/network.ts'
+import { get } from '../harvest/build/network.ts'
 import { withPrimeVaultScraper } from './wikia/prime-vault.mjs'
 import parser from '../../warframe-items/build/parser.ts'
 import hashManager from '../../warframe-items/build/hashManager.ts'
-import stringify from './lib/stringify.ts'
-import readJson from './lib/readJson.ts'
+import stringify from '../harvest/build/stringify.ts'
+import readJson from '../harvest/build/readJson.ts'
 import type {
   ApiCategory,
   CategoryData,
@@ -37,7 +37,7 @@ import type {
   PatchlogWrap,
   RawItemData,
   Warnings,
-} from './types/shared.ts'
+} from '../harvest/build/types/shared.ts'
 
 const dataDir = new URL('../data/', import.meta.url)
 const jsonDir = new URL('../data/json/', import.meta.url)
