@@ -1,7 +1,7 @@
 // raw-build.ts — build propio del raw de omniframe-items (OQ-DATA-16 fase-3).
 //
 // Emite `omniframe-items/data/json/*` en vez de consumir el de upstream. La capa-1 (ingest + parseo)
-// NO se reimplementa: `scraper`/`parser`/`hashManager`/`stringify` se **importan** de
+// NO se reimplementa: `scraper`/`parser`/`hashManager` se **importan** de
 // `warframe-items/build/` por ruta relativa — están fuera de sus `exports`, es el acoplamiento a
 // internos que la fase asume a conciencia (ver OQ-DATA-16 fase-3). Lo que sí se copia es el
 // **pegamento** de su `Build`: `applyCustomCategories`, `dedupImageNames` y `saveJson` son métodos de
@@ -27,8 +27,8 @@ import { get } from '../../warframe-items/build/network.ts'
 import { withPrimeVaultScraper } from './wikia/prime-vault.mjs'
 import parser from '../../warframe-items/build/parser.ts'
 import hashManager from '../../warframe-items/build/hashManager.ts'
-import stringify from '../../warframe-items/build/stringify.ts'
-import readJson from '../../warframe-items/build/readJson.ts'
+import stringify from './lib/stringify.ts'
+import readJson from './lib/readJson.ts'
 import type {
   ApiCategory,
   CategoryData,
@@ -37,7 +37,7 @@ import type {
   PatchlogWrap,
   RawItemData,
   Warnings,
-} from '../../warframe-items/build/types/shared.ts'
+} from './types/shared.ts'
 
 const dataDir = new URL('../data/', import.meta.url)
 const jsonDir = new URL('../data/json/', import.meta.url)

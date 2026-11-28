@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-08-26"
+Fecha_de_actualizacion: "2026-11-28"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -961,21 +961,23 @@ Materializar el raw hace **diffeable cada frontera**: un breakage se bisecta en 
 | # | Paso | Árbitro |
 |---|---|---|
 | 0 | **Fusión del pipeline.** `generate-enemies.mjs` → `buildEnemiesArtifacts`; `enemies.json` se emite desde `generate-data` y entra al `source-change-audit`. Independiente del source: **se puede hacer ya** | `git diff public/data/enemies.json` vacío; un solo `new Items()` |
-| 1 | **Build propio passthrough.** Orquestador en `omniframe-items` que emite `data/json/*` reutilizando la capa-1 de upstream | `git diff public/data` vacío. Si no da vacío, no se avanza |
+| 1 | **Build propio passthrough.** Orquestador en `omniframe-items` que emite `data/json/*`; hoy con la maquinaria de upstream, que se absorbe por cortes (ver *Forma de la fase 1*) | `git diff public/data` vacío. Si no da vacío, no se avanza |
 | 2 | **Control de acción.** Elegir categorías **y locales** (el fetch baja los 15; Project consume 1) | diff vacío en lo consumido + peso del output |
 | 3 | **Las correcciones suben de capa.** Censo del matcher por substring (`OQ-DATA-15`) → corregir `type` en el raw → **borrar la cascada de `faction`** | diff **no** vacío: esperado y explicado ítem por ítem |
 
 **Por qué la fase 0 va primero:** hoy hay **dos** consumidores independientes del source, cada uno con su `new Items()`, y `enemies.json` está **fuera del ciclo de regeneración** — no lo dispara ningún script, así que queda stale en silencio. Fusionar deja un punto de contacto.
 
-**Forma de la fase 1 (resuelta y validada ejecutándola):** el parser **no se copia, se importa** — la orquestación de upstream son ~30 líneas y el músculo vive en módulos importables; el build propio es importar `scraper`+`parser` y escribir el `saveJson` propio (ahí vive el control de acción). `saveImages` se salta. Consecuencias asumidas: el clon **hay que instalarlo** (11 de sus 54 deps, ninguna pesada), su caché incremental y `.export.json` **viven en el directorio de upstream**, y `omniframe-items` **replica el layout** (`data/json/` + `data/cache/.export.json` + `i18n.json`) porque la clase `Items` resuelve su ruta relativa a sí misma — así **Project no cambia una línea** y el árbitro de diff vacío sigue siendo viable. Formulación precisa: *orquesta el build con la maquinaria de upstream in-situ y materializa la salida en su propio layout*. Costo asumido a conciencia: `parser`/`scraper` no están en los `exports` de upstream → se importan por ruta relativa.
+**Forma de la fase 1:** `omniframe-items` **replica el layout** de upstream (`data/json/` + `data/cache/.export.json` + `i18n.json`) porque la clase `Items` resuelve su ruta relativa a sí misma — así **Project no cambia una línea** y el árbitro de diff vacío sigue siendo viable. Hoy la orquestación (~30 líneas) importa `scraper` y `parser` del clon por ruta relativa, porque no están en sus `exports`, y escribe el `saveJson` propio (ahí vive el control de acción); `saveImages` se salta.
 
-**Diferido con gate:** normalización dentro de `omniframe-items` (gated por sacar el tipado de `@shared` a un paquete reusable) · frontera source/normalizado en dos carpetas con `generate-data` reducido a comprobar/copiar/auditar (`OQ-DATA-9`) · pin y maquinaria de versión.
+**El destino es código propio, no un import del clon.** `omniframe-items` absorbe por cortes, recortado, sólo lo que usa — utilidades y tipos primero, scrapers y parser después — y declara sus propias dependencias. El clon pasa de dependencia a **referencia de scraping**: trae errores y *warnings* que no aclara (el `Enemy.json` fósil es el caso testigo) y cosas que no se necesitan. Cada corte copia con fidelidad primero (árbitro: `git diff public/data` vacío); los recortes, correcciones y actualizaciones de dependencias llegan en commits aparte, con su diff explicado (fase 3). La licencia MIT de upstream y la procedencia de cada archivo derivado se conservan en el paquete.
+
+**Diferido con gate:** normalización dentro de `omniframe-items` (gated por sacar el tipado de `@shared` a un paquete reusable, que también alojaría los tipos del dominio que hoy toma prestados del clon) · frontera source/normalizado en dos carpetas con `generate-data` reducido a comprobar/copiar/auditar (`OQ-DATA-9`) · pin y maquinaria de versión.
 
 ### Residuales abiertos
 
-- **Imágenes — la asimetría que sostiene el clon.** El raw es propio pero las imágenes salen de `warframe-items/data/img` (605 MB) vía `get-img.mjs`. El manifest de DE (19.690 entradas) las cubriría y haría innecesaria esa dependencia. Coherente mientras el build propio use el `parser` de upstream (mismo `imageName`); si esa derivación se toca, `get-img` es el primer damnificado.
+- **Imágenes — la asimetría que sostiene el clon.** El raw es propio pero las imágenes salen de `warframe-items/data/img` (605 MB) vía `get-img.mjs`. El manifest de DE (19.690 entradas) las cubriría y haría innecesaria esa dependencia. Coherente mientras el parser propio conserve la derivación de `imageName` del parser de upstream; si esa derivación se toca, `get-img` es el primer damnificado.
 - **Los iconos de habilidad no son el mismo problema, y no se resuelven por ahora** (ningún consumidor los reclama). Las 507 referencias de `ability-stats.override.json` **no están en el manifest de DE**: son **títulos de wiki**, no nombres de archivo — y el título real lleva paréntesis que la normalización del wiki oculta, así que no matchean ni contra un directorio local. El mecanismo existe (API MediaWiki `imageinfo`, verificada), pero el consumidor real es `DataRegistry.hydrateAbility` leyendo el override: arreglarlo toca **tres** piezas (scraper + override + resolver), no una.
-- **Locales.** El fetch baja los 15 idiomas aunque se consuma `en`; `locales` se lee a nivel de módulo del clon, así que recortarlo exige tocar upstream o reimplementar `fetchResources`. **Diferido:** no es rentable por ahorro (29 MB de raw contra 1,7 GB del clon), sí lo será por **control** cuando haga falta el pin.
+- **Locales.** El fetch baja los 15 idiomas aunque se consuma `en`; `locales` se lee a nivel de módulo del scraper de upstream, así que recortarlo exige reimplementar `fetchResources` en `omniframe-items`, algo que la absorción permite sin tocar el clon. **Diferido:** no es rentable por ahorro (29 MB de raw contra 1,7 GB del clon), sí lo será por **control** cuando haga falta el pin.
 - **`wikia_thumbnail` sin consumidor.** Nadie lo lee y ensucia el árbitro del dataset (scrape en vivo). Se conserva como único puntero a la imagen remota. Cobertura: 73% armas, 49% companions, 0% warframes/mods/arcanes.
 - **El stub de `@wfcd/items` del Dockerfile no es removible todavía:** `omniframe-items` declara `file:../warframe-items` por los tipos, así que el `prepare` con husky se dispara igual. Muere cuando el tipado salga de `@wfcd/items`.
 - **Entradas wiki-only:** el export no trae ninguna unidad de Narmer/Anarchs/Murmur/Techrot/Scaldra (115 en el wiki). Emitirlas exige cosechar también sus stats base del wiki → **cambia la procedencia del stat base** (hoy siempre export). Ver `OQ-DATA-15`.
