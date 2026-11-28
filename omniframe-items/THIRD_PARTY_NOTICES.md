@@ -1,7 +1,14 @@
 # Avisos de terceros
 
-Los archivos `build/lib/readJson.ts`, `build/lib/stringify.ts`, `build/lib/dedupe.ts`, `build/lib/objectsort.ts` y `build/types/shared.ts` derivan de WFCD/warframe-items, commit 5056d7f30, bajo licencia MIT.
+## WFCD/warframe-items (MIT)
 
+Los archivos de `harvest/` derivan de [WFCD/warframe-items](https://github.com/WFCD/warframe-items), commit `5056d7f30`, y se copian sin cambios salvo una cabecera de procedencia (líneas que empiezan con `// [omniframe] `) que `harvest/fidelity.test.ts` descarta antes de comparar con el original:
+
+- `harvest/build/`: `readJson.ts`, `stringify.ts`, `dedupe.ts`, `objectsort.ts`, `progress.ts`, `proxyAgent.ts`, `network.ts`, `sleep.ts`, `tradable.ts` y `types/shared.ts`.
+- `harvest/config/`: `bpConflicts.json`, `dt_map.json`, `itemTypes.json`, `locales.json`, `masterableCategories.json`, `overrides.json`, `polarities.json`, `relicGrades.json` y `variants.json`. Son JSON y no admiten cabecera: su procedencia se declara sólo acá, y la prueba de fidelidad exige que sean idénticos al original salvo el fin de línea (el repo exige LF).
+- `stringify.ts` cita como origen del formato de arrays primitivos https://gist.github.com/nrkn/c7a89bb7039182314415.
+
+```
 MIT License
 
 Copyright (c) 2017 Kaptard
@@ -23,3 +30,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
+
+## JSON.lua (CC-BY 3.0)
+
+`harvest/build/wikia/JSON.lua` es el paquete de Jeffrey Friedl (versión 20211016.28), incluido por warframe-items. Se copia byte a byte, sin ninguna edición, porque su licencia (Creative Commons CC-BY "Attribution", http://creativecommons.org/licenses/by/3.0/deed.en_US) exige mantener:
+
+1. el aviso de copyright (`Copyright 2010-2017 Jeffrey Friedl`),
+2. los enlaces de la cabecera (http://regex.info/blog/ y http://regex.info/blog/lua/json),
+3. la cadena `AUTHOR_NOTE`: `-[ JSON.lua package by Jeffrey Friedl (http://regex.info/blog/lua/json) version 20211016.28 ]-`.
