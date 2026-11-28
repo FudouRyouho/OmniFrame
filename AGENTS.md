@@ -53,12 +53,11 @@ El resto (lógica de dominio, formato, metadata, lint) se ejecuta y se reporta q
 
 ## Entorno
 
+- **Workspace pnpm:** instalar desde la raíz con `pnpm install --frozen-lockfile` y la versión fijada en `package.json`. `Project/` y `omniframe-items/` comparten el lock; `warframe-items/` queda fuera del workspace y la cosecha usa el clon local en el host.
 - Line endings: estrictamente LF.
 - **Docker corre la app y los tests; el host corre el tooling.** La regla existe para no instalar
   *dependencias* en el host, no para prohibir ejecutar ahí. El compose monta sólo `./Project`, así que
-  `docs/`, `references/`, `.git` y los repos hermanos **no existen dentro del contenedor**: los
-  comandos de §Verificación que los leen (`validate:docs`, `references-layout.mjs`) sólo pueden correr
-  en el host, y ahí ya hay un `node_modules` Linux funcional.
+  la imagen incluye ambos paquetes y sólo la referencia puntual de la suite. Los comandos que necesitan el corpus completo (`validate:docs`, `references-layout.mjs`) se corren en el host.
 
 ## Documentos de referencia
 
@@ -77,20 +76,20 @@ reporta verde sin mirar es peor que no correrlo**: por eso cada uno lleva acá s
 
 | Comando | Qué verifica | Gate |
 |---|---|---|
-| `npx vitest run` | la suite. `expected fail` y `todo` son gates abiertos **a propósito** — no son fallas | ✅ binario |
-| `npx tsc -b --noEmit` | tipos de los **tres** proyectos (app · node · scripts) | ✅ binario |
-| `npm run validate:docs` | frontmatter, links, `@SSoT`, hashes, citas a OQ cerrada, tamaño de dominio | ✅ binario |
+| `pnpm test` | la suite. `expected fail` y `todo` son gates abiertos **a propósito** — no son fallas | ✅ binario |
+| `pnpm exec tsc -b --noEmit` | tipos de los **tres** proyectos (app · node · scripts) | ✅ binario |
+| `pnpm run validate:docs` | frontmatter, links, `@SSoT`, hashes, citas a OQ cerrada, tamaño de dominio | ✅ binario |
 | `node Project/scripts/references-layout.mjs` | layout de `references/wiki/`, raw hermano, marcas, fechas | ✅ binario |
-| `npm run audit:data` | integridad de los datasets — sólo si se tocó `public/data/` | ✅ binario |
-| `npx eslint .` | lint | ⚠️ **no binario** — hay errores preexistentes en la UI (`no-explicit-any`). Se compara **contra baseline**, no contra cero |
+| `pnpm run audit:data` | integridad de los datasets — sólo si se tocó `public/data/` | ✅ binario |
+| `pnpm exec eslint .` | lint | ⚠️ **no binario** — hay errores preexistentes en la UI (`no-explicit-any`). Se compara **contra baseline**, no contra cero |
 
-🔴 **`npx tsc --noEmit` sin `-b` NO VERIFICA NADA.** `tsconfig.json` es solution-style (`"files": []`
+🔴 **`pnpm exec tsc --noEmit` sin `-b` NO VERIFICA NADA.** `tsconfig.json` es solution-style (`"files": []`
 \+ `references`), así que sin build-mode tsc no compila un solo archivo y **sale limpio siempre**.
 Comprobado inyectando `const x: number = "no soy un número"` en `@core`: silencio total, y
 `tsc -b --noEmit` lo reporta. Si un protocolo o un doc vuelve a nombrar la forma sin `-b`, es un
 error, no una variante.
 
-⚠️ **`npm run check` (`tsc -b --noEmit && eslint .`) sale `exit=1` siempre** por la deuda de lint de
+⚠️ **`pnpm run check` (`tsc -b --noEmit && eslint .`) sale `exit=1` siempre** por la deuda de lint de
 arriba, así que **no sirve como gate binario** — usar los comandos por separado.
 
 ## Cuando hay drift (doc vs código)
