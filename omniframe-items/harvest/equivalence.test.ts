@@ -38,7 +38,10 @@ test('readJson conserva resultados y errores', async () => {
 test('resolución estática de imports de raw-build', async () => {
   const source = new URL('../build/raw-build.ts', import.meta.url)
   const text = await readFile(source, 'utf8')
-  const imports = [...text.matchAll(/^import\s+(?:type\s+)?(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/gm)].map((m) => m[1]!)
+  const imports = [
+    ...text.matchAll(/^import\s+(?:type\s+)?(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/gm),
+    ...text.matchAll(/\bimport\(\s*['"]([^'"]+)['"]\s*\)/g),
+  ].map((m) => m[1]!)
   assert.ok(imports.length > 0)
   for (const specifier of imports) {
     if (specifier.startsWith('node:')) continue

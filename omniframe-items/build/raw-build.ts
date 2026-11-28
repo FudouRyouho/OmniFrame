@@ -1,32 +1,25 @@
 // raw-build.ts — build propio del raw de omniframe-items (OQ-DATA-16 fase-3).
 //
-// Emite `omniframe-items/data/json/*` en vez de consumir el de upstream. La capa-1 (ingest + parseo)
-// NO se reimplementa: `scraper`/`parser`/`hashManager` se **importan** de
-// `warframe-items/build/` por ruta relativa — están fuera de sus `exports`, es el acoplamiento a
-// internos que la fase asume a conciencia (ver OQ-DATA-16 fase-3). Lo que sí se copia es el
-// **pegamento** de su `Build`: `applyCustomCategories`, `dedupImageNames` y `saveJson` son métodos de
-// una clase que `build.ts` **no exporta** (al final hace `new Build(); void build.init()`, así que
-// importarlo dispararía el build entero de upstream, imágenes incluidas).
+// Emite `omniframe-items/data/json/*`. La capa-1 (ingest + parseo) vive en `harvest/`, una copia
+// fiel de `warframe-items/build/` (ver THIRD_PARTY_NOTICES.md): `scraper`, `parser` y `hashManager`
+// se importan de ahí, no del clon. Lo que sí se copió a mano es el **pegamento** de su `Build`:
+// `applyCustomCategories`, `dedupImageNames` y `saveJson` son métodos de una clase que `build.ts`
+// no exporta.
 //
 // Qué NO hace, a diferencia del build de upstream:
 //   · `saveImages` — lo caro (imagemin/sharp, descarga por ítem). Las imágenes siguen viniendo del
 //     `data/img` del clon de upstream vía `get-img.mjs`; por eso `dedupImageNames` SÍ se aplica: muta
 //     `imageName` y sin él las rutas dejarían de matchear.
 //   · `updateReadme` — es de su repo.
-//   · `hashManager.saveExportCache()` — escribiría en el directorio de UPSTREAM (está anclado por
-//     `import.meta.url`). El cache se escribe acá, en nuestro layout, con el mismo formato.
 //
-// Requisito: el clon de upstream necesita sus deps instaladas (`npm install` allí) — el build importa
-// su código, y Node resuelve por la ubicación del importador.
+// `harvest/build/{parser,hashManager}.ts` leen `../data/` al importarse, relativo a su ubicación:
+// `bootstrapHarvestData` crea ese directorio (ignorado por git) ANTES de importarlos, por eso los
+// imports de abajo son dinámicos.
 import fs from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 
-import scraper from '../../warframe-items/build/scraper.ts'
-import VaultScraper from '../../warframe-items/build/wikia/scrapers/VaultScraper.ts'
 import { get } from '../harvest/build/network.ts'
 import { withPrimeVaultScraper } from './wikia/prime-vault.mjs'
-import parser from '../../warframe-items/build/parser.ts'
-import hashManager from '../../warframe-items/build/hashManager.ts'
 import stringify from '../harvest/build/stringify.ts'
 import readJson from '../harvest/build/readJson.ts'
 import type {
@@ -42,6 +35,37 @@ import type {
 const dataDir = new URL('../data/', import.meta.url)
 const jsonDir = new URL('../data/json/', import.meta.url)
 const cacheDir = new URL('../data/cache/', import.meta.url)
+const harvestData = new URL('../harvest/data/', import.meta.url)
+
+/**
+ * Crea `harvest/data/` con lo mínimo que el código copiado lee al importarse:
+ *  · `cache/.export.json` — los hashes del build anterior (el nuestro; `{}` si no hay: build completo).
+ *  · `json/All.json` — el `previousBuild` del parser; sólo sirve para reutilizar drops y patchlogs
+ *    cuando su hash no cambió. Vacío = se recalculan.
+ */
+async function bootstrapHarvestData(): Promise<void> {
+  await fs.mkdir(new URL('cache/', harvestData), { recursive: true })
+  await fs.mkdir(new URL('json/', harvestData), { recursive: true })
+  const exportCache = new URL('cache/.export.json', harvestData)
+  try {
+    await fs.access(exportCache)
+  } catch {
+    const previous = await fs.readFile(new URL('.export.json', cacheDir), 'utf8').catch(() => '{}')
+    await fs.writeFile(exportCache, previous)
+  }
+  const previousBuild = new URL('json/All.json', harvestData)
+  try {
+    await fs.access(previousBuild)
+  } catch {
+    await fs.writeFile(previousBuild, '[]')
+  }
+}
+
+await bootstrapHarvestData()
+const { default: scraper } = await import('../harvest/build/scraper.ts')
+const { default: VaultScraper } = await import('../harvest/build/wikia/scrapers/VaultScraper.ts')
+const { default: parser } = await import('../harvest/build/parser.ts')
+const { default: hashManager } = await import('../harvest/build/hashManager.ts')
 
 // Copiado de `build.ts`: categorías que además se emiten como archivo propio.
 const allowedCustomCategories = ['SentinelWeapons']
@@ -295,6 +319,7 @@ async function main(): Promise<void> {
 
   // `failedImage` es el único warning que el parser no rastrea (lo produce saveImages, que no
   // corremos): se hereda del último build de upstream para que `dedupImageNames` decida igual.
+  // TEMPORAL: `warnings.json` y `Enemy.json` (fósil) siguen leyéndose del clon.
   const warnings = await readJson<Warnings>(new URL('../../warframe-items/data/warnings.json', import.meta.url))
 
   await scraper.checkOriginServerAvailability()
@@ -330,8 +355,9 @@ async function main(): Promise<void> {
   await passthroughFossilEnemies()
   const { skipped, stale } = await saveJson(data)
   await fs.writeFile(new URL('warnings.json', dataDir), stringify(parsed.warnings))
-  // El cache va a NUESTRO layout: `hashManager.saveExportCache()` escribiría en el de upstream.
+  // El cache que lee el loader (`data/cache`) y el que lee el próximo build (`harvest/data/cache`).
   await fs.writeFile(new URL('.export.json', cacheDir), JSON.stringify(hashManager.exportCache, undefined, 1))
+  await hashManager.saveExportCache()
 
   const counts = Object.entries(data)
     .filter(([category]) => EMITTED.has(category))
