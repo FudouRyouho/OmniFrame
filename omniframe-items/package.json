@@ -21,10 +21,13 @@
     "@wfcd/items": "link:../warframe-items",
     "chalk": "^5.3.0",
     "cheerio": "^1.0.0",
+    "get-image-colors": "^4.0.1",
     "https-proxy-agent": "^9.0.0",
+    "image-downloader": "^4.3.0",
     "node-fetch": "^2.6.1",
     "progress": "^2.0.3",
-    "socks5-http-client": "^1.0.4"
+    "socks5-http-client": "^1.0.4",
+    "wasmoon": "^1.16.0"
   },
   "devDependencies": {
     "tsx": "^4.23.1"
