@@ -20,7 +20,7 @@ Este documento marca la frontera de lo que ya no se debate porque ya tiene una s
 - **Flujo A->B->C**: La jerarquía es **Intención (`Scene`) → Espacio + moldes (MutatorBridge) → Simulación (Engine)**. B no re-shapea la intención: puebla los participantes y les cuelga su `MutatedDNA`. La forma intermedia que hubo (`Ensemble`) no computaba nada y ya no existe.
 - **Salida Única**: El motor emite un snapshot inmutable vía `consume().snapshot(): SimulationEntity[]` (salida de C).
 - **Eliminación de `LoadoutProvider`**: `EnsembleStore` es el único SSoT de estado del usuario. Ver DC-OQ-STATE-1..4 en `closed-decisions.md`.
-- **Frontera de dominios**: los dominios (`domains/*`) **no importan `@core`** (reafirma Restricción 1 de `Project/CLAUDE.md`). `@core` = dominio de lógica A/B/C; la UI y la Capa D (consumo derivado, `ViewModelContract`) cruzan por `@shared`. `consume()` = **salida de C** en `@core`, consumida por scripts/tests (no-dominios); **no es Capa D**. Oráculo de verificación = **CLI, no MCP** (MCP diferido). Ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7.
+- **Frontera de dominios**: los dominios (`domains/*`) **no importan `@core`** (reafirma Restricción 1 de `Project/AGENTS.md`). `@core` = dominio de lógica A/B/C; la UI y la Capa D (consumo derivado, `ViewModelContract`) cruzan por `@shared`. `consume()` = **salida de C** en `@core`, consumida por scripts/tests (no-dominios); **no es Capa D**. Oráculo de verificación = **CLI, no MCP** (MCP diferido). Ver [`../domains/engine/design/arch-decisions.md`](../domains/engine/design/arch-decisions.md) §5-7.
 - **`@providers → @core` PERMITIDO**: la capa de composición (`@providers`, adapter) **sí** importa `@core` — `EnsembleProvider` → `@core/intention/ensemble-store`. Adapter→core = dirección correcta de Ports&Adapters; la Restricción 1 protege a los dominios de feature, **no** a la capa de composición. **No contradice** la frontera anterior (`@providers` no es un dominio de feature). Ver `closed-decisions.md` (DC-OQ-ENGINE-9).
 - **Estructura interna de `@core`**: `@core/{bridge (B), intention (A1), engine/{resolve (C1), simulate (C2), formulas, output, contracts, bootstrap, fixtures}}`; gemelo-de-entrada en `@shared/types/ensemble.ts`. Residual gated por D: eje (b) armonía harness/`output` (split de `fixtures/` hecho en Slice E). Ver `closed-decisions.md` (DC-OQ-ENGINE-9).
 - **El motor NO simula el comportamiento del enemigo** — su movimiento, su puntería, su ciclo de ataque, su reacción al control de masas. El target es una **entidad que recibe daño y porta estado**, no un agente. La exclusión es de diseño: el costo no es la regla de comportamiento sino toda la infraestructura para ejecutarla con fidelidad, y **ninguna mecánica modelada hoy depende de lo que el enemigo hace** — los estados físicos que sí tienen consecuencia numérica (`Lifted`, `Knockdown`, `Microwave`) la tienen por **presencia de marca**, que Condition Overload cuenta sin mirar comportamiento. Consecuencia registrada en `open-questions.md` (`OQ-ENGINE-32`).
@@ -111,7 +111,7 @@ decisiones correctas hoy que pueden evolucionar con nueva evidencia sin fricció
 Por defecto, las D-series son **VIGENTES**. Solo se declara DEFINITIVA cuando la decisión
 es un invariante real del sistema (ej: "los overrides viven en `Project/public/data/`").
 
-Ref: `docs/CLAUDE.md` § "Regla de evolución de decisiones de dominio (D-series)"
+Ref: `docs/AGENTS.md` § "Regla de evolución de decisiones de dominio (D-series)"
 
 ---
 

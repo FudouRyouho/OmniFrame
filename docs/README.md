@@ -55,4 +55,4 @@ docs/
 - **No reabrir decisiones cerradas.** Están en `governance/closed-decisions.md`. Citarlas, no debatirlas.
 - **Drift detectado = RED.** Si el código contradice un doc, registrar en `governance/open-questions.md` antes de actuar.
 - **Referencias de juego.** Los datos crudos del juego (abilities, wiki, mods) viven en `references/` (raíz del repo), no aquí.
-- **Reglas procedurales.** Ver `CLAUDE.md` en esta carpeta.
+- **Reglas procedurales.** Ver `AGENTS.md` en esta carpeta.

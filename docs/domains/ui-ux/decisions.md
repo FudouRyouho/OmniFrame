@@ -13,7 +13,7 @@ Dependencias:
 # Decisiones de UI — serie U-N
 
 Espejo de [`../../data/decisions.md`](../../data/decisions.md) (serie D) para el dominio ui-ux.
-Mismo **régimen de evolución** que las D-series (`docs/CLAUDE.md` §"Regla de evolución de
+Mismo **régimen de evolución** que las D-series (`docs/AGENTS.md` §"Regla de evolución de
 decisiones de dominio"): por defecto **VIGENTE** (evoluciona con evidencia; GREEN si solo afecta
 docs, escala a YELLOW/RED si toca contrato/arquitectura). Una decisión se marca **DEFINITIVA**
 solo explícitamente (mismo protocolo que RED).

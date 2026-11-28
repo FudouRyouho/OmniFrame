@@ -42,6 +42,9 @@ references/temp/
 # ─── Sesiones de trabajo (scratchpad de análisis, no SSoT) ───────────────────
 .working/
 
+# ─── Seguimiento ODD (local; espejo en Engram, no se commitea) ───────────────
+odd/
+
 # ─── Scripts one-off de sesión (patches de un solo uso) ──────────────────────
 # (ya cubierto por Project/.gitignore *.local; explícito acá por claridad)
 Project/scripts/.local/

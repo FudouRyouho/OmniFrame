@@ -9,12 +9,12 @@ Fecha_de_actualizacion: "2026-08-26"
 
 # Open Questions (Preguntas Abiertas)
 
-Este documento contiene únicamente los debates técnicos **activos** (abierto / gated / condicional). Una pregunta que se cierra de verdad se mueve **entera** a `closed-decisions.md` y se **borra de acá** — cuerpo y fila del índice, sin lápida. La regla completa (y cómo verificar que un cierre es genuino) vive en `docs/CLAUDE.md §Frontera open-questions ↔ closed-decisions`.
+Este documento contiene únicamente los debates técnicos **activos** (abierto / gated / condicional). Una pregunta que se cierra de verdad se mueve **entera** a `closed-decisions.md` y se **borra de acá** — cuerpo y fila del índice, sin lápida. La regla completa (y cómo verificar que un cierre es genuino) vive en `docs/AGENTS.md §Frontera open-questions ↔ closed-decisions`.
 
 ## Índice
 
 **Leé esta tabla, no el documento.** El detalle de cada OQ se consulta bajo demanda: buscar `## <ID>`.
-Es lectura obligatoria de arranque (`docs/CLAUDE.md` §Jerarquía) y el cuerpo son ~15k palabras — el
+Es lectura obligatoria de arranque (`docs/AGENTS.md` §Jerarquía) y el cuerpo son ~15k palabras — el
 presupuesto de atención se gasta acá, no leyendo las 35 en fila.
 
 | OQ | Tema | Dominio | Estado |
@@ -441,7 +441,7 @@ un valor honesto en C1 y ahí se detiene.
 **Estado del filtro (stopgap PROVISIONAL, marcado en `UpgradeView.tsx`):** compara campo-a-campo `mod.compat_name ↔ entity.family` (arma) / `entity.domain` (warframe) + dedup. Data-driven (no matriz hardcodeada), pero **incompleto** — oculta augments/universales y el cruce de tipos. Roto donde `family` no coincide literal con la clase de mod: `Afuris.family="dual pistols"` vs `compat_name="Pistol"` → picker vacío; igual `throwing`(Kunai), `sniper`/`bow`→`Rifle`. Melee/rifle/shotgun/pistol andan solo porque `family == compat_name`. Secondary queda **gated por esta OQ** (decisión del usuario: sin stopgap). **Arcanos = caso limpio** (resuelto v1): su `compat_name` ya es a granularidad de **canal** (`warframe`/`primary`/`secondary`/`melee`), match directo sin cruce M2M; solo los sub-tipos (`zaw`→melee, `kitgun`→primary/secondary, `bow`/`shotgun`→primary, ~19 arcanos) quedan ocultos. Confirma que el fix correcto es **por-fuente**.
 
 **Pregunta:** ¿dónde/cómo se materializa la compat mod↔entidad? (espejo de OQ-DATA-1) — (a) enriquecer cada mod con `tags` en pipeline (Restricción 3 limpia); (b) matriz `family → clases aceptadas` como dato; (c) híbrido (`compat_name` base + matriz de cruce).
-**Vínculo:** **OQ-DATA-1** (slots = otra cara de "qué equipa una entidad"), **Restricción 3** (`Project/CLAUDE.md`), capa "0" (compat = dato canónico que 0 normaliza). Dedup de `mods.json` toca el pipeline (OQ-DATA-9).
+**Vínculo:** **OQ-DATA-1** (slots = otra cara de "qué equipa una entidad"), **Restricción 3** (`Project/AGENTS.md`), capa "0" (compat = dato canónico que 0 normaliza). Dedup de `mods.json` toca el pipeline (OQ-DATA-9).
 **No bloquea:** el loop equip→stat funciona; degrada la usabilidad del picker para tipos no-rifle.
 **Fuente:** implementación del filtro de compat 2026-06-12 (`UpgradeView.tsx`).
 
@@ -573,7 +573,7 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 **Lo único que sigue vivo de esta OQ:** el gancho de crit condicional (Puncture/Cold) cerró — ver
 `DC-OQ-ENGINE-12`. Las ausencias de fidelidad que sostenía (Cold cap 4 con Overguard presente, freeze
 sólido al 10º stack) eran "qué hacer" ya sabido, no debate — se destilaron a Issues de GitHub
-(`docs/CLAUDE.md` §Frontera `open-questions.md` ↔ GitHub Issues).
+(`docs/AGENTS.md` §Frontera `open-questions.md` ↔ GitHub Issues).
 
 **Lo que queda:** Puncture no aplica su buff de crit a daño de área (AoE) ni a habilidades de
 warframe — el gate está ausente en el código, pero es irrelevante hoy porque el modelo de combate son
@@ -657,7 +657,7 @@ distintos (`references/ingame-tests/status-stack-caps.md`) exigió que `StackSta
 pase a instancias —espejo de `DotState { pulses: DotPulse[] }`— por una razón **independiente** de la
 fidelidad del N declarado, que sigue abierta acá (dos razones distintas para el mismo cambio). El
 refactor por sí solo no contesta esta OQ — ver el Issue de `StackState`→instancias
-(`docs/CLAUDE.md` §Frontera `open-questions.md` ↔ GitHub Issues).
+(`docs/AGENTS.md` §Frontera `open-questions.md` ↔ GitHub Issues).
 
 **No bloquea:** el modo-input declarado es válido como techo donde el consumidor acepta "asumido, no simulado" (mismo espíritu que CO estático). Bloquea sólo la confianza en la FIDELIDAD del número para el clúster de 42 casos.
 **Vínculo:** `damage-status-model.md` (timers independientes — el estado del receptor ya los lleva, lo que sigue abierto acá es si declarar N es *fiel*), `arch-decisions.md §8` (doctrina) + `§11` (caso hermano), `OQ-DATA-4` (evidencia cruzada de schema).
@@ -1897,7 +1897,7 @@ Tres cosas que fija este corpus:
 
 **Contexto:** líneas en docs commiteados referencian archivos de `.working/` (scratch de campaña,
 gitignored). El archivo **no existe** fuera de la máquina donde se escribió, y —cuando el scratch se
-purga— tampoco existe ahí. Choca con `docs/CLAUDE.md` regla 1 ("un doc activo nunca es la única copia
+purga— tampoco existe ahí. Choca con `docs/AGENTS.md` regla 1 ("un doc activo nunca es la única copia
 de un warrant del que depende una nota viva").
 
 **La regla es única: ningún doc commiteado apunta a `.working/`.** Antes se toleraba una "Clase-1 de
@@ -1906,7 +1906,7 @@ es falso:** `.working/` es gitignored, así que sus archivos **nunca estuvieron 
 un scratch purgado no lleva a un commit viejo — no lleva a ningún lado. Es una referencia muerta con
 forma de cita, y se borra igual que cualquier otra.
 
-Único caso que no aplica: nombrar `.working/` como **concepto del flujo** (`docs/CLAUDE.md` lo hace al
+Único caso que no aplica: nombrar `.working/` como **concepto del flujo** (`docs/AGENTS.md` lo hace al
 explicar el ruteo docs↔scratch). Eso no promete un archivo.
 
 **Remediación por cita — dos formas:**
@@ -1932,16 +1932,16 @@ habilidades/source-state. **Pregunta operativa:** ¿la oración ya se sostiene s
 puntero) o hoy **depende** de él (→ comprimir lo decidido inline primero)?
 
 **El alcance es todo lo commiteado, no sólo `docs/`.** `references/` también entra a git y también
-tiene citas — 8, ninguna hasta ahora inventariada: `CLAUDE.md` (×2), `wiki/README.md` (×2),
+tiene citas — 8, ninguna hasta ahora inventariada: `AGENTS.md` (×2), `wiki/README.md` (×2),
 `wiki/mechanics/{calculating-bonuses,status-effects}.md`, `ingame-tests/double-dip.md`. Se parten en
-las mismas dos formas: las de `CLAUDE.md`/`wiki/README.md` nombran `.working/` como **destino del
+las mismas dos formas: las de `AGENTS.md`/`wiki/README.md` nombran `.working/` como **destino del
 flujo** ("se preserva en `.working/` con su procedencia") — el caso exento, no prometen archivo; las
 de `calculating-bonuses.md`, `status-effects.md` y `double-dip.md` son **punteros de procedencia** y
 se borran reescribiendo la oración.
 
 **No bloquea:** cada doc afectado es legible; el puntero roto solo se nota en otra máquina. **Degrada:**
 reproducibilidad del razonamiento fuera de esta máquina.
-**Vínculo:** `docs/CLAUDE.md` regla 1 (warrant pegado a la nota viva) + regla 4 (procedencia vive en git).
+**Vínculo:** `docs/AGENTS.md` regla 1 (warrant pegado a la nota viva) + regla 4 (procedencia vive en git).
 **Fuente:** cierre de la campaña engine-fidelity F1–F5 (2026-07-19); inventario reproducible:
 `grep -rn '\.working/' docs/ references/`.
 
@@ -1985,7 +1985,7 @@ aprende a ignorar, que es cómo mueren estas herramientas.
 juego**, sólo historial de edición de la wiki. Son dos señales distintas sobre dos clases de fuente.
 
 **No bloquea:** nada. **Degrada:** una fuente muerta se detecta cuando alguien la recuerda, no cuando se
-muere. **Vínculo:** `references/wiki/README.md` §Las tres fechas, `references/CLAUDE.md` §Qué audita cada
+muere. **Vínculo:** `references/wiki/README.md` §Las tres fechas, `references/AGENTS.md` §Qué audita cada
 herramienta, `docs/domains/source/wiki-modules.md`, `Project/scripts/references-layout.mjs`.
 **Fuente:** los dos módulos congelados, encontrados por memoria del usuario y verificados con
 `prop=revisions` (residuo R-17).

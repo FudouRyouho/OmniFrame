@@ -28,13 +28,10 @@ Datos de referencia pasiva. No se editan sin autorización explícita — son ca
 
 ## Captura de páginas de wiki.warframe.com — herramienta obligatoria
 
-**Nunca usar `WebFetch`/similares para capturar contenido de `wiki.warframe.com`.** Confirmado
-2026-07-11 (`.working/c2-population-rng-stress.md` Iteración 7): esas herramientas procesan el HTML a
-través de un modelo intermedio que **resume según su propio criterio de relevancia**, incluso pidiendo
-explícitamente verbatim/sin omitir nada — no es un límite de tamaño de página, es pérdida estructural
-del tool. Ya causó al menos un caso confirmado de una mecánica citada varias veces (`>100% Status
-Chance`, `Status_Effect`) cuya explicación literal nunca llegó a `wiki/mechanics/status-effects.md`
-por este motivo.
+**Nunca usar herramientas que resumen o reescriben el HTML** (`WebFetch` y similares) para capturar
+contenido de `wiki.warframe.com`: procesan la página a través de un modelo intermedio que **resume según
+su propio criterio de relevancia**, incluso pidiendo verbatim/sin omitir nada. No es un límite de tamaño
+de página, es pérdida estructural de la herramienta.
 
 **Usar en su lugar** el patrón `?action=raw` (o `?action=edit` + extraer `#wpTextbox1`, mismo mecanismo
 que `utilities/fetch-wiki-module.mjs` ya usa para módulos Lua — creada puntualmente para Incarnon por
@@ -47,6 +44,15 @@ documento que la declara. Layout, figuras y campos obligatorios: `wiki/README.md
 
 Cualquier `.md` de `wiki/` escrito **sin** haber pasado por este método es candidato a tener huecos del
 mismo tipo — no asumir que un doc ya citado varias veces está completo solo porque fue leído antes.
+
+## Dos modos de pérdida en `wiki/*.md`
+
+1. **Captura vieja.** Un `.md` con `Última actualización` anterior a 2026-07-11 puede venir de una
+   herramienta que resumía. No asumirlo completo: **proponer recaptura** con `?action=raw` (requiere
+   autorización, porque `wiki/` sólo se edita con ella).
+2. **Destilación con pérdida.** Un `.md` fresco también puede omitir tablas ítem-por-ítem. Si la decisión
+   depende de **cuántos** o **cuáles** ítems hay, contarlos en el `.wikitext` hermano y cruzar los números
+   contra el dataset del proyecto. Leer el header `> No usar para:` antes de apoyarse en el `.md`.
 
 ## `wiki/` guarda datos, no opiniones
 
@@ -79,7 +85,7 @@ aplique.
 **Síntoma barato de detectarlo: prosa vacía o con `?`.** La fuente marca su propia incertidumbre
 cuando la tiene — leerla es gratis y evita darle a un residuo la veracidad de un dato vivo.
 
-**Y no todo el corpus tiene la misma procedencia.** Medido 2026-08-05: los prefijos `DT_*` aparecen en
+**Y no todo el corpus tiene la misma procedencia.** Auditado el 2026-08-05: los prefijos `DT_*` aparecen en
 `wiki/sources/public-export.wikitext` y filtran en descripciones in-game; los `PT_*` aparecen **sólo**
 en el módulo Lua de la wiki —cero en el export— y su tabla se autodeclara `{{Community}}` +
 `{{UpdateMe}}`. Ambos se usan; **no soportan el mismo peso**, y al citarlos se dice cuál es cuál.

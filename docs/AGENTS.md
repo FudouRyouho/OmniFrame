@@ -5,18 +5,17 @@ Aplica a todo trabajo en `docs/`. Estas reglas son bloqueantes.
 ## Pre-flight: antes de editar cualquier documento
 
 1. **Frontmatter YAML obligatorio**, con excepciones:
-   - `CLAUDE.md` (cualquier ubicación) — contrato meta-agente, no entra al régimen operativo/referencia.
+   - `AGENTS.md` (cualquier ubicación) — contrato meta-agente, no entra al régimen operativo/referencia.
    - `README.md` (cualquier ubicación) — índice de navegación, rol implícito.
 
    Todo otro `.md` en `docs/` debe comenzar con `---` y contener los campos:
    `Estado`, `Rol`, `Impacto_ID`, `Fidelidad_Fisica`, `Fecha_de_creacion`, `Fecha_de_actualizacion`
    Si falta → inyectarlo antes de continuar.
 
-   **No hay campo `Version`** (retirado 2026-07-17). Un semver a mano no se gana el lugar: driftea en
-   silencio (nada obliga a bumpearlo) y empuja a leer el doc como artefacto publicado — de ahí a
-   escribirle un changelog hay un paso, y ya pasó. El indicio de cuánto se iteró un doc lo da git,
-   exacto y gratis: `npm run validate:docs -- --iteraciones`. La señal de staleness es
-   `Fecha_de_actualizacion`.
+   **No hay campo `Version`.** Un semver a mano driftea en silencio (nada obliga a bumpearlo) y empuja a
+   leer el doc como artefacto publicado — de ahí a escribirle un changelog hay un paso. El indicio de
+   cuánto se iteró un doc lo da git, exacto y gratis: `npm run validate:docs -- --iteraciones`. La señal
+   de staleness es `Fecha_de_actualizacion`.
 
 2. **Fidelidad física.** El campo `Fidelidad_Fisica` debe apuntar a una ruta que exista en el repo.
    Si la ruta no existe → marcar el documento como `[OBSOLETO]` y no editarlo sin autorización.
@@ -108,11 +107,13 @@ Convenio:
 | **Verdad de dominio viva** | "warframe-items trae `armor_type`; no es mecánica real, `enemy.json` no lo modela" | **`docs/`** |
 | **Historia superada, sin valor de razonamiento** | engine v1, impl purgada por delegar a un primitivo/genérico | **git** (no se escribe en docs) |
 | **Racional personal "por qué NO"** | arquitecturas muertas, decisiones de diseño ya no legítimas | **`docs-archive/`** (local, gitignored, curado por el usuario) |
+| **Ejecución de una feature en curso** | checklist, specs y log de una feature ODD | **`odd/tasks/<feature>.md`** (local y gitignored, espejo en Engram; referencia su issue `#N`; al cerrar, lo durable baja a `docs/`) |
+| **Conocimiento durable del agente** | hallazgos y decisiones de trabajo que el agente necesita recordar | **Engram** (proyecto `omniframe`; cita los docs vivos, no los reemplaza) |
 
 **Reglas duras:**
 
 1. **Warrant pegado a la nota viva.** Un doc activo **nunca** es la única copia de un warrant del que depende una nota viva. Si "no modelamos X" necesita su "por qué" para no confundir a un agente, el por-qué **comprimido y en presente** se queda con la nota. La historia larga puede ir a `docs-archive/`.
-2. **El agente no decide solo sobre `docs-archive/`.** No escribe ahí por inferencia. **Puede proponer** (preguntar sin inferir, esperando confirmación) guardar algo en `docs-archive/` **o descartarlo por completo**; la elección es del usuario. (Comportamiento del agente: `.claude/CLAUDE.md`.)
+2. **El agente no decide solo sobre `docs-archive/`.** No escribe ahí por inferencia. **Puede proponer** (preguntar sin inferir, esperando confirmación) guardar algo en `docs-archive/` **o descartarlo por completo**; la elección es del usuario. (Comportamiento del agente: `AGENTS.md` raíz.)
 3. **Fechas inline: tripwire de drift, no log.** Una fecha se gana el lugar **solo si tiene contraparte a reconciliar** (decisión-`fecha-A` ↔ código/decisión-`fecha-B` que debería reflejarla). Timestamp solitario ("`2026-07-09: actualicé §3`") = log → git. Convive con la excepción ya vigente de **auditorías fechadas** (warrant legítimo).
 
 4. **Hashes de commit: nunca en un doc vivo.** Un hash es procedencia pura, y la procedencia vive en git. No tiene la excepción de la fecha: un hash **no puede** ser tripwire de drift, porque nombra un punto muerto de la historia, no un estado a reconciliar. La afirmación se escribe en presente y sin él ("el modelo unificado de proc resuelve X", no "modelo unificado `6947eb1`"). Aplica a `Estado: activo` y `referencia`; `histórico` queda exento. Ejecutable: `npm run validate:docs` (check `hash-en-doc-vivo`).
@@ -122,19 +123,18 @@ Convenio:
    **Test de presente (aplicar ANTES de escribir cualquier oración de estado).** ¿La oración describe qué **ES** el sistema ahora, o qué **PASÓ** para llegar? Si nombra una **fase pasada** ("Fase 1b hizo…"), una **fecha-evento** ("cerrado el DD-MM"), o un **verbo en pasado ligado a un evento** (ejecutó / cerró / validó / eliminó / reemplazó / se agregó **el** DD-MM) → es camino recorrido → **git**. Se reescribe a presente (resuelve / consume / vive en X / no modela Y). La fecha solo sobrevive si es **tripwire de drift** (#3, con contraparte a reconciliar) o **auditoría fechada**; la fase solo sobrevive como **plan** (horizonte futuro), nunca como sello de "esto se hizo".
 
    **Violación heredada ≠ estilo de la casa.** Si el párrafo que vas a editar **ya** está escrito como changelog (fechas-log, sellos de fase, verbos de evento), eso es **drift a corregir en el mismo paso**, no un patrón a espejar. El corpus arrastra ~530 fechas-log acumuladas (deuda real, medida por el ratchet): son *la razón* por la que este error se auto-propaga sesión tras sesión — un doc escrito así te enseña el patrón equivocado y no salta alarma. **Nunca continúes el diario porque ya existe.** Ejecutable: `npm run validate:docs` — check `changelog-agudo` (ERROR sobre las formas nombradas: paréntesis-acumulativo + sello-de-fase-con-fecha) y `fecha-cuerpo-ratchet` (el conteo de fechas-log de un archivo **no puede subir** sobre su baseline; bajar es progreso, `--update-baseline` lo lockea).
-4. **Gap del data-set = propuesta con cierre.** Cuando un dato existe upstream (`references/*`, fuente) que el proyecto **deliberadamente no modela**, el agente **puede proponer** dejar una nota de gap en `docs/` ("esto es un gap; no lo modelamos porque…") — evita que un agente futuro asuma que es conectable. La propuesta se **resuelve por confirmación y se cierra en la misma sesión**: se escribe, o se descarta explícito. **Un punto debatido sin cierre es deuda, no decisión.**
+6. **Gap del data-set = propuesta con cierre.** Cuando un dato existe upstream (`references/*`, fuente) que el proyecto **deliberadamente no modela**, el agente **puede proponer** dejar una nota de gap en `docs/` ("esto es un gap; no lo modelamos porque…") — evita que un agente futuro asuma que es conectable. La propuesta se **resuelve por confirmación y se cierra en la misma sesión**: se escribe, o se descarta explícito. **Un punto debatido sin cierre es deuda, no decisión.**
 
 ## Regla de evolución de decisiones de dominio (D-series)
 
 Las decisiones D-N en `docs/data/decisions.md` tienen dos estados:
 
-- **VIGENTE** — puede evolucionar con nueva evidencia. No requiere halt ni debate formal.
-  Acción: actualizar la entrada en `decisions.md`, documentar el motivo.
-  Impacto base: GREEN. Escala si el cambio llega más arriba:
-  - Afecta un contrato TypeScript → YELLOW (confirmar antes de editar el tipo)
-  - Afecta arquitectura de capas → RED (halt + debate)
+- **VIGENTE** — puede evolucionar con nueva evidencia. No requiere detenerse ni debate formal.
+  Acción: actualizar la entrada en `decisions.md`, documentar el motivo. Escala si el cambio llega más arriba:
+  - Afecta un contrato TypeScript → confirmar antes de editar el tipo
+  - Afecta arquitectura de capas → detenerse y debatir
 
-- **DEFINITIVA** — invariante del sistema. Mismo protocolo que RED: halt + debate + autorización.
+- **DEFINITIVA** — invariante del sistema. Mismo protocolo que un cambio de arquitectura: detenerse, debatir y esperar autorización.
   Se declara DEFINITIVA explícitamente en `decisions.md`. Por defecto, las D-series son VIGENTES.
 
 ## Frontera `open-questions.md` ↔ `closed-decisions.md`
@@ -160,9 +160,10 @@ angosto). Son dos archivos, no dos copias.
 
 ## Frontera `open-questions.md` ↔ GitHub Issues
 
-`open-questions.md` se angosta a **exclusivamente** debate de arquitectura/diseño — algo que todavía
+`open-questions.md` contiene **exclusivamente** debate de arquitectura/diseño — algo que todavía
 no se decidió cómo debe funcionar. Un ítem que ya sabe **qué** hacer y sólo falta ejecutarlo no es
-una OQ, es un Issue.
+una OQ, es un Issue (el backlog de "qué hacer"; su ejecución se sigue en `odd/tasks/<feature>.md`, que
+referencia el issue `#N`).
 
 La destilación **no es un barrido programado** — se aplica cada vez que se toca una OQ por otro
 motivo (ej. auditando `it.todo`/JSDoc que la citan). El test: *¿esta OQ es una decisión de diseño
@@ -175,6 +176,24 @@ pendiente, o ya se sabe qué construir?* Si es lo segundo, se destila.
   o se limpia — no queda apuntando a una entrada que ya no existe en OQ.
 - **Antes de destilar, verificar que no haya consumidor vivo** que dependa de la OQ como debate
   abierto (mismo chequeo que ya rige para cierre genuino).
+
+## Drift declarado ⊥ drift silencioso
+
+> Un doc puede decir **"será"**. No puede decir **"es"** sobre algo que no es.
+
+El drift entre `docs/` y el código no es una cantidad a tolerar: hay dos clases con costos opuestos.
+
+| Clase | Cómo se lee | Costo |
+|---|---|---|
+| **Declarado** | *"`GameLaws` como tabla global no sobrevive a esta partición"* — el código todavía la tiene | **cero.** El doc dice qué falta y por qué |
+| **Silencioso** | *"Duplicación vigente: **Ninguna**"* — y hay dos | el modo de falla que hay que evitar |
+
+Con un plan activo, el drift declarado es el estado esperado: `docs/` puede ir adelante del código a
+propósito. **Cómo se declara:** qué vale, qué hace el código hoy, y quién lo reconcilia (el stage o la
+OQ). Sin las tres partes es drift silencioso con buena redacción.
+
+⚠️ Un doc destilado sin commitear no está a salvo por estar en el repo: está en el working tree, y se
+pierde igual. Aparece en `git status`, que mejora la visibilidad, no la durabilidad.
 
 ## Post-flight: después de cambios de arquitectura o contratos
 
@@ -190,7 +209,7 @@ No postergarlo.
 | Tema documentado en el dominio | Citar el documento, no abrir debate |
 | Tema con precedente en otro dominio | Aplicar el precedente, documentar la analogía |
 | Decisión cerrada en governance que resurge | Citar la decisión, no re-debatir |
-| Decisión D-series VIGENTE que necesita evolucionar | Actualizar `docs/data/decisions.md` con la nueva evidencia. Impacto GREEN si solo afecta schema/data. |
+| Decisión D-series VIGENTE que necesita evolucionar | Actualizar `docs/data/decisions.md` con la nueva evidencia. Sin detenerse si solo afecta schema/data. |
 | Tema genuinamente nuevo sin precedente | Abrir debate con opciones numeradas |
 
 ## Si el usuario dice "eso ya lo discutimos"
@@ -198,5 +217,3 @@ No postergarlo.
 1. Buscar en `docs/governance/closed-decisions.md` y `docs/governance/decision-frontier.md`
 2. Si existe → citar la decisión y continuar desde ahí
 3. Si no existe → pedir al usuario que indique dónde está documentado
-
-No repetir la pregunta. No defender la posición anterior.

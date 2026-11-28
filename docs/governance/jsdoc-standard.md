@@ -139,7 +139,7 @@ de cabeceras es ruido de diff sin ganancia.
 
 ## Sobre comentarios inline
 
-El estándar de `Project/CLAUDE.md` aplica: no comentar el **qué**, solo el **por qué**.
+El estándar de `Project/AGENTS.md` aplica: no comentar el **qué**, solo el **por qué**.
 
 ```typescript
 // ✅ Correcto — explica una invariante no obvia

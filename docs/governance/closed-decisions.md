@@ -146,7 +146,7 @@ DataLoader.getIncarnonData() → incarnon-evolutions.override.json            (d
 **Contexto:** vocabularios como polaridad, tipos de daño y facciones son a la vez **significado canónico** (token del juego) y **estructura de datos materializada** (campos en `mods.json`, `warframes.json`, etc.). La auditoría los reportó como huérfanos documentales (0 links entrantes), planteando si debían moverse fuera de `semantic/`.
 
 **Dirección elegida: opción (a) — vocabulario en `semantic/`, visibilidad del grafo por link al consumidor.**
-El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.md`: *"si un documento define qué SIGNIFICA algo → `semantic/`; si define cómo se ESTRUCTURA en JSON → `data/schemas/`."* Un vocabulario que es significado canónico vive en `semantic/` aunque se materialice en datos.
+El criterio organizador es la regla de enrutamiento ya vigente en `docs/AGENTS.md`: *"si un documento define qué SIGNIFICA algo → `semantic/`; si define cómo se ESTRUCTURA en JSON → `data/schemas/`."* Un vocabulario que es significado canónico vive en `semantic/` aunque se materialice en datos.
 
 **Evidencia (el corpus ya la adoptó de facto, verificado 2026-06-05):** `damage-types.md` (6 links entrantes, incl. engine y governance) y `factions.md` (links desde consumidores reales: `audit-mods.md`, `engine/status.md`) ya viven en `semantic/` con links entrantes desde quien los consume. El patrón existe sin haberse nombrado.
 
@@ -158,7 +158,7 @@ El criterio organizador es la regla de enrutamiento ya vigente en `docs/CLAUDE.m
 
 **Corolario para OQ-DATA-4 (ubicación del puente):** el "puente de patrones estructurales" (stacking / duration cross-schema) **no es vocabulario de significado sino estructura de schema** → su ubicación es `data/` (`rules/` o `schemas/`), **no** `semantic/`. Esto resuelve la *ubicación* del puente; su *creación* sigue gateada por `D-20` (≥2 casos misma forma) + `D-16` (cobertura ≥70%), independiente de esta decisión.
 
-**Ref:** `docs/semantic/polarity.md`, `docs/semantic/damage-types.md`, `docs/semantic/factions.md`, `docs/governance/open-questions.md` (OQ-DATA-4), `docs/CLAUDE.md` (regla de enrutamiento semantic vs data).
+**Ref:** `docs/semantic/polarity.md`, `docs/semantic/damage-types.md`, `docs/semantic/factions.md`, `docs/governance/open-questions.md` (OQ-DATA-4), `docs/AGENTS.md` (regla de enrutamiento semantic vs data).
 
 ---
 
@@ -451,7 +451,7 @@ critChance/critMult antes de resolver el crit (ambos modos, atómico y bulk). Be
 
 **Lo que NO cierra esta decisión:** las ausencias de fidelidad que la OQ original sostenía (Cold cap
 4 stacks con Overguard presente, freeze sólido al 10º stack) no eran pregunta abierta — eran "qué
-hacer" ya sabido, y se destilaron a Issues de GitHub en vez de quedar en OQ (`docs/CLAUDE.md`
+hacer" ya sabido, y se destilaron a Issues de GitHub en vez de quedar en OQ (`docs/AGENTS.md`
 §Frontera `open-questions.md` ↔ GitHub Issues). Puncture en AoE/habilidades de warframe
 sigue gateado, sin dueño hasta que exista AoE — se queda en `OQ-ENGINE-12`, ahora angostada a sólo
 ese punto.

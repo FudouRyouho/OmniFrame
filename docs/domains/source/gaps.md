@@ -14,7 +14,7 @@ acá · qué lo tapa.**
 
 **Por qué reproducción y no versión:** `warframe-items` publica `0.0.0-dev` — no hay número que
 citar. Y aunque lo hubiera, un hash ajeno diría *cuándo lo vimos*, no *si sigue vivo*. El comando de
-reproducción sí. (Coincide con la regla 4 de [`../../CLAUDE.md`](../../CLAUDE.md): nada de hashes en
+reproducción sí. (Coincide con la regla 4 de [`../../AGENTS.md`](../../AGENTS.md): nada de hashes en
 docs vivos.)
 
 ---
