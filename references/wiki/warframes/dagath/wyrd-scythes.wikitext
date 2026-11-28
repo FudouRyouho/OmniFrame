@@ -1,0 +1,42 @@
+<onlyinclude>{{AbilityU10.3
+| name = Wyrd Scythes
+| gameimage = WyrdScythesIcon.png
+| cardimage = WyrdScythes.png
+| hotkey = 1
+| energy = 25
+| cost = 
+| description = 
+| strength = 20 / 25 / 30 / 35 % slow<br>350 / 400 / 450 / 500 {{D|Viral}} damage during spin<br>700 / 800 / 900 / 1,000 {{D|Viral}} damage on throw
+| range = 10 / 12 / 13 / 15 m Doom spread range
+| duration = 2 / 3 / 4 / 5 s slow time
+| misc = 7 number of sickles<br>1-5 m spin radius<br>{{D|Viral}} status per sickle<br>95% slow cap<br>1 s spin time and recast cooldown<br>0.5 s sickle throw delay<br>Infinite Punch Through<br>40 m auto-target radius
+| cardonly = {{{1|}}}
+| subsumable = 
+| info = *Dagath expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[Energy]] to whirl a macabre disc of <u>'''7'''</u> spectral sickles that rapidly expand from a radius of <u>'''1'''</u> to <u>'''5'''</u> meters around her, inflicting {{Stat|Ability Strength|icon=only}}'''350 / 400 / 450 / 500''' {{D|Viral}} damage and [[Status Effect]] ''per sickle''. Sliced enemies are {{D|Slow|Slowed}} by {{Stat|Ability Strength|icon=only}}'''20% / 25% / 30% / 35%''' reduced action speed for a duration of {{Stat|Ability Duration|icon=only}}'''2 / 3 / 4 / 5''' seconds.
+**Slow is capped to <u>'''95%'''</u> achievable with 272% [[Ability Strength]].
+**Sickles rotate around Dagath at high speed to strike enemies multiple times. Since each sickle inflicts {{D|Viral}} status, subsequent damage from other sickles against enemy [[Health]] is increased per status stack applied.
+**Spinning Wyrd Scythes damage and break destructible [[Objects]] such as crates and resource caches.
+*After Wyrd Scythes spin for <u>'''1'''</u> second, Dagath throws the sickles outward as <u>'''7'''</u> fast homing projectiles after a <u>'''0.5'''</u> second throw delay, striking nearby enemies to inflict {{Stat|Ability Strength|icon=only}}'''700 / 800 / 900 / 1,000''' {{D|Viral}} damage, status, and slow, with infinite [[Punch Through]] to slice other foes behind the target while the sickles fly off into the distance.
+**Sickle projectiles will auto-target '''visible''' enemies that are within a <u>'''40'''</u> meter radius in front of Dagath.
+***Sickles will not auto-target enemies obscured by obstacles, or that are positioned behind Dagath (regardless of line of sight being blocked or not).
+**With no enemies to target, Dagath will launch them all toward her aiming reticle.
+**Sickles travel at <u>'''40m/s'''</u> for <u>'''3'''</u> seconds before disappearing, traveling a total of <u>'''120'''</u> meters.
+**Spin time is shown on Wyrd Scythe's ability icon as a recast cooldown timer.
+*Cannot be recast during spin phase. Flying spectral sickle projectiles are '''not''' launched if recast during the throw delay.
+| interactions = 
+* Strike {{A|Doom|Doomed}} foes with Wyrd Scythes to trigger Phantom Wrath, while refreshing {{A|Doom}} on the targets hit and spreading the curse to other enemies within a {{Stat|Ability Range|icon=only}}'''10 / 12 / 13 / 15''' meter radius around the Doomed foes.
+| helminth = 
+* Subsuming Dagath to the [[Helminth]] will offer Wyrd Scythes and its augments to be used by other Warframes.
+** However, Subsumed Wyrd Scythe's slow is reduced to {{Stat|Ability Strength|icon=only}}'''15 / 18 / 22 / 26%'''.
+** Slow is capped to <u>'''71%'''</u> achievable with 272% [[Ability Strength]].
+| augment = 
+| bugs = 
+| tips =
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Dagath}}
+__NOTOC__
+[[Category:Dagath]]
+[[Category:Slow]]
+[[fr:Faux de Wyrd]]

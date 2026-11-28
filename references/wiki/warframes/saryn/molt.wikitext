@@ -1,0 +1,59 @@
+<onlyinclude>{{AbilityU10.3
+| name = Molt
+| gameimage = SarynMoult.png
+| cardimage = MoltModU15.jpeg
+| drain = 
+| hotkey = 2
+| energy = 50
+| description = Shedding her skin like a snake, Saryn leaves a decoy behind to draw fire from enemies.
+| cost = 50
+| strength = 150 / 300 / 400 / 500 (health)<br>240 / 300 / 350 / 400 ({{D|Toxin}} explosion damage)<br>30% / 35% / 40% / 50% (movement speed buff)
+| range = 5 / 6 / 7 / 10 m
+| duration = 14 / 24 / 32 / 40 s (decoy)<br>3.5 / 4 / 4.5 / 5 s (movement speed buff)
+| misc = 100 % (status cleanse on cast)<br/>1.5 / 2 / 3 / 3 s (decoy invuln. time)<br/>400 (decoy shields)<br/>100 % ({{D|Toxin}} status chance)<br/>1 (limit of molts)
+| subsumable = true
+| cardonly = {{{1|}}}
+| info = *Saryn expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to shed her skin, removing all existing [[Status Effect|status effects]] and increasing her [[Movement Speed]] by {{Stat|Ability Strength|icon=only}}'''30% / 35% / 40% / 50%''' for {{Stat|Ability Duration|icon=only}}'''3.5 / 4 / 4.5 / 5''' seconds, while leaving behind a decoy with <u>'''400'''</u> [[shield]]s and {{Stat|Ability Strength|icon=only}}'''150 / 300 / 400 / 500''' [[Flesh|health]] that draws enemy fire for {{Stat|Ability Duration|icon=only}}'''14 / 24 / 32 / 40''' seconds. When deployed, the decoy is [[Invulnerable]] for <u>'''1.5 / 2 / 3 / 3'''</u> seconds, during which all incoming damage absorbed by it is converted and added to its health. The decoy will explode if it loses all of its hitpoints, if its duration expires or if the ability is cast again, inflicting {{Stat|Ability Strength|icon=only}}'''240 / 300 / 350 / 400''' {{D|Toxin}} damage with <u>'''100%'''</u> {{D|Toxin}} [[status chance]] to all enemies within {{Stat|Ability Range|icon=only}}'''5 / 6 / 7 / 10''' meters from it. A maximum of <u>'''1'''</u> Molt can exist.
+**Explosion damage does '''not''' bypass obstacles in the environment and diminishes with distance.
+**Recasting while active will detonate the Molt and spawn a new one.
+**Does '''not''' have a cast time or animation.
+*Molt's decoy is placed at Saryn's current position, mirroring her pose and elevation.
+**Molt's shields regenerate over time and can be buffed with the use of allied [[Shield Osprey]]s, whether in [[Specter]] or {{A|Mind Control|Mind Controlled}} forms.
+**Elemental augment mods, such as {{WF|Ember}}'s {{M|Fireball Frenzy}}, can be applied to Molt. The damage augment will '''not''' affect the explosion damage or damage type upon Molt's expiration.
+**Molt '''cannot''' be knocked down or moved, and acts as a physical object, unlike {{WF|Loki}}'s {{A|Decoy}}.
+**Molt will slowly vaporize and dissipate for its duration, eventually exploding once it nearly vanishes.
+*Casting Molt can be done while performing any action without interrupting it, including [[reload]]ing, charging, shooting, [[Maneuvers|maneuver]]ing, and while on a [[Maneuvers#Zipline|zipline]].
+**Can be cast in all states (except while upside down in a flip jump or while dodging) and can be reused instantly.
+| helminth =
+*Subsuming Saryn to the [[Helminth]] will offer Molt and its augments to be used by other Warframes.
+| augment = [[File:RegenerativeMoltMod.png|200px|left]]
+{{main|Regenerative Molt}}
+{{#lst:Regenerative Molt|intro}}
+{{#lsth:Regenerative Molt|Stats}}
+{{clr}}
+| tips = *Using during a well timed jump can result it being low enough for enemies to target, such as Infested or Melee units, but be more protected from most melee attacks. (Ancients will still be able to reach, as well as the knockback damage from Leapers).
+*Place Molt in locations which can protect it from enemy attacks to maximize its survival.
+*{{WF|Limbo}} can utilize this ability by casting {{A|Banish}} on the decoy, granting it immunity to all attacks that do not affect targets in the [[Rift Plane]].
+*If Molt is closer to the enemy than the player, enemies will (normally) focus it. Applies to the caster as well as other players, unless they're using aggro-increasing abilities such as {{WF|Nyx}}'s {{A|Absorb}} or {{WF|Rhino}}'s {{A|Iron Skin}}.
+*It can be used as protection from enemy fire, when you revive an downed teammate.
+<noinclude>
+|max = {{WFmax|main|saryn2}}
+</noinclude>
+| bugs = *When knocked back by an [[Ancient Healer|Ancient]], the physical target of the decoy will move, but the model remains in place. ''This can be seen while having {{M|Enemy Sense}} and {{M|Enemy Radar}} equipped while seeing the decoy (as a friendly blip) against a group of infested.''
+*For clients, Molt will sometimes be in a default standing position when deployed.
+}}</onlyinclude>
+
+==Notes==
+Excalibur Umbra will use this ability if infused, while in operator mode.
+
+==See Also==
+* {{WF|Saryn}}
+__NOTOC__
+[[de:Häutung]]
+[[es:Mudar]]
+[[ru:Линька]]
+[[Category:Saryn]]
+[[Category:Update 7]]
+[[Category:Warframe Abilities]]
+[[Category:Toxin Damage]]
+[[uk:Линяння]]

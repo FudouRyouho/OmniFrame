@@ -1,0 +1,60 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Stinkbrain
+| gameimage      = 
+| cardimage      = 
+| hotkey         = 1
+| energy         = 25
+| description    = Throw a mushroom that periodically sheds poisonous spores, inflicting Viral Damage and Status Effect upon nearby enemies.
+| strength       = 175 / 200 / 225 / 250 {{D|Viral}} damage
+| range          = 5m Range
+| duration       = 10 / 15 / 20 / 25 s Duration
+| misc           = 3 s pulse interval<br>100% {{D|Viral}} [[Status Chance]] and {{D|Sleep}} on pulse<br>3 s {{D|Sleep}} duration<br>100% {{D|Finisher}} damage vulnerability<br>4 Stinkbrain cap<br>Warframe trampoline<br>Double Jump boost<br>Forced pulse on bounce<br>1.5 s Sporespring pulse interval<br>Duration reset from Sporespring
+| subsumable     = true
+| cardonly       = {{{1|}}}
+|info = *Nokko expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to throw an arcing bouncy spore that sprouts a poisonous mushroom on contact with a horizontal surface. The '''Stinkbrain''' is an intangible invulnerable object that lasts for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds, instantly releasing a pulse on creation, then periodically pulsing every <u>'''3'''</u> seconds over a range of {{Stat|Ability Range|icon=only}}'''5''' meters. Stinkbrain's pulse inflicts {{Stat|Ability Strength|icon=only}}'''175 / 200 / 225 / 250''' {{D|Viral}} damage with <u>'''100%'''</u> {{D|Viral}} [[Status Chance]] to enemies in range and [[Line of Sight]], while lulling them to {{D|Sleep}} for <u>'''3'''</u> seconds. Enemies affected by Stinkbrain sleep are opened to Melee [[Finisher]]s and receive <u>'''100%'''</u> [[Damage Vulnerability]] to {{D|Finisher}} damage. A maximum of <u>'''4'''</u> Stinkbrains can be placed.
+**Number of active Stinkbrains are tracked on the ability icon.
+**If Stinkbrain cannot be created at the spore landing zone, energy cost is fully refunded to Nokko.
+**Stinkbrain spores will bounce off walls and other mushrooms.
+**Stinkbrain appears on the minimap using its unique mushroom icon. This icon is not distinct from {{A|Brightbonnet}} mushrooms.
+**Nokko and allied players can jump on Stinkbrain Mushrooms to be propelled into the air, gaining bonus Double Jump velocity and immunity to Hard Landing until they next touch the ground.
+***Each bounce also refreshes the player's ability to Double Jump or Bullet Jump, and allows the player to start a fresh aim glide.
+***Jumping on a mushroom will force a pulse and place the mushroom on cooldown, which will cause subsequent players to pass through the mushroom instead of being propelled. The cooldown is visually indicated by the mushroom's brief glow and jiggle. 
+**Stinkbrain will despawn early if it is not rooted on a horizontal surface. Some [[Tilesets]] utilize shifting platforms and elevators, and mushrooms grown by Nokko do not move from their landing zone.
+| interactions =
+*Stinkbrains will become Invigorated when hit by {{A|Sporespring}} or {{Weapon|Arbucep}} projectiles.
+**An Invigorated Stinkbrain has its pulse interval reduced to <u>'''1.5'''</u> seconds.
+**A Stinkbrain will remain Invigorated until it is hopped on, at which point it will return to normal and revert to its non-Invigorated pulse interval.
+**Each time a Stinkbrain transitions from normal to Invigorated, its duration is reset to the full value.
+**The first time a Stinkbrain becomes Invigorated, it will permanently receive a glowing rim around its silhouette. This glow will remain even if the Stinkbrain loses its Invigoration.
+**Each time a Stinkbrain is Invigorated, it will visibly emit glowing spores until ⅔ of its duration has passed.
+**While Arbucep is Nokko's [[Signature Weapon]], this interaction is not unique to Nokko. Arbuceps held by any squadmate will Invigorate the Stinkbrains of any other squadmate.
+*In addition to jumping, {{A|Sporespring}} and {{Weapon|Arbucep}} projectiles will force a pulse on each impact.
+*{{A|Reroot}}'s Sprodling form can bounce off of Stinkbrains under lower ceilings than full-sized Warframes.
+*Upon entering [[Bleedout]] with an active Stinkbrain, Nokko [[Nokko/Abilities#Passive|passively]] triggers '''Vital Decay''' to revert to his Sprodling form for <u>'''15'''</u> seconds and can revive himself by touching a previously placed Stinkbrain.
+**Stinkbrains have their durations paused during Vital Decay, and all Stinkbrains are removed upon revival.
+| augment = 
+| tips = 
+*Throw a Stinkbrain into a crowd of enemies to instantly inflict {{D|Viral}} damage, status, and {{D|Sleep}} to immobilize them where they stand.
+**Sleeping enemies are easy targets for [[Weak Point]] hits such as headshots, and are exposed to melee [[Finisher]] attacks that often guarantee a kill.
+**Enemies with {{D|Overguard}} only receive {{D|Viral}} damage and status, but will be forced to {{D|Sleep}} by subsequent pulses once the Overguard is destroyed.
+*Throw Stinkbrain in front of you and jump to bounce into the air, then Double Jump to gain height advantage for casting other abilities, aerial gunfire, or transition into a melee/heavy ground slam to increase its slam radius drastically.
+*Jump on Stinkbrain to repeated bounce into the air, reducing enemy accuracy against Nokko.
+*Create a Stinkbrain under a low ceiling, such as [[Tilesets]] corridors and hallways, then bounce on it to force multiple rapid pulses that quickly stack up {{D|Viral}} status with increasing damage to enemy [[Health]].
+**{{A|Reroot}} Sprodling form is ideal for this interaction, since its small size allows Nokko to fit into small spaces that normal Warframes cannot.
+**Keep in mind Stinkbrains require [[Line of Sight]] and Sprodling form is untargetable by enemies. Place the Stinkbrain behind a doorway or in an open chokepoint where enemies must travel through.
+*Create up to four Stinkbrains in separate areas for area denial, or cluster them close together to stack {{D|Viral}} damage and statuses quickly.
+*Note that each stack of {{D|Viral}} has its own 6-second timer and adding new {{D|Viral}} stacks will ''not'' refresh the timers of older ones.  So if you want to get a lot of Viral stacks on enemies, you can stack multiple Stinkbrains, bounce on them to increase their pulse rate, or use Sporespring to increase pulses directly via bounces and permanently via invigoration.
+*To maximize the {{D|Viral}} status output and {{D|Sleep}} crowd control, newly created Stinkbrains should be hit by a {{A|Sporespring}} as soon as possible to permanently halve the pulse interval for that mushroom.
+*Stinkbrains allow {{A|Sporespring}} to bounce to them to extend its enemy detection range. Position the mushrooms spread across a room for Sporesprings to trampoline off them for maximum destructive chaos!
+**Sporesprings in turn trigger Stinkbrains to pulse on each bounce, freeing Nokko to do other things or join in the bouncy fun.
+| max = 
+| bugs = |
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Nokko}}
+
+__NOTOC__
+[[Category:Warframe Abilities]]
+[[Category:Update 40]]

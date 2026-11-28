@@ -1,0 +1,148 @@
+<onlyinclude>
+{{AbilityU10.3
+| cardonly = {{{1|}}}
+| name = Antimatter Drop
+| gameimage = NovaAbility2.png
+| cardimage = AntimatterDropModU15.jpeg
+| hotkey = 2
+| energy = 50
+| description = Launch a large particle of charged antimatter that will detonate contact. Direct the particle by aiming, shoot it to charge it further. Deals {{D|Blast}} Damage with a guaranteed Status Effect.
+| strength = 100 / 125 / 150 / 200 (base {{D|Blast}} damage)<br>2x / 4x / 6x / 8x (absorb multiplier)<br>10 (contact damage)
+| range = 5 / 8 / 10 / 15 m (explosion range)
+| duration = 
+| misc = 1 (orb limit)<br>? m/s (orb travel speed)<br>&infin; (orb lifespan)<br>100% ({{D|Blast}} status chance)<br>5x (max hits absorbed)<br>25,000 (absorbed damage cap)<br>12,500 (Wormhole damage absorb)
+| info = *Nova expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to create <u>'''1'''</u> volatile orb of antimatter that travels forward <u>'''?'''</u> meters per second, which is steered toward the object, entity or location on the aiming reticle. The orb absorbs all damage (friendly and hostile) when shot at, lasting '''<u>indefinitely</u>''' until it collides with a surface. Upon collision, the orb inflicts {{Stat|Ability Strength|icon=only}}'''10''' {{D|Blast}} damage on contact, then explodes to inflict {{Stat|Ability Strength|icon=only}}'''100 / 125 / 150 / 200''' base damage plus {{Stat|Ability Strength|icon=only}}'''2x / 4x / 6x / 8x''' all absorbed damage as {{D|Blast}} damage with <u>'''100%'''</u> status chance to all enemies within {{Stat|Ability Range|icon=only}}'''5 / 8 / 10 / 15''' meters and in direct [[Line of Sight]].
+**The orb '''cannot''' absorb more damage after being shot <u>'''5'''</u> times (excluding [[Multishot]], but will count a contact + explosion attack as two hits).
+**The orb cannot absorb more than <u>'''25,000'''</u> damage.
+**Extra damage from [[Critical]] and [[Status Effect]]s are '''not''' absorbed by the orb.
+**Extra damage from [[Melee#Combo|Melee Combo]] on heavy attacks and [[Sniper Rifle#Shot Combo Counter|Shot Combo]] on sniper shots are also ignored.
+**The orb does '''not''' absorb damage from other Antimatter Drop explosions.
+*Recasting the ability (default {{Keybind|2}}) will cause the active orb to massively speed up.
+*'''Ability Synergy:''' An Antimatter Drop that enters a {{A|Wormhole}} absorbs <u>'''12,500'''</u> damage.
+*The antimatter particle appears as a sphere contained inside another sphere, with the inner sphere growing in size as it absorbs damage.
+*The particle's visuals will appear gold when cast by {{WF|Nova Prime}}.
+*This ability is a [[:Category:One-Handed Abilities|one-handed action]]; as such, it will '''not''' interrupt full actions such as [[reload]]ing, charging, or shooting.
+| augment = [[File:AntimatterAbsorbMod.png|200px|left]]
+{{main|Antimatter Absorb}}
+{{#lst:Antimatter Absorb|intro}}
+{{#lsth:Antimatter Absorb|Stats}}
+{{clr}}
+| tips = *A quick and reliable way to utilize the Antimatter Drop's damage potential is to aim it at the floor and blast it with a shotgun point blank as soon as it's launched, resulting in a radial explosion around the player. A well-modded {{Weapon|Sancti Tigris}} or {{Weapon|Tigris Prime}} are capable of fully charging the Drop with a single duplex shot, while {{Weapon|Arca Plasmor}}'s wide effective area makes it easy to hit the Drop without taking time to aim.
+**The {{Weapon|Opticor}} is an example of one weapon that can provide a large amount of damage to the drop.
+*Antimatter Drop moves towards a point at which the player is placing their reticle, whether aiming or not. Keep this in mind to control it.
+*If there aren't many enemies to hit, you may want to preserve your charged orb until you find a bigger group to make the most of your ammo. Be careful where you aim and you can let the orb slowly follow you/last until you find a suitable cluster to fire it into.
+**The orb likes to stay in front of you, moving forward at a slow speed. Aiming to the opposite direction/behind you will cause the orb to follow, potentially giving more time to aim or shoot into it.
+**Even when triggered to launch full speed, the orb likes to fly towards the point on a surface your aim reticle is at, letting you U-turn it to somewhere else or around cover if you're fast enough and have room. Though, be mindful of maps with poles, trees, or other solid objects that may block your line of sight, thus sending the orb to that point.
+**It is preferable to use weapons that have zero or little recoil, as recoil moves the weapon and this will move the reticle as well. Which in turn will steer the orb away from the centerline (when it flies away from you) and will make it take time to re-steer it to where you wish it to hit.
+*Critical damage does not amplify the Drop further, as Critical hits do not affect objects.
+*Most likely due to the behavior of abilities with {{A|Cataclysm}}, it is ill-advised to use Antimatter Drop inside of said ability. The orb will always count as "outside of the rift plane" and therefore you will be unable to hit it unless you leave the Cataclysm.
+*Using the augment, you can create a moving shield that charges itself.
+*Being squad host will remove the burden on experiencing input lag when using this ability. When playing as a client the position needs to be sent to the host & back to you.
+<noinclude>
+| max = {{WFmax|main|nova2}}
+</noinclude>
+| bugs = |
+}}
+
+</onlyinclude>
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|37}}<br/>
+'''Antimatter Drop Changes:'''
+
+*Tapping the ability input while an Antimatter Drop orb is active will massively increase its speed, causing it to zoom in the direction of the player reticle.
+**As a result, only one Antimatter Drop orb can be cast at a time.
+**Antimatter Drop has historically been difficult to control, with its speed only increasing once the orb is “fully charged”. This change gives players the ability to shoot at the slow-moving orb to maximize damage output, and then catapult it towards unsuspecting enemies at their whim.
+*Changed damage type from Radiation to Blast, with 100% Status Chance.
+*Only 5 shots will be absorbed by Antimatter Drop to reach full charge (excluding multishot).
+**Teleporting an Antimatter Drop orb via a Wormhole will automatically charge the orb halfway.
+*Antimatter Drop’s explosion now uses Line of Sight checks.
+**With the above improvements, it is now much easier to use and packs a punch, so to prevent disruptive gameplay we added the checks. What this means is that the detonation damage will check for any part of the enemy that has been drawn on the screen, if any part of them is visible it will pass the LoS check and deal damage to them.
+**In light of this change, we’ve made it so that Antimatter Drop’s explosion range is now affected by Range Mods.
+*Removed the delay that would occur before Antimatter exploded when making contact with a surface – it will now immediately detonate on impact!
+*Updated the orb’s appearance to better communicate its charging mechanic:
+**The orb now looks like one sphere contained within another. The inner sphere will grow in size as damage is absorbed, until it reaches the cap.
+*Improved Antimatter Drop's movement logic so it tries to stay within the player's line of sight, to avoid cases of players "losing" the orb after casting.
+*Removed collision on the Antimatter Drop orb so it will no longer be blocked by allies. (RIP Orb Surfing 2024)
+
+{{ver|29.6.7}}
+*Fixed a script error when casting Nova’s Antimatter Drop ability.
+
+{{ver|27.3.15}}
+*Fixed a script error with Nova’s Antimatter Drop with the Atomica Skin equipped.
+
+{{ver|25.7.5}}
+*Fixed Nova’s Antimatter Drop exploding prematurely when aiming with your gun, and looking down a bit. We attempted to fix this in {{ver|25.7.4}} but it actually broke it more!
+
+{{ver|22.20.9}}
+*Nova’s Antimatter Drop base projectile damage is now reflected on the Abilities screen modified by Power Strength, and the multiplier also appears as an unchangeable 8x. This is purely a UI tweak to match how Antimatter Drop has functioned since its release.
+
+{{ver|22.20.8}}
+*Reduced Nova’s Antimatter Drop max Health in half and doubled the absorbed damaged. This fixes Nova’s Antimatter Drop charging twice as quickly as a Client by buffing the Host to match Clients!
+
+{{ver|22.9}}
+*Updated all mentions of "anti-matter" to read "antimatter".
+
+{{ver|20.6}}
+*Nova’s Antimatter Drop will now auto-detonate upon Nova dying.
+
+{{ver|18.9}}
+*Changed the FX of Nova’s Molecular Prime and Antimatter Drop explosions to improve both visuals and performance.
+
+{{ver|17.10.1}}
+*Fixed Nova’s Antimatter Drop not properly showing damage numbers.
+
+{{ver|17}}
+*Fixed some Radiation damage weapons not properly applying damage to Nova’s Antimatter Drop absorption.
+
+{{ver|16.11}}
+*Fixed some weapons not properly adding damage to Nova’s Antimatter Drop.
+*Fixed some projectiles not properly doing damage to Nova’s Antimatter Drop and Grineer door sensors.
+*Fixed Fusion MOA’s ranged attack causing issues with damage absorbed by Nova’s Antimatter Drop.
+
+{{ver|16.4.4}}
+Antimatter Drop:
+
+*Fixed projectiles level 1-3 having double shimmer visual effects..
+*Fixed Antimatter Drop’s collision detection being affected by projectile scale on Host. Increased the collision detection radius for Clients to help compensate.
+*Fixed Client projectiles doing 2x damage on contact (not related to Antimatter Drop’s explosion damage).
+*Fixed base explosion damage to match the Ability’s scaling explosion damage (was 100, now 100/125/150/200).
+*Fixed sometimes doing minimal damage when used by Clients, regardless of how much players pumped into it.
+*Fixed low damage as Host or Client if the projectile hits where you are aiming (as opposed to hitting something while trying to get to your aim position).
+*Fixed aiming at the projectile not causing it to slow down.
+*Explosions from Antimatter Drop will no longer fuel the damage of other nearby AMD projectiles.
+*Projectiles from Antimatter Drop will now get brighter as you do damage to it.
+*Various changes have been made to improve the visual and audio fx of Antimatter drop.
+*Nova now shows a proper animation during multiple casts of Antimatter Drop.
+
+{{ver|15.7.2}}
+*Fixed Nova Prime’s Antimatter Drop not correctly applying unique visual effects to non-host players.
+
+{{ver|15.7.1}}
+*Fixed Nova’s Antimatter Drop being uncontrollable at Rank 1.
+
+{{ver|13.9.1}}
+*Nova’s Antimatter Drop now indicates damage increased if targeted by weapons.
+
+{{ver|11.2.1}}
+*Fixed issue where Nova’s Antimatter Drop would not trigger explosive radial damage in certain cases.
+
+{{ver|9.8}}
+*Energy color tinting for Nova Antimatter Drop ability.
+*Fixed Nova Antimatter Drop ability disappearing on clients.
+}}
+
+==See Also==
+* {{WF|Nova}}
+__NOTOC__
+[[de:Antimaterietropfen]]
+[[es:Gota de antimateria]]
+[[fr:Lâché d'Antimatière]]
+[[ru:Сброс Антивещества]]
+[[Category:Warframe Abilities]]
+[[Category:One-Handed Abilities]]
+[[Category:Radiation Damage]]
+[[Category:Nova]]
+[[Category:Update 9]]
+[[uk:Вивільнення антиматерії]]

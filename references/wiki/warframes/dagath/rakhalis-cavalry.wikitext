@@ -1,0 +1,36 @@
+<onlyinclude>{{AbilityU10.3
+| name = Rakhali's Cavalry
+| gameimage = RakhalisCavalryIcon.png
+| cardimage = RakhalisCavalry.png
+| hotkey = 4
+| energy = 100
+| cost = 
+| description = 
+| strength = 15,000 / 20,000 / 25,000 / 30,000 {{D|Viral}} damage per interval per Kaithe<br>20 / 25 / 30 / 35 % Doom defense reduction per interval per Kaithe
+| range = 
+| duration = 2 / 2 / 3 / 3 s charge duration
+| misc = 5 number of Kaithes<br>5 m summon radius<br>1.5 s invulnerable time<br>15 m/s charge velocity<br>{{D|Stagger}} on contact<br>0.15 s damage interval
+| cardonly = {{{1|}}}
+| info = *Dagath expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[Energy]] to summon <u>'''5'''</u> spectral remnants of Rakhali's soul in a cavalry charge formation <u>'''5'''</u> meters away. During the casting time of '''1.5''' seconds, Dagath becomes [[Invulnerable]] then commands the cavalry of phantom [[Kaithe]]s to continuously charge forward at <u>'''15m/s'''</u> for {{Stat|Ability Duration|icon=only}}'''2 / 2 / 3 / 3''' seconds. Each spectral Kaithe inflicts {{Stat|Ability Strength|icon=only}}'''15,000 / 20,000 / 25,000 / 30,000''' {{D|Viral}} damage and {{D|Stagger}} per <u>'''0.15'''</u> seconds to all enemies in its path; damage is dealt in full on each interval and continues for as long as enemies remain in physical contact with the phantom Kaithes.
+**All effects apply to enemies in contact with Kaithes during the summoning animation.
+***Enemies touched by Kaithes emit a burst of ghostly light on every hit.
+**Dagath's invulnerability while casting Rakhali's Cavalry scales directly with its casting time. Reducing casting time through [[Natural Talent]] or an [[Archon Shard#_Amber_Archon_Shard_(_Tauforged_Amber_Archon_Shard)|Amber Archon Shard]] will reduce this invulnerability by the same amount.
+**Phantom Kaithes charge in a ''[[wikipedia:V formation|V formation]]'', with the leading Kaithe in the center. Each Kaithe has a sizable hitbox to strike multiple enemies, aided by the stagger effect.
+***When cast while Dagath is on the ground, phantom Kaithes' formation is aligned with the leading Kaithe summoned on the nearest available horizontal surface, regardless of Dagath's own elevation.
+***When cast from the air, the Kaithes align toward the exact direction of Dagath's aiming reticle and can fly through the air. If they touch the ground, they charge forward wherever their head is facing and run along the surface, adhering to any changes in the terrain.
+***Phantom Kaithes will phase through vertical terrain and obstacles as they travel, by visually passing through a ghostly portal aligned with the wall.
+**Phantom Kaithes damage and break destructible [[Objects]] such as crates and resource caches.
+*Can be recast while active to summon all Kaithes toward a new direction. Previous cavalry charge is removed on recast.
+| interactions = 
+* Stampede {{A|Doom|Doomed}} foes with Rakhali's Cavalry to trigger Phantom Wrath, and induce {{Stat|Ability Strength|icon=only}}'''20% / 25% / 30% / 35%''' permanent [[Shields]] and [[Armor]] reduction. Defense reduction on Doomed foes occurs on ''every'' {{D|Viral}} damage instance from individual Kaithes.
+** Defenses are fully removed at 286% Ability Strength from a single hit. However, because the Cavalry deals multiple instances of damage, far less Strength is necessary, with 143% Ability Strength fully removing defenses after two hits.
+| augment = 
+| bugs = 
+| tips = 
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Dagath}}
+__NOTOC__
+[[fr:Cavalerie de Rakhali]]
+[[Category:Dagath]]

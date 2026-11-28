@@ -1,0 +1,69 @@
+<onlyinclude>{{AbilityU10.3
+| name = Electric Shield
+| gameimage = ElectricShield.png
+| cardimage = ElectricShieldModU15.jpeg
+| hotkey = 3
+| energy = 50
+| description = Volt deploys an electric shield that blocks projectiles.
+| strength = 
+| range = 
+| duration = 10 / 15 / 20 / 25 s
+| misc = +50% {{D|Electricity}} Damage<br>+100% Critical Damage<br>6 m x 4.25 m Static Shield<br>2 m x 3 m Mobile Shield<br/>6 Shield Limit
+| cardonly = {{{1|}}}
+| info = *Volt expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to create an electrical energy barrier <u>'''4.25'''</u> meters high and <u>'''6'''</u> meters wide that blocks enemy fire, lasting for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds. Shots fired through the shield made by Volt and his allies gain <u>'''+50%'''</u> {{D|Electricity}} damage and <u>'''+100%'''</u> [[Critical Hit#Critical Damage|critical damage]]. A maximum of <u>'''6'''</u> Electric Shields can be created at a time.
+**The [[Critical Hit#Critical Damage|critical damage]] bonus is ''multiplicative'' to all other sources of critical damage, effectively doubling the damage of critical hits.
+**The {{D|Electricity}} damage bonus is an ''additive'' bonus that's applied to the weapon's base damage, similar to an elemental mod. For an unmodified weapon that inflicts '''100''' base damage, firing through a shield will increase the total damage to {{Math|100 {{mul}} (1 + 0.5)|bf=y}}. The weapon now inflicts '''100''' base damage and '''50''' {{D|Electricity}} damage.
+***Firing through multiple Shields will cause the {{D|Electricity}} damage bonus to stack additively (e.g., firing through '''3''' shields will grant a '''150%''' {{D|Electricity}} damage bonus). The critical damage bonus on the other hand, does '''not''' stack with additional shields.
+***The {{D|Electricity}} damage bonus does '''not''' combine with other elemental types to create secondary elements; the weapon will separately proc the elements present on it and {{D|Electricity}} from Electric Shield. {{D|Electricity}} damage bonus from the shield does not increase {{D|Electricity}} status effect damage.
+**Casting Electric Shields after reaching the maximum will remove the oldest shield.
+*Volt has the ability to pick up one of his Electric Shields through a context action (default {{Keybind|X}}) or by hold-casting the ability. Doing so will cause the shield to decrease in size to <u>'''2.0 m {{mul}} 3.0 m'''</u> and become mobile as a hovering frontal shield that reorients itself to face the player's camera direction, as well as {{D|Ragdoll|Ragdolling}} enemies that come into contact with it. Activating the context action again will place down the shield and revert its size.
+**Only '''one''' shield can be equipped at a time.
+**Unless forced (e.g., walking into a possessed [[Exolizer]] or into a spear thrown by a [[Kuva Trokarian]]), [[Transference]] will unequip the shield.
+**Picking up the shield will prevent Volt from gaining energy from [[Squad Energy Restore]]s, though other sources of energy regeneration over time still work.
+*Electric Shield affects things that pass through it differently:
+**Melee attacks do <u>not</u> gain bonuses from passing through the shield.
+***Projectile based melee attacks such as [[:Category:Warfan|Warfan]] heavy attack projectiles, [[:Category:Gunblade|Gunblade]] shots, {{Weapon|Syam}}'s shockwave, {{Weapon|Tenet Agendus}}'s energy disk, and {{Weapon|Nepheri}}'s fireballs can benefit from Electric Shield's bonuses.
+****[[:Category:Glaive|Glaive]] throws do <u>not</u> benefit from Electric Shield.
+**AoE attacks require the main projectile to pass through the shield to gain the bonuses; AoE attacks where only the AoE passes through the shield, but not the main projectile, will not gain the bonuses.
+**Most Warframe abilities do <u>not</u> gain bonuses from passing through the shield.
+***Certain projectile based abilities such as {{A|Fireball}} and {{A|Minelayer|Flechette Orb}} can benefit from Electric Shield's bonuses.
+*Prevents self-[[stagger]] from area of effect weapons if the player shoots from behind the shield.
+
+| augment = [[File:TransistorShieldMod.png|200px|left]]
+{{main|Transistor Shield}}
+{{#lst:Transistor Shield|intro}}
+{{#lsth:Transistor Shield|Stats}}
+
+----
+
+[[File:RechargeBarrierMod.png|200px|left]]
+{{main|Recharge Barrier}}
+{{#lst:Recharge Barrier|intro}}
+{{#lsth:Recharge Barrier|Stats}}
+
+{{clr}}
+| tips = *Multiple instances of the Electric Shield can provide a 360<sup>o</sup> wall of protection, or can be used once if backing up into a tight space, blocking enemy fire from all angles.
+*Note that Electric Shield does '''not''' protect its users from above and below attacks. Placing them above and below the player can be done to counter this.
+*As Electric Shield doesn't buff Warframes directly but instead the weapons fired through it, it's one of the only ways to increase [[Operator]] damage output. This is particularly useful for [[Eidolon]] hunts.
+<noinclude>
+|max = {{WFmax|main|volt3}}
+</noinclude>
+| bugs =
+*If Shock is cast through Electric Shield with the max bonus damage from Static Discharge ('''1000''') the total damage dealt may be slightly lower than expected (e.g., if Shock adds '''100''' damage to Electric Shield plus the '''1000''' bonus damage from passive, the amount of damage inflicted will only be '''1098''' instead of '''1100''').
+*The following currently does not function. It is unknown if it was patched out or is currently bugged.
+**'''Ability Synergy''': Casting {{A|Shock}} through an Electric Shield will electrify it, inflicting <u>'''100%'''</u> of Shock's damage to enemies that pass through it (e.g., Electric Shield will deal '''260''' damage if Shock's modified damage is '''260''').
+**The bonus damage from Volt's passive will also be stacked onto the damage from Shock (e.g., Electric Shield will deal '''810''' damage if Shock's modified damage is '''260''' and the Passive bonus is '''550''' at the time Shock is cast).
+|
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Volt}}
+__NOTOC__
+[[de:Elektrischer Schild]]
+[[es:Escudo eléctrico]]
+[[ru:Электрический щит]]
+[[Category:Warframe Abilities]]
+[[Category:Electricity Damage]]
+[[Category:Buffing Fields]]
+[[Category:Volt]]
+[[uk:Електрощит]]

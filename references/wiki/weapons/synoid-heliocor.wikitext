@@ -1,0 +1,126 @@
+{{Top|Weapon|Weapons|Weapons}}
+{{WeaponInfoboxAutomatic}}
+{{Codex|This intelligent hammer takes an enemy killed by a Heavy Attack and recomposes them as an ally. Any fatal strike with this weapon also performs a Codex scan.}}
+'''Synoid Heliocor''' is the [[Syndicate]] variant of the {{Weapon|Heliocor}}, unique to {{Faction|Cephalon Suda}}, sporting improved [[status chance]] and attack speed at the expense of [[critical chance]]. It also has the ability to scan targets it kills into the [[Codex]] (including a chance to award [[Kavat Genetic Code]] for killing [[Feral Kavat]]s, but it is unable to award any [[Cephalon Simaris]] standing), with completed entries generating a friendly [[Specter]] of an enemy it kills with a [[Heavy Attack]].
+
+This weapon can be sold for {{cc|5,000}}
+
+==Characteristics==
+*This weapon deals primarily {{D|Impact}} damage.
+*Enemy kills with this weapon are scanned and registered into the [[Codex]] (but will not award any [[Cephalon Simaris]] standing).
+*Able to award [[Kavat Genetic Code]] when killing [[Feral Kavat]]s in [[Orokin Derelict]] missions.
+*[[Heavy Attack]] kills creates a [[Specter]] of the killed enemy for '''30''' seconds if that enemy's Codex entry is completed. Only one specter can be created at a time.
+*Stance slot has {{Pol|Madurai}} polarity, matches {{M|Crushing Ruin}} stance.
+
+{{Advantages|
+*Tied with {{Weapon|Heliocor}} for the second highest base damage of all hammers, behind {{Weapon|Arca Titron}}.
+*Highest [[status chance]] of all hammers.
+*Second fastest [[attack speed]] of all hammers, behind {{Weapon|Volnus}}.
+*Has an initial [[Melee|Combo Count]] of 20 (2.0x heavy attack multiplier).
+}}
+
+{{Disadvantages|
+}}
+
+{{WeaponComparison|Heliocor}}
+
+==Acquisition==
+*Synoid Heliocor can be bought for {{sc|125,000}} from {{Faction|Cephalon Suda}}. As with all Syndicate Weapons, the Synoid Heliocor cannot be chosen as the free offering upon ranking up to Rank 5: '''Genius''' rank.
+*Syndicate weapons can also be acquired via [[Trade System|Trading]], but only for unranked copies without [[Forma]] and [[Orokin Catalyst]] installed.
+*Players must reach [[Mastery Rank]] 11 or higher to acquire Synoid Heliocor, either by trading or through the Syndicates themselves.
+
+==Notes==
+*[[Codex Scanner]]s and/or [[Synthesis Scanner]]s '''must''' have available charges in order for the Synoid Heliocor to perform a scan.
+**[[Cephalon Simaris]] standing will ''not'' be awarded for such scans.
+**[[Kavat Genetic Code]]s have a chance to be awarded during such scans when killing [[Feral Kavat]]s in [[Orokin Derelict]] missions
+*On killing an enemy with a heavy attack, the Synoid Heliocor will create a [[Specter]] of the slain enemy, which lasts for '''30''' seconds (indicated by a {{Faction|Cephalon Suda}} symbol on the [[HUD]]). This effect only affects enemies whose [[Codex]] entries have been completed.
+**Specters will be marked on the map and glow with the energy color of its owner's Warframe.
+**Only one Specter at a time can be active. If another heavy attack kill is performed while a Specter is already active, the kill will '''not''' create a Specter.
+**Similar to gear-spawned Specters, Suda Specters can be commanded to follow or hold position by pressing the context action button near them.
+**Killing an [[Eximus]] unit will spawn a Specter of the base enemy.
+**Killing unique enemies such as bosses will not spawn a Specter, though the timer is shown on the HUD regardless
+**Specters cannot be made from [[:Nullifier_Crewman|Nullifiers]] if their nullifying bubble is still active, and will create a random specter of that faction instead. However, if the bubble is removed first, a Nullifier specter will be created.
+**Specters cannot be created from Wild enemies ([[Desert Skate]]s, [[Feral Kubrow]] and [[Feral Kavat]]s).
+**The death mechanic of [[Bursa]]s prevents them from spawning as Specters on their first death. However, if a Crewman repairs Bursa, it can be killed again and the Specter will be spawned.<ref>https://youtu.be/3RYbxXzZ4HI</ref>
+**Upon expiring, the specter will dissolve in a particle effect.
+
+==Tips==
+*Try to kill enemies that have high benefits. On [[Infested]] [[Defense]] missions for example, killing an [[Ancient Healer]] who is near the defense objective then telling the specter to wait will greatly reduce the damage the objective takes.
+*With changes to enemy armor levels and health, weak enemies such as a [[Lancer]] may die very quickly when facing heavy units like [[Heavy Gunner]]s.
+*[[Orokin Drone]]s or [[Shield Osprey]]s specters created by the weapon will ignore players and defense objectives and fly directly into groups of enemies. As such, it is wise to quickly interact with the specter and tell them to hold position upon creation.
+
+==Trivia==
+*The concept for the specter effect of the Synoid Heliocor was designed by the Design Council.
+*The Synoid Heliocor is one of the three weapons that currently features an innate initial combo count, the other ones are {{Weapon|Furax Wraith}} and {{weapon|Fragor Prime}}.
+
+==Bugs==
+*Some enemies cannot be converted into specters. If this is a the case, a random specter will be created somewhere in the same cell.
+*Specters created from enemies that self destruct in some way (e.g. [[Volatile Runner]]) will explode but the timer will still count down, forcing you to wait before you can create another. 
+*While fixed at some point, players can once again produce specters of enemies that produce additional units (eg [[Corpus Tech]] or [[Drahk Master]]) and the spawned units may remain after the specter is killed. 
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+SudaScanHammer.png|Synoid Heliocor in Codex.
+</gallery>
+
+{{VideoGallery
+|{{YouTube|p_tV2p3vxrc|size=300px}}
+|{{YouTube|wXCIacFdQo4|size=300px}}
+}}
+
+{{SkinGallery}}
+
+==References==
+{{Reflist}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|26}}<br />
+''Actual patch notes made a mistake on old follow through.''
+*Damage increased from 120 to 280.
+*Range increased from 2 to 2.6.
+*Status Chance increased from 20% to 40%.
+*Critical Chance increased from 10% to 16%.
+*Slam Attack increased from 240 to 840.
+*Slide Attack increased from 240 to 560.
+*Initial Combo Count set to 20.
+*Parry Angle set to 50.
+*Follow Through decreased from 0.9 to 0.4.
+
+{{ver|25.4.1}}
+*Fixed incorrect Energy color being applied to the Synoid Heliocor’s handle.
+
+{{ver|23}}
+*Fixed kill scan mechanic (Synoid Heliocor, Astral Autopsy Mod) not functioning.
+
+{{ver|The Silver Grove 2.1}}
+*Fixed the Synoid Heliocor hologram not displaying the Cephalon Suda symbol.
+
+{{ver|The Silver Grove 2.0}}
+*Introduced.
+}}
+{{Ver/Lu|26}}
+
+==See Also==
+*{{Weapon|Heliocor}}, the standard version acquired from [[Cephalon Simaris]].
+*{{Weapon|Synoid Gammacor}}, the secondary weapon associated with Cephalon Suda.
+*{{Weapon|Synoid Simulor}}, the primary weapon associated with Cephalon Suda.
+*{{Faction|Cephalon Suda}}, the [[Syndicate]] that offers this weapon.
+*[[Syndicate Weapons]], for other weapons from the Syndicates.
+
+{{WeaponNav}}
+__NOTOC__
+[[es:Heliocor Synoid]]
+[[it:Synoid Heliocor]]
+[[fr:Heliocor Synoid]]
+[[Category:Weapons]]
+[[Category:Melee Weapons]]
+[[Category:Hammer]]
+[[Category:Special Weapons]]
+[[Category:Syndicate Offerings]]
+[[Category:Cephalon]]
+[[Category:Update 19]]
+[[Category:Impact Damage Weapons]]
+[[Category:Syndicate Weapons]]
+[[Category:Weapons with Passives]]
+[[uk:Геліокор-синоїд]]

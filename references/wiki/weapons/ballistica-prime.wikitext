@@ -1,0 +1,139 @@
+{{Top|Orokin|Orokin|Orokin|Weapon|Weapons|Weapons|Prime|Prime|Prime}}
+{{WeaponInfoboxAutomatic}}
+{{Codex|The beauty of this luxuriously gilded crossbow cannot obscure its lethal purpose.}}
+
+The '''Ballistica Prime''' is the [[Prime]] variant of the {{Weapon|Ballistica}}, sporting higher damage, [[critical chance]], [[critical multiplier]], and [[status chance]], larger magazine, and faster charge-up and [[reload speed]]. Unlike the standard Ballistica, the Ballistica Prime shoots four arrows simultaneously in a semi-automatic tight spread rather than a recoiling burst-fire spray, making it more accurate. Killing an enemy with a charged shot creates their ghosts that will fight alongside the weapon's user. It was released alongside {{WF|Hydroid Prime}} and {{Weapon|Nami Skyla Prime}}.
+
+==Characteristics==
+*This weapon deals primarily {{D|Puncture}} damage.
+*Charged shots have 1 meter [[Punch Through]].
+*Charged shot kills within '''50''' meters of the user will create a ghost of the enemy that lasts for '''7''' seconds and will fight alongside the player similar to [[Specter]]s.
+*Innate [[multishot]] of 4 bolts.
+*Innate two {{Pol|Madurai}} and one {{Pol|Naramon}} polarities.
+
+{{Advantages|
+*High overall [[status chance]].
+*[[Noise Level|Silent]].
+*Low charge time.
+}}
+
+{{Disadvantages|
+*Projectiles have travel time.
+*Consumes 4 ammo per shot regardless of charge-up unlike other members of the Ballistica family, resulting in an 8-shot magazine.
+*Slightly lower than average [[zoom]].
+*Spawned ghosts will alert enemies, despite the weapon being silent.
+}}
+
+{{WeaponComparison|Ballistica}}
+{{WeaponComparison|Rakta Ballistica|header=n}}
+
+==Acquisition==
+{{PrimeTable}}
+{{BuildAutomatic|type=Weapon}}
+
+===Vaultings===
+*On [https://www.warframe.com/news/equinox-prime-access-ends-july-6 June 28, 2019], it was announced that Ballistica Prime would enter the [[Prime Vault]] and be retired from the reward tables on July 6, 2019. Any preexisting components or fully-built weapons will remain as is.
+
+==Notes==
+*Unlike other members of the Ballistica family, the Ballstica Prime functions as a weapon with innate [[multishot]] rather than a burst-fire weapon.
+*Enemies killed by this weapon's charged shot will leave behind a ghost that will fight alongside the player similar to [[Specter]]s.
+**If multiple enemies are killed with the same charged shot with [[Punch Through]], they will all become ghosts.
+*Ghosts do not block bullets/projectiles, similar to {{WF|Mirage}}'s {{A|Hall of Mirrors}}.
+*[[Bursa]]s, [[Juggernaut]], and [[Stalker]] (except [[Shadow Stalker]]) will not leave a ghost.
+*Eximus enemies killed by a charged shot will become ghosts of their non-Eximus versions.
+**Due to a bug where scanning the Juno Fog, Nul, Sap and Slo [[Comba]] contributes to the [[Codex]] entries of their Eximus counterpart, this peculiarity is the only course of action for players to scan non-Eximus versions of these enemies.
+*A ghost of an enemy that spawns minions, such as [[Drahk Master]]s, [[Hyekka Master]]s, or [[Sniper Crewman]], can spawn friendly minions but will expire along with the ghost that spawned them.
+*Ghosts are not created if the enemy is killed by a damage over time proc effect as {{D|Slash}} procs, even if the shot was a charged shot.
+**Ghosts can also not be created from said {{D|Slash}} procs to nearby enemies, even if it was a charged shot and even if it kills the nearby enemies. They also cannot be created from the explosions caused by {{A|Molecular Prime}}, even if the weapon's kill shot explosion turns the original enemy into a ghost.
+
+===Incarnon Genesis===
+{{Transclude|Ballistica Incarnon Genesis#Acquisition}}
+
+{{Transclude|Ballistica Incarnon Genesis#Incarnon Genesis}}
+
+==Trivia==
+*The Ballistica Prime, alongside {{Weapon|Afuris Prime}}, {{Weapon|Akbolto Prime}}, {{Weapon|Aksomati Prime}}, {{Weapon|Akstiletto Prime}}, {{Weapon|Cernos Prime}}, {{Weapon|Dual Kamas Prime}}, {{Weapon|Dual Keres Prime}}, {{Weapon|Fang Prime}}, {{Weapon|Gunsen Prime}}, {{Weapon|Paris Prime}} and {{Weapon|Zhuge Prime}} are the only Prime weapons that do not require [[Orokin Cell]]s as crafting ingredients.
+
+==Tips==
+*Ghosts, created by charged shot kills, can be scanned with [[Codex Scanner]] or [[Synthesis Scanner]], even when the original enemies were already scanned.
+**Rare enemies can yield more scans with this method.
+**This also works for [[Kavat]] when farming [[Kavat Genetic Code]]s.
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+GoldCrossbow.png|Ballistica Prime in Codex.
+Ballistica prime ghost.jpg|Example of a Ghost
+BallisticaPrimeRender.png|Render as seen from a Devstream
+sean-bigham-081.jpg
+sean-bigham-081prog02.jpg
+sean-bigham-081prog01.jpg
+</gallery>
+
+{{VideoGallery
+|{{YouTube|8-Z-bXMU1d8|size=300px}}
+|{{YouTube|ChiKEQY7T7s|size=300px}}
+|{{YouTube|ZB0eKR3a45w|size=300px}}
+|{{YouTube|G4rQWLKYIwc|size=300px}}
+}}
+
+{{SkinGallery}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|27.2.2}}
+*Fixed the Ballistica Prime not having the new ‘Status’ calculations. It also has multiple fire iterations and are valid for large Status Chance like Shotguns received at their base to address the new Status logic.
+
+{{ver|27.2}}
+;Greater than 100% Status having meaning:
+Shotguns have a unique Role here based on a very patch-work history with how they interact with Status Chance. A Shotgun that shoots 99% Status Chance would give you 35% (roughly) status per pellet. 100% Status Gives you 100% Status per pellet. This huge jump in performance happens with just a 1% gain - why? Well, to answer that we have to look at our choice to make what the UI conveys reality. It would feel broken to shoot a Shotgun with 100% Status and not see a perfect spread of Effects. In reality, to make Status consistent we have to treat Shotguns as a special case. 
+
+Shotguns as a special case means we have buffed the Status Chance of all Shotguns by x3 or greater. The UI now behaves to show the reality that you are determining Status Chance per pellet.
+
+{{ver|25.8}}
+;October 2019 Riven Disposition Change
+*Ballistica: 1.05->1.1
+
+{{ver|25.0.7}}
+*Fixed the Ballistica (Prime) Energy color persisting as default on the strings.
+
+{{ver|22.12}}
+*Mastery Rank increased from 7 to 14.
+*Fixed not being able to draw your bow while sprinting (you could always charge your bow while sprinting, but pinky-friendly sprint changes have made this more obvious).
+
+{{ver|22.8.1}}
+*Fixed Ballistica Prime not creating proper ‘Ghost’ on Charged Attack kill.
+
+{{ver|22.8}}
+*Fixed animation issue when charging an arrow immediately after firing a shot using Bows.
+
+{{ver|22.6}}
+*Fixed the Ballistica Prime turning Executioners in Rathuum and Brokers in The Index into ghosts.
+
+{{ver|21.6.1}}
+*Fixed instances of Ballistica Prime not properly spawning ghosts.
+*Fixed the color of the Prime Ballistica ghosts flickering for Clients.
+*Fixed Ballistica Prime not unfolding correctly if no primary is equipped.
+
+{{ver|21.6}}
+*Introduced.
+}}
+{{ver/Lu|25.3}}
+
+==See Also==
+*{{Weapon|Ballistica}}, the normal counterpart.
+*{{Weapon|Rakta Ballistica}}, the [[Red Veil]] custom counterpart.
+
+{{WeaponNav}}
+[[de:Ballistica Prime]]
+[[es:Ballistica Prime]]
+[[fr:Ballistica Prime]]
+[[Category:Prime]]
+[[Category:Prime Weapons]]
+[[Category:Single Sidearm]]
+[[Category:Update 21]]
+[[Category:Secondary Weapons]]
+[[Category:Weapons]]
+[[Category:Puncture Damage Weapons]]
+[[Category:Burst Fire]]
+[[Category:Weapons with Passives]]
+[[uk:Балістика-прайм]]

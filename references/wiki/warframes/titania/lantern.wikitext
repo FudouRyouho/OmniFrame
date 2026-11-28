@@ -1,0 +1,53 @@
+<onlyinclude>{{AbilityU10.3
+| name = Lantern
+| gameimage = LanternIcon.png
+| cardimage = Lantern.png
+| hotkey = 3
+| energy = 75
+| description = Create a swarm of razorflies that transform an enemy into an irresistible floating beacon, attracting witless comrades before exploding on command.
+| strength = 200 / 250 / 300 / 350 ({{D|Heat}} damage per sec)<br>1,000 / 1,500 / 2,000 / 2,500 ({{D|Heat}} damage on explosion)
+| duration = 10 / 15 / 20 / 25 s (duration)
+| range = 15 / 20 / 25 / 25 m (cast range)<br>8 / 12 / 15 / 20 m (attract radius)<br>5 / 6 / 7 / 8 m (explosion radius)<br>2.5 m (damage radius)
+| misc = 4 (max number of Lanterns)
+| cardonly = {{{1|}}}
+| info = *Titania expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to infuse an enemy with mesmerising light from up to {{Stat|Ability Range|icon=only}}'''15 / 20 / 25 / 25''' meters away, causing it to hover in place with a swarm of razorflies. The Lantern source becomes [[Invulnerable]] and unable to move or attack for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds. Enemies that come within {{Stat|Ability Range|icon=only}}'''8 / 12 / 15 / 20''' meters from the Lantern will be pacified and blindly follow the target. Enemies within {{Stat|Ability Range|icon=only}}'''2.5''' meters of the Lantern will be dealt {{Stat|Ability Strength|icon=only}}'''200 / 250 / 300 / 350''' {{D|Heat}} damage every second. Titania can have up to <u>'''4'''</u> Lanterns active at once.
+**Charm and heat damage aura do '''not''' require line of sight to target enemies.
+**Cast animation of '''1.3''' seconds is affected by [[Casting Speed]].
+**All damage prevented by the invulnerable enemy target are stored and dealt in full when the ability ends.
+*Upon deactivation by holding the ability key (default {{Keybind|3}}), expiration or being dispelled, all active Lanterns will explode, dealing {{Stat|Ability Strength|icon=only}}'''1,000 / 1,500 / 2,000 / 2,500''' {{D|Heat}} damage to the source enemies and all enemies within {{Stat|Ability Range|icon=only}}'''5 / 6 / 7 / 8''' meters.
+**Requires line of sight to damage enemies.
+**Damage diminishes with distance.
+*If the target dies before Titania finishes her casting animation, energy used for Lantern will be refunded.
+*Enemies trapped by Lantern become allied to the player, which means {{E|Arbitration Shield Drone}}s '''cannot''' dispel it.
+*Trapped enemies '''do''' count toward mission progression (e.g. [[Defense]]). They must be slain to progress, deactivate all lanterns by holding down the ability key.
+| augment = [[File:BeguilingLanternMod.png|200px|left]]
+{{main|Beguiling Lantern}}
+{{#lst:Beguiling Lantern|intro}}
+{{#lsth:Beguiling Lantern|Stats}}
+{{clr}}
+| tips = 
+*Charmed enemies start to shoot, throw grenades, and use abilities once they are inflicted with {{D|Radiation}} procs. Avoid that.
+*While the crowd control aspect is somewhat tricky, Lantern can be utilized as an offensive ability by rapidly skipping to the detonation in crowded areas.
+*If the target was an [[Ancient]], the explosion will always hit its protective crown.
+*While their [[Hyekka Master]] is affected by Lantern, [[Hyekka]]s summoned earlier become allies of the player and will attack other enemies. However, they can still be attacked and damaged by players.
+*The pacification range is affected by mods, but enemies will rush to the lantern from extremely far beyond this range, even through line of sight, as long as they aren't currently fighting something else. So if the Lantern is placed where no players or friendly NPCs are located, then even with minimized Ability Range enemies will willingly run into pacification range of the lantern.
+*If the target passes into a [[Nullifier Crewman]]'s bubble, Lantern will not be dispelled.
+<noinclude>
+| max = {{WFmax|main|titania3}}
+</noinclude>
+| bugs = 
+*Certain enemies, most notably [[Regulator]]s and [[Sensor Regulator]]s, will not be affected by the ability, but the cast animation will still play. (energy is not refunded)
+*If the target is an [[Ancient Healer]] its aura will be applied to the player.|
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Titania}}
+__NOTOC__
+[[de:Laterne]]
+[[es:Linterna]]
+[[fr:Lanterne]]
+[[Category:Titania]]
+[[Category:Update 19]]
+[[Category:Toggled Abilities]]
+[[Category:Heat Damage]]
+[[uk:Ліхтар]]

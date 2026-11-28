@@ -1,0 +1,54 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Sporespring
+| gameimage      = 
+| cardimage      = 
+| hotkey         = 4
+| energy         = 75
+| description    = Unleash a chaotic ballistic mushroom that seeks enemies and bounces explosively off whatever it touches. Contact with any of Nokko’s mushrooms invigorates them, doubling their effect triggering rate.
+| strength       = 1,750 / 2,000 / 2,250 / 2,500 {{D|Toxin}} damage
+| range          = 3 m explosion radius<br>8 m bounce distance
+| duration       =
+| misc           = 10 Bounces<br>1.5x (Bounce Damage Multiplier)<br>75% Initial Critical Chance<br>2x Critical Damage<br>+25% Flat Critical Chance per Bounce<br>Forced {{D|Toxin}} Status Effect<br>3 Sporespring cap<br>&infin; Punch Through<br>Duration reset on invigorated mushrooms
+| subsumable     = true
+| cardonly       = {{{1|}}}
+|info = *Nokko expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to hurl a homing bouncing mushroom, inflicting {{Stat|Ability Strength|icon=only}}'''1,750 / 2,000 / 2,250 / 2,500''' {{D|Toxin}} damage in a {{Stat|Ability Range|icon=only}}'''3''' meter radius on impact, with a starting <u>'''75%'''</u> [[Critical Chance]], <u>'''2x'''</u> [[Critical Damage]] and a forced {{D|Toxin}} [[Status Chance|Status Effect]]. Sporespring bounces up to <u>'''10'''</u> times to nearby enemies, terrain, or Nokko's mushrooms within {{Stat|Ability Range|icon=only}}'''8''' meters, with each bounce increasing its damage by <u>'''1.5x'''</u> and its Critical Chance by a flat <u>'''25%'''</u>. A maximum of <u>'''3'''</u> Sporespring mushrooms can be active at once.
+**Bounce damage can be calculated by '''Base Damage x 1.5 ^ Bounce Count'''.
+***For example, the second bounce, on a yellow crit, deals {{Math|2,500 {{mul}} 1.5 ^ 2 {{mul}} 2|t=y|bf-a=y|mt=y}} {{D|Toxin}} damage.
+**Number of active Sporesprings are tracked on the ability icon.
+**Sporespring prioritizes targets in the following order: non-Invigorated mushrooms, high threat enemies such as [[Eximus]] and [[Bosses]], other enemies, and finally Invigorated mushrooms.
+***However, Sporespring will never impact the same target twice in a row, not without bouncing off something else first.
+**Once homed into a target, Sporespring gains <u>'''infinite'''</u> [[Punch Through]] to reach its target.
+**Sporespring will activate {{Arcane|Arcane Sculptor}}
+**Sporespring is affected by the following:
+***The flat critical multiplier buff of {{Arcane|Arcane Crepuscular}}.
+***The [[Status Damage]] multiplying buff from {{Resource|Emerald Archon Shard}} on {{D|Toxin}} Damage.
+***Ability damage-boosting shard effects on foes afflicted by {{D|Corrosive}} ({{Resource|Emerald Archon Shard}}), {{D|Radiation}} ({{Resource|Topaz Archon Shard}}), and {{D|Electricity}} ({{Resource|Violet Archon Shard}}).
+****Can self prime for bonus Ability Damage from {{Resource|Emerald Archon Shard}} by inflicting {{D|Corrosive}} via {{M|Archon Continuity}}.
+**Sporespring is '''not''' affected by the following:
+***The critical chance buffs of {{Arcane|Arcane Avenger}}, {{D|Puncture}} procs, and {{Arcane|Arcane Hot Shot}}.
+***The critical multiplier buffs of {{M|Tenacious Bond}} and {{D|Cold}} procs.
+***The {{D|Viral}} damage buff of {{A|Nourish}}.
+***Universal weapon damage boosts such as {{Focus|Lethal Levitation}} and {{Arcane|Arcane Arachne}}.
+***The projectile speed buff from {{WF|Zephyr}}'s {{M|Jet Stream}} augment.
+| interactions =
+* Each time a {{A|Stinkbrain}} or {{A|Brightbonnet}} is bounced on by a Sporespring, the impacted mushroom will pulse its effect.
+* When Sporespring impacts a {{A|Stinkbrain}} or a {{A|Brightbonnet}}, that mushroom will become Invigorated.
+** An Invigorated mushroom has its pulse interval reduced to <u>'''1.5'''</u> seconds, Brightbonnet's original {{Stat|Ability Strength}} buff is <u>'''doubled'''</u>.
+** A mushroom will remain Invigorated until it is hopped on, at which point it will return to normal and revert to its normal pulse interval and Strength buff.
+*** However, as long as a player doesn't lose their Strength buff, pulses from the normal Strength buff will refresh the stronger version rather than replacing it.
+** Each time a mushroom transitions from normal to Invigorated, its duration is reset.
+** An Invigorated mushroom will visibly emit glowing spores until 2/3 of its duration has elapsed, which can be used to tell when it will disappear if not Invigorated again.
+** The first time a mushroom becomes Invigorated, it will permanently receive a glowing rim around its silhouette.  This glow will remain even if the mushroom loses its Invigoration.
+| augment = 
+| tips = 
+| max = 
+| bugs = |
+}}
+</onlyinclude>
+
+==See Also==
+*{{WF|Nokko}}
+
+__NOTOC__
+[[Category:Warframe Abilities]]
+[[Category:Update 40]]

@@ -1,0 +1,120 @@
+{{ModBox}}
+
+'''Summoner's Wrath''' is an ''[[:Category:Auras|aura mod]]'' that increases [[Companion]] and [[Summon]] damage for a given [[squad]].
+
+==Stats==
+{| class="emodtable"
+|-
+![[Mod#Mod Rank|Rank]]
+![[Companion]] and Summon Damage
+![[Mod#Attributes|Cost]] *
+|-
+|0||+12.5%||-2
+|-
+|1||+25%||-3
+|-
+|2||+37.5%||-4
+|-
+|3||+50%||-5
+|-
+|4||+62.5%||-6
+|-
+|5||+75%||-7
+|}<small>''* Aura mods increase the amount of Mod Capacity''</small>
+
+==Drop Locations==
+{{DropLocations}}
+
+== Notes==
+*Damage bonus is additive to [[Faction Damage Bonus|Faction Damage Bonuses]].
+**As such, it applies a second time to [[Damage over Time]] (DoT) from status effects.
+*{{M|Coaction Drift}} increases the strength of your aura on everyone, as well as the effectiveness of everyone's auras on yourself.
+**When maxed, this increases the aura's strength to (1 + 15%)<sup>2</sup> = '''1.3225x''' for yourself, and '''1.15x''' for everyone else.
+**Consequently, the companion and summon damage bonus of {{M|Summoner's Wrath}} is increased to '''99.1875%''' (1.3225 × 75%, displayed as '''99.19%''' in-game) for yourself, and '''86.25%''' (1.15 × 75%) for squadmates.
+**As such, it applies a second time to [[Damage over Time]] (DoT) from status effects.
+** On beasts {{M|Immunity Resistance}} stacks multiplicatively with bonuses like Faction Multipliers: Summoner's Wrath and {{A|Roar}}.
+** On hounds {{M|Galvanized Elementalist}} or their variant {{M|Melee Elementalist}} stack multiplicatively with bonuses like Faction Multipliers and {{A|Roar}}.
+** Summoner's Wrath stacks additively with other faction multiplier bonuses like Roar and Bane melee mods in the case of non-beast companions with melee weapons. 
+*The following are affected by Summoner's Wrath:
+**{{WF|Atlas}}' {{A|Rumblers}}
+**{{WF|Caliban}}'s {{A|Lethal Progeny}}
+**{{WF|Chroma}}'s {{A|Effigy}}
+**{{WF|Dante}}'s Paragrimms from {{A|Final Verse|Pageflight}}
+**{{WF|Equinox}}'s {{M|Duality}}
+**{{WF|Inaros}}' Swarm Kavats created by {{M|Desiccation's Curse}} and {{A|Scarab Swarm}}
+**{{WF|Khora}}'s {{Companion|Venari}}
+**{{WF|Loki}}'s {{A|Decoy}}
+**{{WF|Nekros}}' {{A|Shadows of the Dead}}
+**{{WF|Nidus}}' Maggots from {{A|Ravenous}}
+***Only affects their melee damage, not their burst.
+**{{WF|Oraxia}}'s Scuttlers from {{A|Widow's Brood}}
+**{{WF|Sirius}} or {{WF|Orion}} when not controlled
+***One copy is sufficient as either twin will get the bonus upon swap. The bonus is restricted to weapons and will not apply to abilities such as Sirius's {{A|Jade Stars}}.
+**{{WF|Titania}}'s Razorflies from {{A|Razorwing}}
+**{{WF|Uriel}}'s [[Uriel/Abilities/Passive|Demons]]
+***Only affects the 750 damage over time dealt by Gulphagor's latch however and has no other interactions with Uriel's abilities beyond that, rendering it ineffective for buffing his demons.
+**{{WF|Wukong}}'s {{A|Celestial Twin}}
+**[[On Call Crew]]
+**[[Companion]]'s {{M|Duplex Bond}}
+*The following are '''not''' affected:
+**Enemies affected by {{D|Radiation}}
+**{{WF|Ash}}'s Shadow Clones from {{A|Blade Storm}}
+**{{WF|Dagath}}'s {{A|Rakhali's Cavalry}}
+**{{WF|Dante}}'s Noctua from {{A|Final Verse|Wordwarden}}
+**{{WF|Excalibur Umbra}}'s [[Excalibur/Abilities|Passive]]
+**{{WF|Follie}}'s {{A|Shadowgraph}}
+**{{WF|Hydroid}}'s {{A|Tentacle Swarm}}
+**{{WF|Mirage}}'s {{A|Hall of Mirrors}}
+**{{WF|Nyx}}'s {{A|Mind Control}}
+**{{WF|Octavia}}'s {{A|Mallet}}
+**{{WF|Protea}}'s {{A|Blaze Artillery}}
+**{{WF|Revenant}}'s {{A|Enthrall}}
+**{{WF|Sevagoth}}'s {{A|Reap}} and {{A|Exalted Shadow}}
+**{{WF|Vauban}}'s {{A|Tesla Nervos}} and {{A|Minelayer}}
+**{{WF|Xaku}}'s {{A|The Lost|The Lost: Accuse}}
+**{{WF|Yareli}}'s {{M|Loyal Merulina}}
+**[[Hound (Companion)|Hound]]'s {{M|Diversified Denial}}
+**{{Companion|Helminth Charger}}'s Cysts from the [[Set Mods|Strain Mod Set]]
+**{{Companion|Smeeta Kavat}}'s {{M|Mischief}}
+**{{Weapon|Ballistica Prime}}'s ghosts from its on-kill effect
+**{{Weapon|Synoid Heliocor}}'s specters from its heavy attack kill effect
+**[[Specter]]s
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43}}
+;NIDUS RETOUCH
+
+'''Ability 4: Ravenous'''
+*Maggot improvements:
+**Maggots now trigger Summoner’s Wrath. 
+
+;FIXES
+
+'''Top Fixes'''
+*Fixed Coaction Drift not applying to Summoner’s Wrath.
+
+{{ver|40}}
+*Fixed Summoner’s Wrath bonus appearing to stack when opening the Arsenal multiple times. (This was a UI-only issue.)
+
+{{ver|38.5}}
+*Fixed Summoner’s Wrath HUD buff icon not showing stacked values if another player has it equipped (UI only issue, the buff was still applying). 
+
+{{ver|38.0.4}}
+*Fixed script error with the Summoner’s Wrath Aura Mod.
+
+{{ver|38.0.3}}
+*Fixed a crash with the Summoner’s Wrath Aura Mod.
+
+{{ver|38}}
+*Introduced.}}
+
+==See Also==
+*[[Arcane Camisado]]
+*[[Aura]]
+
+{{AuraNav}}
+[[fr:Colère de l'invocateur]]
+[[es:Ira del invocador]]
+
+<references />

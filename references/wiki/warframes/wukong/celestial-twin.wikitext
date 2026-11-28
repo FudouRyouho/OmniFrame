@@ -1,0 +1,78 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly       = {{{1|}}}
+| name           = Celestial Twin
+| gameimage      = CelestialTwinIcon.png
+| cardimage      = CelestialTwinModx256.png
+| hotkey         = 1
+| energy         = 25
+| description    = Shedding part of himself, Wukong creates a twin to fight by his side. Attack at range and the twin will melee, pull a blade and the twin will lay down covering fire. Use again to command the twin to attack a target with increased damage.
+<br>
+'''Command Energy Cost''': 0
+| strength         = 1.5 / 1.6 / 1.75 / 2 x (health multiplier)
+| range          =
+| duration       =
+| misc           = &infin; (twin lifespan)<br>0.5 x (damage multiplier)<br>3 x (mark damage multiplier)<br>? m (twin recall range)
+| info           = 
+*Wukong expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to split himself into two corporeal forms, creating a loyal [[Specter]] armed with all of his weapons. Celestial Twin attracts enemy attention as he follows Wukong, attacks with either gun or melee dependent on the player's currently held weapon, and has a damage multiplier of <u>'''0.5x'''</u> and a [[health]] multiplier of {{Stat|Ability Strength|icon=only}}'''1.5 / 1.6 / 1.75 / 2x'''. The twin remains at Wukong's side <u>'''indefinitely'''</u> until killed or manually dispelled at any time by holding down the ability key (default {{Keybind|1}}).
+**Twin Warframe and weapons stats are affected by Wukong's equipped [[Mods]].
+***Will not utilize [[:Category:Galvanized Mods|Galvanized mod]] kill bonuses, as the bonus is tied to a buff only players can get. 
+**Health multiplier affects both the health and [[shield]]s of the twin.
+**Twin is counted as summon and is affected by {{M|Summoner's Wrath}}, {{Arcane|Arcane Camisado}}, and {{Arcane|Theorem Infection}}.
+**Celestial Twin specter AI is designed to aggressively attack nearby enemies while also staying close to Wukong's proximity. It will not attempt to parry enemy attacks with its melee weapon, and will also frequently teleport to reposition near Wukong.
+**Celestial Twin will have swirling aura around his body, affected by energy color.
+*While active, Wukong can command his twin to prioritize a target on the aiming reticle by tapping the ability key (default {{Keybind|1}}), leaving a mark above the target for no energy cost. Once commanded, the twin will seek and destroy the target, with a damage multiplier of  <u>'''3x'''</u>.
+**The twin will teleport to his mark if it cannot reach the target after several attempts.
+*Celestial Twin will cycle its weapons depending on Wukong's equipped weapon, if he has them equipped in his arsenal.
+**If Wukong wields a primary or secondary weapon, or an [[Archgun]] called down by an [[Archweapon Deployer]], the twin will use a melee weapon.
+***Twin only uses the default/neutral combo of a melee's [[stance]].
+***If Wukong has no melee weapon but has both a primary and secondary weapon, the twin will only use the primary weapon.
+***If Wukong is dual-wielding a one-handed secondary weapon with a [[:Category:Glaive|Glaive]] weapon, the twin will only use the Glaive, and as a melee weapon. The twin will never throw the Glaive.
+**If Wukong wields a melee weapon, the twin will use Wukong's last primary or secondary weapon equipped prior to switching.
+***If Wukong has a one-handed secondary weapon and a [[:Category:Glaive|Glaive]] equipped, then wields only the melee weapon, the twin will still use Wukong's last primary or secondary weapon equipped prior to switching. If this weapon was the secondary weapon, the twin will visually dual-wield the Glaive and secondary weapon, but will only use the secondary weapon.
+**If Wukong has only one weapon equipped, the twin will use that weapon.
+**On weapons with [[Alternate Fire]], only the primary mode will be used.
+**The twin cannot use an Archgun.
+**The twin is not affected by [[Sortie]] weapon restrictions.
+**The twin can trigger weapon-related [[Arcane Enhancement|Warframe Arcanes]] and [[Arcane Enhancement#Exodia Arcanes|Exodia Arcanes]], i.e. '''on critical''' condition, upon meeting the requirements.
+*The Twin shares its [[ammo]] reserves with Wukong's and is capable of looting ammo pickups. If it runs out of ammo, it will swap to another gun. If both guns are out of ammo, it will swap to melee while actively searching for ammo pickups.
+**Depleting all ammo reserves displays a red ammunition icon above the Twin's head.
+**[[Squad Ammo Restore]]s will replenish ammo but '''only''' if the player is in range, even if the Twin himself is in range.
+*The Twin can be affected by [[Stagger|self-stagger]].
+*If a Celestial Twin crosses a {{E|Nullifier Crewman|Nullifier}} bubble, it will not immediately die, but will instead take constant health damage.
+**Wukong himself crossing a Nullifier bubble has no effect on the Twin.
+*If a Celestial Twin falls out of bounds, it will immediately die.
+*If Wukong's abilities become disabled, such as by the [[Stalker]] or falling out of bounds, the twin will immediately die.
+**Equipping [[Archwing]] during [[Landscape]] mission, which also renders abilities disabled, will kill the twin as well.
+*The twin will not cast abilities on its own.
+*The twin will not be affected by {{M|Stalk}} or {{M|Ghost}}, only Wukong will become invisible.
+*When using [[Emotes]] with a Celestial Twin, the twin will perform the same emote. Wukong can also perform Handshakes with his own twin.
+*Triggering the [[Inactivity Penalty]] will cause the twin to cease all activity and remain immobile until player activity resumes.
+*Kills by the twin are ability kills. [[Affinity]] from these go to the Warframe, not the weapon that the twin is using.
+| interactions =
+*When activating {{A|Cloud Walker}}, the twin becomes invulnerable to damage and receives the health restore per meter traveled bonus. After Cloud Walker ends, Wukong's twin is teleported to his side instantly.
+**{{M|Enveloping Cloud}} affects the twin, turning it invisible for its duration.
+*When activating {{A|Defy}}, the twin will also use Defy, gaining the same increased [[Threat Level]], invulnerability, damage reflection, and armor bonus.
+*When activating {{A|Primal Fury}}, the twin will also arm itself with the {{Weapon|Iron Staff}}.
+| augment        = 
+[[File:CelestialStompMod.png|200px|left]]
+{{main|Celestial Stomp}}
+{{#lst:Celestial Stomp|intro}}
+{{#lsth:Celestial Stomp|Stats}}
+{{clr}}
+| tips           = 
+<noinclude>
+| max            = {{WFmax|main|wukong1}}
+</noinclude>
+| bugs           = 
+}}</onlyinclude>
+
+==See Also==
+
+*{{WF|Wukong}}
+__NOTOC__
+[[de:Trotzen]]
+[[es:Gemelo celestial]]
+[[Category:Warframe Abilities]]
+[[Category:Wukong]]
+[[Category:Update 25]]
+[[uk:Зоряний двійник]]

@@ -1,0 +1,52 @@
+<onlyinclude>{{AbilityU10.3
+| name = Riptide
+| gameimage = Riptide130xWhite.png
+| cardimage = RiptideModx256.png
+| hotkey = 4
+| energy = 100
+| cost = 
+| description = Drag enemies into a crushing maelstrom and then blow them away in a watery burst. Each enemy trapped in the vortex increases the burst’s damage.
+| strength = 200 / 300 / 400 / 500 ({{D|Cold}} damage per tick)<br/>1,000 / 1,500 / 2,000 / 2,500 ({{D|Cold}} damage on burst)
+| range = 25 / 30 / 35 / 40 m (cast range)<br/>15 m (range)<br/>15 m (explosion radius)
+| duration = 4 / 6 / 8 / 10 s (duration)
+| misc = {{D|Ragdoll}} during suction<br/>5 m (min suction range)<br/>2 s (suction shrink threshold)<br/>0.45 s (tick interval)<br/>{{D|Knockdown}} on burst<br/>50 % (extra damage per enemy)<br/>1.75 s (casting time)
+| cardonly = {{{1|}}}
+| info = 
+*Yareli expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to conjure forth a water cyclone within {{Stat|Ability Range|icon=only}}'''25 / 30 / 35 / 40''' meters at the location on her aiming reticle. Enemies within a sight detection radius of {{Stat|Ability Range|icon=only}}'''15''' meters from the cyclone succumb to the turbulent flow, becoming incapacitated by {{D|Ragdoll}} status whilst funneled to the apex of the spiral, which encapsulates its victims inside its liquid sphere lasting for {{Stat|Ability Duration|icon=only}}'''4 / 6 / 8 / 10''' seconds. The cyclone's suction range shrinks from its maximum radius to <u>'''5'''</u> meters over the course of <u>'''2'''</u> seconds. All enemies dragged in receive {{Stat|Ability Strength|icon=only}}'''200 / 300 / 400 / 500''' {{D|Cold}} damage per tick, dealt once every <u>'''0.45'''</u> seconds.
+*Upon expiring or being manually detonated by pressing the ability key (default {{Keybind|4}}) again, the cyclone bursts and splashes its contents outward, inflicting {{D|Knockdown}} and a base amount of {{Stat|Ability Strength|icon=only}}'''1,000 / 1,500 / 2,000 / 2,500''' {{D|Cold}} damage increased by <u>'''50%'''</u> for ''each'' enemy still alive within Riptide, dealt to all enemies in a sight detection radius of {{Stat|Ability Range|icon=only}}'''15''' meters.
+**Riptide's damage on burst benefits from Ability Strength and number of affected enemies using the following expression:
+**:{{MathText|Total Damage {{eql}} Cold Base Damage {{mul}} (1 + Ability Strength) {{mul}} (1 + 0.5 {{mul}} Number of Enemies)}}
+***At max ability rank with a rank 5 {{M|Intensify}} equipped and '''5''' enemies dragged in, Riptide will deal {{MathText|2,500 {{mul}} (1 + 0.3) {{mul}} (1 + 0.5 {{mul}} 5) {{eql}} 11,375}} {{D|Cold}} damage on burst.
+***Damage on burst falls off with distance from the center from 100% to ~5%, therefore the above calculation's final damage value only applies to enemies trapped inside the liquid sphere.
+***Damage on burst can strike [[Enemy Body Parts]] to yield higher damage if the specific parts of enemy's [[ragdoll]]ed body align with the ability's hitbox.
+**Line of sight requirement is centered on the cyclone, regardless if Yareli herself sees the enemies or not.
+**Riptide's drag force on enemies is constant, which results in enemies farther away from the cyclone to drag along the ground and might not fully enter the liquid sphere before it bursts.
+**Only enemies that are trapped within the liquid sphere are launched away with a small impulse when it bursts.
+**Destructible [[Objects]] within the burst radius are always damaged, regardless of line of sight from Yareli or the cyclone.
+*Holding down the ability key (default {{Keybind|4}}) causes Yareli to consecutively cast Riptide's two phases with a '''1.75''' second [[Casting Speed]], inflicting up to '''4''' ticks of {{D|Cold}} damage and the burst detonation.
+**Casting time is affected by casting speed from mods such as {{M|Natural Talent}} and {{M|Speed Drift}}.
+***Riptide inflicts its damage per tick faster when casting time is reduced, for both tap and hold cast versions.
+*'''Ability Synergy:'''
+**Riptide inflicts amplified damage against enemies ensnared by {{A|Sea Snares}}.
+**{{A|Aquablades}} can damage and bleed enemies drawn near Yareli by Riptide.
+*Casting and detonating Riptide are full-body animations that allow Yareli to continue moving but restrict other actions. If Riptide expires on its own, Yareli does not play an animation.
+*Riptide is '''not''' dispelled if Yareli or the cyclone enter an ability nullifying sphere from special enemies, such as the [[Nullifier Crewman]]. Damage on burst will hit and damage the sphere, causing it to shrink.
+**Riptide's cyclone model can be spawned on top of a null sphere.
+*Riptide's cyclone model will attempt to rotate and adhere itself onto the surface at the location on the aiming reticle. If the spacing is insufficient and obstructed, the cyclone will attempt to spawn on the closest available space on the ground below. If there is no space available, the ability will not cast.
+*Yareli visually spins clockwise as she gathers Void-laced water, producing bubbles and liquid globs that drip from her arms, until she levitates off the ground to burst the cyclone apart.
+**Riptide visually erupts from a water puddle in a violent burst similar to a geyser eruption. A densely revolving torrent resembling a spinning narwhal tusk rises high into the air, as a mass of water forms along the torrent shaping into a giant bubble around the spiral's apex. Void energy courses through the water construct, enveloping the liquid drill that impales enemies helplessly upon itself.
+**When the cyclone bursts, the water within splashes outward and forms into scores of bubbles that evaporate away, while the torrent retreats into the dissolving puddle.
+| augment = 
+| tips = 
+*Riptide can be used to 'safely' pull enemies into the middle of {{WF|Hydroid}}'s {{M|Pilfering Swarm}} or {{WF|Khora}}'s {{M|Pilfering Strangledome}} before exploding in a deadly fashion, ensuring the added drop chance upon enemies' deaths.
+| bugs = 
+*Riptide can be blocked from casting over the distance if {{WF|Volt}}'s {{A|Electric Shield}}, {{WF|Gara}}'s {{A|Mass Vitrify}}, or {{WF|Frost}}'s {{A|Snow Globe}}, lies between Yareli and the intended casting point.
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Yareli}}
+__NOTOC__
+[[Category:Yareli]]
+[[Category:Cold Damage]]
+[[Category:Line Of Sight Abilities]]
+[[uk:Водоверть]]

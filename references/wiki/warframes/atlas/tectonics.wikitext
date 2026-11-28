@@ -1,0 +1,69 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Tectonics
+| gameimage      = TectonicsIcon.png
+| cardimage      = Tectonics.png
+| hotkey         = 2
+| description    = Summon a rock-wall, activate again to send the rocks crashing towards the enemy. 
+| cost           = 50
+| strength         = 600 / 900 / 1200 / 1500 (base health)<br>1 x (health multiplier to {{D|Slash}} damage)<br>250 / 300 / 350 / 500 (explosion {{D|Puncture}} damage)<br>150 / 300 / 450 / 600 (roll {{D|Impact}} damage)
+| range          = 3 / 3 / 4 / 5 m (explosion radius)
+| duration       = 
+| misc           = 5 x (armor multiplier)<br>1 / 2 / 3 / 4 s (invulnerability duration)<br>? m (shrapnel damage radius)<br>1 (max bulwarks active)<br>15 m (roll distance)<br>200 % (petrified rolling speed)<br>30 m (petrified roll distance)<br>200 % (petrified damage bonus)
+| cardonly       = {{{1|}}}
+|info            = 
+*Reshaping the surrounding terrain, Atlas expends {{Stat|Ability Efficiency|icon=only}}'''50''' [[energy]] to erect a '''Bulwark''' made of stone with a base health of {{Stat|Ability Strength|icon=only}}'''600 / 900 / 1200 / 1500''' and additional health equal to <u>'''500%'''</u> of Atlas' [[armor]]. Upon activation, the bulwark is [[Invulnerable]] for <u>'''1 / 2 / 3 / 4'''</u> seconds; incoming damage that is absorbed during the invulnerability period is converted and added to the bulwark's health. After the invulnerability phase, whenever the Bulwark receives damage, the amount of health lost multiplied by {{Stat|Ability Strength|icon=only}}'''1''' times is converted into {{D|Slash}} damage and inflicted on all enemies within <u>'''?'''</u> meters from the Bulwark. Atlas can maintain only <u>'''1'''</u> Bulwark at a time.
+***The bulwark's health uses the following expression when accounting for Ability Strength:<br/>{{MathText|Modified Health {{eql}} (Base Health + 5 {{mul}} Atlas' Armor) {{mul}} (Ability Strength) + Absorbed Damage}}.
+***For example, with a maxed {{M|Steel Fiber}} and {{M|Intensify}}, rank-3 Tectonics will produce a bulwark with an initial health of<br/>{{Math|(1500 + 5 {{mul}} ({{WF|Atlas|475}} {{mul}} (1 + {{M|Steel Fiber|1}}))) {{mul}} (1 + {{M|Intensify|0.3}})|mt=y}} before converting absorbed damage.
+**While active, a health counter becomes visible on the ability icon that tracks the bulwark's health percentage from 100% to 0%. Placing the HUD's targeting reticle over the bulwark will also display its health bar.
+**Atlas and his allies do '''not''' contribute to a bulwark's health gain by shooting it during the invulnerability period.
+*Reactivating the ability will cause the bulwark to compact into a '''Boulder''' that rolls towards the current direction of aim, dealing {{Stat|Ability Strength|icon=only}}'''150 / 300 / 450 / 600''' {{D|Impact}} damage per second to enemies that are dragged along its path. After rolling <u>'''15'''</u> meters or hitting an environmental object, the boulder will explode and inflict {{Stat|Ability Strength|icon=only}}'''250 / 300 / 350 / 500''' {{D|Puncture}} damage to enemies within a radius of {{Stat|Ability Range|icon=only}}'''3 / 3 / 4 / 5''' meters.
+**Enemies affected by the rolling damage are ragdolled.
+**The explosion damage does '''not''' bypass obstacles in the environment and diminishes with distance.
+<!--*(Requires Testing) Many if not all explosive weapons with a timer or detonation mechanic will explode immediately on contact with the bulwark.  No in-game context has been given for this phenomenon.  -->
+*While the bulwark is capable of blocking most hostile gunfire, it does '''not''' provide cover from area of effect damage, including the explosive attacks of Grineer [[Bombard]]s and [[Napalm]]s.
+*Bulwarks and Boulders have collision detection for enemies only. Atlas and allies can move through Tectonics' objects unobstructed.
+*Enemies will attack the Bulwark if it obstructs their path. Though some enemies may simply run up against it.
+*Upon transforming the Bulwark into a Boulder, Tectonics can be recast immediately to create a new Bulwark.
+*The Bulwark will spawn on the same elevation as Atlas, but the bulwark does have gravity and will fall down if created in the air or without a surface directly underneath it.
+*Casting and reactivation duration of '''1''' second are affected by {{M|Natural Talent}} and {{M|Speed Drift}}.
+| interactions = 
+* Casting {{A|Petrify}} on the Bulwark hardens it into a '''Petrified Bulwark'''. Boulders created from Petrified Bulwarks gain <u>'''200%'''</u> rolling velocity and have their rolling distance increased to <u>'''30'''</u> meters. They also inflict <u>'''200%'''</u> bonus damage on rolling and explosion damage.
+** Bulwarks and Boulders become silver-colored and metallic when petrified.
+** As the 3 bulwarks created by {{M|Tectonic Fracture}} cannot become boulders, Petrify has no effect on them.
+** Casting Petrify on a moving boulder will '''not''' grant it bonuses.
+|augment = 
+[[File:TectonicFractureMod.png|200px|left]]
+{{main|Tectonic Fracture}}
+{{#lst:Tectonic Fracture|intro}}
+{{#lsth:Tectonic Fracture|Stats}}
+{{clr}}
+|tips = 
+*Can completely block off narrow enough areas or chokepoints from enemies without limiting the movement of allies.
+*The Boulder can be used to push down long corridors, but care should be taken when aiming as the Boulder will detonate when it hits a side wall or standing obstacle.
+*The Bulwark's cover can assist in reviving allies who have fallen to a frontal threat.
+**Note that Bulwark's protection is less effective against enemy AoE attacks.
+*Enemies will not change their motion to sidestep a rolling Boulder. This makes the boulder very effective against lines of charging foes.
+*Although it does not boast above average threat level, The Bulwark can be used to draw fire away from the player as long as it is closer to the enemy than the player is.
+**This is most effective against fast and threatening melee attackers like [[Thrax Centurion]]s or many infested, which can often force the player into the air to avoid them. Placing a Bulwark can completely halt this attack provided these enemies get close enough to start attacking it instead.
+**[[Thrax Centurion]]s specifically can be completely neutralized by placing a wall as, for unknown reasons, they will focus on the wall but not attack it. This potentially means they can be indefinitely taken out of the fight as long as the wall is not destroyed or recast.
+<!--*(Requires Testing) Explosive weapons with a timer or detonation mechanic will explode immediately on contact with the bulwark (e.g. shots fired from the {{Weapon|Stug}} or the cubes made by the {{Weapon|Mutalist Quanta}}). This can be used to make time-delayed weapons deal their damage and effects instantly.-->
+<noinclude>
+|max = {{WFmax|armor|atlas2}}
+</noinclude>
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Atlas}}
+
+[[de:Tektonik]]
+[[es:Tectónicos]]
+[[ru:Тектоника]]
+[[fr:Tectonique]]
+[[Category:Atlas]]
+[[Category:Warframe Abilities]]
+[[Category:Toggled Abilities]]
+[[Category:Update 17]]
+[[Category:Puncture Damage]]
+[[Category:Impact Damage]]
+[[Category:Slash Damage]]
+[[uk:Тектоніка]]

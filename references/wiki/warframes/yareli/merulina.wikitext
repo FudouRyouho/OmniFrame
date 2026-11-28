@@ -1,0 +1,165 @@
+{{UpdateMe|iOS Controls}}
+<onlyinclude>{{AbilityU10.3
+| name = Merulina
+| gameimage = Merulina130xWhite.png
+| cardimage = MerulinaModx256.png
+| hotkey = 2
+| energy = 25
+| cost = 
+| description = Summon Merulina, a rideable creature of the waves, and the inspiration for K-Driving. Merulina protects Yareli by absorbing a large portion of incoming damage.
+| sub = {{AbilityU10.3/Tabber | Yareli
+| misc           = 4 s initial invuln. time<br/>Secondary only restriction<br/>Ragdoll immunity<br/>Stagger & knockdown resistance<br/>1.5 s dismount invuln. time
+}}
+{{AbilityU10.3/Tabber | Merulina
+| strength         = 3,000 / 4,500 / 6,000 / 7,500 HP health pool
+| misc           = 90% damage redirection<br/>&infin; duration<br/>18 m/s move speed<br/>21 m/s boost speed<br/>3 m jump height<br/>12 m double jump height<br/>1.25 s jump charge time<br/>17 m charged jump height<br/>10 m dash distance<br/>1,000 {{D|Impact}} damage on landing<br/>5 {{D|Impact}} damage on slam shockwave<br/>2 m slam shockwave radius
+}}
+| cardonly = {{{1|}}}
+| info = *Yareli expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to summon her faithful aquatic creature from the watery depths and rides aboard '''Merulina''' after it emerges. Upon activation, the board is [[Invulnerable]] for <u>'''4'''</u> seconds, during this time all incoming damage it takes is added to its total health. While riding Merulina, Yareli switches her combat and movement controls to [[K-Drive#Controls and Tricks|K-Drive controls]]; aboard her transport, Yareli unholsters and only wields her equipped secondary weapon, becomes immune to {{D|Ragdoll}} and resists {{D|Stagger}} and {{D|Knockdown}} from most sources. Yareli may manually dismount from Merulina for <u>'''0'''</u> energy cost by pressing the ability key again (default {{Keybind|2}}), press or hold and release the quick melee attack key (default {{Keybind|E}}), or hold and release the interact key (default {{Keybind|X}}) to despawn it and switch back to normal Warframe controls.
+**Yareli is [[Invulnerable]] for <u>'''4'''</u> seconds after summoning Merulina, and <u>'''1.5'''</u> seconds when dismounting manually or on Merulina's destruction.
+**She is immune to K-Drive ragdoll effects from dismounting Merulina, does not eject off from failing K-Drive board grabs and flips, nor from strong impact collisions with the environment and obstacles.
+**She will resist [[Stagger|self-stagger]] effects inflicted by her equipped area-of-effect secondary weapons, as well as knockdown effects from enemies such as Grineer [[Heavy Gunner]], [[Shield Lancer]], [[Scorpion]], Corpus [[Shockwave MOA]], [[Laser Barrier]], Infested [[Ancient]]s, and Arson [[Eximus]] units.
+**Merulina is immune to the slowing effect of a [[Hobbled Dragon Key]].
+**She is able to collect [[Pickups]] such as orbs and ammo.
+**She is able to use selective [[Gear]] items such as equipping the [[Codex Scanner]] or deploying [[Team Bonus Consumables]].
+**She can also initiate interaction (default {{Keybind|X}}) with some entities and [[Objects]] such as opening doors and lockers, using elevators, picking up/inserting a datamass, picking up [[Ayatan Star]]/[[Ayatan Treasures|Sculptures]] and [[Granum Crown]], [[Hacking]] consoles, activating [[Survival]] Life Support Capsules, etc.<!--and starting [[K-Drive Race]]s by talking to [[Boon]] on the [[Orb Vallis]] or [[Grandmother]] on the [[Cambion Drift]]. This is still bugged-->
+***Attempting to revive an ally in [[Bleedout]] forces Yareli to dismount when the interact key is pressed.
+***Interacting with objects requires '''Reload with Context Action Input''' enabled otherwise the player will dismount.
+**She is able to perform [[Transference]] while aboard Merulina. This will not cause her to dismount.
+*Merulina is Yareli's personal deployable vehicle that possesses unique attributes and [[K-Drive]] maneuvers:
+<div class="tabber-borderless" ><tabber>
+|-|Attributes=<div style="display:none;">'''Attributes'''<br></div>
+*Merulina has a base [[Health]] pool of {{Stat|Ability Strength|icon=only}}'''3,000 / 4,500 / 6,000 / 7,500''' health and <u>'''50'''</u> armor that protects Yareli by [[Damage Redirection|redirecting]] <u>'''90%'''</u> of all incoming damage from Yareli to Merulina's health. The ability lasts <u>'''indefinitely'''</u> until its health pool fully depletes, or Yareli dismounts or falls [[Out of Bounds]]. Upon destruction, Merulina prevents the damage from the last lethal hit from spilling over to Yareli's hitpoints.
+**Merulina's health pool is '''not''' affected by [[Damage Reduction]] from abilities and mods such as {{M|Total Eclipse}} and {{M|Adaptation}}.
+***However, Adaptation stacks can still be accumulated while riding Merulina and will reduce the damage Yareli herself takes as normal.
+***Merulina benefits from armor from {{Resource|Azure Archon Shard}} and [[Helminth#Possible Buffs|Helminth Armor Invigorations]], but not other sources.
+**Merulina cannot be healed by conventional means, such as picking up Health Orbs and triggering [[Arcane Enhancement]] effects.
+***While riding Merulina, using subsumed {{A|Gloom}} will cause Yareli's damage to be converted into healing for Merulina rather than herself.
+**While active, Merulina's health indicator is displayed above Yareli's ability icons. The UI element consists of Merulina's animated portrait on the left, the current numeric total of remaining health points on the right, and a health bar at the bottom that drains from left to right.
+*Merulina's hidden K-Drive stats include:
+**Move Speed of '''18''' meters per second and Boost Speed of '''21''' meters per second
+**Jump Height of '''3''' meters and Double Jump Height of '''12''' meters.
+**Jump Charge Time of '''1.25''' seconds and Charged Jump Height of '''17''' meters.
+*Despite being functionally a K-Drive, Merulina '''cannot''' be modded, and is unaffected by mods equipped on a custom-built K-Drive in Yareli's Vehicle tab in the [[Arsenal]] screen.
+*Merulina gradually loses a percentage of health per second when Yareli is within an ability nullifying sphere created by special enemies, such as the [[Nullifier Crewman]].
+*Merulina's colors can be customized via its own Appearance tab in the Arsenal screen, once the ability is unlocked on Yareli at Warframe Rank 3.
+**Energy colors on Merulina will instead match the chosen selections in Yareli's Appearance tab.
+*Merulina visually appears as an [[Infested]] aquatic creature with physical characteristics commonly found in real world stingrays (flat body with flaps and tail), Portuguese man o' war (translucent membranes, multiple stingers), and crustaceans (spiked chitinous carapace). The creature's frontal beak, fin flaps, and tails use cloth and jiggle physics, allowing them to sway along to Yareli's movement. The bioluminescent central cavity holds flowing liquid in motion that glistens and shimmers to the light.
+**Merulina produces liquid splashes and bubbles beneath its belly as it moves and lands on surfaces.
+**Merulina audibly makes chirping and gurgling creature sounds while Yareli is riding on it and performing K-Drive tricks.
+|-|Tricks=<div style="display:none;">'''Tricks'''<br></div>
+*K-Drive trick scores earned with Merulina yield [[Ventkids]] [[Standing]] in any mission.
+*While riding Merulina, Yareli can holster away her secondary weapon by pressing the switch weapon key (default {{Keybind|F}}) to enable her to perform more K-Drive tricks such as board grabs (default {{Keybind|LMB}}) and flips (default {{Keybind|RMB}}).
+*Yareli and Merulina will dash toward the input direction for a distance of '''10''' meters when performing a dodge maneuver:
+**Merulina's dash can be used on the ground, while in midair, and during casting animations to quickly reposition and break free from falling.
+**Each dash triggers a short cooldown before another can be performed.
+{| class="wikitable" style="width:100%; text-align:center;"
+|-
+!Action
+!PC
+!PlayStation
+!Xbox
+!Nintendo Switch
+!iOS
+|-
+| Dash || Tap {{Keybind|LShift}} || Tap {{Keybind|L1}}/{{Keybind|LB}} || Tap {{Keybind|LB}} || Tap {{Keybind|L}} || ??
+|-
+|}
+*When moving at cruising or boosted speed (default hold {{Keybind|LShift}}) with enough momentum, Yareli aboard Merulina can slide through some environmental barriers such as small railings, and surf on top of [[Defense Objects]] such as the Warframe Cryopod and [[Excavator]].
+*Merulina can ollie and double jump (default {{Keybind|Spacebar}} x2) to reach greater heights than Warframes' jumping.
+**Double jump can be performed after a charged jump (default hold and release {{Keybind|Spacebar}}).
+*Landing directly on top of an enemy from any height with Merulina inflicts '''1,000''' {{D|Impact}} damage and knockdown.
+*Performing a K-Drive slam shockwave (default while in midair, tap + tap and hold down {{Keybind|LCtrl}}) causes Yareli to dive toward the ground, emitting a '''2''' meter expanding shockwave on landing that inflicts '''5''' {{D|Impact}} damage with a status chance to all enemies inside, causing guaranteed heavy knockdown and knockback away from the impact point.
+*Merulina is able to surf on some allied summoned objects, such as {{WF|Frost}}'s {{A|Snow Globe}}.
+</tabber></div>
+<hr />
+*'''Ability Synergy:'''
+**Merulina's innate K-Drive drifting momentum helps activate and sustain Yareli's Critical Flow [[Yareli/Abilities#Passive|passive]].
+**Yareli performs her other abilities' casting animations without stopping her movement while aboard Merulina.
+**{{A|Sea Snares}}' casting animation is faster while aboard Merulina.
+**{{M|Surging Blades}} costs <u>'''0'''</u> energy to cast while aboard Merulina.
+*Cannot be cast if spacing around Yareli is obstructed. Merulina will self-destruct if Yareli attempts to mount it while she is standing in an out-of-bounds zone, usually below the playable area of a mission such as the pillar protrusions in the [[Sanctuary (Cephalon Simaris)#Simulacrum|Simulacrum]].
+*Mounting and dismounting from Merulina are full-body animations that carry forth Yareli's momentum while stopping other actions.
+*Yareli visually leaps gleefully into the air as she spins counterclockwise, summoning Merulina beneath her as they land onto the ground with a splash.
+**When performing a moving dismount from Merulina, Yareli hops off spinning clockwise and lands several meters away, while creating a splashing wave for Merulina to dive forward back into the abyss.
+*When dashing with Merulina, various animations play for Yareli depending on the input direction:
+**Without moving, she twirls clockwise as she lands back onto Merulina's back.
+**While moving, she holds onto Merulina as they launch forward, flipping upside down and returning upright similar to a Bullet Jump.
+**While moving backward, she recoils raising both her hands up with open palms.
+*Subsumed abilities injected into Yareli via the [[Helminth]] system '''cannot''' be cast while aboard Merulina.
+**Developers noted that due to the amount of new custom animations required for this to function properly, this interaction will remain unchanged for the foreseeable future.
+| augment = [[File:MerulinaGuardianMod.png|200px|left]]
+{{main|Merulina Guardian}}
+{{#lst:Merulina Guardian|intro}}
+{{#lsth:Merulina Guardian|Stats}}
+
+
+
+----
+
+[[File:LoyalMerulinaMod.png|200px|left]]
+{{main|Loyal Merulina}}
+{{#lst:Loyal Merulina|intro}}
+{{#lsth:Loyal Merulina|Stats}}
+{{clr}}
+| tips = *'''General'''
+**Riding Merulina counts in [[Nightwave]] challenges involving [[K-Drive]]s.
+
+*'''Build Options'''
+**While Yareli herself is rather fragile, Merulina vastly improves her survivability. Deploying her during a fight, even when standing still, makes Yareli deceptively durable.
+***Since Yareli cannot attack with primaries or melees while on Merulina, weapons of these categories that grant active buffs or passive bonuses are very beneficial to run.  
+****{{M|Amalgam Furax Body Count}} will passively increase the fire rate of Yareli's secondary by +45%. 
+****Primary Kitguns with {{Arcane|Pax Bolt}} installed can give a temporary +30% Ability Strength and Efficiency, which can both increase Merulina's health pool and make her cheaper to cast. 
+****Killing an enemy while standing in {{Weapon|Afentis}}'s alt-fire radius will trigger the Ballistarii Might buff, providing reload speed, fire rate, recoil, and reserve ammo bonuses that will persist for 40 seconds.
+**Unlike most sources of healing, {{A|Blood Altar}} will work with Merulina, providing healing even over the initial total health, unless the augment [[Loyal Merulina]] is equipped.
+**Since Merulina's roll covers significantly more distance than a regular roll, Yareli is able to effectively extend the hitbox of arcanes that proc on roll. 
+***{{Arcane|Arcane Circumvent}}s 4m radius is active during Merulina's entire roll animation. 
+****Since Merulina grants Yareli 90% damage redirection, the 10,000 Overguard cap from this arcane acts as effectively 100,000 Overguard. In addition to bolstering Yareli's effective HP, this also grants her status immunity.  
+****This arcane can also allow for quickly armor stripping multiple enemies grouped with {{A|Riptide}}.
+***{{Arcane|Melee Careen}} equipped on a melee weapon will freeze enemies around Merulina's roll, providing valuable crowd control. 
+****The +1.0 final critical damage bonus granted by the 10 cold procs has synergy with Yareli's passive +200% critical chance for secondaries.
+****With {{M|Shivering Contagion}} equipped on a primary or sentinel, the cold procs are spread to additional enemies within 6m of the initially affected enemies. 
+*****Frozen enemies are easier to headshot, which makes arcanes such as {{Arcane|Arcane Pistoleer}} and {{Arcane|Secondary Deadhead}} easy to trigger. These headshots also benefit from the additional 2x Critical Headshot multiplier, augmented by Yareli's passive and cold proc bonuses.
+
+*'''Movement'''
+**On mouse and keyboard, steering on Merulina with mouse is much more precise than using movement keys.
+***The left and right movement keys are best used only for strafing.
+**Double-tapping the crouch key initiates a slam and increases Merulina's fall speed. 
+***Merulina has significantly higher acceleration on the ground compared to in the air, so this maneuver can be used to maintain or build speed quickly. 
+**Rail grinding instantly brings Merulina up to its maximum non-sprint speed.
+| bugs = *'''Gameplay'''
+**Cannot trigger {{Arcane|Arcane Pulse}} while aboard Merulina.
+**{{Arcane|Magus Drive}} does not increase Merulina's speed.
+**Subsumed {{A|Fire Walker}}'s fire trail will not make Yareli immune to status procs while aboard Merulina.
+**Yareli can fall through a moving elevator while riding on Merulina.
+**Yareli on Merulina can be slowed down by bumping her head on doorframes in older [[Tile Sets]] such as [[Corpus Outpost]] and [[Grineer Galleon]] as she moves through them at any speed.
+**Yareli's Critical Flow passive does '''not''' activate when falling from heights aboard Merulina, while it works when Yareli is on foot.
+**Yareli aboard Merulina is incapable of picking up Resurgence Tokens in [[Arbitrations]] without crouching.
+**In rare instances on the [[Corpus Ship]] tileset, dismounting Merulina close enough to the ceiling of some hallways can cause Yareli to be placed out of bounds.
+**Yareli aboard Merulina counts as separate unit.
+***Any affinity gained while on Merulina is shared to yourself as if an ally killed the enemy.
+***Damage numbers from procs or other delayed attacks that would have been dealt while on Merulina disappear after dismounting.
+**During an [[Abyssal Zone]] mission, picking up a [[Orokin Defixio|Defixio]] and gaining the Hunter Curse while aboard Merulina will result in the curse failing to behave correctly. Neither Yareli nor Merulina will take damage from the curse while moving.
+**During an [[Infested Salvage]] mission, Yareli aboard Merulina is always considered to be outside of Vaporizor bubbles regardless of if she is inside of one or not.
+**Falling into a [[Transference]]-disrupting field such as one created by the [[Kuva Trokar]] while aboard Merulina can sometimes cause the player to become softlocked. All inputs are disabled including camera movement, the pause menu, and even opening the chat window. If enemies are present, the players' Operator/Drifter can be killed by them which will fix the bug. (More testing needed)
+
+*'''Menus'''
+**When customizing Merulina's Appearance via the Arsenal, it does not appear properly on screen when Yareli is in [[Captura]] or [[Relay]] hubs, including [[Cetus]], [[Fortuna]] and [[Necralisk]].
+**Merulina can sometimes be seen leveling up and accumulating [[Affinity]] at the end of mission summary screen.
+
+*'''Visuals'''
+**Playing as client, Yareli does not play an animation when picking up an object such as datamass or excavator power core.
+***Activating Life Support Capsules and hacking a console will trigger the latest ability cast's animation.
+**Yareli on Merulina inside {{WF|Limbo}}'s [[Rift Plane]] does not show the Rift overlay effect on the player's screen.
+**Using Merulina while on a mission will reset the colors of all attached cosmetic items on Yareli to their default colors for the duration of the mission.|
+}}
+
+</onlyinclude>
+
+==See Also==
+*{{WF|Yareli}}
+__NOTOC__
+[[Category:Yareli]]
+[[Category:K-Drive]]
+[[Category:Invulnerability]]
+[[uk:Меруліна]]

@@ -1,0 +1,58 @@
+{{ModBox}}
+'''Diversified Denial''' is a precept [[mod]] for [[Hound (Companion)|Hounds]] that summons three smaller specters of the Hound, each dealing a percentage of the Hound's damage.
+
+==Stats==
+{| class="emodtable"
+|- 
+! [[Mods#Mod Rank|Rank]]
+! Duration
+! Damage
+! [[Mods#Attributes|Cost]]
+|-  
+| 0 || 5s || 15% || 0
+|-
+| 1 || 10s || 30% || 1
+|-
+| 2 || 15s || 45% || 2
+|-
+| 3 || 20s || 60% || 3
+|-
+| 4 || 25s || 75% || 4
+|-
+| 5 || 30s || 85% || 5
+|-
+|}
+
+==Acquisition== 
+Diversified Denial is automatically acquired upon obtaining a [[Hound (Companion)|Hound]] built with the [[Bracket#Urga|Urga Bracket]].
+
+==Notes==
+*The Hound must be within ~40m of an enemy to activate.
+*Cooldown of 15s.
+*Other Precepts will not activate while specters are deployed.
+*If all three specters are killed, the Hound will reappear with 50% Health.
+**Specters cannot be healed with {{M|Pack Leader}}.
+*Synergizes with {{M|Shattering Impact}} and {{Weapon|Batoten}} or {{Weapon|Lacerten}}, as each specter's attack reduces enemy armor.
+*Cannot be equipped with {{M|Reflex Denial}} and {{M|Evasive Denial}}.
+
+==Bugs==
+*Cannot become invisible with abilities like [[Prowl]] unlike other companions, but enemies do not seem to notice them unless they attack if the invisible player attacks.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|30.5.5}}
+*Fixed Hound Diversified Denial Precept showing a revive prompt on mini-Hounds for Clients.
+
+{{ver|30.5}}
+*Introduced.
+}}
+
+{{CompanionModNav}}
+
+
+[[es:Negación diversificada]]
+[[ru:Диверсифицированное Отрицание]]
+[[uk:Багатостороннє скасування]]
+[[Category:Mods]]
+[[Category:Companion Mods]]
+[[Category:Denial Mods]]

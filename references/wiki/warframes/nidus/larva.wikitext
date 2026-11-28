@@ -1,0 +1,66 @@
+<onlyinclude>{{AbilityU10.3
+| sub = 
+| cardonly = {{{1|}}}
+| name = Larva
+| gameimage = LarvaIcon.png
+| cardimage = Larva.png
+| drain = 
+| hotkey = 2
+| energy = 25
+| description = Spawn an Infested pod that erupts with tendrils, latches onto nearby enemies and pulls them in. Enemies killed while held have a chance of generating a Mutation stack.
+| strength = 50 % (Mutation stack chance)
+| duration = 4 / 5 / 6 / 7 s
+| range = 8 / 9 / 10 / 12 m (grab radius)<br/> 5.33 / 6 / 6.67 / 8 m <br/> (grab radius for subsumed version)
+| misc = 3 s (release delay for unaffected targets)
+| subsumable = true
+| info = 
+* Nidus expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[energy]] to eject an infested larva at high speed toward the targeted location over <u>'''unrestricted'''</u> range. Upon impact, the larva rapidly matures into a floating mass of infested tentacles that sprouts tendrils to grab <u>'''all'''</u> enemies within [[Line of Sight]] and a radius of {{Stat|Ability Range|icon=only}}'''8 / 9 / 10 / 12''' meters, forcefully {{D|Ragdoll|Ragdolling}} and pulling them into the mass, becoming unable to move or attack while grotesquely meshing together within the writhing whirlpool of flesh. Larva will wither away when it has no enemies to grip, is cast when no enemies are in range, or after {{Stat|Ability Duration|icon=only}}'''4 / 5 / 6 / 7''' seconds have elapsed, dropping enemies to the ground upon expiration.
+* Each enemy killed from any source while being held by Larva has a {{Stat|Ability Strength|icon=only}}'''50%'''<ref>https://forums.warframe.com/topic/1279280-kill-stealing-and-the-mechanics-that-suffer-from-it/page/3/?tab=comments#comment-12280351</ref> chance to generate <u>'''1/5th'''</u> of a [[Nidus/Abilities/Passive|Mutation]] stack, capped at a <u>'''100%'''</u> chance at '''200%''' {{Stat|Ability Strength}}.
+* Enemies gripped by tendrils will float helplessly and rotate around the Larva, similar to the Vortex portion of {{A|Bastille}} and {{A|Sandstorm}}. Dealing damage or killing enemies in this mass can cause other affected enemies to bounce outward, swing wildly in an orbit, then be pulled back in.
+* If enemies cannot be ragdolled by Larva after being attached to tendrils, they will be released after <u>'''3'''</u> seconds.
+* Has a cast time of <u>'''0.6'''</u> seconds.
+* Can be recast, destroying the previous instance of Larva.
+* Larva is a [[One-Handed Action]] that allows movement and doesn't interrupt reload, but restricts other actions.
+* Enemies grabbed by Larva are alerted to the player's presence.
+* Enemies latched onto by its tendrils visually appear to be covered in infestation, while robotic targets appear encrusted in rust.
+| interactions =
+* Larva can be used to gather enemies with {{A|Ravenous|Ravenous's}} {{E|Maggot|Maggots}} latched on them to inflict their detonation damage to all enemies and increase Nidus's [[File:MutationGauge.png|25px|link=Mutation]] [[Nidus/Abilities/Passive|Mutation Stacks]] .
+* {{E|Maggot|Maggots}} seem to prioritize enemies that are trapped in Larva.
+* Can be used to gain a large amount of mutation and {{Stat|Energy}} by maximizing the numbers of enemies affected by {{A|Virulence}}.
+* Larva will attach to enemies affected by {{A|Bastille}}; however, it will not pull them.
+| helminth =
+*Subsuming Nidus to the [[Helminth]] will offer Larva and its augments to be used by other Warframes.
+**However, Subsumed Larva's range is reduced to {{Stat|Ability Range|icon=only}}'''5.33 / 6 / 6.67 / 8''' meters.
+**When Larva is injected onto a [[Prime]] Warframe, it will gain the appearance of {{WF|Nidus Prime}}'s Larva.
+| stance = 
+| augment = [[File:LarvaBurstMod.png|200px|left]]
+{{main|Larva Burst}}
+{{#lst:Larva Burst|intro}}
+{{#lsth:Larva Burst|Stats}}
+{{clr}}
+| tips = 
+*It is highly recommended to build for range to allow Larva to catch as many enemies as possible.
+*Weapons and abilities with splash damage and/or [[punch through]] can be used to quickly dispatch enemies stuck in Larva.
+*When Larva expires, enemies will drop to the ground and begin to recover from their ragdoll state. Recast Larva to immediately disable them again.
+*Enemies with {{D|Overguard}} are immune to the ragdoll and pull effects and are not disabled, but will remain attached to tendrils showing their positions.
+*Infuse Larva into a speed-build {{WF|Nova}} to allow her to both pull many enemies into the trap for quick dispatch and also reduce the risk of getting too many enemies swarming close.
+<noinclude>
+| max            = {{WFmax|main|nidus2}}
+</noinclude>
+| bugs = * If launched on movable surface ( ex : elevator ) the larva will stall and never start to grab anything
+}}</onlyinclude>
+
+==References==
+{{Reflist}}
+
+==See Also==
+*{{WF|Nidus}}
+[[es:Larva (Habilidad)]]
+[[fr:Larve]]
+[[it:Larva]]
+[[Category:Nidus]]
+[[Category:Warframe Abilities]]
+[[Category:One-Handed Abilities]]
+[[Category:Line Of Sight Abilities]]
+[[uk:Личинка]]
+[[Category:Grouping]]

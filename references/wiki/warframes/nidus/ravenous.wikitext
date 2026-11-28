@@ -1,0 +1,99 @@
+<onlyinclude>{{AbilityU10.3
+| name = Ravenous
+| gameimage = RavenousIcon.png
+| cardimage = Ravenous.png
+| hotkey = 4
+| energy = 0
+| description = Gluttonous [[Maggot|<span style="color:skyblue;">Maggots</span>]] swarm nearby enemies, feasting until they burst with Infestation. The {{E|Maggot|Maggots}} benefit from [[File:MutationGauge.png|25px|link=Mutation]][[Mutation]] and each enemy consumed adds to the [[File:MutationGauge.png|25px|link=Mutation]][[Mutation]] stack.
+<br/>'''  Cost: 3'''[[File:MutationGauge.png|25px|link=Mutation]][[Mutation]]
+| cost = <u>'''3'''</u> [[File:MutationGauge.png|25px|link=Mutation]] .
+| strength = 100 / 110 / 125 / 150 (explosion {{D|Blast}} damage)<br/> / 55 / ? / 75 (health regen per second)
+| range = 4 m (Maggot's explosion radius)<br/>8 m (ability radius)
+| duration = 25 / 30 / 35 / 40 s
+| misc = [[Invulnerable]] during cast.<br/> 9 (number of Maggots)<br/>1000 (Maggot health)<br/>10 (Maggot {{D|Toxin}} damage)
+| cardonly = {{{1|}}}
+| info = *{{WF|Nidus}} expends <u>'''3'''</u> [[File:MutationGauge.png|25px|link=Mutation]][[Mutation|Mutation]] stacks into ravenous Infestation, which spreads outward from Nidus and across the surrounding landscape to create spawning grounds with a diameter of {{Stat|Ability Range|icon=only}}'''8''' meters, lingering for {{Stat|Ability Duration|icon=only}}'''25 / 30 / 35 / 40''' seconds. When inside or above the spawning grounds, Nidus and his allies will regenerate {{Stat|Ability Strength|icon=only}}'''/ 55 / ? / 75''' health per second and are cleansed of [[Status Effect]]s.
+** Ravenous will <u>'''NOT'''</u> prevent {{D|Stagger}} nor {{D|Knockdown}}.
+**The amount of [[File:MutationGauge.png|25px|link=Mutation]][[Mutation|Mutation]] stacks used is <u>'''NOT'''</u> affected by {{Stat|Ability Efficiency}} .
+**Only <u>'''1'''</u> spawning grounds can be active at a time.
+***Recasting Ravenous will make all maggots explodes granting stacks if they touched enemies.
+**Has a casting time of '''1.5''' seconds.
+*** {{WF|Nidus}} become [[Invulnerable]] during it .
+**Health regeneration area is an invisible cylinder . A buff icon beside the shield and health indicators on the HUD indicates when the player is affected by it, and what the health regeneration rate is.
+***Affected allies includes all Warframes, [[Companions]], [[Eidolon Lure]]s, summoned allied units such as [[Specter]]s, allied [[Invasion]] units, [[Rescue|Hostages]], [[Kavor Defector]]s, [[Sortie]] and [[Arbitrations]] Defense Operatives, and [[File:IconMissionMarkerDefend(xWhite).png|22px|link=Defense Objects]][[Defense Objects]].
+**** [[File:IconMissionMarkerDefend(xWhite).png|22px|link=Defense Objects]][[Defense Objects]]  will be healed '''only''' if their passive hp regen kicks in , them taking damage to health will prevent in heal .
+**** Healing is applied at 100% of its strenght on any eligible entity.
+**** '''Cannot''' heal Player's [[Necramech|Necramechs]]
+***Health regeneration per second is calculated when Ravenous is cast, and is '''not''' be recalculated if any changes in Ability Strength occur while Ravenous is active.
+**Spawning grounds are created at the location where Nidus casts the ability.
+***Spawning grounds' infestation does not expand up or down high terrain elevations, but does flow up and down stairs and ramps.
+***Within the spawning grounds, various unique models will spawn for visual representation only. Players and AI can path through them unhindered. Textures on the ground are blended with an infestation mesh.
+***Numerous patches of infested flora resembling tall grass encompass the ground, rustling when brushed past by players and AI while glowing in the chosen energy color. Several infested branches sprout from the infestation to attach to nearby walls and objects in vertical and diagonal axis. Branches glow in the chosen energy color.
+*Three infested nests erupt on the edges of the infestation, positioned in triangular vertices. Each nest spawns <u>'''3'''</u> Maggots, for a maximum of <u>'''9'''</u> active Maggots.
+**Nests serve to maintain the Infestation. If a {{E|Nullifier Crewman|Nullifier's Bubble}} comes in contact with a nest, it will dissipate; when all three infested nests are dissipated, Ravenous will expire automatically.
+**Maggots use a custom model to differentiate them from an {{E|Maggot|enemy Maggot}}.
+**Maggots possess a base health of <u>'''1000'''</u>, [[Enemy Level Scaling#Murmur, Sentient, and Unaffiliated|scaled by their level]] and draw enemy aggro.
+***Maggots have their own rank equal to Nidus' rank (e.g., a rank-25 Nidus' Maggots will be level 25).
+***On death, a new Maggot will spawn from a nest throughout the duration of Ravenous, up to the maximum number of <u>'''9'''</u> active {{E|Maggot| Maggots}}.
+**After casting Ravenous, {{E|Maggot| Maggots}} will immediately start to spawn.  Once a {{E|Maggot| Maggot}} detect an enemy, they will move with increased movement speed and leap toward their prey to latch onto them. While attached to an enemy, each {{E|Maggot| Maggot}} will continuously stun its target and inflict <u>'''10'''</u> {{D|Toxin}} damage per second until the target dies or Maggot expires.
+** {{E|Maggot| Maggots}} can latch onto enemies with {{D|Overguard}} they will damage it but their stun effects will not apply until the {{D|Overguard}} is removed .
+**If {{WF|Nidus}} is far from ravenous nest , all maggots that were not latched on enemies will be teleported to his position and attack enemies nearby him .
+***Latch damage is amplified by the number of Mutation stacks accumulated using the following formula: {{MathText|Toxin Damage {{mul}} (1 + Number of Stacks)}}
+****Due to the total damage calculation accounting for Mutation stacks '''after''' the cost of Ravenous, it is '''not''' possible to reach amplified damage results above '''197''' Mutation stacks ('''497''' with {{M|Abundant Mutation}}).
+***Multiple {{E|Maggot| Maggots}} cannot attach or attack the same enemy target . They will wait until the death of the currently latched Maggot before trying to latch again on this target .
+***If a {{E|Maggot}} cannot attach to an enemy, it will instead bite or seek other enemies to latch on to , if no more enemies are present maggots will idle inside ravenous or teleport to {{WF|Nidus}} if he is too far .
+**When a Maggot dies, either from being hit by {{A|Virulence}}, its health being depleted, its host dying, or Ravenous's duration expiring, it explodes, dealing {{Stat|Ability Strength|icon=only}}'''100 / 110 / 125 / 150''' {{D|Blast}} damage to all enemies within a {{Stat|Ability Range|icon=only}}'''4''' meter radius.
+***Except when they are nullified , visiually an explostion will happen but no stack will be granted .
+***Explosion total damage uses the following expression when accounting for Ability Strength and Mutation stacks:
+***:{{MathText|Base Explosion Damage {{mul}} (1 + Ability Strength rank bonus + Strength Mods) {{mul}} (1 + Number of Stacks) {{eql}}}}
+****With a maxed {{M|Intensify}}, 15% Ability Strength rank bonus, and 100 stacks, rank-3 Ravenous's total damage will be increased to:
+****:{{Math|150 {{mul}} (1 + 0.15 + 0.3) {{mul}} (1 + 100)|mt=y}}
+****Due to the total damage calculation accounting for Mutation stacks '''after''' the cost of Ravenous, it is '''not''' possible to reach amplified damage results above '''197''' [[File:MutationGauge.png|25px|link=Mutation]][[Mutation]] stacks ('''497''' with {{M|Abundant Mutation}}).
+**{{E|Maggot| Maggots}} are counted as [[Summons]] and are affected by {{M|Summoner's Wrath}}, {{Arcane|Arcane Camisado}}, and {{Arcane|Theorem Infection}}. 
+***The Maggots' death burst is not considered summon damage, and is '''not''' affected by the above. However, their melee attacks are.
+***Their on-death explosions count as Nidus' ability damage. (See [[#Bugs]]).
+***{{E|Maggot| Maggots}} affected by {{A|Nourish}} will burst with {{D|Viral}} damage and status, which lets them both prime the enemies and quickly stack {{Arcane|Arcane Camisado}}.
+**{{E|Maggot| Maggots}} will '''not''' attach to small enemies, such as a [[Brood Mother]]'s [[Maggot]]s and [[Kuva Jester]]s.
+**Maggot Nests glow, pulsate, and emit spore particles, which are affected by the chosen energy color.
+* If another {{WF|Nidus}} use {{A|Ravenous}} both healing effects will stacks . <!-- need to test if there is a limit -->
+| interactions = *Maggots hit by {{A|Virulence}} will immediately explode.
+*Exploding Maggots increases Nidus's [[File:MutationGauge.png|25px|link=Mutation]][[Mutation]] stacks by <u>'''1/5th'''</u> per explosion per enemy hit.
+** At the end of Ravenous, all maggots will expire and explode, granting stacks to {{WF|Nidus}} if they hit enemies.
+** If the Maggot host dies to the Maggots or Virulence, the host and any nearby enemies will count towards [[File:MutationGauge.png|25px|link=Mutation]][[Mutation]]. This stacks with Virulence's [[File:MutationGauge.png|25px|link=Mutation]][[Mutation]] gain per enemy hit.
+**If the {{E|Maggot}} host dies to other sources, the host itself is '''not''' an eligible target and will '''not''' count towards Mutation.
+| augment = [[File:InsatiableMod.png|200px|left]]
+{{main|Insatiable}}
+{{#lst:Insatiable|intro}}
+{{#lsth:Insatiable|Stats}}
+{{clr}}
+| tips = *Ravenous snapshots ability stat bonuses (e.g. {{M|Energy Conversion}}, {{M|Growing Power}}) and will keep the same stats if recast before expiring.
+
+*Ravenous is a formidable tool to protect objectives and control the map due to the Maggots forcing enemies to attack them instead of players or objectives . 
+
+*The passive heal and status clear make it valuable when fighting {{Faction|Techrot|icon=only}} [[Technocyte Coda]] in their arena .
+
+**Placing {{A|Ravenous}} on the edge of the arena will allow the {{E|Maggot| Maggots}} to spawn outside of arena's bounds and reach enemies that are not yet in .
+
+**Using {{A|Virulence}} while touching the arena's edge will allow you to detonate them .
+
+*Constantly detonating {{E|Maggot| Maggots}} using {{A|Virulence}} helps maximize damage output and Mutation gained as Maggots will continuously respawn throughout the duration of Ravenous.
+*{{E|Maggot|Maggots}} can pick up motes from {{WF|Wisp}}'s {{A|Reservoirs}} ability. They are also affected by {{A|Mesmer Skin}}.
+| bugs = <!-- PLACE BUG YOU FIND BELLOW THIS COMMENT-->
+
+<noinclude>
+| max = {{WFmax|nidus|nidus4}}
+</noinclude>
+}}
+
+</onlyinclude>
+
+==See Also==
+*{{WF|Nidus}}
+[[de:Ausgehungert]]
+[[es:Voracidad]]
+[[fr:Voracité]]
+[[Category:Nidus]]
+[[Category:Warframe Abilities]]
+[[Category:Toxin Damage]]
+[[Category:Blast Damage]]
+[[uk:Ненаситність]]

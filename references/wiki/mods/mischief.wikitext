@@ -1,0 +1,75 @@
+{{ModBox}}
+'''Mischief''' is a precept [[mod]] for the {{Companion|Smeeta Kavat}} that allows it to become [[invisible]] while a decoy Kavat draws fire by running toward the enemy. The decoy has a chance to evade damage and upon death it releases a radial {{D|Blind}}.
+
+==Stats==
+{| class="emodtable"
+|-
+! [[Mod#Mod Rank|Rank]]
+! Duration
+! Cooldown
+! Decoy Evasion Chance
+! [[Mod#Attributes|Cost]]
+|-
+| 0 || 6 || 10 || 0% || 2
+|-
+| 1 || 7 || 9 || 5% || 3
+|-
+| 2 || 8 || 8 || 10% || 4
+|-
+| 3 || 9 || 7 || 15% || 5
+|}
+
+==Acquisition==
+Mischief is automatically acquired upon obtaining a {{Companion|Smeeta Kavat}}.
+
+==Notes==
+*The Smeeta Kavat can attack while cloaked and remain cloaked, allowing them to execute several attacks while invisible.
+*Decoy possesses 50% of the Smeeta's [[Health]], with 100% [[Critical Chance]] and 2.0x [[Critical Multiplier]].
+*As long as the decoy is active, the Smeeta Kavat is invisible and invulnerable. If the decoy dies, both effects will end.
+*{{D|Blind}} has a radius of '''8''' meters.
+*The decoy can be targeted by a {{WF|Limbo}}'s {{A|Banish}}, which can allow it to draw much more fire from enemies for it's duration. Note that no matter what plane the Smeeta Kavat is in, the decoy will always spawn in the material plane.
+{{clr}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|38.0.1}}
+*Fixed script error with Smeeta Kavat's Mischief Mod.
+
+{{ver|38}}
+*Fixed Mischief’s (Smeeta Kavat precept) radial blind VFX not showing on enemies for Clients.
+
+{{ver|37}}
+;Changes to Companion Precepts
+
+Many Companion Precept effects are currently too small or too brief to be really beneficial. We want your choice of companion to feel more meaningful and for your Companion to contribute in a more visible way, so there are a whole lot of buffs to get through.
+
+*Mischief (SMEETA Kavat): 
+**In addition to its previous effects, Mischief's decoy now Blinds enemies within 8 meters when the decoy is destroyed.
+
+{{ver|32.0.3}}
+*Fixed a script error that could occur with the Smeeta Kavat’s Mischief after traversing a Sanctuary Onslaught portal.
+
+{{ver|31.5.3}}
+*Fixed crash related to Kavat Mischief Precept mod.
+
+{{ver|29.0.8}}
+*Fixed Smeeta Kavat's Mischief ability modifying evasion incorrectly, and instead acting as a debuff as opposed to the proper buff.
+
+{{ver|27.3.15}}
+*Fixed a script error with Smeeta Kavat’s Mischief precept.
+
+{{ver|Specters of the Rail}}
+*Introduced.
+}}
+
+{{CompanionModNav}}
+__NOTOC__
+[[es:Travesura]]
+[[fr:Malice (Mod)]]
+[[ru:Озорство]]
+[[Category:Kavat Mods]]
+[[Category:Mods]]
+[[Category:Penjaga Mods]]
+[[Category:Rare Mods]]
+[[Category:Update 19]]
+[[uk:Капості]]

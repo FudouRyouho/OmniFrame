@@ -4,7 +4,7 @@ Rol: "Registrar preguntas abiertas cross-cutting del proyecto"
 Impacto_ID: "G-OQ"
 Fidelidad_Fisica: "docs/governance/"
 Fecha_de_creacion: "2026-04-13"
-Fecha_de_actualizacion: "2026-08-24"
+Fecha_de_actualizacion: "2026-08-26"
 ---
 
 # Open Questions (Preguntas Abiertas)
@@ -558,6 +558,8 @@ La campaña de documentación UI/UX ya se **completó** (2026-06-16; `docs/domai
 **Preguntas abiertas (requieren datos):** schema del dato de exaltada (¿`weapons` + marcador granted-by / canal / fixed? *lean:* nuevo JSON, no muy distinto de `weapons`) · shape de la declaración en el modelo de habilidad · política de mods huérfanos al re-derivar · **escalado cruzado** (exaltada ← power strength) = ability-like, **RED**, sub-concern separado.
 
 **Método (data-first):** 1 exaltada real → nuevo JSON → inyectar vía **oracle (CLI/D2)** → testear `A1→B→C` → recién generalizar. No resolver sobre supuestos.
+
+**El borde de la premisa 5: la exaltada recíproca.** [`exalted-weapon.wikitext`](../../references/wiki/mechanics/exalted-weapon.wikitext) declara que *"**Sirius** and **Orion** function as an 'Exalted' Warframe of each other that is **separately moddable**"*. La derivación de A1 (premisa 2) le sirve tal cual —un puntero derivado que nace al equipar—, pero el ruteo por canal (premisa 5) no tiene dónde aterrizarla: `channel: 'secondary'` presupone que lo derivado es un **arma**, y acá lo derivado es un warframe. No re-abre la hipótesis; marca hasta dónde llega y suma una fila a las preguntas de schema. Único caso conocido de esta forma.
 
 **No bloquea:** nada (diferido). **Estado:** no se modelará de inmediato; el usuario arranca el **prototipo** apenas cierre tareas en pausa.
 **Vínculo:** **`U-3`** (su upstream estructural), **OQ-UI-2** (que ya lista exaltadas como caso de slot-modeling junto a Jade Aura×2 / Sevagoth Shadow / companions modulares — UI-2 = layout de slots; ésta = mecanismo de derivación en A1), **OQ-ENGINE-7** (materialización de nodos de atributo).

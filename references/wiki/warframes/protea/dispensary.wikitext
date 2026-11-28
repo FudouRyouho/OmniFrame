@@ -1,0 +1,66 @@
+<onlyinclude>{{AbilityU10.3
+| name           = Dispensary
+| gameimage      = Dispensary130xWhite.png
+| cardimage      = DispensaryModx256.png
+| hotkey         = 3
+| energy         = 75
+| description    = Deploys a device that generates 3 pickups after a short delay: empowered health orb, universal ammo pack and energy orb.
+
+| strength         = 10 / 15 / 20 / 25 % (extra pickup drop chance)
+| range          =
+| duration       = 10 / 15 / 20 / 25 s
+| misc           = 2 s (pickup spawn interval)<br/>100 HP (empowered health orb restore)<br/>1x (universal ammo pack restore)<br/>1 (limit of active caches)
+| subsumable     = true
+| cardonly       = {{{1|}}}
+|info = 
+*Protea expends {{Stat|Ability Efficiency|icon=only}}'''75''' [[energy]] to unfurl the supply cache from her utility belt in front of her. The Dispensary hovers in place for {{Stat|Ability Duration|icon=only}}'''10 / 15 / 20 / 25''' seconds. After being deployed, the supply cache warps in [[Pickups]] one by one every <u>'''2'''</u> seconds in the following sequence: an Empowered [[Health Orb]] that restores <u>'''100'''</u> [[Health]] points, a [[Universal Ammo Pack]] that restores <u>'''1x'''</u> [[Ammo Pickup]] for the currently equipped [[Weapon]], and an [[Energy Orb]]. This rotating sequence will repeat until the Dispensary's duration expires. If all previous pickups of a given type have '''not''' been collected when the Dispensary attempts to warp in a new copy, that attempt will be skipped. Each pickup type has a {{Stat|Ability Strength|icon=only}}'''10% / 15% / 20% / 25%''' chance to drop a second copy when first warped in and on each replenishment. Only <u>'''1'''</u> Dispensary may be active at once.
+**Each individual pickup type will replenish once every <u>'''6'''</u> seconds as the Dispensary rotates through them. Empowered Health Orbs will attempt to spawn at 2, 8, 14, 20... seconds after deployment, Universal Ammo Packs will attempt to spawn at 4, 10, 16, 22... seconds after deployment, and Energy Orbs will attempt to spawn at 6, 12, 18, 24... seconds after deployment.
+**Deploying animation speed is affected by [[Casting Speed]].
+**Pickups are arranged in a triangular formation around the cache, spawning from the top of the cache then dropping to the ground below.
+**Empowered Health Orb health restore value is used as ''base'' value for mod interactions, such as {{M|Equilibrium}} and {{M|Mending Shot}}, though not {{M|Synth Fiber}} for Companions.
+**Universal Ammo Pack restores [[Archgun#Ground Combat|Atmospheric Archgun]] ammo upon collection. However, it does '''not''' affect the [[Archgun Deployer]] cooldown in the Gear menu.
+**While deployed, the Dispensary's location is indicated on the minimap using its ability icon.
+**Deploying a new Dispensary will remove the current one.
+*Pickups produced by the Dispensary are individual instances per player. If one player picks up an item, it will only disappear for that player while other players can collect their instances at their leisure.
+**Pickups are still subject to squad-wide pickup count limit and will despawn from the oldest to the newest after the limit is reached.
+**Pickups are replenished one by one according to the aforementioned drop sequence, if multiple pickups were collected by the same player.
+*Can be recast while active to deploy a new Dispensary while removing the active cache, dropping multiple new pickups at a different location.
+*Casting Dispensary is a full-body animation that allows movement.
+*Dispensary is an invulnerable object that hovers in the air where Protea deploys it.
+**Protea will deploy the Dispensary toward the direction her character model is facing at the end of the casting animation.
+**Supply cache despawns by folding back into its compact form and teleports back to Protea's utility belt.
+*Dispensary supply cache uses a custom model that resembles a floating and rotating vase, opening up its three petals to reveal a floral design. Each petal moves in an up and down motion, producing energy lights individually and in unison when spawning pickups. A pollen cloud visual effect bursts upward as a pickup is spawned.
+*Subsuming Protea to the [[Helminth]] will offer Dispensary and its augments to be used by other Warframes.
+**However, Subsumed Dispensary's duration is reduced to {{Stat|Ability Duration|icon=only}}'''5 / 7.5 / 10 / 12.5''' seconds.
+|augment =
+[[File:RepairDispensaryMod.png|200px|left]]
+{{main|Repair Dispensary}}
+{{#lst:Repair Dispensary|intro}}
+{{#lsth:Repair Dispensary|Stats}}
+|tips =
+*Place a supply cache before engaging enemies to give it time to produce a set of pickups.
+*Place near static objectives to resupply quickly while defending.
+*Jump and place the supply cache high in the air, out of reach from the ability canceling effects of special enemies (e.g. [[Nullifier Crewman]]). Pickups will rain down from above and stay put where they land.
+*Recast the Dispensary after it has produced a set of pickups to create another set. Spread the placements apart to cover the area in useful supplies.
+*Utilize Protea's passive for a chance to create more pickups per supply cache.
+*Mod for [[Ability Duration]] to keep the cache active longer. Pickups collected by you and your team will have more time to be replenished by the active Dispensary.
+*Activate {{A|Temporal Anchor}} and place a supply cache to completely recover its energy cost once Protea rewinds, while producing more Energy Orbs for later use.
+*Universal Ammo Packs are one of the only methods to resupply for [[Archgun#Ground Combat|Atmospheric Archguns]], allowing you and your team extended usage of these heavy weapons.
+**This also makes Protea a viable way of effectively leveling these weapons without having to go to [[Archwing]] maps, as long as she can spare some [[Gravimag]]s to do so.
+*Empowered Health Orbs can be an excellent source of energy with {{M|Equilibrium}}, giving 110 energy for each one on max rank, due to the health orb providing 100 health. 
+**This can benefit any Warframe that could use more energy. 
+* A [[Railjack]]'s energy *is* the pilot's energy, so placing a Dispensary next to the pilot's chair will frequently restore your Railjack's energy, allowing repeated use of Battle Mods. 
+**Though be aware that you cannot pick up energy orbs while piloting/gunning, so you have to swiftly swap out to grab them, then swap back in.
+
+|bugs =
+*Using this ability inside The Index has the potential to stop all Energy Dispensers from spawning energy orbs for the rest of the match, for all players.
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Protea}}
+__NOTOC__
+[[es:Dispensario]]
+[[fr:Dispensaire]]
+[[Category:Protea]]
+[[Category:Energy Restoration]]
+[[uk:Модуль підтримки]]

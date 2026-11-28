@@ -1,0 +1,43 @@
+<onlyinclude>{{AbilityU10.3
+| cardonly       = {{{1|}}}
+| name           = Divine Spears
+| gameimage      = DivineSpearsIcon.png
+| cardimage      = DivineSpears.png
+| hotkey         = 4
+| energy         = 100
+| description    = Impale nearby enemies on spears that erupt from the below. Activate again to slam surviving enemies back into the ground.
+| strength         = 150 / 300 / 450 / 600 (impale {{D|Puncture}} damage)<br>150 / 300 / 450 / 600 (slam {{D|Impact}} damage)
+| range          = 10 / 13 / 16 / 19 m
+| duration       = 6 / 8 / 10 / 12 s
+| info           =
+*Nezha expends {{Stat|Ability Efficiency|icon=only}}'''100''' [[energy]] to burst spears of light from the ground, impaling enemies within a radius of {{Stat|Ability Range|icon=only}}'''10 / 13 / 16 / 19''' meters and inflicting {{Stat|Ability Strength|icon=only}}'''150 / 300 / 450 / 600''' {{D|Puncture}} damage. Impaled enemies are incapacitated for {{Stat|Ability Duration|icon=only}}'''6 / 8 / 10 / 12''' seconds. If Divine Spears is deactivated by pressing the ability key again (default {{Keybind|4}}), impaled enemies are slammed to the ground and dealt {{Stat|Ability Strength|icon=only}}'''150 / 300 / 450 / 600''' {{D|Impact}} damage.
+**Cast animation of '''1''' second, affected by [[Casting Speed]].
+***Casting this ability makes Nezha stop all other actions, including movement.
+**Impaled enemies are treated as {{D|Knockdown}}, and thus can trigger Melee Ground [[Finisher]] attacks.
+*'''Ability Synergy:''' {{A|Blazing Chakram}} striking an enemy impaled by Divine Spears produces a second chakram, which fires at a nearby enemy.
+**Secondary chakrams can create additional ones off of speared enemies.
+**A charged throw will also produce charged chakrams, which will not seek out enemies or bounce, and often fly off in random directions. Therefore, uncharged throws are much more well-suited to generate many chakrams and ramp up {{M|Reaping Chakram}}'s bonus damage.
+| augment = [[File:DivineRetributionMod.png|200px|left]]
+{{main|Divine Retribution}}
+{{#lst:Divine Retribution|intro}}
+{{#lsth:Divine Retribution|Stats}}
+{{clr}}
+| tips           =
+<noinclude>
+| max            = {{WFmax|main|nezha4}}
+</noinclude>
+| bugs           =
+}}</onlyinclude>
+
+==See also==
+*{{WF|Nezha}}
+
+[[es:Lanzas divinas]]
+[[fr:Lances Divines]]
+[[Category:Warframe Abilities]]
+[[Category:Toggled Abilities]]
+[[Category:Nezha]]
+[[Category:Update 18]]
+[[Category:Puncture Damage]]
+[[Category:Impact Damage]]
+[[uk:Божественні списи]]

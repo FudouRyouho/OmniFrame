@@ -1,0 +1,288 @@
+{{FocusNavVisual}}
+{{Successor
+|precededby=Focus 2.0/Unairu
+|precededbysince={{ver|31.5}}
+}}
+{{Infobox
+|Box title=Unairu
+|image=FocusLensUnairu_b.png
+}}
+{{Quote|They pushed themselves to Outlast the Enemy, to withstand all aggression without retreat. They believed that if the enemy could not match their endurance, then a battle could be won without having even commenced.|In-Game Description}}
+{{Quote|I see a mountain, breaking the sky. The Way of Unairu. We pushed ourselves to Outlast The Enemy, to withstand all aggression without bending.|[[Operator]]}}
+<noinclude>
+:''Not to be confused with the {{Pol|Unairu}} Unairu [[Polarity]].''</noinclude>
+<section begin="intro" />The '''Unairu''' way trains to become an indomitable soldier. The [[Tenno]] of Unairu provide the frontlines with unmatched tenacity, along with direct buffs to allies' offenses and defenses. Those who mastered the Unairu school are granted enhanced damage resistance and damage reflection.
+
+This school improves [[Operator]] and Warframe survivability, granting immunity to [[Slow]], {{D|Stagger}}, and {{D|Knockdown}}, increases [[armor]], and clear [[Transference Static]]. They are also able to debuff enemies by stripping their armor and [[shield]]s. Their Way-Bound allows the Operator to fight and self-revive their Warframe during [[Bleedout]].
+
+Since its predecessor [[Focus 2.0/Unairu|Unairu 2.0]], this school gained immunity to certain status effects, the ability to remove Transference Static, the ability to self-revive, now removes all armor, can now remove enemy shields, and summoned Unairu Wisps now seek out allies. However, Unairu is no longer capable of damage reflection and reducing enemy damage, [[Void Mode]] no longer turns allies invisible or grants damage reduction, and no longer has an on-demand [[Damage/Void Damage#Bullet Attractor|bullet attractor]] effect.<section end="intro" />
+
+With the reclamation of the memories of Tau, the Tenno have rediscovered '''Cogron''', the '''Hammer of Unairu'''. When summoned, it is slammed into the ground, releasing periodic pulses of damage. When upgraded, the hammer pulses will have a greater radius, grant additional Armor to the user, spawn Universal Orbs and Universal Ammo, and allow the user to strip enemy defenses with weapon or ability hits.
+
+[[File:UnairuFocusTree3.0.png|thumb|650x000px|center|The treeways of the Unairu school.]]
+==Ways==
+===Poise===
+{{FocusNode|name=Poise|distance=0|icon=FocusPoise.png|desc=Gain immunity to slow, stagger, and knockdown effects for '''10 / 20 / 30 / 40'''s after transferring between Operator or Warframe.|passive=|warframe=y|operator=y|info=
+}}
+{{clr}}
+===Stone Skin===
+{{FocusNode|name=Stone Skin|distance=1|icon=FocusStoneSkin.png|desc=Increases {{Stat|Armor}} for Warframe and Operator by '''50 / 100 / 150 / 200'''.|passive=y|warframe=y|operator=y
+|info=
+*Armor bonus is flat, added after mods and abilities and does '''not''' stack with anything.
+}}
+{{clr}}
+
+===Last Gasp===
+{{FocusNode|name=Last Gasp|distance=1|icon=FocusLastGasp.png|desc=Revive your Warframe by transferring to Operator and killing '''3 / 3 / 3 / 3''' enemies before '''9 / 11 / 13 / 15s''' elapse and the revive meter begins to drain.|waybound=y|passive=y|warframe=|operator=y|info=
+*Allows Transference to be activated during [[Bleedout]], summoning the Operator who produces a radial shockwave that inflicts {{D|Knockdown}}. Kills during Last Gasp will fill a gauge to revive their Warframe.
+**[[Eximus]], [[Thrax Centurion]], or [[Thrax Legatus]] kills will instantly fill the gauge.
+**The gauge starts at 0%. After a few seconds it will start to drain, which gradually ramps up over time.
+**Any active Warframe abilities inflicting damage-over-time during Last Gasp (such as {{WF|Saryn}}'s {{A|Spores}} or {{WF|Garuda}}'s {{A|Seeking Talons}}) will also help fill the self-revive gauge.
+*Additionally, there is '''5''' seconds of invulnerability upon using this ability.
+*Holding Transference button during Last Gasp will teleport the Operator to their Warframe.
+*Cannot be used on Warframes with self-revive passives, such as {{WF|Inaros}}, {{WF|Nokko}}, and {{WF|Sevagoth}}.
+}}
+{{clr}}
+
+===Vengeance===
+{{FocusNode|name=Vengeance|distance=2|icon=FocusVengeance.png|desc=During Last Gasp, Operator Damage is increased by '''25 / 50 / 75 / 100'''% plus an additional '''10 / 15 / 20 / 25'''% per second. |waybound=y|passive=y|warframe=|operator=y|info=
+*Damage bonus is additive to other Operator and Amp damage bonuses, such as {{Focus|Unairu Wisp}}, {{Focus|Void Strike}}, {{Focus|Phoenix Talons}}, {{Focus|Amp Spike}}, {{Focus|Lethal Levitation}}, {{Arcane|Eternal Eradicate}}, and {{Arcane|Virtuos Fury}}.
+*Damage bonus caps '''+1000%''' damage.
+}}
+
+{{clr}}
+
+===Magnetic Flare===
+{{FocusNode|name=Magnetic Flare|distance=1|icon=FocusMagneticFlare.png|desc=Use your first Ability to create a '''5 / 6 / 7 / 8'''m radius field that lasts for '''12 / 18 / 24 / 30'''s and disables the shields of any enemy that enters it.|passive=|warframe=|operator=y|info=
+*Costs '''50''' energy to cast.
+*Does '''not''' affect [[Bosses]].
+*Affects [[Treasurer]]s, and {{E|Arbitration Shield Drone}}s and tethered enemies.
+}}
+{{clr}}
+
+===Magnetic Boost===
+{{FocusNode|name=Magnetic Boost|distance=2|icon=FocusMagneticBoost.png|desc=Void Sling out of a Magnetic Flare to refresh its duration and increase its radius by '''25 / 50 / 75 / 100'''%.|passive=|warframe=|operator=y|info=
+}}
+{{clr}}
+===Caustic Strike===
+{{FocusNode|name=Caustic Strike|distance=1|icon=FocusCausticStrike.png|desc=Second Ability launches an energy bomb that explodes with a 5 / 6 / 7 / 8m radius, stripping '''40 / 60 / 80 / 100'''% of enemy armor. Tap {{Keybind|2}} again to detonate in-flight.|passive=|warframe=|operator=y|info=
+*Costs '''50''' energy to cast.
+}}
+{{clr}}
+===Unairu Wisp===
+{{FocusNode|name=Unairu Wisp|distance=2|icon=FocusUnairuWisp.png|desc='''25 / 50 / 75 / 100'''% chance to summon an Unairu Wisp per enemy hit with Caustic Strike. The Wisp will seek out the nearest ally within Affinity Range, increasing Operator damage by '''20 / 40 / 60 / 100'''% for '''5 / 10 / 15 / 20'''s.|passive=|warframe=|operator=y|info=
+}}
+{{clr}}
+===Reinforced Return===
+{{FocusNode|name=Reinforced Return|distance=1|icon=FocusReinforcedReturn.png|desc=Warframe is invulnerable for '''1 / 2 / 3 / 4'''s after Operator is downed. Tap {{Keybind|X}} as Operator falls to bring the Warframe to the Operator's location.|passive=|warframe=y|operator=|info=
+}}
+{{clr}}
+===Static Purge===
+{{FocusNode|name=Static Purge|distance=2|icon=FocusStaticPurge.png|desc='''25 / 50 / 75 / 100'''% chance to clear Transference Static on kill while Reinforced Return is active.|passive=|warframe=y|operator=|info=
+}}
+{{clr}}
+===Cogron Tauron Strike===
+{{FocusNode
+|name=Cogron Tauron Strike
+|distance=1
+|TauronResource=Lyroic Bridge
+|TauronCost=1
+|icon=FocusCogronTauronStrike.png
+|desc=Summon forth Cogron from the Void and brandish the mighty hammer, slamming it into the ground to create a cataclysmic shockwave that ripples '''1 / 2 / 3 / 4''' times.
+|ult=y
+|warframe=y
+|operator=y
+|info=
+*Cogron's shockwave deals '''4,400''' damage, scaled by [[Enemy Level Scaling#Murmur, Sentient, Anarchs, and Unaffiliated|Enemy Level]], to enemies within '''30''' meters.
+*Additional shockwaves are generated every '''4''' seconds.
+*For the next '''30''' seconds, all attacks will strip '''25%''' of a target's armor and shields.
+}}
+{{clr}}
+
+===Sundered Bounty===
+{{FocusNode|name=Sundered Bounty|distance=2|TauronResource=Ascaris Prime|TauronCost=2|icon=FocusSunderedBounty.png|desc=Shockwaves generate '''2 / 3 / 4 / 5''' pickups, in the form of Universal Orbs or Ammo.|passive=|warframe=y|info=
+|operator=y}}
+{{clr}}
+===Seismic Impact===
+{{FocusNode|name=Seismic Impact|distance=3|TauronResource=Ren Hypercore|TauronCost=3|icon=FocusSeismicImpact.png|desc=Cogron Tauron Strikes enable their shockwave effect for the next '''1 / 2 / 3 / 4''' aerial Melee slam attacks.|passive=|warframe=y|operator=y|info=
+}}
+{{clr}}
+===Tempered Benison===
+{{FocusNode|name=Tempered Benison|distance=3|TauronResource=Ren Hypercore|TauronCost=3|icon=FocusTemperedBenison.png|desc=Shockwaves create '''2 / 3 / 4 / 5''' Armor Motes that grant +450 temporary Armor. Max 5.|passive=|warframe=y|info=
+*Motes behave identically to {{M|Health Conversion}}, and are only consumed when taking damage to health.
+*Shares its stack limit with Health Conversion, allowing all 5 motes to be carried between both buffs.
+|operator=y}}
+{{clr}}
+
+===Great Quake===
+{{FocusNode|name=Great Quake|distance=2|TauronResource=Ren Hypercore|TauronCost=2|icon=FocusGreatQuake.png|desc=Increase shockwave radius by +'''10 / 20 / 30 / 40'''%.|passive=|warframe=y|operator=y|info=
+}}
+{{clr}}
+
+==Notes==
+*Unlocking all main nodes at max rank on the Unairu school tree requires a grand total of '''15,505,000''' focus, broken down as follows:
+**'''9,000,000''' Unairu focus points for the main tree
+**'''1,500,000''' points and 2 {{Resource|Brilliant Eidolon Shard|Brilliant Eidolon Shards}} to unbind both Way-bound nodes
+**'''5,005,000''' points, 159 {{Resource|Lyroic Bridge}}, 198 {{Resource|Ren Hypercore}}, and 166 {{Resource|Ascaris Prime}} to obtain and fully unlock Cogron Tauron Strike
+***If a player has already spent the resources to obtain Cogron Tauron Strike a player would only need 9 {{Resource|Lyroic Bridge}}, 48 {{Resource|Ren Hypercore}}, and 16 {{Resource|Ascaris Prime}}, along with the same '''5,005,000''' points
+*A fully levelled Unairu Operator is capable of:
+**'''Way-Bound:''' On Warframe [[Bleedout]], activating Transference summons Operator, who has '''15''' seconds to kill enemies to fill a gauge to revive the Warframe; each kill fills the gauge by '''30%''' but gradually drains over time. In this state, Operator gains '''100%''' [[Amp]] damage plus an additional '''25%''' per second.
+**'''Passive:''' Transference grants immunity to [[slow]], {{D|Stagger}}, and {{D|Knockdown}} for '''40''' seconds. Increases Warframe and Operator [[armor]] by '''200'''.
+**'''Warframe Passive:''' When Operator is downed, pressing the interact button (default {{Keybind|X}}) summons the Warframe to their location, becoming invulnerable for '''4''' seconds. Killing an enemy while invulnerable has a '''100%''' chance to remove [[Transference Static]].
+**'''First Ability:''' Creates an '''8''' meter field that lasts '''30''' seconds, removing all enemy [[shield]]s while they are inside it. [[Void Sling]]ing out of the field refreshes its duration and increases its radius by '''100%'''.
+**'''Second Ability:''' Launches a bomb that explodes on impact or reactivation while mid-flight, creating an '''8''' meter explosion that permanently removes '''100%''' of enemy [[armor]]. Each enemy hit has a '''100%''' chance to summon an Unairu Wisp that seeks out the nearest ally in [[affinity]] range to boost Operator [[Amp]] damage by '''100%''' for '''20''' seconds.
+**'''Cogron's''' pulses will have a greater range.
+**'''Cogron''' will enable the user to partially strip enemies of their defenses with every hit.
+**'''Cogron''' will release Universal Orbs and Ammo on every pulse, and can grant this ability to the next 4 Melee slam attacks of the user.
+**'''Cogron''' will spawn motes that grant 450 bonus armor, with a maximum carry limit of 5.
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|43.5.4}}
+*Fixed Yareli being unable to initiate Last Gasp if Merulina had died before Last Gasp was triggered.
+
+{{ver|43.0.4}}
+*Fixed being able to enter Last Gasp immediately after failing to revive yourself with it, which often led to loss of function or crashing.
+**Also fixed Sirius & Orion being able to enter Transference after failing Last Gasp, resulting in an invisible unkillable Operator/Drifter that is unable to abort the mission. 
+
+{{ver|43.0.1}}
+*Fixed a script error in Last Gasp.
+
+{{ver|43}}
+*Fixed using Last Gasp causing your bleedout location to stop updating in the UI for other players. 
+*Fixed Last Gasp not functioning after a Necramech Floor in Descendia.
+*Fixed entering loading tunnel to return to hub (ex: Cetus) while in Last Gasp causing you to die once loaded after using Transference.
+
+{{ver|42}}
+*Fixed Drifter being stuck in a broken state after entering a teleport volume in Last Gasp in Descendia missions.
+*Fixed Clients in Last Gasp after Host Migration incorrectly hearing the heartbeat SFX twice.
+
+{{ver|41}}
+*Introduced Tauron Strikes and related nodes.
+
+{{ver|40.0.3}}
+*Fixed cases of Clients having infinite bleedout if they entered Last Gasp at a specific timing.
+
+{{ver|39}}
+*Fixed loss of function after entering Last Gasp right before bleedout timer expires.
+
+{{ver|38.0.8}}
+*Fixed Unairu and Naramon Abilities being swapped in the Loadout overview in the Navigation menu.
+
+{{ver|38}}
+*Fixed Clients crashing after Host uses the context action (while in Last Gasp) to take down the H-09 Efervon Tank in the Assassination mission.  
+**In order to fix this issue, the Host will now be pulled out of Last Gasp and back into their Warframe prior to the cutscene occurring.
+
+{{ver|36}}
+*Synced Last Gasp’s controller haptics with the heart beat sound.
+*Fixed being unable to use Last Gasp if the "Ability Menu" controller binding has been replaced with "Activate Selected Power".
+
+{{ver|35.5.8}}
+*Fixed Excalibur Umbra with the Warrior's Rest Augment Mod (which makes it so that he no longer fights independently but increases Ability Strength) regaining sentience during Transference after successfully reviving with Last Gasp.
+
+{{ver|35.5}}
+*Fixed Operators entering bleed out in Stage 11 of The Sacrifice Quest if the player has Last Gasp unlocked.
+
+{{ver|35.1}}
+*Fixed Last Gasp getting canceled (and as a result killing Operator/Drifter) after hitting the Melee attack binding. 
+**''Now, the Melee attack binding needs to be held down to end Last Gasp before it times out.''
+
+{{ver|35}}
+*Fixed a script error in the Last Gasp Focus ability.
+
+{{ver|34}}
+*Fixed camera snapping 180 degrees upon triggering Last Gasp and Transference.
+*Fixed using Transference after reviving with Last Gasp would cause strange camera snapping.
+*Fixed player names persisting above inactive Warframe while controlling Necramech if they have Last Gasp unlocked in their Focus School.
+*Fixed Last Gasp UI sometimes not appearing on subsequent uses of this ability in one mission.
+
+{{ver|33.6.9}}
+*Fixed Unairu’s Poise not triggering reliably if Client has low frame rate (below 30 FPS).
+
+{{ver|33.5.1}}
+*Fixed a script error caused by Last Gasp.
+
+{{ver|33.5}}
+*Thrax enemies now fill Last Gasp’s meter at the same rate as Eximus Units.
+*Fixed being able to use Transference (to Origin System Drifter/Operator) during the Kaithe phase of The Steel Path Orowyrm fight after Host migration. 
+**Also fixed being able to use Last Gasp during this stage if downed.
+
+{{ver|32.2.10}}
+*Fixed becoming invisible and locked in as Operator after being grabbed by Ropalolyst during Last Gasp.
+
+{{ver|32.2.9}}
+*Fixed the Zanuka Hunter not capturing you and bringing you into the recovery mission if Last Gasp is active.
+
+{{ver|32.1}}
+*Fixed a crash in the Unairu focus school's Caustic Strike ability if the player has Unairu Wisp unlocked and dies just after hitting an enemy with Caustic Strike while the Wisp is active.
+
+{{ver|32.0.1}}
+*Fixed Warframe standing still and rooted in place on screen during Last Gasp after being downed.
+
+{{ver|32}}
+;LAST GASP REWORK
+
+We have made some changes to Unairu’s Passive ‘Last Gasp’ to improve its convenience and usability.
+
+*Last Gasp meter now starts at 0% instead of 50%, but there is no initial drain. Instead, drain will set in after a few seconds of not getting any kills. Once the drain has run for a few seconds, it will begin to accelerate.
+**''This was intended to address players remaining in Last Gasp indefinitely by timing their kills. Each kill now fills the meter by 1/3, and Eximus kills refill the meter instantly.''
+*You can now hold the Transference input to return to your downed Warframe.
+*The UI has been updated to communicate these changes.
+*Removed ‘get up’ animation when reviving in Last Gasp.
+*Stopped looping sound when Last Gasp ends.
+*Reduced the spawn animation of Last Gasp.
+
+{{ver|31.6}}
+*Fixed Magnetic Flare lasting 30 seconds across all Ranks instead of scaling with level as intended.
+*Fixed Unairu Wisp only being spawned if the target is vulnerable to Caustic Strike.
+**''The wisp will spawn even if the target cannot have their armor removed by Caustic Strike.''
+*Fixed bug where getting grabbed by Ropalolyst when in Last Gasp, or entering Last Gasp while in Ropalolyst grab, would cause players to be invulnerable and unable to use Transference.
+*Fixed script error related to Last Gasp.
+
+{{ver|31.5.7}}
+*The following Focus abilities have had their casting animations replaced with a faster variant: 
+**Caustic Strike
+**Magnetic Flare
+*Fixed script error related to Unairu Wisp.
+
+{{ver|31.5.4}}
+*Fixed Unairu’s Magnetic Flare being able to completely strip Profit-Taker’s shields in one cast.
+**Applied the same logic with Magnetic Flare that is used for other bosses (Eidolons and Ropalolyst for example), since completely stripping Shields in a single Magnetic Flare cast removes a large portion of certain gameplay mechanics in these fights.
+
+{{ver|31.5}}
+;UNAIRU 
+
+The Unairu push themselves to '''Outlast The Enemy'''. Those who mastered the Unairu school are granted enhanced damage '''resistance''' and damage '''reflection'''.
+
+Unairu’s main pillar aims to make Unairu a proper tank Focus School with increased Armor, and opportunities for increased immunity and survivability. 
+
+*8 new Focus Abilities.
+**POISE
+***Gain immunity to slow, stagger, and knockdown effects for 40s after Transferring between Operator or Warframe.
+**LAST GASP (Passive, Way-Bound)
+***Revive your Warframe by Transferring to Operator and killing enemies before the Revive Meter drains, 15s. Each kill filles the Revive Meter by 30%.
+**VENGEANCE (Passive, Way-Bound)
+***During Last Gasp, Operator Damage is increased by 100% plus an additional 25% per second.
+**MAGNETIC FLARE (First Ability input)
+***Use First Ability to create a 8m radius field that lasts for 30s and disables the shields of any enemy that enters it.
+**CAUSTIC STRIKE (Second Ability input)
+***Second Ability launches an energy bomb that explodes with a 8m radius, stripping 100% of enemy armor. Tap Second Ability again to detonate in-flight.
+**MAGNETIC BOOST
+***Void Sling out of a Magnetic Flare to refresh its duration and increase its radius by 100%.
+**REINFORCED RETURN
+***Warframe is invulnerable for 4s after Operator is downed. Tap X as Operator falls to bring the Warframe to the Operator’s location.
+**STATIC PURGE
+***100% chance to clear Transference Static on kill while Reinforced Return is active. 
+*Reworked Unairu Wisp:
+**100% chance to summon an Unairu Wisp for each enemy hit by Sundering Dissipation that will seek out the nearest ally within Affinity Range and increase their Operator damage by 100% for 20 secs.
+***''Why: Its new coexistence alongside another Focus ability unifies the 2 together to add another layer that benefits both Warframe and Operator. It also removes having to pick up the Unairu Wisp manually, and will instead find you within Affinity Range.''
+*Tweaked Stone Skin:
+**Increases Armor for Warframe and Operator by 200.
+***''Why: Adding the additional Operator Armor allows for benefits for both Warframe and Operator in the name of synergy.''
+}}
+
+{{OperatorNav}}
+[[uk:Фокус/Унайру]]
+[[Category:Focus 3.0]]
+[[Category:Mechanics]]
+[[Category:Update 31]]

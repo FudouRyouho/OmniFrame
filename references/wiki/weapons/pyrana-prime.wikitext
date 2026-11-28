@@ -1,0 +1,113 @@
+{{Top|Orokin|Orokin|Orokin|Weapons|Weapons|Weapons|Prime|Prime|Prime}}
+{{WeaponInfoboxAutomatic}}
+{{Codex|Three kills in rapid succession to summon a second ethereal Pyrana for twice the deadly punch.}}
+
+'''Pyrana Prime''' is the [[Prime]]d variant of {{Weapon|Pyrana}}, sporting higher critical stats, longer range before damage falloff occurs, increased magazine size, and faster reload, at the expense of damage and slower fire rate. To compensate for these losses, when the weapon kills thrice in quick succession, a second ethereal Pyrana appears for a short time, transforming the weapon into an akimbo with doubled ammunition and firing speed. It was released alongside {{WF|Limbo Prime}} and {{Weapon|Destreza Prime}}.
+
+==Characteristics==
+*This weapon deals primarily {{D|Slash}} damage.
+*'''3''' kills each within '''2''' seconds of the previous kill summons a second Pyrana Prime for '''6''' seconds, doubling its magazine size and increasing its [[fire rate]] by '''1.4x'''.
+*Innate two {{Pol|Madurai}} polarities.
+
+{{Advantages|class=Shotgun Sidearm|
+*Innate [[multishot]] of 10 pellets.
+*Efficient ammo economy.
+}}
+
+{{Disadvantages|class=Shotgun Sidearm|
+*Has linear damage falloff from 100% to 25% from 18m to 36m target distance (distances are affected by [[Projectile Speed]]).
+*Low overall [[status chance]].
+*Low [[accuracy]].
+*High recoil, especially on full auto and with the second Pyrana Prime.
+*Shots go to the right and up. Horizontally it hits the rightmost side of the reticle at 3m, worsening at longer distances.
+}}
+
+{{WeaponComparison|Pyrana}}
+
+==Acquisition==
+{{PrimeTable}}
+{{BuildAutomatic|type=Weapon}}
+
+==Notes==
+*Killing 3 enemies in quick succession while having 2 Pyranas will not refresh the duration of the ethereal Pyrana.
+*Upon activating the ethereal Pyrana, the number of rounds in its modded magazine size are added to the magazine (e.g. if modded magazine size is 14, 14 rounds are added when ethereal Pyrana is conjured). When the ethereal Pyrana disappears, the magazine is reduced to the modded magazine size (e.g. if the modded magazine size is 14, any number of rounds in the current magazine will be reduced to 14, unless the number of rounds is below 14 as it will remain the same).
+*The fire rate bonus is multiplicative to the modded fire rate.
+*The Pyrana Prime generates a large amount of recoil, which is even more noticeable when dual-wielding with the ethereal Pyrana.
+*Pyrana Prime's passive still applies while carrying an object, such as a [[Mobile Defense]] datamass.
+*If you holster Pyrana Prime while the ethereal Pyrana is active its timer will pause, allowing you to save the buff for later and make more strategic use of it.
+
+==Media==
+<gallery widths="300" position="center" spacing="small">
+File:Nikita-leshakov-pyranaprime-lowpoly.jpg
+File:Nikita-leshakov-pyranaprime-highpoly.jpg
+File:Dejan-ostojic-dejan-ostojic-warframe-tenno-pyrana-prime.jpg|Concept art
+File:Dejan-ostojic-dejan-ostojic-warframe-tenno-pyrana-prime-sketches.jpg
+GoldPyranaCodex.png|Pyrana Prime in Codex.
+</gallery>
+
+{{VideoGallery
+|{{YouTube|-LawZuQM1HA|size=300px}}
+|{{YouTube|F2-qTnO6fvo|size=300px}}
+|{{YouTube|ZB0eKR3a45w|size=300px}}
+|{{YouTube|G4rQWLKYIwc|size=300px}}
+}}
+
+{{SkinGallery}}
+
+==Patch History==
+{{Scrollbox/Article|
+{{ver|33}}
+*Changed the Synth Charge Mod to now apply to the following weapons:
+**Pyrana Prime
+
+{{ver|32}}
+;Ammo Changes
+
+We understand the power fantasy of these weapons is very popular for some, so our first approach was to keep them powerful, but limit how often they can be used by making changes to ammo pick-up.
+
+'''''Ammo Pickup Overrides'''''<br/>
+The following weapons now have ammo pickup overrides, meaning they gain less from picking up ammo. This mostly applies to AoE weapons, in hopes that players will become more deliberate with their aim to make the most of their Ammo pools. The following lists the specific ammo pick up overrides per weapon category.
+
+'''Secondary Weapon Ammo Pick Up Overrides'''
+
+20 Ammo per Pick Up: 
+*Pyrana Prime
+
+{{ver|27.2}}
+;Greater than 100% Status having meaning&#58;
+Shotguns have a unique Role here based on a very patch-work history with how they interact with Status Chance. A Shotgun that shoots 99% Status Chance would give you 35% (roughly) status per pellet. 100% Status Gives you 100% Status per pellet. This huge jump in performance happens with just a 1% gain - why? Well, to answer that we have to look at our choice to make what the UI conveys reality. It would feel broken to shoot a Shotgun with 100% Status and not see a perfect spread of Effects. In reality, to make Status consistent we have to treat Shotguns as a special case. 
+
+Shotguns as a special case means we have buffed the Status Chance of all Shotguns by x3 or greater. The UI now behaves to show the reality that you are determining Status Chance per pellet.
+*(Undocumented) Status chance per projectile increased from {{#expr: 12/10}}% to {{#expr: 12/10 * 3}}%. 
+
+{{ver|25.8}}
+;October 2019 Riven Disposition Change
+*Pyrana: 0.7->0.65
+
+{{ver|23.0.5}}
+*Fixed the Pyrana Prime auto-switching to another weapon when the magazine empties.
+
+{{ver|23.0.4}}
+*Fixed Pyrana Primes ethereal buff being permanent by Transferring to the Operator while the ethereal Pyrana buff runs out.
+
+{{ver|23.0.3}}
+*Introduced.
+}}
+{{ver/Lu|23.10.8}}
+
+==See also==
+*{{Weapon|Pyrana}}, the regular variant.
+
+{{WeaponNav}}
+
+[[de:Pyrana Prime]]
+[[es:Pyrana Prime]]
+[[Category:Weapons]]
+[[Category:Secondary Weapons]]
+[[Category:Shotgun Sidearm]]
+[[Category:Prime]]
+[[Category:Prime Weapons]]
+[[Category:Update 23]]
+[[Category:Weapons with Passives]]
+[[Category:Single Sidearm]]
+[[uk:Пірана-прайм]]

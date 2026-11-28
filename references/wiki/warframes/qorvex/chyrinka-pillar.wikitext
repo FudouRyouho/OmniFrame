@@ -1,0 +1,48 @@
+<onlyinclude>{{AbilityU10.3
+| name = Chyrinka Pillar
+| gameimage = ChyrinkaPillarIcon.png
+| cardimage = ChyrinkaPillar.png
+| hotkey = 1
+| energy = 25
+| cost = 
+| description = 
+| strength = 700 / 800 / 900 / 1000 {{D|Radiation}} damage per pulse
+| range = 5 / 6 / 7 / 8 m slam and pulse radius
+| duration = 20 / 25 / 30 / 35 s pillar duration<br>5 s empowered duration
+| misc = {{D|Stagger}} on slam<br>{{D|Ragdoll}} on direct slam<br>3 m pillar height<br>2 pillars limit<br>1.5 s pulse interval<br>35% slow<br>{{D|Radiation}} status per pulse<br>0.75 s empowered pulse interval
+| cardonly = {{{1|}}}
+| subsumable = 
+| info = *Qorvex expends {{Stat|Ability Efficiency|icon=only}}'''25''' [[Energy]] to construct a Chyrinka Pillar. Before deploying the pillar, Qorvex jumps and slams his fists into the ground, inflicting {{D|Stagger}} to all enemies in {{Stat|Ability Range|icon=only}}'''5 / 6 / 7 / 8''' meters, and {{D|Ragdoll}} away enemies in the dead center where the pillar constructs.
+**On cast while grounded, Qorvex jumps and slams into the ground <u>'''1'''</u> meter away. On cast while airborne, he descends diagonally toward the nearest horizontal surface, similar to a [[Melee#Slam Attack|Melee Slam Attack]].
+*After the slam, Qorvex constructs a Chyrinka Pillar that lasts for {{Stat|Ability Duration|icon=only}}'''20 / 25 / 30 / 35''' seconds. The '''Chyrinka Pillar''' is an [[Invulnerable]] stationary object that is untargetable by enemies. Each pillar stands <u>'''3'''</u> meters tall, with an intangible pillar structure and a solid radioactive core installed at its peak. Up to <u>'''2'''</u> Chyrinka Pillars may be deployed at once.
+**The pillar structure allows entities and attacks to phase through the object. The radioactive core has collision and can function as an elevated platform for players to stand on.
+**The latest active Chyrinka Pillar's duration timer is shown on the ability icon.
+*When Qorvex's slam contacts the ground, the Chyrinka Pillar emits its first radioactive pulse, then subsequently emits a pulse once every <u>'''1.5'''</u> seconds. Each pulse slows down foes by <u>'''35%'''</u> then inflicts {{Stat|Ability Strength|icon=only}}'''700 / 800 / 900 / 1,000''' {{D|Radiation}} damage with a guaranteed [[Status Effect]] to enemies in [[line-of-sight]] and a radius of {{Stat|Ability Range|icon=only}}'''5 / 6 / 7 / 8''' meters.
+**Chyrinka Pillar pulses damage and break destructible [[Objects]] such as crates and resource caches.
+**Pulse radius is shown as a persistent circular energy field with rising radioactive waves surrounding each pillar.
+**Line-of-sight detection occurs from the orb at the top of the pillar.
+*'''Ability Synergy:'''
+**Empower Chyrinka Pillars by compressing {{A|Containment Wall}} on them, by striking them with {{A|Crucible Blast}} or {{Weapon|Mandonel}}'s fully charged shots, or channeling {{M|Fused Crucible}}. Affected pillars remain empowered for {{Stat|Ability Duration|icon=only}}'''5''' seconds, during which their radioactive cores glow brightly and the pulses hasten to emit once every <u>'''0.75'''</u> seconds.
+***When empowered by Crucible Blast, the Chyrinka Pillar's pulses inherit that ability's explosive chain reaction against irradiated enemies.
+***Empowered pillar duration cannot be refreshed, though Crucible Blast can infuse its chain reaction into an already empowered pillar mid-pulse.
+**Chyrinka Pillar's durations are paused while channeling Fused Crucible.
+**Chyrinka Pillar's {{D|Radiation}} status effect increases {{A|Disometric Guard}}'s chance to gain status immunity stacks on kills and assists, as well as amplify Crucible Blast's explosion damage per {{D|Radiation}} status.
+*Subsuming Qorvex to the [[Helminth]] will offer Chyrinka Pillar and its augments to be used by other Warframes.
+| augment = 
+| bugs = 
+| tips =
+*Place a pillar in an open area with the pulse radius covering potential entrances for incoming enemies. Since the pillar requires line-of-sight to irradiate foes, the more exposure the faster enemies begin to fight each other.
+*Aim directly down while casting to place the pillar closer to your desired spot, as Qorvex will always jump and slam down the pillar.
+*Against melee enemies, place a pillar where desired and stand on top of its radioactive core, where the foes cannot reach you.
+*Qorvex's slam (the first pillar pulse) ignores line-of-sight against objects, making it a great tool for unboxing loot containers.
+*To empower a pillar, use {{A|Containment Wall}}, {{A|Crucible Blast}}, or [[Mandonel]]'s charged shot on it. You can simply graze the pillar's intangible structure support or solid core to empower it.
+*Due to {{D|Radiation}} status, enemies will fight each other indiscriminately. Enemies outside the Chyrinka Pillar's radius will likely target irradiated enemies inside if they are closer, unless a high [[Threat Level]] entity is in range (such as [[Excavation|Excavators]] and [[Defense|Defense]] objectives). The pulse's slow assists in delaying their advance, and pairs well with {{D|Cold}} status effect and other slowing abilities.
+*Pair Chyrinka Pillar's slow with Containment Wall's light and large {{D|Stagger}} effects and {{A|Disometric Guard}}'s {{D|Knockdown}} to inflict prolonged interrupting crowd control to foes. Due to the slow, Qorvex has more time to use melee finishers on these vulnerable enemies.
+}}</onlyinclude>
+
+==See Also==
+*{{WF|Qorvex}}
+__NOTOC__
+[[es:Pilar Chyrinka]]
+[[Category:Qorvex]]
+[[Category:Slow]]
