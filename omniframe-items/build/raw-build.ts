@@ -1,7 +1,7 @@
 // raw-build.ts — build propio del raw de omniframe-items (OQ-DATA-16 fase-3).
 //
 // Emite `omniframe-items/data/json/*`. La capa-1 (ingest + parseo) vive en `harvest/`, una copia
-// fiel de `warframe-items/build/` (ver THIRD_PARTY_NOTICES.md): `scraper`, `parser` y `hashManager`
+// derivada de `warframe-items/build/` (ver THIRD_PARTY_NOTICES.md): `scraper`, `parser` y `hashManager`
 // se importan de ahí, no del clon. Lo que sí se copió a mano es el **pegamento** de su `Build`:
 // `applyCustomCategories`, `dedupImageNames` y `saveJson` son métodos de una clase que `build.ts`
 // no exporta.
@@ -20,6 +20,7 @@ import { createHash } from 'node:crypto'
 
 import { get } from '../harvest/build/network.ts'
 import { withPrimeVaultScraper } from './wikia/prime-vault.mjs'
+import { bootstrapHarvestData } from './harvest-data.ts'
 import stringify from '../harvest/build/stringify.ts'
 import readJson from '../harvest/build/readJson.ts'
 import type {
@@ -37,31 +38,7 @@ const jsonDir = new URL('../data/json/', import.meta.url)
 const cacheDir = new URL('../data/cache/', import.meta.url)
 const harvestData = new URL('../harvest/data/', import.meta.url)
 
-/**
- * Crea `harvest/data/` con lo mínimo que el código copiado lee al importarse:
- *  · `cache/.export.json` — los hashes del build anterior (el nuestro; `{}` si no hay: build completo).
- *  · `json/All.json` — el `previousBuild` del parser; sólo sirve para reutilizar drops y patchlogs
- *    cuando su hash no cambió. Vacío = se recalculan.
- */
-async function bootstrapHarvestData(): Promise<void> {
-  await fs.mkdir(new URL('cache/', harvestData), { recursive: true })
-  await fs.mkdir(new URL('json/', harvestData), { recursive: true })
-  const exportCache = new URL('cache/.export.json', harvestData)
-  try {
-    await fs.access(exportCache)
-  } catch {
-    const previous = await fs.readFile(new URL('.export.json', cacheDir), 'utf8').catch(() => '{}')
-    await fs.writeFile(exportCache, previous)
-  }
-  const previousBuild = new URL('json/All.json', harvestData)
-  try {
-    await fs.access(previousBuild)
-  } catch {
-    await fs.writeFile(previousBuild, '[]')
-  }
-}
-
-await bootstrapHarvestData()
+await bootstrapHarvestData(harvestData, new URL('.export.json', cacheDir))
 const { default: scraper } = await import('../harvest/build/scraper.ts')
 const { default: VaultScraper } = await import('../harvest/build/wikia/scrapers/VaultScraper.ts')
 const { default: parser } = await import('../harvest/build/parser.ts')
@@ -330,7 +307,7 @@ async function main(): Promise<void> {
   const raw: RawItemData = {
     api: resources.en as ApiCategory[],
     manifest: (await scraper.fetchImageManifest()) as ImageManifest,
-    drops: (await scraper.fetchDropRates()) as never,
+    drops: [],
     patchlogs: (await scraper.fetchPatchLogs()) as unknown as PatchlogWrap,
     wikia: await withPrimeVaultScraper(
       VaultScraper,

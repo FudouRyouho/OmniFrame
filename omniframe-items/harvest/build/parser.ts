@@ -1,5 +1,4 @@
-// [omniframe] Copia fiel de warframe-items/build/parser.ts (WFCD/warframe-items, commit 5056d7f30, MIT).
-// [omniframe] Sin cambios fuera de estas líneas; procedencia y licencia en omniframe-items/THIRD_PARTY_NOTICES.md.
+// [omniframe] Derivado de warframe-items/build/parser.ts (commit 5056d7f30, MIT), recortado: sin components, ducats ni drops.
 import cloneDeep from 'lodash.clonedeep';
 import sanitize from 'sanitize-filename';
 
@@ -20,7 +19,6 @@ import type {
   Component,
   ImageManifest,
   WikiaData,
-  WikiaDucat,
   WikiaWeapon,
   WikiaWarframe,
   WikiaMod,
@@ -40,7 +38,6 @@ import type {
 
 const previousBuild = await readJson<ItemComplete[]>(new URL('../data/json/All.json', import.meta.url));
 const watson = await readJson<Record<string, string>>(new URL('../config/dt_map.json', import.meta.url));
-const bpConflicts = await readJson<string[]>(new URL('../config/bpConflicts.json', import.meta.url));
 const variants = await readJson<VariantsConfig>(new URL('../config/variants.json', import.meta.url));
 const grades = await readJson<Grade[]>(new URL('../config/relicGrades.json', import.meta.url));
 const polarities = await readJson<Polarity[]>(new URL('../config/polarities.json', import.meta.url));
@@ -87,7 +84,6 @@ const warnings: Warnings = {
   missingExaltedSlot: [],
 };
 
-const filterBps = (blueprint: Partial<ItemComplete>): boolean => !bpConflicts.includes(blueprint.uniqueName ?? '');
 const primeExcludeRegex = /(^Noggle .*|Extractor .*|^[A-Z] Prime$|^Excalibur .*|^Lato .*|^Skana .*)/i;
 const prefixed = (name: string): RegExp =>
   new RegExp(`(((?:${prefixes.join('|')})\\s?${name}.*)|(?:${name}\\s?(?:${suffixes.join('|')})\\s?.*))+`, 'i');
@@ -195,7 +191,6 @@ class Parser {
       // since they are not items itself, but have components.
       if (item.uniqueName?.includes('/Recipes')) continue;
 
-      item = this.addComponents(item, category, blueprints, data);
       item = this.filter(item, category, data);
       result.push(item as Item);
       bar.tick();
@@ -226,8 +221,6 @@ class Parser {
 
     this.addCategory(result, category);
     this.addTradable(result);
-    this.addDucats(result, data.wikia.ducats);
-    this.addDropRate(result, data.drops);
     this.addPatchlogs(result, data.patchlogs);
     this.addAdditionalWikiaData(result, data.wikia);
     this.addIsPrime(result);
@@ -267,140 +260,6 @@ class Parser {
     this.addVaultData(result, category, data.wikia);
 
     return result;
-  }
-
-  /**
-   * Move components to the parent directly. This also means that we
-   * won't store the blueprint as independent item as all its data is
-   * attached to the parent.
-   * @param item item to be processed
-   * @param category Category being parsed
-   * @param blueprints items known to be blueprints
-   * @param data context data dependencies
-   * @param secondPass whether this is the second pass adding components, for nested component data
-   * @returns item with components
-   */
-  addComponents(
-    item: Partial<Item>,
-    category: string,
-    blueprints: Partial<Item>[],
-    data: RawItemData,
-    secondPass?: boolean
-  ): Partial<ItemComplete> {
-    const result = item as ItemComplete;
-    const blueprint = blueprints.filter(filterBps).find((b) => (b as ItemComplete).resultType === item.uniqueName);
-    if (!blueprint) return result; // Some items just don't have blueprints
-    const components: Component[] = [];
-
-    // Look for original component entry in all categories
-    for (const ingredient of (blueprint as ItemComplete).ingredients ?? []) {
-      let component: Partial<Item> | undefined;
-
-      for (const categoryData of data.api) {
-        component = categoryData.data.find((i) => i.uniqueName === ingredient.ItemType);
-        if (component) break;
-      }
-
-      if (!component) {
-        warnings.missingComponents.push(ingredient.ItemType);
-        continue;
-      }
-
-      const comp = component as Component;
-      comp.itemCount = ingredient.ItemCount;
-      components.push(comp);
-    }
-
-    // Add Blueprint itself
-    components.push({
-      uniqueName: (blueprint as ItemComplete).uniqueName || '',
-      name: 'Blueprint',
-      description: item.description,
-      itemCount: 1,
-      primeSellingPrice: (blueprint as ItemComplete).primeSellingPrice,
-    } as unknown as Component);
-
-    // Attach relevant keys from blueprint to parent
-    this.addBlueprintData(result, blueprint as ItemComplete);
-    this.sanitizeComponents(components, result, item as ItemComplete, category, blueprints, data, secondPass);
-    components.forEach((c) => {
-      this.applyOverrides(c);
-    });
-    return result;
-  }
-
-  /**
-   * Attach blueprint data to the parent item where sensible.
-   * @param item item to apply data to
-   * @param blueprint with partial data
-   */
-  addBlueprintData(item: ItemComplete, blueprint: ItemComplete): void {
-    item.buildPrice = blueprint.buildPrice;
-    item.buildTime = blueprint.buildTime;
-    item.skipBuildTimePrice = blueprint.skipBuildTimePrice;
-    item.buildQuantity = blueprint.num;
-    item.consumeOnBuild = blueprint.consumeOnUse;
-  }
-
-  /**
-   * Sanitize components slightly differently from normal items. Note that
-   * we also add a .parents key which will give the component as standalone
-   * item a list of all its parents.
-   * @param components to be sanitized
-   * @param result item to sanitize components on
-   * @param item item to compare to
-   * @param category that is being sanitized
-   * @param blueprints to provide build information
-   * @param data raw context data
-   * @param secondPass whether this is the second pass being processed to clean up internal data
-   */
-  sanitizeComponents(
-    components: Component[],
-    result: ItemComplete,
-    item: ItemComplete,
-    category: string,
-    blueprints: Partial<Item>[],
-    data: RawItemData,
-    secondPass?: boolean
-  ): void {
-    for (let i = 0; i < components.length; i += 1) {
-      const component = components[i];
-      if (!component) continue;
-
-      component.parent = title(item.name); // Direct parent for this pass
-      // If a .parents key already exists from another item, add our
-      // component additionally, otherwise create one. This mutates the
-      // original component object.
-      if (component.parents) {
-        if (!component.parents.includes(title(item.name))) {
-          component.parents.push(title(item.name));
-          component.parents.sort((a, b) => a.localeCompare(b));
-        }
-      } else {
-        component.parents = [title(item.name)];
-      }
-      const override = this.filter(component, category, data) as Component;
-      delete component.parent;
-      delete override.parent;
-      delete override.parents;
-
-      // Warframe/Weapon components should not include their parent's
-      // name, so it's easier to work with them. This is especially critical
-      // for parsing trade chat data.
-      if (override.uniqueName.includes('/Recipes') || item.tradable) {
-        override.name = override.name.replace(`${title(item.name).replace(/<Archwing> /, '')} `, '');
-      }
-      components[i] = override;
-
-      // Add component's components one level deep. Disabled for now because of
-      // too much duplicate data.
-      if (process.env.SECOND_PASS === 'true' && !secondPass) {
-        components[i] = this.addComponents(component, category, blueprints, data, true) as Component;
-      }
-    }
-
-    // Sort to avoid "fake" updates due to order when data is rebuilt
-    result.components = components.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   /**
@@ -735,115 +594,6 @@ class Parser {
    */
   addTradable(item: ItemComplete): void {
     item.tradable = tradable(item);
-  }
-
-  /**
-   * Add ducats for prime items. We'll need to get this data from the wikia.
-   * @param item to have ducats applied
-   * @param ducats to apply
-   */
-  addDucats(item: ItemComplete, ducats: WikiaDucat[]): void {
-    if (!item.name.includes('Prime') || !item.components) return;
-    for (const component of item.components as Component[]) {
-      if (component.primeSellingPrice) component.ducats = component.primeSellingPrice;
-
-      if (!component.tradable) continue;
-      const wikiaItem = ducats.find((d) => d.name.includes(`${item.name} ${component.name}`));
-
-      if (wikiaItem?.ducats) component.ducats = wikiaItem.ducats;
-      else if (!component.ducats && !(item.name.includes('Prime') && component.name.includes('Prime')))
-        warnings.missingDucats.push(`${item.name} ${component.name}`);
-    }
-  }
-
-  /**
-   * Add drop chances based on official drop tables
-   * @param item to add droprate to
-   * @param drops to find item drops from
-   */
-  addDropRate(item: ItemComplete, drops: RawDrop[]): void {
-    if (item.type === 'Nightwave Challenge') return;
-
-    // Take drops from previous build if the droptables didn't change
-    if (!hashManager.hasChanged('DropChances')) {
-      // Get drop rates for components if available...
-      if (item.components) {
-        for (const component of item.components as Component[]) {
-          const previous = previousBuild.find(
-            (i) => i.name.toLowerCase() === item.name.toLowerCase() && item.category !== 'Node'
-          );
-          if (!previous?.components) return;
-
-          const saved = (previous.components as Component[]).find(
-            (c) => c.name.toLowerCase() === component.name.toLowerCase()
-          );
-          if (saved?.drops) {
-            // chances were written as strings, caused by previous bad data
-            saved.drops.forEach((drop) => {
-              drop.chance = Number.parseFloat(String(drop.chance));
-            });
-            component.drops = saved.drops;
-          }
-        }
-      } else {
-        // Otherwise attach to main item
-        const saved = previousBuild.find((i) => i.name.toLowerCase() === item.name.toLowerCase());
-        if (saved?.drops) {
-          // chances were written as strings, caused by previous bad data
-          saved.drops.forEach((drop) => {
-            drop.chance = Number.parseFloat(String(drop.chance));
-          });
-          item.drops = saved.drops;
-        }
-      }
-    }
-
-    // Don't look for drop rates on item itself if it has components.
-    if (item.components) {
-      for (const component of item.components as Component[]) {
-        const data =
-          (component.uniqueName.includes('/Weapons/') &&
-            !component.uniqueName.includes('/WeaponParts/') &&
-            component.name !== 'Blueprint') ||
-          /Collar\w+Component/.test(component.uniqueName)
-            ? this.findDropLocations(component.name, drops, true)
-            : this.findDropLocations(`${item.name} ${component.name}`, drops, true);
-        component.drops = data.length ? data : [];
-      }
-    } else if (item.name !== 'Blueprint') {
-      // Last word of relic is intact/rad, etc. instead of 'Relic'
-      const name = item.type === 'Relic' ? item.name.replace(/\s(\w+)$/, ' Relic') : item.name;
-      const data = this.findDropLocations(name, drops);
-      if (data.length) item.drops = data;
-    }
-  }
-
-  /**
-   * Find drop locations
-   * @param item to find chances for
-   * @param dropChances drop chances
-   * @param _unused unused parameter for backwards compat
-   * @returns deduped drop locations
-   */
-  findDropLocations(item: string, dropChances: RawDrop[], _unused?: boolean): Drop[] {
-    const variant = prefixed(item);
-    const semiWrapped = new RegExp(`(?:^|\\s)+${item}(?:\\s|$)+`, 'i');
-
-    const data = dedupe(
-      dropChances
-        .filter((drop) => {
-          return (
-            drop.item === item ||
-            ((drop.item.toLowerCase().startsWith(item.toLowerCase()) ||
-              drop.item.toLowerCase().endsWith(item.toLowerCase())) &&
-              semiWrapped.test(drop.item.toLowerCase()) &&
-              !variant.test(drop.item.toLowerCase()))
-          );
-        })
-        .map(dropMap)
-    ) as Drop[];
-    data.sort(dropComparator);
-    return data;
   }
 
   /**

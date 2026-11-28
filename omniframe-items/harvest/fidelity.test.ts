@@ -4,7 +4,11 @@ import { access, readFile, readdir } from 'node:fs/promises'
 
 // Archivos que divergen a propósito del original: cada uno con su motivo. Si uno
 // coincide con el original, la prueba falla para que la excepción no sobreviva sin razón.
-const modificados = new Map<string, string>([])
+const modificados = new Map<string, string>([
+  ['build/parser.ts', 'recorte de components, ducats y drops'],
+  ['build/scraper.ts', 'sin solicitudes de ducats ni drops'],
+  ['build/hashManager.ts', 'sin hash ni solicitud de drops'],
+])
 
 const listar = async (dir: URL, base = ''): Promise<string[]> => {
   const salida: string[] = []

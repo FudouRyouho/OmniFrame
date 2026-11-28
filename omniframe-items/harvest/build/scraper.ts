@@ -1,7 +1,5 @@
-// [omniframe] Copia fiel de warframe-items/build/scraper.ts (WFCD/warframe-items, commit 5056d7f30, MIT).
-// [omniframe] Sin cambios fuera de estas líneas; procedencia y licencia en omniframe-items/THIRD_PARTY_NOTICES.md.
+// [omniframe] Derivado de warframe-items/build/scraper.ts (commit 5056d7f30, MIT), recortado: sin components, ducats ni drops.
 import lzma from 'lzma';
-import { load } from 'cheerio';
 import { Generator as RelicGenerator } from '@wfcd/relics';
 import patchlogs from '@wfcd/patchlogs';
 
@@ -28,11 +26,6 @@ const prod = process.env.NODE_ENV === 'production';
 interface ApiChunk {
   category: string;
   data: Record<string, unknown>[];
-}
-
-interface WikiaDucat {
-  name: string;
-  ducats: number;
 }
 
 /**
@@ -240,21 +233,6 @@ class Scraper {
   }
 
   /**
-   * Get official drop rates and check if they changed since last build.
-   * @param skipProgress - whether to show progress
-   * @returns drop data
-   */
-  async fetchDropRates(skipProgress?: boolean): Promise<unknown> {
-    const bar = skipProgress ? undefined : new Progress('Fetching Drop Rates', 1);
-    const rates = await getJSON('https://drops.warframestat.us/data/all.slim.json', true);
-    if (!skipProgress) {
-      bar?.tick();
-    }
-
-    return rates;
-  }
-
-  /**
    * Get patchlogs from the forums
    * @param skipProgress - whether to show progress
    * @returns patchlogs object
@@ -274,18 +252,7 @@ class Scraper {
    * @returns wikia data
    */
   async fetchWikiaData(): Promise<WikiaData> {
-    const bar = new Progress('Fetching Wikia Data', 9);
-    const ducats: WikiaDucat[] = [];
-    const ducatsWikia = await get('https://wiki.warframe.com/w/Ducats/Prices/All', true);
-    const $ = load(ducatsWikia as string);
-
-    $('.mw-content-text table tbody tr').each(function () {
-      const $this = $(this);
-      const name = $this.find('td:nth-of-type(1) a:nth-of-type(2)').text();
-      const value = $this.find('td:nth-of-type(3)').attr('data-sort-value');
-      ducats.push({ name, ducats: Number.parseInt(value ?? '0', 10) });
-    });
-    bar.tick();
+    const bar = new Progress('Fetching Wikia Data', 8);
 
     await sleep(100);
     const weapons = await new WeaponScraper().scrape();
@@ -317,7 +284,7 @@ class Scraper {
       warframes,
       mods,
       versions,
-      ducats,
+      ducats: [],
       archwings,
       companions,
       arcanes,
